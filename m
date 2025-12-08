@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5FB3128D2;
-	Mon,  8 Dec 2025 13:54:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771252EB87E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 13:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765202073; cv=none; b=nTu6JP/IXD1j6Ebu0APkSZht6lBfbMvzPAIB/5RpSLO5sqzQAtxkGP8AQoiy+sfDQPA/wLHXQoZ41fXZ6QeUaGDZjl2P24aOfD4u7e4mmuT4OIcFassb1pM0Mk11U3tt94L38RROavLC40FiVk0wLgW9OlIo3TLZOUtTOUc/RXg=
+	t=1765202086; cv=none; b=S+rp1Fbunc4qGU9CJqeqSloYTbvOCIIE3aFlwuigz3KLAzjIoyfTRT+wa5WN7x7p47H9zFjU2e+XouK3URKg+bkEQrBeg6ahBYAvam9QT3Q043F/aXkgN8F+r/Kj8t2Em0UkpPJktPhdxfi20+6xsJoz4e7gusayaz9DbJubRVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765202073; c=relaxed/simple;
-	bh=gpglD6pwxNu2akfLdmVhQJU7XaTR8DVY8V/sajvWksw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=enW2CT3MtuYwJVQ2I/L3CROyHsB6JXrtWqIIEWpbOZStvEVMKhTw9Nu9eaTeeluFMMZPhAjiOcbCU0JMXz/VIBWbbf2NgzQI8O8FnHhUi2r0FXZugbdPYKNkv4tW/M/Xq8TqPMamqlJd65xbbCBaIWpUYmtIkmJp0w0XGC6kTdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YYTQq14B; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1765202086; c=relaxed/simple;
+	bh=ZFut7Ae0yzz52mzVQBPDAaDpmad9dX2Q6nhcmJwjc8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aZOPdYy8C2rHhXOX3xo+eV1bxzr2suOvnTJvE4z7VCBnnlYCUSwjzZhnWgzKnY5zknoiN/AFGuFLNcvuM3CjKkG4bHhz7t+36oC6ocFDfwW3bXAgrkIhxRiqgN//gyNfZZduxouSPJTtX0OFitRPaSpFuaxIOMwfjfSjOjiN5IY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MY/BTrLa; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YYTQq14B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MY/BTrLa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765202071; x=1796738071;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gpglD6pwxNu2akfLdmVhQJU7XaTR8DVY8V/sajvWksw=;
-  b=YYTQq14B+LIaaiu6yJCbflTKuEDxO/yhQXOmkehyD97tyErcPNivhqmW
-   D8d+o8KNUAYDNtva5O2MXKyizDcfYwza6PATdgGE9ZWkdy+dWuLvkPt6C
-   +WxoTcDZ442nceRPiOit9ed21MIqPK8a8kKvsagK/PtkMgogSZINzYkBJ
-   JQljwSvMiMvwM6d6j0h0NSLNjnLP+3UoaD0hFqPshz84ommC5epzj7hdN
-   CU9Z53socd/0xkd73DVBXDI+1WNcgpgYTntHynicv6dvRyEH0aVtpGpO7
-   yTmXKqDkrr0G8fDGjlZI5js4IBGeTPmc23RYr53mY25SBEQaT+pFAqtXx
-   w==;
-X-CSE-ConnectionGUID: 4U0Q5xYNQOihao5a/pzm6w==
-X-CSE-MsgGUID: lFZt/s7HRpmCCQUi2g2Lbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="84548629"
+  t=1765202084; x=1796738084;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZFut7Ae0yzz52mzVQBPDAaDpmad9dX2Q6nhcmJwjc8g=;
+  b=MY/BTrLasK8ZhogWmQvmMVD4m+bJElE1VzLOlFz7/zkbFaMxzpEWDhr6
+   hc6gg9x1aubr2jUQT1toPxk/Vo6+DPp1W1bpYEk64USPYDWRiJn1iwP55
+   3C0x2QuntpkYWaDsC/DhIxiVq9KBZnwXBUTndwpw5faedM2IeKOUgti+q
+   rA0DN+qBiWVvxZG9NF/ZrhfkUQm/RMAGlImn+fyFPGCwJ0brFLh1AwXuC
+   41AE2n8cU1UJEaaF/EnkvUEI0J2nFHKTcNcjOlTHMouZQFQ/LOtgUWGVj
+   VMhLgW6GCDIIiATmgY18rsjPHtPmqhNCaT+DqvtZ9reaxAp3ZDdjkPHp2
+   Q==;
+X-CSE-ConnectionGUID: Xko6QylsSdyVW4QuhSq8KA==
+X-CSE-MsgGUID: IAz7WjJeQvu7DRfOh0uefw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="54682539"
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="84548629"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 05:54:31 -0800
-X-CSE-ConnectionGUID: //x4GBVaTYiWensoVAbQhA==
-X-CSE-MsgGUID: NwMv2bIYRbmaWx0JFUuaaA==
+   d="scan'208";a="54682539"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 05:54:30 -0800
+X-CSE-ConnectionGUID: qoP6Qw7nTcC7jtLZ0XWOhw==
+X-CSE-MsgGUID: xIMqLa9xQYywI9aDsj3uLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="200108361"
+   d="scan'208";a="200383525"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 08 Dec 2025 05:54:29 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2025 05:54:28 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSbh3-000000000RR-3z8V;
+	id 1vSbh3-000000000RT-461j;
 	Mon, 08 Dec 2025 13:54:25 +0000
-Date: Mon, 8 Dec 2025 21:53:50 +0800
+Date: Mon, 8 Dec 2025 21:53:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ahmed Naseef <naseefkm@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ahmed Naseef <naseefkm@gmail.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org
-Subject: Re: [PATCH] mtd: spinand: add support for Dosilicon DS35Q1GA/DS35M1GA
-Message-ID: <202512082140.yQUnjGPP-lkp@intel.com>
-References: <20251207150923.86328-1-naseefkm@gmail.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 614/1104]
+ fs/bcachefs/btree/commit.c:717:25: error: implicit declaration of function
+ '__WARN'; did you mean '__warn'?
+Message-ID: <202512082123.4F0a5OL6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,261 +63,245 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251207150923.86328-1-naseefkm@gmail.com>
 
-Hi Ahmed,
+Hi Kent,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on mtd/nand/next]
-[also build test ERROR on linus/master next-20251208]
-[cannot apply to v6.18]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Naseef/mtd-spinand-add-support-for-Dosilicon-DS35Q1GA-DS35M1GA/20251207-232019
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20251207150923.86328-1-naseefkm%40gmail.com
-patch subject: [PATCH] mtd: spinand: add support for Dosilicon DS35Q1GA/DS35M1GA
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20251208/202512082140.yQUnjGPP-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512082140.yQUnjGPP-lkp@intel.com/reproduce)
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   2f94f2e080a961cd6401d4bea5c31ff03516d30e
+commit: d85853d9cbdc339f7f75c76ef54e568a9a3a14de [614/1104] bcachefs: BCH_FSCK_ERR_validate_error_in_commit
+config: alpha-randconfig-r133-20251206 (https://download.01.org/0day-ci/archive/20251208/202512082123.4F0a5OL6-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512082123.4F0a5OL6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512082140.yQUnjGPP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512082123.4F0a5OL6-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/mtd/nand/spi/dosilicon.c:8:
-   In file included from include/linux/mtd/spinand.h:16:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/mtd/nand/spi/dosilicon.c:13:3: error: call to undeclared function 'SPINAND_PAGE_READ_FROM_CACHE_X4_OP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      13 |                 SPINAND_PAGE_READ_FROM_CACHE_X4_OP(0, 1, NULL, 0),
-         |                 ^
->> drivers/mtd/nand/spi/dosilicon.c:14:3: error: call to undeclared function 'SPINAND_PAGE_READ_FROM_CACHE_X2_OP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      14 |                 SPINAND_PAGE_READ_FROM_CACHE_X2_OP(0, 1, NULL, 0),
-         |                 ^
->> drivers/mtd/nand/spi/dosilicon.c:15:3: error: call to undeclared function 'SPINAND_PAGE_READ_FROM_CACHE_OP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      15 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
-         |                 ^
->> drivers/mtd/nand/spi/dosilicon.c:13:3: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      12 | static SPINAND_OP_VARIANTS(read_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      13 |                 SPINAND_PAGE_READ_FROM_CACHE_X4_OP(0, 1, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 {
-      14 |                 SPINAND_PAGE_READ_FROM_CACHE_X2_OP(0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      15 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      16 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:389:34: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     389 |                 .ops = (struct spi_mem_op[]) { __VA_ARGS__ },           \
-         |                                                ^~~~~~~~~~~
->> drivers/mtd/nand/spi/dosilicon.c:13:3: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      12 | static SPINAND_OP_VARIANTS(read_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      13 |                 SPINAND_PAGE_READ_FROM_CACHE_X4_OP(0, 1, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 {
-      14 |                 SPINAND_PAGE_READ_FROM_CACHE_X2_OP(0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      15 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      16 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:389:34: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     389 |                 .ops = (struct spi_mem_op[]) { __VA_ARGS__ },           \
-         |                                                ^~~~~~~~~~~
->> drivers/mtd/nand/spi/dosilicon.c:13:3: error: initializer element is not a compile-time constant
-      12 | static SPINAND_OP_VARIANTS(read_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      13 |                 SPINAND_PAGE_READ_FROM_CACHE_X4_OP(0, 1, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      14 |                 SPINAND_PAGE_READ_FROM_CACHE_X2_OP(0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      15 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      16 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:389:34: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     389 |                 .ops = (struct spi_mem_op[]) { __VA_ARGS__ },           \
-         |                                                ^~~~~~~~~~~
->> drivers/mtd/nand/spi/dosilicon.c:13:3: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      12 | static SPINAND_OP_VARIANTS(read_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      13 |                 SPINAND_PAGE_READ_FROM_CACHE_X4_OP(0, 1, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 {
-      14 |                 SPINAND_PAGE_READ_FROM_CACHE_X2_OP(0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      15 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      16 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:390:41: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     390 |                 .nops = sizeof((struct spi_mem_op[]){ __VA_ARGS__ }) /  \
-         |                                                       ^~~~~~~~~~~
->> drivers/mtd/nand/spi/dosilicon.c:13:3: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      12 | static SPINAND_OP_VARIANTS(read_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      13 |                 SPINAND_PAGE_READ_FROM_CACHE_X4_OP(0, 1, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 {
-      14 |                 SPINAND_PAGE_READ_FROM_CACHE_X2_OP(0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      15 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      16 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:390:41: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     390 |                 .nops = sizeof((struct spi_mem_op[]){ __VA_ARGS__ }) /  \
-         |                                                       ^~~~~~~~~~~
->> drivers/mtd/nand/spi/dosilicon.c:13:3: error: initializer element is not a compile-time constant
-      12 | static SPINAND_OP_VARIANTS(read_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      13 |                 SPINAND_PAGE_READ_FROM_CACHE_X4_OP(0, 1, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      14 |                 SPINAND_PAGE_READ_FROM_CACHE_X2_OP(0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      15 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      16 |                 SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:390:41: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     390 |                 .nops = sizeof((struct spi_mem_op[]){ __VA_ARGS__ }) /  \
-         |                                                       ^~~~~~~~~~~
->> drivers/mtd/nand/spi/dosilicon.c:19:3: error: call to undeclared function 'SPINAND_PROG_LOAD_X4'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      19 |                 SPINAND_PROG_LOAD_X4(true, 0, NULL, 0),
-         |                 ^
->> drivers/mtd/nand/spi/dosilicon.c:20:3: error: call to undeclared function 'SPINAND_PROG_LOAD'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      20 |                 SPINAND_PROG_LOAD(true, 0, NULL, 0));
-         |                 ^
-   drivers/mtd/nand/spi/dosilicon.c:19:3: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      18 | static SPINAND_OP_VARIANTS(write_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      19 |                 SPINAND_PROG_LOAD_X4(true, 0, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 {
-      20 |                 SPINAND_PROG_LOAD(true, 0, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:389:34: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     389 |                 .ops = (struct spi_mem_op[]) { __VA_ARGS__ },           \
-         |                                                ^~~~~~~~~~~
-   drivers/mtd/nand/spi/dosilicon.c:19:3: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      18 | static SPINAND_OP_VARIANTS(write_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      19 |                 SPINAND_PROG_LOAD_X4(true, 0, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 {
-      20 |                 SPINAND_PROG_LOAD(true, 0, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:389:34: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     389 |                 .ops = (struct spi_mem_op[]) { __VA_ARGS__ },           \
-         |                                                ^~~~~~~~~~~
-   drivers/mtd/nand/spi/dosilicon.c:19:3: error: initializer element is not a compile-time constant
-      18 | static SPINAND_OP_VARIANTS(write_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      19 |                 SPINAND_PROG_LOAD_X4(true, 0, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      20 |                 SPINAND_PROG_LOAD(true, 0, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:389:34: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     389 |                 .ops = (struct spi_mem_op[]) { __VA_ARGS__ },           \
-         |                                                ^~~~~~~~~~~
-   drivers/mtd/nand/spi/dosilicon.c:19:3: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      18 | static SPINAND_OP_VARIANTS(write_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      19 |                 SPINAND_PROG_LOAD_X4(true, 0, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 {
-      20 |                 SPINAND_PROG_LOAD(true, 0, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:390:41: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     390 |                 .nops = sizeof((struct spi_mem_op[]){ __VA_ARGS__ }) /  \
-         |                                                       ^~~~~~~~~~~
-   drivers/mtd/nand/spi/dosilicon.c:19:3: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      18 | static SPINAND_OP_VARIANTS(write_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      19 |                 SPINAND_PROG_LOAD_X4(true, 0, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 {
-      20 |                 SPINAND_PROG_LOAD(true, 0, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:390:41: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     390 |                 .nops = sizeof((struct spi_mem_op[]){ __VA_ARGS__ }) /  \
-         |                                                       ^~~~~~~~~~~
-   drivers/mtd/nand/spi/dosilicon.c:19:3: error: initializer element is not a compile-time constant
-      18 | static SPINAND_OP_VARIANTS(write_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      19 |                 SPINAND_PROG_LOAD_X4(true, 0, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      20 |                 SPINAND_PROG_LOAD(true, 0, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:390:41: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     390 |                 .nops = sizeof((struct spi_mem_op[]){ __VA_ARGS__ }) /  \
-         |                                                       ^~~~~~~~~~~
-   drivers/mtd/nand/spi/dosilicon.c:23:3: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      22 | static SPINAND_OP_VARIANTS(update_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      23 |                 SPINAND_PROG_LOAD_X4(false, 0, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 {
-      24 |                 SPINAND_PROG_LOAD(false, 0, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:389:34: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     389 |                 .ops = (struct spi_mem_op[]) { __VA_ARGS__ },           \
-         |                                                ^~~~~~~~~~~
-   drivers/mtd/nand/spi/dosilicon.c:23:3: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      22 | static SPINAND_OP_VARIANTS(update_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      23 |                 SPINAND_PROG_LOAD_X4(false, 0, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 {
-      24 |                 SPINAND_PROG_LOAD(false, 0, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:389:34: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     389 |                 .ops = (struct spi_mem_op[]) { __VA_ARGS__ },           \
-         |                                                ^~~~~~~~~~~
-   drivers/mtd/nand/spi/dosilicon.c:23:3: error: initializer element is not a compile-time constant
-      22 | static SPINAND_OP_VARIANTS(update_cache_variants,
-         |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      23 |                 SPINAND_PROG_LOAD_X4(false, 0, NULL, 0),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      24 |                 SPINAND_PROG_LOAD(false, 0, NULL, 0));
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mtd/spinand.h:389:34: note: expanded from macro 'SPINAND_OP_VARIANTS'
-     389 |                 .ops = (struct spi_mem_op[]) { __VA_ARGS__ },           \
-         |                                                ^~~~~~~~~~~
-   drivers/mtd/nand/spi/dosilicon.c:23:3: warning: suggest braces around initialization of subobject [-Wmissing-braces]
-      22 | static SPINAND_OP_VARIANTS(update_cache_variants,
+   fs/bcachefs/btree/commit.c: In function 'bch2_trans_commit_write_locked':
+>> fs/bcachefs/btree/commit.c:717:25: error: implicit declaration of function '__WARN'; did you mean '__warn'? [-Wimplicit-function-declaration]
+     717 |                         __WARN();
+         |                         ^~~~~~
+         |                         __warn
 
 
-vim +/SPINAND_PAGE_READ_FROM_CACHE_X4_OP +13 drivers/mtd/nand/spi/dosilicon.c
+vim +717 fs/bcachefs/btree/commit.c
 
-   > 8	#include <linux/mtd/spinand.h>
-     9	
-    10	#define SPINAND_MFR_DOSILICON        0xE5
-    11	
-    12	static SPINAND_OP_VARIANTS(read_cache_variants,
-  > 13			SPINAND_PAGE_READ_FROM_CACHE_X4_OP(0, 1, NULL, 0),
-  > 14			SPINAND_PAGE_READ_FROM_CACHE_X2_OP(0, 1, NULL, 0),
-  > 15			SPINAND_PAGE_READ_FROM_CACHE_OP(true, 0, 1, NULL, 0),
-    16			SPINAND_PAGE_READ_FROM_CACHE_OP(false, 0, 1, NULL, 0));
-    17	
-    18	static SPINAND_OP_VARIANTS(write_cache_variants,
-  > 19			SPINAND_PROG_LOAD_X4(true, 0, NULL, 0),
-  > 20			SPINAND_PROG_LOAD(true, 0, NULL, 0));
-    21	
+   590	
+   591	static inline int
+   592	bch2_trans_commit_write_locked(struct btree_trans *trans,
+   593				       enum bch_trans_commit_flags flags,
+   594				       struct btree_insert_entry **stopped_at,
+   595				       unsigned long trace_ip)
+   596	{
+   597		struct bch_fs *c = trans->c;
+   598		struct btree_trans_commit_hook *h;
+   599		unsigned u64s = 0;
+   600		int ret = 0;
+   601	
+   602		bch2_trans_verify_not_unlocked_or_in_restart(trans);
+   603	#if 0
+   604		/* todo: bring back dynamic fault injection */
+   605		if (race_fault()) {
+   606			trace_and_count(c, trans_restart_fault_inject, trans, trace_ip);
+   607			return btree_trans_restart(trans, BCH_ERR_transaction_restart_fault_inject);
+   608		}
+   609	#endif
+   610		/*
+   611		 * Check if the insert will fit in the leaf node with the write lock
+   612		 * held, otherwise another thread could write the node changing the
+   613		 * amount of space available:
+   614		 */
+   615	
+   616		prefetch(&trans->c->journal.flags);
+   617	
+   618		trans_for_each_update(trans, i) {
+   619			/* Multiple inserts might go to same leaf: */
+   620			if (!same_leaf_as_prev(trans, i))
+   621				u64s = 0;
+   622	
+   623			u64s += i->k->k.u64s;
+   624			ret = !i->cached
+   625				? btree_key_can_insert(trans, insert_l(trans, i)->b, u64s)
+   626				: btree_key_can_insert_cached(trans, flags, trans->paths + i->path, u64s);
+   627			if (ret) {
+   628				*stopped_at = i;
+   629				return ret;
+   630			}
+   631	
+   632			i->k->k.needs_whiteout = false;
+   633		}
+   634	
+   635		/*
+   636		 * Don't get journal reservation until after we know insert will
+   637		 * succeed:
+   638		 */
+   639		if (likely(!(flags & BCH_TRANS_COMMIT_no_journal_res))) {
+   640			try(bch2_trans_journal_res_get(trans,
+   641					(flags & BCH_WATERMARK_MASK)|
+   642					JOURNAL_RES_GET_NONBLOCK));
+   643	
+   644			if (unlikely(trans->journal_transaction_names))
+   645				journal_transaction_name(trans);
+   646		}
+   647	
+   648		/*
+   649		 * Not allowed to fail after we've gotten our journal reservation - we
+   650		 * have to use it:
+   651		 */
+   652	
+   653		if (IS_ENABLED(CONFIG_BCACHEFS_DEBUG) &&
+   654		    !(flags & BCH_TRANS_COMMIT_no_journal_res)) {
+   655			if (static_branch_unlikely(&bch2_journal_seq_verify))
+   656				trans_for_each_update(trans, i)
+   657					i->k->k.bversion.lo = trans->journal_res.seq;
+   658			else if (static_branch_unlikely(&bch2_inject_invalid_keys))
+   659				trans_for_each_update(trans, i)
+   660					i->k->k.bversion = MAX_VERSION;
+   661		}
+   662	
+   663		h = trans->hooks;
+   664		while (h) {
+   665			try(h->fn(trans, h));
+   666			h = h->next;
+   667		}
+   668	
+   669		struct bkey_i *accounting;
+   670	
+   671		scoped_guard(percpu_read, &c->mark_lock)
+   672			for (accounting = btree_trans_subbuf_base(trans, &trans->accounting);
+   673			     accounting != btree_trans_subbuf_top(trans, &trans->accounting);
+   674			     accounting = bkey_next(accounting)) {
+   675				ret = bch2_accounting_trans_commit_hook(trans,
+   676							bkey_i_to_accounting(accounting), flags);
+   677				if (unlikely(ret)) {
+   678					for (struct bkey_i *i = btree_trans_subbuf_base(trans, &trans->accounting);
+   679					     i != accounting;
+   680					     i = bkey_next(i))
+   681						bch2_accounting_trans_commit_revert(trans, bkey_i_to_accounting(i), flags);
+   682					return ret;
+   683				}
+   684			}
+   685	
+   686		/* XXX: we only want to run this if deltas are nonzero */
+   687		bch2_trans_account_disk_usage_change(trans);
+   688	
+   689		trans_for_each_update(trans, i)
+   690			if (btree_node_type_has_atomic_triggers(i->bkey_type)) {
+   691				ret = run_one_mem_trigger(trans, i, BTREE_TRIGGER_atomic|i->flags);
+   692				if (bch2_fs_fatal_err_on(ret, c, "fatal error in transaction commit: %s", bch2_err_str(ret)))
+   693					return ret;
+   694			}
+   695	
+   696		if (unlikely(c->gc_pos.phase)) {
+   697			ret = bch2_trans_commit_run_gc_triggers(trans);
+   698			if (bch2_fs_fatal_err_on(ret, c, "fatal error in transaction commit: %s", bch2_err_str(ret)))
+   699				return ret;
+   700		}
+   701	
+   702		struct bkey_validate_context validate_context = { .from	= BKEY_VALIDATE_commit };
+   703	
+   704		if (!(flags & BCH_TRANS_COMMIT_no_journal_res))
+   705			validate_context.flags = BCH_VALIDATE_write|BCH_VALIDATE_commit;
+   706	
+   707		for (struct jset_entry *i = btree_trans_journal_entries_start(trans);
+   708		     i != btree_trans_journal_entries_top(trans);
+   709		     i = vstruct_next(i)) {
+   710			ret = bch2_journal_entry_validate(c, NULL, i,
+   711							  bcachefs_metadata_version_current,
+   712							  CPU_BIG_ENDIAN, validate_context);
+   713			if (unlikely(ret)) {
+   714				bch2_trans_inconsistent(trans, "invalid journal entry on insert from %s\n",
+   715							trans->fn);
+   716				bch2_sb_error_count(c, BCH_FSCK_ERR_validate_error_in_commit);
+ > 717				__WARN();
+   718				return ret;
+   719			}
+   720		}
+   721	
+   722		trans_for_each_update(trans, i) {
+   723			validate_context.level	= i->level;
+   724			validate_context.btree	= i->btree_id;
+   725	
+   726			ret = bch2_bkey_validate(c, bkey_i_to_s_c(i->k), validate_context);
+   727			if (unlikely(ret)){
+   728				bch2_trans_inconsistent(trans, "invalid bkey on insert from %s -> %ps\n",
+   729							trans->fn, (void *) i->ip_allocated);
+   730				bch2_sb_error_count(c, BCH_FSCK_ERR_validate_error_in_commit);
+   731				__WARN();
+   732				return ret;
+   733			}
+   734			btree_insert_entry_checks(trans, i);
+   735		}
+   736	
+   737		if (likely(!(flags & BCH_TRANS_COMMIT_no_journal_res))) {
+   738			struct journal *j = &c->journal;
+   739			struct jset_entry *entry;
+   740	
+   741			trans_for_each_update(trans, i) {
+   742				if (i->key_cache_already_flushed)
+   743					continue;
+   744	
+   745				if (i->flags & BTREE_UPDATE_nojournal)
+   746					continue;
+   747	
+   748				verify_update_old_key(trans, i);
+   749	
+   750				if (trans->journal_transaction_names) {
+   751					entry = bch2_journal_add_entry(j, &trans->journal_res,
+   752							       BCH_JSET_ENTRY_overwrite,
+   753							       i->btree_id, i->level,
+   754							       i->old_k.u64s);
+   755					bkey_reassemble((struct bkey_i *) entry->start,
+   756							(struct bkey_s_c) { &i->old_k, i->old_v });
+   757				}
+   758	
+   759				entry = bch2_journal_add_entry(j, &trans->journal_res,
+   760						       BCH_JSET_ENTRY_btree_keys,
+   761						       i->btree_id, i->level,
+   762						       i->k->k.u64s);
+   763				bkey_copy((struct bkey_i *) entry->start, i->k);
+   764			}
+   765	
+   766			memcpy_u64s_small(journal_res_entry(&c->journal, &trans->journal_res),
+   767					  btree_trans_journal_entries_start(trans),
+   768					  trans->journal_entries.u64s);
+   769	
+   770			EBUG_ON(trans->journal_res.u64s < trans->journal_entries.u64s);
+   771	
+   772			trans->journal_res.offset	+= trans->journal_entries.u64s;
+   773			trans->journal_res.u64s		-= trans->journal_entries.u64s;
+   774	
+   775			if (trans->accounting.u64s)
+   776				memcpy_u64s_small(bch2_journal_add_entry(j, &trans->journal_res,
+   777								BCH_JSET_ENTRY_write_buffer_keys,
+   778								BTREE_ID_accounting, 0,
+   779								trans->accounting.u64s)->_data,
+   780						  btree_trans_subbuf_base(trans, &trans->accounting),
+   781						  trans->accounting.u64s);
+   782	
+   783			if (trans->journal_seq)
+   784				*trans->journal_seq = trans->journal_res.seq;
+   785		}
+   786	
+   787		trans_for_each_update(trans, i) {
+   788			struct btree_path *path = trans->paths + i->path;
+   789	
+   790			if (!i->cached)
+   791				bch2_btree_insert_key_leaf(trans, path, i->k, trans->journal_res.seq);
+   792			else if (!i->key_cache_already_flushed)
+   793				bch2_btree_insert_key_cached(trans, flags, i);
+   794			else
+   795				bch2_btree_key_cache_drop(trans, path);
+   796		}
+   797	
+   798		return 0;
+   799	}
+   800	
 
 -- 
 0-DAY CI Kernel Test Service
