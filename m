@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7AC281341;
-	Mon,  8 Dec 2025 21:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1AF212554
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 21:30:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765228753; cv=none; b=oxR8hpaaH7QeXIZTuGcf8zh6INHrmhFLFLA4i/ouyEOzUVXd0mDuPlKY8Q21kAXv58LaIbX0nX5adoJ+4QHcNcofIeHIhpXmJ8gbcUDVRGVdYeE7zvv7Tjjas89CuSVQGeazOEEeThev+AVMxb4hKlBfv8GoaGVBKyXw5583b/g=
+	t=1765229413; cv=none; b=XEiy5rroyEX3HpU0nCaSoIiUIkNKTh5hJS8Fo/h78RKtBIwhQTntRpoEqnaLtFLR7jgoAznniqw5KqgCCtpDY2fu/wKrBOQm5qtcKRbr9O2E+m+FWZ7d1BvGqW8lCK0uIrp5lLBJ3Bcl0WQgcdB4NoIbV1QTQdJVN5f+C4J2bxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765228753; c=relaxed/simple;
-	bh=19mEY0sJ38OcBYzPHKcjSQBlBgs0qEEHKmNeGqG7q1U=;
+	s=arc-20240116; t=1765229413; c=relaxed/simple;
+	bh=HrjzLvC+rPXSF5CT4geqsmM15ozAG2X6RjLKAQmniig=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MC1T9IYP/onHFh/77wG9BDj5zb3o5wuZxju4zgSdCJbzzcWgnFAy6PcqMVZ4jsmG1FtUW5FxNbxIT4IZCDme4kiszoHl4CQeKu2VouN+o5IdF7chyN5w5WKH6TftIdZLdQIgWfTCOpWxyWlz/MSq6dvqUz200B/dHjulbUtu+PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AVgrARj/; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=r8IkXprr3KgUJv5PLpe2yfHuJvPwK/c9GEMsUeAE+cXYixQZlWtkG354IzUOpP09q5QZT+qxjQVv0vNG6OyrmB9AUtLp6TxRNeco0eNlxbwvmZ7dhE3FSyuoaEkdHo9yEE1c15OMPo34tCmjcncYMTDQMd/Gxbn+EzOwWnzMSFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hEwEqMgb; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVgrARj/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hEwEqMgb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765228751; x=1796764751;
+  t=1765229411; x=1796765411;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=19mEY0sJ38OcBYzPHKcjSQBlBgs0qEEHKmNeGqG7q1U=;
-  b=AVgrARj/pArE41Fs2/DANce4Z+d80z3ubJZwkjaKsvdy8+t5mpIZSfaN
-   v92DC3ag+VyuJ9mVdVBsoEZtPPI8jvfq4zfxMN+rXfnUjtegAZXDDyyTk
-   s9HTkYTaiyjPHvGGSXnQxUkoQZEGY+eN6xFnlOMZRrNMAj3pImeG9T4ll
-   2arQC7NyCHJeJLGRp2CHX1+DvUC0kPODpMYtWh05/89Ibp2sh5WTCRPow
-   ETOUYhvWvhsHdR43x+N678E/T2KLuy+Czq92Y60vuNyS+8+Ld2IdfkT33
-   X505hf7ddZDp/Pk478v+5DlDcRVJVierJ9rRkRFbQPsDcxa9N+6nVrprq
+  bh=HrjzLvC+rPXSF5CT4geqsmM15ozAG2X6RjLKAQmniig=;
+  b=hEwEqMgbv9ziqkK095voeC3L7kVx5v1uPEDSMuDsh2cwopP+I/MUjiUp
+   HRwTenfkyLmM2RE9K39SRADBAcMZuT95AjN+TcpMkYeDO12SZtrZIMS4I
+   9bfPIK2ZX7Ae6k9IHR5CtLzQ4bOknHvYlBFLrk6545kR7hGvZ7b3jJ1cp
+   rSQpf1d1WWu5OGHZYaRv/7Uw+xKuDddwecXcHIZbqXlhW6rn3/18WDOP5
+   uc87NMZBli2EVsMgVW31Su7c3FC94KJerFUjhGnoip+x67LdX4E5MTQO2
+   4AS9fA5/k0v4l3yoW+4iTcykXh+IyLvN+Nm0yMyr+26kTrz+ED/1h8F1T
    g==;
-X-CSE-ConnectionGUID: k2GA1KqlSBejdZEvQxuu5w==
-X-CSE-MsgGUID: YmPI1pv9SMSxUd2OFyOJIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="84785252"
+X-CSE-ConnectionGUID: 8QiLu+pHS3W9k64fY/Jizw==
+X-CSE-MsgGUID: u343BEpKQjaFU5LsLrQcRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="71025139"
 X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="84785252"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 13:19:10 -0800
-X-CSE-ConnectionGUID: +13paA+9ReKrnWExPKvifw==
-X-CSE-MsgGUID: xJxC0ajlQUekpzEudrCaFg==
+   d="scan'208";a="71025139"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 13:30:11 -0800
+X-CSE-ConnectionGUID: t/R10licQVWIqhAw8hUzFA==
+X-CSE-MsgGUID: B4qNeXyzSemlYnL8YwXv+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="195829752"
+   d="scan'208";a="196061363"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Dec 2025 13:19:07 -0800
+  by orviesa007.jf.intel.com with ESMTP; 08 Dec 2025 13:30:08 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSidM-000000000rV-3Ar1;
-	Mon, 08 Dec 2025 21:19:04 +0000
-Date: Tue, 9 Dec 2025 05:18:48 +0800
+	id 1vSio1-000000000sL-2hW5;
+	Mon, 08 Dec 2025 21:30:05 +0000
+Date: Tue, 9 Dec 2025 05:29:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	intel-xe@lists.freedesktop.org, Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 14/19] video/vga: Add VGA_IS0_R
-Message-ID: <202512090554.7pZ9xOQ5-lkp@intel.com>
-References: <20251208182637.334-15-ville.syrjala@linux.intel.com>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>, wbg@kernel.org,
+	robh@kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, s32@nxp.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] counter: Add STM based counter
+Message-ID: <202512090533.JQEqVYW8-lkp@intel.com>
+References: <20251208030413.3117660-4-daniel.lezcano@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,145 +64,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251208182637.334-15-ville.syrjala@linux.intel.com>
+In-Reply-To: <20251208030413.3117660-4-daniel.lezcano@linaro.org>
 
-Hi Ville,
+Hi Daniel,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-tip/drm-tip]
-[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.18 next-20251208]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.18 next-20251208]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-i915-vga-Register-vgaarb-client-later/20251209-030730
-base:   https://gitlab.freedesktop.org/drm/tip.git drm-tip
-patch link:    https://lore.kernel.org/r/20251208182637.334-15-ville.syrjala%40linux.intel.com
-patch subject: [PATCH 14/19] video/vga: Add VGA_IS0_R
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251209/202512090554.7pZ9xOQ5-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090554.7pZ9xOQ5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/counters-Reorder-the-Makefile/20251208-110937
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20251208030413.3117660-4-daniel.lezcano%40linaro.org
+patch subject: [PATCH v1 3/3] counter: Add STM based counter
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251209/202512090533.JQEqVYW8-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090533.JQEqVYW8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512090554.7pZ9xOQ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512090533.JQEqVYW8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/video/console/vgacon.c:51:
->> include/video/vga.h:489:1: error: expected identifier or '('
-     489 | ?
-         | ^
->> drivers/video/console/vgacon.c:126:25: error: use of undeclared identifier 'vga_lock'; did you mean 'pgd_lock'?
-     126 |         raw_spin_lock_irqsave(&vga_lock, flags);
-         |                                ^~~~~~~~
-         |                                pgd_lock
-   include/linux/spinlock.h:266:26: note: expanded from macro 'raw_spin_lock_irqsave'
-     266 |                 _raw_spin_lock_irqsave(lock, flags);    \
-         |                                        ^
-   include/linux/spinlock_api_up.h:69:60: note: expanded from macro '_raw_spin_lock_irqsave'
-      69 | #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, flags)
-         |                                                                ^
-   include/linux/spinlock_api_up.h:40:38: note: expanded from macro '__LOCK_IRQSAVE'
-      40 |   do { local_irq_save(flags); __LOCK(lock); } while (0)
-         |                                      ^
-   include/linux/spinlock_api_up.h:31:35: note: expanded from macro '__LOCK'
-      31 |   do { preempt_disable(); ___LOCK(lock); } while (0)
-         |                                   ^
-   include/linux/spinlock_api_up.h:28:32: note: expanded from macro '___LOCK'
-      28 |   do { __acquire(lock); (void)(lock); } while (0)
-         |                                ^
-   arch/x86/include/asm/pgtable.h:58:19: note: 'pgd_lock' declared here
-      58 | extern spinlock_t pgd_lock;
-         |                   ^
-   drivers/video/console/vgacon.c:131:30: error: use of undeclared identifier 'vga_lock'; did you mean 'pgd_lock'?
-     131 |         raw_spin_unlock_irqrestore(&vga_lock, flags);
-         |                                     ^~~~~~~~
-         |                                     pgd_lock
-   include/linux/spinlock.h:282:31: note: expanded from macro 'raw_spin_unlock_irqrestore'
-     282 |                 _raw_spin_unlock_irqrestore(lock, flags);       \
-         |                                             ^
-   include/linux/spinlock_api_up.h:86:26: note: expanded from macro '_raw_spin_unlock_irqrestore'
-      86 |                                         __UNLOCK_IRQRESTORE(lock, flags)
-         |                                                             ^
-   include/linux/spinlock_api_up.h:56:43: note: expanded from macro '__UNLOCK_IRQRESTORE'
-      56 |   do { local_irq_restore(flags); __UNLOCK(lock); } while (0)
-         |                                           ^
-   include/linux/spinlock_api_up.h:46:36: note: expanded from macro '__UNLOCK'
-      46 |   do { preempt_enable(); ___UNLOCK(lock); } while (0)
-         |                                    ^
-   include/linux/spinlock_api_up.h:43:32: note: expanded from macro '___UNLOCK'
-      43 |   do { __release(lock); (void)(lock); } while (0)
-         |                                ^
-   arch/x86/include/asm/pgtable.h:58:19: note: 'pgd_lock' declared here
-      58 | extern spinlock_t pgd_lock;
-         |                   ^
-   drivers/video/console/vgacon.c:485:25: error: use of undeclared identifier 'vga_lock'; did you mean 'pgd_lock'?
-     485 |         raw_spin_lock_irqsave(&vga_lock, flags);
-         |                                ^~~~~~~~
-         |                                pgd_lock
-   include/linux/spinlock.h:266:26: note: expanded from macro 'raw_spin_lock_irqsave'
-     266 |                 _raw_spin_lock_irqsave(lock, flags);    \
-         |                                        ^
-   include/linux/spinlock_api_up.h:69:60: note: expanded from macro '_raw_spin_lock_irqsave'
-      69 | #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, flags)
-         |                                                                ^
-   include/linux/spinlock_api_up.h:40:38: note: expanded from macro '__LOCK_IRQSAVE'
-      40 |   do { local_irq_save(flags); __LOCK(lock); } while (0)
-         |                                      ^
-   include/linux/spinlock_api_up.h:31:35: note: expanded from macro '__LOCK'
-      31 |   do { preempt_disable(); ___LOCK(lock); } while (0)
-         |                                   ^
-   include/linux/spinlock_api_up.h:28:32: note: expanded from macro '___LOCK'
-      28 |   do { __acquire(lock); (void)(lock); } while (0)
-         |                                ^
-   arch/x86/include/asm/pgtable.h:58:19: note: 'pgd_lock' declared here
-      58 | extern spinlock_t pgd_lock;
-         |                   ^
-   drivers/video/console/vgacon.c:503:30: error: use of undeclared identifier 'vga_lock'; did you mean 'pgd_lock'?
-     503 |         raw_spin_unlock_irqrestore(&vga_lock, flags);
-         |                                     ^~~~~~~~
-         |                                     pgd_lock
-   include/linux/spinlock.h:282:31: note: expanded from macro 'raw_spin_unlock_irqrestore'
-     282 |                 _raw_spin_unlock_irqrestore(lock, flags);       \
-         |                                             ^
-   include/linux/spinlock_api_up.h:86:26: note: expanded from macro '_raw_spin_unlock_irqrestore'
-      86 |                                         __UNLOCK_IRQRESTORE(lock, flags)
-         |                                                             ^
-   include/linux/spinlock_api_up.h:56:43: note: expanded from macro '__UNLOCK_IRQRESTORE'
-      56 |   do { local_irq_restore(flags); __UNLOCK(lock); } while (0)
-         |                                           ^
-   include/linux/spinlock_api_up.h:46:36: note: expanded from macro '__UNLOCK'
-      46 |   do { preempt_enable(); ___UNLOCK(lock); } while (0)
-         |                                    ^
-   include/linux/spinlock_api_up.h:43:32: note: expanded from macro '___UNLOCK'
-      43 |   do { __release(lock); (void)(lock); } while (0)
-         |                                ^
-   arch/x86/include/asm/pgtable.h:58:19: note: 'pgd_lock' declared here
-      58 | extern spinlock_t pgd_lock;
-         |                   ^
-   drivers/video/console/vgacon.c:563:25: error: use of undeclared identifier 'vga_lock'; did you mean 'pgd_lock'?
-     563 |         raw_spin_lock_irqsave(&vga_lock, flags);
-         |                                ^~~~~~~~
-         |                                pgd_lock
-   include/linux/spinlock.h:266:26: note: expanded from macro 'raw_spin_lock_irqsave'
-     266 |                 _raw_spin_lock_irqsave(lock, flags);    \
-         |                                        ^
-   include/linux/spinlock_api_up.h:69:60: note: expanded from macro '_raw_spin_lock_irqsave'
-      69 | #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, flags)
-         |                                                                ^
-   include/linux/spinlock_api_up.h:40:38: note: expanded from macro '__LOCK_IRQSAVE'
-      40 |   do { local_irq_save(flags); __LOCK(lock); } while (0)
-         |                                      ^
+   drivers/counter/nxp-stm-cnt.c: In function 'nxp_stm_cnt_set_prescaler':
+   drivers/counter/nxp-stm-cnt.c:110:9: error: implicit declaration of function 'FIELD_MODIFY' [-Wimplicit-function-declaration]
+     110 |         FIELD_MODIFY(STM_CR_CPS_MASK, &reg, prescaler);
+         |         ^~~~~~~~~~~~
+   drivers/counter/nxp-stm-cnt.c: In function 'nxp_stm_cnt_get_prescaler':
+   drivers/counter/nxp-stm-cnt.c:119:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     119 |         return FIELD_GET(STM_CR_CPS_MASK, reg);
+         |                ^~~~~~~~~
+   drivers/counter/nxp-stm-cnt.c: At top level:
+>> drivers/counter/nxp-stm-cnt.c:303:32: warning: 'nxp_stm_cnt_pm_ops' defined but not used [-Wunused-const-variable=]
+     303 | static const struct dev_pm_ops nxp_stm_cnt_pm_ops = {
+         |                                ^~~~~~~~~~~~~~~~~~
 
 
-vim +489 include/video/vga.h
+vim +/nxp_stm_cnt_pm_ops +303 drivers/counter/nxp-stm-cnt.c
 
-   487	
-   488	#endif /* __linux_video_vga_h__ */
- > 489	?
+   302	
+ > 303	static const struct dev_pm_ops nxp_stm_cnt_pm_ops = {
+   304		.suspend = nxp_stm_cnt_suspend,
+   305		.resume  = nxp_stm_cnt_resume,
+   306	};
+   307	
 
 -- 
 0-DAY CI Kernel Test Service
