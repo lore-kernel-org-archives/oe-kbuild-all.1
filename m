@@ -1,63 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626B4259CAF;
-	Mon,  8 Dec 2025 03:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A5C1C5D57
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 03:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765163091; cv=none; b=dtPYmehCBbK2T8l2cgxZVBXaNEak4XPjemu1dlfJ1SVetaLCDCHVo1vC7fdRAj/Ip1Q9zekdTUDCPFEgOYg017UHLM+qTS+LbOPa6VFITHVjN5b88MtwI7MDVP8YYY+oa70BiR27KAqSlPvSvNZLrCPrSKRi2oNLHU+k4U5QFRA=
+	t=1765163094; cv=none; b=WnBqYnXdAx+/yRZv0wG3y6GZUgZxevja9q5oGwzzjqZkIshqnYvx0u300K0UXzW8bp0kiK/yye4cp4nK1wupJ3TRzXQhtk+/s43OnbTqXdqGM6YRHwg6me7pKf4mJSljFF70pCPJQdnM9sdVwDMYwYoouKBZJtF0gQgDNUz+WAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765163091; c=relaxed/simple;
-	bh=VtOK1EBRkJsxGXnW4s7lGPtINpp/sA1eK4PYbFO1fwc=;
+	s=arc-20240116; t=1765163094; c=relaxed/simple;
+	bh=fA6lTbgQDY3+JQPsBJw1SsIrNj/2jqzT56e6yGhqve0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kHjzasycmIi2SE2VpSVoqVr7xRccAgIstYNZUy2llW0JI0su5Cq3snDk9TlxdV//cHOf4mMhoiZ376avmnl1iibfHPhszwqdUFFXZO8hcLOLw+PTGO0qr8J27fZVqi6YlnXY2Z8m9+wvceXjIV3A7vDDXO2XQsgxDDjgbkpMjiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iowg71T9; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=lgOyp2mHwOIihKKcwkBwrC+CxIfOaHJzVmZnyfzzLuV3YCx1bEKt9yXm3hDSy4Rr1hT/dvOKIuHoCzqBM9tt9AG2Dw5KLkbEFUZfpYTlaWt8hut11sE0QoajQMHE6ykrz3EIjywcL9JC3qnza4dCGyKzbFYU94pBX0iivFMynSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aGMNzVuD; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iowg71T9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aGMNzVuD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765163090; x=1796699090;
+  t=1765163092; x=1796699092;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VtOK1EBRkJsxGXnW4s7lGPtINpp/sA1eK4PYbFO1fwc=;
-  b=iowg71T9YgBNYlp7bw4YTUk3oC8HoZdqgeefR/K7NDLc4lsedMrsbibC
-   LGFZg5SunjrX4SrN4CSRiRj5i27R9NQnMeLql63VKhGvH8vID6QvwVqju
-   B3Mdn/8V4yatys+zm8ePFcFRiSPStMCF6VTwynfEV7wnDwZVQQlaHoEuI
-   8ADRa0ur8wAs0cym9q4CuyJRfKxH804uFYtr1ykCPpYeQjcVkjvDyG5TW
-   fG5IQNQMwsvDvTRnbqgVxSD2OIWXPAS33hC6q2QCKoIL+xwOdPJ8x2rLx
-   rOqGNvCAeRfjdsPfueNe+ihA2ZdgoB8eXssR5H9onM2/PTBYpMuy2rFrv
-   A==;
-X-CSE-ConnectionGUID: bY8I9yFQReG6avUWeOkg1A==
-X-CSE-MsgGUID: S6p+7thgT7i+3RvFEaJkLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="92581806"
+  bh=fA6lTbgQDY3+JQPsBJw1SsIrNj/2jqzT56e6yGhqve0=;
+  b=aGMNzVuDUgrAhi1LROM+cHK6Kd+x8KhMBNrbDXWWPfFpmvDCnl6xQgRu
+   hMLEAUKPrF1wg2oOh/Sxw6pxSYNGaaFRS+TUNUNTi2ZpnBqtHLIjTq//Q
+   fIlH7tRPgpaHJsPTKx+61gc5PETzmOiYKfQaN+7nfuUEy9IJkypSrMIYu
+   5Cn3a9Vuc3aGFbIx5E0XxFz8vQjGcMiM9tK33bX6pQ8wpqz725TItShSB
+   cXb94EWcy9gmiXP+mvDk0/oavr8g8JTWcqDqh4oXQeZUjPkvvn45PgRlf
+   sFalCSs8y6+i395yNhic3hK0bfN8w0XZVrBG+H8FlHToFC6yJf/W/ByTZ
+   Q==;
+X-CSE-ConnectionGUID: 7V/lyDyaR4GLQbK/rccfTA==
+X-CSE-MsgGUID: TZzL6tIdRc+zoB3g7AUJ2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="77722172"
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="92581806"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 19:04:49 -0800
-X-CSE-ConnectionGUID: KDECnqanSV+libfVdYMICw==
-X-CSE-MsgGUID: 4YeACLpgS/WcCJF93mXHLw==
+   d="scan'208";a="77722172"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 19:04:51 -0800
+X-CSE-ConnectionGUID: 0hbwR9+5S5yHuWy1oYbDvg==
+X-CSE-MsgGUID: Vk90ca2hRSGRlAwKOT3XhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="196091344"
+   d="scan'208";a="195851869"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Dec 2025 19:04:47 -0800
+  by orviesa007.jf.intel.com with ESMTP; 07 Dec 2025 19:04:47 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSRYK-00000000JsT-3nW5;
+	id 1vSRYK-00000000JsV-3ugb;
 	Mon, 08 Dec 2025 03:04:44 +0000
-Date: Mon, 8 Dec 2025 11:04:22 +0800
+Date: Mon, 8 Dec 2025 11:04:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dharanitharan R <dharanitharan725@gmail.com>,
-	syzbot+5dd615f890ddada54057@syzkaller.appspotmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dharanitharan R <dharanitharan725@gmail.com>
-Subject: Re: [PATCH] net: atm: lec: add pre_send validation to avoid
- uninitialized
-Message-ID: <202512081042.Zx4NasDJ-lkp@intel.com>
-References: <20251207041453.8302-1-dharanitharan725@gmail.com>
+To: Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skinsburskii@linux.microsoft.com
+Cc: oe-kbuild-all@lists.linux.dev, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	longli@microsoft.com, mhklinux@outlook.com,
+	prapal@linux.microsoft.com, mrathor@linux.microsoft.com,
+	paekkaladevi@linux.microsoft.com,
+	Nuno Das Neves <nunodasneves@linux.microsoft.com>,
+	Jinank Jain <jinankjain@microsoft.com>
+Subject: Re: [PATCH v2 3/3] mshv: Add debugfs to view hypervisor statistics
+Message-ID: <202512081050.0AW9Ecvg-lkp@intel.com>
+References: <1764961122-31679-4-git-send-email-nunodasneves@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,69 +70,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251207041453.8302-1-dharanitharan725@gmail.com>
+In-Reply-To: <1764961122-31679-4-git-send-email-nunodasneves@linux.microsoft.com>
 
-Hi Dharanitharan,
+Hi Nuno,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net/main]
-[also build test WARNING on net-next/main linus/master horms-ipvs/master v6.18 next-20251205]
+[auto build test WARNING on next-20251205]
+[cannot apply to linus/master v6.18 v6.18-rc7 v6.18-rc6 v6.18]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dharanitharan-R/net-atm-lec-add-pre_send-validation-to-avoid-uninitialized/20251207-121647
-base:   net/main
-patch link:    https://lore.kernel.org/r/20251207041453.8302-1-dharanitharan725%40gmail.com
-patch subject: [PATCH] net: atm: lec: add pre_send validation to avoid uninitialized
-config: arm64-randconfig-002-20251208 (https://download.01.org/0day-ci/archive/20251208/202512081042.Zx4NasDJ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512081042.Zx4NasDJ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nuno-Das-Neves/mshv-Ignore-second-stats-page-map-result-failure/20251206-033756
+base:   next-20251205
+patch link:    https://lore.kernel.org/r/1764961122-31679-4-git-send-email-nunodasneves%40linux.microsoft.com
+patch subject: [PATCH v2 3/3] mshv: Add debugfs to view hypervisor statistics
+config: x86_64-randconfig-002-20251208 (https://download.01.org/0day-ci/archive/20251208/202512081050.0AW9Ecvg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512081050.0AW9Ecvg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512081042.Zx4NasDJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512081050.0AW9Ecvg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/atm/lec.c:506:2: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-     506 |         mesg = (struct atmlec_msg *)skb->data;
-         |         ^
-   net/atm/lec.c:503:4: note: previous statement is here
-     503 |    if (!pskb_may_pull(skb, msg_size))
-         |    ^
-   1 warning generated.
+   drivers/hv/mshv_root_main.c: In function 'mshv_parent_partition_init':
+>> drivers/hv/mshv_root_main.c:2369:1: warning: label 'destroy_irqds_wq' defined but not used [-Wunused-label]
+    2369 | destroy_irqds_wq:
+         | ^~~~~~~~~~~~~~~~
 
 
-vim +/if +506 net/atm/lec.c
+vim +/destroy_irqds_wq +2369 drivers/hv/mshv_root_main.c
 
-   491	
-   492	static int lec_atm_pre_send(struct atm_vcc *vcc, struct sk_buff *skb)
-   493	{
-   494		struct atmlec_msg *mesg;
-   495		u32 sizeoftlvs;
-   496		unsigned int msg_size = sizeof(struct atmlec_msg);
-   497	
-   498		/* Must contain the base message */
-   499		if (skb->len < msg_size)
-   500			return -EINVAL;
-   501	
-   502	   /* Must have at least msg_size bytes in linear data */
-   503	   if (!pskb_may_pull(skb, msg_size))
-   504	   	return -EINVAL;
-   505	
- > 506		mesg = (struct atmlec_msg *)skb->data;
-   507	   sizeoftlvs = mesg->sizeoftlvs;
-   508	
-   509	   /* Validate TLVs if present */
-   510	   if (sizeoftlvs && !pskb_may_pull(skb, msg_size + sizeoftlvs))
-   511	       return -EINVAL;
-   512	
-   513	   return 0;
-   514	}
-   515	
+  2299	
+  2300	static int __init mshv_parent_partition_init(void)
+  2301	{
+  2302		int ret;
+  2303		struct device *dev;
+  2304		union hv_hypervisor_version_info version_info;
+  2305	
+  2306		if (!hv_parent_partition() || is_kdump_kernel())
+  2307			return -ENODEV;
+  2308	
+  2309		if (hv_get_hypervisor_version(&version_info))
+  2310			return -ENODEV;
+  2311	
+  2312		ret = misc_register(&mshv_dev);
+  2313		if (ret)
+  2314			return ret;
+  2315	
+  2316		dev = mshv_dev.this_device;
+  2317	
+  2318		if (version_info.build_number < MSHV_HV_MIN_VERSION ||
+  2319		    version_info.build_number > MSHV_HV_MAX_VERSION) {
+  2320			dev_err(dev, "Running on unvalidated Hyper-V version\n");
+  2321			dev_err(dev, "Versions: current: %u  min: %u  max: %u\n",
+  2322				version_info.build_number, MSHV_HV_MIN_VERSION,
+  2323				MSHV_HV_MAX_VERSION);
+  2324		}
+  2325	
+  2326		mshv_root.synic_pages = alloc_percpu(struct hv_synic_pages);
+  2327		if (!mshv_root.synic_pages) {
+  2328			dev_err(dev, "Failed to allocate percpu synic page\n");
+  2329			ret = -ENOMEM;
+  2330			goto device_deregister;
+  2331		}
+  2332	
+  2333		ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "mshv_synic",
+  2334					mshv_synic_init,
+  2335					mshv_synic_cleanup);
+  2336		if (ret < 0) {
+  2337			dev_err(dev, "Failed to setup cpu hotplug state: %i\n", ret);
+  2338			goto free_synic_pages;
+  2339		}
+  2340	
+  2341		mshv_cpuhp_online = ret;
+  2342	
+  2343		ret = mshv_retrieve_scheduler_type(dev);
+  2344		if (ret)
+  2345			goto remove_cpu_state;
+  2346	
+  2347		if (hv_root_partition())
+  2348			ret = mshv_root_partition_init(dev);
+  2349		if (ret)
+  2350			goto remove_cpu_state;
+  2351	
+  2352		mshv_init_vmm_caps(dev);
+  2353	
+  2354		ret = mshv_debugfs_init();
+  2355		if (ret)
+  2356			goto exit_partition;
+  2357	
+  2358		ret = mshv_irqfd_wq_init();
+  2359		if (ret)
+  2360			goto exit_debugfs;
+  2361	
+  2362		spin_lock_init(&mshv_root.pt_ht_lock);
+  2363		hash_init(mshv_root.pt_htable);
+  2364	
+  2365		hv_setup_mshv_handler(mshv_isr);
+  2366	
+  2367		return 0;
+  2368	
+> 2369	destroy_irqds_wq:
+  2370		mshv_irqfd_wq_cleanup();
+  2371	exit_debugfs:
+  2372		mshv_debugfs_exit();
+  2373	exit_partition:
+  2374		if (hv_root_partition())
+  2375			mshv_root_partition_exit();
+  2376	remove_cpu_state:
+  2377		cpuhp_remove_state(mshv_cpuhp_online);
+  2378	free_synic_pages:
+  2379		free_percpu(mshv_root.synic_pages);
+  2380	device_deregister:
+  2381		misc_deregister(&mshv_dev);
+  2382		return ret;
+  2383	}
+  2384	
 
 -- 
 0-DAY CI Kernel Test Service
