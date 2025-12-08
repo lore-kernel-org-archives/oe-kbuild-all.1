@@ -1,276 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C3C313521
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 12:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8FB2EC569
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 13:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765197680; cv=none; b=RK/fquxFQd6BHeoMSbr+vB4GwDZInTLQFcaO1bg3zOGJ8seYwihPcvjSs5jVNA+VCPLRKb9W14YzSbZqO9DbWZMppKoKlGzcJ7gOgjWEjNNDH/nmAIyv4bmq26H6oVHw0b/+ZV62jQHyi2zpUPMM/gWzlmObLKrKaqFvACG4IJw=
+	t=1765200660; cv=none; b=aQfXZ98rcja07wTITAAjtd4KVadSPd7MZGLqS2FJB4ZD/tkE+RvANbSqg1IvHgqDknXmGoHkYiPF+ilMMuxlgz315kI8zuPKD9YPquZKBisHn3/ZRJKx3WMFqFajzRexOQavqrthzfp8C3PUuOHiQ23Rh/SbnHNwDiOeUMQJCvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765197680; c=relaxed/simple;
-	bh=umKJccn+wo3ekhVeKVH+ReOuwKmjfTy4H3Qv88rUdcM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jZYhaAMWGYpoUFiIsgQZMf7z2T9DJZ57Fj1RNn95fVKXtoKCzb0Fevkm7GHEhal0adY/Boombk/m+qjuvwjdLmy4qj6CeLU/HiDVAfAXfytwwHWAU7Xv0pAO46s/ozU9PGyNamvKmpA8rdlSjfY9ELd5mp6cWl7CeAl0j965WC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fPNwioMp; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765200660; c=relaxed/simple;
+	bh=J0uZFzOXTkJvd4CbBnFN3v1tbPHzbByiOLiUH+t2wSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dJaQVS/gB7pDBzouHRNvA99U/TNtBGOG1GinOnD6c/YpPoCWk/Icb3RqIrtaL/t83eH3oxzoIxoSk18x2paCX42kjzTVL6IURaxI1rloSz8j+21paO/CEXOUCFPSYz84E7kqoKaMReZ8uJML5qGurcUX9hOXjgiXmxixB1C74z4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ERERpXQR; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fPNwioMp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ERERpXQR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765197677; x=1796733677;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=umKJccn+wo3ekhVeKVH+ReOuwKmjfTy4H3Qv88rUdcM=;
-  b=fPNwioMpc2mr1VCozmHdYxRcaQ2920dEYgXDydqeDmoT1wO6yp+nAB/f
-   tdM/w7y90LCMLZ5OuBK1hfJVBFKJ8FLg3t+N4iUhXOk8/1PG/V3ZdQxSr
-   IEGWQOmaN9TzL8o9luFLKsqw/7edjikIUHt2NfTYpnAr1TkzZmEgu2lNv
-   Ih/ITNBXfIG1XX1PnAjFkDw5zmYnkQ6oCks+eeaMdjNv7IvKiFxqzjZd/
-   ReUaVbsrfQ1eCzKVEIMiMuI2jQuNnOcEfecCnB2L6e/m7Jl7KsVphCUKv
-   IyWVbpMgVgAssUFyjVm3QxrZKdlSVsLkHLhnyE/i6oYognLYhnMrLKnYm
-   Q==;
-X-CSE-ConnectionGUID: m7vhjxkvQSqqvhhyPgR59A==
-X-CSE-MsgGUID: 7CCOesI3TYahFqhZl9hPhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="77459445"
+  t=1765200659; x=1796736659;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=J0uZFzOXTkJvd4CbBnFN3v1tbPHzbByiOLiUH+t2wSo=;
+  b=ERERpXQRbWB4Ffcen173uj2PgJtJteG8rwh8VHbH88S++sGd3w01m5Ba
+   lg/R13hC+k5+tNYLl8jufFDrUO4/4MPW5AByVDSli3U7rfH0PUzJFn3oT
+   habGFs3n1LJLF52Fy42ynu4WwsIZVEBtlUDFCaZVlTxE3E1W89gevw42e
+   gBLiEx+Dl8SSgXIplrmTjubGApgv7sp0i+JiXxItQqAGxygdJNjiDE01G
+   JdD4OA75lKpQ66aNWR+xh6GAdjv4z3e3VeE9V5DrXeo6iexXe7PbYbibn
+   jRC8JhjtTi93mt+uR4yIPwRPU7jbqUdgyt3vjahK5VC4eaHlrBuykRZbC
+   g==;
+X-CSE-ConnectionGUID: M6nHrsPlTf6PCtYdaTGMlQ==
+X-CSE-MsgGUID: n2mHJG4LSWqAJV8gjlqitQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="84546923"
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="77459445"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 04:41:14 -0800
-X-CSE-ConnectionGUID: 18tv4ovBQ+26isXFFVpI5A==
-X-CSE-MsgGUID: 5QeCkIusTiSXljME24WaOA==
+   d="scan'208";a="84546923"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 05:30:58 -0800
+X-CSE-ConnectionGUID: OElFpYpVQHyzRlev00A/qQ==
+X-CSE-MsgGUID: gYnSdvheQb+VQiccpviqqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="200396018"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Dec 2025 04:41:12 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vSaY9-000000000Jm-1Mlo;
-	Mon, 08 Dec 2025 12:41:09 +0000
-Date: Mon, 8 Dec 2025 20:40:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Benjamin Berg <benjamin@sipsolutions.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Johannes Berg <johannes.berg@intel.com>
-Subject: arch/um/kernel/skas/stub_exe.c:180:23-24: WARNING: Use ARRAY_SIZE
-Message-ID: <202512082038.NomL9uzC-lkp@intel.com>
+   d="scan'208";a="196206476"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.47])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 05:30:55 -0800
+Date: Mon, 8 Dec 2025 15:30:53 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Tamir Duberstein <tamird@kernel.org>
+Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] printf: add __printf attribute
+Message-ID: <aTbTDSIHPdW8kUbR@smile.fi.intel.com>
+References: <20251206-printf-kunit-printf-attr-v1-1-1682808b51d0@gmail.com>
+ <aTRVusbSqh5ZBY-o@smile.fi.intel.com>
+ <CAJ-ks9nkyicpbX4jv+Ry4iDVLUGTHr_mHQx0EMN-jt3iDbrw0g@mail.gmail.com>
+ <aTRss_EHjqH21NEV@smile.fi.intel.com>
+ <CAJ-ks9nCsWij6FxF8T51CNsHn4Wg0wNd5mXQyJqc6Y6XJXnLDw@mail.gmail.com>
+ <aTSHb6rHLQqopTNU@smile.fi.intel.com>
+ <CAJ-ks9nYVuB6bn=xodzy5rWYtrwOgjev_53xRrzvMGdk55Y0Vw@mail.gmail.com>
+ <aTSj8uKD6G0cLq2T@smile.fi.intel.com>
+ <CAJ-ks9mrqxGLhjbFQyWaRqxUFu4+JaUbLn4E=TCfW1eqmDrQPw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ-ks9mrqxGLhjbFQyWaRqxUFu4+JaUbLn4E=TCfW1eqmDrQPw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c2f2b01b74be8b40a2173372bcd770723f87e7b2
-commit: 406d17c6c370a33cfb54067d9e205305293d4604 um: Implement kernel side of SECCOMP based process handling
-date:   6 months ago
-config: um-randconfig-r064-20251207 (https://download.01.org/0day-ci/archive/20251208/202512082038.NomL9uzC-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+On Sun, Dec 07, 2025 at 08:32:53PM -0500, Tamir Duberstein wrote:
+> On Sat, Dec 6, 2025 at 4:45 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Sat, Dec 06, 2025 at 02:57:48PM -0500, Tamir Duberstein wrote:
+> > > On Sat, Dec 6, 2025 at 2:43 PM Andy Shevchenko
+> > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > On Sat, Dec 06, 2025 at 12:52:53PM -0500, Tamir Duberstein wrote:
+> > > > > On Sat, Dec 6, 2025 at 12:49 PM Andy Shevchenko
+> > > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > > On Sat, Dec 06, 2025 at 12:13:34PM -0500, Tamir Duberstein wrote:
+> > > > > > > On Sat, Dec 6, 2025 at 11:11 AM Andy Shevchenko
+> > > > > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > > > > On Sat, Dec 06, 2025 at 08:19:09AM -0500, Tamir Duberstein wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512082038.NomL9uzC-lkp@intel.com/
+...
 
-cocci warnings: (new ones prefixed by >>)
->> arch/um/kernel/skas/stub_exe.c:180:23-24: WARNING: Use ARRAY_SIZE
+> > > > > > > > > -static void
+> > > > > > > > > +static void __printf(2, 3)
+> > > > > > > >
+> > > > > > > > 3?!
+> > > > > > > >
+> > > > > > > > I think it should be (2, 0). Yes, the both users call it with "%p..." in format
+> > > > > > > > string, but the second parameter tells compiler to check the variadic
+> > > > > > > > arguments, which are absent here. Changing 'const void *p' to '...' will align
+> > > > > > > > it with the given __printf() attribute, but I don't know if this what we want.
+> > > > > > >
+> > > > > > > The second parameter is the first-to-check, it is not specific to
+> > > > > > > variadic arguments. Using 0 means that no arguments are checkable, so
+> > > > > > > the compiler only validates the format string itself and won’t
+> > > > > > > diagnose mismatches with `p`. This works whether or not we later
+> > > > > > > change `const void *p` to `...`.
+> > > > > >
+> > > > > > Yes, but this is fragile. As I explained it works only because we supply
+> > > > > > the format string stuck to "%p", anything else will require reconsidering
+> > > > > > the function prototypes. So, strictly speaking this should be (2, 0) if
+> > > > > > we leave const void *p as is.
+> > > > > >
+> > > > > I believe this is not correct. As I said, 0 means "do not check
+> > > > > arguments" so only the format string will be checked. See the existing
+> > > > > uses of this annotation in this file:
+> > > > >
+> > > > > static void __printf(7, 0)
+> > > > > do_test(struct kunit *kunittest, const char *file, const int line, int
+> > > > > bufsize, const char *expect,
+> > > > > int elen, const char *fmt, va_list ap)
+> > > > >
+> > > > > and
+> > > > >
+> > > > > static void __printf(6, 7)
+> > > > > __test(struct kunit *kunittest, const char *file, const int line,
+> > > > > const char *expect, int elen,
+> > > > > const char *fmt, ...)
+> > > > >
+> > > > > as you can see, 0 is used only when the arguments are not in the
+> > > > > function prototype at all. When variadic arguments are present, N+1 is
+> > > > > used.
+> > > >
+> > > > Yes to all what you said. And how does it object what I said? In the case
+> > > > you are trying to add __print(2, 3) the 3rd one is *not* a variadic argument.
+> > > > If you make it to be variadic, I will agree with __print(2, 3). Before that
+> > > > it doesn't look right to me even if it works.
+> > >
+> > > I addressed this in my first reply; the second parameter to `__print`
+> > > is *not* specific to variadic functions. It can just as well be used
+> > > for functions with a fixed number of arguments.
+> >
+> > $ make all compile_commands.json scripts_gdb ARCH=um O=.kunit --jobs=48
+> > ERROR:root:../lib/tests/printf_kunit.c:272:1: error: ‘format’ attribute argument 3 value ‘3’ does not refer to a variable argument list
+> >   272 | {
+> >       | ^
+> >
+> > How did you compile it?
+> >
+> > The GCC documentation
+> > https://gcc.gnu.org/onlinedocs/gcc-15.2.0/gcc/Common-Function-Attributes.html#index-format-function-attribute
+> > doesn't clearly say if the fixed-argument functions are eligible for the
+> > __attribute__((format)). The parameter is called first-to-check, which
+> > might imply that there is a second.
+> >
+> > Additionally interesting discussion to read:
+> > https://reviews.llvm.org/D112579
+> >
+> > Seems it's feature of clang?
+> >
+> > 3147 As an extension to GCC's behavior, Clang accepts the ``format`` attribute on
+> > 3148 non-variadic functions. Clang checks non-variadic format functions for the same
+> > 3149 classes of issues that can be found on variadic functions, as controlled by the
+> > 3150 same warning flags, except that the types of formatted arguments is forced by
+> > 3151 the function signature. For example:
+> >
+> > Seems to me for now it has to be __printf(2, 0) or you need to put some special
+> > pragma:s or so around the function to make it work for clang differently.
+> 
+> Ah, thanks for digging that up - and as confirmed by LKP you are right
+> of course.
+> 
+> Since it doesn't make much sense to make this function variadic, I
+> think the best we can do is a macro wrapper that combines this
+> function with `no_printk`. Something like
+> 
+> #define test_hashed(kunittest, fmt, p) \
+> do { \
+> if (0) \
+> no_printk(fmt, p); \
+> __test_hashed(kunittest, fmt, p);\
+> } while (0)
 
-vim +180 arch/um/kernel/skas/stub_exe.c
+I am not sure about a macro approach.
 
-    11	
-    12	noinline static void real_init(void)
-    13	{
-    14		struct stub_init_data init_data;
-    15		unsigned long res;
-    16		struct {
-    17			void  *ss_sp;
-    18			int    ss_flags;
-    19			size_t ss_size;
-    20		} stack = {
-    21			.ss_size = STUB_DATA_PAGES * UM_KERN_PAGE_SIZE,
-    22		};
-    23		struct {
-    24			void *sa_handler_;
-    25			unsigned long sa_flags;
-    26			void *sa_restorer;
-    27			unsigned long long sa_mask;
-    28		} sa = {
-    29			/* Need to set SA_RESTORER (but the handler never returns) */
-    30			.sa_flags = SA_ONSTACK | SA_NODEFER | SA_SIGINFO | 0x04000000,
-    31		};
-    32	
-    33		/* set a nice name */
-    34		stub_syscall2(__NR_prctl, PR_SET_NAME, (unsigned long)"uml-userspace");
-    35	
-    36		/* Make sure this process dies if the kernel dies */
-    37		stub_syscall2(__NR_prctl, PR_SET_PDEATHSIG, SIGKILL);
-    38	
-    39		/* Needed in SECCOMP mode (and safe to do anyway) */
-    40		stub_syscall5(__NR_prctl, PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
-    41	
-    42		/* read information from STDIN and close it */
-    43		res = stub_syscall3(__NR_read, 0,
-    44				    (unsigned long)&init_data, sizeof(init_data));
-    45		if (res != sizeof(init_data))
-    46			stub_syscall1(__NR_exit, 10);
-    47	
-    48		stub_syscall1(__NR_close, 0);
-    49	
-    50		/* map stub code + data */
-    51		res = stub_syscall6(STUB_MMAP_NR,
-    52				    init_data.stub_start, UM_KERN_PAGE_SIZE,
-    53				    PROT_READ | PROT_EXEC, MAP_FIXED | MAP_SHARED,
-    54				    init_data.stub_code_fd, init_data.stub_code_offset);
-    55		if (res != init_data.stub_start)
-    56			stub_syscall1(__NR_exit, 11);
-    57	
-    58		res = stub_syscall6(STUB_MMAP_NR,
-    59				    init_data.stub_start + UM_KERN_PAGE_SIZE,
-    60				    STUB_DATA_PAGES * UM_KERN_PAGE_SIZE,
-    61				    PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED,
-    62				    init_data.stub_data_fd, init_data.stub_data_offset);
-    63		if (res != init_data.stub_start + UM_KERN_PAGE_SIZE)
-    64			stub_syscall1(__NR_exit, 12);
-    65	
-    66		/* setup signal stack inside stub data */
-    67		stack.ss_sp = (void *)init_data.stub_start + UM_KERN_PAGE_SIZE;
-    68		stub_syscall2(__NR_sigaltstack, (unsigned long)&stack, 0);
-    69	
-    70		/* register signal handlers */
-    71		sa.sa_handler_ = (void *) init_data.signal_handler;
-    72		sa.sa_restorer = (void *) init_data.signal_restorer;
-    73		if (!init_data.seccomp) {
-    74			/* In ptrace mode, the SIGSEGV handler never returns */
-    75			sa.sa_mask = 0;
-    76	
-    77			res = stub_syscall4(__NR_rt_sigaction, SIGSEGV,
-    78					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-    79			if (res != 0)
-    80				stub_syscall1(__NR_exit, 13);
-    81		} else {
-    82			/* SECCOMP mode uses rt_sigreturn, need to mask all signals */
-    83			sa.sa_mask = ~0ULL;
-    84	
-    85			res = stub_syscall4(__NR_rt_sigaction, SIGSEGV,
-    86					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-    87			if (res != 0)
-    88				stub_syscall1(__NR_exit, 14);
-    89	
-    90			res = stub_syscall4(__NR_rt_sigaction, SIGSYS,
-    91					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-    92			if (res != 0)
-    93				stub_syscall1(__NR_exit, 15);
-    94	
-    95			res = stub_syscall4(__NR_rt_sigaction, SIGALRM,
-    96					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-    97			if (res != 0)
-    98				stub_syscall1(__NR_exit, 16);
-    99	
-   100			res = stub_syscall4(__NR_rt_sigaction, SIGTRAP,
-   101					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-   102			if (res != 0)
-   103				stub_syscall1(__NR_exit, 17);
-   104	
-   105			res = stub_syscall4(__NR_rt_sigaction, SIGILL,
-   106					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-   107			if (res != 0)
-   108				stub_syscall1(__NR_exit, 18);
-   109	
-   110			res = stub_syscall4(__NR_rt_sigaction, SIGFPE,
-   111					    (unsigned long)&sa, 0, sizeof(sa.sa_mask));
-   112			if (res != 0)
-   113				stub_syscall1(__NR_exit, 19);
-   114		}
-   115	
-   116		/*
-   117		 * If in seccomp mode, install the SECCOMP filter and trigger a syscall.
-   118		 * Otherwise set PTRACE_TRACEME and do a SIGSTOP.
-   119		 */
-   120		if (init_data.seccomp) {
-   121			struct sock_filter filter[] = {
-   122	#if __BITS_PER_LONG > 32
-   123				/* [0] Load upper 32bit of instruction pointer from seccomp_data */
-   124				BPF_STMT(BPF_LD | BPF_W | BPF_ABS,
-   125					 (offsetof(struct seccomp_data, instruction_pointer) + 4)),
-   126	
-   127				/* [1] Jump forward 3 instructions if the upper address is not identical */
-   128				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, (init_data.stub_start) >> 32, 0, 3),
-   129	#endif
-   130				/* [2] Load lower 32bit of instruction pointer from seccomp_data */
-   131				BPF_STMT(BPF_LD | BPF_W | BPF_ABS,
-   132					 (offsetof(struct seccomp_data, instruction_pointer))),
-   133	
-   134				/* [3] Mask out lower bits */
-   135				BPF_STMT(BPF_ALU | BPF_AND | BPF_K, 0xfffff000),
-   136	
-   137				/* [4] Jump to [6] if the lower bits are not on the expected page */
-   138				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, (init_data.stub_start) & 0xfffff000, 1, 0),
-   139	
-   140				/* [5] Trap call, allow */
-   141				BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_TRAP),
-   142	
-   143				/* [6,7] Check architecture */
-   144				BPF_STMT(BPF_LD | BPF_W | BPF_ABS,
-   145					 offsetof(struct seccomp_data, arch)),
-   146				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K,
-   147					 UM_SECCOMP_ARCH_NATIVE, 1, 0),
-   148	
-   149				/* [8] Kill (for architecture check) */
-   150				BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_KILL_PROCESS),
-   151	
-   152				/* [9] Load syscall number */
-   153				BPF_STMT(BPF_LD | BPF_W | BPF_ABS,
-   154					 offsetof(struct seccomp_data, nr)),
-   155	
-   156				/* [10-14] Check against permitted syscalls */
-   157				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, __NR_futex,
-   158					 5, 0),
-   159				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, STUB_MMAP_NR,
-   160					 4, 0),
-   161				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, __NR_munmap,
-   162					 3, 0),
-   163	#ifdef __i386__
-   164				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, __NR_set_thread_area,
-   165					 2, 0),
-   166	#else
-   167				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, __NR_arch_prctl,
-   168					 2, 0),
-   169	#endif
-   170				BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, __NR_rt_sigreturn,
-   171					 1, 0),
-   172	
-   173				/* [15] Not one of the permitted syscalls */
-   174				BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_KILL_PROCESS),
-   175	
-   176				/* [16] Permitted call for the stub */
-   177				BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
-   178			};
-   179			struct sock_fprog prog = {
- > 180				.len = sizeof(filter) / sizeof(filter[0]),
-   181				.filter = filter,
-   182			};
-   183	
-   184			if (stub_syscall3(__NR_seccomp, SECCOMP_SET_MODE_FILTER,
-   185					  SECCOMP_FILTER_FLAG_TSYNC,
-   186					  (unsigned long)&prog) != 0)
-   187				stub_syscall1(__NR_exit, 20);
-   188	
-   189			/* Fall through, the exit syscall will cause SIGSYS */
-   190		} else {
-   191			stub_syscall4(__NR_ptrace, PTRACE_TRACEME, 0, 0, 0);
-   192	
-   193			stub_syscall2(__NR_kill, stub_syscall0(__NR_getpid), SIGSTOP);
-   194		}
-   195	
-   196		stub_syscall1(__NR_exit, 30);
-   197	
-   198		__builtin_unreachable();
-   199	}
-   200	
+> That would give us better diagnostics, but is more complex (and more
+> lines of code than just repeating this function's body twice, which
+> would also give good diagnostics). I think the best thing to do is just
+> to ignore the report that prompted me to look into this. Please let me
+> know if you disagree.
+
+I think we may not ignore the report as it breaks builds in some cases.
+As I said
+
+- __printf(2, 0) for now
+
+- and perhaps a comment on top to explain the clang approach that may cope
+with fixed-argument functions for -Wformat (you can even put a link to that
+LLVM discussion about the feature).
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
