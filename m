@@ -1,308 +1,231 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771252EB87E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 13:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8546E2EBDD3
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 14:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765202086; cv=none; b=S+rp1Fbunc4qGU9CJqeqSloYTbvOCIIE3aFlwuigz3KLAzjIoyfTRT+wa5WN7x7p47H9zFjU2e+XouK3URKg+bkEQrBeg6ahBYAvam9QT3Q043F/aXkgN8F+r/Kj8t2Em0UkpPJktPhdxfi20+6xsJoz4e7gusayaz9DbJubRVU=
+	t=1765202764; cv=none; b=WHWlaaLYepjAsQSYrToJN9Ne455Uey42vguMfmJJ0fqpmvYCCVUDVBd8iZ23ws2geOGByke1cTWLKp88gG+V3uO7DdCjLyQKeYCQknEK1qvoBHhwXxUIFamjbX+7K8QIbAiLhcXyTkb43xq0bJjd7PIPHvNBc+2Dc3i/KbMpGWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765202086; c=relaxed/simple;
-	bh=ZFut7Ae0yzz52mzVQBPDAaDpmad9dX2Q6nhcmJwjc8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aZOPdYy8C2rHhXOX3xo+eV1bxzr2suOvnTJvE4z7VCBnnlYCUSwjzZhnWgzKnY5zknoiN/AFGuFLNcvuM3CjKkG4bHhz7t+36oC6ocFDfwW3bXAgrkIhxRiqgN//gyNfZZduxouSPJTtX0OFitRPaSpFuaxIOMwfjfSjOjiN5IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MY/BTrLa; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765202764; c=relaxed/simple;
+	bh=bByfbjULz/zxbHHvm948oQ+ExFQCFOJnCSYwNPAS3cU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MoQ8BKcmD2euqqdiZEL7ihg2M6wmx0k32Q4R7dkTVWkD6rpOSsv+72tIRFhlOaHUCbNh7jK8xhihxUjscaABsGTS9YDiytVzsD+OB5VH32BiGrZqiH7rD4Xnyg+bpozYaZyoQ0F4hJTQAcmcTrBKSKV7BBPJPCngQvcyns9fRe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=aU+5wPxk; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MY/BTrLa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765202084; x=1796738084;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZFut7Ae0yzz52mzVQBPDAaDpmad9dX2Q6nhcmJwjc8g=;
-  b=MY/BTrLasK8ZhogWmQvmMVD4m+bJElE1VzLOlFz7/zkbFaMxzpEWDhr6
-   hc6gg9x1aubr2jUQT1toPxk/Vo6+DPp1W1bpYEk64USPYDWRiJn1iwP55
-   3C0x2QuntpkYWaDsC/DhIxiVq9KBZnwXBUTndwpw5faedM2IeKOUgti+q
-   rA0DN+qBiWVvxZG9NF/ZrhfkUQm/RMAGlImn+fyFPGCwJ0brFLh1AwXuC
-   41AE2n8cU1UJEaaF/EnkvUEI0J2nFHKTcNcjOlTHMouZQFQ/LOtgUWGVj
-   VMhLgW6GCDIIiATmgY18rsjPHtPmqhNCaT+DqvtZ9reaxAp3ZDdjkPHp2
-   Q==;
-X-CSE-ConnectionGUID: Xko6QylsSdyVW4QuhSq8KA==
-X-CSE-MsgGUID: IAz7WjJeQvu7DRfOh0uefw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="54682539"
-X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="54682539"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 05:54:30 -0800
-X-CSE-ConnectionGUID: qoP6Qw7nTcC7jtLZ0XWOhw==
-X-CSE-MsgGUID: xIMqLa9xQYywI9aDsj3uLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="200383525"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2025 05:54:28 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vSbh3-000000000RT-461j;
-	Mon, 08 Dec 2025 13:54:25 +0000
-Date: Mon, 8 Dec 2025 21:53:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 614/1104]
- fs/bcachefs/btree/commit.c:717:25: error: implicit declaration of function
- '__WARN'; did you mean '__warn'?
-Message-ID: <202512082123.4F0a5OL6-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="aU+5wPxk"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-477b198f4bcso38993155e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 Dec 2025 06:06:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1765202761; x=1765807561; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=lokJ5w9UpzFBCGvjBK85H8pdYoiofKonARrn41p3ekY=;
+        b=aU+5wPxkYYIcQGHZYUH7N71X5z2KHH7v6JrVRud5oWCVl9ndX7rswPEonWb/4puDLc
+         POKc5oqSGUGEKT0Qfovjhr6cN00HPfzALA03MTZIXYVk7tC93v2iYtaH4wBlmXIjcuKG
+         ujzmcduTMAV6U/n6zYXdkk51FRwMPH13TkLhAt8+5W97iDYDv9p5uGEwWcoEKMP5+JyZ
+         E6JxtuW+RiZPUKbE9TPzPDa9Zu5TA5VCQgpKQvaIpZKStrTCPRMeuMuEL1Z/PKhjPl2W
+         +wwBy+CDGVH/wpVe1Ko2l492PIr5Z5O4V8HM98I1gCaI/nwoM52L+NLLxpKfUD9IRQF/
+         SPhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765202761; x=1765807561;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lokJ5w9UpzFBCGvjBK85H8pdYoiofKonARrn41p3ekY=;
+        b=hJHCN7K00Dm9GIui9OxsGQfopJhB4i3r/GhPgXgZ2ybgu/xCCJk6N33fJdf15g4MNR
+         sx3GLfS41rHMVClqX/ntfn8yVX27FWHIzQrKiTY39iotDoNuZlS43EfEOkaF4BR0Nzcc
+         QaR2voI+6FfVjQYBzDX3Y8xHgjnvLuDE0zjKhG/twzEWByQSpPh+v6mlBro2S7SRyIt0
+         IUxIDA/yvPxUjkadzZnBI18VbrisxqSkdlXZK2No4a37BC6X/Ca8xx+omv6J/ZYZEkcs
+         fZugV1GDqYsTdZuJnoLqYn2zgCw14zswSMzwf52ZESPnpwA0ZbG5f26k3PVOZPXNmsoh
+         KENw==
+X-Forwarded-Encrypted: i=1; AJvYcCU1ZXwl6xOXlCjdIAw7hQ3oCvaJVDu25yOhsu4OiUXCcPnh8vQb4JPRbLFawCc5dU16NRZNq4HQdzSQsp93@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOY1CnfirbymIXWaMAIgH+tEKqjLYWKrT2+q3TqJCyNT8AQevF
+	4oqspp7S6uae8ZGn1Plr/ofIVMqicQAlFwRaPMD48lCrgvh/Hq5+PTzSd0CbtXHCR/c=
+X-Gm-Gg: ASbGnctOLtnPJUCGG+pWpbHhVatOs1Nlgz040p1vsFwEKOXbB4ssyAe1Qo4V4iqkHnq
+	WWUrlSxjOc0GYCS6X5vvhWIc3a1NQaQOTO7JhQZXTY5SSQ0Y75uaMpMdZxKKWLhPJlblfHkvD4E
+	TBwquTXAOJbhURrJCr+lcQUPh2ktajBq1WlbAL+J4KIT8NTOqKJZqQxzJI/5aftYdhl5v4RS9EF
+	jax0GcTtCRaC71XHqm4Mm75aP0A2VDH6IRqBRaAlpD/llED/b7dqenE7XDPc7jtkJjY5PFr0560
+	VHsmgyjjQOIl3kZmc/C4v42+iK/mCIVGGMCviQxr4+41GaFebIQKVZ0sLDftC0SqfE1xvrPxS5/
+	5i0ViRsTNkPqdZtN4ZZm4Sk4jy3kPQ50LN5AGqz9B30zBf90YBDopq69Iz3W5lIcKAuLcsdcIuT
+	Ft5MQ=
+X-Google-Smtp-Source: AGHT+IGpWK24I+g8Kd1qcoFtXW40X8wdFPrqUHAgvSkTO2MNv1i7OerNjuozHWpFdcgLeqcnbAPSfA==
+X-Received: by 2002:a05:600c:4f12:b0:477:bb0:751b with SMTP id 5b1f17b1804b1-47939e38971mr76585165e9.27.1765202760594;
+        Mon, 08 Dec 2025 06:06:00 -0800 (PST)
+Received: from pathway ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-479311e7142sm245738595e9.11.2025.12.08.06.06.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Dec 2025 06:06:00 -0800 (PST)
+Date: Mon, 8 Dec 2025 15:05:58 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Tamir Duberstein <tamird@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] printf: add __printf attribute
+Message-ID: <aTbbRhNkwCjaryFo@pathway>
+References: <20251206-printf-kunit-printf-attr-v1-1-1682808b51d0@gmail.com>
+ <aTRVusbSqh5ZBY-o@smile.fi.intel.com>
+ <CAJ-ks9nkyicpbX4jv+Ry4iDVLUGTHr_mHQx0EMN-jt3iDbrw0g@mail.gmail.com>
+ <aTRss_EHjqH21NEV@smile.fi.intel.com>
+ <CAJ-ks9nCsWij6FxF8T51CNsHn4Wg0wNd5mXQyJqc6Y6XJXnLDw@mail.gmail.com>
+ <aTSHb6rHLQqopTNU@smile.fi.intel.com>
+ <CAJ-ks9nYVuB6bn=xodzy5rWYtrwOgjev_53xRrzvMGdk55Y0Vw@mail.gmail.com>
+ <aTSj8uKD6G0cLq2T@smile.fi.intel.com>
+ <CAJ-ks9mrqxGLhjbFQyWaRqxUFu4+JaUbLn4E=TCfW1eqmDrQPw@mail.gmail.com>
+ <aTbTDSIHPdW8kUbR@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aTbTDSIHPdW8kUbR@smile.fi.intel.com>
 
-Hi Kent,
+On Mon 2025-12-08 15:30:53, Andy Shevchenko wrote:
+> On Sun, Dec 07, 2025 at 08:32:53PM -0500, Tamir Duberstein wrote:
+> > On Sat, Dec 6, 2025 at 4:45 PM Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> wrote:
+> > > On Sat, Dec 06, 2025 at 02:57:48PM -0500, Tamir Duberstein wrote:
+> > > > On Sat, Dec 6, 2025 at 2:43 PM Andy Shevchenko
+> > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > On Sat, Dec 06, 2025 at 12:52:53PM -0500, Tamir Duberstein wrote:
+> > > > > > On Sat, Dec 6, 2025 at 12:49 PM Andy Shevchenko
+> > > > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > > > On Sat, Dec 06, 2025 at 12:13:34PM -0500, Tamir Duberstein wrote:
+> > > > > > > > On Sat, Dec 6, 2025 at 11:11 AM Andy Shevchenko
+> > > > > > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > > > > > On Sat, Dec 06, 2025 at 08:19:09AM -0500, Tamir Duberstein wrote:
+> 
+> ...
+> 
+> > > > > > > > > > -static void
+> > > > > > > > > > +static void __printf(2, 3)
+> > > > > > > > >
+> > > > > > > > > 3?!
+> > > > > > > > >
+> > > > > > > > > I think it should be (2, 0). Yes, the both users call it with "%p..." in format
+> > > > > > > > > string, but the second parameter tells compiler to check the variadic
+> > > > > > > > > arguments, which are absent here. Changing 'const void *p' to '...' will align
+> > > > > > > > > it with the given __printf() attribute, but I don't know if this what we want.
+> > > > > > > >
+> > > > > > > > The second parameter is the first-to-check, it is not specific to
+> > > > > > > > variadic arguments. Using 0 means that no arguments are checkable, so
+> > > > > > > > the compiler only validates the format string itself and won’t
+> > > > > > > > diagnose mismatches with `p`. This works whether or not we later
+> > > > > > > > change `const void *p` to `...`.
+> > > > > > >
+> > > > > > > Yes, but this is fragile. As I explained it works only because we supply
+> > > > > > > the format string stuck to "%p", anything else will require reconsidering
+> > > > > > > the function prototypes. So, strictly speaking this should be (2, 0) if
+> > > > > > > we leave const void *p as is.
+> > > > > > >
+> > > > > > I believe this is not correct. As I said, 0 means "do not check
+> > > > > > arguments" so only the format string will be checked. See the existing
+> > > > > > uses of this annotation in this file:
+> > > > > >
+> > > > > > static void __printf(7, 0)
+> > > > > > do_test(struct kunit *kunittest, const char *file, const int line, int
+> > > > > > bufsize, const char *expect,
+> > > > > > int elen, const char *fmt, va_list ap)
+> > > > > >
+> > > > > > and
+> > > > > >
+> > > > > > static void __printf(6, 7)
+> > > > > > __test(struct kunit *kunittest, const char *file, const int line,
+> > > > > > const char *expect, int elen,
+> > > > > > const char *fmt, ...)
+> > > > > >
+> > > > > > as you can see, 0 is used only when the arguments are not in the
+> > > > > > function prototype at all. When variadic arguments are present, N+1 is
+> > > > > > used.
+> > > > >
+> > > > > Yes to all what you said. And how does it object what I said? In the case
+> > > > > you are trying to add __print(2, 3) the 3rd one is *not* a variadic argument.
+> > > > > If you make it to be variadic, I will agree with __print(2, 3). Before that
+> > > > > it doesn't look right to me even if it works.
+> > > >
+> > > > I addressed this in my first reply; the second parameter to `__print`
+> > > > is *not* specific to variadic functions. It can just as well be used
+> > > > for functions with a fixed number of arguments.
+> > >
+> > > $ make all compile_commands.json scripts_gdb ARCH=um O=.kunit --jobs=48
+> > > ERROR:root:../lib/tests/printf_kunit.c:272:1: error: ‘format’ attribute argument 3 value ‘3’ does not refer to a variable argument list
+> > >   272 | {
+> > >       | ^
+> > >
+> > > How did you compile it?
+> > >
+> > > The GCC documentation
+> > > https://gcc.gnu.org/onlinedocs/gcc-15.2.0/gcc/Common-Function-Attributes.html#index-format-function-attribute
+> > > doesn't clearly say if the fixed-argument functions are eligible for the
+> > > __attribute__((format)). The parameter is called first-to-check, which
+> > > might imply that there is a second.
+> > >
+> > > Additionally interesting discussion to read:
+> > > https://reviews.llvm.org/D112579
+> > >
+> > > Seems it's feature of clang?
+> > >
+> > > 3147 As an extension to GCC's behavior, Clang accepts the ``format`` attribute on
+> > > 3148 non-variadic functions. Clang checks non-variadic format functions for the same
+> > > 3149 classes of issues that can be found on variadic functions, as controlled by the
+> > > 3150 same warning flags, except that the types of formatted arguments is forced by
+> > > 3151 the function signature. For example:
+> > >
+> > > Seems to me for now it has to be __printf(2, 0) or you need to put some special
+> > > pragma:s or so around the function to make it work for clang differently.
+> > 
+> > Ah, thanks for digging that up - and as confirmed by LKP you are right
+> > of course.
+> > 
+> > Since it doesn't make much sense to make this function variadic, I
+> > think the best we can do is a macro wrapper that combines this
+> > function with `no_printk`. Something like
+> > 
+> > #define test_hashed(kunittest, fmt, p) \
+> > do { \
+> > if (0) \
+> > no_printk(fmt, p); \
+> > __test_hashed(kunittest, fmt, p);\
+> > } while (0)
+> 
 
-FYI, the error/warning still remains.
+IMHO, this is is not worth it. test_hashed(kunittest, fmt, p) calls
+test(buf, fmt, p). It goes down to __test() which does the format
+check:
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   2f94f2e080a961cd6401d4bea5c31ff03516d30e
-commit: d85853d9cbdc339f7f75c76ef54e568a9a3a14de [614/1104] bcachefs: BCH_FSCK_ERR_validate_error_in_commit
-config: alpha-randconfig-r133-20251206 (https://download.01.org/0day-ci/archive/20251208/202512082123.4F0a5OL6-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512082123.4F0a5OL6-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512082123.4F0a5OL6-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   fs/bcachefs/btree/commit.c: In function 'bch2_trans_commit_write_locked':
->> fs/bcachefs/btree/commit.c:717:25: error: implicit declaration of function '__WARN'; did you mean '__warn'? [-Wimplicit-function-declaration]
-     717 |                         __WARN();
-         |                         ^~~~~~
-         |                         __warn
+static void __printf(6, 7)
+__test(struct kunit *kunittest, const char *file, const int line, const char *expect, int elen,
+	const char *fmt, ...)
 
 
-vim +717 fs/bcachefs/btree/commit.c
+> > That would give us better diagnostics, but is more complex (and more
+> > lines of code than just repeating this function's body twice, which
+> > would also give good diagnostics). I think the best thing to do is just
+> > to ignore the report that prompted me to look into this. Please let me
+> > know if you disagree.
+> 
+> I think we may not ignore the report as it breaks builds in some cases.
+> As I said
+> 
+> - __printf(2, 0) for now
+> 
+> - and perhaps a comment on top to explain the clang approach that may cope
+> with fixed-argument functions for -Wformat (you can even put a link to that
+> LLVM discussion about the feature).
 
-   590	
-   591	static inline int
-   592	bch2_trans_commit_write_locked(struct btree_trans *trans,
-   593				       enum bch_trans_commit_flags flags,
-   594				       struct btree_insert_entry **stopped_at,
-   595				       unsigned long trace_ip)
-   596	{
-   597		struct bch_fs *c = trans->c;
-   598		struct btree_trans_commit_hook *h;
-   599		unsigned u64s = 0;
-   600		int ret = 0;
-   601	
-   602		bch2_trans_verify_not_unlocked_or_in_restart(trans);
-   603	#if 0
-   604		/* todo: bring back dynamic fault injection */
-   605		if (race_fault()) {
-   606			trace_and_count(c, trans_restart_fault_inject, trans, trace_ip);
-   607			return btree_trans_restart(trans, BCH_ERR_transaction_restart_fault_inject);
-   608		}
-   609	#endif
-   610		/*
-   611		 * Check if the insert will fit in the leaf node with the write lock
-   612		 * held, otherwise another thread could write the node changing the
-   613		 * amount of space available:
-   614		 */
-   615	
-   616		prefetch(&trans->c->journal.flags);
-   617	
-   618		trans_for_each_update(trans, i) {
-   619			/* Multiple inserts might go to same leaf: */
-   620			if (!same_leaf_as_prev(trans, i))
-   621				u64s = 0;
-   622	
-   623			u64s += i->k->k.u64s;
-   624			ret = !i->cached
-   625				? btree_key_can_insert(trans, insert_l(trans, i)->b, u64s)
-   626				: btree_key_can_insert_cached(trans, flags, trans->paths + i->path, u64s);
-   627			if (ret) {
-   628				*stopped_at = i;
-   629				return ret;
-   630			}
-   631	
-   632			i->k->k.needs_whiteout = false;
-   633		}
-   634	
-   635		/*
-   636		 * Don't get journal reservation until after we know insert will
-   637		 * succeed:
-   638		 */
-   639		if (likely(!(flags & BCH_TRANS_COMMIT_no_journal_res))) {
-   640			try(bch2_trans_journal_res_get(trans,
-   641					(flags & BCH_WATERMARK_MASK)|
-   642					JOURNAL_RES_GET_NONBLOCK));
-   643	
-   644			if (unlikely(trans->journal_transaction_names))
-   645				journal_transaction_name(trans);
-   646		}
-   647	
-   648		/*
-   649		 * Not allowed to fail after we've gotten our journal reservation - we
-   650		 * have to use it:
-   651		 */
-   652	
-   653		if (IS_ENABLED(CONFIG_BCACHEFS_DEBUG) &&
-   654		    !(flags & BCH_TRANS_COMMIT_no_journal_res)) {
-   655			if (static_branch_unlikely(&bch2_journal_seq_verify))
-   656				trans_for_each_update(trans, i)
-   657					i->k->k.bversion.lo = trans->journal_res.seq;
-   658			else if (static_branch_unlikely(&bch2_inject_invalid_keys))
-   659				trans_for_each_update(trans, i)
-   660					i->k->k.bversion = MAX_VERSION;
-   661		}
-   662	
-   663		h = trans->hooks;
-   664		while (h) {
-   665			try(h->fn(trans, h));
-   666			h = h->next;
-   667		}
-   668	
-   669		struct bkey_i *accounting;
-   670	
-   671		scoped_guard(percpu_read, &c->mark_lock)
-   672			for (accounting = btree_trans_subbuf_base(trans, &trans->accounting);
-   673			     accounting != btree_trans_subbuf_top(trans, &trans->accounting);
-   674			     accounting = bkey_next(accounting)) {
-   675				ret = bch2_accounting_trans_commit_hook(trans,
-   676							bkey_i_to_accounting(accounting), flags);
-   677				if (unlikely(ret)) {
-   678					for (struct bkey_i *i = btree_trans_subbuf_base(trans, &trans->accounting);
-   679					     i != accounting;
-   680					     i = bkey_next(i))
-   681						bch2_accounting_trans_commit_revert(trans, bkey_i_to_accounting(i), flags);
-   682					return ret;
-   683				}
-   684			}
-   685	
-   686		/* XXX: we only want to run this if deltas are nonzero */
-   687		bch2_trans_account_disk_usage_change(trans);
-   688	
-   689		trans_for_each_update(trans, i)
-   690			if (btree_node_type_has_atomic_triggers(i->bkey_type)) {
-   691				ret = run_one_mem_trigger(trans, i, BTREE_TRIGGER_atomic|i->flags);
-   692				if (bch2_fs_fatal_err_on(ret, c, "fatal error in transaction commit: %s", bch2_err_str(ret)))
-   693					return ret;
-   694			}
-   695	
-   696		if (unlikely(c->gc_pos.phase)) {
-   697			ret = bch2_trans_commit_run_gc_triggers(trans);
-   698			if (bch2_fs_fatal_err_on(ret, c, "fatal error in transaction commit: %s", bch2_err_str(ret)))
-   699				return ret;
-   700		}
-   701	
-   702		struct bkey_validate_context validate_context = { .from	= BKEY_VALIDATE_commit };
-   703	
-   704		if (!(flags & BCH_TRANS_COMMIT_no_journal_res))
-   705			validate_context.flags = BCH_VALIDATE_write|BCH_VALIDATE_commit;
-   706	
-   707		for (struct jset_entry *i = btree_trans_journal_entries_start(trans);
-   708		     i != btree_trans_journal_entries_top(trans);
-   709		     i = vstruct_next(i)) {
-   710			ret = bch2_journal_entry_validate(c, NULL, i,
-   711							  bcachefs_metadata_version_current,
-   712							  CPU_BIG_ENDIAN, validate_context);
-   713			if (unlikely(ret)) {
-   714				bch2_trans_inconsistent(trans, "invalid journal entry on insert from %s\n",
-   715							trans->fn);
-   716				bch2_sb_error_count(c, BCH_FSCK_ERR_validate_error_in_commit);
- > 717				__WARN();
-   718				return ret;
-   719			}
-   720		}
-   721	
-   722		trans_for_each_update(trans, i) {
-   723			validate_context.level	= i->level;
-   724			validate_context.btree	= i->btree_id;
-   725	
-   726			ret = bch2_bkey_validate(c, bkey_i_to_s_c(i->k), validate_context);
-   727			if (unlikely(ret)){
-   728				bch2_trans_inconsistent(trans, "invalid bkey on insert from %s -> %ps\n",
-   729							trans->fn, (void *) i->ip_allocated);
-   730				bch2_sb_error_count(c, BCH_FSCK_ERR_validate_error_in_commit);
-   731				__WARN();
-   732				return ret;
-   733			}
-   734			btree_insert_entry_checks(trans, i);
-   735		}
-   736	
-   737		if (likely(!(flags & BCH_TRANS_COMMIT_no_journal_res))) {
-   738			struct journal *j = &c->journal;
-   739			struct jset_entry *entry;
-   740	
-   741			trans_for_each_update(trans, i) {
-   742				if (i->key_cache_already_flushed)
-   743					continue;
-   744	
-   745				if (i->flags & BTREE_UPDATE_nojournal)
-   746					continue;
-   747	
-   748				verify_update_old_key(trans, i);
-   749	
-   750				if (trans->journal_transaction_names) {
-   751					entry = bch2_journal_add_entry(j, &trans->journal_res,
-   752							       BCH_JSET_ENTRY_overwrite,
-   753							       i->btree_id, i->level,
-   754							       i->old_k.u64s);
-   755					bkey_reassemble((struct bkey_i *) entry->start,
-   756							(struct bkey_s_c) { &i->old_k, i->old_v });
-   757				}
-   758	
-   759				entry = bch2_journal_add_entry(j, &trans->journal_res,
-   760						       BCH_JSET_ENTRY_btree_keys,
-   761						       i->btree_id, i->level,
-   762						       i->k->k.u64s);
-   763				bkey_copy((struct bkey_i *) entry->start, i->k);
-   764			}
-   765	
-   766			memcpy_u64s_small(journal_res_entry(&c->journal, &trans->journal_res),
-   767					  btree_trans_journal_entries_start(trans),
-   768					  trans->journal_entries.u64s);
-   769	
-   770			EBUG_ON(trans->journal_res.u64s < trans->journal_entries.u64s);
-   771	
-   772			trans->journal_res.offset	+= trans->journal_entries.u64s;
-   773			trans->journal_res.u64s		-= trans->journal_entries.u64s;
-   774	
-   775			if (trans->accounting.u64s)
-   776				memcpy_u64s_small(bch2_journal_add_entry(j, &trans->journal_res,
-   777								BCH_JSET_ENTRY_write_buffer_keys,
-   778								BTREE_ID_accounting, 0,
-   779								trans->accounting.u64s)->_data,
-   780						  btree_trans_subbuf_base(trans, &trans->accounting),
-   781						  trans->accounting.u64s);
-   782	
-   783			if (trans->journal_seq)
-   784				*trans->journal_seq = trans->journal_res.seq;
-   785		}
-   786	
-   787		trans_for_each_update(trans, i) {
-   788			struct btree_path *path = trans->paths + i->path;
-   789	
-   790			if (!i->cached)
-   791				bch2_btree_insert_key_leaf(trans, path, i->k, trans->journal_res.seq);
-   792			else if (!i->key_cache_already_flushed)
-   793				bch2_btree_insert_key_cached(trans, flags, i);
-   794			else
-   795				bch2_btree_key_cache_drop(trans, path);
-   796		}
-   797	
-   798		return 0;
-   799	}
-   800	
+I personally prefer this way. We just need to calm down the warning.
+The proper check is done by the nested test()...
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best Regards,
+Petr
