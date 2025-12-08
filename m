@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C863191B2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 06:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079053191A9
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 06:34:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765175643; cv=none; b=MharTTPCnnvwM0pWRSrSjIpOcCpIZ56NlNxHhy2lJoJ5n3FgSJhBKUR5jvMIXuMSy/WqciMRGlnQJ7kxEwUl66drrX7xoJ/LRqUBUMHHwz2nHWyf7iCOKQJcxqrkjTwWYn3szreDi+bLrFze7kNul50PKUFKCOrG5bN+mvJLSVU=
+	t=1765175646; cv=none; b=uVeBRW+Lign7GmMWT/gDsCYzjLCZKFdYid4GlVImV/KIC81Gp6fXpxjJQw5ggkv2jxxB3ESEmVCd3jNV2aisIvkGp/FsJiUf4IG3WlpCxjnCx/lt8jfg3Oz7uA+uomrXd8IgP0b5ZqlcRLUHl3SFCZeGLo8ZVtI1+b5/wF8wqnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765175643; c=relaxed/simple;
-	bh=Du46Ge7JlG+mDpklweo5bapKvtXMmNT3uesvSlvY5/I=;
+	s=arc-20240116; t=1765175646; c=relaxed/simple;
+	bh=HRQwd4wavpEJpScIdgMPxPSKHlEuZ7qve81vRYRYNGM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=du9DlOZdO2oIchjc+jaJRrQW6yTZoGirlghIdELU+sMmulhDD6IVcdU+k63jJR6IyisZPKvWCyFt1WV1zNSGTqnyRL+3fFRdBnyZqkSe3YFGdBNolgKVhgFcMG1AmMl5wbNY9Jy4aSHwJOMWE+/OLR3+HyR4IBnaHGZ0N6gMkUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j52sJqy/; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=h2a97wMqdvQJ4s+zFC974WzROYrkiZu/mDjRDtzdLXGCymzz7shfao9f/ygYhkPH9XQ4sQD1QC6TSTB5QvKCigylio422sqJACtRaERz/ybI6fdaysbqZ0KMOA/sIa2JIMKv9Ze4YM+niWwopXt441CXU3Wm+ys+yHRiNILNyAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZX2hsiQu; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j52sJqy/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZX2hsiQu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765175642; x=1796711642;
+  t=1765175644; x=1796711644;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Du46Ge7JlG+mDpklweo5bapKvtXMmNT3uesvSlvY5/I=;
-  b=j52sJqy/Wd27U1PbIGnY+ODF0U2+1xdpkrfh3NcVd0E4uKK4WB49/yZv
-   R3yTtlFXXSwv/IHx1g6MQR5yc85aNmJPIEU0BY46t/PGA06WOi5lTJ71S
-   9ffZGY1vkFqUvdr2nWckJ0ToC5fUKZjDrCOxZopbhZBH34Pye2GsDX8EE
-   6wfgEtvqmGvMnijaoY3qHLBUR+wUHSRIW9WmOK2cvb/S7WXM9dLESNCpE
-   VhgLhd/GoSXYjN4NR6RVRq6YuyUcYMggiOIes88y4WEmBiNuBb+AiNsi7
-   gSNajiSr9R2hNUDuefTo2GCqU+xDOXrn1V8vcrLd5x/CDx8LWfjEOl0i8
-   Q==;
-X-CSE-ConnectionGUID: fgWNYzXrRGWedoFrDil3HQ==
-X-CSE-MsgGUID: oQgtHDb0T0uR9eGUK33eaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="54655688"
+  bh=HRQwd4wavpEJpScIdgMPxPSKHlEuZ7qve81vRYRYNGM=;
+  b=ZX2hsiQu+f+Wx2AYoiSj3YjacaU9WAUB2zXysW4nQtwBugjmQGow7EY/
+   yuFzvkrO4yD8ezyi01IfVHqypGyWCYdQE3KwRjXPJlC+sQk64EUxORlSh
+   sjVEB8gq8W4CsTIiD3IV4yo/hukxEVMCJgcplAGI9o2pYS0ttpfC3fQqu
+   WU17g/CZfd39K6utg/E+W83wLzZtaBY55z/VWfsqFaGCtzccgYF3ld2Gu
+   iZP24g0IytRHDMp5UGJCB2FcDIFr0tpezyNGyyOe/AEP9m2oWiW5iKXCY
+   frfM7rDiOIPJQPw19C7BShxAp4ZsLUwsLSvJzdSUJLQVFjHBj8jPruxwb
+   A==;
+X-CSE-ConnectionGUID: LAwAMDKCRBuKwHMRbvj/Yw==
+X-CSE-MsgGUID: mJiAKWKnSiKnkf3tnKcYrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="54655690"
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="54655688"
+   d="scan'208";a="54655690"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 22:34:01 -0800
-X-CSE-ConnectionGUID: QZYxZmiSSvGHWjkFE2773A==
-X-CSE-MsgGUID: Mc1KJHRyRICzpw0JDhubKQ==
+X-CSE-ConnectionGUID: Q0/LEYFzTxaceqJ8DwxBEw==
+X-CSE-MsgGUID: nb46mcNdQ8uZAUVSIPmvfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="200985516"
+   d="scan'208";a="200985515"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 07 Dec 2025 22:34:00 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSUon-00000000K2U-42AO;
+	id 1vSUon-00000000K2P-3iRp;
 	Mon, 08 Dec 2025 06:33:57 +0000
-Date: Mon, 8 Dec 2025 14:33:29 +0800
+Date: Mon, 8 Dec 2025 14:33:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3485/3485]
- drivers/media/v4l2-core/v4l2-subdev.c:2253:17: error: implicit declaration
- of function 'v4l2_subdev_get_locked_active_state'
-Message-ID: <202512081445.4S7Y9xWG-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: [bcachefs:bcachefs-testing 459/1104]
+ fs/bcachefs/alloc/backpointers.c:986:25: error: implicit declaration of
+ function '__WARN'; did you mean '__warn'?
+Message-ID: <202512081449.ARd9tuUF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,57 +64,186 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   79aa4f2e99baed837a6933aa6b1a852197d30b91
-commit: c1be6d998806425f28600e867a8e9a2dd9bac741 [3485/3485] media: subdev: Add v4l2_subdev_is_streaming()
-config: x86_64-randconfig-003-20251208 (https://download.01.org/0day-ci/archive/20251208/202512081445.4S7Y9xWG-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512081445.4S7Y9xWG-lkp@intel.com/reproduce)
+Hi Kent,
+
+First bad commit (maybe != root cause):
+
+tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
+head:   2f94f2e080a961cd6401d4bea5c31ff03516d30e
+commit: 3fdc7b4035515f784e1d442bcca383f5c0267e53 [459/1104] bcachefs: move alloc files to subdir
+config: alpha-randconfig-r133-20251206 (https://download.01.org/0day-ci/archive/20251208/202512081449.ARd9tuUF-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512081449.ARd9tuUF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512081445.4S7Y9xWG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512081449.ARd9tuUF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/v4l2-core/v4l2-subdev.c: In function 'v4l2_subdev_is_streaming':
->> drivers/media/v4l2-core/v4l2-subdev.c:2253:17: error: implicit declaration of function 'v4l2_subdev_get_locked_active_state' [-Wimplicit-function-declaration]
-    2253 |         state = v4l2_subdev_get_locked_active_state(sd);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/v4l2-core/v4l2-subdev.c:2253:15: error: assignment to 'struct v4l2_subdev_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2253 |         state = v4l2_subdev_get_locked_active_state(sd);
-         |               ^
+   fs/bcachefs/alloc/backpointers.c: In function 'check_bucket_backpointer_mismatch':
+>> fs/bcachefs/alloc/backpointers.c:986:25: error: implicit declaration of function '__WARN'; did you mean '__warn'? [-Wimplicit-function-declaration]
+     986 |                         __WARN();
+         |                         ^~~~~~
+         |                         __warn
 
 
-vim +/v4l2_subdev_get_locked_active_state +2253 drivers/media/v4l2-core/v4l2-subdev.c
+vim +986 fs/bcachefs/alloc/backpointers.c
 
-  2242	
-  2243	bool v4l2_subdev_is_streaming(struct v4l2_subdev *sd)
-  2244	{
-  2245		struct v4l2_subdev_state *state;
-  2246	
-  2247		if (!v4l2_subdev_has_op(sd, pad, enable_streams))
-  2248			return sd->s_stream_enabled;
-  2249	
-  2250		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
-  2251			return !!sd->enabled_pads;
-  2252	
-> 2253		state = v4l2_subdev_get_locked_active_state(sd);
-  2254	
-  2255		for (unsigned int i = 0; i < state->stream_configs.num_configs; ++i) {
-  2256			const struct v4l2_subdev_stream_config *cfg;
-  2257	
-  2258			cfg = &state->stream_configs.configs[i];
-  2259	
-  2260			if (cfg->enabled)
-  2261				return true;
-  2262		}
-  2263	
-  2264		return false;
-  2265	}
-  2266	EXPORT_SYMBOL_GPL(v4l2_subdev_is_streaming);
-  2267	
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   883  
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   884  static int check_bucket_backpointers_to_extents(struct btree_trans *, struct bch_dev *, struct bpos,
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   885  						struct bkey_buf *last_flushed);
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   886  
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   887  static int check_bucket_backpointer_mismatch(struct btree_trans *trans, struct bkey_s_c alloc_k,
+39cea302f13a0a fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09   888  					     bool *had_mismatch,
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   889  					     struct bkey_buf *last_flushed,
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   890  					     struct bpos *last_pos,
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   891  					     unsigned *nr_iters)
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   892  {
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   893  	struct bch_fs *c = trans->c;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   894  	struct bch_alloc_v4 a_convert;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   895  	const struct bch_alloc_v4 *a = bch2_alloc_to_v4(alloc_k, &a_convert);
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   896  	bool need_commit = false;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   897  
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   898  	if (!bpos_eq(*last_pos, alloc_k.k->p))
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   899  		*nr_iters = 0;
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   900  
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   901  	*last_pos = alloc_k.k->p;
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   902  
+39cea302f13a0a fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09   903  	*had_mismatch = false;
+39cea302f13a0a fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09   904  
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   905  	if (a->data_type == BCH_DATA_sb ||
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   906  	    a->data_type == BCH_DATA_journal ||
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   907  	    a->data_type == BCH_DATA_parity)
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   908  		return 0;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   909  
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   910  	u32 sectors[ALLOC_SECTORS_NR];
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   911  	memset(sectors, 0, sizeof(sectors));
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   912  
+6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14   913  	CLASS(bch2_dev_bucket_tryget_noerror, ca)(trans->c, alloc_k.k->p);
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   914  	if (!ca)
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   915  		return 0;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   916  
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   917  	struct bkey_s_c bp_k;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   918  	int ret = 0;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   919  	for_each_btree_key_max_norestart(trans, iter, BTREE_ID_backpointers,
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   920  				bucket_pos_to_bp_start(ca, alloc_k.k->p),
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   921  				bucket_pos_to_bp_end(ca, alloc_k.k->p), 0, bp_k, ret) {
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   922  		if (bp_k.k->type != KEY_TYPE_backpointer)
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   923  			continue;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   924  
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   925  		struct bkey_s_c_backpointer bp = bkey_s_c_to_backpointer(bp_k);
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   926  
+2b67b72da5a034 fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08   927  		if (c->sb.version_upgrade_complete < bcachefs_metadata_version_backpointer_bucket_gen &&
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   928  		    (bp.v->bucket_gen != a->gen ||
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   929  		     bp.v->pad)) {
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   930  			ret = bch2_backpointer_del(trans, bp_k.k->p);
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   931  			if (ret)
+f6ecd9850b5e0b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-30   932  				return ret;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   933  
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   934  			need_commit = true;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   935  			continue;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   936  		}
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   937  
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   938  		if (bp.v->bucket_gen != a->gen)
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   939  			continue;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   940  
+962322475bb5ce fs/bcachefs/backpointers.c Kent Overstreet 2025-03-19   941  		int alloc_counter = data_type_to_alloc_counter(bp.v->data_type);
+962322475bb5ce fs/bcachefs/backpointers.c Kent Overstreet 2025-03-19   942  		if (alloc_counter < 0)
+962322475bb5ce fs/bcachefs/backpointers.c Kent Overstreet 2025-03-19   943  			continue;
+962322475bb5ce fs/bcachefs/backpointers.c Kent Overstreet 2025-03-19   944  
+962322475bb5ce fs/bcachefs/backpointers.c Kent Overstreet 2025-03-19   945  		sectors[alloc_counter] += bp.v->bucket_len;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   946  	};
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   947  	if (ret)
+6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14   948  		return ret;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   949  
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   950  	if (need_commit) {
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   951  		ret = bch2_trans_commit(trans, NULL, NULL, BCH_TRANS_COMMIT_no_enospc);
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   952  		if (ret)
+6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14   953  			return ret;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   954  	}
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   955  
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   956  	if (sectors[ALLOC_dirty]  > a->dirty_sectors ||
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   957  	    sectors[ALLOC_cached] > a->cached_sectors ||
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   958  	    sectors[ALLOC_stripe] > a->stripe_sectors) {
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   959  		if (*nr_iters) {
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   960  			CLASS(printbuf, buf)();
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   961  			bch2_log_msg_start(c, &buf);
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   962  
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   963  			prt_printf(&buf, "backpointer sectors > bucket sectors, but found no bad backpointers\n"
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   964  				   "bucket %llu:%llu data type %s, counters\n",
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   965  				   alloc_k.k->p.inode,
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   966  				   alloc_k.k->p.offset,
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   967  				   __bch2_data_types[a->data_type]);
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   968  			if (sectors[ALLOC_dirty]  > a->dirty_sectors)
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   969  				prt_printf(&buf, "dirty: %u > %u\n",
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   970  					   sectors[ALLOC_dirty], a->dirty_sectors);
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   971  			if (sectors[ALLOC_cached] > a->cached_sectors)
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   972  				prt_printf(&buf, "cached: %u > %u\n",
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   973  					   sectors[ALLOC_cached], a->cached_sectors);
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   974  			if (sectors[ALLOC_stripe] > a->stripe_sectors)
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   975  				prt_printf(&buf, "stripe: %u > %u\n",
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   976  					   sectors[ALLOC_stripe], a->stripe_sectors);
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   977  
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   978  			for_each_btree_key_max_norestart(trans, iter, BTREE_ID_backpointers,
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   979  						bucket_pos_to_bp_start(ca, alloc_k.k->p),
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   980  						bucket_pos_to_bp_end(ca, alloc_k.k->p), 0, bp_k, ret) {
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   981  				bch2_bkey_val_to_text(&buf, c, bp_k);
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   982  				prt_newline(&buf);
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   983  			}
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   984  
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   985  			bch2_print_str(c, KERN_ERR, buf.buf);
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04  @986  			__WARN();
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   987  			return ret;
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   988  		}
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   989  
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   990  		*nr_iters += 1;
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   991  
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   992  		return check_bucket_backpointers_to_extents(trans, ca, alloc_k.k->p, last_flushed) ?:
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   993  			bch_err_throw(c, transaction_restart_nested);
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   994  	}
+8317017fbfa082 fs/bcachefs/backpointers.c Kent Overstreet 2025-07-04   995  
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   996  	if (sectors[ALLOC_dirty]  != a->dirty_sectors ||
+15800f3d4b0134 fs/bcachefs/backpointers.c Kent Overstreet 2025-02-07   997  	    sectors[ALLOC_cached] != a->cached_sectors ||
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15   998  	    sectors[ALLOC_stripe] != a->stripe_sectors) {
+0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08   999  		/*
+0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1000  		 * Post 1.14 upgrade, we assume that backpointers are mostly
+0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1001  		 * correct and a sector count mismatch is probably due to a
+0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1002  		 * write buffer race
+0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1003  		 *
+0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1004  		 * Pre upgrade, we expect all the buckets to be wrong, a write
+0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1005  		 * buffer flush is pointless:
+0fb08f59ed996c fs/bcachefs/backpointers.c Kent Overstreet 2025-08-08  1006  		 */
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1007  		if (c->sb.version_upgrade_complete >= bcachefs_metadata_version_backpointer_bucket_gen) {
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1008  			ret = bch2_backpointers_maybe_flush(trans, alloc_k, last_flushed);
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1009  			if (ret)
+6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14  1010  				return ret;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1011  		}
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1012  
+13ffcbae86dadb fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1013  		bool empty = (sectors[ALLOC_dirty] +
+13ffcbae86dadb fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1014  			      sectors[ALLOC_stripe] +
+13ffcbae86dadb fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1015  			      sectors[ALLOC_cached]) == 0;
+13ffcbae86dadb fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1016  
+15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1017  		ret = bch2_bucket_bitmap_set(ca, &ca->bucket_backpointer_mismatch,
+15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1018  					     alloc_k.k->p.offset) ?:
+15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1019  			(empty
+15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1020  			 ? bch2_bucket_bitmap_set(ca, &ca->bucket_backpointer_empty,
+15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1021  						  alloc_k.k->p.offset)
+15f969326ee296 fs/bcachefs/backpointers.c Kent Overstreet 2025-05-17  1022  			 : 0);
+39cea302f13a0a fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1023  
+39cea302f13a0a fs/bcachefs/backpointers.c Kent Overstreet 2025-05-09  1024  		*had_mismatch = true;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1025  	}
+6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14  1026  
+6bf809fcd4197b fs/bcachefs/backpointers.c Kent Overstreet 2025-07-14  1027  	return 0;
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1028  }
+c738866e47ef2e fs/bcachefs/backpointers.c Kent Overstreet 2024-11-15  1029  
+
+:::::: The code at line 986 was first introduced by commit
+:::::: 8317017fbfa0824392813fddcf136bc764c16d66 bcachefs: Fix infinite loop in backpointers fsck on upgrade
+
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
