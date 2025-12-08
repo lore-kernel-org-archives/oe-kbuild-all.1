@@ -1,69 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC8C16DEB1
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 00:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A6A3B8D64;
+	Mon,  8 Dec 2025 01:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765155526; cv=none; b=GFG6korwQng4wuCsqLPqBfX5BUMptZlKPdv5Uks+twQuPF2WkcKAfrxGohPrdqYrfssYKPlmS2VG41jquKgY0TvUaKsmEEG8nmwuRSg6nEiU8LRfOAsBMDQgWICnmw0YQLwSA10um2kn4j6J4tca8zMlTTm+7fmppmQ+jAanZBo=
+	t=1765157508; cv=none; b=HettUkMy75G2zwKbqbmE9dpdjlnAX4RzpGHta9WhGH0mQzMtnh6SRtzbIVwfTSwmB87l5tnE2JqVdqf0Um16b7O69el0GUWdNIRlHFR/E9Bmav1Uoxe5VHaDVMWDAWoqqMCcFD9e4tURjq2RmZwyt9878zabQR2UwePDB7/UW+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765155526; c=relaxed/simple;
-	bh=AuVsZDC9lU7lEds0aHXmR4LfwJLUrfxrrmaf8c36yhk=;
+	s=arc-20240116; t=1765157508; c=relaxed/simple;
+	bh=zvJRV6o6Wr9Me71mfIOZJP08UlIKewB4/Sn+iuvZKzk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qUWWAujFVkP2H6dyTRc5Mt3QxHiqO88Sx3R4R0a2/+zPCUzsz1CVgyqHX1eJc0Oz+ceUidNvNqraW6oXdhEjMwPqJXHQXjzdQnU5U4Ie3GWYKiiz54Z7t5C4a2Dnm2Ok8p2RWQOMPd1aVWJpQTW2DlgBAEAEIvmRIt1q9TbuX/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P8GDgPB6; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=PtHnKQriB3piWrqpDmWImxqahs87xn+XdwEdONFqDVwkdkpHrX0dNY9HZzTaj+m+ZxN0r0jK9p5Dy1y/IgAAYOM6BL+1z7dCFlWd1dwUXEpjZfzbn/3owtxzQ7vE/Lieaw7i1poeGMmzo99iYjvKcXFkwDn2nAdbCs2IcXAQAIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fmyrsQr3; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P8GDgPB6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fmyrsQr3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765155525; x=1796691525;
+  t=1765157505; x=1796693505;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=AuVsZDC9lU7lEds0aHXmR4LfwJLUrfxrrmaf8c36yhk=;
-  b=P8GDgPB6e0bdzSZitCDNKV7fUSFzzjQ+zPAxYK4ScL+6lbVtobESUwmN
-   M3/1s6GpvWG/lvIIcW8ZXzrYo1jSH+DKGm6kuuzEQU7O33q5R65X72aGB
-   QLdmDlanQo09pLLsJ98GMxqg2d+7kn932uRn2aodApRJwQFA+jGiPrOaN
-   TWEgC/L45wh2kXbJMROHJihwDEEdI3lVXcb88IOqCxJHlvNKLyoU77WwZ
-   z65rM9LTJdh0p4MvhHrdiJuYh7oH/koSKkr0kvGcheFc1myMTf8ueKjDF
-   8Rw0SgKpwO44ULb5/ndbZpILHBe6UP6FoK3uuNZgxtnsgdAIDyoxmeK8K
-   Q==;
-X-CSE-ConnectionGUID: MlD1txGQS0CR6df4c89MYQ==
-X-CSE-MsgGUID: iFWaoNnJTwillMHv0Wnsug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="77419571"
+  bh=zvJRV6o6Wr9Me71mfIOZJP08UlIKewB4/Sn+iuvZKzk=;
+  b=fmyrsQr3w1fW9RqiaURqFdQgY5RUdZX2yiwKf1Xv7jTzNIAvjPSHAa5F
+   zOqz+ceZD82ISVuR/yg5mXAYCFPlI6LjdXPfYjDGAY1AosPgQtg65qvIm
+   gmxPhAgMpBRjwaPKA9zc5TQaB5EkZrN4iCRGtLHsRthiuzeP8InCA8n0r
+   UHd8bqEcnr6g8jzmQDeOr6FTlnhps4UY0WYmlXCgeDpxNpJX/J5LhnXS1
+   K7EZRPf0rR+U70ctKqFhDVJyhgECp0JQ8htdMSO0cTBHKQNY5QYlhpkYN
+   ce1zNgJF5OQp6zWnlMdEDEoz5Iu9CtWw+VAtfEtUTzAT+mqSEfFnQJEL/
+   g==;
+X-CSE-ConnectionGUID: Yq8q+zqpSkqp1dh0DhjwlA==
+X-CSE-MsgGUID: 5/8JDBOOQryndlN73kH06g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67135838"
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="77419571"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 16:58:45 -0800
-X-CSE-ConnectionGUID: BKqEMDGdRcSJTkPM7/7ErA==
-X-CSE-MsgGUID: 7D6Fkr6YT/a08RrtUmbsOg==
+   d="scan'208";a="67135838"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 17:31:44 -0800
+X-CSE-ConnectionGUID: fynQ8TCeTsWNiPC88ojcfw==
+X-CSE-MsgGUID: ohJrw/MOSwauuXVqrsOGaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="195827665"
+   d="scan'208";a="200248349"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 07 Dec 2025 16:58:38 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 07 Dec 2025 17:31:40 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSPaF-00000000Jkf-2Xiw;
-	Mon, 08 Dec 2025 00:58:35 +0000
-Date: Mon, 8 Dec 2025 08:58:22 +0800
+	id 1vSQ6E-00000000Jmz-1fwz;
+	Mon, 08 Dec 2025 01:31:38 +0000
+Date: Mon, 8 Dec 2025 09:31:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ethan Graham <ethan.w.s.graham@gmail.com>, glider@google.com
-Cc: oe-kbuild-all@lists.linux.dev, andreyknvl@gmail.com, andy@kernel.org,
-	andy.shevchenko@gmail.com, brauner@kernel.org,
-	brendan.higgins@linux.dev, davem@davemloft.net, davidgow@google.com,
-	dhowells@redhat.com, dvyukov@google.com, elver@google.com,
-	herbert@gondor.apana.org.au, ignat@cloudflare.com, jack@suse.cz,
-	jannh@google.com, johannes@sipsolutions.net,
-	kasan-dev@googlegroups.com, kees@kernel.org,
-	kunit-dev@googlegroups.com, linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lukas@wunner.de,
-	rmoar@google.com, shuah@kernel.org, sj@kernel.org,
-	tarasmadan@google.com, Ethan Graham <ethangraham@google.com>
-Subject: Re: [PATCH 09/10] drivers/auxdisplay: add a KFuzzTest for parse_xy()
-Message-ID: <202512080828.Gxjg6av3-lkp@intel.com>
-References: <20251204141250.21114-10-ethan.w.s.graham@gmail.com>
+To: Daniel Golle <daniel@makrotopia.org>, Hauke Mehrtens <hauke@hauke-m.de>,
+	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Rasmus Villemoes <ravi@prevas.dk>,
+	"Benny (Ying-Tsan) Weng" <yweng@maxlinear.com>,
+	John Crispin <john@phrozen.org>
+Subject: Re: [PATCH net v2] net: dsa: mxl-gsw1xx: manually clear RANEG bit
+Message-ID: <202512080800.2VZCNFnY-lkp@intel.com>
+References: <a90b206e9fd8e4248fd639afd5ae296454ac99b9.1765060046.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,37 +70,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251204141250.21114-10-ethan.w.s.graham@gmail.com>
+In-Reply-To: <a90b206e9fd8e4248fd639afd5ae296454ac99b9.1765060046.git.daniel@makrotopia.org>
 
-Hi Ethan,
+Hi Daniel,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.18]
-[cannot apply to next-20251205]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Graham/mm-kasan-implement-kasan_poison_range/20251204-222307
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20251204141250.21114-10-ethan.w.s.graham%40gmail.com
-patch subject: [PATCH 09/10] drivers/auxdisplay: add a KFuzzTest for parse_xy()
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251208/202512080828.Gxjg6av3-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080828.Gxjg6av3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/net-dsa-mxl-gsw1xx-manually-clear-RANEG-bit/20251207-063852
+base:   net/main
+patch link:    https://lore.kernel.org/r/a90b206e9fd8e4248fd639afd5ae296454ac99b9.1765060046.git.daniel%40makrotopia.org
+patch subject: [PATCH net v2] net: dsa: mxl-gsw1xx: manually clear RANEG bit
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20251208/202512080800.2VZCNFnY-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080800.2VZCNFnY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512080828.Gxjg6av3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512080800.2VZCNFnY-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "kfuzztest_write_cb_common" [drivers/auxdisplay/charlcd.ko] undefined!
->> ERROR: modpost: "kfuzztest_parse_and_relocate" [drivers/auxdisplay/charlcd.ko] undefined!
->> ERROR: modpost: "record_invocation" [drivers/auxdisplay/charlcd.ko] undefined!
+>> drivers/net/dsa/lantiq/mxl-gsw1xx.c:449:28: error: use of undeclared identifier 'gsw1xx_priv'
+           cancel_delayed_work_sync(&gsw1xx_priv->clear_raneg);
+                                     ^
+   1 error generated.
+
+
+vim +/gsw1xx_priv +449 drivers/net/dsa/lantiq/mxl-gsw1xx.c
+
+   444	
+   445	static void gsw1xx_pcs_an_restart(struct phylink_pcs *pcs)
+   446	{
+   447		struct gsw1xx_priv *priv = pcs_to_gsw1xx(pcs);
+   448	
+ > 449		cancel_delayed_work_sync(&gsw1xx_priv->clear_raneg);
+   450	
+   451		regmap_set_bits(priv->sgmii, GSW1XX_SGMII_TBI_ANEGCTL,
+   452				GSW1XX_SGMII_TBI_ANEGCTL_RANEG);
+   453	
+   454		/* despite being documented as self-clearing, the RANEG bit
+   455		 * sometimes remains set, preventing auto-negotiation from happening.
+   456		 * MaxLinear advises to manually clear the bit after 10ms.
+   457		 */
+   458		schedule_delayed_work(&priv->clear_raneg, msecs_to_jiffies(10));
+   459	}
+   460	
 
 -- 
 0-DAY CI Kernel Test Service
