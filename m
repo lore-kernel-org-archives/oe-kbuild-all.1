@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE84242D95;
-	Mon,  8 Dec 2025 20:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD322E8B94
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 20:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765225568; cv=none; b=Cn/P3mnbAx9L35QRCYXoT9DpgQzRYgIvlaaDIwzoDmVSkA6CF1hGivoI4Lhv3S/Y2HZZ1uqoqH3FflZEJmj81IegVI+0z0TC0KoH6q9lO989FV4qVytK5b7OEwesOJbG1fDDpQ8b2LJXnmSk4Ky/B8ihEvQQw32/KLlSkxymaRQ=
+	t=1765227010; cv=none; b=kTjsBUTioj4CDIxiksJToenfqssm4e70sEBMMqTMg9snW5G5Wfn041GqWVTEw8VKxOv5VZwEt5BL0Bo+xU37GoZPm7lsamcF9KH32Byaye2soRwE0x5+ueHI1aZ0lo0tKnB+6Q68wKiPhM6bfip4T/bDfIi7N72g0etD5a5PFZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765225568; c=relaxed/simple;
-	bh=GFsDdjBH+3WBvNxJ1bjVZFeNwHF6R8/HRz2C/3TebKk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l3gxRKc0ke7faYCFHj7e8MP9G63lhMPWmw0mZEKrRdyUCA/pd/hubEibmla4DYKNaeRl0FeYEtenVPhZ7/Xi8uGeiX/n37Lly/Yijap3fyqB9Joiu0c+2wgOFwMy0D4vUWph/KsJqGv6eGEsgC6NH9Xd43MeBpkO7G9VH9AjUQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XIb9Bdef; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1765227010; c=relaxed/simple;
+	bh=pos0LxUt0UGgUckXRikCaPFyr6rdco7WyUxtH8TqNVw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iTQDVdPyA+4SO7MJ9gVc1aiUG9D07Ztv5JiAVjaARCLI8pKXe3avbZ6tueOgrjQjZ9X4kdDA4vidocnmZ+ZY4ugB9KuTeQh2XMcy+1cPsyMga7K8aURcjBYC4X8mUDdlyCca1ixBbebFTN17QfQHAqQmYiEX8CB1XgmrbvvQR0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lokPtv+E; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XIb9Bdef"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lokPtv+E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765225567; x=1796761567;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GFsDdjBH+3WBvNxJ1bjVZFeNwHF6R8/HRz2C/3TebKk=;
-  b=XIb9Bdef3IS3FkyWL44Vval6V56fEBCnxsV8dNmxvs09dQfgOuSSOFZP
-   KdUQKaS1GHHE0GwsZ5vIUAwk3haYuy4IDrMWdRAxCiXrCuvSvUILvhgXf
-   UQSmtU6QN8eUPImLToaIJGdz8tI5BKqUptbPSYot2w1uL8n91UV/yNTsM
-   tw694rCJmeQBWS4aBz4tPt5WRg8Pj2xae9uAKRzuXbMCGy02w17HvtOvB
-   800LlOcwHFSACEAFkA5vhJ2NNfrVh3QKtMjTfDsbzhtB5UWTvi4p8+PRe
-   x0MEaZAzR/KGWtYbPR8YUuuPYCCusIvZrYl2iji3y8lRv+SIngPsVBcFj
-   g==;
-X-CSE-ConnectionGUID: u62/PyDbQMWg886P9jcahg==
-X-CSE-MsgGUID: A0tnf9unQvaqVWx50cmDxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="67060507"
+  t=1765227008; x=1796763008;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pos0LxUt0UGgUckXRikCaPFyr6rdco7WyUxtH8TqNVw=;
+  b=lokPtv+E1CkEJyJsTwc1ZHOQkLUBm0N5nJbTNPq7kOkXNkpCugzypDFM
+   u9+BvUK+ezsZB7sT9WYBkVt6KZI2IklifD7GbwtMqazyS/Z1fCDtOYApm
+   Y4S8smgbWv/4LZMeI48iX1ERgXbd76qDBwEOSah6b7O6G5MbCzSsRnsoU
+   RiUdQ8M5Hro3gtacGZ+IvhoDXP5xkaBzGI9fjHS/XO5SdTcJUfngonCb5
+   9NCExYMYBtH36xndVnlvpAx/O5d8vLMiRXGmwMnjYBVL31zAPM4UZm4f7
+   QWa901hFA+qyw+cFRC1/XYW3A2ml82t4RE1kIAd9J95AL/tDUdnE09QZ0
+   Q==;
+X-CSE-ConnectionGUID: jwuBykUaSpyiBE2tE6RBkA==
+X-CSE-MsgGUID: 88c1/Y9HQQCyMTFcPZ+6rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="89829547"
 X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="67060507"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 12:26:07 -0800
-X-CSE-ConnectionGUID: lvFk6MJQTaavMyj6JP1rxg==
-X-CSE-MsgGUID: lpvbeSYiTLGe8GWwwhDGBw==
+   d="scan'208";a="89829547"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 12:50:07 -0800
+X-CSE-ConnectionGUID: ZWedojEhRmKqu8xo+PCu4Q==
+X-CSE-MsgGUID: Vqyr390bTq+CyWjtO36O4A==
 X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 08 Dec 2025 12:26:04 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
+   d="scan'208";a="233407038"
+Received: from igk-lkp-server01.igk.intel.com (HELO a9286e139fc0) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 08 Dec 2025 12:50:06 -0800
+Received: from kbuild by a9286e139fc0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSho1-000000000pF-3oGw;
-	Mon, 08 Dec 2025 20:26:01 +0000
-Date: Tue, 9 Dec 2025 04:25:09 +0800
+	id 1vSiBH-000000002Fh-2cl8;
+	Mon, 08 Dec 2025 20:50:03 +0000
+Date: Mon, 8 Dec 2025 21:49:06 +0100
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, wbg@kernel.org,
-	robh@kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, s32@nxp.com,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] counter: Add STM based counter
-Message-ID: <202512090408.Ju8SNkSq-lkp@intel.com>
-References: <20251208030413.3117660-4-daniel.lezcano@linaro.org>
+To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3493/3493] arch/x86/kernel/cpu/proc.c:63:5:
+ warning: no previous prototype for 'show_cpuinfo'
+Message-ID: <202512082137.XtPdHfzc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,66 +61,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251208030413.3117660-4-daniel.lezcano@linaro.org>
 
-Hi Daniel,
+Hi GONG,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.18 next-20251208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/counters-Reorder-the-Makefile/20251208-110937
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251208030413.3117660-4-daniel.lezcano%40linaro.org
-patch subject: [PATCH v1 3/3] counter: Add STM based counter
-config: loongarch-randconfig-001-20251209 (https://download.01.org/0day-ci/archive/20251209/202512090408.Ju8SNkSq-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090408.Ju8SNkSq-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   36141432a37f7dedddde8825e724b07ce3a440fb
+commit: 9d3b0e8891b8b3450a7cd6d1367946a1c69e4eb9 [3493/3493] bpf: Add cpuinfo_x86 iterator target
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251208/202512082137.XtPdHfzc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512082137.XtPdHfzc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512090408.Ju8SNkSq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512082137.XtPdHfzc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/counter/nxp-stm-cnt.c:110:2: error: call to undeclared function 'FIELD_MODIFY'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     110 |         FIELD_MODIFY(STM_CR_CPS_MASK, &reg, prescaler);
-         |         ^
->> drivers/counter/nxp-stm-cnt.c:119:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     119 |         return FIELD_GET(STM_CR_CPS_MASK, reg);
-         |                ^
-   drivers/counter/nxp-stm-cnt.c:128:11: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     128 |         return !!FIELD_GET(STM_CR_TEN, reg);
-         |                  ^
-   3 errors generated.
+>> arch/x86/kernel/cpu/proc.c:63:5: warning: no previous prototype for 'show_cpuinfo' [-Wmissing-prototypes]
+      63 | int show_cpuinfo(struct seq_file *m, void *v)
+         |     ^~~~~~~~~~~~
 
 
-vim +/FIELD_MODIFY +110 drivers/counter/nxp-stm-cnt.c
+vim +/show_cpuinfo +63 arch/x86/kernel/cpu/proc.c
 
-   103	
-   104	static void nxp_stm_cnt_set_prescaler(struct nxp_stm_cnt *stm_cnt, u8 prescaler)
-   105	{
-   106		u32 reg;
-   107	
-   108		reg = readl(STM_CR(stm_cnt->base));
-   109	
- > 110		FIELD_MODIFY(STM_CR_CPS_MASK, &reg, prescaler);
+    62	
+  > 63	int show_cpuinfo(struct seq_file *m, void *v)
+    64	{
+    65		struct cpuinfo_x86 *c = v;
+    66		unsigned int cpu;
+    67		int i;
+    68	
+    69		cpu = c->cpu_index;
+    70		seq_printf(m, "processor\t: %u\n"
+    71			   "vendor_id\t: %s\n"
+    72			   "cpu family\t: %d\n"
+    73			   "model\t\t: %u\n"
+    74			   "model name\t: %s\n",
+    75			   cpu,
+    76			   c->x86_vendor_id[0] ? c->x86_vendor_id : "unknown",
+    77			   c->x86,
+    78			   c->x86_model,
+    79			   c->x86_model_id[0] ? c->x86_model_id : "unknown");
+    80	
+    81		if (c->x86_stepping || c->cpuid_level >= 0)
+    82			seq_printf(m, "stepping\t: %d\n", c->x86_stepping);
+    83		else
+    84			seq_puts(m, "stepping\t: unknown\n");
+    85		if (c->microcode)
+    86			seq_printf(m, "microcode\t: 0x%x\n", c->microcode);
+    87	
+    88		if (cpu_has(c, X86_FEATURE_TSC)) {
+    89			unsigned int freq = arch_freq_get_on_cpu(cpu);
+    90	
+    91			seq_printf(m, "cpu MHz\t\t: %u.%03u\n", freq / 1000, (freq % 1000));
+    92		}
+    93	
+    94		/* Cache size */
+    95		if (c->x86_cache_size)
+    96			seq_printf(m, "cache size\t: %u KB\n", c->x86_cache_size);
+    97	
+    98		show_cpuinfo_core(m, c, cpu);
+    99		show_cpuinfo_misc(m, c);
+   100	
+   101		seq_puts(m, "flags\t\t:");
+   102		for (i = 0; i < 32*NCAPINTS; i++)
+   103			if (cpu_has(c, i) && x86_cap_flags[i] != NULL) {
+   104				if (c->x86_vendor == X86_VENDOR_HYGON)
+   105					seq_printf(m, " %s", i == X86_FEATURE_SEV ? "csv" :
+   106						   (i == X86_FEATURE_SEV_ES ? "csv2" :
+   107						    x86_cap_flags[i]));
+   108				else
+   109					seq_printf(m, " %s", x86_cap_flags[i]);
+   110			}
    111	
-   112		writel(reg, STM_CR(stm_cnt->base));
-   113	}
-   114	
-   115	static u8 nxp_stm_cnt_get_prescaler(struct nxp_stm_cnt *stm_cnt)
-   116	{
-   117		u32 reg = readl(STM_CR(stm_cnt->base));
-   118	
- > 119		return FIELD_GET(STM_CR_CPS_MASK, reg);
-   120	}
-   121	
 
 -- 
 0-DAY CI Kernel Test Service
