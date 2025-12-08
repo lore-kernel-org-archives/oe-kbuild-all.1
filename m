@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE08D17BCA;
-	Mon,  8 Dec 2025 01:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36158003D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 02:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765158767; cv=none; b=EtmHOJtWWWklw+jUfKID9EgAPbBeLKErRnheiZQsdt4rN6o52hV3vI/nYdamPw+Y8J+LtMs8QvjuBY7HoSNgw7vbdkv4sIEgU9JlvTLAkZ6bkIgPITLLrlV4pOnSw6n2YZJvD0y0skC8oOyjCWOwo+VKZ3VIWpVmaawJbvTnRwA=
+	t=1765160044; cv=none; b=UzELoSovs1QWknHxq19Oy+T5h+k3HdCAHk2/sIuKPOEeIB/HAsnp9dL6cQtD9GNxZnkTQsPyEzgEEg8LX9F8H1iU3w7VAwIAb9V0wfRm62ygg1OsuaAXfhfbXf8UsvGr56jdnZvjKwg7eR9HzCktvDM5+/kpAT3Ej2LYH2YET+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765158767; c=relaxed/simple;
-	bh=Kg9GRYVzoc7gGK3ZCChZv/V3hkzOrjaZaxDl3voEv2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W0GFWkq7byTkOIRiXGyeerpCJESY3r7f1WGrzp3bk6hkkf2o30lP8LiyRCRZRzsPiNXNDAa1INCP3JzPlAU9yOi89MUpblTdWaeHb9jwW1lJxFF6jnD0ibCoPOK6EY52/P6rN7MGyqb5ZlOd/3hoaZAiLmKcJSF+AQQyMHmB3Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMn+PWA1; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1765160044; c=relaxed/simple;
+	bh=1sgJ1779GC9fTCfnXBvDi8nlZT8Mu3mSnAOkAoby3zs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IyWqaYjZ/K5+9hHLLoJuY+8r5ogsbPPSb2vbNdOrz6Xs2n1KyW0Njqjg44Nb9CEHoHzF94id2wciDLV6fdYmosv7MNI3uVMHRSdu97HZWhgge5/y0+LSJ91fJXkAlrOVpZu/jE4fGc3acgT/yXBTcjmvrKlURlB32Q6PFUS0pbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D49afARq; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMn+PWA1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D49afARq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765158766; x=1796694766;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Kg9GRYVzoc7gGK3ZCChZv/V3hkzOrjaZaxDl3voEv2w=;
-  b=UMn+PWA1CJfp1ROAQFjWUmBui74EhPIFEj7zFEkRtzkE+M1dWG28Yo+G
-   qaXzfq5pDe2eaR6lnWLsJ7xJks0WgeBU86XRI0mpx8J9cvhS4apWov1qo
-   jFW8+FZl4XDy6YxSaGUVNs0ZpY21OJZjvVA/EpwJ4Ootx24fIJBkOroz+
-   elzd/5weW/FaWHFB8Awze1WP/RRWR3Jqv3UeBHHVSOj5Nzn5112Cv2jme
-   6FCT8902bwzU5pGVPOHKY0uxr4kEN+fQi6Nz5oAGmZP9t2VV0fdLahCGi
-   JuSAXOZQmAax5yHpACzlOStqw7V4Tz9wFXBRoYqXIQx88VD+PalE0u9Zo
-   Q==;
-X-CSE-ConnectionGUID: hJCRwjY3S0uwbxt1xWj1sA==
-X-CSE-MsgGUID: cRr9VHP6Quakh+M0AN7ptA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67148230"
+  t=1765160043; x=1796696043;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1sgJ1779GC9fTCfnXBvDi8nlZT8Mu3mSnAOkAoby3zs=;
+  b=D49afARqYRPM7Yr5bsIh9KtzPB3gEWHcOlP8Y25w7HBLirXfbRs3vfq2
+   kU2Bf35imCpiVy0eIWmmar5yuBFvB2/BaBMbUc7Xf17YTBN2SRWfMbwNY
+   mGSmry+WDBJBPjvk7aqfYFnVATH6lA0/WaQgWoVgpBjr1HGQNG44ent6S
+   YZGgSiSGt5DCjJLMv0jCeZgSUh9btKlusQQ810Tv/mgHGa9ARi8UM2ewh
+   U/pWPC8aiMa0SC/vsq7/Gu0u05anFdCO93vphoV1B9Bxfag7++r4gyUUy
+   ZBUSXWxP7E/Pk1fXnIO2B80EEs347ERd33Bl+5kExUxlAl9R9qQ2vEeg/
+   w==;
+X-CSE-ConnectionGUID: EIomunsqT068EaR6QFqj8g==
+X-CSE-MsgGUID: wG58B2c7SL6XwfhjVQabZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="66996395"
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="67148230"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 17:52:45 -0800
-X-CSE-ConnectionGUID: 5JvneCOfQceLYOvXXvju2Q==
-X-CSE-MsgGUID: CdxEcSvLTE6eIusq4LBQ0g==
+   d="scan'208";a="66996395"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2025 18:14:02 -0800
+X-CSE-ConnectionGUID: NjMSOeOsTxKuPkK+5XbvJw==
+X-CSE-MsgGUID: LIX5ylSPTiO1PfKFvrVFXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,258,1758610800"; 
-   d="scan'208";a="233180307"
+   d="scan'208";a="196272597"
 Received: from lkp-server01.sh.intel.com (HELO 4664bbef4914) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Dec 2025 17:52:43 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 07 Dec 2025 18:13:50 -0800
 Received: from kbuild by 4664bbef4914 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSQQb-00000000JoL-0Btz;
-	Mon, 08 Dec 2025 01:52:41 +0000
-Date: Mon, 8 Dec 2025 09:52:05 +0800
+	id 1vSQkw-00000000Jph-1zHJ;
+	Mon, 08 Dec 2025 02:13:42 +0000
+Date: Mon, 8 Dec 2025 10:12:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 1097/1101] fs/bcachefs/fs/check.c:113:36:
- error: initializer element is not a compile-time constant
-Message-ID: <202512080923.m7uVKRta-lkp@intel.com>
+To: Dharanitharan R <dharanitharan725@gmail.com>,
+	syzbot+5dd615f890ddada54057@syzkaller.appspotmail.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dharanitharan R <dharanitharan725@gmail.com>
+Subject: Re: [PATCH] net: atm: lec: add pre_send validation to avoid
+ uninitialized
+Message-ID: <202512080911.BLjFHfAd-lkp@intel.com>
+References: <20251207041453.8302-1-dharanitharan725@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,56 +66,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251207041453.8302-1-dharanitharan725@gmail.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   e334d0d42eb60d4aae64c1d9a6374a054a0aac08
-commit: 7df2fb43bb8830f27b55ca1820e397a7258e6141 [1097/1101] bcachefs: split out create_lostfound()
-config: um-randconfig-002-20251208 (https://download.01.org/0day-ci/archive/20251208/202512080923.m7uVKRta-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9e7ce77573b2fad126a367475cbe807c10826691)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080923.m7uVKRta-lkp@intel.com/reproduce)
+Hi Dharanitharan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+[also build test WARNING on net-next/main linus/master horms-ipvs/master v6.18 next-20251205]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dharanitharan-R/net-atm-lec-add-pre_send-validation-to-avoid-uninitialized/20251207-121647
+base:   net/main
+patch link:    https://lore.kernel.org/r/20251207041453.8302-1-dharanitharan725%40gmail.com
+patch subject: [PATCH] net: atm: lec: add pre_send validation to avoid uninitialized
+config: nios2-randconfig-002-20251208 (https://download.01.org/0day-ci/archive/20251208/202512080911.BLjFHfAd-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512080911.BLjFHfAd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512080923.m7uVKRta-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512080911.BLjFHfAd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/bcachefs/fs/check.c:2:
-   In file included from fs/bcachefs/bcachefs.h:202:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> fs/bcachefs/fs/check.c:113:36: error: initializer element is not a compile-time constant
-     113 | static struct qstr lostfound_str = QSTR("lost+found");
-         |                                    ^
-   include/linux/dcache.h:61:17: note: expanded from macro 'QSTR'
-      61 | #define QSTR(n) QSTR_LEN(n, strlen(n))
-         |                 ^
-   include/linux/dcache.h:60:36: note: expanded from macro 'QSTR_LEN'
-      60 | #define QSTR_LEN(n,l) (struct qstr)QSTR_INIT(n,l)
-         |                                    ^
-   include/linux/dcache.h:59:26: note: expanded from macro 'QSTR_INIT'
-      59 | #define QSTR_INIT(n,l) { { { .len = l } }, .name = n }
-         |                          ^
-   1 warning and 1 error generated.
+   net/atm/lec.c: In function 'lec_atm_pre_send':
+>> net/atm/lec.c:503:4: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+     503 |    if (!pskb_may_pull(skb, msg_size))
+         |    ^~
+   net/atm/lec.c:506:9: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+     506 |         mesg = (struct atmlec_msg *)skb->data;
+         |         ^~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=n] && CAN [=m]
+   Selected by [m]:
+   - CAN [=m] && NET [=y]
 
 
-vim +113 fs/bcachefs/fs/check.c
+vim +/if +503 net/atm/lec.c
 
-   112	
- > 113	static struct qstr lostfound_str = QSTR("lost+found");
-   114	
+   491	
+   492	static int lec_atm_pre_send(struct atm_vcc *vcc, struct sk_buff *skb)
+   493	{
+   494		struct atmlec_msg *mesg;
+   495		u32 sizeoftlvs;
+   496		unsigned int msg_size = sizeof(struct atmlec_msg);
+   497	
+   498		/* Must contain the base message */
+   499		if (skb->len < msg_size)
+   500			return -EINVAL;
+   501	
+   502	   /* Must have at least msg_size bytes in linear data */
+ > 503	   if (!pskb_may_pull(skb, msg_size))
+   504	   	return -EINVAL;
+   505	
+   506		mesg = (struct atmlec_msg *)skb->data;
+   507	   sizeoftlvs = mesg->sizeoftlvs;
+   508	
+   509	   /* Validate TLVs if present */
+   510	   if (sizeoftlvs && !pskb_may_pull(skb, msg_size + sizeoftlvs))
+   511	       return -EINVAL;
+   512	
+   513	   return 0;
+   514	}
+   515	
 
 -- 
 0-DAY CI Kernel Test Service
