@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E6A21E0AF
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 22:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382BE25F7A9;
+	Mon,  8 Dec 2025 22:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765231450; cv=none; b=GuAT4ZFLK+LJf49BfBLampuWEEZQtuj4S5APpaEKlGidQ2joor09F7tqXX5RySybllUcbI+Sjjxruu9HE7dsub78Jn0PEJV2msZ+zpduzzGXiJXYRR0+na2y7PMjsErQkjQfPUqSzfn4SLqiNpr3M82H8LhMBum2Nn57qlEZP+M=
+	t=1765231936; cv=none; b=mEQnn1lI38Fmd/DDQILUXuWRIKKfP8hko7+YDlVb1daSOioNj2tbhV3h1EU99Su9GBSx+ytibDmFZv5ywIFvQEMzHAZpsO0UdYUYCgaNYVBbedXyWq2QAm/1evOgBLnm1pGw07YAgl2GFbN709sQj0ZReFu6tLzSl8lNXlgY4RA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765231450; c=relaxed/simple;
-	bh=y0dVtYgpBHW2zNQce4z7D4f7MlfdBKbveTKiyVO5kuw=;
+	s=arc-20240116; t=1765231936; c=relaxed/simple;
+	bh=N73C6GVazoeIU4KiU49Yp2eEm1akkAiGESr9r8VY9sk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SiyWAJ5LygZ5f5LQoyvjFMRFZbgbcmjNzhJ3ePcYtoyjSznxs0wW53ysEnrToDlJn2TikjUr9Joy12ioPsirX419CYg9so9jxNHUa59og2sPuTcaRm8dZMfWl1874RZV3S02jYCTYndR7Kuws7caE94DaEBldH5nSy2HOsJO3Go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4tFUqep; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=N4/x6L5rdOETUaGkY2rSHyNBFm7Ca3TybGVtby/ZXdcZpQ4iu5yaHWpcghg38ltIy4Qhc5OxGz71LUJAUK+mVoyOyZZDTEJIw9y5OWB5ccOJWLqKNKq1B7htc4ZakWQWTzhPjUV143VX5HOk0FbpABn7vaZrfoI6wd0Em0sIpQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dCvpxW3s; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4tFUqep"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dCvpxW3s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765231449; x=1796767449;
+  t=1765231934; x=1796767934;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y0dVtYgpBHW2zNQce4z7D4f7MlfdBKbveTKiyVO5kuw=;
-  b=m4tFUqepKDnWFZd88KoIwgLo7j4MXmHp12ThnPA3sKqrhg6ypMDx3a/3
-   QIKh4KKMWy+iu2cJzzbzsoiRTRrtw79t8ANXYKoJ9eQQziP3Hwdkr1n3j
-   pwgufvuWNJ0W8o1vr/xHauqvqZUJwNt+223bR6pdSXxMnHVSb79FPUevZ
-   L0F5W8E7hwWnwCUuC8b4YkC9USc3nnAkS2fTYEpqreSBlQe7kFB9xdCqD
-   2Z2kdzjCDKn8HzoBDNtlTj9auz+EsCmHLQGrzRkjzRnx+X78FQA0EIqDR
-   SaNtxOSvx+40mMZAj7r9/XSPxfXwoSIXFM0w8MZwydKP79Ydjxax2twUl
-   A==;
-X-CSE-ConnectionGUID: 1mKseDAdQZup/IRE2s8OFg==
-X-CSE-MsgGUID: tKqpYcjfQbGar0GOlwtdlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="66906256"
+  bh=N73C6GVazoeIU4KiU49Yp2eEm1akkAiGESr9r8VY9sk=;
+  b=dCvpxW3ss7zFF5PW9Sw6OZdp4gi7dKnwstPTQ84xRP/1T2l+1ou9LScP
+   mmF6zy5Y35zScwBFF9Bnra3LWQDuNR0ATt/jvRnw+qv/CLEeojYcN1C6x
+   0jOmj8Ip+qjuNor4sQZ95WxYFmVyateyWClU1M5BY/rF/7JVhC7tuWR7o
+   voqGtg9VcjahDol2AHm9U082SfZnoV1wd7qsyXZ+dykHl77BVRhIIPbah
+   VFnC91Rdu3cT1jBY/JEVfoaW3ZGcXSlXflzdzhQ2pAmh59e5330jjKLGG
+   ca4e7qkqY71/MEO2RaWcGfRg+5WaAEAWgXwUjO/Y2ozr9euUJ4jidDTqW
+   Q==;
+X-CSE-ConnectionGUID: SrJnzrSMS7W98alSGcaQrQ==
+X-CSE-MsgGUID: Peohft7aR/OJI2sXkaZQ6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="84788335"
 X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="66906256"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 14:04:09 -0800
-X-CSE-ConnectionGUID: vn28ompwTmSVjIfnArVVbw==
-X-CSE-MsgGUID: wDhsa4LXR6ORAznbDErmeg==
+   d="scan'208";a="84788335"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 14:12:13 -0800
+X-CSE-ConnectionGUID: VlrgrGyySuyNkAN8gy9dOg==
+X-CSE-MsgGUID: 0S+MmOmyRRSlUjnFlrcpBQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="195332165"
-Received: from igk-lkp-server01.igk.intel.com (HELO a9286e139fc0) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 08 Dec 2025 14:04:07 -0800
-Received: from kbuild by a9286e139fc0 with local (Exim 4.98.2)
+   d="scan'208";a="226711454"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 08 Dec 2025 14:12:12 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSjKu-000000002GL-0eFT;
-	Mon, 08 Dec 2025 22:04:04 +0000
-Date: Mon, 8 Dec 2025 23:03:40 +0100
+	id 1vSjSj-000000000uX-0Tu0;
+	Mon, 08 Dec 2025 22:12:09 +0000
+Date: Tue, 9 Dec 2025 06:11:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, heppen <hepeng68@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3386/3386] drivers/acpi/cppc_acpi.c:1530:
- warning: Function parameter or member 'auto_act_window' not described in
- 'cppc_set_auto_act_window'
-Message-ID: <202512082313.2Za1o7Qf-lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Andrea Righi <arighi@nvidia.com>
+Subject: kernel/sched/ext.c:5291:49: warning: diagnostic behavior may be
+ improved by adding the 'format(printf, 3, 0)' attribute to the declaration
+ of 'scx_vexit'
+Message-ID: <202512090648.Rvfpl38r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,98 +64,167 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi heppen,
+Hi Tejun,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   69d9543977fd7abe8b555406c7a3e5d64d8292f8
-commit: 6d474065f368e21b77526a5c30f5a1aed017142a [3386/3386] ACPI: CPPC: Add three register ABIs
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251208/202512082313.2Za1o7Qf-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512082313.2Za1o7Qf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2f2b01b74be8b40a2173372bcd770723f87e7b2
+commit: c4c286d747971c410739afc216972f1cc0923270 sched_ext: Cleanup [__]scx_exit/error*()
+date:   7 months ago
+config: sparc64-randconfig-001-20251209 (https://download.01.org/0day-ci/archive/20251209/202512090648.Rvfpl38r-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090648.Rvfpl38r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512082313.2Za1o7Qf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512090648.Rvfpl38r-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/acpi/cppc_acpi.c:450: warning: Function parameter or member 'cpc_pptr' not described in '__acpi_get_psd_map'
-   drivers/acpi/cppc_acpi.c:700: warning: Function parameter or member 'pcc_ss_id' not described in 'pcc_data_alloc'
->> drivers/acpi/cppc_acpi.c:1530: warning: Function parameter or member 'auto_act_window' not described in 'cppc_set_auto_act_window'
->> drivers/acpi/cppc_acpi.c:1530: warning: Excess function parameter 'enable' description in 'cppc_set_auto_act_window'
->> drivers/acpi/cppc_acpi.c:1541: warning: Function parameter or member 'cpunum' not described in 'cppc_get_auto_act_window'
->> drivers/acpi/cppc_acpi.c:1541: warning: Function parameter or member 'auto_act_window' not described in 'cppc_get_auto_act_window'
->> drivers/acpi/cppc_acpi.c:1541: warning: Excess function parameter 'cpu' description in 'cppc_get_auto_act_window'
->> drivers/acpi/cppc_acpi.c:1541: warning: Excess function parameter 'enable' description in 'cppc_get_auto_act_window'
->> drivers/acpi/cppc_acpi.c:1552: warning: Function parameter or member 'auto_sel' not described in 'cppc_get_auto_sel'
->> drivers/acpi/cppc_acpi.c:1552: warning: Excess function parameter 'enable' description in 'cppc_get_auto_sel'
->> drivers/acpi/cppc_acpi.c:1575: warning: Function parameter or member 'epp_val' not described in 'cppc_set_epp'
->> drivers/acpi/cppc_acpi.c:1575: warning: Excess function parameter 'enable' description in 'cppc_set_epp'
-   drivers/acpi/cppc_acpi.c:1716: warning: Function parameter or member 'cpu_num' not described in 'cppc_get_transition_latency'
+   In file included from kernel/sched/build_policy.c:63:
+   kernel/sched/ext.c:1877:9: warning: default initialization of an object of type 'typeof (b->scx.dsq_vtime)' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+    1877 |         return time_before64(a->scx.dsq_vtime, b->scx.dsq_vtime);
+         |                ^
+   include/linux/jiffies.h:212:28: note: expanded from macro 'time_before64'
+     212 | #define time_before64(a,b)      time_after64(b,a)
+         |                                 ^
+   include/linux/jiffies.h:199:3: note: expanded from macro 'time_after64'
+     199 |         (typecheck(__u64, a) && \
+         |          ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   In file included from kernel/sched/build_policy.c:63:
+   kernel/sched/ext.c:1877:9: warning: default initialization of an object of type 'typeof (a->scx.dsq_vtime)' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+   include/linux/jiffies.h:212:28: note: expanded from macro 'time_before64'
+     212 | #define time_before64(a,b)      time_after64(b,a)
+         |                                 ^
+   include/linux/jiffies.h:200:3: note: expanded from macro 'time_after64'
+     200 |          typecheck(__u64, b) && \
+         |          ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   In file included from kernel/sched/build_policy.c:63:
+>> kernel/sched/ext.c:5291:49: warning: diagnostic behavior may be improved by adding the 'format(printf, 3, 0)' attribute to the declaration of 'scx_vexit' [-Wmissing-format-attribute]
+    1139 |         vscnprintf(ei->msg, SCX_EXIT_MSG_LEN, fmt, args);
+         |                                                        ^
+   kernel/sched/ext.c:1139:13: note: 'scx_vexit' declared here
+    1139 | static void scx_vexit(enum scx_exit_kind kind, s64 exit_code, const char *fmt,
+         |             ^
+   kernel/sched/ext.c:7094:27: warning: diagnostic behavior may be improved by adding the 'format(printf, 4, 0)' attribute to the declaration of '__bstr_format' [-Wmissing-format-attribute]
+    7068 |                           bprintf_data.bin_args);
+         |                                                ^
+   kernel/sched/ext.c:7068:12: note: '__bstr_format' declared here
+    7068 | static s32 __bstr_format(u64 *data_buf, char *line_buf, size_t line_size,
+         |            ^
+   kernel/sched/ext.c:7108:28: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'bstr_format' [-Wmissing-format-attribute]
+    7104 | static s32 bstr_format(struct scx_bstr_buf *buf,
+         | __attribute__((format(printf, 2, 0))) 
+    7105 |                        char *fmt, unsigned long long *data, u32 data__sz)
+    7106 | {
+    7107 |         return __bstr_format(buf->data, buf->line, sizeof(buf->line),
+    7108 |                              fmt, data, data__sz);
+         |                                                 ^
+   kernel/sched/ext.c:7104:12: note: 'bstr_format' declared here
+    7104 | static s32 bstr_format(struct scx_bstr_buf *buf,
+         |            ^
+   kernel/sched/ext.c:7129:57: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'scx_bpf_exit_bstr' [-Wmissing-format-attribute]
+    7123 | __bpf_kfunc void scx_bpf_exit_bstr(s64 exit_code, char *fmt,
+         | __attribute__((format(printf, 2, 0))) 
+    7124 |                                    unsigned long long *data, u32 data__sz)
+    7125 | {
+    7126 |         unsigned long flags;
+    7127 | 
+    7128 |         raw_spin_lock_irqsave(&scx_exit_bstr_buf_lock, flags);
+    7129 |         if (bstr_format(&scx_exit_bstr_buf, fmt, data, data__sz) >= 0)
+         |                                                                ^
+   kernel/sched/ext.c:7123:18: note: 'scx_bpf_exit_bstr' declared here
+    7123 | __bpf_kfunc void scx_bpf_exit_bstr(s64 exit_code, char *fmt,
+         |                  ^
+   kernel/sched/ext.c:7149:57: warning: diagnostic behavior may be improved by adding the 'format(printf, 1, 0)' attribute to the declaration of 'scx_bpf_error_bstr' [-Wmissing-format-attribute]
+    7143 | __bpf_kfunc void scx_bpf_error_bstr(char *fmt, unsigned long long *data,
+         | __attribute__((format(printf, 1, 0))) 
+    7144 |                                     u32 data__sz)
+    7145 | {
+    7146 |         unsigned long flags;
+    7147 | 
+    7148 |         raw_spin_lock_irqsave(&scx_exit_bstr_buf_lock, flags);
+    7149 |         if (bstr_format(&scx_exit_bstr_buf, fmt, data, data__sz) >= 0)
+         |                                                                ^
+   kernel/sched/ext.c:7143:18: note: 'scx_bpf_error_bstr' declared here
+    7143 | __bpf_kfunc void scx_bpf_error_bstr(char *fmt, unsigned long long *data,
+         |                  ^
+   kernel/sched/ext.c:7180:59: warning: diagnostic behavior may be improved by adding the 'format(printf, 1, 0)' attribute to the declaration of 'scx_bpf_dump_bstr' [-Wmissing-format-attribute]
+    7166 | __bpf_kfunc void scx_bpf_dump_bstr(char *fmt, unsigned long long *data,
+         | __attribute__((format(printf, 1, 0))) 
+    7167 |                                    u32 data__sz)
+    7168 | {
+    7169 |         struct scx_dump_data *dd = &scx_dump_data;
+    7170 |         struct scx_bstr_buf *buf = &dd->buf;
+    7171 |         s32 ret;
+    7172 | 
+    7173 |         if (raw_smp_processor_id() != dd->cpu) {
+    7174 |                 scx_error("scx_bpf_dump() must only be called from ops.dump() and friends");
+    7175 |                 return;
+    7176 |         }
+    7177 | 
+    7178 |         /* append the formatted string to the line buf */
+    7179 |         ret = __bstr_format(buf->data, buf->line + dd->cursor,
+    7180 |                             sizeof(buf->line) - dd->cursor, fmt, data, data__sz);
+         |                                                                                ^
+   kernel/sched/ext.c:7166:18: note: 'scx_bpf_dump_bstr' declared here
+    7166 | __bpf_kfunc void scx_bpf_dump_bstr(char *fmt, unsigned long long *data,
+         |                  ^
+   8 warnings generated.
 
 
-vim +1530 drivers/acpi/cppc_acpi.c
+vim +5291 kernel/sched/ext.c
 
-  1523	
-  1524	/**
-  1525	 * cppc_set_auto_act_window - Write autonomous act window register.
-  1526	 * @cpu    : CPU to which to write register.
-  1527	 * @enable : the desired value of autonomous act window register to be updated.
-  1528	 */
-  1529	int cppc_set_auto_act_window(int cpu, u64 auto_act_window)
-> 1530	{
-  1531		return cppc_set_reg(cpu, AUTO_ACT_WINDOW, auto_act_window);
-  1532	}
-  1533	EXPORT_SYMBOL_GPL(cppc_set_auto_act_window);
-  1534	
-  1535	/**
-  1536	 * cppc_get_auto_act_window - Read autonomous act window register.
-  1537	 * @cpu    : CPU to which to write register.
-  1538	 * @enable : the desired value of autonomous act window register to be updated.
-  1539	 */
-  1540	int cppc_get_auto_act_window(int cpunum, u64 *auto_act_window)
-> 1541	{
-  1542		return cppc_get_reg(cpunum, AUTO_ACT_WINDOW, auto_act_window);
-  1543	}
-  1544	EXPORT_SYMBOL_GPL(cppc_get_auto_act_window);
-  1545	
-  1546	/**
-  1547	 * cppc_get_auto_sel - Read autonomous selection register.
-  1548	 * @cpunum : CPU to which to write register.
-  1549	 * @enable : the desired value of autonomous selection resiter to be updated.
-  1550	 */
-  1551	int cppc_get_auto_sel(int cpunum, u64 *auto_sel)
-> 1552	{
-  1553		return cppc_get_reg(cpunum, AUTO_SEL_ENABLE, auto_sel);
-  1554	}
-  1555	EXPORT_SYMBOL_GPL(cppc_get_auto_sel);
-  1556	
-  1557	
-  1558	/**
-  1559	 * cppc_set_auto_sel - Write autonomous selection register.
-  1560	 * @cpu    : CPU to which to write register.
-  1561	 * @enable : the desired value of autonomous selection resiter to be updated.
-  1562	 */
-  1563	int cppc_set_auto_sel(int cpu, bool enable)
-  1564	{
-  1565		return cppc_set_reg(cpu, AUTO_SEL_ENABLE, enable);
-  1566	}
-  1567	EXPORT_SYMBOL_GPL(cppc_set_auto_sel);
-  1568	
-  1569	/**
-  1570	 * cppc_set_epp - Write energe perf register.
-  1571	 * @cpu    : CPU to which to write register.
-  1572	 * @enable : the desired value of energe perf register to be updated.
-  1573	 */
-  1574	int cppc_set_epp(int cpu, u64 epp_val)
-> 1575	{
-  1576		return cppc_set_reg(cpu, ENERGY_PERF, epp_val);
-  1577	}
-  1578	EXPORT_SYMBOL_GPL(cppc_set_epp);
-  1579	
+f0e1a0643a59bf Tejun Heo    2024-06-18  5269  
+c4c286d747971c Tejun Heo    2025-05-14  5270  static void scx_vexit(enum scx_exit_kind kind, s64 exit_code, const char *fmt,
+c4c286d747971c Tejun Heo    2025-05-14  5271  		      va_list args)
+f0e1a0643a59bf Tejun Heo    2024-06-18  5272  {
+c8fafb34854af4 Andrea Righi 2025-04-30  5273  	struct scx_sched *sch;
+c8fafb34854af4 Andrea Righi 2025-04-30  5274  	struct scx_exit_info *ei;
+f0e1a0643a59bf Tejun Heo    2024-06-18  5275  	int none = SCX_EXIT_NONE;
+f0e1a0643a59bf Tejun Heo    2024-06-18  5276  
+c8fafb34854af4 Andrea Righi 2025-04-30  5277  	rcu_read_lock();
+c8fafb34854af4 Andrea Righi 2025-04-30  5278  	sch = rcu_dereference(scx_root);
+c8fafb34854af4 Andrea Righi 2025-04-30  5279  	if (!sch)
+c8fafb34854af4 Andrea Righi 2025-04-30  5280  		goto out_unlock;
+c8fafb34854af4 Andrea Righi 2025-04-30  5281  	ei = sch->exit_info;
+c8fafb34854af4 Andrea Righi 2025-04-30  5282  
+c8fafb34854af4 Andrea Righi 2025-04-30  5283  	if (!atomic_try_cmpxchg(&sch->exit_kind, &none, kind))
+c8fafb34854af4 Andrea Righi 2025-04-30  5284  		goto out_unlock;
+f0e1a0643a59bf Tejun Heo    2024-06-18  5285  
+f0e1a0643a59bf Tejun Heo    2024-06-18  5286  	ei->exit_code = exit_code;
+62d3726d4cd66f Tejun Heo    2024-09-23  5287  #ifdef CONFIG_STACKTRACE
+f0e1a0643a59bf Tejun Heo    2024-06-18  5288  	if (kind >= SCX_EXIT_ERROR)
+f0e1a0643a59bf Tejun Heo    2024-06-18  5289  		ei->bt_len = stack_trace_save(ei->bt, SCX_EXIT_BT_LEN, 1);
+62d3726d4cd66f Tejun Heo    2024-09-23  5290  #endif
+f0e1a0643a59bf Tejun Heo    2024-06-18 @5291  	vscnprintf(ei->msg, SCX_EXIT_MSG_LEN, fmt, args);
+f0e1a0643a59bf Tejun Heo    2024-06-18  5292  
+07814a9439a3b0 Tejun Heo    2024-06-18  5293  	/*
+07814a9439a3b0 Tejun Heo    2024-06-18  5294  	 * Set ei->kind and ->reason for scx_dump_state(). They'll be set again
+1a2469403eb26c Tejun Heo    2025-04-04  5295  	 * in scx_disable_workfn().
+07814a9439a3b0 Tejun Heo    2024-06-18  5296  	 */
+07814a9439a3b0 Tejun Heo    2024-06-18  5297  	ei->kind = kind;
+07814a9439a3b0 Tejun Heo    2024-06-18  5298  	ei->reason = scx_exit_reason(ei->kind);
+07814a9439a3b0 Tejun Heo    2024-06-18  5299  
+c8fafb34854af4 Andrea Righi 2025-04-30  5300  	irq_work_queue(&sch->error_irq_work);
+c8fafb34854af4 Andrea Righi 2025-04-30  5301  out_unlock:
+c8fafb34854af4 Andrea Righi 2025-04-30  5302  	rcu_read_unlock();
+f0e1a0643a59bf Tejun Heo    2024-06-18  5303  }
+f0e1a0643a59bf Tejun Heo    2024-06-18  5304  
+
+:::::: The code at line 5291 was first introduced by commit
+:::::: f0e1a0643a59bf1f922fa209cec86a170b784f3f sched_ext: Implement BPF extensible scheduler class
+
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
