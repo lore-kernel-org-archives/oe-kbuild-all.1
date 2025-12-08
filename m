@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC5D2EA169;
-	Mon,  8 Dec 2025 19:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF9B2FD1D5;
+	Mon,  8 Dec 2025 20:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765223046; cv=none; b=skNWae20A3oy9/PTVBODSoI/daaUJ3NIbrQ2mekwH4ZrPerlrIscjveRxTDKTQ+4JF5xjt45yjw1HMbNS9o+69PJy20puco+4hB+5o/3WKVV2vvGrWPPI+dgm4DLMeoK7KvYl52jLDwnztaiLyhKq/2u7kUnQp9J8RrZ8uDf7I4=
+	t=1765224308; cv=none; b=Y04Po4o5RzNMVIItV8AdPPe9x1xS4ybtTRah5HzxIp3NVCtx1R1JKYgsjU8ft9lVhCEqX8qtUvkUcKvR+Uc4fu1N9EbPEGDK+Qlto91gHcm+XGHNrwB1bWUnoum1+yWKiXnnUZowuHQ36H94ju+kYaE/BmAkkQc+4uaCoudonXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765223046; c=relaxed/simple;
-	bh=3ipuuZGft/S8N19xrr05kuT8U40MNWLgd1x0A0Em+OA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hgLh3KD6kInV8S2Zl2DmxI5VSiEnH1vEjhjptRSVrYY6WX3C4YwiclEMLOzBFQrRhDMXx1eqtpE5ii8WUgiMQhS1ZIVXH8/4mKkvXZBkd4aeJs0bPZ/w9LK0kirAHnYfGVl4xPRI8Ad1G7rIlHLA6m+QaLKaqbVsulVPOVWVEO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LRJl+H4F; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1765224308; c=relaxed/simple;
+	bh=wQ3eTaEYcu1JVjVUrOcsFXSocQ+TRlIlf2hbja8Qduo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=T3DA095NzqtTVJbcyUJ6SuJ624QRDGaKHcbOTW0fMalyffXgl6qvO+le47g/MgMKy1P97Va8oPwwBD/CHgMFD72XhzJZWOS6OEBGypI3Ol2fkRsIEWyF2yrfUSxY7iUNpcVKasTtSKlnwIHXfDBCh2UO16gN92U/4l03fKz9ZQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=niZwMRpR; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LRJl+H4F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="niZwMRpR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765223045; x=1796759045;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3ipuuZGft/S8N19xrr05kuT8U40MNWLgd1x0A0Em+OA=;
-  b=LRJl+H4F37v+q66RlJ0PyASxPHS7ml7oq6s+ZfL88A273fihsBpYHJM2
-   Iq4qoIOIOMyeDJ8AHqVFihJCtj3hvtx6TSG+EjgsdlhOzHwFu/FvYxGsh
-   Sy1WS/ObWvSaIg9GgoV0wAq2/NVI1OgBHM9JakmxDVgn/Rao7M4eMv8Ap
-   Bdyz1Zv0QZ1pIjvsdrKeM+QRjqynCx+4h7c9tCtyVtzgc33DJR6MUr3aD
-   kQRYrjSMui3UUKt1uM9CZIGQlvH999r6G6FEe5KqQyqLxFnpDzu5pBU7q
-   x2HyoFZhbw/1/0vmzgOG/fV00wY40DktdfI4twgJewUtrv/Eoeh2jIUM9
-   Q==;
-X-CSE-ConnectionGUID: pZ2XOR75RJixKKiVLu4VTA==
-X-CSE-MsgGUID: DhT4fxsbTfqGMDp38jSeWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="54714117"
+  t=1765224305; x=1796760305;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wQ3eTaEYcu1JVjVUrOcsFXSocQ+TRlIlf2hbja8Qduo=;
+  b=niZwMRpRvwDdxrWu4r6tMs/w3B+1p41u3LCXivMZJEPW8lmleKnVwN40
+   +wwTpM0qXy+vMkDUP7FsWS09dXlTduyB/JS/ahFTqZWKBzZAg3EOZ6qzj
+   ZnoNR0oAMhGYeMmfFk+pxpcMFzIOcZvDw4MlVDMRqx/Nlsx0+gIVf5TI2
+   FvdpBE0evRW5fTSuX9c2/0A9eT8tIT3whQgPOy8C0OywQSwaGgQE8An1l
+   cJS6jQIx/Pdd7H7/TJnJMxSkNleVKDIWTXUplJNlVWra9Mc63vqJJcx5w
+   BtiL84KXOfF+pDsxWmICexEHAH1O6XhbC4Ks8y6aJ+cXIAtCOlkZtdGAo
+   w==;
+X-CSE-ConnectionGUID: WGsb0LCFQm2QNe49LgkJJg==
+X-CSE-MsgGUID: oy/uulyhTMuomRjFdHvN+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="77499022"
 X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="54714117"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 11:44:04 -0800
-X-CSE-ConnectionGUID: n+XSjhiORGCFX38P4L/tgg==
-X-CSE-MsgGUID: NGCiOOtnRBmB7MoDx7MLow==
+   d="scan'208";a="77499022"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 12:05:05 -0800
+X-CSE-ConnectionGUID: Y1kstbn5QZq2QEwDaC59FA==
+X-CSE-MsgGUID: tNXfHkP5Qi2TR2+pSC1Ydg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="195921748"
+   d="scan'208";a="195088601"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Dec 2025 11:44:01 -0800
+  by orviesa006.jf.intel.com with ESMTP; 08 Dec 2025 12:05:03 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSh9K-000000000mj-0dfK;
-	Mon, 08 Dec 2025 19:43:58 +0000
-Date: Tue, 9 Dec 2025 03:43:42 +0800
+	id 1vShTg-000000000oH-3mOa;
+	Mon, 08 Dec 2025 20:05:00 +0000
+Date: Tue, 9 Dec 2025 04:04:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ashish Mhetre <amhetre@nvidia.com>, will@kernel.org,
-	robin.murphy@arm.com, joro@8bytes.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, nicolinc@nvidia.com
-Cc: oe-kbuild-all@lists.linux.dev, thierry.reding@gmail.com,
-	jonathanh@nvidia.com, vdumpa@nvidia.com, jgg@ziepe.ca,
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org, Ashish Mhetre <amhetre@nvidia.com>
-Subject: Re: [PATCH V4 1/3] iommu/arm-smmu-v3: Add device-tree support for
- CMDQV driver
-Message-ID: <202512090331.QAFgb6vQ-lkp@intel.com>
-References: <20251205065850.3841834-2-amhetre@nvidia.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+	Kees Cook <kees@kernel.org>
+Subject: kernel/sched/ext.c:6942:27: warning: diagnostic behavior may be
+ improved by adding the 'format(printf, 4, 0)' attribute to the declaration
+ of '__bstr_format'
+Message-ID: <202512090407.VxRO6xAS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,107 +64,268 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251205065850.3841834-2-amhetre@nvidia.com>
 
-Hi Ashish,
+Hi Andy,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on next-20251204]
-[also build test WARNING on v6.18]
-[cannot apply to robh/for-next linus/master v6.18 v6.18-rc7 v6.18-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ashish-Mhetre/iommu-arm-smmu-v3-Add-device-tree-support-for-CMDQV-driver/20251205-151258
-base:   next-20251204
-patch link:    https://lore.kernel.org/r/20251205065850.3841834-2-amhetre%40nvidia.com
-patch subject: [PATCH V4 1/3] iommu/arm-smmu-v3: Add device-tree support for CMDQV driver
-config: arm64-randconfig-004-20251209 (https://download.01.org/0day-ci/archive/20251209/202512090331.QAFgb6vQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090331.QAFgb6vQ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2f2b01b74be8b40a2173372bcd770723f87e7b2
+commit: 7bf819aa992faee980610e9021aec0c38aac53be vsnprintf: Mark binary printing functions with __printf() attribute
+date:   9 months ago
+config: sparc64-randconfig-001-20251209 (https://download.01.org/0day-ci/archive/20251209/202512090407.VxRO6xAS-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090407.VxRO6xAS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512090331.QAFgb6vQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512090407.VxRO6xAS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c: In function 'tegra241_cmdqv_acpi_is_memory':
-   drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:863:17: error: implicit declaration of function 'acpi_dev_resource_address_space' [-Werror=implicit-function-declaration]
-     863 |         return !acpi_dev_resource_address_space(res, &win);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c: In function 'tegra241_cmdqv_acpi_get_irqs':
-   drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:871:26: error: implicit declaration of function 'acpi_dev_resource_interrupt' [-Werror=implicit-function-declaration]
-     871 |         if (*irq <= 0 && acpi_dev_resource_interrupt(ares, 0, &r))
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c: In function 'tegra241_cmdqv_find_acpi_resource':
-   drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:879:36: error: implicit declaration of function 'to_acpi_device'; did you mean 'to_acpi_device_node'? [-Werror=implicit-function-declaration]
-     879 |         struct acpi_device *adev = to_acpi_device(dev);
-         |                                    ^~~~~~~~~~~~~~
-         |                                    to_acpi_device_node
->> drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:879:36: warning: initialization of 'struct acpi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:886:15: error: implicit declaration of function 'acpi_dev_get_resources'; did you mean 'acpi_get_event_resources'? [-Werror=implicit-function-declaration]
-     886 |         ret = acpi_dev_get_resources(adev, &resource_list,
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-         |               acpi_get_event_resources
-   drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:907:9: error: implicit declaration of function 'acpi_dev_free_resource_list' [-Werror=implicit-function-declaration]
-     907 |         acpi_dev_free_resource_list(&resource_list);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from kernel/sched/build_policy.c:63:
+   kernel/sched/ext.c:1809:9: warning: default initialization of an object of type 'typeof (b->scx.dsq_vtime)' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+    1809 |         return time_before64(a->scx.dsq_vtime, b->scx.dsq_vtime);
+         |                ^
+   include/linux/jiffies.h:212:28: note: expanded from macro 'time_before64'
+     212 | #define time_before64(a,b)      time_after64(b,a)
+         |                                 ^
+   include/linux/jiffies.h:199:3: note: expanded from macro 'time_after64'
+     199 |         (typecheck(__u64, a) && \
+         |          ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   In file included from kernel/sched/build_policy.c:63:
+   kernel/sched/ext.c:1809:9: warning: default initialization of an object of type 'typeof (a->scx.dsq_vtime)' (aka 'const unsigned long long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
+   include/linux/jiffies.h:212:28: note: expanded from macro 'time_before64'
+     212 | #define time_before64(a,b)      time_after64(b,a)
+         |                                 ^
+   include/linux/jiffies.h:200:3: note: expanded from macro 'time_after64'
+     200 |          typecheck(__u64, b) && \
+         |          ^
+   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                   ^
+   In file included from kernel/sched/build_policy.c:63:
+>> kernel/sched/ext.c:6942:27: warning: diagnostic behavior may be improved by adding the 'format(printf, 4, 0)' attribute to the declaration of '__bstr_format' [-Wmissing-format-attribute]
+    6915 |                           bprintf_data.bin_args);
+         |                                                ^
+   kernel/sched/ext.c:6915:12: note: '__bstr_format' declared here
+    6915 | static s32 __bstr_format(u64 *data_buf, char *line_buf, size_t line_size,
+         |            ^
+>> kernel/sched/ext.c:6957:28: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'bstr_format' [-Wmissing-format-attribute]
+    6953 | static s32 bstr_format(struct scx_bstr_buf *buf,
+         | __attribute__((format(printf, 2, 0))) 
+    6954 |                        char *fmt, unsigned long long *data, u32 data__sz)
+    6955 | {
+    6956 |         return __bstr_format(buf->data, buf->line, sizeof(buf->line),
+    6957 |                              fmt, data, data__sz);
+         |                                                 ^
+   kernel/sched/ext.c:6953:12: note: 'bstr_format' declared here
+    6953 | static s32 bstr_format(struct scx_bstr_buf *buf,
+         |            ^
+>> kernel/sched/ext.c:6978:57: warning: diagnostic behavior may be improved by adding the 'format(printf, 2, 0)' attribute to the declaration of 'scx_bpf_exit_bstr' [-Wmissing-format-attribute]
+    6972 | __bpf_kfunc void scx_bpf_exit_bstr(s64 exit_code, char *fmt,
+         | __attribute__((format(printf, 2, 0))) 
+    6973 |                                    unsigned long long *data, u32 data__sz)
+    6974 | {
+    6975 |         unsigned long flags;
+    6976 | 
+    6977 |         raw_spin_lock_irqsave(&scx_exit_bstr_buf_lock, flags);
+    6978 |         if (bstr_format(&scx_exit_bstr_buf, fmt, data, data__sz) >= 0)
+         |                                                                ^
+   kernel/sched/ext.c:6972:18: note: 'scx_bpf_exit_bstr' declared here
+    6972 | __bpf_kfunc void scx_bpf_exit_bstr(s64 exit_code, char *fmt,
+         |                  ^
+>> kernel/sched/ext.c:6999:57: warning: diagnostic behavior may be improved by adding the 'format(printf, 1, 0)' attribute to the declaration of 'scx_bpf_error_bstr' [-Wmissing-format-attribute]
+    6993 | __bpf_kfunc void scx_bpf_error_bstr(char *fmt, unsigned long long *data,
+         | __attribute__((format(printf, 1, 0))) 
+    6994 |                                     u32 data__sz)
+    6995 | {
+    6996 |         unsigned long flags;
+    6997 | 
+    6998 |         raw_spin_lock_irqsave(&scx_exit_bstr_buf_lock, flags);
+    6999 |         if (bstr_format(&scx_exit_bstr_buf, fmt, data, data__sz) >= 0)
+         |                                                                ^
+   kernel/sched/ext.c:6993:18: note: 'scx_bpf_error_bstr' declared here
+    6993 | __bpf_kfunc void scx_bpf_error_bstr(char *fmt, unsigned long long *data,
+         |                  ^
+>> kernel/sched/ext.c:7031:59: warning: diagnostic behavior may be improved by adding the 'format(printf, 1, 0)' attribute to the declaration of 'scx_bpf_dump_bstr' [-Wmissing-format-attribute]
+    7017 | __bpf_kfunc void scx_bpf_dump_bstr(char *fmt, unsigned long long *data,
+         | __attribute__((format(printf, 1, 0))) 
+    7018 |                                    u32 data__sz)
+    7019 | {
+    7020 |         struct scx_dump_data *dd = &scx_dump_data;
+    7021 |         struct scx_bstr_buf *buf = &dd->buf;
+    7022 |         s32 ret;
+    7023 | 
+    7024 |         if (raw_smp_processor_id() != dd->cpu) {
+    7025 |                 scx_ops_error("scx_bpf_dump() must only be called from ops.dump() and friends");
+    7026 |                 return;
+    7027 |         }
+    7028 | 
+    7029 |         /* append the formatted string to the line buf */
+    7030 |         ret = __bstr_format(buf->data, buf->line + dd->cursor,
+    7031 |                             sizeof(buf->line) - dd->cursor, fmt, data, data__sz);
+         |                                                                                ^
+   kernel/sched/ext.c:7017:18: note: 'scx_bpf_dump_bstr' declared here
+    7017 | __bpf_kfunc void scx_bpf_dump_bstr(char *fmt, unsigned long long *data,
+         |                  ^
+   7 warnings generated.
 
 
-vim +879 drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
+vim +6942 kernel/sched/ext.c
 
-918eb5c856f6ce Nate Watterson 2024-08-29  875  
-918eb5c856f6ce Nate Watterson 2024-08-29  876  static struct resource *
-918eb5c856f6ce Nate Watterson 2024-08-29  877  tegra241_cmdqv_find_acpi_resource(struct device *dev, int *irq)
-918eb5c856f6ce Nate Watterson 2024-08-29  878  {
-918eb5c856f6ce Nate Watterson 2024-08-29 @879  	struct acpi_device *adev = to_acpi_device(dev);
-918eb5c856f6ce Nate Watterson 2024-08-29  880  	struct list_head resource_list;
-918eb5c856f6ce Nate Watterson 2024-08-29  881  	struct resource_entry *rentry;
-918eb5c856f6ce Nate Watterson 2024-08-29  882  	struct resource *res = NULL;
-918eb5c856f6ce Nate Watterson 2024-08-29  883  	int ret;
-918eb5c856f6ce Nate Watterson 2024-08-29  884  
-918eb5c856f6ce Nate Watterson 2024-08-29  885  	INIT_LIST_HEAD(&resource_list);
-918eb5c856f6ce Nate Watterson 2024-08-29  886  	ret = acpi_dev_get_resources(adev, &resource_list,
-918eb5c856f6ce Nate Watterson 2024-08-29  887  				     tegra241_cmdqv_acpi_is_memory, NULL);
-918eb5c856f6ce Nate Watterson 2024-08-29  888  	if (ret < 0) {
-918eb5c856f6ce Nate Watterson 2024-08-29  889  		dev_err(dev, "failed to get memory resource: %d\n", ret);
-918eb5c856f6ce Nate Watterson 2024-08-29  890  		return NULL;
-918eb5c856f6ce Nate Watterson 2024-08-29  891  	}
-918eb5c856f6ce Nate Watterson 2024-08-29  892  
-918eb5c856f6ce Nate Watterson 2024-08-29  893  	rentry = list_first_entry_or_null(&resource_list,
-918eb5c856f6ce Nate Watterson 2024-08-29  894  					  struct resource_entry, node);
-918eb5c856f6ce Nate Watterson 2024-08-29  895  	if (!rentry) {
-918eb5c856f6ce Nate Watterson 2024-08-29  896  		dev_err(dev, "failed to get memory resource entry\n");
-918eb5c856f6ce Nate Watterson 2024-08-29  897  		goto free_list;
-918eb5c856f6ce Nate Watterson 2024-08-29  898  	}
-918eb5c856f6ce Nate Watterson 2024-08-29  899  
-918eb5c856f6ce Nate Watterson 2024-08-29  900  	/* Caller must free the res */
-918eb5c856f6ce Nate Watterson 2024-08-29  901  	res = kzalloc(sizeof(*res), GFP_KERNEL);
-918eb5c856f6ce Nate Watterson 2024-08-29  902  	if (!res)
-918eb5c856f6ce Nate Watterson 2024-08-29  903  		goto free_list;
-918eb5c856f6ce Nate Watterson 2024-08-29  904  
-918eb5c856f6ce Nate Watterson 2024-08-29  905  	*res = *rentry->res;
-918eb5c856f6ce Nate Watterson 2024-08-29  906  
-918eb5c856f6ce Nate Watterson 2024-08-29  907  	acpi_dev_free_resource_list(&resource_list);
-918eb5c856f6ce Nate Watterson 2024-08-29  908  
-918eb5c856f6ce Nate Watterson 2024-08-29  909  	INIT_LIST_HEAD(&resource_list);
-918eb5c856f6ce Nate Watterson 2024-08-29  910  
-918eb5c856f6ce Nate Watterson 2024-08-29  911  	if (irq)
-918eb5c856f6ce Nate Watterson 2024-08-29  912  		ret = acpi_dev_get_resources(adev, &resource_list,
-918eb5c856f6ce Nate Watterson 2024-08-29  913  					     tegra241_cmdqv_acpi_get_irqs, irq);
-918eb5c856f6ce Nate Watterson 2024-08-29  914  	if (ret < 0 || !irq || *irq <= 0)
-918eb5c856f6ce Nate Watterson 2024-08-29  915  		dev_warn(dev, "no interrupt. errors will not be reported\n");
-918eb5c856f6ce Nate Watterson 2024-08-29  916  
-918eb5c856f6ce Nate Watterson 2024-08-29  917  free_list:
-918eb5c856f6ce Nate Watterson 2024-08-29  918  	acpi_dev_free_resource_list(&resource_list);
-918eb5c856f6ce Nate Watterson 2024-08-29  919  	return res;
-918eb5c856f6ce Nate Watterson 2024-08-29  920  }
-918eb5c856f6ce Nate Watterson 2024-08-29  921  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6914  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6915  static s32 __bstr_format(u64 *data_buf, char *line_buf, size_t line_size,
+f0e1a0643a59bf Tejun Heo    2024-06-18  6916  			 char *fmt, unsigned long long *data, u32 data__sz)
+f0e1a0643a59bf Tejun Heo    2024-06-18  6917  {
+f0e1a0643a59bf Tejun Heo    2024-06-18  6918  	struct bpf_bprintf_data bprintf_data = { .get_bin_args = true };
+f0e1a0643a59bf Tejun Heo    2024-06-18  6919  	s32 ret;
+f0e1a0643a59bf Tejun Heo    2024-06-18  6920  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6921  	if (data__sz % 8 || data__sz > MAX_BPRINTF_VARARGS * 8 ||
+f0e1a0643a59bf Tejun Heo    2024-06-18  6922  	    (data__sz && !data)) {
+f0e1a0643a59bf Tejun Heo    2024-06-18  6923  		scx_ops_error("invalid data=%p and data__sz=%u",
+f0e1a0643a59bf Tejun Heo    2024-06-18  6924  			      (void *)data, data__sz);
+f0e1a0643a59bf Tejun Heo    2024-06-18  6925  		return -EINVAL;
+f0e1a0643a59bf Tejun Heo    2024-06-18  6926  	}
+f0e1a0643a59bf Tejun Heo    2024-06-18  6927  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6928  	ret = copy_from_kernel_nofault(data_buf, data, data__sz);
+f0e1a0643a59bf Tejun Heo    2024-06-18  6929  	if (ret < 0) {
+f0e1a0643a59bf Tejun Heo    2024-06-18  6930  		scx_ops_error("failed to read data fields (%d)", ret);
+f0e1a0643a59bf Tejun Heo    2024-06-18  6931  		return ret;
+f0e1a0643a59bf Tejun Heo    2024-06-18  6932  	}
+f0e1a0643a59bf Tejun Heo    2024-06-18  6933  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6934  	ret = bpf_bprintf_prepare(fmt, UINT_MAX, data_buf, data__sz / 8,
+f0e1a0643a59bf Tejun Heo    2024-06-18  6935  				  &bprintf_data);
+f0e1a0643a59bf Tejun Heo    2024-06-18  6936  	if (ret < 0) {
+f0e1a0643a59bf Tejun Heo    2024-06-18  6937  		scx_ops_error("format preparation failed (%d)", ret);
+f0e1a0643a59bf Tejun Heo    2024-06-18  6938  		return ret;
+f0e1a0643a59bf Tejun Heo    2024-06-18  6939  	}
+f0e1a0643a59bf Tejun Heo    2024-06-18  6940  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6941  	ret = bstr_printf(line_buf, line_size, fmt,
+f0e1a0643a59bf Tejun Heo    2024-06-18 @6942  			  bprintf_data.bin_args);
+f0e1a0643a59bf Tejun Heo    2024-06-18  6943  	bpf_bprintf_cleanup(&bprintf_data);
+f0e1a0643a59bf Tejun Heo    2024-06-18  6944  	if (ret < 0) {
+f0e1a0643a59bf Tejun Heo    2024-06-18  6945  		scx_ops_error("(\"%s\", %p, %u) failed to format",
+f0e1a0643a59bf Tejun Heo    2024-06-18  6946  			      fmt, data, data__sz);
+f0e1a0643a59bf Tejun Heo    2024-06-18  6947  		return ret;
+f0e1a0643a59bf Tejun Heo    2024-06-18  6948  	}
+f0e1a0643a59bf Tejun Heo    2024-06-18  6949  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6950  	return ret;
+f0e1a0643a59bf Tejun Heo    2024-06-18  6951  }
+f0e1a0643a59bf Tejun Heo    2024-06-18  6952  
+f0e1a0643a59bf Tejun Heo    2024-06-18 @6953  static s32 bstr_format(struct scx_bstr_buf *buf,
+f0e1a0643a59bf Tejun Heo    2024-06-18  6954  		       char *fmt, unsigned long long *data, u32 data__sz)
+f0e1a0643a59bf Tejun Heo    2024-06-18  6955  {
+f0e1a0643a59bf Tejun Heo    2024-06-18  6956  	return __bstr_format(buf->data, buf->line, sizeof(buf->line),
+f0e1a0643a59bf Tejun Heo    2024-06-18 @6957  			     fmt, data, data__sz);
+f0e1a0643a59bf Tejun Heo    2024-06-18  6958  }
+f0e1a0643a59bf Tejun Heo    2024-06-18  6959  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6960  __bpf_kfunc_start_defs();
+f0e1a0643a59bf Tejun Heo    2024-06-18  6961  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6962  /**
+f0e1a0643a59bf Tejun Heo    2024-06-18  6963   * scx_bpf_exit_bstr - Gracefully exit the BPF scheduler.
+f0e1a0643a59bf Tejun Heo    2024-06-18  6964   * @exit_code: Exit value to pass to user space via struct scx_exit_info.
+f0e1a0643a59bf Tejun Heo    2024-06-18  6965   * @fmt: error message format string
+f0e1a0643a59bf Tejun Heo    2024-06-18  6966   * @data: format string parameters packaged using ___bpf_fill() macro
+f0e1a0643a59bf Tejun Heo    2024-06-18  6967   * @data__sz: @data len, must end in '__sz' for the verifier
+f0e1a0643a59bf Tejun Heo    2024-06-18  6968   *
+f0e1a0643a59bf Tejun Heo    2024-06-18  6969   * Indicate that the BPF scheduler wants to exit gracefully, and initiate ops
+f0e1a0643a59bf Tejun Heo    2024-06-18  6970   * disabling.
+f0e1a0643a59bf Tejun Heo    2024-06-18  6971   */
+f0e1a0643a59bf Tejun Heo    2024-06-18 @6972  __bpf_kfunc void scx_bpf_exit_bstr(s64 exit_code, char *fmt,
+f0e1a0643a59bf Tejun Heo    2024-06-18  6973  				   unsigned long long *data, u32 data__sz)
+f0e1a0643a59bf Tejun Heo    2024-06-18  6974  {
+f0e1a0643a59bf Tejun Heo    2024-06-18  6975  	unsigned long flags;
+f0e1a0643a59bf Tejun Heo    2024-06-18  6976  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6977  	raw_spin_lock_irqsave(&scx_exit_bstr_buf_lock, flags);
+f0e1a0643a59bf Tejun Heo    2024-06-18 @6978  	if (bstr_format(&scx_exit_bstr_buf, fmt, data, data__sz) >= 0)
+f0e1a0643a59bf Tejun Heo    2024-06-18  6979  		scx_ops_exit_kind(SCX_EXIT_UNREG_BPF, exit_code, "%s",
+f0e1a0643a59bf Tejun Heo    2024-06-18  6980  				  scx_exit_bstr_buf.line);
+f0e1a0643a59bf Tejun Heo    2024-06-18  6981  	raw_spin_unlock_irqrestore(&scx_exit_bstr_buf_lock, flags);
+f0e1a0643a59bf Tejun Heo    2024-06-18  6982  }
+f0e1a0643a59bf Tejun Heo    2024-06-18  6983  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6984  /**
+f0e1a0643a59bf Tejun Heo    2024-06-18  6985   * scx_bpf_error_bstr - Indicate fatal error
+f0e1a0643a59bf Tejun Heo    2024-06-18  6986   * @fmt: error message format string
+f0e1a0643a59bf Tejun Heo    2024-06-18  6987   * @data: format string parameters packaged using ___bpf_fill() macro
+f0e1a0643a59bf Tejun Heo    2024-06-18  6988   * @data__sz: @data len, must end in '__sz' for the verifier
+f0e1a0643a59bf Tejun Heo    2024-06-18  6989   *
+f0e1a0643a59bf Tejun Heo    2024-06-18  6990   * Indicate that the BPF scheduler encountered a fatal error and initiate ops
+f0e1a0643a59bf Tejun Heo    2024-06-18  6991   * disabling.
+f0e1a0643a59bf Tejun Heo    2024-06-18  6992   */
+f0e1a0643a59bf Tejun Heo    2024-06-18 @6993  __bpf_kfunc void scx_bpf_error_bstr(char *fmt, unsigned long long *data,
+f0e1a0643a59bf Tejun Heo    2024-06-18  6994  				    u32 data__sz)
+f0e1a0643a59bf Tejun Heo    2024-06-18  6995  {
+f0e1a0643a59bf Tejun Heo    2024-06-18  6996  	unsigned long flags;
+f0e1a0643a59bf Tejun Heo    2024-06-18  6997  
+f0e1a0643a59bf Tejun Heo    2024-06-18  6998  	raw_spin_lock_irqsave(&scx_exit_bstr_buf_lock, flags);
+f0e1a0643a59bf Tejun Heo    2024-06-18 @6999  	if (bstr_format(&scx_exit_bstr_buf, fmt, data, data__sz) >= 0)
+f0e1a0643a59bf Tejun Heo    2024-06-18  7000  		scx_ops_exit_kind(SCX_EXIT_ERROR_BPF, 0, "%s",
+f0e1a0643a59bf Tejun Heo    2024-06-18  7001  				  scx_exit_bstr_buf.line);
+f0e1a0643a59bf Tejun Heo    2024-06-18  7002  	raw_spin_unlock_irqrestore(&scx_exit_bstr_buf_lock, flags);
+f0e1a0643a59bf Tejun Heo    2024-06-18  7003  }
+f0e1a0643a59bf Tejun Heo    2024-06-18  7004  
+07814a9439a3b0 Tejun Heo    2024-06-18  7005  /**
+987ce79b5242c0 Randy Dunlap 2025-01-10  7006   * scx_bpf_dump_bstr - Generate extra debug dump specific to the BPF scheduler
+07814a9439a3b0 Tejun Heo    2024-06-18  7007   * @fmt: format string
+07814a9439a3b0 Tejun Heo    2024-06-18  7008   * @data: format string parameters packaged using ___bpf_fill() macro
+07814a9439a3b0 Tejun Heo    2024-06-18  7009   * @data__sz: @data len, must end in '__sz' for the verifier
+07814a9439a3b0 Tejun Heo    2024-06-18  7010   *
+07814a9439a3b0 Tejun Heo    2024-06-18  7011   * To be called through scx_bpf_dump() helper from ops.dump(), dump_cpu() and
+07814a9439a3b0 Tejun Heo    2024-06-18  7012   * dump_task() to generate extra debug dump specific to the BPF scheduler.
+07814a9439a3b0 Tejun Heo    2024-06-18  7013   *
+07814a9439a3b0 Tejun Heo    2024-06-18  7014   * The extra dump may be multiple lines. A single line may be split over
+07814a9439a3b0 Tejun Heo    2024-06-18  7015   * multiple calls. The last line is automatically terminated.
+07814a9439a3b0 Tejun Heo    2024-06-18  7016   */
+07814a9439a3b0 Tejun Heo    2024-06-18  7017  __bpf_kfunc void scx_bpf_dump_bstr(char *fmt, unsigned long long *data,
+07814a9439a3b0 Tejun Heo    2024-06-18  7018  				   u32 data__sz)
+07814a9439a3b0 Tejun Heo    2024-06-18  7019  {
+07814a9439a3b0 Tejun Heo    2024-06-18  7020  	struct scx_dump_data *dd = &scx_dump_data;
+07814a9439a3b0 Tejun Heo    2024-06-18  7021  	struct scx_bstr_buf *buf = &dd->buf;
+07814a9439a3b0 Tejun Heo    2024-06-18  7022  	s32 ret;
+07814a9439a3b0 Tejun Heo    2024-06-18  7023  
+07814a9439a3b0 Tejun Heo    2024-06-18  7024  	if (raw_smp_processor_id() != dd->cpu) {
+07814a9439a3b0 Tejun Heo    2024-06-18  7025  		scx_ops_error("scx_bpf_dump() must only be called from ops.dump() and friends");
+07814a9439a3b0 Tejun Heo    2024-06-18  7026  		return;
+07814a9439a3b0 Tejun Heo    2024-06-18  7027  	}
+07814a9439a3b0 Tejun Heo    2024-06-18  7028  
+07814a9439a3b0 Tejun Heo    2024-06-18  7029  	/* append the formatted string to the line buf */
+07814a9439a3b0 Tejun Heo    2024-06-18  7030  	ret = __bstr_format(buf->data, buf->line + dd->cursor,
+07814a9439a3b0 Tejun Heo    2024-06-18 @7031  			    sizeof(buf->line) - dd->cursor, fmt, data, data__sz);
+07814a9439a3b0 Tejun Heo    2024-06-18  7032  	if (ret < 0) {
+07814a9439a3b0 Tejun Heo    2024-06-18  7033  		dump_line(dd->s, "%s[!] (\"%s\", %p, %u) failed to format (%d)",
+07814a9439a3b0 Tejun Heo    2024-06-18  7034  			  dd->prefix, fmt, data, data__sz, ret);
+07814a9439a3b0 Tejun Heo    2024-06-18  7035  		return;
+07814a9439a3b0 Tejun Heo    2024-06-18  7036  	}
+07814a9439a3b0 Tejun Heo    2024-06-18  7037  
+07814a9439a3b0 Tejun Heo    2024-06-18  7038  	dd->cursor += ret;
+07814a9439a3b0 Tejun Heo    2024-06-18  7039  	dd->cursor = min_t(s32, dd->cursor, sizeof(buf->line));
+07814a9439a3b0 Tejun Heo    2024-06-18  7040  
+07814a9439a3b0 Tejun Heo    2024-06-18  7041  	if (!dd->cursor)
+07814a9439a3b0 Tejun Heo    2024-06-18  7042  		return;
+07814a9439a3b0 Tejun Heo    2024-06-18  7043  
+07814a9439a3b0 Tejun Heo    2024-06-18  7044  	/*
+07814a9439a3b0 Tejun Heo    2024-06-18  7045  	 * If the line buf overflowed or ends in a newline, flush it into the
+07814a9439a3b0 Tejun Heo    2024-06-18  7046  	 * dump. This is to allow the caller to generate a single line over
+07814a9439a3b0 Tejun Heo    2024-06-18  7047  	 * multiple calls. As ops_dump_flush() can also handle multiple lines in
+07814a9439a3b0 Tejun Heo    2024-06-18  7048  	 * the line buf, the only case which can lead to an unexpected
+07814a9439a3b0 Tejun Heo    2024-06-18  7049  	 * truncation is when the caller keeps generating newlines in the middle
+07814a9439a3b0 Tejun Heo    2024-06-18  7050  	 * instead of the end consecutively. Don't do that.
+07814a9439a3b0 Tejun Heo    2024-06-18  7051  	 */
+07814a9439a3b0 Tejun Heo    2024-06-18  7052  	if (dd->cursor >= sizeof(buf->line) || buf->line[dd->cursor - 1] == '\n')
+07814a9439a3b0 Tejun Heo    2024-06-18  7053  		ops_dump_flush();
+07814a9439a3b0 Tejun Heo    2024-06-18  7054  }
+07814a9439a3b0 Tejun Heo    2024-06-18  7055  
+
+:::::: The code at line 6942 was first introduced by commit
+:::::: f0e1a0643a59bf1f922fa209cec86a170b784f3f sched_ext: Implement BPF extensible scheduler class
+
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
