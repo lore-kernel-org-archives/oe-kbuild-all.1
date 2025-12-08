@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197292D8375
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 19:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C079F2C21C6
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 Dec 2025 19:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765222444; cv=none; b=PHHuGxzV3PeLvmhOM2nrSzEBb3V9lRgTPmxLg7GC1CB8SUZxBxv35tEygbWUFf8NLa+vYmyW7n47L50dahKd+ABQwNSfwUWBMBE1OVo3gYhujM3CoKiBxmOx1MDcyMmKf0dZey5/5AyyyTtdLDB2GID3OCPOZcHox4oq2YrVlok=
+	t=1765222928; cv=none; b=AIjrVtRLP+UeWtCihLuNlgr0lxPt+yAQwUsJBv4863LheSBWZd8xLhAilm2APaLPyVJ8wzyc72oLvbEo9+MAlGK+68s5+V9B0YluuN9TTMNmIIr6/OwKXBjuWDDBzCv/2Y+86TIwt+c/vAYXlcqUTKhoGYGMUu1KDnGBqs2Z0F4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765222444; c=relaxed/simple;
-	bh=8qTHzy9A2/DnpF5tKycJDu/Itl4CuCHmba0gotsl0ds=;
+	s=arc-20240116; t=1765222928; c=relaxed/simple;
+	bh=Lf1vQXV/7Ny+lAR7iQGTMlgFCALo4PhO9jC4Q3N7YzQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JpM42gUThlnFeSv3I7RoGMhDMToDzjorje+SBBSKyzHNB+VLvSVd1p1xxu+Wd5lO64p9T/Pmsm8dCDJERO3SFZ1pYZkMomOxNWSwWVQl2fSkrr8OjUxwaCTH1ANbGj1XUEBQT9S531DyCJlGU/34+UevdEQ/xoppY6DVkjmmkzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a1ZPhUfO; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=VvdpjXLRKSihVD35aXfPv31x5gxWJS1nliU0CxcKrfPh+vlIoL4Tn4m0dnat0f1pOPtI4aJpWuRzjrOabccc5Lcu4ICGyTtGeA8oWoa1ILz8B5cWGpbmRAX4h+pA2Izd6VMswVLWAD6QITQkQk5//084TfnSlkkzHv/eR9FmkJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Idk5b2bG; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a1ZPhUfO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Idk5b2bG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765222443; x=1796758443;
+  t=1765222927; x=1796758927;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8qTHzy9A2/DnpF5tKycJDu/Itl4CuCHmba0gotsl0ds=;
-  b=a1ZPhUfOysYeb4CP9gfbN6IR2hBq1TarTWXgrwgphl/msFu83bve7Mk+
-   BSv07NsdEiZfqEUUgryuIStugCs+TPB72kyh0oKGH5c1X3rH3pVbwoE2c
-   Mmtj63iLCLgBO+HekEglZ7f8Q+QD5qFQvWTS2TBi94UQamKENhxiP8acl
-   egaBc76C26ISrqjvTSzfQAOvWMrbC3tPw0DKRUcSDmvPcsg3npW/s8bhn
-   pIOtMS3hst9zH3ecb9vpPadCWJ0t+J26w5WU+HYawLL4ZQBqDxN1T9bDL
-   XZrOhe+pVb4VGdIX3H83oDJJPlkd7cwCqAFrksk8UyUIaeVEo9Y0AdSbI
-   A==;
-X-CSE-ConnectionGUID: Y1VIYtqEQzWAuDYhx7XXTw==
-X-CSE-MsgGUID: NSllXmsSQQG4Qtig8BYcHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="66174835"
+  bh=Lf1vQXV/7Ny+lAR7iQGTMlgFCALo4PhO9jC4Q3N7YzQ=;
+  b=Idk5b2bG+pm2eTNLqW7CNKNeug/56rGQoI8oEymY2xPfU8S+0uB9looe
+   8KaBfo02eSZe6ISINASwSyEgz9/a0Yb5jSP326/2eEFWWdw8IZfTiEoco
+   Ex86NwPTQteaXBoSztgW42f6YAZC7FDHfGqu/WapUaheIxlxqc3z/s1Wv
+   LKQDf8qYljIkunjI1B1uRhlFw/kxbFOkpZXiQrTG9TV7jJROVcH7lO8+o
+   mHTGjNojDzSFeD1jwgNrHjH1Av6ezCpQAgvEKneYtlrzHksmH7NtUEbMi
+   dqg28f84qZYJgC7h4gl6eLK0ZDHX+8A7XBiw84+k7KIMyfm1KwpG3UMqp
+   Q==;
+X-CSE-ConnectionGUID: fWbDAJshQoSId2NLhRUVow==
+X-CSE-MsgGUID: mrV7qRrgQQSKA3kpcseaJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="54713975"
 X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="66174835"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 11:34:01 -0800
-X-CSE-ConnectionGUID: +VM5KlyESceQFAP0vSkuQQ==
-X-CSE-MsgGUID: jn/YIWenTE+viOJymvuWWg==
+   d="scan'208";a="54713975"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 11:42:06 -0800
+X-CSE-ConnectionGUID: h3WGaCjmTgyyWZ1xhN7FGw==
+X-CSE-MsgGUID: 75gTYqW3SLauxqQvpf9v6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,259,1758610800"; 
-   d="scan'208";a="195809722"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 08 Dec 2025 11:33:59 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="195921600"
+Received: from igk-lkp-server01.igk.intel.com (HELO a9286e139fc0) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 08 Dec 2025 11:42:05 -0800
+Received: from kbuild by a9286e139fc0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSgzc-000000000m5-3ZxF;
-	Mon, 08 Dec 2025 19:33:56 +0000
-Date: Tue, 9 Dec 2025 03:33:11 +0800
+	id 1vSh7T-000000002FF-17Jr;
+	Mon, 08 Dec 2025 19:42:03 +0000
+Date: Mon, 8 Dec 2025 20:41:37 +0100
 From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@kernel.org>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ebiggers:wip-nh-lib 14/20] lib/crypto/nh.c:82:1: sparse: sparse:
- static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-Message-ID: <202512090359.7BkUaiC9-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 3386/3386] arch/x86/mm/kasan_init_64.c:128:15:
+ warning: variable 'p' set but not used
+Message-ID: <202512082005.aJ6IUacC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,37 +62,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-nh-lib
-head:   d471b579f29c765ebaeba7a3b653052f029dc550
-commit: 7f1c9dc7e0f3540a978f65f4d2d48ea1cd475a3e [14/20] crypto: adiantum - Convert to use NH library
-config: i386-randconfig-r134-20251208 (https://download.01.org/0day-ci/archive/20251209/202512090359.7BkUaiC9-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   69d9543977fd7abe8b555406c7a3e5d64d8292f8
+commit: 68ee705da160d123656dcbf9ebd449fb77b54bc0 [3386/3386] scripts: kernel-doc: Fix syntax error due to undeclared args variable
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251208/202512082005.aJ6IUacC-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090359.7BkUaiC9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251208/202512082005.aJ6IUacC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512090359.7BkUaiC9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512082005.aJ6IUacC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/crypto/nh.c:81:1: sparse: sparse: bad integer constant expression
-   lib/crypto/nh.c:81:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   lib/crypto/nh.c:82:1: sparse: sparse: bad integer constant expression
->> lib/crypto/nh.c:82:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   lib/crypto/nh.c:82:1: sparse: sparse: bad integer constant expression
-   lib/crypto/nh.c:82:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+All warnings (new ones prefixed by >>):
 
-vim +82 lib/crypto/nh.c
+   arch/x86/mm/kasan_init_64.c: In function 'kasan_populate_pgd':
+>> arch/x86/mm/kasan_init_64.c:128:15: warning: variable 'p' set but not used [-Wunused-but-set-variable]
+     128 |         void *p;
+         |               ^
+   arch/x86/mm/kasan_init_64.c: In function 'kasan_shallow_populate_pgds':
+   arch/x86/mm/kasan_init_64.c:270:15: warning: variable 'p' set but not used [-Wunused-but-set-variable]
+     270 |         void *p;
+         |               ^
+--
+   lib/test_blackhole_dev.c: In function 'test_blackholedev_init':
+>> lib/test_blackhole_dev.c:32:24: warning: variable 'ethh' set but not used [-Wunused-but-set-variable]
+      32 |         struct ethhdr *ethh;
+         |                        ^~~~
+--
+>> drivers/acpi/cppc_acpi.c:450: warning: Function parameter or member 'cpc_pptr' not described in '__acpi_get_psd_map'
+   drivers/acpi/cppc_acpi.c:700: warning: Function parameter or member 'pcc_ss_id' not described in 'pcc_data_alloc'
+   drivers/acpi/cppc_acpi.c:1566: warning: Function parameter or member 'cpu_num' not described in 'cppc_get_transition_latency'
+--
+>> net/netfilter/nf_tables_api.c:9162: warning: Function parameter or member 'preg' not described in 'nft_parse_register'
 
-98c1450f1f24a0 Eric Biggers 2025-12-06  80  
-98c1450f1f24a0 Eric Biggers 2025-12-06 @81  MODULE_DESCRIPTION("NH almost-universal hash function");
-98c1450f1f24a0 Eric Biggers 2025-12-06 @82  MODULE_LICENSE("GPL");
 
-:::::: The code at line 82 was first introduced by commit
-:::::: 98c1450f1f24a0da7966a85ba15fb0f637ae155d lib/crypto: nh: Add NH library
+vim +/p +128 arch/x86/mm/kasan_init_64.c
 
-:::::: TO: Eric Biggers <ebiggers@kernel.org>
-:::::: CC: Eric Biggers <ebiggers@kernel.org>
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  124  
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  125  static void __init kasan_populate_pgd(pgd_t *pgd, unsigned long addr,
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  126  				      unsigned long end, int nid)
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  127  {
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15 @128  	void *p;
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  129  	p4d_t *p4d;
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  130  	unsigned long next;
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  131  
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  132  	if (pgd_none(*pgd)) {
+0d39e2669d7b0f Andrey Ryabinin 2018-01-10  133  		p = early_alloc(PAGE_SIZE, nid, true);
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  134  		pgd_populate(&init_mm, pgd, p);
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  135  	}
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  136  
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  137  	p4d = p4d_offset(pgd, addr);
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  138  	do {
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  139  		next = p4d_addr_end(addr, end);
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  140  		kasan_populate_p4d(p4d, addr, next, nid);
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  141  	} while (p4d++, addr = next, addr != end);
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  142  }
+2aeb07365bcd48 Andrey Ryabinin 2017-11-15  143  
+
+:::::: The code at line 128 was first introduced by commit
+:::::: 2aeb07365bcd489620f71390a7d2031cd4dfb83e x86/mm/kasan: Don't use vmemmap_populate() to initialize shadow
+
+:::::: TO: Andrey Ryabinin <aryabinin@virtuozzo.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
