@@ -1,138 +1,90 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4AB32863B;
-	Tue,  9 Dec 2025 16:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B06432A3E1
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 17:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765298275; cv=none; b=U2ouQfC1EeDdryrdRuDlJ2GHAJDWTj+eEBd2QAdM9BjN+sHhHeqLcTvkFGEaMEnZ+NS0sV/UwA/AKsXj1VHohWL5pkMJmYzCdaMNNh2/KUVBHAOqWLQyZcpzktAKlD4CZBl4pMfiLkFQl5i0Sm+yr03DxSgeJoxjvRpXrXyxekU=
+	t=1765301532; cv=none; b=KX9ooqCi39KJXCZ5Gh/+DR1Uukbncc9/Vau4MijYtuWlzfZLxdArVO50Qv5T4U+GFQRdpGygRwaiHpQug1MOaiB4LPhXeXA1wOLD0weeZYcZw6dpfzXCCh4FiKeWMYAc/DSTaf0HAYdgwyuGNbSU+F/3TfDSVJP13dYgQeSTOUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765298275; c=relaxed/simple;
-	bh=NzufaIjgtXwHtuTuBxe+5qie4zROkzrwThHUuDdu8GM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MzOF26L/EdCadfXz/M27ihHhghKqFU2E/yzK44/6dj16TNOAx9oBusXDuVAnmfHsAMp/c2SjL4Z6vV0/Z4rHbolhsTOv/Ob2ybYaVQTMhPxCVw1A+QG17jy838Z4/2OEVv6lhyBVltfoCRzjq5XjMj+ZQMLPjnG78DFmkIKOs0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=oPyJe9Jz; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1765301532; c=relaxed/simple;
+	bh=3vwMFo3TZD75AvSlT+fkYMjh/TA0mnQZJXZ4s44+wFI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IMbtkrylGqcVLNgZC/GLxi4vIkUEpE2g8kslG/rbFMbCCwGk8WUAt23a1U8I4keG18W//C0K7/cHvKKDaJoMPqmmjJJfhFRIB7i4HMNhTDMvCju3TD9QO6nOl0tjuqm1Ox4dtN4lqLDBt6bB5ui3O5JrkNGIJQ1aiSAaQV1F+9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y6uzNe8s; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="oPyJe9Jz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1765298270;
-	bh=NzufaIjgtXwHtuTuBxe+5qie4zROkzrwThHUuDdu8GM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=oPyJe9JzNF0mbrHZ0GaODcKtbVtL7pzgAAdpQrNrG7pf1h/6jZ0YIY+esRzCDa5Fe
-	 ORkG6l0Nxlo2YD4ZH8gEG1DzLSO/m1v4SKlHRASwKr8CcnAOlK6D+xxLplRDSWQEWq
-	 dFHKs7K8av/WH5TJsc+VSMZ3VZewc2HwKRyh9wbHhB2PL6Tkq0QojbhRsfh/5NGzO8
-	 vH7U/ra89vWg/t9Xdpd0+vansxjeO/UVc6D7QGW0V+rhL+RRRM3yNxRP5vWXNevY6b
-	 i9si+wYO8+VxMGya9k24Ed8+VIQYz+EL/vgQvKeojGE2Z08SfvOYY1VpkV/6aJo1gj
-	 Ka+rpogKBlS3w==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1500D17E1292;
-	Tue,  9 Dec 2025 17:37:50 +0100 (CET)
-Date: Tue, 9 Dec 2025 17:37:46 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: kernel test robot <lkp@intel.com>
-Cc: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>,
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>
-Subject: Re: [drm-misc:drm-misc-next 4/11]
- drivers/gpu/drm/drm_gem.c:1261:10: error: call to undeclared function
- 'mm_get_unmapped_area'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <20251209173746.38931a89@fedora>
-In-Reply-To: <202512092338.ylY8zET6-lkp@intel.com>
-References: <202512092338.ylY8zET6-lkp@intel.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y6uzNe8s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765301532; x=1796837532;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3vwMFo3TZD75AvSlT+fkYMjh/TA0mnQZJXZ4s44+wFI=;
+  b=Y6uzNe8s1DJaHCow5BrAO7aXz3CMzbA9UooPXgnOCCX91dcR1ULr9SdU
+   dKldst/sk050uN3KdQWbg5ShMR4PgodiX47XSCPMZ/aYt8VD8VNQAWplZ
+   2PeSLEbiIVFbwxq/FLz9cYepP/hpPTATjcyWlpRd3isRPNlzxeUWhw+eN
+   ALWoQqgQoa6CUdgM31mSvUauFgJHa3cJRXep5GoAXkoPkDMVg0LyFAVC0
+   G8Oz8d9NnKockGeltn7Yo4h1blNOHzvuvy7Odl35yPSqzG1fhs5iUtFqk
+   wQiwFXljqs1QdeA/ZalCuRfry9Um9dYSXgtoogP06cSjr4adn0LW/iqiI
+   g==;
+X-CSE-ConnectionGUID: FHtsaWgZTxehMt5zGnud+Q==
+X-CSE-MsgGUID: q1i0WsZsTz+HFoTVvKclaw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67222770"
+X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
+   d="scan'208";a="67222770"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 09:32:11 -0800
+X-CSE-ConnectionGUID: VrSvw44yQmS9P4tUmo5OEQ==
+X-CSE-MsgGUID: cysN5Td7RMCrQl+FhyBgMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
+   d="scan'208";a="200712013"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 09 Dec 2025 09:32:09 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vT1ZH-000000000KD-0epy;
+	Tue, 09 Dec 2025 17:32:07 +0000
+Date: Tue, 9 Dec 2025 18:31:34 +0100
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>
+Subject: kismet: WARNING: unmet direct dependencies detected for
+ DRM_DISPLAY_DSC_HELPER when selected by DRM_PANEL_SAMSUNG_S6E3HA8
+Message-ID: <202512091804.4HJDPGPk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 9 Dec 2025 23:58:10 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cb015814f8b6eebcbb8e46e111d108892c5e6821
+commit: fd3b2c5f40a1e028bc813284260d430257444334 drm/panel: s6e3ha8: select CONFIG_DRM_DISPLAY_DSC_HELPER
+date:   1 year, 2 months ago
+config: um-kismet-CONFIG_DRM_DISPLAY_DSC_HELPER-CONFIG_DRM_PANEL_SAMSUNG_S6E3HA8-0-0 (https://download.01.org/0day-ci/archive/20251209/202512091804.4HJDPGPk-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251209/202512091804.4HJDPGPk-lkp@intel.com/reproduce)
 
-> tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-> head:   0823bd894278e4c0f1acb8f3a8a3c67745e6d1f6
-> commit: 99bda20d6d4cac30ed6d357658d8bc328c3b27d9 [4/11] drm/gem: Introduce drm_gem_get_unmapped_area() fop
-> config: arm-randconfig-003-20251209 (https://download.01.org/0day-ci/archive/20251209/202512092338.ylY8zET6-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512092338.ylY8zET6-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512092338.ylY8zET6-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/gpu/drm/drm_gem.c:1261:10: error: call to undeclared function 'mm_get_unmapped_area'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]  
->     1261 |                 return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
->          |                        ^
->    drivers/gpu/drm/drm_gem.c:1261:10: note: did you mean '__get_unmapped_area'?
->    include/linux/mm.h:3441:1: note: '__get_unmapped_area' declared here
->     3441 | __get_unmapped_area(struct file *file, unsigned long addr, unsigned long len,
->          | ^
->    1 error generated.
-> 
-> 
-> vim +/mm_get_unmapped_area +1261 drivers/gpu/drm/drm_gem.c
-> 
->   1229	
->   1230	/**
->   1231	 * drm_gem_get_unmapped_area - get memory mapping region routine for GEM objects
->   1232	 * @filp: DRM file pointer
->   1233	 * @uaddr: User address hint
->   1234	 * @len: Mapping length
->   1235	 * @pgoff: Offset (in pages)
->   1236	 * @flags: Mapping flags
->   1237	 *
->   1238	 * If a driver supports GEM object mapping, before ending up in drm_gem_mmap(),
->   1239	 * mmap calls on the DRM file descriptor will first try to find a free linear
->   1240	 * address space large enough for a mapping. Since GEM objects are backed by
->   1241	 * shmem buffers, this should preferably be handled by the shmem virtual memory
->   1242	 * filesystem which can appropriately align addresses to huge page sizes when
->   1243	 * needed.
->   1244	 *
->   1245	 * Look up the GEM object based on the offset passed in (vma->vm_pgoff will
->   1246	 * contain the fake offset we created) and call shmem_get_unmapped_area() with
->   1247	 * the right file pointer.
->   1248	 *
->   1249	 * If a GEM object is not available at the given offset or if the caller is not
->   1250	 * granted access to it, fall back to mm_get_unmapped_area().
->   1251	 */
->   1252	unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long uaddr,
->   1253						unsigned long len, unsigned long pgoff,
->   1254						unsigned long flags)
->   1255	{
->   1256		struct drm_gem_object *obj;
->   1257		unsigned long ret;
->   1258	
->   1259		obj = drm_gem_object_lookup_at_offset(filp, pgoff, len >> PAGE_SHIFT);
->   1260		if (IS_ERR(obj) || !obj->filp || !obj->filp->f_op->get_unmapped_area)
-> > 1261			return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,  
->   1262						    flags);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512091804.4HJDPGPk-lkp@intel.com/
 
-Hm, smells like a build without CONFIG_MMU=n. I guess we need some
-#ifdef CONFIG_MMU around drm_gem_get_unmapped_area() definitions.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_DISPLAY_DSC_HELPER when selected by DRM_PANEL_SAMSUNG_S6E3HA8
+   WARNING: unmet direct dependencies detected for DRM_DISPLAY_DSC_HELPER
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=n]
+     Selected by [y]:
+     - DRM_PANEL_SAMSUNG_S6E3HA8 [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_PANEL [=y] && OF [=y] && DRM_MIPI_DSI [=y] && BACKLIGHT_CLASS_DEVICE [=y]
 
->   1263	
->   1264		ret = obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, 0,
->   1265							 flags);
->   1266	
->   1267		drm_gem_object_put(obj);
->   1268	
->   1269		return ret;
->   1270	}
->   1271	EXPORT_SYMBOL_GPL(drm_gem_get_unmapped_area);
->   1272	
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
