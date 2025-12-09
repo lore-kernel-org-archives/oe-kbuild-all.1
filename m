@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5CF3081DB
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 21:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7501830C354
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 21:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765314851; cv=none; b=KysPBKTWepvV2ItiAANX89Xq1BF/kwMYCthc0G1kmuDCVMWcWR5cRjZT8nXKW3gH7pkDDvatftdvQfhqxsyX7buI3R19I/yg1TJctCpqACaCplmMSzZI8WAsWImxg6TGbopicMuFPOwh89uXbLL66rSgnSmX0OigvbECMxSe0V8=
+	t=1765314916; cv=none; b=tw+YbqR7RpLh7hRbw87L9kJ2wywmZCq9G6Yd6oHs4uip15m5kcXRTu0AyGbYsg2QF1uo+wc8HElFxrihUmzQXaFHSr1BIGRkA6MDIYbG1rLT/ulNfDm58Ms+ESoIoR1LIPN+9509vJMhhzuorod4hzeKn6s2g1VJ/Jt5x6aLymw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765314851; c=relaxed/simple;
-	bh=y+nKCCGtegI3QnwAkd/hkQIIGXS2/x3mSykgUgZA43w=;
+	s=arc-20240116; t=1765314916; c=relaxed/simple;
+	bh=DT3hsKO2oqlhTkQqS7rGkeEPPwAykFKU7AfjkrOJyvY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=a4/5qKewvoUc/5iXtOadO+cZXLGn0LYHflsVV/zqK92rT1lacX8E7D/aJsw8RDgKJXXYzRSEapPb86STBVcs1BrMR+gmbP2nzoT5HE3phAtICVfIZ7BCeqviouhUElKIhJZqFt3cmyYPBPe1Jij2hydEoSAq/5yOsV2hVRcGs2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YX+ngi9x; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=py5BCY0In0nYvV7dwLKzJKoyiVqk49PouHmc7EWJNotW8KE6eDw8cbV4fchbjAdeX1Kelg/lBtHDQVlSs5z7onPyzQbGcoUUdylYdGKpsBGTkEZgUciDKyUipKRpqmtBOWVHV2VtOfP6ZG2NjDwM5kW13w+0tesjhFsFjgtbY/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bYHfO09w; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YX+ngi9x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bYHfO09w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765314850; x=1796850850;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=y+nKCCGtegI3QnwAkd/hkQIIGXS2/x3mSykgUgZA43w=;
-  b=YX+ngi9xz3Q6BJhN5ZVgBm23CDL+IHB0W6HxLrKr1ckatiI+atcaAVld
-   on6xqs2AwCcljPm/NVmEomDTruX5cZavWOYCqNJVpCSm7JmYwErw8ParL
-   Fi6jwcAbwfXcLj5ANYS06USVsQIjOJG450ehx5TO+dNiJY82gDp0r9TM5
-   l38xXKNMwTxi0coCf1F3EpI6VkpsVDgRxIZ+1LVZx/Uno1RJ9zczV9pIF
-   JSoCfOgdqwa2w3FvwPqd15CG8wIVXQC2w0RR5IUKK4GPFfL+HrUDYHnKx
-   GDmNMsWGbRGgLiT15X4FUemNu/ZDTGFDdszbBUo3Q39hVFQNPlPX79vN7
-   g==;
-X-CSE-ConnectionGUID: 8nekIlyYTJiUrb1ILHpkUA==
-X-CSE-MsgGUID: L/oR8lRWSay8ZLO8mKvsmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="54825776"
+  t=1765314915; x=1796850915;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DT3hsKO2oqlhTkQqS7rGkeEPPwAykFKU7AfjkrOJyvY=;
+  b=bYHfO09wF0QsMpgJp9qp3In1vevV4zAf4cY9uuXD6px3+1dZDdTSuIfl
+   wtAISZk5UVnRInlJuT9GwdzBdSHU+qAQpGukeaMChGTG3VTqaiSmZ2DJu
+   8Ja5IOnTLZD8vB0DNJRa4w4oGoSgvB/p++JChA4EZ86y7a6eEI9qnkFtU
+   nxBUpoM+w3yI8ih6Dqp/Kj9yeIWL2FY6t3nn6Cl6A2oN3O5s2OXpa676w
+   iS3+Irs/6GlkHu9mKahjNL+9RS8Q1SOQnNkxNxH4/AfoJcrYlsUpTQb/9
+   XqM3AMLrG/u4tdtRrARU6TPNPcvbPMz5ezCMTPsmunTr4GqvuZRsxA3ds
+   A==;
+X-CSE-ConnectionGUID: FKUu3IbtTcKGL2bYqB0DbA==
+X-CSE-MsgGUID: RMuQs4WXTYKADB/XYCzaGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67176491"
 X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="54825776"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 13:14:10 -0800
-X-CSE-ConnectionGUID: NMauCMy8TTuh9v2F08NlhQ==
-X-CSE-MsgGUID: i2JGLv9dRfqFghSPLx2HPg==
+   d="scan'208";a="67176491"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 13:15:14 -0800
+X-CSE-ConnectionGUID: Tj0VjA3uSXeQ4YAfmgoitg==
+X-CSE-MsgGUID: qTpmQiCrSAaGiLfAmdCGRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="201255830"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Dec 2025 13:14:08 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="196624069"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 09 Dec 2025 13:15:12 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vT526-000000002GL-1WYE;
-	Tue, 09 Dec 2025 21:14:06 +0000
-Date: Wed, 10 Dec 2025 05:13:38 +0800
+	id 1vT537-000000000NN-3co8;
+	Tue, 09 Dec 2025 21:15:09 +0000
+Date: Tue, 9 Dec 2025 22:14:29 +0100
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH sched_ext/for-6.19-fixes] sched_ext: Fix bypass depth
- leak on scx_enable() failure
-Message-ID: <aTiRApl5-FFwVSVp@a281ed4ccb28>
+To: Taniya Das <quic_tdas@quicinc.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev,
+	Bjorn Andersson <andersson@kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Dmitry Baryshkov <lumag@kernel.org>
+Subject: [qcom:clk-for-6.17 34/64] kismet: WARNING: unmet direct dependencies
+ detected for QCS_GCC_615 when selected by QCS_VIDEOCC_615
+Message-ID: <202512092259.lufPH8Tm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +66,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <286e6f7787a81239e1ce2989b52391ce@kernel.org>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux clk-for-6.17
+head:   45dd59885ca8d283f365774a82b9b785b65c8d37
+commit: f6a8abe0cc16c44eda30712a8922261363d6d3ac [34/64] clk: qcom: videocc-qcs615: Add QCS615 video clock controller driver
+config: arm-kismet-CONFIG_QCS_GCC_615-CONFIG_QCS_VIDEOCC_615-0-0 (https://download.01.org/0day-ci/archive/20251209/202512092259.lufPH8Tm-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251209/202512092259.lufPH8Tm-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512092259.lufPH8Tm-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
-
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
-
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH sched_ext/for-6.19-fixes] sched_ext: Fix bypass depth leak on scx_enable() failure
-Link: https://lore.kernel.org/stable/286e6f7787a81239e1ce2989b52391ce%40kernel.org
-
-Please ignore this mail if the patch is not relevant for upstream.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for QCS_GCC_615 when selected by QCS_VIDEOCC_615
+   WARNING: unmet direct dependencies detected for QCS_GCC_615
+     Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
+     Selected by [y]:
+     - QCS_VIDEOCC_615 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
