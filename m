@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18172F99A3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 16:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DC02FC03F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 16:20:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765296732; cv=none; b=ApZUbwoOVAdYruTRhlaCm8LnX4RRcy31bHUGirCFsF3Wb2kvHnIJXSnRKG7wUan5cLh6aSTupT17KPEgN0aszaZBxH9UhYjTMj3V+X9KeULhFNg2bSE2LwPBAKDVkxpPH8s9+Hnfsi4CAAzdrfD0tTMtVWwJb8xz+Y/XsHqa0es=
+	t=1765297260; cv=none; b=EfVBTEVY4jM1oapcDlaWcsevB0dXQYEBjOW0BUK2GB/u6+E3gtPaBHl5nXkigQ/9w3iPYxI6VWN9oRJDvGUDDQdU7nAmt3AVDds9N2jofIRay62YnddbA6ZFGF39Q4u6Xd92e3a9ggvK8niMY+qoeGjPGnA6l+rFdAeNNljWgas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765296732; c=relaxed/simple;
-	bh=OxYu1k+uApTK6suBvTCdHBkLl9nfBhpDaPV+/R0q7iw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aMZyTajc95D5bZxhZDFn0Sa6mfZ6mH36V6WUGIDRvqj5YVxm2gPoePl5yCisOKWEo+9kf2XBW3TrEXYCWl3pASoX676zmhr95dpQuEkDEBBGe3tEGKt9pWdZdW+IParR7qzeHELuYngMmSUpmgRmvw08ijDWVZ4dAXJoeCEeoR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i1FOoluy; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1765297260; c=relaxed/simple;
+	bh=eFnW7p1gIUsHCCwTrxWBO2fIlQkmeC4POmm8RvAtuqk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KZIiY9YN9UbAwOMjS5p2ghXv/mw68D4I69+wCg4GHfvTfhYtnnq271XEd6W/y1lZgu50Nt3VHt6r8xf4UZWzEn8o2LaaS53GkuGOVYAwy6d1SvvTpgLsoqatq6v7zyrQUKqIRan4XL58fHOzojVRcd6r6IZj/7yfMkC//bgRyMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QdzMbHUv; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i1FOoluy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QdzMbHUv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765296731; x=1796832731;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OxYu1k+uApTK6suBvTCdHBkLl9nfBhpDaPV+/R0q7iw=;
-  b=i1FOoluyxAPDqSDjPn9BeP/c4vcIB+TIeRdoUUg0FAGIkRu2eu5lPQZF
-   +VPV+5IuGVv7DsJ+DAuBiFup7rEO1BNOg3Fyo8PPefxPftARDiQyjeeC6
-   wr5BspQRbMkz+nf9VSOSwEPASTtSIMIOF9yp/m/u650wl9bQtFIhcEIjw
-   x+Ji4O5O98a6AXM3EjAb6upJNJYkkI6XY6C8YtZXcrDllWe7rcTDoae9A
-   Njyyk7KInoFhnd2VQVooDZDJeGpq3CjJ/Ff+yLTw/HejKYkuI8oOfBSW0
-   JwRs0RbL3AWs3WCEB0Z6zWQUuUZhBD2D1AHbSVCuIi4U1IKiGib3avhS6
-   g==;
-X-CSE-ConnectionGUID: +h3HWLpqSgGBvYZ/vLa7Pg==
-X-CSE-MsgGUID: KDXtrU0eQSeHOYKrlYJ6YA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="66981217"
+  t=1765297258; x=1796833258;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eFnW7p1gIUsHCCwTrxWBO2fIlQkmeC4POmm8RvAtuqk=;
+  b=QdzMbHUvgL+5b+lpVZsgVDdMhtVroIp/2t/fqIRcBDM6QTB6fV+crj5Y
+   NVH2RFto/Q72ki/bhmv0+8M9I7LlVIZpvOSSUXcpX/L9kDNAuILH1JKZ9
+   2G0vAxagunQq5m/eNcp2plQPkGGrhk7N9kP1lzR6CXjuQSTWlg+z5v/IR
+   3db1mJ75ziZ9ijbOefgI8GOMmTytnc9oDoaUEfO1owOGOkYlZneUzBrVZ
+   F9sCx1tZdiji8X0SrOYpZIuZ5mLynEJsK8iu7XCiqPbj/7YiYFpYQspyz
+   XHQgfIFPYLKrySxlNMXHUi4TYZ7Cpe7sEyQzTqtcw32PhWIy8o3GepGkM
+   Q==;
+X-CSE-ConnectionGUID: r+bYMlVmTYWKnRKrZQ0zLQ==
+X-CSE-MsgGUID: A/UfHzf+T9agKVZgyoKMbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67427019"
 X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
-   d="scan'208";a="66981217"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 08:12:10 -0800
-X-CSE-ConnectionGUID: vH/KSpUMS1uhbgCVZavFZA==
-X-CSE-MsgGUID: NMvUw40+QkqmLtmIfT3fNw==
+   d="scan'208";a="67427019"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 08:20:55 -0800
+X-CSE-ConnectionGUID: Vf4C2iMHTPKon2XDfquiPQ==
+X-CSE-MsgGUID: qFp6gLxwQhSHtZkDWQN4LA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
-   d="scan'208";a="233668249"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 09 Dec 2025 08:12:09 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="200443691"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 09 Dec 2025 08:20:52 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vT0Jq-000000000JN-28UF;
-	Tue, 09 Dec 2025 16:12:06 +0000
-Date: Tue, 9 Dec 2025 17:11:24 +0100
+	id 1vT0SI-00000000217-1zNY;
+	Tue, 09 Dec 2025 16:20:50 +0000
+Date: Wed, 10 Dec 2025 00:20:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dmitry Baryshkov <lumag@kernel.org>
-Subject: kismet: WARNING: unmet direct dependencies detected for
- DRM_BRIDGE_CONNECTOR when selected by DRM_IMX_PARALLEL_DISPLAY
-Message-ID: <202512091755.t78NWgRT-lkp@intel.com>
+To: Paul Chaignon <paul.chaignon@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Quentin Monnet <qmo@kernel.org>
+Subject: Re: [PATCH bpf-next 3/8] bpf: Create inner oracle maps
+Message-ID: <202512092337.v7LrnDbF-lkp@intel.com>
+References: <7229111ef814fd10cac9c3a14d38ddb0f39dc376.1765158925.git.paul.chaignon@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,25 +65,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <7229111ef814fd10cac9c3a14d38ddb0f39dc376.1765158925.git.paul.chaignon@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cb015814f8b6eebcbb8e46e111d108892c5e6821
-commit: f673055a46784ccea04465b9213e999f7bc5187e drm/imx: Add missing DRM_BRIDGE_CONNECTOR dependency
-date:   1 year, 3 months ago
-config: um-kismet-CONFIG_DRM_BRIDGE_CONNECTOR-CONFIG_DRM_IMX_PARALLEL_DISPLAY-0-0 (https://download.01.org/0day-ci/archive/20251209/202512091755.t78NWgRT-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20251209/202512091755.t78NWgRT-lkp@intel.com/reproduce)
+Hi Paul,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Chaignon/bpf-Save-pruning-point-states-in-oracle/20251208-102146
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/7229111ef814fd10cac9c3a14d38ddb0f39dc376.1765158925.git.paul.chaignon%40gmail.com
+patch subject: [PATCH bpf-next 3/8] bpf: Create inner oracle maps
+config: sparc-randconfig-r123-20251209 (https://download.01.org/0day-ci/archive/20251209/202512092337.v7LrnDbF-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512092337.v7LrnDbF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512091755.t78NWgRT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512092337.v7LrnDbF-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DRM_BRIDGE_CONNECTOR when selected by DRM_IMX_PARALLEL_DISPLAY
-   WARNING: unmet direct dependencies detected for DRM_BRIDGE_CONNECTOR
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=n]
-     Selected by [y]:
-     - DRM_IMX_PARALLEL_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_IMX [=y]
+sparse warnings: (new ones prefixed by >>)
+>> kernel/bpf/oracle.c:137:37: sparse: sparse: non size-preserving pointer to integer cast
+   kernel/bpf/oracle.c:138:33: sparse: sparse: non size-preserving pointer to integer cast
+
+vim +137 kernel/bpf/oracle.c
+
+   111	
+   112	struct bpf_prog *patch_oracle_check_insn(struct bpf_verifier_env *env, struct bpf_insn *insn,
+   113						 int i, int *cnt)
+   114	{
+   115		struct bpf_insn ld_addrs[2] = {
+   116			BPF_LD_IMM64_RAW(0, BPF_PSEUDO_MAP_ORACLE, 0),
+   117		};
+   118		struct bpf_insn_aux_data *aux = &env->insn_aux_data[i];
+   119		struct list_head *head = aux->oracle_states;
+   120		struct bpf_insn *insn_buf = env->insn_buf;
+   121		struct bpf_prog *new_prog = env->prog;
+   122		int num_oracle_states, err;
+   123		struct bpf_map *inner_map;
+   124	
+   125		if (env->subprog_cnt > 1)
+   126			/* Skip the oracle if subprogs are used. */
+   127			goto noop;
+   128	
+   129		num_oracle_states = list_count_nodes(head);
+   130		if (!num_oracle_states)
+   131			goto noop;
+   132	
+   133		inner_map = create_inner_oracle_map(num_oracle_states);
+   134		if (IS_ERR(inner_map))
+   135			return (void *)inner_map;
+   136	
+ > 137		ld_addrs[0].imm = (u32)(u64)inner_map;
 
 -- 
 0-DAY CI Kernel Test Service
