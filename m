@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13281DD0EF
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 14:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F5F24A047
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 15:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765292088; cv=none; b=YsFfF5dnwvrPxdGCV4BYwHZyX7VjRWczv+sj59QfI83YXB/HURwk++qsiQTD46+3RDr3uWuzCOOIQzdybe+vea9S1DRaYCx7zbLH3pEXntQxqXXBhbv7pWxLD9ovwT+fgtKOox4OVSI36N8dgIXh8D81bjzyDjB3tELG7TepkfA=
+	t=1765294692; cv=none; b=pSKYJ2dBWEcHPg28jvT8kDDNPPX9D0Qz2YYPF2hQH8sGtre4pYlx1Mir0im5MP7XmSc4sFiY4xUBZpwC2187npa8LNL7moRgJUsJvyUTCHk+4rZeTVQT6Str+EGSrkE4cXxtuSwPzEwEIJWNmSfMP+sNjyDsrMjZP3gdbklOOzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765292088; c=relaxed/simple;
-	bh=Vbb0mTjcBB9u8p1eqiHme7RtI9PXDWlByIPtdiW91NA=;
+	s=arc-20240116; t=1765294692; c=relaxed/simple;
+	bh=+pEm9ytiU8G6yYlk1tQxXeGRopBRZhc6iBjWarUuEdk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qlAshla5f4xqjQhOCRJy8B2mecLIP1v1nexIhJLFV+fklioo1uc1edkBnhvFhB5X6hQSkdGmtio5ezubr26BAsrjKBlVBC9Kt9V95tRKId2xICWLdILIUv/+e/qMNEUzp8KC3oYBlLV92wdSCO8I7fwOVbkIHFFUYxzU/vd5Xls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jdqy6Gna; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=XXZDWW+dMaxRA3AGlXLXoeUEW4s91Rsv+k6ZtSO41Y4kw8VniaZaercp9RslSktWP1/gnHwSSTLMBlR1ngBUqnr0T59H6XL8c/xIsxVMOikc/9LZSfgAvRJAo5RrOcWi6VKMRPR2zzq+SamtuAwQkZOiH6geyInvLUAkITdg2aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QW2xbPNN; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jdqy6Gna"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QW2xbPNN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765292087; x=1796828087;
+  t=1765294690; x=1796830690;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vbb0mTjcBB9u8p1eqiHme7RtI9PXDWlByIPtdiW91NA=;
-  b=Jdqy6Gnah/6jFRemoNRjfARz7l0Ki9j6gkpugZMd28VaDC1bxFg9yipO
-   fZeKv0Wbm0rYcmqLX8k9n72ATsOtTO1pgvfYiJ4t9GsyckDuL9R2Zxq3L
-   XNQ77lndCQPWpDN0Y9eNzO8usefQHixQfeIrT7UKa/PYZKLSGxunJoxCi
-   S8JPpdxLibIapZ2xZHTksQGC/ivSgTER3dbavQljS9S6Ny8s25IeOeFlR
-   ln25zmDWffyHK07LmyfTpGTEoQF+0HwY/lZI76oTDg79WWIGbCjfWC8Gy
-   X1Up5AG/ArqJ2hdQxCs33xSVALnouOedYUTlmvH9qDlKhdZUFGNlKzwrf
+  bh=+pEm9ytiU8G6yYlk1tQxXeGRopBRZhc6iBjWarUuEdk=;
+  b=QW2xbPNNkX4g55Mlb9uZvhcSQQBWc1KOORiwSiTZopFy/ce88DV7QsB0
+   fyXIEZCifWvItvnIUPTVmz8ij/DyOxcTaakTtaWcdeiG0GFXq6pbQA6Wf
+   7G0AQwaHCvrqrOoZIajVaKD8CS6stGDB97GBfUG2nheq/UbZy+IOmHFK0
+   bzAIAy8Y/I8uYxN7nqXFdvr3FwE1sALNgDa82AU6lLsJFse8VmAakxglQ
+   3HsCnVTuduFCljyTdnbtciGM1Wcp2lBLJdja/gn7oOXuQPa5TfF06u7ay
+   81E89rRxVETOj8Dtf2UKL0U6c+q8xgUlTKuWCfZbsXAeEpo64IszetC/C
    g==;
-X-CSE-ConnectionGUID: 5UPhjEVxSMe+/spLvyPQWw==
-X-CSE-MsgGUID: rI6MuBwoQkq3z3QA4PSnyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="54789557"
+X-CSE-ConnectionGUID: F8V08IUTQcSZnuwW0o38zg==
+X-CSE-MsgGUID: Hnv5luATTPG6Xhla2r/2xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="66433978"
 X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
-   d="scan'208";a="54789557"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 06:54:46 -0800
-X-CSE-ConnectionGUID: 3cnBd70ERaivS3gTzCpp/A==
-X-CSE-MsgGUID: o3rFOA62RcGG7zx7hvtyfw==
+   d="scan'208";a="66433978"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 07:38:10 -0800
+X-CSE-ConnectionGUID: afRTq5LXSp+vEhJYCyl28A==
+X-CSE-MsgGUID: lnOXEaYFR9u2dlzrNJD/Cw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
-   d="scan'208";a="200726338"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Dec 2025 06:54:46 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="201175163"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 09 Dec 2025 07:38:08 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSz6x-000000001v1-0F0C;
-	Tue, 09 Dec 2025 14:54:43 +0000
-Date: Tue, 9 Dec 2025 22:54:13 +0800
+	id 1vSzmv-000000000IT-403T;
+	Tue, 09 Dec 2025 15:38:05 +0000
+Date: Tue, 9 Dec 2025 16:37:23 +0100
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:bpfoom.3.3 20/32] sparc-linux-ld:
- mm/oom_kill.c:1210:undefined reference to `bpf_handle_oom'
-Message-ID: <202512092200.lnBnzJia-lkp@intel.com>
+To: Raju Rangoju <Raju.Rangoju@amd.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: [linux-next:master 5663/13990] kismet: WARNING: unmet direct
+ dependencies detected for NET_SELFTESTS when selected by AMD_XGBE
+Message-ID: <202512091653.4h90hsVS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +65,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/rgushchin/linux.git bpfoom.3.3
-head:   757d46bae762bfc65cab977e0365e3f110f4e300
-commit: 87f4eb904747c1edafa64353f98883c560d750cc [20/32] mm: allow specifying custom oom constraint for BPF triggers
-config: sparc-randconfig-002-20251209 (https://download.01.org/0day-ci/archive/20251209/202512092200.lnBnzJia-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512092200.lnBnzJia-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c75caf76ed86bbc15a72808f48f8df1608a0886c
+commit: 862a64c83faf7708e7e79498193ff5270543a68d [5663/13990] amd-xgbe: introduce support ethtool selftest
+config: loongarch-kismet-CONFIG_NET_SELFTESTS-CONFIG_AMD_XGBE-0-0 (https://download.01.org/0day-ci/archive/20251209/202512091653.4h90hsVS-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251209/202512091653.4h90hsVS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512092200.lnBnzJia-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512091653.4h90hsVS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   sparc-linux-ld: mm/oom_kill.o: in function `out_of_memory':
-   mm/oom_kill.c:1210:(.text+0x132c): undefined reference to `bpf_handle_oom'
->> sparc-linux-ld: mm/oom_kill.c:1210:(.text+0x1440): undefined reference to `bpf_handle_oom'
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for NET_SELFTESTS when selected by AMD_XGBE
+   WARNING: unmet direct dependencies detected for NET_SELFTESTS
+     Depends on [n]: NET [=y] && PHYLIB [=y] && INET [=n]
+     Selected by [y]:
+     - AMD_XGBE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_AMD [=y] && (OF_ADDRESS [=y] || ACPI [=y] || PCI [=y]) && HAS_IOMEM [=y] && (X86 || ARM64 || COMPILE_TEST [=y]) && PTP_1588_CLOCK_OPTIONAL [=y]
 
 -- 
 0-DAY CI Kernel Test Service
