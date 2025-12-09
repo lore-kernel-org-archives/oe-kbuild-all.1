@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED661E5724
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 22:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BBE223DC0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 22:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765318636; cv=none; b=AJ+0CSJCzNCtB5b4ohh/x24ra+C6YRQE29yD5RQuJ8/ElRDkWA9IBDHyav01dBLYVpHsZDalkvgkHyeggXP4qdBjf9cvUej1LmS+otXwZ7gDEJ7+B3IBF/aswEI5l7iXNDo2EPwVpB4ygIHhP+FT5a8TOZVC3sP7Y4AusApyQPE=
+	t=1765318637; cv=none; b=gZ6XmAcsE8kVLc82YINtLc7M2x13E/M0pnaBsKRXFZPc2WV4xq8SkcjC+J2a3c8y9KEFMhsMY7cW0sQI7aVfQmaJZVM0Ce1cDvMUCxCIG8sB+jE7+Zkd5+RPuZXvMPxtSuCiz7MXPlmwHYMiVXrImm34Gmy6jEhCQ2LHj/RZ1Js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765318636; c=relaxed/simple;
-	bh=DWIu/ngCJTOcrUegOap+voh2y4vEWagNQqUO/zD3RaI=;
+	s=arc-20240116; t=1765318637; c=relaxed/simple;
+	bh=GbRs72zhEm3K+LSaqPzXLH+rm+ET2pyrRhwZTTvTQLY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FK4+kcwI0u+EiepA57gYRcgheSxSbTdsaJwxuTR31Q6Skv65yC3xJP2sp1/Q8l97FTwYzGVSukjI7ZvGHZcwl6vaR4ZQB+LDYXy0Ij2zB8PniI9Xc/ZAEL8Hto1ST5I+bvypQFVxEknU5xBnThQiZk65KzA2NtgOjsDlxdxp49M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Np/e5671; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=jVCvwOOUBwkEp4M3otVv6xLKNRb+Ms3MpWY8TPhWc4zxi8Qft3WMytO/CP8i8/hc1D3dGiPr1JGudZOVfBnTvjH9Ig0n4xaPdTS6X6DgKDoQxD7Vdn+aB64UVBJP0QvwaBrxwRMCru/wHi/gUYMaZGVPYjnD25I8HmUd5VdXv9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ycroy2+G; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Np/e5671"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ycroy2+G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765318636; x=1796854636;
+  t=1765318635; x=1796854635;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DWIu/ngCJTOcrUegOap+voh2y4vEWagNQqUO/zD3RaI=;
-  b=Np/e5671ndvRQIrmCheZ+hiKO/CxT1TOAE2YhjUEtNde17V+wgnNaEPL
-   pv3jjKEDK39vSdqm5TtrRu2vtiYefWWDmzErMD9pE+XvrjXibIR/jIqqW
-   vIHupFppNKPoKzUch52eBouyTmWwwnobmpLQYTWt8zUItYWvzZs/1Ic3A
-   gxSkju4xb6QeoZmUbYNFcE1YnhhcHDygnKdxuKBb5o9v4pnREpgBMgydv
-   CBt9Z73IzO4RQHGwJbGiyplWZEhENwCpGePWPsa3UMbzF/XyXUn4l/haL
-   54vAEmn9UA0oupfOgQMRUa6mU3nINg2vsVdDh3r+WI2m41ct7onXZG7yg
+  bh=GbRs72zhEm3K+LSaqPzXLH+rm+ET2pyrRhwZTTvTQLY=;
+  b=Ycroy2+GofslO4FyC6BWRZACDCRT9G6R17E8gQLtDiSUqGvYVpGV3CdI
+   BvN4flW8kZOJcum8BY807/uVZpSBUS4Xuae8TJnzh4bfmw9kpS5lWjKh1
+   RFOF9XK3ltD2L+SmkPtxR9xx2ZA4/zjsXAJj81umTMZP6nJmV5aO3lvVv
+   iXxvWW1Yb+ak0z2Cdgv5PGeOzm5ahF+PeRRfpCY8tqRhBvLqLc8LX4o6W
+   CH57l43XkMuBF9xFuwxogXUBoP1L7DGDXKF7tXWwZtpPVkNKRloWDEsoi
+   fihHdOeV6TxDHfs65/aYt7TcKot9BCNmB5CiG/A/MUAP3IhMhTxT4gfX8
    w==;
-X-CSE-ConnectionGUID: cyMrHezjTLuc7trPNNrA6Q==
-X-CSE-MsgGUID: BWL26TJxSguVFX3A0C/8Wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67337562"
+X-CSE-ConnectionGUID: ZB9KbNITTh2AOjJWzWuLYA==
+X-CSE-MsgGUID: EHQv64sRSaa010bFRsOn4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="66463533"
 X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="67337562"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 14:17:15 -0800
-X-CSE-ConnectionGUID: XjlxcnC9QnaxpXGRDCCDDA==
-X-CSE-MsgGUID: frJPRu56TNihV5WRXI5igQ==
+   d="scan'208";a="66463533"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 14:17:15 -0800
+X-CSE-ConnectionGUID: J+N2R5YCT2W2C1G9WZ0xKA==
+X-CSE-MsgGUID: D6J/RHAeT1iM6ifKFe+cZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="233745865"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 09 Dec 2025 14:17:13 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="196797938"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 09 Dec 2025 14:17:13 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vT618-000000000O5-1StS;
-	Tue, 09 Dec 2025 22:17:10 +0000
-Date: Tue, 9 Dec 2025 23:16:29 +0100
+	id 1vT619-000000002JX-2X1a;
+	Tue, 09 Dec 2025 22:17:11 +0000
+Date: Wed, 10 Dec 2025 06:16:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>
-Subject: kismet: WARNING: unmet direct dependencies detected for
- SND_SOC_STAC9766 when selected by SND_MPC52xx_SOC_EFIKA
-Message-ID: <202512092301.grdsBZAE-lkp@intel.com>
+To: =?iso-8859-1?Q?Lo=EFc?= Molinari <loic.molinari@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Boris Brezillon <bbrezillon@kernel.org>
+Subject: [drm-misc:drm-misc-next 4/11] drivers/gpu/drm/drm_gem.c:1261:24:
+ error: implicit declaration of function 'mm_get_unmapped_area'; did you mean
+ 'shmem_get_unmapped_area'?
+Message-ID: <202512100625.EaqdFiOC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,34 +64,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7a3984bbd69055898add0fe22445f99435f33450
-commit: d8dd3f92a6ba11f9046df48765e6f12ad70a3946 ASoC: Fix SND_SOC_ALL_CODECS imply misc fallout
-date:   6 years ago
-config: powerpc-kismet-CONFIG_SND_SOC_STAC9766-CONFIG_SND_MPC52xx_SOC_EFIKA-0-0 (https://download.01.org/0day-ci/archive/20251209/202512092301.grdsBZAE-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20251209/202512092301.grdsBZAE-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+head:   00ffe45ece80160aef446d74ded906352f21dd72
+commit: 99bda20d6d4cac30ed6d357658d8bc328c3b27d9 [4/11] drm/gem: Introduce drm_gem_get_unmapped_area() fop
+config: m68k-randconfig-r072-20251210 (https://download.01.org/0day-ci/archive/20251210/202512100625.EaqdFiOC-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512100625.EaqdFiOC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512092301.grdsBZAE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512100625.EaqdFiOC-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SND_SOC_STAC9766 when selected by SND_MPC52xx_SOC_EFIKA
-   WARNING: unmet direct dependencies detected for SND_SOC_MPC5200_AC97
-     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_POWERPC_SOC [=y] && PPC_MPC52xx [=y] && PPC_BESTCOMM [=n]
-     Selected by [y]:
-     - SND_MPC52xx_SOC_EFIKA [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_POWERPC_SOC [=y] && PPC_EFIKA [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_SOC_STAC9766
-     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_SOC_AC97_BUS [=n]
-     Selected by [y]:
-     - SND_MPC52xx_SOC_EFIKA [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_POWERPC_SOC [=y] && PPC_EFIKA [=y]
-   
-   WARNING: unmet direct dependencies detected for IIO_BUFFER_CB
-     Depends on [n]: IIO [=y] && IIO_BUFFER [=n]
-     Selected by [y]:
-     - TOUCHSCREEN_ADC [=y] && !UML && INPUT [=y] && INPUT_TOUCHSCREEN [=y] && IIO [=y]
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/drm_gem.c: In function 'drm_gem_get_unmapped_area':
+>> drivers/gpu/drm/drm_gem.c:1261:24: error: implicit declaration of function 'mm_get_unmapped_area'; did you mean 'shmem_get_unmapped_area'? [-Wimplicit-function-declaration]
+    1261 |                 return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
+         |                        ^~~~~~~~~~~~~~~~~~~~
+         |                        shmem_get_unmapped_area
+
+
+vim +1261 drivers/gpu/drm/drm_gem.c
+
+  1229	
+  1230	/**
+  1231	 * drm_gem_get_unmapped_area - get memory mapping region routine for GEM objects
+  1232	 * @filp: DRM file pointer
+  1233	 * @uaddr: User address hint
+  1234	 * @len: Mapping length
+  1235	 * @pgoff: Offset (in pages)
+  1236	 * @flags: Mapping flags
+  1237	 *
+  1238	 * If a driver supports GEM object mapping, before ending up in drm_gem_mmap(),
+  1239	 * mmap calls on the DRM file descriptor will first try to find a free linear
+  1240	 * address space large enough for a mapping. Since GEM objects are backed by
+  1241	 * shmem buffers, this should preferably be handled by the shmem virtual memory
+  1242	 * filesystem which can appropriately align addresses to huge page sizes when
+  1243	 * needed.
+  1244	 *
+  1245	 * Look up the GEM object based on the offset passed in (vma->vm_pgoff will
+  1246	 * contain the fake offset we created) and call shmem_get_unmapped_area() with
+  1247	 * the right file pointer.
+  1248	 *
+  1249	 * If a GEM object is not available at the given offset or if the caller is not
+  1250	 * granted access to it, fall back to mm_get_unmapped_area().
+  1251	 */
+  1252	unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long uaddr,
+  1253						unsigned long len, unsigned long pgoff,
+  1254						unsigned long flags)
+  1255	{
+  1256		struct drm_gem_object *obj;
+  1257		unsigned long ret;
+  1258	
+  1259		obj = drm_gem_object_lookup_at_offset(filp, pgoff, len >> PAGE_SHIFT);
+  1260		if (IS_ERR(obj) || !obj->filp || !obj->filp->f_op->get_unmapped_area)
+> 1261			return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
+  1262						    flags);
+  1263	
+  1264		ret = obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, 0,
+  1265							 flags);
+  1266	
+  1267		drm_gem_object_put(obj);
+  1268	
+  1269		return ret;
+  1270	}
+  1271	EXPORT_SYMBOL_GPL(drm_gem_get_unmapped_area);
+  1272	
 
 -- 
 0-DAY CI Kernel Test Service
