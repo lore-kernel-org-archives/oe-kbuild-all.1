@@ -1,58 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC3B2512C8
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 08:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A940275861
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 08:08:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765267225; cv=none; b=McbiroOCRJbVywtkV4IqiaN4FagsBqlqDP4awXrhvyI63JZGOhd27PLWtMnSLC5lOQQL9+oT9bFk+bsKlpahw4stWm6Jy6h2nLFAuqWoOYKHwBKq3cwLYnJX/R+aNRlmTlcAzlmDPEP0OxwKVV2FNDgUIua2Fv8GYVO9A5jbHhc=
+	t=1765267692; cv=none; b=qvZcEhD4X4mRfxo+rtRWyCV6KHSgtNouWDeGu/KcJ/HOah4C0s8MQpHr3HMiRxFEfo4Dbd6QGMs5OVz3Q120n2oFxNCcz7bXHG1vDJdU9yLs3mi3dOQPwbDRehEq1/5kcg9qAmwMDO3+6boP8sli34kLI04xOAkq5Ywd96Iumlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765267225; c=relaxed/simple;
-	bh=tApgGYeSMlR/7JztI6d0Tn10tbfM/mEi4njj8311WGs=;
+	s=arc-20240116; t=1765267692; c=relaxed/simple;
+	bh=MJimUWyWCQryzeXq/CylmXxVGK1UyUx3ivCgZyvep+w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kyaUEjIcfGxRddyh0FZ0Y2ny+wilV8AvP2vip9DrYKoaJHngx0RJf/2/nSM4RAXUC1S0531p79WrWX/hU88HxZLFDDoJWp17p9kKovrEUpTuLqvEhrQ2B0nEfp4nrVSwWxERGtkDoJ9JR/zguwKUH4mejUcMMOxxuBfKHW+sNbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a5QV15fv; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=p7dkvAb7Z/fXYdy1ih1IGRcgMuLwzyzm3nwfk/zfa9fxUAin4a7dhJDEunXTY49sE3Q7HyveJaYYyZwLgwZrEaC6F0zcVUMgRCV+mooVUmz/LWK/2YBLwn4qYi2Yas+KHtrNc5xkna4RWB6Y+dheoLChtuFMwqQpGWyw/1PlE1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JK0RYzGI; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a5QV15fv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765267223; x=1796803223;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tApgGYeSMlR/7JztI6d0Tn10tbfM/mEi4njj8311WGs=;
-  b=a5QV15fvquau0SYm5rIz85romyiLBipy3HifoFYWFqCnsjOyN8CBNgmR
-   4S53ck/DF5zccIpuBF7zNbUMhbRj5wUFEehmJysO4cBhweJ32fuDgJ/qP
-   12Ik1n2Ry27U+Ct14Y34CBvYJ99s1x8vK5vLLIEiS8R3cvFEtntqPwyc+
-   BjYhZodVtljxvu9FRghPa5V7h0mvO6GM2vgATt+DbfYLA5kdqHdhp1695
-   5UfwfOxliSORaSFQOcGsnVmH1rmuGDHL1gW3K6wQPNs/WcmXJNRRbrLP2
-   EReQMSAC0L4qhNfhR8O0ZMWjhp/YXMpVno4CUzRkuNAKTWc/icdKrxnH7
-   w==;
-X-CSE-ConnectionGUID: jq4/khkXTWmeXv1dPOdK3A==
-X-CSE-MsgGUID: Jt57tRxXQCSShbcpRZ5RNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="67297846"
-X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="67297846"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 00:00:21 -0800
-X-CSE-ConnectionGUID: +s0k0oLjRCC/tULSbBEq/A==
-X-CSE-MsgGUID: FYLgaDrfRrmydnka+Dyshw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="227195601"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Dec 2025 00:00:20 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vSsdu-000000001Ua-12HB;
-	Tue, 09 Dec 2025 08:00:18 +0000
-Date: Tue, 9 Dec 2025 15:59:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Liu Shixin <liushixin2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3493/3493] mm/dynamic_pool.c:1577:25: sparse:
- sparse: symbol 'pagelist_dpool_ops' was not declared. Should it be static?
-Message-ID: <202512091544.YzqAeHFm-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JK0RYzGI"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47774d3536dso49945935e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 09 Dec 2025 00:08:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765267688; x=1765872488; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=i3HS3UZvHWNoRI4tSC4tCLlGjmvQB2LsBSbcqGJUth8=;
+        b=JK0RYzGIvRz7m66mQkDOKLQrt1tn3j8leCvcAfY/j9yp8GZM5BebT/mXzqwOQX5EW+
+         rj01VRVBmgqErBg5yi6j7Ic77ZYw9AnxEX7YHMr0cj44a6bee64PLjCDBWblMkj1AXCT
+         uoyUItixgljSNxPSitjLLh7wIjsWHVuJdxgBWsNmAW6oBK35BXj2i+nHMJCLXTOKJ5e9
+         +5M6hRAqZ8+/ahRZ1cpNxP21piABDFxMnjP/PwGMqyHkVtnF822rJOq/59KmXwNCY3Hb
+         FaPAjglF2f5XVTgkS82xEm9+eDO3qOUAvTkabyFP4A94fByh1mptmEdnBcdboq4g2TXX
+         neVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765267688; x=1765872488;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i3HS3UZvHWNoRI4tSC4tCLlGjmvQB2LsBSbcqGJUth8=;
+        b=Ipo4jIkfBiSBqHX9heJE5Tn5cm9mMw2vhvObrXo/kGqCZUnmFwYaXyllz4Jw+PyjUW
+         euyF1J7sD8au+JfP+KXuI7KNR/yfaVPprWWGZ4TnmHhLr/SV6qurWojyH/grwrDdU9eZ
+         pVs3cOJBv+V0i6Ueo6W7O8J/bB8M0GoL9yQIg/oM3QDbDhThpzXrXp1lkEaCd6gSV1yk
+         8I81os4lT6Etr8O9So/2MIzCDJ/EvzfjfcqC8mHH7sRY0v2pxwRPi7zLDNQ+v+j3kgF2
+         kY4IUD0LWTSmDOMPuuqap575GjkKExOvBxZ7N9I7Y0qL+4nSTPw1dSld8+zTfkzD91Jo
+         wMqA==
+X-Forwarded-Encrypted: i=1; AJvYcCUbjLaZXHf1zJuCY7Og3yvSTo2jnVYWgDI7fEiIxA4N0e36KJn8OXuw17VuQpY6OlWW9z6pACdx/gj2hkKs@lists.linux.dev
+X-Gm-Message-State: AOJu0YxlPY3MfJiOqodG6KIbxi7x4plmMfXhOyGBKWwhXzLrhyoxp8dx
+	CHvTcuvZvCu1Prf1ii9uPMkdBMucsBASgnmSIhqT7mX+B7TpxC5LnsqGYSTqWawUuJl30vJwXOg
+	zCYjv
+X-Gm-Gg: ASbGncsNGUdMe3KYvTPmtqMSHQW4OzAknlEi39Ig5y3TLw3gbEa8FjX/2h8r6elx34a
+	fzc5m+PtQBEckhMnP37WbWYDUR+j/3MuAKbqU+1N7+SxzaWTB56qJqTORjCWq/5r5uQ6NE5Ofcn
+	sdqD9e7aoZOS3LUuQ57BCNkpkulHrnSfIE6bJity4qU02Kto1E+aJ8LWXOGpHDSMmqRNlo2YlLK
+	sXA/J0VUyJ/MTANhfr5uCyfH0k6brRtF2NasLprAq8SsDnxmdDBOMJTdyZBveHEkAjBpPwYSlPN
+	Rby2KbBVzezPaY2mHB4z6uXDzLs0mXRKkkxtOVYSWsAzG1FW3Vk8wvfL4QIF1w0DM1e0OvgQ1f9
+	NWEbGWe9B4Tc0jCS7mBMfD0M08GaWCiONrXhPH9c+DO2W9eRS25iQwRCItEQMq1KwgDDUgBQQrE
+	dSAvj8nXWShyAX/3nA
+X-Google-Smtp-Source: AGHT+IGscc+SJZEm/TRqQYoD0TdId9MDDNWX4FpzSAzC9aFu5AY3yWeeq7XQ4gq/1MUrF2INsOS4mA==
+X-Received: by 2002:a05:600d:844f:10b0:477:9d88:2da6 with SMTP id 5b1f17b1804b1-47a7f987e56mr5630745e9.0.1765267688376;
+        Tue, 09 Dec 2025 00:08:08 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a7d397a2fsm12719515e9.5.2025.12.09.00.08.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 00:08:07 -0800 (PST)
+Date: Tue, 9 Dec 2025 11:08:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Pankaj Gupta <pankaj.gupta@nxp.com>,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v20 3/7] firmware: imx: add driver for NXP EdgeLock
+ Enclave
+Message-ID: <202512091557.d5dOvFff-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,35 +83,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251203-imx-se-if-v20-3-a04a25c4255f@nxp.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   0189df7df2ef7f7dbbabf7ff8398e45adf306e24
-commit: cf98ffbc116bc49dc4506c68e20b02e26519ad35 [3493/3493] mm/dynamic_pool: fill dpool with pagelist
-config: x86_64-randconfig-r122-20251209 (https://download.01.org/0day-ci/archive/20251209/202512091544.YzqAeHFm-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512091544.YzqAeHFm-lkp@intel.com/reproduce)
+Hi Pankaj,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20251203-145202
+base:   4a26e7032d7d57c998598c08a034872d6f0d3945
+patch link:    https://lore.kernel.org/r/20251203-imx-se-if-v20-3-a04a25c4255f%40nxp.com
+patch subject: [PATCH v20 3/7] firmware: imx: add driver for NXP EdgeLock Enclave
+config: arm64-randconfig-r072-20251207 (https://download.01.org/0day-ci/archive/20251209/202512091557.d5dOvFff-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512091544.YzqAeHFm-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512091557.d5dOvFff-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/dynamic_pool.c:999:55: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cgroup_subsys_state *css @@     got struct cgroup_subsys_state [noderef] __rcu * @@
-   mm/dynamic_pool.c:999:55: sparse:     expected struct cgroup_subsys_state *css
-   mm/dynamic_pool.c:999:55: sparse:     got struct cgroup_subsys_state [noderef] __rcu *
->> mm/dynamic_pool.c:1577:25: sparse: sparse: symbol 'pagelist_dpool_ops' was not declared. Should it be static?
+smatch warnings:
+drivers/firmware/imx/ele_common.c:264 se_save_imem_state() warn: missing error code? 'ret'
+drivers/firmware/imx/ele_common.c:302 se_restore_imem_state() warn: missing error code? 'ret'
 
-vim +/pagelist_dpool_ops +1577 mm/dynamic_pool.c
+vim +/ret +264 drivers/firmware/imx/ele_common.c
 
-  1576	
-> 1577	struct dynamic_pool_ops pagelist_dpool_ops = {
-  1578		.fill_pool = dpool_fill_from_pagelist,
-  1579		.drain_pool = dpool_drain_to_pagelist,
-  1580		.restore_pool = dpool_migrate_used_pages,
-  1581	};
-  1582	
+a9e23a74789346 Pankaj Gupta 2025-12-03  251  int se_save_imem_state(struct se_if_priv *priv, struct se_imem_buf *imem)
+a9e23a74789346 Pankaj Gupta 2025-12-03  252  {
+a9e23a74789346 Pankaj Gupta 2025-12-03  253  	struct ele_dev_info s_info = {0};
+a9e23a74789346 Pankaj Gupta 2025-12-03  254  	int ret;
+a9e23a74789346 Pankaj Gupta 2025-12-03  255  
+a9e23a74789346 Pankaj Gupta 2025-12-03  256  	ret = ele_get_info(priv, &s_info);
+a9e23a74789346 Pankaj Gupta 2025-12-03  257  	if (ret) {
+a9e23a74789346 Pankaj Gupta 2025-12-03  258  		dev_err(priv->dev, "Failed to get info from ELE.\n");
+a9e23a74789346 Pankaj Gupta 2025-12-03  259  		return ret;
+a9e23a74789346 Pankaj Gupta 2025-12-03  260  	}
+a9e23a74789346 Pankaj Gupta 2025-12-03  261  
+a9e23a74789346 Pankaj Gupta 2025-12-03  262  	/* Do not save the IMEM buffer, if the current IMEM state is BAD. */
+a9e23a74789346 Pankaj Gupta 2025-12-03  263  	if (s_info.d_addn_info.imem_state == ELE_IMEM_STATE_BAD)
+a9e23a74789346 Pankaj Gupta 2025-12-03 @264  		return ret;
+
+This returns success if the state is _BAD.
+
+a9e23a74789346 Pankaj Gupta 2025-12-03  265  
+a9e23a74789346 Pankaj Gupta 2025-12-03  266  	/*
+a9e23a74789346 Pankaj Gupta 2025-12-03  267  	 * EXPORT command will save encrypted IMEM to given address,
+a9e23a74789346 Pankaj Gupta 2025-12-03  268  	 * so later in resume, IMEM can be restored from the given
+a9e23a74789346 Pankaj Gupta 2025-12-03  269  	 * address.
+a9e23a74789346 Pankaj Gupta 2025-12-03  270  	 *
+a9e23a74789346 Pankaj Gupta 2025-12-03  271  	 * Size must be at least 64 kB.
+a9e23a74789346 Pankaj Gupta 2025-12-03  272  	 */
+a9e23a74789346 Pankaj Gupta 2025-12-03  273  	ret = ele_service_swap(priv, imem->phyaddr, ELE_IMEM_SIZE, ELE_IMEM_EXPORT);
+a9e23a74789346 Pankaj Gupta 2025-12-03  274  	if (ret < 0) {
+a9e23a74789346 Pankaj Gupta 2025-12-03  275  		dev_err(priv->dev, "Failed to export IMEM.");
+a9e23a74789346 Pankaj Gupta 2025-12-03  276  		imem->size = 0;
+a9e23a74789346 Pankaj Gupta 2025-12-03  277  	} else {
+a9e23a74789346 Pankaj Gupta 2025-12-03  278  		dev_dbg(priv->dev,
+a9e23a74789346 Pankaj Gupta 2025-12-03  279  			"Exported %d bytes of encrypted IMEM.",
+a9e23a74789346 Pankaj Gupta 2025-12-03  280  			ret);
+a9e23a74789346 Pankaj Gupta 2025-12-03  281  		imem->size = ret;
+a9e23a74789346 Pankaj Gupta 2025-12-03  282  	}
+a9e23a74789346 Pankaj Gupta 2025-12-03  283  
+a9e23a74789346 Pankaj Gupta 2025-12-03  284  	return ret > 0 ? 0 : ret;
+a9e23a74789346 Pankaj Gupta 2025-12-03  285  }
+a9e23a74789346 Pankaj Gupta 2025-12-03  286  
+a9e23a74789346 Pankaj Gupta 2025-12-03  287  int se_restore_imem_state(struct se_if_priv *priv, struct se_imem_buf *imem)
+a9e23a74789346 Pankaj Gupta 2025-12-03  288  {
+a9e23a74789346 Pankaj Gupta 2025-12-03  289  	struct ele_dev_info s_info;
+a9e23a74789346 Pankaj Gupta 2025-12-03  290  	int ret;
+a9e23a74789346 Pankaj Gupta 2025-12-03  291  
+a9e23a74789346 Pankaj Gupta 2025-12-03  292  	/* get info from ELE */
+a9e23a74789346 Pankaj Gupta 2025-12-03  293  	ret = ele_get_info(priv, &s_info);
+a9e23a74789346 Pankaj Gupta 2025-12-03  294  	if (ret) {
+a9e23a74789346 Pankaj Gupta 2025-12-03  295  		dev_err(priv->dev, "Failed to get info from ELE.");
+a9e23a74789346 Pankaj Gupta 2025-12-03  296  		return ret;
+a9e23a74789346 Pankaj Gupta 2025-12-03  297  	}
+a9e23a74789346 Pankaj Gupta 2025-12-03  298  	imem->state = s_info.d_addn_info.imem_state;
+a9e23a74789346 Pankaj Gupta 2025-12-03  299  
+a9e23a74789346 Pankaj Gupta 2025-12-03  300  	/* Get IMEM state, if 0xFE then import IMEM if imem size is non-zero. */
+
+I really can't understand this comment at all.  :(
+
+a9e23a74789346 Pankaj Gupta 2025-12-03  301  	if (s_info.d_addn_info.imem_state != ELE_IMEM_STATE_BAD || !imem->size)
+a9e23a74789346 Pankaj Gupta 2025-12-03 @302  		return ret;
+
+This feels like returning zero is intentional, but please return a
+literal zero.  s/return ret;/return 0;/.
+
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
