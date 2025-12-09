@@ -1,62 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D837302165;
-	Tue,  9 Dec 2025 18:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378B3303CA8
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 18:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765306688; cv=none; b=Ouo1BagrZAfUrKS2DWuq/GMydoO6vuxxrPTCMR4UpnbN9N5PU8kFhM3NpIIbxLuLdN2F9ratoOCtAOcFV70Zs5UIHXPfj6BTUoQwumi2Z4caUizW8tJYfZQ07d1CjJqsXX+rVCVmPE/Ya9SQuN1TLTkrMLa3iqM1P/Mxv2o75mg=
+	t=1765306689; cv=none; b=kYegzsk4b6rk7CC7y+VF7Ks9qWfcxYXBE3MikckaZyeMOIJBppKfGgNdLNjXNSWD0eE78dUDLDfad+4Un2j8ji9tumQPa3E6VAw5KCRCHPRhX4LlJEYGk7CYMmtxkeU4CKHInPwNRUBPVp1dG7qBDiv2UV7WpNWhzz/PotIyIj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765306688; c=relaxed/simple;
-	bh=mFbT4lH79yDTHUyS7wtXasTGzShbkPr6lyhSnS1BMmQ=;
+	s=arc-20240116; t=1765306689; c=relaxed/simple;
+	bh=/R2b+c2Djj+Nr/3dJwUquZPYWsnsbW4lIXCs17tYU+w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k/84SReapAUJIbYF1OjTgA/RxyxJQ37/PuFil9gdLdfHt2Lihxs/7Twgbhwgr1YbEKMRMPlAeCgNhvWIUa4zmNEQWCAetne7qsGuQk+gMDN5TLuoY1Ks1O+tmb+DW6YZbE+vSO5KjBGryZegnzsd5W32q4cVbYVYGbz1D2YBCSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WnLe8j/K; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=YVOKALAJeb4pZvc4mKtL0z91or0X7wgWCc3Wkb/B1Bh7ilDtGB1+L1sbsB+uluqD/GIP1bKggTJ9lM0pPjohL/A4sEYcVq9MFfVWxO+7ZK7BXVRiaseF/9LobQEM0eXvTdcImSdcl5CE5h2z5EftlpKx/vKC8FWlHTvPkmZjtmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T0JnezVz; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WnLe8j/K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T0JnezVz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765306687; x=1796842687;
+  t=1765306689; x=1796842689;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=mFbT4lH79yDTHUyS7wtXasTGzShbkPr6lyhSnS1BMmQ=;
-  b=WnLe8j/KKGFzFji6KBbsr+H9Zagq+ZPuTsurQKuAowQAlHITc8ME4oV3
-   OCDHM6N07130MjAHY6SlohpB186AZA0k9nZfO/hfLhVUH3M8lpJidlZTs
-   nSjsAyTGKY54nn1xX/EplAPXo9C2zaT8Qfi61Lq9T6Vx302LqgAysbWO5
-   j4/+sDaVw/+mXJk4rwXvAOiTRHvk3VQhrMgRG/UKxxUkGOx/KJy+P3Hpz
-   xxzD7H9Sc1EDQko4PNyMPNTqXv0w0tOQWV0TPoA1/far8eJdHzHlSK+fQ
-   /6RXLewOM54nQVwPwPgNqrluskre/g3we+7MwTL1g51fUAEPAv86SOCR8
+  bh=/R2b+c2Djj+Nr/3dJwUquZPYWsnsbW4lIXCs17tYU+w=;
+  b=T0JnezVzX+vU28RzpaPAkg5d8cZzgdPEwdGedJArgTO5OqqWzNaKPNOy
+   ki5L2OW2zV/wlcse18nXtG5eeflTOh2D0obPKnFDIE71jojrPVabL6e5a
+   k4jW98NEw+p5YWzltWqRFXJ7q9aZwjm0DlFBY5dwNl6D/Z74mlNLxsYja
+   RUEKEsCFFPGhB/Qx7MYoRWPZ/dc16oQkki1iqjeCVepDxP9ho+tS/82OD
+   kSXpDDMHihBk8O10cMO4I7yAMpJ//dZHxGXmxtOyDTS/r/xFBhTI+qQyy
+   xEAdhWxls9d6IB9KNWUbzGuibyHE9iPlKpfGejzWyAZOYgO1C+4O9MLiF
    w==;
-X-CSE-ConnectionGUID: UOF4Tt1QQTCB1VMREM5yZA==
-X-CSE-MsgGUID: WeR9WOL7RWql01A9UcUW3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67157899"
+X-CSE-ConnectionGUID: q0n3aV5uR8W2mu49kdP6nQ==
+X-CSE-MsgGUID: 7Ue2FMplR12fbc8LXYwe7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67157902"
 X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="67157899"
+   d="scan'208";a="67157902"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 10:58:06 -0800
-X-CSE-ConnectionGUID: YNsiv4mCTE6VKJ2rfASCMg==
-X-CSE-MsgGUID: 79TPHIPMQIapKyEBbxu36Q==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 10:58:07 -0800
+X-CSE-ConnectionGUID: 4l+G88yhTlCH/s3aZiA6oQ==
+X-CSE-MsgGUID: FnSylMOyQkeoz9f5+WcDLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="200727249"
+   d="scan'208";a="200727253"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 09 Dec 2025 10:58:03 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vT2uP-000000002B7-0M9u;
+	id 1vT2uP-000000002B9-0SNj;
 	Tue, 09 Dec 2025 18:58:01 +0000
-Date: Wed, 10 Dec 2025 02:57:34 +0800
+Date: Wed, 10 Dec 2025 02:57:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: "ping.gao" <ping.gao@samsung.com>, jh80.chung@samsung.com,
-	ulf.hansson@linaro.org, linux-mmc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"ping.gao" <ping.gao@samsung.com>
-Subject: Re: [PATCH] mmc: dw_mmc: Use pre_request & post_request_end helper
-Message-ID: <202512100224.drEVwdNL-lkp@intel.com>
-References: <20251209064910.3643039-1-ping.gao@samsung.com>
+To: Tony Hutter <hutter2@llnl.gov>, Lukas Wunner <lukas@wunner.de>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, corey@minyard.net,
+	alok.a.tiwari@oracle.com, mariusz.tkaczyk@linux.intel.com,
+	minyard@acm.org, linux-pci@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v7] Introduce Cray ClusterStor E1000 NVMe slot LED driver
+Message-ID: <202512100217.dWKoNRzG-lkp@intel.com>
+References: <d422a22c-a6fe-4543-ae16-67d64260e0cf@llnl.gov>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,84 +67,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251209064910.3643039-1-ping.gao@samsung.com>
+In-Reply-To: <d422a22c-a6fe-4543-ae16-67d64260e0cf@llnl.gov>
 
-Hi ping.gao,
+Hi Tony,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on ulf-hansson-mmc-mirror/next v6.18 next-20251209]
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.18 next-20251209]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ping-gao/mmc-dw_mmc-Use-pre_request-post_request_end-helper/20251209-144626
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251209064910.3643039-1-ping.gao%40samsung.com
-patch subject: [PATCH] mmc: dw_mmc: Use pre_request & post_request_end helper
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20251210/202512100224.drEVwdNL-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512100224.drEVwdNL-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tony-Hutter/Introduce-Cray-ClusterStor-E1000-NVMe-slot-LED-driver/20251209-094846
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/d422a22c-a6fe-4543-ae16-67d64260e0cf%40llnl.gov
+patch subject: [PATCH v7] Introduce Cray ClusterStor E1000 NVMe slot LED driver
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251210/202512100217.dWKoNRzG-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512100217.dWKoNRzG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512100224.drEVwdNL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512100217.dWKoNRzG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/mmc/host/dw_mmc.c:1902:49: error: no member named 'drv_dat' in 'struct dw_mci'
-    1902 |         const struct dw_mci_drv_data *drv_data = host->drv_dat
-         |                                                  ~~~~  ^
->> drivers/mmc/host/dw_mmc.c:1904:2: error: expected expression
-    1904 |         WARN_ON(host->cmd || host->data);
-         |         ^
-   include/asm-generic/bug.h:109:29: note: expanded from macro 'WARN_ON'
-     109 | #define WARN_ON(condition) ({                                           \
-         |                             ^
-   2 errors generated.
+   drivers/pci/hotplug/pciehp_craye1k.c: In function 'craye1k_get_attention_status':
+>> drivers/pci/hotplug/pciehp_craye1k.c:570:25: warning: variable 'craye1k' set but not used [-Wunused-but-set-variable]
+     570 |         struct craye1k *craye1k;
+         |                         ^~~~~~~
 
 
-vim +1902 drivers/mmc/host/dw_mmc.c
+vim +/craye1k +570 drivers/pci/hotplug/pciehp_craye1k.c
 
-  1895	
-  1896	static void dw_mci_request_end(struct dw_mci *host, struct mmc_request *mrq)
-  1897		__releases(&host->lock)
-  1898		__acquires(&host->lock)
-  1899	{
-  1900		struct dw_mci_slot *slot;
-  1901		struct mmc_host	*prev_mmc = host->slot->mmc;
-> 1902		const struct dw_mci_drv_data *drv_data = host->drv_dat
-  1903	
-> 1904		WARN_ON(host->cmd || host->data);
-  1905	
-  1906		host->slot->mrq = NULL;
-  1907		host->mrq = NULL;
-  1908		if (!list_empty(&host->queue)) {
-  1909			slot = list_entry(host->queue.next,
-  1910					  struct dw_mci_slot, queue_node);
-  1911			list_del(&slot->queue_node);
-  1912			dev_vdbg(host->dev, "list not empty: %s is next\n",
-  1913				 mmc_hostname(slot->mmc));
-  1914			host->state = STATE_SENDING_CMD;
-  1915			dw_mci_start_request(host, slot);
-  1916		} else {
-  1917			dev_vdbg(host->dev, "list empty\n");
-  1918	
-  1919			if (host->state == STATE_SENDING_CMD11)
-  1920				host->state = STATE_WAITING_CMD11_DONE;
-  1921			else
-  1922				host->state = STATE_IDLE;
-  1923		}
-  1924	
-  1925		spin_unlock(&host->lock);
-  1926		mmc_request_done(prev_mmc, mrq);
-  1927		if (drv_data && drv_data->post_request_end)
-  1928			drv_data->post_request_end(host);
-  1929		spin_lock(&host->lock);
-  1930	}
-  1931	
+   565	
+   566	int craye1k_get_attention_status(struct hotplug_slot *hotplug_slot,
+   567					 u8 *status)
+   568	{
+   569		int rc;
+ > 570		struct craye1k *craye1k;
+   571	
+   572		if (mutex_lock_interruptible(&craye1k_lock) != 0)
+   573			return -EINTR;
+   574	
+   575		if (!craye1k_global) {
+   576			/* Driver isn't initialized yet */
+   577			mutex_unlock(&craye1k_lock);
+   578			return -EOPNOTSUPP;
+   579		}
+   580	
+   581		craye1k = craye1k_global;
+   582	
+   583		rc =  __craye1k_get_attention_status(hotplug_slot, status, true);
+   584	
+   585		mutex_unlock(&craye1k_lock);
+   586		return rc;
+   587	}
+   588	
 
 -- 
 0-DAY CI Kernel Test Service
