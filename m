@@ -1,44 +1,61 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86BC7205E3B
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 11:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457AC20E6E2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 11:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765278704; cv=none; b=bdRZ2qmcQ3hoDL6iT/ebqXCTUy5iJE6ydfPt6bGvsYkhYADPBdFGMIvrMZfp6HTFbx6hFk1kzzo3Xys3UkdhDL38qbbnLB+REO1OPTYnxj69uh1nMxBV3Zf0FGbxEObO6CqnN/Xt3faTl0qMdcUO4bk2VCoYJ6TwIysNlOBD7sU=
+	t=1765280167; cv=none; b=a5hjMk0cWz1DB8nNYsY5uM6XDLHTFoEEzpc08cow4I0d9tif4Jl04JFBKtF+x5e10fmEC8543dUiju8JMEbq2rFijnwZrqEgzH7/VeQQiN112L4tAmA85vf9m8ayeW6AE8hcgl8hbob9n/DnCpV1SYUT792w4Z4aB1RZMWfkjys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765278704; c=relaxed/simple;
-	bh=Z/nOVQTJ8VAST9aYHlScqt+p5Qz4dLTAUT/dWtvFh04=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qNVfV1amY4qoZRcQU2pRMbxXwaWsax93hZrbR5kkDUBVYFCSXDXKDqEcm2u0DgtYd9V/dMXlNaSuxS+hxbHw2c2xW/hbHDgwBjL7oVOAFFx5896LiBg3mRjDFVx1TFsn7uYtvHNbtwzh1U1rRSAV3soOuEGahluvYpyTVnm2xkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com; spf=none smtp.mailfrom=foss.arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=foss.arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 815A41691;
-	Tue,  9 Dec 2025 03:11:35 -0800 (PST)
-Received: from bogus (e133711.arm.com [10.1.196.55])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B36433F762;
-	Tue,  9 Dec 2025 03:11:40 -0800 (PST)
-Date: Tue, 9 Dec 2025 11:11:37 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Andrea Tomassetti <andrea.tomassetti@sipearl.com>
-Cc: "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
-	"lenb@kernel.org" <lenb@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"lkp@intel.com" <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	Olivier Dautricourt <Olivier.Dautricourt@sipearl.com>,
-	"olivierdautricourt@gmail.com" <olivierdautricourt@gmail.com>,
-	"rafael@kernel.org" <rafael@kernel.org>,
-	Thibault Cantori <thibault.cantori@sipearl.com>
-Subject: Re: Re: Re: [PATCH v3 1/2] mailbox: pcc: support polling mode when
- there is no platform IRQ
-Message-ID: <20251209-singing-organic-jackal-b8f2ec@sudeepholla>
-References: <20251203-persimmon-condor-of-essence-9fc43d@sudeepholla>
- <20251204125938.3025022-1-andrea.tomassetti@sipearl.com>
- <20251204-mauve-bear-of-wholeness-e13a4b@sudeepholla>
- <aTf8bzYaOPe9naLN@dc2pvlnosz001.pub.int.sipearl.com>
+	s=arc-20240116; t=1765280167; c=relaxed/simple;
+	bh=0NUqUhb5HZuWA+Yh6rRq053bqySdbDT8ZbfrCM3VYQc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XLE6qXdP6jjjSRfhFpSuy/t19itAQXRY+459xIIkC0skUINDXzqdzDKTPKJOluN69gUa1/t3xafyz7A/T0qAEXyEYFyZFjr/JvBotA3Y06TOvtc2bq9IvvGUOEhNDvMjatOLP+TUf+JdoYNL98FBnfg5CNsQeH93EVk5QgCmd4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M8N4nj1I; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M8N4nj1I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765280166; x=1796816166;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0NUqUhb5HZuWA+Yh6rRq053bqySdbDT8ZbfrCM3VYQc=;
+  b=M8N4nj1I7GYYifwIpWFaIeeTg/Z9p9AzCUblYIs2BTPa+8/JFjZ21vIf
+   KmaCZmKJ+fcAJiQofx5fDORIQujfUB9KgDwE77bMMQmWdJ0f9fU/hCHPl
+   +dUhLjwpMlnVxPgLPmu0dyaO0IR0+o0WFT1MYIFLQl7UM8y2CsQEt/ELq
+   el0ybVbB3bbke+KPQ/eAzAUAoy4hH7ZjrNGCv/F8lpa2ZWfsS284qWk1L
+   vcpKVILNBkUIqU4llSfV/qTlYUr7FU+n2jv8aXebAlkdGX0EikhtvA55R
+   lzajpHFwZO7/VJGTlvsWQYswPmjGNEBy4BCx7+Q6//DQdX+GUZa9SqFzZ
+   w==;
+X-CSE-ConnectionGUID: LEsIdmikQiSVw+Zx7oe0/g==
+X-CSE-MsgGUID: e0sB3OTOT8aUjDhL8WC5QA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="70854727"
+X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
+   d="scan'208";a="70854727"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 03:36:05 -0800
+X-CSE-ConnectionGUID: H8fvX+RYRSeAmHkNyLSr8g==
+X-CSE-MsgGUID: kNv5D/EXSjmAV5E1uRksQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
+   d="scan'208";a="227245735"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 09 Dec 2025 03:36:03 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vSw0e-000000000BR-3N7J;
+	Tue, 09 Dec 2025 11:36:00 +0000
+Date: Tue, 9 Dec 2025 12:35:30 +0100
+From: kernel test robot <lkp@intel.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dmitry Baryshkov <lumag@kernel.org>
+Subject: kismet: WARNING: unmet direct dependencies detected for
+ DRM_BRIDGE_CONNECTOR when selected by DRM_IMX_LDB
+Message-ID: <202512091200.e5bEAkoe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,26 +64,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aTf8bzYaOPe9naLN@dc2pvlnosz001.pub.int.sipearl.com>
 
-On Tue, Dec 09, 2025 at 10:39:53AM +0000, Andrea Tomassetti wrote:
-> On 25/12/04 01:14PM, Sudeep Holla wrote:
-> > 
-> > I wouldn't consider that as real platform especially if it is not std. AEM
-> > models that are well maintained. Many Fast models are short lived and never
-> > maintained long term, so I don't want to push any feature based on that alone
-> > unless you have a real platform with missing or broken interrupt that needs
-> > this polling feature.
-> > 
-> > It is burden for long term maintenance if there is no regular way to test this
-> > polling mode feature.
-> > 
-> Fair, I totally get your point. Thank you very much for your time.
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cb015814f8b6eebcbb8e46e111d108892c5e6821
+commit: f673055a46784ccea04465b9213e999f7bc5187e drm/imx: Add missing DRM_BRIDGE_CONNECTOR dependency
+date:   1 year, 3 months ago
+config: um-kismet-CONFIG_DRM_BRIDGE_CONNECTOR-CONFIG_DRM_IMX_LDB-0-0 (https://download.01.org/0day-ci/archive/20251209/202512091200.e5bEAkoe-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251209/202512091200.e5bEAkoe-lkp@intel.com/reproduce)
 
-Thanks for understanding. We can always revisit this if this becomes a
-requirement on a real platform in the future. I am not against that just FYI.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512091200.e5bEAkoe-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_BRIDGE_CONNECTOR when selected by DRM_IMX_LDB
+   WARNING: unmet direct dependencies detected for DRM_BRIDGE_CONNECTOR
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=n]
+     Selected by [y]:
+     - DRM_IMX_LDB [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_IMX [=y] && COMMON_CLK [=y]
 
 -- 
-Regards,
-Sudeep
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
