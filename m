@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27CAC2FB0A4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 20:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5CF3081DB
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 21:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765313715; cv=none; b=n6N0084hodkiCJzYrnUSANa6KJArmZriYUDOVlO0Me/a8uSj5ePqPftTQCCT+kTkWZ30IAz46/Wm4iO5kW+1TwftQWwy+/lylJzG71y/3qyyhIQpVJKTzxm3mTJm3nYzsWcNrKr6H2XAuvOdqlTc0Nq+MicMDP8viZ7xgbJQlIQ=
+	t=1765314851; cv=none; b=KysPBKTWepvV2ItiAANX89Xq1BF/kwMYCthc0G1kmuDCVMWcWR5cRjZT8nXKW3gH7pkDDvatftdvQfhqxsyX7buI3R19I/yg1TJctCpqACaCplmMSzZI8WAsWImxg6TGbopicMuFPOwh89uXbLL66rSgnSmX0OigvbECMxSe0V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765313715; c=relaxed/simple;
-	bh=ad30BrmZXgZVcYqv1VFZYjo0mMbHRUDA6ViGHJSgxtE=;
+	s=arc-20240116; t=1765314851; c=relaxed/simple;
+	bh=y+nKCCGtegI3QnwAkd/hkQIIGXS2/x3mSykgUgZA43w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VzRp4cifO731XyvGrysjMsnXdwhnSgWBGrx0g1v6Wk86BmB3GF/n8nSSyJc7/jTwBEhoQ73RDsMBr4+FIpNB/djVn5TWQy0gn1mpnb+SU7WmyNrfaz8BoJNKEx8eMyAyP0cSdvO69P0qQ3khX9HGI8hXHzupUTCpdmu+N7rQJwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fqYdPZVN; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition:In-Reply-To; b=a4/5qKewvoUc/5iXtOadO+cZXLGn0LYHflsVV/zqK92rT1lacX8E7D/aJsw8RDgKJXXYzRSEapPb86STBVcs1BrMR+gmbP2nzoT5HE3phAtICVfIZ7BCeqviouhUElKIhJZqFt3cmyYPBPe1Jij2hydEoSAq/5yOsV2hVRcGs2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YX+ngi9x; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqYdPZVN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YX+ngi9x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765313713; x=1796849713;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ad30BrmZXgZVcYqv1VFZYjo0mMbHRUDA6ViGHJSgxtE=;
-  b=fqYdPZVNT4OXaXXVdYIbUAABg/LThoxrhfT1ZPQiYpJ6kCSHJABbOYJP
-   sP+OrXTrrNKYSMK1LxU4osIIKjs2EmicML3LSeWcXrMf7uSjIbHI5wABb
-   idkYXQJIT11V5zKFItQubHQ+UP+CMJTwqchqJzX+MbP1CuG92224aQgnf
-   qx+si7ippZkv/nWgOp6//5O+A4zlItXDofhrnzt9XZOQZWwX+sfPA4ltE
-   8MYzXBtCqPsE/Xn6K/q+Y1baAFuvhxPCWJT5LH6gD2SwF7J3PsKKmOsok
-   3T6K4s6yUwaSoVCDT3i+5+jwFksmA37xAittoat8K/1rSCWIaMt7OINlH
-   Q==;
-X-CSE-ConnectionGUID: ehSJ/zUvQX6ViLKp8o0WLw==
-X-CSE-MsgGUID: 2WmdOZk3Tp6MjGckqodS2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="71144230"
+  t=1765314850; x=1796850850;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=y+nKCCGtegI3QnwAkd/hkQIIGXS2/x3mSykgUgZA43w=;
+  b=YX+ngi9xz3Q6BJhN5ZVgBm23CDL+IHB0W6HxLrKr1ckatiI+atcaAVld
+   on6xqs2AwCcljPm/NVmEomDTruX5cZavWOYCqNJVpCSm7JmYwErw8ParL
+   Fi6jwcAbwfXcLj5ANYS06USVsQIjOJG450ehx5TO+dNiJY82gDp0r9TM5
+   l38xXKNMwTxi0coCf1F3EpI6VkpsVDgRxIZ+1LVZx/Uno1RJ9zczV9pIF
+   JSoCfOgdqwa2w3FvwPqd15CG8wIVXQC2w0RR5IUKK4GPFfL+HrUDYHnKx
+   GDmNMsWGbRGgLiT15X4FUemNu/ZDTGFDdszbBUo3Q39hVFQNPlPX79vN7
+   g==;
+X-CSE-ConnectionGUID: 8nekIlyYTJiUrb1ILHpkUA==
+X-CSE-MsgGUID: L/oR8lRWSay8ZLO8mKvsmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="54825776"
 X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="71144230"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 12:55:12 -0800
-X-CSE-ConnectionGUID: uRHlVK/5TcqLfYhAfGzCxg==
-X-CSE-MsgGUID: 16yGJb+0QfC+g/+AvJ6ZJA==
+   d="scan'208";a="54825776"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 13:14:10 -0800
+X-CSE-ConnectionGUID: NMauCMy8TTuh9v2F08NlhQ==
+X-CSE-MsgGUID: i2JGLv9dRfqFghSPLx2HPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="227360490"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 09 Dec 2025 12:55:12 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="201255830"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 09 Dec 2025 13:14:08 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vT4jl-000000000NB-30vW;
-	Tue, 09 Dec 2025 20:55:09 +0000
-Date: Tue, 9 Dec 2025 21:54:59 +0100
+	id 1vT526-000000002GL-1WYE;
+	Tue, 09 Dec 2025 21:14:06 +0000
+Date: Wed, 10 Dec 2025 05:13:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3398/3398] htmldocs: Warning:
- drivers/net/ethernet/yunsilicon/xsc/common/xsc_ioctl.h references a file
- that doesn't exist: Documentation/ioctl/ioctl-number.txt
-Message-ID: <202512092129.rSRtn0GX-lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH sched_ext/for-6.19-fixes] sched_ext: Fix bypass depth
+ leak on scx_enable() failure
+Message-ID: <aTiRApl5-FFwVSVp@a281ed4ccb28>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,31 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <286e6f7787a81239e1ce2989b52391ce@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   ea8b5fbcdf7f5ce2d966ae6aa4e95e2ebde6cb03
-commit: d48b7d951d22f7f97d68ae7b580769827683d404 [3398/3398] drivers: initial support for xsc drivers from Yunsilicon Technology
-reproduce: (https://download.01.org/0day-ci/archive/20251209/202512092129.rSRtn0GX-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512092129.rSRtn0GX-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
-   Warning: arch/riscv/kvm/vcpu.c references a file that doesn't exist: Documentation/virtual/kvm/vcpu-requests.rst
-   Warning: crypto/asymmetric_keys/pgp_preload.c references a file that doesn't exist: Documentation/security/keys-crypto.txt
-   Warning: drivers/irqchip/Kconfig references a file that doesn't exist: Documentation/loongarch/irq-chip-model.rst
->> Warning: drivers/net/ethernet/yunsilicon/xsc/common/xsc_ioctl.h references a file that doesn't exist: Documentation/ioctl/ioctl-number.txt
-   Warning: openEuler/MAINTAINERS references a file that doesn't exist: Documentation/admin-guide/perf/hisi-pcie-pmu.rst
-   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  ./Documentation/ABI/testing/sysfs-bus-iio:394
-   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  ./Documentation/ABI/testing/sysfs-bus-iio:395
-   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  ./Documentation/ABI/testing/sysfs-bus-iio:396
-   Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:3  ./Documentation/ABI/testing/sysfs-bus-iio:397
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH sched_ext/for-6.19-fixes] sched_ext: Fix bypass depth leak on scx_enable() failure
+Link: https://lore.kernel.org/stable/286e6f7787a81239e1ce2989b52391ce%40kernel.org
+
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
