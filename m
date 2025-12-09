@@ -1,63 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E962FBDF5
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 18:52:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929041DF248
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 18:55:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765306335; cv=none; b=txY9UmOypzhpILMJGWWggCPZvdnftRl0mG7ourRpJXR2bX9LWERR3mzC6ES5PoEqv+tw5Tt/iDCIkVClrypGvxivmXqcMMjuB0goo/7biLES9R3DV1oiWXcdVKUyuoDxN17eTQSQOwFVhMHEvFLfPCswwfotfr/cxEkSruMIjEU=
+	t=1765306514; cv=none; b=XLQBG4llKz4W1Adj6APk+6qWnZG2bmPPr8vHJ0m1egWd3EccfwnDMGJrrRg7iC1BCDleZC1wFUxy1BPRyaOwJu6D+agrUef8j9VZw15+Cif2KHB6KhBsiAl4HdISlnVHepGDrqFt/Y07Zx+WYDmJTehA+AJlwALhYjisH336e4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765306335; c=relaxed/simple;
-	bh=j9VAqPMSudNIkk0kxxz4pO6kUBmNbITuLWZ55lpMRHU=;
+	s=arc-20240116; t=1765306514; c=relaxed/simple;
+	bh=RkKCqfLMVbGFhdeAjPf+2TAhdWpzc+UAqIMqbybfF8c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q2I0tK2xYiySm7PDIgXJXbieRIXaziMJY9kfEGBPVyp2qJnOXLFXHGDUJlUpLDzDDdamtYrb7nFxBDzY+QHITS5RIyF3mJLhN75V8gjhiIUNHJvCxIOSjsXQ0W5Cdz6ebqeBg/cgexS01B+vHZ5DQfpwbofMWDOXAVhUJ37ybwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RqIPLYwi; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=XWzjg9UqZvyC4ns1/YLAOm05+KwFmmyXxBWQgt/Cj54+laN2rSspeWR3lNqYYvgImGhAIadXRSxqoczBseaotsObazwFJm3TsilSq2N101gt/IkR4eehW/dq/3Wvr1OHWIM6PMLLiUaJmUTb8cOFTc0idum8z1MJOEMYchoqGU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X3ifPisT; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RqIPLYwi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X3ifPisT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765306333; x=1796842333;
+  t=1765306512; x=1796842512;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j9VAqPMSudNIkk0kxxz4pO6kUBmNbITuLWZ55lpMRHU=;
-  b=RqIPLYwiAIqhrTT+iYHY3bZ241vwIEDkZqjVgItfebXtbK7iI2dAC8B6
-   soCDjKajXvujw5fCperFWJw3wrb8Uk4e4IlBjY3Q0XR6+CU7mg/Q3zQ+D
-   4W0FLS4q/WSqtdrid7+dY1XWBnqH1m60Uj6VaHmJR/68ja7Tp/otqWm8l
-   lrS3IPcgZ4bCBLhcsKrI69M+JqZvp7Qj6OjQDX+OYYSSIB+Dfsx/hUqjk
-   /o5Wtop2KzuqX/ycHaFDdt/xVsotbfVgekvwycoSqpdTnQUTpwdHBrM40
-   3JsRGmnhU8NvoChsLyr6JlQqSg0VDZUyGlkZnoQV1i1ISAyXWw51ldspF
-   w==;
-X-CSE-ConnectionGUID: LqlmtHPQShGasCr3vgessg==
-X-CSE-MsgGUID: VFkPqICZSquHe2r3fLlEJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67308947"
+  bh=RkKCqfLMVbGFhdeAjPf+2TAhdWpzc+UAqIMqbybfF8c=;
+  b=X3ifPisTu6eTVBSHGMr6Fw1+VcbB4Ey9NbTdgpU0Ai2z2ORB8Yjd1cgI
+   5g35SHrJufyAE4CSh0T985Og5KX3klZNS1l6hlBJXDlmP4u1Qo7gMfJ6k
+   y4yHBZIf7A0LK8L0DUkew7ZELfb1VkveBnveqf60x3WuURd3NYvtjoHAh
+   02oRgtrGGRXKpfdFpeIORRLk21STdTrDEnJ9rabkQ7X10SOHALaO1B4F/
+   2k3hCpiaOQE/JTOB0RI8JH40eYbC1D5x93/BOPLGO5eTukXDib6YfyPNv
+   paOEgojpwmnEg3rR13Lq+gKkynbldAOuPzpn5vZ+HSqdpc1ri+zihJUgz
+   Q==;
+X-CSE-ConnectionGUID: wRa1+9RFT56Uq6r2BUADwg==
+X-CSE-MsgGUID: j31F9WYjRM+Xk/6h6RSTYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67309125"
 X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="67308947"
+   d="scan'208";a="67309125"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 10:52:12 -0800
-X-CSE-ConnectionGUID: Av/Qp+J3TQqsW5aOumLSTg==
-X-CSE-MsgGUID: KOS3QrEbRTCzCuLRWmizuA==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 10:55:12 -0800
+X-CSE-ConnectionGUID: Y4zOu+zXSKuimhMZK3gY0w==
+X-CSE-MsgGUID: /7cBYYa+S1GuxDVKDvRGcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,262,1758610800"; 
-   d="scan'208";a="200778541"
+   d="scan'208";a="200779405"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 09 Dec 2025 10:52:11 -0800
+  by orviesa004.jf.intel.com with ESMTP; 09 Dec 2025 10:55:11 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vT2oi-000000000LN-0WNI;
-	Tue, 09 Dec 2025 18:52:08 +0000
-Date: Tue, 9 Dec 2025 19:51:19 +0100
+	id 1vT2rc-000000000LR-0hi9;
+	Tue, 09 Dec 2025 18:55:08 +0000
+Date: Tue, 9 Dec 2025 19:54:18 +0100
 From: kernel test robot <lkp@intel.com>
-To: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+To: Caleb James DeLisle <cjd@cjdns.fr>
 Cc: Paul Gazzillo <paul@pgazz.com>,
 	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
-	Imran Shaik <imran.shaik@oss.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>
-Subject: [qcom:clk-for-6.18 22/27] kismet: WARNING: unmet direct dependencies
- detected for QCS_GCC_615 when selected by QCS_DISPCC_615
-Message-ID: <202512091946.7LZatRyc-lkp@intel.com>
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: kismet: WARNING: unmet direct dependencies detected for SERIAL_8250
+ when selected by ECONET
+Message-ID: <202512091957.qV3yVelE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,23 +65,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux clk-for-6.18
-head:   4ca6a89f38718d6cd84304e6a26e7ddc90e03356
-commit: 9524f95c4042545ee8fc3191b9b89c61a1aca6fb [22/27] clk: qcom: Select the intended config in QCS_DISPCC_615
-config: arm-kismet-CONFIG_QCS_GCC_615-CONFIG_QCS_DISPCC_615-0-0 (https://download.01.org/0day-ci/archive/20251209/202512091946.7LZatRyc-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20251209/202512091946.7LZatRyc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f09079bd04a924c72d555cd97942d5f8d7eca98c
+commit: 79ee1d20e37cd553cc961962fca8107e69a0c293 mips: econet: Fix incorrect Kconfig dependencies
+date:   7 months ago
+config: mips-kismet-CONFIG_SERIAL_8250-CONFIG_ECONET-0-0 (https://download.01.org/0day-ci/archive/20251209/202512091957.qV3yVelE-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251209/202512091957.qV3yVelE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512091946.7LZatRyc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512091957.qV3yVelE-lkp@intel.com/
 
 kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for QCS_GCC_615 when selected by QCS_DISPCC_615
-   WARNING: unmet direct dependencies detected for QCS_GCC_615
-     Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
+>> kismet: WARNING: unmet direct dependencies detected for SERIAL_8250 when selected by ECONET
+   WARNING: unmet direct dependencies detected for SERIAL_8250
+     Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && !S390
      Selected by [y]:
-     - QCS_DISPCC_615 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
+     - ECONET [=y]
+   
+   WARNING: unmet direct dependencies detected for SERIAL_OF_PLATFORM
+     Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && SERIAL_8250 [=y] && OF [=y]
+     Selected by [y]:
+     - ECONET [=y]
 
 -- 
 0-DAY CI Kernel Test Service
