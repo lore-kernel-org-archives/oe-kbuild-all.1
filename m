@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4FA2FDC38;
-	Mon,  8 Dec 2025 23:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2164D2236E8
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 00:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765237526; cv=none; b=bSc4S0JcUxiniZjt/YA0bnZXX72+JOTiUPip2AmrSCHKKcgtnFNdpZ/VMf55QG83WoXiKd9wJG9UjebDz0wliTCOb4YmlezruQhU4jBkKK/FRdy1gPaHLLGIpuvR0DNXG0luX79OEkccN0VWsSZRZ5VgWWqeQugy68E5r6dNhf4=
+	t=1765240152; cv=none; b=tsHq6os9H6RSYD6Sg6MIaW08p3yE88VVyngCGlRcAyIBuFhQaChTVt/ZxOEMLZESXDm6q17RHDVjlOcyifWUr+9VJoSg+3jw1Xs3fwPCsH7eoYxmR4Gr1fhs/Oq5UOaM/iTST4FBldDxhhlscp/bHQb/IWMKuv0hUTKg0glRLyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765237526; c=relaxed/simple;
-	bh=bsJnXLBqpkHlxg3nJh0VQf4CSX1YHmXd2sgXfZ1QDBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lqvDXClZT1azcTOpih9msGC6HO/A6gkUg7KiHSzew9J2El5cZ4ALHJLGf4sC0SKXg3QdUQWFeAIQ+W1cN8miAjoy+AbAzYQTOehGO+H7htt3kMYK0f9plPIJhpFAVWtx4dbLfS/J5kV3aJ6PeFB+XcRC0vekDFY4EZTP2M+xrM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D55jLRHs; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1765240152; c=relaxed/simple;
+	bh=WpQLOEFNE4wD8jXyGnFg6LzGEcyg7DJ3CABaBvdGXnc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OtYngrPd4Y9b5knkEOpVhwAyshOIaJHQkr3SqdHju6tsvhsbxP4BwRglEjYY74Yp9sh2eSjk9DKAWPxYLWhzOta4FCg+NgqKqcK4C1Hypnf3ScpyYFBvMS4syaEt/FbzC19XK2wC2ZD91Fs3dzapxvI3mpszo6XrHkKCyFXP/Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MUvDbYiL; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D55jLRHs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MUvDbYiL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765237522; x=1796773522;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bsJnXLBqpkHlxg3nJh0VQf4CSX1YHmXd2sgXfZ1QDBA=;
-  b=D55jLRHs8+hniZU6wBWgEpe8dB83MwDIoUIwYjdUoTi6dybriaHHHErN
-   geXJqJQfy6ZI0txAFoaZ894asHE9N1NLmbJIkjxxH/yMwWSbCyeJ8+wA/
-   1dDa5tqasJDEr2GG7w59Is6Bm9k2VY2GzS2oSKg9k4x/aQAF7j6LZ3uj3
-   mmgLrdhf5BYxgdLV5pAu/FqXRYuM/+qlWYQwiWolPcfibvopfUej47XAj
-   HeRbZ54WZ/ELxtF8x8C1EoqAlTl/Rd3y1fc0mgz3U1Mw46MYSji+rzZFo
-   tm/01O5OBpT/P7IkidaVLFjNhP/rAXd9srNNNbed+88UhV+uFJ0scBn2z
-   A==;
-X-CSE-ConnectionGUID: vBGEyhH1Q1yaLqJ8kiR4bQ==
-X-CSE-MsgGUID: muUvzrZoROOAKntGHT8vGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="71034162"
+  t=1765240150; x=1796776150;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WpQLOEFNE4wD8jXyGnFg6LzGEcyg7DJ3CABaBvdGXnc=;
+  b=MUvDbYiLYm2K9p2JN9wtEIgFv93ZlvpLWm65yRhefaE1xFFOWHse1NwI
+   jVOOcGDmABopVTffTf+6Kzy1py0UJYQFu+0411L4aXO0O5Vzya9RPkRc4
+   hm0NxUSPx7EgpAKkSQYAWMOxAcL1dqDC8LPKveWwUla0fvTsrDu1siEHB
+   XvJJd5Rnfea11C8zYoAfeXSzzq1Hqppawc4E4a5DsGFYSXtSE1Gt9b+GZ
+   rqHLGK2cS6pIfRX1ZQUEI5HndyPcj4w1OG6MSHlFR7IOIPBYSIyJn4QwO
+   g2M9wzVifDI/bJgUKzP+6l9pw3ijE8krnrdSRuRSt4jjxpH2ZnWMHYt6i
+   w==;
+X-CSE-ConnectionGUID: nxxoH3PBSOG4t+nRS+LFkA==
+X-CSE-MsgGUID: 0hBCn0ETS9mm7bA5s9xHlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="78654986"
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="71034162"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 15:45:21 -0800
-X-CSE-ConnectionGUID: l/pU+BjHTLG7/Nstv/Ja0g==
-X-CSE-MsgGUID: oCwZPB1/RD+SIn7cl858aw==
+   d="scan'208";a="78654986"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 16:29:09 -0800
+X-CSE-ConnectionGUID: lO6QC4KNRUq/s6jbLED0Tg==
+X-CSE-MsgGUID: IuIK7tiTQUujXk5/l3Z22A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="219415352"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Dec 2025 15:45:18 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="195680711"
+Received: from igk-lkp-server01.igk.intel.com (HELO a9286e139fc0) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 08 Dec 2025 16:29:08 -0800
+Received: from kbuild by a9286e139fc0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSkuq-000000000zF-0YjF;
-	Mon, 08 Dec 2025 23:45:16 +0000
-Date: Tue, 9 Dec 2025 07:45:14 +0800
+	id 1vSlbG-000000002Jl-1Q8C;
+	Tue, 09 Dec 2025 00:29:06 +0000
+Date: Tue, 9 Dec 2025 01:28:09 +0100
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, wbg@kernel.org,
-	robh@kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, s32@nxp.com,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] counter: Add STM based counter
-Message-ID: <202512090758.GOPbQ2xm-lkp@intel.com>
-References: <20251208030413.3117660-4-daniel.lezcano@linaro.org>
+To: kernel@openeuler.org, zhangjian <zhangjian496@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3493/3493] mm/gmem_phys.c:345:19: warning: no
+ previous prototype for 'gm_evict_page'
+Message-ID: <202512090139.MlPNvch8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,47 +61,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251208030413.3117660-4-daniel.lezcano@linaro.org>
 
-Hi Daniel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linus/master v6.18 next-20251208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Lezcano/counters-Reorder-the-Makefile/20251208-110937
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251208030413.3117660-4-daniel.lezcano%40linaro.org
-patch subject: [PATCH v1 3/3] counter: Add STM based counter
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20251209/202512090758.GOPbQ2xm-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090758.GOPbQ2xm-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   36141432a37f7dedddde8825e724b07ce3a440fb
+commit: 8f4f66a9d851f366942e8ee319292e41ad2baa95 [3493/3493] gmem: support swapping heterogeneous memory
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251209/202512090139.MlPNvch8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090139.MlPNvch8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512090758.GOPbQ2xm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512090139.MlPNvch8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/counter/nxp-stm-cnt.c:303:32: warning: unused variable 'nxp_stm_cnt_pm_ops' [-Wunused-const-variable]
-   static const struct dev_pm_ops nxp_stm_cnt_pm_ops = {
-                                  ^
-   1 warning generated.
+   mm/gmem_phys.c:245:19: warning: no previous prototype for 'gm_evict_page_locked' [-Wmissing-prototypes]
+     245 | enum gm_evict_ret gm_evict_page_locked(struct gm_page *gm_page)
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> mm/gmem_phys.c:345:19: warning: no previous prototype for 'gm_evict_page' [-Wmissing-prototypes]
+     345 | enum gm_evict_ret gm_evict_page(struct gm_page *gm_page)
+         |                   ^~~~~~~~~~~~~
 
 
-vim +/nxp_stm_cnt_pm_ops +303 drivers/counter/nxp-stm-cnt.c
+vim +/gm_evict_page +345 mm/gmem_phys.c
 
-   302	
- > 303	static const struct dev_pm_ops nxp_stm_cnt_pm_ops = {
-   304		.suspend = nxp_stm_cnt_suspend,
-   305		.resume  = nxp_stm_cnt_resume,
-   306	};
-   307	
+   344	
+ > 345	enum gm_evict_ret gm_evict_page(struct gm_page *gm_page)
+   346	{
+   347		struct mm_struct *mm = gm_page->mm;
+   348		enum gm_evict_ret ret;
+   349	
+   350		mmap_read_lock(mm);
+   351		ret = gm_evict_page_locked(gm_page);
+   352		mmap_read_unlock(mm);
+   353		return ret;
+   354	}
+   355	
 
 -- 
 0-DAY CI Kernel Test Service
