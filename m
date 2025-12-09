@@ -1,125 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DC02FC03F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 16:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4AB32863B;
+	Tue,  9 Dec 2025 16:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765297260; cv=none; b=EfVBTEVY4jM1oapcDlaWcsevB0dXQYEBjOW0BUK2GB/u6+E3gtPaBHl5nXkigQ/9w3iPYxI6VWN9oRJDvGUDDQdU7nAmt3AVDds9N2jofIRay62YnddbA6ZFGF39Q4u6Xd92e3a9ggvK8niMY+qoeGjPGnA6l+rFdAeNNljWgas=
+	t=1765298275; cv=none; b=U2ouQfC1EeDdryrdRuDlJ2GHAJDWTj+eEBd2QAdM9BjN+sHhHeqLcTvkFGEaMEnZ+NS0sV/UwA/AKsXj1VHohWL5pkMJmYzCdaMNNh2/KUVBHAOqWLQyZcpzktAKlD4CZBl4pMfiLkFQl5i0Sm+yr03DxSgeJoxjvRpXrXyxekU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765297260; c=relaxed/simple;
-	bh=eFnW7p1gIUsHCCwTrxWBO2fIlQkmeC4POmm8RvAtuqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KZIiY9YN9UbAwOMjS5p2ghXv/mw68D4I69+wCg4GHfvTfhYtnnq271XEd6W/y1lZgu50Nt3VHt6r8xf4UZWzEn8o2LaaS53GkuGOVYAwy6d1SvvTpgLsoqatq6v7zyrQUKqIRan4XL58fHOzojVRcd6r6IZj/7yfMkC//bgRyMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QdzMbHUv; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765298275; c=relaxed/simple;
+	bh=NzufaIjgtXwHtuTuBxe+5qie4zROkzrwThHUuDdu8GM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MzOF26L/EdCadfXz/M27ihHhghKqFU2E/yzK44/6dj16TNOAx9oBusXDuVAnmfHsAMp/c2SjL4Z6vV0/Z4rHbolhsTOv/Ob2ybYaVQTMhPxCVw1A+QG17jy838Z4/2OEVv6lhyBVltfoCRzjq5XjMj+ZQMLPjnG78DFmkIKOs0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=oPyJe9Jz; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QdzMbHUv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765297258; x=1796833258;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eFnW7p1gIUsHCCwTrxWBO2fIlQkmeC4POmm8RvAtuqk=;
-  b=QdzMbHUvgL+5b+lpVZsgVDdMhtVroIp/2t/fqIRcBDM6QTB6fV+crj5Y
-   NVH2RFto/Q72ki/bhmv0+8M9I7LlVIZpvOSSUXcpX/L9kDNAuILH1JKZ9
-   2G0vAxagunQq5m/eNcp2plQPkGGrhk7N9kP1lzR6CXjuQSTWlg+z5v/IR
-   3db1mJ75ziZ9ijbOefgI8GOMmTytnc9oDoaUEfO1owOGOkYlZneUzBrVZ
-   F9sCx1tZdiji8X0SrOYpZIuZ5mLynEJsK8iu7XCiqPbj/7YiYFpYQspyz
-   XHQgfIFPYLKrySxlNMXHUi4TYZ7Cpe7sEyQzTqtcw32PhWIy8o3GepGkM
-   Q==;
-X-CSE-ConnectionGUID: r+bYMlVmTYWKnRKrZQ0zLQ==
-X-CSE-MsgGUID: A/UfHzf+T9agKVZgyoKMbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67427019"
-X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
-   d="scan'208";a="67427019"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 08:20:55 -0800
-X-CSE-ConnectionGUID: Vf4C2iMHTPKon2XDfquiPQ==
-X-CSE-MsgGUID: qFp6gLxwQhSHtZkDWQN4LA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,261,1758610800"; 
-   d="scan'208";a="200443691"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Dec 2025 08:20:52 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vT0SI-00000000217-1zNY;
-	Tue, 09 Dec 2025 16:20:50 +0000
-Date: Wed, 10 Dec 2025 00:20:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Chaignon <paul.chaignon@gmail.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Quentin Monnet <qmo@kernel.org>
-Subject: Re: [PATCH bpf-next 3/8] bpf: Create inner oracle maps
-Message-ID: <202512092337.v7LrnDbF-lkp@intel.com>
-References: <7229111ef814fd10cac9c3a14d38ddb0f39dc376.1765158925.git.paul.chaignon@gmail.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="oPyJe9Jz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1765298270;
+	bh=NzufaIjgtXwHtuTuBxe+5qie4zROkzrwThHUuDdu8GM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oPyJe9JzNF0mbrHZ0GaODcKtbVtL7pzgAAdpQrNrG7pf1h/6jZ0YIY+esRzCDa5Fe
+	 ORkG6l0Nxlo2YD4ZH8gEG1DzLSO/m1v4SKlHRASwKr8CcnAOlK6D+xxLplRDSWQEWq
+	 dFHKs7K8av/WH5TJsc+VSMZ3VZewc2HwKRyh9wbHhB2PL6Tkq0QojbhRsfh/5NGzO8
+	 vH7U/ra89vWg/t9Xdpd0+vansxjeO/UVc6D7QGW0V+rhL+RRRM3yNxRP5vWXNevY6b
+	 i9si+wYO8+VxMGya9k24Ed8+VIQYz+EL/vgQvKeojGE2Z08SfvOYY1VpkV/6aJo1gj
+	 Ka+rpogKBlS3w==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:d919:a6e:5ea1:8a9f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1500D17E1292;
+	Tue,  9 Dec 2025 17:37:50 +0100 (CET)
+Date: Tue, 9 Dec 2025 17:37:46 +0100
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: kernel test robot <lkp@intel.com>
+Cc: =?UTF-8?B?TG/Dr2M=?= Molinari <loic.molinari@collabora.com>,
+ llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, Boris Brezillon <bbrezillon@kernel.org>
+Subject: Re: [drm-misc:drm-misc-next 4/11]
+ drivers/gpu/drm/drm_gem.c:1261:10: error: call to undeclared function
+ 'mm_get_unmapped_area'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <20251209173746.38931a89@fedora>
+In-Reply-To: <202512092338.ylY8zET6-lkp@intel.com>
+References: <202512092338.ylY8zET6-lkp@intel.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7229111ef814fd10cac9c3a14d38ddb0f39dc376.1765158925.git.paul.chaignon@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+On Tue, 9 Dec 2025 23:58:10 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+> head:   0823bd894278e4c0f1acb8f3a8a3c67745e6d1f6
+> commit: 99bda20d6d4cac30ed6d357658d8bc328c3b27d9 [4/11] drm/gem: Introduce drm_gem_get_unmapped_area() fop
+> config: arm-randconfig-003-20251209 (https://download.01.org/0day-ci/archive/20251209/202512092338.ylY8zET6-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512092338.ylY8zET6-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512092338.ylY8zET6-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> drivers/gpu/drm/drm_gem.c:1261:10: error: call to undeclared function 'mm_get_unmapped_area'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]  
+>     1261 |                 return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,
+>          |                        ^
+>    drivers/gpu/drm/drm_gem.c:1261:10: note: did you mean '__get_unmapped_area'?
+>    include/linux/mm.h:3441:1: note: '__get_unmapped_area' declared here
+>     3441 | __get_unmapped_area(struct file *file, unsigned long addr, unsigned long len,
+>          | ^
+>    1 error generated.
+> 
+> 
+> vim +/mm_get_unmapped_area +1261 drivers/gpu/drm/drm_gem.c
+> 
+>   1229	
+>   1230	/**
+>   1231	 * drm_gem_get_unmapped_area - get memory mapping region routine for GEM objects
+>   1232	 * @filp: DRM file pointer
+>   1233	 * @uaddr: User address hint
+>   1234	 * @len: Mapping length
+>   1235	 * @pgoff: Offset (in pages)
+>   1236	 * @flags: Mapping flags
+>   1237	 *
+>   1238	 * If a driver supports GEM object mapping, before ending up in drm_gem_mmap(),
+>   1239	 * mmap calls on the DRM file descriptor will first try to find a free linear
+>   1240	 * address space large enough for a mapping. Since GEM objects are backed by
+>   1241	 * shmem buffers, this should preferably be handled by the shmem virtual memory
+>   1242	 * filesystem which can appropriately align addresses to huge page sizes when
+>   1243	 * needed.
+>   1244	 *
+>   1245	 * Look up the GEM object based on the offset passed in (vma->vm_pgoff will
+>   1246	 * contain the fake offset we created) and call shmem_get_unmapped_area() with
+>   1247	 * the right file pointer.
+>   1248	 *
+>   1249	 * If a GEM object is not available at the given offset or if the caller is not
+>   1250	 * granted access to it, fall back to mm_get_unmapped_area().
+>   1251	 */
+>   1252	unsigned long drm_gem_get_unmapped_area(struct file *filp, unsigned long uaddr,
+>   1253						unsigned long len, unsigned long pgoff,
+>   1254						unsigned long flags)
+>   1255	{
+>   1256		struct drm_gem_object *obj;
+>   1257		unsigned long ret;
+>   1258	
+>   1259		obj = drm_gem_object_lookup_at_offset(filp, pgoff, len >> PAGE_SHIFT);
+>   1260		if (IS_ERR(obj) || !obj->filp || !obj->filp->f_op->get_unmapped_area)
+> > 1261			return mm_get_unmapped_area(current->mm, filp, uaddr, len, 0,  
+>   1262						    flags);
 
-[auto build test WARNING on bpf-next/master]
+Hm, smells like a build without CONFIG_MMU=n. I guess we need some
+#ifdef CONFIG_MMU around drm_gem_get_unmapped_area() definitions.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Chaignon/bpf-Save-pruning-point-states-in-oracle/20251208-102146
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/7229111ef814fd10cac9c3a14d38ddb0f39dc376.1765158925.git.paul.chaignon%40gmail.com
-patch subject: [PATCH bpf-next 3/8] bpf: Create inner oracle maps
-config: sparc-randconfig-r123-20251209 (https://download.01.org/0day-ci/archive/20251209/202512092337.v7LrnDbF-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512092337.v7LrnDbF-lkp@intel.com/reproduce)
+>   1263	
+>   1264		ret = obj->filp->f_op->get_unmapped_area(obj->filp, uaddr, len, 0,
+>   1265							 flags);
+>   1266	
+>   1267		drm_gem_object_put(obj);
+>   1268	
+>   1269		return ret;
+>   1270	}
+>   1271	EXPORT_SYMBOL_GPL(drm_gem_get_unmapped_area);
+>   1272	
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512092337.v7LrnDbF-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> kernel/bpf/oracle.c:137:37: sparse: sparse: non size-preserving pointer to integer cast
-   kernel/bpf/oracle.c:138:33: sparse: sparse: non size-preserving pointer to integer cast
-
-vim +137 kernel/bpf/oracle.c
-
-   111	
-   112	struct bpf_prog *patch_oracle_check_insn(struct bpf_verifier_env *env, struct bpf_insn *insn,
-   113						 int i, int *cnt)
-   114	{
-   115		struct bpf_insn ld_addrs[2] = {
-   116			BPF_LD_IMM64_RAW(0, BPF_PSEUDO_MAP_ORACLE, 0),
-   117		};
-   118		struct bpf_insn_aux_data *aux = &env->insn_aux_data[i];
-   119		struct list_head *head = aux->oracle_states;
-   120		struct bpf_insn *insn_buf = env->insn_buf;
-   121		struct bpf_prog *new_prog = env->prog;
-   122		int num_oracle_states, err;
-   123		struct bpf_map *inner_map;
-   124	
-   125		if (env->subprog_cnt > 1)
-   126			/* Skip the oracle if subprogs are used. */
-   127			goto noop;
-   128	
-   129		num_oracle_states = list_count_nodes(head);
-   130		if (!num_oracle_states)
-   131			goto noop;
-   132	
-   133		inner_map = create_inner_oracle_map(num_oracle_states);
-   134		if (IS_ERR(inner_map))
-   135			return (void *)inner_map;
-   136	
- > 137		ld_addrs[0].imm = (u32)(u64)inner_map;
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
