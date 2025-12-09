@@ -1,63 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A55B14F9D6;
-	Tue,  9 Dec 2025 01:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC18137930
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 Dec 2025 02:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765245179; cv=none; b=Kg2tgt0Hv8253nlDkQqL76G4YHenuDrC1ojKhWRmakkltQg87LmyYBD0ouD9HuAFQry5vSulBmG1vvzLQU4iZUgY/un6uBE3vb1DRWKWmL0/JLEIqIspRH+MZ3m0c3JYzCc3NZ8vIgHC5Wu4jlkAnms53xmQm8TAtaq5JtewrSU=
+	t=1765246387; cv=none; b=h/hHu5Mo2UDu37S/xZSZgDcanQz2tWzXYS2YHcDDPT+RXHCm6XaxyEd4clCjPvmg+26s/pqwG20SVuQ/qus9TLYJ6Ve/Bb+2Qw4DqCagFEdmzahwA7j1rUazf9/eVQl4nR8KuOcH2D1zrBY2RpUtMUj5GOhJz/BQIG2DxTO5qt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765245179; c=relaxed/simple;
-	bh=Ey9K4onyQ6f8kRj6L7zyp5HQ9JpLyn+tNZX7DiZPVB4=;
+	s=arc-20240116; t=1765246387; c=relaxed/simple;
+	bh=t/n0Kb2PQ4ho9yOiWbXGt8ntdqBp4Egqu5F/G8IrLH4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eMjFWDtrGg++pyEjTmGSRN7s73OS1ZO7AdAxdqp1tWchne0FR5GlFRmdkRh8m3TXvks2pAVBa3zLCqMTl90n8XpurA6GxTWaPU+hxzjFzeh/6x2+/+l5r6ANxteBfHRVZ6HoGcE/eOVGk1CqcUEUXqVrsqtLZPrR7dMN6MW9uc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n22PiBmQ; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=OLcOGosE8ndztBPptuDxU2k2vxuDYketVwlnSE5CHlt4f9Yh68FeUWfS3s5OBVW6UmnTJ9ttiXuooXOmINyF0BQP/uvMq61B3NCEDwHGDKtfTsQM/SOQCzOdnBy7RvVSayjOGBndbmgak4p5TtXET/b8zMO80jlh52isGyLiyv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BDNa51IP; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n22PiBmQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BDNa51IP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765245178; x=1796781178;
+  t=1765246386; x=1796782386;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Ey9K4onyQ6f8kRj6L7zyp5HQ9JpLyn+tNZX7DiZPVB4=;
-  b=n22PiBmQf2gLrEcTdGj0xJRSi+MxLYCJZ88wnHYkPIUZvMPuTR8/gEGo
-   5KRyFBuLQvPJtKQwzB9Ge+k1NtGIso4z/wxz8h9yWWixpQhkNw5TBSkqP
-   2a3ZiJXovAO9zLP2UYgxtO3uu1KoDNshsErKRtX0VquZO/w8UxQmdexEz
-   LGgEQUmoEIz41l5MEVuz96Fch88pnqBkdOP+iGo/qzcT2lZBfYFOzm1bg
-   DP20fkgEthFZ9KQEuiofDEFr8w4Mjy+CNb8x/MK/jVRfLQbhySNRbtymC
-   LNXHw10wJTINrD1YhGtQbxcbiXgdAhGWihAeSGq4vFQzsksMcAvVaPl+6
+  bh=t/n0Kb2PQ4ho9yOiWbXGt8ntdqBp4Egqu5F/G8IrLH4=;
+  b=BDNa51IPSdCYzCC7yJaSHB4MIwyXpumKfWmctY8rCZ4l/88fKq87fxpQ
+   XjKWNTKL2NVYdSHcaojZe1PB3iRLqw0kZy6CMS3eWZDCvnnbxpx5jXJj7
+   xwv2Kjvji7y56iqSEtSlKSCRkCvcJi2yyA499N1Ijn1COY1YO7kVHgzhH
+   kpIilO9nmbQm6pAgKXhCa/0bZh16kHb3noM2fvjflxtx3I5XkdQUTCzIk
+   2VZZ/Ft8nfSPNeQhirN8VT0jHy0dIGkKOKYI8KrmPSd6iDv3dCw3CErwp
+   xdlAOasoZOEteKbhWBRVMX8AClnsdX/a6t4jUTyMqqrB3RjmyWyvvEtJ2
    A==;
-X-CSE-ConnectionGUID: vfn08brdT/amUgKEAAZarQ==
-X-CSE-MsgGUID: OUBiPW7FT8W9J9fQYwxkoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="67081856"
+X-CSE-ConnectionGUID: +gL756adQFSKlMVqs+0IbA==
+X-CSE-MsgGUID: 89bE23NQTwy/rYU2DPpBnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11636"; a="92673866"
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="67081856"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 17:52:57 -0800
-X-CSE-ConnectionGUID: NmFLdEa4RSSSF9mDwljs4w==
-X-CSE-MsgGUID: 3LPMO/wqQvKJ5OnTwt0Fog==
+   d="scan'208";a="92673866"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2025 18:13:04 -0800
+X-CSE-ConnectionGUID: kMd9kbGSTMiVFdT/ioshHQ==
+X-CSE-MsgGUID: 7VGMrLKDT/GWc4gYkwlMOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,260,1758610800"; 
-   d="scan'208";a="200537413"
+   d="scan'208";a="219442996"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Dec 2025 17:52:55 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 08 Dec 2025 18:12:58 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vSmuL-000000001AQ-09RK;
-	Tue, 09 Dec 2025 01:52:53 +0000
-Date: Tue, 9 Dec 2025 09:52:11 +0800
+	id 1vSnDj-000000001Be-2v6q;
+	Tue, 09 Dec 2025 02:12:55 +0000
+Date: Tue, 9 Dec 2025 10:12:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brendan Jackman <jackmanb@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Brendan Jackman <jackmanb@google.com>
-Subject: Re: [PATCH] mm/vmalloc: clarify why vmap_range_noflush() might sleep
-Message-ID: <202512090959.BWqYaOOg-lkp@intel.com>
-References: <20251208-b4-vmalloc-might_alloc-v1-1-94a9bb8ecb08@google.com>
+To: Yunhui Cui <cuiyunhui@bytedance.com>, aou@eecs.berkeley.edu,
+	alex@ghiti.fr, andii@kernel.org, andybnac@gmail.com,
+	apatel@ventanamicro.com, ast@kernel.org, ben.dooks@codethink.co.uk,
+	bjorn@kernel.org, bpf@vger.kernel.org, charlie@rivosinc.com,
+	cl@gentwo.org, conor.dooley@microchip.com, cyrilbur@tenstorrent.com,
+	daniel@iogearbox.net, debug@rivosinc.com, dennis@kernel.org,
+	eddyz87@gmail.com, haoluo@google.com, john.fastabend@gmail.com,
+	jolsa@kernel.org, kpsingh@kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	linux@rasmusvillemoes.dk, martin.lau@linux.dev, palmer@dabbelt.com,
+	pjw@kernel.org, puranjay@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] riscv: introduce percpu.h into include/asm
+Message-ID: <202512090907.agDhp0Nd-lkp@intel.com>
+References: <20251208034944.73113-3-cuiyunhui@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,67 +72,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251208-b4-vmalloc-might_alloc-v1-1-94a9bb8ecb08@google.com>
+In-Reply-To: <20251208034944.73113-3-cuiyunhui@bytedance.com>
 
-Hi Brendan,
+Hi Yunhui,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on ecc46e02e0abe025a6e840cba2d647f23fd1d721]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.18 next-20251208]
+[cannot apply to bpf-next/net bpf-next/master bpf/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Brendan-Jackman/mm-vmalloc-clarify-why-vmap_range_noflush-might-sleep/20251208-132202
-base:   ecc46e02e0abe025a6e840cba2d647f23fd1d721
-patch link:    https://lore.kernel.org/r/20251208-b4-vmalloc-might_alloc-v1-1-94a9bb8ecb08%40google.com
-patch subject: [PATCH] mm/vmalloc: clarify why vmap_range_noflush() might sleep
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251209/202512090959.BWqYaOOg-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090959.BWqYaOOg-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunhui-Cui/riscv-remove-irqflags-h-inclusion-in-asm-bitops-h/20251208-115407
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251208034944.73113-3-cuiyunhui%40bytedance.com
+patch subject: [PATCH v2 2/3] riscv: introduce percpu.h into include/asm
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20251209/202512090907.agDhp0Nd-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090907.agDhp0Nd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512090959.BWqYaOOg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512090907.agDhp0Nd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/vmalloc.c:308:14: error: use of undeclared identifier 'GFP_PGTABLE_KERNEL'
-     308 |         might_alloc(GFP_PGTABLE_KERNEL);
-         |                     ^
-   1 error generated.
+   In file included from include/linux/atomic.h:80,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/slub.c:13:
+   mm/slub.c: In function '__update_cpu_freelist_fast':
+>> include/linux/atomic/atomic-arch-fallback.h:414:30: error: implicit declaration of function 'arch_cmpxchg128_local'; did you mean 'arch_cmpxchg64_local'? [-Wimplicit-function-declaration]
+     414 | #define raw_cmpxchg128_local arch_cmpxchg128_local
+         |                              ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:5005:9: note: in expansion of macro 'raw_cmpxchg128_local'
+    5005 |         raw_cmpxchg128_local(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:231:17: note: in expansion of macro 'cmpxchg128_local'
+     231 |         ret__ = cmpxchg128_local(ptr__, old__, new__);                  \
+         |                 ^~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:110:17: note: in expansion of macro 'this_cpu_cmpxchg128'
+     110 |         __val = _cmpxchg(pcp, __old, nval);                             \
+         |                 ^~~~~~~~
+   include/asm-generic/percpu.h:529:9: note: in expansion of macro '__cpu_fallback_try_cmpxchg'
+     529 |         __cpu_fallback_try_cmpxchg(pcp, ovalp, nval, this_cpu_cmpxchg128)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab.h:24:41: note: in expansion of macro 'this_cpu_try_cmpxchg128'
+      24 | #define this_cpu_try_cmpxchg_freelist   this_cpu_try_cmpxchg128
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:4380:16: note: in expansion of macro 'this_cpu_try_cmpxchg_freelist'
+    4380 |         return this_cpu_try_cmpxchg_freelist(s->cpu_slab->freelist_tid,
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/GFP_PGTABLE_KERNEL +308 mm/vmalloc.c
+vim +414 include/linux/atomic/atomic-arch-fallback.h
 
-   297	
-   298	static int vmap_range_noflush(unsigned long addr, unsigned long end,
-   299				phys_addr_t phys_addr, pgprot_t prot,
-   300				unsigned int max_page_shift)
-   301	{
-   302		pgd_t *pgd;
-   303		unsigned long start;
-   304		unsigned long next;
-   305		int err;
-   306		pgtbl_mod_mask mask = 0;
-   307	
- > 308		might_alloc(GFP_PGTABLE_KERNEL);
-   309		BUG_ON(addr >= end);
-   310	
-   311		start = addr;
-   312		pgd = pgd_offset_k(addr);
-   313		do {
-   314			next = pgd_addr_end(addr, end);
-   315			err = vmap_p4d_range(pgd, addr, next, phys_addr, prot,
-   316						max_page_shift, &mask);
-   317			if (err)
-   318				break;
-   319		} while (pgd++, phys_addr += (next - addr), addr = next, addr != end);
-   320	
-   321		if (mask & ARCH_PAGE_TABLE_SYNC_MASK)
-   322			arch_sync_kernel_mappings(start, end);
-   323	
-   324		return err;
-   325	}
-   326	
+9257959a6e5b4f Mark Rutland 2023-06-05  413  
+9257959a6e5b4f Mark Rutland 2023-06-05 @414  #define raw_cmpxchg128_local arch_cmpxchg128_local
+e6ce9d741163af Uros Bizjak  2023-04-05  415  
 
 -- 
 0-DAY CI Kernel Test Service
