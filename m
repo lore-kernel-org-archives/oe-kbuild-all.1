@@ -1,76 +1,58 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5D4280338
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 07:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7D52773D3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 07:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765350270; cv=none; b=aWGYsIXdEhRHeVkRukEx49M7dn41gGv5OuuTg96Vy1W/tz4dxuw2XsITaouRw5Weid2nTb0Jfs0X73j8xYcpai2gury2OQ+mUHzO+U3xZlSS2tGIQtOU4wcwUJlyViIj4A4sKxkoFDViULqFKgLK+Igi9ywL8VSbgV4edXo1mjI=
+	t=1765350985; cv=none; b=CmwqvT/626vrnWKc02ibkOBiDauIe7b8XHjhKirAw8ZdDXGvJMmUxqAsP36Td+fjN6NG0+hnDU/1O7y+R7XVZwP9dJtliozI4Grd3rMOuBk+JyNf07HM0VMeDO/ObUVaGlivexgQizDAPt86aCclzOnN0UKkSlJjPHB7Y0bnAl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765350270; c=relaxed/simple;
-	bh=hoU6B1IUKqEePrjSbJ1rl3P9dAuWbzaOt76sUeMAdSM=;
+	s=arc-20240116; t=1765350985; c=relaxed/simple;
+	bh=q1FXn9kcsmHy88RDH5wcxVmOxlj/S2kj9CEtL/N87hc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cPqWPzy/GWn/mHxa8S03+774gh1ghT+UUr0YUaxf+YNEIahZ/IEXxKW/mI7EgYC7O42wxAS98qyyiNVUOnQSegqEBH37YG3y2P4RIN/OiKlrUbeO1CeuumC8JIeuANVXVM5p/J6NUnpP6fwyBAPTSBXMLPVNd6zGqpOtnlQB5KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QU/UpeWz; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=QPPqPWaPbnVnHfjyjcy4KVLiWXMaMvsw0gFx8qDt4xrgQns2SVEHBdi7drikGA+cdJDWDpOffl9VMku1VvBZ5S6W6iZg/LCNYtoNqcPBTYvcewQdX2++eoO+2T3PjsGIWNUwiekPkvYhugaqSI39ZuTQfu0eGx3lE4m/xia9BYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IEkSOvaG; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QU/UpeWz"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42e2b80ab25so2614749f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 09 Dec 2025 23:04:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765350267; x=1765955067; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wneUdiZIUvSz4bIt7t7dzaQ34xX/EF8I1Wc2lGxK/KU=;
-        b=QU/UpeWzw0Gh/lKT2RTHQVbkLItlD1nTblTnVbLULC6woJUHZUQkjmgTYxwGdz/vOv
-         5tztKA5n5d3ApqmOm1wFtMXZDOOGoXzSwI5uNYTNdM+/sN2AAGdjj9Gg0L1ClBwOMi5W
-         3PK8QIWcAYWeguTZx9zCdb26aV4brqvS9rpuzaT9WMrrOqxqnNRuRzwCpIJlXnVbvzDj
-         +LnFvKp+hSlzsI21awyM+ZFI7YiCr3eQee8VYQTAuqK2k01o3Nm+gYiZuffDVFdQEcuc
-         8AgBmCZLEg38RmMRXNx1q4nsX0ZJFbMgOGoYM5c8a8e0c4ad1oqDrxS7253UrNKfSzUH
-         G+eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765350267; x=1765955067;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wneUdiZIUvSz4bIt7t7dzaQ34xX/EF8I1Wc2lGxK/KU=;
-        b=wc8DbJx7mNZQkq96+SqMEj1C6YK177Ocn227VwOCeLrx+9AXa1zbgf06Vp14IQiD1u
-         9bECVhEpU5eK4j/q4jNT1Zq5TzdQYwO70/GfgA0ojEiVgvubmXcHmC1ao7t16mmUslXS
-         CJUlLH6QqUAePsDnUF4Ivofew95OXOEVFrxD3LIUc1fajvnHJP0AqWD6Sc97aGAna3I4
-         D3/PPv4jkFRjy0tVKBSiIzSbfKLZSKYHNqLG5s+XM5zAxzC8hAnuxQeodn7Yhik9KhYi
-         HpgcLrHvz9JMz+AOuBq+lA2lN3/p2A32hy5ayn556roLVuTP5g+VIL2+fY2DSw1DFUuW
-         HsCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVRujvJKw4aOwxANGJ0P9J6T9dkLBRVIp99iG4XNwjcbgbwGShsRY/JpciDgkNM9dxsNvAWUfTwDaqCLsiS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+eHxS6d5Dl++q0+3MfHX2XriQmw6XGLsuYaAzH8frj23yLHF+
-	GSr/IpPQKHldj+nQpa6M+c0UH0hlmQiR4aBg1HgURBWH/5sKipa3XaVDMposbtaWSsw=
-X-Gm-Gg: AY/fxX4IlZBzIn4zPj9rOYRCUOahiEU1I/ljEFlYkNstvEsOlt3zR55KLE2xVHTNdwg
-	Id9hofaY7M5Qm0KA1BElj+kufwfLRDUfYG60upu3YNJQgPPyNrDWH2v/YGr605UsyEHPg/XY/qk
-	wK0fiW+kjX1FzUNhQvWvityTvRwdFHtqCm0ye1j6yVGlf9r2SKHVPD9hhKjkd/x8Jr054ANADGh
-	CCOhnubekOLuPszIfbjW5TDh/DNbCQQDb4yzT4bXd1HLREvcagCVIajjzlD+ZaF5es5gyd61zEj
-	67b4LuzjxyMeEUDBIbzTEHkJ9lS1jmaJEw70DBzovNzV22xxqoEO7kOZt/pCzGYPJvv2KIqTvde
-	ksBuFxBRGCpmiv8+N5aJi1E8cfDQXaByPEzcOa3mfkdKil4hhWF49XKsh2sICLo1VyboSUCkB/Z
-	Q6xNUIWDi/Hxw9Dg0c
-X-Google-Smtp-Source: AGHT+IFcZ/UTVwf8224aO0fl35Qk8UwQ0QlCQ27fmB7JwmfzLHOOZKb1nT6qHZ293CtrmggIF1MUcg==
-X-Received: by 2002:a05:6000:2dc7:b0:42b:3bee:a7ff with SMTP id ffacd0b85a97d-42fa39d2f96mr1265827f8f.24.1765350266483;
-        Tue, 09 Dec 2025 23:04:26 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d331df0sm37067886f8f.36.2025.12.09.23.04.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Dec 2025 23:04:26 -0800 (PST)
-Date: Wed, 10 Dec 2025 10:04:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Rohit Mathew <rohit.mathew@arm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	James Morse <james.morse@arm.com>, Ben Horgan <ben.horgan@arm.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Fenghua Yu <fenghuay@nvidia.com>, Gavin Shan <gshan@redhat.com>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-Subject: drivers/resctrl/mpam_devices.c:1112 __ris_msmon_read() error:
- uninitialized symbol 'overflow'.
-Message-ID: <202512100547.N7QPYgfb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IEkSOvaG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765350982; x=1796886982;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=q1FXn9kcsmHy88RDH5wcxVmOxlj/S2kj9CEtL/N87hc=;
+  b=IEkSOvaG2CA8WKV1ueqB4XDY99Y2zGgbbPa0d40KJ0b8jDaa73BCgCuI
+   jS8Gtzi5mwrMUZE+dGjE/SHBWikqbdETYwQDuw0CqpY9/5z0Ep35sHqfd
+   hTE9J8j8h0RU1xFdaL9qCI8oorQ2TC75C8+QOl0Z2RTX7JLekYW5St/X6
+   mNQCi0pwFYTJYH0I7UBT/i6z6uubMbAGTMS7BB1OzcjZYbceYvkYiVREz
+   LNQR1SrSRvS4PtExoSSYWinnBi3ibg0Y/ho8ywPUGib1Gu0222khsp2I2
+   bkH6fi8D6/luo8KrpPQbEV36vj1BzU02Hxr5Y/LSP4Mcdyfy+dUT6SXA6
+   w==;
+X-CSE-ConnectionGUID: jJt1ovDBSemOVfWqvnbckQ==
+X-CSE-MsgGUID: J/yFQOdkQY+l3fSPD/yNQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="67204450"
+X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
+   d="scan'208";a="67204450"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 23:16:21 -0800
+X-CSE-ConnectionGUID: srhBLJ/qRb6UlgUEgJPFMQ==
+X-CSE-MsgGUID: bXGQF10iTPGAZ+yJ15Jcyw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
+   d="scan'208";a="227103848"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 09 Dec 2025 23:16:20 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vTEQr-000000000Wu-3Kc8;
+	Wed, 10 Dec 2025 07:16:17 +0000
+Date: Wed, 10 Dec 2025 08:15:31 +0100
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3508/3508] mm/memblock.c:1409:20: warning: no
+ previous prototype for 'memblock_alloc_range_nid_flags'
+Message-ID: <202512100803.QFVpHYI3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,84 +62,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cb015814f8b6eebcbb8e46e111d108892c5e6821
-commit: 9e5afb7c32830bcd123976a7729ef4e2dff0cd77 arm_mpam: Use long MBWU counters if supported
-config: arm64-randconfig-r072-20251208 (https://download.01.org/0day-ci/archive/20251210/202512100547.N7QPYgfb-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
+Hi Ma,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   d7d7f131569485a9b6737b85cd8144196135b1a1
+commit: 64018b291c1f49622c4b23b303364d760306d662 [3508/3508] mm/memblock: Introduce ability to alloc memory from specify memory region
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251210/202512100803.QFVpHYI3-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512100803.QFVpHYI3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512100547.N7QPYgfb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512100803.QFVpHYI3-lkp@intel.com/
 
-New smatch warnings:
-drivers/resctrl/mpam_devices.c:1112 __ris_msmon_read() error: uninitialized symbol 'overflow'.
+All warnings (new ones prefixed by >>):
 
-vim +/overflow +1112 drivers/resctrl/mpam_devices.c
+>> mm/memblock.c:1409:20: warning: no previous prototype for 'memblock_alloc_range_nid_flags' [-Wmissing-prototypes]
+    1409 | phys_addr_t __init memblock_alloc_range_nid_flags(phys_addr_t size,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-823e7c3712c584 James Morse  2025-11-19  1070  static void __ris_msmon_read(void *arg)
-823e7c3712c584 James Morse  2025-11-19  1071  {
-823e7c3712c584 James Morse  2025-11-19  1072  	u64 now;
-823e7c3712c584 James Morse  2025-11-19  1073  	bool nrdy = false;
-823e7c3712c584 James Morse  2025-11-19  1074  	bool config_mismatch;
-b35363793291e3 Ben Horgan   2025-11-19  1075  	bool overflow;
-823e7c3712c584 James Morse  2025-11-19  1076  	struct mon_read *m = arg;
-823e7c3712c584 James Morse  2025-11-19  1077  	struct mon_cfg *ctx = m->ctx;
-823e7c3712c584 James Morse  2025-11-19  1078  	struct mpam_msc_ris *ris = m->ris;
-41e8a14950e173 James Morse  2025-11-19  1079  	struct msmon_mbwu_state *mbwu_state;
-823e7c3712c584 James Morse  2025-11-19  1080  	struct mpam_props *rprops = &ris->props;
-823e7c3712c584 James Morse  2025-11-19  1081  	struct mpam_msc *msc = m->ris->vmsc->msc;
-823e7c3712c584 James Morse  2025-11-19  1082  	u32 mon_sel, ctl_val, flt_val, cur_ctl, cur_flt;
-823e7c3712c584 James Morse  2025-11-19  1083  
-823e7c3712c584 James Morse  2025-11-19  1084  	if (!mpam_mon_sel_lock(msc)) {
-823e7c3712c584 James Morse  2025-11-19  1085  		m->err = -EIO;
-823e7c3712c584 James Morse  2025-11-19  1086  		return;
-823e7c3712c584 James Morse  2025-11-19  1087  	}
-823e7c3712c584 James Morse  2025-11-19  1088  	mon_sel = FIELD_PREP(MSMON_CFG_MON_SEL_MON_SEL, ctx->mon) |
-823e7c3712c584 James Morse  2025-11-19  1089  		  FIELD_PREP(MSMON_CFG_MON_SEL_RIS, ris->ris_idx);
-823e7c3712c584 James Morse  2025-11-19  1090  	mpam_write_monsel_reg(msc, CFG_MON_SEL, mon_sel);
-823e7c3712c584 James Morse  2025-11-19  1091  
-823e7c3712c584 James Morse  2025-11-19  1092  	/*
-823e7c3712c584 James Morse  2025-11-19  1093  	 * Read the existing configuration to avoid re-writing the same values.
-823e7c3712c584 James Morse  2025-11-19  1094  	 * This saves waiting for 'nrdy' on subsequent reads.
-823e7c3712c584 James Morse  2025-11-19  1095  	 */
-823e7c3712c584 James Morse  2025-11-19  1096  	read_msmon_ctl_flt_vals(m, &cur_ctl, &cur_flt);
-9e5afb7c32830b Rohit Mathew 2025-11-19  1097  
-9e5afb7c32830b Rohit Mathew 2025-11-19  1098  	if (mpam_feat_msmon_mbwu_31counter == m->type)
-b35363793291e3 Ben Horgan   2025-11-19  1099  		overflow = cur_ctl & MSMON_CFG_x_CTL_OFLOW_STATUS;
-9e5afb7c32830b Rohit Mathew 2025-11-19  1100  	else if (mpam_feat_msmon_mbwu_44counter == m->type ||
-9e5afb7c32830b Rohit Mathew 2025-11-19  1101  		 mpam_feat_msmon_mbwu_63counter == m->type)
-9e5afb7c32830b Rohit Mathew 2025-11-19  1102  		overflow = cur_ctl & MSMON_CFG_MBWU_CTL_OFLOW_STATUS_L;
 
-overflow not initialized on else path, but I haven't looked at how
-&cur_flt is set in read_msmon_ctl_flt_vals() so this could be a
-false positive.
+vim +/memblock_alloc_range_nid_flags +1409 mm/memblock.c
 
-b35363793291e3 Ben Horgan   2025-11-19  1103  
-823e7c3712c584 James Morse  2025-11-19  1104  	clean_msmon_ctl_val(&cur_ctl);
-823e7c3712c584 James Morse  2025-11-19  1105  	gen_msmon_ctl_flt_vals(m, &ctl_val, &flt_val);
-823e7c3712c584 James Morse  2025-11-19  1106  	config_mismatch = cur_flt != flt_val ||
-823e7c3712c584 James Morse  2025-11-19  1107  			  cur_ctl != (ctl_val | MSMON_CFG_x_CTL_EN);
-823e7c3712c584 James Morse  2025-11-19  1108  
-b35363793291e3 Ben Horgan   2025-11-19  1109  	if (config_mismatch) {
-823e7c3712c584 James Morse  2025-11-19  1110  		write_msmon_ctl_flt_vals(m, ctl_val, flt_val);
-b35363793291e3 Ben Horgan   2025-11-19  1111  		overflow = false;
-b35363793291e3 Ben Horgan   2025-11-19 @1112  	} else if (overflow) {
-                                                           ^^^^^^^^
-here.
-
-b35363793291e3 Ben Horgan   2025-11-19  1113  		mpam_write_monsel_reg(msc, CFG_MBWU_CTL,
-9e5afb7c32830b Rohit Mathew 2025-11-19  1114  				      cur_ctl &
-9e5afb7c32830b Rohit Mathew 2025-11-19  1115  				      ~(MSMON_CFG_x_CTL_OFLOW_STATUS |
-9e5afb7c32830b Rohit Mathew 2025-11-19  1116  					MSMON_CFG_MBWU_CTL_OFLOW_STATUS_L));
-b35363793291e3 Ben Horgan   2025-11-19  1117  	}
-823e7c3712c584 James Morse  2025-11-19  1118  
-823e7c3712c584 James Morse  2025-11-19  1119  	switch (m->type) {
-823e7c3712c584 James Morse  2025-11-19  1120  	case mpam_feat_msmon_csu:
+  1386	
+  1387	/**
+  1388	 * memblock_alloc_range_nid_flags - allocate boot memory block with specify flag
+  1389	 * @size: size of memory block to be allocated in bytes
+  1390	 * @align: alignment of the region and block's size
+  1391	 * @start: the lower bound of the memory region to allocate (phys address)
+  1392	 * @end: the upper bound of the memory region to allocate (phys address)
+  1393	 * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
+  1394	 * @exact_nid: control the allocation fall back to other nodes
+  1395	 * @flags: alloc memory from specify memblock flag
+  1396	 *
+  1397	 * The allocation is performed from memory region limited by
+  1398	 * memblock.current_limit if @end == %MEMBLOCK_ALLOC_ACCESSIBLE.
+  1399	 *
+  1400	 * If the specified node can not hold the requested memory and @exact_nid
+  1401	 * is false, the allocation falls back to any node in the system.
+  1402	 *
+  1403	 * In addition, function sets the min_count to 0 using kmemleak_alloc_phys for
+  1404	 * allocated boot memory block, so that it is never reported as leaks.
+  1405	 *
+  1406	 * Return:
+  1407	 * Physical address of allocated memory block on success, %0 on failure.
+  1408	 */
+> 1409	phys_addr_t __init memblock_alloc_range_nid_flags(phys_addr_t size,
+  1410						phys_addr_t align, phys_addr_t start,
+  1411						phys_addr_t end, int nid,
+  1412						bool exact_nid,
+  1413						enum memblock_flags flags)
+  1414	{
+  1415		phys_addr_t found;
+  1416	
+  1417		if (WARN_ONCE(nid == MAX_NUMNODES, "Usage of MAX_NUMNODES is deprecated. Use NUMA_NO_NODE instead\n"))
+  1418			nid = NUMA_NO_NODE;
+  1419	
+  1420		if (!align) {
+  1421			/* Can't use WARNs this early in boot on powerpc */
+  1422			dump_stack();
+  1423			align = SMP_CACHE_BYTES;
+  1424		}
+  1425	
+  1426	again:
+  1427		found = memblock_find_in_range_node(size, align, start, end, nid,
+  1428						    flags);
+  1429		if (found && !memblock_reserve(found, size))
+  1430			goto done;
+  1431	
+  1432		if (nid != NUMA_NO_NODE && !exact_nid) {
+  1433			found = memblock_find_in_range_node(size, align, start,
+  1434							    end, NUMA_NO_NODE,
+  1435							    flags);
+  1436			if (found && !memblock_reserve(found, size))
+  1437				goto done;
+  1438		}
+  1439	
+  1440		if (flags & MEMBLOCK_MIRROR) {
+  1441			flags &= ~MEMBLOCK_MIRROR;
+  1442			pr_warn_ratelimited("Could not allocate %pap bytes of mirrored memory\n",
+  1443				&size);
+  1444			goto again;
+  1445		}
+  1446	
+  1447		return 0;
+  1448	
+  1449	done:
+  1450		/*
+  1451		 * Skip kmemleak for those places like kasan_init() and
+  1452		 * early_pgtable_alloc() due to high volume.
+  1453		 */
+  1454		if (end != MEMBLOCK_ALLOC_NOLEAKTRACE)
+  1455			/*
+  1456			 * Memblock allocated blocks are never reported as
+  1457			 * leaks. This is because many of these blocks are
+  1458			 * only referred via the physical address which is
+  1459			 * not looked up by kmemleak.
+  1460			 */
+  1461			kmemleak_alloc_phys(found, size, 0);
+  1462	
+  1463		/*
+  1464		 * Some Virtual Machine platforms, such as Intel TDX or AMD SEV-SNP,
+  1465		 * require memory to be accepted before it can be used by the
+  1466		 * guest.
+  1467		 *
+  1468		 * Accept the memory of the allocated buffer.
+  1469		 */
+  1470		accept_memory(found, found + size);
+  1471	
+  1472		return found;
+  1473	}
+  1474	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
