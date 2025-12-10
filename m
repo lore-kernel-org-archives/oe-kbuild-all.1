@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1B23242C8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 13:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2F4324718
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 13:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765372219; cv=none; b=O8EN2xIYcS7T4Cjy17VHs7X0OEQxyR1sbNCkfQJZwMPpEELe13HHdg4vk0T7gvwUzk1kUwO539GOS4HywHwsh7w+8MV+tsHMaZu8uIw1Om5l+7Id7O622GauV71AUDDxhPGRaO9Yp6ZOTe2DL9YiRqJEK0s+OR04Pcdh8wVpFw8=
+	t=1765372220; cv=none; b=Uj/tqF091J4GTN4kL2YTKpww1SBw4MB6LjkDpXV+ej7gcqmIWIm6dsGbuXBd9vaPc3DWYoTiyxruYHinxAbeh1ERX/qreIzPZlQ5slVtgY/3UtcYXKdqiyIrqksFLU9uB0PWp/g3D7nSy7J7ZBRIJYH7HIvx8kPcd0/pWgeaXw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765372219; c=relaxed/simple;
-	bh=LMJnjtw7VgElXoGjInmqB+V5prlQLNXkjnkEKuBFysY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ejxl75TBHQFygUfzuutxG/tele35ndOnfWt/0chmKpOoqTPi9+Xcip+D4esJyjQHsyBhk92Wc5opIWUYAjy9mGjA0iSLlGPZ8BgA62s/JrJonIddPrxWvAzRA6zL5oziwWFWH8YEsraMqmsFvDEanpox6I3G5jfAmENz2IU/BIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AqeczWzE; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1765372220; c=relaxed/simple;
+	bh=QAidEA//GkJT7W2g7BriSWgjYhM81oSbVaSAiKnI1Eo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f7eAQdRlzcaFrog6A5+fIxX151ZIVJ3J/EgahqBjLnMWwiG0a6VQFpq7yNzoPQg1giljQg96ePoZq/w75WwvE6B84gqs4oS2qcsmemCqvXmDQzLjNU3HjEpShnGw6KR4tetgnIc3koau/ar/vqQVey9TE2tUeWGwf8b3r81KSNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxCesqKn; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AqeczWzE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxCesqKn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765372217; x=1796908217;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LMJnjtw7VgElXoGjInmqB+V5prlQLNXkjnkEKuBFysY=;
-  b=AqeczWzE6teWYRVjMj/Gg3NuQoHDpkqNULtpRSMZ3aFe5Y5GE2NILvoF
-   daxgLXK6yO6aFaB4B4heEhI2O2zkgZwd8UfyvjOT6E+zZnplw+ZrWmfZz
-   SKPE9R0nEA84YDNtonQoWiLi5neiXTKt4gmGPpIaZ3cRqlw1CqWwIZV/D
-   g1/4Bt0GZ1BKWVYDQAWMyjikEwBqsCcAPFyy9tCXr3AljBz0b/n1Jd/XL
-   +sEnnPO+GinenVFnavDoXC6GTC0EndbiLHa6xZTcpB7HJ9YvrS6+3naPw
-   Ux+Alhp6OoreYSy//YmKbhEHHa0o7xiaRrLRY4a2/JekBZQRmbsycqPLJ
-   g==;
-X-CSE-ConnectionGUID: TP3ydKi7R5WpaoNZKgzoag==
-X-CSE-MsgGUID: H6YszAXcTiCJuF4DaUuK4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="78038276"
+  t=1765372219; x=1796908219;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QAidEA//GkJT7W2g7BriSWgjYhM81oSbVaSAiKnI1Eo=;
+  b=UxCesqKnOjzT+CFY/TIx/xECiTfIqIGr7t3Uen7rCErP7hqvEIEzmHPQ
+   PbAo2POByH3nrTl7OvBzb4p9Zfjt5qjNfZCtVZGy4MKKu4a6rASFXuuyp
+   tLnkhys4PPTmSWsNFnE7/sfqvPLzJip+4N6BREVdHZww2QvAZz+y32opO
+   DHlQpXoP/P8JTGOKLX4rvNU7W3/Y0qf8Q4LREmAOruDT/1RJGAdWgC/OO
+   4twqm5jmTQxAH2IgGmhcH2xV6Ad2k/w9LikEToFqBGmN84OmU6KCTtuRV
+   r6viz1bIjwKWzUcxpB2yTamzivwQwMZJt/VG1U+tGDHE91Dfx+oJu5A9X
+   A==;
+X-CSE-ConnectionGUID: itg8RzXwTyG05veq3YXu4g==
+X-CSE-MsgGUID: 6Nu9YdNGQAW8EOkOQEtfbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="70964479"
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="78038276"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 05:10:16 -0800
-X-CSE-ConnectionGUID: upIlw12WRpennajEoHQaeQ==
-X-CSE-MsgGUID: ZbzuYbgXTiixmcNERCvRPQ==
+   d="scan'208";a="70964479"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 05:10:18 -0800
+X-CSE-ConnectionGUID: +AV3EDH7Qi+YI2FEUHqjdg==
+X-CSE-MsgGUID: pySygRGfSAuUui8Q8gMp7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="196262816"
+   d="scan'208";a="196109294"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Dec 2025 05:10:16 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 10 Dec 2025 05:10:15 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTJxN-000000003Cw-0AWj;
-	Wed, 10 Dec 2025 13:10:13 +0000
-Date: Wed, 10 Dec 2025 21:09:16 +0800
+	id 1vTJxM-000000003Cr-43sL;
+	Wed, 10 Dec 2025 13:10:12 +0000
+Date: Wed, 10 Dec 2025 21:09:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bo Liu <liubo03@inspur.com>
+To: Heiko Carstens <hca@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+	Jens Remus <jremus@linux.ibm.com>,
+	Stefan Schulze Frielinghaus <stefansf@linux.ibm.com>,
+	Juergen Christ <jchrist@linux.ibm.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Gao Xiang <xiang@kernel.org>
-Subject: fs/erofs/decompressor_crypto.c:64:30: sparse: sparse: symbol
- 'z_erofs_crypto' was not declared. Should it be static?
-Message-ID: <202512102025.4mWeBSsf-lkp@intel.com>
+	linux-s390@vger.kernel.org
+Subject: Re: [PATCH 6/9] s390/bug: Implement __WARN_printf()
+Message-ID: <202512102049.3FCpsgLh-lkp@intel.com>
+References: <20251209121701.1856271-7-hca@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,43 +72,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251209121701.1856271-7-hca@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c9b47175e9131118e6f221cc8fb81397d62e7c91
-commit: b4a29efc51461edf1a02e9da656d4480cabd24b0 erofs: support DEFLATE decompression by using Intel QAT
-date:   7 months ago
-config: s390-randconfig-r111-20251210 (https://download.01.org/0day-ci/archive/20251210/202512102025.4mWeBSsf-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512102025.4mWeBSsf-lkp@intel.com/reproduce)
+Hi Heiko,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 70075e3d0ca0b72cc983d03f7cd9796e43492980]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Carstens/kbuild-Require-gcc-9-for-s390/20251209-202647
+base:   70075e3d0ca0b72cc983d03f7cd9796e43492980
+patch link:    https://lore.kernel.org/r/20251209121701.1856271-7-hca%40linux.ibm.com
+patch subject: [PATCH 6/9] s390/bug: Implement __WARN_printf()
+config: s390-randconfig-r062-20251210 (https://download.01.org/0day-ci/archive/20251210/202512102049.3FCpsgLh-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512102049.3FCpsgLh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512102025.4mWeBSsf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512102049.3FCpsgLh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/erofs/decompressor_crypto.c:64:30: sparse: sparse: symbol 'z_erofs_crypto' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/z_erofs_crypto +64 fs/erofs/decompressor_crypto.c
+>> arch/s390/kernel/traps.c:224:26: warning: 'struct arch_va_list' declared inside parameter list will not be visible outside of this definition or declaration
+     224 | void *__warn_args(struct arch_va_list *args, struct pt_regs *regs)
+         |                          ^~~~~~~~~~~~
+>> arch/s390/kernel/traps.c:224:7: warning: no previous prototype for '__warn_args' [-Wmissing-prototypes]
+     224 | void *__warn_args(struct arch_va_list *args, struct pt_regs *regs)
+         |       ^~~~~~~~~~~
+   arch/s390/kernel/traps.c: In function '__warn_args':
+   arch/s390/kernel/traps.c:243:13: error: invalid use of undefined type 'struct arch_va_list'
+     243 |         args->__overflow_arg_area = stack_frame + 1;
+         |             ^~
+   arch/s390/kernel/traps.c:244:13: error: invalid use of undefined type 'struct arch_va_list'
+     244 |         args->__reg_save_area = regs->gprs;
+         |             ^~
+   arch/s390/kernel/traps.c:245:13: error: invalid use of undefined type 'struct arch_va_list'
+     245 |         args->__gpr = 1;
+         |             ^~
 
-    63	
-  > 64	struct z_erofs_crypto_engine *z_erofs_crypto[Z_EROFS_COMPRESSION_MAX] = {
-    65		[Z_EROFS_COMPRESSION_LZ4] = (struct z_erofs_crypto_engine[]) {
-    66			{},
-    67		},
-    68		[Z_EROFS_COMPRESSION_LZMA] = (struct z_erofs_crypto_engine[]) {
-    69			{},
-    70		},
-    71		[Z_EROFS_COMPRESSION_DEFLATE] = (struct z_erofs_crypto_engine[]) {
-    72			{ .crypto_name = "qat_deflate", },
-    73			{},
-    74		},
-    75		[Z_EROFS_COMPRESSION_ZSTD] = (struct z_erofs_crypto_engine[]) {
-    76			{},
-    77		},
-    78	};
-    79	static DECLARE_RWSEM(z_erofs_crypto_rwsem);
-    80	
+
+vim +224 arch/s390/kernel/traps.c
+
+   223	
+ > 224	void *__warn_args(struct arch_va_list *args, struct pt_regs *regs)
+   225	{
+   226		struct stack_frame *stack_frame;
+   227	
+   228		/*
+   229		 * Generate va_list from pt_regs. See ELF Application Binary Interface
+   230		 * s390x Supplement documentation for details.
+   231		 *
+   232		 * - __overflow_arg_area needs to point to the parameter area, which
+   233		 *   is right above the standard stack frame (160 bytes)
+   234		 *
+   235		 * - __reg_save_area needs to point to a register save area where
+   236		 *   general registers (%r2 - %r6) can be found at offset 16. Which
+   237		 *   means that the gprs save area of pt_regs can be used
+   238		 *
+   239		 * - __gpr must be set to one, since the first parameter has been
+   240		 *   processed (pointer to bug_entry)
+   241		 */
+   242		stack_frame = (struct stack_frame *)regs->gprs[15];
+   243		args->__overflow_arg_area = stack_frame + 1;
+   244		args->__reg_save_area = regs->gprs;
+   245		args->__gpr = 1;
+   246		return args;
+   247	}
+   248	
 
 -- 
 0-DAY CI Kernel Test Service
