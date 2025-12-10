@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E0A4D8CE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 20:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF53519E97B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 21:02:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765399236; cv=none; b=IVinIc7ULlOk+tnKeb1zeVsvUOTcxU7VK7k3/wMA/miK0YMqT7uiL+E6dRQMqxzuID8PoWinwXqbVJ1lgfaWfZ2IMVszKjx4VnvZJG/D9fTNni9ULxcroEhMEg3d+nHmzpYh7Y17V22E5R12mseezRSkZc3SjF+V2I8F7dnJXNc=
+	t=1765400561; cv=none; b=U13D1GNFXVPtDsBNE4wt7DBkfR9RzKD6hBS0BxgoBQd2PTqKQMUsUHG4E3MMUxdgIXnuWi7kejauEBgf0w3zmOhLqJ1MCX2oec8lqiwshjAwWbrBL5FUE658Xva6XXIx1J0Yw0bvxU/nEHnQdBZ9abRc53PCVMf5cLmpa2RkK+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765399236; c=relaxed/simple;
-	bh=9R68TmdF3DDvI3H87Woz2+WRvK0+1Id7PYzkX42yuOQ=;
+	s=arc-20240116; t=1765400561; c=relaxed/simple;
+	bh=GKJNujU4Txct0PqQZVmzHVRiYKSgtqGpNdJEO9/Vo80=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uMApRzXl9p5I5C8hc/OQVlc0DuAficBdKSXeqTN9g9TsjgGDv6eKvYd+9CgOYMItBun8SO5kyoOBXU2WzTmE0X5+g+Jg9dyf+ICTGcLFe4abTs1w/2msQ2p1F/hcpz5i+ZJrJMRA2PNea61s49aHvFR9lrBdM7Pg9Mqe7LxfKi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EbZKbCxu; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=IprHjRAGwwGY7fTZbIcB+urewTFc8TpWu7q6j4N0cX1AHBbyuo1P4KZ+nW9BJvYnlb7B/QSze5bePzlXrIf800yX8j/LlkpZkDvU9V7bNLOKrRvc2ABz9fV4LXDCh+7ZxDtxzVm/Cfx/gAPDWdbi0QeCoI/KiyS6Kk4+3I7BHiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pr9t412d; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EbZKbCxu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pr9t412d"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765399234; x=1796935234;
+  t=1765400559; x=1796936559;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9R68TmdF3DDvI3H87Woz2+WRvK0+1Id7PYzkX42yuOQ=;
-  b=EbZKbCxuVTtuHEkX/BLCXx61Guvd9IVQ7QLIdWxi6mQ88mdMgAeAfFcJ
-   QFzEH0HR2xBAT6RnPwMu96RAbVBgE9ti6T6PyMCE2lMaZZq4MzBZp0NcV
-   wqNJdFxI3IT+KS7vVNEbGLEZ2iMFMEjEC+z61JHxi7+JSOGQqVwc+Fxqc
-   s7cYReNnojYcejQ4ePWDlp8Fzy6xAUAdf+ocRrBw8xNfrDMbzuQdA3ULu
-   AHOGvgvhzAsF3TrONGBQWjilOrlEIy2QteQlqfC+KF8Na1mQRzeZqXOCT
-   eoox+Y3itLmEjC3+T6TEIYBSmSsInGNy1PRG5cgTzwYYo23XdyCNE0tc+
+  bh=GKJNujU4Txct0PqQZVmzHVRiYKSgtqGpNdJEO9/Vo80=;
+  b=Pr9t412dgXsxKgyXqe8FkXke9fsDbHuI2DOckSyDP7bfd3pTAAElw4tv
+   BJsTz7OvKW8t6d3JqmAJa81ntnC2r0znAz9v8MsQXmnPmsry3J65zPYKA
+   02cw6VpjA+4sYYbJOElBR7xzggDptgXyqDDj1aQJdTIlC/WQH7C/lrQ4t
+   GjDSWy6dRAW8/2AplslWP5bNuxFYbRq2tGGRGWtIKRD9qNOgwmmNfojYN
+   3kqaaI86nS61WUkI4FSUynQCo3P+oPKfwXHmoB6b3hM6vNhP/2TiDe/f3
+   j9nMsYxJLAZsZmWr0H4EQpMx56sE2odc1zIeY9GM6ieuFOHdoWmYn/LcF
    A==;
-X-CSE-ConnectionGUID: 4H0dgrV+S2yPcG6Ed6wj3w==
-X-CSE-MsgGUID: kNcmtVjdTgugjHM/UHq8bw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67314145"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67314145"
+X-CSE-ConnectionGUID: s/p3bsZpTxK6IcHT9xftug==
+X-CSE-MsgGUID: pyENL6KvThGVhyRAlc4UPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="77695894"
+X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
+   d="scan'208";a="77695894"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 12:40:33 -0800
-X-CSE-ConnectionGUID: AQTeiN+RSz++OFXrUZRvqg==
-X-CSE-MsgGUID: ZkgzHN3FRQ+8rhKhWTBunA==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 13:02:36 -0800
+X-CSE-ConnectionGUID: lHNdI4iOQz6k8dpwnRCNoQ==
+X-CSE-MsgGUID: /BOvlcHXQReiaroJjLNUqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="201705233"
+   d="scan'208";a="201708207"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 10 Dec 2025 12:40:31 -0800
+  by orviesa005.jf.intel.com with ESMTP; 10 Dec 2025 13:02:32 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTQz6-000000000lo-3sMy;
-	Wed, 10 Dec 2025 20:40:28 +0000
-Date: Wed, 10 Dec 2025 21:40:12 +0100
+	id 1vTRKP-000000000m8-0fWC;
+	Wed, 10 Dec 2025 21:02:29 +0000
+Date: Wed, 10 Dec 2025 22:01:46 +0100
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [openeuler:OLK-5.10 3406/3406] versioncheck:
- ./drivers/ub/urma/uburma/uburma_main.c: 30 linux/version.h not needed.
-Message-ID: <202512102144.4avwElna-lkp@intel.com>
+ ./drivers/ub/urma/ubcore/ubcore_umem.c: 26 linux/version.h not needed.
+Message-ID: <202512102219.e5J8mkWg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,13 +64,13 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   41baca24098d5757f3aea4d98e63eb9d9f7d43a3
-commit: 0de8eb8666571f652e44eb94b7b30f60136b38e3 [3406/3406] ub: init uburma module
-reproduce: (https://download.01.org/0day-ci/archive/20251210/202512102144.4avwElna-lkp@intel.com/reproduce)
+commit: f6206cf05e28a7f455850a4e2de8162890f50073 [3406/3406] ub: add memory map api in ubcore
+reproduce: (https://download.01.org/0day-ci/archive/20251210/202512102219.e5J8mkWg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512102144.4avwElna-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512102219.e5J8mkWg-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
    INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -139,7 +139,8 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
    ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
    ./drivers/ub/urma/ubcore/ubcore_main.c: 28 linux/version.h not needed.
->> ./drivers/ub/urma/uburma/uburma_main.c: 30 linux/version.h not needed.
+>> ./drivers/ub/urma/ubcore/ubcore_umem.c: 26 linux/version.h not needed.
+   ./drivers/ub/urma/uburma/uburma_main.c: 30 linux/version.h not needed.
    ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
    ./fs/eulerfs/euler.h: 20 linux/version.h not needed.
    ./fs/eulerfs/euler_common.h: 25 linux/version.h not needed.
