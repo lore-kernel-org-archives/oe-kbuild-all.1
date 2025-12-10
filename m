@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE1D21E0AF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 20:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7478C3271E6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 20:22:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765398094; cv=none; b=eKIt8hbdfsEIlubySafjPxBezwZBiupcQ4g7QgvgLFOEjBriIvQgjxHeLAo1Ds84Fyo2KCykguNxtEjEUOuMlzIu5gtYEfHfYULAvyJ4Yi/YjHj9LzDpLdCjWJgDHzF5uyAyamEaa6eoumZI/pyK7PmkVLMtKyQigDEdPJYn5Qo=
+	t=1765398175; cv=none; b=qLRrcyVqTC2KjgLoGbNq4YT/MyQ20WYKOnxlbXHxSPcUwGwsOcyHzeWo2aP8IzFMQIk1zuW//yxDR3DH7INJBEZJlBrMy9E/ZGSGoj8W/BvKyBgrDaTIioSJKebJEiNH0Ex+jMy/x2l9NRyr/IA3ATDp/hYdjS1e0vVlVwfEuA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765398094; c=relaxed/simple;
-	bh=mgn8lWBDKu6lv6KbVoMDja22joiP/m19j4iMYcnLp8s=;
+	s=arc-20240116; t=1765398175; c=relaxed/simple;
+	bh=Zim/TFHIRshEutZNs15JT51IYMJpq2Fp0ak7A5I69Bo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X7NaSwITwu3tpAyc79rTM4c3M1PwcWdz0JvYEbsOCIiYP4fpxLpMJG921istl64S9vPrrrp+KcTwNbtMaDKqr6QCGhCGStokPMzBjSOBs7qt+qA55O5vyTHE/qMEc0d/uciiX2cgkNCsMGnLXKOUCDrv89/J+4p3L+VtIbsddp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iy6N1P3C; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=OFWIMNC03KRiv0oCxyFULCCKj5h0N+jJVnu/who2MkqVbsdnzsaVpyy9HBl5dLmkpf2XMXTMFkpSaW+nS6J8Md8DWNBZIZyDtCZa+RHCJlHMq6Fvc3h27VVJB7S3oxc4yuyRzzqJ5dllS22Za3BU5K+jK1cfb1Abdz2XzdJ/cns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qcd7vxCQ; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iy6N1P3C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qcd7vxCQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765398092; x=1796934092;
+  t=1765398174; x=1796934174;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mgn8lWBDKu6lv6KbVoMDja22joiP/m19j4iMYcnLp8s=;
-  b=Iy6N1P3CPMiooElw8O7DJbFsk2BiOGQ/AR6NmKalc66zz4BhBhRcTAbq
-   gw0xbF+kBrQbsXPF3CBH8liwXDH15cWMoPQr8V+pAOQ2PAtkoUIlKd5eL
-   Z2d7ihxvciPT4EkqlxxqNda6L7y7iIM7al8JIpDpfw8Gc3pEnpEU/2Wde
-   BgHhfYRpJoBtTl+DBHhTJGcrEDbuE2YuTYNr0f6r3xJyP3DyqASmI0mWD
-   //Y7DUoCySemtWlzDLbV11IWgcovCC8k+w/TQbYMrq1VXCHbH3CgE4GnL
-   v3O7a3wX43363AZJMosq8G+AkbXVG5EE7AhM9kxFdIXnp04v7ew5vyi0q
-   A==;
-X-CSE-ConnectionGUID: jXxQ9dKORyeUgfLsq/CBkQ==
-X-CSE-MsgGUID: CBD+7oboQGa7xbL+b5lHdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="92856282"
+  bh=Zim/TFHIRshEutZNs15JT51IYMJpq2Fp0ak7A5I69Bo=;
+  b=Qcd7vxCQq6eqLBm3OEI8y5/CPv9iwT47KpgDv8aJYIU5rvOP4uH6KoVY
+   wu/cVQBk+/ZPGZp7ZdA0a81aTww8Foyp7UH9MeK8E69xswLsgs7u/Wewt
+   0Db5f15190nDZ8ELK+iWecRTRWtHlJ8G0PdaVPahYiLK4h0hRHATtPQEq
+   isvr0ySwSJdwLO8WuaLKhjkI0d1TzK9QcakGSGQaKNZ61jWOZpQOZ1Dlg
+   PGxarYQnXxx56i2+7qDErw+xThkEkHlbRlAszogBmBWS78ArT58YJOWYC
+   p6tm8yEMQRbvbnbMBG3zztrcwk9AMoRpM9kcszSlxZ7jTg0i6RXfa1S4w
+   g==;
+X-CSE-ConnectionGUID: 3SZGSLgmSkGs8zetg142AA==
+X-CSE-MsgGUID: wjkmlMxjRKivFqfIARkd+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="90024542"
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="92856282"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 12:21:32 -0800
-X-CSE-ConnectionGUID: xk9Kl25cQqegALw9SH2PlQ==
-X-CSE-MsgGUID: FiUNI34eRF+pCWJiCv51fA==
+   d="scan'208";a="90024542"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 12:22:54 -0800
+X-CSE-ConnectionGUID: 0KTnszqbQPiwyhW7nwjbag==
+X-CSE-MsgGUID: HQk1w6svRcCEZ5F7r2DzPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="201085486"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 10 Dec 2025 12:21:32 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="196606509"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 10 Dec 2025 12:22:52 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTQgi-000000000lg-3UGf;
-	Wed, 10 Dec 2025 20:21:28 +0000
-Date: Wed, 10 Dec 2025 21:21:22 +0100
+	id 1vTQi1-000000003jC-43XB;
+	Wed, 10 Dec 2025 20:22:49 +0000
+Date: Thu, 11 Dec 2025 04:21:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3406/3406] versioncheck:
- ./drivers/ub/urma/ubcore/ubcore_main.c: 28 linux/version.h not needed.
-Message-ID: <202512102100.ovvQb5iM-lkp@intel.com>
+Subject: [android-common:android13-5.15-2025-03 0/1]
+ fs/cifs/connect.c:4155:5: warning: no previous prototype for
+ '__tree_connect_dfs_target'
+Message-ID: <202512110401.mZC0ebNU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,104 +63,163 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   41baca24098d5757f3aea4d98e63eb9d9f7d43a3
-commit: 95c713224477ac3433652331dd715e9bbcbc793a [3406/3406] ub: init ubcore module
-reproduce: (https://download.01.org/0day-ci/archive/20251210/202512102100.ovvQb5iM-lkp@intel.com/reproduce)
+Hi Paulo,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android13-5.15-2025-03
+head:   47909498d6058ee12b13bdfee22c80b73a979254
+commit: 81d583baa5f1abd73c755ce1992929debd20b687 [0/1] cifs: support nested dfs links over reconnect
+config: i386-randconfig-062-20251210 (https://download.01.org/0day-ci/archive/20251211/202512110401.mZC0ebNU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512110401.mZC0ebNU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512102100.ovvQb5iM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512110401.mZC0ebNU-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 15 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 183: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/char/ipmi/ipmi_si_ls2k500.c: 19 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 62 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/inspur/inspur_drm_de.c: 513: need linux/version.h
-   ./drivers/gpu/drm/inspur/inspur_drm_drv.c: 456: need linux/version.h
-   ./drivers/gpu/drm/pl111/pl111_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 47 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/net/ethernet/3snic/sssnic/include/kernel/sss_linux_kernel.h: 12 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/huawei/bma/edma_drv/bma_include.h: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/huawei/bma/edma_drv/bma_pci.c: 17 linux/version.h not needed.
-   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_include.h: 20 linux/version.h not needed.
-   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_main.c: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_mce.c: 16 linux/version.h not needed.
-   ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c: 16 linux/version.h not needed.
-   ./drivers/net/ethernet/huawei/hinic/ossl_knl.h: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/huawei/hinic3/ossl_knl_linux.h: 12 linux/version.h not needed.
-   ./drivers/net/ethernet/nebula-matrix/m1600/common.h: 12 linux/version.h not needed.
-   ./drivers/net/ethernet/nebula-matrix/m1600/txrx.c: 9 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 10 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/huawei/hifc/hifc_knl_adp.h: 23 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/scsi/sssraid/sssraid_fw.c: 6 linux/version.h not needed.
-   ./drivers/scsi/sssraid/sssraid_os.c: 6 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
->> ./drivers/ub/urma/ubcore/ubcore_main.c: 28 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/eulerfs/euler.h: 20 linux/version.h not needed.
-   ./fs/eulerfs/euler_common.h: 25 linux/version.h not needed.
-   ./fs/proc/etmem_scan.c: 13 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 15 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 20 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/libbpf_sched.h: 19 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+>> fs/cifs/connect.c:4155:5: warning: no previous prototype for '__tree_connect_dfs_target' [-Wmissing-prototypes]
+    4155 | int __tree_connect_dfs_target(const unsigned int xid, struct cifs_tcon *tcon,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/cifs/connect.c:4254:5: warning: no previous prototype for 'tree_connect_dfs_target' [-Wmissing-prototypes]
+    4254 | int tree_connect_dfs_target(const unsigned int xid, struct cifs_tcon *tcon,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+
+sparse warnings: (new ones prefixed by >>)
+>> fs/cifs/connect.c:4155:5: sparse: sparse: symbol '__tree_connect_dfs_target' was not declared. Should it be static?
+   fs/cifs/connect.c:4254:5: sparse: sparse: symbol 'tree_connect_dfs_target' was not declared. Should it be static?
+
+vim +/__tree_connect_dfs_target +4155 fs/cifs/connect.c
+
+  4154	
+> 4155	int __tree_connect_dfs_target(const unsigned int xid, struct cifs_tcon *tcon,
+  4156				      struct cifs_sb_info *cifs_sb, char *tree,
+  4157				      struct dfs_cache_tgt_list *tl, struct dfs_info3_param *ref)
+  4158	{
+  4159		int rc;
+  4160		struct TCP_Server_Info *server = tcon->ses->server;
+  4161		const struct smb_version_operations *ops = server->ops;
+  4162		struct cifs_tcon *ipc = tcon->ses->tcon_ipc;
+  4163		bool islink;
+  4164		char *share = NULL, *prefix = NULL;
+  4165		const char *tcp_host;
+  4166		size_t tcp_host_len;
+  4167		struct dfs_cache_tgt_iterator *tit;
+  4168		bool target_match;
+  4169	
+  4170		extract_unc_hostname(server->hostname, &tcp_host, &tcp_host_len);
+  4171	
+  4172		islink = ref->server_type == DFS_TYPE_LINK;
+  4173		free_dfs_info_param(ref);
+  4174	
+  4175		tit = dfs_cache_get_tgt_iterator(tl);
+  4176		if (!tit) {
+  4177			rc = -ENOENT;
+  4178			goto out;
+  4179		}
+  4180	
+  4181		/* Try to tree connect to all dfs targets */
+  4182		for (; tit; tit = dfs_cache_get_next_tgt(tl, tit)) {
+  4183			const char *target = dfs_cache_get_tgt_name(tit);
+  4184			struct dfs_cache_tgt_list ntl = DFS_CACHE_TGT_LIST_INIT(ntl);
+  4185	
+  4186			kfree(share);
+  4187			kfree(prefix);
+  4188	
+  4189			/* Check if share matches with tcp ses */
+  4190			rc = dfs_cache_get_tgt_share(server->current_fullpath + 1, tit, &share, &prefix);
+  4191			if (rc) {
+  4192				cifs_dbg(VFS, "%s: failed to parse target share: %d\n", __func__, rc);
+  4193				break;
+  4194			}
+  4195	
+  4196			rc = target_share_matches_server(server, tcp_host, tcp_host_len, share,
+  4197							 &target_match);
+  4198			if (rc)
+  4199				break;
+  4200			if (!target_match) {
+  4201				rc = -EHOSTUNREACH;
+  4202				continue;
+  4203			}
+  4204	
+  4205			if (ipc->need_reconnect) {
+  4206				scnprintf(tree, MAX_TREE_SIZE, "\\\\%s\\IPC$", server->hostname);
+  4207				rc = ops->tree_connect(xid, ipc->ses, tree, ipc, cifs_sb->local_nls);
+  4208				if (rc)
+  4209					break;
+  4210			}
+  4211	
+  4212			scnprintf(tree, MAX_TREE_SIZE, "\\%s", share);
+  4213			if (!islink) {
+  4214				rc = ops->tree_connect(xid, tcon->ses, tree, tcon, cifs_sb->local_nls);
+  4215				break;
+  4216			}
+  4217			/*
+  4218			 * If no dfs referrals were returned from link target, then just do a TREE_CONNECT
+  4219			 * to it.  Otherwise, cache the dfs referral and then mark current tcp ses for
+  4220			 * reconnect so either the demultiplex thread or the echo worker will reconnect to
+  4221			 * newly resolved target.
+  4222			 */
+  4223			if (dfs_cache_find(xid, tcon->ses, cifs_sb->local_nls, cifs_remap(cifs_sb), target,
+  4224					   ref, &ntl)) {
+  4225				rc = ops->tree_connect(xid, tcon->ses, tree, tcon, cifs_sb->local_nls);
+  4226				if (rc)
+  4227					continue;
+  4228				rc = dfs_cache_noreq_update_tgthint(server->current_fullpath + 1, tit);
+  4229				if (!rc)
+  4230					rc = cifs_update_super_prepath(cifs_sb, prefix);
+  4231				break;
+  4232			}
+  4233			/* Target is another dfs share */
+  4234			rc = update_server_fullpath(server, cifs_sb, target);
+  4235			dfs_cache_free_tgts(tl);
+  4236	
+  4237			if (!rc) {
+  4238				rc = -EREMOTE;
+  4239				list_replace_init(&ntl.tl_list, &tl->tl_list);
+  4240			} else {
+  4241				dfs_cache_free_tgts(&ntl);
+  4242				free_dfs_info_param(ref);
+  4243			}
+  4244			break;
+  4245		}
+  4246	
+  4247	out:
+  4248		kfree(share);
+  4249		kfree(prefix);
+  4250	
+  4251		return rc;
+  4252	}
+  4253	
+> 4254	int tree_connect_dfs_target(const unsigned int xid, struct cifs_tcon *tcon,
+  4255				    struct cifs_sb_info *cifs_sb, char *tree,
+  4256				    struct dfs_cache_tgt_list *tl, struct dfs_info3_param *ref)
+  4257	{
+  4258		int rc;
+  4259		int num_links = 0;
+  4260		struct TCP_Server_Info *server = tcon->ses->server;
+  4261	
+  4262		do {
+  4263			rc = __tree_connect_dfs_target(xid, tcon, cifs_sb, tree, tl, ref);
+  4264			if (!rc || rc != -EREMOTE)
+  4265				break;
+  4266		} while (rc = -ELOOP, ++num_links < MAX_NESTED_LINKS);
+  4267		/*
+  4268		 * If we couldn't tree connect to any targets from last referral path, then retry from
+  4269		 * original referral path.
+  4270		 */
+  4271		if (rc && server->current_fullpath != server->origin_fullpath) {
+  4272			server->current_fullpath = server->origin_fullpath;
+  4273			mark_tcon_tcp_ses_for_reconnect(tcon);
+  4274		}
+  4275	
+  4276		dfs_cache_free_tgts(tl);
+  4277		return rc;
+  4278	}
+  4279	
 
 -- 
 0-DAY CI Kernel Test Service
