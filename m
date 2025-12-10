@@ -1,162 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AA32F90E0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5CE2F12CB
 	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 11:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765365914; cv=none; b=U42up4eKofgEOxPwr+59SPwg7LBvQHf3/Ls7NWsw59jhGjqgEls2FZdCS/2F+7hkRcEsKu9lGvEt9AF8L3ojvqyRmN0Q70p/6nB58wOw/HOO8TpUC47Js8PscBovvR1TdY571LKTsavvv18bZM92xxnLKkrKRoXprlutbEpbyNE=
+	t=1765365916; cv=none; b=rZzGqTzQp6COIQnWgBurveg2BWcnzK95NFHKuy/6jnaqHA1L9v+J8Taf4eNLRSsERZHLSifaLYbwqVkbFuD3SOGkVCcyjnwrVDZ30/PVuvynkNUvBEU2lMs0Wb7rrnd/hzNh8ZvqaCKxIwgQ9nAhSw/BvysiRv25Mr3Pnl864cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765365914; c=relaxed/simple;
-	bh=+dSb1r5LWPiIu17VQi/or2BwNcn3l119bqnpKgAJrRo=;
+	s=arc-20240116; t=1765365916; c=relaxed/simple;
+	bh=vDeI2+bK+nsBPaErZvH15cWNGMwbAdJXIbIKnsxBl28=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=swCJMrM1eF0kSIn+OB3VZwOiNISRY9XF9TaY5TUvTDw4v3EuZ1JFgaRwr1io1ouEwyJFFhbc8EOucG0qeRngS9V8O/NgkMjk5mkD70nO+nq/v+rYTQhxJof53uZDveMZ+hHElhMJy241u1XDnhyWd5D3JKLUPHglHffsJWTXSwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UZKPXDc+; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=BnlTwXveGNnaPDPuiN0sGiUtOwUbFoJKAD17xsEXccN90R2ScEpwFmNW30qQonHkE3srLsVQAUjymI/BXviLPSlcVDD8Lc1jT8PY6IZBC6on6hpnsYzttM3MDqJLdCxWG/tv13sgFxVNDAubIzpUJailXyOe2qbgAIR9mhwu67Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VVJmje79; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UZKPXDc+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VVJmje79"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765365913; x=1796901913;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+dSb1r5LWPiIu17VQi/or2BwNcn3l119bqnpKgAJrRo=;
-  b=UZKPXDc+2SXND0dTk0LH+/teRIuHyTtPteOJeLd72HzarkmPXetDUfFT
-   HEX4tK4uU5xCqp0vrQtbjxp3KHTOHWnOt3pF281M/SJjB3muVgIkBxPr7
-   5Q0PMJwE+APE63V7rRL+kC5esia1816dm+ibaC6dPP979sV2qBAWO47Ua
-   4SHQG0YqHMAMnugDoZFNH0hfHZ91DKFJIn/rJMaFBT/W4dA0KcMIWG+Br
-   5nxVZGQI2myC7kbWvh2F6Pc3OQCapaNoQVkpS/fmOSOnbNhEpsiadBd9e
-   bcyBZez4zR30GCqXOlHLKTA7yDGxPi+/k7BDaeW6Jog7yTZsVBaqnE2Db
-   w==;
-X-CSE-ConnectionGUID: 1cxkl7H7R4mJSgIk9bqBmw==
-X-CSE-MsgGUID: KYKPVcb2QEOOm56QoXUZmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="78447004"
+  t=1765365915; x=1796901915;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vDeI2+bK+nsBPaErZvH15cWNGMwbAdJXIbIKnsxBl28=;
+  b=VVJmje79FWk7DXx1DpqSC/U9vcOImfyLuPSESLkD28lYmPCmQzeTiaPI
+   1Wh57O/6H2X1u2qcFLuyUsWE/r3G4T4wdNhpMGRHxZyEAxpsIBDvZvbFo
+   PnqxrH/TtkUChhOwVN3nbczm3u6wCf5tCxySc0DhN/Ns55eYqwD4C4u/n
+   U8w+muB7EEzaXY9eIqZI+Zho7Hg3G/raQhu8FDtosiL1zqd5MfwAqpPdt
+   bqZ/mMdVrj1+MvIYAgLnPrkLTnxXO/AjMKVeRrtZxEQkrObipF7cSDfGp
+   ARsR7k3bE7VPm19TBtDCm8IVQcBICEqU9VqFteUYlTmrsMq6gOszLBc96
+   g==;
+X-CSE-ConnectionGUID: YdNGFnSZRYuM/wfqh4MBQA==
+X-CSE-MsgGUID: ZHGDQobQSYa4ttPnwdzJcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="66513490"
 X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
-   d="scan'208";a="78447004"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 03:25:13 -0800
-X-CSE-ConnectionGUID: f4ZJ7jHKTQ+/6Zks+3tFDA==
-X-CSE-MsgGUID: aIpDajE8SrajEnA+gKMPyg==
+   d="scan'208";a="66513490"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 03:25:13 -0800
+X-CSE-ConnectionGUID: rBwOwCd0Rp+LDd+nSPFN8A==
+X-CSE-MsgGUID: lGt/4GUDTIyPdD5e9ALs4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
-   d="scan'208";a="227146710"
+   d="scan'208";a="200981984"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Dec 2025 03:25:12 -0800
+  by orviesa004.jf.intel.com with ESMTP; 10 Dec 2025 03:25:12 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTIJh-00000000385-20qn;
+	id 1vTIJh-00000000387-29Gv;
 	Wed, 10 Dec 2025 11:25:09 +0000
-Date: Wed, 10 Dec 2025 19:24:20 +0800
+Date: Wed, 10 Dec 2025 19:24:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 0/1] fs/smb/server/misc.c:269:
- warning: Function parameter or member 'um' not described in
- 'ksmbd_extract_sharename'
-Message-ID: <202512101922.KYpEtH7k-lkp@intel.com>
+To: Riana Tauro <riana.tauro@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: [linux-next:master 13941/14066]
+ drivers/gpu/drm/xe/xe_survivability_mode.c:215:1: sparse: sparse: symbol
+ 'attr_capability_info' was not declared. Should it be static?
+Message-ID: <202512101919.G12cuhBJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Steve,
-
-First bad commit (maybe != root cause):
-
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   0ac176d7ef4de55cd6a1c781a92212aa6ef316f8
-commit: 29429a1f5871dbe54ee0da81bb12db8567f15379 [0/1] smb: move client and server files to common directory fs/smb
-config: x86_64-randconfig-104-20251210 (https://download.01.org/0day-ci/archive/20251210/202512101922.KYpEtH7k-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512101922.KYpEtH7k-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   008d3547aae5bc86fac3eda317489169c3fda112
+commit: f4e9fc967afdb53b1203f894fb4b68451a7fe202 [13941/14066] drm/xe/xe_survivability: Redesign survivability mode
+config: i386-randconfig-063-20251210 (https://download.01.org/0day-ci/archive/20251210/202512101919.G12cuhBJ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512101919.G12cuhBJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512101922.KYpEtH7k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512101919.G12cuhBJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xe/xe_survivability_mode.c:215:1: sparse: sparse: symbol 'attr_capability_info' was not declared. Should it be static?
+>> drivers/gpu/drm/xe/xe_survivability_mode.c:216:1: sparse: sparse: symbol 'attr_postcode_trace' was not declared. Should it be static?
+>> drivers/gpu/drm/xe/xe_survivability_mode.c:217:1: sparse: sparse: symbol 'attr_postcode_trace_overflow' was not declared. Should it be static?
+>> drivers/gpu/drm/xe/xe_survivability_mode.c:218:1: sparse: sparse: symbol 'attr_aux_info0' was not declared. Should it be static?
+>> drivers/gpu/drm/xe/xe_survivability_mode.c:219:1: sparse: sparse: symbol 'attr_aux_info1' was not declared. Should it be static?
+>> drivers/gpu/drm/xe/xe_survivability_mode.c:220:1: sparse: sparse: symbol 'attr_aux_info2' was not declared. Should it be static?
+>> drivers/gpu/drm/xe/xe_survivability_mode.c:221:1: sparse: sparse: symbol 'attr_aux_info3' was not declared. Should it be static?
+>> drivers/gpu/drm/xe/xe_survivability_mode.c:222:1: sparse: sparse: symbol 'attr_aux_info4' was not declared. Should it be static?
 
->> fs/smb/server/misc.c:269: warning: Function parameter or member 'um' not described in 'ksmbd_extract_sharename'
---
-   fs/smb/server/auth.c:221: warning: Function parameter or member 'conn' not described in 'ksmbd_auth_ntlmv2'
->> fs/smb/server/auth.c:221: warning: Function parameter or member 'cryptkey' not described in 'ksmbd_auth_ntlmv2'
->> fs/smb/server/auth.c:305: warning: Function parameter or member 'blob_len' not described in 'ksmbd_decode_ntlmssp_auth_blob'
->> fs/smb/server/auth.c:305: warning: Function parameter or member 'conn' not described in 'ksmbd_decode_ntlmssp_auth_blob'
->> fs/smb/server/auth.c:305: warning: Excess function parameter 'usr' description in 'ksmbd_decode_ntlmssp_auth_blob'
-   fs/smb/server/auth.c:382: warning: Function parameter or member 'blob_len' not described in 'ksmbd_decode_ntlmssp_neg_blob'
-   fs/smb/server/auth.c:382: warning: Function parameter or member 'conn' not described in 'ksmbd_decode_ntlmssp_neg_blob'
-   fs/smb/server/auth.c:382: warning: Excess function parameter 'rsp' description in 'ksmbd_decode_ntlmssp_neg_blob'
-   fs/smb/server/auth.c:382: warning: Excess function parameter 'sess' description in 'ksmbd_decode_ntlmssp_neg_blob'
-   fs/smb/server/auth.c:410: warning: Function parameter or member 'conn' not described in 'ksmbd_build_ntlmssp_challenge_blob'
->> fs/smb/server/auth.c:410: warning: Excess function parameter 'rsp' description in 'ksmbd_build_ntlmssp_challenge_blob'
-   fs/smb/server/auth.c:410: warning: Excess function parameter 'sess' description in 'ksmbd_build_ntlmssp_challenge_blob'
---
->> fs/smb/server/transport_tcp.c:373: warning: Function parameter or member 'max_retries' not described in 'ksmbd_tcp_read'
-   fs/smb/server/transport_tcp.c:422: warning: Function parameter or member 'iface' not described in 'create_socket'
---
-   fs/smb/server/vfs.c:74: warning: Function parameter or member 'user_ns' not described in 'ksmbd_vfs_lock_parent'
-   fs/smb/server/vfs.c:74: warning: Function parameter or member 'parent' not described in 'ksmbd_vfs_lock_parent'
->> fs/smb/server/vfs.c:74: warning: Function parameter or member 'child' not described in 'ksmbd_vfs_lock_parent'
-   fs/smb/server/vfs.c:366: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_read'
->> fs/smb/server/vfs.c:366: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_read'
->> fs/smb/server/vfs.c:482: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_write'
->> fs/smb/server/vfs.c:482: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_write'
-   fs/smb/server/vfs.c:545: warning: Function parameter or member 'path' not described in 'ksmbd_vfs_getattr'
->> fs/smb/server/vfs.c:545: warning: Function parameter or member 'stat' not described in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:545: warning: Excess function parameter 'work' description in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:545: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:545: warning: Excess function parameter 'attrs' description in 'ksmbd_vfs_getattr'
-   fs/smb/server/vfs.c:562: warning: Function parameter or member 'p_id' not described in 'ksmbd_vfs_fsync'
->> fs/smb/server/vfs.c:585: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_remove_file'
-   fs/smb/server/vfs.c:645: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_link'
-   fs/smb/server/vfs.c:846: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_truncate'
-   fs/smb/server/vfs.c:846: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_truncate'
->> fs/smb/server/vfs.c:887: warning: Excess function parameter 'size' description in 'ksmbd_vfs_listxattr'
-   fs/smb/server/vfs.c:964: warning: Function parameter or member 'attr_name' not described in 'ksmbd_vfs_setxattr'
-   fs/smb/server/vfs.c:964: warning: Function parameter or member 'attr_value' not described in 'ksmbd_vfs_setxattr'
-   fs/smb/server/vfs.c:964: warning: Function parameter or member 'attr_size' not described in 'ksmbd_vfs_setxattr'
-   fs/smb/server/vfs.c:964: warning: Excess function parameter 'name' description in 'ksmbd_vfs_setxattr'
-   fs/smb/server/vfs.c:964: warning: Excess function parameter 'value' description in 'ksmbd_vfs_setxattr'
-   fs/smb/server/vfs.c:964: warning: Excess function parameter 'size' description in 'ksmbd_vfs_setxattr'
-   fs/smb/server/vfs.c:984: warning: Function parameter or member 'option' not described in 'ksmbd_vfs_set_fadvise'
-   fs/smb/server/vfs.c:984: warning: Excess function parameter 'options' description in 'ksmbd_vfs_set_fadvise'
->> fs/smb/server/vfs.c:1180: warning: Function parameter or member 'um' not described in 'ksmbd_vfs_lookup_in_dir'
-   fs/smb/server/vfs.c:1214: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_kern_path'
+vim +/attr_capability_info +215 drivers/gpu/drm/xe/xe_survivability_mode.c
 
-
-vim +269 fs/smb/server/misc.c
-
-16b5f54e30c1dde fs/ksmbd/misc.c Atte Heikkilä    2022-09-15  261  
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  262  /**
-36ba38663be0a1b fs/cifsd/misc.c Stephen Rothwell 2021-03-17  263   * ksmbd_extract_sharename() - get share name from tree connect request
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  264   * @treename:	buffer containing tree name and share name
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  265   *
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  266   * Return:      share name on success, otherwise error
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  267   */
-16b5f54e30c1dde fs/ksmbd/misc.c Atte Heikkilä    2022-09-15  268  char *ksmbd_extract_sharename(struct unicode_map *um, const char *treename)
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16 @269  {
-16b5f54e30c1dde fs/ksmbd/misc.c Atte Heikkilä    2022-09-15  270  	const char *name = treename, *pos = strrchr(name, '\\');
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  271  
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  272  	if (pos)
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  273  		name = (pos + 1);
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  274  
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  275  	/* caller has to free the memory */
-f5ba1cdaf5eb380 fs/ksmbd/misc.c Atte Heikkilä    2022-10-03  276  	return ksmbd_casefold_sharename(um, name);
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  277  }
-e2f34481b24db2f fs/cifsd/misc.c Namjae Jeon      2021-03-16  278  
-
-:::::: The code at line 269 was first introduced by commit
-:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side procedures for SMB3
-
-:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+   208	
+   209	#define SURVIVABILITY_ATTR_RO(name, _index)					\
+   210		struct xe_survivability_attribute attr_##name =	{			\
+   211			.attr =  __ATTR(name, 0400, survivability_info_show, NULL),	\
+   212			.index = _index,						\
+   213		}
+   214	
+ > 215	SURVIVABILITY_ATTR_RO(capability_info, CAPABILITY_INFO);
+ > 216	SURVIVABILITY_ATTR_RO(postcode_trace, POSTCODE_TRACE);
+ > 217	SURVIVABILITY_ATTR_RO(postcode_trace_overflow, POSTCODE_TRACE_OVERFLOW);
+ > 218	SURVIVABILITY_ATTR_RO(aux_info0, AUX_INFO0);
+ > 219	SURVIVABILITY_ATTR_RO(aux_info1, AUX_INFO1);
+ > 220	SURVIVABILITY_ATTR_RO(aux_info2, AUX_INFO2);
+ > 221	SURVIVABILITY_ATTR_RO(aux_info3, AUX_INFO3);
+ > 222	SURVIVABILITY_ATTR_RO(aux_info4, AUX_INFO4);
+   223	
 
 -- 
 0-DAY CI Kernel Test Service
