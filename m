@@ -1,62 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B39240604
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 15:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0192FF171;
+	Wed, 10 Dec 2025 16:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765381829; cv=none; b=mOyK06F1cDLqL+xDtRCEmT/lZj0sgq928iHjKcuoIonuDinGMf9hOs5fHMOCnKzV4T0BH/fyxHpm+784XiqtenFKMKiCtEHCon1i1PpFbQRUIcbOpN3Y8viwcbOT3sd+d8viTk+DsPjzyuO0n/PEpM9Icq6e7gIDOdd23nuBf+o=
+	t=1765382502; cv=none; b=nbCgGcoC5BrsXtLKhLWQlbtREAmgMUJYMxZOtgsJvgNsZAVsI13XR/rGbKs6K1xaI7RNU03YePb25bZNaS+tzE8cjd7GBZdWPD1Vpcarr/AODzMfBKkUangkPTDnw+dBFMWmq+hi/W9hEGWhqJx4df4zZtAwfTgQHVec+mANPbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765381829; c=relaxed/simple;
-	bh=VEcbpiLkpkrEQ7cGjKn+Fn2OtIAlycq/PQz+Z+qvjZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iD6RtIZeAWOr0ti4Wdsra2ymkGOHkS6YiVW4B0zki4MtSrzjlzXyMQ3Hs5H4tLkNWdR3k3NgIZFQm5I49uUYZvxKCi9KbJ0hDeUXCRfQupYS+UHiAnoy3YTq30W8J5qx+mmaJwwdOnnOQkdLZdI7aOpldDOdj73a5xYhcGHgjO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FlEWz5jl; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1765382502; c=relaxed/simple;
+	bh=DMqnhMd8zxOKRREuez4JnKUznfDswO5OTMuAf/gTpxk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aa3Y2KDak2GAI4SPEdXugCn8SJspsf4Y+PbnT9N+Bu9rkQyVrE3y+nS1VwFx6P2G2V8NXVf9btHhH7bv4jQpHjlVudWZBp6invAd+QFR7UBjHrsndaGW8IBHIVKhUmJQfaRxY1RD2gI0cxZ1FChXUBGF7mvOsElD6JVlXB8QDGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ebIBBVZ2; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FlEWz5jl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ebIBBVZ2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765381827; x=1796917827;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VEcbpiLkpkrEQ7cGjKn+Fn2OtIAlycq/PQz+Z+qvjZI=;
-  b=FlEWz5jlFTwCPqJ0cXHo7w/gqM0kWmL0zjljnWgwTCzxYUht9+i43IXp
-   p11dt+cI/Y4nIl5I5lycaXz4tLynnpHKXX9KvCaJdQRbhgz9ZY6EEWi0V
-   3X8RJVEpcMDWHf9SMpjGwY7sRgnwt/ydGBI4HYvN4JHK+lLaBz1O7m1OV
-   BZDH8MUYEBgoDLQM+dtYGJjB0NJvo6mTXnilOtNfp0wRWZIr7GvsiEhaD
-   dbW/btT1uFXIzfaAmH/kXA4OJ+MOHhz8nNwQQRiLDd57wD6D1fKCLKBag
-   w270mbrlaOT/hS87vx4Py7XtsFo3FItnmxz4A0itL6H7c+Co8bEP25AME
-   A==;
-X-CSE-ConnectionGUID: nS5oqX+XRv2yOPrKPqSyTA==
-X-CSE-MsgGUID: sMwQDZOAQxKGrrEUgRheyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67292953"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67292953"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 07:50:26 -0800
-X-CSE-ConnectionGUID: CF0fDr5OTCC3qUdCyKrFWA==
-X-CSE-MsgGUID: 4Wy54IWUTs65bCvDMIQXdA==
+  t=1765382493; x=1796918493;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DMqnhMd8zxOKRREuez4JnKUznfDswO5OTMuAf/gTpxk=;
+  b=ebIBBVZ2peeMqKXkP3iiKjhHFCMi9e8sdKSIF9xM0LLQ28oeQJZavBfx
+   ZArHv1en0fNY7wqvTYpbXbf59+uyAfHfEIDJkNIftzgQex3QEW/02vuDV
+   X7OsEBG7jVETCCVGDe8PXoIjRAG4oQkySvMFV98Ale5znRUWgLsr0JVOt
+   fL5Ip9fIglAcnegxALoy2buyY2AFpx238ygfH+czhJ/pxbl4NmMBJ/zjt
+   U3sCGSG0dk2YVnhak2Q0aran432LuVEAJHyrAelI7fPLQrEQ9Dc7YE5Rj
+   gAhq9VrlsaYwIrb3uv0szIMnKNCXEohph3RRNQqEJjQef7Ge+DohmJM87
+   g==;
+X-CSE-ConnectionGUID: uP0NobfTQImkQ1VfR3ZnMA==
+X-CSE-MsgGUID: e0Ex/uLgSuqzlDpEMwwOew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="67243287"
+X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
+   d="scan'208";a="67243287"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 08:01:30 -0800
+X-CSE-ConnectionGUID: eP10MpgoT5W1ZvjbyujEiA==
+X-CSE-MsgGUID: W0ozWpdNQmG38ShByCNc3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="233954107"
+   d="scan'208";a="196451198"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Dec 2025 07:50:24 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 10 Dec 2025 08:01:24 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTMSL-000000003Kf-2ZvT;
-	Wed, 10 Dec 2025 15:50:21 +0000
-Date: Wed, 10 Dec 2025 23:50:05 +0800
+	id 1vTMd0-000000003LZ-1ng0;
+	Wed, 10 Dec 2025 16:01:22 +0000
+Date: Thu, 11 Dec 2025 00:00:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: fs/dax.c:728:39: sparse: sparse: incorrect type in argument 1
- (different base types)
-Message-ID: <202512102350.z1VCJH4s-lkp@intel.com>
+To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	sakari.ailus@linux.intel.com, krzk+dt@kernel.org, robh@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: i2c: add os05b10 image sensor driver
+Message-ID: <202512102347.N5BM3QL7-lkp@intel.com>
+References: <20251209100017.302518-3-himanshu.bhavani@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,265 +81,175 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251209100017.302518-3-himanshu.bhavani@siliconsignals.io>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0048fbb4011ec55c32d3148b2cda56433f273375
-commit: d438d273417055241ebaaf1ba3be23459fc27cba mm: remove devmap related functions and page table bits
-date:   5 months ago
-config: s390-randconfig-r111-20251210 (https://download.01.org/0day-ci/archive/20251210/202512102350.z1VCJH4s-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512102350.z1VCJH4s-lkp@intel.com/reproduce)
+Hi Himanshu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on sailus-media-tree/master]
+[also build test WARNING on robh/for-next linus/master v6.18 next-20251210]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Himanshu-Bhavani/dt-bindings-media-i2c-Add-os05b10-sensor/20251209-180746
+base:   git://linuxtv.org/sailus/media_tree.git master
+patch link:    https://lore.kernel.org/r/20251209100017.302518-3-himanshu.bhavani%40siliconsignals.io
+patch subject: [PATCH 2/2] media: i2c: add os05b10 image sensor driver
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20251210/202512102347.N5BM3QL7-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512102347.N5BM3QL7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512102350.z1VCJH4s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512102347.N5BM3QL7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/dax.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/fs_dax.h):
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
->> fs/dax.c:728:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
-   fs/dax.c:728:39: sparse:     expected unsigned long v
-   fs/dax.c:728:39: sparse:     got restricted vm_fault_t
-   fs/dax.c:730:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
-   fs/dax.c:730:39: sparse:     expected unsigned long v
-   fs/dax.c:730:39: sparse:     got restricted vm_fault_t
-   fs/dax.c:734:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
-   fs/dax.c:734:31: sparse:     expected unsigned long v
-   fs/dax.c:734:31: sparse:     got restricted vm_fault_t
-   fs/dax.c:1370:41: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
-   fs/dax.c:1370:41: sparse:     expected int result
-   fs/dax.c:1370:41: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
->> fs/dax.c:1878:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
-   fs/dax.c:1878:21: sparse:     expected int ret
-   fs/dax.c:1878:21: sparse:     got restricted vm_fault_t
-   fs/dax.c:1881:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
-   fs/dax.c:1881:21: sparse:     expected int ret
-   fs/dax.c:1881:21: sparse:     got restricted vm_fault_t
-   fs/dax.c:1884:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted vm_fault_t @@     got int ret @@
-   fs/dax.c:1884:16: sparse:     expected restricted vm_fault_t
-   fs/dax.c:1884:16: sparse:     got int ret
->> fs/dax.c:1902:46: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [usertype] ret @@
-   fs/dax.c:1902:46: sparse:     expected int result
-   fs/dax.c:1902:46: sparse:     got restricted vm_fault_t [usertype] ret
->> fs/dax.c:1918:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [assigned] [usertype] ret @@     got unsigned long @@
-   fs/dax.c:1918:21: sparse:     expected restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:1918:21: sparse:     got unsigned long
-   fs/dax.c:1961:51: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
-   fs/dax.c:1961:51: sparse:     expected int result
-   fs/dax.c:1961:51: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:2138:55: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t @@
-   fs/dax.c:2138:55: sparse:     expected int result
-   fs/dax.c:2138:55: sparse:     got restricted vm_fault_t
-   fs/dax.c:2156:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
-   fs/dax.c:2156:58: sparse:     expected int result
-   fs/dax.c:2156:58: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:279:13: sparse: sparse: context imbalance in 'wait_entry_unlocked' - unexpected unlock
-   fs/dax.c:509:49: sparse: sparse: context imbalance in 'dax_lock_folio' - different lock contexts for basic block
-   fs/dax.c:576:17: sparse: sparse: context imbalance in 'dax_lock_mapping_entry' - different lock contexts for basic block
-   fs/dax.c:1142:9: sparse: sparse: context imbalance in 'dax_writeback_one' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +728 fs/dax.c
+   In file included from drivers/media/i2c/os05b10.c:19:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:27:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/media/i2c/os05b10.c:986:44: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     986 |                               "failed to initialize CCI: %d\n", ret);
+         |                                                                 ^~~
+   drivers/media/i2c/os05b10.c:972:9: note: initialize the variable 'ret' to silence this warning
+     972 |         int ret;
+         |                ^
+         |                 = 0
+   2 warnings generated.
 
-2f437effc689ef Shiyang Ruan            2022-06-03  621  
-ac401cc782429c Jan Kara                2016-05-12  622  /*
-a77d19f46a37c0 Matthew Wilcox          2018-03-27  623   * Find page cache entry at given index. If it is a DAX entry, return it
-a77d19f46a37c0 Matthew Wilcox          2018-03-27  624   * with the entry locked. If the page cache doesn't contain an entry at
-a77d19f46a37c0 Matthew Wilcox          2018-03-27  625   * that index, add a locked empty entry.
-ac401cc782429c Jan Kara                2016-05-12  626   *
-3159f943aafdba Matthew Wilcox          2017-11-03  627   * When requesting an entry with size DAX_PMD, grab_mapping_entry() will
-b15cd800682fca Matthew Wilcox          2018-03-29  628   * either return that locked entry or will return VM_FAULT_FALLBACK.
-b15cd800682fca Matthew Wilcox          2018-03-29  629   * This will happen if there are any PTE entries within the PMD range
-b15cd800682fca Matthew Wilcox          2018-03-29  630   * that we are requesting.
-642261ac995e01 Ross Zwisler            2016-11-08  631   *
-b15cd800682fca Matthew Wilcox          2018-03-29  632   * We always favor PTE entries over PMD entries. There isn't a flow where we
-b15cd800682fca Matthew Wilcox          2018-03-29  633   * evict PTE entries in order to 'upgrade' them to a PMD entry.  A PMD
-b15cd800682fca Matthew Wilcox          2018-03-29  634   * insertion will fail if it finds any PTE entries already in the tree, and a
-b15cd800682fca Matthew Wilcox          2018-03-29  635   * PTE insertion will cause an existing PMD entry to be unmapped and
-b15cd800682fca Matthew Wilcox          2018-03-29  636   * downgraded to PTE entries.  This happens for both PMD zero pages as
-b15cd800682fca Matthew Wilcox          2018-03-29  637   * well as PMD empty entries.
-642261ac995e01 Ross Zwisler            2016-11-08  638   *
-b15cd800682fca Matthew Wilcox          2018-03-29  639   * The exception to this downgrade path is for PMD entries that have
-b15cd800682fca Matthew Wilcox          2018-03-29  640   * real storage backing them.  We will leave these real PMD entries in
-b15cd800682fca Matthew Wilcox          2018-03-29  641   * the tree, and PTE writes will simply dirty the entire PMD entry.
-642261ac995e01 Ross Zwisler            2016-11-08  642   *
-ac401cc782429c Jan Kara                2016-05-12  643   * Note: Unlike filemap_fault() we don't honor FAULT_FLAG_RETRY flags. For
-ac401cc782429c Jan Kara                2016-05-12  644   * persistent memory the benefit is doubtful. We can add that later if we can
-ac401cc782429c Jan Kara                2016-05-12  645   * show it helps.
-b15cd800682fca Matthew Wilcox          2018-03-29  646   *
-b15cd800682fca Matthew Wilcox          2018-03-29  647   * On error, this function does not return an ERR_PTR.  Instead it returns
-b15cd800682fca Matthew Wilcox          2018-03-29  648   * a VM_FAULT code, encoded as an xarray internal entry.  The ERR_PTR values
-b15cd800682fca Matthew Wilcox          2018-03-29  649   * overlap with xarray value entries.
-ac401cc782429c Jan Kara                2016-05-12  650   */
-b15cd800682fca Matthew Wilcox          2018-03-29  651  static void *grab_mapping_entry(struct xa_state *xas,
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  652) 		struct address_space *mapping, unsigned int order)
-ac401cc782429c Jan Kara                2016-05-12  653  {
-b15cd800682fca Matthew Wilcox          2018-03-29  654  	unsigned long index = xas->xa_index;
-1a14e3779dd58c Jan Kara                2021-06-28  655  	bool pmd_downgrade;	/* splitting PMD entry into PTE entries? */
-b15cd800682fca Matthew Wilcox          2018-03-29  656  	void *entry;
-ac401cc782429c Jan Kara                2016-05-12  657  
-b15cd800682fca Matthew Wilcox          2018-03-29  658  retry:
-1a14e3779dd58c Jan Kara                2021-06-28  659  	pmd_downgrade = false;
-b15cd800682fca Matthew Wilcox          2018-03-29  660  	xas_lock_irq(xas);
-6be3e21d25ca2d Alistair Popple         2025-02-28  661  	entry = get_next_unlocked_entry(xas, order);
-642261ac995e01 Ross Zwisler            2016-11-08  662  
-b15cd800682fca Matthew Wilcox          2018-03-29  663  	if (entry) {
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  664) 		if (dax_is_conflict(entry))
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  665) 			goto fallback;
-0e40de0338d005 Matthew Wilcox          2018-11-16  666  		if (!xa_is_value(entry)) {
-49688e654e48ae Hao Li                  2020-07-29  667  			xas_set_err(xas, -EIO);
-91d25ba8a6b0d8 Ross Zwisler            2017-09-06  668  			goto out_unlock;
-91d25ba8a6b0d8 Ross Zwisler            2017-09-06  669  		}
-91d25ba8a6b0d8 Ross Zwisler            2017-09-06  670  
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  671) 		if (order == 0) {
-91d25ba8a6b0d8 Ross Zwisler            2017-09-06  672  			if (dax_is_pmd_entry(entry) &&
-642261ac995e01 Ross Zwisler            2016-11-08  673  			    (dax_is_zero_entry(entry) ||
-642261ac995e01 Ross Zwisler            2016-11-08  674  			     dax_is_empty_entry(entry))) {
-642261ac995e01 Ross Zwisler            2016-11-08  675  				pmd_downgrade = true;
-642261ac995e01 Ross Zwisler            2016-11-08  676  			}
-642261ac995e01 Ross Zwisler            2016-11-08  677  		}
-642261ac995e01 Ross Zwisler            2016-11-08  678  	}
-642261ac995e01 Ross Zwisler            2016-11-08  679  
-642261ac995e01 Ross Zwisler            2016-11-08  680  	if (pmd_downgrade) {
-642261ac995e01 Ross Zwisler            2016-11-08  681  		/*
-642261ac995e01 Ross Zwisler            2016-11-08  682  		 * Make sure 'entry' remains valid while we drop
-b93b016313b3ba Matthew Wilcox          2018-04-10  683  		 * the i_pages lock.
-642261ac995e01 Ross Zwisler            2016-11-08  684  		 */
-b15cd800682fca Matthew Wilcox          2018-03-29  685  		dax_lock_entry(xas, entry);
-642261ac995e01 Ross Zwisler            2016-11-08  686  
-642261ac995e01 Ross Zwisler            2016-11-08  687  		/*
-642261ac995e01 Ross Zwisler            2016-11-08  688  		 * Besides huge zero pages the only other thing that gets
-642261ac995e01 Ross Zwisler            2016-11-08  689  		 * downgraded are empty entries which don't need to be
-642261ac995e01 Ross Zwisler            2016-11-08  690  		 * unmapped.
-642261ac995e01 Ross Zwisler            2016-11-08  691  		 */
-b15cd800682fca Matthew Wilcox          2018-03-29  692  		if (dax_is_zero_entry(entry)) {
-b15cd800682fca Matthew Wilcox          2018-03-29  693  			xas_unlock_irq(xas);
-b15cd800682fca Matthew Wilcox          2018-03-29  694  			unmap_mapping_pages(mapping,
-b15cd800682fca Matthew Wilcox          2018-03-29  695  					xas->xa_index & ~PG_PMD_COLOUR,
-977fbdcd5986c9 Matthew Wilcox          2018-01-31  696  					PG_PMD_NR, false);
-b15cd800682fca Matthew Wilcox          2018-03-29  697  			xas_reset(xas);
-b15cd800682fca Matthew Wilcox          2018-03-29  698  			xas_lock_irq(xas);
-e11f8b7b6c4ea1 Ross Zwisler            2017-04-07  699  		}
-e11f8b7b6c4ea1 Ross Zwisler            2017-04-07  700  
-d2c997c0f14535 Dan Williams            2017-12-22  701  		dax_disassociate_entry(entry, mapping, false);
-b15cd800682fca Matthew Wilcox          2018-03-29  702  		xas_store(xas, NULL);	/* undo the PMD join */
-698ab77aebffe0 Vivek Goyal             2021-04-28  703  		dax_wake_entry(xas, entry, WAKE_ALL);
-7f0e07fb028951 Matthew Wilcox (Oracle  2021-05-04  704) 		mapping->nrpages -= PG_PMD_NR;
-b15cd800682fca Matthew Wilcox          2018-03-29  705  		entry = NULL;
-b15cd800682fca Matthew Wilcox          2018-03-29  706  		xas_set(xas, index);
-642261ac995e01 Ross Zwisler            2016-11-08  707  	}
-642261ac995e01 Ross Zwisler            2016-11-08  708  
-b15cd800682fca Matthew Wilcox          2018-03-29  709  	if (entry) {
-b15cd800682fca Matthew Wilcox          2018-03-29  710  		dax_lock_entry(xas, entry);
-b15cd800682fca Matthew Wilcox          2018-03-29  711  	} else {
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  712) 		unsigned long flags = DAX_EMPTY;
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  713) 
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  714) 		if (order > 0)
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  715) 			flags |= DAX_PMD;
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  716) 		entry = dax_make_entry(pfn_to_pfn_t(0), flags);
-b15cd800682fca Matthew Wilcox          2018-03-29  717  		dax_lock_entry(xas, entry);
-b15cd800682fca Matthew Wilcox          2018-03-29  718  		if (xas_error(xas))
-b15cd800682fca Matthew Wilcox          2018-03-29  719  			goto out_unlock;
-7f0e07fb028951 Matthew Wilcox (Oracle  2021-05-04  720) 		mapping->nrpages += 1UL << order;
-ac401cc782429c Jan Kara                2016-05-12  721  	}
-b15cd800682fca Matthew Wilcox          2018-03-29  722  
-642261ac995e01 Ross Zwisler            2016-11-08  723  out_unlock:
-b15cd800682fca Matthew Wilcox          2018-03-29  724  	xas_unlock_irq(xas);
-b15cd800682fca Matthew Wilcox          2018-03-29  725  	if (xas_nomem(xas, mapping_gfp_mask(mapping) & ~__GFP_HIGHMEM))
-b15cd800682fca Matthew Wilcox          2018-03-29  726  		goto retry;
-b15cd800682fca Matthew Wilcox          2018-03-29  727  	if (xas->xa_node == XA_ERROR(-ENOMEM))
-b15cd800682fca Matthew Wilcox          2018-03-29 @728  		return xa_mk_internal(VM_FAULT_OOM);
-b15cd800682fca Matthew Wilcox          2018-03-29  729  	if (xas_error(xas))
-b15cd800682fca Matthew Wilcox          2018-03-29 @730  		return xa_mk_internal(VM_FAULT_SIGBUS);
-e3ad61c64abcee Ross Zwisler            2016-11-08  731  	return entry;
-b15cd800682fca Matthew Wilcox          2018-03-29  732  fallback:
-b15cd800682fca Matthew Wilcox          2018-03-29  733  	xas_unlock_irq(xas);
-b15cd800682fca Matthew Wilcox          2018-03-29  734  	return xa_mk_internal(VM_FAULT_FALLBACK);
-ac401cc782429c Jan Kara                2016-05-12  735  }
-ac401cc782429c Jan Kara                2016-05-12  736  
 
-:::::: The code at line 728 was first introduced by commit
-:::::: b15cd800682fcaf27048b05e42f5c208e4c756c0 dax: Convert page fault handlers to XArray
+vim +/ret +986 drivers/media/i2c/os05b10.c
 
-:::::: TO: Matthew Wilcox <willy@infradead.org>
-:::::: CC: Matthew Wilcox <willy@infradead.org>
+   967	
+   968	static int os05b10_probe(struct i2c_client *client)
+   969	{
+   970		struct os05b10 *os05b10;
+   971		unsigned int xclk_freq;
+   972		int ret;
+   973	
+   974		os05b10 = devm_kzalloc(&client->dev, sizeof(*os05b10), GFP_KERNEL);
+   975		if (!os05b10)
+   976			return -ENOMEM;
+   977	
+   978		os05b10->client = client;
+   979		os05b10->dev = &client->dev;
+   980	
+   981		v4l2_i2c_subdev_init(&os05b10->sd, client, &os05b10_subdev_ops);
+   982	
+   983		os05b10->cci = devm_cci_regmap_init_i2c(client, 16);
+   984		if (IS_ERR(os05b10->cci))
+   985			return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->cci),
+ > 986				      "failed to initialize CCI: %d\n", ret);
+   987	
+   988		/* Get system clock (xclk) */
+   989		os05b10->xclk = devm_v4l2_sensor_clk_get(os05b10->dev, NULL);
+   990		if (IS_ERR(os05b10->xclk))
+   991			return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->xclk),
+   992					     "failed to get xclk\n");
+   993	
+   994		xclk_freq = clk_get_rate(os05b10->xclk);
+   995		if (xclk_freq != OS05B10_XCLK_FREQ)
+   996			return dev_err_probe(os05b10->dev, -EINVAL,
+   997					     "xclk frequency not supported: %d Hz\n",
+   998					     xclk_freq);
+   999	
+  1000		ret = os05b10_get_regulators(os05b10);
+  1001		if (ret)
+  1002			return dev_err_probe(os05b10->dev, ret, "failed to get regulators\n");
+  1003	
+  1004		ret = os05b10_parse_endpoint(os05b10);
+  1005		if (ret) {
+  1006			dev_err(os05b10->dev, "failed to parse endpoint configuration\n");
+  1007			return ret;
+  1008		}
+  1009	
+  1010		os05b10->reset_gpio = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_LOW);
+  1011		if (IS_ERR(os05b10->reset_gpio))
+  1012			return dev_err_probe(os05b10->dev, PTR_ERR(os05b10->reset_gpio),
+  1013					     "failed to get reset GPIO\n");
+  1014	
+  1015		ret = os05b10_power_on(os05b10->dev);
+  1016		if (ret)
+  1017			return ret;
+  1018	
+  1019		ret = os05b10_identify_module(os05b10);
+  1020		if (ret)
+  1021			goto error_power_off;
+  1022	
+  1023		/* This needs the pm runtime to be registered. */
+  1024		ret = os05b10_init_controls(os05b10);
+  1025		if (ret)
+  1026			goto error_power_off;
+  1027	
+  1028		/* Initialize subdev */
+  1029		os05b10->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+  1030		os05b10->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+  1031		os05b10->sd.internal_ops = &os05b10_internal_ops;
+  1032		os05b10->pad.flags = MEDIA_PAD_FL_SOURCE;
+  1033	
+  1034		ret = media_entity_pads_init(&os05b10->sd.entity, 1, &os05b10->pad);
+  1035		if (ret) {
+  1036			dev_err_probe(os05b10->dev, ret, "failed to init entity pads\n");
+  1037			goto error_handler_free;
+  1038		}
+  1039	
+  1040		os05b10->sd.state_lock = os05b10->handler.lock;
+  1041		ret = v4l2_subdev_init_finalize(&os05b10->sd);
+  1042		if (ret < 0) {
+  1043			dev_err_probe(os05b10->dev, ret, "subdev init error\n");
+  1044			goto error_media_entity;
+  1045		}
+  1046	
+  1047		pm_runtime_set_active(os05b10->dev);
+  1048		pm_runtime_enable(os05b10->dev);
+  1049	
+  1050		ret = v4l2_async_register_subdev_sensor(&os05b10->sd);
+  1051		if (ret < 0) {
+  1052			dev_err_probe(os05b10->dev, ret,
+  1053				      "failed to register os05b10 sub-device\n");
+  1054			goto error_subdev_cleanup;
+  1055		}
+  1056	
+  1057		pm_runtime_idle(os05b10->dev);
+  1058	
+  1059		return 0;
+  1060	
+  1061	error_subdev_cleanup:
+  1062		v4l2_subdev_cleanup(&os05b10->sd);
+  1063		pm_runtime_disable(os05b10->dev);
+  1064		pm_runtime_set_suspended(os05b10->dev);
+  1065	
+  1066	error_media_entity:
+  1067		media_entity_cleanup(&os05b10->sd.entity);
+  1068	
+  1069	error_handler_free:
+  1070		v4l2_ctrl_handler_free(os05b10->sd.ctrl_handler);
+  1071	
+  1072	error_power_off:
+  1073		os05b10_power_off(os05b10->dev);
+  1074	
+  1075		return ret;
+  1076	}
+  1077	
 
 -- 
 0-DAY CI Kernel Test Service
