@@ -1,59 +1,77 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9013430F819;
-	Wed, 10 Dec 2025 19:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA9C221540;
+	Wed, 10 Dec 2025 19:05:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765393552; cv=none; b=fbs3KEP5Ld2GiO03XxIH02+ruBKVkaMTF4bRB01TlG9Hde7FSGd3L2m1+y3YNDGNAmLmbTXmEzCvOO9CCuedIzTF1T3qCxzrowfWv4uhFWbRVufrqbxw6PBKAmCOLYVEHt/XujJ3h4IysK0l+nD3ykDJz7/fRh24ln7ChkIswDw=
+	t=1765393555; cv=none; b=AMBoUA9Z8OHj8iRo7BzAmH7Ond2YdTW7iq5nDH++/TJ5N3mFF7iZRt91IRe/2jX/k5pvwRU7vsZ1oNrKGe9RI+BRrTRGyd0LYcw1G1sEa4pCtJfVXVZr+RCSYwTZCyISBRAI0cLU3aTy/c/25jX6Mguyd58fwF/+uSn+VRNmbLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765393552; c=relaxed/simple;
-	bh=n78qlbqQHpkIUeQyBoHky8FhLodpbFzebUW4mrVXKIE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VuUUpO0I1KCfuRarNu/AuGFsTAqQQVl2gUoKOR5gX4tnSeaQXFVryjBMO22KhT1Tox7yZxCLJp2TXTv7eisWKcLaVhZlJPEvnwjtM5h5Xbykxikx29IhmAE4vxwpeCr36iBuDpnglspJA4sgeo045aMzaprxOvWv6wnZUMv7j7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWwrYQjI; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1765393555; c=relaxed/simple;
+	bh=boHYArrLfilo5Sv64y0CaCmooWdnIhESwdLtZzAruxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tcxFAs0PcwvyClifw9u0BNVFWVrt24cGQ1bO93C5jFMvZv2xJY5lEg+TzeqPKXDYnboD+mYuKJqRxHT4jOz6hX73eNyYfnCO6OvvvKXsZWUFuMg6UatkvZDMFQXZsJhD3yL2zbZHnLlIItnogCiWLNiaoEl1Fmd4WNTpT28NjSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kRryjixB; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWwrYQjI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kRryjixB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765393551; x=1796929551;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n78qlbqQHpkIUeQyBoHky8FhLodpbFzebUW4mrVXKIE=;
-  b=jWwrYQjImKQTYYnflxB705JJle4mLQs5Xn8U1JGmRa6cWW1K0OPeZ/s/
-   pkatVM/WWWj8E4dyAW3aHS7J+wElSyiVFG4Gg0VKdABz8/kOOD39WnBV5
-   VpZF1rCDr4iQz/3gBYQ2+Kxtd/swaEHq0V6wSyBS9On/o9+aMKGADDHAI
-   UZgIi+Ht2uC0d/3uG8exFtUSnRyZm/P6EHgTWjfRgh2GbZfC8yanWu708
-   4yOfqQ5Q7crMMH5LSibws9conUeqAodZkjvgM4L/nyP/VP0pLl0R9/mEf
-   eeO0nKfUOQyUPEL7o9gYclnkKwL9S6+vs5U/ywGb4Do9hk6rtcrxCVh//
-   Q==;
-X-CSE-ConnectionGUID: Rt/ElUiCRDepsPNWqfbANA==
-X-CSE-MsgGUID: PNdwdfTDTEWdZ1Zp1d+3BQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="54917255"
+  t=1765393554; x=1796929554;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=boHYArrLfilo5Sv64y0CaCmooWdnIhESwdLtZzAruxg=;
+  b=kRryjixBx4Lyl7USgenNJp/9MqGyhQlolc/mC8xpfkEOnPv8ll6LL+3m
+   JugCuq5xsu7ZAI0DPeWrDoMDoH4G7VoLzzSvmAcNB+J78wawa4YvGepsS
+   jJtyM51cLDjhrLYkocDP8Gqbc+PEwXbZXiRialRQf2eYVv6YuDZs/tkjs
+   W8Sc773J/X0gDEGB6tDiSqOZqQx6TTuUTp9Ba+I/4GIAutsVWbR5Ix0vf
+   CVPWBjYbBk0D8VCBkRHtuqTczvUma1el0ivsVn3BF8LfGa+fMLDSRwakQ
+   xZ06ML+QGyucrwdU6M5f/t8E0NRy6NHQTrdxQWeh+tSpQbNRxG4uMlbC+
+   g==;
+X-CSE-ConnectionGUID: vJO1DGnEQ8i8Keo+mqXTXw==
+X-CSE-MsgGUID: QiE93xq7QOyrmDEzneUn7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="54917265"
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="54917255"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 11:05:49 -0800
-X-CSE-ConnectionGUID: ChtIockPST25A9NhysPqfw==
-X-CSE-MsgGUID: BNJL/5+1Q9GHoOrK10qYRQ==
+   d="scan'208";a="54917265"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 11:05:53 -0800
+X-CSE-ConnectionGUID: Etk4k57vSziwm/yZiYAtjg==
+X-CSE-MsgGUID: h4VcFQvCTOSLNUrttT2hvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="196876794"
+   d="scan'208";a="201029660"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Dec 2025 11:05:47 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 10 Dec 2025 11:05:48 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTPVR-000000003fN-2kLL;
+	id 1vTPVR-000000003fJ-2YeN;
 	Wed, 10 Dec 2025 19:05:45 +0000
-Date: Thu, 11 Dec 2025 03:05:09 +0800
+Date: Thu, 11 Dec 2025 03:05:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 563/1112]
- fs/bcachefs/debug/async_objs.c:64:14: error: invalid application of 'sizeof'
- to an incomplete type 'struct dump_iter'
-Message-ID: <202512110258.0KOGju5g-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>, Vinod Koul <vkoul@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Koichiro Den <den@valinux.co.jp>, Niklas Cassel <cassel@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-nvme@lists.infradead.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH 6/8] nvmet: pci-epf: Use
+ dmaengine_prep_slave_single_config() API
+Message-ID: <202512110249.kCiMC4sb-lkp@intel.com>
+References: <20251208-dma_prep_config-v1-6-53490c5e1e2a@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,224 +80,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251208-dma_prep_config-v1-6-53490c5e1e2a@nxp.com>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   c584fbbbf2e8eb98b64af4c5ea5d02d549dd4e4d
-commit: da7a6f67bdb81c87b94b7e549f55fb1b3298fc83 [563/1112] bcachefs: kill CONFIG_BCACHEFS_ASYNC_OBJECT_LISTS
-config: arm-randconfig-003-20251211 (https://download.01.org/0day-ci/archive/20251211/202512110258.0KOGju5g-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512110258.0KOGju5g-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bc04acf4aeca588496124a6cf54bfce3db327039]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dmaengine-Add-API-to-combine-configuration-and-preparation-sg-and-single/20251209-011820
+base:   bc04acf4aeca588496124a6cf54bfce3db327039
+patch link:    https://lore.kernel.org/r/20251208-dma_prep_config-v1-6-53490c5e1e2a%40nxp.com
+patch subject: [PATCH 6/8] nvmet: pci-epf: Use dmaengine_prep_slave_single_config() API
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251211/202512110249.kCiMC4sb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512110249.kCiMC4sb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512110258.0KOGju5g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512110249.kCiMC4sb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> fs/bcachefs/debug/async_objs.c:64:14: error: invalid application of 'sizeof' to an incomplete type 'struct dump_iter'
-      64 |         i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
-         |                     ^     ~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:1041:52: note: expanded from macro 'kzalloc'
-    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
-         |                                                                            ^~~~~~~~~~~
-   include/linux/alloc_tag.h:253:31: note: expanded from macro 'alloc_hooks'
-     253 |         alloc_hooks_tag(&_alloc_tag, _do_alloc);                        \
-         |                                      ^~~~~~~~~
-   include/linux/alloc_tag.h:239:9: note: expanded from macro 'alloc_hooks_tag'
-     239 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   fs/bcachefs/debug/async_objs.c:62:9: note: forward declaration of 'struct dump_iter'
-      62 |         struct dump_iter *i;
-         |                ^
->> fs/bcachefs/debug/async_objs.c:64:14: error: invalid application of 'sizeof' to an incomplete type 'struct dump_iter'
-      64 |         i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
-         |                     ^     ~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:1041:52: note: expanded from macro 'kzalloc'
-    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
-         |                                                                            ^~~~~~~~~~~
-   include/linux/alloc_tag.h:253:31: note: expanded from macro 'alloc_hooks'
-     253 |         alloc_hooks_tag(&_alloc_tag, _do_alloc);                        \
-         |                                      ^~~~~~~~~
-   include/linux/alloc_tag.h:243:10: note: expanded from macro 'alloc_hooks_tag'
-     243 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   fs/bcachefs/debug/async_objs.c:62:9: note: forward declaration of 'struct dump_iter'
-      62 |         struct dump_iter *i;
-         |                ^
->> fs/bcachefs/debug/async_objs.c:64:14: error: invalid application of 'sizeof' to an incomplete type 'struct dump_iter'
-      64 |         i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
-         |                     ^     ~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:1041:52: note: expanded from macro 'kzalloc'
-    1041 | #define kzalloc(...)                            alloc_hooks(kzalloc_noprof(__VA_ARGS__))
-         |                                                                            ^~~~~~~~~~~
-   include/linux/alloc_tag.h:253:31: note: expanded from macro 'alloc_hooks'
-     253 |         alloc_hooks_tag(&_alloc_tag, _do_alloc);                        \
-         |                                      ^~~~~~~~~
-   include/linux/alloc_tag.h:246:10: note: expanded from macro 'alloc_hooks_tag'
-     246 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   fs/bcachefs/debug/async_objs.c:62:9: note: forward declaration of 'struct dump_iter'
-      62 |         struct dump_iter *i;
-         |                ^
->> fs/bcachefs/debug/async_objs.c:69:3: error: incomplete definition of type 'struct dump_iter'
-      69 |         i->from = POS_MIN;
-         |         ~^
-   fs/bcachefs/debug/async_objs.c:62:9: note: forward declaration of 'struct dump_iter'
-      62 |         struct dump_iter *i;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:70:3: error: incomplete definition of type 'struct dump_iter'
-      70 |         i->iter = 0;
-         |         ~^
-   fs/bcachefs/debug/async_objs.c:62:9: note: forward declaration of 'struct dump_iter'
-      62 |         struct dump_iter *i;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:71:3: error: incomplete definition of type 'struct dump_iter'
-      71 |         i->c    = container_of(list, struct bch_fs, async_objs[list->idx]);
-         |         ~^
-   fs/bcachefs/debug/async_objs.c:62:9: note: forward declaration of 'struct dump_iter'
-      62 |         struct dump_iter *i;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:72:3: error: incomplete definition of type 'struct dump_iter'
-      72 |         i->list = list;
-         |         ~^
-   fs/bcachefs/debug/async_objs.c:62:9: note: forward declaration of 'struct dump_iter'
-      62 |         struct dump_iter *i;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:73:3: error: incomplete definition of type 'struct dump_iter'
-      73 |         i->buf  = PRINTBUF;
-         |         ~^
-   fs/bcachefs/debug/async_objs.c:62:9: note: forward declaration of 'struct dump_iter'
-      62 |         struct dump_iter *i;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:81:33: error: incomplete definition of type 'struct dump_iter'
-      81 |         struct async_obj_list *list = i->list;
-         |                                       ~^
-   fs/bcachefs/debug/async_objs.c:80:9: note: forward declaration of 'struct dump_iter'
-      80 |         struct dump_iter *i = file->private_data;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:84:3: error: incomplete definition of type 'struct dump_iter'
-      84 |         i->ubuf = buf;
-         |         ~^
-   fs/bcachefs/debug/async_objs.c:80:9: note: forward declaration of 'struct dump_iter'
-      80 |         struct dump_iter *i = file->private_data;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:85:3: error: incomplete definition of type 'struct dump_iter'
-      85 |         i->size = size;
-         |         ~^
-   fs/bcachefs/debug/async_objs.c:80:9: note: forward declaration of 'struct dump_iter'
-      80 |         struct dump_iter *i = file->private_data;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:86:3: error: incomplete definition of type 'struct dump_iter'
-      86 |         i->ret  = 0;
-         |         ~^
-   fs/bcachefs/debug/async_objs.c:80:9: note: forward declaration of 'struct dump_iter'
-      80 |         struct dump_iter *i = file->private_data;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:90:51: error: incomplete definition of type 'struct dump_iter'
-      90 |         fast_list_for_each_from(&list->list, iter, obj, i->iter) {
-         |                                                         ~^
-   fs/bcachefs/debug/async_objs.c:80:9: note: forward declaration of 'struct dump_iter'
-      80 |         struct dump_iter *i = file->private_data;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:90:51: error: incomplete definition of type 'struct dump_iter'
-      90 |         fast_list_for_each_from(&list->list, iter, obj, i->iter) {
-         |                                                         ~^
-   fs/bcachefs/debug/async_objs.c:80:9: note: forward declaration of 'struct dump_iter'
-      80 |         struct dump_iter *i = file->private_data;
-         |                ^
->> fs/bcachefs/debug/async_objs.c:91:9: error: call to undeclared function 'bch2_debugfs_flush_buf'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      91 |                 ret = bch2_debugfs_flush_buf(i);
-         |                       ^
-   fs/bcachefs/debug/async_objs.c:95:9: error: incomplete definition of type 'struct dump_iter'
-      95 |                 if (!i->size)
-         |                      ~^
-   fs/bcachefs/debug/async_objs.c:80:9: note: forward declaration of 'struct dump_iter'
-      80 |         struct dump_iter *i = file->private_data;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:98:23: error: incomplete definition of type 'struct dump_iter'
-      98 |                 list->obj_to_text(&i->buf, i->c, obj);
-         |                                    ~^
-   fs/bcachefs/debug/async_objs.c:80:9: note: forward declaration of 'struct dump_iter'
-      80 |         struct dump_iter *i = file->private_data;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:98:31: error: incomplete definition of type 'struct dump_iter'
-      98 |                 list->obj_to_text(&i->buf, i->c, obj);
-         |                                            ~^
-   fs/bcachefs/debug/async_objs.c:80:9: note: forward declaration of 'struct dump_iter'
-      80 |         struct dump_iter *i = file->private_data;
-         |                ^
-   fs/bcachefs/debug/async_objs.c:99:4: error: incomplete definition of type 'struct dump_iter'
-      99 |                 i->iter = iter.pos;
-         |                 ~^
-   fs/bcachefs/debug/async_objs.c:80:9: note: forward declaration of 'struct dump_iter'
-      80 |         struct dump_iter *i = file->private_data;
-         |                ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   drivers/nvme/target/pci-epf.c: In function 'nvmet_pci_epf_dma_transfer':
+>> drivers/nvme/target/pci-epf.c:369:23: warning: variable 'lock' set but not used [-Wunused-but-set-variable]
+     369 |         struct mutex *lock;
+         |                       ^~~~
 
 
-vim +64 fs/bcachefs/debug/async_objs.c
+vim +/lock +369 drivers/nvme/target/pci-epf.c
 
-41e51769b8a649 fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   58  
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   59  static int bch2_async_obj_list_open(struct inode *inode, struct file *file)
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   60  {
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   61  	struct async_obj_list *list = inode->i_private;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  @62  	struct dump_iter *i;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   63  
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  @64  	i = kzalloc(sizeof(struct dump_iter), GFP_KERNEL);
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   65  	if (!i)
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   66  		return -ENOMEM;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   67  
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   68  	file->private_data = i;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  @69  	i->from = POS_MIN;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   70  	i->iter	= 0;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   71  	i->c	= container_of(list, struct bch_fs, async_objs[list->idx]);
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   72  	i->list	= list;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   73  	i->buf	= PRINTBUF;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   74  	return 0;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   75  }
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   76  
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   77  static ssize_t bch2_async_obj_list_read(struct file *file, char __user *buf,
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   78  					size_t size, loff_t *ppos)
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   79  {
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  @80  	struct dump_iter *i = file->private_data;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   81  	struct async_obj_list *list = i->list;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   82  	ssize_t ret = 0;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   83  
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   84  	i->ubuf = buf;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   85  	i->size	= size;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   86  	i->ret	= 0;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   87  
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   88  	struct genradix_iter iter;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   89  	void *obj;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   90  	fast_list_for_each_from(&list->list, iter, obj, i->iter) {
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  @91  		ret = bch2_debugfs_flush_buf(i);
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   92  		if (ret)
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   93  			return ret;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   94  
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   95  		if (!i->size)
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   96  			break;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21   97  
-43b6a46d5d95bf fs/bcachefs/async_objs.c Kent Overstreet 2025-07-10   98  		list->obj_to_text(&i->buf, i->c, obj);
-90221f7301320b fs/bcachefs/async_objs.c Kent Overstreet 2025-07-10   99  		i->iter = iter.pos;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  100  	}
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  101  
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  102  	if (i->buf.allocation_failure)
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  103  		ret = -ENOMEM;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  104  
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  105  	if (!ret)
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  106  		ret = bch2_debugfs_flush_buf(i);
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  107  
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  108  	return ret ?: i->ret;
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  109  }
-0499a82b18b5dd fs/bcachefs/async_objs.c Kent Overstreet 2025-04-21  110  
-
-:::::: The code at line 64 was first introduced by commit
-:::::: 0499a82b18b5ddee0d97d2cfcae0c0120f858c1f bcachefs: Async object debugging
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  357  
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  358  static int nvmet_pci_epf_dma_transfer(struct nvmet_pci_epf *nvme_epf,
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  359  		struct nvmet_pci_epf_segment *seg, enum dma_data_direction dir)
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  360  {
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  361  	struct pci_epf *epf = nvme_epf->epf;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  362  	struct dma_async_tx_descriptor *desc;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  363  	struct dma_slave_config sconf = {};
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  364  	struct device *dev = &epf->dev;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  365  	struct device *dma_dev;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  366  	struct dma_chan *chan;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  367  	dma_cookie_t cookie;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  368  	dma_addr_t dma_addr;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04 @369  	struct mutex *lock;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  370  	int ret;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  371  
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  372  	switch (dir) {
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  373  	case DMA_FROM_DEVICE:
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  374  		lock = &nvme_epf->dma_rx_lock;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  375  		chan = nvme_epf->dma_rx_chan;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  376  		sconf.direction = DMA_DEV_TO_MEM;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  377  		sconf.src_addr = seg->pci_addr;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  378  		break;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  379  	case DMA_TO_DEVICE:
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  380  		lock = &nvme_epf->dma_tx_lock;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  381  		chan = nvme_epf->dma_tx_chan;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  382  		sconf.direction = DMA_MEM_TO_DEV;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  383  		sconf.dst_addr = seg->pci_addr;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  384  		break;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  385  	default:
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  386  		return -EINVAL;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  387  	}
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  388  
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  389  	dma_dev = dmaengine_get_dma_device(chan);
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  390  	dma_addr = dma_map_single(dma_dev, seg->buf, seg->length, dir);
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  391  	ret = dma_mapping_error(dma_dev, dma_addr);
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  392  	if (ret)
+f9f42a84df49d9 Frank Li       2025-12-08  393  		return ret;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  394  
+f9f42a84df49d9 Frank Li       2025-12-08  395  	desc = dmaengine_prep_slave_single_config(chan, dma_addr, seg->length,
+f9f42a84df49d9 Frank Li       2025-12-08  396  						  sconf.direction,
+f9f42a84df49d9 Frank Li       2025-12-08  397  						  DMA_CTRL_ACK,
+f9f42a84df49d9 Frank Li       2025-12-08  398  						  &sconf);
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  399  	if (!desc) {
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  400  		dev_err(dev, "Failed to prepare DMA\n");
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  401  		ret = -EIO;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  402  		goto unmap;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  403  	}
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  404  
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  405  	cookie = dmaengine_submit(desc);
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  406  	ret = dma_submit_error(cookie);
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  407  	if (ret) {
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  408  		dev_err(dev, "Failed to do DMA submit (err=%d)\n", ret);
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  409  		goto unmap;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  410  	}
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  411  
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  412  	if (dma_sync_wait(chan, cookie) != DMA_COMPLETE) {
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  413  		dev_err(dev, "DMA transfer failed\n");
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  414  		ret = -EIO;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  415  	}
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  416  
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  417  unmap:
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  418  	dma_unmap_single(dma_dev, dma_addr, seg->length, dir);
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  419  
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  420  	return ret;
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  421  }
+0faa0fe6f90ea5 Damien Le Moal 2025-01-04  422  
 
 -- 
 0-DAY CI Kernel Test Service
