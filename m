@@ -1,58 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F8A244694
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 07:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5D4280338
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 07:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765350051; cv=none; b=cgVIq78K5Wm9Lk94Id8eFlfXMg853j/bj6XnCHuTWgOYl+F8ytsD2VWAzbLMoA6aohjAckGYOCa1MxQ91cbGbdbfD2XwB7EsQPqibmCsfIm2gU8N/lD+pyoNUOgkQJVHksUKhOxl1P2TfW/T4j4WfIbe792fdya5QhJtcf3F9Ag=
+	t=1765350270; cv=none; b=aWGYsIXdEhRHeVkRukEx49M7dn41gGv5OuuTg96Vy1W/tz4dxuw2XsITaouRw5Weid2nTb0Jfs0X73j8xYcpai2gury2OQ+mUHzO+U3xZlSS2tGIQtOU4wcwUJlyViIj4A4sKxkoFDViULqFKgLK+Igi9ywL8VSbgV4edXo1mjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765350051; c=relaxed/simple;
-	bh=+Rx2QaMW+TkQl1YNju81OPGIFnEa0fLRwJzs63DxaXc=;
+	s=arc-20240116; t=1765350270; c=relaxed/simple;
+	bh=hoU6B1IUKqEePrjSbJ1rl3P9dAuWbzaOt76sUeMAdSM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kTn9VDwgZCKZlu6nDeC5Dw1S1OCNAtE7kYHInitJG0pEGm6C0ycFnkO3vnJfExgAI6OX+RZLRuWfRYKFY/ofK8x2ZbZOogdJUM7iN14GnDmbaPJYXOPddmMF9nHwR07yLfwNN/zFIFG+UIRzm3MTbxuZSIJuR4LujHEd3gn3rtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LokZP1ds; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=cPqWPzy/GWn/mHxa8S03+774gh1ghT+UUr0YUaxf+YNEIahZ/IEXxKW/mI7EgYC7O42wxAS98qyyiNVUOnQSegqEBH37YG3y2P4RIN/OiKlrUbeO1CeuumC8JIeuANVXVM5p/J6NUnpP6fwyBAPTSBXMLPVNd6zGqpOtnlQB5KY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QU/UpeWz; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LokZP1ds"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765350049; x=1796886049;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Rx2QaMW+TkQl1YNju81OPGIFnEa0fLRwJzs63DxaXc=;
-  b=LokZP1dso16XemdJDLXpFhHCL+a5vFjOOZ3V7knpt2bAr51sRMhrnk++
-   lj9nMOOZHb8uNTduBRa6UTs6gLrMbKRZ38n38GNyCBUN8LUrmCm1ynr76
-   01oBrM+AzbKNLAjKcW8193ZQ4pIRR8Kbk/83W1h9BdFI3sWSGiRd8SQvL
-   OjunAWBAJjQg0Wn4B+KjqH+2xw2MUWxp6KSyH7qSlH/e8eEzcoliYvEA0
-   gsLMDvx5rx2zxnAxtdHtU3gAth1RG3fr3yX35JhIgaeHceEogogXd3pjj
-   BobcMkY7d4q3w9EIY5G2Ry0093Sxtvetq2+qh5mtzaOhY2QUuVD8+8EAv
-   Q==;
-X-CSE-ConnectionGUID: 2zqKf72rShmrMsh+0kk/cQ==
-X-CSE-MsgGUID: uw5ZfcHFRtCrQI280+N4Og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="78676757"
-X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
-   d="scan'208";a="78676757"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 23:00:48 -0800
-X-CSE-ConnectionGUID: Z4oT7ACQS7Ormrxui6jPeg==
-X-CSE-MsgGUID: ZiXTDMPTQ9imaVRibCHLnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
-   d="scan'208";a="201367059"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Dec 2025 23:00:47 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vTEBp-000000002mf-01Ba;
-	Wed, 10 Dec 2025 07:00:45 +0000
-Date: Wed, 10 Dec 2025 14:59:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xu Raoqing <xuraoqing@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3508/3508] arch/arm64/kvm/virtcca_cvm.c:992:5:
- warning: no previous prototype for 'kvm_cvm_vgic_nr_lr'
-Message-ID: <202512101452.vWsWIlEF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QU/UpeWz"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42e2b80ab25so2614749f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 09 Dec 2025 23:04:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765350267; x=1765955067; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wneUdiZIUvSz4bIt7t7dzaQ34xX/EF8I1Wc2lGxK/KU=;
+        b=QU/UpeWzw0Gh/lKT2RTHQVbkLItlD1nTblTnVbLULC6woJUHZUQkjmgTYxwGdz/vOv
+         5tztKA5n5d3ApqmOm1wFtMXZDOOGoXzSwI5uNYTNdM+/sN2AAGdjj9Gg0L1ClBwOMi5W
+         3PK8QIWcAYWeguTZx9zCdb26aV4brqvS9rpuzaT9WMrrOqxqnNRuRzwCpIJlXnVbvzDj
+         +LnFvKp+hSlzsI21awyM+ZFI7YiCr3eQee8VYQTAuqK2k01o3Nm+gYiZuffDVFdQEcuc
+         8AgBmCZLEg38RmMRXNx1q4nsX0ZJFbMgOGoYM5c8a8e0c4ad1oqDrxS7253UrNKfSzUH
+         G+eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765350267; x=1765955067;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wneUdiZIUvSz4bIt7t7dzaQ34xX/EF8I1Wc2lGxK/KU=;
+        b=wc8DbJx7mNZQkq96+SqMEj1C6YK177Ocn227VwOCeLrx+9AXa1zbgf06Vp14IQiD1u
+         9bECVhEpU5eK4j/q4jNT1Zq5TzdQYwO70/GfgA0ojEiVgvubmXcHmC1ao7t16mmUslXS
+         CJUlLH6QqUAePsDnUF4Ivofew95OXOEVFrxD3LIUc1fajvnHJP0AqWD6Sc97aGAna3I4
+         D3/PPv4jkFRjy0tVKBSiIzSbfKLZSKYHNqLG5s+XM5zAxzC8hAnuxQeodn7Yhik9KhYi
+         HpgcLrHvz9JMz+AOuBq+lA2lN3/p2A32hy5ayn556roLVuTP5g+VIL2+fY2DSw1DFUuW
+         HsCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRujvJKw4aOwxANGJ0P9J6T9dkLBRVIp99iG4XNwjcbgbwGShsRY/JpciDgkNM9dxsNvAWUfTwDaqCLsiS@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+eHxS6d5Dl++q0+3MfHX2XriQmw6XGLsuYaAzH8frj23yLHF+
+	GSr/IpPQKHldj+nQpa6M+c0UH0hlmQiR4aBg1HgURBWH/5sKipa3XaVDMposbtaWSsw=
+X-Gm-Gg: AY/fxX4IlZBzIn4zPj9rOYRCUOahiEU1I/ljEFlYkNstvEsOlt3zR55KLE2xVHTNdwg
+	Id9hofaY7M5Qm0KA1BElj+kufwfLRDUfYG60upu3YNJQgPPyNrDWH2v/YGr605UsyEHPg/XY/qk
+	wK0fiW+kjX1FzUNhQvWvityTvRwdFHtqCm0ye1j6yVGlf9r2SKHVPD9hhKjkd/x8Jr054ANADGh
+	CCOhnubekOLuPszIfbjW5TDh/DNbCQQDb4yzT4bXd1HLREvcagCVIajjzlD+ZaF5es5gyd61zEj
+	67b4LuzjxyMeEUDBIbzTEHkJ9lS1jmaJEw70DBzovNzV22xxqoEO7kOZt/pCzGYPJvv2KIqTvde
+	ksBuFxBRGCpmiv8+N5aJi1E8cfDQXaByPEzcOa3mfkdKil4hhWF49XKsh2sICLo1VyboSUCkB/Z
+	Q6xNUIWDi/Hxw9Dg0c
+X-Google-Smtp-Source: AGHT+IFcZ/UTVwf8224aO0fl35Qk8UwQ0QlCQ27fmB7JwmfzLHOOZKb1nT6qHZ293CtrmggIF1MUcg==
+X-Received: by 2002:a05:6000:2dc7:b0:42b:3bee:a7ff with SMTP id ffacd0b85a97d-42fa39d2f96mr1265827f8f.24.1765350266483;
+        Tue, 09 Dec 2025 23:04:26 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d331df0sm37067886f8f.36.2025.12.09.23.04.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Dec 2025 23:04:26 -0800 (PST)
+Date: Wed, 10 Dec 2025 10:04:22 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Rohit Mathew <rohit.mathew@arm.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	James Morse <james.morse@arm.com>, Ben Horgan <ben.horgan@arm.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Fenghua Yu <fenghuay@nvidia.com>, Gavin Shan <gshan@redhat.com>,
+	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+Subject: drivers/resctrl/mpam_devices.c:1112 __ris_msmon_read() error:
+ uninitialized symbol 'overflow'.
+Message-ID: <202512100547.N7QPYgfb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,95 +80,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   d7d7f131569485a9b6737b85cd8144196135b1a1
-commit: befbde867291b5bb068a97b17086ad20484b6068 [3508/3508] VirtCCA: Adapt virtcca operations by cca_base.
-config: arm64-randconfig-r112-20251210 (https://download.01.org/0day-ci/archive/20251210/202512101452.vWsWIlEF-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512101452.vWsWIlEF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cb015814f8b6eebcbb8e46e111d108892c5e6821
+commit: 9e5afb7c32830bcd123976a7729ef4e2dff0cd77 arm_mpam: Use long MBWU counters if supported
+config: arm64-randconfig-r072-20251208 (https://download.01.org/0day-ci/archive/20251210/202512100547.N7QPYgfb-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project a805147ac1ba123916de182babb0831fbb148756)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512101452.vWsWIlEF-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512100547.N7QPYgfb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/resctrl/mpam_devices.c:1112 __ris_msmon_read() error: uninitialized symbol 'overflow'.
 
-   arch/arm64/kvm/virtcca_cvm.c:825:5: warning: no previous prototype for 'virtcca_get_tmi_version' [-Wmissing-prototypes]
-     825 | u64 virtcca_get_tmi_version(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/virtcca_cvm.c: In function 'kvm_load_user_data':
-   arch/arm64/kvm/virtcca_cvm.c:885:35: error: 'struct kvm_user_data' has no member named 'data_start'
-     885 |                         (user_data.data_start + user_data.data_size < user_data.data_start))
-         |                                   ^
-   arch/arm64/kvm/virtcca_cvm.c:885:59: error: 'struct kvm_user_data' has no member named 'data_size'; did you mean 'ram_size'?
-     885 |                         (user_data.data_start + user_data.data_size < user_data.data_start))
-         |                                                           ^~~~~~~~~
-         |                                                           ram_size
-   arch/arm64/kvm/virtcca_cvm.c:885:80: error: 'struct kvm_user_data' has no member named 'data_start'
-     885 |                         (user_data.data_start + user_data.data_size < user_data.data_start))
-         |                                                                                ^
-   arch/arm64/kvm/virtcca_cvm.c:888:58: error: 'struct kvm_user_data' has no member named 'dtb_info'
-     888 |                 if (is_dtb_info_has_extend_data(user_data.dtb_info)) {
-         |                                                          ^
-   arch/arm64/kvm/virtcca_cvm.c:890:38: error: 'struct kvm_user_data' has no member named 'data_start'
-     890 |                         if (user_data.data_start + user_data.data_size > ipa_end)
-         |                                      ^
-   arch/arm64/kvm/virtcca_cvm.c:890:62: error: 'struct kvm_user_data' has no member named 'data_size'; did you mean 'ram_size'?
-     890 |                         if (user_data.data_start + user_data.data_size > ipa_end)
-         |                                                              ^~~~~~~~~
-         |                                                              ram_size
-   arch/arm64/kvm/virtcca_cvm.c:897:38: error: 'struct kvm_user_data' has no member named 'data_start'
-     897 |                         if (user_data.data_start + user_data.data_size > user_data.loader_start)
-         |                                      ^
-   arch/arm64/kvm/virtcca_cvm.c:897:62: error: 'struct kvm_user_data' has no member named 'data_size'; did you mean 'ram_size'?
-     897 |                         if (user_data.data_start + user_data.data_size > user_data.loader_start)
-         |                                                              ^~~~~~~~~
-         |                                                              ram_size
-   arch/arm64/kvm/virtcca_cvm.c:907:50: error: 'struct kvm_user_data' has no member named 'dtb_info'
-     907 |         if (is_dtb_info_has_extend_data(user_data.dtb_info))
-         |                                                  ^
-   arch/arm64/kvm/virtcca_cvm.c:908:41: error: 'struct kvm_user_data' has no member named 'data_start'
-     908 |                 cvm->dtb_end = user_data.data_start + user_data.data_size;
-         |                                         ^
-   arch/arm64/kvm/virtcca_cvm.c:908:65: error: 'struct kvm_user_data' has no member named 'data_size'; did you mean 'ram_size'?
-     908 |                 cvm->dtb_end = user_data.data_start + user_data.data_size;
-         |                                                                 ^~~~~~~~~
-         |                                                                 ram_size
-   arch/arm64/kvm/virtcca_cvm.c:910:66: error: 'struct kvm_user_data' has no member named 'dtb_info'
-     910 |                 cvm->dtb_end = user_data.loader_start + user_data.dtb_info;
-         |                                                                  ^
-   arch/arm64/kvm/virtcca_cvm.c:911:44: error: 'struct kvm_user_data' has no member named 'data_start'
-     911 |                 cvm->mmio_start = user_data.data_start;
-         |                                            ^
-   arch/arm64/kvm/virtcca_cvm.c:912:42: error: 'struct kvm_user_data' has no member named 'data_start'
-     912 |                 cvm->mmio_end = user_data.data_start + user_data.data_size;
-         |                                          ^
-   arch/arm64/kvm/virtcca_cvm.c:912:66: error: 'struct kvm_user_data' has no member named 'data_size'; did you mean 'ram_size'?
-     912 |                 cvm->mmio_end = user_data.data_start + user_data.data_size;
-         |                                                                  ^~~~~~~~~
-         |                                                                  ram_size
-   arch/arm64/kvm/virtcca_cvm.c: At top level:
->> arch/arm64/kvm/virtcca_cvm.c:992:5: warning: no previous prototype for 'kvm_cvm_vgic_nr_lr' [-Wmissing-prototypes]
-     992 | u32 kvm_cvm_vgic_nr_lr(void)
-         |     ^~~~~~~~~~~~~~~~~~
+vim +/overflow +1112 drivers/resctrl/mpam_devices.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
-   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
-   Selected by [y]:
-   - ARM64 [=y]
+823e7c3712c584 James Morse  2025-11-19  1070  static void __ris_msmon_read(void *arg)
+823e7c3712c584 James Morse  2025-11-19  1071  {
+823e7c3712c584 James Morse  2025-11-19  1072  	u64 now;
+823e7c3712c584 James Morse  2025-11-19  1073  	bool nrdy = false;
+823e7c3712c584 James Morse  2025-11-19  1074  	bool config_mismatch;
+b35363793291e3 Ben Horgan   2025-11-19  1075  	bool overflow;
+823e7c3712c584 James Morse  2025-11-19  1076  	struct mon_read *m = arg;
+823e7c3712c584 James Morse  2025-11-19  1077  	struct mon_cfg *ctx = m->ctx;
+823e7c3712c584 James Morse  2025-11-19  1078  	struct mpam_msc_ris *ris = m->ris;
+41e8a14950e173 James Morse  2025-11-19  1079  	struct msmon_mbwu_state *mbwu_state;
+823e7c3712c584 James Morse  2025-11-19  1080  	struct mpam_props *rprops = &ris->props;
+823e7c3712c584 James Morse  2025-11-19  1081  	struct mpam_msc *msc = m->ris->vmsc->msc;
+823e7c3712c584 James Morse  2025-11-19  1082  	u32 mon_sel, ctl_val, flt_val, cur_ctl, cur_flt;
+823e7c3712c584 James Morse  2025-11-19  1083  
+823e7c3712c584 James Morse  2025-11-19  1084  	if (!mpam_mon_sel_lock(msc)) {
+823e7c3712c584 James Morse  2025-11-19  1085  		m->err = -EIO;
+823e7c3712c584 James Morse  2025-11-19  1086  		return;
+823e7c3712c584 James Morse  2025-11-19  1087  	}
+823e7c3712c584 James Morse  2025-11-19  1088  	mon_sel = FIELD_PREP(MSMON_CFG_MON_SEL_MON_SEL, ctx->mon) |
+823e7c3712c584 James Morse  2025-11-19  1089  		  FIELD_PREP(MSMON_CFG_MON_SEL_RIS, ris->ris_idx);
+823e7c3712c584 James Morse  2025-11-19  1090  	mpam_write_monsel_reg(msc, CFG_MON_SEL, mon_sel);
+823e7c3712c584 James Morse  2025-11-19  1091  
+823e7c3712c584 James Morse  2025-11-19  1092  	/*
+823e7c3712c584 James Morse  2025-11-19  1093  	 * Read the existing configuration to avoid re-writing the same values.
+823e7c3712c584 James Morse  2025-11-19  1094  	 * This saves waiting for 'nrdy' on subsequent reads.
+823e7c3712c584 James Morse  2025-11-19  1095  	 */
+823e7c3712c584 James Morse  2025-11-19  1096  	read_msmon_ctl_flt_vals(m, &cur_ctl, &cur_flt);
+9e5afb7c32830b Rohit Mathew 2025-11-19  1097  
+9e5afb7c32830b Rohit Mathew 2025-11-19  1098  	if (mpam_feat_msmon_mbwu_31counter == m->type)
+b35363793291e3 Ben Horgan   2025-11-19  1099  		overflow = cur_ctl & MSMON_CFG_x_CTL_OFLOW_STATUS;
+9e5afb7c32830b Rohit Mathew 2025-11-19  1100  	else if (mpam_feat_msmon_mbwu_44counter == m->type ||
+9e5afb7c32830b Rohit Mathew 2025-11-19  1101  		 mpam_feat_msmon_mbwu_63counter == m->type)
+9e5afb7c32830b Rohit Mathew 2025-11-19  1102  		overflow = cur_ctl & MSMON_CFG_MBWU_CTL_OFLOW_STATUS_L;
 
+overflow not initialized on else path, but I haven't looked at how
+&cur_flt is set in read_msmon_ctl_flt_vals() so this could be a
+false positive.
 
-vim +/kvm_cvm_vgic_nr_lr +992 arch/arm64/kvm/virtcca_cvm.c
+b35363793291e3 Ben Horgan   2025-11-19  1103  
+823e7c3712c584 James Morse  2025-11-19  1104  	clean_msmon_ctl_val(&cur_ctl);
+823e7c3712c584 James Morse  2025-11-19  1105  	gen_msmon_ctl_flt_vals(m, &ctl_val, &flt_val);
+823e7c3712c584 James Morse  2025-11-19  1106  	config_mismatch = cur_flt != flt_val ||
+823e7c3712c584 James Morse  2025-11-19  1107  			  cur_ctl != (ctl_val | MSMON_CFG_x_CTL_EN);
+823e7c3712c584 James Morse  2025-11-19  1108  
+b35363793291e3 Ben Horgan   2025-11-19  1109  	if (config_mismatch) {
+823e7c3712c584 James Morse  2025-11-19  1110  		write_msmon_ctl_flt_vals(m, ctl_val, flt_val);
+b35363793291e3 Ben Horgan   2025-11-19  1111  		overflow = false;
+b35363793291e3 Ben Horgan   2025-11-19 @1112  	} else if (overflow) {
+                                                           ^^^^^^^^
+here.
 
-   991	
- > 992	u32 kvm_cvm_vgic_nr_lr(void)
-   993	{
-   994		return kvm_vgic_global_state.nr_lr;
-   995	}
-   996	
+b35363793291e3 Ben Horgan   2025-11-19  1113  		mpam_write_monsel_reg(msc, CFG_MBWU_CTL,
+9e5afb7c32830b Rohit Mathew 2025-11-19  1114  				      cur_ctl &
+9e5afb7c32830b Rohit Mathew 2025-11-19  1115  				      ~(MSMON_CFG_x_CTL_OFLOW_STATUS |
+9e5afb7c32830b Rohit Mathew 2025-11-19  1116  					MSMON_CFG_MBWU_CTL_OFLOW_STATUS_L));
+b35363793291e3 Ben Horgan   2025-11-19  1117  	}
+823e7c3712c584 James Morse  2025-11-19  1118  
+823e7c3712c584 James Morse  2025-11-19  1119  	switch (m->type) {
+823e7c3712c584 James Morse  2025-11-19  1120  	case mpam_feat_msmon_csu:
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
