@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD77311954
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 14:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D73A2E92B4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 14:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765376724; cv=none; b=RLGfaTf737jwQLulZciedMcq4bScQoAJwykYR7USFbA1RGThMyYucrdKHVCcBzuBGZJolIhOh9WS+2eY7/a751YRmekHZCrzpNFNokUFzI9Fz1qDTB7MH/LJZHCgMYQwYBL01RKs3ojbi9QjfhbVPt6TZ/1h3ZgKM8V1WW22L8s=
+	t=1765376737; cv=none; b=K2qlkUj7RUKDnttk1yL5123o3JsF6vEW7Rf98EU9/a8Ona8l6f0JPvJ/e3oeasWRNwL+ZL64L1yiR4BlGgavwXC0kSncJAL23Xs6YLeuCHWFQGzvnwyBaTFNI9nVSy3QI9+DlZzcoRidCdC6GSaJVgLtBDapqmn32DmO8Kr30Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765376724; c=relaxed/simple;
-	bh=6zIyq8rgofQn0ebLU2yV60RpctEeHlc/GLxk+YA8EWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nkEjBIxlu0sgUElESASux/la035WT+QB47vGaqatCeWFTdwjc288VukJXHSUnmiZKWuCimFF5/ZCtEvDyPoX0BJ74+ee5I7chCHA9bHLZuxyCdlbDUBugKL81Zcd1w6caDKV2Iw16q8j+SRlKsnzLV3ORQUdGItYw0a2CJ1GsxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fClFlMsN; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1765376737; c=relaxed/simple;
+	bh=ohIQ/6FvPTTVI3rEndjKFtQ5330W/LFemyW5eHSW1Rk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bDsZHSQKaFON9Iejixn5AexaFe5Onv3TKJCjpwhE1ISGQptAEOgDzEqEaqCackMaLbCTrcM82efBj38YHwBB+SXNdPfnNV99S2txy4eobWXvq9aECu4iZhORzPb0xiSeptRfuPJTAsIOpXSKaQ6jst4eihZNJnXEDjqn4ZoLUSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MbY7MkWu; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fClFlMsN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MbY7MkWu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765376723; x=1796912723;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6zIyq8rgofQn0ebLU2yV60RpctEeHlc/GLxk+YA8EWA=;
-  b=fClFlMsNxuyI5aBkseYD77X8xvjYKvSKD9tcVrPsptBUZZdlZIH+4Imk
-   gmRVy+gEOdJ+J4M6kZBc+47bWd5e4Hon/Zmix+lpeL184LDJWzqNsq76N
-   h7zY63UTT835b3B0wDnviZnbomuokZGwIJAj4s9AP46PyEjCm8JrKezy7
-   aibYVGw7FeuP9VhZmV/+UzkKfwWiLAp81hnbJW0JOsxVwjIpd4j0YmytX
-   6DOgOaiB7zOWGedwmK8DWn8lP78uwQ/LWhK6CIt5hRW8RiCivvhtP7Ekh
-   CdUb+57sAgsItTMHZyGGu4F9gwoM3Nv2LqWIV6TIbDmYQHBQTGUBs/oCs
-   g==;
-X-CSE-ConnectionGUID: ANsvS0FWRveEPPu6hujeoA==
-X-CSE-MsgGUID: kco2QlnNTDqIwprBQkAMvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="54893108"
+  t=1765376736; x=1796912736;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ohIQ/6FvPTTVI3rEndjKFtQ5330W/LFemyW5eHSW1Rk=;
+  b=MbY7MkWuJ5Xrn7KItzwTnihqowguzIaz2ToEsfwOZOeLaC6x8N4DrwWM
+   SjPsprj44T4SpxhuvHWGbMBvPyNQLvgs6ZhvOnlm3W7NAfTkgvXXH3Beg
+   vlFboAd3hVAIjHYWR/LabcBRX3lU4PosZVl7lgUdTPT/WlriR1dqMCivE
+   5MgK6sByz6JPgOgdjxjXW/LnMZP1coFnfV4o2x1LmuvRpw6enwXJz74vF
+   tQ8+BgTHoWMjN1CUAkeIFlN+g6LEAu91NhJi+LEpuY76wyYGXuQIXmYmY
+   rpDnVuMZmNVe8Ck9tHTMnRzL+mdWqRZnesQE0gduQIJOfuB76TGU63vm7
+   A==;
+X-CSE-ConnectionGUID: AmB5S5QYRLy1+8Py1DwKZg==
+X-CSE-MsgGUID: bO30bXpsS5qpLQMMA9jGnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="67076776"
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="54893108"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 06:25:22 -0800
-X-CSE-ConnectionGUID: OvXahgJSSaGyUE0XKKWTaQ==
-X-CSE-MsgGUID: gX/pGK64Q4mAEfZQthb5lg==
+   d="scan'208";a="67076776"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 06:25:22 -0800
+X-CSE-ConnectionGUID: J5eYDH/VTB2jsm0dfuL0Rg==
+X-CSE-MsgGUID: oEF8PqubQauRkBWhzWmyzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="219863626"
+   d="scan'208";a="196810724"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Dec 2025 06:25:20 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 10 Dec 2025 06:25:20 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTL82-000000003GX-0lVV;
+	id 1vTL82-000000003Gf-1Krv;
 	Wed, 10 Dec 2025 14:25:18 +0000
-Date: Wed, 10 Dec 2025 22:24:28 +0800
+Date: Wed, 10 Dec 2025 22:24:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 14/19] video/vga: Add VGA_IS0_R
-Message-ID: <202512102200.KIAC3RLu-lkp@intel.com>
-References: <20251208182637.334-15-ville.syrjala@linux.intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Benjamin Coddington <bcodding@redhat.com>
+Subject: fs/nfs/./nfs4trace.h:1539:1: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202512102249.0H1AhKrr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,211 +63,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251208182637.334-15-ville.syrjala@linux.intel.com>
 
-Hi Ville,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-tip/drm-tip]
-[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-xe/drm-xe-next linus/master v6.18 next-20251210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-i915-vga-Register-vgaarb-client-later/20251209-195929
-base:   https://gitlab.freedesktop.org/drm/tip.git drm-tip
-patch link:    https://lore.kernel.org/r/20251208182637.334-15-ville.syrjala%40linux.intel.com
-patch subject: [PATCH 14/19] video/vga: Add VGA_IS0_R
-config: s390-randconfig-002-20251210 (https://download.01.org/0day-ci/archive/20251210/202512102200.KIAC3RLu-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512102200.KIAC3RLu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c9b47175e9131118e6f221cc8fb81397d62e7c91
+commit: b0b7cdc99431655aec3f3afcf05e3eeca0f8dd79 nfs: new tracepoint in match_stateid operation
+date:   5 months ago
+config: x86_64-randconfig-r134-20251210 (https://download.01.org/0day-ci/archive/20251210/202512102249.0H1AhKrr-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512102249.0H1AhKrr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512102200.KIAC3RLu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512102249.0H1AhKrr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/nfs/nfs4trace.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, fs/nfs/nfs4trace.h):
+   fs/nfs/./nfs4trace.h:1002:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int fmode @@     got restricted fmode_t const [usertype] type @@
+   fs/nfs/./nfs4trace.h:1002:1: sparse:     expected unsigned int fmode
+   fs/nfs/./nfs4trace.h:1002:1: sparse:     got restricted fmode_t const [usertype] type
+>> fs/nfs/./nfs4trace.h:1539:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s1_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     expected int s1_seq
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     got restricted __be32 const [usertype] seqid
+   fs/nfs/./nfs4trace.h:1539:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s2_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     expected int s2_seq
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     got restricted __be32 const [usertype] seqid
+   fs/nfs/nfs4trace.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, fs/nfs/nfs4trace.h):
+   fs/nfs/./nfs4trace.h:1002:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int fmode @@     got restricted fmode_t const [usertype] type @@
+   fs/nfs/./nfs4trace.h:1002:1: sparse:     expected unsigned int fmode
+   fs/nfs/./nfs4trace.h:1002:1: sparse:     got restricted fmode_t const [usertype] type
+>> fs/nfs/./nfs4trace.h:1539:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s1_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     expected int s1_seq
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     got restricted __be32 const [usertype] seqid
+   fs/nfs/./nfs4trace.h:1539:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s2_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     expected int s2_seq
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     got restricted __be32 const [usertype] seqid
 
-   In file included from drivers/video/vgastate.c:20:
-   include/video/vga.h:489:1: error: expected identifier or '(' before '?' token
-     489 | ?
-         | ^
-   drivers/video/vgastate.c: In function 'save_vga_text':
->> drivers/video/vgastate.c:89:9: error: dereferencing pointer to incomplete type 'struct regstate'
-      89 |    saved->vga_font0[i] = vga_r(fbbase, i);
-         |         ^~
-   drivers/video/vgastate.c: In function 'restore_vga_text':
-   drivers/video/vgastate.c:175:26: error: dereferencing pointer to incomplete type 'struct regstate'
-     175 |    vga_w(fbbase, i, saved->vga_font0[i]);
-         |                          ^~
-   drivers/video/vgastate.c: In function 'save_vga_mode':
-   drivers/video/vgastate.c:232:7: error: dereferencing pointer to incomplete type 'struct regstate'
-     232 |  saved->misc = vga_r(state->vgabase, VGA_MIS_R);
-         |       ^~
-   drivers/video/vgastate.c: In function 'restore_vga_mode':
-   drivers/video/vgastate.c:263:40: error: dereferencing pointer to incomplete type 'struct regstate'
-     263 |  vga_w(state->vgabase, VGA_MIS_W, saved->misc);
-         |                                        ^~
-   drivers/video/vgastate.c: In function 'save_vga_cmap':
-   drivers/video/vgastate.c:319:8: error: dereferencing pointer to incomplete type 'struct regstate'
-     319 |   saved->vga_cmap[i] = vga_r(state->vgabase, VGA_PEL_D);
-         |        ^~
-   drivers/video/vgastate.c: In function 'restore_vga_cmap':
-   drivers/video/vgastate.c:332:41: error: dereferencing pointer to incomplete type 'struct regstate'
-     332 |   vga_w(state->vgabase, VGA_PEL_D, saved->vga_cmap[i]);
-         |                                         ^~
-   drivers/video/vgastate.c: In function 'vga_cleanup':
-   drivers/video/vgastate.c:340:14: error: dereferencing pointer to incomplete type 'struct regstate'
-     340 |   vfree(saved->vga_font0);
-         |              ^~
-   In file included from include/linux/workqueue.h:9,
-                    from include/linux/mm_types.h:19,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:18,
-                    from drivers/video/vgastate.c:16:
-   drivers/video/vgastate.c: In function 'save_vga':
-   drivers/video/vgastate.c:354:25: error: invalid application of 'sizeof' to incomplete type 'struct regstate'
-     354 |  saved = kzalloc(sizeof(struct regstate), GFP_KERNEL);
-         |                         ^~~~~~
-   include/linux/alloc_tag.h:251:9: note: in definition of macro 'alloc_hooks_tag'
-     251 |  typeof(_do_alloc) _res;      \
-         |         ^~~~~~~~~
-   include/linux/slab.h:1096:25: note: in expansion of macro 'alloc_hooks'
-    1096 | #define kzalloc(...)    alloc_hooks(kzalloc_noprof(__VA_ARGS__))
-         |                         ^~~~~~~~~~~
-   drivers/video/vgastate.c:354:10: note: in expansion of macro 'kzalloc'
-     354 |  saved = kzalloc(sizeof(struct regstate), GFP_KERNEL);
-         |          ^~~~~~~
-   drivers/video/vgastate.c:354:25: error: invalid application of 'sizeof' to incomplete type 'struct regstate'
-     354 |  saved = kzalloc(sizeof(struct regstate), GFP_KERNEL);
-         |                         ^~~~~~
-   include/linux/alloc_tag.h:255:10: note: in definition of macro 'alloc_hooks_tag'
-     255 |   _res = _do_alloc;     \
-         |          ^~~~~~~~~
-   include/linux/slab.h:1096:25: note: in expansion of macro 'alloc_hooks'
-    1096 | #define kzalloc(...)    alloc_hooks(kzalloc_noprof(__VA_ARGS__))
-         |                         ^~~~~~~~~~~
-   drivers/video/vgastate.c:354:10: note: in expansion of macro 'kzalloc'
-     354 |  saved = kzalloc(sizeof(struct regstate), GFP_KERNEL);
-         |          ^~~~~~~
-   drivers/video/vgastate.c:354:25: error: invalid application of 'sizeof' to incomplete type 'struct regstate'
-     354 |  saved = kzalloc(sizeof(struct regstate), GFP_KERNEL);
-         |                         ^~~~~~
-   include/linux/alloc_tag.h:258:10: note: in definition of macro 'alloc_hooks_tag'
-     258 |   _res = _do_alloc;     \
-         |          ^~~~~~~~~
-   include/linux/slab.h:1096:25: note: in expansion of macro 'alloc_hooks'
-    1096 | #define kzalloc(...)    alloc_hooks(kzalloc_noprof(__VA_ARGS__))
-         |                         ^~~~~~~~~~~
-   drivers/video/vgastate.c:354:10: note: in expansion of macro 'kzalloc'
-     354 |  saved = kzalloc(sizeof(struct regstate), GFP_KERNEL);
-         |          ^~~~~~~
-   drivers/video/vgastate.c:354:8: warning: assignment to 'struct regstate *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     354 |  saved = kzalloc(sizeof(struct regstate), GFP_KERNEL);
-         |        ^
-   drivers/video/vgastate.c:362:8: error: dereferencing pointer to incomplete type 'struct regstate'
-     362 |   saved->vga_cmap = vmalloc(768);
-         |        ^~
+vim +1539 fs/nfs/./nfs4trace.h
 
-
-vim +89 drivers/video/vgastate.c
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16   47  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   48  static void save_vga_text(struct vgastate *state, void __iomem *fbbase)
-^1da177e4c3f41 Linus Torvalds 2005-04-16   49  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16   50  	struct regstate *saved = (struct regstate *) state->vidstate;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   51  	int i;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   52  	u8 misc, attr10, gr4, gr5, gr6, seq1, seq2, seq4;
-0449359f053829 Ondrej Zajicek 2007-05-08   53  	unsigned short iobase;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   54  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   55  	/* if in graphics mode, no need to save */
-0449359f053829 Ondrej Zajicek 2007-05-08   56  	misc = vga_r(state->vgabase, VGA_MIS_R);
-0449359f053829 Ondrej Zajicek 2007-05-08   57  	iobase = (misc & 1) ? 0x3d0 : 0x3b0;
-0449359f053829 Ondrej Zajicek 2007-05-08   58  
-0449359f053829 Ondrej Zajicek 2007-05-08   59  	vga_r(state->vgabase, iobase + 0xa);
-0449359f053829 Ondrej Zajicek 2007-05-08   60  	vga_w(state->vgabase, VGA_ATT_W, 0x00);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   61  	attr10 = vga_rattr(state->vgabase, 0x10);
-0449359f053829 Ondrej Zajicek 2007-05-08   62  	vga_r(state->vgabase, iobase + 0xa);
-0449359f053829 Ondrej Zajicek 2007-05-08   63  	vga_w(state->vgabase, VGA_ATT_W, 0x20);
-0449359f053829 Ondrej Zajicek 2007-05-08   64  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   65  	if (attr10 & 1)
-^1da177e4c3f41 Linus Torvalds 2005-04-16   66  		return;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   67  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   68  	/* save regs */
-^1da177e4c3f41 Linus Torvalds 2005-04-16   69  	gr4 = vga_rgfx(state->vgabase, VGA_GFX_PLANE_READ);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   70  	gr5 = vga_rgfx(state->vgabase, VGA_GFX_MODE);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   71  	gr6 = vga_rgfx(state->vgabase, VGA_GFX_MISC);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   72  	seq2 = vga_rseq(state->vgabase, VGA_SEQ_PLANE_WRITE);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   73  	seq4 = vga_rseq(state->vgabase, VGA_SEQ_MEMORY_MODE);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   74  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   75  	/* blank screen */
-^1da177e4c3f41 Linus Torvalds 2005-04-16   76  	seq1 = vga_rseq(state->vgabase, VGA_SEQ_CLOCK_MODE);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   77  	vga_wseq(state->vgabase, VGA_SEQ_RESET, 0x1);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   78  	vga_wseq(state->vgabase, VGA_SEQ_CLOCK_MODE, seq1 | 1 << 5);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   79  	vga_wseq(state->vgabase, VGA_SEQ_RESET, 0x3);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   80  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   81  	/* save font at plane 2 */
-^1da177e4c3f41 Linus Torvalds 2005-04-16   82  	if (state->flags & VGA_SAVE_FONT0) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16   83  		vga_wseq(state->vgabase, VGA_SEQ_PLANE_WRITE, 0x4);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   84  		vga_wseq(state->vgabase, VGA_SEQ_MEMORY_MODE, 0x6);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   85  		vga_wgfx(state->vgabase, VGA_GFX_PLANE_READ, 0x2);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   86  		vga_wgfx(state->vgabase, VGA_GFX_MODE, 0x0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   87  		vga_wgfx(state->vgabase, VGA_GFX_MISC, 0x5);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   88  		for (i = 0; i < 4 * 8192; i++)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  @89  			saved->vga_font0[i] = vga_r(fbbase, i);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   90  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16   91  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   92  	/* save font at plane 3 */
-^1da177e4c3f41 Linus Torvalds 2005-04-16   93  	if (state->flags & VGA_SAVE_FONT1) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16   94  		vga_wseq(state->vgabase, VGA_SEQ_PLANE_WRITE, 0x8);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   95  		vga_wseq(state->vgabase, VGA_SEQ_MEMORY_MODE, 0x6);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   96  		vga_wgfx(state->vgabase, VGA_GFX_PLANE_READ, 0x3);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   97  		vga_wgfx(state->vgabase, VGA_GFX_MODE, 0x0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   98  		vga_wgfx(state->vgabase, VGA_GFX_MISC, 0x5);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   99  		for (i = 0; i < state->memsize; i++)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  100  			saved->vga_font1[i] = vga_r(fbbase, i);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  101  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  102  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  103  	/* save font at plane 0/1 */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  104  	if (state->flags & VGA_SAVE_TEXT) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  105  		vga_wseq(state->vgabase, VGA_SEQ_PLANE_WRITE, 0x1);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  106  		vga_wseq(state->vgabase, VGA_SEQ_MEMORY_MODE, 0x6);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  107  		vga_wgfx(state->vgabase, VGA_GFX_PLANE_READ, 0x0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  108  		vga_wgfx(state->vgabase, VGA_GFX_MODE, 0x0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  109  		vga_wgfx(state->vgabase, VGA_GFX_MISC, 0x5);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  110  		for (i = 0; i < 8192; i++)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  111  			saved->vga_text[i] = vga_r(fbbase, i);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  112  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  113  		vga_wseq(state->vgabase, VGA_SEQ_PLANE_WRITE, 0x2);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  114  		vga_wseq(state->vgabase, VGA_SEQ_MEMORY_MODE, 0x6);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  115  		vga_wgfx(state->vgabase, VGA_GFX_PLANE_READ, 0x1);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  116  		vga_wgfx(state->vgabase, VGA_GFX_MODE, 0x0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  117  		vga_wgfx(state->vgabase, VGA_GFX_MISC, 0x5);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  118  		for (i = 0; i < 8192; i++)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  119  			saved->vga_text[8192+i] = vga_r(fbbase + 2 * 8192, i);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  120  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  121  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  122  	/* restore regs */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  123  	vga_wseq(state->vgabase, VGA_SEQ_PLANE_WRITE, seq2);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  124  	vga_wseq(state->vgabase, VGA_SEQ_MEMORY_MODE, seq4);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  125  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  126  	vga_wgfx(state->vgabase, VGA_GFX_PLANE_READ, gr4);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  127  	vga_wgfx(state->vgabase, VGA_GFX_MODE, gr5);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  128  	vga_wgfx(state->vgabase, VGA_GFX_MISC, gr6);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  129  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  130  	/* unblank screen */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  131  	vga_wseq(state->vgabase, VGA_SEQ_RESET, 0x1);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  132  	vga_wseq(state->vgabase, VGA_SEQ_CLOCK_MODE, seq1 & ~(1 << 5));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  133  	vga_wseq(state->vgabase, VGA_SEQ_RESET, 0x3);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  134  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  135  	vga_wseq(state->vgabase, VGA_SEQ_CLOCK_MODE, seq1);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  136  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  137  
+  1526	
+  1527	#define show_stateid_type(type) \
+  1528		__print_symbolic(type, \
+  1529			{ NFS4_INVALID_STATEID_TYPE,	"INVALID" }, \
+  1530			{ NFS4_SPECIAL_STATEID_TYPE,	"SPECIAL" }, \
+  1531			{ NFS4_OPEN_STATEID_TYPE,	"OPEN" }, \
+  1532			{ NFS4_LOCK_STATEID_TYPE,	"LOCK" }, \
+  1533			{ NFS4_DELEGATION_STATEID_TYPE,	"DELEGATION" }, \
+  1534			{ NFS4_LAYOUT_STATEID_TYPE,	"LAYOUT" },	\
+  1535			{ NFS4_PNFS_DS_STATEID_TYPE,	"PNFS_DS" }, \
+  1536			{ NFS4_REVOKED_STATEID_TYPE,	"REVOKED" }, \
+  1537			{ NFS4_FREED_STATEID_TYPE,	"FREED" })
+  1538	
+> 1539	DECLARE_EVENT_CLASS(nfs4_match_stateid_event,
+  1540			TP_PROTO(
+  1541				const nfs4_stateid *s1,
+  1542				const nfs4_stateid *s2
+  1543			),
+  1544	
+  1545			TP_ARGS(s1, s2),
+  1546	
+  1547			TP_STRUCT__entry(
+  1548				__field(int, s1_seq)
+  1549				__field(int, s2_seq)
+  1550				__field(u32, s1_hash)
+  1551				__field(u32, s2_hash)
+  1552				__field(int, s1_type)
+  1553				__field(int, s2_type)
+  1554			),
+  1555	
+  1556			TP_fast_assign(
+  1557				__entry->s1_seq = s1->seqid;
+  1558				__entry->s1_hash = nfs_stateid_hash(s1);
+  1559				__entry->s1_type = s1->type;
+  1560				__entry->s2_seq = s2->seqid;
+  1561				__entry->s2_hash = nfs_stateid_hash(s2);
+  1562				__entry->s2_type = s2->type;
+  1563			),
+  1564	
+  1565			TP_printk(
+  1566				"s1=%s:%x:%u s2=%s:%x:%u",
+  1567				show_stateid_type(__entry->s1_type),
+  1568				__entry->s1_hash, __entry->s1_seq,
+  1569				show_stateid_type(__entry->s2_type),
+  1570				__entry->s2_hash, __entry->s2_seq
+  1571			)
+  1572	);
+  1573	
 
 -- 
 0-DAY CI Kernel Test Service
