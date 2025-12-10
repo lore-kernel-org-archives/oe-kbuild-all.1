@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7291C274670
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 04:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5847C21C16A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 04:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765339432; cv=none; b=cNlQhk2K2E2UyoCVXdUn4dKJX+e/SMGJeFMX6O/5Yk0V3Q0PxoPmBP85rupL+cN1x4yV6aoozSbTzdO7+QaaxquGACrVod/KEhJfmUKq1yzRSG6sI8E8De12zdf1PNv8wuz8SCBhcrRKfw/N8yY7vNrQI2BAELigp1/hWLRe68s=
+	t=1765342041; cv=none; b=awyKpQkbxYEw/ReBlVoafPDkogBfEq+cjuuRc2CHzKYAtqLqBd3mweNFcUC27pgFiyWQu1Bk8D+cn+BKvCkAgHtU+jBjfMpK5WESWEtpOEL2ZQlmitEsCsIgNUBTPx6uqdgnkWx6wLJaOVSLmqYX5Vvn2v9vPCuj2JJWiZnY8Dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765339432; c=relaxed/simple;
-	bh=Ht4/NY58pzh2xKGJAfz3rETdh6qS6iJwubp0rRrTsrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=edNEF7Xg/NoqQCI16345+AbL4tiA1bhYHltAt0uO9uuA1O6Mt4IJJ/Df0fyDwO5egh1REaqYrcp933ketmmG++QitW+WFwsECSMgPt4iGPxkZ5JEaePub9s++40awuKJ66mk5/Bb3vhvFEcRTnwcswxXk+FFvRafP+AimoQvlu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RHyyD+pK; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1765342041; c=relaxed/simple;
+	bh=t17See3zeO7wLqDbjtstgmERhJfDwrBr2Wn6gUM1DP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kNzK+gBYaHqF835mxuMkDg9qkarWALRokmGoFsKI66x3NyY7HFj7aBkAyoBSSAbdlp7YYC+LR9J7nkc7jUTC3fYhTFN0X+Q4DC+dNAQJP/m49xJb3pVXhzPCrWySCGG5dQJfZDMxbxzOmGfhDtdgeTpcm7VPRZExDFc3O2fhhVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R+iRVqoR; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RHyyD+pK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R+iRVqoR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765339431; x=1796875431;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ht4/NY58pzh2xKGJAfz3rETdh6qS6iJwubp0rRrTsrY=;
-  b=RHyyD+pKvMSJD36IMKdsg7ze6cjs4r4ueUmzfGug9qXv3rRVlEd5KqPj
-   CHwgjJT5yHUTk+EbJcW7G2ct4jaDXSk4BdfjSe52v4GQMuyNZfzlhnfUR
-   YiTp4Ntrjr8DD3JlSoklc3MCeDjQX60KxlTe0t10dfQBCOXtx5OjBlfD7
-   asXWdYMbz7hwE8uzZCAuFAoc3+tTXV1mj7yx0Zem3ViNlLsaiQiYiUd/S
-   BWzyrWHb/eAmXW/U+NIvZleceXDK0waCGHRHsKYS0Z72yzbVGkzr5MfFG
-   kx3omMeuwnExJ78gpmRmNqoFxu0lcsCmo2OMjuY0vG4OqI+Y1mHBosKx1
-   Q==;
-X-CSE-ConnectionGUID: 6yx4krwKQBOFKsaEYWB2KA==
-X-CSE-MsgGUID: pGCoPnHLTZSFeTKQURErKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="92781408"
+  t=1765342041; x=1796878041;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=t17See3zeO7wLqDbjtstgmERhJfDwrBr2Wn6gUM1DP0=;
+  b=R+iRVqoR4k8kkR6NH4Skd/76yLhOf1KLYSc3ZXllScPsOwi5KMufEcur
+   IG8LZQ+sQ1kGme6WOHyp+zG/JiFNzUJ4OBc43wK+LdRFAan37hItjDHN2
+   IokBpzoyVHOhmKfvJ26OgY7ieXEkNtOt2RYq/blsHFuIvOrShriHeaYA1
+   n2VeDu8YiurpD58fj8prN8OcXHdCMrrdFn63OFRBX6oQ+e1BksL/LyzGl
+   GDqaX1HOTRoO36zkBQiCFfV8BgvWWpUvy6YBzh/rHtxShlxH5ht257CB0
+   OExXmzmStewB5nz5yQjdseksq1BafR6Ilh50USXZDMKYmYf0fXIlI8htP
+   w==;
+X-CSE-ConnectionGUID: yZANiYvxRaamst1wYMk1oA==
+X-CSE-MsgGUID: 1ripQvs0TemKoSvXEbKVvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="70927564"
 X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
-   d="scan'208";a="92781408"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 20:03:49 -0800
-X-CSE-ConnectionGUID: Yq1TYNIbQHmrhnR7Pa0JsQ==
-X-CSE-MsgGUID: UD1iT3laRviqRDPWHdq24w==
+   d="scan'208";a="70927564"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 20:47:20 -0800
+X-CSE-ConnectionGUID: 0EJjttR2Sa+2/QVIy6J/kQ==
+X-CSE-MsgGUID: YEtOOhjRSW+oKUbowLPdvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
-   d="scan'208";a="196874502"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Dec 2025 20:03:43 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="196012399"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Dec 2025 20:47:18 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTBQS-000000002e0-3NJY;
-	Wed, 10 Dec 2025 04:03:40 +0000
-Date: Wed, 10 Dec 2025 12:02:56 +0800
+	id 1vTC6e-000000000Ue-0xm4;
+	Wed, 10 Dec 2025 04:47:16 +0000
+Date: Wed, 10 Dec 2025 05:46:35 +0100
 From: kernel test robot <lkp@intel.com>
-To: Narayana Murty N <nnmlinux@linux.ibm.com>, mahesh@linux.ibm.com,
-	maddy@linux.ibm.com, mpe@ellerman.id.au,
-	christophe.leroy@csgroup.eu, gregkh@linuxfoundation.org,
-	oohall@gmail.com, npiggin@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, tyreld@linux.ibm.com,
-	vaibhav@linux.ibm.com, sbhat@linux.ibm.com, ganeshgr@linux.ibm.com,
-	sourabhjain@linux.ibm.com
-Subject: Re: [PATCH 3/4] powerpc/pseries: Add RTAS error injection validation
- helpers
-Message-ID: <202512101130.EYUo0oZx-lkp@intel.com>
-References: <20251205094510.4671-4-nnmlinux@linux.ibm.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: kismet: WARNING: unmet direct dependencies detected for
+ SIFIVE_CCACHE when selected by ERRATA_STARFIVE_JH7100
+Message-ID: <202512100509.g6llkMMr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,208 +64,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251205094510.4671-4-nnmlinux@linux.ibm.com>
 
-Hi Narayana,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on powerpc/fixes linus/master v6.18 next-20251209]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Narayana-Murty-N/powerpc-rtas-Handle-special-return-format-for-RTAS_FN_IBM_OPEN_ERRINJCT/20251205-214855
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20251205094510.4671-4-nnmlinux%40linux.ibm.com
-patch subject: [PATCH 3/4] powerpc/pseries: Add RTAS error injection validation helpers
-config: powerpc64-randconfig-r122-20251210 (https://download.01.org/0day-ci/archive/20251210/202512101130.EYUo0oZx-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512101130.EYUo0oZx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c9b47175e9131118e6f221cc8fb81397d62e7c91
+commit: 4d1608d0ab3365d1ef9447bdbc0cb4c0962f1774 cache: Make top level Kconfig menu a boolean dependent on RISCV
+date:   3 weeks ago
+config: riscv-kismet-CONFIG_SIFIVE_CCACHE-CONFIG_ERRATA_STARFIVE_JH7100-0-0 (https://download.01.org/0day-ci/archive/20251210/202512100509.g6llkMMr-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251210/202512100509.g6llkMMr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512101130.EYUo0oZx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512100509.g6llkMMr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/powerpc/platforms/pseries/eeh_pseries.c:743:55: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:743:55: sparse:     expected unsigned short [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:743:55: sparse:     got restricted __be16 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:767:40: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:767:40: sparse:     expected unsigned short [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:767:40: sparse:     got restricted __be16 [usertype]
->> arch/powerpc/platforms/pseries/eeh_pseries.c:973:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:973:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:973:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:984:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:984:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:984:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:985:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:985:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:985:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:998:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:998:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:998:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:999:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:999:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:999:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1000:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1000:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1000:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1001:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1001:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1001:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1002:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1002:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1002:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1003:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1003:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1003:26: sparse:     got restricted __be32 [usertype]
->> arch/powerpc/platforms/pseries/eeh_pseries.c:1016:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1016:26: sparse:     expected unsigned long long [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1016:26: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1017:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1017:26: sparse:     expected unsigned long long [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1017:26: sparse:     got restricted __be64 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1018:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1018:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1018:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1019:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1019:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1019:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1020:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1020:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1020:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1021:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1021:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1021:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1029:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1029:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1029:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1030:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1030:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1030:26: sparse:     got restricted __be32 [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1036:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1036:26: sparse:     expected unsigned int [usertype]
-   arch/powerpc/platforms/pseries/eeh_pseries.c:1036:26: sparse:     got restricted __be32 [usertype]
-
-vim +973 arch/powerpc/platforms/pseries/eeh_pseries.c
-
-   937	
-   938	
-   939	/**
-   940	 * prepare_errinjct_buffer - Prepare RTAS error injection work buffer
-   941	 * @pe:   EEH PE for the target device(s)
-   942	 * @type: RTAS error type
-   943	 * @func: Error function selector (semantics vary by type)
-   944	 * @addr: Address argument (type-dependent)
-   945	 * @mask: Mask argument (type-dependent)
-   946	 *
-   947	 * Clears the global error injection work buffer and populates it based on
-   948	 * the error type and parameters provided. Performs inline validation of the
-   949	 * arguments for each supported error type.
-   950	 *
-   951	 * Return: 0 on success, or RTAS_INVALID_PARAMETER / -EINVAL on failure.
-   952	 */
-   953	
-   954	static int prepare_errinjct_buffer(struct eeh_pe *pe, int type, int func,
-   955					   unsigned long addr, unsigned long mask)
-   956	{
-   957		u64 *buf64;
-   958		u32 *buf32;
-   959	
-   960		memset(rtas_errinjct_buf, 0, RTAS_ERRINJCT_BUF_SIZE);
-   961		buf64 = (u64 *)rtas_errinjct_buf;
-   962		buf32 = (u32 *)rtas_errinjct_buf;
-   963	
-   964		switch (type) {
-   965		case RTAS_ERR_TYPE_RECOVERED_SPECIAL_EVENT:
-   966			/* func must be 1 = non-persistent or 2 = persistent */
-   967			if (func < 1 || func > 2)
-   968				return RTAS_INVALID_PARAMETER;
-   969	
-   970			if (validate_special_event(addr, mask))
-   971				return RTAS_INVALID_PARAMETER;
-   972	
- > 973			buf32[0] = cpu_to_be32(func);
-   974			break;
-   975	
-   976		case RTAS_ERR_TYPE_CORRUPTED_PAGE:
-   977			/* addr required: physical page address */
-   978			if (addr == 0)
-   979				return RTAS_INVALID_PARAMETER;
-   980	
-   981			if (validate_corrupted_page(pe, addr, mask))
-   982				return RTAS_INVALID_PARAMETER;
-   983	
-   984			buf32[0] = cpu_to_be32(upper_32_bits(addr));
-   985			buf32[1] = cpu_to_be32(lower_32_bits(addr));
-   986			break;
-   987	
-   988		case RTAS_ERR_TYPE_IOA_BUS_ERROR:
-   989			/* 32-bit IOA bus error: addr/mask optional */
-   990			if (func < EEH_ERR_FUNC_LD_MEM_ADDR || func > EEH_ERR_FUNC_MAX)
-   991				return RTAS_INVALID_PARAMETER;
-   992	
-   993			if (addr || mask) {
-   994				if (validate_ioa_bus_error(pe, addr, mask))
-   995					return RTAS_INVALID_PARAMETER;
-   996			}
-   997	
-   998			buf32[0] = cpu_to_be32((u32)addr);
-   999			buf32[1] = cpu_to_be32((u32)mask);
-  1000			buf32[2] = cpu_to_be32(pe->addr);
-  1001			buf32[3] = cpu_to_be32(BUID_HI(pe->phb->buid));
-  1002			buf32[4] = cpu_to_be32(BUID_LO(pe->phb->buid));
-  1003			buf32[5] = cpu_to_be32(func);
-  1004			break;
-  1005	
-  1006		case RTAS_ERR_TYPE_IOA_BUS_ERROR_64:
-  1007			/* 64-bit IOA bus error: addr/mask optional */
-  1008			if (func < EEH_ERR_FUNC_MIN || func > EEH_ERR_FUNC_MAX)
-  1009				return RTAS_INVALID_PARAMETER;
-  1010	
-  1011			if (addr || mask) {
-  1012				if (validate_ioa_bus_error(pe, addr, mask))
-  1013					return RTAS_INVALID_PARAMETER;
-  1014			}
-  1015	
-> 1016			buf64[0] = cpu_to_be64(addr);
-  1017			buf64[1] = cpu_to_be64(mask);
-  1018			buf32[4] = cpu_to_be32(pe->addr);
-  1019			buf32[5] = cpu_to_be32(BUID_HI(pe->phb->buid));
-  1020			buf32[6] = cpu_to_be32(BUID_LO(pe->phb->buid));
-  1021			buf32[7] = cpu_to_be32(func);
-  1022			break;
-  1023	
-  1024		case RTAS_ERR_TYPE_CORRUPTED_DCACHE_START:
-  1025		case RTAS_ERR_TYPE_CORRUPTED_DCACHE_END:
-  1026		case RTAS_ERR_TYPE_CORRUPTED_ICACHE_START:
-  1027		case RTAS_ERR_TYPE_CORRUPTED_ICACHE_END:
-  1028			/* addr/mask optional, no strict validation */
-  1029			buf32[0] = cpu_to_be32(addr);
-  1030			buf32[1] = cpu_to_be32(mask);
-  1031			break;
-  1032	
-  1033		case RTAS_ERR_TYPE_CORRUPTED_TLB_START:
-  1034		case RTAS_ERR_TYPE_CORRUPTED_TLB_END:
-  1035			/* only addr field relevant */
-  1036			buf32[0] = cpu_to_be32(addr);
-  1037			break;
-  1038	
-  1039		default:
-  1040			pr_err("Unsupported error type 0x%x\n", type);
-  1041			return -EINVAL;
-  1042		}
-  1043	
-  1044		pr_debug("RTAS: errinjct buffer prepared: type=%d func=%d addr=0x%lx mask=0x%lx\n",
-  1045			 type, func, addr, mask);
-  1046	
-  1047		return 0;
-  1048	}
-  1049	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for SIFIVE_CCACHE when selected by ERRATA_STARFIVE_JH7100
+   WARNING: unmet direct dependencies detected for SIFIVE_CCACHE
+     Depends on [n]: CACHEMAINT_FOR_DMA [=n] && (ARCH_SIFIVE [=n] || ARCH_STARFIVE [=y])
+     Selected by [y]:
+     - ERRATA_STARFIVE_JH7100 [=y] && ARCH_STARFIVE [=y] && !DMA_DIRECT_REMAP [=n] && NONPORTABLE [=y]
 
 -- 
 0-DAY CI Kernel Test Service
