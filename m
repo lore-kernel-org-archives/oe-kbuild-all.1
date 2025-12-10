@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655F02472BB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 16:12:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBB828504F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 16:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765383150; cv=none; b=TMnutxbk8i8/Oc9roJQW31dmSxVUQndpUjIUbHfrLRw2wCpY8vGCH85nCahGd/ni08jabR8itScHFBom1trJjgd3J3Lppb+QJfu33QkACSx9mavZzNhgxG6JVyCKciOE3q9AnlKWIjfS1aWgSIn/mlyl/YNQr/k3tifsIAzL7qI=
+	t=1765383816; cv=none; b=MXLMTC8ssvK/fRWPKlLO6tuiQ3sGPi60zrT0dlPMH48pHWijADaFsBaN0lNuahk0H6j7Xa7mQerIQk6TsU0Bq3vhCt34+PD4RsPuIrfE7HckSKIHww896Pi11jb/NgeibXOCOoANB+GDuQC3DtVcL42wQegkaK1qQL00wyJbSIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765383150; c=relaxed/simple;
-	bh=Qbm/ZjNIKXEaQsnfGmYk4U2B4wz/sc+dO8UvWRL51Gs=;
+	s=arc-20240116; t=1765383816; c=relaxed/simple;
+	bh=uhGtZXBliu1WpD1iU/AZvq720qKTGWHb2nVT2pqXcJQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h8z8DIway8IZShyNSqH5gqIns7v0lYTbG7KFbIsyM5gKHmO4CMnnLa+17ZxrOVwqyqhmdps422HBPjJ7yOfV197Hdbf/qLv9zV9mluIhhigYaScdp6DLH2mliJJI+qIFL904SH1jPIIA7ylEopDvQMDEg4+ZcdDcmzeF//xfa2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WEvm959R; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=NHytbMYY4ke6aec7BgUX2vgWVRQLPH/tAYunsNrqYk8mxAVavqhboXwydLVEx0Nlv8Y72H26uZr32sHWa6veL+i1kUdT1gcNMAbaYVmA4/5D6WAa4dYhP+GrFIOjbyHBZ9pF8cwi/jtIAWtfUIIoe3wmoRGDfdQIDKxhxlt6TBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JhAwYnm0; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WEvm959R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JhAwYnm0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765383147; x=1796919147;
+  t=1765383814; x=1796919814;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qbm/ZjNIKXEaQsnfGmYk4U2B4wz/sc+dO8UvWRL51Gs=;
-  b=WEvm959RU2e4IWtWSXlf6DO9yTor1Q1zGrexJB2UgLqetlkj4ecAByBT
-   QaAQ86+9hdsvGyWftemYrGkmmz4o+5VnSvyqDiIBbr9VSLOdVQY496b30
-   pxjFNfu+xMPljp3tDEuljmO31+/NTa1HP8CqW1THn2jsVpncGoqrS8ESI
-   q9GMRrS5zhFVHyG1+IdtjTkfSfHp95eEMa7qwRhOty+FT7M/f+UZHLiOj
-   uCaqmNr+vi0Ho3bf/0P8luFp/3PQSGaN8BKCzJZtkBf23k5OPNajJ/lm/
-   SfqrPyWd3YBeYKHWkKte+t/EPbO3sgRx5sliKRGDauFZ8Fk/KLlt7+Jpl
-   A==;
-X-CSE-ConnectionGUID: 8Ko62VazT/+d5zdiaktA4g==
-X-CSE-MsgGUID: wOvR+b+bRMuEri2Y/1T+0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="84766007"
+  bh=uhGtZXBliu1WpD1iU/AZvq720qKTGWHb2nVT2pqXcJQ=;
+  b=JhAwYnm0i5nuQv9r6if9HB6FgdMJR8Om4nL3GC6X891h5cYpwi/GtQMo
+   uS7btAuWIJunT/qUaqpD5MpRWLaKmmxv/UxicLljQaPUTaZCOdDjHis8i
+   d75AX1OOySE4QVb9gxWNiTLQ3t1JNgsXkaOj9Op0c1Q26Pj5JcxUqggjS
+   NflMtV2hH6cP5VvB5t342asFW+tGmDW2usZFk0uoLkTT8EPwaT2K+oZ8Z
+   ft3NXwTI3xTeq2UPk9QKwvkmVCbwDC5i26P1WEedB6V9ST4ZvlPzT1nfR
+   EYEjX/CwYZKBinRvXJaYIQ1voqHoVz1I3a+IQ82yuz3eVH6giz8R21gfF
+   Q==;
+X-CSE-ConnectionGUID: YPiHMTq5TL2oYYKppFX3sA==
+X-CSE-MsgGUID: 3PWR67cATOi9s/DwdfHoHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="92834674"
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="84766007"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 08:12:26 -0800
-X-CSE-ConnectionGUID: ni6bTjACR1i13wvUX0jkEg==
-X-CSE-MsgGUID: vSiY0YYPRXalyRi0uZNEmw==
+   d="scan'208";a="92834674"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 08:23:33 -0800
+X-CSE-ConnectionGUID: /sIA93MWSUqw0z9MWnt9IA==
+X-CSE-MsgGUID: 631f7/DKQJekhDdAitPUSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="233957918"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 10 Dec 2025 08:12:26 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="200989365"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 10 Dec 2025 08:23:31 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTMnf-000000000dU-0YoL;
-	Wed, 10 Dec 2025 16:12:23 +0000
-Date: Wed, 10 Dec 2025 17:11:36 +0100
+	id 1vTMyN-000000003Ov-0Bo2;
+	Wed, 10 Dec 2025 16:23:27 +0000
+Date: Thu, 11 Dec 2025 00:23:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
+To: kernel@openeuler.org, Yongqiang Guo <guoyongqiang12@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3508/3508] block/genhd.c:100:6: warning: no
- previous prototype for 'part_stat_read_all'
-Message-ID: <202512101708.qm6iJ0uc-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3508/3508]
+ drivers/ub/urma/ubcore/ubcore_cdev_file.c:810:19: sparse: sparse:
+ incompatible types in comparison expression (different address spaces):
+Message-ID: <202512110005.f16tR709-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +64,46 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   7bf6051b5c404918d02133a7e2aad8b059d6f6b0
-commit: 89fa7dcff5e533bd14396601f40c388cfb6c1e59 [3508/3508] bpf-rvi: block: Add diskstats iterator target
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251210/202512101708.qm6iJ0uc-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512101708.qm6iJ0uc-lkp@intel.com/reproduce)
+head:   d281438782e3c28a3df71a64513a3312d43dcf01
+commit: 8debc601f33e3b6848ccaa54209cebe0b684f844 [3508/3508] urma: implement ubcore sysfs interface and device management
+config: arm64-randconfig-r112-20251210 (https://download.01.org/0day-ci/archive/20251211/202512110005.f16tR709-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512110005.f16tR709-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512101708.qm6iJ0uc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512110005.f16tR709-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/ub/urma/ubcore/ubcore_cdev_file.c:810:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/ub/urma/ubcore/ubcore_cdev_file.c:810:19: sparse:    struct net_device [noderef] __rcu *
+   drivers/ub/urma/ubcore/ubcore_cdev_file.c:810:19: sparse:    struct net_device *
+   drivers/ub/urma/ubcore/ubcore_cdev_file.c:1106:5: sparse: sparse: symbol 'ubcore_create_port_attr_files' was not declared. Should it be static?
+   drivers/ub/urma/ubcore/ubcore_cdev_file.c:1197:5: sparse: sparse: symbol 'ubcore_create_dev_attr_files' was not declared. Should it be static?
+   drivers/ub/urma/ubcore/ubcore_cdev_file.c:1217:6: sparse: sparse: symbol 'ubcore_remove_port_attr_files' was not declared. Should it be static?
+   drivers/ub/urma/ubcore/ubcore_cdev_file.c:1223:6: sparse: sparse: symbol 'ubcore_remove_dev_attr_files' was not declared. Should it be static?
 
->> block/genhd.c:100:6: warning: no previous prototype for 'part_stat_read_all' [-Wmissing-prototypes]
-     100 | void part_stat_read_all(struct block_device *part, struct disk_stats *stat)
-         |      ^~~~~~~~~~~~~~~~~~
+vim +810 drivers/ub/urma/ubcore/ubcore_cdev_file.c
 
-
-vim +/part_stat_read_all +100 block/genhd.c
-
-    99	
- > 100	void part_stat_read_all(struct block_device *part, struct disk_stats *stat)
-   101	{
-   102		int cpu;
-   103	
-   104		memset(stat, 0, sizeof(struct disk_stats));
-   105		for_each_possible_cpu(cpu) {
-   106			struct disk_stats *ptr = per_cpu_ptr(part->bd_stats, cpu);
-   107			int group;
-   108	
-   109			for (group = 0; group < NR_STAT_GROUPS; group++) {
-   110				stat->nsecs[group] += ptr->nsecs[group];
-   111				stat->sectors[group] += ptr->sectors[group];
-   112				stat->ios[group] += ptr->ios[group];
-   113				stat->merges[group] += ptr->merges[group];
-   114			}
-   115	
-   116			stat->io_ticks += ptr->io_ticks;
-   117		}
-   118	}
-   119	
+   800	
+   801	static ssize_t net_dev_show_cb(struct ubcore_device *dev, char *buf)
+   802	{
+   803		struct net_device *net_dev;
+   804		int ret = 0;
+   805	
+   806		if (!dev->netdev)
+   807			return 0;
+   808	
+   809		rcu_read_lock();
+ > 810		net_dev = rcu_dereference(dev->netdev);
+   811		if (net_dev)
+   812			ret = snprintf(buf, IFNAMSIZ, "%s\n", net_dev->name);
+   813		rcu_read_unlock();
+   814	
+   815		return ret;
+   816	}
+   817	
 
 -- 
 0-DAY CI Kernel Test Service
