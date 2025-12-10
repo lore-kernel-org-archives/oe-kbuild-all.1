@@ -1,111 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD541A9FB4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 02:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB991C5D59
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 03:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765335261; cv=none; b=t44/avfghWeEN5ilu7h5ITvoIbvcuw/oAhPG8K0/lGqVwhp6UyC1jZmij2qWkFbTIYGwZAbJtlBKrpd8xNXOw0Ztj9NDjz8ggzBeoJPfwDRL1d8wJwCvNh2I07U3tOdbPrUgad7XfZsWPNYFQYWDhfrbzO/TdCi2shi+UAUY7QY=
+	t=1765336030; cv=none; b=F7l8DRx/3I2Gj7Qhb6Utp8LVM9ZvAIDtggNUkjeFwYCFwTP7ATmlLRROndQ2lI5XlxEot0YIdI+jv4BFFR+2j8ZXK/fF0UuuOxNfNY2p77v4gbBPCGiNXE2kmQToPAiK+HKZYPFOc4YBAjSVeTWrJiE3dZ2wZX9a2b/c90yJ+bU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765335261; c=relaxed/simple;
-	bh=v7wdI37CSHcEOtGUWfRjrUpcmtQdlGLYzD/NkV65Ijg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N3CNqqrGwkBIjbXm2lmQF6BudddamhPLPzOI099+i2mnyL47vxeExHpPIq7cMfrd2Uew1jz5lLbt8I2narNqCBw1bfULeOrxK8nX9wNLxJIFbs8aPlAVjZpNHPBmM/7x9FXSxAPxy/r2hl4rufQvOGIFiD5ag3/zPA3sLgdOa+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=etgtO20y; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="etgtO20y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765335259; x=1796871259;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v7wdI37CSHcEOtGUWfRjrUpcmtQdlGLYzD/NkV65Ijg=;
-  b=etgtO20y8xlgpAPW048+GBNOsYiNMoGxSfApbAf3tgoRX0KUGRuYkJiS
-   lwXRu7jgGm/35zk44KZzYQxL9KLkBzIsljBtUZx6KpV7TT33nLAkNJ6Mr
-   yiSwNG8s0Cn7/5O4JmVII2m/YkjjLNh3Tj2J4zbx0PVMW0IvB9Sa5LpzI
-   cFlXmrxKxshdPwMLdzEVcz2oyKB5Har6TpCWVi/G9ZZe1iKtwd7CfffJc
-   kiuG96RZxnDfRSuWJZQn8q0NskKD9ArFZkUsDYuCX5jtQq+3XFPN+4gok
-   b5oPsbtfzGa34hJJUVvHwZSQLN9Spt+gEsfGHFwrSmz9/7wl/32E0FVds
-   Q==;
-X-CSE-ConnectionGUID: ++ySzKqhRTWsjEM4FphIYQ==
-X-CSE-MsgGUID: nOes/umSRCyUASyJj0QCrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="78413985"
-X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
-   d="scan'208";a="78413985"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2025 18:54:18 -0800
-X-CSE-ConnectionGUID: n6EQIln/SZCN7kJnmsswWw==
-X-CSE-MsgGUID: Um9oYPshT162ZlLdFCsSNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
-   d="scan'208";a="195466526"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 09 Dec 2025 18:54:18 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vTALH-000000000Tg-1iuF;
-	Wed, 10 Dec 2025 02:54:15 +0000
-Date: Wed, 10 Dec 2025 03:54:01 +0100
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhang Zekun <zhangzekun11@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3399/3399] drivers/acpi/numa/hmat.c:726:6:
- warning: no previous prototype for 'hmat_restore_target'
-Message-ID: <202512100332.Dzr4IpBp-lkp@intel.com>
+	s=arc-20240116; t=1765336030; c=relaxed/simple;
+	bh=gA9MCm18S13ALbZjWHailNhGRkiICjoA+omBT6zshmc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=A143HSwNx9ts2pAowqzxmCz768I7zqWpxa4aEpvIxtzZt3FqEiVXCrOyAr9wKr+dgpDQt2FdaOzTYmj0BF3CpxSjrdLGj+pdGfltb/zKJ4Teln+2Kb3nXqWwCKl7RM91ikGLRN7tLjg5pl16HsBFoqu5bzlqQEKHyfMB/0HkWls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4dR0wS3pbjzKHLvT
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 11:06:00 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id EF2D31A0847
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 11:06:59 +0800 (CST)
+Received: from [10.67.111.176] (unknown [10.67.111.176])
+	by APP4 (Coremail) with SMTP id gCh0CgC34J3Q4zhpH3jjBA--.16323S2;
+	Wed, 10 Dec 2025 11:06:57 +0800 (CST)
+Message-ID: <1189acd5-4908-4a51-a7bc-8b52a8489140@huaweicloud.com>
+Date: Wed, 10 Dec 2025 11:06:55 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next 2/2] memcg: remove mem_cgroup_size()
+To: kernel test robot <lkp@intel.com>, hannes@cmpxchg.org, mhocko@kernel.org,
+ roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev,
+ akpm@linux-foundation.org, axelrasmussen@google.com, yuanchu@google.com,
+ weixugc@google.com, david@kernel.org, zhengqi.arch@bytedance.com,
+ lorenzo.stoakes@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, lujialin4@huawei.com
+References: <20251209130251.1988615-3-chenridong@huaweicloud.com>
+ <202512100924.LqJqXM7P-lkp@intel.com>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <202512100924.LqJqXM7P-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgC34J3Q4zhpH3jjBA--.16323S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kr17ZrWkCF13AryfuF1UGFg_yoW8XF48pa
+	yruw4DtF4rWryfWa1kK3yjvayFqa1kXw13Wr98uw18Za429r1DAFyS9r43trWjgr97Kryf
+	Zan8WF1ft3yUZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	s2-5UUUUU==
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-Hi Zhang,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   7579fd89cb4a201d22bd5b78f48df5ce339c0b2d
-commit: 2e1b00fcf1e3152a1e73846f5f9ec37cef088a65 [3399/3399] ACPI/HMAT: Add missing locality information for hot-added device
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251210/202512100332.Dzr4IpBp-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512100332.Dzr4IpBp-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512100332.Dzr4IpBp-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/acpi/numa/hmat.c:726:6: warning: no previous prototype for 'hmat_restore_target' [-Wmissing-prototypes]
-     726 | void hmat_restore_target(int nid)
-         |      ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/hmat_restore_target +726 drivers/acpi/numa/hmat.c
+On 2025/12/10 9:35, kernel test robot wrote:
+> Hi Chen,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on next-20251209]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/memcg-move-mem_cgroup_usage-memcontrol-v1-c/20251209-211854
+> base:   next-20251209
+> patch link:    https://lore.kernel.org/r/20251209130251.1988615-3-chenridong%40huaweicloud.com
+> patch subject: [PATCH -next 2/2] memcg: remove mem_cgroup_size()
+> config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20251210/202512100924.LqJqXM7P-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512100924.LqJqXM7P-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512100924.LqJqXM7P-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    mm/vmscan.c: In function 'apply_proportional_protection':
+>>> mm/vmscan.c:2488:63: error: invalid use of undefined type 'struct mem_cgroup'
+>     2488 |                 unsigned long usage = page_counter_read(&memcg->memory);
+>          |                                                               ^~
+> 
+> 
+> vim +2488 mm/vmscan.c
+> 
 
-   725	
- > 726	void hmat_restore_target(int nid)
-   727	{
-   728		struct memory_target *target;
-   729		int pxm;
-   730	
-   731		pxm = node_to_pxm(nid);
-   732		target = find_mem_target(pxm);
-   733		if (!target)
-   734			return;
-   735	
-   736		mutex_lock(&target_lock);
-   737		hmat_register_target_cache(target);
-   738		hmat_register_target_perf(target, 0);
-   739		hmat_register_target_perf(target, 1);
-   740		mutex_unlock(&target_lock);
-   741	}
-   742	
+Oh, I missed CONFIG_MEMCG=n case, will fix it, thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Ridong
+
