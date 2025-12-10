@@ -1,115 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9533246F1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 13:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9C73246F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 13:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765372282; cv=none; b=OxJHRx+2eDGbwTYMM2dRWhDFE8gPsle75elBnrcG48T1vqXQj9P72BAIPN28/bGM6qz1ygFRtk6NxwpPNz6XWk6NnUG3ZNww9rx3KW/JJJ/SoVtuxAQuNf7kDaghUItM8dahU/Dx1fhbyRC5vI9sXFeT8csznMkwog3Xcz0IAi0=
+	t=1765372287; cv=none; b=Uj5KrFiq0TdN4V+88GqJ1ZfIC1iLFyhaQ4YoG2OuzwKHGZO4M/jx0hNdPHmki3SSGbz0dOALxaUquHg1DkJaI6m1GebZC1hrQvLKvs0oXCkkxjy6JccChWksh7iXPOegLMxeopBR9OE0L7Ti/PixUNZVnWnPdFt1MHFV2R+60Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765372282; c=relaxed/simple;
-	bh=ZRK/llLQVG5/qOIO0DbepgupzZfNEBr3FDIJTwHVYB0=;
+	s=arc-20240116; t=1765372287; c=relaxed/simple;
+	bh=89EpdBE1FE/berCCe72Bbrsp2Ji4zkZ/zSGkfoxMG0A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ra9bJ3FPDpdfflHqh/qV2xwwv38LRc4JfSrCghqpA2LlRaONeXv+Oe/jVHunhRBcZEr0SEroxBWzJszixF+vtqlcZs3oC8gDU8Yo0L9FWAZp0K28efd6XjccWK4dkcyLpc8fckC8pSAJ+6SQESKGbpD+zHNHW6EnefmKIftSC+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ic2Wyqty; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=HDtAXP7D9gp9pVNIIEz84fH+B7L5XQ3Ef5W+GDuJu0x491lNwF5R2icEqAf1cxkWpEMG5zC16b28HGWPVbXX6K03w0yMQiOGMBMSvYOvLyLZSYeD4hSxJMTLnlZCi0AmDb1Cn30cpMakQRtDDienLbIu7kwm0YPlRoEtIZO+WG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jCGXxySU; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ic2Wyqty"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jCGXxySU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765372281; x=1796908281;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZRK/llLQVG5/qOIO0DbepgupzZfNEBr3FDIJTwHVYB0=;
-  b=Ic2WyqtyZYl0GxCClJdbfteAQ2887hYJ3AZrc9pdinPul7xxqzH400tk
-   Y2AHxly3bfBJ6ze78w0JDngkTB9sv++2Ha0+InX7a6oWzu1XMMgdlI15Y
-   jA4ZElIEchmITiAtDC3aB3jq/dNMOiEeeEurIhAWJub5UJULhOxSXdHz2
-   WORfjVAS2/SkR97pRAfZsNA7fNQtZI7nAZse4Ehi5oTSLXBkThhGQ+q3i
-   tgYs2g7L1pW0WRU5WoILigIseyLOZuRty/YMB0MyyX3LrVi75F+xVZryu
-   +Zkl0ZmLlFbJTCzOQZ8vDXvpuQFPM7VFdusTIJ4gwz+UvNd0ubbtdY6EV
-   w==;
-X-CSE-ConnectionGUID: 0zRMaSJeSvmi2v3Xlq7UTw==
-X-CSE-MsgGUID: wk8AV4hTRfiPSwxgGninww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67278524"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67278524"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 05:11:20 -0800
-X-CSE-ConnectionGUID: rmGtXc2eSwWITWYCd/F2hA==
-X-CSE-MsgGUID: LDfwIrb7SK2QT1Py7ibkCg==
+  t=1765372285; x=1796908285;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=89EpdBE1FE/berCCe72Bbrsp2Ji4zkZ/zSGkfoxMG0A=;
+  b=jCGXxySUcxBT2iGA4gnM+uM8n9yRGeonFzcQhVCh07EQ49w9byGTbLW+
+   w9BfHdSsWVxE2EXo+hfccAFDUIfBKh64Zn0MslsSxZSkQe/fKHzzhf+gz
+   CmuDoTWRE/ZCVFZxTpD0/q/xdKB0Ry375v7b7rpphE7I0cFTTGppgYPnv
+   eBR3qaXW/I0W6kWP8VsOYBPxekaAg4R+ZWFNM1/y5O2zsf+cTGdG+QhGA
+   3Fr6MEdpV919EJPbvt/qYqoG2GbIzOvZj03yyGGO9KS0madIpupfC9QtB
+   oXH1iU0lvji7HnOMj0zv7JQHevGO/wmmroRT0QT+1yZpi9tfp0Q3Odlel
+   g==;
+X-CSE-ConnectionGUID: 3dhZgRZaQyGz4PPpGi7Tgw==
+X-CSE-MsgGUID: 5ngVGbRSSbKW0S6ytFFhbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="67071081"
+X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
+   d="scan'208";a="67071081"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 05:11:25 -0800
+X-CSE-ConnectionGUID: Sn2BPvJeQKWwybbDbpt1+w==
+X-CSE-MsgGUID: njYANnI3QTmxgF+OgpJepA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="200997518"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 10 Dec 2025 05:11:18 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="233913951"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 10 Dec 2025 05:11:24 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTJyL-000000003D7-0W7Y;
-	Wed, 10 Dec 2025 13:11:13 +0000
-Date: Wed, 10 Dec 2025 21:10:21 +0800
+	id 1vTJyT-000000000bs-3TuG;
+	Wed, 10 Dec 2025 13:11:21 +0000
+Date: Wed, 10 Dec 2025 14:10:29 +0100
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Guo <guoyongqiang12@huawei.com>
+To: kernel@openeuler.org, =?utf-8?B?6Zer5rW35rab?= <yanhaitao2@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3508/3508]
- drivers/ub/urma/ubcore/ubcore_connect_adapter.c:189:26: sparse: sparse:
- symbol 'ubcore_find_remove_ex_tp_info' was not declared. Should it be
- static?
-Message-ID: <202512102106.8emZWvbe-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3508/3508] fs/nfs/dir.c:1498:6: warning: no
+ previous prototype for 'nfs_check_have_lookup_cache_flag'
+Message-ID: <202512101401.oMRwRHrx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+Hi 闫海涛,
+
+FYI, the error/warning still remains.
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   d80b9970681139376cf12bc9145051760176bb95
-commit: cd3e93f2a6d3bba9ff616fb065a943877d3d7894 [3508/3508] urma: implement ubcore basic connection and bonding support
-config: arm64-randconfig-r112-20251210 (https://download.01.org/0day-ci/archive/20251210/202512102106.8emZWvbe-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512102106.8emZWvbe-lkp@intel.com/reproduce)
+head:   b7a3f4f16ebfb6b033fe4f7de8908062eb84a55b
+commit: 18e360871c3f648ecb0d8cc9b23fd4268a64c17f [3508/3508] add enfs feature
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251210/202512101401.oMRwRHrx-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512101401.oMRwRHrx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512102106.8emZWvbe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512101401.oMRwRHrx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/ub/urma/ubcore/ubcore_connect_adapter.c:189:26: sparse: sparse: symbol 'ubcore_find_remove_ex_tp_info' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/ubcore_find_remove_ex_tp_info +189 drivers/ub/urma/ubcore/ubcore_connect_adapter.c
+>> fs/nfs/dir.c:1498:6: warning: no previous prototype for 'nfs_check_have_lookup_cache_flag' [-Wmissing-prototypes]
+    1498 | bool nfs_check_have_lookup_cache_flag(struct nfs_server *server, int flag)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   188	
- > 189	struct ubcore_ex_tp_info *
-   190	ubcore_find_remove_ex_tp_info(struct ubcore_device *dev, uint64_t tp_handle)
-   191	{
-   192		struct ubcore_ex_tp_info *ex_tp_info = NULL;
-   193		uint32_t hash;
-   194	
-   195		hash = ubcore_get_ex_tp_hash(&tp_handle);
-   196		spin_lock(&dev->ht[UBCORE_HT_EX_TP].lock);
-   197		if (dev->ht[UBCORE_HT_EX_TP].head == NULL) {
-   198			spin_unlock(&dev->ht[UBCORE_HT_EX_TP].lock);
-   199			return NULL;
-   200		}
-   201	
-   202		ex_tp_info = ubcore_hash_table_lookup_nolock(&dev->ht[UBCORE_HT_EX_TP],
-   203							     hash, &tp_handle);
-   204		if (ex_tp_info == NULL) {
-   205			spin_unlock(&dev->ht[UBCORE_HT_EX_TP].lock);
-   206			ubcore_log_warn("Failed to find ex_tp_info, tp_handle: %llu.\n",
-   207					tp_handle);
-   208			return NULL;
-   209		}
-   210		ubcore_hash_table_remove_nolock(&dev->ht[UBCORE_HT_EX_TP],
-   211						&ex_tp_info->hnode);
-   212		spin_unlock(&dev->ht[UBCORE_HT_EX_TP].lock);
-   213	
-   214		return ex_tp_info;
-   215	}
-   216	
+
+vim +/nfs_check_have_lookup_cache_flag +1498 fs/nfs/dir.c
+
+  1497	
+> 1498	bool nfs_check_have_lookup_cache_flag(struct nfs_server *server, int flag)
+  1499	{
+  1500	#if IS_ENABLED(CONFIG_ENFS)
+  1501		return enfs_check_have_lookup_cache_flag(server, flag);
+  1502	#else
+  1503		return (server->flags & NFS_MOUNT_LOOKUP_CACHE_NONE);
+  1504	#endif
+  1505	}
+  1506	
 
 -- 
 0-DAY CI Kernel Test Service
