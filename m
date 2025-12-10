@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB5C326D5D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 17:25:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230AB327209
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 17:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765387542; cv=none; b=P/OrACUhEn4IG/urln/x2C31wyj1Vii76bLlNcaNSVIF7JkUClYCffqIcalFjfeXP8n41SSx8lPBGHUR1iFptrrf4AkAUpqo2qnZ1nAPT2rYDiyWcEkJGxOHjonrmIahlEvXCq6QifTE4DvUVOtUKKIHfYTfJTd35fYikHoATYc=
+	t=1765387543; cv=none; b=Ddq7HZd84FjrcQNzkt6f58OFtNr5EjT97cQteefICDsF5cRkwJ2qaWB46CtGsp0uesddm0kQUuH5pFb1NR8dDf6FZFsl5VOXWehEdZpo8bpHoU/ZrpK7d2EZIOgN0SdelORTXz2CgQ7FUVGzv00jvhnbBUSBCWIhPINQ5yZtgLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765387542; c=relaxed/simple;
-	bh=fe6XZ7pzj2CmFdPsvaLbnJxufCz9/KxURgOm5+Tdejk=;
+	s=arc-20240116; t=1765387543; c=relaxed/simple;
+	bh=krcDC7gsacx2RHKVo2BTwEI3IBbs1kxm9wS/PWKC8hg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GTaK13lSX2gTz7DpmBYk9WP0Hz83vyTWwgl9YCxuiIFactp1i4TQM9/7KfspIvBvTZo5JVT/T4WYDnXYIMGlACIfaGhPqA7tkXBya9pa+htQ6u4sCXYiLh+HWJ/fNuWTDfIhx1A4Eo1ozIkr36rtMEySRb61pQPokntVYA29Q6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KSJ+hgbj; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Rx7HzMpB/7OGkYA6C0uhvbumCjZAH8XH2n+xRYVcmI1Sla5nJ17btUzYz9A4WPKTRiCNMwQS/AJ5KuUcUlNWRCa2vlww/b35ELiaXg4Wwfg6DSnrNiVvVT97FgQi0p6qjWM84bi0c0bIq08unNs0zB0pv4jKNUfMIl8z4we+Y30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HLg/6N4H; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KSJ+hgbj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HLg/6N4H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765387540; x=1796923540;
+  t=1765387543; x=1796923543;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fe6XZ7pzj2CmFdPsvaLbnJxufCz9/KxURgOm5+Tdejk=;
-  b=KSJ+hgbjCkYSN/4AM8Ffd2K5B3NH0uZGyfpKDNRMEJw2zg8IzhlQFlCg
-   8D7zgaTjT6wCIFWxA348nw3ScZsoWzebmdM+ku0BcdQS7YognllVGZIbx
-   +IiMlipMFdDLsr5TwlQSqHsUcMW8hRqzM3Ett15Y+XNEoy80UVza60fUk
-   yCiO/zyMNcp9Q1aWs+YGyu5LE93lH1uly1Da3mVlKjNVTGDMgCSskhqVq
-   k2j3BaqBalwPZlPKfaRO8/F8jFzDVKdc/gCrDcX/yk1gMD1B81ZA+ngNs
-   J2LV39fYEB8NkUhTHeKZRYBys6gxxmPE1zBpyAuHORePmORrIpy0qr3JV
-   w==;
-X-CSE-ConnectionGUID: KaJDINLTRTaXRmpHpeWhTw==
-X-CSE-MsgGUID: mdOznNGhQ3uRCOfSOql7Aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="84969867"
+  bh=krcDC7gsacx2RHKVo2BTwEI3IBbs1kxm9wS/PWKC8hg=;
+  b=HLg/6N4HW9Ftzdo7X4me1IrpnlIHg91dc/RW66CJBii99DIQrvt62XLB
+   fbLbLUmBt0RGjhk9j3FIR36/pu3KR9YP9dAYbJQz0BdYgbw9utTgSV4Pp
+   8+Gew/WYdDUO9wnJyJauCCqqvBEnzkBRDqj0jV4OffSvZxalq7U+hXSyQ
+   YUvm3UUTk4zl3W7a0D9rGsUhWrf1dBpHW/JaiMYlxyDgMnVemixfOA1Qk
+   AQwJMpAbfOcUpI00aPmUhW3kmgOMWap8QxT2GuLRN4bKMeJtuC16J0UnU
+   FUrVsMI5YYW6GwlVCVMOfyO51d2dNVhX/SmNkChCgCM5kNa2RJwzeqtTl
+   g==;
+X-CSE-ConnectionGUID: 9WvXM80pSyyb5nNFnkBb8Q==
+X-CSE-MsgGUID: +OIli6s3QAWjK8ElpOyojA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="67321628"
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="84969867"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 09:25:39 -0800
-X-CSE-ConnectionGUID: OXS5WQ4oSXawMfVmVPK43A==
-X-CSE-MsgGUID: Mrv7BeTkQ3Kyh9XzZGJfjw==
+   d="scan'208";a="67321628"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 09:25:41 -0800
+X-CSE-ConnectionGUID: JJEropD/Tq+ysa6v/+M64g==
+X-CSE-MsgGUID: hOFuyfDXSWaqpx4XqvJqlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="197062537"
+   d="scan'208";a="227214948"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 10 Dec 2025 09:25:38 -0800
+  by orviesa002.jf.intel.com with ESMTP; 10 Dec 2025 09:25:40 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTNwW-000000003Vp-0nxb;
+	id 1vTNwW-000000003Vx-3hYa;
 	Wed, 10 Dec 2025 17:25:36 +0000
-Date: Thu, 11 Dec 2025 01:25:06 +0800
+Date: Thu, 11 Dec 2025 01:25:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15-2025-03 1/1] fs/ksmbd/auth.c:219:
- warning: Function parameter or member 'cryptkey' not described in
- 'ksmbd_auth_ntlmv2'
-Message-ID: <202512110158.hEwB8F8s-lkp@intel.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christian Brauner <brauner@kernel.org>
+Subject: fs/notify/fsnotify.c:632:54: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202512110132.CWJBYMh4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,208 +63,184 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Namjae,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android13-5.15-2025-03
-head:   47909498d6058ee12b13bdfee22c80b73a979254
-commit: f86a1a74d9a7f6ecad21c4ba3c1ebc045d90c888 [1/1] ksmbd: fix multi session connection failure
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251211/202512110158.hEwB8F8s-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512110158.hEwB8F8s-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0048fbb4011ec55c32d3148b2cda56433f273375
+commit: b944249bcea97f2f6229852ae3f05f7acdcb0681 fsnotify: add mount notification infrastructure
+date:   10 months ago
+config: arm-randconfig-r133-20251210 (https://download.01.org/0day-ci/archive/20251211/202512110132.CWJBYMh4-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512110132.CWJBYMh4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512110158.hEwB8F8s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512110132.CWJBYMh4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/notify/fsnotify.c:433:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/notify/fsnotify.c:433:16: sparse:    struct fsnotify_mark_connector [noderef] __rcu *
+   fs/notify/fsnotify.c:433:16: sparse:    struct fsnotify_mark_connector *
+   fs/notify/fsnotify.c:435:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/notify/fsnotify.c:435:24: sparse:    struct hlist_node [noderef] __rcu *
+   fs/notify/fsnotify.c:435:24: sparse:    struct hlist_node *
+   fs/notify/fsnotify.c:445:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/notify/fsnotify.c:445:24: sparse:    struct hlist_node [noderef] __rcu *
+   fs/notify/fsnotify.c:445:24: sparse:    struct hlist_node *
+   fs/notify/fsnotify.c:616:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
+   fs/notify/fsnotify.c:616:46: sparse:     expected struct fsnotify_mark_connector *const *connp
+   fs/notify/fsnotify.c:616:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
+   fs/notify/fsnotify.c:620:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
+   fs/notify/fsnotify.c:620:46: sparse:     expected struct fsnotify_mark_connector *const *connp
+   fs/notify/fsnotify.c:620:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
+   fs/notify/fsnotify.c:624:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
+   fs/notify/fsnotify.c:624:46: sparse:     expected struct fsnotify_mark_connector *const *connp
+   fs/notify/fsnotify.c:624:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
+   fs/notify/fsnotify.c:628:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
+   fs/notify/fsnotify.c:628:46: sparse:     expected struct fsnotify_mark_connector *const *connp
+   fs/notify/fsnotify.c:628:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
+>> fs/notify/fsnotify.c:632:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu *const * @@
+   fs/notify/fsnotify.c:632:54: sparse:     expected struct fsnotify_mark_connector *const *connp
+   fs/notify/fsnotify.c:632:54: sparse:     got struct fsnotify_mark_connector [noderef] __rcu *const *
 
->> fs/ksmbd/auth.c:219: warning: Function parameter or member 'cryptkey' not described in 'ksmbd_auth_ntlmv2'
-   fs/ksmbd/auth.c:300: warning: Function parameter or member 'blob_len' not described in 'ksmbd_decode_ntlmssp_auth_blob'
-   fs/ksmbd/auth.c:300: warning: Function parameter or member 'conn' not described in 'ksmbd_decode_ntlmssp_auth_blob'
-   fs/ksmbd/auth.c:300: warning: Excess function parameter 'usr' description in 'ksmbd_decode_ntlmssp_auth_blob'
-   fs/ksmbd/auth.c:353: warning: Function parameter or member 'blob_len' not described in 'ksmbd_decode_ntlmssp_neg_blob'
->> fs/ksmbd/auth.c:353: warning: Function parameter or member 'conn' not described in 'ksmbd_decode_ntlmssp_neg_blob'
-   fs/ksmbd/auth.c:353: warning: Excess function parameter 'rsp' description in 'ksmbd_decode_ntlmssp_neg_blob'
-   fs/ksmbd/auth.c:353: warning: Excess function parameter 'sess' description in 'ksmbd_decode_ntlmssp_neg_blob'
-   fs/ksmbd/auth.c:381: warning: Function parameter or member 'conn' not described in 'ksmbd_build_ntlmssp_challenge_blob'
-   fs/ksmbd/auth.c:381: warning: Excess function parameter 'rsp' description in 'ksmbd_build_ntlmssp_challenge_blob'
-   fs/ksmbd/auth.c:381: warning: Excess function parameter 'sess' description in 'ksmbd_build_ntlmssp_challenge_blob'
+vim +632 fs/notify/fsnotify.c
 
-
-vim +219 fs/ksmbd/auth.c
-
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  207  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  208  /**
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  209   * ksmbd_auth_ntlmv2() - NTLMv2 authentication handler
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  210   * @sess:	session of connection
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  211   * @ntlmv2:		NTLMv2 challenge response
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  212   * @blen:		NTLMv2 blob length
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  213   * @domain_name:	domain name
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  214   *
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  215   * Return:	0 on success, error number on error
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  216   */
-64b39f4a2fd293 fs/cifsd/auth.c Namjae Jeon       2021-03-30  217  int ksmbd_auth_ntlmv2(struct ksmbd_session *sess, struct ntlmv2_resp *ntlmv2,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  218  		      int blen, char *domain_name, char *cryptkey)
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16 @219  {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  220  	char ntlmv2_hash[CIFS_ENCPWD_SIZE];
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  221  	char ntlmv2_rsp[CIFS_HMAC_MD5_HASH_SIZE];
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  222  	struct ksmbd_crypto_ctx *ctx;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  223  	char *construct = NULL;
-0e579cd17f8e9c fs/cifsd/auth.c Namjae Jeon       2021-05-26  224  	int rc, len;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  225  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  226  	ctx = ksmbd_crypto_ctx_find_hmacmd5();
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  227  	if (!ctx) {
-0e579cd17f8e9c fs/cifsd/auth.c Namjae Jeon       2021-05-26  228  		ksmbd_debug(AUTH, "could not crypto alloc hmacmd5\n");
-0e579cd17f8e9c fs/cifsd/auth.c Namjae Jeon       2021-05-26  229  		return -ENOMEM;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  230  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  231  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  232  	rc = calc_ntlmv2_hash(sess, ntlmv2_hash, domain_name);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  233  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  234  		ksmbd_debug(AUTH, "could not get v2 hash rc %d\n", rc);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  235  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  236  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  237  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  238  	rc = crypto_shash_setkey(CRYPTO_HMACMD5_TFM(ctx),
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  239  				 ntlmv2_hash,
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  240  				 CIFS_HMAC_MD5_HASH_SIZE);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  241  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  242  		ksmbd_debug(AUTH, "Could not set NTLMV2 Hash as a key\n");
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  243  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  244  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  245  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  246  	rc = crypto_shash_init(CRYPTO_HMACMD5(ctx));
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  247  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  248  		ksmbd_debug(AUTH, "Could not init hmacmd5\n");
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  249  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  250  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  251  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  252  	len = CIFS_CRYPTO_KEY_SIZE + blen;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  253  	construct = kzalloc(len, GFP_KERNEL);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  254  	if (!construct) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  255  		rc = -ENOMEM;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  256  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  257  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  258  
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  259  	memcpy(construct, cryptkey, CIFS_CRYPTO_KEY_SIZE);
-192cc732c65a7c fs/cifsd/auth.c Namjae Jeon       2021-05-26  260  	memcpy(construct + CIFS_CRYPTO_KEY_SIZE, &ntlmv2->blob_signature, blen);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  261  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  262  	rc = crypto_shash_update(CRYPTO_HMACMD5(ctx), construct, len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  263  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  264  		ksmbd_debug(AUTH, "Could not update with response\n");
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  265  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  266  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  267  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  268  	rc = crypto_shash_final(CRYPTO_HMACMD5(ctx), ntlmv2_rsp);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  269  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  270  		ksmbd_debug(AUTH, "Could not generate md5 hash\n");
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  271  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  272  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  273  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  274  	rc = ksmbd_gen_sess_key(sess, ntlmv2_hash, ntlmv2_rsp);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  275  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  276  		ksmbd_debug(AUTH, "Could not generate sess key\n");
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  277  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  278  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  279  
-b72802aa77dc27 fs/cifsd/auth.c Namjae Jeon       2021-05-26  280  	if (memcmp(ntlmv2->ntlmv2_hash, ntlmv2_rsp, CIFS_HMAC_MD5_HASH_SIZE) != 0)
-b72802aa77dc27 fs/cifsd/auth.c Namjae Jeon       2021-05-26  281  		rc = -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  282  out:
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  283  	ksmbd_release_crypto_ctx(ctx);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  284  	kfree(construct);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  285  	return rc;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  286  }
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  287  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  288  /**
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  289   * ksmbd_decode_ntlmssp_auth_blob() - helper function to construct
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  290   * authenticate blob
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  291   * @authblob:	authenticate blob source pointer
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  292   * @usr:	user details
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  293   * @sess:	session of connection
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  294   *
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  295   * Return:	0 on success, error number on error
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  296   */
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  297  int ksmbd_decode_ntlmssp_auth_blob(struct authenticate_message *authblob,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  298  				   int blob_len, struct ksmbd_conn *conn,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  299  				   struct ksmbd_session *sess)
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  300  {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  301  	char *domain_name;
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  302  	unsigned int nt_off, dn_off;
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  303  	unsigned short nt_len, dn_len;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  304  	int ret;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  305  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  306  	if (blob_len < sizeof(struct authenticate_message)) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  307  		ksmbd_debug(AUTH, "negotiate blob len %d too small\n",
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  308  			    blob_len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  309  		return -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  310  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  311  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  312  	if (memcmp(authblob->Signature, "NTLMSSP", 8)) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  313  		ksmbd_debug(AUTH, "blob signature incorrect %s\n",
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  314  			    authblob->Signature);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  315  		return -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  316  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  317  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  318  	nt_off = le32_to_cpu(authblob->NtChallengeResponse.BufferOffset);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  319  	nt_len = le16_to_cpu(authblob->NtChallengeResponse.Length);
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  320  	dn_off = le32_to_cpu(authblob->DomainName.BufferOffset);
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  321  	dn_len = le16_to_cpu(authblob->DomainName.Length);
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  322  
-e32f867b37da79 fs/ksmbd/auth.c William Liu       2022-12-30  323  	if (blob_len < (u64)dn_off + dn_len || blob_len < (u64)nt_off + nt_len ||
-e32f867b37da79 fs/ksmbd/auth.c William Liu       2022-12-30  324  	    nt_len < CIFS_ENCPWD_SIZE)
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  325  		return -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  326  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  327  	/* TODO : use domain name that imported from configuration file */
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  328  	domain_name = smb_strndup_from_utf16((const char *)authblob + dn_off,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  329  					     dn_len, true, conn->local_nls);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  330  	if (IS_ERR(domain_name))
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  331  		return PTR_ERR(domain_name);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  332  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  333  	/* process NTLMv2 authentication */
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  334  	ksmbd_debug(AUTH, "decode_ntlmssp_authenticate_blob dname%s\n",
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  335  		    domain_name);
-070fb21e5912b6 fs/cifsd/auth.c Namjae Jeon       2021-05-26  336  	ret = ksmbd_auth_ntlmv2(sess, (struct ntlmv2_resp *)((char *)authblob + nt_off),
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  337  				nt_len - CIFS_ENCPWD_SIZE,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  338  				domain_name, conn->ntlmssp.cryptkey);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  339  	kfree(domain_name);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  340  	return ret;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  341  }
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  342  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  343  /**
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  344   * ksmbd_decode_ntlmssp_neg_blob() - helper function to construct
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  345   * negotiate blob
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  346   * @negblob: negotiate blob source pointer
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  347   * @rsp:     response header pointer to be updated
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  348   * @sess:    session of connection
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  349   *
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  350   */
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  351  int ksmbd_decode_ntlmssp_neg_blob(struct negotiate_message *negblob,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  352  				  int blob_len, struct ksmbd_conn *conn)
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16 @353  {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  354  	if (blob_len < sizeof(struct negotiate_message)) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  355  		ksmbd_debug(AUTH, "negotiate blob len %d too small\n",
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  356  			    blob_len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  357  		return -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  358  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  359  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  360  	if (memcmp(negblob->Signature, "NTLMSSP", 8)) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  361  		ksmbd_debug(AUTH, "blob signature incorrect %s\n",
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  362  			    negblob->Signature);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  363  		return -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  364  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  365  
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  366  	conn->ntlmssp.client_flags = le32_to_cpu(negblob->NegotiateFlags);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  367  	return 0;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  368  }
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  369  
-
-:::::: The code at line 219 was first introduced by commit
-:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side procedures for SMB3
-
-:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+   520	
+   521	/*
+   522	 * fsnotify - This is the main call to fsnotify.
+   523	 *
+   524	 * The VFS calls into hook specific functions in linux/fsnotify.h.
+   525	 * Those functions then in turn call here.  Here will call out to all of the
+   526	 * registered fsnotify_group.  Those groups can then use the notification event
+   527	 * in whatever means they feel necessary.
+   528	 *
+   529	 * @mask:	event type and flags
+   530	 * @data:	object that event happened on
+   531	 * @data_type:	type of object for fanotify_data_XXX() accessors
+   532	 * @dir:	optional directory associated with event -
+   533	 *		if @file_name is not NULL, this is the directory that
+   534	 *		@file_name is relative to
+   535	 * @file_name:	optional file name associated with event
+   536	 * @inode:	optional inode associated with event -
+   537	 *		If @dir and @inode are both non-NULL, event may be
+   538	 *		reported to both.
+   539	 * @cookie:	inotify rename cookie
+   540	 */
+   541	int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
+   542		     const struct qstr *file_name, struct inode *inode, u32 cookie)
+   543	{
+   544		const struct path *path = fsnotify_data_path(data, data_type);
+   545		struct super_block *sb = fsnotify_data_sb(data, data_type);
+   546		const struct fsnotify_mnt *mnt_data = fsnotify_data_mnt(data, data_type);
+   547		struct fsnotify_sb_info *sbinfo = sb ? fsnotify_sb_info(sb) : NULL;
+   548		struct fsnotify_iter_info iter_info = {};
+   549		struct mount *mnt = NULL;
+   550		struct inode *inode2 = NULL;
+   551		struct dentry *moved;
+   552		int inode2_type;
+   553		int ret = 0;
+   554		__u32 test_mask, marks_mask = 0;
+   555	
+   556		if (path)
+   557			mnt = real_mount(path->mnt);
+   558	
+   559		if (!inode) {
+   560			/* Dirent event - report on TYPE_INODE to dir */
+   561			inode = dir;
+   562			/* For FS_RENAME, inode is old_dir and inode2 is new_dir */
+   563			if (mask & FS_RENAME) {
+   564				moved = fsnotify_data_dentry(data, data_type);
+   565				inode2 = moved->d_parent->d_inode;
+   566				inode2_type = FSNOTIFY_ITER_TYPE_INODE2;
+   567			}
+   568		} else if (mask & FS_EVENT_ON_CHILD) {
+   569			/*
+   570			 * Event on child - report on TYPE_PARENT to dir if it is
+   571			 * watching children and on TYPE_INODE to child.
+   572			 */
+   573			inode2 = dir;
+   574			inode2_type = FSNOTIFY_ITER_TYPE_PARENT;
+   575		}
+   576	
+   577		/*
+   578		 * Optimization: srcu_read_lock() has a memory barrier which can
+   579		 * be expensive.  It protects walking the *_fsnotify_marks lists.
+   580		 * However, if we do not walk the lists, we do not have to do
+   581		 * SRCU because we have no references to any objects and do not
+   582		 * need SRCU to keep them "alive".
+   583		 */
+   584		if ((!sbinfo || !sbinfo->sb_marks) &&
+   585		    (!mnt || !mnt->mnt_fsnotify_marks) &&
+   586		    (!inode || !inode->i_fsnotify_marks) &&
+   587		    (!inode2 || !inode2->i_fsnotify_marks) &&
+   588		    (!mnt_data || !mnt_data->ns->n_fsnotify_marks))
+   589			return 0;
+   590	
+   591		if (sb)
+   592			marks_mask |= READ_ONCE(sb->s_fsnotify_mask);
+   593		if (mnt)
+   594			marks_mask |= READ_ONCE(mnt->mnt_fsnotify_mask);
+   595		if (inode)
+   596			marks_mask |= READ_ONCE(inode->i_fsnotify_mask);
+   597		if (inode2)
+   598			marks_mask |= READ_ONCE(inode2->i_fsnotify_mask);
+   599		if (mnt_data)
+   600			marks_mask |= READ_ONCE(mnt_data->ns->n_fsnotify_mask);
+   601	
+   602		/*
+   603		 * If this is a modify event we may need to clear some ignore masks.
+   604		 * In that case, the object with ignore masks will have the FS_MODIFY
+   605		 * event in its mask.
+   606		 * Otherwise, return if none of the marks care about this type of event.
+   607		 */
+   608		test_mask = (mask & ALL_FSNOTIFY_EVENTS);
+   609		if (!(test_mask & marks_mask))
+   610			return 0;
+   611	
+   612		iter_info.srcu_idx = srcu_read_lock(&fsnotify_mark_srcu);
+   613	
+   614		if (sbinfo) {
+   615			iter_info.marks[FSNOTIFY_ITER_TYPE_SB] =
+   616				fsnotify_first_mark(&sbinfo->sb_marks);
+   617		}
+   618		if (mnt) {
+   619			iter_info.marks[FSNOTIFY_ITER_TYPE_VFSMOUNT] =
+   620				fsnotify_first_mark(&mnt->mnt_fsnotify_marks);
+   621		}
+   622		if (inode) {
+   623			iter_info.marks[FSNOTIFY_ITER_TYPE_INODE] =
+   624				fsnotify_first_mark(&inode->i_fsnotify_marks);
+   625		}
+   626		if (inode2) {
+   627			iter_info.marks[inode2_type] =
+   628				fsnotify_first_mark(&inode2->i_fsnotify_marks);
+   629		}
+   630		if (mnt_data) {
+   631			iter_info.marks[FSNOTIFY_ITER_TYPE_MNTNS] =
+ > 632				fsnotify_first_mark(&mnt_data->ns->n_fsnotify_marks);
+   633		}
+   634	
+   635		/*
+   636		 * We need to merge inode/vfsmount/sb mark lists so that e.g. inode mark
+   637		 * ignore masks are properly reflected for mount/sb mark notifications.
+   638		 * That's why this traversal is so complicated...
+   639		 */
+   640		while (fsnotify_iter_select_report_types(&iter_info)) {
+   641			ret = send_to_group(mask, data, data_type, dir, file_name,
+   642					    cookie, &iter_info);
+   643	
+   644			if (ret && (mask & ALL_FSNOTIFY_PERM_EVENTS))
+   645				goto out;
+   646	
+   647			fsnotify_iter_next(&iter_info);
+   648		}
+   649		ret = 0;
+   650	out:
+   651		srcu_read_unlock(&fsnotify_mark_srcu, iter_info.srcu_idx);
+   652	
+   653		return ret;
+   654	}
+   655	EXPORT_SYMBOL_GPL(fsnotify);
+   656	
 
 -- 
 0-DAY CI Kernel Test Service
