@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE622F9DAE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 11:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981B23254B0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 12:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765365917; cv=none; b=FhlS3lPSefQpisEaTk3XrZ+fiynNR7Gbw8HJKczkGg+Tgu+Xc+FUxQgOWbFuIAuZGYYHrna35IwNRAQW5+R/ZMK4Cz+ltD6GCb3OR9aiD+F8Pxt0Ke+FBEkKyNqPbLrcg5V9z9ZEaxpmDjbcxZCf/2Oftd9BK5WOEkWR8qmI0IY=
+	t=1765370239; cv=none; b=fd+pX5U0iqt79+2bWPOUTChwYIpLUg97WbGJxc/D1/YcI8rtTgmmsWzOYEurj28n7U5qRlcPpXg7kGTA9iNcqHjI3OCrnL/bYMk8criRsR4NzTCkq7T4tewfwLt5/gEcAKEQxhBPhXVX3MnOnopCTen5F/+U/vzcmy6rHU5G/2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765365917; c=relaxed/simple;
-	bh=XXautxizrwUKwPhN/Q59HaHDxh0HoQEZDUhM+u4QALg=;
+	s=arc-20240116; t=1765370239; c=relaxed/simple;
+	bh=3etqmPrTX92nX4TsNy6OLxFlMcZrOp+2odu04unOSlc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PM/wCAICmJr//IwGtnHtVqBfE1KrO4P1uxpkLp6m0VwEPRAynwENgdy2AbnWPX3+aCIMnT64E/vcaOXUPRtfYfZNvRzvx/vzc487bw3ARrE5xoL7PHYLzRMb1munOUf4wc8YYRDVk7ujnSrqmTICkT2fcppdefnCRJ7GelP5dEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yth+iOat; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=fhglRpMlz2jYZmi987NV8xOf/twXj4p4gGIf7Eiu+rZ33EOcRRC4IyeF6UJ5VyspBDT1WtajNH45GvoObtMLiyO2A2PnnCOO+J49PEzp8uEsdt/ogN0jiVitaBVntNvdYma44c3X7Lt7OW0Yj13NbvDjw4iIj4LHBRUW0oXSYJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E50waanj; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yth+iOat"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E50waanj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765365915; x=1796901915;
+  t=1765370236; x=1796906236;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XXautxizrwUKwPhN/Q59HaHDxh0HoQEZDUhM+u4QALg=;
-  b=Yth+iOat6UcGeMLLWtmXxFIxz7Y0HL6JSdhDe0Lm6S3KSB3k6qnIhJsB
-   68QAVuANVBv6klDZQbgTL6xGW+/esBTOomCiSIgJFKIZc5WNH3LFYGscH
-   2YB1/5+IxpGyYaxJ+LX0IedFudxzI2kH3E1YPa2DDBKyUqAUABlYjt8hk
-   BUsvGPOQz6E5YSFG/0MTXJlnFtWDyOuGk/8JWiLtBXd5xhvMj9S+xlUrA
-   wB9mLs4zQgGhAAgjTuy5EpcidpilMau5SkbZu8T9KJDIjEDGaXGMh9UU8
-   Rw25u8e1Wre90UEFnE8GrjpPg7wN/lxn2sKXPgxHnpfs4Xuq3vPG71fSC
+  bh=3etqmPrTX92nX4TsNy6OLxFlMcZrOp+2odu04unOSlc=;
+  b=E50waanjbmYBWlPLQInjNWbKaAFmXvfbUosyFBcSJ4jIAUqpE9aIUw99
+   vz/7EkjDWNbx61waJ7jBKc8QLbvhr3Jp08xkg9J6JyH+gpk0FHHOgSS2C
+   +6UEMicebl59RGeFysyAvV2IQll9T7iKR+vucUFIIvcmyo+P6zi8Uf148
+   CtSy4ctyQZJg8Uo1NKu5FSgkg865xmMyTseV2iWVRzyAU6L3KkY3JjWJp
+   uYY/ga0dDGTpGAXqW+huAA20YNqIuL6INvYwxmfa2y98Mwvgyj6oS8Kk7
+   sNXXpCAmUhOEN/1vrlovbs9ULJt5lyqCj0PkjlNl4BLKc+n1NQKYrRxxk
    w==;
-X-CSE-ConnectionGUID: 4icP0KXhS5aC7mHzigQISw==
-X-CSE-MsgGUID: koNP3dqnSXSUluZG//7WcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11637"; a="78447005"
-X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
-   d="scan'208";a="78447005"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 03:25:13 -0800
-X-CSE-ConnectionGUID: cQKmgvp6Q+a7HNlccXP95Q==
-X-CSE-MsgGUID: Q734l696SS2fV/fhDyIY5A==
+X-CSE-ConnectionGUID: 5peTx2HUR9mrxIr/qw3ToA==
+X-CSE-MsgGUID: +Im0qnqwQCKm6VAjMagXSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="84749480"
+X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
+   d="scan'208";a="84749480"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 04:37:15 -0800
+X-CSE-ConnectionGUID: FEbTeSzYTFKthxxQC3oD/A==
+X-CSE-MsgGUID: sH4jz8D9RyGikChkqjJmVA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,263,1758610800"; 
-   d="scan'208";a="227146711"
+X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
+   d="scan'208";a="201618514"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Dec 2025 03:25:12 -0800
+  by orviesa005.jf.intel.com with ESMTP; 10 Dec 2025 04:37:13 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTIJh-0000000038A-2Gyx;
-	Wed, 10 Dec 2025 11:25:09 +0000
-Date: Wed, 10 Dec 2025 19:24:21 +0800
+	id 1vTJRP-000000003An-2Uft;
+	Wed, 10 Dec 2025 12:37:11 +0000
+Date: Wed, 10 Dec 2025 20:36:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinjiang Tu <tujinjiang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3508/3508] mm/memcontrol.c:4428:12: warning:
- 'mem_cgroup_check_swap_for_v1' defined but not used
-Message-ID: <202512101954.2PMARPcx-lkp@intel.com>
+To: Riana Tauro <riana.tauro@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: [linux-next:master 13942/14066]
+ drivers/gpu/drm/xe/xe_survivability_mode.c:239:1: sparse: sparse: symbol
+ 'attr_fdo_mode' was not declared. Should it be static?
+Message-ID: <202512102006.cWGs6pX5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +63,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Liu,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   56da8c1ec8638f6ad4df737a133a41b106a3ce42
-commit: a095a940f784db58ea4e87df361f9a4fd0dd977f [3508/3508] memcg: add restrict to swap to cgroup1
-config: x86_64-randconfig-122-20251210 (https://download.01.org/0day-ci/archive/20251210/202512101954.2PMARPcx-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   008d3547aae5bc86fac3eda317489169c3fda112
+commit: 1987ea95ac37ea3f9299d220974676207d5262f6 [13942/14066] drm/xe/xe_survivability: Add support for survivability mode v2
+config: i386-randconfig-063-20251210 (https://download.01.org/0day-ci/archive/20251210/202512102006.cWGs6pX5-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512101954.2PMARPcx-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251210/202512102006.cWGs6pX5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512101954.2PMARPcx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512102006.cWGs6pX5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/xe/xe_survivability_mode.c:231:1: sparse: sparse: symbol 'attr_capability_info' was not declared. Should it be static?
+   drivers/gpu/drm/xe/xe_survivability_mode.c:232:1: sparse: sparse: symbol 'attr_postcode_trace' was not declared. Should it be static?
+   drivers/gpu/drm/xe/xe_survivability_mode.c:233:1: sparse: sparse: symbol 'attr_postcode_trace_overflow' was not declared. Should it be static?
+   drivers/gpu/drm/xe/xe_survivability_mode.c:234:1: sparse: sparse: symbol 'attr_aux_info0' was not declared. Should it be static?
+   drivers/gpu/drm/xe/xe_survivability_mode.c:235:1: sparse: sparse: symbol 'attr_aux_info1' was not declared. Should it be static?
+   drivers/gpu/drm/xe/xe_survivability_mode.c:236:1: sparse: sparse: symbol 'attr_aux_info2' was not declared. Should it be static?
+   drivers/gpu/drm/xe/xe_survivability_mode.c:237:1: sparse: sparse: symbol 'attr_aux_info3' was not declared. Should it be static?
+   drivers/gpu/drm/xe/xe_survivability_mode.c:238:1: sparse: sparse: symbol 'attr_aux_info4' was not declared. Should it be static?
+>> drivers/gpu/drm/xe/xe_survivability_mode.c:239:1: sparse: sparse: symbol 'attr_fdo_mode' was not declared. Should it be static?
 
->> mm/memcontrol.c:4428:12: warning: 'mem_cgroup_check_swap_for_v1' defined but not used [-Wunused-function]
-    4428 | static int mem_cgroup_check_swap_for_v1(struct folio *folio, swp_entry_t entry)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/attr_fdo_mode +239 drivers/gpu/drm/xe/xe_survivability_mode.c
 
-
-vim +/mem_cgroup_check_swap_for_v1 +4428 mm/memcontrol.c
-
-  4427	
-> 4428	static int mem_cgroup_check_swap_for_v1(struct folio *folio, swp_entry_t entry)
-  4429	{
-  4430		return 0;
-  4431	}
-  4432	#endif
-  4433	
+   224	
+   225	#define SURVIVABILITY_ATTR_RO(name, _index)					\
+   226		struct xe_survivability_attribute attr_##name =	{			\
+   227			.attr =  __ATTR(name, 0400, survivability_info_show, NULL),	\
+   228			.index = _index,						\
+   229		}
+   230	
+   231	SURVIVABILITY_ATTR_RO(capability_info, CAPABILITY_INFO);
+   232	SURVIVABILITY_ATTR_RO(postcode_trace, POSTCODE_TRACE);
+   233	SURVIVABILITY_ATTR_RO(postcode_trace_overflow, POSTCODE_TRACE_OVERFLOW);
+   234	SURVIVABILITY_ATTR_RO(aux_info0, AUX_INFO0);
+   235	SURVIVABILITY_ATTR_RO(aux_info1, AUX_INFO1);
+   236	SURVIVABILITY_ATTR_RO(aux_info2, AUX_INFO2);
+   237	SURVIVABILITY_ATTR_RO(aux_info3, AUX_INFO3);
+   238	SURVIVABILITY_ATTR_RO(aux_info4, AUX_INFO4);
+ > 239	SURVIVABILITY_ATTR_RO(fdo_mode, FDO_INFO);
+   240	
 
 -- 
 0-DAY CI Kernel Test Service
