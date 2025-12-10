@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668622F6587
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 20:18:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE1D21E0AF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 Dec 2025 20:21:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765397914; cv=none; b=eLurcceSgIWH9W1+uVD6JyR1h2EtY/uCU32uaDQNPigm6aDL0VRpHayC1o6m5iwfL8gXy3iMoFb09HYfL8FfbYULyihHOWALosR14y6Vlqo5yQ8DsatTHdXoiZMPpgPCgrHHrkWtx9bhy01Fg0QSjIwH2b4dbVM4U2cK8NkLBEY=
+	t=1765398094; cv=none; b=eKIt8hbdfsEIlubySafjPxBezwZBiupcQ4g7QgvgLFOEjBriIvQgjxHeLAo1Ds84Fyo2KCykguNxtEjEUOuMlzIu5gtYEfHfYULAvyJ4Yi/YjHj9LzDpLdCjWJgDHzF5uyAyamEaa6eoumZI/pyK7PmkVLMtKyQigDEdPJYn5Qo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765397914; c=relaxed/simple;
-	bh=yI9sWy8e9h6sTwoe5CLvbfbhcoWmGAZuQkZtnWAEpK4=;
+	s=arc-20240116; t=1765398094; c=relaxed/simple;
+	bh=mgn8lWBDKu6lv6KbVoMDja22joiP/m19j4iMYcnLp8s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ix+VkhHUSecl0jegR5umhqtflfSInJ0Y2Q1AFLtEfdzQIV2epMkCb2boF3eNH4tmATnXpqXgsZN+2WVzriI2OALhmgJAspcij6C/g+sHMEoYC1dq2Vx1zVAPFIeJfc/oLz78HXVh8PA0O2s4K3fy/D/B8sEDASuX6KU0uHD4Ptc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jwGU5uRK; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=X7NaSwITwu3tpAyc79rTM4c3M1PwcWdz0JvYEbsOCIiYP4fpxLpMJG921istl64S9vPrrrp+KcTwNbtMaDKqr6QCGhCGStokPMzBjSOBs7qt+qA55O5vyTHE/qMEc0d/uciiX2cgkNCsMGnLXKOUCDrv89/J+4p3L+VtIbsddp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iy6N1P3C; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jwGU5uRK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iy6N1P3C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765397912; x=1796933912;
+  t=1765398092; x=1796934092;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yI9sWy8e9h6sTwoe5CLvbfbhcoWmGAZuQkZtnWAEpK4=;
-  b=jwGU5uRKFDzd6ITFDtu82rM8z7WZa4m6JO1siNofEONtjaFOw5ScF415
-   Mea26Tb4Ey+VqDG/XAndN6rdsKi8QdZqWUb/TgHEm5XBgyBgI+UIefU9d
-   ulcgWQaeFit7Qa9rfCsu4eohLjBoqz3aStNg0cww2t9Gks7z57gkNAdzu
-   ygaVWWX7Ir+Ol4lTnak7hqWkTrZlyrrhacVOAOghBH9DQBy7azRpA8R++
-   AWqR6dqUkhpMiuDvgu+lWUXvLio+AHq0TKuDpOoR7lAc66H+FUGz4W0xq
-   7BkN08eQSA0AvWBOHsWJKso7sssdwI8Q6e1a/NiRxAdkVBJbX3uRrL3TH
-   w==;
-X-CSE-ConnectionGUID: 65aJBzIpTPaWd2nL0UOTrw==
-X-CSE-MsgGUID: 5RgL/G4tTUa7SAiBnvw4jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="67264194"
+  bh=mgn8lWBDKu6lv6KbVoMDja22joiP/m19j4iMYcnLp8s=;
+  b=Iy6N1P3CPMiooElw8O7DJbFsk2BiOGQ/AR6NmKalc66zz4BhBhRcTAbq
+   gw0xbF+kBrQbsXPF3CBH8liwXDH15cWMoPQr8V+pAOQ2PAtkoUIlKd5eL
+   Z2d7ihxvciPT4EkqlxxqNda6L7y7iIM7al8JIpDpfw8Gc3pEnpEU/2Wde
+   BgHhfYRpJoBtTl+DBHhTJGcrEDbuE2YuTYNr0f6r3xJyP3DyqASmI0mWD
+   //Y7DUoCySemtWlzDLbV11IWgcovCC8k+w/TQbYMrq1VXCHbH3CgE4GnL
+   v3O7a3wX43363AZJMosq8G+AkbXVG5EE7AhM9kxFdIXnp04v7ew5vyi0q
+   A==;
+X-CSE-ConnectionGUID: jXxQ9dKORyeUgfLsq/CBkQ==
+X-CSE-MsgGUID: CBD+7oboQGa7xbL+b5lHdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="92856282"
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="67264194"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 12:18:32 -0800
-X-CSE-ConnectionGUID: f9cAuOVGRfuBNeOtPPXtKg==
-X-CSE-MsgGUID: aXKmfkslQtSQonsRkdOwmA==
+   d="scan'208";a="92856282"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 12:21:32 -0800
+X-CSE-ConnectionGUID: xk9Kl25cQqegALw9SH2PlQ==
+X-CSE-MsgGUID: FiUNI34eRF+pCWJiCv51fA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,264,1758610800"; 
-   d="scan'208";a="200769706"
+   d="scan'208";a="201085486"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 10 Dec 2025 12:18:31 -0800
+  by orviesa004.jf.intel.com with ESMTP; 10 Dec 2025 12:21:32 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTQdo-000000000lc-3JNR;
-	Wed, 10 Dec 2025 20:18:28 +0000
-Date: Wed, 10 Dec 2025 21:17:30 +0100
+	id 1vTQgi-000000000lg-3UGf;
+	Wed, 10 Dec 2025 20:21:28 +0000
+Date: Wed, 10 Dec 2025 21:21:22 +0100
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3534/3534] versioncheck:
- ./drivers/crypto/sedriver/wst_se_common_type.h: 19 linux/version.h not
- needed.
-Message-ID: <202512102101.z2tfjkpk-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 3406/3406] versioncheck:
+ ./drivers/ub/urma/ubcore/ubcore_main.c: 28 linux/version.h not needed.
+Message-ID: <202512102100.ovvQb5iM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,32 +62,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   d281438782e3c28a3df71a64513a3312d43dcf01
-commit: 3fb87845837f13b19d7b20349801e75f2e303293 [3534/3534] crypto: loongson: add wst se chip support
-reproduce: (https://download.01.org/0day-ci/archive/20251210/202512102101.z2tfjkpk-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   41baca24098d5757f3aea4d98e63eb9d9f7d43a3
+commit: 95c713224477ac3433652331dd715e9bbcbc793a [3406/3406] ub: init ubcore module
+reproduce: (https://download.01.org/0day-ci/archive/20251210/202512102100.ovvQb5iM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512102101.z2tfjkpk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512102100.ovvQb5iM-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
    /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
    find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
    	-name '*.[hcS]' -type f -print | sort \
    	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
+   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/uaccess.h: 15 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
+   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
+   ./arch/s390/include/asm/setup.h: 183: need linux/version.h
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
    ./drivers/char/ipmi/ipmi_si_ls2k500.c: 19 linux/version.h not needed.
-   ./drivers/crypto/ccp/hygon/hct.c: 6 linux/version.h not needed.
-   ./drivers/crypto/ccp/hygon/tdm-dev.h: 29 linux/version.h not needed.
-   ./drivers/crypto/montage/tsse/tsse_vuart.c: 21 linux/version.h not needed.
->> ./drivers/crypto/sedriver/wst_se_common_type.h: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/phytium/phytium_gem.c: 9 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-zhaoxin.c: 18 linux/version.h not needed.
-   ./drivers/net/ethernet/3snic/sssnic/include/kernel/sss_linux_kernel.h: 13 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 62 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/inspur/inspur_drm_de.c: 513: need linux/version.h
+   ./drivers/gpu/drm/inspur/inspur_drm_drv.c: 456: need linux/version.h
+   ./drivers/gpu/drm/pl111/pl111_display.c: 14 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 47 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
+   ./drivers/hv/hv.c: 16 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
+   ./drivers/net/ethernet/3snic/sssnic/include/kernel/sss_linux_kernel.h: 12 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
    ./drivers/net/ethernet/huawei/bma/edma_drv/bma_include.h: 32 linux/version.h not needed.
    ./drivers/net/ethernet/huawei/bma/edma_drv/bma_pci.c: 17 linux/version.h not needed.
    ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_include.h: 20 linux/version.h not needed.
@@ -96,37 +119,47 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_mce.c: 16 linux/version.h not needed.
    ./drivers/net/ethernet/huawei/bma/kbox_drv/kbox_ram_op.c: 16 linux/version.h not needed.
    ./drivers/net/ethernet/huawei/hinic/ossl_knl.h: 22 linux/version.h not needed.
-   ./drivers/net/ethernet/huawei/hinic3/bond/hinic3_bond.c: 12 linux/version.h not needed.
    ./drivers/net/ethernet/huawei/hinic3/ossl_knl_linux.h: 12 linux/version.h not needed.
-   ./drivers/net/ethernet/linkdata/sxe/base/compat/sxe_compat.h: 16 linux/version.h not needed.
-   ./drivers/net/ethernet/linkdata/sxevf/base/compat/sxe_compat.h: 16 linux/version.h not needed.
-   ./drivers/net/ethernet/mucse/rnpm/rnpm_common.h: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h: 26 linux/version.h not needed.
-   ./drivers/scsi/hisi_raid/hiraid_main.c: 9 linux/version.h not needed.
-   ./drivers/scsi/linkdata/ps3stor/linux/ps3_base.c: 11 linux/version.h not needed.
-   ./drivers/scsi/linkdata/ps3stor/linux/ps3_cli.c: 14 linux/version.h not needed.
-   ./drivers/scsi/linkdata/ps3stor/linux/ps3_driver_log.c: 3 linux/version.h not needed.
-   ./drivers/scsi/linkdata/ps3stor/ps3_device_manager.h: 9 linux/version.h not needed.
-   ./drivers/scsi/linkdata/ps3stor/ps3_device_manager_sas.h: 6 linux/version.h not needed.
-   ./drivers/scsi/linkdata/ps3stor/ps3_qos.c: 6 linux/version.h not needed.
-   ./drivers/scsi/linkdata/ps3stor/ps3_rb_tree.h: 7 linux/version.h not needed.
-   ./drivers/scsi/linkdata/ps3stor/ps3_sas_transport.h: 9 linux/version.h not needed.
-   ./drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c: 9 linux/version.h not needed.
+   ./drivers/net/ethernet/nebula-matrix/m1600/common.h: 12 linux/version.h not needed.
+   ./drivers/net/ethernet/nebula-matrix/m1600/txrx.c: 9 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 10 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/huawei/hifc/hifc_knl_adp.h: 23 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
    ./drivers/scsi/sssraid/sssraid_fw.c: 6 linux/version.h not needed.
    ./drivers/scsi/sssraid/sssraid_os.c: 6 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
    ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+>> ./drivers/ub/urma/ubcore/ubcore_main.c: 28 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
+   ./fs/eulerfs/euler.h: 20 linux/version.h not needed.
+   ./fs/eulerfs/euler_common.h: 25 linux/version.h not needed.
    ./fs/proc/etmem_scan.c: 13 linux/version.h not needed.
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 15 linux/version.h not needed.
+   ./kernel/bpf/syscall.c: 20 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
    ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/lib/bpf/libbpf_sched.h: 19 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
    ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
    ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
    ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
    ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
