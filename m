@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575322773CB;
-	Thu, 11 Dec 2025 03:07:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9918285418
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 03:07:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765422454; cv=none; b=Hn/siHSsAbsIW99ru9S5PLdDsQkanVtpSBMdvQNvYHuyAucLNjY+5ttgSUdvGnCAGtxD3ZbF8p4OOS8pEh5LC+3agqkvg5fi93f6h7YzsXq1/onAf8iSTnfldg+U4tiEZlUH6I3LdZ5LWtq/XlbU/K5W/UQMXA56L76J670HCtU=
+	t=1765422455; cv=none; b=saZaV5ACLPthZUrSd7vM9Fr5Q7J/HLLoOKa/wZOOXpW+AfNsW5HLosoLgxjjp8OXHutW7dUIbm9qI+F/ZtbvdfLUUoLGP/Ij9zoFheIP0MOsxdEu1rnXuNFOtNVUkCzsn96qxXsFqyiFiNvoyJmlDWrTF5DTdRDswbQpoTQCX2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765422454; c=relaxed/simple;
-	bh=lmnuZYwe7bqC2tN+mipjh87OoRSTAugRjG2pVJ7PtY4=;
+	s=arc-20240116; t=1765422455; c=relaxed/simple;
+	bh=0P3gVT526+8T2tKiXyJyzJD6shgjdPkzfie2ZfE+6ck=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bqfY93NhjajP2b7zwc2sRgLqn6fWOXfSIAze/9Vqdf9oaeXo+U9wH0QQIM6Ff0fZspbFLeTlI9IpCtClcbpXwG1BbwhtMLgyKtPhc35rqJ6eCisqueQP965HBrCha2x5NRspu/mar+8YTVATNSfBP9JlmUWnswkr6507AZThx2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AacWQ4JF; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=a1ACbiLNVQB1y/4CCKT6E13vgTiyoAIvCZrH52lXKmLhCJKOp/Jyh/AmWFtj3y4zYmwXH4AtjoiZ98zQL1AsUBY7Iowd0KVhZGBtHykMM8/DAXg097fCmdGmqFp4EAx99FvGrPwvzniAXCiU2wWBn1vaOVxo2WG1aJ9dFRbUT+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WdKjam4M; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AacWQ4JF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WdKjam4M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765422453; x=1796958453;
+  t=1765422454; x=1796958454;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lmnuZYwe7bqC2tN+mipjh87OoRSTAugRjG2pVJ7PtY4=;
-  b=AacWQ4JFYD+2WpSXT9a9mrsh50pYmaejprs301vK6UkH6tVTaCquOOrN
-   24SpLA2BdbG97t9IL6wDqyQDU2vE8C65WsMGPthBAWboOUqpXp0UiFl61
-   YRwqxwTu74bhrr6J+9vobSHqR7BgcfnkfoPCtQDeyzey8UpVZmwcZDEdu
-   2y/Q44t3x6dS4xixHBcfygplkieAEJHixyHKnu50+KCMTJo3B87O3Hjxl
-   yoHOa8fgOazfOmeRYA9hENjEKhZTylbfsp9BD8geVgI5djRX1RUnUTFUm
-   vKzuwDLdKa3SiG+lKuNxFNZhtMV358LoF5DoD0MxVhaOGOR5JpPe5inu6
-   A==;
-X-CSE-ConnectionGUID: y7IoYBunS0GQceLK9FVL+Q==
-X-CSE-MsgGUID: mevuuGEqT4iaDCroh7oDsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67337973"
+  bh=0P3gVT526+8T2tKiXyJyzJD6shgjdPkzfie2ZfE+6ck=;
+  b=WdKjam4MPS7IS8zr+9wpwGS+ghkq2Qo1LD1gD3SJc12We3R6Xe3BPvD2
+   KtHxZeN3mvFWkO4e93OluogShm4MvzpCFE1tBTHxEIhEvoyb+Us5h1By5
+   XLR+rl8UGQPQnAkQvZd8YlFT/J9JzRomM26Zlynpc3YMgjgPAasPWbHWU
+   yfNpCVyhBywvzfN9/O700e6yU1AOahQ6kdtSKxObfyYCnw79sqSaWfrMM
+   xyxNv9Bk7sM8RxkSptN2Uza4EpiUMWzgStdwWOpkhCgkaIS69CP8MoF17
+   3M7E4J+QJ5WdUcpSuVQO9gI1YQu2Dxit3QWiOM6a9yxynnZrqE2uifRuD
+   g==;
+X-CSE-ConnectionGUID: HzsJm6R/RNO8CQQnm4WxDg==
+X-CSE-MsgGUID: FJ0RAcHwTpigMYa6wwWlCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67337975"
 X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67337973"
+   d="scan'208";a="67337975"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 19:07:31 -0800
-X-CSE-ConnectionGUID: HYdoxkFXT7WGaaGcEBGxiw==
-X-CSE-MsgGUID: khOKHuQ4Qf6SUIj4sHcMeQ==
+X-CSE-ConnectionGUID: +M1NDxF3SlmjDn8+zWrVGw==
+X-CSE-MsgGUID: d74zju66TyynALVC5U5FBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="201605497"
+   d="scan'208";a="201605499"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 10 Dec 2025 19:07:29 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTX1b-0000000045V-1oZY;
+	id 1vTX1b-0000000045Z-23cW;
 	Thu, 11 Dec 2025 03:07:27 +0000
-Date: Thu, 11 Dec 2025 11:07:11 +0800
+Date: Thu, 11 Dec 2025 11:07:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:keys-pqc 5/5]
- crypto/asymmetric_keys/rsassa_parser.c:134:49: warning: variable 'ret' is
- uninitialized when used here
-Message-ID: <202512111141.S4lpNMtP-lkp@intel.com>
+To: Dai Ngo <dai.ngo@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Anna Schumaker <anna.schumaker@oracle.com>
+Subject: net/sunrpc/debugfs.c:78:21: sparse: sparse: cast removes address
+ space '__rcu' of expression
+Message-ID: <202512111156.M7LoiNpq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,88 +63,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
-head:   36c9b1b46c63798cb54fac7ece3c85a1a02e0dc2
-commit: 36c9b1b46c63798cb54fac7ece3c85a1a02e0dc2 [5/5] Add RSASSA-PSS support (RFC8017)
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251211/202512111141.S4lpNMtP-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111141.S4lpNMtP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8c8081cc599fcafa25371d50959c17e154f9fd08
+commit: bb504321b96550f9a351920e169de141a3f4c6a1 SUNRPC: display total RPC tasks for RPC client
+date:   11 months ago
+config: i386-randconfig-r112-20251211 (https://download.01.org/0day-ci/archive/20251211/202512111156.M7LoiNpq-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111156.M7LoiNpq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512111141.S4lpNMtP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512111156.M7LoiNpq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/sunrpc/debugfs.c:78:21: sparse: sparse: cast removes address space '__rcu' of expression
 
->> crypto/asymmetric_keys/rsassa_parser.c:134:49: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     134 |                 pr_debug("Unsupported MaskGenAlgorithm %d\n", ret);
-         |                                                               ^~~
-   include/linux/printk.h:636:26: note: expanded from macro 'pr_debug'
-     636 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:270:22: note: expanded from macro 'dynamic_pr_debug'
-     270 |                            pr_fmt(fmt), ##__VA_ARGS__)
-         |                                           ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   crypto/asymmetric_keys/rsassa_parser.c:107:9: note: initialize the variable 'ret' to silence this warning
-     107 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+vim +/__rcu +78 net/sunrpc/debugfs.c
 
-
-vim +/ret +134 crypto/asymmetric_keys/rsassa_parser.c
-
-   102	
-   103	int rsassa_note_maskgen_algo(void *context, size_t hdrlen, unsigned char tag,
-   104				     const void *value, size_t vlen)
-   105	{
-   106		struct rsassa_parse_context *ctx = context;
-   107		int ret;
-   108	
-   109		ctx->rsassa->maskgen_algo = ctx->last_oid;
-   110		if (!ctx->params)
-   111			pr_debug("MGF-ALGO %u %*phN\n",
-   112				 ctx->rsassa->maskgen_algo, ctx->params_len, ctx->params);
-   113		else
-   114			pr_debug("MGF-ALGO %u\n",
-   115				 ctx->rsassa->hash_algo);
-   116	
-   117		switch (ctx->rsassa->maskgen_algo) {
-   118		case OID_id_mgf1:
-   119			if (!vlen) {
-   120				pr_debug("MGF1 missing parameters\n");
-   121				return -EBADMSG;
-   122			}
-   123	
-   124			ret = asn1_ber_decoder(&mgf1_params_decoder, ctx,
-   125					       ctx->params, ctx->params_len);
-   126			if (ret < 0) {
-   127				pr_debug("MGF1 parse failed %d\n", ret);
-   128				return ret;
-   129			}
-   130			ctx->rsassa->maskgen_hash = ctx->mgf1_last_oid;
-   131			break;
-   132	
-   133		default:
- > 134			pr_debug("Unsupported MaskGenAlgorithm %d\n", ret);
-   135			return -ENOPKG;
-   136		}
-   137	
-   138		ctx->params = NULL;
-   139		return 0;
-   140	}
-   141	
+    70	
+    71	static void
+    72	tasks_stop(struct seq_file *f, void *v)
+    73		__releases(&clnt->cl_lock)
+    74	{
+    75		struct rpc_clnt *clnt = f->private;
+    76		spin_unlock(&clnt->cl_lock);
+    77		seq_printf(f, "clnt[%pISpc] RPC tasks[%d]\n",
+  > 78			   (struct sockaddr *)&clnt->cl_xprt->addr,
+    79			   atomic_read(&clnt->cl_task_count));
+    80	}
+    81	
 
 -- 
 0-DAY CI Kernel Test Service
