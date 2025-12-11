@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F259E2F290E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 12:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0D678F2E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 13:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765457690; cv=none; b=lyzXIgzudvlNYuopQBX008f+XohOotHVeeqVCYq0NhPMrppZEv3jrIIALHljkRpvYmZl2XzKkFMUcc/WULU15zXGKyuGj6I5VnT+DZvSNfmJ+eSAGXhvSCCggAiHWcxe/ieHrp6OTD9Tkb2uWlJGsGJkyChtKXJQ0eCFydvX59M=
+	t=1765458050; cv=none; b=pceNKDMpPeRgEkoyEUpVndVmo0fnbxH15KsbFXKlVAVrfDdiprnn0TrQ0hDnwa3WR6OjbRhO7Qh0ogBvFosTEDWMEhAp+Y4hqkEwF91snPIVxr2MvfgocanohEpmmliFdizPYFQFca5v+SzzlWpW/uGOskgH2adwnc0MrMR+mEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765457690; c=relaxed/simple;
-	bh=THtOe3dcvPny7ZtoueA9DFhK+ewKhI58xIjuZANujNk=;
+	s=arc-20240116; t=1765458050; c=relaxed/simple;
+	bh=E3aT9NDIcmw4WOvkDyDGiha9Nhk5Zxn5IgooNJ9FNw4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XOxtll8pFa3FVhlRbRKg5iVfVAs39o/TvJkW9NfWjTbXpmg/5Xc1YL+4sKP6EJqBINzgbD2kmAR/gx+RA38xO2/zaBr+/rAPUCW/YojW2t4K7qE3+26GuQ5kS2h23B+UfKilUlFWMwSU+R/Zw32sR8h5gcVZS2iItuuE5Ok+pxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cOCHUlm8; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=aorLZPrU6K41pUvfW+jQvhL2yVelcn9IJ+miy0Dw+1LBJysepUSk6kyfo4gi2xKLUDji6Rr7N5kdaIt7SwmySqlac8n4oL+SnA2ynI1d4KL/cptWubh7V3ja8AHM7Hx/TWGG9rIMHlw+1wrXuSFakhoJye9jwLo3avEB9TzV4ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AppkBcRy; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cOCHUlm8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AppkBcRy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765457687; x=1796993687;
+  t=1765458048; x=1796994048;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=THtOe3dcvPny7ZtoueA9DFhK+ewKhI58xIjuZANujNk=;
-  b=cOCHUlm8nJu5ERr1TNu+Tj0e2TNQR0wH3x5c2aVp6M7ydumBCv5xhNCK
-   +cI+dpmy7xBTaoyuCvKxguOg3LznUq2EgvOcL8O+PZTazxrdKb1QyiADB
-   S0t9PENbLwWh0ccZiIdIDfybC6g7xNINPYW6WKj3FOsMEaMb1CAcLdxMJ
-   aGHeE3YehKpV8XDD729Olx0eyYlHc6h6FE1vG9zf7uO6g8s0BJ7xdR9RG
-   aevaygETJXDYnpJpSaZcruvRAvI8c7+81tLg2zJFA7KsMrZQsSNXdbUAX
-   mHTSorrPVSyPQIgYQNJnFByIcuyChUhUCiUa2bo1SA3n84IzBpdxXh0Mj
-   A==;
-X-CSE-ConnectionGUID: CENTJrebTDiLXkS0wRau2g==
-X-CSE-MsgGUID: WYop52tYQ5GQJ9D5M990Tw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="84846430"
+  bh=E3aT9NDIcmw4WOvkDyDGiha9Nhk5Zxn5IgooNJ9FNw4=;
+  b=AppkBcRy8vzO7HLJ9MraraX9d7CiVXoWC3lBH77WGP48DXTlZMZhgrXo
+   DHpjpJBjVDjEntYc+OJdhU6t9Mwh0Lsn3ImYe53mHHW07Y5QEiaun02Xc
+   GBmIhQSgW/O81JXqyKRMvL+QPzai0KOlgmoyi8feqTgJXQdZn1L5HmgKE
+   J+iXXkqxAeSPxKILt550RIUtKwwwNYFfu7ubnl/S3voxDaYaMj+Q+fh0H
+   PsxhJB1VaBOBXAwWXhDMBuTqlpv846iPZ6utxAw9PcksXJBUzxwT4SgE0
+   i8uevbA761sDgsUh4Co1FWrOgagGGHUzqjikpsiRW1diXTPOgaBZdMMx+
+   w==;
+X-CSE-ConnectionGUID: 3yi7zuq1Snyda0VIc3xWVA==
+X-CSE-MsgGUID: ieZI5wYxSdKj47ZYZo3VNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67609111"
 X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="84846430"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 04:54:47 -0800
-X-CSE-ConnectionGUID: S8vqUzu7TC+0wwHWg39Xtw==
-X-CSE-MsgGUID: xLmhqUNTRRGw6u8U/C5kLQ==
+   d="scan'208";a="67609111"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 05:00:48 -0800
+X-CSE-ConnectionGUID: kEn5NjG5TgOzRXloRVOquQ==
+X-CSE-MsgGUID: u6zaRiNWSC6iOZVOQXpoew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="196796624"
+   d="scan'208";a="197272609"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 11 Dec 2025 04:54:47 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 11 Dec 2025 05:00:47 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTgBw-0000000015o-2pVP;
-	Thu, 11 Dec 2025 12:54:44 +0000
-Date: Thu, 11 Dec 2025 13:53:47 +0100
+	id 1vTgHk-00000000160-3QdD;
+	Thu, 11 Dec 2025 13:00:44 +0000
+Date: Thu, 11 Dec 2025 14:00:38 +0100
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3534/3534] kernel/dma/contiguous.c:209:13:
- warning: no previous prototype for function 'is_zhaoxin_kh40000'
-Message-ID: <202512111317.lY52m2Gz-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-6.6-CWF-RDT-ANBZ24559 0/25] htmldocs:
+ ./mm/ksm.c:146: warning: Function parameter or member 'CK_KABI_RESERVE(1'
+ not described in 'ksm_scan'
+Message-ID: <202512111404.vA9djsot-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,76 +63,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi leoliu-oc,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5930fa3740c518a9f6ba688fd0c1873d6f3adbce
-commit: 8eaba08b2d72718a40cafe3402ab4f26b0dc62eb [3534/3534] x86/cpu/zhaoxin: Encapsulate access to global variables within functions
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251211/202512111317.lY52m2Gz-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4125e73cdc6188cca4c1c72b72e2b2d85c157483)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111317.lY52m2Gz-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-RDT-ANBZ24559
+head:   443d7ee63a13180e69479cd694f03a167a87da2e
+commit: ef314e56b70f4662163f3e1e094bcfa9627674c5 [0/25] anolis: kabi: reserve some space for kABI
+reproduce: (https://download.01.org/0day-ci/archive/20251211/202512111404.vA9djsot-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512111317.lY52m2Gz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512111404.vA9djsot-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from <built-in>:3:
-   In file included from ././include/linux/compiler_types.h:150:
-   ./include/linux/compiler-clang.h:33:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      33 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:367:9: note: previous definition is here
-     367 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   In file included from kernel/dma/contiguous.c:48:
-   In file included from ./include/linux/memblock.h:12:
-   In file included from ./include/linux/mm.h:2235:
-   ./include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   ./include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   ./include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   ./include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> kernel/dma/contiguous.c:209:13: warning: no previous prototype for function 'is_zhaoxin_kh40000' [-Wmissing-prototypes]
-     209 | bool __weak is_zhaoxin_kh40000(void)
-         |             ^
-   kernel/dma/contiguous.c:209:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     209 | bool __weak is_zhaoxin_kh40000(void)
-         | ^
-         | static 
-   7 warnings generated.
+   Error: Cannot open file ./include/linux/livepatch.h
+   Error: Cannot open file ./include/linux/seqlock.h
+   Error: Cannot open file ./include/linux/damon.h
+   Error: Cannot open file ./include/linux/highmem.h
+   Error: Cannot open file ./include/linux/highmem-internal.h
+>> ./mm/ksm.c:146: warning: Function parameter or member 'CK_KABI_RESERVE(1' not described in 'ksm_scan'
+   Error: Cannot open file ./include/linux/migrate.h
+   Error: Cannot open file ./include/linux/ethtool.h
+   Error: Cannot open file ./include/linux/ethtool.h
+   Error: Cannot open file ./include/linux/ethtool.h
+   Error: Cannot open file ./include/linux/ethtool.h
 
 
-vim +/is_zhaoxin_kh40000 +209 kernel/dma/contiguous.c
+vim +146 ./mm/ksm.c
 
-   208	
- > 209	bool __weak is_zhaoxin_kh40000(void)
-   210	{
-   211		return false;
-   212	}
-   213	
+31dbd01f314364 Izik Eidus   2009-09-21  128  
+31dbd01f314364 Izik Eidus   2009-09-21  129  /**
+31dbd01f314364 Izik Eidus   2009-09-21  130   * struct ksm_scan - cursor for scanning
+31dbd01f314364 Izik Eidus   2009-09-21  131   * @mm_slot: the current mm_slot we are scanning
+31dbd01f314364 Izik Eidus   2009-09-21  132   * @address: the next address inside that to be scanned
+6514d511dbe5a7 Hugh Dickins 2009-12-14  133   * @rmap_list: link to the next rmap to be scanned in the rmap_list
+31dbd01f314364 Izik Eidus   2009-09-21  134   * @seqnr: count of completed full scans (needed when removing unstable node)
+31dbd01f314364 Izik Eidus   2009-09-21  135   *
+31dbd01f314364 Izik Eidus   2009-09-21  136   * There is only the one ksm_scan instance of this cursor structure.
+31dbd01f314364 Izik Eidus   2009-09-21  137   */
+31dbd01f314364 Izik Eidus   2009-09-21  138  struct ksm_scan {
+21fbd59136e077 Qi Zheng     2022-08-31  139  	struct ksm_mm_slot *mm_slot;
+31dbd01f314364 Izik Eidus   2009-09-21  140  	unsigned long address;
+21fbd59136e077 Qi Zheng     2022-08-31  141  	struct ksm_rmap_item **rmap_list;
+31dbd01f314364 Izik Eidus   2009-09-21  142  	unsigned long seqnr;
+ef314e56b70f46 Guixin Liu   2024-08-26  143  
+ef314e56b70f46 Guixin Liu   2024-08-26  144  	CK_KABI_RESERVE(1)
+ef314e56b70f46 Guixin Liu   2024-08-26  145  	CK_KABI_RESERVE(2)
+31dbd01f314364 Izik Eidus   2009-09-21 @146  };
+31dbd01f314364 Izik Eidus   2009-09-21  147  
+
+:::::: The code at line 146 was first introduced by commit
+:::::: 31dbd01f314364b70c2e026a5793a29a4da8a9dc ksm: Kernel SamePage Merging
+
+:::::: TO: Izik Eidus <ieidus@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
