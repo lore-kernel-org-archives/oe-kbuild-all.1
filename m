@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1B128F5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 04:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B4C28F5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 04:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765428222; cv=none; b=hmwTbzFAEb1WGagTV8tD/3pka/04vkjhnTkDnzXxl5Wm+YXJH7amhCn3Jp7Lb7+kKFhj0UQ80yLT5oxzTmz+29FvT2nSdHLEGh2B/1GC43yUyqoUAWnxC+bcSXB/XWo1YVExBlvXxftvrPXjC+cc+aG2cjNWx8Ot4seF636dREs=
+	t=1765428282; cv=none; b=UeJErXU1jAtDQmZhx/JPtoAb4p6MqPlEGzNmwSs8gJI+lD8pWq1fy//gronwyen9UwHaih8RHBshaU61m6RqBSET4j/eNpH8GGAqlXyZU9m70hpVCAWCSd8h0s2qeGhxttzWq7ctpdNBG096hh/rEQGgKuyu1o7wf0vIYauynDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765428222; c=relaxed/simple;
-	bh=pt15rKh7l2kQlaR/ESa3fi496EW1a+rriz9TnSL0U60=;
+	s=arc-20240116; t=1765428282; c=relaxed/simple;
+	bh=Z/81l8TfT4/3O4Oxsu71S/4wevrkjE42p1YIbVmQxSo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HuSJ/FV2IVfzr0lnx6CklyfHhEgrV6SXYDacEUXm8ipY5pq6HTvXVCgBAuxyU1qnXTt6ykyV7wQuTN+/kBe1O0VRqXC6uB2a2f6YSNlJRhhsTsnHMyURwv3uQzIBYJ23CumIRnN9gSVC2H6k1I5MgX2BThud0kuWDKQ3AfXyeyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mHaK5oaY; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=fd1QAdtkC/dEbL8pQ8q+vICgCXMpGWt/y2uni4AbSd3mpjVhvSsRM4Xpu+W2OjGbRzRtTZsTRpyfKCCO3B/7fRxUzLzgX2pFriuH04rsDQiSDIFGtzktLC4FOL2AaYcID0ZmlOBcpy4sh0xSHQcDKlHuTJTuuWvTVSCklPi9AGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jyLl4a25; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHaK5oaY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jyLl4a25"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765428220; x=1796964220;
+  t=1765428281; x=1796964281;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pt15rKh7l2kQlaR/ESa3fi496EW1a+rriz9TnSL0U60=;
-  b=mHaK5oaYlf871D+8wJNTS3er7RbfgwXJ17tlTyfMH9Kyei1+6UJEt0QD
-   o8aTaAZdXGwJ6181b2yizeBeC0NP4Pa9LiKmWcTy45+R64qO+TqJNzGuU
-   jxAHavbpMFeDcX1nuqjPKG5yx5TgUDszzDpQj29TcmkSJRoghfh0MoPVh
-   st3smcvhqRfk/7+ZQ7dss+DBJsbFXBQUic680XsUVpIBIZxQFRT3i7W6R
-   LOeKHJ935nATfo+mQuPDPuPKqacpOl/QHweyNvCa2ObDTRpBG6uRXptvy
-   4ZuxZ99Hsl1kRHoPT/+TA705+QuvyoyvjwgWB/4Y+1YhVfFxEKjV1R2nS
-   A==;
-X-CSE-ConnectionGUID: l1AH8DbQRNGmWqnxcwD01w==
-X-CSE-MsgGUID: Y4LVlfMKTYuxZqJuU6NdkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="67365819"
+  bh=Z/81l8TfT4/3O4Oxsu71S/4wevrkjE42p1YIbVmQxSo=;
+  b=jyLl4a25szBllFvP7MAFZfPoMjco/r0LIyuhNnB65NSBX7iwgvUZKzS4
+   QIyFgN+CxhmB3UdgXhIK5UQ+0BCA3eR7sHZZSEUZCC7nxkCj8MlUKP0++
+   ggMkhui9MOA8cJIfhqTR2goh8uWtHhm33imtfEbFejSRnlE9rNhEpt1TD
+   MZe5lC/97rRuAJR7Xx7yLabRq4r2KVa1QZY3o3Yg6ZJkTn3errl9pt8ss
+   0y/+A7PXfwyyGt3F+1wYunB7xSISautueUAVqH/omJ5vcoVYqGQ1VdFJb
+   U8/sWPWBMb+fBSVaQnye8R9B6x7JRS+3S1M2s2ox3fld3ZOYoHQohx0us
+   Q==;
+X-CSE-ConnectionGUID: 7bW/N2iURq6Vyk/igz6fEw==
+X-CSE-MsgGUID: qbXL4maASUCojf0CPlftmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="67292316"
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="67365819"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 20:43:39 -0800
-X-CSE-ConnectionGUID: LKii14O3T3WUB/b9YMytww==
-X-CSE-MsgGUID: Eo6nkurhTv6KQujS9tFiGw==
+   d="scan'208";a="67292316"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 20:44:40 -0800
+X-CSE-ConnectionGUID: 9HOawqqJTnaoz90yoRqHVA==
+X-CSE-MsgGUID: l1D8AA8DQPSwEMmvRXxpxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="234116325"
+   d="scan'208";a="196300470"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 10 Dec 2025 20:43:38 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 10 Dec 2025 20:44:38 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTYWe-000000000ua-2XMd;
-	Thu, 11 Dec 2025 04:43:36 +0000
-Date: Thu, 11 Dec 2025 05:42:52 +0100
+	id 1vTYXc-000000000ue-2hXC;
+	Thu, 11 Dec 2025 04:44:36 +0000
+Date: Thu, 11 Dec 2025 05:43:54 +0100
 From: kernel test robot <lkp@intel.com>
 To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 3/3] htmldocs: Warning:
- anolis/changelog/changelog.5.10.134-17 references a file that doesn't exist:
- Documentation/dax
-Message-ID: <202512110529.Gb1xrH9y-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-6.6-CWF-RDT-ANBZ24559 0/25] htmldocs:
+ Documentation/core-api/symbol-namespaces.rst:101: WARNING: Inline emphasis
+ start-string without end-string. [docutils]
+Message-ID: <202512110538.8nmCwmkq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,33 +63,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Qinyun,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   31d0ea3bf1bd93e960f341e4da1ff033eacefab2
-commit: fe8f11ee359281843344fa5de03bb89360319831 [3/3] anolis: sync changelog from release branch.
-reproduce: (https://download.01.org/0day-ci/archive/20251211/202512110529.Gb1xrH9y-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-RDT-ANBZ24559
+head:   443d7ee63a13180e69479cd694f03a167a87da2e
+commit: adb29b437fe58d41bd5d4a5c3d63bf1bb02f0877 [0/25] module: Provide EXPORT_SYMBOL_GPL_FOR_MODULES() helper
+reproduce: (https://download.01.org/0day-ci/archive/20251211/202512110538.8nmCwmkq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512110529.Gb1xrH9y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512110538.8nmCwmkq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/userspace-api/ioasid.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/networking/device_drivers/ethernet/wangxun/ngbe.rst
-   Warning: anolis/changelog/000-changelog.base references a file that doesn't exist: Documentation/filesystem/dax
->> Warning: anolis/changelog/changelog.5.10.134-17 references a file that doesn't exist: Documentation/dax
-   Warning: anolis/rpm/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
-   Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/user-interrupts.rst
-   Warning: drivers/irqchip/Kconfig references a file that doesn't exist: Documentation/loongarch/irq-chip-model.rst
-   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  ./Documentation/ABI/testing/sysfs-bus-iio:394
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/mm.h' failed with return code 2
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/page_ref.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/mmzone.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/padata.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -function printk -function pr_emerg -function pr_alert -function pr_crit -function pr_err -function pr_warn -function pr_notice -function pr_info -function pr_fmt -function pr_debug -function pr_devel -function pr_cont ./include/linux/printk.h' failed with return code 1
+>> Documentation/core-api/symbol-namespaces.rst:101: WARNING: Inline emphasis start-string without end-string. [docutils]
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/workqueue.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/xarray.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -function Block Cipher Algorithm Definitions ./include/linux/crypto.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -function crypto_alg -function cipher_alg -function compress_alg ./include/linux/crypto.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -function ASSERT_EXCLUSIVE_WRITER -function ASSERT_EXCLUSIVE_WRITER_SCOPED -function ASSERT_EXCLUSIVE_ACCESS -function ASSERT_EXCLUSIVE_ACCESS_SCOPED -function ASSERT_EXCLUSIVE_BITS ./include/linux/kcsan-checks.h' failed with return code 1
+
+
+vim +101 Documentation/core-api/symbol-namespaces.rst
+
+   100	
+ > 101	  EXPORT_SYMBOL_GPL_FOR_MODULES(preempt_notifier_inc, "kvm,kvm-*")
+   102	
 
 -- 
 0-DAY CI Kernel Test Service
