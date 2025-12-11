@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2875721CA0D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 04:03:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3ABD2BE7AB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 04:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765425815; cv=none; b=DELY8S/HEHJq2zMmlbdr7VE5bIQTLErjQT4TuYCueZcMMUhJKkoy1csgu2s25daF6ilAUcBYeztv7/qRBFpbVW4xkAoNG3s4cgwIDnb04Gu1zlnjCy0/slbv/NEAyMlep3G/lZC4aZrr5i2+PxmNFO+Ty21jDCXU2yTawt2fJUc=
+	t=1765425817; cv=none; b=OeOL3sCtxupmHiS5waewpIQeWW98PWi3uw+uk+j8Lwq/u/W1eMUVi9HUfW+3LNz10ekbf2abW8RCY6AfYfeGUhb9LepWfOxX0EAcr+idP4UGCEeWlNntUXpjud2Nd8OIcR8PxCZCUIDRbHuI326QM4Tbn7iWD3u1oEFp+m5g9fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765425815; c=relaxed/simple;
-	bh=8tl31TuE3faPm94M5reX7MHAtxutTvlprd5vXyPjWTU=;
+	s=arc-20240116; t=1765425817; c=relaxed/simple;
+	bh=+64fszcoXQZlbd4wadN2e42J5Un+H8RmLRqK9GgXgRg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Lgyhage1aH85W2VN8LHvDpB/AxnHsfUQcAddRMXdBofAjvbE4RTorw5lHveSiv2pK2w2UaR3witKSCc56b/jNkvd3+0rFvFDqD4AiGjjPImMkk4jA7MkJkaPo+yO9sDhhiaH3w8qm2gmhy4AMuOuMPuVozXLSHwQ1jMZGz99Nm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E43/NstJ; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=IRw2OC37XT93ZMdxR7MDdbNxz6eoQ6swDQcDSfgvLP+hRNCSBv9OtXU61BxOurrtAhNAS1/Et394DoNQQXBBX36me6Pt3wDJd+K+X2ybZ3Se6uWgJ3eVtKpFibDGh0WSmRANVuyfb/XxmOhqQIozohbp+Wb7Pwdvm3WpaFly1BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QeyHNqBz; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E43/NstJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QeyHNqBz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765425814; x=1796961814;
+  t=1765425816; x=1796961816;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8tl31TuE3faPm94M5reX7MHAtxutTvlprd5vXyPjWTU=;
-  b=E43/NstJx9Z3PB1qE4Wrp7KMPEWY3mYRzcXJBAiVNRySv9SnNjeaFgNQ
-   2ASMWmZMWK2A1ka8XqGXzUhEgHCB1CXzCsCQEyGLKya0yeWulYLN4glWt
-   zhxlGpA84p73Talr81OzgfUWIopKlVwQHzfqcw86jkWjb99AQLOrlHKY9
-   sGORJ+v+88qNAdC4NH2jAkgVxNMRIOJbxTbvKarLqDC+gAEaJ9ThkacF6
-   sGtxaqqWuO0VJdp8C75HpHrUO/0ihmso2o4llc81KTzDOV6fgmveOsOzA
-   1lbFUxfPXGH4A5A4xEANcw14A5I6ZhPo2zifi0wsfk7XZ7wWl0XuGXaHo
+  bh=+64fszcoXQZlbd4wadN2e42J5Un+H8RmLRqK9GgXgRg=;
+  b=QeyHNqBz6EC5xpWmQn8axntWlk1GcTY/w0SHXhazUO9iy2bXD14TY7kJ
+   KbgEX3Lrv7hiXCMyJR0A6tloYhqSxZgFvCVYc0M4iGaSM2Ju+PeOhidfp
+   81pxuFMOujzi3+6uNl7xUEeyKcIfm1A6+dbXGt6kcfKdIZarfv1+GcdB3
+   0zyyh9qGFKCfc4SmoIrApmJBQvEXXTMDppWSuM9Ytsbyfz+HGG/okR+8Q
+   6NvAeKc2ToImLYiyGbDmEnlhmlUH8d8WvaqZCHuIFPSMNgxiXeNJSi1vX
+   otiOzhJlnoxhuJJ4mUCBesRsECAHv9sSHzy0zSg0VRD9g4AxaEZoeE5mC
    A==;
-X-CSE-ConnectionGUID: jnR+/AmyRRa920i5kerRcg==
-X-CSE-MsgGUID: xvhfI4boQLu6jgzFPKntBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="85011451"
+X-CSE-ConnectionGUID: ZiPkN45yROSBLBdu/0wjHw==
+X-CSE-MsgGUID: j4amPr7rQJ2iGCNPx+p28Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="85011452"
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="85011451"
+   d="scan'208";a="85011452"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 20:03:33 -0800
-X-CSE-ConnectionGUID: 7dVw88TMTcSvSqt0CZkM/Q==
-X-CSE-MsgGUID: Kucsm++VTvu7QCObLvL4Ng==
+X-CSE-ConnectionGUID: hpHpyMCVSTWTceqHzEEw4w==
+X-CSE-MsgGUID: BSYG7o+tT3Cfd5Q6Kbzsmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="201787123"
+   d="scan'208";a="201787122"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 10 Dec 2025 20:03:32 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTXtp-0000000048D-344q;
+	id 1vTXtp-0000000048F-3BTB;
 	Thu, 11 Dec 2025 04:03:29 +0000
-Date: Thu, 11 Dec 2025 12:02:43 +0800
+Date: Thu, 11 Dec 2025 12:02:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1]
- kernel/sched/pelt.c:497:5: warning: no previous prototype for
- 'sched_pelt_multiplier'
-Message-ID: <202512111216.m2RRDz2Q-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 0/5] net/smc/smc_wr.c:87:33: warning:
+ variable 'wr_id' set but not used
+Message-ID: <202512111210.sWkL34f8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,65 +62,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   1594e8fdf0af3790482e1d7e4d4dd3e5166f4f22
-commit: 2cfadc71a6ece9c1fc4a17475547d1a0692687d1 [1/1] FROMLIST: sched/pelt: Introduce PELT multiplier
-config: x86_64-buildonly-randconfig-005-20251211 (https://download.01.org/0day-ci/archive/20251211/202512111216.m2RRDz2Q-lkp@intel.com/config)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   38743d2d77ee27e7fe97c7ef81b8643365903536
+commit: 48dc03c645d04247e6ffd2aa607af4c9ea9f52de [0/5] anolis: net/smc: Support Rdma Write with Imm for SMC-R
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251211/202512111210.sWkL34f8-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111216.m2RRDz2Q-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111210.sWkL34f8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512111216.m2RRDz2Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512111210.sWkL34f8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:56:
->> kernel/sched/pelt.c:497:5: warning: no previous prototype for 'sched_pelt_multiplier' [-Wmissing-prototypes]
-     497 | int sched_pelt_multiplier(const struct ctl_table *table, int write, void *buffer,
-         |     ^~~~~~~~~~~~~~~~~~~~~
+   net/smc/smc_wr.c: In function 'smc_wr_tx_process_cqe':
+>> net/smc/smc_wr.c:87:33: warning: variable 'wr_id' set but not used [-Wunused-but-set-variable]
+      87 |         union smc_wr_rwwi_tx_id wr_id;
+         |                                 ^~~~~
+--
+   net/smc/smc_tx.c: In function 'smcr_tx_rdma_writes':
+>> net/smc/smc_tx.c:588:13: warning: variable 'src_len_sum' set but not used [-Wunused-but-set-variable]
+     588 |         int src_len_sum = src_len, dst_len_sum = dst_len;
+         |             ^~~~~~~~~~~
 
 
-vim +/sched_pelt_multiplier +497 kernel/sched/pelt.c
+vim +/wr_id +87 net/smc/smc_wr.c
 
-   496	
- > 497	int sched_pelt_multiplier(const struct ctl_table *table, int write, void *buffer,
-   498				  size_t *lenp, loff_t *ppos)
-   499	{
-   500		static DEFINE_MUTEX(mutex);
-   501		unsigned int old;
-   502		int ret;
-   503	
-   504		mutex_lock(&mutex);
-   505		old = sysctl_sched_pelt_multiplier;
-   506		ret = proc_dointvec(table, write, buffer, lenp, ppos);
-   507		if (ret)
-   508			goto undo;
-   509		if (!write)
-   510			goto done;
-   511	
-   512		switch (sysctl_sched_pelt_multiplier)  {
-   513		case 1:
-   514			fallthrough;
-   515		case 2:
-   516			fallthrough;
-   517		case 4:
-   518			WRITE_ONCE(sched_pelt_lshift,
-   519				   sysctl_sched_pelt_multiplier >> 1);
-   520			goto done;
-   521		default:
-   522			ret = -EINVAL;
-   523		}
-   524	
-   525	undo:
-   526		sysctl_sched_pelt_multiplier = old;
-   527	done:
-   528		mutex_unlock(&mutex);
-   529	
-   530		return ret;
-   531	}
-   532	
+    83	
+    84	static inline void smc_wr_tx_process_cqe(struct ib_wc *wc, bool is_rwwi)
+    85	{
+    86		struct smc_wr_tx_pend pnd_snd;
+  > 87		union smc_wr_rwwi_tx_id wr_id;
+    88		struct smc_link *link;
+    89		u32 pnd_snd_idx;
+    90	
+    91		link = wc->qp->qp_context;
+    92		if (is_rwwi) {
+    93			wr_id.data = wc->wr_id;
+    94			smc_tx_put_free_slot_rwwi(link, true);
+    95			if (wc->status)
+    96				smcr_link_down_cond_sched(link);
+    97			smc_cdc_tx_handler_rwwi(wc);
+    98			goto wake_tx_wait;
+    99		}
+   100	
+   101		if (wc->opcode == IB_WC_REG_MR) {
+   102			if (wc->status)
+   103				link->wr_reg_state = FAILED;
+   104			else
+   105				link->wr_reg_state = CONFIRMED;
+   106			smc_wr_wakeup_reg_wait(link);
+   107			return;
+   108		}
+   109	
+   110		pnd_snd_idx = smc_wr_tx_find_pending_index(link, wc->wr_id);
+   111		if (pnd_snd_idx == link->wr_tx_cnt) {
+   112			if (link->lgr->smc_version != SMC_V2 ||
+   113			    link->wr_tx_v2_pend->wr_id != wc->wr_id)
+   114				return;
+   115			link->wr_tx_v2_pend->wc_status = wc->status;
+   116			memcpy(&pnd_snd, link->wr_tx_v2_pend, sizeof(pnd_snd));
+   117			/* clear the full struct smc_wr_tx_pend including .priv */
+   118			memset(link->wr_tx_v2_pend, 0,
+   119			       sizeof(*link->wr_tx_v2_pend));
+   120			memset(link->lgr->wr_tx_buf_v2, 0,
+   121			       sizeof(*link->lgr->wr_tx_buf_v2));
+   122		} else {
+   123			link->wr_tx_pends[pnd_snd_idx].wc_status = wc->status;
+   124			if (link->wr_tx_pends[pnd_snd_idx].compl_requested)
+   125				complete(&link->wr_tx_compl[pnd_snd_idx]);
+   126			memcpy(&pnd_snd, &link->wr_tx_pends[pnd_snd_idx],
+   127			       sizeof(pnd_snd));
+   128			/* clear the full struct smc_wr_tx_pend including .priv */
+   129			memset(&link->wr_tx_pends[pnd_snd_idx], 0,
+   130			       sizeof(link->wr_tx_pends[pnd_snd_idx]));
+   131			memset(&link->wr_tx_bufs[pnd_snd_idx], 0,
+   132			       sizeof(link->wr_tx_bufs[pnd_snd_idx]));
+   133			if (!test_and_clear_bit(pnd_snd_idx, link->wr_tx_mask))
+   134				return;
+   135		}
+   136	
+   137		if (wc->status) {
+   138			if (link->lgr->smc_version == SMC_V2) {
+   139				memset(link->wr_tx_v2_pend, 0,
+   140				       sizeof(*link->wr_tx_v2_pend));
+   141				memset(link->lgr->wr_tx_buf_v2, 0,
+   142				       sizeof(*link->lgr->wr_tx_buf_v2));
+   143			}
+   144			/* terminate link */
+   145			smcr_link_down_cond_sched(link);
+   146		}
+   147		if (pnd_snd.handler)
+   148			pnd_snd.handler(&pnd_snd.priv, link, wc->status);
+   149	wake_tx_wait:
+   150		if (wq_has_sleeper(&link->wr_tx_wait))
+   151			wake_up(&link->wr_tx_wait);
+   152	}
+   153	
 
 -- 
 0-DAY CI Kernel Test Service
