@@ -1,100 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A371EE7B9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 21:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692F3221FD0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 21:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765488655; cv=none; b=CfD+tuPkhNygqnQoSpamo+NnptbcOXafhOt8y5E1DfVWX2MHp92xIw6mbDKmlftKSI3rdisrzxw8lJA6QLyBp9AAa1T4Kawry0ZdXetXz+4X4StONyKm8Mdl1z8aQLLxz7MajxAuYemycslVsK9A8LQrPAa4amsFB/MAX7GsUJU=
+	t=1765488719; cv=none; b=Qhl4mbqV15enKop9ZT6w/Y6Kkd+jrHgrL3bI1eo4gBrtsNAenpA6V/L/tIjxr3JJkQl1OVE6d+wsi6tScCGUED/ad3ztrJTEqiuowYrqsZgBzCEyp1GPZuAThTKyv15jnwhCaZfQwd0jWCFELyxPbhjvHKdk0W8mHpaJpXMPthM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765488655; c=relaxed/simple;
-	bh=+k/PExYIFS+n6UOrUTDdv4I9sTVvFR61TrOWnnqF898=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dWrbxzNddgqjpuiKIMIAH5C8ZkFSTnC3pLOOwPAeZMZqWPR/JEN/JmvHzhfTAa3FjflQF9difb+hoy/q40tD5VJHeFRYZoH04nVfWliglcgZwEYATW2EENa3kUiMEsm0L7dwsNmYz3NIVj/NLAN8bqfK6gmeGoSFvrj90DBB9tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=keN/sGlG; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765488719; c=relaxed/simple;
+	bh=+8V/Cw0Bh6WMEocnm8c5kr6IwDXC2Uo4UHlqpDCQ0T8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Vcerik35JrPJgR49KOMmCXiDYM0FAzLq5/ZA1bcT61MedrMm6RTIwMVQ6q9UC1L3DtjoCKbez8vmhTown2H9L8zGZBTmfV+gUyr/ozOIUJ7lr9/ljmgRR1pwiDprm0/sCTdIZBp5gPElKColWajs+ZAsafZwjDdHxrK14sXd/+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XROVW0tc; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="keN/sGlG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765488653; x=1797024653;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+k/PExYIFS+n6UOrUTDdv4I9sTVvFR61TrOWnnqF898=;
-  b=keN/sGlGKIC0QvYzvBjmLhBw5/gJM4YkLfZR12pmE4m/+Lt+vbO4Nb7h
-   iBSAwo1LT/SBH94/KKfHy9FY4zZ3w3PjQPbKSe729j0Uzpp5oHNVLMkQb
-   ScpGNztJTKvhNH9PgQmrUtSZMej6rWpzTCmeolcabSZPds0/6kOtZHeIp
-   Bm5DPgiWG/wwA/8DDPXYGsUqrFOyh6kINFcyE58jlNMseyPUmGKXvlPY0
-   J7DOUWTqhutTMg97WoLU54c7sy13veabkB+9+0l+U2kM9PTsh+MN7pktR
-   MczK3Mi0CZ25Ej0ZVueq+KJreY4tkSc3UXftC1jrBXUGPQtZG7PbDB/Gw
-   w==;
-X-CSE-ConnectionGUID: AdwPL266R1u1ebRwv9eluA==
-X-CSE-MsgGUID: eSS4H36YSW+9/pwJ3aBx8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78187810"
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="78187810"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 13:30:53 -0800
-X-CSE-ConnectionGUID: wXKVYGpwRH2rzg0JVrmoZw==
-X-CSE-MsgGUID: +0LNNZoiRdeWHTD8LhaCWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="227962937"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Dec 2025 13:30:52 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vToFO-000000001Ce-0kcj;
-	Thu, 11 Dec 2025 21:30:50 +0000
-Date: Thu, 11 Dec 2025 22:30:17 +0100
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3534/3534] kernel/cpu.c:2684: warning: This
- comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202512112250.VVvi0O0a-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XROVW0tc"
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8824888ce97so7634646d6.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 13:31:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765488716; x=1766093516; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:feedback-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Argb75K7PFGjqTuhZtNNZeNloHzK5kKcxCpxByy6XzI=;
+        b=XROVW0tcMUSXBLciGEEK4ZOPfWp1BefzjOZ+XvxxYFPXrDYZTUQ9mIWXWCwbx4WKYP
+         9ILPRtIrB0H16OOStG+sC3AFP+2qQz/qoPkNXdpPTwrNI28/vH9ZOAlRcYCPuWq6VLye
+         5GUuG329j+fGBSQuBJZvUX9tPOR9ei6e0iQGWluzAc47iEYEpYFRZ6ZNW5Kl+JF6L+I8
+         aQqRbz32dUsKALfL3sAD1E4iLSoRt7B/UhN+Etk5NycSTFI5gkoqaD7HXwwcVoBuPgEy
+         /Y/lwurSyWue470MPtDemoOiZOgo0HdNUGNfwCP6KwJapidYCtgxsrVdv1fT0B75tRcQ
+         UIFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765488716; x=1766093516;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:feedback-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Argb75K7PFGjqTuhZtNNZeNloHzK5kKcxCpxByy6XzI=;
+        b=j/Q7k2/vsurebaB/feXjryclPeoEMxtZ58ZBBDzH+mitQ9qaO+gosAVFrDWULiscvI
+         yIH9AIxND56U5NE+jxLhmU3g5xnR3FrL/SPPJ1SM8EJOxpu2LAhNo+AVjMJ4j22dWUT8
+         in6JbGLf3kgKiKCyBoJ6GeT2/dcp/et6G/8DnMhc4Sl305fKefsQvhWrcASHw4oR0weh
+         P8umStGUrD8T6ZXAy5gYwRbt5mDtDtKZi3xokFayB8PNM4yCpIMWZmE7dzNQEIIYWG3o
+         mOtWP4q7msy06xyEFMz9beacT25Ekoggp7wCGIyovmmE5suE0IzDcl0y34ztTTGy+wsZ
+         Vncw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBKqRSo2ScikeqkHbZcFasGBEsBAQmnWuF592uKVnDI91XUki6th6stWV44F3by39cIDGpkg0Hq9vpxnXE@lists.linux.dev
+X-Gm-Message-State: AOJu0YwR3wYDc5Zk2BC6jpm6FM0uSVHRqebgJsD8jQCS1DiUx4Jvq1or
+	VhhT7nL4jpKZ7z65GqUAM9cR+ZHiXj13cC4SUKp7NEALv3X7xq90LNzt
+X-Gm-Gg: AY/fxX6Z0HXTyBmBCchQoi3VMp5pE9v6/FFlDZmMp2V/S4Er8jW8X8RxLgm4HFdh6pn
+	lORztbAW6KHCJv6OOoR08qalxLhqnJhb4vTpUCisl54noLPfYHvZoOmc95vUVR7ouSFi9iD7WhS
+	e49o41otidujMkFvvxj3OEZstIUuy09nhBB2o49t29MvI2QTQQHFa2kSkb8ddGj4uZvRvIRBRXz
+	rHF0u0BICvvOu+o/q0rxrWzVdJpP64X/qhYtCcr2HFXH5wmjt6zR6xIJ10zaO38fFOAHMHvwYHB
+	kKqMsc9pOKPkWnh+b4eQDRg1OZwmg82jMHKmRMHpxi54uHHkT9Lg7mm/4PBZ2QHsVyVnSMTMf4I
+	hE7QIZLDS39Pl4tmd2f4Ymz45SAFCmHppqFRgVewrt0ezHKoCweC0FyKUj461ze3iSainKXRzvg
+	SJhL1Sa2yOJ5Te4aPF+YBGe5yEe2ViTzcSJt1pMtdgzToaOSvhCS82m86OaLTlAII1CyaqoUOjB
+	gHP1TAInUbJPQM=
+X-Google-Smtp-Source: AGHT+IE9l+7eBLqzvQpUem+VtoKLcnoj4dvB6X0XnQWCEgiLwLnO1jFohKvngZ3bA3ksgKNI1iouRw==
+X-Received: by 2002:ac8:57cf:0:b0:4ed:2ff9:b325 with SMTP id d75a77b69052e-4f1b1b722fbmr103008541cf.59.1765488716247;
+        Thu, 11 Dec 2025 13:31:56 -0800 (PST)
+Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8886ef16adcsm31052836d6.46.2025.12.11.13.31.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Dec 2025 13:31:55 -0800 (PST)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 34ACAF40068;
+	Thu, 11 Dec 2025 16:31:55 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Thu, 11 Dec 2025 16:31:55 -0500
+X-ME-Sender: <xms:Szg7aU96819Jry86OhqY8icvHMeWlvk45tRqLtKctm5bBgJa_OcDZQ>
+    <xme:Szg7aTykvZ06ht-q1oL-0TuiuGH4Kuh-9OgadI5ZgPcWvYMfvKzCfTHaPgPWy3jL1
+    XnYI6PzAcGIRduesnKMWcIByWRzZofWclZSh9fnUyNCaFg6EOF6HRc>
+X-ME-Received: <xmr:Szg7aRv3ZgRfMLw0HhsPxa23M3TSVDD3q3rsFliaAkP8P4e0N4b9WXH0m2QBYh9FrAhUb_esBAFtcCCkOIg13-Jc4B1yDInWRfU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvieeflecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeeuohhquhhnucfh
+    vghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrthhtvg
+    hrnhepgffhffevhffhvdfgjefgkedvlefgkeegveeuheelhfeivdegffejgfetuefgheei
+    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghr
+    shhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvg
+    hngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohep
+    vddupdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehpvghtvghriiesihhnfhhrrg
+    guvggrugdrohhrghdprhgtphhtthhopehmihhnghhosehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehtghhlgieslhhinhhuthhrohhnihigrdguvgdprhgtphhtthhopeifihhllh
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghoqhhunhdrfhgvnhhgsehgmhgrihhl
+    rdgtohhmpdhrtghpthhtohepmhgrrhhkrdhruhhtlhgrnhgusegrrhhmrdgtohhmpdhrtg
+    hpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtohepohhjvggurges
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlvgigrdhgrgihnhhorhesghhmrghilh
+    drtghomh
+X-ME-Proxy: <xmx:Szg7aa0szGI6HWzIwSUqurT_QD0-rUQp6sgGbgQqiLAj3Vwz-t6q5w>
+    <xmx:Szg7aV6BSDUo4HmNwia3h2woheWj50XJcDW4G0BFN6ulZPX2QbCvYw>
+    <xmx:Szg7aUM6kziXWHqMTT63nXI-KHcn4Qg4aHSipuu_W8OnHfZndEZ4dg>
+    <xmx:Szg7aREF-8euH_vlesl6wTc_zsSWrwCSXehFRI-TBfAC_lxnb0MqkQ>
+    <xmx:Szg7aQ0W1sBaO7hh88b93WxPRwb3n-7l-zpBMH21Oa-pbOzDrvjTGsiY>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 11 Dec 2025 16:31:54 -0500 (EST)
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Gary Guo <gary@garyguo.net>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	x86@kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] rust: sync: atomic: Fix fmt warning
+Date: Fri, 12 Dec 2025 06:31:33 +0900
+Message-ID: <20251211213133.56265-1-boqun.feng@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <202512110753.8B3YlvtX-lkp@intel.com>
+References: <202512110753.8B3YlvtX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5930fa3740c518a9f6ba688fd0c1873d6f3adbce
-commit: b36171d783908f2ef26ccfcd757d4954a69955ab [3534/3534] cpu/SMT: Enable SMT only if a core is online
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251211/202512112250.VVvi0O0a-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512112250.VVvi0O0a-lkp@intel.com/reproduce)
+Commit 14e9a18b07ec ("rust: sync: atomic: Make Atomic*Ops pub(crate)")
+introduced an import ordering that rustfmt disagrees with. Hence fix it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512112250.VVvi0O0a-lkp@intel.com/
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/lkml/202512110753.8B3YlvtX-lkp@intel.com/
+Fixes: 14e9a18b07ec ("rust: sync: atomic: Make Atomic*Ops pub(crate)")
+Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+---
+Hi Ingo & Peter,
 
-All warnings (new ones prefixed by >>):
+Looks like I missed one rustfmt issue in the commit 14e9a18b07ec in
+tip/locking/core, here is the fix. Feel free to fold it if you want.
+Apologies for not catching this earlier.
 
->> kernel/cpu.c:2684: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Check if the core a CPU belongs to is online
+ rust/kernel/sync/atomic.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-vim +2684 kernel/cpu.c
-
-  2682	
-  2683	/**
-> 2684	 * Check if the core a CPU belongs to is online
-  2685	 */
-  2686	#if !defined(topology_is_core_online)
-  2687	static inline bool topology_is_core_online(unsigned int cpu)
-  2688	{
-  2689		return true;
-  2690	}
-  2691	#endif
-  2692	
-
+diff --git a/rust/kernel/sync/atomic.rs b/rust/kernel/sync/atomic.rs
+index 3afc376be42d..c07a53f8360b 100644
+--- a/rust/kernel/sync/atomic.rs
++++ b/rust/kernel/sync/atomic.rs
+@@ -21,8 +21,8 @@
+ mod predefine;
+ 
+ pub use internal::AtomicImpl;
+-pub use ordering::{Acquire, Full, Relaxed, Release};
+ pub(crate) use internal::{AtomicArithmeticOps, AtomicBasicOps, AtomicExchangeOps};
++pub use ordering::{Acquire, Full, Relaxed, Release};
+ 
+ use crate::build_error;
+ use internal::AtomicRepr;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.51.0
+
