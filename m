@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17767247280
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 03:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0145C21770B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 03:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765423421; cv=none; b=tI+lMCvWNKDjCE6zUVVnQwJvQfrNqvc6zKbPo3a04IaU3DFwEF511qOK0+RXsQvZ4jYogNc4jpRheMskoWE7buN6ZwExMxPpCpFdkTG/ajh3z+0EbtX+6rJtwXLPEgascUhOYbrpDO84RaglUFqBLRqOVLMrxOT8HDF6Iy+grQI=
+	t=1765423713; cv=none; b=HELwDQ8IAAvzTODuKPQu9B2whuyx1F8Y7XHCpAPQ9o5aO/TRzMgUwuZIPjr794/aWqQqjDyjxDpti9jzdSbBUg1sSI1zbT21DbVLTpfA/7Gf1l2XoLqMcCCZnjD8MAEshsrxIFBJxrByxngX1qbZ5LsimGbTllNPsXjW+HtGpkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765423421; c=relaxed/simple;
-	bh=Wy+6U+t5d5b1s5dGAnb9n/BEosI+Kz5jnkdTMZitbSs=;
+	s=arc-20240116; t=1765423713; c=relaxed/simple;
+	bh=RXiny5Wr5/GDubDps8+98q+1Lid5WEq4ISr8EJL6+os=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m5HUoap0nRM6UsFwrpPtu3Dbv5sjrI/uaw57oITeq3UST9+Exl/LWW6dBy950387K9sMLIpEIoJSM54Dn1MeyRQlvArT5I4YxC2x5YK5NWWM2I5lOyvV7bYNgDr2HCA/Euwl59LAifIbr/GdTKjFQ62ghO5y6qCEbTlTkAfCu64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Be4iVSZn; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=BYaUaMMI0nCNTmbELuXUnuIBybc0MrQNqGCulWLxvf0Ub6QvxsyuCd04DValkY/m5eRlAM0ZMVfuDbPVIKWvxS5F6p/QilTseCVPpQuDgR3//lHBvAY8twq3lHZD380zeNHICLz20YoerE3ZQ/jM1wFCZvXNb92hUsfaTmISBHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WNdkNSvV; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Be4iVSZn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WNdkNSvV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765423421; x=1796959421;
+  t=1765423712; x=1796959712;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Wy+6U+t5d5b1s5dGAnb9n/BEosI+Kz5jnkdTMZitbSs=;
-  b=Be4iVSZnLDI2FCKlMSrtM55fEv6oOEEpUMJ/AHLbaH4P5pS3wM5zEWz/
-   vAtapBTYZI4pR+JiEMvAkZz7hqG1g1o4W6rbbJwx3onYoLmZOSrSANAI0
-   1mTLP4LLpMWNtlOfjaXzECb2MzHBxQy7jcbov+VY1zRq9MZQZ/iIRb8cM
-   GuXoJbg9k2TRRtR6RgGf32cObMXr22PiN9ptAXmq5kgoSau2GuxgnDBrE
-   tiV4ixTfurVRTYfS3RcurS7Q/jsQ5b2cVcuUCdEblvKg8+txxWG1+EuOv
-   b9fiNOliQomgr8GVCHnJvwSLDzm+UknuVz0X4M/jrGex9MFw4Cwkd0hcC
-   A==;
-X-CSE-ConnectionGUID: FU/szNfdS+e3XdzJcbiZJg==
-X-CSE-MsgGUID: L+FtwY3FT2+OTmNkPFNggQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="90048673"
+  bh=RXiny5Wr5/GDubDps8+98q+1Lid5WEq4ISr8EJL6+os=;
+  b=WNdkNSvVBrnsvL0O5ASjq81EwJ+U1cLjeyYCZupXVtcA1bLirRll9U2P
+   IIuWQzh4UOzpHfwqmAmriocoVJVftSNY96fkLhs0YkDjDbFfcm7tz4qw5
+   9TSKPHJ+JtfLJGgS0wIVfXBnw17nJN7fORET2npm0CizwesAf5E5YvED8
+   TBwMKjWkCNNbvqtp04QzYSr9MmjcM1U4pERKPyug8igGPUkQzsLe24gD0
+   gzmmC4cxXl08NwQ1asO1z8vf+QnzdPXLykPKWQQketwxK9zbVMRvEAYLw
+   RpGKeDYVDjx/pO1r0+FKIO1btP7EmNYqnJbenefMoQTS5/TVSh8fVL746
+   Q==;
+X-CSE-ConnectionGUID: h+Niq8ypRSm0lAhVRup6QA==
+X-CSE-MsgGUID: IH+aIvvtTk+LcCpvpASBDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="67288679"
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="90048673"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 19:23:40 -0800
-X-CSE-ConnectionGUID: kDk5wK15RS6ymY7T6DTrAg==
-X-CSE-MsgGUID: Cqo5SbyjQDW2UH81rnJsAA==
+   d="scan'208";a="67288679"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 19:28:31 -0800
+X-CSE-ConnectionGUID: nXznAk2lREGOBEN+6oerlA==
+X-CSE-MsgGUID: F1BZ2IY0Tj2S+gxzNSZ2IA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="196692403"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 10 Dec 2025 19:23:38 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="234104605"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 10 Dec 2025 19:28:31 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTXHD-000000000tW-3WTh;
-	Thu, 11 Dec 2025 03:23:35 +0000
-Date: Thu, 11 Dec 2025 04:23:05 +0100
+	id 1vTXLv-0000000046R-45jC;
+	Thu, 11 Dec 2025 03:28:27 +0000
+Date: Thu, 11 Dec 2025 11:28:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [linux-next:master 819/14200]
- arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: da9211@68 (dlg,da9211): 'oneOf'
- conditional failed, one must be fixed:
-Message-ID: <202512110447.7G98UHjs-lkp@intel.com>
+To: kernel@openeuler.org, Baokun Li <libaokun1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3534/3534] block/blk-ioinf.c:530:60: error: array
+ has incomplete element type 'const struct blk_mq_debugfs_attr'
+Message-ID: <202512111132.APojgRTS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,33 +62,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   008d3547aae5bc86fac3eda317489169c3fda112
-commit: 6277a486a7faaa6c87f4bf1d59a2de233a093248 [819/14200] regulator: dt-bindings: Convert Dialog DA9211 Regulators to DT schema
-config: arm64-randconfig-2051-20251210 (https://download.01.org/0day-ci/archive/20251211/202512110447.7G98UHjs-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4125e73cdc6188cca4c1c72b72e2b2d85c157483)
-dtschema version: 2025.9.dev21+gaa859412c
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512110447.7G98UHjs-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   d281438782e3c28a3df71a64513a3312d43dcf01
+commit: 4192ef0b07762c6dabf617654df442fecffe8510 [3534/3534] blk-ioinf: add rqos/inflight/stat debufs interface
+config: x86_64-randconfig-r071-20251211 (https://download.01.org/0day-ci/archive/20251211/202512111132.APojgRTS-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111132.APojgRTS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512110447.7G98UHjs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512111132.APojgRTS-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: pinctrl@1000b000 (mediatek,mt8173-pinctrl): 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c6', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'spi0', 'usb_iddig_pull_down', 'usb_iddig_pull_up', 'xxx' do not match any of the regexes: '^pinctrl-[0-9]+$', 'pins$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt65xx-pinctrl.yaml
->> arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: da9211@68 (dlg,da9211): 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/regulator/dlg,da9211.yaml
-   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: syscon@14000000 (mediatek,mt8173-mmsys): 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml
-   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: /soc/rdma@14001000: failed to match any schema with compatible: ['mediatek,mt8173-mdp-rdma', 'mediatek,mt8173-mdp']
-   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: /soc/rdma@14001000: failed to match any schema with compatible: ['mediatek,mt8173-mdp-rdma', 'mediatek,mt8173-mdp']
-   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: /soc/rdma@14002000: failed to match any schema with compatible: ['mediatek,mt8173-mdp-rdma']
-   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: /soc/rsz@14003000: failed to match any schema with compatible: ['mediatek,mt8173-mdp-rsz']
-   arch/arm64/boot/dts/mediatek/mt8173-evb.dtb: /soc/rsz@14004000: failed to match any schema with compatible: ['mediatek,mt8173-mdp-rsz']
+All errors (new ones prefixed by >>):
+
+   block/blk-ioinf.c:248:6: warning: no previous prototype for function 'ioinf_done' [-Wmissing-prototypes]
+     248 | void ioinf_done(struct ioinf *inf, struct ioinf_rq_wait *rqw)
+         |      ^
+   block/blk-ioinf.c:248:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     248 | void ioinf_done(struct ioinf *inf, struct ioinf_rq_wait *rqw)
+         | ^
+         | static 
+>> block/blk-ioinf.c:530:60: error: array has incomplete element type 'const struct blk_mq_debugfs_attr'
+     530 | static const struct blk_mq_debugfs_attr ioinf_debugfs_attrs[] = {
+         |                                                            ^
+   block/blk-rq-qos.h:14:8: note: forward declaration of 'struct blk_mq_debugfs_attr'
+      14 | struct blk_mq_debugfs_attr;
+         |        ^
+   block/blk-ioinf.c:547:5: warning: no previous prototype for function 'ioinf_calc_budget' [-Wmissing-prototypes]
+     547 | u32 ioinf_calc_budget(struct ioinf_rq_wait *rqw)
+         |     ^
+   block/blk-ioinf.c:547:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     547 | u32 ioinf_calc_budget(struct ioinf_rq_wait *rqw)
+         | ^
+         | static 
+   2 warnings and 1 error generated.
+
+
+vim +530 block/blk-ioinf.c
+
+   529	
+ > 530	static const struct blk_mq_debugfs_attr ioinf_debugfs_attrs[] = {
+   531		{"stat", 0400, ioinf_stat_show},
+   532		{},
+   533	};
+   534	
 
 -- 
 0-DAY CI Kernel Test Service
