@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0316D1EB19B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 16:34:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5375314B91
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 16:40:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765470858; cv=none; b=iCa5lOdEpUdT1+acxfrK2ewpy0SrAmEMKH14QesuEeiD6bom04DxwdSAKlA/LefU6ROrkMdbGiMbRTqTHgMtwARGkpXf/oTtIeAQX3B+e5bglFGZOr/YzbFUDeAG12l1nAgtDtN2abEXoHH3kQyE678FZZbPOGN26PzQRc3/1G0=
+	t=1765471254; cv=none; b=hwKsTlVGQEowEX5EqMmFUxzLJPL83ySOnQgFiIY2NHAQYsE3tZt0mYeVO5xty7FCeIwWb4qtYA7rW03s+0cHLrhqmpzt1GT8p/BQsYqTATrAHYvRXBtZK87m6+x9GRjiwXBHsnQiQEDHMmXwCR0b2qfnArCA2pKtckUG8CqwsMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765470858; c=relaxed/simple;
-	bh=TOkhd7SMkPlOPVofKT7JHA+i7dMPPP4sFgJApv+90/0=;
+	s=arc-20240116; t=1765471254; c=relaxed/simple;
+	bh=gKH9G2MGiOIJjB1tDnavoPQw5wvqG1/nbJeTDXxCsFc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IKxaiPn+CznWd+9J50c+nOubcriI+ueFLEktRrQvpBA2IyB5DAbl4MTCNYt3K7+bxcl4TapEaOQ9q73VpeyEdPML2zu0YS8c2mA9FyvJKgi5ywOlIc/0hepTfjMREJ1/MWQm/H33hzeBz6KaLgCFZFRt8pfkeJvxvjZqqM8bv7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aBBdkQgI; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=DfRevv7xlWDipMBsB7IEsscvm1sV3oD9t2U7fcNEPp8MQGFd1vjzAeOD7mz/k3eapKURNAjONrAheWPYlYOCPIhqgmd/rQBjzttV9bUl5qPnWYq9wnVtZsqZwGyWnHi1XARZztcHop4xOkjrBXdjpagt/K86avTql41OfWkciuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lHcvFsPl; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aBBdkQgI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lHcvFsPl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765470856; x=1797006856;
+  t=1765471251; x=1797007251;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TOkhd7SMkPlOPVofKT7JHA+i7dMPPP4sFgJApv+90/0=;
-  b=aBBdkQgIDkU7HNVoTTYp0zib44tXOLMoOnSYopAE7FbLj8679jvCqpbX
-   dD4IUHuKIRmPGx4Etk64MU+T74J2VXgMRIJOhraoxY5KwxsNRKH4B+hhL
-   fHgDjj4jcfHBxgqOEmYx/rUYmPYRAekySYxB3VoWHIrYDNiuHZI5eBusn
-   owHeg47AcQmLoBCCEruPnqTYCIU6Hd9/tWB03faMwNMrbmSGItsTWtoWb
-   3YvJmRbtA41ChVLUzJjFKkVQ5jLvYUs05LQpRGnfRM24YWj0OoJeKdl+i
-   yBF/OsLV+2NTD7UeUy3dq3D1TEyzxRaLw3vhbQi8HGnjYX0Yt/5/MPFXK
-   g==;
-X-CSE-ConnectionGUID: EXX6rXuKTP6PbKxFj9nhQg==
-X-CSE-MsgGUID: 9RNdgaTKQsyjMW53GTprWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67498891"
+  bh=gKH9G2MGiOIJjB1tDnavoPQw5wvqG1/nbJeTDXxCsFc=;
+  b=lHcvFsPlc/2xoN03UuEdnxlHrdXoCUMrSdkKcnjA7TOlGylkdbc81JQ3
+   abwixNmI77RC4j0W1QLDS6jtkv0rorLWCkDCV0OWSPuOyasD2bM161rGk
+   3YRlM5yJoui1rDROKFtmsTvrJhI9zB010VTTlYvl7e/Eh2w3Ub7XJq9zS
+   Q++GPXl8z3OyzaxIjSDANlizteSfBR8PmfFNZbpfWxo/zW12p6fD3tWtr
+   h4UF3zjcep7cc7WFFcLeGgf3mwNhbzS//H/83GiGpbrpUZgf+AoSr4Ex/
+   WLe8FlADNbI55GKTW8NZRgZTCa7thUKWklMMF/s0oI23iZX9akd3znn1y
+   A==;
+X-CSE-ConnectionGUID: lTpCxScyREu8y/6X2E7z2g==
+X-CSE-MsgGUID: etUhkt1QRGeLhl4WycTcTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67500154"
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="67498891"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 08:32:15 -0800
-X-CSE-ConnectionGUID: +TUIN7xMTNKMp9tREgezgw==
-X-CSE-MsgGUID: 9I3S9pddRISn1TBbOhZ4sg==
+   d="scan'208";a="67500154"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 08:40:51 -0800
+X-CSE-ConnectionGUID: 3fnpWNJtSuartPzMAS1sIw==
+X-CSE-MsgGUID: pGE7kjLuRmuj+ClXbkzBLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="196905997"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Dec 2025 08:32:13 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="196615743"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 11 Dec 2025 08:40:50 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTjaM-000000004sT-3IRc;
-	Thu, 11 Dec 2025 16:32:10 +0000
-Date: Fri, 12 Dec 2025 00:32:04 +0800
+	id 1vTjih-00000000196-1QLW;
+	Thu, 11 Dec 2025 16:40:47 +0000
+Date: Thu, 11 Dec 2025 17:40:06 +0100
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org, Zheng Yejian <zhengyejian1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3536/3536] kernel/livepatch/core.c:2046: warning:
- bad line:
-Message-ID: <202512120043.Ja8LDkyR-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3534/3534] htmldocs:
+ ./kernel/livepatch/core.c:2046: warning: bad line:
+Message-ID: <202512111739.Q8ijhkEi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,22 +68,30 @@ FYI, the error/warning still remains.
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   5930fa3740c518a9f6ba688fd0c1873d6f3adbce
-commit: 29f85d3cff2dfa35ace94d3e4036d5ea456eb859 [3536/3536] livepatch: Add klp_module_delete_safety_check
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251212/202512120043.Ja8LDkyR-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120043.Ja8LDkyR-lkp@intel.com/reproduce)
+commit: 29f85d3cff2dfa35ace94d3e4036d5ea456eb859 [3534/3534] livepatch: Add klp_module_delete_safety_check
+reproduce: (https://download.01.org/0day-ci/archive/20251211/202512111739.Q8ijhkEi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512120043.Ja8LDkyR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512111739.Q8ijhkEi-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/livepatch/core.c:2046: warning: bad line: 
+   Error: Cannot open file ./include/linux/hid_bpf.h
+   Error: Cannot open file ./include/linux/hid.h
+   Error: Cannot open file ./include/linux/i2c-atr.h
+   Error: Cannot open file ./include/linux/mutex.h
+   Error: Cannot open file ./include/linux/mutex.h
+>> ./kernel/livepatch/core.c:2046: warning: bad line:
+   Error: Cannot open file ./include/linux/livepatch.h
+   Error: Cannot open file ./include/linux/seqlock.h
+   Error: Cannot open file ./include/linux/damon.h
+   Error: Cannot open file ./include/linux/highmem.h
+   Error: Cannot open file ./include/linux/highmem-internal.h
 
 
-vim +2046 kernel/livepatch/core.c
+vim +2046 ./kernel/livepatch/core.c
 
   2033	
   2034	/**
