@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A0119E82A;
-	Thu, 11 Dec 2025 23:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A340883F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 23:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765497120; cv=none; b=uE/EWB8teZhJK62SlSM8TztWwKe3kYI2ZehJBuZXyXR0FM7dn00mOguc+6mOVSTjyK/vx04sasb1waQ9KCdKNioh3H0qnmPMbwF+UHrUGRtT7fi1odXQ/ef9WBYPXKaLlMVabEsEGYvodxLgThT2h+1WbdZxt98MVTk/p/w5r4c=
+	t=1765497478; cv=none; b=BOmF4vm2Vw/Hv8akHoas7z5ZYEUKBzWLoLj2XPEcAiQDwymSyy2LqYcEGAVurvj49oVmStWqK3qpOGF5ekWLns5QbN32BTO9CDMc596n6j6oe2ViRNyCiyZJPpyhhmKeQkr7NXydHqRDidJu42QKoo39zXrwoVoIJyDAt2zXSDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765497120; c=relaxed/simple;
-	bh=VCFwbRUCDvRokIw2WOL55OQOgm3jxsYRa4kC9k1fAOU=;
+	s=arc-20240116; t=1765497478; c=relaxed/simple;
+	bh=sVi8hgrlbYptg3rgXbYyxF0bMcF/fl8ZDszDDahGPf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ih6z0c8EMaCFfgJLXESsRiOvmola8AKk3xOljEBJt5kq9RbsZAdNWMbil7Tg5E/zjXfWbo+0zaWMt8v4qebCxxCJmQWTEfrCpCBgcrPQ523HZqx/TKnMPJ+x86FTKHbuRv2cwT73E0k/aMECkvoo4Vu+NwADxomRadS/0p/L0NU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bvf8Nxsf; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=ALFkk+Qjs9/xnXrxrQogRZ76Z4yVJEvRnxdEfpl9wnkTxwteQZbIngbjF23CBRJzWfmT75DW8+XTWR0uqabMbGqDXtvGFCn77V+5pGq07MwCOxv+td1SoFtMO4qDjYvvy458/nhWecE+h3hwo0ECqYFYby+DlWzso5mzuIJJj/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jVVDoeef; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bvf8Nxsf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jVVDoeef"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765497119; x=1797033119;
+  t=1765497477; x=1797033477;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VCFwbRUCDvRokIw2WOL55OQOgm3jxsYRa4kC9k1fAOU=;
-  b=bvf8NxsfK2Edu10jrLXfCauugJ+XLdlleG6V8j4TvfYQR2P3k3M+op6Q
-   foz5gWW26CYTCP/qLOLG52dKNac0VuHJxk5hZ4MpgJ5XT2HR5YQX8kz8O
-   FPYMaO9+TGePLCegoYuMHK1pGCg31Zv3OVHDMVoDdmUDtvNowrngJqIes
-   L/Vo0xecJepFoL+uQu6a6g1ncwzna95A1YxNoNYlPOs1FiXVm6fHBOP0t
-   OE0UgRaPe2Hat4GiHT4fuh4H066LHFtpcgz68tTmfzyhVDqy+buUjqX7m
-   pZ+AL0GmY7fK/cFNh1n2rvJzcaZ3e812I3H36B4q8EvCKEqgo/Ssd2o6N
-   w==;
-X-CSE-ConnectionGUID: Qu8B9mBMQu2h/g7KY1F2kw==
-X-CSE-MsgGUID: R7MJjnwySZKDjiOu0Zg6pA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67536568"
+  bh=sVi8hgrlbYptg3rgXbYyxF0bMcF/fl8ZDszDDahGPf8=;
+  b=jVVDoeef1GBnrIWSHKEYEKRMPdAcBZlTniqeO9f9XVeTKiTp9+wip7zu
+   W+3PTR+A0vusWg128kQpOX6gbtOz8w7O992sw7dVGee/eYpP+bAEkC+nP
+   8WCe42TYBVSLfV0MjW91u1ysHlvZjPhYeT3iSCxTo293r3KDsvSZ+VoU0
+   1aGBxed0eNX15OWI2VLlxpYewwjaolJh1WKn/rldzGuslwvKqzMCkE34V
+   2+h9fMZCS+31z6e9gRbH6gYXjo2tBAnkRZXqYdrrFbnTaXLW4rijhICCp
+   OAvUDTLRrXfQ8LBLvPaLus5NLlQ7YRkrZoALP7WzUajmqN7JYzicy3SPW
+   g==;
+X-CSE-ConnectionGUID: U0CUkzpgQN681i913PoUxA==
+X-CSE-MsgGUID: l1XhVjqcTd2ZE15ZYYCu/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="77803837"
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="67536568"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 15:51:57 -0800
-X-CSE-ConnectionGUID: gQEkktIBToqzGLqCV8zQRw==
-X-CSE-MsgGUID: CEy00cUERgaGqWeLrFsxhw==
+   d="scan'208";a="77803837"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 15:57:57 -0800
+X-CSE-ConnectionGUID: jY3w8FrbRAWE1EkmJUU4eg==
+X-CSE-MsgGUID: KPtd8Nh+TG+zV8laZuhARQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="196983570"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Dec 2025 15:51:56 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="201348081"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 11 Dec 2025 15:57:54 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTqRs-000000005Cx-2gYr;
-	Thu, 11 Dec 2025 23:51:52 +0000
-Date: Fri, 12 Dec 2025 07:51:38 +0800
+	id 1vTqXg-000000001FI-20oI;
+	Thu, 11 Dec 2025 23:57:52 +0000
+Date: Fri, 12 Dec 2025 00:57:05 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ardb:lockless-random-v2 6/7] drivers/char/random.c:570:1: error:
- indirection requires pointer operand ('typeof (next)' (aka 'unsigned long
- long') invalid)
-Message-ID: <202512120716.8CQlCuxY-lkp@intel.com>
+To: kernel@openeuler.org, Zhou Shuai <zhoushuai28@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3534/3534] htmldocs:
+ Documentation/networking/hinic3.rst:3: WARNING: Title overline too short.
+Message-ID: <202512120048.AHnbZM2r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,158 +62,154 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git lockless-random-v2
-head:   629b369505e73286d416f91816305d3e16d5c3cf
-commit: c638e24f6766140b08604e0f43615ca7d636138d [6/7] random: Use a lockless fast path for get_random_uXX()
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251212/202512120716.8CQlCuxY-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120716.8CQlCuxY-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   5930fa3740c518a9f6ba688fd0c1873d6f3adbce
+commit: dcb286ce50a35a77e51b61db72c7cc001647b598 [3534/3534] net/hinic3: add huawei/hinic3 driver
+reproduce: (https://download.01.org/0day-ci/archive/20251212/202512120048.AHnbZM2r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512120716.8CQlCuxY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512120048.AHnbZM2r-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/char/random.c:570:1: error: indirection requires pointer operand ('typeof (next)' (aka 'unsigned long long') invalid)
-     570 | DEFINE_BATCHED_ENTROPY(u8)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/random.c:552:7: note: expanded from macro 'DEFINE_BATCHED_ENTROPY'
-     552 |         if (!try_cmpxchg64_local(&batch->posgen, next, next + 1)) {             \
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5030:42: note: expanded from macro 'try_cmpxchg64_local'
-    5030 |         instrument_read_write(__ai_oldp, sizeof(*__ai_oldp)); \
-         |                                                 ^~~~~~~~~~
->> drivers/char/random.c:570:1: error: incompatible integer to pointer conversion passing 'typeof (next)' (aka 'unsigned long long') to parameter of type 'const volatile void *' [-Wint-conversion]
-     570 | DEFINE_BATCHED_ENTROPY(u8)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/random.c:552:7: note: expanded from macro 'DEFINE_BATCHED_ENTROPY'
-     552 |         if (!try_cmpxchg64_local(&batch->posgen, next, next + 1)) {             \
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5030:24: note: expanded from macro 'try_cmpxchg64_local'
-    5030 |         instrument_read_write(__ai_oldp, sizeof(*__ai_oldp)); \
-         |                               ^~~~~~~~~
-   include/linux/instrumented.h:52:72: note: passing argument to parameter 'v' here
-      52 | static __always_inline void instrument_read_write(const volatile void *v, size_t size)
-         |                                                                        ^
->> drivers/char/random.c:570:1: error: incompatible integer to pointer conversion initializing 'typeof (*(__ai_ptr)) *' (aka 'unsigned long long *') with an expression of type 'typeof (next)' (aka 'unsigned long long'); take the address with & [-Wint-conversion]
-     570 | DEFINE_BATCHED_ENTROPY(u8)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/random.c:552:7: note: expanded from macro 'DEFINE_BATCHED_ENTROPY'
-     552 |         if (!try_cmpxchg64_local(&batch->posgen, next, next + 1)) {             \
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5031:2: note: expanded from macro 'try_cmpxchg64_local'
-    5031 |         raw_try_cmpxchg64_local(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:406:19: note: expanded from macro 'raw_try_cmpxchg64_local'
-     406 |         typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
-         |                          ^       ~~~~~~~
-   drivers/char/random.c:571:1: error: indirection requires pointer operand ('typeof (next)' (aka 'unsigned long long') invalid)
-     571 | DEFINE_BATCHED_ENTROPY(u16)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/random.c:552:7: note: expanded from macro 'DEFINE_BATCHED_ENTROPY'
-     552 |         if (!try_cmpxchg64_local(&batch->posgen, next, next + 1)) {             \
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5030:42: note: expanded from macro 'try_cmpxchg64_local'
-    5030 |         instrument_read_write(__ai_oldp, sizeof(*__ai_oldp)); \
-         |                                                 ^~~~~~~~~~
-   drivers/char/random.c:571:1: error: incompatible integer to pointer conversion passing 'typeof (next)' (aka 'unsigned long long') to parameter of type 'const volatile void *' [-Wint-conversion]
-     571 | DEFINE_BATCHED_ENTROPY(u16)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/random.c:552:7: note: expanded from macro 'DEFINE_BATCHED_ENTROPY'
-     552 |         if (!try_cmpxchg64_local(&batch->posgen, next, next + 1)) {             \
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5030:24: note: expanded from macro 'try_cmpxchg64_local'
-    5030 |         instrument_read_write(__ai_oldp, sizeof(*__ai_oldp)); \
-         |                               ^~~~~~~~~
-   include/linux/instrumented.h:52:72: note: passing argument to parameter 'v' here
-      52 | static __always_inline void instrument_read_write(const volatile void *v, size_t size)
-         |                                                                        ^
-   drivers/char/random.c:571:1: error: incompatible integer to pointer conversion initializing 'typeof (*(__ai_ptr)) *' (aka 'unsigned long long *') with an expression of type 'typeof (next)' (aka 'unsigned long long'); take the address with & [-Wint-conversion]
-     571 | DEFINE_BATCHED_ENTROPY(u16)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/random.c:552:7: note: expanded from macro 'DEFINE_BATCHED_ENTROPY'
-     552 |         if (!try_cmpxchg64_local(&batch->posgen, next, next + 1)) {             \
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5031:2: note: expanded from macro 'try_cmpxchg64_local'
-    5031 |         raw_try_cmpxchg64_local(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:406:19: note: expanded from macro 'raw_try_cmpxchg64_local'
-     406 |         typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
-         |                          ^       ~~~~~~~
-   drivers/char/random.c:572:1: error: indirection requires pointer operand ('typeof (next)' (aka 'unsigned long long') invalid)
-     572 | DEFINE_BATCHED_ENTROPY(u32)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/random.c:552:7: note: expanded from macro 'DEFINE_BATCHED_ENTROPY'
-     552 |         if (!try_cmpxchg64_local(&batch->posgen, next, next + 1)) {             \
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5030:42: note: expanded from macro 'try_cmpxchg64_local'
-    5030 |         instrument_read_write(__ai_oldp, sizeof(*__ai_oldp)); \
-         |                                                 ^~~~~~~~~~
-   drivers/char/random.c:572:1: error: incompatible integer to pointer conversion passing 'typeof (next)' (aka 'unsigned long long') to parameter of type 'const volatile void *' [-Wint-conversion]
-     572 | DEFINE_BATCHED_ENTROPY(u32)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/random.c:552:7: note: expanded from macro 'DEFINE_BATCHED_ENTROPY'
-     552 |         if (!try_cmpxchg64_local(&batch->posgen, next, next + 1)) {             \
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5030:24: note: expanded from macro 'try_cmpxchg64_local'
-    5030 |         instrument_read_write(__ai_oldp, sizeof(*__ai_oldp)); \
-         |                               ^~~~~~~~~
-   include/linux/instrumented.h:52:72: note: passing argument to parameter 'v' here
-      52 | static __always_inline void instrument_read_write(const volatile void *v, size_t size)
-         |                                                                        ^
-   drivers/char/random.c:572:1: error: incompatible integer to pointer conversion initializing 'typeof (*(__ai_ptr)) *' (aka 'unsigned long long *') with an expression of type 'typeof (next)' (aka 'unsigned long long'); take the address with & [-Wint-conversion]
-     572 | DEFINE_BATCHED_ENTROPY(u32)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/random.c:552:7: note: expanded from macro 'DEFINE_BATCHED_ENTROPY'
-     552 |         if (!try_cmpxchg64_local(&batch->posgen, next, next + 1)) {             \
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5031:2: note: expanded from macro 'try_cmpxchg64_local'
-    5031 |         raw_try_cmpxchg64_local(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-arch-fallback.h:406:19: note: expanded from macro 'raw_try_cmpxchg64_local'
-     406 |         typeof(*(_ptr)) *___op = (_oldp), ___o = *___op, ___r; \
-         |                          ^       ~~~~~~~
-   drivers/char/random.c:573:1: error: indirection requires pointer operand ('typeof (next)' (aka 'unsigned long long') invalid)
-     573 | DEFINE_BATCHED_ENTROPY(u64)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/random.c:552:7: note: expanded from macro 'DEFINE_BATCHED_ENTROPY'
-     552 |         if (!try_cmpxchg64_local(&batch->posgen, next, next + 1)) {             \
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5030:42: note: expanded from macro 'try_cmpxchg64_local'
-    5030 |         instrument_read_write(__ai_oldp, sizeof(*__ai_oldp)); \
-         |                                                 ^~~~~~~~~~
-   drivers/char/random.c:573:1: error: incompatible integer to pointer conversion passing 'typeof (next)' (aka 'unsigned long long') to parameter of type 'const volatile void *' [-Wint-conversion]
-     573 | DEFINE_BATCHED_ENTROPY(u64)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/random.c:552:7: note: expanded from macro 'DEFINE_BATCHED_ENTROPY'
-     552 |         if (!try_cmpxchg64_local(&batch->posgen, next, next + 1)) {             \
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:5030:24: note: expanded from macro 'try_cmpxchg64_local'
-    5030 |         instrument_read_write(__ai_oldp, sizeof(*__ai_oldp)); \
-         |                               ^~~~~~~~~
-   include/linux/instrumented.h:52:72: note: passing argument to parameter 'v' here
-      52 | static __always_inline void instrument_read_write(const volatile void *v, size_t size)
-         |                                                                        ^
-   drivers/char/random.c:573:1: error: incompatible integer to pointer conversion initializing 'typeof (*(__ai_ptr)) *' (aka 'unsigned long long *') with an expression of type 'typeof (next)' (aka 'unsigned long long'); take the address with & [-Wint-conversion]
-     573 | DEFINE_BATCHED_ENTROPY(u64)
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -function ethtool_pause_stats ./include/linux/ethtool.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -function ethtool_fec_stats ./include/linux/ethtool.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -function ethtool_mm_state ./include/linux/ethtool.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -function ethtool_mm_stats ./include/linux/ethtool.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -function ethtool_mm_cfg ./include/linux/ethtool.h' failed with return code 1
+>> Documentation/networking/hinic3.rst:3: WARNING: Title overline too short.
+--
+   ============================================================
+   Linux Kernel Driver for Huawei Intelligent NIC(HiNIC3) family
+   ============================================================ [docutils]
+>> Documentation/networking/hinic3.rst:117: WARNING: Title underline too short.
+--
+   Miscellaneous:
+   ============= [docutils]
+>> Documentation/networking/hinic3.rst:117: WARNING: Title underline too short.
 
 
-vim +570 drivers/char/random.c
+vim +3 Documentation/networking/hinic3.rst
 
-3092adcef3ffd2 Jason A. Donenfeld 2022-05-15  569  
-585cd5fe9f7378 Jason A. Donenfeld 2022-09-28 @570  DEFINE_BATCHED_ENTROPY(u8)
-a890d1c657ecba Jason A. Donenfeld 2022-10-05  571  DEFINE_BATCHED_ENTROPY(u16)
-a890d1c657ecba Jason A. Donenfeld 2022-10-05  572  DEFINE_BATCHED_ENTROPY(u32)
-a890d1c657ecba Jason A. Donenfeld 2022-10-05  573  DEFINE_BATCHED_ENTROPY(u64)
-3655adc7089da4 Jason A. Donenfeld 2022-02-11  574  
-
-:::::: The code at line 570 was first introduced by commit
-:::::: 585cd5fe9f7378601b1d4915ad6e9088333b5e5e random: add 8-bit and 16-bit batches
-
-:::::: TO: Jason A. Donenfeld <Jason@zx2c4.com>
-:::::: CC: Jason A. Donenfeld <Jason@zx2c4.com>
+     2	
+   > 3	============================================================
+     4	Linux Kernel Driver for Huawei Intelligent NIC(HiNIC3) family
+     5	============================================================
+     6	
+     7	Overview:
+     8	=========
+     9	HiNIC3 is a network interface card for the Data Center Area.
+    10	
+    11	The driver supports a range of link-speed devices (10GbE, 25GbE, 40GbE, etc.).
+    12	The driver supports also a negotiated and extendable feature set.
+    13	
+    14	Some HiNIC3 devices support SR-IOV. This driver is used for Physical Function
+    15	(PF).
+    16	
+    17	HiNIC3 devices support MSI-X interrupt vector for each Tx/Rx queue and
+    18	adaptive interrupt moderation.
+    19	
+    20	HiNIC3 devices support also various offload features such as checksum offload,
+    21	TCP Transmit Segmentation Offload(TSO), Receive-Side Scaling(RSS) and
+    22	LRO(Large Receive Offload).
+    23	
+    24	
+    25	Supported PCI vendor ID/device IDs:
+    26	===================================
+    27	
+    28	19e5:1822 - HiNIC3 PF
+    29	
+    30	
+    31	Driver Architecture and Source Code:
+    32	====================================
+    33	
+    34	hinic3_dev - Implement a Logical Network device that is independent from
+    35	specific HW details about HW data structure formats.
+    36	
+    37	hinic3_hwdev - Implement the HW details of the device and include the components
+    38	for accessing the PCI NIC.
+    39	
+    40	hinic3_hwdev contains the following components:
+    41	===============================================
+    42	
+    43	HW Interface:
+    44	=============
+    45	
+    46	The interface for accessing the pci device (DMA memory and PCI BARs).
+    47	(hinic3_hw_if.c, hinic3_hw_if.h)
+    48	
+    49	Configuration Status Registers Area that describes the HW Registers on the
+    50	configuration and status BAR0. (hinic3_hw_csr.h)
+    51	
+    52	MGMT components:
+    53	================
+    54	
+    55	Asynchronous Event Queues(AEQs) - The event queues for receiving messages from
+    56	the MGMT modules on the cards. (hinic3_hw_eqs.c, hinic3_hw_eqs.h)
+    57	
+    58	Application Programmable Interface commands(API CMD) - Interface for sending
+    59	MGMT commands to the card. (hinic3_hw_api_cmd.c, hinic3_hw_api_cmd.h)
+    60	
+    61	Management (MGMT) - the PF to MGMT channel that uses API CMD for sending MGMT
+    62	commands to the card and receives notifications from the MGMT modules on the
+    63	card by AEQs. Also set the addresses of the IO CMDQs in HW.
+    64	(hinic3_hw_mgmt.c, hinic3_hw_mgmt.h)
+    65	
+    66	IO components:
+    67	==============
+    68	
+    69	Completion Event Queues(CEQs) - The completion Event Queues that describe IO
+    70	tasks that are finished. (hinic3_hw_eqs.c, hinic3_hw_eqs.h)
+    71	
+    72	Work Queues(WQ) - Contain the memory and operations for use by CMD queues and
+    73	the Queue Pairs. The WQ is a Memory Block in a Page. The Block contains
+    74	pointers to Memory Areas that are the Memory for the Work Queue Elements(WQEs).
+    75	(hinic3_hw_wq.c, hinic3_hw_wq.h)
+    76	
+    77	Command Queues(CMDQ) - The queues for sending commands for IO management and is
+    78	used to set the QPs addresses in HW. The commands completion events are
+    79	accumulated on the CEQ that is configured to receive the CMDQ completion events.
+    80	(hinic3_hw_cmdq.c, hinic3_hw_cmdq.h)
+    81	
+    82	Queue Pairs(QPs) - The HW Receive and Send queues for Receiving and Transmitting
+    83	Data. (hinic3_hw_qp.c, hinic3_hw_qp.h, hinic3_hw_qp_ctxt.h)
+    84	
+    85	IO - de/constructs all the IO components. (hinic3_hw_io.c, hinic3_hw_io.h)
+    86	
+    87	HW device:
+    88	==========
+    89	
+    90	HW device - de/constructs the HW Interface, the MGMT components on the
+    91	initialization of the driver and the IO components on the case of Interface
+    92	UP/DOWN Events. (hinic3_hw_dev.c, hinic3_hw_dev.h)
+    93	
+    94	
+    95	hinic3_dev contains the following components:
+    96	===============================================
+    97	
+    98	PCI ID table - Contains the supported PCI Vendor/Device IDs.
+    99	(hinic3_pci_tbl.h)
+   100	
+   101	Port Commands - Send commands to the HW device for port management
+   102	(MAC, Vlan, MTU, ...). (hinic3_port.c, hinic3_port.h)
+   103	
+   104	Tx Queues - Logical Tx Queues that use the HW Send Queues for transmit.
+   105	The Logical Tx queue is not dependent on the format of the HW Send Queue.
+   106	(hinic3_tx.c, hinic3_tx.h)
+   107	
+   108	Rx Queues - Logical Rx Queues that use the HW Receive Queues for receive.
+   109	The Logical Rx queue is not dependent on the format of the HW Receive Queue.
+   110	(hinic3_rx.c, hinic3_rx.h)
+   111	
+   112	hinic_dev - de/constructs the Logical Tx and Rx Queues.
+   113	(hinic3_main.c, hinic3_dev.h)
+   114	
+   115	
+   116	Miscellaneous:
+ > 117	=============
+   118	
 
 -- 
 0-DAY CI Kernel Test Service
