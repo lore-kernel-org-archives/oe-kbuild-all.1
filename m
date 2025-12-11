@@ -1,174 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC68F2DCF47;
-	Thu, 11 Dec 2025 23:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB34260569
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 23:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765495140; cv=none; b=kvd9c9Kc8dIy4t1sVUXNOgSWlyD+7qkQe6S77RvoPXYOmwTAdmt51To+T2PeEAFMp0aLTLJfo4Unl//3Kic5SRBuPAv1fSfna6TzQsCMFE32z9xUA1psA1/wP1qs0OsiKIlPYVZNnjMU/4ceuJWOXI3hv8jmv/gbzzwpzh28e04=
+	t=1765495767; cv=none; b=mHAhY2G4jr20rhSV1bgDes9O3BSh32yDPL8ogZwvto9asfUhUFBEGZDt6JxdEnnWh/JtusH3tc/zRghc48/4Za7U+4VtwazlfLybHwdPtJCakhA6K56Zz5JkjWOvd+wewCs9DXmb1MGWLp3Esuk4rt55Z373uViB/9FYLBjLQXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765495140; c=relaxed/simple;
-	bh=oGgLwpC58UPbF1rt7SX/cKJaKFq1u2fGauyH2JjWcjQ=;
+	s=arc-20240116; t=1765495767; c=relaxed/simple;
+	bh=1qzwV02bV09dOmCeHlRCyTatMjj2+lK51O7j6el49HQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kUs763amhIm8+EDHLqoadEVWect/ox2EE3plKlzHowefCGkxll1Szd/r4Cz50mxj6TDYTIkKsmhuddkhvWju4SlMAYd+OsjeWTi/fnWyNOKw4aWQUsfnatQB7RkltENZkMMPJbjE4e5Bmf26qwfOJTGKAtKT58c6wsJUicMsp4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FsNZ0/3b; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=KzzsWmvND9V5AH8Z2vjxLntJl71SPz+15L5bhLLIqKQoZ8CcF0odnbEXDrePbTmHjQOL7b/o2MVCSbV+ZN4w5UlAW7BbrWrETcnQiuaZYyWXZbiyZ9v+t2uvcMzZsIUVf1ImsK0eq+suq/D4Fc0uNoD1M3ND24dkjU1on+Ol0fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YaMoPmsv; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FsNZ0/3b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765495139; x=1797031139;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oGgLwpC58UPbF1rt7SX/cKJaKFq1u2fGauyH2JjWcjQ=;
-  b=FsNZ0/3bmdaTEsLOCFXbzF+tCjjKmgSzLABcGfplYEJK3DlEXTIn9+Wh
-   4J/3H6iyAQ/GPULjHlwXdoDcR/muebJQQDBudajx/GqFINRUz2W7nvTvX
-   T3ooqIfstNOdl3Ro90Qb/llQK3l0UszQQ67DBNDsbTREyYo65BoLkXL7Q
-   5aH87myqMEjPZBtTfsE+at+bu9xxbuvAz598GisMx6hgB7JXNbiccNGI+
-   gp0P7j4hCpXlaoLWRcEvHP4bkIkCJKADq4i1QhSwTN1I8h3eAEToRVZxu
-   ThMwEXAUZeA1KaeoNPUlNO9ee6kZY63pM5hl+PfG9VM+DqtFSpqXwXU6u
-   Q==;
-X-CSE-ConnectionGUID: 7VklNka8TtK/Vf26ySZKfg==
-X-CSE-MsgGUID: b3LcxOAnTDy9u2HbpaUCZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71111175"
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="71111175"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 15:18:59 -0800
-X-CSE-ConnectionGUID: sFbrYc4HS72LNag77CDiyw==
-X-CSE-MsgGUID: r2haberhT1+ttEY1DTlvJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="201399473"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 11 Dec 2025 15:18:54 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vTpvv-000000005Br-2j0f;
-	Thu, 11 Dec 2025 23:18:51 +0000
-Date: Fri, 12 Dec 2025 07:18:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
-	kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org,
-	si.yanteng@linux.dev, tglx@linutronix.de, jiaxun.yang@flygoat.com,
-	peterz@infradead.org, wangliupu@loongson.cn, lvjianmin@loongson.cn,
-	maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
-	gaosong@loongson.cn, yangtiezhu@loongson.cn
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tianyang Zhang <zhangtianyang@loongson.cn>
-Subject: Re: [PATCH] irqchip/irq-loongarch-ir:Add Redirect irqchip support
-Message-ID: <202512120915.PyiiMOEa-lkp@intel.com>
-References: <20251211091910.5140-3-zhangtianyang@loongson.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YaMoPmsv"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-880576ebe38so6502586d6.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 15:29:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765495765; x=1766100565; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :feedback-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=dbJc1OJNTPxtfWwkX/KBFBuJPaakfzFAHuCWrkILadQ=;
+        b=YaMoPmsvolJAyi23aniLUauSeHFS/a7Zf5QIkcp6Hzs9nTSKKcbKfPebL0OKLS2Yor
+         pMiJkKpG3nMn9fzK8JeApvSUHrP55UodVJC2WlGbny8LU6A44xSZqzb4HFqbvZ/QAdPv
+         zERfb0JRelLy0mkUUhwnEjGcXHA4PzKsmaxVxw8Tf/WwRPt6ZZINKgqCwpxhMd3KEC3R
+         wgdodN3aCJLAZUNQrkeWs/D9sKO0AWb9x4FA5qZIBIrp+/8oVTg5x2uwwOhMmrqamrlK
+         Lm96AyxcmJeynQlckZem45pWiS4Wlp9WZcqEqs0z0erHpLnvxW2/w1rpY8StDGcz+d7p
+         smVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765495765; x=1766100565;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :feedback-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dbJc1OJNTPxtfWwkX/KBFBuJPaakfzFAHuCWrkILadQ=;
+        b=dSdcX7f+pvsyn+cE8Gp2QUAJUWmtrHTBTXh3g2gboKpAyCy/znBw1tVaL77V6U6oXb
+         eBsJY0prD7FH7atbxUXQLJQe6GrK4TLB5F3A/Meo2hYLxw66GJh/q3LaVgiYKvR+y7GO
+         JzBulawVT88QFJnxt9BfNUHp4o1J9AqJ5TOSAVuGTSmJZyW8DINvqQVStc0Q/xO9760h
+         VYa7VXiJEbOXakV9loioUX9NNLSBZk1OIOcMlE9qIebC5pYKv4vlRNf3YNCtgowwQsHT
+         /Z2Jw9rLfeR3Yiv7j0eemPyNL1hUdEkgCgln0E+bGDcb40z1bU5KCz0Rl70CkxZsqwwc
+         QSkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU17WvGU6Qi+NlWCUlAVmjM+PqGYAVYdPTRs1q7g3QDWj+ZTNKigB5+a8dmaiKzfn7vBUvulTUwAJAfpgDS@lists.linux.dev
+X-Gm-Message-State: AOJu0YxlMVlAoK7R49ZHrIwQEpmuXpWyMmuma0/Jz7T5sPBVsYeuiM4r
+	MxvTQFD+YUINnjtPU1i7hYBxi1kirEpvW4PqB2IKakmHAzmIdv/CApR9
+X-Gm-Gg: AY/fxX6oy3Z0pvQDVXiRg/tQjLiT3UabUFtQjJfI0H4FuM3hOD3wkIQPwfoDegk6svj
+	pVhlG9Cd9+dMq/jXrrqUDfmLaw659jpWqk0abpZx2v+W7BmZK0n71m37cQk/zHxpbJwO/WlgVOI
+	/aiN0Rm9BTCOK4cq4oorJEAAiHF2ts7DI3xxySfR89LsLA+XQOkT1awz7ttE1QGSn1LJdPrBz0I
+	5hpDeZ1RU03yuD8+2c6j5L65I5ItEo91947rPqzwqNq1M2prNKM/Gu5B91SYTBW/QQHvDtxy1Dx
+	qwZWloIzVqOgJ+6e/8rZTSNaRixGm8ZuUxk/4GAlUfrL0UKp17LOkbZ/wHYcctKi8kghGGqdUN0
+	/5HmW4iidgOtKnNWelQ1wYcpsrzxQvk/Mr+8CIJ5JkRzvn1JfjCfZnxv9fwPhoV0Jihgdo3h4XJ
+	teqf5IKDAyk2sfGp83wsQQnk2TzqDy4VoikSsVPCCMjwfNZzsGgW3Onla+0gzS1zy6VNEx5nMaW
+	1YntGnIZAWl9D0eEUklOaHQGA==
+X-Google-Smtp-Source: AGHT+IHFf2LFvbLGYxx6dXxdC8TeQEz90eXcCSaH9CyHBqDy90aL+WQS6Oeg098hvM4Hg4X8L4RqsA==
+X-Received: by 2002:a05:6214:766:b0:882:437d:282d with SMTP id 6a1803df08f44-8887e0454c6mr7085056d6.30.1765495764727;
+        Thu, 11 Dec 2025 15:29:24 -0800 (PST)
+Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8886ec5506bsm33737486d6.18.2025.12.11.15.29.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Dec 2025 15:29:24 -0800 (PST)
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 9DB57F40076;
+	Thu, 11 Dec 2025 18:29:23 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Thu, 11 Dec 2025 18:29:23 -0500
+X-ME-Sender: <xms:01M7advYVwYbjHKGHrQCUPFma3brbagCdFJyxoApCjfN_P97Jaze2A>
+    <xme:01M7aQ-_2x4rdDcVKsgGFaDAuo-_SJYZB49_qvDJc6dGoEazL7Zt6Q2mxY14D27-G
+    b9OyK38Up10sdRHRHPlytAB5H2VMyVF0u5zqfRh2ZMIh-WiJZuXfLs>
+X-ME-Received: <xmr:01M7adtwMfsKnGWgBQLG1PqrVSljFtz-hCbvhNxRQQB954co_3xAXZ75Q3xrc-L-60diKqcYEShfgkbpSDV6_pqXr4GLhR2yii4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvieeifecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
+    gvrhhnpeejhfeikeekffejgeegueevffdtgeefudetleegjeelvdffteeihfelfeehvdeg
+    keenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
+    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
+    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthho
+    pedvvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhhighhuvghlrdhojhgvug
+    grrdhsrghnughonhhishesghhmrghilhdrtghomhdprhgtphhtthhopehpvghtvghriies
+    ihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehmihhnghhosehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehtghhlgieslhhinhhuthhrohhnihigrdguvgdprhgtphhtthho
+    peifihhllheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrhhkrdhruhhtlhgrnh
+    gusegrrhhmrdgtohhmpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhr
+    tghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghlvgigrd
+    hgrgihnhhorhesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:01M7aW6Wwm6qRSN7OWmpTNn5n7m9s7gcF5309pV6eytpTwp3yx63Qg>
+    <xmx:01M7aWMkJ-J1lXRjWa7nICMzQoYFCZ95p7r7sfJCO2Hv4obn-htnSg>
+    <xmx:01M7aSLH1_D4i6Lunbol24QObBrNnNdQMq5ckVqfRlQxlqC3vMdJaQ>
+    <xmx:01M7aRzO129C95xCoHHW2hdKQdmsJnT-9HF6n6szKQL11Y01uwn3Rg>
+    <xmx:01M7aS7xqOErWs5UQzu1jdlV0m9VDlYrd73SO3MV3X20kubOHGdcsEdq>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 11 Dec 2025 18:29:22 -0500 (EST)
+Date: Fri, 12 Dec 2025 08:29:20 +0900
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Gary Guo <gary@garyguo.net>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, x86@kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] rust: sync: atomic: Fix fmt warning
+Message-ID: <aTtT0HcnP-1RDoWM@tardis-2.local>
+References: <202512110753.8B3YlvtX-lkp@intel.com>
+ <20251211213133.56265-1-boqun.feng@gmail.com>
+ <CANiq72kHGjVmcje5fgHYqsZOdM7kN6HqnrvMdoLsbp7c_4AUhw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251211091910.5140-3-zhangtianyang@loongson.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72kHGjVmcje5fgHYqsZOdM7kN6HqnrvMdoLsbp7c_4AUhw@mail.gmail.com>
 
-Hi Tianyang,
+On Fri, Dec 12, 2025 at 12:16:45AM +0100, Miguel Ojeda wrote:
+> On Thu, Dec 11, 2025 at 10:31 PM Boqun Feng <boqun.feng@gmail.com> wrote:
+> >
+> > Commit 14e9a18b07ec ("rust: sync: atomic: Make Atomic*Ops pub(crate)")
+> > introduced an import ordering that rustfmt disagrees with. Hence fix it.
+> >
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/lkml/202512110753.8B3YlvtX-lkp@intel.com/
+> > Fixes: 14e9a18b07ec ("rust: sync: atomic: Make Atomic*Ops pub(crate)")
+> > Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> > ---
+> > Hi Ingo & Peter,
+> >
+> > Looks like I missed one rustfmt issue in the commit 14e9a18b07ec in
+> > tip/locking/core, here is the fix. Feel free to fold it if you want.
+> > Apologies for not catching this earlier.
+> 
+> Linus picked 309e49039f12 ("rust: sync: atomic: separate import
+> "blocks"") in mainline a few days ago (but the solution I did was to
+> add a newline to separate the import "blocks" with different
+> visibility instead).
+> 
 
-kernel test robot noticed the following build errors:
+I see, I must miss that. Hence I'm happy to drop this patch ;-) Thank
+you!
 
-[auto build test ERROR on tip/irq/core]
-[also build test ERROR on linus/master v6.18 next-20251211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Regards,
+Boqun
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/irqchip-irq-loongarch-ir-Add-Redirect-irqchip-support/20251211-172347
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20251211091910.5140-3-zhangtianyang%40loongson.cn
-patch subject: [PATCH] irqchip/irq-loongarch-ir:Add Redirect irqchip support
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20251212/202512120915.PyiiMOEa-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120915.PyiiMOEa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512120915.PyiiMOEa-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/irqchip/irq-loongarch-avec.c:416:6: error: use of undeclared identifier 'cpu_has_redirectint'
-     416 |         if (cpu_has_redirectint)
-         |             ^~~~~~~~~~~~~~~~~~~
->> drivers/irqchip/irq-loongarch-avec.c:417:10: error: call to undeclared function 'redirect_acpi_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     417 |                 return redirect_acpi_init(loongarch_avec.domain);
-         |                        ^
-   2 errors generated.
---
->> drivers/irqchip/irq-loongarch-ir.c:141:39: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQH'
-     141 |         u32 head = redirect_read_reg32(node, LOONGARCH_IOCSR_REDIRECT_CQH);
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/irqchip/irq-loongarch-ir.c:143:36: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQT'
-     143 |         *tail = redirect_read_reg32(node, LOONGARCH_IOCSR_REDIRECT_CQT);
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-loongarch-ir.c:161:9: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQT'
-     161 |                              LOONGARCH_IOCSR_REDIRECT_CQT);
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/irqchip/irq-loongarch-ir.c:235:28: error: incomplete definition of type 'struct avecintc_data'
-     235 |         item->gpid->irqnum = adata->vec;
-         |                              ~~~~~^
-   drivers/irqchip/irq-loongarch-ir.c:187:22: note: forward declaration of 'struct avecintc_data'
-     187 | static inline struct avecintc_data *irq_data_get_avec_data(struct irq_data *data)
-         |                      ^
-   drivers/irqchip/irq-loongarch-ir.c:236:25: error: incomplete definition of type 'struct avecintc_data'
-     236 |         item->gpid->dst = adata->cpu;
-         |                           ~~~~~^
-   drivers/irqchip/irq-loongarch-ir.c:187:22: note: forward declaration of 'struct avecintc_data'
-     187 | static inline struct avecintc_data *irq_data_get_avec_data(struct irq_data *data)
-         |                      ^
->> drivers/irqchip/irq-loongarch-ir.c:259:2: error: call to undeclared function 'avecintc_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     259 |         avecintc_sync(adata);
-         |         ^
->> drivers/irqchip/irq-loongarch-ir.c:415:53: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CFG'
-     415 |         redirect_write_reg64(irde->node, CFG_DISABLE_IDLE, LOONGARCH_IOCSR_REDIRECT_CFG);
-         |                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/irqchip/irq-loongarch-ir.c:416:64: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_TBR'
-     416 |         redirect_write_reg64(irde->node, __pa(irde->ird_table.table), LOONGARCH_IOCSR_REDIRECT_TBR);
-         |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-loongarch-ir.c:417:38: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQH'
-     417 |         redirect_write_reg32(irde->node, 0, LOONGARCH_IOCSR_REDIRECT_CQH);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/irqchip/irq-loongarch-ir.c:418:38: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQT'
-     418 |         redirect_write_reg32(irde->node, 0, LOONGARCH_IOCSR_REDIRECT_CQT);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/irqchip/irq-loongarch-ir.c:420:24: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQB'
-     420 |                              CQB_SIZE_MASK, LOONGARCH_IOCSR_REDIRECT_CQB);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/irqchip/irq-loongarch-ir.c:475:46: error: use of undeclared identifier 'AVEC_MSG_OFFSET'
-     475 |         msi_base_addr = pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
-         |                                                     ^~~~~~~~~~~~~~~
->> drivers/irqchip/irq-loongarch-ir.c:485:12: warning: no previous prototype for function 'redirect_acpi_init' [-Wmissing-prototypes]
-     485 | int __init redirect_acpi_init(struct irq_domain *parent)
-         |            ^
-   drivers/irqchip/irq-loongarch-ir.c:485:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     485 | int __init redirect_acpi_init(struct irq_domain *parent)
-         | ^
-         | static 
-   1 warning and 12 errors generated.
-
-
-vim +/redirect_acpi_init +417 drivers/irqchip/irq-loongarch-avec.c
-
-   413	
-   414	static inline int __init acpi_cascade_irqdomain_init(void)
-   415	{
-   416		if (cpu_has_redirectint)
- > 417			return redirect_acpi_init(loongarch_avec.domain);
-   418	
-   419		return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
-   420	}
-   421	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Cheers,
+> Miguel
