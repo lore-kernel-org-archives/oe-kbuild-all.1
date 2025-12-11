@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E373221FD0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 22:14:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAB117555
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 22:41:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765491295; cv=none; b=hzgybo+RI1/o6g8MlTysirI8+hcFU3qpHzRWuIv+iIQXkQonTuFCkEdg7lvXr50kW7JrqfD4ccdO5vBNBJBWSi28yiSdJvcO+aCs8x8BRVWoIILh6MauulQzY23jIWzjhewwtBP73hd8TKyyTujWyn98KVSCZkOWfiNA1uO5rfI=
+	t=1765492916; cv=none; b=nJ3Bw4KErCdVZQ5WVPXXzr8tY56YZURWTIFY3Hh0iF0nbvJNdHh2ZjsXz7rP0TXnPjcDV422zkvRybHzFTJFfucYpmvYc8PD6hQl+S2UytbALGNicgdhXpwUCgYvfUfsNRqn1FAbkKmq99+Mqs0gd71T16Jeov22gkeXBaR71a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765491295; c=relaxed/simple;
-	bh=yB+MzgSohP4VCM8o898PRBFCYr3r81ZsKdLKkMhmJPI=;
+	s=arc-20240116; t=1765492916; c=relaxed/simple;
+	bh=74OT5wEAasHE6C/EFJ536zdkyQ4fUNktLeXsLxTrj4M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=c4UVd6VRfQqwwLRtcKGXzM9/1sWDC8xxr4caeyBvZu4N/Z9WUqbPvDh4PgE/AE0Eb1ui3gyW0fH2vtDb0MheJdd/u1dMVTbLq8sOW3CbxPtdJpix/YnR61xDPN9IbqwmdQqns/N6yFzX7lIyb7bpgv/sTooZkQqTqj7V3H7Ff/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=drPPfiP8; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=luPHS+70SFDGPTao/H5Z+dhwMhBQ6+PvTVV6vMwmSZjEAw7wgs6ch+H+28QcIE+n7+NJeZFtOsXNTxhB9JUCqtl0SqLpZLSDEFNtV7d2dRHWuUyDQ79jQoBEaZ54eXZHK0bOdCJq2yhJ1JDtHIUrCuVroW/cxJETKCauHefJ+BU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PC+m4icD; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="drPPfiP8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PC+m4icD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765491294; x=1797027294;
+  t=1765492914; x=1797028914;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yB+MzgSohP4VCM8o898PRBFCYr3r81ZsKdLKkMhmJPI=;
-  b=drPPfiP8mHOAVgDJslBq+4W9Uf5HVb+jnLpEy7QX1o+mQQ51s9XpGgpA
-   JITmkeAggTKxEzvnQ8D3wM+6F+gXh7PkYv+ObBWlN2EBI0pt0AHJt6JNL
-   2cxeVoBH2mFeOJswtcecoNpVlfJUn7bqH2PENsn5Dm8JIVYWqGeDC1bi4
-   ZsjSBTyJur5EEdjzZG7bquOSaEPtjPqoCOkA0pOBzpUT+u7FpjBaLw+vd
-   lnK/Vxhf+9r3i8L8kHQkyFJBRLl0h88U6WCCIGvP4Mxok6hGAbkzryCIj
-   66vHRBQyhRyBnzNLbXTTFGbVORKNYJb8l1MUOdEqvrqGdtnI7TErWKJBV
-   Q==;
-X-CSE-ConnectionGUID: hbbJ7mrITbeNdiSSkcaiwQ==
-X-CSE-MsgGUID: S0ibKxevS4CiP58t2IwSwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71329446"
+  bh=74OT5wEAasHE6C/EFJ536zdkyQ4fUNktLeXsLxTrj4M=;
+  b=PC+m4icDvQI3zbYXGxCXfS6EDkGMJ0v/qWGyTZAdaIZDn1NINJ0Z3+Dr
+   TVPsTVg/rHbLnRmHYdFMTrCuU5cENgLvN+OjMq7kn0DqFh1exsXmdSSxY
+   VRKhr3+4Ypmqu3Feq/23U2+KUeDv0TpRUNZsW29Jtl0laE1jN3+yoK2j9
+   +3h2e/g6fyYuA/0iYmPfN849GyrpDn5XhwKKwZ3IIZ7EBadP/6mmngORx
+   ChslxlTJm3VycHmv9EwH6EADpWxwVeEVfLvGjgnVOTGg4h8Q8Nnhq/ekB
+   J0/sT1SRLF7z6gqekD/h+5e9C/BH/swylR2YrTD6ZroRW4Q1Ihdg1g8Fa
+   A==;
+X-CSE-ConnectionGUID: 7U5VkjzPRreAU2JVSuLsDw==
+X-CSE-MsgGUID: X0sMO/owR3inTp9lLzbSRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71331703"
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="71329446"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 14:14:53 -0800
-X-CSE-ConnectionGUID: LZuJmqAdSYiXUjDr0EFc/g==
-X-CSE-MsgGUID: c9/xRjQUTJavvEf2b5D9zA==
+   d="scan'208";a="71331703"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 14:41:54 -0800
+X-CSE-ConnectionGUID: aIvDryUVR6GoawNMDUCoyQ==
+X-CSE-MsgGUID: cCQh/PbaTdePrVBw5Q3oVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="227974139"
+   d="scan'208";a="197393695"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Dec 2025 14:14:52 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 11 Dec 2025 14:41:53 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTovy-000000001Cm-1DJW;
-	Thu, 11 Dec 2025 22:14:50 +0000
-Date: Thu, 11 Dec 2025 23:14:35 +0100
+	id 1vTpM6-000000001DA-2Wqy;
+	Thu, 11 Dec 2025 22:41:50 +0000
+Date: Thu, 11 Dec 2025 23:41:12 +0100
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Long Li <leo.lilong@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3508/3508] drivers/dax/super.c:45: warning:
- Function parameter or member 'KABI_RESERVE(1' not described in 'dax_device'
-Message-ID: <202512112304.Mi0KvHRe-lkp@intel.com>
+To: Yuwen Chen <ywen.chen@foxmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: ../include/atomic.h:23:3: error: conflicting types for 'atomic_t';
+ have 'struct <anonymous>'
+Message-ID: <202512112344.gsyPl2ag-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,65 +62,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Long,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5930fa3740c518a9f6ba688fd0c1873d6f3adbce
-commit: 63101913bbd057cea31fb598eeb4a4c91584f0f0 [3508/3508] dax: kabi: Reserve KABI slots for dax_* struct
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251211/202512112304.Mi0KvHRe-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4125e73cdc6188cca4c1c72b72e2b2d85c157483)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512112304.Mi0KvHRe-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Yuwen-Chen/selftests-futex-reduce-array-declarations-in-the-requeue_single/20251211-164459
+head:   5206009a8b55a69e9ec88da5309b93da223a5eeb
+commit: 5206009a8b55a69e9ec88da5309b93da223a5eeb selftests/futex: fix the issue of abnormal test results caused by thread timing
+date:   14 hours ago
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251211/202512112344.gsyPl2ag-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512112344.gsyPl2ag-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512112304.Mi0KvHRe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512112344.gsyPl2ag-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/dax/super.c:45: warning: Function parameter or member 'KABI_RESERVE(1' not described in 'dax_device'
-
-
-vim +45 drivers/dax/super.c
-
-7b6be8444e0f0d Dan Williams      2017-04-11  17  
-1b7646014e0d83 Christoph Hellwig 2021-08-26  18  /**
-1b7646014e0d83 Christoph Hellwig 2021-08-26  19   * struct dax_device - anchor object for dax services
-1b7646014e0d83 Christoph Hellwig 2021-08-26  20   * @inode: core vfs
-1b7646014e0d83 Christoph Hellwig 2021-08-26  21   * @cdev: optional character interface for "device dax"
-1b7646014e0d83 Christoph Hellwig 2021-08-26  22   * @private: dax driver private data
-1b7646014e0d83 Christoph Hellwig 2021-08-26  23   * @flags: state and boolean properties
-db8cd5efeebc49 Ira Weiny         2022-03-04  24   * @ops: operations for this device
-8012b866085523 Shiyang Ruan      2022-06-03  25   * @holder_data: holder of a dax_device: could be filesystem or mapped device
-8012b866085523 Shiyang Ruan      2022-06-03  26   * @holder_ops: operations for the inner holder
-1b7646014e0d83 Christoph Hellwig 2021-08-26  27   */
-1b7646014e0d83 Christoph Hellwig 2021-08-26  28  struct dax_device {
-1b7646014e0d83 Christoph Hellwig 2021-08-26  29  	struct inode inode;
-1b7646014e0d83 Christoph Hellwig 2021-08-26  30  	struct cdev cdev;
-1b7646014e0d83 Christoph Hellwig 2021-08-26  31  	void *private;
-1b7646014e0d83 Christoph Hellwig 2021-08-26  32  	unsigned long flags;
-1b7646014e0d83 Christoph Hellwig 2021-08-26  33  	const struct dax_operations *ops;
-8012b866085523 Shiyang Ruan      2022-06-03  34  	void *holder_data;
-8012b866085523 Shiyang Ruan      2022-06-03  35  	const struct dax_holder_operations *holder_ops;
-63101913bbd057 Long Li           2024-02-07  36  
-63101913bbd057 Long Li           2024-02-07  37  	KABI_RESERVE(1)
-63101913bbd057 Long Li           2024-02-07  38  	KABI_RESERVE(2)
-63101913bbd057 Long Li           2024-02-07  39  	KABI_RESERVE(3)
-63101913bbd057 Long Li           2024-02-07  40  	KABI_RESERVE(4)
-63101913bbd057 Long Li           2024-02-07  41  	KABI_RESERVE(5)
-63101913bbd057 Long Li           2024-02-07  42  	KABI_RESERVE(6)
-63101913bbd057 Long Li           2024-02-07  43  	KABI_RESERVE(7)
-63101913bbd057 Long Li           2024-02-07  44  	KABI_RESERVE(8)
-1b7646014e0d83 Christoph Hellwig 2021-08-26 @45  };
-1b7646014e0d83 Christoph Hellwig 2021-08-26  46  
-
-:::::: The code at line 45 was first introduced by commit
-:::::: 1b7646014e0d838b06be7288e2dec3262948cc56 dax: mark dax_get_by_host static
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+   In file included from futex_requeue_pi.c:30:
+>> ../include/atomic.h:23:3: error: conflicting types for 'atomic_t'; have 'struct <anonymous>'
+      23 | } atomic_t;
+         |   ^~~~~~~~
+   In file included from usr/include/linux/sched/types.h:5,
+                    from /usr/include/x86_64-linux-gnu/bits/sched.h:63,
+                    from /usr/include/sched.h:43,
+                    from /usr/include/pthread.h:22,
+                    from futex_requeue_pi.c:24:
+   ../../../../include/linux/types.h:81:3: note: previous declaration of 'atomic_t' with type 'atomic_t'
+      81 | } atomic_t;
+         |   ^~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
