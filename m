@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84AA1F03EF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 18:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E2F27B349
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 18:38:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765477013; cv=none; b=bIc+TxHIIEnPRLGm7Ap1oLEM4+MOLu87uqQnbfv844/niiCyJ8dQctwPSlv+BbgnPFEbb66c6w4JffZRwxRzZQ+2B5wsuDCqoXwPOMn+G0JsmFatWYP85dMBOJW2Tl5aUtaqIxkRPftSpK0+GStgskz78c67ar5agwbw76JZYPc=
+	t=1765478323; cv=none; b=kRQeMGYuhuJNnujeMSMk86TM+RlzCt/lUWJR7AkEEW742wBbBpEw9XqzugiKB4Gj9WrePdRJRUV9m0xHNtesOYF9taPX5YCWPRX4jdvrKndRQmz2ecJ3aQVOh1dfJqnQ+0Frb3tze6B0IqOqYBOv8G5I5lyUdpt/BauX+HOjD40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765477013; c=relaxed/simple;
-	bh=gDr9JMCsuH+Ifvniu1efcK6UQybod99PxHC5gdsj59A=;
+	s=arc-20240116; t=1765478323; c=relaxed/simple;
+	bh=55zxwtNCCQ5okfFDxnkDjPzE6nkcwOJs8l0+79xvA+A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hi7qaFRLW0+K3enxB7JxDvIrzYUUs6EfeAhRYtDARYiCyzA6Ll6w+vncXIk/wWcEFghfwxrhTzdJyJ8y1Eb2aC2w/wsILYAvtu2tmZcj1XLU6xAhPOIBr9H3Z0bWWBknZ6mO6Nz/9Ga3Xq+XfZ3NgC4zsuQVBSdhQH/ZhI26+GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iB3xcGHr; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition:In-Reply-To; b=rCKLeuF7UBxYK0zElSfCjczBTf8Ve5Igu8iXgU/XOxv0j2fcEf8B0dQTec2IsswHs5/CS3E6sIDh/CpmZuHWVakYJPNdc58WQRZ0AvE+YNrkUzlHHAp38vmJc0SFp1mePjmgtGDHq/+AH2x6Pq9BVHmtm8jBofJR9YHKnv7VwYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X44xZnwe; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iB3xcGHr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X44xZnwe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765477012; x=1797013012;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gDr9JMCsuH+Ifvniu1efcK6UQybod99PxHC5gdsj59A=;
-  b=iB3xcGHrg5zNgecAkhxlmIA7XwAluP9wPfui6jffhcurvsIvAEfWd+Gw
-   12BmmC7E0HjeEiUc9avmaRpbwMoRtVSVvJy3TiVUKZTcIJJIb9sfGEMcj
-   PAQyqjppt+dXYcOjwH8/TJLjNNzVasq0AKORwG2VXbNXGlS2QWY8VCyaT
-   tUmQQ3LI7DqzMGQl5U3n2TXohdOIQ5abggNNIpGmx6c3Zc3XefrsOZ2Yv
-   ephpKCd5pH1DxL96d0CVMVNCUZuwV7FTyj7AM7ZzTSDaaqruooKijtMBh
-   8HNF1oCyxUQdVN0Pyfsz4GSbS/q8hzvqzoAkJNIQPT+WlBp37t33RRSs4
-   w==;
-X-CSE-ConnectionGUID: zh3cjJwTSa+/2RZD2G0Ifw==
-X-CSE-MsgGUID: ytBPtLZUROy4oIAcKyo0CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71333503"
+  t=1765478322; x=1797014322;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=55zxwtNCCQ5okfFDxnkDjPzE6nkcwOJs8l0+79xvA+A=;
+  b=X44xZnweQfHl7+j1xi3GTqMnMfpqR1mzrRNxrfu1ObBTxsjj1cAGDuAF
+   ctkJXqhA1UikxFSoQKFZRklqJExIJfq9+otfzZTExuvZ8EbVwOCKWE26E
+   dsRmAouXFDTn64HF1dyKKqv7XLJk3u1yl3EzYP6GXMjcO0SfC0qWRYH/p
+   FN3V7JAHVvhif+ObEiG8kkYHWcNVuMBCtnm5L9HX8VUPn0/U9TISjRgDg
+   0rttROSncTy0yl6pu5D2dXK777H+V7wGVpjwuIP4piojEjaz5YnktSDqi
+   w2wGUmm/Q+CbJkTOUv29Gj428k4DKsxILmALS2cMKYGe0GxZHHVKG7AJg
+   g==;
+X-CSE-ConnectionGUID: w8+PNXPuS6G86O5pqT6gWQ==
+X-CSE-MsgGUID: nAhVWfTlRqaMtb/LkwBFkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71335339"
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="71333503"
+   d="scan'208";a="71335339"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 10:16:52 -0800
-X-CSE-ConnectionGUID: SwuK8YPVRQaaRFWjaCzEZA==
-X-CSE-MsgGUID: x34eFPSJQJGpaR1bzdqBhg==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 10:38:41 -0800
+X-CSE-ConnectionGUID: QPpvmz5mRfuB/HqtxXsnZw==
+X-CSE-MsgGUID: ABBCSylSS9Wuq6vy5e9rAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="227508558"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 11 Dec 2025 10:16:51 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="227512390"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 11 Dec 2025 10:38:40 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTlDc-000000001AK-0ojA;
-	Thu, 11 Dec 2025 18:16:48 +0000
-Date: Thu, 11 Dec 2025 19:16:30 +0100
+	id 1vTlYk-000000004yb-2KDZ;
+	Thu, 11 Dec 2025 18:38:38 +0000
+Date: Fri, 12 Dec 2025 02:38:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3508/3508] drivers/acpi/pptt.c:411: warning:
- Function parameter or member 'acpi_cpu_id' not described in
- 'acpi_pptt_get_cpus_from_container'
-Message-ID: <202512111902.thfID0yT-lkp@intel.com>
+To: Fernand Sieber <sieberf@amazon.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] perf/x86/intel: Do not enable BTS for guests
+Message-ID: <aTsPqAjuZDLKLJKN@7da092942895>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251211183604.868641-1-sieberf@amazon.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5930fa3740c518a9f6ba688fd0c1873d6f3adbce
-commit: 45f065231c8fbabe4e1b4449425a0574287e2bbb [3508/3508] ACPI / PPTT: Add a helper to fill a cpumask from a processor container
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251211/202512111902.thfID0yT-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4125e73cdc6188cca4c1c72b72e2b2d85c157483)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111902.thfID0yT-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512111902.thfID0yT-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   drivers/acpi/pptt.c:342: warning: Function parameter or member 'callback' not described in 'acpi_pptt_for_each_container'
-   drivers/acpi/pptt.c:342: warning: Function parameter or member 'arg' not described in 'acpi_pptt_for_each_container'
->> drivers/acpi/pptt.c:411: warning: Function parameter or member 'acpi_cpu_id' not described in 'acpi_pptt_get_cpus_from_container'
->> drivers/acpi/pptt.c:411: warning: Function parameter or member 'cpus' not described in 'acpi_pptt_get_cpus_from_container'
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +411 drivers/acpi/pptt.c
-
-   400	
-   401	/**
-   402	 * acpi_pptt_get_cpus_from_container() - Populate a cpumask with all CPUs in a
-   403	 * 					 processor containers
-   404	 *
-   405	 * Find the specified Processor Container, and fill cpus with all the cpus
-   406	 * below it.
-   407	 *
-   408	 * Return: 0 for a complete walk, or an error if the mask is incomplete.
-   409	 */
-   410	int acpi_pptt_get_cpus_from_container(u32 acpi_cpu_id, cpumask_t *cpus)
- > 411	{
-   412		struct __cpus_from_container_arg params;
-   413	
-   414		params.acpi_cpu_id = acpi_cpu_id;
-   415		params.cpus = cpus;
-   416	
-   417		cpumask_clear(cpus);
-   418		return acpi_pptt_for_each_container(&__cpus_from_container, &params);
-   419	}
-   420	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] perf/x86/intel: Do not enable BTS for guests
+Link: https://lore.kernel.org/stable/20251211183604.868641-1-sieberf%40amazon.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
