@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772921FF1B5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 03:07:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575322773CB;
+	Thu, 11 Dec 2025 03:07:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765422453; cv=none; b=bqp/fxwofakyKN8uh9l2Zn2s4siHstJFJ4rUdUCRf8g4h+Pl9XupGlr5xaDwdCC5zai7+m9Rgjko6KgieZbNtFbWkTatUVFBuT6Sj8lx5fcIKg79S95q8sF1liDYIaSB07y49Isrm/8nl/Wy0xElT4qTOwa+s7NFUej552bACUQ=
+	t=1765422454; cv=none; b=Hn/siHSsAbsIW99ru9S5PLdDsQkanVtpSBMdvQNvYHuyAucLNjY+5ttgSUdvGnCAGtxD3ZbF8p4OOS8pEh5LC+3agqkvg5fi93f6h7YzsXq1/onAf8iSTnfldg+U4tiEZlUH6I3LdZ5LWtq/XlbU/K5W/UQMXA56L76J670HCtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765422453; c=relaxed/simple;
-	bh=/jvdg0ebw5NikamhdaZHwYk5mjdJYuwqMGO4uSL/kJE=;
+	s=arc-20240116; t=1765422454; c=relaxed/simple;
+	bh=lmnuZYwe7bqC2tN+mipjh87OoRSTAugRjG2pVJ7PtY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f4wkbBdUMBNsCdOOlua2dAQYRjQuZmZxoIaMPRZ04MQGQ9KQt0AoRKRknz8Brlb8nyEVcFaqDKZRZQbr8YkZGripnJYYdFGYbr3okTo/UT2g9IlPgvD6QIIIWt80mJjeVo09XfwlPmZoPEL3lctqvKyQAnTyLn7gNvKyQ2k0LkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KN9zZDkQ; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=bqfY93NhjajP2b7zwc2sRgLqn6fWOXfSIAze/9Vqdf9oaeXo+U9wH0QQIM6Ff0fZspbFLeTlI9IpCtClcbpXwG1BbwhtMLgyKtPhc35rqJ6eCisqueQP965HBrCha2x5NRspu/mar+8YTVATNSfBP9JlmUWnswkr6507AZThx2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AacWQ4JF; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KN9zZDkQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AacWQ4JF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765422451; x=1796958451;
+  t=1765422453; x=1796958453;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/jvdg0ebw5NikamhdaZHwYk5mjdJYuwqMGO4uSL/kJE=;
-  b=KN9zZDkQ5ZXQPwCOeQS1aAMT/f1UKL9PlDketp3kiOBk/+Zm6kTFOfwg
-   KlSXvkAzNvVSJtZiaSjwWVoF4q50e7tmX4+f669J1oCHLgNENzx58ppgD
-   I376cYZvMaKy6l4RRarAkYclit9pHIIErVB4f7qH9N/aC4frVABGXR6j+
-   A6LERdXvivXfr5XaaoyZ9DE5LfapnlEBbTTDLHOwBIpTk6KCChj3uotd8
-   1fJ/QORZCa8ZxjMXFAxbkHiCMbpuuvp5SyPZoww3xQ+Un6lOU7wiZSc6a
-   V18WqPzNyZP6lk962XVJTeAnKXwCLK36pN3nUG8m1IfxkbMbyNE4atOuk
-   Q==;
-X-CSE-ConnectionGUID: 4161/DH4TqaHw1R0dXI06Q==
-X-CSE-MsgGUID: Elf0LYu3Q3W2kPQAzZMWPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67337972"
+  bh=lmnuZYwe7bqC2tN+mipjh87OoRSTAugRjG2pVJ7PtY4=;
+  b=AacWQ4JFYD+2WpSXT9a9mrsh50pYmaejprs301vK6UkH6tVTaCquOOrN
+   24SpLA2BdbG97t9IL6wDqyQDU2vE8C65WsMGPthBAWboOUqpXp0UiFl61
+   YRwqxwTu74bhrr6J+9vobSHqR7BgcfnkfoPCtQDeyzey8UpVZmwcZDEdu
+   2y/Q44t3x6dS4xixHBcfygplkieAEJHixyHKnu50+KCMTJo3B87O3Hjxl
+   yoHOa8fgOazfOmeRYA9hENjEKhZTylbfsp9BD8geVgI5djRX1RUnUTFUm
+   vKzuwDLdKa3SiG+lKuNxFNZhtMV358LoF5DoD0MxVhaOGOR5JpPe5inu6
+   A==;
+X-CSE-ConnectionGUID: y7IoYBunS0GQceLK9FVL+Q==
+X-CSE-MsgGUID: mevuuGEqT4iaDCroh7oDsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67337973"
 X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67337972"
+   d="scan'208";a="67337973"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 19:07:31 -0800
-X-CSE-ConnectionGUID: OkUmW2+DR8OjOmVk+2C++g==
-X-CSE-MsgGUID: nkIZJaivQyyYGN35+wni7Q==
+X-CSE-ConnectionGUID: HYdoxkFXT7WGaaGcEBGxiw==
+X-CSE-MsgGUID: khOKHuQ4Qf6SUIj4sHcMeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="201605498"
+   d="scan'208";a="201605497"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 10 Dec 2025 19:07:29 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTX1b-0000000045X-1v3w;
+	id 1vTX1b-0000000045V-1oZY;
 	Thu, 11 Dec 2025 03:07:27 +0000
-Date: Thu, 11 Dec 2025 11:07:13 +0800
+Date: Thu, 11 Dec 2025 11:07:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3534/3534] kernel/irq/proc.c:334:13: warning: no
- previous prototype for function 'register_irqchip_proc'
-Message-ID: <202512111142.MddOammZ-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:keys-pqc 5/5]
+ crypto/asymmetric_keys/rsassa_parser.c:134:49: warning: variable 'ret' is
+ uninitialized when used here
+Message-ID: <202512111141.S4lpNMtP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +63,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Jinjie,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   423fccda72fc2b78107cc119a1755d968c2c36de
-commit: 3053668e6b211924bb67c19d791a5a532eca2ad8 [3534/3534] arm64: Introduce Xint software solution
-config: x86_64-randconfig-013-20251211 (https://download.01.org/0day-ci/archive/20251211/202512111142.MddOammZ-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
+head:   36c9b1b46c63798cb54fac7ece3c85a1a02e0dc2
+commit: 36c9b1b46c63798cb54fac7ece3c85a1a02e0dc2 [5/5] Add RSASSA-PSS support (RFC8017)
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251211/202512111141.S4lpNMtP-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111142.MddOammZ-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111141.S4lpNMtP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512111142.MddOammZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512111141.S4lpNMtP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/irq/proc.c:334:13: warning: no previous prototype for function 'register_irqchip_proc' [-Wmissing-prototypes]
-     334 | void __weak register_irqchip_proc(struct irq_desc *desc, void *irqp) { }
-         |             ^
-   kernel/irq/proc.c:334:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     334 | void __weak register_irqchip_proc(struct irq_desc *desc, void *irqp) { }
-         | ^
-         | static 
->> kernel/irq/proc.c:335:13: warning: no previous prototype for function 'unregister_irqchip_proc' [-Wmissing-prototypes]
-     335 | void __weak unregister_irqchip_proc(struct irq_desc *desc) { }
-         |             ^
-   kernel/irq/proc.c:335:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     335 | void __weak unregister_irqchip_proc(struct irq_desc *desc) { }
-         | ^
-         | static 
-   2 warnings generated.
+>> crypto/asymmetric_keys/rsassa_parser.c:134:49: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     134 |                 pr_debug("Unsupported MaskGenAlgorithm %d\n", ret);
+         |                                                               ^~~
+   include/linux/printk.h:636:26: note: expanded from macro 'pr_debug'
+     636 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:270:22: note: expanded from macro 'dynamic_pr_debug'
+     270 |                            pr_fmt(fmt), ##__VA_ARGS__)
+         |                                           ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   crypto/asymmetric_keys/rsassa_parser.c:107:9: note: initialize the variable 'ret' to silence this warning
+     107 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
-vim +/register_irqchip_proc +334 kernel/irq/proc.c
+vim +/ret +134 crypto/asymmetric_keys/rsassa_parser.c
 
-   333	
- > 334	void __weak register_irqchip_proc(struct irq_desc *desc, void *irqp) { }
- > 335	void __weak unregister_irqchip_proc(struct irq_desc *desc) { }
-   336	
+   102	
+   103	int rsassa_note_maskgen_algo(void *context, size_t hdrlen, unsigned char tag,
+   104				     const void *value, size_t vlen)
+   105	{
+   106		struct rsassa_parse_context *ctx = context;
+   107		int ret;
+   108	
+   109		ctx->rsassa->maskgen_algo = ctx->last_oid;
+   110		if (!ctx->params)
+   111			pr_debug("MGF-ALGO %u %*phN\n",
+   112				 ctx->rsassa->maskgen_algo, ctx->params_len, ctx->params);
+   113		else
+   114			pr_debug("MGF-ALGO %u\n",
+   115				 ctx->rsassa->hash_algo);
+   116	
+   117		switch (ctx->rsassa->maskgen_algo) {
+   118		case OID_id_mgf1:
+   119			if (!vlen) {
+   120				pr_debug("MGF1 missing parameters\n");
+   121				return -EBADMSG;
+   122			}
+   123	
+   124			ret = asn1_ber_decoder(&mgf1_params_decoder, ctx,
+   125					       ctx->params, ctx->params_len);
+   126			if (ret < 0) {
+   127				pr_debug("MGF1 parse failed %d\n", ret);
+   128				return ret;
+   129			}
+   130			ctx->rsassa->maskgen_hash = ctx->mgf1_last_oid;
+   131			break;
+   132	
+   133		default:
+ > 134			pr_debug("Unsupported MaskGenAlgorithm %d\n", ret);
+   135			return -ENOPKG;
+   136		}
+   137	
+   138		ctx->params = NULL;
+   139		return 0;
+   140	}
+   141	
 
 -- 
 0-DAY CI Kernel Test Service
