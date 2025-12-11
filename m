@@ -1,199 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436FF1A9F9B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 04:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25C8272803
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 04:57:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765428762; cv=none; b=ff6SiynhvVvOfZduexM7lFjBX6z1pDmzlOXqjXlz5QqaecoX9+T9MWyiymViAGwgoB8bDgn3ELpGTvwB54osJmNftPT5OY7YJMLkPdROR84m/7yqOKQ/BOaz85EgU5Jm9rehw1yr0KA2pnYRdorABlgjrOeGOJhHr47lInBzkFo=
+	t=1765429059; cv=none; b=aKh372FyLyiSzSzr8xjSIYhLNLMr5dJt37Pqr9US/OThF5pwuq3saIHg9ZCyOT81+Mz2H1u5NoKZ6Ia0K+bGbxGGFTIsgqXUlaTWlM5qpJ/AnbwPTHnGtLCEcEneEwc3Mn+pZDmcbj+etvB8BLkdWO5Vj4nB1OFLxJVGEeilis8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765428762; c=relaxed/simple;
-	bh=RLOvS2UOKhVDWh1zsoY1S77ONpx6U33DQqQDH56Gv0w=;
+	s=arc-20240116; t=1765429059; c=relaxed/simple;
+	bh=MDFsxle5aDRf4IM1vvy4q90qL8AIjTX5fFYQFk1Ee9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OwyV1VVWGay1cCAGE3uf1u9HjxaDfj0JkSaefeLMvEQaFe84Tb4EUSyw4JSukfCYYG0TXAsuiT2K0UH3hhoKN7202EA7JMEVO4nCKMOTw3fKB1kE9Rt8LfN20d07/rPsW5M3vN24cJZN25jB4igPtJWgyc3pADAjAyfQEZu17qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NnlT83BR; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=Q69b/HwJpSqPTQQVUZTO0+8NgsVyhz+rp+28JQaWRRAyicVBu+P/+SXUW+edKNoptnreicG8AwTfCV69QUgOzI+cIUXeYgiHbTncpK7l2nCtS/cVl7wM59hRD+AaC7+AikURkMWiPhWeOMa4Sty8nK/jXNtrqF4FjbHiMVOKM3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CdEeNDpo; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NnlT83BR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CdEeNDpo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765428760; x=1796964760;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RLOvS2UOKhVDWh1zsoY1S77ONpx6U33DQqQDH56Gv0w=;
-  b=NnlT83BRxy503epfGaM9JfDy2VREdDqKbOUp5ITVxkTbCZszNY34PBv3
-   IHoLUVe7n2UlSJJ+XgHDFEq1WSzMGEMiaMCnNEEjWUqTWhBAFsNENSBV3
-   728UUNSuN+keKFNqKQz6RTIF9nbg/jExOGl4XFldAhsEDsvM+Phk/hLgx
-   vnJPEOKg45gbVb4QG2dtmh7DXity4x6TFV55zOXJzIoZC1ciOP7fM4I4O
-   W7p74beYwj0WpAulFYr/SnW9vSmdxkLfdtJ6EvzD9EVrL98tqVQpG/S16
-   Vcxdj59zPm248UGRu0zFtyEnTPzGfuGeMNTWTLotHntJJXzCgL8zLyQll
-   g==;
-X-CSE-ConnectionGUID: eeF7PgzUT3y/HKzZu5j8ZQ==
-X-CSE-MsgGUID: fmyaQ72fTcilp1/gBpv/yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="78520053"
+  t=1765429058; x=1796965058;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MDFsxle5aDRf4IM1vvy4q90qL8AIjTX5fFYQFk1Ee9Y=;
+  b=CdEeNDpoexBFLr7H3XLXdEht2d3pjuYNq7CdCqpRwf+rzDOZzD0KrFFd
+   A97AqJaureImD+p9WKZ2BR8zeQ7vxDCveImiHWQdbAUiHd3nZxxu+lcIY
+   pxWBHmTyEVb4SZW72amzdEHNdt7Z6GsncRLiH1KDszLC1MkDTNM0ZHDQ4
+   Scfsr5owNjAYT9XuBX89YQ5I1EgFMX5CblRk6q61tTbXQ3LCMEv0UaQUg
+   MVws5eILjZ7e/iYJbyI4Sech0d5Cu4N+MX1tBKZq6Sld7lTPnOYiC7JD6
+   6NWbgklaCbqAFWANs1HVKLRVG8rL2hSCFoJvuKnIDcKKx0scjJDTjQOlC
+   w==;
+X-CSE-ConnectionGUID: QJg1UyI2SfGVoLbCqXSiLA==
+X-CSE-MsgGUID: 4GHsMmbhT5Wn+192/PtV4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="67292940"
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="78520053"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 20:52:39 -0800
-X-CSE-ConnectionGUID: aMRltlN+Tf67fYkFrg8kcA==
-X-CSE-MsgGUID: IU/ixHNnQ4iifOrNOZEJ8g==
+   d="scan'208";a="67292940"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 20:57:38 -0800
+X-CSE-ConnectionGUID: Pw/LhtQFTK+6Uji6UsRBtg==
+X-CSE-MsgGUID: sLtyJGKTS0+s5hRZkf1wTA==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Dec 2025 20:52:38 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
+   d="scan'208";a="227760024"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 10 Dec 2025 20:57:35 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTYfM-000000000uq-3IbC;
-	Thu, 11 Dec 2025 04:52:36 +0000
-Date: Thu, 11 Dec 2025 05:51:51 +0100
+	id 1vTYk9-000000004Ai-0eWQ;
+	Thu, 11 Dec 2025 04:57:33 +0000
+Date: Thu, 11 Dec 2025 12:57:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Lin Yujun <linyujun809@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3508/3508] htmldocs:
- ./include/drm/drm_client.h:121: warning: Function parameter or member
- 'KABI_RESERVE(1' not described in 'drm_client_dev'
-Message-ID: <202512110521.WzYXo1Tx-lkp@intel.com>
+To: Nam Cao <namcao@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: kernel/time/sched_clock.c:219:13: sparse: sparse: dereference of
+ noderef expression
+Message-ID: <202512111251.xMUT4l7V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   423fccda72fc2b78107cc119a1755d968c2c36de
-commit: 1658eb12c6b6bbcff49c2e8fa1fc13f32bd45ee4 [3508/3508] drm: drm_client.h: Add kabi_reserve
-reproduce: (https://download.01.org/0day-ci/archive/20251211/202512110521.WzYXo1Tx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d358e5254674b70f34c847715ca509e46eb81e6f
+commit: 04257da0c99c9d4ff7c5bb93046482e1f7d34938 hrtimers: Make callback function pointer private
+date:   8 months ago
+config: arc-randconfig-r122-20251211 (https://download.01.org/0day-ci/archive/20251211/202512111251.xMUT4l7V-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111251.xMUT4l7V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512110521.WzYXo1Tx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512111251.xMUT4l7V-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/time/sched_clock.c:219:13: sparse: sparse: dereference of noderef expression
 
-   ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109: warning: Function parameter or member 'top_gain' not described in 'mpcc_blnd_cfg'
-   ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109: warning: Function parameter or member 'bottom_inside_gain' not described in 'mpcc_blnd_cfg'
-   ./drivers/gpu/drm/amd/display/dc/inc/hw/mpc.h:109: warning: Function parameter or member 'bottom_outside_gain' not described in 'mpcc_blnd_cfg'
-   Error: Cannot open file ./include/linux/backlight.h
-   Error: Cannot open file ./include/linux/backlight.h
->> ./include/drm/drm_client.h:121: warning: Function parameter or member 'KABI_RESERVE(1' not described in 'drm_client_dev'
->> ./include/drm/drm_client.h:163: warning: Function parameter or member 'KABI_RESERVE(1' not described in 'drm_client_buffer'
-   ./include/drm/drm_atomic.h:246: warning: Function parameter or member 'KABI_RESERVE(1' not described in 'drm_private_state_funcs'
-   ./include/drm/drm_atomic.h:347: warning: Function parameter or member 'KABI_RESERVE(1' not described in 'drm_private_state'
-   ./include/drm/drm_connector.h:527: warning: Enum value 'DRM_MODE_COLORIMETRY_COUNT' not described in enum 'drm_colorspace'
-   Error: Cannot open file ./include/linux/hdmi.h
-   Error: Cannot open file ./include/linux/hdmi.h
+vim +219 kernel/time/sched_clock.c
 
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  176  
+32fea568aec5b73 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  177  void __init
+32fea568aec5b73 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  178  sched_clock_register(u64 (*read)(void), int bits, unsigned long rate)
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  179  {
+5ae8aabeaec3fe6 kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  180  	u64 res, wrap, new_mask, new_epoch, cyc, ns;
+5ae8aabeaec3fe6 kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  181  	u32 new_mult, new_shift;
+2707745533d6d38 kernel/time/sched_clock.c     Paul Cercueil     2020-01-07  182  	unsigned long r, flags;
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  183  	char r_unit;
+1809bfa44e1019e kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  184  	struct clock_read_data rd;
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  185  
+c115739da801ea1 arch/arm/kernel/sched_clock.c Rob Herring       2013-02-08  186  	if (cd.rate > rate)
+c115739da801ea1 arch/arm/kernel/sched_clock.c Rob Herring       2013-02-08  187  		return;
+c115739da801ea1 arch/arm/kernel/sched_clock.c Rob Herring       2013-02-08  188  
+2707745533d6d38 kernel/time/sched_clock.c     Paul Cercueil     2020-01-07  189  	/* Cannot register a sched_clock with interrupts on */
+2707745533d6d38 kernel/time/sched_clock.c     Paul Cercueil     2020-01-07  190  	local_irq_save(flags);
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  191  
+32fea568aec5b73 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  192  	/* Calculate the mult/shift to convert counter ticks to ns. */
+5ae8aabeaec3fe6 kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  193  	clocks_calc_mult_shift(&new_mult, &new_shift, rate, NSEC_PER_SEC, 3600);
+5ae8aabeaec3fe6 kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  194  
+5ae8aabeaec3fe6 kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  195  	new_mask = CLOCKSOURCE_MASK(bits);
+8710e914027e4f6 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  196  	cd.rate = rate;
+5ae8aabeaec3fe6 kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  197  
+32fea568aec5b73 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  198  	/* Calculate how many nanosecs until we risk wrapping */
+fb82fe2fe858874 kernel/time/sched_clock.c     John Stultz       2015-03-11  199  	wrap = clocks_calc_max_nsecs(new_mult, new_shift, 0, new_mask, NULL);
+8710e914027e4f6 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  200  	cd.wrap_kt = ns_to_ktime(wrap);
+5ae8aabeaec3fe6 kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  201  
+1809bfa44e1019e kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  202  	rd = cd.read_data[0];
+1809bfa44e1019e kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  203  
+32fea568aec5b73 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  204  	/* Update epoch for new counter and update 'epoch_ns' from old counter*/
+5ae8aabeaec3fe6 kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  205  	new_epoch = read();
+13dbeb384d2d3aa kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  206  	cyc = cd.actual_read_sched_clock();
+32fea568aec5b73 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  207  	ns = rd.epoch_ns + cyc_to_ns((cyc - rd.epoch_cyc) & rd.sched_clock_mask, rd.mult, rd.shift);
+13dbeb384d2d3aa kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  208  	cd.actual_read_sched_clock = read;
+5ae8aabeaec3fe6 kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  209  
+1809bfa44e1019e kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  210  	rd.read_sched_clock	= read;
+1809bfa44e1019e kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  211  	rd.sched_clock_mask	= new_mask;
+1809bfa44e1019e kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  212  	rd.mult			= new_mult;
+1809bfa44e1019e kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  213  	rd.shift		= new_shift;
+1809bfa44e1019e kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  214  	rd.epoch_cyc		= new_epoch;
+1809bfa44e1019e kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  215  	rd.epoch_ns		= ns;
+32fea568aec5b73 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  216  
+1809bfa44e1019e kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  217  	update_clock_read_data(&rd);
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  218  
+1b8955bc5ac5750 kernel/time/sched_clock.c     David Engraf      2017-02-17 @219  	if (sched_clock_timer.function != NULL) {
+1b8955bc5ac5750 kernel/time/sched_clock.c     David Engraf      2017-02-17  220  		/* update timeout for clock wrap */
+2c8bd58812ee3db kernel/time/sched_clock.c     Ahmed S. Darwish  2020-03-09  221  		hrtimer_start(&sched_clock_timer, cd.wrap_kt,
+2c8bd58812ee3db kernel/time/sched_clock.c     Ahmed S. Darwish  2020-03-09  222  			      HRTIMER_MODE_REL_HARD);
+1b8955bc5ac5750 kernel/time/sched_clock.c     David Engraf      2017-02-17  223  	}
+1b8955bc5ac5750 kernel/time/sched_clock.c     David Engraf      2017-02-17  224  
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  225  	r = rate;
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  226  	if (r >= 4000000) {
+92067440f1311df kernel/time/sched_clock.c     Maciej W. Rozycki 2022-04-24  227  		r = DIV_ROUND_CLOSEST(r, 1000000);
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  228  		r_unit = 'M';
+f4b62e1e1137507 kernel/time/sched_clock.c     Maciej W. Rozycki 2022-04-24  229  	} else if (r >= 4000) {
+92067440f1311df kernel/time/sched_clock.c     Maciej W. Rozycki 2022-04-24  230  		r = DIV_ROUND_CLOSEST(r, 1000);
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  231  		r_unit = 'k';
+32fea568aec5b73 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  232  	} else {
+2f0778afac79bd8 arch/arm/kernel/sched_clock.c Marc Zyngier      2011-12-15  233  		r_unit = ' ';
+32fea568aec5b73 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  234  	}
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  235  
+32fea568aec5b73 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  236  	/* Calculate the ns resolution of this counter */
+5ae8aabeaec3fe6 kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  237  	res = cyc_to_ns(1ULL, new_mult, new_shift);
+5ae8aabeaec3fe6 kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  238  
+a08ca5d1089da03 kernel/time/sched_clock.c     Stephen Boyd      2013-07-18  239  	pr_info("sched_clock: %u bits at %lu%cHz, resolution %lluns, wraps every %lluns\n",
+a08ca5d1089da03 kernel/time/sched_clock.c     Stephen Boyd      2013-07-18  240  		bits, r, r_unit, res, wrap);
+112f38a4a31668e arch/arm/kernel/sched_clock.c Russell King      2010-12-15  241  
+32fea568aec5b73 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  242  	/* Enable IRQ time accounting if we have a fast enough sched_clock() */
+a42c362980430be arch/arm/kernel/sched_clock.c Russell King      2012-09-09  243  	if (irqtime > 0 || (irqtime == -1 && rate >= 1000000))
+a42c362980430be arch/arm/kernel/sched_clock.c Russell King      2012-09-09  244  		enable_sched_clock_irqtime();
+a42c362980430be arch/arm/kernel/sched_clock.c Russell King      2012-09-09  245  
+2707745533d6d38 kernel/time/sched_clock.c     Paul Cercueil     2020-01-07  246  	local_irq_restore(flags);
+2707745533d6d38 kernel/time/sched_clock.c     Paul Cercueil     2020-01-07  247  
+d75f773c86a2b8b kernel/time/sched_clock.c     Sakari Ailus      2019-03-25  248  	pr_debug("Registered %pS as sched_clock source\n", read);
+2f0778afac79bd8 arch/arm/kernel/sched_clock.c Marc Zyngier      2011-12-15  249  }
+2f0778afac79bd8 arch/arm/kernel/sched_clock.c Marc Zyngier      2011-12-15  250  
 
-vim +121 ./include/drm/drm_client.h
+:::::: The code at line 219 was first introduced by commit
+:::::: 1b8955bc5ac575009835e371ae55e7f3af2197a9 timers, sched_clock: Update timeout for clock wrap
 
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   68  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   69  /**
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   70   * struct drm_client_dev - DRM client instance
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   71   */
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   72  struct drm_client_dev {
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   73  	/**
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   74  	 * @dev: DRM device
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   75  	 */
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   76  	struct drm_device *dev;
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   77  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   78  	/**
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   79  	 * @name: Name of the client.
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   80  	 */
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   81  	const char *name;
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   82  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   83  	/**
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   84  	 * @list:
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   85  	 *
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   86  	 * List of all clients of a DRM device, linked into
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   87  	 * &drm_device.clientlist. Protected by &drm_device.clientlist_mutex.
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   88  	 */
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   89  	struct list_head list;
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   90  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   91  	/**
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   92  	 * @funcs: DRM client functions (optional)
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   93  	 */
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   94  	const struct drm_client_funcs *funcs;
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   95  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   96  	/**
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   97  	 * @file: DRM file
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   98  	 */
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03   99  	struct drm_file *file;
-d81294afeecdac Noralf Trønnes    2019-05-31  100  
-d81294afeecdac Noralf Trønnes    2019-05-31  101  	/**
-d81294afeecdac Noralf Trønnes    2019-05-31  102  	 * @modeset_mutex: Protects @modesets.
-d81294afeecdac Noralf Trønnes    2019-05-31  103  	 */
-d81294afeecdac Noralf Trønnes    2019-05-31  104  	struct mutex modeset_mutex;
-d81294afeecdac Noralf Trønnes    2019-05-31  105  
-d81294afeecdac Noralf Trønnes    2019-05-31  106  	/**
-d81294afeecdac Noralf Trønnes    2019-05-31  107  	 * @modesets: CRTC configurations
-d81294afeecdac Noralf Trønnes    2019-05-31  108  	 */
-d81294afeecdac Noralf Trønnes    2019-05-31  109  	struct drm_mode_set *modesets;
-6a9d5ad3af65a1 Thomas Zimmermann 2023-01-25  110  
-6a9d5ad3af65a1 Thomas Zimmermann 2023-01-25  111  	/**
-84cc4c7aecc4c6 Randy Dunlap      2023-01-30  112  	 * @hotplug_failed:
-6a9d5ad3af65a1 Thomas Zimmermann 2023-01-25  113  	 *
-6a9d5ad3af65a1 Thomas Zimmermann 2023-01-25  114  	 * Set by client hotplug helpers if the hotplugging failed
-6a9d5ad3af65a1 Thomas Zimmermann 2023-01-25  115  	 * before. It is usually not tried again.
-6a9d5ad3af65a1 Thomas Zimmermann 2023-01-25  116  	 */
-6a9d5ad3af65a1 Thomas Zimmermann 2023-01-25  117  	bool hotplug_failed;
-1658eb12c6b6bb Lin Yujun         2024-02-04  118  
-1658eb12c6b6bb Lin Yujun         2024-02-04  119  	KABI_RESERVE(1)
-1658eb12c6b6bb Lin Yujun         2024-02-04  120  	KABI_RESERVE(2)
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03 @121  };
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  122  
-4d4c2d89913e2d Noralf Trønnes    2018-10-01  123  int drm_client_init(struct drm_device *dev, struct drm_client_dev *client,
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  124  		    const char *name, const struct drm_client_funcs *funcs);
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  125  void drm_client_release(struct drm_client_dev *client);
-e33898a20744de Noralf Trønnes    2019-04-03  126  void drm_client_register(struct drm_client_dev *client);
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  127  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  128  void drm_client_dev_unregister(struct drm_device *dev);
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  129  void drm_client_dev_hotplug(struct drm_device *dev);
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  130  void drm_client_dev_restore(struct drm_device *dev);
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  131  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  132  /**
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  133   * struct drm_client_buffer - DRM client buffer
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  134   */
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  135  struct drm_client_buffer {
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  136  	/**
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  137  	 * @client: DRM client
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  138  	 */
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  139  	struct drm_client_dev *client;
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  140  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  141  	/**
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  142  	 * @pitch: Buffer pitch
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  143  	 */
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  144  	u32 pitch;
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  145  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  146  	/**
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  147  	 * @gem: GEM object backing this buffer
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  148  	 */
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  149  	struct drm_gem_object *gem;
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  150  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  151  	/**
-a85955568939e2 Thomas Zimmermann 2020-11-03  152  	 * @map: Virtual address for the buffer
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  153  	 */
-7938f4218168ae Lucas De Marchi   2022-02-04  154  	struct iosys_map map;
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  155  
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  156  	/**
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  157  	 * @fb: DRM framebuffer
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  158  	 */
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  159  	struct drm_framebuffer *fb;
-1658eb12c6b6bb Lin Yujun         2024-02-04  160  
-1658eb12c6b6bb Lin Yujun         2024-02-04  161  	KABI_RESERVE(1)
-1658eb12c6b6bb Lin Yujun         2024-02-04  162  	KABI_RESERVE(2)
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03 @163  };
-c76f0f7cb546b6 Noralf Trønnes    2018-07-03  164  
-
-:::::: The code at line 121 was first introduced by commit
-:::::: c76f0f7cb546b661b5e0ac769850a5c854927f65 drm: Begin an API for in-kernel clients
-
-:::::: TO: Noralf Trønnes <noralf@tronnes.org>
-:::::: CC: Noralf Trønnes <noralf@tronnes.org>
+:::::: TO: David Engraf <david.engraf@sysgo.com>
+:::::: CC: John Stultz <john.stultz@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
