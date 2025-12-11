@@ -1,58 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D10A20298D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 13:01:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423B3312808
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 13:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765458065; cv=none; b=JiQxwjwgEP0VCTgRTLGCePaaYaafDRCj4UMxwFBT0NWHYRAO3tB/GgPGoc8qX0X+rN1Ms74qdemSzGcclNr7GB6RBd6kMD1kF7MRMKpCxi6wwvTCYLnfpTZ1JfGLK5cxuPahug4gSX/6eiZWF7fcHnLVZcfTTB66NDzCholdBUE=
+	t=1765458067; cv=none; b=BcYnV9vlpebqvaF0GM7Hdx77GThWReQX0n4eS7SLGrVpax5Toto7VXSlhPXZCjtDlGeOSxmUxGGksPFKA+CFgK5gVvsO2bgrx+vcfjb3oLMcY0FL9n+qT+0qMvAO9fJR1ycD7HGwdkWerOFWUkD+5nGXZoZlsK9M2/155GkYh/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765458065; c=relaxed/simple;
-	bh=211EtAkCTGn8YHBYmlVRukNXj9eI2Zmco8CEy04R3QU=;
+	s=arc-20240116; t=1765458067; c=relaxed/simple;
+	bh=Itvdqg8o936DZ6DkLwgXGCGQLBgTVnOvHDu9qGxqu+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QIU4AkHeNW6/WhMdrUm09dkYGdRNuQEz1ezPc1b8qTLrPc+9URVsfhKFoHMlfDB9mMyYdeIPt8Re08GdGf6VcYfihob+BwcYFDSZCWf07FmrqipJm7RxyPEANZlJAG1HIMVruhH55L2xNukT0PaOUqWBsVFn4EZ4nBffDaMs/cI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GzS3MUT1; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=skkgVml15SLIW8HUqR8Se8N9NL19UAe02oEnZJ0Y67fJ8inuTibdUQVKb4Wuod/UXCZ6ThD3pyyuXaN8HeDEvJYRyqNAIRwLi9xtdlYMqwewn4RDMGhd92zpHI5XSHiAXuT5ZBodUokqP79uV3dE0MeU8aNMlerzPwF/oQbNJz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kzT5mPX1; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GzS3MUT1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kzT5mPX1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765458063; x=1796994063;
+  t=1765458065; x=1796994065;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=211EtAkCTGn8YHBYmlVRukNXj9eI2Zmco8CEy04R3QU=;
-  b=GzS3MUT1stlKzYKkdzgZ451E5R7hgw4MVK7hY5oVkPmgoWhR62YoJjH6
-   3xXrxxR7ucbzJSWwwbZU77iVavYjVm76/R1WHskpolY87mRCpxJG+uzvE
-   iz3FOmkSJbAYM8JxEzw2Ls3408e6wRwYedAw5SrI+OJmehXR2GwNAnPEm
-   qXrX/Xk+I87GbS19Rwxy3QjJrLBPcx6k3vnGfrRDFBcvIMWHOl/BmflX8
-   KdCS1493ws3a4Rz/LtUPuOFbN/D3XVZvNZ6lpo+KExYmYj5vTaTQFQszb
-   xyehQzHfgc0vbYty7xPzUi9qcR//HWyT0vpmFSGLF45KSJPD630jjaROq
-   w==;
-X-CSE-ConnectionGUID: S6TU+f+JRWmX+BXPs6114w==
-X-CSE-MsgGUID: p5yG/cQZSx+JwVUPrtNg/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78549466"
+  bh=Itvdqg8o936DZ6DkLwgXGCGQLBgTVnOvHDu9qGxqu+E=;
+  b=kzT5mPX1LoQ42EYwwGe5gaW+7v2icHOgtk74KW1KZUQmSiCPsZsEOr/V
+   AM18gd3w0SvhRBXxDBMTqICg2KXRYuKiP3CNd3obbwezdWXgE12PJbi/X
+   yoPhyoT00EM5Xz9U5UrQje1Sv8ftiiokUmGjG1wEamqZ6Not/pThnQQl/
+   pUYGCoqflD4wFGgA/THvt3laIrYWFRkVaMZ+WmBtY5VWC2ULRSPFTDWnF
+   LKzcCDLveWBMeBKUNx2XuEPcG/LvxgSis73vkqHZHuu0PSOndqGqSguK3
+   JED0ucq6dRA023beD8QLqYNhA6UgRWt5hdc3wEZCH7OVor5kztrRiYShW
+   A==;
+X-CSE-ConnectionGUID: zuugzQVMRYaYK7vIcq5ksg==
+X-CSE-MsgGUID: 8binCETBTF+Hi6WtO4iCPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78549469"
 X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="78549466"
+   d="scan'208";a="78549469"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 05:01:02 -0800
-X-CSE-ConnectionGUID: euuSb3CSTUGdDmEZ/0+Ydg==
-X-CSE-MsgGUID: 1OU7uXu0QH2dCet4Hh8exg==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 05:01:03 -0800
+X-CSE-ConnectionGUID: bLLGVK99TrqPkhrmk5SorQ==
+X-CSE-MsgGUID: 15mOUc3AQbOccizYXjQeBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,267,1763452800"; 
-   d="scan'208";a="227853289"
+   d="scan'208";a="227853306"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 11 Dec 2025 05:01:01 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTgHy-000000004fe-48dq;
+	id 1vTgHy-000000004fb-429Y;
 	Thu, 11 Dec 2025 13:00:58 +0000
-Date: Thu, 11 Dec 2025 21:00:17 +0800
+Date: Thu, 11 Dec 2025 21:00:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ingo Molnar <mingo@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: kernel/sched/stats.c:136:17: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202512112047.qgtNTiEN-lkp@intel.com>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: fs/dax.c:1891:16: sparse: sparse: incorrect type in return
+ expression (different base types)
+Message-ID: <202512112044.HKImx4Ds-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,178 +67,208 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   d358e5254674b70f34c847715ca509e46eb81e6f
-commit: 9d9af2372f2a46242fd5e827973235f40f31a706 sched/smp: Use the SMP version of schedstats
-date:   6 months ago
-config: arm-randconfig-r111-20251211 (https://download.01.org/0day-ci/archive/20251211/202512112047.qgtNTiEN-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512112047.qgtNTiEN-lkp@intel.com/reproduce)
+commit: 38607c62b34b46317c46d5baf1df03ac6e48a1c6 fs/dax: properly refcount fs dax pages
+date:   9 months ago
+config: x86_64-randconfig-r113-20251211 (https://download.01.org/0day-ci/archive/20251211/202512112044.HKImx4Ds-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512112044.HKImx4Ds-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512112047.qgtNTiEN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512112044.HKImx4Ds-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/debug.c:626:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/debug.c:626:17: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/debug.c:626:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/debug.c:954:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/debug.c:954:9: sparse:     expected struct task_struct *tsk
-   kernel/sched/debug.c:954:9: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/debug.c:954:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/debug.c:954:9: sparse:     expected struct task_struct *tsk
-   kernel/sched/debug.c:954:9: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/build_utility.c: note: in included file:
->> kernel/sched/stats.c:136:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/stats.c:136:17: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/stats.c:136:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/topology.c:115:56: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:115:56: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:115:56: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:134:60: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:134:60: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:134:60: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:157:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:157:20: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:157:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:468:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct perf_domain *pd @@     got struct perf_domain [noderef] __rcu *pd @@
-   kernel/sched/topology.c:468:19: sparse:     expected struct perf_domain *pd
-   kernel/sched/topology.c:468:19: sparse:     got struct perf_domain [noderef] __rcu *pd
-   kernel/sched/topology.c:638:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:638:49: sparse:     expected struct sched_domain *parent
-   kernel/sched/topology.c:638:49: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:723:50: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:723:50: sparse:     expected struct sched_domain *parent
-   kernel/sched/topology.c:723:50: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:731:55: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child @@     got struct sched_domain *[assigned] tmp @@
-   kernel/sched/topology.c:731:55: sparse:     expected struct sched_domain [noderef] __rcu *[noderef] __rcu child
-   kernel/sched/topology.c:731:55: sparse:     got struct sched_domain *[assigned] tmp
-   kernel/sched/topology.c:744:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:744:29: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/topology.c:744:29: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:749:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:749:20: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:749:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:770:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *sd @@
-   kernel/sched/topology.c:770:13: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/topology.c:770:13: sparse:     got struct sched_domain [noderef] __rcu *sd
-   kernel/sched/topology.c:932:70: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:932:70: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:932:70: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:961:59: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:961:59: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:961:59: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1007:57: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1007:57: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:1007:57: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1009:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1009:25: sparse:     expected struct sched_domain *sibling
-   kernel/sched/topology.c:1009:25: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1017:55: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1017:55: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:1017:55: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1019:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sibling @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1019:25: sparse:     expected struct sched_domain *sibling
-   kernel/sched/topology.c:1019:25: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1089:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1089:62: sparse:     expected struct sched_domain *sd
-   kernel/sched/topology.c:1089:62: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1193:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:1193:40: sparse:     expected struct sched_domain *child
-   kernel/sched/topology.c:1193:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1677:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain [noderef] __rcu *child @@     got struct sched_domain *child @@
-   kernel/sched/topology.c:1677:43: sparse:     expected struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:1677:43: sparse:     got struct sched_domain *child
-   kernel/sched/topology.c:2372:31: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain [noderef] __rcu *parent @@     got struct sched_domain *sd @@
-   kernel/sched/topology.c:2372:31: sparse:     expected struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:2372:31: sparse:     got struct sched_domain *sd
-   kernel/sched/topology.c:2491:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:2491:57: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/topology.c:2491:57: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:2512:56: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/topology.c:2512:56: sparse:     expected struct sched_domain *child
-   kernel/sched/topology.c:2512:56: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/topology.c:2511:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:2511:57: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/topology.c:2511:57: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/topology.c:2566:57: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/topology.c:2566:57: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/topology.c:2566:57: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/build_utility.c: note: in included file:
-   kernel/sched/sched.h:2235:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2235:25: sparse:    struct task_struct *
+   fs/dax.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/fs_dax.h):
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
+   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
+   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
+   fs/dax.c:727:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
+   fs/dax.c:727:39: sparse:     expected unsigned long v
+   fs/dax.c:727:39: sparse:     got restricted vm_fault_t
+   fs/dax.c:729:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
+   fs/dax.c:729:39: sparse:     expected unsigned long v
+   fs/dax.c:729:39: sparse:     got restricted vm_fault_t
+   fs/dax.c:733:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
+   fs/dax.c:733:31: sparse:     expected unsigned long v
+   fs/dax.c:733:31: sparse:     got restricted vm_fault_t
+   fs/dax.c:1376:41: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
+   fs/dax.c:1376:41: sparse:     expected int result
+   fs/dax.c:1376:41: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
+   fs/dax.c:1885:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
+   fs/dax.c:1885:21: sparse:     expected int ret
+   fs/dax.c:1885:21: sparse:     got restricted vm_fault_t
+   fs/dax.c:1888:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
+   fs/dax.c:1888:21: sparse:     expected int ret
+   fs/dax.c:1888:21: sparse:     got restricted vm_fault_t
+>> fs/dax.c:1891:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted vm_fault_t @@     got int ret @@
+   fs/dax.c:1891:16: sparse:     expected restricted vm_fault_t
+   fs/dax.c:1891:16: sparse:     got int ret
+   fs/dax.c:1909:46: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [usertype] ret @@
+   fs/dax.c:1909:46: sparse:     expected int result
+   fs/dax.c:1909:46: sparse:     got restricted vm_fault_t [usertype] ret
+   fs/dax.c:1925:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [assigned] [usertype] ret @@     got unsigned long @@
+   fs/dax.c:1925:21: sparse:     expected restricted vm_fault_t [assigned] [usertype] ret
+   fs/dax.c:1925:21: sparse:     got unsigned long
+   fs/dax.c:1966:51: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
+   fs/dax.c:1966:51: sparse:     expected int result
+   fs/dax.c:1966:51: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
+   fs/dax.c:2142:55: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t @@
+   fs/dax.c:2142:55: sparse:     expected int result
+   fs/dax.c:2142:55: sparse:     got restricted vm_fault_t
+   fs/dax.c:2160:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
+   fs/dax.c:2160:58: sparse:     expected int result
+   fs/dax.c:2160:58: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
+   fs/dax.c:279:13: sparse: sparse: context imbalance in 'wait_entry_unlocked' - unexpected unlock
+   fs/dax.c:508:49: sparse: sparse: context imbalance in 'dax_lock_folio' - different lock contexts for basic block
+   fs/dax.c:575:17: sparse: sparse: context imbalance in 'dax_lock_mapping_entry' - different lock contexts for basic block
+   fs/dax.c:1148:9: sparse: sparse: context imbalance in 'dax_writeback_one' - unexpected unlock
 
-vim +136 kernel/sched/stats.c
+vim +1891 fs/dax.c
 
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  108  
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  109  static int show_schedstat(struct seq_file *seq, void *v)
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  110  {
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  111  	int cpu;
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  112  
-cb152ff2671796 kernel/sched/stats.c Nathan Zimmer   2013-02-21  113  	if (v == (void *)1) {
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  114  		seq_printf(seq, "version %d\n", SCHEDSTAT_VERSION);
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  115  		seq_printf(seq, "timestamp %lu\n", jiffies);
-cb152ff2671796 kernel/sched/stats.c Nathan Zimmer   2013-02-21  116  	} else {
-cb152ff2671796 kernel/sched/stats.c Nathan Zimmer   2013-02-21  117  		struct rq *rq;
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  118  		struct sched_domain *sd;
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  119  		int dcount = 0;
-cb152ff2671796 kernel/sched/stats.c Nathan Zimmer   2013-02-21  120  		cpu = (unsigned long)(v - 2);
-cb152ff2671796 kernel/sched/stats.c Nathan Zimmer   2013-02-21  121  		rq = cpu_rq(cpu);
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  122  
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  123  		/* runqueue-specific stats */
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  124  		seq_printf(seq,
-30fd049afcfed5 kernel/sched/stats.c Rakib Mullick   2012-01-24  125  		    "cpu%d %u 0 %u %u %u %u %llu %llu %lu",
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  126  		    cpu, rq->yld_count,
-30fd049afcfed5 kernel/sched/stats.c Rakib Mullick   2012-01-24  127  		    rq->sched_count, rq->sched_goidle,
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  128  		    rq->ttwu_count, rq->ttwu_local,
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  129  		    rq->rq_cpu_time,
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  130  		    rq->rq_sched_info.run_delay, rq->rq_sched_info.pcount);
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  131  
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  132  		seq_printf(seq, "\n");
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  133  
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  134  		/* domain-specific stats */
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  135  		rcu_read_lock();
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25 @136  		for_each_domain(cpu, sd) {
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  137  			enum cpu_idle_type itype;
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  138  
-011b3a14dc66c4 kernel/sched/stats.c K Prateek Nayak 2024-12-20  139  			seq_printf(seq, "domain%d %s %*pb", dcount++, sd->name,
-333470ee46b685 kernel/sched/stats.c Tejun Heo       2015-02-13  140  				   cpumask_pr_args(sched_domain_span(sd)));
-02a61f325a8e62 kernel/sched/stats.c Shrikanth Hegde 2024-03-08  141  			for (itype = 0; itype < CPU_MAX_IDLE_TYPES; itype++) {
-3b2a793ea70fd1 kernel/sched/stats.c Swapnil Sapkal  2024-12-20  142  				seq_printf(seq, " %u %u %u %u %u %u %u %u %u %u %u",
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  143  				    sd->lb_count[itype],
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  144  				    sd->lb_balanced[itype],
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  145  				    sd->lb_failed[itype],
-3b2a793ea70fd1 kernel/sched/stats.c Swapnil Sapkal  2024-12-20  146  				    sd->lb_imbalance_load[itype],
-3b2a793ea70fd1 kernel/sched/stats.c Swapnil Sapkal  2024-12-20  147  				    sd->lb_imbalance_util[itype],
-3b2a793ea70fd1 kernel/sched/stats.c Swapnil Sapkal  2024-12-20  148  				    sd->lb_imbalance_task[itype],
-3b2a793ea70fd1 kernel/sched/stats.c Swapnil Sapkal  2024-12-20  149  				    sd->lb_imbalance_misfit[itype],
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  150  				    sd->lb_gained[itype],
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  151  				    sd->lb_hot_gained[itype],
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  152  				    sd->lb_nobusyq[itype],
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  153  				    sd->lb_nobusyg[itype]);
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  154  			}
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  155  			seq_printf(seq,
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  156  				   " %u %u %u %u %u %u %u %u %u %u %u %u\n",
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  157  			    sd->alb_count, sd->alb_failed, sd->alb_pushed,
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  158  			    sd->sbe_count, sd->sbe_balanced, sd->sbe_pushed,
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  159  			    sd->sbf_count, sd->sbf_balanced, sd->sbf_pushed,
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  160  			    sd->ttwu_wake_remote, sd->ttwu_move_affine,
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  161  			    sd->ttwu_move_balance);
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  162  		}
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  163  		rcu_read_unlock();
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  164  	}
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  165  	return 0;
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  166  }
-029632fbb7b7c9 kernel/sched_stats.c Peter Zijlstra  2011-10-25  167  
-
-:::::: The code at line 136 was first introduced by commit
-:::::: 029632fbb7b7c9d85063cc9eb470de6c54873df3 sched: Make separate sched*.c translation units
-
-:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+  1826	
+  1827	/**
+  1828	 * dax_fault_iter - Common actor to handle pfn insertion in PTE/PMD fault.
+  1829	 * @vmf:	vm fault instance
+  1830	 * @iter:	iomap iter
+  1831	 * @pfnp:	pfn to be returned
+  1832	 * @xas:	the dax mapping tree of a file
+  1833	 * @entry:	an unlocked dax entry to be inserted
+  1834	 * @pmd:	distinguish whether it is a pmd fault
+  1835	 */
+  1836	static vm_fault_t dax_fault_iter(struct vm_fault *vmf,
+  1837			const struct iomap_iter *iter, pfn_t *pfnp,
+  1838			struct xa_state *xas, void **entry, bool pmd)
+  1839	{
+  1840		const struct iomap *iomap = &iter->iomap;
+  1841		const struct iomap *srcmap = iomap_iter_srcmap(iter);
+  1842		size_t size = pmd ? PMD_SIZE : PAGE_SIZE;
+  1843		loff_t pos = (loff_t)xas->xa_index << PAGE_SHIFT;
+  1844		bool write = iter->flags & IOMAP_WRITE;
+  1845		unsigned long entry_flags = pmd ? DAX_PMD : 0;
+  1846		struct folio *folio;
+  1847		int ret, err = 0;
+  1848		pfn_t pfn;
+  1849		void *kaddr;
+  1850	
+  1851		if (!pmd && vmf->cow_page)
+  1852			return dax_fault_cow_page(vmf, iter);
+  1853	
+  1854		/* if we are reading UNWRITTEN and HOLE, return a hole. */
+  1855		if (!write &&
+  1856		    (iomap->type == IOMAP_UNWRITTEN || iomap->type == IOMAP_HOLE)) {
+  1857			if (!pmd)
+  1858				return dax_load_hole(xas, vmf, iter, entry);
+  1859			return dax_pmd_load_hole(xas, vmf, iter, entry);
+  1860		}
+  1861	
+  1862		if (iomap->type != IOMAP_MAPPED && !(iomap->flags & IOMAP_F_SHARED)) {
+  1863			WARN_ON_ONCE(1);
+  1864			return pmd ? VM_FAULT_FALLBACK : VM_FAULT_SIGBUS;
+  1865		}
+  1866	
+  1867		err = dax_iomap_direct_access(iomap, pos, size, &kaddr, &pfn);
+  1868		if (err)
+  1869			return pmd ? VM_FAULT_FALLBACK : dax_fault_return(err);
+  1870	
+  1871		*entry = dax_insert_entry(xas, vmf, iter, *entry, pfn, entry_flags);
+  1872	
+  1873		if (write && iomap->flags & IOMAP_F_SHARED) {
+  1874			err = dax_iomap_copy_around(pos, size, size, srcmap, kaddr);
+  1875			if (err)
+  1876				return dax_fault_return(err);
+  1877		}
+  1878	
+  1879		folio = dax_to_folio(*entry);
+  1880		if (dax_fault_is_synchronous(iter, vmf->vma))
+  1881			return dax_fault_synchronous_pfnp(pfnp, pfn);
+  1882	
+  1883		folio_ref_inc(folio);
+  1884		if (pmd)
+  1885			ret = vmf_insert_folio_pmd(vmf, pfn_folio(pfn_t_to_pfn(pfn)),
+  1886						write);
+  1887		else
+  1888			ret = vmf_insert_page_mkwrite(vmf, pfn_t_to_page(pfn), write);
+  1889		folio_put(folio);
+  1890	
+> 1891		return ret;
+  1892	}
+  1893	
 
 -- 
 0-DAY CI Kernel Test Service
