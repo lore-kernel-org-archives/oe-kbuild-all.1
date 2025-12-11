@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EBA2DE717
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 08:08:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06D69283FF0;
+	Thu, 11 Dec 2025 08:29:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765440546; cv=none; b=adThWojibyMG2V02h78F3hDGJMvJJVrnq9QNgSPLCXA+dwEoh2r7WKJwMxDUVUhW+O45sstEBAIrnXM55019T6sbOJ37qcPDM8jIFym61c/We0dxSfvF88mPZzN0GguIiaERnWdRz7CjDAN3MD7l8DAgAkfBeF83pK/X1/by3HE=
+	t=1765441794; cv=none; b=QwQdw3l84G6FzoK9Fd7KyXMq+u+UfR+A7lH7e6BSpvsUgHGTBc5hsmfUiKGfk9h/U3VGAFMxSjCDmZe9yK6Wvd4lV5EGJwXSoQJOcGA/kGIrC9LSur+27VdJggAnRnnRQhtDhcPbYc8/8jSKOPG6pQrGBW12wt4ycP1yj1XqNs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765440546; c=relaxed/simple;
-	bh=Ko22jGjDo3m2DWRH1fDQIpgEfCa5DvKgJ/8YLbv54Ws=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KH7GQuBGsorzSv867OyHuiI6fWFpy8Y0NKDxoQdrePoqT1qp9rKv6XL45XYWV+JSW+QNyYUoUqfM7mljKPDzBBcOh6M0jZKkgWk0VY6DcFWbV8mZYru0sbpoR5rKEDOtiAPAQrDXqrrVZpdrMls+VwoBa9Rks/Q6CIInIMckRX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmknrB6q; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1765441794; c=relaxed/simple;
+	bh=oZk62VQRQiT5+0VX7ZHg9OxApmN3iEZ3qWothA1myos=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lmIzzGhUWQbEUInMpP7KkC2Qj96st27AgLuMuRft5dqQPs/uOz4BCwXWIEv+7tbZNM9lTpvhYIYRWBguhBbDf64OLqpyb5nJ5Pv1/P5y8EBYGyJY+/pEVABO3Ntd92V2EP5aWlAEaKbGw5A/KJucubhMmMoPSsMcyQ5csOxm3t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WK/epPi7; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmknrB6q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WK/epPi7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765440538; x=1796976538;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ko22jGjDo3m2DWRH1fDQIpgEfCa5DvKgJ/8YLbv54Ws=;
-  b=nmknrB6qWaNeUa9V+QFg880n75GC/sW1qQiwfIAeHzk7U6TzLnwG9xWw
-   DT19ho+AJGIhy/q97ExrJ1CEJlHhDEXq0aoKtxKko7ZqMM4M31zGBhx5w
-   9aF/7oamPNRrJaVAisLsElRqjH5o3Q/ksOqNFPJHl5Uu6cNZXEWhaQKXY
-   0TLaLcI5QGa0TgWdjYtUSrEXpFH2ylfTblWjvFzXPCT4OoYId5BdfDfrF
-   NhDhwgc+ihj7ko3FkS9lGswYgfBnJJ2HhjwLbA0VV0dt4swYjus/1SvDr
-   Ql76c7AGTAeIzMsmrPSrzhX4qk6sgWxbkIP65XLMX57CROteA5AnVoBc3
+  t=1765441793; x=1796977793;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oZk62VQRQiT5+0VX7ZHg9OxApmN3iEZ3qWothA1myos=;
+  b=WK/epPi79asIvbBvS+M9P85uPZ21iYbHhEAFiu0VS2Kuzg+DB5Xxgn1O
+   eJGdbaSqnolfk7Al4caeqM7h8nQPqVnG3dcz8nq2tNIkZU2HWcKQOGPm6
+   NolPb0iYM6wAgel/rVcTEGOwTZ2KRhCCzC8fvFuUIyxuMNjBRv0k29UOw
+   WImtAmwzU7N9QS1apwv/oL3Kqe00nKJkXbjnK+SKrRqpTpsyBoXosSg18
+   hvSIoO+jDQ7mDICt0VBZY7N/W9DddJul17Knpa6++/bcrLM7CfE55UA5+
+   CUgQwF9uWKi28e7LUGcwGMox4h+s5rhVkkomgw7k4lKkaicqGZ/U1MSY+
    A==;
-X-CSE-ConnectionGUID: mNxJ2Tj8R36CiEjoRyBgLA==
-X-CSE-MsgGUID: f7LucJBbRii9d1ABY3wIHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67354371"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67354371"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 00:08:50 -0800
-X-CSE-ConnectionGUID: ANUu4H0GTHeP/2gFh5qYfA==
-X-CSE-MsgGUID: kr4fcUkoQuyjxrvD/ZJnQg==
+X-CSE-ConnectionGUID: OswPAYGPRDGy//y7gZwoQw==
+X-CSE-MsgGUID: yXfMFUOuRrKPh85pW7iTAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="67305595"
+X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
+   d="scan'208";a="67305595"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 00:29:51 -0800
+X-CSE-ConnectionGUID: 3O2abcG3S4u1FyeKWKOjPQ==
+X-CSE-MsgGUID: 0bXA4y8vRLSLU557QTbnnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="227795654"
+   d="scan'208";a="201220538"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 11 Dec 2025 00:08:48 -0800
+  by orviesa004.jf.intel.com with ESMTP; 11 Dec 2025 00:29:49 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTbjB-000000004OP-36dV;
-	Thu, 11 Dec 2025 08:08:45 +0000
-Date: Thu, 11 Dec 2025 16:07:58 +0800
+	id 1vTc3W-000000004PN-2OZw;
+	Thu, 11 Dec 2025 08:29:46 +0000
+Date: Thu, 11 Dec 2025 16:28:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: kernel/sched/core.c:10574:58: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202512111625.wn0o2Qnb-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Eric Biggers <ebiggers@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org
+Subject: Re: [PATCH 8/9] blk-crypto: optimize data unit alignment checking
+Message-ID: <202512111625.7vv9PN6b-lkp@intel.com>
+References: <20251210152343.3666103-9-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,159 +65,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251210152343.3666103-9-hch@lst.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d358e5254674b70f34c847715ca509e46eb81e6f
-commit: fbd0e71dc370af73f6b316e4de9eed273dd90340 sched/mmcid: Provide CID ownership mode fixup functions
-date:   2 weeks ago
-config: x86_64-randconfig-121-20251211 (https://download.01.org/0day-ci/archive/20251211/202512111625.wn0o2Qnb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111625.wn0o2Qnb-lkp@intel.com/reproduce)
+Hi Christoph,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on axboe/for-next]
+[also build test ERROR on jaegeuk-f2fs/dev-test jaegeuk-f2fs/dev linus/master next-20251211]
+[cannot apply to tytso-ext4/dev v6.18]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/fscrypt-keep-multiple-bios-in-flight-in-fscrypt_zeroout_range_inline_crypt/20251211-002354
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
+patch link:    https://lore.kernel.org/r/20251210152343.3666103-9-hch%40lst.de
+patch subject: [PATCH 8/9] blk-crypto: optimize data unit alignment checking
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251211/202512111625.7vv9PN6b-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111625.7vv9PN6b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512111625.wn0o2Qnb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512111625.7vv9PN6b-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/core.c:804:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:804:33: sparse:     expected struct task_struct *task
-   kernel/sched/core.c:804:33: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:1100:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:1100:38: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:1100:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:2203:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:2203:39: sparse:     expected struct task_struct *donor
-   kernel/sched/core.c:2203:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:2214:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:2214:65: sparse:     expected struct task_struct *tsk
-   kernel/sched/core.c:2214:65: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:3656:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:3656:17: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/core.c:3656:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/core.c:3861:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:3861:36: sparse:     expected struct task_struct const *p
-   kernel/sched/core.c:3861:36: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:8167:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *push_task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:8167:43: sparse:     expected struct task_struct *push_task
-   kernel/sched/core.c:8167:43: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:5585:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:5585:15: sparse:     expected struct task_struct *donor
-   kernel/sched/core.c:5585:15: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:6799:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:6799:14: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6799:14: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:6865:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/core.c:6865:37: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6865:37: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/core.c:7372:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7372:17: sparse:    struct task_struct *
-   kernel/sched/core.c:7372:17: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:10322:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10322:25: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:10322:25: sparse:     got struct task_struct [noderef] __rcu *curr
->> kernel/sched/core.c:10574:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *t @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10574:58: sparse:     expected struct task_struct *t
-   kernel/sched/core.c:10574:58: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:10610:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:10610:38: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:10610:38: sparse:    struct task_struct *
-   kernel/sched/core.c:631:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
-   kernel/sched/core.c:664:23: sparse: sparse: context imbalance in 'raw_spin_rq_trylock' - wrong count at exit
-   kernel/sched/core.c:680:6: sparse: sparse: context imbalance in 'raw_spin_rq_unlock' - unexpected unlock
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:1799:9: sparse: sparse: context imbalance in '__task_rq_lock' - wrong count at exit
-   kernel/sched/sched.h:1799:9: sparse: sparse: context imbalance in 'task_rq_lock' - wrong count at exit
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/pelt.h:102:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/pelt.h:102:13: sparse:     expected struct task_struct const *p
-   kernel/sched/pelt.h:102:13: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:2284:35: sparse: sparse: context imbalance in 'wait_task_inactive' - different lock contexts for basic block
-   kernel/sched/core.c:2678:6: sparse: sparse: context imbalance in 'set_cpus_allowed_common' - different lock contexts for basic block
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2474:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2474:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2474:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2277:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2277:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2277:25: sparse:    struct task_struct *
-   kernel/sched/core.c:2167:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:2167:38: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:2167:38: sparse:    struct task_struct const *
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2497:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2497:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2497:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2497:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2497:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2497:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2474:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2474:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2474:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2288:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2288:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2474:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2474:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2474:9: sparse:    struct task_struct *
+All errors (new ones prefixed by >>):
 
-vim +10574 kernel/sched/core.c
+>> block/blk-merge.c:332:35: error: no member named 'bi_crypt_context' in 'struct bio'
+     332 |                 struct bio_crypt_ctx *bc = bio->bi_crypt_context;
+         |                                            ~~~  ^
+   1 error generated.
 
- 10555	
- 10556	static void __maybe_unused mm_cid_fixup_cpus_to_tasks(struct mm_struct *mm)
- 10557	{
- 10558		unsigned int cpu;
- 10559	
- 10560		/* Walk the CPUs and fixup all stale CIDs */
- 10561		for_each_possible_cpu(cpu) {
- 10562			struct mm_cid_pcpu *pcp = per_cpu_ptr(mm->mm_cid.pcpu, cpu);
- 10563			struct rq *rq = cpu_rq(cpu);
- 10564	
- 10565			/* Remote access to mm::mm_cid::pcpu requires rq_lock */
- 10566			guard(rq_lock_irq)(rq);
- 10567			/* Is the CID still owned by the CPU? */
- 10568			if (cid_on_cpu(pcp->cid)) {
- 10569				/*
- 10570				 * If rq->curr has @mm, transfer it with the
- 10571				 * transition bit set. Otherwise drop it.
- 10572				 */
- 10573				if (rq->curr->mm == mm && rq->curr->mm_cid.active)
- 10574					mm_cid_transit_to_task(rq->curr, pcp);
- 10575				else
- 10576					mm_drop_cid_on_cpu(mm, pcp);
- 10577	
- 10578			} else if (rq->curr->mm == mm && rq->curr->mm_cid.active) {
- 10579				unsigned int cid = rq->curr->mm_cid.cid;
- 10580	
- 10581				/* Ensure it has the transition bit set */
- 10582				if (!cid_in_transit(cid)) {
- 10583					cid = cid_to_transit_cid(cid);
- 10584					rq->curr->mm_cid.cid = cid;
- 10585					pcp->cid = cid;
- 10586				}
- 10587			}
- 10588		}
- 10589		/* Clear the transition bit */
- 10590		WRITE_ONCE(mm->mm_cid.transit, 0);
- 10591	}
- 10592	
+
+vim +332 block/blk-merge.c
+
+   310	
+   311	/**
+   312	 * bio_split_io_at - check if and where to split a bio
+   313	 * @bio:  [in] bio to be split
+   314	 * @lim:  [in] queue limits to split based on
+   315	 * @segs: [out] number of segments in the bio with the first half of the sectors
+   316	 * @max_bytes: [in] maximum number of bytes per bio
+   317	 *
+   318	 * Find out if @bio needs to be split to fit the queue limits in @lim and a
+   319	 * maximum size of @max_bytes.  Returns a negative error number if @bio can't be
+   320	 * split, 0 if the bio doesn't have to be split, or a positive sector offset if
+   321	 * @bio needs to be split.
+   322	 */
+   323	int bio_split_io_at(struct bio *bio, const struct queue_limits *lim,
+   324			unsigned *segs, unsigned max_bytes)
+   325	{
+   326		struct bio_vec bv, bvprv, *bvprvp = NULL;
+   327		unsigned nsegs = 0, bytes = 0, gaps = 0;
+   328		struct bvec_iter iter;
+   329		unsigned len_align_mask = lim->dma_alignment;
+   330	
+   331		if (bio_has_crypt_ctx(bio)) {
+ > 332			struct bio_crypt_ctx *bc = bio->bi_crypt_context;
+   333	
+   334			len_align_mask |= (bc->bc_key->crypto_cfg.data_unit_size - 1);
+   335		}
+   336	
+   337		bio_for_each_bvec(bv, bio, iter) {
+   338			if (bv.bv_offset & len_align_mask)
+   339				return -EINVAL;
+   340	
+   341			/*
+   342			 * If the queue doesn't support SG gaps and adding this
+   343			 * offset would create a gap, disallow it.
+   344			 */
+   345			if (bvprvp) {
+   346				if (bvec_gap_to_prev(lim, bvprvp, bv.bv_offset))
+   347					goto split;
+   348				gaps |= bvec_seg_gap(bvprvp, &bv);
+   349			}
+   350	
+   351			if (nsegs < lim->max_segments &&
+   352			    bytes + bv.bv_len <= max_bytes &&
+   353			    bv.bv_offset + bv.bv_len <= lim->max_fast_segment_size) {
+   354				nsegs++;
+   355				bytes += bv.bv_len;
+   356			} else {
+   357				if (bvec_split_segs(lim, &bv, &nsegs, &bytes,
+   358						lim->max_segments, max_bytes))
+   359					goto split;
+   360			}
+   361	
+   362			bvprv = bv;
+   363			bvprvp = &bvprv;
+   364		}
+   365	
+   366		*segs = nsegs;
+   367		bio->bi_bvec_gap_bit = ffs(gaps);
+   368		return 0;
+   369	split:
+   370		if (bio->bi_opf & REQ_ATOMIC)
+   371			return -EINVAL;
+   372	
+   373		/*
+   374		 * We can't sanely support splitting for a REQ_NOWAIT bio. End it
+   375		 * with EAGAIN if splitting is required and return an error pointer.
+   376		 */
+   377		if (bio->bi_opf & REQ_NOWAIT)
+   378			return -EAGAIN;
+   379	
+   380		*segs = nsegs;
+   381	
+   382		/*
+   383		 * Individual bvecs might not be logical block aligned. Round down the
+   384		 * split size so that each bio is properly block size aligned, even if
+   385		 * we do not use the full hardware limits.
+   386		 *
+   387		 * It is possible to submit a bio that can't be split into a valid io:
+   388		 * there may either be too many discontiguous vectors for the max
+   389		 * segments limit, or contain virtual boundary gaps without having a
+   390		 * valid block sized split. A zero byte result means one of those
+   391		 * conditions occured.
+   392		 */
+   393		bytes = ALIGN_DOWN(bytes, bio_split_alignment(bio, lim));
+   394		if (!bytes)
+   395			return -EINVAL;
+   396	
+   397		/*
+   398		 * Bio splitting may cause subtle trouble such as hang when doing sync
+   399		 * iopoll in direct IO routine. Given performance gain of iopoll for
+   400		 * big IO can be trival, disable iopoll when split needed.
+   401		 */
+   402		bio_clear_polled(bio);
+   403		bio->bi_bvec_gap_bit = ffs(gaps);
+   404		return bytes >> SECTOR_SHIFT;
+   405	}
+   406	EXPORT_SYMBOL_GPL(bio_split_io_at);
+   407	
 
 -- 
 0-DAY CI Kernel Test Service
