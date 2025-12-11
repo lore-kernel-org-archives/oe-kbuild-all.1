@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61557262D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 05:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7931DF27F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 05:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765430862; cv=none; b=a1L1ViCKuy/OTxbU0jjibwyFcKj/eaf649Ym9WCxKClMuKaOcoItsa6yx4TDiTijehQWtaxhQxyozNDS2Yw9gcivL38Ki+t50+zfXHmzh1kOoO84Bl3AFXtBjllCcszXjcAi61DvGlTMCfB92tyXVkK1VYIy3GZZJ6CUaYcEvJc=
+	t=1765431643; cv=none; b=AYBrz4wGMCTvU+Ym6eQQIvqSS/ox7oU6iE0rM5MaZBcATFa15aoo1oZlkResvxw4hDJJFCcXWkvSfy/TDblcsAlBoRL6HTbQfPwRjHbsQAdCBj9CzusTvGe72LylVkQy3KaDVy21NfkbFnxMm2NffZXbaf1A4XoXCnELmS9xz/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765430862; c=relaxed/simple;
-	bh=KFv2/qaYjs9V3YoNfiriNE86jKq6h11tpHxjR0/tBGo=;
+	s=arc-20240116; t=1765431643; c=relaxed/simple;
+	bh=GeEJfglj9KkxTk9WZ4sugG/ffbnVrlLp8dVWGcu2rlc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eTZwfbn/AX+W7ITT73iHXNATipmKzR2n6ef5JMvfC5eKFHvLd3UKRx73NKIGbSWdiFfwMlLV2rEBHBd9qoyKgH/yJ/JHLtZAfNMJlsX129bUacQ2GdPzK0y6vDfziIuBolJ+Dlphw0Dz5iImIPh7jTmoyYkh7ZJnG9g0yecixlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KKxO8bNM; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=R/AKnBTcEGsjU7fRG/eWwb2Yj1PVP7UXFzMse46UxBmkgYQ7OPOmDxXq1cC7mwgNbF6EklAZLT54RoNY2VM/9AbO1P8o1aGmuWXKhV8CAsRwgcwWyXc25iYx5bRbcE5Hokyh6LxQvmJMA+YmBVJk/sAIg8tmAUMTR+GYGJ8CI1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lk81mMOw; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KKxO8bNM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lk81mMOw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765430860; x=1796966860;
+  t=1765431641; x=1796967641;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KFv2/qaYjs9V3YoNfiriNE86jKq6h11tpHxjR0/tBGo=;
-  b=KKxO8bNMzG8YXzgifY4GL9h5nZIgfAHfTZ/jL5NT5ayuU4e67NBVUon/
-   4Rx8DQaFTJBGpobrl+ekOv3KvNbYPrAvdCFr2R4AeTEgtMfjqI2nRatEO
-   e7KxCtHSRjK9Y70/Ar/fwimq54SIwAT7mOrS9rI6regUtw7bfE0X+RQ0i
-   GNU/7ha1dIcuuWFKwuY0XX2H1S9IVanQKBbi+DC43riF1qAEUWWSrS3AQ
-   DB65Y/Bo59F1cT51b9+jI/FtIRT6c/d+mg1xjp4bzd/0VO3pIxQA06aD+
-   p4O8RspKroInqEOeVH1C9y2WXv7QQH1aIj9guEFaXAH1kF1KZxtev7gWb
-   g==;
-X-CSE-ConnectionGUID: v9sn0Wh9QXug61j26UUwtQ==
-X-CSE-MsgGUID: yfXKXmjlQH+sP1lAfYmyRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="69993437"
+  bh=GeEJfglj9KkxTk9WZ4sugG/ffbnVrlLp8dVWGcu2rlc=;
+  b=lk81mMOwMMkDiOloQ66Oc0J1YdLtAEsUzQ4upC6RGVOim1edCZBLkjtS
+   8BUO2ktNSW/xpEctpx92E8k1m04jo8yMZNe2dwSo5OkKsuQ8qrYKdEqNd
+   lxkhUKtZUaQRrguuc+Nw+2JF6Ep8iZPtg3ntfL+FEjY/9i8iPAJ0nGymr
+   Te5yFG5zJmsRKlUjSSRGHfYRjwQ181TAOjGMtx3FQilVgg/ESDtqAfdww
+   U2HVcidD6N5KbuyiAclA7UGcKYWuGeypQQkpmRpPI8ZkZ//M/R6S6m9we
+   Z6JYsyZHTFXtVTtiwm6qa48Q06mzXiaN5ugD796pJdlga7K8UYWmXarpy
+   Q==;
+X-CSE-ConnectionGUID: TQeHZ5iMTauDB0Nz+BWC2Q==
+X-CSE-MsgGUID: CQ1kM7Z4TV21aWhSGr5Icg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="84817136"
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="69993437"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 21:27:40 -0800
-X-CSE-ConnectionGUID: vX8YLIXLRiyaZpUdvMoQKA==
-X-CSE-MsgGUID: ojJkZUDCQOW3NBZzkjThpg==
+   d="scan'208";a="84817136"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 21:40:40 -0800
+X-CSE-ConnectionGUID: 9E0jw1XhSKOarfh9lrz1rA==
+X-CSE-MsgGUID: cveKqty8T3u06hK7Ool7Cg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="220052891"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Dec 2025 21:27:39 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="201630348"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 10 Dec 2025 21:40:39 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTZDF-000000000vY-1ORT;
-	Thu, 11 Dec 2025 05:27:37 +0000
-Date: Thu, 11 Dec 2025 06:27:06 +0100
+	id 1vTZPo-000000004Ef-3mRR;
+	Thu, 11 Dec 2025 05:40:36 +0000
+Date: Thu, 11 Dec 2025 13:39:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gary Guo <gary@garyguo.net>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [nbdd0121:macros 2/10] warning: this creates an owned instance just
- for comparison
-Message-ID: <202512110636.UNZSjQJv-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 0/5] kernel/sched/fair.c:4146:6:
+ warning: no previous prototype for 'set_group_prefer_node'
+Message-ID: <202512111337.rllNMzCY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,54 +62,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/nbdd0121/linux macros
-head:   1d5aa4ae3a33e6ff75aeab77c9e2f08388d063ef
-commit: 33d9f33c7803c96e005f1c98b238f3137b4cf2fe [2/10] rust: macros: use `quote!` from vendored crate
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251211/202512110636.UNZSjQJv-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512110636.UNZSjQJv-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   38743d2d77ee27e7fe97c7ef81b8643365903536
+commit: a0afbf3c5d0386fa940ad3ee5e5cda8ad0e3eced [0/5] anolis: sched: add Numa Affine feature
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251211/202512111337.rllNMzCY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111337.rllNMzCY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512110636.UNZSjQJv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512111337.rllNMzCY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> warning: this creates an owned instance just for comparison
-   --> rust/macros/helpers.rs:78:36
-   |
-   78 |             TokenTree::Ident(i) if i.to_string() == "fn" => {
-   |                                    ^^^^^^^^^^^^^ help: try: `i`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cmp_owned
-   = note: `-W clippy::cmp-owned` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::cmp_owned)]`
---
->> warning: this creates an owned instance just for comparison
-   --> rust/macros/kunit.rs:63:36
-   |
-   63 |             TokenTree::Ident(i) if i.to_string() == "fn" && attributes.contains_key("test") => {
-   |                                    ^^^^^^^^^^^^^ help: try: `i`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cmp_owned
---
->> warning: this creates an owned instance just for comparison
-   --> rust/macros/vtable.rs:35:40
-   |
-   35 |             TokenTree::Ident(ident) if ident.to_string() == "fn" => {
-   |                                        ^^^^^^^^^^^^^^^^^ help: try: `ident`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cmp_owned
---
->> warning: this creates an owned instance just for comparison
-   --> rust/macros/vtable.rs:43:40
-   |
-   43 |             TokenTree::Ident(ident) if ident.to_string() == "const" => {
-   |                                        ^^^^^^^^^^^^^^^^^ help: try: `ident`
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#cmp_owned
+>> kernel/sched/fair.c:4146:6: warning: no previous prototype for 'set_group_prefer_node' [-Wmissing-prototypes]
+    4146 | void set_group_prefer_node(struct task_group *tg)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'set_group_prefer_node':
+   kernel/sched/fair.c:4175:33: error: implicit declaration of function 'cpu_load'; did you mean 'cpu_of'? [-Wimplicit-function-declaration]
+    4175 |                         load += cpu_load(cpu_rq(cpu));
+         |                                 ^~~~~~~~
+         |                                 cpu_of
+   kernel/sched/fair.c: At top level:
+   kernel/sched/fair.c:7324:22: error: conflicting types for 'cpu_load'; have 'long unsigned int(struct rq *)'
+    7324 | static unsigned long cpu_load(struct rq *rq)
+         |                      ^~~~~~~~
+   kernel/sched/fair.c:4175:33: note: previous implicit declaration of 'cpu_load' with type 'int()'
+    4175 |                         load += cpu_load(cpu_rq(cpu));
+         |                                 ^~~~~~~~
+
+
+vim +/set_group_prefer_node +4146 kernel/sched/fair.c
+
+  4137	
+  4138	static inline u64 cfs_rq_last_update_time(struct cfs_rq *cfs_rq)
+  4139	{
+  4140		return u64_u32_load_copy(cfs_rq->avg.last_update_time,
+  4141					 cfs_rq->last_update_time_copy);
+  4142	}
+  4143	#ifdef CONFIG_FAIR_GROUP_SCHED
+  4144	DEFINE_PER_CPU(struct cpumask, cpus_allowed_alt);
+  4145	/* Decide which node for @tg to run on*/
+> 4146	void set_group_prefer_node(struct task_group *tg)
+  4147	{
+  4148		int cpu, node;
+  4149		unsigned long min_load = ULONG_MAX, now = jiffies, load;
+  4150		static int prev_node;
+  4151		static unsigned long prev_jiffies;
+  4152	
+  4153		/* Choose Round-Robin way with frequent call */
+  4154		if (now - prev_jiffies < HZ) {
+  4155			prev_jiffies = now;
+  4156	
+  4157			prev_node = next_online_node(prev_node);
+  4158			if (prev_node >= 0 && prev_node < MAX_NUMNODES) {
+  4159				tg->prefer_node = prev_node;
+  4160				return;
+  4161			}
+  4162	
+  4163			prev_node = first_online_node;
+  4164			tg->prefer_node = prev_node;
+  4165			return;
+  4166		}
+  4167	
+  4168		prev_jiffies = now;
+  4169	
+  4170		/* find the idlest node */
+  4171		prev_node = first_online_node;
+  4172		for_each_online_node(node) {
+  4173			load = ULONG_MAX;
+  4174			for_each_cpu(cpu, cpumask_of_node(node))
+  4175				load += cpu_load(cpu_rq(cpu));
+  4176			if (load < min_load) {
+  4177				min_load = load;
+  4178				prev_node = node;
+  4179			}
+  4180		}
+  4181	
+  4182		tg->prefer_node = prev_node;
+  4183	}
+  4184	
 
 -- 
 0-DAY CI Kernel Test Service
