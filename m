@@ -1,60 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717482D8391
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 23:18:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC68F2DCF47;
+	Thu, 11 Dec 2025 23:18:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765495137; cv=none; b=B+77cTCJkErc4FkeqXIte80lytahwRctRbWviWxoTylNHnHuUJmNQhizA7TSxK8jdZxHgrmEVZbrWb2oVQSZeIrBioJGzkawek+xrh1PJDS6YML9NkOeFReinxbMvbboEipoQUM/RBJfwd/sLd6LbSfCNcSjcksZ4DOrbCAsy4I=
+	t=1765495140; cv=none; b=kvd9c9Kc8dIy4t1sVUXNOgSWlyD+7qkQe6S77RvoPXYOmwTAdmt51To+T2PeEAFMp0aLTLJfo4Unl//3Kic5SRBuPAv1fSfna6TzQsCMFE32z9xUA1psA1/wP1qs0OsiKIlPYVZNnjMU/4ceuJWOXI3hv8jmv/gbzzwpzh28e04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765495137; c=relaxed/simple;
-	bh=NaxgCTNniyKga404rI0eBCafZnQlaEMV7A4MC8S0Rbo=;
+	s=arc-20240116; t=1765495140; c=relaxed/simple;
+	bh=oGgLwpC58UPbF1rt7SX/cKJaKFq1u2fGauyH2JjWcjQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FyRFx11k+ER9yF5rKMNCFPqD8zQiBU78GYqA7yuz1TaS8n4T564c+3Cqlbf7wWgU12i+tVNp/V6WhyeT/tp3jy4H8iEEBKP8GmFumtL97S2SK7KWce4TZ+h4UJ4IRsbZsDRbF4gykM0IasSfb4UyWvAFXDFwm8BnYLBxD8Y0tZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y0F4of7f; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=kUs763amhIm8+EDHLqoadEVWect/ox2EE3plKlzHowefCGkxll1Szd/r4Cz50mxj6TDYTIkKsmhuddkhvWju4SlMAYd+OsjeWTi/fnWyNOKw4aWQUsfnatQB7RkltENZkMMPJbjE4e5Bmf26qwfOJTGKAtKT58c6wsJUicMsp4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FsNZ0/3b; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y0F4of7f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FsNZ0/3b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765495135; x=1797031135;
+  t=1765495139; x=1797031139;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NaxgCTNniyKga404rI0eBCafZnQlaEMV7A4MC8S0Rbo=;
-  b=Y0F4of7fwO3VNxBicsm/sK9ocnf7HumhfPF71V05vd9P5qEnGNmm/Mwc
-   eTnxpdzeplHSnvJvG+C6P9cRxApiFr/JcSQA22326WC8HvZaWM5oyO3/e
-   YPhUUnp768bTpWYrUBrVri8C4E1Cv3GNGsb90oRmXIxWGd+RQ199+mAq1
-   z8GgcVzLXcvz+NSVD4PyNeDF81ONJPlUSvqcPaugPMkIRoUTQpWApvt1e
-   J+D6g0zw031bqbIprzvBB4XL0VG0WJajv1FRDfGD4jFvcPyizTU1EC95K
-   i2Dtgf2OLH5DWCm/l8HIdsYiaQ7ImPxtE+47IPM7xBFDomcgyMfTzkNMS
-   w==;
-X-CSE-ConnectionGUID: F/TdfdL8QQuT01P493YT6Q==
-X-CSE-MsgGUID: i3GZZBCqTZa8havPSEhfSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71111162"
+  bh=oGgLwpC58UPbF1rt7SX/cKJaKFq1u2fGauyH2JjWcjQ=;
+  b=FsNZ0/3bmdaTEsLOCFXbzF+tCjjKmgSzLABcGfplYEJK3DlEXTIn9+Wh
+   4J/3H6iyAQ/GPULjHlwXdoDcR/muebJQQDBudajx/GqFINRUz2W7nvTvX
+   T3ooqIfstNOdl3Ro90Qb/llQK3l0UszQQ67DBNDsbTREyYo65BoLkXL7Q
+   5aH87myqMEjPZBtTfsE+at+bu9xxbuvAz598GisMx6hgB7JXNbiccNGI+
+   gp0P7j4hCpXlaoLWRcEvHP4bkIkCJKADq4i1QhSwTN1I8h3eAEToRVZxu
+   ThMwEXAUZeA1KaeoNPUlNO9ee6kZY63pM5hl+PfG9VM+DqtFSpqXwXU6u
+   Q==;
+X-CSE-ConnectionGUID: 7VklNka8TtK/Vf26ySZKfg==
+X-CSE-MsgGUID: b3LcxOAnTDy9u2HbpaUCZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71111175"
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="71111162"
+   d="scan'208";a="71111175"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 15:18:55 -0800
-X-CSE-ConnectionGUID: JMOc2h7ASYiLP8rGx31Jxw==
-X-CSE-MsgGUID: hAP9976YQ+m28gU3y/FsVA==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 15:18:59 -0800
+X-CSE-ConnectionGUID: sFbrYc4HS72LNag77CDiyw==
+X-CSE-MsgGUID: r2haberhT1+ttEY1DTlvJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="201399472"
+   d="scan'208";a="201399473"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 11 Dec 2025 15:18:54 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTpvv-000000005Bp-2c3Z;
+	id 1vTpvv-000000005Br-2j0f;
 	Thu, 11 Dec 2025 23:18:51 +0000
-Date: Fri, 12 Dec 2025 07:18:39 +0800
+Date: Fri, 12 Dec 2025 07:18:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-wired-lan] [PATCH RFC net-next 10/13] dpll: Add reference
- count tracking support
-Message-ID: <202512120712.PIlx0U2J-lkp@intel.com>
-References: <20251211194756.234043-11-ivecera@redhat.com>
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+	kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org,
+	si.yanteng@linux.dev, tglx@linutronix.de, jiaxun.yang@flygoat.com,
+	peterz@infradead.org, wangliupu@loongson.cn, lvjianmin@loongson.cn,
+	maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+	gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: Re: [PATCH] irqchip/irq-loongarch-ir:Add Redirect irqchip support
+Message-ID: <202512120915.PyiiMOEa-lkp@intel.com>
+References: <20251211091910.5140-3-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,46 +70,104 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251211194756.234043-11-ivecera@redhat.com>
+In-Reply-To: <20251211091910.5140-3-zhangtianyang@loongson.cn>
 
-Hi Ivan,
+Hi Tianyang,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on tip/irq/core]
+[also build test ERROR on linus/master v6.18 next-20251211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dt-bindings-net-ethernet-controller-Add-DPLL-pin-properties/20251212-035305
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251211194756.234043-11-ivecera%40redhat.com
-patch subject: [Intel-wired-lan] [PATCH RFC net-next 10/13] dpll: Add reference count tracking support
-config: m68k-randconfig-r072-20251212 (https://download.01.org/0day-ci/archive/20251212/202512120712.PIlx0U2J-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120712.PIlx0U2J-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/irqchip-irq-loongarch-ir-Add-Redirect-irqchip-support/20251211-172347
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20251211091910.5140-3-zhangtianyang%40loongson.cn
+patch subject: [PATCH] irqchip/irq-loongarch-ir:Add Redirect irqchip support
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20251212/202512120915.PyiiMOEa-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120915.PyiiMOEa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512120712.PIlx0U2J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512120915.PyiiMOEa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> Warning: drivers/dpll/dpll_core.c:399 function parameter 'tracker' not described in 'dpll_device_get'
->> Warning: drivers/dpll/dpll_core.c:434 function parameter 'tracker' not described in 'dpll_device_put'
->> Warning: drivers/dpll/dpll_core.c:746 function parameter 'tracker' not described in 'dpll_pin_get'
->> Warning: drivers/dpll/dpll_core.c:781 function parameter 'tracker' not described in 'dpll_pin_put'
->> Warning: drivers/dpll/dpll_core.c:802 function parameter 'tracker' not described in 'fwnode_dpll_pin_find'
->> Warning: drivers/dpll/dpll_core.c:399 function parameter 'tracker' not described in 'dpll_device_get'
->> Warning: drivers/dpll/dpll_core.c:434 function parameter 'tracker' not described in 'dpll_device_put'
->> Warning: drivers/dpll/dpll_core.c:746 function parameter 'tracker' not described in 'dpll_pin_get'
->> Warning: drivers/dpll/dpll_core.c:781 function parameter 'tracker' not described in 'dpll_pin_put'
->> Warning: drivers/dpll/dpll_core.c:802 function parameter 'tracker' not described in 'fwnode_dpll_pin_find'
+   drivers/irqchip/irq-loongarch-avec.c:416:6: error: use of undeclared identifier 'cpu_has_redirectint'
+     416 |         if (cpu_has_redirectint)
+         |             ^~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-avec.c:417:10: error: call to undeclared function 'redirect_acpi_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     417 |                 return redirect_acpi_init(loongarch_avec.domain);
+         |                        ^
+   2 errors generated.
+--
+>> drivers/irqchip/irq-loongarch-ir.c:141:39: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQH'
+     141 |         u32 head = redirect_read_reg32(node, LOONGARCH_IOCSR_REDIRECT_CQH);
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:143:36: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQT'
+     143 |         *tail = redirect_read_reg32(node, LOONGARCH_IOCSR_REDIRECT_CQT);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:161:9: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQT'
+     161 |                              LOONGARCH_IOCSR_REDIRECT_CQT);
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:235:28: error: incomplete definition of type 'struct avecintc_data'
+     235 |         item->gpid->irqnum = adata->vec;
+         |                              ~~~~~^
+   drivers/irqchip/irq-loongarch-ir.c:187:22: note: forward declaration of 'struct avecintc_data'
+     187 | static inline struct avecintc_data *irq_data_get_avec_data(struct irq_data *data)
+         |                      ^
+   drivers/irqchip/irq-loongarch-ir.c:236:25: error: incomplete definition of type 'struct avecintc_data'
+     236 |         item->gpid->dst = adata->cpu;
+         |                           ~~~~~^
+   drivers/irqchip/irq-loongarch-ir.c:187:22: note: forward declaration of 'struct avecintc_data'
+     187 | static inline struct avecintc_data *irq_data_get_avec_data(struct irq_data *data)
+         |                      ^
+>> drivers/irqchip/irq-loongarch-ir.c:259:2: error: call to undeclared function 'avecintc_sync'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     259 |         avecintc_sync(adata);
+         |         ^
+>> drivers/irqchip/irq-loongarch-ir.c:415:53: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CFG'
+     415 |         redirect_write_reg64(irde->node, CFG_DISABLE_IDLE, LOONGARCH_IOCSR_REDIRECT_CFG);
+         |                                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:416:64: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_TBR'
+     416 |         redirect_write_reg64(irde->node, __pa(irde->ird_table.table), LOONGARCH_IOCSR_REDIRECT_TBR);
+         |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:417:38: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQH'
+     417 |         redirect_write_reg32(irde->node, 0, LOONGARCH_IOCSR_REDIRECT_CQH);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:418:38: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQT'
+     418 |         redirect_write_reg32(irde->node, 0, LOONGARCH_IOCSR_REDIRECT_CQT);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:420:24: error: use of undeclared identifier 'LOONGARCH_IOCSR_REDIRECT_CQB'
+     420 |                              CQB_SIZE_MASK, LOONGARCH_IOCSR_REDIRECT_CQB);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:475:46: error: use of undeclared identifier 'AVEC_MSG_OFFSET'
+     475 |         msi_base_addr = pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
+         |                                                     ^~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-loongarch-ir.c:485:12: warning: no previous prototype for function 'redirect_acpi_init' [-Wmissing-prototypes]
+     485 | int __init redirect_acpi_init(struct irq_domain *parent)
+         |            ^
+   drivers/irqchip/irq-loongarch-ir.c:485:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     485 | int __init redirect_acpi_init(struct irq_domain *parent)
+         | ^
+         | static 
+   1 warning and 12 errors generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_DEV
-   Depends on [n]: NETDEVICES [=n] && CAN [=m]
-   Selected by [m]:
-   - CAN [=m] && NET [=y]
+
+vim +/redirect_acpi_init +417 drivers/irqchip/irq-loongarch-avec.c
+
+   413	
+   414	static inline int __init acpi_cascade_irqdomain_init(void)
+   415	{
+   416		if (cpu_has_redirectint)
+ > 417			return redirect_acpi_init(loongarch_avec.domain);
+   418	
+   419		return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
+   420	}
+   421	
 
 -- 
 0-DAY CI Kernel Test Service
