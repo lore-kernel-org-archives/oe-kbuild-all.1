@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E3720F08D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 05:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699E42877ED
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 05:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765431644; cv=none; b=O+amgXGbvp7FYqg+wI0M/5nxYq9ysMJmjXww+Y6C70Dxe1pOSPRncB/Ga0u5CUIT72edDHyJxljw3+byD5233kXeT3IMqs4GbayTtvLl6tM4/jtV8eWgu3DaQEG3m9VFgxEiBpCOOMSNI5hq3rn83klcBdwLKc88XFqUBf/+M2U=
+	t=1765431645; cv=none; b=jQ/sS5iF5ThUqSvtAoThw0dbraJS2lKF+6XFmU7W8QE43uNmweqJbeQp4BJwDhGXdJZKwz7WAOpTk55NFjh6RfRmAbkI48HqL3qoRKo6fUpDWcg1S2wdbgR6blo4nz8PcMMoZNSQwIIB47wJXRmzPlQu+9rqEVR8uxejXn514N4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765431644; c=relaxed/simple;
-	bh=dHZwfbO27fdb1dajQoCbayrJbkejyJDJrKztel9oIrs=;
+	s=arc-20240116; t=1765431645; c=relaxed/simple;
+	bh=Dow2U4kGsk0crl/G8Bt1uiAQP1mSV6rXG9UYVwcH6jY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OUlkNZ9RC3MBcXLOsfpU5KcEZE/ANHdHFiHHbQ8156BJdwpIUG0Sr85qBH0uI1tFyw2yszpV9G98l9wD9bpXxwNOitr6LZ0NdedQ4j04aqk/Jls1iFwbaxW/1E5xUelMA3l18IvbwOXYQIHR25RQFvI4FbqP9V3AU4pJTNc3PSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UK5+Oe45; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=f17sFPZEk0Cv0m/N34joh6Vpz1o3hzW5e9LMPdON5LhWWRtT4S56aXLK8vFrVx+ZPofhoGjlyMWoAmE0ALRZxMLVoZYRCRu9M9A8Bp3CT1Y87R0ZlmQI84/4JNZSJkc3ouoPiFzFX4rKYgO4LaRiKPzmKj3EY/SdDj5yBIbZyNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XVXVocpE; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UK5+Oe45"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XVXVocpE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765431642; x=1796967642;
+  t=1765431643; x=1796967643;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dHZwfbO27fdb1dajQoCbayrJbkejyJDJrKztel9oIrs=;
-  b=UK5+Oe45YZYsZsPNXSYlEll4zvuRBRK3/M+KZ6uxoViGHsw0hsqH9xxR
-   qlnUT908GUWqym2DingwXnZP04vucEFwsq5ofKJtSsuslkAudqSgCYNbt
-   jUhzFefeY3btxLw4QGCyih6OwP0xBY/BdqRVezXTJkDZlMWZVtm9GIv1h
-   3GYoodnHg4O/w7pru6x3Tzedjk6HmKkub3C4bt1eZ3W2QEMQp6BlGvEQG
-   7SwqHnYZrmLfLIvX72EzwTCl5q9DhYU2v+Z8p1GYs7Ini/8TFETLDTX5C
-   meHh7AsW4qSKchPQQjwJiVyGMb2JfmL+YraWJixKYsJ+3jf9Dy8t0ONeZ
-   g==;
-X-CSE-ConnectionGUID: X1XnvROsSzCbzrkKzZFgcg==
-X-CSE-MsgGUID: Gy4CGttsRCybOZhPoJRkQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="78111663"
+  bh=Dow2U4kGsk0crl/G8Bt1uiAQP1mSV6rXG9UYVwcH6jY=;
+  b=XVXVocpEzQgsczcXydx7fPSWZqbuzIF36sjt+J0A3Ii1JATM9TnWxEwM
+   sEiGZmO+J+4pjODIWYFwPiMGmbfj90Pe6QTaurpFTaGQrPJj3pK4Ypqfe
+   fOPkPfgkqiWResfp5Dg1iaCg/MM5ULCwpv/e0iGuHC986IjQ2Aow2nclW
+   gSb6HmpuWTpHi0FVSF5xe0rb+GjvoeQ+ldR6L6t2Z/u7ZKRR53LJs8uv9
+   yCNM6FCS67s/5hhpBR1TNVaup3LMICwFJJHZvckIHLzIyRfgdrbF+kqfG
+   f3kKrNNdqrP2sFAXfTMV/5EOjQ6QRLpotr+4Q8bajUKlMQOCvK6iv5h4B
+   w==;
+X-CSE-ConnectionGUID: SbpgAC8URGuxGUJem7wdhw==
+X-CSE-MsgGUID: 5hsbsX8bSdyLFpI/ofo2qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11638"; a="84817140"
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="78111663"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 21:40:41 -0800
-X-CSE-ConnectionGUID: j8LqcfbTRFKbotpudU/YPw==
-X-CSE-MsgGUID: 0DEpbUv3QVOpT8kEXhLcMw==
+   d="scan'208";a="84817140"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2025 21:40:41 -0800
+X-CSE-ConnectionGUID: FYcW2FsgRKaE08fEjFMGOA==
+X-CSE-MsgGUID: utWq0AONTaetsfZH22zaUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.20,265,1758610800"; 
-   d="scan'208";a="196715501"
+   d="scan'208";a="201630353"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 10 Dec 2025 21:40:39 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 10 Dec 2025 21:40:40 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTZPo-000000004Ej-4228;
-	Thu, 11 Dec 2025 05:40:36 +0000
-Date: Thu, 11 Dec 2025 13:39:46 +0800
+	id 1vTZPp-000000004F8-36oW;
+	Thu, 11 Dec 2025 05:40:37 +0000
+Date: Thu, 11 Dec 2025 13:39:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Guo <guoyongqiang12@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3508/3508]
- drivers/ub/urma/uburma/uburma_cmd_tlv.c:80:24: sparse: sparse: incorrect
- type in argument 2 (different address spaces)
-Message-ID: <202512111346.xfjnxdWL-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: kernel/sched/core.c:881:49: sparse: sparse: incorrect type in
+ argument 2 (different address spaces)
+Message-ID: <202512111308.D5hqTn1p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,183 +63,119 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5930fa3740c518a9f6ba688fd0c1873d6f3adbce
-commit: 901128a1ed92d11749cd5ad529be4e30f3196214 [3508/3508] uburma: add uburma command and user object framework headers
-config: arm64-randconfig-r112-20251210 (https://download.01.org/0day-ci/archive/20251211/202512111346.xfjnxdWL-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111346.xfjnxdWL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d358e5254674b70f34c847715ca509e46eb81e6f
+commit: e38e5299747b23015b00b0109891815db44a2f30 sched/hrtick: Fix hrtick() vs. scheduling context
+date:   5 days ago
+config: nios2-randconfig-r121-20251211 (https://download.01.org/0day-ci/archive/20251211/202512111308.D5hqTn1p-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251211/202512111308.D5hqTn1p-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512111346.xfjnxdWL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512111308.D5hqTn1p-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/ub/urma/uburma/uburma_cmd_tlv.c:80:24: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/uburma/uburma_cmd_tlv.c:80:24: sparse:     expected void const *args_addr
-   drivers/ub/urma/uburma/uburma_cmd_tlv.c:80:24: sparse:     got void [noderef] __user *
-   drivers/ub/urma/uburma/uburma_cmd_tlv.c:115:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/uburma/uburma_cmd_tlv.c:115:46: sparse:     expected void const *args_addr
-   drivers/ub/urma/uburma/uburma_cmd_tlv.c:115:46: sparse:     got void [noderef] __user *
->> drivers/ub/urma/uburma/uburma_cmd_tlv.c:184:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *args_addr @@     got void [noderef] __user * @@
-   drivers/ub/urma/uburma/uburma_cmd_tlv.c:184:44: sparse:     expected void *args_addr
-   drivers/ub/urma/uburma/uburma_cmd_tlv.c:184:44: sparse:     got void [noderef] __user *
-   drivers/ub/urma/uburma/uburma_cmd_tlv.c: note: in included file (through drivers/ub/urma/uburma/uburma_cmd_tlv.h):
->> drivers/ub/urma/uburma/uburma_cmd.h:45:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/uburma/uburma_cmd.h:45:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/uburma/uburma_cmd.h:45:41: sparse:     got void const *args_addr
->> drivers/ub/urma/uburma/uburma_cmd.h:45:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *args_addr @@
-   drivers/ub/urma/uburma/uburma_cmd.h:45:41: sparse:     expected void const [noderef] __user *from
-   drivers/ub/urma/uburma/uburma_cmd.h:45:41: sparse:     got void const *args_addr
->> drivers/ub/urma/uburma/uburma_cmd.h:59:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *args_addr @@
-   drivers/ub/urma/uburma/uburma_cmd.h:59:33: sparse:     expected void [noderef] __user *to
-   drivers/ub/urma/uburma/uburma_cmd.h:59:33: sparse:     got void *args_addr
---
-   drivers/ub/urma/uburma/uburma_dev_ops.c:47:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_dev_ops.c:47:19: sparse:    struct ubcore_device [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_dev_ops.c:47:19: sparse:    struct ubcore_device *
->> drivers/ub/urma/uburma/uburma_dev_ops.c:68:6: sparse: sparse: symbol 'uburma_unregister_mmu' was not declared. Should it be static?
->> drivers/ub/urma/uburma/uburma_dev_ops.c:80:5: sparse: sparse: symbol 'uburma_register_mmu' was not declared. Should it be static?
-   drivers/ub/urma/uburma/uburma_dev_ops.c:103:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/ub/urma/uburma/uburma_dev_ops.c:103:19: sparse:    struct ubcore_device [noderef] __rcu *
-   drivers/ub/urma/uburma/uburma_dev_ops.c:103:19: sparse:    struct ubcore_device *
+>> kernel/sched/core.c:881:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/core.c:881:49: sparse:     expected struct task_struct *p
+   kernel/sched/core.c:881:49: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/core.c:1101:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:1101:38: sparse:     expected struct task_struct *curr
+   kernel/sched/core.c:1101:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:2175:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/core.c:2175:39: sparse:     expected struct task_struct *donor
+   kernel/sched/core.c:2175:39: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/core.c:2186:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:2186:65: sparse:     expected struct task_struct *tsk
+   kernel/sched/core.c:2186:65: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:3583:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/core.c:3583:17: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/core.c:3583:17: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/core.c:3788:36: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:3788:36: sparse:     expected struct task_struct const *p
+   kernel/sched/core.c:3788:36: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:5512:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/core.c:5512:15: sparse:     expected struct task_struct *donor
+   kernel/sched/core.c:5512:15: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/core.c:6730:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:6730:14: sparse:     expected struct task_struct *prev
+   kernel/sched/core.c:6730:14: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:6797:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *donor @@
+   kernel/sched/core.c:6797:37: sparse:     expected struct task_struct *prev
+   kernel/sched/core.c:6797:37: sparse:     got struct task_struct [noderef] __rcu *donor
+   kernel/sched/core.c:7303:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:7303:17: sparse:    struct task_struct *
+   kernel/sched/core.c:7303:17: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:10207:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/core.c:10207:25: sparse:     expected struct task_struct *p
+   kernel/sched/core.c:10207:25: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:632:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
+   kernel/sched/core.c:657:6: sparse: sparse: context imbalance in 'raw_spin_rq_trylock' - wrong count at exit
+   kernel/sched/core.c:683:9: sparse: sparse: context imbalance in 'raw_spin_rq_unlock' - unexpected unlock
+   kernel/sched/core.c: note: in included file:
+   kernel/sched/sched.h:1808:9: sparse: sparse: context imbalance in '__task_rq_lock' - wrong count at exit
+   kernel/sched/sched.h:1808:9: sparse: sparse: context imbalance in 'task_rq_lock' - wrong count at exit
+   kernel/sched/core.c: note: in included file:
+   kernel/sched/pelt.h:102:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/pelt.h:102:13: sparse:     expected struct task_struct const *p
+   kernel/sched/pelt.h:102:13: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/core.c:881:11: sparse: sparse: dereference of noderef expression
+   kernel/sched/core.c:2256:35: sparse: sparse: context imbalance in 'wait_task_inactive' - different lock contexts for basic block
+   kernel/sched/core.c: note: in included file:
+   kernel/sched/sched.h:2302:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2302:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2302:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2291:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2291:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2291:25: sparse:    struct task_struct *
+   kernel/sched/core.c:2170:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/core.c:2170:38: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/core.c:2170:38: sparse:    struct task_struct const *
+   kernel/sched/sched.h:2302:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2302:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2302:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2635:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2635:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2635:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2635:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2635:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2635:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2302:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2302:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2302:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2302:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2302:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2302:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2302:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2302:26: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2302:26: sparse:    struct task_struct *
+   kernel/sched/sched.h:2612:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2612:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2612:9: sparse:    struct task_struct *
 
-vim +80 drivers/ub/urma/uburma/uburma_cmd_tlv.c
+vim +881 kernel/sched/core.c
 
-    61	
-    62	static struct uburma_cmd_attr *
-    63	uburma_create_tlv_attr(struct uburma_cmd_hdr *hdr,
-    64			       uint32_t *attr_size)
-    65	{
-    66		struct uburma_cmd_attr *attr;
-    67		int ret;
-    68	
-    69		if (hdr->args_len % sizeof(struct uburma_cmd_attr) != 0 ||
-    70		    hdr->args_len >= UBURMA_CMD_TLV_MAX_LEN) {
-    71			uburma_log_err("Invalid args_len: %u.\n",
-    72				       hdr->args_len);
-    73			return NULL;
-    74		}
-    75		attr = kzalloc(hdr->args_len, GFP_KERNEL);
-    76		if (!attr)
-    77			return NULL;
-    78	
-    79		ret = uburma_copy_from_user(
-  > 80			attr, (void __user *)(uintptr_t)hdr->args_addr,
-    81			hdr->args_len);
-    82		if (ret != 0) {
-    83			kfree(attr);
-    84			return NULL;
-    85		}
-    86		*attr_size = hdr->args_len / sizeof(struct uburma_cmd_attr);
-    87		return attr;
-    88	}
-    89	
-    90	static int uburma_cmd_tlv_parse_type(struct uburma_cmd_spec *spec,
-    91					     struct uburma_cmd_attr *attr)
-    92	{
-    93		uintptr_t ptr_src, ptr_dst;
-    94		uint32_t i;
-    95		int ret;
-    96	
-    97		/* length of uburma spec and from uvs should be strictly checked */
-    98		/* as length of uvs ioctl attr should be strictly equal to length of uburma */
-    99		if (spec->field_size != attr->field_size ||
-   100		    spec->attr_data.bs.el_num != attr->attr_data.bs.el_num) {
-   101			uburma_log_err(
-   102				"Invalid attr, spec/attr, field_size: %u/%u, el_num: %u/%u, type: %u.\n",
-   103				spec->field_size, attr->field_size,
-   104				spec->attr_data.bs.el_num,
-   105				attr->attr_data.bs.el_num, spec->type);
-   106			return -EINVAL;
-   107		}
-   108	
-   109		for (i = 0; i < spec->attr_data.bs.el_num; i++) {
-   110			ptr_dst =
-   111				(spec->data) + i * spec->attr_data.bs.el_size;
-   112			ptr_src =
-   113				(attr->data) + i * attr->attr_data.bs.el_size;
-   114			ret = uburma_copy_from_user((void *)ptr_dst,
-   115						    (void __user *)ptr_src,
-   116						    spec->field_size);
-   117			if (ret != 0)
-   118				return ret;
-   119		}
-   120	
-   121		return ret;
-   122	}
-   123	
-   124	static int uburma_cmd_tlv_parse(struct uburma_cmd_spec *spec,
-   125					uint32_t spec_size,
-   126					struct uburma_cmd_attr *attr,
-   127					uint32_t attr_size)
-   128	{
-   129		uint32_t spec_idx, attr_idx;
-   130		bool match;
-   131		int ret;
-   132	
-   133		/* spec type of this range is only in type */
-   134		for (spec_idx = 0; spec_idx < spec_size; spec_idx++) {
-   135			match = false;
-   136			for (attr_idx = 0; attr_idx < attr_size; attr_idx++) {
-   137				if (spec[spec_idx].type ==
-   138				    attr[attr_idx].type) {
-   139					ret = uburma_cmd_tlv_parse_type(
-   140						&spec[spec_idx],
-   141						&attr[attr_idx]);
-   142					if (ret != 0)
-   143						return ret;
-   144					match = true;
-   145					break;
-   146				}
-   147			}
-   148			if (!match &&
-   149			    ((spec[spec_idx].flag.bs.mandatory) != 0)) {
-   150				uburma_log_err(
-   151					"Failed to match mandatory in type: %u.\n",
-   152					spec[spec_idx].type);
-   153				return -EINVAL;
-   154			}
-   155		}
-   156	
-   157		return 0;
-   158	}
-   159	
-   160	static int uburma_cmd_tlv_append_type(struct uburma_cmd_spec *spec,
-   161					      struct uburma_cmd_attr *attr)
-   162	{
-   163		uintptr_t ptr_src, ptr_dst;
-   164		uint32_t i;
-   165		int ret;
-   166	
-   167		/* length of uburma spec and from uvs should be strictly checked */
-   168		/* as length of uvs ioctl attr should be strictly equal to length of uburma */
-   169		if (spec->field_size != attr->field_size ||
-   170		    spec->attr_data.bs.el_num > attr->attr_data.bs.el_num) {
-   171			uburma_log_err(
-   172				"Invalid attr, spec/attr, field_size: %u/%u, array_size: %u/%u, type: %u.\n",
-   173				spec->field_size, attr->field_size,
-   174				spec->attr_data.bs.el_num,
-   175				attr->attr_data.bs.el_num, spec->type);
-   176			return -EINVAL;
-   177		}
-   178	
-   179		for (i = 0; i < spec->attr_data.bs.el_num; i++) {
-   180			ptr_src =
-   181				(spec->data) + i * spec->attr_data.bs.el_size;
-   182			ptr_dst =
-   183				(attr->data) + i * attr->attr_data.bs.el_size;
- > 184			ret = uburma_copy_to_user((void __user *)ptr_dst,
-   185						  (void *)ptr_src,
-   186						  spec->field_size);
-   187			if (ret != 0)
-   188				return ret;
-   189		}
-   190	
-   191		return ret;
-   192	}
-   193	
+   867	
+   868	/*
+   869	 * High-resolution timer tick.
+   870	 * Runs from hardirq context with interrupts disabled.
+   871	 */
+   872	static enum hrtimer_restart hrtick(struct hrtimer *timer)
+   873	{
+   874		struct rq *rq = container_of(timer, struct rq, hrtick_timer);
+   875		struct rq_flags rf;
+   876	
+   877		WARN_ON_ONCE(cpu_of(rq) != smp_processor_id());
+   878	
+   879		rq_lock(rq, &rf);
+   880		update_rq_clock(rq);
+ > 881		rq->donor->sched_class->task_tick(rq, rq->donor, 1);
+   882		rq_unlock(rq, &rf);
+   883	
+   884		return HRTIMER_NORESTART;
+   885	}
+   886	
 
 -- 
 0-DAY CI Kernel Test Service
