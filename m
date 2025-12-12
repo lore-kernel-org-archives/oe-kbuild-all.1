@@ -1,151 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795A92797AC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 19:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422FA2D7393
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 19:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765567346; cv=none; b=tzjMHi82DjAsjN4NjSaXMWkY+sFyfPFf/i7A7kvty8DxMmrmGE/8jFK6QYJ+QzuIVqgLl6KCEFhk7nJAoEAvivTPm1JDFIjIB9GU8Ul5jKt60aQQUkFYRRE9KTqiMHB1vlVWB2qUiBRtJFYVUG0kf4yNILIubeKUarR05/vsjtk=
+	t=1765567781; cv=none; b=rEtjt+J+qnpQ6YMydhB0sRaTYHqP56WoVRS80n8BK+/C48zCSFh3B+plKmYSwib7SwUz/6oVGO+PaYlDqUKTmgO/gq2vU5TjIiRloXMFiBOCtn//sMgYEkSKegWpQKM5dtGA8J0NSqxyGFAFl7CfR10lsrGcIcjP7zImbTveOKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765567346; c=relaxed/simple;
-	bh=EuSt1Lu6i5knD3JIGX1JsffFueHhuPzUoCBsbS2Q6e4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bF+7HEyyn3VjcQUfSwI/KSMm5slaeB1zzjalAzOXet7W0XGFG5Y08Mp2xHJjM3s9let9Y5o3uhGqBSJy+JlsBzpzKm46Evg5w4Ltp1uljWJUUXb5le8hcW48t4H5oxd7v0yalLZgNOj25zriDHzeIjgHSrGapqRmwu/l53DBwkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hXV0S3zU; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765567781; c=relaxed/simple;
+	bh=kAJEIijw1h39dwP0oiHddBkEtMnWkioxlFQC1ujPckI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Kg3i0w9HVbR9snYZKaUzK4LQBiR/f1bw6BaYQQ6Z5hLRM66nt1XqIwq2JNJieY/fZcVTa7VRBFk+xdf3buIWkEBlF47Zjvyi0os7db+x7OQ8+8e/OobpsQNkQBlog2UFPGjXNgFEiVfnyVdA3i4I2M3DrHr0j6XHwzlAF2Pd60o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FVN/5oZp; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hXV0S3zU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765567345; x=1797103345;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EuSt1Lu6i5knD3JIGX1JsffFueHhuPzUoCBsbS2Q6e4=;
-  b=hXV0S3zUJvrsonScKGfqu0DCc79AcXTVnWP0dy8MwafatcjfPvJHn/rQ
-   2gZ9iDDPrZ/yqnbKKdDiuKSVTTBUq+mdTJj1PjjbsYFHVMonJ2S4kETpQ
-   H4qDbfKfhpyvmxcC2DPEPHdo05Qv4m933XphJTCeUeuGpHSMWMo3dF6Vo
-   xQcNxgqwsLZU28xsjrt3U2S08+3bL3QRU+xXtljI47DGhXEEGjzh3UEqE
-   C6GGUwnMWwwb5jYf4Tj8bGYfRkESuGnAr77b5CTwpUV9XuJ40DWhoNYms
-   bb5YfnwFOk9HYxdzQUMYNVyqS/JlzWSgW0yTB2cRYsvrd4oAaFQKht+d/
-   Q==;
-X-CSE-ConnectionGUID: oYWChw1KTxC0uYjdWm7buA==
-X-CSE-MsgGUID: 9BQDlSbKR6KGgTC0BOAHnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="79032446"
-X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="79032446"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 11:22:25 -0800
-X-CSE-ConnectionGUID: FYNrTEmoSruOhXaJvz/xxw==
-X-CSE-MsgGUID: Y4LSvpdIQiyL4SOzMiYCMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="197062029"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Dec 2025 11:22:23 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vU8ia-000000006Vx-36v2;
-	Fri, 12 Dec 2025 19:22:20 +0000
-Date: Sat, 13 Dec 2025 03:22:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1941/1941] drivers/base/node.c:480:
- warning: Function parameter or member 'mem_nid' not described in
- 'register_memory_node_under_compute_node'
-Message-ID: <202512130318.QHdKVAVx-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FVN/5oZp"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-37d13ddaa6aso10815811fa.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 11:29:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765567777; x=1766172577; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+iAGiWGntUzRzKLCpTz264YmDdwQESuNb3m83qNK0Aw=;
+        b=FVN/5oZpaH/MTwYe/W8GDaajKA5ZCdzlxqaDbECDvRSkgyy4dVfRtbUqBLPQqCxk9D
+         mozg23POkJh1A1c6frmMDEpeFlCihu8L4LygEghNw2xSD8thqmqn8D6s+2x8u9WuT7dp
+         H64oEnWysv2oOCtiyfp3cSpm33yI7wzXlxolq7J9My8gJdStaX0G1/eSgmSdFugA4fml
+         x5QvrGeBl7IDrqJhp87CQzTSPjjYCbasSHSTrafbMUihfIohfNjXmSWhlrU1JAsKGNaw
+         mX4OzoQIL9AZ/Sb+znm2Kl6s1zCYqPswLSv/Xu5+K0IIqeWISvmkXpyoWJGOzycKMRLc
+         KnOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765567777; x=1766172577;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+iAGiWGntUzRzKLCpTz264YmDdwQESuNb3m83qNK0Aw=;
+        b=gL8KTxR8JHsxV8jiKQDqTo2s3PvkHJEXvdoS7zU3Jc7ivmmST7RO3ksMRQVfUlsJTH
+         IPn8K6utI5MIzxphtHQGvKXyl+1/YaH4QJ2r2W6OKZ3GDmLdrY7OPVLD2GdpCiHQ0SZ9
+         NOGYDEkGPa9Dsj5U9UOWfVFYj8S3JusUEHpB3cTSzFNpofLpvksqwyRfNR7JdtHboGq3
+         5HP23Czqd9PxJR532BmWgbaP2qA/lR8OuHBFior2IIHHH4cZFiMZ5mj3vHo4YY1f4Hkh
+         XrVFxJz0tQiaQHVG3AFjXXZcGgQmLkT2CGFW7fJIXeWihpoUgllEfAr0pGpvp6j4fUl9
+         yrpA==
+X-Forwarded-Encrypted: i=1; AJvYcCWlnj2vzX1tkcpqLbwBYZpEgg33wZn4dgCmS4S1QNiRcd5vVDIUi7YbO4wuEntEfZtG143lEEB3BHyimJma@lists.linux.dev
+X-Gm-Message-State: AOJu0YxD//xRl1uUDTvvE6IrWSZbyG7GHboM+k1daodf2wGT+Dr0fLOV
+	cZoRhMLUo2EAz8ZbLIdHUltS6mYL6+JpmpqPISL2Q2cYifeHuZibDjfG2dGxMw==
+X-Gm-Gg: AY/fxX6d9v/2t21jqPDpKzFleafDk5EwSm9w34d7DFdmBjrgg3b6aJp9oMvFLMA3JkN
+	ldXiX8j89igQc36fQTkJ7YvN46jyxrdIvWiSSrNurvXzXf+PLZwVxDnnD1lJSjkVBZxwngqtfA2
+	VoIpSexLMcGUO+7zhUkTTJDH+vp/7W0Kwk6nzpqO73csvQeACDiUokAD7PQcLh80Y1ilHxDpRaC
+	PaMKtKfyzS88cLPxTJa7TEzX4orkjJVE8ye4zDCrHIcPbPi4CO6ilbKh+ydAdOoUV/Bl9qeAEwD
+	PHCvV9eDaxO/ZKRLcavFIiwMm1/ifXrjOPsQSCf1FNBAm40/9Gb1s2AqZRIyviM8eRZPMeOb93I
+	LKjwAq25BYmdXq+4jz9YaeP35uisK1culOHY/bpqCtyAFadJMwF4/BHv1r/eolbpMITRrA8ABzS
+	yNdXt8vxX2ZNs2kwPzBgbcfcfV9XA6lzWoPrgt/c7a8wPPgdOiaaeL
+X-Google-Smtp-Source: AGHT+IE4SzG9SEUo36H+/RajRuGXQKEqi8PEHCvRAZiuCC+tFu11I+7qLmwsFCnbEjl5dXnaqDhnFA==
+X-Received: by 2002:a05:600c:4451:b0:477:9fcf:3ff9 with SMTP id 5b1f17b1804b1-47a8f90f54bmr26022385e9.27.1765560968089;
+        Fri, 12 Dec 2025 09:36:08 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8f7676ffsm43676465e9.4.2025.12.12.09.36.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Dec 2025 09:36:07 -0800 (PST)
+Date: Fri, 12 Dec 2025 17:36:03 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Simon Horman <horms@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, Ilya Krutskih <devsec@tpz.ru>, Andrew
+ Lunn <andrew+netdev@lunn.ch>, oe-kbuild-all@lists.linux.dev, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+ <mingo@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ lvc-project@linuxtesting.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] net: fealnx: fix possible 'card_idx' integer
+ overflow in
+Message-ID: <20251212173603.46f27e9b@pumpkin>
+In-Reply-To: <aTwqqxPgMWG9CqJL@horms.kernel.org>
+References: <20251211173035.852756-1-devsec@tpz.ru>
+	<202512121907.n3Bzh2zF-lkp@intel.com>
+	<aTwqqxPgMWG9CqJL@horms.kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   df8d11fbcbb07177c2500e63d7f5a36063977596
-commit: 9e8e325cfd089c66c9a2f570f99021a62bf0ae09 [1941/1941] node: Link memory nodes to their compute nodes
-config: x86_64-randconfig-103-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130318.QHdKVAVx-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130318.QHdKVAVx-lkp@intel.com/reproduce)
+On Fri, 12 Dec 2025 14:46:03 +0000
+Simon Horman <horms@kernel.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512130318.QHdKVAVx-lkp@intel.com/
+> On Fri, Dec 12, 2025 at 07:30:04PM +0800, kernel test robot wrote:
+> > Hi Ilya,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on net-next/main]
+> > [also build test WARNING on net/main linus/master v6.18 next-20251212]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Ilya-Krutskih/net-fealnx-fix-possible-card_idx-integer-overflow-in/20251212-013335
+> > base:   net-next/main
+> > patch link:    https://lore.kernel.org/r/20251211173035.852756-1-devsec%40tpz.ru
+> > patch subject: [PATCH v2] net: fealnx: fix possible 'card_idx' integer overflow in
+> > config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251212/202512121907.n3Bzh2zF-lkp@intel.com/config)
+> > compiler: alpha-linux-gcc (GCC) 15.1.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121907.n3Bzh2zF-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202512121907.n3Bzh2zF-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >    drivers/net/ethernet/fealnx.c: In function 'fealnx_init_one':  
+> > >> drivers/net/ethernet/fealnx.c:496:35: warning: '%d' directive writing between 1 and 11 bytes into a region of size 6 [-Wformat-overflow=]  
+> >      496 |         sprintf(boardname, "fealnx%d", card_idx);
+> >          |                                   ^~
+> >    drivers/net/ethernet/fealnx.c:496:28: note: directive argument in the range [-2147483647, 2147483647]
+> >      496 |         sprintf(boardname, "fealnx%d", card_idx);
+> >          |                            ^~~~~~~~~~
+> >    drivers/net/ethernet/fealnx.c:496:9: note: 'sprintf' output between 8 and 18 bytes into a destination of size 12
+> >      496 |         sprintf(boardname, "fealnx%d", card_idx);
+> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
+> 
+> Although I think these new warnings are not strictly for problems
+> introduced by this patch. They do make me wonder
+> if it would be best to cap card_index MAX_UNITS and
+> return an error if that limit is exceeded.
 
-All warnings (new ones prefixed by >>):
+The code seems to be written allowing for more than MAX_UNITS 'units'.
 
-   In file included from <built-in>:2:
-   In file included from include/linux/compiler_types.h:59:
-   include/linux/compiler-clang.h:20:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      20 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:354:9: note: previous definition is here
-     354 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   1 warning generated.
->> drivers/base/node.c:480: warning: Function parameter or member 'mem_nid' not described in 'register_memory_node_under_compute_node'
-   drivers/base/node.c:480: warning: Function parameter or member 'cpu_nid' not described in 'register_memory_node_under_compute_node'
-   drivers/base/node.c:480: warning: Excess function parameter 'mem_node' description in 'register_memory_node_under_compute_node'
-   drivers/base/node.c:480: warning: Excess function parameter 'cpu_node' description in 'register_memory_node_under_compute_node'
+Actually it all looks pretty broken to me...
+'card_idx' is incremented by every call to fealnx_init_one().
+That is the pci_driver.probe() function.
+So every card remove and rescan will increment it.
+(Is the .probe() even serialised? I can't remember...)
 
+Then there is the MODULE_PARAM_DESC() that states that bit 17 of 'options'
+is the 'full duplex' flag, but the code checks 'options & 0x200'.
 
-vim +480 drivers/base/node.c
+And I just don't understand the assignment: option = dev->mem_start;
 
-   463	
-   464	/**
-   465	 * register_memory_node_under_compute_node - link memory node to its compute
-   466	 *					     node for a given access class.
-   467	 * @mem_node:	Memory node number
-   468	 * @cpu_node:	Cpu  node number
-   469	 * @access:	Access class to register
-   470	 *
-   471	 * Description:
-   472	 * 	For use with platforms that may have separate memory and compute nodes.
-   473	 * 	This function will export node relationships linking which memory
-   474	 * 	initiator nodes can access memory targets at a given ranked access
-   475	 * 	class.
-   476	 */
-   477	int register_memory_node_under_compute_node(unsigned int mem_nid,
-   478						    unsigned int cpu_nid,
-   479						    unsigned access)
- > 480	{
-   481		struct node *init_node, *targ_node;
-   482		struct node_access_nodes *initiator, *target;
-   483		int ret;
-   484	
-   485		if (!node_online(cpu_nid) || !node_online(mem_nid))
-   486			return -ENODEV;
-   487	
-   488		init_node = node_devices[cpu_nid];
-   489		targ_node = node_devices[mem_nid];
-   490		initiator = node_init_node_access(init_node, access);
-   491		target = node_init_node_access(targ_node, access);
-   492		if (!initiator || !target)
-   493			return -ENOMEM;
-   494	
-   495		ret = sysfs_add_link_to_group(&initiator->dev.kobj, "targets",
-   496					      &targ_node->dev.kobj,
-   497					      dev_name(&targ_node->dev));
-   498		if (ret)
-   499			return ret;
-   500	
-   501		ret = sysfs_add_link_to_group(&target->dev.kobj, "initiators",
-   502					      &init_node->dev.kobj,
-   503					      dev_name(&init_node->dev));
-   504		if (ret)
-   505			goto err;
-   506	
-   507		return 0;
-   508	 err:
-   509		sysfs_remove_link_from_group(&initiator->dev.kobj, "targets",
-   510					     dev_name(&targ_node->dev));
-   511		return ret;
-   512	}
-   513	
+The code was like this when Linux created git.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	David
