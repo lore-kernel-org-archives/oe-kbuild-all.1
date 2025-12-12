@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9491E31813A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 11:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECB631D38F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 12:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765540316; cv=none; b=LJCPxmMNqPAaS6+kH0v/2zkyNcxDngriQYWOdp6DQUW8jIg7fFdqqJfWFtZDsk1tMKqAY/H4DyL84fVcUWpO6qLmyWOOik3l4gzprUXHhOUu8zUy3SmIae++gH0PYKwV7QB4kr1KiBTtoJg3CkBw8WNi7k1sYGwXFkyiTFIa8AQ=
+	t=1765541515; cv=none; b=MEJP4VMwW50pqvj+TCyrSGhZXcH3nBhrz8zl0gVaQtsRvyp/hxPn84NlASQcgaq4ueamKskhsfWCiCVmJOlmc3Xyvx6nd3Tx4yjWa2ORgymy6hWRD0eYEP2tA3Oa5Z2rSK2pAyUAtAfrA1QIR9YhDpGEN0TGh9nV34wa4JUCLuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765540316; c=relaxed/simple;
-	bh=3kwx2KcHyoGT84T0X6hzTgwfeFKvEKGyzhe/zckp3Jw=;
+	s=arc-20240116; t=1765541515; c=relaxed/simple;
+	bh=UtvAThWyKo8/FTp1i1iGdLAm+MsNs3Dq3+GTQlXpXos=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qo0Nq7UyFIgfWBXsSASawQWqsO1wSRZHKhZXlrQBtejQjbCl7uxgajVJxLQhliv3QkBGUIHgv/QdcQ4iOq+CEqldtdtz4/57UNz7m8iyAUwWfYAHl9jJnoDmy2yFBMsMeRue1x1pKYzlcf/kd9DxUN497slomv/qAyEELoZnSO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5IYvef4; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=WGufFE7ArimjV/1La3Jtevm1D8B2pAlJfBdFpV65Rxl7sWBVO08raW0/6LKr3K8W9xjVGkiG/k8GhRIEDhxg+pqIazz8MA2217aJl+fCniI0SbiD4NSe3J4ALxSgnwgZGfsVY+kQifftbAtnSqLE14PRHnvaf+l+2H1+toGd0QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AJkjzL6l; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5IYvef4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AJkjzL6l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765540315; x=1797076315;
+  t=1765541513; x=1797077513;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3kwx2KcHyoGT84T0X6hzTgwfeFKvEKGyzhe/zckp3Jw=;
-  b=C5IYvef4tg7/7kIB//4A+B+2hhC/YWr8j1PFmknTCKjhiyCeCH96eIEe
-   3Q13IdIyabQ7TTC4hrUCQ0jL2z1KLa660xLIu1txzejuUKTtwiPRavxJK
-   +XAtur90elElfHPY+iRjL3am2JrChpFQ9jFBl3BFXDD59DbkRy783c5Ea
-   qW2zHy3hgoNw/D0ekltdeo+UDAmXLpjf8AoLiXZ7k+6Wu4S9Uzqo8A7bw
-   7H3Oq+JAoB5JyoNYrEhqQ9HQ+H++aIx30P/bHL1qK014mdHO1v4ktp/lE
-   QZoKz/kgAFRKueHSi6+3VDC4CCrrEJkH0+2VZABPoRuAO+QjG3OVVR4Oi
-   w==;
-X-CSE-ConnectionGUID: 3k3NfvejSieKdMbK5aHlzw==
-X-CSE-MsgGUID: zSC3YTP7S5GNAREH7fN26w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="77856831"
+  bh=UtvAThWyKo8/FTp1i1iGdLAm+MsNs3Dq3+GTQlXpXos=;
+  b=AJkjzL6lBLrwoCMZ8fdoayYxJBM4CUCE9ayFLA6srq0+rAaHGbagMfSq
+   VOpOKUhigm9899WpGteqDEhjlVw6MfvTKp7H8yoM7v8ko5hD1N3lwg6Z9
+   LDMHGtsQIM0Alf0Er+BAPirxhlMGyNWSnd458ZwFQKLsBPy6xa51eyhLs
+   Jiu9iXC1w39fXCigLWiGxut+n83nfpGWdCNGCu2jJdCfNOLVakzHjUKQU
+   lABFKYJJAswppqGadOLzbXiQwmUY5RL0jJlbPm/H2t4eKKJBqSQv7TLxb
+   SNUDeyydzSu2jH1t9cRDKxvzv5VTSASTrpN02wr5TZbMROw9A464x8zmJ
+   g==;
+X-CSE-ConnectionGUID: YDBMmrrkQdy3cPrw24fIuQ==
+X-CSE-MsgGUID: U97Mn0aQTBuzKVG9zEy3cg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67420681"
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="77856831"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 03:51:52 -0800
-X-CSE-ConnectionGUID: EPpufP90QFaENmc+j4VdVA==
-X-CSE-MsgGUID: dCcCl14yRPS7uPq/KPWbYg==
+   d="scan'208";a="67420681"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 04:11:52 -0800
+X-CSE-ConnectionGUID: THhlTdySQSavNaboSNdfaQ==
+X-CSE-MsgGUID: 9hOstCzMSFSyP0IRkCKNpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="197565365"
+   d="scan'208";a="196156072"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 12 Dec 2025 03:51:51 -0800
+  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 04:11:52 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU1ga-00000000601-1oSB;
-	Fri, 12 Dec 2025 11:51:48 +0000
-Date: Fri, 12 Dec 2025 19:51:07 +0800
+	id 1vU1zx-0000000060t-0WUI;
+	Fri, 12 Dec 2025 12:11:49 +0000
+Date: Fri, 12 Dec 2025 20:11:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/1]
- kernel/power/energy_model.c:113:15: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202512121938.yfif9Tvg-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-6.6-CWF-PLR-ANBZ26486 11/11]
+ drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_ethtool.c:3: warning: This
+ comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202512122020.aapC7bQ2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,69 +64,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   eed7f8d4a5572c294712b683d6b4890a3b5e1267
-commit: 93f31a5fdf8f86146b5a630a1fa706fde5fb36c1 [0/1] UPSTREAM: PM: EM: Introduce runtime modifiable table
-config: x86_64-randconfig-121-20251212 (https://download.01.org/0day-ci/archive/20251212/202512121938.yfif9Tvg-lkp@intel.com/config)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-PLR-ANBZ26486
+head:   691fd54204b78715418b027529c23d3a9eca9456
+commit: b6906872ffefea77d8b63f8c6da6b37c7013c2f1 [11/11] anolis: net: bugfix for linkdata driver compilation errors
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251212/202512122020.aapC7bQ2-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121938.yfif9Tvg-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512122020.aapC7bQ2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512121938.yfif9Tvg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512122020.aapC7bQ2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/power/energy_model.c:113:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
-   kernel/power/energy_model.c:113:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:113:15: sparse:     got struct em_perf_table *
->> kernel/power/energy_model.c:114:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct em_perf_table [noderef] __rcu *table @@
-   kernel/power/energy_model.c:114:15: sparse:     expected void const *objp
-   kernel/power/energy_model.c:114:15: sparse:     got struct em_perf_table [noderef] __rcu *table
->> kernel/power/energy_model.c:119:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct callback_head *head @@     got struct callback_head [noderef] __rcu * @@
-   kernel/power/energy_model.c:119:19: sparse:     expected struct callback_head *head
-   kernel/power/energy_model.c:119:19: sparse:     got struct callback_head [noderef] __rcu *
->> kernel/power/energy_model.c:130:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got void * @@
-   kernel/power/energy_model.c:130:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:130:15: sparse:     got void *
-   kernel/power/energy_model.c:195:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:195:9: sparse:     expected void const *
-   kernel/power/energy_model.c:195:9: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:195:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:195:9: sparse:     expected void const *
-   kernel/power/energy_model.c:195:9: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:195:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:195:9: sparse:     expected void *p
-   kernel/power/energy_model.c:195:9: sparse:     got struct em_perf_state [noderef] __rcu *
+All warnings (new ones prefixed by >>):
 
-vim +113 kernel/power/energy_model.c
+>> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_ethtool.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
 
-   108	
-   109	static void em_destroy_table_rcu(struct rcu_head *rp)
-   110	{
-   111		struct em_perf_table __rcu *table;
-   112	
- > 113		table = container_of(rp, struct em_perf_table, rcu);
- > 114		kfree(table);
-   115	}
-   116	
-   117	static void em_free_table(struct em_perf_table __rcu *table)
-   118	{
- > 119		call_rcu(&table->rcu, em_destroy_table_rcu);
-   120	}
-   121	
-   122	static struct em_perf_table __rcu *
-   123	em_allocate_table(struct em_perf_domain *pd)
-   124	{
-   125		struct em_perf_table __rcu *table;
-   126		int table_size;
-   127	
-   128		table_size = sizeof(struct em_perf_state) * pd->nr_perf_states;
-   129	
- > 130		table = kzalloc(sizeof(*table) + table_size, GFP_KERNEL);
-   131		return table;
-   132	}
-   133	
+
+vim +3 drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_ethtool.c
+
+6d3faafa89dee5 liujie_answer 2025-05-13  @3   * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
+6d3faafa89dee5 liujie_answer 2025-05-13   4   *
+6d3faafa89dee5 liujie_answer 2025-05-13   5   * @file: sxevf_ethtool.c
+6d3faafa89dee5 liujie_answer 2025-05-13   6   * @author: Linkdata
+6d3faafa89dee5 liujie_answer 2025-05-13   7   * @date: 2025.02.16
+6d3faafa89dee5 liujie_answer 2025-05-13   8   * @brief:
+6d3faafa89dee5 liujie_answer 2025-05-13   9   * @note:
+6d3faafa89dee5 liujie_answer 2025-05-13  10   */
+6d3faafa89dee5 liujie_answer 2025-05-13  11  #include "sxe_version.h"
+6d3faafa89dee5 liujie_answer 2025-05-13  12  #include "sxevf_ethtool.h"
+6d3faafa89dee5 liujie_answer 2025-05-13  13  #include "sxevf_hw.h"
+6d3faafa89dee5 liujie_answer 2025-05-13  14  #include "sxe_log.h"
+6d3faafa89dee5 liujie_answer 2025-05-13  15  #include "sxevf_tx_proc.h"
+6d3faafa89dee5 liujie_answer 2025-05-13  16  #include "sxevf_rx_proc.h"
+6d3faafa89dee5 liujie_answer 2025-05-13  17  #include "sxevf_netdev.h"
+6d3faafa89dee5 liujie_answer 2025-05-13  18  #include "sxevf_msg.h"
+6d3faafa89dee5 liujie_answer 2025-05-13  19  #include "sxevf_irq.h"
+6d3faafa89dee5 liujie_answer 2025-05-13  20  #include "sxevf_ring.h"
+6d3faafa89dee5 liujie_answer 2025-05-13  21  
+
+:::::: The code at line 3 was first introduced by commit
+:::::: 6d3faafa89dee569bd8376840a2f60114538f2a8 anolis: net: supports linkdata ethernet controllers
+
+:::::: TO: liujie_answer <liujie5@linkdatatechnology.com>
+:::::: CC: winterddd <tianruidong@linux.alibaba.com>
 
 -- 
 0-DAY CI Kernel Test Service
