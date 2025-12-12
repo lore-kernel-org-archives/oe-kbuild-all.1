@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD25E573
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 06:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B426D30F53A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 07:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765520857; cv=none; b=Zm+aosI4ojdhPfuK+2JzwcpR362cv+/xbPp9Asm9JMCu+i9XbzQlX9l+7dyu6LIaZJhg1HIVy+p72paZOUqZBdM34OLt6L/vq5d8p1kSdHoTZ7MqQ2OEnpksvCAMQ3eYTNsdvCpm0N3PQPg6y7hfPGF4EXFLdqcBd2FytUByP6Y=
+	t=1765523437; cv=none; b=ZgViCpNDfZUw/BrHN/BaT/dfLS/rjZ/XXYXH8yDPiMQSUtVXBiMwWbqDLH2IL0X5BKk/OiIoGwZwg6vP+wRaJeL7VTbNk8TSrOKlJxQm4olBxyuinC0rKVDl+xwILRNT3WZXPkflMeRNDszeUJofspvMBUqaA5CfFWr/WDnMgaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765520857; c=relaxed/simple;
-	bh=klvsRBURmAOfxlX3zKoN43uiA88KAEjE+s9qpubCJzQ=;
+	s=arc-20240116; t=1765523437; c=relaxed/simple;
+	bh=snXm8G3bKFO2HG4AlauldH071sPSX7LNLl6HdJZwQ4A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ACwdHgnYaqxekvYVzRrfCnAjvEMVBcvWOnw+Co+IXXB7Qq2+QNVFtx78P0EiA3ClGZDdXtceql6XsR5z6Y9GDu5e0Q7an6/QbxTL/EgOeogWxFdmpPohDHOCc7ZTYkJ90yzVuEdTAH1BE5aGpVoWat83NFBYJxnCT/x6VT4vGeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmLjv/Rs; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=pFlSqguQouqY+nt928pBJaXwv0KY5LcWIjOA7YK+0RW5guCtfn/33JR1yX/W9rug8FpUI0DZID3y339bikq3vS7oVsJAGkvwydzozsrAlG7teJFzvsB9Td5dwjIodzOp93jwMIXh1ccktkHh9App3NWcJhEKTAo0sKaAPiKaVB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X5sP7zBK; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmLjv/Rs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X5sP7zBK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765520855; x=1797056855;
+  t=1765523434; x=1797059434;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=klvsRBURmAOfxlX3zKoN43uiA88KAEjE+s9qpubCJzQ=;
-  b=nmLjv/RsCF4FOiHaNPMj0NJCVeA+zWtJlmzKpH74UC44JFnDMCRzLS2w
-   Sc90LINwODGkkIifUm9ww257hep9wZltBELNrVpB6T1vdL8DfBT1Dbx3b
-   x8TmirUnpX0rUmhCOoKfxtmAjBW9NzfVZCKJ+wCTwvy2oWOwVyjkKe7vd
-   MB9dx8SsukvnHRPWaCB1bo5LzJPfN2o1BTUOAt/AB0rUQdAWJMl/DyGlB
-   OmOdljYUBrGUR5dzNDE0U8P36/Hcj4SjV8JPSGTda9iaOWTcOM5XDpv9f
-   YAe4th//bbj3fzp3KrLrtiMFZ+oX3DtGp4a1C4hpQYOFHssOIYBZM6cw9
-   A==;
-X-CSE-ConnectionGUID: s3GkPWWWStiZ0BRtBR06Ig==
-X-CSE-MsgGUID: eRqd6ACoRCefgotPWez6wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="66690385"
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="66690385"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 22:27:32 -0800
-X-CSE-ConnectionGUID: BGk+6pMZRLKEXn7UbY7L7Q==
-X-CSE-MsgGUID: mAQcd7coTqKQVOp8xHp+JQ==
+  bh=snXm8G3bKFO2HG4AlauldH071sPSX7LNLl6HdJZwQ4A=;
+  b=X5sP7zBKRp1pkJ2kIMDXf23rMcBn56s+PAV5sFg/9fferW2JPX/zz45A
+   Yd7g4R8fzdcQ1kQeJQv4irZGcJZzp/70YG6lwgsGfKiEKCPy9gYUF/819
+   bKH2yeFt6YdUkQFZW4r1MHgHuBqaii66Wrmc+QaFL5s9NzMAw4slLkOxX
+   A4JyDU8wQUTvFxQpxjw/LEcwHk5hIVbyjN12s5S/5vmheXfj34a5CPu3d
+   Cese7LusEMFuMQXJPAZdzgKlF24AWn+fPXxUYZMzkq2+KiSqEfJLUvHy4
+   ni8Hf844RhPSgI2qp708Rqqv2MzZ9E53aHntg+2M7dBfZ6O+HLDeegwhr
+   g==;
+X-CSE-ConnectionGUID: TSmOv0OzRouYTBkMlkRkAg==
+X-CSE-MsgGUID: VfTeU9VbQQWiazbt96wrUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67395474"
+X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
+   d="scan'208";a="67395474"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 23:10:34 -0800
+X-CSE-ConnectionGUID: C7cjUCLkRuKWq/iT9R9ReQ==
+X-CSE-MsgGUID: z38F0hH8Rb2PdYrEqloTnw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="197267884"
+X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
+   d="scan'208";a="196099446"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 11 Dec 2025 22:27:31 -0800
+  by orviesa006.jf.intel.com with ESMTP; 11 Dec 2025 23:10:33 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTwcj-000000005fF-0LVQ;
-	Fri, 12 Dec 2025 06:27:29 +0000
-Date: Fri, 12 Dec 2025 14:26:34 +0800
+	id 1vTxIN-000000005hx-083e;
+	Fri, 12 Dec 2025 07:10:31 +0000
+Date: Fri, 12 Dec 2025 15:09:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1]
- drivers/irqchip/irq-mtk-cirq.c:288:34: warning: unused variable
- 'mtk_cirq_of_match'
-Message-ID: <202512121423.BJiHKG2f-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3540/3540]
+ drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c:63:24: warning:
+ variable 'queue_mgt' set but not used
+Message-ID: <202512121402.K1KWDJc7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,93 +63,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zyta,
-
-First bad commit (maybe != root cause):
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   3a6f5d8bb93a24a08c3bcf615b349a5d93e4a265
-commit: 3a6f5d8bb93a24a08c3bcf615b349a5d93e4a265 [1/1] ANDROID: kconfig: Allow the MTK_IRQ to be unset
-config: x86_64-randconfig-r051-20251212 (https://download.01.org/0day-ci/archive/20251212/202512121423.BJiHKG2f-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   cd9eb9b4365b71652b2c2ac58293bea47c9f9302
+commit: 69181c3c9413ccaa4dab458057d13efda520cb60 [3540/3540] Net: nebula_matrix: fix ci build warning
+config: x86_64-randconfig-103-20251212 (https://download.01.org/0day-ci/archive/20251212/202512121402.K1KWDJc7-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121423.BJiHKG2f-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121402.K1KWDJc7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512121423.BJiHKG2f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512121402.K1KWDJc7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/irqchip/irq-mtk-cirq.c:288:34: warning: unused variable 'mtk_cirq_of_match' [-Wunused-const-variable]
-     288 | static const struct of_device_id mtk_cirq_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
-   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-   Depends on [n]: SOUND [=m] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=m] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=m] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
-   Depends on [n]: SOUND [=m] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=m] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=m] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=m] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c:7:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.h:10:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h:10:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h:10:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h:10:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h:12:
+   In file included from include/linux/pci.h:1669:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2247:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c:63:24: warning: variable 'queue_mgt' set but not used [-Wunused-but-set-variable]
+      63 |         struct nbl_queue_mgt *queue_mgt;
+         |                               ^
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c:83:22: warning: variable 'vsi_mgt' set but not used [-Wunused-but-set-variable]
+      83 |         struct nbl_vsi_mgt *vsi_mgt;
+         |                             ^
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c:84:22: warning: variable 'phy_ops' set but not used [-Wunused-but-set-variable]
+      84 |         struct nbl_phy_ops *phy_ops;
+         |                             ^
+   8 warnings generated.
 
 
-vim +/mtk_cirq_of_match +288 drivers/irqchip/irq-mtk-cirq.c
+vim +/queue_mgt +63 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c
 
-9dbbbd33aafaf1 Youlin Pei                 2017-04-07  287  
-45ac01959edcec AngeloGioacchino Del Regno 2022-11-28 @288  static const struct of_device_id mtk_cirq_of_match[] = {
-45ac01959edcec AngeloGioacchino Del Regno 2022-11-28  289  	{ .compatible = "mediatek,mt2701-cirq", .data = &mtk_cirq_regoffs_v1 },
-45ac01959edcec AngeloGioacchino Del Regno 2022-11-28  290  	{ .compatible = "mediatek,mt8135-cirq", .data = &mtk_cirq_regoffs_v1 },
-45ac01959edcec AngeloGioacchino Del Regno 2022-11-28  291  	{ .compatible = "mediatek,mt8173-cirq", .data = &mtk_cirq_regoffs_v1 },
-5c4e0aac0b2a27 AngeloGioacchino Del Regno 2022-11-28  292  	{ .compatible = "mediatek,mt8192-cirq", .data = &mtk_cirq_regoffs_v2 },
-45ac01959edcec AngeloGioacchino Del Regno 2022-11-28  293  	{ /* sentinel */ }
-45ac01959edcec AngeloGioacchino Del Regno 2022-11-28  294  };
-45ac01959edcec AngeloGioacchino Del Regno 2022-11-28  295  
+bad535d287c9c1 Bennie Yan 2024-09-24  59  
+bad535d287c9c1 Bennie Yan 2024-09-24  60  static int nbl_res_vsi_init_chip_module(void *priv)
+bad535d287c9c1 Bennie Yan 2024-09-24  61  {
+bad535d287c9c1 Bennie Yan 2024-09-24  62  	struct nbl_resource_mgt *res_mgt = (struct nbl_resource_mgt *)priv;
+bad535d287c9c1 Bennie Yan 2024-09-24 @63  	struct nbl_queue_mgt *queue_mgt;
+bad535d287c9c1 Bennie Yan 2024-09-24  64  	struct nbl_phy_ops *phy_ops;
+bad535d287c9c1 Bennie Yan 2024-09-24  65  	int ret = 0;
+bad535d287c9c1 Bennie Yan 2024-09-24  66  
+bad535d287c9c1 Bennie Yan 2024-09-24  67  	if (!res_mgt)
+bad535d287c9c1 Bennie Yan 2024-09-24  68  		return -EINVAL;
+bad535d287c9c1 Bennie Yan 2024-09-24  69  
+bad535d287c9c1 Bennie Yan 2024-09-24  70  	queue_mgt = NBL_RES_MGT_TO_QUEUE_MGT(res_mgt);
+bad535d287c9c1 Bennie Yan 2024-09-24  71  	phy_ops = NBL_RES_MGT_TO_PHY_OPS(res_mgt);
+bad535d287c9c1 Bennie Yan 2024-09-24  72  
+bad535d287c9c1 Bennie Yan 2024-09-24  73  	ret = phy_ops->init_chip_module(NBL_RES_MGT_TO_PHY_PRIV(res_mgt),
+bad535d287c9c1 Bennie Yan 2024-09-24  74  					res_mgt->resource_info->board_info.eth_speed,
+bad535d287c9c1 Bennie Yan 2024-09-24  75  					res_mgt->resource_info->board_info.eth_num);
+bad535d287c9c1 Bennie Yan 2024-09-24  76  
+bad535d287c9c1 Bennie Yan 2024-09-24  77  	return ret;
+bad535d287c9c1 Bennie Yan 2024-09-24  78  }
+bad535d287c9c1 Bennie Yan 2024-09-24  79  
 
-:::::: The code at line 288 was first introduced by commit
-:::::: 45ac01959edcecfa5d6652c2397d3866e55b0da8 irqchip/irq-mtk-cirq: Move register offsets to const array
+:::::: The code at line 63 was first introduced by commit
+:::::: bad535d287c9c1056d99de3666be7da84de4a8fc Net:nbl_core: Add nbl_core-driver for nebula-matrix S1055AS series smart NIC.
 
-:::::: TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-:::::: CC: Marc Zyngier <maz@kernel.org>
+:::::: TO: Bennie Yan <bennie.yan@nebula-matrix.com>
+:::::: CC: Bennie Yan <bennie.yan@nebula-matrix.com>
 
 -- 
 0-DAY CI Kernel Test Service
