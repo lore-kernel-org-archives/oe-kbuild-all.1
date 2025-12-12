@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96D843B8D68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF7618024
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 00:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765497778; cv=none; b=SEAfNyzVydjI3bMa6mdRcy4liompiSjjqpbgp58/S5NYnizfSHZAuaGPkGag1SSu8FcSfWv0YeLjxZqiTV7QxNmfowjIi4gUr3r8R3InhEy0mkGeKBbcsm/1vLztOXfjSi/zal5xFhuvdRA8bd7GsMl8nx/20xGbzm0MmSIliSo=
+	t=1765497778; cv=none; b=j8JrDpc66sWb8eUOtwIt0oOUMhMxivyNcglJJBnix2+i5Y3FijN0pN1DhvIBdMbdEOPDbwl7z/cwC/9t0mxPNjM7lrdbf23owSO5zp0zIMHpQpzPB/Rh0OPK6n4EhwqhYZEyaRH4fAwsvt1+WtYiNHUhXs+wIc2Ba6bv+pCzHlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765497778; c=relaxed/simple;
-	bh=I3ztcnz4qDT5Trgh717FSqyy4Gfm8Kwh/0hQlsM8UFU=;
+	bh=ORkeRMyPW9hIb+5LVOiLufPFZg78Aq9bmcLW2H4T818=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ChiacaspMdNOf13pj0RIQYNUvGbLL4fOI0K8iCUyldV/cHAGv0c5sp4p2d7qFZJQ4J72GTLWEieS7PhJ1ZbnkE+0QNeQdoBANBmgzxYbkSbQX8YxmyCnIzrYWxd0z23F6Ne1IzOvIbV2sd+TT8fvEOPEvOQ5HFQIqAzs0AOJO4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JBEHzBQQ; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=EoE5P7VwGxKQMgfqDXc6BMHmjvXfLd0aFBjNX/sQAZpzVQrQ2eBio4uDLmnto+qcnv6TaWxdhdRYg3tlWD8Rw9XKpHgFmN4zwrxxjWsS9rRULkkoVZICYYICeXMbL+z8KR1+0d2mqD5wrfoNTqlhfnexgc9GLBpUUDnfFoDek50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QN8P5LpW; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JBEHzBQQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QN8P5LpW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1765497777; x=1797033777;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I3ztcnz4qDT5Trgh717FSqyy4Gfm8Kwh/0hQlsM8UFU=;
-  b=JBEHzBQQg90ychnCygWpbWQfddj84jlL/IJ7+vr3dWoqiWxyYYvZd4ea
-   eH+knL+Sc1GkWYDKtx52zGFYPFtLVdrumMUH2OOev4EKUgQ00z2HqmlU4
-   aChPMKZL3WCTIsZ7l7yA8aeQYwXKHoOVajioTBORFXqPkXlz+Kg9Yzs9H
-   jhgDM4bwfq55Xs3vEx2ceFl9v0c/R3Qk57PWwVRy87pITfNUpaCEkjNn/
-   qK1XUgtiNiFHW0jjldC8x2EjZMz6pWJNR7M0exuoSXULXX6jWur+bl6hm
-   TWk7/myc3fwvdAYw8NeOG1jBnQkHj6AywzPaZ6zbNizlBKO8TYniBNsw4
-   A==;
-X-CSE-ConnectionGUID: 8tFCHVZzQZmDMxJvpg6B6Q==
-X-CSE-MsgGUID: 7L/YP2kITWqBCWMppZw8Jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67565721"
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="67565721"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 16:02:56 -0800
-X-CSE-ConnectionGUID: Mpb2h+kJTNqq+ypkhl95Hw==
-X-CSE-MsgGUID: WWYVwUn7QsecbzNU99HktQ==
+  bh=ORkeRMyPW9hIb+5LVOiLufPFZg78Aq9bmcLW2H4T818=;
+  b=QN8P5LpW7HB2tALNWbzSG1ZroZP7zmBtPRayf6x+DIWSncKkxW7AULP2
+   1Mdrkj1o/mZYnZxgfG/o0qwcmqCB8SOt7WKLornP+TYrreZDqY0y6aHuE
+   d/qnZ4AZg9B/RBIQ2Jx9qxMNNq6bwOPNiNi+PXbm2UIS6uMoRi1H/lqha
+   H1QlTTVvFL54cs8dqmhPxs+nVAc049NsKaBNDwUbz5m/heZn6LydhyGNz
+   RedyKQVkQtunm3b4m0FEAMahDjCDQWA7JE60xGOpJhRZXE1PQqflzU9Jz
+   FKz1GF2y8D5oMv4p7+L8LF8Z1L8FhU5qvLKQIOQhvUIGv2045P7as2qqi
+   g==;
+X-CSE-ConnectionGUID: axgjgczbRzqLlJD2Zsfw7w==
+X-CSE-MsgGUID: /oF6bTOuQY+0O0wCqIL91Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67419760"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="67419760"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 16:02:56 -0800
+X-CSE-ConnectionGUID: fSYMBL7MTVKHdy81aA5zbQ==
+X-CSE-MsgGUID: X8N6ZjiNTYm+qvFAkefksw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="201098090"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 11 Dec 2025 16:02:55 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="196018263"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 11 Dec 2025 16:02:55 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTqcW-000000001FM-2BOZ;
+	id 1vTqcW-000000005DD-3dtL;
 	Fri, 12 Dec 2025 00:02:52 +0000
-Date: Fri, 12 Dec 2025 01:02:25 +0100
+Date: Fri, 12 Dec 2025 08:02:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Yu <serein.chengyu@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3534/3534] kernel/sched/debug.c:102:12: warning:
- no previous prototype for function 'is_prefer_numa'
-Message-ID: <202512120101.AycyCkRN-lkp@intel.com>
+To: Amery Hung <amery.hung@bytedance.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Martin KaFai Lau <martin.lau@kernel.org>
+Subject: net/sched/bpf_qdisc.c:224:18: sparse: sparse: symbol
+ 'bpf_qdisc_init_prologue' was not declared. Should it be static?
+Message-ID: <202512120735.5wlwDYyC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +63,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5930fa3740c518a9f6ba688fd0c1873d6f3adbce
-commit: 0f22304e62d360fce47988586d599e33895ccb01 [3534/3534] sched: Support NUMA parallel scheduling for multiple processes
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251212/202512120101.AycyCkRN-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4125e73cdc6188cca4c1c72b72e2b2d85c157483)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120101.AycyCkRN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d358e5254674b70f34c847715ca509e46eb81e6f
+commit: 7a2dafda950b78611dc441c83d105dfdc7082681 bpf: net_sched: Add a qdisc watchdog timer
+date:   8 months ago
+config: s390-randconfig-r122-20251211 (https://download.01.org/0day-ci/archive/20251212/202512120735.5wlwDYyC-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120735.5wlwDYyC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512120101.AycyCkRN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512120735.5wlwDYyC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/sched/bpf_qdisc.c:224:18: sparse: sparse: symbol 'bpf_qdisc_init_prologue' was not declared. Should it be static?
+>> net/sched/bpf_qdisc.c:234:18: sparse: sparse: symbol 'bpf_qdisc_reset_destroy_epilogue' was not declared. Should it be static?
 
-   In file included from <built-in>:3:
-   In file included from ././include/linux/compiler_types.h:150:
-   ./include/linux/compiler-clang.h:33:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      33 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:367:9: note: previous definition is here
-     367 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
-   In file included from kernel/sched/build_utility.c:73:
->> kernel/sched/debug.c:102:12: warning: no previous prototype for function 'is_prefer_numa' [-Wmissing-prototypes]
-     102 | int __weak is_prefer_numa(void)
-         |            ^
-   kernel/sched/debug.c:102:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     102 | int __weak is_prefer_numa(void)
-         | ^
-         | static 
-   2 warnings generated.
+vim +/bpf_qdisc_init_prologue +224 net/sched/bpf_qdisc.c
 
-
-vim +/is_prefer_numa +102 kernel/sched/debug.c
-
-   101	
- > 102	int __weak is_prefer_numa(void)
-   103	{
-   104		return 0;
-   105	}
-   106	
+   184	
+   185	/* bpf_skb_get_hash - Get the flow hash of an skb.
+   186	 * @skb: The skb to get the flow hash from.
+   187	 */
+ > 188	__bpf_kfunc u32 bpf_skb_get_hash(struct sk_buff *skb)
+   189	{
+   190		return skb_get_hash(skb);
+   191	}
+   192	
+   193	/* bpf_kfree_skb - Release an skb's reference and drop it immediately.
+   194	 * @skb: The skb whose reference to be released and dropped.
+   195	 */
+   196	__bpf_kfunc void bpf_kfree_skb(struct sk_buff *skb)
+   197	{
+   198		kfree_skb(skb);
+   199	}
+   200	
+   201	/* bpf_qdisc_skb_drop - Drop an skb by adding it to a deferred free list.
+   202	 * @skb: The skb whose reference to be released and dropped.
+   203	 * @to_free_list: The list of skbs to be dropped.
+   204	 */
+   205	__bpf_kfunc void bpf_qdisc_skb_drop(struct sk_buff *skb,
+   206					    struct bpf_sk_buff_ptr *to_free_list)
+   207	{
+   208		__qdisc_drop(skb, (struct sk_buff **)to_free_list);
+   209	}
+   210	
+   211	/* bpf_qdisc_watchdog_schedule - Schedule a qdisc to a later time using a timer.
+   212	 * @sch: The qdisc to be scheduled.
+   213	 * @expire: The expiry time of the timer.
+   214	 * @delta_ns: The slack range of the timer.
+   215	 */
+   216	__bpf_kfunc void bpf_qdisc_watchdog_schedule(struct Qdisc *sch, u64 expire, u64 delta_ns)
+   217	{
+   218		struct bpf_sched_data *q = qdisc_priv(sch);
+   219	
+   220		qdisc_watchdog_schedule_range_ns(&q->watchdog, expire, delta_ns);
+   221	}
+   222	
+   223	/* bpf_qdisc_init_prologue - Hidden kfunc called in prologue of .init. */
+ > 224	__bpf_kfunc void bpf_qdisc_init_prologue(struct Qdisc *sch)
+   225	{
+   226		struct bpf_sched_data *q = qdisc_priv(sch);
+   227	
+   228		qdisc_watchdog_init(&q->watchdog, sch);
+   229	}
+   230	
+   231	/* bpf_qdisc_reset_destroy_epilogue - Hidden kfunc called in epilogue of .reset
+   232	 * and .destroy
+   233	 */
+ > 234	__bpf_kfunc void bpf_qdisc_reset_destroy_epilogue(struct Qdisc *sch)
+   235	{
+   236		struct bpf_sched_data *q = qdisc_priv(sch);
+   237	
+   238		qdisc_watchdog_cancel(&q->watchdog);
+   239	}
+   240	
 
 -- 
 0-DAY CI Kernel Test Service
