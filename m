@@ -1,114 +1,106 @@
-Received: from mail-ot1-f73.google.com (mail-ot1-f73.google.com [209.85.210.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2542D73BB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 20:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0922B155757
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 20:39:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765571403; cv=none; b=irgkN5kMQlsN0DKELL9TeLR/kI/iwHPj3m7Vk1VwDUpeKU5LaimebsDuZku2eQOx2lCGGInMb+FwPVqgw9IDBGDibAT+cn6Zdl2rPHAMSMQEyfmXk6g0hWQSy6AzBhRoVY/dRgbrIRc9jHnnwHq/bn8wCatBfnwJVeTzWcaIhD4=
+	t=1765571970; cv=none; b=DMgBDXA01BBot09OqgJxc2TAmqmgWRWVY4wup5/8QxGvqkI0MxGiOzOs6WhulAWxj649nHf1K/+9hwaDI5GWTgN71PUSdbhHZ3vWUxEgHciKJ2RHonKzQxFdrH3D6LCtAgiNbl9zi5uUxaQYeQ/FYnNXzf38Bj14gdqxzB2fM5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765571403; c=relaxed/simple;
-	bh=ovPDDBDay26a3+eGDiFu4QvB1wANKfFVQsCpr8lljp0=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=mCjE3x5XQNq8pzTaI5H8gY55L0dthCJb4I9zeQPeVdIeATER102LltTprac95pvBiNNi4Y40l1P93T0yFlsze9PYKumFDBXG+8AVx1Nyp/UNsnAPfZUkqCQ0p24F0IneZloS5f9guIar12MCxkov9o/NvAHa9WL/xaHH3Dp8+Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mrtJh8d0; arc=none smtp.client-ip=209.85.210.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1765571970; c=relaxed/simple;
+	bh=fy+w9J+W3bmrcHdivWHsTdjlBAwVmqVGs2ovonhCVQg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=E+0er/da9dwUgyetSJuGrt/i1vCkh1iU3ulmkhYt4UzvsgZKQpkBOEZGvQpIFVB8hwq3VcCxdUf83jeO9SFzE80G55HcivHsLpuEJxLrOAAbVE6RTkd8fjHH5dLcwVvkgjHEKXXoJ86rSO+J/kPEnrMnE7UwqK6lBC6x61mamCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W4kZc0Ir; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mrtJh8d0"
-Received: by mail-ot1-f73.google.com with SMTP id 46e09a7af769-7c75663feaeso1765318a34.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 12:30:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765571401; x=1766176201; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=IMNyF6rnk7IasEWeVI8MWH21McRpJbckeB5bd8oSwWI=;
-        b=mrtJh8d0eX6lTgJHDX2elrtUivePFC4AH0SBBRJgF/LkBlwo99yX1A2cJVu2s6w1Wz
-         /vstHfYOD3A+E8qXEN74WBkZHT57q1pfrEzYR6ro4mbezuMqDFzI6Z2zIzBWREoltSyC
-         KYCcO2Gds/lyvio03hpjabRTInRUwWinoOcByHFKPOq3GSW1gCR7r97sLwSRcWWQnph+
-         7JqHkTuNAsA7uuFdhoZcwUZuJATB9rPso2izzDoU5yw4wSFF+b++PjzA08hIucLV9kDI
-         GsXBj3F3x/wMc7/0C+tqRC1KxiwCqslB/YBQ9bcaUXMQ5bMD4k4EY2ASnXiZaozL7USl
-         cIUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765571401; x=1766176201;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IMNyF6rnk7IasEWeVI8MWH21McRpJbckeB5bd8oSwWI=;
-        b=fGNnzh7jpZtDrdDgq6hlupXw1326b3uWIJzzosWqULImv4fR0VUTrGCgeKPXGfjCjD
-         2+yx+jr4fxAwU1eJTudOCSjPyE6tzGhjw+h06zFhImEOlZl//90uCajoSodAaK06V4ng
-         LVpZk+1XDOxi1BTsU+hlB1NJcas9sL7wHLxIFumoyWxRZ6l2pKOI6XfFEhnux5j5JCeg
-         +LG2ZDj6S1mKuBmyGe55VcgHDjBM7EIJzv58bqBY8xCilVyxGt4qShrlFk4sidNEJFdq
-         3Glr0v4jHtNm3wBPYBboOl1zLQsITY8uV07RQIGGkSIdaVY6dHQ03Unt5W46HybunkHv
-         vlDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV0lkTtxky/5Txs3gVnWCLFvUXm8uAy4xAhMvY/5bUtUYw4tABSmvmiierI6HAiOE6+fc9Z8o/Zk8OBQr5I@lists.linux.dev
-X-Gm-Message-State: AOJu0YxIjIlYF1lkyEhi8YJvUgUGRMsVIFCQa8JbQv7OLrBqkuGb4cMf
-	rfo/nK7KOe9af1Wwk0Wy4q1W5kHdky0l7kY24j4z9LDQx0kNUjtaZh0S5ll1oqZVdolhriHMs/T
-	R37AK7DWW2m4ffH5ul7nP2I2GQQ==
-X-Google-Smtp-Source: AGHT+IHCc2P1hnQfNfNIerRNuvTcLdQFAWD/TzzhCNvUPfhQTb3KYPRTL0VnqSzv7pNym78BlH1sW72DFgyhEDe6qA==
-X-Received: from ilbbn5.prod.google.com ([2002:a05:6e02:3385:b0:438:15d1:5e1c])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6820:178c:b0:659:9a49:90bf with SMTP id 006d021491bc7-65b451e95f7mr1599664eaf.62.1765571400768;
- Fri, 12 Dec 2025 12:30:00 -0800 (PST)
-Date: Fri, 12 Dec 2025 20:29:59 +0000
-In-Reply-To: <202512110439.UXwb1Qh4-lkp@intel.com> (message from kernel test
- robot on Thu, 11 Dec 2025 04:21:58 +0800)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W4kZc0Ir"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765571969; x=1797107969;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fy+w9J+W3bmrcHdivWHsTdjlBAwVmqVGs2ovonhCVQg=;
+  b=W4kZc0Irco2+Iwpsht5bEMQUqwj7KKRdjRQueADj/Ot3SfxMeVtL7Sct
+   Mzj3GwsIYWD5GEKN+rnpokExG2pixUEQXLLVBRxOFFPM2N73LxhVvLlDJ
+   6eZ/Bbg5Nwhbq98C96KEn/GF6KYQJ0/GX9p97Tr28dMJDMCT70tTH60Z2
+   zSeuERdB3zHdoiqcQ3ZV/QAvEHFDEA015tBfjL9qo0TfC+8LKI7uMN3qc
+   QxaSZF5ESpt5zcCJXnMwvc/b8T9jTTc/QiffhVLfhCmBJ7JGWro5SWdrZ
+   tv05qjtPl6T3d9+i/fhKXhIdzYaUo9NNs4e+fFI/WhpD7MWEhrvdwaGhF
+   Q==;
+X-CSE-ConnectionGUID: vuQFxxoUTUaJpK22g4LmCA==
+X-CSE-MsgGUID: fkKHtuILRKK/I1O/9IPdSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="77896163"
+X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
+   d="scan'208";a="77896163"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 12:39:29 -0800
+X-CSE-ConnectionGUID: SnIYm15fSbmIMpEHCFd89A==
+X-CSE-MsgGUID: WsxkGCPhRNKYzIPTgfL98w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
+   d="scan'208";a="201666545"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 12 Dec 2025 12:39:28 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vU9vB-000000006ab-17hm;
+	Fri, 12 Dec 2025 20:39:25 +0000
+Date: Sat, 13 Dec 2025 04:38:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 18/18]
+ arch/x86/include/asm/kvm_pkvm.h:266:38: error: field 'lm_context_param' has
+ incomplete type
+Message-ID: <202512130433.iFWEiQiu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-ID: <gsnt1pkz4f5k.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v5 09/24] perf: arm_pmuv3: Keep out of guest counter partition
-From: Colton Lewis <coltonlewis@google.com>
-To: kernel test robot <lkp@intel.com>
-Cc: kvm@vger.kernel.org, oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com, 
-	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
-	will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	mark.rutland@arm.com, skhan@linuxfoundation.org, 
-	gankulkarni@os.amperecomputing.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-kernel test robot <lkp@intel.com> writes:
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   da2da0badf05a4631edf06f9a37e822b20875663
+commit: 8ef015afc176a3d8627c1c1e6f561494d211e057 [18/18] ANDROID: pkvm: x86: Hypercalls for legacy mode context tables
+config: i386-randconfig-141-20251213 (https://download.01.org/0day-ci/archive/20251213/202512130433.iFWEiQiu-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130433.iFWEiQiu-lkp@intel.com/reproduce)
 
-> Hi Colton,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130433.iFWEiQiu-lkp@intel.com/
 
-> kernel test robot noticed the following build warnings:
+All errors (new ones prefixed by >>):
 
-> [auto build test WARNING on ac3fd01e4c1efce8f2c054cdeb2ddd2fc0fb150d]
-
-> url:     
-> https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20251210-055309
-> base:   ac3fd01e4c1efce8f2c054cdeb2ddd2fc0fb150d
-> patch link:     
-> https://lore.kernel.org/r/20251209205121.1871534-10-coltonlewis%40google.com
-> patch subject: [PATCH v5 09/24] perf: arm_pmuv3: Keep out of guest  
-> counter partition
-> config: arm64-defconfig  
-> (https://download.01.org/0day-ci/archive/20251211/202512110439.UXwb1Qh4-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build):  
-> (https://download.01.org/0day-ci/archive/20251211/202512110439.UXwb1Qh4-lkp@intel.com/reproduce)
-
-> If you fix the issue in a separate patch/commit (i.e. not just a new  
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:  
-> https://lore.kernel.org/oe-kbuild-all/202512110439.UXwb1Qh4-lkp@intel.com/
-
-> All warnings (new ones prefixed by >>):
-
->>> Warning: arch/arm64/kvm/pmu-direct.c:75 function parameter 'pmu' not  
->>> described in 'kvm_pmu_guest_counter_mask'
-
-Just a missing argument description in the comment. Fixed
+   In file included from arch/x86/kernel/setup.c:43:
+>> arch/x86/include/asm/kvm_pkvm.h:266:38: error: field 'lm_context_param' has incomplete type
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                                      ^~~~~~~~~~~~~~~~
+>> arch/x86/include/asm/kvm_pkvm.h:267:45: error: field 'clear_translation_param' has incomplete type
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +/lm_context_param +266 arch/x86/include/asm/kvm_pkvm.h
+
+   258	
+   259	union pkvm_pv_param {
+   260		struct kvm_segment seg;
+   261		struct msr_data msr;
+   262		struct desc_ptr desc;
+   263		struct eoi_exitmap eoi_exit_bitmap;
+   264	
+   265		/* IOMMU hypercall params */
+ > 266		struct pkvm_lm_context_param lm_context_param;
+ > 267		struct pkvm_clear_translation_param clear_translation_param;
+   268	} __aligned(PAGE_SIZE);
+   269	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
