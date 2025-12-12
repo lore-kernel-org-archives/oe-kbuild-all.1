@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5771459F6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 01:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146A510F1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 01:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765502339; cv=none; b=ABbeWw/qVd5Mz5zaopdurMun+0O0cYevEQkpzmgJXsQboZzDazhqnYYNpChHh0cc7fTMSTG0QXpYXKge+zR3B/BBA7/Ig4IxXViDLEpkJfW1PJ8vyaWIv/tfQGCGos1Y+w633LxIIi7Okry9OmjjfpGqRS+P9CBMjv0VJ+FLgFU=
+	t=1765503132; cv=none; b=bXb2RX4WNRwOBW5SArrn9h2mZJ8YmGZeAPkZwGSvab8M0TgeOQJiWIw0zgM1UWk3UoXjy+V0vSXwpjbfH1mymfvmBgoddnV0MZAc8UgLcfQar8c1+n5e3hK2Sg5+SjaYmoIYfDonCY8Ebga2vYveVKgeKyDjJVPDk4QeSJ2TcsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765502339; c=relaxed/simple;
-	bh=5yI3aJ+Ag1gs2DxHC8t1hGG7Ao5WK5s9bzknKX1ZSaQ=;
+	s=arc-20240116; t=1765503132; c=relaxed/simple;
+	bh=81HglxdnfL+sGYL457kgIuwYADU5P63Ob7/jtKf0c30=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tNexuAfci6jUoG27gjc7WO7vp1Mcyo/yn3gJkI0Au5/cfnR4BWHfE8JpmMPjCL34ks3EnKkOwceBLiayy7tkTTsi3igJxk6cGws5rqfVSoshNOrmZLVpG9H+bxiFgln/Cp/lsFODdowAKKLDVDjF1exNo+AQD+hS+hgQdMKSyiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cYQ133v3; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=LkSB1i95iYm3nPsnqP0ladsrhtifC/EkDteGqcoBU/ns+sxfvOyZLxxy0edPOssW5UR8CKA/FUJZMAHDWCSKPLtZJ7qTDxEenj6t5ewyjeP/qRGv6q2HZ/UyBk9E2YcvJaN1oNUjTby29RUXwbykMwGRizzFKNZToQpxp2esQYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLFPlmRa; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cYQ133v3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLFPlmRa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765502337; x=1797038337;
+  t=1765503131; x=1797039131;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5yI3aJ+Ag1gs2DxHC8t1hGG7Ao5WK5s9bzknKX1ZSaQ=;
-  b=cYQ133v32y6b1L427WRqzEVZ9WTADJv69X0B0XB9Fr6OclIL4pz8BD8A
-   CyzHqP7JXmfD8OeCEsbiatJgZiMz2naCK9X7Ylr61+JmnsOj+/xR6eu3O
-   5gt/AvjhNFnyo4Y2VhrqxFFWg6DDJgj5BT/toLbeLGJ9cvxapAnlJp8AV
-   yDaT4Ld/N9xmHZvbJa/6TO3/C28+hJKGd1RZ76CiAWG5Pv3Wgh3iADyOc
-   ZDtuVXFIEVu/nojt/JMepXQNh9tHDTEwh6oab6A+Vkw/SoXXuZd3u8HtP
-   2nYKgQBGWMF8iwuwshS97dsOi4Pf6bhQYzMlTeKgglPFI2vGQWfrq8Mvi
-   w==;
-X-CSE-ConnectionGUID: kYYq/1amT/KVSM8DrOwPyg==
-X-CSE-MsgGUID: itUQ8rpwTwCxe8Vv419hdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="70075508"
+  bh=81HglxdnfL+sGYL457kgIuwYADU5P63Ob7/jtKf0c30=;
+  b=KLFPlmRa49IJqp1w9rU3jofYEkUyyUrmkuHVxscZVkN7ypmwOYXPRCex
+   8ghs68X4vYkJftf5YHIfkAGVpeWXDRNKfBO9i0OXPXU8tPMnn91L2v/U0
+   loxWWYy8b/A6S1f9Nh9e5qPyBHNQaAzkmK10iFldeA8ohoths2Sieitnd
+   BW8D4EC5zq1DU6n+AbBOLUbuz7zZ5MJ3nUshkZBRvEE4IV+F2InTLoMcY
+   kJSO6Dfzoyp97DVPSQEt9lkUqZjQ5ViCHAt1anTX2rn4b/z2NHFlQHMcl
+   0rC4VFiuqHDqs8vd3BiC1PmCQdREb1EazDXbNo5w0IsiSYarL4GpkHUv9
+   A==;
+X-CSE-ConnectionGUID: drr0TbCuQ+mDt6rKMq/iFQ==
+X-CSE-MsgGUID: DVW4hjLoTlmfzR3uvTq9Kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71363433"
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="70075508"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 17:18:56 -0800
-X-CSE-ConnectionGUID: COBGZvnCT/S6mxox2/RMog==
-X-CSE-MsgGUID: ONsHh7E7Q+a6JNDh75XtzQ==
+   d="scan'208";a="71363433"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 17:32:10 -0800
+X-CSE-ConnectionGUID: rgZqgY+pRxmRUcP4hFkrVg==
+X-CSE-MsgGUID: dNVGY6WHSAeEaK07qgZrtg==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 11 Dec 2025 17:18:55 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
+   d="scan'208";a="201858542"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 11 Dec 2025 17:32:08 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTro5-000000001GG-0xZj;
-	Fri, 12 Dec 2025 01:18:53 +0000
-Date: Fri, 12 Dec 2025 02:18:22 +0100
+	id 1vTs0s-000000005JT-22zo;
+	Fri, 12 Dec 2025 01:32:06 +0000
+Date: Fri, 12 Dec 2025 09:31:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-CWF-RDT-ANBZ24559 0/25] htmldocs:
- ./mm/balloon_compaction.c:199: warning: Function parameter or member
- 'first_page' not described in 'balloon_page_list_dequeue_cont'
-Message-ID: <202512120207.sL2q3yQU-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 35/35]
+ drivers/i2c/busses/i2c-lrw-master.c:359:5: warning: no previous prototype
+ for 'i2c_lrw_bus_recover'
+Message-ID: <202512120947.l7rgXovL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,110 +63,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-RDT-ANBZ24559
-head:   443d7ee63a13180e69479cd694f03a167a87da2e
-commit: 1f23c7bc1279ef309af72e4ee3a93f78b9b7a05e [0/25] anolis: virtio_balloon: Add deflate_cont_vq to deflate continuous pages
-reproduce: (https://download.01.org/0day-ci/archive/20251212/202512120207.sL2q3yQU-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   267508ada711fa80841b65e937e809311ab616dd
+commit: 8b9e3db5248ae395a2cb5a960ccd67885cd08601 [35/35] anolis: i2c: Add driver for the LRW I2C
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251212/202512120947.l7rgXovL-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120947.l7rgXovL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512120207.sL2q3yQU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512120947.l7rgXovL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Error: Cannot open file ./include/linux/page-flags.h
-   Error: Cannot open file ./include/linux/mm.h
-   Error: Cannot open file ./include/linux/mm.h
-   Error: Cannot open file ./include/linux/page_ref.h
-   Error: Cannot open file ./include/linux/mmzone.h
->> ./mm/balloon_compaction.c:199: warning: Function parameter or member 'first_page' not described in 'balloon_page_list_dequeue_cont'
-   Error: Cannot open file ./include/linux/padata.h
-   Error: Cannot open file ./include/linux/printk.h
-   Error: Cannot open file ./include/linux/workqueue.h
-   Error: Cannot open file ./include/linux/xarray.h
-   Error: Cannot open file ./include/linux/crypto.h
+>> drivers/i2c/busses/i2c-lrw-master.c:359:5: warning: no previous prototype for 'i2c_lrw_bus_recover' [-Wmissing-prototypes]
+     359 | int i2c_lrw_bus_recover(struct i2c_adapter *adap)
+         |     ^~~~~~~~~~~~~~~~~~~
 
 
-vim +199 ./mm/balloon_compaction.c
+vim +/i2c_lrw_bus_recover +359 drivers/i2c/busses/i2c-lrw-master.c
 
-   177	
-   178	/**
-   179	 * balloon_page_list_dequeue_cont() - removes continuous pages from balloon's page list
-   180	 *				      and returns a list of the continuous pages.
-   181	 * @b_dev_info: balloon device decriptor where we will grab a page from.
-   182	 * @pages: pointer to the list of pages that would be returned to the caller.
-   183	 * @max_req_pages: max number of requested pages.
-   184	 *
-   185	 * Driver must call this function to properly de-allocate a previous enlisted
-   186	 * balloon pages before definitively releasing it back to the guest system.
-   187	 * This function tries to remove @max_req_pages continuous pages from the ballooned
-   188	 * pages and return them to the caller in the @pages list.
-   189	 *
-   190	 * Note that this function may fail to dequeue some pages even if the balloon
-   191	 * isn't empty - since the page list can be temporarily empty due to compaction
-   192	 * of isolated pages.
-   193	 *
-   194	 * Return: number of pages that were added to the @pages list.
-   195	 */
-   196	size_t balloon_page_list_dequeue_cont(struct balloon_dev_info *b_dev_info,
-   197					      struct list_head *pages, struct page **first_page,
-   198					      size_t max_req_pages)
- > 199	{
-   200		struct page *page, *tmp;
-   201		unsigned long flags, tail_pfn;
-   202		size_t n_pages = 0;
-   203		bool got_first = false;
-   204	
-   205		spin_lock_irqsave(&b_dev_info->pages_lock, flags);
-   206		list_for_each_entry_safe_reverse(page, tmp, &b_dev_info->pages, lru) {
-   207			unsigned long pfn;
-   208	
-   209			if (n_pages == max_req_pages)
-   210				break;
-   211	
-   212			pfn = page_to_pfn(page);
-   213	
-   214			if (got_first && pfn != tail_pfn + 1)
-   215				break;
-   216	
-   217			/*
-   218			 * Block others from accessing the 'page' while we get around to
-   219			 * establishing additional references and preparing the 'page'
-   220			 * to be released by the balloon driver.
-   221			 */
-   222			if (!trylock_page(page)) {
-   223				if (!got_first)
-   224					continue;
-   225				else
-   226					break;
-   227			}
-   228	
-   229			if (IS_ENABLED(CONFIG_BALLOON_COMPACTION) && PageIsolated(page)) {
-   230				/* raced with isolation */
-   231				unlock_page(page);
-   232				if (!got_first)
-   233					continue;
-   234				else
-   235					break;
-   236			}
-   237			balloon_page_delete(page);
-   238			__count_vm_event(BALLOON_DEFLATE);
-   239			list_add(&page->lru, pages);
-   240			unlock_page(page);
-   241			n_pages++;
-   242			tail_pfn = pfn;
-   243			if (!got_first) {
-   244				got_first = true;
-   245				*first_page = page;
-   246			}
-   247		}
-   248		spin_unlock_irqrestore(&b_dev_info->pages_lock, flags);
-   249	
-   250		return n_pages;
-   251	}
-   252	EXPORT_SYMBOL_GPL(balloon_page_list_dequeue_cont);
-   253	
+   358	
+ > 359	int i2c_lrw_bus_recover(struct i2c_adapter *adap)
+   360	{
+   361		struct i2c_lrw_dev *dev = i2c_get_adapdata(adap);
+   362		int timeout = 1000;
+   363		u32 enabled;
+   364	
+   365		if (dev->abort_source & IC_ABRT_SDA_STUCK_AT_LOW_POS) {
+   366			regmap_update_bits(dev->map, LRW_IC_ENABLE,
+   367					IC_SDA_STUCK_RECOVERY_ENABLE_POS,
+   368					IC_SDA_STUCK_RECOVERY_ENABLE_POS);
+   369			do {
+   370				regmap_read(dev->map, LRW_IC_ENABLE, &enabled);
+   371				if ((enabled & IC_SDA_STUCK_RECOVERY_ENABLE_POS) ==
+   372					IC_SDA_STUCK_AT_LOW_RECOVERIED)
+   373					break;
+   374				udelay(10);
+   375			} while (--timeout);
+   376	
+   377			if (!timeout) {
+   378				dev_err(dev->dev, "I2C bus recovery timeout\n");
+   379				return -ETIMEDOUT;
+   380			}
+   381	
+   382			dev_err(dev->dev, "I2C hardware recovery complete\n");
+   383		}
+   384		return 0;
+   385	}
+   386	EXPORT_SYMBOL_GPL(i2c_lrw_bus_recover);
+   387	
 
 -- 
 0-DAY CI Kernel Test Service
