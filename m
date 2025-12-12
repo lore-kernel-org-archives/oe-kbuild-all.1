@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607E428469A;
-	Fri, 12 Dec 2025 14:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D51280A52
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 14:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765549323; cv=none; b=mMwbHgWT3SjTT9Qb0umXF6amrn4xSgSX7aq1w6XSzCu3tI7LlunUkReoqbLWilsARV/rFLQjG88PqFBYMl+g0jLQ2Uh41YgMMB3nt0LZHgJoN3GmaURSuRWu53WH4/X3RuRmUw3byWmsTpTmUfrCvbKFqzvr6q2XkWGRGQIwnLs=
+	t=1765550586; cv=none; b=fnpuBxJUkNCMRU/f3pcUxNq0z/iHIYbzK44hcQed0NjEIw1+ombgSaM+4uf/f1pCc/LKndVq1LeoOwYix9VAeoAyXebj/MI+I2bXK4ReGWBkf8SgDQ7I/OR9zxL9eYRhcLvGlvFA5aFnX24cOxSUIYLZswJhdUA7TjxTfETW8eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765549323; c=relaxed/simple;
-	bh=liM84Nb2aA8l19AwpljS4wtIU7rtYhD0WXSCvrV5NWM=;
+	s=arc-20240116; t=1765550586; c=relaxed/simple;
+	bh=Uw/IR3l1V8UhSrTQlx8MbuXlzatHiynuvXf88SdXkWo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qwBTk+gmfr4A5ipEmJaqg4ZuU6E+hNdviY8Qvsn0Hc0kThS8C4QmkzSZ2aT77DieI4VuzXkyl/mTboRDptRSPyUvG28w38LBHwOe7kNaQQZbiWeSmKB4SUm83WlMSUh5WhbPDgnYaMliUtI7LBPmL6P51gmBoqjJf3+tD3wLwSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bXjdLGQ/; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=QKnR3QivpDWCBlLWBdZCV10P3GaunK2yv0dB2GaFr20FyM0hEJqP5ctbEDe7D+RJb3c3/vg8l2SeOBdnuXfhl2XePSVPdbgv3jY3+rNGS6yMmdVHfev8viJR4828VP300ej+7VUJQwHKV3jtI9ukQKFK1cEyAOM5V4sb+u7+AHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dCgzAUZm; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bXjdLGQ/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dCgzAUZm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765549321; x=1797085321;
+  t=1765550585; x=1797086585;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=liM84Nb2aA8l19AwpljS4wtIU7rtYhD0WXSCvrV5NWM=;
-  b=bXjdLGQ/uHbEj3PFgVIv47tdubt3Hbr2R8UUP8Pbaceg3cOxnIchVBOJ
-   rbpsG5saEwvMv2LforAZsALMGd9dE+crjmkgpwC5PRNOhMfebFXMne1aH
-   U2gVEkUR6H2ZWkFfZ4MSuyLm0ea+8ypvPUFxtrT8SWES09f1UMlb967cG
-   uzwDLft3gnWCuTEf2erCx205RvQYX5KAMLZCzLo8InsX7MldVxjsOE0F3
-   cvwpu+XIZ+qHDl3JiymP/9U/uymz2qkj4dC7wHPTMQ8C5PcOgwNqF/DPv
-   ciYbP2vDKU1bzo7lEQoJtEEQTQlVMeU1eCvggnMQ3IpbsNeMd8qGssUSB
+  bh=Uw/IR3l1V8UhSrTQlx8MbuXlzatHiynuvXf88SdXkWo=;
+  b=dCgzAUZmuW55XhYoo57un7cd/dv7UNP0mmjtt6NRLFjlS8lutFU9dRbb
+   cDLe4iD60LzLwPHj1EPwAguf9L769b4itpGMQrn73xBRD/fZNmvj2aH3V
+   QIpYqKjDg5eBFYMgnSn/daa6UJhxx3Vjw8ssykdmGB1+PSdAsjCVEJT8Z
+   G8iEcjumjZ655tnJa2D3EwWGHjaF55AI6CJthubNRl7avrH5meI9Dr2u1
+   Al2MUZok359I/Q7HSHxdX/ywBME7FNGhfv9jODZB3o1plJRBS2EZJDJgG
+   WJk1SmAbkjnznUW0X+6drKaqN1L6ZkF18pxPEaQ50qFrgJB/tPnyouoV3
    w==;
-X-CSE-ConnectionGUID: vtiLsMvKTPe32KGINqIRNw==
-X-CSE-MsgGUID: dycsmnzzQXGq0QKQNq0dFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67624559"
+X-CSE-ConnectionGUID: ppfLvaJHRwmi3rwd7jSmDg==
+X-CSE-MsgGUID: W84DhyQ0Swiihe5iSPMT2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78667593"
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="67624559"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 06:22:00 -0800
-X-CSE-ConnectionGUID: irkOBfTLQeWYfDTVJnJrcA==
-X-CSE-MsgGUID: APtOmKBUSQ6nanvDaPlM4w==
+   d="scan'208";a="78667593"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 06:43:03 -0800
+X-CSE-ConnectionGUID: jwxAoZa0Rd+c/7K4ZpmcIg==
+X-CSE-MsgGUID: 6ovbgn8fSMqQW7HlZNaoeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="197003276"
+   d="scan'208";a="197169725"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Dec 2025 06:21:59 -0800
+  by orviesa008.jf.intel.com with ESMTP; 12 Dec 2025 06:43:01 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU41t-0000000069T-1Ka9;
-	Fri, 12 Dec 2025 14:21:57 +0000
-Date: Fri, 12 Dec 2025 22:21:07 +0800
+	id 1vU4ME-000000006Aj-2Mr7;
+	Fri, 12 Dec 2025 14:42:58 +0000
+Date: Fri, 12 Dec 2025 22:42:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Marc Zyngier <maz@kernel.org>
-Subject: drivers/perf/apple_m1_cpu_pmu.c:404:7: warning: variable 'user' set
- but not used
-Message-ID: <202512122259.IXHvifS1-lkp@intel.com>
+To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3541/3541] drivers/cpufreq/cppc_cpufreq.c:852:19:
+ error: incomplete definition of type 'struct fb_ctr_pair'
+Message-ID: <202512122204.MoIXLFAZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,162 +62,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   187d0801404f415f22c0b31531982c7ea97fa341
-commit: 75ecffc361bbc85696c084f3d3c73eb207386e3f drivers/perf: apple_m1: Refactor event select/filter configuration
-date:   9 months ago
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251212/202512122259.IXHvifS1-lkp@intel.com/config)
+Hi Zeng,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   cd9eb9b4365b71652b2c2ac58293bea47c9f9302
+commit: 12f136b2134d4ded731c3ef23ac08c85b9c0b1fa [3541/3541] cpufreq: CPPC: Keep the target core awake when reading its cpufreq rate
+config: arm64-randconfig-002-20251212 (https://download.01.org/0day-ci/archive/20251212/202512122204.MoIXLFAZ-lkp@intel.com/config)
 compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512122259.IXHvifS1-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512122204.MoIXLFAZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512122259.IXHvifS1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512122204.MoIXLFAZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-         |                                         ^~~~~~~~~~~~~
-   include/linux/bits.h:34:2: note: expanded from macro 'GENMASK'
-      34 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:162:35: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     162 |         [M1_PMU_PERFCTR_UNKNOWN_f7]                             = ONLY_2_4_6,
-         |                                                                   ^~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:27:22: note: expanded from macro 'ONLY_2_4_6'
-      27 | #define ONLY_2_4_6                      (BIT(2) | BIT(4) | BIT(6))
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:132:35: note: previous initialization is here
-     132 |         [0 ... M1_PMU_PERFCTR_LAST]                             = ANY_BUT_0_1,
-         |                                                                   ^~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:25:23: note: expanded from macro 'ANY_BUT_0_1'
-      25 | #define ANY_BUT_0_1                     GENMASK(9, 2)
-         |                                         ^~~~~~~~~~~~~
-   include/linux/bits.h:34:2: note: expanded from macro 'GENMASK'
-      34 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:163:35: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     163 |         [M1_PMU_PERFCTR_UNKNOWN_f8]                             = ONLY_2_TO_7,
-         |                                                                   ^~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:26:23: note: expanded from macro 'ONLY_2_TO_7'
-      26 | #define ONLY_2_TO_7                     GENMASK(7, 2)
-         |                                         ^~~~~~~~~~~~~
-   include/linux/bits.h:34:2: note: expanded from macro 'GENMASK'
-      34 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:132:35: note: previous initialization is here
-     132 |         [0 ... M1_PMU_PERFCTR_LAST]                             = ANY_BUT_0_1,
-         |                                                                   ^~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:25:23: note: expanded from macro 'ANY_BUT_0_1'
-      25 | #define ANY_BUT_0_1                     GENMASK(9, 2)
-         |                                         ^~~~~~~~~~~~~
-   include/linux/bits.h:34:2: note: expanded from macro 'GENMASK'
-      34 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:164:35: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     164 |         [M1_PMU_PERFCTR_UNKNOWN_fd]                             = ONLY_2_4_6,
-         |                                                                   ^~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:27:22: note: expanded from macro 'ONLY_2_4_6'
-      27 | #define ONLY_2_4_6                      (BIT(2) | BIT(4) | BIT(6))
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:132:35: note: previous initialization is here
-     132 |         [0 ... M1_PMU_PERFCTR_LAST]                             = ANY_BUT_0_1,
-         |                                                                   ^~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:25:23: note: expanded from macro 'ANY_BUT_0_1'
-      25 | #define ANY_BUT_0_1                     GENMASK(9, 2)
-         |                                         ^~~~~~~~~~~~~
-   include/linux/bits.h:34:2: note: expanded from macro 'GENMASK'
-      34 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:169:32: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     169 |         [PERF_COUNT_HW_CPU_CYCLES]              = M1_PMU_PERFCTR_CORE_ACTIVE_CYCLE,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:168:2: note: previous initialization is here
-     168 |         PERF_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:44:34: note: expanded from macro 'PERF_MAP_ALL_UNSUPPORTED'
-      44 |         [0 ... PERF_COUNT_HW_MAX - 1] = HW_OP_UNSUPPORTED
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:39:28: note: expanded from macro 'HW_OP_UNSUPPORTED'
-      39 | #define HW_OP_UNSUPPORTED               0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:170:34: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     170 |         [PERF_COUNT_HW_INSTRUCTIONS]            = M1_PMU_PERFCTR_INST_ALL,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:168:2: note: previous initialization is here
-     168 |         PERF_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:44:34: note: expanded from macro 'PERF_MAP_ALL_UNSUPPORTED'
-      44 |         [0 ... PERF_COUNT_HW_MAX - 1] = HW_OP_UNSUPPORTED
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:39:28: note: expanded from macro 'HW_OP_UNSUPPORTED'
-      39 | #define HW_OP_UNSUPPORTED               0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:171:40: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     171 |         [PERF_COUNT_HW_BRANCH_INSTRUCTIONS]     = M1_PMU_PERFCTR_INST_BRANCH,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:168:2: note: previous initialization is here
-     168 |         PERF_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:44:34: note: expanded from macro 'PERF_MAP_ALL_UNSUPPORTED'
-      44 |         [0 ... PERF_COUNT_HW_MAX - 1] = HW_OP_UNSUPPORTED
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:39:28: note: expanded from macro 'HW_OP_UNSUPPORTED'
-      39 | #define HW_OP_UNSUPPORTED               0xFFFF
-         |                                         ^~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:172:35: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     172 |         [PERF_COUNT_HW_BRANCH_MISSES]           = M1_PMU_PERFCTR_BRANCH_MISPRED_NONSPEC,
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/apple_m1_cpu_pmu.c:168:2: note: previous initialization is here
-     168 |         PERF_MAP_ALL_UNSUPPORTED,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:44:34: note: expanded from macro 'PERF_MAP_ALL_UNSUPPORTED'
-      44 |         [0 ... PERF_COUNT_HW_MAX - 1] = HW_OP_UNSUPPORTED
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:39:28: note: expanded from macro 'HW_OP_UNSUPPORTED'
-      39 | #define HW_OP_UNSUPPORTED               0xFFFF
-         |                                         ^~~~~~
->> drivers/perf/apple_m1_cpu_pmu.c:404:7: warning: variable 'user' set but not used [-Wunused-but-set-variable]
-     404 |         bool user, kernel;
-         |              ^
-   drivers/perf/apple_m1_cpu_pmu.c:404:13: warning: variable 'kernel' set but not used [-Wunused-but-set-variable]
-     404 |         bool user, kernel;
-         |                    ^
-   drivers/perf/apple_m1_cpu_pmu.c:405:5: warning: variable 'evt' set but not used [-Wunused-but-set-variable]
-     405 |         u8 evt;
-         |            ^
-   39 warnings generated.
+   In file included from drivers/cpufreq/cppc_cpufreq.c:28:
+   In file included from include/acpi/cppc_acpi.h:13:
+   In file included from include/linux/acpi.h:37:
+   In file included from include/acpi/acpi_io.h:7:
+   In file included from arch/arm64/include/asm/acpi.h:14:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2181:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/cpufreq/cppc_cpufreq.c:852:19: error: incomplete definition of type 'struct fb_ctr_pair'
+     852 |         int cpu = fb_ctrs->cpu;
+         |                   ~~~~~~~^
+   drivers/cpufreq/cppc_cpufreq.c:851:9: note: forward declaration of 'struct fb_ctr_pair'
+     851 |         struct fb_ctr_pair *fb_ctrs = val;
+         |                ^
+   drivers/cpufreq/cppc_cpufreq.c:855:40: error: incomplete definition of type 'struct fb_ctr_pair'
+     855 |         ret = cppc_get_perf_ctrs(cpu, &fb_ctrs->fb_ctrs_t0);
+         |                                        ~~~~~~~^
+   drivers/cpufreq/cppc_cpufreq.c:851:9: note: forward declaration of 'struct fb_ctr_pair'
+     851 |         struct fb_ctr_pair *fb_ctrs = val;
+         |                ^
+   drivers/cpufreq/cppc_cpufreq.c:861:41: error: incomplete definition of type 'struct fb_ctr_pair'
+     861 |         return cppc_get_perf_ctrs(cpu, &fb_ctrs->fb_ctrs_t1);
+         |                                         ~~~~~~~^
+   drivers/cpufreq/cppc_cpufreq.c:851:9: note: forward declaration of 'struct fb_ctr_pair'
+     851 |         struct fb_ctr_pair *fb_ctrs = val;
+         |                ^
+   drivers/cpufreq/cppc_cpufreq.c:866:21: error: variable has incomplete type 'struct fb_ctr_pair'
+     866 |         struct fb_ctr_pair fb_ctrs = { .cpu = cpu, };
+         |                            ^
+   drivers/cpufreq/cppc_cpufreq.c:866:9: note: forward declaration of 'struct fb_ctr_pair'
+     866 |         struct fb_ctr_pair fb_ctrs = { .cpu = cpu, };
+         |                ^
+   1 warning and 4 errors generated.
 
 
-vim +/user +404 drivers/perf/apple_m1_cpu_pmu.c
+vim +852 drivers/cpufreq/cppc_cpufreq.c
 
-75ecffc361bbc8 Oliver Upton 2025-03-05  400  
-a639027a1be1d6 Marc Zyngier 2022-02-08  401  /* arm_pmu backend */
-a639027a1be1d6 Marc Zyngier 2022-02-08  402  static void m1_pmu_enable_event(struct perf_event *event)
-a639027a1be1d6 Marc Zyngier 2022-02-08  403  {
-a639027a1be1d6 Marc Zyngier 2022-02-08 @404  	bool user, kernel;
-a639027a1be1d6 Marc Zyngier 2022-02-08  405  	u8 evt;
-a639027a1be1d6 Marc Zyngier 2022-02-08  406  
-a639027a1be1d6 Marc Zyngier 2022-02-08  407  	evt = event->hw.config_base & M1_PMU_CFG_EVENT;
-a639027a1be1d6 Marc Zyngier 2022-02-08  408  	user = event->hw.config_base & M1_PMU_CFG_COUNT_USER;
-a639027a1be1d6 Marc Zyngier 2022-02-08  409  	kernel = event->hw.config_base & M1_PMU_CFG_COUNT_KERNEL;
-a639027a1be1d6 Marc Zyngier 2022-02-08  410  
-a639027a1be1d6 Marc Zyngier 2022-02-08  411  	m1_pmu_disable_counter_interrupt(event->hw.idx);
-a639027a1be1d6 Marc Zyngier 2022-02-08  412  	m1_pmu_disable_counter(event->hw.idx);
-a639027a1be1d6 Marc Zyngier 2022-02-08  413  	isb();
-a639027a1be1d6 Marc Zyngier 2022-02-08  414  
-75ecffc361bbc8 Oliver Upton 2025-03-05  415  	m1_pmu_configure_counter(event->hw.idx, event->hw.config_base);
-a639027a1be1d6 Marc Zyngier 2022-02-08  416  	m1_pmu_enable_counter(event->hw.idx);
-a639027a1be1d6 Marc Zyngier 2022-02-08  417  	m1_pmu_enable_counter_interrupt(event->hw.idx);
-a639027a1be1d6 Marc Zyngier 2022-02-08  418  	isb();
-a639027a1be1d6 Marc Zyngier 2022-02-08  419  }
-a639027a1be1d6 Marc Zyngier 2022-02-08  420  
-
-:::::: The code at line 404 was first introduced by commit
-:::::: a639027a1be1d68437e1c2cac6ed16306c84ab3c drivers/perf: Add Apple icestorm/firestorm CPU PMU driver
-
-:::::: TO: Marc Zyngier <maz@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   848	
+   849	static int cppc_get_perf_ctrs_pair(void *val)
+   850	{
+   851		struct fb_ctr_pair *fb_ctrs = val;
+ > 852		int cpu = fb_ctrs->cpu;
+   853		int ret;
+   854	
+   855		ret = cppc_get_perf_ctrs(cpu, &fb_ctrs->fb_ctrs_t0);
+   856		if (ret)
+   857			return ret;
+   858	
+   859		udelay(2); /* 2usec delay between sampling */
+   860	
+   861		return cppc_get_perf_ctrs(cpu, &fb_ctrs->fb_ctrs_t1);
+   862	}
+   863	
 
 -- 
 0-DAY CI Kernel Test Service
