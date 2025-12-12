@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFC38634F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 00:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BB17260D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 00:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765497780; cv=none; b=ThYiTM7REyuFTLHP9lP/9yOp3B+pV+G6e8LcUNpzkziwfl/x+YmIvGiAu1I4Dghm1Fc3BYrneIUo06AfqBi4QZDxVJhMKQ4b9s9m0E8N6GRT+8yaqz2PJsMO1uM+U78YsWNGlkvWMpHPEtT9pruFDPvM6y11b9Jbl4KllIts/k4=
+	t=1765498502; cv=none; b=gR+rUHUzZUyBfIDHPc7CI/sBkxJkS1KyvuqYCVG/eHEbxBCGMFyeBrJ5FzQPjhufBerqAg/H8iShI2+ry1JKGYnj9FCNHX1NZEpqX7nfAOSUR7GNAoO9yj9ZufYZcCN2zigWXPlhQit6ed+gVI0LccyYoxmQ2kO9Dc4qlXNnAuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765497780; c=relaxed/simple;
-	bh=Ebq36/vRk9nDAEGDpNczHxGOgTmJS243mayZTGyHVyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UUPcMBeFVZ5ppZubCXXPcz5tvbaMCidGi/Ll1Y2Kxi2FigrX9aEdzNEOB2gqiyu9jGjISvygNMbv2iya1FhPxlaOCVfDk7HyZLgcAdwC6B3mkkZBzhl/UFbkzXMFzMWDITqK6Iddz707MPpsuzCKTtLZ2CZdcjTCxKo1xA7JV/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L42llpQv; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1765498502; c=relaxed/simple;
+	bh=kuQqKQkaE8GaEKgdJ1tHmUhedZmO3yLm5NEIZrBTN2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hMtlCu6Qwnl69IiDmWoXb7opGsHW+8dRb1eTd7J4tDOVa4/x0Yn8VRhhD4o4NFUJisttQJnWH89rms9cOgOkGzDWN1afJDVF4q+gdoGzu6hTXdXszxNjB/a3E+3kQ1clGhHWvdNmLvY3Q4/dKHksr/EM5xAlI3bU1bhGRTFC1eY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JWo09M4z; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L42llpQv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JWo09M4z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765497779; x=1797033779;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ebq36/vRk9nDAEGDpNczHxGOgTmJS243mayZTGyHVyw=;
-  b=L42llpQvri+lN/BqW28x3/gGXTi56OuGXD0zHUj7VhI1u2kbuN5DrTGZ
-   fQxNwXLqcxpKlfJ8DhXFwPuszKmy5QHYApQcLiNz4EaPkURLf2uqQpbb9
-   Yw/E6Cy1ISqRBxq5jiRX9Gaiwq7MDPudo+sUk7MKHCCWBVHoZMbXEVztL
-   ec/sy1DrvAWKar7rG9XQ1sD0oc4RhvxOrL34eKeyDzTXsGyWyp9R49GBh
-   w+biOQSuJCvIEnBEwN1DDXI7QngQ+GSQ2hVbdxkQf05//V9fK4EaUR55v
-   zG+Y8e8a7d9341qqWMy7a8gEgW/zOzHM8j8aVY1mRhjbQoJEARAtTz4Tk
-   A==;
-X-CSE-ConnectionGUID: 28ghqMEPRia2RMrnAz61zw==
-X-CSE-MsgGUID: Fgxzz7xAQSu8JlFJqcE+4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67565725"
+  t=1765498501; x=1797034501;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kuQqKQkaE8GaEKgdJ1tHmUhedZmO3yLm5NEIZrBTN2k=;
+  b=JWo09M4z6A86ubdoXFQFgEKnYVtF6OWICv0ZpcVePmnoobWsYke1Q0Tx
+   J+1Ivh+k0OBc8R2guGNAvDMs9zuf+2aRD2V+LTiQg4AYioMOydW6Caykf
+   admIZZilp55kP+KDyHmM4aMVgTBSaOzdglfuvcmHFnSHRFW4wo4dQFjdM
+   AgfMVWhz1ftjGPc1Rgyf7VE107X7u7RyliTGhtRotcRFHzgStWdAQEnri
+   qxnkMOx13LVqjCGxdply8wat1LSdquA0YLwnv+YK9lXXECEFLdveuNIFJ
+   40Hzj28VYZB2Jb6OFDpBQjGIVD75Gmm/FAjNVfs3ff8SgsJcbUwMheDsK
+   g==;
+X-CSE-ConnectionGUID: 8BUpvBUgRqufrhnG4EP2vA==
+X-CSE-MsgGUID: 3P/PcGvpTFuoYYf54+KgOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78954371"
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="67565725"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 16:02:57 -0800
-X-CSE-ConnectionGUID: LDrHflw4Q12gkyVUzWP84A==
-X-CSE-MsgGUID: 4xrS2UoAR56Cusrkhotcvw==
+   d="scan'208";a="78954371"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 16:14:58 -0800
+X-CSE-ConnectionGUID: xKzEw5dbRP6/L7p9ygBuaQ==
+X-CSE-MsgGUID: 2tz2Szz4TvywrCnqCXsXsQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="201098092"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Dec 2025 16:02:55 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 11 Dec 2025 16:14:55 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTqcW-000000005DF-3kty;
-	Fri, 12 Dec 2025 00:02:52 +0000
-Date: Fri, 12 Dec 2025 08:02:12 +0800
+	id 1vTqo9-000000005Dd-0aF5;
+	Fri, 12 Dec 2025 00:14:53 +0000
+Date: Fri, 12 Dec 2025 08:14:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mark Brown <broonie@kernel.org>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Subject: sound/soc/uniphier/aio-compress.c:304:34: sparse: sparse: cast to
- restricted __be16
-Message-ID: <202512120701.wWXYuhkv-lkp@intel.com>
+To: Alex Markuze <amarkuze@redhat.com>, ceph-devel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, idryomov@gmail.com,
+	linux-fsdevel@vger.kernel.org, amarkuze@redhat.com,
+	vdubeyko@redhat.com
+Subject: Re: [PATCH v3 4/4] ceph: adding CEPH_SUBVOLUME_ID_NONE
+Message-ID: <202512120708.d8OjMmgQ-lkp@intel.com>
+References: <20251203154625.2779153-5-amarkuze@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,78 +62,252 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251203154625.2779153-5-amarkuze@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d358e5254674b70f34c847715ca509e46eb81e6f
-commit: ac131c4148bcfa682104628d2174e8e38e03fd25 ASoC: uniphier: Standardize ASoC menu
-date:   6 months ago
-config: alpha-randconfig-r121-20251212 (https://download.01.org/0day-ci/archive/20251212/202512120701.wWXYuhkv-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120701.wWXYuhkv-lkp@intel.com/reproduce)
+Hi Alex,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on ceph-client/for-linus]
+[also build test WARNING on linus/master v6.18 next-20251211]
+[cannot apply to ceph-client/testing]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Markuze/ceph-handle-InodeStat-v8-versioned-field-in-reply-parsing/20251204-035756
+base:   https://github.com/ceph/ceph-client.git for-linus
+patch link:    https://lore.kernel.org/r/20251203154625.2779153-5-amarkuze%40redhat.com
+patch subject: [PATCH v3 4/4] ceph: adding CEPH_SUBVOLUME_ID_NONE
+config: x86_64-randconfig-101-20251210 (https://download.01.org/0day-ci/archive/20251212/202512120708.d8OjMmgQ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120708.d8OjMmgQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512120701.wWXYuhkv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512120708.d8OjMmgQ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/uniphier/aio-compress.c:304:34: sparse: sparse: cast to restricted __be16
->> sound/soc/uniphier/aio-compress.c:304:34: sparse: sparse: cast to restricted __be16
->> sound/soc/uniphier/aio-compress.c:304:34: sparse: sparse: cast to restricted __be16
->> sound/soc/uniphier/aio-compress.c:304:34: sparse: sparse: cast to restricted __be16
+All warnings (new ones prefixed by >>):
 
-vim +304 sound/soc/uniphier/aio-compress.c
+>> fs/ceph/mds_client.c:123:22: warning: unused variable 'cl' [-Wunused-variable]
+     123 |         struct ceph_client *cl = mdsc ? mdsc->fsc->client : NULL;
+         |                             ^~
+   1 warning generated.
 
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  280  
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  281  static int aio_compr_send_to_hw(struct uniphier_aio_sub *sub,
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  282  				char __user *buf, size_t dstsize)
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  283  {
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  284  	u32 __user *srcbuf = (u32 __user *)buf;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  285  	u32 *dstbuf = (u32 *)(sub->compr_area + sub->wr_offs);
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  286  	int src = 0, dst = 0, ret;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  287  	u32 frm, frm_a, frm_b;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  288  
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  289  	while (dstsize > 0) {
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  290  		ret = get_user(frm, srcbuf + src);
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  291  		if (ret)
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  292  			return ret;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  293  		src++;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  294  
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  295  		frm_a = frm & 0xffff;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  296  		frm_b = (frm >> 16) & 0xffff;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  297  
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  298  		if (frm == IEC61937_HEADER_SIGN) {
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  299  			frm_a |= 0x01000000;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  300  
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  301  			/* Next data is Pc and Pd */
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  302  			sub->iec_header = true;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  303  		} else {
-e98131222ff931 Katsuhiro Suzuki 2018-01-19 @304  			u16 pc = be16_to_cpu((__be16)frm_a);
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  305  
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  306  			if (sub->iec_header && sub->iec_pc != pc) {
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  307  				/* Force overwrite IEC frame type */
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  308  				sub->iec_pc = pc;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  309  				ret = aio_oport_set_stream_type(sub, pc);
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  310  				if (ret)
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  311  					return ret;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  312  			}
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  313  			sub->iec_header = false;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  314  		}
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  315  		dstbuf[dst++] = frm_a;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  316  		dstbuf[dst++] = frm_b;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  317  
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  318  		dstsize -= sizeof(u32) * 2;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  319  	}
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  320  
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  321  	return 0;
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  322  }
-e98131222ff931 Katsuhiro Suzuki 2018-01-19  323  
 
-:::::: The code at line 304 was first introduced by commit
-:::::: e98131222ff931a670739cede00d1fb9d6f83763 ASoC: uniphier: add support for UniPhier AIO compress audio
+vim +/cl +123 fs/ceph/mds_client.c
 
-:::::: TO: Katsuhiro Suzuki <suzuki.katsuhiro@socionext.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+b37fe1f923fb4b Yan, Zheng       2019-01-09  113  
+2f2dc053404feb Sage Weil        2009-10-06  114  static int parse_reply_info_in(void **p, void *end,
+14303d20f3ae3e Sage Weil        2010-12-14  115  			       struct ceph_mds_reply_info_in *info,
+48a90cabed1e21 Alex Markuze     2025-12-03  116  			       u64 features,
+48a90cabed1e21 Alex Markuze     2025-12-03  117  			       struct ceph_mds_client *mdsc)
+2f2dc053404feb Sage Weil        2009-10-06  118  {
+b37fe1f923fb4b Yan, Zheng       2019-01-09  119  	int err = 0;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  120  	u8 struct_v = 0;
+48a90cabed1e21 Alex Markuze     2025-12-03  121  	u8 struct_compat = 0;
+48a90cabed1e21 Alex Markuze     2025-12-03  122  	u32 struct_len = 0;
+48a90cabed1e21 Alex Markuze     2025-12-03 @123  	struct ceph_client *cl = mdsc ? mdsc->fsc->client : NULL;
+48a90cabed1e21 Alex Markuze     2025-12-03  124  
+b5cda3b778d7c2 Alex Markuze     2025-12-03  125  	info->subvolume_id = CEPH_SUBVOLUME_ID_NONE;
+7361b2801d4572 Alex Markuze     2025-12-03  126  
+b37fe1f923fb4b Yan, Zheng       2019-01-09  127  	if (features == (u64)-1) {
+b37fe1f923fb4b Yan, Zheng       2019-01-09  128  		ceph_decode_8_safe(p, end, struct_v, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  129  		ceph_decode_8_safe(p, end, struct_compat, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  130  		/* struct_v is expected to be >= 1. we only understand
+b37fe1f923fb4b Yan, Zheng       2019-01-09  131  		 * encoding with struct_compat == 1. */
+b37fe1f923fb4b Yan, Zheng       2019-01-09  132  		if (!struct_v || struct_compat != 1)
+b37fe1f923fb4b Yan, Zheng       2019-01-09  133  			goto bad;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  134  		ceph_decode_32_safe(p, end, struct_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  135  		ceph_decode_need(p, end, struct_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  136  		end = *p + struct_len;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  137  	}
+2f2dc053404feb Sage Weil        2009-10-06  138  
+b37fe1f923fb4b Yan, Zheng       2019-01-09  139  	ceph_decode_need(p, end, sizeof(struct ceph_mds_reply_inode), bad);
+2f2dc053404feb Sage Weil        2009-10-06  140  	info->in = *p;
+2f2dc053404feb Sage Weil        2009-10-06  141  	*p += sizeof(struct ceph_mds_reply_inode) +
+2f2dc053404feb Sage Weil        2009-10-06  142  		sizeof(*info->in->fragtree.splits) *
+2f2dc053404feb Sage Weil        2009-10-06  143  		le32_to_cpu(info->in->fragtree.nsplits);
+2f2dc053404feb Sage Weil        2009-10-06  144  
+2f2dc053404feb Sage Weil        2009-10-06  145  	ceph_decode_32_safe(p, end, info->symlink_len, bad);
+2f2dc053404feb Sage Weil        2009-10-06  146  	ceph_decode_need(p, end, info->symlink_len, bad);
+2f2dc053404feb Sage Weil        2009-10-06  147  	info->symlink = *p;
+2f2dc053404feb Sage Weil        2009-10-06  148  	*p += info->symlink_len;
+2f2dc053404feb Sage Weil        2009-10-06  149  
+14303d20f3ae3e Sage Weil        2010-12-14  150  	ceph_decode_copy_safe(p, end, &info->dir_layout,
+14303d20f3ae3e Sage Weil        2010-12-14  151  			      sizeof(info->dir_layout), bad);
+2f2dc053404feb Sage Weil        2009-10-06  152  	ceph_decode_32_safe(p, end, info->xattr_len, bad);
+2f2dc053404feb Sage Weil        2009-10-06  153  	ceph_decode_need(p, end, info->xattr_len, bad);
+2f2dc053404feb Sage Weil        2009-10-06  154  	info->xattr_data = *p;
+2f2dc053404feb Sage Weil        2009-10-06  155  	*p += info->xattr_len;
+fb01d1f8b0343f Yan, Zheng       2014-11-14  156  
+b37fe1f923fb4b Yan, Zheng       2019-01-09  157  	if (features == (u64)-1) {
+b37fe1f923fb4b Yan, Zheng       2019-01-09  158  		/* inline data */
+b37fe1f923fb4b Yan, Zheng       2019-01-09  159  		ceph_decode_64_safe(p, end, info->inline_version, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  160  		ceph_decode_32_safe(p, end, info->inline_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  161  		ceph_decode_need(p, end, info->inline_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  162  		info->inline_data = *p;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  163  		*p += info->inline_len;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  164  		/* quota */
+b37fe1f923fb4b Yan, Zheng       2019-01-09  165  		err = parse_reply_info_quota(p, end, info);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  166  		if (err < 0)
+b37fe1f923fb4b Yan, Zheng       2019-01-09  167  			goto out_bad;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  168  		/* pool namespace */
+b37fe1f923fb4b Yan, Zheng       2019-01-09  169  		ceph_decode_32_safe(p, end, info->pool_ns_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  170  		if (info->pool_ns_len > 0) {
+b37fe1f923fb4b Yan, Zheng       2019-01-09  171  			ceph_decode_need(p, end, info->pool_ns_len, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  172  			info->pool_ns_data = *p;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  173  			*p += info->pool_ns_len;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  174  		}
+245ce991cca55e Jeff Layton      2019-05-29  175  
+245ce991cca55e Jeff Layton      2019-05-29  176  		/* btime */
+245ce991cca55e Jeff Layton      2019-05-29  177  		ceph_decode_need(p, end, sizeof(info->btime), bad);
+245ce991cca55e Jeff Layton      2019-05-29  178  		ceph_decode_copy(p, &info->btime, sizeof(info->btime));
+245ce991cca55e Jeff Layton      2019-05-29  179  
+245ce991cca55e Jeff Layton      2019-05-29  180  		/* change attribute */
+a35ead314e0b92 Jeff Layton      2019-06-06  181  		ceph_decode_64_safe(p, end, info->change_attr, bad);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  182  
+08796873a5183b Yan, Zheng       2019-01-09  183  		/* dir pin */
+08796873a5183b Yan, Zheng       2019-01-09  184  		if (struct_v >= 2) {
+08796873a5183b Yan, Zheng       2019-01-09  185  			ceph_decode_32_safe(p, end, info->dir_pin, bad);
+08796873a5183b Yan, Zheng       2019-01-09  186  		} else {
+08796873a5183b Yan, Zheng       2019-01-09  187  			info->dir_pin = -ENODATA;
+08796873a5183b Yan, Zheng       2019-01-09  188  		}
+08796873a5183b Yan, Zheng       2019-01-09  189  
+193e7b37628e97 David Disseldorp 2019-04-18  190  		/* snapshot birth time, remains zero for v<=2 */
+193e7b37628e97 David Disseldorp 2019-04-18  191  		if (struct_v >= 3) {
+193e7b37628e97 David Disseldorp 2019-04-18  192  			ceph_decode_need(p, end, sizeof(info->snap_btime), bad);
+193e7b37628e97 David Disseldorp 2019-04-18  193  			ceph_decode_copy(p, &info->snap_btime,
+193e7b37628e97 David Disseldorp 2019-04-18  194  					 sizeof(info->snap_btime));
+193e7b37628e97 David Disseldorp 2019-04-18  195  		} else {
+193e7b37628e97 David Disseldorp 2019-04-18  196  			memset(&info->snap_btime, 0, sizeof(info->snap_btime));
+193e7b37628e97 David Disseldorp 2019-04-18  197  		}
+193e7b37628e97 David Disseldorp 2019-04-18  198  
+e7f72952508ac4 Yanhu Cao        2020-08-28  199  		/* snapshot count, remains zero for v<=3 */
+e7f72952508ac4 Yanhu Cao        2020-08-28  200  		if (struct_v >= 4) {
+e7f72952508ac4 Yanhu Cao        2020-08-28  201  			ceph_decode_64_safe(p, end, info->rsnaps, bad);
+e7f72952508ac4 Yanhu Cao        2020-08-28  202  		} else {
+e7f72952508ac4 Yanhu Cao        2020-08-28  203  			info->rsnaps = 0;
+e7f72952508ac4 Yanhu Cao        2020-08-28  204  		}
+e7f72952508ac4 Yanhu Cao        2020-08-28  205  
+2d332d5bc42440 Jeff Layton      2020-07-27  206  		if (struct_v >= 5) {
+2d332d5bc42440 Jeff Layton      2020-07-27  207  			u32 alen;
+2d332d5bc42440 Jeff Layton      2020-07-27  208  
+2d332d5bc42440 Jeff Layton      2020-07-27  209  			ceph_decode_32_safe(p, end, alen, bad);
+2d332d5bc42440 Jeff Layton      2020-07-27  210  
+2d332d5bc42440 Jeff Layton      2020-07-27  211  			while (alen--) {
+2d332d5bc42440 Jeff Layton      2020-07-27  212  				u32 len;
+2d332d5bc42440 Jeff Layton      2020-07-27  213  
+2d332d5bc42440 Jeff Layton      2020-07-27  214  				/* key */
+2d332d5bc42440 Jeff Layton      2020-07-27  215  				ceph_decode_32_safe(p, end, len, bad);
+2d332d5bc42440 Jeff Layton      2020-07-27  216  				ceph_decode_skip_n(p, end, len, bad);
+2d332d5bc42440 Jeff Layton      2020-07-27  217  				/* value */
+2d332d5bc42440 Jeff Layton      2020-07-27  218  				ceph_decode_32_safe(p, end, len, bad);
+2d332d5bc42440 Jeff Layton      2020-07-27  219  				ceph_decode_skip_n(p, end, len, bad);
+2d332d5bc42440 Jeff Layton      2020-07-27  220  			}
+2d332d5bc42440 Jeff Layton      2020-07-27  221  		}
+2d332d5bc42440 Jeff Layton      2020-07-27  222  
+2d332d5bc42440 Jeff Layton      2020-07-27  223  		/* fscrypt flag -- ignore */
+2d332d5bc42440 Jeff Layton      2020-07-27  224  		if (struct_v >= 6)
+2d332d5bc42440 Jeff Layton      2020-07-27  225  			ceph_decode_skip_8(p, end, bad);
+2d332d5bc42440 Jeff Layton      2020-07-27  226  
+2d332d5bc42440 Jeff Layton      2020-07-27  227  		info->fscrypt_auth = NULL;
+2d332d5bc42440 Jeff Layton      2020-07-27  228  		info->fscrypt_auth_len = 0;
+2d332d5bc42440 Jeff Layton      2020-07-27  229  		info->fscrypt_file = NULL;
+2d332d5bc42440 Jeff Layton      2020-07-27  230  		info->fscrypt_file_len = 0;
+2d332d5bc42440 Jeff Layton      2020-07-27  231  		if (struct_v >= 7) {
+2d332d5bc42440 Jeff Layton      2020-07-27  232  			ceph_decode_32_safe(p, end, info->fscrypt_auth_len, bad);
+2d332d5bc42440 Jeff Layton      2020-07-27  233  			if (info->fscrypt_auth_len) {
+2d332d5bc42440 Jeff Layton      2020-07-27  234  				info->fscrypt_auth = kmalloc(info->fscrypt_auth_len,
+2d332d5bc42440 Jeff Layton      2020-07-27  235  							     GFP_KERNEL);
+2d332d5bc42440 Jeff Layton      2020-07-27  236  				if (!info->fscrypt_auth)
+2d332d5bc42440 Jeff Layton      2020-07-27  237  					return -ENOMEM;
+2d332d5bc42440 Jeff Layton      2020-07-27  238  				ceph_decode_copy_safe(p, end, info->fscrypt_auth,
+2d332d5bc42440 Jeff Layton      2020-07-27  239  						      info->fscrypt_auth_len, bad);
+2d332d5bc42440 Jeff Layton      2020-07-27  240  			}
+2d332d5bc42440 Jeff Layton      2020-07-27  241  			ceph_decode_32_safe(p, end, info->fscrypt_file_len, bad);
+2d332d5bc42440 Jeff Layton      2020-07-27  242  			if (info->fscrypt_file_len) {
+2d332d5bc42440 Jeff Layton      2020-07-27  243  				info->fscrypt_file = kmalloc(info->fscrypt_file_len,
+2d332d5bc42440 Jeff Layton      2020-07-27  244  							     GFP_KERNEL);
+2d332d5bc42440 Jeff Layton      2020-07-27  245  				if (!info->fscrypt_file)
+2d332d5bc42440 Jeff Layton      2020-07-27  246  					return -ENOMEM;
+2d332d5bc42440 Jeff Layton      2020-07-27  247  				ceph_decode_copy_safe(p, end, info->fscrypt_file,
+2d332d5bc42440 Jeff Layton      2020-07-27  248  						      info->fscrypt_file_len, bad);
+2d332d5bc42440 Jeff Layton      2020-07-27  249  			}
+2d332d5bc42440 Jeff Layton      2020-07-27  250  		}
+e3d0dedf78abdf Alex Markuze     2025-12-03  251  
+e3d0dedf78abdf Alex Markuze     2025-12-03  252  		/*
+e3d0dedf78abdf Alex Markuze     2025-12-03  253  		 * InodeStat encoding versions:
+e3d0dedf78abdf Alex Markuze     2025-12-03  254  		 *   v1-v7: various fields added over time
+e3d0dedf78abdf Alex Markuze     2025-12-03  255  		 *   v8: added optmetadata (versioned sub-structure containing
+e3d0dedf78abdf Alex Markuze     2025-12-03  256  		 *       optional inode metadata like charmap for case-insensitive
+e3d0dedf78abdf Alex Markuze     2025-12-03  257  		 *       filesystems). The kernel client doesn't support
+e3d0dedf78abdf Alex Markuze     2025-12-03  258  		 *       case-insensitive lookups, so we skip this field.
+e3d0dedf78abdf Alex Markuze     2025-12-03  259  		 *   v9: added subvolume_id (parsed below)
+e3d0dedf78abdf Alex Markuze     2025-12-03  260  		 */
+e3d0dedf78abdf Alex Markuze     2025-12-03  261  		if (struct_v >= 8) {
+e3d0dedf78abdf Alex Markuze     2025-12-03  262  			u32 v8_struct_len;
+e3d0dedf78abdf Alex Markuze     2025-12-03  263  
+e3d0dedf78abdf Alex Markuze     2025-12-03  264  			/* skip optmetadata versioned sub-structure */
+e3d0dedf78abdf Alex Markuze     2025-12-03  265  			ceph_decode_skip_8(p, end, bad);  /* struct_v */
+e3d0dedf78abdf Alex Markuze     2025-12-03  266  			ceph_decode_skip_8(p, end, bad);  /* struct_compat */
+e3d0dedf78abdf Alex Markuze     2025-12-03  267  			ceph_decode_32_safe(p, end, v8_struct_len, bad);
+e3d0dedf78abdf Alex Markuze     2025-12-03  268  			ceph_decode_skip_n(p, end, v8_struct_len, bad);
+e3d0dedf78abdf Alex Markuze     2025-12-03  269  		}
+e3d0dedf78abdf Alex Markuze     2025-12-03  270  
+7361b2801d4572 Alex Markuze     2025-12-03  271  		/* struct_v 9 added subvolume_id */
+7361b2801d4572 Alex Markuze     2025-12-03  272  		if (struct_v >= 9)
+7361b2801d4572 Alex Markuze     2025-12-03  273  			ceph_decode_64_safe(p, end, info->subvolume_id, bad);
+7361b2801d4572 Alex Markuze     2025-12-03  274  
+b37fe1f923fb4b Yan, Zheng       2019-01-09  275  		*p = end;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  276  	} else {
+2d332d5bc42440 Jeff Layton      2020-07-27  277  		/* legacy (unversioned) struct */
+fb01d1f8b0343f Yan, Zheng       2014-11-14  278  		if (features & CEPH_FEATURE_MDS_INLINE_DATA) {
+fb01d1f8b0343f Yan, Zheng       2014-11-14  279  			ceph_decode_64_safe(p, end, info->inline_version, bad);
+fb01d1f8b0343f Yan, Zheng       2014-11-14  280  			ceph_decode_32_safe(p, end, info->inline_len, bad);
+fb01d1f8b0343f Yan, Zheng       2014-11-14  281  			ceph_decode_need(p, end, info->inline_len, bad);
+fb01d1f8b0343f Yan, Zheng       2014-11-14  282  			info->inline_data = *p;
+fb01d1f8b0343f Yan, Zheng       2014-11-14  283  			*p += info->inline_len;
+fb01d1f8b0343f Yan, Zheng       2014-11-14  284  		} else
+fb01d1f8b0343f Yan, Zheng       2014-11-14  285  			info->inline_version = CEPH_INLINE_NONE;
+fb01d1f8b0343f Yan, Zheng       2014-11-14  286  
+fb18a57568c2b8 Luis Henriques   2018-01-05  287  		if (features & CEPH_FEATURE_MDS_QUOTA) {
+b37fe1f923fb4b Yan, Zheng       2019-01-09  288  			err = parse_reply_info_quota(p, end, info);
+b37fe1f923fb4b Yan, Zheng       2019-01-09  289  			if (err < 0)
+b37fe1f923fb4b Yan, Zheng       2019-01-09  290  				goto out_bad;
+fb18a57568c2b8 Luis Henriques   2018-01-05  291  		} else {
+fb18a57568c2b8 Luis Henriques   2018-01-05  292  			info->max_bytes = 0;
+fb18a57568c2b8 Luis Henriques   2018-01-05  293  			info->max_files = 0;
+fb18a57568c2b8 Luis Henriques   2018-01-05  294  		}
+fb18a57568c2b8 Luis Henriques   2018-01-05  295  
+779fe0fb8e1883 Yan, Zheng       2016-03-07  296  		info->pool_ns_len = 0;
+779fe0fb8e1883 Yan, Zheng       2016-03-07  297  		info->pool_ns_data = NULL;
+5ea5c5e0a7f70b Yan, Zheng       2016-02-14  298  		if (features & CEPH_FEATURE_FS_FILE_LAYOUT_V2) {
+5ea5c5e0a7f70b Yan, Zheng       2016-02-14  299  			ceph_decode_32_safe(p, end, info->pool_ns_len, bad);
+779fe0fb8e1883 Yan, Zheng       2016-03-07  300  			if (info->pool_ns_len > 0) {
+5ea5c5e0a7f70b Yan, Zheng       2016-02-14  301  				ceph_decode_need(p, end, info->pool_ns_len, bad);
+779fe0fb8e1883 Yan, Zheng       2016-03-07  302  				info->pool_ns_data = *p;
+5ea5c5e0a7f70b Yan, Zheng       2016-02-14  303  				*p += info->pool_ns_len;
+779fe0fb8e1883 Yan, Zheng       2016-03-07  304  			}
+5ea5c5e0a7f70b Yan, Zheng       2016-02-14  305  		}
+08796873a5183b Yan, Zheng       2019-01-09  306  
+245ce991cca55e Jeff Layton      2019-05-29  307  		if (features & CEPH_FEATURE_FS_BTIME) {
+245ce991cca55e Jeff Layton      2019-05-29  308  			ceph_decode_need(p, end, sizeof(info->btime), bad);
+245ce991cca55e Jeff Layton      2019-05-29  309  			ceph_decode_copy(p, &info->btime, sizeof(info->btime));
+a35ead314e0b92 Jeff Layton      2019-06-06  310  			ceph_decode_64_safe(p, end, info->change_attr, bad);
+245ce991cca55e Jeff Layton      2019-05-29  311  		}
+245ce991cca55e Jeff Layton      2019-05-29  312  
+08796873a5183b Yan, Zheng       2019-01-09  313  		info->dir_pin = -ENODATA;
+e7f72952508ac4 Yanhu Cao        2020-08-28  314  		/* info->snap_btime and info->rsnaps remain zero */
+b37fe1f923fb4b Yan, Zheng       2019-01-09  315  	}
+2f2dc053404feb Sage Weil        2009-10-06  316  	return 0;
+2f2dc053404feb Sage Weil        2009-10-06  317  bad:
+b37fe1f923fb4b Yan, Zheng       2019-01-09  318  	err = -EIO;
+b37fe1f923fb4b Yan, Zheng       2019-01-09  319  out_bad:
+2f2dc053404feb Sage Weil        2009-10-06  320  	return err;
+2f2dc053404feb Sage Weil        2009-10-06  321  }
+2f2dc053404feb Sage Weil        2009-10-06  322  
 
 -- 
 0-DAY CI Kernel Test Service
