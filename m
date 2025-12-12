@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8372D7DC2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 17:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F34926980F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 17:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765560198; cv=none; b=CgsoO7vNRJvhXuf6YOKWczsic6F//YgkGF/UONpt3PbfV5BP4uCPBNErztetc2EtIAeDiu17TKp3HYk9jgF9EgQx1xiHbsrTLVKaysVYhmXbBnqXT86q3d/C0rfwAin6VSbgOst3Y/09cGdssIq1iDTwZWLsx9nhrrQluyS1SmQ=
+	t=1765562119; cv=none; b=QZJh56UoXfEZhgt/QHliY8iIp0k4n3ejQ1n5VziOcIHU5Wo37DYWD6vZ6vX6f1k01WH9jVlEgAu4jTxHG/25iPQz9zHZFu8SSe654l3/Y0dH8AzHS2PrmbrSe48xnJ/gN58NOVFINhX5QMrR2K6SZKFa6Wf4BG5nBYl4EMybIA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765560198; c=relaxed/simple;
-	bh=wFuIhHYuAuMaOikS2pi6zwsYd0xg8BWptYnfDWAl1Ys=;
+	s=arc-20240116; t=1765562119; c=relaxed/simple;
+	bh=AUqmO1AHOHXvot/LDp7rK5gXnXOtWsBe1rJWp4yaRSo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tzIOyUxYLe+nbKN7knLQauohEXnYgP+eNoLCGmjYnqpUIbJt8qJE9K3FsdaYZwjm6yPnb6BL6EhxedaCB/YA7GMpsNYRDlsFOJPpXU2lcfCzaCKmRyk8jRDZJ4YcaxcEvfwealaMn6otHEksc/2jERgByZaPamdeFUG8HtdDyAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DTrLGKNZ; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=cGdqY/jjPdwaPJCWqW4oY9XBCeccAYCYx0N/fNPOFEokTqkGsokLYhuopmRjhe6NKqu4mvX6paVfg5k6McwrSxPqonHjTJge4x8KbVfIQk6PjQndVZwGSjjwhHYte30KcuBSguUd8zVl43rUdGjfcVU2bP2QjfyGOlYZpVd+sas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AIq79ASv; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DTrLGKNZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AIq79ASv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765560196; x=1797096196;
+  t=1765562117; x=1797098117;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wFuIhHYuAuMaOikS2pi6zwsYd0xg8BWptYnfDWAl1Ys=;
-  b=DTrLGKNZp+NhHsBeprbyUjRhbUWbfnxopKun2Oi3VkBiPEivZ95INSfu
-   HfnYkGuzO1QNDgHxvLZUwmso1jpUTVSdrjzypGnBB+0SS4doDtfrvwa2C
-   T5QpLeWEDrQf31Hs+LIJ4at0Uf5DFYhVaQ3pHvj5KhuxNP70JoVDQoqT2
-   L+qTWFTuZvj6E5aONDp110J4n0C8GdGvw3iq2vX+F94KP+kZEbNBmwoJJ
-   NywiGqW0XEdsEMRS1u0Sd7oKV34GEb0q7G2XVmkEc0H2cY2gafY8Kko5i
-   lBYaQyw/uz1uX9har2tAYHcuXNOaI6/ZFHzh5O8LQlyuwzg9hXB1OkZ2Y
-   Q==;
-X-CSE-ConnectionGUID: HDp3oLydTGSZeIxzAhxMBg==
-X-CSE-MsgGUID: Lc0qduCtToW/KzElUlGgyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67607617"
+  bh=AUqmO1AHOHXvot/LDp7rK5gXnXOtWsBe1rJWp4yaRSo=;
+  b=AIq79ASvIHBFBNcvKk9iPQmgATUU0l0eCJx8mchKMxJ2kL58onT6xvsO
+   ci91aAa+uRbqhzC2Zld6b1pXq8sfLC6OrjLyAsRELIQDTe/mB8OpReS18
+   +6OiNxdopxqevxPKjjI+XyC+nbGyCj9xRDb2OBTOejmXDyKz8lBvSZeJ2
+   edBKNlZ3AjQbj9Rwc0x4ndvNhpWTlAblbUo/lBTkp6q7ad/P5xiU9IviJ
+   GEmSxKsljiFCWg/6lKkEKmH6XyO/5+j3EBEeZdBtsaeoZ5R8vGwVtcnUn
+   3b3wtiWUGTCkSIQPMcVc43IdUrA2+LDIyEj5Ts1pURy45+n/YEelliwCs
+   g==;
+X-CSE-ConnectionGUID: VubA4yGgSLS06nQKvMnggg==
+X-CSE-MsgGUID: 8Wslly+GSxiJv8QI0YE4Bw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66744559"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="67607617"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 09:23:14 -0800
-X-CSE-ConnectionGUID: YMzuBl45SSODut/LS6AkTw==
-X-CSE-MsgGUID: 4/kYF3XRRVKm9pgHKXBmsQ==
+   d="scan'208";a="66744559"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 09:55:16 -0800
+X-CSE-ConnectionGUID: onAwEN4VSKC94j0S5FvHTQ==
+X-CSE-MsgGUID: KkXySc9iTWW2bLCG8koQnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="196210321"
+   d="scan'208";a="201325638"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 09:23:13 -0800
+  by orviesa003.jf.intel.com with ESMTP; 12 Dec 2025 09:55:15 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU6rG-000000006Mu-2Emp;
-	Fri, 12 Dec 2025 17:23:10 +0000
-Date: Sat, 13 Dec 2025 01:22:50 +0800
+	id 1vU7MG-000000006On-2AXI;
+	Fri, 12 Dec 2025 17:55:12 +0000
+Date: Sat, 13 Dec 2025 01:55:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aryan Srivastava <aryan.srivastava@alliedtelesis.co.nz>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andi Shyti <andi@smida.it>
-Subject: drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast
- from restricted __be64
-Message-ID: <202512130124.KQX07WZx-lkp@intel.com>
+To: kernel@openeuler.org, zhoujiadong <zhoujiadong5@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3407/3407]
+ drivers/scsi/huawei/hifc/hifc_dbgtool_knl.c:286:6: warning: no previous
+ prototype for 'chipif_get_all_pf_dev_info'
+Message-ID: <202512130114.JDMitdxe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,100 +63,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   187d0801404f415f22c0b31531982c7ea97fa341
-commit: 63ef02da5ddb725555cd41f125ec0bd8e893da3a i2c: octeon: add block-mode i2c operations
-date:   7 months ago
-config: um-randconfig-r134-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130124.KQX07WZx-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130124.KQX07WZx-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   da8948fdddb84e5496272bab85973165594dd469
+commit: 3d776c92130b1cdb4c9c0e5b7267152ab998fec3 [3407/3407] scsi/hifc: Fix compile error in allyesconfigs
+config: x86_64-randconfig-001-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130114.JDMitdxe-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130114.JDMitdxe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512130124.KQX07WZx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130114.JDMitdxe-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __be64 [addressable] [usertype] buf @@
-   drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse:     expected unsigned long long [usertype] val
-   drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse:     got restricted __be64 [addressable] [usertype] buf
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
->> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
-   drivers/i2c/busses/i2c-octeon-core.c:732:42: sparse: sparse: cast from restricted __be64
+All warnings (new ones prefixed by >>):
 
-vim +731 drivers/i2c/busses/i2c-octeon-core.c
+>> drivers/scsi/huawei/hifc/hifc_dbgtool_knl.c:286:6: warning: no previous prototype for 'chipif_get_all_pf_dev_info' [-Wmissing-prototypes]
+     286 | void chipif_get_all_pf_dev_info(struct pf_dev_info *dev_info, int card_idx,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/scsi/huawei/hifc/hifc_dbgtool_knl.c:797: warning: Function parameter or member 'vhwdev' not described in 'hifc_dbgtool_knl_init'
+   drivers/scsi/huawei/hifc/hifc_dbgtool_knl.c:797: warning: Excess function parameter 'hwdev' description in 'hifc_dbgtool_knl_init'
+>> drivers/scsi/huawei/hifc/hifc_dbgtool_knl.c:892: warning: Function parameter or member 'vhwdev' not described in 'hifc_dbgtool_knl_deinit'
+>> drivers/scsi/huawei/hifc/hifc_dbgtool_knl.c:892: warning: Excess function parameter 'hwdev' description in 'hifc_dbgtool_knl_deinit'
 
-   688	
-   689	/**
-   690	 * octeon_i2c_hlc_block_comp_write - high-level-controller composite block write
-   691	 * @i2c: The struct octeon_i2c
-   692	 * @msgs: msg[0] contains address, msg[1] contains data to be written
-   693	 *
-   694	 * i2c core command is constructed and write data is written into the FIFO buffer.
-   695	 * The execution of the command will result in HW write, using the data in FIFO.
-   696	 * Used in the case where the i2c xfer is for greater than 8 bytes of write data.
-   697	 *
-   698	 * Returns: 0 on success, otherwise a negative errno.
-   699	 */
-   700	static int octeon_i2c_hlc_block_comp_write(struct octeon_i2c *i2c, struct i2c_msg *msgs)
-   701	{
-   702		bool set_ext;
-   703		int ret;
-   704		u16 len, i;
-   705		u64 cmd, ext = 0;
-   706	
-   707		octeon_i2c_hlc_enable(i2c);
-   708		octeon_i2c_block_enable(i2c);
-   709	
-   710		/* Write (size - 1) into block control register */
-   711		len = msgs[1].len - 1;
-   712		octeon_i2c_writeq_flush((u64)len, i2c->twsi_base + OCTEON_REG_BLOCK_CTL(i2c));
-   713	
-   714		/* Prepare core command */
-   715		cmd = SW_TWSI_V | SW_TWSI_SOVR | SW_TWSI_OP_7_IA;
-   716		cmd |= (u64)(msgs[0].addr & 0x7full) << SW_TWSI_ADDR_SHIFT;
-   717	
-   718		/* Set parameters for extended message (if required) */
-   719		set_ext = octeon_i2c_hlc_ext(i2c, msgs[0], &cmd, &ext);
-   720	
-   721		/* Write msg into FIFO buffer */
-   722		octeon_i2c_writeq_flush(TWSX_BLOCK_STS_RESET_PTR,
-   723					i2c->twsi_base + OCTEON_REG_BLOCK_STS(i2c));
-   724		for (i = 0; i <= len; i += 8) {
-   725			__be64 buf = 0;
-   726	
-   727			/* Copy 8 bytes or remaining bytes from message buffer */
-   728			memcpy(&buf, &msgs[1].buf[i], min(8, msgs[1].len - i));
-   729	
-   730			/* Byte-swap message data and write into FIFO */
- > 731			buf = cpu_to_be64(buf);
-   732			octeon_i2c_writeq_flush((u64)buf, i2c->twsi_base + OCTEON_REG_BLOCK_FIFO(i2c));
-   733		}
-   734		if (set_ext)
-   735			octeon_i2c_writeq_flush(ext, i2c->twsi_base + OCTEON_REG_SW_TWSI_EXT(i2c));
-   736	
-   737		/* Send command to core (send data in FIFO) */
-   738		ret = octeon_i2c_hlc_cmd_send(i2c, cmd);
-   739		if (ret)
-   740			goto err;
-   741	
-   742		cmd = __raw_readq(i2c->twsi_base + OCTEON_REG_SW_TWSI(i2c));
-   743		if ((cmd & SW_TWSI_R) == 0) {
-   744			octeon_i2c_block_disable(i2c);
-   745			return octeon_i2c_check_status(i2c, false);
-   746		}
-   747	
-   748	err:
-   749		octeon_i2c_block_disable(i2c);
-   750		return ret;
-   751	}
-   752	
+
+vim +/chipif_get_all_pf_dev_info +286 drivers/scsi/huawei/hifc/hifc_dbgtool_knl.c
+
+02b4d17a9ac62b denglei     2021-04-26  285  
+02b4d17a9ac62b denglei     2021-04-26 @286  void chipif_get_all_pf_dev_info(struct pf_dev_info *dev_info, int card_idx,
+02b4d17a9ac62b denglei     2021-04-26  287  				void **g_func_handle_array)
+02b4d17a9ac62b denglei     2021-04-26  288  {
+02b4d17a9ac62b denglei     2021-04-26  289  	u32 func_idx;
+02b4d17a9ac62b denglei     2021-04-26  290  	struct hifc_hwdev *hwdev;
+02b4d17a9ac62b denglei     2021-04-26  291  
+02b4d17a9ac62b denglei     2021-04-26  292  	if (!dev_info) {
+02b4d17a9ac62b denglei     2021-04-26  293  		pr_err("Params error!\n");
+02b4d17a9ac62b denglei     2021-04-26  294  		return;
+02b4d17a9ac62b denglei     2021-04-26  295  	}
+02b4d17a9ac62b denglei     2021-04-26  296  
+02b4d17a9ac62b denglei     2021-04-26  297  	/* pf at most 16 */
+02b4d17a9ac62b denglei     2021-04-26  298  	for (func_idx = 0; func_idx < 16; func_idx++) {
+02b4d17a9ac62b denglei     2021-04-26  299  		hwdev = (struct hifc_hwdev *)g_func_handle_array[func_idx];
+02b4d17a9ac62b denglei     2021-04-26  300  
+3d776c92130b1c zhoujiadong 2023-05-09  301  		dev_info[func_idx].phy_addr = g_hifc_card_phy_addr[card_idx];
+02b4d17a9ac62b denglei     2021-04-26  302  
+02b4d17a9ac62b denglei     2021-04-26  303  		if (!hwdev) {
+02b4d17a9ac62b denglei     2021-04-26  304  			dev_info[func_idx].bar0_size = 0;
+02b4d17a9ac62b denglei     2021-04-26  305  			dev_info[func_idx].bus = 0;
+02b4d17a9ac62b denglei     2021-04-26  306  			dev_info[func_idx].slot = 0;
+02b4d17a9ac62b denglei     2021-04-26  307  			dev_info[func_idx].func = 0;
+02b4d17a9ac62b denglei     2021-04-26  308  		} else {
+02b4d17a9ac62b denglei     2021-04-26  309  			dev_info[func_idx].bar0_size =
+02b4d17a9ac62b denglei     2021-04-26  310  				pci_resource_len
+02b4d17a9ac62b denglei     2021-04-26  311  				(((struct pci_dev *)hwdev->pcidev_hdl), 0);
+02b4d17a9ac62b denglei     2021-04-26  312  			dev_info[func_idx].bus =
+02b4d17a9ac62b denglei     2021-04-26  313  				((struct pci_dev *)
+02b4d17a9ac62b denglei     2021-04-26  314  				hwdev->pcidev_hdl)->bus->number;
+02b4d17a9ac62b denglei     2021-04-26  315  			dev_info[func_idx].slot =
+02b4d17a9ac62b denglei     2021-04-26  316  				PCI_SLOT(((struct pci_dev *)hwdev->pcidev_hdl)
+02b4d17a9ac62b denglei     2021-04-26  317  						->devfn);
+02b4d17a9ac62b denglei     2021-04-26  318  			dev_info[func_idx].func =
+02b4d17a9ac62b denglei     2021-04-26  319  				PCI_FUNC(((struct pci_dev *)hwdev->pcidev_hdl)
+02b4d17a9ac62b denglei     2021-04-26  320  						->devfn);
+02b4d17a9ac62b denglei     2021-04-26  321  		}
+02b4d17a9ac62b denglei     2021-04-26  322  	}
+02b4d17a9ac62b denglei     2021-04-26  323  }
+02b4d17a9ac62b denglei     2021-04-26  324  
+
+:::::: The code at line 286 was first introduced by commit
+:::::: 02b4d17a9ac62b6d75e70a3d3bec5449bdeb30fa scsi/hifc: add port manager module of hifc driver
+
+:::::: TO: denglei <denglei25@huawei.com>
+:::::: CC: Zheng Zengkai <zhengzengkai@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
