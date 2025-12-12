@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECB631D38F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 12:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217D1321F5F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 12:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765541515; cv=none; b=MEJP4VMwW50pqvj+TCyrSGhZXcH3nBhrz8zl0gVaQtsRvyp/hxPn84NlASQcgaq4ueamKskhsfWCiCVmJOlmc3Xyvx6nd3Tx4yjWa2ORgymy6hWRD0eYEP2tA3Oa5Z2rSK2pAyUAtAfrA1QIR9YhDpGEN0TGh9nV34wa4JUCLuY=
+	t=1765541516; cv=none; b=FfmsNklddEZ46EuDae+W6botGIrARy5fs02/LBP0ObXm5dATjknxKt2S4Qk00mglsejO/J06aonJtiuy40sHvwpnZwkqQqzBmeavD8CYOxOjSqS82Hoz3NLPYWz/XB7e0oGN4b556AxdxWhGzQUXD9ycMMr5n4HQUBdG63EDCNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765541515; c=relaxed/simple;
-	bh=UtvAThWyKo8/FTp1i1iGdLAm+MsNs3Dq3+GTQlXpXos=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WGufFE7ArimjV/1La3Jtevm1D8B2pAlJfBdFpV65Rxl7sWBVO08raW0/6LKr3K8W9xjVGkiG/k8GhRIEDhxg+pqIazz8MA2217aJl+fCniI0SbiD4NSe3J4ALxSgnwgZGfsVY+kQifftbAtnSqLE14PRHnvaf+l+2H1+toGd0QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AJkjzL6l; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1765541516; c=relaxed/simple;
+	bh=MDqpf9x6/zW98XOuJ4P5mSb9nLGkqLmY81X4Es6oNDM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cgv7rHmcDVWwSJsotmdUNjwNxpbtjKbwdXvyR5uVvH12fNXzyWDV4hBRGko1D2YwsM4P28wBhoAtplYpYQPFkrgAdYOF8dS3p/1Ax/hZDnaCN4a9xl7jw1xGvjdv0Ylo8ysvSJMyfxjvnzfxFFT2ZRQiER5oV+dE8aX+/KR6Ico=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWHoforQ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AJkjzL6l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWHoforQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765541513; x=1797077513;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UtvAThWyKo8/FTp1i1iGdLAm+MsNs3Dq3+GTQlXpXos=;
-  b=AJkjzL6lBLrwoCMZ8fdoayYxJBM4CUCE9ayFLA6srq0+rAaHGbagMfSq
-   VOpOKUhigm9899WpGteqDEhjlVw6MfvTKp7H8yoM7v8ko5hD1N3lwg6Z9
-   LDMHGtsQIM0Alf0Er+BAPirxhlMGyNWSnd458ZwFQKLsBPy6xa51eyhLs
-   Jiu9iXC1w39fXCigLWiGxut+n83nfpGWdCNGCu2jJdCfNOLVakzHjUKQU
-   lABFKYJJAswppqGadOLzbXiQwmUY5RL0jJlbPm/H2t4eKKJBqSQv7TLxb
-   SNUDeyydzSu2jH1t9cRDKxvzv5VTSASTrpN02wr5TZbMROw9A464x8zmJ
-   g==;
-X-CSE-ConnectionGUID: YDBMmrrkQdy3cPrw24fIuQ==
-X-CSE-MsgGUID: U97Mn0aQTBuzKVG9zEy3cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67420681"
+  t=1765541515; x=1797077515;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MDqpf9x6/zW98XOuJ4P5mSb9nLGkqLmY81X4Es6oNDM=;
+  b=QWHoforQIy07PNHiYzY3gKDkU/qU9qlodAVaYXaiAQqEYcPyUCt6oMXP
+   RmcIFAA8LhqgM97W3/4cYF9C4T65hP4NG/gdBfUU/S5LGhzVTZwZbUHb/
+   3OmSzMoAmwOXBD/TB+D3iMw8XTKbyHH3YslCKHKpTdvsilA69/Q+mkJmL
+   llx4+kCGCOFJx5Ufm3umx2J+DB77sBS9fNBcKR6bISmtomBilQhtCgaSX
+   pV3hG0PmQ1QhZJt7UjxpiqjT3eFjz2xyzUaIw2pzTymecWN9lKP0AkGJ0
+   /WcrTX+f+5Htb7YE+0nYbpmyTonfnbkZL674vMtzgseIAu4/W7tGcXEy6
+   A==;
+X-CSE-ConnectionGUID: 3blwYpYbSj+nF9cBQXZ0PQ==
+X-CSE-MsgGUID: RyCdhPHUQG+mGG5oFv+w3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71406294"
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="67420681"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 04:11:52 -0800
-X-CSE-ConnectionGUID: THhlTdySQSavNaboSNdfaQ==
-X-CSE-MsgGUID: 9hOstCzMSFSyP0IRkCKNpw==
+   d="scan'208";a="71406294"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 04:11:55 -0800
+X-CSE-ConnectionGUID: dDrinyMNQkedM3+/Ezfhfw==
+X-CSE-MsgGUID: piMLr2XxQeqmGy2iVmSqfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="196156072"
+   d="scan'208";a="197567910"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 04:11:52 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 12 Dec 2025 04:11:51 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU1zx-0000000060t-0WUI;
+	id 1vU1zx-0000000060r-0Qyv;
 	Fri, 12 Dec 2025 12:11:49 +0000
-Date: Fri, 12 Dec 2025 20:11:47 +0800
+Date: Fri, 12 Dec 2025 20:11:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-CWF-PLR-ANBZ26486 11/11]
- drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_ethtool.c:3: warning: This
- comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202512122020.aapC7bQ2-lkp@intel.com>
+To: Samuel Holland <samuel.holland@sifive.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, Ryan Roberts <ryan.roberts@arm.com>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Gavin Shan <gshan@redhat.com>, Zi Yan <ziy@nvidia.com>,
+	Samuel Holland <samuel.holland@sifive.com>
+Subject: Re: [PATCH 1/2] mm/debug_vm_pgtable: Use set_pXd() to write page
+ tables
+Message-ID: <202512121948.74kTIiJi-lkp@intel.com>
+References: <20251211081117.1126521-2-samuel.holland@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,52 +73,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251211081117.1126521-2-samuel.holland@sifive.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-PLR-ANBZ26486
-head:   691fd54204b78715418b027529c23d3a9eca9456
-commit: b6906872ffefea77d8b63f8c6da6b37c7013c2f1 [11/11] anolis: net: bugfix for linkdata driver compilation errors
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251212/202512122020.aapC7bQ2-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512122020.aapC7bQ2-lkp@intel.com/reproduce)
+Hi Samuel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on d358e5254674b70f34c847715ca509e46eb81e6f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/mm-debug_vm_pgtable-Use-set_pXd-to-write-page-tables/20251211-161254
+base:   d358e5254674b70f34c847715ca509e46eb81e6f
+patch link:    https://lore.kernel.org/r/20251211081117.1126521-2-samuel.holland%40sifive.com
+patch subject: [PATCH 1/2] mm/debug_vm_pgtable: Use set_pXd() to write page tables
+config: powerpc64-randconfig-r064-20251212 (https://download.01.org/0day-ci/archive/20251212/202512121948.74kTIiJi-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121948.74kTIiJi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512122020.aapC7bQ2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512121948.74kTIiJi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_ethtool.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
+>> mm/debug_vm_pgtable.c:448:2: error: call to undeclared function 'set_pmd'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     448 |         set_pmd(args->pmdp, __pmd(0));
+         |         ^
+>> mm/debug_vm_pgtable.c:468:2: error: call to undeclared function 'set_pud'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     468 |         set_pud(args->pudp, __pud(0));
+         |         ^
+   2 errors generated.
 
 
-vim +3 drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_ethtool.c
+vim +/set_pmd +448 mm/debug_vm_pgtable.c
 
-6d3faafa89dee5 liujie_answer 2025-05-13  @3   * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
-6d3faafa89dee5 liujie_answer 2025-05-13   4   *
-6d3faafa89dee5 liujie_answer 2025-05-13   5   * @file: sxevf_ethtool.c
-6d3faafa89dee5 liujie_answer 2025-05-13   6   * @author: Linkdata
-6d3faafa89dee5 liujie_answer 2025-05-13   7   * @date: 2025.02.16
-6d3faafa89dee5 liujie_answer 2025-05-13   8   * @brief:
-6d3faafa89dee5 liujie_answer 2025-05-13   9   * @note:
-6d3faafa89dee5 liujie_answer 2025-05-13  10   */
-6d3faafa89dee5 liujie_answer 2025-05-13  11  #include "sxe_version.h"
-6d3faafa89dee5 liujie_answer 2025-05-13  12  #include "sxevf_ethtool.h"
-6d3faafa89dee5 liujie_answer 2025-05-13  13  #include "sxevf_hw.h"
-6d3faafa89dee5 liujie_answer 2025-05-13  14  #include "sxe_log.h"
-6d3faafa89dee5 liujie_answer 2025-05-13  15  #include "sxevf_tx_proc.h"
-6d3faafa89dee5 liujie_answer 2025-05-13  16  #include "sxevf_rx_proc.h"
-6d3faafa89dee5 liujie_answer 2025-05-13  17  #include "sxevf_netdev.h"
-6d3faafa89dee5 liujie_answer 2025-05-13  18  #include "sxevf_msg.h"
-6d3faafa89dee5 liujie_answer 2025-05-13  19  #include "sxevf_irq.h"
-6d3faafa89dee5 liujie_answer 2025-05-13  20  #include "sxevf_ring.h"
-6d3faafa89dee5 liujie_answer 2025-05-13  21  
-
-:::::: The code at line 3 was first introduced by commit
-:::::: 6d3faafa89dee569bd8376840a2f60114538f2a8 anolis: net: supports linkdata ethernet controllers
-
-:::::: TO: liujie_answer <liujie5@linkdatatechnology.com>
-:::::: CC: winterddd <tianruidong@linux.alibaba.com>
+   433	
+   434	#ifdef CONFIG_HAVE_ARCH_HUGE_VMAP
+   435	static void __init pmd_huge_tests(struct pgtable_debug_args *args)
+   436	{
+   437		pmd_t pmd;
+   438	
+   439		if (!arch_vmap_pmd_supported(args->page_prot) ||
+   440		    args->fixed_alignment < PMD_SIZE)
+   441			return;
+   442	
+   443		pr_debug("Validating PMD huge\n");
+   444		/*
+   445		 * X86 defined pmd_set_huge() verifies that the given
+   446		 * PMD is not a populated non-leaf entry.
+   447		 */
+ > 448		set_pmd(args->pmdp, __pmd(0));
+   449		WARN_ON(!pmd_set_huge(args->pmdp, __pfn_to_phys(args->fixed_pmd_pfn), args->page_prot));
+   450		WARN_ON(!pmd_clear_huge(args->pmdp));
+   451		pmd = pmdp_get(args->pmdp);
+   452		WARN_ON(!pmd_none(pmd));
+   453	}
+   454	
+   455	static void __init pud_huge_tests(struct pgtable_debug_args *args)
+   456	{
+   457		pud_t pud;
+   458	
+   459		if (!arch_vmap_pud_supported(args->page_prot) ||
+   460		    args->fixed_alignment < PUD_SIZE)
+   461			return;
+   462	
+   463		pr_debug("Validating PUD huge\n");
+   464		/*
+   465		 * X86 defined pud_set_huge() verifies that the given
+   466		 * PUD is not a populated non-leaf entry.
+   467		 */
+ > 468		set_pud(args->pudp, __pud(0));
+   469		WARN_ON(!pud_set_huge(args->pudp, __pfn_to_phys(args->fixed_pud_pfn), args->page_prot));
+   470		WARN_ON(!pud_clear_huge(args->pudp));
+   471		pud = pudp_get(args->pudp);
+   472		WARN_ON(!pud_none(pud));
+   473	}
+   474	#else /* !CONFIG_HAVE_ARCH_HUGE_VMAP */
+   475	static void __init pmd_huge_tests(struct pgtable_debug_args *args) { }
+   476	static void __init pud_huge_tests(struct pgtable_debug_args *args) { }
+   477	#endif /* CONFIG_HAVE_ARCH_HUGE_VMAP */
+   478	
 
 -- 
 0-DAY CI Kernel Test Service
