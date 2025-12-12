@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FE527147D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 23:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0C527603C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 23:16:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765580620; cv=none; b=h9ednAcnazHhfWsRu2Bg3q1dwS9HsMYJq0GNzevZ50mJMPletzFM997na0p6g0fADro/D2lkKNQiyXKrzeP4jhL8MmuixSMQfnhLHHnrnPiIuG0wOzIv0wDdhCpsrZIYiZByq2QgGqwz2u9zstw46BoBiAgJkz7zRrTWjBPgWb4=
+	t=1765581402; cv=none; b=EHiSdmNFjPFvC6GbNW+L0hAc3Uwi5AIWMjC56xKNbzdoyOmvGWPwnpCUffzpUxYpjVvUaK7B3hVPdd1Krsy8Z9MnRqTBLdsexbKaTOA9xL31IR9QWDvr0683Ljz9Ya9rP5CVXb5EQQd07srYFlT4L/PxjU5Hdi14vgyim2UntJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765580620; c=relaxed/simple;
-	bh=kyBgNz82U8O6JoH0SF1gpirJJ2NdoJvSQXYDbUcZ4f4=;
+	s=arc-20240116; t=1765581402; c=relaxed/simple;
+	bh=gRPgNyNkcE6rUkVTdhj865bYAddO9FPVwevt1OrIjOo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Xweezmci2mTjzXKYrrgRM/HNbLUIvc+py/4u4/JABfIvHs/Wp9oXIsoNqhKuD71A/zE2gRYAE8XpzoZoLVx1l6O1tYB+4plyGFV/XvCgCYzF95jUIW38SBBx3kylRj93ZcBc3FxpQA41H2M+z+lJP6Tj9eWDV5I9nqPkEoBRzfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kB3OVHEC; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=pLMO4rjYuyJxkXovWjnXdhFHGNil3K92sZIXHvGUU5amPf6G8cjlHyzL8bnc0cEbBGSmWqU7lS8CI0f3YfFMj/8umjN8ZZVM5mslXl/pF0qo9/g7pu44b0TaVxrZWFmMYyP8OSVibyv2XKqoMxZ1VRhx9v13JsODjwd1yINwzag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+v5Jp60; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kB3OVHEC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+v5Jp60"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765580619; x=1797116619;
+  t=1765581400; x=1797117400;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kyBgNz82U8O6JoH0SF1gpirJJ2NdoJvSQXYDbUcZ4f4=;
-  b=kB3OVHEC4LmZOdZFNIKQHa5oPkvHZc/84gyF0coW6h1akiS/+1jwGy33
-   K2XoA+kuD1XhDNNje6f4ICnAHtxMxs0amVYUe0pS8oHjs1NlPh7Z+1Gpk
-   3WUJPuyCQICXhmZPWp4LVk/pRTz2XCiPP9MaYaeZQhqg8S/1WwsFVHeyJ
-   vdv09uoR/oXs3vAH9070HRMAa4teP5ybXI4hx1GybqaclqwzpXuEemqTU
-   h1YFT8VZDcsGUngIsHBTBTin1IhVBmIgBj/2lftc+g2NGxE9W03vGHkKU
-   PrTCMXlQpv1G9UfDCI/BfK9j0e0DdoqJIc9Qc+9sX2iKcaeuoodcMKlf8
-   w==;
-X-CSE-ConnectionGUID: IAQD8EUnQ0qZqJ9cwOqVGw==
-X-CSE-MsgGUID: 502yi3gMR42fhDUPh+m13w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67626345"
+  bh=gRPgNyNkcE6rUkVTdhj865bYAddO9FPVwevt1OrIjOo=;
+  b=S+v5Jp60yubs5iSLfi+jGXFyIK9AYs2bvJmA4yH4AK5oNE6nyk/grHRp
+   6+IyO5PgBLD7ypOrPPJhRR/+OQySn0TJxCVMcCL7xmId+/jTURD8GjWti
+   U15kFS++nj0JH7HarMcOhQ8mpqM71tCZJ2/OT6AvP7ijUGQziIbwSmal0
+   aB48evOcLT1FytokNeFLPi9Z0hKOnwUislM4xa7zRnHDQvayUknFUIKOr
+   chJjCiiCi0CFghmtfGeFtBlsOIxGlvA3hB0qDjG2/DsBYhJ+Vb+CF2igg
+   evinGNOaG3hoeSDANR/KYGv5qM9+MjVvCMGWFg2EoadE0zD1TbjFGTmza
+   Q==;
+X-CSE-ConnectionGUID: 6WVqO9J6TT6lWIG/rzoZIA==
+X-CSE-MsgGUID: JPEid9BIS9y0EqJXAq91dg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66761130"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="67626345"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 15:03:38 -0800
-X-CSE-ConnectionGUID: mN0RNS7bTtCLWTc8BmVWsA==
-X-CSE-MsgGUID: 9aGIMr7KSn+i9S0lyFShcw==
+   d="scan'208";a="66761130"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 15:16:39 -0800
+X-CSE-ConnectionGUID: nqpdA2JOQ32ebb5oHECvkw==
+X-CSE-MsgGUID: 3LMJKSQZSVOx1LQZwEBPyg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="201692007"
+   d="scan'208";a="202131453"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Dec 2025 15:03:36 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 12 Dec 2025 15:16:38 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUCAg-000000006k1-05Kj;
-	Fri, 12 Dec 2025 23:03:34 +0000
-Date: Sat, 13 Dec 2025 07:03:16 +0800
+	id 1vUCNI-000000006kr-1eaY;
+	Fri, 12 Dec 2025 23:16:36 +0000
+Date: Sat, 13 Dec 2025 07:15:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Long Li <leo.lilong@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 5/5]
- drivers/dma-buf/dma-heap.c:47: warning: Function parameter or struct member
- 'heap_dev' not described in 'dma_heap'
-Message-ID: <202512130625.nktw6rTi-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3541/3541] fs/xfs/libxfs/xfs_alloc.c:102:1:
+ sparse: sparse: symbol 'xfs_ag_fixup_aside' was not declared. Should it be
+ static?
+Message-ID: <202512130739.rii7QdtB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,59 +63,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   da2da0badf05a4631edf06f9a37e822b20875663
-commit: cefb5c96f328e7ece57ff0a5c39d554e1d6cd171 [5/5] Merge 0c6bc3725592 ("Merge tag 'ubifs-for-linus-6.8-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/rw/ubifs") into android-mainline
-config: x86_64-buildonly-randconfig-002-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130625.nktw6rTi-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   cd9eb9b4365b71652b2c2ac58293bea47c9f9302
+commit: 8c6e9756375dff2e96d3b598992b2f0e8b3682ee [3541/3541] xfs: fix xfs shutdown since we reserve more blocks in agfl fixup
+config: x86_64-randconfig-r134-20251213 (https://download.01.org/0day-ci/archive/20251213/202512130739.rii7QdtB-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130625.nktw6rTi-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130739.rii7QdtB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512130625.nktw6rTi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130739.rii7QdtB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/xfs/libxfs/xfs_alloc.c:102:1: sparse: sparse: symbol 'xfs_ag_fixup_aside' was not declared. Should it be static?
 
-   drivers/dma-buf/dma-heap.c:47: warning: Function parameter or struct member 'priv' not described in 'dma_heap'
-   drivers/dma-buf/dma-heap.c:47: warning: Function parameter or struct member 'heap_devt' not described in 'dma_heap'
-   drivers/dma-buf/dma-heap.c:47: warning: Function parameter or struct member 'list' not described in 'dma_heap'
-   drivers/dma-buf/dma-heap.c:47: warning: Function parameter or struct member 'heap_cdev' not described in 'dma_heap'
-   drivers/dma-buf/dma-heap.c:47: warning: Function parameter or struct member 'refcount' not described in 'dma_heap'
->> drivers/dma-buf/dma-heap.c:47: warning: Function parameter or struct member 'heap_dev' not described in 'dma_heap'
+vim +/xfs_ag_fixup_aside +102 fs/xfs/libxfs/xfs_alloc.c
 
-
-vim +47 drivers/dma-buf/dma-heap.c
-
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  26  
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  27  /**
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  28   * struct dma_heap - represents a dmabuf heap in the system
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  29   * @name:		used for debugging/device-node name
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  30   * @ops:		ops struct for this heap
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  31   * @heap_devt		heap device node
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  32   * @list		list head connecting to list of heaps
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  33   * @heap_cdev		heap char device
-9d47057e55785b John Stultz     2020-05-07  34   * @heap_dev		heap device struct
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  35   *
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  36   * Represents a heap of memory from which buffers can be made.
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  37   */
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  38  struct dma_heap {
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  39  	const char *name;
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  40  	const struct dma_heap_ops *ops;
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  41  	void *priv;
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  42  	dev_t heap_devt;
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  43  	struct list_head list;
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  44  	struct cdev heap_cdev;
-c700bdd2233e00 John Stultz     2020-07-25  45  	struct kref refcount;
-9d47057e55785b John Stultz     2020-05-07  46  	struct device *heap_dev;
-c02a81fba74fe3 Andrew F. Davis 2019-12-03 @47  };
-c02a81fba74fe3 Andrew F. Davis 2019-12-03  48  
-
-:::::: The code at line 47 was first introduced by commit
-:::::: c02a81fba74fe3488ad6b08bfb5a1329005418f8 dma-buf: Add dma-buf heaps framework
-
-:::::: TO: Andrew F. Davis <afd@ti.com>
-:::::: CC: Sumit Semwal <sumit.semwal@linaro.org>
+    94	
+    95	/*
+    96	 * Twice fixup for the same ag may happen within exact one tp, and the consume
+    97	 * of agfl after first fixup may trigger second fixup's failure, then xfs will
+    98	 * shutdown. To avoid that, we reserve blocks which can satisfy the second
+    99	 * fixup.
+   100	 */
+   101	xfs_extlen_t
+ > 102	xfs_ag_fixup_aside(
+   103			struct xfs_mount	*mp)
+   104	{
+   105		xfs_extlen_t ret;
+   106	
+   107		ret = 2 * mp->m_alloc_maxlevels;
+   108		if (xfs_has_rmapbt(mp))
+   109			ret += mp->m_rmap_maxlevels;
+   110	
+   111		return ret;
+   112	}
+   113	
 
 -- 
 0-DAY CI Kernel Test Service
