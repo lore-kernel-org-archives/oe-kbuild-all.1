@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B202D1E86E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 18:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4EC30100A;
+	Fri, 12 Dec 2025 18:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765562779; cv=none; b=YOIuZSe+Vljgcaoa/2c5IjAvtwi3KvNBeWpoBukgchSlh9Yd+KReQaSoXMOTwRqvaZE/Yx6wt7yOEDGAkYSmJP8SeRZOyvTULvmMB+u3ddU9MO7B5Aec6XXayKsCKcIlKSQbcuXTJw4aYLjpXks24oJbfABI/1Ds3tK+qRUEmnc=
+	t=1765563502; cv=none; b=ibwD8Bg9dox6wOGgAgTxtC+718ct8eNrYYM++dg86hY6QYaz6O25Z9Fh8nFKluNoCYBtdGI7vm+pj347RntbZaOmrBxN30MwV2Vu1MhjJmIc7/hZALsngwul1qFmbO/aiurDw3zmfCMF2CPlnAUTuzxV5W47BsK3aqFMo1XXT30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765562779; c=relaxed/simple;
-	bh=/1OGXp2uDu2dF+fIyfDO7RU2k+7Bx/u0O+8uoB49jcU=;
+	s=arc-20240116; t=1765563502; c=relaxed/simple;
+	bh=vgieZJf5PSmYMquJr8+2DHc3P1z56z+BK7Nb9LuuUMg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dXOhfDMF0IY3cX5blxmfLbJzi27pi4hzF79OjOlnCbjy7xydfxIZkp5dQ6C80Y0YU2FSc5Kc7t4ugSRCk26mAsWlmpCup0pygTQQt+g/H2uieXLMLMOSD6SpDUiiVbkO2f7bmDus8VPj7SX2HGy6KDaRJdAk0fdaiSRFLdMIZgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k8hEyjtn; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=mjkJZjz5k+PwoSNsogT6efjMES5qkjnyRGBQFMJiOOGeBUVWAs7Q+iatNjxtRrkdvZsFwsG5PxsxrXBNEJoIwoP3moHCm4FwCZ5l879HMuVUdR7jSarZTyuJcInMBKrqnEXpueokEb952R3nvfsjPC+VJlHe5AcoI5zA4/78Eo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HL+JYMaj; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k8hEyjtn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HL+JYMaj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765562777; x=1797098777;
+  t=1765563500; x=1797099500;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=/1OGXp2uDu2dF+fIyfDO7RU2k+7Bx/u0O+8uoB49jcU=;
-  b=k8hEyjtnOxOZ3yDVV3vQ+TO3k2V8NuQa2fdcIEm/D5Ccg8y0aQ/7csKj
-   63EE/zMOs+N+7s73+oyQkXqNxcdu4Df5neCEOzHBBtIDOu59Pnt8rtmwx
-   vwRnU/3USMd8XIwBdOLE1Yie4uDBxuvieX66L5JG9AE2Y3t4jWaquO4fx
-   OLf5WLCmUWE2YV0B8eqVN0Z+Rh/umR8TiNyjB9cWCj9k2N5Iesh1N79LY
-   EOaI0VE9z6hslbEcSMMdhnNyWgJoBlFUWSqsM1ZCKIrsMd+Juav7XjWdL
-   IImoyQPKDkEF8iXTxBQxCq5QY/VqkBL0VXrOwHCUYawgCi3aaHLH3F8x9
+  bh=vgieZJf5PSmYMquJr8+2DHc3P1z56z+BK7Nb9LuuUMg=;
+  b=HL+JYMajT7DnNS0ztUxrQwu7O/tapnwivQj0gu6OCSf4ofb7CSkloDlD
+   PatBm0KJppQSovx4KsQKO5ovFRugJTV7aWQ8UOrfThv7Xr7hCbrkzLwly
+   AV9/KM+q4JUKJ/s7dduD0GMK9LVBgtfQpfPwXQMcOEBrGZ2cwdg/NdI55
+   gtXs6IHPPKJiSDuF7SeQ4RWGKguokiQE13EmvraLkCVDTiKQxuyNE7TcX
+   pjZOgSxQXX5D/GPV224E5UxTE2/R+lxq5BlkJnTOdP/5DsSq+I/x03EI8
+   8zRvwYqYcLjHt1FKorA4bxMOO0JAg57SjwTZ7eAS7xcCoNampJB54CFq3
    w==;
-X-CSE-ConnectionGUID: +703Y75KSNGqG5HoLAG2JA==
-X-CSE-MsgGUID: 0+aGPyKsRdaPR2eaWs67oA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67454037"
+X-CSE-ConnectionGUID: q3CIMHyFR/mO7GkMfpMKCA==
+X-CSE-MsgGUID: MkCMRauCTduNw8PEDQmCUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="79028775"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="67454037"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 10:06:16 -0800
-X-CSE-ConnectionGUID: 67PjHYLpQ+idUiCspg/3Fw==
-X-CSE-MsgGUID: P0H8XX9iR8iMKz30qY7s9g==
+   d="scan'208";a="79028775"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 10:18:18 -0800
+X-CSE-ConnectionGUID: pUsD5irNS7S9lEorp0ltDQ==
+X-CSE-MsgGUID: s4dryQk2Tz+tTiSSGqnEgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="197970778"
+   d="scan'208";a="196225883"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Dec 2025 10:06:15 -0800
+  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 10:18:17 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU7Wv-000000006PP-03iF;
-	Fri, 12 Dec 2025 18:06:13 +0000
-Date: Sat, 13 Dec 2025 02:05:33 +0800
+	id 1vU7iX-000000006QE-33Ne;
+	Fri, 12 Dec 2025 18:18:13 +0000
+Date: Sat, 13 Dec 2025 02:17:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1941/1941]
- drivers/tee/optee/core.c:618:10: warning: return makes integer from pointer
- without a cast
-Message-ID: <202512130142.AbrsHgBp-lkp@intel.com>
+To: Francois Dugast <francois.dugast@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Matthew Brost <matthew.brost@intel.com>
+Subject: drivers/gpu/drm/drm_pagemap.c:459:21: warning: parameter 'addr' set
+ but not used
+Message-ID: <202512130251.w5A5gybr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,143 +66,141 @@ Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-Hi Ard,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   df8d11fbcbb07177c2500e63d7f5a36063977596
-commit: 595311cf7e49c781dd26782e4b45fd54bbfb3e40 [1941/1941] optee: model OP-TEE as a platform device/driver
-config: arm64-randconfig-003-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130142.AbrsHgBp-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130142.AbrsHgBp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   187d0801404f415f22c0b31531982c7ea97fa341
+commit: ddeda6136038b4b313bb6f9b44f2d363e1233814 drm/pagemap: Allocate folios when possible
+date:   4 months ago
+config: x86_64-randconfig-003-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130251.w5A5gybr-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130251.w5A5gybr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512130142.AbrsHgBp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130251.w5A5gybr-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/tee/optee/core.c: In function 'optee_probe':
->> drivers/tee/optee/core.c:618:10: warning: return makes integer from pointer without a cast [-Wint-conversion]
-      return ERR_PTR(-EINVAL);
-             ^~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_pagemap.c:459:21: warning: parameter 'addr' set but not used [-Wunused-but-set-parameter]
+     459 |                                                 unsigned long addr)
+         |                                                               ^
+   1 warning generated.
 
 
-vim +618 drivers/tee/optee/core.c
+vim +/addr +459 drivers/gpu/drm/drm_pagemap.c
 
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  581  
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  582  static int optee_probe(struct platform_device *pdev)
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  583  {
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  584  	optee_invoke_fn *invoke_fn;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  585  	struct tee_shm_pool *pool;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  586  	struct optee *optee = NULL;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  587  	void *memremaped_shm = NULL;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  588  	struct tee_device *teedev;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  589  	u32 sec_caps;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  590  	int rc;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  591  
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  592  	invoke_fn = get_invoke_func(&pdev->dev);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  593  	if (IS_ERR(invoke_fn))
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  594  		return PTR_ERR(invoke_fn);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  595  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  596  	if (!optee_msg_api_uid_is_optee_api(invoke_fn)) {
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  597  		pr_warn("api uid mismatch\n");
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  598  		return -EINVAL;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  599  	}
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  600  
-5c5f80307ab27c Jérôme Forissier  2017-11-24  601  	optee_msg_get_os_revision(invoke_fn);
-5c5f80307ab27c Jérôme Forissier  2017-11-24  602  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  603  	if (!optee_msg_api_revision_is_compatible(invoke_fn)) {
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  604  		pr_warn("api revision mismatch\n");
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  605  		return -EINVAL;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  606  	}
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  607  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  608  	if (!optee_msg_exchange_capabilities(invoke_fn, &sec_caps)) {
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  609  		pr_warn("capabilities mismatch\n");
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  610  		return -EINVAL;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  611  	}
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  612  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  613  	/*
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  614  	 * We have no other option for shared memory, if secure world
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  615  	 * doesn't have any reserved memory we can use we can't continue.
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  616  	 */
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  617  	if (!(sec_caps & OPTEE_SMC_SEC_CAP_HAVE_RESERVED_SHM))
-4fb0a5eb364d23 Jens Wiklander    2015-04-14 @618  		return ERR_PTR(-EINVAL);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  619  
-f58e236c9d665a Volodymyr Babchuk 2017-11-29  620  	pool = optee_config_shm_memremap(invoke_fn, &memremaped_shm, sec_caps);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  621  	if (IS_ERR(pool))
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  622  		return PTR_ERR(pool);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  623  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  624  	optee = kzalloc(sizeof(*optee), GFP_KERNEL);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  625  	if (!optee) {
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  626  		rc = -ENOMEM;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  627  		goto err;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  628  	}
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  629  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  630  	optee->invoke_fn = invoke_fn;
-d885cc5e0759fc Volodymyr Babchuk 2017-11-29  631  	optee->sec_caps = sec_caps;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  632  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  633  	teedev = tee_device_alloc(&optee_desc, NULL, pool, optee);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  634  	if (IS_ERR(teedev)) {
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  635  		rc = PTR_ERR(teedev);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  636  		goto err;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  637  	}
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  638  	optee->teedev = teedev;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  639  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  640  	teedev = tee_device_alloc(&optee_supp_desc, NULL, pool, optee);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  641  	if (IS_ERR(teedev)) {
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  642  		rc = PTR_ERR(teedev);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  643  		goto err;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  644  	}
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  645  	optee->supp_teedev = teedev;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  646  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  647  	rc = tee_device_register(optee->teedev);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  648  	if (rc)
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  649  		goto err;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  650  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  651  	rc = tee_device_register(optee->supp_teedev);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  652  	if (rc)
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  653  		goto err;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  654  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  655  	mutex_init(&optee->call_queue.mutex);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  656  	INIT_LIST_HEAD(&optee->call_queue.waiters);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  657  	optee_wait_queue_init(&optee->wait_queue);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  658  	optee_supp_init(&optee->supp);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  659  	optee->memremaped_shm = memremaped_shm;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  660  	optee->pool = pool;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  661  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  662  	optee_enable_shm_cache(optee);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  663  
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  664  	platform_set_drvdata(pdev, optee);
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  665  
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  666  	pr_info("initialized driver\n");
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  667  	return 0;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  668  err:
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  669  	if (optee) {
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  670  		/*
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  671  		 * tee_device_unregister() is safe to call even if the
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  672  		 * devices hasn't been registered with
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  673  		 * tee_device_register() yet.
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  674  		 */
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  675  		tee_device_unregister(optee->supp_teedev);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  676  		tee_device_unregister(optee->teedev);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  677  		kfree(optee);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  678  	}
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  679  	if (pool)
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  680  		tee_shm_pool_free(pool);
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  681  	if (memremaped_shm)
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  682  		memunmap(memremaped_shm);
-595311cf7e49c7 Ard Biesheuvel    2019-12-09  683  	return rc;
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  684  }
-4fb0a5eb364d23 Jens Wiklander    2015-04-14  685  
+f86ad0ed620cb3 Matthew Brost   2025-06-19  435  
+f86ad0ed620cb3 Matthew Brost   2025-06-19  436  /**
+f86ad0ed620cb3 Matthew Brost   2025-06-19  437   * drm_pagemap_migrate_populate_ram_pfn() - Populate RAM PFNs for a VM area
+f86ad0ed620cb3 Matthew Brost   2025-06-19  438   * @vas: Pointer to the VM area structure, can be NULL
+f86ad0ed620cb3 Matthew Brost   2025-06-19  439   * @fault_page: Fault page
+f86ad0ed620cb3 Matthew Brost   2025-06-19  440   * @npages: Number of pages to populate
+f86ad0ed620cb3 Matthew Brost   2025-06-19  441   * @mpages: Number of pages to migrate
+f86ad0ed620cb3 Matthew Brost   2025-06-19  442   * @src_mpfn: Source array of migrate PFNs
+f86ad0ed620cb3 Matthew Brost   2025-06-19  443   * @mpfn: Array of migrate PFNs to populate
+f86ad0ed620cb3 Matthew Brost   2025-06-19  444   * @addr: Start address for PFN allocation
+f86ad0ed620cb3 Matthew Brost   2025-06-19  445   *
+f86ad0ed620cb3 Matthew Brost   2025-06-19  446   * This function populates the RAM migrate page frame numbers (PFNs) for the
+f86ad0ed620cb3 Matthew Brost   2025-06-19  447   * specified VM area structure. It allocates and locks pages in the VM area for
+f86ad0ed620cb3 Matthew Brost   2025-06-19  448   * RAM usage. If vas is non-NULL use alloc_page_vma for allocation, if NULL use
+f86ad0ed620cb3 Matthew Brost   2025-06-19  449   * alloc_page for allocation.
+f86ad0ed620cb3 Matthew Brost   2025-06-19  450   *
+f86ad0ed620cb3 Matthew Brost   2025-06-19  451   * Return: 0 on success, negative error code on failure.
+f86ad0ed620cb3 Matthew Brost   2025-06-19  452   */
+f86ad0ed620cb3 Matthew Brost   2025-06-19  453  static int drm_pagemap_migrate_populate_ram_pfn(struct vm_area_struct *vas,
+f86ad0ed620cb3 Matthew Brost   2025-06-19  454  						struct page *fault_page,
+f86ad0ed620cb3 Matthew Brost   2025-06-19  455  						unsigned long npages,
+f86ad0ed620cb3 Matthew Brost   2025-06-19  456  						unsigned long *mpages,
+f86ad0ed620cb3 Matthew Brost   2025-06-19  457  						unsigned long *src_mpfn,
+f86ad0ed620cb3 Matthew Brost   2025-06-19  458  						unsigned long *mpfn,
+f86ad0ed620cb3 Matthew Brost   2025-06-19 @459  						unsigned long addr)
+f86ad0ed620cb3 Matthew Brost   2025-06-19  460  {
+f86ad0ed620cb3 Matthew Brost   2025-06-19  461  	unsigned long i;
+f86ad0ed620cb3 Matthew Brost   2025-06-19  462  
+ddeda6136038b4 Francois Dugast 2025-08-05  463  	for (i = 0; i < npages;) {
+ddeda6136038b4 Francois Dugast 2025-08-05  464  		struct page *page = NULL, *src_page;
+ddeda6136038b4 Francois Dugast 2025-08-05  465  		struct folio *folio;
+ddeda6136038b4 Francois Dugast 2025-08-05  466  		unsigned int order = 0;
+f86ad0ed620cb3 Matthew Brost   2025-06-19  467  
+f86ad0ed620cb3 Matthew Brost   2025-06-19  468  		if (!(src_mpfn[i] & MIGRATE_PFN_MIGRATE))
+ddeda6136038b4 Francois Dugast 2025-08-05  469  			goto next;
+f86ad0ed620cb3 Matthew Brost   2025-06-19  470  
+f86ad0ed620cb3 Matthew Brost   2025-06-19  471  		src_page = migrate_pfn_to_page(src_mpfn[i]);
+f86ad0ed620cb3 Matthew Brost   2025-06-19  472  		if (!src_page)
+ddeda6136038b4 Francois Dugast 2025-08-05  473  			goto next;
+f86ad0ed620cb3 Matthew Brost   2025-06-19  474  
+f86ad0ed620cb3 Matthew Brost   2025-06-19  475  		if (fault_page) {
+f86ad0ed620cb3 Matthew Brost   2025-06-19  476  			if (src_page->zone_device_data !=
+f86ad0ed620cb3 Matthew Brost   2025-06-19  477  			    fault_page->zone_device_data)
+ddeda6136038b4 Francois Dugast 2025-08-05  478  				goto next;
+f86ad0ed620cb3 Matthew Brost   2025-06-19  479  		}
+f86ad0ed620cb3 Matthew Brost   2025-06-19  480  
+ddeda6136038b4 Francois Dugast 2025-08-05  481  		order = folio_order(page_folio(src_page));
+ddeda6136038b4 Francois Dugast 2025-08-05  482  
+ddeda6136038b4 Francois Dugast 2025-08-05  483  		/* TODO: Support fallback to single pages if THP allocation fails */
+f86ad0ed620cb3 Matthew Brost   2025-06-19  484  		if (vas)
+ddeda6136038b4 Francois Dugast 2025-08-05  485  			folio = vma_alloc_folio(GFP_HIGHUSER, order, vas, addr);
+f86ad0ed620cb3 Matthew Brost   2025-06-19  486  		else
+ddeda6136038b4 Francois Dugast 2025-08-05  487  			folio = folio_alloc(GFP_HIGHUSER, order);
+f86ad0ed620cb3 Matthew Brost   2025-06-19  488  
+ddeda6136038b4 Francois Dugast 2025-08-05  489  		if (!folio)
+f86ad0ed620cb3 Matthew Brost   2025-06-19  490  			goto free_pages;
+f86ad0ed620cb3 Matthew Brost   2025-06-19  491  
+ddeda6136038b4 Francois Dugast 2025-08-05  492  		page = folio_page(folio, 0);
+f86ad0ed620cb3 Matthew Brost   2025-06-19  493  		mpfn[i] = migrate_pfn(page_to_pfn(page));
+ddeda6136038b4 Francois Dugast 2025-08-05  494  
+ddeda6136038b4 Francois Dugast 2025-08-05  495  next:
+ddeda6136038b4 Francois Dugast 2025-08-05  496  		if (page)
+ddeda6136038b4 Francois Dugast 2025-08-05  497  			addr += page_size(page);
+ddeda6136038b4 Francois Dugast 2025-08-05  498  		else
+ddeda6136038b4 Francois Dugast 2025-08-05  499  			addr += PAGE_SIZE;
+ddeda6136038b4 Francois Dugast 2025-08-05  500  
+ddeda6136038b4 Francois Dugast 2025-08-05  501  		i += NR_PAGES(order);
+f86ad0ed620cb3 Matthew Brost   2025-06-19  502  	}
+f86ad0ed620cb3 Matthew Brost   2025-06-19  503  
+ddeda6136038b4 Francois Dugast 2025-08-05  504  	for (i = 0; i < npages;) {
+f86ad0ed620cb3 Matthew Brost   2025-06-19  505  		struct page *page = migrate_pfn_to_page(mpfn[i]);
+ddeda6136038b4 Francois Dugast 2025-08-05  506  		unsigned int order = 0;
+f86ad0ed620cb3 Matthew Brost   2025-06-19  507  
+f86ad0ed620cb3 Matthew Brost   2025-06-19  508  		if (!page)
+ddeda6136038b4 Francois Dugast 2025-08-05  509  			goto next_lock;
+ddeda6136038b4 Francois Dugast 2025-08-05  510  
+ddeda6136038b4 Francois Dugast 2025-08-05  511  		WARN_ON_ONCE(!folio_trylock(page_folio(page)));
+f86ad0ed620cb3 Matthew Brost   2025-06-19  512  
+ddeda6136038b4 Francois Dugast 2025-08-05  513  		order = folio_order(page_folio(page));
+ddeda6136038b4 Francois Dugast 2025-08-05  514  		*mpages += NR_PAGES(order);
+ddeda6136038b4 Francois Dugast 2025-08-05  515  
+ddeda6136038b4 Francois Dugast 2025-08-05  516  next_lock:
+ddeda6136038b4 Francois Dugast 2025-08-05  517  		i += NR_PAGES(order);
+f86ad0ed620cb3 Matthew Brost   2025-06-19  518  	}
+f86ad0ed620cb3 Matthew Brost   2025-06-19  519  
+f86ad0ed620cb3 Matthew Brost   2025-06-19  520  	return 0;
+f86ad0ed620cb3 Matthew Brost   2025-06-19  521  
+f86ad0ed620cb3 Matthew Brost   2025-06-19  522  free_pages:
+ddeda6136038b4 Francois Dugast 2025-08-05  523  	for (i = 0; i < npages;) {
+f86ad0ed620cb3 Matthew Brost   2025-06-19  524  		struct page *page = migrate_pfn_to_page(mpfn[i]);
+ddeda6136038b4 Francois Dugast 2025-08-05  525  		unsigned int order = 0;
+f86ad0ed620cb3 Matthew Brost   2025-06-19  526  
+f86ad0ed620cb3 Matthew Brost   2025-06-19  527  		if (!page)
+ddeda6136038b4 Francois Dugast 2025-08-05  528  			goto next_put;
+f86ad0ed620cb3 Matthew Brost   2025-06-19  529  
+f86ad0ed620cb3 Matthew Brost   2025-06-19  530  		put_page(page);
+f86ad0ed620cb3 Matthew Brost   2025-06-19  531  		mpfn[i] = 0;
+ddeda6136038b4 Francois Dugast 2025-08-05  532  
+ddeda6136038b4 Francois Dugast 2025-08-05  533  		order = folio_order(page_folio(page));
+ddeda6136038b4 Francois Dugast 2025-08-05  534  
+ddeda6136038b4 Francois Dugast 2025-08-05  535  next_put:
+ddeda6136038b4 Francois Dugast 2025-08-05  536  		i += NR_PAGES(order);
+f86ad0ed620cb3 Matthew Brost   2025-06-19  537  	}
+f86ad0ed620cb3 Matthew Brost   2025-06-19  538  	return -ENOMEM;
+f86ad0ed620cb3 Matthew Brost   2025-06-19  539  }
+f86ad0ed620cb3 Matthew Brost   2025-06-19  540  
 
-:::::: The code at line 618 was first introduced by commit
-:::::: 4fb0a5eb364d239722e745c02aef0dbd4e0f1ad2 tee: add OP-TEE driver
+:::::: The code at line 459 was first introduced by commit
+:::::: f86ad0ed620cb3c91ec7d5468e93ac68d727539d drm/gpusvm, drm/pagemap: Move migration functionality to drm_pagemap
 
-:::::: TO: Jens Wiklander <jens.wiklander@linaro.org>
-:::::: CC: Jens Wiklander <jens.wiklander@linaro.org>
+:::::: TO: Matthew Brost <matthew.brost@intel.com>
+:::::: CC: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
