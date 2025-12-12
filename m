@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B313195FD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 10:57:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9298231A04E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 10:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765537035; cv=none; b=jUbKyqacuYY04tHrDRibNadNRrh4qXN8f9X6MVI2CWeH2o968Z5XqEC32YSdvqT7Ci7nNdZ6mAdqJBSUc2VZEav83qzgU7lGc+Gd0hOVxXteUpG5bNBMj/rmdBR1Luo17EvjBV+fFU1c8pVld2xoafabxqwYrJckhx3S+Il/ZIs=
+	t=1765537132; cv=none; b=dazbnx1+1eyNuGkTnfO6q2ml3gpKVvUdkUgCe/bjq/l0sP9ekrObSPh9C3o9SbeZB1sd1VwiRigFen78dlmhmecNppmSoYD3hkuamuDkYz08KIz3fwnYo94LqNEObELITshsbUhXikdQHTgjyWYBMZb+s9bKn/NZiVSzIU2GHAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765537035; c=relaxed/simple;
-	bh=TUZdofw9Q/RtOM5QlGE9srEpKibhRVMDpxT0vcrvIGs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qzso3ZwHLYfuD6fbGBsXemMddO53yq1jKMpfrd+uZF1xvmEf7Erc9NxDG2qkmLex3vN9khkOh2DJ8L+ml/IGMghLSaIeew0i1ViSnFu3UpUtLYQIP397zamMaZkJtYAaPp8HyHG72IB7UinuYkMQy9BgbkCCs3xz5bftl3NS3k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gqaoAUCg; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1765537132; c=relaxed/simple;
+	bh=26uqO3Qhxz2JDmNCWEQRA4zTvQFvpbnaG4vErL2k3+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C8hDMA0wjsZvnyLaXXrqSrPlIw6FDbsXtEykSUJ+VvnXffSUT3iiaJz6sMxZs4H6SmoQVRPVCsGlFbAP4sEjm0wdUfTt4D0W1sWEqMWbzuLHBd93yIvbB3weJw1eOv+17b6eKLRs8GbrN8GSwjD6VkxFd2JSw15up8nqR9og20w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMdR3o6O; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gqaoAUCg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMdR3o6O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765537034; x=1797073034;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TUZdofw9Q/RtOM5QlGE9srEpKibhRVMDpxT0vcrvIGs=;
-  b=gqaoAUCgeZdumyNhbX4PfPBxQWH3eVAUlBN6KiPwKwc+6h3U991MduoH
-   f1BXWA2CLiFOs4a2V5eavSjyCfE+Y/g/MiYbFJvbtcHKHF5taIkRpzV61
-   rAu+rdaPYTQolrAxdRUdQW4CSa3Udk8n6nnuU1cmi580t+7tlS3VCDIs6
-   LEtLNwdlcwsGIE7QZ5xE6b/9kiuWAgJ8t5pAK7iT7ih61cpySJQZyJozp
-   nWMxp31L5+milj7FigsmBqujB1x1AjJTKE1kEKmLC4HqW07Kihp/iv8RF
-   NH9r9IvG9E3cHNhYTLozAYdWfpEs+s/CsZchUYDp6WAuflAPc2jUjeAma
-   w==;
-X-CSE-ConnectionGUID: Ipcfwp+pT7y95k696Y5Nxw==
-X-CSE-MsgGUID: sMvYmo/gT3uysHUlpS4dhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="77848909"
+  t=1765537131; x=1797073131;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=26uqO3Qhxz2JDmNCWEQRA4zTvQFvpbnaG4vErL2k3+k=;
+  b=TMdR3o6OuEkvWdW5faWK/VJYFQxXwr3SUlZLMLEsOhoa0HBwRwYLMHHu
+   VPxWvgFU0eI5n/YdzxQZn/Nz72qXT66u51bGK/S2mSP2tylEtSpuO5gcZ
+   NOIwdYFzAlXfuw4xUlqo/kjc+igEVfJFvgVH+1bK8Ok/V1AMdhVx5Zgd0
+   GL/ex4zzbd2mTq1yyhptT6TdZteH1PkdUE0CsnbqfwBvqIDAGKlvqnTWc
+   bGzQQAXK0c7e0twLjIsxgGhFMSxlHyVBxGJx3b4WnxsycSKrw57fav6Mc
+   m/icfUEwYzWegszqCoRFbXDG78m7Vr1QBf8nGswgIJ4smrsH6cnwBMXz8
+   Q==;
+X-CSE-ConnectionGUID: R+ck7yM3Twako57oeLKDEQ==
+X-CSE-MsgGUID: YOYTO1F0Tmu1Ub68LBqXHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78996648"
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="77848909"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 02:57:14 -0800
-X-CSE-ConnectionGUID: Jkn+0AGiT0q2PMi/876ImQ==
-X-CSE-MsgGUID: WMeXPWi6S/2Te4zksem8Xg==
+   d="scan'208";a="78996648"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 02:58:49 -0800
+X-CSE-ConnectionGUID: ynUSh+g5R2G2DWTFxcPvxw==
+X-CSE-MsgGUID: BB7b1VVXQbOVHMyR4rnIvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="197048142"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 12 Dec 2025 02:57:12 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="196967130"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 12 Dec 2025 02:58:47 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU0pi-000000001ga-0AEj;
-	Fri, 12 Dec 2025 10:57:10 +0000
-Date: Fri, 12 Dec 2025 11:56:49 +0100
+	id 1vU0rF-000000005xV-3Qgn;
+	Fri, 12 Dec 2025 10:58:45 +0000
+Date: Fri, 12 Dec 2025 18:58:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1941/1941] proc-loadavg-001.c:17:9:
- warning: '_GNU_SOURCE' redefined
-Message-ID: <202512121121.OF881GoG-lkp@intel.com>
+Subject: Re: [PATCH v7 01/15] kasan: sw_tags: Use arithmetic shift for shadow
+ computation
+Message-ID: <202512121839.CrLjXgKI-lkp@intel.com>
+References: <138681b036a91587e62fd62548502bc3205c93af.1765386422.git.m.wieczorretman@pm.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,47 +63,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <138681b036a91587e62fd62548502bc3205c93af.1765386422.git.m.wieczorretman@pm.me>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   df8d11fbcbb07177c2500e63d7f5a36063977596
-commit: 61d47c4e71c1f080e7412315c8685bc682a8e53a [1941/1941] proc: test /proc/self symlink
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251212/202512121121.OF881GoG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121121.OF881GoG-lkp@intel.com/reproduce)
+Hi Maciej,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.18 next-20251212]
+[cannot apply to tip/x86/core arm64/for-next/core akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Wieczor-Retman/kasan-sw_tags-Use-arithmetic-shift-for-shadow-computation/20251211-014414
+base:   linus/master
+patch link:    https://lore.kernel.org/r/138681b036a91587e62fd62548502bc3205c93af.1765386422.git.m.wieczorretman%40pm.me
+patch subject: [PATCH v7 01/15] kasan: sw_tags: Use arithmetic shift for shadow computation
+config: arm-randconfig-r131-20251212 (https://download.01.org/0day-ci/archive/20251212/202512121839.CrLjXgKI-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121839.CrLjXgKI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512121121.OF881GoG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512121839.CrLjXgKI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/kasan/report.c:215:9: sparse: sparse: context imbalance in 'start_report' - wrong count at exit
+   mm/kasan/report.c:225:9: sparse: sparse: context imbalance in 'end_report' - unexpected unlock
+>> mm/kasan/report.c:674:80: sparse: sparse: cast truncates bits from constant value (ff00000000000000 becomes 0)
 
->> proc-loadavg-001.c:17:9: warning: '_GNU_SOURCE' redefined
-      17 | #define _GNU_SOURCE
-         |         ^~~~~~~~~~~
-   <command-line>: note: this is the location of the previous definition
-   proc-loadavg-001.c:18:10: fatal error: errno.h: No such file or directory
-      18 | #include <errno.h>
-         |          ^~~~~~~~~
-   compilation terminated.
---
->> proc-self-syscall.c:16:9: warning: '_GNU_SOURCE' redefined
-      16 | #define _GNU_SOURCE
-         |         ^~~~~~~~~~~
-   <command-line>: note: this is the location of the previous definition
-   proc-self-syscall.c:17:10: fatal error: unistd.h: No such file or directory
-      17 | #include <unistd.h>
-         |          ^~~~~~~~~~
-   compilation terminated.
---
->> proc-uptime-002.c:18:9: warning: '_GNU_SOURCE' redefined
-      18 | #define _GNU_SOURCE
-         |         ^~~~~~~~~~~
-   <command-line>: note: this is the location of the previous definition
-   proc-uptime-002.c:20:10: fatal error: assert.h: No such file or directory
-      20 | #include <assert.h>
-         |          ^~~~~~~~~~
-   compilation terminated.
+vim +674 mm/kasan/report.c
+
+   630	
+   631	#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+   632	/*
+   633	 * With compiler-based KASAN modes, accesses to bogus pointers (outside of the
+   634	 * mapped kernel address space regions) cause faults when KASAN tries to check
+   635	 * the shadow memory before the actual memory access. This results in cryptic
+   636	 * GPF reports, which are hard for users to interpret. This hook helps users to
+   637	 * figure out what the original bogus pointer was.
+   638	 */
+   639	void kasan_non_canonical_hook(unsigned long addr)
+   640	{
+   641		unsigned long orig_addr;
+   642		const char *bug_type;
+   643	
+   644		/*
+   645		 * For Generic KASAN, kasan_mem_to_shadow() uses the logical right shift
+   646		 * and never overflows with the chosen KASAN_SHADOW_OFFSET values (on
+   647		 * both x86 and arm64). Thus, the possible shadow addresses (even for
+   648		 * bogus pointers) belong to a single contiguous region that is the
+   649		 * result of kasan_mem_to_shadow() applied to the whole address space.
+   650		 */
+   651		if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
+   652			if (addr < (unsigned long)kasan_mem_to_shadow((void *)(0ULL)) ||
+   653			    addr > (unsigned long)kasan_mem_to_shadow((void *)(~0ULL)))
+   654				return;
+   655		}
+   656	
+   657		/*
+   658		 * For Software Tag-Based KASAN, kasan_mem_to_shadow() uses the
+   659		 * arithmetic shift. Normally, this would make checking for a possible
+   660		 * shadow address complicated, as the shadow address computation
+   661		 * operation would overflow only for some memory addresses. However, due
+   662		 * to the chosen KASAN_SHADOW_OFFSET values and the fact the
+   663		 * kasan_mem_to_shadow() only operates on pointers with the tag reset,
+   664		 * the overflow always happens.
+   665		 *
+   666		 * For arm64, the top byte of the pointer gets reset to 0xFF. Thus, the
+   667		 * possible shadow addresses belong to a region that is the result of
+   668		 * kasan_mem_to_shadow() applied to the memory range
+   669		 * [0xFF000000000000, 0xFFFFFFFFFFFFFFFF]. Despite the overflow, the
+   670		 * resulting possible shadow region is contiguous, as the overflow
+   671		 * happens for both 0xFF000000000000 and 0xFFFFFFFFFFFFFFFF.
+   672		 */
+   673		if (IS_ENABLED(CONFIG_KASAN_SW_TAGS) && IS_ENABLED(CONFIG_ARM64)) {
+ > 674			if (addr < (unsigned long)kasan_mem_to_shadow((void *)(0xFFULL << 56)) ||
 
 -- 
 0-DAY CI Kernel Test Service
