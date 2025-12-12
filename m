@@ -1,148 +1,132 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422FA2D7393
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 19:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06BF298CDC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 19:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765567781; cv=none; b=rEtjt+J+qnpQ6YMydhB0sRaTYHqP56WoVRS80n8BK+/C48zCSFh3B+plKmYSwib7SwUz/6oVGO+PaYlDqUKTmgO/gq2vU5TjIiRloXMFiBOCtn//sMgYEkSKegWpQKM5dtGA8J0NSqxyGFAFl7CfR10lsrGcIcjP7zImbTveOKo=
+	t=1765568608; cv=none; b=dlvYS0bGAxbMu7JuelYfDF7GCbqiQPCq0na2777e85VXfzYQIEUmep6O3O88tyeHoAkFr6AmgNR43VUVmVL+l32pDvy50q3RI5TSz3r8VZQp9x6AoBOGmTB22204dpB+G2jRn14DRyBCigInhVO/zvGwikqyBetVj4xi+uizMNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765567781; c=relaxed/simple;
-	bh=kAJEIijw1h39dwP0oiHddBkEtMnWkioxlFQC1ujPckI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Kg3i0w9HVbR9snYZKaUzK4LQBiR/f1bw6BaYQQ6Z5hLRM66nt1XqIwq2JNJieY/fZcVTa7VRBFk+xdf3buIWkEBlF47Zjvyi0os7db+x7OQ8+8e/OobpsQNkQBlog2UFPGjXNgFEiVfnyVdA3i4I2M3DrHr0j6XHwzlAF2Pd60o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FVN/5oZp; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765568608; c=relaxed/simple;
+	bh=FXqV/hwGQRF7/LE+XK8qtnb61kbbMROMGefcY1DDJeM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P4QGkHf+xks+OVZDK1LVXAvvmh43VY5UpJ3MrJspigkO0CdL1OVdodVa1g/h/rXnVdBisPCBfJx7gGqmT6FTCnY12PLvo1FK6AqCZkHobh9KuJSEyiZfHugevzghZk7CTucgpTWjadg8XL2SZqfX9ITYZpd+TMsSCJFaC3sTSiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSMz+aUo; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FVN/5oZp"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-37d13ddaa6aso10815811fa.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 11:29:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765567777; x=1766172577; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+iAGiWGntUzRzKLCpTz264YmDdwQESuNb3m83qNK0Aw=;
-        b=FVN/5oZpaH/MTwYe/W8GDaajKA5ZCdzlxqaDbECDvRSkgyy4dVfRtbUqBLPQqCxk9D
-         mozg23POkJh1A1c6frmMDEpeFlCihu8L4LygEghNw2xSD8thqmqn8D6s+2x8u9WuT7dp
-         H64oEnWysv2oOCtiyfp3cSpm33yI7wzXlxolq7J9My8gJdStaX0G1/eSgmSdFugA4fml
-         x5QvrGeBl7IDrqJhp87CQzTSPjjYCbasSHSTrafbMUihfIohfNjXmSWhlrU1JAsKGNaw
-         mX4OzoQIL9AZ/Sb+znm2Kl6s1zCYqPswLSv/Xu5+K0IIqeWISvmkXpyoWJGOzycKMRLc
-         KnOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765567777; x=1766172577;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+iAGiWGntUzRzKLCpTz264YmDdwQESuNb3m83qNK0Aw=;
-        b=gL8KTxR8JHsxV8jiKQDqTo2s3PvkHJEXvdoS7zU3Jc7ivmmST7RO3ksMRQVfUlsJTH
-         IPn8K6utI5MIzxphtHQGvKXyl+1/YaH4QJ2r2W6OKZ3GDmLdrY7OPVLD2GdpCiHQ0SZ9
-         NOGYDEkGPa9Dsj5U9UOWfVFYj8S3JusUEHpB3cTSzFNpofLpvksqwyRfNR7JdtHboGq3
-         5HP23Czqd9PxJR532BmWgbaP2qA/lR8OuHBFior2IIHHH4cZFiMZ5mj3vHo4YY1f4Hkh
-         XrVFxJz0tQiaQHVG3AFjXXZcGgQmLkT2CGFW7fJIXeWihpoUgllEfAr0pGpvp6j4fUl9
-         yrpA==
-X-Forwarded-Encrypted: i=1; AJvYcCWlnj2vzX1tkcpqLbwBYZpEgg33wZn4dgCmS4S1QNiRcd5vVDIUi7YbO4wuEntEfZtG143lEEB3BHyimJma@lists.linux.dev
-X-Gm-Message-State: AOJu0YxD//xRl1uUDTvvE6IrWSZbyG7GHboM+k1daodf2wGT+Dr0fLOV
-	cZoRhMLUo2EAz8ZbLIdHUltS6mYL6+JpmpqPISL2Q2cYifeHuZibDjfG2dGxMw==
-X-Gm-Gg: AY/fxX6d9v/2t21jqPDpKzFleafDk5EwSm9w34d7DFdmBjrgg3b6aJp9oMvFLMA3JkN
-	ldXiX8j89igQc36fQTkJ7YvN46jyxrdIvWiSSrNurvXzXf+PLZwVxDnnD1lJSjkVBZxwngqtfA2
-	VoIpSexLMcGUO+7zhUkTTJDH+vp/7W0Kwk6nzpqO73csvQeACDiUokAD7PQcLh80Y1ilHxDpRaC
-	PaMKtKfyzS88cLPxTJa7TEzX4orkjJVE8ye4zDCrHIcPbPi4CO6ilbKh+ydAdOoUV/Bl9qeAEwD
-	PHCvV9eDaxO/ZKRLcavFIiwMm1/ifXrjOPsQSCf1FNBAm40/9Gb1s2AqZRIyviM8eRZPMeOb93I
-	LKjwAq25BYmdXq+4jz9YaeP35uisK1culOHY/bpqCtyAFadJMwF4/BHv1r/eolbpMITRrA8ABzS
-	yNdXt8vxX2ZNs2kwPzBgbcfcfV9XA6lzWoPrgt/c7a8wPPgdOiaaeL
-X-Google-Smtp-Source: AGHT+IE4SzG9SEUo36H+/RajRuGXQKEqi8PEHCvRAZiuCC+tFu11I+7qLmwsFCnbEjl5dXnaqDhnFA==
-X-Received: by 2002:a05:600c:4451:b0:477:9fcf:3ff9 with SMTP id 5b1f17b1804b1-47a8f90f54bmr26022385e9.27.1765560968089;
-        Fri, 12 Dec 2025 09:36:08 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8f7676ffsm43676465e9.4.2025.12.12.09.36.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Dec 2025 09:36:07 -0800 (PST)
-Date: Fri, 12 Dec 2025 17:36:03 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Simon Horman <horms@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Ilya Krutskih <devsec@tpz.ru>, Andrew
- Lunn <andrew+netdev@lunn.ch>, oe-kbuild-all@lists.linux.dev, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
- <mingo@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- lvc-project@linuxtesting.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] net: fealnx: fix possible 'card_idx' integer
- overflow in
-Message-ID: <20251212173603.46f27e9b@pumpkin>
-In-Reply-To: <aTwqqxPgMWG9CqJL@horms.kernel.org>
-References: <20251211173035.852756-1-devsec@tpz.ru>
-	<202512121907.n3Bzh2zF-lkp@intel.com>
-	<aTwqqxPgMWG9CqJL@horms.kernel.org>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSMz+aUo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765568606; x=1797104606;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FXqV/hwGQRF7/LE+XK8qtnb61kbbMROMGefcY1DDJeM=;
+  b=LSMz+aUoA1AKYPJlpN8NodWQSAkvnmA/4ixxBHgbVeuLnmTO0DdDqLvH
+   FoNcYaicNDfXjSBKfWLAb+Wunzc/atp9foKwVidFGnzs8Ujyh7jfKdSp0
+   djKHO9hzb4519KNPiFQ1R278x1bDf16gdj3/9qGX/evGzEVrasOla+lKH
+   rt0csNWc27pEXa7CXl3ny+F0O+q5rZ2WJTwBFRZ2S/LUEvmNmpzO9KaQT
+   DxMo0h8tdh0gYHyNH5WCW0eK6f5vZHL7SxF8kDfJGBKVo29LppcAItWYj
+   HcEYcYU020+zqlZfwOumtpr2/rJN4xmf8EDaSDowAuw8FvZMwTj2nUy5I
+   Q==;
+X-CSE-ConnectionGUID: DrHsVyc5QIGBOrJ1MfQUEw==
+X-CSE-MsgGUID: vtA9UdtSRp6cxCGI3DzSUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67617663"
+X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
+   d="scan'208";a="67617663"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 11:43:25 -0800
+X-CSE-ConnectionGUID: kTT9dhjPSwemZUc4lt6RZA==
+X-CSE-MsgGUID: X6JHQOb2QUubwIca4525WQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
+   d="scan'208";a="202095960"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Dec 2025 11:43:24 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vU92v-000000006XB-3sEA;
+	Fri, 12 Dec 2025 19:43:21 +0000
+Date: Sat, 13 Dec 2025 03:42:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 0/1]
+ kernel/power/energy_model.c:113:15: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202512130306.xeLe74bp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 12 Dec 2025 14:46:03 +0000
-Simon Horman <horms@kernel.org> wrote:
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   eed7f8d4a5572c294712b683d6b4890a3b5e1267
+commit: 93f31a5fdf8f86146b5a630a1fa706fde5fb36c1 [0/1] UPSTREAM: PM: EM: Introduce runtime modifiable table
+config: x86_64-randconfig-121-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130306.xeLe74bp-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130306.xeLe74bp-lkp@intel.com/reproduce)
 
-> On Fri, Dec 12, 2025 at 07:30:04PM +0800, kernel test robot wrote:
-> > Hi Ilya,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > [auto build test WARNING on net-next/main]
-> > [also build test WARNING on net/main linus/master v6.18 next-20251212]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Ilya-Krutskih/net-fealnx-fix-possible-card_idx-integer-overflow-in/20251212-013335
-> > base:   net-next/main
-> > patch link:    https://lore.kernel.org/r/20251211173035.852756-1-devsec%40tpz.ru
-> > patch subject: [PATCH v2] net: fealnx: fix possible 'card_idx' integer overflow in
-> > config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251212/202512121907.n3Bzh2zF-lkp@intel.com/config)
-> > compiler: alpha-linux-gcc (GCC) 15.1.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121907.n3Bzh2zF-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202512121907.n3Bzh2zF-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >    drivers/net/ethernet/fealnx.c: In function 'fealnx_init_one':  
-> > >> drivers/net/ethernet/fealnx.c:496:35: warning: '%d' directive writing between 1 and 11 bytes into a region of size 6 [-Wformat-overflow=]  
-> >      496 |         sprintf(boardname, "fealnx%d", card_idx);
-> >          |                                   ^~
-> >    drivers/net/ethernet/fealnx.c:496:28: note: directive argument in the range [-2147483647, 2147483647]
-> >      496 |         sprintf(boardname, "fealnx%d", card_idx);
-> >          |                            ^~~~~~~~~~
-> >    drivers/net/ethernet/fealnx.c:496:9: note: 'sprintf' output between 8 and 18 bytes into a destination of size 12
-> >      496 |         sprintf(boardname, "fealnx%d", card_idx);
-> >          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
-> 
-> Although I think these new warnings are not strictly for problems
-> introduced by this patch. They do make me wonder
-> if it would be best to cap card_index MAX_UNITS and
-> return an error if that limit is exceeded.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130306.xeLe74bp-lkp@intel.com/
 
-The code seems to be written allowing for more than MAX_UNITS 'units'.
+sparse warnings: (new ones prefixed by >>)
+>> kernel/power/energy_model.c:113:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
+   kernel/power/energy_model.c:113:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
+   kernel/power/energy_model.c:113:15: sparse:     got struct em_perf_table *
+>> kernel/power/energy_model.c:114:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct em_perf_table [noderef] __rcu *table @@
+   kernel/power/energy_model.c:114:15: sparse:     expected void const *objp
+   kernel/power/energy_model.c:114:15: sparse:     got struct em_perf_table [noderef] __rcu *table
+>> kernel/power/energy_model.c:119:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct callback_head *head @@     got struct callback_head [noderef] __rcu * @@
+   kernel/power/energy_model.c:119:19: sparse:     expected struct callback_head *head
+   kernel/power/energy_model.c:119:19: sparse:     got struct callback_head [noderef] __rcu *
+>> kernel/power/energy_model.c:130:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got void * @@
+   kernel/power/energy_model.c:130:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
+   kernel/power/energy_model.c:130:15: sparse:     got void *
+   kernel/power/energy_model.c:195:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:195:9: sparse:     expected void const *
+   kernel/power/energy_model.c:195:9: sparse:     got struct em_perf_state [noderef] __rcu *
+   kernel/power/energy_model.c:195:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:195:9: sparse:     expected void const *
+   kernel/power/energy_model.c:195:9: sparse:     got struct em_perf_state [noderef] __rcu *
+   kernel/power/energy_model.c:195:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:195:9: sparse:     expected void *p
+   kernel/power/energy_model.c:195:9: sparse:     got struct em_perf_state [noderef] __rcu *
 
-Actually it all looks pretty broken to me...
-'card_idx' is incremented by every call to fealnx_init_one().
-That is the pci_driver.probe() function.
-So every card remove and rescan will increment it.
-(Is the .probe() even serialised? I can't remember...)
+vim +113 kernel/power/energy_model.c
 
-Then there is the MODULE_PARAM_DESC() that states that bit 17 of 'options'
-is the 'full duplex' flag, but the code checks 'options & 0x200'.
+   108	
+   109	static void em_destroy_table_rcu(struct rcu_head *rp)
+   110	{
+   111		struct em_perf_table __rcu *table;
+   112	
+ > 113		table = container_of(rp, struct em_perf_table, rcu);
+ > 114		kfree(table);
+   115	}
+   116	
+   117	static void em_free_table(struct em_perf_table __rcu *table)
+   118	{
+ > 119		call_rcu(&table->rcu, em_destroy_table_rcu);
+   120	}
+   121	
+   122	static struct em_perf_table __rcu *
+   123	em_allocate_table(struct em_perf_domain *pd)
+   124	{
+   125		struct em_perf_table __rcu *table;
+   126		int table_size;
+   127	
+   128		table_size = sizeof(struct em_perf_state) * pd->nr_perf_states;
+   129	
+ > 130		table = kzalloc(sizeof(*table) + table_size, GFP_KERNEL);
+   131		return table;
+   132	}
+   133	
 
-And I just don't understand the assignment: option = dev->mem_start;
-
-The code was like this when Linux created git.
-
-	David
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
