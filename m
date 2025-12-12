@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B46527CCEE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 14:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B028D1C84D0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 14:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765548661; cv=none; b=HxKCQFjGPOpBCYWbO4Gf8kLs2SV1FCX6OEY+Xo/590SIlgOi48/FdthBJfsDz2djCXyR4ILcnkBAOG4PnQKBuymxMdx3DOib8l+ABSHHKmt8msXz3JH3AMz0hN/YgW684c+hmvgIvVHJaAZU/pH9G8JlF2/IPKk5Bjna9wQEYyM=
+	t=1765549322; cv=none; b=XN56q4Y65sqtwsAyaL8zoKK4MsLvCKM3LtkCWXVt/Gio3yuXde+hjnE0RmlqJJexsb1Tzyd4cCf3KlQrzoZ47fpI55Km47v3QvWOtfMPQe3tcXQxDhuZYZl2PaQ650IPpIwxj93WdGMXqB71R+Es4MYs0x8AZTPOsX/C6Pms6gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765548661; c=relaxed/simple;
-	bh=D+TzjRg5uBW8grFs2gr1RyYq03LPbRGc0cTyg3o9Klo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AdtBMAwQ33PmlLbG8BzpuRo+2OURWwDNsi+oWnVEs8dm6dALSr7Zl0jnsWugdgCmfxcQJ0EWIdDobSBlfIil+O7RQfAoDwpjzbkZdJB78+PZnl/runyNYhvPeWc8GuWuuvnQ59glHT8l7DXGU+yU0uN8SogNdAZLiU9F345lOYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VNNFgEbR; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1765549322; c=relaxed/simple;
+	bh=TnYV6xve5F4PnkzdmVL/I4bg+RE6Tv8WJfSkzAXae20=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MgJAhaUIdyK2/ezaZ4M29gCfjgzS4nLwpLmEqWkOZCR3GfOk498yrclJHz2pqkZwDd73LAmyY13UsgqwYL3PKK9bovOoDdMfd2ZkgGXqCQjeQUvDjEnPOxvIEt5Mdii4DCAKrQ0938dkdqBvKJmI/5eW0Zhw5AwNiK4m5Nk2vcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eL8YRBKi; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VNNFgEbR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eL8YRBKi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765548660; x=1797084660;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D+TzjRg5uBW8grFs2gr1RyYq03LPbRGc0cTyg3o9Klo=;
-  b=VNNFgEbRJyfWtCudmqU0/1b9QJG7Qlvkp8swLgigyLUq6Qckkv0FtUZL
-   7LJQNRB30qu0SRkyjTceHWJ21yxkJxXMCmThbmmOE/w1JuhbaYbo0MN+I
-   CD8R0d5PuBJ+KkzXsLOCE5IBUYSiP5u/R9FNHbi675lXTbVmVD5hnTfG8
-   yI74NN7yDPokpwqDHTE7nul+41RtVqdQRzDdEd7X4aocs+mgF1Cp5An/u
-   adHEIoIvpOIAbgGVFb1HYK02xaZUhEorkBd9/IK1lnUFcBpZffoVTlV9U
-   vm8NfKIcJwGJKGKSx5kvgCxegGCeSbwTs0QZR9oGwpGa3kTZWbKYMavAs
+  t=1765549321; x=1797085321;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TnYV6xve5F4PnkzdmVL/I4bg+RE6Tv8WJfSkzAXae20=;
+  b=eL8YRBKidH+LtC8ATiv1cv3Gkr6+DqfwC8R9LGrc/OxZE7ioHlkrAxKF
+   FJb7Tt5f3Ow4dRCe0UK5FuWLZ9PgryQ9/nWloT6xPxunNG3y2J0LBue+s
+   FAoOAs61BIwNKdOKwD0YJAUZHXDSN/uGzQoojz96yv6H7uxhuZQ8VgA95
+   X6DG8J2ilplgoW/TZRSfimvQvZT+hOJd6vMEptiS79lDxezMO2ujuZ60z
+   AuSh3ePklYJnyFaKqm4+YORHnDKKxXd+T8zDaR5vdrtpRIehK5fV+aNoX
+   ply+aB+Xj48ejasjYbgsUrx1Kdo4ozg9dQAbQylpPLeQCRzjGn6sRWZzs
    w==;
-X-CSE-ConnectionGUID: yFrArj/3S22P4QSEpsuMIQ==
-X-CSE-MsgGUID: W7TpR2MMRg6oyWFLTfTiZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78188704"
-X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="78188704"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 06:11:00 -0800
-X-CSE-ConnectionGUID: mZprIkbkQTKIUKXt6/99vw==
-X-CSE-MsgGUID: lt98VVn0QiyMengnQ0cBGw==
+X-CSE-ConnectionGUID: 3VcPXTRjThWT0/FPSBzDpw==
+X-CSE-MsgGUID: nZuhUmtMRWaC6q4agxlWVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67493935"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="67493935"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 06:22:00 -0800
+X-CSE-ConnectionGUID: dwtbIdiwQiiMBeQPkfgvkg==
+X-CSE-MsgGUID: 50g7zUE0Q9iV2zrL/Cm0iA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="202017089"
+   d="scan'208";a="201280443"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Dec 2025 06:10:58 -0800
+  by orviesa003.jf.intel.com with ESMTP; 12 Dec 2025 06:21:59 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU3rE-0000000068l-2n0f;
-	Fri, 12 Dec 2025 14:10:56 +0000
-Date: Fri, 12 Dec 2025 22:10:04 +0800
+	id 1vU41t-0000000069R-1CKP;
+	Fri, 12 Dec 2025 14:21:57 +0000
+Date: Fri, 12 Dec 2025 22:21:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Yixun Lan <dlan@gentoo.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/1]
- kernel/power/energy_model.c:135:19: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202512122211.wbLfgMHb-lkp@intel.com>
+Subject: Re: [PATCH RFC 4/4] clk: spacemit: k3: add the clock tree
+Message-ID: <202512122146.ai6Tzgw1-lkp@intel.com>
+References: <20251211-k3-clk-v1-4-8ee47c70c5bc@gentoo.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,83 +62,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251211-k3-clk-v1-4-8ee47c70c5bc@gentoo.org>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   eed7f8d4a5572c294712b683d6b4890a3b5e1267
-commit: 4c863dbb80141ba881866c8a8bad6f44105df9b3 [0/1] UPSTREAM: PM: EM: Add functions for memory allocations for new EM tables
-config: x86_64-randconfig-121-20251212 (https://download.01.org/0day-ci/archive/20251212/202512122211.wbLfgMHb-lkp@intel.com/config)
+Hi Yixun,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 7d0a66e4bb9081d75c82ec4957c50034cb0ea449]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yixun-Lan/dt-bindings-soc-spacemit-add-k3-syscon-compatible/20251211-092723
+base:   7d0a66e4bb9081d75c82ec4957c50034cb0ea449
+patch link:    https://lore.kernel.org/r/20251211-k3-clk-v1-4-8ee47c70c5bc%40gentoo.org
+patch subject: [PATCH RFC 4/4] clk: spacemit: k3: add the clock tree
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251212/202512122146.ai6Tzgw1-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512122211.wbLfgMHb-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512122146.ai6Tzgw1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512122211.wbLfgMHb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512122146.ai6Tzgw1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/power/energy_model.c:113:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
-   kernel/power/energy_model.c:113:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:113:15: sparse:     got struct em_perf_table *
-   kernel/power/energy_model.c:114:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct em_perf_table [noderef] __rcu *table @@
-   kernel/power/energy_model.c:114:15: sparse:     expected void const *objp
-   kernel/power/energy_model.c:114:15: sparse:     got struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:122:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
-   kernel/power/energy_model.c:122:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:122:15: sparse:     got struct em_perf_table *
-   kernel/power/energy_model.c:124:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct callback_head *head @@     got struct callback_head [noderef] __rcu * @@
-   kernel/power/energy_model.c:124:19: sparse:     expected struct callback_head *head
-   kernel/power/energy_model.c:124:19: sparse:     got struct callback_head [noderef] __rcu *
->> kernel/power/energy_model.c:135:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
-   kernel/power/energy_model.c:135:19: sparse:     expected struct kref *kref
-   kernel/power/energy_model.c:135:19: sparse:     got struct kref [noderef] __rcu *
-   kernel/power/energy_model.c:153:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got void * @@
-   kernel/power/energy_model.c:153:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
-   kernel/power/energy_model.c:153:15: sparse:     got void *
-   kernel/power/energy_model.c:157:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
-   kernel/power/energy_model.c:157:20: sparse:     expected struct kref *kref
-   kernel/power/energy_model.c:157:20: sparse:     got struct kref [noderef] __rcu *
-   kernel/power/energy_model.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:223:9: sparse:     expected void const *
-   kernel/power/energy_model.c:223:9: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:223:9: sparse:     expected void const *
-   kernel/power/energy_model.c:223:9: sparse:     got struct em_perf_state [noderef] __rcu *
-   kernel/power/energy_model.c:223:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got struct em_perf_state [noderef] __rcu * @@
-   kernel/power/energy_model.c:223:9: sparse:     expected void *p
-   kernel/power/energy_model.c:223:9: sparse:     got struct em_perf_state [noderef] __rcu *
+All errors (new ones prefixed by >>):
 
-vim +135 kernel/power/energy_model.c
+   drivers/clk/spacemit/ccu-k3.c: In function 'spacemit_cadev_release':
+>> drivers/clk/spacemit/ccu-k3.c:1513:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
+    1513 |         kfree(to_spacemit_ccu_adev(adev));
+         |         ^~~~~
 
-   108	
-   109	static void em_destroy_table_rcu(struct rcu_head *rp)
-   110	{
-   111		struct em_perf_table __rcu *table;
-   112	
-   113		table = container_of(rp, struct em_perf_table, rcu);
- > 114		kfree(table);
-   115	}
-   116	
-   117	static void em_release_table_kref(struct kref *kref)
-   118	{
-   119		struct em_perf_table __rcu *table;
-   120	
-   121		/* It was the last owner of this table so we can free */
-   122		table = container_of(kref, struct em_perf_table, kref);
-   123	
-   124		call_rcu(&table->rcu, em_destroy_table_rcu);
-   125	}
-   126	
-   127	/**
-   128	 * em_table_free() - Handles safe free of the EM table when needed
-   129	 * @table : EM table which is going to be freed
-   130	 *
-   131	 * No return values.
-   132	 */
-   133	void em_table_free(struct em_perf_table __rcu *table)
-   134	{
- > 135		kref_put(&table->kref, em_release_table_kref);
-   136	}
-   137	
+
+vim +/kfree +1513 drivers/clk/spacemit/ccu-k3.c
+
+  1508	
+  1509	static void spacemit_cadev_release(struct device *dev)
+  1510	{
+  1511		struct auxiliary_device *adev = to_auxiliary_dev(dev);
+  1512	
+> 1513		kfree(to_spacemit_ccu_adev(adev));
+  1514	}
+  1515	
 
 -- 
 0-DAY CI Kernel Test Service
