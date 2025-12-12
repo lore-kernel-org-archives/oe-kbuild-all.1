@@ -1,178 +1,127 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE8B214228
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 01:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2C71DF75C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 01:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765501479; cv=none; b=C3H5aSFQftcSpSaXnZ5Ho0DS/g+7CZGBli3+3icTAqgXXWt+4lc2zCZ2Gqp5GngffBG7zi+pOCookKV5O+WD3BaKwpwUzFlJbRTKjDDPjLAM+MuPmAu+EIdOpLe8L/FV8lUQtdqZJ71EI08MvrJJpAmnIqV5dJgI2BiyJkyKk/I=
+	t=1765501806; cv=none; b=b41KCd7n9za44o/TsbZb1+hRYBCACverO/kbjcaifW8BmCslq5mvji0LbhrlSmfCMiLlhf+mmZNVQrtaiKYFWfBsGdkIsTgot16Ly8TwGnWwp+IHdfIBSoQqwlTn7BxWwFw4up2kExmiTpHNxgQugGCjQEtSOVUGZDVE0YG75AM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765501479; c=relaxed/simple;
-	bh=RKdh6SX2Y9GypC+Fu27yMoW70ksgsbT1xmg4oX49lqg=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=iWsipgZ+QZheixIbFNPtUwyKzeNQGiJclKBi49XAEWdqtSYhSlYgYWL2kwXiSJOFTYnaZQfnJf2w1aIDzBaOo6FBaYPmYz8m4yCsPtOUoT/evGRtHKeQ5fet6M9QmoASBhmxnBDfbUvwA+LgwCZr3MVEvabfSZEMbYKrMpK0YNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aXLS+8So; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1765501806; c=relaxed/simple;
+	bh=SdYb8wN98DudnC4/ffD8v7sZUiewMBNdMl30Uv22BB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kEBo/gNQoYV76qD3sVQNP1xRVWuBq67T/vSlWiu+NEtz+/Wbyb4JR6dncNG8INjZyNrgyn989D3gzHAIT6Q6K1747C5EAQxSjv/WPrCUMY8GufVBmwrlrg4l8za1kuAJYfV7pj4NQUR3n5PFzk92SYdaP3Z1iWmCLzYLStI+fzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XOgzumG7; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aXLS+8So"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-477563e531cso6543285e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 17:04:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765501476; x=1766106276; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vDeDYOigfVSDOdWYWJ232JALzsx3lssVRbTX+k57EuM=;
-        b=aXLS+8So2xNxE7WeRs1CIt44UWiHRqQxdVqnJbnVhdklo4rmVyIbDVD2rzBmkkT5Ri
-         RELl1/BLXfE8VXt94A8giuGUlc0wuWdlf43RKkfd5oHG/OKqt98igXy8knX6UP++ndUg
-         Mu761rpn5VUrKpWdGxdczYd7YcWSalG8Gh5FrsSRxSmoOy/pGzSxGulK50SLNydye76o
-         ajxGz+z9nxm663g9zaUAVuRsoH4gwp2uDyxb+iMuQGv24HFCMlHCO/WM+nnK4LI8F/9W
-         ymGSZRIVGlaMNDxbZR26T+erh0RzrmTT0+RpzsvSDb67Ox492CIxiYBHttESmAPbWAUP
-         1YSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765501476; x=1766106276;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vDeDYOigfVSDOdWYWJ232JALzsx3lssVRbTX+k57EuM=;
-        b=xUhQ3HclwHUzp9R0b4JPJ3eIjcz5SAbYjeHzvb6qPyH+XCPG1cIXqA527uWHefOxng
-         uGdy/gCC2XZpahp1uNZGMCLiKskS7qhYe4MMB9ovekNpeS35bIRQbBxtReYUs4izVFDK
-         6WyHpU+aLL37pMAZxInhq0fhtBA4pVn1bM34caGo6VtBYDeIrLH9v4WeKnXdfENYYbKQ
-         SRNltCOpLauPecioi84WSa0qSBSvt3WTasJyKxZGGLGaX3DyYo3wi+b36KfsJElH8w27
-         iho4lOT0V3IpoXkucU1jJyQ8Y4mJmSP2YQWd7BTa7rOwPvFBUH2WtP+jJsKdgIY+jX6o
-         bBOA==
-X-Forwarded-Encrypted: i=1; AJvYcCUu7T0Ax+HMsJGEplWPfXYonTnRBd57386iu8egc68b2HbmM6VpZHnkgZny2egxZdRsO1Gt/egCCbfrbaQl@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6Pb5llJWhrxHpKCbtbFqBjhDzq0NzZ9vAT6o3K1044qM/ixmZ
-	NmC2XxwvOkuU2Ibs7S5c747qx/NexerGW6kcZmPSpcxFKF/PQ6ytVPElSJAHAFtE/h8l0upqcoz
-	makLoxGjBLxaWf9hS+w==
-X-Google-Smtp-Source: AGHT+IG62AMtufuC/R9NxUzH7W20Tj2XnsntNv57fg9tu7loXWLhS5+jBXLboYknGLl4vGu1cT0E2Je870UeMSI=
-X-Received: from wmcq4.prod.google.com ([2002:a05:600c:c104:b0:477:774d:3832])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:46cf:b0:475:dd8d:2f52 with SMTP id 5b1f17b1804b1-47a8f9155bamr1776175e9.32.1765501476541;
- Thu, 11 Dec 2025 17:04:36 -0800 (PST)
-Date: Fri, 12 Dec 2025 01:04:35 +0000
-In-Reply-To: <20251124144810.2fb0e99e.gary@garyguo.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XOgzumG7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765501805; x=1797037805;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SdYb8wN98DudnC4/ffD8v7sZUiewMBNdMl30Uv22BB4=;
+  b=XOgzumG7e4NCDyGBICWzY1zNl3zWtdC37Sxmr1FQvnstBAeB0FvyH8I+
+   jvlgJP5gseJHXWy1SHrOmBIrCSufqZyibDXd2Kn7nLRDKPifYZp1u71WF
+   r2hwgdQT+xHY9o9szNof4++UQcNyWlUcGoPKIb/+c/d0OOk3wWrmJtQDO
+   i7YqE3eRCVU7PmGdyP2lvCPf+8eWVHW9Ll5p/I01PEmLIi0nWgRv3YTHJ
+   N8Fn1qq+v767A4tIGdzUAvqB/4kmuu1bku1kYi9X6NZTMkPClVeQjWqM7
+   4z3myqSL+dtFS/6+w6Sdt0vgyw4Jdz5Hy6ek04SI+c/b0UUZ34+dmHq13
+   w==;
+X-CSE-ConnectionGUID: iukiEKJFTwqSW4iP+DZ17g==
+X-CSE-MsgGUID: Yp1M6IPFR3iXN0Dnp2vo8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="70074903"
+X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
+   d="scan'208";a="70074903"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 17:10:04 -0800
+X-CSE-ConnectionGUID: gUi8Aj2lRzyqE1WLLt/R7w==
+X-CSE-MsgGUID: v08TndySQ96aOebfz2hqYw==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 11 Dec 2025 17:10:03 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vTrfV-000000005H3-0QCQ;
+	Fri, 12 Dec 2025 01:10:01 +0000
+Date: Fri, 12 Dec 2025 09:09:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 5/5]
+ sound/soc/codecs/rt-sdw-common.c:87: warning: Function parameter or struct
+ member 'val' not described in 'rt_sdca_index_update_bits'
+Message-ID: <202512120900.Nk98XpbL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <DEE5GDTBSJ5O.KGQ3AG72NF30@nvidia.com> <aSAr-aA2U26lr3iI@google.com>
- <DEEEZRYSYSS0.28PPK371D100F@nvidia.com> <aSBy3HQ9Z-h2LbB8@google.com>
- <CANiq72=P8AS_XeMdkakuGeTQ5SGb4wvH8qyVoY32FR+PLQu+zQ@mail.gmail.com>
- <20251121143008.2f5acc33.gary@garyguo.net> <aSB623GKVDR2TBc3@google.com>
- <CANiq72kUk_R0HGbX4eW9iucCXergJqBBeutnh7cb8SNAzGjG+g@mail.gmail.com>
- <aSQ1VNuGHhFXYE2e@google.com> <20251124144810.2fb0e99e.gary@garyguo.net>
-Message-ID: <aTtqI7Mu7LYu0fpx@google.com>
-Subject: Re: [linux-next:master 9676/10599] ld.lld: error: undefined symbol: rust_build_error
-From: Alice Ryhl <aliceryhl@google.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Trevor Gross <tmgross@umich.edu>, 
-	Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Nov 24, 2025 at 02:48:10PM +0000, Gary Guo wrote:
-> On Mon, 24 Nov 2025 10:37:08 +0000
-> Alice Ryhl <aliceryhl@google.com> wrote:
->=20
-> > On Fri, Nov 21, 2025 at 04:53:26PM +0100, Miguel Ojeda wrote:
-> > > On Fri, Nov 21, 2025 at 3:44=E2=80=AFPM Alice Ryhl <aliceryhl@google.=
-com> wrote: =20
-> > > >
-> > > > You say that this kind of thing would be a compiler bug, but I don'=
-t
-> > > > think the compiler devs folks would agree with us on that at all. I
-> > > > mean, sure, it's a bug in the sense that it's a missed optimization=
-, but
-> > > > it's not a correctness bug. =20
-> > >  =20
-> > > > I'm not advocating for adding unsafe blocks to skip bounds checks.
-> > > >
-> > > > And, fine, there are probably a few cases where it works reliably a=
-nd
-> > > > has no real replacement. Such as the VTABLE_DEFAULT_ERROR check. Bu=
-t I
-> > > > do not think bounds checks are a place where it's a good idea. =20
-> > >=20
-> > > There may be no guarantees, but it is a similar situation as for C
-> > > compilers in the kernel. =20
-> >=20
-> > I don't think it is like that at all. We rely on non-guaranteed behavio=
-r
-> > for data races because we have no choice and we had extensive discussio=
-n
-> > about it with the compiler folks who are comfortable with us using that
-> > particular exception.
->=20
-> This is not about LKMM but that BUILD_BUG_ON also relies on compiler
-> optimizations and reference undefined symbols if compiler cannot
-> optimize them out.
->=20
-> `build_assert` is just a nicer Rust way of the same trick.
+Hi Jack,
 
-But we're no longer using it in the same way as BUILD_BUG_ON.
+First bad commit (maybe != root cause):
 
-> > > Compilers can of course change behavior and have bugs and so on, and
-> > > thus avoiding to rely on it as much as possible is a good idea, but I
-> > > think it is a good idea to get build asserts reliably working as much
-> > > as possible for certain use cases. In particular, I don't see why
-> > > simple (local-enough) bounds checks cannot be one of those (it may no=
-t
-> > > be today, but it could).
-> > >=20
-> > > Of course, the best would be to get the language to a point where it
-> > > supports this sort of thing natively. But that is a longer road.
-> > >=20
-> > > And, in some situations, there may be no good alternative (i.e. const
-> > > eval / generics / macros may be too painful to apply), and thus peopl=
-e
-> > > may end up adding `unsafe` instead, which isn't great. =20
-> >=20
-> > The difference is that someone adding unsafe to avoid a bounds check
-> > screams to the reviewers that something sketchy is going on. In
-> > comparison, drivers calling `Bounded::from_expr(_)` with a non-trivial
-> > expression looks like entirely normal code even though it might be
-> > relying on the precise and definitely subject-to-change details of when
-> > LLVM is choosing to inline various functions.
-> >=20
-> > If const eval / generics / macros are too painful, then perform a
-> > runtime bounds check just like everyone who uses Rust outside of the
-> > kernel is doing.
->=20
-> There're 200+ uses of BUILD_BUG_ON in include/. I see this case being
-> similar to those usages.
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   aede8f2a23afdacd71bb57369610179a20e859a7
+commit: ba46a64341209fd14a19c13e35a61bca6f571812 [5/5] UPSTREAM: ASoC: rt721-sdca: Add RT721 SDCA driver
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251212/202512120900.Nk98XpbL-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120900.Nk98XpbL-lkp@intel.com/reproduce)
 
-I looked through a lot of the cases where BUILD_BUG_ON is used. All of
-them seem to be checking that some constants are equal to something,
-different from something, less than something, etc. It compares #defined
-constants, and stuff like sizeof(struct) and such. But I could not find
-even a single example where BUILD_BUG_ON used for bounds-checking a
-runtime value, which is the use-case I think is problematic.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512120900.Nk98XpbL-lkp@intel.com/
 
-> > > In addition, I think upstream probably wants to know about this sort
-> > > of this, i.e. sometimes the changes may be unintended (i.e. if we see
-> > > it changing in a new nightly) and they probably like to hear about
-> > > "obvious" optimizations not being applied, since they are potential
-> > > easy wins for them (or, rather, avoiding regressions), as Gary
-> > > mentions. That is also part of the value of building the kernel in
-> > > compiler CIs etc. =20
-> >=20
-> > I do not at all think it's obvious that upstream would be happy about
-> > this, considering it comes with the serious trade-off of us relying on
-> > these optimizations happening.
->=20
-> If the exact use case does not involve a reference, it's exactly same
-> as BUILD_BUG_ON, so would be a LLVM bug that equally affect
-> clang-built-linux.
+All warnings (new ones prefixed by >>):
 
-If there's no reference, function boundary, or non-constant value, then
-I don't think it's problematic. The problem IMO is using build_error for
-bounds checking runtime values.
+>> sound/soc/codecs/rt-sdw-common.c:87: warning: Function parameter or struct member 'val' not described in 'rt_sdca_index_update_bits'
+>> sound/soc/codecs/rt-sdw-common.c:87: warning: Excess function parameter 'value' description in 'rt_sdca_index_update_bits'
 
-Alice
+
+vim +87 sound/soc/codecs/rt-sdw-common.c
+
+cbc3cb613e4044 Jack Yu 2024-10-01  71  
+cbc3cb613e4044 Jack Yu 2024-10-01  72  /**
+cbc3cb613e4044 Jack Yu 2024-10-01  73   * rt_sdca_index_update_bits - Update value on Realtek defined register.
+cbc3cb613e4044 Jack Yu 2024-10-01  74   *
+cbc3cb613e4044 Jack Yu 2024-10-01  75   * @map: map for setting.
+cbc3cb613e4044 Jack Yu 2024-10-01  76   * @nid: Realtek-defined ID.
+cbc3cb613e4044 Jack Yu 2024-10-01  77   * @reg: register.
+cbc3cb613e4044 Jack Yu 2024-10-01  78   * @mask: Bitmask to change
+cbc3cb613e4044 Jack Yu 2024-10-01  79   * @value: New value for bitmask
+cbc3cb613e4044 Jack Yu 2024-10-01  80   *
+cbc3cb613e4044 Jack Yu 2024-10-01  81   * A value of zero will be returned on success, a negative errno will
+cbc3cb613e4044 Jack Yu 2024-10-01  82   * be returned in error cases.
+cbc3cb613e4044 Jack Yu 2024-10-01  83   */
+cbc3cb613e4044 Jack Yu 2024-10-01  84  
+cbc3cb613e4044 Jack Yu 2024-10-01  85  int rt_sdca_index_update_bits(struct regmap *map,
+cbc3cb613e4044 Jack Yu 2024-10-01  86  	unsigned int nid, unsigned int reg, unsigned int mask, unsigned int val)
+cbc3cb613e4044 Jack Yu 2024-10-01 @87  {
+cbc3cb613e4044 Jack Yu 2024-10-01  88  	unsigned int tmp;
+cbc3cb613e4044 Jack Yu 2024-10-01  89  	int ret;
+cbc3cb613e4044 Jack Yu 2024-10-01  90  
+cbc3cb613e4044 Jack Yu 2024-10-01  91  	ret = rt_sdca_index_read(map, nid, reg, &tmp);
+cbc3cb613e4044 Jack Yu 2024-10-01  92  	if (ret < 0)
+cbc3cb613e4044 Jack Yu 2024-10-01  93  		return ret;
+cbc3cb613e4044 Jack Yu 2024-10-01  94  
+cbc3cb613e4044 Jack Yu 2024-10-01  95  	set_mask_bits(&tmp, mask, val);
+cbc3cb613e4044 Jack Yu 2024-10-01  96  	return rt_sdca_index_write(map, nid, reg, tmp);
+cbc3cb613e4044 Jack Yu 2024-10-01  97  }
+cbc3cb613e4044 Jack Yu 2024-10-01  98  EXPORT_SYMBOL_GPL(rt_sdca_index_update_bits);
+cbc3cb613e4044 Jack Yu 2024-10-01  99  
+
+:::::: The code at line 87 was first introduced by commit
+:::::: cbc3cb613e4044c076c6648ce0934818cba52545 UPSTREAM: ASoC: rt-sdw-common: Common functions for Realtek soundwire driver
+
+:::::: TO: Jack Yu <jack.yu@realtek.com>
+:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
