@@ -1,134 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506C041C71
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 03:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68F341C71
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 03:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765508700; cv=none; b=UpihouImEkGGl44n0y+fWwtsmEOrKtScQCDxNaAvO56JhLyvoQNrCtMEMAoZwo9y9DALyIz4YiIAb/H3oCB+1kmqVVxnz4d5y9Mt86/LEC418WZcGWqUD7KDBdJi2VlMChai6x4bmSqo43Rtl8NgHnK4OJR0TgCdC5R6VDm2bMo=
+	t=1765508777; cv=none; b=tiQs4KdsoEFVKA4ZBULPCLH42Ncom6Wugs4lnhVZpiNrBVB81KTUJ2cyx0lNvkjrxyfsYNCWorz26LPskwk56uzWGzdyvujrotksx3gfyGVCnrXb1b+RskyOTFzwXI91RZibe+lzBNSp3lVetIG2pnhdogvgmpHfIy9FmoyqSJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765508700; c=relaxed/simple;
-	bh=vqCWzLJLVirfSs94ax/UoTD0J2vkct+opucvYzzotm0=;
+	s=arc-20240116; t=1765508777; c=relaxed/simple;
+	bh=RG7uSbpfr3CjxybLtw+F4Oe+r/WzDSBKKoClieWqWbk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kzAN8T/7K+OzMpRL7j9Wsp9tZ7sT72c3vZunpQ2mCclnVd2PGT8bAKb8vI7EBCx5fc4tilN1NkDkSfBPy8dahASTXE/XpVbQ1333TONbGGdwng56MT2CXSadSkC53N4U2XtE8FPvgv6a/EM5gX99d8LsE4+5gFIvOMxXfqWjSa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=auNVw4Hj; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=DVkqlaT+lW6wbulW3v5Jdla0506Pq+30Ik+rS/6JEcgpELXNgxdqj4TTWDftFCWkKcGEynKwWGDNZRz9VQgAU6aekFddjpKxdVlCMQlOPPj/riv+LHry+wNNQHm6qQlEMV4o/BmfVd34gScIzVxxVr6C2LjbtY/8QLd1qNs3DGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GubgPqE1; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auNVw4Hj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GubgPqE1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765508697; x=1797044697;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vqCWzLJLVirfSs94ax/UoTD0J2vkct+opucvYzzotm0=;
-  b=auNVw4HjcBLnrLEygLFBuDWZb2Vp0n5QDrbrur3B6iPDxW/14gu6CY/J
-   aSezP6lXiVpk90a4fQQgEHLemVm3G3Z0FkTGFfGLGeOVK2co8hi31J9TH
-   AywfPfs3WmHsV5gsP+f332pjRdIESUAMu82CyE1piNZo0ISQ1ccbXYMYG
-   3DV34pbpHaqWTgbyvl4sjrC/OovgbcuSHe/2wwFwAOv+D7pttuIBHMXH/
-   AcjhYAuiIpXCOnkEDozThIBi47CZkCx26uQNieHfLwK1JCcsA3D8dj7AY
-   ImhwUJcuAxscmxzE7Fl3KBr4BJEb75EXKz40NC7eJrdTbMxEWKrvQxBuv
-   w==;
-X-CSE-ConnectionGUID: guh3sXwaRSWWHmarpzONJA==
-X-CSE-MsgGUID: r0yiv5xZRGOoRs51jw8sGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="84908215"
+  t=1765508776; x=1797044776;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RG7uSbpfr3CjxybLtw+F4Oe+r/WzDSBKKoClieWqWbk=;
+  b=GubgPqE1WFFQDfJDKF1Cv5reSkfoc9moqQUqE4vrYm8LM0rRjEZCX/l4
+   SX3UamJSN6ObtHkLDUtTt3YesYHJAJIhQJ4CYm0uf8xEDyx09lC7oi29j
+   Pz7mJtSUOQlZ/vY95pofc+0lSAv07N2m/GAjp78iMLDAUr+D1u1BcMQuH
+   Fc/Meo6RuAEVZbMRwxM7qlI7hJpMVy1sxXTKSs3Vx2CFsMPVjvebn4BGQ
+   3V/ggmMkZ+ZwiXQc49JQ2bll8dXHO0CswklTJG9XJhHGt5RpnJ49J+yEu
+   T51oEeWR2neAW1fADV5l4n961a0WQgGPiTlseLtUajchJSp2FAB8+nObu
+   A==;
+X-CSE-ConnectionGUID: HHztrSjPShu3+Q71C3Rwbw==
+X-CSE-MsgGUID: 0wnPPy1mRgqFDH0Z8LI0uw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78866673"
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="84908215"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 19:04:56 -0800
-X-CSE-ConnectionGUID: TLJnnZEiR1mPcscmc+EyHQ==
-X-CSE-MsgGUID: fiyzsaJRSue6f4dSHobbBA==
+   d="scan'208";a="78866673"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 19:06:15 -0800
+X-CSE-ConnectionGUID: JBwZuzvVSJOivE3RGatWwQ==
+X-CSE-MsgGUID: TaLtaUBOQJyNW3EeWxupZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="197233628"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 11 Dec 2025 19:04:56 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="196954531"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 11 Dec 2025 19:06:14 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTtSg-000000001HQ-0HZy;
-	Fri, 12 Dec 2025 03:04:54 +0000
-Date: Fri, 12 Dec 2025 04:04:17 +0100
+	id 1vTtTv-000000005Q5-2h00;
+	Fri, 12 Dec 2025 03:06:11 +0000
+Date: Fri, 12 Dec 2025 11:05:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, zhanglei <zhanglei48@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3534/3534] htmldocs:
- Documentation/scsi/hisi_raid.rst:15: WARNING: Title underline too short.
-Message-ID: <202512120447.PMljStGs-lkp@intel.com>
+Subject: [android-common:android16-6.12 1/1] drivers/dma-buf/dma-buf.c:345:
+ warning: Excess function parameter 'buf' description in 'dma_buf_set_name'
+Message-ID: <202512121024.JBKNhlix-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   5930fa3740c518a9f6ba688fd0c1873d6f3adbce
-commit: fd8c1a2ddc2f28838e4a6a8be6a7d6dc95a678d3 [3534/3534] SCSI: hisi_raid: support SPxxx serial RAID/HBA controllers
-reproduce: (https://download.01.org/0day-ci/archive/20251212/202512120447.PMljStGs-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   3a6f5d8bb93a24a08c3bcf615b349a5d93e4a265
+commit: 88a96b0b27bcdda732e9d4e9d35cefad8ea7ffd9 [1/1] ANDROID: dma-buf: support users to change dma_buf.name
+config: x86_64-randconfig-002-20251212 (https://download.01.org/0day-ci/archive/20251212/202512121024.JBKNhlix-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121024.JBKNhlix-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512120447.PMljStGs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512121024.JBKNhlix-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   KASLR for Freescale BookE32
-   ------------------------- [docutils]
->> Documentation/scsi/hisi_raid.rst:15: WARNING: Title underline too short.
---
-   hisi_raid host attributes
-   ------------------------ [docutils]
-   Documentation/scsi/hisi_raid.rst:34: ERROR: Unexpected indentation. [docutils]
->> Documentation/scsi/hisi_raid.rst:42: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/scsi/hisi_raid.rst:54: WARNING: Title underline too short.
+   drivers/dma-buf/dma-buf.c:345: warning: Function parameter or struct member 'name' not described in 'dma_buf_set_name'
+>> drivers/dma-buf/dma-buf.c:345: warning: Excess function parameter 'buf' description in 'dma_buf_set_name'
 
 
-vim +15 Documentation/scsi/hisi_raid.rst
+vim +345 drivers/dma-buf/dma-buf.c
 
-    13	
-    14	hisi_raid specific entries in /sys
-  > 15	=================================
-    16	
-    17	hisi_raid host attributes
-    18	------------------------
-    19	  - /sys/class/scsi_host/host*/csts_pp
-    20	  - /sys/class/scsi_host/host*/csts_shst
-    21	  - /sys/class/scsi_host/host*/csts_cfs
-    22	  - /sys/class/scsi_host/host*/csts_rdy
-    23	  - /sys/class/scsi_host/host*/fw_version
-    24	
-    25	  The host csts_pp attribute is a read only attribute. This attribute
-    26	  indicates whether the controller is processing commands. If this attribute
-    27	  is set to ‘1’, then the controller is processing commands normally. If
-    28	  this attribute is cleared to ‘0’, then the controller has temporarily stopped
-    29	  processing commands in order to handle an event (e.g., firmware activation).
-    30	
-    31	  The host csts_shst attribute is a read only attribute. This attribute
-    32	  indicates status of shutdown processing.The shutdown status values are defined
-    33	  as:
-  > 34	        ======     ==============================
-    35	        Value      Definition
-    36	        ======     ==============================
-    37	        00b        Normal operation
-    38	        01b        Shutdown processing occurring
-    39	        10b        Shutdown processing complete
-    40	        11b        Reserved
-    41	        ======     ==============================
-  > 42	  The host csts_cfs attribute is a read only attribute. This attribute is set to
-    43	  ’1’ when a fatal controller error occurred that could not be communicated in the
-    44	  appropriate Completion Queue. This bit is cleared to ‘0’ when a fatal controller
-    45	  error has not occurred.
-    46	
-    47	  The host csts_rdy attribute is a read only attribute. This attribute is set to
-    48	  ‘1’ when the controller is ready to process submission queue entries.
-    49	
-    50	  The fw_version attribute is read-only and will return the driver version and the
-    51	  controller firmware version.
-    52	
+   330	
+   331	/**
+   332	 * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
+   333	 * It could support changing the name of the dma-buf if the same
+   334	 * piece of memory is used for multiple purpose between different devices.
+   335	 *
+   336	 * @dmabuf: [in]     dmabuf buffer that will be renamed.
+   337	 * @buf:    [in]     A piece of userspace memory that contains the name of
+   338	 *                   the dma-buf.
+   339	 *
+   340	 * Returns 0 on success. If the dma-buf buffer is already attached to
+   341	 * devices, return -EBUSY.
+   342	 *
+   343	 */
+   344	long dma_buf_set_name(struct dma_buf *dmabuf, const char *name)
+ > 345	{
+   346		char *buf = kstrndup(name, DMA_BUF_NAME_LEN, GFP_KERNEL);
+   347		if (!buf)
+   348			return -ENOMEM;
+   349	
+   350		_dma_buf_set_name(dmabuf, buf);
+   351	
+   352		return 0;
+   353	}
+   354	EXPORT_SYMBOL_GPL(dma_buf_set_name);
+   355	
 
 -- 
 0-DAY CI Kernel Test Service
