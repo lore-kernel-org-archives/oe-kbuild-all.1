@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F3119258E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 21:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17963205E25
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 21:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765575936; cv=none; b=hh95n/kddv3iXCGaYzvDsVHUOOqOX44TLT8u4lGUKEm4QibiI1nBOUY2g6S3V1yRrYijmZSkxgDeG1X5esGXENKwxCZWMfOWuOwxoBhF6dW0MD/oG3LpuExsxQqvoLxnzpdmrfOmAG2Q6kRI/DqfHpgz9xXREuPUfi5De6rhSHU=
+	t=1765576583; cv=none; b=FaglOWIIgU7O18mLhhq0NQthtqAmv6S3BUAzGdxriwLBK8eOI09di8AkzJ7bPFu82TKgtqFyYDKzdAR57FFZH1gzIsqLA01/u8+OfwLa+TdtjIpVb7Xhco7CHxYsK2jGM2hIg7XSJow7//L2kzNtxu7MgLpdDyo3SxWHjsiH9gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765575936; c=relaxed/simple;
-	bh=5UKxk0jtzkMavoRbuWq6346+s229sW2iV73w05/OyOY=;
+	s=arc-20240116; t=1765576583; c=relaxed/simple;
+	bh=Dxhav/Bc+rpiuC3PD2yeJ+uYSobTthl/6Se67balYFY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aFU9tiZLfxzVk+voRyOKRuFOLqPViaTbsJ3+y4c88U7OfJdOLeBa26z7bWMo+nwGcSp+TH1uhuIZoYSXWRSPayIJ/ewBMlGSovk1FQdBSX4R5t7dgFI5a58IfY++lHoVjCcEhvX34Noddu8Sjxm8F9KzJ0SFCW8vL2mcM5ASR1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fcSe5XjV; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=Nj7SoEpcZNX2BWlY/nYXf2CVWEiz4sh45HRpjHH0xKliFaFMy/JsInkOrg0WlfM2piFqW9YRVS51IORpX2gGx73hN1+9QPCqOQbbtHlZw8VCZOOviIPxJNfd+f8rA8fNx5mFcLByDZOYss6+CuRTSfa0Cs2LzymUYSXwQCuul5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AEjLlsjM; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fcSe5XjV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AEjLlsjM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765575934; x=1797111934;
+  t=1765576582; x=1797112582;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5UKxk0jtzkMavoRbuWq6346+s229sW2iV73w05/OyOY=;
-  b=fcSe5XjV4zx+Q7DjN467kcCrcXoGW+NYKxtc83LjvqT+5a1kenGo0Uqw
-   RuYTE7gH+zVrRZBG7c5h9POX+IiMbvEHaMOcqgWq8lzEEq0ucDX3E1R3/
-   2l9ORG3cCesh1FxvWGZ5r9rvZz0LzaR3skbgLphYQmLyfxTCZIv7401z6
-   ZyVugNVwKcaqO9ZQG3JS9MDl/96vk+G+IEyDM1GTJQu+zwYhClmtKI+2C
-   VzdsGXNhOsz+p4h6S3f897v6qmbIBi3fvuJHmTi+3MHSt4Pv5HL6tE3Oz
-   9t4FIZPFvlUM5SMwQwOB7mXIhvL4x+CSgY6LnVrcWdkN5tF5EIsHfg+0c
+  bh=Dxhav/Bc+rpiuC3PD2yeJ+uYSobTthl/6Se67balYFY=;
+  b=AEjLlsjMjKUCw31EiVblbbysiuDwwRX6wRY1TzWPu2FakZSI5VQm48VY
+   Fn1wbmw2SAS0b2nc5yKsgfbvjN3B0zN3V00s5SjsAilsCE7EfLewBm0F9
+   SBJSBoqau4I/AbwH/swFToRRzB8mTo1OGP0M5iFqy+7Ki88la276qzqpA
+   5z4KLvd7itaCRs0/v18tmDka7N49N03QZ1ZxODHsiURaMsB3tlvBTFYDy
+   a+a8klTQFeSLHfEhOmfqADeWtLZnKZxzoZGgNRVuEsiOsRR4Sv+ar9jXt
+   ul9c7xdPfUGPYkr42GUkCKEAwd2o9n3hszyKOra8PMMexX5SyIKsZx+tp
    g==;
-X-CSE-ConnectionGUID: SgOfw8AqTHu3I3P9n0rsQw==
-X-CSE-MsgGUID: mL0PfrdPR0CHVWAhXpLpQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66573277"
+X-CSE-ConnectionGUID: cTkdErr9QEGHsfvHgNeXgw==
+X-CSE-MsgGUID: 0Qax2gitTieQtD1uyZhIow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="71211470"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="66573277"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 13:45:33 -0800
-X-CSE-ConnectionGUID: ZZK9Me5MR6qxKU4UlwGI9A==
-X-CSE-MsgGUID: Kh2wRTmdSMyS6Ui4OaL6zQ==
+   d="scan'208";a="71211470"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 13:56:21 -0800
+X-CSE-ConnectionGUID: K/30yr6iSM6Ni8KDCkzvGA==
+X-CSE-MsgGUID: e1qP1g99Sueug5j5rXcPXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="201678706"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Dec 2025 13:45:33 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="202275902"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 12 Dec 2025 13:56:20 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUAx8-000000006fB-057K;
-	Fri, 12 Dec 2025 21:45:30 +0000
-Date: Sat, 13 Dec 2025 05:44:33 +0800
+	id 1vUB7Z-000000001qe-3MH3;
+	Fri, 12 Dec 2025 21:56:17 +0000
+Date: Fri, 12 Dec 2025 22:55:33 +0100
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhengchao Shao <shaozhengchao@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1941/1941]
- net/netfilter/nf_nat_proto.c:56:6: warning: no previous prototype for
- function 'nf_nat_csum_recalc'
-Message-ID: <202512130517.YGb86X1A-lkp@intel.com>
+Subject: [android-common:android-mainline 1/1] posix_timers.c:398:13:
+ warning: 'check_delete' defined but not used
+Message-ID: <202512122201.Hhwgzg7w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,49 +62,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Florian,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   df8d11fbcbb07177c2500e63d7f5a36063977596
-commit: 83abe3a3b85762720192809ac8695ff9255cfd23 [1941/1941] netfilter: nat: remove csum_recalc hook
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251213/202512130517.YGb86X1A-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130517.YGb86X1A-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   fbfd6aedcdb51da80c81b27b298b8691212febac
+commit: f3a29e7eb6dea8119f0d5132e39b52adf4d1ea76 [1/1] ANDROID: Disable check_sig_ign within kselftest_timers_posix_timers
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251212/202512122201.Hhwgzg7w-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512122201.Hhwgzg7w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512130517.YGb86X1A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512122201.Hhwgzg7w-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from net/netfilter/nf_nat_proto.c:12:
-   In file included from include/net/ip6_route.h:24:
-   include/net/ip6_fib.h:228:10: warning: default initialization of an object of type 'typeof (f6i->expires)' (aka 'const unsigned long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
-     228 |                 return time_after(jiffies, f6i->expires);
-         |                        ^
-   include/linux/jiffies.h:107:3: note: expanded from macro 'time_after'
-     107 |          typecheck(unsigned long, b) && \
-         |          ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
->> net/netfilter/nf_nat_proto.c:56:6: warning: no previous prototype for function 'nf_nat_csum_recalc' [-Wmissing-prototypes]
-      56 | void nf_nat_csum_recalc(struct sk_buff *skb,
-         |      ^
-   net/netfilter/nf_nat_proto.c:56:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      56 | void nf_nat_csum_recalc(struct sk_buff *skb,
-         | ^
-         | static 
-   2 warnings generated.
-
-
-vim +/nf_nat_csum_recalc +56 net/netfilter/nf_nat_proto.c
-
-    55	
-  > 56	void nf_nat_csum_recalc(struct sk_buff *skb,
+>> posix_timers.c:398:13: warning: 'check_delete' defined but not used [-Wunused-function]
+     398 | static void check_delete(void)
+         |             ^~~~~~~~~~~~
+>> posix_timers.c:342:13: warning: 'check_rearm' defined but not used [-Wunused-function]
+     342 | static void check_rearm(void)
+         |             ^~~~~~~~~~~
+   posix_timers.c:235:14: warning: 'ignore_thread' defined but not used [-Wunused-function]
+     235 | static void *ignore_thread(void *arg)
+         |              ^~~~~~~~~~~~~
 
 -- 
 0-DAY CI Kernel Test Service
