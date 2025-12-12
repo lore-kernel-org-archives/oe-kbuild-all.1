@@ -1,46 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3031A9F87;
-	Fri, 12 Dec 2025 14:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA6A28F5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 16:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765550768; cv=none; b=Lm+u+MsPgtHAuSJJKRJxT6qVuJzwDyVN4cYChnwSoX2wvllBuakoDX+rSY9tmQbl4WgGWfwh+ZUl3Q1aKARtHOhjKjFMHLvYwW0+6EI8lyPgs3OiDMgeP7q1G1ONBHJTKy7ZWpCKMoFbnE8HgBrzj+1F6eAXP5k8GgjAwploDY8=
+	t=1765557139; cv=none; b=Tc71eNRDNNbCdtI1CkSGpvxbIIeRQaWp5XuS7kaarnnh9TLKXkRCWiOT5t8x4+PhDIFNhsl6YrnlTVS9YOE+GeAPVzzSXpPVuYEPLARvUDGybGT8fkc3hD5DgGX8xMGDSMg4pVIbjUEM/8/Ul+JPqZfDzLhQezOTOr7Y5ooxO2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765550768; c=relaxed/simple;
-	bh=189Htd6XXodl8CyrTXDtYKVyhYZKDvKx9AdMlw9EutA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fR8qBv+LgI3wWc7k+jUVU44qOH8SGCpaG91FBWqW7Q3n9oR/jVKQ+1XYdTmu7g/A+8LvsInDL75HHSBv1jIp1WmlRGDImCTepk1ciuvdgAjtZwSgmLSK1fVy30ynsnODw9iZkxGR0cJqK0abfBL9F24ecMRCqoSur5BFzLm/NxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gQXY0nFH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765557139; c=relaxed/simple;
+	bh=fVN31KedTu+6UnEpDFUokhejwaCY1nen4NyXuq4h9iE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gK52fpHZrSlRhk0j5+SRN8kDTdI1YnsChMrWPmg0BLVcunc/8e/BgIuh4fU8pbz98Qn+mPfb+pfFd34NyfSJScJNKeseta9DrfycVM2gVms9ej3/hZlmDMk7WE8GjkXMW0ibEz+G43Umhk8IMAXSLe3hZxgQrd2ZTxpi64As30w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n7w6ZDF5; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gQXY0nFH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1E4CC4CEF1;
-	Fri, 12 Dec 2025 14:46:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765550768;
-	bh=189Htd6XXodl8CyrTXDtYKVyhYZKDvKx9AdMlw9EutA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gQXY0nFH44CNy2MRqjJHAfB9Zfmt/Owp5CPC708M/g2WTD63oWRVLmTHTTmMQO3Cw
-	 9AJwzrDIq0oZG+o56PYZQwEumhHsH1HOSHICZUF69vsFIBeEt2oPs+Gkg9pdyiV17Y
-	 CUigxXCZwL2WQUs2JV7/xHxcEII6A+egbE0hTT6yAHdJbyGvMVXI7glJe2JSuf7KrD
-	 ztbf76Qkk1p1/unIX8KXogrgM4RQxEFLDeeUqn/iRvLJO/RHuGcVA7qPoLQ2FvHtHL
-	 Z+3nbp26G5Mx126UCb8NDX6C/8HRXucS7mz7+1/BJn3ICxhtv/FrpSqPeTebAH9ZFv
-	 rqUQyg/l/Qvcw==
-Date: Fri, 12 Dec 2025 14:46:03 +0000
-From: Simon Horman <horms@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Ilya Krutskih <devsec@tpz.ru>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] net: fealnx: fix possible 'card_idx' integer overflow
- in
-Message-ID: <aTwqqxPgMWG9CqJL@horms.kernel.org>
-References: <20251211173035.852756-1-devsec@tpz.ru>
- <202512121907.n3Bzh2zF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n7w6ZDF5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765557138; x=1797093138;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fVN31KedTu+6UnEpDFUokhejwaCY1nen4NyXuq4h9iE=;
+  b=n7w6ZDF5/eRlVVPYSvO6BoJRS8M01FqPrNTlv6rfTOt9MTsA52i6KKYp
+   TbIPWGcMTDrza+vqsf2gOS8IOTh5xh+IY7ME9S4+I3zzI0XZwE3ZlGMNO
+   OX3r1kMdcHERnorQeY0dPGzySBF5ckPRNsKJVHkYveehWUQfnTfwi7+Yt
+   Lm0oObs6RLBVCGkM/AuL8AhIdQvsb93cZBPNI+Zy7nekOVxNvc9AYNa+d
+   cIBm+vu6CX0azo4bXfz6DzWnTjPneD0wl80kb8VeppYbtqBy5/O6DrkoR
+   B8r5IdLIPfJ6tUILxfNpeWJ3cPrgJD+TM0DnOElJAFy74EQROeRpyJ99p
+   w==;
+X-CSE-ConnectionGUID: +AhW9CtZRK2yV+y/CRlZWA==
+X-CSE-MsgGUID: Rcufp2Y3Roe6TWUyrV8kOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78266923"
+X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
+   d="scan'208";a="78266923"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 08:32:17 -0800
+X-CSE-ConnectionGUID: DDSXhehwTq6FVFlnRoNuYw==
+X-CSE-MsgGUID: ZuQYtx3lREKpMKf7iyp/kg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
+   d="scan'208";a="197949358"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 12 Dec 2025 08:32:16 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vU63x-000000001lQ-3Mvf;
+	Fri, 12 Dec 2025 16:32:13 +0000
+Date: Fri, 12 Dec 2025 17:31:37 +0100
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:rseq/slice 11/11] usr/include/linux/rseq.h:77:8: error:
+ redefinition of 'struct rseq_slice_ctrl'
+Message-ID: <202512121708.I9jBNYBg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,46 +61,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202512121907.n3Bzh2zF-lkp@intel.com>
 
-On Fri, Dec 12, 2025 at 07:30:04PM +0800, kernel test robot wrote:
-> Hi Ilya,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on net-next/main]
-> [also build test WARNING on net/main linus/master v6.18 next-20251212]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ilya-Krutskih/net-fealnx-fix-possible-card_idx-integer-overflow-in/20251212-013335
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20251211173035.852756-1-devsec%40tpz.ru
-> patch subject: [PATCH v2] net: fealnx: fix possible 'card_idx' integer overflow in
-> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251212/202512121907.n3Bzh2zF-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121907.n3Bzh2zF-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512121907.n3Bzh2zF-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/net/ethernet/fealnx.c: In function 'fealnx_init_one':
-> >> drivers/net/ethernet/fealnx.c:496:35: warning: '%d' directive writing between 1 and 11 bytes into a region of size 6 [-Wformat-overflow=]
->      496 |         sprintf(boardname, "fealnx%d", card_idx);
->          |                                   ^~
->    drivers/net/ethernet/fealnx.c:496:28: note: directive argument in the range [-2147483647, 2147483647]
->      496 |         sprintf(boardname, "fealnx%d", card_idx);
->          |                            ^~~~~~~~~~
->    drivers/net/ethernet/fealnx.c:496:9: note: 'sprintf' output between 8 and 18 bytes into a destination of size 12
->      496 |         sprintf(boardname, "fealnx%d", card_idx);
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git rseq/slice
+head:   32ea77d4fbbfee4d7fc9747bf8037c42b3fa6c8c
+commit: 32ea77d4fbbfee4d7fc9747bf8037c42b3fa6c8c [11/11] selftests/rseq: Implement time slice extension test
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251212/202512121708.I9jBNYBg-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121708.I9jBNYBg-lkp@intel.com/reproduce)
 
-Although I think these new warnings are not strictly for problems
-introduced by this patch. They do make me wonder
-if it would be best to cap card_index MAX_UNITS and
-return an error if that limit is exceeded.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512121708.I9jBNYBg-lkp@intel.com/
+
+Note: the tglx-devel/rseq/slice HEAD 32ea77d4fbbfee4d7fc9747bf8037c42b3fa6c8c builds fine.
+      It only hurts bisectability.
+
+All errors (new ones prefixed by >>):
+
+   In file included from rseq_test.c:24:
+>> usr/include/linux/rseq.h:77:8: error: redefinition of 'struct rseq_slice_ctrl'
+      77 | struct rseq_slice_ctrl {
+         |        ^~~~~~~~~~~~~~~
+   In file included from ../rseq/rseq.h:20,
+                    from ../rseq/rseq.c:37,
+                    from rseq_test.c:8:
+   ../rseq/rseq-abi.h:66:8: note: originally defined here
+      66 | struct rseq_slice_ctrl {
+         |        ^~~~~~~~~~~~~~~
+   cc1: note: unrecognized command-line option '-Wno-gnu-variable-sized-type-not-at-end' may have been intended to silence earlier diagnostics
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
