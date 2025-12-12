@@ -1,59 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CD02D7DE6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CA73002DB
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 05:23:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765517009; cv=none; b=Y1HEUK8hVw80ATxOjhoXiZgMCdIRazJ809fkBgXLyXOj/Rm8JwMIxcWTWblmTd6H8qpyj7B+KU2HdbzkIBI8FbUzZ3EH98uHT71V5tSlSXui0h/hx+ktQg3ctcSuCdRJj9D9OrfCD8x1yUP4H4mKzMZUbFTWaRxrUtaVXfwQ6g8=
+	t=1765517010; cv=none; b=en5RnriXj3gf6UZW5xNIFEIYTYOux2WToYXdrsdCFQJqzSnLBU7b2e1m+h88AoCy4+e3iCH4oBWc24njEh0p3wo018B2UKeSmXwlGHuIbyhYTaYcXbG2dliEJ1JkYxI962H5b0NK4CadfJfcHxA/poy5VTg3CYV9ajMQz3uNPcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765517009; c=relaxed/simple;
-	bh=LDavBn/x7uDtoY5k7EpVadIYo6iq6d8cyLHTSN0ooug=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kQ0mKK1s3wOEusncyc6sqinHki++ZSYifGLaJGgbGPzlSlPGm71447jSR7g/rqUlqfLI5G/W/Q1Zc2eoVTzl/qDf8j0n/VYB+3LdsHoLznKFmipoQU/h/oOK5emUnojastafmCxlobVpASNtTkyp33TlVCgvA2ODc3H4tOZLNBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m6KciVmS; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1765517010; c=relaxed/simple;
+	bh=m74I6Bvib2CIovtwKp7KyYPQ9tJgDXGU5el4QgpfVco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IqcXELQlg9dWTfR55xCn6SNWFPwkhJnOyQHl2ZuT9/++53XuD1CnkEJ/7RP3RK9M15faKmXGblFjrxs4hN40mBFQipjz8JagPE976wm2wDW5frFb4YRvepoVKx8R/G+IBHtyGV4VmQyUxtdsthqXK90Gp8BNNspJmGLJbSLu1Os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LkhnHI9u; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m6KciVmS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LkhnHI9u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1765517009; x=1797053009;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LDavBn/x7uDtoY5k7EpVadIYo6iq6d8cyLHTSN0ooug=;
-  b=m6KciVmStPDeSnPH6mjn6suz8GzHv8iEW4cjWElJy54QWEGkNVO0pe70
-   ITyFnQtfQuc0FA0R5rOYdVKlWZA+zFaA3ablJ+6Z3Ec+MMagrxwbwZsYc
-   x7X/m4+t6kjhV6jdH7tMJ4oTJJq9ineoVZEib3rkE90qHf8T2+KUDCoc6
-   83SM1Hci4BlEutxkXYUNot0GWX/xIw2LRaYiMi1BwRWAslwWhIIMjGWB4
-   zLHHWwnA4iNtebo03UreP+y1m32SO4bwvpEuaWhJZ8W7CsXdtKZXgb1tb
-   x+jHtLky0KgdCWqjhSp4wDgH935JFixUHXIAMxYgmj8k5SCnpUR3hH9+H
-   w==;
-X-CSE-ConnectionGUID: YU02mHKBQXWFWAK7cRQGFw==
-X-CSE-MsgGUID: mAVbf4S0Sc+F7tjWruA4Ng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78615693"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=m74I6Bvib2CIovtwKp7KyYPQ9tJgDXGU5el4QgpfVco=;
+  b=LkhnHI9u5zHFJHQPi0rjXfn0RsHsOZG0HOIy6fObcQ8V62MYHbZkTphe
+   qk3G6XyGV0A2tRmsgG4DOUoI97/L+6glQmWhD0lrN0ld3Y6XKrDDBDJyb
+   z3NrnwIHvGXCLoCvgg93qgaj3hhEtTZj2wkUGItfiiPnDi+tzU0mb6uzm
+   GL5M93iUWeVZix00CvX2PaWTHWr+24IOdhKc+nD5LnNHn4GP3jp2Ee7+a
+   fefn3yv1fboA8e89bSeD1uq5ekXj2eT+qgi96uq/WqAaZYy7SznEkNP5s
+   eC+Yoef47u5M5Ww6GxW0ticI5wo1yX5tgq8L9J9AGkKbLx98qA/nB6ctA
+   Q==;
+X-CSE-ConnectionGUID: jTefl7uURGGR90G5PlzL5w==
+X-CSE-MsgGUID: DAqHqv0iSSquCynAfb56Ig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78615698"
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="78615693"
+   d="scan'208";a="78615698"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 21:23:28 -0800
-X-CSE-ConnectionGUID: 9v8wAllPTQ2vo1jdw0w9YQ==
-X-CSE-MsgGUID: G01C/dwCRty9WOXrp/sL3w==
+X-CSE-ConnectionGUID: KrxP/FzGQtaHRq6HfwPmjg==
+X-CSE-MsgGUID: CGNRnWs7T9Oq6dLLnt89bQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="234390042"
+   d="scan'208";a="234390040"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 11 Dec 2025 21:23:26 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vTvch-000000005aL-1qUM;
+	id 1vTvch-000000005aH-1QJD;
 	Fri, 12 Dec 2025 05:23:23 +0000
 Date: Fri, 12 Dec 2025 13:22:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Airlie <airlied@redhat.com>, Timur Tabi <ttabi@nvidia.com>
-Subject: drivers/gpu/drm/nouveau/nvif/chan.c:38:51: sparse: sparse: incorrect
- type in initializer (different address spaces)
-Message-ID: <202512121331.N9I5gDz3-lkp@intel.com>
+To: Haotian Zhang <vulab@iscas.ac.cn>, ansuelsmth@gmail.com,
+	olivia@selenic.com, herbert@gondor.apana.org.au
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Haotian Zhang <vulab@iscas.ac.cn>
+Subject: Re: [PATCH] hwrng: airoha: Fix wait_for_completion_timeout return
+ value check
+Message-ID: <202512121309.biSQJ5fC-lkp@intel.com>
+References: <20251208080836.1010-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,78 +65,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251208080836.1010-1-vulab@iscas.ac.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d358e5254674b70f34c847715ca509e46eb81e6f
-commit: 862450a85b85a3e88e9065c9d2421f3ef17d054c drm/nouveau/gf100-: track chan progress with non-WFI semaphore release
-date:   7 months ago
-config: i386-randconfig-061-20251212 (https://download.01.org/0day-ci/archive/20251212/202512121331.N9I5gDz3-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121331.N9I5gDz3-lkp@intel.com/reproduce)
+Hi Haotian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.18 next-20251212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haotian-Zhang/hwrng-airoha-Fix-wait_for_completion_timeout-return-value-check/20251208-161314
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20251208080836.1010-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] hwrng: airoha: Fix wait_for_completion_timeout return value check
+config: arm-randconfig-r072-20251210 (https://download.01.org/0day-ci/archive/20251212/202512121309.biSQJ5fC-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512121331.N9I5gDz3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512121309.biSQJ5fC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/nouveau/nvif/chan.c:11:32: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/nouveau/nvif/chan.c:38:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const [usertype] *map @@     got void [noderef] __iomem *ptr @@
-   drivers/gpu/drm/nouveau/nvif/chan.c:38:51: sparse:     expected unsigned int const [usertype] *map
-   drivers/gpu/drm/nouveau/nvif/chan.c:38:51: sparse:     got void [noderef] __iomem *ptr
-   drivers/gpu/drm/nouveau/nvif/chan.c:98:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *ptr @@     got void *userd @@
-   drivers/gpu/drm/nouveau/nvif/chan.c:98:29: sparse:     expected void [noderef] __iomem *ptr
-   drivers/gpu/drm/nouveau/nvif/chan.c:98:29: sparse:     got void *userd
-   drivers/gpu/drm/nouveau/nvif/chan.c:100:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *ptr @@     got void *gpfifo @@
-   drivers/gpu/drm/nouveau/nvif/chan.c:100:30: sparse:     expected void [noderef] __iomem *ptr
-   drivers/gpu/drm/nouveau/nvif/chan.c:100:30: sparse:     got void *gpfifo
-   drivers/gpu/drm/nouveau/nvif/chan.c:104:39: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *ptr @@     got void *push @@
-   drivers/gpu/drm/nouveau/nvif/chan.c:104:39: sparse:     expected void [noderef] __iomem *ptr
-   drivers/gpu/drm/nouveau/nvif/chan.c:104:39: sparse:     got void *push
-   drivers/gpu/drm/nouveau/nvif/chan.c:116:32: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nvif/chan.c:152:22: sparse: sparse: cast removes address space '__iomem' of expression
+New smatch warnings:
+drivers/char/hw_random/airoha-trng.c:108 airoha_trng_init() warn: unsigned 'ret' is never less than zero.
 
-vim +38 drivers/gpu/drm/nouveau/nvif/chan.c
+Old smatch warnings:
+drivers/char/hw_random/airoha-trng.c:117 airoha_trng_init() warn: unsigned 'ret' is never less than zero.
 
-     6	
-     7	static void
-     8	nvif_chan_gpfifo_push_kick(struct nvif_push *push)
-     9	{
-    10		struct nvif_chan *chan = container_of(push, typeof(*chan), push);
-  > 11		u32 put = push->bgn - (u32 *)chan->push.mem.object.map.ptr;
-    12		u32 cnt;
-    13	
-    14		if (chan->func->gpfifo.post) {
-    15			if (push->end - push->cur < chan->func->gpfifo.post_size)
-    16				push->end = push->cur + chan->func->gpfifo.post_size;
-    17	
-    18			WARN_ON(nvif_chan_gpfifo_post(chan));
-    19		}
-    20	
-    21		cnt = push->cur - push->bgn;
-    22	
-    23		chan->func->gpfifo.push(chan, true, chan->push.addr + (put << 2), cnt << 2, false);
-    24		chan->func->gpfifo.kick(chan);
-    25	}
-    26	
-    27	static int
-    28	nvif_chan_gpfifo_push_wait(struct nvif_push *push, u32 push_nr)
-    29	{
-    30		struct nvif_chan *chan = container_of(push, typeof(*chan), push);
-    31	
-    32		return nvif_chan_gpfifo_wait(chan, 1, push_nr);
-    33	}
-    34	
-    35	int
-    36	nvif_chan_gpfifo_post(struct nvif_chan *chan)
-    37	{
-  > 38		const u32 *map = chan->push.mem.object.map.ptr;
-    39		const u32 pbptr = (chan->push.cur - map) + chan->func->gpfifo.post_size;
-    40		const u32 gpptr = (chan->gpfifo.cur + 1) & chan->gpfifo.max;
-    41	
-    42		return chan->func->gpfifo.post(chan, gpptr, pbptr);
-    43	}
-    44	
+vim +/ret +108 drivers/char/hw_random/airoha-trng.c
+
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   75  
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   76  static int airoha_trng_init(struct hwrng *rng)
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   77  {
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   78  	struct airoha_trng *trng = container_of(rng, struct airoha_trng, rng);
+cd62dba83f93a0 Haotian Zhang     2025-12-08   79  	unsigned long ret;
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   80  	u32 val;
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   81  
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   82  	val = readl(trng->base + TRNG_NS_SEK_AND_DAT_EN);
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   83  	val |= RNG_EN;
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   84  	writel(val, trng->base + TRNG_NS_SEK_AND_DAT_EN);
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   85  
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   86  	/* Set out of SW Reset */
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   87  	airoha_trng_irq_unmask(trng);
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   88  	writel(0, trng->base + TRNG_HEALTH_TEST_SW_RST);
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   89  
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   90  	ret = wait_for_completion_timeout(&trng->rng_op_done, BUSY_LOOP_TIMEOUT);
+cd62dba83f93a0 Haotian Zhang     2025-12-08   91  	if (ret == 0) {
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   92  		dev_err(trng->dev, "Timeout waiting for Health Check\n");
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   93  		airoha_trng_irq_mask(trng);
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   94  		return -ENODEV;
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   95  	}
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   96  
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   97  	/* Check if Health Test Failed */
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   98  	val = readl(trng->base + TRNG_HEALTH_TEST_STATUS);
+e53ca8efcc5ec1 Christian Marangi 2024-10-17   99  	if (val & (RST_STARTUP_AP_TEST_FAIL | RST_STARTUP_RC_TEST_FAIL)) {
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  100  		dev_err(trng->dev, "Health Check fail: %s test fail\n",
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  101  			val & RST_STARTUP_AP_TEST_FAIL ? "AP" : "RC");
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  102  		return -ENODEV;
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  103  	}
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  104  
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  105  	/* Check if IP is ready */
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  106  	ret = readl_poll_timeout(trng->base + TRNG_IP_RDY, val,
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  107  				 val & SAMPLE_RDY, 10, 1000);
+e53ca8efcc5ec1 Christian Marangi 2024-10-17 @108  	if (ret < 0) {
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  109  		dev_err(trng->dev, "Timeout waiting for IP ready");
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  110  		return -ENODEV;
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  111  	}
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  112  
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  113  	/* CNT_TRANS must be 0x80 for IP to be considered ready */
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  114  	ret = readl_poll_timeout(trng->base + TRNG_IP_RDY, val,
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  115  				 FIELD_GET(CNT_TRANS, val) == TRNG_CNT_TRANS_VALID,
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  116  				 10, 1000);
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  117  	if (ret < 0) {
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  118  		dev_err(trng->dev, "Timeout waiting for IP ready");
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  119  		return -ENODEV;
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  120  	}
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  121  
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  122  	return 0;
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  123  }
+e53ca8efcc5ec1 Christian Marangi 2024-10-17  124  
 
 -- 
 0-DAY CI Kernel Test Service
