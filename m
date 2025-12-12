@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A63322A26
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 12:11:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B52F2749FE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 12:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765541517; cv=none; b=QV+rdze66MSj6D116MD75tg3GaejuoZrBCSFJwDVc3DoZdc3G6r49AuvC/hqIuntQk69Pcosa9gfvBdXkaNNgDSf38QjGSEeTAQORR2hgU5ejq2bd8Rg5SQ2on80YexbX1hv+8ZVGzWfdSGW53dLInJyp9qhupAOwZVjou86jss=
+	t=1765541598; cv=none; b=WjgbzhKr8UdSMpjCLCxRnKgBvIFGxnYtki0VU6zsJnaDo6ko9ByUPUYPRRTX0lFpXayfeVKRjtwpJAuq72HZWpSSkPwowUI2CnM//2v51aDnZyP6n3v7hmWLcP97CKgndQF5gDjrzwe0C3TW6XNejTJsS1vQm33CU1VDhNx98E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765541517; c=relaxed/simple;
-	bh=KTyVi82SZezqGBUAH6eSIH16YtfqjgjHho8sw7rtUXU=;
+	s=arc-20240116; t=1765541598; c=relaxed/simple;
+	bh=B4Fe3DqUfiDpJ1WI/N/z6gTv7rDpRrfqL9D8ynaBxIA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R9182w9QUfKs4zMrMWrd4oUsyacflBElzjRMlHIQj8a4AFpMgMl8NktjEFqkylG0sXGF21fWL1i2CNl3Pc+mWOMqp7tMgJbqwGwac6OH7zg0uvhB67fU5C+EIs6MSjUdZgDC8gogcgTYTwOoXimkgpRJ9MYIxF3yZiAbsFKtRaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UP8Egrc+; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=IsxP3QZiIU+9ccCGdp/+qM5leBN84Pd0S98QUiuQGoLQci1UpwtOWU2rRG53UpYxh0oWkMKvAjx9IXPuLvfzMKDfGQA/ZQHNdNeD6vCBaJvMxf41sjvdoA0oIo3OeXLoYkBu0A8rNlmNuY54kkBOCMzKIIkeUo97YhMRcBU+Lio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QxzVnFCQ; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UP8Egrc+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QxzVnFCQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765541515; x=1797077515;
+  t=1765541595; x=1797077595;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KTyVi82SZezqGBUAH6eSIH16YtfqjgjHho8sw7rtUXU=;
-  b=UP8Egrc+BeUWlwoZ6qBPD9ofCYmt0Hfg+gzHizd6qVIlNiU95ETNUMC5
-   3N8KnQ+rmkbbufYDiWz/nduieZShTdE+eU7/DleRMXZfayLzCQdCU8Jtg
-   Ka0R1fbAJ+ScJtbTPtwgVx49fIzRogrp7zHOD3Jq/gfkGg3C60KdBopeA
-   kfKdQrIWiMy0Vo5NO9ml8Eaw1K1yiu/3kdG4RoR2n4DuDV1ONNNs3KfRf
-   8TI6Ghea7D2ZoJ+guL616AMBDUDjOj+t2h35s/QvnGdt1yCYeb4DDFfut
-   uDBcUKY8gyXypESNfz6piQ9m5THAek8Ua1E9PuU3QWgauIUfuYPlygJpO
-   w==;
-X-CSE-ConnectionGUID: FNefpL+qRL+5/p9kPFgrZQ==
-X-CSE-MsgGUID: 9VsZp6nDSb+D1gxwgEhqWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67420682"
+  bh=B4Fe3DqUfiDpJ1WI/N/z6gTv7rDpRrfqL9D8ynaBxIA=;
+  b=QxzVnFCQPncfsmEQZlp93zOpTNWT8RTiMoihoex7PRWMoKFXwHboC2/6
+   7Ivy7ORAd3n1HrdR9azR2Esb+o9MEqS5GOzMlKJYGkmgYxR+NbqK8oddm
+   CxUCS4Co9BRJJJ4WbUnxdzyTo/hWYFYfzetGMuoacoZSD+zXswl31XCEk
+   3vbui3ZLBD5axibbWOLFVaRAtmbmusC2n/t6rOCQC8vCjEQuHc2tGhPLw
+   OkwvbEYlAZ1CY38U1XrZ8S9Z/SYvCYkk4YVBfyi81ksWKgafAvLlTbZmO
+   QyrXiF9RQ19bGA9Pn1mIGkl2hjH6cVgCnDJSXy/AtcupFLHLiit3U518F
+   Q==;
+X-CSE-ConnectionGUID: o89X3ALARQmS/uoYIoGY0w==
+X-CSE-MsgGUID: yg58tHniTZ+8zwpDSH3B9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="67500666"
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="67420682"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 04:11:53 -0800
-X-CSE-ConnectionGUID: MpxjNeZHRoGXBJHvh6+SLw==
-X-CSE-MsgGUID: XgNNxL3wRNm4G8CKKqMrLA==
+   d="scan'208";a="67500666"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 04:13:15 -0800
+X-CSE-ConnectionGUID: IVAQSS7aQjiLXQavRfAe3g==
+X-CSE-MsgGUID: kZtGJKhuSIaYicGXCZ8yLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="196156071"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 04:11:52 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="201560576"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 12 Dec 2025 04:13:13 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU1zx-0000000060v-0cD3;
-	Fri, 12 Dec 2025 12:11:49 +0000
-Date: Fri, 12 Dec 2025 20:11:48 +0800
+	id 1vU21G-000000001he-3aUF;
+	Fri, 12 Dec 2025 12:13:10 +0000
+Date: Fri, 12 Dec 2025 13:12:11 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Airlie <airlied@redhat.com>, Timur Tabi <ttabi@nvidia.com>
-Subject: drivers/gpu/drm/nouveau/gv100_fence.c:25:9: sparse: sparse: cast
- removes address space '__iomem' of expression
-Message-ID: <202512122006.PfLMnLim-lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1941/1941]
+ arch/arm64/kernel/vdso/gettimeofday.c:268:13: warning: no previous prototype
+ for '__kernel_clock_gettime'
+Message-ID: <202512121347.W2YjDC5J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,75 +63,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d358e5254674b70f34c847715ca509e46eb81e6f
-commit: b1ca384772b657df433acf0c36f0771d5ebe1138 drm/nouveau/gv100-: switch to volta semaphore methods
-date:   7 months ago
-config: alpha-randconfig-r134-20251212 (https://download.01.org/0day-ci/archive/20251212/202512122006.PfLMnLim-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512122006.PfLMnLim-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   df8d11fbcbb07177c2500e63d7f5a36063977596
+commit: f43f336031282e8ea7e5f7f887c5a6ff7b9c99b0 [1941/1941] arm64:vdso: Rewrite gettimeofday into C.
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251212/202512121347.W2YjDC5J-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121347.W2YjDC5J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512122006.PfLMnLim-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512121347.W2YjDC5J-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/nouveau/gv100_fence.c: note: in included file (through drivers/gpu/drm/nouveau/nouveau_drv.h):
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:9:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:10:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:11:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:12:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:13:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:14:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:17:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:18:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:20:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:21:1: sparse: sparse: directive in macro's argument list
->> drivers/gpu/drm/nouveau/gv100_fence.c:25:9: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/nouveau/gv100_fence.c:25:9: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/nouveau/gv100_fence.c:25:9: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/nouveau/gv100_fence.c:25:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:29:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:29:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:35:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:35:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:51:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:51:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:51:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:51:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:55:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/gv100_fence.c:55:9: sparse: sparse: cast removes address space '__iomem' of expression
+Note: functions only called from assembly code should be annotated with the asmlinkage attribute
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +25 drivers/gpu/drm/nouveau/gv100_fence.c
+>> arch/arm64/kernel/vdso/gettimeofday.c:268:13: warning: no previous prototype for '__kernel_clock_gettime' [-Wmissing-prototypes]
+     268 | notrace int __kernel_clock_gettime(clockid_t clock, struct timespec *ts)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/vdso/gettimeofday.c:302:13: warning: no previous prototype for '__kernel_gettimeofday' [-Wmissing-prototypes]
+     302 | notrace int __kernel_gettimeofday(struct timeval *tv, struct timezone *tz)
+         |             ^~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/vdso/gettimeofday.c:325:5: warning: no previous prototype for '__kernel_clock_getres' [-Wmissing-prototypes]
+     325 | int __kernel_clock_getres(clockid_t clock_id, struct timespec *res)
+         |     ^~~~~~~~~~~~~~~~~~~~~
 
-    14	
-    15	static int
-    16	gv100_fence_emit32(struct nouveau_channel *chan, u64 virtual, u32 sequence)
-    17	{
-    18		struct nvif_push *push = &chan->chan.push;
-    19		int ret;
-    20	
-    21		ret = PUSH_WAIT(push, 8);
-    22		if (ret)
-    23			return ret;
-    24	
-  > 25		PUSH_MTHD(push, NVC36F, SEM_ADDR_LO, lower_32_bits(virtual),
-    26					SEM_ADDR_HI, upper_32_bits(virtual),
-    27					SEM_PAYLOAD_LO, sequence);
-    28	
-    29		PUSH_MTHD(push, NVC36F, SEM_EXECUTE,
-    30			  NVDEF(NVC36F, SEM_EXECUTE, OPERATION, RELEASE) |
-    31			  NVDEF(NVC36F, SEM_EXECUTE, RELEASE_WFI, EN) |
-    32			  NVDEF(NVC36F, SEM_EXECUTE, PAYLOAD_SIZE, 32BIT) |
-    33			  NVDEF(NVC36F, SEM_EXECUTE, RELEASE_TIMESTAMP, DIS));
-    34	
-    35		PUSH_MTHD(push, NVC36F, NON_STALL_INTERRUPT, 0);
-    36	
-    37		PUSH_KICK(push);
-    38		return 0;
-    39	}
-    40	
+
+vim +/__kernel_clock_gettime +268 arch/arm64/kernel/vdso/gettimeofday.c
+
+   267	
+ > 268	notrace int __kernel_clock_gettime(clockid_t clock, struct timespec *ts)
+   269	{
+   270		const struct vdso_data *vd = &_vdso_data;
+   271	
+   272		switch (clock) {
+   273		case CLOCK_REALTIME:
+   274			if (do_realtime(vd, ts))
+   275				goto fallback;
+   276			break;
+   277		case CLOCK_MONOTONIC:
+   278			if (do_monotonic(vd, ts))
+   279				goto fallback;
+   280			break;
+   281		case CLOCK_MONOTONIC_RAW:
+   282			if (do_monotonic_raw(vd, ts))
+   283				goto fallback;
+   284			break;
+   285		case CLOCK_REALTIME_COARSE:
+   286			do_realtime_coarse(vd, ts);
+   287			break;
+   288		case CLOCK_MONOTONIC_COARSE:
+   289			do_monotonic_coarse(vd, ts);
+   290			break;
+   291		default:
+   292			goto fallback;
+   293		}
+   294	
+   295		return 0;
+   296	fallback:
+   297		return clock_gettime_fallback(clock, ts);
+   298	}
+   299	
+   300	
+   301	
+ > 302	notrace int __kernel_gettimeofday(struct timeval *tv, struct timezone *tz)
+   303	{
+   304		const struct vdso_data *vd = &_vdso_data;
+   305	
+   306		if (likely(tv != NULL)) {
+   307			struct timespec ts;
+   308	
+   309			if (do_realtime(vd, &ts))
+   310				return gettimeofday_fallback(tv, tz);
+   311	
+   312			tv->tv_sec = ts.tv_sec;
+   313			tv->tv_usec = ts.tv_nsec / 1000;
+   314		}
+   315	
+   316		if (unlikely(tz != NULL)) {
+   317			tz->tz_minuteswest = vd->tz_minuteswest;
+   318			tz->tz_dsttime = vd->tz_dsttime;
+   319		}
+   320	
+   321		return 0;
+   322	}
+   323	
+   324	
+ > 325	int __kernel_clock_getres(clockid_t clock_id, struct timespec *res)
 
 -- 
 0-DAY CI Kernel Test Service
