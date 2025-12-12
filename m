@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12892FE567
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 23:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD1E2D543E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 23:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765582722; cv=none; b=e/zPB1stURQQT8d/dLzC/zQTzHwccz8fCF1XV6XcdgnB5UBjyB3SIBiWq50ex2nFxEcIyn5P7K1jkfD04L0j9qMFgpW5GyaNqN74kJGcRCVyukkfR0NsVd/ittE87PRrLjo29AxU1/w63HSsgUnOewYydyELkhG2WO7not+fz4w=
+	t=1765582724; cv=none; b=Gb8n9OJ0XMF6PD1XF7NOQaRQtaIDiGIP9ojs5Yp7jpD79dmUD/jruGj71SbmQuOv+3yEV59ZHW2hJXhOBf+BWYuhH6J+37VDczUqI5avDdj625mFkuxT2Y1pVraFfwJyIzkwYzIpZZ5DnaEyk7mwExjsWmoGeKlGCnvhc2US7lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765582722; c=relaxed/simple;
-	bh=boqlRvabjip0H62KAz/Fub68L5bt/2e0GwyIzNzSf18=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oIsrdA+vfWtBypPcKtT0iAlNMe0R+cs1zrFVQdkVNyUAOp4TVx/X2z3IL0cqLPyclC2UoaDLNAX/92+KW2lrIkd2QJKqWU4KGu9ykPWi5ZF1JvWzu1Ud5+qQEfD2uCYYSeaNVFHpsZ2Wik5gxYVG//4gEOb3kK6qtq7PmsD5VZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HUODwoeD; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1765582724; c=relaxed/simple;
+	bh=1TEZNcBwE82RjeHmZcGWakhq+kP2FM6p/Az90EbpiFw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YZNcHDTsd1ZbRJtWyZv5P99NXLrgAP8qCttS/NTdRy7aVkEGKXTMKo3tRS0nIHl7ppsgR64HcPKFrM/vh3GjMLuU5LFH+2og+Q5hiHFyMrv8J1vpg/0kbd9D506fiMx3fh+hqaawmuNSFx53adffVDWbJBD8zq9OGggjqgjp6Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UY5uSwZ4; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HUODwoeD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UY5uSwZ4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765582721; x=1797118721;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=boqlRvabjip0H62KAz/Fub68L5bt/2e0GwyIzNzSf18=;
-  b=HUODwoeDqjoXhb7oDFtLYiQzVDsMpHYZrZr105bQsI5o0BHC5p+xgjl1
-   5wmvcUqmLyUSlUP8TldzusCTZvnfovO64NNGyn1bGu0utZBK7Z0/8xLFj
-   zxtXZ5bTfND/VE4jSR8GDBHfvwC0P6ROS0gbCyZ0imrxEiCClo6YkYTOq
-   vhKIDW/crkxVysAq9hXuoFciSfnsh3A1qr5m3qu8gr2w+movaKUyKSUEd
-   smVGjnKvkXaklsDcx+G0f2tLA7UR3FR8hDL6nq8+ICF9rj6efenSottjO
-   iaOnfj5pAMGaJCiANspgRDcmtg734lur9OBzQH+nr8YkMaDH//H4hXzHC
-   g==;
-X-CSE-ConnectionGUID: qB1Wco81QJ2abGLaROXdcQ==
-X-CSE-MsgGUID: tyvcxdoATm+7DsMbL3S/VA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66762087"
+  t=1765582722; x=1797118722;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1TEZNcBwE82RjeHmZcGWakhq+kP2FM6p/Az90EbpiFw=;
+  b=UY5uSwZ4khPyo/ep+M04nph7juPujQUkK/2i+SRfYAKQnOWnAqeUboiH
+   TGtiCSmYSvNRCV9PjWgRuv3B7RS+SsZNAfD4TH/Tt+jo+jE5+GCl095ZH
+   PENDP1LaAhcDyapnBKJYvUOcM1oisJD3wcBWEPtk188+ta7TWqjcmmKJt
+   769V0Vw+OhdUiHJY8ZNAHM0kaPowKjUuxAEcNlYo5N73k6lgAJl0xNBM/
+   fYUWFh0GPnjIj50GdAFYX00KdRxdnsWVIF0gs2iwNbCQTfuWXn1ClVKwo
+   pfgEEbJmDUTGIb2+LIi8DxeHaIjUGr8+KMAbC+TJKKs+uSTS/cfER8zqx
+   A==;
+X-CSE-ConnectionGUID: 2F2ANioWRP+nRYfH9s378g==
+X-CSE-MsgGUID: oVa5HPwZR9eyfc9iVaFv2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67746453"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="66762087"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 15:38:40 -0800
-X-CSE-ConnectionGUID: ei5XJUf4QCqR4gP5YXMhIw==
-X-CSE-MsgGUID: 9e72janTTJyGE6whqZtwRg==
+   d="scan'208";a="67746453"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 15:38:42 -0800
+X-CSE-ConnectionGUID: qTxzGNQNQWGbNO7vLtJ81Q==
+X-CSE-MsgGUID: 1RSWUwV3SZqajfMAe1iRTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="202136488"
+   d="scan'208";a="201388547"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Dec 2025 15:38:39 -0800
+  by orviesa003.jf.intel.com with ESMTP; 12 Dec 2025 15:38:39 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUCib-000000006lz-1LBS;
+	id 1vUCib-000000006lx-1Bt7;
 	Fri, 12 Dec 2025 23:38:37 +0000
-Date: Sat, 13 Dec 2025 07:38:12 +0800
+Date: Sat, 13 Dec 2025 07:38:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 0/1]
- drivers/usb/gadget/udc/core.c:56: warning: Function parameter or member
- 'connect_lock' not described in 'DEFINE_MUTEX'
-Message-ID: <202512130726.DG8JhtMp-lkp@intel.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, xiaoyao.li@intel.com,
+	farrah.chen@intel.com
+Subject: Re: [PATCH v2] KVM: x86: Don't read guest CR3 when doing async pf
+ while the MMU is direct
+Message-ID: <202512130717.aHH8rXSC-lkp@intel.com>
+References: <20251212135051.2155280-1-xiaoyao.li@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,40 +68,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251212135051.2155280-1-xiaoyao.li@intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   65eb5a4a2e961a9252cefa9936c221b340ba0370
-commit: b142000da9e5bcdce59dbb5cf3fd78e05edebedd [0/1] BACKPORT: FROMGIT: usb: gadget: udc: core: Invoke usb_gadget_connect only when started
-config: i386-randconfig-053-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130726.DG8JhtMp-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130726.DG8JhtMp-lkp@intel.com/reproduce)
+Hi Xiaoyao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 7d0a66e4bb9081d75c82ec4957c50034cb0ea449]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiaoyao-Li/KVM-x86-Don-t-read-guest-CR3-when-doing-async-pf-while-the-MMU-is-direct/20251212-220612
+base:   7d0a66e4bb9081d75c82ec4957c50034cb0ea449
+patch link:    https://lore.kernel.org/r/20251212135051.2155280-1-xiaoyao.li%40intel.com
+patch subject: [PATCH v2] KVM: x86: Don't read guest CR3 when doing async pf while the MMU is direct
+config: i386-buildonly-randconfig-002-20251213 (https://download.01.org/0day-ci/archive/20251213/202512130717.aHH8rXSC-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130717.aHH8rXSC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512130726.DG8JhtMp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130717.aHH8rXSC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/gadget/udc/core.c:56: warning: Function parameter or member 'connect_lock' not described in 'DEFINE_MUTEX'
-   drivers/usb/gadget/udc/core.c:56: warning: expecting prototype for protects udc->vbus, udc->started, gadget->connect, gadget(). Prototype was for DEFINE_MUTEX() instead
+   In file included from include/linux/kvm_host.h:43,
+                    from arch/x86/kvm/irq.h:15,
+                    from arch/x86/kvm/mmu/mmu.c:19:
+   arch/x86/kvm/mmu/mmu.c: In function 'kvm_arch_setup_async_pf':
+>> include/linux/kvm_types.h:54:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      54 | #define INVALID_GPA     (~(gpa_t)0)
+         |                         ^
+   arch/x86/kvm/mmu/mmu.c:4525:28: note: in expansion of macro 'INVALID_GPA'
+    4525 |                 arch.cr3 = INVALID_GPA;
+         |                            ^~~~~~~~~~~
 
 
-vim +56 drivers/usb/gadget/udc/core.c
+vim +54 include/linux/kvm_types.h
 
-    45	
-    46	static struct class *udc_class;
-    47	static LIST_HEAD(udc_list);
-    48	static LIST_HEAD(gadget_driver_pending_list);
-    49	static DEFINE_MUTEX(udc_lock);
-    50	/**
-    51	 * protects udc->vbus, udc->started, gadget->connect, gadget->deactivate related
-    52	 * functions. usb_gadget_connect_locked, usb_gadget_disconnect_locked,
-    53	 * usb_udc_connect_control_locked, usb_gadget_udc_start_locked, usb_gadget_udc_stop_locked are
-    54	 * called with this lock held.
-    55	 */
-  > 56	static DEFINE_MUTEX(connect_lock);
-    57	
+d77a39d982431e drivers/kvm/types.h       Hollis Blanchard 2007-12-03  53  
+cecafc0a830f7e include/linux/kvm_types.h Yu Zhang         2023-01-05 @54  #define INVALID_GPA	(~(gpa_t)0)
+8564d6372a7d8a include/linux/kvm_types.h Steven Price     2019-10-21  55  
 
 -- 
 0-DAY CI Kernel Test Service
