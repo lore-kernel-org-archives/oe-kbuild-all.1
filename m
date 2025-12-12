@@ -1,206 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4EC30100A;
-	Fri, 12 Dec 2025 18:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD33296BA4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 18:25:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765563502; cv=none; b=ibwD8Bg9dox6wOGgAgTxtC+718ct8eNrYYM++dg86hY6QYaz6O25Z9Fh8nFKluNoCYBtdGI7vm+pj347RntbZaOmrBxN30MwV2Vu1MhjJmIc7/hZALsngwul1qFmbO/aiurDw3zmfCMF2CPlnAUTuzxV5W47BsK3aqFMo1XXT30=
+	t=1765563920; cv=none; b=C9XNPK8wKOPQ7tUFCAW+BdV2Mb+439GtLuVNUSTfFoQ9FyBtNjbSqv33gXIqbpiS0tQ86zopPPUll0Qyi7teQwVYkCftXZK1PMJZwSMXQpBQlF8/KccZ2cBoSj0pREIIcBgZzFCNRvOcl5oR8ppxpUo8vk+HJo1ej0b4laEShZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765563502; c=relaxed/simple;
-	bh=vgieZJf5PSmYMquJr8+2DHc3P1z56z+BK7Nb9LuuUMg=;
+	s=arc-20240116; t=1765563920; c=relaxed/simple;
+	bh=tHml/SJavCwz8yD84uRQ6SBdkXeVOuUEfdL8ihkK/Y4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mjkJZjz5k+PwoSNsogT6efjMES5qkjnyRGBQFMJiOOGeBUVWAs7Q+iatNjxtRrkdvZsFwsG5PxsxrXBNEJoIwoP3moHCm4FwCZ5l879HMuVUdR7jSarZTyuJcInMBKrqnEXpueokEb952R3nvfsjPC+VJlHe5AcoI5zA4/78Eo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HL+JYMaj; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=MAaYdnGJtOGVyYdpcF156lLxECCoKqBxFyUvshJvVMVrdX9+aUDx8of0NzSvg4Yf6M+1LJJ4w8uA9YKdEEvchVypVGXfyfsSfA5+3mMJTmv03aQNQjz4/qWZlROPbvBTJeKECot53xxmAtXe935KftP4ciYyh/RqrMKeaiI8+EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b3nRhpmF; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HL+JYMaj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b3nRhpmF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765563500; x=1797099500;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vgieZJf5PSmYMquJr8+2DHc3P1z56z+BK7Nb9LuuUMg=;
-  b=HL+JYMajT7DnNS0ztUxrQwu7O/tapnwivQj0gu6OCSf4ofb7CSkloDlD
-   PatBm0KJppQSovx4KsQKO5ovFRugJTV7aWQ8UOrfThv7Xr7hCbrkzLwly
-   AV9/KM+q4JUKJ/s7dduD0GMK9LVBgtfQpfPwXQMcOEBrGZ2cwdg/NdI55
-   gtXs6IHPPKJiSDuF7SeQ4RWGKguokiQE13EmvraLkCVDTiKQxuyNE7TcX
-   pjZOgSxQXX5D/GPV224E5UxTE2/R+lxq5BlkJnTOdP/5DsSq+I/x03EI8
-   8zRvwYqYcLjHt1FKorA4bxMOO0JAg57SjwTZ7eAS7xcCoNampJB54CFq3
+  t=1765563918; x=1797099918;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tHml/SJavCwz8yD84uRQ6SBdkXeVOuUEfdL8ihkK/Y4=;
+  b=b3nRhpmFopdsK5sorTvMwXGHM3Kyb0q77B/qiP6YeOTLUoXOM/JnEqCh
+   TCgRMrdBDBFl369+/0e1aoFlEf1akvWD2brwIBZOr5dVi/vLx/PZI1P4X
+   i+pf9tokM+/DHTuNegTtLNNr5xaZY/gyM/HDzR+SLT4mzQZfuVaNul2/v
+   R8nS2aLS5m7zVyH+tGXVIZRuvrwFWZPKg/oCpFFHUrVAd8Fnt6aYeALsj
+   ztpLAnmUy0AczIUF9B+7Tb9dKIz2XAWvfUCZ/KRTaD6U30UKY9aifhPPL
+   hD72tKIQDncatCDI/f60BSi7D4X4xAe7Z6EG9SJQlSoOWr5u+Z3zY8/hC
    w==;
-X-CSE-ConnectionGUID: q3CIMHyFR/mO7GkMfpMKCA==
-X-CSE-MsgGUID: MkCMRauCTduNw8PEDQmCUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="79028775"
+X-CSE-ConnectionGUID: ERdahCkKSe+CJxXVVGCc+g==
+X-CSE-MsgGUID: bEMgQul1Q1Gs2tT2pWuoAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67321712"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="79028775"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 10:18:18 -0800
-X-CSE-ConnectionGUID: pUsD5irNS7S9lEorp0ltDQ==
-X-CSE-MsgGUID: s4dryQk2Tz+tTiSSGqnEgA==
+   d="scan'208";a="67321712"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 10:25:18 -0800
+X-CSE-ConnectionGUID: G0/UVGEERrqK6le7YIUrEQ==
+X-CSE-MsgGUID: 6bj9Q4Y8RVKgK2ZMoXMMiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="196225883"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 10:18:17 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="196760510"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 12 Dec 2025 10:25:17 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU7iX-000000006QE-33Ne;
-	Fri, 12 Dec 2025 18:18:13 +0000
-Date: Sat, 13 Dec 2025 02:17:51 +0800
+	id 1vU7pK-000000001mi-3XKS;
+	Fri, 12 Dec 2025 18:25:14 +0000
+Date: Fri, 12 Dec 2025 19:24:25 +0100
 From: kernel test robot <lkp@intel.com>
-To: Francois Dugast <francois.dugast@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Matthew Brost <matthew.brost@intel.com>
-Subject: drivers/gpu/drm/drm_pagemap.c:459:21: warning: parameter 'addr' set
- but not used
-Message-ID: <202512130251.w5A5gybr-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1941/1941] mm/page_alloc.c:3005:
+ warning: Function parameter or member 'mt' not described in
+ '__putback_isolated_page'
+Message-ID: <202512121956.obyBPboz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   187d0801404f415f22c0b31531982c7ea97fa341
-commit: ddeda6136038b4b313bb6f9b44f2d363e1233814 drm/pagemap: Allocate folios when possible
-date:   4 months ago
-config: x86_64-randconfig-003-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130251.w5A5gybr-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130251.w5A5gybr-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   df8d11fbcbb07177c2500e63d7f5a36063977596
+commit: 91bac2310ae7eca9d9869222c96fcc3d02851eea [1941/1941] mm: add function __putback_isolated_page
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251212/202512121956.obyBPboz-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121956.obyBPboz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512130251.w5A5gybr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512121956.obyBPboz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_pagemap.c:459:21: warning: parameter 'addr' set but not used [-Wunused-but-set-parameter]
-     459 |                                                 unsigned long addr)
-         |                                                               ^
-   1 warning generated.
+         |                                         ^
+   mm/page_alloc.c:7269:9: note: in expansion of macro 'adj_init_size'
+    7269 |         adj_init_size(__init_begin, __init_end, init_data_size,
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:27: warning: comparison between two arrays [-Warray-compare]
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                           ^~
+   mm/page_alloc.c:7271:9: note: in expansion of macro 'adj_init_size'
+    7271 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:27: note: use '&_stext[0] <= &_sinittext[0]' to compare the addresses
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                           ^~
+   mm/page_alloc.c:7271:9: note: in expansion of macro 'adj_init_size'
+    7271 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:41: warning: comparison between two arrays [-Warray-compare]
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                                         ^
+   mm/page_alloc.c:7271:9: note: in expansion of macro 'adj_init_size'
+    7271 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:41: note: use '&_sinittext[0] < &_etext[0]' to compare the addresses
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                                         ^
+   mm/page_alloc.c:7271:9: note: in expansion of macro 'adj_init_size'
+    7271 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:27: warning: comparison between two arrays [-Warray-compare]
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                           ^~
+   mm/page_alloc.c:7272:9: note: in expansion of macro 'adj_init_size'
+    7272 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:27: note: use '&_sdata[0] <= &__init_begin[0]' to compare the addresses
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                           ^~
+   mm/page_alloc.c:7272:9: note: in expansion of macro 'adj_init_size'
+    7272 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:41: warning: comparison between two arrays [-Warray-compare]
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                                         ^
+   mm/page_alloc.c:7272:9: note: in expansion of macro 'adj_init_size'
+    7272 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:41: note: use '&__init_begin[0] < &_edata[0]' to compare the addresses
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                                         ^
+   mm/page_alloc.c:7272:9: note: in expansion of macro 'adj_init_size'
+    7272 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:27: warning: comparison between two arrays [-Warray-compare]
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                           ^~
+   mm/page_alloc.c:7273:9: note: in expansion of macro 'adj_init_size'
+    7273 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:27: note: use '&_stext[0] <= &__start_rodata[0]' to compare the addresses
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                           ^~
+   mm/page_alloc.c:7273:9: note: in expansion of macro 'adj_init_size'
+    7273 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:41: warning: comparison between two arrays [-Warray-compare]
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                                         ^
+   mm/page_alloc.c:7273:9: note: in expansion of macro 'adj_init_size'
+    7273 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:41: note: use '&__start_rodata[0] < &_etext[0]' to compare the addresses
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                                         ^
+   mm/page_alloc.c:7273:9: note: in expansion of macro 'adj_init_size'
+    7273 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:27: warning: comparison between two arrays [-Warray-compare]
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                           ^~
+   mm/page_alloc.c:7274:9: note: in expansion of macro 'adj_init_size'
+    7274 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:27: note: use '&_sdata[0] <= &__start_rodata[0]' to compare the addresses
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                           ^~
+   mm/page_alloc.c:7274:9: note: in expansion of macro 'adj_init_size'
+    7274 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:41: warning: comparison between two arrays [-Warray-compare]
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                                         ^
+   mm/page_alloc.c:7274:9: note: in expansion of macro 'adj_init_size'
+    7274 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7265:41: note: use '&__start_rodata[0] < &_edata[0]' to compare the addresses
+    7265 |                 if (start <= pos && pos < end && size > adj) \
+         |                                         ^
+   mm/page_alloc.c:7274:9: note: in expansion of macro 'adj_init_size'
+    7274 |         adj_init_size(_sdata, _edata, datasize, __start_rodata, rosize);
+         |         ^~~~~~~~~~~~~
+>> mm/page_alloc.c:3005: warning: Function parameter or member 'mt' not described in '__putback_isolated_page'
 
 
-vim +/addr +459 drivers/gpu/drm/drm_pagemap.c
+vim +3005 mm/page_alloc.c
 
-f86ad0ed620cb3 Matthew Brost   2025-06-19  435  
-f86ad0ed620cb3 Matthew Brost   2025-06-19  436  /**
-f86ad0ed620cb3 Matthew Brost   2025-06-19  437   * drm_pagemap_migrate_populate_ram_pfn() - Populate RAM PFNs for a VM area
-f86ad0ed620cb3 Matthew Brost   2025-06-19  438   * @vas: Pointer to the VM area structure, can be NULL
-f86ad0ed620cb3 Matthew Brost   2025-06-19  439   * @fault_page: Fault page
-f86ad0ed620cb3 Matthew Brost   2025-06-19  440   * @npages: Number of pages to populate
-f86ad0ed620cb3 Matthew Brost   2025-06-19  441   * @mpages: Number of pages to migrate
-f86ad0ed620cb3 Matthew Brost   2025-06-19  442   * @src_mpfn: Source array of migrate PFNs
-f86ad0ed620cb3 Matthew Brost   2025-06-19  443   * @mpfn: Array of migrate PFNs to populate
-f86ad0ed620cb3 Matthew Brost   2025-06-19  444   * @addr: Start address for PFN allocation
-f86ad0ed620cb3 Matthew Brost   2025-06-19  445   *
-f86ad0ed620cb3 Matthew Brost   2025-06-19  446   * This function populates the RAM migrate page frame numbers (PFNs) for the
-f86ad0ed620cb3 Matthew Brost   2025-06-19  447   * specified VM area structure. It allocates and locks pages in the VM area for
-f86ad0ed620cb3 Matthew Brost   2025-06-19  448   * RAM usage. If vas is non-NULL use alloc_page_vma for allocation, if NULL use
-f86ad0ed620cb3 Matthew Brost   2025-06-19  449   * alloc_page for allocation.
-f86ad0ed620cb3 Matthew Brost   2025-06-19  450   *
-f86ad0ed620cb3 Matthew Brost   2025-06-19  451   * Return: 0 on success, negative error code on failure.
-f86ad0ed620cb3 Matthew Brost   2025-06-19  452   */
-f86ad0ed620cb3 Matthew Brost   2025-06-19  453  static int drm_pagemap_migrate_populate_ram_pfn(struct vm_area_struct *vas,
-f86ad0ed620cb3 Matthew Brost   2025-06-19  454  						struct page *fault_page,
-f86ad0ed620cb3 Matthew Brost   2025-06-19  455  						unsigned long npages,
-f86ad0ed620cb3 Matthew Brost   2025-06-19  456  						unsigned long *mpages,
-f86ad0ed620cb3 Matthew Brost   2025-06-19  457  						unsigned long *src_mpfn,
-f86ad0ed620cb3 Matthew Brost   2025-06-19  458  						unsigned long *mpfn,
-f86ad0ed620cb3 Matthew Brost   2025-06-19 @459  						unsigned long addr)
-f86ad0ed620cb3 Matthew Brost   2025-06-19  460  {
-f86ad0ed620cb3 Matthew Brost   2025-06-19  461  	unsigned long i;
-f86ad0ed620cb3 Matthew Brost   2025-06-19  462  
-ddeda6136038b4 Francois Dugast 2025-08-05  463  	for (i = 0; i < npages;) {
-ddeda6136038b4 Francois Dugast 2025-08-05  464  		struct page *page = NULL, *src_page;
-ddeda6136038b4 Francois Dugast 2025-08-05  465  		struct folio *folio;
-ddeda6136038b4 Francois Dugast 2025-08-05  466  		unsigned int order = 0;
-f86ad0ed620cb3 Matthew Brost   2025-06-19  467  
-f86ad0ed620cb3 Matthew Brost   2025-06-19  468  		if (!(src_mpfn[i] & MIGRATE_PFN_MIGRATE))
-ddeda6136038b4 Francois Dugast 2025-08-05  469  			goto next;
-f86ad0ed620cb3 Matthew Brost   2025-06-19  470  
-f86ad0ed620cb3 Matthew Brost   2025-06-19  471  		src_page = migrate_pfn_to_page(src_mpfn[i]);
-f86ad0ed620cb3 Matthew Brost   2025-06-19  472  		if (!src_page)
-ddeda6136038b4 Francois Dugast 2025-08-05  473  			goto next;
-f86ad0ed620cb3 Matthew Brost   2025-06-19  474  
-f86ad0ed620cb3 Matthew Brost   2025-06-19  475  		if (fault_page) {
-f86ad0ed620cb3 Matthew Brost   2025-06-19  476  			if (src_page->zone_device_data !=
-f86ad0ed620cb3 Matthew Brost   2025-06-19  477  			    fault_page->zone_device_data)
-ddeda6136038b4 Francois Dugast 2025-08-05  478  				goto next;
-f86ad0ed620cb3 Matthew Brost   2025-06-19  479  		}
-f86ad0ed620cb3 Matthew Brost   2025-06-19  480  
-ddeda6136038b4 Francois Dugast 2025-08-05  481  		order = folio_order(page_folio(src_page));
-ddeda6136038b4 Francois Dugast 2025-08-05  482  
-ddeda6136038b4 Francois Dugast 2025-08-05  483  		/* TODO: Support fallback to single pages if THP allocation fails */
-f86ad0ed620cb3 Matthew Brost   2025-06-19  484  		if (vas)
-ddeda6136038b4 Francois Dugast 2025-08-05  485  			folio = vma_alloc_folio(GFP_HIGHUSER, order, vas, addr);
-f86ad0ed620cb3 Matthew Brost   2025-06-19  486  		else
-ddeda6136038b4 Francois Dugast 2025-08-05  487  			folio = folio_alloc(GFP_HIGHUSER, order);
-f86ad0ed620cb3 Matthew Brost   2025-06-19  488  
-ddeda6136038b4 Francois Dugast 2025-08-05  489  		if (!folio)
-f86ad0ed620cb3 Matthew Brost   2025-06-19  490  			goto free_pages;
-f86ad0ed620cb3 Matthew Brost   2025-06-19  491  
-ddeda6136038b4 Francois Dugast 2025-08-05  492  		page = folio_page(folio, 0);
-f86ad0ed620cb3 Matthew Brost   2025-06-19  493  		mpfn[i] = migrate_pfn(page_to_pfn(page));
-ddeda6136038b4 Francois Dugast 2025-08-05  494  
-ddeda6136038b4 Francois Dugast 2025-08-05  495  next:
-ddeda6136038b4 Francois Dugast 2025-08-05  496  		if (page)
-ddeda6136038b4 Francois Dugast 2025-08-05  497  			addr += page_size(page);
-ddeda6136038b4 Francois Dugast 2025-08-05  498  		else
-ddeda6136038b4 Francois Dugast 2025-08-05  499  			addr += PAGE_SIZE;
-ddeda6136038b4 Francois Dugast 2025-08-05  500  
-ddeda6136038b4 Francois Dugast 2025-08-05  501  		i += NR_PAGES(order);
-f86ad0ed620cb3 Matthew Brost   2025-06-19  502  	}
-f86ad0ed620cb3 Matthew Brost   2025-06-19  503  
-ddeda6136038b4 Francois Dugast 2025-08-05  504  	for (i = 0; i < npages;) {
-f86ad0ed620cb3 Matthew Brost   2025-06-19  505  		struct page *page = migrate_pfn_to_page(mpfn[i]);
-ddeda6136038b4 Francois Dugast 2025-08-05  506  		unsigned int order = 0;
-f86ad0ed620cb3 Matthew Brost   2025-06-19  507  
-f86ad0ed620cb3 Matthew Brost   2025-06-19  508  		if (!page)
-ddeda6136038b4 Francois Dugast 2025-08-05  509  			goto next_lock;
-ddeda6136038b4 Francois Dugast 2025-08-05  510  
-ddeda6136038b4 Francois Dugast 2025-08-05  511  		WARN_ON_ONCE(!folio_trylock(page_folio(page)));
-f86ad0ed620cb3 Matthew Brost   2025-06-19  512  
-ddeda6136038b4 Francois Dugast 2025-08-05  513  		order = folio_order(page_folio(page));
-ddeda6136038b4 Francois Dugast 2025-08-05  514  		*mpages += NR_PAGES(order);
-ddeda6136038b4 Francois Dugast 2025-08-05  515  
-ddeda6136038b4 Francois Dugast 2025-08-05  516  next_lock:
-ddeda6136038b4 Francois Dugast 2025-08-05  517  		i += NR_PAGES(order);
-f86ad0ed620cb3 Matthew Brost   2025-06-19  518  	}
-f86ad0ed620cb3 Matthew Brost   2025-06-19  519  
-f86ad0ed620cb3 Matthew Brost   2025-06-19  520  	return 0;
-f86ad0ed620cb3 Matthew Brost   2025-06-19  521  
-f86ad0ed620cb3 Matthew Brost   2025-06-19  522  free_pages:
-ddeda6136038b4 Francois Dugast 2025-08-05  523  	for (i = 0; i < npages;) {
-f86ad0ed620cb3 Matthew Brost   2025-06-19  524  		struct page *page = migrate_pfn_to_page(mpfn[i]);
-ddeda6136038b4 Francois Dugast 2025-08-05  525  		unsigned int order = 0;
-f86ad0ed620cb3 Matthew Brost   2025-06-19  526  
-f86ad0ed620cb3 Matthew Brost   2025-06-19  527  		if (!page)
-ddeda6136038b4 Francois Dugast 2025-08-05  528  			goto next_put;
-f86ad0ed620cb3 Matthew Brost   2025-06-19  529  
-f86ad0ed620cb3 Matthew Brost   2025-06-19  530  		put_page(page);
-f86ad0ed620cb3 Matthew Brost   2025-06-19  531  		mpfn[i] = 0;
-ddeda6136038b4 Francois Dugast 2025-08-05  532  
-ddeda6136038b4 Francois Dugast 2025-08-05  533  		order = folio_order(page_folio(page));
-ddeda6136038b4 Francois Dugast 2025-08-05  534  
-ddeda6136038b4 Francois Dugast 2025-08-05  535  next_put:
-ddeda6136038b4 Francois Dugast 2025-08-05  536  		i += NR_PAGES(order);
-f86ad0ed620cb3 Matthew Brost   2025-06-19  537  	}
-f86ad0ed620cb3 Matthew Brost   2025-06-19  538  	return -ENOMEM;
-f86ad0ed620cb3 Matthew Brost   2025-06-19  539  }
-f86ad0ed620cb3 Matthew Brost   2025-06-19  540  
-
-:::::: The code at line 459 was first introduced by commit
-:::::: f86ad0ed620cb3c91ec7d5468e93ac68d727539d drm/gpusvm, drm/pagemap: Move migration functionality to drm_pagemap
-
-:::::: TO: Matthew Brost <matthew.brost@intel.com>
-:::::: CC: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+  2995	
+  2996	/**
+  2997	 * __putback_isolated_page - Return a now-isolated page back where we got it
+  2998	 * @page: Page that was isolated
+  2999	 * @order: Order of the isolated page
+  3000	 *
+  3001	 * This function is meant to return a page pulled from the free lists via
+  3002	 * __isolate_free_page back to the free lists they were pulled from.
+  3003	 */
+  3004	void __putback_isolated_page(struct page *page, unsigned int order, int mt)
+> 3005	{
+  3006		struct zone *zone = page_zone(page);
+  3007	
+  3008		/* zone lock should be held when this function is called */
+  3009		lockdep_assert_held(&zone->lock);
+  3010	
+  3011		/* Return isolated page to tail of freelist. */
+  3012		__free_one_page(page, page_to_pfn(page), zone, order, mt);
+  3013	}
+  3014	
 
 -- 
 0-DAY CI Kernel Test Service
