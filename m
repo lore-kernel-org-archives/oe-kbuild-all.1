@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A1E3C38
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 12:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994551F0E32
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 13:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765543083; cv=none; b=ZUfUpyAhOjAmeQLfRol5tmXKbzBoHMsYtXOYx0IMYTke7l/+mwNjSqDLQ7yrI/rCutu0kfbsWMNLiBRachCqeeAT+sYujBhteiPow1bwu7usNqbioB0AwgFeBDAd4BU4SX1S0+dotKRXnvrye7giYwC690+UzuKY5+Ow7yrxQ7I=
+	t=1765544879; cv=none; b=g152+kKnBu2y9YDG9FttozwOjOOwrObwI14rDPzv6LmjI8MS+8ol73chmw9um2a1cJcGZbn+ADO0dJgxsK0Q/euc3OqdBvEtGJ8ndzVIQfMAMrYB4MM6A4KMow+2r6CA60NOgmfHCdM2GTZTXOLfIzVHkLCFMBPU1GitF8RiMQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765543083; c=relaxed/simple;
-	bh=/U8mSX8Z6ZGuyv8/D6YuJMHYx5zyuxG1cFcyNIT8RcE=;
+	s=arc-20240116; t=1765544879; c=relaxed/simple;
+	bh=zTBv3PjopdEDfpYik4NhpAq7Be/8bpB8wTW48k9muOg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V+7FGjslmdLcmte+ZKAAwc5hEkwWF4dP5kAcbkgUM1l8T8n05p4qR6t/VZWIGsXY7EP9SiqlT41hE/LErjav7fPIanLn/6ESe6cjSwzmGh9K7D3a1t4AMUAqbuGrNlb1LhPXv6ovrT5lA0iLkAnJEFZeHyrKicSR2lnNpWU3Qrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mFAaFzZT; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition:In-Reply-To; b=a7w09NQDl8T8LTIacPK8BT1Bbz4KCj1Bj8394xc3pbvHyzQmzJkLekwwbscZlpOJjcUtTeByysPtmnQY9cBtFj6mv76fjxVtEizipOqjfnymNu+ZRlGRrOzQ+Rh2OsEalzOFo5cPL4dULLDNRM24seBlDJ+AVDym8J+hOox9bmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZv0bYw5; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mFAaFzZT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZv0bYw5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765543083; x=1797079083;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/U8mSX8Z6ZGuyv8/D6YuJMHYx5zyuxG1cFcyNIT8RcE=;
-  b=mFAaFzZTYT8kp2mFGxziYvfN8UCO/Y6eNtOavF0EjyQJs02il7UMvqFF
-   SqHV7+OcppCOYbbEUJgC3qQu9y8MoHhRbQWTXjfPnGyMnK/sWl2mq9MJw
-   D7I9sg6QjzCsYQUVjoW5+5tYa+Fq8hb7reeadWmTT6ZfPWReoFle/8N7f
-   EJRxB1hPALpRH15R8g8N9COao68L8FdaY4ZiFTagcZ3WDuNcO8hHLEBGZ
-   e392QQrahltJkTIFGoN4wc5KxGnoIbocQ8+sQiaU8xt/Gs7wa1IFbejG2
-   s9RPOnedsAPsrzRKApHKahS7flIwPIJOZMTK6TGL3xTFE1hVWST75Igy3
+  t=1765544877; x=1797080877;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=zTBv3PjopdEDfpYik4NhpAq7Be/8bpB8wTW48k9muOg=;
+  b=AZv0bYw5AOKsUQ0aFCl9xHt3Va1pw12D8iB+pNBGzFGL/1tMj25p7Nih
+   aSro6l3hd8sc+kGdIEZC7tvs2/eYvmlOHUhjPAhwKiFyC8AL8daSWPvLf
+   UrqIg/YZxav9ik3HPiaqjls2FfStBUe5xA2Wj+RIH2PbBbUhuAIo3lyLT
+   U4qJCD3jq56Y4XlOj6/XHABPTIxp7BZq5iZliUiUW8GXboJmGv1hZlM34
+   BGLLJ532d4q3U7+zTGTq4dFiGU8guq5kr1lST3hLk0v9utJda+kvnxGvL
+   HDWHEGgBJcO1xeQ66Kq5THS17xVxXQCtwGMDFythT1p3hIIeuWx5Zg8+T
    w==;
-X-CSE-ConnectionGUID: nk+7rltvSOmFxJItLFAAKQ==
-X-CSE-MsgGUID: rMY4f3Y0SZ+f08dDD63YUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67487378"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67487378"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 04:34:54 -0800
-X-CSE-ConnectionGUID: vl/Ip9JsQdePixdcz6FzkA==
-X-CSE-MsgGUID: 8kB32wuESK2v8KJEbqkmmw==
+X-CSE-ConnectionGUID: TDK+bHGdRvuUDZH/OhFzGg==
+X-CSE-MsgGUID: p1ZQmnSXQF2bQl8XXX5x5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78184742"
+X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
+   d="scan'208";a="78184742"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 05:07:56 -0800
+X-CSE-ConnectionGUID: Jk1OtUTPSaWLe2wGeFxSYA==
+X-CSE-MsgGUID: pcDB4wKBS/yHlHNoqecHzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="228139183"
+   d="scan'208";a="196370611"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Dec 2025 04:34:52 -0800
+  by orviesa010.jf.intel.com with ESMTP; 12 Dec 2025 05:07:55 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU2ME-0000000062P-27D7;
-	Fri, 12 Dec 2025 12:34:50 +0000
-Date: Fri, 12 Dec 2025 20:34:26 +0800
+	id 1vU2sC-0000000064r-21zO;
+	Fri, 12 Dec 2025 13:07:52 +0000
+Date: Fri, 12 Dec 2025 21:06:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3541/3541]
- drivers/net/ethernet/linkdata/sxe/base/trace/sxe_trace.c:3: warning: This
- comment starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202512122024.MnPMvwJ8-lkp@intel.com>
+To: Karol Wachowski <karol.wachowski@linux.intel.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] drm: Fix object leak in DRM_IOCTL_GEM_CHANGE_HANDLE
+Message-ID: <aTwTcDZU9y6c4Jes@7da092942895>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,46 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251212130238.472833-1-karol.wachowski@linux.intel.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   cd9eb9b4365b71652b2c2ac58293bea47c9f9302
-commit: dd013ad487534c1838afc2f55efdb5daec15aace [3541/3541] Ethernet: Linkdata: Supports Linkdata ethernet Controllers
-config: x86_64-randconfig-161-20251212 (https://download.01.org/0day-ci/archive/20251212/202512122024.MnPMvwJ8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512122024.MnPMvwJ8-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512122024.MnPMvwJ8-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> drivers/net/ethernet/linkdata/sxe/base/trace/sxe_trace.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ipsec.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxe/base/log/sxe_log.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
---
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_netdev.c:3: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-
-vim +3 drivers/net/ethernet/linkdata/sxe/base/trace/sxe_trace.c
-
-   > 3	 * Copyright (C), 2020, Linkdata Technologies Co., Ltd.
-     4	 *
-     5	 * @file: sxe_trace.c
-     6	 * @author: Linkdata
-     7	 * @date: 2025.02.16
-     8	 * @brief:
-     9	 * @note:
-    10	 */
-    11	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] drm: Fix object leak in DRM_IOCTL_GEM_CHANGE_HANDLE
+Link: https://lore.kernel.org/stable/20251212130238.472833-1-karol.wachowski%40linux.intel.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
