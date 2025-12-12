@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5802F49FE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 17:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F981EB5E1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 18:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765562120; cv=none; b=nWZPTt2jBEPzPOb9h+3ZAJBW5kKhsB+LxEunDLK4FAmzmO5e0+irBHBNMjTFe77tAnt2PZQ3Wcxri3xLy+zNOKN6VTQEZF/3MsZKckoFbL7Gzemc7LszVwY/IUmZQaz+cInvfTRrCzs1DXQjp1RG2CgM7dGBDhis/qb34LcYlTk=
+	t=1765562778; cv=none; b=iJQFtsGlnBKzjN/cg0DjVZMxLETQRZI68A5jZLAQZOiVxFIeBRfMA/mqZmy/o99QZIC+OOkq6dZ7bKqbf35HAsl5s0NWtJJkiSq7XWFjyhP+HJ79P3rBTHuSjMxtB+fmujObUlFtMTy1udJ6VsLgSZ/R6uPZ6/bkKEGgiHnDWz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765562120; c=relaxed/simple;
-	bh=Nwt0ODL1pbpDKn762ppPp15inp4Hscfhn0AIOk+Debo=;
+	s=arc-20240116; t=1765562778; c=relaxed/simple;
+	bh=TED21Kw4r9m/a3pgvqvCb0JDr9A9aCre0voL98rK824=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uMO/3t8iUldnBRdmrHfWPjLnZ0PBoBVxFZvz5DOW8MbP4A0BjSxi06BXM+99fGjISjCBQVWrKky93L3xBBQpoNyla812Vze22yH1nSAc4f32CCt8tF5VnqjQ7rB1dKBTCcFJbm3ym5tcKNiGUdFES/8yQgJojVXgPcdLY6DpZ3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WRl8/NhM; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=Mc3L0+3Wtx0NoB5xndu0K/00MNc8l4NLuuKsW8+dzoz1TvvMTZ+QKhhEUQuP4ZHNltzpzOG/Rm9nytzc9EIxbCSgl54gZy5dRPZ2fcf+fsXV1/ujpDzsJMyPwB/acyVEV35jMaooJt8ms1iUePMzN9ehjHAPGp/NRFyXvsDTEHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MlgQz6Cx; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WRl8/NhM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MlgQz6Cx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765562118; x=1797098118;
+  t=1765562777; x=1797098777;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Nwt0ODL1pbpDKn762ppPp15inp4Hscfhn0AIOk+Debo=;
-  b=WRl8/NhM1L2WSOkUwl4ktwf8CXIFYGFm1BRE2I0aqjj02lzlkpgQVkZR
-   0/jsxLG8V4X+v3opJH7gYw4LX2zg8h5/2e4O0XoSlLO7aHQRyVrfKshvq
-   qRIKpVzIVFlY71xqZgz30XN4es1+EfOH5C7XlwwfK3AQFFpfZFp3EGqWx
-   GsBAIY5VWQ7H5s+9QI8ETO7ekYWIG2Jk3b6O7SCQtlMVmuZAlyge/neWj
-   4Xxy5QzpfeabbzmGv8AO/P9jE9VKgSSIxT510b5c3y/E/eKsRn90jHqEc
-   IqS3T+SYaLHT2/SpgA5WoQ/NJbqXsERinanwP1iKtgrtcY4TApjKIRyGD
+  bh=TED21Kw4r9m/a3pgvqvCb0JDr9A9aCre0voL98rK824=;
+  b=MlgQz6CxVVqOTdmc0uhDYtNSpY1I24kewWJQj2mI1wFb1DI377qb9lel
+   qiGpCI43MEvbU6kX/YrCfgBoNOq4SoUQDU1iD3VcVIdeVmSUuxIYI6ZmN
+   o0Itp0FvZbi4WSIjtDlkKO4V9WBv/NNb3QC2X6qADToH0PeVkP2POe5eW
+   nLGr8tXm+E0fQ8bnqpot1qVWhPqRaBPb3azfWGAj+mMqfhd/+Qg7mzdZs
+   IrKQtBvI1x4bBzP9DPWm0/nihtV9r72qg0fJsnlT1xr0XEbadWdV8pgyL
+   mPA2WnYpLaEg6WA2HVQsLEPfyaA6jEYYP9bAbBUREUhnaOCXAgaHGiuIT
    Q==;
-X-CSE-ConnectionGUID: Cvzxl30sS2C5Kwx/uWJMcQ==
-X-CSE-MsgGUID: xhNVB6sDSayIV+s5L455HA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67641467"
+X-CSE-ConnectionGUID: LnVzUUD9TiSH/1nMNBeMyw==
+X-CSE-MsgGUID: whDTOwS8Q1KVens3NBIcvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="79027757"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="67641467"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 09:55:16 -0800
-X-CSE-ConnectionGUID: kLGBCLcYRBasfb/eLI8iSw==
-X-CSE-MsgGUID: 16L5K1zcSomWdKXeap7vdQ==
+   d="scan'208";a="79027757"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 10:06:16 -0800
+X-CSE-ConnectionGUID: 6RRwFypRQuOjvDma9C2qZA==
+X-CSE-MsgGUID: T8LvKIB1SM2qKn4Gbf4iMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="202075990"
+   d="scan'208";a="196224281"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Dec 2025 09:55:14 -0800
+  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 10:06:16 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vU7MG-000000006Ol-23Ek;
-	Fri, 12 Dec 2025 17:55:12 +0000
-Date: Sat, 13 Dec 2025 01:55:01 +0800
+	id 1vU7Wu-000000006PN-49Bc;
+	Fri, 12 Dec 2025 18:06:12 +0000
+Date: Sat, 13 Dec 2025 02:05:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1]
- drivers/dma-buf/dma-fence.c:1083:24: sparse: sparse: incorrect type in
- return expression (different address spaces)
-Message-ID: <202512130152.Hi3zWGcW-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 3408/3408]
+ drivers/crypto/ccp/hygon/tdm-dev.c:95:13: warning: variable 'ret' set but
+ not used
+Message-ID: <202512130255.3H21JVbQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,116 +63,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   dd99b3dd2a23838f5718ec95ff4d9c782d4ce276
-commit: 087f4434a20872505b3a7c50990b5cb5c9ac2154 [1/1] BACKPORT: dma-fence: Add safe access helpers and document the rules
-config: i386-randconfig-063-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130152.Hi3zWGcW-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   da8948fdddb84e5496272bab85973165594dd469
+commit: 8011fdfd4cf33e84a51bab09ea76df4be3453037 [3408/3408] crypto: tdm: Add Hygon TDM driver
+config: x86_64-randconfig-074-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130255.3H21JVbQ-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130152.Hi3zWGcW-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130255.3H21JVbQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512130152.Hi3zWGcW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130255.3H21JVbQ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/dma-buf/dma-fence.c:1081:51: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char const * @@
-   drivers/dma-buf/dma-fence.c:1081:51: sparse:     expected char const [noderef] __rcu *
-   drivers/dma-buf/dma-fence.c:1081:51: sparse:     got char const *
->> drivers/dma-buf/dma-fence.c:1083:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char * @@
-   drivers/dma-buf/dma-fence.c:1083:24: sparse:     expected char const [noderef] __rcu *
-   drivers/dma-buf/dma-fence.c:1083:24: sparse:     got char *
-   drivers/dma-buf/dma-fence.c:1113:51: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char const * @@
-   drivers/dma-buf/dma-fence.c:1113:51: sparse:     expected char const [noderef] __rcu *
-   drivers/dma-buf/dma-fence.c:1113:51: sparse:     got char const *
-   drivers/dma-buf/dma-fence.c:1115:24: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected char const [noderef] __rcu * @@     got char * @@
-   drivers/dma-buf/dma-fence.c:1115:24: sparse:     expected char const [noderef] __rcu *
-   drivers/dma-buf/dma-fence.c:1115:24: sparse:     got char *
-   drivers/dma-buf/dma-fence.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/dma_fence.h):
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *driver_ptr_ @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *driver_ptr_
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *timeline_ptr_ @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *timeline_ptr_
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *driver_ptr_ @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *driver_ptr_
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *str @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected char const *str
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
-   include/trace/events/dma_fence.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void const *timeline_ptr_ @@     got char const [noderef] __rcu * @@
-   include/trace/events/dma_fence.h:12:1: sparse:     expected void const *timeline_ptr_
-   include/trace/events/dma_fence.h:12:1: sparse:     got char const [noderef] __rcu *
+All warnings (new ones prefixed by >>):
 
-vim +1083 drivers/dma-buf/dma-fence.c
+   drivers/crypto/ccp/hygon/tdm-dev.c: In function 'list_enqueue':
+>> drivers/crypto/ccp/hygon/tdm-dev.c:95:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+      95 |         int ret = 0;
+         |             ^~~
+   drivers/crypto/ccp/hygon/tdm-dev.c: In function 'psp_create_measure_task':
+>> drivers/crypto/ccp/hygon/tdm-dev.c:610:27: warning: variable 'head' set but not used [-Wunused-but-set-variable]
+     610 |         struct list_head *head = NULL;
+         |                           ^~~~
 
-  1054	
-  1055	/**
-  1056	 * dma_fence_driver_name - Access the driver name
-  1057	 * @fence: the fence to query
-  1058	 *
-  1059	 * Returns a driver name backing the dma-fence implementation.
-  1060	 *
-  1061	 * IMPORTANT CONSIDERATION:
-  1062	 * Dma-fence contract stipulates that access to driver provided data (data not
-  1063	 * directly embedded into the object itself), such as the &dma_fence.lock and
-  1064	 * memory potentially accessed by the &dma_fence.ops functions, is forbidden
-  1065	 * after the fence has been signalled. Drivers are allowed to free that data,
-  1066	 * and some do.
-  1067	 *
-  1068	 * To allow safe access drivers are mandated to guarantee a RCU grace period
-  1069	 * between signalling the fence and freeing said data.
-  1070	 *
-  1071	 * As such access to the driver name is only valid inside a RCU locked section.
-  1072	 * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block guarded
-  1073	 * by the &rcu_read_lock and &rcu_read_unlock pair.
-  1074	 */
-  1075	const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
-  1076	{
-  1077		RCU_LOCKDEP_WARN(!rcu_read_lock_held(),
-  1078				 "RCU protection is required for safe access to returned string");
-  1079	
-  1080		if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
-  1081			return fence->ops->get_driver_name(fence);
-  1082		else
-> 1083			return "detached-driver";
-  1084	}
-  1085	EXPORT_SYMBOL(dma_fence_driver_name);
-  1086	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PTP_1588_CLOCK
+   Depends on [n]: NET [=y] && POSIX_TIMERS [=n]
+   Selected by [m]:
+   - SXE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
+   - SXE_VF [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_LINKDATA [=y] && (X86 [=y] || ARM64) && PCI [=y]
+
+
+vim +/ret +95 drivers/crypto/ccp/hygon/tdm-dev.c
+
+    92	
+    93	static int list_enqueue(void *entry)
+    94	{
+  > 95		int ret = 0;
+    96		struct list_head *head, *entry_list = NULL;
+    97		rwlock_t *lock = NULL;
+    98	
+    99		if (!entry) {
+   100			ret = -DYN_NULL_POINTER;
+   101			pr_err("Null pointer\n");
+   102			goto end;
+   103		}
+   104	
+   105		head = &dyn_head.head;
+   106		lock = &dyn_head.lock;
+   107		entry_list = &(((struct tdm_task_ctx *)entry)->list);
+   108	
+   109		write_lock(lock);
+   110		if (entry_list)
+   111			list_add_tail(entry_list, head);
+   112		write_unlock(lock);
+   113	
+   114	end:
+   115		return 0;
+   116	}
+   117	
 
 -- 
 0-DAY CI Kernel Test Service
