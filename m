@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6351530E837
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD1F205E25
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 21:57:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765576658; cv=none; b=W2RPYo5cO9Ge0sfOtErWAVmjk2/dHHufDvJ3LowKFVTZ+ADkGTH8YWnKF5mo4zSdIX6UZsnBGQkRiNmqgA6PTT5IgSn2WRVzRBPSgovVIg2CUtoDSOeEJkzsepFbn9hS7/yc0RMlD6E42tjrjG3a9c4NnkUXcsalB5rCsPt1CjU=
+	t=1765576658; cv=none; b=OmUx99RjMOYnrPUiyznnxA7+z2E0YWAlLO6T7khvBIpEMSE/1g0ElF9J1ofsBLiDOe6L97zDtI8oPmlc8vJFbEV9CDKcMbB3vrIqczjkzTcjK5KfIh7gi/B/HQJ3S2iR0Ruwf8Vj/RbFHqCG2h5hUNyfBxOixpBjFrh/NGHDFDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765576658; c=relaxed/simple;
-	bh=lygPt0i6nWyCczFQEACCWESKpELX4p819qvFJrpLYeI=;
+	bh=99SRYpX0+cKPlhlyl3RSqMk84/+7ObYt6I4LfeWT59c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pSNxUfYtRFQ2hhGr7/Vj3UPIT6T8fGFIAEx8B/9nnScJWPBLcY81W4Ypvj4+bJZx02eALhi1l6I4QwuNUimpQvwUtDM5nUNJ0lBWIuGfadHcMAYuABUjLv0UhOOHrQ+EyBAD9hAEN5LfTx6Q5b16GDpwnC+vHlqt7UUoMTk/z0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAMQ3yXa; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=fcGl0GheUGXl0fWmNIKpbOQjHJo4rOIbH9UtKXUhqQct05v9S9ksskNTQc21b0TpnogrB9PSYi90FpYgOlF6tYAnBHRJrbckesZHXK+XFukGOXUEQeD6QGs71TGZk8RnXOaIjNhHhAjawVTWyaZJlh6rJSftByTV7sAiGdVVSiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jC+4+l5i; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAMQ3yXa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jC+4+l5i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1765576656; x=1797112656;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lygPt0i6nWyCczFQEACCWESKpELX4p819qvFJrpLYeI=;
-  b=LAMQ3yXa+MqVBKSUnHTpV163J+Q3G5KFR53cE5dQLMkPRj0zSAUK9wjj
-   CjIdCVk1YCuvP3tQYghGYiCQt264hzTtSu+Rb7TcRpK68jUag/1ZQdPmi
-   JLSSzBbovF5VM+1fhA7ECLiQyivnJM2zAFmSxfYGv0fZAx2SSwukcVAJD
-   W4e3jZRLVNYko26r22qE1bLNLfvaEPotm9U50Q+BV4OVJNzo09dmekMDd
-   EiwvsyYyqzRy8/8vrUsqQf4mB5x2KmuP4jM/1rvANOArF2Dy73Ob7GzJE
-   yjZEbjQNsFSuaNXFKAkhdZJpkjF9lMX9IVjeS7CR3r4iDLilHEhuC0SZ5
+  bh=99SRYpX0+cKPlhlyl3RSqMk84/+7ObYt6I4LfeWT59c=;
+  b=jC+4+l5ieogMusIOpdmIA0bEPV6RiODCx+TJFctK4ppM4xjWCt1Vmy2w
+   1ChlH+6gy8GDiwRktuaNuLDlRZkOd54ttXvQGOu1OYayzgA41iqQ82OoU
+   Vp789FMsL+iO0Tmun8ujWlhdDOdNR8dKvLpJ1Pfz/8iAYNhboqH+f9Knd
+   T0ALwGNOvQtkdLS8u3hGCjT1ysOP6JhOz59PYjnGFmiwyOFYHjYj3rQId
+   rbcfdogo7kyZ4VBvhXaetN2u1M+KLgEV3FQUyGTUYFrfIh4kT+QX1WbVI
+   4HoWPBBUGphyRadaYzsENsaLLReIpm3V5tl+I81h5OBZoI4bhnWoePD5g
    w==;
-X-CSE-ConnectionGUID: U2Ae/L0vQKmAtwCovorh2w==
-X-CSE-MsgGUID: kbxhf7xaRnasz2RfEhqbjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="84992737"
+X-CSE-ConnectionGUID: 3H3+cZ1WTAagKnX42M8tSQ==
+X-CSE-MsgGUID: GTLa1ih2RgCeVyIxDumcAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="84992739"
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="84992737"
+   d="scan'208";a="84992739"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 13:57:34 -0800
-X-CSE-ConnectionGUID: GhkrkMPGTBC39yjWg4O4Bg==
-X-CSE-MsgGUID: 7T35offkREy1v7FJQzZxVg==
+X-CSE-ConnectionGUID: EfMSyHquSNm7CPeodi+UQA==
+X-CSE-MsgGUID: rVXsDdtuTCCt+dmNf58hPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,144,1763452800"; 
-   d="scan'208";a="196263039"
+   d="scan'208";a="196263038"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 13:57:34 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUB8k-000000006g9-3gcH;
+	id 1vUB8k-000000006g7-3ZiZ;
 	Fri, 12 Dec 2025 21:57:30 +0000
-Date: Sat, 13 Dec 2025 05:56:33 +0800
+Date: Sat, 13 Dec 2025 05:56:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:coroutine/base 3/3] net/core/filter.c:12481:21: error:
- use of undeclared identifier '__udp4_lib_rcv'
-Message-ID: <202512130500.JnMumY5j-lkp@intel.com>
+Subject: [android-common:android16-6.12 1/1] drivers/base/core.c:1994:
+ warning: Function parameter or struct member 'con_handle' not described in
+ '__fw_devlink_relax_cycles'
+Message-ID: <202512130515.Flo02Jqm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +63,147 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/kkdwivedi/linux coroutine/base
-head:   3d1468dcf813bc71d425b7ce656a6877d98684e9
-commit: 3d1468dcf813bc71d425b7ce656a6877d98684e9 [3/3] Basic Rx integration
-config: arm-randconfig-r072-20251213 (https://download.01.org/0day-ci/archive/20251213/202512130500.JnMumY5j-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130500.JnMumY5j-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   dd99b3dd2a23838f5718ec95ff4d9c782d4ce276
+commit: d34bf994bb973db1d142376e555e093c3146f730 [1/1] driver core: fw_devlink: Stop trying to optimize cycle detection logic
+config: i386-randconfig-051-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130515.Flo02Jqm-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130515.Flo02Jqm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512130500.JnMumY5j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130515.Flo02Jqm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/core/filter.c:12481:21: error: use of undeclared identifier '__udp4_lib_rcv'
-           udp_rcv_func_ptr = __udp4_lib_rcv;
-                              ^
->> net/core/filter.c:12504:22: error: use of undeclared identifier 'icmp_rcv'; did you mean 'ip_rcv'?
-           icmp_rcv_func_ptr = icmp_rcv;
-                               ^~~~~~~~
-                               ip_rcv
-   include/net/ip.h:164:5: note: 'ip_rcv' declared here
-   int ip_rcv(struct sk_buff *skb, struct net_device *dev, struct packet_type *pt,
-       ^
-   2 errors generated.
+>> drivers/base/core.c:1994: warning: Function parameter or struct member 'con_handle' not described in '__fw_devlink_relax_cycles'
+   drivers/base/core.c:1994: warning: Excess function parameter 'con' description in '__fw_devlink_relax_cycles'
 
 
-vim +/__udp4_lib_rcv +12481 net/core/filter.c
+vim +1994 drivers/base/core.c
 
- 12466	
- 12467	__bpf_kfunc int bpf_coro_udp_rcv(struct sk_buff *skb)
- 12468	{
- 12469		int result_code;
- 12470		int (*udp_rcv_func_ptr)(struct sk_buff *);
- 12471		struct sk_buff *skb_iter;
- 12472		struct sk_buff *skb_dup;
- 12473		skb_iter = skb;
- 12474		if (!skb_iter) {
- 12475			return -22;
- 12476		}
- 12477		skb_dup = skb_clone(skb_iter, GFP_ATOMIC);
- 12478		if (!skb_dup) {
- 12479			return -12;
- 12480		}
- 12481		udp_rcv_func_ptr = __udp4_lib_rcv;
- 12482		if (!udp_rcv_func_ptr) {
- 12483			kfree_skb(skb_dup);
- 12484			return -2;
- 12485		}
- 12486		result_code = udp_rcv_func_ptr(skb_dup);
- 12487		return result_code;
- 12488	}
- 12489	
- 12490	__bpf_kfunc int bpf_coro_icmp_rcv(struct sk_buff *skb)
- 12491	{
- 12492		int result_code;
- 12493		int (*icmp_rcv_func_ptr)(struct sk_buff *);
- 12494		struct sk_buff *skb_iter;
- 12495		struct sk_buff *skb_dup;
- 12496		skb_iter = skb;
- 12497		if (!skb_iter) {
- 12498			return -22;
- 12499		}
- 12500		skb_dup = skb_clone(skb_iter, GFP_ATOMIC);
- 12501		if (!skb_dup) {
- 12502			return -12;
- 12503		}
- 12504		icmp_rcv_func_ptr = icmp_rcv;
- 12505		if (!icmp_rcv_func_ptr) {
- 12506			kfree_skb(skb_dup);
- 12507			return -2;
- 12508		}
- 12509		result_code = icmp_rcv_func_ptr(skb_dup);
- 12510		return result_code;
- 12511	}
- 12512	
+411c0d58ca6faa Saravana Kannan 2023-02-06  1971  
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1972  /**
+3fb16866b51ded Saravana Kannan 2023-02-06  1973   * __fw_devlink_relax_cycles - Relax and mark dependency cycles.
+3fb16866b51ded Saravana Kannan 2023-02-06  1974   * @con: Potential consumer device.
+3fb16866b51ded Saravana Kannan 2023-02-06  1975   * @sup_handle: Potential supplier's fwnode.
+3fb16866b51ded Saravana Kannan 2023-02-06  1976   *
+3fb16866b51ded Saravana Kannan 2023-02-06  1977   * Needs to be called with fwnode_lock and device link lock held.
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1978   *
+3fb16866b51ded Saravana Kannan 2023-02-06  1979   * Check if @sup_handle or any of its ancestors or suppliers direct/indirectly
+3fb16866b51ded Saravana Kannan 2023-02-06  1980   * depend on @con. This function can detect multiple cyles between @sup_handle
+3fb16866b51ded Saravana Kannan 2023-02-06  1981   * and @con. When such dependency cycles are found, convert all device links
+3fb16866b51ded Saravana Kannan 2023-02-06  1982   * created solely by fw_devlink into SYNC_STATE_ONLY device links. Also, mark
+3fb16866b51ded Saravana Kannan 2023-02-06  1983   * all fwnode links in the cycle with FWLINK_FLAG_CYCLE so that when they are
+3fb16866b51ded Saravana Kannan 2023-02-06  1984   * converted into a device link in the future, they are created as
+3fb16866b51ded Saravana Kannan 2023-02-06  1985   * SYNC_STATE_ONLY device links. This is the equivalent of doing
+3fb16866b51ded Saravana Kannan 2023-02-06  1986   * fw_devlink=permissive just between the devices in the cycle. We need to do
+3fb16866b51ded Saravana Kannan 2023-02-06  1987   * this because, at this point, fw_devlink can't tell which of these
+3fb16866b51ded Saravana Kannan 2023-02-06  1988   * dependencies is not a real dependency.
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1989   *
+3fb16866b51ded Saravana Kannan 2023-02-06  1990   * Return true if one or more cycles were found. Otherwise, return false.
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1991   */
+d34bf994bb973d Saravana Kannan 2024-10-30  1992  static bool __fw_devlink_relax_cycles(struct fwnode_handle *con_handle,
+3fb16866b51ded Saravana Kannan 2023-02-06  1993  				 struct fwnode_handle *sup_handle)
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17 @1994  {
+d34bf994bb973d Saravana Kannan 2024-10-30  1995  	struct device *sup_dev = NULL, *par_dev = NULL, *con_dev = NULL;
+3fb16866b51ded Saravana Kannan 2023-02-06  1996  	struct fwnode_link *link;
+3fb16866b51ded Saravana Kannan 2023-02-06  1997  	struct device_link *dev_link;
+3fb16866b51ded Saravana Kannan 2023-02-06  1998  	bool ret = false;
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  1999  
+3fb16866b51ded Saravana Kannan 2023-02-06  2000  	if (!sup_handle)
+3fb16866b51ded Saravana Kannan 2023-02-06  2001  		return false;
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2002  
+3fb16866b51ded Saravana Kannan 2023-02-06  2003  	/*
+3fb16866b51ded Saravana Kannan 2023-02-06  2004  	 * We aren't trying to find all cycles. Just a cycle between con and
+3fb16866b51ded Saravana Kannan 2023-02-06  2005  	 * sup_handle.
+3fb16866b51ded Saravana Kannan 2023-02-06  2006  	 */
+3fb16866b51ded Saravana Kannan 2023-02-06  2007  	if (sup_handle->flags & FWNODE_FLAG_VISITED)
+3fb16866b51ded Saravana Kannan 2023-02-06  2008  		return false;
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2009  
+3fb16866b51ded Saravana Kannan 2023-02-06  2010  	sup_handle->flags |= FWNODE_FLAG_VISITED;
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2011  
+3fb16866b51ded Saravana Kannan 2023-02-06  2012  	/* Termination condition. */
+d34bf994bb973d Saravana Kannan 2024-10-30  2013  	if (sup_handle == con_handle) {
+6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2014  		pr_debug("----- cycle: start -----\n");
+3fb16866b51ded Saravana Kannan 2023-02-06  2015  		ret = true;
+3fb16866b51ded Saravana Kannan 2023-02-06  2016  		goto out;
+3fb16866b51ded Saravana Kannan 2023-02-06  2017  	}
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2018  
+d34bf994bb973d Saravana Kannan 2024-10-30  2019  	sup_dev = get_dev_from_fwnode(sup_handle);
+d34bf994bb973d Saravana Kannan 2024-10-30  2020  	con_dev = get_dev_from_fwnode(con_handle);
+3fb16866b51ded Saravana Kannan 2023-02-06  2021  	/*
+3fb16866b51ded Saravana Kannan 2023-02-06  2022  	 * If sup_dev is bound to a driver and @con hasn't started binding to a
+3fb16866b51ded Saravana Kannan 2023-02-06  2023  	 * driver, sup_dev can't be a consumer of @con. So, no need to check
+3fb16866b51ded Saravana Kannan 2023-02-06  2024  	 * further.
+3fb16866b51ded Saravana Kannan 2023-02-06  2025  	 */
+3fb16866b51ded Saravana Kannan 2023-02-06  2026  	if (sup_dev && sup_dev->links.status ==  DL_DEV_DRIVER_BOUND &&
+d34bf994bb973d Saravana Kannan 2024-10-30  2027  	    con_dev && con_dev->links.status == DL_DEV_NO_DRIVER) {
+3fb16866b51ded Saravana Kannan 2023-02-06  2028  		ret = false;
+3fb16866b51ded Saravana Kannan 2023-02-06  2029  		goto out;
+3fb16866b51ded Saravana Kannan 2023-02-06  2030  	}
+3fb16866b51ded Saravana Kannan 2023-02-06  2031  
+3fb16866b51ded Saravana Kannan 2023-02-06  2032  	list_for_each_entry(link, &sup_handle->suppliers, c_hook) {
+b7e1241d8f77ed Saravana Kannan 2024-03-04  2033  		if (link->flags & FWLINK_FLAG_IGNORE)
+b7e1241d8f77ed Saravana Kannan 2024-03-04  2034  			continue;
+b7e1241d8f77ed Saravana Kannan 2024-03-04  2035  
+d34bf994bb973d Saravana Kannan 2024-10-30  2036  		if (__fw_devlink_relax_cycles(con_handle, link->supplier)) {
+3fb16866b51ded Saravana Kannan 2023-02-06  2037  			__fwnode_link_cycle(link);
+3fb16866b51ded Saravana Kannan 2023-02-06  2038  			ret = true;
+3fb16866b51ded Saravana Kannan 2023-02-06  2039  		}
+3fb16866b51ded Saravana Kannan 2023-02-06  2040  	}
+3fb16866b51ded Saravana Kannan 2023-02-06  2041  
+3fb16866b51ded Saravana Kannan 2023-02-06  2042  	/*
+3fb16866b51ded Saravana Kannan 2023-02-06  2043  	 * Give priority to device parent over fwnode parent to account for any
+3fb16866b51ded Saravana Kannan 2023-02-06  2044  	 * quirks in how fwnodes are converted to devices.
+3fb16866b51ded Saravana Kannan 2023-02-06  2045  	 */
+3fb16866b51ded Saravana Kannan 2023-02-06  2046  	if (sup_dev)
+3fb16866b51ded Saravana Kannan 2023-02-06  2047  		par_dev = get_device(sup_dev->parent);
+3fb16866b51ded Saravana Kannan 2023-02-06  2048  	else
+3fb16866b51ded Saravana Kannan 2023-02-06  2049  		par_dev = fwnode_get_next_parent_dev(sup_handle);
+3fb16866b51ded Saravana Kannan 2023-02-06  2050  
+d34bf994bb973d Saravana Kannan 2024-10-30  2051  	if (par_dev && __fw_devlink_relax_cycles(con_handle, par_dev->fwnode)) {
+6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2052  		pr_debug("%pfwf: cycle: child of %pfwf\n", sup_handle,
+6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2053  			 par_dev->fwnode);
+3fb16866b51ded Saravana Kannan 2023-02-06  2054  		ret = true;
+6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2055  	}
+3fb16866b51ded Saravana Kannan 2023-02-06  2056  
+3fb16866b51ded Saravana Kannan 2023-02-06  2057  	if (!sup_dev)
+3fb16866b51ded Saravana Kannan 2023-02-06  2058  		goto out;
+3fb16866b51ded Saravana Kannan 2023-02-06  2059  
+3fb16866b51ded Saravana Kannan 2023-02-06  2060  	list_for_each_entry(dev_link, &sup_dev->links.suppliers, c_node) {
+3fb16866b51ded Saravana Kannan 2023-02-06  2061  		/*
+3fb16866b51ded Saravana Kannan 2023-02-06  2062  		 * Ignore a SYNC_STATE_ONLY flag only if it wasn't marked as
+3fb16866b51ded Saravana Kannan 2023-02-06  2063  		 * such due to a cycle.
+3fb16866b51ded Saravana Kannan 2023-02-06  2064  		 */
+3fb16866b51ded Saravana Kannan 2023-02-06  2065  		if (device_link_flag_is_sync_state_only(dev_link->flags) &&
+3fb16866b51ded Saravana Kannan 2023-02-06  2066  		    !(dev_link->flags & DL_FLAG_CYCLE))
+3fb16866b51ded Saravana Kannan 2023-02-06  2067  			continue;
+3fb16866b51ded Saravana Kannan 2023-02-06  2068  
+d34bf994bb973d Saravana Kannan 2024-10-30  2069  		if (__fw_devlink_relax_cycles(con_handle,
+3fb16866b51ded Saravana Kannan 2023-02-06  2070  					      dev_link->supplier->fwnode)) {
+6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2071  			pr_debug("%pfwf: cycle: depends on %pfwf\n", sup_handle,
+6e7ad1aebb4fc9 Saravana Kannan 2024-02-02  2072  				 dev_link->supplier->fwnode);
+3fb16866b51ded Saravana Kannan 2023-02-06  2073  			fw_devlink_relax_link(dev_link);
+3fb16866b51ded Saravana Kannan 2023-02-06  2074  			dev_link->flags |= DL_FLAG_CYCLE;
+3fb16866b51ded Saravana Kannan 2023-02-06  2075  			ret = true;
+3fb16866b51ded Saravana Kannan 2023-02-06  2076  		}
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2077  	}
+3fb16866b51ded Saravana Kannan 2023-02-06  2078  
+3fb16866b51ded Saravana Kannan 2023-02-06  2079  out:
+3fb16866b51ded Saravana Kannan 2023-02-06  2080  	sup_handle->flags &= ~FWNODE_FLAG_VISITED;
+3fb16866b51ded Saravana Kannan 2023-02-06  2081  	put_device(sup_dev);
+3fb16866b51ded Saravana Kannan 2023-02-06  2082  	put_device(par_dev);
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2083  	return ret;
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2084  }
+b0e2fa4f611bb9 Saravana Kannan 2020-12-17  2085  
+
+:::::: The code at line 1994 was first introduced by commit
+:::::: b0e2fa4f611bb9ab22928605d5b1c7fd44e73955 driver core: Handle cycles in device links created by fw_devlink
+
+:::::: TO: Saravana Kannan <saravanak@google.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
