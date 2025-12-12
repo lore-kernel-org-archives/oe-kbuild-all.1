@@ -1,136 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFC5314A9F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 09:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F062314A61;
+	Fri, 12 Dec 2025 09:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765532634; cv=none; b=q22XVA/rQCdngHSRMrU/NbCdXFDoZup501Je2hKhVaxpd5dq1YsJ2ZfYXyNTDaZ1sI5C2BUDfOP6RXo6+ETu1c62c034ETEeXBTzgkq9ALcXCWeLSXCc0Hv19JHmp9r+Ha2x1ZB9LiZMjtIwSkR3HM1odSyE4Qb4+ZS8dIUvBkw=
+	t=1765533244; cv=none; b=RmHzKkZD1G44zwd14RKLOUM4e1ThhKzf1OnJ5jRU7jVpPHf2qcEbEsH/OZUmnL8HNuzzJnPSEpLoT1QUsYK/xsnUPQOu2gbCnHJ/7MxSbq/MpDlqRTqlRQEWpkwOXuJfARYWDCujO6YsD83u7UGeBVCMmn+ClV0CNflVTDOT24w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765532634; c=relaxed/simple;
-	bh=vK6ve3ORyJjvjbINwd2v4gLZrZCBznPmG89C9/UqcSc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Gp2W4/M7aaHggs1Um2b0rPFpJMdOJsf7Z5SXEe1byeEZ+nk59g+PUYuvLqyCVjU7ifDgmQC9WXNndEtHQgIXgmxXiAZHbfKYnVNpLrLcS5Wx6+mX5RURrY5dhpVjPS3VZeJvKujJkXGJjiExrFFdFGIH/chTC1FICvqBQg1+KxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JMev49qq; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JMev49qq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765532631; x=1797068631;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vK6ve3ORyJjvjbINwd2v4gLZrZCBznPmG89C9/UqcSc=;
-  b=JMev49qqdCck6OQekpSQG3hp/4SoKB9+X1twG0ec+J7EvP85swsJ55Mm
-   3dSuTXlfpSJ//3AtgJLgF73b61dCKyc6J8jZiSq4z67VI7lWIPZwj5RLg
-   Zud+L4j18tFOoPKanfUNKjVipUNGYgeLVzba4DReDNjmfNaCXY+nv5pm2
-   DKnx/ltqvqhhAhdWPuuBGBLTB9q8TlZ/usmf8KyK6s1RZCy0b5VIcxU/M
-   P5W+ty+T8E4nxz5AMILdk2ucmMo0pgoBfmVs8tz9YrPIBVJ7u9AdmnnE2
-   voDj1BVgqBZGxGVGAljVuK4RxIBQlgS0kqHqTFG4Fr+Ml1t7lAxvIvcPX
-   w==;
-X-CSE-ConnectionGUID: IfHvYGA7QqC4VGMkCO8IeQ==
-X-CSE-MsgGUID: S89HalvSSvqjcB21MjwkLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="71390868"
-X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="71390868"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 01:43:45 -0800
-X-CSE-ConnectionGUID: VQBwHgubQS6NsTKCaOtJtw==
-X-CSE-MsgGUID: mmUAkF88Q+uA/WIfaxL3Qw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,143,1763452800"; 
-   d="scan'208";a="234441073"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 12 Dec 2025 01:43:44 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vTzgb-000000005sw-3kaG;
-	Fri, 12 Dec 2025 09:43:41 +0000
-Date: Fri, 12 Dec 2025 17:43:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Airlie <airlied@redhat.com>, Timur Tabi <ttabi@nvidia.com>
-Subject: drivers/gpu/drm/nouveau/dispnv50/crcca7d.c:28:17: sparse: sparse:
- cast removes address space '__iomem' of expression
-Message-ID: <202512121711.NSEwoa9G-lkp@intel.com>
+	s=arc-20240116; t=1765533244; c=relaxed/simple;
+	bh=e+PVJXn3SNu5RdUqOToWRAPThm1ywlKM0+e510R3cNw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CozKBxV8wA+cytnaM2I/5lIGvoreJ2HPWixmuUPuNN9lv91FpUkY0Trajv6j9pReg4K1liIuDN8vyK9sylZZWGJaYFGnW4BAy5oTd7tQ4XabMxjngKO8xWsCGieILn4sTKWYG8hGvo5457stDE2VCSrTUs5LkcJ205FCuFMYkCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.93.142])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dSPsp1vBvzYQv4f;
+	Fri, 12 Dec 2025 17:53:34 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.75])
+	by mail.maildlp.com (Postfix) with ESMTP id 84D971A018D;
+	Fri, 12 Dec 2025 17:53:52 +0800 (CST)
+Received: from [10.67.111.176] (unknown [10.67.111.176])
+	by APP2 (Coremail) with SMTP id Syh0CgBHJlAq5jtpR9fqBQ--.55492S2;
+	Fri, 12 Dec 2025 17:53:48 +0800 (CST)
+Message-ID: <5d9ae0e9-d1c3-46cb-9dee-f016359e90f8@huaweicloud.com>
+Date: Fri, 12 Dec 2025 17:53:46 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next 3/5] mm/mglru: extend shrink_one for both lrugen and
+ non-lrugen
+To: kernel test robot <lkp@intel.com>, akpm@linux-foundation.org,
+ axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
+ david@kernel.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ vbabka@suse.cz, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+ corbet@lwn.net, hannes@cmpxchg.org, roman.gushchin@linux.dev,
+ shakeel.butt@linux.dev, muchun.song@linux.dev, zhengqi.arch@bytedance.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ cgroups@vger.kernel.org, lujialin4@huawei.com, zhongjinji@honor.com
+References: <20251209012557.1949239-4-chenridong@huaweicloud.com>
+ <202512121027.03z9qd08-lkp@intel.com>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <202512121027.03z9qd08-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:Syh0CgBHJlAq5jtpR9fqBQ--.55492S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZFyftw4xXrWkGrW3CrW5Awb_yoW8uF1rpF
+	WUGw4jvr15Xrs29ayvgF4DWFyjyrs3Gry3GF1kXr1UAay2vF9rGFyI9r4Yqryjg3ykKrWa
+	yr97Wrn5t3WjvaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
+	s2-5UUUUU==
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d358e5254674b70f34c847715ca509e46eb81e6f
-commit: 6cc6e08d4542473d79ea83d9123d9d35e9c01c92 drm/nouveau/kms: add support for GB20x
-date:   7 months ago
-config: i386-randconfig-061-20251212 (https://download.01.org/0day-ci/archive/20251212/202512121711.NSEwoa9G-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121711.NSEwoa9G-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512121711.NSEwoa9G-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/nouveau/dispnv50/crcca7d.c: note: in included file (through drivers/gpu/drm/nouveau/nouveau_drv.h, drivers/gpu/drm/nouveau/nouveau_display.h, ...):
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:9:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:10:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:11:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:12:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:13:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:14:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:17:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:18:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:20:1: sparse: sparse: directive in macro's argument list
-   drivers/gpu/drm/nouveau/include/nvif/ioctl.h:21:1: sparse: sparse: directive in macro's argument list
->> drivers/gpu/drm/nouveau/dispnv50/crcca7d.c:28:17: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/nouveau/dispnv50/crcca7d.c:28:17: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/nouveau/dispnv50/crcca7d.c:28:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcca7d.c:35:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcca7d.c:35:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcca7d.c:55:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcca7d.c:55:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcca7d.c:79:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/dispnv50/crcca7d.c:79:9: sparse: sparse: cast removes address space '__iomem' of expression
+On 2025/12/12 10:55, kernel test robot wrote:
+> Hi Chen,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on akpm-mm/mm-everything]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/mm-mglru-use-mem_cgroup_iter-for-global-reclaim/20251209-094913
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20251209012557.1949239-4-chenridong%40huaweicloud.com
+> patch subject: [PATCH -next 3/5] mm/mglru: extend shrink_one for both lrugen and non-lrugen
+> config: x86_64-randconfig-004-20251212 (https://download.01.org/0day-ci/archive/20251212/202512121027.03z9qd08-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512121027.03z9qd08-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512121027.03z9qd08-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> mm/vmscan.o: warning: objtool: shrink_one+0xeb2: sibling call from callable instruction with modified stack frame
+> 
 
-vim +/__iomem +28 drivers/gpu/drm/nouveau/dispnv50/crcca7d.c
+This is the first time I've encountered this warning. While adding
+`STACK_FRAME_NON_STANDARD(shrink_one)` resolves it, I noticed this approach isn't widely used in the
+codebase. Is this the standard solution, or are there better alternatives?
 
-    12	
-    13	static int
-    14	crcca7d_set_ctx(struct nv50_head *head, struct nv50_crc_notifier_ctx *ctx)
-    15	{
-    16		struct nvif_push *push = &head->disp->core->chan.push;
-    17		const int i = head->base.index;
-    18		int ret;
-    19	
-    20		ret = PUSH_WAIT(push, ctx ? 3 : 2);
-    21		if (ret)
-    22			return ret;
-    23	
-    24		if (ctx) {
-    25			const u32 crc_hi = upper_32_bits(ctx->mem.addr);
-    26			const u32 crc_lo = lower_32_bits(ctx->mem.addr);
-    27	
-  > 28			PUSH_MTHD(push, NVCA7D, HEAD_SET_SURFACE_ADDRESS_HI_CRC(i), crc_hi,
-    29	
-    30						HEAD_SET_SURFACE_ADDRESS_LO_CRC(i),
-    31				  NVVAL(NVCA7D, HEAD_SET_SURFACE_ADDRESS_LO_CRC, ADDRESS_LO, crc_lo >> 4) |
-    32				  NVDEF(NVCA7D, HEAD_SET_SURFACE_ADDRESS_LO_CRC, TARGET, PHYSICAL_NVM) |
-    33				  NVDEF(NVCA7D, HEAD_SET_SURFACE_ADDRESS_LO_CRC, ENABLE, ENABLE));
-    34		} else {
-    35			PUSH_MTHD(push, NVCA7D, HEAD_SET_SURFACE_ADDRESS_LO_CRC(i),
-    36				  NVDEF(NVCA7D, HEAD_SET_SURFACE_ADDRESS_LO_CRC, ENABLE, DISABLE));
-    37		}
-    38	
-    39		return 0;
-    40	}
-    41	
+I've tested that the warning persists even when `shrink_one` is simplified to only call `shrink_lruvec`:
+
+```
+static void shrink_one(struct lruvec *lruvec, struct scan_control *sc)
+{
+    shrink_lruvec(lruvec, sc);
+}
+```
+
+How can we properly avoid this warning without using STACK_FRAME_NON_STANDARD?
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Ridong
+
