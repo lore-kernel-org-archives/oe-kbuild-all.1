@@ -1,169 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F70723EA90
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 00:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE8B214228
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 01:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765500544; cv=none; b=bdlZckHeU4kcFPhgedjk4DLZa2wjlTX5/PaJsTRNsznFqSrz1hJiZ1lHLBMT+DcoW1zx3vRwYfYveImLpRjJeMIS3i8QtgKmxd2HCXJjAe5iW7O4sLuw+ewy0z31/4eOTB0+WzeoBge85jdS0AB7iauJ++bjeiL6DUF2q21C8qw=
+	t=1765501479; cv=none; b=C3H5aSFQftcSpSaXnZ5Ho0DS/g+7CZGBli3+3icTAqgXXWt+4lc2zCZ2Gqp5GngffBG7zi+pOCookKV5O+WD3BaKwpwUzFlJbRTKjDDPjLAM+MuPmAu+EIdOpLe8L/FV8lUQtdqZJ71EI08MvrJJpAmnIqV5dJgI2BiyJkyKk/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765500544; c=relaxed/simple;
-	bh=hAe6AAOvyOebdWwsY5kojqH4D7Nkm+axQcV4KqQWf/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HAIrfLWtPzlA7BYX4SKbCfhF0Xeq4cUej78AbnMavq3qXhWhPYhRkD1o6h18dErd5UZ69qOejEtS6MLJu2WTQLuLmtbspqQDGhhF4sQW/EW/Fa02Ik5s/74c3FQQOINdwsqy3SAkAp8UC+dp7QQGd7kTbTvValFdI7X4DMBKZ0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dV2MogtS; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765501479; c=relaxed/simple;
+	bh=RKdh6SX2Y9GypC+Fu27yMoW70ksgsbT1xmg4oX49lqg=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=iWsipgZ+QZheixIbFNPtUwyKzeNQGiJclKBi49XAEWdqtSYhSlYgYWL2kwXiSJOFTYnaZQfnJf2w1aIDzBaOo6FBaYPmYz8m4yCsPtOUoT/evGRtHKeQ5fet6M9QmoASBhmxnBDfbUvwA+LgwCZr3MVEvabfSZEMbYKrMpK0YNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aXLS+8So; arc=none smtp.client-ip=209.85.128.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dV2MogtS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765500543; x=1797036543;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hAe6AAOvyOebdWwsY5kojqH4D7Nkm+axQcV4KqQWf/I=;
-  b=dV2MogtSgPiPA6AJc5CJHYLeXtFcWgHfLiTOs2KR3jHJCt1TYLXpnMtt
-   i7eDpD71QAiscfda+TICWc1hJRWRGYPe9lCSxwySgy9nKWPJzcfMLgVUU
-   Bkmb4LK3CbuxxFsZ+UpaAYDE0jsnZcth2QjMN0gM0M8I2HFQ/aYu1E9LP
-   bDagpOJGy/+4WVtMY7ddVNdB25Yk7x1nJruN8WEAm73iyv6893A9lZYhJ
-   Wt0sUTS98RPl3ph22upGOFAfDO/h6GoidBLBIUGDdujq2mcxixlcGFz/h
-   cJkj2VT5EuUcfBtTgOJjztEi+iglkBqYQxBIhRGR3SXnF7WTKLXVELCUJ
-   A==;
-X-CSE-ConnectionGUID: Jg9LalZbQXW9houMGyakAQ==
-X-CSE-MsgGUID: WO7EXdPvQuCO1ttIpFLjHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11639"; a="78114221"
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="78114221"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2025 16:49:02 -0800
-X-CSE-ConnectionGUID: 31ljWDxmTvqtOvYRtR4LDQ==
-X-CSE-MsgGUID: 9vwaFrSoRJqSM2OGFXVN6g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,141,1763452800"; 
-   d="scan'208";a="197756649"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Dec 2025 16:48:59 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vTrL7-000000005Fl-1fJF;
-	Fri, 12 Dec 2025 00:48:57 +0000
-Date: Fri, 12 Dec 2025 08:48:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel.holland@sifive.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	David Hildenbrand <david@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Ryan Roberts <ryan.roberts@arm.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Gavin Shan <gshan@redhat.com>, Zi Yan <ziy@nvidia.com>,
-	Samuel Holland <samuel.holland@sifive.com>
-Subject: Re: [PATCH 1/2] mm/debug_vm_pgtable: Use set_pXd() to write page
- tables
-Message-ID: <202512120808.akRJJMa7-lkp@intel.com>
-References: <20251211081117.1126521-2-samuel.holland@sifive.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aXLS+8So"
+Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-477563e531cso6543285e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 Dec 2025 17:04:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765501476; x=1766106276; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vDeDYOigfVSDOdWYWJ232JALzsx3lssVRbTX+k57EuM=;
+        b=aXLS+8So2xNxE7WeRs1CIt44UWiHRqQxdVqnJbnVhdklo4rmVyIbDVD2rzBmkkT5Ri
+         RELl1/BLXfE8VXt94A8giuGUlc0wuWdlf43RKkfd5oHG/OKqt98igXy8knX6UP++ndUg
+         Mu761rpn5VUrKpWdGxdczYd7YcWSalG8Gh5FrsSRxSmoOy/pGzSxGulK50SLNydye76o
+         ajxGz+z9nxm663g9zaUAVuRsoH4gwp2uDyxb+iMuQGv24HFCMlHCO/WM+nnK4LI8F/9W
+         ymGSZRIVGlaMNDxbZR26T+erh0RzrmTT0+RpzsvSDb67Ox492CIxiYBHttESmAPbWAUP
+         1YSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765501476; x=1766106276;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vDeDYOigfVSDOdWYWJ232JALzsx3lssVRbTX+k57EuM=;
+        b=xUhQ3HclwHUzp9R0b4JPJ3eIjcz5SAbYjeHzvb6qPyH+XCPG1cIXqA527uWHefOxng
+         uGdy/gCC2XZpahp1uNZGMCLiKskS7qhYe4MMB9ovekNpeS35bIRQbBxtReYUs4izVFDK
+         6WyHpU+aLL37pMAZxInhq0fhtBA4pVn1bM34caGo6VtBYDeIrLH9v4WeKnXdfENYYbKQ
+         SRNltCOpLauPecioi84WSa0qSBSvt3WTasJyKxZGGLGaX3DyYo3wi+b36KfsJElH8w27
+         iho4lOT0V3IpoXkucU1jJyQ8Y4mJmSP2YQWd7BTa7rOwPvFBUH2WtP+jJsKdgIY+jX6o
+         bBOA==
+X-Forwarded-Encrypted: i=1; AJvYcCUu7T0Ax+HMsJGEplWPfXYonTnRBd57386iu8egc68b2HbmM6VpZHnkgZny2egxZdRsO1Gt/egCCbfrbaQl@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6Pb5llJWhrxHpKCbtbFqBjhDzq0NzZ9vAT6o3K1044qM/ixmZ
+	NmC2XxwvOkuU2Ibs7S5c747qx/NexerGW6kcZmPSpcxFKF/PQ6ytVPElSJAHAFtE/h8l0upqcoz
+	makLoxGjBLxaWf9hS+w==
+X-Google-Smtp-Source: AGHT+IG62AMtufuC/R9NxUzH7W20Tj2XnsntNv57fg9tu7loXWLhS5+jBXLboYknGLl4vGu1cT0E2Je870UeMSI=
+X-Received: from wmcq4.prod.google.com ([2002:a05:600c:c104:b0:477:774d:3832])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:46cf:b0:475:dd8d:2f52 with SMTP id 5b1f17b1804b1-47a8f9155bamr1776175e9.32.1765501476541;
+ Thu, 11 Dec 2025 17:04:36 -0800 (PST)
+Date: Fri, 12 Dec 2025 01:04:35 +0000
+In-Reply-To: <20251124144810.2fb0e99e.gary@garyguo.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251211081117.1126521-2-samuel.holland@sifive.com>
+Mime-Version: 1.0
+References: <DEE5GDTBSJ5O.KGQ3AG72NF30@nvidia.com> <aSAr-aA2U26lr3iI@google.com>
+ <DEEEZRYSYSS0.28PPK371D100F@nvidia.com> <aSBy3HQ9Z-h2LbB8@google.com>
+ <CANiq72=P8AS_XeMdkakuGeTQ5SGb4wvH8qyVoY32FR+PLQu+zQ@mail.gmail.com>
+ <20251121143008.2f5acc33.gary@garyguo.net> <aSB623GKVDR2TBc3@google.com>
+ <CANiq72kUk_R0HGbX4eW9iucCXergJqBBeutnh7cb8SNAzGjG+g@mail.gmail.com>
+ <aSQ1VNuGHhFXYE2e@google.com> <20251124144810.2fb0e99e.gary@garyguo.net>
+Message-ID: <aTtqI7Mu7LYu0fpx@google.com>
+Subject: Re: [linux-next:master 9676/10599] ld.lld: error: undefined symbol: rust_build_error
+From: Alice Ryhl <aliceryhl@google.com>
+To: Gary Guo <gary@garyguo.net>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Trevor Gross <tmgross@umich.edu>, 
+	Alexandre Courbot <acourbot@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Samuel,
+On Mon, Nov 24, 2025 at 02:48:10PM +0000, Gary Guo wrote:
+> On Mon, 24 Nov 2025 10:37:08 +0000
+> Alice Ryhl <aliceryhl@google.com> wrote:
+>=20
+> > On Fri, Nov 21, 2025 at 04:53:26PM +0100, Miguel Ojeda wrote:
+> > > On Fri, Nov 21, 2025 at 3:44=E2=80=AFPM Alice Ryhl <aliceryhl@google.=
+com> wrote: =20
+> > > >
+> > > > You say that this kind of thing would be a compiler bug, but I don'=
+t
+> > > > think the compiler devs folks would agree with us on that at all. I
+> > > > mean, sure, it's a bug in the sense that it's a missed optimization=
+, but
+> > > > it's not a correctness bug. =20
+> > >  =20
+> > > > I'm not advocating for adding unsafe blocks to skip bounds checks.
+> > > >
+> > > > And, fine, there are probably a few cases where it works reliably a=
+nd
+> > > > has no real replacement. Such as the VTABLE_DEFAULT_ERROR check. Bu=
+t I
+> > > > do not think bounds checks are a place where it's a good idea. =20
+> > >=20
+> > > There may be no guarantees, but it is a similar situation as for C
+> > > compilers in the kernel. =20
+> >=20
+> > I don't think it is like that at all. We rely on non-guaranteed behavio=
+r
+> > for data races because we have no choice and we had extensive discussio=
+n
+> > about it with the compiler folks who are comfortable with us using that
+> > particular exception.
+>=20
+> This is not about LKMM but that BUILD_BUG_ON also relies on compiler
+> optimizations and reference undefined symbols if compiler cannot
+> optimize them out.
+>=20
+> `build_assert` is just a nicer Rust way of the same trick.
 
-kernel test robot noticed the following build errors:
+But we're no longer using it in the same way as BUILD_BUG_ON.
 
-[auto build test ERROR on d358e5254674b70f34c847715ca509e46eb81e6f]
+> > > Compilers can of course change behavior and have bugs and so on, and
+> > > thus avoiding to rely on it as much as possible is a good idea, but I
+> > > think it is a good idea to get build asserts reliably working as much
+> > > as possible for certain use cases. In particular, I don't see why
+> > > simple (local-enough) bounds checks cannot be one of those (it may no=
+t
+> > > be today, but it could).
+> > >=20
+> > > Of course, the best would be to get the language to a point where it
+> > > supports this sort of thing natively. But that is a longer road.
+> > >=20
+> > > And, in some situations, there may be no good alternative (i.e. const
+> > > eval / generics / macros may be too painful to apply), and thus peopl=
+e
+> > > may end up adding `unsafe` instead, which isn't great. =20
+> >=20
+> > The difference is that someone adding unsafe to avoid a bounds check
+> > screams to the reviewers that something sketchy is going on. In
+> > comparison, drivers calling `Bounded::from_expr(_)` with a non-trivial
+> > expression looks like entirely normal code even though it might be
+> > relying on the precise and definitely subject-to-change details of when
+> > LLVM is choosing to inline various functions.
+> >=20
+> > If const eval / generics / macros are too painful, then perform a
+> > runtime bounds check just like everyone who uses Rust outside of the
+> > kernel is doing.
+>=20
+> There're 200+ uses of BUILD_BUG_ON in include/. I see this case being
+> similar to those usages.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/mm-debug_vm_pgtable-Use-set_pXd-to-write-page-tables/20251211-161254
-base:   d358e5254674b70f34c847715ca509e46eb81e6f
-patch link:    https://lore.kernel.org/r/20251211081117.1126521-2-samuel.holland%40sifive.com
-patch subject: [PATCH 1/2] mm/debug_vm_pgtable: Use set_pXd() to write page tables
-config: powerpc64-randconfig-r054-20251212 (https://download.01.org/0day-ci/archive/20251212/202512120808.akRJJMa7-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251212/202512120808.akRJJMa7-lkp@intel.com/reproduce)
+I looked through a lot of the cases where BUILD_BUG_ON is used. All of
+them seem to be checking that some constants are equal to something,
+different from something, less than something, etc. It compares #defined
+constants, and stuff like sizeof(struct) and such. But I could not find
+even a single example where BUILD_BUG_ON used for bounds-checking a
+runtime value, which is the use-case I think is problematic.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512120808.akRJJMa7-lkp@intel.com/
+> > > In addition, I think upstream probably wants to know about this sort
+> > > of this, i.e. sometimes the changes may be unintended (i.e. if we see
+> > > it changing in a new nightly) and they probably like to hear about
+> > > "obvious" optimizations not being applied, since they are potential
+> > > easy wins for them (or, rather, avoiding regressions), as Gary
+> > > mentions. That is also part of the value of building the kernel in
+> > > compiler CIs etc. =20
+> >=20
+> > I do not at all think it's obvious that upstream would be happy about
+> > this, considering it comes with the serious trade-off of us relying on
+> > these optimizations happening.
+>=20
+> If the exact use case does not involve a reference, it's exactly same
+> as BUILD_BUG_ON, so would be a LLVM bug that equally affect
+> clang-built-linux.
 
-All errors (new ones prefixed by >>):
+If there's no reference, function boundary, or non-constant value, then
+I don't think it's problematic. The problem IMO is using build_error for
+bounds checking runtime values.
 
-   mm/debug_vm_pgtable.c: In function 'pmd_huge_tests':
->> mm/debug_vm_pgtable.c:448:2: error: implicit declaration of function 'set_pmd'; did you mean 'set_pgd'? [-Werror=implicit-function-declaration]
-     448 |  set_pmd(args->pmdp, __pmd(0));
-         |  ^~~~~~~
-         |  set_pgd
-   mm/debug_vm_pgtable.c: In function 'pud_huge_tests':
->> mm/debug_vm_pgtable.c:468:2: error: implicit declaration of function 'set_pud'; did you mean 'set_pgd'? [-Werror=implicit-function-declaration]
-     468 |  set_pud(args->pudp, __pud(0));
-         |  ^~~~~~~
-         |  set_pgd
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_DEV
-   Depends on [n]: NETDEVICES [=n] && CAN [=y]
-   Selected by [y]:
-   - CAN [=y] && NET [=y]
-
-
-vim +448 mm/debug_vm_pgtable.c
-
-   433	
-   434	#ifdef CONFIG_HAVE_ARCH_HUGE_VMAP
-   435	static void __init pmd_huge_tests(struct pgtable_debug_args *args)
-   436	{
-   437		pmd_t pmd;
-   438	
-   439		if (!arch_vmap_pmd_supported(args->page_prot) ||
-   440		    args->fixed_alignment < PMD_SIZE)
-   441			return;
-   442	
-   443		pr_debug("Validating PMD huge\n");
-   444		/*
-   445		 * X86 defined pmd_set_huge() verifies that the given
-   446		 * PMD is not a populated non-leaf entry.
-   447		 */
- > 448		set_pmd(args->pmdp, __pmd(0));
-   449		WARN_ON(!pmd_set_huge(args->pmdp, __pfn_to_phys(args->fixed_pmd_pfn), args->page_prot));
-   450		WARN_ON(!pmd_clear_huge(args->pmdp));
-   451		pmd = pmdp_get(args->pmdp);
-   452		WARN_ON(!pmd_none(pmd));
-   453	}
-   454	
-   455	static void __init pud_huge_tests(struct pgtable_debug_args *args)
-   456	{
-   457		pud_t pud;
-   458	
-   459		if (!arch_vmap_pud_supported(args->page_prot) ||
-   460		    args->fixed_alignment < PUD_SIZE)
-   461			return;
-   462	
-   463		pr_debug("Validating PUD huge\n");
-   464		/*
-   465		 * X86 defined pud_set_huge() verifies that the given
-   466		 * PUD is not a populated non-leaf entry.
-   467		 */
- > 468		set_pud(args->pudp, __pud(0));
-   469		WARN_ON(!pud_set_huge(args->pudp, __pfn_to_phys(args->fixed_pud_pfn), args->page_prot));
-   470		WARN_ON(!pud_clear_huge(args->pudp));
-   471		pud = pudp_get(args->pudp);
-   472		WARN_ON(!pud_none(pud));
-   473	}
-   474	#else /* !CONFIG_HAVE_ARCH_HUGE_VMAP */
-   475	static void __init pmd_huge_tests(struct pgtable_debug_args *args) { }
-   476	static void __init pud_huge_tests(struct pgtable_debug_args *args) { }
-   477	#endif /* CONFIG_HAVE_ARCH_HUGE_VMAP */
-   478	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Alice
