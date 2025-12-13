@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0464158DA3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 04:20:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE9B1DED49
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 04:21:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765599661; cv=none; b=XNkOGsqXHQfscUTGsJ2c5xmACzGMujG0D9VWPptoL9xuSXWxQBdk0PAdJKFeeuYoptNMDYeBKlkLaGkKj4g4fs17wu4dkDSs9bLjnfNwSoiwKVhYTosK+V24sJYqh0Of59j+/dltsYpPdo8VsNtpnOdr7WXWm7HhFr3KyvcG6U0=
+	t=1765599666; cv=none; b=GNKHK1jlNj6BCOgPsKnB18DPGr1Q1gJ9W7KzEIVqjoA8DFCVfDjowvwGBozvZB7nyj5ONajP+aK6FgkaoEJmY0+6oAHhHttvxUvckh0KoEXy6qaEDHZ05Y9rMBtA1mr3CfSTkzOXmFOrYxK/VXFBnWIy7RRR7ZvGe6dk5d8U4y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765599661; c=relaxed/simple;
-	bh=vGZ7moxcgQrPzh5M4+lHbaGmfD7V45Kn9re8hIMgPyE=;
+	s=arc-20240116; t=1765599666; c=relaxed/simple;
+	bh=9vKBj/EGNEpgIrQa0AR7HExEhFidSMTIJGC6ZeDx3lI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qtrSPEPtMryz/I+OjP7upDZW0tYmI3sFVoCwawD1qlhTvr7eks1UjOVrTyZuX7m9AOx0eoFje3Q+y1683vkTlZt9nO7bq9YaYW5CwONkUEHlmmhmrG7m5iaIffBtljveNUxD8jmMoGNqS5jXuhDFL8VuObm6zyS5SKNe6NEsRFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kwvW2/QN; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=VT3tn1e+16O+lKMcr+WyA9q59SAUNq3XHC+oKYizDvueOtkTdRFRS/Y+Wu8JMUfevXRKYNMZanNMLCzooCk0Kw+rzfqFv98sZSur3F4j0jTGtuUj4xpuIjp7lo4uKzmgg0nKHXuDoyQWZ1VFTferSAImDZg82pqj2q0wCbTWNys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dyr6g/hs; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kwvW2/QN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dyr6g/hs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765599659; x=1797135659;
+  t=1765599662; x=1797135662;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vGZ7moxcgQrPzh5M4+lHbaGmfD7V45Kn9re8hIMgPyE=;
-  b=kwvW2/QNsL38adBnWaxnb8v9dYO+278r4hN6QGOSGoPWsxDMwaDnFI66
-   lWaEORqRdNoZpxGGgfg2d/GuHkZ/1H0cvmWvcTt9TEfreNMMRq4hNC6iB
-   RmGovaTZ8+TStip1/39KWa3Cinl706Q0V6+m1LilnkZiW/OafetPyW4bV
-   5mLM9leKImrJPEhgStqc99AMt4L04MKf8AdXA5WEZ3TPe2w/9l9cySDcL
-   P2x5hXARdaLDNcYlzVT/BSH8i8uWCdYdd//SvKIlF+80VtJsqgBatkutb
-   UcmD3DoQVqOQcWfHoQ3TUv/rnabrlrXopppfNOV09JZrnAOCWl+40jntN
-   A==;
-X-CSE-ConnectionGUID: qcrlSjGkQb27Mqu4NTGe+w==
-X-CSE-MsgGUID: Clh7fYvuRja3dIfCqPfCqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78969449"
+  bh=9vKBj/EGNEpgIrQa0AR7HExEhFidSMTIJGC6ZeDx3lI=;
+  b=Dyr6g/hsH4Kp000PCVoyGVr6I6C9aQ8uNwhG/XXeIamlrvAtygpjqjwr
+   jCLomPa5MCcV9TAOTDmk5wh8oHAEwTT0EzqmGVUz/gUsFBPVFRDXCofNn
+   x9I0v0gicGaXawgez/7QjnSlrohvUKsW1y17lq+lS7YWGrBxM5Wxn0jLU
+   TN9lWxHpo/bOHel1sjzf+YyII0DmiCrfVoPqRTQ4IaixBs13BLnAblwjD
+   LrD18h1lct1Kz1/AJY4LBSExK9I0d+T5nuhH6ZcNx1+ToWevt42bMj66h
+   CjELBsHCmXIzaOpXnm7uHDP5maicRhl+ZDyuH7RhV3u7fxKMQkoigHKGE
+   Q==;
+X-CSE-ConnectionGUID: HJDW95m9RCmI6rDH7h+FWg==
+X-CSE-MsgGUID: R9PjnDCeQtKySeIC5lkkfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78969454"
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="78969449"
+   d="scan'208";a="78969454"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 20:20:59 -0800
-X-CSE-ConnectionGUID: 1BIwW1J0QcuzyEpSXomxsw==
-X-CSE-MsgGUID: Tq/DoLCGR4OogJzl3UJB+A==
+X-CSE-ConnectionGUID: tLdwhOl7S/OQaeWX9d4M6Q==
+X-CSE-MsgGUID: FZ90UuloQB2EEZP5aXW7Yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="228308097"
+   d="scan'208";a="228308096"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 12 Dec 2025 20:20:58 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUH7o-0000000072R-11An;
+	id 1vUH7o-0000000072P-0oyZ;
 	Sat, 13 Dec 2025 04:20:56 +0000
 Date: Sat, 13 Dec 2025 12:20:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1] drivers/android/binder.c:3205:
- warning: Function parameter or struct member 'is_reply' not described in
- 'binder_netlink_report'
-Message-ID: <202512131252.9pdmHxEy-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 18/18]
+ drivers/iommu/intel/iommu_pkvm.h:31:9: error: incomplete type 'struct
+ pkvm_clear_translation_param' is not assignable
+Message-ID: <202512131220.ednmCjbL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,105 +63,265 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Li,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   17fd67ddf0cddeb7325b49d3ca2f7db7824dfccd
-commit: 2e05770b48864c4ba5bf63ff815089769200c9ac [1/1] BACKPORT: FROMGIT: binder: introduce transaction reports via netlink
-config: x86_64-randconfig-161-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131252.9pdmHxEy-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   da2da0badf05a4631edf06f9a37e822b20875663
+commit: 157ba06fef4bdb68af268f6a0e53695c0e4ad373 [18/18] ANDROID: iommu/vt-d: Paravirtualize legacy context entry updates
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251213/202512131220.ednmCjbL-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131252.9pdmHxEy-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131220.ednmCjbL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131252.9pdmHxEy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131220.ednmCjbL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/android/binder.c:2166: warning: Function parameter or struct member 'file' not described in 'binder_task_work_cb'
-   drivers/android/binder.c:2166: warning: Excess struct member 'fd' description in 'binder_task_work_cb'
-   drivers/android/binder.c:2617: warning: Function parameter or struct member 'offset' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2617: warning: Function parameter or struct member 'skip_size' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2617: warning: Function parameter or struct member 'fixup_data' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2617: warning: Function parameter or struct member 'node' not described in 'binder_ptr_fixup'
-   drivers/android/binder.c:2637: warning: Function parameter or struct member 'offset' not described in 'binder_sg_copy'
-   drivers/android/binder.c:2637: warning: Function parameter or struct member 'sender_uaddr' not described in 'binder_sg_copy'
-   drivers/android/binder.c:2637: warning: Function parameter or struct member 'length' not described in 'binder_sg_copy'
-   drivers/android/binder.c:2637: warning: Function parameter or struct member 'node' not described in 'binder_sg_copy'
->> drivers/android/binder.c:3205: warning: Function parameter or struct member 'is_reply' not described in 'binder_netlink_report'
->> drivers/android/binder.c:3205: warning: Excess function parameter 'reply' description in 'binder_netlink_report'
-   drivers/android/binder.c:4308: warning: Function parameter or struct member 'thread' not described in 'binder_free_buf'
+   In file included from drivers/iommu/intel/dmar.c:34:
+   In file included from drivers/iommu/intel/iommu_pkvm.h:9:
+   arch/x86/include/asm/kvm_pkvm.h:266:31: error: field has incomplete type 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                                      ^
+   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                ^
+   arch/x86/include/asm/kvm_pkvm.h:267:38: error: field has incomplete type 'struct pkvm_clear_translation_param'
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                                             ^
+   arch/x86/include/asm/kvm_pkvm.h:267:9: note: forward declaration of 'struct pkvm_clear_translation_param'
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                ^
+   In file included from drivers/iommu/intel/dmar.c:34:
+>> drivers/iommu/intel/iommu_pkvm.h:31:9: error: incomplete type 'struct pkvm_clear_translation_param' is not assignable
+      31 |         return pkvm_iommu_hypercall(iommu_clear_ce, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:6: note: expanded from macro 'pkvm_iommu_hypercall'
+      16 |                 *p = *(param);                                                  \
+         |                 ~~ ^
+   arch/x86/include/asm/kvm_pkvm.h:267:9: note: forward declaration of 'struct pkvm_clear_translation_param'
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                ^
+   In file included from drivers/iommu/intel/dmar.c:34:
+>> drivers/iommu/intel/iommu_pkvm.h:31:9: error: incomplete type 'struct pkvm_clear_translation_param' is not assignable
+      31 |         return pkvm_iommu_hypercall(iommu_clear_ce, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:12: note: expanded from macro 'pkvm_iommu_hypercall'
+      18 |                 *(param) = *p;                                                  \
+         |                 ~~~~~~~~ ^
+   arch/x86/include/asm/kvm_pkvm.h:267:9: note: forward declaration of 'struct pkvm_clear_translation_param'
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                ^
+   In file included from drivers/iommu/intel/dmar.c:34:
+>> drivers/iommu/intel/iommu_pkvm.h:31:9: error: invalid application of 'sizeof' to an incomplete type 'struct pkvm_clear_translation_param'
+      31 |         return pkvm_iommu_hypercall(iommu_clear_ce, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:3: note: expanded from macro 'pkvm_iommu_hypercall'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:313:24: note: expanded from macro 'put_this_pv_param'
+     313 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   include/linux/fortify-string.h:512:52: note: expanded from macro 'memset'
+     512 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+     513 |                 __struct_size(p), __member_size(p))
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:502:35: note: expanded from macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:267:9: note: forward declaration of 'struct pkvm_clear_translation_param'
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                ^
+   In file included from drivers/iommu/intel/dmar.c:34:
+>> drivers/iommu/intel/iommu_pkvm.h:36:9: error: incomplete type 'struct pkvm_lm_context_param' is not assignable
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:6: note: expanded from macro 'pkvm_iommu_hypercall'
+      16 |                 *p = *(param);                                                  \
+         |                 ~~ ^
+   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                ^
+   In file included from drivers/iommu/intel/dmar.c:34:
+>> drivers/iommu/intel/iommu_pkvm.h:36:9: error: incomplete type 'struct pkvm_lm_context_param' is not assignable
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:12: note: expanded from macro 'pkvm_iommu_hypercall'
+      18 |                 *(param) = *p;                                                  \
+         |                 ~~~~~~~~ ^
+   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                ^
+   In file included from drivers/iommu/intel/dmar.c:34:
+>> drivers/iommu/intel/iommu_pkvm.h:36:9: error: invalid application of 'sizeof' to an incomplete type 'struct pkvm_lm_context_param'
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:3: note: expanded from macro 'pkvm_iommu_hypercall'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:313:24: note: expanded from macro 'put_this_pv_param'
+     313 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   include/linux/fortify-string.h:512:52: note: expanded from macro 'memset'
+     512 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+     513 |                 __struct_size(p), __member_size(p))
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:502:35: note: expanded from macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                ^
+   8 errors generated.
+--
+   In file included from drivers/iommu/intel/iommu.c:32:
+   In file included from drivers/iommu/intel/iommu_pkvm.h:9:
+   arch/x86/include/asm/kvm_pkvm.h:266:31: error: field has incomplete type 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                                      ^
+   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                ^
+   arch/x86/include/asm/kvm_pkvm.h:267:38: error: field has incomplete type 'struct pkvm_clear_translation_param'
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                                             ^
+   arch/x86/include/asm/kvm_pkvm.h:267:9: note: forward declaration of 'struct pkvm_clear_translation_param'
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                ^
+   In file included from drivers/iommu/intel/iommu.c:32:
+>> drivers/iommu/intel/iommu_pkvm.h:31:9: error: incomplete type 'struct pkvm_clear_translation_param' is not assignable
+      31 |         return pkvm_iommu_hypercall(iommu_clear_ce, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:6: note: expanded from macro 'pkvm_iommu_hypercall'
+      16 |                 *p = *(param);                                                  \
+         |                 ~~ ^
+   arch/x86/include/asm/kvm_pkvm.h:267:9: note: forward declaration of 'struct pkvm_clear_translation_param'
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                ^
+   In file included from drivers/iommu/intel/iommu.c:32:
+>> drivers/iommu/intel/iommu_pkvm.h:31:9: error: incomplete type 'struct pkvm_clear_translation_param' is not assignable
+      31 |         return pkvm_iommu_hypercall(iommu_clear_ce, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:12: note: expanded from macro 'pkvm_iommu_hypercall'
+      18 |                 *(param) = *p;                                                  \
+         |                 ~~~~~~~~ ^
+   arch/x86/include/asm/kvm_pkvm.h:267:9: note: forward declaration of 'struct pkvm_clear_translation_param'
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                ^
+   In file included from drivers/iommu/intel/iommu.c:32:
+>> drivers/iommu/intel/iommu_pkvm.h:31:9: error: invalid application of 'sizeof' to an incomplete type 'struct pkvm_clear_translation_param'
+      31 |         return pkvm_iommu_hypercall(iommu_clear_ce, clear_translation_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:3: note: expanded from macro 'pkvm_iommu_hypercall'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:313:24: note: expanded from macro 'put_this_pv_param'
+     313 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   include/linux/fortify-string.h:512:52: note: expanded from macro 'memset'
+     512 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+     513 |                 __struct_size(p), __member_size(p))
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:502:35: note: expanded from macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:267:9: note: forward declaration of 'struct pkvm_clear_translation_param'
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                ^
+   In file included from drivers/iommu/intel/iommu.c:32:
+>> drivers/iommu/intel/iommu_pkvm.h:36:9: error: incomplete type 'struct pkvm_lm_context_param' is not assignable
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:16:6: note: expanded from macro 'pkvm_iommu_hypercall'
+      16 |                 *p = *(param);                                                  \
+         |                 ~~ ^
+   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                ^
+   In file included from drivers/iommu/intel/iommu.c:32:
+>> drivers/iommu/intel/iommu_pkvm.h:36:9: error: incomplete type 'struct pkvm_lm_context_param' is not assignable
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:18:12: note: expanded from macro 'pkvm_iommu_hypercall'
+      18 |                 *(param) = *p;                                                  \
+         |                 ~~~~~~~~ ^
+   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                ^
+   In file included from drivers/iommu/intel/iommu.c:32:
+>> drivers/iommu/intel/iommu_pkvm.h:36:9: error: invalid application of 'sizeof' to an incomplete type 'struct pkvm_lm_context_param'
+      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/intel/iommu_pkvm.h:19:3: note: expanded from macro 'pkvm_iommu_hypercall'
+      19 |                 put_this_pv_param(p, f);                                        \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_pkvm.h:313:24: note: expanded from macro 'put_this_pv_param'
+     313 |                 memset(ptr, 0, sizeof(*ptr));   \
+         |                 ~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   include/linux/fortify-string.h:512:52: note: expanded from macro 'memset'
+     512 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+     513 |                 __struct_size(p), __member_size(p))
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:502:35: note: expanded from macro '__fortify_memset_chk'
+     502 |         size_t __fortify_size = (size_t)(size);                         \
+         |                                          ^~~~
+   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                ^
+   drivers/iommu/intel/iommu.c:1459:31: error: variable has incomplete type 'struct pkvm_lm_context_param'
+    1459 |         struct pkvm_lm_context_param param = {
+         |                                      ^
+   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                ^
+   drivers/iommu/intel/iommu.c:1743:38: error: variable has incomplete type 'struct pkvm_clear_translation_param'
+    1743 |         struct pkvm_clear_translation_param param = {
+         |                                             ^
+   arch/x86/include/asm/kvm_pkvm.h:267:9: note: forward declaration of 'struct pkvm_clear_translation_param'
+     267 |         struct pkvm_clear_translation_param clear_translation_param;
+         |                ^
+   drivers/iommu/intel/iommu.c:4336:31: error: variable has incomplete type 'struct pkvm_lm_context_param'
+    4336 |         struct pkvm_lm_context_param param = {
+         |                                      ^
+   arch/x86/include/asm/kvm_pkvm.h:266:9: note: forward declaration of 'struct pkvm_lm_context_param'
+     266 |         struct pkvm_lm_context_param lm_context_param;
+         |                ^
+   11 errors generated.
 
 
-vim +3205 drivers/android/binder.c
+vim +31 drivers/iommu/intel/iommu_pkvm.h
 
-  3191	
-  3192	/**
-  3193	 * binder_netlink_report() - report a transaction failure via netlink
-  3194	 * @proc:	the binder proc sending the transaction
-  3195	 * @t:		the binder transaction that failed
-  3196	 * @data_size:	the user provided data size for the transaction
-  3197	 * @error:	enum binder_driver_return_protocol returned to sender
-  3198	 * @reply:	whether the transaction is a reply
-  3199	 */
-  3200	static void binder_netlink_report(struct binder_proc *proc,
-  3201					  struct binder_transaction *t,
-  3202					  u32 data_size,
-  3203					  u32 error,
-  3204					  int is_reply)
-> 3205	{
-  3206		const char *context = proc->context->name;
-  3207		struct sk_buff *skb;
-  3208		void *hdr;
-  3209	
-  3210		if (!genl_has_listeners(&binder_nl_family, &init_net,
-  3211					BINDER_NLGRP_REPORT))
-  3212			return;
-  3213	
-  3214		skb = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
-  3215		if (!skb)
-  3216			return;
-  3217	
-  3218		hdr = genlmsg_put(skb, 0, 0, &binder_nl_family, 0, BINDER_CMD_REPORT);
-  3219		if (!hdr)
-  3220			goto free_skb;
-  3221	
-  3222		if (nla_put_u32(skb, BINDER_A_REPORT_ERROR, error) ||
-  3223		    nla_put_string(skb, BINDER_A_REPORT_CONTEXT, context) ||
-  3224		    nla_put_u32(skb, BINDER_A_REPORT_FROM_PID, t->from_pid) ||
-  3225		    nla_put_u32(skb, BINDER_A_REPORT_FROM_TID, t->from_tid))
-  3226			goto cancel_skb;
-  3227	
-  3228		if (t->to_proc &&
-  3229		    nla_put_u32(skb, BINDER_A_REPORT_TO_PID, t->to_proc->pid))
-  3230			goto cancel_skb;
-  3231	
-  3232		if (t->to_thread &&
-  3233		    nla_put_u32(skb, BINDER_A_REPORT_TO_TID, t->to_thread->pid))
-  3234			goto cancel_skb;
-  3235	
-  3236		if (is_reply && nla_put_flag(skb, BINDER_A_REPORT_IS_REPLY))
-  3237			goto cancel_skb;
-  3238	
-  3239		if (nla_put_u32(skb, BINDER_A_REPORT_FLAGS, t->flags) ||
-  3240		    nla_put_u32(skb, BINDER_A_REPORT_CODE, t->code) ||
-  3241		    nla_put_u32(skb, BINDER_A_REPORT_DATA_SIZE, data_size))
-  3242			goto cancel_skb;
-  3243	
-  3244		genlmsg_end(skb, hdr);
-  3245		genlmsg_multicast(&binder_nl_family, skb, 0, BINDER_NLGRP_REPORT,
-  3246				  GFP_KERNEL);
-  3247		return;
-  3248	
-  3249	cancel_skb:
-  3250		genlmsg_cancel(skb, hdr);
-  3251	free_skb:
-  3252		nlmsg_free(skb);
-  3253	}
-  3254	
+    10	
+    11	#define pkvm_iommu_hypercall(hc, param_name, param)			\
+    12		({									\
+    13			unsigned long f;						\
+    14			struct pkvm_##param_name *p = get_this_pv_param(param_name, f);	\
+    15			int ret;							\
+    16			*p = *(param);							\
+    17			ret = pkvm_hypercall(hc, (unsigned long)p);		\
+  > 18			*(param) = *p;							\
+    19			put_this_pv_param(p, f);					\
+    20			ret;								\
+    21		})
+    22	
+    23	static inline int pkvm_hc_qi_iec_flush(unsigned long reg_phys, bool global, unsigned long index,
+    24			unsigned int mask)
+    25	{
+    26		return pkvm_hypercall(iommu_iec_flush, reg_phys, global, index, mask);
+    27	}
+    28	
+    29	static inline long pkvm_hc_iommu_clear_ce(struct pkvm_clear_translation_param *param)
+    30	{
+  > 31		return pkvm_iommu_hypercall(iommu_clear_ce, clear_translation_param, param);
+    32	}
+    33	
+    34	static inline long pkvm_hc_iommu_set_lm_ce(struct pkvm_lm_context_param *param)
+    35	{
+  > 36		return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
 
 -- 
 0-DAY CI Kernel Test Service
