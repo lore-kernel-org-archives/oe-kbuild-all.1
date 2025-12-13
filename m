@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44364A01
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 06:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AFF26E719
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 07:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765608555; cv=none; b=I3efEVSe/lwNPGZl52vsKOA6vSw2LT9v5BZjPX/9dg2CF2PEe4a0m+0jVrpZkkbRKOSVksyjcBiFNOb/7DKuMw2Q6H5YhdgcBIgIC9tLsmbXMxV8z5DSnwr/piHm/d1nqgukji8TgeQenG5yBIHFmjkawogCFh84nI5BKwEmoMw=
+	t=1765609213; cv=none; b=Ec82e4aNLSSHw/x0rgDya05JPcnm4ZXRDn+oDLO0OGcg3YAlhVX+7SUgG+SyrGQWwvpwHC+DRySqGNeKnETnDH/ti8dMAfTWc7+7D0fY9+3Yz4IUxzTonnEadLKREkHdF7z3i4hgGl5z2M6jyf4JTpIZHvvPaNBMR15IprEXvIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765608555; c=relaxed/simple;
-	bh=z7lLLPDrwxx8BmQq4KWOKBjtntrtVbAHKJw8/edWmHI=;
+	s=arc-20240116; t=1765609213; c=relaxed/simple;
+	bh=NJJAtHnywgTGbmDcWP0qcMykmZ+A2s8+ywnIfAFGcf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WpmKwHa8Sge73XDuZ3s/t9HwXHeblGnBfCRkVyLhsi5FplLuZTsO6ig5Xz3KrSvSb1GJad20WVIbBVItz3SD7M32o75wasDnpeS/0GrlL1iqs23TXmhu0FnccyX8kwvktOVXokJupzZtstqWV45PqPwkLv4gvK3e+UDyO1liqe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YoURT9yb; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=NcfG5SQ0IoypAEdonk1RMLzzTYu0pB6MQbsmQq0Hm2KJvJP/r8m5sHME+JuvjMSFITvvUfG+uQ//qG2lDoxsUy5R5+Br/18MUHds+w0KT2UDwTcMI2z2P1Q8YnApEzxejph6njAnxjub/TleGxeHyhFcp6bwmTjZPiO7LoAkSTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nWZIL4aD; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YoURT9yb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nWZIL4aD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765608554; x=1797144554;
+  t=1765609212; x=1797145212;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z7lLLPDrwxx8BmQq4KWOKBjtntrtVbAHKJw8/edWmHI=;
-  b=YoURT9ybR+QRtyTYvo60mWSAVH8bEWz3NpmDVZ7/5C9P8t0YYYRWUld3
-   dAhGnjGT+ZC/Bb342Nrl6td5Zf4vD1RQ0DHkj9/EXEZxZwAUN2P+l92dy
-   qpD8Pu5FdUJfkwmxAzgWHdS7KQV5UzwBwHbhuv/iqcQjwr8BAQf7+YG1j
-   DYIzi0u0SDQ8gFQSyuMnVIp8gj2t96WDGJZc93rOQ7fKSdWi/PIV9g4zA
-   RARzDxvKKGKu2gslHigferwXxb4iKILBWVwzgMDicWK6s52H3bwkh6EXx
-   tSSYnRKi9s/XaiYOkxBhWYvCwHwAUcVH5W55hrZTAEakJzA28BZJvTkmf
+  bh=NJJAtHnywgTGbmDcWP0qcMykmZ+A2s8+ywnIfAFGcf8=;
+  b=nWZIL4aD9J6S/1KC5CX/Zr9wpmRfDEnOdtBOYjQW8zz8oBZrleUT6yoB
+   XvSTLddLuIPv0azrLJ/E9VyUcvxJd7VqP3WP79RqlBalKC/S9JrsDgsTP
+   yUBtNZh+h0FQadWEszj45F3oNLC8VZ0efuPGj0PLC4fwtrVMHmiSmswFV
+   hXN8NUdNa4ttOizjSV3MII+sygCewPdHyGpKiJitMAzotgqOSozdnB69Y
+   UWU/KBwYMdAGBASEtDT4n5VxPsozvUP94A+RQxt9K8g3BozqQUSJ3aRzy
+   xFV8OS6OI/FHHGcT/aZp2tF4rZZF4ZR5+rr3InmTo6BuJn7+UeNlaVM9g
    w==;
-X-CSE-ConnectionGUID: lcb6srFaRF2Kn7vuI9/rPQ==
-X-CSE-MsgGUID: IsYdNqN3TGaM6tqCQrhJAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67485842"
+X-CSE-ConnectionGUID: LR7NHX5AQMG8E+0j0Gid8Q==
+X-CSE-MsgGUID: UjlKHfgyRRSGAsGhI6yv9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66591555"
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="67485842"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 22:49:10 -0800
-X-CSE-ConnectionGUID: lu/P+1y8T7y+N9CffJOEkA==
-X-CSE-MsgGUID: wOl09th0QX+9TNFPblnTqA==
+   d="scan'208";a="66591555"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 23:00:11 -0800
+X-CSE-ConnectionGUID: J4pfRXBWR+mbVhUbS/u8vA==
+X-CSE-MsgGUID: ONCxnsCmTTiOeVsmVSO2LQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="197768985"
+   d="scan'208";a="202353441"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 12 Dec 2025 22:49:09 -0800
+  by orviesa005.jf.intel.com with ESMTP; 12 Dec 2025 23:00:10 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUJRC-000000007CF-3j7q;
-	Sat, 13 Dec 2025 06:49:06 +0000
-Date: Sat, 13 Dec 2025 14:48:20 +0800
+	id 1vUJbr-000000007Cv-22gu;
+	Sat, 13 Dec 2025 07:00:07 +0000
+Date: Sat, 13 Dec 2025 14:59:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: alexs@kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2]
- drivers/iommu/io-pgtable-arm-common.c:471:8: warning: no previous prototype
- for function '__arm_lpae_unmap_pages'
-Message-ID: <202512131434.7TnpWhnc-lkp@intel.com>
+Subject: [alexshi:pgtable20251212 1/2] include/linux/mm_types.h:607:36:
+ error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is
+ not compatible with any association
+Message-ID: <202512131417.mRojYH1d-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,100 +63,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   5580efd2c7e4791254a0c26f9791aaa33dd70484
-commit: 528a0fb681c600db04e9700fac40c21cc208773e [2/2] ANDROID: iommu/io-pgtable: Add unmap_pages_walk() operation
-config: i386-buildonly-randconfig-005-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131434.7TnpWhnc-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131434.7TnpWhnc-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git pgtable20251212
+head:   e5288cc28febf288d2453ca3b4895a0bfd53f28a
+commit: f0d01cac9f10dfe6f6cd671dca7d02581c67587a [1/2] mm/pgtable: use ptdesc for pgtable pointer
+config: sparc-randconfig-002-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131417.mRojYH1d-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131417.mRojYH1d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131434.7TnpWhnc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131417.mRojYH1d-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/iommu/io-pgtable-arm-common.c:11:
-   In file included from include/linux/io-pgtable-arm.h:5:
-   In file included from include/linux/io-pgtable.h:6:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2174:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   drivers/iommu/io-pgtable-arm-common.c:143:5: warning: no previous prototype for function '__arm_lpae_map' [-Wmissing-prototypes]
-     143 | int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
-         |     ^
-   drivers/iommu/io-pgtable-arm-common.c:143:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     143 | int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
-         | ^
-         | static 
-   drivers/iommu/io-pgtable-arm-common.c:264:5: warning: no previous prototype for function 'arm_lpae_map_pages' [-Wmissing-prototypes]
-     264 | int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |     ^
-   drivers/iommu/io-pgtable-arm-common.c:264:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     264 | int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
->> drivers/iommu/io-pgtable-arm-common.c:471:8: warning: no previous prototype for function '__arm_lpae_unmap_pages' [-Wmissing-prototypes]
-     471 | size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^
-   drivers/iommu/io-pgtable-arm-common.c:471:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     471 | size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
-   drivers/iommu/io-pgtable-arm-common.c:493:13: warning: no previous prototype for function 'arm_lpae_iova_to_phys' [-Wmissing-prototypes]
-     493 | phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
-         |             ^
-   drivers/iommu/io-pgtable-arm-common.c:493:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     493 | phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
-         | ^
-         | static 
-   drivers/iommu/io-pgtable-arm-common.c:529:8: warning: no previous prototype for function 'arm_lpae_unmap_pages' [-Wmissing-prototypes]
-     529 | size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^
-   drivers/iommu/io-pgtable-arm-common.c:529:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     529 | size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
-   drivers/iommu/io-pgtable-arm-common.c:536:8: warning: no previous prototype for function 'arm_lpae_unmap_pages_walk' [-Wmissing-prototypes]
-     536 | size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^
-   drivers/iommu/io-pgtable-arm-common.c:536:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     536 | size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
-         | ^
-         | static 
-   7 warnings generated.
+   In file included from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/memory.c:43:
+   mm/memory.c: In function 'deposit_prealloc_pte':
+>> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
+    #define page_ptdesc(p)   (_Generic((p),   \
+                                       ^
+   mm/memory.c:5316:6: note: in expansion of macro 'page_ptdesc'
+         page_ptdesc(vmf->prealloc_pte));
+         ^~~~~~~~~~~
+--
+   In file included from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/huge_memory.c:8:
+   mm/huge_memory.c: In function '__do_huge_pmd_anonymous_page':
+>> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
+    #define page_ptdesc(p)   (_Generic((p),   \
+                                       ^
+   mm/huge_memory.c:1274:7: note: in expansion of macro 'page_ptdesc'
+          page_ptdesc(pgtable));
+          ^~~~~~~~~~~
+   mm/huge_memory.c: In function 'set_huge_zero_folio':
+>> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
+    #define page_ptdesc(p)   (_Generic((p),   \
+                                       ^
+   mm/huge_memory.c:1335:38: note: in expansion of macro 'page_ptdesc'
+     pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
+                                         ^~~~~~~~~~~
+   mm/huge_memory.c: In function 'insert_pmd':
+>> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
+    #define page_ptdesc(p)   (_Generic((p),   \
+                                       ^
+   mm/huge_memory.c:1461:39: note: in expansion of macro 'page_ptdesc'
+      pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
+                                          ^~~~~~~~~~~
+   mm/huge_memory.c: In function 'copy_huge_pmd':
+>> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
+    #define page_ptdesc(p)   (_Generic((p),   \
+                                       ^
+   mm/huge_memory.c:1766:46: note: in expansion of macro 'page_ptdesc'
+     pgtable_trans_huge_deposit(dst_mm, dst_pmd, page_ptdesc(pgtable));
+                                                 ^~~~~~~~~~~
+   mm/huge_memory.c: In function 'move_huge_pmd':
+>> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
+    #define page_ptdesc(p)   (_Generic((p),   \
+                                       ^
+   mm/huge_memory.c:2323:8: note: in expansion of macro 'page_ptdesc'
+           page_ptdesc(pgtable));
+           ^~~~~~~~~~~
+   mm/huge_memory.c: In function 'move_pages_huge_pmd':
+>> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
+    #define page_ptdesc(p)   (_Generic((p),   \
+                                       ^
+   mm/huge_memory.c:2646:42: note: in expansion of macro 'page_ptdesc'
+     pgtable_trans_huge_deposit(mm, dst_pmd, page_ptdesc(src_pgtable));
+                                             ^~~~~~~~~~~
+--
+   In file included from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/khugepaged.c:4:
+   mm/khugepaged.c: In function 'collapse_huge_page':
+>> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
+    #define page_ptdesc(p)   (_Generic((p),   \
+                                       ^
+   mm/khugepaged.c:1234:38: note: in expansion of macro 'page_ptdesc'
+     pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
+                                         ^~~~~~~~~~~
+--
+   arch/sparc/mm/tlb.c: In function 'pgtable_trans_huge_withdraw':
+>> arch/sparc/mm/tlb.c:295:10: error: assignment to 'pgtable_t' {aka 'struct <anonymous> *'} from incompatible pointer type 'struct ptdesc *' [-Werror=incompatible-pointer-types]
+     pgtable = pmd_huge_pte(mm, pmdp);
+             ^
+>> arch/sparc/mm/tlb.c:300:26: error: assignment to 'struct ptdesc *' from incompatible pointer type 'pte_t *' {aka 'struct <anonymous> *'} [-Werror=incompatible-pointer-types]
+      pmd_huge_pte(mm, pmdp) = (pgtable_t) lh->next;
+                             ^
+   cc1: some warnings being treated as errors
 
 
-vim +/__arm_lpae_unmap_pages +471 drivers/iommu/io-pgtable-arm-common.c
+vim +607 include/linux/mm_types.h
 
-   469	
-   470	
- > 471	size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-   472				      size_t pgsize, size_t pgcount,
-   473				      struct iommu_iotlb_gather *gather,
-   474				      struct io_pgtable_walker *walker)
-   475	{
-   476		struct arm_lpae_io_pgtable *data = io_pgtable_ops_to_data(ops);
-   477		struct io_pgtable_cfg *cfg = &data->iop.cfg;
-   478		arm_lpae_iopte *ptep = data->pgd;
-   479		long iaext = (s64)iova >> cfg->ias;
-   480	
-   481		if (WARN_ON(!pgsize || (pgsize & cfg->pgsize_bitmap) != pgsize || !pgcount))
-   482			return 0;
-   483	
-   484		if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1)
-   485			iaext = ~iaext;
-   486		if (WARN_ON(iaext))
-   487			return 0;
-   488	
-   489		return __arm_lpae_unmap(data, gather, iova, pgsize, pgcount,
-   490					data->start_level, ptep, walker);
-   491	}
-   492	
+9a35de4ffc209b Vishal Moola (Oracle  2023-08-07  598) 
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  599) #define ptdesc_page(pt)			(_Generic((pt),			\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  600) 	const struct ptdesc *:		(const struct page *)(pt),	\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  601) 	struct ptdesc *:		(struct page *)(pt)))
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  602) 
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  603) #define ptdesc_folio(pt)		(_Generic((pt),			\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  604) 	const struct ptdesc *:		(const struct folio *)(pt),	\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  605) 	struct ptdesc *:		(struct folio *)(pt)))
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  606) 
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07 @607) #define page_ptdesc(p)			(_Generic((p),			\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  608) 	const struct page *:		(const struct ptdesc *)(p),	\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  609) 	struct page *:			(struct ptdesc *)(p)))
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  610) 
+
+:::::: The code at line 607 was first introduced by commit
+:::::: bf2d4334f72e4e033166c5a3bf1331a7238eab9d mm: add utility functions for ptdesc
+
+:::::: TO: Vishal Moola (Oracle) <vishal.moola@gmail.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
