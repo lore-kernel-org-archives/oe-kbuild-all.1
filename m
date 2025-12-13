@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFE02673AA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 22:27:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B8A20DE3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 22:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765664848; cv=none; b=nZ09HlagIn0A79+DV2/8Z5RAvu/Vby3NZgG2GqqLijpVjKkgjHZXnz/XpQdAt+DG6kLYREwQSMR/NmSr2LHxGvvOqpCwru1MfoCZgX20EzY/97Xaesa0/0kTQEPNu1YlXV74oEgP9pWt80X9CDql6rB6PVa/QqPEL2fplBe6aZI=
+	t=1765665510; cv=none; b=Lm9kqyMCNQPxF3lweywkV+hCpbYYculsrMH3oYogECrHuzQE+PFh54bDCpuUG3YuKAJtYC5AoZbl7xfmMnffSMX9EtBFLUmREkofcTxJ+xCoHCjdS1NImXV54QDY/Kh466VUa7wANSQXD/fIeUPRcvSj4xlOCUGzBRJg6GSOx2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765664848; c=relaxed/simple;
-	bh=8GrEwgFr5D15sUIJrLwFkH6mqqKztZQ+dKcQ5MDljt8=;
+	s=arc-20240116; t=1765665510; c=relaxed/simple;
+	bh=eCyn2uZTZteH6XgiF2IyIHrS7vMRgOfH7vXBiKxAjdE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cMIRCfiEyirJ7N6iFzCvdcSEuV8WWZl8LlAegNbUkJLfj5WJYG7Zv5zFF8xO0wNAn6NeXJhZTAlFKgEb/n76qzrMSGPdRHTyiYg9Yf2Bd3vasl7mBT45WTK95NY4BxDCUx+DYibkAzBjPw3QxfyMuGWMI3FIt6PiwCurDvteYcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mT1KSxhA; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=fgCLM+WgdQewYFuVMfK2d+hcOeW5qhMJXt64qRRmuLFoJpXVxaBwX6EPmH96bD07TU+tt+p+FWw06qQ1vKlXXiNneQJy4vJWHWeymvjCtYtwzE0+LmzzitahJnMfSAJBZlTZLHl4P71CjtSd5wf3MXmf45EnCDrrLnrXoFJs1H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KfrLZw5M; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mT1KSxhA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KfrLZw5M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765664847; x=1797200847;
+  t=1765665508; x=1797201508;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8GrEwgFr5D15sUIJrLwFkH6mqqKztZQ+dKcQ5MDljt8=;
-  b=mT1KSxhAjRt4Qhld+3PRQnS5D7ETL9Hc4tQOnSo/4ZFBxmhbkFtjTc6d
-   nRxTcufsKOM3mtvqPoWctG8qXF9fxvCvsYWa6Wjb6EZIg3J7HeFc1WBe+
-   xTz9luZtTIb5MiRzk3z4wA2wvtI3VJYEdVuehx4NuPmWQkxKWzMpe8eM2
-   MsLILH0d4k1jhXXj0cV+a74WF+LJhntPBfi3BdruyZ34EreaZVAoUGOZI
-   MxHULrx6k9NN3vAFMsdUZjENUnechPZpD4jF1+1AQ5h6QGNRdEmLy+G+B
-   1J/F924CrzALgnJrxwfTIMTF1zXBtMsdhJK6RNz2txp2+douwDAYl7gOr
-   g==;
-X-CSE-ConnectionGUID: fSmpdQnlSsC8S8uDwfGOmg==
-X-CSE-MsgGUID: 5EB+3RGwSNyQhoamBgo4Cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="78328218"
+  bh=eCyn2uZTZteH6XgiF2IyIHrS7vMRgOfH7vXBiKxAjdE=;
+  b=KfrLZw5MFxxkUtbdualjGkcPgCfB8yZqKCUNksaFOF0Z5Dh+nICb1u4Z
+   vaDr9FP4HT7/5io69xVQQmjV0NUUz+1a61ymUW+P6wRDc5ZSKWn6EWWdh
+   Nvu4pZH0SClf3dvVn+rNoSokurNn03/Wb4b6RWF/fsYFxETmZVVhgFMKM
+   Qhuh1zbgJhcomzcEDYA6//t6FDDhJnWk3Y2g3sd3v9kCDkjcit7fmd5nP
+   SfRJwtuoB6zemCRTdN60m7WA4LyhiI7fqC9AyCiqqXIuOFldDZ6ZihviP
+   ziHNJwTkBC/bMnKqjDPesBibJQsoZCB1um2jt/J2uJJ0hiakLWhWTSKom
+   Q==;
+X-CSE-ConnectionGUID: 53N4xBerQTaMaIQnbCsHXw==
+X-CSE-MsgGUID: U3wMpVEQQ3GTGjw7p2w51g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67584987"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="78328218"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 14:27:26 -0800
-X-CSE-ConnectionGUID: CaNX3IAFRK2Jp338bQWXgg==
-X-CSE-MsgGUID: z3b7A0OjSUOxTrBhvBPiQg==
+   d="scan'208";a="67584987"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 14:38:27 -0800
+X-CSE-ConnectionGUID: 2srocK5bQPawfhBqWmgzTg==
+X-CSE-MsgGUID: v49nr1/eTDK1yGKI3x3hAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="197656749"
+   d="scan'208";a="202300262"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Dec 2025 14:27:25 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 13 Dec 2025 14:38:26 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUY5D-000000008Gj-1cBs;
-	Sat, 13 Dec 2025 22:27:23 +0000
-Date: Sun, 14 Dec 2025 06:27:10 +0800
+	id 1vUYFs-000000008HM-063S;
+	Sat, 13 Dec 2025 22:38:24 +0000
+Date: Sun, 14 Dec 2025 06:38:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, dinglongwei <dinglongwei1@huawei.com>
+To: Roberto Sassu <roberto.sassu@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1942/1942]
- drivers/gpu/drm/nouveau/nvkm/core/object.c:37:19: warning: mixing
- declarations and code is a C99 extension
-Message-ID: <202512140652.dui78VGp-lkp@intel.com>
+Subject: [robertosassu:ima-staging-v2-devel-v9 1/1]
+ security/integrity/ima/ima_queue.c:44:22: warning: 'binary_runtime_size'
+ defined but not used
+Message-ID: <202512140645.k34z9wJ7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,73 +63,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Dave,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5a399b91821faeec2466751db2d714b24f8eb17c
-commit: 901dbb48d8a4f60af427f1ec67ac1247ff219f39 [1942/1942] nouveau: lock the client object tree.
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251214/202512140652.dui78VGp-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140652.dui78VGp-lkp@intel.com/reproduce)
+tree:   https://github.com/robertosassu/linux ima-staging-v2-devel-v9
+head:   0387b5fab703d305adb5d6fcba119dda4cf2eb05
+commit: 0387b5fab703d305adb5d6fcba119dda4cf2eb05 [1/1] ima: Add support for staging measurements for deletion and trimming
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20251214/202512140645.k34z9wJ7-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140645.k34z9wJ7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140652.dui78VGp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140645.k34z9wJ7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/nouveau/nvkm/core/object.c:37:19: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-      37 |                 struct rb_node *node = client->objroot.rb_node;
-         |                                 ^
-   1 warning generated.
+   In file included from include/linux/limits.h:7,
+                    from include/linux/thread_info.h:12,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/nios2/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rculist.h:11,
+                    from security/integrity/ima/ima_queue.c:18:
+   include/vdso/limits.h:13:25: error: invalid initializer
+      13 | #define ULONG_MAX       (~0UL)
+         |                         ^
+   security/integrity/ima/ima_queue.c:43:57: note: in expansion of macro 'ULONG_MAX'
+      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
+         |                                                         ^~~~~~~~~
+   security/integrity/ima/ima_queue.c:44:22: error: conflicting types for 'binary_runtime_size'; have 'long unsigned int[2]'
+      44 | static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
+         |                      ^~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_queue.c:43:22: note: previous definition of 'binary_runtime_size' with type 'long unsigned int[0]'
+      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
+         |                      ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/limits.h:7,
+                    from include/linux/thread_info.h:12,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/nios2/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rculist.h:11,
+                    from security/integrity/ima/ima_queue.c:18:
+   include/vdso/limits.h:13:25: error: invalid initializer
+      13 | #define ULONG_MAX       (~0UL)
+         |                         ^
+   security/integrity/ima/ima_queue.c:44:62: note: in expansion of macro 'ULONG_MAX'
+      44 | static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
+         |                                                              ^~~~~~~~~
+   security/integrity/ima/ima_queue.c:45:22: error: conflicting types for 'binary_runtime_size'; have 'long unsigned int[1]'
+      45 | static unsigned long binary_runtime_size[BINARY_SIZE_STAGED] = ULONG_MAX;
+         |                      ^~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_queue.c:44:22: note: previous definition of 'binary_runtime_size' with type 'long unsigned int[2]'
+      44 | static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
+         |                      ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/limits.h:7,
+                    from include/linux/thread_info.h:12,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/nios2/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rculist.h:11,
+                    from security/integrity/ima/ima_queue.c:18:
+   include/vdso/limits.h:13:25: error: invalid initializer
+      13 | #define ULONG_MAX       (~0UL)
+         |                         ^
+   security/integrity/ima/ima_queue.c:45:64: note: in expansion of macro 'ULONG_MAX'
+      45 | static unsigned long binary_runtime_size[BINARY_SIZE_STAGED] = ULONG_MAX;
+         |                                                                ^~~~~~~~~
+>> security/integrity/ima/ima_queue.c:44:22: warning: 'binary_runtime_size' defined but not used [-Wunused-variable]
+      44 | static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
+         |                      ^~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_queue.c:43:22: warning: 'binary_runtime_size' defined but not used [-Wunused-variable]
+      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
+         |                      ^~~~~~~~~~~~~~~~~~~
 
 
-vim +37 drivers/gpu/drm/nouveau/nvkm/core/object.c
+vim +/binary_runtime_size +44 security/integrity/ima/ima_queue.c
 
-9274f4a9ba7e70 drivers/gpu/drm/nouveau/core/core/object.c Ben Skeggs  2012-07-06  27  
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  28  struct nvkm_object *
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  29  nvkm_object_search(struct nvkm_client *client, u64 handle,
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  30  		   const struct nvkm_object_func *func)
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  31  {
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  32  	struct nvkm_object *object;
-901dbb48d8a4f6 drivers/gpu/drm/nouveau/nvkm/core/object.c Dave Airlie 2024-05-09  33  	unsigned long flags;
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  34  
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  35  	if (handle) {
-901dbb48d8a4f6 drivers/gpu/drm/nouveau/nvkm/core/object.c Dave Airlie 2024-05-09  36  		spin_lock_irqsave(&client->obj_lock, flags);
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22 @37  		struct rb_node *node = client->objroot.rb_node;
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  38  		while (node) {
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  39  			object = rb_entry(node, typeof(*object), node);
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  40  			if (handle < object->object)
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  41  				node = node->rb_left;
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  42  			else
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  43  			if (handle > object->object)
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  44  				node = node->rb_right;
-901dbb48d8a4f6 drivers/gpu/drm/nouveau/nvkm/core/object.c Dave Airlie 2024-05-09  45  			else {
-901dbb48d8a4f6 drivers/gpu/drm/nouveau/nvkm/core/object.c Dave Airlie 2024-05-09  46  				spin_unlock_irqrestore(&client->obj_lock, flags);
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  47  				goto done;
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  48  			}
-901dbb48d8a4f6 drivers/gpu/drm/nouveau/nvkm/core/object.c Dave Airlie 2024-05-09  49  		}
-901dbb48d8a4f6 drivers/gpu/drm/nouveau/nvkm/core/object.c Dave Airlie 2024-05-09  50  		spin_unlock_irqrestore(&client->obj_lock, flags);
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  51  		return ERR_PTR(-ENOENT);
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  52  	} else {
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  53  		object = &client->object;
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  54  	}
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  55  
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  56  done:
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  57  	if (unlikely(func && object->func != func))
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  58  		return ERR_PTR(-EINVAL);
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  59  	return object;
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  60  }
-110cccff955313 drivers/gpu/drm/nouveau/nvkm/core/object.c Ben Skeggs  2016-12-22  61  
-
-:::::: The code at line 37 was first introduced by commit
-:::::: 110cccff955313c66dccd2817f62368f106d9bf2 drm/nouveau/core/object: support lookup of specific object types
-
-:::::: TO: Ben Skeggs <bskeggs@redhat.com>
-:::::: CC: Ben Skeggs <bskeggs@redhat.com>
+    35	
+    36	LIST_HEAD(ima_measurements);	/* list of all measurements */
+    37	LIST_HEAD(ima_measurements_staged); /* list of staged measurements */
+    38	static LIST_HEAD(ima_measurements_trim); /* list of measurements to trim */
+    39	bool ima_measurements_staged_exist; /* If there are staged measurements */
+    40	#ifdef CONFIG_IMA_KEXEC
+    41	static unsigned long binary_runtime_size[BINARY__LAST];
+    42	#else
+    43	static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
+  > 44	static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
+    45	static unsigned long binary_runtime_size[BINARY_SIZE_STAGED] = ULONG_MAX;
+    46	#endif
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
