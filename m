@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AF921D59B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 20:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C1B200113
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 20:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765656984; cv=none; b=YLmN0l6HStSnnDOmUAd6N2lCEbDXGOF2Wvsb3Bria7J6cLcdVf0Xf1j9t0IWSoCteCL3qWw23AkP2l+fSQWGgwp5M5TASW3Oq9fDC7fkXqt0C5YDOw7DKEOvp2pEICIaP+0+pJQPzTbrfyYroO6j317habyREdy0hyJ+IyNsIsY=
+	t=1765657418; cv=none; b=th2WQxHKicJgcbTmDJE92uANwLzPivF3geLKVV7RmhBaku8QO2t9m+FUWyu80Ulob4nLTHpt3ifgIK4kbMLXpNw6Z+PAn9wZavmOC56wexwuZKP1xmQgo9eU4A6W2gGLM+Zn6HiMJoHu8tUEkwjUkjEwy6JFB2QJolV0W53YsLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765656984; c=relaxed/simple;
-	bh=+ZwtqlPYj1SMYFBGe8YU+gV6orFk6jgwi8xxkjJgml8=;
+	s=arc-20240116; t=1765657418; c=relaxed/simple;
+	bh=qJYS7PCzAI9IEPUjHAqJkm9oyLDpy0Z2PG0NzbRyI7s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s/1yHo/OZNhCp2WPpBr/xFaZ/qR1VGNjzdcfiAsHDw1TkBnNNEkpVHjgCVu96EuRfIzdMcJRl6Cs7pVUFS3qkzP7O4ouuHZzmqeCbCyZ57kjDYxiqZ/foLyiMuNjvmKk0Wyao5z5fN5ijT1Qtl/6QRIi7mKW6gvYAExOQz6DhF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D+FkW7Zk; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=E53s0lkZCs0AWaF6ZGF/sXmCQ5G1lUEs82yK8h4vN35hoavK4CTa9XjAG6a5xX3cY86kqy4di5/R5qFA+EfwQwnaDzndKdhkcjNYPAameGRXFiebzRAxr6S3M4GcKnlWzQ12gg7YDAWMVdaJE5zN0uggkxN9kG3TeDgPnxSPFSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YkEaYDde; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+FkW7Zk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkEaYDde"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765656982; x=1797192982;
+  t=1765657417; x=1797193417;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+ZwtqlPYj1SMYFBGe8YU+gV6orFk6jgwi8xxkjJgml8=;
-  b=D+FkW7ZkFGCnaTt+nESJ82bIdElKX/UdPh2eKxAR+Xfs0y2bMu/e7CEF
-   gUwHGXHXw0AXl1OO+uC9xxxvqugHUJj0gMGWkP0qRO9jieA/pT7wlo/o/
-   1Pcwvxr/86s5hZOehypj7zjANKLcJOOVWEDP1gIyOcuRMYr98SW+douuA
-   Ojg4eqQymdGPvtndgqQSeCqzNmCs0C4ZiRGUL+ZoTUnvxNskGSvdLTQWX
-   21HH0JbkZxCZQwSyCWj825uIpYj47lk8zvKo6T7VhQJoIjZVBc/N9kBw1
-   +I1eNt3TMBjXTMHEKaSZbokAGCJxIZhCfgkJCD0CXQTpASRip8QPsOZ4X
-   w==;
-X-CSE-ConnectionGUID: BaLsJGaFTz+ueF3JI7/Kzw==
-X-CSE-MsgGUID: F65rhOo9QMSXBTFDWXtCwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="78992081"
+  bh=qJYS7PCzAI9IEPUjHAqJkm9oyLDpy0Z2PG0NzbRyI7s=;
+  b=YkEaYDdeFeL+BqLjicWluh1HqxwND/RCvJW6bvlndITpnEbMVgnvOaaE
+   BF2j40pn2Dl8p1Xnom1HVOAxQkLlclzLn64BKCsKlPHHdXYUaIOamuXtq
+   tnXtAMOkTEJv8KIuhsNj3reGucnqHofgCivc55ZX7bwmZbNuRPEo6zpbF
+   Csn3jx6isBCgBVk3YWfgsyD+kkLui1Fk+kqRGM1aa3JcS1s490jE0mb8z
+   CxJZhoY+TbkTWwzWAP7Rp9S33jzGElPmS2yIp68QYe+/Tk1NxTz9tR20Q
+   wUjamvdl8S6uMjvrplPh4RGxP/1plEN0mnfleLU/2luYD6Cb+UsvKCZD6
+   g==;
+X-CSE-ConnectionGUID: 8e5u7lYNQi++Sv3rYRC7ug==
+X-CSE-MsgGUID: dZE7p8geT5WEnqDtQT6ThQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="85214883"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="78992081"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 12:16:19 -0800
-X-CSE-ConnectionGUID: 8f2D9herTPGHyg8RjWRL+g==
-X-CSE-MsgGUID: ANEXtZeETcyummrHSOolUw==
+   d="scan'208";a="85214883"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 12:23:36 -0800
+X-CSE-ConnectionGUID: zSdqOosqRUuTpWN4VlI9CA==
+X-CSE-MsgGUID: 5T53qL1jS5mJMgVi0Ci4aA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="196647520"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 13 Dec 2025 12:16:20 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="220749085"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 13 Dec 2025 12:23:35 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUW2K-0000000089y-2BYY;
-	Sat, 13 Dec 2025 20:16:16 +0000
-Date: Sun, 14 Dec 2025 04:15:19 +0800
+	id 1vUW9N-000000002Ae-0zlL;
+	Sat, 13 Dec 2025 20:23:33 +0000
+Date: Sat, 13 Dec 2025 21:22:43 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 3/3]
- drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:252:6: warning: variable
- 'ret' set but not used
-Message-ID: <202512140425.zQqLuSR8-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 50/50] mm/shrinker.c:688:6: warning:
+ no previous prototype for 'register_shrinker_prepared'
+Message-ID: <202512132113.VYGvNTzQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,59 +62,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mostafa,
-
-First bad commit (maybe != root cause):
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   17fd67ddf0cddeb7325b49d3ca2f7db7824dfccd
-commit: e0abda8b771ca9dd97fd815b4be3bc9711fa3a5c [3/3] ANDROID: drivers/arm-smmu-v3-kvm: Modularize driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251214/202512140425.zQqLuSR8-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140425.zQqLuSR8-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   7c285f40a964b427534f3dab33b104ee9cab6245
+commit: f1dadc895ed84d664e6d2d008be8225d3b051db7 [50/50] mm: shrinker: remove old APIs
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251213/202512132113.VYGvNTzQ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512132113.VYGvNTzQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140425.zQqLuSR8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512132113.VYGvNTzQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c:252:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     252 |         int ret;
-         |             ^
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [m]:
-   - INTEL_MEI_HDCP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
+>> mm/shrinker.c:688:6: warning: no previous prototype for 'register_shrinker_prepared' [-Wmissing-prototypes]
+     688 | void register_shrinker_prepared(struct shrinker *shrinker)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ret +252 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-kvm.c
+vim +/register_shrinker_prepared +688 mm/shrinker.c
 
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  249  
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  250  static void kvm_arm_smmu_domain_free(struct iommu_domain *domain)
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  251  {
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12 @252  	int ret;
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  253  	struct kvm_arm_smmu_domain *kvm_smmu_domain = to_kvm_smmu_domain(domain);
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  254  	struct arm_smmu_device *smmu = kvm_smmu_domain->smmu;
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  255  
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  256  	if (smmu) {
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  257  		ret = kvm_call_hyp_nvhe(__pkvm_host_iommu_free_domain, kvm_smmu_domain->id);
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  258  		ida_free(&kvm_arm_smmu_domain_ida, kvm_smmu_domain->id);
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  259  	}
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  260  	kfree(kvm_smmu_domain);
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  261  }
-6cb3ecc7be2f63 Mostafa Saleh 2024-12-12  262  
+314369bb029a4d Qi Zheng 2023-09-11  687  
+314369bb029a4d Qi Zheng 2023-09-11 @688  void register_shrinker_prepared(struct shrinker *shrinker)
+314369bb029a4d Qi Zheng 2023-09-11  689  {
+314369bb029a4d Qi Zheng 2023-09-11  690  	down_write(&shrinker_rwsem);
+314369bb029a4d Qi Zheng 2023-09-11  691  	list_add_tail(&shrinker->list, &shrinker_list);
+314369bb029a4d Qi Zheng 2023-09-11  692  	shrinker->flags |= SHRINKER_REGISTERED;
+314369bb029a4d Qi Zheng 2023-09-11  693  	shrinker_debugfs_add(shrinker);
+314369bb029a4d Qi Zheng 2023-09-11  694  	up_write(&shrinker_rwsem);
+314369bb029a4d Qi Zheng 2023-09-11  695  }
+314369bb029a4d Qi Zheng 2023-09-11  696  
 
-:::::: The code at line 252 was first introduced by commit
-:::::: 6cb3ecc7be2f6315e496f59b1966a2b515dfc776 BACKPORT: FROMLIST: iommu/arm-smmu-v3-kvm: Add IOMMU ops
+:::::: The code at line 688 was first introduced by commit
+:::::: 314369bb029a4d7f5018a64217e28d549e42fb65 mm: vmscan: move shrinker-related code into a separate file
 
-:::::: TO: Mostafa Saleh <smostafa@google.com>
-:::::: CC: Mostafa Saleh <smostafa@google.com>
+:::::: TO: Qi Zheng <zhengqi.arch@bytedance.com>
+:::::: CC: winterddd <tianruidong@linux.alibaba.com>
 
 -- 
 0-DAY CI Kernel Test Service
