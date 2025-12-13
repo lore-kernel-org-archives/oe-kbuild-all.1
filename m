@@ -1,76 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B322848A4;
-	Sat, 13 Dec 2025 22:38:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FF51E4BE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 22:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765665513; cv=none; b=AWnuFgGQHqJcfft1X16bau/coRc4UfyBGeKmmjX3WwYU6yhMCrrr3af7wsju4JH31QlTLnQgm59z6/5hcnlRqPeo3LfgptyoLAL3xoG4AnQ6CacRrMZjHxzKUH7sXRZUMPvD84jbNR4Ylq2AJQ7r7lZ3BkEpVyRauHPUBco9LC8=
+	t=1765666229; cv=none; b=IjSsgKa0X7S0kY8RL/xcP69S+35XcWyqCJJrXsFXROr7/n/bkwy4gp5ZXijVlC6f9AMA+7Rnr+R2wVmVX/jXSFjBDKPsjDokgN88cx/gyZ4Tw9PzcZDBUjfiQT0nVIRv9wu3texl8uGSNxU2b2xsQ4NEP7+yqwkDAERdyByR93Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765665513; c=relaxed/simple;
-	bh=x9IUiptFECE3cW/GDCvzyiGlrgVLo6L8ed3LxBK68RM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bcBf+gumpcixHAGRtGC+vgnvjTcpoUqAwv7T9K85wgoaCbdtx9jkXowaXIVxT7C8k69UVtLIWkwAvqCet1X1G0MwvDCVQZUulnrSyKZuKHRx+hueHQszkHWH+VSGvYq0dhiiEisDnz91zuQGWgqOpf2uIiyrT5OsYp4qmnSmJ9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OiGo8Vo9; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1765666229; c=relaxed/simple;
+	bh=6YvptacKrsYrWvVXD0F8FYzQEzXLfmhuExPec+getoc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SovWDGLPzmYUc+qXsrBUrRKHH5kKE+by9Bq0F5TrRIrp/H7ZtAzhaP0J+HUYmEhX5wSiePO+4B/9v1IwCMKZr6b9Y/sW2osQ04MRJtKAQ5BmfVnJL+EBfxR9Mf5FSmYEBl9q3r85oGkjX6a6OgZMiZ4tFOzJki4dS0vXcRmaJ5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U4/gV5OZ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OiGo8Vo9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4/gV5OZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765665512; x=1797201512;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x9IUiptFECE3cW/GDCvzyiGlrgVLo6L8ed3LxBK68RM=;
-  b=OiGo8Vo9K/9PbCkHQpb8LrVvtlFljBJS4HZDnPPonzolItgK0v7839TA
-   W96yUSEAUXElNjHc/NGL+09zUwbioJsRUszF4UuIx26ldOnkV1a0LYcIq
-   /7qM0wOuve/b40PnBNaTcd6l0Rnob17ZU90b3P4CSmfffUiwo4vEIdnpi
-   vKLNydM6YpcJ8kxHvZo9hV0E9HPrP9lxE128nyXKac+KXcijwE04iOqAm
-   m26tdHub6+65o+aF/uRckukQ6bxUmDHt+GNv66iF425zN4EtdzWJVR8ll
-   VQLXVAkH9MhaRtUCUb1qoihzobgpJ06vm5cMcghPM87rtZyC7z3s32wri
-   g==;
-X-CSE-ConnectionGUID: ZqGn5DuvSyaNpY5Hc5MdoA==
-X-CSE-MsgGUID: 09TyLLSKS+OfkthlSjzD5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67584998"
+  t=1765666228; x=1797202228;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6YvptacKrsYrWvVXD0F8FYzQEzXLfmhuExPec+getoc=;
+  b=U4/gV5OZfteFBWhoS9GJ6p7qK1nIIkBo5XJ2pFjfrHaF2qZyjlVqHjoN
+   aQI8JTemIlmDR4rudEiEygBprLY2lzVDqwRE48kFbJmk3cFNg0QVto5a2
+   owCwF4uJzbKQ83sCEVgmVw3V5lgHpcxJ/opvyiJlTkC4XlTyroXpIr8QW
+   tlWD9Gq+0H32iibJrGKlKXdvGAsq3dxDo8x/aTz/nHxPfuBPwvt76/0q0
+   ut7Xbg+iDPv1Zefa8eLlI880w/izjRLbkdtk4EXxmkNkvzyjxMr08QKok
+   Pg/O4WI+ZOaHT/ycW9H+lV8VakvUqHR9uGwWcDQoPgmacgkym2itwAI3u
+   Q==;
+X-CSE-ConnectionGUID: BPyvCbBZR4OAILmpRXDrMQ==
+X-CSE-MsgGUID: 78BZWARaQC+KfKjIQY9dIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="66612100"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="67584998"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 14:38:30 -0800
-X-CSE-ConnectionGUID: C5+MoIrRSh6bNB54VCqnTg==
-X-CSE-MsgGUID: oGNlm5zrS7S3sfRx771FLQ==
+   d="scan'208";a="66612100"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 14:50:27 -0800
+X-CSE-ConnectionGUID: nSJ/R6yyTZi5mleNYqA3sg==
+X-CSE-MsgGUID: kuzKQbdwQnS4jUX/tt717A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="202300259"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Dec 2025 14:38:26 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 13 Dec 2025 14:50:26 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUYFr-000000008HD-3sy5;
-	Sat, 13 Dec 2025 22:38:23 +0000
-Date: Sun, 14 Dec 2025 06:38:13 +0800
+	id 1vUYRU-000000008Hp-14qG;
+	Sat, 13 Dec 2025 22:50:24 +0000
+Date: Sun, 14 Dec 2025 06:49:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Thomas Perrot (Schneider Electric)" <thomas.perrot@bootlin.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	=?iso-8859-1?Q?J=E9r=E9mie?= Dautheribes <jeremie.dautheribes@bootlin.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, Lee Jones <lee@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-watchdog@vger.kernel.org,
-	"Thomas Perrot (Schneider Electric)" <thomas.perrot@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 6/8] gpio: aaeon: Add GPIO driver for SRG-IMX8PL MCU
-Message-ID: <202512140637.VrfgC1Tj-lkp@intel.com>
-References: <20251212-dev-b4-aaeon-mcu-driver-v1-6-6bd65bc8ef12@bootlin.com>
+To: Brian Gerst <brgerst@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: arch/x86/kernel/cpu/common.c:2083:1: sparse: sparse: symbol
+ '__pcpu_scope___x86_call_depth' was not declared. Should it be static?
+Message-ID: <202512140644.bKd0WN29-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,30 +60,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251212-dev-b4-aaeon-mcu-driver-v1-6-6bd65bc8ef12@bootlin.com>
 
-Hi Thomas,
+Hi Brian,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on d358e5254674b70f34c847715ca509e46eb81e6f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Perrot-Schneider-Electric/dt-bindings-vendor-prefixes-Add-AAEON-vendor-prefix/20251212-154458
-base:   d358e5254674b70f34c847715ca509e46eb81e6f
-patch link:    https://lore.kernel.org/r/20251212-dev-b4-aaeon-mcu-driver-v1-6-6bd65bc8ef12%40bootlin.com
-patch subject: [PATCH 6/8] gpio: aaeon: Add GPIO driver for SRG-IMX8PL MCU
-config: mips-randconfig-r051-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140637.VrfgC1Tj-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140637.VrfgC1Tj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4a298a43f5e339f48d2dda0665c02b88ee9a4e03
+commit: 839be1619fb897364b782997bc2c5d072d7a79f2 x86/retbleed: Move call depth to percpu hot section
+date:   9 months ago
+config: x86_64-randconfig-123-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140644.bKd0WN29-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140644.bKd0WN29-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140637.VrfgC1Tj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140644.bKd0WN29-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/kernel/cpu/common.c:2083:1: sparse: sparse: symbol '__pcpu_scope___x86_call_depth' was not declared. Should it be static?
 
->> ERROR: modpost: "aaeon_mcu_i2c_xfer" [drivers/gpio/gpio-aaeon-mcu.ko] undefined!
+vim +/__pcpu_scope___x86_call_depth +2083 arch/x86/kernel/cpu/common.c
+
+  2076	
+  2077	#ifdef CONFIG_X86_64
+  2078	/*
+  2079	 * Note: Do not make this dependant on CONFIG_MITIGATION_CALL_DEPTH_TRACKING
+  2080	 * so that this space is reserved in the hot cache section even when the
+  2081	 * mitigation is disabled.
+  2082	 */
+> 2083	DEFINE_PER_CPU_CACHE_HOT(u64, __x86_call_depth);
+  2084	EXPORT_PER_CPU_SYMBOL(__x86_call_depth);
+  2085	
 
 -- 
 0-DAY CI Kernel Test Service
