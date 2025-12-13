@@ -1,79 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65309156CA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 15:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B087129AB1A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 15:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765639202; cv=none; b=Jx4n97C8JG6tia9cBwkzD2AWzauK13yBs1UeLvyo6cCKtX5ZjfWsqwiXcvNVXE9Dte7b1o7JoCeyPyh2zWc/qnK+/OHbVO012DJt2U102KvOn/F9phFawiwEj3JsO7XCaXfFNOGBgXYpVPl8vD4fUn1wJwMyRNLHkh1iE1rGaQo=
+	t=1765641122; cv=none; b=O8QcDffGlpeNB7DmNeUSPdsCtxCAPddNC28/2Ogg+1rmjcoCSw5T/SozE3KHgH1do4sQ083xQNay+Yqs8rZS/F7qTQbfFLIkMscF6bms4td/N/XGwVrwdxKtuumB6PNTYwlJoKmJUfRDV/ud64WHC2VD7dKg8UlWKBspI/84Hnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765639202; c=relaxed/simple;
-	bh=SfRsyNZlXG5eeLM8ItwniBCiImW1HWheHg8vcn/Omxo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NaTxkBHxiScdS3wkKzNzqDs77Rz+JyrPwjsZBjBgiHe/uQV8i5zyWGaSoNLBBMgiOjndWkFExQs6vVCGHCgJVlhTyEXxVjp6VwMKdUdgE99mgCCWVjIF0bQMRi+SYX15YPOCMFjhkCwX9SLd3Lr41zpxvoTkJ4xW+H1aVwJYRXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EJFXRYZJ; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1765641122; c=relaxed/simple;
+	bh=vU8sC0wgWITSPPsJa1i19b+r3esBMBLNmMRQ4zUJyS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HRxStvSVHEYykw7HGlT6O6C/jsgNCaBAJgRg1KFZuHlWDDrgNAPahZOn6vfMHvGFbxwjAuYi+pCR2egPj2nYbE5P6DFLzV/EnpdxnUqYcvC8uIQum9L/1m+r1d7h2c/GwOUFm39+OU+1VYoLkmy3lB86EvFXt0Z8I2SS+9HpxGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=At2CPpL/; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EJFXRYZJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="At2CPpL/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765639200; x=1797175200;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SfRsyNZlXG5eeLM8ItwniBCiImW1HWheHg8vcn/Omxo=;
-  b=EJFXRYZJmEpSyB9vXIZ5ouKMJXCbo4zgOywVXuHXkf8elqdfLzPdPXyx
-   zy5QTOo7Ap+jqEkupX2+OPd4mJlefRwMGY4WLqVxuubBaLhd9RB0h3gGO
-   TntDcMbgb95si37POsSbOr8hs+3U0/SLYKTSaGkPEzrP8t4/VAXem/g8O
-   fujJjjmiIl9NV+q1eDdLrZzIFLujRNzxPo57t4gpqgtuv5UkBST6dT6k2
-   MHrAHvHiR1rwfll6RMQ02FKWijylMDwEGiyheTJF4ySkdCWgi33Y8Vtds
-   xFyEY4BevpKJLIfCoJbh0kFOEXbkzcuGn7MxBhJY5IwnJ1sYsqVPbsdRn
-   g==;
-X-CSE-ConnectionGUID: sudSGDCMSleFrAw7VTpnIA==
-X-CSE-MsgGUID: kXk/LKG2QuuNSrT8/Gtqzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67490533"
+  t=1765641120; x=1797177120;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vU8sC0wgWITSPPsJa1i19b+r3esBMBLNmMRQ4zUJyS0=;
+  b=At2CPpL/AcY64wTWejXBPZliMZO4RllPZC3Vo1ZHS+rqV5y58I5DSnv7
+   V14tiRVShTsM1L+NUpD+zToaqQlnUJLdBA4F4WR3KC6+BT7acGQV024GV
+   50NAS1sPTL/eiAXNjm2o0ogeWtLwUaFGQQhJeBT3PJMTJQVV6qZiw8moD
+   lZ+lJz1eYElnnnG9/Ca2JPXXAQ4ywdEsjOPoIotXBFnc3aUZ/mVyU5w5/
+   s06FmKUjOKUbbGaoAOxxjAJ/aiHcF1IXYRTE5V4iCNdteUZeziP3PigM6
+   K8s53pMcLtaExZ/xPe3lMvNs3GavVcfaaWszR/kk47Br3oBoy0Oslljdu
+   Q==;
+X-CSE-ConnectionGUID: 0Kyyk1CTSM67ZmkvfoZj+A==
+X-CSE-MsgGUID: paJHfqj5S92l+rEbs+ZsIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="55178182"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="67490533"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 07:20:00 -0800
-X-CSE-ConnectionGUID: z0Y2RG6kQ2uPXLwf/ZjKXw==
-X-CSE-MsgGUID: Yp1UjaFaR1KDmEwIYcyCqw==
+   d="scan'208";a="55178182"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 07:51:57 -0800
+X-CSE-ConnectionGUID: 7dEhyymhStaWVQ+ud98pzQ==
+X-CSE-MsgGUID: yka2SX8TQIOhKXaqbsYT0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="197325290"
+   d="scan'208";a="197834029"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Dec 2025 07:19:54 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 13 Dec 2025 07:51:54 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vURPS-000000007nN-3CMB;
-	Sat, 13 Dec 2025 15:19:50 +0000
-Date: Sat, 13 Dec 2025 23:19:31 +0800
+	id 1vURuS-000000007pJ-2YRh;
+	Sat, 13 Dec 2025 15:51:52 +0000
+Date: Sat, 13 Dec 2025 23:51:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ramiro Oliveira <ramiro.oliveira@advantech.com>,
-	Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-i2c@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Wenkai Chung <wenkai.chung@advantech.com.tw>,
-	Francisco Aragon-Trivino <francisco.aragon-trivino@advantech.com>,
-	Hongzhi Wang <hongzhi.wang@advantech.com>,
-	Mikhail Tsukerman <mikhail.tsukerman@advantech.com>,
-	Thomas Kastner <thomas.kastner@advantech.com>,
-	Ramiro Oliveira <ramiro.oliveira@advantech.com>
-Subject: Re: [PATCH 1/8] Add Advantech EIO MFD driver
-Message-ID: <202512132239.HrAPSw6z-lkp@intel.com>
-References: <20251212-upstream-v1-v1-1-d50d40ec8d8a@advantech.com>
+To: alexs@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:pgtable20251213 1/2] mm/migrate_device.c:886:48: error:
+ incompatible pointer types passing 'pgtable_t' (aka 'struct page *') to
+ parameter of type 'struct ptdesc *'
+Message-ID: <202512132354.FGUwQBlv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,30 +62,170 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251212-upstream-v1-v1-1-d50d40ec8d8a@advantech.com>
 
-Hi Ramiro,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d9771d0dbe18dd643760431870a6abf9b0866bb0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ramiro-Oliveira/Add-Advantech-EIO-MFD-driver/20251213-004905
-base:   d9771d0dbe18dd643760431870a6abf9b0866bb0
-patch link:    https://lore.kernel.org/r/20251212-upstream-v1-v1-1-d50d40ec8d8a%40advantech.com
-patch subject: [PATCH 1/8] Add Advantech EIO MFD driver
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20251213/202512132239.HrAPSw6z-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512132239.HrAPSw6z-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git pgtable20251213
+head:   71f843b5f777eb8b0945aec4cf5844fb4e4105c5
+commit: 977a6e01539decdd817dbbc6106a67ec19128bba [1/2] mm/pgtable: use ptdesc for pgtable pointer-6.19
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251213/202512132354.FGUwQBlv-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512132354.FGUwQBlv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512132239.HrAPSw6z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512132354.FGUwQBlv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/mfd/eio_core.c:37 cannot understand function prototype: 'uint timeout = DEFAULT_TIMEOUT;'
+>> mm/migrate_device.c:886:48: error: incompatible pointer types passing 'pgtable_t' (aka 'struct page *') to parameter of type 'struct ptdesc *' [-Werror,-Wincompatible-pointer-types]
+     886 |                 pgtable_trans_huge_deposit(vma->vm_mm, pmdp, pgtable);
+         |                                                              ^~~~~~~
+   include/linux/pgtable.h:1020:27: note: passing argument to parameter 'pgtable' here
+    1020 |                                        struct ptdesc *pgtable);
+         |                                                       ^
+   1 error generated.
+
+
+vim +886 mm/migrate_device.c
+
+76cbbead253ddc Christoph Hellwig 2022-02-16  776  
+a30b48bf1b244f Balbir Singh      2025-10-01  777  #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
+a30b48bf1b244f Balbir Singh      2025-10-01  778  /**
+a30b48bf1b244f Balbir Singh      2025-10-01  779   * migrate_vma_insert_huge_pmd_page: Insert a huge folio into @migrate->vma->vm_mm
+a30b48bf1b244f Balbir Singh      2025-10-01  780   * at @addr. folio is already allocated as a part of the migration process with
+a30b48bf1b244f Balbir Singh      2025-10-01  781   * large page.
+a30b48bf1b244f Balbir Singh      2025-10-01  782   *
+a30b48bf1b244f Balbir Singh      2025-10-01  783   * @page needs to be initialized and setup after it's allocated. The code bits
+a30b48bf1b244f Balbir Singh      2025-10-01  784   * here follow closely the code in __do_huge_pmd_anonymous_page(). This API does
+a30b48bf1b244f Balbir Singh      2025-10-01  785   * not support THP zero pages.
+a30b48bf1b244f Balbir Singh      2025-10-01  786   *
+a30b48bf1b244f Balbir Singh      2025-10-01  787   * @migrate: migrate_vma arguments
+a30b48bf1b244f Balbir Singh      2025-10-01  788   * @addr: address where the folio will be inserted
+a30b48bf1b244f Balbir Singh      2025-10-01  789   * @page: page to be inserted at @addr
+a30b48bf1b244f Balbir Singh      2025-10-01  790   * @src: src pfn which is being migrated
+a30b48bf1b244f Balbir Singh      2025-10-01  791   * @pmdp: pointer to the pmd
+a30b48bf1b244f Balbir Singh      2025-10-01  792   */
+a30b48bf1b244f Balbir Singh      2025-10-01  793  static int migrate_vma_insert_huge_pmd_page(struct migrate_vma *migrate,
+a30b48bf1b244f Balbir Singh      2025-10-01  794  					 unsigned long addr,
+a30b48bf1b244f Balbir Singh      2025-10-01  795  					 struct page *page,
+a30b48bf1b244f Balbir Singh      2025-10-01  796  					 unsigned long *src,
+a30b48bf1b244f Balbir Singh      2025-10-01  797  					 pmd_t *pmdp)
+a30b48bf1b244f Balbir Singh      2025-10-01  798  {
+a30b48bf1b244f Balbir Singh      2025-10-01  799  	struct vm_area_struct *vma = migrate->vma;
+a30b48bf1b244f Balbir Singh      2025-10-01  800  	gfp_t gfp = vma_thp_gfp_mask(vma);
+a30b48bf1b244f Balbir Singh      2025-10-01  801  	struct folio *folio = page_folio(page);
+a30b48bf1b244f Balbir Singh      2025-10-01  802  	int ret;
+a30b48bf1b244f Balbir Singh      2025-10-01  803  	vm_fault_t csa_ret;
+a30b48bf1b244f Balbir Singh      2025-10-01  804  	spinlock_t *ptl;
+a30b48bf1b244f Balbir Singh      2025-10-01  805  	pgtable_t pgtable;
+a30b48bf1b244f Balbir Singh      2025-10-01  806  	pmd_t entry;
+a30b48bf1b244f Balbir Singh      2025-10-01  807  	bool flush = false;
+a30b48bf1b244f Balbir Singh      2025-10-01  808  	unsigned long i;
+a30b48bf1b244f Balbir Singh      2025-10-01  809  
+a30b48bf1b244f Balbir Singh      2025-10-01  810  	VM_WARN_ON_FOLIO(!folio, folio);
+a30b48bf1b244f Balbir Singh      2025-10-01  811  	VM_WARN_ON_ONCE(!pmd_none(*pmdp) && !is_huge_zero_pmd(*pmdp));
+a30b48bf1b244f Balbir Singh      2025-10-01  812  
+a30b48bf1b244f Balbir Singh      2025-10-01  813  	if (!thp_vma_suitable_order(vma, addr, HPAGE_PMD_ORDER))
+a30b48bf1b244f Balbir Singh      2025-10-01  814  		return -EINVAL;
+a30b48bf1b244f Balbir Singh      2025-10-01  815  
+a30b48bf1b244f Balbir Singh      2025-10-01  816  	ret = anon_vma_prepare(vma);
+a30b48bf1b244f Balbir Singh      2025-10-01  817  	if (ret)
+a30b48bf1b244f Balbir Singh      2025-10-01  818  		return ret;
+a30b48bf1b244f Balbir Singh      2025-10-01  819  
+a30b48bf1b244f Balbir Singh      2025-10-01  820  	folio_set_order(folio, HPAGE_PMD_ORDER);
+a30b48bf1b244f Balbir Singh      2025-10-01  821  	folio_set_large_rmappable(folio);
+a30b48bf1b244f Balbir Singh      2025-10-01  822  
+a30b48bf1b244f Balbir Singh      2025-10-01  823  	if (mem_cgroup_charge(folio, migrate->vma->vm_mm, gfp)) {
+a30b48bf1b244f Balbir Singh      2025-10-01  824  		count_vm_event(THP_FAULT_FALLBACK);
+a30b48bf1b244f Balbir Singh      2025-10-01  825  		count_mthp_stat(HPAGE_PMD_ORDER, MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE);
+a30b48bf1b244f Balbir Singh      2025-10-01  826  		ret = -ENOMEM;
+a30b48bf1b244f Balbir Singh      2025-10-01  827  		goto abort;
+a30b48bf1b244f Balbir Singh      2025-10-01  828  	}
+a30b48bf1b244f Balbir Singh      2025-10-01  829  
+a30b48bf1b244f Balbir Singh      2025-10-01  830  	__folio_mark_uptodate(folio);
+a30b48bf1b244f Balbir Singh      2025-10-01  831  
+a30b48bf1b244f Balbir Singh      2025-10-01  832  	pgtable = pte_alloc_one(vma->vm_mm);
+a30b48bf1b244f Balbir Singh      2025-10-01  833  	if (unlikely(!pgtable))
+a30b48bf1b244f Balbir Singh      2025-10-01  834  		goto abort;
+a30b48bf1b244f Balbir Singh      2025-10-01  835  
+a30b48bf1b244f Balbir Singh      2025-10-01  836  	if (folio_is_device_private(folio)) {
+a30b48bf1b244f Balbir Singh      2025-10-01  837  		swp_entry_t swp_entry;
+a30b48bf1b244f Balbir Singh      2025-10-01  838  
+a30b48bf1b244f Balbir Singh      2025-10-01  839  		if (vma->vm_flags & VM_WRITE)
+a30b48bf1b244f Balbir Singh      2025-10-01  840  			swp_entry = make_writable_device_private_entry(
+a30b48bf1b244f Balbir Singh      2025-10-01  841  						page_to_pfn(page));
+a30b48bf1b244f Balbir Singh      2025-10-01  842  		else
+a30b48bf1b244f Balbir Singh      2025-10-01  843  			swp_entry = make_readable_device_private_entry(
+a30b48bf1b244f Balbir Singh      2025-10-01  844  						page_to_pfn(page));
+a30b48bf1b244f Balbir Singh      2025-10-01  845  		entry = swp_entry_to_pmd(swp_entry);
+a30b48bf1b244f Balbir Singh      2025-10-01  846  	} else {
+a30b48bf1b244f Balbir Singh      2025-10-01  847  		if (folio_is_zone_device(folio) &&
+a30b48bf1b244f Balbir Singh      2025-10-01  848  		    !folio_is_device_coherent(folio)) {
+a30b48bf1b244f Balbir Singh      2025-10-01  849  			goto abort;
+a30b48bf1b244f Balbir Singh      2025-10-01  850  		}
+a30b48bf1b244f Balbir Singh      2025-10-01  851  		entry = folio_mk_pmd(folio, vma->vm_page_prot);
+a30b48bf1b244f Balbir Singh      2025-10-01  852  		if (vma->vm_flags & VM_WRITE)
+a30b48bf1b244f Balbir Singh      2025-10-01  853  			entry = pmd_mkwrite(pmd_mkdirty(entry), vma);
+a30b48bf1b244f Balbir Singh      2025-10-01  854  	}
+a30b48bf1b244f Balbir Singh      2025-10-01  855  
+a30b48bf1b244f Balbir Singh      2025-10-01  856  	ptl = pmd_lock(vma->vm_mm, pmdp);
+a30b48bf1b244f Balbir Singh      2025-10-01  857  	csa_ret = check_stable_address_space(vma->vm_mm);
+a30b48bf1b244f Balbir Singh      2025-10-01  858  	if (csa_ret)
+a30b48bf1b244f Balbir Singh      2025-10-01  859  		goto abort;
+a30b48bf1b244f Balbir Singh      2025-10-01  860  
+a30b48bf1b244f Balbir Singh      2025-10-01  861  	/*
+a30b48bf1b244f Balbir Singh      2025-10-01  862  	 * Check for userfaultfd but do not deliver the fault. Instead,
+a30b48bf1b244f Balbir Singh      2025-10-01  863  	 * just back off.
+a30b48bf1b244f Balbir Singh      2025-10-01  864  	 */
+a30b48bf1b244f Balbir Singh      2025-10-01  865  	if (userfaultfd_missing(vma))
+a30b48bf1b244f Balbir Singh      2025-10-01  866  		goto unlock_abort;
+a30b48bf1b244f Balbir Singh      2025-10-01  867  
+a30b48bf1b244f Balbir Singh      2025-10-01  868  	if (!pmd_none(*pmdp)) {
+a30b48bf1b244f Balbir Singh      2025-10-01  869  		if (!is_huge_zero_pmd(*pmdp))
+a30b48bf1b244f Balbir Singh      2025-10-01  870  			goto unlock_abort;
+a30b48bf1b244f Balbir Singh      2025-10-01  871  		flush = true;
+a30b48bf1b244f Balbir Singh      2025-10-01  872  	} else if (!pmd_none(*pmdp))
+a30b48bf1b244f Balbir Singh      2025-10-01  873  		goto unlock_abort;
+a30b48bf1b244f Balbir Singh      2025-10-01  874  
+a30b48bf1b244f Balbir Singh      2025-10-01  875  	add_mm_counter(vma->vm_mm, MM_ANONPAGES, HPAGE_PMD_NR);
+a30b48bf1b244f Balbir Singh      2025-10-01  876  	folio_add_new_anon_rmap(folio, vma, addr, RMAP_EXCLUSIVE);
+a30b48bf1b244f Balbir Singh      2025-10-01  877  	if (!folio_is_zone_device(folio))
+a30b48bf1b244f Balbir Singh      2025-10-01  878  		folio_add_lru_vma(folio, vma);
+a30b48bf1b244f Balbir Singh      2025-10-01  879  	folio_get(folio);
+a30b48bf1b244f Balbir Singh      2025-10-01  880  
+a30b48bf1b244f Balbir Singh      2025-10-01  881  	if (flush) {
+a30b48bf1b244f Balbir Singh      2025-10-01  882  		pte_free(vma->vm_mm, pgtable);
+a30b48bf1b244f Balbir Singh      2025-10-01  883  		flush_cache_page(vma, addr, addr + HPAGE_PMD_SIZE);
+a30b48bf1b244f Balbir Singh      2025-10-01  884  		pmdp_invalidate(vma, addr, pmdp);
+a30b48bf1b244f Balbir Singh      2025-10-01  885  	} else {
+a30b48bf1b244f Balbir Singh      2025-10-01 @886  		pgtable_trans_huge_deposit(vma->vm_mm, pmdp, pgtable);
+a30b48bf1b244f Balbir Singh      2025-10-01  887  		mm_inc_nr_ptes(vma->vm_mm);
+a30b48bf1b244f Balbir Singh      2025-10-01  888  	}
+a30b48bf1b244f Balbir Singh      2025-10-01  889  	set_pmd_at(vma->vm_mm, addr, pmdp, entry);
+a30b48bf1b244f Balbir Singh      2025-10-01  890  	update_mmu_cache_pmd(vma, addr, pmdp);
+a30b48bf1b244f Balbir Singh      2025-10-01  891  
+a30b48bf1b244f Balbir Singh      2025-10-01  892  	spin_unlock(ptl);
+a30b48bf1b244f Balbir Singh      2025-10-01  893  
+a30b48bf1b244f Balbir Singh      2025-10-01  894  	count_vm_event(THP_FAULT_ALLOC);
+a30b48bf1b244f Balbir Singh      2025-10-01  895  	count_mthp_stat(HPAGE_PMD_ORDER, MTHP_STAT_ANON_FAULT_ALLOC);
+a30b48bf1b244f Balbir Singh      2025-10-01  896  	count_memcg_event_mm(vma->vm_mm, THP_FAULT_ALLOC);
+a30b48bf1b244f Balbir Singh      2025-10-01  897  
+a30b48bf1b244f Balbir Singh      2025-10-01  898  	return 0;
+a30b48bf1b244f Balbir Singh      2025-10-01  899  
+a30b48bf1b244f Balbir Singh      2025-10-01  900  unlock_abort:
+a30b48bf1b244f Balbir Singh      2025-10-01  901  	spin_unlock(ptl);
+a30b48bf1b244f Balbir Singh      2025-10-01  902  abort:
+a30b48bf1b244f Balbir Singh      2025-10-01  903  	for (i = 0; i < HPAGE_PMD_NR; i++)
+a30b48bf1b244f Balbir Singh      2025-10-01  904  		src[i] &= ~MIGRATE_PFN_MIGRATE;
+a30b48bf1b244f Balbir Singh      2025-10-01  905  	return 0;
+a30b48bf1b244f Balbir Singh      2025-10-01  906  }
+4265d67e405a41 Balbir Singh      2025-10-01  907  
+
+:::::: The code at line 886 was first introduced by commit
+:::::: a30b48bf1b244f11bf9b6d20cdccfe0c2264130c mm/migrate_device: implement THP migration of zone device pages
+
+:::::: TO: Balbir Singh <balbirs@nvidia.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
