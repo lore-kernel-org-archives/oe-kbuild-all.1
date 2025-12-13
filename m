@@ -1,59 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD5A2B2D7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 06:23:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7289B2264A7;
+	Sat, 13 Dec 2025 06:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765606992; cv=none; b=jFldg00G1CvK2kDtiqL63mwEK4HdxFk6Yr5Cd9pV+rlzXlTkCGeGDNfvCL+MnXzFfYIvOx13/0lncOX/+pYWQdx8jaQ+eXpTwgtBAqSzk8q6Rvog8AXNdMGNh7PoHPx6lNmAkjlERQlpOj2QWAeS/eDG+697x8bJpPXSfd2nZLg=
+	t=1765606996; cv=none; b=rSGRX6QGViSLgNZ5yaKjiiaK960kn6iGCy8UktUjA6Da+oB210QmXYvaDkZBVV5n4BxoevL8p75XlpClZKGMkettBT/NJnr+2WflFzOdHaHrdJGxBgnc9rzkypE41+rTME8a6jkw2j8WYqhy41hRMzxpoxa00AKiEHE3EUCHk18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765606992; c=relaxed/simple;
-	bh=PpdZEStpSqaQEExk6J7OjOxg/LSAFN9+6mkXxj8AAzM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sVJiRxKYNfGNIK996uyPYc3fy/5Wa5Q6ZiLM1e1YwvJC+pbaZYNBpxCFDJ14Yckh+3cIXp4FE6QcZxROsfcuUl2cyFbWt/V3CTFnoPd2eMDmB9Szdr97WgB+XHgFai9yRbUxMCygOYfHXBO8y65YZYlWGlRflPeZtVseZM3KYho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fcblelDM; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1765606996; c=relaxed/simple;
+	bh=/lblB9mHbneVuke30grVcxJBPtiroHf6vSxLBptFtwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gzjd+jBm0pm9UPZihesFW6CkGAYh7FiOUNEoxYWpX1JKkVgWIbdA2b8keja/6n6+MLITLOS68Zri+ZYNk0hmRtMAspbZNoi8eLkJrFJNRVVfLiTP3jP8EXVrzGBUWPF6VdrB/VR77J62FvXlE1nfqt/YIG7X+W+UT2WLDMWMIOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GvgRybrl; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fcblelDM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GvgRybrl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765606991; x=1797142991;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PpdZEStpSqaQEExk6J7OjOxg/LSAFN9+6mkXxj8AAzM=;
-  b=fcblelDMBcJxMJmn8AaR6FilfwOyq3oKOE9aaNySTAVQf7oD6+6thOHA
-   folS+lsWVkfgM15GeXEaHFebMKDAzDpmtxaU1H/GnMlDP+rFL0p+qjnpp
-   SUZ9IaMtC3L0BnZ3l+lshcn2OorkLmeMJrWc44bUXbJraUBVOm9fNIXHg
-   cWyvLKeA80P3WF+YkjhbkZ8tqKVgAwZfZ2XYmM+E/t3BM+WPAstt50IQY
-   MTQjS1aPfDaaRN9Qkz6Y9/YnHYaaCRuI9sMzVyOsAd+z5cJThAmm48gI3
-   XB1S4KiPB5sS8d3Uh58YRPlYz5Bi1iNxVcToYP8FfzfBTwRziE/OxGeYk
-   A==;
-X-CSE-ConnectionGUID: g/tVCFroSSWGuYqX/KeLGw==
-X-CSE-MsgGUID: vAIS5DcrSC2nuKrsRw9bOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78717869"
+  t=1765606994; x=1797142994;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/lblB9mHbneVuke30grVcxJBPtiroHf6vSxLBptFtwY=;
+  b=GvgRybrloCcgUH19E7xP7GYRxdiEzSTDCS6xVntZq0OAhqEmdqJDUkYT
+   A7KND52mWcjLN26UvlUWwy9WzPk1nXQ9Wea79eCIlfuW9mprK4PbUv4tN
+   gqHiZhspd76NjGVGmLlNNvH7uyeiO64Mla9+/BlL1Vb3BuVQvsB6rccCA
+   8e0ruH17XQ11gZPGP4Dg4JB6Y89dJZvhleDI6FXn5aib09Tm+RG4Y9fgI
+   2Q6IfmvrpTdLt5l/T+SmkNtUWf6pK+lFokp4EohqTb1P7SuYbsAKsStFZ
+   i7DYIXXUSRdkWj18hAI3Qfgkwh+Alz0+7i0EEIhHSgNgHVjk550tYJPyB
+   w==;
+X-CSE-ConnectionGUID: viprGcwESwSxQ0MoqpiC8w==
+X-CSE-MsgGUID: lPcl3r5wSsGAeTyjH7D2Rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="85195465"
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="78717869"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 22:23:09 -0800
-X-CSE-ConnectionGUID: Xl8UXKKBS/G3ug7xwI1NQA==
-X-CSE-MsgGUID: mBzl5yG1ShuXYPwVtkLADQ==
+   d="scan'208";a="85195465"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 22:23:13 -0800
+X-CSE-ConnectionGUID: /ArYPWWMQhODYdGKXQI2Hg==
+X-CSE-MsgGUID: 5PESpJhWRDqeRxxg82lXqg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="196340486"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 12 Dec 2025 22:23:08 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 12 Dec 2025 22:23:08 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUJ21-000000007A3-3myq;
+	id 1vUJ21-000000007A1-3Wso;
 	Sat, 13 Dec 2025 06:23:05 +0000
-Date: Sat, 13 Dec 2025 14:22:21 +0800
+Date: Sat, 13 Dec 2025 14:22:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2]
- drivers/iommu/io-pgtable-arm-common.c:471:8: warning: no previous prototype
- for '__arm_lpae_unmap_pages'
-Message-ID: <202512131406.GCqWjEPh-lkp@intel.com>
+To: "Thomas Perrot (Schneider Electric)" <thomas.perrot@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	=?iso-8859-1?Q?J=E9r=E9mie?= Dautheribes <jeremie.dautheribes@bootlin.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Lee Jones <lee@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-watchdog@vger.kernel.org,
+	"Thomas Perrot (Schneider Electric)" <thomas.perrot@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 6/8] gpio: aaeon: Add GPIO driver for SRG-IMX8PL MCU
+Message-ID: <202512131342.1nkKkryD-lkp@intel.com>
+References: <20251212-dev-b4-aaeon-mcu-driver-v1-6-6bd65bc8ef12@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,122 +77,191 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251212-dev-b4-aaeon-mcu-driver-v1-6-6bd65bc8ef12@bootlin.com>
 
-Hi Mostafa,
+Hi Thomas,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   5580efd2c7e4791254a0c26f9791aaa33dd70484
-commit: 528a0fb681c600db04e9700fac40c21cc208773e [2/2] ANDROID: iommu/io-pgtable: Add unmap_pages_walk() operation
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20251213/202512131406.GCqWjEPh-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131406.GCqWjEPh-lkp@intel.com/reproduce)
+[auto build test ERROR on d358e5254674b70f34c847715ca509e46eb81e6f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Perrot-Schneider-Electric/dt-bindings-vendor-prefixes-Add-AAEON-vendor-prefix/20251212-154458
+base:   d358e5254674b70f34c847715ca509e46eb81e6f
+patch link:    https://lore.kernel.org/r/20251212-dev-b4-aaeon-mcu-driver-v1-6-6bd65bc8ef12%40bootlin.com
+patch subject: [PATCH 6/8] gpio: aaeon: Add GPIO driver for SRG-IMX8PL MCU
+config: arc-randconfig-r132-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131342.1nkKkryD-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131342.1nkKkryD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131406.GCqWjEPh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131342.1nkKkryD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/iommu/io-pgtable-arm-common.c:143:5: warning: no previous prototype for '__arm_lpae_map' [-Wmissing-prototypes]
-     143 | int __arm_lpae_map(struct arm_lpae_io_pgtable *data, unsigned long iova,
-         |     ^~~~~~~~~~~~~~
-   drivers/iommu/io-pgtable-arm-common.c:264:5: warning: no previous prototype for 'arm_lpae_map_pages' [-Wmissing-prototypes]
-     264 | int arm_lpae_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/iommu/io-pgtable-arm-common.c:471:8: warning: no previous prototype for '__arm_lpae_unmap_pages' [-Wmissing-prototypes]
-     471 | size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/io-pgtable-arm-common.c:493:13: warning: no previous prototype for 'arm_lpae_iova_to_phys' [-Wmissing-prototypes]
-     493 | phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/io-pgtable-arm-common.c:529:8: warning: no previous prototype for 'arm_lpae_unmap_pages' [-Wmissing-prototypes]
-     529 | size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/io-pgtable-arm-common.c:536:8: warning: no previous prototype for 'arm_lpae_unmap_pages_walk' [-Wmissing-prototypes]
-     536 | size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~
+   `.exit.text' referenced in section `__jump_table' of lib/test_dynamic_debug.o: defined in discarded section `.exit.text' of lib/test_dynamic_debug.o
+   `.exit.text' referenced in section `__jump_table' of lib/test_dynamic_debug.o: defined in discarded section `.exit.text' of lib/test_dynamic_debug.o
+   arc-linux-ld: drivers/gpio/gpio-aaeon-mcu.o: in function `aaeon_mcu_gpio_get':
+>> drivers/gpio/gpio-aaeon-mcu.c:124:(.text+0x4c): undefined reference to `aaeon_mcu_i2c_xfer'
+>> arc-linux-ld: drivers/gpio/gpio-aaeon-mcu.c:124:(.text+0x4c): undefined reference to `aaeon_mcu_i2c_xfer'
+   arc-linux-ld: drivers/gpio/gpio-aaeon-mcu.o: in function `aaeon_mcu_gpio_set':
+   drivers/gpio/gpio-aaeon-mcu.c:139:(.text+0x100): undefined reference to `aaeon_mcu_i2c_xfer'
+   arc-linux-ld: drivers/gpio/gpio-aaeon-mcu.c:139:(.text+0x100): undefined reference to `aaeon_mcu_i2c_xfer'
+   arc-linux-ld: drivers/gpio/gpio-aaeon-mcu.c:150:(.text+0x172): undefined reference to `aaeon_mcu_i2c_xfer'
+   arc-linux-ld: drivers/gpio/gpio-aaeon-mcu.o:drivers/gpio/gpio-aaeon-mcu.c:150: more undefined references to `aaeon_mcu_i2c_xfer' follow
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
 
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpio/gpio-aaeon-mcu.c:246:1: sparse: sparse: bad integer constant expression
+   drivers/gpio/gpio-aaeon-mcu.c:246:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/gpio/gpio-aaeon-mcu.c:247:1: sparse: sparse: bad integer constant expression
+   drivers/gpio/gpio-aaeon-mcu.c:247:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/gpio/gpio-aaeon-mcu.c:248:1: sparse: sparse: bad integer constant expression
+   drivers/gpio/gpio-aaeon-mcu.c:248:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
+   drivers/gpio/gpio-aaeon-mcu.c:248:1: sparse: sparse: bad integer constant expression
+   drivers/gpio/gpio-aaeon-mcu.c:248:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-vim +/__arm_lpae_unmap_pages +471 drivers/iommu/io-pgtable-arm-common.c
+vim +124 drivers/gpio/gpio-aaeon-mcu.c
 
-   469	
-   470	
- > 471	size_t __arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-   472				      size_t pgsize, size_t pgcount,
-   473				      struct iommu_iotlb_gather *gather,
-   474				      struct io_pgtable_walker *walker)
-   475	{
-   476		struct arm_lpae_io_pgtable *data = io_pgtable_ops_to_data(ops);
-   477		struct io_pgtable_cfg *cfg = &data->iop.cfg;
-   478		arm_lpae_iopte *ptep = data->pgd;
-   479		long iaext = (s64)iova >> cfg->ias;
-   480	
-   481		if (WARN_ON(!pgsize || (pgsize & cfg->pgsize_bitmap) != pgsize || !pgcount))
-   482			return 0;
-   483	
-   484		if (cfg->quirks & IO_PGTABLE_QUIRK_ARM_TTBR1)
-   485			iaext = ~iaext;
-   486		if (WARN_ON(iaext))
-   487			return 0;
-   488	
-   489		return __arm_lpae_unmap(data, gather, iova, pgsize, pgcount,
-   490					data->start_level, ptep, walker);
-   491	}
-   492	
-   493	phys_addr_t arm_lpae_iova_to_phys(struct io_pgtable_ops *ops,
-   494					  unsigned long iova)
-   495	{
-   496		struct arm_lpae_io_pgtable *data = io_pgtable_ops_to_data(ops);
-   497		arm_lpae_iopte pte, *ptep = data->pgd;
-   498		int lvl = data->start_level;
-   499	
-   500		do {
-   501			/* Valid IOPTE pointer? */
-   502			if (!ptep)
-   503				return 0;
-   504	
-   505			/* Grab the IOPTE we're interested in */
-   506			ptep += ARM_LPAE_LVL_IDX(iova, lvl, data);
-   507			pte = READ_ONCE(*ptep);
-   508	
-   509			/* Valid entry? */
-   510			if (!pte)
-   511				return 0;
-   512	
-   513			/* Leaf entry? */
-   514			if (iopte_leaf(pte, lvl, data->iop.fmt))
-   515				goto found_translation;
-   516	
-   517			/* Take it to the next level */
-   518			ptep = iopte_deref(pte, data);
-   519		} while (++lvl < ARM_LPAE_MAX_LEVELS);
-   520	
-   521		/* Ran out of page tables to walk */
-   522		return 0;
-   523	
-   524	found_translation:
-   525		iova &= (ARM_LPAE_BLOCK_SIZE(lvl, data) - 1);
-   526		return iopte_to_paddr(pte, data) | iova;
-   527	}
-   528	
-   529	size_t arm_lpae_unmap_pages(struct io_pgtable_ops *ops, unsigned long iova,
-   530				    size_t pgsize, size_t pgcount,
-   531				    struct iommu_iotlb_gather *gather)
-   532	{
-   533		return __arm_lpae_unmap_pages(ops, iova, pgsize, pgcount, gather, NULL);
-   534	}
-   535	
- > 536	size_t arm_lpae_unmap_pages_walk(struct io_pgtable_ops *ops, unsigned long iova,
-   537					 size_t pgsize, size_t pgcount,
-   538					 struct iommu_iotlb_gather *gather,
-   539					 struct io_pgtable_walker *walker)
-   540	{
-   541		return __arm_lpae_unmap_pages(ops, iova, pgsize, pgcount, gather, walker);
-   542	}
-   543	
+   110	
+   111	static int aaeon_mcu_gpio_get(struct gpio_chip *gc, unsigned int offset)
+   112	{
+   113		struct aaeon_mcu_gpio *data = gpiochip_get_data(gc);
+   114		u8 cmd[3], rsp;
+   115		int ret;
+   116	
+   117		if (offset < MAX_GPOS)
+   118			return test_bit(offset, data->gpo_state);
+   119	
+   120		cmd[0] = AAEON_MCU_READ_GPIO;
+   121		cmd[1] = offset - 7;
+   122		cmd[2] = 0x00;
+   123	
+ > 124		ret = aaeon_mcu_i2c_xfer(data->mfd->i2c_client, cmd, 3, &rsp, 1);
+   125		if (ret < 0)
+   126			return ret;
+   127	
+   128		return rsp;
+   129	}
+   130	
+   131	static int aaeon_mcu_gpo_set_cmd(struct aaeon_mcu_gpio *data, unsigned int offset, int value)
+   132	{
+   133		u8 cmd[3], rsp;
+   134	
+   135		cmd[0] = AAEON_MCU_CONTROL_GPO;
+   136		cmd[1] = offset + 1;
+   137		cmd[2] = !!value;
+   138	
+   139		return aaeon_mcu_i2c_xfer(data->mfd->i2c_client, cmd, 3, &rsp, 1);
+   140	}
+   141	
+   142	static int aaeon_mcu_gpio_set_cmd(struct aaeon_mcu_gpio *data, unsigned int offset, int value)
+   143	{
+   144		u8 cmd[3], rsp;
+   145	
+   146		cmd[0] = AAEON_MCU_WRITE_GPIO;
+   147		cmd[1] = offset - 7;
+   148		cmd[2] = !!value;
+   149	
+   150		return aaeon_mcu_i2c_xfer(data->mfd->i2c_client, cmd, 3, &rsp, 1);
+   151	}
+   152	
+   153	static int aaeon_mcu_gpio_set(struct gpio_chip *gc, unsigned int offset,
+   154				      int value)
+   155	{
+   156		struct aaeon_mcu_gpio *data = gpiochip_get_data(gc);
+   157	
+   158		if (offset < MAX_GPOS) {
+   159			if (aaeon_mcu_gpo_set_cmd(data, offset, value) == 0)
+   160				assign_bit(offset, data->gpo_state, value);
+   161		} else {
+   162			return aaeon_mcu_gpio_set_cmd(data, offset, value);
+   163		}
+   164		return 0;
+   165	}
+   166	
+   167	static const struct gpio_chip aaeon_mcu_chip = {
+   168		.label			= "gpio-aaeon-mcu",
+   169		.owner			= THIS_MODULE,
+   170		.get_direction		= aaeon_mcu_gpio_get_direction,
+   171		.direction_input	= aaeon_mcu_gpio_direction_input,
+   172		.direction_output	= aaeon_mcu_gpio_direction_output,
+   173		.get			= aaeon_mcu_gpio_get,
+   174		.set			= aaeon_mcu_gpio_set,
+   175		.base			= -1,
+   176		.ngpio			= MAX_GPOS + MAX_GPIOS,
+   177		.can_sleep		= true,
+   178	};
+   179	
+   180	static void aaeon_mcu_gpio_reset(struct aaeon_mcu_gpio *data, struct device *dev)
+   181	{
+   182		unsigned int i;
+   183		int ret;
+   184	
+   185		/* Reset all GPOs */
+   186		for (i = 0; i < MAX_GPOS; i++) {
+   187			ret = aaeon_mcu_gpo_set_cmd(data, i, 0);
+   188			if (ret < 0)
+   189				dev_warn(dev, "Failed to reset GPO %u state: %d\n", i, ret);
+   190			clear_bit(i, data->dir_in);
+   191		}
+   192	
+   193		/* Reset all GPIOs */
+   194		for (i = MAX_GPOS; i < MAX_GPOS + MAX_GPIOS; i++) {
+   195			ret = aaeon_mcu_gpio_config_input_cmd(data, i);
+   196			if (ret < 0)
+   197				dev_warn(dev, "Failed to reset GPIO %u state: %d\n", i, ret);
+   198			set_bit(i, data->dir_in);
+   199		}
+   200	}
+   201	
+   202	static int aaeon_mcu_gpio_probe(struct platform_device *pdev)
+   203	{
+   204		struct aaeon_mcu_dev *mfd = dev_get_drvdata(pdev->dev.parent);
+   205		struct aaeon_mcu_gpio *data;
+   206	
+   207		data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
+   208		if (!data)
+   209			return -ENOMEM;
+   210	
+   211		data->mfd = mfd;
+   212		data->gc = aaeon_mcu_chip;
+   213		data->gc.parent = &pdev->dev;
+   214	
+   215		/*
+   216		 * Reset all GPIO states to a known configuration. The MCU does not
+   217		 * reset GPIO state on soft reboot, only on power cycle (hard reboot).
+   218		 * Without this reset, GPIOs would retain their previous state across
+   219		 * reboots, which could lead to unexpected behavior.
+   220		 */
+   221		aaeon_mcu_gpio_reset(data, &pdev->dev);
+   222	
+   223		platform_set_drvdata(pdev, data);
+   224	
+   225		return devm_gpiochip_add_data(&pdev->dev, &data->gc,
+   226					      data);
+   227	}
+   228	
+   229	static const struct of_device_id aaeon_mcu_gpio_of_match[] = {
+   230		{ .compatible = "aaeon,srg-imx8pl-gpio" },
+   231		{},
+   232	};
+   233	
+   234	MODULE_DEVICE_TABLE(of, aaeon_mcu_gpio_of_match);
+   235	
+   236	static struct platform_driver aaeon_mcu_gpio_driver = {
+   237		.driver = {
+   238			.name = "aaeon-mcu-gpio",
+   239			.of_match_table = aaeon_mcu_gpio_of_match,
+   240		},
+   241		.probe = aaeon_mcu_gpio_probe,
+   242	};
+   243	
+   244	module_platform_driver(aaeon_mcu_gpio_driver);
+   245	
+ > 246	MODULE_DESCRIPTION("GPIO interface for Aaeon MCU");
 
 -- 
 0-DAY CI Kernel Test Service
