@@ -1,62 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956DA2820A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 08:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B147286D64;
+	Sat, 13 Dec 2025 08:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765613119; cv=none; b=PM58EEwuhcVwXTVVTUc91lRkVlFFAdEg8sKnFSkLKCaTiolMpkxPSrzt/gYmjATvAjXVmbOxJddj7iaQNkMjFzh+v4OBcSJS0HmM/IgHqfMZTXf/qGZFKxtOHZ035c4GA7DNB65KFiTDX8QvV8QLHvnvoZ47pgcft+kSVyF2ARc=
+	t=1765613121; cv=none; b=aDCQb41XbwQuPqfgBDSKGjct6OpjLEQ/K7LSbckcS/sVEDsCJGebkggGGnfkpbfoYARS7wP1Beg5tX6DKqvnZj93Ln7sFNGgFoFzAbz8mlLyhYXirknC/ZcMsC6/E+Z/tMmsFhdbXjnhUDiFHV4ZaR9VrbUnyDs2bbA374uoqM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765613119; c=relaxed/simple;
-	bh=JHt6KFdYF/Lyw2aJzDOMKUhj9p9Y7VTvaJ2iqurQKh4=;
+	s=arc-20240116; t=1765613121; c=relaxed/simple;
+	bh=wol9oS19c9bBdlTBpPH9ntNcDtf/6ZWS5Gp4NfQ0SYg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JvKWpgnVRYKjgtKjxalwcsiTO1W8SPxKqt1bjG8SxAnwbzbew0RjimVKF9PqihMHlNrNX6XBEeZqUII11Ckc2j1PXQ/MPBmw6PR3kOpWkpnPl/GXgr66pl0+FcXTlI5OX0C5BYeWYRdva5MxCOY2QN/7+zD1VCDvAfI72nNDmpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D5ZbMtc8; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=R0Q5OrI+zWjgDkEJkTXzeNgu4OTQvzqUYOkAyFJEZqRuMipHFe7eXaFJjidwrA4oePxm8KGte83V0b1524xXZQTP8fC453mv9s7SfW6XbvdIJomcATeKukU9c/81Qq2cmRCIDIzodJfHihdn7fDfY6nhbvz3BHhlNpWKhzGzUnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdUiwj0Q; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D5ZbMtc8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdUiwj0Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765613117; x=1797149117;
+  t=1765613120; x=1797149120;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=JHt6KFdYF/Lyw2aJzDOMKUhj9p9Y7VTvaJ2iqurQKh4=;
-  b=D5ZbMtc85klPno3a9oUSKbZzwAvxkNv0CGdKbV9BAWrNBcwIaRiQO+YU
-   vfUh+ERH7ZDQd8Qka7N3F1cVAhztbw0GYn/YKyaknxXZZea9qw7Dcwr2o
-   LS5YbDMkV1e29d3mQUusoipoHPW/DUn9tNd84SxSA5FHpHhS3vYMBipcH
-   uF6GfvUYdo4wODwFCoI7AttOurOalevEVsirtqqYt2JD1CpfJmNNGZeV6
-   2S+BJGRgTSKU7eYr6vP4nfZlazPnFJComU5PzgEGZ2t4Bw6rwUM6ZvApt
-   kOMgREvhoSVd6cFy9vJNrORySaPkbv7GxjAW3ol6eSj8Hy5DB6XST5u9X
-   A==;
-X-CSE-ConnectionGUID: 8YAFb8dKTlq4d8bLUAh7FA==
-X-CSE-MsgGUID: Hjxcx530Sauwkdxu/UyCyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="77919217"
+  bh=wol9oS19c9bBdlTBpPH9ntNcDtf/6ZWS5Gp4NfQ0SYg=;
+  b=kdUiwj0QDw1E1HD0iFoUYLWlWdr5p/lsEbPqDWXWO4eNcDKcxMdVNs57
+   GAzYQQLh+bKn9vSOVrmjsu09+15OMt0tVM8jQ1n+PjDJCUXGknEfsnNfh
+   VUAYE7//sefDXrlZftTZlhZytHpOfe27A46nFX25SvEgNhwxf0P88HUQU
+   Q1A7Y39EFnxuRu/IvJ1zA6+il8yE8xzaHWP3R1VheS2xmcsYTPmunSfZJ
+   I9O2ZGRmXYXC3a63l6klmGpAR5oOc/sL+YFEAVxEvx0Jyotv9R87aJyCP
+   XM+f3d1SN1jkfAvkf4+pVNQsJSm4p/d70SJBFmmyAXhRCz24rUyouxJou
+   g==;
+X-CSE-ConnectionGUID: safVptAuSiChwvY24VsK3Q==
+X-CSE-MsgGUID: OUEsTJGBSayRSUitQHmnjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67675499"
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="77919217"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 00:05:17 -0800
-X-CSE-ConnectionGUID: 0AJztNN1RDml2bZ8YxYJFQ==
-X-CSE-MsgGUID: vUyvmoXUT8Gdfc3tNpFDgw==
+   d="scan'208";a="67675499"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 00:05:19 -0800
+X-CSE-ConnectionGUID: +REegi4BSZ6Pyhok8jMjiA==
+X-CSE-MsgGUID: EDrkqM7KRneDKww23KbinA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="201695631"
+   d="scan'208";a="227937216"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Dec 2025 00:05:15 -0800
+  by orviesa002.jf.intel.com with ESMTP; 13 Dec 2025 00:05:15 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUKcq-000000007H5-3UJt;
+	id 1vUKcq-000000007H3-3MBs;
 	Sat, 13 Dec 2025 08:05:12 +0000
-Date: Sat, 13 Dec 2025 16:05:01 +0800
+Date: Sat, 13 Dec 2025 16:05:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, simona@ffwll.ch, airlied@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/2] vt: Remove con_debug_enter/_leave from struct consw
-Message-ID: <202512131551.QwAYImi0-lkp@intel.com>
-References: <20251208102851.40894-3-tzimmermann@suse.de>
+To: Sascha Bischoff <Sascha.Bischoff@arm.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, nd <nd@arm.com>,
+	"maz@kernel.org" <maz@kernel.org>,
+	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
+	Joey Gouly <Joey.Gouly@arm.com>,
+	Suzuki Poulose <Suzuki.Poulose@arm.com>,
+	"yuzenghui@huawei.com" <yuzenghui@huawei.com>,
+	"peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+	Timothy Hayes <Timothy.Hayes@arm.com>
+Subject: Re: [PATCH 14/32] KVM: arm64: gic-v5: Implement GICv5 load/put and
+ save/restore
+Message-ID: <202512131539.zPrweF7e-lkp@intel.com>
+References: <20251212152215.675767-15-sascha.bischoff@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,80 +74,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251208102851.40894-3-tzimmermann@suse.de>
+In-Reply-To: <20251212152215.675767-15-sascha.bischoff@arm.com>
 
-Hi Thomas,
+Hi Sascha,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus linus/master v6.18 next-20251212]
+[auto build test ERROR on linus/master]
+[also build test ERROR on next-20251212]
+[cannot apply to kvmarm/next arm64/for-next/core kvm/queue kvm/next kvm/linux-next v6.18]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/vt-Remove-trailing-whitespace/20251208-183541
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20251208102851.40894-3-tzimmermann%40suse.de
-patch subject: [PATCH 2/2] vt: Remove con_debug_enter/_leave from struct consw
-config: csky-randconfig-002-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131551.QwAYImi0-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131551.QwAYImi0-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Bischoff/KVM-arm64-Account-for-RES1-bits-in-DECLARE_FEAT_MAP-and-co/20251212-233140
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251212152215.675767-15-sascha.bischoff%40arm.com
+patch subject: [PATCH 14/32] KVM: arm64: gic-v5: Implement GICv5 load/put and save/restore
+config: arm64-randconfig-002-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131539.zPrweF7e-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131539.zPrweF7e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131551.QwAYImi0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131539.zPrweF7e-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/video/fbdev/core/fbcon.c:3176:10: error: 'const struct consw' has no member named 'con_debug_enter'
-    3176 |         .con_debug_enter        = fbcon_debug_enter,
-         |          ^~~~~~~~~~~~~~~
->> drivers/video/fbdev/core/fbcon.c:3176:35: error: initialization of 'void (*)(struct vc_data *, const unsigned char *)' from incompatible pointer type 'void (*)(struct vc_data *)' [-Werror=incompatible-pointer-types]
-    3176 |         .con_debug_enter        = fbcon_debug_enter,
-         |                                   ^~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/core/fbcon.c:3176:35: note: (near initialization for 'fb_con.con_set_palette')
-   drivers/video/fbdev/core/fbcon.c:3176:35: warning: initialized field overwritten [-Woverride-init]
-   drivers/video/fbdev/core/fbcon.c:3176:35: note: (near initialization for 'fb_con.con_set_palette')
->> drivers/video/fbdev/core/fbcon.c:3177:10: error: 'const struct consw' has no member named 'con_debug_leave'
-    3177 |         .con_debug_leave        = fbcon_debug_leave,
-         |          ^~~~~~~~~~~~~~~
->> drivers/video/fbdev/core/fbcon.c:3177:35: error: initialization of 'void (*)(struct vc_data *, int)' from incompatible pointer type 'void (*)(struct vc_data *)' [-Werror=incompatible-pointer-types]
-    3177 |         .con_debug_leave        = fbcon_debug_leave,
-         |                                   ^~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/core/fbcon.c:3177:35: note: (near initialization for 'fb_con.con_scrolldelta')
-   cc1: some warnings being treated as errors
+   In file included from arch/arm64/kernel/asm-offsets.c:16:
+   In file included from include/linux/kvm_host.h:45:
+   In file included from arch/arm64/include/asm/kvm_host.h:36:
+>> include/kvm/arm_vgic.h:392:19: error: field has incomplete type 'struct gicv5_vpe'
+     392 |         struct gicv5_vpe gicv5_vpe;
+         |                          ^
+   include/kvm/arm_vgic.h:392:9: note: forward declaration of 'struct gicv5_vpe'
+     392 |         struct gicv5_vpe gicv5_vpe;
+         |                ^
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:182: arch/arm64/kernel/asm-offsets.s] Error 1 shuffle=1891526797
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1314: prepare0] Error 2 shuffle=1891526797
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1891526797
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1891526797
+   make: Target 'prepare' not remade because of errors.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=n] && CAN [=y]
+   Selected by [y]:
+   - CAN [=y] && NET [=y]
 
 
-vim +3176 drivers/video/fbdev/core/fbcon.c
+vim +392 include/kvm/arm_vgic.h
 
-fe2d70d6f6ff03 drivers/video/fbdev/core/fbcon.c Simona Vetter  2019-05-28  3154  
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3155  /*
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3156   *  The console `switch' structure for the frame buffer based console
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3157   */
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3158  
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3159  static const struct consw fb_con = {
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3160  	.owner			= THIS_MODULE,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3161  	.con_startup 		= fbcon_startup,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3162  	.con_init 		= fbcon_init,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3163  	.con_deinit 		= fbcon_deinit,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3164  	.con_clear 		= fbcon_clear,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3165  	.con_putcs 		= fbcon_putcs,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3166  	.con_cursor 		= fbcon_cursor,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3167  	.con_scroll 		= fbcon_scroll,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3168  	.con_switch 		= fbcon_switch,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3169  	.con_blank 		= fbcon_blank,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3170  	.con_font_set 		= fbcon_set_font,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3171  	.con_font_get 		= fbcon_get_font,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3172  	.con_font_default	= fbcon_set_def_font,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3173  	.con_set_palette 	= fbcon_set_palette,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3174  	.con_invert_region 	= fbcon_invert_region,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3175  	.con_resize             = fbcon_resize,
-d219adc1228a38 drivers/video/console/fbcon.c    Jesse Barnes   2010-08-02 @3176  	.con_debug_enter	= fbcon_debug_enter,
-d219adc1228a38 drivers/video/console/fbcon.c    Jesse Barnes   2010-08-02 @3177  	.con_debug_leave	= fbcon_debug_leave,
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3178  };
-^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3179  
+   360	
+   361	struct vgic_v5_cpu_if {
+   362		u64	vgic_apr;
+   363		u64	vgic_vmcr;
+   364	
+   365		/* PPI register state */
+   366		u64	vgic_ppi_hmr[2];
+   367		u64	vgic_ppi_dvir[2];
+   368		u64	vgic_ppi_priorityr[16];
+   369	
+   370		/* The pending state of the guest. This is merged with the exit state */
+   371		u64	vgic_ppi_pendr[2];
+   372	
+   373		/* The state flushed to the regs when entering the guest */
+   374		u64	vgic_ppi_activer_entry[2];
+   375		u64	vgic_ich_ppi_enabler_entry[2];
+   376		u64	vgic_ppi_pendr_entry[2];
+   377	
+   378		/* The saved state of the regs when leaving the guest */
+   379		u64	vgic_ppi_activer_exit[2];
+   380		u64	vgic_ich_ppi_enabler_exit[2];
+   381		u64	vgic_ppi_pendr_exit[2];
+   382	
+   383		/*
+   384		 * The ICSR is re-used across host and guest, and hence it needs to be
+   385		 * saved/restored. Only one copy is required as the host should block
+   386		 * preemption between executing GIC CDRCFG and acccessing the
+   387		 * ICC_ICSR_EL1. A guest, of course, can never guarantee this, and hence
+   388		 * it is the hyp's responsibility to keep the state constistent.
+   389		 */
+   390		u64	vgic_icsr;
+   391	
+ > 392		struct gicv5_vpe gicv5_vpe;
+   393	};
+   394	
 
 -- 
 0-DAY CI Kernel Test Service
