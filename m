@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008CF220F21
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 14:03:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E7C169AD2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 14:04:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765634616; cv=none; b=UT4Qz0uvLGNhHWYMAlX8dFa4wGey2KcWahJqx9yHD79izg5gNrUKNsWByWyMZ7iSsB+J75hFwYINQwLpKEJ9FMevE5Oag0v3U2dvUxjgvZbi5If+77fmfKRV2eNOIrd2yaPWj/fhp9/bGAi4VGzN0KKQH283IsugLbWN0FbFhyQ=
+	t=1765634677; cv=none; b=Et6g7o/C/f8+R8snC1B0TQY2s7bJLu0jxrEu0Xji0mOmccmGlm5Yd4GPHvPwIIzEQDIAaJMB7o4rkc8fLLOS2WHW8Rd2KVHKXpydXw1nD6z3SU9DefUDA7m7tZt3agsOFS4tztpaGHC8Eg1sJsZLTW0gRmhmnxQHBHIl24DfJFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765634616; c=relaxed/simple;
-	bh=vkluvngdqUWROIzDE6mRaB3YbCCnj2yidDBE1y1eQrE=;
+	s=arc-20240116; t=1765634677; c=relaxed/simple;
+	bh=y+6eSV9aQydeuU5AXGez7v/t0IyuX/KEkQuYIjCCOBY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OSQ7sHIVbZd59XHp9vRtT+/1prFC5QKW11ob3+FMuEenjRId1Z4uMN/ZvXJBh3yoANINXbjWRp6mgrCmMMSdv0KPXE/aPOjH7lsqHNeCSYveeUwtb3bj+zUUMTWgWSFjmnhOUD/l08fioCEaqnVfxUfCj2QgxuL8SK83HlptQB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g8HWwe2U; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=V0Witc4hxb5lU2IW0WS2rg/czTUH0M8jFnNxQdaSRN6QvR2M3S2Fqdp0OuTCewSLO0+y+Bpq/DlmMumMUUr6zafdfjifqga5Qm65upHp0kCZ9ywpWP6oE76JKQz/nkGeiFxMg7xfSRGa7x/Bd9v9oyXavQWFlecS20vAswuTIAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/QLeYzH; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g8HWwe2U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/QLeYzH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765634615; x=1797170615;
+  t=1765634673; x=1797170673;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vkluvngdqUWROIzDE6mRaB3YbCCnj2yidDBE1y1eQrE=;
-  b=g8HWwe2UZZZjalViRar/7v4qfOTYbky9U8mM6JzjGtWnkFK6y8iFdIEf
-   FFgZwCrBBOi+oKZQtwOlZ+TedvreJCzYR2shQX3qVg+gNtbhgVt1yldEp
-   /NV1IUIxKOxHSE/fAcNUIS6QkEgLzPU6ks1eDrdYW3n5YK4LREMYxANHM
-   p0m/QpaKaGOsUH61emrEc4cm9kIZ8IVEciXnvMshNEkGQaozHtK9ABGPk
-   i8Rnz4lpuM0ywwrvXPOhr33M9kSHVJctDsaMTJpowXPkExw/qGWwnSIjB
-   c9v+dJCOYholZEiXecshxR4/F9Vk/mTxJs0Gl8q+zCOnOkfsAU0uGW9g6
-   g==;
-X-CSE-ConnectionGUID: jbdu5VKzR9CJsXFb+tBi/w==
-X-CSE-MsgGUID: Fsd9CFp+R7CqYt6i3RtFVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67650330"
+  bh=y+6eSV9aQydeuU5AXGez7v/t0IyuX/KEkQuYIjCCOBY=;
+  b=h/QLeYzHhx/yK1Uq+Z5IeS2Yfj6Wf/CBuloiO/8KcQoM1W52abTu7OHM
+   GwPja4op7XWWcPL3RNUNcYaiZBRNpV8Cmc2XvFGADcwrG8SQe9lgxZurS
+   mViVBru6/v3bU9Hk6UCtZ9iUwQswOMY/83NyjNl0HQI2BjOBC0YRUyBwO
+   hfv4TpzBzCUc+yYvyTYL6iakM+ciexFa1OIh0WycqVyWFzptkFglVoJJo
+   oSDFDWerfU9N7i7mP9ye3kcl3YMVcckEi8Gc3AYCoPNB6CHcYSQcKWjHX
+   Ir7KwjFgS0ks7kQ8WET4MWUa+cHkMRXISex41YwkHy5ouJhldJ4LBPhNK
+   A==;
+X-CSE-ConnectionGUID: e4z14InET1COMR2P3u66lw==
+X-CSE-MsgGUID: tt8R3CbaTeO3zJn6TdIrfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="71239284"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="67650330"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 06:03:34 -0800
-X-CSE-ConnectionGUID: jZvvdmVaRWu9XCEc+oc6xw==
-X-CSE-MsgGUID: 4Ai7EGEGQY+noNCjb6mJEw==
+   d="scan'208";a="71239284"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 06:04:32 -0800
+X-CSE-ConnectionGUID: HPNT2STRRLqqZLdnJOsYOg==
+X-CSE-MsgGUID: lxKYKUAWSiWVtC+Hlj2DbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="201736746"
+   d="scan'208";a="197316136"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Dec 2025 06:03:31 -0800
+  by orviesa007.jf.intel.com with ESMTP; 13 Dec 2025 06:04:32 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUQDZ-0000000025M-0xaR;
-	Sat, 13 Dec 2025 14:03:29 +0000
-Date: Sat, 13 Dec 2025 15:03:21 +0100
+	id 1vUQEX-0000000025Q-17ak;
+	Sat, 13 Dec 2025 14:04:29 +0000
+Date: Sat, 13 Dec 2025 15:04:16 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 0/18] htmldocs:
- ./drivers/gpu/drm/i915/i915_irq.c:1: warning:
- 'intel_runtime_pm_disable_interrupts' not found
-Message-ID: <202512131541.5oJmb6Nf-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 50/50] mm/unevictable.c:160:6:
+ warning: no previous prototype for 'del_unevict_task'
+Message-ID: <202512131500.AbdbOiSI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,72 +62,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Rodrigo,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   da2da0badf05a4631edf06f9a37e822b20875663
-commit: a17fa6ad62b12310b529b63863085a2811ff8f0a [0/18] UPSTREAM: drm/i915/irq: Rename suspend/resume functions
-reproduce: (https://download.01.org/0day-ci/archive/20251213/202512131541.5oJmb6Nf-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   7c285f40a964b427534f3dab33b104ee9cab6245
+commit: b9a2e0d8ac85271df6a10641da7513f8e44611d8 [50/50] anolis: mm: unevictable: adjust three key functions
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251213/202512131500.AbdbOiSI-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131500.AbdbOiSI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131541.5oJmb6Nf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131500.AbdbOiSI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   ./include/drm/drm_drv.h:435: warning: Function parameter or struct member 'fbdev_probe' not described in 'drm_driver'
-   ./drivers/gpu/drm/drm_writeback.c:249: warning: expecting prototype for drm_writeback_connector_init_with_encoder(). Prototype was for __drm_writeback_connector_init() instead
-   ./drivers/gpu/drm/drm_writeback.c:249: warning: expecting prototype for drm_writeback_connector_init_with_encoder(). Prototype was for __drm_writeback_connector_init() instead
-   Error: Cannot open file ./include/linux/hdmi.h
-   Error: Cannot open file ./include/linux/hdmi.h
->> ./drivers/gpu/drm/i915/i915_irq.c:1: warning: 'intel_runtime_pm_disable_interrupts' not found
->> ./drivers/gpu/drm/i915/i915_irq.c:1: warning: 'intel_runtime_pm_enable_interrupts' not found
-   Error: Cannot open file ./include/linux/host1x.h
-   Error: Cannot open file ./include/linux/vga_switcheroo.h
-   Error: Cannot open file ./include/linux/vga_switcheroo.h
-   Error: Cannot open file ./include/linux/vga_switcheroo.h
-   Error: Cannot open file ./include/linux/vga_switcheroo.h
+>> mm/unevictable.c:160:6: warning: no previous prototype for 'del_unevict_task' [-Wmissing-prototypes]
+     160 | void del_unevict_task(struct task_struct *tsk)
+         |      ^~~~~~~~~~~~~~~~
 
 
-vim +/intel_runtime_pm_disable_interrupts +1 ./drivers/gpu/drm/i915/i915_irq.c
+vim +/del_unevict_task +160 mm/unevictable.c
 
-0d6aa60b4ac968 drivers/char/drm/i915_irq.c Dave Airlie    2006-01-02  @1  /* i915_irq.c -- IRQ support for the I915 -*- linux-c -*-
-^1da177e4c3f41 drivers/char/drm/i915_irq.c Linus Torvalds 2005-04-16   2   */
-0d6aa60b4ac968 drivers/char/drm/i915_irq.c Dave Airlie    2006-01-02   3  /*
-^1da177e4c3f41 drivers/char/drm/i915_irq.c Linus Torvalds 2005-04-16   4   * Copyright 2003 Tungsten Graphics, Inc., Cedar Park, Texas.
-^1da177e4c3f41 drivers/char/drm/i915_irq.c Linus Torvalds 2005-04-16   5   * All Rights Reserved.
-^1da177e4c3f41 drivers/char/drm/i915_irq.c Linus Torvalds 2005-04-16   6   *
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23   7   * Permission is hereby granted, free of charge, to any person obtaining a
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23   8   * copy of this software and associated documentation files (the
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23   9   * "Software"), to deal in the Software without restriction, including
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  10   * without limitation the rights to use, copy, modify, merge, publish,
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  11   * distribute, sub license, and/or sell copies of the Software, and to
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  12   * permit persons to whom the Software is furnished to do so, subject to
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  13   * the following conditions:
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  14   *
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  15   * The above copyright notice and this permission notice (including the
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  16   * next paragraph) shall be included in all copies or substantial portions
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  17   * of the Software.
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  18   *
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  19   * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  20   * OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  21   * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  22   * IN NO EVENT SHALL TUNGSTEN GRAPHICS AND/OR ITS SUPPLIERS BE LIABLE FOR
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  23   * ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  24   * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  25   * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-bc54fd1ad3c597 drivers/char/drm/i915_irq.c Dave Airlie    2005-06-23  26   *
-0d6aa60b4ac968 drivers/char/drm/i915_irq.c Dave Airlie    2006-01-02  27   */
-^1da177e4c3f41 drivers/char/drm/i915_irq.c Linus Torvalds 2005-04-16  28  
-
-:::::: The code at line 1 was first introduced by commit
-:::::: 0d6aa60b4ac9689b750e35cd66f5d7c053aff0f4 drm: update to i915 1.3.0
-
-:::::: TO: Dave Airlie <airlied@starflyer.(none)>
-:::::: CC: Dave Airlie <airlied@linux.ie>
+   159	
+ > 160	void del_unevict_task(struct task_struct *tsk)
+   161	{
+   162		struct evict_pid_entry *result;
+   163	
+   164		if (!tsk) {
+   165			struct evict_pid_entry *pid_entry, *tmp;
+   166	
+   167			mutex_lock(&pid_mutex);
+   168			list_for_each_entry_safe(pid_entry, tmp, &pid_list, list) {
+   169				rcu_read_lock();
+   170				tsk = find_task_by_pid_ns(pid_entry->rootpid,
+   171						&init_pid_ns);
+   172				rcu_read_unlock();
+   173				if (!tsk) {
+   174					list_del(&pid_entry->list);
+   175					__remove_entry(pid_entry);
+   176					kfree(pid_entry);
+   177				}
+   178			}
+   179			mutex_unlock(&pid_mutex);
+   180			return;
+   181		}
+   182	
+   183		mutex_lock(&pid_mutex);
+   184		result = lookup_unevict_entry(tsk);
+   185		if (result) {
+   186			list_del(&result->list);
+   187			__remove_entry(result);
+   188			mutex_unlock(&pid_mutex);
+   189			__evict_pid(result);
+   190			kfree(result);
+   191		} else
+   192			mutex_unlock(&pid_mutex);
+   193	}
+   194	
 
 -- 
 0-DAY CI Kernel Test Service
