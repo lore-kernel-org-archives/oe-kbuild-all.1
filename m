@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF3C2F7478
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 23:13:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348702F5321
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 23:13:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765667612; cv=none; b=HdrSKt7JEUP92Nyw4EbB4JzQ6tteuJfr+18DxwGNRtUuWatXKyJrRCc5XTghY8PtL2ZOZWBMf+qktk5EbWK8vqA+Mf0bLbLSfe6z5JZBGD8AyzY7TItNHXgSCA+IBu5BTg23wzTjKQ5D7jWzI5ikjbc3Vv4qdqFAP3q8VeWFsvA=
+	t=1765667614; cv=none; b=cHwyT4aPh1QJunMY/DJNp6B8JcYkhkPeSqZTUnSfpPvQluhyWOdNzFte1s2JyXVK3vnJWnjsxZkkzDeLRk06V/Kxd2u7+27m3CLTYPEesMa1R9cO75eQEbAI7kiZ4kAqvaKgGjPcJTQ6I673XnJm+dByXWYsWaTA1dOnllM2Jtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765667612; c=relaxed/simple;
-	bh=wuFgcnbqwfVeML9pVoqAVh1d/GkbgebQPlSXib2yWvI=;
+	s=arc-20240116; t=1765667614; c=relaxed/simple;
+	bh=E4tTeE8x9kSeNq2ywVHSa+Zw8UXBgJJ+SkPswaFwGhM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XQvk9fwZJalD0Po7fgZr3RfszbvyjmE0n2ifegeWO/gDLfhq9xz0Nxe4yU5HLXe9PL5f4dwkgNwG2WPwkqwi5Eyj4GSA+cSEerS0RYoOygUhuB57j+QXVcMK9jf1q94XLQ70XyP0sFmiE/iM07hGt1oOpYFEzcrM/OTGQfr7AVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Np0BsdMa; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=lUIb1UNi2v7CcKIw5snraMhdW7fHmSanh8rdJeLJWeNHByHHc4MzRJv2Q32LZah6j6x2NrHOsE54Sd3LQVk9y5jh38VBWglJsl947DJKZ1Kindc+Sv5st7qlKuh8JUQH/jXSS7kL26fmiUaf7f95ofAHkcEN2EI4hk31NtoM+nI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L7XTn5Zl; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Np0BsdMa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L7XTn5Zl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765667609; x=1797203609;
+  t=1765667612; x=1797203612;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wuFgcnbqwfVeML9pVoqAVh1d/GkbgebQPlSXib2yWvI=;
-  b=Np0BsdMa+nQt2LnWUREumHwEWeZSLVAj/NDREwECRvVIxh9buuh964MQ
-   VmJJpAiTnkqNnhtSeg0G9uemkKr/s5rtgw2l0iEmnzKRC0acicoa928GZ
-   GDmveURPRjPrQhLdaM9o1GP/GGAq2IGvAlElgajpzjT11gwtBN5yOJePE
-   pHXkgiZ1uqxhQPUTrTK5HovGGz+bqdkFmowwoGwlaQNLUuMTXVknk1Ue8
-   urs0q2qXtQX8zviInnNc7zxW7bXSpSWKF9m7CMTNJHfjNxmLRIgmnZp76
-   ZHKUzfJgNk+FQiEiOtpxb0kgnubBe83xs5fbgDOFN7l8f6V1wf4zCM3Kz
-   g==;
-X-CSE-ConnectionGUID: rEHaYxFTSZamJqXkSYndcQ==
-X-CSE-MsgGUID: 6PPfebr3TuaeA1NWHpCMlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="78741109"
+  bh=E4tTeE8x9kSeNq2ywVHSa+Zw8UXBgJJ+SkPswaFwGhM=;
+  b=L7XTn5ZlD6LHQ4spaqaPCi3JlLZz6jhtZOdIoiJ8TR+vtLlzL5/HyaFK
+   M7YTwPjP7eORXEUAxsZaqQUTsCOcgBQbjdoY5v+ij0ZtSpGVusf7hA1zU
+   bpS/srGmANXHlYFRmJEgIGAZWoS0O6nx9oQU5x2PqkAUssRuYVr1RwfQB
+   gS8wKR7QMjU+oU7j7wa/oJ16e2gGyKNvCIGzuX/DYyT3WudbRYYcmpgG2
+   QtfZ9ZXaqQYgEPLHVKKu9an2/5+H+Hwvtm0alCLaZmCystpSv0le3vPLr
+   x0/oUsX2OcqbeAcFOkIsmp9g93pw34FKx490f1a5BSm+6l3vJFXUN8UW9
+   w==;
+X-CSE-ConnectionGUID: 57LFwv1bRHe62cqYbFmszg==
+X-CSE-MsgGUID: 3ZwRUbelTY+JjDwv55uw7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67664756"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="78741109"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 15:13:28 -0800
-X-CSE-ConnectionGUID: qDahFAOrSy+hsmjQnRSvbw==
-X-CSE-MsgGUID: giybkxWMRZmsrkuOvrE/Mg==
+   d="scan'208";a="67664756"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 15:13:28 -0800
+X-CSE-ConnectionGUID: u/yu6hJrTJGCKaaDATF3Kg==
+X-CSE-MsgGUID: a7l4OaavSKy6Bzmd40lU4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="234786251"
+   d="scan'208";a="220773906"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Dec 2025 15:13:27 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 13 Dec 2025 15:13:27 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUYnk-000000008If-48So;
+	id 1vUYnk-000000008Id-40LT;
 	Sat, 13 Dec 2025 23:13:24 +0000
-Date: Sun, 14 Dec 2025 07:12:35 +0800
+Date: Sun, 14 Dec 2025 07:12:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 18/18]
- drivers/gpu/drm/xe/tests/xe_bo.c:461:10: warning: implicit conversion from
- 'unsigned long long' to 'size_t' (aka 'unsigned int') changes value from
- 34359738368 to 0
-Message-ID: <202512140706.a8clKsNU-lkp@intel.com>
+Subject: [android-common:android15-6.6 2/2]
+ security/apparmor/capability.c:154: warning: Function parameter or member
+ 'subj_cred' not described in 'aa_capable'
+Message-ID: <202512140736.BUOo9kWs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,233 +63,171 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   da2da0badf05a4631edf06f9a37e822b20875663
-commit: a0a3f0a41c8789060f0ed28f79066d97bfc47a8b [18/18] UPSTREAM: drm/xe: Add a xe_bo subtest for shrinking / swapping
-config: arm-randconfig-003-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140706.a8clKsNU-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140706.a8clKsNU-lkp@intel.com/reproduce)
+Hi John,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5580efd2c7e4791254a0c26f9791aaa33dd70484
+commit: 690f33e1edf5cd996b54094409de0067ae3fa216 [2/2] apparmor: pass cred through to audit info.
+config: x86_64-randconfig-103-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140736.BUOo9kWs-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140736.BUOo9kWs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140706.a8clKsNU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140736.BUOo9kWs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/xe/xe_bo.c:2630:
->> drivers/gpu/drm/xe/tests/xe_bo.c:461:10: warning: implicit conversion from 'unsigned long long' to 'size_t' (aka 'unsigned int') changes value from 34359738368 to 0 [-Wconstant-conversion]
-     461 |         limit = SZ_32G;
-         |               ~ ^~~~~~
-   include/linux/sizes.h:49:19: note: expanded from macro 'SZ_32G'
-      49 | #define SZ_32G                          _AC(0x800000000, ULL)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~~~~~~
-   include/uapi/linux/const.h:20:20: note: expanded from macro '__AC'
-      20 | #define __AC(X,Y)       (X##Y)
-         |                          ^~~~
-   <scratch space>:65:1: note: expanded from here
-      65 | 0x800000000ULL
-         | ^~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/xe/xe_bo.c:2630:
-   drivers/gpu/drm/xe/tests/xe_bo.c:464:11: warning: implicit conversion from 'unsigned long long' to 'size_t' (aka 'unsigned int') changes value from 17179869184 to 0 [-Wconstant-conversion]
-     464 |                 limit = SZ_16G;
-         |                       ~ ^~~~~~
-   include/linux/sizes.h:48:19: note: expanded from macro 'SZ_16G'
-      48 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~~~~~~
-   include/uapi/linux/const.h:20:20: note: expanded from macro '__AC'
-      20 | #define __AC(X,Y)       (X##Y)
-         |                          ^~~~
-   <scratch space>:66:1: note: expanded from here
-      66 | 0x400000000ULL
-         | ^~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/xe/xe_bo.c:2630:
-   drivers/gpu/drm/xe/tests/xe_bo.c:475:6: warning: variable 'purgeable' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     475 |         if (to_alloc > ram_and_swap)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/xe/tests/xe_bo.c:477:2: note: uninitialized use occurs here
-     477 |         purgeable += purgeable / 5;
-         |         ^~~~~~~~~
-   drivers/gpu/drm/xe/tests/xe_bo.c:475:2: note: remove the 'if' if its condition is always true
-     475 |         if (to_alloc > ram_and_swap)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     476 |                 purgeable = to_alloc - ram_and_swap;
-   drivers/gpu/drm/xe/tests/xe_bo.c:448:37: note: initialize the variable 'purgeable' to silence this warning
-     448 |         size_t ram, ram_and_swap, purgeable, alloced, to_alloc, limit;
-         |                                            ^
-         |                                             = 0
-   3 warnings generated.
+   security/apparmor/capability.c:45: warning: Function parameter or member 'ab' not described in 'audit_cb'
+   security/apparmor/capability.c:45: warning: Function parameter or member 'va' not described in 'audit_cb'
+   security/apparmor/capability.c:66: warning: Function parameter or member 'ad' not described in 'audit_caps'
+   security/apparmor/capability.c:66: warning: Excess function parameter 'as' description in 'audit_caps'
+>> security/apparmor/capability.c:154: warning: Function parameter or member 'subj_cred' not described in 'aa_capable'
+>> security/apparmor/capability.c:154: warning: Excess function parameter 'subj_cread' description in 'aa_capable'
+--
+>> security/apparmor/task.c:293: warning: Function parameter or member 'tracer_cred' not described in 'aa_may_ptrace'
+>> security/apparmor/task.c:293: warning: Function parameter or member 'tracee_cred' not described in 'aa_may_ptrace'
+--
+>> security/apparmor/policy.c:859: warning: Function parameter or member 'subj_cred' not described in 'aa_may_manage_policy'
+--
+>> security/apparmor/domain.c:46: warning: Function parameter or member 'to_cred' not described in 'may_change_ptraced_domain'
+>> security/apparmor/domain.c:46: warning: Excess function parameter 'cred' description in 'may_change_ptraced_domain'
+   security/apparmor/domain.c:286: warning: Function parameter or member 'perms' not described in 'change_profile_perms'
+   security/apparmor/domain.c:387: warning: Function parameter or member 'bprm' not described in 'find_attach'
+   security/apparmor/domain.c:387: warning: Function parameter or member 'head' not described in 'find_attach'
+   security/apparmor/domain.c:387: warning: Function parameter or member 'name' not described in 'find_attach'
+   security/apparmor/domain.c:387: warning: Function parameter or member 'info' not described in 'find_attach'
+   security/apparmor/domain.c:565: warning: Function parameter or member 'info' not described in 'x_to_label'
 
 
-vim +461 drivers/gpu/drm/xe/tests/xe_bo.c
+vim +154 security/apparmor/capability.c
 
-   435	
-   436	/*
-   437	 * Try to create system bos corresponding to twice the amount
-   438	 * of available system memory to test shrinker functionality.
-   439	 * If no swap space is available to accommodate the
-   440	 * memory overcommit, mark bos purgeable.
-   441	 */
-   442	static int shrink_test_run_device(struct xe_device *xe)
-   443	{
-   444		struct kunit *test = kunit_get_current_test();
-   445		LIST_HEAD(bos);
-   446		struct xe_bo_link *link, *next;
-   447		struct sysinfo si;
-   448		size_t ram, ram_and_swap, purgeable, alloced, to_alloc, limit;
-   449		unsigned int interrupted = 0, successful = 0, count = 0;
-   450		struct rnd_state prng;
-   451		u64 rand_seed;
-   452		bool failed = false;
-   453	
-   454		rand_seed = get_random_u64();
-   455		prandom_seed_state(&prng, rand_seed);
-   456		kunit_info(test, "Random seed is 0x%016llx.\n",
-   457			   (unsigned long long)rand_seed);
-   458	
-   459		/* Skip if execution time is expected to be too long. */
-   460	
- > 461		limit = SZ_32G;
-   462		/* IGFX with flat CCS needs to copy when swapping / shrinking */
-   463		if (!IS_DGFX(xe) && xe_device_has_flat_ccs(xe))
-   464			limit = SZ_16G;
-   465	
-   466		si_meminfo(&si);
-   467		ram = (size_t)si.freeram * si.mem_unit;
-   468		if (ram > limit) {
-   469			kunit_skip(test, "Too long expected execution time.\n");
-   470			return 0;
-   471		}
-   472		to_alloc = ram * 2;
-   473	
-   474		ram_and_swap = ram + get_nr_swap_pages() * PAGE_SIZE;
-   475		if (to_alloc > ram_and_swap)
-   476			purgeable = to_alloc - ram_and_swap;
-   477		purgeable += purgeable / 5;
-   478	
-   479		kunit_info(test, "Free ram is %lu bytes. Will allocate twice of that.\n",
-   480			   (unsigned long)ram);
-   481		for (alloced = 0; alloced < to_alloc; alloced += XE_BO_SHRINK_SIZE) {
-   482			struct xe_bo *bo;
-   483			unsigned int mem_type;
-   484			struct xe_ttm_tt *xe_tt;
-   485	
-   486			link = kzalloc(sizeof(*link), GFP_KERNEL);
-   487			if (!link) {
-   488				KUNIT_FAIL(test, "Unexpected link allocation failure\n");
-   489				failed = true;
-   490				break;
-   491			}
-   492	
-   493			INIT_LIST_HEAD(&link->link);
-   494	
-   495			/* We can create bos using WC caching here. But it is slower. */
-   496			bo = xe_bo_create_user(xe, NULL, NULL, XE_BO_SHRINK_SIZE,
-   497					       DRM_XE_GEM_CPU_CACHING_WB,
-   498					       XE_BO_FLAG_SYSTEM);
-   499			if (IS_ERR(bo)) {
-   500				if (bo != ERR_PTR(-ENOMEM) && bo != ERR_PTR(-ENOSPC) &&
-   501				    bo != ERR_PTR(-EINTR) && bo != ERR_PTR(-ERESTARTSYS))
-   502					KUNIT_FAIL(test, "Error creating bo: %pe\n", bo);
-   503				kfree(link);
-   504				failed = true;
-   505				break;
-   506			}
-   507			xe_bo_lock(bo, false);
-   508			xe_tt = container_of(bo->ttm.ttm, typeof(*xe_tt), ttm);
-   509	
-   510			/*
-   511			 * Allocate purgeable bos first, because if we do it the
-   512			 * other way around, they may not be subject to swapping...
-   513			 */
-   514			if (alloced < purgeable) {
-   515				xe_tt->purgeable = true;
-   516				bo->ttm.priority = 0;
-   517			} else {
-   518				int ret = shrink_test_fill_random(bo, &prng, link);
-   519	
-   520				if (ret) {
-   521					xe_bo_unlock(bo);
-   522					xe_bo_put(bo);
-   523					KUNIT_FAIL(test, "Error filling bo with random data: %pe\n",
-   524						   ERR_PTR(ret));
-   525					kfree(link);
-   526					failed = true;
-   527					break;
-   528				}
-   529			}
-   530	
-   531			mem_type = bo->ttm.resource->mem_type;
-   532			xe_bo_unlock(bo);
-   533			link->bo = bo;
-   534			list_add_tail(&link->link, &bos);
-   535	
-   536			if (mem_type != XE_PL_TT) {
-   537				KUNIT_FAIL(test, "Bo in incorrect memory type: %u\n",
-   538					   bo->ttm.resource->mem_type);
-   539				failed = true;
-   540			}
-   541			cond_resched();
-   542			if (signal_pending(current))
-   543				break;
-   544		}
-   545	
-   546		/*
-   547		 * Read back and destroy bos. Reset the pseudo-random seed to get an
-   548		 * identical pseudo-random number sequence for readback.
-   549		 */
-   550		prandom_seed_state(&prng, rand_seed);
-   551		list_for_each_entry_safe(link, next, &bos, link) {
-   552			static struct ttm_operation_ctx ctx = {.interruptible = true};
-   553			struct xe_bo *bo = link->bo;
-   554			struct xe_ttm_tt *xe_tt;
-   555			int ret;
-   556	
-   557			count++;
-   558			if (!signal_pending(current) && !failed) {
-   559				bool purgeable, intr = false;
-   560	
-   561				xe_bo_lock(bo, NULL);
-   562	
-   563				/* xe_tt->purgeable is cleared on validate. */
-   564				xe_tt = container_of(bo->ttm.ttm, typeof(*xe_tt), ttm);
-   565				purgeable = xe_tt->purgeable;
-   566				do {
-   567					ret = ttm_bo_validate(&bo->ttm, &tt_placement, &ctx);
-   568					if (ret == -EINTR)
-   569						intr = true;
-   570				} while (ret == -EINTR && !signal_pending(current));
-   571	
-   572				if (!ret && !purgeable)
-   573					failed = shrink_test_verify(test, bo, count, &prng, link);
-   574	
-   575				xe_bo_unlock(bo);
-   576				if (ret) {
-   577					KUNIT_FAIL(test, "Validation failed: %pe\n",
-   578						   ERR_PTR(ret));
-   579					failed = true;
-   580				} else if (intr) {
-   581					interrupted++;
-   582				} else {
-   583					successful++;
-   584				}
-   585			}
-   586			xe_bo_put(link->bo);
-   587			list_del(&link->link);
-   588			kfree(link);
-   589		}
-   590		kunit_info(test, "Readbacks interrupted: %u successful: %u\n",
-   591			   interrupted, successful);
-   592	
-   593		return 0;
-   594	}
-   595	
+0ed3b28ab8bf46 John Johansen 2010-07-29   38  
+0ed3b28ab8bf46 John Johansen 2010-07-29   39  /**
+0ed3b28ab8bf46 John Johansen 2010-07-29   40   * audit_cb - call back for capability components of audit struct
+0ed3b28ab8bf46 John Johansen 2010-07-29   41   * @ab - audit buffer   (NOT NULL)
+0ed3b28ab8bf46 John Johansen 2010-07-29   42   * @va - audit struct to audit data from  (NOT NULL)
+0ed3b28ab8bf46 John Johansen 2010-07-29   43   */
+0ed3b28ab8bf46 John Johansen 2010-07-29   44  static void audit_cb(struct audit_buffer *ab, void *va)
+0ed3b28ab8bf46 John Johansen 2010-07-29  @45  {
+0ed3b28ab8bf46 John Johansen 2010-07-29   46  	struct common_audit_data *sa = va;
+c70c86c421427f John Johansen 2017-06-09   47  
+0ed3b28ab8bf46 John Johansen 2010-07-29   48  	audit_log_format(ab, " capname=");
+0ed3b28ab8bf46 John Johansen 2010-07-29   49  	audit_log_untrustedstring(ab, capability_names[sa->u.cap]);
+0ed3b28ab8bf46 John Johansen 2010-07-29   50  }
+0ed3b28ab8bf46 John Johansen 2010-07-29   51  
+0ed3b28ab8bf46 John Johansen 2010-07-29   52  /**
+0ed3b28ab8bf46 John Johansen 2010-07-29   53   * audit_caps - audit a capability
+c57bc80f4508ac John Johansen 2022-09-14   54   * @as: audit data
+dd0c6e86f66080 John Johansen 2013-10-08   55   * @profile: profile being tested for confinement (NOT NULL)
+0ed3b28ab8bf46 John Johansen 2010-07-29   56   * @cap: capability tested
+0ed3b28ab8bf46 John Johansen 2010-07-29   57   * @error: error code returned by test
+0ed3b28ab8bf46 John Johansen 2010-07-29   58   *
+0ed3b28ab8bf46 John Johansen 2010-07-29   59   * Do auditing of capability and handle, audit/complain/kill modes switching
+0ed3b28ab8bf46 John Johansen 2010-07-29   60   * and duplicate message elimination.
+0ed3b28ab8bf46 John Johansen 2010-07-29   61   *
+c57bc80f4508ac John Johansen 2022-09-14   62   * Returns: 0 or ad->error on success,  error code on failure
+0ed3b28ab8bf46 John Johansen 2010-07-29   63   */
+c57bc80f4508ac John Johansen 2022-09-14   64  static int audit_caps(struct apparmor_audit_data *ad, struct aa_profile *profile,
+c70c86c421427f John Johansen 2017-06-09   65  		      int cap, int error)
+0ed3b28ab8bf46 John Johansen 2010-07-29   66  {
+1ad22fcc4d0d2f John Johansen 2022-09-05   67  	struct aa_ruleset *rules = list_first_entry(&profile->rules,
+1ad22fcc4d0d2f John Johansen 2022-09-05   68  						    typeof(*rules), list);
+0ed3b28ab8bf46 John Johansen 2010-07-29   69  	struct audit_cache *ent;
+0ed3b28ab8bf46 John Johansen 2010-07-29   70  	int type = AUDIT_APPARMOR_AUTO;
+c70c86c421427f John Johansen 2017-06-09   71  
+c57bc80f4508ac John Johansen 2022-09-14   72  	ad->error = error;
+0ed3b28ab8bf46 John Johansen 2010-07-29   73  
+0ed3b28ab8bf46 John Johansen 2010-07-29   74  	if (likely(!error)) {
+0ed3b28ab8bf46 John Johansen 2010-07-29   75  		/* test if auditing is being forced */
+0ed3b28ab8bf46 John Johansen 2010-07-29   76  		if (likely((AUDIT_MODE(profile) != AUDIT_ALL) &&
+217af7e2f4deb6 John Johansen 2022-07-29   77  			   !cap_raised(rules->caps.audit, cap)))
+0ed3b28ab8bf46 John Johansen 2010-07-29   78  			return 0;
+0ed3b28ab8bf46 John Johansen 2010-07-29   79  		type = AUDIT_APPARMOR_AUDIT;
+0ed3b28ab8bf46 John Johansen 2010-07-29   80  	} else if (KILL_MODE(profile) ||
+217af7e2f4deb6 John Johansen 2022-07-29   81  		   cap_raised(rules->caps.kill, cap)) {
+0ed3b28ab8bf46 John Johansen 2010-07-29   82  		type = AUDIT_APPARMOR_KILL;
+217af7e2f4deb6 John Johansen 2022-07-29   83  	} else if (cap_raised(rules->caps.quiet, cap) &&
+0ed3b28ab8bf46 John Johansen 2010-07-29   84  		   AUDIT_MODE(profile) != AUDIT_NOQUIET &&
+0ed3b28ab8bf46 John Johansen 2010-07-29   85  		   AUDIT_MODE(profile) != AUDIT_ALL) {
+0ed3b28ab8bf46 John Johansen 2010-07-29   86  		/* quiet auditing */
+0ed3b28ab8bf46 John Johansen 2010-07-29   87  		return error;
+0ed3b28ab8bf46 John Johansen 2010-07-29   88  	}
+0ed3b28ab8bf46 John Johansen 2010-07-29   89  
+0ed3b28ab8bf46 John Johansen 2010-07-29   90  	/* Do simple duplicate message elimination */
+0ed3b28ab8bf46 John Johansen 2010-07-29   91  	ent = &get_cpu_var(audit_cache);
+0ed3b28ab8bf46 John Johansen 2010-07-29   92  	if (profile == ent->profile && cap_raised(ent->caps, cap)) {
+0ed3b28ab8bf46 John Johansen 2010-07-29   93  		put_cpu_var(audit_cache);
+0ed3b28ab8bf46 John Johansen 2010-07-29   94  		if (COMPLAIN_MODE(profile))
+0ed3b28ab8bf46 John Johansen 2010-07-29   95  			return complain_error(error);
+0ed3b28ab8bf46 John Johansen 2010-07-29   96  		return error;
+0ed3b28ab8bf46 John Johansen 2010-07-29   97  	} else {
+0ed3b28ab8bf46 John Johansen 2010-07-29   98  		aa_put_profile(ent->profile);
+0ed3b28ab8bf46 John Johansen 2010-07-29   99  		ent->profile = aa_get_profile(profile);
+0ed3b28ab8bf46 John Johansen 2010-07-29  100  		cap_raise(ent->caps, cap);
+0ed3b28ab8bf46 John Johansen 2010-07-29  101  	}
+0ed3b28ab8bf46 John Johansen 2010-07-29  102  	put_cpu_var(audit_cache);
+0ed3b28ab8bf46 John Johansen 2010-07-29  103  
+c57bc80f4508ac John Johansen 2022-09-14  104  	return aa_audit(type, profile, ad, audit_cb);
+0ed3b28ab8bf46 John Johansen 2010-07-29  105  }
+0ed3b28ab8bf46 John Johansen 2010-07-29  106  
+0ed3b28ab8bf46 John Johansen 2010-07-29  107  /**
+0ed3b28ab8bf46 John Johansen 2010-07-29  108   * profile_capable - test if profile allows use of capability @cap
+0ed3b28ab8bf46 John Johansen 2010-07-29  109   * @profile: profile being enforced    (NOT NULL, NOT unconfined)
+0ed3b28ab8bf46 John Johansen 2010-07-29  110   * @cap: capability to test if allowed
+c1a85a00ea66cb Micah Morton  2019-01-07  111   * @opts: CAP_OPT_NOAUDIT bit determines whether audit record is generated
+c57bc80f4508ac John Johansen 2022-09-14  112   * @ad: audit data (MAY BE NULL indicating no auditing)
+0ed3b28ab8bf46 John Johansen 2010-07-29  113   *
+0ed3b28ab8bf46 John Johansen 2010-07-29  114   * Returns: 0 if allowed else -EPERM
+0ed3b28ab8bf46 John Johansen 2010-07-29  115   */
+c1a85a00ea66cb Micah Morton  2019-01-07  116  static int profile_capable(struct aa_profile *profile, int cap,
+c57bc80f4508ac John Johansen 2022-09-14  117  			   unsigned int opts, struct apparmor_audit_data *ad)
+0ed3b28ab8bf46 John Johansen 2010-07-29  118  {
+1ad22fcc4d0d2f John Johansen 2022-09-05  119  	struct aa_ruleset *rules = list_first_entry(&profile->rules,
+1ad22fcc4d0d2f John Johansen 2022-09-05  120  						    typeof(*rules), list);
+c70c86c421427f John Johansen 2017-06-09  121  	int error;
+c70c86c421427f John Johansen 2017-06-09  122  
+217af7e2f4deb6 John Johansen 2022-07-29  123  	if (cap_raised(rules->caps.allow, cap) &&
+217af7e2f4deb6 John Johansen 2022-07-29  124  	    !cap_raised(rules->caps.denied, cap))
+c70c86c421427f John Johansen 2017-06-09  125  		error = 0;
+c70c86c421427f John Johansen 2017-06-09  126  	else
+c70c86c421427f John Johansen 2017-06-09  127  		error = -EPERM;
+c70c86c421427f John Johansen 2017-06-09  128  
+c1a85a00ea66cb Micah Morton  2019-01-07  129  	if (opts & CAP_OPT_NOAUDIT) {
+c70c86c421427f John Johansen 2017-06-09  130  		if (!COMPLAIN_MODE(profile))
+c70c86c421427f John Johansen 2017-06-09  131  			return error;
+c70c86c421427f John Johansen 2017-06-09  132  		/* audit the cap request in complain mode but note that it
+c70c86c421427f John Johansen 2017-06-09  133  		 * should be optional.
+c70c86c421427f John Johansen 2017-06-09  134  		 */
+c57bc80f4508ac John Johansen 2022-09-14  135  		ad->info = "optional: no audit";
+c70c86c421427f John Johansen 2017-06-09  136  	}
+c70c86c421427f John Johansen 2017-06-09  137  
+c57bc80f4508ac John Johansen 2022-09-14  138  	return audit_caps(ad, profile, cap, error);
+0ed3b28ab8bf46 John Johansen 2010-07-29  139  }
+0ed3b28ab8bf46 John Johansen 2010-07-29  140  
+0ed3b28ab8bf46 John Johansen 2010-07-29  141  /**
+0ed3b28ab8bf46 John Johansen 2010-07-29  142   * aa_capable - test permission to use capability
+690f33e1edf5cd John Johansen 2022-09-19  143   * @subj_cread: cred we are testing capability against
+c70c86c421427f John Johansen 2017-06-09  144   * @label: label being tested for capability (NOT NULL)
+0ed3b28ab8bf46 John Johansen 2010-07-29  145   * @cap: capability to be tested
+c1a85a00ea66cb Micah Morton  2019-01-07  146   * @opts: CAP_OPT_NOAUDIT bit determines whether audit record is generated
+0ed3b28ab8bf46 John Johansen 2010-07-29  147   *
+0ed3b28ab8bf46 John Johansen 2010-07-29  148   * Look up capability in profile capability set.
+0ed3b28ab8bf46 John Johansen 2010-07-29  149   *
+0ed3b28ab8bf46 John Johansen 2010-07-29  150   * Returns: 0 on success, or else an error code.
+0ed3b28ab8bf46 John Johansen 2010-07-29  151   */
+690f33e1edf5cd John Johansen 2022-09-19  152  int aa_capable(const struct cred *subj_cred, struct aa_label *label,
+690f33e1edf5cd John Johansen 2022-09-19  153  	       int cap, unsigned int opts)
+0ed3b28ab8bf46 John Johansen 2010-07-29 @154  {
+
+:::::: The code at line 154 was first introduced by commit
+:::::: 0ed3b28ab8bf460a3a026f3f1782bf4c53840184 AppArmor: mediation of non file objects
+
+:::::: TO: John Johansen <john.johansen@canonical.com>
+:::::: CC: James Morris <jmorris@namei.org>
 
 -- 
 0-DAY CI Kernel Test Service
