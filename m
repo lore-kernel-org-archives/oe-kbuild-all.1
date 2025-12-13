@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C256A2EA14E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 09:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144712F0671;
+	Sat, 13 Dec 2025 09:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765619550; cv=none; b=fB3Puldv9D+Oxm+UDwxBhkYctzWScjsS7YOu5XU+AOHOBzEOWG3e7HUBoMXdHfKrXP/JkLcRuDUB/YOCbR6HKQhr4IuQ1vjMYhoazUpJSjnRZgStuNDROVtn/QMC2p4CKAVubsOyVZtv3VMm1CumBrCqz3MX+0nJFDfzNTM+GNQ=
+	t=1765619972; cv=none; b=AsjGO81lReYVRWaoJx5mPMypxeLTzUVFNhfcbei1xEH5KuwIe5fO44Yivy2oo7Crkdn7N4yAL0WkVlWTRRmQ593kLqzVInup4JITB4HYwQ4KZ7vUxUQUJXrgZJkjIJHT1hTdQ2Mn3CGeYkRaHJS6Wuf60/Zfir6P6vdQ9+NQVLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765619550; c=relaxed/simple;
-	bh=ynqRBUAULXgIMfjECn/ojh+RpXKsaoXJPQx5zKt46tQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=n4cDEQIQ5id7xgXjgU+Q7NW47jdCY8iMQiUD73Fu+8+NDKrWicgWC8Ar4XFX7nl2qlNKfc0M0psVLwgqW7WbVr12sDRvn0EjC7Ry7BPus5AYpzc3qdFIERMxgKNaJls9N9ioKb+TsGweGeYeIpUImx1xNf1RdnAM7hHvafo3YcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k1SMTNDb; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1765619972; c=relaxed/simple;
+	bh=8GOIjRocUiEIWyd+eL5zJJo2Xo7vkZH3TwnWoiwRtno=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oqLWJG+nzEy1/+sds3hs5abUSZzbUNAzg6QzAgLh7SkY2luHpgmptlx2BoKvbSQBq7UivIi1/YcwcPKNh8J3+99iXSSpO9J3hewyBLz37QOL7NBGwLYwOenzoln2bncS0huiIICrYlcWv9xT00kgxh9xl2DJnCTL1pwdKX9DOnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hglVM12Q; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k1SMTNDb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hglVM12Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765619548; x=1797155548;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=ynqRBUAULXgIMfjECn/ojh+RpXKsaoXJPQx5zKt46tQ=;
-  b=k1SMTNDbaYMJLTzsXt02XENpW0MsPDx3981cIpfg/OTZcBekLtHS+x+f
-   DdH+3MNlOaSuAi9Foqc0S6GRsQ128TEhm4/1Cc6EY8cCqqR1unEUZoo97
-   MkfWA9JsEHJWBlXDUXe4CWMZsWCe441DYVM+xGvactN8fwAjaVuzexKZc
-   HZx/UssLT1nasMlpY8jARipP2r40n0tAPyHc8TOl8oiaF5YVBi5cdyzV0
-   mqrB3ma5c5FOsH3Ddu+8HZqo7wWPcUr514NIlEMTmTPmrJt1Pzsc8w6z2
-   oz/6M/6NYY7wuoq0M44dTmugqtcs9HDLHZF+iHgg2NzLgddOWj6fWQNOW
-   g==;
-X-CSE-ConnectionGUID: 1eCmZ5+2TYWbxOGigZmfqQ==
-X-CSE-MsgGUID: VaplfSfFQSegpVH+jUowIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="85200136"
+  t=1765619971; x=1797155971;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8GOIjRocUiEIWyd+eL5zJJo2Xo7vkZH3TwnWoiwRtno=;
+  b=hglVM12QiHt+o6wJC5eqNmyB6xTWTa/Nfnbcxb2Nv99OtrpESkiLCrob
+   8gUq86GBVyK/hncSd1W9uzc6PzFQhriO4JNh83eBi76RFpdZ8UJKZrvVZ
+   l56W5s+M60vEM2waDWThnYyujBqJCf8WvGIkZ0iL+xia9j91C9JzIgzJs
+   k+8osJRwt9FfFaRTE96P6j/DvRL9eTkT2PBl8FY5CiOLL5sGSh7xGuR+L
+   RDtbyJOH7PMrXc5u6PfxxP0SbxZGP9yo5pL/hsE4ko3nMEIvsTPi9wYS8
+   mDayBzlW6pbPY9TRXha7Vty5pM9aa71I7W55ChouSVMVGEbcyyjdfIyK2
+   w==;
+X-CSE-ConnectionGUID: BW0RH5hSShOHmnZzTV61+g==
+X-CSE-MsgGUID: brCVS+N9TtO+5fEY2lWf5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="71455429"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="85200136"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 01:52:28 -0800
-X-CSE-ConnectionGUID: 9xWtv78VReuHKZOp1GX2PQ==
-X-CSE-MsgGUID: yrZ8Z78ISUCez6Aol1u6iw==
+   d="scan'208";a="71455429"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 01:59:30 -0800
+X-CSE-ConnectionGUID: OnnAYDYNSViihYV4UYhH6A==
+X-CSE-MsgGUID: PnQDvqAAQPecxV+uk+al8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="197557145"
+   d="scan'208";a="197353574"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Dec 2025 01:52:27 -0800
+  by orviesa008.jf.intel.com with ESMTP; 13 Dec 2025 01:59:28 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUMIb-000000007Sb-1O02;
-	Sat, 13 Dec 2025 09:52:25 +0000
-Date: Sat, 13 Dec 2025 17:51:25 +0800
+	id 1vUMPN-000000007TV-3hxF;
+	Sat, 13 Dec 2025 09:59:25 +0000
+Date: Sat, 13 Dec 2025 17:59:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6.12] LoongArch: Add machine_kexec_mask_interrupts()
- implementation
-Message-ID: <aT03HXCwUdbEftn7@73f44f95d416>
+To: Maarten Lankhorst <dev@lankhorst.se>, intel-xe@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	intel-gfx@lists.freedesktop.org,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Maarten Lankhorst <dev@lankhorst.se>
+Subject: Re: [CI-ONLY PATCH v2 11/12] PREEMPT_RT injection
+Message-ID: <202512131724.vg8wGsP4-lkp@intel.com>
+References: <20251212143504.973839-25-dev@lankhorst.se>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +65,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251213094950.1068951-1-chenhuacai@loongson.cn>
+In-Reply-To: <20251212143504.973839-25-dev@lankhorst.se>
 
-Hi,
+Hi Maarten,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on drm-tip/drm-tip]
+[also build test ERROR on linus/master next-20251212]
+[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-xe/drm-xe-next v6.18]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/drm-i915-display-Fix-intel_lpe_audio_irq_handler-for-PREEMPT-RT/20251213-023952
+base:   https://gitlab.freedesktop.org/drm/tip.git drm-tip
+patch link:    https://lore.kernel.org/r/20251212143504.973839-25-dev%40lankhorst.se
+patch subject: [CI-ONLY PATCH v2 11/12] PREEMPT_RT injection
+config: i386-buildonly-randconfig-005-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131724.vg8wGsP4-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131724.vg8wGsP4-lkp@intel.com/reproduce)
 
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH 6.12] LoongArch: Add machine_kexec_mask_interrupts() implementation
-Link: https://lore.kernel.org/stable/20251213094950.1068951-1-chenhuacai%40loongson.cn
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131724.vg8wGsP4-lkp@intel.com/
 
-Please ignore this mail if the patch is not relevant for upstream.
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:225:13: error: incompatible pointer types passing 'struct rt_mutex *' to parameter of type 'struct mutex *' [-Werror,-Wincompatible-pointer-types]
+     225 |         mutex_lock(&bo->base.resv->lock.base);
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mutex.h:168:44: note: expanded from macro 'mutex_lock'
+     168 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+         |                                            ^~~~
+   include/linux/mutex.h:160:45: note: passing argument to parameter 'lock' here
+     160 | extern void mutex_lock_nested(struct mutex *lock, unsigned int subclass);
+         |                                             ^
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:231:15: error: incompatible pointer types passing 'struct rt_mutex *' to parameter of type 'struct mutex *' [-Werror,-Wincompatible-pointer-types]
+     231 |         mutex_unlock(&bo->base.resv->lock.base);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mutex.h:224:40: note: passing argument to parameter 'lock' here
+     224 | extern void mutex_unlock(struct mutex *lock);
+         |                                        ^
+   2 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
+
+
+vim +225 drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+
+995279d280d1ef5 Karolina Stolarek 2023-11-29  210  
+995279d280d1ef5 Karolina Stolarek 2023-11-29  211  static void ttm_bo_reserve_interrupted(struct kunit *test)
+995279d280d1ef5 Karolina Stolarek 2023-11-29  212  {
+995279d280d1ef5 Karolina Stolarek 2023-11-29  213  	struct ttm_buffer_object *bo;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  214  	struct task_struct *task;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  215  	int err;
+995279d280d1ef5 Karolina Stolarek 2023-11-29  216  
+588c4c8d58c413b Karolina Stolarek 2024-06-12  217  	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  218  
+995279d280d1ef5 Karolina Stolarek 2023-11-29  219  	task = kthread_create(threaded_ttm_bo_reserve, bo, "ttm-bo-reserve");
+995279d280d1ef5 Karolina Stolarek 2023-11-29  220  
+995279d280d1ef5 Karolina Stolarek 2023-11-29  221  	if (IS_ERR(task))
+995279d280d1ef5 Karolina Stolarek 2023-11-29  222  		KUNIT_FAIL(test, "Couldn't create ttm bo reserve task\n");
+995279d280d1ef5 Karolina Stolarek 2023-11-29  223  
+995279d280d1ef5 Karolina Stolarek 2023-11-29  224  	/* Take a lock so the threaded reserve has to wait */
+995279d280d1ef5 Karolina Stolarek 2023-11-29 @225  	mutex_lock(&bo->base.resv->lock.base);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  226  
+995279d280d1ef5 Karolina Stolarek 2023-11-29  227  	wake_up_process(task);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  228  	msleep(20);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  229  	err = kthread_stop(task);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  230  
+995279d280d1ef5 Karolina Stolarek 2023-11-29  231  	mutex_unlock(&bo->base.resv->lock.base);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  232  
+995279d280d1ef5 Karolina Stolarek 2023-11-29  233  	KUNIT_ASSERT_EQ(test, err, -ERESTARTSYS);
+995279d280d1ef5 Karolina Stolarek 2023-11-29  234  }
+995279d280d1ef5 Karolina Stolarek 2023-11-29  235  #endif /* IS_BUILTIN(CONFIG_DRM_TTM_KUNIT_TEST) */
+995279d280d1ef5 Karolina Stolarek 2023-11-29  236  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
