@@ -1,315 +1,229 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4C8283686
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 16:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C71E725524C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 16:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765642957; cv=none; b=BgnSQxWtsfJY7eZxAOJLbOi7y6QHXEA5YWe+DCap2C/0YRUcmi1ZwoOt3pNlNrUa5ABjI31pPg7WrXUz3hILNrcsWs5EckzPnoumZhtjyQWkiZKa5IqaHv6IBpono6d2ExKeQdnxOARplbGjtJwmj4gcOSAbG6l/50bV/HOrFJo=
+	t=1765643287; cv=none; b=f2eeCV01xsm3DXozBpSGut34BPdGPirbubep/4AiIC7IyzsSgbtWulieMsF3UD5VAisHJaiyx05Rs0huic228snH/c24mILeV6MZQYgfJVydApDQkzh21g4YwmtmHBioZN3865NfdOPIUZdMAKkQm+iUPtDzz6Ky8Md3p+7j66U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765642957; c=relaxed/simple;
-	bh=TeZ4juW2v+d4xQ2ZbT0F6Ns1ffjXQGc2NnYuZTBVCLM=;
+	s=arc-20240116; t=1765643287; c=relaxed/simple;
+	bh=q0GItAfrcho7xdiIZRnNwm3xSzhUwvVlKjKqF4dqq7Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PI9vbExV6bJhhlUKAfzZmNaJ5drnC84t4Eo0xEbyRcPZJMnKDBNlMYxNlnVNDdjdpOchlx2oSn6AW/hQJ9yVwRY8JXV700zj84SMhhexxa0zJiBsioPd2FT3+O3PmSEwWjjIHAuKYy89fYeIt1mm+lqaGqreKfS+R1yZsZKsk9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cW26+JIt; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=YKtWebFQc84DB6FkwtjOT/mpxOcboBZ5Okr2xbDqCtH3u62S9Oh98LcnnEgFcrEDm//2LO+HrZHODJfJCL7fzOlmwwCsxgsTDVqgBaYbpOyGka7G/dVbNwi0Jvj1ZeqIC7390QrQVpT4aQRlujc7LmCCXmKeW8SySH/1bsnLyqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XcI5uU8K; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cW26+JIt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XcI5uU8K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765642956; x=1797178956;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TeZ4juW2v+d4xQ2ZbT0F6Ns1ffjXQGc2NnYuZTBVCLM=;
-  b=cW26+JItyGLbrYm4l2KMzoCsjkmEzeyc8HBdf4SmsTFZ1MKASASEU5jw
-   Hir37mlrkdRmDyyof563Wv2nq9pIkEt4otxvcMQ8AA5fJ9blmGW6pViIf
-   iVto/C8wzhNCWy/FzW+XMuhFku9s/TNQoJq9SDIdU0C/pC8WigW4XhoP2
-   xw6Qyr7WXw3Qjq1v3gf1faxa9GRfGaZgXhGIjEGk+h0qw5M/mwn0V9cIf
-   2fK2TwSNPo9DnBlp3HNweX1Qm8pmkRc9qaNZu20/uWgQU7X6DatmhbEpG
-   ADrPO6+RQFyxa2V6V7af69548sNngQXm/8vqVUlMIrJ2Mw36xr86/VZ+F
-   A==;
-X-CSE-ConnectionGUID: 72GQc2fdQhKR7pZcJ16Y6w==
-X-CSE-MsgGUID: qN/hfZQ9Qt6F4EZ2isQ8xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="79071908"
+  t=1765643286; x=1797179286;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=q0GItAfrcho7xdiIZRnNwm3xSzhUwvVlKjKqF4dqq7Y=;
+  b=XcI5uU8K+8Po5D/Nu6eNC77HPb7aU/R7yMeixmFbKmqhqupHgeKJAoNm
+   j0hDw1ucL/01Ps6k5HXlFqVCCCwaRHqzuD/cw23ZPKM5kXbSy3hA7wP61
+   CYmQ+YQBNAltUGLY1Fw/vdo9XVIiaAsrk0TvTl1c7mKFnRh3uCbo+1M5u
+   D/Nwv3CzIDIeniOgytRLmTplBHoHy4hKBMt7feobtr3olPAfw2jNfgR21
+   MCB2UjIE6q4GpOIo8kkrONDg8NTkAnHD8OZSqqxoqSFnHH9R0NK2Jp/+p
+   IvzfccE2XZaHJe7W+glaJxPezdJNUoe1ANS/st8JSf5jxQNNZj6GFBNLK
+   Q==;
+X-CSE-ConnectionGUID: fmpUHAsLQnWb80qwhNn2qQ==
+X-CSE-MsgGUID: lOxGSVm6QNufZaApzE0VJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="66788788"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="79071908"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 08:22:35 -0800
-X-CSE-ConnectionGUID: sv9iu1DsSfOuqGxStsVsdQ==
-X-CSE-MsgGUID: pUS0yUy4SYGLQc93yDAGtw==
+   d="scan'208";a="66788788"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 08:28:04 -0800
+X-CSE-ConnectionGUID: j8LQvggTRkS059j37ZUtnQ==
+X-CSE-MsgGUID: miCJf+3hQKqZSznvMiJ3EQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="201752378"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Dec 2025 08:22:33 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="196617823"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 13 Dec 2025 08:28:02 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUSO7-0000000027s-0GdY;
-	Sat, 13 Dec 2025 16:22:31 +0000
-Date: Sat, 13 Dec 2025 17:21:36 +0100
+	id 1vUSTP-000000007ul-317I;
+	Sat, 13 Dec 2025 16:27:59 +0000
+Date: Sun, 14 Dec 2025 00:27:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 50/50] mm/slab_common.c:1214:7:
- warning: no previous prototype for 'oot___kmalloc_node_0'
-Message-ID: <202512131719.ezgnYp0Y-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 0/18]
+ drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member
+ 'slots' description in 'panthor_queue'
+Message-ID: <202512140006.JWv6Zcqx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   7c285f40a964b427534f3dab33b104ee9cab6245
-commit: 81be03af48c826a24b8088f8d4705153c556d0d2 [50/50] anolis: mm: introduce per module slab for oot memory isolation
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251213/202512131719.ezgnYp0Y-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131719.ezgnYp0Y-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   da2da0badf05a4631edf06f9a37e822b20875663
+commit: ed0515a9d077a37940e717c75a106f783a011d89 [0/18] drm/panthor: introduce job cycle and timestamp accounting
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251214/202512140006.JWv6Zcqx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140006.JWv6Zcqx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131719.ezgnYp0Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140006.JWv6Zcqx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_0' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1220:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1220 | DEFINE_OOT_FUNC___kmalloc_node(0);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_1' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1221:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1221 | DEFINE_OOT_FUNC___kmalloc_node(1);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_2' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1222:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1222 | DEFINE_OOT_FUNC___kmalloc_node(2);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_3' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1223:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1223 | DEFINE_OOT_FUNC___kmalloc_node(3);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_4' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1224:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1224 | DEFINE_OOT_FUNC___kmalloc_node(4);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_5' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1225:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1225 | DEFINE_OOT_FUNC___kmalloc_node(5);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_6' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1226:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1226 | DEFINE_OOT_FUNC___kmalloc_node(6);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_7' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1227:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1227 | DEFINE_OOT_FUNC___kmalloc_node(7);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_8' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1228:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1228 | DEFINE_OOT_FUNC___kmalloc_node(8);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_9' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1229:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1229 | DEFINE_OOT_FUNC___kmalloc_node(9);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_10' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1230:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1230 | DEFINE_OOT_FUNC___kmalloc_node(10);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_11' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1231:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1231 | DEFINE_OOT_FUNC___kmalloc_node(11);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_12' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1232:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1232 | DEFINE_OOT_FUNC___kmalloc_node(12);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_13' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1233:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1233 | DEFINE_OOT_FUNC___kmalloc_node(13);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_14' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1234:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1234 | DEFINE_OOT_FUNC___kmalloc_node(14);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1214:7: warning: no previous prototype for 'oot___kmalloc_node_15' [-Wmissing-prototypes]
-    1214 | void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)  \
-         |       ^~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1235:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc_node'
-    1235 | DEFINE_OOT_FUNC___kmalloc_node(15);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_0' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1250:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1250 | DEFINE_OOT_FUNC___kmalloc(0);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_1' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1251:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1251 | DEFINE_OOT_FUNC___kmalloc(1);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_2' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1252:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1252 | DEFINE_OOT_FUNC___kmalloc(2);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_3' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1253:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1253 | DEFINE_OOT_FUNC___kmalloc(3);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_4' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1254:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1254 | DEFINE_OOT_FUNC___kmalloc(4);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_5' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1255:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1255 | DEFINE_OOT_FUNC___kmalloc(5);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_6' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1256:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1256 | DEFINE_OOT_FUNC___kmalloc(6);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_7' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1257:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1257 | DEFINE_OOT_FUNC___kmalloc(7);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_8' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1258:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1258 | DEFINE_OOT_FUNC___kmalloc(8);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_9' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1259:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1259 | DEFINE_OOT_FUNC___kmalloc(9);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_10' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1260:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1260 | DEFINE_OOT_FUNC___kmalloc(10);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_11' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1261:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1261 | DEFINE_OOT_FUNC___kmalloc(11);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_12' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1262:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1262 | DEFINE_OOT_FUNC___kmalloc(12);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_13' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1263:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1263 | DEFINE_OOT_FUNC___kmalloc(13);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_14' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1264:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1264 | DEFINE_OOT_FUNC___kmalloc(14);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab_common.c:1244:7: warning: no previous prototype for 'oot___kmalloc_15' [-Wmissing-prototypes]
-    1244 | void *oot___kmalloc_ ## index(size_t size, gfp_t flags)                 \
-         |       ^~~~~~~~~~~~~~
-   mm/slab_common.c:1265:1: note: in expansion of macro 'DEFINE_OOT_FUNC___kmalloc'
-    1265 | DEFINE_OOT_FUNC___kmalloc(15);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'runnable' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'idle' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'waiting' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'has_ref' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'in_progress' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:322: warning: Excess struct member 'stopped_groups' description in 'panthor_scheduler'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'mem' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'input_fw_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'output_fw_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gpu_va' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'ref' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'gt' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'sync64' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'bo' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'offset' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'kmap' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'lock' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'id' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'seqno' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'last_fence' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'in_flight_jobs' description in 'panthor_queue'
+>> drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slots' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'slot_count' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:494: warning: Excess struct member 'seqno' description in 'panthor_queue'
+   drivers/gpu/drm/panthor/panthor_sched.c:814: warning: Excess struct member 'start' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:814: warning: Excess struct member 'size' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:814: warning: Excess struct member 'latest_flush' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:814: warning: Excess struct member 'start' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:814: warning: Excess struct member 'end' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:814: warning: Excess struct member 'mask' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:814: warning: Excess struct member 'slot' description in 'panthor_job'
+   drivers/gpu/drm/panthor/panthor_sched.c:1741: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_fw_events'
+   drivers/gpu/drm/panthor/panthor_sched.c:1741: warning: Function parameter or struct member 'events' not described in 'panthor_sched_report_fw_events'
+   drivers/gpu/drm/panthor/panthor_sched.c:2634: warning: Function parameter or struct member 'ptdev' not described in 'panthor_sched_report_mmu_fault'
 
 
-vim +/oot___kmalloc_node_0 +1214 mm/slab_common.c
+vim +494 drivers/gpu/drm/panthor/panthor_sched.c
 
-  1212	
-  1213	#define DEFINE_OOT_FUNC___kmalloc_node(index)				\
-> 1214	void *oot___kmalloc_node_ ## index(size_t size, gfp_t flags, int node)	\
-  1215	{									\
-  1216		return oot__do_kmalloc_node(index, size, flags, node, _RET_IP_);;	\
-  1217	}									\
-  1218	EXPORT_SYMBOL(oot___kmalloc_node_ ## index)
-  1219	
-  1220	DEFINE_OOT_FUNC___kmalloc_node(0);
-  1221	DEFINE_OOT_FUNC___kmalloc_node(1);
-  1222	DEFINE_OOT_FUNC___kmalloc_node(2);
-  1223	DEFINE_OOT_FUNC___kmalloc_node(3);
-  1224	DEFINE_OOT_FUNC___kmalloc_node(4);
-  1225	DEFINE_OOT_FUNC___kmalloc_node(5);
-  1226	DEFINE_OOT_FUNC___kmalloc_node(6);
-  1227	DEFINE_OOT_FUNC___kmalloc_node(7);
-  1228	DEFINE_OOT_FUNC___kmalloc_node(8);
-  1229	DEFINE_OOT_FUNC___kmalloc_node(9);
-  1230	DEFINE_OOT_FUNC___kmalloc_node(10);
-  1231	DEFINE_OOT_FUNC___kmalloc_node(11);
-  1232	DEFINE_OOT_FUNC___kmalloc_node(12);
-  1233	DEFINE_OOT_FUNC___kmalloc_node(13);
-  1234	DEFINE_OOT_FUNC___kmalloc_node(14);
-  1235	DEFINE_OOT_FUNC___kmalloc_node(15);
-  1236	
-  1237	void *__kmalloc(size_t size, gfp_t flags)
-  1238	{
-  1239		return __do_kmalloc_node(size, flags, NUMA_NO_NODE, _RET_IP_);
-  1240	}
-  1241	EXPORT_SYMBOL(__kmalloc);
-  1242	
-  1243	#define DEFINE_OOT_FUNC___kmalloc(index)				\
-> 1244	void *oot___kmalloc_ ## index(size_t size, gfp_t flags)			\
-  1245	{									\
-  1246		return oot__do_kmalloc_node(index, size, flags, NUMA_NO_NODE, _RET_IP_);  \
-  1247	}									\
-  1248	EXPORT_SYMBOL(oot___kmalloc_ ## index)
-  1249	
+de85488138247d Boris Brezillon 2024-02-29  397  
+de85488138247d Boris Brezillon 2024-02-29  398  	/** @ringbuf: Command stream ring-buffer. */
+de85488138247d Boris Brezillon 2024-02-29  399  	struct panthor_kernel_bo *ringbuf;
+de85488138247d Boris Brezillon 2024-02-29  400  
+de85488138247d Boris Brezillon 2024-02-29  401  	/** @iface: Firmware interface. */
+de85488138247d Boris Brezillon 2024-02-29  402  	struct {
+de85488138247d Boris Brezillon 2024-02-29  403  		/** @mem: FW memory allocated for this interface. */
+de85488138247d Boris Brezillon 2024-02-29  404  		struct panthor_kernel_bo *mem;
+de85488138247d Boris Brezillon 2024-02-29  405  
+de85488138247d Boris Brezillon 2024-02-29  406  		/** @input: Input interface. */
+de85488138247d Boris Brezillon 2024-02-29  407  		struct panthor_fw_ringbuf_input_iface *input;
+de85488138247d Boris Brezillon 2024-02-29  408  
+de85488138247d Boris Brezillon 2024-02-29  409  		/** @output: Output interface. */
+de85488138247d Boris Brezillon 2024-02-29  410  		const struct panthor_fw_ringbuf_output_iface *output;
+de85488138247d Boris Brezillon 2024-02-29  411  
+de85488138247d Boris Brezillon 2024-02-29  412  		/** @input_fw_va: FW virtual address of the input interface buffer. */
+de85488138247d Boris Brezillon 2024-02-29  413  		u32 input_fw_va;
+de85488138247d Boris Brezillon 2024-02-29  414  
+de85488138247d Boris Brezillon 2024-02-29  415  		/** @output_fw_va: FW virtual address of the output interface buffer. */
+de85488138247d Boris Brezillon 2024-02-29  416  		u32 output_fw_va;
+de85488138247d Boris Brezillon 2024-02-29  417  	} iface;
+de85488138247d Boris Brezillon 2024-02-29  418  
+de85488138247d Boris Brezillon 2024-02-29  419  	/**
+de85488138247d Boris Brezillon 2024-02-29  420  	 * @syncwait: Stores information about the synchronization object this
+de85488138247d Boris Brezillon 2024-02-29  421  	 * queue is waiting on.
+de85488138247d Boris Brezillon 2024-02-29  422  	 */
+de85488138247d Boris Brezillon 2024-02-29  423  	struct {
+de85488138247d Boris Brezillon 2024-02-29  424  		/** @gpu_va: GPU address of the synchronization object. */
+de85488138247d Boris Brezillon 2024-02-29  425  		u64 gpu_va;
+de85488138247d Boris Brezillon 2024-02-29  426  
+de85488138247d Boris Brezillon 2024-02-29  427  		/** @ref: Reference value to compare against. */
+de85488138247d Boris Brezillon 2024-02-29  428  		u64 ref;
+de85488138247d Boris Brezillon 2024-02-29  429  
+de85488138247d Boris Brezillon 2024-02-29  430  		/** @gt: True if this is a greater-than test. */
+de85488138247d Boris Brezillon 2024-02-29  431  		bool gt;
+de85488138247d Boris Brezillon 2024-02-29  432  
+de85488138247d Boris Brezillon 2024-02-29  433  		/** @sync64: True if this is a 64-bit sync object. */
+de85488138247d Boris Brezillon 2024-02-29  434  		bool sync64;
+de85488138247d Boris Brezillon 2024-02-29  435  
+de85488138247d Boris Brezillon 2024-02-29  436  		/** @bo: Buffer object holding the synchronization object. */
+de85488138247d Boris Brezillon 2024-02-29  437  		struct drm_gem_object *obj;
+de85488138247d Boris Brezillon 2024-02-29  438  
+de85488138247d Boris Brezillon 2024-02-29  439  		/** @offset: Offset of the synchronization object inside @bo. */
+de85488138247d Boris Brezillon 2024-02-29  440  		u64 offset;
+de85488138247d Boris Brezillon 2024-02-29  441  
+de85488138247d Boris Brezillon 2024-02-29  442  		/**
+de85488138247d Boris Brezillon 2024-02-29  443  		 * @kmap: Kernel mapping of the buffer object holding the
+de85488138247d Boris Brezillon 2024-02-29  444  		 * synchronization object.
+de85488138247d Boris Brezillon 2024-02-29  445  		 */
+de85488138247d Boris Brezillon 2024-02-29  446  		void *kmap;
+de85488138247d Boris Brezillon 2024-02-29  447  	} syncwait;
+de85488138247d Boris Brezillon 2024-02-29  448  
+de85488138247d Boris Brezillon 2024-02-29  449  	/** @fence_ctx: Fence context fields. */
+de85488138247d Boris Brezillon 2024-02-29  450  	struct {
+de85488138247d Boris Brezillon 2024-02-29  451  		/** @lock: Used to protect access to all fences allocated by this context. */
+de85488138247d Boris Brezillon 2024-02-29  452  		spinlock_t lock;
+de85488138247d Boris Brezillon 2024-02-29  453  
+de85488138247d Boris Brezillon 2024-02-29  454  		/**
+de85488138247d Boris Brezillon 2024-02-29  455  		 * @id: Fence context ID.
+de85488138247d Boris Brezillon 2024-02-29  456  		 *
+de85488138247d Boris Brezillon 2024-02-29  457  		 * Allocated with dma_fence_context_alloc().
+de85488138247d Boris Brezillon 2024-02-29  458  		 */
+de85488138247d Boris Brezillon 2024-02-29  459  		u64 id;
+de85488138247d Boris Brezillon 2024-02-29  460  
+de85488138247d Boris Brezillon 2024-02-29  461  		/** @seqno: Sequence number of the last initialized fence. */
+de85488138247d Boris Brezillon 2024-02-29  462  		atomic64_t seqno;
+de85488138247d Boris Brezillon 2024-02-29  463  
+7b6f9ec6ad5112 Boris Brezillon 2024-07-03  464  		/**
+7b6f9ec6ad5112 Boris Brezillon 2024-07-03  465  		 * @last_fence: Fence of the last submitted job.
+7b6f9ec6ad5112 Boris Brezillon 2024-07-03  466  		 *
+7b6f9ec6ad5112 Boris Brezillon 2024-07-03  467  		 * We return this fence when we get an empty command stream.
+7b6f9ec6ad5112 Boris Brezillon 2024-07-03  468  		 * This way, we are guaranteed that all earlier jobs have completed
+7b6f9ec6ad5112 Boris Brezillon 2024-07-03  469  		 * when drm_sched_job::s_fence::finished without having to feed
+7b6f9ec6ad5112 Boris Brezillon 2024-07-03  470  		 * the CS ring buffer with a dummy job that only signals the fence.
+7b6f9ec6ad5112 Boris Brezillon 2024-07-03  471  		 */
+7b6f9ec6ad5112 Boris Brezillon 2024-07-03  472  		struct dma_fence *last_fence;
+7b6f9ec6ad5112 Boris Brezillon 2024-07-03  473  
+de85488138247d Boris Brezillon 2024-02-29  474  		/**
+de85488138247d Boris Brezillon 2024-02-29  475  		 * @in_flight_jobs: List containing all in-flight jobs.
+de85488138247d Boris Brezillon 2024-02-29  476  		 *
+de85488138247d Boris Brezillon 2024-02-29  477  		 * Used to keep track and signal panthor_job::done_fence when the
+de85488138247d Boris Brezillon 2024-02-29  478  		 * synchronization object attached to the queue is signaled.
+de85488138247d Boris Brezillon 2024-02-29  479  		 */
+de85488138247d Boris Brezillon 2024-02-29  480  		struct list_head in_flight_jobs;
+de85488138247d Boris Brezillon 2024-02-29  481  	} fence_ctx;
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  482  
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  483  	/** @profiling: Job profiling data slots and access information. */
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  484  	struct {
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  485  		/** @slots: Kernel BO holding the slots. */
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  486  		struct panthor_kernel_bo *slots;
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  487  
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  488  		/** @slot_count: Number of jobs ringbuffer can hold at once. */
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  489  		u32 slot_count;
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  490  
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  491  		/** @seqno: Index of the next available profiling information slot. */
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  492  		u32 seqno;
+ed0515a9d077a3 Adrián Larumbe  2024-09-24  493  	} profiling;
+de85488138247d Boris Brezillon 2024-02-29 @494  };
+de85488138247d Boris Brezillon 2024-02-29  495  
+
+:::::: The code at line 494 was first introduced by commit
+:::::: de85488138247d034eb3241840424a54d660926b drm/panthor: Add the scheduler logical block
+
+:::::: TO: Boris Brezillon <boris.brezillon@collabora.com>
+:::::: CC: Boris Brezillon <boris.brezillon@collabora.com>
 
 -- 
 0-DAY CI Kernel Test Service
