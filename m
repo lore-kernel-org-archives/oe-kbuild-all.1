@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7121313D891
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 12:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3D61898F8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 12:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765627479; cv=none; b=ffEKPNNUePO5TQFM3SRec2yYmThL4k7RLJzlqv7vNwEltQSlEabcLtQNSWnmQlq+FuVfZhwsQNQ3MDPbmuZbWK+8YmQXUybEvBveNFx3+Im9HfU8/TaJQ7PA8RTNmUO3AtEWvi4IfllmbQL0pM9Kmtz6rNKcNAA/dWF5cLjVIhU=
+	t=1765628134; cv=none; b=oKfbHraqsLdQ1KWbimjjTffUXYd9lV1lMdd6atseBHv+3rIq0jNz1Fu6S2nHyQBTdskwUnogHAIMAUPVKdqqyqmVd3FZsvZI8ZCmzl89T0XrzPHDIczF6daFGCF0nZsS3EcgRLF8oxeGmuJLoQcD7skuaRAhB7OoY0omLrGQv2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765627479; c=relaxed/simple;
-	bh=y4RYOAxhjOvo7YOcxOFqccVRkOKQ+SZFe69qywirA1o=;
+	s=arc-20240116; t=1765628134; c=relaxed/simple;
+	bh=Wc7gZyzvK3Z7AkyFf9THzfXZ14QILR9rWenMfabNeYU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PObxfRmamgDWIQTmSf+71UUCl+IZ4bk6nslDrje64X72z/lkcavARcNAJN0fY/bagD6CFJV3hQvKUeksgz5XRFgR+lJHsGhCt/juEh7ZU7U6Fo8/VHO2CWdA9jr1Jcos1AGCNskRJhetDpUha2OYIr/nPOU6wXjSdz/fsTaGpFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HVnQB0Bd; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=YfktRwSPsCwUDxM20Ai/uVOXRpzAcOUYSnJvXrR7WLpU/ONVNlrsLnFDCwycfIAZHzn3ojFF+jM6kDb/cKw+wUHbtsCBBsH209s6VUxtrKpKKNlhxWAvvvnB9IGi3wz3XY23/ive5I59ZSnSO+IeL3EkpxuFo1heh45QV9LFFbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mKNrRkNT; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HVnQB0Bd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKNrRkNT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765627478; x=1797163478;
+  t=1765628132; x=1797164132;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y4RYOAxhjOvo7YOcxOFqccVRkOKQ+SZFe69qywirA1o=;
-  b=HVnQB0BdnDWmmC/oEi54zeHgkdETgr/noWjWHymRxA+dauhByPe0tKx0
-   qu7AiG11i2GkxeW1HebQcDwq6cNEN7V0DU9GvQq1Lx0EO9bvseVhkfkIg
-   edXeRaZ0Yicaw9JQXXmjpEssk/zHGpyaWaZi1/9kk4vYkBqajoQsRMxLJ
-   Fzui+3ns5nBfE7W2XiJBH7DK75eQCgrZ8dGnQcS+mhoA/G/dWxrEVZcB8
-   /gJD6lWMqrkAVTKhLjD29yVhK96BTwoO5LR/qyzHaVIH8HgO6l2vtBJqQ
-   4Nb/bUthRUdq42NKhwCjEV+VJgX6n2qvRk+ME35kwadZSgifh9HZx326W
+  bh=Wc7gZyzvK3Z7AkyFf9THzfXZ14QILR9rWenMfabNeYU=;
+  b=mKNrRkNTx6PSp8cT6MCbiW+aR2HHwIUvgcBZOOTD+VlJ/gGHpc5UT6kp
+   thudLT7sMbGNE16v8+YX2t2Q2FXjGySF9EN0LcrllGP1PxisGHLPwOnNA
+   YoYQDaA49zVwRyJt3ye1Ke6kQnNgpGJnq7nkxV+CjNosIAbDlRw23OKRJ
+   7Rzsd4oUVsCQxBV5Vj/9sDpJa17xwckatQGZzZ8nN22ZcWdlc11zdS4TI
+   uHFSYxXD7jgnIGOAoXxHPCoKHUs8MT0t9Bt7jU0mavD7xgOzzDKqqok3N
+   AuMUOgdlTQwqV7VzZ1UpeiJaO/AB9Pw05+IhfOL7Ob3oCoprXpReKgk0c
    w==;
-X-CSE-ConnectionGUID: 9YKRmOFoROio04MivQb6pQ==
-X-CSE-MsgGUID: 5HFqbSpDSn6yzIFVPrH/uQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67359795"
+X-CSE-ConnectionGUID: 8BZcH1NcRaOdkwYKGaQ7aA==
+X-CSE-MsgGUID: Q04/boB1RluZQDdbTGf6Qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="78981045"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="67359795"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 04:04:37 -0800
-X-CSE-ConnectionGUID: MRyv76snT1u9SB2MVQ+b+g==
-X-CSE-MsgGUID: e4NtsXlzTd6z09vbQxe53A==
+   d="scan'208";a="78981045"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 04:15:31 -0800
+X-CSE-ConnectionGUID: EcJY4p9XTtKX7/1UAjz8Ag==
+X-CSE-MsgGUID: Q6LGsa53S4m9anKXSSDQUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="198133108"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Dec 2025 04:04:36 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="196381828"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 13 Dec 2025 04:15:30 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUOMT-000000007Zx-2Si8;
-	Sat, 13 Dec 2025 12:04:33 +0000
-Date: Sat, 13 Dec 2025 20:04:04 +0800
+	id 1vUOX2-00000000240-0v2o;
+	Sat, 13 Dec 2025 12:15:28 +0000
+Date: Sat, 13 Dec 2025 13:14:42 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2] include/trace/stages/init.h:2:23:
- warning: 'str__huge_memory__trace_system_name' defined but not used
-Message-ID: <202512132055.6jUhVcIp-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 50/50] mm/vmscan.c:1731:24: warning:
+ variable 'target_lruvec' set but not used
+Message-ID: <202512131319.U2jN9HDt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,246 +62,538 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi yan,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   5580efd2c7e4791254a0c26f9791aaa33dd70484
-commit: 4372d0c12b5c8462e969a5352a4ba2f66a98bcf7 [2/2] ANDROID: vendor_hooks: add hook to modify allowable THP orders
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20251213/202512132055.6jUhVcIp-lkp@intel.com/config)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   7c285f40a964b427534f3dab33b104ee9cab6245
+commit: dbf4f1f9a7683c08399d2b5216418398353ffc79 [50/50] anolis: mm: vmscan: make memcg kswapd set memcg state to dirty or writeback
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251213/202512131319.U2jN9HDt-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512132055.6jUhVcIp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131319.U2jN9HDt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512132055.6jUhVcIp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131319.U2jN9HDt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fault.h:32,
-                    from drivers/android/vendor_hooks.c:56:
-   include/trace/stages/init.h:2:23: warning: 'str__fault__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/traps.h:39,
-                    from drivers/android/vendor_hooks.c:55:
-   include/trace/stages/init.h:2:23: warning: 'str__traps__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ftrace_dump.h:36,
-                    from drivers/android/vendor_hooks.c:54:
-   include/trace/stages/init.h:2:23: warning: 'str__ftrace_dump__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dtask.h:181,
-                    from drivers/android/vendor_hooks.c:53:
-   include/trace/stages/init.h:2:23: warning: 'str__dtask__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fs.h:22,
-                    from drivers/android/vendor_hooks.c:52:
-   include/trace/stages/init.h:2:23: warning: 'str__fs__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/huge_memory.h:22,
-                    from drivers/android/vendor_hooks.c:51:
->> include/trace/stages/init.h:2:23: warning: 'str__huge_memory__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/mm.h:419,
-                    from drivers/android/vendor_hooks.c:50:
-   include/trace/stages/init.h:2:23: warning: 'str__mm__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/preemptirq.h:31,
-                    from drivers/android/vendor_hooks.c:49:
-   include/trace/stages/init.h:2:23: warning: 'str__preemptirq__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fpsimd.h:20,
-                    from drivers/android/vendor_hooks.c:48:
-   include/trace/stages/init.h:2:23: warning: 'str__fpsimd__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/timer.h:18,
-                    from drivers/android/vendor_hooks.c:47:
-   include/trace/stages/init.h:2:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/psci.h:25,
-                    from drivers/android/vendor_hooks.c:46:
-   include/trace/stages/init.h:2:23: warning: 'str__psci__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+   mm/vmscan.c: In function 'shrink_folio_list':
+>> mm/vmscan.c:1731:24: warning: variable 'target_lruvec' set but not used [-Wunused-but-set-variable]
+    1731 |         struct lruvec *target_lruvec;
+         |                        ^~~~~~~~~~~~~
 
 
-vim +/str__huge_memory__trace_system_name +2 include/trace/stages/init.h
+vim +/target_lruvec +1731 mm/vmscan.c
 
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   4) 
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   5) #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   6) 
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   7) #define TRACE_MAKE_SYSTEM_STR()				\
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   8) 	static const char TRACE_SYSTEM_STRING[] =	\
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03   9) 		__stringify(TRACE_SYSTEM)
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  10) 
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03 @11) TRACE_MAKE_SYSTEM_STR();
-af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  12) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+  1716	
+  1717	/*
+  1718	 * shrink_folio_list() returns the number of reclaimed pages
+  1719	 */
+  1720	static unsigned int shrink_folio_list(struct list_head *folio_list,
+  1721			struct pglist_data *pgdat, struct scan_control *sc,
+  1722			struct reclaim_stat *stat, bool ignore_references)
+  1723	{
+  1724		LIST_HEAD(ret_folios);
+  1725		LIST_HEAD(free_folios);
+  1726		LIST_HEAD(demote_folios);
+  1727		unsigned int nr_reclaimed = 0;
+  1728		unsigned int pgactivate = 0;
+  1729		bool do_demote_pass;
+  1730		struct swap_iocb *plug = NULL;
+> 1731		struct lruvec *target_lruvec;
+  1732	
+  1733		target_lruvec = mem_cgroup_lruvec(sc->target_mem_cgroup, pgdat);
+  1734	
+  1735		memset(stat, 0, sizeof(*stat));
+  1736		cond_resched();
+  1737		do_demote_pass = can_demote(pgdat->node_id, sc);
+  1738	
+  1739	retry:
+  1740		while (!list_empty(folio_list)) {
+  1741			struct address_space *mapping;
+  1742			struct folio *folio;
+  1743			enum folio_references references = FOLIOREF_RECLAIM;
+  1744			bool dirty, writeback;
+  1745			unsigned int nr_pages;
+  1746	
+  1747			cond_resched();
+  1748	
+  1749			folio = lru_to_folio(folio_list);
+  1750			list_del(&folio->lru);
+  1751	
+  1752			if (!folio_trylock(folio))
+  1753				goto keep;
+  1754	
+  1755			VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
+  1756	
+  1757			nr_pages = folio_nr_pages(folio);
+  1758	
+  1759			/* Account the number of base pages */
+  1760			sc->nr_scanned += nr_pages;
+  1761	
+  1762			if (unlikely(!folio_evictable(folio)))
+  1763				goto activate_locked;
+  1764	
+  1765			if (!sc->may_unmap && folio_mapped(folio))
+  1766				goto keep_locked;
+  1767	
+  1768			/* folio_update_gen() tried to promote this page? */
+  1769			if (lru_gen_enabled() && !ignore_references &&
+  1770			    folio_mapped(folio) && folio_test_referenced(folio))
+  1771				goto keep_locked;
+  1772	
+  1773			/*
+  1774			 * The number of dirty pages determines if a node is marked
+  1775			 * reclaim_congested. kswapd will stall and start writing
+  1776			 * folios if the tail of the LRU is all dirty unqueued folios.
+  1777			 */
+  1778			folio_check_dirty_writeback(folio, &dirty, &writeback);
+  1779			if (dirty || writeback)
+  1780				stat->nr_dirty += nr_pages;
+  1781	
+  1782			if (dirty && !writeback)
+  1783				stat->nr_unqueued_dirty += nr_pages;
+  1784	
+  1785			/*
+  1786			 * Treat this folio as congested if folios are cycling
+  1787			 * through the LRU so quickly that the folios marked
+  1788			 * for immediate reclaim are making it to the end of
+  1789			 * the LRU a second time.
+  1790			 */
+  1791			if (writeback && folio_test_reclaim(folio))
+  1792				stat->nr_congested += nr_pages;
+  1793	
+  1794			/*
+  1795			 * If a folio at the tail of the LRU is under writeback, there
+  1796			 * are three cases to consider.
+  1797			 *
+  1798			 * 1) If reclaim is encountering an excessive number
+  1799			 *    of folios under writeback and this folio has both
+  1800			 *    the writeback and reclaim flags set, then it
+  1801			 *    indicates that folios are being queued for I/O but
+  1802			 *    are being recycled through the LRU before the I/O
+  1803			 *    can complete. Waiting on the folio itself risks an
+  1804			 *    indefinite stall if it is impossible to writeback
+  1805			 *    the folio due to I/O error or disconnected storage
+  1806			 *    so instead note that the LRU is being scanned too
+  1807			 *    quickly and the caller can stall after the folio
+  1808			 *    list has been processed.
+  1809			 *
+  1810			 * 2) Global or new memcg reclaim encounters a folio that is
+  1811			 *    not marked for immediate reclaim, or the caller does not
+  1812			 *    have __GFP_FS (or __GFP_IO if it's simply going to swap,
+  1813			 *    not to fs). In this case mark the folio for immediate
+  1814			 *    reclaim and continue scanning.
+  1815			 *
+  1816			 *    Require may_enter_fs() because we would wait on fs, which
+  1817			 *    may not have submitted I/O yet. And the loop driver might
+  1818			 *    enter reclaim, and deadlock if it waits on a folio for
+  1819			 *    which it is needed to do the write (loop masks off
+  1820			 *    __GFP_IO|__GFP_FS for this reason); but more thought
+  1821			 *    would probably show more reasons.
+  1822			 *
+  1823			 * 3) Legacy memcg encounters a folio that already has the
+  1824			 *    reclaim flag set. memcg does not have any dirty folio
+  1825			 *    throttling so we could easily OOM just because too many
+  1826			 *    folios are in writeback and there is nothing else to
+  1827			 *    reclaim. Wait for the writeback to complete.
+  1828			 *
+  1829			 * In cases 1) and 2) we activate the folios to get them out of
+  1830			 * the way while we continue scanning for clean folios on the
+  1831			 * inactive list and refilling from the active list. The
+  1832			 * observation here is that waiting for disk writes is more
+  1833			 * expensive than potentially causing reloads down the line.
+  1834			 * Since they're marked for immediate reclaim, they won't put
+  1835			 * memory pressure on the cache working set any longer than it
+  1836			 * takes to write them to disk.
+  1837			 */
+  1838			if (folio_test_writeback(folio)) {
+  1839				/* Case 1 above */
+  1840				if (current_is_kswapd() &&
+  1841				    folio_test_reclaim(folio) &&
+  1842				    test_bit(LRUVEC_WRITEBACK, &pgdat->flags)) {
+  1843					stat->nr_immediate += nr_pages;
+  1844					goto activate_locked;
+  1845	
+  1846				/* Case 2 above */
+  1847				} else if (writeback_throttling_sane(sc) ||
+  1848				    !folio_test_reclaim(folio) ||
+  1849				    !may_enter_fs(folio, sc->gfp_mask)) {
+  1850					/*
+  1851					 * This is slightly racy -
+  1852					 * folio_end_writeback() might have
+  1853					 * just cleared the reclaim flag, then
+  1854					 * setting the reclaim flag here ends up
+  1855					 * interpreted as the readahead flag - but
+  1856					 * that does not matter enough to care.
+  1857					 * What we do want is for this folio to
+  1858					 * have the reclaim flag set next time
+  1859					 * memcg reclaim reaches the tests above,
+  1860					 * so it will then wait for writeback to
+  1861					 * avoid OOM; and it's also appropriate
+  1862					 * in global reclaim.
+  1863					 */
+  1864					folio_set_reclaim(folio);
+  1865					stat->nr_writeback += nr_pages;
+  1866					goto activate_locked;
+  1867	
+  1868				/* Case 3 above */
+  1869				} else {
+  1870					folio_unlock(folio);
+  1871					folio_wait_writeback(folio);
+  1872					/* then go back and try same folio again */
+  1873					list_add_tail(&folio->lru, folio_list);
+  1874					continue;
+  1875				}
+  1876			}
+  1877	
+  1878			if (!ignore_references)
+  1879				references = folio_check_references(folio, sc);
+  1880	
+  1881			switch (references) {
+  1882			case FOLIOREF_ACTIVATE:
+  1883				goto activate_locked;
+  1884			case FOLIOREF_KEEP:
+  1885				stat->nr_ref_keep += nr_pages;
+  1886				goto keep_locked;
+  1887			case FOLIOREF_RECLAIM:
+  1888			case FOLIOREF_RECLAIM_CLEAN:
+  1889				; /* try to reclaim the folio below */
+  1890			}
+  1891	
+  1892			/*
+  1893			 * Before reclaiming the folio, try to relocate
+  1894			 * its contents to another node.
+  1895			 */
+  1896			if (do_demote_pass &&
+  1897			    (thp_migration_supported() || !folio_test_large(folio))) {
+  1898				list_add(&folio->lru, &demote_folios);
+  1899				folio_unlock(folio);
+  1900				continue;
+  1901			}
+  1902	
+  1903			/*
+  1904			 * Anonymous process memory has backing store?
+  1905			 * Try to allocate it some swap space here.
+  1906			 * Lazyfree folio could be freed directly
+  1907			 */
+  1908			if (folio_test_anon(folio) && folio_test_swapbacked(folio)) {
+  1909				if (!folio_test_swapcache(folio)) {
+  1910					if (!(sc->gfp_mask & __GFP_IO))
+  1911						goto keep_locked;
+  1912					if (folio_maybe_dma_pinned(folio))
+  1913						goto keep_locked;
+  1914					if (folio_test_large(folio)) {
+  1915						/* cannot split folio, skip it */
+  1916						if (!can_split_folio(folio, NULL))
+  1917							goto activate_locked;
+  1918						/*
+  1919						 * Split partially mapped folios right away.
+  1920						 * We can free the unmapped pages without IO.
+  1921						 */
+  1922						if (data_race(!list_empty(&folio->_deferred_list)) &&
+  1923						    split_folio_to_list(folio, folio_list))
+  1924							goto activate_locked;
+  1925					}
+  1926					if (!add_to_swap(folio)) {
+  1927						int __maybe_unused order = folio_order(folio);
+  1928	
+  1929						if (!folio_test_large(folio))
+  1930							goto activate_locked_split;
+  1931						/* Fallback to swap normal pages */
+  1932						if (split_folio_to_list(folio, folio_list))
+  1933							goto activate_locked;
+  1934	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+  1935						if (nr_pages >= HPAGE_PMD_NR) {
+  1936							count_memcg_folio_events(folio, THP_SWPOUT_FALLBACK, 1);
+  1937							count_vm_event(THP_SWPOUT_FALLBACK);
+  1938						}
+  1939						count_mthp_stat(order, MTHP_STAT_SWPOUT_FALLBACK);
+  1940	#endif
+  1941						if (!add_to_swap(folio))
+  1942							goto activate_locked_split;
+  1943					}
+  1944				}
+  1945			}
+  1946	
+  1947			/*
+  1948			 * If the folio was split above, the tail pages will make
+  1949			 * their own pass through this function and be accounted
+  1950			 * then.
+  1951			 */
+  1952			if ((nr_pages > 1) && !folio_test_large(folio)) {
+  1953				sc->nr_scanned -= (nr_pages - 1);
+  1954				nr_pages = 1;
+  1955			}
+  1956	
+  1957			/*
+  1958			 * The folio is mapped into the page tables of one or more
+  1959			 * processes. Try to unmap it here.
+  1960			 */
+  1961			if (folio_mapped(folio)) {
+  1962				enum ttu_flags flags = TTU_BATCH_FLUSH;
+  1963				bool was_swapbacked = folio_test_swapbacked(folio);
+  1964	
+  1965				if (folio_test_pmd_mappable(folio))
+  1966					flags |= TTU_SPLIT_HUGE_PMD;
+  1967	
+  1968				try_to_unmap(folio, flags);
+  1969				if (folio_mapped(folio)) {
+  1970					stat->nr_unmap_fail += nr_pages;
+  1971					if (!was_swapbacked &&
+  1972					    folio_test_swapbacked(folio))
+  1973						stat->nr_lazyfree_fail += nr_pages;
+  1974					goto activate_locked;
+  1975				}
+  1976			}
+  1977	
+  1978			/*
+  1979			 * Folio is unmapped now so it cannot be newly pinned anymore.
+  1980			 * No point in trying to reclaim folio if it is pinned.
+  1981			 * Furthermore we don't want to reclaim underlying fs metadata
+  1982			 * if the folio is pinned and thus potentially modified by the
+  1983			 * pinning process as that may upset the filesystem.
+  1984			 */
+  1985			if (folio_maybe_dma_pinned(folio))
+  1986				goto activate_locked;
+  1987	
+  1988			mapping = folio_mapping(folio);
+  1989			if (folio_test_dirty(folio)) {
+  1990				/*
+  1991				 * Only kswapd can writeback filesystem folios
+  1992				 * to avoid risk of stack overflow. But avoid
+  1993				 * injecting inefficient single-folio I/O into
+  1994				 * flusher writeback as much as possible: only
+  1995				 * write folios when we've encountered many
+  1996				 * dirty folios, and when we've already scanned
+  1997				 * the rest of the LRU for clean folios and see
+  1998				 * the same dirty folios again (with the reclaim
+  1999				 * flag set).
+  2000				 */
+  2001				if (folio_is_file_lru(folio) &&
+  2002				    (!current_is_kswapd() ||
+  2003				     !folio_test_reclaim(folio) ||
+  2004				     !test_bit(LRUVEC_DIRTY, &pgdat->flags))) {
+  2005					/*
+  2006					 * Immediately reclaim when written back.
+  2007					 * Similar in principle to folio_deactivate()
+  2008					 * except we already have the folio isolated
+  2009					 * and know it's dirty
+  2010					 */
+  2011					node_stat_mod_folio(folio, NR_VMSCAN_IMMEDIATE,
+  2012							nr_pages);
+  2013					folio_set_reclaim(folio);
+  2014	
+  2015					goto activate_locked;
+  2016				}
+  2017	
+  2018				if (references == FOLIOREF_RECLAIM_CLEAN)
+  2019					goto keep_locked;
+  2020				if (!may_enter_fs(folio, sc->gfp_mask))
+  2021					goto keep_locked;
+  2022				if (!sc->may_writepage)
+  2023					goto keep_locked;
+  2024	
+  2025				/*
+  2026				 * Folio is dirty. Flush the TLB if a writable entry
+  2027				 * potentially exists to avoid CPU writes after I/O
+  2028				 * starts and then write it out here.
+  2029				 */
+  2030				try_to_unmap_flush_dirty();
+  2031				switch (pageout(folio, mapping, &plug, folio_list)) {
+  2032				case PAGE_KEEP:
+  2033					goto keep_locked;
+  2034				case PAGE_ACTIVATE:
+  2035					/*
+  2036					 * If shmem folio is split when writeback to swap,
+  2037					 * the tail pages will make their own pass through
+  2038					 * this function and be accounted then.
+  2039					 */
+  2040					if (nr_pages > 1 && !folio_test_large(folio)) {
+  2041						sc->nr_scanned -= (nr_pages - 1);
+  2042						nr_pages = 1;
+  2043					}
+  2044					goto activate_locked;
+  2045				case PAGE_SUCCESS:
+  2046					if (nr_pages > 1 && !folio_test_large(folio)) {
+  2047						sc->nr_scanned -= (nr_pages - 1);
+  2048						nr_pages = 1;
+  2049					}
+  2050					stat->nr_pageout += nr_pages;
+  2051	
+  2052					if (folio_test_writeback(folio))
+  2053						goto keep;
+  2054					if (folio_test_dirty(folio))
+  2055						goto keep;
+  2056	
+  2057					/*
+  2058					 * A synchronous write - probably a ramdisk.  Go
+  2059					 * ahead and try to reclaim the folio.
+  2060					 */
+  2061					if (!folio_trylock(folio))
+  2062						goto keep;
+  2063					if (folio_test_dirty(folio) ||
+  2064					    folio_test_writeback(folio))
+  2065						goto keep_locked;
+  2066					mapping = folio_mapping(folio);
+  2067					fallthrough;
+  2068				case PAGE_CLEAN:
+  2069					; /* try to free the folio below */
+  2070				}
+  2071			}
+  2072	
+  2073			/*
+  2074			 * If the folio has buffers, try to free the buffer
+  2075			 * mappings associated with this folio. If we succeed
+  2076			 * we try to free the folio as well.
+  2077			 *
+  2078			 * We do this even if the folio is dirty.
+  2079			 * filemap_release_folio() does not perform I/O, but it
+  2080			 * is possible for a folio to have the dirty flag set,
+  2081			 * but it is actually clean (all its buffers are clean).
+  2082			 * This happens if the buffers were written out directly,
+  2083			 * with submit_bh(). ext3 will do this, as well as
+  2084			 * the blockdev mapping.  filemap_release_folio() will
+  2085			 * discover that cleanness and will drop the buffers
+  2086			 * and mark the folio clean - it can be freed.
+  2087			 *
+  2088			 * Rarely, folios can have buffers and no ->mapping.
+  2089			 * These are the folios which were not successfully
+  2090			 * invalidated in truncate_cleanup_folio().  We try to
+  2091			 * drop those buffers here and if that worked, and the
+  2092			 * folio is no longer mapped into process address space
+  2093			 * (refcount == 1) it can be freed.  Otherwise, leave
+  2094			 * the folio on the LRU so it is swappable.
+  2095			 */
+  2096			if (folio_needs_release(folio)) {
+  2097				if (!filemap_release_folio(folio, sc->gfp_mask))
+  2098					goto activate_locked;
+  2099				if (!mapping && folio_ref_count(folio) == 1) {
+  2100					folio_unlock(folio);
+  2101					if (folio_put_testzero(folio))
+  2102						goto free_it;
+  2103					else {
+  2104						/*
+  2105						 * rare race with speculative reference.
+  2106						 * the speculative reference will free
+  2107						 * this folio shortly, so we may
+  2108						 * increment nr_reclaimed here (and
+  2109						 * leave it off the LRU).
+  2110						 */
+  2111						nr_reclaimed += nr_pages;
+  2112						continue;
+  2113					}
+  2114				}
+  2115			}
+  2116	
+  2117			if (folio_test_anon(folio) && !folio_test_swapbacked(folio)) {
+  2118				/* follow __remove_mapping for reference */
+  2119				if (!folio_ref_freeze(folio, 1))
+  2120					goto keep_locked;
+  2121				/*
+  2122				 * The folio has only one reference left, which is
+  2123				 * from the isolation. After the caller puts the
+  2124				 * folio back on the lru and drops the reference, the
+  2125				 * folio will be freed anyway. It doesn't matter
+  2126				 * which lru it goes on. So we don't bother checking
+  2127				 * the dirty flag here.
+  2128				 */
+  2129				count_vm_events(PGLAZYFREED, nr_pages);
+  2130				count_memcg_folio_events(folio, PGLAZYFREED, nr_pages);
+  2131			} else if (!mapping || !__remove_mapping(mapping, folio, true,
+  2132								 sc->target_mem_cgroup))
+  2133				goto keep_locked;
+  2134	
+  2135			folio_unlock(folio);
+  2136	free_it:
+  2137			/*
+  2138			 * Folio may get swapped out as a whole, need to account
+  2139			 * all pages in it.
+  2140			 */
+  2141			nr_reclaimed += nr_pages;
+  2142	
+  2143			/*
+  2144			 * Is there need to periodically free_folio_list? It would
+  2145			 * appear not as the counts should be low
+  2146			 */
+  2147			if (unlikely(folio_test_large(folio)))
+  2148				destroy_large_folio(folio);
+  2149			else
+  2150				list_add(&folio->lru, &free_folios);
+  2151			continue;
+  2152	
+  2153	activate_locked_split:
+  2154			/*
+  2155			 * The tail pages that are failed to add into swap cache
+  2156			 * reach here.  Fixup nr_scanned and nr_pages.
+  2157			 */
+  2158			if (nr_pages > 1) {
+  2159				sc->nr_scanned -= (nr_pages - 1);
+  2160				nr_pages = 1;
+  2161			}
+  2162	activate_locked:
+  2163			/* Not a candidate for swapping, so reclaim swap space. */
+  2164			if (folio_test_swapcache(folio) &&
+  2165			    (mem_cgroup_swap_full(folio) || folio_test_mlocked(folio)))
+  2166				folio_free_swap(folio);
+  2167			VM_BUG_ON_FOLIO(folio_test_active(folio), folio);
+  2168			if (!folio_test_mlocked(folio)) {
+  2169				int type = folio_is_file_lru(folio);
+  2170				folio_set_active(folio);
+  2171				stat->nr_activate[type] += nr_pages;
+  2172				count_memcg_folio_events(folio, PGACTIVATE, nr_pages);
+  2173			}
+  2174	keep_locked:
+  2175			folio_unlock(folio);
+  2176	keep:
+  2177			list_add(&folio->lru, &ret_folios);
+  2178			VM_BUG_ON_FOLIO(folio_test_lru(folio) ||
+  2179					folio_test_unevictable(folio), folio);
+  2180		}
+  2181		/* 'folio_list' is always empty here */
+  2182	
+  2183		/* Migrate folios selected for demotion */
+  2184		nr_reclaimed += demote_folio_list(&demote_folios, pgdat);
+  2185		/* Folios that could not be demoted are still in @demote_folios */
+  2186		if (!list_empty(&demote_folios)) {
+  2187			/* Folios which weren't demoted go back on @folio_list */
+  2188			list_splice_init(&demote_folios, folio_list);
+  2189	
+  2190			/*
+  2191			 * goto retry to reclaim the undemoted folios in folio_list if
+  2192			 * desired.
+  2193			 *
+  2194			 * Reclaiming directly from top tier nodes is not often desired
+  2195			 * due to it breaking the LRU ordering: in general memory
+  2196			 * should be reclaimed from lower tier nodes and demoted from
+  2197			 * top tier nodes.
+  2198			 *
+  2199			 * However, disabling reclaim from top tier nodes entirely
+  2200			 * would cause ooms in edge scenarios where lower tier memory
+  2201			 * is unreclaimable for whatever reason, eg memory being
+  2202			 * mlocked or too hot to reclaim. We can disable reclaim
+  2203			 * from top tier nodes in proactive reclaim though as that is
+  2204			 * not real memory pressure.
+  2205			 */
+  2206			if (!sc->proactive) {
+  2207				do_demote_pass = false;
+  2208				goto retry;
+  2209			}
+  2210		}
+  2211	
+  2212		pgactivate = stat->nr_activate[0] + stat->nr_activate[1];
+  2213	
+  2214		mem_cgroup_uncharge_list(&free_folios);
+  2215		try_to_unmap_flush();
+  2216		free_unref_page_list(&free_folios);
+  2217	
+  2218		list_splice(&ret_folios, folio_list);
+  2219		count_vm_events(PGACTIVATE, pgactivate);
+  2220	
+  2221		if (plug)
+  2222			swap_write_unplug(plug);
+  2223		return nr_reclaimed;
+  2224	}
+  2225	
 
 -- 
 0-DAY CI Kernel Test Service
