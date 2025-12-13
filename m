@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5085227E95
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 19:53:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A3E2FB093
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 19:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765655600; cv=none; b=jWayS1t5SylSREm9KD+qCjFaPDue28dH3dy7vtejYBitJfb9Xa13MMxXA0uvSl4gvQ3xxRx555V2YQwDafuf38CJvUvxaOLawtZBLJaKv8IHnVH+oYVzri7FLXIyr4EJU3emaquhC+6V7eRoKsfCZXlnzfDK/z3E6LOy0UbF6T4=
+	t=1765655601; cv=none; b=YMFCO5I+8CVvX2G0MKMW7ou0IFOpZeaadqWEYJ7GTXGtEa0phGvhU25cdQtPZhsvVIiqwc7CQUm86nmVTVLPKsgkf+Pcx/oZfwz1VKzfvCQb5Z2lEsv5MoT0spKBoWp0aBtozAgO++OQz+EJ50HVQEh5td+CSJWIYnQ65jARvtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765655600; c=relaxed/simple;
-	bh=Xen3QA6Jd6Zl6Pj/xcolCeh1UDGwJ4KcZgiGXw/YFgU=;
+	s=arc-20240116; t=1765655601; c=relaxed/simple;
+	bh=QNlZixQqBbuurPXbid54SXjkxf6bQrgaEmJRM1c4CQY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YCMxg224naeX6W/5PmaoePKUf9tj6LbIcHkb/ViUuL3IEdC90uAAMdvHni0LjunS0m4ckIZQbQXg2ZCYG56oiKy0duyFtr885GSLmDLz+puDKOFOZ9oRiUDsyRy7vTxSZ+xzCG05BLUNmdeHUBuO/huj1XCpdTM8oOmRBonGcQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ckSjBo+/; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=RuWbtLXmHoIWsr//iKsbK8e6FZZneZv/bMs5ev5puvFejat+JkER8UGGEGyaN647KpwWdyFBBh9z+QjxvAMEvBaNZTBTdF6SGElMKySzGx0VG4KRdqVENXk4BTeKoddByz4W+9BVkUdlnuUSB0JkS9F4rLgScS/wcFoRnp2e8qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EIowHUJi; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ckSjBo+/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EIowHUJi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765655598; x=1797191598;
+  t=1765655600; x=1797191600;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Xen3QA6Jd6Zl6Pj/xcolCeh1UDGwJ4KcZgiGXw/YFgU=;
-  b=ckSjBo+/yDAg/3GnkeSYOvp/bf82N/px2yR77XV5aKOY2RE8DnWeHCDE
-   7Jvmlu67v0XK56cql136FFIp2I5jPTPk8UN+J//+RiqDoEowvihFb3oGA
-   LKdfdQoj0U2yXLJNWC1JSxb3Zm4O9aU9uraQXLIdDOzqewQHLapWsS4xh
-   ooszL/cnKBXgSt0uCPyHWmwQs9zbfDYpXYrhV1ymxUUc8Fdd7LkbNNRR6
-   KZUfjLfuB7eq7ab81X12+HAJlrmEW0HoH0/Tvw+e6vBr8IqmSI8ddNEqs
-   j3XT9QEczYS6yPwtEDIx6LecoLZyoPzV7jOPghtHlEEEGggXLL3Rf4FqZ
-   g==;
-X-CSE-ConnectionGUID: FQtEbgDsRG+oa0LKLam+gw==
-X-CSE-MsgGUID: XdgQlj8iTQy+LeHTbbjmWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67502944"
+  bh=QNlZixQqBbuurPXbid54SXjkxf6bQrgaEmJRM1c4CQY=;
+  b=EIowHUJikDZIwB+Q7RZl4VM5kCqAZSG9CeZubJfsFx0/gz4ggq5JgfA9
+   Z+J3+gIy8ZBaC9TgqNouxKdETPPNtBgcoWBkircMfNo/0DkdE1tbouC0C
+   VFSV07I0QCQboqZJ6+FGO6gUyo1euP3aIPwzAGB4ZtCSF6ZLR03hpxhDV
+   z3N3cMeOW3AbIFPp/tUCMFZfCHu22rmDMGE0F1Uiy+O8qml1k+ZDvUA/E
+   y4iM/gPLZS0lNzGrM9taoJlrs5F23Sih8uBF/WrJy4R6/KagzkQuOEOVr
+   A7MSa/dGOel9LH9h0Rlkv7Gd32PiisaVx7BkF4cO2QrGr+87xgpC4mGC+
+   Q==;
+X-CSE-ConnectionGUID: fqsOPPm3QPGhY4jRlrYycg==
+X-CSE-MsgGUID: 4MYs8FpoQESo9Zl19Uuoww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="79076637"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="67502944"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 11:53:17 -0800
-X-CSE-ConnectionGUID: hXH+Bzn8Qj6Qb2ut51p63g==
-X-CSE-MsgGUID: 838Ya1UFRaSyneQF7MnrtQ==
+   d="scan'208";a="79076637"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 11:53:17 -0800
+X-CSE-ConnectionGUID: nVOJj44nQ4mNOEFqjsozag==
+X-CSE-MsgGUID: E9PJ3RJvQ8q2o/VCIKWkiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="234756931"
+   d="scan'208";a="196979703"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Dec 2025 11:53:16 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 13 Dec 2025 11:53:15 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUVg1-0000000088V-1uxY;
+	id 1vUVg1-0000000088P-1kNS;
 	Sat, 13 Dec 2025 19:53:13 +0000
-Date: Sun, 14 Dec 2025 03:52:40 +0800
+Date: Sun, 14 Dec 2025 03:52:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: security/landlock/fs.c:1339:18: sparse: sparse: Initializer entry
- defined twice
-Message-ID: <202512140315.QRNaYare-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1942/1942] drivers/base/node.c:480:
+ warning: Function parameter or member 'cpu_nid' not described in
+ 'register_memory_node_under_compute_node'
+Message-ID: <202512140305.nS3EGEEx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,42 +63,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a298a43f5e339f48d2dda0665c02b88ee9a4e03
-commit: c56f649646ecec3dd1a2e400e6e5ec83439d940f landlock: Log mount-related denials
-date:   9 months ago
-config: arm64-randconfig-r112-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140315.QRNaYare-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140315.QRNaYare-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5a399b91821faeec2466751db2d714b24f8eb17c
+commit: 9e8e325cfd089c66c9a2f570f99021a62bf0ae09 [1942/1942] node: Link memory nodes to their compute nodes
+config: arm64-randconfig-002-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140305.nS3EGEEx-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140305.nS3EGEEx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140315.QRNaYare-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140305.nS3EGEEx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> security/landlock/fs.c:1339:18: sparse: sparse: Initializer entry defined twice
-   security/landlock/fs.c:1340:26: sparse:   also defined here
-   security/landlock/fs.c:1353:18: sparse: sparse: Initializer entry defined twice
-   security/landlock/fs.c:1354:26: sparse:   also defined here
+All warnings (new ones prefixed by >>):
 
-vim +1339 security/landlock/fs.c
+   drivers/base/node.c:568:5: warning: no previous prototype for 'register_mem_block_under_node_early' [-Wmissing-prototypes]
+     568 | int register_mem_block_under_node_early(struct memory_block *mem_blk, void *arg)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/node.c:480: warning: Function parameter or member 'mem_nid' not described in 'register_memory_node_under_compute_node'
+>> drivers/base/node.c:480: warning: Function parameter or member 'cpu_nid' not described in 'register_memory_node_under_compute_node'
+>> drivers/base/node.c:480: warning: Excess function parameter 'mem_node' description in 'register_memory_node_under_compute_node'
+>> drivers/base/node.c:480: warning: Excess function parameter 'cpu_node' description in 'register_memory_node_under_compute_node'
 
-  1333	
-  1334	static void
-  1335	log_fs_change_topology_path(const struct landlock_cred_security *const subject,
-  1336				    size_t handle_layer, const struct path *const path)
-  1337	{
-  1338		landlock_log_denial(subject, &(struct landlock_request) {
-> 1339			.type = LANDLOCK_REQUEST_FS_CHANGE_TOPOLOGY,
-  1340			.audit = {
-  1341				.type = LSM_AUDIT_DATA_PATH,
-  1342				.u.path = *path,
-  1343			},
-  1344			.layer_plus_one = handle_layer + 1,
-  1345		});
-  1346	}
-  1347	
+
+vim +480 drivers/base/node.c
+
+   463	
+   464	/**
+   465	 * register_memory_node_under_compute_node - link memory node to its compute
+   466	 *					     node for a given access class.
+   467	 * @mem_node:	Memory node number
+   468	 * @cpu_node:	Cpu  node number
+   469	 * @access:	Access class to register
+   470	 *
+   471	 * Description:
+   472	 * 	For use with platforms that may have separate memory and compute nodes.
+   473	 * 	This function will export node relationships linking which memory
+   474	 * 	initiator nodes can access memory targets at a given ranked access
+   475	 * 	class.
+   476	 */
+   477	int register_memory_node_under_compute_node(unsigned int mem_nid,
+   478						    unsigned int cpu_nid,
+   479						    unsigned access)
+ > 480	{
+   481		struct node *init_node, *targ_node;
+   482		struct node_access_nodes *initiator, *target;
+   483		int ret;
+   484	
+   485		if (!node_online(cpu_nid) || !node_online(mem_nid))
+   486			return -ENODEV;
+   487	
+   488		init_node = node_devices[cpu_nid];
+   489		targ_node = node_devices[mem_nid];
+   490		initiator = node_init_node_access(init_node, access);
+   491		target = node_init_node_access(targ_node, access);
+   492		if (!initiator || !target)
+   493			return -ENOMEM;
+   494	
+   495		ret = sysfs_add_link_to_group(&initiator->dev.kobj, "targets",
+   496					      &targ_node->dev.kobj,
+   497					      dev_name(&targ_node->dev));
+   498		if (ret)
+   499			return ret;
+   500	
+   501		ret = sysfs_add_link_to_group(&target->dev.kobj, "initiators",
+   502					      &init_node->dev.kobj,
+   503					      dev_name(&init_node->dev));
+   504		if (ret)
+   505			goto err;
+   506	
+   507		return 0;
+   508	 err:
+   509		sysfs_remove_link_from_group(&initiator->dev.kobj, "targets",
+   510					     dev_name(&targ_node->dev));
+   511		return ret;
+   512	}
+   513	
 
 -- 
 0-DAY CI Kernel Test Service
