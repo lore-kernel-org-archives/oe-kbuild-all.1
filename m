@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2D01F3B87;
-	Sat, 13 Dec 2025 05:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DAE2EEAB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 05:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765603569; cv=none; b=aFoJRHA3No4pd+SWjoSg1g169s6UL3vZ2vVf3EFmkvKGwfVfOlk/zZOWRu9Rym1TK43YFfUXa7M5kUNKztr9UVqTufheqTBZH3PKdnGMIz0Du2+rRj1IsGSVz3nwmdlQs+YRIjOjKVr7Mth87cHkw7knmpEAiSV0iZXxHbwh2IQ=
+	t=1765604225; cv=none; b=uJ/YRSuoqnVEtVsKa3Dh15KqCAr7zOsT8ODKmKyWdOrRVlz5HHnPJWQXK3rAXO61STbdFnuB760Au1I8qpjAx/lUZae/eHsexPAl2y2Qn3UYxriDqt+TMv5ADqmrkASlXelk+u8eeJwEMTpuDCCDr3/Sslh6i206VQx1FqH6qFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765603569; c=relaxed/simple;
-	bh=Y6/RfiwTSnML8+wiXl5Xto4ymu4lEZrcJGodV+XYja0=;
+	s=arc-20240116; t=1765604225; c=relaxed/simple;
+	bh=qFI65CIoI1MWdfQoqnZ9zI3uv/MLS6Bed7zfn+jW6zE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u0t4q8e6khr+7mgP84azRs20FEbZVF1zWW5xuoHO50/BTWjS/d9eliBEXsmX2+VkHmMvTarIXgke+V84SUaZxKsInH57aR31++ryq75Nic5JBFvPQEViOBR/Ho2KC0xh4SGPYd95seL00Cjs8XzelIDIecFzbGoWpestq7yJjRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C8Hb9LeA; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=TwFVegmtRjJw3B7yM4wBr5khBrmXzpDOBs4rUwiBrhNiZW2YSQp/knOiSqpiurn3RnT8k/N7o8utW1PW8gkAAOH6pqgge+aVkHtqffAOX2l/ifua/i9McTm9xTN0KtLT+g/lfSS/92YPcfVIJJsCSafIUDxBRaqhJfiqf6Jk7wU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BWIteZ1X; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C8Hb9LeA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BWIteZ1X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765603568; x=1797139568;
+  t=1765604225; x=1797140225;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y6/RfiwTSnML8+wiXl5Xto4ymu4lEZrcJGodV+XYja0=;
-  b=C8Hb9LeABfyfuJMnrDTB0SmwUdfaRz6nZp73n6Ab2llzBinVEk0duZP9
-   TPPQMU8FA+bnUVUeR4BFymEavh7qnW+KP9o5vKM6/sKNpoXRdTHBjN/BY
-   5Cc7ga3YzyKXfzcueCRQTOYNAT8jm1fQ1eU2HLzKIt6AUOwb+UAr+yA66
-   /7Q+dndpUM/VaUnp87EBIVMOw9WLE/6ibV9wjHrqJOYjEz8JxmHxPk7CX
-   jwecr0E4DB86NMTBIy296cJ64DtADJLw2G8Bethtm0WiR2ucNHvWlDqYB
-   B4/Xuq+0+d2I1nkgsrt+omn75sLOGRjULnKB/oREoWL2vzdtmbmj9u6IK
+  bh=qFI65CIoI1MWdfQoqnZ9zI3uv/MLS6Bed7zfn+jW6zE=;
+  b=BWIteZ1XKUWjdbx7SxpeEr1wmTg4BwvKGdQQVJnPSTEu3tBAj/GWxx7o
+   wVTb0H8EwGxGLVEMeyWQz0otzNHp85l61pHL/QhK0H0rjbbErMhWQdlF+
+   H8y0jXvRBEpqEzJ84P2EEDi40YsSOnA0H/MLLLwqJc8Uo184NWIhn0nrJ
+   ZvbLskS/2Bgk7AWA07BmDQ5g2VltuaCPBqwsIykOUMmLN4gmJ1RmuGfSC
+   MnHtfXff/ezU9ZzhCs5LHG98sHWKNxtDLX4yYSQ6sw0qfVveAJHY1dJ7N
+   TnrO6M2+jYcPF60qfAD1ipfwN6HKsCTKwdFMEAMuy1OvYuJ6hd0cZZs2R
    w==;
-X-CSE-ConnectionGUID: glmNv/mLSyW6MOrNIaeHlw==
-X-CSE-MsgGUID: t+8UZLtLTrm9mfroJX2cRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67478171"
+X-CSE-ConnectionGUID: fni2H4BPRsyaabjf7KNCvg==
+X-CSE-MsgGUID: C9SF17jeTZKqAswWVWeaKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="85009116"
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="67478171"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 21:26:03 -0800
-X-CSE-ConnectionGUID: qJRCOSQeRtqkJ8KRkQbvJw==
-X-CSE-MsgGUID: KD2Bzn0hTbOKDfPxygplaA==
+   d="scan'208";a="85009116"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 21:37:04 -0800
+X-CSE-ConnectionGUID: 2g2/lya+TFaf6G8YMzXC1w==
+X-CSE-MsgGUID: 7gLtkOW/Rhy1+AXDqRtW6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="198085646"
+   d="scan'208";a="201677486"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Dec 2025 21:26:02 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 12 Dec 2025 21:37:02 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUI8l-0000000076Y-44cT;
-	Sat, 13 Dec 2025 05:25:59 +0000
-Date: Sat, 13 Dec 2025 13:25:32 +0800
+	id 1vUIJQ-0000000077B-2XLJ;
+	Sat, 13 Dec 2025 05:37:00 +0000
+Date: Sat, 13 Dec 2025 13:36:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: drivers/gpu/drm/omapdrm/dss/dispc.c:527:32: warning: stack frame
- size (2688) exceeds limit (2048) in 'dispc_restore_context'
-Message-ID: <202512131329.SjvhP0i3-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2] drivers/mmc/host/atmel-mci.c:238:
+ warning: Function parameter or member 'dma_filter' not described in
+ 'mci_platform_data'
+Message-ID: <202512131314.b7cxnfFt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,156 +63,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
+Hi Balamanikandan,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   187d0801404f415f22c0b31531982c7ea97fa341
-commit: 660942f2441df622d527f216009f332151843ce8 drm: omapdrm: reduce clang stack usage
-date:   6 months ago
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20251213/202512131329.SjvhP0i3-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131329.SjvhP0i3-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5580efd2c7e4791254a0c26f9791aaa33dd70484
+commit: d2c6d518c21d73d96616e08a19eccd4642f4bafa [2/2] mmc: atmel-mci: move atmel MCI header file
+config: arm-randconfig-002-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131314.b7cxnfFt-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131314.b7cxnfFt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131329.SjvhP0i3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131314.b7cxnfFt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/omapdrm/dss/dispc.c:4720:27: warning: stack frame size (2672) exceeds limit (2048) in 'dispc_runtime_suspend' [-Wframe-larger-than]
-    4720 | static __maybe_unused int dispc_runtime_suspend(struct device *dev)
-         |                           ^
->> drivers/gpu/drm/omapdrm/dss/dispc.c:527:32: warning: stack frame size (2688) exceeds limit (2048) in 'dispc_restore_context' [-Wframe-larger-than]
-     527 | static noinline_for_stack void dispc_restore_context(struct dispc_device *dispc)
-         |                                ^
-   2 warnings generated.
+>> drivers/mmc/host/atmel-mci.c:238: warning: Function parameter or member 'dma_filter' not described in 'mci_platform_data'
 
 
-vim +/dispc_restore_context +527 drivers/gpu/drm/omapdrm/dss/dispc.c
+vim +238 drivers/mmc/host/atmel-mci.c
 
-   526	
- > 527	static noinline_for_stack void dispc_restore_context(struct dispc_device *dispc)
-   528	{
-   529		int i, j;
-   530	
-   531		DSSDBG("dispc_restore_context\n");
-   532	
-   533		if (!dispc->ctx_valid)
-   534			return;
-   535	
-   536		/*RR(dispc, IRQENABLE);*/
-   537		/*RR(dispc, CONTROL);*/
-   538		RR(dispc, CONFIG);
-   539		RR(dispc, LINE_NUMBER);
-   540		if (dispc_has_feature(dispc, FEAT_ALPHA_FIXED_ZORDER) ||
-   541				dispc_has_feature(dispc, FEAT_ALPHA_FREE_ZORDER))
-   542			RR(dispc, GLOBAL_ALPHA);
-   543		if (dispc_has_feature(dispc, FEAT_MGR_LCD2))
-   544			RR(dispc, CONFIG2);
-   545		if (dispc_has_feature(dispc, FEAT_MGR_LCD3))
-   546			RR(dispc, CONFIG3);
-   547	
-   548		for (i = 0; i < dispc_get_num_mgrs(dispc); i++) {
-   549			RR(dispc, DEFAULT_COLOR(i));
-   550			RR(dispc, TRANS_COLOR(i));
-   551			RR(dispc, SIZE_MGR(i));
-   552			if (i == OMAP_DSS_CHANNEL_DIGIT)
-   553				continue;
-   554			RR(dispc, TIMING_H(i));
-   555			RR(dispc, TIMING_V(i));
-   556			RR(dispc, POL_FREQ(i));
-   557			RR(dispc, DIVISORo(i));
-   558	
-   559			RR(dispc, DATA_CYCLE1(i));
-   560			RR(dispc, DATA_CYCLE2(i));
-   561			RR(dispc, DATA_CYCLE3(i));
-   562	
-   563			if (dispc_has_feature(dispc, FEAT_CPR)) {
-   564				RR(dispc, CPR_COEF_R(i));
-   565				RR(dispc, CPR_COEF_G(i));
-   566				RR(dispc, CPR_COEF_B(i));
-   567			}
-   568		}
-   569	
-   570		for (i = 0; i < dispc_get_num_ovls(dispc); i++) {
-   571			RR(dispc, OVL_BA0(i));
-   572			RR(dispc, OVL_BA1(i));
-   573			RR(dispc, OVL_POSITION(i));
-   574			RR(dispc, OVL_SIZE(i));
-   575			RR(dispc, OVL_ATTRIBUTES(i));
-   576			RR(dispc, OVL_FIFO_THRESHOLD(i));
-   577			RR(dispc, OVL_ROW_INC(i));
-   578			RR(dispc, OVL_PIXEL_INC(i));
-   579			if (dispc_has_feature(dispc, FEAT_PRELOAD))
-   580				RR(dispc, OVL_PRELOAD(i));
-   581			if (i == OMAP_DSS_GFX) {
-   582				RR(dispc, OVL_WINDOW_SKIP(i));
-   583				RR(dispc, OVL_TABLE_BA(i));
-   584				continue;
-   585			}
-   586			RR(dispc, OVL_FIR(i));
-   587			RR(dispc, OVL_PICTURE_SIZE(i));
-   588			RR(dispc, OVL_ACCU0(i));
-   589			RR(dispc, OVL_ACCU1(i));
-   590	
-   591			for (j = 0; j < 8; j++)
-   592				RR(dispc, OVL_FIR_COEF_H(i, j));
-   593	
-   594			for (j = 0; j < 8; j++)
-   595				RR(dispc, OVL_FIR_COEF_HV(i, j));
-   596	
-   597			for (j = 0; j < 5; j++)
-   598				RR(dispc, OVL_CONV_COEF(i, j));
-   599	
-   600			if (dispc_has_feature(dispc, FEAT_FIR_COEF_V)) {
-   601				for (j = 0; j < 8; j++)
-   602					RR(dispc, OVL_FIR_COEF_V(i, j));
-   603			}
-   604	
-   605			if (dispc_has_feature(dispc, FEAT_HANDLE_UV_SEPARATE)) {
-   606				RR(dispc, OVL_BA0_UV(i));
-   607				RR(dispc, OVL_BA1_UV(i));
-   608				RR(dispc, OVL_FIR2(i));
-   609				RR(dispc, OVL_ACCU2_0(i));
-   610				RR(dispc, OVL_ACCU2_1(i));
-   611	
-   612				for (j = 0; j < 8; j++)
-   613					RR(dispc, OVL_FIR_COEF_H2(i, j));
-   614	
-   615				for (j = 0; j < 8; j++)
-   616					RR(dispc, OVL_FIR_COEF_HV2(i, j));
-   617	
-   618				for (j = 0; j < 8; j++)
-   619					RR(dispc, OVL_FIR_COEF_V2(i, j));
-   620			}
-   621			if (dispc_has_feature(dispc, FEAT_ATTR2))
-   622				RR(dispc, OVL_ATTRIBUTES2(i));
-   623		}
-   624	
-   625		if (dispc_has_feature(dispc, FEAT_CORE_CLK_DIV))
-   626			RR(dispc, DIVISOR);
-   627	
-   628		/* enable last, because LCD & DIGIT enable are here */
-   629		RR(dispc, CONTROL);
-   630		if (dispc_has_feature(dispc, FEAT_MGR_LCD2))
-   631			RR(dispc, CONTROL2);
-   632		if (dispc_has_feature(dispc, FEAT_MGR_LCD3))
-   633			RR(dispc, CONTROL3);
-   634		/* clear spurious SYNC_LOST_DIGIT interrupts */
-   635		dispc_clear_irqstatus(dispc, DISPC_IRQ_SYNC_LOST_DIGIT);
-   636	
-   637		/*
-   638		 * enable last so IRQs won't trigger before
-   639		 * the context is fully restored
-   640		 */
-   641		RR(dispc, IRQENABLE);
-   642	
-   643		DSSDBG("context restored\n");
-   644	}
-   645	
+   228	
+   229	/**
+   230	 * struct mci_platform_data - board-specific MMC/SDcard configuration
+   231	 * @dma_slave: DMA slave interface to use in data transfers.
+   232	 * @slot: Per-slot configuration data.
+   233	 */
+   234	struct mci_platform_data {
+   235		void			*dma_slave;
+   236		dma_filter_fn		dma_filter;
+   237		struct mci_slot_pdata	slot[ATMCI_MAX_NR_SLOTS];
+ > 238	};
+   239	
 
 -- 
 0-DAY CI Kernel Test Service
