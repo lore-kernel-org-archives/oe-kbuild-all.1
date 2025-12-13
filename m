@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5637B1C3F36
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 18:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CAD32E8B8B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 18:09:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765649353; cv=none; b=pFw9CWs7RrALmdtP/+B3Weuy40ObaJ1MTzz9QE+7jPVlXBjuFk71aQVkXXnxwWLKHje3A4NazUia16S59lFy1jpRo8kPJ5QoagHFKNafYJhEcpjGlq9A3cET0djzzMsCnQ2lq6vRX6QFujvtplV6glMgUyA6C9TaRibt/fqQ63o=
+	t=1765649354; cv=none; b=PpAyY4W9KMDi8NRdou9ITc24uhX2vB9LQM0UYmzqGDE555Pcl47D0FR4ngKbR+cbOLOvrLEUCXy23N7cUjS4lIMlfLuN5Jj8xWHPkuFsMfhrBlbD5Ir4F0LzS2hz0YTUbWYdKruGZ2+RD24ks474e57JWyDXu2/f/YAP3aCS4BU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765649353; c=relaxed/simple;
-	bh=SIP2upM3Ll/1J/WWGmOWoGKsZtUx/AbGnkbTe/WohkU=;
+	s=arc-20240116; t=1765649354; c=relaxed/simple;
+	bh=+HsHKgbGghA9HUoTCSPHyFmsEZx4PoK94Jvt/RWjPH4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LMr7qYHQyJMH1JsjYavDC439Vo1IBMrua3HzSqBjqNFCbcYJBpGdTx/Qy/SoCA1huI4pCKoTBAVtcS9JCnri2SBVY2A3l3dHnP6r865gAWTs2sjeORqSLigvrqNMsMn4N0chZ7F4kO0yP7rn0CsqTwdjUHBXWqKi4KmECZBreq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fK8En9tL; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=T/Gy9QFpphcHT7R4j40QJXaKMMI4G/Ocyn045WRLdnDOEVZDtHFpCiFLwFgCmO9pS2FJMHxltHsHDlRwKPOcQnv6MonEAPEcmXB61nVgWIRh9/dGt21APWJ9sv+/iR+CwnPpaN7MHo7espriahvSnOeWTYYCWdK7YYkhIV1GmBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a1sI5HM5; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fK8En9tL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a1sI5HM5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765649351; x=1797185351;
+  t=1765649353; x=1797185353;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SIP2upM3Ll/1J/WWGmOWoGKsZtUx/AbGnkbTe/WohkU=;
-  b=fK8En9tLfvS4+Z4Pd1zQ5/y/+8EIqUU6k3knkJZk+Pe9V6f7a7PfPwmi
-   nn4X88OaNGuRu5P1360cYFGDBP6RB2WNExJFjvp+qeIESHTx/NwvhcCBR
-   HgcwdcM7FljfMmLvVFayZWgnzBMqqWMT2OsFYqpHdmdSe9qy3A+TN1lZ6
-   rZLDIT5JLO4olVJmLc1c7PHmpfPMDxQbACW+mEqb/squr/lZhs+vq9yYy
-   OVKseC0pD5z93+GN+8NpkBlXQLW5NMxfUwYeR5fK1KQE80h83gpGNJyQF
-   GsFTxs+ZPizkaBzBjuxtkP9fpKX82SE9OorS+gdYxD+W5TOdGUGwxn4rp
-   A==;
-X-CSE-ConnectionGUID: FEA5L8xPTp6SxR5GKleEVg==
-X-CSE-MsgGUID: 0ngC59fqTN+LYKFHZ/aN0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67774999"
+  bh=+HsHKgbGghA9HUoTCSPHyFmsEZx4PoK94Jvt/RWjPH4=;
+  b=a1sI5HM5PBAPbWCoObUUGgn88oU8RpdJ+/Sdjm4w4fs3BP8DmxGx4fIV
+   gnWIzZtfY8+DcFYx9ufI+TA0j6LspLY8V+iq31YIQix+12yV4FsjcHaFg
+   ZQMK/q3ufYIZDeOehR6twv/4ua2L/r5hhi5wreYCaglpUxln3W9jzl7J8
+   Euo9y12woUOCfuvxFH6X7ExH+pBBL0AZ9CK8J28W0cnPoX8ALS5c/hWxJ
+   0xtz5KXS+OnxutGr6LFiNFdUgoJpsf57oPCGh0SN+48q0PBV3hNQE2I7T
+   rXL5TKr5guBTcDJic/iY1YVzVZPy1j23VSI90f7Uc/3vLlthEji+uRNLs
+   w==;
+X-CSE-ConnectionGUID: Nr7ayKp1QdaZzLMywVZOlg==
+X-CSE-MsgGUID: ujt2lujZQOOVJcCBJLr8SA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67775000"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="67774999"
+   d="scan'208";a="67775000"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 10:09:10 -0800
-X-CSE-ConnectionGUID: M5X3tj0mQ/mbtyaVP23MZg==
-X-CSE-MsgGUID: id+PLOWOR+yF8lTwm4eWCQ==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 10:09:11 -0800
+X-CSE-ConnectionGUID: hKdcJDcMQTKCvWaEVnwSRg==
+X-CSE-MsgGUID: UP+BQt+HRymJef2nZfOxgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="197344296"
+   d="scan'208";a="197344295"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 13 Dec 2025 10:09:10 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUU3H-00000000821-1j5D;
+	id 1vUU3H-00000000825-1u6q;
 	Sat, 13 Dec 2025 18:09:07 +0000
-Date: Sun, 14 Dec 2025 02:08:49 +0800
+Date: Sun, 14 Dec 2025 02:08:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/2] security/selinux/nlmsgtab.c:228:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202512140148.YGSW0p6F-lkp@intel.com>
+To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: security/landlock/task.c:112:26: sparse: sparse: Initializer entry
+ defined twice
+Message-ID: <202512140157.ty6KKiij-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,39 +62,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lee,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   5580efd2c7e4791254a0c26f9791aaa33dd70484
-commit: 756151494432e57155135c9af08956a93d43a68e [0/2] Merge commit e7c6e405e171f ("Fix misc new gcc warnings") into android-mainline
-config: i386-randconfig-006-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140148.YGSW0p6F-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140148.YGSW0p6F-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9d9c1cfec01cdbf24bd9322ed555713a20422115
+commit: 33e65b0d3add6bdc731e9298995cbbc979349f51 landlock: Add AUDIT_LANDLOCK_ACCESS and log ptrace denials
+date:   9 months ago
+config: arm64-randconfig-r112-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140157.ty6KKiij-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140157.ty6KKiij-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140148.YGSW0p6F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140157.ty6KKiij-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> security/landlock/task.c:112:26: sparse: sparse: Initializer entry defined twice
+   security/landlock/task.c:113:34: sparse:   also defined here
+   security/landlock/task.c:158:18: sparse: sparse: Initializer entry defined twice
+   security/landlock/task.c:159:26: sparse:   also defined here
 
->> security/selinux/nlmsgtab.c:228: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Use nlmsg_readpriv as the permission for RTM_GETLINK messages if the
+vim +112 security/landlock/task.c
 
-
-vim +228 security/selinux/nlmsgtab.c
-
-6ea234c74a6064 Jeff Vander Stoep 2020-01-22  226  
-6ea234c74a6064 Jeff Vander Stoep 2020-01-22  227  /**
-6ea234c74a6064 Jeff Vander Stoep 2020-01-22 @228   * Use nlmsg_readpriv as the permission for RTM_GETLINK messages if the
-
-:::::: The code at line 228 was first introduced by commit
-:::::: 6ea234c74a606475a0a16e20c4e471dedab4f399 ANDROID: selinux: modify RTM_GETLINK permission
-
-:::::: TO: Jeff Vander Stoep <jeffv@google.com>
-:::::: CC: Alistair Delva <adelva@google.com>
+    71	
+    72	/**
+    73	 * hook_ptrace_access_check - Determines whether the current process may access
+    74	 *			      another
+    75	 *
+    76	 * @child: Process to be accessed.
+    77	 * @mode: Mode of attachment.
+    78	 *
+    79	 * If the current task has Landlock rules, then the child must have at least
+    80	 * the same rules.  Else denied.
+    81	 *
+    82	 * Determines whether a process may access another, returning 0 if permission
+    83	 * granted, -errno if denied.
+    84	 */
+    85	static int hook_ptrace_access_check(struct task_struct *const child,
+    86					    const unsigned int mode)
+    87	{
+    88		const struct landlock_cred_security *parent_subject;
+    89		const struct landlock_ruleset *child_dom;
+    90		int err;
+    91	
+    92		/* Quick return for non-landlocked tasks. */
+    93		parent_subject = landlock_cred(current_cred());
+    94		if (!parent_subject)
+    95			return 0;
+    96	
+    97		scoped_guard(rcu)
+    98		{
+    99			child_dom = landlock_get_task_domain(child);
+   100			err = domain_ptrace(parent_subject->domain, child_dom);
+   101		}
+   102	
+   103		if (!err)
+   104			return 0;
+   105	
+   106		/*
+   107		 * For the ptrace_access_check case, we log the current/parent domain
+   108		 * and the child task.
+   109		 */
+   110		if (!(mode & PTRACE_MODE_NOAUDIT))
+   111			landlock_log_denial(parent_subject, &(struct landlock_request) {
+ > 112				.type = LANDLOCK_REQUEST_PTRACE,
+   113				.audit = {
+   114					.type = LSM_AUDIT_DATA_TASK,
+   115					.u.tsk = child,
+   116				},
+   117				.layer_plus_one = parent_subject->domain->num_layers,
+   118			});
+   119	
+   120		return err;
+   121	}
+   122	
 
 -- 
 0-DAY CI Kernel Test Service
