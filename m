@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AFF26E719
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F4726FDBF
 	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 07:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765609213; cv=none; b=Ec82e4aNLSSHw/x0rgDya05JPcnm4ZXRDn+oDLO0OGcg3YAlhVX+7SUgG+SyrGQWwvpwHC+DRySqGNeKnETnDH/ti8dMAfTWc7+7D0fY9+3Yz4IUxzTonnEadLKREkHdF7z3i4hgGl5z2M6jyf4JTpIZHvvPaNBMR15IprEXvIY=
+	t=1765609213; cv=none; b=h51SIbCFnabvb2p8hNyjeqXbjtqRhi//H2tbh1X8rg2Cea8EWLigD1uDBFQhIPKQeHxe/OjxDzKGrkB+ESXjsnKyquA90+AWT/tLvC7b4Q9X1CyAZR6lT7hYf00DztsVtFK6OybkCcD3qSb5sI7k7vFMsw5kVxCAoqAECk83ris=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765609213; c=relaxed/simple;
-	bh=NJJAtHnywgTGbmDcWP0qcMykmZ+A2s8+ywnIfAFGcf8=;
+	bh=TbHx/TG3gvPIqtFUywlhqJjWTX5ZUxp9QglSpMSDwXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NcfG5SQ0IoypAEdonk1RMLzzTYu0pB6MQbsmQq0Hm2KJvJP/r8m5sHME+JuvjMSFITvvUfG+uQ//qG2lDoxsUy5R5+Br/18MUHds+w0KT2UDwTcMI2z2P1Q8YnApEzxejph6njAnxjub/TleGxeHyhFcp6bwmTjZPiO7LoAkSTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nWZIL4aD; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=eujhxvYc85qy6xoXAPSoNvRxVLxKxyYho5zQnWrGndAnXbDCI9E/fwVHvMX6nqXMdsY1mZucsg9N+DAICRd8dG9huEWJhcDuzfFdwhB/YqsaJPXSvUvKMHFAGSK0TMYqJbwvYQJz05CMzDeQ3wq03U95hCCjBxwIOohIsuNO8/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nzg2J4Jt; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nWZIL4aD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nzg2J4Jt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1765609212; x=1797145212;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NJJAtHnywgTGbmDcWP0qcMykmZ+A2s8+ywnIfAFGcf8=;
-  b=nWZIL4aD9J6S/1KC5CX/Zr9wpmRfDEnOdtBOYjQW8zz8oBZrleUT6yoB
-   XvSTLddLuIPv0azrLJ/E9VyUcvxJd7VqP3WP79RqlBalKC/S9JrsDgsTP
-   yUBtNZh+h0FQadWEszj45F3oNLC8VZ0efuPGj0PLC4fwtrVMHmiSmswFV
-   hXN8NUdNa4ttOizjSV3MII+sygCewPdHyGpKiJitMAzotgqOSozdnB69Y
-   UWU/KBwYMdAGBASEtDT4n5VxPsozvUP94A+RQxt9K8g3BozqQUSJ3aRzy
-   xFV8OS6OI/FHHGcT/aZp2tF4rZZF4ZR5+rr3InmTo6BuJn7+UeNlaVM9g
+  bh=TbHx/TG3gvPIqtFUywlhqJjWTX5ZUxp9QglSpMSDwXY=;
+  b=Nzg2J4JtZQjyl4wwsbcDteJPxv1hl2i4uBYNkP4wp4voIm+9GvBCwgGW
+   PcEDkCCnjK8K+G2tNXd9GDf06blxD2s8xSWQQeihgW+QbHEZ+VKO9Co7h
+   3c0pEebZ4u0DXspV9dFSOmpwBAmNNDzlnJuFQ1UUkUukx5LGAdch/OWph
+   5qo7vYPN7cJky/CdD5SurjYTci8cw3TAwbfAQ9ksJBC4weypW5dMaVKja
+   7O6aa3y8IoXj6AoRcxzBhNKxMWDbuYu4UOhgIJkHi1KTtS9VOKHzT1j2d
+   xf2xnnmbv+OmjOhF4aiAaFDADtU5C0WCEnaoVgvueh0p+NdUKFVyWgvtm
    w==;
-X-CSE-ConnectionGUID: LR7NHX5AQMG8E+0j0Gid8Q==
-X-CSE-MsgGUID: UjlKHfgyRRSGAsGhI6yv9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66591555"
+X-CSE-ConnectionGUID: fptDmVVgTq6TMQSUlCdOew==
+X-CSE-MsgGUID: il5ATTjCRl6m9tik65NWAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="85011186"
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="66591555"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 23:00:11 -0800
-X-CSE-ConnectionGUID: J4pfRXBWR+mbVhUbS/u8vA==
-X-CSE-MsgGUID: ONCxnsCmTTiOeVsmVSO2LQ==
+   d="scan'208";a="85011186"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 23:00:11 -0800
+X-CSE-ConnectionGUID: B5RkZhjhRImCsMFFtL1Z6w==
+X-CSE-MsgGUID: GaxIGXaQRrSOZmYFgaYtcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="202353441"
+   d="scan'208";a="201758203"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Dec 2025 23:00:10 -0800
+  by orviesa004.jf.intel.com with ESMTP; 12 Dec 2025 23:00:10 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUJbr-000000007Cv-22gu;
+	id 1vUJbr-000000007Cx-28PE;
 	Sat, 13 Dec 2025 07:00:07 +0000
-Date: Sat, 13 Dec 2025 14:59:47 +0800
+Date: Sat, 13 Dec 2025 14:59:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:pgtable20251212 1/2] include/linux/mm_types.h:607:36:
- error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is
- not compatible with any association
-Message-ID: <202512131417.mRojYH1d-lkp@intel.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alison Schofield <alison.schofield@intel.com>,
+	Ben Cheatham <benjamin.cheatham@amd.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>
+Subject: drivers/cxl/core/region.c:753:37: warning: format '%llx' expects
+ argument of type 'long long unsigned int', but argument 3 has type
+ 'resource_size_t' {aka 'unsigned int'}
+Message-ID: <202512131450.UZNtWJqM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,122 +66,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alexshi/linux.git pgtable20251212
-head:   e5288cc28febf288d2453ca3b4895a0bfd53f28a
-commit: f0d01cac9f10dfe6f6cd671dca7d02581c67587a [1/2] mm/pgtable: use ptdesc for pgtable pointer
-config: sparc-randconfig-002-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131417.mRojYH1d-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131417.mRojYH1d-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a859eca0e4cc96f63ff125dbe5388d961558b0e9
+commit: d6602e25819dea2c239972e98e09ba5db4aebd22 cxl/region: Add support to indicate region has extended linear cache
+date:   6 weeks ago
+config: i386-randconfig-051-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131450.UZNtWJqM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131450.UZNtWJqM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131417.mRojYH1d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131450.UZNtWJqM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from mm/memory.c:43:
-   mm/memory.c: In function 'deposit_prealloc_pte':
->> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
-    #define page_ptdesc(p)   (_Generic((p),   \
-                                       ^
-   mm/memory.c:5316:6: note: in expansion of macro 'page_ptdesc'
-         page_ptdesc(vmf->prealloc_pte));
-         ^~~~~~~~~~~
---
-   In file included from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from mm/huge_memory.c:8:
-   mm/huge_memory.c: In function '__do_huge_pmd_anonymous_page':
->> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
-    #define page_ptdesc(p)   (_Generic((p),   \
-                                       ^
-   mm/huge_memory.c:1274:7: note: in expansion of macro 'page_ptdesc'
-          page_ptdesc(pgtable));
-          ^~~~~~~~~~~
-   mm/huge_memory.c: In function 'set_huge_zero_folio':
->> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
-    #define page_ptdesc(p)   (_Generic((p),   \
-                                       ^
-   mm/huge_memory.c:1335:38: note: in expansion of macro 'page_ptdesc'
-     pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
-                                         ^~~~~~~~~~~
-   mm/huge_memory.c: In function 'insert_pmd':
->> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
-    #define page_ptdesc(p)   (_Generic((p),   \
-                                       ^
-   mm/huge_memory.c:1461:39: note: in expansion of macro 'page_ptdesc'
-      pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
-                                          ^~~~~~~~~~~
-   mm/huge_memory.c: In function 'copy_huge_pmd':
->> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
-    #define page_ptdesc(p)   (_Generic((p),   \
-                                       ^
-   mm/huge_memory.c:1766:46: note: in expansion of macro 'page_ptdesc'
-     pgtable_trans_huge_deposit(dst_mm, dst_pmd, page_ptdesc(pgtable));
-                                                 ^~~~~~~~~~~
-   mm/huge_memory.c: In function 'move_huge_pmd':
->> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
-    #define page_ptdesc(p)   (_Generic((p),   \
-                                       ^
-   mm/huge_memory.c:2323:8: note: in expansion of macro 'page_ptdesc'
-           page_ptdesc(pgtable));
-           ^~~~~~~~~~~
-   mm/huge_memory.c: In function 'move_pages_huge_pmd':
->> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
-    #define page_ptdesc(p)   (_Generic((p),   \
-                                       ^
-   mm/huge_memory.c:2646:42: note: in expansion of macro 'page_ptdesc'
-     pgtable_trans_huge_deposit(mm, dst_pmd, page_ptdesc(src_pgtable));
-                                             ^~~~~~~~~~~
---
-   In file included from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from mm/khugepaged.c:4:
-   mm/khugepaged.c: In function 'collapse_huge_page':
->> include/linux/mm_types.h:607:36: error: '_Generic' selector of type 'pte_t *' {aka 'struct <anonymous> *'} is not compatible with any association
-    #define page_ptdesc(p)   (_Generic((p),   \
-                                       ^
-   mm/khugepaged.c:1234:38: note: in expansion of macro 'page_ptdesc'
-     pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
-                                         ^~~~~~~~~~~
---
-   arch/sparc/mm/tlb.c: In function 'pgtable_trans_huge_withdraw':
->> arch/sparc/mm/tlb.c:295:10: error: assignment to 'pgtable_t' {aka 'struct <anonymous> *'} from incompatible pointer type 'struct ptdesc *' [-Werror=incompatible-pointer-types]
-     pgtable = pmd_huge_pte(mm, pmdp);
-             ^
->> arch/sparc/mm/tlb.c:300:26: error: assignment to 'struct ptdesc *' from incompatible pointer type 'pte_t *' {aka 'struct <anonymous> *'} [-Werror=incompatible-pointer-types]
-      pmd_huge_pte(mm, pmdp) = (pgtable_t) lh->next;
-                             ^
-   cc1: some warnings being treated as errors
+   drivers/cxl/core/region.c: In function 'extended_linear_cache_size_show':
+>> drivers/cxl/core/region.c:753:37: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
+     753 |         return sysfs_emit(buf, "%#llx\n", p->cache_size);
+         |                                 ~~~~^     ~~~~~~~~~~~~~
+         |                                     |      |
+         |                                     |      resource_size_t {aka unsigned int}
+         |                                     long long unsigned int
+         |                                 %#x
 
 
-vim +607 include/linux/mm_types.h
+vim +753 drivers/cxl/core/region.c
 
-9a35de4ffc209b Vishal Moola (Oracle  2023-08-07  598) 
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  599) #define ptdesc_page(pt)			(_Generic((pt),			\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  600) 	const struct ptdesc *:		(const struct page *)(pt),	\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  601) 	struct ptdesc *:		(struct page *)(pt)))
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  602) 
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  603) #define ptdesc_folio(pt)		(_Generic((pt),			\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  604) 	const struct ptdesc *:		(const struct folio *)(pt),	\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  605) 	struct ptdesc *:		(struct folio *)(pt)))
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  606) 
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07 @607) #define page_ptdesc(p)			(_Generic((p),			\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  608) 	const struct page *:		(const struct ptdesc *)(p),	\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  609) 	struct page *:			(struct ptdesc *)(p)))
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  610) 
-
-:::::: The code at line 607 was first introduced by commit
-:::::: bf2d4334f72e4e033166c5a3bf1331a7238eab9d mm: add utility functions for ptdesc
-
-:::::: TO: Vishal Moola (Oracle) <vishal.moola@gmail.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+   741	
+   742	static ssize_t extended_linear_cache_size_show(struct device *dev,
+   743						       struct device_attribute *attr,
+   744						       char *buf)
+   745	{
+   746		struct cxl_region *cxlr = to_cxl_region(dev);
+   747		struct cxl_region_params *p = &cxlr->params;
+   748		ssize_t rc;
+   749	
+   750		ACQUIRE(rwsem_read_intr, rwsem)(&cxl_rwsem.region);
+   751		if ((rc = ACQUIRE_ERR(rwsem_read_intr, &rwsem)))
+   752			return rc;
+ > 753		return sysfs_emit(buf, "%#llx\n", p->cache_size);
+   754	}
+   755	static DEVICE_ATTR_RO(extended_linear_cache_size);
+   756	
 
 -- 
 0-DAY CI Kernel Test Service
