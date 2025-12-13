@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E0014B08A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 18:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEF042DCF71
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 18:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765650134; cv=none; b=tImSMBzhi8juFOFA4sgCU6NUT/l042KLq3YumyjtIUsqbtihdk1Br3VTwlvKqDTZ/m/tdST8zvPKi9hTPg7ocBPxEF2cseAIGZJ1kl3VVRl3qqz1D9bXn26RoOBdcrEbno3ADnnn5YcYh/DkD3rMcs+Aj+AOCehiQo1IIOI3/4k=
+	t=1765650136; cv=none; b=GKM+Uuqo0+timK6lNMqIeFQ5DciZ8CwXtRkdtS2t6r7SX5OWJhqY+8JJox48FMW8a7OJ7NeWEvtOtacq6pOFxCmOYGq+RK4PaxUsepXfjMz61dvXcfqu80f1zHqpCUWnpywLUBAbFYSW4LTwKPDZWpdxzMNEaEQfwFFDB6oDyjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765650134; c=relaxed/simple;
-	bh=20cmcx0wVxBbQbBjV6xkVAWur8BNC9yDGwUjnUuPhCA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j+iETCa+A08qZ8K2us5zqRWXNu4es9mD+fMPiIjAU6IxK41UkzNVhCS4Pn85lzt9+Aa8SbuxVUknPVbg9wSS3YVr5r+UhadCg9sNKaFYNpAzjjJhVTJL/LrT2YrEOPVcw9HEzjatpOK4qtExXOZcKWchhEjwIhIQn6+JbsTEQU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q36picwh; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1765650136; c=relaxed/simple;
+	bh=VuBIHLj7oBoIFj+NYV7CqgXjiAwFMwo/5flHJXzbGpU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e9L/fd1UzfkwNJ+LyemxOAKHR+0BoYdrxpjXNG894RLt2ZSFmZehFXomRTYqxO2s8O5FYpppj97l9q0hpFo86DaVopHTkQYAcwxdUJzSwpJ24sGliGxq3ZE/IHfTs4kIw4I88GJX9GlzaV3nEdZI0vHhB4eVhtjnD9dbsPwBNaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N+83Sv1J; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q36picwh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N+83Sv1J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765650133; x=1797186133;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=20cmcx0wVxBbQbBjV6xkVAWur8BNC9yDGwUjnUuPhCA=;
-  b=Q36picwhocX7zVOUbgvacKRgJ60gljjt4RfhRN2DK4t9jfu7jcxE8BVX
-   SM0X8mPj2oXLZi3rVloiSDia9BwPTrv2Iw3KOMc3nIySAZgvY3Nl6yGpm
-   xC90qYtEz84MoZaLQ85NDbSSVDieRiVqUCkVcM3kNXc1ZfgH5EvT5YRxJ
-   C+rYfN14SbyE7VC3Zbl7TqjbdMy2MKoh+5j19EHFUN7jZATXtVJvJoaZv
-   U3kIslhuEezJ/UmZ8MQ179ltPUnrj1Ytml4oIcaodP1CEx2EW5SWtQ6fU
-   feDRT1GXUVRN680ktB88l7ZB715TykwMsLFvNyECNb8moR76lvQfLAkeY
-   Q==;
-X-CSE-ConnectionGUID: p9+vlmGyQWO5K0nYjt6yaQ==
-X-CSE-MsgGUID: P08AknUZSLOfXU9xLXJC6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67579200"
+  t=1765650135; x=1797186135;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VuBIHLj7oBoIFj+NYV7CqgXjiAwFMwo/5flHJXzbGpU=;
+  b=N+83Sv1J/hmE59e6rryVg1PgpDPQHdZ5S+W/nJawCvtbnKO9r/SLxi83
+   9NXCnpieteZUEG3EnlkD/V39gJ/ELO1f6pnzSuOGPhhydJqAzGhJlvDZT
+   DPYHmWi/9Gfn0pkcEXhfzstewsEdQ+J3usOQpKhioMyan/E49hBKnwxb/
+   HttvgX+coTRrloYea9MnTl1FjAwnNbL6/O2rJ8wkyZGW26JCn1Ky+QVo6
+   Zj+fbkjjCsRxPB8gOON50SfgiNowDRjIdwGr2D6NqwLHbALqXLEuGHKf1
+   dPrK2tBp1IyxqYWxwq7lee9OTXHsa5VGXARkaw19Q5bCRhVlU4I5qTwBf
+   A==;
+X-CSE-ConnectionGUID: zBkAPOpZQZSM0xvlsV1CVQ==
+X-CSE-MsgGUID: AQ3HhHzPRWCsu5oarRxs3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67775490"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="67579200"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 10:22:12 -0800
-X-CSE-ConnectionGUID: PEBUZg6kSsa7CY56mp0fug==
-X-CSE-MsgGUID: L/2QoxtIQw+ka+686C3NDQ==
+   d="scan'208";a="67775490"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 10:22:14 -0800
+X-CSE-ConnectionGUID: kpb4Me8lSF+sDoGI1o3j3g==
+X-CSE-MsgGUID: uTVLjPT4R3a324lOlH8OJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="202263610"
+   d="scan'208";a="197620802"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Dec 2025 10:22:11 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 13 Dec 2025 10:22:11 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUUFs-00000000839-48IT;
+	id 1vUUFs-00000000837-40oj;
 	Sat, 13 Dec 2025 18:22:08 +0000
-Date: Sun, 14 Dec 2025 02:21:11 +0800
+Date: Sun, 14 Dec 2025 02:21:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 3/3]
- drivers/usb/gadget/function/android_f_accessory.c:1392:6: warning: no
- previous prototype for '__acc_req_match'
-Message-ID: <202512140247.4IRg52kj-lkp@intel.com>
+To: Srish Srinivasan <ssrish@linux.ibm.com>,
+	linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Cc: oe-kbuild-all@lists.linux.dev, maddy@linux.ibm.com, mpe@ellerman.id.au,
+	npiggin@gmail.com, christophe.leroy@csgroup.eu,
+	James.Bottomley@hansenpartnership.com, jarkko@kernel.org,
+	zohar@linux.ibm.com, nayna@linux.ibm.com, rnsastry@linux.ibm.com,
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org,
+	ssrish@linux.ibm.com
+Subject: Re: [PATCH 2/6] powerpc/pseries: move the PLPKS config inside its
+ own sysfs directory
+Message-ID: <202512140150.PUqCvp88-lkp@intel.com>
+References: <20251213052618.190691-3-ssrish@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,72 +70,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251213052618.190691-3-ssrish@linux.ibm.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   17fd67ddf0cddeb7325b49d3ca2f7db7824dfccd
-commit: d718cad4b605a726d93e9d6fc032fed768a7fcdb [3/3] ANDROID: usb: gadget: Add Android Accessory Function
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251214/202512140247.4IRg52kj-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140247.4IRg52kj-lkp@intel.com/reproduce)
+Hi Srish,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes zohar-integrity/next-integrity linus/master v6.18 next-20251212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Srish-Srinivasan/pseries-plpks-fix-kernel-doc-comment-inconsistencies/20251213-132948
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20251213052618.190691-3-ssrish%40linux.ibm.com
+patch subject: [PATCH 2/6] powerpc/pseries: move the PLPKS config inside its own sysfs directory
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20251214/202512140150.PUqCvp88-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140150.PUqCvp88-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140247.4IRg52kj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140150.PUqCvp88-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/gadget/function/android_f_accessory.c:1392:6: warning: no previous prototype for '__acc_req_match' [-Wmissing-prototypes]
-    1392 | bool __acc_req_match(const struct usb_ctrlrequest *ctrl)
-         |      ^~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [y]:
-   - INTEL_MEI_HDCP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
-   - INTEL_MEI_PXP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
+   In file included from arch/powerpc/kernel/prom.c:59:
+>> arch/powerpc/include/asm/plpks.h:118:12: warning: 'plpks_config_create_softlink' defined but not used [-Wunused-function]
+     118 | static int plpks_config_create_softlink(struct kobject *from) { return 0; }
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/__acc_req_match +1392 drivers/usb/gadget/function/android_f_accessory.c
+vim +/plpks_config_create_softlink +118 arch/powerpc/include/asm/plpks.h
 
-  1391	
-> 1392	bool __acc_req_match(const struct usb_ctrlrequest *ctrl)
-  1393	{
-  1394		struct acc_dev *dev = get_acc_dev();
-  1395		u8 bRequestType = ctrl->bRequestType;
-  1396		u8 bRequest = ctrl->bRequest;
-  1397		bool ret = false;
-  1398	
-  1399		/*
-  1400		 * If instance is not created which is the case in power off charging
-  1401		 * mode, dev will be NULL. Hence return error if it is the case.
-  1402		 */
-  1403		if (!dev)
-  1404			return false;
-  1405	
-  1406		if (bRequestType == (USB_DIR_OUT | USB_TYPE_VENDOR)) {
-  1407			switch (bRequest) {
-  1408			case ACCESSORY_START:
-  1409			case ACCESSORY_SEND_STRING:
-  1410			case ACCESSORY_SET_AUDIO_MODE:
-  1411			case ACCESSORY_REGISTER_HID:
-  1412			case ACCESSORY_UNREGISTER_HID:
-  1413			case ACCESSORY_SET_HID_REPORT_DESC:
-  1414			case ACCESSORY_SEND_HID_EVENT:
-  1415				ret = true;
-  1416				break;
-  1417			default:
-  1418				ret = false;
-  1419			}
-  1420		} else if ((bRequestType == (USB_DIR_IN | USB_TYPE_VENDOR)) &&
-  1421				(bRequest == ACCESSORY_GET_PROTOCOL))
-  1422			ret = true;
-  1423	
-  1424		put_acc_dev(dev);
-  1425		return ret;
-  1426	}
-  1427	
+   111	
+   112	int plpks_config_create_softlink(struct kobject *from);
+   113	#else // CONFIG_PSERIES_PLPKS
+   114	static inline bool plpks_is_available(void) { return false; }
+   115	static inline u16 plpks_get_passwordlen(void) { BUILD_BUG(); }
+   116	static inline void plpks_early_init_devtree(void) { }
+   117	static inline int plpks_populate_fdt(void *fdt) { BUILD_BUG(); }
+ > 118	static int plpks_config_create_softlink(struct kobject *from) { return 0; }
+   119	#endif // CONFIG_PSERIES_PLPKS
+   120	
 
 -- 
 0-DAY CI Kernel Test Service
