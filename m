@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8181433A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 17:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5637B1C3F36
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 18:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765648598; cv=none; b=ZGTU9xkdl4fL2SwjimttWZfTgzucUyEEZN0/neeNpuF8fiuFDdHcFzGuN6cmUtxwZaM95uftyQU4b0gk8yuvJeIh52Dx++ffTEVBzs/chHCt6R/PUOAL+Ja8Ephl5190IT++pQTuojxS/MZRlYmszfYfpVkYrKhtQAHd/E54Og8=
+	t=1765649353; cv=none; b=pFw9CWs7RrALmdtP/+B3Weuy40ObaJ1MTzz9QE+7jPVlXBjuFk71aQVkXXnxwWLKHje3A4NazUia16S59lFy1jpRo8kPJ5QoagHFKNafYJhEcpjGlq9A3cET0djzzMsCnQ2lq6vRX6QFujvtplV6glMgUyA6C9TaRibt/fqQ63o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765648598; c=relaxed/simple;
-	bh=qQxuArpX2oNLv3HcwjG+X6eL5Mih+8CASngEbonKLcs=;
+	s=arc-20240116; t=1765649353; c=relaxed/simple;
+	bh=SIP2upM3Ll/1J/WWGmOWoGKsZtUx/AbGnkbTe/WohkU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cCSiFffoXh994iy7SqJB9C7AkyxKDx2iBiSBVcNs0uQcU7TQ3YVUZRYX+xaE3pXxGryqT9AKoUxjWdpKWQ8+hfpgKjrd0XdOWWeTvBYy4se0JYX/CWoa7MUymwJd/m8P/iSFBh28nbRp4aozjjY3GaAY5fWPTHhT6iaT0dAvUwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pyra9ZqR; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=LMr7qYHQyJMH1JsjYavDC439Vo1IBMrua3HzSqBjqNFCbcYJBpGdTx/Qy/SoCA1huI4pCKoTBAVtcS9JCnri2SBVY2A3l3dHnP6r865gAWTs2sjeORqSLigvrqNMsMn4N0chZ7F4kO0yP7rn0CsqTwdjUHBXWqKi4KmECZBreq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fK8En9tL; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pyra9ZqR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fK8En9tL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765648596; x=1797184596;
+  t=1765649351; x=1797185351;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qQxuArpX2oNLv3HcwjG+X6eL5Mih+8CASngEbonKLcs=;
-  b=Pyra9ZqR+A7u2oRgwKIaYG/CdYVEN3gPPJutw6kJjmymQx2HKIondXdg
-   MWDlIyV9Zbwjey/6i4Hm7WAnu82ekZPW1LPZKpipGjGTVFK6C+FMVhu6k
-   Vtp88a8uhZ4ZqKwaUUF2uoJZHj6jmBolZMHnbA+9fU0YNUevkQgVL2QqT
-   qnOZUucBCO3PrQulx77zBA5poKz+aNAQlm2ZWUxASfhsoqFg5ny5G9RBG
-   pnIJB03ObLKKJdVdlZstv9kXtBTwiUw6JoyFm/kDrEy3KMJlu260YQOgX
-   POCX8h+MZyXB8tbBW6WyTDeCZb0hHc6yjBZLf0IrVaRQx1cNiFLXWSG5j
-   g==;
-X-CSE-ConnectionGUID: 8xB6j0RUTvCzh/vY/20PZw==
-X-CSE-MsgGUID: gN4vU+YKSOi/pi6+Sr9nKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67500216"
+  bh=SIP2upM3Ll/1J/WWGmOWoGKsZtUx/AbGnkbTe/WohkU=;
+  b=fK8En9tLfvS4+Z4Pd1zQ5/y/+8EIqUU6k3knkJZk+Pe9V6f7a7PfPwmi
+   nn4X88OaNGuRu5P1360cYFGDBP6RB2WNExJFjvp+qeIESHTx/NwvhcCBR
+   HgcwdcM7FljfMmLvVFayZWgnzBMqqWMT2OsFYqpHdmdSe9qy3A+TN1lZ6
+   rZLDIT5JLO4olVJmLc1c7PHmpfPMDxQbACW+mEqb/squr/lZhs+vq9yYy
+   OVKseC0pD5z93+GN+8NpkBlXQLW5NMxfUwYeR5fK1KQE80h83gpGNJyQF
+   GsFTxs+ZPizkaBzBjuxtkP9fpKX82SE9OorS+gdYxD+W5TOdGUGwxn4rp
+   A==;
+X-CSE-ConnectionGUID: FEA5L8xPTp6SxR5GKleEVg==
+X-CSE-MsgGUID: 0ngC59fqTN+LYKFHZ/aN0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67774999"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="67500216"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 09:56:35 -0800
-X-CSE-ConnectionGUID: XkuffashSRGubdkOyYEQrw==
-X-CSE-MsgGUID: tYz4+F/iRo2WbCAZYJh2Yw==
+   d="scan'208";a="67774999"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 10:09:10 -0800
+X-CSE-ConnectionGUID: M5X3tj0mQ/mbtyaVP23MZg==
+X-CSE-MsgGUID: id+PLOWOR+yF8lTwm4eWCQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="201763698"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Dec 2025 09:56:34 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
+   d="scan'208";a="197344296"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 13 Dec 2025 10:09:10 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUTr5-0000000028y-47pV;
-	Sat, 13 Dec 2025 17:56:31 +0000
-Date: Sat, 13 Dec 2025 18:56:11 +0100
+	id 1vUU3H-00000000821-1j5D;
+	Sat, 13 Dec 2025 18:09:07 +0000
+Date: Sun, 14 Dec 2025 02:08:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 40/40] lib/maple_tree.c:4736:7:
- warning: no previous prototype for 'mas_next_slot'
-Message-ID: <202512131843.p1EMQoEu-lkp@intel.com>
+Subject: [android-common:android15-6.6 0/2] security/selinux/nlmsgtab.c:228:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202512140148.YGSW0p6F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,111 +63,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   ebacb5ab3a1e5bf8dc788a29244f0e68d00a5bd6
-commit: 84719794e06c13fd9a3fd0c547af5bf9d76f7c3b [40/40] FROMGIT: maple_tree: introduce mas_next_slot() interface
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251213/202512131843.p1EMQoEu-lkp@intel.com/config)
+Hi Lee,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5580efd2c7e4791254a0c26f9791aaa33dd70484
+commit: 756151494432e57155135c9af08956a93d43a68e [0/2] Merge commit e7c6e405e171f ("Fix misc new gcc warnings") into android-mainline
+config: i386-randconfig-006-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140148.YGSW0p6F-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131843.p1EMQoEu-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140148.YGSW0p6F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131843.p1EMQoEu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140148.YGSW0p6F-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/maple_tree.c:4736:7: warning: no previous prototype for 'mas_next_slot' [-Wmissing-prototypes]
-    4736 | void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
-         |       ^~~~~~~~~~~~~
+>> security/selinux/nlmsgtab.c:228: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Use nlmsg_readpriv as the permission for RTM_GETLINK messages if the
 
 
-vim +/mas_next_slot +4736 lib/maple_tree.c
+vim +228 security/selinux/nlmsgtab.c
 
-  4726	
-  4727	/*
-  4728	 * mas_next_slot() - Get the entry in the next slot
-  4729	 *
-  4730	 * @mas: The maple state
-  4731	 * @max: The maximum starting range
-  4732	 * @empty: Can be empty
-  4733	 *
-  4734	 * Return: The entry in the next slot which is possibly NULL
-  4735	 */
-> 4736	void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
-  4737	{
-  4738		void __rcu **slots;
-  4739		unsigned long *pivots;
-  4740		unsigned long pivot;
-  4741		enum maple_type type;
-  4742		struct maple_node *node;
-  4743		unsigned char data_end;
-  4744		unsigned long save_point = mas->last;
-  4745		void *entry;
-  4746	
-  4747	retry:
-  4748		node = mas_mn(mas);
-  4749		type = mte_node_type(mas->node);
-  4750		pivots = ma_pivots(node, type);
-  4751		data_end = ma_data_end(node, type, pivots, mas->max);
-  4752		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4753			goto retry;
-  4754	
-  4755	again:
-  4756		if (mas->max >= max) {
-  4757			if (likely(mas->offset < data_end))
-  4758				pivot = pivots[mas->offset];
-  4759			else
-  4760				return NULL; /* must be mas->max */
-  4761	
-  4762			if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4763				goto retry;
-  4764	
-  4765			if (pivot >= max)
-  4766				return NULL;
-  4767		}
-  4768	
-  4769		if (likely(mas->offset < data_end)) {
-  4770			mas->index = pivots[mas->offset] + 1;
-  4771			mas->offset++;
-  4772			if (likely(mas->offset < data_end))
-  4773				mas->last = pivots[mas->offset];
-  4774			else
-  4775				mas->last = mas->max;
-  4776		} else  {
-  4777			if (mas_next_node(mas, node, max)) {
-  4778				mas_rewalk(mas, save_point);
-  4779				goto retry;
-  4780			}
-  4781	
-  4782			if (mas_is_none(mas))
-  4783				return NULL;
-  4784	
-  4785			mas->offset = 0;
-  4786			mas->index = mas->min;
-  4787			node = mas_mn(mas);
-  4788			type = mte_node_type(mas->node);
-  4789			pivots = ma_pivots(node, type);
-  4790			mas->last = pivots[0];
-  4791		}
-  4792	
-  4793		slots = ma_slots(node, type);
-  4794		entry = mt_slot(mas->tree, slots, mas->offset);
-  4795		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4796			goto retry;
-  4797	
-  4798		if (entry)
-  4799			return entry;
-  4800	
-  4801		if (!empty) {
-  4802			if (!mas->offset)
-  4803				data_end = 2;
-  4804			goto again;
-  4805		}
-  4806	
-  4807		return entry;
-  4808	}
-  4809	
+6ea234c74a6064 Jeff Vander Stoep 2020-01-22  226  
+6ea234c74a6064 Jeff Vander Stoep 2020-01-22  227  /**
+6ea234c74a6064 Jeff Vander Stoep 2020-01-22 @228   * Use nlmsg_readpriv as the permission for RTM_GETLINK messages if the
+
+:::::: The code at line 228 was first introduced by commit
+:::::: 6ea234c74a606475a0a16e20c4e471dedab4f399 ANDROID: selinux: modify RTM_GETLINK permission
+
+:::::: TO: Jeff Vander Stoep <jeffv@google.com>
+:::::: CC: Alistair Delva <adelva@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
