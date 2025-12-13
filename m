@@ -1,62 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2AB3019C1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 11:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB52210E3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 11:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765624057; cv=none; b=o/L2J9oX4VeTDOSs6ENJL5Q4THshAfFKqKCJ0Ax6Tam8mJZOE5cJWRMVsabRCc9vhMyu4VTvtGBFwmbfSJprveVqrS39odS/CVXZP3Xm/QR7QW36gUEvrwoDCHdeB5GKvhSpqO3/eVaxCKNE0BH85fBeaoc2b49gOJBV/YOC/Hw=
+	t=1765624677; cv=none; b=PxuUWTuACBHJD64E9YB/8ef7Z3RMwtb/LiNPZ6J+WNCu8TaaFSPwOw/aly4zm8Iwzb+PWqlGR8bXcc5yhgFVJ5DrigZDGM3dmFkgMSzb7cnxUIzmPON5m4FTraHW+qNiPk7SL0EFAILGUbDzVgGWZECZhfUlfgAGLNiFuN4ExRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765624057; c=relaxed/simple;
-	bh=h5RmyXgJI/ww4hIwtFHzWpT4NBN2zivdtRqbTDgUnyI=;
+	s=arc-20240116; t=1765624677; c=relaxed/simple;
+	bh=e12LoeSKNj9jBS9YbjJvrMPmYBRWP+jF/q8oxF/Ksc8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cUVWTBbokxWLUwNsD9UnowUtK1ACXx6iHQm5I7TgOo45hW3uD5L+QJzKF4OIx+s5Y/sc+9m0jSXf85V/Sc3tLVKztCnxULPljgCTwk+KVsouVdswRmUnPa8W1n0iQHYpRerIhGyBNa6Av6QWqne6oe21DuN4R/3C3/eQmz/Odqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=htyw9fUb; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=ip6yBy+PYCdmLhSSKr3iHKqARkbNzW8HhTUofZhpgnAJVOnXG3HLDFQDt0Y7U4SrxNhx3v4YsQ0upYm8GUSzMQON1wjn9jE3lHLQW4p07cCzMc/nh2v5KEOfKkwslmlPfBvpeh9lxP41YaDPdI2aU7tqhk2+s/3G/5ppGTWelYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LfkkpvkG; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="htyw9fUb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765624056; x=1797160056;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h5RmyXgJI/ww4hIwtFHzWpT4NBN2zivdtRqbTDgUnyI=;
-  b=htyw9fUbkyKQGKKbq6k8kFtkALwGbBXWoM8Qv7JPmJreTkqyHbvKqzgL
-   VjtGxiY5cyuTxzwHdz2po9V8ZMb5ElaGuXUJckJ38i6sHpAB8m2XskJyh
-   KSNxc2jg6ZCecbykdFC1jVpCr0xNvTnS0VRvjaPdQZapqKxqgg2wEjJbZ
-   VcOY7KgaZj96q31O/oUD/ZRCi1n6sCJcyBSuFDEX5u3tt2wDA6Kd2Mnne
-   WYxZKVqoB7ygvlSk52rNuS4nMNSPHtD4bTl+Mqtu0oQO5rYNhUKeDrs2z
-   K3unFKJzDDzwiJxvYpHsEeqtWvKc0ntIYgtTHS83NO5auM3TG9bMHW52z
-   g==;
-X-CSE-ConnectionGUID: e5zew+LrQ2qnOZ7e5WzT3Q==
-X-CSE-MsgGUID: tdH2TbayQDKHdKQh7Imu+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67548596"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67548596"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 03:07:34 -0800
-X-CSE-ConnectionGUID: iTlCxRjgQM61eqoEP4b+Tw==
-X-CSE-MsgGUID: ZQZIY+mCSuOIH79n5qdFuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="197056718"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2025 03:07:32 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vUNTF-000000007Wn-2tm7;
-	Sat, 13 Dec 2025 11:07:29 +0000
-Date: Sat, 13 Dec 2025 19:07:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Matt Coster <matt.coster@imgtec.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse:
- sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect
- size"
-Message-ID: <202512131851.1WNXk3BC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LfkkpvkG"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-477ba2c1ca2so22900305e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 03:17:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765624674; x=1766229474; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0qSAC8NXt53qphrOpngwf6jj5roP/lHhrO1GfHV0Lj4=;
+        b=LfkkpvkGVEXzHdCeoUrZGtnO6DbFYIt3akosFQCB+b2aoRZ6RfH5Jr6tNWnAhi9GSf
+         VR3qVmzyTUEhabD8XQVN1BhPmtJvNcYn/Kat4Ix7VKEzklVWMUdPXVyEqiXLDk3HYDx0
+         oSXDzaJRQmLV0hMhI+qjhVgkseN7MTiLid5y9KzWes8vu+ZPmRUrebsRXFD69OWgLfRO
+         iX/TwaBZkKH68Lvwzp40UydV0XS8F2D11B7tlU9GEYc0QfwwxqUaZPm5vNlBxj+Xxd3f
+         78e8PYew13u+eRGazv4/bgLNNDegRIUvh0WVM6PP1mcTzL/iK+qCVZK90AvEkpvjWJcK
+         c0LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765624674; x=1766229474;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0qSAC8NXt53qphrOpngwf6jj5roP/lHhrO1GfHV0Lj4=;
+        b=UX2NJoE/UGJvxVC9Vi/ktncbbRMu4XJ7FGvK3HuJlf7c8IFJKk8hVoa6hLgNiTUlrf
+         bA6S4rvSUPq2exyFk7SXEcyof25J9HeUkKaL+rRsoX3iPIhRuHD2fAdYMNGokn/bcyR1
+         eJdJTA3LgkePPkF0hbskeAte8/D/phOgh7fw+1TMBEF7D6LS1mA1rUs/qUvTLC21Ei/y
+         lBrBKHC/hih48B/5e9UOsFBDigEc73VpNwnluPcl2F62HYYFEERddJCsv7KVORS3b2K2
+         F+eqcUTAMvMJHMcWtQWIbl45iFM5f35sPJpesiwAkrRjMlPw0V38x8su8ClkQZl9/IRV
+         48Vw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBcWS9juuOICa89hBOLDmXeuVeuiW2BGyaUGMIEg4FoY/84ft7x8MT8aVKohjwvYFZvPPBWSvgoGiEY+ey@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGqPzmHnVn5fVGB2V2SrxPhsxY6qKJzeviE5FGpLnmzIjMN3S9
+	v3Yip0cxLLIj73c73rUzMS9KeTs2qV8mAKcdK1plushWi+FJ2MreqSHXSXRc09Yv+tM=
+X-Gm-Gg: AY/fxX7VVdKXB2mtL+pJtWXfbNiPFc3mQc+6FntheCbXenelI+lggcSjq+21/rCIFhK
+	1L0xSo6XE4ZdeTBPysx3FYGoN+q2R66kBKdryGlCdAJjkfcRi30/BizGq4xQp39EdlwKxxMTw70
+	J9AJLul1Opxa4lM9B22HFQfFY5w2G3TiupAPNxjXtRvnjxn8qqQd4NzaPBViQJTS4aypj15N5NS
+	wnZDAnBLepDExRVFdP5I9/ASHjkillgZ1oFMaIFTFLB2lHKsRXpUSnAmMJuImq2dj+nBJsp1+QF
+	4q0pDJ6c8XNp/FHOK645pN07dtjgmvhVzy1ovGcG4tJKUhuW9GRkOZhUPQiqIiUb4JQ+fKkdxbE
+	9snUm55BCMvRT9LrzK2gshgqovat+AShme4RYvWIZmqCT1b6/Wj5eI1K4Ak6vEr1oVV9tWfkX+Y
+	/EzP39hNJQvdRj8Cws
+X-Google-Smtp-Source: AGHT+IHRCQKtbRQ230wVUIItJpKcBD3j3LsY4Z8JoR5peHT9p0nvoo+ZJ4j3ZHuq54Sq4ma7S84d/Q==
+X-Received: by 2002:a05:6000:1244:b0:42f:bad7:af76 with SMTP id ffacd0b85a97d-42fbad7b0c9mr3880749f8f.15.1765624673356;
+        Sat, 13 Dec 2025 03:17:53 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b8a841sm18233664f8f.30.2025.12.13.03.17.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Dec 2025 03:17:52 -0800 (PST)
+Date: Sat, 13 Dec 2025 14:17:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+Subject: sound/soc/sdca/sdca_asoc.c:381 entity_pde_event() error:
+ uninitialized symbol 'poll_us'.
+Message-ID: <202512130749.Yq1y2hjQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,132 +78,83 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9d9c1cfec01cdbf24bd9322ed555713a20422115
-commit: 6b53cf48d9339c75fa51927b0a67d8a6751066bd drm/imagination: Enable PowerVR driver for RISC-V
-date:   3 months ago
-config: riscv-randconfig-r134-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131851.1WNXk3BC-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131851.1WNXk3BC-lkp@intel.com/reproduce)
+head:   187d0801404f415f22c0b31531982c7ea97fa341
+commit: 2c8b3a8e6aa877583e5dc2f669a8adc896a771d4 ASoC: SDCA: Create DAPM widgets and routes from DisCo
+config: i386-randconfig-r073-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130749.Yq1y2hjQ-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131851.1WNXk3BC-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512130749.Yq1y2hjQ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/imagination/pvr_cccb.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_fw_util.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_debugfs.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_device_info.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_fw_riscv.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_fw_mips.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_params.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_params.h):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_context.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_cccb.h):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_fw_startstop.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_stream.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_gem.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_fw_meta.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_vm_mips.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_hwrt.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_ccb.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_sync.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_free_list.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_power.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_device.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_fw_trace.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_vm.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_job.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_cccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_mmu.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_drv.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_cccb.h, ...):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_fw.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_ccb.h):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
---
-   drivers/gpu/drm/imagination/pvr_queue.c: note: in included file (through drivers/gpu/drm/imagination/pvr_rogue_fwif.h, drivers/gpu/drm/imagination/pvr_cccb.h):
->> drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h:487:1: sparse: sparse: static assertion failed: "struct rogue_fwif_hwrtdata is incorrect size"
+New smatch warnings:
+sound/soc/sdca/sdca_asoc.c:381 entity_pde_event() error: uninitialized symbol 'poll_us'.
 
-vim +487 drivers/gpu/drm/imagination/pvr_rogue_fwif_check.h
+vim +/poll_us +381 sound/soc/sdca/sdca_asoc.c
 
-a26f067feac1f6 Sarah Walker 2023-11-22  463  
-a26f067feac1f6 Sarah Walker 2023-11-22  464  OFFSET_CHECK(struct rogue_fwif_hwrtdata, pm_mlist_dev_addr, 0);
-a26f067feac1f6 Sarah Walker 2023-11-22  465  OFFSET_CHECK(struct rogue_fwif_hwrtdata, vce_cat_base, 8);
-a26f067feac1f6 Sarah Walker 2023-11-22  466  OFFSET_CHECK(struct rogue_fwif_hwrtdata, vce_last_cat_base, 40);
-a26f067feac1f6 Sarah Walker 2023-11-22  467  OFFSET_CHECK(struct rogue_fwif_hwrtdata, te_cat_base, 72);
-a26f067feac1f6 Sarah Walker 2023-11-22  468  OFFSET_CHECK(struct rogue_fwif_hwrtdata, te_last_cat_base, 104);
-a26f067feac1f6 Sarah Walker 2023-11-22  469  OFFSET_CHECK(struct rogue_fwif_hwrtdata, alist_cat_base, 136);
-a26f067feac1f6 Sarah Walker 2023-11-22  470  OFFSET_CHECK(struct rogue_fwif_hwrtdata, alist_last_cat_base, 144);
-a26f067feac1f6 Sarah Walker 2023-11-22  471  OFFSET_CHECK(struct rogue_fwif_hwrtdata, pm_alist_stack_pointer, 152);
-a26f067feac1f6 Sarah Walker 2023-11-22  472  OFFSET_CHECK(struct rogue_fwif_hwrtdata, pm_mlist_stack_pointer, 160);
-a26f067feac1f6 Sarah Walker 2023-11-22  473  OFFSET_CHECK(struct rogue_fwif_hwrtdata, hwrt_data_common_fw_addr, 164);
-a26f067feac1f6 Sarah Walker 2023-11-22  474  OFFSET_CHECK(struct rogue_fwif_hwrtdata, hwrt_data_flags, 168);
-a26f067feac1f6 Sarah Walker 2023-11-22  475  OFFSET_CHECK(struct rogue_fwif_hwrtdata, state, 172);
-a26f067feac1f6 Sarah Walker 2023-11-22  476  OFFSET_CHECK(struct rogue_fwif_hwrtdata, freelists_fw_addr, 176);
-a26f067feac1f6 Sarah Walker 2023-11-22  477  OFFSET_CHECK(struct rogue_fwif_hwrtdata, freelist_hwr_snapshot, 188);
-a26f067feac1f6 Sarah Walker 2023-11-22  478  OFFSET_CHECK(struct rogue_fwif_hwrtdata, vheap_table_dev_addr, 200);
-a26f067feac1f6 Sarah Walker 2023-11-22  479  OFFSET_CHECK(struct rogue_fwif_hwrtdata, rta_ctl, 208);
-a26f067feac1f6 Sarah Walker 2023-11-22  480  OFFSET_CHECK(struct rogue_fwif_hwrtdata, tail_ptrs_dev_addr, 240);
-a26f067feac1f6 Sarah Walker 2023-11-22  481  OFFSET_CHECK(struct rogue_fwif_hwrtdata, macrotile_array_dev_addr, 248);
-a26f067feac1f6 Sarah Walker 2023-11-22  482  OFFSET_CHECK(struct rogue_fwif_hwrtdata, rgn_header_dev_addr, 256);
-a26f067feac1f6 Sarah Walker 2023-11-22  483  OFFSET_CHECK(struct rogue_fwif_hwrtdata, rtc_dev_addr, 264);
-a26f067feac1f6 Sarah Walker 2023-11-22  484  OFFSET_CHECK(struct rogue_fwif_hwrtdata, owner_geom_not_used_by_host, 272);
-a26f067feac1f6 Sarah Walker 2023-11-22  485  OFFSET_CHECK(struct rogue_fwif_hwrtdata, geom_caches_need_zeroing, 276);
-a26f067feac1f6 Sarah Walker 2023-11-22  486  OFFSET_CHECK(struct rogue_fwif_hwrtdata, cleanup_state, 320);
-a26f067feac1f6 Sarah Walker 2023-11-22 @487  SIZE_CHECK(struct rogue_fwif_hwrtdata, 384);
-a26f067feac1f6 Sarah Walker 2023-11-22  488  
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  341  static int entity_pde_event(struct snd_soc_dapm_widget *widget,
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  342  			    struct snd_kcontrol *kctl, int event)
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  343  {
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  344  	struct snd_soc_component *component = widget->dapm->component;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  345  	struct sdca_entity *entity = widget->priv;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  346  	static const int polls = 100;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  347  	unsigned int reg, val;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  348  	int from, to, i;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  349  	int poll_us;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  350  	int ret;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  351  
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  352  	if (!component)
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  353  		return -EIO;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  354  
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  355  	switch (event) {
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  356  	case SND_SOC_DAPM_POST_PMD:
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  357  		from = widget->on_val;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  358  		to = widget->off_val;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  359  		break;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  360  	case SND_SOC_DAPM_POST_PMU:
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  361  		from = widget->off_val;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  362  		to = widget->on_val;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  363  		break;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  364  	}
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  365  
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  366  	for (i = 0; i < entity->pde.num_max_delay; i++) {
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  367  		struct sdca_pde_delay *delay = &entity->pde.max_delay[i];
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  368  
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  369  		if (delay->from_ps == from && delay->to_ps == to) {
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  370  			poll_us = delay->us / polls;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  371  			break;
 
-:::::: The code at line 487 was first introduced by commit
-:::::: a26f067feac1f6142c3ccbaeaee8f84078bca9d4 drm/imagination: Add FWIF headers
+If we exit the loop without hitting this break then we'd be in trouble.
+It's not clear if that's really possible...
 
-:::::: TO: Sarah Walker <sarah.walker@imgtec.com>
-:::::: CC: Maxime Ripard <mripard@kernel.org>
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  372  		}
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  373  	}
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  374  
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  375  	reg = SDW_SDCA_CTL(SDW_SDCA_CTL_FUNC(widget->reg),
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  376  			   SDW_SDCA_CTL_ENT(widget->reg),
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  377  			   SDCA_CTL_PDE_ACTUAL_PS, 0);
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  378  
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  379  	for (i = 0; i < polls; i++) {
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  380  		if (i)
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16 @381  			fsleep(poll_us);
+                                                                               ^^^^^^^
+
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  382  
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  383  		ret = regmap_read(component->regmap, reg, &val);
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  384  		if (ret)
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  385  			return ret;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  386  		else if (val == to)
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  387  			return 0;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  388  	}
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  389  
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  390  	dev_err(component->dev, "%s: power transition failed: %x\n",
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  391  		entity->label, val);
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  392  	return -ETIMEDOUT;
+2c8b3a8e6aa8775 Charles Keepax 2025-05-16  393  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
