@@ -1,57 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D96E2DE704
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 17:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFE072D9ECB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 17:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765645208; cv=none; b=IUAWb9DNxvlZuwvd76LW9+gRE32AUYOOo+oCgGNqqtcof9wi3yfU3RDCKjoV2f7JOS9gUioq97RuxDFSCEQxK/A8VFLumoMGG9Sd7y7B5nOAos847/YnS5vNb0YmipJtD9ZQCGrI2UotrN2Y3uZa9fjn0UNjg1gKldr/s+oPprE=
+	t=1765645869; cv=none; b=tPXxsQ/kPpAHRqWtZmhqN8g3bYDzFOCDycpGG3jlw+2/A63ZEDBU6sTr0mEpntnKzr6zMjyRsmujlayJCPtV/u2EZ42tJV5goMl6hCfPrXl/p/6hvfBs5BDrNtTkRudKvHteOuGr69gGqLArIc+IJ0ekmJ2uxDgwRDkqCsD/4I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765645208; c=relaxed/simple;
-	bh=HhG6laIO2KPNq+xjvOitKuIK0eJaWfB9ZcHDD5Icm5Q=;
+	s=arc-20240116; t=1765645869; c=relaxed/simple;
+	bh=fyy5xL2HYjpjMgowmt0Ib0jn2opONMADP6KyuJ0HPCk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WhAx97VDxySIj5FiMz8T7s9rkSSRRwqv5H8OnlMzO1zGaMTeLltneGTSc+jh0Kr/iJsg/pdlRfo9MqOcPP1o9peOK6K965HBre0aMEedFDnGiStbKBM7iAONph0G9UIB+7DNZ9ApqB8EFD1p0JabVL1BRvBJn6weJw2DV43l8WM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l/b2QxUR; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=eQC38/FLkiljnNApESPVj/DURIBfyowiHC3HQmS4a/fdNoTw/NhkuXsIy3kiCIxtpbaoEj7beP8Aez5aE18OOY71Q4a8uZTC9derAlw47O6xnSkfCvq/Oo2xwr6Y/ed6LDCtzyCtEVlDbwxoqwph7F7pMZNZpiI03OujLyy5W3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BRcd8GfK; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l/b2QxUR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRcd8GfK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765645206; x=1797181206;
+  t=1765645868; x=1797181868;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HhG6laIO2KPNq+xjvOitKuIK0eJaWfB9ZcHDD5Icm5Q=;
-  b=l/b2QxURJr9BPw2X8VBm9wq00ayTBPFD0NxrN0PflXy3q6e+E4FjLCGO
-   hwnoiVcKNNCHTrXaV5hmTW7x0uKPZ0c9xu0GWO+cUeINZiykd5h5GxPT9
-   BgVBjAo64bfdvVSaH6OP62U6tW8s2NvzBRwAEvLiKsra6H8ewAD19mFny
-   FIHVJ9yI0E0dl0cJOY40M79imsYUsR9p8P+2ZDiTAxTq10dysPGMhiK+M
-   k1TYLg/KOWCMd+e+RS2EVkrncWYUfCb9phLipf9uusaUgr56iHHPjmO96
-   Qr2l/taIOWgdnk7obC0Wx2/uAyFQlP70gdoXtMhou3cRcgw3BvjmzcfS8
-   Q==;
-X-CSE-ConnectionGUID: Bjr2hwxXRAWmsyL83U5SBw==
-X-CSE-MsgGUID: mSDRJVg1T6edTVFvv7vujw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="66789661"
+  bh=fyy5xL2HYjpjMgowmt0Ib0jn2opONMADP6KyuJ0HPCk=;
+  b=BRcd8GfKr40UEeji/443BQfW37GU7sSLaoWOOyDkgQ6IIVUps6lyw18P
+   H6PwDLXgwsnM31UleiXA1I9rtaTWIzQ67Si/gBCi0ahjbc4y9WihJGa1I
+   TK4cPAHpC3glxEM0R6VRzgeVzRm1NlIvvFN5EL7qK/M9bM7c9O0+dqeoz
+   WMVVFkc8J/ybE6sZ7jQakQBxz55FmDdgrJCbEHDEFo9Ew2uLWO3TGdR2v
+   dY8HN+oB40L4fuciaBuKXiLrpIw2k67Pokk3TiRwwoq8jgPiNPW9HY5oD
+   Y+YQBjLrZAe3N9ZB3k4eAgJAkXGo12asP9Glh9j6qSvbF61gFg0dnxwKJ
+   A==;
+X-CSE-ConnectionGUID: oDbLO316TNSOFMrt4kFErw==
+X-CSE-MsgGUID: gHPjYICHRbWUDIkXx1+3OQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="90270242"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="66789661"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 09:00:05 -0800
-X-CSE-ConnectionGUID: VQOKQc6uSrmsRZXIGvxeqA==
-X-CSE-MsgGUID: IeDbWnbLQlS5dw0MQ8icqQ==
+   d="scan'208";a="90270242"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 09:11:08 -0800
+X-CSE-ConnectionGUID: c/vBWUuUQ2Gc9/ptxYeCWQ==
+X-CSE-MsgGUID: Uzj3uptsRVWsLBcYn55uVg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
+   d="scan'208";a="197338000"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Dec 2025 09:00:04 -0800
+  by orviesa007.jf.intel.com with ESMTP; 13 Dec 2025 09:11:06 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUSyQ-000000007xB-2Hx3;
-	Sat, 13 Dec 2025 17:00:02 +0000
-Date: Sun, 14 Dec 2025 00:59:43 +0800
+	id 1vUT95-000000007xz-1Rrj;
+	Sat, 13 Dec 2025 17:11:03 +0000
+Date: Sun, 14 Dec 2025 01:10:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 2/2]
- security/integrity/evm/evm_main.c:788: warning: Excess function parameter
- 'idmap' description in 'evm_inode_setattr'
-Message-ID: <202512140046.iwnXiU82-lkp@intel.com>
+To: Nam Cao <namcao@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Gabriele Monaco <gmonaco@redhat.com>
+Subject: arch/sh/kernel/cpu/sh3/../../entry-common.S:85: Warning: overflow in
+ branch to __restore_all; converted into longer instruction sequence
+Message-ID: <202512140138.RJPb6LkH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,84 +64,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Roberto,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   6f1c2f8fd8c80fa50c9be0270d8474d6fa7412f2
-commit: b050ade6e05b5a54606230f8d5630774359d371f [2/2] evm: Complete description of evm_inode_setattr()
-config: x86_64-buildonly-randconfig-002-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140046.iwnXiU82-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140046.iwnXiU82-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9d9c1cfec01cdbf24bd9322ed555713a20422115
+commit: f74f8bb246cf22f27752977da62079cb615f55b2 rv: Add rtapp_sleep monitor
+date:   5 months ago
+config: sh-randconfig-r112-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140138.RJPb6LkH-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140138.RJPb6LkH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140046.iwnXiU82-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140138.RJPb6LkH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   security/integrity/evm/evm_main.c:335: warning: Excess function parameter 'inode' description in 'evm_read_protected_xattrs'
-   security/integrity/evm/evm_main.c:407: warning: Function parameter or member 'iint' not described in 'evm_verifyxattr'
-   security/integrity/evm/evm_main.c:788: warning: Function parameter or member 'mnt_userns' not described in 'evm_inode_setattr'
->> security/integrity/evm/evm_main.c:788: warning: Excess function parameter 'idmap' description in 'evm_inode_setattr'
+   arch/sh/kernel/cpu/sh3/../../entry-common.S: Assembler messages:
+>> arch/sh/kernel/cpu/sh3/../../entry-common.S:85: Warning: overflow in branch to __restore_all; converted into longer instruction sequence
+>> arch/sh/kernel/cpu/sh3/../../entry-common.S:357: Warning: overflow in branch to syscall_exit_work; converted into longer instruction sequence
+   arch/sh/kernel/cpu/sh3/../../entry-common.S:360: Warning: overflow in branch to syscall_exit_work; converted into longer instruction sequence
 
 
-vim +788 security/integrity/evm/evm_main.c
+vim +85 arch/sh/kernel/cpu/sh3/../../entry-common.S
 
-1886ab01a3fb98e Roberto Sassu     2021-05-14  776  
-817b54aa45db034 Mimi Zohar        2011-05-13  777  /**
-817b54aa45db034 Mimi Zohar        2011-05-13  778   * evm_inode_setattr - prevent updating an invalid EVM extended attribute
-b050ade6e05b5a5 Roberto Sassu     2023-03-06  779   * @idmap: idmap of the mount
-817b54aa45db034 Mimi Zohar        2011-05-13  780   * @dentry: pointer to the affected dentry
-b050ade6e05b5a5 Roberto Sassu     2023-03-06  781   * @attr: iattr structure containing the new file attributes
-50b977481fce90a Matthew Garrett   2017-11-07  782   *
-50b977481fce90a Matthew Garrett   2017-11-07  783   * Permit update of file attributes when files have a valid EVM signature,
-50b977481fce90a Matthew Garrett   2017-11-07  784   * except in the case of them having an immutable portable signature.
-817b54aa45db034 Mimi Zohar        2011-05-13  785   */
-0e363cf3fa598c6 Christian Brauner 2022-06-21  786  int evm_inode_setattr(struct user_namespace *mnt_userns, struct dentry *dentry,
-0e363cf3fa598c6 Christian Brauner 2022-06-21  787  		      struct iattr *attr)
-817b54aa45db034 Mimi Zohar        2011-05-13 @788  {
-817b54aa45db034 Mimi Zohar        2011-05-13  789  	unsigned int ia_valid = attr->ia_valid;
-817b54aa45db034 Mimi Zohar        2011-05-13  790  	enum integrity_status evm_status;
-817b54aa45db034 Mimi Zohar        2011-05-13  791  
-ae1ba1676b88e6c Matthew Garrett   2017-11-07  792  	/* Policy permits modification of the protected attrs even though
-ae1ba1676b88e6c Matthew Garrett   2017-11-07  793  	 * there's no HMAC key loaded
-ae1ba1676b88e6c Matthew Garrett   2017-11-07  794  	 */
-ae1ba1676b88e6c Matthew Garrett   2017-11-07  795  	if (evm_initialized & EVM_ALLOW_METADATA_WRITES)
-ae1ba1676b88e6c Matthew Garrett   2017-11-07  796  		return 0;
-ae1ba1676b88e6c Matthew Garrett   2017-11-07  797  
-a924ce0b35875ef Mimi Zohar        2011-08-11  798  	if (!(ia_valid & (ATTR_MODE | ATTR_UID | ATTR_GID)))
-817b54aa45db034 Mimi Zohar        2011-05-13  799  		return 0;
-817b54aa45db034 Mimi Zohar        2011-05-13  800  	evm_status = evm_verify_current_integrity(dentry);
-cdef685be5b4ae5 Roberto Sassu     2021-05-14  801  	/*
-cdef685be5b4ae5 Roberto Sassu     2021-05-14  802  	 * Writing attrs is safe for portable signatures, as portable signatures
-cdef685be5b4ae5 Roberto Sassu     2021-05-14  803  	 * are immutable and can never be updated.
-cdef685be5b4ae5 Roberto Sassu     2021-05-14  804  	 */
-566be59ab86c0e0 Mimi Zohar        2011-08-22  805  	if ((evm_status == INTEGRITY_PASS) ||
-4a804b8a4572dfc Roberto Sassu     2021-05-20  806  	    (evm_status == INTEGRITY_NOXATTRS) ||
-cdef685be5b4ae5 Roberto Sassu     2021-05-14  807  	    (evm_status == INTEGRITY_FAIL_IMMUTABLE) ||
-4a804b8a4572dfc Roberto Sassu     2021-05-20  808  	    (evm_hmac_disabled() && (evm_status == INTEGRITY_NOLABEL ||
-4a804b8a4572dfc Roberto Sassu     2021-05-20  809  	     evm_status == INTEGRITY_UNKNOWN)))
-566be59ab86c0e0 Mimi Zohar        2011-08-22  810  		return 0;
-1886ab01a3fb98e Roberto Sassu     2021-05-14  811  
-1886ab01a3fb98e Roberto Sassu     2021-05-14  812  	if (evm_status == INTEGRITY_PASS_IMMUTABLE &&
-0e363cf3fa598c6 Christian Brauner 2022-06-21  813  	    !evm_attr_change(mnt_userns, dentry, attr))
-1886ab01a3fb98e Roberto Sassu     2021-05-14  814  		return 0;
-1886ab01a3fb98e Roberto Sassu     2021-05-14  815  
-c6f493d631c4d40 David Howells     2015-03-17  816  	integrity_audit_msg(AUDIT_INTEGRITY_METADATA, d_backing_inode(dentry),
-9b97b6cdd420cd6 Mimi Zohar        2013-02-21  817  			    dentry->d_name.name, "appraise_metadata",
-9b97b6cdd420cd6 Mimi Zohar        2013-02-21  818  			    integrity_status_msg[evm_status], -EPERM, 0);
-566be59ab86c0e0 Mimi Zohar        2011-08-22  819  	return -EPERM;
-817b54aa45db034 Mimi Zohar        2011-05-13  820  }
-817b54aa45db034 Mimi Zohar        2011-05-13  821  
+de39840646a223 Yoshinori Sato 2006-11-05  63  
+de39840646a223 Yoshinori Sato 2006-11-05  64  	.align	2
+de39840646a223 Yoshinori Sato 2006-11-05  65  ret_from_exception:
+cafb0ddac60556 Matt Fleming   2009-08-02  66  	CFI_STARTPROC simple
+cafb0ddac60556 Matt Fleming   2009-08-02  67  	CFI_DEF_CFA r14, 0
+cafb0ddac60556 Matt Fleming   2009-08-02  68  	CFI_REL_OFFSET 17, 64
+142698282ceb68 Matt Fleming   2010-01-27  69  	CFI_REL_OFFSET 15, 60
+cafb0ddac60556 Matt Fleming   2009-08-02  70  	CFI_REL_OFFSET 14, 56
+142698282ceb68 Matt Fleming   2010-01-27  71  	CFI_REL_OFFSET 13, 52
+142698282ceb68 Matt Fleming   2010-01-27  72  	CFI_REL_OFFSET 12, 48
+142698282ceb68 Matt Fleming   2010-01-27  73  	CFI_REL_OFFSET 11, 44
+142698282ceb68 Matt Fleming   2010-01-27  74  	CFI_REL_OFFSET 10, 40
+142698282ceb68 Matt Fleming   2010-01-27  75  	CFI_REL_OFFSET 9, 36
+142698282ceb68 Matt Fleming   2010-01-27  76  	CFI_REL_OFFSET 8, 32
+de39840646a223 Yoshinori Sato 2006-11-05  77  	preempt_stop()
+de39840646a223 Yoshinori Sato 2006-11-05  78  ENTRY(ret_from_irq)
+de39840646a223 Yoshinori Sato 2006-11-05  79  	!
+de39840646a223 Yoshinori Sato 2006-11-05  80  	mov	#OFF_SR, r0
+de39840646a223 Yoshinori Sato 2006-11-05  81  	mov.l	@(r0,r15), r0	! get status register
+de39840646a223 Yoshinori Sato 2006-11-05  82  	shll	r0
+de39840646a223 Yoshinori Sato 2006-11-05  83  	shll	r0		! kernel space?
+de39840646a223 Yoshinori Sato 2006-11-05  84  	get_current_thread_info r8, r0
+de39840646a223 Yoshinori Sato 2006-11-05 @85  	bt	resume_kernel	! Yes, it's from kernel, go back soon
+de39840646a223 Yoshinori Sato 2006-11-05  86  
 
-:::::: The code at line 788 was first introduced by commit
-:::::: 817b54aa45db03437c6d09a7693fc6926eb8e822 evm: add evm_inode_setattr to prevent updating an invalid security.evm
+:::::: The code at line 85 was first introduced by commit
+:::::: de39840646a223ae13a346048c280b7c871bf56e sh: Exception vector rework and SH-2/SH-2A support.
 
-:::::: TO: Mimi Zohar <zohar@linux.vnet.ibm.com>
-:::::: CC: Mimi Zohar <zohar@linux.vnet.ibm.com>
+:::::: TO: Yoshinori Sato <ysato@users.sourceforge.jp>
+:::::: CC: Paul Mundt <lethal@linux-sh.org>
 
 -- 
 0-DAY CI Kernel Test Service
