@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271784A23
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 02:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44EFBE5E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 02:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765591372; cv=none; b=Wnbgb12nczur4AJVurQbo7H5SpwIKfDQdriB/JKlNhQrOJoif/7NdYRklwmAXPuS4SekAYMgFwINd67Lybi59+ONo8FYuybwxWUmCoOXFw/ZFTxb7ernuYBQrmLI9I6nOwBwpTRLY78zTSNZ/qIrmlqwOR+SPK8q8XRrKPDrSms=
+	t=1765591587; cv=none; b=VJI+aySm3EphzVb5ifhjZP9pcWorODJY/X8XmInwJGsegF3YOZgWIkGx5a6qjxRoW7pNGo/bPpOvYA9wN6MS67Cb6WGx0lDlASfsbHvmaCQnvYBoULn25Q2BNLljzCO78XEoVOqWr1okHPyNMmrZ5JyjDdrokv3mN08pjb9FhZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765591372; c=relaxed/simple;
-	bh=vRGMjFxuFo7zQ5CJfnyxFOj+M+5SThyKz+z3WspvXkg=;
+	s=arc-20240116; t=1765591587; c=relaxed/simple;
+	bh=qpXdgyrJG/MkRAUtU2Z1pZDnvfTqArrn6NbLOWD/2Qo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gZRaYgpdaUczaIosQRWA5tgYbxNY16rfjkzkeVG0V5F48jLfaq8YyVZe5sVq7fvQ4CSHyIsmMV6xbjpvcDlmVcGvwa0dOIJ2GQBlfE2pWRr/DMk/rhXBu8uElHLppO9zcaJQL+8xLH2QEzpIs2s2Hc3ib8CticCUDajLPfiBcFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=In4djjlu; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=ObIKTUlyXM52ZQJXKRn9skB59lkyuPWXaQEiSiRyQAe3OAo8CVDuKgC0ELfoRqMxM05vVKWbxWIKZUlV8zAC8tYkmMtwxBpmsrCg9XkafwoI0W91KIbTi5B2suo5JaWPmgG19KOM89+NEcgcKzGWsC2C6yjIPQOYTohzk0SK2y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kzbVopun; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="In4djjlu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kzbVopun"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765591370; x=1797127370;
+  t=1765591585; x=1797127585;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vRGMjFxuFo7zQ5CJfnyxFOj+M+5SThyKz+z3WspvXkg=;
-  b=In4djjluwh4K96tH1Bp27hPLF398V6E5wDP0Yaev5wDsXZfpoQL2Zv+w
-   mOoG1snNo1AaRAhEmMPnAjNIADvf+XtyEfsdQ+srGXzq63CSg9OF9+olq
-   Lp2ajRvleeSmaRgeDP4HCqHk5ylXC5qt4xCaTGZffgpp7mnDVkal5DbQM
-   w5xrG33dmeM8sd6FL6dpH4+kMhldbTImeQEfd4sGIFOVNhtmrJ0Er3AJv
-   qCSHzm88VHynSdvQTmAYTVozOUz3m0wNeQIYVnQhUyviYoyU+/EgfPXgz
-   +Nc2BUNZa6n9sZ3GeFnxdXw2YCh4D0OM3Q1fgVdsasgg05EmK1IbNyMvf
-   A==;
-X-CSE-ConnectionGUID: aJfG7tyrRdC7jgbNjqFt6Q==
-X-CSE-MsgGUID: cyisn9XMQPy205E+qUuN6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="55160133"
+  bh=qpXdgyrJG/MkRAUtU2Z1pZDnvfTqArrn6NbLOWD/2Qo=;
+  b=kzbVopunLswtxhTtAHSiaqN1fPr4A8PcGL7rbiko+QjCiyc1NFdX01wS
+   n8zaj8A4MasJzKDNbC20EPcSqekymDXKEmKGKf321smAup66oRjfDtKpN
+   oEnuUGsJKspkBNuyhb5yJguJ0lvFvICwpDvPMpgy2kpWuZPKxLhyM6rek
+   czZpocY87YiaTXukT1Kqi8GxcXIU6gcn7N2sytau00MKWRLcUovW/ySug
+   KHqbtkOPZJGBO8gL8IAvCVTgXlBBY/srrp0E55ZK3wMaJvhqkLxEt1ER0
+   +erHiBFQt01DF4PhMl0a7YFV4BGPb+TpOwkz36S7Q5SjnDSDFZ25EUcmP
+   g==;
+X-CSE-ConnectionGUID: GNASqRmASd2m94l61r1rCg==
+X-CSE-MsgGUID: 40rx4MxKROm6oiwnmDaupA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="85002888"
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="55160133"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 18:02:49 -0800
-X-CSE-ConnectionGUID: SZc5WiifQxCkDILA6mDwNA==
-X-CSE-MsgGUID: R2u17goFR5qAciY2qS/ELQ==
+   d="scan'208";a="85002888"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 18:06:24 -0800
+X-CSE-ConnectionGUID: UZ302h/jSeepvJ1AP5Ic5Q==
+X-CSE-MsgGUID: vXP47E6MRX2IDUD2sCM4lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="201411555"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 12 Dec 2025 18:02:49 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="227890778"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 12 Dec 2025 18:06:24 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUEy6-000000006ub-0AzQ;
-	Sat, 13 Dec 2025 02:02:46 +0000
-Date: Sat, 13 Dec 2025 10:01:49 +0800
+	id 1vUF1Z-000000001v6-1DuS;
+	Sat, 13 Dec 2025 02:06:21 +0000
+Date: Sat, 13 Dec 2025 03:05:47 +0100
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3541/3541]
- drivers/crypto/montage/tsse/tsse_fw_service.c:40:16: sparse: sparse: cast
- removes address space '__iomem' of expression
-Message-ID: <202512130900.UPe4oSIC-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 50/50] kernel/sched/isolation.c:323:6:
+ warning: no previous prototype for 'update_wilds_cpumask'
+Message-ID: <202512130317.z91zLuhV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,66 +62,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   cd9eb9b4365b71652b2c2ac58293bea47c9f9302
-commit: 811debd4ea52033d7393d4a7de2be11f71c70348 [3541/3541] add support for Mont-TSSE Driver
-config: x86_64-randconfig-r122-20251213 (https://download.01.org/0day-ci/archive/20251213/202512130900.UPe4oSIC-lkp@intel.com/config)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   7c285f40a964b427534f3dab33b104ee9cab6245
+commit: 5814c67f4b329028e1062bc374604613b20c624c [50/50] anolis: sched/isolation: dynamical CPU isolation support
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251213/202512130317.z91zLuhV-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130900.UPe4oSIC-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130317.z91zLuhV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512130900.UPe4oSIC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130317.z91zLuhV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/crypto/montage/tsse/tsse_fw_service.c:40:16: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/crypto/montage/tsse/tsse_fw_service.c:41:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got unsigned char [usertype] *[assigned] h2d @@
-   drivers/crypto/montage/tsse/tsse_fw_service.c:41:21: sparse:     expected void volatile [noderef] __iomem *
-   drivers/crypto/montage/tsse/tsse_fw_service.c:41:21: sparse:     got unsigned char [usertype] *[assigned] h2d
->> drivers/crypto/montage/tsse/tsse_fw_service.c:42:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/crypto/montage/tsse/tsse_fw_service.c:42:25: sparse:     expected void volatile [noderef] __iomem *
-   drivers/crypto/montage/tsse/tsse_fw_service.c:42:25: sparse:     got unsigned char [usertype] *
-   drivers/crypto/montage/tsse/tsse_fw_service.c:26:5: sparse: sparse: symbol 'fw_send_msg' was not declared. Should it be static?
-   drivers/crypto/montage/tsse/tsse_fw_service.c:51:6: sparse: sparse: symbol 'fw_free' was not declared. Should it be static?
-   drivers/crypto/montage/tsse/tsse_fw_service.c:141:22: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/crypto/montage/tsse/tsse_fw_service.c:141:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got unsigned char [usertype] * @@
-   drivers/crypto/montage/tsse/tsse_fw_service.c:141:22: sparse:     expected void volatile [noderef] __iomem *
-   drivers/crypto/montage/tsse/tsse_fw_service.c:141:22: sparse:     got unsigned char [usertype] *
---
->> drivers/crypto/montage/tsse/tsse_vuart.c:61:28: sparse: sparse: cast to restricted __le32
->> drivers/crypto/montage/tsse/tsse_vuart.c:73:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected int value @@     got restricted __le32 [usertype] @@
-   drivers/crypto/montage/tsse/tsse_vuart.c:73:15: sparse:     expected int value
-   drivers/crypto/montage/tsse/tsse_vuart.c:73:15: sparse:     got restricted __le32 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +40 drivers/crypto/montage/tsse/tsse_fw_service.c
+   In file included from kernel/sched/build_utility.c:105:
+>> kernel/sched/isolation.c:323:6: warning: no previous prototype for 'update_wilds_cpumask' [-Wmissing-prototypes]
+     323 | void update_wilds_cpumask(cpumask_var_t new_allowed, cpumask_var_t old_allowed)
+         |      ^~~~~~~~~~~~~~~~~~~~
 
-    25	
-    26	int fw_send_msg(struct tsse_ipc *tsseipc, struct ipc_msg *msg)
-    27	{
-    28		u8 *h2d;
-    29		u32 int_reg;
-    30		u32 rc;
-    31	
-    32		mutex_lock(&tsseipc->list_lock);
-    33	
-    34		int_reg = readl(tsseipc->virt_addr + HOST2MAIN_INTR_SET_OFFSET);
-    35		if ((int_reg & IPC_REGISTER_INT_SET) != 0) {
-    36			rc = -1;
-    37			mutex_unlock(&tsseipc->list_lock);
-    38			return rc;
-    39		}
-  > 40		h2d = (u8 *)(tsseipc->virt_addr + HOST2MAIN_IPC_OFFSET);
-    41		memcpy_toio(h2d, msg, sizeof(struct ipc_header));
-  > 42		memcpy_toio(h2d + sizeof(struct ipc_header), (u32 *)msg->i_data,
-    43			    msg->header.i_len - sizeof(struct ipc_header));
-    44		writel(0x1, tsseipc->virt_addr + HOST2MAIN_INTR_SET_OFFSET);
-    45	
-    46		dev_info(tsseipc->dev, "notify device to get firmware\n");
-    47		mutex_unlock(&tsseipc->list_lock);
-    48		return 0;
-    49	}
-    50	
+
+vim +/update_wilds_cpumask +323 kernel/sched/isolation.c
+
+   322	
+ > 323	void update_wilds_cpumask(cpumask_var_t new_allowed, cpumask_var_t old_allowed)
+   324	{
+   325		struct css_task_iter it;
+   326		struct task_struct *task;
+   327		struct task_group *tg = &root_task_group;
+   328	
+   329		css_task_iter_start(&tg->css, 0, &it);
+   330		while ((task = css_task_iter_next(&it))) {
+   331			if (task->flags & PF_KTHREAD)
+   332				continue;
+   333	
+   334			if (!cpumask_equal(task->cpus_ptr, old_allowed))
+   335				continue;
+   336	
+   337			set_cpus_allowed_ptr(task, new_allowed);
+   338		}
+   339		css_task_iter_end(&it);
+   340	}
+   341	
 
 -- 
 0-DAY CI Kernel Test Service
