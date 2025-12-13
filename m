@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3503479CF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 09:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A78D79CF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 09:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765616547; cv=none; b=CBFx2BdXkXP5IBv/3DokVhBFL0XVU/yHhWwfp9t0qujNxcnY3tls9dwIElaoHfc6QuDJaoDDL1/2J+8YkNcieSgLFKIDCp/MQjmSSsUncz9wNOHFTTbUFMVrA3+sRabs/KGxLLTiFhZT2twUO+Npq2ySmk7SIFT3tDYgHmgCiMc=
+	t=1765616557; cv=none; b=dr3LyCV4RRLPTsvEBKWSjng0x6convUJ87yT0rbaXikkGuFyhqZyLbxgvyRmLRIomCcpE4vL2MGGHZ8EsdkRe/dyTpnwwL29MWUshXyfWmIZ0ATcGypRTmJbTOr1iZz4BN4T8t5HtXuXA+4PwgLNnVrDQjvI2Q1xT0irRrnSBcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765616547; c=relaxed/simple;
-	bh=yRD/v4DwwV3APmwDPUAkcL2A/4xp8U1BFuQDcdD93U4=;
+	s=arc-20240116; t=1765616557; c=relaxed/simple;
+	bh=vS6tc/T8dTwQa6gr8NKQnQGtg7CSf0EQY41SgFrgKYc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LhH7dNqxcrYKIDOaArUSUgLsPR02g0CsKIc+ExYZmT7oFB27UHbH78pT8r34VNQbnLB9ipWqGqN8G3j6u89YpjYEAviC4Aga3lCqAN++g/NPYQWeDoHL/cgNqs5oNWSWlu5xziMXbNZJ0o9TZTYxFlML5etC4WEOrmZe241Da/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=arTOlir1; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=eYcV5yXFSi3wZf1fV42dA1Ri+3Ux5EeB9lAeP8FRkI9EX/ga1gqJ5nFthjD/LfvO43Q6k3OAKICiy5LYro4I5DdTRG4mii+Tfy+XtSRVcDl4+vQiN/PDVZIXbC/SvWZlnpDVmk0uH5ZoqW+sLo223BC48G4sARuA3NCx4M3Cago=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SeqI5P7u; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="arTOlir1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SeqI5P7u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765616544; x=1797152544;
+  t=1765616554; x=1797152554;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yRD/v4DwwV3APmwDPUAkcL2A/4xp8U1BFuQDcdD93U4=;
-  b=arTOlir1O0OtB7nJyd1U3WTpH5wrQWlC7CTXYo/EHQyJtMCXjRElj0jH
-   HXUDYj2mkERTqgDDPMvhy55yy18VAV810J8EtYRqZ7ELlHeAG32nSnHCx
-   9NQet1pcJUSEBm6i+DtQq2kDb6QZzcyhB1RslD//S33Fgv5sbbz+fhHow
-   MPN9UTWIbgG8IbWXaE+ok0xGQmJNS5aLq9DzLpmOhOrwobMqu/oSe/RCD
-   tgmRsnCRYQ3A7DDfgf0IaKsL3S1LUGlFQPk6E1J97lXj91Er/ZnIxS316
-   IdW/Ra1OiIMyaL+fhMq2FRABWX6y4rzGF34CfEJDk4+IAaBFJecgEMAAe
-   Q==;
-X-CSE-ConnectionGUID: YbcG3+jdR/inUPeN3SHDDQ==
-X-CSE-MsgGUID: OfwDBk55S/afubymUm3nGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="55170023"
+  bh=vS6tc/T8dTwQa6gr8NKQnQGtg7CSf0EQY41SgFrgKYc=;
+  b=SeqI5P7uHOcap78RTWglgaNdi8G27FbaNWDCfmDFUV/wWz0MGGFQ5QMt
+   WQfzyKzlobXpqZnm061Jy2MIpH1AiuRHQ3OXxy/i8ivBJk21r5zvI26LA
+   uVDx0XpCfupX+Y1g7nHAgwf/QJMnVZwHQYEXvybBKUhzNg6jW7BKyz3F6
+   AfV+AfK9QoF/Yr26b0t13nydmp52CRsjYgik02DPNgbfEci3RahmiNgEW
+   IyojcdGfBi+Ag1NYV+MTCCLvLQWBk+sKJQRgyoLe2GHH6p56Jt0COYCrh
+   PoSfQgHJnDWTMc/3H0fnCaq/1MDomu75mF18lmn8lWpRYEAT7S8L7c6C3
+   A==;
+X-CSE-ConnectionGUID: p1dAeS02TKaoj5R7sbgW1A==
+X-CSE-MsgGUID: yQKHPgpSTL25ldB9lSXdDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="66778407"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="55170023"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 01:02:23 -0800
-X-CSE-ConnectionGUID: 55iwbf2xQdGn+WJOrJljhg==
-X-CSE-MsgGUID: nUaIF9E3QBOZbneAScXxeQ==
+   d="scan'208";a="66778407"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 01:02:24 -0800
+X-CSE-ConnectionGUID: XfLJs/KzSsOg/+BcVadyuA==
+X-CSE-MsgGUID: LJ1zmCV7TCe50EoxT32RcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="197346482"
+   d="scan'208";a="197282230"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 13 Dec 2025 01:02:22 -0800
+  by orviesa007.jf.intel.com with ESMTP; 13 Dec 2025 01:02:23 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vULW8-000000007O7-0fPD;
+	id 1vULW8-000000007OE-1I8X;
 	Sat, 13 Dec 2025 09:02:20 +0000
-Date: Sat, 13 Dec 2025 17:02:15 +0800
+Date: Sat, 13 Dec 2025 17:02:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 50/50]
- drivers/block/virtio_blk.c:2602:25: warning: unused variable 'i'
-Message-ID: <202512131656.uAxfyeqm-lkp@intel.com>
+To: Tiwei Bie <tiwei.btw@antgroup.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Johannes Berg <johannes.berg@intel.com>
+Subject: drivers/hwspinlock/stm32_hwspinlock.c:30:39: sparse: sparse:
+ incorrect type in initializer (different address spaces)
+Message-ID: <202512131607.OYx5Sxj6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,120 +63,261 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   7c285f40a964b427534f3dab33b104ee9cab6245
-commit: 86ff9a5ab6a61894343af26f16f9439842b1bc5f [50/50] anolis: virtio-blk: add ring pair support
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20251213/202512131656.uAxfyeqm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131656.uAxfyeqm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a859eca0e4cc96f63ff125dbe5388d961558b0e9
+commit: a0e2cb6a90634f3dc80f16e882a683ee5761b0b0 um: Add VFIO-based virtual PCI driver
+date:   7 months ago
+config: um-randconfig-r111-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131607.OYx5Sxj6-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131607.OYx5Sxj6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131656.uAxfyeqm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131607.OYx5Sxj6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwspinlock/stm32_hwspinlock.c:30:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *lock_addr @@     got void *priv @@
+   drivers/hwspinlock/stm32_hwspinlock.c:30:39: sparse:     expected void [noderef] __iomem *lock_addr
+   drivers/hwspinlock/stm32_hwspinlock.c:30:39: sparse:     got void *priv
+   drivers/hwspinlock/stm32_hwspinlock.c:41:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *lock_addr @@     got void *priv @@
+   drivers/hwspinlock/stm32_hwspinlock.c:41:39: sparse:     expected void [noderef] __iomem *lock_addr
+   drivers/hwspinlock/stm32_hwspinlock.c:41:39: sparse:     got void *priv
+   drivers/hwspinlock/stm32_hwspinlock.c:110:39: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *priv @@     got void [noderef] __iomem * @@
+   drivers/hwspinlock/stm32_hwspinlock.c:110:39: sparse:     expected void *priv
+   drivers/hwspinlock/stm32_hwspinlock.c:110:39: sparse:     got void [noderef] __iomem *
+--
+>> drivers/rpmsg/qcom_glink_smem.c:108:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/rpmsg/qcom_glink_smem.c:108:48: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/rpmsg/qcom_glink_smem.c:108:48: sparse:     got void *
+>> drivers/rpmsg/qcom_glink_smem.c:111:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *fifo @@
+   drivers/rpmsg/qcom_glink_smem.c:111:47: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/rpmsg/qcom_glink_smem.c:111:47: sparse:     got void *fifo
+--
+   drivers/rpmsg/qcom_smd.c:510:53: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __iomem *src @@     got void * @@
+   drivers/rpmsg/qcom_smd.c:510:53: sparse:     expected void const [noderef] __iomem *src
+   drivers/rpmsg/qcom_smd.c:510:53: sparse:     got void *
+>> drivers/rpmsg/qcom_smd.c:517:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __iomem *src @@     got void *rx_fifo @@
+   drivers/rpmsg/qcom_smd.c:517:43: sparse:     expected void const [noderef] __iomem *src
+   drivers/rpmsg/qcom_smd.c:517:43: sparse:     got void *rx_fifo
+   drivers/rpmsg/qcom_smd.c:711:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *dst @@     got void * @@
+   drivers/rpmsg/qcom_smd.c:711:51: sparse:     expected void [noderef] __iomem *dst
+   drivers/rpmsg/qcom_smd.c:711:51: sparse:     got void *
+>> drivers/rpmsg/qcom_smd.c:718:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *dst @@     got void *tx_fifo @@
+   drivers/rpmsg/qcom_smd.c:718:41: sparse:     expected void [noderef] __iomem *dst
+   drivers/rpmsg/qcom_smd.c:718:41: sparse:     got void *tx_fifo
+--
+   drivers/soc/qcom/smsm.c:159:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *local_state @@
+   drivers/soc/qcom/smsm.c:159:32: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/qcom/smsm.c:159:32: sparse:     got unsigned int [usertype] *local_state
+   drivers/soc/qcom/smsm.c:171:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *local_state @@
+   drivers/soc/qcom/smsm.c:171:25: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/soc/qcom/smsm.c:171:25: sparse:     got unsigned int [usertype] *local_state
+   drivers/soc/qcom/smsm.c:181:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:181:48: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/qcom/smsm.c:181:48: sparse:     got unsigned int [usertype] *
+>> drivers/soc/qcom/smsm.c:219:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *remote_state @@
+   drivers/soc/qcom/smsm.c:219:26: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/qcom/smsm.c:219:26: sparse:     got unsigned int [usertype] *remote_state
+   drivers/soc/qcom/smsm.c:257:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:257:49: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/qcom/smsm.c:257:49: sparse:     got unsigned int [usertype] *
+   drivers/soc/qcom/smsm.c:259:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:259:49: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/soc/qcom/smsm.c:259:49: sparse:     got unsigned int [usertype] *
+   drivers/soc/qcom/smsm.c:280:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *remote_state @@
+   drivers/soc/qcom/smsm.c:280:24: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/qcom/smsm.c:280:24: sparse:     got unsigned int [usertype] *remote_state
+   drivers/soc/qcom/smsm.c:288:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:288:49: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/qcom/smsm.c:288:49: sparse:     got unsigned int [usertype] *
+   drivers/soc/qcom/smsm.c:290:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:290:49: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/soc/qcom/smsm.c:290:49: sparse:     got unsigned int [usertype] *
+   drivers/soc/qcom/smsm.c:330:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] *remote_state @@
+   drivers/soc/qcom/smsm.c:330:26: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/soc/qcom/smsm.c:330:26: sparse:     got unsigned int [usertype] *remote_state
+   drivers/soc/qcom/smsm.c:635:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
+   drivers/soc/qcom/smsm.c:635:47: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/soc/qcom/smsm.c:635:47: sparse:     got unsigned int [usertype] *
+--
+>> drivers/usb/fotg210/fotg210-udc.c:681:33: sparse: sparse: restricted __le16 degrades to integer
+   drivers/usb/fotg210/fotg210-udc.c:691:25: sparse: sparse: restricted __le16 degrades to integer
+   drivers/usb/fotg210/fotg210-udc.c:747:29: sparse: sparse: restricted __le16 degrades to integer
+--
+>> drivers/usb/typec/ucsi/ucsi_glink.c:86:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] owner @@     got int @@
+   drivers/usb/typec/ucsi/ucsi_glink.c:86:23: sparse:     expected restricted __le32 [usertype] owner
+   drivers/usb/typec/ucsi/ucsi_glink.c:86:23: sparse:     got int
+   drivers/usb/typec/ucsi/ucsi_glink.c:87:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
+   drivers/usb/typec/ucsi/ucsi_glink.c:87:22: sparse:     expected restricted __le32 [usertype] type
+   drivers/usb/typec/ucsi/ucsi_glink.c:87:22: sparse:     got int
+   drivers/usb/typec/ucsi/ucsi_glink.c:88:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] opcode @@     got int @@
+   drivers/usb/typec/ucsi/ucsi_glink.c:88:24: sparse:     expected restricted __le32 [usertype] opcode
+   drivers/usb/typec/ucsi/ucsi_glink.c:88:24: sparse:     got int
+   drivers/usb/typec/ucsi/ucsi_glink.c:138:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] owner @@     got int @@
+   drivers/usb/typec/ucsi/ucsi_glink.c:138:23: sparse:     expected restricted __le32 [usertype] owner
+   drivers/usb/typec/ucsi/ucsi_glink.c:138:23: sparse:     got int
+   drivers/usb/typec/ucsi/ucsi_glink.c:139:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] type @@     got int @@
+   drivers/usb/typec/ucsi/ucsi_glink.c:139:22: sparse:     expected restricted __le32 [usertype] type
+   drivers/usb/typec/ucsi/ucsi_glink.c:139:22: sparse:     got int
+   drivers/usb/typec/ucsi/ucsi_glink.c:140:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] opcode @@     got int @@
+   drivers/usb/typec/ucsi/ucsi_glink.c:140:24: sparse:     expected restricted __le32 [usertype] opcode
+   drivers/usb/typec/ucsi/ucsi_glink.c:140:24: sparse:     got int
+--
+   drivers/gpu/drm/radeon/cik.c:1878:29: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:1880:46: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:1881:30: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:1883:46: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:3909:47: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:3910:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:3914:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:3918:46: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:3919:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:3923:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:3927:46: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:3926:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 const [usertype] *[assigned] fw_data @@     got restricted __be32 const [usertype] * @@
+   drivers/gpu/drm/radeon/cik.c:3926:25: sparse:     expected restricted __le32 const [usertype] *[assigned] fw_data
+   drivers/gpu/drm/radeon/cik.c:3926:25: sparse:     got restricted __be32 const [usertype] *
+   drivers/gpu/drm/radeon/cik.c:3928:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:3932:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:3933:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:4265:47: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:4266:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:4270:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:4279:34: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:4280:35: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:4284:25: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:5943:47: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:5947:24: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:5951:17: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6433:62: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6434:48: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6435:46: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6439:63: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6440:48: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6441:46: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6445:62: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6446:48: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6447:46: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6451:63: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6452:48: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6453:46: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6457:64: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6458:48: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:6459:46: sparse: sparse: cast to restricted __le32
+>> drivers/gpu/drm/radeon/cik.c:6463:56: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6463:56: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6463:56: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6486:56: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6486:56: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6486:56: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6710:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6710:25: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6710:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6711:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6711:25: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6711:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6713:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6713:25: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6713:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6714:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6714:25: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6714:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6715:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6715:25: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6715:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6720:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6720:49: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6720:49: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6722:49: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6722:49: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6722:49: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6724:57: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6724:57: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6724:57: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6731:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6731:25: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6731:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6732:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6732:25: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6732:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6735:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6735:33: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6735:33: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6736:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6736:33: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6736:33: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6739:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6739:33: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6739:33: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6740:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6740:33: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6740:33: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6744:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6744:33: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6744:33: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6745:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6745:33: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6745:33: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6748:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6748:33: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6748:33: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6749:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6749:33: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6749:33: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6752:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6752:33: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6752:33: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6753:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6753:33: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6753:33: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6757:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6757:25: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6757:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6758:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6758:25: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6758:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6760:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6760:25: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6760:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:6761:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/cik.c:6761:25: sparse:     expected unsigned int volatile [usertype]
+   drivers/gpu/drm/radeon/cik.c:6761:25: sparse:     got restricted __le32 [usertype]
+   drivers/gpu/drm/radeon/cik.c:7576:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:7577:28: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:7578:27: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:7486:24: sparse: sparse: cast to restricted __le32
+   drivers/gpu/drm/radeon/cik.c:7486:24: sparse: sparse: cast to restricted __le32
+--
+   drivers/gpu/drm/radeon/r100.c:713:16: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/gpu/drm/radeon/r100.c:713:16: sparse:     expected unsigned int [usertype]
+   drivers/gpu/drm/radeon/r100.c:713:16: sparse:     got restricted __le32 [usertype]
+>> drivers/gpu/drm/radeon/r100.c:1099:24: sparse: sparse: cast to restricted __le32
+--
+>> drivers/video/fbdev/mb862xx/mb862xxfb_accel.c:105:55: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/video/fbdev/mb862xx/mb862xxfb_accel.c:105:55: sparse:     expected unsigned int [usertype]
+   drivers/video/fbdev/mb862xx/mb862xxfb_accel.c:105:55: sparse:     got restricted __be32 [usertype]
 
-   drivers/block/virtio_blk.c: In function 'virtblk_probe':
->> drivers/block/virtio_blk.c:2602:25: warning: unused variable 'i' [-Wunused-variable]
-    2602 |         int err, index, i;
-         |                         ^
+vim +30 drivers/hwspinlock/stm32_hwspinlock.c
 
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14  27  
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14  28  static int stm32_hwspinlock_trylock(struct hwspinlock *lock)
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14  29  {
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14 @30  	void __iomem *lock_addr = lock->priv;
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14  31  	u32 status;
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14  32  
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14  33  	writel(STM32_MUTEX_LOCK_BIT | STM32_MUTEX_COREID, lock_addr);
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14  34  	status = readl(lock_addr);
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14  35  
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14  36  	return status == (STM32_MUTEX_LOCK_BIT | STM32_MUTEX_COREID);
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14  37  }
+f24fcff1d267da0 Benjamin Gaignard 2018-11-14  38  
 
-vim +/i +2602 drivers/block/virtio_blk.c
+:::::: The code at line 30 was first introduced by commit
+:::::: f24fcff1d267da08c4bbb3869e7f4b36ce916b76 hwspinlock: add STM32 hwspinlock device
 
-  2597	
-  2598	static int virtblk_probe(struct virtio_device *vdev)
-  2599	{
-  2600		struct virtio_blk *vblk;
-  2601		struct request_queue *q;
-> 2602		int err, index, i;
-  2603	
-  2604		u32 v, blk_size, max_size, sg_elems, opt_io_size;
-  2605		u32 max_discard_segs = 0;
-  2606		u32 discard_granularity = 0;
-  2607		u16 min_io_size;
-  2608		u8 physical_block_exp, alignment_offset;
-  2609		unsigned int queue_depth;
-  2610		size_t max_dma_size;
-  2611	
-  2612		if (!vdev->config->get) {
-  2613			dev_err(&vdev->dev, "%s failure: config access disabled\n",
-  2614				__func__);
-  2615			return -EINVAL;
-  2616		}
-  2617	
-  2618		err = ida_alloc_range(&vd_index_ida, 0,
-  2619				      minor_to_index(1 << MINORBITS) - 1, GFP_KERNEL);
-  2620		if (err < 0)
-  2621			goto out;
-  2622		index = err;
-  2623	
-  2624		/* We need to know how many segments before we allocate. */
-  2625		err = virtio_cread_feature(vdev, VIRTIO_BLK_F_SEG_MAX,
-  2626					   struct virtio_blk_config, seg_max,
-  2627					   &sg_elems);
-  2628	
-  2629		/* We need at least one SG element, whatever they say. */
-  2630		if (err || !sg_elems)
-  2631			sg_elems = 1;
-  2632	
-  2633		/* Prevent integer overflows and honor max vq size */
-  2634		sg_elems = min_t(u32, sg_elems, VIRTIO_BLK_MAX_SG_ELEMS - 2);
-  2635	
-  2636		vdev->priv = vblk = kzalloc(sizeof(*vblk), GFP_KERNEL);
-  2637		if (!vblk) {
-  2638			err = -ENOMEM;
-  2639			goto out_free_index;
-  2640		}
-  2641	
-  2642		mutex_init(&vblk->vdev_mutex);
-  2643	
-  2644		vblk->vdev = vdev;
-  2645	
-  2646		INIT_WORK(&vblk->config_work, virtblk_config_changed_work);
-  2647	
-  2648		err = init_vq(vblk);
-  2649		if (err)
-  2650			goto out_free_vblk;
-  2651	
-  2652		/* Default queue sizing is to fill the ring. */
-  2653		if (!virtblk_queue_depth) {
-  2654			queue_depth = vblk->vqs[0].vq->num_free;
-  2655			/* ... but without indirect descs, we use 2 descs per req */
-  2656			if (!virtio_has_feature(vdev, VIRTIO_RING_F_INDIRECT_DESC))
-  2657				queue_depth /= 2;
-  2658		} else {
-  2659			queue_depth = virtblk_queue_depth;
-  2660		}
-  2661	
-  2662		memset(&vblk->tag_set, 0, sizeof(vblk->tag_set));
-  2663	#ifdef CONFIG_VIRTIO_BLK_RING_PAIR
-  2664		vblk->tag_set.ops = vblk->ring_pair ? &virtio_mq_pair_ops :
-  2665						      &virtio_mq_ops;
-  2666		vblk->tag_set.nr_hw_queues = vblk->ring_pair ? vblk->num_vqs / VIRTBLK_RING_NUM :
-  2667							vblk->num_vqs;
-  2668	#else
-  2669		vblk->tag_set.ops = &virtio_mq_ops;
-  2670		vblk->tag_set.nr_hw_queues = vblk->num_vqs;
-  2671	#endif
-  2672		vblk->tag_set.queue_depth = queue_depth;
-  2673		vblk->tag_set.numa_node = NUMA_NO_NODE;
-  2674		vblk->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
-  2675		/* For bidirectional passthrough vblk request, both WRITE and READ
-  2676		 * operations need pre-alloc inline SGs. So we should prealloc twice
-  2677		 * the size than original ways. Due to the inability to predict whether
-  2678		 * a request is bidirectional, there may be memory wastage, but won't
-  2679		 * be significant.
-  2680		 */
-  2681		vblk->tag_set.cmd_size =
-  2682			sizeof(struct virtblk_req) +
-  2683			sizeof(struct scatterlist) * 2 * VIRTIO_BLK_INLINE_SG_CNT;
-  2684		vblk->tag_set.driver_data = vblk;
-  2685		vblk->tag_set.nr_maps = 1;
-  2686		if (vblk->io_queues[HCTX_TYPE_POLL])
-  2687			vblk->tag_set.nr_maps = 3;
-  2688	
+:::::: TO: Benjamin Gaignard <benjamin.gaignard@st.com>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
