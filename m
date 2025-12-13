@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7766122ACEF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 21:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24883FCC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 21:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765660285; cv=none; b=DUGS4Qinm5vyuYEoKLV9Dhm5gWIipri+G+dehHCjv8emvVjNsWVFAH3rbQMK/SdcphT0duDDAj+GrJ8CzTqOu0u4zbnu5OEG1kySKgq+MNVQyEu+g7ERYLtG+hI5VxF4N+Au+M3bDVl+Ni64MrGxNm1E5RmnR43AAc2ktg+7XOg=
+	t=1765660659; cv=none; b=QzDZTX32kaH5Ut7fHlLXdnPg4fsQwIWWZtKeHM70o10oBJJkb9RPLx3Dz0whys726yfDc3WuZRMhY7mnZSLJGJGVLykGELAQU4kpLtzK8RdC5fL83tM7l69H20RbJr044v+Toy74gLi7nAWKYtxrWis+ojxXHR9RuGhfwboMwZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765660285; c=relaxed/simple;
-	bh=9hPDhrbxZuLf3NzFZ1gTE/odshF7rVcAgyF9FFI9HkE=;
+	s=arc-20240116; t=1765660659; c=relaxed/simple;
+	bh=anUHfnY1Bl50uNsyE/Wd55/Emg7f1Lk7ZoTm4L7z7xg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uWZGRInPM5A9d/D0zqz7LIOYPdvepQ10chysvET9WHiJT8KuxL7ACPHhnhh5TkiQw9mJIh6cm+mTSzo8nAiZEscgVbnD4o0hj9Sg8iBwaL3Ja4LuGkKS53J2cwRXHIfZjhLMcu1Flh8HXX3TSYMRuuzKpIwI519/WAyJ5J7T9Ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GgKZa9XG; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=AhOEooaw7n6F/U0yvRWLI8XtRfr2ogutfCCtnF3ZJVKwb0Yjp1rqcbHC5Nh1FgFcz3AKlbldXoFZj9iZ+o04KXUqXnvXI/VAsafmrPFGfVaKZo5brhY4O6t2uJrdzd9mrmlB78FflljXySIQ8kVo0aFMisxbqnOvrKv9O8k4f1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lPgQVJ7/; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GgKZa9XG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lPgQVJ7/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765660283; x=1797196283;
+  t=1765660658; x=1797196658;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9hPDhrbxZuLf3NzFZ1gTE/odshF7rVcAgyF9FFI9HkE=;
-  b=GgKZa9XGTi+Fzxf6EIjjusXIm0xrslxqk3XCqYs+j5/yNlSXHuQo7+iK
-   BSzQK5xcwhlVkodEBga6WSTz4IxaXaR/s+KwFHkpkuocTQQV6e5lTBNgX
-   JpqBdBva6AafMNPj39f/6jyUaNPzvnJqJfDFo7N71oYV7J/zYg583ZVaj
-   fjko+ZeH6LQMB9SWS7GP1PJocxxXbsIrv6vglI7K3EZsT3Ykl7NCjMb1y
-   eYveWqvzOvIg0SrNpiAo6txFkr2degyzaWmyoF0bNFTos7FY2Z9kXV6zS
-   8VB/cAF6H4EY8DQ/wue0E53ZAG7np5+LbqTNlxeZHOfc5enQgZonTBnf1
-   w==;
-X-CSE-ConnectionGUID: HRgQtzZJQmSEVW4Q3RIt7A==
-X-CSE-MsgGUID: x9HHg+nbRCuhRdQ6HkjSXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="71251384"
+  bh=anUHfnY1Bl50uNsyE/Wd55/Emg7f1Lk7ZoTm4L7z7xg=;
+  b=lPgQVJ7/POsJv2RSTZtHr9I7p7y51d2/0s8HZ6Rb3MdWH7JGeKI+d+gX
+   h4ZNKgW2nZ1IGuIFHUPK8CWfvbzsCwwMgkk5iy7hWxj9sjkousj1h9LdZ
+   4pATGdAoGeQaf/b+JE7YKuz2afgVVHADQHV5Wf/+4x8vuCu9fCP3iIDMp
+   8WLBbyS1GdWqdBM43yBnuZ/u05MxgKbJp6SDDfpToI0zcXFkoVc0vb7IP
+   WAYjFrwrDAyRc8DT1gjPLF9FNkKFYypVeApUbOD1m5N0nlQhDb+R4/zKQ
+   Sc4BauLATS9DG6YCeA1q44BQEWitxCI+9aRPWV1oxuIqCUrYLO9TmfuiL
+   g==;
+X-CSE-ConnectionGUID: i6wBKZTJRBSQC3YX+Efpww==
+X-CSE-MsgGUID: HTLOhutYRZWoqpD+Zzp4ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67582921"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="71251384"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 13:11:23 -0800
-X-CSE-ConnectionGUID: 9oc5Zx2TRH2nYi+wTJpt4A==
-X-CSE-MsgGUID: wJCsSzLSSSiMHcYNPovfmA==
+   d="scan'208";a="67582921"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 13:17:38 -0800
+X-CSE-ConnectionGUID: +Gpou0CRSlSdUVaCOTtjew==
+X-CSE-MsgGUID: wGwnq4+jRAeoAkFzi/Er+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="196657211"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 13 Dec 2025 13:11:22 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="201560539"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 13 Dec 2025 13:17:37 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUWtb-000000008DR-1YaS;
-	Sat, 13 Dec 2025 21:11:19 +0000
-Date: Sun, 14 Dec 2025 05:10:38 +0800
+	id 1vUWzd-000000002BE-2ufP;
+	Sat, 13 Dec 2025 21:17:33 +0000
+Date: Sat, 13 Dec 2025 22:16:34 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ben Skeggs <bskeggs@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dave Airlie <airlied@redhat.com>, Timur Tabi <ttabi@nvidia.com>
-Subject: drivers/gpu/drm/nouveau/nvif/chan.c:71:29: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202512140520.YnlRkcFb-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1941/1941] mm/hugetlb.c:1370:6:
+ warning: no previous prototype for 'free_huge_page_to_dhugetlb_pool'
+Message-ID: <202512132206.SiQCfPUr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,56 +62,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9d9c1cfec01cdbf24bd9322ed555713a20422115
-commit: d1fb887a08d8a21284e9a4be476f103353a32e7a drm/nouveau/nv50-: separate CHANNEL_GPFIFO handling out from CHANNEL_DMA
-date:   7 months ago
-config: sparc64-randconfig-r133-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140520.YnlRkcFb-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140520.YnlRkcFb-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5a399b91821faeec2466751db2d714b24f8eb17c
+commit: 0bc0d0d57edacd59ebe38d05ad9c4b2bc185aa51 [1941/1941] dhugetlb: backport dynamic hugetlb feature
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251213/202512132206.SiQCfPUr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512132206.SiQCfPUr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140520.YnlRkcFb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512132206.SiQCfPUr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/nouveau/nvif/chan.c:11:32: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/gpu/drm/nouveau/nvif/chan.c:71:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *ptr @@     got void *userd @@
-   drivers/gpu/drm/nouveau/nvif/chan.c:71:29: sparse:     expected void [noderef] __iomem *ptr
-   drivers/gpu/drm/nouveau/nvif/chan.c:71:29: sparse:     got void *userd
-   drivers/gpu/drm/nouveau/nvif/chan.c:73:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *ptr @@     got void *gpfifo @@
-   drivers/gpu/drm/nouveau/nvif/chan.c:73:30: sparse:     expected void [noderef] __iomem *ptr
-   drivers/gpu/drm/nouveau/nvif/chan.c:73:30: sparse:     got void *gpfifo
-   drivers/gpu/drm/nouveau/nvif/chan.c:77:39: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *ptr @@     got void *push @@
-   drivers/gpu/drm/nouveau/nvif/chan.c:77:39: sparse:     expected void [noderef] __iomem *ptr
-   drivers/gpu/drm/nouveau/nvif/chan.c:77:39: sparse:     got void *push
-   drivers/gpu/drm/nouveau/nvif/chan.c:89:32: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/gpu/drm/nouveau/nvif/chan.c:123:22: sparse: sparse: cast removes address space '__iomem' of expression
+All warnings (new ones prefixed by >>):
 
-vim +71 drivers/gpu/drm/nouveau/nvif/chan.c
+>> mm/hugetlb.c:1370:6: warning: no previous prototype for 'free_huge_page_to_dhugetlb_pool' [-Wmissing-prototypes]
+    1370 | void free_huge_page_to_dhugetlb_pool(struct page *page, bool restore_reserve)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+>> mm/memcontrol.c:5008:6: warning: no previous prototype for 'dhugetlb_pool_is_free' [-Wmissing-prototypes]
+    5008 | bool dhugetlb_pool_is_free(struct cgroup_subsys_state *css)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   mm/memcontrol.c:6718: warning: bad line:                | 0, otherwise.
 
-    64	
-    65	void
-    66	nvif_chan_gpfifo_ctor(const struct nvif_chan_func *func, void *userd, void *gpfifo, u32 gpfifo_size,
-    67			      void *push, u64 push_addr, u32 push_size, struct nvif_chan *chan)
-    68	{
-    69		chan->func = func;
-    70	
-  > 71		chan->userd.map.ptr = userd;
-    72	
-    73		chan->gpfifo.map.ptr = gpfifo;
-    74		chan->gpfifo.max = (gpfifo_size >> 3) - 1;
-    75		chan->gpfifo.free = chan->gpfifo.max;
-    76	
-    77		chan->push.mem.object.map.ptr = push;
-    78		chan->push.wait = nvif_chan_gpfifo_push_wait;
-    79		chan->push.kick = nvif_chan_gpfifo_push_kick;
-    80		chan->push.addr = push_addr;
-    81		chan->push.hw.max = push_size >> 2;
-    82		chan->push.bgn = chan->push.cur = chan->push.end = push;
-    83	}
-    84	
+
+vim +/free_huge_page_to_dhugetlb_pool +1370 mm/hugetlb.c
+
+  1324	
+  1325	#ifdef CONFIG_DYNAMIC_HUGETLB
+  1326	static void free_huge_page_to_dhugetlb_pool(struct page *page,
+  1327						    bool restore_reserve)
+  1328	{
+  1329		struct hstate *h = page_hstate(page);
+  1330		struct dhugetlb_pool *hpool;
+  1331	
+  1332		hpool = get_dhugetlb_pool_from_dhugetlb_pagelist(page);
+  1333		if (unlikely(!hpool)) {
+  1334			pr_err("dhugetlb: free error: get hpool failed\n");
+  1335			return;
+  1336		}
+  1337	
+  1338		spin_lock(&hpool->lock);
+  1339		ClearPagePool(page);
+  1340		set_compound_page_dtor(page, NULL_COMPOUND_DTOR);
+  1341		if (!hstate_is_gigantic(h)) {
+  1342			list_add(&page->lru, &hpool->dhugetlb_2M_freelists);
+  1343			hpool->free_reserved_2M++;
+  1344			hpool->used_2M--;
+  1345			if (restore_reserve) {
+  1346				hpool->mmap_reserved_2M++;
+  1347				trace_dhugetlb_acct_memory(hpool,
+  1348							   hpool->mmap_reserved_2M,
+  1349							   DHUGETLB_RESV_2M);
+  1350			}
+  1351			trace_dhugetlb_alloc_free(hpool, page, hpool->free_reserved_2M,
+  1352						  DHUGETLB_FREE_2M);
+  1353		} else {
+  1354			list_add(&page->lru, &hpool->dhugetlb_1G_freelists);
+  1355			hpool->free_reserved_1G++;
+  1356			hpool->used_1G--;
+  1357			if (restore_reserve) {
+  1358				hpool->mmap_reserved_1G++;
+  1359				trace_dhugetlb_acct_memory(hpool,
+  1360							   hpool->mmap_reserved_1G,
+  1361							   DHUGETLB_RESV_1G);
+  1362			}
+  1363			trace_dhugetlb_alloc_free(hpool, page, hpool->free_reserved_1G,
+  1364						  DHUGETLB_FREE_1G);
+  1365		}
+  1366		spin_unlock(&hpool->lock);
+  1367		dhugetlb_pool_put(hpool);
+  1368	}
+  1369	#else
+> 1370	void free_huge_page_to_dhugetlb_pool(struct page *page, bool restore_reserve)
+  1371	{
+  1372	}
+  1373	#endif
+  1374	
 
 -- 
 0-DAY CI Kernel Test Service
