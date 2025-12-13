@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4F518024
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 13:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E3A13D891
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 13:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765630904; cv=none; b=NcVwcWcFEUyQ6bajBKp+Wt4kqF/wMhHfulGh6YRrfELCHKh1MRUFqf84SSWsFJyVeQFWMDjNQ5kwyJRCyEt7l+Nq90BmRpuZzVxja39UE4yXYJ4vQIU9DaHWFOGETfXLuv3sRSeLEvp3Lw9wZtCq/a5iiMcTQ+ZN+4oFxuC8SgQ=
+	t=1765632287; cv=none; b=C2gtH50s5g0PfaIGdtBbYXiTxd1xKvTlhS6DNMrqANd27XWsEQMA7SNeLjc4NbPYLvEzP6RSuTtZY7Sm/TthSO5mN9dNA47JjBC7yUdEoZSti/SLTF3bAzWdEmr8FJ5RM6RC7yg5LbKUQtzFo3efhUoYie9A8TynN7QUvWmaWH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765630904; c=relaxed/simple;
-	bh=Hca/gkWqbI0zV5xk+uezfctUXd+01k0Vc5sf0TzEfyY=;
+	s=arc-20240116; t=1765632287; c=relaxed/simple;
+	bh=koblCUSYmGFmCbQBxKwOQCy1XmK6w2fw9Heqd/w172E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r/NNhPoWxmqpoyyFjp0U8zsmp08e6eKBrfIm5M2LLKbyuI6PzUkDwAGnyB7ByFfpp8KvoUk4bW3SEPiMiC8M0/v9gtgFNwuhe0cx2PBvvOmBeTWmqkmMJHKHqiEOx5aYdrWiKpYez3sdD1LJIUbYo9TaYBpcQvqz9TYiGzYL+8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ws2IdqoO; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=WnOqX2j0oAX0Rgd+2agrznuw7URUdrhklompfPsHcWOOCGg4N7XJNQO5fOQa8bzBcIdoRUFB4oDbignqQaz4q0NujBg1K8zISp3ylhj3WEf6xoiaaqW5JWIFSZOvTW1+x3xRR7PfrRIPLzJjVESp7HFQ1UfPoqhH9NgYIPiTDVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mqh1rJ77; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ws2IdqoO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mqh1rJ77"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765630903; x=1797166903;
+  t=1765632284; x=1797168284;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Hca/gkWqbI0zV5xk+uezfctUXd+01k0Vc5sf0TzEfyY=;
-  b=Ws2IdqoOeDNMYj2o0fS3CQDbhSqT6mAV0uSFK7nNLq3+0rH/wArhUUP1
-   X5e7Sr1n8gOhOBpQEDL7ffuO3WRzHvgSS+iSkEJyn1rwVXcMn/mnclq/h
-   Gkk2LDsFWW+pdxwRUlqlZ8U0W5tuJp0gVDM0d7OOnvuSKwB7pLJOpl39Y
-   /TC4+lRvu6f2ekexCQehb46b3NXlDTxsCUwMiZL/MIXCyEmLY/UX5jTra
-   ObxFKtyz30xP5T/Z1TiOAf+BGUl+60zLuMOKd1h7INCi4uIZYlcCdoAwV
-   GG0Nu8VkbAG8en2axhW65JOu5UlIY5OY+K48ju9bZ56kQ44Eg7CXJWaXH
-   A==;
-X-CSE-ConnectionGUID: v+8JRgjURBeEkSNRQFdZCA==
-X-CSE-MsgGUID: y5h1iccKRwG/ZwNQFQNUSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="78982274"
+  bh=koblCUSYmGFmCbQBxKwOQCy1XmK6w2fw9Heqd/w172E=;
+  b=mqh1rJ77eAjE9hMytnWzgrS9xljmulkFl6Jaij1Da/NX2gkl2UAETU+d
+   UWKoSa4qvaxodvk1SgkFqenxqIorScRkXlq5ZaEyVCCyg9+9wFS5JuPK7
+   tpI05P9rMvjDD1NsIBLYC8UPxIgMwbHhqjQFwoHAQDDGESMjmpVMXmpeA
+   1PaplfnOYTgEhsFxchn1cV/w2WBqYbPNIHmM5g09RlYnz8cY+fAGxrNhc
+   4sdASWHv/EmBAzLP/tsCsdWs090RWD6qe7dAo1vujrmKRoHk+EKqIrNuj
+   sGCp0HeizEqRRT8aEd2YnDNojpKxhxu0CZwLYGWGVzJLmgGGbDmDi2NUr
+   Q==;
+X-CSE-ConnectionGUID: HmVEHR8nT+Gq2QBCB6xQGA==
+X-CSE-MsgGUID: yJe+MXY+S9W4eI/uJvUtzA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="71460859"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="78982274"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 05:01:43 -0800
-X-CSE-ConnectionGUID: EDaGoHcJT0G08N5WctifGA==
-X-CSE-MsgGUID: 34qufDZiQt2HECz0TlOVsw==
+   d="scan'208";a="71460859"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 05:24:44 -0800
+X-CSE-ConnectionGUID: 3xlGKASBS0CeMJKNDssvAg==
+X-CSE-MsgGUID: KL/j0iMyT6qJsgtAuKViwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="198138964"
+   d="scan'208";a="196929865"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Dec 2025 05:01:42 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 13 Dec 2025 05:24:43 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUPFj-000000007eh-3CrS;
-	Sat, 13 Dec 2025 13:01:39 +0000
-Date: Sat, 13 Dec 2025 21:01:11 +0800
+	id 1vUPc0-000000007fv-2wpY;
+	Sat, 13 Dec 2025 13:24:40 +0000
+Date: Sat, 13 Dec 2025 21:24:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, =?utf-8?B?6Zer5rW35rab?= <yanhaitao2@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/2] drivers/mmc/core/mmc.c:985:6:
- sparse: sparse: symbol 'mmc_set_bus_speed' was not declared. Should it be
+Subject: [openeuler:OLK-6.6 3541/3541] fs/nfs/dir.c:1498:6: sparse: sparse:
+ symbol 'nfs_check_have_lookup_cache_flag' was not declared. Should it be
  static?
-Message-ID: <202512132042.VW0ICpkS-lkp@intel.com>
+Message-ID: <202512132106.3RmZpaUX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,42 +63,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   5580efd2c7e4791254a0c26f9791aaa33dd70484
-commit: a8fe5ae5628fd3e6d29af800e7c63bf58d1380ee [0/2] ANDROID: mmc: core: Export core functions required for clk scaling
-config: i386-randconfig-061-20251213 (https://download.01.org/0day-ci/archive/20251213/202512132042.VW0ICpkS-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512132042.VW0ICpkS-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   cd9eb9b4365b71652b2c2ac58293bea47c9f9302
+commit: 18e360871c3f648ecb0d8cc9b23fd4268a64c17f [3541/3541] add enfs feature
+config: x86_64-randconfig-r134-20251213 (https://download.01.org/0day-ci/archive/20251213/202512132106.3RmZpaUX-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512132106.3RmZpaUX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512132042.VW0ICpkS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512132106.3RmZpaUX-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/mmc/core/mmc.c:985:6: sparse: sparse: symbol 'mmc_set_bus_speed' was not declared. Should it be static?
+>> fs/nfs/dir.c:1498:6: sparse: sparse: symbol 'nfs_check_have_lookup_cache_flag' was not declared. Should it be static?
+--
+>> net/sunrpc/clnt.c:1588:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/sunrpc/clnt.c:1588:15: sparse:    struct rpc_xprt [noderef] __rcu *
+   net/sunrpc/clnt.c:1588:15: sparse:    struct rpc_xprt *
 
-vim +/mmc_set_bus_speed +985 drivers/mmc/core/mmc.c
+vim +/nfs_check_have_lookup_cache_flag +1498 fs/nfs/dir.c
 
-   981	
-   982	/*
-   983	 * Set the bus speed for the selected speed mode.
-   984	 */
- > 985	void mmc_set_bus_speed(struct mmc_card *card)
-   986	{
-   987		unsigned int max_dtr = (unsigned int)-1;
-   988	
-   989		if ((mmc_card_hs200(card) || mmc_card_hs400(card)) &&
-   990		     max_dtr > card->ext_csd.hs200_max_dtr)
-   991			max_dtr = card->ext_csd.hs200_max_dtr;
-   992		else if (mmc_card_hs(card) && max_dtr > card->ext_csd.hs_max_dtr)
-   993			max_dtr = card->ext_csd.hs_max_dtr;
-   994		else if (max_dtr > card->csd.max_dtr)
-   995			max_dtr = card->csd.max_dtr;
-   996	
-   997		mmc_set_clock(card->host, max_dtr);
-   998	}
-   999	
+  1497	
+> 1498	bool nfs_check_have_lookup_cache_flag(struct nfs_server *server, int flag)
+  1499	{
+  1500	#if IS_ENABLED(CONFIG_ENFS)
+  1501		return enfs_check_have_lookup_cache_flag(server, flag);
+  1502	#else
+  1503		return (server->flags & NFS_MOUNT_LOOKUP_CACHE_NONE);
+  1504	#endif
+  1505	}
+  1506	
 
 -- 
 0-DAY CI Kernel Test Service
