@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8C03B8D48
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 11:31:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0353D22068F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 11:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765625497; cv=none; b=U7mQEfhd5RYv/kJrUiH9rGs1atYUA14DZZ6mc5Tc9c+wPivKZ8u5cTCJ7rN/y3WsO6Yy6zaS4NLyGIO/OEkw2FDnS87LBSkFT0wup2FGoMK9MWPnjPWKz26CoY+yuSD+dceX33jIwuRMoq3vMduZkO7O3SIzFENdQVlSMPq32cA=
+	t=1765626879; cv=none; b=hi231zDQwtLE5lT8PrP7456qN3UeejajWwRRf5OerYCBSa4Vw4M24BjQaUL5Miqu7eGxN9ppL7Zc5Res5zFYG1387tSIw9v8knuHxWc7jjo7KLSPbGVU/v9wYTtxCITxJkCFR1oXEH+33hkRpEw5Yb5poBWiDhJqb0SGy0PoF3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765625497; c=relaxed/simple;
-	bh=MlCkZynIMlHTE+QRDobeZom5fAPwm+55RgtsO4mIvM0=;
+	s=arc-20240116; t=1765626879; c=relaxed/simple;
+	bh=5kQ+TIwPN+qRadcrX439Zd4oYrEpuhYHw3LAEZodr3Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bsg2DsFiu7nbderJti7gf28NY+YR0qZilPBTNmLwMZymL2lXzcuqsJ4kTAuVdyV6iQsJrfAVIWe0Puje6I6baPU9nL2SrdQ69cHttWs1lvZdYqBGU0irihIF4Qvclbn+QDhlfReZd6LKaswTox18MH97dffrzr4bUyypujkfUXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2w7DiZQ; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=ZaKGYBdYa3kFtYDzyrV7NDcoTGXA/kHHUFrqWljEgNX5peBJR1wADYUjG7xIZ/iMoilHOah3Eta4lWlS7vtUuwZsLO7m5/zgygmHrJSEEa5+OTq5SGHAA+5RQvJEL0RsSMqBZpynYsF1o/SYBYyVTGu7tSM4mO9Y+eimgVMzV2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DX2m2CRn; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2w7DiZQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DX2m2CRn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765625496; x=1797161496;
+  t=1765626877; x=1797162877;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MlCkZynIMlHTE+QRDobeZom5fAPwm+55RgtsO4mIvM0=;
-  b=O2w7DiZQY0o4hh0ERhY1pjfEj/oN0k0jQ0vaLlJqOynWIj19HSGI3hZg
-   KWVlGjkmNIu2Y4EU0JwmcUEcAWBVegjQLXqaKJyN9oco3H+Ai0XZv92+l
-   PQ7A9VDH9QLf6q8mXjfmbRDRwlg1KNtvXAGuXdmul6CDqwNOX1JF69h2s
-   MNe5EPGWUK9R6sDfh57+mZvgbaTZX276iAY9kDjhgLLKYM+of20yP/N3y
-   cYwYrnG6OFMbaqtv1SgzgrnwOEQeWm/HKh8ZAW6DufNJ+BMYMGaaE10ip
-   ZmZAJ7HacU0cRQxEK5nBpzU57VbGCiUgam1XbOk7aDq6uLFEg+qdCfo6y
-   w==;
-X-CSE-ConnectionGUID: ow4e339uRp+BFQeHDl67mQ==
-X-CSE-MsgGUID: RNnhZnXjT2eT/Y1xECH6RA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="85016781"
+  bh=5kQ+TIwPN+qRadcrX439Zd4oYrEpuhYHw3LAEZodr3Y=;
+  b=DX2m2CRnN2XHwUKrXgWypoQX1nZM5Np5ENcYtJFHsKI2QMGbianXfNGG
+   /XB/24rro9nBPYNvSXIfiQdZ64gAt3tcgvuACdUsaL/coM8A9Ex63q5s/
+   wx0rJ6172DtH/g6FqUXO5tQB7/2o373fnCfshQbG0qkgTKUWr7XuU/5vA
+   xZqDAtZVyorhzAWgZlfP3xiU9K/XlvR23MZNEoj5ru0IIzd7foiKVu+8b
+   puu90dOEwUPcqRABppOfO8IChFRHf43jstIztd0d5eWqRjduUnPI6Y4dy
+   KwfGk6hbASmESqA8g9vvr8j0RR9y4KNa8dnSeZBs09BXCPtVM6ibOp0rD
+   A==;
+X-CSE-ConnectionGUID: 68/oETjkTKmffNcjzAH1yw==
+X-CSE-MsgGUID: aVb02UVzTmS42FbX4kTg5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67569773"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="85016781"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 03:31:35 -0800
-X-CSE-ConnectionGUID: y8v43bzPRDeJRxtkGbcffQ==
-X-CSE-MsgGUID: bX/CUc2XRtaYPe3V/eRSEQ==
+   d="scan'208";a="67569773"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 03:54:37 -0800
+X-CSE-ConnectionGUID: qSc4szEzRrGpexcSJQ5fXA==
+X-CSE-MsgGUID: BQ7heyBaTkm7Kzv33gnRpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="227960130"
+   d="scan'208";a="197365732"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Dec 2025 03:31:34 -0800
+  by orviesa008.jf.intel.com with ESMTP; 13 Dec 2025 03:54:36 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUNqV-000000007YD-3AgP;
-	Sat, 13 Dec 2025 11:31:31 +0000
-Date: Sat, 13 Dec 2025 19:30:33 +0800
+	id 1vUOCn-000000007ZZ-15Ux;
+	Sat, 13 Dec 2025 11:54:33 +0000
+Date: Sat, 13 Dec 2025 19:53:39 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 18/18]
- drivers/dma-buf/sync_file.c:120:12: sparse: sparse: symbol
- 'sync_fence_signaled_driver_name' was not declared. Should it be static?
-Message-ID: <202512131956.wReRMxRi-lkp@intel.com>
+Subject: [android-common:android16-6.12-desktop 5/5]
+ drivers/gpu/drm/xe/xe_pxp_multi_session.c:34: warning: Excess struct member
+ 'exec' description in 'xe_pxp_client'
+Message-ID: <202512131930.S5SYCs5G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,26 +65,41 @@ Content-Disposition: inline
 
 tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
 head:   da2da0badf05a4631edf06f9a37e822b20875663
-commit: b402a1d75befcddca1b54a72297785474d05a99d [18/18] ANDROID: sync_file: Weakly paper over potential xe driver (and similar) races
-config: i386-randconfig-r122-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131956.wReRMxRi-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131956.wReRMxRi-lkp@intel.com/reproduce)
+commit: 6c20834df647ecc1e5510340e4139e99d9d64841 [5/5] ANDROID: drm/xe/pxp_multi: Add ioctl to initialize and query client handle
+config: x86_64-randconfig-123-20251212 (https://download.01.org/0day-ci/archive/20251213/202512131930.S5SYCs5G-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131930.S5SYCs5G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131956.wReRMxRi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131930.S5SYCs5G-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/dma-buf/sync_file.c:119:12: sparse: sparse: symbol 'sync_fence_signaled_obj_name' was not declared. Should it be static?
->> drivers/dma-buf/sync_file.c:120:12: sparse: sparse: symbol 'sync_fence_signaled_driver_name' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/sync_fence_signaled_driver_name +120 drivers/dma-buf/sync_file.c
+   drivers/gpu/drm/xe/xe_pxp_multi_session.c:34: warning: Function parameter or struct member 'res' not described in 'xe_pxp_client'
+>> drivers/gpu/drm/xe/xe_pxp_multi_session.c:34: warning: Excess struct member 'exec' description in 'xe_pxp_client'
 
-   118	
- > 119	const char *sync_fence_signaled_obj_name = "signaled-timeline";
- > 120	const char *sync_fence_signaled_driver_name = "signaled-driver";
-   121	
+
+vim +34 drivers/gpu/drm/xe/xe_pxp_multi_session.c
+
+    19	
+    20	/**
+    21	 * struct xe_pxp_client
+    22	 *
+    23	 * We dont need to allocate multiple execution resources (above struct)
+    24	 * for a single drm_client that is executing multiple PXP sessions.
+    25	 * So we use a link list of nodes indexed by the drmclient handle
+    26	 */
+    27	struct xe_pxp_client {
+    28		/** @link: achor for linked list. */
+    29		struct list_head link;
+    30		/** @exec: session execution resource for a given client. */
+    31		struct xe_pxp_gsc_client_resources res;
+    32		/** @drmfile: drm_file handle for a given client. */
+    33		struct drm_file *drmfile;
+  > 34	};
+    35	
 
 -- 
 0-DAY CI Kernel Test Service
