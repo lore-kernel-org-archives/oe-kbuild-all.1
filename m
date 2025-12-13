@@ -1,59 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0004A2F618C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 10:11:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A962F6198
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 10:11:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765620698; cv=none; b=oegLmqN2SRH8Aei58efx+hjWXPFq+lwzpwWdZWzoZ1HDwGDcFXPMPWwj/+B8+ZOWQOXlfkVrfO8eqeRqgIcYlQcuHmZnnWUenbGZiDFXMkpIuq6FKAY1ukWwwQVrZWIXMS2AUKb8Tu8ulN4c2j4LDigbINCG/cwCahxwCV2w/TU=
+	t=1765620699; cv=none; b=ipEm9E8rSjsMHZehrLQzwQDkWRRP0sMPaloSEFZiTrEKu12ZgcIBV7GVGlbVKgl7fSAIrGA3uVeFd72ZRAxw1Q+2h2/LkB8So0q3szD1y6+fvKrFV/Xx+BVi7C5ZqxuppzqfyzhsOW2Y/rIz84/EXpGJgx4Nav40SHs6J5O92pQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765620698; c=relaxed/simple;
-	bh=IooJ/IvemR9rPixE68HpOqn26w6yzlx+m0njrSBv7ic=;
+	s=arc-20240116; t=1765620699; c=relaxed/simple;
+	bh=IfbKpiIVxy7XJsCt5TXDBeJi/y/GHIHWhKACTkhH1nM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MJttMRW7kLv9oYz7MF/JaoW3dY6PLEIaHi0YUjCANSoRMIgCLIjPZ0j6s4xjQIbDsutUi2JcQV+Gs2D6sTuDNLiQHvtVWuuCoryHOY/VnJ5T6sKbdNtPCw0t7kqypxIoRkRY0Ib/+5GxiS+hkk96fmXQzZMTs47oSDVZNI/Zdbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jhoB09W4; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=t5gXBCrpFgXnCfXYZWiWII97EZI+uiQkbwsR9TOOEXMVwk9lyJ1VNI0Zh5j/gnLCIt+/oQxAc6fiuao9EqfvYR9bHwUH2g/YL63fj2q57wv/vl/DybFQz0I0hWblKP9eCjzU0EaIrZEOrjSH1fLGK9VOTJ8B+DeDNdKGY60vs/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zv/t3fv5; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jhoB09W4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zv/t3fv5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1765620697; x=1797156697;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IooJ/IvemR9rPixE68HpOqn26w6yzlx+m0njrSBv7ic=;
-  b=jhoB09W46NCeqACs5peL3o+8tTWFkpPVkmAbFc/7giJ3Aa7jGLFvO8XU
-   zpIQGgm8q87CheHlq2x5taQS27pfYWLN5v17Co0l2VP/uoFB6OwAQ6oqL
-   +RZFkgl0nK0SvT5BxjkjDsaXHcVLOGMyys+h7Ykc3ZlnupbauYNMUIezX
-   1hA6ISrRIQNXLcK+K5PaPRqOeXiFaP4LU4HTp9N0qjW5Fy2nqpwohbq3p
-   vyZvOzNGWSUM7N05SASDr+Eebdwe+oDeMLqxWl0pMGPP8tXRapCXXXt/d
-   3rPLo9MQvjnHLHeQT9/sY+qAOIchLeCqLMizBPm+pbRzx5Fd2yQ8X2e6p
-   Q==;
-X-CSE-ConnectionGUID: QBlxzDe2REC84wP7mPYEhQ==
-X-CSE-MsgGUID: IkMvQ1oSSiqfNGzcv/Zhbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="71456385"
+  bh=IfbKpiIVxy7XJsCt5TXDBeJi/y/GHIHWhKACTkhH1nM=;
+  b=Zv/t3fv58wgeGvA4x2J4yek7TmK+hLmqQp/X+ile48cHq+lfdbIlzUBR
+   BMsiV7+p7w7EFOotuOYXed0JNt/cUbq1RsJVJ5Qv30tKDfDM2QEpb+8R+
+   lt0SmIZjlyJ/3iYDDFtFdb+5KuJxCJWSM7d70/Y8sLYG8vxvXMNUnCEjL
+   b+sm+7LlI54lZEK5qgkIzywpD0iDwnMB6Ejn1HiAhjJnWqhqtkHznbV+4
+   3RSaXaCeCWWgME3uMwCUAo9FXooV6MgH3ErkKX841VGk8lF7QHZe17hur
+   OT6yiIOv+pu+amRFe+501BqoGXx1RpGlnF1ulrjjksoKBVkpdNcJJltXR
+   w==;
+X-CSE-ConnectionGUID: vBUaJVyVRBOuUOkPQYoSZw==
+X-CSE-MsgGUID: k59Oxx8LRjOYcwe3uRj/qA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="71456383"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="71456385"
+   d="scan'208";a="71456383"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 02:11:30 -0800
-X-CSE-ConnectionGUID: a7h/j92GTkqdflTJjBJd5Q==
-X-CSE-MsgGUID: Xdoc+hOZTjKmdsFmZtfP3g==
+X-CSE-ConnectionGUID: cugwslR+Q5C1QgmcqVgF9g==
+X-CSE-MsgGUID: M1lH8OB+RwukwFphSGiVFQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="197050366"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+   d="scan'208";a="197050368"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
   by orviesa009.jf.intel.com with ESMTP; 13 Dec 2025 02:11:29 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUMb0-000000007UD-2uOo;
+	id 1vUMb0-0000000021Y-1pg5;
 	Sat, 13 Dec 2025 10:11:26 +0000
-Date: Sat, 13 Dec 2025 18:10:42 +0800
+Date: Sat, 13 Dec 2025 11:11:25 +0100
 From: kernel test robot <lkp@intel.com>
-To: Roberto Sassu <roberto.sassu@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robertosassu:ima-staging-v2-devel-v9 1/1]
- security/integrity/ima/ima_queue.c:44:22: error: conflicting types for
- 'binary_runtime_size'
-Message-ID: <202512131746.XY385Dct-lkp@intel.com>
+To: Matthew Maurer <mmaurer@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: Diff in rust/kernel/lib.rs:128:
+Message-ID: <202512131156.3MKJ6hYR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,100 +61,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/robertosassu/linux ima-staging-v2-devel-v9
-head:   0387b5fab703d305adb5d6fcba119dda4cf2eb05
-commit: 0387b5fab703d305adb5d6fcba119dda4cf2eb05 [1/1] ima: Add support for staging measurements for deletion and trimming
-config: xtensa-randconfig-r051-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131746.XY385Dct-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131746.XY385Dct-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Matthew-Maurer/rust-Add-support-for-feeding-entropy-to-randomness-pool/20251213-072100
+head:   23b9bc8fd8f552be4ca3325f71acf4ea2a08d1e2
+commit: 23b9bc8fd8f552be4ca3325f71acf4ea2a08d1e2 rust: Add support for feeding entropy to randomness pool
+date:   11 hours ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251213/202512131156.3MKJ6hYR-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131156.3MKJ6hYR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131746.XY385Dct-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131156.3MKJ6hYR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/limits.h:7,
-                    from include/linux/overflow.h:6,
-                    from include/linux/bits.h:32,
-                    from arch/xtensa/include/asm/cmpxchg.h:16,
-                    from arch/xtensa/include/asm/atomic.h:19,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11,
-                    from security/integrity/ima/ima_queue.c:18:
-   include/vdso/limits.h:13:19: error: invalid initializer
-    #define ULONG_MAX (~0UL)
-                      ^
-   security/integrity/ima/ima_queue.c:43:57: note: in expansion of macro 'ULONG_MAX'
-    static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-                                                            ^~~~~~~~~
->> security/integrity/ima/ima_queue.c:44:22: error: conflicting types for 'binary_runtime_size'
-    static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
-                         ^~~~~~~~~~~~~~~~~~~
-   security/integrity/ima/ima_queue.c:43:22: note: previous definition of 'binary_runtime_size' was here
-    static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-                         ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/limits.h:7,
-                    from include/linux/overflow.h:6,
-                    from include/linux/bits.h:32,
-                    from arch/xtensa/include/asm/cmpxchg.h:16,
-                    from arch/xtensa/include/asm/atomic.h:19,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11,
-                    from security/integrity/ima/ima_queue.c:18:
-   include/vdso/limits.h:13:19: error: invalid initializer
-    #define ULONG_MAX (~0UL)
-                      ^
-   security/integrity/ima/ima_queue.c:44:62: note: in expansion of macro 'ULONG_MAX'
-    static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
-                                                                 ^~~~~~~~~
-   security/integrity/ima/ima_queue.c:45:22: error: conflicting types for 'binary_runtime_size'
-    static unsigned long binary_runtime_size[BINARY_SIZE_STAGED] = ULONG_MAX;
-                         ^~~~~~~~~~~~~~~~~~~
-   security/integrity/ima/ima_queue.c:44:22: note: previous definition of 'binary_runtime_size' was here
-    static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
-                         ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/limits.h:7,
-                    from include/linux/overflow.h:6,
-                    from include/linux/bits.h:32,
-                    from arch/xtensa/include/asm/cmpxchg.h:16,
-                    from arch/xtensa/include/asm/atomic.h:19,
-                    from include/linux/atomic.h:7,
-                    from include/linux/rcupdate.h:25,
-                    from include/linux/rculist.h:11,
-                    from security/integrity/ima/ima_queue.c:18:
-   include/vdso/limits.h:13:19: error: invalid initializer
-    #define ULONG_MAX (~0UL)
-                      ^
-   security/integrity/ima/ima_queue.c:45:64: note: in expansion of macro 'ULONG_MAX'
-    static unsigned long binary_runtime_size[BINARY_SIZE_STAGED] = ULONG_MAX;
-                                                                   ^~~~~~~~~
-   security/integrity/ima/ima_queue.c:44:22: warning: 'binary_runtime_size' defined but not used [-Wunused-variable]
-    static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
-                         ^~~~~~~~~~~~~~~~~~~
-   security/integrity/ima/ima_queue.c:43:22: warning: 'binary_runtime_size' defined but not used [-Wunused-variable]
-    static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-                         ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/binary_runtime_size +44 security/integrity/ima/ima_queue.c
-
-    35	
-    36	LIST_HEAD(ima_measurements);	/* list of all measurements */
-    37	LIST_HEAD(ima_measurements_staged); /* list of staged measurements */
-    38	static LIST_HEAD(ima_measurements_trim); /* list of measurements to trim */
-    39	bool ima_measurements_staged_exist; /* If there are staged measurements */
-    40	#ifdef CONFIG_IMA_KEXEC
-    41	static unsigned long binary_runtime_size[BINARY__LAST];
-    42	#else
-    43	static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-  > 44	static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
-    45	static unsigned long binary_runtime_size[BINARY_SIZE_STAGED] = ULONG_MAX;
-    46	#endif
-    47	
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/lib.rs:128:
+    pub mod print;
+    pub mod processor;
+    pub mod ptr;
+   -pub mod rand;
+    #[cfg(CONFIG_RUST_PWM_ABSTRACTIONS)]
+    pub mod pwm;
+   +pub mod rand;
+    pub mod rbtree;
+    pub mod regulator;
+    pub mod revocable;
+   make[2]: *** [Makefile:1871: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
