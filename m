@@ -1,64 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7673202F71
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 14:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2521EF0B9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 14:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765637154; cv=none; b=JnwezMfFAxdBZnlLPJUMeYvOVsmniBxpwgECaVvo1mo1rktx4GF0Wc3immjjXU+OYX86xhd/PtzjhXDhzO0N9mOPphomZKHjiP9D8fQxPsVbzSoiQPIZSRkXKcuZnWEPM3rtYtcCrsBrPKiZeWPLoDthKMOEdxcJ54eijLCiVHY=
+	t=1765637795; cv=none; b=o62MgjmD/7/qg47tqSiLewxUmtPS6ynyKWqfQLirmvkzPb2hRf9C7RDAbm5uHaYrVjwP4DmBzIpxLct80aV3Od7kFFlyOhYPNLaQ1yJl31kTRh8x7ypTNnUf2CBsmyWtxNE+wP09GGney/0kWBxFluhHcDVGdx8blWtxyZMVYA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765637154; c=relaxed/simple;
-	bh=gDK90N6kIzUVrg6Up9YZFrVsII/JHlVIKqa2KBpUu7c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lWY+ukN+FOWM3fzgi3Mz8xDhjqUTEHToyj6BMLnBZ6y4wYvAPN/YkrXfavTQFIaIePA6MNUgrGHK88PuYdE+6yALsOB/zBOp17KDYF86ddPY64SBFDYDiJCSUotFygpV64hUT5iq5wM6DVpv3b1l99didiHKF7E9dihBYBTXuhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kh+CciiM; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1765637795; c=relaxed/simple;
+	bh=JLONx4/7N6ub5DaYFgq+6EnJQmGMz/A0vBMJTSSnmRM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=abS0JZmtuiWgmQfLeIIb+XiiYFemydObaPX4npgV/+h+3wxViyy/1y+8cj9oE1FPB0AnvmzRTfqEThkTnbCepZWBgeyWyJ1ocx/hRHYNiW+IRE/RgGXKLefYNwasXpElJ0P2OdTcZdpMWr2/vgUgq3ziiVdlrdGSrrMS/AT8Qi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VAwmZkAs; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kh+CciiM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VAwmZkAs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765637153; x=1797173153;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gDK90N6kIzUVrg6Up9YZFrVsII/JHlVIKqa2KBpUu7c=;
-  b=Kh+CciiMjSeLxh8fuT/v5HRKYLE9N5NRRtzLD8hgbmox2CpDspqE9BN1
-   YB7tGw4Pers9Kj1LCVR0xmhMcsPnatuFewVL8AMHsi0zxNr6E+WjzL5eq
-   pddjlyjBotqU27HBDjbrpgBrkQKkpyMXeRTdhSP9IsCz6TcNhEx9At8g7
-   Bj41eAX0lOQ6XGIW4biBBygvQY9ZI55i/ah/YMqhyxqIhvuREfZwcsPOY
-   qg1QO8Yy7S1NQhfGV2HLBr1au/JdBQIDxQgUDEtV2YhUooDHWZu8s5YoA
-   2Jmp6GphmvFp179fUZD6ASdY5lIWJCQ5tGARoFnO309k7ALqKGf7qnZE9
-   g==;
-X-CSE-ConnectionGUID: a5HHuwlRQnu5kR5UPrv0Pw==
-X-CSE-MsgGUID: ZZ02mxCEQv2Hirbeob9kPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="78727485"
+  t=1765637794; x=1797173794;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JLONx4/7N6ub5DaYFgq+6EnJQmGMz/A0vBMJTSSnmRM=;
+  b=VAwmZkAs4DknXQBSJKaJwpkS8gMiziLLbTn6Lb+0oRXgraHitm6Yfxys
+   xDHTkuVEIqAHU7+agsBqEFUd5eYYCwoJn34gInZiiiLnB7Iayd9Ad/Vfy
+   qY85QfFOua4VryMb1uL4x8gLzF7Rir8QRiTaoMTbHK2NTQyzE+cKPOBD6
+   h7YIHCXp/WR1QcJEgQBn+506crgSa5bjslWvMeqx2T957a5dj0p+vzYpl
+   B49uOg13Rh+MaodOti7MD9rVA3ZkywUjza9COAz0uNh3QkMjVz7d/DJEC
+   /v7g6dJ6xNRkD/PjXCsa0fM+P593qaJo9yshfWgoaeOpioJzgvslN7CQT
+   w==;
+X-CSE-ConnectionGUID: x3dMhI0LRPWExePkJM2vbw==
+X-CSE-MsgGUID: Y/FW6KedSXCMj+rElPmnVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="90265467"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="78727485"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 06:45:51 -0800
-X-CSE-ConnectionGUID: scfJH58BTXeGMiR4RoGbdg==
-X-CSE-MsgGUID: HJmmkJZJRC+Bhodt9dh7PQ==
+   d="scan'208";a="90265467"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 06:56:34 -0800
+X-CSE-ConnectionGUID: bvUGDy1iQV6vSkIpVz6kFg==
+X-CSE-MsgGUID: ZaiG3AcDTlmJgcgiwi15Yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="201502890"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 13 Dec 2025 06:45:48 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="197221795"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 13 Dec 2025 06:56:32 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUQsU-000000007kT-0e2h;
-	Sat, 13 Dec 2025 14:45:46 +0000
-Date: Sat, 13 Dec 2025 22:44:47 +0800
+	id 1vUR2s-0000000026a-08jn;
+	Sat, 13 Dec 2025 14:56:30 +0000
+Date: Sat, 13 Dec 2025 15:56:23 +0100
 From: kernel test robot <lkp@intel.com>
-To: Damien =?iso-8859-1?Q?Ri=E9gel?= <damien.riegel@silabs.com>,
-	greybus-dev@lists.linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Silicon Labs Kernel Team <linux-devel@silabs.com>,
-	Damien =?iso-8859-1?Q?Ri=E9gel?= <damien.riegel@silabs.com>
-Subject: Re: [PATCH 09/14] greybus: cpc: acknowledge all incoming messages
-Message-ID: <202512132212.2zg1V6JU-lkp@intel.com>
-References: <20251212161308.25678-10-damien.riegel@silabs.com>
+To: Timur Tabi <ttabi@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>
+Subject: Diff in drivers/gpu/nova-core/nova_core.rs:3:
+Message-ID: <202512131555.XwFMDmwj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,62 +60,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251212161308.25678-10-damien.riegel@silabs.com>
 
-Hi Damien,
+Hi Timur,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.18 next-20251212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Ri-gel/greybus-cpc-add-minimal-CPC-Host-Device-infrastructure/20251213-010308
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251212161308.25678-10-damien.riegel%40silabs.com
-patch subject: [PATCH 09/14] greybus: cpc: acknowledge all incoming messages
-config: alpha-randconfig-r112-20251213 (https://download.01.org/0day-ci/archive/20251213/202512132212.2zg1V6JU-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512132212.2zg1V6JU-lkp@intel.com/reproduce)
+tree:   https://github.com/intel-lab-lkp/linux/commits/Timur-Tabi/rust-pci-add-PCI-device-name-method/20251213-045436
+head:   ec023bfe9bd24aff26db4e792e84587ff8bd7b9e
+commit: c8aa6ec357d46257b89b3f424ed086503f6f0614 gpu: nova-core: Replace module_pci_driver! with explicit module init
+date:   18 hours ago
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251213/202512131555.XwFMDmwj-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131555.XwFMDmwj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512132212.2zg1V6JU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131555.XwFMDmwj-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/greybus/cpc/protocol.c:46:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] size @@     got unsigned long @@
-   drivers/greybus/cpc/protocol.c:46:22: sparse:     expected restricted __le16 [usertype] size
-   drivers/greybus/cpc/protocol.c:46:22: sparse:     got unsigned long
+All errors (new ones prefixed by >>):
 
-vim +46 drivers/greybus/cpc/protocol.c
-
-    30	
-    31	static void cpc_protocol_queue_ack(struct cpc_cport *cport, u8 ack)
-    32	{
-    33		struct gb_operation_msg_hdr *gb_hdr;
-    34		struct sk_buff *skb;
-    35	
-    36		skb = alloc_skb(CPC_HEADER_SIZE + sizeof(*gb_hdr), GFP_KERNEL);
-    37		if (!skb)
-    38			return;
-    39	
-    40		skb_reserve(skb, CPC_HEADER_SIZE);
-    41	
-    42		gb_hdr = skb_put(skb, sizeof(*gb_hdr));
-    43		memset(gb_hdr, 0, sizeof(*gb_hdr));
-    44	
-    45		/* In the CPC Operation Header, only the size and cport_id matter for ACKs. */
-  > 46		gb_hdr->size = sizeof(*gb_hdr);
-    47		cpc_cport_pack(gb_hdr, cport->id);
-    48	
-    49		cpc_protocol_prepare_header(skb, ack);
-    50	
-    51		cpc_hd_send_skb(cport->cpc_hd, skb);
-    52	}
-    53	
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/gpu/nova-core/nova_core.rs:3:
+    //! Nova Core GPU Driver
+    
+    use kernel::{error::Error, pci, prelude::*, InPlaceModule};
+   -use pin_init::{PinInit, pinned_drop};
+   +use pin_init::{pinned_drop, PinInit};
+    
+    #[macro_use]
+    mod bitfield;
+   Diff in drivers/gpu/nova-core/nova_core.rs:41:
+    
+    #[pinned_drop]
+    impl PinnedDrop for NovaCoreModule {
+   -    fn drop(self: Pin<&mut Self>) {
+   -    }
+   +    fn drop(self: Pin<&mut Self>) {}
+    }
+    
+    module! {
+   make[2]: *** [Makefile:1871: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
