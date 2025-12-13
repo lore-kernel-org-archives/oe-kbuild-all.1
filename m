@@ -1,106 +1,173 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17B8632
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 01:01:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24BE1E868
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 01:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765587716; cv=none; b=IwqdH9ZRwnkDJBW8ZC2HHG5x+gIofEbzO1NlusKnObP5tsQobAAsWzRKfmO5UFkghbXcIuTYPqrMUECXqtSArUttkyFWEo1Dxi3Hqrae1yrz3NgCSffpl25N2sMQ6yiI613Zl4fazSvP2MKvNK7H1mZmxU24hswofhS5xS7g4cM=
+	t=1765588731; cv=none; b=kYz3bAV+cDtoPCAVtKZoW5CtPOI85ok3XbPt9UzmJWGMArBLsDwVSCTIVVJL+kZwcr3EDiiGqP6pm4a5Az7kv3LbNRBnI6WDUsvgcHjE9/VeUA55mBUs92bkdIYFHwqXFuN+ClYV8NzlCfFFMgMqjtMiPdE7W/JI985L5QVNadk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765587716; c=relaxed/simple;
-	bh=DDL1jfLW1hz4WUdMItB00xanr/nrgbg93FGLz6fdESY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=u2SlPtT1IYxY8rhntqoZQocMj9MK49E1dEbB+ufIUgHkGw/qQg1/UuT3gC4ttU2565BO4vc5eOPzdFvtwgqFK+Y0AJrdSK6Unj5DiAGqbdlIFpM3TC7Buzh+sPlk1BMZ87cmTc3aHGaum2zBDD4ZR3y0Cy7YgH8VuTzZpGFnaOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IgUTx4zB; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1765588731; c=relaxed/simple;
+	bh=rpHhp592GOhxEAYcytQcxElS3+sF9bqigF2hvPS2FIA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V2Z/uNk4pVxk2PZ+Hfj+KoJBsJogg2Cm5Mphp5iWSRmm/0JhtdxlObO9Alj6XE+k2boBfGzi0pCpDsTpzqcVOYibnMwVrKBwKP9gSXLGgW0BX+a/7N85+i5HJS3RKRna2mrNg0m330YoAMlVlVgrGpj5GjQg/DZ4er3dHBAIyJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JLqwAuUf; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IgUTx4zB"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-7ba92341f38so1934433b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 Dec 2025 17:01:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765587714; x=1766192514; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qGmPxhRCLwLeoN0Jn2kJkVyLdCbAIGmH6gcp9ivIgYE=;
-        b=IgUTx4zBjgYoJjfNdJCoT2ZLT5L6GhzwdM5glsLVuQWjteXgb2X+6exW6/vxLQjtw+
-         /TblhObPZvogc89UpF376FC4Svv1RDToU1hoHtUb+cwkvAVZZWz/h60KaskDwQkIJZ6g
-         zpwyNHPxZsnZVJhtkVNmL3DMON4+Cvv5a1cy/niuvj66lngRtMn8z2Z8BvViiSCBt7O3
-         u3ZlguYJC0RhtSuI2CsAD9vNgouw7biwvCVWUBODe5j9AybNTf1IqiWKxSmXDHxLRx6a
-         zCq4QCZfVHD/1Hp7LPr2pjpJo5ZHBx9S6JdMY2/qg/2jUj+h0VpBPncMpBRUsS7lXo2L
-         dW8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765587714; x=1766192514;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qGmPxhRCLwLeoN0Jn2kJkVyLdCbAIGmH6gcp9ivIgYE=;
-        b=Ufaai85rLKYuF0gMuHqGqtue/NS8SX0YGp6YNViyizR0ScvWExZpWtE4VEWLTc++P6
-         nh2opMs8lNq2svL6Ac9zdv7e769nwIA2Xy3ZIQxeWd/NEKdsHEXmMrlfaL7ai+0LptuL
-         PHb9IHIjm3r+WaXct6QCpmLcq4a3JPHXMj309AkLJp7wVvssq2JvWhhf7gfZQKk0NimX
-         pIX47l1xkRr/HkEC9X2ejiHBz18NAjAGqlY5gdZl+znE81syS6y6wefeXB6XrOJRU2pn
-         icHmagOa4LTlTUpAHUyfaUrjpBVGZdBy9tX63Au+KvoJtPO9hMc6AMQbrgV2Rry7NXsh
-         lE+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVK3NjdbrKHfOX9R1wQGbp/QqQ1EF7uOtEpVdp2SSNhWVE51S5rRztrcsJu3aq95FdWL2Y3UYva/NTqr5CS@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXhklok5gTApZD4LhIBGc5ytPsgph+MspTc/uUFfjRSZmVjRre
-	N2oGUyCG4KAR04iMRAUbZhP2YKYM6JvSBhhY21j+qIS7MKGPTk3AsI7HtSAjEAeXrg2WqLD1YVJ
-	xtgUtew==
-X-Google-Smtp-Source: AGHT+IFTcExGSp78Md5O2JVDKo++NOAxmErlpynuBmA+4Cwked1rlT56jHlkz3eG6VCW8GjJtn72VI/oKOI=
-X-Received: from pgtv2.prod.google.com ([2002:a63:b642:0:b0:bac:ef38:605c])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:7490:b0:35d:d477:a7db
- with SMTP id adf61e73a8af0-369afbff895mr3381877637.56.1765587713879; Fri, 12
- Dec 2025 17:01:53 -0800 (PST)
-Date: Fri, 12 Dec 2025 17:01:52 -0800
-In-Reply-To: <202512130717.aHH8rXSC-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLqwAuUf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765588729; x=1797124729;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rpHhp592GOhxEAYcytQcxElS3+sF9bqigF2hvPS2FIA=;
+  b=JLqwAuUfyDFrN1QdDd0B2N2akjxzR2AHvrKrmGZZvm9GG2L4le0bjZ3M
+   XUjSp+r+5GbMUKr5BNqYux+I6pPCIabB4bMGj9WB2BbhfRrqP3iAzU4RM
+   kMiEEJunPMH76lNpPEKrGmY/8uvJtQPS3oXJwQZQ8Wj7imhBeKaQS91KD
+   6ECA8uP/qDAfOmKp5VxnDeTZLo5mJO/h+BqaNyQ2stCPcxeoKBRyhVARX
+   2FtlvPp48NsvfhxEmr1Jv/qZSomEJBiUgfJa0iRXi2lJ/nejS9lumdokn
+   vo/b1b9dQdMwgsO9abnp8278D0SOe/W7FlHfFFK30WeXklzd2PavvEzo6
+   g==;
+X-CSE-ConnectionGUID: LdMUwpn3QRCefmoAb+QJLg==
+X-CSE-MsgGUID: dQ9yx8QeTG+pyl0mV+aXHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67469845"
+X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
+   d="scan'208";a="67469845"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 17:18:47 -0800
+X-CSE-ConnectionGUID: 9pQ+XrNTQy2l4hBIvxysRg==
+X-CSE-MsgGUID: UGb0k8x2R6mbKglhX2zV4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
+   d="scan'208";a="201711638"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 12 Dec 2025 17:18:46 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vUEHT-000000006sf-2v7l;
+	Sat, 13 Dec 2025 01:18:43 +0000
+Date: Sat, 13 Dec 2025 09:18:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 0/1]
+ kernel/power/energy_model.c:647:16: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202512130948.dUrNQgOh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20251212135051.2155280-1-xiaoyao.li@intel.com> <202512130717.aHH8rXSC-lkp@intel.com>
-Message-ID: <aTy7AG2y1OwIXfqs@google.com>
-Subject: Re: [PATCH v2] KVM: x86: Don't read guest CR3 when doing async pf
- while the MMU is direct
-From: Sean Christopherson <seanjc@google.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Xiaoyao Li <xiaoyao.li@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	oe-kbuild-all@lists.linux.dev, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, farrah.chen@intel.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Dec 13, 2025, kernel test robot wrote:
-> Hi Xiaoyao,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 7d0a66e4bb9081d75c82ec4957c50034cb0ea449]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Xiaoyao-Li/KVM-x86-Don-t-read-guest-CR3-when-doing-async-pf-while-the-MMU-is-direct/20251212-220612
-> base:   7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-> patch link:    https://lore.kernel.org/r/20251212135051.2155280-1-xiaoyao.li%40intel.com
-> patch subject: [PATCH v2] KVM: x86: Don't read guest CR3 when doing async pf while the MMU is direct
-> config: i386-buildonly-randconfig-002-20251213 (https://download.01.org/0day-ci/archive/20251213/202512130717.aHH8rXSC-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130717.aHH8rXSC-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512130717.aHH8rXSC-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from include/linux/kvm_host.h:43,
->                     from arch/x86/kvm/irq.h:15,
->                     from arch/x86/kvm/mmu/mmu.c:19:
->    arch/x86/kvm/mmu/mmu.c: In function 'kvm_arch_setup_async_pf':
-> >> include/linux/kvm_types.h:54:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
->       54 | #define INVALID_GPA     (~(gpa_t)0)
->          |                         ^
->    arch/x86/kvm/mmu/mmu.c:4525:28: note: in expansion of macro 'INVALID_GPA'
->     4525 |                 arch.cr3 = INVALID_GPA;
->          |                            ^~~~~~~~~~~
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   5580efd2c7e4791254a0c26f9791aaa33dd70484
+commit: 3a386e98188d75e563a10abeaa1c69847302d481 [0/1] UPSTREAM: PM: EM: Support late CPUs booting and capacity adjustment
+config: x86_64-randconfig-121-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130948.dUrNQgOh-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130948.dUrNQgOh-lkp@intel.com/reproduce)
 
-Well that's just annoying.  Can we kill 32-bit yet?  Anyways, just ignore this
-(unless it causes my KVM_WERROR=1 builds to fail, in which case I'll just add an
-explicit cast, but I think we can just ignore it).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130948.dUrNQgOh-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   kernel/power/energy_model.c:117:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
+   kernel/power/energy_model.c:117:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
+   kernel/power/energy_model.c:117:15: sparse:     got struct em_perf_table *
+   kernel/power/energy_model.c:118:15: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct em_perf_table [noderef] __rcu *table @@
+   kernel/power/energy_model.c:118:15: sparse:     expected void const *objp
+   kernel/power/energy_model.c:118:15: sparse:     got struct em_perf_table [noderef] __rcu *table
+   kernel/power/energy_model.c:126:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got struct em_perf_table * @@
+   kernel/power/energy_model.c:126:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
+   kernel/power/energy_model.c:126:15: sparse:     got struct em_perf_table *
+   kernel/power/energy_model.c:128:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct callback_head *head @@     got struct callback_head [noderef] __rcu * @@
+   kernel/power/energy_model.c:128:19: sparse:     expected struct callback_head *head
+   kernel/power/energy_model.c:128:19: sparse:     got struct callback_head [noderef] __rcu *
+   kernel/power/energy_model.c:139:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
+   kernel/power/energy_model.c:139:19: sparse:     expected struct kref *kref
+   kernel/power/energy_model.c:139:19: sparse:     got struct kref [noderef] __rcu *
+   kernel/power/energy_model.c:157:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_table [noderef] __rcu *table @@     got void * @@
+   kernel/power/energy_model.c:157:15: sparse:     expected struct em_perf_table [noderef] __rcu *table
+   kernel/power/energy_model.c:157:15: sparse:     got void *
+   kernel/power/energy_model.c:161:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
+   kernel/power/energy_model.c:161:20: sparse:     expected struct kref *kref
+   kernel/power/energy_model.c:161:20: sparse:     got struct kref [noderef] __rcu *
+   kernel/power/energy_model.c:270:19: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct kref *kref @@     got struct kref [noderef] __rcu * @@
+   kernel/power/energy_model.c:270:19: sparse:     expected struct kref *kref
+   kernel/power/energy_model.c:270:19: sparse:     got struct kref [noderef] __rcu *
+   kernel/power/energy_model.c:275:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct em_perf_state *table @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:275:45: sparse:     expected struct em_perf_state *table
+   kernel/power/energy_model.c:275:45: sparse:     got struct em_perf_state [noderef] __rcu *
+   kernel/power/energy_model.c:295:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:295:9: sparse:     expected void const *
+   kernel/power/energy_model.c:295:9: sparse:     got struct em_perf_state [noderef] __rcu *
+   kernel/power/energy_model.c:295:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:295:9: sparse:     expected void const *
+   kernel/power/energy_model.c:295:9: sparse:     got struct em_perf_state [noderef] __rcu *
+   kernel/power/energy_model.c:295:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *p @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:295:9: sparse:     expected void *p
+   kernel/power/energy_model.c:295:9: sparse:     got struct em_perf_state [noderef] __rcu *
+>> kernel/power/energy_model.c:647:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct em_perf_state *new_ps @@     got struct em_perf_state [noderef] __rcu * @@
+   kernel/power/energy_model.c:647:16: sparse:     expected struct em_perf_state *new_ps
+   kernel/power/energy_model.c:647:16: sparse:     got struct em_perf_state [noderef] __rcu *
+
+vim +647 kernel/power/energy_model.c
+
+   628	
+   629	/*
+   630	 * Adjustment of CPU performance values after boot, when all CPUs capacites
+   631	 * are correctly calculated.
+   632	 */
+   633	static void em_adjust_new_capacity(struct device *dev,
+   634					   struct em_perf_domain *pd,
+   635					   u64 max_cap)
+   636	{
+   637		struct em_perf_table __rcu *em_table;
+   638		struct em_perf_state *ps, *new_ps;
+   639		int ret, ps_size;
+   640	
+   641		em_table = em_table_alloc(pd);
+   642		if (!em_table) {
+   643			dev_warn(dev, "EM: allocation failed\n");
+   644			return;
+   645		}
+   646	
+ > 647		new_ps = em_table->state;
+   648	
+   649		rcu_read_lock();
+   650		ps = em_perf_state_from_pd(pd);
+   651		/* Initialize data based on old table */
+   652		ps_size = sizeof(struct em_perf_state) * pd->nr_perf_states;
+   653		memcpy(new_ps, ps, ps_size);
+   654	
+   655		rcu_read_unlock();
+   656	
+   657		em_init_performance(dev, pd, new_ps, pd->nr_perf_states);
+   658		ret = em_compute_costs(dev, new_ps, NULL, pd->nr_perf_states,
+   659				       pd->flags);
+   660		if (ret) {
+   661			dev_warn(dev, "EM: compute costs failed\n");
+   662			return;
+   663		}
+   664	
+   665		ret = em_dev_update_perf_domain(dev, em_table);
+   666		if (ret)
+   667			dev_warn(dev, "EM: update failed %d\n", ret);
+   668	
+   669		/*
+   670		 * This is one-time-update, so give up the ownership in this updater.
+   671		 * The EM framework has incremented the usage counter and from now
+   672		 * will keep the reference (then free the memory when needed).
+   673		 */
+   674		em_table_free(em_table);
+   675	}
+   676	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
