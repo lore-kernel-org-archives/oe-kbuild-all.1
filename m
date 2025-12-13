@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0881FDA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 09:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01233145A05
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 09:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765618650; cv=none; b=j1Fq5OIb2FTQAiaGIbGrwSzzDAoR1YMUpKrFxm8M/Gn9R/9IunlhQLirSqPRSzmInQVDEmCdP+jCrjY206wBgZZEmzEvGuMcUxHCG0TpjHX3YQ0D9cVs7kVyRVGXLMqJiEFSsM52/c1G6hBD69TW/5EPGmNVACrMZTOyOifg4hs=
+	t=1765619192; cv=none; b=IKAK8VfslyW46uc8dYKdtXf9TKh+AHmHNwim6eLMv2LTfMpeAk8SBHaeI5exLqcYHbtzNRIEE7sWtD5DTJ3IiKm+ldV8H/hLbDIZZnFoyBuNRlmA75Ao6XqkuK5a68scXyzRmCgCfVeezcbZT+LWF/aAPuIoORL80QKyB30M2hM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765618650; c=relaxed/simple;
-	bh=3S2QfIKG04OxbryZsghE7I+OhmW0usqwQdSdJclgox8=;
+	s=arc-20240116; t=1765619192; c=relaxed/simple;
+	bh=vZWeYJtU9GJJqov3SzmvuY7KRjnQvwAd1HyRUs+Vp7w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X71ryFNLwQmdYqS1k0MT3rKg97r+SKpDkPGA/YFHYkQ4EDmatM5T0IJ0Itv2cTyzgEU28XAKlcmjuEV8r4ybU1JTLJGzsE4FH3s4txtgu9mzlLe0/5QCY1RsPyUyC90IzzClN1nZm/Sf5YuYlyUEgEEO0AJ0p+TPhj+uCUGYKB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MFmL09AP; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=fwhX3S0MB7xhNan9V6jqmMCwYgEE6Bz3Ltor9Tq3zPVbyH2C92dqC+t4RfmXpNrh70eqNo6jxEu4IP+EoJ09USA/C2/yu27Jyj9NNKiztRmvyDX2jbQDIK/eUe7tTxo1AZbfhmD7jG8yvzcN+Wo8iE6B4lkue+ZbhpSF5+yVJTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YiHUP+wK; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MFmL09AP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YiHUP+wK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765618648; x=1797154648;
+  t=1765619190; x=1797155190;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3S2QfIKG04OxbryZsghE7I+OhmW0usqwQdSdJclgox8=;
-  b=MFmL09APPfXOShfuvQve28caBfs/O03BUK4rlD8Crtr+5ROAepGsfw8N
-   BwdX4kIQuRf/s6YLhc2h7zyM+rRNMpOsLgekoTpIQKIqbaXOra01P3NdT
-   uRu/omt7qF06NI4tI26JxwY1TJ+EgeNUfNA4zm9T7T6/PUznqVYJCOfKI
-   UBxwodiKooL2kC+VuS5RSDjdKK+lfnNwhFSWpnjKwZCBuRfisUJR2DMxk
-   6awrYkahCnMlNUZBtL+jYA9krvSWdo2LZsWlJX7WJMlm6KqSgrFVACyIJ
-   uUk+9XaGrapz4ojqMbnQYV5RWMa/3qsE1UjC4xvC78auSy5NFjjhYekON
-   g==;
-X-CSE-ConnectionGUID: Wv4vLpdBTO25RhV8Vi8/3g==
-X-CSE-MsgGUID: SV9NLBH7RbiVsBhEbxjIHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="90256946"
+  bh=vZWeYJtU9GJJqov3SzmvuY7KRjnQvwAd1HyRUs+Vp7w=;
+  b=YiHUP+wKlJY8RO83u5U1KT24pz1/sBLnCdGhYBjESvtefoMYQ+Y9M3UJ
+   ncTkZTewbiOS3NWHZN0c58wTi9CU6iIRVJwAGaMHFFuxKQjFmSBeX3s7h
+   JTYMD5KSF6lbKTXXKsQKaiFdGzaOnZIJFJ99ICWHm5sTbOo0qB2ZmoTyQ
+   Rzi1KqPPhPePDYic1Xxsxv6CeeTN/l8MqPsBdew1zZmnGhSJsiPLGfeuB
+   xcHqfYDWhzcVMbl7xbJ1N3p5qP0NZCxQYAWDhZmtAP2P7tFnwWhVyQIEf
+   ftTvDofQMGomzf7190R0G/NssHPp9blEAHf62J/ziGVCFFJ70KmLTXr89
+   w==;
+X-CSE-ConnectionGUID: HqoO4kfzSjiN/9LjwDf4hw==
+X-CSE-MsgGUID: Bwisk/cxQWam4bcinl9ZXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67484052"
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="90256946"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 01:37:27 -0800
-X-CSE-ConnectionGUID: TkKP+lpJSnSxia+6ILw+cw==
-X-CSE-MsgGUID: SSCfADZrRnGX79riky9KQQ==
+   d="scan'208";a="67484052"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 01:46:30 -0800
+X-CSE-ConnectionGUID: m7dp/lCVRN2xMVdiS7AowQ==
+X-CSE-MsgGUID: /kM59aXGQmiDMimA6WJjEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="202372893"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Dec 2025 01:37:26 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="227948384"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 13 Dec 2025 01:46:28 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUM44-000000007R8-05N6;
-	Sat, 13 Dec 2025 09:37:24 +0000
-Date: Sat, 13 Dec 2025 17:36:49 +0800
+	id 1vUMCo-0000000020y-00c5;
+	Sat, 13 Dec 2025 09:46:26 +0000
+Date: Sat, 13 Dec 2025 10:46:02 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 18/18]
- drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type
- 'struct pkvm_pasid_table_param'
-Message-ID: <202512131758.0iucrj2v-lkp@intel.com>
+Subject: [android-common:android-mainline 1/1]
+ ./include/linux/tracepoint.h:375:27: error:
+ '__traceiter_device_pm_callback_start' undeclared here (not in a function);
+ did you mean '__tracepoint_device_pm_callback_start'?
+Message-ID: <202512131027.Pa6I2l06-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,471 +64,390 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   da2da0badf05a4631edf06f9a37e822b20875663
-commit: 40e05d87082111caf1fa83b9b288e93f3cd021df [18/18] ANDROID: iommu/vt-d: Paravirtualize PASID table updates
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251213/202512131758.0iucrj2v-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   fbfd6aedcdb51da80c81b27b298b8691212febac
+commit: 380603d5f29a2265cb058a9ce5f2171f096ccca1 [1/1] Merge 2be6a7503d32 ("Merge tag 'trace-unused-v6.17' of git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace") into android-mainline
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251213/202512131027.Pa6I2l06-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131758.0iucrj2v-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131027.Pa6I2l06-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131758.0iucrj2v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131027.Pa6I2l06-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-         |                      ^
-   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_lm_context_param'
-      16 |                 *p = *(param);                                                  \
-         |                    ^
-   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_lm_context_param'
-      18 |                 *(param) = *p;                                                  \
-         |                            ^
-   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_lm_context_param'
-      18 |                 *(param) = *p;                                                  \
-         |                          ^
-   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_lm_context_param'
-     315 |                 memset(ptr, 0, sizeof(*ptr));   \
-         |                                      ^
-   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
-      19 |                 put_this_pv_param(p, f);                                        \
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_sm_ce':
-   drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_sm_context_param'
-      16 |                 *p = *(param);                                                  \
-         |                      ^
-   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_sm_context_param'
-      16 |                 *p = *(param);                                                  \
-         |                    ^
-   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_sm_context_param'
-      18 |                 *(param) = *p;                                                  \
-         |                            ^
-   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_sm_context_param'
-      18 |                 *(param) = *p;                                                  \
-         |                          ^
-   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_sm_context_param'
-     315 |                 memset(ptr, 0, sizeof(*ptr));   \
-         |                                      ^
-   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
-      19 |                 put_this_pv_param(p, f);                                        \
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_clear_pasid_entry':
-   drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
-      16 |                 *p = *(param);                                                  \
-         |                      ^
-   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
-      16 |                 *p = *(param);                                                  \
-         |                    ^
-   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
-      18 |                 *(param) = *p;                                                  \
-         |                            ^
-   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
-      18 |                 *(param) = *p;                                                  \
-         |                          ^
-   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_clear_translation_param'
-     315 |                 memset(ptr, 0, sizeof(*ptr));   \
-         |                                      ^
-   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
-      19 |                 put_this_pv_param(p, f);                                        \
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_pasid_fl':
->> drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      16 |                 *p = *(param);                                                  \
-         |                      ^
-   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      16 |                 *p = *(param);                                                  \
-         |                    ^
-   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      18 |                 *(param) = *p;                                                  \
-         |                            ^
-   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      18 |                 *(param) = *p;                                                  \
-         |                          ^
-   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
->> arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_pasid_table_param'
-     315 |                 memset(ptr, 0, sizeof(*ptr));   \
-         |                                      ^
-   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
-      19 |                 put_this_pv_param(p, f);                                        \
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_pasid_sl':
->> drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      16 |                 *p = *(param);                                                  \
-         |                      ^
-   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      16 |                 *p = *(param);                                                  \
-         |                    ^
-   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      18 |                 *(param) = *p;                                                  \
-         |                            ^
-   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      18 |                 *(param) = *p;                                                  \
-         |                          ^
-   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
->> arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_pasid_table_param'
-     315 |                 memset(ptr, 0, sizeof(*ptr));   \
-         |                                      ^
-   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
-      19 |                 put_this_pv_param(p, f);                                        \
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
---
-         |                      ^
-   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_lm_context_param'
-      16 |                 *p = *(param);                                                  \
-         |                    ^
-   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_lm_context_param'
-      18 |                 *(param) = *p;                                                  \
-         |                            ^
-   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_lm_context_param'
-      18 |                 *(param) = *p;                                                  \
-         |                          ^
-   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_lm_context_param'
-     315 |                 memset(ptr, 0, sizeof(*ptr));   \
-         |                                      ^
-   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
-      19 |                 put_this_pv_param(p, f);                                        \
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:36:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      36 |         return pkvm_iommu_hypercall(iommu_set_lm_ce, lm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_sm_ce':
-   drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_sm_context_param'
-      16 |                 *p = *(param);                                                  \
-         |                      ^
-   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_sm_context_param'
-      16 |                 *p = *(param);                                                  \
-         |                    ^
-   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_sm_context_param'
-      18 |                 *(param) = *p;                                                  \
-         |                            ^
-   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_sm_context_param'
-      18 |                 *(param) = *p;                                                  \
-         |                          ^
-   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_sm_context_param'
-     315 |                 memset(ptr, 0, sizeof(*ptr));   \
-         |                                      ^
-   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
-      19 |                 put_this_pv_param(p, f);                                        \
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:41:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      41 |         return pkvm_iommu_hypercall(iommu_set_sm_ce, sm_context_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_clear_pasid_entry':
-   drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
-      16 |                 *p = *(param);                                                  \
-         |                      ^
-   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
-      16 |                 *p = *(param);                                                  \
-         |                    ^
-   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
-      18 |                 *(param) = *p;                                                  \
-         |                            ^
-   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_clear_translation_param'
-      18 |                 *(param) = *p;                                                  \
-         |                          ^
-   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_clear_translation_param'
-     315 |                 memset(ptr, 0, sizeof(*ptr));   \
-         |                                      ^
-   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
-      19 |                 put_this_pv_param(p, f);                                        \
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:46:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      46 |         return pkvm_iommu_hypercall(iommu_clear_pasid_entry, clear_translation_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_pasid_fl':
->> drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      16 |                 *p = *(param);                                                  \
-         |                      ^
-   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      16 |                 *p = *(param);                                                  \
-         |                    ^
-   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      18 |                 *(param) = *p;                                                  \
-         |                            ^
-   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      18 |                 *(param) = *p;                                                  \
-         |                          ^
-   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
->> arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_pasid_table_param'
-     315 |                 memset(ptr, 0, sizeof(*ptr));   \
-         |                                      ^
-   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
-      19 |                 put_this_pv_param(p, f);                                        \
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:51:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      51 |         return pkvm_iommu_hypercall(iommu_set_pasid_fl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h: In function 'pkvm_hc_iommu_set_pasid_sl':
->> drivers/iommu/intel/iommu_pkvm.h:16:22: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      16 |                 *p = *(param);                                                  \
-         |                      ^
-   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:16:20: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      16 |                 *p = *(param);                                                  \
-         |                    ^
-   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:28: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      18 |                 *(param) = *p;                                                  \
-         |                            ^
-   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:18:26: error: invalid use of undefined type 'struct pkvm_pasid_table_param'
-      18 |                 *(param) = *p;                                                  \
-         |                          ^
-   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
->> arch/x86/include/asm/kvm_pkvm.h:315:38: error: invalid application of 'sizeof' to incomplete type 'struct pkvm_pasid_table_param'
-     315 |                 memset(ptr, 0, sizeof(*ptr));   \
-         |                                      ^
-   drivers/iommu/intel/iommu_pkvm.h:19:17: note: in expansion of macro 'put_this_pv_param'
-      19 |                 put_this_pv_param(p, f);                                        \
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu_pkvm.h:56:16: note: in expansion of macro 'pkvm_iommu_hypercall'
-      56 |         return pkvm_iommu_hypercall(iommu_set_pasid_sl, pasid_table_param, param);
-         |                ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu.c: In function 'pv_context_mapping':
-   drivers/iommu/intel/iommu.c:1459:16: error: variable 'param' has initializer but incomplete type
-    1459 |         struct pkvm_lm_context_param param = {
-         |                ^~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu.c:1460:18: error: 'struct pkvm_lm_context_param' has no member named 'phys'
-    1460 |                 .phys = iommu->reg_phys,
-         |                  ^~~~
-   drivers/iommu/intel/iommu.c:1460:25: warning: excess elements in struct initializer
-    1460 |                 .phys = iommu->reg_phys,
-         |                         ^~~~~
-   drivers/iommu/intel/iommu.c:1460:25: note: (near initialization for 'param')
-   drivers/iommu/intel/iommu.c:1461:18: error: 'struct pkvm_lm_context_param' has no member named 'bdf'
-    1461 |                 .bdf = PCI_DEVID(bus, devfn),
-         |                  ^~~
-   In file included from drivers/iommu/intel/iommu.c:20:
-   include/linux/pci.h:72:33: warning: excess elements in struct initializer
-      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
-         |                                 ^
-   drivers/iommu/intel/iommu.c:1461:24: note: in expansion of macro 'PCI_DEVID'
-    1461 |                 .bdf = PCI_DEVID(bus, devfn),
-         |                        ^~~~~~~~~
-   include/linux/pci.h:72:33: note: (near initialization for 'param')
-      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
-         |                                 ^
-   drivers/iommu/intel/iommu.c:1461:24: note: in expansion of macro 'PCI_DEVID'
-    1461 |                 .bdf = PCI_DEVID(bus, devfn),
-         |                        ^~~~~~~~~
-   drivers/iommu/intel/iommu.c:1462:18: error: 'struct pkvm_lm_context_param' has no member named 'domain_pgd_gpa'
-    1462 |                 .domain_pgd_gpa = virt_to_phys(domain->pgd),
-         |                  ^~~~~~~~~~~~~~
-   In file included from include/linux/kexec.h:20,
-                    from include/linux/crash_dump.h:5,
-                    from drivers/iommu/intel/iommu.c:16:
-   arch/x86/include/asm/io.h:155:22: warning: excess elements in struct initializer
-     155 | #define virt_to_phys virt_to_phys
-         |                      ^~~~~~~~~~~~
-   drivers/iommu/intel/iommu.c:1462:35: note: in expansion of macro 'virt_to_phys'
-    1462 |                 .domain_pgd_gpa = virt_to_phys(domain->pgd),
-         |                                   ^~~~~~~~~~~~
-   arch/x86/include/asm/io.h:155:22: note: (near initialization for 'param')
-     155 | #define virt_to_phys virt_to_phys
-         |                      ^~~~~~~~~~~~
-   drivers/iommu/intel/iommu.c:1462:35: note: in expansion of macro 'virt_to_phys'
-    1462 |                 .domain_pgd_gpa = virt_to_phys(domain->pgd),
-         |                                   ^~~~~~~~~~~~
-   drivers/iommu/intel/iommu.c:1463:18: error: 'struct pkvm_lm_context_param' has no member named 'did'
-    1463 |                 .did = domain_id_iommu(domain, iommu),
-         |                  ^~~
-   drivers/iommu/intel/iommu.c:1463:24: warning: excess elements in struct initializer
-    1463 |                 .did = domain_id_iommu(domain, iommu),
-         |                        ^~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu.c:1463:24: note: (near initialization for 'param')
-   drivers/iommu/intel/iommu.c:1464:18: error: 'struct pkvm_lm_context_param' has no member named 'ats_supported'
-    1464 |                 .ats_supported = info ? info->ats_supported : 0,
-         |                  ^~~~~~~~~~~~~
-   drivers/iommu/intel/iommu.c:1464:34: warning: excess elements in struct initializer
-    1464 |                 .ats_supported = info ? info->ats_supported : 0,
-         |                                  ^~~~
-   drivers/iommu/intel/iommu.c:1464:34: note: (near initialization for 'param')
-   drivers/iommu/intel/iommu.c:1459:38: error: storage size of 'param' isn't known
-    1459 |         struct pkvm_lm_context_param param = {
-         |                                      ^~~~~
-   drivers/iommu/intel/iommu.c:1459:38: warning: unused variable 'param' [-Wunused-variable]
-   drivers/iommu/intel/iommu.c: In function 'pv_context_clear':
-   drivers/iommu/intel/iommu.c:1743:16: error: variable 'param' has initializer but incomplete type
-    1743 |         struct pkvm_clear_translation_param param = {
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/intel/iommu.c:1744:18: error: 'struct pkvm_clear_translation_param' has no member named 'phys'
-    1744 |                 .phys = info->iommu->reg_phys,
-         |                  ^~~~
-   drivers/iommu/intel/iommu.c:1744:25: warning: excess elements in struct initializer
-    1744 |                 .phys = info->iommu->reg_phys,
-         |                         ^~~~
-   drivers/iommu/intel/iommu.c:1744:25: note: (near initialization for 'param')
-   drivers/iommu/intel/iommu.c:1745:18: error: 'struct pkvm_clear_translation_param' has no member named 'bdf'
-    1745 |                 .bdf = PCI_DEVID(bus, devfn),
-         |                  ^~~
-   include/linux/pci.h:72:33: warning: excess elements in struct initializer
-      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
-         |                                 ^
-   drivers/iommu/intel/iommu.c:1745:24: note: in expansion of macro 'PCI_DEVID'
-    1745 |                 .bdf = PCI_DEVID(bus, devfn),
-         |                        ^~~~~~~~~
-   include/linux/pci.h:72:33: note: (near initialization for 'param')
-      72 | #define PCI_DEVID(bus, devfn)   ((((u16)(bus)) << 8) | (devfn))
-         |                                 ^
-   drivers/iommu/intel/iommu.c:1745:24: note: in expansion of macro 'PCI_DEVID'
-    1745 |                 .bdf = PCI_DEVID(bus, devfn),
-         |                        ^~~~~~~~~
-   drivers/iommu/intel/iommu.c:1746:18: error: 'struct pkvm_clear_translation_param' has no member named 'ats_qdep'
-    1746 |                 .ats_qdep = info->ats_qdep,
-         |                  ^~~~~~~~
-..
+   In file included from ./include/linux/linkage.h:7,
+                    from ./include/linux/printk.h:8,
+                    from ./include/asm-generic/bug.h:22,
+                    from ./arch/x86/include/asm/bug.h:103,
+                    from ./include/linux/bug.h:5,
+                    from ./include/linux/fortify-string.h:6,
+                    from ./include/linux/string.h:382,
+                    from kernel/trace/power-traces.c:8:
+   ./include/linux/tracepoint.h:374:27: error: '__tracepoint_device_pm_callback_start' undeclared here (not in a function)
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^~~~~~~~~~~~~
+   ./include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   ./include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   ./include/linux/tracepoint.h:374:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:20:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      20 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/tracepoint.h:375:27: error: '__traceiter_device_pm_callback_start' undeclared here (not in a function); did you mean '__tracepoint_device_pm_callback_start'?
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^~~~~~~~~~~~
+   ./include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   ./include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   ./include/linux/tracepoint.h:375:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:20:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      20 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/static_call_types.h:9:41: error: '__SCK__tp_func_device_pm_callback_start' undeclared here (not in a function); did you mean '__tracepoint_device_pm_callback_start'?
+       9 | #define STATIC_CALL_KEY_PREFIX          __SCK__
+         |                                         ^~~~~~~
+   ./include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   ./include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   ./include/linux/static_call.h:217:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |         ^~~~~~~~~~~~~~~~~
+   ././include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   ./include/linux/static_call_types.h:12:41: note: in expansion of macro '__PASTE'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^~~~~~~
+   ./include/linux/static_call_types.h:12:49: note: in expansion of macro 'STATIC_CALL_KEY_PREFIX'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/static_call.h:217:27: note: in expansion of macro 'STATIC_CALL_KEY'
+     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^~~~~~~~~~~~~~~
+   ./include/linux/tracepoint.h:376:9: note: in expansion of macro 'EXPORT_STATIC_CALL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:20:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      20 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/static_call_types.h:15:41: error: '__SCT__tp_func_device_pm_callback_start' undeclared here (not in a function); did you mean '__SCK__tp_func_device_pm_callback_start'?
+      15 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
+         |                                         ^~~~~~~
+   ./include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   ./include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   ./include/linux/static_call.h:218:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     218 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |         ^~~~~~~~~~~~~~~~~
+   ././include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   ./include/linux/static_call_types.h:18:41: note: in expansion of macro '__PASTE'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~
+   ./include/linux/static_call_types.h:18:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/static_call.h:218:27: note: in expansion of macro 'STATIC_CALL_TRAMP'
+     218 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^~~~~~~~~~~~~~~~~
+   ./include/linux/tracepoint.h:376:9: note: in expansion of macro 'EXPORT_STATIC_CALL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:20:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      20 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_start);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/tracepoint.h:374:27: error: '__tracepoint_device_pm_callback_end' undeclared here (not in a function); did you mean '__tracepoint_device_pm_callback_start'?
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^~~~~~~~~~~~~
+   ./include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   ./include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   ./include/linux/tracepoint.h:374:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     374 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:21:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      21 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/tracepoint.h:375:27: error: '__traceiter_device_pm_callback_end' undeclared here (not in a function); did you mean '__tracepoint_device_pm_callback_end'?
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^~~~~~~~~~~~
+   ./include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   ./include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   ./include/linux/tracepoint.h:375:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     375 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |         ^~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:21:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      21 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/static_call_types.h:9:41: error: '__SCK__tp_func_device_pm_callback_end' undeclared here (not in a function); did you mean '__SCK__tp_func_device_pm_callback_start'?
+       9 | #define STATIC_CALL_KEY_PREFIX          __SCK__
+         |                                         ^~~~~~~
+   ./include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   ./include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   ./include/linux/static_call.h:217:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |         ^~~~~~~~~~~~~~~~~
+   ././include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   ./include/linux/static_call_types.h:12:41: note: in expansion of macro '__PASTE'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^~~~~~~
+   ./include/linux/static_call_types.h:12:49: note: in expansion of macro 'STATIC_CALL_KEY_PREFIX'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/static_call.h:217:27: note: in expansion of macro 'STATIC_CALL_KEY'
+     217 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^~~~~~~~~~~~~~~
+   ./include/linux/tracepoint.h:376:9: note: in expansion of macro 'EXPORT_STATIC_CALL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:21:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      21 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> ./include/linux/static_call_types.h:15:41: error: '__SCT__tp_func_device_pm_callback_end' undeclared here (not in a function); did you mean '__SCK__tp_func_device_pm_callback_end'?
+      15 | #define STATIC_CALL_TRAMP_PREFIX        __SCT__
+         |                                         ^~~~~~~
+   ./include/linux/export.h:76:23: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^~~
+   ./include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   ./include/linux/static_call.h:218:9: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     218 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |         ^~~~~~~~~~~~~~~~~
+   ././include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   ./include/linux/static_call_types.h:18:41: note: in expansion of macro '__PASTE'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~
+   ./include/linux/static_call_types.h:18:49: note: in expansion of macro 'STATIC_CALL_TRAMP_PREFIX'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/static_call.h:218:27: note: in expansion of macro 'STATIC_CALL_TRAMP'
+     218 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^~~~~~~~~~~~~~~~~
+   ./include/linux/tracepoint.h:376:9: note: in expansion of macro 'EXPORT_STATIC_CALL_GPL'
+     376 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/power-traces.c:21:1: note: in expansion of macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+      21 | EXPORT_TRACEPOINT_SYMBOL_GPL(device_pm_callback_end);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +16 drivers/iommu/intel/iommu_pkvm.h
+vim +375 ./include/linux/tracepoint.h
 
-14d98d9e420328 Aashish Sharma 2025-11-06  10  
-157ba06fef4bdb Vineeth Pillai 2025-10-12  11  #define pkvm_iommu_hypercall(hc, param_name, param)			\
-157ba06fef4bdb Vineeth Pillai 2025-10-12  12  	({									\
-157ba06fef4bdb Vineeth Pillai 2025-10-12  13  		unsigned long f;						\
-157ba06fef4bdb Vineeth Pillai 2025-10-12  14  		struct pkvm_##param_name *p = get_this_pv_param(param_name, f);	\
-157ba06fef4bdb Vineeth Pillai 2025-10-12  15  		int ret;							\
-157ba06fef4bdb Vineeth Pillai 2025-10-12 @16  		*p = *(param);							\
-157ba06fef4bdb Vineeth Pillai 2025-10-12  17  		ret = pkvm_hypercall(hc, (unsigned long)p);		\
-157ba06fef4bdb Vineeth Pillai 2025-10-12  18  		*(param) = *p;							\
-157ba06fef4bdb Vineeth Pillai 2025-10-12 @19  		put_this_pv_param(p, f);					\
-157ba06fef4bdb Vineeth Pillai 2025-10-12  20  		ret;								\
-157ba06fef4bdb Vineeth Pillai 2025-10-12  21  	})
-157ba06fef4bdb Vineeth Pillai 2025-10-12  22  
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  211) 
+ad37bcd965fda4 Alice Ryhl                2024-10-30  212  /*
+ad37bcd965fda4 Alice Ryhl                2024-10-30  213   * Declare an exported function that Rust code can call to trigger this
+ad37bcd965fda4 Alice Ryhl                2024-10-30  214   * tracepoint. This function does not include the static branch; that is done
+ad37bcd965fda4 Alice Ryhl                2024-10-30  215   * in Rust to avoid a function call when the tracepoint is disabled.
+ad37bcd965fda4 Alice Ryhl                2024-10-30  216   */
+ad37bcd965fda4 Alice Ryhl                2024-10-30  217  #define DEFINE_RUST_DO_TRACE(name, proto, args)
+ad37bcd965fda4 Alice Ryhl                2024-10-30  218  #define __DEFINE_RUST_DO_TRACE(name, proto, args)			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  219  	notrace void rust_do_trace_##name(proto)			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  220  	{								\
+cff6d93eab00ba Alice Ryhl                2024-12-12  221  		__do_trace_##name(args);				\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  222  	}
+ad37bcd965fda4 Alice Ryhl                2024-10-30  223  
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  224  /*
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  225   * Make sure the alignment of the structure in the __tracepoints section will
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  226   * not add unwanted padding between the beginning of the section and the
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  227   * structure. Force alignment to the same alignment as the section start.
+3a630178fd5f30 Dave Hansen               2014-08-07  228   *
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  229)  * When lockdep is enabled, we make sure to always test if RCU is
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  230)  * "watching" regardless if the tracepoint is enabled or not. Tracepoints
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  231)  * require RCU to be active, and it should always warn at the tracepoint
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  232)  * site if it is not watching, as it will need to be active when the
+c2679254b9c998 Steven Rostedt (Google    2023-03-10  233)  * tracepoint is enabled.
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  234   */
+ef0d4186083127 Mathieu Desnoyers         2024-11-23  235  #define __DECLARE_TRACE_COMMON(name, proto, args, data_proto)		\
+de394e7568ce2c peterz@infradead.org      2020-09-08  236  	extern int __traceiter_##name(data_proto);			\
+de394e7568ce2c peterz@infradead.org      2020-09-08  237  	DECLARE_STATIC_CALL(tp_func_##name, __traceiter_##name);	\
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  238  	extern struct tracepoint __tracepoint_##name;			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  239  	extern void rust_do_trace_##name(proto);			\
+38516ab59fbc5b Steven Rostedt            2010-04-20  240  	static inline int						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  241  	register_trace_##name(void (*probe)(data_proto), void *data)	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  242  	{								\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  243  		return tracepoint_probe_register(&__tracepoint_##name,	\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  244  						(void *)probe, data);	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  245  	}								\
+38516ab59fbc5b Steven Rostedt            2010-04-20  246  	static inline int						\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  247) 	register_trace_prio_##name(void (*probe)(data_proto), void *data,\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  248) 				   int prio)				\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  249) 	{								\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  250) 		return tracepoint_probe_register_prio(&__tracepoint_##name, \
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  251) 					      (void *)probe, data, prio); \
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  252) 	}								\
+7904b5c4988e18 Steven Rostedt (Red Hat   2015-09-22  253) 	static inline int						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  254  	unregister_trace_##name(void (*probe)(data_proto), void *data)	\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  255  	{								\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  256  		return tracepoint_probe_unregister(&__tracepoint_##name,\
+de7b2973903c6c Mathieu Desnoyers         2014-04-08  257  						(void *)probe, data);	\
+53da59aa6dd881 Mathieu Desnoyers         2010-04-30  258  	}								\
+38516ab59fbc5b Steven Rostedt            2010-04-20  259  	static inline void						\
+38516ab59fbc5b Steven Rostedt            2010-04-20  260  	check_trace_callback_type_##name(void (*cb)(data_proto))	\
+53da59aa6dd881 Mathieu Desnoyers         2010-04-30  261  	{								\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  262) 	}								\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  263) 	static inline bool						\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  264) 	trace_##name##_enabled(void)					\
+7c65bbc7dcface Steven Rostedt (Red Hat   2014-05-06  265) 	{								\
+4a8840af5f53f2 Josh Poimboeuf            2024-10-08  266  		return static_branch_unlikely(&__tracepoint_##name.key);\
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  267  	}
+97e1c18e8d17bd Mathieu Desnoyers         2008-07-18  268  
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  269  #define __DECLARE_TRACE(name, proto, args, cond, data_proto)		\
+ef0d4186083127 Mathieu Desnoyers         2024-11-23  270  	__DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
+cff6d93eab00ba Alice Ryhl                2024-12-12  271  	static inline void __do_trace_##name(proto)			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  272  	{								\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  273  		if (cond) {						\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  274  			guard(preempt_notrace)();			\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  275  			__DO_TRACE_CALL(name, TP_ARGS(args));		\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  276  		}							\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  277  	}								\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  278  	static inline void trace_##name(proto)				\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  279  	{								\
+cff6d93eab00ba Alice Ryhl                2024-12-12  280  		if (static_branch_unlikely(&__tracepoint_##name.key))	\
+cff6d93eab00ba Alice Ryhl                2024-12-12  281  			__do_trace_##name(args);			\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  282  		if (IS_ENABLED(CONFIG_LOCKDEP) && (cond)) {		\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  283  			WARN_ONCE(!rcu_is_watching(),			\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  284  				  "RCU not watching for tracepoint");	\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  285  		}							\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  286  	}
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  287  
+ef0d4186083127 Mathieu Desnoyers         2024-11-23  288  #define __DECLARE_TRACE_SYSCALL(name, proto, args, data_proto)		\
+ef0d4186083127 Mathieu Desnoyers         2024-11-23  289  	__DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto)) \
+cff6d93eab00ba Alice Ryhl                2024-12-12  290  	static inline void __do_trace_##name(proto)			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  291  	{								\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  292  		guard(rcu_tasks_trace)();				\
+7af08b57bcb9eb Linus Torvalds            2024-11-28  293  		__DO_TRACE_CALL(name, TP_ARGS(args));			\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  294  	}								\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  295  	static inline void trace_##name(proto)				\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  296  	{								\
+ee3685a98ea920 Mathieu Desnoyers         2024-10-31  297  		might_fault();						\
+cff6d93eab00ba Alice Ryhl                2024-12-12  298  		if (static_branch_unlikely(&__tracepoint_##name.key))	\
+cff6d93eab00ba Alice Ryhl                2024-12-12  299  			__do_trace_##name(args);			\
+ef0d4186083127 Mathieu Desnoyers         2024-11-23  300  		if (IS_ENABLED(CONFIG_LOCKDEP)) {			\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  301  			WARN_ONCE(!rcu_is_watching(),			\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  302  				  "RCU not watching for tracepoint");	\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  303  		}							\
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  304  	}
+0e6caab8db8bc9 Mathieu Desnoyers         2024-10-08  305  
+654986462939cd Mathieu Desnoyers         2011-01-26  306  /*
+654986462939cd Mathieu Desnoyers         2011-01-26  307   * We have no guarantee that gcc and the linker won't up-align the tracepoint
+654986462939cd Mathieu Desnoyers         2011-01-26  308   * structures, so we create an array of pointers that will be used for iteration
+654986462939cd Mathieu Desnoyers         2011-01-26  309   * on the tracepoints.
+306d40aa53b671 Mathieu Desnoyers         2024-11-23  310   *
+306d40aa53b671 Mathieu Desnoyers         2024-11-23  311   * it_func[0] is never NULL because there is at least one element in the array
+306d40aa53b671 Mathieu Desnoyers         2024-11-23  312   * when the array itself is non NULL.
+654986462939cd Mathieu Desnoyers         2011-01-26  313   */
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  314  #define __DEFINE_TRACE_EXT(_name, _ext, proto, args)			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  315) 	static const char __tpstrtab_##_name[]				\
+33def8498fdde1 Joe Perches               2020-10-21  316  	__section("__tracepoints_strings") = #_name;			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  317) 	extern struct static_call_key STATIC_CALL_KEY(tp_func_##_name);	\
+de394e7568ce2c peterz@infradead.org      2020-09-08  318  	int __traceiter_##_name(void *__data, proto);			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  319) 	void __probestub_##_name(void *__data, proto);			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  320) 	struct tracepoint __tracepoint_##_name	__used			\
+33def8498fdde1 Joe Perches               2020-10-21  321  	__section("__tracepoints") = {					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  322) 		.name = __tpstrtab_##_name,				\
+4a8840af5f53f2 Josh Poimboeuf            2024-10-08  323  		.key = STATIC_KEY_FALSE_INIT,				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  324) 		.static_call_key = &STATIC_CALL_KEY(tp_func_##_name),	\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  325) 		.static_call_tramp = STATIC_CALL_TRAMP_ADDR(tp_func_##_name), \
+de394e7568ce2c peterz@infradead.org      2020-09-08  326  		.iterator = &__traceiter_##_name,			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  327) 		.probestub = &__probestub_##_name,			\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  328  		.funcs = NULL,						\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  329  		.ext = _ext,						\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  330  	};								\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  331) 	__TRACEPOINT_ENTRY(_name);					\
+de394e7568ce2c peterz@infradead.org      2020-09-08  332  	int __traceiter_##_name(void *__data, proto)			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  333) 	{								\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  334) 		struct tracepoint_func *it_func_ptr;			\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  335) 		void *it_func;						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  336) 									\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  337) 		it_func_ptr =						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  338) 			rcu_dereference_raw((&__tracepoint_##_name)->funcs); \
+c8b186a8d54d7e Alexey Kardashevskiy      2021-02-02  339  		if (it_func_ptr) {					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  340) 			do {						\
+7211f0a25781ac Steven Rostedt (VMware    2021-02-04  341) 				it_func = READ_ONCE((it_func_ptr)->func); \
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  342) 				__data = (it_func_ptr)->data;		\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  343) 				((void(*)(void *, proto))(it_func))(__data, args); \
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  344) 			} while ((++it_func_ptr)->func);		\
+c8b186a8d54d7e Alexey Kardashevskiy      2021-02-02  345  		}							\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  346) 		return 0;						\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  347) 	}								\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  348) 	void __probestub_##_name(void *__data, proto)			\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  349) 	{								\
+e2d0d7b2f42dca Masami Hiramatsu (Google  2023-06-06  350) 	}								\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  351  	DEFINE_STATIC_CALL(tp_func_##_name, __traceiter_##_name);	\
+ad37bcd965fda4 Alice Ryhl                2024-10-30  352  	DEFINE_RUST_DO_TRACE(_name, TP_PROTO(proto), TP_ARGS(args))
+97419875865859 Josh Stone                2009-08-24  353  
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  354  #define DEFINE_TRACE_FN(_name, _reg, _unreg, _proto, _args)		\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  355  	static struct tracepoint_ext __tracepoint_ext_##_name = {	\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  356  		.regfunc = _reg,					\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  357  		.unregfunc = _unreg,					\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  358  		.faultable = false,					\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  359  	};								\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  360  	__DEFINE_TRACE_EXT(_name, &__tracepoint_ext_##_name, PARAMS(_proto), PARAMS(_args));
+654ced4a13774e Mathieu Desnoyers         2024-10-31  361  
+654ced4a13774e Mathieu Desnoyers         2024-10-31  362  #define DEFINE_TRACE_SYSCALL(_name, _reg, _unreg, _proto, _args)	\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  363  	static struct tracepoint_ext __tracepoint_ext_##_name = {	\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  364  		.regfunc = _reg,					\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  365  		.unregfunc = _unreg,					\
+654ced4a13774e Mathieu Desnoyers         2024-10-31  366  		.faultable = true,					\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  367  	};								\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  368  	__DEFINE_TRACE_EXT(_name, &__tracepoint_ext_##_name, PARAMS(_proto), PARAMS(_args));
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  369  
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  370  #define DEFINE_TRACE(_name, _proto, _args)				\
+a9cfb8778c43fc Mathieu Desnoyers         2024-10-31  371  	__DEFINE_TRACE_EXT(_name, NULL, PARAMS(_proto), PARAMS(_args));
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  372  
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  373  #define EXPORT_TRACEPOINT_SYMBOL_GPL(name)				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18 @374) 	EXPORT_SYMBOL_GPL(__tracepoint_##name);				\
+de394e7568ce2c peterz@infradead.org      2020-09-08 @375  	EXPORT_SYMBOL_GPL(__traceiter_##name);				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  376) 	EXPORT_STATIC_CALL_GPL(tp_func_##name)
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  377  #define EXPORT_TRACEPOINT_SYMBOL(name)					\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  378) 	EXPORT_SYMBOL(__tracepoint_##name);				\
+de394e7568ce2c peterz@infradead.org      2020-09-08  379  	EXPORT_SYMBOL(__traceiter_##name);				\
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  380) 	EXPORT_STATIC_CALL(tp_func_##name)
+d25e37d89dd2f4 Steven Rostedt (VMware    2020-08-18  381) 
+7e066fb870fcd1 Mathieu Desnoyers         2008-11-14  382  
 
-:::::: The code at line 16 was first introduced by commit
-:::::: 157ba06fef4bdb68af268f6a0e53695c0e4ad373 ANDROID: iommu/vt-d: Paravirtualize legacy context entry updates
+:::::: The code at line 375 was first introduced by commit
+:::::: de394e7568ce2cdb4643ed230169f484f25f9442 tracepoint: Fix overly long tracepoint names
 
-:::::: TO: Vineeth Pillai <vineethrp@google.com>
-:::::: CC: Tomasz Nowicki <tnowicki@google.com>
+:::::: TO: peterz@infradead.org <peterz@infradead.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
