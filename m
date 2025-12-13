@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36C2C8F0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 17:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8181433A0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 17:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765648034; cv=none; b=GU6Ol1m//554ursbvmPf7CKlVWhfTwSsnDhSxyK0uJO2t8thSBHf81lfCVumhoHN3yAs/Jin9AuIBP0sbv8QuPbBEIlAoIJpzwtkksCYgTvwEea7CTgiyL1tGaj2+jSpbHwF4LcclontVXndZysdtplOzTJt3RlurTe5vOrTuDE=
+	t=1765648598; cv=none; b=ZGTU9xkdl4fL2SwjimttWZfTgzucUyEEZN0/neeNpuF8fiuFDdHcFzGuN6cmUtxwZaM95uftyQU4b0gk8yuvJeIh52Dx++ffTEVBzs/chHCt6R/PUOAL+Ja8Ephl5190IT++pQTuojxS/MZRlYmszfYfpVkYrKhtQAHd/E54Og8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765648034; c=relaxed/simple;
-	bh=78D29qJ1xOfq3p6Gjo0cS0f6zP1bxiW+tOEeRTNy1eE=;
+	s=arc-20240116; t=1765648598; c=relaxed/simple;
+	bh=qQxuArpX2oNLv3HcwjG+X6eL5Mih+8CASngEbonKLcs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YjqhgpKRYW63Jlofv1MX3gosE3jw5gKiTVBWTk+r88dI8niDErAxf0xil+hsYnQGkwsqYfN6pVVZiVqlcqmuR8BVwvTiLTmpCAozF+lx+/DoMsKFxpaVWcr1GPPwMcjluawFZB0I6lToxuMbonG0Ed6nJivKgukjcT/wc8yMiwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hn6tSmRY; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=cCSiFffoXh994iy7SqJB9C7AkyxKDx2iBiSBVcNs0uQcU7TQ3YVUZRYX+xaE3pXxGryqT9AKoUxjWdpKWQ8+hfpgKjrd0XdOWWeTvBYy4se0JYX/CWoa7MUymwJd/m8P/iSFBh28nbRp4aozjjY3GaAY5fWPTHhT6iaT0dAvUwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pyra9ZqR; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hn6tSmRY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pyra9ZqR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765648033; x=1797184033;
+  t=1765648596; x=1797184596;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=78D29qJ1xOfq3p6Gjo0cS0f6zP1bxiW+tOEeRTNy1eE=;
-  b=Hn6tSmRYn0Q0f0R8jrDPw0wd/b/LhNRVx+CsT55/lN+Xxu9mWAsQK7cG
-   MhK6GpyrPjFCRnItjH51o6L/lwEFMmEg+dsMkbV/eCypDbJz6KkJEVaet
-   dqata7PoEqeVNuVAQIZtQENz0fZrtsWmmLn9HI5O7i/ql9qmab/UFpBGA
-   HoATtKeMUswS3mKSeQZ9hbKrgVvRCo7uSxzWmii4LYdmn+A0T1tYwXYB7
-   Z4lp0tou8GpjjXlg37qPsOL5E2946iRaizFsTWo6YAWlrPWGJkk6p7W09
-   zrCz6i1Y4hv7AUbNWQwYmbUGYf1WJxClF2dWGp4EgVLwi/QEJBX3+vEOp
-   w==;
-X-CSE-ConnectionGUID: H5RVAQYNSduOfsBB4etoKw==
-X-CSE-MsgGUID: /sNJfU9sTKaU9Wor3/pkXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="66605771"
-X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="66605771"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 09:47:09 -0800
-X-CSE-ConnectionGUID: 2PWFbm0kR8yZUyT+GMjXEg==
-X-CSE-MsgGUID: 6iwUPpO4T+KRdnEdsE/qMg==
+  bh=qQxuArpX2oNLv3HcwjG+X6eL5Mih+8CASngEbonKLcs=;
+  b=Pyra9ZqR+A7u2oRgwKIaYG/CdYVEN3gPPJutw6kJjmymQx2HKIondXdg
+   MWDlIyV9Zbwjey/6i4Hm7WAnu82ekZPW1LPZKpipGjGTVFK6C+FMVhu6k
+   Vtp88a8uhZ4ZqKwaUUF2uoJZHj6jmBolZMHnbA+9fU0YNUevkQgVL2QqT
+   qnOZUucBCO3PrQulx77zBA5poKz+aNAQlm2ZWUxASfhsoqFg5ny5G9RBG
+   pnIJB03ObLKKJdVdlZstv9kXtBTwiUw6JoyFm/kDrEy3KMJlu260YQOgX
+   POCX8h+MZyXB8tbBW6WyTDeCZb0hHc6yjBZLf0IrVaRQx1cNiFLXWSG5j
+   g==;
+X-CSE-ConnectionGUID: 8xB6j0RUTvCzh/vY/20PZw==
+X-CSE-MsgGUID: gN4vU+YKSOi/pi6+Sr9nKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67500216"
+X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
+   d="scan'208";a="67500216"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 09:56:35 -0800
+X-CSE-ConnectionGUID: XkuffashSRGubdkOyYEQrw==
+X-CSE-MsgGUID: tYz4+F/iRo2WbCAZYJh2Yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,146,1763452800"; 
-   d="scan'208";a="234739988"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Dec 2025 09:47:08 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="201763698"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 13 Dec 2025 09:56:34 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUThx-0000000080p-41qG;
-	Sat, 13 Dec 2025 17:47:05 +0000
-Date: Sun, 14 Dec 2025 01:46:37 +0800
+	id 1vUTr5-0000000028y-47pV;
+	Sat, 13 Dec 2025 17:56:31 +0000
+Date: Sat, 13 Dec 2025 18:56:11 +0100
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg-xen 18/18]
- drivers/virtio/virtio_msg_ffa_dma_heap.c:278:15: warning: unused variable
- 'page'
-Message-ID: <202512140156.b9FGoVHm-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 40/40] lib/maple_tree.c:4736:7:
+ warning: no previous prototype for 'mas_next_slot'
+Message-ID: <202512131843.p1EMQoEu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +62,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
-head:   e70cc743402c47048f65c4f9d065c129d5293fd5
-commit: e70cc743402c47048f65c4f9d065c129d5293fd5 [18/18] temp
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251214/202512140156.b9FGoVHm-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140156.b9FGoVHm-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   ebacb5ab3a1e5bf8dc788a29244f0e68d00a5bd6
+commit: 84719794e06c13fd9a3fd0c547af5bf9d76f7c3b [40/40] FROMGIT: maple_tree: introduce mas_next_slot() interface
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251213/202512131843.p1EMQoEu-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131843.p1EMQoEu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140156.b9FGoVHm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131843.p1EMQoEu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/virtio/virtio_msg_ffa_dma_heap.c:278:15: warning: unused variable 'page' [-Wunused-variable]
-     278 |         struct page *page = sg_page(table->sgl);
-         |                      ^~~~
->> drivers/virtio/virtio_msg_ffa_dma_heap.c:308:13: warning: variable 'dma_handle' set but not used [-Wunused-but-set-variable]
-     308 |         dma_addr_t dma_handle;
-         |                    ^
-   2 warnings generated.
+>> lib/maple_tree.c:4736:7: warning: no previous prototype for 'mas_next_slot' [-Wmissing-prototypes]
+    4736 | void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
+         |       ^~~~~~~~~~~~~
 
 
-vim +/page +278 drivers/virtio/virtio_msg_ffa_dma_heap.c
+vim +/mas_next_slot +4736 lib/maple_tree.c
 
-5f761d9629b02c Viresh Kumar 2025-10-31  272  
-5f761d9629b02c Viresh Kumar 2025-10-31  273  static void ffa_heap_dma_buf_release(struct dma_buf *dmabuf)
-5f761d9629b02c Viresh Kumar 2025-10-31  274  {
-5f761d9629b02c Viresh Kumar 2025-10-31  275  	struct ffa_heap_buffer *buffer = dmabuf->priv;
-e70cc743402c47 Viresh Kumar 2025-12-11  276  	struct device *dev = dma_heap_get_drvdata(buffer->heap);
-5f761d9629b02c Viresh Kumar 2025-10-31  277  	struct sg_table *table = &buffer->sg_table;
-5f761d9629b02c Viresh Kumar 2025-10-31 @278  	struct page *page = sg_page(table->sgl);
-5f761d9629b02c Viresh Kumar 2025-10-31  279  
-e70cc743402c47 Viresh Kumar 2025-12-11  280  	dma_free_coherent(dev, buffer->len, buffer->addr, buffer->dma_handle);
-5f761d9629b02c Viresh Kumar 2025-10-31  281  	sg_free_table(table);
-5f761d9629b02c Viresh Kumar 2025-10-31  282  	kfree(buffer);
-5f761d9629b02c Viresh Kumar 2025-10-31  283  }
-5f761d9629b02c Viresh Kumar 2025-10-31  284  
-5f761d9629b02c Viresh Kumar 2025-10-31  285  static void ffa_heap_dma_buf_unshmem(struct dma_buf *dmabuf)
-5f761d9629b02c Viresh Kumar 2025-10-31  286  {
-e70cc743402c47 Viresh Kumar 2025-12-11  287  //	struct ffa_heap_buffer *buffer = dmabuf->priv;
-e70cc743402c47 Viresh Kumar 2025-12-11  288  //	struct device *dev = dma_heap_get_drvdata(buffer->heap);
-e70cc743402c47 Viresh Kumar 2025-12-11  289  //	struct sg_table *table = &buffer->sg_table;
-e70cc743402c47 Viresh Kumar 2025-12-11  290  //	dma_addr_t dma = buffer->dma_handle;
-e70cc743402c47 Viresh Kumar 2025-12-11  291  //
-e70cc743402c47 Viresh Kumar 2025-12-11  292  //	if (WARN_ON(!sg_is_last(table->sgl)))
-e70cc743402c47 Viresh Kumar 2025-12-11  293  //		return;
-e70cc743402c47 Viresh Kumar 2025-12-11  294  //
-e70cc743402c47 Viresh Kumar 2025-12-11  295  //	/* Unshare all shared memory areas */
-e70cc743402c47 Viresh Kumar 2025-12-11  296  //	vmsg_ffa_bus_area_unshare(dev, &dma, buffer->len / PAGE_SIZE);
-5f761d9629b02c Viresh Kumar 2025-10-31  297  }
-5f761d9629b02c Viresh Kumar 2025-10-31  298  
-5f761d9629b02c Viresh Kumar 2025-10-31  299  static int ffa_heap_dma_buf_shmem(struct dma_buf *dmabuf, void *data)
-5f761d9629b02c Viresh Kumar 2025-10-31  300  {
-5f761d9629b02c Viresh Kumar 2025-10-31  301  	struct ffa_heap_buffer *buffer = dmabuf->priv;
-e70cc743402c47 Viresh Kumar 2025-12-11  302  //	struct device *dev = dma_heap_get_drvdata(buffer->heap);
-5f761d9629b02c Viresh Kumar 2025-10-31  303  	struct sg_table *table = &buffer->sg_table;
-5f761d9629b02c Viresh Kumar 2025-10-31  304  	struct page *page = sg_page(table->sgl);
-5f761d9629b02c Viresh Kumar 2025-10-31  305  	struct vsock_shmem_desc *desc = data;
-5f761d9629b02c Viresh Kumar 2025-10-31  306  	struct vsock_shmem_desc_payload_ffa *payload =
-5f761d9629b02c Viresh Kumar 2025-10-31  307  		(struct vsock_shmem_desc_payload_ffa *)desc->payload;
-5f761d9629b02c Viresh Kumar 2025-10-31 @308  	dma_addr_t dma_handle;
-e70cc743402c47 Viresh Kumar 2025-12-11  309  //	int ret;
-5f761d9629b02c Viresh Kumar 2025-10-31  310  
-5f761d9629b02c Viresh Kumar 2025-10-31  311  	static_assert(sizeof(*payload) <= VSOCK_SHMEM_PAYLOAD_SIZE_MAX);
-5f761d9629b02c Viresh Kumar 2025-10-31  312  
-5f761d9629b02c Viresh Kumar 2025-10-31  313  	if (WARN_ON(!sg_is_last(table->sgl)))
-5f761d9629b02c Viresh Kumar 2025-10-31  314  		return -EINVAL;
-5f761d9629b02c Viresh Kumar 2025-10-31  315  
-5f761d9629b02c Viresh Kumar 2025-10-31  316  	dma_handle = page_to_phys(page);
-e70cc743402c47 Viresh Kumar 2025-12-11  317  //	ret = vmsg_ffa_bus_area_share(dev, page_to_virt(page),
-e70cc743402c47 Viresh Kumar 2025-12-11  318  //				      buffer->len / PAGE_SIZE, &dma_handle);
-e70cc743402c47 Viresh Kumar 2025-12-11  319  //	if (ret)
-e70cc743402c47 Viresh Kumar 2025-12-11  320  //		return ret;
-5f761d9629b02c Viresh Kumar 2025-10-31  321  
-5f761d9629b02c Viresh Kumar 2025-10-31  322  	desc->type = VSOCK_SHMEM_TYPE_FFA;
-5f761d9629b02c Viresh Kumar 2025-10-31  323  	desc->len = sizeof(*desc) + sizeof(*payload);
-e70cc743402c47 Viresh Kumar 2025-12-11  324  	payload->dma_handle = buffer->dma_handle;
-5f761d9629b02c Viresh Kumar 2025-10-31  325  	payload->size = buffer->len;
-e70cc743402c47 Viresh Kumar 2025-12-11  326  //	buffer->dma_handle = dma_handle;
-5f761d9629b02c Viresh Kumar 2025-10-31  327  
-5f761d9629b02c Viresh Kumar 2025-10-31  328  	return 0;
-5f761d9629b02c Viresh Kumar 2025-10-31  329  }
-5f761d9629b02c Viresh Kumar 2025-10-31  330  
-
-:::::: The code at line 278 was first introduced by commit
-:::::: 5f761d9629b02c3a1bfe08986d990b30a18819ff virtio-msg: ffa: Add DMA-heap allocator
-
-:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
-:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
+  4726	
+  4727	/*
+  4728	 * mas_next_slot() - Get the entry in the next slot
+  4729	 *
+  4730	 * @mas: The maple state
+  4731	 * @max: The maximum starting range
+  4732	 * @empty: Can be empty
+  4733	 *
+  4734	 * Return: The entry in the next slot which is possibly NULL
+  4735	 */
+> 4736	void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
+  4737	{
+  4738		void __rcu **slots;
+  4739		unsigned long *pivots;
+  4740		unsigned long pivot;
+  4741		enum maple_type type;
+  4742		struct maple_node *node;
+  4743		unsigned char data_end;
+  4744		unsigned long save_point = mas->last;
+  4745		void *entry;
+  4746	
+  4747	retry:
+  4748		node = mas_mn(mas);
+  4749		type = mte_node_type(mas->node);
+  4750		pivots = ma_pivots(node, type);
+  4751		data_end = ma_data_end(node, type, pivots, mas->max);
+  4752		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
+  4753			goto retry;
+  4754	
+  4755	again:
+  4756		if (mas->max >= max) {
+  4757			if (likely(mas->offset < data_end))
+  4758				pivot = pivots[mas->offset];
+  4759			else
+  4760				return NULL; /* must be mas->max */
+  4761	
+  4762			if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
+  4763				goto retry;
+  4764	
+  4765			if (pivot >= max)
+  4766				return NULL;
+  4767		}
+  4768	
+  4769		if (likely(mas->offset < data_end)) {
+  4770			mas->index = pivots[mas->offset] + 1;
+  4771			mas->offset++;
+  4772			if (likely(mas->offset < data_end))
+  4773				mas->last = pivots[mas->offset];
+  4774			else
+  4775				mas->last = mas->max;
+  4776		} else  {
+  4777			if (mas_next_node(mas, node, max)) {
+  4778				mas_rewalk(mas, save_point);
+  4779				goto retry;
+  4780			}
+  4781	
+  4782			if (mas_is_none(mas))
+  4783				return NULL;
+  4784	
+  4785			mas->offset = 0;
+  4786			mas->index = mas->min;
+  4787			node = mas_mn(mas);
+  4788			type = mte_node_type(mas->node);
+  4789			pivots = ma_pivots(node, type);
+  4790			mas->last = pivots[0];
+  4791		}
+  4792	
+  4793		slots = ma_slots(node, type);
+  4794		entry = mt_slot(mas->tree, slots, mas->offset);
+  4795		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
+  4796			goto retry;
+  4797	
+  4798		if (entry)
+  4799			return entry;
+  4800	
+  4801		if (!empty) {
+  4802			if (!mas->offset)
+  4803				data_end = 2;
+  4804			goto again;
+  4805		}
+  4806	
+  4807		return entry;
+  4808	}
+  4809	
 
 -- 
 0-DAY CI Kernel Test Service
