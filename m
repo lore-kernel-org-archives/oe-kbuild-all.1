@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B963B21423C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 04:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7821624DCE5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 04:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765600922; cv=none; b=DqWhMZPCildLBSJWtrb4ainxDQG+e67G7nS+RPomVUTdu8OLsNPdtyVBDI62WQJokOShqttvlVxNITbw65v6ANTViNRO9Xy2KTmQdtRnsha/wqm0TpVDmuHpROJogFnEOxuEed2iRw443H+C/yIIG1JwO/9v0A5g/UqaepE/ZZc=
+	t=1765600923; cv=none; b=oHaejfNgHZFPzLIqWwKf1fMjVgBZ3nhXxtNIv9vXzAG3RPWyKs4MTiBgAaL1NWCf1trfh9PmbDLD/HglEzEByrXnnYup1iIS/BfMDDUMUZU2vo+5lCBwPUk7HNZvU6mLIcBODsG4NVI37x36fwTChHZI5mhfnIhx7AUSjWNvhOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765600922; c=relaxed/simple;
-	bh=IV5modX8zK2fa9UeVh5LIrl6JxxhouKvhGpnjCpt6zs=;
+	s=arc-20240116; t=1765600923; c=relaxed/simple;
+	bh=D+00F5Y/JJc32P+Cz5XV8+ZaiGpRjjmaGlOYTiw81Oc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kpbsUhn/krHViBkwVTQjZ6vXuo0ZRi5D7VJgcSGsaQdDHovdOO4v2k4Vb4hBkoIVaPGWUCKFG157ngxvGK/rGABKEJpQqizFCfFBl9o0bQSyEdavWNASnfNfDScgthdiJKux3U7LrldoeqV/D5lVmzSiM5hHd0zX6XtXIKEqQ+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WdOCbmqd; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=BC2wnI6ns6wQiLuXKkkA7LLcm8okxcapyBBmzxKnrRX0ocDpbsyFp8CTTjr1DWwOb5rDwnKX6QjrIFCgeB0E0403f68CkfoA50o97KAGUqAx+KXSl6Efy9giYauoqHmybtrAndtU9p8XOOVqLctwL6P4xABjdydM+HxJ8+1tT6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C4YOuERc; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WdOCbmqd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C4YOuERc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765600920; x=1797136920;
+  t=1765600921; x=1797136921;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IV5modX8zK2fa9UeVh5LIrl6JxxhouKvhGpnjCpt6zs=;
-  b=WdOCbmqdigB13cMhbksaoPz8fzeFXNKENR2ngeSogQtgHL+mqfCvc/ef
-   ZfuaNu/zJAuOZ3mls0KH1J0/6gd4qdm7qLsjh3RCGOwZS6d5RMajw0Lv0
-   XqQ0MgDn3oHTCUzye0ry6OMzFBSTMSG5QKNOkJ1J6LZh6oslz6ffFVY5v
-   F0dxzKC8m1wiFHmjLgmwBx9Il7b7cBAmcSCXEc2No65rZDvK4EllE8BQT
-   jXljbXXcjjjh/imzL2LdHJXq5d/PtXkZSLuLvNjahgJkE6kfOSZRJ6+Kd
-   ZFtwEF6alU1+d8KjiBXsLzofNNHklO59GR2kpAmqA2LdFlkUYozglnLSh
-   A==;
-X-CSE-ConnectionGUID: MF3SydkyQSKVj4B+hKG6CQ==
-X-CSE-MsgGUID: Qi2v/Qv8RlWMbJNVwx2qFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67558204"
+  bh=D+00F5Y/JJc32P+Cz5XV8+ZaiGpRjjmaGlOYTiw81Oc=;
+  b=C4YOuERcly00+qn1T5U/To5mR6nuoQIUp6KXcqs15b0Wj0Oz1oF64lVs
+   hx8Tw4/B/QYSmFttofXtL+LIud9yZGjsz90lzbfEXJBHhVDutdhr2lZTl
+   9yCJnLYbNmjSRw+azq5aHILO2lpFnZbw0j7VXThucKYntuRq8mG+nUjti
+   MEeqrKpOQCbpthuYvsVdf4u0fQj8p/FtQaY/62yRXCq3SAcdDKzxatKVs
+   z9njVKjQI3BRJ1Dob30+PEhx+eYSi048i6rPMrLiaUWbglav44O7QhRxJ
+   uqWHzQsX2glidvE88vzj5maukGpad4DWr5O56GkgVsy+ESiwYX71gTtUA
+   Q==;
+X-CSE-ConnectionGUID: J/SptQmCTzuba97ErJS95A==
+X-CSE-MsgGUID: wWhd8i2pT2uj/xtVpGAMmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="67638920"
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="67558204"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 20:42:00 -0800
-X-CSE-ConnectionGUID: c18DPX+SSOGxYLnXQZJhpg==
-X-CSE-MsgGUID: WQUh6nJORJOp7I+OSjfBtw==
+   d="scan'208";a="67638920"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 20:42:00 -0800
+X-CSE-ConnectionGUID: u1yfJI7SSuiSQw6+GSd6uA==
+X-CSE-MsgGUID: EobfPFa8SKGfvjIgWGdH7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
-   d="scan'208";a="196537395"
+   d="scan'208";a="201741039"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Dec 2025 20:41:59 -0800
+  by orviesa004.jf.intel.com with ESMTP; 12 Dec 2025 20:41:59 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUHS9-0000000073Z-08oa;
+	id 1vUHS9-0000000073e-0KPu;
 	Sat, 13 Dec 2025 04:41:57 +0000
-Date: Sat, 13 Dec 2025 12:41:48 +0800
+Date: Sat, 13 Dec 2025 12:41:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Steev Klimaszewski <steev@kali.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2] drivers/pmdomain/imx/gpc.c:228:4:
- warning: initializer-string for character array is too long, array size is
- 20 but initializer has size 21 (including the null terminating character);
- did you mean to use the 'nonstring' attribute?
-Message-ID: <202512131250.bFrB71fp-lkp@intel.com>
+Subject: [steev:lenovo-x13s-linux-6.18.y 20/136]
+ drivers/media/platform/qcom/camss/camss-csiphy.c:821:59: warning: variable
+ 'ret' is uninitialized when used here
+Message-ID: <202512131256.pD7MTLNS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,53 +63,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ulf,
-
-First bad commit (maybe != root cause):
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   5580efd2c7e4791254a0c26f9791aaa33dd70484
-commit: e2ad626f8f409899baf1bf192d0533a851128b19 [2/2] pmdomain: Rename the genpd subsystem to pmdomain
-config: arm-randconfig-003-20251213 (https://download.01.org/0day-ci/archive/20251213/202512131250.bFrB71fp-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131250.bFrB71fp-lkp@intel.com/reproduce)
+tree:   https://github.com/steev/linux lenovo-x13s-linux-6.18.y
+head:   1ad3742bc4665f533944e0edc0a9e25aac26b275
+commit: 4a4263c68fe3b527ca81e4458d5214f6ecb10b72 [20/136] media: qcom: camss: Add support for PHY API devices
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251213/202512131256.pD7MTLNS-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512131256.pD7MTLNS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512131250.bFrB71fp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512131256.pD7MTLNS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/pmdomain/imx/gpc.c:14:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:20:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/pmdomain/imx/gpc.c:228:4: warning: initializer-string for character array is too long, array size is 20 but initializer has size 21 (including the null terminating character); did you mean to use the 'nonstring' attribute? [-Wunterminated-string-initialization]
-     228 |         { "imx-pgc-power-domain"},
-         |           ^~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+>> drivers/media/platform/qcom/camss/camss-csiphy.c:821:59: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     821 |                 dev_err(dev, "failed to get phy %s %d\n", csiphy->name, ret);
+         |                                                                         ^~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:808:9: note: initialize the variable 'ret' to silence this warning
+     808 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
-vim +/nonstring +228 drivers/pmdomain/imx/gpc.c
+vim +/ret +821 drivers/media/platform/qcom/camss/camss-csiphy.c
 
-721cabf6c6600d drivers/soc/imx/gpc.c Lucas Stach 2017-02-17  226  
-721cabf6c6600d drivers/soc/imx/gpc.c Lucas Stach 2017-02-17  227  static const struct platform_device_id imx_pgc_power_domain_id[] = {
-721cabf6c6600d drivers/soc/imx/gpc.c Lucas Stach 2017-02-17 @228  	{ "imx-pgc-power-domain"},
-721cabf6c6600d drivers/soc/imx/gpc.c Lucas Stach 2017-02-17  229  	{ },
-721cabf6c6600d drivers/soc/imx/gpc.c Lucas Stach 2017-02-17  230  };
-721cabf6c6600d drivers/soc/imx/gpc.c Lucas Stach 2017-02-17  231  
-
-:::::: The code at line 228 was first introduced by commit
-:::::: 721cabf6c6600dbe689ee2782bc087270e97e652 soc: imx: move PGC handling to a new GPC driver
-
-:::::: TO: Lucas Stach <l.stach@pengutronix.de>
-:::::: CC: Shawn Guo <shawnguo@kernel.org>
+   794	
+   795	/*
+   796	 * msm_csiphy_subdev_init - Initialize CSIPHY device structure and resources
+   797	 * @csiphy: CSIPHY device
+   798	 * @res: CSIPHY module resources table
+   799	 * @id: CSIPHY module id
+   800	 *
+   801	 * Return 0 on success or a negative error code otherwise
+   802	 */
+   803	int msm_csiphy_subdev_init(struct camss *camss,
+   804				   struct csiphy_device *csiphy,
+   805				   const struct camss_subdev_resources *res, u8 id)
+   806	{
+   807		struct device *dev = camss->dev;
+   808		int ret;
+   809	
+   810		csiphy->camss = camss;
+   811		csiphy->id = id;
+   812		csiphy->cfg.combo_mode = 0;
+   813		csiphy->res = &res->csiphy;
+   814	
+   815		snprintf(csiphy->name, ARRAY_SIZE(csiphy->name), "csiphy%d",
+   816			 csiphy->id);
+   817	
+   818		csiphy->phy = devm_phy_get(dev, csiphy->name);
+   819	
+   820		if (IS_ERR(csiphy->phy)) {
+ > 821			dev_err(dev, "failed to get phy %s %d\n", csiphy->name, ret);
+   822			return PTR_ERR(csiphy->phy);
+   823		}
+   824	
+   825		ret = phy_init(csiphy->phy);
+   826		if (ret)
+   827			dev_err(dev, "phy %s init fail %d\n", csiphy->name, ret);
+   828	
+   829		return ret;
+   830	}
+   831	
 
 -- 
 0-DAY CI Kernel Test Service
