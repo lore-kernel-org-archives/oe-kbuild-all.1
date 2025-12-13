@@ -1,56 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA2C155326;
-	Sat, 13 Dec 2025 01:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA1219309C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 01:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765590611; cv=none; b=GEy23IdyAi1kzOxRXiUCKFZxO0hWYWgRnlt6AHLXHR5Ojpey8/zhjnc+oq7FnvQsMf+rL/GLOLf3GqUsTVsFO7my6hrRX7TWs276dwVEBs1k14bFzbSNyrwB6oj4s6jTHnBHWm0GQHVrYF6wDHR6ti1iPcA5KkweWQoPBmylb0c=
+	t=1765590711; cv=none; b=Hwm/Mq1M+3cFHXboyB/XOJKb7eTr/KoSITd86IR9vGLepBGqf5xx2QcUHyhZH15gSlCtXgNhiI7+TJt9ee61ThtXk+YAENYDSOshX8pFzHf8gCeo2yB2RL5zZNQ4PhDqgKYeKQXOb0uCyf+ssbt6Bgtb265qCMWOqCN9vy5G6c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765590611; c=relaxed/simple;
-	bh=9oz2NbUpkCIfo6RHC26HsocvBxrxsYD2PY+nLG8VDQU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bfa1Mk1K0q1Z/i6r3RNZpjuzuauTlxtOUwkWDjcBxHkO1fCzYpO1QdG2AXn/CeaMnA4ifGk8cTegrNpUvpF00Xcbg1Ye0zvLIa547ZoUtzcXmjv3Dl+BpFlSgtSyacjTnyR1xdl57ARmik6V9iYR7CT6xxECYWYV4dntRZvO/XM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KZrYOkg9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765590711; c=relaxed/simple;
+	bh=011QuEDEp/Jbm8B5VAEVViawF5UQL98WsIT1dAnE1vo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VVLLjpNzn5h1/FUMzSnoiF8rifKDwVegOKVJh38DWZv5VSle9G6s2/4cXjTcbjo44JgUPmUCnDTvZruqQsDM7CoRPSF02HhlOu2ip0e3e0ia5N0NT31496tZ1VJvD+em6EkGRwK1RZt58G+w/tLdtD0yz/MsaOcdmjJPRznhTXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIjsnxZy; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KZrYOkg9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10BF6C4CEF1;
-	Sat, 13 Dec 2025 01:50:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765590611;
-	bh=9oz2NbUpkCIfo6RHC26HsocvBxrxsYD2PY+nLG8VDQU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KZrYOkg9NsVVtxI4QJM1muthbEzYqbJbgJT3BWOV5hwR8HtaU1zPCFVfnFEh2Gc+f
-	 p5DQ21bK8a2SmBYW5QyIxLhbutr+gF16XrBXPtKd7f4cGWear6AkQr96AXVbDhHTd9
-	 UsxjH3Dbw88uXfGNzWNuHRO/VtisoiGTSA4SL2wJ/1Yh0/uBISU3O9bnGh+nVKDsjm
-	 RTJq2DlhWrYP2s7wxOzY549z26arl6CWshOEiX+iHu2MxV3qpZt2OX7hfVWAGTLnom
-	 Nq1y2mZmAQaenM09xi18+Tgr1JRJ0Kf5cyrbgJNjp+FQTP4sfzJCAUJ8zFhObtFQGB
-	 S2Gp94eRrEUpQ==
-Date: Sat, 13 Dec 2025 10:50:06 +0900
-From: Nathan Chancellor <nathan@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Gary Guo <gary@garyguo.net>,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Miguel Ojeda <ojeda@kernel.org>, kernel test robot <lkp@intel.com>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>
-Subject: Re: [linux-next:master 9676/10599] ld.lld: error: undefined symbol:
- rust_build_error
-Message-ID: <20251213015006.GB3115176@ax162>
-References: <aSAr-aA2U26lr3iI@google.com>
- <DEEEZRYSYSS0.28PPK371D100F@nvidia.com>
- <aSBy3HQ9Z-h2LbB8@google.com>
- <CANiq72=P8AS_XeMdkakuGeTQ5SGb4wvH8qyVoY32FR+PLQu+zQ@mail.gmail.com>
- <20251121143008.2f5acc33.gary@garyguo.net>
- <aSB623GKVDR2TBc3@google.com>
- <CANiq72kUk_R0HGbX4eW9iucCXergJqBBeutnh7cb8SNAzGjG+g@mail.gmail.com>
- <aSQ1VNuGHhFXYE2e@google.com>
- <20251124144810.2fb0e99e.gary@garyguo.net>
- <aTtqI7Mu7LYu0fpx@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIjsnxZy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765590709; x=1797126709;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=011QuEDEp/Jbm8B5VAEVViawF5UQL98WsIT1dAnE1vo=;
+  b=OIjsnxZymmHXBeQIXCTX7HAFuOqK0zc/KlH5VX74a/RpmerjlTBvuecp
+   oJ/Upiy3hQ1tmY+24WLV6xU1hicXyHLhhGBpKR8B+lZdIOmX3Wy04EOwH
+   qtvHMnU+GVJRUG40kT9y7on3w0ZxzJNsR6R83GKPCXChlWUG/xbG/EdK8
+   nIrbz0aK1bRbEsbD1LnPSAvpZXsWadb0B4oQL5HJYMxI7AGmfNlX/PZ5a
+   2F7Qve0USbvrGC04TEaO7BzGFmLUV9Wu1QmcEJ0I/KRD17CsDo1RKhdqF
+   Q2iwjuL/PPaOnjESsHbQXxvvVlFc7xdHC1Y+u8JpZdEeUR91SgO5Q1jzA
+   A==;
+X-CSE-ConnectionGUID: OFp82fhhQGaOtYnQGLCGbA==
+X-CSE-MsgGUID: uai8TxLzQiSM4e1ZJtO0Ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11640"; a="93068555"
+X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
+   d="scan'208";a="93068555"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2025 17:51:49 -0800
+X-CSE-ConnectionGUID: CJJEeKCOTqSf4DeWyfNKOg==
+X-CSE-MsgGUID: fRpJx78ATlWDmjQVsMyKig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,145,1763452800"; 
+   d="scan'208";a="198051992"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 12 Dec 2025 17:51:48 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vUEnR-000000006uM-3xQI;
+	Sat, 13 Dec 2025 01:51:45 +0000
+Date: Sat, 13 Dec 2025 09:51:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-desktop 1/1]
+ drivers/android/debug_kinfo.c:66:30: sparse: sparse: Using plain integer as
+ NULL pointer
+Message-ID: <202512130903.M4PxXEry-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,23 +62,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aTtqI7Mu7LYu0fpx@google.com>
 
-On Fri, Dec 12, 2025 at 01:04:35AM +0000, Alice Ryhl wrote:
-> I looked through a lot of the cases where BUILD_BUG_ON is used. All of
-> them seem to be checking that some constants are equal to something,
-> different from something, less than something, etc. It compares #defined
-> constants, and stuff like sizeof(struct) and such. But I could not find
-> even a single example where BUILD_BUG_ON used for bounds-checking a
-> runtime value, which is the use-case I think is problematic.
+Hi Carlos,
 
-Right. If BUILD_BUG_ON cannot be elided (i.e., its check is not
-proveably false at compile time), there will be a build error.
+First bad commit (maybe != root cause):
 
-You can see some of the cases that we had to fix with ClangBuiltLinux
-from our issue tracker:
+tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
+head:   48776802cab71a77ba2ad75aae59a6f475da6efc
+commit: 42d3f1efd81dce695f71ead4d3a81e94efa92eb2 [1/1] Merge 806381e1a24c ("Merge tag 'powerpc-6.17-2' of git://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux") into android-mainline
+config: arm-randconfig-r111-20251213 (https://download.01.org/0day-ci/archive/20251213/202512130903.M4PxXEry-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130903.M4PxXEry-lkp@intel.com/reproduce)
 
-  https://github.com/ClangBuiltLinux/linux/issues?q=is%3Aissue%20__compiletime_assert
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512130903.M4PxXEry-lkp@intel.com/
 
-Cheers,
-Nathan
+sparse warnings: (new ones prefixed by >>)
+>> drivers/android/debug_kinfo.c:66:30: sparse: sparse: Using plain integer as NULL pointer
+
+vim +66 drivers/android/debug_kinfo.c
+
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  59  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  60  static int build_info_set(const char *str, const struct kernel_param *kp)
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  61  {
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  62  	struct kernel_all_info *all_info;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  63  	size_t build_info_size;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  64  	int ret = 0;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  65  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16 @66  	if (all_info_addr == 0 || all_info_size == 0) {
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  67  		ret = -EPERM;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  68  		goto Exit;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  69  	}
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  70  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  71  	all_info = (struct kernel_all_info *)all_info_addr;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  72  	build_info_size = sizeof(all_info->info.build_info);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  73  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  74  	memcpy(&all_info->info.build_info, str, min(build_info_size - 1, strlen(str)));
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  75  	update_kernel_all_info(all_info);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  76  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  77  	if (strlen(str) > build_info_size) {
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  78  		pr_warn("%s: Build info buffer (len: %zd) can't hold entire string '%s'\n",
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  79  				__func__, build_info_size, str);
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  80  		ret = -ENOMEM;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  81  	}
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  82  
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  83  Exit:
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  84  	return ret;
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  85  }
+1a9c7b3e3bdd87 drivers/staging/android/debug_kinfo.c Jone Chou 2020-10-16  86  
+
+:::::: The code at line 66 was first introduced by commit
+:::::: 1a9c7b3e3bdd87a10205891806a0d880fe27230c ANDROID: staging: add debug-kinfo driver
+
+:::::: TO: Jone Chou <jonechou@google.com>
+:::::: CC: Will McVicker <willmcvicker@google.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
