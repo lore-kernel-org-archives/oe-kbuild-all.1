@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AA930BF59
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 23:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A3730BF52
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 Dec 2025 23:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765668931; cv=none; b=Cjl17cBV7usd72nmkW86MTQEpmIZzC2OLLiYJ98ZBQUnugD0cF95JpZXwxVv0zxxgnUYMqlasDnChEi+B5V5kLgTfY9PsETkcNrKL9eOzh50q7UJqIAnN5us0GIAT0Sh3ry6wnPbw4k3x4z8y23cR0xtPi9tHt7rdt6BUKxpj+M=
+	t=1765669075; cv=none; b=XFVlaqfH2XXHkqLzW8oxE07hGU1d7C+6EOAT3mssG28pC3vjlscIpoAemb4oPXb4S8xG3/sVHZ/w5BtSoSG2Wq1htroVOcIqdFhVvAuXg/n01Hv2jIpHrUAEqAFHhChCvvgnPkP7haFhC8XAQMePhfGb6vq2M94SOojosJkVEFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765668931; c=relaxed/simple;
-	bh=m0gvKPi7exSmd830rtBtPhFEbw05IkTw2utEq2oeeUs=;
+	s=arc-20240116; t=1765669075; c=relaxed/simple;
+	bh=1SlL0bPy3BgamxohRv3tNfv4ojTV7kAiZYC/TGBepf0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SP9dusa9jWPUxXvr98McVKOuMV9iHfdgODabGxaiZpDmtPhTn1sa00z1SJ1GFWDzOolaKCaqVobV5Sl43glBtBigKDyVjsYEkzYmmvffHvmT9zAX/Ohq5gD9EcUJwmvaan/XO61W57ZVDphf1HpPfV37X9fteXXwC3zTpUaNG2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GO0SvD6v; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=Az94qgcH/rFsKuFQCJm9K1vlt+KnXTWmpAcHsQgNOSH7rhZwmJTflK6SvinveUChXkvQ7iZyZbfZrDmQbZv8Zu7aDwgvqwNHvnnOEIVJvSADMSXi2nLEAr18f1StDogudIkzVtzIYFgfNHMsbkkH89RPQAVvC86xnneReWreEYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AvPY5WdV; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GO0SvD6v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AvPY5WdV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765668930; x=1797204930;
+  t=1765669074; x=1797205074;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=m0gvKPi7exSmd830rtBtPhFEbw05IkTw2utEq2oeeUs=;
-  b=GO0SvD6vD17GAKZU7qw90wQ09uaWH24OyNC+vhYKbdaKjxROWg6T9v8v
-   7NRs0I6P/6GRAMDkwnsbIJAjluL29dKTqj/uT4ELhIS/obc0ck6xCavsT
-   c052ZurnPLy9V64mDcPmf//sBIyrCKxN6M3K0e7Oj3UyNfCXHGWO8EcCr
-   0lY+4NYkXdfKFAGDWi0gKptyHld5VOk0sPSw+V5ssPrGt0Vh6B+WBrHU8
-   59I3HkA5j0xK606LxENDGGeVwJJIfpKUi8G3DXND3X5vRybt7jEfwnwee
-   S0HSW7dMEhMUIeWpt1Hec2V6V8mLW7HtzWAfuQmZyEz32iMjUdCq0n390
+  bh=1SlL0bPy3BgamxohRv3tNfv4ojTV7kAiZYC/TGBepf0=;
+  b=AvPY5WdVAbi2aXl55znezaUHhPn548KoztioW/x0kj1z1JZQLLqAqhaP
+   07tjn45eaL3ioNbyTduzDj3fZ6m9GNIocVcLHUU0bAB8LBtcic0DWeyUo
+   FJe9cXdTGcJcRl1TbENtSu7VA0MNB2DCz0RXdFXdIjVf16HOpYQucMGo8
+   KKD0qpSokkRmnIxqhOYOoatESgB2l79iF1dz1GGryCkoD93q/BOf8IRQG
+   Ykj4ErTs2uXsZHAmvSvk6QIW+O709aaDfA6GbjKMX+5PpzmV8Xwz2wFS8
+   tLahUc55166Z8q7x7wlTXnAQuFai/yCBd1m9ioSIejwmuVZH7q9l359m0
    Q==;
-X-CSE-ConnectionGUID: hjx7YXMrQJ6CRQ+O4tOxgQ==
-X-CSE-MsgGUID: BrlXB6cYRdSt+IJQFHxkvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67782363"
+X-CSE-ConnectionGUID: SThuK+fWQcKYnq0G4vU26g==
+X-CSE-MsgGUID: /dZl5y1aQ9eF89V9e32BNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="79081751"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="67782363"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 15:35:30 -0800
-X-CSE-ConnectionGUID: tPha8hsqT+WCNWpNxzb9tA==
-X-CSE-MsgGUID: IXYZwh5PSPGy9RsvLChpGA==
+   d="scan'208";a="79081751"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 15:37:53 -0800
+X-CSE-ConnectionGUID: e6UlrrB6QOCo+HK3725Rog==
+X-CSE-MsgGUID: lXed8iWuRQaAcE+bTW/nrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="198226916"
+   d="scan'208";a="197157380"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Dec 2025 15:35:28 -0800
+  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2025 15:35:28 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUZ93-000000008Jq-3Hsl;
+	id 1vUZ93-000000008Jl-33gv;
 	Sat, 13 Dec 2025 23:35:25 +0000
-Date: Sun, 14 Dec 2025 07:34:54 +0800
+Date: Sun, 14 Dec 2025 07:34:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Johannes Berg <johannes.berg@intel.com>
-Subject: drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgm200.c:32:9: sparse:
- sparse: cast truncates bits from constant value (100000000 becomes 0)
-Message-ID: <202512140713.HUSp33rF-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 0/3]
+ sound/soc/codecs/cs42l43.c:2446:9: sparse: sparse: Initializer entry defined
+ twice
+Message-ID: <202512140729.luUXJGMM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,40 +63,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a298a43f5e339f48d2dda0665c02b88ee9a4e03
-commit: b8c9c3b822fe8e033b9802516f6466099d915488 um: stop using PCI port I/O
-date:   7 months ago
-config: um-randconfig-r121-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140713.HUSp33rF-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   17fd67ddf0cddeb7325b49d3ca2f7db7824dfccd
+commit: 91e698058e91dcaef669afae07e2f23fee6bce9a [0/3] ASoC: cs42l43: Add codec force suspend/resume ops
+config: i386-randconfig-063-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140729.luUXJGMM-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140713.HUSp33rF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140729.luUXJGMM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140713.HUSp33rF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140729.luUXJGMM-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgm200.c:32:9: sparse: sparse: cast truncates bits from constant value (100000000 becomes 0)
-   drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgm200.c:57:9: sparse: sparse: cast truncates bits from constant value (800000000 becomes 0)
+>> sound/soc/codecs/cs42l43.c:2446:9: sparse: sparse: Initializer entry defined twice
+   sound/soc/codecs/cs42l43.c:2449:9: sparse:   also defined here
 
-vim +32 drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgm200.c
+vim +2446 sound/soc/codecs/cs42l43.c
 
-5f300fed645597 Ben Skeggs 2017-11-01  26  
-e12cf6ad43888c Ben Skeggs 2017-11-01  27  static void
-e12cf6ad43888c Ben Skeggs 2017-11-01  28  gm200_vmm_pgt_sparse(struct nvkm_vmm *vmm,
-e12cf6ad43888c Ben Skeggs 2017-11-01  29  		     struct nvkm_mmu_pt *pt, u32 ptei, u32 ptes)
-e12cf6ad43888c Ben Skeggs 2017-11-01  30  {
-e12cf6ad43888c Ben Skeggs 2017-11-01  31  	/* VALID_FALSE + VOL tells the MMU to treat the PTE as sparse. */
-e12cf6ad43888c Ben Skeggs 2017-11-01 @32  	VMM_FO064(pt, vmm, ptei * 8, BIT_ULL(32) /* VOL. */, ptes);
-e12cf6ad43888c Ben Skeggs 2017-11-01  33  }
-e12cf6ad43888c Ben Skeggs 2017-11-01  34  
+64353af49fecbd Charles Keepax 2024-02-06  2444  
+64353af49fecbd Charles Keepax 2024-02-06  2445  static const struct dev_pm_ops cs42l43_codec_pm_ops = {
+64353af49fecbd Charles Keepax 2024-02-06 @2446  	SYSTEM_SLEEP_PM_OPS(cs42l43_codec_suspend, cs42l43_codec_resume)
+64353af49fecbd Charles Keepax 2024-02-06  2447  	NOIRQ_SYSTEM_SLEEP_PM_OPS(cs42l43_codec_suspend_noirq, cs42l43_codec_resume_noirq)
+64353af49fecbd Charles Keepax 2024-02-06  2448  	RUNTIME_PM_OPS(NULL, cs42l43_codec_runtime_resume, NULL)
+91e698058e91dc Maciej Strozek 2025-01-09  2449  	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+64353af49fecbd Charles Keepax 2024-02-06  2450  };
+fc918cbe874eee Charles Keepax 2023-08-04  2451  
 
-:::::: The code at line 32 was first introduced by commit
-:::::: e12cf6ad43888c152c3b2edb59525587cd98a227 drm/nouveau/mmu/gm200,gm20b: implement new vmm backend
+:::::: The code at line 2446 was first introduced by commit
+:::::: 64353af49fecbdec1de9aadf2369d54fc00f1899 ASoC: cs42l43: Add system suspend ops to disable IRQ
 
-:::::: TO: Ben Skeggs <bskeggs@redhat.com>
-:::::: CC: Ben Skeggs <bskeggs@redhat.com>
+:::::: TO: Charles Keepax <ckeepax@opensource.cirrus.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
