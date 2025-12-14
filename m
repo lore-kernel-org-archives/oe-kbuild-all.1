@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722478F48
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 11:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C692F21D3F3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 13:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765710130; cv=none; b=Z8P5a81he/O2509znSoU61f7N37n2Ri6QA6tf9IAbYTeR/zV6ejfTE+Zuwtn2SDPZ9cLVmT5iZUx8WsEXQfz1i/vSBcUmia0Lv7Iql2dALp+oI1Zr5DvtJ91i0Mn5ymZ/HQTNyYiU5wXkl7fcpiugaFBXhjIeLh9OZukl8P5u/0=
+	t=1765718053; cv=none; b=jcU+kPhtlVoekYrLgh7/l8Ik/BB1R1cbvyuaBlpOYNZHnlMZFp0B31e/b6/5HrEdFDPqt8Q6QcGTWM6AjHs+FnkeKGZwXD3ChsZp9eeVlVktCWIncBulHUi2zyt1J0e7FXKMs/WorK3LNJR7AZB0verhys+3jSkOK68HuFZ1J7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765710130; c=relaxed/simple;
-	bh=/I0egi0MSNJPav7c2GVq/D0RhFl7XRFSQUPMF5QqX9M=;
+	s=arc-20240116; t=1765718053; c=relaxed/simple;
+	bh=yhF4N+Q09s9B1jSAjfqauoZqqfIpMBw6jCZD0TlwFcA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mEGCqHJCKwIhdX4UQaM88PxC9aVzT5CPvEKHY+KrlTAVSYqy+Qxg+fd/4BrhYHFHfXld2GmT8j+A5lyiyJQbjaAi322MaMNuc2fDz1+3kMJ2Y7XSrWBMKnQXEDrCiZOOe52m8uvwcW//Wc533FWcAoahRZWLhViAI/CS1UHmMdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XCPO643O; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=iiMaOs82NVrBkBBAGUkhufbKd5q1/fh6mYgzdADyfOmG10fRmXrsUb/tvUl7ZAKHa+F+T9moPM/rha2eARtAf+DlITzPodcljxys4nso8xGfp+9oYs3wYRNjZatrRR9cnJHFaqlHzyO/F14ZRrlQU01sUndJwXNxSys4+fUdl+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lr7rBYnQ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XCPO643O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lr7rBYnQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765710129; x=1797246129;
+  t=1765718052; x=1797254052;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/I0egi0MSNJPav7c2GVq/D0RhFl7XRFSQUPMF5QqX9M=;
-  b=XCPO643OOmrKIhaw0dl/zc15yE0sP7ZUaGzpw7EttUqirgXmT1MKsnjE
-   4QNvk6fnJB6BvbkqKGN3QdwjQiFnYzYHg9Hh+834sEPdEcxoeLaW5EjDU
-   iQNWP2Yv5JnNiZ+nMf2K1jQSCdZK148Md4UhZ63ar19JMuaSQatYu7bgs
-   d8a3QGKAYzT2uYmJcXneddyqH7iWLfwY6FibOaFIBoWPkZZ1KmXeHQtPB
-   FbZmBIOgSPxqMvdGq3lRW8xS4Sg5oI+xsVasL5H7wAPkzTQeABNEpCD7g
-   kUW0QqwzOklf8TM7QE2Q0AcvIcnql+NZQ0DGg9Nc8oNWFrAR3vnku0tQK
-   g==;
-X-CSE-ConnectionGUID: qY+SS9qcRoGMNipcO0JA7A==
-X-CSE-MsgGUID: tbdoLucfQUm68dBFPnMjuw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="71492055"
+  bh=yhF4N+Q09s9B1jSAjfqauoZqqfIpMBw6jCZD0TlwFcA=;
+  b=lr7rBYnQLayudVHA6rF+w5setxInAsVIIVFi/JTxWnk+/KwcAVmI309X
+   35LnCDztdDN5qT1TRALSJryeaCI8BITLsykDIX9y3vOTrMHhc6aQgCvDQ
+   qygCyCRyIvP/2EIYOXjiu0y5TKQrVO5dyWUw8DYbLdDbw0IJ8an1wVJeT
+   lzG7GmPlUI04oYIXadthFRPWnFU9uFCdbQ9i/6ECTWLpV5DGS/OsLUmBS
+   TeZ7Sb8L/bsIvmNYgxGHDcWm0VxC1DEU2+iyR8XTo0pqZ6atXpjwoR7TC
+   TmKxqJA12DShNTWg4X2+bCvsncyI/NbwSR523y9Pwlt1BQ/Tp7UoOcRzz
+   w==;
+X-CSE-ConnectionGUID: WXC1zrL5TUiBYVWj7ZbVTg==
+X-CSE-MsgGUID: 8mRpCfXMRsydtTZx5t05+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67683176"
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="71492055"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 03:02:08 -0800
-X-CSE-ConnectionGUID: 2wUToX+fQwuw7LDFdWhceA==
-X-CSE-MsgGUID: l6Eb4W84QRCeaMuEAviZKg==
+   d="scan'208";a="67683176"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 05:14:12 -0800
+X-CSE-ConnectionGUID: zPC3K12wQWGgmIpW+9YBLQ==
+X-CSE-MsgGUID: ZXa0dWDHRgCRQKw3AZ6mAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="201904356"
+   d="scan'208";a="197129940"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Dec 2025 03:02:06 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 14 Dec 2025 05:14:10 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUjrY-000000008yr-2qZw;
-	Sun, 14 Dec 2025 11:02:04 +0000
-Date: Sun, 14 Dec 2025 19:01:08 +0800
+	id 1vUlvM-0000000091x-05IL;
+	Sun, 14 Dec 2025 13:14:08 +0000
+Date: Sun, 14 Dec 2025 21:14:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uros Bizjak <ubizjak@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@kernel.org>
-Subject: [mingo-tip:WIP.x86/cpu 15/15] arch/x86/include/asm/percpu.h:365:17:
- error: expected ':' or ')' before 'CC_SET'
-Message-ID: <202512141817.HJMA5b5K-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2024-12 1/1] lib/sbitmap.c:104:
+ warning: Function parameter or member 'sb' not described in
+ 'sbitmap_spinlock'
+Message-ID: <202512142114.0R0O3eyF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +63,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git WIP.x86/cpu
-head:   ff1735ccc470808033db2520554f2ca090a12393
-commit: ff1735ccc470808033db2520554f2ca090a12393 [15/15] x86/percpu: Remove !CONFIG_X86_CX8 methods
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20251214/202512141817.HJMA5b5K-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512141817.HJMA5b5K-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-12
+head:   0832a8cf7ee1e46c7472139b10da3bc2a68bb8c0
+commit: 7b1f455c7143098e61cdd2298639e3c412c285f2 [1/1] ANDROID: sbitmap: Fix sbitmap_spinlock()
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251214/202512142114.0R0O3eyF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512142114.0R0O3eyF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512141817.HJMA5b5K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512142114.0R0O3eyF-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/include/asm/preempt.h:6,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from mm/slub.c:13:
-   mm/slub.c: In function '__update_cpu_freelist_fast':
->> arch/x86/include/asm/percpu.h:365:17: error: expected ':' or ')' before 'CC_SET'
-     365 |                 CC_SET(z)                                               \
-         |                 ^~~~~~
-   arch/x86/include/asm/percpu.h:378:57: note: in expansion of macro 'percpu_try_cmpxchg64_op'
-     378 | #define this_cpu_try_cmpxchg64(pcp, ovalp, nval)        percpu_try_cmpxchg64_op(8, volatile, pcp, ovalp, nval)
-         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab.h:31:41: note: in expansion of macro 'this_cpu_try_cmpxchg64'
-      31 | #define this_cpu_try_cmpxchg_freelist   this_cpu_try_cmpxchg64
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4385:16: note: in expansion of macro 'this_cpu_try_cmpxchg_freelist'
-    4385 |         return this_cpu_try_cmpxchg_freelist(s->cpu_slab->freelist_tid,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/include/asm/percpu.h:359:18: warning: variable 'new__' set but not used [-Wunused-but-set-variable]
-     359 |         } old__, new__;                                                 \
-         |                  ^~~~~
-   arch/x86/include/asm/percpu.h:378:57: note: in expansion of macro 'percpu_try_cmpxchg64_op'
-     378 | #define this_cpu_try_cmpxchg64(pcp, ovalp, nval)        percpu_try_cmpxchg64_op(8, volatile, pcp, ovalp, nval)
-         |                                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/slab.h:31:41: note: in expansion of macro 'this_cpu_try_cmpxchg64'
-      31 | #define this_cpu_try_cmpxchg_freelist   this_cpu_try_cmpxchg64
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/slub.c:4385:16: note: in expansion of macro 'this_cpu_try_cmpxchg_freelist'
-    4385 |         return this_cpu_try_cmpxchg_freelist(s->cpu_slab->freelist_tid,
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/sbitmap.c:104: warning: Function parameter or member 'sb' not described in 'sbitmap_spinlock'
+>> lib/sbitmap.c:104: warning: Excess function parameter 'map' description in 'sbitmap_spinlock'
+   lib/sbitmap.c:104: warning: Excess function parameter 'map_nr' description in 'sbitmap_spinlock'
 
 
-vim +365 arch/x86/include/asm/percpu.h
+vim +104 lib/sbitmap.c
 
-   349	
-   350	#define percpu_try_cmpxchg64_op(size, qual, _var, _ovalp, _nval)	\
-   351	({									\
-   352		bool success;							\
-   353		u64 *_oval = (u64 *)(_ovalp);					\
-   354		union {								\
-   355			u64 var;						\
-   356			struct {						\
-   357				u32 low, high;					\
-   358			};							\
- > 359		} old__, new__;							\
-   360										\
-   361		old__.var = *_oval;						\
-   362		new__.var = _nval;						\
-   363										\
-   364		asm qual ("cmpxchg8b " __percpu_arg([var])			\
- > 365			CC_SET(z)						\
-   366			: CC_OUT(z) (success),					\
-   367			  [var] "+m" (__my_cpu_var(_var)),			\
-   368			  "+a" (old__.low), "+d" (old__.high)			\
-   369			: "b" (new__.low), "c" (new__.high)			\
-   370			: "memory");						\
-   371		if (unlikely(!success))						\
-   372			*_oval = old__.var;					\
-   373										\
-   374		likely(success);						\
-   375	})
-   376	
+bf2c4282a10a928 Ming Lei        2021-01-22   59  
+1960324b25c8e48 Yang Yang       2024-07-16   60  /**
+1960324b25c8e48 Yang Yang       2024-07-16   61   * sbitmap_spinlock() - Get the spinlock corresponding to sbitmap_work.
+1960324b25c8e48 Yang Yang       2024-07-16   62   * @map: The memory address of the index sbitmap_work area.
+1960324b25c8e48 Yang Yang       2024-07-16   63   * @map_nr: Number of words (cachelines) being used for the bitmap.
+1960324b25c8e48 Yang Yang       2024-07-16   64   * @index: The index of the spinlock.
+1960324b25c8e48 Yang Yang       2024-07-16   65   *
+1960324b25c8e48 Yang Yang       2024-07-16   66   * this lock: serializes simultaneous updates of ->word and ->cleared.
+1960324b25c8e48 Yang Yang       2024-07-16   67   * sbitmap_spinlock is for checking on ->cleared and updating on both
+1960324b25c8e48 Yang Yang       2024-07-16   68   * ->cleared and ->word need to be done atomically.
+1960324b25c8e48 Yang Yang       2024-07-16   69   *  Prevent the following situations from causing block:
+1960324b25c8e48 Yang Yang       2024-07-16   70   * Configuration for sbq:
+1960324b25c8e48 Yang Yang       2024-07-16   71   * depth=64, wake_batch=6, shift=6, map_nr=1
+1960324b25c8e48 Yang Yang       2024-07-16   72   *
+1960324b25c8e48 Yang Yang       2024-07-16   73   * 1. There are 64 requests in progress:
+1960324b25c8e48 Yang Yang       2024-07-16   74   * map->word = 0xFFFFFFFFFFFFFFFF
+1960324b25c8e48 Yang Yang       2024-07-16   75   * 2. After all the 64 requests complete, and no more requests come:
+1960324b25c8e48 Yang Yang       2024-07-16   76   * map->word = 0xFFFFFFFFFFFFFFFF, map->cleared = 0xFFFFFFFFFFFFFFFF
+1960324b25c8e48 Yang Yang       2024-07-16   77   * 3. Now two tasks try to allocate requests:
+1960324b25c8e48 Yang Yang       2024-07-16   78   * T1:                                       T2:
+1960324b25c8e48 Yang Yang       2024-07-16   79   * __blk_mq_get_tag                          .
+1960324b25c8e48 Yang Yang       2024-07-16   80   * __sbitmap_queue_get                       .
+1960324b25c8e48 Yang Yang       2024-07-16   81   * sbitmap_get                               .
+1960324b25c8e48 Yang Yang       2024-07-16   82   * sbitmap_find_bit                          .
+1960324b25c8e48 Yang Yang       2024-07-16   83   * sbitmap_find_bit_in_word                  .
+1960324b25c8e48 Yang Yang       2024-07-16   84   * sbitmap_get_word  -> nr=-1              __blk_mq_get_tag
+1960324b25c8e48 Yang Yang       2024-07-16   85   * sbitmap_deferred_clear                    __sbitmap_queue_get
+1960324b25c8e48 Yang Yang       2024-07-16   86   * //map->cleared=0xFFFFFFFFFFFFFFFF         sbitmap_find_bit
+1960324b25c8e48 Yang Yang       2024-07-16   87   *   if (!READ_ONCE(map->cleared))           sbitmap_find_bit_in_word
+1960324b25c8e48 Yang Yang       2024-07-16   88   *     return false;                         __sbitmap_get_word -> nr=-1
+1960324b25c8e48 Yang Yang       2024-07-16   89   * mask = xchg(&map->cleared, 0)             sbitmap_deferred_clear
+1960324b25c8e48 Yang Yang       2024-07-16   90   * atomic_long_andnot()                      // map->cleared=0
+1960324b25c8e48 Yang Yang       2024-07-16   91   *                                             if (!(map->cleared))
+1960324b25c8e48 Yang Yang       2024-07-16   92   *                                               return false;
+1960324b25c8e48 Yang Yang       2024-07-16   93   *
+1960324b25c8e48 Yang Yang       2024-07-16   94   *                                    // map->cleared is cleared by T1
+1960324b25c8e48 Yang Yang       2024-07-16   95   *                                    // T2 fail to acquire the tag
+1960324b25c8e48 Yang Yang       2024-07-16   96   *
+1960324b25c8e48 Yang Yang       2024-07-16   97   * 4. T2 is the sole tag waiter. When T1 puts the tag, T2 cannot be woken
+1960324b25c8e48 Yang Yang       2024-07-16   98   * up due to the wake_batch being set at 6. If no more requests come, T1
+1960324b25c8e48 Yang Yang       2024-07-16   99   * will wait here indefinitely.
+1960324b25c8e48 Yang Yang       2024-07-16  100   *
+1960324b25c8e48 Yang Yang       2024-07-16  101   * Return: Returns the spinlock corresponding to index.
+1960324b25c8e48 Yang Yang       2024-07-16  102   */
+7b1f455c7143098 Bart Van Assche 2025-04-03  103  static spinlock_t *sbitmap_spinlock(struct sbitmap *sb, unsigned int index)
+1960324b25c8e48 Yang Yang       2024-07-16 @104  {
+7b1f455c7143098 Bart Van Assche 2025-04-03  105  	const unsigned int max_map_nr = *(unsigned int *)&sb->map[-1];
+7b1f455c7143098 Bart Van Assche 2025-04-03  106  	spinlock_t *const base_lock = (spinlock_t *)
+7b1f455c7143098 Bart Van Assche 2025-04-03  107  		round_up((uintptr_t)&sb->map[max_map_nr],
+7b1f455c7143098 Bart Van Assche 2025-04-03  108  			 __alignof__(spinlock_t));
+7b1f455c7143098 Bart Van Assche 2025-04-03  109  
+7b1f455c7143098 Bart Van Assche 2025-04-03  110  	WARN_ON_ONCE(index < 0 || index >= sb->map_nr);
+1960324b25c8e48 Yang Yang       2024-07-16  111  
+1960324b25c8e48 Yang Yang       2024-07-16  112  	return &base_lock[index];
+1960324b25c8e48 Yang Yang       2024-07-16  113  }
+1960324b25c8e48 Yang Yang       2024-07-16  114  
+
+:::::: The code at line 104 was first introduced by commit
+:::::: 1960324b25c8e48c0e05af54ba87a1b8fa2af920 ANDROID: Fixed the KMI corruption issue caused by the patch of 72d04bdcf3f7.
+
+:::::: TO: Yang Yang <yang.yang@vivo.com>
+:::::: CC: Wang Jianzheng <11134417@vivo.corp-partner.google.com>
 
 -- 
 0-DAY CI Kernel Test Service
