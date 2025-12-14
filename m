@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8101D54FA
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 06:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65806165F1A;
+	Sun, 14 Dec 2025 06:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765694570; cv=none; b=mTO1GPSalHl7V/vdLF7bQT4L0RgAFI8raWSqLodP14FKjpBj4fiWfuzvmV77uCbGQkYTYcw9al77YmX0baGTFaETRskLjATaZH7sBtyuoNN03NLs/q4aQYK5BYTrudYmN8fqWN4moUAF1dBDJ+B5IaZfZJS8+RDKtSO1g5P7Ilg=
+	t=1765694570; cv=none; b=hWh505v2HHFkTLgQzKMPm6TTallrJ11IFVLv0Nb8ACL1cOr1PRQL/4WiepdTzIZwvcQs1vQyjh9TNeiT5hDXXW4FZDQOBqeQ5iWznD2okAax2/DW7e6+yr1z3mxxx7fw007cN4rjUgVoUIEm5GnKpKq+ER83f4LSYsiURSciVDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765694570; c=relaxed/simple;
-	bh=MyaSof1bA5C+gG9WXn3mZOpS4B3t+t1PBC7FpnPjoAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tLLfink8L7SMP1117EszysZ3N+g0+mAzVd7F1zzzRcjyt4E2TbXJrCUrBlpZyKJekQZrvXRxNnIVRnKtaIFtGFLrPXyk9lYdZnmaAmTR7qk0lbvqREiP+muYkePru+7oUeEUKrTjY0BRPvczQAxej40Caov+gagQrdftxJUSSFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GpmdxagT; arc=none smtp.client-ip=198.175.65.12
+	bh=wAf5W5h78Is4CrvkqVhtNy+sxagjVh0nv54EXPIwSKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KnaIgK02a5mHUg4WKXGloW3wwe3/02JibERybScOr7zqJafC/uf2TmssO0P1tqT8x2u48+64xUgW0HlAsOO4IgtI9hE8wmnAv8e186SkFkdABV6GGOTy1naWvpNXe5jQyIm0wJn/sRi+uVkT3flufrso5ZadVOUSfYkgOQ9kV9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d0seXmzx; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GpmdxagT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0seXmzx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765694568; x=1797230568;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MyaSof1bA5C+gG9WXn3mZOpS4B3t+t1PBC7FpnPjoAE=;
-  b=GpmdxagTJ9G+HYz5/1ovR1PDpkc0fBJD1zrUG2LTmxvdXjjRiYXnPSoe
-   eeVz7oQWpbEm9OBxjRUCahD0v8pAzQ0A5ZO389YDMe+23ullK2YUUc3fj
-   T5uAMz415hK0+i6L1Bd8UsptqyqdwD72wocIqrtgaVh0NqJDml5CGdqzE
-   Clqeoip8P9PylAh0eyKtr/DH5RFKHdmwthH+v5eOncKXKodzqHm1EH7TW
-   AUx+0GQFtEh1neNglV7UE7HrM+Ba7zIDeOwvZH2us21mJ3x+MwJg8jAwj
-   l+5RFDKur7UBUmCuwSTEzYWkhFKpIR6rief6vUwkNtM+WpHJ7q5q8iehM
+  t=1765694569; x=1797230569;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wAf5W5h78Is4CrvkqVhtNy+sxagjVh0nv54EXPIwSKg=;
+  b=d0seXmzxc6WS2mLcIfA2LkJXtRGdGI5YWkrpgbnLIJBgDsxCJxC/LEzv
+   v49ZZt1u48nxs6b655anN6+5OPkJ6wttGEkMvCtvSusNouGcQYfKMwZjY
+   BYpy3vVT+2c7bNF76WSyYCAecaic5lQqqkF+rSvH4ycegQB5tiytInNjq
+   2cQKTBIVUO+TcaD1Yz9mmV1kyU5mMGfqzTL/y/GUU/9fW0aG+AKn/2/KO
+   rfRZ+Urv5RR2rFNjb841UCf3IJD5rtMJcu+Dum826TeJKPRZola4q4SSQ
+   CBn1OF1tqoyU13HIYZ4MtAvzWtjQCe9ndZ/x2p4ode1aj6FWjAcmrjQ/Z
    g==;
-X-CSE-ConnectionGUID: Bm3EUVwcQYyGBEnK3steDA==
-X-CSE-MsgGUID: LulFZpDtR2y5FWyhKa3l1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="79090647"
+X-CSE-ConnectionGUID: trt2AKw7S/uMFDpsRuTmcQ==
+X-CSE-MsgGUID: r4sMaUJgT76SQfr2bM7Tng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="66806804"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="79090647"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 22:42:47 -0800
-X-CSE-ConnectionGUID: vItFKLZwRzerCd8VwfYhzg==
-X-CSE-MsgGUID: 3XKORKydRi+cLCy2c9IS7g==
+   d="scan'208";a="66806804"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 22:42:48 -0800
+X-CSE-ConnectionGUID: Ck9U0PGVSHORFhjq+QR0FQ==
+X-CSE-MsgGUID: TB+Ta9ioTouVAp12P7+6RQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="197214114"
+   d="scan'208";a="197728163"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2025 22:42:47 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 13 Dec 2025 22:42:46 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUfoa-000000008h1-3GW1;
+	id 1vUfoa-000000008gz-3AlI;
 	Sun, 14 Dec 2025 06:42:44 +0000
 Date: Sun, 14 Dec 2025 14:42:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 1/1]
- drivers/staging/android/ashmem.h:19:42: sparse: sparse: incorrect type in
- initializer (different base types)
-Message-ID: <202512141404.YuzS6WRM-lkp@intel.com>
+To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] btrfs: add an ASSERT() to catch ordered extents with
+ incorrect csums
+Message-ID: <202512141434.ZwLWwwtR-lkp@intel.com>
+References: <7ad76db98d300c3fedc73433aa343b654399cc2d.1765521720.git.wqu@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,37 +63,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <7ad76db98d300c3fedc73433aa343b654399cc2d.1765521720.git.wqu@suse.com>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   fbfd6aedcdb51da80c81b27b298b8691212febac
-commit: f0233386601b19245f0203d870286d0e39dfc8d5 [1/1] ANDROID: ashmem_rust: Port rust ashmem driver from android16-6.12
-config: i386-randconfig-r131-20251213 (https://download.01.org/0day-ci/archive/20251214/202512141404.YuzS6WRM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512141404.YuzS6WRM-lkp@intel.com/reproduce)
+Hi Qu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master v6.19-rc1 next-20251212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-add-an-ASSERT-to-catch-ordered-extents-with-incorrect-csums/20251212-144720
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/7ad76db98d300c3fedc73433aa343b654399cc2d.1765521720.git.wqu%40suse.com
+patch subject: [PATCH] btrfs: add an ASSERT() to catch ordered extents with incorrect csums
+config: i386-buildonly-randconfig-004-20251213 (https://download.01.org/0day-ci/archive/20251214/202512141434.ZwLWwwtR-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512141434.ZwLWwwtR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512141404.YuzS6WRM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512141434.ZwLWwwtR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/staging/android/ashmem.c: note: in included file:
->> drivers/staging/android/ashmem.h:19:42: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t const [addressable] [toplevel] [usertype] RUST_CONST_HELPER___GFP_FS @@     got unsigned long @@
-   drivers/staging/android/ashmem.h:19:42: sparse:     expected restricted gfp_t const [addressable] [toplevel] [usertype] RUST_CONST_HELPER___GFP_FS
-   drivers/staging/android/ashmem.h:19:42: sparse:     got unsigned long
-   drivers/staging/android/ashmem.h:19:13: sparse: sparse: symbol 'RUST_CONST_HELPER___GFP_FS' was not declared. Should it be static?
-   drivers/staging/android/ashmem.h:20:42: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t const [addressable] [toplevel] [usertype] RUST_CONST_HELPER___GFP_IO @@     got unsigned long @@
-   drivers/staging/android/ashmem.h:20:42: sparse:     expected restricted gfp_t const [addressable] [toplevel] [usertype] RUST_CONST_HELPER___GFP_IO
-   drivers/staging/android/ashmem.h:20:42: sparse:     got unsigned long
-   drivers/staging/android/ashmem.h:20:13: sparse: sparse: symbol 'RUST_CONST_HELPER___GFP_IO' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +19 drivers/staging/android/ashmem.h
+>> fs/btrfs/inode.c:3089:12: warning: function 'oe_csum_bytes' is not needed and will not be emitted [-Wunneeded-internal-declaration]
+    3089 | static u64 oe_csum_bytes(struct btrfs_ordered_extent *oe)
+         |            ^~~~~~~~~~~~~
+   1 warning generated.
 
-    17	
-    18	#include <linux/shrinker.h>
-  > 19	const gfp_t RUST_CONST_HELPER___GFP_FS = ___GFP_FS;
-    20	const gfp_t RUST_CONST_HELPER___GFP_IO = ___GFP_IO;
-    21	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=m] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [m]:
+   - MFD_SPACEMIT_P1 [=m] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=m]
+
+
+vim +/oe_csum_bytes +3089 fs/btrfs/inode.c
+
+  3088	
+> 3089	static u64 oe_csum_bytes(struct btrfs_ordered_extent *oe)
+  3090	{
+  3091		struct btrfs_ordered_sum *sum;
+  3092		u64 ret = 0;
+  3093	
+  3094		list_for_each_entry(sum, &oe->list, list)
+  3095			ret += sum->len;
+  3096		return ret;
+  3097	}
+  3098	
 
 -- 
 0-DAY CI Kernel Test Service
