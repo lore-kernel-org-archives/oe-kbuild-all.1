@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDD0DF6C;
-	Sun, 14 Dec 2025 07:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7B0285CB2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 07:10:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765695901; cv=none; b=k1IYPK6M3ZLmQLbULr5SvHI4C5SKEfqN5wH17BPbnWEnp1zi+myNOhoIIAZKXvr6pGWPhTV533W3LiOFM2stZJIJ66JJXusPQOEbAiqNx1dxlbMJqELW6T25vSSA8bXKzAL8utqZXNoZiHLVgwLffIH+VX1s3gvcQtIITr+sCaI=
+	t=1765696245; cv=none; b=vB9QoLUp/XrBLFcPDXdeTHxJY/Wffyqp90wvPRXCgOlng/yvCQPbDP6iHS1gWBaoQUiggLB9ktOKHPSpajosOw5NPKfYx3YkIol9cFZ+jF1hjksE3MFTMHZIDtR0NZs1dKwI7mOXFG0HgodesMyQeUL4sctYV3niHqHdESCwO+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765695901; c=relaxed/simple;
-	bh=GfwxxOSwzyvFnQ5afsRR3VlveZeXQIAa03uDaclA4CA=;
+	s=arc-20240116; t=1765696245; c=relaxed/simple;
+	bh=OYPc9fJ1gZO/ZIi5lv4mS7D/PqJt+noRBMXrYQBXzDw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mRNJa48C4sXZvbgoAf2PyQQStgGenhyP0HsgW7BX3l6fICDu23lmGoRSEdpTN86vz1PMQ8LIrZkLU7vXp+lHUIu+kg3Ff1yhUOSC7I5EnY6cjGpnBNOxLtunqPQxN5ZdQLbr5V0tWANCy2xKJx1nFYyvzx6lqczRJn2FlcWJtRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AiQs8e/Z; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=lsI4/Zhb5uiYILrOoEIXVHPXf3+U3RkjK6KvXf9ORsBubb/kuxdkegFLPQoxJMUYj1dpBy8/RbloKTqDl0CmJ77HQZVD9NdTrn3wv2UpetK8pNFdrc9bXroGFmJNZsMEoIhty3KsnNwyiwHfj4sNTUVX8p5CZGc07qFPHsp5W4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FSWgcCCC; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AiQs8e/Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FSWgcCCC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765695900; x=1797231900;
+  t=1765696244; x=1797232244;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GfwxxOSwzyvFnQ5afsRR3VlveZeXQIAa03uDaclA4CA=;
-  b=AiQs8e/ZyTQyncw7Y623KFzVduPMlzHIYH94uWu5yLevCW1kbSvBhhOT
-   EiTnrG4GNT//Znbh+tYQPRynjBDGOEiw/ZJLct7Bwf5eYECCCt/BSt3Wr
-   MVUBtp7t/PD/Hz2vbaIqn0AnTA8bT+uQuAPhmGz/V4/GLCXEy4gyn+t3p
-   wMCFrjuUG3+iL40EgZH/J5s43Xre7kRCqWeZfc4MgejSbelP51nBfO84x
-   AIdaIemYWdlvzuNraWAE7/NRJpkii6P5Vut1cwEi5+7pFCIduQGFQLy93
-   8H57OzgxRfCEIleSMckAZ8H/vWtsDWf/4NaTk+wzVWelAjPZ/audqP2hE
-   w==;
-X-CSE-ConnectionGUID: 4dEBYaWfTT+7uQZOQATbmg==
-X-CSE-MsgGUID: BH7/hW3jTuWcYTGY8a03oA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="70215574"
+  bh=OYPc9fJ1gZO/ZIi5lv4mS7D/PqJt+noRBMXrYQBXzDw=;
+  b=FSWgcCCCfLhs7/xqZUe+/vMSLe/7JFknHdUcCh/xIq3A6ZWwHOY7iLUx
+   zI5mvV/JOvftsvU1RgCtKriub3urbOi0bC/JGcaYcWMxYGHEeDvId8sPd
+   XyDdIH5Aswghgq2RyIhZHLTn5pU8EGke0VaiZ63/7CJweqKVFj2QwY3tO
+   CpA8QfGCP+HRQboBNWds+GxWvxtyAcgP15Ywoel+3USmhGT7MMzgDm1Zr
+   Bvx1+kZYb8fJA62rWPfCh/UbEQVbzq9MKFxb6rrTH9rI4719O1DYnQJdl
+   sqFO29isKciuGHH1NbJKvwZdvDGDmNcAngC6ti9wqATxt9FMsf2ZcFr+c
+   Q==;
+X-CSE-ConnectionGUID: 1VLMVxrjQRi0wUT51KOsmg==
+X-CSE-MsgGUID: MxNIySUeRoCxcodieNRO4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="55196653"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="70215574"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 23:04:57 -0800
-X-CSE-ConnectionGUID: OvKNAgylR12JaFEkCEXcVQ==
-X-CSE-MsgGUID: s6FEQgL2STmrpLpq6ecGWQ==
+   d="scan'208";a="55196653"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 23:10:43 -0800
+X-CSE-ConnectionGUID: HWRW+BoITreb/ybndlGBPQ==
+X-CSE-MsgGUID: KoK3P7C8Sqi8hDWYBCCAaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="228114818"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Dec 2025 23:04:55 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="197217879"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2025 23:10:42 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUgA0-000000008np-1Blw;
-	Sun, 14 Dec 2025 07:04:52 +0000
-Date: Sun, 14 Dec 2025 15:04:33 +0800
+	id 1vUgFb-000000002JE-2MJI;
+	Sun, 14 Dec 2025 07:10:39 +0000
+Date: Sun, 14 Dec 2025 08:10:21 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ming Lei <ming.lei@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Hannes Reinecke <hare@suse.de>,
-	Nilay Shroff <nilay@linux.ibm.com>
-Subject: arch/um/drivers/ubd_kern.c:780:13: warning: stack frame size (2152)
- exceeds limit (2048) in 'ubd_device_release'
-Message-ID: <202512141455.Q3mvffdN-lkp@intel.com>
+To: kernel@openeuler.org, Baokun Li <libaokun1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1941/1941] fs/ext4/inode.c:2995:30:
+ warning: unused variable 'sbi'
+Message-ID: <202512140847.r9ez9W5V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,119 +62,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: 98e68f67020ce30e1a4d8e2d05d85a453738dfb8 block: prevent adding/deleting disk during updating nr_hw_queues
-date:   7 months ago
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20251214/202512141455.Q3mvffdN-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512141455.Q3mvffdN-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5a399b91821faeec2466751db2d714b24f8eb17c
+commit: 7b208222f6845875c568d238aeb9db17a1c63d96 [1941/1941] ext4: avoid deadlock in fs reclaim with page writeback
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251214/202512140847.r9ez9W5V-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140847.r9ez9W5V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512141455.Q3mvffdN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140847.r9ez9W5V-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/um/drivers/ubd_kern.c:26:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:549:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     549 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:567:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     567 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from arch/um/drivers/ubd_kern.c:26:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from arch/um/drivers/ubd_kern.c:26:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:601:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     601 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:616:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     616 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:631:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     631 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:724:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     724 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:737:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     737 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:750:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     750 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:764:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     764 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:778:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     778 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:792:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     792 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> arch/um/drivers/ubd_kern.c:780:13: warning: stack frame size (2152) exceeds limit (2048) in 'ubd_device_release' [-Wframe-larger-than]
-     780 | static void ubd_device_release(struct device *dev)
-         |             ^
-   13 warnings generated.
+   fs/ext4/inode.c: In function 'ext4_dax_writepages':
+>> fs/ext4/inode.c:2995:30: warning: unused variable 'sbi' [-Wunused-variable]
+    2995 |         struct ext4_sb_info *sbi = EXT4_SB(mapping->host->i_sb);
+         |                              ^~~
 
 
-vim +/ubd_device_release +780 arch/um/drivers/ubd_kern.c
+vim +/sbi +2995 fs/ext4/inode.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  779  
-2e3f5251ac7168 Jeff Dike          2007-05-06 @780  static void ubd_device_release(struct device *dev)
-2e3f5251ac7168 Jeff Dike          2007-05-06  781  {
-5bee35e5389f45 Tiwei Bie          2024-11-05  782  	struct ubd *ubd_dev = container_of(dev, struct ubd, pdev.dev);
-2e3f5251ac7168 Jeff Dike          2007-05-06  783  
-4e6da0fe8058df Richard Weinberger 2017-11-26  784  	blk_mq_free_tag_set(&ubd_dev->tag_set);
-2e3f5251ac7168 Jeff Dike          2007-05-06  785  	*ubd_dev = ((struct ubd) DEFAULT_UBD);
-2e3f5251ac7168 Jeff Dike          2007-05-06  786  }
-2e3f5251ac7168 Jeff Dike          2007-05-06  787  
+64769240bd07f4 Alex Tomas   2008-07-11  2988  
+5f0663bb4a64f5 Dan Williams 2017-12-21  2989  static int ext4_dax_writepages(struct address_space *mapping,
+5f0663bb4a64f5 Dan Williams 2017-12-21  2990  			       struct writeback_control *wbc)
+5f0663bb4a64f5 Dan Williams 2017-12-21  2991  {
+5f0663bb4a64f5 Dan Williams 2017-12-21  2992  	int ret;
+5f0663bb4a64f5 Dan Williams 2017-12-21  2993  	long nr_to_write = wbc->nr_to_write;
+5f0663bb4a64f5 Dan Williams 2017-12-21  2994  	struct inode *inode = mapping->host;
+5f0663bb4a64f5 Dan Williams 2017-12-21 @2995  	struct ext4_sb_info *sbi = EXT4_SB(mapping->host->i_sb);
+7b208222f68458 Jan Kara     2024-06-11  2996  	int alloc_ctx;
+5f0663bb4a64f5 Dan Williams 2017-12-21  2997  
+5f0663bb4a64f5 Dan Williams 2017-12-21  2998  	if (unlikely(ext4_forced_shutdown(EXT4_SB(inode->i_sb))))
+5f0663bb4a64f5 Dan Williams 2017-12-21  2999  		return -EIO;
+5f0663bb4a64f5 Dan Williams 2017-12-21  3000  
+7b208222f68458 Jan Kara     2024-06-11  3001  	alloc_ctx = ext4_writepages_down_read(inode->i_sb);
+5f0663bb4a64f5 Dan Williams 2017-12-21  3002  	trace_ext4_writepages(inode, wbc);
+5f0663bb4a64f5 Dan Williams 2017-12-21  3003  
+5f0663bb4a64f5 Dan Williams 2017-12-21  3004  	ret = dax_writeback_mapping_range(mapping, inode->i_sb->s_bdev, wbc);
+5f0663bb4a64f5 Dan Williams 2017-12-21  3005  	trace_ext4_writepages_result(inode, wbc, ret,
+5f0663bb4a64f5 Dan Williams 2017-12-21  3006  				     nr_to_write - wbc->nr_to_write);
+7b208222f68458 Jan Kara     2024-06-11  3007  	ext4_writepages_up_read(inode->i_sb, alloc_ctx);
+5f0663bb4a64f5 Dan Williams 2017-12-21  3008  	return ret;
+5f0663bb4a64f5 Dan Williams 2017-12-21  3009  }
+5f0663bb4a64f5 Dan Williams 2017-12-21  3010  
 
-:::::: The code at line 780 was first introduced by commit
-:::::: 2e3f5251ac716879df6b6271f243f657c6e02e9a uml: drivers get release methods
+:::::: The code at line 2995 was first introduced by commit
+:::::: 5f0663bb4a64f588f0a2dd6d1be68d40f9af0086 ext4, dax: introduce ext4_dax_aops
 
-:::::: TO: Jeff Dike <jdike@addtoit.com>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+:::::: TO: Dan Williams <dan.j.williams@intel.com>
+:::::: CC: Dan Williams <dan.j.williams@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
