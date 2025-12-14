@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294197263B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 01:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71DF13AD05
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 01:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765674939; cv=none; b=M1Q5dIlXvxqsIemOqopGC88QOvvGt6tKqBQgHbP7X1xE0SabQqHLKdSn4VsgYFigJzij23C1yKYJehc7ySNs3uKX3ezVxWmK8/MQGnf5uARmOimE1J8BhlB8VNEQ7hc6eMDAXWsV71B9DwkLJrSRJD5dMW8TuKJWu8C9+l/kzmM=
+	t=1765675121; cv=none; b=kgHxBvVreJoxmBl/MVc9HAooGfcMkdz/T2EfBoEreDEE1m+Hdj9+cTdxrQxUWNdMMIu8x4bMTwtQKbp0EO7RgOKVuVMc/Wqwxtzzfx9rfw3YmeZ5bZt7e0VfUg/ybVriKiXdxdVRcJFP4U2L4jwTyz903N6ZD6bapyrwgjU0nYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765674939; c=relaxed/simple;
-	bh=yaSLe5QESpiy6HbErVQIl+luTlywDCH2A/xhylUbG0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pv1BMzdQci3emBP+4TuRPd57gNFRW36eCxSJutVnJH9JqGtetu+/3/n91yve69BTHO36CyleVJN7TY4rqLSVle5SEUA3tUi4JUbmF4eXvBgLvg5jkhs4+DgOieDHXdzg+teGg7BN8gXRYe4iQM4ZiAL92HHFDiX7JWof+Mid+IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jedr6R2R; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1765675121; c=relaxed/simple;
+	bh=hS67huBdOXZmZjjI8/2Ibt+Q/JqnJTBQANk8UF6fh5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AcwVOALQTJ7XjUU3GtmWrr9FinpAWJLD4hX6RIFiGRSGmtqfv4JblxaUeLlxRX8UbO6ecSR3HpQX04B9kp4uHZAWL/fhuf9HwFhCqWgC+MTRLGAQsbsIfWfHhJubc1Ew5zDVpZb7gjVQ+hq8iSmReMYXt4A97l3KBKu51/HEDSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sn360Ebc; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jedr6R2R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sn360Ebc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765674939; x=1797210939;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yaSLe5QESpiy6HbErVQIl+luTlywDCH2A/xhylUbG0U=;
-  b=Jedr6R2Ro0BGwEZrARkDfIILa0NXrIa97z4r/bl6BkdCJJ+F3bJjDSBD
-   sUOzW+LKy8HMY1XnhdVID5b+yZ3dYP2lHBFGwf6/i8ehOk+ez7zhCMjSa
-   cI3fTsCtJvsJzHWw5eDxG0YuXG4jzCZavqU+OjTAJN9WLgMlhF+lG8l1A
-   KQs/Gkz7RIsFqrXCXHoVh5aIG+T3BPqUWyEYjJArGLbrb43J6DEvlAD45
-   ZtR/jSsa4BIdHDP8cAvYy57gnLo2KgLZuxfPhYNh2FgddAHSFWsPvDysR
-   VS32KNYA59uyguTaplqaK0BQxf5xp/379uDe1YOXa7fnOJ0ypKbc+dhPS
-   Q==;
-X-CSE-ConnectionGUID: l+3t1feoT0mQoJsKx0z6Ew==
-X-CSE-MsgGUID: zjZlD3lgRPmjFluhLH4YEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67665818"
+  t=1765675120; x=1797211120;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hS67huBdOXZmZjjI8/2Ibt+Q/JqnJTBQANk8UF6fh5I=;
+  b=Sn360EbcihqyRL+qEnqatX+A05VFpChmupI0HGjD+kJkNjxVr+GHgns2
+   X1nKzSoVBM0e9JZHfUXaQUMplQm/50ND9h1os51DHMOqkxunBmdHr9Kaz
+   e1tNvn1RVQPDjM+Pkgx2oxffUc9t1bjAz1WAlsCKdQeKSu2bQJVi27l2W
+   ByC6BvkPz6DuitiIGM1tauM9Dob7bLKuPCmUFhtOuPf63ZeAvjn8HhLlN
+   LhQ2gemjhoBw5LsY+jCVyWyDy6YnCHMXUAPIXx3JiI2OB8fORCaFuxTKd
+   9A1dz8fJimXyU0ix5oJVnemMXVGvO/Ki2d1H3/EH6ly0YhQ9L3RjzFtlX
+   g==;
+X-CSE-ConnectionGUID: 62HWZI1KRdCWYuIO3X2UyA==
+X-CSE-MsgGUID: VXR0bVZSRaO1xeijEGWc0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="90280441"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="67665818"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 17:15:38 -0800
-X-CSE-ConnectionGUID: kp07iKH7T26LEFSVgrygrA==
-X-CSE-MsgGUID: f5n45W/uQeq/W0Xgs7vS8w==
+   d="scan'208";a="90280441"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 17:18:40 -0800
+X-CSE-ConnectionGUID: F9wzU70OSzSi8KglUA0/GA==
+X-CSE-MsgGUID: bLUmFT+BRWeWt0Vsxt07Xg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="197311867"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Dec 2025 17:15:35 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="202508387"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 13 Dec 2025 17:18:39 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUahx-000000008PV-0iSe;
-	Sun, 14 Dec 2025 01:15:33 +0000
-Date: Sun, 14 Dec 2025 09:14:33 +0800
+	id 1vUaku-000000002Em-1E4B;
+	Sun, 14 Dec 2025 01:18:36 +0000
+Date: Sun, 14 Dec 2025 02:17:53 +0100
 From: kernel test robot <lkp@intel.com>
-To: Donglin Peng <dolinux.peng@gmail.com>, rostedt@goodmis.org
-Cc: oe-kbuild-all@lists.linux.dev, mhiramat@kernel.org,
-	linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org, pengdonglin <pengdonglin@xiaomi.com>,
-	Xiaoqin Zhang <zhangxiaoqin@xiaomi.com>
-Subject: Re: [PATCH v3 1/2] fgraph: Enhance funcgraph-retval with BTF-based
- type-aware output
-Message-ID: <202512140850.JdD1lPmn-lkp@intel.com>
-References: <20251209121349.525641-2-dolinux.peng@gmail.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1941/1941] block/genhd.c:642:5:
+ warning: no previous prototype for 'disk_scan_partitions'
+Message-ID: <202512140221.GVjDgRQq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,107 +61,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251209121349.525641-2-dolinux.peng@gmail.com>
 
-Hi Donglin,
+Hi Yu,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on linus/master v6.18 next-20251212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Donglin-Peng/fgraph-Enhance-funcgraph-retval-with-BTF-based-type-aware-output/20251209-201633
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20251209121349.525641-2-dolinux.peng%40gmail.com
-patch subject: [PATCH v3 1/2] fgraph: Enhance funcgraph-retval with BTF-based type-aware output
-config: arm-randconfig-002-20251214 (https://download.01.org/0day-ci/archive/20251214/202512140850.JdD1lPmn-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140850.JdD1lPmn-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5a399b91821faeec2466751db2d714b24f8eb17c
+commit: cdfb5c11ad89867cd28c903369fbfebe3f36ca26 [1941/1941] block: fix kabi broken in ioctl.c
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251214/202512140221.GVjDgRQq-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140221.GVjDgRQq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140850.JdD1lPmn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140221.GVjDgRQq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: kernel/trace/trace_functions_graph.o: in function `trim_retval':
->> kernel/trace/trace_functions_graph.c:888: undefined reference to `btf_find_func_proto'
+>> block/genhd.c:642:5: warning: no previous prototype for 'disk_scan_partitions' [-Wmissing-prototypes]
+     642 | int disk_scan_partitions(struct gendisk *disk, fmode_t mode)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   block/genhd.c:533: warning: Function parameter or member 'devt' not described in 'blk_invalidate_devt'
 
 
-vim +888 kernel/trace/trace_functions_graph.c
+vim +/disk_scan_partitions +642 block/genhd.c
 
-   872	
-   873	static void trim_retval(unsigned long func, unsigned long *retval, bool *print_retval,
-   874				int *fmt)
-   875	{
-   876		const struct btf_type *t;
-   877		char name[KSYM_NAME_LEN];
-   878		struct btf *btf;
-   879		u32 v, msb;
-   880		int kind;
-   881	
-   882		if (!IS_ENABLED(CONFIG_DEBUG_INFO_BTF))
-   883			return;
-   884	
-   885		if (lookup_symbol_name(func, name))
-   886			return;
-   887	
- > 888		t = btf_find_func_proto(name, &btf);
-   889		if (IS_ERR_OR_NULL(t))
-   890			return;
-   891	
-   892		t = btf_type_skip_modifiers(btf, t->type, NULL);
-   893		kind = t ? BTF_INFO_KIND(t->info) : BTF_KIND_UNKN;
-   894		switch (kind) {
-   895		case BTF_KIND_UNKN:
-   896			*print_retval = false;
-   897			break;
-   898		case BTF_KIND_STRUCT:
-   899		case BTF_KIND_UNION:
-   900		case BTF_KIND_ENUM:
-   901		case BTF_KIND_ENUM64:
-   902			if (kind == BTF_KIND_STRUCT || kind == BTF_KIND_UNION)
-   903				*fmt = RETVAL_FMT_HEX;
-   904			else
-   905				*fmt = RETVAL_FMT_DEC;
-   906	
-   907			if (t->size > sizeof(unsigned long)) {
-   908				*fmt |= RETVAL_FMT_TRUNC;
-   909			} else {
-   910				msb = BITS_PER_BYTE * t->size - 1;
-   911				*retval &= GENMASK(msb, 0);
-   912			}
-   913			break;
-   914		case BTF_KIND_INT:
-   915			v = *(u32 *)(t + 1);
-   916			if (BTF_INT_ENCODING(v) == BTF_INT_BOOL) {
-   917				*fmt = RETVAL_FMT_BOOL;
-   918				msb = 0;
-   919			} else {
-   920				if (BTF_INT_ENCODING(v) == BTF_INT_SIGNED)
-   921					*fmt = RETVAL_FMT_DEC;
-   922				else
-   923					*fmt = RETVAL_FMT_HEX;
-   924	
-   925				if (t->size > sizeof(unsigned long)) {
-   926					*fmt |= RETVAL_FMT_TRUNC;
-   927					msb = BITS_PER_LONG - 1;
-   928				} else {
-   929					msb = BTF_INT_BITS(v) - 1;
-   930				}
-   931			}
-   932			*retval &= GENMASK(msb, 0);
-   933			break;
-   934		default:
-   935			*fmt = RETVAL_FMT_HEX;
-   936			break;
-   937		}
-   938	}
-   939	
+d2bf1b6723ed0e Tejun Heo         2010-12-08  641  
+efc73feb2901d2 Christoph Hellwig 2023-04-07 @642  int disk_scan_partitions(struct gendisk *disk, fmode_t mode)
+b9484a857f600c Yu Kuai           2022-08-09  643  {
+b9484a857f600c Yu Kuai           2022-08-09  644  	struct block_device *bdev;
+efc73feb2901d2 Christoph Hellwig 2023-04-07  645  	int ret;
+b9484a857f600c Yu Kuai           2022-08-09  646  
+efc73feb2901d2 Christoph Hellwig 2023-04-07  647  	if (!disk_part_scan_enabled(disk))
+efc73feb2901d2 Christoph Hellwig 2023-04-07  648  		return -EINVAL;
+b9484a857f600c Yu Kuai           2022-08-09  649  
+b9484a857f600c Yu Kuai           2022-08-09  650  	bdev = bdget_disk(disk, 0);
+b9484a857f600c Yu Kuai           2022-08-09  651  	if (!bdev)
+efc73feb2901d2 Christoph Hellwig 2023-04-07  652  		return -ENOMEM;
+b9484a857f600c Yu Kuai           2022-08-09  653  
+b9484a857f600c Yu Kuai           2022-08-09  654  	bdev->bd_invalidated = 1;
+efc73feb2901d2 Christoph Hellwig 2023-04-07  655  
+efc73feb2901d2 Christoph Hellwig 2023-04-07  656  	ret = blkdev_get(bdev, mode, NULL);
+efc73feb2901d2 Christoph Hellwig 2023-04-07  657  	if (!ret)
+efc73feb2901d2 Christoph Hellwig 2023-04-07  658  		blkdev_put(bdev, mode);
+efc73feb2901d2 Christoph Hellwig 2023-04-07  659  
+efc73feb2901d2 Christoph Hellwig 2023-04-07  660  	return ret;
+fbbec472351c99 Christoph Hellwig 2023-04-07  661  }
+fbbec472351c99 Christoph Hellwig 2023-04-07  662  
+
+:::::: The code at line 642 was first introduced by commit
+:::::: efc73feb2901d27dcd01fa859d1378aee42850aa block: merge disk_scan_partitions and blkdev_reread_part
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Yongqiang Liu <duanzi@zju.edu.cn>
 
 -- 
 0-DAY CI Kernel Test Service
