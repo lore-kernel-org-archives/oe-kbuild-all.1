@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65806165F1A;
-	Sun, 14 Dec 2025 06:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAD01A9B46
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 06:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765694570; cv=none; b=hWh505v2HHFkTLgQzKMPm6TTallrJ11IFVLv0Nb8ACL1cOr1PRQL/4WiepdTzIZwvcQs1vQyjh9TNeiT5hDXXW4FZDQOBqeQ5iWznD2okAax2/DW7e6+yr1z3mxxx7fw007cN4rjUgVoUIEm5GnKpKq+ER83f4LSYsiURSciVDo=
+	t=1765695295; cv=none; b=ZrXnEUZTzSVSIUl5r5aUjt1Aa4yu8nwp2rSmfU5nMG6+WHvLQBHxJBS3zQeYlsRDcls8yvcVhxUjH0ZP1wmsKuXbwMuHAmAErgtWmetzQxOUGoXf49P0RNJ9NZ+CJjUWTRYXS/l9XJAQBxM6ZQFvH1XdZ3N89k3BJ+YtEIPsOy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765694570; c=relaxed/simple;
-	bh=wAf5W5h78Is4CrvkqVhtNy+sxagjVh0nv54EXPIwSKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KnaIgK02a5mHUg4WKXGloW3wwe3/02JibERybScOr7zqJafC/uf2TmssO0P1tqT8x2u48+64xUgW0HlAsOO4IgtI9hE8wmnAv8e186SkFkdABV6GGOTy1naWvpNXe5jQyIm0wJn/sRi+uVkT3flufrso5ZadVOUSfYkgOQ9kV9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d0seXmzx; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1765695295; c=relaxed/simple;
+	bh=2baHdiLjN368xW9TXXcKB+cgAoUovU0UHlUGYZYvcWA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FYroGkAiZ7mLPWdLLdxWGkOBAYyvvoXb1ay1GL42cQ0zrurUvcoWDZZ7Mhimv5ALE3hNgXqeN3z7fBrfuLQ9dnupvv/+9LKl5T4/A4rFIBVJ5860vSs2GgTlOa91fTnGuECIU859o9TvfXARCo8Fx4uEWxp3tSEslDLmkXHdX0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDV9IhYg; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d0seXmzx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDV9IhYg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765694569; x=1797230569;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wAf5W5h78Is4CrvkqVhtNy+sxagjVh0nv54EXPIwSKg=;
-  b=d0seXmzxc6WS2mLcIfA2LkJXtRGdGI5YWkrpgbnLIJBgDsxCJxC/LEzv
-   v49ZZt1u48nxs6b655anN6+5OPkJ6wttGEkMvCtvSusNouGcQYfKMwZjY
-   BYpy3vVT+2c7bNF76WSyYCAecaic5lQqqkF+rSvH4ycegQB5tiytInNjq
-   2cQKTBIVUO+TcaD1Yz9mmV1kyU5mMGfqzTL/y/GUU/9fW0aG+AKn/2/KO
-   rfRZ+Urv5RR2rFNjb841UCf3IJD5rtMJcu+Dum826TeJKPRZola4q4SSQ
-   CBn1OF1tqoyU13HIYZ4MtAvzWtjQCe9ndZ/x2p4ode1aj6FWjAcmrjQ/Z
-   g==;
-X-CSE-ConnectionGUID: trt2AKw7S/uMFDpsRuTmcQ==
-X-CSE-MsgGUID: r4sMaUJgT76SQfr2bM7Tng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="66806804"
+  t=1765695293; x=1797231293;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2baHdiLjN368xW9TXXcKB+cgAoUovU0UHlUGYZYvcWA=;
+  b=nDV9IhYgdOoO2rTimUd4MnAxBRRA1yWI28+ILd7zHAHy7zDMhFo66OUL
+   RdpIMX0B+xzdhkS+ldGyT2dA5x40IAq3ZRlKIZeV6xCxQadaURYr/8PVk
+   4rkMQyPBsiDdnWgw0+S934fjcoF8hnxbuJVHDxy+Rk1NRw0roOmS+p/3J
+   SM8B8c1HK8Fm88cR8KTCbcfn2QUDApG6LRTsvY9qRBuJTYpWEzMz3EnYF
+   2Q/Ch9N3EMpIuao8vwYyr+QB+IRqYEFWz20cXD6moLgVFL9g12W/CYobm
+   upCSVbbFBU/KkwmR0dTG9Y3Qg7mfldEfkKkB8r1nS56qCy+MoYV3hWKAF
+   Q==;
+X-CSE-ConnectionGUID: av8//ZfuSYC9t+4qTMcgbg==
+X-CSE-MsgGUID: 31gky6n6SPW6Z+Xg2ch68A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="71262445"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="66806804"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 22:42:48 -0800
-X-CSE-ConnectionGUID: Ck9U0PGVSHORFhjq+QR0FQ==
-X-CSE-MsgGUID: TB+Ta9ioTouVAp12P7+6RQ==
+   d="scan'208";a="71262445"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 22:54:52 -0800
+X-CSE-ConnectionGUID: srbEmpiDSDGYf5I1wrWFAw==
+X-CSE-MsgGUID: qoA/cPyfTWWfFaxHyTTCdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="197728163"
+   d="scan'208";a="197959033"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Dec 2025 22:42:46 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 13 Dec 2025 22:54:52 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUfoa-000000008gz-3AlI;
-	Sun, 14 Dec 2025 06:42:44 +0000
-Date: Sun, 14 Dec 2025 14:42:11 +0800
+	id 1vUg0H-000000008ld-2WCv;
+	Sun, 14 Dec 2025 06:54:49 +0000
+Date: Sun, 14 Dec 2025 14:53:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] btrfs: add an ASSERT() to catch ordered extents with
- incorrect csums
-Message-ID: <202512141434.ZwLWwwtR-lkp@intel.com>
-References: <7ad76db98d300c3fedc73433aa343b654399cc2d.1765521720.git.wqu@suse.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1942/1942]
+ drivers/bluetooth/.tmp_btmtkuart.o: warning: objtool: missing symbol for
+ section .init.text
+Message-ID: <202512141453.S1UQNjLI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,58 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7ad76db98d300c3fedc73433aa343b654399cc2d.1765521720.git.wqu@suse.com>
 
-Hi Qu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on linus/master v6.19-rc1 next-20251212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-add-an-ASSERT-to-catch-ordered-extents-with-incorrect-csums/20251212-144720
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/7ad76db98d300c3fedc73433aa343b654399cc2d.1765521720.git.wqu%40suse.com
-patch subject: [PATCH] btrfs: add an ASSERT() to catch ordered extents with incorrect csums
-config: i386-buildonly-randconfig-004-20251213 (https://download.01.org/0day-ci/archive/20251214/202512141434.ZwLWwwtR-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512141434.ZwLWwwtR-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5a399b91821faeec2466751db2d714b24f8eb17c
+commit: 7237c4c9ec92e1a4f6ef1f712bf9105d7b392c6a [1942/1942] Bluetooth: mediatek: Add protocol support for MediaTek serial devices
+config: x86_64-buildonly-randconfig-004-20251213 (https://download.01.org/0day-ci/archive/20251214/202512141453.S1UQNjLI-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512141453.S1UQNjLI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512141434.ZwLWwwtR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512141453.S1UQNjLI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/btrfs/inode.c:3089:12: warning: function 'oe_csum_bytes' is not needed and will not be emitted [-Wunneeded-internal-declaration]
-    3089 | static u64 oe_csum_bytes(struct btrfs_ordered_extent *oe)
-         |            ^~~~~~~~~~~~~
-   1 warning generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for I2C_K1
-   Depends on [n]: I2C [=m] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
-   Selected by [m]:
-   - MFD_SPACEMIT_P1 [=m] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=m]
-
-
-vim +/oe_csum_bytes +3089 fs/btrfs/inode.c
-
-  3088	
-> 3089	static u64 oe_csum_bytes(struct btrfs_ordered_extent *oe)
-  3090	{
-  3091		struct btrfs_ordered_sum *sum;
-  3092		u64 ret = 0;
-  3093	
-  3094		list_for_each_entry(sum, &oe->list, list)
-  3095			ret += sum->len;
-  3096		return ret;
-  3097	}
-  3098	
+>> drivers/bluetooth/.tmp_btmtkuart.o: warning: objtool: missing symbol for section .init.text
 
 -- 
 0-DAY CI Kernel Test Service
