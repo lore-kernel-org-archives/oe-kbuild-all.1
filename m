@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA631E4AF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 00:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80E11DFE09
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 00:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765672296; cv=none; b=MOhoLumeWp3hOp/y5O81O2gljYcqhCFgyQYr9aeCcPYgQiHJx6ZeaBISz1u2fpVttRUKmvMIo2MbuO9Yt7XNZF7YQwE0E2lVqtqC/MTmsIKzg5RY1tiFOBzFLpn5H6LfFMW3zn7dnz62X0UaRpRnnLdP5QrvfKOw3UrqupTqavc=
+	t=1765672957; cv=none; b=Yscks1obENtVY9E/bCXOZUQQV198Uo8YDJDT6x4qc34k95G2SqVXRJOMmvyqu1uV907Km2EQBwPVhMub4sUBlok+nYK5RfGsgsGB+sX/7xB1XSLbFO6sdkQBxzr5x/50pS0rXTZGPvXC+FxT4KzMr560GYP19e87K1hC/jhnYOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765672296; c=relaxed/simple;
-	bh=feRU/gBi3kgb1yc+LRnRcQFXuRaUBrRPQRl2JWe9AgQ=;
+	s=arc-20240116; t=1765672957; c=relaxed/simple;
+	bh=383IcDF9SEqpCfKk0vX9b3RdQzQPfqOeQTb5vGXZY5M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L3fm5IB8+kMqkUBBRefjbJLhH3N28h+HeYH+OCA/33EYWVmwEOrMYkSfD2tEIC03x3Bs+jlFfRx+bqBO5pMhPplPoYCr3ds5/w/egGIMMv57IRGXEfw6ni89OTdNyF1Txjnj56FersOv7fVUFF3erKPF0WXhoAPdyxmqxMBdaZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iR1szm2Q; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=a7nob/QL7SqeNuR3WskZl3trLpm4VoDoMAlE1CxnUObKt9gPkG59ajwWhd7uIWClOvcpHbIO6v+P7Dwu+j5gVy2m80ZU5dIJo9To5AkMoqU0lXJ6uC2B4gctpkuheyuSceCqmk6TF4ozOJdE+Rcp60on8pZcR7QY1oUcMdbi7ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BK9auvHr; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iR1szm2Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BK9auvHr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765672295; x=1797208295;
+  t=1765672955; x=1797208955;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=feRU/gBi3kgb1yc+LRnRcQFXuRaUBrRPQRl2JWe9AgQ=;
-  b=iR1szm2QgdtrrkJZ0ROrBDOWkHbpQu7Mm+A1umn3UTsRgsx3MnOoshF+
-   ylg6nuCOcA4DDRF+FtLBl+s+mSeaqq6gVv9aetG7/2dOmNSOnhg3rMsng
-   BSSrtpNeQsCC86BXHF6TRsHQHRhaH3s/55Om5PawzWcAN0lgavA01u5bh
-   mZupvYzqpSu21EmHHbaZyr+eL/lAtblIMCRGO/oVuRan6+ZYyW3ryD25G
-   b8DC8uCL5Fjh+m2fWbjTGT+T8ttI/S9PXt25zc4CiEdJ1VQ/qTvgf/TCd
-   jniCk9N6vwf+0SIzJCpdq46CMcfnHw0auXboMoHPDQ9ZduHxUkDDL+Zzp
+  bh=383IcDF9SEqpCfKk0vX9b3RdQzQPfqOeQTb5vGXZY5M=;
+  b=BK9auvHrlvkaWfxNMnPaJ0Ozf4XxwiOKwE1guRofgJ+5VSHGUnTjl802
+   5emPEQx0msldbX7vU8qPff/KGZ6U88kHUzc+wRO/+qcmErnJcYY7EAveF
+   R3ATXzYbhgOnaA4+FvmkSXZI1xzVq4RzdELGVLQOJXt6gZg8V3hJLzDIg
+   eeSxFm1rRZWQt0ARpWrnqnKMfCdJXJhKKath0zQ3ho76UnFSrjt8b6PAN
+   ZcDWsDWX8ei3o99pWTxGAwf2wqxfEPVcUdwrEFWWf8hNufJGQE8+4XrHp
+   ca/Njpc69Ng61lklZ4ZphlxZPommYfw6GU9HHEMaCLOP/h4byYwhMEjV+
    g==;
-X-CSE-ConnectionGUID: zHDDXPMQS3eoa0y958qd1Q==
-X-CSE-MsgGUID: Gp487eZ6SPWkaXMXHzVrOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67508992"
+X-CSE-ConnectionGUID: Wueei2LtTdmpDLULka0LEg==
+X-CSE-MsgGUID: tITewp68RjaVgxT2nXl8XQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67697100"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="67508992"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 16:31:34 -0800
-X-CSE-ConnectionGUID: 8xMAk1yNSECDAxrseGx6Rg==
-X-CSE-MsgGUID: 28hJ2Q9HS1W6924fjPzmmQ==
+   d="scan'208";a="67697100"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 16:42:34 -0800
+X-CSE-ConnectionGUID: luTS/DZHSjOqfAfjyBvouw==
+X-CSE-MsgGUID: MWwxR1LwRoq9y6sFKmE1TQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="197303841"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Dec 2025 16:31:33 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 13 Dec 2025 16:42:33 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUa1K-000000008NT-3IvT;
-	Sun, 14 Dec 2025 00:31:30 +0000
-Date: Sun, 14 Dec 2025 08:30:33 +0800
+	id 1vUaBz-000000008Nx-0gJU;
+	Sun, 14 Dec 2025 00:42:31 +0000
+Date: Sun, 14 Dec 2025 08:42:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mengyuan Lou <mengyuanlou@net-swift.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:225: undefined
- reference to `phylink_ethtool_nway_reset'
-Message-ID: <202512140852.VA3cquzw-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 0/2] arch/x86/entry/common.c:163:
+ warning: Function parameter or member 'regs' not described in
+ 'do_int80_emulation'
+Message-ID: <202512140812.IChgFqEz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,107 +61,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mengyuan,
+Hi Pawan,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a298a43f5e339f48d2dda0665c02b88ee9a4e03
-commit: a0008a3658a34a54e77f2568bdaa2626233b1459 net: wangxun: add ngbevf build
-date:   5 months ago
-config: powerpc64-randconfig-002-20251214 (https://download.01.org/0day-ci/archive/20251214/202512140852.VA3cquzw-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140852.VA3cquzw-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   6f1c2f8fd8c80fa50c9be0270d8474d6fa7412f2
+commit: 07dbb10f153f483e8249acebdffedf922e2ec2e1 [0/2] x86/bhi: Add support for clearing branch history at syscall entry
+config: i386-randconfig-061-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140812.IChgFqEz-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140812.IChgFqEz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140852.VA3cquzw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140812.IChgFqEz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `phylink_ethtool_get_pauseparam'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_nway_reset':
->> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:225: undefined reference to `phylink_ethtool_nway_reset'
-   powerpc64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_link_ksettings':
->> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:234: undefined reference to `phylink_ethtool_ksettings_get'
-   powerpc64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_link_ksettings':
->> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:246: undefined reference to `phylink_ethtool_ksettings_set'
-   powerpc64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_get_pauseparam':
->> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:258: undefined reference to `phylink_ethtool_get_pauseparam'
-   powerpc64-linux-ld: drivers/net/ethernet/wangxun/libwx/wx_ethtool.o: in function `wx_set_pauseparam':
->> drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:270: undefined reference to `phylink_ethtool_set_pauseparam'
+>> arch/x86/entry/common.c:163: warning: Function parameter or member 'regs' not described in 'do_int80_emulation'
 
 
-vim +225 drivers/net/ethernet/wangxun/libwx/wx_ethtool.c
+vim +163 arch/x86/entry/common.c
 
-e8e138cf7383cf Jiawen Wu 2024-01-03  217  
-e8e138cf7383cf Jiawen Wu 2024-01-03  218  int wx_nway_reset(struct net_device *netdev)
-e8e138cf7383cf Jiawen Wu 2024-01-03  219  {
-e8e138cf7383cf Jiawen Wu 2024-01-03  220  	struct wx *wx = netdev_priv(netdev);
-e8e138cf7383cf Jiawen Wu 2024-01-03  221  
-39709fe4bacda6 Jiawen Wu 2025-05-21  222  	if (wx->mac.type == wx_mac_aml40)
-2e5af6b2ae8532 Jiawen Wu 2025-02-21  223  		return -EOPNOTSUPP;
-2e5af6b2ae8532 Jiawen Wu 2025-02-21  224  
-e8e138cf7383cf Jiawen Wu 2024-01-03 @225  	return phylink_ethtool_nway_reset(wx->phylink);
-e8e138cf7383cf Jiawen Wu 2024-01-03  226  }
-e8e138cf7383cf Jiawen Wu 2024-01-03  227  EXPORT_SYMBOL(wx_nway_reset);
-e8e138cf7383cf Jiawen Wu 2024-01-03  228  
-e8e138cf7383cf Jiawen Wu 2024-01-03  229  int wx_get_link_ksettings(struct net_device *netdev,
-e8e138cf7383cf Jiawen Wu 2024-01-03  230  			  struct ethtool_link_ksettings *cmd)
-e8e138cf7383cf Jiawen Wu 2024-01-03  231  {
-e8e138cf7383cf Jiawen Wu 2024-01-03  232  	struct wx *wx = netdev_priv(netdev);
-e8e138cf7383cf Jiawen Wu 2024-01-03  233  
-e8e138cf7383cf Jiawen Wu 2024-01-03 @234  	return phylink_ethtool_ksettings_get(wx->phylink, cmd);
-e8e138cf7383cf Jiawen Wu 2024-01-03  235  }
-e8e138cf7383cf Jiawen Wu 2024-01-03  236  EXPORT_SYMBOL(wx_get_link_ksettings);
-e8e138cf7383cf Jiawen Wu 2024-01-03  237  
-e8e138cf7383cf Jiawen Wu 2024-01-03  238  int wx_set_link_ksettings(struct net_device *netdev,
-e8e138cf7383cf Jiawen Wu 2024-01-03  239  			  const struct ethtool_link_ksettings *cmd)
-e8e138cf7383cf Jiawen Wu 2024-01-03  240  {
-e8e138cf7383cf Jiawen Wu 2024-01-03  241  	struct wx *wx = netdev_priv(netdev);
-e8e138cf7383cf Jiawen Wu 2024-01-03  242  
-39709fe4bacda6 Jiawen Wu 2025-05-21  243  	if (wx->mac.type == wx_mac_aml40)
-2e5af6b2ae8532 Jiawen Wu 2025-02-21  244  		return -EOPNOTSUPP;
-2e5af6b2ae8532 Jiawen Wu 2025-02-21  245  
-e8e138cf7383cf Jiawen Wu 2024-01-03 @246  	return phylink_ethtool_ksettings_set(wx->phylink, cmd);
-e8e138cf7383cf Jiawen Wu 2024-01-03  247  }
-e8e138cf7383cf Jiawen Wu 2024-01-03  248  EXPORT_SYMBOL(wx_set_link_ksettings);
-2fe2ca09da953b Jiawen Wu 2024-01-03  249  
-2fe2ca09da953b Jiawen Wu 2024-01-03  250  void wx_get_pauseparam(struct net_device *netdev,
-2fe2ca09da953b Jiawen Wu 2024-01-03  251  		       struct ethtool_pauseparam *pause)
-2fe2ca09da953b Jiawen Wu 2024-01-03  252  {
-2fe2ca09da953b Jiawen Wu 2024-01-03  253  	struct wx *wx = netdev_priv(netdev);
-2fe2ca09da953b Jiawen Wu 2024-01-03  254  
-39709fe4bacda6 Jiawen Wu 2025-05-21  255  	if (wx->mac.type == wx_mac_aml40)
-2e5af6b2ae8532 Jiawen Wu 2025-02-21  256  		return;
-2e5af6b2ae8532 Jiawen Wu 2025-02-21  257  
-2fe2ca09da953b Jiawen Wu 2024-01-03 @258  	phylink_ethtool_get_pauseparam(wx->phylink, pause);
-2fe2ca09da953b Jiawen Wu 2024-01-03  259  }
-2fe2ca09da953b Jiawen Wu 2024-01-03  260  EXPORT_SYMBOL(wx_get_pauseparam);
-2fe2ca09da953b Jiawen Wu 2024-01-03  261  
-2fe2ca09da953b Jiawen Wu 2024-01-03  262  int wx_set_pauseparam(struct net_device *netdev,
-2fe2ca09da953b Jiawen Wu 2024-01-03  263  		      struct ethtool_pauseparam *pause)
-2fe2ca09da953b Jiawen Wu 2024-01-03  264  {
-2fe2ca09da953b Jiawen Wu 2024-01-03  265  	struct wx *wx = netdev_priv(netdev);
-2fe2ca09da953b Jiawen Wu 2024-01-03  266  
-39709fe4bacda6 Jiawen Wu 2025-05-21  267  	if (wx->mac.type == wx_mac_aml40)
-2e5af6b2ae8532 Jiawen Wu 2025-02-21  268  		return -EOPNOTSUPP;
-2e5af6b2ae8532 Jiawen Wu 2025-02-21  269  
-2fe2ca09da953b Jiawen Wu 2024-01-03 @270  	return phylink_ethtool_set_pauseparam(wx->phylink, pause);
-2fe2ca09da953b Jiawen Wu 2024-01-03  271  }
-2fe2ca09da953b Jiawen Wu 2024-01-03  272  EXPORT_SYMBOL(wx_set_pauseparam);
-883b5984a5d290 Jiawen Wu 2024-01-03  273  
+e09d243a518b56 Thomas Gleixner 2023-12-04  142  
+d5f999317e83ef Thomas Gleixner 2023-12-04  143  /**
+07dbb10f153f48 Pawan Gupta     2024-03-11  144   * do_int80_emulation - 32-bit legacy syscall C entry from asm
+d5f999317e83ef Thomas Gleixner 2023-12-04  145   *
+d5f999317e83ef Thomas Gleixner 2023-12-04  146   * This entry point can be used by 32-bit and 64-bit programs to perform
+d5f999317e83ef Thomas Gleixner 2023-12-04  147   * 32-bit system calls.  Instances of INT $0x80 can be found inline in
+d5f999317e83ef Thomas Gleixner 2023-12-04  148   * various programs and libraries.  It is also used by the vDSO's
+d5f999317e83ef Thomas Gleixner 2023-12-04  149   * __kernel_vsyscall fallback for hardware that doesn't support a faster
+d5f999317e83ef Thomas Gleixner 2023-12-04  150   * entry method.  Restarted 32-bit system calls also fall back to INT
+d5f999317e83ef Thomas Gleixner 2023-12-04  151   * $0x80 regardless of what instruction was originally used to do the
+d5f999317e83ef Thomas Gleixner 2023-12-04  152   * system call.
+d5f999317e83ef Thomas Gleixner 2023-12-04  153   *
+d5f999317e83ef Thomas Gleixner 2023-12-04  154   * This is considered a slow path.  It is not used by most libc
+d5f999317e83ef Thomas Gleixner 2023-12-04  155   * implementations on modern hardware except during process startup.
+d5f999317e83ef Thomas Gleixner 2023-12-04  156   *
+d5f999317e83ef Thomas Gleixner 2023-12-04  157   * The arguments for the INT $0x80 based syscall are on stack in the
+d5f999317e83ef Thomas Gleixner 2023-12-04  158   * pt_regs structure:
+d5f999317e83ef Thomas Gleixner 2023-12-04  159   *   eax:				system call number
+d5f999317e83ef Thomas Gleixner 2023-12-04  160   *   ebx, ecx, edx, esi, edi, ebp:	arg1 - arg 6
+d5f999317e83ef Thomas Gleixner 2023-12-04  161   */
+07dbb10f153f48 Pawan Gupta     2024-03-11  162  __visible noinstr void do_int80_emulation(struct pt_regs *regs)
+d5f999317e83ef Thomas Gleixner 2023-12-04 @163  {
+d5f999317e83ef Thomas Gleixner 2023-12-04  164  	int nr;
+d5f999317e83ef Thomas Gleixner 2023-12-04  165  
+e09d243a518b56 Thomas Gleixner 2023-12-04  166  	/* Kernel does not use INT $0x80! */
+e09d243a518b56 Thomas Gleixner 2023-12-04  167  	if (unlikely(!user_mode(regs))) {
+e09d243a518b56 Thomas Gleixner 2023-12-04  168  		irqentry_enter(regs);
+e09d243a518b56 Thomas Gleixner 2023-12-04  169  		instrumentation_begin();
+e09d243a518b56 Thomas Gleixner 2023-12-04  170  		panic("Unexpected external interrupt 0x80\n");
+e09d243a518b56 Thomas Gleixner 2023-12-04  171  	}
+e09d243a518b56 Thomas Gleixner 2023-12-04  172  
+e09d243a518b56 Thomas Gleixner 2023-12-04  173  	/*
+e09d243a518b56 Thomas Gleixner 2023-12-04  174  	 * Establish kernel context for instrumentation, including for
+e09d243a518b56 Thomas Gleixner 2023-12-04  175  	 * int80_is_external() below which calls into the APIC driver.
+e09d243a518b56 Thomas Gleixner 2023-12-04  176  	 * Identical for soft and external interrupts.
+e09d243a518b56 Thomas Gleixner 2023-12-04  177  	 */
+d5f999317e83ef Thomas Gleixner 2023-12-04  178  	enter_from_user_mode(regs);
+d5f999317e83ef Thomas Gleixner 2023-12-04  179  
+d5f999317e83ef Thomas Gleixner 2023-12-04  180  	instrumentation_begin();
+d5f999317e83ef Thomas Gleixner 2023-12-04  181  	add_random_kstack_offset();
+d5f999317e83ef Thomas Gleixner 2023-12-04  182  
+e09d243a518b56 Thomas Gleixner 2023-12-04  183  	/* Validate that this is a soft interrupt to the extent possible */
+e09d243a518b56 Thomas Gleixner 2023-12-04  184  	if (unlikely(int80_is_external()))
+e09d243a518b56 Thomas Gleixner 2023-12-04  185  		panic("Unexpected external interrupt 0x80\n");
+e09d243a518b56 Thomas Gleixner 2023-12-04  186  
+d5f999317e83ef Thomas Gleixner 2023-12-04  187  	/*
+d5f999317e83ef Thomas Gleixner 2023-12-04  188  	 * The low level idtentry code pushed -1 into regs::orig_ax
+d5f999317e83ef Thomas Gleixner 2023-12-04  189  	 * and regs::ax contains the syscall number.
+d5f999317e83ef Thomas Gleixner 2023-12-04  190  	 *
+d5f999317e83ef Thomas Gleixner 2023-12-04  191  	 * User tracing code (ptrace or signal handlers) might assume
+d5f999317e83ef Thomas Gleixner 2023-12-04  192  	 * that the regs::orig_ax contains a 32-bit number on invoking
+d5f999317e83ef Thomas Gleixner 2023-12-04  193  	 * a 32-bit syscall.
+d5f999317e83ef Thomas Gleixner 2023-12-04  194  	 *
+d5f999317e83ef Thomas Gleixner 2023-12-04  195  	 * Establish the syscall convention by saving the 32bit truncated
+d5f999317e83ef Thomas Gleixner 2023-12-04  196  	 * syscall number in regs::orig_ax and by invalidating regs::ax.
+d5f999317e83ef Thomas Gleixner 2023-12-04  197  	 */
+d5f999317e83ef Thomas Gleixner 2023-12-04  198  	regs->orig_ax = regs->ax & GENMASK(31, 0);
+d5f999317e83ef Thomas Gleixner 2023-12-04  199  	regs->ax = -ENOSYS;
+d5f999317e83ef Thomas Gleixner 2023-12-04  200  
+d5f999317e83ef Thomas Gleixner 2023-12-04  201  	nr = syscall_32_enter(regs);
+d5f999317e83ef Thomas Gleixner 2023-12-04  202  
+d5f999317e83ef Thomas Gleixner 2023-12-04  203  	local_irq_enable();
+d5f999317e83ef Thomas Gleixner 2023-12-04  204  	nr = syscall_enter_from_user_mode_work(regs, nr);
+d5f999317e83ef Thomas Gleixner 2023-12-04  205  	do_syscall_32_irqs_on(regs, nr);
+d5f999317e83ef Thomas Gleixner 2023-12-04  206  
+d5f999317e83ef Thomas Gleixner 2023-12-04  207  	instrumentation_end();
+d5f999317e83ef Thomas Gleixner 2023-12-04  208  	syscall_exit_to_user_mode(regs);
+d5f999317e83ef Thomas Gleixner 2023-12-04  209  }
+d5f999317e83ef Thomas Gleixner 2023-12-04  210  #else /* CONFIG_IA32_EMULATION */
+d5f999317e83ef Thomas Gleixner 2023-12-04  211  
 
-:::::: The code at line 225 was first introduced by commit
-:::::: e8e138cf7383cf820419fcbec63992e75a01467b net: libwx: add phylink to libwx
+:::::: The code at line 163 was first introduced by commit
+:::::: d5f999317e83efc07b8a7d26f9556b1271a6d373 x86/entry: Convert INT 0x80 emulation to IDTENTRY
 
-:::::: TO: Jiawen Wu <jiawenwu@trustnetic.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
