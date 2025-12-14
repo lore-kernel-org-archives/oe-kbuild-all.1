@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F706299A90
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 07:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1262609CC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 08:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765699204; cv=none; b=Rg3oWONV1sHaV5ouFfiguVpG/Et/3X4i0D+HwG9evBx+zGFJDvJwbHGv6Sem7kkBA5AcnbEYmHueIXir54D1wqvFZHteDR55pWc0H+y0zIsOol9HX4JqrpW2c6JCGzkoglxq9oJu3seMc/36cQNodYV4zTzS/R9iE2K13520h3w=
+	t=1765699863; cv=none; b=Hq0LKlV5iHplcq3/7+TDFn+Z1u2OOcFCxW6zYLBXAsrP6xxhX0Ya4EB1oJbYbf005k7q/hzPDXHDk+2pVIeVLnPQ3CYuoppiwn2UcpFzYZ/cp3kqrj5hXBIbc/ZfLu59gGO5uMEoh+2SV1IfIrVGg9Ooees3QwAs5YkAb9QhKgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765699204; c=relaxed/simple;
-	bh=yMC9SvWOMETaVlNCXMZ0JyJLQp2wVS6w2Ao6R74SLHM=;
+	s=arc-20240116; t=1765699863; c=relaxed/simple;
+	bh=R350V17kNfq/O1WGLXiYGnC+w3Y/M/PnemZGjCg6oks=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=msq9Rc/ReC+Om8xYp1eSM+quuRwsLu/+n3DkMPzT62UPvARGuJK3wHuaZ6rjIK4w5IxrXHR0j6fYhgilQ20kZ4BxFKkbSLWZBDunl96W1Wi3NscbcSjpRIFound7Fs3fxk2NSK/MDnk5i6aqXfnRfj9lY+BEyd3TzhGwzEtkwSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n7ihS1GG; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=iIO+WhPDp5JIssP88EFv7A/YJ4NoxkGZQAueVLupWRRlXT7Iqf5SRfV9YBdQx0fWjHAcUUzEwU1Y5YfwYQBl7TYApJ8h88TG4SpqzI//GfJ4OZ9yEUwK3BQG4K3ZA/1eKagIgfuJPTDeGySVg/cW7N9Zw7bBZUbEJ/KROTXoiI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UoPXlXSo; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n7ihS1GG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UoPXlXSo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765699202; x=1797235202;
+  t=1765699862; x=1797235862;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yMC9SvWOMETaVlNCXMZ0JyJLQp2wVS6w2Ao6R74SLHM=;
-  b=n7ihS1GGEnJdtsnRe6hY7T5upvHAS2wPZIPMG9J3ZTGbfVIi4jwSaKHf
-   8UZ2/m7d+THQQ/7GzgJiQk1jj2WLofu7odjOE+GRJmxIK8T+joPky4otH
-   vD80gC+HLTjjCMOS92Kwjpz/mCmlWpmqIebjTLNzLioL+6B948ziQ+ozd
-   giulgyQAtALOnaNmpUmcRJtbkllblLceUwLiDHB0zOZrVpyO5BFharGqV
-   IzEmnL4s/rrr4K2+7XDfcDI1Gtp4xCoHOJCy0/nTaukUKgu1ywH0tt0r/
-   buyHv68UZC6z6C0J9/m6Gtt+0kCY/uAzJfSE0L6ZEAmsdS9dnRmCXorNk
+  bh=R350V17kNfq/O1WGLXiYGnC+w3Y/M/PnemZGjCg6oks=;
+  b=UoPXlXSowU5v5eKcVt7WPI3vTcGLS6YuMKy7DUISBpcYGnuMgUB/bZCk
+   eSnPwjhxwPqV82tQ2oQ08VQ9PMNexT4n8+jVRukfFNTrSvXldGoZGvPIk
+   M/I8iUr68u2UdYQw1/z/zWLpOGEoN/t9VcTDSHkWRCYJ7qmngYL1zv5P1
+   ox0qNEBbPj9HWkF9V2CqBKI2/kiwa7bS+x86lgXb1nxo/0Ljyn0q28K1c
+   k6fJ/b39dAHHF+oOAtQ/9WXkSnPWyrgV4pWLpOawgbAzQrkJITz9uwHGL
+   pJhBHFmjAK+g+WMx7ZR8K9lgH1zhN+RX5C5GlzO+FsXC2EwSkpISZjEy7
    A==;
-X-CSE-ConnectionGUID: fmrdld5rR6yFkvX3d20Rnw==
-X-CSE-MsgGUID: JgjhVxXaSTGHmCWfL6I6Ww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="55197635"
+X-CSE-ConnectionGUID: w9LbgFVRQmKVAwuDYGgnXw==
+X-CSE-MsgGUID: cm7xgkprSJCPCqLZneiWPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="71486954"
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="55197635"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 23:59:59 -0800
-X-CSE-ConnectionGUID: 8JZXon3nRKW3sptG7tSTOA==
-X-CSE-MsgGUID: xLzyyRGsR+6OZ9zcYZnIlA==
+   d="scan'208";a="71486954"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 00:11:00 -0800
+X-CSE-ConnectionGUID: gz7GNIDxSoueQTtxrxbxQw==
+X-CSE-MsgGUID: NKDAfhJURNiI0o7RYJR74Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="197223726"
+   d="scan'208";a="202558818"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2025 23:59:58 -0800
+  by orviesa005.jf.intel.com with ESMTP; 14 Dec 2025 00:10:59 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUh1H-000000008qJ-2eyp;
-	Sun, 14 Dec 2025 07:59:55 +0000
-Date: Sun, 14 Dec 2025 15:59:37 +0800
+	id 1vUhBw-000000008rJ-39I9;
+	Sun, 14 Dec 2025 08:10:56 +0000
+Date: Sun, 14 Dec 2025 16:10:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhong Jinghua <zhongjinghua@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3408/3408] kernel/sys_ni.c:268:1: sparse:
- sparse: symbol '__x64_sys_landlock_create_ruleset' was not declared. Should
- it be static?
-Message-ID: <202512141511.RqzYxh3e-lkp@intel.com>
+To: Anup Patel <apatel@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Atish Patra <atishp@rivosinc.com>,
+	Nutty Liu <liujingqi@lanxincomputing.com>
+Subject: arch/riscv/kvm/vcpu_exit.c:139:34: sparse: sparse: cast to
+ restricted __le64
+Message-ID: <202512141619.z9NzOFKH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,114 +64,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   da8948fdddb84e5496272bab85973165594dd469
-commit: 21dd31f58b64b122a2d9fb62669d6191d1cf2c0f [3408/3408] landlock: Add syscall implementations
-config: x86_64-randconfig-121-20251213 (https://download.01.org/0day-ci/archive/20251214/202512141511.RqzYxh3e-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512141511.RqzYxh3e-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+commit: 77ba6469fe1ed37a1f62bc76fb5a7b159f698aed RISC-V: KVM: Use ncsr_xyz() in kvm_riscv_vcpu_trap_redirect()
+date:   5 months ago
+config: riscv-randconfig-r123-20251214 (https://download.01.org/0day-ci/archive/20251214/202512141619.z9NzOFKH-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512141619.z9NzOFKH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512141511.RqzYxh3e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512141619.z9NzOFKH-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   kernel/sys_ni.c:195:1: sparse: sparse: symbol '__x64_sys_mq_timedsend_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:197:1: sparse: sparse: symbol '__x64_sys_mq_timedreceive_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:198:1: sparse: sparse: symbol '__ia32_sys_mq_notify' was not declared. Should it be static?
-   kernel/sys_ni.c:199:1: sparse: sparse: symbol '__ia32_compat_sys_mq_notify' was not declared. Should it be static?
-   kernel/sys_ni.c:200:1: sparse: sparse: symbol '__ia32_sys_mq_getsetattr' was not declared. Should it be static?
-   kernel/sys_ni.c:201:1: sparse: sparse: symbol '__ia32_compat_sys_mq_getsetattr' was not declared. Should it be static?
-   kernel/sys_ni.c:205:1: sparse: sparse: symbol '__x64_sys_old_msgctl' was not declared. Should it be static?
-   kernel/sys_ni.c:205:1: sparse: sparse: symbol '__ia32_sys_old_msgctl' was not declared. Should it be static?
-   kernel/sys_ni.c:206:1: sparse: sparse: symbol '__ia32_sys_msgctl' was not declared. Should it be static?
-   kernel/sys_ni.c:207:1: sparse: sparse: symbol '__ia32_compat_sys_msgctl' was not declared. Should it be static?
-   kernel/sys_ni.c:208:1: sparse: sparse: symbol '__ia32_compat_sys_old_msgctl' was not declared. Should it be static?
-   kernel/sys_ni.c:209:1: sparse: sparse: symbol '__ia32_sys_msgrcv' was not declared. Should it be static?
-   kernel/sys_ni.c:210:1: sparse: sparse: symbol '__ia32_compat_sys_msgrcv' was not declared. Should it be static?
-   kernel/sys_ni.c:211:1: sparse: sparse: symbol '__ia32_sys_msgsnd' was not declared. Should it be static?
-   kernel/sys_ni.c:212:1: sparse: sparse: symbol '__ia32_compat_sys_msgsnd' was not declared. Should it be static?
-   kernel/sys_ni.c:216:1: sparse: sparse: symbol '__x64_sys_old_semctl' was not declared. Should it be static?
-   kernel/sys_ni.c:216:1: sparse: sparse: symbol '__ia32_sys_old_semctl' was not declared. Should it be static?
-   kernel/sys_ni.c:217:1: sparse: sparse: symbol '__ia32_sys_semctl' was not declared. Should it be static?
-   kernel/sys_ni.c:218:1: sparse: sparse: symbol '__ia32_compat_sys_semctl' was not declared. Should it be static?
-   kernel/sys_ni.c:219:1: sparse: sparse: symbol '__ia32_compat_sys_old_semctl' was not declared. Should it be static?
-   kernel/sys_ni.c:221:1: sparse: sparse: symbol '__x64_sys_semtimedop_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:221:1: sparse: sparse: symbol '__ia32_sys_semtimedop_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:222:1: sparse: sparse: symbol '__ia32_sys_semop' was not declared. Should it be static?
-   kernel/sys_ni.c:226:1: sparse: sparse: symbol '__x64_sys_old_shmctl' was not declared. Should it be static?
-   kernel/sys_ni.c:226:1: sparse: sparse: symbol '__ia32_sys_old_shmctl' was not declared. Should it be static?
-   kernel/sys_ni.c:227:1: sparse: sparse: symbol '__ia32_sys_shmctl' was not declared. Should it be static?
-   kernel/sys_ni.c:228:1: sparse: sparse: symbol '__ia32_compat_sys_shmctl' was not declared. Should it be static?
-   kernel/sys_ni.c:229:1: sparse: sparse: symbol '__ia32_compat_sys_old_shmctl' was not declared. Should it be static?
-   kernel/sys_ni.c:230:1: sparse: sparse: symbol '__ia32_sys_shmat' was not declared. Should it be static?
-   kernel/sys_ni.c:231:1: sparse: sparse: symbol '__ia32_compat_sys_shmat' was not declared. Should it be static?
-   kernel/sys_ni.c:243:1: sparse: sparse: symbol '__ia32_sys_setsockopt' was not declared. Should it be static?
-   kernel/sys_ni.c:244:1: sparse: sparse: symbol '__ia32_compat_sys_setsockopt' was not declared. Should it be static?
-   kernel/sys_ni.c:245:1: sparse: sparse: symbol '__ia32_sys_getsockopt' was not declared. Should it be static?
-   kernel/sys_ni.c:246:1: sparse: sparse: symbol '__ia32_compat_sys_getsockopt' was not declared. Should it be static?
-   kernel/sys_ni.c:249:1: sparse: sparse: symbol '__ia32_sys_recvfrom' was not declared. Should it be static?
-   kernel/sys_ni.c:250:1: sparse: sparse: symbol '__ia32_compat_sys_recvfrom' was not declared. Should it be static?
-   kernel/sys_ni.c:251:1: sparse: sparse: symbol '__ia32_sys_sendmsg' was not declared. Should it be static?
-   kernel/sys_ni.c:252:1: sparse: sparse: symbol '__ia32_compat_sys_sendmsg' was not declared. Should it be static?
-   kernel/sys_ni.c:253:1: sparse: sparse: symbol '__ia32_sys_recvmsg' was not declared. Should it be static?
-   kernel/sys_ni.c:254:1: sparse: sparse: symbol '__ia32_compat_sys_recvmsg' was not declared. Should it be static?
-   kernel/sys_ni.c:264:1: sparse: sparse: symbol '__ia32_sys_keyctl' was not declared. Should it be static?
-   kernel/sys_ni.c:265:1: sparse: sparse: symbol '__ia32_compat_sys_keyctl' was not declared. Should it be static?
->> kernel/sys_ni.c:268:1: sparse: sparse: symbol '__x64_sys_landlock_create_ruleset' was not declared. Should it be static?
->> kernel/sys_ni.c:268:1: sparse: sparse: symbol '__ia32_sys_landlock_create_ruleset' was not declared. Should it be static?
->> kernel/sys_ni.c:269:1: sparse: sparse: symbol '__x64_sys_landlock_add_rule' was not declared. Should it be static?
->> kernel/sys_ni.c:269:1: sparse: sparse: symbol '__ia32_sys_landlock_add_rule' was not declared. Should it be static?
->> kernel/sys_ni.c:270:1: sparse: sparse: symbol '__x64_sys_landlock_restrict_self' was not declared. Should it be static?
->> kernel/sys_ni.c:270:1: sparse: sparse: symbol '__ia32_sys_landlock_restrict_self' was not declared. Should it be static?
-   kernel/sys_ni.c:275:1: sparse: sparse: symbol '__x64_sys_fadvise64_64' was not declared. Should it be static?
-   kernel/sys_ni.c:275:1: sparse: sparse: symbol '__ia32_sys_fadvise64_64' was not declared. Should it be static?
-   kernel/sys_ni.c:276:1: sparse: sparse: symbol '__ia32_compat_sys_fadvise64_64' was not declared. Should it be static?
-   kernel/sys_ni.c:292:1: sparse: sparse: symbol '__ia32_compat_sys_mbind' was not declared. Should it be static?
-   kernel/sys_ni.c:293:1: sparse: sparse: symbol '__ia32_sys_get_mempolicy' was not declared. Should it be static?
-   kernel/sys_ni.c:294:1: sparse: sparse: symbol '__ia32_compat_sys_get_mempolicy' was not declared. Should it be static?
-   kernel/sys_ni.c:296:1: sparse: sparse: symbol '__ia32_compat_sys_set_mempolicy' was not declared. Should it be static?
-   kernel/sys_ni.c:298:1: sparse: sparse: symbol '__ia32_compat_sys_migrate_pages' was not declared. Should it be static?
-   kernel/sys_ni.c:299:1: sparse: sparse: symbol '__ia32_sys_move_pages' was not declared. Should it be static?
-   kernel/sys_ni.c:300:1: sparse: sparse: symbol '__ia32_compat_sys_move_pages' was not declared. Should it be static?
-   kernel/sys_ni.c:304:1: sparse: sparse: symbol '__ia32_sys_recvmmsg' was not declared. Should it be static?
-   kernel/sys_ni.c:305:1: sparse: sparse: symbol '__x64_sys_recvmmsg_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:305:1: sparse: sparse: symbol '__ia32_sys_recvmmsg_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:306:1: sparse: sparse: symbol '__ia32_compat_sys_recvmmsg_time32' was not declared. Should it be static?
-   kernel/sys_ni.c:307:1: sparse: sparse: symbol '__ia32_compat_sys_recvmmsg_time64' was not declared. Should it be static?
-   kernel/sys_ni.c:315:1: sparse: sparse: symbol '__ia32_sys_fanotify_mark' was not declared. Should it be static?
-   kernel/sys_ni.c:319:1: sparse: sparse: symbol '__ia32_sys_open_by_handle_at' was not declared. Should it be static?
-   kernel/sys_ni.c:320:1: sparse: sparse: symbol '__ia32_compat_sys_open_by_handle_at' was not declared. Should it be static?
-   kernel/sys_ni.c:322:1: sparse: sparse: symbol '__ia32_sys_sendmmsg' was not declared. Should it be static?
-   kernel/sys_ni.c:323:1: sparse: sparse: symbol '__ia32_compat_sys_sendmmsg' was not declared. Should it be static?
-   kernel/sys_ni.c:324:1: sparse: sparse: symbol '__ia32_sys_process_vm_readv' was not declared. Should it be static?
-   kernel/sys_ni.c:325:1: sparse: sparse: symbol '__ia32_compat_sys_process_vm_readv' was not declared. Should it be static?
-   kernel/sys_ni.c:326:1: sparse: sparse: symbol '__ia32_sys_process_vm_writev' was not declared. Should it be static?
-   kernel/sys_ni.c:327:1: sparse: sparse: symbol '__ia32_compat_sys_process_vm_writev' was not declared. Should it be static?
-   kernel/sys_ni.c:343:1: sparse: sparse: symbol '__ia32_sys_execveat' was not declared. Should it be static?
-   kernel/sys_ni.c:365:1: sparse: sparse: symbol '__x64_sys_pciconfig_read' was not declared. Should it be static?
-   kernel/sys_ni.c:365:1: sparse: sparse: symbol '__ia32_sys_pciconfig_read' was not declared. Should it be static?
-   kernel/sys_ni.c:366:1: sparse: sparse: symbol '__x64_sys_pciconfig_write' was not declared. Should it be static?
-   kernel/sys_ni.c:366:1: sparse: sparse: symbol '__ia32_sys_pciconfig_write' was not declared. Should it be static?
+>> arch/riscv/kvm/vcpu_exit.c:139:34: sparse: sparse: cast to restricted __le64
+   arch/riscv/kvm/vcpu_exit.c:155:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_exit.c:155:9: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_exit.c:155:9: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_exit.c:158:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_exit.c:158:9: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_exit.c:158:9: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_exit.c:159:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_exit.c:159:9: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_exit.c:159:9: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_exit.c:160:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_exit.c:160:9: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_exit.c:160:9: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_exit.c:163:41: sparse: sparse: cast to restricted __le64
 
-vim +/__x64_sys_landlock_create_ruleset +268 kernel/sys_ni.c
+vim +139 arch/riscv/kvm/vcpu_exit.c
 
-   257	
-   258	/* mm/nommu.c, also with MMU */
- > 259	COND_SYSCALL(mremap);
-   260	
-   261	/* security/keys/keyctl.c */
- > 262	COND_SYSCALL(add_key);
- > 263	COND_SYSCALL(request_key);
-   264	COND_SYSCALL(keyctl);
-   265	COND_SYSCALL_COMPAT(keyctl);
-   266	
-   267	/* security/landlock/syscalls.c */
- > 268	COND_SYSCALL(landlock_create_ruleset);
- > 269	COND_SYSCALL(landlock_add_rule);
- > 270	COND_SYSCALL(landlock_restrict_self);
-   271	
+   129	
+   130	/**
+   131	 * kvm_riscv_vcpu_trap_redirect -- Redirect trap to Guest
+   132	 *
+   133	 * @vcpu: The VCPU pointer
+   134	 * @trap: Trap details
+   135	 */
+   136	void kvm_riscv_vcpu_trap_redirect(struct kvm_vcpu *vcpu,
+   137					  struct kvm_cpu_trap *trap)
+   138	{
+ > 139		unsigned long vsstatus = ncsr_read(CSR_VSSTATUS);
+   140	
+   141		/* Change Guest SSTATUS.SPP bit */
+   142		vsstatus &= ~SR_SPP;
+   143		if (vcpu->arch.guest_context.sstatus & SR_SPP)
+   144			vsstatus |= SR_SPP;
+   145	
+   146		/* Change Guest SSTATUS.SPIE bit */
+   147		vsstatus &= ~SR_SPIE;
+   148		if (vsstatus & SR_SIE)
+   149			vsstatus |= SR_SPIE;
+   150	
+   151		/* Clear Guest SSTATUS.SIE bit */
+   152		vsstatus &= ~SR_SIE;
+   153	
+   154		/* Update Guest SSTATUS */
+   155		ncsr_write(CSR_VSSTATUS, vsstatus);
+   156	
+   157		/* Update Guest SCAUSE, STVAL, and SEPC */
+   158		ncsr_write(CSR_VSCAUSE, trap->scause);
+   159		ncsr_write(CSR_VSTVAL, trap->stval);
+   160		ncsr_write(CSR_VSEPC, trap->sepc);
+   161	
+   162		/* Set Guest PC to Guest exception vector */
+   163		vcpu->arch.guest_context.sepc = ncsr_read(CSR_VSTVEC);
+   164	
+   165		/* Set Guest privilege mode to supervisor */
+   166		vcpu->arch.guest_context.sstatus |= SR_SPP;
+   167	}
+   168	
 
 -- 
 0-DAY CI Kernel Test Service
