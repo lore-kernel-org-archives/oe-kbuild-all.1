@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7B0285CB2
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 07:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39BF2CCC0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 07:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765696245; cv=none; b=vB9QoLUp/XrBLFcPDXdeTHxJY/Wffyqp90wvPRXCgOlng/yvCQPbDP6iHS1gWBaoQUiggLB9ktOKHPSpajosOw5NPKfYx3YkIol9cFZ+jF1hjksE3MFTMHZIDtR0NZs1dKwI7mOXFG0HgodesMyQeUL4sctYV3niHqHdESCwO+Q=
+	t=1765697625; cv=none; b=amboT7/ptD5URztjw3n3e2VauDEJ7YoN9eFrJMCgzzv6fqiDvbF2IvuYubmZnKZ05SOUpRYJiWeLtsAoZdgOB+gBj6l/sD9c379ZGmrAxhAn7EaWYDbACJqzoFhUhfySGvOxQ/P7Wx99+4d4/28hSZy711Y0w5j8XXYWLreRUuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765696245; c=relaxed/simple;
-	bh=OYPc9fJ1gZO/ZIi5lv4mS7D/PqJt+noRBMXrYQBXzDw=;
+	s=arc-20240116; t=1765697625; c=relaxed/simple;
+	bh=99x1FAMDwd8uq6WtOinrmLr8RA+d4z1BiWxzZOHkJ1A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lsI4/Zhb5uiYILrOoEIXVHPXf3+U3RkjK6KvXf9ORsBubb/kuxdkegFLPQoxJMUYj1dpBy8/RbloKTqDl0CmJ77HQZVD9NdTrn3wv2UpetK8pNFdrc9bXroGFmJNZsMEoIhty3KsnNwyiwHfj4sNTUVX8p5CZGc07qFPHsp5W4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FSWgcCCC; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=iK0anodsD7e3Apro0ZmpLuyGR4Nn+cBVSZ4h72l21p0uWGxvwE1q22kXS4KMh0HriFRZmIX6wgetnNoOcjL2anGbiI8QseEf2caGSjEcsSTDS1CHyt9eCV7M5gFeAnMbiKGm7zHRu7x+Q2pYNt7MS+u/U5k19/2PCTYXRjszBSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMyilUcx; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FSWgcCCC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMyilUcx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765696244; x=1797232244;
+  t=1765697624; x=1797233624;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OYPc9fJ1gZO/ZIi5lv4mS7D/PqJt+noRBMXrYQBXzDw=;
-  b=FSWgcCCCfLhs7/xqZUe+/vMSLe/7JFknHdUcCh/xIq3A6ZWwHOY7iLUx
-   zI5mvV/JOvftsvU1RgCtKriub3urbOi0bC/JGcaYcWMxYGHEeDvId8sPd
-   XyDdIH5Aswghgq2RyIhZHLTn5pU8EGke0VaiZ63/7CJweqKVFj2QwY3tO
-   CpA8QfGCP+HRQboBNWds+GxWvxtyAcgP15Ywoel+3USmhGT7MMzgDm1Zr
-   Bvx1+kZYb8fJA62rWPfCh/UbEQVbzq9MKFxb6rrTH9rI4719O1DYnQJdl
-   sqFO29isKciuGHH1NbJKvwZdvDGDmNcAngC6ti9wqATxt9FMsf2ZcFr+c
+  bh=99x1FAMDwd8uq6WtOinrmLr8RA+d4z1BiWxzZOHkJ1A=;
+  b=UMyilUcxMYQ8Gq/w4JhUESzly/M4SFdNHC1/HLzwCkaLQ0jKZSo6BlCE
+   JwiBsP6K4gqMw5cHsENxdC8DwmfqE/NKeWmTNpz55O/YEIeQI8xwzA/9e
+   zR1RRG/L1crzeAxtL7g2hU5frU8eX29ZV4fjuyZNz39w+28hRXMQrsGlg
+   7ZnIYLE5z2q/k+b2YNcciH35Z7yfAgR7HyF8KGwt3hMNDuEIztWiEn37J
+   78pCLRbI+SsWgqWwCnOh0UIuKlzpWEkl0p665aQMe5OBTDkp8xKvvtWeu
+   NqPLV2586ljfeeuiL7dH2aV9dRU5rWcCudilwamddaMTjJBMzE3T3Oy0/
    Q==;
-X-CSE-ConnectionGUID: 1VLMVxrjQRi0wUT51KOsmg==
-X-CSE-MsgGUID: MxNIySUeRoCxcodieNRO4w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="55196653"
-X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="55196653"
+X-CSE-ConnectionGUID: isRyIZt9Tx6dU62pV92eRg==
+X-CSE-MsgGUID: 9g4fwGyqRnyrHEYoUNx8yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="78337605"
+X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
+   d="scan'208";a="78337605"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 23:10:43 -0800
-X-CSE-ConnectionGUID: HWRW+BoITreb/ybndlGBPQ==
-X-CSE-MsgGUID: KoK3P7C8Sqi8hDWYBCCAaQ==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 23:33:43 -0800
+X-CSE-ConnectionGUID: v3TlLBt9T+e8wJnHtr7cCQ==
+X-CSE-MsgGUID: cuRGNgNWRkuejDLk7oF+wA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="197217879"
+X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
+   d="scan'208";a="197220493"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2025 23:10:42 -0800
+  by orviesa009.jf.intel.com with ESMTP; 13 Dec 2025 23:33:42 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUgFb-000000002JE-2MJI;
-	Sun, 14 Dec 2025 07:10:39 +0000
-Date: Sun, 14 Dec 2025 08:10:21 +0100
+	id 1vUgbr-000000002JU-39xS;
+	Sun, 14 Dec 2025 07:33:39 +0000
+Date: Sun, 14 Dec 2025 08:33:08 +0100
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Baokun Li <libaokun1@huawei.com>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1941/1941] fs/ext4/inode.c:2995:30:
- warning: unused variable 'sbi'
-Message-ID: <202512140847.r9ez9W5V-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-6.6-CWF-RDT-ANBZ24559 0/25] htmldocs:
+ Documentation/vm/kidled.rst:48: WARNING: Block quote ends without a blank
+ line; unexpected unindent. [docutils]
+Message-ID: <202512140840.HD9lDAkG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +63,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5a399b91821faeec2466751db2d714b24f8eb17c
-commit: 7b208222f6845875c568d238aeb9db17a1c63d96 [1941/1941] ext4: avoid deadlock in fs reclaim with page writeback
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251214/202512140847.r9ez9W5V-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140847.r9ez9W5V-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-RDT-ANBZ24559
+head:   48fa9d861c1eb99e9f682fb2623142fb456aa0eb
+commit: 9821d36e632cb7bdae1f1f7affbebf8077b5a516 [0/25] anolis: mm: Support kidled
+reproduce: (https://download.01.org/0day-ci/archive/20251214/202512140840.HD9lDAkG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140847.r9ez9W5V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140840.HD9lDAkG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/ext4/inode.c: In function 'ext4_dax_writepages':
->> fs/ext4/inode.c:2995:30: warning: unused variable 'sbi' [-Wunused-variable]
-    2995 |         struct ext4_sb_info *sbi = EXT4_SB(mapping->host->i_sb);
-         |                              ^~~
+   Documentation/power/video.rst:213: WARNING: Footnote [#] is not referenced. [ref.footnote]
+   Documentation/scheduler/sched-bwc.rst:127: ERROR: Unexpected indentation. [docutils]
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 ./include/linux/fprobe.h' failed with return code 1
+   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/mutex.h' failed with return code 2
+   Documentation/translations/zh_TW/dev-tools/index.rst:21: WARNING: toctree contains reference to nonexisting document 'translations/zh_TW/dev-tools/sparse' [toc.not_readable]
+>> Documentation/vm/kidled.rst:48: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/vm/kidled.rst:90: ERROR: Unexpected indentation. [docutils]
+   Documentation/vm/kidled.rst:106: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/admin-guide/perf/ampere_cspmu.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/arch/x86/hygon-secure-virtualization.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/device_drivers/ethernet/nebula-matrix/m18120.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/virt/coco/csv-guest.rst: WARNING: document isn't included in any toctree [toc.not_included]
+>> Documentation/vm/kidled.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/vm/memcg_zombie_reaper.rst: WARNING: document isn't included in any toctree [toc.not_included]
 
 
-vim +/sbi +2995 fs/ext4/inode.c
+vim +48 Documentation/vm/kidled.rst
 
-64769240bd07f4 Alex Tomas   2008-07-11  2988  
-5f0663bb4a64f5 Dan Williams 2017-12-21  2989  static int ext4_dax_writepages(struct address_space *mapping,
-5f0663bb4a64f5 Dan Williams 2017-12-21  2990  			       struct writeback_control *wbc)
-5f0663bb4a64f5 Dan Williams 2017-12-21  2991  {
-5f0663bb4a64f5 Dan Williams 2017-12-21  2992  	int ret;
-5f0663bb4a64f5 Dan Williams 2017-12-21  2993  	long nr_to_write = wbc->nr_to_write;
-5f0663bb4a64f5 Dan Williams 2017-12-21  2994  	struct inode *inode = mapping->host;
-5f0663bb4a64f5 Dan Williams 2017-12-21 @2995  	struct ext4_sb_info *sbi = EXT4_SB(mapping->host->i_sb);
-7b208222f68458 Jan Kara     2024-06-11  2996  	int alloc_ctx;
-5f0663bb4a64f5 Dan Williams 2017-12-21  2997  
-5f0663bb4a64f5 Dan Williams 2017-12-21  2998  	if (unlikely(ext4_forced_shutdown(EXT4_SB(inode->i_sb))))
-5f0663bb4a64f5 Dan Williams 2017-12-21  2999  		return -EIO;
-5f0663bb4a64f5 Dan Williams 2017-12-21  3000  
-7b208222f68458 Jan Kara     2024-06-11  3001  	alloc_ctx = ext4_writepages_down_read(inode->i_sb);
-5f0663bb4a64f5 Dan Williams 2017-12-21  3002  	trace_ext4_writepages(inode, wbc);
-5f0663bb4a64f5 Dan Williams 2017-12-21  3003  
-5f0663bb4a64f5 Dan Williams 2017-12-21  3004  	ret = dax_writeback_mapping_range(mapping, inode->i_sb->s_bdev, wbc);
-5f0663bb4a64f5 Dan Williams 2017-12-21  3005  	trace_ext4_writepages_result(inode, wbc, ret,
-5f0663bb4a64f5 Dan Williams 2017-12-21  3006  				     nr_to_write - wbc->nr_to_write);
-7b208222f68458 Jan Kara     2024-06-11  3007  	ext4_writepages_up_read(inode->i_sb, alloc_ctx);
-5f0663bb4a64f5 Dan Williams 2017-12-21  3008  	return ret;
-5f0663bb4a64f5 Dan Williams 2017-12-21  3009  }
-5f0663bb4a64f5 Dan Williams 2017-12-21  3010  
-
-:::::: The code at line 2995 was first introduced by commit
-:::::: 5f0663bb4a64f588f0a2dd6d1be68d40f9af0086 ext4, dax: introduce ext4_dax_aops
-
-:::::: TO: Dan Williams <dan.j.williams@intel.com>
-:::::: CC: Dan Williams <dan.j.williams@intel.com>
+    31	
+    32	  It controls the scan period for the kernel thread to do the scanning.
+    33	  Higher resolution will be achieved with smaller value, but more CPU
+    34	  cycles will be consumed to do the scanning. The scanning won't be
+    35	  issued if 0 is set for the parameter and it's default setting. Writing
+    36	  to the file clears all statistics collected previously, even the scan
+    37	  period isn't changed.
+    38	
+    39	.. note::
+    40	   A rare race exists! ``scan_period_in_seconds`` is only visible thing to
+    41	   users. duration and sequence number are internal representation for
+    42	   developers, and they'd better not be seen by users to avoid be confused.
+    43	   When user updates ``scan_period_in_seconds`` file, the sequence number
+    44	   is increased and the duration is updated synchronously, as below figure
+    45	   shows:
+    46	
+    47	        OP           |       VALUE OF SCAN_PERIOD
+  > 48	   Initial value     | seq = 0,     duration = 0
+    49	   user update 120s  | seq = 1,     duration = 120 <---- last value kidled sees
+    50	   user update 120s  | seq = 2,     duration = 120 ---+
+    51	   ....              |                                | kidled may miss these
+    52	   ....              |                                | updates because busy
+    53	   user update 300s  | seq = 65536, duration = 300    |
+    54	   user update 300s  | seq = 0,     duration = 300 ---+
+    55	   user update 120s  | seq = 1,     duration = 120 <---- next value kidled sees
+    56	
+    57	   The race happens when ``scan_period_in_seconds`` is updated very fast in a
+    58	   very short period of time and kidled misses just 65536 * N (N = 1,2,3...)
+    59	   updates and the duration keeps the same. kidled won't clear previous
+    60	   statistics, but it won't be very odd due to the duration are the same at
+    61	   least.
+    62	
 
 -- 
 0-DAY CI Kernel Test Service
