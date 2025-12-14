@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB2D27466A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 06:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7C4145355
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 06:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765693364; cv=none; b=MMdXR3/lBa3rzkPMa6tIEC9uLq6WqPw3inRLjW2R4nlnWK4XKuxCTcV2HpQA27dsXtuf18QmxmaD2nJVdKXAR8VijgYkrIYVxQmAQMXQRlcCqDY0GEW2g8lAvOFP+YZvpqpg3LF0DzkYFnIsSi3e63bWAlphDlHJkPSrnJzLyy8=
+	t=1765693725; cv=none; b=EvleDdYPISPWVCD8ZNVxZJgrxxP7ySG18VfV0axyO5q8z7dDq+vD/pGRItLmxMYs4Kk5Koh5S4o0HWhEslDZ6U58/Ke9taA7S2vLJEXZHswyQr8Q+cH+zcDqntIacSLvJGz43T50WpIXlfx6QOiCXCVOEVJKY3fc/OrqgGSQRDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765693364; c=relaxed/simple;
-	bh=h9iZQMKqY8XCWgGVrtrNpYpVCSuI9z1Fj/wuunGD11c=;
+	s=arc-20240116; t=1765693725; c=relaxed/simple;
+	bh=O+sMEOXrkM/0L8+46rJni061dbikU34jQoCI+8zqx6I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E8qKce46OlnY/R1mv+HdpIc5PrQZMhIiJUN4KrlR7+0I0AN+LKELKIJy/N7MBPCTh+qG9oDfsZTyh7QwgL7oMcUwOtqZ/eV7FiIt2NloQQXXA5FdO67ziPGHzh9Vh+HjhjHrrbF9O3RhtWR0RYf9xxjUsdBnXhr+vxnloMnBJ64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RmL7XNTS; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=tXA9v5pN/QMr4vjn8H866iRN/j72mYo7fUcGLUm1yaqsOd6JFeh+CMQDaDRTw78so0L177q5KiSnOpquD62QLxJszaFPhJIqj8Rla5+TxX+Ki7Xz4whZuuf/82sAauOoLVA/IEqm67oujjJ8okfcUl6pG/5o1sTxjY1CneDZHcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ks91NzLP; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RmL7XNTS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ks91NzLP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765693363; x=1797229363;
+  t=1765693723; x=1797229723;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h9iZQMKqY8XCWgGVrtrNpYpVCSuI9z1Fj/wuunGD11c=;
-  b=RmL7XNTSMKT7v4UYwak3NLun0b4eB7MzprmIAbZQFXjJ7kH2WsC/AIN8
-   6waKN93CahoOuVclkVwqUf8cixn/czKXLioreJ9QCOh2nRWOYfb0HNlXV
-   i0DUK0JrAjTrDr7OyqsZdlwCt58RVh3SfcFfc/g0IVcnAkernvSfbgcuC
-   3zZBtwqLkElxPxa1n5dy02syfgYAaFk0Ga76iCsfkaZIkvc7+EwSVHf9Q
-   1GFOrQg909DEuq3C3twj7zp/0MqC7OpIL3vmmn5YaDSpDPkbX+zO8B8Sr
-   Tf2z6AGsM6E+BliQB91Yboigh/LRqR6DUJc4Z7ZMhIbKq5584lZblIfFc
-   Q==;
-X-CSE-ConnectionGUID: smJkgRQRTMmDUFdgoUPd2g==
-X-CSE-MsgGUID: N0ehIF60QCa6ultURbwixQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="66621361"
+  bh=O+sMEOXrkM/0L8+46rJni061dbikU34jQoCI+8zqx6I=;
+  b=Ks91NzLPBilWkPBTCYNRIC8220DHP7a7BqoI7EkyU4m8YA94TMbmc1Cj
+   ZtL1sHnwYn5ehMuebPRKQ9ps3e/79fvY+6kjaPHhZDc143Tdi+zhjDBnY
+   WpvifkgxzlzGwjcObvlB3ojgrbxowDutE8taGrIBNCEHp2sgt53jCdNyM
+   y4Qq4AgHHsRZz3tYw0TY7hqSywA5390Acdr66CWCZh2NU5MtLwaL8w5Km
+   cEuMVxLWdxkEsRIeMZtTvnK7YfVAyKtEdSnzTPEE13KwQxNe0tJTCOuIk
+   AfHG+Gv2eywzLDvJVrh6LtliMdh9v64Z70SraJtl/07wiHlpAGxMN5BDF
+   A==;
+X-CSE-ConnectionGUID: /hnfuSgBTD+nw94lXbxKLw==
+X-CSE-MsgGUID: CrlfkrTFRM+HfyEld6h4fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="85226166"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="66621361"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 22:22:42 -0800
-X-CSE-ConnectionGUID: nfGRhfiLQsu6Z6uOOYT9TA==
-X-CSE-MsgGUID: Ynko0XcTQfqTEcLxMn+zjg==
+   d="scan'208";a="85226166"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 22:28:43 -0800
+X-CSE-ConnectionGUID: PWEgqlOIQAa7G41QGTfDsA==
+X-CSE-MsgGUID: nuF37vWmTsuBkGA+J+s8AQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="202543376"
+   d="scan'208";a="197509500"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 13 Dec 2025 22:22:41 -0800
+  by orviesa008.jf.intel.com with ESMTP; 13 Dec 2025 22:28:42 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUfV8-000000002IK-3hUe;
-	Sun, 14 Dec 2025 06:22:38 +0000
-Date: Sun, 14 Dec 2025 07:22:05 +0100
+	id 1vUfax-000000002IW-08aQ;
+	Sun, 14 Dec 2025 06:28:39 +0000
+Date: Sun, 14 Dec 2025 07:28:04 +0100
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 50/50]
- drivers/block/virtio_blk.c:2602:25: warning: unused variable 'i'
-Message-ID: <202512140736.PDJQBtNA-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 40/40] mm/vmscan.c:997:15:
+ warning: no previous prototype for 'shrink_slab'
+Message-ID: <202512140735.mFuS8dbH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,120 +62,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   7c285f40a964b427534f3dab33b104ee9cab6245
-commit: 86ff9a5ab6a61894343af26f16f9439842b1bc5f [50/50] anolis: virtio-blk: add ring pair support
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251214/202512140736.PDJQBtNA-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   ebacb5ab3a1e5bf8dc788a29244f0e68d00a5bd6
+commit: 09ab235661116880b7ea9b4deb705802f2c19ab4 [40/40] ANDROID: vendor_hooks: export shrink_slab
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251214/202512140735.mFuS8dbH-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140736.PDJQBtNA-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140735.mFuS8dbH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140736.PDJQBtNA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140735.mFuS8dbH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/block/virtio_blk.c: In function 'virtblk_probe':
->> drivers/block/virtio_blk.c:2602:25: warning: unused variable 'i' [-Wunused-variable]
-    2602 |         int err, index, i;
-         |                         ^
+>> mm/vmscan.c:997:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
+     997 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         |               ^~~~~~~~~~~
 
 
-vim +/i +2602 drivers/block/virtio_blk.c
+vim +/shrink_slab +997 mm/vmscan.c
 
-  2597	
-  2598	static int virtblk_probe(struct virtio_device *vdev)
-  2599	{
-  2600		struct virtio_blk *vblk;
-  2601		struct request_queue *q;
-> 2602		int err, index, i;
-  2603	
-  2604		u32 v, blk_size, max_size, sg_elems, opt_io_size;
-  2605		u32 max_discard_segs = 0;
-  2606		u32 discard_granularity = 0;
-  2607		u16 min_io_size;
-  2608		u8 physical_block_exp, alignment_offset;
-  2609		unsigned int queue_depth;
-  2610		size_t max_dma_size;
-  2611	
-  2612		if (!vdev->config->get) {
-  2613			dev_err(&vdev->dev, "%s failure: config access disabled\n",
-  2614				__func__);
-  2615			return -EINVAL;
-  2616		}
-  2617	
-  2618		err = ida_alloc_range(&vd_index_ida, 0,
-  2619				      minor_to_index(1 << MINORBITS) - 1, GFP_KERNEL);
-  2620		if (err < 0)
-  2621			goto out;
-  2622		index = err;
-  2623	
-  2624		/* We need to know how many segments before we allocate. */
-  2625		err = virtio_cread_feature(vdev, VIRTIO_BLK_F_SEG_MAX,
-  2626					   struct virtio_blk_config, seg_max,
-  2627					   &sg_elems);
-  2628	
-  2629		/* We need at least one SG element, whatever they say. */
-  2630		if (err || !sg_elems)
-  2631			sg_elems = 1;
-  2632	
-  2633		/* Prevent integer overflows and honor max vq size */
-  2634		sg_elems = min_t(u32, sg_elems, VIRTIO_BLK_MAX_SG_ELEMS - 2);
-  2635	
-  2636		vdev->priv = vblk = kzalloc(sizeof(*vblk), GFP_KERNEL);
-  2637		if (!vblk) {
-  2638			err = -ENOMEM;
-  2639			goto out_free_index;
-  2640		}
-  2641	
-  2642		mutex_init(&vblk->vdev_mutex);
-  2643	
-  2644		vblk->vdev = vdev;
-  2645	
-  2646		INIT_WORK(&vblk->config_work, virtblk_config_changed_work);
-  2647	
-  2648		err = init_vq(vblk);
-  2649		if (err)
-  2650			goto out_free_vblk;
-  2651	
-  2652		/* Default queue sizing is to fill the ring. */
-  2653		if (!virtblk_queue_depth) {
-  2654			queue_depth = vblk->vqs[0].vq->num_free;
-  2655			/* ... but without indirect descs, we use 2 descs per req */
-  2656			if (!virtio_has_feature(vdev, VIRTIO_RING_F_INDIRECT_DESC))
-  2657				queue_depth /= 2;
-  2658		} else {
-  2659			queue_depth = virtblk_queue_depth;
-  2660		}
-  2661	
-  2662		memset(&vblk->tag_set, 0, sizeof(vblk->tag_set));
-  2663	#ifdef CONFIG_VIRTIO_BLK_RING_PAIR
-  2664		vblk->tag_set.ops = vblk->ring_pair ? &virtio_mq_pair_ops :
-  2665						      &virtio_mq_ops;
-  2666		vblk->tag_set.nr_hw_queues = vblk->ring_pair ? vblk->num_vqs / VIRTBLK_RING_NUM :
-  2667							vblk->num_vqs;
-  2668	#else
-  2669		vblk->tag_set.ops = &virtio_mq_ops;
-  2670		vblk->tag_set.nr_hw_queues = vblk->num_vqs;
-  2671	#endif
-  2672		vblk->tag_set.queue_depth = queue_depth;
-  2673		vblk->tag_set.numa_node = NUMA_NO_NODE;
-  2674		vblk->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
-  2675		/* For bidirectional passthrough vblk request, both WRITE and READ
-  2676		 * operations need pre-alloc inline SGs. So we should prealloc twice
-  2677		 * the size than original ways. Due to the inability to predict whether
-  2678		 * a request is bidirectional, there may be memory wastage, but won't
-  2679		 * be significant.
-  2680		 */
-  2681		vblk->tag_set.cmd_size =
-  2682			sizeof(struct virtblk_req) +
-  2683			sizeof(struct scatterlist) * 2 * VIRTIO_BLK_INLINE_SG_CNT;
-  2684		vblk->tag_set.driver_data = vblk;
-  2685		vblk->tag_set.nr_maps = 1;
-  2686		if (vblk->io_queues[HCTX_TYPE_POLL])
-  2687			vblk->tag_set.nr_maps = 3;
-  2688	
+   976	
+   977	/**
+   978	 * shrink_slab - shrink slab caches
+   979	 * @gfp_mask: allocation context
+   980	 * @nid: node whose slab caches to target
+   981	 * @memcg: memory cgroup whose slab caches to target
+   982	 * @priority: the reclaim priority
+   983	 *
+   984	 * Call the shrink functions to age shrinkable caches.
+   985	 *
+   986	 * @nid is passed along to shrinkers with SHRINKER_NUMA_AWARE set,
+   987	 * unaware shrinkers will receive a node id of 0 instead.
+   988	 *
+   989	 * @memcg specifies the memory cgroup to target. Unaware shrinkers
+   990	 * are called only if it is the root cgroup.
+   991	 *
+   992	 * @priority is sc->priority, we take the number of objects and >> by priority
+   993	 * in order to get the scan target.
+   994	 *
+   995	 * Returns the number of reclaimed slab objects.
+   996	 */
+ > 997	unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+   998					 struct mem_cgroup *memcg,
+   999					 int priority)
+  1000	{
+  1001		unsigned long ret, freed = 0;
+  1002		struct shrinker *shrinker;
+  1003		bool bypass = false;
+  1004	
+  1005		trace_android_vh_shrink_slab_bypass(gfp_mask, nid, memcg, priority, &bypass);
+  1006		if (bypass)
+  1007			return 0;
+  1008	
+  1009		/*
+  1010		 * The root memcg might be allocated even though memcg is disabled
+  1011		 * via "cgroup_disable=memory" boot parameter.  This could make
+  1012		 * mem_cgroup_is_root() return false, then just run memcg slab
+  1013		 * shrink, but skip global shrink.  This may result in premature
+  1014		 * oom.
+  1015		 */
+  1016		if (!mem_cgroup_disabled() && !mem_cgroup_is_root(memcg))
+  1017			return shrink_slab_memcg(gfp_mask, nid, memcg, priority);
+  1018	
+  1019		if (!down_read_trylock(&shrinker_rwsem))
+  1020			goto out;
+  1021	
+  1022		list_for_each_entry(shrinker, &shrinker_list, list) {
+  1023			struct shrink_control sc = {
+  1024				.gfp_mask = gfp_mask,
+  1025				.nid = nid,
+  1026				.memcg = memcg,
+  1027			};
+  1028	
+  1029			ret = do_shrink_slab(&sc, shrinker, priority);
+  1030			if (ret == SHRINK_EMPTY)
+  1031				ret = 0;
+  1032			freed += ret;
+  1033			/*
+  1034			 * Bail out if someone want to register a new shrinker to
+  1035			 * prevent the registration from being stalled for long periods
+  1036			 * by parallel ongoing shrinking.
+  1037			 */
+  1038			if (rwsem_is_contended(&shrinker_rwsem)) {
+  1039				freed = freed ? : 1;
+  1040				break;
+  1041			}
+  1042		}
+  1043	
+  1044		up_read(&shrinker_rwsem);
+  1045	out:
+  1046		cond_resched();
+  1047		return freed;
+  1048	}
+  1049	
 
 -- 
 0-DAY CI Kernel Test Service
