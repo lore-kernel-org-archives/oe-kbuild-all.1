@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA5B1DE4EF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 04:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1251DD9AC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 04:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765685266; cv=none; b=I/zk054dO+9Owouz3VTF2UfKwsB5/1dBxwZuX6PM+LIp2WaVva42AVTbSxnleGgc6qd7hKWYiazDqRJzeuns2rkWPOhUc6Quke6DbWQtjKVgS6DYb7Q0RcKhsI+rNGuDLgS6e41mgYtDzJuV6vdZD1iOPuZdtmksq1cN+6yS/yw=
+	t=1765685330; cv=none; b=U1HE5/TY0/a/Ri+/XPnB1nm/7j0dy7012847821EvkaOdegBedXP6cc9g105E1tW83cIK1hc9t/bmQnQSdcRRt1VzNv+hA0COoryqP5M8+MkagFXJ0+I6+HLOYKxBgDTPcNqe9tAeSFT15RRRI55ybuqWw21eOU19RDkgZBjF5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765685266; c=relaxed/simple;
-	bh=k0sNsvFN/A/RjacIJgkVRwbV18wbyG+x8L7fq+7v8DE=;
+	s=arc-20240116; t=1765685330; c=relaxed/simple;
+	bh=JB+zJdp6T+/qRCFiiqlXd1XL7rfKfM2w7BeD7JyTj10=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iEhMumIS7Cb+Fccuf3Ob0DyQ3pARLviGNX8NVrHyTfzCOm1yw5xE/tgY8y5SxUKQMyzSqqt0m5EmEnYlu6A8J0AvPb9X3kRtv5AESHtRxSMVhg1Gdf6A+NKmiDUtTD5x5G8LrIMBKWPG057SF2iKGBdPp/vz6jXMBP7RXizaquA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nflXKXHN; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=q9dyqxoawM3cwavxq4/XauWXKekZX+gzvTeU/O0xgZy8joF//v9KnHG6434Lo5yrJP/HJdT6Unl2MBR7GZuBYNr+zpC9kaW9Kk6yILxTY1l40kREFucVhi6962PRkgc/Z7mt7a7LhTMzyURb8abwQmvqI4myoVJbOES7jgbufWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFMxEHIA; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nflXKXHN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFMxEHIA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765685264; x=1797221264;
+  t=1765685329; x=1797221329;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k0sNsvFN/A/RjacIJgkVRwbV18wbyG+x8L7fq+7v8DE=;
-  b=nflXKXHNIKQt2fTvciQx2g3mV/Oj7q3sZ6SqRnJLDvuaJKjIqqnfuiG4
-   ctd+hFqk+FKmVmYU8T6JeGCkL0xbmJbRiDiP7F3f7TVu+B2hr1mZk/DNm
-   Gv8fsnbCMVPqQzcevrmtdOsiV0R2wvVqh67UhLK7xPg9Kt5cIKeNzU9PZ
-   ccyzqkzUmFXpdFKeox2u+hk75OYkESeci+s307D4ElfhQM7jSFzwoujXx
-   5YjPiTtrCoNQX/vNCsVzBv0cQl3VcAREdt3JrFblfwZbGNBlQya9Pc0Wo
-   0/aKRKRNAIAevr/z6ymOGBRm0A62++sH6iBTJ7BVa3ObQ0sYdG4RLqOOG
-   g==;
-X-CSE-ConnectionGUID: D0iYeJgaQ1O2dOCK6sNS8A==
-X-CSE-MsgGUID: RrjjKDUeRS23qeYd2gYrmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="67701629"
+  bh=JB+zJdp6T+/qRCFiiqlXd1XL7rfKfM2w7BeD7JyTj10=;
+  b=oFMxEHIAkXgvYiKSDeHaJ9whAtz2MXNaebQ/iq0gm/+GYNAQZpC28MWR
+   IkY3rTdE0EejN7frs7Uk9o6dd4ewHseCtEJK62yd6I1j2VDRAiOkWMtDo
+   jqgp1C8GYnXbMtQd0mKqtp0NhgRl3x8Lcnoz7/87I/EV1tx4kbAa/dqpP
+   LJzAaBRaKqRuuxnfGf3ka+H05zstT20AXT8OxlEFmbkZpP5fZyMltnFoE
+   EAn1uU3Gf4VmZRABnktaGNRyOAEByo9dp7nVOvlB9QVQsz1ljB9KM+1gK
+   ooHdS0noCMUJxGOnB2U0RtkOZq0f2Rg02u0Vtqx/X2pSMTvYr15Z0WT5e
+   Q==;
+X-CSE-ConnectionGUID: iOLgaCW6S3yI7vWvk9A1ZQ==
+X-CSE-MsgGUID: LOG3b1zDTpmefLTTbcFwDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="79087699"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="67701629"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 20:07:41 -0800
-X-CSE-ConnectionGUID: I5dxURjhQEmrBOTygTEovg==
-X-CSE-MsgGUID: itiZretrT6+XTLCk4TPj/A==
+   d="scan'208";a="79087699"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 20:08:49 -0800
+X-CSE-ConnectionGUID: 1bPOF8hkRT27GIO5WaENng==
+X-CSE-MsgGUID: 8wDC3OY9TEajCl5O5ykJeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="202528733"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 13 Dec 2025 20:07:40 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="197054895"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 13 Dec 2025 20:08:47 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUdOT-000000002Go-3Wjr;
-	Sun, 14 Dec 2025 04:07:37 +0000
-Date: Sun, 14 Dec 2025 05:07:24 +0100
+	id 1vUdPZ-000000008YV-09Ko;
+	Sun, 14 Dec 2025 04:08:45 +0000
+Date: Sun, 14 Dec 2025 12:08:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 50/50] mm/memory.c:5355:12: warning:
- no previous prototype for 'set_zero_pte'
-Message-ID: <202512140558.mhXFbqKv-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1941/1941]
+ drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:159:34: warning:
+ returning 'void *' from a function with return type 'int' makes integer from
+ pointer without a cast
+Message-ID: <202512141252.2tD3yXYS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,97 +64,179 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   7c285f40a964b427534f3dab33b104ee9cab6245
-commit: 9e140b4929df571403945b797b1e898bf574619c [50/50] anolis: mm: support filling in zero page if read fault in file hole
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251214/202512140558.mhXFbqKv-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140558.mhXFbqKv-lkp@intel.com/reproduce)
+Hi wangzhimin,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5a399b91821faeec2466751db2d714b24f8eb17c
+commit: af48889301db8235deab66a8822e3e00195ca14b [1941/1941] dwmac:add phytium dwmac driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251214/202512141252.2tD3yXYS-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512141252.2tD3yXYS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140558.mhXFbqKv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512141252.2tD3yXYS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/memory.c:5355:12: warning: no previous prototype for 'set_zero_pte' [-Wmissing-prototypes]
-    5355 | vm_fault_t set_zero_pte(struct vm_fault *vmf, struct folio *folio,
-         |            ^~~~~~~~~~~~
---
->> mm/memory.c:5357: warning: Function parameter or member 'vmf' not described in 'set_zero_pte'
->> mm/memory.c:5357: warning: Function parameter or member 'folio' not described in 'set_zero_pte'
->> mm/memory.c:5357: warning: Function parameter or member 'page' not described in 'set_zero_pte'
-   mm/memory.c:5357: warning: Function parameter or member 'nr' not described in 'set_zero_pte'
->> mm/memory.c:5357: warning: Function parameter or member 'addr' not described in 'set_zero_pte'
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c: In function 'phytium_dwmac_probe':
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:157:29: warning: ordered comparison of pointer with integer zero [-Wextra]
+     157 |         if (stmmac_res.addr < 0) {
+         |                             ^
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:159:34: warning: returning 'void *' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
+     159 |                 return stmmac_res.addr;
+         |                        ~~~~~~~~~~^~~~~
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c: At top level:
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:172:5: warning: no previous prototype for 'phytium_dwmac_remove' [-Wmissing-prototypes]
+     172 | int phytium_dwmac_remove(struct platform_device *pdev)
+         |     ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/set_zero_pte +5355 mm/memory.c
+vim +159 drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c
 
-  5351	
-  5352	/**
-  5353	 * set_zero_pte - Set zero page PTE to point to pages in a folio.
-  5354	 */
-> 5355	vm_fault_t set_zero_pte(struct vm_fault *vmf, struct folio *folio,
-  5356			struct page *page, unsigned int nr, unsigned long addr)
-> 5357	{
-  5358		struct vm_area_struct *vma = vmf->vma;
-  5359		struct folio *new_folio;
-  5360		bool uffd_wp = vmf_orig_pte_uffd_wp(vmf);
-  5361		bool write = vmf->flags & FAULT_FLAG_WRITE;
-  5362		bool prefault = !in_range(vmf->address, addr, nr * PAGE_SIZE);
-  5363		pte_t entry;
-  5364	
-  5365		flush_icache_pages(vma, page, nr);
-  5366		entry = mk_pte(page, vma->vm_page_prot);
-  5367	
-  5368		if (prefault && arch_wants_old_prefaulted_pte())
-  5369			entry = pte_mkold(entry);
-  5370		else
-  5371			entry = pte_sw_mkyoung(entry);
-  5372	
-  5373		if (write)
-  5374			entry = maybe_mkwrite(pte_mkdirty(entry), vma);
-  5375		if (unlikely(uffd_wp))
-  5376			entry = pte_mkuffd_wp(entry);
-  5377	
-  5378		/*
-  5379		 * If it's zero page, vmf->ptl should be held to avoid other VMAs that share
-  5380		 * the same xarray do the same page fault simultaneously, which may
-  5381		 * leads to wrong semantic of MMAP_PRIVATE.
-  5382		 *
-  5383		 * E.g:
-  5384		 *          MMAP_PRIVATE                         MMAP_SHARED
-  5385		 *          do_read_fault
-  5386		 *						do_shared_fault
-  5387		 *	    check pagecache
-  5388		 *						   alloc_page
-  5389		 *						add_to_pagecache
-  5390		 *					      try_to_unmap_zeropage
-  5391		 *		set_pte
-  5392		 *
-  5393		 * In this scenario, zero page can not be unmapped.
-  5394		 * If found the page cache entry here, corresponding page cache
-  5395		 * has been set. Thus retry it to get the valid page cache not
-  5396		 * the zero page.
-  5397		 */
-  5398		new_folio = filemap_get_entry(vma->vm_file->f_mapping, vmf->pgoff);
-  5399	
-  5400		if (new_folio) {
-  5401			folio_put(new_folio);
-  5402			return VM_FAULT_RETRY;
-  5403		}
-  5404	
-  5405		entry = pte_mkspecial(entry);
-  5406	
-  5407		set_ptes(vma->vm_mm, addr, vmf->pte, entry, nr);
-  5408	
-  5409		/* no need to invalidate: a not-present page won't be cached */
-  5410		update_mmu_cache_range(vmf, vma, addr, vmf->pte, nr);
-  5411	
-  5412		return 0;
-  5413	}
-  5414	
+    32	
+    33	static int phytium_dwmac_probe(struct platform_device *pdev)
+    34	{
+    35		struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
+    36		struct plat_stmmacenet_data *plat;
+    37		struct stmmac_resources stmmac_res;
+    38		struct device_node *np = pdev->dev.of_node;
+    39		struct resource *res;
+    40		u64 clk_freq;
+    41		char clk_name[20];
+    42		int ret;
+    43	
+    44		plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
+    45		if (!plat)
+    46			return -ENOMEM;
+    47	
+    48		plat->dma_cfg = devm_kzalloc(&pdev->dev, sizeof(*plat->dma_cfg),
+    49					     GFP_KERNEL);
+    50		if (!plat->dma_cfg)
+    51			return -ENOMEM;
+    52	
+    53		plat->axi = devm_kzalloc(&pdev->dev, sizeof(*plat->axi), GFP_KERNEL);
+    54		if (!plat->axi)
+    55			return -ENOMEM;
+    56	
+    57		plat->interface = device_get_phy_mode(&pdev->dev);
+    58		if (plat->interface < 0)
+    59			return plat->interface;
+    60	
+    61		/* Configure PHY if using device-tree */
+    62		if (pdev->dev.of_node)
+    63			plat->phy_node = of_parse_phandle(np, "phy-handle", 0);
+    64	
+    65		if (pdev->dev.of_node) {
+    66			plat->bus_id = of_alias_get_id(np, "ethernet");
+    67			if (plat->bus_id < 0)
+    68				plat->bus_id = 0;
+    69		} else if (fwnode_property_read_u32(fwnode, "bus_id", &plat->bus_id)) {
+    70			plat->bus_id = 2;
+    71		}
+    72	
+    73		plat->phy_addr = -1;
+    74		plat->clk_csr = -1;
+    75		plat->has_gmac = 1;
+    76		plat->enh_desc = 1;
+    77		plat->bugged_jumbo = 1;
+    78		plat->pmt = 1;
+    79		plat->force_sf_dma_mode = 1;
+    80	
+    81		if (fwnode_property_read_u32(fwnode, "max-speed", &plat->max_speed))
+    82			plat->max_speed = -1;
+    83	
+    84		if (fwnode_property_read_u32(fwnode, "max-frame-size", &plat->maxmtu))
+    85			plat->maxmtu = JUMBO_LEN;
+    86	
+    87		if (fwnode_property_read_u32(fwnode, "snps,multicast-filter-bins",
+    88					     &plat->multicast_filter_bins))
+    89			plat->multicast_filter_bins = HASH_TABLE_SIZE;
+    90	
+    91		if (fwnode_property_read_u32(fwnode, "snps,perfect-filter-entries",
+    92					     &plat->unicast_filter_entries))
+    93			plat->unicast_filter_entries = 1;
+    94	
+    95		if (fwnode_property_read_u32(fwnode, "tx-fifo-depth",
+    96					     &plat->tx_fifo_size))
+    97			plat->tx_fifo_size = 0x1000;
+    98	
+    99		if (fwnode_property_read_u32(fwnode, "rx-fifo-depth",
+   100					     &plat->rx_fifo_size))
+   101			plat->rx_fifo_size = 0x1000;
+   102	
+   103		if (phytium_dwmac_acpi_phy(plat, fwnode, &pdev->dev))
+   104			return -ENODEV;
+   105	
+   106		plat->rx_queues_to_use = 1;
+   107		plat->tx_queues_to_use = 1;
+   108		plat->rx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
+   109		plat->tx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
+   110	
+   111		if (fwnode_property_read_u64(fwnode, "clock-frequency", &clk_freq))
+   112			clk_freq = 125000000;
+   113	
+   114		/* Set system clock */
+   115		snprintf(clk_name, sizeof(clk_name), "%s-%d", "stmmaceth",
+   116			 plat->bus_id);
+   117	
+   118		plat->stmmac_clk = clk_register_fixed_rate(&pdev->dev, clk_name,
+   119							   NULL, 0, clk_freq);
+   120		if (IS_ERR(plat->stmmac_clk)) {
+   121			dev_warn(&pdev->dev, "Fail to register stmmac-clk\n");
+   122			plat->stmmac_clk = NULL;
+   123		}
+   124	
+   125		ret = clk_prepare_enable(plat->stmmac_clk);
+   126		if (ret) {
+   127			clk_unregister_fixed_rate(plat->stmmac_clk);
+   128			return ret;
+   129		}
+   130	
+   131		plat->clk_ptp_rate = clk_get_rate(plat->stmmac_clk);
+   132		plat->clk_ptp_ref = NULL;
+   133	
+   134		if (fwnode_property_read_u32(fwnode, "snps,pbl", &plat->dma_cfg->pbl))
+   135			plat->dma_cfg->pbl = 16;
+   136	
+   137		fwnode_property_read_u32(fwnode, "snps,txpbl", &plat->dma_cfg->txpbl);
+   138		fwnode_property_read_u32(fwnode, "snps,rxpbl", &plat->dma_cfg->rxpbl);
+   139	
+   140		plat->dma_cfg->pblx8 = !fwnode_property_read_bool(fwnode,
+   141								  "snps,no-pbl-x8");
+   142		plat->dma_cfg->aal = fwnode_property_read_bool(fwnode, "snps,aal");
+   143		plat->dma_cfg->fixed_burst = fwnode_property_read_bool(fwnode,
+   144								       "snps,fixed-burst");
+   145		plat->dma_cfg->mixed_burst = fwnode_property_read_bool(fwnode,
+   146								       "snps,mixed-burst");
+   147	
+   148		plat->axi->axi_lpi_en = false;
+   149		plat->axi->axi_xit_frm = false;
+   150		plat->axi->axi_wr_osr_lmt = 7;
+   151		plat->axi->axi_rd_osr_lmt = 7;
+   152		plat->axi->axi_blen[0] = 16;
+   153	
+   154		memset(&stmmac_res, 0, sizeof(stmmac_res));
+   155		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   156		stmmac_res.addr = devm_ioremap_resource(&pdev->dev, res);
+   157		if (stmmac_res.addr < 0) {
+   158			dev_err(&pdev->dev, "resource map failed.\n");
+ > 159			return stmmac_res.addr;
+   160		}
+   161		stmmac_res.irq = platform_get_irq(pdev, 0);
+   162		if (stmmac_res.irq < 0) {
+   163			dev_err(&pdev->dev, "IRQ not found.\n");
+   164			return -ENXIO;
+   165		}
+   166		stmmac_res.wol_irq = stmmac_res.irq;
+   167		stmmac_res.lpi_irq = -1;
+   168	
+   169		return  stmmac_dvr_probe(&pdev->dev, plat, &stmmac_res);
+   170	}
+   171	
 
 -- 
 0-DAY CI Kernel Test Service
