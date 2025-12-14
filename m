@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05071DE4E1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 19:35:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F3C330DEA7
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 19:35:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765740945; cv=none; b=jkf5udc/Zmq14KDipdLF0NIhoovNV6Zoq3WyPeJ6xUYiGuYV3adPwFXP7mHMAUcWZeN6TlpuNQy/14hZvanYhTnqHwtNu/el+0vi3gmSyktB13Ao9GegchYMBYa48sqDRTdrk9SXXf7u3I6vg9y59nzChIs2mOWrM30gm/h022I=
+	t=1765740946; cv=none; b=li4w/7MEDAPvowXwejslfoLzwB6cIxfz2h4ezMqw+9J9fwif5onInIZcPtZFoXd7MPXZMKOky/TeyLlHACrEiJDhmwz53G8+LGUyZ/6KHgZxsILhA9g6YfjK86aWi2nmxK0TkGZjdDjkKbb3MbC6i2j1NheL33PMaCgwj0UPaSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765740945; c=relaxed/simple;
-	bh=AguTOqhGTBZt/VpvUNWLPumlhCdC9dnevYbOgmS5eZk=;
+	s=arc-20240116; t=1765740946; c=relaxed/simple;
+	bh=JM0APJ9Rjj3qsscttPUaIZvYntI0tCYVM9R3lS+pK1w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lAIDEFJLgks2YgeGDCw2WbEEB5+pyaeQ4lkx4tSqwhHTTFB+CG4PRNlwG/IyPM4/sVQMUDV3n3MXCa5jSVRGfJM0LhRUas/lJCZkFf6m4EEs4CqElGNXmAFaWY4Pi2kQF3Ww2jtIUIMSrpvFRBxz3T8gdr6nwZTMaRj3O3rbFVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5Xw5Q42; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=sziIRQtrWkYk6Z2fBFoIiFH8bEvLebFxvO312vScVuAA8eTatGHEOPBh3ksQ0YLsMRfA+2ByUE3AiygIAr8wI741U/86gXDAsSfR7eh4xOwFGjDoKN3uStWaUO3kwISzoPfovOKSzaY5c2pSyFtRdEVOxHdXdAP0GLvRC7AOs8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R/cgbKHA; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5Xw5Q42"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R/cgbKHA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765740942; x=1797276942;
+  t=1765740945; x=1797276945;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AguTOqhGTBZt/VpvUNWLPumlhCdC9dnevYbOgmS5eZk=;
-  b=g5Xw5Q42Ge/KHzYmBLjgEi0qKQluBQITAe7s0pOYe6KqvmixAQM6r6Vz
-   Dr1jlwW4g9P9c92bhp/UytkefUyy99Y+cX3KcGx7dtWAPGYxmp3UTfGgA
-   8IYZNKgmlznk/layuvNJJC3vRQUZWkOrpNjhXfvDIy2mQM67DUuexo13X
-   5l/L81Dm6tGAfov5XbPnN+FS9Ar4ko9cOsirRWuuhwg5wUAX+EkqQXw9N
-   aqwvGdf2pu+5BkIKXNUfauAp7mdfAUabfeVCXyCSqJIoudCzHN9L7V3zv
-   NSWXHa7laRm4dsJzlE2pRkF6PunzG5Yp83iEI06gz7cWk0e7Sp8UjW40i
-   g==;
-X-CSE-ConnectionGUID: hXRiH02qTYSPlU/hl4cPXg==
-X-CSE-MsgGUID: tN0jiNU+S02jeCU590Qm2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67691487"
+  bh=JM0APJ9Rjj3qsscttPUaIZvYntI0tCYVM9R3lS+pK1w=;
+  b=R/cgbKHAeaShvScrE4qrQhTIXQ0eKVAzSQPcvWAS/KupeRV2oR9BPdMj
+   VtMV6Wr4jA0NfDGZgGrOCozVWdLjUvflg5E0aq6gsK5JVRvgE7FcaGs34
+   CEr/H/p4J+QQory3uX7GRH5OOG2eLWNHTP3JXT3afI9ztFix+QXUH5L94
+   vrWCnqbBiwROwOYW3FgK1fEvtMXsHYbr4nOB6AnAaiDJFS64tv3eUBBAu
+   8k6DYOUJ7CV79/Xf2Ei4aSHh/T5xTiLT41JIXJuoD18G6u6/GfKuQcDNC
+   U0ZZDyX1HQhAlqnKpJViCIW1nOC/3AOk8eTbr2jEMbiBcnBsmvGoMak7M
+   A==;
+X-CSE-ConnectionGUID: v93jdlZZQmKBlkQviaeuDA==
+X-CSE-MsgGUID: zL+uaNWhR5GcpS07OVukow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67691488"
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="67691487"
+   d="scan'208";a="67691488"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 11:35:41 -0800
-X-CSE-ConnectionGUID: TbPzUY/5QjWmzmGHgPVShQ==
-X-CSE-MsgGUID: yhE57HgfRcKo+znXr98MKQ==
+X-CSE-ConnectionGUID: viVbYo9MR9mzGq1w4pE7Ow==
+X-CSE-MsgGUID: /dWMQIvJRXGRU5NGs4OrlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="228621682"
+   d="scan'208";a="228621683"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 14 Dec 2025 11:35:40 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUrsY-000000009Jh-0OYj;
+	id 1vUrsY-000000009Jj-0SyD;
 	Sun, 14 Dec 2025 19:35:38 +0000
-Date: Mon, 15 Dec 2025 03:35:07 +0800
+Date: Mon, 15 Dec 2025 03:35:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 0/40] io_uring/io_uring.c:498:57:
- sparse: sparse: incorrect type in argument 3 (different base types)
-Message-ID: <202512150356.hEoEJed0-lkp@intel.com>
+To: Roman Kisel <romank@linux.microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Wei Liu <wei.liu@kernel.org>, Tianyu Lan <tiala@microsoft.com>,
+	Michael Kelley <mhklinux@outlook.com>
+Subject: drivers/hv/hv.c:365:31: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202512150359.fMdmbddk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +64,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   ebacb5ab3a1e5bf8dc788a29244f0e68d00a5bd6
-commit: ff46a46b7a30dd59513d7f33dfdd06553843b11d [0/40] io_uring: pass in EPOLL_URING_WAKE for eventfd signaling and wakeups
-config: x86_64-randconfig-121-20251212 (https://download.01.org/0day-ci/archive/20251215/202512150356.hEoEJed0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150356.hEoEJed0-lkp@intel.com/reproduce)
+Hi Roman,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+commit: 163224c189e8b679ce919aa64ccabb7a992ca2d1 Drivers: hv: Rename fields for SynIC message and event pages
+date:   4 weeks ago
+config: x86_64-randconfig-123-20251214 (https://download.01.org/0day-ci/archive/20251215/202512150359.fMdmbddk-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150359.fMdmbddk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512150356.hEoEJed0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512150359.fMdmbddk-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   io_uring/io_uring.c: note: in included file (through io_uring/io_uring.h):
-   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
-   io_uring/io_uring.c: note: in included file (through include/trace/events/io_uring.h):
-   include/linux/io_uring_types.h:151:37: sparse: sparse: array of flexible structures
->> io_uring/io_uring.c:498:57: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int mask @@     got restricted __poll_t [usertype] @@
-   io_uring/io_uring.c:498:57: sparse:     expected unsigned int mask
-   io_uring/io_uring.c:498:57: sparse:     got restricted __poll_t [usertype]
-   io_uring/io_uring.c:534:57: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int mask @@     got restricted __poll_t [usertype] @@
-   io_uring/io_uring.c:534:57: sparse:     expected unsigned int mask
-   io_uring/io_uring.c:534:57: sparse:     got restricted __poll_t [usertype]
-   io_uring/io_uring.c:598:6: sparse: sparse: context imbalance in 'io_cq_unlock_post' - unexpected unlock
-   io_uring/io_uring.c:604:13: sparse: sparse: context imbalance in '__io_cqring_overflow_flush' - wrong count at exit
-   io_uring/io_uring.c:814:6: sparse: sparse: context imbalance in 'io_post_aux_cqe' - wrong count at exit
-   io_uring/io_uring.c:864:6: sparse: sparse: context imbalance in 'io_req_complete_post' - wrong count at exit
-   io_uring/io_uring.c:982:13: sparse: sparse: context imbalance in '__io_req_find_next_prep' - wrong count at exit
+   drivers/hv/hv.c:282:26: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/hv/hv.c:301:26: sparse: sparse: cast removes address space '__iomem' of expression
+>> drivers/hv/hv.c:365:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *hyp_synic_message_page @@
+   drivers/hv/hv.c:365:31: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/hv/hv.c:365:31: sparse:     got void *hyp_synic_message_page
+>> drivers/hv/hv.c:377:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *hyp_synic_event_page @@
+   drivers/hv/hv.c:377:31: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/hv/hv.c:377:31: sparse:     got void *hyp_synic_event_page
 
-vim +498 io_uring/io_uring.c
+vim +365 drivers/hv/hv.c
 
-   490	
-   491	
-   492	static void io_eventfd_ops(struct rcu_head *rcu)
-   493	{
-   494		struct io_ev_fd *ev_fd = container_of(rcu, struct io_ev_fd, rcu);
-   495		int ops = atomic_xchg(&ev_fd->ops, 0);
-   496	
-   497		if (ops & BIT(IO_EVENTFD_OP_SIGNAL_BIT))
- > 498			eventfd_signal_mask(ev_fd->cq_ev_fd, 1, EPOLL_URING_WAKE);
-   499	
-   500		/* IO_EVENTFD_OP_FREE_BIT may not be set here depending on callback
-   501		 * ordering in a race but if references are 0 we know we have to free
-   502		 * it regardless.
-   503		 */
-   504		if (atomic_dec_and_test(&ev_fd->refs)) {
-   505			eventfd_ctx_put(ev_fd->cq_ev_fd);
-   506			kfree(ev_fd);
-   507		}
-   508	}
-   509	
+   337	
+   338	void hv_synic_disable_regs(unsigned int cpu)
+   339	{
+   340		struct hv_per_cpu_context *hv_cpu =
+   341			per_cpu_ptr(hv_context.cpu_context, cpu);
+   342		union hv_synic_sint shared_sint;
+   343		union hv_synic_simp simp;
+   344		union hv_synic_siefp siefp;
+   345		union hv_synic_scontrol sctrl;
+   346	
+   347		shared_sint.as_uint64 = hv_get_msr(HV_MSR_SINT0 + VMBUS_MESSAGE_SINT);
+   348	
+   349		shared_sint.masked = 1;
+   350	
+   351		/* Need to correctly cleanup in the case of SMP!!! */
+   352		/* Disable the interrupt */
+   353		hv_set_msr(HV_MSR_SINT0 + VMBUS_MESSAGE_SINT, shared_sint.as_uint64);
+   354		hv_enable_coco_interrupt(cpu, vmbus_interrupt, false);
+   355	
+   356		simp.as_uint64 = hv_get_msr(HV_MSR_SIMP);
+   357		/*
+   358		 * In Isolation VM, sim and sief pages are allocated by
+   359		 * paravisor. These pages also will be used by kdump
+   360		 * kernel. So just reset enable bit here and keep page
+   361		 * addresses.
+   362		 */
+   363		simp.simp_enabled = 0;
+   364		if (ms_hyperv.paravisor_present || hv_root_partition()) {
+ > 365			iounmap(hv_cpu->hyp_synic_message_page);
+   366			hv_cpu->hyp_synic_message_page = NULL;
+   367		} else {
+   368			simp.base_simp_gpa = 0;
+   369		}
+   370	
+   371		hv_set_msr(HV_MSR_SIMP, simp.as_uint64);
+   372	
+   373		siefp.as_uint64 = hv_get_msr(HV_MSR_SIEFP);
+   374		siefp.siefp_enabled = 0;
+   375	
+   376		if (ms_hyperv.paravisor_present || hv_root_partition()) {
+ > 377			iounmap(hv_cpu->hyp_synic_event_page);
+   378			hv_cpu->hyp_synic_event_page = NULL;
+   379		} else {
+   380			siefp.base_siefp_gpa = 0;
+   381		}
+   382	
+   383		hv_set_msr(HV_MSR_SIEFP, siefp.as_uint64);
+   384	
+   385		/* Disable the global synic bit */
+   386		sctrl.as_uint64 = hv_get_msr(HV_MSR_SCONTROL);
+   387		sctrl.enable = 0;
+   388		hv_set_msr(HV_MSR_SCONTROL, sctrl.as_uint64);
+   389	
+   390		if (vmbus_irq != -1)
+   391			disable_percpu_irq(vmbus_irq);
+   392	}
+   393	
 
 -- 
 0-DAY CI Kernel Test Service
