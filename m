@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B630021FF4A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 20:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26C5314A8E;
+	Sun, 14 Dec 2025 21:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765745927; cv=none; b=MTyScy0Pv4Zl4MHfgSeiLKVG+v1r+hTnWgQUQAkzA+cU5KHz39rnNaYhG7Cl/JlRDYr/pkh9QjVO8wYZM8aAo0FICpbY/ON7AZN/EmAlvG6IfbO11JIc3Ki1xVIw2+m1OOhq0/INgjkM2mfIQBcViubnAfze+dwxIsCdGi5eX1U=
+	t=1765747313; cv=none; b=X4sGm34mOahRK8CjSrd7NSviJCzkpdbkuipr0VBTyCix7AH8KhGLP2Ar9UjhAQ7ra2DzsEp6BC4whqT91xmLpctFsxF3r1Zysga6VXGn3bzqF31cyfWN1xV3+YszO7waNtdbthhVoxvkAcNA1chQmhxYBYHDyFtR161D4jkEh5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765745927; c=relaxed/simple;
-	bh=YOnA0CDjHzDVsfBamKRtwix157n3B895BUNPNAVx6BU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AJMCCth4eU6XUpZhusw3DgOeZv6IcoXOOv/+f0JDjYh+mfbhUvMD/t9Oco69MHO4a6EbafAV4uKsNg9WfX0+IR4qULRleGnKHpx+tFO9wrBlGF4b5QASuiQpGHsDUJFG9UOktQK9gLbr78XrLjALYSwGIzioiqe0+YdhWNU+PNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=etFM78gB; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1765747313; c=relaxed/simple;
+	bh=PooZ8Amv0fVIAe/EepoV8YRtJz54sblHp8fQOcG86c8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aT3qixhccxC5Kie7/1R6/l06V9VGfH0WiW5sz83qGeL+iqbzYV8xEgxkOW/nAX71Bk4sa0h7jzqKYs2iUva3noK1/oejwYYoJa5//FIySu8oWehYbb79Cc9Kuerz9kP4ZhrBTsWGI/bb7AS4lTZlZcfBaOM0sxjYJe+97Zq8whY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLj+UV7H; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="etFM78gB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLj+UV7H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765745926; x=1797281926;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YOnA0CDjHzDVsfBamKRtwix157n3B895BUNPNAVx6BU=;
-  b=etFM78gBbeyKpEsjvDZxu8VKrKo/CA8RZWAJjAOssBrDvM+ZEIpOneYN
-   PS8CErjCMuhs5snGhrlGwPmsqlFnv7nBVXK7zpLNd/ye2/PQEyIk5orVl
-   k/KigEsVmwkKF9Dxb6sKTnQMfY/BlDVeh34LTBBPRiSP4qFicgbH01zLP
-   D6F7t3ZJWSZ5lSrvq7f2VAraWBqDVexlYe1WIRDbIoJmNf13Sn7HidwV3
-   ZrTii2Gp6bmnQfB5TX3aEls9icO1v/2v6S3inZtLqkm3C2TjP2UVYLq6D
-   H2od4KCHoWmaB2xTbHKDQ4hxbd2ru6NYFeX2zs85Z2KvMFN2DyGZq6opr
-   g==;
-X-CSE-ConnectionGUID: WYw2f5L1Sv+KqLRwko+X4w==
-X-CSE-MsgGUID: 3eVPfyKZQS6USXibyHVRUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="66641782"
+  t=1765747311; x=1797283311;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PooZ8Amv0fVIAe/EepoV8YRtJz54sblHp8fQOcG86c8=;
+  b=eLj+UV7HZa3T7zRdNZCEvfeIqhL3U3hmpNQ95lzYwvIosTdyfnyJZzZw
+   Ohtzkj9QMER2GoKhjJVcXAKPETNirOWc1KYFANs6ivrx0/YBPDUT2bIw2
+   Z06AbzTXZCXsmeJ2TRMO1Dg8j1HSUuI0VGxnltPFMjTQJ9pzZQzxGJb5D
+   WPHJD4vv5kTmZpDXrqFfC5CrXKjvg0R6B/y3ELRT+8zcv18IjQWGQtiaF
+   jUYDdfPp06Yt1jeZ6X6DQSvY7zjDg8OXyjLOZ8HRxcq0Pq3xasuZm26AS
+   D2sBN8KaR7P1E0qs++TE4SGSXD3FjAuiP8mRXYdjc/iooOky8ZpicDrG1
+   Q==;
+X-CSE-ConnectionGUID: 6Em/KwOZST+apk/bTelBDw==
+X-CSE-MsgGUID: 7UWRICrGTPecp+63z1as6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67618405"
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="66641782"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 12:58:45 -0800
-X-CSE-ConnectionGUID: X/76HGIaTOKt4O9o6E1JGQ==
-X-CSE-MsgGUID: hQ2pDbDTQXyiVByQlMz6rQ==
+   d="scan'208";a="67618405"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 13:21:51 -0800
+X-CSE-ConnectionGUID: 6uTt9CjzSaOFyN2GdESfZw==
+X-CSE-MsgGUID: PHVgIPsMSBG6vfxLaiWpVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="196835839"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Dec 2025 12:58:44 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="202670335"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 14 Dec 2025 13:21:50 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUtAv-000000009Ny-3sN4;
-	Sun, 14 Dec 2025 20:58:41 +0000
-Date: Mon, 15 Dec 2025 04:58:25 +0800
+	id 1vUtXG-000000002TI-3Uo0;
+	Sun, 14 Dec 2025 21:21:46 +0000
+Date: Sun, 14 Dec 2025 22:21:42 +0100
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:coroutine/base 2/3] arch/x86/net/bpf_jit_comp.c:1657:17:
- sparse: sparse: cast truncates bits from constant value (eb9f12345678eb9f
- becomes 5678eb9f)
-Message-ID: <202512150418.NzaZ5Ka0-lkp@intel.com>
+To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] btrfs: add an ASSERT() to catch ordered extents with
+ incorrect csums
+Message-ID: <202512142232.gh7ocB6J-lkp@intel.com>
+References: <7ad76db98d300c3fedc73433aa343b654399cc2d.1765521720.git.wqu@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,44 +63,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <7ad76db98d300c3fedc73433aa343b654399cc2d.1765521720.git.wqu@suse.com>
 
-tree:   https://github.com/kkdwivedi/linux coroutine/base
-head:   3d1468dcf813bc71d425b7ce656a6877d98684e9
-commit: 1c28bfd0bf1dd14f86e6858fe6f4ca67ae4b18ab [2/3] Wire up the JIT
-config: x86_64-randconfig-123-20251214 (https://download.01.org/0day-ci/archive/20251215/202512150418.NzaZ5Ka0-lkp@intel.com/config)
+Hi Qu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master v6.19-rc1 next-20251212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/btrfs-add-an-ASSERT-to-catch-ordered-extents-with-incorrect-csums/20251212-144720
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/7ad76db98d300c3fedc73433aa343b654399cc2d.1765521720.git.wqu%40suse.com
+patch subject: [PATCH] btrfs: add an ASSERT() to catch ordered extents with incorrect csums
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251214/202512142232.gh7ocB6J-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150418.NzaZ5Ka0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512142232.gh7ocB6J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512150418.NzaZ5Ka0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512142232.gh7ocB6J-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/net/bpf_jit_comp.c:1657:17: sparse: sparse: cast truncates bits from constant value (eb9f12345678eb9f becomes 5678eb9f)
-   arch/x86/net/bpf_jit_comp.c:1675:17: sparse: sparse: cast truncates bits from constant value (eb9f12345678eb9f becomes 5678eb9f)
+All warnings (new ones prefixed by >>):
 
-vim +1657 arch/x86/net/bpf_jit_comp.c
+>> fs/btrfs/inode.c:3089:12: warning: function 'oe_csum_bytes' is not needed and will not be emitted [-Wunneeded-internal-declaration]
+    3089 | static u64 oe_csum_bytes(struct btrfs_ordered_extent *oe)
+         |            ^~~~~~~~~~~~~
+   1 warning generated.
 
-  1647	
-  1648	static void emit_coro_stack_save_rsp_to_r11(u8 **pprog, bool check_overflow)
-  1649	{
-  1650		u8 *prog = *pprog;
-  1651		if (check_overflow) {
-  1652			EMIT3(0x48, 0x89, 0xE3);
-  1653			EMIT3(0x48, 0x81, 0xE3);
-  1654			EMIT(0xFFFFF000, 4);
-  1655			EMIT3(0x48, 0x8B, 0x1B);
-  1656			EMIT3(0x48, 0x81, 0xFB);
-> 1657			EMIT((u32)PRIV_STACK_GUARD_VAL, 4);
-  1658			EMIT2(0x75, 0x02);
-  1659			EMIT2(0xEB, 0x01);
-  1660			EMIT1(0xCC);
-  1661		}
-  1662		EMIT3(0x49, 0x89, 0xE3);
-  1663		*pprog = prog;
-  1664	}
-  1665	
+
+vim +/oe_csum_bytes +3089 fs/btrfs/inode.c
+
+  3088	
+> 3089	static u64 oe_csum_bytes(struct btrfs_ordered_extent *oe)
+  3090	{
+  3091		struct btrfs_ordered_sum *sum;
+  3092		u64 ret = 0;
+  3093	
+  3094		list_for_each_entry(sum, &oe->list, list)
+  3095			ret += sum->len;
+  3096		return ret;
+  3097	}
+  3098	
 
 -- 
 0-DAY CI Kernel Test Service
