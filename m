@@ -1,62 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9989115624B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 02:01:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DFE233707
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 02:11:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765677703; cv=none; b=Lx7M+WXvUM0GcW97pm2tWiBrNfISSMwsIsMehXBvu0z1+qWuGVLSJwSGyG88FCLzIyDIeGSg+LqW93tcEI9hMpYHvh4BuEH6ZOMsIji1Wur7xsPx7aDfuja2Jggcolu67W70Gbb6dzLdnUfx4yv2bgivtTaZux8Q4OmCQs8QEIk=
+	t=1765678321; cv=none; b=eQrKYEfUfJJrMelEWZD2GV4Dke3q+68G8FY6oYAevXxTWqjP4iFYXt5lt9m0HtYYzZko/vSQaSGtlnBu6l96jK4e5VnzXM7d8C8WktzldoklrXw6kQuoqchC6fOelgaDH+QvXUjSRMu5CDzp53HGjoQrJfeFlh6fgn+y0vVDDNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765677703; c=relaxed/simple;
-	bh=wURaac3PhhXCFR9WbS9wre3uyFsotvR2khzrrG3rbnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DqvUNgSW39HqOywcFmXpaDnlUNW+nFSDq36la4wI+hwX9Ohir2nZa2sHktLQewIXPazWNs4SRNqVwtMm2YxITdWoyzzrr+2DwURU9IXPOVrM/h4O5lNhYBzccqketJq0uTPUcBj9G5hFiKdRQgGS99YgKJx9sRC1P6RizUAVSm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bknwleA+; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1765678321; c=relaxed/simple;
+	bh=rsQAiLnhpj6z133/5Lqmn7HIIvegt0UCf36MrIpEmbg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qckDXE+L2ve+/IJRoXtKGBqb2gUd4e/xpypucXJ3NhDfqt34jeTVKqwWTHySGrQuGebQQf6jWxCK1eA2O+iVk5QJzDlaViAMjqIH8gfZW+lBnqn7IMHIfdMz5BhXzNFI/0sYUJFl1ugDAu8rWnxgYT86lbSOzVe7uaHuZTFCKv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yx1IcuXH; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bknwleA+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yx1IcuXH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765677701; x=1797213701;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wURaac3PhhXCFR9WbS9wre3uyFsotvR2khzrrG3rbnA=;
-  b=bknwleA+QOL1IvDhna61/PeGlWDqhv9hZZ3ku25Z5kbogJlOcxe+iL2K
-   qApVzmkES+Z/sKFkRArQ4fAQ6sT3VtkaDf2va0+bcUngPW82RWxn+Kf0z
-   PNgTjJsOipE9DnQKDMHLzKS5QTkAVaSGj6pUkLXMVcR7dj7Kp9zLmKflq
-   r722goG3kxAtpJYGpbv8nph8I/dzWkq89ecJz1pjwYAZEVE/MK/IAHrUf
-   MgVQ+5mwypO3ZYxvNYiFUr9spfjc/vGmN89xciYaBg9+866bJb0fwptBb
-   QC5h5e/s93aK6lyFs3rAyTK7WqUIEEyELCrHlZiafRjll8Ol4/i9w0fcT
-   w==;
-X-CSE-ConnectionGUID: ipXDQr+fQd+HwHRwG8zfEg==
-X-CSE-MsgGUID: dZ4dmm3RRVqTXcoW3XOBRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="71256946"
+  t=1765678320; x=1797214320;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rsQAiLnhpj6z133/5Lqmn7HIIvegt0UCf36MrIpEmbg=;
+  b=Yx1IcuXH2XR5o9xJgnLJo2lkNxEWlhcxpVA4VF/CGCjmN4i2GAkOTjk/
+   yFAPljVOJzu3HelG7irsPLa4V/ITiuFTIqDhLCjyc8JqOAgErD8/dKKli
+   Z3FW0aEWuVES0yjUs71Ikybsz1r1WRHr2fgVIoldaQKE/1xDgIQtkdrUL
+   fg2QWaK0ngmb2knhrGb+EJquv16CnUGFPDVf6wUWgh7uSeUxwp0+seD6z
+   puyFkjsytP6tx9nvDzAaxTeRm237LnSf5O6qQIqKvOMlDNRQdXU6hKko/
+   tbCIJa/fKOqHzRtvoQO78dYoZc4dQWBAHLaEjHt3d7hsQUlOOwo3ploYI
+   g==;
+X-CSE-ConnectionGUID: v89SvaDsQJ+wg/TlLVAFrA==
+X-CSE-MsgGUID: UYtxHmqAS7WHWG/E8kL2sg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="71257158"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="71256946"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 18:01:41 -0800
-X-CSE-ConnectionGUID: t9exGciVTCOVZ9sWdlLJ1g==
-X-CSE-MsgGUID: jP2eIDzcSWycglhVfZpOzw==
+   d="scan'208";a="71257158"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 18:11:58 -0800
+X-CSE-ConnectionGUID: LxoYu2bHScy3uRZ0XRuBOA==
+X-CSE-MsgGUID: trDM8w1ySymMZpRDBBEDdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="201610375"
-Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 13 Dec 2025 18:01:38 -0800
-Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
+   d="scan'208";a="201845660"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 13 Dec 2025 18:11:43 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUbQW-000000008SP-2WxE;
-	Sun, 14 Dec 2025 02:01:36 +0000
-Date: Sun, 14 Dec 2025 10:00:58 +0800
+	id 1vUbaC-000000002FE-2a8s;
+	Sun, 14 Dec 2025 02:11:36 +0000
+Date: Sun, 14 Dec 2025 03:11:11 +0100
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, simona@ffwll.ch, airlied@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 2/2] vt: Remove con_debug_enter/_leave from struct consw
-Message-ID: <202512140916.Z01yXO9Q-lkp@intel.com>
-References: <20251208102851.40894-3-tzimmermann@suse.de>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 50/50] kernel/sched/fair.c:4146:6:
+ warning: no previous prototype for 'set_group_prefer_node'
+Message-ID: <202512140342.7G3GhhrT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,70 +61,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251208102851.40894-3-tzimmermann@suse.de>
 
-Hi Thomas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus linus/master v6.18 next-20251212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/vt-Remove-trailing-whitespace/20251208-183541
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20251208102851.40894-3-tzimmermann%40suse.de
-patch subject: [PATCH 2/2] vt: Remove con_debug_enter/_leave from struct consw
-config: arm-randconfig-r072-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140916.Z01yXO9Q-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140916.Z01yXO9Q-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   7c285f40a964b427534f3dab33b104ee9cab6245
+commit: a0afbf3c5d0386fa940ad3ee5e5cda8ad0e3eced [50/50] anolis: sched: add Numa Affine feature
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251214/202512140342.7G3GhhrT-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140342.7G3GhhrT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140916.Z01yXO9Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140342.7G3GhhrT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/video/fbdev/core/fbcon.c:3176:3: error: field designator 'con_debug_enter' does not refer to any field in type 'const struct consw'
-           .con_debug_enter        = fbcon_debug_enter,
-            ^
->> drivers/video/fbdev/core/fbcon.c:3177:3: error: field designator 'con_debug_leave' does not refer to any field in type 'const struct consw'
-           .con_debug_leave        = fbcon_debug_leave,
-            ^
-   2 errors generated.
+>> kernel/sched/fair.c:4146:6: warning: no previous prototype for 'set_group_prefer_node' [-Wmissing-prototypes]
+    4146 | void set_group_prefer_node(struct task_group *tg)
+         |      ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +3176 drivers/video/fbdev/core/fbcon.c
+vim +/set_group_prefer_node +4146 kernel/sched/fair.c
 
-fe2d70d6f6ff038 drivers/video/fbdev/core/fbcon.c Simona Vetter  2019-05-28  3154  
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3155  /*
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3156   *  The console `switch' structure for the frame buffer based console
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3157   */
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3158  
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3159  static const struct consw fb_con = {
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3160  	.owner			= THIS_MODULE,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3161  	.con_startup 		= fbcon_startup,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3162  	.con_init 		= fbcon_init,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3163  	.con_deinit 		= fbcon_deinit,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3164  	.con_clear 		= fbcon_clear,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3165  	.con_putcs 		= fbcon_putcs,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3166  	.con_cursor 		= fbcon_cursor,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3167  	.con_scroll 		= fbcon_scroll,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3168  	.con_switch 		= fbcon_switch,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3169  	.con_blank 		= fbcon_blank,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3170  	.con_font_set 		= fbcon_set_font,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3171  	.con_font_get 		= fbcon_get_font,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3172  	.con_font_default	= fbcon_set_def_font,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3173  	.con_set_palette 	= fbcon_set_palette,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3174  	.con_invert_region 	= fbcon_invert_region,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3175  	.con_resize             = fbcon_resize,
-d219adc1228a388 drivers/video/console/fbcon.c    Jesse Barnes   2010-08-02 @3176  	.con_debug_enter	= fbcon_debug_enter,
-d219adc1228a388 drivers/video/console/fbcon.c    Jesse Barnes   2010-08-02 @3177  	.con_debug_leave	= fbcon_debug_leave,
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3178  };
-^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds 2005-04-16  3179  
+  4137	
+  4138	static inline u64 cfs_rq_last_update_time(struct cfs_rq *cfs_rq)
+  4139	{
+  4140		return u64_u32_load_copy(cfs_rq->avg.last_update_time,
+  4141					 cfs_rq->last_update_time_copy);
+  4142	}
+  4143	#ifdef CONFIG_FAIR_GROUP_SCHED
+  4144	DEFINE_PER_CPU(struct cpumask, cpus_allowed_alt);
+  4145	/* Decide which node for @tg to run on*/
+> 4146	void set_group_prefer_node(struct task_group *tg)
+  4147	{
+  4148		int cpu, node;
+  4149		unsigned long min_load = ULONG_MAX, now = jiffies, load;
+  4150		static int prev_node;
+  4151		static unsigned long prev_jiffies;
+  4152	
+  4153		/* Choose Round-Robin way with frequent call */
+  4154		if (now - prev_jiffies < HZ) {
+  4155			prev_jiffies = now;
+  4156	
+  4157			prev_node = next_online_node(prev_node);
+  4158			if (prev_node >= 0 && prev_node < MAX_NUMNODES) {
+  4159				tg->prefer_node = prev_node;
+  4160				return;
+  4161			}
+  4162	
+  4163			prev_node = first_online_node;
+  4164			tg->prefer_node = prev_node;
+  4165			return;
+  4166		}
+  4167	
+  4168		prev_jiffies = now;
+  4169	
+  4170		/* find the idlest node */
+  4171		prev_node = first_online_node;
+  4172		for_each_online_node(node) {
+  4173			load = ULONG_MAX;
+  4174			for_each_cpu(cpu, cpumask_of_node(node))
+  4175				load += cpu_load(cpu_rq(cpu));
+  4176			if (load < min_load) {
+  4177				min_load = load;
+  4178				prev_node = node;
+  4179			}
+  4180		}
+  4181	
+  4182		tg->prefer_node = prev_node;
+  4183	}
+  4184	
 
 -- 
 0-DAY CI Kernel Test Service
