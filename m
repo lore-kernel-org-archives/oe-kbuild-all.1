@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A8C15C158;
-	Sun, 14 Dec 2025 00:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9075017A305
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 00:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765671636; cv=none; b=t2w0J6Tvi6HvEjC6o3aDWG7qef4jiFU12dd/HAaQZ107kTeKYdPvO2Po86ZAY9ZXnF+hE2LFXue7/M9ABD6b1H2y9CgK75Yp3yN5YhnKopZcoa04/BNCvxcDZg48fDpRqrCmI95EKBGHaDWTsGcFsENmzCxRPMROuyXaeqiYwU0=
+	t=1765671637; cv=none; b=jTV9VV4AADgJvGdXsXOlXoHoxqdnbFbEC6wIX0NTVfBEF/5rEqcW3OyoA/ymVxF8T5fgy4AhijP19EnYvyblcu4SwcWqqPliEkwWNZSfIg8O9Kj2sY0x1pwXmizXIUk5PKiTAfjQxUn7vJRf3aSpzA0Zy7gu9eDW+FGxNIDyBQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765671636; c=relaxed/simple;
-	bh=vp7w+jD4MyftsCeqXlPRva9XCmdDbshIjlLXnRGOP3M=;
+	s=arc-20240116; t=1765671637; c=relaxed/simple;
+	bh=3YenP0SGuD+QmVpefOij9B+KkSsiwsOsle/DAhbHhYE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=etFnFQn8rzFesbEu0BQPyaUtD55ZAVYyk/+/5TOOnxzunpxIAI3LDktpQ4oX7hTGrA9+oseuri+zhEifSvKU8HV0IicFdYk+nBEy93XTfzfRVyO0sp5XlUBqnmuXYDGvnS6O4NknKr5n86nXcdTXlZvLrTDOnZ1m2ZiCXWrbHag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VxFLBBOm; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=IVDHp4sCYliW/Qxf5I+kWvUAGl8AMeqPCM2elY7ZKtKW2jmiNwTlYP+tFGVEIp34i4HUYBBxP2SY5JHL2h9/Eklw+687piLWm+OEgpTeeui7g584tR2/7dY7BwkEpxGjroPVSuSdlOatrGZzmdFcHhp4YsPkrq95KBOEAXrGUDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C16ufBSK; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VxFLBBOm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C16ufBSK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765671635; x=1797207635;
+  t=1765671636; x=1797207636;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vp7w+jD4MyftsCeqXlPRva9XCmdDbshIjlLXnRGOP3M=;
-  b=VxFLBBOmgKObO+LXgEX206N73bnO1F33M80xObxOIXOO9Wj0OenYBwZF
-   17HZ3heWFZFFmSeX+y7c+zoeIFT0/LQr3r1vy7hfCKURJJv0jgqD/RR8n
-   oP0KseeZ96u4XdPrCV9M0qyUSDrYO34WLIZ1dikoHYdb6b34faS2nBl79
-   v/3hft+IukzM6xv4mFc37KDrJtu4PGoaUcz3v0901Jgc/APt0UYttcKlP
-   PiW8kWiyCDgw8wpS76dltlQfT8pdqUxqeULRVM+wienUN6pmMCPIhoLgJ
-   s4DJszSDLrXX9O7hfcSs2g1Yvj1SKU/ogU/lQjAUerjVfyGSUF+17Xo1f
+  bh=3YenP0SGuD+QmVpefOij9B+KkSsiwsOsle/DAhbHhYE=;
+  b=C16ufBSK5esjEbklBHUtkCfQsR/lQX902fzPYkNEjwzVXDfKCIxQfsOv
+   ffNLJMH1hXu0CA5IbMfVev2cOW5QE9mbEyKFT0GlpsK+9rLHVUMaOqcfx
+   G5AIpojFr2UgShWVpPM8RrG/jsIrcKKlRNffaTfmdGmowREmsl4mfye0R
+   b+1DttSstb2CPAGI6RfP606cKa6mV7lQuQlaSW8uFfLjvMkrTgKDZ6ZeL
+   3a8I8lVfTxHr8CK72fXN+CI/9+8rEEGDEi44pkuniE1OQt2eyrA5NTEO4
+   2gTiRAyVly5olsP/P0YUbQUAVx6RU9SZiMyXiTckPSv72NSgYsXz0rYRi
    A==;
-X-CSE-ConnectionGUID: wzkRjwIiRcmzjgZuRgiDaw==
-X-CSE-MsgGUID: xnDattd3TAmmGygkERmABQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="90279207"
+X-CSE-ConnectionGUID: b7LGV7cCTG6BGYJRq75VjA==
+X-CSE-MsgGUID: BdX/d3qrQ6mmUU07+Adrog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11641"; a="70207761"
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="90279207"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 16:20:34 -0800
-X-CSE-ConnectionGUID: Uj68rTtiRrO4m/JPzNuLeA==
-X-CSE-MsgGUID: qZ1ujXLdSJOKjK7iBHLsKQ==
+   d="scan'208";a="70207761"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2025 16:20:34 -0800
+X-CSE-ConnectionGUID: 42pBDU0aS5irW7HM9VLrVA==
+X-CSE-MsgGUID: vDkFyKDESJGTT+SW3UnJiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,147,1763452800"; 
-   d="scan'208";a="198233142"
+   d="scan'208";a="220784810"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Dec 2025 16:20:32 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 13 Dec 2025 16:20:32 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUZqg-000000008Mb-13pt;
+	id 1vUZqg-000000008Me-1Aox;
 	Sun, 14 Dec 2025 00:20:30 +0000
-Date: Sun, 14 Dec 2025 08:19:42 +0800
+Date: Sun, 14 Dec 2025 08:19:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roberto Sassu <roberto.sassu@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [robertosassu:ima-staging-v2-devel-v9 1/1]
- security/integrity/ima/ima_queue.c:43:22: error: array initializer must be
- an initializer list
-Message-ID: <202512140857.bUlOioHX-lkp@intel.com>
+To: Brian Gerst <brgerst@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>, Juergen Gross <jgross@suse.com>,
+	Sohil Mehta <sohil.mehta@intel.com>
+Subject: arch/x86/xen/enlighten_pv.c:118:24: sparse: sparse: incorrect type
+ in initializer (different address spaces)
+Message-ID: <202512140856.Ic6FetG6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,89 +64,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/robertosassu/linux ima-staging-v2-devel-v9
-head:   0387b5fab703d305adb5d6fcba119dda4cf2eb05
-commit: 0387b5fab703d305adb5d6fcba119dda4cf2eb05 [1/1] ima: Add support for staging measurements for deletion and trimming
-config: arm-randconfig-001-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140857.bUlOioHX-lkp@intel.com/config)
+Hi Brian,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4a298a43f5e339f48d2dda0665c02b88ee9a4e03
+commit: 1ab7b5ed44ba9bce581e225f40219b793bc779d6 x86/xen: Move Xen upcall handler
+date:   9 months ago
+config: x86_64-randconfig-123-20251213 (https://download.01.org/0day-ci/archive/20251214/202512140856.Ic6FetG6-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140857.bUlOioHX-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251214/202512140856.Ic6FetG6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512140857.bUlOioHX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512140856.Ic6FetG6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/xen/enlighten_pv.c:118:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@
+   arch/x86/xen/enlighten_pv.c:118:24: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/xen/enlighten_pv.c:118:24: sparse:     got bool *
+   arch/x86/xen/enlighten_pv.c:120:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@
+   arch/x86/xen/enlighten_pv.c:120:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/xen/enlighten_pv.c:120:9: sparse:     got bool *
+   arch/x86/xen/enlighten_pv.c:126:9: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@
+   arch/x86/xen/enlighten_pv.c:126:9: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/xen/enlighten_pv.c:126:9: sparse:     got bool *
 
->> security/integrity/ima/ima_queue.c:43:22: error: array initializer must be an initializer list
-      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-         |                      ^
->> security/integrity/ima/ima_queue.c:44:22: error: redefinition of 'binary_runtime_size' with a different type: 'unsigned long[2]' vs 'unsigned long[0]'
-      44 | static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
-         |                      ^
-   security/integrity/ima/ima_queue.c:43:22: note: previous definition is here
-      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-         |                      ^
-   security/integrity/ima/ima_queue.c:45:22: error: redefinition of 'binary_runtime_size' with a different type: 'unsigned long[1]' vs 'unsigned long[0]'
-      45 | static unsigned long binary_runtime_size[BINARY_SIZE_STAGED] = ULONG_MAX;
-         |                      ^
-   security/integrity/ima/ima_queue.c:43:22: note: previous definition is here
-      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-         |                      ^
-   security/integrity/ima/ima_queue.c:137:6: warning: array index 2 is past the end of the array (that has type 'unsigned long[0]') [-Warray-bounds]
-     137 |         if (binary_runtime_size[BINARY_SIZE_FULL] != ULONG_MAX) {
-         |             ^                   ~~~~~~~~~~~~~~~~
-   security/integrity/ima/ima_queue.c:43:1: note: array 'binary_runtime_size' declared here
-      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-         | ^
-   security/integrity/ima/ima_queue.c:270:4: warning: array index 0 is past the end of the array (that has type 'unsigned long[0]') [-Warray-bounds]
-     270 |                         binary_runtime_size[BINARY_SIZE] = 0;
-         |                         ^                   ~~~~~~~~~~~
-   security/integrity/ima/ima_queue.c:43:1: note: array 'binary_runtime_size' declared here
-      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-         | ^
-   security/integrity/ima/ima_queue.c:275:5: warning: array index 1 is past the end of the array (that has type 'unsigned long[0]') [-Warray-bounds]
-     275 |                                 binary_runtime_size[BINARY_SIZE_STAGED] = 0;
-         |                                 ^                   ~~~~~~~~~~~~~~~~~~
-   security/integrity/ima/ima_queue.c:43:1: note: array 'binary_runtime_size' declared here
-      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-         | ^
-   security/integrity/ima/ima_queue.c:293:5: warning: array index 1 is past the end of the array (that has type 'unsigned long[0]') [-Warray-bounds]
-     293 |                                 binary_runtime_size[BINARY_SIZE_STAGED] -=
-         |                                 ^                   ~~~~~~~~~~~~~~~~~~
-   security/integrity/ima/ima_queue.c:43:1: note: array 'binary_runtime_size' declared here
-      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-         | ^
-   security/integrity/ima/ima_queue.c:300:4: warning: array index 0 is past the end of the array (that has type 'unsigned long[0]') [-Warray-bounds]
-     300 |                         binary_runtime_size[BINARY_SIZE] -= to_remove;
-         |                         ^                   ~~~~~~~~~~~
-   security/integrity/ima/ima_queue.c:43:1: note: array 'binary_runtime_size' declared here
-      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-         | ^
-   security/integrity/ima/ima_queue.c:335:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[0]') [-Warray-bounds]
-     335 |                         binary_runtime_size[BINARY_SIZE_STAGED] = 0;
-         |                         ^                   ~~~~~~~~~~~~~~~~~~
-   security/integrity/ima/ima_queue.c:43:1: note: array 'binary_runtime_size' declared here
-      43 | static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-         | ^
-   6 warnings and 3 errors generated.
+vim +118 arch/x86/xen/enlighten_pv.c
 
-
-vim +43 security/integrity/ima/ima_queue.c
-
-    35	
-    36	LIST_HEAD(ima_measurements);	/* list of all measurements */
-    37	LIST_HEAD(ima_measurements_staged); /* list of staged measurements */
-    38	static LIST_HEAD(ima_measurements_trim); /* list of measurements to trim */
-    39	bool ima_measurements_staged_exist; /* If there are staged measurements */
-    40	#ifdef CONFIG_IMA_KEXEC
-    41	static unsigned long binary_runtime_size[BINARY__LAST];
-    42	#else
-  > 43	static unsigned long binary_runtime_size[BINARY_SIZE] = ULONG_MAX;
-  > 44	static unsigned long binary_runtime_size[BINARY_SIZE_FULL] = ULONG_MAX;
-    45	static unsigned long binary_runtime_size[BINARY_SIZE_STAGED] = ULONG_MAX;
-    46	#endif
-    47	
+   111	
+   112	/*
+   113	 * In case of scheduling the flag must be cleared and restored after
+   114	 * returning from schedule as the task might move to a different CPU.
+   115	 */
+   116	static __always_inline bool get_and_clear_inhcall(void)
+   117	{
+ > 118		bool inhcall = __this_cpu_read(xen_in_preemptible_hcall);
+   119	
+   120		__this_cpu_write(xen_in_preemptible_hcall, false);
+   121		return inhcall;
+   122	}
+   123	
 
 -- 
 0-DAY CI Kernel Test Service
