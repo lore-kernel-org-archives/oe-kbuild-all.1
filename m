@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68D24369A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 19:04:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05071DE4E1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 19:35:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765739082; cv=none; b=Tpyim+UzIyLxR0a75nhmhREH0ZFKqXlS0SaBZzAVV1ESZHA+iM4RMEyaFSnt8enBvAINCS3RvLhZOqfVuqcDcHWK2sgUH3M6RvVCaQ6pKjVjMjyD46lxURYKdKz4CcvcE8iN3bHO7TkNt9xqUiB/kyf6OcKh6baT7d7uLv4+0W4=
+	t=1765740945; cv=none; b=jkf5udc/Zmq14KDipdLF0NIhoovNV6Zoq3WyPeJ6xUYiGuYV3adPwFXP7mHMAUcWZeN6TlpuNQy/14hZvanYhTnqHwtNu/el+0vi3gmSyktB13Ao9GegchYMBYa48sqDRTdrk9SXXf7u3I6vg9y59nzChIs2mOWrM30gm/h022I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765739082; c=relaxed/simple;
-	bh=UIT4GTvJpExXhH4Q0e+QHCS3diM7pv+pKf6xSzpSqVA=;
+	s=arc-20240116; t=1765740945; c=relaxed/simple;
+	bh=AguTOqhGTBZt/VpvUNWLPumlhCdC9dnevYbOgmS5eZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FFZNDa0jypY3eiqnT9O+ijcY2+/ECqeY/xVoFTSmf4hs5yL8BZLGhRyMq6yFj71hP8sp6HzFaxet4kFRzkfy2INJYYh/5PdoWpE/AewTgoRn3f/xyMmH6D8DOXZ3vH5LTvmwui2UUEcaDBcnqRPIQ1xsLsxccFNT4tLZ/AOQI9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdYM1ssI; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=lAIDEFJLgks2YgeGDCw2WbEEB5+pyaeQ4lkx4tSqwhHTTFB+CG4PRNlwG/IyPM4/sVQMUDV3n3MXCa5jSVRGfJM0LhRUas/lJCZkFf6m4EEs4CqElGNXmAFaWY4Pi2kQF3Ww2jtIUIMSrpvFRBxz3T8gdr6nwZTMaRj3O3rbFVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5Xw5Q42; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdYM1ssI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5Xw5Q42"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765739081; x=1797275081;
+  t=1765740942; x=1797276942;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UIT4GTvJpExXhH4Q0e+QHCS3diM7pv+pKf6xSzpSqVA=;
-  b=kdYM1ssIUK2nx9M1HmPBBIPe4Nf31TZHmLonN7fvjnfm4atKZDM3ZCFS
-   q9EJ/aaZtSVYf5703QeVjUDYVUjB3DkWEViTeXGVmEN5kT0/8Xsk2pH8r
-   Vn2SZQwgltg+i5GS6bfQov0uryqbyUCsYg95Eb9QV0LuVHJ3BAhsPAAIB
-   n7YX3Bdudh0yx+414EBvn6RiRL6fHCehq+i9wsER6ynMqYJtFw4S2QNU2
-   moT/d6y7TzcYigFpsQvw7mP7dGQ37c9Fed05nYqpy5cr7mQgYiBy//KNH
-   G4ALDS01UOlBzAkvbKqQXj5xQcREg3ptRDrNKHEjbOXGmr/c9LatcDSAR
+  bh=AguTOqhGTBZt/VpvUNWLPumlhCdC9dnevYbOgmS5eZk=;
+  b=g5Xw5Q42Ge/KHzYmBLjgEi0qKQluBQITAe7s0pOYe6KqvmixAQM6r6Vz
+   Dr1jlwW4g9P9c92bhp/UytkefUyy99Y+cX3KcGx7dtWAPGYxmp3UTfGgA
+   8IYZNKgmlznk/layuvNJJC3vRQUZWkOrpNjhXfvDIy2mQM67DUuexo13X
+   5l/L81Dm6tGAfov5XbPnN+FS9Ar4ko9cOsirRWuuhwg5wUAX+EkqQXw9N
+   aqwvGdf2pu+5BkIKXNUfauAp7mdfAUabfeVCXyCSqJIoudCzHN9L7V3zv
+   NSWXHa7laRm4dsJzlE2pRkF6PunzG5Yp83iEI06gz7cWk0e7Sp8UjW40i
    g==;
-X-CSE-ConnectionGUID: ledASnksRoy9lSDWEbeZEg==
-X-CSE-MsgGUID: Ejh91FmjRrWoZ30yqY5ZEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67531370"
+X-CSE-ConnectionGUID: hXRiH02qTYSPlU/hl4cPXg==
+X-CSE-MsgGUID: tN0jiNU+S02jeCU590Qm2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67691487"
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="67531370"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 11:04:41 -0800
-X-CSE-ConnectionGUID: aJJgKPbRREqeIBAeP75BOA==
-X-CSE-MsgGUID: yJpEiyQeTR2NAbZGk4/31w==
+   d="scan'208";a="67691487"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 11:35:41 -0800
+X-CSE-ConnectionGUID: TbPzUY/5QjWmzmGHgPVShQ==
+X-CSE-MsgGUID: yhE57HgfRcKo+znXr98MKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="202467739"
+   d="scan'208";a="228621682"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Dec 2025 11:04:39 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 14 Dec 2025 11:35:40 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUrOW-000000009I5-39k8;
-	Sun, 14 Dec 2025 19:04:36 +0000
-Date: Mon, 15 Dec 2025 03:04:03 +0800
+	id 1vUrsY-000000009Jh-0OYj;
+	Sun, 14 Dec 2025 19:35:38 +0000
+Date: Mon, 15 Dec 2025 03:35:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Yejian <zhengyejian1@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3541/3541] kernel/module/strict_rwx.c:36:6:
- warning: no previous prototype for function 'module_disable_ro'
-Message-ID: <202512150222.mwnNlqrD-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 0/40] io_uring/io_uring.c:498:57:
+ sparse: sparse: incorrect type in argument 3 (different base types)
+Message-ID: <202512150356.hEoEJed0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,54 +62,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zheng,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   cd9eb9b4365b71652b2c2ac58293bea47c9f9302
-commit: c8783f92771c891518257c9deb22cd91d4e1a212 [3541/3541] livepatch/core: Revert module_enable_ro and module_disable_ro
-config: arm64-randconfig-001-20251212 (https://download.01.org/0day-ci/archive/20251215/202512150222.mwnNlqrD-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150222.mwnNlqrD-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   ebacb5ab3a1e5bf8dc788a29244f0e68d00a5bd6
+commit: ff46a46b7a30dd59513d7f33dfdd06553843b11d [0/40] io_uring: pass in EPOLL_URING_WAKE for eventfd signaling and wakeups
+config: x86_64-randconfig-121-20251212 (https://download.01.org/0day-ci/archive/20251215/202512150356.hEoEJed0-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150356.hEoEJed0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512150222.mwnNlqrD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512150356.hEoEJed0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   io_uring/io_uring.c: note: in included file (through io_uring/io_uring.h):
+   io_uring/slist.h:138:29: sparse: sparse: no newline at end of file
+   io_uring/io_uring.c: note: in included file (through include/trace/events/io_uring.h):
+   include/linux/io_uring_types.h:151:37: sparse: sparse: array of flexible structures
+>> io_uring/io_uring.c:498:57: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int mask @@     got restricted __poll_t [usertype] @@
+   io_uring/io_uring.c:498:57: sparse:     expected unsigned int mask
+   io_uring/io_uring.c:498:57: sparse:     got restricted __poll_t [usertype]
+   io_uring/io_uring.c:534:57: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int mask @@     got restricted __poll_t [usertype] @@
+   io_uring/io_uring.c:534:57: sparse:     expected unsigned int mask
+   io_uring/io_uring.c:534:57: sparse:     got restricted __poll_t [usertype]
+   io_uring/io_uring.c:598:6: sparse: sparse: context imbalance in 'io_cq_unlock_post' - unexpected unlock
+   io_uring/io_uring.c:604:13: sparse: sparse: context imbalance in '__io_cqring_overflow_flush' - wrong count at exit
+   io_uring/io_uring.c:814:6: sparse: sparse: context imbalance in 'io_post_aux_cqe' - wrong count at exit
+   io_uring/io_uring.c:864:6: sparse: sparse: context imbalance in 'io_req_complete_post' - wrong count at exit
+   io_uring/io_uring.c:982:13: sparse: sparse: context imbalance in '__io_req_find_next_prep' - wrong count at exit
 
->> kernel/module/strict_rwx.c:36:6: warning: no previous prototype for function 'module_disable_ro' [-Wmissing-prototypes]
-      36 | void module_disable_ro(const struct module *mod)
-         |      ^
-   kernel/module/strict_rwx.c:36:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      36 | void module_disable_ro(const struct module *mod)
-         | ^
-         | static 
-   1 warning generated.
+vim +498 io_uring/io_uring.c
 
-
-vim +/module_disable_ro +36 kernel/module/strict_rwx.c
-
-    34	
-    35	#ifdef CONFIG_LIVEPATCH_WO_FTRACE
-  > 36	void module_disable_ro(const struct module *mod)
-    37	{
-    38		if (!IS_ENABLED(CONFIG_STRICT_MODULE_RWX))
-    39			return;
-    40	#ifdef CONFIG_STRICT_MODULE_RWX
-    41		if (!rodata_enabled)
-    42			return;
-    43	#endif
-    44	
-    45		module_set_memory(mod, MOD_TEXT, set_memory_rw);
-    46		module_set_memory(mod, MOD_INIT_TEXT, set_memory_rw);
-    47		module_set_memory(mod, MOD_RODATA, set_memory_rw);
-    48		module_set_memory(mod, MOD_INIT_RODATA, set_memory_rw);
-    49	}
-    50	#endif /* CONFIG_LIVEPATCH_WO_FTRACE */
-    51	
+   490	
+   491	
+   492	static void io_eventfd_ops(struct rcu_head *rcu)
+   493	{
+   494		struct io_ev_fd *ev_fd = container_of(rcu, struct io_ev_fd, rcu);
+   495		int ops = atomic_xchg(&ev_fd->ops, 0);
+   496	
+   497		if (ops & BIT(IO_EVENTFD_OP_SIGNAL_BIT))
+ > 498			eventfd_signal_mask(ev_fd->cq_ev_fd, 1, EPOLL_URING_WAKE);
+   499	
+   500		/* IO_EVENTFD_OP_FREE_BIT may not be set here depending on callback
+   501		 * ordering in a race but if references are 0 we know we have to free
+   502		 * it regardless.
+   503		 */
+   504		if (atomic_dec_and_test(&ev_fd->refs)) {
+   505			eventfd_ctx_put(ev_fd->cq_ev_fd);
+   506			kfree(ev_fd);
+   507		}
+   508	}
+   509	
 
 -- 
 0-DAY CI Kernel Test Service
