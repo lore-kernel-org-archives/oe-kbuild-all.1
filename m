@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02F42877E3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 14:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCFB286A9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 14:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765807748; cv=none; b=bMve4d7K/zrkUBDW4/fFsec3OWQe++j58G1+4L9+DnwsRsXSINS0L2BDNeMHWS9cLg9NhmoeN77Vn8TuWu9uEZVdBgnwIfv7WNB0kvyIt5YkbPtJ3NN7W2/cUt25pooLOtq4uJ8b+wMNN6GboBooFGrKyYok8TyA2Wdb4aodxNk=
+	t=1765807981; cv=none; b=g6bjGHxhfsOM1j599Kq7NrvI3PAf77rXqZVV2ndAew7bsGpa4OnjIg3c7Y/Yk7AZNuAgW/tLwyeQ1RhJAgIlVbrxvxZyWXtbFqSGY9bCywekys9cngpF/rv0DWdAd0ApDysRU6eoYIw7V05CouHY2AR15s7VW7egm+qme0tS53g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765807748; c=relaxed/simple;
-	bh=48601MX5ARS4nj4vcunKxJhH/jivQC5G3YnXKioxtH0=;
+	s=arc-20240116; t=1765807981; c=relaxed/simple;
+	bh=pZlNyfYrZh0ViYSNd+NsLFpIoEf9LHmJbyf7RlFGmwA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mw48DhKSJrW7nI9876LvDvmMZfJlW6B1/vc7JyGNVqCWKnQ2k7jkXAZzoZuJC0FFphX5C3YEWxDD7e6fDX1YGeho8k6cuIUzg6TVV77HC2L/ETrihjDJ9mOZCo6c9p5W8+l2yLRbDDMnDVYhP/bHMonpboIv2JUZwRnMRalOugQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGAMozzy; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=oFGsDnEVgLJ+umXOl57UKtJF/036sL933aKdJMm80nRnSSubE1clboPAlvjSn6y5wDV1yodKXQRr6A5Q8NuJ6q1rPtb6Jt48A4YFswje07PSGIueT2wJf+I5vksgbkyouR2exGrvO1sz1zsPTC1M1YXR/mM32nVSIFAaH2C+Mls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z6iJBHxK; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGAMozzy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z6iJBHxK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765807746; x=1797343746;
+  t=1765807980; x=1797343980;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=48601MX5ARS4nj4vcunKxJhH/jivQC5G3YnXKioxtH0=;
-  b=bGAMozzyHo/4JCksEmeAqgUs8OupxY7Rm182OcWeukwIGoYsnQCgdQ++
-   G2Va75wMngUfRaJkOoUBwni/Z3JTveaoMFldPw/8q7Uz7acF+N+N6HGgi
-   JqxFoDPjN0i8glGSnx/cqjoGtBq4HVlA/lqnbo562daFJBjUOyPH7OkXo
-   xaTMa8rmS1e5g4UowbkOqiYCask2uPwQGG5OqQRl8v48disCvkk+lzUav
-   9NML5rENkUVBiJdex4rKMzGH2W6lIKGmNX43GxO/WvCZvMU6cn7+qg8lz
-   dQ+8q4EicysC6y67tH2qyoC6bgG6TLLIqFjsn5DAjmP9s9QjMWcXmFJNG
+  bh=pZlNyfYrZh0ViYSNd+NsLFpIoEf9LHmJbyf7RlFGmwA=;
+  b=Z6iJBHxKtxt0gmycOb6YZgKn1R4SKgZFbDIfyMCvrgYzs1Dk7gFKI3Mu
+   5IjhA3p0OHzRDPWzoFCnECL9u90npaW8itxsJNKKQsMTdvwol43ha4jxN
+   5ENq0BsvWYDTVa9qAK2SLaitqMuO1OkdmGpEtMqv9iJyef9w+D7IrRkfQ
+   UMBvwjRZOfhDiKXslgq6EUtoTsFBXAnCpKfZAi8E8lrIdHVzvtvQOwh+E
+   QNcrnERtTHzrTqgs5iAHD4nFkbGv9Ke4UCmCjw6p6qjnCOOEO2D0lKQku
+   CF7nDpHTmuJe9e/jAlw4v163BwNNt9EhEe9CUyLFWe9u4/ATyVT8D9o8N
    A==;
-X-CSE-ConnectionGUID: rnWDhc3lTnWFD1lvSZ4JMQ==
-X-CSE-MsgGUID: xpnEe+gmSoajvzqmjMgPPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66696369"
+X-CSE-ConnectionGUID: +ii2MhH2SrChxNBbgj9T1A==
+X-CSE-MsgGUID: AORMJ2gETGaVDI4CI2WpsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="71339437"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="66696369"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 06:09:06 -0800
-X-CSE-ConnectionGUID: aAyRrrc2SL+LFIp//4H1YQ==
-X-CSE-MsgGUID: iLsq2qgKRFSHpxxNePGv2Q==
+   d="scan'208";a="71339437"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 06:12:59 -0800
+X-CSE-ConnectionGUID: WmhO2tDaQqSJ4myYJoDd9A==
+X-CSE-MsgGUID: 44BShaM0TSelOSVcyE9GIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="228384974"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 15 Dec 2025 06:09:05 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+   d="scan'208";a="221111111"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 15 Dec 2025 06:12:58 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vV9G2-000000000M9-1lB7;
-	Mon, 15 Dec 2025 14:09:02 +0000
-Date: Mon, 15 Dec 2025 22:08:12 +0800
+	id 1vV9Jo-000000002g4-0fwu;
+	Mon, 15 Dec 2025 14:12:56 +0000
+Date: Mon, 15 Dec 2025 15:12:17 +0100
 From: kernel test robot <lkp@intel.com>
-To: Vinicius Costa Gomes <vinicius.gomes@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>, Dave Jiang <dave.jiang@intel.com>
-Subject: drivers/dma/idxd/cdev.c:503:24: sparse: sparse: incorrect type in
- return expression (different base types)
-Message-ID: <202512152206.bFVf1Xm9-lkp@intel.com>
+To: Gary Guo <gary@garyguo.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [nbdd0121:vtable-wip 3/3] Diff in rust/macros/vtable.rs:2:
+Message-ID: <202512151501.o5coGUFk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +61,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: 8dfa57aabff625bf445548257f7711ef294cd30e dmaengine: idxd: Fix allowing write() from different address spaces
-date:   8 months ago
-config: x86_64-randconfig-r122-20251215 (https://download.01.org/0day-ci/archive/20251215/202512152206.bFVf1Xm9-lkp@intel.com/config)
+tree:   https://github.com/nbdd0121/linux vtable-wip
+head:   b26df2e17c5c53ab1b818cc1d953dd3ece892da3
+commit: b26df2e17c5c53ab1b818cc1d953dd3ece892da3 [3/3] Use `#[unique] const NAME: Ty;` without `= value` at impl site.
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251215/202512151501.o5coGUFk-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512152206.bFVf1Xm9-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151501.o5coGUFk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512152206.bFVf1Xm9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512151501.o5coGUFk-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/dma/idxd/cdev.c:503:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
-   drivers/dma/idxd/cdev.c:503:24: sparse:     expected restricted __poll_t
-   drivers/dma/idxd/cdev.c:503:24: sparse:     got int
+All errors (new ones prefixed by >>):
 
-vim +503 drivers/dma/idxd/cdev.c
-
-   493	
-   494	static __poll_t idxd_cdev_poll(struct file *filp,
-   495				       struct poll_table_struct *wait)
-   496	{
-   497		struct idxd_user_context *ctx = filp->private_data;
-   498		struct idxd_wq *wq = ctx->wq;
-   499		struct idxd_device *idxd = wq->idxd;
-   500		__poll_t out = 0;
-   501	
-   502		if (current->mm != ctx->mm)
- > 503			return -EPERM;
-   504	
-   505		poll_wait(filp, &wq->err_queue, wait);
-   506		spin_lock(&idxd->dev_lock);
-   507		if (idxd->sw_err.valid)
-   508			out = EPOLLIN | EPOLLRDNORM;
-   509		spin_unlock(&idxd->dev_lock);
-   510	
-   511		return out;
-   512	}
-   513	
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/macros/vtable.rs:2:
+    
+    use std::collections::HashSet;
+    
+   -use proc_macro2::{Ident, TokenStream, Span};
+   +use proc_macro2::{Ident, Span, TokenStream};
+    use quote::ToTokens;
+    use syn::{
+        parse_quote, Error, ImplItem, ImplItemConst, Item, ItemImpl, ItemTrait, Result, Token,
+>> Diff in rust/macros/vtable.rs:2:
+    
+    use std::collections::HashSet;
+    
+   -use proc_macro2::{Ident, TokenStream, Span};
+   +use proc_macro2::{Ident, Span, TokenStream};
+    use quote::ToTokens;
+    use syn::{
+        parse_quote, Error, ImplItem, ImplItemConst, Item, ItemImpl, ItemTrait, Result, Token,
+   Diff in rust/kernel/sync/atomic.rs:21:
+    mod predefine;
+    
+    pub use internal::AtomicImpl;
+   -pub use ordering::{Acquire, Full, Relaxed, Release};
+    pub(crate) use internal::{AtomicArithmeticOps, AtomicBasicOps, AtomicExchangeOps};
+   +pub use ordering::{Acquire, Full, Relaxed, Release};
+    
+    use crate::build_error;
+    use internal::AtomicRepr;
+   Diff in rust/kernel/sync/atomic.rs:21:
+    mod predefine;
+    
+    pub use internal::AtomicImpl;
+   -pub use ordering::{Acquire, Full, Relaxed, Release};
+    pub(crate) use internal::{AtomicArithmeticOps, AtomicBasicOps, AtomicExchangeOps};
+   +pub use ordering::{Acquire, Full, Relaxed, Release};
+    
+    use crate::build_error;
+    use internal::AtomicRepr;
+   Diff in rust/kernel/sync/atomic.rs:21:
+    mod predefine;
+    
+    pub use internal::AtomicImpl;
+   -pub use ordering::{Acquire, Full, Relaxed, Release};
+    pub(crate) use internal::{AtomicArithmeticOps, AtomicBasicOps, AtomicExchangeOps};
+   +pub use ordering::{Acquire, Full, Relaxed, Release};
+    
+    use crate::build_error;
+    use internal::AtomicRepr;
+   make[2]: *** [Makefile:1847: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
