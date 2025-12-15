@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B800230E0E7;
-	Mon, 15 Dec 2025 12:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02F42877E3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 14:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765802882; cv=none; b=R3VSLMnWx30ZEH7XfHPtScDi09sNl1yjquWmjrN7CMgEYJd69PacfpXZZnD6THwJbjwctxj1BadWaYoseeYe0yyCmDA6XcqAAOsrT8/YIZQk4WuJmUXqjd7C4I5s5/BsyDd0VRvh9YMZkTCSEOgbaH7Q+u4DfkziUEzKrtPZ+7E=
+	t=1765807748; cv=none; b=bMve4d7K/zrkUBDW4/fFsec3OWQe++j58G1+4L9+DnwsRsXSINS0L2BDNeMHWS9cLg9NhmoeN77Vn8TuWu9uEZVdBgnwIfv7WNB0kvyIt5YkbPtJ3NN7W2/cUt25pooLOtq4uJ8b+wMNN6GboBooFGrKyYok8TyA2Wdb4aodxNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765802882; c=relaxed/simple;
-	bh=GiURxdW2gtGjcWEyDceYKzgOQ7sjMsMvFnMMR57IukU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B1RVQiI2aXyc6vpos32WoCz+a0W4b99izZf0T+E95h3q6F7mz2xtQa0s0uY81e5kgYGAlByuF1zHN1VwxEZ8krF7UVJrFMf4xCZuqKExB2Y55lSuvvoJPsEZi2s1lvdFbEHJWVjENh8UItNS+zSzCrz0KR4wcaLt0pa2oiACk1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gVJCRAGT; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1765807748; c=relaxed/simple;
+	bh=48601MX5ARS4nj4vcunKxJhH/jivQC5G3YnXKioxtH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Mw48DhKSJrW7nI9876LvDvmMZfJlW6B1/vc7JyGNVqCWKnQ2k7jkXAZzoZuJC0FFphX5C3YEWxDD7e6fDX1YGeho8k6cuIUzg6TVV77HC2L/ETrihjDJ9mOZCo6c9p5W8+l2yLRbDDMnDVYhP/bHMonpboIv2JUZwRnMRalOugQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGAMozzy; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gVJCRAGT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGAMozzy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765802881; x=1797338881;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GiURxdW2gtGjcWEyDceYKzgOQ7sjMsMvFnMMR57IukU=;
-  b=gVJCRAGTItoDEUGmTk9y6v4E1hyxdwbI8rNb2Ul4o3p64VauksoN9teI
-   VvnUJwms9CxRstIHLB1+ZfCCvHuv+qHeMP9QAyRissD89i4sXTJrw3pTM
-   sqMrNDrvzGADX87PTd/tRblbwAl63rJQbvmIF+c4Ef3yGH2lmFMLCGSjZ
-   dIWYusI+I0eYkCrAm6mkyzRbJuIQtHvnfi1iVoOG5o/A4s1u5oEtPQnMx
-   QzvpwdtnQ1xAxcHTQOJuRSfjVHfJWSssNYdykYMbSxq2f0XXkYGGxM9/P
-   CwkFqZA0b+pa5ZRtQ7hPpX6eL9NWinhpiv/kTf7XWfwmngZdkIaGVbIsl
-   w==;
-X-CSE-ConnectionGUID: 5a1mFunqTS6BA0ZIcJIUlQ==
-X-CSE-MsgGUID: h2toqx05TT+P83oIYWM5Cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="71333766"
+  t=1765807746; x=1797343746;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=48601MX5ARS4nj4vcunKxJhH/jivQC5G3YnXKioxtH0=;
+  b=bGAMozzyHo/4JCksEmeAqgUs8OupxY7Rm182OcWeukwIGoYsnQCgdQ++
+   G2Va75wMngUfRaJkOoUBwni/Z3JTveaoMFldPw/8q7Uz7acF+N+N6HGgi
+   JqxFoDPjN0i8glGSnx/cqjoGtBq4HVlA/lqnbo562daFJBjUOyPH7OkXo
+   xaTMa8rmS1e5g4UowbkOqiYCask2uPwQGG5OqQRl8v48disCvkk+lzUav
+   9NML5rENkUVBiJdex4rKMzGH2W6lIKGmNX43GxO/WvCZvMU6cn7+qg8lz
+   dQ+8q4EicysC6y67tH2qyoC6bgG6TLLIqFjsn5DAjmP9s9QjMWcXmFJNG
+   A==;
+X-CSE-ConnectionGUID: rnWDhc3lTnWFD1lvSZ4JMQ==
+X-CSE-MsgGUID: xpnEe+gmSoajvzqmjMgPPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66696369"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="71333766"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 04:48:01 -0800
-X-CSE-ConnectionGUID: 0KDjCnORQQSgwY/Jzquhng==
-X-CSE-MsgGUID: q3yMw4Z3QBCKzRRTG7sPiA==
+   d="scan'208";a="66696369"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 06:09:06 -0800
+X-CSE-ConnectionGUID: aAyRrrc2SL+LFIp//4H1YQ==
+X-CSE-MsgGUID: iLsq2qgKRFSHpxxNePGv2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="201898841"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 15 Dec 2025 04:47:57 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="228384974"
+Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 15 Dec 2025 06:09:05 -0800
+Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vV7zW-000000002e8-3Lxa;
-	Mon, 15 Dec 2025 12:47:54 +0000
-Date: Mon, 15 Dec 2025 13:47:54 +0100
+	id 1vV9G2-000000000M9-1lB7;
+	Mon, 15 Dec 2025 14:09:02 +0000
+Date: Mon, 15 Dec 2025 22:08:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mario Limonciello (AMD)" <superm1@kernel.org>,
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	"(maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))" <x86@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-	"Mario Limonciello (AMD)" <superm1@kernel.org>
-Subject: Re: [PATCH 3/5] firmware: dmi: Read additional information when
- decoding DMI table
-Message-ID: <202512151357.ZGpOppn5-lkp@intel.com>
-References: <20251214185309.152614-4-superm1@kernel.org>
+To: Vinicius Costa Gomes <vinicius.gomes@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>, Dave Jiang <dave.jiang@intel.com>
+Subject: drivers/dma/idxd/cdev.c:503:24: sparse: sparse: incorrect type in
+ return expression (different base types)
+Message-ID: <202512152206.bFVf1Xm9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,88 +62,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251214185309.152614-4-superm1@kernel.org>
 
-Hi Mario,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/master]
-[also build test WARNING on linus/master tip/auto-latest v6.19-rc1 next-20251215]
-[cannot apply to tip/x86/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello-AMD/firmware-dmi-Correct-an-indexing-error-in-dmi-h/20251215-025606
-base:   tip/master
-patch link:    https://lore.kernel.org/r/20251214185309.152614-4-superm1%40kernel.org
-patch subject: [PATCH 3/5] firmware: dmi: Read additional information when decoding DMI table
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251215/202512151357.ZGpOppn5-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+commit: 8dfa57aabff625bf445548257f7711ef294cd30e dmaengine: idxd: Fix allowing write() from different address spaces
+date:   8 months ago
+config: x86_64-randconfig-r122-20251215 (https://download.01.org/0day-ci/archive/20251215/202512152206.bFVf1Xm9-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151357.ZGpOppn5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512152206.bFVf1Xm9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512151357.ZGpOppn5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512152206.bFVf1Xm9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/dma/idxd/cdev.c:503:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
+   drivers/dma/idxd/cdev.c:503:24: sparse:     expected restricted __poll_t
+   drivers/dma/idxd/cdev.c:503:24: sparse:     got int
 
->> drivers/firmware/dmi_scan.c:398:14: warning: variable 'strings' set but not used [-Wunused-but-set-variable]
-     398 |         const char *strings;
-         |                     ^
->> drivers/firmware/dmi_scan.c:400:6: warning: variable 'count' set but not used [-Wunused-but-set-variable]
-     400 |         int count = 0;
-         |             ^
-   2 warnings generated.
+vim +503 drivers/dma/idxd/cdev.c
 
-
-vim +/strings +398 drivers/firmware/dmi_scan.c
-
-   395	
-   396	static void __init dmi_save_additional(const struct dmi_additional_info *info)
-   397	{
- > 398		const char *strings;
-   399		const u8 *data;
- > 400		int count = 0;
-   401		int i;
-   402	
-   403		if (!info || info->header.length < 5 + info->count * 5)
-   404			return;
-   405	
-   406		data = info->entries;
-   407		strings = (const char *)(data + info->count * 5);
-   408	
-   409		for (i = 0; i < info->count; i++) {
-   410			u8 entry_length = data[i * 5];
-   411			u8 string_num = data[i * 5 + 4];
-   412			const char *string_ptr;
-   413			char *value;
-   414			int len;
-   415	
-   416			if (entry_length < 5 || string_num == 0)
-   417				continue;
-   418	
-   419			string_ptr = dmi_string_nosave(&info->header, string_num);
-   420			if (!string_ptr || !*string_ptr)
-   421				continue;
-   422	
-   423			len = strlen(string_ptr);
-   424			if (len == 0)
-   425				continue;
-   426	
-   427			value = dmi_alloc(len + 1);
-   428			if (!value)
-   429				continue;
-   430	
-   431			strscpy(value, string_ptr, len + 1);
-   432	
-   433			dmi_save_one_device(DMI_DEV_TYPE_ADDITIONAL, value);
-   434			count++;
-   435		}
-   436	}
-   437	
+   493	
+   494	static __poll_t idxd_cdev_poll(struct file *filp,
+   495				       struct poll_table_struct *wait)
+   496	{
+   497		struct idxd_user_context *ctx = filp->private_data;
+   498		struct idxd_wq *wq = ctx->wq;
+   499		struct idxd_device *idxd = wq->idxd;
+   500		__poll_t out = 0;
+   501	
+   502		if (current->mm != ctx->mm)
+ > 503			return -EPERM;
+   504	
+   505		poll_wait(filp, &wq->err_queue, wait);
+   506		spin_lock(&idxd->dev_lock);
+   507		if (idxd->sw_err.valid)
+   508			out = EPOLLIN | EPOLLRDNORM;
+   509		spin_unlock(&idxd->dev_lock);
+   510	
+   511		return out;
+   512	}
+   513	
 
 -- 
 0-DAY CI Kernel Test Service
