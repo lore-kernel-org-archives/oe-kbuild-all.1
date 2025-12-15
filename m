@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9030141C72
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 08:42:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E295633030F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 08:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765788181; cv=none; b=gucNtf9ZkIV9Bx9G94ztNmI/j3WLUwyuvNScOp34h56vpdopEiKgZdO29O8mFjqQo8YKL9W0IkwY4YaHpaJBuE68ZRxadVivGMNy8yoNoU2+T8m4rPNmD0Mb1FMs1W1QeqRZqd/QQYGfdHSeKSZXh19GGBjCNzd9vYNsWmUI5gg=
+	t=1765788357; cv=none; b=jJ4ESO1KDycGm57Rg4oSsOqer5aIeZn42HAhRcB4ZzrBexf+nveoG+0NBPW6wKX9DbgC/Y39wu3COgroVNTsRFNUZ3sQ+j6eeX1ktpDqc2aaSOM2ux8UTa1RRIFRT8zW5F3o5UT7I2uNiJCfsumckkgGsaHuka3LUYGRuRDIB1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765788181; c=relaxed/simple;
-	bh=ZJMzPxRDiJROecpZ+GTUC+p4PUQ0cec2v2iMGgaQkaQ=;
+	s=arc-20240116; t=1765788357; c=relaxed/simple;
+	bh=E1eZej9qfqz1c8JHTxuxcHkpZnGTTjwdKQkyMHMVqkg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nIC432wvx3L6ZrszQ1AS6j6MeCOpJfVtxEAuaVwgeVC1nfOvmpF5sZsc/PUTEA5BMmGIZ7eDCLX+g9kZA3b5ZvnZ+6ICwt55cRxw9axmYvvkIFAo8Um1EwAjN6ZINJwLwL9TExuvc295hijNYMHW4GvNs+mrX3IrwM4SvElfTuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nMfrqTlX; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=HxguFMVr7ExmKC6SSPvIXL+z8PQAucgvBsMEbmutO+8risjYiIp/YJdMM79BJe9vE1NbAOAAb9WU3moZKS5miIFy7lVx0ccuTPLh6DpO1nOdDdAfdvqhkQigGtcKd7cc7/c8xUwMmYD0TqvwQTlJOzHEF1kUmvvc+E1Jw9dkOl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uj6IpnOs; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nMfrqTlX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765788180; x=1797324180;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZJMzPxRDiJROecpZ+GTUC+p4PUQ0cec2v2iMGgaQkaQ=;
-  b=nMfrqTlXD/mEBcbuWwlXc9v8jXmJk8fweAajNiA/+1b5hGjkIlR46R0/
-   d8aASsUNZ4ZG2HhytoYZO0zc130SVt0ll1qYio9NRNcEjRI+cyVdZ2tyi
-   clW87TJrcgNVJ48A+c15GJlxqsbpt4YgGjPUfrmJ0f7yvbThWIjsU0l+3
-   O6XeJT170+5l5757dLmnmKwh5TXszCMUCUa/As3tX4yRYVMDS5NW4/Fkz
-   eJLRmRJkpx53cNq9QOIbcYSHuA5RjIP0bFegMsK7mhEqYc1wMWtPyEeoB
-   voIm5IY7lhN23T32jDpNXVbVK9h83Bzfl2DLwW/jurOsPqOojMb4oRd+i
-   A==;
-X-CSE-ConnectionGUID: kN7rfwN9SCa0eJps/gUNnQ==
-X-CSE-MsgGUID: fBTGYHuvRZ2Y/5yPmTdyzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67561440"
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="67561440"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 00:42:56 -0800
-X-CSE-ConnectionGUID: vNh271a/TLGkWIqZ7Sowqg==
-X-CSE-MsgGUID: ZlRjGJGUSiqiOd4Vk1XKMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="197561763"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Dec 2025 00:42:55 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vV4AO-0000000005Z-3ebr;
-	Mon, 15 Dec 2025 08:42:52 +0000
-Date: Mon, 15 Dec 2025 16:42:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yuntao Liu <liuyuntao12@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3542/3542] lib/test_hexdump.c:116:3: warning:
- 'strncpy' output truncated copying between 0 and 32 bytes from a string of
- length 32
-Message-ID: <202512151641.xBwOsIKs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uj6IpnOs"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-430f1cd0026so1063006f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 00:45:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765788354; x=1766393154; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y1mPLZAI9ZWQopf1RG3516xfUaY7xCiWoA5Ln5IKDpY=;
+        b=uj6IpnOs25YawruJ0QhqQEFS6l5AiXxBGxUG+p3/KeqJTGF/1Ujs/fIo7pe/81KX6P
+         Seos0ijyxYtOf2TMJz/S48lRyr7X0LMI9G1DjD9XPS8d6Q/PMsrUvPauxLL2BQ9esmnD
+         DZvIStRowbkQIlH7WNLBZOj+SmyiLnhMBLO6wTxrCHyKdu5Fv+3ARHFVF88KEBGd6UTv
+         6m8VtO1Rf5lVDn6yJ5dwr0rM6ZGSDqxvWFfVghgRgsfIVwskCEco8rqdmPnHWwLIFc1V
+         p/+1e+3rutzKlmU+mWVUY0O3URy5EtHbwMz7xMOValHNONsoplzIbs60AVbR0y6/WrO3
+         84gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765788354; x=1766393154;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y1mPLZAI9ZWQopf1RG3516xfUaY7xCiWoA5Ln5IKDpY=;
+        b=vDzhCuaF/tdc82puebFa3tmf5CNCoPdxIzqOi7VEbRumLJEo6uwcGMy9fi4QeL4n/M
+         eT1RMCOHPqOoSCcVy6ulkUQHW+uokb4kktycdbrrUDrX/M/kP28z4VCbFOG6GGVo59mj
+         9N7nOufHDWBBvn5DXPsa8IpgySPEUr5s4N1ZOtwwKHeRy5nzDhUGtOv5QT4ZgGggaCLp
+         qd/sF7DaejjpXS9I+vtcHRMApCWXx9k6X9xpjFHiIXcwFkYFuufqGqmWlll53DPR2ml7
+         FQirdHDv4q+WnHDuQWGL9VfJUCzeEhiV1M1zQTwBYviBYcdVmHMjFnlcwqOPrPMblKWi
+         exqw==
+X-Forwarded-Encrypted: i=1; AJvYcCUOJM/xlpSkphphZWravoJwHte3ARmbk4PnBvU/JldYAb0s5Ui3nEfJDK/ZptcEPtYAccj5ODv1oAm03uze@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJ5rhZo7HxTOcUB6QbwrCjdQbhnW6GetKrxXHZ239xy/MnblSd
+	d2gTuGIRZ0/fLPuA5WxTH9uE2/0F1Dij0jtctDMF3YQhV8qOVwl/NzKdLRAdWn08x+wmHpIp5iQ
+	m5Pcl
+X-Gm-Gg: AY/fxX6/2ZVHQBlIoQ9IoKLthTcj8o3aiHTU6yPB/ehCAvyHu4w8VIF8YpLXZsC4yxa
+	jmpHZxkwbtiR7keQg2hWrBwbXM9AeOc7X6bh4+xHQolLbgFrzxaRmR4VaaW8JYT2MM4aqW/sIaI
+	8kQ2FGNg8GHHEPkKgTJAc8ZXEUbPZjsKL/2bFnyfu9/7ravBUdQKTtdBWTENyTXVIYIc2SIf6fU
+	rcP6kdd2BABA1M5DDU4A978VdUznIuHUi6zknUwk5EuPvoRStoOZHMVzs664qO0JNYceSAluZNi
+	jf29eCSpskVB91KD9bdaANhULebA8DubLy7UV8YEAtNWYJsexP3gbCDbOwu8TM66U0gPIfjp1zY
+	Icr+oi43Gtzb8YtFKD/xUz2qY11P6Kef5cFcN5NA20gMzHGiJF9aUPDvpQNJWdaifLiDj10d8o6
+	jwm2DppUUD66NKe8Vh
+X-Google-Smtp-Source: AGHT+IHccZQ15VqvR918P8rixRcRzxJagCgZkFP37uVhJfqdjnE256jvm3O18OAFSnHz9GqKkoCkhg==
+X-Received: by 2002:a05:6000:438a:b0:430:fbfc:ec77 with SMTP id ffacd0b85a97d-430fbfcede7mr3825925f8f.12.1765788353876;
+        Mon, 15 Dec 2025 00:45:53 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8a09fbesm28054842f8f.0.2025.12.15.00.45.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Dec 2025 00:45:53 -0800 (PST)
+Date: Mon, 15 Dec 2025 11:45:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: smatch@vger.kernel.org, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: drivers/dpll/dpll_core.c:235 dpll_xa_ref_dpll_first() warn: iterator
+ 'i' not incremented
+Message-ID: <202512130914.rQu8NUGq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,92 +75,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   81b22958142c03b02c766c79cd1554ebfa142be4
-commit: f04c0f3eb9b49427c273cd3e4d5a2ff895855b4b [3542/3542] make OPTIMIZE_INLINING config editable
-config: arm64-randconfig-004-20251215 (https://download.01.org/0day-ci/archive/20251215/202512151641.xBwOsIKs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151641.xBwOsIKs-lkp@intel.com/reproduce)
+The kbuild bot generates a ton of these "not incremeneted" false
+positives because of something to do with xa_find().  But I can't
+reproduce it.  I have:
+
+1) deleted my cross function DB
+2) git checkout 187d0801404f415f22c0b31531982c7ea97fa341
+3) https://download.01.org/0day-ci/archive/20251213/202512130914.rQu8NUGq-lkp@intel.com/config
+   I still had to do a make oldconfig which is surprising.
+4) Used the released version of Smatch with no special arguments
+5) Tested on x86_64 and i386 (I haven't seen these warnings on Arm out of the
+   seven that I checked).
+
+But I can't reproduce these warnings.
+
+Do other people have a way to reproduce these warnings?
+
+regards,
+dan carpenter
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   187d0801404f415f22c0b31531982c7ea97fa341
+commit: 2df8e64e01c10a4b75ea7797629f9e764a840eb0 dpll: Add basic Microchip ZL3073x support
+config: x86_64-randconfig-161-20251212 (https://download.01.org/0day-ci/archive/20251213/202512130914.rQu8NUGq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512151641.xBwOsIKs-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512130914.rQu8NUGq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/dpll/dpll_core.c:235 dpll_xa_ref_dpll_first() warn: iterator 'i' not incremented
+drivers/dpll/dpll_netlink.c:1267 dpll_pin_phase_adj_set() warn: iterator 'i' not incremented
+drivers/dpll/dpll_netlink.c:1414 dpll_pin_find() warn: iterator 'i' not incremented
+drivers/dpll/dpll_netlink.c:1617 dpll_device_find() warn: iterator 'i' not incremented
 
-   lib/test_hexdump.c: In function 'test_hexdump_prepare_test.isra.0':
->> lib/test_hexdump.c:116:3: warning: 'strncpy' output truncated copying between 0 and 32 bytes from a string of length 32 [-Wstringop-truncation]
-     116 |   strncpy(p, data_a, l);
-         |   ^~~~~~~~~~~~~~~~~~~~~
+Old smatch warnings:
+drivers/dpll/dpll_core.c:82 dpll_xa_ref_pin_add() warn: iterator 'i' not incremented
+drivers/dpll/dpll_core.c:134 dpll_xa_ref_pin_del() warn: iterator 'i' not incremented
+drivers/dpll/dpll_core.c:163 dpll_xa_ref_dpll_add() warn: iterator 'i' not incremented
+drivers/dpll/dpll_core.c:215 dpll_xa_ref_dpll_del() warn: iterator 'i' not incremented
+drivers/dpll/dpll_core.c:568 dpll_pin_get() warn: iterator 'i' not incremented
+drivers/dpll/dpll_core.c:670 dpll_pin_ref_sync_pair_del() warn: iterator 'i' not incremented
+drivers/dpll/dpll_core.c:764 dpll_pin_on_pin_register() warn: iterator 'i' not incremented
+drivers/dpll/dpll_core.c:798 dpll_pin_on_pin_unregister() warn: iterator 'i' not incremented
+drivers/dpll/dpll_netlink.c:62 dpll_pin_available() warn: iterator 'i' not incremented
+drivers/dpll/dpll_netlink.c:894 dpll_pin_freq_set() warn: iterator 'i' not incremented
+drivers/dpll/dpll_netlink.c:1046 dpll_pin_ref_sync_state_set() warn: iterator 'i' not incremented
+drivers/dpll/dpll_netlink.c:1109 dpll_pin_on_pin_state_set() warn: iterator 'i' not incremented
 
+vim +/i +235 drivers/dpll/dpll_core.c
 
-vim +/strncpy +116 lib/test_hexdump.c
-
-7aaf4c3e1235cc lib/test_hexdump.c Andy Shevchenko  2016-01-20   66  
-87977ca6bcd051 lib/test_hexdump.c Andy Shevchenko  2016-01-20   67  static void __init test_hexdump_prepare_test(size_t len, int rowsize,
-87977ca6bcd051 lib/test_hexdump.c Andy Shevchenko  2016-01-20   68  					     int groupsize, char *test,
-87977ca6bcd051 lib/test_hexdump.c Andy Shevchenko  2016-01-20   69  					     size_t testlen, bool ascii)
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   70  {
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   71  	char *p;
-17974c054db303 lib/test-hexdump.c Linus Torvalds   2015-04-19   72  	const char * const *result;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   73  	size_t l = len;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   74  	int gs = groupsize, rs = rowsize;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   75  	unsigned int i;
-de9df3993cfffd lib/test_hexdump.c Christophe Leroy 2018-08-21   76  	const bool is_be = IS_ENABLED(CONFIG_CPU_BIG_ENDIAN);
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   77  
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   78  	if (rs != 16 && rs != 32)
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   79  		rs = 16;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   80  
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   81  	if (l > rs)
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   82  		l = rs;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   83  
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   84  	if (!is_power_of_2(gs) || gs > 8 || (len % gs != 0))
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   85  		gs = 1;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   86  
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   87  	if (gs == 8)
-de9df3993cfffd lib/test_hexdump.c Christophe Leroy 2018-08-21   88  		result = is_be ? test_data_8_be : test_data_8_le;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   89  	else if (gs == 4)
-de9df3993cfffd lib/test_hexdump.c Christophe Leroy 2018-08-21   90  		result = is_be ? test_data_4_be : test_data_4_le;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   91  	else if (gs == 2)
-de9df3993cfffd lib/test_hexdump.c Christophe Leroy 2018-08-21   92  		result = is_be ? test_data_2_be : test_data_2_le;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   93  	else
-de9df3993cfffd lib/test_hexdump.c Christophe Leroy 2018-08-21   94  		result = test_data_1;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   95  
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   96  	/* hex dump */
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   97  	p = test;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   98  	for (i = 0; i < l / gs; i++) {
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12   99  		const char *q = *result++;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  100  		size_t amount = strlen(q);
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  101  
-b1286ed7158e9b lib/test_hexdump.c Linus Torvalds   2018-11-30  102  		memcpy(p, q, amount);
-3db4a987180acf lib/test_hexdump.c Andy Shevchenko  2016-01-20  103  		p += amount;
-3db4a987180acf lib/test_hexdump.c Andy Shevchenko  2016-01-20  104  
-3db4a987180acf lib/test_hexdump.c Andy Shevchenko  2016-01-20  105  		*p++ = ' ';
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  106  	}
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  107  	if (i)
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  108  		p--;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  109  
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  110  	/* ASCII part */
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  111  	if (ascii) {
-3db4a987180acf lib/test_hexdump.c Andy Shevchenko  2016-01-20  112  		do {
-3db4a987180acf lib/test_hexdump.c Andy Shevchenko  2016-01-20  113  			*p++ = ' ';
-3db4a987180acf lib/test_hexdump.c Andy Shevchenko  2016-01-20  114  		} while (p < test + rs * 2 + rs / gs + 1);
-3db4a987180acf lib/test_hexdump.c Andy Shevchenko  2016-01-20  115  
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12 @116  		strncpy(p, data_a, l);
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  117  		p += l;
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  118  	}
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  119  
-64d1d77a44697a lib/test-hexdump.c Andy Shevchenko  2015-02-12  120  	*p = '\0';
-87977ca6bcd051 lib/test_hexdump.c Andy Shevchenko  2016-01-20  121  }
-87977ca6bcd051 lib/test_hexdump.c Andy Shevchenko  2016-01-20  122  
-
-:::::: The code at line 116 was first introduced by commit
-:::::: 64d1d77a44697af8e314939ecef30642c68309cb hexdump: introduce test suite
-
-:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+9431063ad323ac Vadim Fedorenko 2023-09-13  232  struct dpll_pin_ref *dpll_xa_ref_dpll_first(struct xarray *xa_refs)
+9431063ad323ac Vadim Fedorenko 2023-09-13  233  {
+9431063ad323ac Vadim Fedorenko 2023-09-13  234  	struct dpll_pin_ref *ref;
+9431063ad323ac Vadim Fedorenko 2023-09-13 @235  	unsigned long i = 0;
+9431063ad323ac Vadim Fedorenko 2023-09-13  236  
+9431063ad323ac Vadim Fedorenko 2023-09-13  237  	ref = xa_find(xa_refs, &i, ULONG_MAX, XA_PRESENT);
+9431063ad323ac Vadim Fedorenko 2023-09-13  238  	WARN_ON(!ref);
+9431063ad323ac Vadim Fedorenko 2023-09-13  239  	return ref;
+9431063ad323ac Vadim Fedorenko 2023-09-13  240  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
