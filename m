@@ -1,62 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D2C1FF1C4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 04:10:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FD619258E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 04:21:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765771858; cv=none; b=kZRUrk1qYFsZOttNnCo9o/DZFF6o/ecDwyEopolNIssqB6Q8s66Qp1tJOr0LWjPGAQDGxLmoYh6QRAoi7kGdjrUJ13BVwG8RdBO8Wi8/0RktEtaTcGAbNFUd/f+hEYwJG2J4tjkKtZ+qyHCY98j2Wg4cpOHFfunU4DZKbtkr8WI=
+	t=1765772473; cv=none; b=PJF2HCt8aDjrvmYIdWmBaSSKo4RS9lcjTqZbc1kv7d4yXgY/lJSMhF/feBuFGFpFHrAKxYGtn/C+MZ/b9x1vJQ9HuyqsYw6g0vFnZ9en+sUNtz3zOYSiC+euAEQf6OID6bhvBbnYT1qZvmMXOHpSUvQjineGI1OKqxblzjHAQ08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765771858; c=relaxed/simple;
-	bh=VUYRsUTtVVa8X7hcy3vpjYmK1qxkXMNqKTsWetCPQ9w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J/QsMlbPqyAghj/R+xoyUNUsnuS7kN4MtgoQ6qB18PpKXl+EzKhe+YwYuJyCth+0K9lFahGXVm0D5PubykNooBylgxYU3Z/acp4KsxaQby/1bgnY6hbX71CBPrymrcdxb/Nbmk4nigH5jPRouT7JjM4eQSfyn5hC6UlysxtNzlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l7aHUQvP; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1765772473; c=relaxed/simple;
+	bh=Q8Qk1iCCrrcXFGVhw4xA9hBiZlmnKGr9dlArpPLenbE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UKAwAs+lZvJ0LmgxAyZqk7YIBqljd0qSwYAB9TroQIA4NEftEgTDKU9eFReZMoGwiO7Qbci1VBxNTbv+5nEkkWQbPwldj3YDhRk2SWZQGQ05/S0MWZB2jID2itYyweuG0H1tM3WXHfgt9q4JTHbvC13241sP7yKExFGhLWm6ayQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A39NEfM5; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l7aHUQvP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A39NEfM5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765771855; x=1797307855;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VUYRsUTtVVa8X7hcy3vpjYmK1qxkXMNqKTsWetCPQ9w=;
-  b=l7aHUQvPVlJ14HwrDUNRqCmd/mMa9cKg5yL+hcyP2NGU8/OqqPWm9fv+
-   EqYX7I669qJzRcmLZZJBeQdRoDZU+Yn7gtnuHCzLyATuFYqifB/1BUJEx
-   oaqd/bAh7x3/yuGNPYuNjW0lvmu779bYN2gN8CD3eXCVQmeL3VSkn6ORp
-   DxAKq/NZFpjcT3xD4SJd6KfLclO9QZiS/mX+WOTTCO8wByTIrAv8JPhqe
-   dS4zCd6halJNTAj6JUJjkiGfoBjR8ABASXDytVmsLzN6C0GiOYPJ01BbG
-   mMl+TJsxPJOZ+3hJsMTdwUYYYBnR7HKM6qKToA9a5+HmCYNvxUxFO7e4c
-   A==;
-X-CSE-ConnectionGUID: hHGaODdgRJemxJ7/tPg+Iw==
-X-CSE-MsgGUID: H8foIuruS+aUVRoT6K8Gnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="78785144"
+  t=1765772472; x=1797308472;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Q8Qk1iCCrrcXFGVhw4xA9hBiZlmnKGr9dlArpPLenbE=;
+  b=A39NEfM5ETc8clG+kvdJ/bRQrK6X+UZbUsosqx7nfqmfwQ1SXghpHMHz
+   +0GOl9qJmRVlPKUTAr3x0GpHu/ab4TNAb2AZXovmaLRRhZtBNMr7j56/+
+   1zz6rGB0ZzWNE+s/EG5h9R7B6dJC9uLa0oipErIqn0R75mehpkpT627QV
+   0nSiYHFnwg7s1jTSRSVzK/J3SxF+BnSijE3AJCrhU+fG0LBuUJSlXojKL
+   weBr/ml11dnNEXJSqlfS+p4bAuSe5dgXbYCrGufqqijTWV0MpOpC7fwAP
+   McYdv8YLfOz6dY1deAN/V6Jpvt2UjXqLdmaRjicpWQqxKLk2edCMZe6Ci
+   Q==;
+X-CSE-ConnectionGUID: pOpB74BiQm61EhT430zyZw==
+X-CSE-MsgGUID: 5a1GV+1LRKa2devxM9cl7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="78785605"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="78785144"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 20:10:54 -0800
-X-CSE-ConnectionGUID: hf4v2ifPThG9k+ZNkdFsAg==
-X-CSE-MsgGUID: huj2U/LZSIOWLKFMQhJCAw==
+   d="scan'208";a="78785605"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 20:21:11 -0800
+X-CSE-ConnectionGUID: z2F8jwtaR8eKkyWi3ITIOw==
+X-CSE-MsgGUID: 00ioez7SQkqdthTPhoCA+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="221016885"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 14 Dec 2025 20:10:53 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="202122621"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 14 Dec 2025 20:21:10 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUzv8-000000002Yq-3cGD;
-	Mon, 15 Dec 2025 04:10:50 +0000
-Date: Mon, 15 Dec 2025 05:10:18 +0100
+	id 1vV055-000000009mg-44I7;
+	Mon, 15 Dec 2025 04:21:07 +0000
+Date: Mon, 15 Dec 2025 12:21:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	linux-scsi@vger.kernel.org
-Subject: Re: [PATCH 4/8] scsi: sd: Convert to scsi bus methods
-Message-ID: <202512150543.RnycrOo1-lkp@intel.com>
-References: <1931ec5bbe8d0ad82b6fbc77939d43bf5a4f177f.1765312062.git.u.kleine-koenig@baylibre.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:work.filename 58/59] arch/alpha/kernel/osf_sys.c:474:15:
+ error: conflicting types for 'devname'; have 'char *'
+Message-ID: <202512151226.9GRRkjbx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,31 +61,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1931ec5bbe8d0ad82b6fbc77939d43bf5a4f177f.1765312062.git.u.kleine-koenig@baylibre.com>
 
-Hi Uwe,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 7d0a66e4bb9081d75c82ec4957c50034cb0ea449]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/scsi-Pass-a-struct-scsi_driver-to-scsi_-un-register_driver/20251210-044843
-base:   7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-patch link:    https://lore.kernel.org/r/1931ec5bbe8d0ad82b6fbc77939d43bf5a4f177f.1765312062.git.u.kleine-koenig%40baylibre.com
-patch subject: [PATCH 4/8] scsi: sd: Convert to scsi bus methods
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251215/202512150543.RnycrOo1-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150543.RnycrOo1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.filename
+head:   80f54c1d0854abf4e9a7e32147ef643ebbea427d
+commit: 5d0a59eaa522c2fd896cb6ddd6e3c0e3e2fa1b49 [58/59] alpha: switch osf_mount() to strndup_user()
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251215/202512151226.9GRRkjbx-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151226.9GRRkjbx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512150543.RnycrOo1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512151226.9GRRkjbx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: drivers/scsi/sd.c:3912 function parameter 'sdp' not described in 'sd_probe'
->> Warning: drivers/scsi/sd.c:4061 function parameter 'sd' not described in 'sd_remove'
+   arch/alpha/kernel/osf_sys.c: In function 'osf_cdfs_mount':
+>> arch/alpha/kernel/osf_sys.c:474:15: error: conflicting types for 'devname'; have 'char *'
+     474 |         char *devname __free(kfree) = NULL;
+         |               ^~~~~~~
+   arch/alpha/kernel/osf_sys.c:473:26: note: previous declaration of 'devname' with type 'struct filename *'
+     473 |         struct filename *devname;
+         |                          ^~~~~~~
+
+
+vim +474 arch/alpha/kernel/osf_sys.c
+
+   467	
+   468	static int
+   469	osf_cdfs_mount(const char __user *dirname,
+   470		       struct cdfs_args __user *args, int flags)
+   471	{
+   472		struct cdfs_args tmp;
+   473		struct filename *devname;
+ > 474		char *devname __free(kfree) = NULL;
+   475	
+   476		if (copy_from_user(&tmp, args, sizeof(tmp)))
+   477			return -EFAULT;
+   478		devname = strndup_user(tmp.devname, PATH_MAX);
+   479		if (IS_ERR(devname))
+   480			return PTR_ERR(devname);
+   481		return do_mount(devname, dirname, "iso9660", flags, NULL);
+   482	}
+   483	
 
 -- 
 0-DAY CI Kernel Test Service
