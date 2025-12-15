@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCFB286A9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 14:12:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481907082D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 14:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765807981; cv=none; b=g6bjGHxhfsOM1j599Kq7NrvI3PAf77rXqZVV2ndAew7bsGpa4OnjIg3c7Y/Yk7AZNuAgW/tLwyeQ1RhJAgIlVbrxvxZyWXtbFqSGY9bCywekys9cngpF/rv0DWdAd0ApDysRU6eoYIw7V05CouHY2AR15s7VW7egm+qme0tS53g=
+	t=1765808563; cv=none; b=GMVcyOIfDOZAu1NzzMrnwbc3mqVu8qKK4ECKSDWmpwZnvskqKFyWXKG/J8n6BzL020nhbiqIVvtjj0FxuC1FZ3NQCcbstzyXA19Dft8mkmX7UChY4N5b+jd94BkHVtvEy3z5JEQlNqegpTj0mglzk9Sh9m4Wo0HtqMIljU32bEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765807981; c=relaxed/simple;
-	bh=pZlNyfYrZh0ViYSNd+NsLFpIoEf9LHmJbyf7RlFGmwA=;
+	s=arc-20240116; t=1765808563; c=relaxed/simple;
+	bh=ioGpwopOeCj20OGZYQ3fjwkEjMkwoLwc3lmzjGnBi8A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oFGsDnEVgLJ+umXOl57UKtJF/036sL933aKdJMm80nRnSSubE1clboPAlvjSn6y5wDV1yodKXQRr6A5Q8NuJ6q1rPtb6Jt48A4YFswje07PSGIueT2wJf+I5vksgbkyouR2exGrvO1sz1zsPTC1M1YXR/mM32nVSIFAaH2C+Mls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z6iJBHxK; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition:In-Reply-To; b=SJq3XDcD72mYMLvbFklbHjWTEdhE7M9OakLR5VWKY4qvrsLPWdKHQB1ez7SgJf9jT8eiFywtyrYI2DCWOEI89NRlCgL9N8aSRc4HTWJ3KdhFywAMBqcGJ+PdhP9eRPtWrkeiUUGVpQ3Zze/bb5/gKZLyC4Sm+TINC6Pjl0O2qMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oo8NS+pb; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z6iJBHxK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oo8NS+pb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765807980; x=1797343980;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pZlNyfYrZh0ViYSNd+NsLFpIoEf9LHmJbyf7RlFGmwA=;
-  b=Z6iJBHxKtxt0gmycOb6YZgKn1R4SKgZFbDIfyMCvrgYzs1Dk7gFKI3Mu
-   5IjhA3p0OHzRDPWzoFCnECL9u90npaW8itxsJNKKQsMTdvwol43ha4jxN
-   5ENq0BsvWYDTVa9qAK2SLaitqMuO1OkdmGpEtMqv9iJyef9w+D7IrRkfQ
-   UMBvwjRZOfhDiKXslgq6EUtoTsFBXAnCpKfZAi8E8lrIdHVzvtvQOwh+E
-   QNcrnERtTHzrTqgs5iAHD4nFkbGv9Ke4UCmCjw6p6qjnCOOEO2D0lKQku
-   CF7nDpHTmuJe9e/jAlw4v163BwNNt9EhEe9CUyLFWe9u4/ATyVT8D9o8N
-   A==;
-X-CSE-ConnectionGUID: +ii2MhH2SrChxNBbgj9T1A==
-X-CSE-MsgGUID: AORMJ2gETGaVDI4CI2WpsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="71339437"
+  t=1765808562; x=1797344562;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=ioGpwopOeCj20OGZYQ3fjwkEjMkwoLwc3lmzjGnBi8A=;
+  b=Oo8NS+pb41NR2Tzu7Q5ag+O6VKgkwIirgtAAu4K7z0RTXALMABAU0zpj
+   BhYvj4rAg3J8vtKf50pFiLfraVm8l60IBxcK6aLavGDJRxAzWryrNoN49
+   yCQSpBAhd3srYZ0UyzH5jLMZ+lUN/+o/qaSDEt1diZC111UZxD4bn/5kj
+   Lwa9Tz8Sfs2EYXnf5mFAXVAGNVVUqsOHgQrNac6o1CplZBNYngODzrWp2
+   S9UgUZsqa6Jd+x+iWMCwuQMrmqMK7dlTJF03wHp7ifDtedcp0YZgr0luS
+   7ai4UwRG6MompG2UcVNz+YtsIoE+OSfv0lsbMMh0o3fVLbxGOu1m6B3qg
+   g==;
+X-CSE-ConnectionGUID: oC+46uyDQ+iI+xQRTsTY5Q==
+X-CSE-MsgGUID: ZIwx/Q/wTIqENO0B7NH9DQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67465002"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="71339437"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 06:12:59 -0800
-X-CSE-ConnectionGUID: WmhO2tDaQqSJ4myYJoDd9A==
-X-CSE-MsgGUID: 44BShaM0TSelOSVcyE9GIQ==
+   d="scan'208";a="67465002"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 06:22:41 -0800
+X-CSE-ConnectionGUID: OW1dqh5xT/2iGZqigsiBnQ==
+X-CSE-MsgGUID: 72XAYDQZQGehXZq2Ah3Nmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="221111111"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Dec 2025 06:12:58 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="202842134"
+Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 15 Dec 2025 06:22:38 -0800
+Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vV9Jo-000000002g4-0fwu;
-	Mon, 15 Dec 2025 14:12:56 +0000
-Date: Mon, 15 Dec 2025 15:12:17 +0100
+	id 1vV9Sr-000000000Mb-2ztC;
+	Mon, 15 Dec 2025 14:22:22 +0000
+Date: Mon, 15 Dec 2025 22:21:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [nbdd0121:vtable-wip 3/3] Diff in rust/macros/vtable.rs:2:
-Message-ID: <202512151501.o5coGUFk-lkp@intel.com>
+To: Jinchao Wang <wangjinchao600@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] mm/readahead: read min folio constraints under
+ invalidate lock
+Message-ID: <aUAZXjLr4_d99FDI@73f44f95d416>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,84 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251215141936.1045907-1-wangjinchao600@gmail.com>
 
-tree:   https://github.com/nbdd0121/linux vtable-wip
-head:   b26df2e17c5c53ab1b818cc1d953dd3ece892da3
-commit: b26df2e17c5c53ab1b818cc1d953dd3ece892da3 [3/3] Use `#[unique] const NAME: Ty;` without `= value` at impl site.
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251215/202512151501.o5coGUFk-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151501.o5coGUFk-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512151501.o5coGUFk-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/macros/vtable.rs:2:
-    
-    use std::collections::HashSet;
-    
-   -use proc_macro2::{Ident, TokenStream, Span};
-   +use proc_macro2::{Ident, Span, TokenStream};
-    use quote::ToTokens;
-    use syn::{
-        parse_quote, Error, ImplItem, ImplItemConst, Item, ItemImpl, ItemTrait, Result, Token,
->> Diff in rust/macros/vtable.rs:2:
-    
-    use std::collections::HashSet;
-    
-   -use proc_macro2::{Ident, TokenStream, Span};
-   +use proc_macro2::{Ident, Span, TokenStream};
-    use quote::ToTokens;
-    use syn::{
-        parse_quote, Error, ImplItem, ImplItemConst, Item, ItemImpl, ItemTrait, Result, Token,
-   Diff in rust/kernel/sync/atomic.rs:21:
-    mod predefine;
-    
-    pub use internal::AtomicImpl;
-   -pub use ordering::{Acquire, Full, Relaxed, Release};
-    pub(crate) use internal::{AtomicArithmeticOps, AtomicBasicOps, AtomicExchangeOps};
-   +pub use ordering::{Acquire, Full, Relaxed, Release};
-    
-    use crate::build_error;
-    use internal::AtomicRepr;
-   Diff in rust/kernel/sync/atomic.rs:21:
-    mod predefine;
-    
-    pub use internal::AtomicImpl;
-   -pub use ordering::{Acquire, Full, Relaxed, Release};
-    pub(crate) use internal::{AtomicArithmeticOps, AtomicBasicOps, AtomicExchangeOps};
-   +pub use ordering::{Acquire, Full, Relaxed, Release};
-    
-    use crate::build_error;
-    use internal::AtomicRepr;
-   Diff in rust/kernel/sync/atomic.rs:21:
-    mod predefine;
-    
-    pub use internal::AtomicImpl;
-   -pub use ordering::{Acquire, Full, Relaxed, Release};
-    pub(crate) use internal::{AtomicArithmeticOps, AtomicBasicOps, AtomicExchangeOps};
-   +pub use ordering::{Acquire, Full, Relaxed, Release};
-    
-    use crate::build_error;
-    use internal::AtomicRepr;
-   make[2]: *** [Makefile:1847: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] mm/readahead: read min folio constraints under invalidate lock
+Link: https://lore.kernel.org/stable/20251215141936.1045907-1-wangjinchao600%40gmail.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
