@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A241E0DD8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 05:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC6028CF5F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 05:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765774857; cv=none; b=LXIGgCUR+0EO63lRzdv7huicArlIX50BvswZhtig4o16WrjY1pIp5BmyeM+oEganUn9OcBNO5qlysqWhYdGM6KB+WO87kvZmEGfsk5uyNPQB7oW3bXARDvcLeR4u48FuU9Q25H2D3JPHrrXy2hjmG/73ycYElyAq432UFaaNVek=
+	t=1765775175; cv=none; b=Mjp3HIOLsgxGVXtragtIw54jZ+CYnGvUbbE9bI12QBSEs/oeKU/bsBfdOV3b0x0l2YKT/VRB+qVP+202N6tAUAW2Kp+BlrGc8UFXloSHmBhbFU7cPfd1womrmrQ/AlPhROG1b1WFq8NLsdaqXoQZG+MrpuqL6by9yxjvGfRzuyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765774857; c=relaxed/simple;
-	bh=o9Q9SLiXHToLLMIDMeWuLeJQOlqeJqmFAH1XM6Lu/+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ovwpr9AEn4CbsLgEwsgrj+2taa372tAhP3xxgKs9KgQn18gfLGKg5j27scu5EdcfFS04Ye4oTq9SHhCDlekwdvs9kYTdq5TylrvRyQ3x/rO50BRoItzpE1qWRJLXvCFnNgfYlz3WiML3qCTM4HckTcHu0EBUg7ROSHzBRIeo23M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QooTtXV5; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1765775175; c=relaxed/simple;
+	bh=zosrx5I0dSOJO5P4SpwrG05KDYj/RfIOkaG9EmF8iPE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XaxJMdvdtVvn5mR85oJyQk4iB3YmpyEYTNNAl7whb/zd4KPLh5C9lmOixyFO2fDikGX7+vqjql8E65+fmBDVQNvrpDijrLGzLGIhcXnox/94OH4nhFtk8cSgc6J1QQ97Io2VPH5c1usaUhjfpiI30LH+CDsHcxvxNd4IZSfyoqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BTSnWAxA; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QooTtXV5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BTSnWAxA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765774856; x=1797310856;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o9Q9SLiXHToLLMIDMeWuLeJQOlqeJqmFAH1XM6Lu/+Y=;
-  b=QooTtXV5JrQ1KvAFy4NFqAVy1lyFh5CJwSZh38k7KskcWLRT+Z51oVde
-   t6p30btOridguGzsMCsy3Na8FO3bRX056ph7De5OSJxAyALXt3KfWKSkz
-   k8zCoG+5M7LVqaLfEW65lfm7H9tltY0KDqvWx1t25vKNaSjL7hcalRy/V
-   DwWcuqvhc/w0Dsh8+nfPuCx3WSeYK4GdbMEOqFooVYBlrDalb4yk9/kI/
-   lRH3pOTpN4IIPo25PqllMTcERCsxcmadwEFaIap3kvvYTjfzVcTYbP/QD
-   1fuVmjcnZL80u0fUAg0EHn57vE6Gv7vh/nJfjZxs4QQIRExdJibSfR6L0
+  t=1765775174; x=1797311174;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zosrx5I0dSOJO5P4SpwrG05KDYj/RfIOkaG9EmF8iPE=;
+  b=BTSnWAxAZznldg0n9qhyMBRoR4Hs2FwCZkHq3MWP4G4rN9DnN0M680Gl
+   J7dO0i1WTjMzPTtRUmmpRtiFW3FIi5w9Y+Vm0UHDSZt3WcitbXRg883YR
+   Yl9ZZpy1EMz/26WYnhEXuVqs2szD6uK3gnIJx/yMsx6SpL7dKKKj1GE6r
+   SF4Ytl2Nv5jCyjpHDALywWz1ZQYukGzljYnO8UGRpHgswnccU1fvJj3Ka
+   +bdK0NKPvvuHX0yLNRn9Ryl8O7hIM2wuCsSF27o7y5sbSCHisTA03oeNc
+   MXF+jmKG0AOW7a5vY+gRzX7+YY+GsfZ+P2Z5JOsgCvT0UF50fAj7oVlTe
    A==;
-X-CSE-ConnectionGUID: lFtWrGFUS4Gqr5FF8E+P0g==
-X-CSE-MsgGUID: XaAh+HPlSgijAwsDT/UcZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="78376656"
+X-CSE-ConnectionGUID: 5jTTFNPZSaqAmN95pyvUlA==
+X-CSE-MsgGUID: m96BFgyrQlGYf97Q3pAeWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67710155"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="78376656"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 21:00:55 -0800
-X-CSE-ConnectionGUID: uUb91bMFSwqXizAbWiOeuw==
-X-CSE-MsgGUID: Rnmk+5JpS5yrx036/grrag==
+   d="scan'208";a="67710155"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 21:06:13 -0800
+X-CSE-ConnectionGUID: 4vhMHzEOTvWaPhIbUhlT9g==
+X-CSE-MsgGUID: J+eDwsGvRo2uh06Duri4Dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="197907037"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Dec 2025 21:00:53 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="198141284"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 14 Dec 2025 21:06:11 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vV0hX-000000002Zc-1ggv;
-	Mon, 15 Dec 2025 05:00:51 +0000
-Date: Mon, 15 Dec 2025 06:00:14 +0100
+	id 1vV0mf-000000009oP-0wi5;
+	Mon, 15 Dec 2025 05:06:09 +0000
+Date: Mon, 15 Dec 2025 13:06:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aaron Tomlin <atomlin@atomlin.com>, akpm@linux-foundation.org,
-	lance.yang@linux.dev, mhiramat@kernel.org,
-	gregkh@linuxfoundation.org, pmladek@suse.com
-Cc: oe-kbuild-all@lists.linux.dev, sean@ashe.io,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] hung_task: Enable runtime reset of
- hung_task_detect_count
-Message-ID: <202512150521.53lGwfu6-lkp@intel.com>
-References: <20251211033004.1628875-3-atomlin@atomlin.com>
+To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3542/3542] arch/x86/kernel/cpu/proc.c:63:5:
+ warning: no previous prototype for function 'show_cpuinfo'
+Message-ID: <202512151347.pYQgm67P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,38 +61,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251211033004.1628875-3-atomlin@atomlin.com>
 
-Hi Aaron,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.19-rc1 next-20251215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/hung_task-Consolidate-hung-task-warning-into-an-atomic-log-block/20251211-113605
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251211033004.1628875-3-atomlin%40atomlin.com
-patch subject: [PATCH v2 2/2] hung_task: Enable runtime reset of hung_task_detect_count
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251215/202512150521.53lGwfu6-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150521.53lGwfu6-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   549c32bcd16ff65ec78f30270d68abe28dfddcc8
+commit: 9d3b0e8891b8b3450a7cd6d1367946a1c69e4eb9 [3542/3542] bpf: Add cpuinfo_x86 iterator target
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251215/202512151347.pYQgm67P-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151347.pYQgm67P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512150521.53lGwfu6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512151347.pYQgm67P-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: kernel/hung_task.c:390 function parameter 'table' not described in 'proc_dohung_task_detect_count'
->> Warning: kernel/hung_task.c:390 function parameter 'write' not described in 'proc_dohung_task_detect_count'
->> Warning: kernel/hung_task.c:390 function parameter 'buffer' not described in 'proc_dohung_task_detect_count'
->> Warning: kernel/hung_task.c:390 function parameter 'lenp' not described in 'proc_dohung_task_detect_count'
->> Warning: kernel/hung_task.c:390 function parameter 'ppos' not described in 'proc_dohung_task_detect_count'
+>> arch/x86/kernel/cpu/proc.c:63:5: warning: no previous prototype for function 'show_cpuinfo' [-Wmissing-prototypes]
+      63 | int show_cpuinfo(struct seq_file *m, void *v)
+         |     ^
+   arch/x86/kernel/cpu/proc.c:63:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      63 | int show_cpuinfo(struct seq_file *m, void *v)
+         | ^
+         | static 
+   1 warning generated.
+
+
+vim +/show_cpuinfo +63 arch/x86/kernel/cpu/proc.c
+
+    62	
+  > 63	int show_cpuinfo(struct seq_file *m, void *v)
+    64	{
+    65		struct cpuinfo_x86 *c = v;
+    66		unsigned int cpu;
+    67		int i;
+    68	
+    69		cpu = c->cpu_index;
+    70		seq_printf(m, "processor\t: %u\n"
+    71			   "vendor_id\t: %s\n"
+    72			   "cpu family\t: %d\n"
+    73			   "model\t\t: %u\n"
+    74			   "model name\t: %s\n",
+    75			   cpu,
+    76			   c->x86_vendor_id[0] ? c->x86_vendor_id : "unknown",
+    77			   c->x86,
+    78			   c->x86_model,
+    79			   c->x86_model_id[0] ? c->x86_model_id : "unknown");
+    80	
+    81		if (c->x86_stepping || c->cpuid_level >= 0)
+    82			seq_printf(m, "stepping\t: %d\n", c->x86_stepping);
+    83		else
+    84			seq_puts(m, "stepping\t: unknown\n");
+    85		if (c->microcode)
+    86			seq_printf(m, "microcode\t: 0x%x\n", c->microcode);
+    87	
+    88		if (cpu_has(c, X86_FEATURE_TSC)) {
+    89			unsigned int freq = arch_freq_get_on_cpu(cpu);
+    90	
+    91			seq_printf(m, "cpu MHz\t\t: %u.%03u\n", freq / 1000, (freq % 1000));
+    92		}
+    93	
+    94		/* Cache size */
+    95		if (c->x86_cache_size)
+    96			seq_printf(m, "cache size\t: %u KB\n", c->x86_cache_size);
+    97	
+    98		show_cpuinfo_core(m, c, cpu);
+    99		show_cpuinfo_misc(m, c);
+   100	
+   101		seq_puts(m, "flags\t\t:");
+   102		for (i = 0; i < 32*NCAPINTS; i++)
+   103			if (cpu_has(c, i) && x86_cap_flags[i] != NULL) {
+   104				if (c->x86_vendor == X86_VENDOR_HYGON)
+   105					seq_printf(m, " %s", i == X86_FEATURE_SEV ? "csv" :
+   106						   (i == X86_FEATURE_SEV_ES ? "csv2" :
+   107						    x86_cap_flags[i]));
+   108				else
+   109					seq_printf(m, " %s", x86_cap_flags[i]);
+   110			}
+   111	
 
 -- 
 0-DAY CI Kernel Test Service
