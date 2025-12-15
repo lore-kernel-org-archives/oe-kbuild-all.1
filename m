@@ -1,409 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2008B1E0DD8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 04:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685B331AF24
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 04:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765773957; cv=none; b=Ahoq3U0xe9d+KN5ejuLxXet55tZE5q4O1UW8Hogsl2kgKX5f4W4gOXMD4jSxaNhEoSn7PJcTy2/vWt5C8zgLBj6L6oPsNIJ81VEJSnqjo3SJia+hvIWqPBWLnx7d7uznIwfQWFdD7nnc79b4Ji3KlK2tzNoVtvfP8PxaRkxubg0=
+	t=1765774611; cv=none; b=cnYzEMslCYbzYp+j7qy3qnSTkZoZYRLeH93Q36rzlsyETQS4yghi7oopXARagM/3rFhwRBOKzdt2FNTKzizvVQBosjVZzu72uUAgdxtsnVNqP00u/cN4JRkfJfutiqkcLZzoaRJcK2uEiu1ijTMbggqCjmvIKgVVzjmP+roIpqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765773957; c=relaxed/simple;
-	bh=0bE2cTvim3s9qWuLT/15GzFETkKHEdzb0Llm0mXdeKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YF32JUzzpPxQBPfeLIfJoseDh2qS9rDUbhT+e2RoY/H/hM2eitdHA/fQavOGEdqvW85HmQvMMy41iEKLmEhq/DcTVSF6BtbY5xH/dXpVnwqRu+0U/CN2YKMtaNnB1isNAHr+Y9P0QHFCTiHu6lzi5u4wxkNau8lVIoOdw1H9FfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R3GJbR8v; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765774611; c=relaxed/simple;
+	bh=dyWaY6Fyj3zh8+NX1FMllbUobGrRmcg99lsPSxMvcLg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HGwU3+w8XN9l8Al8YYHJzU0RbtrvyRSCvJR+2Sf93uqXz6X5OVtPYhP+QDHhrU6yg4DQqUY2kiGO94wy1Fyj2MfEn6Z87jn7fFYsqYqmgVEhZLtbjBeg37s47AAyYH7L+xprqsRSpK8E2IXs7dKkLTh7xLOku3aTPsqznzIaO1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e7vjr3CX; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3GJbR8v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765773955; x=1797309955;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0bE2cTvim3s9qWuLT/15GzFETkKHEdzb0Llm0mXdeKo=;
-  b=R3GJbR8vrClnH/y/iEyip67+bL8dM8R5/L3cfwocJf+nRPmYp3EH4lfr
-   wygRGgkAC5yrWNR0tTFv6fOoM6QgHAFrSXJKSMS30E3YyB2xcWFo5D2lE
-   AS0M/v+YTdMKmZCM0VAWxGxGBsRL4xj5aZsXXvOLvMptn7kCHL8XipmsJ
-   GPy6zHJyxqYAo9Ec5OHOhmFMMtAX7XZ4n5Wxm4N4SqF9qRYzAofqEkJSg
-   wDZuCnpgdtE37PpOs8g9+SJUO2EmOzLyclnQHpfYnmGZvMaise/PG4YEb
-   5KY+y/NfyR1Pr8vu+yAnFyC735kZk4Ip+AdvGysG6ECJwAoCjcmEZPTG8
-   w==;
-X-CSE-ConnectionGUID: NKyYE85qQb68A5KLzXHY/w==
-X-CSE-MsgGUID: sKQOOMKaSfmOk91z4+6IOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="78309792"
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="78309792"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 20:45:54 -0800
-X-CSE-ConnectionGUID: KYuG01R0T2qQLv4ekZcHmg==
-X-CSE-MsgGUID: dozQzqbeT2uMp14tBVtPOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="197244802"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 14 Dec 2025 20:45:53 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vV0T1-000000002ZM-0wsa;
-	Mon, 15 Dec 2025 04:45:51 +0000
-Date: Mon, 15 Dec 2025 05:44:52 +0100
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3542/3542]
- drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:459:6: error: no
- previous prototype for 'sxe_debugfs_entries_exit'
-Message-ID: <202512150524.N6WnCpPL-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e7vjr3CX"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b7370698a8eso407403966b.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 20:56:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765774608; x=1766379408; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FPCFQP3Vt5EBLlG8b8H61bS7KpkCTlBSE7JQzBw720w=;
+        b=e7vjr3CXdIvpWQOFw1GYAb/cmUWvi4nER86Fp+xZQsmozioqocIYca0OCqVG7QQUsh
+         BqAhKz08FJmwIQOje9y7gZ1JeJ7N1FUHWBNIASf1YS63bddI5qqXetW4L5cb4+eMTrIw
+         ilBP8ldRkr6RXSG5nKBt0EJyKng3CpBdDvVd8by1085x42k0Cxe0SMnEjBOGoREQUm5D
+         9lo+hHoMXZuEzV0hCpibShf7DMUUrzkgC+al7InpCIM5twa/seuDwEPQrL3DIrx8+mP7
+         TDNesQHBD0H5xfeApCTJRYaB/5p82p0303g+YwFyKl/kj4gY3GYCOLXp4U40Uf8K1BMs
+         l4mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765774608; x=1766379408;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=FPCFQP3Vt5EBLlG8b8H61bS7KpkCTlBSE7JQzBw720w=;
+        b=YgGvYvYHW513kGuEkPelGy/3/6NfsQt84Q8zWsVdhHPrC7vEvhojsG2K1IegK0+Ori
+         KG726GDv5rlHbNeIFB7Xky9mzLZaYpz9+Rrtz2mq+5y4kOQMrBxZ4CHvLtc2L7kzvGco
+         MLFX8S/GOeQ1XAfR5LZvRvNuflF+wLu4c+Q0dY/4tzZ/xXc109SZ+vo1R3wqVypNqq9s
+         Wu/L6RvTHV7xHyVfKiTKUsdWKWoQH//HujwhPp/Svjb/lL+3YrkyqCUwyDgRcVdg6iZt
+         TYC6+8EqTVTakR+u1/GkXBMnPAjD25Xfxk9q8UTMbOJRYUq3+Tj7V5+oyMrBSHDvwyzt
+         0ieA==
+X-Forwarded-Encrypted: i=1; AJvYcCXMBuYd53HLuHx3OJNQZTK3fGaxX3s6NceD7Jxx5CLYTYrJQAPDfNR8HtX+lSjqTZIxJJq0bLizFoL4FD9M@lists.linux.dev
+X-Gm-Message-State: AOJu0YyNT4kbWWvtOwifwjI4cGCU1lJtugiM6IlsOUw9wHm9KZnJa0pU
+	MHP5xbQL9PDK06V3Ri87XKasJCup45q3H0ZAi9+tOpS393IG3FYtkGm4NzK3ramv53NB4WPQhsZ
+	YxKRSy7ANgOL6TI6pxJqDLvMxA1kgGe4=
+X-Gm-Gg: AY/fxX5pGP+e5idxa+I2o3yymqqPB2sFj4YtJNz/nbrRbaW2dFO1AzdEhpNDKwOkRsZ
+	snUhjkrIjoeHuJ6Rq7Bqm6IfF1Ipg/ivRjPOQeQwR9WVBEfqJrShAWnMz3mcWcxsMhwMjWDPty9
+	bwQ4nV5Gw3DI/t1LU+sMQliKOBD8YiD8I3tv1zv3XPzTlooVP/pOwKyTRlGYyRTDwp9BEgnCv1W
+	TAgLRY98Fwg7m7epCykoQBDLuqufSw7TN30fK5XO8Qb/fzzb8/Up+tcURjg/lFwDVedN6Gz
+X-Google-Smtp-Source: AGHT+IFrfJBBUqe+fJTs/otz3aUzkW8Pl0HnggOO5N0PlXVavpMLXgznKsETHhKbrHpJk7KNU5ZMajnlz703M/7GIhw=
+X-Received: by 2002:a17:906:4fd5:b0:b76:2667:7717 with SMTP id
+ a640c23a62f3a-b7d23aa4046mr1086480366b.56.1765774607557; Sun, 14 Dec 2025
+ 20:56:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20251209121349.525641-2-dolinux.peng@gmail.com> <202512140850.JdD1lPmn-lkp@intel.com>
+In-Reply-To: <202512140850.JdD1lPmn-lkp@intel.com>
+From: Donglin Peng <dolinux.peng@gmail.com>
+Date: Mon, 15 Dec 2025 12:56:35 +0800
+X-Gm-Features: AQt7F2r7qaPfCZNFQJWN3FmkMI3nvzBmLh_-WHohqasKL2htaY_edIPtmNPav3E
+Message-ID: <CAErzpmvxz7mthfTxc4gWFqcCW66ckuHaFnjQbakSHj31x1vOOQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] fgraph: Enhance funcgraph-retval with BTF-based
+ type-aware output
+To: kernel test robot <lkp@intel.com>
+Cc: rostedt@goodmis.org, oe-kbuild-all@lists.linux.dev, mhiramat@kernel.org, 
+	linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, pengdonglin <pengdonglin@xiaomi.com>, 
+	Xiaoqin Zhang <zhangxiaoqin@xiaomi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   549c32bcd16ff65ec78f30270d68abe28dfddcc8
-commit: dd013ad487534c1838afc2f55efdb5daec15aace [3542/3542] Ethernet: Linkdata: Supports Linkdata ethernet Controllers
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251215/202512150524.N6WnCpPL-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150524.N6WnCpPL-lkp@intel.com/reproduce)
+On Sun, Dec 14, 2025 at 9:15=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Donglin,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on trace/for-next]
+> [also build test ERROR on linus/master v6.18 next-20251212]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Donglin-Peng/fgrap=
+h-Enhance-funcgraph-retval-with-BTF-based-type-aware-output/20251209-201633
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace=
+ for-next
+> patch link:    https://lore.kernel.org/r/20251209121349.525641-2-dolinux.=
+peng%40gmail.com
+> patch subject: [PATCH v3 1/2] fgraph: Enhance funcgraph-retval with BTF-b=
+ased type-aware output
+> config: arm-randconfig-002-20251214 (https://download.01.org/0day-ci/arch=
+ive/20251214/202512140850.JdD1lPmn-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20251214/202512140850.JdD1lPmn-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512140850.JdD1lPmn-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    arm-linux-gnueabi-ld: kernel/trace/trace_functions_graph.o: in functio=
+n `trim_retval':
+> >> kernel/trace/trace_functions_graph.c:888: undefined reference to `btf_=
+find_func_proto'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512150524.N6WnCpPL-lkp@intel.com/
+Thanks. I will address this in the next version. The issue occurs because
+CONFIG_FUNCTION_GRAPH_RETVAL and CONFIG_DEBUG_INFO_BTF
+are enabled, but CONFIG_PROBE_EVENTS_BTF_ARGS is disabled.
+This prevents trace_btf.c from being compiled, while the function
+btf_find_func_proto
+it provides is still required.
 
-All errors (new ones prefixed by >>):
-
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_xdp.c:410:6: error: no previous prototype for 'sxe_txrx_ring_enable' [-Werror=missing-prototypes]
-     410 | void sxe_txrx_ring_enable(struct sxe_adapter *adapter, u32 ring_idx)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:432:6: error: no previous prototype for 'sxe_debugfs_entries_init' [-Werror=missing-prototypes]
-     432 | void sxe_debugfs_entries_init(struct sxe_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:459:6: error: no previous prototype for 'sxe_debugfs_entries_exit' [-Werror=missing-prototypes]
-     459 | void sxe_debugfs_entries_exit(struct sxe_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:465:6: error: no previous prototype for 'sxe_debugfs_init' [-Werror=missing-prototypes]
-     465 | void sxe_debugfs_init(void)
-         |      ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c:470:6: error: no previous prototype for 'sxe_debugfs_exit' [-Werror=missing-prototypes]
-     470 | void sxe_debugfs_exit(void)
-         |      ^~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ethtool.c:2022:5: error: no previous prototype for 'sxe_reg_test' [-Werror=missing-prototypes]
-    2022 | int sxe_reg_test(struct sxe_adapter *adapter)
-         |     ^~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ethtool.c:2644:5: error: no previous prototype for 'sxe_phys_id_set' [-Werror=missing-prototypes]
-    2644 | int sxe_phys_id_set(struct net_device *netdev, enum ethtool_phys_id_state state)
-         |     ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ethtool.c: In function 'sxe_get_module_eeprom':
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_ethtool.c:2736:47: error: suggest braces around empty body in an 'if' statement [-Werror=empty-body]
-    2736 |                 LOG_ERROR("read sfp failed\n");
-         |                                               ^
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:230:6: error: no previous prototype for 'sxe_hw_no_snoop_disable' [-Werror=missing-prototypes]
-     230 | void sxe_hw_no_snoop_disable(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:262:6: error: no previous prototype for 'sxe_hw_uc_addr_pool_del' [-Werror=missing-prototypes]
-     262 | void sxe_hw_uc_addr_pool_del(struct sxe_hw *hw, u32 rar_idx, u32 pool_idx)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:283:5: error: no previous prototype for 'sxe_hw_uc_addr_pool_enable' [-Werror=missing-prototypes]
-     283 | s32 sxe_hw_uc_addr_pool_enable(struct sxe_hw *hw, u8 rar_idx, u8 pool_idx)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:337:5: error: no previous prototype for 'sxe_hw_nic_reset' [-Werror=missing-prototypes]
-     337 | s32 sxe_hw_nic_reset(struct sxe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:367:6: error: no previous prototype for 'sxe_hw_pf_rst_done_set' [-Werror=missing-prototypes]
-     367 | void sxe_hw_pf_rst_done_set(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:735:5: error: no previous prototype for 'sxe_hw_pending_irq_read_clear' [-Werror=missing-prototypes]
-     735 | u32 sxe_hw_pending_irq_read_clear(struct sxe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:740:6: error: no previous prototype for 'sxe_hw_pending_irq_write_clear' [-Werror=missing-prototypes]
-     740 | void sxe_hw_pending_irq_write_clear(struct sxe_hw *hw, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:745:5: error: no previous prototype for 'sxe_hw_irq_cause_get' [-Werror=missing-prototypes]
-     745 | u32 sxe_hw_irq_cause_get(struct sxe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:765:6: error: no previous prototype for 'sxe_hw_ring_irq_auto_disable' [-Werror=missing-prototypes]
-     765 | void sxe_hw_ring_irq_auto_disable(struct sxe_hw *hw, bool is_msix)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:775:6: error: no previous prototype for 'sxe_hw_irq_general_reg_set' [-Werror=missing-prototypes]
-     775 | void sxe_hw_irq_general_reg_set(struct sxe_hw *hw, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:780:5: error: no previous prototype for 'sxe_hw_irq_general_reg_get' [-Werror=missing-prototypes]
-     780 | u32 sxe_hw_irq_general_reg_get(struct sxe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:790:6: error: no previous prototype for 'sxe_hw_event_irq_map' [-Werror=missing-prototypes]
-     790 | void sxe_hw_event_irq_map(struct sxe_hw *hw, u8 offset, u16 irq_idx)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:806:6: error: no previous prototype for 'sxe_hw_ring_irq_map' [-Werror=missing-prototypes]
-     806 | void sxe_hw_ring_irq_map(struct sxe_hw *hw, bool is_tx, u16 reg_idx,
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:823:6: error: no previous prototype for 'sxe_hw_ring_irq_interval_set' [-Werror=missing-prototypes]
-     823 | void sxe_hw_ring_irq_interval_set(struct sxe_hw *hw, u16 irq_idx, u32 interval)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:838:6: error: no previous prototype for 'sxe_hw_event_irq_auto_clear_set' [-Werror=missing-prototypes]
-     838 | void sxe_hw_event_irq_auto_clear_set(struct sxe_hw *hw, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:843:6: error: no previous prototype for 'sxe_hw_specific_irq_disable' [-Werror=missing-prototypes]
-     843 | void sxe_hw_specific_irq_disable(struct sxe_hw *hw, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:848:6: error: no previous prototype for 'sxe_hw_specific_irq_enable' [-Werror=missing-prototypes]
-     848 | void sxe_hw_specific_irq_enable(struct sxe_hw *hw, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:876:6: error: no previous prototype for 'sxe_hw_all_irq_disable' [-Werror=missing-prototypes]
-     876 | void sxe_hw_all_irq_disable(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:994:5: error: no previous prototype for 'sxe_hw_link_speed_get' [-Werror=missing-prototypes]
-     994 | u32 sxe_hw_link_speed_get(struct sxe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1014:6: error: no previous prototype for 'sxe_hw_link_speed_set' [-Werror=missing-prototypes]
-    1014 | void sxe_hw_link_speed_set(struct sxe_hw *hw, u32 speed)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1033:6: error: no previous prototype for 'sxe_hw_is_link_state_up' [-Werror=missing-prototypes]
-    1033 | bool sxe_hw_is_link_state_up(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1055:6: error: no previous prototype for 'sxe_hw_mac_pad_enable' [-Werror=missing-prototypes]
-    1055 | void sxe_hw_mac_pad_enable(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1064:5: error: no previous prototype for 'sxe_hw_fc_enable' [-Werror=missing-prototypes]
-    1064 | s32 sxe_hw_fc_enable(struct sxe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1135:6: error: no previous prototype for 'sxe_fc_autoneg_localcap_set' [-Werror=missing-prototypes]
-    1135 | void sxe_fc_autoneg_localcap_set(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1164:5: error: no previous prototype for 'sxe_hw_pfc_enable' [-Werror=missing-prototypes]
-    1164 | s32 sxe_hw_pfc_enable(struct sxe_hw *hw, u8 tc_idx)
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1256:6: error: no previous prototype for 'sxe_hw_crc_configure' [-Werror=missing-prototypes]
-    1256 | void sxe_hw_crc_configure(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1264:6: error: no previous prototype for 'sxe_hw_loopback_switch' [-Werror=missing-prototypes]
-    1264 | void sxe_hw_loopback_switch(struct sxe_hw *hw, bool is_enable)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1276:6: error: no previous prototype for 'sxe_hw_mac_txrx_enable' [-Werror=missing-prototypes]
-    1276 | void sxe_hw_mac_txrx_enable(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1285:6: error: no previous prototype for 'sxe_hw_mac_max_frame_set' [-Werror=missing-prototypes]
-    1285 | void sxe_hw_mac_max_frame_set(struct sxe_hw *hw, u32 max_frame)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1298:5: error: no previous prototype for 'sxe_hw_mac_max_frame_get' [-Werror=missing-prototypes]
-    1298 | u32 sxe_hw_mac_max_frame_get(struct sxe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1330:6: error: no previous prototype for 'sxe_hw_fc_tc_high_water_mark_set' [-Werror=missing-prototypes]
-    1330 | void sxe_hw_fc_tc_high_water_mark_set(struct sxe_hw *hw, u8 tc_idx, u32 mark)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1335:6: error: no previous prototype for 'sxe_hw_fc_tc_low_water_mark_set' [-Werror=missing-prototypes]
-    1335 | void sxe_hw_fc_tc_low_water_mark_set(struct sxe_hw *hw, u8 tc_idx, u32 mark)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1340:6: error: no previous prototype for 'sxe_hw_is_fc_autoneg_disabled' [-Werror=missing-prototypes]
-    1340 | bool sxe_hw_is_fc_autoneg_disabled(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1345:6: error: no previous prototype for 'sxe_hw_fc_autoneg_disable_set' [-Werror=missing-prototypes]
-    1345 | void sxe_hw_fc_autoneg_disable_set(struct sxe_hw *hw, bool is_disabled)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1360:6: error: no previous prototype for 'sxe_hw_fc_requested_mode_set' [-Werror=missing-prototypes]
-    1360 | void sxe_hw_fc_requested_mode_set(struct sxe_hw *hw, enum sxe_fc_mode mode)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1388:5: error: no previous prototype for 'sxe_hw_rx_mode_get' [-Werror=missing-prototypes]
-    1388 | u32 sxe_hw_rx_mode_get(struct sxe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1393:5: error: no previous prototype for 'sxe_hw_pool_rx_mode_get' [-Werror=missing-prototypes]
-    1393 | u32 sxe_hw_pool_rx_mode_get(struct sxe_hw *hw, u16 pool_idx)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1398:6: error: no previous prototype for 'sxe_hw_rx_mode_set' [-Werror=missing-prototypes]
-    1398 | void sxe_hw_rx_mode_set(struct sxe_hw *hw, u32 filter_ctrl)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1403:6: error: no previous prototype for 'sxe_hw_pool_rx_mode_set' [-Werror=missing-prototypes]
-    1403 | void sxe_hw_pool_rx_mode_set(struct sxe_hw *hw, u32 vmolr, u16 pool_idx)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1408:6: error: no previous prototype for 'sxe_hw_rx_lro_enable' [-Werror=missing-prototypes]
-    1408 | void sxe_hw_rx_lro_enable(struct sxe_hw *hw, bool is_enable)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1420:6: error: no previous prototype for 'sxe_hw_rx_nfs_filter_disable' [-Werror=missing-prototypes]
-    1420 | void sxe_hw_rx_nfs_filter_disable(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1428:6: error: no previous prototype for 'sxe_hw_rx_udp_frag_checksum_disable' [-Werror=missing-prototypes]
-    1428 | void sxe_hw_rx_udp_frag_checksum_disable(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1437:6: error: no previous prototype for 'sxe_hw_fc_mac_addr_set' [-Werror=missing-prototypes]
-    1437 | void sxe_hw_fc_mac_addr_set(struct sxe_hw *hw, u8 *mac_addr)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1449:5: error: no previous prototype for 'sxe_hw_uc_addr_add' [-Werror=missing-prototypes]
-    1449 | s32 sxe_hw_uc_addr_add(struct sxe_hw *hw, u32 rar_idx, u8 *addr, u32 pool_idx)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1484:5: error: no previous prototype for 'sxe_hw_uc_addr_del' [-Werror=missing-prototypes]
-    1484 | s32 sxe_hw_uc_addr_del(struct sxe_hw *hw, u32 index)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1510:6: error: no previous prototype for 'sxe_hw_mta_hash_table_set' [-Werror=missing-prototypes]
-    1510 | void sxe_hw_mta_hash_table_set(struct sxe_hw *hw, u8 index, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1515:6: error: no previous prototype for 'sxe_hw_mta_hash_table_update' [-Werror=missing-prototypes]
-    1515 | void sxe_hw_mta_hash_table_update(struct sxe_hw *hw, u8 reg_idx, u8 bit_idx)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1525:5: error: no previous prototype for 'sxe_hw_mc_filter_get' [-Werror=missing-prototypes]
-    1525 | u32 sxe_hw_mc_filter_get(struct sxe_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1530:6: error: no previous prototype for 'sxe_hw_mc_filter_enable' [-Werror=missing-prototypes]
-    1530 | void sxe_hw_mc_filter_enable(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1554:6: error: no previous prototype for 'sxe_hw_uc_addr_clear' [-Werror=missing-prototypes]
-    1554 | void sxe_hw_uc_addr_clear(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1587:6: error: no previous prototype for 'sxe_hw_vt_ctrl_cfg' [-Werror=missing-prototypes]
-    1587 | void sxe_hw_vt_ctrl_cfg(struct sxe_hw *hw, u8 default_pool)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1601:6: error: no previous prototype for 'sxe_hw_vt_disable' [-Werror=missing-prototypes]
-    1601 | void sxe_hw_vt_disable(struct sxe_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1675:5: error: no previous prototype for 'sxe_hw_vlan_pool_filter_read' [-Werror=missing-prototypes]
-    1675 | u32 sxe_hw_vlan_pool_filter_read(struct sxe_hw *hw, u16 reg_index)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1697:6: error: no previous prototype for 'sxe_hw_vlan_filter_array_write' [-Werror=missing-prototypes]
-    1697 | void sxe_hw_vlan_filter_array_write(struct sxe_hw *hw, u16 reg_index, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1702:5: error: no previous prototype for 'sxe_hw_vlan_filter_array_read' [-Werror=missing-prototypes]
-    1702 | u32 sxe_hw_vlan_filter_array_read(struct sxe_hw *hw, u16 reg_index)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_hw.c:1707:6: error: no previous prototype for 'sxe_hw_vlan_filter_switch' [-Werror=missing-prototypes]
-    1707 | void sxe_hw_vlan_filter_switch(struct sxe_hw *hw, bool is_enable)
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:136:5: error: no previous prototype for 'sxe_msi_irq_init' [-Werror=missing-prototypes]
-     136 | int sxe_msi_irq_init(struct sxe_adapter *adapter)
-         |     ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:182:6: error: no previous prototype for 'sxe_disable_dcb' [-Werror=missing-prototypes]
-     182 | void sxe_disable_dcb(struct sxe_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:212:6: error: no previous prototype for 'sxe_disable_rss' [-Werror=missing-prototypes]
-     212 | void sxe_disable_rss(struct sxe_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:729:6: error: no previous prototype for 'sxe_lsc_irq_handler' [-Werror=missing-prototypes]
-     729 | void sxe_lsc_irq_handler(struct sxe_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_irq.c:745:6: error: no previous prototype for 'sxe_mailbox_irq_handler' [-Werror=missing-prototypes]
-     745 | void sxe_mailbox_irq_handler(struct sxe_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_main.c:70:6: error: no previous prototype for 'sxe_allow_inval_mac' [-Werror=missing-prototypes]
-      70 | bool sxe_allow_inval_mac(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_phy.c:733:5: error: no previous prototype for 'sxe_multispeed_sfp_link_configure' [-Werror=missing-prototypes]
-     733 | s32 sxe_multispeed_sfp_link_configure(struct sxe_adapter *adapter, u32 speed)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_rx_proc.c:1431:6: error: no previous prototype for 'sxe_headers_cleanup' [-Werror=missing-prototypes]
-    1431 | bool sxe_headers_cleanup(struct sxe_ring *rx_ring,
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_rx_proc.c:1569:6: error: no previous prototype for 'sxe_rx_buffer_page_offset_update' [-Werror=missing-prototypes]
-    1569 | void sxe_rx_buffer_page_offset_update(struct sxe_ring *rx_ring,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_sriov.c: In function 'sxe_vf_uc_addr_del':
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_sriov.c:766:13: error: variable 'ret' set but not used [-Werror=unused-but-set-variable]
-     766 |         s32 ret;
-         |             ^~~
-   drivers/net/ethernet/linkdata/sxe/sxepf/sxe_sriov.c: At top level:
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_sriov.c:1552:6: error: no previous prototype for 'sxe_set_vf_link_enable' [-Werror=missing-prototypes]
-    1552 | void sxe_set_vf_link_enable(struct sxe_adapter *adapter, s32 vf_idx, s32 state)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:160:6: error: no previous prototype for 'sxevf_hw_stop' [-Werror=missing-prototypes]
-     160 | void sxevf_hw_stop(struct sxevf_hw *hw)
-         |      ^~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:187:6: error: no previous prototype for 'sxevf_msg_write' [-Werror=missing-prototypes]
-     187 | void sxevf_msg_write(struct sxevf_hw *hw, u8 index, u32 msg)
-         |      ^~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:196:5: error: no previous prototype for 'sxevf_msg_read' [-Werror=missing-prototypes]
-     196 | u32 sxevf_msg_read(struct sxevf_hw *hw, u8 index)
-         |     ^~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:206:5: error: no previous prototype for 'sxevf_mailbox_read' [-Werror=missing-prototypes]
-     206 | u32 sxevf_mailbox_read(struct sxevf_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:211:6: error: no previous prototype for 'sxevf_mailbox_write' [-Werror=missing-prototypes]
-     211 | void sxevf_mailbox_write(struct sxevf_hw *hw, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:216:6: error: no previous prototype for 'sxevf_pf_req_irq_trigger' [-Werror=missing-prototypes]
-     216 | void sxevf_pf_req_irq_trigger(struct sxevf_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:221:6: error: no previous prototype for 'sxevf_pf_ack_irq_trigger' [-Werror=missing-prototypes]
-     221 | void sxevf_pf_ack_irq_trigger(struct sxevf_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:226:6: error: no previous prototype for 'sxevf_event_irq_map' [-Werror=missing-prototypes]
-     226 | void sxevf_event_irq_map(struct sxevf_hw *hw, u16 vector)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:240:6: error: no previous prototype for 'sxevf_specific_irq_enable' [-Werror=missing-prototypes]
-     240 | void sxevf_specific_irq_enable(struct sxevf_hw *hw, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:245:6: error: no previous prototype for 'sxevf_irq_enable' [-Werror=missing-prototypes]
-     245 | void sxevf_irq_enable(struct sxevf_hw *hw, u32 mask)
-         |      ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:251:6: error: no previous prototype for 'sxevf_irq_disable' [-Werror=missing-prototypes]
-     251 | void sxevf_irq_disable(struct sxevf_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:259:6: error: no previous prototype for 'sxevf_hw_ring_irq_map' [-Werror=missing-prototypes]
-     259 | void sxevf_hw_ring_irq_map(struct sxevf_hw *hw, bool is_tx, u16 hw_ring_idx,
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:276:6: error: no previous prototype for 'sxevf_ring_irq_interval_set' [-Werror=missing-prototypes]
-     276 | void sxevf_ring_irq_interval_set(struct sxevf_hw *hw, u16 irq_idx, u32 interval)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:313:6: error: no previous prototype for 'sxevf_hw_reset' [-Werror=missing-prototypes]
-     313 | void sxevf_hw_reset(struct sxevf_hw *hw)
-         |      ^~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:324:5: error: no previous prototype for 'sxevf_link_state_get' [-Werror=missing-prototypes]
-     324 | u32 sxevf_link_state_get(struct sxevf_hw *hw)
-         |     ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:539:6: error: no previous prototype for 'sxevf_tx_ring_switch' [-Werror=missing-prototypes]
-     539 | void sxevf_tx_ring_switch(struct sxevf_hw *hw, u8 reg_idx, bool is_on)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:594:6: error: no previous prototype for 'sxevf_rx_ring_switch' [-Werror=missing-prototypes]
-     594 | void sxevf_rx_ring_switch(struct sxevf_hw *hw, u8 reg_idx, bool is_on)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:626:6: error: no previous prototype for 'sxevf_rx_ring_desc_configure' [-Werror=missing-prototypes]
-     626 | void sxevf_rx_ring_desc_configure(struct sxevf_hw *hw, u32 desc_mem_len,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:640:6: error: no previous prototype for 'sxevf_rx_rcv_ctl_configure' [-Werror=missing-prototypes]
-     640 | void sxevf_rx_rcv_ctl_configure(struct sxevf_hw *hw, u8 reg_idx,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:697:6: error: no previous prototype for 'sxevf_32bit_counter_update' [-Werror=missing-prototypes]
-     697 | void sxevf_32bit_counter_update(struct sxevf_hw *hw,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:710:6: error: no previous prototype for 'sxevf_36bit_counter_update' [-Werror=missing-prototypes]
-     710 | void sxevf_36bit_counter_update(struct sxevf_hw *hw,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:726:6: error: no previous prototype for 'sxevf_packet_stats_get' [-Werror=missing-prototypes]
-     726 | void sxevf_packet_stats_get(struct sxevf_hw *hw, struct sxevf_hw_stats *stats)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_hw.c:740:6: error: no previous prototype for 'sxevf_stats_init_value_get' [-Werror=missing-prototypes]
-     740 | void sxevf_stats_init_value_get(struct sxevf_hw *hw,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-..
-
-
-vim +/sxe_debugfs_entries_exit +459 drivers/net/ethernet/linkdata/sxe/sxepf/sxe_debugfs.c
-
-   458	
- > 459	void sxe_debugfs_entries_exit(struct sxe_adapter *adapter)
-   460	{
-   461		debugfs_remove_recursive(adapter->debugfs_entries);
-   462		adapter->debugfs_entries = NULL;
-   463	}
-   464	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Donglin
+>
+>
+> vim +888 kernel/trace/trace_functions_graph.c
+>
+>    872
+>    873  static void trim_retval(unsigned long func, unsigned long *retval=
+, bool *print_retval,
+>    874                          int *fmt)
+>    875  {
+>    876          const struct btf_type *t;
+>    877          char name[KSYM_NAME_LEN];
+>    878          struct btf *btf;
+>    879          u32 v, msb;
+>    880          int kind;
+>    881
+>    882          if (!IS_ENABLED(CONFIG_DEBUG_INFO_BTF))
+>    883                  return;
+>    884
+>    885          if (lookup_symbol_name(func, name))
+>    886                  return;
+>    887
+>  > 888          t =3D btf_find_func_proto(name, &btf);
+>    889          if (IS_ERR_OR_NULL(t))
+>    890                  return;
+>    891
+>    892          t =3D btf_type_skip_modifiers(btf, t->type, NULL);
+>    893          kind =3D t ? BTF_INFO_KIND(t->info) : BTF_KIND_UNKN;
+>    894          switch (kind) {
+>    895          case BTF_KIND_UNKN:
+>    896                  *print_retval =3D false;
+>    897                  break;
+>    898          case BTF_KIND_STRUCT:
+>    899          case BTF_KIND_UNION:
+>    900          case BTF_KIND_ENUM:
+>    901          case BTF_KIND_ENUM64:
+>    902                  if (kind =3D=3D BTF_KIND_STRUCT || kind =3D=3D BT=
+F_KIND_UNION)
+>    903                          *fmt =3D RETVAL_FMT_HEX;
+>    904                  else
+>    905                          *fmt =3D RETVAL_FMT_DEC;
+>    906
+>    907                  if (t->size > sizeof(unsigned long)) {
+>    908                          *fmt |=3D RETVAL_FMT_TRUNC;
+>    909                  } else {
+>    910                          msb =3D BITS_PER_BYTE * t->size - 1;
+>    911                          *retval &=3D GENMASK(msb, 0);
+>    912                  }
+>    913                  break;
+>    914          case BTF_KIND_INT:
+>    915                  v =3D *(u32 *)(t + 1);
+>    916                  if (BTF_INT_ENCODING(v) =3D=3D BTF_INT_BOOL) {
+>    917                          *fmt =3D RETVAL_FMT_BOOL;
+>    918                          msb =3D 0;
+>    919                  } else {
+>    920                          if (BTF_INT_ENCODING(v) =3D=3D BTF_INT_SI=
+GNED)
+>    921                                  *fmt =3D RETVAL_FMT_DEC;
+>    922                          else
+>    923                                  *fmt =3D RETVAL_FMT_HEX;
+>    924
+>    925                          if (t->size > sizeof(unsigned long)) {
+>    926                                  *fmt |=3D RETVAL_FMT_TRUNC;
+>    927                                  msb =3D BITS_PER_LONG - 1;
+>    928                          } else {
+>    929                                  msb =3D BTF_INT_BITS(v) - 1;
+>    930                          }
+>    931                  }
+>    932                  *retval &=3D GENMASK(msb, 0);
+>    933                  break;
+>    934          default:
+>    935                  *fmt =3D RETVAL_FMT_HEX;
+>    936                  break;
+>    937          }
+>    938  }
+>    939
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
