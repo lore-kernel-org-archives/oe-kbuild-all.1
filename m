@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F792C17B6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 22:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09F921C17D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 22:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765837127; cv=none; b=Ocu62mJlxetDD1ROL19yDWD1dXLJecmNzbT/jTNeeamNa0m2A77skkDjHjNQ8U99MEC9o7DQ0sH7KfRx3RagK6hM/uRqh82a96hSZBHJXCk40qMoOzjcALOTQbrmKqjmB31BgqMLj+zNN8c94XuBxm9hpkhOx5ZhOuPBn0uFg1Q=
+	t=1765837695; cv=none; b=u22uyunYf9IdSGfcHpJrNpMnKsyjfqLjCWVLW2gUCrKb36JFOwqm0yvoHvhZzE/pMZfyWtNiub7sZ9YPyGZ7wp079aL6Xzxc8x33QVkGJbs9jStYQtJPLe0MP6ALH0xUZwaW2oVLXI7htyGQiwrxMRUE5ilyrayyViPBXAzOucE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765837127; c=relaxed/simple;
-	bh=2g6x87xc7m6Ce3XwbigDnBm2ImBmN3uoQvIgNrsuybM=;
+	s=arc-20240116; t=1765837695; c=relaxed/simple;
+	bh=OH8BEJhjvZ8aQpM7ItZh9OfaNdgHPPEz2v02kaGcCTg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sXdF4fYL6vKYlD+pZBcyY9c8r/vGd8hm/0pGafvPVNi8QizA4g1FqSUaWKes3lqWBr535rZ0IMXwT+ZQeK0H4ltZjqDHx5sa3EPa3/DaKSVOT0J+o9BTRatK+oqXdXd3FosqEuFbEWtRECzvnqmPG5L5Cn4vcrFYXZZT5INk3i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cYWwce8L; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=Fmvhvx4jdFoywfmCfvhIgfpnxWGOVi34Y4bDTZh6LC18SBmu0cYQkNNx2+uzpLbvx6SaE2D8JH54up9GgaopYJX0iM8PiHJ1dYTtnQytc6QQ1lRrJtIlxMaPLuIimdVo8WLbwtjlgCMYV+k+HYoKUfT8LtsQMLPt8ScnxXCXA/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y+9poz5/; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cYWwce8L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+9poz5/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765837126; x=1797373126;
+  t=1765837692; x=1797373692;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2g6x87xc7m6Ce3XwbigDnBm2ImBmN3uoQvIgNrsuybM=;
-  b=cYWwce8LgY3q6YSt5xb0pExrwSXuJrCxkzdlwuN9iqZUg+MlNMyj0Ct7
-   CLsQunMFfpdhLmYtbGJmbi4zt/oyx5Aou7O1/Bhg9S/vVvkmKG3AqmZ7y
-   8QS/9AeMleoD2qxwAWQ9dlxo3R+RnUZtldXRIgaYBUgyOlswgy11xZxPE
-   sftLA22E0EmkHZ8EnMxdyZjLSAeYLat+k7rPYA5qy0b8LzeXscDZrz61h
-   Z73CkA8hPTSX/7xKcEMN8e1BaYSlnYjylZTmc4NGkmOtIZbjKKbWXc8iK
-   ukaO9Fu9gCn5mXCqB3d+aBqUiislU8OHd2v0HXvE+pBYX8AqZ06Kd/1iz
-   w==;
-X-CSE-ConnectionGUID: yQm9Je5iQo22q1Btk4LyWg==
-X-CSE-MsgGUID: 6WSgsQOXT+eZBRek9y6PBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66935493"
+  bh=OH8BEJhjvZ8aQpM7ItZh9OfaNdgHPPEz2v02kaGcCTg=;
+  b=Y+9poz5/tsyHM5nYUvzUDmEYIjTB0HLunRv+5gib+/MJdymlsyT7dQIP
+   wZ70QjoUMJsdJHtxonNffA6ivtpmQ1QPvO/P9y+pl7Rwi/lpvRwrPhD7P
+   jZ0G1jQQzSJR2d/9GCAxd5fH1enaorgFsiIFemomcrPGUI87TAP6t2DNY
+   1qUrPaEw3PFljsGj9f+BPWPsQ+60byOOvhs86gF45R/4MNFIE21OhSgAB
+   jHWRxdIAE/YgTHJxHAAI+8lD5t0C63ooZVVRo9/mFmn9CSjhHSGFD6kFT
+   KDUJQkUzoRQWA4uBMdGUl1Is4VdokF7nLd1grYi7Dy4E/K2egUzfLv0EM
+   g==;
+X-CSE-ConnectionGUID: Uy+mO5LRT9qt4c1x7gCGTQ==
+X-CSE-MsgGUID: MMQIIONARGeEOhtC01XJog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="55315014"
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="66935493"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 14:18:45 -0800
-X-CSE-ConnectionGUID: xD7imcc3QQmyYeWyrPQaAA==
-X-CSE-MsgGUID: y4WJFb5uTm+2xIgFjE0gag==
+   d="scan'208";a="55315014"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 14:28:12 -0800
+X-CSE-ConnectionGUID: VUlMJWuPQyG1Doq4uJXpqQ==
+X-CSE-MsgGUID: Bl2gi7Z1QceMtjqUJ0GNxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="202336535"
+   d="scan'208";a="197594285"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 15 Dec 2025 14:18:44 -0800
+  by orviesa009.jf.intel.com with ESMTP; 15 Dec 2025 14:28:11 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVGsx-000000000sH-3voJ;
-	Mon, 15 Dec 2025 22:18:08 +0000
-Date: Tue, 16 Dec 2025 06:17:11 +0800
+	id 1vVH2z-000000000sj-4AeY;
+	Mon, 15 Dec 2025 22:28:06 +0000
+Date: Tue, 16 Dec 2025 06:27:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje@dujemihanovic.xyz>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [pxa1908-mainline:pxa1908/master 12/13]
- drivers/net/wireless/marvell/mwifiex/sta_tx.c:44:32: sparse: sparse: non
- size-preserving pointer to integer cast
-Message-ID: <202512160647.bXlmGr8h-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-6.6-CWF-RDT-ANBZ24559 25/25]
+ drivers/ata/ahci_zhaoxin_sgpio.c:601:6: warning: no previous prototype for
+ 'set_em_messages'
+Message-ID: <202512160650.NfkLURIs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,109 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitlab.com/pxa1908-mainline/linux pxa1908/master
-head:   9e872f85d0ed53d474107764343c245869b95c45
-commit: 1325efda2cf6f3a8867bfff2446c7b56f95262f6 [12/13] fixup! DONOTMERGE: net: mwifiex: fix timeouts with the SD8777 chip
-config: nios2-randconfig-r113-20251216 (https://download.01.org/0day-ci/archive/20251216/202512160647.bXlmGr8h-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160647.bXlmGr8h-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-RDT-ANBZ24559
+head:   48fa9d861c1eb99e9f682fb2623142fb456aa0eb
+commit: 80fbcaf473f6812d841a575bc3f2690bab774dd5 [25/25] anolis: ata: ahci: Add support for AHCI SGPIO Enclosure Management
+config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20251216/202512160650.NfkLURIs-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160650.NfkLURIs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512160647.bXlmGr8h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512160650.NfkLURIs-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/marvell/mwifiex/sta_tx.c:44:32: sparse: sparse: non size-preserving pointer to integer cast
+All warnings (new ones prefixed by >>):
 
-vim +44 drivers/net/wireless/marvell/mwifiex/sta_tx.c
+   drivers/ata/ahci_zhaoxin_sgpio.c:31:5: warning: no previous prototype for 'ahci_wait_em_reset' [-Wmissing-prototypes]
+      31 | int ahci_wait_em_reset(struct sgpio_zhaoxin *sgpio_zhaoxin, u32 retry)
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/ata/ahci_zhaoxin_sgpio.c:55:6: warning: no previous prototype for 'ahci_zhaoxin_set_em_sgpio' [-Wmissing-prototypes]
+      55 | void ahci_zhaoxin_set_em_sgpio(struct sgpio_zhaoxin *sgpio_zhaoxin)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ata/ahci_zhaoxin_sgpio.c:99:6: warning: no previous prototype for 'ahci_zhaoxin_set_em_sgpio_gpmode' [-Wmissing-prototypes]
+      99 | void ahci_zhaoxin_set_em_sgpio_gpmode(struct sgpio_zhaoxin *sgpio_zhaoxin)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ata/ahci_zhaoxin_sgpio.c:601:6: warning: no previous prototype for 'set_em_messages' [-Wmissing-prototypes]
+     601 | void set_em_messages(struct sgpio_zhaoxin *sgpio_zhaoxin)
+         |      ^~~~~~~~~~~~~~~
+   drivers/ata/ahci_zhaoxin_sgpio.c:621:5: warning: no previous prototype for 'add_sgpio_zhaoxin' [-Wmissing-prototypes]
+     621 | int add_sgpio_zhaoxin(void)
+         |     ^~~~~~~~~~~~~~~~~
+   drivers/ata/ahci_zhaoxin_sgpio.c:673:6: warning: no previous prototype for 'remove_sgpio_zhaoxin' [-Wmissing-prototypes]
+     673 | void remove_sgpio_zhaoxin(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
 
-    14	
-    15	/*
-    16	 * This function fills the TxPD for tx packets.
-    17	 *
-    18	 * The Tx buffer received by this function should already have the
-    19	 * header space allocated for TxPD.
-    20	 *
-    21	 * This function inserts the TxPD in between interface header and actual
-    22	 * data and adjusts the buffer pointers accordingly.
-    23	 *
-    24	 * The following TxPD fields are set by this function, as required -
-    25	 *      - BSS number
-    26	 *      - Tx packet length and offset
-    27	 *      - Priority
-    28	 *      - Packet delay
-    29	 *      - Priority specific Tx control
-    30	 *      - Flags
-    31	 */
-    32	void mwifiex_process_sta_txpd(struct mwifiex_private *priv,
-    33				      struct sk_buff *skb)
-    34	{
-    35		struct mwifiex_adapter *adapter = priv->adapter;
-    36		struct txpd *local_tx_pd;
-    37		struct mwifiex_txinfo *tx_info = MWIFIEX_SKB_TXCB(skb);
-    38		unsigned int pad;
-    39		u16 pkt_type, pkt_length, pkt_offset;
-    40		int hroom = adapter->intf_hdr_len;
-    41	
-    42		pkt_type = mwifiex_is_skb_mgmt_frame(skb) ? PKT_TYPE_MGMT : 0;
-    43	
-  > 44		pad = (4 - ((uint64_t) skb->data & 0x3)) % 4;
-    45	
-    46		skb_push(skb, sizeof(*local_tx_pd) + pad);
-    47	
-    48		local_tx_pd = (struct txpd *) skb->data;
-    49		memset(local_tx_pd, 0, sizeof(struct txpd));
-    50		local_tx_pd->bss_num = priv->bss_num;
-    51		local_tx_pd->bss_type = priv->bss_type;
-    52		pkt_length = (u16)(skb->len - (sizeof(struct txpd) + pad));
-    53		if (pkt_type == PKT_TYPE_MGMT)
-    54			pkt_length -= MWIFIEX_MGMT_FRAME_HEADER_SIZE;
-    55		local_tx_pd->tx_pkt_length = cpu_to_le16(pkt_length);
-    56	
-    57		local_tx_pd->priority = (u8) skb->priority;
-    58		local_tx_pd->pkt_delay_2ms =
-    59					mwifiex_wmm_compute_drv_pkt_delay(priv, skb);
-    60	
-    61		if (local_tx_pd->priority <
-    62		    ARRAY_SIZE(priv->wmm.user_pri_pkt_tx_ctrl))
-    63			/*
-    64			 * Set the priority specific tx_control field, setting of 0 will
-    65			 *   cause the default value to be used later in this function
-    66			 */
-    67			local_tx_pd->tx_control =
-    68				cpu_to_le32(priv->wmm.user_pri_pkt_tx_ctrl[local_tx_pd->
-    69									   priority]);
-    70	
-    71		if (adapter->pps_uapsd_mode) {
-    72			if (mwifiex_check_last_packet_indication(priv)) {
-    73				adapter->tx_lock_flag = true;
-    74				local_tx_pd->flags =
-    75					MWIFIEX_TxPD_POWER_MGMT_LAST_PACKET;
-    76			}
-    77		}
-    78	
-    79		if (tx_info->flags & MWIFIEX_BUF_FLAG_TDLS_PKT)
-    80			local_tx_pd->flags |= MWIFIEX_TXPD_FLAGS_TDLS_PACKET;
-    81	
-    82		/* Offset of actual data */
-    83		pkt_offset = sizeof(struct txpd) + pad;
-    84		if (pkt_type == PKT_TYPE_MGMT) {
-    85			/* Set the packet type and add header for management frame */
-    86			local_tx_pd->tx_pkt_type = cpu_to_le16(pkt_type);
-    87			pkt_offset += MWIFIEX_MGMT_FRAME_HEADER_SIZE;
-    88		}
-    89	
-    90		local_tx_pd->tx_pkt_offset = cpu_to_le16(pkt_offset);
-    91	
-    92		/* make space for adapter->intf_hdr_len */
-    93		skb_push(skb, hroom);
-    94	
-    95		if (!local_tx_pd->tx_control)
-    96			/* TxCtrl set by user or default */
-    97			local_tx_pd->tx_control = cpu_to_le32(priv->pkt_tx_ctrl);
-    98	}
-    99	
+
+vim +/set_em_messages +601 drivers/ata/ahci_zhaoxin_sgpio.c
+
+   600	
+ > 601	void set_em_messages(struct sgpio_zhaoxin *sgpio_zhaoxin)
+   602	{
+   603		void __iomem *mmio = sgpio_zhaoxin->mmio;
+   604		u32 em_loc = readl(mmio + HOST_EM_LOC);
+   605		u32 em_ctl = readl(mmio + HOST_EM_CTL);
+   606		u8 messages;
+   607	
+   608		if (!get_ahci_em_messages())
+   609			return;
+   610	
+   611		messages = (em_ctl & EM_CTRL_MSG_TYPE) >> 16;
+   612	
+   613		if (messages) {
+   614			/* store em_loc */
+   615			sgpio_zhaoxin->em_loc = ((em_loc >> 16) * 4);
+   616			sgpio_zhaoxin->em_buf_sz = ((em_loc & 0xff) * 4);
+   617			sgpio_zhaoxin->em_msg_type = messages;
+   618		}
+   619	}
+   620	
 
 -- 
 0-DAY CI Kernel Test Service
