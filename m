@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95299313528
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 09:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616A0331206
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 09:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765789520; cv=none; b=WJvZoeei7U8ooT1SlTqKDpNxNk6WtcgQKW/rDMJ8uI2yDyP3oaj0Rf3D0BwO+cesf4sjxkk0XUm0nEUwJjiHEf320Aeidnwg52pf/BAlCINzzACLmJbWCD3DrgCNeF1b5u/pNulxelLVQykg61kyCywQGgAqc0SrkJf8mw5Z9l4=
+	t=1765789738; cv=none; b=WQl77SGun1dZmzSKgfC5RUnrIFcFQoE7mQfA/slIi1NJTgecyagnFNQuzsVEe1XhuWI6lk/GA1r4wz4Gsds2TTGYQRWtn2qwGvKJUgqB5qeymCesCDP2x8GXivJeI7zwetD20YBWzYhkvg1gVqK4aBhFinCieITB614ZoltCzSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765789520; c=relaxed/simple;
-	bh=fL9iG5i41E4V84+zxeHaTTC5jf7hLeyLahoqUcJdCa4=;
+	s=arc-20240116; t=1765789738; c=relaxed/simple;
+	bh=VGJDxXVlrFgDYNNWTlJ1qFEyyJxoWVTrXUAc9KVzxJA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KMetUka3gvIo8pJb7ofBVU+kzCsF6rxM5SYrrjU4VHXk8EAEE5fMfYo74kcxnIGBM58cwnrbSZ763r4A2S7h0wNSSxpq9s8F/v43NbwdFoF7ac1euKwiBfrWsCdalf0QnOZw230daddJiaGq5hPD6AEvw8ug91XGUSWMIPQUZ5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxdwyMzG; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=b2k/atDxDVrNzwtcLyW7YkyGr7btok9br76XJMM0vSxQ1qxHnuilV092TlXHJoXtIELEt51W1l4B8CxvwZvDCasrwe/I/X+TQRWRQg0KYXV8mb3OwJQ+YoSNMsKrIwacDcC5NrigsYPNnx3kQex2gTZnicWVhkMXDkubtHSm3YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H37M+xlM; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxdwyMzG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H37M+xlM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765789519; x=1797325519;
+  t=1765789738; x=1797325738;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fL9iG5i41E4V84+zxeHaTTC5jf7hLeyLahoqUcJdCa4=;
-  b=YxdwyMzGZKZClyGAAN2tsPM9O3ehy8OTECsNBmFVDTplaPx96iC/WiUN
-   zhlrSKTpPiSs01NGU2jUKQ06BrNHBlUGq5mY76SyRpsSFzZWyehKcB8C+
-   FOtce3ZaJjWkRfeYsChRS1WBf7lmHFELC5W80ybMlmrguCzz0xI55vm8Q
-   1w5tvrpnBrEFToJ+RgkPW4TcU2KlCbTSs9kGwbuyU4mGxG/v4O4AsNKLy
-   839w3w37410vMTcC5igRp5iLu5VMCz8EnJEfx+2M79bvAOuOkvwTteq/m
-   EeoL5qjnNERnOqV2LbO9rr+5DYP0XawdRaF1xsxPeUhNc++2Wu7O9VcKB
-   A==;
-X-CSE-ConnectionGUID: oQpsmepfSoyCk5K991NAcQ==
-X-CSE-MsgGUID: WTGsoTgiQGiO8eHyZBm2Gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67623916"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67623916"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 01:05:16 -0800
-X-CSE-ConnectionGUID: Tw1ew6XaQ3uFr9cpfwKT2Q==
-X-CSE-MsgGUID: FZP7225uQImlItV00WxuLQ==
+  bh=VGJDxXVlrFgDYNNWTlJ1qFEyyJxoWVTrXUAc9KVzxJA=;
+  b=H37M+xlMISvXgI32TuDms1KaIa84zjPQVObtG5kUWjL5/KuKOQyO249T
+   Ak87f0gDB1WH0vyk0yqHvKkNxWv406xvJWIR8CZ1jt7WORxeGNrVef3PM
+   WJA4fdzUiYnh5Gs+u1dBmkZxnqhXeUfDnCUe9JyEoWngP+3ldujqAkaT7
+   56ajs61ZE3HVvjNW8vSuSJYqYWS4zYc17vYFAPsvNZ5cOSAdAtBiqqCwX
+   lu111KBIvC62j0WS12m8qzHOY2HJeLO0mfDnROcQ1Ou2C4Ap/pBK47Seq
+   9Kg14GVaxBrHJWKIgkgAS/X+eSGEESSTxBdXomWP9DAqMG/5V1z25EbH+
+   g==;
+X-CSE-ConnectionGUID: vi4syJ/FTYCxoBQYHyz2sQ==
+X-CSE-MsgGUID: pdTQH4a5QcCjCzgI2X0o/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="93161734"
+X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
+   d="scan'208";a="93161734"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 01:08:57 -0800
+X-CSE-ConnectionGUID: /7TPQPfoSamdU0/innG2cg==
+X-CSE-MsgGUID: 6P4Ad565Q4yosMbzge4D+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="197288993"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Dec 2025 01:05:14 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+   d="scan'208";a="197431984"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 15 Dec 2025 01:08:56 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vV4W0-0000000007D-26n6;
-	Mon, 15 Dec 2025 09:05:12 +0000
-Date: Mon, 15 Dec 2025 17:04:54 +0800
+	id 1vV4ZZ-000000002cG-253t;
+	Mon, 15 Dec 2025 09:08:53 +0000
+Date: Mon, 15 Dec 2025 10:07:57 +0100
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:ptdesc 1/1] include/asm-generic/memory_model.h:19:57:
- error: invalid operands to binary - (have 'pgtable_t' {aka 'struct ptdesc
- *'} and 'struct page *')
-Message-ID: <202512151705.x0rObEOs-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.19-mtkdts 3/4]
+ arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l-8-hd-panel.dtb: pmic
+ (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202512151028.Li9hljgi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,55 +64,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alexshi/linux.git ptdesc
-head:   70d5b71dd5496fcb74a973de41e3f18249c1f37f
-commit: 70d5b71dd5496fcb74a973de41e3f18249c1f37f [1/1] convert pgtable_t to ptdesc pointer
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251215/202512151705.x0rObEOs-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151705.x0rObEOs-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-mtkdts
+head:   651b3b0abad5dded7a4e0f3864b89da3a270e5f0
+commit: 7685aeb3a8c75acc3a9ce3fe011e862b30a1ae7f [3/4] arm64: dts: mediatek: Apply mt8395-radxa DT overlay at build time
+config: arm64-randconfig-2052-20251214 (https://download.01.org/0day-ci/archive/20251215/202512151028.Li9hljgi-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ecaf673850beb241957352bd61e95ed34256635f)
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151028.Li9hljgi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512151705.x0rObEOs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512151028.Li9hljgi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from arch/alpha/include/asm/page.h:85,
-                    from include/linux/mm_types_task.h:14,
-                    from include/linux/mm_types.h:5,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from kernel/fork.c:16:
-   arch/alpha/include/asm/pgalloc.h: In function 'pmd_populate':
->> include/asm-generic/memory_model.h:19:57: error: invalid operands to binary - (have 'pgtable_t' {aka 'struct ptdesc *'} and 'struct page *')
-      19 | #define __page_to_pfn(page)     ((unsigned long)((page) - mem_map) + \
-         |                                                         ^
-   include/asm-generic/memory_model.h:73:21: note: in expansion of macro '__page_to_pfn'
-      73 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   arch/alpha/include/asm/pgtable.h:167:34: note: in expansion of macro 'page_to_pfn'
-     167 | #define page_to_pa(page)        (page_to_pfn(page) << PAGE_SHIFT)
-         |                                  ^~~~~~~~~~~
-   arch/alpha/include/asm/pgalloc.h:19:32: note: in expansion of macro 'page_to_pa'
-      19 |         pmd_set(pmd, (pte_t *)(page_to_pa(pte) + PAGE_OFFSET));
-         |                                ^~~~~~~~~~
-
-
-vim +19 include/asm-generic/memory_model.h
-
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  17  
-67de648211fa04 Andy Whitcroft    2006-06-23  18  #define __pfn_to_page(pfn)	(mem_map + ((pfn) - ARCH_PFN_OFFSET))
-67de648211fa04 Andy Whitcroft    2006-06-23 @19  #define __page_to_pfn(page)	((unsigned long)((page) - mem_map) + \
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  20  				 ARCH_PFN_OFFSET)
-a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  21  
-
-:::::: The code at line 19 was first introduced by commit
-:::::: 67de648211fa041fe08a0c25241a4980bbb90698 [PATCH] squash duplicate page_to_pfn and pfn_to_page
-
-:::::: TO: Andy Whitcroft <apw@shadowen.org>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l-8-hd-panel.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l-8-hd-panel.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l-8-hd-panel.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l-8-hd-panel.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
 
 -- 
 0-DAY CI Kernel Test Service
