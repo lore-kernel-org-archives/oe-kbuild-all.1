@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDA9A95E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 06:19:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92ABE1F12F8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 06:19:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765779562; cv=none; b=kd0tGbZ8he7L6OT42XhmrmIlpOy85b83Lq0epApLzkmV/YjITpZf6WzUrHAhY22uPsuWqCtP991yoV54iHoYvaSIsLbEd7qE3wlTH+RW0qT5nq2+v1R+4RylrMcy00eZf/aHvkkb41NeK5pLdpFoiau/Ti/4HHGpWD/55nCc5s4=
+	t=1765779564; cv=none; b=B/SRw1DlRTJJXEFJScM56wC/lFxNEVeErBBTdfIdgxAu1MQH21uYBnvoMVXYYSb2FHP1/FwvqEMvW2DNLWdaSg8Un1xFnCpFVDBoYptwai21nEKMCSclQkDOYf+eN9oIQ68VzT1fTo3hdQ4A5qykbF+ORrRGkHxIdgn4mJJk6oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765779562; c=relaxed/simple;
-	bh=wdlYt+ACOE/RCWEEltOz4H1PC9NhSBY73WATXBCTweI=;
+	s=arc-20240116; t=1765779564; c=relaxed/simple;
+	bh=+YA30lcuxgONSskRidOVeAhjmWLEiVPIc9HXHdycuak=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Uic4cIES2zPfktLLmFxU11UlENBpKvUvr/uBnOXio7sdDJVtmvddoBgFRDGe1tOo91wkpWVI3dhNqP6oJ6y4NPVNTNLh2vHJip67doLepiQhOhVp7hgww5kxwdtHHMGvjEV2+hTMBt1uWxKpbUk+CIZuhPuIGmscUfyTNdcPgW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PQg+TcuZ; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=rbnpDnb6CwilSNuDQ9HnGYIs5siN/kOwwrG/wqoy+3tlkDL92hsON9y8t+6VNFEDKFg/RTrWTHOoP46PikLFQDxTNguV0cNxh/nU2s9NUGFb2xLvX44w9Z8cwcy/sRl5CvXcZCewq9DRL9sz4H/XRHN2SShU3oUG8ylxgtlTlkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AJvzpIuX; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQg+TcuZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AJvzpIuX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765779559; x=1797315559;
+  t=1765779562; x=1797315562;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wdlYt+ACOE/RCWEEltOz4H1PC9NhSBY73WATXBCTweI=;
-  b=PQg+TcuZ72OYtCKNOWf9D+O0oLgBg9Ae25iWjyr1cn+TPlGKrliGrfTj
-   db7eclNwznuHiJG3YunKIdyw/47kYy9WCIQkag3AYWgNbHHhIk6njGIrt
-   bGvV6yG9L3rj8ZReZk33LwFOSuc+2Y0GdxRcPhmlq12Iquq4Nw5AO6wfe
-   yQTXIEKazZ8TRxnS4/ge32iz4mfBZpjNUp0aZrCQufqbW96gf/VRIomc0
-   QjUBInRslZmN2sBpjaFOklogVTBVJXfbb2jx+Lxh2Rr0hCATYNwY7LJOA
-   0lJTRD0mNEgviypDfApgv4VGXhTv2FLZ3/kUmMiPDdP2OhXEiNtAGZkVI
+  bh=+YA30lcuxgONSskRidOVeAhjmWLEiVPIc9HXHdycuak=;
+  b=AJvzpIuX2tgUO5WlknYtn7DXFhB4zigchU1rcvYIPstmZRHljF19hIYE
+   wwO95KfgM8AjWK1SluC7dOboF5GWEUq8YmbqWTf19gc1At4E3BYp4Tx2h
+   F4wkKa0EicbNhO5KzYe937YSt5xQAR/3eALWQtob9Ov91zw0pAly6Bloh
+   90avpCv8ZC0sgF89ZSsRKncG2hgjd60E6fTTKsOPmGBywibLBCsTBMmka
+   JgaInNIyCDDdsIwB6aprbV47Nwt6aJjb9ZRIbAcQWtjeVW/kiIsa4xDJZ
+   UlsvQ5XeomQHK/fYyK5cCgGxC+zyhI3U0PUn8L4gyboTSKk78VXA5OiPD
    w==;
-X-CSE-ConnectionGUID: tWWiYof6SmSro1tz7yuFrw==
-X-CSE-MsgGUID: JcypYTvvTrW7XU5yP6DQOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="55238849"
+X-CSE-ConnectionGUID: CTC+63hOSzO/VtDhkEzIiQ==
+X-CSE-MsgGUID: 4rAl0oQfTFOm2bBiAiR+1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="55238851"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="55238849"
+   d="scan'208";a="55238851"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 22:19:17 -0800
-X-CSE-ConnectionGUID: Xd1BEH8SRzm++C+2UIXkLw==
-X-CSE-MsgGUID: x2lHbrJwS6SHfdOUYBWzEg==
+X-CSE-ConnectionGUID: FkarutObSnaKvx3z5w3rXQ==
+X-CSE-MsgGUID: fDWkqQs+TV+oTlIkzx+Wng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="235029206"
+   d="scan'208";a="235029205"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 14 Dec 2025 22:19:17 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vV1vN-000000009rp-3ZiO;
+	id 1vV1vN-000000009rr-3sZC;
 	Mon, 15 Dec 2025 06:19:13 +0000
-Date: Mon, 15 Dec 2025 14:19:12 +0800
+Date: Mon, 15 Dec 2025 14:19:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: kernel@openeuler.org, Zhou Shuai <zhoushuai28@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-CWF-PLR-ANBZ26486 11/11]
- drivers/block/virtio_blk.c:2725:37: warning: 'virtblk_chr_fops' defined but
- not used
-Message-ID: <202512151443.XRS0c89v-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3542/3542]
+ drivers/net/ethernet/huawei/hinic/hinic_mbox.c:373: warning: expecting
+ prototype for hinic_unregister_ppf_mbox_cb(). Prototype was for
+ hinic_unregister_pf_mbox_cb() instead
+Message-ID: <202512151406.uDEczUki-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,111 +64,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-PLR-ANBZ26486
-head:   0bcb74c919819123b737554f5d35edefa0555d65
-commit: f01929f35dcf5da763713cebf30054c14fc0e3b5 [11/11] anolis: virtio-blk: make chardev only exposed to specific devices
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251215/202512151443.XRS0c89v-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151443.XRS0c89v-lkp@intel.com/reproduce)
+Hi Zhou,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   81b22958142c03b02c766c79cd1554ebfa142be4
+commit: 9c1c9598010fbb9daa1e2a67d23830092fb6246a [3542/3542] net/hinic: Update Huawei Intelligent Network Card Driver: hinic
+config: x86_64-buildonly-randconfig-005-20251215 (https://download.01.org/0day-ci/archive/20251215/202512151406.uDEczUki-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151406.uDEczUki-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512151443.XRS0c89v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512151406.uDEczUki-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/block/virtio_blk.c: In function 'virtblk_probe':
-   drivers/block/virtio_blk.c:2845:25: warning: unused variable 'i' [-Wunused-variable]
-    2845 |         int err, index, i;
-         |                         ^
-   drivers/block/virtio_blk.c: At top level:
->> drivers/block/virtio_blk.c:2725:37: warning: 'virtblk_chr_fops' defined but not used [-Wunused-const-variable=]
-    2725 | static const struct file_operations virtblk_chr_fops = {
-         |                                     ^~~~~~~~~~~~~~~~
->> drivers/block/virtio_blk.c:2667:12: warning: 'virtblk_cdev_add' defined but not used [-Wunused-function]
-    2667 | static int virtblk_cdev_add(struct virtio_blk *vblk,
-         |            ^~~~~~~~~~~~~~~~
-   drivers/block/virtio_blk.c:2661:13: warning: 'virtblk_cdev_del' defined but not used [-Wunused-function]
-    2661 | static void virtblk_cdev_del(struct cdev *cdev, struct device *cdev_device)
-         |             ^~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/huawei/hinic/hinic_main.c:18:
+   In file included from include/linux/pci.h:1663:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2193:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   drivers/net/ethernet/huawei/hinic/hinic_main.c:204:9: error: call to undeclared function 'vlan_dev_priv'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     204 |                 ret = vlan_dev_priv(ndev)->real_dev;
+         |                       ^
+>> drivers/net/ethernet/huawei/hinic/hinic_main.c:204:30: error: member reference type 'int' is not a pointer
+     204 |                 ret = vlan_dev_priv(ndev)->real_dev;
+         |                       ~~~~~~~~~~~~~~~~~~~  ^
+   drivers/net/ethernet/huawei/hinic/hinic_main.c:206:30: error: member reference type 'int' is not a pointer
+     206 |                         ret = vlan_dev_priv(ret)->real_dev;
+         |                               ~~~~~~~~~~~~~~~~~~  ^
+   drivers/net/ethernet/huawei/hinic/hinic_main.c:182:5: warning: no previous prototype for function 'hinic_netdev_event' [-Wmissing-prototypes]
+     182 | int hinic_netdev_event(struct notifier_block *notifier,
+         |     ^
+   drivers/net/ethernet/huawei/hinic/hinic_main.c:182:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     182 | int hinic_netdev_event(struct notifier_block *notifier,
+         | ^
+         | static 
+   drivers/net/ethernet/huawei/hinic/hinic_main.c:3058:6: warning: no previous prototype for function 'nic_event' [-Wmissing-prototypes]
+    3058 | void nic_event(struct hinic_lld_dev *lld_dev, void *adapter,
+         |      ^
+   drivers/net/ethernet/huawei/hinic/hinic_main.c:3058:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3058 | void nic_event(struct hinic_lld_dev *lld_dev, void *adapter,
+         | ^
+         | static 
+   3 warnings and 3 errors generated.
+--
+   drivers/net/ethernet/huawei/hinic/hinic_eqs.c:321: warning: Function parameter or member 'hwe_cb' not described in 'hinic_aeq_register_hw_cb'
+   drivers/net/ethernet/huawei/hinic/hinic_eqs.c:321: warning: Excess function parameter 'hw_cb' description in 'hinic_aeq_register_hw_cb'
+   drivers/net/ethernet/huawei/hinic/hinic_eqs.c:369: warning: Function parameter or member 'aeq_swe_cb' not described in 'hinic_aeq_register_swe_cb'
+   drivers/net/ethernet/huawei/hinic/hinic_eqs.c:369: warning: expecting prototype for hinic_aeq_register_sw_cb(). Prototype was for hinic_aeq_register_swe_cb() instead
+>> drivers/net/ethernet/huawei/hinic/hinic_eqs.c:391: warning: expecting prototype for hinic_aeq_unregister_sw_cb(). Prototype was for hinic_aeq_unregister_swe_cb() instead
+>> drivers/net/ethernet/huawei/hinic/hinic_eqs.c:417: warning: expecting prototype for hinic_ceq_register_sw_cb(). Prototype was for hinic_ceq_register_cb() instead
+--
+>> drivers/net/ethernet/huawei/hinic/hinic_mbox.c:373: warning: expecting prototype for hinic_unregister_ppf_mbox_cb(). Prototype was for hinic_unregister_pf_mbox_cb() instead
+   drivers/net/ethernet/huawei/hinic/hinic_mbox.c:411: warning: expecting prototype for hinic_unregister_ppf_mbox_cb(). Prototype was for hinic_unregister_ppf_to_pf_mbox_cb() instead
+--
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:581: warning: Function parameter or member 'intr_reg_base' not described in 'hinic_init_hwif'
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:581: warning: Function parameter or member 'db_base_phy' not described in 'hinic_init_hwif'
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:581: warning: Function parameter or member 'db_base' not described in 'hinic_init_hwif'
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:581: warning: Function parameter or member 'dwqe_mapping' not described in 'hinic_init_hwif'
+>> drivers/net/ethernet/huawei/hinic/hinic_hwif.c:717: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * get function id from register,used by sriov hot migration process
+   drivers/net/ethernet/huawei/hinic/hinic_hwif.c:802: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * get function id, used by sriov hot migratition process.
 
 
-vim +/virtblk_chr_fops +2725 drivers/block/virtio_blk.c
+vim +373 drivers/net/ethernet/huawei/hinic/hinic_mbox.c
 
-364a78e08d3aa14 Ferry Meng 2025-05-10  2666  
-364a78e08d3aa14 Ferry Meng 2025-05-10 @2667  static int virtblk_cdev_add(struct virtio_blk *vblk,
-364a78e08d3aa14 Ferry Meng 2025-05-10  2668  		const struct file_operations *fops)
-364a78e08d3aa14 Ferry Meng 2025-05-10  2669  {
-364a78e08d3aa14 Ferry Meng 2025-05-10  2670  	struct cdev *cdev = &vblk->cdev;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2671  	struct device *cdev_device = &vblk->cdev_device;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2672  	int minor, ret;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2673  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2674  	minor = ida_alloc(&vd_chr_minor_ida, GFP_KERNEL);
-364a78e08d3aa14 Ferry Meng 2025-05-10  2675  	if (minor < 0)
-364a78e08d3aa14 Ferry Meng 2025-05-10  2676  		return minor;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2677  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2678  	cdev_device->parent = &vblk->vdev->dev;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2679  	cdev_device->devt = MKDEV(MAJOR(vd_chr_devt), minor);
-364a78e08d3aa14 Ferry Meng 2025-05-10  2680  	cdev_device->class = vd_chr_class;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2681  	cdev_device->release = virtblk_cdev_rel;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2682  	device_initialize(cdev_device);
-364a78e08d3aa14 Ferry Meng 2025-05-10  2683  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2684  	ret = dev_set_name(cdev_device, "%sc0", vblk->disk->disk_name);
-364a78e08d3aa14 Ferry Meng 2025-05-10  2685  	if (ret)
-364a78e08d3aa14 Ferry Meng 2025-05-10  2686  		goto fail;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2687  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2688  	cdev_init(cdev, fops);
-364a78e08d3aa14 Ferry Meng 2025-05-10  2689  	ret = cdev_device_add(cdev, cdev_device);
-364a78e08d3aa14 Ferry Meng 2025-05-10  2690  	if (ret)
-364a78e08d3aa14 Ferry Meng 2025-05-10  2691  		goto fail;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2692  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2693  	return 0;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2694  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2695  fail:
-364a78e08d3aa14 Ferry Meng 2025-05-10  2696  	put_device(cdev_device);
-364a78e08d3aa14 Ferry Meng 2025-05-10  2697  	return ret;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2698  }
-364a78e08d3aa14 Ferry Meng 2025-05-10  2699  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2700  static int virtblk_chr_open(struct inode *inode, struct file *file)
-364a78e08d3aa14 Ferry Meng 2025-05-10  2701  {
-364a78e08d3aa14 Ferry Meng 2025-05-10  2702  	int ret = 0;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2703  	struct virtio_blk *vblk = container_of(inode->i_cdev, struct virtio_blk, cdev);
-364a78e08d3aa14 Ferry Meng 2025-05-10  2704  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2705  	if (vblk->disk)
-364a78e08d3aa14 Ferry Meng 2025-05-10  2706  		get_device(disk_to_dev(vblk->disk));
-364a78e08d3aa14 Ferry Meng 2025-05-10  2707  	else
-364a78e08d3aa14 Ferry Meng 2025-05-10  2708  		ret = -ENXIO;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2709  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2710  	return ret;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2711  }
-364a78e08d3aa14 Ferry Meng 2025-05-10  2712  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2713  static int virtblk_chr_release(struct inode *inode, struct file *file)
-364a78e08d3aa14 Ferry Meng 2025-05-10  2714  {
-364a78e08d3aa14 Ferry Meng 2025-05-10  2715  	struct virtio_blk *vblk = container_of(inode->i_cdev, struct virtio_blk, cdev);
-364a78e08d3aa14 Ferry Meng 2025-05-10  2716  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2717  	if (!vblk->disk)
-364a78e08d3aa14 Ferry Meng 2025-05-10  2718  		WARN_ON(1);
-364a78e08d3aa14 Ferry Meng 2025-05-10  2719  	else
-364a78e08d3aa14 Ferry Meng 2025-05-10  2720  		put_device(disk_to_dev(vblk->disk));
-364a78e08d3aa14 Ferry Meng 2025-05-10  2721  
-364a78e08d3aa14 Ferry Meng 2025-05-10  2722  	return 0;
-364a78e08d3aa14 Ferry Meng 2025-05-10  2723  }
-364a78e08d3aa14 Ferry Meng 2025-05-10  2724  
-364a78e08d3aa14 Ferry Meng 2025-05-10 @2725  static const struct file_operations virtblk_chr_fops = {
-364a78e08d3aa14 Ferry Meng 2025-05-10  2726  	.owner		= THIS_MODULE,
-364a78e08d3aa14 Ferry Meng 2025-05-10  2727  	.open		= virtblk_chr_open,
-364a78e08d3aa14 Ferry Meng 2025-05-10  2728  	.release	= virtblk_chr_release,
-49eb362969139bc Ferry Meng 2025-05-10  2729  	.uring_cmd	= virtblk_chr_uring_cmd,
-578eefc39949048 Ferry Meng 2025-05-10  2730  	.uring_cmd_iopoll = virtblk_chr_uring_cmd_iopoll,
-364a78e08d3aa14 Ferry Meng 2025-05-10  2731  };
-364a78e08d3aa14 Ferry Meng 2025-05-10  2732  
+9c1c9598010fbb drivers/net/ethernet/huawei/hinic/hinic_mbox.c    Zhou Shuai 2024-03-13  365  
+9c1c9598010fbb drivers/net/ethernet/huawei/hinic/hinic_mbox.c    Zhou Shuai 2024-03-13  366  /**
+9c1c9598010fbb drivers/net/ethernet/huawei/hinic/hinic_mbox.c    Zhou Shuai 2024-03-13  367   * hinic_unregister_ppf_mbox_cb - unregister the mbox callback for pf
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  368   * @hwdev: the pointer to hw device
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  369   * @mod: specific mod that the callback will handle
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  370   */
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  371  void hinic_unregister_pf_mbox_cb(struct hinic_hwdev *hwdev,
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  372  				 enum hinic_mod_type mod)
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25 @373  {
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  374  	struct hinic_mbox_func_to_func *func_to_func = hwdev->func_to_func;
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  375  
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  376  	clear_bit(HINIC_PF_MBOX_CB_REG, &func_to_func->pf_mbox_cb_state[mod]);
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  377  
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  378  	while (test_bit(HINIC_PF_MBOX_CB_RUNNING,
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  379  			&func_to_func->pf_mbox_cb_state[mod]))
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  380  		usleep_range(900, 1000);
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  381  
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  382  	func_to_func->pf_mbox_cb[mod] = NULL;
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  383  }
+a425b6e1c69ba9 drivers/net/ethernet/huawei/hinic/hinic_hw_mbox.c Luo bin    2020-04-25  384  
 
-:::::: The code at line 2725 was first introduced by commit
-:::::: 364a78e08d3aa14559c1fb6ac5e34a60a0e27410 anolis: virtio-blk: add virtio-blk chardev support
+:::::: The code at line 373 was first introduced by commit
+:::::: a425b6e1c69ba907b72b737a4d44f8cfbc43ce3c hinic: add mailbox function support
 
-:::::: TO: Ferry Meng <mengferry@linux.alibaba.com>
-:::::: CC: winterddd <tianruidong@linux.alibaba.com>
+:::::: TO: Luo bin <luobin9@huawei.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
