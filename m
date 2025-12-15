@@ -1,118 +1,257 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1523271F2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 20:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F33E3271FA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 20:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765831878; cv=none; b=loJrTfj9xk6uUUZ7I60nAfVgWcN9dymQZA4EokO/scY3JzazqqZccJVQ+4kE+HycK4IDY2xAJ3zihNVc4mLmrScSdqQo5eCLRwYq0ILP1bl9yQnv8TYVRxgkym6C3VxuOYkQoZpZa+zECQag81kDvSulCZP7eqaXoUAA9gl67Mg=
+	t=1765831980; cv=none; b=J680RP8tUNAU4PQxJdDI3ZWJ9bBeA/7ICVy86O3nC6DNDVMum9QJ7W/s6jcRwFxZ2yz5WpNNTlTFp1jHDtCUIpBpa1VF4Fkp/Jb85yGqRoBgouI1zq+0fbTcHpoKhnC3lnMvY47d1ZIdlMkspbswFYC/AEB7ouc2O65XedIeHMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765831878; c=relaxed/simple;
-	bh=zaps1TeHjaBkAE8awTJiGOXyRdvkkHFT776XDaFxrUw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=XNxQ2cKtD4fqlswLlcUXog4y3THMSvtBqU1dpoTqPnCRZXeiyotx6hqPTzmhmRE0xiFws16dYPnoDpHBf7b/xkrDK/M9RAVysiNFMOEGioFIgl52yWRJhqFA2h2tqQuleR7MFLehR3onWvSCN76AFON/XSTIIzPtcDWzkqLvpw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Z1akS9QG; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1765831980; c=relaxed/simple;
+	bh=OBhXGflPpLYdd5na4eAm7+ha1UjkuNk9QrMa5QknDTg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FQfBedKFwMkuGHxuHwG3pg/EfVhOXgXdP3QLRb92fvtmKOQ8uQo2ra88ZthsGFYkotSekEdEYsrITpXMPz1NLREM5OrDyUi6WqIe5zlhtNKyRTs28HYctNCHHylCR7ckhytqZjBx3uwYC7x/vaLPVGCk1R0kwVmIAizkvGtZU04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZJ8MBV1E; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z1akS9QG"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-29f177f4d02so62449235ad.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 12:51:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1765831876; x=1766436676; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=diLa2diH1nYHO1hxApInM0+dtX2xoLqMeU634WXxrfs=;
-        b=Z1akS9QG4tG6renCn0fB1UeGS8fsE74ACSB21q8DLWE/ObS2hDP8zV+AJy3B6rO+lO
-         nmZ6RtQiSQlRiEIQdwHB5+LbkDBgijOAvUOSv7l3/iyK+qqr5LOXb/b0v1sJPnZTvz+O
-         m2dlWlr1zpLctKg7A05EKKXamuyjRnXNmSoj0yCoTf7NTs9EF0ifyj3MYbRraABCB98K
-         oiDhAdP7187lUbEbRO7YwKp5Z7iOymZupV4zsubIWa6j6QmJEKmUo8VBdlt6fB2SQynb
-         CDbeCiVDNlHERj/XwqQzLfn7+bj8j/fNu9OnIYQ3CD0rXQpnyAz8DiJGgP6v6xc+oOvi
-         aMWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765831876; x=1766436676;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=diLa2diH1nYHO1hxApInM0+dtX2xoLqMeU634WXxrfs=;
-        b=nYAu31zPK6enUe2dc/d3q/OPSKGmY8lGKBkjxNVIKfNU4eePCCJ918912tZ9OtDPmL
-         i/z9782h0Rqbc1Uxr+DmaWnvRa9+VWntsMaKE+mfU0XvBImwTh3x/cJU6/UH7nXA9+Ba
-         lcvGmZgsbWl+O7wYDDoTum1pvI7BQeWVqkrZPdvgSQPwuk/ZXG+S0TUOFSXm/kEgZwzv
-         EBQSWv/95Rro+GTYPBGiIGiWOku2O17+x2mkq0qnAjBkO+/qeO+HkbnrLwAkytWZ3g8S
-         DSuj+Pfyf+5XR8NWnfrGf8By5EKbYjl5S+2eXP90bk2nzbmdK/IVZ0iUPZSwm8jdzDD2
-         feQw==
-X-Forwarded-Encrypted: i=1; AJvYcCXzcj5ypQRH7rH7Ovjqt6GzobfnqJIesMlEw3JD+xnnqtYG16Lc2tJQxiL+yMOzITdjf3EAcS0vM+7I1eGo@lists.linux.dev
-X-Gm-Message-State: AOJu0YxOPSoHbg1RXkSOnwEgB02wzLx8zMf9c79v2Fk1mB9oCmLnYXDV
-	qfVgWGmZKKvIKWlMJ7i9FPUu0sgtj4s216vMqKDM2lgwlagKUVyV6M8YIWOJHz2PPP7dxdkprrS
-	MQhlqsQ==
-X-Google-Smtp-Source: AGHT+IFj9l0wpoQNHT8Y7M3ukghgfENrMandrLnvXCYKSwFKGmEPwaSGu/PXYX1ywSffGQdonWO6tz0DtFk=
-X-Received: from plrf15.prod.google.com ([2002:a17:902:ab8f:b0:2a0:ad03:ae6a])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f651:b0:2a0:fe4a:d666
- with SMTP id d9443c01a7336-2a0fe5a2147mr48345575ad.10.1765831875917; Mon, 15
- Dec 2025 12:51:15 -0800 (PST)
-Date: Mon, 15 Dec 2025 12:51:14 -0800
-In-Reply-To: <2df1a0c0-31a6-45c9-a92e-abdbfddbd9b6@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZJ8MBV1E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765831978; x=1797367978;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OBhXGflPpLYdd5na4eAm7+ha1UjkuNk9QrMa5QknDTg=;
+  b=ZJ8MBV1Ex6mHfP7cpdBW85UaTj1Mz+jTZJAgj/Aah2jnEh6jcgVo9DsQ
+   lBws0/BQfjUf9rBJul0SZv/c7qv6FCzRG39tdFTxww2fLyOz7NxZ2pRgS
+   92ZPKE1b9ZFB9z6Y6d+8vXtXsy4Xx5VT8T2TkUo4YTeSnj0N4BxtoZOoQ
+   Uu3a3/9MLPiDa9LjMOmWkpUI59ks22DhI96kTKCmZgjPUpyXNK1T0xcfL
+   tzrUu0fZFT0bLk22z+jeDMNaD0nVNBzyQgufKzr6NKK/kPg5u/8jTvg/e
+   xYxb4GY4S2R5xgiJGcHT0BIQoWCfLXUap08TaKOtIY5e2jyg9v2PjZ2K8
+   A==;
+X-CSE-ConnectionGUID: 3/F9gUv4RQmz5003KRoGyg==
+X-CSE-MsgGUID: lBGBdM0+TMas1kpYbZOT/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="79112735"
+X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
+   d="scan'208";a="79112735"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 12:52:57 -0800
+X-CSE-ConnectionGUID: yrO088X/RyyTJK5B9uT3wg==
+X-CSE-MsgGUID: MaqOEe6ZS0K+G8PlWXqfbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
+   d="scan'208";a="197874299"
+Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 15 Dec 2025 12:52:57 -0800
+Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vVFYS-000000000l5-3tDd;
+	Mon, 15 Dec 2025 20:52:34 +0000
+Date: Tue, 16 Dec 2025 04:50:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:intel-6.6-CWF-PLR-ANBZ26486 11/11]
+ drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-desc.c:233:73: warning: '%u'
+ directive output may be truncated writing between 1 and 10 bytes into a
+ region of size 8
+Message-ID: <202512160443.rDIpFXe6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20251212135051.2155280-1-xiaoyao.li@intel.com>
- <202512130717.aHH8rXSC-lkp@intel.com> <aTy7AG2y1OwIXfqs@google.com> <2df1a0c0-31a6-45c9-a92e-abdbfddbd9b6@intel.com>
-Message-ID: <aUB0wlJKtyyJTewL@google.com>
-Subject: Re: [PATCH v2] KVM: x86: Don't read guest CR3 when doing async pf
- while the MMU is direct
-From: Sean Christopherson <seanjc@google.com>
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: kernel test robot <lkp@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, oe-kbuild-all@lists.linux.dev, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, farrah.chen@intel.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Dec 15, 2025, Xiaoyao Li wrote:
-> On 12/13/2025 9:01 AM, Sean Christopherson wrote:
-> > On Sat, Dec 13, 2025, kernel test robot wrote:
-> > > Hi Xiaoyao,
-> > > 
-> > > kernel test robot noticed the following build warnings:
-> > > 
-> > > [auto build test WARNING on 7d0a66e4bb9081d75c82ec4957c50034cb0ea449]
-> > > 
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Xiaoyao-Li/KVM-x86-Don-t-read-guest-CR3-when-doing-async-pf-while-the-MMU-is-direct/20251212-220612
-> > > base:   7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-> > > patch link:    https://lore.kernel.org/r/20251212135051.2155280-1-xiaoyao.li%40intel.com
-> > > patch subject: [PATCH v2] KVM: x86: Don't read guest CR3 when doing async pf while the MMU is direct
-> > > config: i386-buildonly-randconfig-002-20251213 (https://download.01.org/0day-ci/archive/20251213/202512130717.aHH8rXSC-lkp@intel.com/config)
-> > > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130717.aHH8rXSC-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202512130717.aHH8rXSC-lkp@intel.com/
-> > > 
-> > > All warnings (new ones prefixed by >>):
-> > > 
-> > >     In file included from include/linux/kvm_host.h:43,
-> > >                      from arch/x86/kvm/irq.h:15,
-> > >                      from arch/x86/kvm/mmu/mmu.c:19:
-> > >     arch/x86/kvm/mmu/mmu.c: In function 'kvm_arch_setup_async_pf':
-> > > > > include/linux/kvm_types.h:54:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
-> > >        54 | #define INVALID_GPA     (~(gpa_t)0)
-> > >           |                         ^
-> > >     arch/x86/kvm/mmu/mmu.c:4525:28: note: in expansion of macro 'INVALID_GPA'
-> > >      4525 |                 arch.cr3 = INVALID_GPA;
-> > >           |                            ^~~~~~~~~~~
-> > 
-> > Well that's just annoying.  Can we kill 32-bit yet?  Anyways, just ignore this
-> > (unless it causes my KVM_WERROR=1 builds to fail, in which case I'll just add an
-> > explicit cast, but I think we can just ignore it).
-> 
-> If your KVM_WERROR=1 builds contain 32-bit config, I think it will fail. I
-> think we do need to add the explicit cast.
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-PLR-ANBZ26486
+head:   0bcb74c919819123b737554f5d35edefa0555d65
+commit: 112d0b73eedf1907161f808b6caf0e2c271a6969 [11/11] anolis: ethernet: Add motorcomm yt6801 support
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251216/202512160443.rDIpFXe6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160443.rDIpFXe6-lkp@intel.com/reproduce)
 
-Ya, you were right.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512160443.rDIpFXe6-lkp@intel.com/
 
-> You will handle it when applying, right? Thus no need for a v3.
+All warnings (new ones prefixed by >>):
 
-Yep.
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-desc.c: In function 'fxgmac_alloc_channels':
+>> drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-desc.c:233:73: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 8 [-Wformat-truncation=]
+     233 |                 snprintf(channel->name, sizeof(channel->name), "channel-%u", i);
+         |                                                                         ^~
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-desc.c:233:64: note: directive argument in the range [0, 4294967294]
+     233 |                 snprintf(channel->name, sizeof(channel->name), "channel-%u", i);
+         |                                                                ^~~~~~~~~~~~
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-desc.c:233:17: note: 'snprintf' output between 10 and 19 bytes into a destination of size 16
+     233 |                 snprintf(channel->name, sizeof(channel->name), "channel-%u", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c: In function 'fxgmac_set_wake_pattern':
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c:3241:22: warning: variable 'ptmask' set but not used [-Wunused-but-set-variable]
+    3241 |         u8 *ptdata, *ptmask;
+         |                      ^~~~~~
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c:3241:13: warning: variable 'ptdata' set but not used [-Wunused-but-set-variable]
+    3241 |         u8 *ptdata, *ptmask;
+         |             ^~~~~~
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c: In function 'fxgmac_dev_read':
+>> drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c:4761:33: warning: variable 'l34t' set but not used [-Wunused-but-set-variable]
+    4761 |         unsigned int err, etlt, l34t;
+         |                                 ^~~~
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c: In function 'fxgmac_dismiss_MAC_int':
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c:5045:21: warning: variable 'regErrVal' set but not used [-Wunused-but-set-variable]
+    5045 |         u32 regval, regErrVal;
+         |                     ^~~~~~~~~
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c:5045:13: warning: variable 'regval' set but not used [-Wunused-but-set-variable]
+    5045 |         u32 regval, regErrVal;
+         |             ^~~~~~
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c: In function 'fxgmac_dismiss_MAC_PMT_int':
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c:5056:13: warning: variable 'regval' set but not used [-Wunused-but-set-variable]
+    5056 |         u32 regval;
+         |             ^~~~~~
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c: In function 'fxgmac_dismiss_MAC_LPI_int':
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c:5065:13: warning: variable 'regval' set but not used [-Wunused-but-set-variable]
+    5065 |         u32 regval;
+         |             ^~~~~~
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c: In function 'fxgmac_dismiss_all_int':
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-hw.c:5088:25: warning: variable 'regval' set but not used [-Wunused-but-set-variable]
+    5088 |         unsigned int i, regval;
+         |                         ^~~~~~
+--
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-net.c: In function 'fxgmac_tx_poll':
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-net.c:1793:20: warning: variable 'reg_cur_pre' set but not used [-Wunused-but-set-variable]
+    1793 |         static u32 reg_cur_pre = 0xffffffff;
+         |                    ^~~~~~~~~~~
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-net.c:1792:20: warning: variable 'change_cnt' set but not used [-Wunused-but-set-variable]
+    1792 |         static u32 change_cnt;
+         |                    ^~~~~~~~~~
+>> drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-net.c:1791:20: warning: variable 'fxgmac_restart_need' set but not used [-Wunused-but-set-variable]
+    1791 |         static int fxgmac_restart_need;
+         |                    ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-net.c: In function 'fxgmac_one_poll_tx':
+   drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-net.c:2240:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    2240 |         int ret = 0;
+         |             ^~~
+
+
+vim +233 drivers/net/ethernet/motorcomm/yt6801/fuxi-gmac-desc.c
+
+   201	
+   202		channel_head = kcalloc(pdata->channel_count,
+   203				       sizeof(struct fxgmac_channel), GFP_KERNEL);
+   204		if (netif_msg_drv(pdata))
+   205			DPRINTK("alloc_channels, channel_head=%p, size=%d*%ld\n",
+   206				channel_head, pdata->channel_count,
+   207				sizeof(struct fxgmac_channel));
+   208	
+   209		if (!channel_head)
+   210			return ret;
+   211	
+   212		netif_dbg(pdata, drv, pdata->netdev, "channel_head=%p\n", channel_head);
+   213	
+   214		tx_ring = kcalloc(pdata->tx_ring_count, sizeof(struct fxgmac_ring),
+   215				  GFP_KERNEL);
+   216		if (!tx_ring)
+   217			goto err_tx_ring;
+   218	
+   219		if (netif_msg_drv(pdata))
+   220			DPRINTK("alloc_channels, tx_ring=%p, size=%d*%ld\n", tx_ring,
+   221				pdata->tx_ring_count, sizeof(struct fxgmac_ring));
+   222		rx_ring = kcalloc(pdata->rx_ring_count, sizeof(struct fxgmac_ring),
+   223				  GFP_KERNEL);
+   224		if (!rx_ring)
+   225			goto err_rx_ring;
+   226	
+   227		if (netif_msg_drv(pdata))
+   228			DPRINTK("alloc_channels, rx_ring=%p, size=%d*%ld\n", rx_ring,
+   229				pdata->rx_ring_count, sizeof(struct fxgmac_ring));
+   230	
+   231		for (i = 0, channel = channel_head; i < pdata->channel_count;
+   232		     i++, channel++) {
+ > 233			snprintf(channel->name, sizeof(channel->name), "channel-%u", i);
+   234			channel->pdata = pdata;
+   235			channel->queue_index = i;
+   236			channel->dma_regs =
+   237				pdata->mac_regs + DMA_CH_BASE + (DMA_CH_INC * i);
+   238	
+   239			if (pdata->per_channel_irq) {
+   240				/* Get the per DMA interrupt */
+   241	#ifdef CONFIG_PCI_MSI
+   242				if (msix) {
+   243					pdata->channel_irq[i] =
+   244						pdata->expansion.msix_entries[i].vector;
+   245					if (FXGMAC_IS_CHANNEL_WITH_TX_IRQ(i)) {
+   246						pdata->channel_irq
+   247							[FXGMAC_MAX_DMA_CHANNELS] =
+   248							pdata->expansion
+   249								.msix_entries
+   250									[FXGMAC_MAX_DMA_CHANNELS]
+   251								.vector;
+   252	
+   253						if (pdata->channel_irq
+   254							    [FXGMAC_MAX_DMA_CHANNELS] <
+   255						    0) {
+   256							netdev_err(
+   257								pdata->netdev,
+   258								"get_irq %u for tx failed\n",
+   259								i + 1);
+   260							goto err_irq;
+   261						}
+   262	
+   263						channel->expansion.dma_irq_tx =
+   264							pdata->channel_irq
+   265								[FXGMAC_MAX_DMA_CHANNELS];
+   266						DPRINTK("fxgmac_alloc_channels, for MSIx, channel %d dma_irq_tx=%u\n",
+   267							i,
+   268							channel->expansion.dma_irq_tx);
+   269					}
+   270				}
+   271	#endif
+   272				ret = pdata->channel_irq[i];
+   273				if (ret < 0) {
+   274					netdev_err(pdata->netdev, "get_irq %u failed\n",
+   275						   i + 1);
+   276					goto err_irq;
+   277				}
+   278				channel->dma_irq = ret;
+   279				DPRINTK("fxgmac_alloc_channels, for MSIx, channel %d dma_irq=%u\n",
+   280					i, channel->dma_irq);
+   281			}
+   282	
+   283			if (i < pdata->tx_ring_count)
+   284				channel->tx_ring = tx_ring++;
+   285	
+   286			if (i < pdata->rx_ring_count)
+   287				channel->rx_ring = rx_ring++;
+   288	
+   289			netif_dbg(pdata, drv, pdata->netdev,
+   290				  "%s: dma_regs=%p, tx_ring=%p, rx_ring=%p\n",
+   291				  channel->name, channel->dma_regs, channel->tx_ring,
+   292				  channel->rx_ring);
+   293		}
+   294	
+   295		pdata->channel_head = channel_head;
+   296	
+   297		if (netif_msg_drv(pdata))
+   298			DPRINTK("alloc_channels callout ok\n");
+   299		return 0;
+   300	
+   301	err_irq:
+   302		kfree(rx_ring);
+   303	
+   304	err_rx_ring:
+   305		kfree(tx_ring);
+   306	
+   307	err_tx_ring:
+   308		kfree(channel_head);
+   309	
+   310		DPRINTK("fxgmac alloc_channels callout err,%d\n", ret);
+   311		return ret;
+   312	}
+   313	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
