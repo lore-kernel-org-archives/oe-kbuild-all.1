@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707293002DC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 00:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3229D1C84A0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 00:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765759554; cv=none; b=oG06KLV04VOaL4KVsqB3oin09h6hQ49xuRqrzgOf7aa6twucQ6t7dk8cn8D4jJdIggBL7JEfkBxxMbZIqBt4hj3fsA8t/pVAK1eDgstnahFZZ/mBAdiHaPhkDXfeLTwBrc4GHzmPKIqWgH1/FuCsXquTif2bUtw44ssz8lD0+Xw=
+	t=1765760099; cv=none; b=KT/Ho5xDUqd0guNr8f/PZV14Jt+bmicVRWh5wCv04URBr6WBLP7I185aWKRfiYyGAPpeBhWavohg50TP3CnptgAsFCwuDQ8uLjATfKLg+SS9/y7tbeWE+BiZ31i5296IrtfskFEzofgq5uIubU64M9ZwFYQ78f1eH+t2UfwTbvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765759554; c=relaxed/simple;
-	bh=FQ1FWP5YMNGg742wy9lS+ubxF2Pf+H1BdJYdl6ka+e4=;
+	s=arc-20240116; t=1765760099; c=relaxed/simple;
+	bh=nH0orP5Nlq+bMbZaWMs88MS/SMokLB/5r/xO52M61Sk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NzQFfj05+256Dktb0AudBNrrRmGJx0YAkIT2t9Az3VFqRi8rTai2WN+lmltq8MvgSgEg9DsfCWndYM0uP3Nc/7ogRPQO2iUXJv+CwFcZdvRi3PO6EMOzATVG2NQLCXRYuSEnEQ8pq1rS5XAH6GZuYpJjzgqJ1cnD6BbgfCXtC7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CQ8CctDo; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=qZ0A/p88UKHI6RXXCynrh8ctf7RmgCEbF1UTLLnUg6orCWTmlKnugJTf1jYFu9ecO3PxLUu6cADLVy2XifKETYFLHR7X/N4bJVtMfudDy2l6aoc6c1fzS3Cgjfj3EUlEtALYZ0bF4qa0SpdnLjaNoqyLR9R82i9a03pOb5MNKU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=edyPg/aN; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQ8CctDo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="edyPg/aN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765759553; x=1797295553;
+  t=1765760097; x=1797296097;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FQ1FWP5YMNGg742wy9lS+ubxF2Pf+H1BdJYdl6ka+e4=;
-  b=CQ8CctDonZf4NKyRSgrfXWficB/aMn2FhvvM/ud6fr641QAE5ARG3eQ5
-   uh5SM6eJjmWrnS9HqlzGA+Sg/9h/oP8OCh4uVSCBLJFl4o9SFExH+9J2F
-   UlSI1kHhb/ew/BjEmiNhPNYSAKus9x9frW59UINN/kCZniYkxv+12wXDn
-   a274CszjDrmUwao6S8M2YpMni2Ga+oN2jdvQU1nGGfOcfcj3q3/DQ4qKb
-   5zD8DK+u5WR4FJsNzPawJ37bARTIOvxNfUj5ZAxLSqlQsTMcipogiJOjT
-   qAX29vRk6zx1tkBIEfKgvbaLYE76p5MIIk206gEDlL/KcodtIdKih66oW
-   A==;
-X-CSE-ConnectionGUID: 4mQ0sjrYQ36FPMgoVK6vkA==
-X-CSE-MsgGUID: Poh7Cu7tRKq/XWvLFR8Z4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="85254385"
+  bh=nH0orP5Nlq+bMbZaWMs88MS/SMokLB/5r/xO52M61Sk=;
+  b=edyPg/aNUA3awkx6ubMQxkihecxDl1esHoxNoMhJv0MhaxrH+kNQSiqp
+   Dhsnux1OFd9VS9oJ760s9NZH+aC9rpICNjHj0mCawsdYh86nTHQR+NVI+
+   oMuph+fuIywePvWtTWho5K0Mxg8s8y9DIUgD/poyq1Gd7O/CPjsrxaDJ1
+   Q8I2b1FRCE6YAvUg0Rrqa6Ua///yn1j5NZIgRVxeQlpi5pVEk2eyIPZZF
+   DjZbztZ0xC465WdgmQVKJ4gtg+GGD7CY9smpMuoDPr+ShDFX/5J9mdLno
+   iw7NQpwUpFhqgwFMFR74CqxGpUMl3D69+aBmlunPrzG43CBig332kpFkJ
+   Q==;
+X-CSE-ConnectionGUID: x+ivD4dpTzi4uq+u8x3GPw==
+X-CSE-MsgGUID: EBAewi2gQjy56LCmfFd0ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="90314613"
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="85254385"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 16:45:52 -0800
-X-CSE-ConnectionGUID: WyJHMdRxRESw569sta8M8A==
-X-CSE-MsgGUID: E3qLJoEGRFS1DG9yGwJubA==
+   d="scan'208";a="90314613"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 16:54:56 -0800
+X-CSE-ConnectionGUID: PWGs/nZRSUeNtqTgnjaZhw==
+X-CSE-MsgGUID: 46sRfNRnSHGrtkOWkGXDfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="220986787"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 14 Dec 2025 16:45:51 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="196863774"
+Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 14 Dec 2025 16:54:55 -0800
+Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vUwij-000000002WS-0JoH;
-	Mon, 15 Dec 2025 00:45:49 +0000
-Date: Mon, 15 Dec 2025 01:45:39 +0100
+	id 1vUwrV-000000009Xf-0SEz;
+	Mon, 15 Dec 2025 00:54:53 +0000
+Date: Mon, 15 Dec 2025 08:53:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje@dujemihanovic.xyz>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:coroutine/base 3/3] net/core/filter.c:12481:21: error:
- use of undeclared identifier '__udp4_lib_rcv'
-Message-ID: <202512150111.1iUzKcTC-lkp@intel.com>
+Subject: [pxa1908-mainline:pxa1908/master 12/13]
+ drivers/net/wireless/marvell/mwifiex/sta_tx.c:44:21: warning: cast from
+ pointer to integer of different size
+Message-ID: <202512150827.6W6Gbk9N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +63,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/kkdwivedi/linux coroutine/base
-head:   3d1468dcf813bc71d425b7ce656a6877d98684e9
-commit: 3d1468dcf813bc71d425b7ce656a6877d98684e9 [3/3] Basic Rx integration
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251215/202512150111.1iUzKcTC-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150111.1iUzKcTC-lkp@intel.com/reproduce)
+tree:   https://gitlab.com/pxa1908-mainline/linux pxa1908/master
+head:   9e872f85d0ed53d474107764343c245869b95c45
+commit: 1325efda2cf6f3a8867bfff2446c7b56f95262f6 [12/13] fixup! DONOTMERGE: net: mwifiex: fix timeouts with the SD8777 chip
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251215/202512150827.6W6Gbk9N-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150827.6W6Gbk9N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512150111.1iUzKcTC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512150827.6W6Gbk9N-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/core/filter.c:12481:21: error: use of undeclared identifier '__udp4_lib_rcv'
-    12481 |         udp_rcv_func_ptr = __udp4_lib_rcv;
-          |                            ^
->> net/core/filter.c:12504:22: error: use of undeclared identifier 'icmp_rcv'; did you mean 'ip_rcv'?
-    12504 |         icmp_rcv_func_ptr = icmp_rcv;
-          |                             ^~~~~~~~
-          |                             ip_rcv
-   include/net/ip.h:164:5: note: 'ip_rcv' declared here
-     164 | int ip_rcv(struct sk_buff *skb, struct net_device *dev, struct packet_type *pt,
-         |     ^
-   2 errors generated.
+   drivers/net/wireless/marvell/mwifiex/sta_tx.c: In function 'mwifiex_process_sta_txpd':
+>> drivers/net/wireless/marvell/mwifiex/sta_tx.c:44:21: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      44 |         pad = (4 - ((uint64_t) skb->data & 0x3)) % 4;
+         |                     ^
 
 
-vim +/__udp4_lib_rcv +12481 net/core/filter.c
+vim +44 drivers/net/wireless/marvell/mwifiex/sta_tx.c
 
- 12466	
- 12467	__bpf_kfunc int bpf_coro_udp_rcv(struct sk_buff *skb)
- 12468	{
- 12469		int result_code;
- 12470		int (*udp_rcv_func_ptr)(struct sk_buff *);
- 12471		struct sk_buff *skb_iter;
- 12472		struct sk_buff *skb_dup;
- 12473		skb_iter = skb;
- 12474		if (!skb_iter) {
- 12475			return -22;
- 12476		}
- 12477		skb_dup = skb_clone(skb_iter, GFP_ATOMIC);
- 12478		if (!skb_dup) {
- 12479			return -12;
- 12480		}
- 12481		udp_rcv_func_ptr = __udp4_lib_rcv;
- 12482		if (!udp_rcv_func_ptr) {
- 12483			kfree_skb(skb_dup);
- 12484			return -2;
- 12485		}
- 12486		result_code = udp_rcv_func_ptr(skb_dup);
- 12487		return result_code;
- 12488	}
- 12489	
- 12490	__bpf_kfunc int bpf_coro_icmp_rcv(struct sk_buff *skb)
- 12491	{
- 12492		int result_code;
- 12493		int (*icmp_rcv_func_ptr)(struct sk_buff *);
- 12494		struct sk_buff *skb_iter;
- 12495		struct sk_buff *skb_dup;
- 12496		skb_iter = skb;
- 12497		if (!skb_iter) {
- 12498			return -22;
- 12499		}
- 12500		skb_dup = skb_clone(skb_iter, GFP_ATOMIC);
- 12501		if (!skb_dup) {
- 12502			return -12;
- 12503		}
- 12504		icmp_rcv_func_ptr = icmp_rcv;
- 12505		if (!icmp_rcv_func_ptr) {
- 12506			kfree_skb(skb_dup);
- 12507			return -2;
- 12508		}
- 12509		result_code = icmp_rcv_func_ptr(skb_dup);
- 12510		return result_code;
- 12511	}
- 12512	
+    14	
+    15	/*
+    16	 * This function fills the TxPD for tx packets.
+    17	 *
+    18	 * The Tx buffer received by this function should already have the
+    19	 * header space allocated for TxPD.
+    20	 *
+    21	 * This function inserts the TxPD in between interface header and actual
+    22	 * data and adjusts the buffer pointers accordingly.
+    23	 *
+    24	 * The following TxPD fields are set by this function, as required -
+    25	 *      - BSS number
+    26	 *      - Tx packet length and offset
+    27	 *      - Priority
+    28	 *      - Packet delay
+    29	 *      - Priority specific Tx control
+    30	 *      - Flags
+    31	 */
+    32	void mwifiex_process_sta_txpd(struct mwifiex_private *priv,
+    33				      struct sk_buff *skb)
+    34	{
+    35		struct mwifiex_adapter *adapter = priv->adapter;
+    36		struct txpd *local_tx_pd;
+    37		struct mwifiex_txinfo *tx_info = MWIFIEX_SKB_TXCB(skb);
+    38		unsigned int pad;
+    39		u16 pkt_type, pkt_length, pkt_offset;
+    40		int hroom = adapter->intf_hdr_len;
+    41	
+    42		pkt_type = mwifiex_is_skb_mgmt_frame(skb) ? PKT_TYPE_MGMT : 0;
+    43	
+  > 44		pad = (4 - ((uint64_t) skb->data & 0x3)) % 4;
+    45	
+    46		skb_push(skb, sizeof(*local_tx_pd) + pad);
+    47	
+    48		local_tx_pd = (struct txpd *) skb->data;
+    49		memset(local_tx_pd, 0, sizeof(struct txpd));
+    50		local_tx_pd->bss_num = priv->bss_num;
+    51		local_tx_pd->bss_type = priv->bss_type;
+    52		pkt_length = (u16)(skb->len - (sizeof(struct txpd) + pad));
+    53		if (pkt_type == PKT_TYPE_MGMT)
+    54			pkt_length -= MWIFIEX_MGMT_FRAME_HEADER_SIZE;
+    55		local_tx_pd->tx_pkt_length = cpu_to_le16(pkt_length);
+    56	
+    57		local_tx_pd->priority = (u8) skb->priority;
+    58		local_tx_pd->pkt_delay_2ms =
+    59					mwifiex_wmm_compute_drv_pkt_delay(priv, skb);
+    60	
+    61		if (local_tx_pd->priority <
+    62		    ARRAY_SIZE(priv->wmm.user_pri_pkt_tx_ctrl))
+    63			/*
+    64			 * Set the priority specific tx_control field, setting of 0 will
+    65			 *   cause the default value to be used later in this function
+    66			 */
+    67			local_tx_pd->tx_control =
+    68				cpu_to_le32(priv->wmm.user_pri_pkt_tx_ctrl[local_tx_pd->
+    69									   priority]);
+    70	
+    71		if (adapter->pps_uapsd_mode) {
+    72			if (mwifiex_check_last_packet_indication(priv)) {
+    73				adapter->tx_lock_flag = true;
+    74				local_tx_pd->flags =
+    75					MWIFIEX_TxPD_POWER_MGMT_LAST_PACKET;
+    76			}
+    77		}
+    78	
+    79		if (tx_info->flags & MWIFIEX_BUF_FLAG_TDLS_PKT)
+    80			local_tx_pd->flags |= MWIFIEX_TXPD_FLAGS_TDLS_PACKET;
+    81	
+    82		/* Offset of actual data */
+    83		pkt_offset = sizeof(struct txpd) + pad;
+    84		if (pkt_type == PKT_TYPE_MGMT) {
+    85			/* Set the packet type and add header for management frame */
+    86			local_tx_pd->tx_pkt_type = cpu_to_le16(pkt_type);
+    87			pkt_offset += MWIFIEX_MGMT_FRAME_HEADER_SIZE;
+    88		}
+    89	
+    90		local_tx_pd->tx_pkt_offset = cpu_to_le16(pkt_offset);
+    91	
+    92		/* make space for adapter->intf_hdr_len */
+    93		skb_push(skb, hroom);
+    94	
+    95		if (!local_tx_pd->tx_control)
+    96			/* TxCtrl set by user or default */
+    97			local_tx_pd->tx_control = cpu_to_le32(priv->pkt_tx_ctrl);
+    98	}
+    99	
 
 -- 
 0-DAY CI Kernel Test Service
