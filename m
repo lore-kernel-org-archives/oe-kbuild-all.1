@@ -1,63 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48585324700
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 18:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2149130DD22
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 19:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765821672; cv=none; b=Nm0IxaSKVBA2xDnm/0rwFvx1vXrvlUkFHnzugOrBTu6iJstjgXB8Z/hwhroT2D5AUdBvC2JFkMyQIP3MzZxRio1xGMq/12JfnwVMcY3ahuXfMHIHSxXmAafbyOuJji6aKm3Nypf0khoRzC+o9zb/7bxjO+N3YcT+yTsJ/6VQEEM=
+	t=1765825690; cv=none; b=kVNMXdxBy3rTJ13DYMeUc+YJlumxCigkgSm5hS7DaLNXJemN4smJfUeJBA5C0dNmC+DK2hI4lQzipn5OFkWWyS4GIQ7PSlO6V92RYwfetcq0F7k4irmYfUBT/82JXS6qLH90Ecy/Gg0sg7THIIOD+tclFJ/gp8dcYkTliKiKAnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765821672; c=relaxed/simple;
-	bh=nVxrEP7M/wfPeLyq+TN7XvpUWhVgJj3oYBMbnGR9238=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SCT6Nos+rili889xht7lhbHEhZe/XRsxo0qj7UcDFKnqX6oRaUPXTM2BV953RktBDVdLLYQRFsCH8M5jEw+f5sOcttEQTA/sqfshsR2hMBIbTrj0Dxcg+g+JiQs95aXLQMYb6wNB0fMYbw8H6kDFxLPt2aPkX7NRtT2DMf1cjl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m02N65PK; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1765825690; c=relaxed/simple;
+	bh=1JDNfp0Z5+nrp/ObFicZ4XwSPUDiATXg/OEvzD6472Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UqAB2QuQ3E2AQEL80cE4JeqPJ3oPedByGHoS+cRoK3mXj4FicUB3J7I9UwIND/1YqZHhKO2v62FdYzm66p35i6HlwbH3f2M9Xk5Cl4gQqFfi7PVDe4SCRiJwrjryYFpTD1/ev2FhjtdxgHHw8JzLVGXofeROvtRx3WIAMfHfaq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=niOxzK0R; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m02N65PK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="niOxzK0R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765821670; x=1797357670;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nVxrEP7M/wfPeLyq+TN7XvpUWhVgJj3oYBMbnGR9238=;
-  b=m02N65PKIat4zil+RDrSl92SRpJ9FpGXBkwRQv34Gf4Jst3v60lYeCwp
-   MKFuD2Lm2i6u3QhmqDhB1A+KQeuNZ8I88x6gWMv91S3cg4ryQpDgHJR75
-   9y1lSBpSgZqwMSF72hfZbXvjjdABfPqz5Nu5aDPf3B2XTqTr4OnkGN86z
-   MfUGDAxot9bcbdP9sBpfBR0FhEd1U98/fDE1RBNYKAYbko6lI35A3Ag4U
-   WqNowyQUTHzDCnhwWwirEHcQAO6vB0Yd6ujtw1bHjs987N4HKcD8d4eBm
-   LCCzW9SM/w60M4r8xJG4sVHuWGIfalgO2oESo9wf04Up6k9HU5xnSxvLe
-   w==;
-X-CSE-ConnectionGUID: vsPJ8YolRoCB28197wKNJQ==
-X-CSE-MsgGUID: t8vJthh1Qsir1QdbT68O4g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="85142399"
+  t=1765825688; x=1797361688;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1JDNfp0Z5+nrp/ObFicZ4XwSPUDiATXg/OEvzD6472Y=;
+  b=niOxzK0RP93PZsK6PXFG3PlJ/6GKpWNen7BHVVWDrRnO7P3o6Pg2OTbO
+   ja57CNDs9pGh4peFUT6HdhIFm/O9LuekdxK3VjN5Bqx5Geavq1I21KPSG
+   ff/av+FgeE8A2d4zQU91BNzjNRnx9X8Dl/AjXvHH4X4ZtGvwnbYDceN8o
+   FAlGNXrcxkUdJAwJepNWMvbo0Bt0RhW3lCakTKIkD8mMFKisQN+B0X2a8
+   DTzK8NeBAIFN8mn734RCFD/D9N3bMp6np+L8mU2K1eBvHixFZjt4DFj7t
+   UsZvpxnbMZiDX4lzibdeGxlwwC2OC9CkRPEw6R+0FiAHhUKw59ZPYLbzi
+   A==;
+X-CSE-ConnectionGUID: CmFj57j1TIO2/Dl6AaJfPw==
+X-CSE-MsgGUID: SlGxfXQ9QHerIG9UsafNTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66921506"
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="85142399"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 10:01:10 -0800
-X-CSE-ConnectionGUID: +9K1tb+1TzKDlABDx7B1nQ==
-X-CSE-MsgGUID: SURYAEFHReKT8exiM2VUlA==
+   d="scan'208";a="66921506"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 11:08:07 -0800
+X-CSE-ConnectionGUID: mM3qZZf/QHyrBDdX5VBDKw==
+X-CSE-MsgGUID: zlwDi811Sa2s2GleHZKjPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="196881952"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 15 Dec 2025 10:01:07 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+   d="scan'208";a="198626807"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 15 Dec 2025 11:08:01 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVCsG-000000000aF-27C3;
-	Mon, 15 Dec 2025 18:00:48 +0000
-Date: Tue, 16 Dec 2025 01:59:47 +0800
+	id 1vVDvL-000000002kO-0LU9;
+	Mon, 15 Dec 2025 19:07:59 +0000
+Date: Mon, 15 Dec 2025 20:07:47 +0100
 From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
+To: Byungchul Park <byungchul@sk.com>, linux-mm@kvack.org,
+	akpm@linux-foundation.org, netdev@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Ben Horgan <ben.horgan@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gavin Shan <gshan@redhat.com>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-Subject: drivers/resctrl/test_mpam_devices.c:9:42: sparse: sparse: incorrect
- type in initializer (different address spaces)
-Message-ID: <202512160133.eAzPdJv2-lkp@intel.com>
+	kernel_team@skhynix.com, harry.yoo@oracle.com, ast@kernel.org,
+	daniel@iogearbox.net, davem@davemloft.net, kuba@kernel.org,
+	hawk@kernel.org, john.fastabend@gmail.com, sdf@fomichev.me,
+	saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com,
+	mbloch@nvidia.com, andrew+netdev@lunn.ch, edumazet@google.com,
+	pabeni@redhat.com, david@redhat.com, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, horms@kernel.org,
+	jackmanb@google.com, hannes@cmpxchg.org
+Subject: Re: [PATCH 2/2] mm, netmem: remove the page pool members in struct
+ page
+Message-ID: <202512152043.rdzLcS1a-lkp@intel.com>
+References: <20251215071001.78263-3-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,93 +73,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251215071001.78263-3-byungchul@sk.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: e3565d1fd4dcf2c7ee6912094066e47c7500eaf2 arm_mpam: Add kunit test for bitmap reset
-date:   4 weeks ago
-config: arm64-randconfig-r133-20251215 (https://download.01.org/0day-ci/archive/20251216/202512160133.eAzPdJv2-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160133.eAzPdJv2-lkp@intel.com/reproduce)
+Hi Byungchul,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on d0a24447990a9d8212bfb3a692d59efa74ce9f86]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/mm-introduce-a-new-page-type-for-page-pool-in-page-type/20251215-151232
+base:   d0a24447990a9d8212bfb3a692d59efa74ce9f86
+patch link:    https://lore.kernel.org/r/20251215071001.78263-3-byungchul%40sk.com
+patch subject: [PATCH 2/2] mm, netmem: remove the page pool members in struct page
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251215/202512152043.rdzLcS1a-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512152043.rdzLcS1a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512160133.eAzPdJv2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512152043.rdzLcS1a-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/resctrl/mpam_devices.c: note: in included file:
->> drivers/resctrl/test_mpam_devices.c:9:42: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char [noderef] __iomem *buf @@     got void * @@
-   drivers/resctrl/test_mpam_devices.c:9:42: sparse:     expected char [noderef] __iomem *buf
-   drivers/resctrl/test_mpam_devices.c:9:42: sparse:     got void *
->> drivers/resctrl/test_mpam_devices.c:24:24: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/resctrl/mpam_devices.c:271:5: sparse: sparse: context imbalance in 'mpam_register_requestor' - wrong count at exit
-   drivers/resctrl/mpam_devices.c:1218:9: sparse: sparse: context imbalance in '_msmon_read' - wrong count at exit
-   drivers/resctrl/mpam_devices.c:1281:6: sparse: sparse: context imbalance in 'mpam_msmon_reset_mbwu' - wrong count at exit
-   drivers/resctrl/mpam_devices.c:1632:9: sparse: sparse: context imbalance in 'mpam_cpu_online' - wrong count at exit
-   drivers/resctrl/mpam_devices.c:1705:9: sparse: sparse: context imbalance in 'mpam_cpu_offline' - wrong count at exit
-   drivers/resctrl/mpam_devices.c:2294:12: sparse: sparse: context imbalance in 'mpam_register_irqs' - wrong count at exit
-   drivers/resctrl/mpam_devices.c:2346:9: sparse: sparse: context imbalance in 'mpam_unregister_irqs' - wrong count at exit
-   drivers/resctrl/mpam_devices.c:2546:9: sparse: sparse: context imbalance in 'mpam_reset_component_locked' - wrong count at exit
-   drivers/resctrl/mpam_devices.c:2567:9: sparse: sparse: context imbalance in 'mpam_reset_class_locked' - wrong count at exit
-   drivers/resctrl/mpam_devices.c:2640:9: sparse: sparse: context imbalance in 'mpam_enable' - wrong count at exit
-   drivers/resctrl/mpam_devices.c:2666:5: sparse: sparse: context imbalance in 'mpam_apply_config' - wrong count at exit
+All errors (new ones prefixed by >>):
 
-vim +9 drivers/resctrl/test_mpam_devices.c
+   drivers/net/ethernet/intel/ice/ice_ethtool.c: In function 'ice_lbtest_receive_frames':
+>> drivers/net/ethernet/intel/ice/ice_ethtool.c:1254:36: error: 'struct page' has no member named 'pp'
+    1254 |                                page->pp->p.offset;
+         |                                    ^~
 
-     6	
-     7	static void test_mpam_reset_msc_bitmap(struct kunit *test)
-     8	{
-   > 9		char __iomem *buf = kunit_kzalloc(test, SZ_16K, GFP_KERNEL);
-    10		struct mpam_msc fake_msc = {};
-    11		u32 *test_result;
-    12	
-    13		if (!buf)
-    14			return;
-    15	
-    16		fake_msc.mapped_hwpage = buf;
-    17		fake_msc.mapped_hwpage_sz = SZ_16K;
-    18		cpumask_copy(&fake_msc.accessibility, cpu_possible_mask);
-    19	
-    20		/* Satisfy lockdep checks */
-    21		mutex_init(&fake_msc.part_sel_lock);
-    22		mutex_lock(&fake_msc.part_sel_lock);
-    23	
-  > 24		test_result = (u32 *)(buf + MPAMCFG_CPBM);
-    25	
-    26		mpam_reset_msc_bitmap(&fake_msc, MPAMCFG_CPBM, 0);
-    27		KUNIT_EXPECT_EQ(test, test_result[0], 0);
-    28		KUNIT_EXPECT_EQ(test, test_result[1], 0);
-    29		test_result[0] = 0;
-    30		test_result[1] = 0;
-    31	
-    32		mpam_reset_msc_bitmap(&fake_msc, MPAMCFG_CPBM, 1);
-    33		KUNIT_EXPECT_EQ(test, test_result[0], 1);
-    34		KUNIT_EXPECT_EQ(test, test_result[1], 0);
-    35		test_result[0] = 0;
-    36		test_result[1] = 0;
-    37	
-    38		mpam_reset_msc_bitmap(&fake_msc, MPAMCFG_CPBM, 16);
-    39		KUNIT_EXPECT_EQ(test, test_result[0], 0xffff);
-    40		KUNIT_EXPECT_EQ(test, test_result[1], 0);
-    41		test_result[0] = 0;
-    42		test_result[1] = 0;
-    43	
-    44		mpam_reset_msc_bitmap(&fake_msc, MPAMCFG_CPBM, 32);
-    45		KUNIT_EXPECT_EQ(test, test_result[0], 0xffffffff);
-    46		KUNIT_EXPECT_EQ(test, test_result[1], 0);
-    47		test_result[0] = 0;
-    48		test_result[1] = 0;
-    49	
-    50		mpam_reset_msc_bitmap(&fake_msc, MPAMCFG_CPBM, 33);
-    51		KUNIT_EXPECT_EQ(test, test_result[0], 0xffffffff);
-    52		KUNIT_EXPECT_EQ(test, test_result[1], 1);
-    53		test_result[0] = 0;
-    54		test_result[1] = 0;
-    55	
-    56		mutex_unlock(&fake_msc.part_sel_lock);
-    57	}
-    58	
+
+vim +1254 drivers/net/ethernet/intel/ice/ice_ethtool.c
+
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1223  
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1224  #define ICE_LB_FRAME_SIZE 64
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1225  /**
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1226   * ice_lbtest_receive_frames - receive and verify test frames
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1227   * @rx_ring: pointer to the receive ring
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1228   *
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1229   * Function receives loopback packets and verify their correctness.
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1230   * Returns number of received valid frames.
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1231   */
+e72bba21355dbb Maciej Fijalkowski     2021-08-19  1232  static int ice_lbtest_receive_frames(struct ice_rx_ring *rx_ring)
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1233  {
+93f53db9f9dc4a Michal Kubiak          2025-09-25  1234  	struct libeth_fqe *rx_buf;
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1235  	int valid_frames, i;
+93f53db9f9dc4a Michal Kubiak          2025-09-25  1236  	struct page *page;
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1237  	u8 *received_buf;
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1238  
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1239  	valid_frames = 0;
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1240  
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1241  	for (i = 0; i < rx_ring->count; i++) {
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1242  		union ice_32b_rx_flex_desc *rx_desc;
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1243  
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1244  		rx_desc = ICE_RX_DESC(rx_ring, i);
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1245  
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1246  		if (!(rx_desc->wb.status_error0 &
+283d736ff7c7e9 Maciej Fijalkowski     2022-07-07  1247  		    (cpu_to_le16(BIT(ICE_RX_FLEX_DESC_STATUS0_DD_S)) |
+283d736ff7c7e9 Maciej Fijalkowski     2022-07-07  1248  		     cpu_to_le16(BIT(ICE_RX_FLEX_DESC_STATUS0_EOF_S)))))
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1249  			continue;
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1250  
+93f53db9f9dc4a Michal Kubiak          2025-09-25  1251  		rx_buf = &rx_ring->rx_fqes[i];
+93f53db9f9dc4a Michal Kubiak          2025-09-25  1252  		page = __netmem_to_page(rx_buf->netmem);
+93f53db9f9dc4a Michal Kubiak          2025-09-25  1253  		received_buf = page_address(page) + rx_buf->offset +
+93f53db9f9dc4a Michal Kubiak          2025-09-25 @1254  			       page->pp->p.offset;
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1255  
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1256  		if (ice_lbtest_check_frame(received_buf))
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1257  			valid_frames++;
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1258  	}
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1259  
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1260  	return valid_frames;
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1261  }
+0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1262  
 
 -- 
 0-DAY CI Kernel Test Service
