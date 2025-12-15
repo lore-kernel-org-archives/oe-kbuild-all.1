@@ -1,207 +1,104 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685B331AF24
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 04:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A241E0DD8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 05:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765774611; cv=none; b=cnYzEMslCYbzYp+j7qy3qnSTkZoZYRLeH93Q36rzlsyETQS4yghi7oopXARagM/3rFhwRBOKzdt2FNTKzizvVQBosjVZzu72uUAgdxtsnVNqP00u/cN4JRkfJfutiqkcLZzoaRJcK2uEiu1ijTMbggqCjmvIKgVVzjmP+roIpqg=
+	t=1765774857; cv=none; b=LXIGgCUR+0EO63lRzdv7huicArlIX50BvswZhtig4o16WrjY1pIp5BmyeM+oEganUn9OcBNO5qlysqWhYdGM6KB+WO87kvZmEGfsk5uyNPQB7oW3bXARDvcLeR4u48FuU9Q25H2D3JPHrrXy2hjmG/73ycYElyAq432UFaaNVek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765774611; c=relaxed/simple;
-	bh=dyWaY6Fyj3zh8+NX1FMllbUobGrRmcg99lsPSxMvcLg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HGwU3+w8XN9l8Al8YYHJzU0RbtrvyRSCvJR+2Sf93uqXz6X5OVtPYhP+QDHhrU6yg4DQqUY2kiGO94wy1Fyj2MfEn6Z87jn7fFYsqYqmgVEhZLtbjBeg37s47AAyYH7L+xprqsRSpK8E2IXs7dKkLTh7xLOku3aTPsqznzIaO1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e7vjr3CX; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765774857; c=relaxed/simple;
+	bh=o9Q9SLiXHToLLMIDMeWuLeJQOlqeJqmFAH1XM6Lu/+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ovwpr9AEn4CbsLgEwsgrj+2taa372tAhP3xxgKs9KgQn18gfLGKg5j27scu5EdcfFS04Ye4oTq9SHhCDlekwdvs9kYTdq5TylrvRyQ3x/rO50BRoItzpE1qWRJLXvCFnNgfYlz3WiML3qCTM4HckTcHu0EBUg7ROSHzBRIeo23M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QooTtXV5; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e7vjr3CX"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b7370698a8eso407403966b.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 14 Dec 2025 20:56:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765774608; x=1766379408; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FPCFQP3Vt5EBLlG8b8H61bS7KpkCTlBSE7JQzBw720w=;
-        b=e7vjr3CXdIvpWQOFw1GYAb/cmUWvi4nER86Fp+xZQsmozioqocIYca0OCqVG7QQUsh
-         BqAhKz08FJmwIQOje9y7gZ1JeJ7N1FUHWBNIASf1YS63bddI5qqXetW4L5cb4+eMTrIw
-         ilBP8ldRkr6RXSG5nKBt0EJyKng3CpBdDvVd8by1085x42k0Cxe0SMnEjBOGoREQUm5D
-         9lo+hHoMXZuEzV0hCpibShf7DMUUrzkgC+al7InpCIM5twa/seuDwEPQrL3DIrx8+mP7
-         TDNesQHBD0H5xfeApCTJRYaB/5p82p0303g+YwFyKl/kj4gY3GYCOLXp4U40Uf8K1BMs
-         l4mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765774608; x=1766379408;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FPCFQP3Vt5EBLlG8b8H61bS7KpkCTlBSE7JQzBw720w=;
-        b=YgGvYvYHW513kGuEkPelGy/3/6NfsQt84Q8zWsVdhHPrC7vEvhojsG2K1IegK0+Ori
-         KG726GDv5rlHbNeIFB7Xky9mzLZaYpz9+Rrtz2mq+5y4kOQMrBxZ4CHvLtc2L7kzvGco
-         MLFX8S/GOeQ1XAfR5LZvRvNuflF+wLu4c+Q0dY/4tzZ/xXc109SZ+vo1R3wqVypNqq9s
-         Wu/L6RvTHV7xHyVfKiTKUsdWKWoQH//HujwhPp/Svjb/lL+3YrkyqCUwyDgRcVdg6iZt
-         TYC6+8EqTVTakR+u1/GkXBMnPAjD25Xfxk9q8UTMbOJRYUq3+Tj7V5+oyMrBSHDvwyzt
-         0ieA==
-X-Forwarded-Encrypted: i=1; AJvYcCXMBuYd53HLuHx3OJNQZTK3fGaxX3s6NceD7Jxx5CLYTYrJQAPDfNR8HtX+lSjqTZIxJJq0bLizFoL4FD9M@lists.linux.dev
-X-Gm-Message-State: AOJu0YyNT4kbWWvtOwifwjI4cGCU1lJtugiM6IlsOUw9wHm9KZnJa0pU
-	MHP5xbQL9PDK06V3Ri87XKasJCup45q3H0ZAi9+tOpS393IG3FYtkGm4NzK3ramv53NB4WPQhsZ
-	YxKRSy7ANgOL6TI6pxJqDLvMxA1kgGe4=
-X-Gm-Gg: AY/fxX5pGP+e5idxa+I2o3yymqqPB2sFj4YtJNz/nbrRbaW2dFO1AzdEhpNDKwOkRsZ
-	snUhjkrIjoeHuJ6Rq7Bqm6IfF1Ipg/ivRjPOQeQwR9WVBEfqJrShAWnMz3mcWcxsMhwMjWDPty9
-	bwQ4nV5Gw3DI/t1LU+sMQliKOBD8YiD8I3tv1zv3XPzTlooVP/pOwKyTRlGYyRTDwp9BEgnCv1W
-	TAgLRY98Fwg7m7epCykoQBDLuqufSw7TN30fK5XO8Qb/fzzb8/Up+tcURjg/lFwDVedN6Gz
-X-Google-Smtp-Source: AGHT+IFrfJBBUqe+fJTs/otz3aUzkW8Pl0HnggOO5N0PlXVavpMLXgznKsETHhKbrHpJk7KNU5ZMajnlz703M/7GIhw=
-X-Received: by 2002:a17:906:4fd5:b0:b76:2667:7717 with SMTP id
- a640c23a62f3a-b7d23aa4046mr1086480366b.56.1765774607557; Sun, 14 Dec 2025
- 20:56:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QooTtXV5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765774856; x=1797310856;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o9Q9SLiXHToLLMIDMeWuLeJQOlqeJqmFAH1XM6Lu/+Y=;
+  b=QooTtXV5JrQ1KvAFy4NFqAVy1lyFh5CJwSZh38k7KskcWLRT+Z51oVde
+   t6p30btOridguGzsMCsy3Na8FO3bRX056ph7De5OSJxAyALXt3KfWKSkz
+   k8zCoG+5M7LVqaLfEW65lfm7H9tltY0KDqvWx1t25vKNaSjL7hcalRy/V
+   DwWcuqvhc/w0Dsh8+nfPuCx3WSeYK4GdbMEOqFooVYBlrDalb4yk9/kI/
+   lRH3pOTpN4IIPo25PqllMTcERCsxcmadwEFaIap3kvvYTjfzVcTYbP/QD
+   1fuVmjcnZL80u0fUAg0EHn57vE6Gv7vh/nJfjZxs4QQIRExdJibSfR6L0
+   A==;
+X-CSE-ConnectionGUID: lFtWrGFUS4Gqr5FF8E+P0g==
+X-CSE-MsgGUID: XaAh+HPlSgijAwsDT/UcZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="78376656"
+X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
+   d="scan'208";a="78376656"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 21:00:55 -0800
+X-CSE-ConnectionGUID: uUb91bMFSwqXizAbWiOeuw==
+X-CSE-MsgGUID: Rnmk+5JpS5yrx036/grrag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
+   d="scan'208";a="197907037"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 14 Dec 2025 21:00:53 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vV0hX-000000002Zc-1ggv;
+	Mon, 15 Dec 2025 05:00:51 +0000
+Date: Mon, 15 Dec 2025 06:00:14 +0100
+From: kernel test robot <lkp@intel.com>
+To: Aaron Tomlin <atomlin@atomlin.com>, akpm@linux-foundation.org,
+	lance.yang@linux.dev, mhiramat@kernel.org,
+	gregkh@linuxfoundation.org, pmladek@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, sean@ashe.io,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] hung_task: Enable runtime reset of
+ hung_task_detect_count
+Message-ID: <202512150521.53lGwfu6-lkp@intel.com>
+References: <20251211033004.1628875-3-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251209121349.525641-2-dolinux.peng@gmail.com> <202512140850.JdD1lPmn-lkp@intel.com>
-In-Reply-To: <202512140850.JdD1lPmn-lkp@intel.com>
-From: Donglin Peng <dolinux.peng@gmail.com>
-Date: Mon, 15 Dec 2025 12:56:35 +0800
-X-Gm-Features: AQt7F2r7qaPfCZNFQJWN3FmkMI3nvzBmLh_-WHohqasKL2htaY_edIPtmNPav3E
-Message-ID: <CAErzpmvxz7mthfTxc4gWFqcCW66ckuHaFnjQbakSHj31x1vOOQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] fgraph: Enhance funcgraph-retval with BTF-based
- type-aware output
-To: kernel test robot <lkp@intel.com>
-Cc: rostedt@goodmis.org, oe-kbuild-all@lists.linux.dev, mhiramat@kernel.org, 
-	linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, pengdonglin <pengdonglin@xiaomi.com>, 
-	Xiaoqin Zhang <zhangxiaoqin@xiaomi.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251211033004.1628875-3-atomlin@atomlin.com>
 
-On Sun, Dec 14, 2025 at 9:15=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Donglin,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on trace/for-next]
-> [also build test ERROR on linus/master v6.18 next-20251212]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Donglin-Peng/fgrap=
-h-Enhance-funcgraph-retval-with-BTF-based-type-aware-output/20251209-201633
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace=
- for-next
-> patch link:    https://lore.kernel.org/r/20251209121349.525641-2-dolinux.=
-peng%40gmail.com
-> patch subject: [PATCH v3 1/2] fgraph: Enhance funcgraph-retval with BTF-b=
-ased type-aware output
-> config: arm-randconfig-002-20251214 (https://download.01.org/0day-ci/arch=
-ive/20251214/202512140850.JdD1lPmn-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20251214/202512140850.JdD1lPmn-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512140850.JdD1lPmn-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    arm-linux-gnueabi-ld: kernel/trace/trace_functions_graph.o: in functio=
-n `trim_retval':
-> >> kernel/trace/trace_functions_graph.c:888: undefined reference to `btf_=
-find_func_proto'
+Hi Aaron,
 
-Thanks. I will address this in the next version. The issue occurs because
-CONFIG_FUNCTION_GRAPH_RETVAL and CONFIG_DEBUG_INFO_BTF
-are enabled, but CONFIG_PROBE_EVENTS_BTF_ARGS is disabled.
-This prevents trace_btf.c from being compiled, while the function
-btf_find_func_proto
-it provides is still required.
+kernel test robot noticed the following build warnings:
 
-Thanks,
-Donglin
->
->
-> vim +888 kernel/trace/trace_functions_graph.c
->
->    872
->    873  static void trim_retval(unsigned long func, unsigned long *retval=
-, bool *print_retval,
->    874                          int *fmt)
->    875  {
->    876          const struct btf_type *t;
->    877          char name[KSYM_NAME_LEN];
->    878          struct btf *btf;
->    879          u32 v, msb;
->    880          int kind;
->    881
->    882          if (!IS_ENABLED(CONFIG_DEBUG_INFO_BTF))
->    883                  return;
->    884
->    885          if (lookup_symbol_name(func, name))
->    886                  return;
->    887
->  > 888          t =3D btf_find_func_proto(name, &btf);
->    889          if (IS_ERR_OR_NULL(t))
->    890                  return;
->    891
->    892          t =3D btf_type_skip_modifiers(btf, t->type, NULL);
->    893          kind =3D t ? BTF_INFO_KIND(t->info) : BTF_KIND_UNKN;
->    894          switch (kind) {
->    895          case BTF_KIND_UNKN:
->    896                  *print_retval =3D false;
->    897                  break;
->    898          case BTF_KIND_STRUCT:
->    899          case BTF_KIND_UNION:
->    900          case BTF_KIND_ENUM:
->    901          case BTF_KIND_ENUM64:
->    902                  if (kind =3D=3D BTF_KIND_STRUCT || kind =3D=3D BT=
-F_KIND_UNION)
->    903                          *fmt =3D RETVAL_FMT_HEX;
->    904                  else
->    905                          *fmt =3D RETVAL_FMT_DEC;
->    906
->    907                  if (t->size > sizeof(unsigned long)) {
->    908                          *fmt |=3D RETVAL_FMT_TRUNC;
->    909                  } else {
->    910                          msb =3D BITS_PER_BYTE * t->size - 1;
->    911                          *retval &=3D GENMASK(msb, 0);
->    912                  }
->    913                  break;
->    914          case BTF_KIND_INT:
->    915                  v =3D *(u32 *)(t + 1);
->    916                  if (BTF_INT_ENCODING(v) =3D=3D BTF_INT_BOOL) {
->    917                          *fmt =3D RETVAL_FMT_BOOL;
->    918                          msb =3D 0;
->    919                  } else {
->    920                          if (BTF_INT_ENCODING(v) =3D=3D BTF_INT_SI=
-GNED)
->    921                                  *fmt =3D RETVAL_FMT_DEC;
->    922                          else
->    923                                  *fmt =3D RETVAL_FMT_HEX;
->    924
->    925                          if (t->size > sizeof(unsigned long)) {
->    926                                  *fmt |=3D RETVAL_FMT_TRUNC;
->    927                                  msb =3D BITS_PER_LONG - 1;
->    928                          } else {
->    929                                  msb =3D BTF_INT_BITS(v) - 1;
->    930                          }
->    931                  }
->    932                  *retval &=3D GENMASK(msb, 0);
->    933                  break;
->    934          default:
->    935                  *fmt =3D RETVAL_FMT_HEX;
->    936                  break;
->    937          }
->    938  }
->    939
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.19-rc1 next-20251215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/hung_task-Consolidate-hung-task-warning-into-an-atomic-log-block/20251211-113605
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20251211033004.1628875-3-atomlin%40atomlin.com
+patch subject: [PATCH v2 2/2] hung_task: Enable runtime reset of hung_task_detect_count
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251215/202512150521.53lGwfu6-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150521.53lGwfu6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512150521.53lGwfu6-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: kernel/hung_task.c:390 function parameter 'table' not described in 'proc_dohung_task_detect_count'
+>> Warning: kernel/hung_task.c:390 function parameter 'write' not described in 'proc_dohung_task_detect_count'
+>> Warning: kernel/hung_task.c:390 function parameter 'buffer' not described in 'proc_dohung_task_detect_count'
+>> Warning: kernel/hung_task.c:390 function parameter 'lenp' not described in 'proc_dohung_task_detect_count'
+>> Warning: kernel/hung_task.c:390 function parameter 'ppos' not described in 'proc_dohung_task_detect_count'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
