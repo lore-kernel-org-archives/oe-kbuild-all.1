@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2149130DD22
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 19:08:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8791433F8C7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 19:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765825690; cv=none; b=kVNMXdxBy3rTJ13DYMeUc+YJlumxCigkgSm5hS7DaLNXJemN4smJfUeJBA5C0dNmC+DK2hI4lQzipn5OFkWWyS4GIQ7PSlO6V92RYwfetcq0F7k4irmYfUBT/82JXS6qLH90Ecy/Gg0sg7THIIOD+tclFJ/gp8dcYkTliKiKAnQ=
+	t=1765827940; cv=none; b=JK9i30BXUwJeMDQdxcukPmt+8NE6Y3oFeZS2D+6S1dK2J4TD1tkrBTkLaZtJ/hAZf88PI1sg8++jnSgtLSkETIAQLZ8ECznBANc89r/31nCrANPccY3BRBO/I0Hv0EC0kJ9syOXEdFJWmXYOVlyOEtwTa92/e+un+GFMrYbdXdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765825690; c=relaxed/simple;
-	bh=1JDNfp0Z5+nrp/ObFicZ4XwSPUDiATXg/OEvzD6472Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UqAB2QuQ3E2AQEL80cE4JeqPJ3oPedByGHoS+cRoK3mXj4FicUB3J7I9UwIND/1YqZHhKO2v62FdYzm66p35i6HlwbH3f2M9Xk5Cl4gQqFfi7PVDe4SCRiJwrjryYFpTD1/ev2FhjtdxgHHw8JzLVGXofeROvtRx3WIAMfHfaq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=niOxzK0R; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1765827940; c=relaxed/simple;
+	bh=O8mue35TR49qz0PSDknnVfLMrdp0fkBGfQwUzC19kvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=efCcQ9hK7tCkxmVXSqMdqU3KNreqicNeIQyiPeK597i/gcfWMZNSwKHCAEhvdZzLN5qJvhQmDbIPZVeWWjwLyRLDX+s9+fPaGPCnslm+i3PKU0UwBNb4FpyK8xe8JaaKnP2WiKC7TlsTQrbElfHjjOu86Pb2DXxdP3lNkpexiZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g8+Uz3Fc; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="niOxzK0R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g8+Uz3Fc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765825688; x=1797361688;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1JDNfp0Z5+nrp/ObFicZ4XwSPUDiATXg/OEvzD6472Y=;
-  b=niOxzK0RP93PZsK6PXFG3PlJ/6GKpWNen7BHVVWDrRnO7P3o6Pg2OTbO
-   ja57CNDs9pGh4peFUT6HdhIFm/O9LuekdxK3VjN5Bqx5Geavq1I21KPSG
-   ff/av+FgeE8A2d4zQU91BNzjNRnx9X8Dl/AjXvHH4X4ZtGvwnbYDceN8o
-   FAlGNXrcxkUdJAwJepNWMvbo0Bt0RhW3lCakTKIkD8mMFKisQN+B0X2a8
-   DTzK8NeBAIFN8mn734RCFD/D9N3bMp6np+L8mU2K1eBvHixFZjt4DFj7t
-   UsZvpxnbMZiDX4lzibdeGxlwwC2OC9CkRPEw6R+0FiAHhUKw59ZPYLbzi
-   A==;
-X-CSE-ConnectionGUID: CmFj57j1TIO2/Dl6AaJfPw==
-X-CSE-MsgGUID: SlGxfXQ9QHerIG9UsafNTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66921506"
+  t=1765827939; x=1797363939;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O8mue35TR49qz0PSDknnVfLMrdp0fkBGfQwUzC19kvI=;
+  b=g8+Uz3Fc6NqX8SelqIR/cBJJ97rXUmHAGxDASwmAeVDgwRH5Jx4vdz0n
+   qEl3voRZVQFk2z5XzBqpgSHCaiFPJPEdNDU7a4Mv4MzRP1V/j3o1fm0lp
+   xpQePypl7vFFP+X+3CbpC3baeld5HcZGM+Tdc4N9APS0YJ3waru/VUMA7
+   LhkAm8HiZz5WPCu/hkf34DkG6CLTkFmBxuYeMAuiHISxz1oIa4nfRJrOa
+   f+T7jitVc4TqyA9rIi8uOVXrnnWWDlOsF3SMT7xYERRYUc2IaMwlTXN6b
+   Ksfwfv9WbnXWf9JezyALjhyU6sKSdMlZUjBu5trMukGud7M6OwCAArtQb
+   Q==;
+X-CSE-ConnectionGUID: UwnunV8yQEm0aYi2i2s61g==
+X-CSE-MsgGUID: 1GILFAe2RSK27goyygxDmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67494335"
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="66921506"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 11:08:07 -0800
-X-CSE-ConnectionGUID: mM3qZZf/QHyrBDdX5VBDKw==
-X-CSE-MsgGUID: zlwDi811Sa2s2GleHZKjPg==
+   d="scan'208";a="67494335"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 11:45:36 -0800
+X-CSE-ConnectionGUID: 7N4ZxPZ7Qd6kPC1M0FdtMA==
+X-CSE-MsgGUID: pb6PoboqRd63ttvEDdeggQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="198626807"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 15 Dec 2025 11:08:01 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="197084835"
+Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 15 Dec 2025 11:45:34 -0800
+Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVDvL-000000002kO-0LU9;
-	Mon, 15 Dec 2025 19:07:59 +0000
-Date: Mon, 15 Dec 2025 20:07:47 +0100
+	id 1vVEVg-000000000fz-0GG8;
+	Mon, 15 Dec 2025 19:45:32 +0000
+Date: Tue, 16 Dec 2025 03:45:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <byungchul@sk.com>, linux-mm@kvack.org,
-	akpm@linux-foundation.org, netdev@vger.kernel.org
+To: Benjamin Berg <benjamin@sipsolutions.net>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel_team@skhynix.com, harry.yoo@oracle.com, ast@kernel.org,
-	daniel@iogearbox.net, davem@davemloft.net, kuba@kernel.org,
-	hawk@kernel.org, john.fastabend@gmail.com, sdf@fomichev.me,
-	saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com,
-	mbloch@nvidia.com, andrew+netdev@lunn.ch, edumazet@google.com,
-	pabeni@redhat.com, david@redhat.com, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, horms@kernel.org,
-	jackmanb@google.com, hannes@cmpxchg.org
-Subject: Re: [PATCH 2/2] mm, netmem: remove the page pool members in struct
- page
-Message-ID: <202512152043.rdzLcS1a-lkp@intel.com>
-References: <20251215071001.78263-3-byungchul@sk.com>
+	Johannes Berg <johannes.berg@intel.com>
+Subject: arch/um/os-Linux/start_up.c:309:39: sparse: sparse: Using plain
+ integer as NULL pointer
+Message-ID: <202512160342.z3BTz6kZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,77 +62,122 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251215071001.78263-3-byungchul@sk.com>
 
-Hi Byungchul,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on d0a24447990a9d8212bfb3a692d59efa74ce9f86]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/mm-introduce-a-new-page-type-for-page-pool-in-page-type/20251215-151232
-base:   d0a24447990a9d8212bfb3a692d59efa74ce9f86
-patch link:    https://lore.kernel.org/r/20251215071001.78263-3-byungchul%40sk.com
-patch subject: [PATCH 2/2] mm, netmem: remove the page pool members in struct page
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251215/202512152043.rdzLcS1a-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512152043.rdzLcS1a-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+commit: beddc9fb1cb161e1bf779b180750b648ff9690c7 um: Add SECCOMP support detection and initialization
+date:   7 months ago
+config: um-randconfig-r123-20251214 (https://download.01.org/0day-ci/archive/20251216/202512160342.z3BTz6kZ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160342.z3BTz6kZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512152043.rdzLcS1a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512160342.z3BTz6kZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/um/os-Linux/start_up.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/os-Linux/start_up.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:595:10: sparse: this was the original definition
+   arch/um/os-Linux/start_up.c: note: in included file (through arch/um/include/shared/init.h):
+   include/linux/compiler_types.h:348:10: sparse: sparse: preprocessor token __counted_by redefined
+   arch/um/os-Linux/start_up.c: note: in included file (through /usr/include/linux/posix_types.h, /usr/include/linux/types.h, /usr/include/bits/sched.h, /usr/include/sched.h):
+   /usr/include/linux/stddef.h:62:9: sparse: this was the original definition
+   arch/um/os-Linux/start_up.c: note: in included file (through arch/um/include/shared/init.h):
+   include/linux/compiler_types.h:367:9: sparse: sparse: preprocessor token __counted_by_le redefined
+   arch/um/os-Linux/start_up.c: note: in included file (through /usr/include/linux/posix_types.h, /usr/include/linux/types.h, /usr/include/bits/sched.h, /usr/include/sched.h):
+   /usr/include/linux/stddef.h:66:9: sparse: this was the original definition
+   arch/um/os-Linux/start_up.c: note: in included file (through arch/um/include/shared/init.h):
+   include/linux/compiler_types.h:368:9: sparse: sparse: preprocessor token __counted_by_be redefined
+   arch/um/os-Linux/start_up.c: note: in included file (through /usr/include/linux/posix_types.h, /usr/include/linux/types.h, /usr/include/bits/sched.h, /usr/include/sched.h):
+   /usr/include/linux/stddef.h:70:9: sparse: this was the original definition
+>> arch/um/os-Linux/start_up.c:309:39: sparse: sparse: Using plain integer as NULL pointer
 
-   drivers/net/ethernet/intel/ice/ice_ethtool.c: In function 'ice_lbtest_receive_frames':
->> drivers/net/ethernet/intel/ice/ice_ethtool.c:1254:36: error: 'struct page' has no member named 'pp'
-    1254 |                                page->pp->p.offset;
-         |                                    ^~
+vim +309 arch/um/os-Linux/start_up.c
 
-
-vim +1254 drivers/net/ethernet/intel/ice/ice_ethtool.c
-
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1223  
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1224  #define ICE_LB_FRAME_SIZE 64
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1225  /**
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1226   * ice_lbtest_receive_frames - receive and verify test frames
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1227   * @rx_ring: pointer to the receive ring
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1228   *
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1229   * Function receives loopback packets and verify their correctness.
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1230   * Returns number of received valid frames.
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1231   */
-e72bba21355dbb Maciej Fijalkowski     2021-08-19  1232  static int ice_lbtest_receive_frames(struct ice_rx_ring *rx_ring)
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1233  {
-93f53db9f9dc4a Michal Kubiak          2025-09-25  1234  	struct libeth_fqe *rx_buf;
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1235  	int valid_frames, i;
-93f53db9f9dc4a Michal Kubiak          2025-09-25  1236  	struct page *page;
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1237  	u8 *received_buf;
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1238  
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1239  	valid_frames = 0;
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1240  
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1241  	for (i = 0; i < rx_ring->count; i++) {
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1242  		union ice_32b_rx_flex_desc *rx_desc;
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1243  
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1244  		rx_desc = ICE_RX_DESC(rx_ring, i);
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1245  
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1246  		if (!(rx_desc->wb.status_error0 &
-283d736ff7c7e9 Maciej Fijalkowski     2022-07-07  1247  		    (cpu_to_le16(BIT(ICE_RX_FLEX_DESC_STATUS0_DD_S)) |
-283d736ff7c7e9 Maciej Fijalkowski     2022-07-07  1248  		     cpu_to_le16(BIT(ICE_RX_FLEX_DESC_STATUS0_EOF_S)))))
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1249  			continue;
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1250  
-93f53db9f9dc4a Michal Kubiak          2025-09-25  1251  		rx_buf = &rx_ring->rx_fqes[i];
-93f53db9f9dc4a Michal Kubiak          2025-09-25  1252  		page = __netmem_to_page(rx_buf->netmem);
-93f53db9f9dc4a Michal Kubiak          2025-09-25  1253  		received_buf = page_address(page) + rx_buf->offset +
-93f53db9f9dc4a Michal Kubiak          2025-09-25 @1254  			       page->pp->p.offset;
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1255  
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1256  		if (ice_lbtest_check_frame(received_buf))
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1257  			valid_frames++;
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1258  	}
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1259  
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1260  	return valid_frames;
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1261  }
-0e674aeb0b7790 Anirudh Venkataramanan 2019-04-16  1262  
+   287	
+   288	static bool __init init_seccomp(void)
+   289	{
+   290		int pid;
+   291		int status;
+   292		int n;
+   293		unsigned long sp;
+   294	
+   295		/* doesn't work on 32-bit right now */
+   296		if (!IS_ENABLED(CONFIG_64BIT))
+   297			return false;
+   298	
+   299		/*
+   300		 * We check that we can install a seccomp filter and then exit(0)
+   301		 * from a trapped syscall.
+   302		 *
+   303		 * Note that we cannot verify that no seccomp filter already exists
+   304		 * for a syscall that results in the process/thread to be killed.
+   305		 */
+   306	
+   307		os_info("Checking that seccomp filters can be installed...");
+   308	
+ > 309		seccomp_test_stub_data = mmap(0, sizeof(*seccomp_test_stub_data),
+   310					      PROT_READ | PROT_WRITE,
+   311					      MAP_SHARED | MAP_ANON, 0, 0);
+   312	
+   313		/* Use the syscall data area as stack, we just need something */
+   314		sp = (unsigned long)&seccomp_test_stub_data->syscall_data +
+   315		     sizeof(seccomp_test_stub_data->syscall_data) -
+   316		     sizeof(void *);
+   317		pid = clone(seccomp_helper, (void *)sp, CLONE_VFORK | CLONE_VM, NULL);
+   318	
+   319		if (pid < 0)
+   320			fatal_perror("check_seccomp : clone failed");
+   321	
+   322		CATCH_EINTR(n = waitpid(pid, &status, __WCLONE));
+   323		if (n < 0)
+   324			fatal_perror("check_seccomp : waitpid failed");
+   325	
+   326		if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
+   327			struct uml_pt_regs *regs;
+   328			unsigned long fp_size;
+   329			int r;
+   330	
+   331			/* Fill in the host_fp_size from the mcontext. */
+   332			regs = calloc(1, sizeof(struct uml_pt_regs));
+   333			get_stub_state(regs, seccomp_test_stub_data, &fp_size);
+   334			host_fp_size = fp_size;
+   335			free(regs);
+   336	
+   337			/* Repeat with the correct size */
+   338			regs = calloc(1, sizeof(struct uml_pt_regs) + host_fp_size);
+   339			r = get_stub_state(regs, seccomp_test_stub_data, NULL);
+   340	
+   341			/* Store as the default startup registers */
+   342			exec_fp_regs = malloc(host_fp_size);
+   343			memcpy(exec_regs, regs->gp, sizeof(exec_regs));
+   344			memcpy(exec_fp_regs, regs->fp, host_fp_size);
+   345	
+   346			munmap(seccomp_test_stub_data, sizeof(*seccomp_test_stub_data));
+   347	
+   348			free(regs);
+   349	
+   350			if (r) {
+   351				os_info("failed to fetch registers: %d\n", r);
+   352				return false;
+   353			}
+   354	
+   355			os_info("OK\n");
+   356			return true;
+   357		}
+   358	
+   359		if (WIFEXITED(status) && WEXITSTATUS(status) == 2)
+   360			os_info("missing\n");
+   361		else
+   362			os_info("error\n");
+   363	
+   364		munmap(seccomp_test_stub_data, sizeof(*seccomp_test_stub_data));
+   365		return false;
+   366	}
+   367	
 
 -- 
 0-DAY CI Kernel Test Service
