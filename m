@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42023279792
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 20:18:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6AD230C347
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 20:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765829902; cv=none; b=bsI9BH6AstnM9wsNMN9OFny4R9u3qGk1X8hWm8Ok8emQP7bTa0grjr7MCp+AT2h9fCPSMi50rDHolp2gaWHVTNsUonDM4zCaxJGoHXkdj/vqrNFeIU2XLLoe8oozbwHlklGVioImIuSscx/OkBcEIzeKcCtENahcx0k93NHecwc=
+	t=1765830507; cv=none; b=SiNN+cnHa7+io0W+alWPJhw+MB4xcsKQnsSNU93OJoyGldUNmIvHG6JMnUlOnzTTT61yd0nRztrPUTwJemGaBrjFUgu8WgcjuG0UKG/OxDZQfpjjMWEoaX2N2emZlXi8l48aJmUcVbKh1ZkRR+8lsWIdf9nlb4+QsEDKnRjflHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765829902; c=relaxed/simple;
-	bh=QJbkAkSiPcqVM3ewR636HxcfJEFi6u5W57AoiTloH1E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lFaDGU7pGGYhLkm8SxwaWYBrQoLe3GcxCrpLMmgDClhd7ILpXXqvLAzSymsvtSNYcIS7UV5LfgNNyG173e+M03SNZyWdOsJXEKJ/2z4z3yjVuUdql3fXWnk6ccyFaUYWTMgpuXaBBsMNKi3pSApZ5wEW5F4Tp4uUeg0E9vf6iCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzPA4tW3; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1765830507; c=relaxed/simple;
+	bh=PICd5QGN1ZwPD9AFzhqgQ3hSUeAqcFLWLHAtmij4II8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nfp+VURw4um1iNyhfk4UhZkBCPNW/Iz0BC/g1J77GIMJlRYuHxN+NgRr/0BR9HiesXDaVHUwEE/FO/p9hB+XgoJTrmfbhOqZlrsIbTz1QuhS3S8rkucP+74RJL57Cs+pjYC0d5/zb4MosHNvn+paTK3TZR4pFEEITkFmyUZnDi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNKFpBWR; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzPA4tW3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNKFpBWR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765829900; x=1797365900;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QJbkAkSiPcqVM3ewR636HxcfJEFi6u5W57AoiTloH1E=;
-  b=gzPA4tW3eldEdIipLdLXVIJrdMq5IqYoVquRmMOFbA1WD0Vu++m5duT+
-   gF8DEQo3ewUwn0x4iKnVTH2QtaAuiEDzz68x0VjOOI5gzj7gzA7EP56JO
-   HQ44/oDAqRc+Baj4B+ZmhsxvKJiBYLLq2bWvYjVHwjoVBHG34PlmAfVd2
-   wquQqapeO2SlQ7pyjWnFVw37wcM9ivW1uT25eCb2Waq1AVhvrQrmn8Kp4
-   aiAvoXM3SqHAOalXp5ma4u9GEfefutX81gErx4hBfx41V67kxD9oLQOL3
-   FrRzZi8odzWM8GmiVVRuhk55wSlw2IA5+d1aI3gSh5yc0DtHIkzkidu1z
-   g==;
-X-CSE-ConnectionGUID: 1NfUO1m9TxS5DWUSGZsQbQ==
-X-CSE-MsgGUID: alLTXKCUTnmTQLvx8QbH1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67624242"
+  t=1765830505; x=1797366505;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PICd5QGN1ZwPD9AFzhqgQ3hSUeAqcFLWLHAtmij4II8=;
+  b=QNKFpBWRA7G1fET3CDxFpMIRUsRpYY4/DsYmwo82HlVNMtriOlh2Vx7E
+   MejAxebBIlO5tdEHQWdQJB/ukgbWXMudc2o29TAgtDFopwXl3m4swXRAi
+   q0inHNS2ZTtI4P+Kox6JD2EltB0IfJBjSiPvX0hV+mkSq2J8hauFY5IZh
+   9AkNosgPQs/6Bf4A8Zmv+z4jGuVwb7kWxfk641HPcSBrjIJt2hd9sbm7z
+   6ULgdeQ45qMaD/v9kiedCMfolz/vpfB2hWcfCHM7dtQv/cN4t6ADC6Rnn
+   gkCYKHeJHy18FVhTtOkzZ3RxFueYfGRAF4O80HpyCKh959C5+md8XskSx
+   A==;
+X-CSE-ConnectionGUID: 9knP0K8hSI+UOq9SLAt4aQ==
+X-CSE-MsgGUID: rBrnqK8dS5agTqrDM0QE+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67707541"
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="67624242"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 12:18:20 -0800
-X-CSE-ConnectionGUID: 8h2mctb0SxSqSYhejbNkxA==
-X-CSE-MsgGUID: 9QYvUUrrTUiIp+XcbPxomg==
+   d="scan'208";a="67707541"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 12:28:24 -0800
+X-CSE-ConnectionGUID: oFOVXM/7SDO6vFlHtuuj2g==
+X-CSE-MsgGUID: O6SktobwSWWnc8+fYtmgzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,151,1763452800"; 
-   d="scan'208";a="197865530"
+   d="scan'208";a="197444695"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 15 Dec 2025 12:18:17 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 15 Dec 2025 12:28:16 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVF1L-000000000iT-1JH0;
-	Mon, 15 Dec 2025 20:18:15 +0000
-Date: Tue, 16 Dec 2025 04:17:14 +0800
+	id 1vVFAr-000000000jF-3NSa;
+	Mon, 15 Dec 2025 20:28:08 +0000
+Date: Tue, 16 Dec 2025 04:27:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+	oleg@redhat.com, kees@kernel.org, luto@amacapital.net,
+	wad@chromium.org, mchauras@linux.ibm.com, thuth@redhat.com,
+	sshegde@linux.ibm.com, charlie@rivosinc.com, macro@orcam.me.uk,
+	akpm@linux-foundation.org, ldv@strace.io, deller@gmx.de,
+	ankur.a.arora@oracle.com, segher@kernel.crashing.org,
+	tglx@linutronix.de, thomas.weissschuh@linutronix.de,
+	peterz@infradead.org, menglong8.dong@gmail.com,
+	bigeasy@linutronix.de, namcao@linutronix.de, mingo@kernel.org,
+	atrajeev@linux.vnet.ibm.com, mark.barnett@arm.com,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-CWF-RDT-ANBZ24559 25/25]
- drivers/net/ethernet/bzwx/nce/ne6x/ne6x_ethtool.c:426:47: warning: '%s'
- directive output may be truncated writing up to 215 bytes into a region of
- size 32
-Message-ID: <202512160401.roOuEkC5-lkp@intel.com>
+Subject: Re: [PATCH v2 8/8] powerpc: Enable Generic Entry/Exit for syscalls.
+Message-ID: <202512160453.iO9WNjrm-lkp@intel.com>
+References: <20251214130245.43664-9-mkchauras@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,313 +73,225 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251214130245.43664-9-mkchauras@linux.ibm.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-RDT-ANBZ24559
-head:   48fa9d861c1eb99e9f682fb2623142fb456aa0eb
-commit: b720e864f9c6fe26c6f7ab01738fe9257bfe2a1b [25/25] anolis: drivers/bzwx: add Chengdu BeiZhongWangXin Technology N5/N6 Series Network Card Driver
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20251216/202512160401.roOuEkC5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160401.roOuEkC5-lkp@intel.com/reproduce)
+Hi Mukesh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes linus/master v6.19-rc1 next-20251215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Kumar-Chaurasiya/powerpc-rename-arch_irq_disabled_regs/20251214-210813
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20251214130245.43664-9-mkchauras%40linux.ibm.com
+patch subject: [PATCH v2 8/8] powerpc: Enable Generic Entry/Exit for syscalls.
+config: powerpc-randconfig-001-20251215 (https://download.01.org/0day-ci/archive/20251216/202512160453.iO9WNjrm-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160453.iO9WNjrm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512160401.roOuEkC5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512160453.iO9WNjrm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_ethtool.c:1615:32: warning: initialized field overwritten [-Woverride-init]
-    1615 |         .self_test           = ne6x_diag_test,
-         |                                ^~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_ethtool.c:1615:32: note: (near initialization for 'ne6x_ethtool_ops.self_test')
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_ethtool.c: In function 'ne6x_get_strings':
->> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_ethtool.c:426:47: warning: '%s' directive output may be truncated writing up to 215 bytes into a region of size 32 [-Wformat-truncation=]
-     426 |                 snprintf(p, ETH_GSTRING_LEN, "%s", ne6x_gstrings_priv_flags[i].name);
-         |                                               ^~
-   In function 'ne6x_get_priv_flag_strings',
-       inlined from 'ne6x_get_strings' at drivers/net/ethernet/bzwx/nce/ne6x/ne6x_ethtool.c:441:3:
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_ethtool.c:426:17: note: 'snprintf' output between 1 and 216 bytes into a destination of size 32
-     426 |                 snprintf(p, ETH_GSTRING_LEN, "%s", ne6x_gstrings_priv_flags[i].name);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_interrupt.c:258:5: warning: no previous prototype for 'ne6x_adpt_request_irq_msix' [-Wmissing-prototypes]
-     258 | int ne6x_adpt_request_irq_msix(struct ne6x_adapter *adpt, char *basename)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_interrupt.c:340:5: warning: no previous prototype for 'ne6x_adpt_request_irq_intx' [-Wmissing-prototypes]
-     340 | int ne6x_adpt_request_irq_intx(struct ne6x_adapter *adpt, char *basename)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_interrupt.c:607:13: warning: no previous prototype for 'ne6x_msix_clean_vf_mbx' [-Wmissing-prototypes]
-     607 | irqreturn_t ne6x_msix_clean_vf_mbx(int irq, void *data)
-         |             ^~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:463:6: warning: no previous prototype for 'ne6x_reg_lock' [-Wmissing-prototypes]
-     463 | void ne6x_reg_lock(struct ne6x_pf *pf)
-         |      ^~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:468:6: warning: no previous prototype for 'ne6x_reg_unlock' [-Wmissing-prototypes]
-     468 | void ne6x_reg_unlock(struct ne6x_pf *pf)
-         |      ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:507:5: warning: no previous prototype for 'ne6x_reg_axi_read' [-Wmissing-prototypes]
-     507 | u32 ne6x_reg_axi_read(struct ne6x_pf *pf, u32 offset)
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:521:6: warning: no previous prototype for 'ne6x_reg_axi_write' [-Wmissing-prototypes]
-     521 | void ne6x_reg_axi_write(struct ne6x_pf *pf, u32 offset, u32 value)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:530:5: warning: no previous prototype for '_reg_apb_read' [-Wmissing-prototypes]
-     530 | u32 _reg_apb_read(struct ne6x_pf *pf, u64 offset)
-         |     ^~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:546:6: warning: no previous prototype for '_reg_apb_write' [-Wmissing-prototypes]
-     546 | void _reg_apb_write(struct ne6x_pf *pf, u64 offset, u32 value)
-         |      ^~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:561:5: warning: no previous prototype for '_ne6x_reg_perform' [-Wmissing-prototypes]
-     561 | int _ne6x_reg_perform(struct ne6x_pf *pf, u32 *data, u32 *pbuf, u32 len, u32 retlen)
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:608:5: warning: no previous prototype for 'ne6x_reg_perform' [-Wmissing-prototypes]
-     608 | int ne6x_reg_perform(struct ne6x_pf *pf, u32 *data, u32 *pbuf, u32 len, u32 retlen)
-         |     ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:846:5: warning: no previous prototype for 'ne6x_reg_table_update' [-Wmissing-prototypes]
-     846 | int ne6x_reg_table_update(struct ne6x_pf *pf, enum ne6x_reg_table table,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:1058:5: warning: no previous prototype for 'ne6x_reg_mem_read' [-Wmissing-prototypes]
-    1058 | int ne6x_reg_mem_read(struct ne6x_pf *pf, u32 addr, void *pbuf, u32 size)
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:1082:5: warning: no previous prototype for 'ne6x_reg_mem_write' [-Wmissing-prototypes]
-    1082 | int ne6x_reg_mem_write(struct ne6x_pf *pf, u32 addr, void *pbuf, u32 size)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:1253:5: warning: no previous prototype for 'ne6x_reg_set_user_data_template' [-Wmissing-prototypes]
-    1253 | int ne6x_reg_set_user_data_template(struct ne6x_pf *pf, enum np_user_data type, u32 data)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:1274:5: warning: no previous prototype for 'ne6x_reg_get_user_data_template' [-Wmissing-prototypes]
-    1274 | int ne6x_reg_get_user_data_template(struct ne6x_pf *pf, enum np_user_data type, u32 *data)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:1391:6: warning: no previous prototype for 'ne6x_reg_send' [-Wmissing-prototypes]
-    1391 | void ne6x_reg_send(struct ne6x_pf *pf, u32 cmd, u32 *data, u32 size)
-         |      ^~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c:1417:5: warning: no previous prototype for 'ne6x_reg_polling' [-Wmissing-prototypes]
-    1417 | int ne6x_reg_polling(struct ne6x_pf *pf, u32 cmd, u32 *data, u32 buf_size,
-         |     ^~~~~~~~~~~~~~~~
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:70:7: warning: no previous prototype for 'my_strtok' [-Wmissing-prototypes]
-      70 | char *my_strtok(char *p_in_string, char *p_in_delimit, char **pp_out_ret)
-         |       ^~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:105:5: warning: no previous prototype for 'my_isdigit' [-Wmissing-prototypes]
-     105 | int my_isdigit(char in_char)
-         |     ^~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:113:5: warning: no previous prototype for 'my_atoi' [-Wmissing-prototypes]
-     113 | int my_atoi(char *p_in_string)
-         |     ^~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:142:6: warning: no previous prototype for 'ne6x_dbg_show_queue' [-Wmissing-prototypes]
-     142 | void ne6x_dbg_show_queue(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:234:6: warning: no previous prototype for 'ne6x_dbg_show_ring' [-Wmissing-prototypes]
-     234 | void ne6x_dbg_show_ring(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:314:6: warning: no previous prototype for 'ne6x_dbg_show_txtail' [-Wmissing-prototypes]
-     314 | void ne6x_dbg_show_txtail(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:338:6: warning: no previous prototype for 'ne6x_dbg_show_txq' [-Wmissing-prototypes]
-     338 | void ne6x_dbg_show_txq(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:363:6: warning: no previous prototype for 'ne6x_dbg_show_rxq' [-Wmissing-prototypes]
-     363 | void ne6x_dbg_show_rxq(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:388:6: warning: no previous prototype for 'ne6x_dbg_show_cq' [-Wmissing-prototypes]
-     388 | void ne6x_dbg_show_cq(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:413:6: warning: no previous prototype for 'ne6x_dbg_clean_queue' [-Wmissing-prototypes]
-     413 | void ne6x_dbg_clean_queue(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:448:6: warning: no previous prototype for 'ne6x_dbg_show_txring' [-Wmissing-prototypes]
-     448 | void ne6x_dbg_show_txring(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:496:6: warning: no previous prototype for 'ne6x_dbg_show_rxring' [-Wmissing-prototypes]
-     496 | void ne6x_dbg_show_rxring(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:544:6: warning: no previous prototype for 'ne6x_dbg_show_cqring' [-Wmissing-prototypes]
-     544 | void ne6x_dbg_show_cqring(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:587:6: warning: no previous prototype for 'ne6x_dbg_show_txdesc_states' [-Wmissing-prototypes]
-     587 | void ne6x_dbg_show_txdesc_states(int adpt_num, int queue_num, struct ne6x_pf *pf)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:654:6: warning: no previous prototype for 'ne6x_dbg_show_rxdesc_states' [-Wmissing-prototypes]
-     654 | void ne6x_dbg_show_rxdesc_states(int adpt_num, int queue_num, struct ne6x_pf *pf)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:701:6: warning: no previous prototype for 'ne6x_dbg_show_cqdesc_states' [-Wmissing-prototypes]
-     701 | void ne6x_dbg_show_cqdesc_states(int adpt_num, int queue_num, struct ne6x_pf *pf)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:757:6: warning: no previous prototype for 'ne6x_dbg_show_arfs_cnt' [-Wmissing-prototypes]
-     757 | void ne6x_dbg_show_arfs_cnt(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:783:6: warning: no previous prototype for 'ne6x_dbg_apb_read' [-Wmissing-prototypes]
-     783 | void ne6x_dbg_apb_read(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:801:6: warning: no previous prototype for 'ne6x_dbg_apb_write' [-Wmissing-prototypes]
-     801 | void ne6x_dbg_apb_write(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:819:6: warning: no previous prototype for 'ne6x_dbg_mem_read' [-Wmissing-prototypes]
-     819 | void ne6x_dbg_mem_read(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:858:6: warning: no previous prototype for 'ne6x_dbg_mem_write' [-Wmissing-prototypes]
-     858 | void ne6x_dbg_mem_write(struct ne6x_pf *pf, char *cmd_buf, int count) {}
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:860:6: warning: no previous prototype for 'ne6x_dbg_templ_help' [-Wmissing-prototypes]
-     860 | void ne6x_dbg_templ_help(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:880:6: warning: no previous prototype for 'ne6x_dbg_templ_read' [-Wmissing-prototypes]
-     880 | void ne6x_dbg_templ_read(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:897:6: warning: no previous prototype for 'ne6x_dbg_templ_write' [-Wmissing-prototypes]
-     897 | void ne6x_dbg_templ_write(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:914:6: warning: no previous prototype for 'ne6x_dbg_soc_read' [-Wmissing-prototypes]
-     914 | void ne6x_dbg_soc_read(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:930:6: warning: no previous prototype for 'ne6x_dbg_soc_write' [-Wmissing-prototypes]
-     930 | void ne6x_dbg_soc_write(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:946:6: warning: no previous prototype for 'ne6x_dbg_tab_read' [-Wmissing-prototypes]
-     946 | void ne6x_dbg_tab_read(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1010:6: warning: no previous prototype for 'ne6x_dbg_set_mac_to_eeprom' [-Wmissing-prototypes]
-    1010 | void ne6x_dbg_set_mac_to_eeprom(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1054:6: warning: no previous prototype for 'ne6x_dbg_get_mac' [-Wmissing-prototypes]
-    1054 | void ne6x_dbg_get_mac(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1085:6: warning: no previous prototype for 'ne6x_dbg_set_dev_type_to_eeprom' [-Wmissing-prototypes]
-    1085 | void ne6x_dbg_set_dev_type_to_eeprom(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1145:6: warning: no previous prototype for 'ne6x_dbg_tab_write' [-Wmissing-prototypes]
-    1145 | void ne6x_dbg_tab_write(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1205:6: warning: no previous prototype for 'ne6x_dbg_tab_insert' [-Wmissing-prototypes]
-    1205 | void ne6x_dbg_tab_insert(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1275:6: warning: no previous prototype for 'ne6x_dbg_tab_delete' [-Wmissing-prototypes]
-    1275 | void ne6x_dbg_tab_delete(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1329:6: warning: no previous prototype for 'ne6x_dbg_tab_search' [-Wmissing-prototypes]
-    1329 | void ne6x_dbg_tab_search(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1401:6: warning: no previous prototype for 'ne6x_dbg_get_fru_info' [-Wmissing-prototypes]
-    1401 | void ne6x_dbg_get_fru_info(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1432:5: warning: no previous prototype for 'getparam' [-Wmissing-prototypes]
-    1432 | u32 getparam(char *cmd_buf, u32 *param, int max_cnt)
-         |     ^~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1489:6: warning: no previous prototype for 'ne6x_dbg_show_pcie_drop_counter' [-Wmissing-prototypes]
-    1489 | void ne6x_dbg_show_pcie_drop_counter(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1500:6: warning: no previous prototype for 'ne6x_dbg_clr_table' [-Wmissing-prototypes]
-    1500 | void ne6x_dbg_clr_table(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c: In function 'ne6x_dbg_clr_table':
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1502:27: warning: variable 'cnt' set but not used [-Wunused-but-set-variable]
-    1502 |         u32 table_id = 0, cnt;
-         |                           ^~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c: At top level:
->> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1509:6: warning: no previous prototype for 'ne6x_dbg_set_hw_flag_eeprom' [-Wmissing-prototypes]
-    1509 | void ne6x_dbg_set_hw_flag_eeprom(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1532:6: warning: no previous prototype for 'ne6x_dbg_erase_norflash' [-Wmissing-prototypes]
-    1532 | void ne6x_dbg_erase_norflash(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1550:6: warning: no previous prototype for 'ne6x_dbg_write_norflash' [-Wmissing-prototypes]
-    1550 | void ne6x_dbg_write_norflash(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1593:6: warning: no previous prototype for 'ne6x_dbg_read_norflash' [-Wmissing-prototypes]
-    1593 | void ne6x_dbg_read_norflash(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1620:6: warning: no previous prototype for 'ne6x_dbg_meter_write' [-Wmissing-prototypes]
-    1620 | void ne6x_dbg_meter_write(struct ne6x_pf *pf, char *cmd_buf, int count)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1995:6: warning: no previous prototype for 'ne6x_dbg_update_adpt_speed' [-Wmissing-prototypes]
-    1995 | void ne6x_dbg_update_adpt_speed(struct ne6x_adapter *adpt, u32 speed, u32 lane_mode) {}
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c: In function 'ne6x_dbg_info_pnsn_read':
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1840:23: warning: 'sprintf' argument 3 overlaps destination object '<unknown>' [-Wrestrict]
-    1840 |                 len = sprintf(name, "%s[PN] Part number: %s\n", name, pru_pn);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c:1844:23: warning: 'sprintf' argument 3 overlaps destination object '<unknown>' [-Wrestrict]
-    1844 |                 len = sprintf(name, "%s[SN] Serial number: %s\n", name, pru_sn);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:11:6: warning: no previous prototype for 'ne6x_clear_vf_status' [-Wmissing-prototypes]
-      11 | void ne6x_clear_vf_status(struct ne6x_vf *vf)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:21:6: warning: no previous prototype for 'ne6x_mbx_deinit_snapshot' [-Wmissing-prototypes]
-      21 | void ne6x_mbx_deinit_snapshot(struct ne6x_hw *hw)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:30:5: warning: no previous prototype for 'ne6x_mbx_init_snapshot' [-Wmissing-prototypes]
-      30 | int ne6x_mbx_init_snapshot(struct ne6x_hw *hw, u16 vf_count)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:55:5: warning: no previous prototype for 'ne6x_status_to_errno' [-Wmissing-prototypes]
-      55 | int ne6x_status_to_errno(int err)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:63:6: warning: no previous prototype for 'ne6x_set_vf_state_qs_dis' [-Wmissing-prototypes]
-      63 | void ne6x_set_vf_state_qs_dis(struct ne6x_vf *vf)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:75:6: warning: no previous prototype for 'ne6x_is_reset_in_progress' [-Wmissing-prototypes]
-      75 | bool ne6x_is_reset_in_progress(unsigned long *state)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:83:6: warning: no previous prototype for 'ne6x_adpt_close_vf' [-Wmissing-prototypes]
-      83 | void ne6x_adpt_close_vf(struct ne6x_adapter *adpt, u16 vf_id)
-         |      ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:163:5: warning: no previous prototype for 'ne6x_adpt_release_vf' [-Wmissing-prototypes]
-     163 | int ne6x_adpt_release_vf(struct ne6x_adapter *adpt, u16 vf_id)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:243:6: warning: no previous prototype for 'ne6x_free_vfs' [-Wmissing-prototypes]
-     243 | void ne6x_free_vfs(struct ne6x_pf *pf)
-         |      ^~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:368:6: warning: no previous prototype for 'ne6x_vc_set_default_allowlist' [-Wmissing-prototypes]
-     368 | void ne6x_vc_set_default_allowlist(struct ne6x_vf *vf)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:392:6: warning: no previous prototype for 'ne6x_send_init_mbx_mesg' [-Wmissing-prototypes]
-     392 | void ne6x_send_init_mbx_mesg(struct ne6x_pf *pf)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:487:22: warning: no previous prototype for 'ne6x_adpt_setup_vf' [-Wmissing-prototypes]
-     487 | struct ne6x_adapter *ne6x_adpt_setup_vf(struct ne6x_pf *pf, u16 vf_id, u16 num_vfs)
-         |                      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c: In function 'ne6x_init_vf_adpt_res':
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:524:24: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-     524 |         struct device *dev;
-         |                        ^~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c: At top level:
->> drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:937:5: warning: no previous prototype for 'ne6x_sdk_send_msg_to_vf' [-Wmissing-prototypes]
-     937 | int ne6x_sdk_send_msg_to_vf(struct ne6x_hw *hw, u16 vfid, u32 v_opcode,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:1319:5: warning: no previous prototype for 'ne6x_conv_link_speed_to_virtchnl' [-Wmissing-prototypes]
-    1319 | u32 ne6x_conv_link_speed_to_virtchnl(bool adv_link_support, u16 link_speed)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:1355:6: warning: no previous prototype for 'ne6x_vc_notify_vf_link_state' [-Wmissing-prototypes]
-    1355 | void ne6x_vc_notify_vf_link_state(struct ne6x_vf *vf)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:1439:6: warning: no previous prototype for 'ne6x_reset_vf' [-Wmissing-prototypes]
-    1439 | bool ne6x_reset_vf(struct ne6x_vf *vf, bool is_vflr)
-         |      ^~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c: In function 'ne6x_vc_reset_vf_msg':
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:1842:36: warning: variable 'vc_ether_addr' set but not used [-Wunused-but-set-variable]
-    1842 |         struct virtchnl_ether_addr vc_ether_addr;
-         |                                    ^~~~~~~~~~~~~
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c: At top level:
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_virtchnl_pf.c:2236:5: warning: no previous prototype for 'ne6x_set_vf_bw_for_max_vpnum' [-Wmissing-prototypes]
-    2236 | int ne6x_set_vf_bw_for_max_vpnum(struct ne6x_pf *pf, int vf_id, int max_tx_rate)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   powerpc-linux-ld: init/main.o: in function `do_trace_event_raw_event_initcall_level':
+   include/trace/events/initcall.h:10: undefined reference to `memcpy'
+   powerpc-linux-ld: init/main.o: in function `repair_env_string':
+   init/main.c:512: undefined reference to `memmove'
+   powerpc-linux-ld: init/do_mounts.o: in function `do_mount_root':
+   init/do_mounts.c:162: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/kernel/process.o: in function `start_thread':
+   arch/powerpc/kernel/process.c:1919: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/kernel/process.o: in function `__set_breakpoint':
+   arch/powerpc/kernel/process.c:880: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/process.o: in function `arch_dup_task_struct':
+   arch/powerpc/kernel/process.c:1724: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/process.o: in function `copy_thread':
+   arch/powerpc/kernel/process.c:1801: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/kernel/process.c:1812: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/signal.o: in function `do_signal':
+   arch/powerpc/kernel/signal.c:247: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/kernel/time.o: in function `register_decrementer_clockevent':
+>> arch/powerpc/kernel/time.c:834: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/time.o: in function `platform_device_register_resndata':
+>> include/linux/platform_device.h:158: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/kernel/prom.o: in function `move_device_tree':
+>> arch/powerpc/kernel/prom.c:134: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/setup-common.o: in function `probe_machine':
+>> arch/powerpc/kernel/setup-common.c:646: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `user_regset_copyin':
+>> include/linux/regset.h:276: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `membuf_write':
+   include/linux/regset.h:42: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `gpr_get':
+>> arch/powerpc/kernel/ptrace/ptrace-view.c:230: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `membuf_zero':
+>> include/linux/regset.h:30: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `gpr32_get_common':
+   arch/powerpc/kernel/ptrace/ptrace-view.c:707: undefined reference to `memcpy'
+>> powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.c:708: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.c:710: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `membuf_zero':
+>> include/linux/regset.h:30: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-novsx.o: in function `membuf_write':
+   include/linux/regset.h:42: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/optprobes.o: in function `can_optimize':
+>> arch/powerpc/kernel/optprobes.c:71: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/kernel/kvm.o: in function `kvm_map_magic_page':
+>> arch/powerpc/kernel/kvm.c:407: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/kernel/kvm.o: in function `kvm_patch_ins_mtmsrd':
+>> arch/powerpc/kernel/kvm.c:178: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/kvm.o: in function `kvm_patch_ins_mtmsr':
+   arch/powerpc/kernel/kvm.c:231: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/kernel/kvm.o: in function `epapr_hypercall0_1':
+>> arch/powerpc/include/asm/epapr_hcalls.h:511: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/mm/mem.o: in function `execmem_arch_setup':
+>> arch/powerpc/mm/mem.c:423: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/mm/init-common.o: in function `ctor_15':
+>> arch/powerpc/mm/init-common.c:81: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/mm/init-common.o: in function `ctor_14':
+>> arch/powerpc/mm/init-common.c:81: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/mm/init-common.o: in function `ctor_13':
+>> arch/powerpc/mm/init-common.c:81: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/mm/init-common.o:arch/powerpc/mm/init-common.c:81: more undefined references to `memset' follow
+   powerpc-linux-ld: arch/powerpc/lib/pmem.o: in function `memcpy_flushcache':
+>> arch/powerpc/lib/pmem.c:84: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/sysdev/fsl_mpic_err.o: in function `mpic_setup_error_int':
+>> arch/powerpc/sysdev/fsl_mpic_err.c:70: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/platforms/8xx/pic.o: in function `irq_domain_create_linear':
+>> include/linux/irqdomain.h:405: undefined reference to `memset'
+   powerpc-linux-ld: arch/powerpc/platforms/8xx/cpm1.o: in function `cpm1_clk_setup':
+   arch/powerpc/platforms/8xx/cpm1.c:251: undefined reference to `memcpy'
+   powerpc-linux-ld: arch/powerpc/platforms/8xx/cpm1-ic.o: in function `irq_domain_create_linear':
+   include/linux/irqdomain.h:405: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `do_trace_event_raw_event_task_newtask':
+   include/trace/events/task.h:9: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/fork.o: in function `do_trace_event_raw_event_task_rename':
+   include/trace/events/task.h:34: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/fork.o: in function `copy_struct_from_user':
+   include/linux/uaccess.h:396: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `copy_clone_args_from_user':
+   kernel/fork.c:2800: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `mm_init':
+   kernel/fork.c:1044: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `bitmap_zero':
+   include/linux/bitmap.h:238: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `pgd_alloc':
+   arch/powerpc/include/asm/nohash/pgalloc.h:26: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/fork.o: in function `__kmem_cache_create':
+   include/linux/slab.h:379: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `arch_dup_task_struct':
+   kernel/fork.c:854: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/fork.o: in function `mm_alloc':
+   kernel/fork.c:1120: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `replace_mm_exe_file':
+   kernel/fork.c:1238: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `copy_process':
+   kernel/fork.c:2030: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `posix_cputimers_init':
+   include/linux/posix-timers.h:103: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `copy_sighand':
+   kernel/fork.c:1618: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/fork.o: in function `copy_signal':
+   kernel/fork.c:1687: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/fork.o: in function `dup_mm':
+   kernel/fork.c:1483: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/fork.o: in function `create_io_thread':
+   kernel/fork.c:2549: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `kernel_thread':
+   kernel/fork.c:2661: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `user_mode_thread':
+   kernel/fork.c:2678: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `sys_fork':
+   kernel/fork.c:2692: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o: in function `sys_vfork':
+   kernel/fork.c:2707: undefined reference to `memset'
+   powerpc-linux-ld: kernel/fork.o:kernel/fork.c:2740: more undefined references to `memset' follow
+   powerpc-linux-ld: kernel/softirq.o: in function `do_trace_event_raw_event_irq_handler_entry':
+   include/trace/events/irq.h:53: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/resource.o: in function `find_next_iomem_res':
+   kernel/resource.c:372: undefined reference to `memset'
+   powerpc-linux-ld: kernel/resource.o: in function `__request_region_locked':
+   kernel/resource.c:1261: undefined reference to `memset'
+   powerpc-linux-ld: kernel/resource.o: in function `reserve_setup':
+   kernel/resource.c:1757: undefined reference to `memset'
+   powerpc-linux-ld: kernel/resource.c:1760: undefined reference to `memset'
+   powerpc-linux-ld: kernel/sysctl.o: in function `proc_put_long':
+   kernel/sysctl.c:339: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/sysctl.o: in function `_proc_do_string':
+   kernel/sysctl.c:127: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/sysctl.o: in function `proc_get_long':
+   kernel/sysctl.c:284: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/sysctl.o: in function `bitmap_copy':
+   include/linux/bitmap.h:259: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/sysctl.o: in function `proc_do_static_key':
+   kernel/sysctl.c:1433: undefined reference to `memset'
+   powerpc-linux-ld: kernel/capability.o: in function `__do_sys_capset':
+   kernel/capability.c:218: undefined reference to `memset'
+   powerpc-linux-ld: kernel/ptrace.o: in function `syscall_set_arguments':
+   arch/powerpc/include/asm/syscall.h:127: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/ptrace.o: in function `ptrace_get_syscall_info':
+   kernel/ptrace.c:998: undefined reference to `memset'
+   powerpc-linux-ld: kernel/ptrace.o: in function `copy_siginfo':
+   include/linux/signal.h:18: undefined reference to `memcpy'
+   powerpc-linux-ld: include/linux/signal.h:18: undefined reference to `memcpy'
+   powerpc-linux-ld: include/linux/signal.h:18: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/user.o: in function `ratelimit_state_init':
+   include/linux/ratelimit.h:12: undefined reference to `memset'
+   powerpc-linux-ld: kernel/user.o: in function `__kmem_cache_create':
+   include/linux/slab.h:379: undefined reference to `memset'
+   powerpc-linux-ld: kernel/signal.o: in function `do_trace_event_raw_event_signal_generate':
+   include/trace/events/signal.h:50: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/signal.o: in function `clear_siginfo':
+   include/linux/signal.h:23: undefined reference to `memset'
+   powerpc-linux-ld: kernel/signal.o: in function `copy_siginfo':
+   include/linux/signal.h:18: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/signal.o: in function `do_sigaltstack':
+   kernel/signal.c:4396: undefined reference to `memset'
+   powerpc-linux-ld: kernel/signal.o: in function `copy_siginfo':
+   include/linux/signal.h:18: undefined reference to `memcpy'
+   powerpc-linux-ld: include/linux/signal.h:18: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/signal.o: in function `signals_init':
+   kernel/signal.c:5011: undefined reference to `memset'
+   powerpc-linux-ld: kernel/sys.o: in function `override_release':
+   kernel/sys.c:1331: undefined reference to `memset'
+   powerpc-linux-ld: kernel/sys.o: in function `__do_sys_newuname':
+   kernel/sys.c:1356: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/sys.o: in function `__do_sys_uname':
+   kernel/sys.c:1380: undefined reference to `memcpy'
+   powerpc-linux-ld: kernel/sys.o: in function `prctl_set_auxv':
 
 
-vim +426 drivers/net/ethernet/bzwx/nce/ne6x/ne6x_ethtool.c
+vim +18 include/linux/signal.h
 
-   419	
-   420	static void ne6x_get_priv_flag_strings(struct net_device *netdev, u8 *data)
-   421	{
-   422		unsigned int i;
-   423		u8 *p = data;
-   424	
-   425		for (i = 0; i < NE6X_PRIV_FLAG_ARRAY_SIZE; i++) {
- > 426			snprintf(p, ETH_GSTRING_LEN, "%s", ne6x_gstrings_priv_flags[i].name);
-   427			p += ETH_GSTRING_LEN;
-   428		}
-   429	}
-   430	
+^1da177e4c3f415 Linus Torvalds    2005-04-16  14  
+ae7795bc6187a15 Eric W. Biederman 2018-09-25  15  static inline void copy_siginfo(kernel_siginfo_t *to,
+ae7795bc6187a15 Eric W. Biederman 2018-09-25  16  				const kernel_siginfo_t *from)
+ca9eb49aa9562ea James Hogan       2016-02-08  17  {
+ca9eb49aa9562ea James Hogan       2016-02-08 @18  	memcpy(to, from, sizeof(*to));
+ca9eb49aa9562ea James Hogan       2016-02-08  19  }
+ca9eb49aa9562ea James Hogan       2016-02-08  20  
+ae7795bc6187a15 Eric W. Biederman 2018-09-25  21  static inline void clear_siginfo(kernel_siginfo_t *info)
+8c5dbf2ae00bb86 Eric W. Biederman 2017-07-24  22  {
+8c5dbf2ae00bb86 Eric W. Biederman 2017-07-24 @23  	memset(info, 0, sizeof(*info));
+8c5dbf2ae00bb86 Eric W. Biederman 2017-07-24  24  }
+8c5dbf2ae00bb86 Eric W. Biederman 2017-07-24  25  
+4ce5f9c9e754691 Eric W. Biederman 2018-09-25  26  #define SI_EXPANSION_SIZE (sizeof(struct siginfo) - sizeof(struct kernel_siginfo))
+4ce5f9c9e754691 Eric W. Biederman 2018-09-25  27  
+fa4751f454e6b51 Eric W. Biederman 2020-05-05  28  static inline void copy_siginfo_to_external(siginfo_t *to,
+fa4751f454e6b51 Eric W. Biederman 2020-05-05  29  					    const kernel_siginfo_t *from)
+fa4751f454e6b51 Eric W. Biederman 2020-05-05  30  {
+fa4751f454e6b51 Eric W. Biederman 2020-05-05 @31  	memcpy(to, from, sizeof(*from));
+fa4751f454e6b51 Eric W. Biederman 2020-05-05 @32  	memset(((char *)to) + sizeof(struct kernel_siginfo), 0,
+fa4751f454e6b51 Eric W. Biederman 2020-05-05  33  		SI_EXPANSION_SIZE);
+fa4751f454e6b51 Eric W. Biederman 2020-05-05  34  }
+fa4751f454e6b51 Eric W. Biederman 2020-05-05  35  
 
 -- 
 0-DAY CI Kernel Test Service
