@@ -1,103 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD937494
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 02:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491DA314A6F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 02:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765765736; cv=none; b=em2VnxmvPpFi7HwOmy0igUgx6SvpXbdhKEN/IxaUt9taN4QJi/VJQHAFRhhWygHx8WnIhtJCj7IBzhi2/dZWAHG+xmnOYJ5FZzcp9TzYKMSyka1F6CgFu+tJUwfLKEQ0ram5v1PFs5l2pdTm02CnWvbuEpUeun5LeKGuNGAtp9c=
+	t=1765765814; cv=none; b=F/Mn9pvi0aUMPUkKmveP1+/3IOkEqt9DzZ/j/6B5N4kSkVPMS0oH6YJr0aI8eHB0S6mnAGx3wJRnkwvI2XzplL7RFROZLkibqR+eb5PHa/4vND/rDe4a8PPo/bMU71WiIRyo6JjQjqBD437T+BKCEO6JpZyntbwTrzMb3dNo18M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765765736; c=relaxed/simple;
-	bh=3uET0RPCNmJUw9S3Kfjr+9NYS8u2YjbU+SJBolaHwco=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=StsbwhQoiWtDhyJSh4IdZ/9Qy7TkapC7VOEyyFUF2rCqm+Hl9i73GWCMxnj4z6J+0bmXt3ArRMOlLejyCu2gpKNdlnhnx989X5pupZ2vn+4CrURJ9hBSzGB3886xa3rq/TI/iYgFvCdr8TIdZiyn9pWIk/aKFLtJQcuZZJSxocI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIzlDzyT; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1765765814; c=relaxed/simple;
+	bh=a/CCxhq3Xgkr3G3px6ZQDNvxIrCYv8DahE0lYrnzGUI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p8vpa7HdLxoRLIvVn63lL9MdCVkhKq+2Xy/e0BTHgZQ8WioI9MJj9j389esGiHjs+p5hg/0Yo5ZKKcvFb0vu0cdwum6VrvkkviH2zszvvR1HiqW/getGyP7+OMIVGjGshmllha9S6O80k6lYubSK7p/xd3bgkMWTlCMNJvStcZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lY/ac7g1; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIzlDzyT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lY/ac7g1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765765734; x=1797301734;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3uET0RPCNmJUw9S3Kfjr+9NYS8u2YjbU+SJBolaHwco=;
-  b=GIzlDzyTOjG3hjAtBf1FgSEcvCFmo+akHdHsyCMoYSzJQonxfqGfA8NH
-   pFy6lbDv0H2+jCHUnhEcDuitjRYvNITu5KVSkS9W3p02/Vcd9nkbdjMay
-   eFgJY2l81DcVXeGG5o4fJlQFgGGk2BNlJowMr23QwMh9nDElCLoDKX/sA
-   Dg6FlyHREhW1V0vDr3qEXHan+f94JJiq+mw22ksiL3eCBtL3t+zEj2NAY
-   1aRnKRkfX9Ff8Ct14fLcig5XC7+QQXBz+sHZJyOCW231OpPq9elZVV8Xt
-   Kz5Lvl3IdZn7hqHKNaHUM1LqHfzWR2TgAYA/Pw/tbml8dMQeuo3nQZ9/x
+  t=1765765812; x=1797301812;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=a/CCxhq3Xgkr3G3px6ZQDNvxIrCYv8DahE0lYrnzGUI=;
+  b=lY/ac7g1y2mUhLF49DcwPQscqCYvRas2f6flBfU+mEk2vcqf8KwAEjcb
+   rjmmbPPc/RZSyrq0jhN72AEFx13UyPVWZ4cm4STn29ZtkdOO/QkghuDgo
+   t+1v51xM3XkVdwkXRb4MAiCwkdaxp2O3n0e0nJRPgcvRbND9vLNgqjuLi
+   s5BN+k1M/4v5YLTi3AaKCJTpdCRUiDYGy6yD3GvtiJc1l2ue3dOIajobe
+   xxqEQYqxj2PsQpjYIWQkRdlcZIPHJ7lzD59EkbFMdk5YbQRBGMCEKHmRC
+   utnAfA3eyPOrP6red2vyi3y8pJQUr8NSFk6F/xwWiqJUdR++WjWUdSgs6
    Q==;
-X-CSE-ConnectionGUID: j1x1SzR0TDCckMHF315a5g==
-X-CSE-MsgGUID: cJdt4a3NRRa1ic4v8YME0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="66651724"
+X-CSE-ConnectionGUID: bdhUw7WLSIGSP30xlNnGyQ==
+X-CSE-MsgGUID: 8cx5d1yZQGq4Qqr1SzwIew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="71292756"
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="66651724"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 18:28:53 -0800
-X-CSE-ConnectionGUID: jybd6YGvRVqAslqlatztcA==
-X-CSE-MsgGUID: hvlWABjGSRiQlDVw3Cn96Q==
+   d="scan'208";a="71292756"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 18:30:12 -0800
+X-CSE-ConnectionGUID: OFNhsBfFS8qZj9RgaUi8Xg==
+X-CSE-MsgGUID: ITL3jXxaQ0K8etdXMhNqvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,148,1763452800"; 
-   d="scan'208";a="228258721"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 14 Dec 2025 18:28:53 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vUyKP-000000002XQ-38Zi;
-	Mon, 15 Dec 2025 02:28:49 +0000
-Date: Mon, 15 Dec 2025 03:28:16 +0100
-From: kernel test robot <lkp@intel.com>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-wired-lan] [PATCH RFC net-next 10/13] dpll: Add reference
- count tracking support
-Message-ID: <202512150306.R9AA7Oz2-lkp@intel.com>
-References: <20251211194756.234043-11-ivecera@redhat.com>
+   d="scan'208";a="197888515"
+Received: from unknown (HELO [10.238.0.255]) ([10.238.0.255])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 18:30:10 -0800
+Message-ID: <2df1a0c0-31a6-45c9-a92e-abdbfddbd9b6@intel.com>
+Date: Mon, 15 Dec 2025 10:30:06 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251211194756.234043-11-ivecera@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] KVM: x86: Don't read guest CR3 when doing async pf
+ while the MMU is direct
+To: Sean Christopherson <seanjc@google.com>, kernel test robot <lkp@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, oe-kbuild-all@lists.linux.dev,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, farrah.chen@intel.com
+References: <20251212135051.2155280-1-xiaoyao.li@intel.com>
+ <202512130717.aHH8rXSC-lkp@intel.com> <aTy7AG2y1OwIXfqs@google.com>
+Content-Language: en-US
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <aTy7AG2y1OwIXfqs@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Ivan,
+On 12/13/2025 9:01 AM, Sean Christopherson wrote:
+> On Sat, Dec 13, 2025, kernel test robot wrote:
+>> Hi Xiaoyao,
+>>
+>> kernel test robot noticed the following build warnings:
+>>
+>> [auto build test WARNING on 7d0a66e4bb9081d75c82ec4957c50034cb0ea449]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Xiaoyao-Li/KVM-x86-Don-t-read-guest-CR3-when-doing-async-pf-while-the-MMU-is-direct/20251212-220612
+>> base:   7d0a66e4bb9081d75c82ec4957c50034cb0ea449
+>> patch link:    https://lore.kernel.org/r/20251212135051.2155280-1-xiaoyao.li%40intel.com
+>> patch subject: [PATCH v2] KVM: x86: Don't read guest CR3 when doing async pf while the MMU is direct
+>> config: i386-buildonly-randconfig-002-20251213 (https://download.01.org/0day-ci/archive/20251213/202512130717.aHH8rXSC-lkp@intel.com/config)
+>> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251213/202512130717.aHH8rXSC-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202512130717.aHH8rXSC-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>     In file included from include/linux/kvm_host.h:43,
+>>                      from arch/x86/kvm/irq.h:15,
+>>                      from arch/x86/kvm/mmu/mmu.c:19:
+>>     arch/x86/kvm/mmu/mmu.c: In function 'kvm_arch_setup_async_pf':
+>>>> include/linux/kvm_types.h:54:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+>>        54 | #define INVALID_GPA     (~(gpa_t)0)
+>>           |                         ^
+>>     arch/x86/kvm/mmu/mmu.c:4525:28: note: in expansion of macro 'INVALID_GPA'
+>>      4525 |                 arch.cr3 = INVALID_GPA;
+>>           |                            ^~~~~~~~~~~
+> 
+> Well that's just annoying.  Can we kill 32-bit yet?  Anyways, just ignore this
+> (unless it causes my KVM_WERROR=1 builds to fail, in which case I'll just add an
+> explicit cast, but I think we can just ignore it).
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+If your KVM_WERROR=1 builds contain 32-bit config, I think it will fail. 
+I think we do need to add the explicit cast.
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dt-bindings-net-ethernet-controller-Add-DPLL-pin-properties/20251212-035305
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251211194756.234043-11-ivecera%40redhat.com
-patch subject: [Intel-wired-lan] [PATCH RFC net-next 10/13] dpll: Add reference count tracking support
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251215/202512150306.R9AA7Oz2-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512150306.R9AA7Oz2-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512150306.R9AA7Oz2-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/dpll/dpll_core.c:399 function parameter 'tracker' not described in 'dpll_device_get'
->> Warning: drivers/dpll/dpll_core.c:434 function parameter 'tracker' not described in 'dpll_device_put'
->> Warning: drivers/dpll/dpll_core.c:746 function parameter 'tracker' not described in 'dpll_pin_get'
->> Warning: drivers/dpll/dpll_core.c:781 function parameter 'tracker' not described in 'dpll_pin_put'
->> Warning: drivers/dpll/dpll_core.c:802 function parameter 'tracker' not described in 'fwnode_dpll_pin_find'
->> Warning: drivers/dpll/dpll_core.c:399 function parameter 'tracker' not described in 'dpll_device_get'
->> Warning: drivers/dpll/dpll_core.c:434 function parameter 'tracker' not described in 'dpll_device_put'
->> Warning: drivers/dpll/dpll_core.c:746 function parameter 'tracker' not described in 'dpll_pin_get'
->> Warning: drivers/dpll/dpll_core.c:781 function parameter 'tracker' not described in 'dpll_pin_put'
->> Warning: drivers/dpll/dpll_core.c:802 function parameter 'tracker' not described in 'fwnode_dpll_pin_find'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+You will handle it when applying, right? Thus no need for a v3.
