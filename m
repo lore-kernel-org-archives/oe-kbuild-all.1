@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 430FF1E7C23
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 06:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794572EC0A6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 06:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765780221; cv=none; b=Ibv0HmUFkms54pLfHtkSSADyyd1h3HUBE4MbrctsG5WjIqbVwWFkHGM3+O7gMB1PLt1IkwgT9jhK6lEDyewTiAxsmOSF8MdReQHoOnNgHL+Iil7BjJ69eZpjI5psZUTXoN8u6hBOxnolMz34e+IXdvoNncVB61dbIQ0rzY4qE14=
+	t=1765780222; cv=none; b=dOC8jrmV/1cA1fMxHB6/oGQZRc5PDIuYICyu5T25DR91vp3FxBGh5yG9ofRn5WKk8fgGxHknZwA1SsVqGRVKaA8x+drKt7y2hyrO6gAGcf8Z3GyKdjlE43vWYNc3ygC7ObyX9KiW3shjb4kRgFd1OH2jHQbVtxtHm6pU+4lgu8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765780221; c=relaxed/simple;
-	bh=/doJdNO20FvU3+20KYXX5fLO6qfhrOoXuNqrmHloq4I=;
+	s=arc-20240116; t=1765780222; c=relaxed/simple;
+	bh=MkxzsvyLcI0NFIPx/zjQBBU4jg/U1uqJy0L5A8jTu5U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U6PyS1+nCtjeBp3TIfk+AUkZXxD5tXcomUMJtw6i7EDipmA/XWh7X/cjTJjG+YFG8knsDJDDFeEJ4W1l17Zpi9MdieAx//7wrk33wWmH4jMNT4w+mLgqVeNhwjUOW0ogh1OGIKkAac49OB/YIWAqRqODvnoklQZnTD53uZKc9dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aHyQWebF; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=F+YBPCSmYhiNHp2hMDEmb75ryZrRpSOOc4BlwWjfxU7o5knk+4K/bugVA76iQ8aCwiTRnFmeEr/NCYOb6XLvSrctNL71BiI2tCI/JoJ8QggwzWuVQZcA0R9Kluw26+rE4EqbG3f3yzrxU5eK7N0TSLFdFPlNaW5IhO0bRZSnqYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EL9kjhV4; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aHyQWebF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EL9kjhV4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765780218; x=1797316218;
+  t=1765780220; x=1797316220;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/doJdNO20FvU3+20KYXX5fLO6qfhrOoXuNqrmHloq4I=;
-  b=aHyQWebFMdjorYbcWK95bUIwHMnVDXKqeLIbHZNCYRcxAu64TTXneuMy
-   GqZLCEDvapmdHUTbMRRukmv0JXNJHJZhRjwQcLtMWv7LLhzyYN7g9Y2U7
-   ONiyFgJt+EchwZ4pQval0J7eJxSA8ey1XzMOYr7CPY13QZfG1Ld+JWcrr
-   badQzLXpGEhpOHLbc7nxUN3BkQtxPym1kJ8UTqtNcMDAcl/keUYX4rIll
-   WGNeZ9HBsUoUeAXAYgjhqjZRmuE1ej5zqSxC952RTY2VM3YS1pDU4/bHZ
-   5dT4ISyRDN5cOU+OnB5OigvxHNi00sS5VPcU7n2yDM4h2Aa5dVmY9R3kb
-   Q==;
-X-CSE-ConnectionGUID: SKAozHMbTCi71SNQOEb8TA==
-X-CSE-MsgGUID: 5HugMERXSbq9ISaRmuCg+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="90329269"
+  bh=MkxzsvyLcI0NFIPx/zjQBBU4jg/U1uqJy0L5A8jTu5U=;
+  b=EL9kjhV40qv+GU1+IKHHyG63ktHlMsrTS/4s5q9zSBnAwqorzXy1NrvY
+   zHtuHjwrolKH/t9uHSC8414FDK9ID0YwSRYiu9BYEgfxsER7yEtUVkvI2
+   GFMatLqp79jyjyXIRKI5lngMTzh3hVi8kDzgpbatyCXcxxn/NWvTHf0f7
+   lP8SZJrDeJIIuoJN9bMUwL+ZOnm2dZfd5hTvROKnhN03vbMXSuHp8a6nH
+   0dPdI16Ufd+sP6vdhRba9iDrkpQezUpB2lB0E3cYnDnl/8NW9bfntHmWS
+   H3/K8zAB29D2mmgPFz37hOKr8w6JMbYopvKA7hsZ31R/Tf7X5W634irtP
+   g==;
+X-CSE-ConnectionGUID: Kj/SH7nDSXawUmV5KEI1Sw==
+X-CSE-MsgGUID: xUGtCVyFSdWHR2obERjG1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67552857"
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="90329269"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 22:30:17 -0800
-X-CSE-ConnectionGUID: FilobD2xQKaiAbr9KNsBmQ==
-X-CSE-MsgGUID: gWyA/vf8QzOiXsdNFsSBng==
+   d="scan'208";a="67552857"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2025 22:30:17 -0800
+X-CSE-ConnectionGUID: dAqiHwssT6yeg/Lm3WQY/A==
+X-CSE-MsgGUID: 44dGAYesQwGsQ+f8mgrQ+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="198157514"
+   d="scan'208";a="228715789"
 Received: from lkp-server01.sh.intel.com (HELO d335e3c6db51) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Dec 2025 22:30:16 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 14 Dec 2025 22:30:16 -0800
 Received: from kbuild by d335e3c6db51 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vV262-000000009sU-1ans;
+	id 1vV262-000000009sS-1QcH;
 	Mon, 15 Dec 2025 06:30:14 +0000
-Date: Mon, 15 Dec 2025 14:29:50 +0800
+Date: Mon, 15 Dec 2025 14:29:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Terrell <terrelln@meta.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: lib/zstd/compress/zstd_fast.c:291
- ZSTD_compressBlock_fast_noDict_generic() warn: inconsistent indenting
-Message-ID: <202512151418.Lrp7Rxz8-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 3542/3542]
+ drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:5: warning: no previous
+ prototype for function 'tdm_service_run'
+Message-ID: <202512151453.5SnEFp7c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,173 +63,135 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: 65d1f5507ed2c78c64fce40e44e5574a9419eb09 zstd: Import upstream v1.5.7
-date:   9 months ago
-config: openrisc-randconfig-r072-20251214 (https://download.01.org/0day-ci/archive/20251215/202512151418.Lrp7Rxz8-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   81b22958142c03b02c766c79cd1554ebfa142be4
+commit: 3ad98583441f7c8a2553e1e8d6340ed4397033e2 [3542/3542] crypto: tdm: Support dynamic protection for SCT and IDT by HYGON TDM
+config: x86_64-randconfig-012-20251215 (https://download.01.org/0day-ci/archive/20251215/202512151453.5SnEFp7c-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151453.5SnEFp7c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512151418.Lrp7Rxz8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512151453.5SnEFp7c-lkp@intel.com/
 
-New smatch warnings:
-lib/zstd/compress/zstd_fast.c:291 ZSTD_compressBlock_fast_noDict_generic() warn: inconsistent indenting
-lib/zstd/compress/zstd_fast.c:291 ZSTD_compressBlock_fast_noDict_generic() warn: inconsistent indenting
-lib/zstd/compress/zstd_opt.c:668 ZSTD_insertBtAndGetAllMatches() warn: maybe use && instead of &
-lib/zstd/compress/zstd_lazy.c:1991 ZSTD_compressBlock_lazy_extDict_generic() warn: maybe use && instead of &
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-lib/zstd/compress/zstd_fast.c:316 ZSTD_compressBlock_fast_noDict_generic() warn: inconsistent indenting
-lib/zstd/compress/zstd_fast.c:316 ZSTD_compressBlock_fast_noDict_generic() warn: inconsistent indenting
-lib/zstd/compress/zstd_fast.c:944 ZSTD_compressBlock_fast_extDict_generic() warn: maybe use && instead of &
-lib/zstd/compress/zstd_fast.c:944 ZSTD_compressBlock_fast_extDict_generic() warn: maybe use && instead of &
-lib/zstd/compress/zstd_opt.c:674 ZSTD_insertBtAndGetAllMatches() warn: maybe use && instead of &
-lib/zstd/compress/zstd_opt.c:1382 ZSTD_compressBlock_opt_generic() warn: inconsistent indenting
-lib/zstd/compress/zstd_opt.c:1392 ZSTD_compressBlock_opt_generic() warn: inconsistent indenting
-lib/zstd/compress/zstd_lazy.c:1629 ZSTD_compressBlock_lazy_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:1990 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2021 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2031 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2032 ZSTD_compressBlock_lazy_extDict_generic() warn: maybe use && instead of &
-lib/zstd/compress/zstd_lazy.c:2063 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2064 ZSTD_compressBlock_lazy_extDict_generic() warn: maybe use && instead of &
-lib/zstd/compress/zstd_lazy.c:2117 ZSTD_compressBlock_lazy_extDict_generic() warn: if statement not indented
-lib/zstd/compress/zstd_lazy.c:2118 ZSTD_compressBlock_lazy_extDict_generic() warn: maybe use && instead of &
+   In file included from drivers/crypto/ccp/hygon/tdm-kernel-guard.c:15:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2242:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:5: warning: no previous prototype for function 'tdm_service_run' [-Wmissing-prototypes]
+     151 | int tdm_service_run(struct tdm_security_enhance *data)
+         |     ^
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     151 | int tdm_service_run(struct tdm_security_enhance *data)
+         | ^
+         | static 
+>> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:5: warning: no previous prototype for function 'tdm_service_exit' [-Wmissing-prototypes]
+     212 | int tdm_service_exit(struct tdm_security_enhance *data)
+         |     ^
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     212 | int tdm_service_exit(struct tdm_security_enhance *data)
+         | ^
+         | static 
+   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:308:23: error: use of undeclared identifier 'NR_syscalls'
+     308 |                 eh_objs[SCT].size = NR_syscalls * sizeof(char *);
+         |                                     ^
+   3 warnings and 1 error generated.
 
-vim +291 lib/zstd/compress/zstd_fast.c
 
-   247	
-   248	    step = stepSize;
-   249	    nextStep = ip0 + kStepIncr;
-   250	
-   251	    /* calculate positions, ip0 - anchor == 0, so we skip step calc */
-   252	    ip1 = ip0 + 1;
-   253	    ip2 = ip0 + step;
-   254	    ip3 = ip2 + 1;
-   255	
-   256	    if (ip3 >= ilimit) {
-   257	        goto _cleanup;
-   258	    }
-   259	
-   260	    hash0 = ZSTD_hashPtr(ip0, hlog, mls);
-   261	    hash1 = ZSTD_hashPtr(ip1, hlog, mls);
-   262	
-   263	    matchIdx = hashTable[hash0];
-   264	
-   265	    do {
-   266	        /* load repcode match for ip[2]*/
-   267	        const U32 rval = MEM_read32(ip2 - rep_offset1);
-   268	
-   269	        /* write back hash table entry */
-   270	        current0 = (U32)(ip0 - base);
-   271	        hashTable[hash0] = current0;
-   272	
-   273	        /* check repcode at ip[2] */
-   274	        if ((MEM_read32(ip2) == rval) & (rep_offset1 > 0)) {
-   275	            ip0 = ip2;
-   276	            match0 = ip0 - rep_offset1;
-   277	            mLength = ip0[-1] == match0[-1];
-   278	            ip0 -= mLength;
-   279	            match0 -= mLength;
-   280	            offcode = REPCODE1_TO_OFFBASE;
-   281	            mLength += 4;
-   282	
-   283	            /* Write next hash table entry: it's already calculated.
-   284	             * This write is known to be safe because ip1 is before the
-   285	             * repcode (ip2). */
-   286	            hashTable[hash1] = (U32)(ip1 - base);
-   287	
-   288	            goto _match;
-   289	        }
-   290	
- > 291	         if (matchFound(ip0, base + matchIdx, matchIdx, prefixStartIndex)) {
-   292	            /* Write next hash table entry (it's already calculated).
-   293	            * This write is known to be safe because the ip1 == ip0 + 1,
-   294	            * so searching will resume after ip1 */
-   295	            hashTable[hash1] = (U32)(ip1 - base);
-   296	
-   297	            goto _offset;
-   298	        }
-   299	
-   300	        /* lookup ip[1] */
-   301	        matchIdx = hashTable[hash1];
-   302	
-   303	        /* hash ip[2] */
-   304	        hash0 = hash1;
-   305	        hash1 = ZSTD_hashPtr(ip2, hlog, mls);
-   306	
-   307	        /* advance to next positions */
-   308	        ip0 = ip1;
-   309	        ip1 = ip2;
-   310	        ip2 = ip3;
-   311	
-   312	        /* write back hash table entry */
-   313	        current0 = (U32)(ip0 - base);
-   314	        hashTable[hash0] = current0;
-   315	
-   316	         if (matchFound(ip0, base + matchIdx, matchIdx, prefixStartIndex)) {
-   317	            /* Write next hash table entry, since it's already calculated */
-   318	            if (step <= 4) {
-   319	                /* Avoid writing an index if it's >= position where search will resume.
-   320	                * The minimum possible match has length 4, so search can resume at ip0 + 4.
-   321	                */
-   322	                hashTable[hash1] = (U32)(ip1 - base);
-   323	            }
-   324	            goto _offset;
-   325	        }
-   326	
-   327	        /* lookup ip[1] */
-   328	        matchIdx = hashTable[hash1];
-   329	
-   330	        /* hash ip[2] */
-   331	        hash0 = hash1;
-   332	        hash1 = ZSTD_hashPtr(ip2, hlog, mls);
-   333	
-   334	        /* advance to next positions */
-   335	        ip0 = ip1;
-   336	        ip1 = ip2;
-   337	        ip2 = ip0 + step;
-   338	        ip3 = ip1 + step;
-   339	
-   340	        /* calculate step */
-   341	        if (ip2 >= nextStep) {
-   342	            step++;
-   343	            PREFETCH_L1(ip1 + 64);
-   344	            PREFETCH_L1(ip1 + 128);
-   345	            nextStep += kStepIncr;
-   346	        }
-   347	    } while (ip3 < ilimit);
-   348	
-   349	_cleanup:
-   350	    /* Note that there are probably still a couple positions one could search.
-   351	     * However, it seems to be a meaningful performance hit to try to search
-   352	     * them. So let's not. */
-   353	
-   354	    /* When the repcodes are outside of the prefix, we set them to zero before the loop.
-   355	     * When the offsets are still zero, we need to restore them after the block to have a correct
-   356	     * repcode history. If only one offset was invalid, it is easy. The tricky case is when both
-   357	     * offsets were invalid. We need to figure out which offset to refill with.
-   358	     *     - If both offsets are zero they are in the same order.
-   359	     *     - If both offsets are non-zero, we won't restore the offsets from `offsetSaved[12]`.
-   360	     *     - If only one is zero, we need to decide which offset to restore.
-   361	     *         - If rep_offset1 is non-zero, then rep_offset2 must be offsetSaved1.
-   362	     *         - It is impossible for rep_offset2 to be non-zero.
-   363	     *
-   364	     * So if rep_offset1 started invalid (offsetSaved1 != 0) and became valid (rep_offset1 != 0), then
-   365	     * set rep[0] = rep_offset1 and rep[1] = offsetSaved1.
-   366	     */
-   367	    offsetSaved2 = ((offsetSaved1 != 0) && (rep_offset1 != 0)) ? offsetSaved1 : offsetSaved2;
-   368	
-   369	    /* save reps for next block */
-   370	    rep[0] = rep_offset1 ? rep_offset1 : offsetSaved1;
-   371	    rep[1] = rep_offset2 ? rep_offset2 : offsetSaved2;
-   372	
-   373	    /* Return the last literals size */
-   374	    return (size_t)(iend - anchor);
-   375	
+vim +/tdm_service_run +151 drivers/crypto/ccp/hygon/tdm-kernel-guard.c
+
+   150	
+ > 151	int tdm_service_run(struct tdm_security_enhance *data)
+   152	{
+   153		int ret = 0;
+   154		struct addr_range_info *addr_range = NULL;
+   155	
+   156		// Allocate memory for addr_range
+   157		addr_range = kzalloc(sizeof(struct addr_range_info) + sizeof(struct addr_info), GFP_KERNEL);
+   158		if (!addr_range) {
+   159			ret = -DYN_ERR_MEM;
+   160			pr_err("addr_range kzalloc memory failed\n");
+   161			goto end;
+   162		}
+   163	
+   164		// Fill in addr_range
+   165		addr_range->count = 1;
+   166		addr_range->addr[0].addr_start = data->vaddr;
+   167		addr_range->addr[0].length = data->size;
+   168		data->mem_range = addr_range;
+   169	
+   170		// Context configuration
+   171		data->context |= TASK_CREATE_VADDR;
+   172	
+   173		// Allocate memory for authcode
+   174		data->authcode = kzalloc(sizeof(struct authcode_2b) + AUTHCODE_MAX, GFP_KERNEL);
+   175		if (!data->authcode) {
+   176			ret = -DYN_ERR_MEM;
+   177			pr_err("authcode_2b kzalloc memory failed\n");
+   178			goto free_addr_range_info;
+   179		}
+   180	
+   181		data->authcode->len = AUTHCODE_MAX;
+   182	
+   183		// Measurement data configuration
+   184		data->mdata.hash_algo = HASH_ALGO_SM3;
+   185		data->mdata.period_ms = 0;
+   186		ret = calc_expected_hash((uint8_t *)data->vaddr, data->size,
+   187			data->mdata.expected_measurement);
+   188		if (ret) {
+   189			pr_err("calculate expected hash failed!\n");
+   190			goto free_authcode;
+   191		}
+   192	
+   193		// Create and start tdm task
+   194		ret = tdm_task_create_and_run(data);
+   195		if (ret) {
+   196			pr_err("tdm_task_create_and_run failed!\n");
+   197			goto free_authcode;
+   198		}
+   199	
+   200		return ret;
+   201	
+   202	free_authcode:
+   203		kfree(data->authcode);
+   204		data->authcode = NULL;
+   205	free_addr_range_info:
+   206		kfree(data->mem_range);
+   207		data->mem_range = NULL;
+   208	end:
+   209		return ret;
+   210	}
+   211	
+ > 212	int tdm_service_exit(struct tdm_security_enhance *data)
+   213	{
+   214		int ret = 0;
+   215		int task_status = 0;
+   216	
+   217		task_status = psp_startstop_measure_task(data->task_id, data->authcode, false);
+   218		if (task_status < 0) {
+   219			ret = task_status;
+   220			pr_err("task_id %d stop failed with 0x%x\n", data->task_id, ret);
+   221			goto end;
+   222		}
+   223	
+   224		// Waiting for the task to end
+   225		msleep(40);
+   226	
+   227		psp_destroy_measure_task(data->task_id, data->authcode);
+   228	
+   229		kfree(data->authcode);
+   230		data->authcode = NULL;
+   231		kfree(data->mem_range);
+   232		data->mem_range = NULL;
+   233	end:
+   234		return ret;
+   235	}
+   236	
 
 -- 
 0-DAY CI Kernel Test Service
