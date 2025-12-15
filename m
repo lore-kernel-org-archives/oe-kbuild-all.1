@@ -1,59 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80D62F6586
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 09:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3FB32143E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 09:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765790240; cv=none; b=biE3WjhaeS1yNwUe3WpC7PSeTdZaORkGVePcD4J2dmYNiKQaEhnJhIyQnIzO2lnS6eN9tDJyyZ+GvR35AaZpzrpCR9+ujKDkM9ehctAyuvEMsqoyybEac4VIx6NuAuMUj3sn4oPFb2/hv0a3NpfsDYeST/dv3H4xmQHLP3Be+9Y=
+	t=1765790547; cv=none; b=by2I2ySIGrqwj4Ndati32+HvXcXai77itcMBQjY6FuxY8zrT/7pADsYwO70Hem6HZcc4ZRTo+2XjmPWzkuVRDdNIDVSjD1JXH9S6j/L39cDaxDkVYrmoJzvH/n2CLxUpMouf4nBMccf7T7/1DPuaFD4kksD5hXBmuaF/7WxkUI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765790240; c=relaxed/simple;
-	bh=2s4N4d+asIhG8Pjf7Z23x8bQbENHoAXNNrFaHlb0GDs=;
+	s=arc-20240116; t=1765790547; c=relaxed/simple;
+	bh=1J0QdY00wB4PJO+YgVHnaMOLl0QgYV3MI07wp0Bf3uk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PSvu0yXqNAW/jDNEdWLdVjBRWpRbXSUBz4NKwfWEoHdqI4vNrTXW+1XmxbK+imZhA7LyouSIlMEOjvXxsI8uv5Y82/UsrUKf0CsqzeuhbYbkHGzYZ7fpTYURFYpBCVMrM05rCtp1mMSRuHInQsi1VAHohQClXVwG2FsdCfoJ5EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ON5IrCek; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=ML+hAcNPYR55DIqs5DiRjqu4cXvK4HDaNIE3n7umu1oBf/xAmQj3OkfFOR4nL0z0OsQHHWeTRmKn8wewcZJxDqhR7gSsgUR8YjcHo3uWP/pAAxIAWzsc98wb0wFLjrbYeO256bBNH8+rTqM5IFTIU6hK+L6CRNkHKkNPDidznSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o07deQt/; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ON5IrCek"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765790237; x=1797326237;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2s4N4d+asIhG8Pjf7Z23x8bQbENHoAXNNrFaHlb0GDs=;
-  b=ON5IrCektRuGmofoFFGz56uqLER81XXE/HEEyrqKXNzxtgvpsv783ihe
-   UFpAsXkuvLpSdDzxw39hLSciHv4CAPvt2P1lNWBvMvJYl6EQu6Mq+yqj+
-   xqrBWarRGZLqVUToWvJ44xYadQp3tzUTIspEeVXSNEDW7NM3/4SiajTIk
-   rZ1A1sSpCEpb20oYXEHh4eSMvRNRyiulolVXmaTsWTv8yQLtguTbrf1EY
-   aJUn6Vv/irxoewN5EWadiseQA2wzSBS7Llq1RLswXbgkm1qlmkLIwNiLZ
-   LVJkwzefh4EtffjfFhMhfdEaZtOylXwPMB2oVJtjRCo29F2r8sVwc/ZHD
-   Q==;
-X-CSE-ConnectionGUID: 2v5zYeEQQPOTaI/LNkPZwg==
-X-CSE-MsgGUID: y6dLUd8KTdqk+tgbqoyDXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67757277"
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="67757277"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 01:17:17 -0800
-X-CSE-ConnectionGUID: yxCs8phpQvWcJoVY7ptG+A==
-X-CSE-MsgGUID: vxmSsTGETa6VcFB8o2zKsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
-   d="scan'208";a="198189118"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 15 Dec 2025 01:17:15 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vV4hd-0000000008V-3ZSa;
-	Mon, 15 Dec 2025 09:17:13 +0000
-Date: Mon, 15 Dec 2025 17:17:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vinicius Costa Gomes <vinicius.gomes@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>, Dave Jiang <dave.jiang@intel.com>
-Subject: drivers/dma/idxd/cdev.c:503:24: sparse: sparse: incorrect type in
- return expression (different base types)
-Message-ID: <202512151753.eExr3PMz-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o07deQt/"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4779ce2a624so36056195e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 01:22:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765790543; x=1766395343; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y2VXxX616Xa5Cko+/2ttqFKgeLLoj3bQjcWSa30krj8=;
+        b=o07deQt/stpZQunSh8HYGVoFOf5rzZddjuO0xmEM7XrTp4K5m081dbRj5eBiilAgt+
+         tGmH+swzbSMOYqS2uSQQCla5H/FTza7CYFHsBvWwaDlo17jT3cyq8MAPfKEHsr/d3S+C
+         rslQ8ZnjH9P0FpHgHcu+tt3Q0GzyD/0EZ7ZFY1aTBzXRRAKaNV/NcEbfIIVsjgmQYxC5
+         cqFMIhl3JM08UW6N7Kkm2tMerR0yj5LGYK7jixZj49Ps5GLYlNcZjZP/EL3q/yCRNzZe
+         BjXHC+Ui9Ls/iR5UFzL2ERnywuCpgJd1yOKg5VwHvWYBl13sJMfSzdh3J7WulDOzF2eu
+         SFAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765790543; x=1766395343;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y2VXxX616Xa5Cko+/2ttqFKgeLLoj3bQjcWSa30krj8=;
+        b=f/RHE0GaruC0qoXrEox9E8OxiQmYZKDdFTpLt4jGsTRwzVEnY22iSl2eBj6+NnkJiW
+         7bYBSwHP237n9nnUAeJX9KpWoc/0W09nrcb2elR5RBIx3js8pCc1sdGEa4kTkogIN08I
+         QgMNJ6nn2PUNpc+/2vDorpfogqHbXSx3w57lgzrxuoOuXpw6zgoY09LVqZJwJwcIpoIl
+         Nez+l9nJpr/Nz56F7g/95fNVH1zIW+FZ1rMaRTtyZXuPiyCbqmQ7icRG34CiCNYkuMaQ
+         ZTHABxhx0qK+mDbgElXKpNkeDdt4LH/uUafMMUzPnqCQnXG+FCuOw6adA3iexZgsf3NW
+         a3Eg==
+X-Forwarded-Encrypted: i=1; AJvYcCVFU9Q/vJDJEA19XeBM8vAKexSqP3lCW3xwtcMxhqwkK33h9tFEwqPTSEpECSt+mIWEy9QH7Csf5V87wXZA@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0StCnoLLOZhPGGeyo55pplgJErXQF99BHcLAhiBK+KGegoJMK
+	W7mMmvqGFSZZ+2Wc1zGj6nFnlMu4fYHB9Bas+9wKQhM7FaKV9NSWtFNFO5m5amRULnZ63Ub3o9m
+	j7l7C
+X-Gm-Gg: AY/fxX6R8rO5U0HWl5OPMv6dnd6H1/wWCypN+HM+X6tESJDjcCHw7/KuNASNnXLmWLD
+	WrCxu39To/s5/8A1pgNe51qJ1PGQ7frO9Z3/ax0IpuyAc/tQaq7EVIZRDdn0MbYSgCkWUWD7JiV
+	ysGCTM9PQGnPLygsjq4GcvCjEAJPHBeq45qV+lIdXxifIxytHJYvUzzyInXmRXhd/ayp2hrSF7I
+	IhGgru+X+DA8K9125PEt3KjJBob7DkjEUoQvOTQ3FvoK00gtuRvycjj0063wrUDFdMNWbDDFTdK
+	6ZuKHj3nDUKH821gp3On19bxxqKRaqB1t9JO3wNaiKUY1XUFq6Yt71wJEc7iURH9ecjpRxIXbu4
+	Xmoi0vHn3DzbxhprZBpJwSv2d3t+AXFhSKPby68KyN7uIQAzCOpzrNKIbeUEsp1aANSCavbmGmx
+	GEjhrcjaDPmK8fl6+h
+X-Google-Smtp-Source: AGHT+IE7Knx5lMleMfeMPsA8aVy7Wl2m2eXYgXjZ8WdEgLLRycfAIbcFrV8EyUjms/49oisAl+1Y/g==
+X-Received: by 2002:a05:600c:4f09:b0:477:fad:acd9 with SMTP id 5b1f17b1804b1-47a8f916685mr86996195e9.34.1765790543149;
+        Mon, 15 Dec 2025 01:22:23 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8f6e5baasm186959115e9.13.2025.12.15.01.22.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Dec 2025 01:22:22 -0800 (PST)
+Date: Mon, 15 Dec 2025 12:22:19 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Andy Yan <andy.yan@rock-chips.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Dmitry Baryshkov <lumag@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>
+Subject: drivers/gpu/drm/bridge/synopsys/dw-dp.c:2080 dw_dp_bind() warn:
+ passing zero to 'ERR_PTR'
+Message-ID: <202512151515.PjP26FTp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,46 +79,49 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: 8dfa57aabff625bf445548257f7711ef294cd30e dmaengine: idxd: Fix allowing write() from different address spaces
-date:   8 months ago
-config: x86_64-randconfig-r122-20251215 (https://download.01.org/0day-ci/archive/20251215/202512151753.eExr3PMz-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251215/202512151753.eExr3PMz-lkp@intel.com/reproduce)
+commit: d68ba7bac9555d05e2f5b310c898b2a5c7eff174 drm/rockchip: Add RK3588 DPTX output support
+config: arm64-randconfig-r071-20251215 (https://download.01.org/0day-ci/archive/20251215/202512151515.PjP26FTp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512151753.eExr3PMz-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512151515.PjP26FTp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/dma/idxd/cdev.c:503:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
-   drivers/dma/idxd/cdev.c:503:24: sparse:     expected restricted __poll_t
-   drivers/dma/idxd/cdev.c:503:24: sparse:     got int
+New smatch warnings:
+drivers/gpu/drm/bridge/synopsys/dw-dp.c:2080 dw_dp_bind() warn: passing zero to 'ERR_PTR'
 
-vim +503 drivers/dma/idxd/cdev.c
+vim +/ERR_PTR +2080 drivers/gpu/drm/bridge/synopsys/dw-dp.c
 
-   493	
-   494	static __poll_t idxd_cdev_poll(struct file *filp,
-   495				       struct poll_table_struct *wait)
-   496	{
-   497		struct idxd_user_context *ctx = filp->private_data;
-   498		struct idxd_wq *wq = ctx->wq;
-   499		struct idxd_device *idxd = wq->idxd;
-   500		__poll_t out = 0;
-   501	
-   502		if (current->mm != ctx->mm)
- > 503			return -EPERM;
-   504	
-   505		poll_wait(filp, &wq->err_queue, wait);
-   506		spin_lock(&idxd->dev_lock);
-   507		if (idxd->sw_err.valid)
-   508			out = EPOLLIN | EPOLLRDNORM;
-   509		spin_unlock(&idxd->dev_lock);
-   510	
-   511		return out;
-   512	}
-   513	
+86eecc3a9c2e06 Andy Yan 2025-08-22  2068  	ret = phy_init(dp->phy);
+86eecc3a9c2e06 Andy Yan 2025-08-22  2069  	if (ret) {
+86eecc3a9c2e06 Andy Yan 2025-08-22  2070  		dev_err_probe(dev, ret, "phy init failed\n");
+86eecc3a9c2e06 Andy Yan 2025-08-22  2071  		return ERR_PTR(ret);
+86eecc3a9c2e06 Andy Yan 2025-08-22  2072  	}
+86eecc3a9c2e06 Andy Yan 2025-08-22  2073  
+86eecc3a9c2e06 Andy Yan 2025-08-22  2074  	ret = devm_add_action_or_reset(dev, dw_dp_phy_exit, dp);
+86eecc3a9c2e06 Andy Yan 2025-08-22  2075  	if (ret)
+86eecc3a9c2e06 Andy Yan 2025-08-22  2076  		return ERR_PTR(ret);
+86eecc3a9c2e06 Andy Yan 2025-08-22  2077  
+86eecc3a9c2e06 Andy Yan 2025-08-22  2078  	dp->irq = platform_get_irq(pdev, 0);
+86eecc3a9c2e06 Andy Yan 2025-08-22  2079  	if (dp->irq < 0)
+86eecc3a9c2e06 Andy Yan 2025-08-22 @2080  		return ERR_PTR(ret);
+
+s/ret/dp->irq/
+
+86eecc3a9c2e06 Andy Yan 2025-08-22  2081  
+86eecc3a9c2e06 Andy Yan 2025-08-22  2082  	ret = devm_request_threaded_irq(dev, dp->irq, NULL, dw_dp_irq,
+86eecc3a9c2e06 Andy Yan 2025-08-22  2083  					IRQF_ONESHOT, dev_name(dev), dp);
+86eecc3a9c2e06 Andy Yan 2025-08-22  2084  	if (ret) {
+86eecc3a9c2e06 Andy Yan 2025-08-22  2085  		dev_err_probe(dev, ret, "failed to request irq\n");
+86eecc3a9c2e06 Andy Yan 2025-08-22  2086  		return ERR_PTR(ret);
+86eecc3a9c2e06 Andy Yan 2025-08-22  2087  	}
+86eecc3a9c2e06 Andy Yan 2025-08-22  2088  
+86eecc3a9c2e06 Andy Yan 2025-08-22  2089  	return dp;
+86eecc3a9c2e06 Andy Yan 2025-08-22  2090  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
