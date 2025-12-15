@@ -1,110 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5245829B777
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 09:57:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399E2314A8E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 10:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765792646; cv=none; b=XveIsp7rSnVZUKyh2TYopw1Cb1XEEOGzN7kqfxXwZnSS9VBDmLlLnovk6GQZOdPChcOSf/+vG++MraNpXpQpRDglBOyS07rjVLQivRpKRUU3ztJKFcNNcBXJ75Cqsnvt3TFFIHjNjWlksn/KfH2ky1dDEaN1IyxvSwOJLDhEuxQ=
+	t=1765795458; cv=none; b=mFfU7GlEQh8HJohqB83YPK7K1X3mJ0MkKTjUP9xapYihcarI0NSbyW8DnAW4KNwRZJMtbnE63ECkiEP+kFFKaxU7jA7KJ9SRB5lK4mady7lOH4qsiDTpbkm3UgUsHpn504WGXgT2vJhLkgak9O8kEdUnqP4gliC2EMhUVGVF/MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765792646; c=relaxed/simple;
-	bh=GPrmPY5eUuBUMJbjpKFyLdbuR1MxBqJ791EHwgjiiak=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J/Z/rx0DMJ1bIDF98+y8hUL747nUeitJPb6u3aE/yFQYRZCEMIeUsmeFkaSGd4wg7G75lrUAbEbPdv4zjyrTXI6d6wvY8LHcmAad7Y8qxDUoporzgkrmcCVEXIcrACqeOMcRZthI1fjZ53wPyqQGB3ryzp4Hf9PoU2T5Da7lLn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfRpo7pI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765795458; c=relaxed/simple;
+	bh=5VCpsFBhYZjRqLdOUTJeSj9xiu7RwW4lXKpkshqDwUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=VRxLtLiS4CdMFUp6EkrG7HX80jsVOAk7KNC2UkbSIQtKY264JxhtBl+qrWHqpD0LsPVuvc+Q+JscKpHv0n3AfOIiNkbWNq4ZICDO1S34l3vUEp26vrXQRXev8MMeXd7TBq9TENnvG5m2aFFuYDh8OFZXAFYZIq7SaC3EOGCESPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QG1LC3xA; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfRpo7pI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BC45C4CEF5;
-	Mon, 15 Dec 2025 09:57:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765792645;
-	bh=GPrmPY5eUuBUMJbjpKFyLdbuR1MxBqJ791EHwgjiiak=;
-	h=Date:Reply-To:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kfRpo7pI6klAD59sB0cD6S3/GFnnwUrV+YplaYrk5ik353YyYbTWLPj6zXBXYQQhc
-	 NlZ9TRdCiv9+EKfYY/M/s2SS9P7cn81NKg8AbAVOJmf4eFUB2w3vgJ0wsxFegm4Jb4
-	 TFmZXXLSW9/it5njtO0S1YGXOkjHNbAdJJ635VfwTsF+LxXBRPkCzBErtmucrDqI8c
-	 x4GiXkyHfxaM1WPWTHzMJAv3lo06siCI5zjWoDZYfoDtXSJ0vwOsZNyNa9Aq5Ha+ZF
-	 N6Fpoj0olzFpLi/ncx/EpUS+rnDJ9nncwjvdrG7EG3k/oJ9pExegOaV/lhgCozsX3X
-	 kaxgha2GILX1A==
-Message-ID: <a30a0ab2-4fea-4d17-b170-d9433630973e@kernel.org>
-Date: Mon, 15 Dec 2025 10:57:20 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QG1LC3xA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765795457; x=1797331457;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=5VCpsFBhYZjRqLdOUTJeSj9xiu7RwW4lXKpkshqDwUA=;
+  b=QG1LC3xATz/ngSDGJOsMjChnzXKHLiWTl8VzmvDYsy+ZODRp3CRSpCgn
+   yjoGaVCEO3q6WCoiT3DS4aMSC8/TKAWwmVI0usDudToJ4NlnbA83EdT6P
+   3OaFWh4v0carFPS1v/GzAhjfeTp7GNoz9+z2IaIBKiuvPhoHB/Y3dJdsH
+   sF/V+UW48fDqOjrl5aH03HQkaA8k/A5gDuKEvl8lqn61oQhBCiF5DpvE8
+   uJqsXjjjoCsBPQvDoyIBRsw8thHwTkjnwDGpiNrnYNDgBHGkTsEhaDhZl
+   txfIAeyR/c1XDe+ry4fvmCP5kAUny8QOc7UKMMUq5KwH2iQvYejYWvnGf
+   A==;
+X-CSE-ConnectionGUID: ZRaS5HSkQOGaVlnmAu5PIQ==
+X-CSE-MsgGUID: c7Uat4BkTtaJuWG6y/K2WQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11642"; a="67763138"
+X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
+   d="scan'208";a="67763138"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 02:44:15 -0800
+X-CSE-ConnectionGUID: sTOBZH1mS3yCEIJUSwq9kA==
+X-CSE-MsgGUID: YxI+CpwoTCap0rBxsoGAjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,150,1763452800"; 
+   d="scan'208";a="197580835"
+Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 15 Dec 2025 02:44:13 -0800
+Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vV631-000000000CD-0Jnl;
+	Mon, 15 Dec 2025 10:43:51 +0000
+Date: Mon, 15 Dec 2025 18:42:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lorenz Bauer <lmb@isovalent.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] virtio: console: fix lost wakeup when device is written
+ and polled
+Message-ID: <aT_mJshz2YRNsHsH@73f44f95d416>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Daniel Gomez <da.gomez@kernel.org>
-Subject: Re: [ebiggers:wip-nh-lib 14/20] lib/crypto/nh.c:82:1: sparse: sparse:
- static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-To: Philip Li <philip.li@intel.com>
-Cc: kernel test robot <lkp@intel.com>, Oliver Sang <oliver.sang@intel.com>,
- Eric Biggers <ebiggers@kernel.org>, oe-kbuild-all@lists.linux.dev
-References: <202512090359.7BkUaiC9-lkp@intel.com>
- <gszvkjbpxa5ny7c4vtpmklgibxxrqkf2xkfwum5vrg4ooipxl5@uqvhrmvtzfsw>
- <aTgeGoq1JjCfuYXc@rli9-mobl>
-Content-Language: en-US
-From: Daniel Gomez <da.gomez@kernel.org>
-Organization: kernel.org
-In-Reply-To: <aTgeGoq1JjCfuYXc@rli9-mobl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251215-virtio-console-lost-wakeup-v1-1-79a5c57815e7@isovalent.com>
+
+Hi,
+
+Thanks for your patch.
+
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] virtio: console: fix lost wakeup when device is written and polled
+Link: https://lore.kernel.org/stable/20251215-virtio-console-lost-wakeup-v1-1-79a5c57815e7%40isovalent.com
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 
 
-On 09/12/2025 22.03, Philip Li wrote:
-> On Tue, Dec 09, 2025 at 05:28:07PM +0900, Daniel Gomez wrote:
->> On Tue, Dec 09, 2025 at 03:33:11AM +0900, kernel test robot wrote:
->>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git wip-nh-lib
->>> head:   d471b579f29c765ebaeba7a3b653052f029dc550
->>> commit: 7f1c9dc7e0f3540a978f65f4d2d48ea1cd475a3e [14/20] crypto: adiantum - Convert to use NH library
->>> config: i386-randconfig-r134-20251208 (https://download.01.org/0day-ci/archive/20251209/202512090359.7BkUaiC9-lkp@intel.com/config)
->>> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251209/202512090359.7BkUaiC9-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202512090359.7BkUaiC9-lkp@intel.com/
->>>
->>> sparse warnings: (new ones prefixed by >>)
->>>    lib/crypto/nh.c:81:1: sparse: sparse: bad integer constant expression
->>>    lib/crypto/nh.c:81:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
->>>    lib/crypto/nh.c:82:1: sparse: sparse: bad integer constant expression
->>>>> lib/crypto/nh.c:82:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
->>>    lib/crypto/nh.c:82:1: sparse: sparse: bad integer constant expression
->>>    lib/crypto/nh.c:82:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
->>
->> Can you check which version of sparse this test was run against? The patch below
-> 
-> The version used in this report is
-> 
-> 	sparse version: v0.6.4-73-gfbdde312
-> 
->> is required to avoid the issues described above:
->>
->>   fbdde312 (HEAD -> master, origin/master) builtin: implement __builtin_strlen() for constants
->>
->> https://lore.kernel.org/linux-sparse/CACePvbVG2KrGQq4cNKV=wbO5h=jp3M0RO1SdfX8kV4OukjPG8A@mail.gmail.com/T/#mf838b3e2e3245d88c30a801ea7473d5a5c0eb121
->>
->> Note: this is required after the following patch series was merged into Linus'
-> 
-> Thanks for the information, i will configure the bot to avoid sending this kind
-> of issues anymore.
-
-FYI, I initially thought Dan's patch fixed the issues reported here, but the
-problem still persists after it. We are currently discussing a possible solution
-[1].
-
-Link: https://lore.kernel.org/linux-modules/20251008033844.work.801-kees@kernel.org/T/#m105211ebc13435b3d88cac132c05f66aeabd4741 [1]
-
-I'm not sure if I understand your comment correctly, but reporting these
-problems is not an issue at all. Thanks for doing so. I initially thought
-the tool just needed an update, but the fix is still ongoing. Sorry for the
-confusion.
-
-> 
-> 
->> tree:
->> https://lore.kernel.org/linux-modules/20251008033844.work.801-kees@kernel.org/T/#m320036927843f7b372765ddf2b7b47b32c9a81e8
