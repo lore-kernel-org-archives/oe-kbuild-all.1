@@ -1,57 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C668341674
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 11:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1B9341AC1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 11:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765884772; cv=none; b=fkKAL2qUsVSX5A94/GAPU72PAd3D6Wa3uju6tFWYMiMj2yeSPauA5Qjf91PWMni450kh4aW0cF3Zi2VcEoapbqKsdsdnM6rJCQDSqd9zPVG4FMJu6x6Nzg2YTm2KKrjY0EOLKRDT8Iu4nivlcRzwBqBQRDEbRoQe2zECGz1agyM=
+	t=1765884773; cv=none; b=D8s8jd5KzFK/vrGYnMrjO3IYIT/7MfAOqx/htJJXOf4oVO/ymn2E03kzk+wHCh/e6nUt0v2z0A1ZzAX3PgEn/Bhkj/D1OfWOXSNou1/NHBi1k/AuTJTe4jLzj1FOrnRItT/TS3tDWKuJfjHAPRUMFsqVF/tVgR3YQp9oB5Xy7Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765884772; c=relaxed/simple;
-	bh=YXpMXp4NuPAAiVJsUZhqRBIl7JhsDrMhl8A4vkBtp64=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TIpS8TfCPqo7OfcIqFlJlPrS/t+a48i9FF2DW4Q4g6nozBkJuNuy0EGk51Ec4OmkntrrokeY4e+MYGbYoU+Rag7gVcdaWcsRk6fG9F3Xc1NS82AUVZrlh6wu9tBA5i6jlGtC7F+w73de1ovj599prxyhJOhHknMOaqdtfRKv22Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ri7FLfQY; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1765884773; c=relaxed/simple;
+	bh=AJ7AIQ/Y67ADOdmVR2elpS/em6+5xguyK7AuzVoIWdI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DUAt29xg7/xvHyxzzHYMPIrlk/cvqnET0/pYjguCiD6pJl/MmHC/hxbPQKqRtx9SO4nz9/DeheSsMKE2D1kr+q5eKeP82ItK6LJw9j3dCBwobAchbmPCp5GZfd9JCIq9B255ZM+yFByehpztyaiGWQmMi5vB4Hn3BkTWmSZQPWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ftqI/DfL; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ri7FLfQY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ftqI/DfL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765884771; x=1797420771;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YXpMXp4NuPAAiVJsUZhqRBIl7JhsDrMhl8A4vkBtp64=;
-  b=Ri7FLfQYnkixikFr2rRpOad/SSRgAxl5JdlAlRk5Erx+3R6AMmbO/pAa
-   esV3EK8s+f4Ui81CD99Rk74UUU7gWyIYpWndbaHqLDwzabGe9jfRXRt+f
-   P6tPFi73nr8z3nQaheNQeGX2uCB8h30dXT/2HFh6NABom1sE8xGe4buVk
-   dFd2BB/s7K42wiHtlFJSNxBqin09IBHJPIiSsnv3xboWToEzVGWUrBTlb
-   zKrUlgdEBE15qUymhE4jL/PASLEG+kj+5xf/4EfjjRJClJQfrZGGQenQk
-   FxvSWg7ywv1ymw3xXUtEkgQ0SzRcK1BPiBVbSWYWIzmlbdUM+CARMktCc
+  t=1765884772; x=1797420772;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AJ7AIQ/Y67ADOdmVR2elpS/em6+5xguyK7AuzVoIWdI=;
+  b=ftqI/DfL3/EeQ2r6Gfrvt/qrQ+WVhcgiscv5b1jfl8rWXIZ5gFNESRso
+   MipyJYMBrocyzfGTkBxnYJU3U5m1LFKRPFqM+FjjpKKGaZwtejb0hFqwv
+   Yfzs8BFuy4MQ//gWzXZKh3Eki2Y9REzy17otf8OrXmKymUECKukPbZSFT
+   vFk34ynRmpHHQMX7UhrrdhUKO594qWOEXvZrtQkVdi/4BMR6E4jrMzTze
+   55XFAh2R8kmA58/JAGUg/B7z9OQQfmXfQU+kmId0vDPtqN/VQupHX2agT
+   R0We3bPepVemBQpyH+aLV9frpz2MPRkfgFDqvdpFB61O4dOLDeHCnvHKl
    w==;
-X-CSE-ConnectionGUID: Zf9TfjeLTb+NryKCZyw1uQ==
-X-CSE-MsgGUID: MJ/UjAaiQ/2apJhWgyvwUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66786591"
+X-CSE-ConnectionGUID: gm5FhD7hStOA4KAgJoo5DQ==
+X-CSE-MsgGUID: jEm5W/KXT2+uYIs7CMVATg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="79255412"
 X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="66786591"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 03:32:50 -0800
-X-CSE-ConnectionGUID: yd6m6Wo6T3KOMEDemP1wdg==
-X-CSE-MsgGUID: gFKVKvUfT1KNDdhHIAHFiw==
+   d="scan'208";a="79255412"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 03:32:51 -0800
+X-CSE-ConnectionGUID: P4ldY8DMSyKa8Efejof1eQ==
+X-CSE-MsgGUID: msEJXspjQ5KJVo77OYPbHA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
+   d="scan'208";a="228675151"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Dec 2025 03:32:50 -0800
+  by orviesa002.jf.intel.com with ESMTP; 16 Dec 2025 03:32:50 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVTIN-000000001kg-27F7;
+	id 1vVTIN-000000001ke-20Zm;
 	Tue, 16 Dec 2025 11:32:47 +0000
-Date: Tue, 16 Dec 2025 19:32:25 +0800
+Date: Tue, 16 Dec 2025 19:32:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-CWF-RDT-ANBZ24559 25/25]
- drivers/cxl/aliscm.c:513:5: warning: no previous prototype for
- 'cxl_aliscm_send_cmd'
-Message-ID: <202512161922.7H9ikr1L-lkp@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Michal Wajdeczko <michal.wajdeczko@intel.com>,
+	Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [CI 2/4] drm/xe/guc: Introduce GUC_FIRMWARE_VER_AT_LEAST helper
+Message-ID: <202512161949.FGqB4Iim-lkp@intel.com>
+References: <20251215201806.196514-3-michal.wajdeczko@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,73 +66,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251215201806.196514-3-michal.wajdeczko@intel.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-RDT-ANBZ24559
-head:   48fa9d861c1eb99e9f682fb2623142fb456aa0eb
-commit: b332886ddf0e8d9bd286f9d57eb4e110d094cb2f [25/25] anolis: driver/cxl: Add a custom module for AliSCM
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20251216/202512161922.7H9ikr1L-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161922.7H9ikr1L-lkp@intel.com/reproduce)
+Hi Michal,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.19-rc1 next-20251216]
+[cannot apply to daeinki-drm-exynos/exynos-drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wajdeczko/drm-xe-Introduce-IF_ARGS-macro-utility/20251216-042142
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20251215201806.196514-3-michal.wajdeczko%40intel.com
+patch subject: [CI 2/4] drm/xe/guc: Introduce GUC_FIRMWARE_VER_AT_LEAST helper
+config: sparc-randconfig-001-20251216 (https://download.01.org/0day-ci/archive/20251216/202512161949.FGqB4Iim-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161949.FGqB4Iim-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512161922.7H9ikr1L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512161949.FGqB4Iim-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/cxl/aliscm.c:513:5: warning: no previous prototype for 'cxl_aliscm_send_cmd' [-Wmissing-prototypes]
-     513 | int cxl_aliscm_send_cmd(struct cxl_aliscm_dev *aliscm, struct cxl_send_command __user *s)
-         |     ^~~~~~~~~~~~~~~~~~~
-   drivers/cxl/aliscm.c:607:24: warning: no previous prototype for 'devm_cxl_add_aliscm' [-Wmissing-prototypes]
-     607 | struct cxl_aliscm_dev *devm_cxl_add_aliscm(struct device *host)
-         |                        ^~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c:20:
+   drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c: In function 'pf_gt_migration_check_support':
+>> drivers/gpu/drm/xe/xe_guc.h:19:73: error: expected expression before ')' token
+    #define MAKE_GUC_VER(maj, min, pat) (((maj) << 16) | ((min) << 8) | (pat))
+                                                                            ^
+   drivers/gpu/drm/xe/xe_guc.h:23:3: note: in expansion of macro 'MAKE_GUC_VER'
+      MAKE_GUC_VER(PICK_ARG1(ver), PICK_ARG2(ver), IF_ARGS(PICK_ARG3(ver), 0, PICK_ARG3(ver))))
+      ^~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc.h:30:36: note: in expansion of macro 'MAKE_GUC_VER_ARGS'
+     xe_guc_fw_version_at_least((guc), MAKE_GUC_VER_ARGS(ver))
+                                       ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_gt_sriov_pf_migration.c:1029:7: note: in expansion of macro 'GUC_FIRMWARE_VER_AT_LEAST'
+     if (!GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 54))
+          ^~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/gpu/drm/xe/xe_guc_ads.c:23:
+   drivers/gpu/drm/xe/xe_guc_ads.c: In function 'guc_waklv_init':
+>> drivers/gpu/drm/xe/xe_guc.h:19:73: error: expected expression before ')' token
+    #define MAKE_GUC_VER(maj, min, pat) (((maj) << 16) | ((min) << 8) | (pat))
+                                                                            ^
+   drivers/gpu/drm/xe/xe_guc.h:23:3: note: in expansion of macro 'MAKE_GUC_VER'
+      MAKE_GUC_VER(PICK_ARG1(ver), PICK_ARG2(ver), IF_ARGS(PICK_ARG3(ver), 0, PICK_ARG3(ver))))
+      ^~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc.h:30:36: note: in expansion of macro 'MAKE_GUC_VER_ARGS'
+     xe_guc_fw_version_at_least((guc), MAKE_GUC_VER_ARGS(ver))
+                                       ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_ads.c:350:6: note: in expansion of macro 'GUC_FIRMWARE_VER_AT_LEAST'
+     if (GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 44) && XE_GT_WA(gt, 16026508708))
+         ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/xe/xe_guc.h:19:73: error: expected expression before ')' token
+    #define MAKE_GUC_VER(maj, min, pat) (((maj) << 16) | ((min) << 8) | (pat))
+                                                                            ^
+   drivers/gpu/drm/xe/xe_guc.h:23:3: note: in expansion of macro 'MAKE_GUC_VER'
+      MAKE_GUC_VER(PICK_ARG1(ver), PICK_ARG2(ver), IF_ARGS(PICK_ARG3(ver), 0, PICK_ARG3(ver))))
+      ^~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc.h:30:36: note: in expansion of macro 'MAKE_GUC_VER_ARGS'
+     xe_guc_fw_version_at_least((guc), MAKE_GUC_VER_ARGS(ver))
+                                       ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/xe/xe_guc_ads.c:353:6: note: in expansion of macro 'GUC_FIRMWARE_VER_AT_LEAST'
+     if (GUC_FIRMWARE_VER_AT_LEAST(&gt->uc.guc, 70, 47) && XE_GT_WA(gt, 16026007364)) {
+         ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/cxl_aliscm_send_cmd +513 drivers/cxl/aliscm.c
+vim +19 drivers/gpu/drm/xe/xe_guc.h
 
-   512	
- > 513	int cxl_aliscm_send_cmd(struct cxl_aliscm_dev *aliscm, struct cxl_send_command __user *s)
-   514	{
-   515		struct device *dev = &aliscm->dev;
-   516		struct cxl_send_command send;
-   517		struct aliscm_cmd cmd;
-   518		int rc;
-   519	
-   520		dev_dbg(dev, "Send IOCTL to AliSCM\n");
-   521	
-   522		if (copy_from_user(&send, s, sizeof(send)))
-   523			return -EFAULT;
-   524	
-   525		if (send.rsvd == ALISCM_DOE_ID) {
-   526			rc = doe_validate_cmd_from_user(&cmd, aliscm, &send);
-   527			if (rc)
-   528				return rc;
-   529	
-   530			rc = handle_aliscm_doe_cmd_from_user(aliscm, &cmd, send.out.payload,
-   531								&send.out.size, &send.retval);
-   532			if (rc)
-   533				return rc;
-   534		} else if (send.rsvd == ALISCM_GET_CXL_REG_ID) {
-   535			rc = get_cxl_reg_validate_cmd_from_user(&cmd, aliscm, &send);
-   536			if (rc)
-   537				return rc;
-   538	
-   539			rc = handle_aliscm_get_cxl_reg_cmd_from_user(aliscm, &cmd, send.out.payload,
-   540								&send.out.size, &send.retval);
-   541			if (rc)
-   542				return rc;
-   543		} else {
-   544			dev_warn(dev, "Unsupported command type: %x\n", send.rsvd);
-   545			return -EINVAL;
-   546		}
-   547	
-   548		if (copy_to_user(s, &send, sizeof(send)))
-   549			return -EFAULT;
-   550	
-   551		return 0;
-   552	}
-   553	
+dd08ebf6c3525a7 Matthew Brost    2023-03-30  13  
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  14  /*
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  15   * GuC version number components are defined to be only 8-bit size,
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  16   * so converting to a 32bit 8.8.8 integer allows simple (and safe)
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  17   * numerical comparisons.
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  18   */
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02 @19  #define MAKE_GUC_VER(maj, min, pat)	(((maj) << 16) | ((min) << 8) | (pat))
+4eb0aab6e4434ad Julia Filipchuk  2024-08-02  20  #define MAKE_GUC_VER_STRUCT(ver)	MAKE_GUC_VER((ver).major, (ver).minor, (ver).patch)
+9100abdb735432b Michal Wajdeczko 2025-12-15  21  #define MAKE_GUC_VER_ARGS(ver...) \
+9100abdb735432b Michal Wajdeczko 2025-12-15  22  	(BUILD_BUG_ON_ZERO(COUNT_ARGS(ver) < 2 || COUNT_ARGS(ver) > 3) + \
+9100abdb735432b Michal Wajdeczko 2025-12-15  23  	 MAKE_GUC_VER(PICK_ARG1(ver), PICK_ARG2(ver), IF_ARGS(PICK_ARG3(ver), 0, PICK_ARG3(ver))))
+9100abdb735432b Michal Wajdeczko 2025-12-15  24  
 
 -- 
 0-DAY CI Kernel Test Service
