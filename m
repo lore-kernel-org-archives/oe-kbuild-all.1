@@ -1,65 +1,65 @@
 Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31E7344029
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 15:03:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0587233065F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 15:08:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765897394; cv=none; b=jFVCEM6piSz/bssAObyutMQvpDb5Q7HLL+RPS0BILoJ6JitKae1+CvlgZMVCZxreMznbI54MkIX7WaxFz3lJLu0GnSMjY2irji/5vO+cHfpXBLuApRMov1JA4rnVuOYskh/gXSfUOeVxNjiHyFUR8DWSnByNXZqR876rnYmLkGo=
+	t=1765897733; cv=none; b=ait0mEDxEybEQ1x437cX5ORO+AbMEY6dsOsq3Wu1y3LHDGq14kmn1RegP5A+b2X/YS75feyTr1Q0v5bK+uCOpYGdsiXgqw36cQSSTF00tEFlD+0zm6tCuBYHWB5wm4BQBK7/nr2TAFFsWkInC9/mVQ26IbS0WE9awJkWBF8Fs58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765897394; c=relaxed/simple;
-	bh=e0IvLJXk8rM6uvxc+3rqVzFJvNkwdZmcvCAwnJmmji4=;
+	s=arc-20240116; t=1765897733; c=relaxed/simple;
+	bh=RvYWpT3jkJmva7HWSnzikplXrapz5yP2a+nR36/d1pA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DWGBXF7OpsDzHR9kNL7rZfx8jnLoVolvdeyHsGuCmsrF36N6odmL07kQubauf7d/2CXqOuUAojGDzQH2ea0QFN7SX4vn5bgd5JuAcjnHM56dCKgCabSsUZXLG1FShvafVgstbO0Bv5ixhZbztpY/X+D1QfgH/+W8aj6iIBIFMzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=N0UCagI2; arc=none smtp.client-ip=148.163.156.1
+	 Content-Type:Content-Disposition:In-Reply-To; b=mEH/UlRYwmOcNXNLv3mYjPalAeRG0dI9DRXylGfobC+wz4eZHvljKM5OjiOCP3HQXjb0/50X7LIUOR637icam1f7D/1hfIkLtSWaKX3PTLCQLY9B4UTm80rv3zaTZBCxl2WIpIoKtauPCov6xeVRr5RuylbYY3L51NUorV9aCgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=jvLw0F81; arc=none smtp.client-ip=148.163.156.1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="N0UCagI2"
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="jvLw0F81"
 Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BGCU1jx025358;
-	Tue, 16 Dec 2025 15:02:35 GMT
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BGCU1kx025358;
+	Tue, 16 Dec 2025 15:08:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
 	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=kuNifGSMD72Ttw5Ijvaq3NUjbNScy/
-	0M/D3so4Hyz68=; b=N0UCagI2x7Y3iSGe239x9hvKOVekUmMyQiT+NEAZZ3vCQE
-	W7g0Pv+hsvyyQLstlnQlEVo4NPIETP4qcn2FNFpGZ2apmL5Ug/GBqpiBfcddBkqA
-	vXLJSdI8oyqMDoFT5Tycn7Iy/Gku55dq9FcDkwyrVDPUsNcxFM/l7fwHAaPtuG+w
-	uXaOsCrdF9Jt2lMqqMWQP1sOFGPzGJkFGw16IOn5WrImHobr12aUTrAvmJ9kDEiD
-	t/edH07I68nWw19D1H4GwV8pr6NIDSSjYjDliq4LgRRei3XSk2ll9lJmUG6c+4xL
-	jZ1EAr0Mx6j+jXJB4FRGPkDyfg6/kFvXXUWwAKxA==
+	:references:subject:to; s=pp1; bh=dnq+6hu5BPEuSmUqMghxEs2qLn+nY1
+	+2BWDHq+u/9H8=; b=jvLw0F81t+1/6KGdJbLobQbFgPPfG1RB2fDflAuLm5dMAx
+	uAUqyp445Ax6BUdZUnfvcLrH/xm1UK1XVmZyETgKwoYbaSyl9gnOKSZDuv+2AB1Y
+	nCxPFNodwUtknWV0P0sHlX672n7m35ZuUy6aABc35tPDHn4IFxzpJPZti/hVZdd9
+	bXm+sbwT1GOA9D4mz+HBxS+M8p64+Eztws5bRVZT4cpjwR18khb5zI1Y0bCADVVs
+	P2+M9GdceCicpD2vsjK00UQbQKixu6nHEvblthnUxb/66LzkMC0XPmOBu7pD8CmE
+	U2UxCbuXbfiIXUORmUL9UtMLfXO2YVT+rAQYcCTw==
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b0yvb7puf-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b0yvb7r50-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 Dec 2025 15:02:34 +0000 (GMT)
+	Tue, 16 Dec 2025 15:08:26 +0000 (GMT)
 Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5BGEnXNN016274;
-	Tue, 16 Dec 2025 15:02:34 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b0yvb7pu6-1
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5BGF0nTr008690;
+	Tue, 16 Dec 2025 15:08:25 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b0yvb7r4s-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 Dec 2025 15:02:34 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BGD14Bk012835;
-	Tue, 16 Dec 2025 15:02:32 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4b1juy4u20-1
+	Tue, 16 Dec 2025 15:08:25 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BGCS4Rg026786;
+	Tue, 16 Dec 2025 15:08:24 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4b1jfsd0wx-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 Dec 2025 15:02:32 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5BGF2SEw42336694
+	Tue, 16 Dec 2025 15:08:24 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5BGF8KKO33620442
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 16 Dec 2025 15:02:28 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 97EB720040;
-	Tue, 16 Dec 2025 15:02:28 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 742A220043;
-	Tue, 16 Dec 2025 15:02:22 +0000 (GMT)
+	Tue, 16 Dec 2025 15:08:20 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 72C6E2004B;
+	Tue, 16 Dec 2025 15:08:20 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C600620043;
+	Tue, 16 Dec 2025 15:08:13 +0000 (GMT)
 Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com (unknown [9.124.210.89])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Tue, 16 Dec 2025 15:02:22 +0000 (GMT)
-Date: Tue, 16 Dec 2025 20:32:19 +0530
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 16 Dec 2025 15:08:13 +0000 (GMT)
+Date: Tue, 16 Dec 2025 20:38:10 +0530
 From: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>
 To: kernel test robot <lkp@intel.com>
 Cc: maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
@@ -73,10 +73,10 @@ Cc: maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
         namcao@linutronix.de, mingo@kernel.org, atrajeev@linux.vnet.ibm.com,
         mark.barnett@arm.com, linuxppc-dev@lists.ozlabs.org,
         linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 7/8] powerpc: Enable IRQ generic entry/exit path.
-Message-ID: <huolgwt5nuhkuygwtqiax5qaqxwu2dgrm4h5qtx3dmtngipar5@2e33txywvcg4>
-References: <20251214130245.43664-8-mkchauras@linux.ibm.com>
- <202512161441.xlMhHxvl-lkp@intel.com>
+Subject: Re: [PATCH v2 8/8] powerpc: Enable Generic Entry/Exit for syscalls.
+Message-ID: <4ajwe2mjxijqffbmsf7drav53wxucd7wnrcn7uuvbacrmc22je@2c32xx4oopwn>
+References: <20251214130245.43664-9-mkchauras@linux.ibm.com>
+ <202512160453.iO9WNjrm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,23 +85,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202512161441.xlMhHxvl-lkp@intel.com>
+In-Reply-To: <202512160453.iO9WNjrm-lkp@intel.com>
 X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=V/JwEOni c=1 sm=1 tr=0 ts=6941748a cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+X-Authority-Analysis: v=2.4 cv=V/JwEOni c=1 sm=1 tr=0 ts=694175ea cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
  a=kj9zAlcOel0A:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
  a=anyJmfQTAAAA:8 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=VnNF1IyMAAAA:8
- a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=zFoyLS1p-Ef02BwNzEcA:9 a=CjuIK1q_8ugA:10
+ a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=aWUhAYk7kU26KNEIdPkA:9 a=CjuIK1q_8ugA:10
  a=mmqRlSCDY2ywfjPLJ4af:22
-X-Proofpoint-GUID: XzjsKkPnpiPGkXBuwc04_NuB_Yh_YdZ9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEzMDAyMyBTYWx0ZWRfX7k3B6o/PlJzL
- qTcwdlfvjOy3nYBUT6z/zyTDuOlYuGanRjYURp9H6JKvK6Y5DN9DgdKpN/ljgiD2SyNal+H9PfB
- Aiz7+8ql/apbP1QuuktvYuTveTL0cRQzj7AlifBLdtxl4fo9OPWr8ZjrCruLLgkfkdc2UVmfMuS
- IYMo+IENLZHdREsg45+AxxmaoBZgPNxCDfijpYekxhEOXFaLq1JZCjkkMQNqBcswyFKgK00xYnM
- EV9EUyAHFp/DiYxE+vceu9zuoeF7g3yQ9Fd7c02TQ1HF77aBKdH++0iU1GV80vWMtsSDfn/T1LH
- /XV6RKmLMfuND8Jh1z+lPEGxOG4q+0l8TntCWs2BGbqwhxaXyINSiGfdx+TSljeWKGhJ02NeTRZ
- xXodl6EHzDAyDohIXnLCNQx15iHmUw==
-X-Proofpoint-ORIG-GUID: AEB0--RHBwCearep11S1YvnOsEouLtEY
+X-Proofpoint-GUID: r3HWgdkiCXzA9dGJNkHGMeaSBqJvbdxo
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjEzMDAyMyBTYWx0ZWRfX0UtVttCb4LgR
+ OYPkGhGK4hYKUKcCEMOlkfKk+1+MCfEtIF1TyXckb8zPa2WZvqCLxJOLd41B42+cSOUWXzWIv9H
+ 5+K/YbssELWZ2XbCFRWXPvQjRnc3XOP075Om7F3BDm0wWwS0MYqqdgFY8uDQ3r0FJEF7sal7dra
+ jkOxvm+3TqZs5+xgNdfkKBWam0kYqPJibOn4aDIabGv+1W/ArKuenyJEg+DpAhrVkP7915nl7Ki
+ Dwlf1tT5QQR/yfTcv+9H1Gp5XFb8JYJota0V1Rv6gVgskNXM35CbnU0VNd/W7l1KQMuEJ+1moJK
+ lYD6g6TOrXoijl9rKIrYYZ3M8MsPQ+jE0j5+dLUjfHKltUo+goSANEoNWLW14bhJ1h1zZK86GM2
+ l3yakQdYyg7HDhOcTymlVuwS/i+JYg==
+X-Proofpoint-ORIG-GUID: RS86Nrsm5haUZvShKDP7KBGcdDiXsZiG
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
  definitions=2025-12-16_02,2025-12-16_02,2025-10-01_01
@@ -111,129 +111,229 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.19.0-2510240000 definitions=main-2512130023
 
-On Tue, Dec 16, 2025 at 02:29:29PM +0800, kernel test robot wrote:
+On Tue, Dec 16, 2025 at 04:27:55AM +0800, kernel test robot wrote:
 > Hi Mukesh,
 > 
-> kernel test robot noticed the following build warnings:
+> kernel test robot noticed the following build errors:
 > 
-> [auto build test WARNING on powerpc/next]
-> [also build test WARNING on powerpc/fixes linus/master v6.19-rc1]
+> [auto build test ERROR on powerpc/next]
+> [also build test ERROR on powerpc/fixes linus/master v6.19-rc1 next-20251215]
 > [If your patch is applied to the wrong git tree, kindly drop us a note.
 > And when submitting patch, we suggest to use '--base' as documented in
 > https://git-scm.com/docs/git-format-patch#_base_tree_information]
 > 
 > url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Kumar-Chaurasiya/powerpc-rename-arch_irq_disabled_regs/20251214-210813
 > base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-> patch link:    https://lore.kernel.org/r/20251214130245.43664-8-mkchauras%40linux.ibm.com
-> patch subject: [PATCH v2 7/8] powerpc: Enable IRQ generic entry/exit path.
-> config: powerpc-randconfig-r072-20251215 (https://download.01.org/0day-ci/archive/20251216/202512161441.xlMhHxvl-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 8.5.0
+> patch link:    https://lore.kernel.org/r/20251214130245.43664-9-mkchauras%40linux.ibm.com
+> patch subject: [PATCH v2 8/8] powerpc: Enable Generic Entry/Exit for syscalls.
+> config: powerpc-randconfig-001-20251215 (https://download.01.org/0day-ci/archive/20251216/202512160453.iO9WNjrm-lkp@intel.com/config)
+> compiler: powerpc-linux-gcc (GCC) 9.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160453.iO9WNjrm-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512161441.xlMhHxvl-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512160453.iO9WNjrm-lkp@intel.com/
 > 
-> smatch warnings:
-> arch/powerpc/include/asm/entry-common.h:433 arch_enter_from_user_mode() warn: inconsistent indenting
-> 
-> vim +433 arch/powerpc/include/asm/entry-common.h
-> 
-> 2b0f05f77f11f8 Mukesh Kumar Chaurasiya 2025-12-14  396  
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  397  static __always_inline void arch_enter_from_user_mode(struct pt_regs *regs)
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  398  {
-> 37ad0d88d9bff7 Mukesh Kumar Chaurasiya 2025-12-14  399  	kuap_lock();
-> 37ad0d88d9bff7 Mukesh Kumar Chaurasiya 2025-12-14  400  
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  401  	if (IS_ENABLED(CONFIG_PPC_IRQ_SOFT_MASK_DEBUG))
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  402  		BUG_ON(irq_soft_mask_return() != IRQS_ALL_DISABLED);
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  403  
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  404  	BUG_ON(regs_is_unrecoverable(regs));
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  405  	BUG_ON(!user_mode(regs));
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  406  	BUG_ON(regs_irqs_disabled(regs));
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  407  
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  408  #ifdef CONFIG_PPC_PKEY
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  409  	if (mmu_has_feature(MMU_FTR_PKEY) && trap_is_syscall(regs)) {
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  410  		unsigned long amr, iamr;
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  411  		bool flush_needed = false;
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  412  		/*
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  413  		 * When entering from userspace we mostly have the AMR/IAMR
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  414  		 * different from kernel default values. Hence don't compare.
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  415  		 */
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  416  		amr = mfspr(SPRN_AMR);
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  417  		iamr = mfspr(SPRN_IAMR);
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  418  		regs->amr  = amr;
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  419  		regs->iamr = iamr;
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  420  		if (mmu_has_feature(MMU_FTR_KUAP)) {
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  421  			mtspr(SPRN_AMR, AMR_KUAP_BLOCKED);
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  422  			flush_needed = true;
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  423  		}
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  424  		if (mmu_has_feature(MMU_FTR_BOOK3S_KUEP)) {
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  425  			mtspr(SPRN_IAMR, AMR_KUEP_BLOCKED);
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  426  			flush_needed = true;
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  427  		}
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  428  		if (flush_needed)
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  429  			isync();
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  430  	} else
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  431  #endif
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  432  		kuap_assert_locked();
-Will fix this in next iteration.
+I tried this with gcc 9.4 and gcc 14. I am not able to reproduce this.
+Will investigate further, meanwhile if anyone has any ideas that can help it would be great.
+
 Regards,
 Mukesh
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14 @433  	booke_restore_dbcr0();
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  434  	account_cpu_user_entry();
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  435  	account_stolen_time();
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  436  
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  437  	/*
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  438  	 * This is not required for the syscall exit path, but makes the
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  439  	 * stack frame look nicer. If this was initialised in the first stack
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  440  	 * frame, or if the unwinder was taught the first stack frame always
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  441  	 * returns to user with IRQS_ENABLED, this store could be avoided!
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  442  	 */
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  443  	irq_soft_mask_regs_set_state(regs, IRQS_ENABLED);
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  444  
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  445  	/*
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  446  	 * If system call is called with TM active, set _TIF_RESTOREALL to
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  447  	 * prevent RFSCV being used to return to userspace, because POWER9
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  448  	 * TM implementation has problems with this instruction returning to
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  449  	 * transactional state. Final register values are not relevant because
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  450  	 * the transaction will be aborted upon return anyway. Or in the case
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  451  	 * of unsupported_scv SIGILL fault, the return state does not much
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  452  	 * matter because it's an edge case.
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  453  	 */
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  454  	if (IS_ENABLED(CONFIG_PPC_TRANSACTIONAL_MEM) &&
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  455  	    unlikely(MSR_TM_TRANSACTIONAL(regs->msr)))
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  456  		set_bits(_TIF_RESTOREALL, &current_thread_info()->flags);
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  457  
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  458  	/*
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  459  	 * If the system call was made with a transaction active, doom it and
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  460  	 * return without performing the system call. Unless it was an
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  461  	 * unsupported scv vector, in which case it's treated like an illegal
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  462  	 * instruction.
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  463  	 */
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  464  #ifdef CONFIG_PPC_TRANSACTIONAL_MEM
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  465  	if (unlikely(MSR_TM_TRANSACTIONAL(regs->msr)) &&
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  466  	    !trap_is_unsupported_scv(regs)) {
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  467  		/* Enable TM in the kernel, and disable EE (for scv) */
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  468  		hard_irq_disable();
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  469  		mtmsr(mfmsr() | MSR_TM);
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  470  
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  471  		/* tabort, this dooms the transaction, nothing else */
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  472  		asm volatile(".long 0x7c00071d | ((%0) << 16)"
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  473  			     :: "r"(TM_CAUSE_SYSCALL | TM_CAUSE_PERSISTENT));
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  474  
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  475  		/*
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  476  		 * Userspace will never see the return value. Execution will
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  477  		 * resume after the tbegin. of the aborted transaction with the
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  478  		 * checkpointed register state. A context switch could occur
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  479  		 * or signal delivered to the process before resuming the
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  480  		 * doomed transaction context, but that should all be handled
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  481  		 * as expected.
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  482  		 */
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  483  		return;
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  484  	}
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  485  #endif /* CONFIG_PPC_TRANSACTIONAL_MEM */
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  486  }
-> 1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  487  
+> All errors (new ones prefixed by >>):
+> 
+>    powerpc-linux-ld: init/main.o: in function `do_trace_event_raw_event_initcall_level':
+>    include/trace/events/initcall.h:10: undefined reference to `memcpy'
+>    powerpc-linux-ld: init/main.o: in function `repair_env_string':
+>    init/main.c:512: undefined reference to `memmove'
+>    powerpc-linux-ld: init/do_mounts.o: in function `do_mount_root':
+>    init/do_mounts.c:162: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/kernel/process.o: in function `start_thread':
+>    arch/powerpc/kernel/process.c:1919: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/kernel/process.o: in function `__set_breakpoint':
+>    arch/powerpc/kernel/process.c:880: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/process.o: in function `arch_dup_task_struct':
+>    arch/powerpc/kernel/process.c:1724: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/process.o: in function `copy_thread':
+>    arch/powerpc/kernel/process.c:1801: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/kernel/process.c:1812: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/signal.o: in function `do_signal':
+>    arch/powerpc/kernel/signal.c:247: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/kernel/time.o: in function `register_decrementer_clockevent':
+> >> arch/powerpc/kernel/time.c:834: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/time.o: in function `platform_device_register_resndata':
+> >> include/linux/platform_device.h:158: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/kernel/prom.o: in function `move_device_tree':
+> >> arch/powerpc/kernel/prom.c:134: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/setup-common.o: in function `probe_machine':
+> >> arch/powerpc/kernel/setup-common.c:646: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `user_regset_copyin':
+> >> include/linux/regset.h:276: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `membuf_write':
+>    include/linux/regset.h:42: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `gpr_get':
+> >> arch/powerpc/kernel/ptrace/ptrace-view.c:230: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `membuf_zero':
+> >> include/linux/regset.h:30: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `gpr32_get_common':
+>    arch/powerpc/kernel/ptrace/ptrace-view.c:707: undefined reference to `memcpy'
+> >> powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.c:708: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.c:710: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-view.o: in function `membuf_zero':
+> >> include/linux/regset.h:30: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/kernel/ptrace/ptrace-novsx.o: in function `membuf_write':
+>    include/linux/regset.h:42: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/optprobes.o: in function `can_optimize':
+> >> arch/powerpc/kernel/optprobes.c:71: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/kernel/kvm.o: in function `kvm_map_magic_page':
+> >> arch/powerpc/kernel/kvm.c:407: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/kernel/kvm.o: in function `kvm_patch_ins_mtmsrd':
+> >> arch/powerpc/kernel/kvm.c:178: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/kvm.o: in function `kvm_patch_ins_mtmsr':
+>    arch/powerpc/kernel/kvm.c:231: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/kernel/kvm.o: in function `epapr_hypercall0_1':
+> >> arch/powerpc/include/asm/epapr_hcalls.h:511: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/mm/mem.o: in function `execmem_arch_setup':
+> >> arch/powerpc/mm/mem.c:423: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/mm/init-common.o: in function `ctor_15':
+> >> arch/powerpc/mm/init-common.c:81: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/mm/init-common.o: in function `ctor_14':
+> >> arch/powerpc/mm/init-common.c:81: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/mm/init-common.o: in function `ctor_13':
+> >> arch/powerpc/mm/init-common.c:81: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/mm/init-common.o:arch/powerpc/mm/init-common.c:81: more undefined references to `memset' follow
+>    powerpc-linux-ld: arch/powerpc/lib/pmem.o: in function `memcpy_flushcache':
+> >> arch/powerpc/lib/pmem.c:84: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/sysdev/fsl_mpic_err.o: in function `mpic_setup_error_int':
+> >> arch/powerpc/sysdev/fsl_mpic_err.c:70: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/platforms/8xx/pic.o: in function `irq_domain_create_linear':
+> >> include/linux/irqdomain.h:405: undefined reference to `memset'
+>    powerpc-linux-ld: arch/powerpc/platforms/8xx/cpm1.o: in function `cpm1_clk_setup':
+>    arch/powerpc/platforms/8xx/cpm1.c:251: undefined reference to `memcpy'
+>    powerpc-linux-ld: arch/powerpc/platforms/8xx/cpm1-ic.o: in function `irq_domain_create_linear':
+>    include/linux/irqdomain.h:405: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `do_trace_event_raw_event_task_newtask':
+>    include/trace/events/task.h:9: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/fork.o: in function `do_trace_event_raw_event_task_rename':
+>    include/trace/events/task.h:34: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/fork.o: in function `copy_struct_from_user':
+>    include/linux/uaccess.h:396: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `copy_clone_args_from_user':
+>    kernel/fork.c:2800: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `mm_init':
+>    kernel/fork.c:1044: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `bitmap_zero':
+>    include/linux/bitmap.h:238: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `pgd_alloc':
+>    arch/powerpc/include/asm/nohash/pgalloc.h:26: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/fork.o: in function `__kmem_cache_create':
+>    include/linux/slab.h:379: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `arch_dup_task_struct':
+>    kernel/fork.c:854: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/fork.o: in function `mm_alloc':
+>    kernel/fork.c:1120: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `replace_mm_exe_file':
+>    kernel/fork.c:1238: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `copy_process':
+>    kernel/fork.c:2030: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `posix_cputimers_init':
+>    include/linux/posix-timers.h:103: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `copy_sighand':
+>    kernel/fork.c:1618: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/fork.o: in function `copy_signal':
+>    kernel/fork.c:1687: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/fork.o: in function `dup_mm':
+>    kernel/fork.c:1483: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/fork.o: in function `create_io_thread':
+>    kernel/fork.c:2549: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `kernel_thread':
+>    kernel/fork.c:2661: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `user_mode_thread':
+>    kernel/fork.c:2678: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `sys_fork':
+>    kernel/fork.c:2692: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o: in function `sys_vfork':
+>    kernel/fork.c:2707: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/fork.o:kernel/fork.c:2740: more undefined references to `memset' follow
+>    powerpc-linux-ld: kernel/softirq.o: in function `do_trace_event_raw_event_irq_handler_entry':
+>    include/trace/events/irq.h:53: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/resource.o: in function `find_next_iomem_res':
+>    kernel/resource.c:372: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/resource.o: in function `__request_region_locked':
+>    kernel/resource.c:1261: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/resource.o: in function `reserve_setup':
+>    kernel/resource.c:1757: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/resource.c:1760: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/sysctl.o: in function `proc_put_long':
+>    kernel/sysctl.c:339: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/sysctl.o: in function `_proc_do_string':
+>    kernel/sysctl.c:127: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/sysctl.o: in function `proc_get_long':
+>    kernel/sysctl.c:284: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/sysctl.o: in function `bitmap_copy':
+>    include/linux/bitmap.h:259: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/sysctl.o: in function `proc_do_static_key':
+>    kernel/sysctl.c:1433: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/capability.o: in function `__do_sys_capset':
+>    kernel/capability.c:218: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/ptrace.o: in function `syscall_set_arguments':
+>    arch/powerpc/include/asm/syscall.h:127: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/ptrace.o: in function `ptrace_get_syscall_info':
+>    kernel/ptrace.c:998: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/ptrace.o: in function `copy_siginfo':
+>    include/linux/signal.h:18: undefined reference to `memcpy'
+>    powerpc-linux-ld: include/linux/signal.h:18: undefined reference to `memcpy'
+>    powerpc-linux-ld: include/linux/signal.h:18: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/user.o: in function `ratelimit_state_init':
+>    include/linux/ratelimit.h:12: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/user.o: in function `__kmem_cache_create':
+>    include/linux/slab.h:379: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/signal.o: in function `do_trace_event_raw_event_signal_generate':
+>    include/trace/events/signal.h:50: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/signal.o: in function `clear_siginfo':
+>    include/linux/signal.h:23: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/signal.o: in function `copy_siginfo':
+>    include/linux/signal.h:18: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/signal.o: in function `do_sigaltstack':
+>    kernel/signal.c:4396: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/signal.o: in function `copy_siginfo':
+>    include/linux/signal.h:18: undefined reference to `memcpy'
+>    powerpc-linux-ld: include/linux/signal.h:18: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/signal.o: in function `signals_init':
+>    kernel/signal.c:5011: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/sys.o: in function `override_release':
+>    kernel/sys.c:1331: undefined reference to `memset'
+>    powerpc-linux-ld: kernel/sys.o: in function `__do_sys_newuname':
+>    kernel/sys.c:1356: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/sys.o: in function `__do_sys_uname':
+>    kernel/sys.c:1380: undefined reference to `memcpy'
+>    powerpc-linux-ld: kernel/sys.o: in function `prctl_set_auxv':
+> 
+> 
+> vim +18 include/linux/signal.h
+> 
+> ^1da177e4c3f415 Linus Torvalds    2005-04-16  14  
+> ae7795bc6187a15 Eric W. Biederman 2018-09-25  15  static inline void copy_siginfo(kernel_siginfo_t *to,
+> ae7795bc6187a15 Eric W. Biederman 2018-09-25  16  				const kernel_siginfo_t *from)
+> ca9eb49aa9562ea James Hogan       2016-02-08  17  {
+> ca9eb49aa9562ea James Hogan       2016-02-08 @18  	memcpy(to, from, sizeof(*to));
+> ca9eb49aa9562ea James Hogan       2016-02-08  19  }
+> ca9eb49aa9562ea James Hogan       2016-02-08  20  
+> ae7795bc6187a15 Eric W. Biederman 2018-09-25  21  static inline void clear_siginfo(kernel_siginfo_t *info)
+> 8c5dbf2ae00bb86 Eric W. Biederman 2017-07-24  22  {
+> 8c5dbf2ae00bb86 Eric W. Biederman 2017-07-24 @23  	memset(info, 0, sizeof(*info));
+> 8c5dbf2ae00bb86 Eric W. Biederman 2017-07-24  24  }
+> 8c5dbf2ae00bb86 Eric W. Biederman 2017-07-24  25  
+> 4ce5f9c9e754691 Eric W. Biederman 2018-09-25  26  #define SI_EXPANSION_SIZE (sizeof(struct siginfo) - sizeof(struct kernel_siginfo))
+> 4ce5f9c9e754691 Eric W. Biederman 2018-09-25  27  
+> fa4751f454e6b51 Eric W. Biederman 2020-05-05  28  static inline void copy_siginfo_to_external(siginfo_t *to,
+> fa4751f454e6b51 Eric W. Biederman 2020-05-05  29  					    const kernel_siginfo_t *from)
+> fa4751f454e6b51 Eric W. Biederman 2020-05-05  30  {
+> fa4751f454e6b51 Eric W. Biederman 2020-05-05 @31  	memcpy(to, from, sizeof(*from));
+> fa4751f454e6b51 Eric W. Biederman 2020-05-05 @32  	memset(((char *)to) + sizeof(struct kernel_siginfo), 0,
+> fa4751f454e6b51 Eric W. Biederman 2020-05-05  33  		SI_EXPANSION_SIZE);
+> fa4751f454e6b51 Eric W. Biederman 2020-05-05  34  }
+> fa4751f454e6b51 Eric W. Biederman 2020-05-05  35  
 > 
 > -- 
 > 0-DAY CI Kernel Test Service
