@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12455339704
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 06:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE38627587D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 06:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765865297; cv=none; b=LMxlUQXphwhG6fuZQq6DDKsYUdzlHvT2v5q6xbSeuhfGDsMaW6zSfqyF0dWona6OvcJkfExSlQVifFgb72mlCBwr66+zku2/t1G4elD7SnWrf0p3Y877lQhprTfqzId0xEC+f6Mkrzaf8US5Z/zpr/6GkXeax/iJAp5WA18IY0M=
+	t=1765866631; cv=none; b=HNmD8Z3oAxsZFE9XYt30gv7rLhzKSLJBJy3Kwoog8O0d5/6KjXXdnUYKfcdKE+DvjF33L5npPzYVlqwEb65tUqwTjeXtZa1v+H8rceF1iJq25Hsu8NulGsXnEfvS6BzwrMp5GGY+7IRpSZDVwy9sL+e8NIM4M9MZSc5OZXkGZ7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765865297; c=relaxed/simple;
-	bh=4tcxfzmAbYpqTaHXuZRdVJ6IwC8c2vzyeVYlJ3uxgzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P1P/CNoPdCcKx8DEyqHVq42QZWdCR2gsJGwsjaspOJi8UMSc0g+5BvzGetlQJeH8ZkzHSYUBEFQYhLGlqcjR+elmREGwpZF79iP38TET/LiHeRguywMN9kIAqzuM9qzaNEQ6CckG2ddAYTue+F/YkDW4U3mwIyaX2u1tuUvkNZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iJUVXuh7; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1765866631; c=relaxed/simple;
+	bh=U9+lHJk25XnxUPHtohKPRAxT4d19Eq72uvN8xw72uN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Dn1OtrBAvikIOz5IIVbNApVIi+GgGLSuG3VCTfyzZnxVErYf3otm57GkxjOhQyfTCLORcjm13uCj4hEs4sELPEZJ3XV9sA39XeLp46Zq1RYHWYvN+8vpQgpHKkOvsgifQnlhto1dTxWbNFhvdPpYFXgBzNmIAX/WVvIzxVqkUJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HtLHAgDl; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJUVXuh7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HtLHAgDl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765865292; x=1797401292;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4tcxfzmAbYpqTaHXuZRdVJ6IwC8c2vzyeVYlJ3uxgzw=;
-  b=iJUVXuh7w1ZnJNkdFrnz75a5FezfcZ+x5ZBIe9bDqBqGdBRbpRd8dd2U
-   HiFqa98yCASuf60YC0VyO5CPI5bxQd+Wcx81gaom5UGm+J4H1XYAwx5a5
-   YKZVMLntNnCxIPCoXesqP8FlYa2J9tvY6xHxtGBNsyVtAhhTjCfMMjYqU
-   Snpuf55eWjYS2D+NowxDVD9h4ffD53UzzULj3tTC4hRamwX9uDfZE4Ki0
-   MK3xjrlqRGUloOKvXViTUqT5f0n8ttpoSkq2IdMtoQeZfIQxNCwWuU2+C
-   WrHKhHCrBJeZokPcFs96D7IVund5FEGbovQtSDFcCH+QSjy5j0XkrJ4UK
-   g==;
-X-CSE-ConnectionGUID: JZPyGFx0RLu3VIGM+uLmtw==
-X-CSE-MsgGUID: xr8eEhfNRHahKFh4hgvfqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66764332"
+  t=1765866626; x=1797402626;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=U9+lHJk25XnxUPHtohKPRAxT4d19Eq72uvN8xw72uN0=;
+  b=HtLHAgDl2VOCK86xSlMChzjjDrR4ke4lZvHeT+NGSqSUAM1PvXGkYPDr
+   ZGtqANwuld5Atb1Wqj9JxazJrLrfqo7fR1W2ax8pmUA8p1ZYcQ9HTXGNN
+   geu3NE5G2WsIv2vp6NgWWLX8Jmsqarg6rei7Kn9SnFvR2oFaKligOraM+
+   QJuqUnxSRWeaGgTQCv2B/XhzJ43dU4/CHEOzwgnE2r0kCbuhNWo9g+wo6
+   0qx2Vm9kSfGynP9HIFYQTVpHkiwYiucNl/7+xJ2Tzf2sBElIisKdT6NbD
+   MbJxJgjB6qnOdr1yqUwEb6U5h0ACAdHx1r69LD21TUGlIcKdLdwbzX+Hb
+   w==;
+X-CSE-ConnectionGUID: A3HTqKtORR6tDWXbWqs5ug==
+X-CSE-MsgGUID: f15pVV3zQ+u/1kRXu8EtXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="78896068"
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="66764332"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 22:08:08 -0800
-X-CSE-ConnectionGUID: 6Gl28I9cRJOmfcFdcuwliA==
-X-CSE-MsgGUID: AAVO/iLuTQC2XbyUdxIlEQ==
+   d="scan'208";a="78896068"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 22:30:23 -0800
+X-CSE-ConnectionGUID: 5+a8hLNMS4u06T+nZre/ZA==
+X-CSE-MsgGUID: 7x/tufstRsSSLZYfONlMiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="235330101"
+   d="scan'208";a="202435517"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 15 Dec 2025 22:08:03 -0800
+  by orviesa004.jf.intel.com with ESMTP; 15 Dec 2025 22:30:21 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVOE4-000000001E5-2nNw;
-	Tue, 16 Dec 2025 06:08:00 +0000
-Date: Tue, 16 Dec 2025 14:07:41 +0800
+	id 1vVOZe-000000001FJ-496U;
+	Tue, 16 Dec 2025 06:30:18 +0000
+Date: Tue, 16 Dec 2025 14:29:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhang Qilong <zhangqilong3@huawei.com>, akpm@linux-foundation.org,
-	david@kernel.org, lorenzo.stoakes@oracle.com, corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
-	npache@redhat.com, ryan.roberts@arm.com, dev.jain@arm.com,
-	baohua@kernel.org, lance.yang@linux.dev, vbabka@suse.cz,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
-	wangkefeng.wang@huawei.com, sunnanyong@huawei.com,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Qilong <zhangqilong3@huawei.com>
-Subject: Re: [PATCH next 2/2] mm/huge_memory: Add sysfs knob for executable
- THP COW
-Message-ID: <202512161352.7XX7Lgv9-lkp@intel.com>
-References: <20251215123407.380813-3-zhangqilong3@huawei.com>
+To: Kalesh Singh <kaleshsingh@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Marc Zyngier <maz@kernel.org>
+Subject: arch/arm64/kvm/arm.c:64:1: sparse: sparse: symbol
+ '__pcpu_scope_kvm_arm_hyp_stack_base' was not declared. Should it be static?
+Message-ID: <202512161450.H8u3Nf3Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,88 +62,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251215123407.380813-3-zhangqilong3@huawei.com>
 
-Hi Zhang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20251215]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Qilong/mm-huge_memory-Implementation-of-THP-COW-for-executable-file-mmap/20251215-204035
-base:   next-20251215
-patch link:    https://lore.kernel.org/r/20251215123407.380813-3-zhangqilong3%40huawei.com
-patch subject: [PATCH next 2/2] mm/huge_memory: Add sysfs knob for executable THP COW
-config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20251216/202512161352.7XX7Lgv9-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161352.7XX7Lgv9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+commit: 38f9e4b905a00047a96fbdc6cefe9ceb4dae34c3 arm64: kvm: Introduce nvhe stack size constants
+date:   11 months ago
+config: arm64-randconfig-r112-20251216 (https://download.01.org/0day-ci/archive/20251216/202512161450.H8u3Nf3Z-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161450.H8u3Nf3Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512161352.7XX7Lgv9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512161450.H8u3Nf3Z-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/arm.c:64:1: sparse: sparse: symbol '__pcpu_scope_kvm_arm_hyp_stack_base' was not declared. Should it be static?
+   arch/arm64/kvm/arm.c:241:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   arch/arm64/kvm/arm.c:241:16: sparse:    struct kvm_mpidr_data [noderef] __rcu *
+   arch/arm64/kvm/arm.c:241:16: sparse:    struct kvm_mpidr_data *
+   arch/arm64/kvm/arm.c:244:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   arch/arm64/kvm/arm.c:244:17: sparse:    struct kvm_mpidr_data [noderef] __rcu *
+   arch/arm64/kvm/arm.c:244:17: sparse:    struct kvm_mpidr_data *
+   arch/arm64/kvm/arm.c:743:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   arch/arm64/kvm/arm.c:743:13: sparse:    struct kvm_mpidr_data [noderef] __rcu *
+   arch/arm64/kvm/arm.c:743:13: sparse:    struct kvm_mpidr_data *
+   arch/arm64/kvm/arm.c:781:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   arch/arm64/kvm/arm.c:781:9: sparse:    struct kvm_mpidr_data [noderef] __rcu *
+   arch/arm64/kvm/arm.c:781:9: sparse:    struct kvm_mpidr_data *
+   arch/arm64/kvm/arm.c:2681:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   arch/arm64/kvm/arm.c:2681:16: sparse:    struct kvm_mpidr_data [noderef] __rcu *
+   arch/arm64/kvm/arm.c:2681:16: sparse:    struct kvm_mpidr_data *
 
-   mm/memory.c: In function 'wp_huge_pmd':
->> mm/memory.c:6131:13: error: implicit declaration of function 'transparent_hugepage_use_exec_cow' [-Werror=implicit-function-declaration]
-    6131 |         if (transparent_hugepage_use_exec_cow() &&
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:6135:21: error: implicit declaration of function 'vma_is_special_huge'; did you mean 'vma_is_special_mapping'? [-Werror=implicit-function-declaration]
-    6135 |                 if (vma_is_special_huge(vma) || vma_is_shmem(vma))
-         |                     ^~~~~~~~~~~~~~~~~~~
-         |                     vma_is_special_mapping
-   cc1: some warnings being treated as errors
+vim +/__pcpu_scope_kvm_arm_hyp_stack_base +64 arch/arm64/kvm/arm.c
 
-
-vim +/transparent_hugepage_use_exec_cow +6131 mm/memory.c
-
-  6104	
-  6105	/* `inline' is required to avoid gcc 4.1.2 build error */
-  6106	static inline vm_fault_t wp_huge_pmd(struct vm_fault *vmf)
-  6107	{
-  6108		struct vm_area_struct *vma = vmf->vma;
-  6109		const bool unshare = vmf->flags & FAULT_FLAG_UNSHARE;
-  6110		vm_fault_t ret;
-  6111	
-  6112		if (vma_is_anonymous(vma)) {
-  6113			if (likely(!unshare) &&
-  6114			    userfaultfd_huge_pmd_wp(vma, vmf->orig_pmd)) {
-  6115				if (userfaultfd_wp_async(vmf->vma))
-  6116					goto split;
-  6117				return handle_userfault(vmf, VM_UFFD_WP);
-  6118			}
-  6119			return do_huge_pmd_wp_page(vmf);
-  6120		}
-  6121	
-  6122		if (vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) {
-  6123			if (vma->vm_ops->huge_fault) {
-  6124				ret = vma->vm_ops->huge_fault(vmf, PMD_ORDER);
-  6125				if (!(ret & VM_FAULT_FALLBACK))
-  6126					return ret;
-  6127			}
-  6128		}
-  6129	
-  6130	
-> 6131		if (transparent_hugepage_use_exec_cow() &&
-  6132		    is_exec_mapping(vma->vm_flags) &&
-  6133		    is_cow_mapping(vma->vm_flags)) {
-  6134			/* Skip special and shmem */
-  6135			if (vma_is_special_huge(vma) || vma_is_shmem(vma))
-  6136				goto split;
-  6137	
-  6138			ret = do_huge_pmd_exec_cow(vmf);
-  6139			if (!(ret & VM_FAULT_FALLBACK))
-  6140				return ret;
-  6141		}
-  6142	
-  6143	split:
-  6144		/* COW or write-notify handled on pte level: split pmd. */
-  6145		__split_huge_pmd(vma, vmf->pmd, vmf->address, false);
-  6146	
-  6147		return VM_FAULT_FALLBACK;
-  6148	}
-  6149	
+    63	
+  > 64	DEFINE_PER_CPU(unsigned long, kvm_arm_hyp_stack_base);
+    65	DECLARE_KVM_NVHE_PER_CPU(struct kvm_nvhe_init_params, kvm_init_params);
+    66	
 
 -- 
 0-DAY CI Kernel Test Service
