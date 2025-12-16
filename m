@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070EFEEC3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 10:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CDE82135B8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 10:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765882054; cv=none; b=HtwoV8MQb6xgzwr+IWRkpZXqWdxgn7iGbmI33N8jvM1pXz+R4SHwHeL0YATc/FzlpTwCEo+QxvQC9r1LZZZSlz5XyssDQ+J+MRn3W2i5BgLgxutl1+pcBRs8Gl++GsTfnFckYpieTQAXOvl10Q5NmDYWINA9W4GppdoTTMGPZyE=
+	t=1765882066; cv=none; b=E3XcOa3pUAdPINzCYtskeKw00i8mv7GGMSHoIiNpjtX14TgajkQcX7m2UUhAsWlshpvrdT8nixm773aKOcKyuS0zjfB4N47QbtVMZPgFJ4y1RDZ3zy1Pve+gYHh6DTcFWefdV/Td7IIgngJgVQW2xJCwl+1PH3vx6foA8A73jks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765882054; c=relaxed/simple;
-	bh=kKofKtzAxN7K68qAlokn/7qoXQOWO9Y7lmL45Q6dAfA=;
+	s=arc-20240116; t=1765882066; c=relaxed/simple;
+	bh=dfQtx7Drz/G6BIzTlwN3oa3iguNgLF++uCmuFj93uDs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kk0b9OGmHb8rbfTVFIHBOrQukxxmKmK/MzIzDIQBXXLzXB3DYxuZEqIIfjJ6S3A6p0TixGP3DB+Tv6owMl832/KQFgxgfCGK/fD6kt4sCuhUnrDjChSyruUjqRT3flS6ipfBoDvuSD56nDMxeivs4Mvp+99yDJyfOwL1m0YH0o0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dJJ3GRxM; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=ocujl2dtREnbSnYwABbKyCjsCwevsHiaJinqx8aKWoGV+n4X1Kn5el6x1inOEkZo4HHmQgQwLerbBQpn+ouBXVp79k5eMqqemq2OgECymuqJF5I4z93qoSouU6ICXuSSoZ1Wc8l5wdBvpPuEXeEzf2q2w75Vk/M22tvBw3iaQRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bDmfKT2q; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dJJ3GRxM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bDmfKT2q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765882054; x=1797418054;
+  t=1765882065; x=1797418065;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kKofKtzAxN7K68qAlokn/7qoXQOWO9Y7lmL45Q6dAfA=;
-  b=dJJ3GRxM1GKbzkoLSGCKqbcFvFtJMJ50wNASCgVuP9ycmBchKysaZ+i4
-   +SbeArB6a7wikraElOz2tylaiph3tmDVW9z4Dhcs0GXUxMNHf17dutm9O
-   er5j2x8SCYSxu17Ws7oQKbxvSCkQ2ytWMPbS2rByzw8QtsntNstd3dqI+
-   lfGbuyd3EoXyV1HmzxykhI3QzobCsF3s+lNB7npmqjlIobcctcC2fHjiY
-   2Ln2/yxDIlTkHU0GJkV9SlWJljFjTNjbFzMTvWmpfAozqEMPboSnuIt0/
-   D5gXeFj0eXQ3Rhoghe7BN1GGX0wVNn1fTmCbbWu7//iOSEKKzzkZ1FJv0
-   A==;
-X-CSE-ConnectionGUID: jyb8QYmbTVKPXvx+Mlrqsg==
-X-CSE-MsgGUID: ziFPOCbUQIy2vwesENn7wQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="78916118"
+  bh=dfQtx7Drz/G6BIzTlwN3oa3iguNgLF++uCmuFj93uDs=;
+  b=bDmfKT2qu5254L2fRiwCctRMYnmwPufaPOzvLE/z7f4mT3c2vJxsvoRY
+   GCaF+Cl9eh04gSTg1ZASp9ZlCo+UuY3cNokZfZ8DF6VO5oV1uL9O6BXRt
+   jhUBMFq4/S/j+cQEGDiPdaSdsl7NLKH9FicbczCCbr5udwkNVzCdxzYUJ
+   UdGUQ8SB1VAENY64H7puNTSA4jNsXEnpwkEjCz1S5ZuA9u8oPahep10+/
+   KlLyvInOCI6cv1Yxb6/BSOa58raCOcxsQSsNAYj62HAa3SHCHyuFoW9Av
+   SgpFkcgwHOFCmGUGnnRwrPznCKC6ozTWne+07OVstGB0clit0cm2vMc6q
+   Q==;
+X-CSE-ConnectionGUID: wcWMuK60Tzi7tE6aiV6+8Q==
+X-CSE-MsgGUID: Vf7WYc4/Qx2DH6ugnolx5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66986155"
 X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="78916118"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 02:47:33 -0800
-X-CSE-ConnectionGUID: UAA2vAdTQl+QB32BFH+63g==
-X-CSE-MsgGUID: YJuq1puBT5eeAG+HrSNABw==
+   d="scan'208";a="66986155"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 02:47:32 -0800
+X-CSE-ConnectionGUID: qFzQnScRQ0uEKeuE/IpQqw==
+X-CSE-MsgGUID: kGCcanIiSYunBQo9fNSpMQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
+   d="scan'208";a="198244963"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Dec 2025 02:47:31 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 16 Dec 2025 02:47:31 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVSaX-000000001Vm-1KPb;
+	id 1vVSaX-000000001Vp-1REu;
 	Tue, 16 Dec 2025 10:47:29 +0000
-Date: Tue, 16 Dec 2025 18:47:26 +0800
+Date: Tue, 16 Dec 2025 18:47:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: elver@google.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-09 0/1]
- arch/arm64/kvm/at.c:736:45: warning: variable 'px' set but not used
-Message-ID: <202512161824.b1nd6Mjv-lkp@intel.com>
+Subject: [melver:ctx-analysis/dev 30/35] include/linux/srcutiny.h:115:1:
+ warning: srcu_struct 'ssp' is still held at the end of function
+Message-ID: <202512161858.NMPUZDdz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,150 +62,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-09
-head:   664cf6f08da637d184ba4d36b299b1fdc5ae7dc0
-commit: d6a01a2dc760c8350fa182a6afd69fabab131f73 [0/1] KVM: arm64: nv: Add SW walker for AT S1 emulation
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251216/202512161824.b1nd6Mjv-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161824.b1nd6Mjv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
+head:   982f41984aa2e06402a8080e95499ae6c10a4e74
+commit: 909029ea2f537071fd692f46d1ab7d217d0bcca4 [30/35] stackdepot: Enable context analysis
+config: sparc64-randconfig-001-20251216 (https://download.01.org/0day-ci/archive/20251216/202512161858.NMPUZDdz-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161858.NMPUZDdz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512161824.b1nd6Mjv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512161858.NMPUZDdz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/arm64/kvm/at.c: In function 'handle_at_slow':
->> arch/arm64/kvm/at.c:736:45: warning: variable 'px' set but not used [-Wunused-but-set-variable]
-     736 |         bool perm_fail, ur, uw, ux, pr, pw, px;
-         |                                             ^~
-   arch/arm64/kvm/at.c: In function '__kvm_at_s1e2':
-   arch/arm64/kvm/at.c:973:36: warning: variable 'mmu' set but not used [-Wunused-but-set-variable]
-     973 |                 struct kvm_s2_mmu *mmu;
-         |                                    ^~~
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:7:
+   In file included from include/linux/list_lru.h:14:
+   In file included from include/linux/xarray.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1534:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+   In file included from include/linux/srcu.h:83:
+>> include/linux/srcutiny.h:115:1: warning: srcu_struct 'ssp' is still held at the end of function [-Wthread-safety-analysis]
+     115 | }
+         | ^
+   include/linux/srcutiny.h:114:32: note: srcu_struct acquired here
+     114 |         return __srcu_ctr_to_ptr(ssp, __srcu_read_lock(ssp));
+         |                                       ^
+>> include/linux/srcutiny.h:120:2: warning: releasing srcu_struct 'ssp' that was not held [-Wthread-safety-analysis]
+     120 |         __srcu_read_unlock(ssp, __srcu_ptr_to_ctr(ssp, scp));
+         |         ^
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:7:
+   In file included from include/linux/list_lru.h:14:
+   In file included from include/linux/xarray.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1534:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+>> include/linux/srcu.h:374:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     374 | }
+         | ^
+   include/linux/srcu.h:364:41: note: srcu_struct acquired here
+     364 | static inline struct srcu_ctr __percpu *srcu_read_lock_fast_updown(struct srcu_struct *ssp)
+         |                                         ^
+   include/linux/srcu.h:408:1: warning: expecting srcu_struct 'ssp' to be held at the end of function [-Wthread-safety-analysis]
+     408 | }
+         | ^
+   include/linux/srcu.h:402:41: note: srcu_struct acquired here
+     402 | static inline struct srcu_ctr __percpu *srcu_down_read_fast(struct srcu_struct *ssp) __acquires_shared(ssp)
+         |                                         ^
+>> include/linux/srcu.h:521:1: warning: srcu_struct 'ssp' is still held at the end of function [-Wthread-safety-analysis]
+     521 | }
+         | ^
+   include/linux/srcu.h:514:86: note: srcu_struct acquired here
+     514 | srcu_read_unlock_fast_updown(struct srcu_struct *ssp, struct srcu_ctr __percpu *scp) __releases_shared(ssp)
+         |                                                                                      ^
+   include/linux/compiler-context-analysis.h:382:32: note: expanded from macro '__releases_shared'
+     382 | #define __releases_shared(...)  __releases_shared_ctx_lock(__VA_ARGS__)
+         |                                 ^
+   include/linux/compiler-context-analysis.h:22:57: note: expanded from macro '__releases_shared_ctx_lock'
+      22 | # define __releases_shared_ctx_lock(...)        __attribute__((release_shared_capability(__VA_ARGS__)))
+         |                                                                ^
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:7:
+   In file included from include/linux/list_lru.h:14:
+   In file included from include/linux/xarray.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:1534:
+   In file included from include/linux/memory_hotplug.h:7:
+   In file included from include/linux/notifier.h:16:
+   include/linux/srcu.h:549:1: warning: srcu_struct 'ssp' is still held at the end of function [-Wthread-safety-analysis]
+     549 | }
+         | ^
+   include/linux/srcu.h:543:2: note: srcu_struct acquired here
+     543 |         __releases_shared(ssp)
+         |         ^
+   include/linux/compiler-context-analysis.h:382:32: note: expanded from macro '__releases_shared'
+     382 | #define __releases_shared(...)  __releases_shared_ctx_lock(__VA_ARGS__)
+         |                                 ^
+   include/linux/compiler-context-analysis.h:22:57: note: expanded from macro '__releases_shared_ctx_lock'
+      22 | # define __releases_shared_ctx_lock(...)        __attribute__((release_shared_capability(__VA_ARGS__)))
+         |                                                                ^
+   6 warnings generated.
 
 
-vim +/px +736 arch/arm64/kvm/at.c
+vim +/ssp +115 include/linux/srcutiny.h
 
-   733	
-   734	static u64 handle_at_slow(struct kvm_vcpu *vcpu, u32 op, u64 vaddr)
-   735	{
- > 736		bool perm_fail, ur, uw, ux, pr, pw, px;
-   737		struct s1_walk_result wr = {};
-   738		struct s1_walk_info wi = {};
-   739		int ret, idx;
-   740	
-   741		ret = setup_s1_walk(vcpu, op, &wi, &wr, vaddr);
-   742		if (ret)
-   743			goto compute_par;
-   744	
-   745		if (wr.level == S1_MMU_DISABLED)
-   746			goto compute_par;
-   747	
-   748		idx = srcu_read_lock(&vcpu->kvm->srcu);
-   749	
-   750		ret = walk_s1(vcpu, &wi, &wr, vaddr);
-   751	
-   752		srcu_read_unlock(&vcpu->kvm->srcu, idx);
-   753	
-   754		if (ret)
-   755			goto compute_par;
-   756	
-   757		/* FIXME: revisit when adding indirect permission support */
-   758		/* AArch64.S1DirectBasePermissions() */
-   759		if (wi.regime != TR_EL2) {
-   760			switch (FIELD_GET(PTE_USER | PTE_RDONLY, wr.desc)) {
-   761			case 0b00:
-   762				pr = pw = true;
-   763				ur = uw = false;
-   764				break;
-   765			case 0b01:
-   766				pr = pw = ur = uw = true;
-   767				break;
-   768			case 0b10:
-   769				pr = true;
-   770				pw = ur = uw = false;
-   771				break;
-   772			case 0b11:
-   773				pr = ur = true;
-   774				pw = uw = false;
-   775				break;
-   776			}
-   777	
-   778			switch (wr.APTable) {
-   779			case 0b00:
-   780				break;
-   781			case 0b01:
-   782				ur = uw = false;
-   783				break;
-   784			case 0b10:
-   785				pw = uw = false;
-   786				break;
-   787			case 0b11:
-   788				pw = ur = uw = false;
-   789				break;
-   790			}
-   791	
-   792			/* We don't use px for anything yet, but hey... */
-   793			px = !((wr.desc & PTE_PXN) || wr.PXNTable || uw);
-   794			ux = !((wr.desc & PTE_UXN) || wr.UXNTable);
-   795	
-   796			if (op == OP_AT_S1E1RP || op == OP_AT_S1E1WP) {
-   797				bool pan;
-   798	
-   799				pan = *vcpu_cpsr(vcpu) & PSR_PAN_BIT;
-   800				pan &= ur || uw;
-   801				pw &= !pan;
-   802				pr &= !pan;
-   803			}
-   804		} else {
-   805			ur = uw = ux = false;
-   806	
-   807			if (!(wr.desc & PTE_RDONLY)) {
-   808				pr = pw = true;
-   809			} else {
-   810				pr = true;
-   811				pw = false;
-   812			}
-   813	
-   814			if (wr.APTable & BIT(1))
-   815				pw = false;
-   816	
-   817			/* XN maps to UXN */
-   818			px = !((wr.desc & PTE_UXN) || wr.UXNTable);
-   819		}
-   820	
-   821		perm_fail = false;
-   822	
-   823		switch (op) {
-   824		case OP_AT_S1E1RP:
-   825		case OP_AT_S1E1R:
-   826		case OP_AT_S1E2R:
-   827			perm_fail = !pr;
-   828			break;
-   829		case OP_AT_S1E1WP:
-   830		case OP_AT_S1E1W:
-   831		case OP_AT_S1E2W:
-   832			perm_fail = !pw;
-   833			break;
-   834		case OP_AT_S1E0R:
-   835			perm_fail = !ur;
-   836			break;
-   837		case OP_AT_S1E0W:
-   838			perm_fail = !uw;
-   839			break;
-   840		default:
-   841			BUG();
-   842		}
-   843	
-   844		if (perm_fail)
-   845			fail_s1_walk(&wr, ESR_ELx_FSC_PERM_L(wr.level), false, false);
-   846	
-   847	compute_par:
-   848		return compute_par_s1(vcpu, &wr, wi.regime);
-   849	}
-   850	
+c4020620528e4e Paul E. McKenney 2025-01-09  111  
+d3f52f53a56278 Paul E. McKenney 2025-11-05  112  static inline struct srcu_ctr __percpu *__srcu_read_lock_fast_updown(struct srcu_struct *ssp)
+d3f52f53a56278 Paul E. McKenney 2025-11-05  113  {
+d3f52f53a56278 Paul E. McKenney 2025-11-05  114  	return __srcu_ctr_to_ptr(ssp, __srcu_read_lock(ssp));
+d3f52f53a56278 Paul E. McKenney 2025-11-05 @115  }
+d3f52f53a56278 Paul E. McKenney 2025-11-05  116  
+d3f52f53a56278 Paul E. McKenney 2025-11-05  117  static inline
+d3f52f53a56278 Paul E. McKenney 2025-11-05  118  void __srcu_read_unlock_fast_updown(struct srcu_struct *ssp, struct srcu_ctr __percpu *scp)
+d3f52f53a56278 Paul E. McKenney 2025-11-05  119  {
+d3f52f53a56278 Paul E. McKenney 2025-11-05 @120  	__srcu_read_unlock(ssp, __srcu_ptr_to_ctr(ssp, scp));
+d3f52f53a56278 Paul E. McKenney 2025-11-05  121  }
+d3f52f53a56278 Paul E. McKenney 2025-11-05  122  
+
+:::::: The code at line 115 was first introduced by commit
+:::::: d3f52f53a56278ce5ffeafa3cc6cfb3ecef770fe srcu: Create an SRCU-fast-updown API
+
+:::::: TO: Paul E. McKenney <paulmck@kernel.org>
+:::::: CC: Frederic Weisbecker <frederic@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
