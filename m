@@ -1,82 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053A3366DD5;
-	Tue, 16 Dec 2025 15:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C0D3644A3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 15:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765898897; cv=none; b=PnyRyhDJKUqmpCitZAOjRcUu8S+nAyuZNJbegngFmY7aB1kHouuc2nMuvkkSCYwWofmd5P9564RbXYa6Lxxg82/wfv784xMBkD05MexJyPhUGMvK2N5nC6TkxnSmvz6/Q+dc/npSeqD4zwziRg00KP+2OJBTCM9Wj4hu1MMiCNc=
+	t=1765899552; cv=none; b=ff9BzIaM8DVcU+ABLUlp2/Vehzzd9DGqHUvcI4+j/U96pVdFGHxouV8yAg0VsCa7awNGZtD8aqE7qUizL9AIR/imAqpX1YdyfOS2KHWHvM93USChoHsJFaB1pacXrIq3qvT8ZzNA/2g6MECuP9FC/VTj3w90uNcmd7+fJ2iS0X0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765898897; c=relaxed/simple;
-	bh=sD65R5UGhCtay10P/5W+7TM+UmAjlbjVbXwRe2em6yA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IAdCwvg5BI+HCAJW75v8PVq1ZIWs9EGYu2FQFwn4/EUBL1+5FhmMcN6AgTUuwCMrTJ0DdRFkFQa3b+KNSAUfxxgNUVsX1JqzP/BFWlNmwhTs9AyXiXpLjNnIe2/33hxy4AZANZzb76KDapqkwbCOEM3wWfgIew3sIu2vW9s3jZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mD9XwJ3L; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1765899552; c=relaxed/simple;
+	bh=Ik1njkR+ahs0Chm4ocLjqUHotqcCzsPBksKVGRQjCcU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YaO8bxw6m1JIGd7VgePeofsgnkOlbIeS3NYfxlJm2chcyP7977CH8cDVZyYJ/kH5dN/OR8UUVWWJGoz2+1dPt6i51kBaCDuC67cSBdMuVeO+QJGde9u0JeDNQ1MwE1sEUVP27ddi2+sH173fuIj5carNBrJ1CH8QKIJqs8oRNPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jm54MRjb; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mD9XwJ3L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jm54MRjb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765898896; x=1797434896;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sD65R5UGhCtay10P/5W+7TM+UmAjlbjVbXwRe2em6yA=;
-  b=mD9XwJ3Lj01xTNoXj9cQpEmoILV6uN5IVsDZ9H8/DuoaYVgrTIO8qVJt
-   ngZUt5SxDHlXR6Rx3LtKPfDqQFZ0+bCLCfRgyZQlOLLyoBQZ0cJuFvpB2
-   t4H9aspp7UnO7b7qTnOQerWA0BVpabnR8s/BhkNowD5AJEGx4LAbdTjY3
-   Y+aaVsRNgc2dbeoj3QUlj9xa7EWzWgIpuMqoxLRUOohl8bfSuyy6cfRZS
-   0cPKPg/pk0g+C2MyHa0Vcu00/zSAGilLdIsVMGpIOY1RWSXZ9HBF7le9O
-   S/6wWbs/BPdJQfNwNPMhhbM9DTK+VTXfohGJSlawz8jMKSOhLVAX1hqnK
-   w==;
-X-CSE-ConnectionGUID: SsmC/G4jSricaLxoixMr8g==
-X-CSE-MsgGUID: kwIh/x5ERgeI/javikPVeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="79187678"
+  t=1765899551; x=1797435551;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ik1njkR+ahs0Chm4ocLjqUHotqcCzsPBksKVGRQjCcU=;
+  b=Jm54MRjbni0MjOG1tw2x8uMJV3k2QoEt/TzQ3Q2MSdQNdyBSnxTNhYEz
+   Ws9wDa7/o0/o2/bF4bMErOkHy2pyjh6EtWj7hkIYha7iP0mlz2HrqSrJw
+   HurmezaNow76mgywDsRAxWMDQaIMZWQP12HQBcsSOqt62Ubvr+lwzWhqs
+   ocltyl2xP83CB4HLaSkKQB8qX+3glLZgoAdL3Y/KypqGwCdhuo6U4tuut
+   RfUZ7tTTxG3ZXIzJz6Kfo/BCBCx8Yrb8cM0nzxZLTFjslKuNfY2u4YvfP
+   Az9i93QzPkVbo+S4DkALrz3BEMzETUTGCzsm52YR8UfNGR+Y6QvtWzdEq
+   A==;
+X-CSE-ConnectionGUID: W3ZrP8kTSGO6HKyv0FtgMg==
+X-CSE-MsgGUID: jTDNhZtoRNe9h4ToQtmjLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="67702362"
 X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="79187678"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 07:28:15 -0800
-X-CSE-ConnectionGUID: 2xFsI/dBQXKE8DWUTEVNrg==
-X-CSE-MsgGUID: HIgAl8RFQHWXgAdjx3aUnw==
+   d="scan'208";a="67702362"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 07:39:10 -0800
+X-CSE-ConnectionGUID: w+Q40GIrTumQlE60qeiazg==
+X-CSE-MsgGUID: cdbIQ1shS7SzK6JyFpEp6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="202458915"
+   d="scan'208";a="228727401"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 16 Dec 2025 07:28:08 -0800
+  by orviesa002.jf.intel.com with ESMTP; 16 Dec 2025 07:39:09 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVWy6-000000003RG-37cv;
-	Tue, 16 Dec 2025 15:28:06 +0000
-Date: Tue, 16 Dec 2025 23:27:25 +0800
+	id 1vVX8l-000000003Rg-033Q;
+	Tue, 16 Dec 2025 15:39:07 +0000
+Date: Tue, 16 Dec 2025 23:39:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan Roberts <ryan.roberts@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Mark Rutland <mark.rutland@arm.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Jeremy Linton <jeremy.linton@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ryan Roberts <ryan.roberts@arm.com>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] randomize_kstack: Unify random source across
- arches
-Message-ID: <202512162320.WFgo042e-lkp@intel.com>
-References: <20251215163520.1144179-4-ryan.roberts@arm.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:virtio/msg-xen 11/17] net/vmw_vsock/af_vsock.c:2168:3:
+ error: cannot jump from this goto statement to its label
+Message-ID: <202512162356.u71swpos-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,104 +61,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251215163520.1144179-4-ryan.roberts@arm.com>
 
-Hi Ryan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on akpm-mm/mm-everything linus/master v6.19-rc1 next-20251216]
-[cannot apply to kees/for-next/hardening kees/for-next/execve]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/prandom-Convert-prandom_u32_state-to-__always_inline/20251216-013546
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20251215163520.1144179-4-ryan.roberts%40arm.com
-patch subject: [PATCH v2 3/3] randomize_kstack: Unify random source across arches
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251216/202512162320.WFgo042e-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
+head:   65cdd8c8f400a4b344102c227a81027cad2d7684
+commit: 5f340ea7b7d9e8069bbfd712560fa9ccbd997690 [11/17] vsock: Add shared-memory support for virtio and loopback
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251216/202512162356.u71swpos-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512162320.WFgo042e-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512162356.u71swpos-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512162320.WFgo042e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512162356.u71swpos-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/x86/kvm/svm/svm.c:5509:1: error: redefinition of '__inittest'
-    5509 | module_init(svm_init)
-         | ^
-   include/linux/module.h:132:42: note: expanded from macro 'module_init'
-     132 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^
-   include/linux/randomize_kstack.h:86:1: note: previous definition is here
-      86 | late_initcall(random_kstack_init);
-         | ^
-   include/linux/module.h:125:28: note: expanded from macro 'late_initcall'
-     125 | #define late_initcall(fn)               module_init(fn)
-         |                                         ^
-   include/linux/module.h:132:42: note: expanded from macro 'module_init'
-     132 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^
->> arch/x86/kvm/svm/svm.c:5509:1: error: redefinition of 'init_module'
-    5509 | module_init(svm_init)
-         | ^
-   include/linux/module.h:134:6: note: expanded from macro 'module_init'
-     134 |         int init_module(void) __copy(initfn)                    \
-         |             ^
-   include/linux/randomize_kstack.h:86:1: note: previous definition is here
-      86 | late_initcall(random_kstack_init);
-         | ^
-   include/linux/module.h:125:28: note: expanded from macro 'late_initcall'
-     125 | #define late_initcall(fn)               module_init(fn)
-         |                                         ^
-   include/linux/module.h:134:6: note: expanded from macro 'module_init'
-     134 |         int init_module(void) __copy(initfn)                    \
-         |             ^
-   2 errors generated.
---
->> drivers/misc/sgi-xp/xpc_main.c:1285:1: error: redefinition of '__inittest'
-    1285 | module_init(xpc_init);
-         | ^
-   include/linux/module.h:132:42: note: expanded from macro 'module_init'
-     132 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^
-   include/linux/randomize_kstack.h:86:1: note: previous definition is here
-      86 | late_initcall(random_kstack_init);
-         | ^
-   include/linux/module.h:125:28: note: expanded from macro 'late_initcall'
-     125 | #define late_initcall(fn)               module_init(fn)
-         |                                         ^
-   include/linux/module.h:132:42: note: expanded from macro 'module_init'
-     132 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^
->> drivers/misc/sgi-xp/xpc_main.c:1285:1: error: redefinition of 'init_module'
-    1285 | module_init(xpc_init);
-         | ^
-   include/linux/module.h:134:6: note: expanded from macro 'module_init'
-     134 |         int init_module(void) __copy(initfn)                    \
-         |             ^
-   include/linux/randomize_kstack.h:86:1: note: previous definition is here
-      86 | late_initcall(random_kstack_init);
-         | ^
-   include/linux/module.h:125:28: note: expanded from macro 'late_initcall'
-     125 | #define late_initcall(fn)               module_init(fn)
-         |                                         ^
-   include/linux/module.h:134:6: note: expanded from macro 'module_init'
-     134 |         int init_module(void) __copy(initfn)                    \
-         |             ^
+>> net/vmw_vsock/af_vsock.c:2168:3: error: cannot jump from this goto statement to its label
+    2168 |                 goto free_dbuf;
+         |                 ^
+   net/vmw_vsock/af_vsock.c:2172:27: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    2172 |         struct vsock_shmem_desc *desc __free(kfree) =
+         |                                  ^
+   net/vmw_vsock/af_vsock.c:2163:3: error: cannot jump from this goto statement to its label
+    2163 |                 goto free_dbuf;
+         |                 ^
+   net/vmw_vsock/af_vsock.c:2172:27: note: jump bypasses initialization of variable with __attribute__((cleanup))
+    2172 |         struct vsock_shmem_desc *desc __free(kfree) =
+         |                                  ^
    2 errors generated.
 
 
-vim +/__inittest +5509 arch/x86/kvm/svm/svm.c
+vim +2168 net/vmw_vsock/af_vsock.c
 
-6aa8b732ca01c3d drivers/kvm/svm.c Avi Kivity 2006-12-10  5508  
-6aa8b732ca01c3d drivers/kvm/svm.c Avi Kivity 2006-12-10 @5509  module_init(svm_init)
+  2149	
+  2150	static int vsock_sendmsg_shmem_dmabuf(struct vsock_sock *vsk,
+  2151					      struct vsock_shmem_user_desc *udesc)
+  2152	{
+  2153		struct dma_buf *dbuf = dma_buf_get(udesc->fd);
+  2154		int err;
+  2155	
+  2156		/* The fd must belong to a dma-buf */
+  2157		if (IS_ERR(dbuf))
+  2158			return PTR_ERR(dbuf);
+  2159	
+  2160		if (udesc->subop != VSOCK_SHMEM_SUBOP_OFFER &&
+  2161		    udesc->subop != VSOCK_SHMEM_SUBOP_RECLAIM) {
+  2162			err = -EINVAL;
+  2163			goto free_dbuf;
+  2164		}
+  2165	
+  2166		if (!dbuf->ops->shmem_data) {
+  2167			err = -EOPNOTSUPP;
+> 2168			goto free_dbuf;
+  2169		}
+  2170	
+  2171		/* Allocate a big enough descriptor */
+  2172		struct vsock_shmem_desc *desc __free(kfree) =
+  2173			kmalloc(sizeof(*desc) + VSOCK_SHMEM_PAYLOAD_SIZE_MAX,
+  2174				GFP_KERNEL);
+  2175	
+  2176		if (!desc) {
+  2177			err = -ENOMEM;
+  2178			goto free_dbuf;
+  2179		}
+  2180	
+  2181		desc->subop = udesc->subop;
+  2182	
+  2183		/* Get shmem metadata in `desc` from dmabuf */
+  2184		err = dbuf->ops->shmem_data(dbuf, desc);
+  2185		if (err)
+  2186			goto free_dbuf;
+  2187	
+  2188		/* send SHMEM control pkt (out-of-band) */
+  2189		err = vsk->transport->send_shmem(vsk, desc);
+  2190		if (err < 0)
+  2191			goto free_dbuf;
+  2192	
+  2193		err = 0;
+  2194	
+  2195	free_dbuf:
+  2196		dma_buf_put(dbuf);
+  2197		return err;
+  2198	}
+  2199	
 
 -- 
 0-DAY CI Kernel Test Service
