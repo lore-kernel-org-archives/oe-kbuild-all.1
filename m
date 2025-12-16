@@ -1,75 +1,75 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29EF342505
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 06:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F70325730
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 06:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765866640; cv=none; b=vFqO9hzHGwWsGF4cGRRx1xWe0mF234JsvNYjOkYMp5cTNDJEXTERM0Maqg+fHyd64dtSUamveZiDFZN6XBuLRAbGct+kkgdpVpPrVX5DrNfrmB7xWnOEdZ8//556aIs8sPFkVniVRS0qLxfMQH7qoovjQdfSiRqrtHF0dew1u6A=
+	t=1765866751; cv=none; b=KFMXLctZU7iGrdKQhs8GYtvoSMwyBXr8yDiYWNHQoM8KC8tY6+32i15YzZ1YCgXpUfcnWPywxSLJnlyFGAddy32FSS7bqX3SQabQzEFW5Ri2bxkHgytinS0mPDGmJoOsO1eduZpin7Cxj30zkNzA1Q6RgP0hT843Sd1Oq5HCuD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765866640; c=relaxed/simple;
-	bh=fGQwug9YnJ/Gu+o7PSDdPRDh/jVcUbblX5xsVg8Qm58=;
+	s=arc-20240116; t=1765866751; c=relaxed/simple;
+	bh=41hSA9HpMsIzdIckY90sjd3DOo0V1D5T4P42DTAsRao=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RXihS2IsFximn8es+isbzDSzGzIZcxlfRKcxu3RyGp4/WMG685QKVNZc8db00GsGeLbZIketWanMBxw5HV8IO6oZOVKp0QTn9hcYIpZ18dFSi2Hp5Y3gMbAuSZ1ekk4lTqCi1qfDf6Q8lypRs1qBhYQsk4tyagMkPetNnaKtn64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ERXMPNQv; arc=none smtp.client-ip=209.85.214.172
+	 Content-Type:Content-Disposition:In-Reply-To; b=khRAzq/rJpsYIM31LMrvt/k7i1mFFEwSbqIvz/SgWSTM0AF6tOmlicVq5MsXxsNJHkqhJgoYFncB0HcwpQb2DbwFkm3JmIPwqPRKa0vxfzlJ83dbCCXpxrc4gj8YlRfJFi2YjQHhyunFcLUoV8AhWljZtaX0lywdAz3niLxI3t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MRwJzeV7; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ERXMPNQv"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2a0a95200e8so21769765ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 22:30:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MRwJzeV7"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-349ff18445aso3472579a91.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 22:32:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765866630; x=1766471430; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1765866740; x=1766471540; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y6hz9jdXtFMh2qAHrt6NkjlTikBzsrAftSe+xfn1Yjs=;
-        b=ERXMPNQvm0IkSHzI+VVKa9oSxppU3szCEZDzHxiTons53rBCBYXA11GIryTLRA6Vds
-         6NfAyH3Qr3SswNngarscoNUiZyHqaHl0Q6G0LLSd07LuMO3zhE+1Sob3C1K8L34vaeZP
-         ysjEGPNjJdHYlH9a4OIWis9RbkvE5Jo7rFDe8YvBC+GZXXfeId2zpjnqufr01hE7uE2p
-         MoLEE8WyjDFMmI2/tNsMWLTQW9R0Ha1XUhRk30gfYyp5HrGOwTmAmtrj4Bn7Ss9bev3w
-         SGocMDD8CDnUI36GZvRq2eFmJpMujxK4R5nOrrxpOZFi6BywaWLjJUNGy+Vi23tWFXi7
-         Q31Q==
+        bh=AGRzWPEKfvmJEejOwoCNNsiv9yu7sGL4JB/S9GrfrcE=;
+        b=MRwJzeV7KEpcbFcXU9CeGj47HwcquQ+nZMVAZnSPQWkphRxj/43vaTZaVVnqjFo5Qj
+         aNHe2FGEb7gTiCgwtGcrfqkNdtaw6wFOLFg1H6alsB7J722IwduNJlObK0oCeYiOD+Op
+         dOZffUHw8ii0WwSBO2aLUlYfELM95Uvz860pSWqgNLQsyn6ZlW1ogQ9XpzQPW33Ar/yQ
+         eGLCyZCjL4yl16ZC1VpvQbYSDpdBnKs3FuYZ4nXGB/kTKN8oOdn1g9JokkYPylJ/qo13
+         Mp+8dePosDt7FD/IE79wGJyV7lg+2DO1Tww/0QFN4krTTleUtrDrVnNaQvLIQWVTdBS0
+         pvzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765866630; x=1766471430;
+        d=1e100.net; s=20230601; t=1765866740; x=1766471540;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y6hz9jdXtFMh2qAHrt6NkjlTikBzsrAftSe+xfn1Yjs=;
-        b=jdWlBVECn1QTXLNv/MPL8lI3nIFh1X+DPu1nZnzEBRDkhkdNaDnvFLUKvaFs5H7hMd
-         +1UHMeqgz7hMjw+htyw0tOB66YMJEjZPoAaZkjoGQKZz75aAXGH1+et4ecAKPdTHhBfA
-         spunS5sr24Xc5vwdK/YgpDuMXT6uOix5pyTuoiSj/BMqmUxhVh5Q4+8CctuHyGP5MHxb
-         jtlR9ZcMl1tLl5varAw6HmoUMtn4IHBCPltTVIrTZVcUU9nCQEWikwTObocwdRIrQU7b
-         XYuiUQPOwjPX4d9+a2eoDEpE61kLfIsYIAmmhh/G67qrq3NuGZg3zs+tX8U5A4qPxYVd
-         WXkA==
-X-Forwarded-Encrypted: i=1; AJvYcCXI3wHaK0MqGen8Nz/+Lox/PSnd7frAcO/cXAhWGubQ547kBOtIb1QYH7Gp8u+v7nhcNGWOzNNl6LfAgg49@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLPFMyeZgFpJMijAUW+LJQbJULt/g73xmEoDNtjoyIvfXRr8LW
-	DToaFkiMxzW+MsxCe3uKw7kh9NufdDkkFfQ8yWoJ8ZaDN1O3fP20ZWIw
-X-Gm-Gg: AY/fxX5XAfHQUF0N6s9lMEFDZg9VdAEtAwB+KXKUDEd3OkCbzWOM9531gpF6mheedC0
-	pLA45K94qScuywPYlyG6g2lpDlbm+5R9plZXUlUp37ASKoB4arDOEXzltUwdSd6/b7xeoXkgGxK
-	KtUlb2M7i4U1rzl+xc+Yx0TKWFo2HrTwjVIdaDGdsRo4F0OFebEpXR4B2b8xujcgoPVMR5RNUlg
-	432dZOuiLL5nDz2RwBwHCQSqX1cSEqQzKlaC0HRsHShbMZSEWw/cpmoqKIECdybS/xanVmsc/Yv
-	JvblmbRt8YL7H5nBHTr01vfTiSeekQNeP+okuHqkpvkSfq8yvP/z0jYCXKqL71r5CcVk03ebxqW
-	nDlolkgHVYjlbTMMLFCGGiRQhLAjRXmPzctSe6zJyzrc6OcZyLypNiOCq4xqch3rTD5Am/naADr
-	QybFFDwE1FcC9w9VimxhRdI5YY
-X-Google-Smtp-Source: AGHT+IEolo+n77ASckTX3/EY5JIe/RABcbNjmNYeXvNzTrdbM79wggS/bRbZ+AJ+1vYZfzhSRF9log==
-X-Received: by 2002:a17:903:f90:b0:295:b46f:a6c2 with SMTP id d9443c01a7336-29f23c7ba77mr135454575ad.37.1765866629767;
-        Mon, 15 Dec 2025 22:30:29 -0800 (PST)
+        bh=AGRzWPEKfvmJEejOwoCNNsiv9yu7sGL4JB/S9GrfrcE=;
+        b=u0tu4JAFd4Vy9JMypbjDZ2sipaOtUaKgYuQonx21tLjxU3NwqL0qeientFm3Hkeule
+         B7qiFRwoNhaVRp6orqP2G1YPFfA5h2Y81UP7kXH8qEneC+BADT6zugf/8aE7uXmn2DFn
+         JhwI1PIDlglbPMBrmkHrqbKIU+dU+nHQUdMSvoPUi0RLNXwsNWS4whsvwzT+uCfGX2I1
+         ZqKtgOUTUohIWo/gWxnGPk6OUxiTyadJW7Z+4P40+9vhkq5iUviZbCXfuwSY8RXBmPiD
+         ihswnK6HK7fiueZmPI1ZJmgdyud2RaHVkTz+Qd4+QaNWpUbWziDswQ2v82LdU9/RazNU
+         FTQg==
+X-Forwarded-Encrypted: i=1; AJvYcCUfxSH/os/mCB3vS2Kg1CJAPVgyFy+LopuUoDgUpxCNaYOkQ1MQXnk7I6E9fKPu8ZEXV0bXLkCQvgk0boTX@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1BDk1dZP6GOPBY9cD/v53amPapNY80hQSZT1cxT3J4GBT41ku
+	63MENI/hDg59fh9VfE7AIz0FIlwvWhk+TxFHHTTkUYOTCMI7svQvCd/I
+X-Gm-Gg: AY/fxX6i3CnN57tiW19gqleid1/WG1RT/6PRVlrqhclP1vtCMGUUWSEdLNQmHksAXt8
+	fhb19so0Q9GBTVszfHAX8OZ+KYEogNrWb5LgYKFX4WkdRCLvNJ6cldQf97dxNxqq7VrTsL22NwB
+	wUYFRy/XT7pttQ/MP18hix0RmBuH6Hs96MHCWWL8/5AN/UMlyPY+9RX019KZw+mRO7/mcRT/N25
+	mMy0250UYQIBzIwwuQZj+bIZl5xksDXDO4J8Do7G6tHk1yD4O9dQZUCyszGowazfntxillvxJji
+	P9ixjqiSB8p2PvuWQxvsjSoHz0gEMFDOCAZkry83qV2BHT8gj2gcnk8JVM/UhdS70vOx+neD8+D
+	/aEAVFTFVuibztd56zG2xs8sUOK2rkYsbvFlZPUfluMQl7mhXpjQ0U0hBbNl6BGDuzf3Po/LXiB
+	bP6BpA5YvhaEPvipaHJPR3RXPY
+X-Google-Smtp-Source: AGHT+IH0RJh5kqJSJv790DptQ94gJw8dQltu7R6cFNQxP50wNZy+EDL8VlxiC3V8XcLubLzCcwnbYA==
+X-Received: by 2002:a17:90b:3ec7:b0:34c:97ea:e4d with SMTP id 98e67ed59e1d1-34c97ea1008mr5248729a91.28.1765866739668;
+        Mon, 15 Dec 2025 22:32:19 -0800 (PST)
 Received: from localhost.localdomain ([114.231.217.195])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29ee9d38b98sm154247525ad.34.2025.12.15.22.30.24
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34abe3a27b5sm10739839a91.1.2025.12.15.22.32.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 22:30:29 -0800 (PST)
-Date: Tue, 16 Dec 2025 14:30:20 +0800
+        Mon, 15 Dec 2025 22:32:19 -0800 (PST)
+Date: Tue, 16 Dec 2025 14:32:12 +0800
 From: Vernon Yang <vernon2gm@gmail.com>
 To: kernel test robot <lkp@intel.com>
 Cc: akpm@linux-foundation.org, david@kernel.org, 
-	lorenzo.stoakes@oracle.com, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	ziy@nvidia.com, baohua@kernel.org, lance.yang@linux.dev, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Vernon Yang <yanglincheng@kylinos.cn>
+	lorenzo.stoakes@oracle.com, oe-kbuild-all@lists.linux.dev, ziy@nvidia.com, baohua@kernel.org, 
+	lance.yang@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Vernon Yang <yanglincheng@kylinos.cn>
 Subject: Re: [PATCH 2/4] mm: khugepaged: remove mm when all memory has been
  collapsed
-Message-ID: <x2675vjrcxax375coeazrvfegtxasr74saf44mrb4npf5cgdr2@cg7gajuen7ni>
+Message-ID: <k4eiyf5cxqpv24n6l4v44zskxpgkmxpdmx7aunqna6c43iwvvo@hwxvwyvj73rb>
 References: <20251215090419.174418-3-yanglincheng@kylinos.cn>
- <202512160533.KuHwyJTP-lkp@intel.com>
+ <202512160619.3Ut4sxaJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,9 +78,9 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202512160533.KuHwyJTP-lkp@intel.com>
+In-Reply-To: <202512160619.3Ut4sxaJ-lkp@intel.com>
 
-On Tue, Dec 16, 2025 at 05:45:31AM +0800, kernel test robot wrote:
+On Tue, Dec 16, 2025 at 07:01:18AM +0800, kernel test robot wrote:
 > Hi Vernon,
 >
 > kernel test robot noticed the following build errors:
@@ -95,34 +95,28 @@ On Tue, Dec 16, 2025 at 05:45:31AM +0800, kernel test robot wrote:
 > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 > patch link:    https://lore.kernel.org/r/20251215090419.174418-3-yanglincheng%40kylinos.cn
 > patch subject: [PATCH 2/4] mm: khugepaged: remove mm when all memory has been collapsed
-> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251216/202512160533.KuHwyJTP-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160533.KuHwyJTP-lkp@intel.com/reproduce)
+> config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251216/202512160619.3Ut4sxaJ-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160619.3Ut4sxaJ-lkp@intel.com/reproduce)
 >
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512160533.KuHwyJTP-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512160619.3Ut4sxaJ-lkp@intel.com/
 >
 > All errors (new ones prefixed by >>):
 >
-> >> mm/khugepaged.c:2490:9: error: use of undeclared identifier 'SCAN_PMD_NULL'; did you mean 'SCAN_VMA_NULL'?
+>    mm/khugepaged.c: In function 'khugepaged_scan_mm_slot':
+> >> mm/khugepaged.c:2490:30: error: 'SCAN_PMD_NULL' undeclared (first use in this function); did you mean 'SCAN_VMA_NULL'?
 >     2490 |                         case SCAN_PMD_NULL:
 >          |                              ^~~~~~~~~~~~~
 >          |                              SCAN_VMA_NULL
->    mm/khugepaged.c:50:2: note: 'SCAN_VMA_NULL' declared here
->       50 |         SCAN_VMA_NULL,
->          |         ^
-> >> mm/khugepaged.c:2491:9: error: use of undeclared identifier 'SCAN_PMD_NONE'
+>    mm/khugepaged.c:2490:30: note: each undeclared identifier is reported only once for each function it appears in
+> >> mm/khugepaged.c:2491:30: error: 'SCAN_PMD_NONE' undeclared (first use in this function)
 >     2491 |                         case SCAN_PMD_NONE:
->          |                              ^
->    2 errors generated.
+>          |                              ^~~~~~~~~~~~~
 
-This series is based on Linux v6.18, due to the v6.19-rc1 add "mm/khugepaged:
-unify SCAN_PMD_NONE and SCAN_PMD_NULL into SCAN_NO_PTE_TABLE"[1], trigger this
-build errors. I'll fix it in the next version, Thanks!
-
-[1] https://lkml.kernel.org/r/20251114030028.7035-4-richard.weiyang@gmail.com
+same above, Thanks.
 
 >
 > vim +2490 mm/khugepaged.c
