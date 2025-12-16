@@ -1,142 +1,163 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015113246FE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 11:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873BA32143E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 11:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765883496; cv=none; b=b0ORIe8vEbrYaXVXfcjxdEmFF2M7jesBYITz8lz50bAxTRFX/Zn0qJkSAcSUUeKZZq1/36wLZUMzm4DaczHTjVWNZ4dhc2oj7ugUikiGVVaLar1uShOr5kS7uDjR1C5wiuVLq91ZVyGMbja7UiMb/L3khlN9lhooaAz8y9k48rs=
+	t=1765883712; cv=none; b=nB1nUsE1uwqFTqMouQCY6BuqIgsJjHNw5WW2dY3hvDPHptZOPUqZUpYeZ7j+Xr8W98kjtKhxE9c28cbDaUvJF1g+qBBbtnEPKyqDR1iGOwkVnJhYPHC5UsKRoPYuIsRQaGPa6OPX4YudLOEnsy9p8ZfOAmIN5avC6Vpp7ZRbgeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765883496; c=relaxed/simple;
-	bh=KjlAHIxJ2iuzrzYP/AjyIogXILd4fMqZnRcKF4sf+Ds=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rvGmCcYXngC511sIeVuCMQLNWelxi0IKH00hehFOdZZiVlMEn9YWDRXGElbIE9w0dUrcW3X5odO9l1o/kQDlv3GfGi+EVaW3XAYD87IbUslXxUzrvuX6HRz03+H5L7nTCgebz08vCTQDjn/kPZSYIfSnk40HwWaLdw+uHy/OzFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aT1kIwy/; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765883712; c=relaxed/simple;
+	bh=BBwbPv6peH1O5d0/RsOUMDxJe6Kt8Lw20gPkU3Haqeo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rM3T61p5K0Px/1vGdZCOQaeN1ukeUX1Gmt/RBf4AcnAFmRELIttfDgi9Uk5l5Y9MRd4nIYG0gkSeFtoMKPZX6iU6Eya9mQVpb2ydjXhWfKImKmdvES8cvESt/SfaVLx31G2nd32a66eoYrnDBOLIrwTpzZ4rNCfz5Gt9T1jq5cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k1XtmG7u; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aT1kIwy/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765883494; x=1797419494;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KjlAHIxJ2iuzrzYP/AjyIogXILd4fMqZnRcKF4sf+Ds=;
-  b=aT1kIwy/R5P2IWIgizoBBWsKH48uG85bG6zaeu02LEGTlVRngcjqdJ6p
-   yOmZie2ByZfr9NH1G8GFuKbHqEA+ve0DTUxQRasEZFuPSojbjPYm0Tg+J
-   LRVXyw/77F7gWAvmsNXTPf9VDYFthFbbncBQW4WwguUHu1xWHL9KLAp91
-   q9oo/+q/GVX6IK3noYwvQGFaAA3bgwoaGHHMH7Of/PDXoC7WeayeCUrGh
-   dhRhzHR0kWEqKkgUFmXnIaVbqiEcFqMcKdMZlclnLUwldtBR8SspbWWKh
-   r3qwKdIbqYy2is84HIRezLnaQdvv3sAVQODfBYonMwHTxhDQigC6aYbf9
-   A==;
-X-CSE-ConnectionGUID: I/Bw7CTmRViS7u77T//6cg==
-X-CSE-MsgGUID: irI70gmuRIq22+3pj6nFXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67676902"
-X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="67676902"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 03:11:33 -0800
-X-CSE-ConnectionGUID: GajmEKHSRJOBtoMLlIE72Q==
-X-CSE-MsgGUID: pLEI6RQeQraKTNvJDHXHWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="221373228"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Dec 2025 03:11:32 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vVSxm-000000001XU-1dbQ;
-	Tue, 16 Dec 2025 11:11:30 +0000
-Date: Tue, 16 Dec 2025 19:11:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/2] arch/arm64/kvm/mmu.c:394:
- warning: Function parameter or member 'kvm' not described in
- '___unmap_stage2_range'
-Message-ID: <202512161914.tVvusT6F-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1XtmG7u"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a07f8dd9cdso31234535ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 03:15:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765883710; x=1766488510; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pa/R0f7apMOn2D0iStNavYUHvbbAQjxSO588dE4NM9E=;
+        b=k1XtmG7uGv/feHq9lg0XWSAaGtTEEIKze9JhaAwqbalzafC7UGql5ShxJZk6XSVL/5
+         lpMIdn1y1VUje0JKYva+ArjpRI8Jla4qghrEXTOJUusC/y62D5z8KQpc2hEB6ToSJeku
+         G7X2ZDd2j0NABpE54Y9qb7EBUn/oBeEAYW7D0HAtfW7cIIW+IUguaoaye6BBKx480qif
+         m2EClV386OopQuAfncxuEU9o33WQj91Y351gJ3qua+ApFp7yqFtkerNvOkiv/ZW1MLWo
+         CKsvR7H2/4md2FAnZAYWmQqPydA3proaila1nb5eTK6KWlUXnqJkfSjEiEF5JbXoSvYP
+         UkOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765883710; x=1766488510;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pa/R0f7apMOn2D0iStNavYUHvbbAQjxSO588dE4NM9E=;
+        b=NnYuQJ6vDPY6xuCIoK0TfdL9iYFQjFe5vCWe7XT8VSKkPBVWRgtd/pNMXicR3OjOmu
+         QH1bmADVQBvE6rfSvyiu226gfjruzf5mf1jX9NY1LVCLTk6Aaj9b/aPnmLy5NHk3NlVe
+         iqo1qdjLN2tVj0CQtcQTHVXGaBMT7m8HmuTVzgpxHyMv9fujaDRpEN91YmL2euta6lue
+         rFfGoaIhuIwLUixN+aI2XkfWdhNGfBo/deI+jQXabEa1jx8ZgNiTl37m2LzDq/ZBEIxD
+         HsZPpewo544/H5sVR1o5f+TbvZhh7uU0KPkOPN1eINdyj4Uma3SSK26VyDEFOOAuftMP
+         iWag==
+X-Forwarded-Encrypted: i=1; AJvYcCU9MHkk0SzpIhZGKjWFON62pSSGhQpx1uN0lxdz+QfUI1jIOPI7bBD/ViyRbVhvdfy6bKU+GS4EXVb3KkJH@lists.linux.dev
+X-Gm-Message-State: AOJu0YxsOtbpklCP8v89ZwIqX7S8Jo3LfbUJ07vS8QeQ07WeEbKT5sgT
+	WUplqtBYhQ1vCQD0F5oc0oDigLHPzdU9cgXzpRc4ldSaW2jBPkJizMfY
+X-Gm-Gg: AY/fxX5H4QtLkldnWf8mxZ+bFau3SNKzerxIUqyibCS2WExki4IECTpjjgnLq+Gu+FV
+	PCTvaTxcRizKKgyuTNV6T2FkXPaE5af7wOvh9dvhBEqxSGNYi0WrFk16AvaLKmwpsQkj65BvsWx
+	hQihXdvMGzMiT4z7jltGaWYjMupWx7YQ+GJdS481TdEv1viSvPT8pf6iBuLJ8tKul8fypiVvZ44
+	eBWZZQb1fY61uCbvxBZXTDxEz7XPFZ2b9zk0YAIcp6UZH2lIYMBLZtLZONTcoq7ZlP7agoqgweg
+	PmFfh5j2QJS0EKfjr8MrGPNngUCgldW0gGby6rw/Xr9f4wmieDAw3NzeJZYEGEITJrBVS2iboNU
+	PUTgfEmLO/iP3WseNTDQUN7fn6X3qQSXFGvektIaKYBmCzninhQP/CBIla+ojv+XMfmTb96h0Hp
+	GjejtlTbeFYxmUrbbdCBYE3q0ixWC2CpGbj0KCLB8fxQa46tScLgbCfvdHIg==
+X-Google-Smtp-Source: AGHT+IHjShZlqtrNatz0TeEfKLc+IYxMG7B7LV4mS/9omwYiNMA01BR3glT4ouu8CwPVBZrnNUvMwQ==
+X-Received: by 2002:a17:902:ec8b:b0:29f:251b:c9d7 with SMTP id d9443c01a7336-29f251bcb21mr121735895ad.12.1765883709679;
+        Tue, 16 Dec 2025 03:15:09 -0800 (PST)
+Received: from ?IPV6:2405:201:3006:188a:9344:a089:f162:6625? ([2405:201:3006:188a:9344:a089:f162:6625])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29ee9d38ad1sm160754585ad.29.2025.12.16.03.15.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Dec 2025 03:15:09 -0800 (PST)
+Message-ID: <1ca74be1-7b4c-4a38-b507-f320104a7a60@gmail.com>
+Date: Tue, 16 Dec 2025 20:15:04 +0900
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   e48fbb6a53e582d8881d31d6b3de0405f7543cfd
-commit: b66e27a61e1f4f713201f1cd1d475da9309218ae [0/2] ANDROID: KVM: arm64: Unshare pages from __unmap_stage2_range()
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251216/202512161914.tVvusT6F-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161914.tVvusT6F-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512161914.tVvusT6F-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> arch/arm64/kvm/mmu.c:394: warning: Function parameter or member 'kvm' not described in '___unmap_stage2_range'
->> arch/arm64/kvm/mmu.c:394: warning: Function parameter or member 'addr' not described in '___unmap_stage2_range'
->> arch/arm64/kvm/mmu.c:394: warning: expecting prototype for unmap_stage2_range(). Prototype was for ___unmap_stage2_range() instead
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] platform/x86: thinkpad_acpi: Add support to detect
+ hardware damage detection capability.
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: kernel test robot <lkp@intel.com>, Hans de Goede <hansg@kernel.org>,
+ oe-kbuild-all@lists.linux.dev, platform-driver-x86@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>, njoshi1@lenovo.com,
+ Mark Pearson <mpearson-lenovo@squebb.ca>
+References: <20251210151133.7933-1-nitjoshi@gmail.com>
+ <202512160219.94nMjvxO-lkp@intel.com>
+ <213b3f29-09ee-4305-940b-89d4652101b1@gmail.com>
+ <2433802f-ba32-1549-41f1-5a77e998c139@linux.intel.com>
+Content-Language: en-US
+From: Nitin <nitjoshi@gmail.com>
+In-Reply-To: <2433802f-ba32-1549-41f1-5a77e998c139@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-vim +394 arch/arm64/kvm/mmu.c
+On 12/16/25 19:19, Ilpo Järvinen wrote:
+> On Tue, 16 Dec 2025, Nitin wrote:
+>
+>> Hello ,
+>>
+>> On 12/16/25 10:19, kernel test robot wrote:
+>>> Hi Nitin,
+>>>
+>>> kernel test robot noticed the following build warnings:
+>>>
+>>> [auto build test WARNING on linus/master]
+>>> [also build test WARNING on v6.19-rc1 next-20251215]
+>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>>> And when submitting patch, we suggest to use '--base' as documented in
+>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>>
+>>> url:
+>>> https://github.com/intel-lab-lkp/linux/commits/Nitin-Joshi/platform-x86-thinkpad_acpi-Add-sysfs-to-display-details-of-damaged-device/20251210-231409
+>>> base:   linus/master
+>>> patch link:
+>>> https://lore.kernel.org/r/20251210151133.7933-1-nitjoshi%40gmail.com
+>>> patch subject: [PATCH v2 1/2] platform/x86: thinkpad_acpi: Add support to
+>>> detect hardware damage detection capability.
+>>> reproduce:
+>>> (https://download.01.org/0day-ci/archive/20251216/202512160219.94nMjvxO-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version
+>>> of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes:
+>>> https://lore.kernel.org/oe-kbuild-all/202512160219.94nMjvxO-lkp@intel.com/
+>> Thank you for reporting this issue and I will fix this issue .
+>>
+>> I have already send patch v3 for this and will fix this warning in next patch
+>> version i.e v4 .
+>>
+>> May i know, if its OK to add this Reported-by and closes tag in patch version
+>> v4 ?
+> Hi,
+>
+> Please only add those tags when you're fixing code that exists in a repo
+> already. For new work, we don't normally add lkp report tags despite the
+> email suggesting you to do so (I know it's a bit confusing but it's sort
+> of same as we don't normally mention all reviewers who gave improvement
+> suggestions either).
 
-b66e27a61e1f4f7 arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  355  
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  356  /*
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  357   * Unmapping vs dcache management:
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  358   *
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  359   * If a guest maps certain memory pages as uncached, all writes will
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  360   * bypass the data cache and go directly to RAM.  However, the CPUs
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  361   * can still speculate reads (not writes) and fill cache lines with
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  362   * data.
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  363   *
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  364   * Those cache lines will be *clean* cache lines though, so a
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  365   * clean+invalidate operation is equivalent to an invalidate
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  366   * operation, because no cache lines are marked dirty.
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  367   *
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  368   * Those clean cache lines could be filled prior to an uncached write
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  369   * by the guest, and the cache coherent IO subsystem would therefore
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  370   * end up writing old data to disk.
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  371   *
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  372   * This is why right after unmapping a page/section and invalidating
-52bae936f0e7be4 arch/arm64/kvm/mmu.c Will Deacon      2020-09-11  373   * the corresponding TLBs, we flush to make sure the IO subsystem will
-52bae936f0e7be4 arch/arm64/kvm/mmu.c Will Deacon      2020-09-11  374   * never hit in the cache.
-e48d53a91f6e908 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  375   *
-e48d53a91f6e908 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  376   * This is all avoided on systems that have ARM64_HAS_STAGE2_FWB, as
-e48d53a91f6e908 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  377   * we then fully enforce cacheability of RAM, no matter what the guest
-e48d53a91f6e908 virt/kvm/arm/mmu.c   Marc Zyngier     2018-04-06  378   * does.
-363ef89f8e9bced arch/arm/kvm/mmu.c   Marc Zyngier     2014-12-19  379   */
-7a1c831ee8553b8 arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  380  /**
-7a1c831ee8553b8 arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  381   * unmap_stage2_range -- Clear stage2 page table entries to unmap a range
-c9c0279cc02b4e1 arch/arm64/kvm/mmu.c Xiaofei Tan      2020-09-17  382   * @mmu:   The KVM stage-2 MMU pointer
-7a1c831ee8553b8 arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  383   * @start: The intermediate physical base address of the range to unmap
-7a1c831ee8553b8 arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  384   * @size:  The size of the area to unmap
-c9c0279cc02b4e1 arch/arm64/kvm/mmu.c Xiaofei Tan      2020-09-17  385   * @may_block: Whether or not we are permitted to block
-7a1c831ee8553b8 arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  386   *
-7a1c831ee8553b8 arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  387   * Clear a range of stage-2 mappings, lowering the various ref-counts.  Must
-7a1c831ee8553b8 arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  388   * be called while holding mmu_lock (unless for freeing the stage2 pgd before
-7a1c831ee8553b8 arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  389   * destroying the VM), otherwise another faulting VCPU may come in and mess
-7a1c831ee8553b8 arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  390   * with things behind our backs.
-7a1c831ee8553b8 arch/arm/kvm/mmu.c   Suzuki K Poulose 2016-03-23  391   */
-776adf654a1f640 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  392  
-776adf654a1f640 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  393  static int ___unmap_stage2_range(struct kvm *kvm, u64 addr, u64 size)
-776adf654a1f640 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11 @394  {
-b66e27a61e1f4f7 arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  395  	if (!is_protected_kvm_enabled())
-776adf654a1f640 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  396  		return kvm_pgtable_stage2_unmap(kvm->arch.mmu.pgt, addr, size);
-b66e27a61e1f4f7 arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  397  
-b66e27a61e1f4f7 arch/arm64/kvm/mmu.c Quentin Perret   2022-07-06  398  	return pkvm_unmap_range(kvm, addr, addr + size);
-776adf654a1f640 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  399  }
-776adf654a1f640 arch/arm64/kvm/mmu.c Quentin Perret   2022-05-11  400  
+Noted, Thank you for clarification . I will send next patch revision soon.
 
-:::::: The code at line 394 was first introduced by commit
-:::::: 776adf654a1f64054a76876923c1606224e431cc ANDROID: KVM: arm64: Pass kvm struct to stage2_apply_range()
+Thank you !
 
-:::::: TO: Quentin Perret <qperret@google.com>
-:::::: CC: Quentin Perret <qperret@google.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>>> All warnings (new ones prefixed by >>):
+>>>
+>>>      WARNING: No kernel-doc for file ./include/linux/pci.h
+>>>      ERROR: Cannot find file ./include/linux/mod_devicetable.h
+>>>      WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
+>>>      ERROR: Cannot find file ./include/linux/bootconfig.h
+>>>      WARNING: No kernel-doc for file ./include/linux/bootconfig.h
+>>>>> Documentation/admin-guide/laptops/thinkpad-acpi.rst:1581: WARNING: Title
+>>>>> underline too short.
+>>> --
+>>>      Hardware damage detection capability
+>>>      ----------------- [docutils]
+>>>>> Documentation/admin-guide/laptops/thinkpad-acpi.rst:1581: WARNING: Title
+>>>>> underline too short.
+>> Ack. Thank you !
+>>
+>>> vim +1581 Documentation/admin-guide/laptops/thinkpad-acpi.rst
+>>>
+>>>     1579	
+>>>     1580	Hardware damage detection capability
+>>>> 1581	-----------------
+>>>     1582	
+>>>
