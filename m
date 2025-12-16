@@ -1,59 +1,69 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8462270ED7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 05:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A99427FD6E;
+	Tue, 16 Dec 2025 05:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765863973; cv=none; b=OE37eJrP4S3fItQsPVvTGYRW43+M2CtvhgbrfZ3E2hflf6eHkKsriYlwWRsqzFUAyVHdtSY3RoEon1PsIpzt69z4VL8Hpbxk4ZR2EjvhG6bSNRes8QGNSBTTivV7AIrAbDi7C7W4nWNoGWjSwYVwuFOIbvqHTZ89wwiLPcyEspU=
+	t=1765863985; cv=none; b=LxXB/DwunNKSpOzP/A7BMrlyFLhO0BvwN0kR8yT0y4CjHPquOpCujVpAElkqyP7nd964aSpd+7q7MqAqOFzsGNAvBmDP6w9LPIsLEcBpLR37Jg2ybv/24mVXycTO00IABH1WE6SO66T4Mt5OHOerILoeGXP5XDz1qm1XLLNz3lY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765863973; c=relaxed/simple;
-	bh=589Sl9F1F7kyYQXD9MqPN9nLC6dd9osdanTiND3REr0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XDvZm4CK3OLeT/w4Mc08uOV2Bsg+AQ4KuqJIofs2KIYiYGK9SQCdaswGC2QYY0PvqqIQIJmJBP6Jz3RwQ7Tr6eA7NlfYvetS2AvqrwF1HL27uGCnRoHjjFH9ib8pJ1nCoVRfBYwM68zdJUG/0YGjwnSQasSlIkKQYi4KEY0ip5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AUh1gCy1; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1765863985; c=relaxed/simple;
+	bh=1XjP0mKFkNYKFLhPRTL97PmYp8Uie7/TKKOaVYmxSU0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HDG0kdzmDzDeyfXAR1HFy3SqRGD5Fo+afsXpDI4dyxabzxjMn390spREuOIFMEYL2Gf0nMmCS/BMwI7FpCP1iRv+JcDfAl0tY0Qd+eWOUEXDkokJv9wp75hxJxtJ4m8X0zHYaokOXB3W4JmiDj4Ts38c1cfnsxtComJkqZobEYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G0qNkHcS; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AUh1gCy1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G0qNkHcS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765863970; x=1797399970;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=589Sl9F1F7kyYQXD9MqPN9nLC6dd9osdanTiND3REr0=;
-  b=AUh1gCy1EsJYfYMAp+LmwXfUu/TRRjgRXb9ZAHYPq1Jf65/7+5ArFhjr
-   kYmAqNa+9zeI/4NaVJ73d8PVIf/Mhg+pyTbEwiBOXszJRre451b6LVki2
-   1tvEJHPxGSDgQFUU/bvJqVSO4jDIyvK415VMXrTnQBMGWRF6hq8t4b7/i
-   9Z1ELpZGvTDTx9ZAFkSq58rzdAzG881lwp1B9HezwFOmuij1rR6oTpnz4
-   xQQSSKDKdBgWtPFKUsdJ/n3XkI99/+1xL8hVC77EhPOilzNIOWWnbPfRn
-   Ma7/WIrJ8ymkQkY4TR5cUeV0qZ6kogXV1WaCOOBFUUif7DEL7VjyKJffW
-   A==;
-X-CSE-ConnectionGUID: fdY9YkbgQRKawZ8PJ/TL4Q==
-X-CSE-MsgGUID: 6qQxRjirSAW98BfgbTRC5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="85187788"
+  t=1765863980; x=1797399980;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1XjP0mKFkNYKFLhPRTL97PmYp8Uie7/TKKOaVYmxSU0=;
+  b=G0qNkHcSsiTB+tMQ3CtqP461uKGScE014NxaBtNAeem0Vlt6zvgueFhv
+   B3zW1uLDiZwL9lRB1YI3jtvn2b9zIcsF0gnyRzXywbIxGeKsiwghsHdEQ
+   Kd/T1dUvFhUfXW8pGHiRLfdzhRe8kzYvzqmtsSqH07MlqWOv/kagxlxeD
+   QnS+hUabsNrqi1gIEjeSkf9w80D1U5hHOE4awrbWlUNJhwk7XucSxS+qs
+   5aOeTfCA3hgzJxp+8lUFprf2Rm4ylDoNit0NqQpBgWG1ZVU7Bj40QX5+8
+   uSfIuL98HCIFMp6SJuVmRkhbaQ/pWewvMMtMuXvjYLnCWlhXW+2XoF2s2
+   Q==;
+X-CSE-ConnectionGUID: teg+S9UrQoq4ACLWOh8kIA==
+X-CSE-MsgGUID: 4Mdi/sFnTh+Kvv1PUqAjGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="85187792"
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="85187788"
+   d="scan'208";a="85187792"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 21:46:03 -0800
-X-CSE-ConnectionGUID: 7jgINkIqSEayOH+KNhGg8w==
-X-CSE-MsgGUID: DaKYssWaRlC1Lpcf0Ja/xQ==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 21:46:06 -0800
+X-CSE-ConnectionGUID: j31l8sBpSmKaE5BQamH7ig==
+X-CSE-MsgGUID: f3jvVeySTViGwe+AHKnECA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="235326977"
+   d="scan'208";a="235326976"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
   by orviesa001.jf.intel.com with ESMTP; 15 Dec 2025 21:46:02 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVNsl-000000001Ct-2ful;
+	id 1vVNsl-000000001Cr-2Ym4;
 	Tue, 16 Dec 2025 05:45:59 +0000
-Date: Tue, 16 Dec 2025 13:45:32 +0800
+Date: Tue, 16 Dec 2025 13:45:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-CWF-RDT-ANBZ24559 25/25]
- drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:31:27: warning:
- 'pct_exp_name' defined but not used
-Message-ID: <202512161331.oYVCXfSO-lkp@intel.com>
+To: Lukas Zapolskas <lukas.zapolskas@arm.com>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, nd@arm.com,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Lukas Zapolskas <lukas.zapolskas@arm.com>,
+	Ketil Johnsen <ketil.johnsen@arm.com>
+Subject: Re: [PATCH v1 5/5] drm/panthor: Use GROUP_GET_STATE to provide group
+ and queue errors
+Message-ID: <202512161359.YBFqhXuf-lkp@intel.com>
+References: <20251215115457.2137485-6-lukas.zapolskas@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,83 +72,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251215115457.2137485-6-lukas.zapolskas@arm.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-RDT-ANBZ24559
-head:   48fa9d861c1eb99e9f682fb2623142fb456aa0eb
-commit: 010d87517fe5ef837b847f17db54328aee3b6e07 [25/25] anolis: drivers: support for xsc drivers from Yunsilicon Technology
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20251216/202512161331.oYVCXfSO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161331.oYVCXfSO-lkp@intel.com/reproduce)
+Hi Lukas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on next-20251216]
+[cannot apply to linus/master v6.19-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Zapolskas/drm-panthor-Implement-CS_FAULT-propagation-to-userspace/20251215-195920
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20251215115457.2137485-6-lukas.zapolskas%40arm.com
+patch subject: [PATCH v1 5/5] drm/panthor: Use GROUP_GET_STATE to provide group and queue errors
+config: x86_64-buildonly-randconfig-001-20251216 (https://download.01.org/0day-ci/archive/20251216/202512161359.YBFqhXuf-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161359.YBFqhXuf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512161331.oYVCXfSO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512161359.YBFqhXuf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:182:5: warning: no previous prototype for 'xsc_priv_flags_num' [-Wmissing-prototypes]
-     182 | int xsc_priv_flags_num(void)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:187:13: warning: no previous prototype for 'xsc_priv_flags_name' [-Wmissing-prototypes]
-     187 | const char *xsc_priv_flags_name(int flag)
-         |             ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:213:5: warning: no previous prototype for 'xsc_set_priv_flags' [-Wmissing-prototypes]
-     213 | int xsc_set_priv_flags(struct net_device *dev, u32 pflags)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:369:5: warning: no previous prototype for 'xsc_get_priv_flags' [-Wmissing-prototypes]
-     369 | u32 xsc_get_priv_flags(struct net_device *dev)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:849:5: warning: no previous prototype for 'xsc_get_rxnfc' [-Wmissing-prototypes]
-     849 | int xsc_get_rxnfc(struct net_device *dev, struct ethtool_rxnfc *info, u32 *rule_locs)
-         |     ^~~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:872:5: warning: no previous prototype for 'xsc_set_rxnfc' [-Wmissing-prototypes]
-     872 | int xsc_set_rxnfc(struct net_device *dev, struct ethtool_rxnfc *cmd)
-         |     ^~~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:901:5: warning: no previous prototype for 'xsc_get_rxfh' [-Wmissing-prototypes]
-     901 | int xsc_get_rxfh(struct net_device *netdev, u32 *indir, u8 *key, u8 *hfunc)
-         |     ^~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:920:5: warning: no previous prototype for 'xsc_set_rxfh' [-Wmissing-prototypes]
-     920 | int xsc_set_rxfh(struct net_device *dev, const u32 *indir, const u8 *key, const u8 hfunc)
-         |     ^~~~~~~~~~~~
->> drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:31:27: warning: 'pct_exp_name' defined but not used [-Wunused-const-variable=]
-      31 | static const char * const pct_exp_name[] = {"N", "E" };
-         |                           ^~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:30:27: warning: 'pp_tbl_dma_name' defined but not used [-Wunused-const-variable=]
-      30 | static const char * const pp_tbl_dma_name[] = {"N", "D" };
-         |                           ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:29:27: warning: 'anlt_fec_name' defined but not used [-Wunused-const-variable=]
-      29 | static const char * const anlt_fec_name[] = {"N", "A" };
-         |                           ^~~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:28:27: warning: 'ma_xbar_name' defined but not used [-Wunused-const-variable=]
-      28 | static const char * const ma_xbar_name[] = {"N", "X" };
-         |                           ^~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:27:27: warning: 'rdma_icrc_name' defined but not used [-Wunused-const-variable=]
-      27 | static const char * const rdma_icrc_name[] = {"N", "C" };
-         |                           ^~~~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:26:27: warning: 'onchip_ft_name' defined but not used [-Wunused-const-variable=]
-      26 | static const char * const onchip_ft_name[] = {"N", "O" };
-         |                           ^~~~~~~~~~~~~~
-   drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:25:27: warning: 'hps_ddr_name' defined but not used [-Wunused-const-variable=]
-      25 | static const char * const hps_ddr_name[] = {"1", "2", "4", "unknown"};
-         |                           ^~~~~~~~~~~~
->> drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c:24:27: warning: 'fpga_type_name' defined but not used [-Wunused-const-variable=]
-      24 | static const char * const fpga_type_name[] = {"S", "L"};
-         |                           ^~~~~~~~~~~~~~
+>> drivers/gpu/drm/panthor/panthor_sched.c:3968:37: error: no member named 'fault' in 'struct panthor_group'
+    3968 |         get_state->exception_type = group->fault.exception_type;
+         |                                     ~~~~~  ^
+   drivers/gpu/drm/panthor/panthor_sched.c:3969:34: error: no member named 'fault' in 'struct panthor_group'
+    3969 |         get_state->access_type = group->fault.access_type;
+         |                                  ~~~~~  ^
+   drivers/gpu/drm/panthor/panthor_sched.c:3970:32: error: no member named 'fault' in 'struct panthor_group'
+    3970 |         get_state->source_id = group->fault.source_id;
+         |                                ~~~~~  ^
+   drivers/gpu/drm/panthor/panthor_sched.c:3971:36: error: no member named 'fault' in 'struct panthor_group'
+    3971 |         get_state->valid_address = group->fault.valid_address;
+         |                                    ~~~~~  ^
+   drivers/gpu/drm/panthor/panthor_sched.c:3972:30: error: no member named 'fault' in 'struct panthor_group'
+    3972 |         get_state->address = group->fault.address;
+         |                              ~~~~~  ^
+   5 errors generated.
 
 
-vim +/pct_exp_name +31 drivers/net/ethernet/yunsilicon/xsc/net/xsc_eth_ethtool.c
+vim +3968 drivers/gpu/drm/panthor/panthor_sched.c
 
-    23	
-  > 24	static const char * const fpga_type_name[] = {"S", "L"};
-    25	static const char * const hps_ddr_name[] = {"1", "2", "4", "unknown"};
-    26	static const char * const onchip_ft_name[] = {"N", "O" };
-    27	static const char * const rdma_icrc_name[] = {"N", "C" };
-    28	static const char * const ma_xbar_name[] = {"N", "X" };
-    29	static const char * const anlt_fec_name[] = {"N", "A" };
-    30	static const char * const pp_tbl_dma_name[] = {"N", "D" };
-  > 31	static const char * const pct_exp_name[] = {"N", "E" };
-    32	
+  3938	
+  3939	int panthor_group_get_state(struct panthor_file *pfile,
+  3940				    struct drm_panthor_group_get_state *get_state,
+  3941				    struct drm_panthor_queue_event *events, u32 count)
+  3942	{
+  3943		struct panthor_group_pool *gpool = pfile->groups;
+  3944		struct panthor_device *ptdev = pfile->ptdev;
+  3945		struct panthor_scheduler *sched = ptdev->scheduler;
+  3946		struct panthor_group *group = NULL;
+  3947		u32 fault_count;
+  3948	
+  3949		group = group_from_handle(gpool, get_state->group_handle);
+  3950		if (!group)
+  3951			return -EINVAL;
+  3952	
+  3953		guard(mutex)(&sched->lock);
+  3954	
+  3955		if (group->timedout)
+  3956			get_state->state |= DRM_PANTHOR_GROUP_STATE_TIMEDOUT;
+  3957		if (group->fatal_queues) {
+  3958			get_state->state |= DRM_PANTHOR_GROUP_STATE_FATAL_FAULT;
+  3959			get_state->fatal_queues = group->fatal_queues;
+  3960		}
+  3961		if (group->innocent)
+  3962			get_state->state |= DRM_PANTHOR_GROUP_STATE_INNOCENT;
+  3963		if (group->fault_queues) {
+  3964			get_state->state |= DRM_PANTHOR_GROUP_STATE_QUEUE_FAULT;
+  3965			get_state->fault_queues = group->fault_queues;
+  3966		}
+  3967	
+> 3968		get_state->exception_type = group->fault.exception_type;
+  3969		get_state->access_type = group->fault.access_type;
+  3970		get_state->source_id = group->fault.source_id;
+  3971		get_state->valid_address = group->fault.valid_address;
+  3972		get_state->address = group->fault.address;
+  3973	
+  3974		fault_count = panthor_group_count_faults(sched, group);
+  3975	
+  3976		if (!count && !events) {
+  3977			get_state->faults.count = fault_count;
+  3978			get_state->faults.stride = sizeof(struct drm_panthor_queue_event);
+  3979			goto exit;
+  3980		}
+  3981	
+  3982		panthor_group_get_faults(sched, group, events, min(get_state->faults.count, count));
+  3983	
+  3984	exit:
+  3985		group_put(group);
+  3986		return 0;
+  3987	}
+  3988	
 
 -- 
 0-DAY CI Kernel Test Service
