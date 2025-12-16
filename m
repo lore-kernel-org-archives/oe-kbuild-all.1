@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C142EC553
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 09:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C197E325499
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 09:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765876151; cv=none; b=qFqh6zGMDPInddVMrV2KDScxpPj6wMxU12rlUFwDQgwlGe2jwyQeZIxx3fhYTh7T+0lqXHfnAI8f2dwpgIP3cpzKonDHhXQh0s/UzXp+1OtU414nvg+lagqQPsVfpS0IB8UXYQc6jmmY5PfYajRMLaP5sY8OK9kuPiEqUapP5CU=
+	t=1765877415; cv=none; b=tDQQFgvGyLj/pa03qWx2pttQo8c/Gy3ZhoaXuWHcLOwmsoCyFM/HFpGFNezqTZokmuJ34h2nJzIXTe26hLZgQfCJcx6K8ESXXuqcIMA0eAz8qaTL/mdFoKhYJ7EkeHLyIVKPSSVUE6mhqkh11D+XQYRSlpbQrZKt/LRKb4isFEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765876151; c=relaxed/simple;
-	bh=ibJtAZUIWOcimxr0lxylRTSFfOuzo/PmDZiYiXRFk/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rhbDLrxDsizOHuKoUvN2kGuJn2Rix5cTBpTn8QFVTEiMyJfeOQOOW7W4i8nkmbufARWC6JDhDK0lwWRoDuA+jkivYJ9NwFIWiiUzBoqorgiqEmGeipmvqv39UOvhir3fomFAhp4NnJI9tUf42UdeSNeNBxT9FsAksM+xCigLOYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EwILaHKl; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1765877415; c=relaxed/simple;
+	bh=fc3bNIa1t3C77KLd0XpaNTmKo0iNt12Zzg/CpEqmdnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JpU/H9fk42JamU2K0qsMRWChFeLZXmE4TRpr5C4aeZmGfu+NFh9N5gApdU20OaRGjOfktGQEcDgwwCH7XlDvemur/1MV0q/CEJtNK5+ff/GygTgQK/9OJwtUzupRMlI+Q74/f3FBuKo23apPn9g5LbI51ZU2ZeJFPk89Dd3EpRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UiP/wvst; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EwILaHKl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UiP/wvst"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765876150; x=1797412150;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ibJtAZUIWOcimxr0lxylRTSFfOuzo/PmDZiYiXRFk/U=;
-  b=EwILaHKl8tsPjdQ4AyYp1zwP6Cx3WmHhNdpfPXV80bxx6ZSbjiZXzqqK
-   G9m2SvVau+vTD6pgViUw0XG4pmJTh7zkzWGw8uDtFhiyHMoKjkdSIiv7L
-   SG3Rjf7384eMAkjNxTn57d1An8ISz15pio0InK9dxhwVpBI+wfK1STkQz
-   FlUxSjDOZbpOUFDr/gxkQmYbm7d1ku2Ie2CDq4KZh7SxA+zgM0OXrKXuy
-   bh7uCMDbwVa76urHVDD9xpeZHuHMJ1EnXgstltRzwHDDtbGUFaO16ltrq
-   GTtwoob4k5j43hiRKkwbPjXZ4SL9d8Dmx4wHnmQgSyREvwqY7M7Q/iW/6
-   Q==;
-X-CSE-ConnectionGUID: B+7M/SfwQwuPVf9Hbc7rDQ==
-X-CSE-MsgGUID: +Hv41nvrST+rwSRSknYwGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67671483"
+  t=1765877414; x=1797413414;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fc3bNIa1t3C77KLd0XpaNTmKo0iNt12Zzg/CpEqmdnQ=;
+  b=UiP/wvstqms1DU0+kEQe62WVRB4x0tX/LCuhydECQyDqMD1NpHrSdKSF
+   nNDTKHg1I4SmNGk7iNiCvzCdseKOVxn4FEAa4qDMM+nx3pgjiwS639upl
+   cwKngE+4VKSXK6XEk9wa9mQw9VIwaPIkeg9gh4u4AchGpQpiy0KDNCJHD
+   uDargbngiWOyzHqipILi8jmUKV1T6IAgPajoYhM69IjPK5MLRzhazBDRs
+   4sZiDrdkAzVJaKlnDxkKVXKwRpqFeKRY7EE1SolftMrrfupa01/wkpdof
+   67NRNykgFvjlPBKQPbWo8jsiQG9kzle18fDsBcbVcFrI45tmRV6rsfpah
+   g==;
+X-CSE-ConnectionGUID: mkd3JmrJRUKMIaj4++7eCQ==
+X-CSE-MsgGUID: VbK0NMMpReuBqjxXt4VMmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67945843"
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="67671483"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 01:09:10 -0800
-X-CSE-ConnectionGUID: 8J7fQLmJSQKaq0pil3vcrA==
-X-CSE-MsgGUID: k1RYtp8ETSyl/qGQ2Uzhkg==
+   d="scan'208";a="67945843"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 01:30:14 -0800
+X-CSE-ConnectionGUID: V3EuYVLYQW6yx47/pHlzZg==
+X-CSE-MsgGUID: KGq6RbFySpq/qNAiM4vzfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="197713433"
+   d="scan'208";a="197865381"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 16 Dec 2025 01:09:09 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 16 Dec 2025 01:30:10 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVR3H-000000001QE-2o25;
-	Tue, 16 Dec 2025 09:09:05 +0000
-Date: Tue, 16 Dec 2025 17:07:58 +0800
+	id 1vVRNf-000000001Rs-49aY;
+	Tue, 16 Dec 2025 09:30:07 +0000
+Date: Tue, 16 Dec 2025 17:29:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-CWF-RDT-ANBZ24559 25/25]
- drivers/infiniband/hw/erdma/compat/sw_recv.c:179:13: warning: variable
- 'index' set but not used
-Message-ID: <202512161704.cycX5nqZ-lkp@intel.com>
+To: Lukas Zapolskas <lukas.zapolskas@arm.com>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, nd@arm.com,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	Lukas Zapolskas <lukas.zapolskas@arm.com>,
+	Ketil Johnsen <ketil.johnsen@arm.com>
+Subject: Re: [PATCH v1 5/5] drm/panthor: Use GROUP_GET_STATE to provide group
+ and queue errors
+Message-ID: <202512161757.nqIBsB07-lkp@intel.com>
+References: <20251215115457.2137485-6-lukas.zapolskas@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,94 +72,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251215115457.2137485-6-lukas.zapolskas@arm.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-RDT-ANBZ24559
-head:   48fa9d861c1eb99e9f682fb2623142fb456aa0eb
-commit: 0d8609d9a6aaf8a7453a39d152afdacef8201ef1 [25/25] anolis: RDMA/erdma: Update erdma driver
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20251216/202512161704.cycX5nqZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161704.cycX5nqZ-lkp@intel.com/reproduce)
+Hi Lukas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on next-20251216]
+[cannot apply to linus/master v6.19-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Zapolskas/drm-panthor-Implement-CS_FAULT-propagation-to-userspace/20251215-195920
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20251215115457.2137485-6-lukas.zapolskas%40arm.com
+patch subject: [PATCH v1 5/5] drm/panthor: Use GROUP_GET_STATE to provide group and queue errors
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20251216/202512161757.nqIBsB07-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161757.nqIBsB07-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512161704.cycX5nqZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512161757.nqIBsB07-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/infiniband/hw/erdma/compat/sw_recv.c: In function 'hdr_check':
->> drivers/infiniband/hw/erdma/compat/sw_recv.c:179:13: warning: variable 'index' set but not used [-Wunused-but-set-variable]
-     179 |         int index;
-         |             ^~~~~
+   drivers/gpu/drm/panthor/panthor_sched.c: In function 'panthor_group_get_state':
+>> drivers/gpu/drm/panthor/panthor_sched.c:3968:42: error: 'struct panthor_group' has no member named 'fault'
+    3968 |         get_state->exception_type = group->fault.exception_type;
+         |                                          ^~
+   drivers/gpu/drm/panthor/panthor_sched.c:3969:39: error: 'struct panthor_group' has no member named 'fault'
+    3969 |         get_state->access_type = group->fault.access_type;
+         |                                       ^~
+   drivers/gpu/drm/panthor/panthor_sched.c:3970:37: error: 'struct panthor_group' has no member named 'fault'
+    3970 |         get_state->source_id = group->fault.source_id;
+         |                                     ^~
+   drivers/gpu/drm/panthor/panthor_sched.c:3971:41: error: 'struct panthor_group' has no member named 'fault'
+    3971 |         get_state->valid_address = group->fault.valid_address;
+         |                                         ^~
+   drivers/gpu/drm/panthor/panthor_sched.c:3972:35: error: 'struct panthor_group' has no member named 'fault'
+    3972 |         get_state->address = group->fault.address;
+         |                                   ^~
 
 
-vim +/index +179 drivers/infiniband/hw/erdma/compat/sw_recv.c
+vim +3968 drivers/gpu/drm/panthor/panthor_sched.c
 
-   171	
-   172	static int hdr_check(struct sw_pkt_info *pkt)
-   173	{
-   174		struct sw_dev *sw = pkt->sw;
-   175		struct sw_port *port = &sw->port;
-   176		struct erdma_qp *master_qp;
-   177		struct sw_qp *qp = NULL;
-   178		u32 qpn = bth_qpn(pkt);
- > 179		int index;
-   180		int err;
-   181	
-   182		if (unlikely(bth_tver(pkt) != BTH_TVER)) {
-   183			pr_warn_ratelimited("bad tver\n");
-   184			goto err1;
-   185		}
-   186	
-   187		if (unlikely(qpn == 0)) {
-   188			pr_warn_once("QP 0 not supported");
-   189			goto err1;
-   190		}
-   191	
-   192		if (qpn != IB_MULTICAST_QPN) {
-   193			index = (qpn == 1) ? port->qp_gsi_index : qpn;
-   194	
-   195			master_qp = find_qp_by_qpn(sw->master, qpn);/* gsi qpn pr_info -----*/
-   196			if (unlikely(!master_qp || master_qp->attrs.flags & ERDMA_QP_IN_DESTROY)) {
-   197				pr_warn_ratelimited("no qp matches qpn 0x%x\n", qpn);
-   198				goto err1;
-   199			}
-   200	
-   201			//qp = sw_pool_get_index(&sw->qp_pool, index);
-   202			qp = master_qp->sw_qp;
-   203			if (unlikely(!qp)) {
-   204				pr_warn_ratelimited("no qp matches qpn 0x%x\n", qpn);
-   205				goto err1;
-   206			}
-   207			sw_add_ref(qp);
-   208	
-   209			err = check_type_state(sw, pkt, qp);
-   210			if (unlikely(err))
-   211				goto err2;
-   212	
-   213			err = check_addr(sw, pkt, qp);
-   214			if (unlikely(err))
-   215				goto err2;
-   216	
-   217			err = check_keys(sw, pkt, qpn, qp);
-   218			if (unlikely(err))
-   219				goto err2;
-   220		} else {
-   221			if (unlikely((pkt->mask & SW_GRH_MASK) == 0)) {
-   222				pr_warn_ratelimited("no grh for mcast qpn\n");
-   223				goto err1;
-   224			}
-   225		}
-   226	
-   227		pkt->qp = qp;
-   228		return 0;
-   229	
-   230	err2:
-   231		sw_drop_ref(qp);
-   232	err1:
-   233		return -EINVAL;
-   234	}
-   235	
+  3938	
+  3939	int panthor_group_get_state(struct panthor_file *pfile,
+  3940				    struct drm_panthor_group_get_state *get_state,
+  3941				    struct drm_panthor_queue_event *events, u32 count)
+  3942	{
+  3943		struct panthor_group_pool *gpool = pfile->groups;
+  3944		struct panthor_device *ptdev = pfile->ptdev;
+  3945		struct panthor_scheduler *sched = ptdev->scheduler;
+  3946		struct panthor_group *group = NULL;
+  3947		u32 fault_count;
+  3948	
+  3949		group = group_from_handle(gpool, get_state->group_handle);
+  3950		if (!group)
+  3951			return -EINVAL;
+  3952	
+  3953		guard(mutex)(&sched->lock);
+  3954	
+  3955		if (group->timedout)
+  3956			get_state->state |= DRM_PANTHOR_GROUP_STATE_TIMEDOUT;
+  3957		if (group->fatal_queues) {
+  3958			get_state->state |= DRM_PANTHOR_GROUP_STATE_FATAL_FAULT;
+  3959			get_state->fatal_queues = group->fatal_queues;
+  3960		}
+  3961		if (group->innocent)
+  3962			get_state->state |= DRM_PANTHOR_GROUP_STATE_INNOCENT;
+  3963		if (group->fault_queues) {
+  3964			get_state->state |= DRM_PANTHOR_GROUP_STATE_QUEUE_FAULT;
+  3965			get_state->fault_queues = group->fault_queues;
+  3966		}
+  3967	
+> 3968		get_state->exception_type = group->fault.exception_type;
+  3969		get_state->access_type = group->fault.access_type;
+  3970		get_state->source_id = group->fault.source_id;
+  3971		get_state->valid_address = group->fault.valid_address;
+  3972		get_state->address = group->fault.address;
+  3973	
+  3974		fault_count = panthor_group_count_faults(sched, group);
+  3975	
+  3976		if (!count && !events) {
+  3977			get_state->faults.count = fault_count;
+  3978			get_state->faults.stride = sizeof(struct drm_panthor_queue_event);
+  3979			goto exit;
+  3980		}
+  3981	
+  3982		panthor_group_get_faults(sched, group, events, min(get_state->faults.count, count));
+  3983	
+  3984	exit:
+  3985		group_put(group);
+  3986		return 0;
+  3987	}
+  3988	
 
 -- 
 0-DAY CI Kernel Test Service
