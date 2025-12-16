@@ -1,72 +1,58 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCE835FF5B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 13:27:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7618376BF1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 13:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765891675; cv=none; b=gPDN2z+fybS5GzdgYSUClKOi3uWnNnm5DUo/5MMjYduXhz8PqMZnI0jcXolXWWv5irK6fHRg2hrDZfOYrDcgea6R6TC/qdmTxI9rjUBA7rc+Yfw42pVnm2LLMWfgBFp/vVjo8oUqFIz+7g2wp+9M+Wdd3ClbA/jb3WUG5tKindo=
+	t=1765891804; cv=none; b=jS8slNeL+qOng/0BAxOTgWw1KvVsaQAlJz5GkCwncwV4JIfz3IdjghxeE6VLQqBiZIdlwNKpRLENERQURx1upXx2CHXnEV9m9n8y9iIEly3qYpXbtXo9zL/yDZeYY/8sAOvspMkFCd5FYB0P9UkWksHYdLTKlFZF0540wzD4ZQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765891675; c=relaxed/simple;
-	bh=M0bxbfD0As+YmNac9CIegaV8dvu/bSOewPFUnSggMLE=;
+	s=arc-20240116; t=1765891804; c=relaxed/simple;
+	bh=RTLXkMOacQujEuMPysI9MCOpZIztPWRNZaAiBzEMNnA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z1J1X/uKPxci1VoCkyPjwlf51wx1NdGLhfgWp6Tpww5zxHZGrNp36lQl/wk6lCZ+SoUNjuJHI4S2eMkYiddZsfxFc4ntq7jIxIw2l2OjoTeDNSCJOYTKNvx8XHxyZVl9/TKFnv7MQhU6j9QudEi7zBHWAtJyAvsgXs3k9/n/Uyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iur8Q/vZ; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=hH4P+GllzD0cg7gar9w1535yd7w7+buVQv+kcF9FbHzaVdBQPrYn/8Pt2kmYHN87Khh8Pq6+D5xoff0pPBlC+qW/bJVJsqsDet1puqN2sZFlkF7lCet00vwxHwctjiEz5Mhi3Pme/bpmXSqSRLNUf5oTWcpqNmPHnlbB2s2OeGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b3jFFB/I; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iur8Q/vZ"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42fb0fc5aa9so1799617f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 05:27:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765891671; x=1766496471; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6y36B4YguvPAVAnYYeQeC5X+WoPU9GzZLwjJ+mAyZZY=;
-        b=iur8Q/vZBs2TEsQK9K4BqBTvuPnwqGSpLqjAGaflojGRnb3RnB5nrG+D6+PgAazvky
-         i+oDoP5JoT8rXNqv6wL2AN46OdUVPxzplqrbwyTpS2ehzERNNZO1EGRKu8F3EBUx5wRD
-         sYSSBRQfPI/tZWjL65J2FKZ50dtwWmVmgcJaArwrJ7hxRLVqxa0JOunBE1udhDExOUYH
-         DtCr+WKVeY//BhWuUauVe+Mq3f1C506B0B0gtoxArP8+sejOFrYNGOs3SXDC0FrlP3OG
-         afuGGBgkbzfXB5jVRwjktdVjUOTYrBr965UkIv1WUGNOmY6STaaOnZiAKI8JpUyn/e85
-         M/bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765891671; x=1766496471;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6y36B4YguvPAVAnYYeQeC5X+WoPU9GzZLwjJ+mAyZZY=;
-        b=a2/shUGtR0clmN7pCPnPdljZihD2dJCYzIB4ggVeUhodzNMCWRM4TTf4fZQ8bLJmix
-         ICWE5dwO80pgysg5Zu/WlIkm4w40sXkoIuR2aSOJ03VipKJKV49SSLE8XVb4QBnJWqB6
-         o5XM7MB+HbkMzfw/nlYCSKLtArlYsrMzfC7vAmKlcPIKF37mjN3uCLoUz8dLx5knpLfB
-         zsy87a5O0rwWafiIL6AyAo0COGWE3s98SviytcodRVE32DRjr7hc3nT84Q3VlUjcTxIv
-         T58BpaWRQoiPru/MxYjkysBMy7rEuf/xzsaV/5YA70QbJKI1DLWhUWz54GdtTSroQvAU
-         dCpg==
-X-Forwarded-Encrypted: i=1; AJvYcCXPLws7t+iL4LTrwKDpaZCKspO04PTBMZhORYujXsqxj4fRp5l4J8UlkXEQRkG1jFigKB1xsTeTZ4LcpQ/c@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkXd/7HLNtDoBLGwqOi22lPWSJG2Zkg40W5R207ZnpjacZpYf2
-	zZdTubqwKN9uXiZOhSOvHG360JoCpB7KAgroN1y2VdWS2tV7uGuNzOWkC2mJAnHVEca9nko2jgu
-	tiH+H
-X-Gm-Gg: AY/fxX4hNSPtsV2tA3Qz22P3jH5sKUaShXmg3L37fKgORqbGacdkEWbZlGyQFdYpJ8d
-	CwXMSlSc2W1L4fkc2K6jqSHWaWp/gj7IwUylw5oalqDGDw6Vh/2aPUvMvmOSnw6Rr0ZqoBuHI7E
-	6NSshCVkMrQ6bvAaLttK+28I/kY0E2UCtqhS7rZaIK3fUTVNirsy6EVlHCir+Rf169NdJaUkz6b
-	hJz01azp4rkcc/l+BWlrZhPjiPKaKyKks0/+7vD+4pomW9rgueZr6AvAvvsuaS7VXtGLwGYcStw
-	ZThos1xPKodwFgn7CW+/4GPF/HbyU62cRiGkqTBJdYgtNwv46y659dc9GbFddOZoWP6Jlw41sMF
-	OjC5Txky6C6wiBY32dzwI2E/YBSzOudq6EzcMeE1MGJkD7mhree+Mu9gEiKs5KRr8dGnWH89vEW
-	17cMRsbiQcYXby1ew7
-X-Google-Smtp-Source: AGHT+IHl8ZNaJnmMRRn5pzpbDfTgSbSMIsp6fByudl0y25hQmBiOomGR1Gi5zOJEkB6jfAdInAaBeg==
-X-Received: by 2002:a05:6000:40df:b0:430:f6c0:6c47 with SMTP id ffacd0b85a97d-430f6c06d99mr8396227f8f.21.1765891670633;
-        Tue, 16 Dec 2025 05:27:50 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-430f36b6a19sm21012482f8f.38.2025.12.16.05.27.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Dec 2025 05:27:50 -0800 (PST)
-Date: Tue, 16 Dec 2025 16:27:46 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Divya Koppera <divya.koppera@microchip.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: drivers/net/phy/microchip_t1.c:1299 lan887x_phy_init() warn:
- 'priv->clock' can also be NULL
-Message-ID: <202512160211.FZ4wuVcH-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b3jFFB/I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765891803; x=1797427803;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RTLXkMOacQujEuMPysI9MCOpZIztPWRNZaAiBzEMNnA=;
+  b=b3jFFB/ISVZSoE4WoL5p4tPlD47u4BPmXqdwdmRYwgsbMROpYM9CfmMm
+   zP3qg11vQtT8wyA2guhhOaZLkx/DCTDaL7Bep8Cgm4lwdjasdiMYQCcmi
+   ij1agg4XyztKzTrIX6dteZOQQT8DESIqFFE1tYcfRXBkCUInIQKK8uLH4
+   cBmDRVLysXLWaaVciUqy/se8xkhmDlZNhBUHbal1gm26ei+DzfqnRhnjy
+   FAyatx2B9dgS2Sn1AqCDrMYIWsiMct81sc2DEmlueZF+9acQb/PJYUHKk
+   CxDX62MzbwttviY4K0mnwdhtNN2t+V7QofL1WbvqdxNzBmzNnM5iqZe4L
+   A==;
+X-CSE-ConnectionGUID: HxnO+7rvQ+mpO5k+iwrAFw==
+X-CSE-MsgGUID: 7UB84GIlRQSPgE5AbMEQUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67964600"
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
+   d="scan'208";a="67964600"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 05:30:00 -0800
+X-CSE-ConnectionGUID: 3Q2A8k7dTlelTke95HynMA==
+X-CSE-MsgGUID: CjfKCsFPQYmqVJLeQDxftw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
+   d="scan'208";a="198829828"
+Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 16 Dec 2025 05:29:58 -0800
+Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vVV7k-000000003EW-0sjU;
+	Tue, 16 Dec 2025 13:29:56 +0000
+Date: Tue, 16 Dec 2025 21:29:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: alexs@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:ptdesc1215 1/1] arch/loongarch/include/asm/pgalloc.h:24:56:
+ error: passing argument 1 of 'page_address' from incompatible pointer type
+Message-ID: <202512162148.C86VDB4s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,80 +62,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-commit: 8541fc12edcdef36a02885672f22ca8391bd2443 net: phy: microchip_t1: Enable pin out specific to lan887x phy for PEROUT signal
-config: sparc-randconfig-r072-20251213 (https://download.01.org/0day-ci/archive/20251216/202512160211.FZ4wuVcH-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.1.0
+tree:   https://github.com/alexshi/linux.git ptdesc1215
+head:   f6b3ada105829eaafc93899aabaee60344844f57
+commit: f6b3ada105829eaafc93899aabaee60344844f57 [1/1] mm/pgtable: convert pgtable_t to ptdesc pointer
+config: loongarch-randconfig-r112-20251216 (https://download.01.org/0day-ci/archive/20251216/202512162148.C86VDB4s-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512162148.C86VDB4s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512160211.FZ4wuVcH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512162148.C86VDB4s-lkp@intel.com/
 
-smatch warnings:
-drivers/net/phy/microchip_t1.c:1299 lan887x_phy_init() warn: 'priv->clock' can also be NULL
+All errors (new ones prefixed by >>):
 
-vim +1299 drivers/net/phy/microchip_t1.c
+   In file included from include/linux/pgtable.h:6,
+                    from include/linux/mm.h:31,
+                    from arch/loongarch/kernel/asm-offsets.c:11:
+   arch/loongarch/include/asm/pgalloc.h: In function 'pmd_populate':
+>> arch/loongarch/include/asm/pgalloc.h:24:56: error: passing argument 1 of 'page_address' from incompatible pointer type [-Werror=incompatible-pointer-types]
+      24 |         set_pmd(pmd, __pmd((unsigned long)page_address(pte)));
+         |                                                        ^~~
+         |                                                        |
+         |                                                        pgtable_t {aka struct ptdesc *}
+   arch/loongarch/include/asm/pgtable.h:192:37: note: in definition of macro '__pmd'
+     192 | #define __pmd(x)        ((pmd_t) { (x) })
+         |                                     ^
+   include/linux/mm.h:2493:53: note: expected 'const struct page *' but argument is of type 'pgtable_t' {aka 'struct ptdesc *'}
+    2493 | static inline void *page_address(const struct page *page)
+         |                                  ~~~~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:182: arch/loongarch/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1314: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-0941c832823498 Divya Koppera 2024-08-21  1280  static int lan887x_phy_init(struct phy_device *phydev)
-0941c832823498 Divya Koppera 2024-08-21  1281  {
-9fc3d6fe802923 Divya Koppera 2024-12-19  1282  	struct lan887x_priv *priv = phydev->priv;
-0941c832823498 Divya Koppera 2024-08-21  1283  	int ret;
-0941c832823498 Divya Koppera 2024-08-21  1284  
-9fc3d6fe802923 Divya Koppera 2024-12-19  1285  	if (!priv->init_done && phy_interrupt_is_valid(phydev)) {
-9fc3d6fe802923 Divya Koppera 2024-12-19  1286  		priv->clock = mchp_rds_ptp_probe(phydev, MDIO_MMD_VEND1,
-9fc3d6fe802923 Divya Koppera 2024-12-19  1287  						 MCHP_RDS_PTP_LTC_BASE_ADDR,
-9fc3d6fe802923 Divya Koppera 2024-12-19  1288  						 MCHP_RDS_PTP_PORT_BASE_ADDR);
-9fc3d6fe802923 Divya Koppera 2024-12-19  1289  		if (IS_ERR(priv->clock))
-9fc3d6fe802923 Divya Koppera 2024-12-19  1290  			return PTR_ERR(priv->clock);
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=n] && CAN [=y]
+   Selected by [y]:
+   - CAN [=y] && NET [=y]
 
-The KConfig does this:
 
-	select MICROCHIP_PHY_RDS_PTP if NETWORK_PHY_TIMESTAMPING
+vim +/page_address +24 arch/loongarch/include/asm/pgalloc.h
 
-Since this config doesn't have NETWORK_PHY_TIMESTAMPING then
-priv->clock is NULL
+09cfefb7fa70c3 Huacai Chen 2022-05-31  21  
+09cfefb7fa70c3 Huacai Chen 2022-05-31  22  static inline void pmd_populate(struct mm_struct *mm, pmd_t *pmd, pgtable_t pte)
+09cfefb7fa70c3 Huacai Chen 2022-05-31  23  {
+09cfefb7fa70c3 Huacai Chen 2022-05-31 @24  	set_pmd(pmd, __pmd((unsigned long)page_address(pte)));
+09cfefb7fa70c3 Huacai Chen 2022-05-31  25  }
+09cfefb7fa70c3 Huacai Chen 2022-05-31  26  
 
-9fc3d6fe802923 Divya Koppera 2024-12-19  1291  
-8541fc12edcdef Divya Koppera 2025-01-15  1292  		/* Enable pin mux for EVT */
-8541fc12edcdef Divya Koppera 2025-01-15  1293  		phy_modify_mmd(phydev, MDIO_MMD_VEND1,
-8541fc12edcdef Divya Koppera 2025-01-15  1294  			       LAN887X_MX_CHIP_TOP_REG_CONTROL1,
-8541fc12edcdef Divya Koppera 2025-01-15  1295  			       LAN887X_MX_CHIP_TOP_REG_CONTROL1_EVT_EN,
-8541fc12edcdef Divya Koppera 2025-01-15  1296  			       LAN887X_MX_CHIP_TOP_REG_CONTROL1_EVT_EN);
-8541fc12edcdef Divya Koppera 2025-01-15  1297  
-8541fc12edcdef Divya Koppera 2025-01-15  1298  		/* Initialize pin numbers specific to PEROUT */
-8541fc12edcdef Divya Koppera 2025-01-15 @1299  		priv->clock->event_pin = 3;
-                                                        ^^^^^^^^^^^
-Potentially resulting in a NULL dereference.
+:::::: The code at line 24 was first introduced by commit
+:::::: 09cfefb7fa70c3af011b0db0a513fd80b2f18abc LoongArch: Add memory management
 
-8541fc12edcdef Divya Koppera 2025-01-15  1300  
-9fc3d6fe802923 Divya Koppera 2024-12-19  1301  		priv->init_done = true;
-9fc3d6fe802923 Divya Koppera 2024-12-19  1302  	}
-9fc3d6fe802923 Divya Koppera 2024-12-19  1303  
-0941c832823498 Divya Koppera 2024-08-21  1304  	/* Clear loopback */
-0941c832823498 Divya Koppera 2024-08-21  1305  	ret = phy_clear_bits_mmd(phydev, MDIO_MMD_VEND1,
-0941c832823498 Divya Koppera 2024-08-21  1306  				 LAN887X_MIS_CFG_REG2,
-0941c832823498 Divya Koppera 2024-08-21  1307  				 LAN887X_MIS_CFG_REG2_FE_LPBK_EN);
-0941c832823498 Divya Koppera 2024-08-21  1308  	if (ret < 0)
-0941c832823498 Divya Koppera 2024-08-21  1309  		return ret;
-0941c832823498 Divya Koppera 2024-08-21  1310  
-0941c832823498 Divya Koppera 2024-08-21  1311  	/* Configure default behavior of led to link and activity for any
-0941c832823498 Divya Koppera 2024-08-21  1312  	 * speed
-0941c832823498 Divya Koppera 2024-08-21  1313  	 */
-0941c832823498 Divya Koppera 2024-08-21  1314  	ret = phy_modify_mmd(phydev, MDIO_MMD_VEND1,
-0941c832823498 Divya Koppera 2024-08-21  1315  			     LAN887X_COMMON_LED3_LED2,
-0941c832823498 Divya Koppera 2024-08-21  1316  			     LAN887X_COMMON_LED2_MODE_SEL_MASK,
-0941c832823498 Divya Koppera 2024-08-21  1317  			     LAN887X_LED_LINK_ACT_ANY_SPEED);
-0941c832823498 Divya Koppera 2024-08-21  1318  	if (ret < 0)
-0941c832823498 Divya Koppera 2024-08-21  1319  		return ret;
-0941c832823498 Divya Koppera 2024-08-21  1320  
-0941c832823498 Divya Koppera 2024-08-21  1321  	/* PHY interface setup */
-0941c832823498 Divya Koppera 2024-08-21  1322  	return lan887x_config_phy_interface(phydev);
-0941c832823498 Divya Koppera 2024-08-21  1323  }
+:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
+:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
