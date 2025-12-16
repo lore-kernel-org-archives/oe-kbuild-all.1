@@ -1,87 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D058139D0A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 19:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E16F52C17A1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 20:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765913578; cv=none; b=N4yJ9zUy8qRwCLZ3QAXb3uHl2PmBHgDTnzgixO9wNQBvNJO+K3GRrdkw1DWJu16P6cEMUiCAsuudyAR4v/2HEC+JOq/AYxqKYuLK2jIytlRz2/LbOjH5/bQjIF98X+sOdrTx8udiUztFFidFdQs3QtH91DYOI30ECFPiWBCtiPE=
+	t=1765917732; cv=none; b=t7uY9a1CplT62PmiShMtp1zcTip3pweu1quN4zE/ri9MgOo86QUlHTQGjpQjB9CQfFlxt4Xs85FRMbt00eIS/yhbpojn+wDlNMMfFgDLJCgta+HuFcBu7J+snQnXcS9gpvn+DlvbjgXCiYmcNqOmo/nLleXbsJx6yVX0qlLqGyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765913578; c=relaxed/simple;
-	bh=uuMcXhe71bXdCw7Lqot85cls8wemVqYEx9CsEfaiPDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WrW399GhVbFb/vsy0InpgtGK5HdsrdYtV+WY+oK+zUAMK+GvcE0WJP85ite+JoulhxrwByRN4oSqmHQf94LalIeYmIlZTHSzqJxvw99XGH+NySPqT8YU3bCKmbm9o3cvoCAFaqHayWeBYGpqm09IXR8EoHsdBEWbDYhnla0HwF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DBabPdvk; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765917732; c=relaxed/simple;
+	bh=kYRZPQVIXaPZPvBqjFrVHSe3OQvXSms9kx6HAz+Sc6o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fj9R0LcusShMTKwaCmwytGU2DGEcmCNSDSYKHVfLRGRSRkfkFlzqau1yMbgnW2XMUcxeL2nOymAN2JLu0LixTzs5Rg9SlStVqYg//lOjD5b5v6NWl4BzxG+fVNjP+otdf8W9l4rJWqYcsS/+eP0Dv5Nqqw6jYBkS17A1qkEB494=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EOSBR9jD; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DBabPdvk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765913576; x=1797449576;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uuMcXhe71bXdCw7Lqot85cls8wemVqYEx9CsEfaiPDE=;
-  b=DBabPdvk1EiCtYNUWv+iCywLWPbQUYvJ/88RtoiNHHDAgNU7EHj4q3YR
-   ymQYZ4jtIBwGCxXYm1xAtGZAvdKVRf3WCj32WmlYBfMoCT1bTenXkDK2Z
-   JsJDUr7RHXjy9ZOFPxEemOFy3M206kFdepjIFN40tPoTTyWGYDWIAHu+z
-   wqvZCormIqLj6djBRgQiGucxbM+d810QCW/lMncvmO1Y+77LINprsccPD
-   8OVoH/jzejBG1eXTH+VelKLWGElmfqaUZtZRgcraIUMtjLwBWR+atLo7f
-   Vapi0NcgJZpn50zOlksURTBPjcwrKdD1+FKPRr0K0mPF3kOg9o518kQ/0
-   w==;
-X-CSE-ConnectionGUID: 1VCXP0NgTcuudtMFxefc1A==
-X-CSE-MsgGUID: lZgrcMa9RsybuLuMWNIC2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="67881347"
-X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="67881347"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 11:32:55 -0800
-X-CSE-ConnectionGUID: adkHya/FQQ61wJD1JlfOdA==
-X-CSE-MsgGUID: MZqyoZFFSWmJP0SJpKKkbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="197722542"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Dec 2025 11:32:54 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vVamk-000000003lg-05dl;
-	Tue, 16 Dec 2025 19:32:41 +0000
-Date: Wed, 17 Dec 2025 03:31:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1943/1943] arch/x86/mm/maccess.o:
- warning: objtool: missing symbol for section .text
-Message-ID: <202512170330.xeDXc5AM-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EOSBR9jD"
+Message-ID: <cecb6351-ea9a-4f8a-863a-82c9ef02f012@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1765917714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NI/FBGNehU9YUSYgyB/T6XjjzQJetB/bgxtbGtuRsyA=;
+	b=EOSBR9jDAYi3b1D0UmXpcjapzKWvFni01k2gkpJj7cMWZ5nKYil9hpl5OoaBz8zFEiJ6Pu
+	FficCWLudBTHev9OhiQRCHRtdJD0My8wh2lpkccQ+0NAJGbkW5zDVSrXoMQJPlKnCJqNIp
+	mQpWb8uvFo6YjSIG5D406m+IA6x0XIg=
+Date: Tue, 16 Dec 2025 12:41:44 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update
+ with raw binary output
+To: kernel test robot <lkp@intel.com>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Alan Maguire <alan.maguire@oracle.com>, Donglin Peng <dolinux.peng@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org,
+ dwarves@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org
+References: <20251127185242.3954132-5-ihor.solodrai@linux.dev>
+ <202512061213.85NHVN2W-lkp@intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+In-Reply-To: <202512061213.85NHVN2W-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Daniel,
+On 12/5/25 9:08 PM, kernel test robot wrote:
+> Hi Ihor,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on bpf-next/master]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Ihor-Solodrai/resolve_btfids-rename-object-btf-field-to-btf_path/20251128-025645
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> patch link:    https://lore.kernel.org/r/20251127185242.3954132-5-ihor.solodrai%40linux.dev
+> patch subject: [PATCH bpf-next v2 4/4] resolve_btfids: change in-place update with raw binary output
+> config: arm64-randconfig-004-20251205 (https://download.01.org/0day-ci/archive/20251206/202512061213.85NHVN2W-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 14bf95b06a18b9b59c89601cbc0e5a6f2176b118)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251206/202512061213.85NHVN2W-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512061213.85NHVN2W-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> ld.lld: error: .tmp_vmlinux1.btf.o is incompatible with aarch64elf
+> 
 
-FYI, the error/warning still remains.
+I was able to reproduce this error.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   49bc452fdcb1e9ec3f9bb20cd3e15b865a2933fd
-commit: 22058d2bdaf6b0526395ceec2736c72c3b5f435a [1943/1943] uaccess: Add strict non-pagefault kernel-space read function
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251217/202512170330.xeDXc5AM-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512170330.xeDXc5AM-lkp@intel.com/reproduce)
+It happens only when cross-compiling with LLVM (which we don't do on
+BPF CI, btw) because of this line in gen-btf.sh:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512170330.xeDXc5AM-lkp@intel.com/
+	echo "" | ${CC} -c -x c -o ${btf_data} -
 
-All warnings (new ones prefixed by >>):
+The purpose of this command is to produce an "empty" linkable ELF
+file. The .BTF section is objcopied into it, and then it's linked
+into the vmlinux.
 
->> arch/x86/mm/maccess.o: warning: objtool: missing symbol for section .text
+Before the changes in this patch, the "empty" ELF was produced with
+objcopy --strip-all on .tmp_vmlinux1, which is a slower operation.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ld.lld fails, because ${CC} without the flags is just clang in this
+case, and it emits an ELF for host arch, which of course can't be
+linked. It can be fixed with:
+
+	echo "" | ${CC} ${CLANG_FLAGS} -c -x c -o ${btf_data} -
+
+${CLANG_FLAGS} contains a correct clang --target when cross-compiling.
+
+I'll use this in the upcoming v4 of the series.
