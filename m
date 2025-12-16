@@ -1,163 +1,197 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873BA32143E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 11:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E070A341069
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 11:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765883712; cv=none; b=nB1nUsE1uwqFTqMouQCY6BuqIgsJjHNw5WW2dY3hvDPHptZOPUqZUpYeZ7j+Xr8W98kjtKhxE9c28cbDaUvJF1g+qBBbtnEPKyqDR1iGOwkVnJhYPHC5UsKRoPYuIsRQaGPa6OPX4YudLOEnsy9p8ZfOAmIN5avC6Vpp7ZRbgeo=
+	t=1765884188; cv=none; b=QPaChXTvWwlhCxsF6cBlH5VtS8Abpm0ZlYeG1OtMXpX2a9avhR1d6pSVL5e8W4FB7ruCdO69r4eZWMB6i09lFc7twAOCDrvQwjhfD2lGF5n1NxlyT+AzJ+uXpyYN2g8spoN0+ezjUq803/WJcqYgdsYY2ILF9qbEj/VN5/MiZcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765883712; c=relaxed/simple;
-	bh=BBwbPv6peH1O5d0/RsOUMDxJe6Kt8Lw20gPkU3Haqeo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rM3T61p5K0Px/1vGdZCOQaeN1ukeUX1Gmt/RBf4AcnAFmRELIttfDgi9Uk5l5Y9MRd4nIYG0gkSeFtoMKPZX6iU6Eya9mQVpb2ydjXhWfKImKmdvES8cvESt/SfaVLx31G2nd32a66eoYrnDBOLIrwTpzZ4rNCfz5Gt9T1jq5cA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k1XtmG7u; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765884188; c=relaxed/simple;
+	bh=NKqkp5Srjqkg3dIv3TzWRLSPB/9xR4xO6gtkGgOA4ss=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eDz8BMSoAqdUifc56fbMVJHuqxBlem6w0CnljTaB9SCZC+j8sygW3BDVZcr95oNMzSsVjxv5mO6djKBztuJsutJc2K1VLP6ZzyNUBksAO6LEyHTF5hQbqz5TydR9Bkqz/woNBmBld0uGIq7Ovtv6LABmnYAjfehuWcX3I7RxPpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J+WqCiPo; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k1XtmG7u"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a07f8dd9cdso31234535ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 03:15:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765883710; x=1766488510; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pa/R0f7apMOn2D0iStNavYUHvbbAQjxSO588dE4NM9E=;
-        b=k1XtmG7uGv/feHq9lg0XWSAaGtTEEIKze9JhaAwqbalzafC7UGql5ShxJZk6XSVL/5
-         lpMIdn1y1VUje0JKYva+ArjpRI8Jla4qghrEXTOJUusC/y62D5z8KQpc2hEB6ToSJeku
-         G7X2ZDd2j0NABpE54Y9qb7EBUn/oBeEAYW7D0HAtfW7cIIW+IUguaoaye6BBKx480qif
-         m2EClV386OopQuAfncxuEU9o33WQj91Y351gJ3qua+ApFp7yqFtkerNvOkiv/ZW1MLWo
-         CKsvR7H2/4md2FAnZAYWmQqPydA3proaila1nb5eTK6KWlUXnqJkfSjEiEF5JbXoSvYP
-         UkOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765883710; x=1766488510;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pa/R0f7apMOn2D0iStNavYUHvbbAQjxSO588dE4NM9E=;
-        b=NnYuQJ6vDPY6xuCIoK0TfdL9iYFQjFe5vCWe7XT8VSKkPBVWRgtd/pNMXicR3OjOmu
-         QH1bmADVQBvE6rfSvyiu226gfjruzf5mf1jX9NY1LVCLTk6Aaj9b/aPnmLy5NHk3NlVe
-         iqo1qdjLN2tVj0CQtcQTHVXGaBMT7m8HmuTVzgpxHyMv9fujaDRpEN91YmL2euta6lue
-         rFfGoaIhuIwLUixN+aI2XkfWdhNGfBo/deI+jQXabEa1jx8ZgNiTl37m2LzDq/ZBEIxD
-         HsZPpewo544/H5sVR1o5f+TbvZhh7uU0KPkOPN1eINdyj4Uma3SSK26VyDEFOOAuftMP
-         iWag==
-X-Forwarded-Encrypted: i=1; AJvYcCU9MHkk0SzpIhZGKjWFON62pSSGhQpx1uN0lxdz+QfUI1jIOPI7bBD/ViyRbVhvdfy6bKU+GS4EXVb3KkJH@lists.linux.dev
-X-Gm-Message-State: AOJu0YxsOtbpklCP8v89ZwIqX7S8Jo3LfbUJ07vS8QeQ07WeEbKT5sgT
-	WUplqtBYhQ1vCQD0F5oc0oDigLHPzdU9cgXzpRc4ldSaW2jBPkJizMfY
-X-Gm-Gg: AY/fxX5H4QtLkldnWf8mxZ+bFau3SNKzerxIUqyibCS2WExki4IECTpjjgnLq+Gu+FV
-	PCTvaTxcRizKKgyuTNV6T2FkXPaE5af7wOvh9dvhBEqxSGNYi0WrFk16AvaLKmwpsQkj65BvsWx
-	hQihXdvMGzMiT4z7jltGaWYjMupWx7YQ+GJdS481TdEv1viSvPT8pf6iBuLJ8tKul8fypiVvZ44
-	eBWZZQb1fY61uCbvxBZXTDxEz7XPFZ2b9zk0YAIcp6UZH2lIYMBLZtLZONTcoq7ZlP7agoqgweg
-	PmFfh5j2QJS0EKfjr8MrGPNngUCgldW0gGby6rw/Xr9f4wmieDAw3NzeJZYEGEITJrBVS2iboNU
-	PUTgfEmLO/iP3WseNTDQUN7fn6X3qQSXFGvektIaKYBmCzninhQP/CBIla+ojv+XMfmTb96h0Hp
-	GjejtlTbeFYxmUrbbdCBYE3q0ixWC2CpGbj0KCLB8fxQa46tScLgbCfvdHIg==
-X-Google-Smtp-Source: AGHT+IHjShZlqtrNatz0TeEfKLc+IYxMG7B7LV4mS/9omwYiNMA01BR3glT4ouu8CwPVBZrnNUvMwQ==
-X-Received: by 2002:a17:902:ec8b:b0:29f:251b:c9d7 with SMTP id d9443c01a7336-29f251bcb21mr121735895ad.12.1765883709679;
-        Tue, 16 Dec 2025 03:15:09 -0800 (PST)
-Received: from ?IPV6:2405:201:3006:188a:9344:a089:f162:6625? ([2405:201:3006:188a:9344:a089:f162:6625])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29ee9d38ad1sm160754585ad.29.2025.12.16.03.15.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Dec 2025 03:15:09 -0800 (PST)
-Message-ID: <1ca74be1-7b4c-4a38-b507-f320104a7a60@gmail.com>
-Date: Tue, 16 Dec 2025 20:15:04 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J+WqCiPo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765884187; x=1797420187;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NKqkp5Srjqkg3dIv3TzWRLSPB/9xR4xO6gtkGgOA4ss=;
+  b=J+WqCiPoEJ6l52z+gaWBsZL1ryDVQdPQfWk6MuneD+/7onIctiBgd/a6
+   uHPjX4kiEmnrv9ObdkJiBSaRhOxRivUgHuNVOmAI/oaoaH3+eGBAjbVyA
+   22rjVz6sBHXmmjKbJhgOwVDb7JiqEEpleIIdXZ7hq5T9XmLS8v4KHppJf
+   4LkiDtr8BTridJ0cIg0tp4AWfl4qNq66QT1jUWHVlev3ji6sMeep9U9NN
+   oBQoBNgz7YP8+4jwzGCSEbbAJJM3iExriGllBibZWV1CB/WmzYDYeBVfN
+   GwZdl8ERBLhSKa+z4LiBnifL4YQEUnEB+2kWvcswLJGtmzaM1VaIzQulI
+   w==;
+X-CSE-ConnectionGUID: dwMJFYRjQBiv8BJlJI4FGw==
+X-CSE-MsgGUID: 0yDkIv8BSs+/Y5xxsmLkwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="67834864"
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
+   d="scan'208";a="67834864"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 03:23:06 -0800
+X-CSE-ConnectionGUID: Ym/5GI7HR2+yyP7p6Wu/DQ==
+X-CSE-MsgGUID: 6iP+iNLlQmyMeChSI6ppKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
+   d="scan'208";a="202404811"
+Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 16 Dec 2025 03:23:05 -0800
+Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vVT8s-000000001ZK-0Zvw;
+	Tue, 16 Dec 2025 11:22:58 +0000
+Date: Tue, 16 Dec 2025 19:21:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 0/3]
+ arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:112:5: warning: no previous prototype
+ for 'kvm_iommu_refill'
+Message-ID: <202512161934.KVqcTSGu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] platform/x86: thinkpad_acpi: Add support to detect
- hardware damage detection capability.
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: kernel test robot <lkp@intel.com>, Hans de Goede <hansg@kernel.org>,
- oe-kbuild-all@lists.linux.dev, platform-driver-x86@vger.kernel.org,
- LKML <linux-kernel@vger.kernel.org>, njoshi1@lenovo.com,
- Mark Pearson <mpearson-lenovo@squebb.ca>
-References: <20251210151133.7933-1-nitjoshi@gmail.com>
- <202512160219.94nMjvxO-lkp@intel.com>
- <213b3f29-09ee-4305-940b-89d4652101b1@gmail.com>
- <2433802f-ba32-1549-41f1-5a77e998c139@linux.intel.com>
-Content-Language: en-US
-From: Nitin <nitjoshi@gmail.com>
-In-Reply-To: <2433802f-ba32-1549-41f1-5a77e998c139@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   f3e91a3d47ad669f50691d94b0274831419f7522
+commit: c949df871d0707fe89a2f8d4e95fab7106e28aac [0/3] ANDROID: KVM: arm64: iommu: Allow donations from a CMA pool
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251216/202512161934.KVqcTSGu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161934.KVqcTSGu-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512161934.KVqcTSGu-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:112:5: warning: no previous prototype for 'kvm_iommu_refill' [-Wmissing-prototypes]
+     112 | int kvm_iommu_refill(struct kvm_hyp_memcache *host_mc)
+         |     ^~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:154:6: warning: no previous prototype for 'kvm_iommu_reclaim' [-Wmissing-prototypes]
+     154 | void kvm_iommu_reclaim(struct kvm_hyp_memcache *host_mc, int target)
+         |      ^~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:183:5: warning: no previous prototype for 'kvm_iommu_reclaimable' [-Wmissing-prototypes]
+     183 | int kvm_iommu_reclaimable(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:216:23: warning: no previous prototype for '__get_vcpu' [-Wmissing-prototypes]
+     216 | struct pkvm_hyp_vcpu *__get_vcpu(void)
+         |                       ^~~~~~~~~~
 
 
-On 12/16/25 19:19, Ilpo Järvinen wrote:
-> On Tue, 16 Dec 2025, Nitin wrote:
->
->> Hello ,
->>
->> On 12/16/25 10:19, kernel test robot wrote:
->>> Hi Nitin,
->>>
->>> kernel test robot noticed the following build warnings:
->>>
->>> [auto build test WARNING on linus/master]
->>> [also build test WARNING on v6.19-rc1 next-20251215]
->>> [If your patch is applied to the wrong git tree, kindly drop us a note.
->>> And when submitting patch, we suggest to use '--base' as documented in
->>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>>
->>> url:
->>> https://github.com/intel-lab-lkp/linux/commits/Nitin-Joshi/platform-x86-thinkpad_acpi-Add-sysfs-to-display-details-of-damaged-device/20251210-231409
->>> base:   linus/master
->>> patch link:
->>> https://lore.kernel.org/r/20251210151133.7933-1-nitjoshi%40gmail.com
->>> patch subject: [PATCH v2 1/2] platform/x86: thinkpad_acpi: Add support to
->>> detect hardware damage detection capability.
->>> reproduce:
->>> (https://download.01.org/0day-ci/archive/20251216/202512160219.94nMjvxO-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version
->>> of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes:
->>> https://lore.kernel.org/oe-kbuild-all/202512160219.94nMjvxO-lkp@intel.com/
->> Thank you for reporting this issue and I will fix this issue .
->>
->> I have already send patch v3 for this and will fix this warning in next patch
->> version i.e v4 .
->>
->> May i know, if its OK to add this Reported-by and closes tag in patch version
->> v4 ?
-> Hi,
->
-> Please only add those tags when you're fixing code that exists in a repo
-> already. For new work, we don't normally add lkp report tags despite the
-> email suggesting you to do so (I know it's a bit confusing but it's sort
-> of same as we don't normally mention all reviewers who gave improvement
-> suggestions either).
+vim +/kvm_iommu_refill +112 arch/arm64/kvm/hyp/nvhe/iommu/iommu.c
 
-Noted, Thank you for clarification . I will send next patch revision soon.
+   111	
+ > 112	int kvm_iommu_refill(struct kvm_hyp_memcache *host_mc)
+   113	{
+   114		struct kvm_hyp_memcache tmp_mc = *host_mc;
+   115	
+   116		if (!kvm_iommu_ops)
+   117			return -EINVAL;
+   118	
+   119		while (tmp_mc.nr_pages) {
+   120			unsigned long order = FIELD_GET(~PAGE_MASK, tmp_mc.head);
+   121			phys_addr_t phys = tmp_mc.head & PAGE_MASK;
+   122			struct hyp_pool *pool = &iommu_system_pool;
+   123			u64 nr_pages;
+   124			void *addr;
+   125	
+   126			if (check_shl_overflow(1UL, order, &nr_pages) ||
+   127			    !IS_ALIGNED(phys, PAGE_SIZE << order))
+   128				return -EINVAL;
+   129	
+   130			addr = admit_host_page(&tmp_mc, order);
+   131			if (!addr)
+   132				return -EINVAL;
+   133			*host_mc = tmp_mc;
+   134	
+   135			if (kvm_iommu_donate_from_cma(phys, order)) {
+   136				hyp_spin_lock(&__block_pools_lock);
+   137				pool = __get_empty_block_pool(phys);
+   138				hyp_spin_unlock(&__block_pools_lock);
+   139				if (!pool) {
+   140					__repudiate_host_page(addr, order, &tmp_mc);
+   141					*host_mc = tmp_mc;
+   142					return -EBUSY;
+   143				}
+   144			} else {
+   145				hyp_virt_to_page(addr)->order = order;
+   146				hyp_set_page_refcounted(hyp_virt_to_page(addr));
+   147				hyp_put_page(pool, addr);
+   148			}
+   149		}
+   150	
+   151		return 0;
+   152	}
+   153	
+ > 154	void kvm_iommu_reclaim(struct kvm_hyp_memcache *host_mc, int target)
+   155	{
+   156		unsigned long prev_nr_pages = host_mc->nr_pages;
+   157		unsigned long block_pages = 1 << pmd_order;
+   158		int p = 0;
+   159	
+   160		if (!kvm_iommu_ops)
+   161			return;
+   162	
+   163		reclaim_hyp_pool(&iommu_system_pool, host_mc, target);
+   164	
+   165		target -= host_mc->nr_pages - prev_nr_pages;
+   166	
+   167		while (target > block_pages && p < MAX_BLOCK_POOLS) {
+   168			struct hyp_pool *pool = &iommu_block_pools[p];
+   169	
+   170			hyp_spin_lock(&__block_pools_lock);
+   171	
+   172			if (hyp_pool_free_pages(pool) == block_pages) {
+   173				reclaim_hyp_pool(pool, host_mc, block_pages);
+   174				hyp_pool_init_empty(pool, 1);
+   175				target -= block_pages;
+   176			}
+   177	
+   178			hyp_spin_unlock(&__block_pools_lock);
+   179			p++;
+   180		}
+   181	}
+   182	
+ > 183	int kvm_iommu_reclaimable(void)
+   184	{
+   185		unsigned long reclaimable = 0;
+   186		int p;
+   187	
+   188		if (!kvm_iommu_ops)
+   189			return 0;
+   190	
+   191		reclaimable += hyp_pool_free_pages(&iommu_system_pool);
+   192	
+   193		/*
+   194		 * This also accounts for blocks, allocated from the CMA region. This is
+   195		 * not exactly what the shrinker wants... but we need to have a way to
+   196		 * report this memory to the host.
+   197		 */
+   198	
+   199		for (p = 0; p < MAX_BLOCK_POOLS; p++) {
+   200			unsigned long __free_pages = hyp_pool_free_pages(&iommu_block_pools[p]);
+   201	
+   202			if (__free_pages == 1 << pmd_order)
+   203				reclaimable += __free_pages;
+   204		}
+   205	
+   206		return reclaimable;
+   207	}
+   208	
 
-Thank you !
-
->>> All warnings (new ones prefixed by >>):
->>>
->>>      WARNING: No kernel-doc for file ./include/linux/pci.h
->>>      ERROR: Cannot find file ./include/linux/mod_devicetable.h
->>>      WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
->>>      ERROR: Cannot find file ./include/linux/bootconfig.h
->>>      WARNING: No kernel-doc for file ./include/linux/bootconfig.h
->>>>> Documentation/admin-guide/laptops/thinkpad-acpi.rst:1581: WARNING: Title
->>>>> underline too short.
->>> --
->>>      Hardware damage detection capability
->>>      ----------------- [docutils]
->>>>> Documentation/admin-guide/laptops/thinkpad-acpi.rst:1581: WARNING: Title
->>>>> underline too short.
->> Ack. Thank you !
->>
->>> vim +1581 Documentation/admin-guide/laptops/thinkpad-acpi.rst
->>>
->>>     1579	
->>>     1580	Hardware damage detection capability
->>>> 1581	-----------------
->>>     1582	
->>>
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
