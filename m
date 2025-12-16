@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1603254A9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 17:05:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E133090E2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 17:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765904728; cv=none; b=jul4DAKIvBjoUyFpwziC3/ZylrZYBtpUSGdRc+SrjNCn4mgI9UKLwI9gSV7OUpFDyL9V5OE+G5kl7vFA/kaZm8LnunW6SEb/bgfe9y4dCBYKj2nar8ynIO3/5VDup8PfPZmphsrXWrJIfljQ17ELYBaCRFcmk/tdQrmFcSi7PNE=
+	t=1765905347; cv=none; b=iApEos4HSsYsdASRpi3NZ9esEHaUPYaSIUX+9wMZFlrL7nX/EvxXwURSf03zSHeVbK3qjtyt299quv7EtvOuBxgwAMlE6zXmExQXcqmZUGQf8P4RCQozbqwNOODyMfPDFKe0uX3q3WAxoAwefRIRmHGu/Oleja9y/hqZknSottU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765904728; c=relaxed/simple;
-	bh=jivUxZrRZrk4+zlT15F/gYuUYL9Oi/gHii72+S5jIwA=;
+	s=arc-20240116; t=1765905347; c=relaxed/simple;
+	bh=YkA3ndstyCuAf95VYMI3wM9we8LQWxnCgjpCFFE1aZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uZKlGt5GcmxT31CyInyS27tbBMLucRt0PKrgy1MBW555n22Zh8rVk1eLiu1ACQ+ODfpHXhWnVe04ZN3txFFYpXFdgmAG01AyumXEfM+CkiC1SJAmqo/rSp8HP4q4fo4VOm6BvY+RoLSJORS9QDCMbuoowVlb3fYra/QUl1T3amA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PZdpI6eG; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=CUUCYaRG0kBDs1JNSoKyxoFztI0NXwLNUOmbfLRuMzlfvMUndRPV41sjGDSlhzcUL2uZL69Dm6F448sm8PMmdm6pdIB+SdmAlvUd8Y62n3yuv5QVl2oA3hAbKa3ZKSYfh+g0N4U8CBR1w54e4ScpPBzhnKAo0FfXhe1s7YBJn5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P+FVBz+q; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZdpI6eG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P+FVBz+q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765904727; x=1797440727;
+  t=1765905344; x=1797441344;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jivUxZrRZrk4+zlT15F/gYuUYL9Oi/gHii72+S5jIwA=;
-  b=PZdpI6eGsLuupd2ADA6KzOuo71TIwEQAQUhQJ7guPJ1KHgIFK68hkNvU
-   U2UIafrRQHUHdOngkZ0ihT3/Gr3e05zWnLP5Aob46TMz/DbkYHAD14Tu0
-   W1VJxk/XrYqFNLh48HnCW8AIg+MWHOGkujnK+qKlx/R7voiBybpz1G8Rg
-   7AOzos+1KQcHr55nKUwhJk/n4y16U2bxDV60NvF7rzwNo49+3vZ7uQOWL
-   XtAFDVLynHyAqqBY0dKHCz2c5m0pu4XZ0Qbba/M816lL6ssQx/T3jgyr1
-   g9O4AMhaay0qJVOb/zI44/9mmc2ZulFzz0vn8jSzSZhQA/p79rZCr/j1d
-   g==;
-X-CSE-ConnectionGUID: J7bTPAkpSKi9TUSiy2b7Ig==
-X-CSE-MsgGUID: o9fpwpXTSB21wVYqNagT5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="78467725"
+  bh=YkA3ndstyCuAf95VYMI3wM9we8LQWxnCgjpCFFE1aZk=;
+  b=P+FVBz+q3w6e8HS7mNjAjlpkfIN2LsWORmacGvESr5SB5vgFPV1nKYk/
+   njbLztyXDiwd/gG/DbRm1b0SFTS45iCl1qbhkL5+MIBPeB4rORxtmdl3e
+   uUmNkXEkBJqjOUAqHexokKTK55oAZIhwx9Xsrvjt0Rk8Qsr+VdRNy5iBt
+   febuec09/Y6cPtFpkgZjbXpjvQrJggK2omfeJqbGnUmSFQ1ApnCWazjOj
+   b5zOQ6wx0ZD/cTvRZAKeb4shCBscBZh6ZJgQaGIlZItmhVub7W9dMYW7W
+   il9LsBF/Zt65hN6L2B0aT1GsVWSDBQOH9D5BrhgzLD5TvYfyaSnYfuf2t
+   w==;
+X-CSE-ConnectionGUID: ECKWtP64StSdO98m8+inUw==
+X-CSE-MsgGUID: eQgDz8+fSrqlFQIWrdnkIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="67868103"
 X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="78467725"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 09:05:26 -0800
-X-CSE-ConnectionGUID: 6Dq7u2I3TSqs2s11Edkd+Q==
-X-CSE-MsgGUID: aji2Pkg4RlaAN16QCy25kw==
+   d="scan'208";a="67868103"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 09:15:42 -0800
+X-CSE-ConnectionGUID: Y7UixPzlRQGbcGwR8nvZNQ==
+X-CSE-MsgGUID: YJrTTNryQR6d+N5bRnsY+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="197821615"
+   d="scan'208";a="198321969"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 16 Dec 2025 09:05:25 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 16 Dec 2025 09:15:41 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVYTt-000000003cO-3nKi;
-	Tue, 16 Dec 2025 17:05:12 +0000
-Date: Wed, 17 Dec 2025 01:04:06 +0800
+	id 1vVYeA-000000003cu-3jru;
+	Tue, 16 Dec 2025 17:15:38 +0000
+Date: Wed, 17 Dec 2025 01:14:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 0/2]
- arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:175:6: warning: no previous prototype
- for 'kvm_iommu_donate_from_cma'
-Message-ID: <202512170005.yYm4n70n-lkp@intel.com>
+Subject: [android-common:android15-6.6 2/2] drivers/md/dm-bow.c:97:10:
+ warning: no previous prototype for function 'range_top'
+Message-ID: <202512170134.WgSIdwMW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,97 +62,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Vincent,
-
-FYI, the error/warning still remains.
-
 tree:   https://android.googlesource.com/kernel/common android15-6.6
 head:   e48fbb6a53e582d8881d31d6b3de0405f7543cfd
-commit: 3f35c377b90d0692801bd74b5501e6dcf81e4900 [0/2] ANDROID: KVM: arm64: iommu: Allow donations from a CMA pool
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251217/202512170005.yYm4n70n-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512170005.yYm4n70n-lkp@intel.com/reproduce)
+commit: 31c501de4a40905501f6325511d527436a10e67a [2/2] Revert "ANDROID: dm-bow: remove dm-bow"
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251217/202512170134.WgSIdwMW-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512170134.WgSIdwMW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512170005.yYm4n70n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512170134.WgSIdwMW-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:111:6: warning: no previous prototype for '__kvm_iommu_reclaim_pages' [-Wmissing-prototypes]
-     111 | void __kvm_iommu_reclaim_pages(struct hyp_pool *pool, void *p, u8 order)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:175:6: warning: no previous prototype for 'kvm_iommu_donate_from_cma' [-Wmissing-prototypes]
-     175 | bool kvm_iommu_donate_from_cma(phys_addr_t phys, unsigned long order)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:194:18: warning: no previous prototype for '__get_empty_block_pool' [-Wmissing-prototypes]
-     194 | struct hyp_pool *__get_empty_block_pool(phys_addr_t phys)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:215:6: warning: no previous prototype for '__repudiate_host_page' [-Wmissing-prototypes]
-     215 | void __repudiate_host_page(void *addr, unsigned long order,
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:222:5: warning: no previous prototype for 'kvm_iommu_refill' [-Wmissing-prototypes]
-     222 | int kvm_iommu_refill(struct kvm_hyp_memcache *host_mc)
-         |     ^~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:261:6: warning: no previous prototype for 'kvm_iommu_reclaim' [-Wmissing-prototypes]
-     261 | void kvm_iommu_reclaim(struct kvm_hyp_memcache *host_mc, int target)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:292:5: warning: no previous prototype for 'kvm_iommu_reclaimable' [-Wmissing-prototypes]
-     292 | int kvm_iommu_reclaimable(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/md/dm-bow.c:7:
+   In file included from drivers/md/dm.h:14:
+   In file included from include/linux/device-mapper.h:12:
+   In file included from include/linux/bio.h:10:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2229:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/md/dm-bow.c:97:10: warning: no previous prototype for function 'range_top' [-Wmissing-prototypes]
+      97 | sector_t range_top(struct bow_range *br)
+         |          ^
+   drivers/md/dm-bow.c:97:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      97 | sector_t range_top(struct bow_range *br)
+         | ^
+         | static 
+   drivers/md/dm-bow.c:103:5: warning: no previous prototype for function 'range_size' [-Wmissing-prototypes]
+     103 | u64 range_size(struct bow_range *br)
+         |     ^
+   drivers/md/dm-bow.c:103:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     103 | u64 range_size(struct bow_range *br)
+         | ^
+         | static 
+   drivers/md/dm-bow.c:148:6: warning: no previous prototype for function 'add_before' [-Wmissing-prototypes]
+     148 | void add_before(struct rb_root *ranges, struct bow_range *new_br,
+         |      ^
+   drivers/md/dm-bow.c:148:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     148 | void add_before(struct rb_root *ranges, struct bow_range *new_br,
+         | ^
+         | static 
+   drivers/md/dm-bow.c:592:3: error: field designator 'default_attrs' does not refer to any field in type 'struct kobj_type'
+     592 |         .default_attrs = bow_attrs,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/md/dm-bow.c:712:6: error: no member named 'num_write_same_bios' in 'struct dm_target'; did you mean 'num_write_zeroes_bios'?
+     712 |         ti->num_write_same_bios = 1;
+         |             ^~~~~~~~~~~~~~~~~~~
+         |             num_write_zeroes_bios
+   include/linux/device-mapper.h:337:15: note: 'num_write_zeroes_bios' declared here
+     337 |         unsigned int num_write_zeroes_bios;
+         |                      ^
+   drivers/md/dm-bow.c:749:19: error: too few arguments to function call, expected 7, have 6
+     748 |         bc->bufio = dm_bufio_client_create(bc->dev->bdev, bc->block_size, 1, 0,
+         |                     ~~~~~~~~~~~~~~~~~~~~~~
+     749 |                                            NULL, NULL);
+         |                                                      ^
+   include/linux/dm-bufio.h:30:1: note: 'dm_bufio_client_create' declared here
+      30 | dm_bufio_client_create(struct block_device *bdev, unsigned int block_size,
+         | ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      31 |                        unsigned int reserved_buffers, unsigned int aux_size,
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      32 |                        void (*alloc_callback)(struct dm_buffer *),
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      33 |                        void (*write_callback)(struct dm_buffer *),
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      34 |                        unsigned int flags);
+         |                        ~~~~~~~~~~~~~~~~~~
+   drivers/md/dm-bow.c:1096:5: warning: no previous prototype for function 'remap_unless_illegal_trim' [-Wmissing-prototypes]
+    1096 | int remap_unless_illegal_trim(struct bow_context *bc, struct bio *bio)
+         |     ^
+   drivers/md/dm-bow.c:1096:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1096 | int remap_unless_illegal_trim(struct bow_context *bc, struct bio *bio)
+         | ^
+         | static 
+   drivers/md/dm-bow.c:1252:5: warning: no previous prototype for function 'dm_bow_prepare_ioctl' [-Wmissing-prototypes]
+    1252 | int dm_bow_prepare_ioctl(struct dm_target *ti, struct block_device **bdev)
+         |     ^
+   drivers/md/dm-bow.c:1252:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1252 | int dm_bow_prepare_ioctl(struct dm_target *ti, struct block_device **bdev)
+         | ^
+         | static 
+   drivers/md/dm-bow.c:1284:12: warning: no previous prototype for function 'dm_bow_init' [-Wmissing-prototypes]
+    1284 | int __init dm_bow_init(void)
+         |            ^
+   drivers/md/dm-bow.c:1284:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1284 | int __init dm_bow_init(void)
+         | ^
+         | static 
+   drivers/md/dm-bow.c:1293:6: warning: no previous prototype for function 'dm_bow_exit' [-Wmissing-prototypes]
+    1293 | void dm_bow_exit(void)
+         |      ^
+   drivers/md/dm-bow.c:1293:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1293 | void dm_bow_exit(void)
+         | ^
+         | static 
+   12 warnings and 3 errors generated.
 
 
-vim +/kvm_iommu_donate_from_cma +175 arch/arm64/kvm/hyp/nvhe/iommu/iommu.c
+vim +/range_top +97 drivers/md/dm-bow.c
 
-   174	
- > 175	bool kvm_iommu_donate_from_cma(phys_addr_t phys, unsigned long order)
-   176	{
-   177		phys_addr_t end = phys + PAGE_SIZE * (1 << order);
-   178	
-   179		if (end <= phys)
-   180			return false;
-   181	
-   182		if (order != pmd_order)
-   183			return false;
-   184	
-   185		if (!IS_ALIGNED(phys, PMD_SIZE))
-   186			return false;
-   187	
-   188		if (phys < cma_base || end > cma_base + cma_size)
-   189			return false;
-   190	
-   191		return true;
-   192	}
-   193	
- > 194	struct hyp_pool *__get_empty_block_pool(phys_addr_t phys)
-   195	{
-   196		int p;
-   197	
-   198		for (p = 0; p < MAX_BLOCK_POOLS; p++) {
-   199			struct hyp_pool *pool = &iommu_block_pools[p];
-   200	
-   201			if (pool->max_order)
-   202				continue;
-   203	
-   204			if (hyp_pool_init(pool, hyp_phys_to_pfn(phys), 1 << pmd_order, 0))
-   205				return NULL;
-   206	
-   207			WRITE_ONCE(__block_pools_available, 1);
-   208	
-   209			return pool;
-   210		}
-   211	
-   212		return NULL;
-   213	}
-   214	
- > 215	void __repudiate_host_page(void *addr, unsigned long order,
-   216				   struct kvm_hyp_memcache *host_mc)
-   217	{
-   218		push_hyp_memcache(host_mc, addr, hyp_virt_to_phys, order);
-   219		WARN_ON(__pkvm_hyp_donate_host(hyp_virt_to_pfn(addr), 1 << order));
-   220	}
-   221	
+    96	
+  > 97	sector_t range_top(struct bow_range *br)
+    98	{
+    99		return container_of(rb_next(&br->node), struct bow_range, node)
+   100			->sector;
+   101	}
+   102	
 
 -- 
 0-DAY CI Kernel Test Service
