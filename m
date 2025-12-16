@@ -1,100 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D486B2BEFF1;
-	Tue, 16 Dec 2025 22:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D031C5D77
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 22:58:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765925847; cv=none; b=h5ThGGWnXqI3xNmBdNa1Jj3t4efWYRlTJz5yB1SyxqsParusbLoJw1C4udEiz7gpmkBSgTwlTEbugPNv18rBLjzsB15AHyDwnNdeqxBKyh9MX09mQ/2Qc9JL7nXqwQRovDPtfJ+no6PCigVDQIOCPwYqRhOu39YRcTLdEK2lXWI=
+	t=1765925918; cv=none; b=HASTuk+1qcjNupHL3T70MxDBbUGjR80aVu22f5A/Z5apR1mSAeIMhCQB/NsvRwmeHxC9DFHE+lKgnGFLdnFAsbjLg7PQ0miDFcvZsggoBGwfQTaCxYnmKZ6YBFvArEpXz4n0iev5h2bGLazkBUZIbDDyO0Xng+suKT3y9NUOMrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765925847; c=relaxed/simple;
-	bh=1lQmpbTV4/D4X+w9NoNtOsMud/kc6C9+FIv9gu1F39w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i27ufOM/NTC9B3s5UlYafdtwUf6yLmC2+OFfWQi1SUNAmE0Tg+b/RvWKkamLfhYdnGdGO3O/WR63SNRUaAbAt9aFiTQpJt14JFUWwMtDHEStYw4AUhw9tx1MiFGXHOUyNJLiwCw37LkIPMb8sBctZcOlaUa5dt1Bh1/NbJLUr04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JNJzDIMT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765925918; c=relaxed/simple;
+	bh=wIAdnyEfnR55sovVtFK+6daFuIarEZcnk66vrvmZzt8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Yb8ad7klgVOjdYA7DnEkzHW5DO8KaJetSNSVqb3DdvzJLZWqATXjqFIU/VnaWozRY5uKef7KzYrAYBUeUEX8KMODashpfRCP8CGspz04VIA25CZBQrSOZCO13XvBfZhgOQktchpnx1d4l+5OF7q2FWG7ZQfldFXt8yzLj1YXA9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X8MIyxMZ; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JNJzDIMT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3FB2C4CEF1;
-	Tue, 16 Dec 2025 22:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765925847;
-	bh=1lQmpbTV4/D4X+w9NoNtOsMud/kc6C9+FIv9gu1F39w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JNJzDIMT2XAS5iHIGUK9qxMp4uOPqgdTqtfpfS7fumF7Cn8zr6wlC9PKsarnPO/qA
-	 UN4RTvkZWQFK8ln5kfE7/Wm0t7P0zhOJExs3Ac5mpOhP/GsuMUAGqQ76MhMHnh9jzK
-	 F1woVAj86fsDKIO78Im5z0nqjorksjLMcXtAk2lyrQ84SRyHCCfWpQxxj1VZOBAs8K
-	 6XEsL8Icnq5F1GUBx6X1Qb5jXjibd4emHiKbnYcTyw3dvBnz+4d//QPb7D/ec7UiiX
-	 OLeByPbRsRfa69RzlIvkn9xADBqzniWyHjR5pQpu72fW9VojpTU5cmdOMB7kOfTh4R
-	 ZNx0xDLJJP8eA==
-Message-ID: <0947502d-96e3-4179-ae48-603de74dc7b3@kernel.org>
-Date: Tue, 16 Dec 2025 23:57:14 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X8MIyxMZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1765925917; x=1797461917;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wIAdnyEfnR55sovVtFK+6daFuIarEZcnk66vrvmZzt8=;
+  b=X8MIyxMZOeAI02rz5foUcFpvZEUcr4F2ON4TTTuFZyLnUfv0C40gUQRs
+   bSN+8tDzAs+SMhbPbsmpQ50WxTFqghmrT2SJf6yUcr6Ilo15aaoKN4GAo
+   ihyBLybWs/Cy/Ons4/u4k4ennFE/u1HooWE8jFPzJBCRa4spCl4WiTI+R
+   UQSmxHEz5n4n/tvqRbZJyF+g3yHQSVwVE0wQxneU3OyIsoF61/lEZetd9
+   +2HR71IPq3fYdyAfUENDtP/mkvMXJgnQ8j8YAfcgLsZ7nlG2xZ5KgUl8U
+   81KE25Bf2ejTP3uhHNosL0UhBlywqyjZFI7bs4MrfK5nu4YqRsRhswvdB
+   A==;
+X-CSE-ConnectionGUID: H5tigkFKQ9eCHBiBw8Qisg==
+X-CSE-MsgGUID: Xs2nH84kR8u9YUKNDK33xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="85444993"
+X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
+   d="scan'208";a="85444993"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 14:58:36 -0800
+X-CSE-ConnectionGUID: w1OdNRziRWibhzKNVFcXcQ==
+X-CSE-MsgGUID: HK0ap8h4S6emYUiX7OfqUw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
+   d="scan'208";a="235542203"
+Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 16 Dec 2025 14:58:35 -0800
+Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vVe00-000000003uy-3eWL;
+	Tue, 16 Dec 2025 22:58:32 +0000
+Date: Wed, 17 Dec 2025 06:57:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 9/9]
+ drivers/staging/android/ashmem.h:20:42: sparse: sparse: incorrect type in
+ initializer (different base types)
+Message-ID: <202512170620.BR2bkF5e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/8] powerpc: Enable Generic Entry/Exit for syscalls.
-To: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>,
- kernel test robot <lkp@intel.com>
-Cc: maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
- oleg@redhat.com, kees@kernel.org, luto@amacapital.net, wad@chromium.org,
- mchauras@linux.ibm.com, thuth@redhat.com, sshegde@linux.ibm.com,
- charlie@rivosinc.com, macro@orcam.me.uk, akpm@linux-foundation.org,
- ldv@strace.io, deller@gmx.de, ankur.a.arora@oracle.com,
- segher@kernel.crashing.org, tglx@linutronix.de,
- thomas.weissschuh@linutronix.de, peterz@infradead.org,
- menglong8.dong@gmail.com, bigeasy@linutronix.de, namcao@linutronix.de,
- mingo@kernel.org, atrajeev@linux.vnet.ibm.com, mark.barnett@arm.com,
- linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev
-References: <20251214130245.43664-9-mkchauras@linux.ibm.com>
- <202512160453.iO9WNjrm-lkp@intel.com>
- <4ajwe2mjxijqffbmsf7drav53wxucd7wnrcn7uuvbacrmc22je@2c32xx4oopwn>
-Content-Language: fr-FR
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-In-Reply-To: <4ajwe2mjxijqffbmsf7drav53wxucd7wnrcn7uuvbacrmc22je@2c32xx4oopwn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   66b6be383cac26e4972bca7f1cfc10c2bd9f368b
+commit: 751d06ec7120b66307b05409e2b446876bf41629 [9/9] ANDROID: ashmem_rust: Port rust ashmem driver from android16-6.12
+config: i386-randconfig-r131-20251216 (https://download.01.org/0day-ci/archive/20251217/202512170620.BR2bkF5e-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512170620.BR2bkF5e-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512170620.BR2bkF5e-lkp@intel.com/
 
-Le 16/12/2025 à 16:08, Mukesh Kumar Chaurasiya a écrit :
-> On Tue, Dec 16, 2025 at 04:27:55AM +0800, kernel test robot wrote:
->> Hi Mukesh,
->>
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on powerpc/next]
->> [also build test ERROR on powerpc/fixes linus/master v6.19-rc1 next-20251215]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit-scm.com%2Fdocs%2Fgit-format-patch%23_base_tree_information&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945174972177%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=4sU795uiAIkzbbf9cdzEUNH6Cbax3kPS7biPFWiZir4%3D&reserved=0]
->>
->> url:    https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FMukesh-Kumar-Chaurasiya%2Fpowerpc-rename-arch_irq_disabled_regs%2F20251214-210813&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945174996572%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=BalspVN%2FJmi2pKv2QsOwMPsPOzLF%2FGAfSJ4Pq1jn%2BeM%3D&reserved=0
->> base:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fpowerpc%2Flinux.git&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945175289139%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=IExs1jOXw207ewNfCHIbLYmCeYTPGr65giviQ842JnA%3D&reserved=0 next
->> patch link:    https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fr%2F20251214130245.43664-9-mkchauras%2540linux.ibm.com&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945175311233%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=CJQevooFK2LY06NmPMpnyki3UfYOsIiFv1FThGk4CEI%3D&reserved=0
->> patch subject: [PATCH v2 8/8] powerpc: Enable Generic Entry/Exit for syscalls.
->> config: powerpc-randconfig-001-20251215 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20251216%2F202512160453.iO9WNjrm-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945175328057%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=fM7XuG4aUtdsKuVZCjXZazYE%2FLU5uhqtXOTsiHQgEz0%3D&reserved=0)
->> compiler: powerpc-linux-gcc (GCC) 9.5.0
->> reproduce (this is a W=1 build): (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20251216%2F202512160453.iO9WNjrm-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945175343707%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=pnqJzh3vwyq8XCtopm%2ByJm0zUpz1Bk5JzVork9mZyec%3D&reserved=0)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Foe-kbuild-all%2F202512160453.iO9WNjrm-lkp%40intel.com%2F&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945175359094%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=5ToZM5JVO5d4NhuwFJjg78Xv%2F5nmxX8ZUhfmCNDo2hg%3D&reserved=0
->>
-> I tried this with gcc 9.4 and gcc 14. I am not able to reproduce this.
-> Will investigate further, meanwhile if anyone has any ideas that can help it would be great.
+sparse warnings: (new ones prefixed by >>)
+   drivers/staging/android/ashmem.c: note: in included file:
+   drivers/staging/android/ashmem.h:19:42: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t const [addressable] [toplevel] [usertype] RUST_CONST_HELPER___GFP_FS @@     got unsigned long @@
+   drivers/staging/android/ashmem.h:19:42: sparse:     expected restricted gfp_t const [addressable] [toplevel] [usertype] RUST_CONST_HELPER___GFP_FS
+   drivers/staging/android/ashmem.h:19:42: sparse:     got unsigned long
+   drivers/staging/android/ashmem.h:19:13: sparse: sparse: symbol 'RUST_CONST_HELPER___GFP_FS' was not declared. Should it be static?
+>> drivers/staging/android/ashmem.h:20:42: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted gfp_t const [addressable] [toplevel] [usertype] RUST_CONST_HELPER___GFP_IO @@     got unsigned long @@
+   drivers/staging/android/ashmem.h:20:42: sparse:     expected restricted gfp_t const [addressable] [toplevel] [usertype] RUST_CONST_HELPER___GFP_IO
+   drivers/staging/android/ashmem.h:20:42: sparse:     got unsigned long
+   drivers/staging/android/ashmem.h:20:13: sparse: sparse: symbol 'RUST_CONST_HELPER___GFP_IO' was not declared. Should it be static?
 
-I was able to reproduce it with gcc 9.5
+vim +20 drivers/staging/android/ashmem.h
 
-Seems to be related to commit 69d4c0d32186 ("entry, kasan, x86: Disallow 
-overriding mem*() functions")
+    17	
+    18	#include <linux/shrinker.h>
+  > 19	const gfp_t RUST_CONST_HELPER___GFP_FS = ___GFP_FS;
+  > 20	const gfp_t RUST_CONST_HELPER___GFP_IO = ___GFP_IO;
+    21	
 
-Which is in contradiction with commit 26deb04342e3 ("powerpc: prepare 
-string/mem functions for KASAN")
-
-Christophe
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
