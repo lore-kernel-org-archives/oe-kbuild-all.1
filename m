@@ -1,242 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E6F29D291
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 22:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D486B2BEFF1;
+	Tue, 16 Dec 2025 22:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765924058; cv=none; b=ue2kbJAZO4A9MFEiQ2tWjYtbrtyZ8U3PBlnWWCXQjg+EL9a6mNR69km3rhlqyyE+bGSX1hfAPtvhDtrmWtAEM1hGn+3yqMPuq4sLnbC9cQnxdN/azo3LCAIqOJX/74gD9SkFCziUP5d/P/EXySAUzYBZLO6xvnmuUwNvX3y3kwY=
+	t=1765925847; cv=none; b=h5ThGGWnXqI3xNmBdNa1Jj3t4efWYRlTJz5yB1SyxqsParusbLoJw1C4udEiz7gpmkBSgTwlTEbugPNv18rBLjzsB15AHyDwnNdeqxBKyh9MX09mQ/2Qc9JL7nXqwQRovDPtfJ+no6PCigVDQIOCPwYqRhOu39YRcTLdEK2lXWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765924058; c=relaxed/simple;
-	bh=idZsU4LnkEZUfMPveiLUWEKIyS6IOZPSfY1PCAaskdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X5A4aXaxyTxsEd87Q4EiCQDVLe4nnxj2OY1b3wderAgj/8LR9GS/3NJsQLPnSirAURSD614sFIaxnytkP0N6Wo3rnktAMqUyENqST2ojPItAThgBHb27FEQeIsDfqm9cjvyV4pUWYvOCUEn3uKRiPt00KLhIhVzws1dNjtkEBkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B9RtTGgQ; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765925847; c=relaxed/simple;
+	bh=1lQmpbTV4/D4X+w9NoNtOsMud/kc6C9+FIv9gu1F39w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i27ufOM/NTC9B3s5UlYafdtwUf6yLmC2+OFfWQi1SUNAmE0Tg+b/RvWKkamLfhYdnGdGO3O/WR63SNRUaAbAt9aFiTQpJt14JFUWwMtDHEStYw4AUhw9tx1MiFGXHOUyNJLiwCw37LkIPMb8sBctZcOlaUa5dt1Bh1/NbJLUr04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JNJzDIMT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B9RtTGgQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765924056; x=1797460056;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=idZsU4LnkEZUfMPveiLUWEKIyS6IOZPSfY1PCAaskdk=;
-  b=B9RtTGgQ089sy61FIgiWcg0OT7wDD5sA/sDnuhqloREu3yOgP6ufMmnt
-   aNtfGjaUUIW7JGKP5YuuGb4u4o8zvp9e2NK93xZSau0ZtCFzZlZ4a6/N/
-   YBTWGkYgALvy6n5ohOLUq6Iooozn3Eb5wtpY2V0RMBwSBMxHUyjokQ2yi
-   CylLCWLwy/eNAahIFJNPSrS8BUp+ucCV640btWxIxPoLLpJoLaYykELMq
-   aA0b60kdXxsj0zt08gI9rcCcPIKVR+9aNTj08of/1GkDETEf/A6zMb7Hx
-   nbsfIgSCJiJDr49+feU9xB14ab2ZbZpBkdKs+tIIi7/zftm19xn4On/Lm
-   Q==;
-X-CSE-ConnectionGUID: Zu5SREGOQ2u5HiBaNgIBkA==
-X-CSE-MsgGUID: tfVvTiQTQViNcRcwzpdXfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="78565351"
-X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
-   d="scan'208";a="78565351"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 14:27:35 -0800
-X-CSE-ConnectionGUID: RW0Ru0F1Qoe9Fb6refW4oA==
-X-CSE-MsgGUID: cWWY3cVaQqa7zzSYPVy2oQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
-   d="scan'208";a="198026465"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 16 Dec 2025 14:27:34 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vVdW0-000000003u6-1O4u;
-	Tue, 16 Dec 2025 22:27:32 +0000
-Date: Wed, 17 Dec 2025 06:27:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 3/3] aarch64-linux-ld:
- drivers/net/phy/phylink.c:2250: undefined reference to
- `fwnode_phy_find_device'
-Message-ID: <202512170617.GMAqs89r-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JNJzDIMT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3FB2C4CEF1;
+	Tue, 16 Dec 2025 22:57:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765925847;
+	bh=1lQmpbTV4/D4X+w9NoNtOsMud/kc6C9+FIv9gu1F39w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JNJzDIMT2XAS5iHIGUK9qxMp4uOPqgdTqtfpfS7fumF7Cn8zr6wlC9PKsarnPO/qA
+	 UN4RTvkZWQFK8ln5kfE7/Wm0t7P0zhOJExs3Ac5mpOhP/GsuMUAGqQ76MhMHnh9jzK
+	 F1woVAj86fsDKIO78Im5z0nqjorksjLMcXtAk2lyrQ84SRyHCCfWpQxxj1VZOBAs8K
+	 6XEsL8Icnq5F1GUBx6X1Qb5jXjibd4emHiKbnYcTyw3dvBnz+4d//QPb7D/ec7UiiX
+	 OLeByPbRsRfa69RzlIvkn9xADBqzniWyHjR5pQpu72fW9VojpTU5cmdOMB7kOfTh4R
+	 ZNx0xDLJJP8eA==
+Message-ID: <0947502d-96e3-4179-ae48-603de74dc7b3@kernel.org>
+Date: Tue, 16 Dec 2025 23:57:14 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 8/8] powerpc: Enable Generic Entry/Exit for syscalls.
+To: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>,
+ kernel test robot <lkp@intel.com>
+Cc: maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+ oleg@redhat.com, kees@kernel.org, luto@amacapital.net, wad@chromium.org,
+ mchauras@linux.ibm.com, thuth@redhat.com, sshegde@linux.ibm.com,
+ charlie@rivosinc.com, macro@orcam.me.uk, akpm@linux-foundation.org,
+ ldv@strace.io, deller@gmx.de, ankur.a.arora@oracle.com,
+ segher@kernel.crashing.org, tglx@linutronix.de,
+ thomas.weissschuh@linutronix.de, peterz@infradead.org,
+ menglong8.dong@gmail.com, bigeasy@linutronix.de, namcao@linutronix.de,
+ mingo@kernel.org, atrajeev@linux.vnet.ibm.com, mark.barnett@arm.com,
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev
+References: <20251214130245.43664-9-mkchauras@linux.ibm.com>
+ <202512160453.iO9WNjrm-lkp@intel.com>
+ <4ajwe2mjxijqffbmsf7drav53wxucd7wnrcn7uuvbacrmc22je@2c32xx4oopwn>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <4ajwe2mjxijqffbmsf7drav53wxucd7wnrcn7uuvbacrmc22je@2c32xx4oopwn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Carlos,
 
-FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   fbfd6aedcdb51da80c81b27b298b8691212febac
-commit: da0d6fef4be114bfe8c8ffe7299762721d961077 [3/3] Merge 1b98f357dadd ("Merge tag 'net-next-6.16' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next") into android-mainline
-config: arm64-randconfig-004-20251206 (https://download.01.org/0day-ci/archive/20251217/202512170617.GMAqs89r-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512170617.GMAqs89r-lkp@intel.com/reproduce)
+Le 16/12/2025 à 16:08, Mukesh Kumar Chaurasiya a écrit :
+> On Tue, Dec 16, 2025 at 04:27:55AM +0800, kernel test robot wrote:
+>> Hi Mukesh,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on powerpc/next]
+>> [also build test ERROR on powerpc/fixes linus/master v6.19-rc1 next-20251215]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit-scm.com%2Fdocs%2Fgit-format-patch%23_base_tree_information&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945174972177%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=4sU795uiAIkzbbf9cdzEUNH6Cbax3kPS7biPFWiZir4%3D&reserved=0]
+>>
+>> url:    https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FMukesh-Kumar-Chaurasiya%2Fpowerpc-rename-arch_irq_disabled_regs%2F20251214-210813&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945174996572%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=BalspVN%2FJmi2pKv2QsOwMPsPOzLF%2FGAfSJ4Pq1jn%2BeM%3D&reserved=0
+>> base:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fpowerpc%2Flinux.git&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945175289139%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=IExs1jOXw207ewNfCHIbLYmCeYTPGr65giviQ842JnA%3D&reserved=0 next
+>> patch link:    https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fr%2F20251214130245.43664-9-mkchauras%2540linux.ibm.com&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945175311233%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=CJQevooFK2LY06NmPMpnyki3UfYOsIiFv1FThGk4CEI%3D&reserved=0
+>> patch subject: [PATCH v2 8/8] powerpc: Enable Generic Entry/Exit for syscalls.
+>> config: powerpc-randconfig-001-20251215 (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20251216%2F202512160453.iO9WNjrm-lkp%40intel.com%2Fconfig&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945175328057%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=fM7XuG4aUtdsKuVZCjXZazYE%2FLU5uhqtXOTsiHQgEz0%3D&reserved=0)
+>> compiler: powerpc-linux-gcc (GCC) 9.5.0
+>> reproduce (this is a W=1 build): (https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdownload.01.org%2F0day-ci%2Farchive%2F20251216%2F202512160453.iO9WNjrm-lkp%40intel.com%2Freproduce&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945175343707%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=pnqJzh3vwyq8XCtopm%2ByJm0zUpz1Bk5JzVork9mZyec%3D&reserved=0)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Foe-kbuild-all%2F202512160453.iO9WNjrm-lkp%40intel.com%2F&data=05%7C02%7Cchristophe.leroy%40csgroup.eu%7C181ba96509e54904228908de3cb4fa09%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639014945175359094%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=5ToZM5JVO5d4NhuwFJjg78Xv%2F5nmxX8ZUhfmCNDo2hg%3D&reserved=0
+>>
+> I tried this with gcc 9.4 and gcc 14. I am not able to reproduce this.
+> Will investigate further, meanwhile if anyone has any ideas that can help it would be great.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512170617.GMAqs89r-lkp@intel.com/
+I was able to reproduce it with gcc 9.5
 
-All errors (new ones prefixed by >>):
+Seems to be related to commit 69d4c0d32186 ("entry, kasan, x86: Disallow 
+overriding mem*() functions")
 
-   drivers/net/phy/phylink.c:2664: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2667: undefined reference to `phy_ethtool_set_wol'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_nway_reset':
-   drivers/net/phy/phylink.c:2977: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2980: undefined reference to `phy_restart_aneg'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_get_eee_err':
-   drivers/net/phy/phylink.c:3103: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3106: undefined reference to `phy_get_eee_err'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_eee':
-   drivers/net/phy/phylink.c:3121: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3127: undefined reference to `phy_ethtool_get_eee'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_eee':
-   drivers/net/phy/phylink.c:3148: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3164: undefined reference to `phy_ethtool_set_eee'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_emul_read':
-   drivers/net/phy/phylink.c:3191: undefined reference to `swphy_read_reg'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_resolve_an_pause':
-   drivers/net/phy/phylink.c:844: undefined reference to `linkmode_resolve_pause'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_link_down':
-   drivers/net/phy/phylink.c:1551: undefined reference to `netif_carrier_off'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:1557: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c45_pcs_get_state':
-   drivers/net/phy/phylink.c:4137: undefined reference to `mdiobus_c45_read'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_ioctl':
-   drivers/net/phy/phylink.c:3350: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3234: undefined reference to `mdiobus_c45_read'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3238: undefined reference to `mdiobus_read'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3275: undefined reference to `mdiobus_c45_write'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3279: undefined reference to `mdiobus_write'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3373: undefined reference to `phy_mii_ioctl'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_speed_down':
-   drivers/net/phy/phylink.c:3421: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3424: undefined reference to `phy_speed_down'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_speed_up':
-   drivers/net/phy/phylink.c:3444: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3447: undefined reference to `phy_speed_up'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_config':
-   drivers/net/phy/phylink.c:4086: undefined reference to `mdiobus_modify_changed'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_config':
-   include/linux/mdio.h:642: undefined reference to `mdiobus_modify'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_get':
-   drivers/net/phy/phylink.c:2738: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2741: undefined reference to `phy_ethtool_ksettings_get'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_phy_change':
-   drivers/net/phy/phylink.c:1922: undefined reference to `phy_get_pause'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_stop':
-   drivers/net/phy/phylink.c:2439: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2444: undefined reference to `phy_stop'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_suspend':
-   drivers/net/phy/phylink.c:2533: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2549: undefined reference to `netif_carrier_off'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_an_restart':
-   include/linux/mdio.h:630: undefined reference to `mdiobus_read'
-   aarch64-linux-ld: include/linux/mdio.h:636: undefined reference to `mdiobus_write'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_get_state':
-   include/linux/mdio.h:630: undefined reference to `mdiobus_read'
-   aarch64-linux-ld: include/linux/mdio.h:630: undefined reference to `mdiobus_read'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_pauseparam':
-   drivers/net/phy/phylink.c:3015: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3050: undefined reference to `linkmode_set_pause'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:3073: undefined reference to `phy_set_asym_pause'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_start':
-   drivers/net/phy/phylink.c:2371: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2373: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2379: undefined reference to `netif_carrier_off'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2419: undefined reference to `phy_start'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_resume':
-   drivers/net/phy/phylink.c:2597: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_resolve':
-   drivers/net/phy/phylink.c:1484: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:1537: undefined reference to `netif_carrier_on'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:1539: undefined reference to `phy_speed_to_str'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:1539: undefined reference to `phy_duplex_to_str'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:1539: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:1539: undefined reference to `phy_speed_to_str'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:1539: undefined reference to `phy_duplex_to_str'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_get_capabilities':
-   drivers/net/phy/phylink.c:421: undefined reference to `phy_caps_from_interface'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_validate_mac_and_pcs':
-   drivers/net/phy/phylink.c:518: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:530: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_validate_one':
-   drivers/net/phy/phylink.c:577: undefined reference to `phy_get_rate_matching'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_bringup_phy':
-   drivers/net/phy/phylink.c:2043: undefined reference to `phy_support_asym_pause'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:1985: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2052: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2063: undefined reference to `phy_attached_info_irq'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2064: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2092: undefined reference to `phy_support_eee'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2122: undefined reference to `phy_request_interrupt'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2128: undefined reference to `phy_eee_tx_clock_stop_capable'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2134: undefined reference to `phy_eee_rx_clock_stop'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2006: undefined reference to `phy_get_rate_matching'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2109: undefined reference to `phy_disable_eee'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_connect_phy':
-   drivers/net/phy/phylink.c:2159: undefined reference to `phy_attach_direct'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2193: undefined reference to `phy_detach'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_fwnode_phy_connect':
-   drivers/net/phy/phylink.c:2243: undefined reference to `fwnode_get_phy_node'
->> aarch64-linux-ld: drivers/net/phy/phylink.c:2250: undefined reference to `fwnode_phy_find_device'
->> aarch64-linux-ld: drivers/net/phy/phylink.c:2265: undefined reference to `phy_attach_direct'
->> aarch64-linux-ld: drivers/net/phy/phylink.c:2267: undefined reference to `phy_device_free'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2273: undefined reference to `phy_detach'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_set':
-   drivers/net/phy/phylink.c:2810: undefined reference to `rtnl_is_locked'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2837: undefined reference to `phy_ethtool_ksettings_set'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2851: undefined reference to `phy_caps_lookup'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:2680: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.o: in function `phylink_create':
-   drivers/net/phy/phylink.c:1815: undefined reference to `netif_carrier_off'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:817: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:808: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:688: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:709: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:718: undefined reference to `phy_caps_lookup'
-   aarch64-linux-ld: drivers/net/phy/phylink.c:735: undefined reference to `netdev_printk'
-   aarch64-linux-ld: drivers/power/supply/isp1704_charger.o: in function `isp1704_charger_probe':
-   drivers/power/supply/isp1704_charger.c:399: undefined reference to `devm_usb_get_phy_by_phandle'
-   aarch64-linux-ld: drivers/power/supply/isp1704_charger.c:401: undefined reference to `devm_usb_get_phy'
-   aarch64-linux-ld: drivers/power/supply/bq25890_charger.o: in function `bq25890_probe':
-   drivers/power/supply/bq25890_charger.c:1504: undefined reference to `devm_usb_get_phy'
-   aarch64-linux-ld: drivers/power/supply/bq256xx_charger.o: in function `bq256xx_probe':
-   drivers/power/supply/bq256xx_charger.c:1730: undefined reference to `devm_usb_get_phy'
-   aarch64-linux-ld: drivers/power/supply/bq256xx_charger.c:1737: undefined reference to `devm_usb_get_phy'
+Which is in contradiction with commit 26deb04342e3 ("powerpc: prepare 
+string/mem functions for KASAN")
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+Christophe
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
