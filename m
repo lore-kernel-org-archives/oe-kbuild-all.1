@@ -1,94 +1,241 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E57D327BE4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 09:52:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0CF56B81
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 10:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765878739; cv=none; b=mnv/ID13O79ODbOUALSERPeKgByiil8iaT6yf4DBIKgkxjE/00OSaKQRnGHfVEDPyKq80nr4EEwChQ7g7fXCTdm+amojVVxrMIGoDVHkWTMuQr7Ymg/5amyr57tPa6/kyCmijrrjpC9Dv3UxcBl4SnNS4Yr7O/ettOV6gFmgXkQ=
+	t=1765879987; cv=none; b=sddQVcya0mhegOumeOc3MfyzP1gpzf0fHXq9Tco94Fm1YqTzjTAo522JTVtfZW+YWokLRSRFUp4i4hy608wzMPyF8CPza6lwQu1NXjHE9Ozd5GezMvqI2+OGcVhjiNTLIR9gTENh8jRspfqxBF86wObx0IaL4/p3vvaiQJpzyPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765878739; c=relaxed/simple;
-	bh=9bSR9kV/DhCjo2XOrJ/tg9QS+Sn9BtVEaEfVjCiTQlU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cf7RfZESFXfshSszadhPl0LtXUpOa8nUpiEYWmQ1ofW4MOzdNASQ3T9nsFOn+PnHVGAGOJed2r27JrDF3ADfpfANviIiXvQ1m4qVmczkSuk2a4Vs0C/Q6B7pProzxgrQnVzBjo7Cf6O3atAksoY3849tKoz5bwhPNQAvbKhYdhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LhxC85pg; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1765879987; c=relaxed/simple;
+	bh=YLAj/r2FEDKQLmYCBxCODquRps9KIGCQUgaQHAAdQys=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HACnWbSI7VE15bMGTb2842Qwu0TdeZYkFznrnLZoLomsIqXlhF8vEdcVTtpnH+Ju3pnF/A4hkHAE+PU0hcDEbi5gnCgi+CGqcKr/eckABYc/bcnNEtQCRDU90syVyJWmRQ6xCTEEAigmqRvxbwVt9lVbUQp7ds+sy2WB2qWSwj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=HfECBlDC; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhxC85pg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765878734; x=1797414734;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9bSR9kV/DhCjo2XOrJ/tg9QS+Sn9BtVEaEfVjCiTQlU=;
-  b=LhxC85pgGgpfo869Q3kfEXzeX9xAhXckNP2ZYwqfFdeyvG3xRGKJcO5x
-   518EqoNj6d9vrSgMoDYipZfx0NoHocLr3eGNR5wtdUhZL6+d2CVEB+1Ke
-   Q1jySF6RbrCNxgYj0L2eRs7cenR6xhq+4jPOzfeCgzvL4kljLFIHmpjs+
-   ZgfU0pKjtwkAq372aXmEt4yvmflg+hbOyNwO7EivrneosNiIicNC+xZ/z
-   wOhVz9CvhIAYuFltGXHHWAewbXaOPOpFyU5Y/OUHz1aZYL0DoVOHNdGi8
-   RMO3Edh0mXLpL/SoTu0pDPT1fvVdUDmuJ1TfQpyXcisWGSXv2/2gsbgs0
-   A==;
-X-CSE-ConnectionGUID: XFoiiZ04RPWQH5voq14yaA==
-X-CSE-MsgGUID: PR8KCkPeQvOCDVkxHp4uuw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="85205211"
-X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="85205211"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 01:52:13 -0800
-X-CSE-ConnectionGUID: KzPAOIBYR8e0NMtbiQxADQ==
-X-CSE-MsgGUID: ge6Lk7YnT/i+nr+M+55h1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="203079166"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 16 Dec 2025 01:52:13 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vVRj0-000000001TD-2dbP;
-	Tue, 16 Dec 2025 09:52:10 +0000
-Date: Tue, 16 Dec 2025 17:51:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1941/1941]
- sound/soc/codecs/simple-amplifier.o: warning: objtool: missing symbol for
- section .init.text
-Message-ID: <202512161723.lgbkIZyg-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="HfECBlDC"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47775fb6cb4so31254255e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 02:13:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1765879984; x=1766484784; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=YJzjGjsbvSF4rzkdIfKfsW7zFxLeDwbsXmmlktvfWtc=;
+        b=HfECBlDC9NLcCiIHQCjoqXwvPJefRtfaalM4+TZpGOLKgUOftGLy0l5+snUuL8OooA
+         G3lgOnk46gLPr6js9iZJFjMmyltZPbJJA7WdNL5L1Tegt5NSkHG9EcoXE7VKg8F1sGIC
+         PjawSSBIbBWzuZQBS4lpS7IO5U3kVc1G7wS9+1MmCCwEaMQixv2VLjoBKW8gs4GePXnQ
+         oJJ/dEj7L8yWESl9RXK4rWRVwvakkq9s4w+He5OfLaRzkfRR9AcAKGUlbhByxijVsCVr
+         +OOe7hKtolT5CLts46ygdCVfR47xvplMTUYffN5GLbXirNZanS3XdCDpajSk5MP1fUq0
+         SDHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765879984; x=1766484784;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YJzjGjsbvSF4rzkdIfKfsW7zFxLeDwbsXmmlktvfWtc=;
+        b=wmoxO1lqT9h8I3bB8PGJjbcfFRASBp2wyWIvZnsjJyhYhhTUWtTUxHJihFo2ndaUNm
+         3TEUBVg1+INnCa5CRTm0vR5hGuUeHbv4urZRaIdbqH5KAvgMUcLqPhb0/LEHfA9E706k
+         mdF4ggCo1Sp6QnCwRoBgsR/nMremPHzd9QBiGffK9gZvRK4GyXz6Yg92dBJVpdDDazGM
+         QFmnFbA5rFpR/mJ/FBC8d3Yv2+Q7bavk5NJO0yfkm0hH1CjnOa128LHZ6HpKXHefwPsU
+         XxNaKdKKRGDvL2qEvWvrCcYsciR70BGJYKm1UI4vseXkCFpLWDgKjVmtbv5SXeQ9FdYy
+         LQ5A==
+X-Forwarded-Encrypted: i=1; AJvYcCXBo+M/T+t/pgHWzB09S5hGSKCxWmYeYst1GYyo7zP4wOjlSE5ZqPBJELoRogvE5gwaAiDsiv3U7GRdUwGE@lists.linux.dev
+X-Gm-Message-State: AOJu0YxeA2GWvr7RN8+mEn+DV8f48Qp7Jk/I2F4GxLAb4fi1i5az4w4u
+	r9Mpb7o1BOkWUZbmGB4Ink1Mq85z06Ro3Djr5UoR3phpbYzU+nxPEuKH/qtohATkZKM=
+X-Gm-Gg: AY/fxX7V061ztLvw1BNwcw4Nu7f1p0duGUFnE1nINDl7obwaEiQFxKZ9ETPN6ZVISrk
+	WtmWRvUjzfuHoiTifwIuQb+Q7b90hW5OtO8ZdzE7aOTawlzjRg97GNlS35yt5bo64C52B8fDtHh
+	5NdvQMc6+4a+bIhSVHa0VJ70IjH0y96s1Glj/wcRkyBTlkZxqrZvw0PBgjeptia9b8FuJWo3gJf
+	BXWmnZ9DEvN8NpmtF22AhJ65jb7v7nC9XXZ+x+3bRGI7WHXYq/Xe9RnlQUDOkxf13dR/8m7/Zza
+	JaEg5i96+8mpO9gKnn2kz5itVXqmegkNbkMmXdD/iE9GkJe/0oML+q9wxFvgovQXe8pVMGqSZ0q
+	eH4dBtgwD8RUl21uxxKznLMeOXMxAyUwIo0kT+gfISMGKd2y/LBjmrxMz3z2BKuzpp++7UrIcld
+	QqXUafwQ05PuKIWA==
+X-Google-Smtp-Source: AGHT+IHT98Uk/FnvpzqT+v55I0LtEgak7CyvE/0SRVkDp20MTWGrAR3AknHG2PZnf6r8+xJCDqQ2jg==
+X-Received: by 2002:a05:600c:800f:b0:471:1765:839c with SMTP id 5b1f17b1804b1-47a8f9068c3mr114272215e9.20.1765879983993;
+        Tue, 16 Dec 2025 02:13:03 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47bd8eb1f26sm8597415e9.0.2025.12.16.02.13.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Dec 2025 02:13:03 -0800 (PST)
+Date: Tue, 16 Dec 2025 11:13:01 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Tamir Duberstein <tamird@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] printf: add __printf attribute
+Message-ID: <aUEwre1bkwrj-i4i@pathway.suse.cz>
+References: <CAJ-ks9nkyicpbX4jv+Ry4iDVLUGTHr_mHQx0EMN-jt3iDbrw0g@mail.gmail.com>
+ <aTRss_EHjqH21NEV@smile.fi.intel.com>
+ <CAJ-ks9nCsWij6FxF8T51CNsHn4Wg0wNd5mXQyJqc6Y6XJXnLDw@mail.gmail.com>
+ <aTSHb6rHLQqopTNU@smile.fi.intel.com>
+ <CAJ-ks9nYVuB6bn=xodzy5rWYtrwOgjev_53xRrzvMGdk55Y0Vw@mail.gmail.com>
+ <aTSj8uKD6G0cLq2T@smile.fi.intel.com>
+ <CAJ-ks9mrqxGLhjbFQyWaRqxUFu4+JaUbLn4E=TCfW1eqmDrQPw@mail.gmail.com>
+ <aTbTDSIHPdW8kUbR@smile.fi.intel.com>
+ <aTbbRhNkwCjaryFo@pathway>
+ <CAJ-ks9nwDCxrqyUx8vnEjy2s4c4uBPZsQFuOsbyXxzO7k1JeFg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ-ks9nwDCxrqyUx8vnEjy2s4c4uBPZsQFuOsbyXxzO7k1JeFg@mail.gmail.com>
 
-Hi Mark,
+On Mon 2025-12-08 16:07:28, Tamir Duberstein wrote:
+> On Mon, Dec 8, 2025 at 9:06 AM Petr Mladek <pmladek@suse.com> wrote:
+> >
+> > On Mon 2025-12-08 15:30:53, Andy Shevchenko wrote:
+> > > On Sun, Dec 07, 2025 at 08:32:53PM -0500, Tamir Duberstein wrote:
+> > > > On Sat, Dec 6, 2025 at 4:45 PM Andy Shevchenko
+> > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > On Sat, Dec 06, 2025 at 02:57:48PM -0500, Tamir Duberstein wrote:
+> > > > > > On Sat, Dec 6, 2025 at 2:43 PM Andy Shevchenko
+> > > > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > > > On Sat, Dec 06, 2025 at 12:52:53PM -0500, Tamir Duberstein wrote:
+> > > > > > > > On Sat, Dec 6, 2025 at 12:49 PM Andy Shevchenko
+> > > > > > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > > > > > On Sat, Dec 06, 2025 at 12:13:34PM -0500, Tamir Duberstein wrote:
+> > > > > > > > > > On Sat, Dec 6, 2025 at 11:11 AM Andy Shevchenko
+> > > > > > > > > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > > > > > > > > On Sat, Dec 06, 2025 at 08:19:09AM -0500, Tamir Duberstein wrote:
+> > >
+> > > ...
+> > >
+> > > > > > > > > > > > -static void
+> > > > > > > > > > > > +static void __printf(2, 3)
+> > > > > > > > > > >
+> > > > > > > > > > > 3?!
+> > > > > > > > > > >
+> > > > > > > > > > > I think it should be (2, 0). Yes, the both users call it with "%p..." in format
+> > > > > > > > > > > string, but the second parameter tells compiler to check the variadic
+> > > > > > > > > > > arguments, which are absent here. Changing 'const void *p' to '...' will align
+> > > > > > > > > > > it with the given __printf() attribute, but I don't know if this what we want.
+> > > > > > > > > >
+> > > > > > > > > > The second parameter is the first-to-check, it is not specific to
+> > > > > > > > > > variadic arguments. Using 0 means that no arguments are checkable, so
+> > > > > > > > > > the compiler only validates the format string itself and won’t
+> > > > > > > > > > diagnose mismatches with `p`. This works whether or not we later
+> > > > > > > > > > change `const void *p` to `...`.
+> > > > > > > > >
+> > > > > > > > > Yes, but this is fragile. As I explained it works only because we supply
+> > > > > > > > > the format string stuck to "%p", anything else will require reconsidering
+> > > > > > > > > the function prototypes. So, strictly speaking this should be (2, 0) if
+> > > > > > > > > we leave const void *p as is.
+> > > > > > > > >
+> > > > > > > > I believe this is not correct. As I said, 0 means "do not check
+> > > > > > > > arguments" so only the format string will be checked. See the existing
+> > > > > > > > uses of this annotation in this file:
+> > > > > > > >
+> > > > > > > > static void __printf(7, 0)
+> > > > > > > > do_test(struct kunit *kunittest, const char *file, const int line, int
+> > > > > > > > bufsize, const char *expect,
+> > > > > > > > int elen, const char *fmt, va_list ap)
+> > > > > > > >
+> > > > > > > > and
+> > > > > > > >
+> > > > > > > > static void __printf(6, 7)
+> > > > > > > > __test(struct kunit *kunittest, const char *file, const int line,
+> > > > > > > > const char *expect, int elen,
+> > > > > > > > const char *fmt, ...)
+> > > > >
+> > > > Since it doesn't make much sense to make this function variadic, I
+> > > > think the best we can do is a macro wrapper that combines this
+> > > > function with `no_printk`. Something like
+> > > >
+> > > > #define test_hashed(kunittest, fmt, p) \
+> > > > do { \
+> > > > if (0) \
+> > > > no_printk(fmt, p); \
+> > > > __test_hashed(kunittest, fmt, p);\
+> > > > } while (0)
+> > >
+> >
+> > IMHO, this is is not worth it. test_hashed(kunittest, fmt, p) calls
+> > test(buf, fmt, p). It goes down to __test() which does the format
+> > check:
+> >
+> > static void __printf(6, 7)
+> > __test(struct kunit *kunittest, const char *file, const int line, const char *expect, int elen,
+> >         const char *fmt, ...)
+> >
+> >
+> > > > That would give us better diagnostics, but is more complex (and more
+> > > > lines of code than just repeating this function's body twice, which
+> > > > would also give good diagnostics). I think the best thing to do is just
+> > > > to ignore the report that prompted me to look into this. Please let me
+> > > > know if you disagree.
+> > >
+> > > I think we may not ignore the report as it breaks builds in some cases.
+> > > As I said
+> > >
+> > > - __printf(2, 0) for now
+> > >
+> > > - and perhaps a comment on top to explain the clang approach that may cope
+> > > with fixed-argument functions for -Wformat (you can even put a link to that
+> > > LLVM discussion about the feature).
+> >
+> > I personally prefer this way. We just need to calm down the warning.
+> > The proper check is done by the nested test()...
+> 
+> The nested `__test()` call cannot do the proper check because it cannot
+> see the format string. Right?
 
-FYI, the error/warning still remains.
+IMHO, it does see the format string. It is defined the following way:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   05226913813ed71f46a7f726a6c73813d8d0b0d7
-commit: 4aa5db22d35588e1a5d2ee88472348ea73d9fb23 [1941/1941] Merge branch 'asoc-4.19' into asoc-next
-config: x86_64-buildonly-randconfig-006-20251212 (https://download.01.org/0day-ci/archive/20251216/202512161723.lgbkIZyg-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512161723.lgbkIZyg-lkp@intel.com/reproduce)
+static void __printf(6, 7)
+__test(struct kunit *kunittest, const char *file, const int line, const char *expect, int elen,
+	const char *fmt, ...)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512161723.lgbkIZyg-lkp@intel.com/
+#define test(expect, fmt, ...)					\
+	__test(kunittest, __FILE__, __LINE__, expect, strlen(expect), fmt, ##__VA_ARGS__)
 
-All warnings (new ones prefixed by >>):
+static void
+test_hashed(struct kunit *kunittest, const char *fmt, const void *p)
+{
+	char buf[PLAIN_BUF_SIZE];
 
->> sound/soc/codecs/simple-amplifier.o: warning: objtool: missing symbol for section .init.text
---
-   sound/soc/codecs/es7241.c:206:33: warning: unused variable 'es7241_chip' [-Wunused-const-variable]
-     206 | static const struct es7241_chip es7241_chip = {
-         |                                 ^~~~~~~~~~~
-   1 warning generated.
->> sound/soc/codecs/es7241.o: warning: objtool: missing symbol for section .init.text
+	plain_hash_to_buffer(kunittest, p, buf, PLAIN_BUF_SIZE);
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	test(buf, fmt, p);
+}
+
+
+Now, let's get for example:
+
+	test_hashed(kunittest, "%p", PTR_INVALID);
+
+it calls:
+
+	test(buf, "%p", PTR_INVALID);
+
+which is exapnded to:
+
+	__test(kunittest, file, line, buf, strlen(buf), "%p", PTR_INVALID)
+
+so, it gets the same printf arguments as the original test_hashed,
+namely:
+
+	%p, PTR_INVALID
+
+Or do I miss anything, please?
+
+You might argue that it works by chance and that it might change in the
+future. But I have hard times to imagine it. test_hashed() is just
+a wrapper around "test()". The only purpose is to fill "buf" with
+the expected outcome.
+
+If any refactoring is needed in the future. The __printf() macros
+would need some refactoring as well.
+
+Best Regards,
+Petr
