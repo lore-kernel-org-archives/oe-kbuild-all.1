@@ -1,82 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B407530FF3C;
-	Tue, 16 Dec 2025 16:32:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7045E2D3A77
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 16:42:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765902732; cv=none; b=dTbCZUAxdXJ+cCOFHtUE4z9pHmK6f3xyB+D/AcwvN3DoExnSajRFpb2uQQ0Mqn4zu8LguyctN8atnNqm0Tl9lJmnO3ziDCwQalFsS9oxsa4A1z/Wf6FDM9Gu5lniB25+EOImIXtbJZMthBWBB6qb66DVNS47M71zcV7hspZeVcY=
+	t=1765903332; cv=none; b=FtNLZcqwBSThdbOKmT1gRjDRl9KmYaJS7YxMXsg4KQUVdoo4tAW3Oxatkt6uZmHxaQC9vC1xvOCXRsS75Df8VFH4semz1a25reiHiZqOn2FW17DVe9IBsh0C/DXUQtLZJRmz3VbeEYQURYoOf2KR9RK/HjOKKkKhPJZafnbdQVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765902732; c=relaxed/simple;
-	bh=BYYyvPXCv/z3Zv/yIQlMx58UIuXYnnZWL+o4/ZYGJM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CU55ho3sEJRIvDwvTNtjpmDDhNKyf4wrA3Kro0kpqJilIWmzXPVejBHdQJnZtUMnEQLSnl0eztDBFO9oiJ0EG1NWRZb415A9fa6DS/GSSjrPIYtUHlRoPIJzdJOUIuOTOTO/mao/eLgvErlUGsGZcYu5Bx7CVe07dtvadBKTIY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ww//Ya2I; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1765903332; c=relaxed/simple;
+	bh=RxuODvu8TIKw2d9jyEgE91jXS27pM3i+S+DRUGvlVF4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OytRCQ+NWuoEPcUXsyqXrcDVD7J3q9T6wuAry3JRgn7Gc+hMPWzz/0jA/yWrGZtuGSfKrxCOp98KdK5WR1UN6LIYQV+OTyuEN8OT5g+wpYUi7Zt5V9/R0f0isMeJ0hiG3KI9R/WQHwxR+4iwkeSqU76BjkA4Mn0shjUWgKgJI/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F7nMejDT; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ww//Ya2I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7nMejDT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765902729; x=1797438729;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BYYyvPXCv/z3Zv/yIQlMx58UIuXYnnZWL+o4/ZYGJM8=;
-  b=Ww//Ya2IZVJRpwLMfIwJ5jgCThrWjqPhEoxWXeH0Q7zcAiCH3AQhNnnz
-   l41g73hFbnrfLDMjG3thBu05ij8egQPGaO8OfRPf0NmK5ftcBq8Rik6hH
-   Y2gQQt5DsdKNme5DYj8+d+VrEpKrDhhcIZo+mDgzvkEdlxrd9hkSnHGoZ
-   KIuRl1Dyy8WN6O3TxCtyo/9vEfkV+i3okOkJR+voSESeeD5tjLbMfRczV
-   oCOCiY1OdMT2CnPWg5xQXalu3iIMbT8TgVvJUOyNu5/yYebNPhp/x3zBd
-   r5sYnu09RCOzZ1SqGI3/FSJqx1ZYeJ7/R65Gtd9WwkCDPYhKVYzb+20lc
-   Q==;
-X-CSE-ConnectionGUID: tfYUosTGQ0yNuYJy1gp4qQ==
-X-CSE-MsgGUID: lT0/DfoFSGqK1HulqYpaAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="67868232"
+  t=1765903329; x=1797439329;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RxuODvu8TIKw2d9jyEgE91jXS27pM3i+S+DRUGvlVF4=;
+  b=F7nMejDTQGmpcHiFoeVQP6JFi9TFtwU8eZ0zEE/VtfWrn/keuAGSaLG7
+   c6kaacSZY2DRQSh8AgLwJ6y5req2XvMTdkci6cdbXgnLju1Mh8RaAJ1FN
+   XtGhk45vgeYpRUP4+WNQOYkMEc8QbH8tgs6kx+C/6shvH6SSY4JWiCVZw
+   mTg1F5HYAaFapFyvBXzs1bROoI4qqF9awL0i4R4kLReHVLAL86WTUIURH
+   ZVprqBp37JzKDF4luiC6KXC4I4rH9It89NUg1LXoiP7BxaI18KXlHtEqi
+   eJdk/xBzSw6PFS+NN0CZXRfahP6RJqCtWKB2hscePIx4miI5MGAL+xwDR
+   A==;
+X-CSE-ConnectionGUID: AMhHgolXQV6dQ9tU2VGCZg==
+X-CSE-MsgGUID: q+Tok3pZRhyeVIDL6MIzfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="67869245"
 X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="67868232"
+   d="scan'208";a="67869245"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 08:32:07 -0800
-X-CSE-ConnectionGUID: hOe0vqPVR7CciV+fTWvORw==
-X-CSE-MsgGUID: v02B96M3SIa8VhPps1uokQ==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 08:42:07 -0800
+X-CSE-ConnectionGUID: qhO/mLbrQaOECh8tpyQ0Sw==
+X-CSE-MsgGUID: ADXNgSjWSGqCnKBYHhQgCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,153,1763452800"; 
-   d="scan'208";a="197808734"
+   d="scan'208";a="197812107"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 16 Dec 2025 08:32:00 -0800
+  by orviesa009.jf.intel.com with ESMTP; 16 Dec 2025 08:42:06 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVXxu-000000003YO-0J5B;
-	Tue, 16 Dec 2025 16:31:58 +0000
-Date: Wed, 17 Dec 2025 00:31:27 +0800
+	id 1vVY7d-000000003Zc-2swR;
+	Tue, 16 Dec 2025 16:42:02 +0000
+Date: Wed, 17 Dec 2025 00:41:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan Roberts <ryan.roberts@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Mark Rutland <mark.rutland@arm.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Jeremy Linton <jeremy.linton@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ryan Roberts <ryan.roberts@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] randomize_kstack: Unify random source across
- arches
-Message-ID: <202512170038.vJZdUhEN-lkp@intel.com>
-References: <20251215163520.1144179-4-ryan.roberts@arm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 2/2]
+ drivers/scsi/ufs/ufs-mediatek.c:1142:5: warning: no previous prototype for
+ function 'ufs_mtk_system_suspend'
+Message-ID: <202512170015.swcBzwih-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,117 +62,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251215163520.1144179-4-ryan.roberts@arm.com>
 
-Hi Ryan,
+Hi Po-Wen,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on akpm-mm/mm-everything linus/master v6.19-rc1 next-20251216]
-[cannot apply to kees/for-next/hardening kees/for-next/execve]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/prandom-Convert-prandom_u32_state-to-__always_inline/20251216-013546
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20251215163520.1144179-4-ryan.roberts%40arm.com
-patch subject: [PATCH v2 3/3] randomize_kstack: Unify random source across arches
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251217/202512170038.vJZdUhEN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512170038.vJZdUhEN-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   d36711b0a31fb7c6682f53e306fa330cc0b125a2
+commit: 4d6bab8d366a10751b50a8cce88f9b91bf207795 [2/2] scsi: ufs: ufs-mediatek: Fix the timing of configuring device regulators
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251217/202512170015.swcBzwih-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512170015.swcBzwih-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512170038.vJZdUhEN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512170015.swcBzwih-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/x86/boot/startup/sev-startup.o: warning: objtool: section .discard.addressable has absolute relocation at offset 0x0
---
-   In file included from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/blk_types.h:11,
-                    from include/linux/writeback.h:13,
-                    from include/linux/memcontrol.h:23,
-                    from include/linux/resume_user_mode.h:8,
-                    from include/linux/entry-virt.h:6,
-                    from include/linux/kvm_host.h:5,
-                    from arch/x86/kvm/svm/svm.c:3:
->> include/linux/module.h:132:49: error: redefinition of '__inittest'
-     132 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^~~~~~~~~~
-   arch/x86/kvm/svm/svm.c:5509:1: note: in expansion of macro 'module_init'
-    5509 | module_init(svm_init)
-         | ^~~~~~~~~~~
-   include/linux/module.h:132:49: note: previous definition of '__inittest' with type 'int (*(void))(void)'
-     132 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^~~~~~~~~~
-   include/linux/module.h:125:41: note: in expansion of macro 'module_init'
-     125 | #define late_initcall(fn)               module_init(fn)
-         |                                         ^~~~~~~~~~~
-   include/linux/randomize_kstack.h:86:1: note: in expansion of macro 'late_initcall'
-      86 | late_initcall(random_kstack_init);
-         | ^~~~~~~~~~~~~
->> include/linux/module.h:134:13: error: redefinition of 'init_module'
-     134 |         int init_module(void) __copy(initfn)                    \
-         |             ^~~~~~~~~~~
-   arch/x86/kvm/svm/svm.c:5509:1: note: in expansion of macro 'module_init'
-    5509 | module_init(svm_init)
-         | ^~~~~~~~~~~
-   include/linux/module.h:134:13: note: previous definition of 'init_module' with type 'int(void)'
-     134 |         int init_module(void) __copy(initfn)                    \
-         |             ^~~~~~~~~~~
-   include/linux/module.h:125:41: note: in expansion of macro 'module_init'
-     125 | #define late_initcall(fn)               module_init(fn)
-         |                                         ^~~~~~~~~~~
-   include/linux/randomize_kstack.h:86:1: note: in expansion of macro 'late_initcall'
-      86 | late_initcall(random_kstack_init);
-         | ^~~~~~~~~~~~~
---
-   ld: arch/x86/kvm/vmx/main.o: in function `vt_init':
->> arch/x86/kvm/vmx/main.c:1038: multiple definition of `init_module'; arch/x86/kvm/vmx/vmx.o:include/linux/randomize_kstack.h:81: first defined here
---
-   In file included from drivers/misc/sgi-xp/xpc_main.c:47:
->> include/linux/module.h:132:49: error: redefinition of '__inittest'
-     132 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^~~~~~~~~~
-   drivers/misc/sgi-xp/xpc_main.c:1285:1: note: in expansion of macro 'module_init'
-    1285 | module_init(xpc_init);
-         | ^~~~~~~~~~~
-   include/linux/module.h:132:49: note: previous definition of '__inittest' with type 'int (*(void))(void)'
-     132 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^~~~~~~~~~
-   include/linux/module.h:125:41: note: in expansion of macro 'module_init'
-     125 | #define late_initcall(fn)               module_init(fn)
-         |                                         ^~~~~~~~~~~
-   include/linux/randomize_kstack.h:86:1: note: in expansion of macro 'late_initcall'
-      86 | late_initcall(random_kstack_init);
-         | ^~~~~~~~~~~~~
->> include/linux/module.h:134:13: error: redefinition of 'init_module'
-     134 |         int init_module(void) __copy(initfn)                    \
-         |             ^~~~~~~~~~~
-   drivers/misc/sgi-xp/xpc_main.c:1285:1: note: in expansion of macro 'module_init'
-    1285 | module_init(xpc_init);
-         | ^~~~~~~~~~~
-   include/linux/module.h:134:13: note: previous definition of 'init_module' with type 'int(void)'
-     134 |         int init_module(void) __copy(initfn)                    \
-         |             ^~~~~~~~~~~
-   include/linux/module.h:125:41: note: in expansion of macro 'module_init'
-     125 | #define late_initcall(fn)               module_init(fn)
-         |                                         ^~~~~~~~~~~
-   include/linux/randomize_kstack.h:86:1: note: in expansion of macro 'late_initcall'
-      86 | late_initcall(random_kstack_init);
-         | ^~~~~~~~~~~~~
+   In file included from <built-in>:3:
+   In file included from include/linux/compiler_types.h:80:
+   include/linux/compiler-clang.h:24:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      24 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:368:9: note: previous definition is here
+     368 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> drivers/scsi/ufs/ufs-mediatek.c:1142:5: warning: no previous prototype for function 'ufs_mtk_system_suspend' [-Wmissing-prototypes]
+    1142 | int ufs_mtk_system_suspend(struct device *dev)
+         |     ^
+   drivers/scsi/ufs/ufs-mediatek.c:1142:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1142 | int ufs_mtk_system_suspend(struct device *dev)
+         | ^
+         | static 
+>> drivers/scsi/ufs/ufs-mediatek.c:1156:5: warning: no previous prototype for function 'ufs_mtk_system_resume' [-Wmissing-prototypes]
+    1156 | int ufs_mtk_system_resume(struct device *dev)
+         |     ^
+   drivers/scsi/ufs/ufs-mediatek.c:1156:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1156 | int ufs_mtk_system_resume(struct device *dev)
+         | ^
+         | static 
+>> drivers/scsi/ufs/ufs-mediatek.c:1165:5: warning: no previous prototype for function 'ufs_mtk_runtime_suspend' [-Wmissing-prototypes]
+    1165 | int ufs_mtk_runtime_suspend(struct device *dev)
+         |     ^
+   drivers/scsi/ufs/ufs-mediatek.c:1165:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1165 | int ufs_mtk_runtime_suspend(struct device *dev)
+         | ^
+         | static 
+>> drivers/scsi/ufs/ufs-mediatek.c:1179:5: warning: no previous prototype for function 'ufs_mtk_runtime_resume' [-Wmissing-prototypes]
+    1179 | int ufs_mtk_runtime_resume(struct device *dev)
+         |     ^
+   drivers/scsi/ufs/ufs-mediatek.c:1179:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1179 | int ufs_mtk_runtime_resume(struct device *dev)
+         | ^
+         | static 
+   5 warnings generated.
 
 
-vim +1038 arch/x86/kvm/vmx/main.c
+vim +/ufs_mtk_system_suspend +1142 drivers/scsi/ufs/ufs-mediatek.c
 
-d6bee7813752b3 Kai Huang 2025-01-22  1036  
-d6bee7813752b3 Kai Huang 2025-01-22  1037  static int __init vt_init(void)
-d6bee7813752b3 Kai Huang 2025-01-22 @1038  {
+  1141	
+> 1142	int ufs_mtk_system_suspend(struct device *dev)
+  1143	{
+  1144		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1145		int ret;
+  1146	
+  1147		ret = ufshcd_system_suspend(dev);
+  1148		if (ret)
+  1149			return ret;
+  1150	
+  1151		ufs_mtk_vreg_set_lpm(hba, true);
+  1152	
+  1153		return 0;
+  1154	}
+  1155	
+> 1156	int ufs_mtk_system_resume(struct device *dev)
+  1157	{
+  1158		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1159	
+  1160		ufs_mtk_vreg_set_lpm(hba, false);
+  1161	
+  1162		return ufshcd_system_resume(dev);
+  1163	}
+  1164	
+> 1165	int ufs_mtk_runtime_suspend(struct device *dev)
+  1166	{
+  1167		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1168		int ret = 0;
+  1169	
+  1170		ret = ufshcd_runtime_suspend(dev);
+  1171		if (ret)
+  1172			return ret;
+  1173	
+  1174		ufs_mtk_vreg_set_lpm(hba, true);
+  1175	
+  1176		return 0;
+  1177	}
+  1178	
+> 1179	int ufs_mtk_runtime_resume(struct device *dev)
+  1180	{
+  1181		struct ufs_hba *hba = dev_get_drvdata(dev);
+  1182	
+  1183		ufs_mtk_vreg_set_lpm(hba, false);
+  1184	
+  1185		return ufshcd_runtime_resume(dev);
+  1186	}
+  1187	
 
 -- 
 0-DAY CI Kernel Test Service
