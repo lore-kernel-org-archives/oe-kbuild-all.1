@@ -1,70 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE8934321C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 06:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29EF342505
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 Dec 2025 06:30:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765866639; cv=none; b=FY3v/CEFHbatLmvzpukDFCG4659Een9+OHGFrLSROVeP3YEGnbPhPgLau8OMJPrtX/oLQcgFX2rd2U6zt2cyCTITRVw/bdm7dEupL5O2n8YBKAuBClx3tB1vd5wCLJQRfJbmMJC09QGCiPmlmrm7VuIJuCxhU5z75L4iij9UR1c=
+	t=1765866640; cv=none; b=vFqO9hzHGwWsGF4cGRRx1xWe0mF234JsvNYjOkYMp5cTNDJEXTERM0Maqg+fHyd64dtSUamveZiDFZN6XBuLRAbGct+kkgdpVpPrVX5DrNfrmB7xWnOEdZ8//556aIs8sPFkVniVRS0qLxfMQH7qoovjQdfSiRqrtHF0dew1u6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765866639; c=relaxed/simple;
-	bh=caW85dJssnXMUQwTaxj47W5KTeAnRQzB3ILQfDFWr4I=;
+	s=arc-20240116; t=1765866640; c=relaxed/simple;
+	bh=fGQwug9YnJ/Gu+o7PSDdPRDh/jVcUbblX5xsVg8Qm58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l+YKKU9VRmL1Wq4pDaCnS+q2EVB2WHg1+G7y49r5yXbrtOX0FVcdANs/m0VFSiRRByphdCp3iipKYTMfR2adp0ms1Dts0ONXL31jHk6LZyDqsjNJfXJT3Tb5Eo/P1CfbsSXb7WkdAmhsHHESGtQIP76thMsggj+Kp+GFdaDkvwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=npT/K1HB; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=RXihS2IsFximn8es+isbzDSzGzIZcxlfRKcxu3RyGp4/WMG685QKVNZc8db00GsGeLbZIketWanMBxw5HV8IO6oZOVKp0QTn9hcYIpZ18dFSi2Hp5Y3gMbAuSZ1ekk4lTqCi1qfDf6Q8lypRs1qBhYQsk4tyagMkPetNnaKtn64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ERXMPNQv; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="npT/K1HB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765866635; x=1797402635;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=caW85dJssnXMUQwTaxj47W5KTeAnRQzB3ILQfDFWr4I=;
-  b=npT/K1HBztT8k6z0pL1apC9M2CnVGYGPeNyh52l+yC9lgdp2soaolMeP
-   M7blpY+HCrtZjCMQOioASnk9FA0efsyCMzR1swSSdIHSRWSRWNMIqwqa2
-   JXYQZ07Kfh5J+8NP+ejPqIWM2UHhShMJGVXsM0SgzywQzqxmH+8SmR4ZS
-   YupNH6xVzRflKhnSB/vhH+gZ1SRgLAcOiPT4ZW8jw2K/QFlC2g/snbQQ6
-   SysLbzYf64ruDjjRWQwu7ECx/5J2mFrg2CglJdzLq31ro8qrZlmbHtTmy
-   mZyR7yXIp53qy7JpdpysZ1O7GJ+wirBqwryUCoCi2YEUtwMVgy46IEJvS
-   Q==;
-X-CSE-ConnectionGUID: az1OaslLTsyyQm1gpP2qAA==
-X-CSE-MsgGUID: RoTalSjOTQuFNyqq1m9LNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11643"; a="66765605"
-X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="66765605"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2025 22:30:29 -0800
-X-CSE-ConnectionGUID: eJmQZk+DQ3+IZ2RMN6S80A==
-X-CSE-MsgGUID: ZcQ8O+SWR+ubj9r2aUmoZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,152,1763452800"; 
-   d="scan'208";a="197213659"
-Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 15 Dec 2025 22:30:21 -0800
-Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vVOZe-000000001FF-3x6a;
-	Tue, 16 Dec 2025 06:30:18 +0000
-Date: Tue, 16 Dec 2025 14:29:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
-	oleg@redhat.com, kees@kernel.org, luto@amacapital.net,
-	wad@chromium.org, mchauras@linux.ibm.com, thuth@redhat.com,
-	sshegde@linux.ibm.com, charlie@rivosinc.com, macro@orcam.me.uk,
-	akpm@linux-foundation.org, ldv@strace.io, deller@gmx.de,
-	ankur.a.arora@oracle.com, segher@kernel.crashing.org,
-	tglx@linutronix.de, thomas.weissschuh@linutronix.de,
-	peterz@infradead.org, menglong8.dong@gmail.com,
-	bigeasy@linutronix.de, namcao@linutronix.de, mingo@kernel.org,
-	atrajeev@linux.vnet.ibm.com, mark.barnett@arm.com,
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 7/8] powerpc: Enable IRQ generic entry/exit path.
-Message-ID: <202512161441.xlMhHxvl-lkp@intel.com>
-References: <20251214130245.43664-8-mkchauras@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ERXMPNQv"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2a0a95200e8so21769765ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 15 Dec 2025 22:30:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765866630; x=1766471430; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y6hz9jdXtFMh2qAHrt6NkjlTikBzsrAftSe+xfn1Yjs=;
+        b=ERXMPNQvm0IkSHzI+VVKa9oSxppU3szCEZDzHxiTons53rBCBYXA11GIryTLRA6Vds
+         6NfAyH3Qr3SswNngarscoNUiZyHqaHl0Q6G0LLSd07LuMO3zhE+1Sob3C1K8L34vaeZP
+         ysjEGPNjJdHYlH9a4OIWis9RbkvE5Jo7rFDe8YvBC+GZXXfeId2zpjnqufr01hE7uE2p
+         MoLEE8WyjDFMmI2/tNsMWLTQW9R0Ha1XUhRk30gfYyp5HrGOwTmAmtrj4Bn7Ss9bev3w
+         SGocMDD8CDnUI36GZvRq2eFmJpMujxK4R5nOrrxpOZFi6BywaWLjJUNGy+Vi23tWFXi7
+         Q31Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765866630; x=1766471430;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y6hz9jdXtFMh2qAHrt6NkjlTikBzsrAftSe+xfn1Yjs=;
+        b=jdWlBVECn1QTXLNv/MPL8lI3nIFh1X+DPu1nZnzEBRDkhkdNaDnvFLUKvaFs5H7hMd
+         +1UHMeqgz7hMjw+htyw0tOB66YMJEjZPoAaZkjoGQKZz75aAXGH1+et4ecAKPdTHhBfA
+         spunS5sr24Xc5vwdK/YgpDuMXT6uOix5pyTuoiSj/BMqmUxhVh5Q4+8CctuHyGP5MHxb
+         jtlR9ZcMl1tLl5varAw6HmoUMtn4IHBCPltTVIrTZVcUU9nCQEWikwTObocwdRIrQU7b
+         XYuiUQPOwjPX4d9+a2eoDEpE61kLfIsYIAmmhh/G67qrq3NuGZg3zs+tX8U5A4qPxYVd
+         WXkA==
+X-Forwarded-Encrypted: i=1; AJvYcCXI3wHaK0MqGen8Nz/+Lox/PSnd7frAcO/cXAhWGubQ547kBOtIb1QYH7Gp8u+v7nhcNGWOzNNl6LfAgg49@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLPFMyeZgFpJMijAUW+LJQbJULt/g73xmEoDNtjoyIvfXRr8LW
+	DToaFkiMxzW+MsxCe3uKw7kh9NufdDkkFfQ8yWoJ8ZaDN1O3fP20ZWIw
+X-Gm-Gg: AY/fxX5XAfHQUF0N6s9lMEFDZg9VdAEtAwB+KXKUDEd3OkCbzWOM9531gpF6mheedC0
+	pLA45K94qScuywPYlyG6g2lpDlbm+5R9plZXUlUp37ASKoB4arDOEXzltUwdSd6/b7xeoXkgGxK
+	KtUlb2M7i4U1rzl+xc+Yx0TKWFo2HrTwjVIdaDGdsRo4F0OFebEpXR4B2b8xujcgoPVMR5RNUlg
+	432dZOuiLL5nDz2RwBwHCQSqX1cSEqQzKlaC0HRsHShbMZSEWw/cpmoqKIECdybS/xanVmsc/Yv
+	JvblmbRt8YL7H5nBHTr01vfTiSeekQNeP+okuHqkpvkSfq8yvP/z0jYCXKqL71r5CcVk03ebxqW
+	nDlolkgHVYjlbTMMLFCGGiRQhLAjRXmPzctSe6zJyzrc6OcZyLypNiOCq4xqch3rTD5Am/naADr
+	QybFFDwE1FcC9w9VimxhRdI5YY
+X-Google-Smtp-Source: AGHT+IEolo+n77ASckTX3/EY5JIe/RABcbNjmNYeXvNzTrdbM79wggS/bRbZ+AJ+1vYZfzhSRF9log==
+X-Received: by 2002:a17:903:f90:b0:295:b46f:a6c2 with SMTP id d9443c01a7336-29f23c7ba77mr135454575ad.37.1765866629767;
+        Mon, 15 Dec 2025 22:30:29 -0800 (PST)
+Received: from localhost.localdomain ([114.231.217.195])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29ee9d38b98sm154247525ad.34.2025.12.15.22.30.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Dec 2025 22:30:29 -0800 (PST)
+Date: Tue, 16 Dec 2025 14:30:20 +0800
+From: Vernon Yang <vernon2gm@gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, 
+	lorenzo.stoakes@oracle.com, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	ziy@nvidia.com, baohua@kernel.org, lance.yang@linux.dev, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Vernon Yang <yanglincheng@kylinos.cn>
+Subject: Re: [PATCH 2/4] mm: khugepaged: remove mm when all memory has been
+ collapsed
+Message-ID: <x2675vjrcxax375coeazrvfegtxasr74saf44mrb4npf5cgdr2@cg7gajuen7ni>
+References: <20251215090419.174418-3-yanglincheng@kylinos.cn>
+ <202512160533.KuHwyJTP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,128 +78,224 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251214130245.43664-8-mkchauras@linux.ibm.com>
+In-Reply-To: <202512160533.KuHwyJTP-lkp@intel.com>
 
-Hi Mukesh,
+On Tue, Dec 16, 2025 at 05:45:31AM +0800, kernel test robot wrote:
+> Hi Vernon,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on akpm-mm/mm-everything]
+> [also build test ERROR on linus/master v6.19-rc1 next-20251215]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Vernon-Yang/mm-khugepaged-add-trace_mm_khugepaged_scan-event/20251215-171046
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20251215090419.174418-3-yanglincheng%40kylinos.cn
+> patch subject: [PATCH 2/4] mm: khugepaged: remove mm when all memory has been collapsed
+> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251216/202512160533.KuHwyJTP-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512160533.KuHwyJTP-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512160533.KuHwyJTP-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> mm/khugepaged.c:2490:9: error: use of undeclared identifier 'SCAN_PMD_NULL'; did you mean 'SCAN_VMA_NULL'?
+>     2490 |                         case SCAN_PMD_NULL:
+>          |                              ^~~~~~~~~~~~~
+>          |                              SCAN_VMA_NULL
+>    mm/khugepaged.c:50:2: note: 'SCAN_VMA_NULL' declared here
+>       50 |         SCAN_VMA_NULL,
+>          |         ^
+> >> mm/khugepaged.c:2491:9: error: use of undeclared identifier 'SCAN_PMD_NONE'
+>     2491 |                         case SCAN_PMD_NONE:
+>          |                              ^
+>    2 errors generated.
 
-kernel test robot noticed the following build warnings:
+This series is based on Linux v6.18, due to the v6.19-rc1 add "mm/khugepaged:
+unify SCAN_PMD_NONE and SCAN_PMD_NULL into SCAN_NO_PTE_TABLE"[1], trigger this
+build errors. I'll fix it in the next version, Thanks!
 
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on powerpc/fixes linus/master v6.19-rc1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[1] https://lkml.kernel.org/r/20251114030028.7035-4-richard.weiyang@gmail.com
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Kumar-Chaurasiya/powerpc-rename-arch_irq_disabled_regs/20251214-210813
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/20251214130245.43664-8-mkchauras%40linux.ibm.com
-patch subject: [PATCH v2 7/8] powerpc: Enable IRQ generic entry/exit path.
-config: powerpc-randconfig-r072-20251215 (https://download.01.org/0day-ci/archive/20251216/202512161441.xlMhHxvl-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
+>
+> vim +2490 mm/khugepaged.c
+>
+>   2392
+>   2393	static unsigned int khugepaged_scan_mm_slot(unsigned int pages, int *result,
+>   2394						    struct collapse_control *cc)
+>   2395		__releases(&khugepaged_mm_lock)
+>   2396		__acquires(&khugepaged_mm_lock)
+>   2397	{
+>   2398		struct vma_iterator vmi;
+>   2399		struct mm_slot *slot;
+>   2400		struct mm_struct *mm;
+>   2401		struct vm_area_struct *vma;
+>   2402		int progress = 0;
+>   2403
+>   2404		VM_BUG_ON(!pages);
+>   2405		lockdep_assert_held(&khugepaged_mm_lock);
+>   2406		*result = SCAN_FAIL;
+>   2407
+>   2408		if (khugepaged_scan.mm_slot) {
+>   2409			slot = khugepaged_scan.mm_slot;
+>   2410		} else {
+>   2411			slot = list_first_entry(&khugepaged_scan.mm_head,
+>   2412					     struct mm_slot, mm_node);
+>   2413			khugepaged_scan.address = 0;
+>   2414			khugepaged_scan.mm_slot = slot;
+>   2415			khugepaged_scan.maybe_collapse = false;
+>   2416		}
+>   2417		spin_unlock(&khugepaged_mm_lock);
+>   2418
+>   2419		mm = slot->mm;
+>   2420		/*
+>   2421		 * Don't wait for semaphore (to avoid long wait times).  Just move to
+>   2422		 * the next mm on the list.
+>   2423		 */
+>   2424		vma = NULL;
+>   2425		if (unlikely(!mmap_read_trylock(mm)))
+>   2426			goto breakouterloop_mmap_lock;
+>   2427
+>   2428		progress++;
+>   2429		if (unlikely(hpage_collapse_test_exit_or_disable(mm)))
+>   2430			goto breakouterloop;
+>   2431
+>   2432		vma_iter_init(&vmi, mm, khugepaged_scan.address);
+>   2433		for_each_vma(vmi, vma) {
+>   2434			unsigned long hstart, hend;
+>   2435
+>   2436			cond_resched();
+>   2437			if (unlikely(hpage_collapse_test_exit_or_disable(mm))) {
+>   2438				progress++;
+>   2439				break;
+>   2440			}
+>   2441			if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_KHUGEPAGED, PMD_ORDER)) {
+>   2442	skip:
+>   2443				progress++;
+>   2444				continue;
+>   2445			}
+>   2446			hstart = round_up(vma->vm_start, HPAGE_PMD_SIZE);
+>   2447			hend = round_down(vma->vm_end, HPAGE_PMD_SIZE);
+>   2448			if (khugepaged_scan.address > hend)
+>   2449				goto skip;
+>   2450			if (khugepaged_scan.address < hstart)
+>   2451				khugepaged_scan.address = hstart;
+>   2452			VM_BUG_ON(khugepaged_scan.address & ~HPAGE_PMD_MASK);
+>   2453
+>   2454			while (khugepaged_scan.address < hend) {
+>   2455				bool mmap_locked = true;
+>   2456
+>   2457				cond_resched();
+>   2458				if (unlikely(hpage_collapse_test_exit_or_disable(mm)))
+>   2459					goto breakouterloop;
+>   2460
+>   2461				VM_BUG_ON(khugepaged_scan.address < hstart ||
+>   2462					  khugepaged_scan.address + HPAGE_PMD_SIZE >
+>   2463					  hend);
+>   2464				if (!vma_is_anonymous(vma)) {
+>   2465					struct file *file = get_file(vma->vm_file);
+>   2466					pgoff_t pgoff = linear_page_index(vma,
+>   2467							khugepaged_scan.address);
+>   2468
+>   2469					mmap_read_unlock(mm);
+>   2470					mmap_locked = false;
+>   2471					*result = hpage_collapse_scan_file(mm,
+>   2472						khugepaged_scan.address, file, pgoff, cc);
+>   2473					fput(file);
+>   2474					if (*result == SCAN_PTE_MAPPED_HUGEPAGE) {
+>   2475						mmap_read_lock(mm);
+>   2476						if (hpage_collapse_test_exit_or_disable(mm))
+>   2477							goto breakouterloop;
+>   2478						*result = collapse_pte_mapped_thp(mm,
+>   2479							khugepaged_scan.address, false);
+>   2480						if (*result == SCAN_PMD_MAPPED)
+>   2481							*result = SCAN_SUCCEED;
+>   2482						mmap_read_unlock(mm);
+>   2483					}
+>   2484				} else {
+>   2485					*result = hpage_collapse_scan_pmd(mm, vma,
+>   2486						khugepaged_scan.address, &mmap_locked, cc);
+>   2487				}
+>   2488
+>   2489				switch (*result) {
+> > 2490				case SCAN_PMD_NULL:
+> > 2491				case SCAN_PMD_NONE:
+>   2492				case SCAN_PMD_MAPPED:
+>   2493				case SCAN_PTE_MAPPED_HUGEPAGE:
+>   2494					break;
+>   2495				case SCAN_SUCCEED:
+>   2496					++khugepaged_pages_collapsed;
+>   2497					fallthrough;
+>   2498				default:
+>   2499					khugepaged_scan.maybe_collapse = true;
+>   2500				}
+>   2501
+>   2502				/* move to next address */
+>   2503				khugepaged_scan.address += HPAGE_PMD_SIZE;
+>   2504				progress += HPAGE_PMD_NR;
+>   2505				if (!mmap_locked)
+>   2506					/*
+>   2507					 * We released mmap_lock so break loop.  Note
+>   2508					 * that we drop mmap_lock before all hugepage
+>   2509					 * allocations, so if allocation fails, we are
+>   2510					 * guaranteed to break here and report the
+>   2511					 * correct result back to caller.
+>   2512					 */
+>   2513					goto breakouterloop_mmap_lock;
+>   2514				if (progress >= pages)
+>   2515					goto breakouterloop;
+>   2516			}
+>   2517		}
+>   2518	breakouterloop:
+>   2519		mmap_read_unlock(mm); /* exit_mmap will destroy ptes after this */
+>   2520	breakouterloop_mmap_lock:
+>   2521
+>   2522		spin_lock(&khugepaged_mm_lock);
+>   2523		VM_BUG_ON(khugepaged_scan.mm_slot != slot);
+>   2524		/*
+>   2525		 * Release the current mm_slot if this mm is about to die, or
+>   2526		 * if we scanned all vmas of this mm.
+>   2527		 */
+>   2528		if (hpage_collapse_test_exit(mm) || !vma) {
+>   2529			bool maybe_collapse = khugepaged_scan.maybe_collapse;
+>   2530
+>   2531			if (mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm))
+>   2532				maybe_collapse = true;
+>   2533
+>   2534			/*
+>   2535			 * Make sure that if mm_users is reaching zero while
+>   2536			 * khugepaged runs here, khugepaged_exit will find
+>   2537			 * mm_slot not pointing to the exiting mm.
+>   2538			 */
+>   2539			if (!list_is_last(&slot->mm_node, &khugepaged_scan.mm_head)) {
+>   2540				khugepaged_scan.mm_slot = list_next_entry(slot, mm_node);
+>   2541				khugepaged_scan.address = 0;
+>   2542				khugepaged_scan.maybe_collapse = false;
+>   2543			} else {
+>   2544				khugepaged_scan.mm_slot = NULL;
+>   2545				khugepaged_full_scans++;
+>   2546			}
+>   2547
+>   2548			collect_mm_slot(slot, maybe_collapse);
+>   2549		}
+>   2550
+>   2551		trace_mm_khugepaged_scan(mm, progress, khugepaged_scan.mm_slot == NULL);
+>   2552
+>   2553		return progress;
+>   2554	}
+>   2555
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512161441.xlMhHxvl-lkp@intel.com/
-
-smatch warnings:
-arch/powerpc/include/asm/entry-common.h:433 arch_enter_from_user_mode() warn: inconsistent indenting
-
-vim +433 arch/powerpc/include/asm/entry-common.h
-
-2b0f05f77f11f8 Mukesh Kumar Chaurasiya 2025-12-14  396  
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  397  static __always_inline void arch_enter_from_user_mode(struct pt_regs *regs)
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  398  {
-37ad0d88d9bff7 Mukesh Kumar Chaurasiya 2025-12-14  399  	kuap_lock();
-37ad0d88d9bff7 Mukesh Kumar Chaurasiya 2025-12-14  400  
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  401  	if (IS_ENABLED(CONFIG_PPC_IRQ_SOFT_MASK_DEBUG))
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  402  		BUG_ON(irq_soft_mask_return() != IRQS_ALL_DISABLED);
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  403  
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  404  	BUG_ON(regs_is_unrecoverable(regs));
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  405  	BUG_ON(!user_mode(regs));
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  406  	BUG_ON(regs_irqs_disabled(regs));
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  407  
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  408  #ifdef CONFIG_PPC_PKEY
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  409  	if (mmu_has_feature(MMU_FTR_PKEY) && trap_is_syscall(regs)) {
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  410  		unsigned long amr, iamr;
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  411  		bool flush_needed = false;
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  412  		/*
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  413  		 * When entering from userspace we mostly have the AMR/IAMR
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  414  		 * different from kernel default values. Hence don't compare.
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  415  		 */
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  416  		amr = mfspr(SPRN_AMR);
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  417  		iamr = mfspr(SPRN_IAMR);
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  418  		regs->amr  = amr;
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  419  		regs->iamr = iamr;
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  420  		if (mmu_has_feature(MMU_FTR_KUAP)) {
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  421  			mtspr(SPRN_AMR, AMR_KUAP_BLOCKED);
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  422  			flush_needed = true;
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  423  		}
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  424  		if (mmu_has_feature(MMU_FTR_BOOK3S_KUEP)) {
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  425  			mtspr(SPRN_IAMR, AMR_KUEP_BLOCKED);
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  426  			flush_needed = true;
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  427  		}
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  428  		if (flush_needed)
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  429  			isync();
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  430  	} else
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  431  #endif
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  432  		kuap_assert_locked();
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14 @433  	booke_restore_dbcr0();
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  434  	account_cpu_user_entry();
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  435  	account_stolen_time();
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  436  
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  437  	/*
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  438  	 * This is not required for the syscall exit path, but makes the
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  439  	 * stack frame look nicer. If this was initialised in the first stack
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  440  	 * frame, or if the unwinder was taught the first stack frame always
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  441  	 * returns to user with IRQS_ENABLED, this store could be avoided!
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  442  	 */
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  443  	irq_soft_mask_regs_set_state(regs, IRQS_ENABLED);
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  444  
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  445  	/*
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  446  	 * If system call is called with TM active, set _TIF_RESTOREALL to
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  447  	 * prevent RFSCV being used to return to userspace, because POWER9
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  448  	 * TM implementation has problems with this instruction returning to
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  449  	 * transactional state. Final register values are not relevant because
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  450  	 * the transaction will be aborted upon return anyway. Or in the case
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  451  	 * of unsupported_scv SIGILL fault, the return state does not much
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  452  	 * matter because it's an edge case.
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  453  	 */
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  454  	if (IS_ENABLED(CONFIG_PPC_TRANSACTIONAL_MEM) &&
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  455  	    unlikely(MSR_TM_TRANSACTIONAL(regs->msr)))
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  456  		set_bits(_TIF_RESTOREALL, &current_thread_info()->flags);
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  457  
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  458  	/*
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  459  	 * If the system call was made with a transaction active, doom it and
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  460  	 * return without performing the system call. Unless it was an
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  461  	 * unsupported scv vector, in which case it's treated like an illegal
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  462  	 * instruction.
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  463  	 */
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  464  #ifdef CONFIG_PPC_TRANSACTIONAL_MEM
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  465  	if (unlikely(MSR_TM_TRANSACTIONAL(regs->msr)) &&
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  466  	    !trap_is_unsupported_scv(regs)) {
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  467  		/* Enable TM in the kernel, and disable EE (for scv) */
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  468  		hard_irq_disable();
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  469  		mtmsr(mfmsr() | MSR_TM);
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  470  
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  471  		/* tabort, this dooms the transaction, nothing else */
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  472  		asm volatile(".long 0x7c00071d | ((%0) << 16)"
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  473  			     :: "r"(TM_CAUSE_SYSCALL | TM_CAUSE_PERSISTENT));
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  474  
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  475  		/*
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  476  		 * Userspace will never see the return value. Execution will
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  477  		 * resume after the tbegin. of the aborted transaction with the
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  478  		 * checkpointed register state. A context switch could occur
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  479  		 * or signal delivered to the process before resuming the
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  480  		 * doomed transaction context, but that should all be handled
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  481  		 * as expected.
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  482  		 */
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  483  		return;
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  484  	}
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  485  #endif /* CONFIG_PPC_TRANSACTIONAL_MEM */
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  486  }
-1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  487  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--
+Thanks,
+Vernon
