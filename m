@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A882D2398
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 16:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3606495E5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 16:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765989120; cv=none; b=NPDhs92+xCF3/0AlL3pnp+D+gVuyrSzivADZT0ur6+3wsEDbIgnvBfUaLEemfPu82/E87Z1MV0epbPR5nYDZrkMy9eiluttYXQV2NJJRa/mzWwwbnAfXr0YsTmcXllfgEAe5yi+bWocBTlUd7lUPw/tUrCJoT6LXk9tu6fpiIWU=
+	t=1765989123; cv=none; b=LXYsFIepOC9Mp3mk3Qi+bd9cOXeaXuUVdP2auQf2afwhGwdQYqvX3USQ4lcz25LQEttplgwds3cJL0KEPzrblgmXt/4Bf6soxcqguYUB3eRnttPLREYr7l5cCahjlvvVyI/ZlEtpTqDgyyPlbqoj3wMo0EYvrah6VhQu2MLeINs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765989120; c=relaxed/simple;
-	bh=hJ9gBLTfeY8ZctcL1nJqqBML4vDUi8aFtfLDr1tbkl4=;
+	s=arc-20240116; t=1765989123; c=relaxed/simple;
+	bh=Bw+vcX0AObiQhbghaKK4wIhCj8YhuH4bE5Ymm4lahuo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L+97T/8xnvigFyi4xUNqNwIAYZ7yPA8U6X/A+8mUlTqwignlq5mMjPC/bG7UgfH5QUlQdBvKSo5uFbZzaNc9ctQVwbC78NwiXdmJVf4L6ePqyUjGAlI9b64t6F8b7bF1iqgLHFI4guWuoQjTL6mmcH+D+jGKSIo/qIAfzf7CbfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ghNj22CQ; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=PnbJ987SuxVXIbDWf+9cpPEWfxi7QI9hjF+KUgs5vQe0IhxXOng8GqGzwnNwTh1BR5IXLZ2SC3sgbN8p4yS4upwP8mqqRfUPhyXDpK8T2aDPF3AodKJEfnN/tzlRUhgxuvOORKaLLMi8cDYh46NGzptJXhLIu1wM461Kpm0mrA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HdIWQUf0; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghNj22CQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HdIWQUf0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765989120; x=1797525120;
+  t=1765989121; x=1797525121;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hJ9gBLTfeY8ZctcL1nJqqBML4vDUi8aFtfLDr1tbkl4=;
-  b=ghNj22CQaCaZzrmJtOi1HnvzgO0Y4jrXwffC3zWQWVovwUnXPhHYeclB
-   z7GWjZ0w2bauQcNZDiphVcoH055uKylQ9TwNS+ivM8QGBHxm7r3uPd49r
-   c1t3cPzqZcxgq8r4vs3gP8E4W50wXTrQarZmP72Q2a8tKM6E00kDEAERN
-   iYLV5vOfK+eERbPxtjJNoWdxO2R0/vv9xtnsgs5PPNlkFw7ca7xrKEl+7
-   xQA/hYLKwdH/kOoYDqp14RVMo52UapnMU1UrMZSPXAaj7l8r9SctTQqlX
-   Tu/hUEFGqlMb5kO6PkIVmZ3W3PrbhCCD6us2CVXA+U9i4xzt/4czUXunh
-   A==;
-X-CSE-ConnectionGUID: u85Rnv25T+a9p1k/wZ+hGw==
-X-CSE-MsgGUID: y93S0DEhQsiVkNB6ZRXXnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="67870560"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="67870560"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 08:31:59 -0800
-X-CSE-ConnectionGUID: 0btkTPW+QA2PdMe1XQ6CXA==
-X-CSE-MsgGUID: 0lfxruULR3GC7la3c9fY8A==
+  bh=Bw+vcX0AObiQhbghaKK4wIhCj8YhuH4bE5Ymm4lahuo=;
+  b=HdIWQUf0CY6wyJu3ipFyCsbqX4WoyraQ8KAEK5ADrazgmlkgeOCHrxvv
+   EfV+GiH0FRwIpRrz0Gw4E2fv+FNF6tm6pfn2/SZYidDL5f1IIGgTPKwv0
+   Qwff12xqGUDbL2AWoZpfe8KnNGJgcnFCMJfBse/KQfApJa/lbRia2esjv
+   Hsf7ZeJGoFIJbrYAa/+VSHMgxE750COuJemQiahlh329dw+KnnVxJvAnh
+   hcrLYV92x0R/f2iTRCoel5XbLeFSNbbT7W6EsjGqlrtK1Lx7iyMX0q4zz
+   zRWYTdXlxVX9xA4HSv3zdEjy7jgSFS1jNm/CUOnB0hiniHnRJOXn6KuwY
+   w==;
+X-CSE-ConnectionGUID: n+sIb6SbQpGFPBg82Qq7+g==
+X-CSE-MsgGUID: 5zofmo5RT8GM0eH9BReBcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="67971519"
+X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
+   d="scan'208";a="67971519"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 08:31:59 -0800
+X-CSE-ConnectionGUID: p2reEJBbTwCQFrE2NqbBqQ==
+X-CSE-MsgGUID: Vo8v1gNUQ9ybgYolAnpkQg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="198825966"
+   d="scan'208";a="198416930"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Dec 2025 08:31:57 -0800
+  by orviesa008.jf.intel.com with ESMTP; 17 Dec 2025 08:31:58 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVuRP-000000000vZ-147C;
+	id 1vVuRP-000000000vb-1BvA;
 	Wed, 17 Dec 2025 16:31:55 +0000
-Date: Thu, 18 Dec 2025 00:31:10 +0800
+Date: Thu, 18 Dec 2025 00:31:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 0/2]
- drivers/bluetooth/hci_qca.c:1891:37: warning: unused variable
- 'qca_soc_data_wcn6855'
-Message-ID: <202512180050.EqFJSSh5-lkp@intel.com>
+Subject: [android-common:android14-6.1-2025-09 0/1]
+ arch/arm64/kvm/hyp/nvhe/mem_protect.c:635:5: warning: no previous prototype
+ for '__pkvm_host_set_stage2_memattr'
+Message-ID: <202512180010.zii3BuxO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,55 +63,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   d36711b0a31fb7c6682f53e306fa330cc0b125a2
-commit: 9609476b3a16c15395c6b805fb751458eb9bd002 [0/2] Bluetooth: hci_qca: Add support for QTI Bluetooth chip wcn6855
-config: i386-randconfig-015-20251216 (https://download.01.org/0day-ci/archive/20251218/202512180050.EqFJSSh5-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512180050.EqFJSSh5-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-09
+head:   b812b232b0959e0476d1809d64a4dda2fa4dc8e1
+commit: d56ad709773a90012b44e87c0c233faebdcf5823 [0/1] ANDROID: arm64: Implement hypervisor workaround for SoCs with DMA beyond the PoC
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251218/202512180010.zii3BuxO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512180010.zii3BuxO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512180050.EqFJSSh5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512180010.zii3BuxO-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/bluetooth/hci_qca.c:1834:37: warning: unused variable 'qca_soc_data_wcn3990' [-Wunused-const-variable]
-    1834 | static const struct qca_device_data qca_soc_data_wcn3990 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1845:37: warning: unused variable 'qca_soc_data_wcn3991' [-Wunused-const-variable]
-    1845 | static const struct qca_device_data qca_soc_data_wcn3991 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1857:37: warning: unused variable 'qca_soc_data_wcn3998' [-Wunused-const-variable]
-    1857 | static const struct qca_device_data qca_soc_data_wcn3998 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1874:37: warning: unused variable 'qca_soc_data_wcn6750' [-Wunused-const-variable]
-    1874 | static const struct qca_device_data qca_soc_data_wcn6750 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
->> drivers/bluetooth/hci_qca.c:1891:37: warning: unused variable 'qca_soc_data_wcn6855' [-Wunused-const-variable]
-    1891 | static const struct qca_device_data qca_soc_data_wcn6855 = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~
-   5 warnings generated.
+>> arch/arm64/kvm/hyp/nvhe/mem_protect.c:635:5: warning: no previous prototype for '__pkvm_host_set_stage2_memattr' [-Wmissing-prototypes]
+     635 | int __pkvm_host_set_stage2_memattr(phys_addr_t phys, bool force_nc)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/qca_soc_data_wcn6855 +1891 drivers/bluetooth/hci_qca.c
+vim +/__pkvm_host_set_stage2_memattr +635 arch/arm64/kvm/hyp/nvhe/mem_protect.c
 
-  1890	
-> 1891	static const struct qca_device_data qca_soc_data_wcn6855 = {
-  1892		.soc_type = QCA_WCN6855,
-  1893		.vregs = (struct qca_vreg []) {
-  1894			{ "vddio", 5000 },
-  1895			{ "vddbtcxmx", 126000 },
-  1896			{ "vddrfacmn", 12500 },
-  1897			{ "vddrfa0p8", 102000 },
-  1898			{ "vddrfa1p7", 302000 },
-  1899			{ "vddrfa1p2", 257000 },
-  1900		},
-  1901		.num_vregs = 6,
-  1902		.capabilities = QCA_CAP_WIDEBAND_SPEECH | QCA_CAP_VALID_LE_STATES,
-  1903	};
-  1904	
+   634	
+ > 635	int __pkvm_host_set_stage2_memattr(phys_addr_t phys, bool force_nc)
+   636	{
+   637		kvm_pte_t pte;
+   638		int ret = 0;
+   639	
+   640		if (!static_branch_unlikely(&pkvm_force_nc))
+   641			return -ENOENT;
+   642	
+   643		phys = ALIGN_DOWN(phys, PAGE_SIZE);
+   644		hyp_spin_lock(&host_mmu.lock);
+   645	
+   646		ret = kvm_pgtable_get_leaf(&host_mmu.pgt, phys, &pte, NULL);
+   647		if (ret)
+   648			goto unlock;
+   649	
+   650		if (!addr_is_memory(phys)) {
+   651			ret = -EIO;
+   652			goto unlock;
+   653		}
+   654	
+   655		if (!kvm_pte_valid(pte) && pte) {
+   656			switch (pte) {
+   657			case DEFERRED_MEMATTR_NOTE:
+   658				break;
+   659			default:
+   660				ret = -EPERM;
+   661			}
+   662		} else if (host_get_page_state(pte, phys) != PKVM_PAGE_OWNED) {
+   663			ret = -EPERM;
+   664		}
+   665	
+   666		if (ret)
+   667			goto unlock;
+   668	
+   669		if (force_nc) {
+   670			ret = host_stage2_idmap_locked(phys, PAGE_SIZE,
+   671						       PKVM_HOST_MEM_PROT |
+   672						       KVM_PGTABLE_PROT_NC,
+   673						       false);
+   674			if (ret)
+   675				goto unlock;
+   676	
+   677			kvm_flush_dcache_to_poc(hyp_fixmap_map_nc(phys), PAGE_SIZE);
+   678			hyp_fixmap_unmap();
+   679		} else {
+   680			ret = kvm_pgtable_stage2_annotate(&host_mmu.pgt, phys,
+   681							  PAGE_SIZE, &host_s2_pool,
+   682							  DEFERRED_MEMATTR_NOTE);
+   683		}
+   684	unlock:
+   685		hyp_spin_unlock(&host_mmu.lock);
+   686		return ret;
+   687	}
+   688	
 
 -- 
 0-DAY CI Kernel Test Service
