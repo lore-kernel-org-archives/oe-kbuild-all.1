@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC0F32F765
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 23:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239842253FF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 23:21:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766012972; cv=none; b=h9dTN1qOGG61D9r3swf4khXgdgBx3ha7/Ln4K070Riq/fvM3gTXV1BXArJMUQpG7L7FIrSC7oKFAJoe3jJD8jHyycS4on1ZQ0wpybxqXRbYsSCECN8NCZUzJQKO5aaVM8coPGM5Bonr5nDaw5l0q91MiUowIkNTMWqpIxIztOV8=
+	t=1766013681; cv=none; b=J+NhPxHXCSn5kc0ZiI3nSdT9evcBO7GgdzwkrYABRKWSilW5MuKltuf4EwlPw3fyVXZVxkVCYhreFHisYXNdgoa2O4InqURO+in4Skky/6J1tBvdpDTLguBBD8dGrLXltQa0lSu2l6hmyFuTvdqBa1s1yF9UnupEvitf+tYBtsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766012972; c=relaxed/simple;
-	bh=VNAsbljvW2jhMNU7WXx72s65jLFIVatA2y00f8eU4Ko=;
+	s=arc-20240116; t=1766013681; c=relaxed/simple;
+	bh=1R5MlS/eyiTSZ3EvVrskBwhoAYMnTp75hadJbgkUsuY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p/FNc1h04dq34Hoxo1IUEeBHCH8zgNmilHbqqxnMlUoEueUo7GdB8Ey4lZAHR4/NMiz9kdMnySN5UANdV7FaPSbfTYoBqZ553OkkjnOQTwo6NAYOx74f829GLqUMRwNZiymN35eW8TBSoJBdHylCmJkTKyWPETWcVnYpHoNhSx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NMqVx6Gz; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=kuJYxbibvlYLX4cT0X1dBZjPCbVHKM+3eV1wI9S5deNaUG7ezQsOnuigZ0cG0oj8SNedefrjFScpHMhMeyq/wNs1tGMj6gopkG/6Hf9jlZ+GcPoYpk01y6wmsg4I6OH875E9gfJs75RMroPcqpfh2F5ZgjBNBY9V5JrAVOmfqn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H48uFYR3; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NMqVx6Gz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H48uFYR3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766012970; x=1797548970;
+  t=1766013680; x=1797549680;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VNAsbljvW2jhMNU7WXx72s65jLFIVatA2y00f8eU4Ko=;
-  b=NMqVx6GzXwEa0nUnHWmMEwTRescr1wxDfeh9Es39C+MNV7zIevtKmhh6
-   n6pym7WQoBv/jvAoUMJretGmwdmvv8XKorFG/I/i5P0rztzzAUmG9jiBW
-   x66lj/CCJQvZSOynjegTA18hXps6wR9CdlQEvPS+m0bCCGmIz3MolrQGB
-   1MX7rpe/7tKJQJ8nULaAfiV/2aNFgpifV5j/+/De0E7UuZ461J13s/TTh
-   4ABvXQApOOn528wKEHUxeOpL9M0DAT06wCKmM3cGg5rkD1XhFrFjhZ0vx
-   lmDar7CKr8EJX0mdNuHaCWD+SplfxOAY5tax3DBBBPKrTQO93VEkIFCPt
-   A==;
-X-CSE-ConnectionGUID: n3n4y738TKaDw0Jk7Gv3cw==
-X-CSE-MsgGUID: hXhUdTcXQqqnePis3LXvfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="67157129"
+  bh=1R5MlS/eyiTSZ3EvVrskBwhoAYMnTp75hadJbgkUsuY=;
+  b=H48uFYR3L1CGeEnzArwSEKkZgJdDah60RRyALk1b+W7rpXU0KUZM5W+1
+   /HS4L2Dy9NG1Idac1QRs4kmKvSvT8x1aAU3d6zI9FONRkBlc8ffvEVOWG
+   tVL5tIPOYi2LZd3oYbOUv73NBurvdkh3LrukdeYSWXsjaMrEryj6/Tcue
+   Q/hmbSUElQMbfrFEZxFFFd+6UYcTMg5kQJHU85xV7KKuFP0oGozdrf4aA
+   JqPUmUJ4b4oxQUA9sqHA37/ZqTuiI/wgaYXwawXi9t8pMX5uFDd3jL39g
+   7p2FAE3tVCh/lxZ0NEDLYyHk7EOTKMskYdRIWgAR709bGlq3YiyDfzGx1
+   g==;
+X-CSE-ConnectionGUID: KvsOJcHNSLGJMUt4sAUj9Q==
+X-CSE-MsgGUID: Ic3rIzeXSVO1JuXHM9+4bQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="67157972"
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="67157129"
+   d="scan'208";a="67157972"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 15:09:28 -0800
-X-CSE-ConnectionGUID: z2zOB5YWQf6dcjls2+hWZA==
-X-CSE-MsgGUID: U/eqSww+SRytjsFLXUoXjg==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 15:21:19 -0800
+X-CSE-ConnectionGUID: TAU5Zv85R6KdpCONIOy/Uw==
+X-CSE-MsgGUID: vJssHdiRROmHg/3oLJFUIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="198038208"
+   d="scan'208";a="198041305"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Dec 2025 15:09:19 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 17 Dec 2025 15:21:19 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vW0dw-000000001KZ-2IRV;
-	Wed, 17 Dec 2025 23:09:16 +0000
-Date: Thu, 18 Dec 2025 07:08:39 +0800
+	id 1vW0pY-000000001Kz-3fDj;
+	Wed, 17 Dec 2025 23:21:16 +0000
+Date: Thu, 18 Dec 2025 07:20:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 0/43]
- drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:1727:6: warning: no
- previous prototype for 'kfd_fill_cache_non_crat_info'
-Message-ID: <202512180748.ft6yRguS-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 43/43]
+ arch/arm64/kvm/hyp/nvhe/modules.c:43:10: sparse: sparse: symbol
+ 'num_dynamic_hcalls' was not declared. Should it be static?
+Message-ID: <202512180716.S0q7ZfSp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,117 +63,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ma,
-
-FYI, the error/warning still remains.
-
 tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
 head:   12597ffc824d027b45aa3fda9606a4f0c3835d81
-commit: 0ac954ec7f6c6dd6b7e94340599ba4b788d056d5 [0/43] drm/amdkfd: Fix the warning of array-index-out-of-bounds
-config: x86_64-randconfig-073-20251217 (https://download.01.org/0day-ci/archive/20251218/202512180748.ft6yRguS-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512180748.ft6yRguS-lkp@intel.com/reproduce)
+commit: e2eb8807e6b795dfcef162f7c4a45954077401c5 [43/43] ANDROID: KVM: arm64: Add support for custom hypercall registration
+config: arm64-randconfig-r123-20251217 (https://download.01.org/0day-ci/archive/20251218/202512180716.S0q7ZfSp-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512180716.S0q7ZfSp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512180748.ft6yRguS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512180716.S0q7ZfSp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/hyp/nvhe/modules.c:43:10: sparse: sparse: symbol 'num_dynamic_hcalls' was not declared. Should it be static?
+>> arch/arm64/kvm/hyp/nvhe/modules.c:44:1: sparse: sparse: symbol 'dyn_hcall_lock' was not declared. Should it be static?
 
->> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:1727:6: warning: no previous prototype for 'kfd_fill_cache_non_crat_info' [-Wmissing-prototypes]
-    1727 | void kfd_fill_cache_non_crat_info(struct kfd_topology_device *dev, struct kfd_dev *kdev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/num_dynamic_hcalls +43 arch/arm64/kvm/hyp/nvhe/modules.c
 
-
-vim +/kfd_fill_cache_non_crat_info +1727 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c
-
-  1723	
-  1724	/* kfd_fill_cache_non_crat_info - Fill GPU cache info using kfd_gpu_cache_info
-  1725	 * tables
-  1726	 */
-> 1727	void kfd_fill_cache_non_crat_info(struct kfd_topology_device *dev, struct kfd_dev *kdev)
-  1728	{
-  1729		struct kfd_gpu_cache_info *pcache_info = NULL;
-  1730		int i, j, k;
-  1731		int ct = 0;
-  1732		unsigned int cu_processor_id;
-  1733		int ret;
-  1734		unsigned int num_cu_shared;
-  1735		struct kfd_cu_info cu_info;
-  1736		struct kfd_cu_info *pcu_info;
-  1737		int gpu_processor_id;
-  1738		struct kfd_cache_properties *props_ext;
-  1739		int num_of_entries = 0;
-  1740		int num_of_cache_types = 0;
-  1741		struct kfd_gpu_cache_info cache_info[KFD_MAX_CACHE_TYPES];
-  1742	
-  1743		amdgpu_amdkfd_get_cu_info(kdev->adev, &cu_info);
-  1744		pcu_info = &cu_info;
-  1745	
-  1746		gpu_processor_id = dev->node_props.simd_id_base;
-  1747	
-  1748		pcache_info = cache_info;
-  1749		num_of_cache_types = kfd_get_gpu_cache_info(kdev, &pcache_info);
-  1750		if (!num_of_cache_types) {
-  1751			pr_warn("no cache info found\n");
-  1752			return;
-  1753		}
-  1754	
-  1755		/* For each type of cache listed in the kfd_gpu_cache_info table,
-  1756		 * go through all available Compute Units.
-  1757		 * The [i,j,k] loop will
-  1758		 *		if kfd_gpu_cache_info.num_cu_shared = 1
-  1759		 *			will parse through all available CU
-  1760		 *		If (kfd_gpu_cache_info.num_cu_shared != 1)
-  1761		 *			then it will consider only one CU from
-  1762		 *			the shared unit
-  1763		 */
-  1764		for (ct = 0; ct < num_of_cache_types; ct++) {
-  1765			cu_processor_id = gpu_processor_id;
-  1766			if (pcache_info[ct].cache_level == 1) {
-  1767				for (i = 0; i < pcu_info->num_shader_engines; i++) {
-  1768					for (j = 0; j < pcu_info->num_shader_arrays_per_engine; j++) {
-  1769						for (k = 0; k < pcu_info->num_cu_per_sh; k += pcache_info[ct].num_cu_shared) {
-  1770	
-  1771							ret = fill_in_l1_pcache(&props_ext, pcache_info, pcu_info,
-  1772											pcu_info->cu_bitmap[i % 4][j + i / 4], ct,
-  1773											cu_processor_id, k);
-  1774	
-  1775							if (ret < 0)
-  1776								break;
-  1777	
-  1778							if (!ret) {
-  1779								num_of_entries++;
-  1780								list_add_tail(&props_ext->list, &dev->cache_props);
-  1781							}
-  1782	
-  1783							/* Move to next CU block */
-  1784							num_cu_shared = ((k + pcache_info[ct].num_cu_shared) <=
-  1785								pcu_info->num_cu_per_sh) ?
-  1786								pcache_info[ct].num_cu_shared :
-  1787								(pcu_info->num_cu_per_sh - k);
-  1788							cu_processor_id += num_cu_shared;
-  1789						}
-  1790					}
-  1791				}
-  1792			} else {
-  1793				ret = fill_in_l2_l3_pcache(&props_ext, pcache_info,
-  1794									pcu_info, ct, cu_processor_id);
-  1795	
-  1796				if (ret < 0)
-  1797					break;
-  1798	
-  1799				if (!ret) {
-  1800					num_of_entries++;
-  1801					list_add_tail(&props_ext->list, &dev->cache_props);
-  1802				}
-  1803			}
-  1804		}
-  1805		dev->node_props.caches_count += num_of_entries;
-  1806		pr_debug("Added [%d] GPU cache entries\n", num_of_entries);
-  1807	}
-  1808	
+    42	
+  > 43	atomic_t num_dynamic_hcalls = ATOMIC_INIT(0);
+  > 44	DEFINE_HYP_SPINLOCK(dyn_hcall_lock);
+    45	
 
 -- 
 0-DAY CI Kernel Test Service
