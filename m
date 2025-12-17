@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4B632ED4D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 22:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3E530FC0D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 23:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766012301; cv=none; b=J6A3sY9Yq2s6Fi1fWEqswJd0zYJsJ+h3U/MckqjIZjtUNuOClojy83cRWnMs4Md16dKacGQMiI9ZXGjEC11nHBCHtjy7cxkFmBPYKE/Bfczg2maKN9Q7d7/UHEqReQ8Axsa+85tUDcvaroTn+uxNML45F0jsvFtUv+gI+sr+HvE=
+	t=1766012403; cv=none; b=Ok5RphLmO06Ad2Qq/2olXH5/XRbSKMkb2jWs8PO86g7TNl/4P7murKoR5y8TLBCVuV72zQqKVNGMRyOsuwSrJK9BZgNrLXQQOX6AvSmJbCiOaE5/49vMKhiMPb0PQCMJMFxA4CuyDiui0LD1nIG+c2520wlku8+Zc+6UVmFGyNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766012301; c=relaxed/simple;
-	bh=J41oUpDYg1ufG35W4VHSU7j/5wjty8FgN7S6sG9U0x8=;
+	s=arc-20240116; t=1766012403; c=relaxed/simple;
+	bh=b1WzXSAdJhWmF93+byBKTpMaizUE2yhwcPEwBkJTfiU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PmtIdPclPNPbnLY1d9sli1ktJqNBVmCgSG1cmEn02R38TU/J2CxzabXw3bw7QZkOpq57RUjkNuDGjoNd/+/PDn5lnLFayd7R2LZ6O6Fvx29qXb9RntVQrQu8/1BpqZwPzHw+DjH8luuMSNsVfR0JqHNn6o852wYcDQHkgPAvQfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dDOsQCrv; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=I0ftE0qwydDbWwHYLHLgOAPaeDFf4+2O0ASBPVqzlPb/U2nhkzYF/+AAh+gYoEIKzeur9fkvDAJQlz1CU8y4XVbNjfkJ59sL/xtwcbLPpSmvblNKJGN4t2VmEjthctZLfFip5FA3WKW2P5k4jW/5xSIqHZDWlNa5iQdLXz9RtwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UsVAjbR8; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dDOsQCrv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UsVAjbR8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766012300; x=1797548300;
+  t=1766012401; x=1797548401;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J41oUpDYg1ufG35W4VHSU7j/5wjty8FgN7S6sG9U0x8=;
-  b=dDOsQCrvMU6K00wEH7Obohgukqy4SvZUQKTw1OO/wIf7x7kuJk/hqnR6
-   ++EZj7h6AfIST9dDTXxN56i7INFAOd9G45TRVFZUr/NSwo3uhvCZf8Tvr
-   MCcbGEccpO3UFKzYExK7eCOAGI22P2B5sMPbHk65EXsMtPoJMJGCOufEu
-   IqN7Ld+2d+pZK5ygoi62Fu5SvgwNnuzwgXHeWIq7bSAZiOjTKXPHK2ohp
-   oLU6oQXN74K/Pz6yMIzZOppnTwYZhQdU9frOm4fRAkYX3fs/g1iarSFdW
-   YoCdDect6cwjDw0JOncit0MhX6jxd6stdB6NWVUGxHk0eAv3JJmx6n7D+
+  bh=b1WzXSAdJhWmF93+byBKTpMaizUE2yhwcPEwBkJTfiU=;
+  b=UsVAjbR8q39Gt3/XivSTv45PkFkTqch5jfRzfpf1m6J7xrM04r68s+T6
+   feemMmJcazVVYKMclO8o2/WpTGU6nW+WzsJYpAp8pJ4kInAlvjcGSIRMF
+   YAWKAw06WgIrNntoylKgxHBwAtS5uJ8YyB09bIpvTVVQbDQdSWLHZ5PLk
+   BVNjJik8plp/zN1Oiu/iwYJSzXUi2K+AZzRaQN5uoEuaLLVpGzECavifP
+   V+UBGDFDK4AQTTJ7pBoc0p5GwTh+HUgo9lqsKPNiakv87hP+yoD2ziBBg
+   Xb1gR2aQplNXesTzGtVrYn0tdjMGyTP/2yYZBMjSJ8yOws4li4tuRHka0
    g==;
-X-CSE-ConnectionGUID: D5cY/9scTzKTAWLJtIYBug==
-X-CSE-MsgGUID: 8NKBy/c2Tf6hCRC3OTVX/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="68000458"
+X-CSE-ConnectionGUID: Nm7AR59RTCClX6XV8uc1VQ==
+X-CSE-MsgGUID: vA+3NKJxRdeZcPJBgSNirQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="70539325"
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="68000458"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 14:58:19 -0800
-X-CSE-ConnectionGUID: UGjTN4C3TLyZHyBElxXu+w==
-X-CSE-MsgGUID: iX9DUy6SSxue/47ZJ0srlw==
+   d="scan'208";a="70539325"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 15:00:00 -0800
+X-CSE-ConnectionGUID: 1Inq1JwOQLWKoroiAlTsbw==
+X-CSE-MsgGUID: B3NnbljQQEyObARhvFmZgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="197556036"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 Dec 2025 14:58:19 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+   d="scan'208";a="202932099"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 17 Dec 2025 15:00:00 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vW0TI-000000001K9-15Ik;
-	Wed, 17 Dec 2025 22:58:16 +0000
-Date: Thu, 18 Dec 2025 06:58:11 +0800
+	id 1vW0Uu-000000003i0-3CsB;
+	Wed, 17 Dec 2025 22:59:56 +0000
+Date: Wed, 17 Dec 2025 23:59:33 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 2/2] ld.lld: error: undefined symbol:
- lockdep_rtnl_is_held
-Message-ID: <202512180610.decGJVaM-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 40/40]
+ ././include/linux/compiler_types.h:375:45: error: call to
+ '__compiletime_assert_263' declared with attribute error: BUILD_BUG_ON
+ failed: RADIX_TREE_MAX_TAGS + __GFP_BITS_SHIFT > 32
+Message-ID: <202512172301.DgRzXTkx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,56 +64,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lee,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   b052adb82e3f185c5fb33c80f75b29464b774bbf
-commit: 1dfbe413d21f18f714cca818435299947bf5649a [2/2] Merge 6706415bf9f3 ("Merge tag 'gfs2-v6.10-rc1-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2") into android-mainline
-config: arm64-randconfig-r122-20251217 (https://download.01.org/0day-ci/archive/20251218/202512180610.decGJVaM-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512180610.decGJVaM-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   12597ffc824d027b45aa3fda9606a4f0c3835d81
+commit: 345e3e5b6400f9ee03b8fad705e399b05d46ef1a [40/40] ANDROID: mm: Fix gfp bit position of __GFP_NO_INIT_ON_ALLOC
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251217/202512172301.DgRzXTkx-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512172301.DgRzXTkx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512180610.decGJVaM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512172301.DgRzXTkx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: lockdep_rtnl_is_held
-   >>> referenced by net_dim.c
-   >>>               lib/dim/net_dim.o:(net_dim_free_irq_moder) in archive vmlinux.a
-   >>> referenced by net_dim.c
-   >>>               lib/dim/net_dim.o:(net_dim_free_irq_moder) in archive vmlinux.a
+   lib/radix-tree.c:288:6: warning: no previous prototype for 'radix_tree_node_rcu_free' [-Wmissing-prototypes]
+     288 | void radix_tree_node_rcu_free(struct rcu_head *head)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   lib/radix-tree.c: In function 'radix_tree_init':
+>> ././include/linux/compiler_types.h:375:45: error: call to '__compiletime_assert_263' declared with attribute error: BUILD_BUG_ON failed: RADIX_TREE_MAX_TAGS + __GFP_BITS_SHIFT > 32
+     375 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   ././include/linux/compiler_types.h:356:25: note: in definition of macro '__compiletime_assert'
+     356 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   ././include/linux/compiler_types.h:375:9: note: in expansion of macro '_compiletime_assert'
+     375 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   ./include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   lib/radix-tree.c:1596:9: note: in expansion of macro 'BUILD_BUG_ON'
+    1596 |         BUILD_BUG_ON(RADIX_TREE_MAX_TAGS + __GFP_BITS_SHIFT > 32);
+         |         ^~~~~~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [y]:
-   - INTEL_MEI_HDCP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
-   - INTEL_MEI_PXP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DIMLIB
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
+
+vim +/__compiletime_assert_263 +375 ././include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  361  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  362  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  363  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  364  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  365  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  366   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  367   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  368   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  369   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  370   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  371   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  372   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  373   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  374  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @375  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  376  
+
+:::::: The code at line 375 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
