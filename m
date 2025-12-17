@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF3233B6EC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 09:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB8B2D23B6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 09:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765962868; cv=none; b=ItIk14I9wDraDuxo9jhL4dN1TqLN0TzXDC1Vfg5lnF5FIye/AipUJp+r/0r8erkUJzav9zsdDzIhK5jHa4BDbLeeKz9E8F7QGlWl6QnHujxb/Xy9ngUHQJbfyxHeJSZmwZrX2hKFswPpNizerUkizX0ONpMc4i86AXj4GM2ekqE=
+	t=1765963592; cv=none; b=lLsWa2nZgV5ZfTFlIrz0Yp9JpR/hNN/1wh79AQ72uJiKMUnwxx+OJ3qZKc1z7ZaY+vSimJN7/CtPbMEnMPt+jDERsqaPaQZkMqmp8v+2RqXZp6asKUyhVqbc9xLHRSbp+OKlA0jIpeqTTukStb02j42Qy4AYwEvqyra0iXtOkQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765962868; c=relaxed/simple;
-	bh=UMEw2NN+in6iPt+fCSG6+oKn0aMSMr7iD0vC3I6KozU=;
+	s=arc-20240116; t=1765963592; c=relaxed/simple;
+	bh=+L9SecVXbUeus1TPSJM+U2QTim99UT5678DMvgtajRA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iTPAcWuBiRC/opEzeAx8WylALWtEPjdTiXgxAPTc+n69hVyJgIDT9ZsuXkvqX6l20CtUjtDEl2bviN2HnSgo3By/tCVXGBpYnpfEEwKQn/2KuIVKvNMLF5vfkL30QFXwiB8O1g1rF1sufOK4BamOO2UafZz5MYT2g8ObktLqRpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J/pPh0rt; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=IGOOSpseggmDXIT8QLOf9urfwIKoqwLwgs/MA1BIqq7db6Q/9qVQ/G5oG4tZ+YRNYGx1SDzh4kb5+iIvjZvvZg0xp2IQCw6MQXYf3IYLGhwdEv+4GnDA8Qd8CTu2/srYWK8H8fEQf5TZiROCBylmO/TdnSAUXJhLmFY20aHG0TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rnj7tOiv; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J/pPh0rt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rnj7tOiv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765962867; x=1797498867;
+  t=1765963588; x=1797499588;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UMEw2NN+in6iPt+fCSG6+oKn0aMSMr7iD0vC3I6KozU=;
-  b=J/pPh0rtp1l0Ms+SZzZ+zY/ptSTba7XNmGIiRubJq/U8KLBYfBvtTjsa
-   vGD6c1UvpZxbknOlg5DlosuWKH9Yk1YlkU219SREwNHhFuDjtlFjhLlyi
-   tlwiXklWX5slamvqB68aVH3VtxwEM+7bI54FNjzKW/r0sBKbkc4eZKrVo
-   WutjihlRnngHMclIYBpDwPM8lGZSB1HYrB36rzuRS4Hxhn0G32B202/qM
-   K/emrMAAdQpApaMyKrf1P9rUByyBMkHtq27shIcljvjeHqhXk/sIkLk2s
-   IRGq7cnBip+VvaFQtEQEKjB9TDAk6QKzOsoNnLcWXAV/GwHsxtLY13uj0
-   w==;
-X-CSE-ConnectionGUID: 1R4PyzQ0QJuKuM0M/5jupA==
-X-CSE-MsgGUID: qDqdfOWKSmOznn60mGPwFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="79350457"
+  bh=+L9SecVXbUeus1TPSJM+U2QTim99UT5678DMvgtajRA=;
+  b=Rnj7tOivhcVgBKSWuioflCoS0EMtlkcteDvSuH6egfzCS2sbw+TDALZY
+   DLp1tRfGCwsEWRbFFRBvfufkMjkLqzxQcOHsUgppbAvHEV2Y8O36kw49X
+   ZbQnFZiWZ4uhi2JJ9F0nXDcAuEVMl+z3u2i6/xM1V6wA+RMXsDGzwK+Qo
+   quBYPER7zm8QtOzBj38SJELRZV3NxA/SI66KyWnNsLaHX4ZpErbAyTayu
+   pxcWvjDCzi+6hGjDZY1qgvw3OKQcd+/WnStfmN7spXVfF+GZOaSTgyAOB
+   2TARqGBF4sxO54e0VKNmJEWwTycRbOP8yc1YM5g0snyMKYL1lc2K8LJMD
+   Q==;
+X-CSE-ConnectionGUID: A9Tm8luVSZGvY+KGKzhUMw==
+X-CSE-MsgGUID: 2K+GpLokTkiftHsMM91rYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="79014243"
 X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="79350457"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 01:14:27 -0800
-X-CSE-ConnectionGUID: oObDZRCEQ+yDim3arJMneg==
-X-CSE-MsgGUID: xVj1yPgnQAiBP4BadA/aXg==
+   d="scan'208";a="79014243"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 01:26:27 -0800
+X-CSE-ConnectionGUID: q9rOA0q+TpyFdxuHstRibw==
+X-CSE-MsgGUID: /LYbOAU2RXusMrbhC9DfeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="197536019"
+   d="scan'208";a="198751864"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Dec 2025 01:14:26 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 17 Dec 2025 01:26:25 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVnby-000000000JN-3GJM;
-	Wed, 17 Dec 2025 09:14:22 +0000
-Date: Wed, 17 Dec 2025 17:13:26 +0800
+	id 1vVnnb-000000000Kr-2yo0;
+	Wed, 17 Dec 2025 09:26:23 +0000
+Date: Wed, 17 Dec 2025 17:25:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 2/2]
- drivers/tty/serial/qcom_geni_serial.c:1592:9: sparse: sparse: Initializer
- entry defined twice
-Message-ID: <202512171719.QE9RzNDG-lkp@intel.com>
+Subject: [android-common:android16-6.12-2025-09 1/1]
+ arch/arm64/kvm/hyp/nvhe/trace.c:136:49: warning: variable 'new_head' set but
+ not used
+Message-ID: <202512171742.0R8MRuSr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,61 +63,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   d36711b0a31fb7c6682f53e306fa330cc0b125a2
-commit: 710fd74d1dbb72c237548032941e84771551546a [2/2] FROMGIT: tty: serial: qcom-geni-serial: Add support for Hibernation feature
-config: arm64-randconfig-r132-20251216 (https://download.01.org/0day-ci/archive/20251217/202512171719.QE9RzNDG-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512171719.QE9RzNDG-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-09
+head:   0f301e42a52b36441f6d6aa25cc84247a140889c
+commit: 1e1a0f8ef58c0f6c4b6a091a786db123cf5c4610 [1/1] FROMLIST: KVM: arm64: Add tracing support for the pKVM hyp
+config: arm64-randconfig-003-20251216 (https://download.01.org/0day-ci/archive/20251217/202512171742.0R8MRuSr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512171742.0R8MRuSr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512171719.QE9RzNDG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512171742.0R8MRuSr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/tty/serial/qcom_geni_serial.c: note: in included file (through arch/arm64/include/asm/io.h, include/linux/io.h):
-   include/asm-generic/io.h:369:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:369:22: sparse:     expected unsigned int [usertype] val
-   include/asm-generic/io.h:369:22: sparse:     got restricted __le32 [usertype]
-   include/asm-generic/io.h:369:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:369:22: sparse:     expected unsigned int [usertype] val
-   include/asm-generic/io.h:369:22: sparse:     got restricted __le32 [usertype]
-   drivers/tty/serial/qcom_geni_serial.c:479:13: sparse: sparse: context imbalance in 'qcom_geni_serial_console_write' - different lock contexts for basic block
-   include/asm-generic/io.h:369:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:369:22: sparse:     expected unsigned int [usertype] val
-   include/asm-generic/io.h:369:22: sparse:     got restricted __le32 [usertype]
-   include/asm-generic/io.h:369:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:369:22: sparse:     expected unsigned int [usertype] val
-   include/asm-generic/io.h:369:22: sparse:     got restricted __le32 [usertype]
-   include/asm-generic/io.h:325:15: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:369:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:369:22: sparse:     expected unsigned int [usertype] val
-   include/asm-generic/io.h:369:22: sparse:     got restricted __le32 [usertype]
-   include/asm-generic/io.h:325:15: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:325:15: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:325:15: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:325:15: sparse: sparse: cast to restricted __le32
-   include/asm-generic/io.h:325:15: sparse: sparse: cast to restricted __le32
->> drivers/tty/serial/qcom_geni_serial.c:1592:9: sparse: sparse: Initializer entry defined twice
-   drivers/tty/serial/qcom_geni_serial.c:1595:10: sparse:   also defined here
+All warnings (new ones prefixed by >>):
 
-vim +1592 drivers/tty/serial/qcom_geni_serial.c
+   arch/arm64/kvm/hyp/nvhe/trace.c: In function 'rb_move_tail':
+>> arch/arm64/kvm/hyp/nvhe/trace.c:136:49: warning: variable 'new_head' set but not used [-Wunused-but-set-variable]
+     136 |  struct hyp_buffer_page *tail_page, *new_tail, *new_head;
+         |                                                 ^~~~~~~~
 
-710fd74d1dbb72c Aniket Randive              2022-09-27  1590  
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1591  static const struct dev_pm_ops qcom_geni_serial_pm_ops = {
-b1f84dd321667d0 Mukesh Kumar Savaliya       2018-10-16 @1592  	SET_SYSTEM_SLEEP_PM_OPS(qcom_geni_serial_sys_suspend,
-b1f84dd321667d0 Mukesh Kumar Savaliya       2018-10-16  1593  					qcom_geni_serial_sys_resume)
-710fd74d1dbb72c Aniket Randive              2022-09-27  1594  	.restore = qcom_geni_serial_sys_hib_resume,
-710fd74d1dbb72c Aniket Randive              2022-09-27  1595  	.thaw = qcom_geni_serial_sys_hib_resume,
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1596  };
-c4f528795d1add8 Karthikeyan Ramasubramanian 2018-03-14  1597  
 
-:::::: The code at line 1592 was first introduced by commit
-:::::: b1f84dd321667d07f08fab99d042f1e39e9ee5bb tty: serial: qcom_geni_serial: Rectify UART suspend mechanism
+vim +/new_head +136 arch/arm64/kvm/hyp/nvhe/trace.c
 
-:::::: TO: Mukesh Kumar Savaliya <msavaliy@codeaurora.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   132	
+   133	static struct hyp_buffer_page *
+   134	rb_move_tail(struct hyp_rb_per_cpu *cpu_buffer)
+   135	{
+ > 136		struct hyp_buffer_page *tail_page, *new_tail, *new_head;
+   137	
+   138		tail_page = cpu_buffer->tail_page;
+   139		new_tail = rb_next_page(tail_page);
+   140	
+   141	again:
+   142		/*
+   143		 * We caught the reader ... Let's try to move the head page.
+   144		 * The writer can only rely on ->next links to check if this is head.
+   145		 */
+   146		if ((unsigned long)tail_page->list.next & HYP_RB_PAGE_HEAD) {
+   147			/* The reader moved the head in between */
+   148			if (!rb_set_flag(tail_page, HYP_RB_PAGE_UPDATE))
+   149				goto again;
+   150	
+   151			WRITE_ONCE(cpu_buffer->meta->overrun,
+   152				   cpu_buffer->meta->overrun + new_tail->entries);
+   153			WRITE_ONCE(meta_pages_lost(cpu_buffer->meta),
+   154				   meta_pages_lost(cpu_buffer->meta) + 1);
+   155	
+   156			/* Move the head */
+   157			rb_set_flag(new_tail, HYP_RB_PAGE_HEAD);
+   158	
+   159			/* The new head is in place, reset the update flag */
+   160			rb_set_flag(tail_page, 0);
+   161	
+   162			new_head = rb_next_page(new_tail);
+   163		}
+   164	
+   165		local_set(&new_tail->page->commit, 0);
+   166	
+   167		new_tail->write = 0;
+   168		new_tail->entries = 0;
+   169	
+   170		WRITE_ONCE(meta_pages_touched(cpu_buffer->meta),
+   171			   meta_pages_touched(cpu_buffer->meta) + 1);
+   172		cpu_buffer->tail_page = new_tail;
+   173	
+   174		return new_tail;
+   175	}
+   176	
 
 -- 
 0-DAY CI Kernel Test Service
