@@ -1,254 +1,284 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7FA339705
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 08:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765960828; cv=none; b=uPShzP5XjwRalez/eCr5uYpWszO3yIVKk8R5z7EbBrVoogmCevP8mz0cG/RxdruAtk3wY0ac1Ax/yIRvdO9mRfmZd7ccqVUFFIMfj5a1Zx7WtjcCEy9p0rB9zAk/SVrWSLvtFIs3Mp7io7DTKyYMEUyB17bTfrnY9ODqvWmXLwY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765960828; c=relaxed/simple;
-	bh=Yw0k2ECMlBpohT5i5Z1p/LI4wTTiUge1xHStWZvP8aE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qn4FacTnB80eu5pU0E8PCEBzTM0fS1H+SDQTPppCyVQowprUoyY+PGjgYGbevJ8vYEzbhxbZuAuB4N1L75zu8usfiv7wUnP1bemVRMFN8SA0LB/g+e2pyD66HHnVbL81zq4Qhk/oXO+3paA+YO/xU2DtD0cB/J39aOO4Ycgjmw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dsBx9etm; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5249019D092;
+	Wed, 17 Dec 2025 09:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765962134; cv=pass; b=K8RLPGI5zKgaAuyzmnXVqbZfrA8QnxPnPvULANNjmPDvw6bse2/Oi3uBnipbebJMXL3zVfRXJo4nVJJ4bg7wb2Eee/+etEcprCIpz+Rmn9wGZbFruhYeclzbDSGbP9ES5m6lzKDe6/S5/MzsorHBFV54vrDLpm+3fNrQTmslpiI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765962134; c=relaxed/simple;
+	bh=RVmO9lW6eehwdBNV5RAUpbB0ZvFmggl7YobpAFotihI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QdCDcHrb97opWHbS+KfP3C+POz/6U8FINlfhka1HpDwNMHAL+FjsvjkZtPkuKX7YTda4bVOELjNe1YvgBrut4RITu0C9yCz99ZGADu41eUDdKq8WtxhAQc096j7tkBzmerN5w3pc0DdgnylsFFQa/JLcVxVT/ZE3v+lQSoVT1hg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=Uo1Er425; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dsBx9etm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765960826; x=1797496826;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Yw0k2ECMlBpohT5i5Z1p/LI4wTTiUge1xHStWZvP8aE=;
-  b=dsBx9etmkzzm8aYtKjGTmuJhiPaOIPbnQS0N9bLx37VdKEvZVrT8tg4a
-   GF/eoAon5hkSedG0EOpehBcdVE9qznWOXBF98cW2gI47AawLyNWqUpam+
-   oQaHw7paJDp3gu0CkH9RIAq95gXtsRZz1p8I+uVUzVIpqwA0FY5EhQQdF
-   eABZx/MCUtyvvTLhjx9YFqtwjsFee2/yvgiITkjYomuDzGG8txOHeU/1d
-   WTJpnKtWgwkWqAe6q8KQ/hQ3VJIhB0WxvzyEDLm28YYlizILm1xjuk8Tt
-   FjpPymNR5eqU4tQCeZPfAF2erMxsmroFCJnr9Y3x32PGEzH/3X9ReBRny
-   w==;
-X-CSE-ConnectionGUID: g/Dp0pFqSJGJ1B7MaegSBw==
-X-CSE-MsgGUID: 56k32rwsTPGlzx0vj77e1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="93368335"
-X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="93368335"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 00:40:23 -0800
-X-CSE-ConnectionGUID: Yx9DhOa+R1GfGxWbOz//Kw==
-X-CSE-MsgGUID: xdfZCD0OSQqxMYcEYfcR8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="198740168"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Dec 2025 00:40:22 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vVn51-000000000Eb-43UB;
-	Wed, 17 Dec 2025 08:40:19 +0000
-Date: Wed, 17 Dec 2025 16:39:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Junjie Cao <caojunjie650@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Lee Jones <lee@kernel.org>, Pengyu Luo <mitltlatltl@gmail.com>,
-	"Daniel Thompson (RISCstar)" <danielt@kernel.org>
-Subject: drivers/video/backlight/aw99706.c:281:9: error: implicit declaration
- of function 'gpiod_set_value_cansleep'; did you mean
- 'gpio_set_value_cansleep'?
-Message-ID: <202512171631.uKXlYwqu-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="Uo1Er425"
+ARC-Seal: i=1; a=rsa-sha256; t=1765962118; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=MQOr1bkaW6D53AOQOMtEz2hCoqHSLi7Z5Ma9AsaT6F9wPbbfKL0l+Zm0ZSZoNnpzd+1Ymh7JUZrd/cuPrrVw9eDlmrRb8TdauYvDcd9b8Xwn3hDoIovBlY14lQBZV8vWiDTUma6Zbvx/uTKxBOZNuZrT+BY0qH2cLoqlH1nNsys=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1765962118; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=CmX36RAUhkyAzoQriRKH2n45J/o9UqUfaBfGbZAHOVo=; 
+	b=U6d1R/IGFZY1Kwit84IuMtg8nMQtlINXU3reDKItzztfGRi31vhYJEDuc/z3gRFIaxrfI3SgrzaRGH87g9dEMl4M6EWfbLEIZwost6jnHXitEojGdmFsa+LExDdPOpsN8UOuQMsv4/GBUWaghDEmP46N9C03JICSZqkgjwd/0zU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
+	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1765962118;
+	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=CmX36RAUhkyAzoQriRKH2n45J/o9UqUfaBfGbZAHOVo=;
+	b=Uo1Er425ZxLLeDatB8rAg48EZeP7+XgfT02adtU+dmlYUgKN4KNFrAhTIhtmWR/A
+	GHBwUHAh1chGVPnBLCE0iQ/SXK3WOg8vDAVZvXEU4K0ZoJtnIDLhZHQYvvg/Mbsrp+R
+	DrRPSu0zMFLgz+/KM5EnFkg0QUPTxIYIUtktIync=
+Received: by mx.zohomail.com with SMTPS id 1765962115824604.2212636872432;
+	Wed, 17 Dec 2025 01:01:55 -0800 (PST)
+Message-ID: <913d3056-0619-4e05-ac5f-1a21cf0e47c9@collabora.com>
+Date: Wed, 17 Dec 2025 10:01:48 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: 147b38a5ad068c43d601addc668937af6b4fe533 backlight: aw99706: Add support for Awinic AW99706 backlight
-date:   3 weeks ago
-config: sh-randconfig-r061-20251216 (https://download.01.org/0day-ci/archive/20251217/202512171631.uKXlYwqu-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512171631.uKXlYwqu-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512171631.uKXlYwqu-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/video/backlight/aw99706.c: In function 'aw99706_hw_init':
->> drivers/video/backlight/aw99706.c:281:9: error: implicit declaration of function 'gpiod_set_value_cansleep'; did you mean 'gpio_set_value_cansleep'? [-Wimplicit-function-declaration]
-     281 |         gpiod_set_value_cansleep(aw->hwen_gpio, 1);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         gpio_set_value_cansleep
-   drivers/video/backlight/aw99706.c: In function 'aw99706_probe':
->> drivers/video/backlight/aw99706.c:394:25: error: implicit declaration of function 'devm_gpiod_get'; did you mean 'em_pd_get'? [-Wimplicit-function-declaration]
-     394 |         aw->hwen_gpio = devm_gpiod_get(aw->dev, "enable", GPIOD_OUT_LOW);
-         |                         ^~~~~~~~~~~~~~
-         |                         em_pd_get
->> drivers/video/backlight/aw99706.c:394:59: error: 'GPIOD_OUT_LOW' undeclared (first use in this function); did you mean 'GPIOF_OUT_INIT_LOW'?
-     394 |         aw->hwen_gpio = devm_gpiod_get(aw->dev, "enable", GPIOD_OUT_LOW);
-         |                                                           ^~~~~~~~~~~~~
-         |                                                           GPIOF_OUT_INIT_LOW
-   drivers/video/backlight/aw99706.c:394:59: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/video/backlight/aw99706.c: At top level:
-   drivers/video/backlight/aw99706.c:436:12: warning: 'aw99706_resume' defined but not used [-Wunused-function]
-     436 | static int aw99706_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~
-   drivers/video/backlight/aw99706.c:429:12: warning: 'aw99706_suspend' defined but not used [-Wunused-function]
-     429 | static int aw99706_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 5/7] media: verisilicon: AV1: Restore IOMMU context
+ before decoding a frame
+To: kernel test robot <lkp@intel.com>, joro@8bytes.org, will@kernel.org,
+ robin.murphy@arm.com, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, heiko@sntech.de, nicolas.dufresne@collabora.com,
+ p.zabel@pengutronix.de, mchehab@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-media@vger.kernel.org, kernel@collabora.com
+References: <20251215085349.10155-6-benjamin.gaignard@collabora.com>
+ <202512162315.lcRwm6Mr-lkp@intel.com>
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <202512162315.lcRwm6Mr-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-vim +281 drivers/video/backlight/aw99706.c
+Le 16/12/2025 à 16:27, kernel test robot a écrit :
+> Hi Benjamin,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.19-rc1 next-20251216]
+> [cannot apply to robh/for-next rockchip/for-next arm64/for-next/core]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/dt-bindings-vendor-prefixes-Add-Verisilicon/20251215-165740
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20251215085349.10155-6-benjamin.gaignard%40collabora.com
+> patch subject: [PATCH v10 5/7] media: verisilicon: AV1: Restore IOMMU context before decoding a frame
+> config: arm-randconfig-r063-20251216 (https://download.01.org/0day-ci/archive/20251216/202512162315.lcRwm6Mr-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251216/202512162315.lcRwm6Mr-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512162315.lcRwm6Mr-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>>> drivers/iommu/vsi-iommu.c:231:3: error: call to undeclared function 'report_iommu_fault'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>       231 |                 report_iommu_fault(iommu->domain, iommu->dev, iova, status);
+>           |                 ^
+>>> drivers/iommu/vsi-iommu.c:245:21: error: no member named 'iommu_fwnode' in 'struct iommu_fwspec'
+>       245 |                                                              fwspec->iommu_fwnode);
+>           |                                                              ~~~~~~  ^
+>>> drivers/iommu/vsi-iommu.c:254:28: error: call to undeclared function 'dev_iommu_priv_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>       254 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
+>           |                                   ^
+>     drivers/iommu/vsi-iommu.c:254:28: note: did you mean 'dev_iommu_fwspec_get'?
+>     include/linux/iommu.h:1457:36: note: 'dev_iommu_fwspec_get' declared here
+>      1457 | static inline struct iommu_fwspec *dev_iommu_fwspec_get(struct device *dev)
+>           |                                    ^
+>>> drivers/iommu/vsi-iommu.c:254:20: error: incompatible integer to pointer conversion initializing 'struct vsi_iommu *' with an expression of type 'int' [-Wint-conversion]
+>       254 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
+>           |                           ^       ~~~~~~~~~~~~~~~~~~~~~~~
+>     drivers/iommu/vsi-iommu.c:496:28: error: call to undeclared function 'dev_iommu_priv_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>       496 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
+>           |                                   ^
+>     drivers/iommu/vsi-iommu.c:496:20: error: incompatible integer to pointer conversion initializing 'struct vsi_iommu *' with an expression of type 'int' [-Wint-conversion]
+>       496 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
+>           |                           ^       ~~~~~~~~~~~~~~~~~~~~~~~
+>>> drivers/iommu/vsi-iommu.c:519:38: error: variable has incomplete type 'const struct iommu_domain_ops'
+>       519 | static const struct iommu_domain_ops vsi_identity_ops = {
+>           |                                      ^
+>     include/linux/iommu.h:40:8: note: forward declaration of 'struct iommu_domain_ops'
+>        40 | struct iommu_domain_ops;
+>           |        ^
+>     drivers/iommu/vsi-iommu.c:571:28: error: call to undeclared function 'dev_iommu_priv_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>       571 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
+>           |                                   ^
+>     drivers/iommu/vsi-iommu.c:571:20: error: incompatible integer to pointer conversion initializing 'struct vsi_iommu *' with an expression of type 'int' [-Wint-conversion]
+>       571 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
+>           |                           ^       ~~~~~~~~~~~~~~~~~~~~~~~
+>>> drivers/iommu/vsi-iommu.c:644:2: error: call to undeclared function 'dev_iommu_priv_set'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>       644 |         dev_iommu_priv_set(dev, iommu);
+>           |         ^
+>     drivers/iommu/vsi-iommu.c:650:28: error: call to undeclared function 'dev_iommu_priv_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>       650 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
+>           |                                   ^
+>     drivers/iommu/vsi-iommu.c:650:20: error: incompatible integer to pointer conversion initializing 'struct vsi_iommu *' with an expression of type 'int' [-Wint-conversion]
+>       650 |         struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
+>           |                           ^       ~~~~~~~~~~~~~~~~~~~~~~~
+>>> drivers/iommu/vsi-iommu.c:657:35: error: passing 'const uint32_t[16]' (aka 'const unsigned int[16]') to parameter of type 'u32 *' (aka 'unsigned int *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+>       657 |         return iommu_fwspec_add_ids(dev, args->args, 1);
+>           |                                          ^~~~~~~~~~
+>     include/linux/iommu.h:1451:65: note: passing argument to parameter 'ids' here
+>      1451 | static inline int iommu_fwspec_add_ids(struct device *dev, u32 *ids,
+>           |                                                                 ^
+>>> drivers/iommu/vsi-iommu.c:667:18: error: use of undeclared identifier 'generic_single_device_group'
+>       667 |         .device_group = generic_single_device_group,
+>           |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     drivers/iommu/vsi-iommu.c:669:25: error: variable has incomplete type 'const struct iommu_domain_ops'
+>       669 |         .default_domain_ops = &(const struct iommu_domain_ops) {
+>           |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       670 |                 .attach_dev             = vsi_iommu_attach_device,
+>           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       671 |                 .map_pages              = vsi_iommu_map,
+>           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       672 |                 .unmap_pages            = vsi_iommu_unmap,
+>           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       673 |                 .flush_iotlb_all        = vsi_iommu_flush_tlb_all,
+>           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       674 |                 .iova_to_phys           = vsi_iommu_iova_to_phys,
+>           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       675 |                 .free                   = vsi_iommu_domain_free,
+>           |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       676 |         }
+>           |         ~
+>     include/linux/iommu.h:40:8: note: forward declaration of 'struct iommu_domain_ops'
+>        40 | struct iommu_domain_ops;
+>           |        ^
+>     15 errors generated.
+>
+> Kconfig warnings: (for reference only)
+>     WARNING: unmet direct dependencies detected for VSI_IOMMU
+>     Depends on [n]: IOMMU_SUPPORT [=n] && (ARCH_ROCKCHIP [=n] && ARM64 || COMPILE_TEST [=y])
+>     Selected by [m]:
+>     - VIDEO_HANTRO_ROCKCHIP [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && VIDEO_HANTRO [=m] && (ARCH_ROCKCHIP [=n] || COMPILE_TEST [=y])VSI_IOMMU
 
-   276	
-   277	static int aw99706_hw_init(struct aw99706_device *aw)
-   278	{
-   279		int ret, i;
-   280	
- > 281		gpiod_set_value_cansleep(aw->hwen_gpio, 1);
-   282	
-   283		for (i = 0; i < ARRAY_SIZE(aw->init_tbl); i++) {
-   284			ret = aw99706_i2c_update_bits(aw, aw->init_tbl[i].reg,
-   285						      aw->init_tbl[i].mask,
-   286						      aw->init_tbl[i].val);
-   287			if (ret < 0) {
-   288				dev_err(aw->dev, "Failed to write init data %d\n", ret);
-   289				return ret;
-   290			}
-   291		}
-   292	
-   293		return 0;
-   294	}
-   295	
-   296	static int aw99706_bl_enable(struct aw99706_device *aw, bool en)
-   297	{
-   298		int ret;
-   299		u8 val;
-   300	
-   301		val = FIELD_PREP(AW99706_BACKLIGHT_EN_MASK, en);
-   302		ret = aw99706_i2c_update_bits(aw, AW99706_CFGD_REG,
-   303					      AW99706_BACKLIGHT_EN_MASK, val);
-   304		if (ret)
-   305			dev_err(aw->dev, "Failed to enable backlight!\n");
-   306	
-   307		return ret;
-   308	}
-   309	
-   310	static int aw99706_update_brightness(struct aw99706_device *aw, u32 brt_lvl)
-   311	{
-   312		bool bl_enable_now = !!brt_lvl;
-   313		int ret;
-   314	
-   315		ret = aw99706_i2c_write(aw, AW99706_CFG4_REG,
-   316					(brt_lvl >> 8) & AW99706_BRT_MSB_MASK);
-   317		if (ret < 0)
-   318			return ret;
-   319	
-   320		ret = aw99706_i2c_write(aw, AW99706_CFG5_REG,
-   321					brt_lvl & AW99706_BRT_LSB_MASK);
-   322		if (ret < 0)
-   323			return ret;
-   324	
-   325		if (aw->bl_enable != bl_enable_now) {
-   326			ret = aw99706_bl_enable(aw, bl_enable_now);
-   327			if (!ret)
-   328				aw->bl_enable = bl_enable_now;
-   329		}
-   330	
-   331		return ret;
-   332	}
-   333	
-   334	static int aw99706_bl_update_status(struct backlight_device *bl)
-   335	{
-   336		struct aw99706_device *aw = bl_get_data(bl);
-   337	
-   338		return aw99706_update_brightness(aw, bl->props.brightness);
-   339	}
-   340	
-   341	static const struct backlight_ops aw99706_bl_ops = {
-   342		.options = BL_CORE_SUSPENDRESUME,
-   343		.update_status = aw99706_bl_update_status,
-   344	};
-   345	
-   346	static const struct regmap_config aw99706_regmap_config = {
-   347		.reg_bits = 8,
-   348		.val_bits = 8,
-   349		.max_register = AW99706_REG_MAX,
-   350		.writeable_reg = aw99706_writeable_reg,
-   351		.readable_reg = aw99706_readable_reg,
-   352	};
-   353	
-   354	static int aw99706_chip_id_read(struct aw99706_device *aw)
-   355	{
-   356		int ret;
-   357		unsigned int val;
-   358	
-   359		ret = aw99706_i2c_read(aw, AW99706_CHIPID_REG, &val);
-   360		if (ret < 0)
-   361			return ret;
-   362	
-   363		return val;
-   364	}
-   365	
-   366	static int aw99706_probe(struct i2c_client *client)
-   367	{
-   368		struct device *dev = &client->dev;
-   369		struct aw99706_device *aw;
-   370		struct backlight_device *bl_dev;
-   371		struct backlight_properties props = {};
-   372		int ret = 0;
-   373	
-   374		aw = devm_kzalloc(dev, sizeof(*aw), GFP_KERNEL);
-   375		if (!aw)
-   376			return -ENOMEM;
-   377	
-   378		aw->client = client;
-   379		aw->dev = dev;
-   380		i2c_set_clientdata(client, aw);
-   381	
-   382		aw->regmap = devm_regmap_init_i2c(client, &aw99706_regmap_config);
-   383		if (IS_ERR(aw->regmap))
-   384			return dev_err_probe(dev, PTR_ERR(aw->regmap),
-   385					     "Failed to init regmap\n");
-   386	
-   387		ret = aw99706_chip_id_read(aw);
-   388		if (ret != AW99706_ID)
-   389			return dev_err_probe(dev, -ENODEV,
-   390					     "Unknown chip id 0x%02x\n", ret);
-   391	
-   392		aw99706_dt_parse(aw, &props);
-   393	
- > 394		aw->hwen_gpio = devm_gpiod_get(aw->dev, "enable", GPIOD_OUT_LOW);
-   395		if (IS_ERR(aw->hwen_gpio))
-   396			return dev_err_probe(dev, PTR_ERR(aw->hwen_gpio),
-   397					     "Failed to get enable gpio\n");
-   398	
-   399		ret = aw99706_hw_init(aw);
-   400		if (ret < 0)
-   401			return dev_err_probe(dev, ret,
-   402					     "Failed to initialize the chip\n");
-   403	
-   404		props.type = BACKLIGHT_RAW;
-   405		props.scale = BACKLIGHT_SCALE_LINEAR;
-   406	
-   407		bl_dev = devm_backlight_device_register(dev, "aw99706-backlight", dev,
-   408							aw, &aw99706_bl_ops, &props);
-   409		if (IS_ERR(bl_dev))
-   410			return dev_err_probe(dev, PTR_ERR(bl_dev),
-   411					     "Failed to register backlight!\n");
-   412	
-   413		aw->bl_dev = bl_dev;
-   414	
-   415		return 0;
-   416	}
-   417	
+I will make VIDEO_HANTRO_ROCKCHIP depends on VSI_IOMMU instead of select it on the next version.
+Regards,
+Benjamin
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>
+> vim +/report_iommu_fault +231 drivers/iommu/vsi-iommu.c
+>
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  214
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  215  static irqreturn_t vsi_iommu_irq(int irq, void *dev_id)
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  216  {
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  217  	struct vsi_iommu *iommu = dev_id;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  218  	unsigned long flags;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  219  	dma_addr_t iova;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  220  	u32 status;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  221
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  222  	if (pm_runtime_resume_and_get(iommu->dev) < 0)
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  223  		return IRQ_NONE;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  224
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  225  	spin_lock_irqsave(&iommu->lock, flags);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  226
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  227  	status = readl(iommu->regs + VSI_MMU_STATUS_BASE);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  228  	if (status & VSI_MMU_IRQ_MASK) {
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  229  		dev_err(iommu->dev, "unexpected int_status=%08x\n", status);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  230  		iova = readl(iommu->regs + VSI_MMU_PAGE_FAULT_ADDR);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15 @231  		report_iommu_fault(iommu->domain, iommu->dev, iova, status);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  232  	}
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  233  	writel(0, iommu->regs + VSI_MMU_STATUS_BASE);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  234
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  235  	spin_unlock_irqrestore(&iommu->lock, flags);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  236  	pm_runtime_put_autosuspend(iommu->dev);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  237
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  238  	return IRQ_HANDLED;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  239  }
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  240
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  241  static struct vsi_iommu *vsi_iommu_get_from_dev(struct device *dev)
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  242  {
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  243  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  244  	struct device *iommu_dev = bus_find_device_by_fwnode(&platform_bus_type,
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15 @245  							     fwspec->iommu_fwnode);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  246
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  247  	put_device(iommu_dev);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  248
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  249  	return iommu_dev ? dev_get_drvdata(iommu_dev) : NULL;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  250  }
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  251
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  252  static struct iommu_domain *vsi_iommu_domain_alloc_paging(struct device *dev)
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  253  {
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15 @254  	struct vsi_iommu *iommu = dev_iommu_priv_get(dev);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  255  	struct vsi_iommu_domain *vsi_domain;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  256
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  257  	vsi_domain = kzalloc(sizeof(*vsi_domain), GFP_KERNEL);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  258  	if (!vsi_domain)
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  259  		return NULL;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  260
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  261  	vsi_domain->dev = iommu->dev;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  262  	spin_lock_init(&vsi_domain->lock);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  263
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  264  	/*
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  265  	 * iommu use a 2 level pagetable.
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  266  	 * Each level1 (dt) and level2 (pt) table has 1024 4-byte entries.
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  267  	 * Allocate one 4 KiB page for each table.
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  268  	 */
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  269  	vsi_domain->dt = iommu_alloc_pages_sz(GFP_KERNEL | GFP_DMA32,
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  270  					      SPAGE_SIZE);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  271  	if (!vsi_domain->dt)
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  272  		goto err_free_domain;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  273
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  274  	vsi_domain->dt_dma = dma_map_single(vsi_domain->dev, vsi_domain->dt,
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  275  					    SPAGE_SIZE, DMA_TO_DEVICE);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  276  	if (dma_mapping_error(vsi_domain->dev, vsi_domain->dt_dma)) {
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  277  		dev_err(dev, "DMA map error for DT\n");
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  278  		goto err_free_dt;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  279  	}
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  280
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  281  	vsi_domain->pta = iommu_alloc_pages_sz(GFP_KERNEL | GFP_DMA32,
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  282  					       SPAGE_SIZE);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  283  	if (!vsi_domain->pta)
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  284  		goto err_unmap_dt;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  285
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  286  	vsi_domain->pta[0] = vsi_mk_pta(vsi_domain->dt_dma);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  287  	vsi_domain->pta_dma = dma_map_single(vsi_domain->dev, vsi_domain->pta,
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  288  					     SPAGE_SIZE, DMA_TO_DEVICE);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  289  	if (dma_mapping_error(vsi_domain->dev, vsi_domain->pta_dma)) {
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  290  		dev_err(dev, "DMA map error for PTA\n");
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  291  		goto err_free_pta;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  292  	}
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  293
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  294  	INIT_LIST_HEAD(&vsi_domain->iommus);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  295
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  296  	vsi_domain->domain.geometry.aperture_start = 0;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  297  	vsi_domain->domain.geometry.aperture_end   = DMA_BIT_MASK(32);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  298  	vsi_domain->domain.geometry.force_aperture = true;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  299  	vsi_domain->domain.pgsize_bitmap	   = SZ_4K;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  300
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  301  	return &vsi_domain->domain;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  302
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  303  err_free_pta:
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  304  	iommu_free_pages(vsi_domain->pta);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  305  err_unmap_dt:
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  306  	dma_unmap_single(vsi_domain->dev, vsi_domain->dt_dma,
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  307  			 SPAGE_SIZE, DMA_TO_DEVICE);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  308  err_free_dt:
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  309  	iommu_free_pages(vsi_domain->dt);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  310  err_free_domain:
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  311  	kfree(vsi_domain);
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  312
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  313  	return NULL;
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  314  }
+> b9e3cd4bea55cd Benjamin Gaignard 2025-12-15  315
+>
