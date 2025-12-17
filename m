@@ -1,109 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE60B192590
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 21:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD470287276;
+	Wed, 17 Dec 2025 22:22:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766008202; cv=none; b=BVxkWqRgcWs9C0hzJ8DBtiDG4RO5kT4DwKrlXcY5fC44I1EVWVKxeW6JDPg+OnHXXpcYscVXwWTTl17YeZDRJOeLxI77t0Ias9OLqeMgLqp978ZnDDtv9wR8NNGU3KU6GPKVBizMpuBTKzQX3feGkaWmezEzNovTwmntDn27H90=
+	t=1766010155; cv=none; b=pguFJVPh2f5Xwbcy7Pd5aAhoWtZFocEVPlc0S0C0M3WEHS7tcVtozlcSU7aXZzXEn5XxrhJ15Su4QCEGRRqYpCYvEDz/IPjY5DGKBUvjOZkJ/UW/KZFxQUGaepMQCPN3Of0AVdueLEDJw92MS3xm1ZHI3iM5QoNCCv3Rs6MDtII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766008202; c=relaxed/simple;
-	bh=g8hvTIiYFKLGQU8/X2Uku2zYcOWYcJ+fRFMTWSwetrE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bG0mFgYIQL1EdDu2z7ZEcRAXSMppDuLQ6WRAROd5sT1e9NFS9abUJTyka17TAB0hkhL6FPMLiKA7F/NLNzhp69GmypnHVosyX5UnRle0vJlcz9rFPyS8YZlH+KQwYyJ2AeXjubrCquIWg0JBiJSYrZHvnr3XmXINeZzsbiravFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n0H328uz; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766010155; c=relaxed/simple;
+	bh=7eL1qkwDiS8+URLPuArYTaJEq1bltmjz2Es0TSkL1Io=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Asljp0hx62OZ54yZ0+qEVMBmX0NCdTgB1vXcJ+DhglnnakEiZpoM7+040DeiYTShqsfdTS0ozXNksi8xfaWVpBg3GEb3jG4N6m2CRGWLNH1pwWzGS4w1+FLQg3j7zySbaVgC+mdVvgRowYEKToES7+n4z4Y6mRvRE2+qOEa/kLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OE/Nx4JU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0H328uz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766008200; x=1797544200;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g8hvTIiYFKLGQU8/X2Uku2zYcOWYcJ+fRFMTWSwetrE=;
-  b=n0H328uzjmnv0u/nTLcCINW5tbzRzthVF/xSnEgYv/qfe7ppYzFRjJxk
-   qOEBQbSrcSjjpbwFCShNueHsQKnQWgdSg/eC6yzD45UfGPuRO0rdG8/o2
-   1fuSVq3DfBIcrn6IjMEqCIfl7s/f7ttjkS87aWnLRsg3PQlFIBMrGKoET
-   WprfAM0uwsgTc6VGZrFgNYhT3AWsNgXLBqCiVWvhsKnd4CUPnaVrVsVH8
-   A4Smz9zaVN4ZPZHLMQa1bLqXvYL4dcnhp+kpjiO35pCnsKNRyUvTKOL9M
-   xdywFBaEkbWWETianinCIlN65D6Dlh3IJveDT2xiuq/f3lWlLQhRZKMIo
-   w==;
-X-CSE-ConnectionGUID: GANcKsK2TCyq1avT6VjZpg==
-X-CSE-MsgGUID: WLxf1MCRQtiM49FT7XpTyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="79327399"
-X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="79327399"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 13:49:59 -0800
-X-CSE-ConnectionGUID: h7tQGMfTTvG01hVrEErcaw==
-X-CSE-MsgGUID: mHEmQQqyQza0isugsXHcVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="198890016"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Dec 2025 13:49:58 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vVzP9-000000003gS-2zm6;
-	Wed, 17 Dec 2025 21:49:55 +0000
-Date: Wed, 17 Dec 2025 22:49:48 +0100
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.18-netnext-rss2 21/37]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000
- (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202512172219.iVKca7NF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OE/Nx4JU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53EBCC113D0;
+	Wed, 17 Dec 2025 22:22:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766010154;
+	bh=7eL1qkwDiS8+URLPuArYTaJEq1bltmjz2Es0TSkL1Io=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OE/Nx4JU44XpLz5ohJEIcpt2EYJxuOl4XuJmaoSHUgAl0TTMnwMp6nshh0rw+e+fY
+	 /g4G06tV3PcBRrPWh7ziWWLXmaXMONK5Rh+1dl5g45DLtBze95P6hgkQFxFOvxbdtM
+	 qknZqtIZVUuL2FV8NOBZoEHR7IV4aZE3Gl1abh7aqyvjjE2zRHKgVz25I6amoHrbAQ
+	 CJqnMYYzthKlyxvopkkuHT6kYQl9lLBYB4O30pw/LPcs2xmeTogHQsyDwkXLNqfVE/
+	 G0iv/I5GtusOLE3fCMfaPVgX2vRdgZTtYE5JdcSXsVBdyA5HKgoUhLKzg8QYY0oYJJ
+	 Vp7Us69pUQm+w==
+From: SeongJae Park <sj@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	oe-kbuild@lists.linux.dev,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [sj:damon/next 44/115] mm/damon/sysfs.c:920 damon_sysfs_sample_add_dirs() warn: missing unwind goto?
+Date: Wed, 17 Dec 2025 14:22:30 -0800
+Message-ID: <20251217222230.3221-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <202512141528.AD9GSzHJ-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.18-netnext-rss2
-head:   9f65663bfdad717c57c939e8289964fd6739884b
-commit: 04a41b74aec0455f1b66569502a746f364a9db5f [21/37] arm64: dts: mt7988: re-add sgmiisys
-config: arm64-randconfig-2052-20251214 (https://download.01.org/0day-ci/archive/20251217/202512172219.iVKca7NF-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ecaf673850beb241957352bd61e95ed34256635f)
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512172219.iVKca7NF-lkp@intel.com/reproduce)
+On Wed, 17 Dec 2025 19:03:40 +0300 Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512172219.iVKca7NF-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> head:   4daf22e4c21ef13ee2779580295eb0073dc3163b
+> commit: f4df9946a1d00c8aa6326f28807efec79af1c2ea [44/115] mm/damon/sysfs: implement sample/filters/ directory
+> config: i386-randconfig-141-20251214 (https://download.01.org/0day-ci/archive/20251214/202512141528.AD9GSzHJ-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202512141528.AD9GSzHJ-lkp@intel.com/
+> 
+> smatch warnings:
+> mm/damon/sysfs.c:920 damon_sysfs_sample_add_dirs() warn: missing unwind goto?
+> 
+> vim +920 mm/damon/sysfs.c
+> 
+> 4242d70b872082 SeongJae Park 2025-12-02  901  static int damon_sysfs_sample_add_dirs(
+> 4242d70b872082 SeongJae Park 2025-12-02  902  		struct damon_sysfs_sample *sample)
+> 4242d70b872082 SeongJae Park 2025-12-02  903  {
+> 4242d70b872082 SeongJae Park 2025-12-02  904  	struct damon_sysfs_primitives *primitives;
+> f4df9946a1d00c SeongJae Park 2025-12-02  905  	struct damon_sysfs_sample_filters *filters;
+> 4242d70b872082 SeongJae Park 2025-12-02  906  	int err;
+> 4242d70b872082 SeongJae Park 2025-12-02  907  
+> 4242d70b872082 SeongJae Park 2025-12-02  908  	primitives = damon_sysfs_primitives_alloc(true, false);
+> 4242d70b872082 SeongJae Park 2025-12-02  909  	if (!primitives)
+> 4242d70b872082 SeongJae Park 2025-12-02  910  		return -ENOMEM;
+> 4242d70b872082 SeongJae Park 2025-12-02  911  	err = kobject_init_and_add(&primitives->kobj,
+> 4242d70b872082 SeongJae Park 2025-12-02  912  			&damon_sysfs_primitives_ktype, &sample->kobj,
+> 4242d70b872082 SeongJae Park 2025-12-02  913  			"primitives");
+> 4242d70b872082 SeongJae Park 2025-12-02  914  	if (err)
+> 4242d70b872082 SeongJae Park 2025-12-02  915  		goto put_primitives_out;
+> 4242d70b872082 SeongJae Park 2025-12-02  916  	sample->primitives = primitives;
+> 4242d70b872082 SeongJae Park 2025-12-02  917  
+> f4df9946a1d00c SeongJae Park 2025-12-02  918  	filters = damon_sysfs_sample_filters_alloc();
+> f4df9946a1d00c SeongJae Park 2025-12-02  919  	if (!filters)
+> f4df9946a1d00c SeongJae Park 2025-12-02 @920  		return -ENOMEM;
+> 
+> goto put_primitives_out;?
+> 
+> f4df9946a1d00c SeongJae Park 2025-12-02  921  	err = kobject_init_and_add(&filters->kobj,
+> f4df9946a1d00c SeongJae Park 2025-12-02  922  			&damon_sysfs_sample_filters_ktype, &sample->kobj,
+> f4df9946a1d00c SeongJae Park 2025-12-02  923  			"filters");
+> f4df9946a1d00c SeongJae Park 2025-12-02  924  	if (err)
+> f4df9946a1d00c SeongJae Park 2025-12-02  925  		goto put_filters_out;
+> f4df9946a1d00c SeongJae Park 2025-12-02  926  	sample->filters = filters;
+> f4df9946a1d00c SeongJae Park 2025-12-02  927  	return 0;
+> f4df9946a1d00c SeongJae Park 2025-12-02  928  put_filters_out:
+> f4df9946a1d00c SeongJae Park 2025-12-02  929  	kobject_put(&filters->kobj);
+> f4df9946a1d00c SeongJae Park 2025-12-02  930  	sample->filters = NULL;
+> 4242d70b872082 SeongJae Park 2025-12-02  931  put_primitives_out:
+> 4242d70b872082 SeongJae Park 2025-12-02  932  	kobject_put(&primitives->kobj);
+> 4242d70b872082 SeongJae Park 2025-12-02  933  	sample->primitives = NULL;
+> 4242d70b872082 SeongJae Park 2025-12-02  934  	return err;
+> 4242d70b872082 SeongJae Park 2025-12-02  935  }
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:667.24-688.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:697.26-719.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:667.24-688.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:697.26-719.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:667.24-688.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:697.26-719.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:667.24-688.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:697.26-719.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): 'resets' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
+Thank you for catching this and sharing with me, Dan!  Just pushed a fix that
+simply following your suggestion, to damon/next tree.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Thanks,
+SJ
+
+[...]
