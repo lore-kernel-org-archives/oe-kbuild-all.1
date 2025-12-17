@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56697363C68
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 14:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDA138C651
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 14:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765982028; cv=none; b=q6u30iMIee64kXbT6LIUjbMTZixo8qT7ShlkS+UCCI/ngdmgYF2O1Fsju+PPsKq14BlhlbPxLpFPg2OODvEyiIxwTGbIOoG5UVb39TEDi9sCpXuF/DrhHF0PUMGVCMzQ6rQlzMPVJaxaxXNHSqwgEiSXnbxrIj/aA7PLOhT1HVA=
+	t=1765982694; cv=none; b=N/lhTPXBlkoFFI+7G5/HhpQmhfxZ1pH7UESGVVKTjQqAGhJKYjMJX3FXo0R/BihH1RidnV2KyzdL3fqZx+SXXH3h8iUKoMbCIzkdPbtTcF4GWiVSYIwJ6K4+R6dZN/q3gNYA5LdbbQnGxXorhxPRrgfJPuy1h839uzyq8aqf3ME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765982028; c=relaxed/simple;
-	bh=s4u5AW6S9hPMlcuY9buS/HaQ3zTcHOUpXeD4HzBY5lE=;
+	s=arc-20240116; t=1765982694; c=relaxed/simple;
+	bh=Zbo5B5B0tCSixEeAjnxbhdpYG+DgiLVrKjpPJn8eSHw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fQywP1xqL3oOcrOuJffU+D48JEr+XP6+KfV3k+KjROCcDIbjOY+lMJXsyGNyNDoIUc0XwqG5OHaJXL7OMC8I98js6aneQ0Y60dx3KWQqaMuIUuVrGIrFhAI7i4TesREkKOH50OqjSUJ5WF4V47AJPBz+0d4/cbiY0i2HccYiG8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WobVCXtJ; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=TwcxiNYXrBIe+nqhW5xITJ+pWMX1BG37cTpy5MAOvGWWK4zP6HDJL2vVFdU0J/CwS4ZJfZyk1H0A29eMZ2lkqUY+2v6HOJnpnLme5oCh3fEJkD5SHOZdh+eDXHYOcUxj4Lgj1yOFmmqZIBzzx+Yov49MI9oHTPPI/cSZDN0Rmig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hsL4pNT1; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WobVCXtJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hsL4pNT1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765982027; x=1797518027;
+  t=1765982693; x=1797518693;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s4u5AW6S9hPMlcuY9buS/HaQ3zTcHOUpXeD4HzBY5lE=;
-  b=WobVCXtJQXO+0ulAtyW/5BtyUNdabx8S8fo87sl7jgBgc9Oock3wjA8q
-   1I8pG+7dCr8exrkCvDYULslXJkuH7o6IIgUVeaOzfHPBgf+aUpCOj8A+q
-   BhZefFgHKq4LqhgjfPQgyxUs4GhhBEPJbQGQe+mf/DRGnOw2T5aoGpGeH
-   ZL/Xvk6UiCV57AxoLbbKY8tP+heKAs8pLXckW69pgUGmD38WCv53dEbxO
-   4VQU7iPhmc6ds03JYofoON5NA3zwNziCAIYze5ABVOQWMPQuvSs485FtR
-   CrBegcKyKIv+FOO93RFKELFRUpAyRcwx80I0n4LIbzL6ia3+ByQVaoR1f
+  bh=Zbo5B5B0tCSixEeAjnxbhdpYG+DgiLVrKjpPJn8eSHw=;
+  b=hsL4pNT1FqvxS8qOn5uBqHc1fwCtBPPCBCTFcD+YRi1KtEMf2bI0V2fX
+   eWNVuGT2JZYzXLwFIFOrUSI2QBOjv9QuBZx25rJMR9Wy83KExdJ9+o5uq
+   4Fgvw3pMmKDsVyS5i2o2A5TSR+JxxKM2CdQ8ZTiQ9BjbfyMqC06eTmG4A
+   zHnDaq9tQQocYs5WovvlGTu5MH74bkq2AXC/5AW0QnarjRW8xaCsbtbrQ
+   ZMa11lht1ge3WQ2xuIg3oEIqCJLXlWGPUGdn4PN8zfHjH7J8BrNyR1C9v
+   HjrJGxR55rKTzggKXIy6OCRFiLuwiQJi0ydLlfIbY4Cm6vE8wTcjH4P+D
    w==;
-X-CSE-ConnectionGUID: iP7dVtXvRLCE+jp+dNPTyA==
-X-CSE-MsgGUID: xBgj4FhwQSOyB0dbvwsmEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="78631339"
+X-CSE-ConnectionGUID: 1EKec/ROScehUKKEJeB7RQ==
+X-CSE-MsgGUID: k1bjSEhIQpay3k5Lrha0OQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="79289974"
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="78631339"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 06:33:47 -0800
-X-CSE-ConnectionGUID: Ji7FIxgVRnmPX0uRu0bcmA==
-X-CSE-MsgGUID: lTbqy3/MS9iOd0IRgvIjyg==
+   d="scan'208";a="79289974"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 06:44:51 -0800
+X-CSE-ConnectionGUID: ct/wRNjsTmGcYGOgYnoKzg==
+X-CSE-MsgGUID: 6gf7PITrRhirowWT5C0/1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="198804494"
+   d="scan'208";a="235735533"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Dec 2025 06:33:45 -0800
+  by orviesa001.jf.intel.com with ESMTP; 17 Dec 2025 06:44:50 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVsb1-000000000in-1Yhi;
-	Wed, 17 Dec 2025 14:33:43 +0000
-Date: Wed, 17 Dec 2025 22:32:54 +0800
+	id 1vVslj-000000000nF-1WCB;
+	Wed, 17 Dec 2025 14:44:47 +0000
+Date: Wed, 17 Dec 2025 22:44:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Justin Lai <justinlai0215@realtek.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>, Joe Damato <jdamato@fastly.com>
-Subject: drivers/net/ethernet/realtek/rtase/rtase_main.c:1117:52: warning:
- '%u' directive output may be truncated writing between 1 and 10 bytes into a
- region of size between 7 and 22
-Message-ID: <202512172204.Xy2JD0p1-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1-2025-05 2/2]
+ arch/arm64/kvm/hyp/nvhe/mem_protect.c:635:5: warning: no previous prototype
+ for function '__pkvm_host_set_stage2_memattr'
+Message-ID: <202512172205.YNlNSgnn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,104 +63,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: ef7d33e174564d6294edd00ca797e2b0aac76259 rtase: Modify the format specifier in snprintf to %u
-date:   8 months ago
-config: powerpc64-randconfig-r061-20251215 (https://download.01.org/0day-ci/archive/20251217/202512172204.Xy2JD0p1-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512172204.Xy2JD0p1-lkp@intel.com/reproduce)
+Hi Will,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-05
+head:   ba1ec287446a6073710b310cc18a37b90b5d2910
+commit: d56ad709773a90012b44e87c0c233faebdcf5823 [2/2] ANDROID: arm64: Implement hypervisor workaround for SoCs with DMA beyond the PoC
+config: arm64-randconfig-003-20251217 (https://download.01.org/0day-ci/archive/20251217/202512172205.YNlNSgnn-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512172205.YNlNSgnn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512172204.Xy2JD0p1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512172205.YNlNSgnn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/realtek/rtase/rtase_main.c: In function 'rtase_open':
->> drivers/net/ethernet/realtek/rtase/rtase_main.c:1117:52: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size between 7 and 22 [-Wformat-truncation=]
-       snprintf(ivec->name, sizeof(ivec->name), "%s_int%u",
-                                                       ^~
-   drivers/net/ethernet/realtek/rtase/rtase_main.c:1117:45: note: directive argument in the range [0, 2147483647]
-       snprintf(ivec->name, sizeof(ivec->name), "%s_int%u",
-                                                ^~~~~~~~~~
-   drivers/net/ethernet/realtek/rtase/rtase_main.c:1117:4: note: 'snprintf' output between 6 and 30 bytes into a destination of size 26
-       snprintf(ivec->name, sizeof(ivec->name), "%s_int%u",
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         tp->dev->name, i);
-         ~~~~~~~~~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/mem_protect.c:635:5: warning: no previous prototype for function '__pkvm_host_set_stage2_memattr' [-Wmissing-prototypes]
+     635 | int __pkvm_host_set_stage2_memattr(phys_addr_t phys, bool force_nc)
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/mem_protect.c:635:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     635 | int __pkvm_host_set_stage2_memattr(phys_addr_t phys, bool force_nc)
+         | ^
+         | static 
+   1 warning generated.
 
 
-vim +1117 drivers/net/ethernet/realtek/rtase/rtase_main.c
+vim +/__pkvm_host_set_stage2_memattr +635 arch/arm64/kvm/hyp/nvhe/mem_protect.c
 
-  1086	
-  1087	static int rtase_open(struct net_device *dev)
-  1088	{
-  1089		struct rtase_private *tp = netdev_priv(dev);
-  1090		const struct pci_dev *pdev = tp->pdev;
-  1091		struct rtase_int_vector *ivec;
-  1092		u16 i = 0, j;
-  1093		int ret;
-  1094	
-  1095		ivec = &tp->int_vector[0];
-  1096		tp->rx_buf_sz = RTASE_RX_BUF_SIZE;
-  1097	
-  1098		ret = rtase_alloc_desc(tp);
-  1099		if (ret)
-  1100			return ret;
-  1101	
-  1102		ret = rtase_init_ring(dev);
-  1103		if (ret)
-  1104			goto err_free_all_allocated_mem;
-  1105	
-  1106		rtase_hw_config(dev);
-  1107	
-  1108		if (tp->sw_flag & RTASE_SWF_MSIX_ENABLED) {
-  1109			ret = request_irq(ivec->irq, rtase_interrupt, 0,
-  1110					  dev->name, ivec);
-  1111			if (ret)
-  1112				goto err_free_all_allocated_irq;
-  1113	
-  1114			/* request other interrupts to handle multiqueue */
-  1115			for (i = 1; i < tp->int_nums; i++) {
-  1116				ivec = &tp->int_vector[i];
-> 1117				snprintf(ivec->name, sizeof(ivec->name), "%s_int%u",
-  1118					 tp->dev->name, i);
-  1119				ret = request_irq(ivec->irq, rtase_q_interrupt, 0,
-  1120						  ivec->name, ivec);
-  1121				if (ret)
-  1122					goto err_free_all_allocated_irq;
-  1123			}
-  1124		} else {
-  1125			ret = request_irq(pdev->irq, rtase_interrupt, 0, dev->name,
-  1126					  ivec);
-  1127			if (ret)
-  1128				goto err_free_all_allocated_mem;
-  1129		}
-  1130	
-  1131		rtase_hw_start(dev);
-  1132	
-  1133		for (i = 0; i < tp->int_nums; i++) {
-  1134			ivec = &tp->int_vector[i];
-  1135			napi_enable(&ivec->napi);
-  1136		}
-  1137	
-  1138		netif_carrier_on(dev);
-  1139		netif_wake_queue(dev);
-  1140	
-  1141		return 0;
-  1142	
-  1143	err_free_all_allocated_irq:
-  1144		for (j = 0; j < i; j++)
-  1145			free_irq(tp->int_vector[j].irq, &tp->int_vector[j]);
-  1146	
-  1147	err_free_all_allocated_mem:
-  1148		rtase_free_desc(tp);
-  1149	
-  1150		return ret;
-  1151	}
-  1152	
+   634	
+ > 635	int __pkvm_host_set_stage2_memattr(phys_addr_t phys, bool force_nc)
+   636	{
+   637		kvm_pte_t pte;
+   638		int ret = 0;
+   639	
+   640		if (!static_branch_unlikely(&pkvm_force_nc))
+   641			return -ENOENT;
+   642	
+   643		phys = ALIGN_DOWN(phys, PAGE_SIZE);
+   644		hyp_spin_lock(&host_mmu.lock);
+   645	
+   646		ret = kvm_pgtable_get_leaf(&host_mmu.pgt, phys, &pte, NULL);
+   647		if (ret)
+   648			goto unlock;
+   649	
+   650		if (!addr_is_memory(phys)) {
+   651			ret = -EIO;
+   652			goto unlock;
+   653		}
+   654	
+   655		if (!kvm_pte_valid(pte) && pte) {
+   656			switch (pte) {
+   657			case DEFERRED_MEMATTR_NOTE:
+   658				break;
+   659			default:
+   660				ret = -EPERM;
+   661			}
+   662		} else if (host_get_page_state(pte, phys) != PKVM_PAGE_OWNED) {
+   663			ret = -EPERM;
+   664		}
+   665	
+   666		if (ret)
+   667			goto unlock;
+   668	
+   669		if (force_nc) {
+   670			ret = host_stage2_idmap_locked(phys, PAGE_SIZE,
+   671						       PKVM_HOST_MEM_PROT |
+   672						       KVM_PGTABLE_PROT_NC,
+   673						       false);
+   674			if (ret)
+   675				goto unlock;
+   676	
+   677			kvm_flush_dcache_to_poc(hyp_fixmap_map_nc(phys), PAGE_SIZE);
+   678			hyp_fixmap_unmap();
+   679		} else {
+   680			ret = kvm_pgtable_stage2_annotate(&host_mmu.pgt, phys,
+   681							  PAGE_SIZE, &host_s2_pool,
+   682							  DEFERRED_MEMATTR_NOTE);
+   683		}
+   684	unlock:
+   685		hyp_spin_unlock(&host_mmu.lock);
+   686		return ret;
+   687	}
+   688	
 
 -- 
 0-DAY CI Kernel Test Service
