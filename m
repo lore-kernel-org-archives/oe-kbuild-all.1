@@ -1,72 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CF423EAB3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 04:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92762D481F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 04:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765944417; cv=none; b=ujGi/0072sDs1TBYJEQqY9nEaH8vQIqYv2q6S2CqExS90X29Dx9EeuffmLNvEGUr0FcoU5nWhzvleDtirwvxgoA+Iz5Lt4E9/qGp6aStxD3DXsZzIj077SvwtH6BFJHG2MbEocRYCxVtVmAFrtss2IvFk7p26JgWuqK4s03BvuM=
+	t=1765945082; cv=none; b=erzDhpVF8JruTqx3OPAgxBVEDEqnOEGQA8c537B3J5NXud5HMD/ZDSqzHb0SVHuFG5ca4fVV7nwCaTgVkeBWFQsIOuNFPPsseRJ513XVX1oZZRR7LAic7GjI3Wrq8DwcA30KnID4zJCP4oZlVywqFclh7svcvD/+xYUi91GfSNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765944417; c=relaxed/simple;
-	bh=OjAwINyKQ1MUxnEaRrjG70fGlGQQE/ByQWcqTj43Ghs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JsuhnVfT8Rnh9DNF9uCqt+F91HQ2LdTVQj2LXQVKksw3LD5NbzAREOZ+0uUMvaQkxVaF4aGO/j9JrD/usYJZsGdG+cedNoL5AM6T3Yjopl57D1CT2caRN53RdtwUFoDBZPjXbchdG5/n+wB+95LjQnY37tqDp/6Qy/R1t14n5uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QR7Y/VDX; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1765945082; c=relaxed/simple;
+	bh=9jU/XkLK8jGi8TZH0wNxwzqM1aeH1gvKcHWXK0Vr+cY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mcUREP52tOu7MFYkZHik1nHHnDjy2skGKUuDrthVWfOZpKWxpxP/1mRv8thPUCjU10ZKO6rxqszZGMdihXZ10VD5Ihzh6L4g59oLaraTYxuBnebEsJgmgIukcHF6hklJagYbLNMQU4HOYYljMlj4DcsxsAtlsXxLVxFfNeWRcCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bLTWNEnS; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QR7Y/VDX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bLTWNEnS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765944416; x=1797480416;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OjAwINyKQ1MUxnEaRrjG70fGlGQQE/ByQWcqTj43Ghs=;
-  b=QR7Y/VDXUeob0WAxBVfg+iYi9wnUpqZENBPCYslAk4J4rhA+tq7Vvn26
-   VcMHRZ+KNCwZJdA4mKNPkGyK+jwJKON4Kfw9nagGLgTsWgotI1cC8R23c
-   Ly55JbIRuqj9gqI0aArk3ITAq3fA196ObO1r79LWe92WK7MJMBs9UmvCz
-   0NZABNel7AMIdMgpMXlHVutXiq20DKGUCYieEN9pZZGXzUysspdQZdurC
-   +URM1IAt5lZ+SYAakedj2jKf6GFddn3jwg5T49xjo/UK6RYqx4CYpd97l
-   IHNvXH/mm3TUhNRePz6F1aDRZQaEO5IaBMZL5tM4Fsg7bY649PEcqW7+W
+  t=1765945080; x=1797481080;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9jU/XkLK8jGi8TZH0wNxwzqM1aeH1gvKcHWXK0Vr+cY=;
+  b=bLTWNEnS7D+WrG5RJ6AlxHprUgrlWka8+C0IDYfx8hRa2GUOLqHeZqWj
+   p1PPfxceUAVDr4tYeO1+9SB8tGUO9zOkYtqRaEp9uNTfxJSAm7LuTexUD
+   ImGLN4SFTZTA2Rsr97nT2dnbteugjm5yYoOXjZDmQsjt15viOrer6R9Tz
+   0+2sTEie9xxMR8HZbTb8HvjK/Wfzu6xKBfOKLRDBFZUNna3Vxbzov/mFy
+   eyDyK9yy8B+l/CWGpeXYammglrqNcatpVwBNlMFzpznk/GmjbYv2+/s0y
+   uYbwiNMpeTqibN0QeroCQ8sbbpIGXC+ZOfqkDeC3m1Rop1QzwSN1WM46k
    w==;
-X-CSE-ConnectionGUID: ixlA6T8lSFyaLKxbEpM3NA==
-X-CSE-MsgGUID: YnKKRi1/Q4ufjgYzQ4sP2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="67944588"
+X-CSE-ConnectionGUID: jVs2/nufQdudoAnbIBECeA==
+X-CSE-MsgGUID: HMF7zgQ4R9WpavGSTpb+ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="67068704"
 X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
-   d="scan'208";a="67944588"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 20:06:55 -0800
-X-CSE-ConnectionGUID: nmWCp0OqQQOWgJLaINxs2g==
-X-CSE-MsgGUID: qhgqTwwSQ8qMcQ1q2oSf7w==
+   d="scan'208";a="67068704"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 20:17:59 -0800
+X-CSE-ConnectionGUID: I/QbppgSSZOljuSOH3Bv9g==
+X-CSE-MsgGUID: dv3fWejAQqeJmhiMvdNISg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
-   d="scan'208";a="203112031"
+   d="scan'208";a="235595714"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Dec 2025 20:06:50 -0800
+  by orviesa001.jf.intel.com with ESMTP; 16 Dec 2025 20:17:58 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVioK-0000000049k-1tgD;
-	Wed, 17 Dec 2025 04:06:48 +0000
-Date: Wed, 17 Dec 2025 12:06:40 +0800
+	id 1vViz2-000000004Ad-2ZT1;
+	Wed, 17 Dec 2025 04:17:53 +0000
+Date: Wed, 17 Dec 2025 12:17:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ram Prakash Gupta <quic_rampraka@quicinc.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com,
-	quic_rampraka@quicinc.com, quic_pragalla@quicinc.com,
-	quic_sayalil@quicinc.com, quic_nitirawa@quicinc.com,
-	quic_bhaskarv@quicinc.com, kernel@oss.qualcomm.com,
-	Sachin Gupta <quic_sachgupt@quicinc.com>
-Subject: Re: [PATCH v6 5/5] mmc: sdhci-msm: Rectify DLL programming sequence
- for SDCC
-Message-ID: <202512171135.hzSvlDE9-lkp@intel.com>
-References: <20251215120009.3877889-6-quic_rampraka@quicinc.com>
+To: elver@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [melver:ctx-analysis/dev 30/35]
+ arch/um/include/shared/skas/mm_id.h:24:54: error: use of undeclared
+ identifier 'turnstile'
+Message-ID: <202512171220.vHlvhpCr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,95 +62,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251215120009.3877889-6-quic_rampraka@quicinc.com>
 
-Hi Ram,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on krzk-dt/for-next v6.19-rc1]
-[cannot apply to robh/for-next krzk/for-next ulf-hansson-mmc-mirror/next next-20251216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ram-Prakash-Gupta/dt-bindings-mmc-Add-dll-presets-values-for-HS400-and-HS200-modes/20251215-200814
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251215120009.3877889-6-quic_rampraka%40quicinc.com
-patch subject: [PATCH v6 5/5] mmc: sdhci-msm: Rectify DLL programming sequence for SDCC
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251217/202512171135.hzSvlDE9-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512171135.hzSvlDE9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
+head:   ce5acac3089f2dd72a384cbcd3f0e4ec28e9cf29
+commit: 909029ea2f537071fd692f46d1ab7d217d0bcca4 [30/35] stackdepot: Enable context analysis
+config: um-defconfig (https://download.01.org/0day-ci/archive/20251217/202512171220.vHlvhpCr-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512171220.vHlvhpCr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512171135.hzSvlDE9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512171220.vHlvhpCr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/module.h:12,
-                    from drivers/mmc/host/sdhci-msm.c:8:
-   drivers/mmc/host/sdhci-msm.c: In function 'sdhci_msm_configure_dll':
->> include/linux/kern_levels.h:5:25: warning: format '%u' expects argument of type 'unsigned int', but argument 4 has type 'long unsigned int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:555:9: note: in expansion of macro 'printk'
-     555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:555:16: note: in expansion of macro 'KERN_ERR'
-     555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   drivers/mmc/host/sdhci-msm.c:930:33: note: in expansion of macro 'pr_err'
-     930 |                                 pr_err("%s: %s: Non standard clk freq =%u\n",
-         |                                 ^~~~~~
---
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/module.h:12,
-                    from sdhci-msm.c:8:
-   sdhci-msm.c: In function 'sdhci_msm_configure_dll':
->> include/linux/kern_levels.h:5:25: warning: format '%u' expects argument of type 'unsigned int', but argument 4 has type 'long unsigned int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:555:9: note: in expansion of macro 'printk'
-     555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:555:16: note: in expansion of macro 'KERN_ERR'
-     555 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   sdhci-msm.c:930:33: note: in expansion of macro 'pr_err'
-     930 |                                 pr_err("%s: %s: Non standard clk freq =%u\n",
-         |                                 ^~~~~~
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:7:
+   In file included from include/linux/list_lru.h:14:
+   In file included from include/linux/xarray.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:22:
+   In file included from include/linux/mm_types.h:26:
+   In file included from arch/um/include/asm/mmu.h:12:
+>> arch/um/include/shared/skas/mm_id.h:24:54: error: use of undeclared identifier 'turnstile'
+      24 | void enter_turnstile(struct mm_id *mm_id) __acquires(turnstile);
+         |                                                      ^~~~~~~~~
+   arch/um/include/shared/skas/mm_id.h:25:53: error: use of undeclared identifier 'turnstile'
+      25 | void exit_turnstile(struct mm_id *mm_id) __releases(turnstile);
+         |                                                     ^~~~~~~~~
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from lib/stackdepot.c:17:
+   In file included from include/linux/debugfs.h:15:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
 
 
-vim +5 include/linux/kern_levels.h
+vim +/turnstile +24 arch/um/include/shared/skas/mm_id.h
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+d67b569f5f620c arch/um/kernel/skas/include/mm_id.h Jeff Dike 2005-07-07  23  
+1e4ee5135d814f arch/um/include/shared/skas/mm_id.h Tiwei Bie 2025-10-27 @24  void enter_turnstile(struct mm_id *mm_id) __acquires(turnstile);
+1e4ee5135d814f arch/um/include/shared/skas/mm_id.h Tiwei Bie 2025-10-27  25  void exit_turnstile(struct mm_id *mm_id) __releases(turnstile);
+1e4ee5135d814f arch/um/include/shared/skas/mm_id.h Tiwei Bie 2025-10-27  26  
+
+:::::: The code at line 24 was first introduced by commit
+:::::: 1e4ee5135d814fe4785890790cec81c3132888fb um: Add initial SMP support
+
+:::::: TO: Tiwei Bie <tiwei.btw@antgroup.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
