@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A59C352935
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 12:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8986C35BDC0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 13:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765976323; cv=none; b=Dyd8iLpidTqI5zsTjxjli21MiaDDqDQsZ+XnCO+viZj0/d87POuiNaV9IJGpgi1WFxn1XwkpTAJLi8gBVYJ60gcePoBEqPL5fJlQR4sqc+lPQ9p2bBbHWB+CILCXe1bxYdqbZBFWvjTKwP4GXX1ak1XNs8T/0kah6HxeZpbSxA8=
+	t=1765977610; cv=none; b=YxLEZfGs19gcNj84QTUQI3aCmwu3mztFi5pR/vswymVercJ5xWK+eHZfgdwvbAuS45ITCtYy8j6SRcYJAJHUDb1mIl839SWgOSxjorecZg/i6fk0xE49oSdtg1b96/uG5LZS09qdMpom2YwFZXCyGdWREl8OAAs4Sf2WkvFo1Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765976323; c=relaxed/simple;
-	bh=H5isXo1p218kVaxPC+B2LZO5HHb1MkMpRaLsVxIy73w=;
+	s=arc-20240116; t=1765977610; c=relaxed/simple;
+	bh=pLRdhzvSu88pSVWDOngVnhVPoTuGAyA0SiWedY0Wg4I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cE1Nf1xswo7e+dJt80l9Z0nHzK7vu5AyL1AbQlt+4mKTowUGFh+ehp0A27yiT+ZE/WFA+MknotVrpzWl1aZbltfQQUX1x97aHNfGE/rwreZxNdO6my7JMMao89gT0N7al62mY+eAA6hjyI3DcppbWPHL3f+xxzXvoBEVTflTwSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fW3HtADK; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
+	 Content-Disposition; b=nu7HrcKeQhny5jnVutP2F24D1swh/reFYY5n2iS9+slKtnPRjPSQ+UTXVox0YWwdejUEbWsKyTCvu8AM1QPauzcOPJOERoQUusVhZlTKZnuLahjS2/OGJ4CIF6Rbj1Lm+HdMTVTYwR9QX8eYibKKPAfNaITzQSsVWFU7qntm3kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IrQmmqSC; arc=none smtp.client-ip=209.85.128.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fW3HtADK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765976321; x=1797512321;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H5isXo1p218kVaxPC+B2LZO5HHb1MkMpRaLsVxIy73w=;
-  b=fW3HtADK5Ym67e32ykb1mKGMqD4Bh+EBrBygv5QUjYTvaFfwOUeiMepZ
-   TYMdCaz5rugoE3sPwZMif4KXNo5BmviXnHqfRAqCy/EV7Pt433ZJjkH1I
-   O5yiUTQifWBvvkDfuPhQ1zXJ3DVqii++MyyKJdvj4kCrIa/AYGRDy7RHC
-   soexUHv38tCIeRQvsbnftKRpT8Yr+ZtDhtm7MiD3HnjaDeCsGVT3rs56x
-   wt5Y5/ldez8BNMie6sahk0/pM30RQkk77b087MTvBPk5rYddQCbeb4yZU
-   F+7z/kzESIGxuLppZPNpXkh4pLVipOMSnaTq6dj7LaMdk5H+fSWhtpeCn
-   w==;
-X-CSE-ConnectionGUID: rPZ5tTV5SjybMtc/xjEXyA==
-X-CSE-MsgGUID: 4hlrdYW4T1K5fkmGBBP5LQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="78223554"
-X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="78223554"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 04:58:40 -0800
-X-CSE-ConnectionGUID: 9Zvm67d2SIeLH1Tl4gu6Xg==
-X-CSE-MsgGUID: ++E8QJ7iSNS30/cy3r+5dw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="197916619"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Dec 2025 04:58:38 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vVr6y-000000000Yj-0U6t;
-	Wed, 17 Dec 2025 12:58:36 +0000
-Date: Wed, 17 Dec 2025 20:58:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2]
- arch/arm64/include/asm/kvm_hypevents.h:14:1: warning: no previous prototype
- for function 'hyp_event_trace_hyp_enter'
-Message-ID: <202512172034.dYSrKAJq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IrQmmqSC"
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-477632b0621so39216945e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 05:20:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765977607; x=1766582407; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fTIw9DM0cHhKePwv9AKGgFw92mWPgI0fhPn3ZfdMOEE=;
+        b=IrQmmqSC1/8pDMHINe97lDpYE7l7LIUYQO7uY6owaGX+Uoag7eQM/qS9IKmPYUoiWp
+         NEwWKX3meTSbxY/pyrYX5ZFn9GB+weaNhQgn4sEtAMo6tOgYxxaC/w//B+fC4kLSE32R
+         1XCqQbiUwykeNlLAFdCNyktw878RKs6I3RD8Bkp6X35K50DdFSX8QWNBGt2fTqaVjX4E
+         +P7cCQoYsHlDbIrw59KJ+TRvSHLullWZgrJ2URM46bTWfyZx7v86LoCDVynAWWEUesUn
+         77GOForwjlzmIrsvbN3iaWzqcjosbjSDUDiNXjCpmg4ek7meh354vXeesc5uwvbFyT6f
+         8YaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765977607; x=1766582407;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fTIw9DM0cHhKePwv9AKGgFw92mWPgI0fhPn3ZfdMOEE=;
+        b=WIU1L4qGUPerQOhzrAO+dUkwtUX1Jo+3p+WqpKbv4IWKVg5r80MbV2MSv3u3FrmoTn
+         nJoO2AdeorFR9y82Brb81ctf2S1Y41m+GkRUcQsGr4XMiADCuLqHTMrisvThvZC4qmMK
+         ou/N6ZDY/PpKHBO83vnI2qd7jsrIeWWQYLbaweK+aM8m4BW9vIVyIH2PvM7WrYPIgZFq
+         83Dcq2bin1F170BaQw9l7ysC8PptpLGe8Aep1KY53EJAFSK+H+jW2PJgCw89i5U+FcV4
+         KkbXQ54iPF45jtmQDiZQb6huneopyCw1CDsKNwQwgzCm3gED5gi1yy0bdbhTNAia/hJE
+         EFbg==
+X-Forwarded-Encrypted: i=1; AJvYcCXJXjkO2UFRWaJCxCEi2GCXtRaDeG8qubBOIHTmojYXAJPE0exrJPymDLM0DmXuGz/c4BmqQNhDgB4iNQF0@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbNIl/waqOUqHaKa26ClrK1CYEoHXhiooJhpUnmnLpVaAdHnVG
+	4aXADXxgziOuIwBN8f1Y2KWzCkxZ1lBKnNtVdoaLL3a38ADNhhsDSMrgfS3XPIAH1iU=
+X-Gm-Gg: AY/fxX4jq1dOt4TYJdOrfplgbW/H7mbmQcxpHBtzP/yVUIJA0WddHq/MvnS6+tCrA3g
+	fcqqShiHnZrR/wFHuxx5rmwPCtn2h/EF1+s5ZnvKzmwvCM+n0DFyWTgpFBQtX/6mYPHZoE2GrLA
+	RSFIoD4uc0GHqmCs/QLOdnWX08Fl8wAakf7C2MHhMlqsJfjwEMFmoFp/k6e07ejBul6JWe3gltQ
+	r+Pdi8nupZiRd60a+y56ZtQYXkSyryZomgAMGTVLZBhdRibBVYquANXhxl3+RxynR05yz+VpJkH
+	Q2JvOscneTjiGKJmn44km388dv86ef3GK5aZ6L57aGAPLgECD0j/MUDE8FzGlqcK8SlKsLo3fB4
+	5vXikm2xK8Alq2BuIWYLL+NGqyHABxq6Fd5OdEC+VCOCrnhLrVrYWRdxJOX0KAf9vk4RkcgNUPG
+	t+SM49oQivcEF20W+a
+X-Google-Smtp-Source: AGHT+IF3jRL5fJna4tVheIKFH8bDLQB3AmOSU6niu7Q4gpFEYCm2UZcftl4yU5UCX3bXSvWKuxd2NA==
+X-Received: by 2002:a05:6000:4383:b0:430:f255:14b3 with SMTP id ffacd0b85a97d-430f255186bmr16405062f8f.43.1765977606681;
+        Wed, 17 Dec 2025 05:20:06 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4310ad4ee46sm4659067f8f.0.2025.12.17.05.20.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Dec 2025 05:20:06 -0800 (PST)
+Date: Wed, 17 Dec 2025 16:20:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Valentina Fernandez <valentina.fernandezalanis@microchip.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jassi Brar <jassisinghbrar@gmail.com>
+Subject: drivers/mailbox/mailbox-mchp-ipc-sbi.c:187
+ mchp_ipc_cluster_aggr_isr() error: uninitialized symbol 'hartid'.
+Message-ID: <202512171533.CDLdScMY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,124 +76,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   e48fbb6a53e582d8881d31d6b3de0405f7543cfd
-commit: f6dbfc683cf5fbbd37b6fdead1b5b08912cf6570 [2/2] ANDROID: KVM: arm64: Add support for nVHE hyp events
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251217/202512172034.dYSrKAJq-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512172034.dYSrKAJq-lkp@intel.com/reproduce)
+Hi Valentina,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
+commit: c1382852330ee2e78d884bab2da25b880488fa1c riscv: sbi: vendorid_list: Add Microchip Technology to the vendor list
+config: riscv-randconfig-r071-20251216 (https://download.01.org/0day-ci/archive/20251217/202512171533.CDLdScMY-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512172034.dYSrKAJq-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512171533.CDLdScMY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Old smatch warnings:
+drivers/mailbox/mailbox-mchp-ipc-sbi.c:422 mchp_ipc_probe() warn: passing zero to 'dev_err_probe'
 
-   In file included from arch/arm64/kvm/hyp_events.c:8:
-   In file included from arch/arm64/include/asm/kvm_host.h:22:
-   In file included from arch/arm64/include/asm/arch_gicv3.h:17:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2168:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm64/kvm/hyp_events.c:9:
-   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
->> arch/arm64/include/asm/kvm_hypevents.h:14:1: warning: no previous prototype for function 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
-      14 | HYP_EVENT(hyp_enter,
-         | ^
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^
-   <scratch space>:91:1: note: expanded from here
-      91 | hyp_event_trace_hyp_enter
-         | ^
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |         ^
-   In file included from arch/arm64/kvm/hyp_events.c:9:
-   In file included from arch/arm64/include/asm/kvm_define_hypevents.h:27:
->> arch/arm64/include/asm/kvm_hypevents.h:23:1: warning: no previous prototype for function 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
-      23 | HYP_EVENT(hyp_exit,
-         | ^
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:7: note: expanded from macro 'HYP_EVENT'
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^
-   <scratch space>:96:1: note: expanded from here
-      96 | hyp_event_trace_hyp_exit
-         | ^
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:2: note: expanded from macro 'HYP_EVENT'
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |         ^
->> arch/arm64/kvm/hyp_events.c:100:6: warning: no previous prototype for function 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
-     100 | void hyp_trace_init_event_tracefs(struct dentry *parent)
-         |      ^
-   arch/arm64/kvm/hyp_events.c:100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     100 | void hyp_trace_init_event_tracefs(struct dentry *parent)
-         | ^
-         | static 
->> arch/arm64/kvm/hyp_events.c:130:19: warning: no previous prototype for function 'hyp_trace_find_event' [-Wmissing-prototypes]
-     130 | struct hyp_event *hyp_trace_find_event(int id)
-         |                   ^
-   arch/arm64/kvm/hyp_events.c:130:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     130 | struct hyp_event *hyp_trace_find_event(int id)
-         | ^
-         | static 
->> arch/arm64/kvm/hyp_events.c:143:5: warning: no previous prototype for function 'hyp_trace_init_events' [-Wmissing-prototypes]
-     143 | int hyp_trace_init_events(void)
-         |     ^
-   arch/arm64/kvm/hyp_events.c:143:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     143 | int hyp_trace_init_events(void)
-         | ^
-         | static 
-   10 warnings generated.
+vim +/hartid +187 drivers/mailbox/mailbox-mchp-ipc-sbi.c
+   410  static int mchp_ipc_probe(struct platform_device *pdev)
+   411  {
+   412          struct device *dev = &pdev->dev;
+   413          struct mchp_ipc_mbox_info ipc_info;
+   414          struct mchp_ipc_sbi_mbox *ipc;
+   415          struct mchp_ipc_sbi_chan *priv;
+   416          bool irq_avail = false;
+   417          int ret;
+   418          u32 chan_id;
+   419  
+   420          ret = sbi_probe_extension(SBI_EXT_MICROCHIP_TECHNOLOGY);
+   421          if (ret <= 0)
+   422                  return dev_err_probe(dev, ret, "Microchip SBI extension not detected\n");
+                                                  ^^^
+sbi_probe_extension() returns zero on error which is success here.
 
-
-vim +/hyp_event_trace_hyp_enter +14 arch/arm64/include/asm/kvm_hypevents.h
-
-     9	
-    10	/*
-    11	 * Hypervisor events definitions.
-    12	 */
-    13	
-  > 14	HYP_EVENT(hyp_enter,
-    15		HE_PROTO(void),
-    16		HE_STRUCT(
-    17		),
-    18		HE_ASSIGN(
-    19		),
-    20		HE_PRINTK(" ")
-    21	);
-    22	
-  > 23	HYP_EVENT(hyp_exit,
+   423  
+   424          ipc = devm_kzalloc(dev, sizeof(*ipc), GFP_KERNEL);
+   425          if (!ipc)
+   426                  return -ENOMEM;
+   427  
+   428          platform_set_drvdata(pdev, ipc);
+   429  
+   430          ipc->buf_base = devm_kmalloc(dev, sizeof(struct mchp_ipc_mbox_info), GFP_KERNEL);
+   431          if (!ipc->buf_base)
+   432                  return -ENOMEM;
+   433  
+   434          ipc->buf_base_addr = __pa(ipc->buf_base);
+   435  
+   436          ret = mchp_ipc_sbi_send(SBI_EXT_IPC_PROBE, ipc->buf_base_addr);
+   437          if (ret < 0)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
