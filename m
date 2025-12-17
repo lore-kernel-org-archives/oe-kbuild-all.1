@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E5B335086
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 07:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2AE32825E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 07:12:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765954825; cv=none; b=ZR///LL0U4qmu+ItE66YzKWx9dZ9O6m36JXwakx80rwmYHkvbKNSSZi056JRggKhVBFpDE9KJoFOi3V8kI37xL0jySiX/7D3P0cH70JnCOBTUE18zlzd/r3rL54+L7YskOEmstjzDVzArRYv+DrK3W5MEhx8+Wv1yr03aZNMQhA=
+	t=1765955540; cv=none; b=pD9Rimrfu//ktUfbWLSWCFzGaPEtrtXzaTzcbmSW1kks73vAC54KhRtYVlG3ofZO9cUDwndA36cby9TuvbYni5zy7WJNOwJvBuUxz8a5NmK6M8S+qTgGt4bfQm8xEsUHk41VL82VkdQbZ2dMsFnAJgmRRzHaJ8AJ2FiTv81cDdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765954825; c=relaxed/simple;
-	bh=ixiCHs68OVhN8Mw3P9mN6bITLbPSuK8Cd4sCrT7YrMs=;
+	s=arc-20240116; t=1765955540; c=relaxed/simple;
+	bh=MqRwG7WOuEq2yhZmp+3x6A+uVCStfg7hA3I1wIEtA28=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dFVGqGnTktFoaR7KirELgujTnJoKKO3lG8zl5YJvlrv+XN/mgN448Jsz49qmCyXoXtSKe5blhsflAENPVxcg26MDIo06EbmtvdEsxOCP1JtzjASGdRzG0KRg8hasctIuM+CLkfyX0V08c1UTnC47ECnnTQYcFOWH93aON/LSLhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uqg2fEgy; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=NsuK8c9VaY4WLpB7QFFAQ9G4qPMQc+0pQKt9EcMgcnF//UGJYneR79WQrbLL1Rs9I/wwxFszzUGRmcMnVS/kRv38mUdB8UcyFe/iJtbwhhn2Gh+RpcR7y9Euk9pDMJdGAiC3xICF2cEJdUD903x8DkjHF1WFiiu3GsjT93NKcUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZNecbgxu; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uqg2fEgy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZNecbgxu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765954817; x=1797490817;
+  t=1765955538; x=1797491538;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ixiCHs68OVhN8Mw3P9mN6bITLbPSuK8Cd4sCrT7YrMs=;
-  b=Uqg2fEgy37UaQDEjUIcQkSB3igT/J7tRKtMq30TrfXVrcCZhEe2z/pjO
-   sh5tXE5QZ0bkmU2QEbdu6++6sqzdyj8dvnAfktiXfXvgQRSv10fZRV2Pu
-   XEn/tV60trBv3lVbJRlmwOrHLqdtGF0/Y2G+Jbflu4Ly0qmZDHeXv0mdO
-   lp4+pg5kYpu8+e9RNdP0zHhloxDjtd6BEQ2NaNV0Wctxz0/OQgpdIuSwe
-   jVcghRD3uZS+P5+R3/P5oes4FwT9k1Xe9PM8Wl65nue3xZf+d6B5nlCNM
-   AvlEG3BPENudKtbLPnpq9Y7Jhq6awEyoXFFgTYPUMKGLvxlavbzGm6K1I
-   A==;
-X-CSE-ConnectionGUID: SI9H/MdMTbKDMunGLflBYg==
-X-CSE-MsgGUID: WrOC+pXmQXWERVdi65k3wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="71742610"
+  bh=MqRwG7WOuEq2yhZmp+3x6A+uVCStfg7hA3I1wIEtA28=;
+  b=ZNecbgxuty3ZoI7Iq5RB7W5HWqpnNfMijGJUL7MVm4yJ8NgVSag5l9aa
+   F6TfqnwGFWO9+pOT+a3NoOdk8w/q9q/c7uqErYVGAjOB3WAPDxFfZvkP2
+   JN6FsywUBB+tCxJInwggOlDIh0stPoCR2cBlUhGAQ3Jp/mLO1lcY40DON
+   KVmC93d8FHl7MXYBRRTNUNi+PzYW2GHH9ZCs0wsAror7Tqf38amo+hNNS
+   uuJLRQU5fo7Ih6hPfabRqErERgipvAD8NsPwC2tpBWJW2JWGA9aEZvfyg
+   vDlMZHNuyXkfpbq/lb5Du3qje4Rf0uYmxqHL8LGKN9otEL47uhQZX0E+h
+   g==;
+X-CSE-ConnectionGUID: KrA4FmZrTWu3XBZKRUue9w==
+X-CSE-MsgGUID: 0beGzhxmRQKsowfig81uHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="85476399"
 X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="71742610"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 23:00:16 -0800
-X-CSE-ConnectionGUID: QdMjsLMGTHqCS4eznrVHIQ==
-X-CSE-MsgGUID: Y8DU0QR6SASMO+qdL8/Dqg==
+   d="scan'208";a="85476399"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 23:12:18 -0800
+X-CSE-ConnectionGUID: vsZEpFLQQo6v2RSVK30WlQ==
+X-CSE-MsgGUID: a+P11hExQguU88sCFpZhNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,155,1763452800"; 
-   d="scan'208";a="197978073"
+   d="scan'208";a="235626349"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 16 Dec 2025 23:00:15 -0800
+  by orviesa001.jf.intel.com with ESMTP; 16 Dec 2025 23:12:17 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVlW8-0000000007Z-1j2f;
-	Wed, 17 Dec 2025 07:00:12 +0000
-Date: Wed, 17 Dec 2025 14:59:39 +0800
+	id 1vVlhm-0000000008d-0ZvE;
+	Wed, 17 Dec 2025 07:12:14 +0000
+Date: Wed, 17 Dec 2025 15:11:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sameeksha Sankpal <sameekshasankpal@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-nonmm-unstable 60/60] undefined reference to `envp_init'
-Message-ID: <202512171450.PtEMRk88-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2025-07 1/1]
+ arch/arm64/kvm/hyp_trace.c:719:37: warning: unused variable
+ 'hyp_trace_raw_fops'
+Message-ID: <202512171542.tP7y9YLx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,23 +63,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-head:   036a67646ce675ebc350c4f60b67578cf9b246dc
-commit: 88800d4048f5ffd0dfd05dd82b89affe6b74e55b [60/60] init: mark envp_init as static
-config: parisc64-defconfig (https://download.01.org/0day-ci/archive/20251217/202512171450.PtEMRk88-lkp@intel.com/config)
-compiler: hppa64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512171450.PtEMRk88-lkp@intel.com/reproduce)
+Hi Mostafa,
+
+First bad commit (maybe != root cause):
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-07
+head:   adfcc1116ee5759e1bf9628f25f61398f9d17a0e
+commit: 09de45521bacc85848722d3b15c846e584e51846 [1/1] ANDROID: KVM: arm64: Fix build issue without CONFIG_ARM64_LSE_ATOMICS
+config: arm64-randconfig-002-20251217 (https://download.01.org/0day-ci/archive/20251217/202512171542.tP7y9YLx-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512171542.tP7y9YLx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512171450.PtEMRk88-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512171542.tP7y9YLx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   hppa-linux-ld: init/do_mounts_initrd.o: in function `handle_initrd':
->> (.init.text+0x254): undefined reference to `envp_init'
->> hppa-linux-ld: (.init.text+0x258): undefined reference to `envp_init'
+   In file included from arch/arm64/kvm/hyp_trace.c:9:
+   In file included from include/linux/trace_events.h:6:
+   In file included from include/linux/ring_buffer.h:5:
+   In file included from include/linux/mm.h:2191:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> arch/arm64/kvm/hyp_trace.c:719:37: warning: unused variable 'hyp_trace_raw_fops' [-Wunused-const-variable]
+     719 | static const struct file_operations hyp_trace_raw_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +/hyp_trace_raw_fops +719 arch/arm64/kvm/hyp_trace.c
+
+8ae140fc839f27 Vincent Donnefort 2023-06-13  718  
+8ae140fc839f27 Vincent Donnefort 2023-06-13 @719  static const struct file_operations hyp_trace_raw_fops = {
+8ae140fc839f27 Vincent Donnefort 2023-06-13  720  	.open           = hyp_trace_raw_open,
+8ae140fc839f27 Vincent Donnefort 2023-06-13  721  	.read           = hyp_trace_raw_read,
+8ae140fc839f27 Vincent Donnefort 2023-06-13  722  	.release        = hyp_trace_raw_release,
+8ae140fc839f27 Vincent Donnefort 2023-06-13  723  	.llseek         = no_llseek,
+8ae140fc839f27 Vincent Donnefort 2023-06-13  724  };
+8ae140fc839f27 Vincent Donnefort 2023-06-13  725  
+
+:::::: The code at line 719 was first introduced by commit
+:::::: 8ae140fc839f2739df17942add206b1dc938c85c ANDROID: KVM: arm64: Add raw interface to nVHE hyp tracing
+
+:::::: TO: Vincent Donnefort <vdonnefort@google.com>
+:::::: CC: Fuad Tabba <tabba@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
