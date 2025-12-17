@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E0330DD0C;
-	Wed, 17 Dec 2025 21:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C412836BE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 21:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766006599; cv=none; b=EvozOsloPEWtdbfRWuz1TWoOwiog4MpogHXE9/IzLJEZYCf1Z+Exc29TM1NdKXpqryFpvXhOpzJzq6Y65UhbuYOmOfEohzCV2eK5ic8n5FPN882VhFOuTinNawlW4QICniJVnXeN+YBXo2HofZzcF6VaUTg8Q5pvQix1uMSGJlc=
+	t=1766007204; cv=none; b=rIqyFCNV5Kpd9U9uiVMY5jrpqujjelDRMLIHv+ye3lhjTLjdU11azYXniMHOu2jbdE0ZZJgZNwFlhgXAV6gJMLZDHsPq6eMR2M8sHwnuT37dYqZ/cZkiWWyFbI2LRo3/pBWCI3v4eIhZ6th248pFZOCB7B/txVaMnGdQETiNG24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766006599; c=relaxed/simple;
-	bh=sHfxWgN6J1iKIa1mVTbsPjrw/f4RodsQje3FlDnb/w4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cTnzMNUY8VBAI2ohBfnegbY1EBv7K0800P5kcxvY3q/eTammYYJO1fctozaI7yJxhHz/ZAYcbEJu7e3Y0B3k7trKougZAiwnzYn91K9eBCS6S7uSyuWtO/adVm0NQPliIfGjDqZ7JZvOKzoYDgBTMcGLL9vTlMtKY4+H4uL3rhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hrYtqQfC; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1766007204; c=relaxed/simple;
+	bh=KI/pJJBmd9FTaqVL0hOjBx5fxyGgCPnyWLfv/cJvvgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lYuK/55dVf6cBgpe6Rs4tYrUDf1f+HP4FWJ68sCjo6ZSTrdWk88DXX2U48fR8mzIbr4lxW4kfok7TTqYwXoXiybFr/3SEX2qaMD+CGPCZlAflpBzho3pHO91xsVW3+sOPvd2C7JbLHBslnRYF2NJLYmVrTAPBEREGrjsa/dJrMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HpsaYMz8; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hrYtqQfC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HpsaYMz8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766006597; x=1797542597;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sHfxWgN6J1iKIa1mVTbsPjrw/f4RodsQje3FlDnb/w4=;
-  b=hrYtqQfChDOApfIzND4I83ClUSblzLAK+oEKI/NXYvZO6BfJdgB8vjnm
-   N3rSnaGvHepdYDvvuNZgBAbrdGdiroQUdesdUUKfiPRxzA7TnW5Wkxy4E
-   WmTdTvJ7n6KUXhVDuTgIqySNRZZCNI4OXxAckeHttUekzkYa3uStvRFg4
-   cMniIne9mb/1lwY3CouNTjMH4AWY/73NW+3zw3GIgg9wdiqALODzHgvhB
-   4Z7GJLVXr3n7xMhsPyIBLAiCH6ykiaOgM2vheLeGvYbdiXitZaNTFeJol
-   Lf090Ip7NMuJXFGf6JNfHOOfW9tLIwI6dJ2NB7VcjtDofHL2+DFU7Evzo
-   g==;
-X-CSE-ConnectionGUID: KlvtZkvmSKGnaV2omuJrcQ==
-X-CSE-MsgGUID: S1O750IyS22brR66W9cDGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="79077768"
+  t=1766007203; x=1797543203;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KI/pJJBmd9FTaqVL0hOjBx5fxyGgCPnyWLfv/cJvvgw=;
+  b=HpsaYMz8SzmIIH2AL0/lIORY/wlCdcU2i7lPNNo7oL2p8D7ZA2Lfi8E7
+   0FOG++cTQLUsU8hyrrMMPnqZnfA3sM9eQA0nZxWtHT3TcEn1sFmVLXIHM
+   72HfxitJYvTC9AQrPFtTMX3nhh14fMUDZfCd70GBoL7G96tcdVVxVLUSQ
+   MwW6EjzxYTPEs+gUWcxzK1YXYAdn9pOX7mtsWnFWnQjYxfiOYSlw4hJrX
+   flXKz7nuyNDBEJFZIMwHiPqmYVa12GOrC/hAthRBE+8F1otPPBV6SYIlu
+   vButgFBzOjN2Nrw7Lj+4Mk9wyr4igxfyQQs7xMfuHMPAPMPZIbcHUd34A
+   Q==;
+X-CSE-ConnectionGUID: cePt1KKeR46v+taseaNZqA==
+X-CSE-MsgGUID: igej/miSQt+ZET+4hjbKxg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="68113439"
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="79077768"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 13:23:15 -0800
-X-CSE-ConnectionGUID: kcP9FRGqTUCym5mNABmVxw==
-X-CSE-MsgGUID: 5LNJV1vbTwq1CEPA6X6SDw==
+   d="scan'208";a="68113439"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 13:33:22 -0800
+X-CSE-ConnectionGUID: jcVqsdN+R7KbXMDgqSixlA==
+X-CSE-MsgGUID: MKzA1W5hTT+k24Tt+Y4N2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="235825243"
+   d="scan'208";a="202606426"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Dec 2025 13:23:14 -0800
+  by orviesa003.jf.intel.com with ESMTP; 17 Dec 2025 13:33:14 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVyzH-000000001G1-1Gf3;
-	Wed, 17 Dec 2025 21:23:11 +0000
-Date: Thu, 18 Dec 2025 05:22:11 +0800
+	id 1vVz8x-000000001GH-2PvL;
+	Wed, 17 Dec 2025 21:33:11 +0000
+Date: Thu, 18 Dec 2025 05:32:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: [brgl:gpio/for-next 4/4] drivers/gpio/gpio-realtek-otto.c:375:14:
- warning: cast to smaller integer type 'unsigned int' from 'const void *'
-Message-ID: <202512180532.2ykNwYAm-lkp@intel.com>
+To: Mukesh Kumar Chaurasiya <mkchauras@linux.ibm.com>, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+	oleg@redhat.com, kees@kernel.org, luto@amacapital.net,
+	wad@chromium.org, mchauras@linux.ibm.com, thuth@redhat.com,
+	sshegde@linux.ibm.com, charlie@rivosinc.com, macro@orcam.me.uk,
+	akpm@linux-foundation.org, ldv@strace.io, deller@gmx.de,
+	ankur.a.arora@oracle.com, segher@kernel.crashing.org,
+	tglx@linutronix.de, thomas.weissschuh@linutronix.de,
+	peterz@infradead.org, menglong8.dong@gmail.com,
+	bigeasy@linutronix.de, namcao@linutronix.de, mingo@kernel.org,
+	atrajeev@linux.vnet.ibm.com, mark.barnett@arm.com,
+	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 7/8] powerpc: Enable IRQ generic entry/exit path.
+Message-ID: <202512180511.ujibhcpR-lkp@intel.com>
+References: <20251214130245.43664-8-mkchauras@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,137 +73,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251214130245.43664-8-mkchauras@linux.ibm.com>
 
-Hi Rosen,
+Hi Mukesh,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-head:   3203d8f573af87d8c967d36e8d5016ef306ff078
-commit: 3203d8f573af87d8c967d36e8d5016ef306ff078 [4/4] gpio: realtek-otto: add COMPILE_TEST
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251218/202512180532.2ykNwYAm-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512180532.2ykNwYAm-lkp@intel.com/reproduce)
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes linus/master v6.19-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Kumar-Chaurasiya/powerpc-rename-arch_irq_disabled_regs/20251214-210813
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20251214130245.43664-8-mkchauras%40linux.ibm.com
+patch subject: [PATCH v2 7/8] powerpc: Enable IRQ generic entry/exit path.
+config: powerpc-randconfig-r072-20251215 (https://download.01.org/0day-ci/archive/20251218/202512180511.ujibhcpR-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512180532.2ykNwYAm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512180511.ujibhcpR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+arch/powerpc/include/asm/entry-common.h:433 arch_enter_from_user_mode() warn: inconsistent indenting
 
->> drivers/gpio/gpio-realtek-otto.c:375:14: warning: cast to smaller integer type 'unsigned int' from 'const void *' [-Wvoid-pointer-to-int-cast]
-     375 |         dev_flags = (unsigned int) device_get_match_data(dev);
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+vim +433 arch/powerpc/include/asm/entry-common.h
 
-
-vim +375 drivers/gpio/gpio-realtek-otto.c
-
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  357  
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  358  static int realtek_gpio_probe(struct platform_device *pdev)
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  359  {
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  360  	struct gpio_generic_chip_config config;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  361  	struct device *dev = &pdev->dev;
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  362  	unsigned long gen_gc_flags;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  363  	unsigned int dev_flags;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  364  	struct gpio_irq_chip *girq;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  365  	struct realtek_gpio_ctrl *ctrl;
-95fa6dbe58f286a Sander Vanheule     2022-04-09  366  	struct resource *res;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  367  	u32 ngpios;
-95fa6dbe58f286a Sander Vanheule     2022-04-09  368  	unsigned int nr_cpus;
-95fa6dbe58f286a Sander Vanheule     2022-04-09  369  	int cpu, err, irq;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  370  
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  371  	ctrl = devm_kzalloc(dev, sizeof(*ctrl), GFP_KERNEL);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  372  	if (!ctrl)
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  373  		return -ENOMEM;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  374  
-0d82fb1127fb7cc Sander Vanheule     2021-03-30 @375  	dev_flags = (unsigned int) device_get_match_data(dev);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  376  
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  377  	ngpios = REALTEK_GPIO_MAX;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  378  	device_property_read_u32(dev, "ngpios", &ngpios);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  379  
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  380  	if (ngpios > REALTEK_GPIO_MAX) {
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  381  		dev_err(&pdev->dev, "invalid ngpios (max. %d)\n",
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  382  			REALTEK_GPIO_MAX);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  383  		return -EINVAL;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  384  	}
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  385  
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  386  	ctrl->base = devm_platform_ioremap_resource(pdev, 0);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  387  	if (IS_ERR(ctrl->base))
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  388  		return PTR_ERR(ctrl->base);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  389  
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  390  	raw_spin_lock_init(&ctrl->lock);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  391  
-512c5be35223d9b Sander Vanheule     2022-04-09  392  	if (dev_flags & GPIO_PORTS_REVERSED) {
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  393  		gen_gc_flags = 0;
-ee0175b3b44288c Sander Vanheule     2022-08-07  394  		ctrl->bank_read = realtek_gpio_bank_read;
-ee0175b3b44288c Sander Vanheule     2022-08-07  395  		ctrl->bank_write = realtek_gpio_bank_write;
-ee0175b3b44288c Sander Vanheule     2022-08-07  396  		ctrl->line_imr_pos = realtek_gpio_line_imr_pos;
-512c5be35223d9b Sander Vanheule     2022-04-09  397  	} else {
-64f89f6e1f2b7f8 Bartosz Golaszewski 2025-09-17  398  		gen_gc_flags = GPIO_GENERIC_BIG_ENDIAN_BYTE_ORDER;
-ee0175b3b44288c Sander Vanheule     2022-08-07  399  		ctrl->bank_read = realtek_gpio_bank_read_swapped;
-ee0175b3b44288c Sander Vanheule     2022-08-07  400  		ctrl->bank_write = realtek_gpio_bank_write_swapped;
-ee0175b3b44288c Sander Vanheule     2022-08-07  401  		ctrl->line_imr_pos = realtek_gpio_line_imr_pos_swapped;
-512c5be35223d9b Sander Vanheule     2022-04-09  402  	}
-512c5be35223d9b Sander Vanheule     2022-04-09  403  
-7eee64e8be51f9f Bartosz Golaszewski 2025-09-10  404  	config = (struct gpio_generic_chip_config) {
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  405  		.dev = dev,
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  406  		.sz = 4,
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  407  		.dat = ctrl->base + REALTEK_GPIO_REG_DATA,
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  408  		.dirout = ctrl->base + REALTEK_GPIO_REG_DIR,
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  409  		.flags = gen_gc_flags,
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  410  	};
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  411  
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  412  	err = gpio_generic_chip_init(&ctrl->chip, &config);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  413  	if (err) {
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  414  		dev_err(dev, "unable to init generic GPIO");
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  415  		return err;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  416  	}
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  417  
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  418  	ctrl->chip.gc.ngpio = ngpios;
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  419  	ctrl->chip.gc.owner = THIS_MODULE;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  420  
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  421  	irq = platform_get_irq_optional(pdev, 0);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  422  	if (!(dev_flags & GPIO_INTERRUPTS_DISABLED) && irq > 0) {
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  423  		girq = &ctrl->chip.gc.irq;
-a01a40e334996b0 Sander Vanheule     2022-06-12  424  		gpio_irq_chip_set_chip(girq, &realtek_gpio_irq_chip);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  425  		girq->default_type = IRQ_TYPE_NONE;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  426  		girq->handler = handle_bad_irq;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  427  		girq->parent_handler = realtek_gpio_irq_handler;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  428  		girq->num_parents = 1;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  429  		girq->parents = devm_kcalloc(dev, girq->num_parents,
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  430  					sizeof(*girq->parents),	GFP_KERNEL);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  431  		if (!girq->parents)
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  432  			return -ENOMEM;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  433  		girq->parents[0] = irq;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  434  		girq->init_hw = realtek_gpio_irq_init;
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  435  	}
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  436  
-95fa6dbe58f286a Sander Vanheule     2022-04-09  437  	cpumask_clear(&ctrl->cpu_irq_maskable);
-95fa6dbe58f286a Sander Vanheule     2022-04-09  438  
-95fa6dbe58f286a Sander Vanheule     2022-04-09  439  	if ((dev_flags & GPIO_INTERRUPTS_PER_CPU) && irq > 0) {
-95fa6dbe58f286a Sander Vanheule     2022-04-09  440  		ctrl->cpumask_base = devm_platform_get_and_ioremap_resource(pdev, 1, &res);
-95fa6dbe58f286a Sander Vanheule     2022-04-09  441  		if (IS_ERR(ctrl->cpumask_base))
-95fa6dbe58f286a Sander Vanheule     2022-04-09  442  			return dev_err_probe(dev, PTR_ERR(ctrl->cpumask_base),
-95fa6dbe58f286a Sander Vanheule     2022-04-09  443  				"missing CPU IRQ mask registers");
-95fa6dbe58f286a Sander Vanheule     2022-04-09  444  
-95fa6dbe58f286a Sander Vanheule     2022-04-09  445  		nr_cpus = resource_size(res) / REALTEK_GPIO_PORTS_PER_BANK;
-95fa6dbe58f286a Sander Vanheule     2022-04-09  446  		nr_cpus = min(nr_cpus, num_present_cpus());
-95fa6dbe58f286a Sander Vanheule     2022-04-09  447  
-95fa6dbe58f286a Sander Vanheule     2022-04-09  448  		for (cpu = 0; cpu < nr_cpus; cpu++)
-95fa6dbe58f286a Sander Vanheule     2022-04-09  449  			cpumask_set_cpu(cpu, &ctrl->cpu_irq_maskable);
-95fa6dbe58f286a Sander Vanheule     2022-04-09  450  	}
-95fa6dbe58f286a Sander Vanheule     2022-04-09  451  
-b9dac8251e7e6aa Bartosz Golaszewski 2025-08-26  452  	return devm_gpiochip_add_data(dev, &ctrl->chip.gc, ctrl);
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  453  }
-0d82fb1127fb7cc Sander Vanheule     2021-03-30  454  
-
-:::::: The code at line 375 was first introduced by commit
-:::::: 0d82fb1127fb7cc8287614eb0992acb0583bc323 gpio: Add Realtek Otto GPIO support
-
-:::::: TO: Sander Vanheule <sander@svanheule.net>
-:::::: CC: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+2b0f05f77f11f8 Mukesh Kumar Chaurasiya 2025-12-14  396  
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  397  static __always_inline void arch_enter_from_user_mode(struct pt_regs *regs)
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  398  {
+37ad0d88d9bff7 Mukesh Kumar Chaurasiya 2025-12-14  399  	kuap_lock();
+37ad0d88d9bff7 Mukesh Kumar Chaurasiya 2025-12-14  400  
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  401  	if (IS_ENABLED(CONFIG_PPC_IRQ_SOFT_MASK_DEBUG))
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  402  		BUG_ON(irq_soft_mask_return() != IRQS_ALL_DISABLED);
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  403  
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  404  	BUG_ON(regs_is_unrecoverable(regs));
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  405  	BUG_ON(!user_mode(regs));
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  406  	BUG_ON(regs_irqs_disabled(regs));
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  407  
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  408  #ifdef CONFIG_PPC_PKEY
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  409  	if (mmu_has_feature(MMU_FTR_PKEY) && trap_is_syscall(regs)) {
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  410  		unsigned long amr, iamr;
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  411  		bool flush_needed = false;
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  412  		/*
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  413  		 * When entering from userspace we mostly have the AMR/IAMR
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  414  		 * different from kernel default values. Hence don't compare.
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  415  		 */
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  416  		amr = mfspr(SPRN_AMR);
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  417  		iamr = mfspr(SPRN_IAMR);
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  418  		regs->amr  = amr;
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  419  		regs->iamr = iamr;
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  420  		if (mmu_has_feature(MMU_FTR_KUAP)) {
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  421  			mtspr(SPRN_AMR, AMR_KUAP_BLOCKED);
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  422  			flush_needed = true;
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  423  		}
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  424  		if (mmu_has_feature(MMU_FTR_BOOK3S_KUEP)) {
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  425  			mtspr(SPRN_IAMR, AMR_KUEP_BLOCKED);
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  426  			flush_needed = true;
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  427  		}
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  428  		if (flush_needed)
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  429  			isync();
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  430  	} else
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  431  #endif
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  432  		kuap_assert_locked();
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14 @433  	booke_restore_dbcr0();
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  434  	account_cpu_user_entry();
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  435  	account_stolen_time();
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  436  
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  437  	/*
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  438  	 * This is not required for the syscall exit path, but makes the
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  439  	 * stack frame look nicer. If this was initialised in the first stack
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  440  	 * frame, or if the unwinder was taught the first stack frame always
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  441  	 * returns to user with IRQS_ENABLED, this store could be avoided!
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  442  	 */
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  443  	irq_soft_mask_regs_set_state(regs, IRQS_ENABLED);
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  444  
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  445  	/*
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  446  	 * If system call is called with TM active, set _TIF_RESTOREALL to
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  447  	 * prevent RFSCV being used to return to userspace, because POWER9
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  448  	 * TM implementation has problems with this instruction returning to
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  449  	 * transactional state. Final register values are not relevant because
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  450  	 * the transaction will be aborted upon return anyway. Or in the case
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  451  	 * of unsupported_scv SIGILL fault, the return state does not much
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  452  	 * matter because it's an edge case.
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  453  	 */
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  454  	if (IS_ENABLED(CONFIG_PPC_TRANSACTIONAL_MEM) &&
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  455  	    unlikely(MSR_TM_TRANSACTIONAL(regs->msr)))
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  456  		set_bits(_TIF_RESTOREALL, &current_thread_info()->flags);
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  457  
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  458  	/*
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  459  	 * If the system call was made with a transaction active, doom it and
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  460  	 * return without performing the system call. Unless it was an
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  461  	 * unsupported scv vector, in which case it's treated like an illegal
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  462  	 * instruction.
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  463  	 */
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  464  #ifdef CONFIG_PPC_TRANSACTIONAL_MEM
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  465  	if (unlikely(MSR_TM_TRANSACTIONAL(regs->msr)) &&
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  466  	    !trap_is_unsupported_scv(regs)) {
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  467  		/* Enable TM in the kernel, and disable EE (for scv) */
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  468  		hard_irq_disable();
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  469  		mtmsr(mfmsr() | MSR_TM);
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  470  
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  471  		/* tabort, this dooms the transaction, nothing else */
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  472  		asm volatile(".long 0x7c00071d | ((%0) << 16)"
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  473  			     :: "r"(TM_CAUSE_SYSCALL | TM_CAUSE_PERSISTENT));
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  474  
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  475  		/*
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  476  		 * Userspace will never see the return value. Execution will
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  477  		 * resume after the tbegin. of the aborted transaction with the
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  478  		 * checkpointed register state. A context switch could occur
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  479  		 * or signal delivered to the process before resuming the
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  480  		 * doomed transaction context, but that should all be handled
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  481  		 * as expected.
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  482  		 */
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  483  		return;
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  484  	}
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  485  #endif /* CONFIG_PPC_TRANSACTIONAL_MEM */
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  486  }
+1a5661537226c3 Mukesh Kumar Chaurasiya 2025-12-14  487  
 
 -- 
 0-DAY CI Kernel Test Service
