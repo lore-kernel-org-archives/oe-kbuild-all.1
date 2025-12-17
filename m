@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3E530FC0D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 23:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B6E2E8B98;
+	Wed, 17 Dec 2025 23:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766012403; cv=none; b=Ok5RphLmO06Ad2Qq/2olXH5/XRbSKMkb2jWs8PO86g7TNl/4P7murKoR5y8TLBCVuV72zQqKVNGMRyOsuwSrJK9BZgNrLXQQOX6AvSmJbCiOaE5/49vMKhiMPb0PQCMJMFxA4CuyDiui0LD1nIG+c2520wlku8+Zc+6UVmFGyNU=
+	t=1766012970; cv=none; b=KDiwXbzklmxMQnaWWlN2eq0q6tn2XHgR7v/7oOPMdNqKPFMKBonKfgJvn40R5k8NDxuO8JYBOPkFOXPpCUOkaFicLTCjaiUUYVleuYWd4Fp+3+PyBF6K/nOVUQqrziGsKNWOXMBzzYwPZskV+XE09Glfvuy87cd/WzU8fXfn71U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766012403; c=relaxed/simple;
-	bh=b1WzXSAdJhWmF93+byBKTpMaizUE2yhwcPEwBkJTfiU=;
+	s=arc-20240116; t=1766012970; c=relaxed/simple;
+	bh=gouJaC/yl4u63DgUimNHdlMGsdjyORLZhQGD8GIApPI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I0ftE0qwydDbWwHYLHLgOAPaeDFf4+2O0ASBPVqzlPb/U2nhkzYF/+AAh+gYoEIKzeur9fkvDAJQlz1CU8y4XVbNjfkJ59sL/xtwcbLPpSmvblNKJGN4t2VmEjthctZLfFip5FA3WKW2P5k4jW/5xSIqHZDWlNa5iQdLXz9RtwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UsVAjbR8; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=eivsO5O0cH9jlYlfpXWtWzqX3Bo74NLITZZh8iwl/3RwwNodKv9gW8Wu0Vta9aqMQTJ/UC3z2f+YzkExB8AacRIeLndyhfCE0ESnl9voCfvaY8tZfPcXZ3wyMiH2V9OkvYgGLGSTdhYMDslsG+2AzBs9AE1PgQAr84KQDtqCBvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VXoeqcY+; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UsVAjbR8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VXoeqcY+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766012401; x=1797548401;
+  t=1766012968; x=1797548968;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b1WzXSAdJhWmF93+byBKTpMaizUE2yhwcPEwBkJTfiU=;
-  b=UsVAjbR8q39Gt3/XivSTv45PkFkTqch5jfRzfpf1m6J7xrM04r68s+T6
-   feemMmJcazVVYKMclO8o2/WpTGU6nW+WzsJYpAp8pJ4kInAlvjcGSIRMF
-   YAWKAw06WgIrNntoylKgxHBwAtS5uJ8YyB09bIpvTVVQbDQdSWLHZ5PLk
-   BVNjJik8plp/zN1Oiu/iwYJSzXUi2K+AZzRaQN5uoEuaLLVpGzECavifP
-   V+UBGDFDK4AQTTJ7pBoc0p5GwTh+HUgo9lqsKPNiakv87hP+yoD2ziBBg
-   Xb1gR2aQplNXesTzGtVrYn0tdjMGyTP/2yYZBMjSJ8yOws4li4tuRHka0
-   g==;
-X-CSE-ConnectionGUID: Nm7AR59RTCClX6XV8uc1VQ==
-X-CSE-MsgGUID: vA+3NKJxRdeZcPJBgSNirQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="70539325"
+  bh=gouJaC/yl4u63DgUimNHdlMGsdjyORLZhQGD8GIApPI=;
+  b=VXoeqcY+wAIWF+y4JDPMQVDNtDTTOpHSWgVP8u06pJKYE87jLjSZirwy
+   4SetPMxqPK61PT+g1lBc++CB3Nsq6LqsOVZZakNtKIo6AAVzsx7SToO96
+   4UJtWYiyWatkf8SzI/+jzsDM1YbvDXR78M5/g9K8I0XDYCO0K7RK8A8o4
+   jFFtyIh4nNibw8+7y0jHaLqnZHklfn9O2lxeCKE1ahpbOl6VVv4hMFDGo
+   Dg9ofoyEHqZNNlj6/CJmXqqeOHNF3QWmYvXoMBRf5o53WaM7KENgHpyOk
+   iDBClqMK56YKatkyIZFC8/Kpybu3WmGE+oCzXIe+127nvujGzKXS92I38
+   Q==;
+X-CSE-ConnectionGUID: q6mPhCy7TFe9T2Sk1u5d5w==
+X-CSE-MsgGUID: QPf0aan0RKeU/ujVAXx/3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="67157130"
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="70539325"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 15:00:00 -0800
-X-CSE-ConnectionGUID: 1Inq1JwOQLWKoroiAlTsbw==
-X-CSE-MsgGUID: B3NnbljQQEyObARhvFmZgw==
+   d="scan'208";a="67157130"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 15:09:28 -0800
+X-CSE-ConnectionGUID: B0bumNnUS0SP+ksn83Y5vg==
+X-CSE-MsgGUID: wDyE6NV4QTWNnw6DmiCGLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="202932099"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 17 Dec 2025 15:00:00 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="198038209"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 17 Dec 2025 15:09:19 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vW0Uu-000000003i0-3CsB;
-	Wed, 17 Dec 2025 22:59:56 +0000
-Date: Wed, 17 Dec 2025 23:59:33 +0100
+	id 1vW0dw-000000001Kc-2PO0;
+	Wed, 17 Dec 2025 23:09:16 +0000
+Date: Thu, 18 Dec 2025 07:08:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 40/40]
- ././include/linux/compiler_types.h:375:45: error: call to
- '__compiletime_assert_263' declared with attribute error: BUILD_BUG_ON
- failed: RADIX_TREE_MAX_TAGS + __GFP_BITS_SHIFT > 32
-Message-ID: <202512172301.DgRzXTkx-lkp@intel.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [frederic-dynticks:timers/core 7/7]
+ include/linux/kernel_stat.h:167:2: error: call to undeclared function
+ 'kcpustat_fetch_default'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202512180737.dUFbRe5i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,69 +64,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   12597ffc824d027b45aa3fda9606a4f0c3835d81
-commit: 345e3e5b6400f9ee03b8fad705e399b05d46ef1a [40/40] ANDROID: mm: Fix gfp bit position of __GFP_NO_INIT_ON_ALLOC
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251217/202512172301.DgRzXTkx-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512172301.DgRzXTkx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/core
+head:   377cf035e0d76753d72649b16d4d9b693e7f4b86
+commit: 377cf035e0d76753d72649b16d4d9b693e7f4b86 [7/7] tick/sched: Consolidate fetching idle time
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251218/202512180737.dUFbRe5i-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512180737.dUFbRe5i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512172301.DgRzXTkx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512180737.dUFbRe5i-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   lib/radix-tree.c:288:6: warning: no previous prototype for 'radix_tree_node_rcu_free' [-Wmissing-prototypes]
-     288 | void radix_tree_node_rcu_free(struct rcu_head *head)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   lib/radix-tree.c: In function 'radix_tree_init':
->> ././include/linux/compiler_types.h:375:45: error: call to '__compiletime_assert_263' declared with attribute error: BUILD_BUG_ON failed: RADIX_TREE_MAX_TAGS + __GFP_BITS_SHIFT > 32
-     375 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   ././include/linux/compiler_types.h:356:25: note: in definition of macro '__compiletime_assert'
-     356 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   ././include/linux/compiler_types.h:375:9: note: in expansion of macro '_compiletime_assert'
-     375 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   ./include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   ./include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   lib/radix-tree.c:1596:9: note: in expansion of macro 'BUILD_BUG_ON'
-    1596 |         BUILD_BUG_ON(RADIX_TREE_MAX_TAGS + __GFP_BITS_SHIFT > 32);
-         |         ^~~~~~~~~~~~
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:27:
+>> include/linux/kernel_stat.h:167:2: error: call to undeclared function 'kcpustat_fetch_default'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     167 |         kcpustat_fetch_default(dst, cpu);
+         |         ^
+   1 error generated.
+   make[3]: *** [scripts/Makefile.build:182: arch/x86/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1314: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/__compiletime_assert_263 +375 ././include/linux/compiler_types.h
+vim +/kcpustat_fetch_default +167 include/linux/kernel_stat.h
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  361  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  362  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  363  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  364  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  365  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  366   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  367   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  368   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  369   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  370   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  371   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  372   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  373   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  374  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @375  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  376  
-
-:::::: The code at line 375 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   164	
+   165	static inline void kcpustat_cpu_fetch(struct kernel_cpustat *dst, int cpu)
+   166	{
+ > 167		kcpustat_fetch_default(dst, cpu);
+   168	}
+   169	
 
 -- 
 0-DAY CI Kernel Test Service
