@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B332C5478D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 01:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA21E224B01
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 01:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765935453; cv=none; b=Xx4FvJjth1C6U1FhbDnZMfPb6/cGcKScL3U1L3cn5Wm4NLM/8XP9mpXjAT6ChiA2DMGKKxGiVA5cqo/8QU86ptDI6RKkqJ4W+OGf5cekowc9q5Efd2RwyYdp6GK3aMTAs634Fte76roSqVuXBZySCwstIgcnzDAJwOM9qHZsegM=
+	t=1765936778; cv=none; b=IC9uxBpFCaAQKFUHEEg27sOHXJpQA2lhZEpODMEXW8m6DF6OVphYs6uDZ/iC6d+g8PF1drZRweE4cBLTvVCnBe53KEADvCymU2NzWCRf3zWXCW4ZlxKds30fOaajut02fPj7swmn2sEMCjO8djWYP9c7/tHhQp6JsopmNWCvafo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765935453; c=relaxed/simple;
-	bh=QEBFgkGi0UFgkR/8qpUAalGgJ+kIesFeBQ4ifwFQ5Ak=;
+	s=arc-20240116; t=1765936778; c=relaxed/simple;
+	bh=XtC/6bPLP+XCE2JX8wQDgikv7q22/axBAuLgOmRd8/8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rkxMc6pYKWzIWx7Dcm1Oyim2jhIZzE9yaBCTc41yLcBLdcgiCI2l4AYWLiU4Dpq3tVVkgCfjvdZUq+YbKVVlT5A7tVnZUjdg1qJx/W6tp+D5PiRrunlkRvrtDvQEfsNjbH/cSC/0Xl94cS53dsNSNi3vylasPueAZ2GyCALH3mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iT1l7p2i; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=WZREuA/h/jPKHB9LbFwhMW4CiwmjpzhTu2Cx5tZAG9fFcFB3Y/G6vIRZJbqyfYfO/x32dImag1AWSyt2FowcfFu9p6tfoy7BVPMOH7vvnKD4H1VDI4p4LgxS53DUR7EWsFX7Ex/T7srYwVqVr0YkmI6KEPQbWhqEqMCzNou04uY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LPwl+vPu; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iT1l7p2i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LPwl+vPu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1765935452; x=1797471452;
+  t=1765936775; x=1797472775;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QEBFgkGi0UFgkR/8qpUAalGgJ+kIesFeBQ4ifwFQ5Ak=;
-  b=iT1l7p2i+z62e9JWjE+Ae84biq1xI/eOnZ/NB8tCZ9iZEmA0yd+Fw9bM
-   gDf5LiNUVHvuepILHJ+NDY7shtMYcIWTEg7BPzL91az5LatUl6qKQaAZP
-   +U25TS5weHeg5s1h3dQ7D30rCY6o4ApoHpZTSTTolgn4DjR8bPHt6plA/
-   YH71m7Q4Gxi64CKILhq0QNZyJGhMThVlyA3Kh2rSmMRFY5gzqRyJa0mz0
-   OvfVaA1Stb/0TcRcxYQoloUj94pTWS0sZmKi83ke3XoQWZe/6KwDc3yrR
-   udEUTJXrB4fFiH8H1slE7mHA4DGk1KU7AGp6jHlRDkE9i9sozMBJkQRL2
-   w==;
-X-CSE-ConnectionGUID: XbXiE6LHQvKmNv7cmd7BQg==
-X-CSE-MsgGUID: L5XOvsaOSTeo3xIEBZmeDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="78173619"
+  bh=XtC/6bPLP+XCE2JX8wQDgikv7q22/axBAuLgOmRd8/8=;
+  b=LPwl+vPuJm9fM6bChn/NkL7WveklY+4XRk/E6zOHyK19eOIt4OT+oh9M
+   KGsMrPBsPDR7TEae5r4DI/8JjiJWq0RL/X9Q09HL/t8pY/39Gz0+uby3N
+   pCAJV4PSi4kcYV/UEm9JwEC/bJsF/TUUN2wbQ1HAOAmTnBUMdfC0yAqJF
+   ps0nfYuMw5om3up+8qD3xP2c0IzZFsS8GICz2cO1kYHHZMtbuHl5A/MFZ
+   H6RxJhhxb74pxMSoJtZZqEQGRZ0FgJYG9aTSHnU1QoiTkQXi6cu0jpg69
+   ptKZiMYf3TiqLm1SJ8QHaUuF4DG3/UlSAF1vByXn63givxYyrafteZmSK
+   Q==;
+X-CSE-ConnectionGUID: H9YsAbPvRuKHJF1Z1gt6Fg==
+X-CSE-MsgGUID: xNmnar3wSvSknADSmRFV+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11644"; a="67826775"
 X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
-   d="scan'208";a="78173619"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 17:37:31 -0800
-X-CSE-ConnectionGUID: 6FHLicIGR0iGFebT+GAK/w==
-X-CSE-MsgGUID: hxFa+zUZReqc/ZIjXHZgTA==
+   d="scan'208";a="67826775"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2025 17:59:33 -0800
+X-CSE-ConnectionGUID: /p850BSERNShHP4Jl4Nhyw==
+X-CSE-MsgGUID: 2OtFOAxAT5+gLTfGYrV4Ug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,154,1763452800"; 
-   d="scan'208";a="197912140"
+   d="scan'208";a="202673380"
 Received: from lkp-server02.sh.intel.com (HELO 034c7e8e53c3) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 16 Dec 2025 17:37:30 -0800
+  by orviesa004.jf.intel.com with ESMTP; 16 Dec 2025 17:59:32 -0800
 Received: from kbuild by 034c7e8e53c3 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vVgTn-0000000040q-2ETO;
-	Wed, 17 Dec 2025 01:37:27 +0000
-Date: Wed, 17 Dec 2025 09:36:59 +0800
+	id 1vVgp7-0000000043Q-22ds;
+	Wed, 17 Dec 2025 01:59:29 +0000
+Date: Wed, 17 Dec 2025 09:59:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Long Li <leo.lilong@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 0/2]
- drivers/android/android_debug_symbols.c:27:6: sparse: sparse: symbol
- 'ads_page_owner' was not declared. Should it be static?
-Message-ID: <202512170907.0KS5mX6u-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1944/1944] lib/prime_numbers.c:8:
+ warning: "bitmap_size" redefined
+Message-ID: <202512170947.gjTMu0Jt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,93 +62,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   d36711b0a31fb7c6682f53e306fa330cc0b125a2
-commit: b2df67a932b5cbd6535de9f1a6e63004992ad014 [0/2] ANDROID: android: Create debug_symbols driver
-config: i386-randconfig-061-20251217 (https://download.01.org/0day-ci/archive/20251217/202512170907.0KS5mX6u-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512170907.0KS5mX6u-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   49bc452fdcb1e9ec3f9bb20cd3e15b865a2933fd
+commit: 9e8111c56a2515c7634662d19c29fde636758a02 [1944/1944] bitmap: introduce generic optimized bitmap_size()
+config: arm64-randconfig-r052-20251217 (https://download.01.org/0day-ci/archive/20251217/202512170947.gjTMu0Jt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512170947.gjTMu0Jt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512170907.0KS5mX6u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512170947.gjTMu0Jt-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/android/android_debug_symbols.c:27:6: sparse: sparse: symbol 'ads_page_owner' was not declared. Should it be static?
->> drivers/android/android_debug_symbols.c:28:6: sparse: sparse: symbol 'ads_slub_debug' was not declared. Should it be static?
->> drivers/android/android_debug_symbols.c:29:15: sparse: sparse: symbol 'ads_vmalloc_nr_pages' was not declared. Should it be static?
->> drivers/android/android_debug_symbols.c:30:15: sparse: sparse: symbol 'ads_pcpu_nr_pages' was not declared. Should it be static?
->> drivers/android/android_debug_symbols.c:88:9: sparse: sparse: cast removes address space '__percpu' of expression
+All warnings (new ones prefixed by >>):
 
-vim +/ads_page_owner +27 drivers/android/android_debug_symbols.c
+>> lib/prime_numbers.c:8: warning: "bitmap_size" redefined
+       8 | #define bitmap_size(nbits) (BITS_TO_LONGS(nbits) * sizeof(unsigned long))
+         | 
+   In file included from include/linux/cpumask.h:12,
+                    from include/linux/rcupdate.h:44,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from arch/arm64/include/asm/compat.h:25,
+                    from arch/arm64/include/asm/stat.h:24,
+                    from include/linux/stat.h:6,
+                    from include/linux/module.h:11,
+                    from lib/prime_numbers.c:3:
+   include/linux/bitmap.h:215: note: this is the location of the previous definition
+     215 | #define bitmap_size(nbits) (ALIGN(nbits, BITS_PER_LONG) / BITS_PER_BYTE)
+         | 
 
-    26	
-  > 27	bool ads_page_owner;
-  > 28	bool ads_slub_debug;
-  > 29	unsigned long ads_vmalloc_nr_pages;
-  > 30	unsigned long ads_pcpu_nr_pages;
-    31	
-    32	#define _ADS_ENTRY(index, symbol)			\
-    33		[index] = { .name = #symbol, .addr = (void *)symbol }
-    34	#define ADS_ENTRY(index, symbol) _ADS_ENTRY(index, symbol)
-    35	
-    36	#define _ADS_PER_CPU_ENTRY(index, symbol)			\
-    37		[index] = { .name = #symbol, .addr = (void *)&symbol }
-    38	#define ADS_PER_CPU_ENTRY(index, symbol) _ADS_PER_CPU_ENTRY(index, symbol)
-    39	
-    40	/*
-    41	 * This module maintains static array of symbol and address information.
-    42	 * Add all required core kernel symbols and their addresses into ads_entries[] array,
-    43	 * so that vendor modules can query and to find address of non-exported symbol.
-    44	 */
-    45	static const struct ads_entry ads_entries[ADS_END] = {
-    46		ADS_ENTRY(ADS_SDATA, _sdata),
-    47		ADS_ENTRY(ADS_BSS_END, __bss_stop),
-    48		ADS_ENTRY(ADS_PER_CPU_START, __per_cpu_start),
-    49		ADS_ENTRY(ADS_PER_CPU_END, __per_cpu_end),
-    50		ADS_ENTRY(ADS_START_RO_AFTER_INIT, __start_ro_after_init),
-    51		ADS_ENTRY(ADS_END_RO_AFTER_INIT, __end_ro_after_init),
-    52		ADS_ENTRY(ADS_LINUX_BANNER, linux_banner),
-    53	#ifdef CONFIG_CMA
-    54		ADS_ENTRY(ADS_TOTAL_CMA, &totalcma_pages),
-    55	#endif
-    56		ADS_ENTRY(ADS_SLAB_CACHES, &slab_caches),
-    57		ADS_ENTRY(ADS_SLAB_MUTEX, &slab_mutex),
-    58		ADS_ENTRY(ADS_MIN_LOW_PFN, &min_low_pfn),
-    59		ADS_ENTRY(ADS_MAX_PFN, &max_pfn),
-    60		ADS_ENTRY(ADS_VMALLOC_NR_PAGES, &ads_vmalloc_nr_pages),
-    61		ADS_ENTRY(ADS_PCPU_NR_PAGES, &ads_pcpu_nr_pages),
-    62	#ifdef CONFIG_PAGE_OWNER
-    63		ADS_ENTRY(ADS_PAGE_OWNER_ENABLED, &ads_page_owner),
-    64	#endif
-    65	#ifdef CONFIG_SLUB_DEBUG
-    66		ADS_ENTRY(ADS_SLUB_DEBUG, &ads_slub_debug),
-    67	#endif
-    68	#ifdef CONFIG_SWAP
-    69		ADS_ENTRY(ADS_NR_SWAP_PAGES, &nr_swap_pages),
-    70	#endif
-    71	#ifdef CONFIG_MMU
-    72		ADS_ENTRY(ADS_MMAP_MIN_ADDR, &mmap_min_addr),
-    73	#endif
-    74		ADS_ENTRY(ADS_STACK_GUARD_GAP, &stack_guard_gap),
-    75	#ifdef CONFIG_SYSCTL
-    76		ADS_ENTRY(ADS_SYSCTL_LEGACY_VA_LAYOUT, &sysctl_legacy_va_layout),
-    77	#endif
-    78	};
-    79	
-    80	/*
-    81	 * ads_per_cpu_entries array contains all the per_cpu variable address information.
-    82	 */
-    83	static const struct ads_entry ads_per_cpu_entries[ADS_DEBUG_PER_CPU_END] = {
-    84	#ifdef CONFIG_ARM64
-    85		ADS_PER_CPU_ENTRY(ADS_IRQ_STACK_PTR, irq_stack_ptr),
-    86	#endif
-    87	#ifdef CONFIG_X86
-  > 88		ADS_PER_CPU_ENTRY(ADS_IRQ_STACK_PTR, hardirq_stack_ptr),
-    89	#endif
-    90	};
-    91	
+
+vim +/bitmap_size +8 lib/prime_numbers.c
+
+cf4a7207b1cb4a Chris Wilson 2016-12-22  7  
+cf4a7207b1cb4a Chris Wilson 2016-12-22 @8  #define bitmap_size(nbits) (BITS_TO_LONGS(nbits) * sizeof(unsigned long))
+cf4a7207b1cb4a Chris Wilson 2016-12-22  9  
+
+:::::: The code at line 8 was first introduced by commit
+:::::: cf4a7207b1cb4a3c3fe3aa11a83c9d673722a7f5 lib: Add a simple prime number generator
+
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 -- 
 0-DAY CI Kernel Test Service
