@@ -1,71 +1,59 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C36321F5E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 07:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB6E2DF3CC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 07:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766042493; cv=none; b=aY0JJEQk05hWkr5ixEPWMT/D8wk4eczvSRonduHbTzfn0I+68MQE4c+noq/ID6XoDoVP3r0Xex14pveyw8vaZC19wqP31hgX4TjkkOBcUkgHKmwXM5XpCW6uKh1Yz6Wr1kwzPWMR4yKUxH4GD2hCs8xYiJreiVcifkxKqD1OVjc=
+	t=1766044548; cv=none; b=PlEIQ9fqVDHUjagWvoUvckYK3DGEmb0CH6O4k9P26EkLR908FqeEErlCRykFXm2x8ajiizUO0RHFafulXfjyEIGirdGupdf+WjebEWFI1L/ZwztrSlN4GZublnVj+Vpr2c3/WTovTdc1Bp+38m9d76xPMdxmrvhjJZwjiY3FvIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766042493; c=relaxed/simple;
-	bh=fXLtSVk82ESKQOzdshAmeibfIxSRyhMx8s2wTZtSSTg=;
+	s=arc-20240116; t=1766044548; c=relaxed/simple;
+	bh=2iDapRcYaxe97iIQtFACi5a0hAHaymLWH/KzmpbzfJ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BAgC7M3PPJKEaChOO11HERqsuomlc2bZFQKa7UsdzmQ7bA3oEc5XUa/HZVE6ZbOBlmpJsPnLiA+2jY7LyYTXiQfq1N1avX6N6meJtMh67cFuJ/nljUm5bRS0gRKPZ2NNhS5tOYlNdmwwlTnSTc7WoLBG8Bu6m8MeN5JanrTSnZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bCUyfnYx; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=jfMCQBKKaGunrweOY+uYy+qi5XPKSouE7idJ8YCdh813RTthhzw8Q/chLCQSO3gER/se/1bJuYHpaaR0ztFZeGidM95FlkUtHLRJVK8r6EyuNlDE5n0k7LoA6Zkj9oCeYSViottLfNdVzfTN4q6KIln2Ja7EGd9Yz5OJW8UXIiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jn+Cd++K; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bCUyfnYx"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-47798ded6fcso1788425e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 23:21:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766042490; x=1766647290; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XjftRkgAweItEZkBzFZPCbzdvPthZCUVd118Fzc2bn4=;
-        b=bCUyfnYxbHmQeYOXN10RqlLvpn9a3qLfIC31fdH9CjCojGmvBIls+ZCgP3jso+G3A3
-         aCTWbZliLp3IW+WozwAVqH/oGFmF991wt/agZot5NfLVtLoW1WWi0XhKL95stuWuSZG6
-         wb/6UGEwXn0kXKP4uM/MmJyaLnDjp/AwKE9ZBdGoVDwBEWMvXKI+UdLcmC0wzrYbyL0s
-         TSebwFeVDn9jJFagOsDxnPCc8Ras13hjZ6gFc5i5uQHfeb9ovpdkRAjy3vmRP+PhgWs5
-         GxJbCG9SxUO58qW+yxxLOOtP5GcaJSx8P8iC4EnUP15Z4whNr7HDFLCUURlfoQsyznog
-         RYpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766042490; x=1766647290;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XjftRkgAweItEZkBzFZPCbzdvPthZCUVd118Fzc2bn4=;
-        b=M8yIwChhlq6h5XXmPT7Fd4fLLovhujkLQpYwkLNOpgADUNPgxsLwDac4tcqZ8fk78V
-         ZSQKR+r1F+aB+HtF1WJuEbaRoP5kMDAI9QZ+qAc3AwXMjgGKEwvb9lYYKWu/NdJTx1SC
-         ucv6SBnkP1CDVhWXsIE3DAE8Fo/cvpf8nTmu88vKZjPKXKIYPwHskyRLhCXL3EDPrJlK
-         RfDNc5pXrIJIofmHq4WoAMwTDmWLTi2iMQNMZsqc3D9Z+Q8aMkyRo6q7hn8XfanZZeaD
-         vb00WcFwnN/Xu3jxopLa1HCSLHkdqkbXFQFboBS+5xGa/Yp8xssyYzhv23iQYXsX4ol/
-         8fMw==
-X-Forwarded-Encrypted: i=1; AJvYcCW7tUwig6HC+dPlVoQ7cZYBqHBy9Ex9Ve/fgR8LM8vxhTPz+U3UV1mHPAL7o8l/Zg3BGIoVkbaWRSGLLFhm@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkLvTFJ+o8PNsitIJMNJYr3wcHQyypqo3zt4spRny9bBAPNszI
-	NEJu2Eq63Wxel8deWdtdvxaOTAOWCi+b6t35nno29isY5MMv9k4wSNOzFnc4Kn+xaYI=
-X-Gm-Gg: AY/fxX5K7qSLIhqJqVRwuXGOqcLoHKY2ife/RnwuJCMz+mDCrXgIhFHkayONYsXBuCE
-	HhM264fR//EaNxbvGFJAqzOSlRnHoeUzCYZ42xpI/edyjzuEhu8/X7gLYYMzcBWL4aooQvuWBba
-	AXZ897g1jexDan33E8P9dbYBosDhW7Y9MOZy3rKOjqkt5z5dQnHD1WRGwGW5C6tSo10qj1BE7WH
-	RuZb3TCnkLGezf0PnGHtq4z+RzzhNJTNZPxKNEmVqthUF0Sq9bUpYLN7i7hQbfaM/b/+T5gn3vu
-	hv3zIMpm+g1Uic3LK4ImTpAMISRZ9yKggVbjU16C1N2vBRupxyNo+RQ0+jH6pRGTJ42aYZrPxLj
-	Ld+ID/IIMn+gPjSGzIAezMyWzvD+pfiIV2AbqImNd8/hGGJc8eJvn/igGdFx1f16ojQtP57+6Wt
-	SM2g/Vq++hM1QEBzdv
-X-Google-Smtp-Source: AGHT+IG2wYnKF9UcJtAT6tzXqD2LRHXeRY/+PjOkEmoHb+4nvafowC40CKcIOmp6/EX2Aw9ewSX0Kg==
-X-Received: by 2002:a05:600c:8115:b0:477:8b77:155f with SMTP id 5b1f17b1804b1-47a8f8a80eemr197952455e9.8.1766042489623;
-        Wed, 17 Dec 2025 23:21:29 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be32832fbsm23362215e9.14.2025.12.17.23.21.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 23:21:29 -0800 (PST)
-Date: Thu, 18 Dec 2025 10:21:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 14/14]
- drivers/interconnect/debugfs-client.c:121 icc_commit_set() warn: passing
- zero to 'PTR_ERR'
-Message-ID: <202512181424.7SYJiB4W-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jn+Cd++K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766044547; x=1797580547;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2iDapRcYaxe97iIQtFACi5a0hAHaymLWH/KzmpbzfJ0=;
+  b=Jn+Cd++KkB3R3wF0Xjxcp7MiCWOY6uHiG5qjxFhej1yNvLTECQwYJTJ0
+   wzctRW2G6Ja8R2I6YBbPb1+hWKykG+hsSR1fa5WeZjCYBD5qnK7MFPuRA
+   hMsOPTRYBTt73td8ybVZ+l/HmitELUaGBJsO9jXnqXr0/yUGimvOzstPf
+   qvtpZhZ6HuSOC6n5AcjWvdx4jiC/Ss+9U404jSaPN+ejTIHGqUNrAgQvc
+   r4sWh8lUV12isQQw1C8AJIh8ryq1+gGTLLSTK4UR0GiBrVPckpFzzUYeS
+   b6ozJSAdEkwlon/Q/2PrQnW45HkJL1UrURiPlddz5LhXm0d3uMKeLKGaj
+   w==;
+X-CSE-ConnectionGUID: LN/6j42qT0O2hAzOvAYyLw==
+X-CSE-MsgGUID: nE77qwGuS26eJnQE9FoZZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="71852460"
+X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
+   d="scan'208";a="71852460"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 23:55:46 -0800
+X-CSE-ConnectionGUID: uqBLwSdOR9OcIsDkCFHOnw==
+X-CSE-MsgGUID: S74LwmNIQJ6m917MbL0uSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
+   d="scan'208";a="198412941"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 17 Dec 2025 23:55:45 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vW8rO-000000001n7-407d;
+	Thu, 18 Dec 2025 07:55:42 +0000
+Date: Thu, 18 Dec 2025 15:55:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 43/43]
+ drivers/dma-buf/heaps/deferred-free-helper.c:21:19: sparse: sparse: symbol
+ 'freelist_waitqueue' was not declared. Should it be static?
+Message-ID: <202512181548.3ZvZVu50-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,46 +63,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   8b3c4de1cca2b865619f8662a2f262e499db0e13
-commit: 4439db7b8f941e4e418fc4d07e84a2eb31c6f339 [14/14] ANDROID: interconnect: Enable debugfs client
-config: i386-randconfig-141-20251217 (https://download.01.org/0day-ci/archive/20251218/202512181424.7SYJiB4W-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   12597ffc824d027b45aa3fda9606a4f0c3835d81
+commit: fe58c121167255eef7b234d6d1193281d2c8f5e6 [43/43] ANDROID: Allow the deferred-free library heap to be compiled into the GKI
+config: arm-randconfig-r134-20251217 (https://download.01.org/0day-ci/archive/20251218/202512181548.3ZvZVu50-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512181548.3ZvZVu50-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512181424.7SYJiB4W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512181548.3ZvZVu50-lkp@intel.com/
 
-smatch warnings:
-drivers/interconnect/debugfs-client.c:121 icc_commit_set() warn: passing zero to 'PTR_ERR'
+sparse warnings: (new ones prefixed by >>)
+>> drivers/dma-buf/heaps/deferred-free-helper.c:21:19: sparse: sparse: symbol 'freelist_waitqueue' was not declared. Should it be static?
+>> drivers/dma-buf/heaps/deferred-free-helper.c:22:20: sparse: sparse: symbol 'freelist_task' was not declared. Should it be static?
 
-vim +/PTR_ERR +121 drivers/interconnect/debugfs-client.c
+vim +/freelist_waitqueue +21 drivers/dma-buf/heaps/deferred-free-helper.c
 
-770c69f037c18c Mike Tipton 2023-08-07  114  static int icc_commit_set(void *data, u64 val)
-770c69f037c18c Mike Tipton 2023-08-07  115  {
-770c69f037c18c Mike Tipton 2023-08-07  116  	int ret;
-770c69f037c18c Mike Tipton 2023-08-07  117  
-770c69f037c18c Mike Tipton 2023-08-07  118  	mutex_lock(&debugfs_lock);
-770c69f037c18c Mike Tipton 2023-08-07  119  
-770c69f037c18c Mike Tipton 2023-08-07  120  	if (IS_ERR_OR_NULL(cur_path)) {
-770c69f037c18c Mike Tipton 2023-08-07 @121  		ret = PTR_ERR(cur_path);
-770c69f037c18c Mike Tipton 2023-08-07  122  		goto out;
-770c69f037c18c Mike Tipton 2023-08-07  123  	}
+bb97bfd3d8e88c John Stultz 2020-12-09  18  
+bb97bfd3d8e88c John Stultz 2020-12-09  19  static LIST_HEAD(free_list);
+bb97bfd3d8e88c John Stultz 2020-12-09  20  static size_t list_nr_pages;
+bb97bfd3d8e88c John Stultz 2020-12-09 @21  wait_queue_head_t freelist_waitqueue;
+bb97bfd3d8e88c John Stultz 2020-12-09 @22  struct task_struct *freelist_task;
+bb97bfd3d8e88c John Stultz 2020-12-09  23  static DEFINE_SPINLOCK(free_list_lock);
+bb97bfd3d8e88c John Stultz 2020-12-09  24  
 
-Fixed upstream commit 6bfe104fd0f9 ("interconnect: debugfs: Fix
-incorrect error handling for NULL path")
+:::::: The code at line 21 was first introduced by commit
+:::::: bb97bfd3d8e88ca18b975460a5a2217c9b45a1b0 ANDROID: dma-buf: heaps: Add deferred-free-helper library code
 
-770c69f037c18c Mike Tipton 2023-08-07  124  
-770c69f037c18c Mike Tipton 2023-08-07  125  	icc_set_tag(cur_path, tag);
-770c69f037c18c Mike Tipton 2023-08-07  126  	ret = icc_set_bw(cur_path, avg_bw, peak_bw);
-770c69f037c18c Mike Tipton 2023-08-07  127  out:
-770c69f037c18c Mike Tipton 2023-08-07  128  	mutex_unlock(&debugfs_lock);
-770c69f037c18c Mike Tipton 2023-08-07  129  	return ret;
-770c69f037c18c Mike Tipton 2023-08-07  130  }
+:::::: TO: John Stultz <john.stultz@linaro.org>
+:::::: CC: T.J. Mercier <tjmercier@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
