@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F7431AF37
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 11:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA64327C12
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 11:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766057532; cv=none; b=CfA7IFDDQEFVn1HduZWeh7iEqEdhDb4BEE+6pjLG5LRR1rePHzs7BYd+6NOKAuO8maygcV5Vab6ASl9VzGtx/V0PPOfHxyu+R2mK2WJy7kxa9KM8VJNaftSuUqSB9s704UL+CvShnFYhXiQzvrnzxMwig+2cfBsTtsPaZ4tQRQQ=
+	t=1766059025; cv=none; b=rnOtuxkA0oeJAVYbi+/iEK+UzX+M3MAZXq7IYpI8ayTGwvdjtyo4JDPWG+SSJGX6uwXHyLecGxRmrk0REtLFtdnlsHobDm9eILMUy1tcoMIAKewGn75x8Rh6F1h31E/roDVUwmbsTZTIIjB2vulFn3y/4w9nv2xur5UNAxLUoHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766057532; c=relaxed/simple;
-	bh=n5ay7WZw7hb1vGw8HynKfsBeOiBJJXh1WSCr6l7fL/M=;
+	s=arc-20240116; t=1766059025; c=relaxed/simple;
+	bh=UItE0ELcC3JJ+0WwyTV+V7qb4GNDcvkosEmvSbiwSeI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qy4kUy2YZOr1+ZRI435hJs8KUcCe8PvU0YoR3y7PsJIvc6S56kXZ1DqmaNtDpuXcps97wVJgwmZRpoJUv0AMWvdrX/3M1HycbXuKjR3+1g2lN6+X4xc0im/zKRW+Fz3iobtMW+nbgAjZ6VRv2LpHGXsXSf5v/nUl1g8rCPrAmmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LMgqy/Ik; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=sZtEFhr5F5JfXhFFsN8fHneuKajzhAEzO7SpUp5JtPFg2CYrkGRgW9KnSFk3z94Sh81pm2JAS0bU/Yor2rbcyPK96qvsxQ19EP7dfmRIWSuoCgWLa4aWnPPap0ywioYE3/P8TowPLSSzKoEQxDx91IqShc2Djb8i7EHvpAq8Cj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Knuv1V5b; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LMgqy/Ik"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Knuv1V5b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766057531; x=1797593531;
+  t=1766059022; x=1797595022;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n5ay7WZw7hb1vGw8HynKfsBeOiBJJXh1WSCr6l7fL/M=;
-  b=LMgqy/IkKxwF4j3VDi2OVobNgp05I1xYhgtI1Ixs5Vb7zPzh8S1T9RvR
-   QQC42ToArPrsprKXSZA13WDSr3Zl+jVf7haTI1cbgxKCG7QWyAHNtUpm+
-   mmZHlLE4PLKPFxQea/sKYqUsB2WJE+dU5LtA3OiFPV30QVWTwAe2aTKiC
-   iQVKlbs6EaZ1XaFt24w5oPKIKFSP3Q04XLLsZw584g7l+dFPJ87yMFofg
-   bPcvCmoRtaB7DBL6BatfFl9EbTJCE+2EJagJaN9tag/0waFdYy2LNT9aP
-   1Sp+9M6u5RA21h6eR9RByWDa8VMKWxXiNZk4vMgtluX4XbIXt6BjQlfRI
+  bh=UItE0ELcC3JJ+0WwyTV+V7qb4GNDcvkosEmvSbiwSeI=;
+  b=Knuv1V5bYTbEgZ8RIyuzJKQlhJLPlJ1uKWXYX86uwy5Qbcxf1kmJKfck
+   kZzOX3TUOe3TuIgLhptOVHPXPjwI7HAklWcnL8s8byf2igQa3wVFV1UHm
+   VWH+uXDLY5D+8HGPVAmSMOvABAtefsGSYAzSimpYFf84UlAhFHWZQ0oeX
+   7n2gpLYpvID3C2s2r0Ks/KHF9rwUtkkqjvrdNsNkfyTEbCMTBPlfq5H27
+   yHe+zqxGW5RkmTyNHo10Vai8xUuUb9uSfi/BtN6mq5xQOjAi0P7BPdMYF
+   WpsCVeop1Coy5l5D9uYa459U53OlEur6Rh4MQ+ea/7f3PlrSOUJc/lAj8
    g==;
-X-CSE-ConnectionGUID: jDjtRxrzSUq+yRUVKExRpw==
-X-CSE-MsgGUID: O7vycgnBQhW+8CERkcnALg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="67887635"
+X-CSE-ConnectionGUID: GQA+TzwXQke1upTo3yhmYw==
+X-CSE-MsgGUID: jlzT2GX+TWuc7G20La3ORw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="68049381"
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="67887635"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 03:32:09 -0800
-X-CSE-ConnectionGUID: 8t5JH6q8QO68tGJ6YF00ew==
-X-CSE-MsgGUID: /epy3H1iSe6KIY3i4lMsHg==
+   d="scan'208";a="68049381"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 03:57:02 -0800
+X-CSE-ConnectionGUID: Nxnj+X1/SSS8BIYVq1BxHg==
+X-CSE-MsgGUID: fS+COqYNQ/6BSnISe47ggQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,158,1763452800"; 
-   d="scan'208";a="203632183"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 18 Dec 2025 03:32:08 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="198465637"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 18 Dec 2025 03:56:59 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWCEn-000000003uO-2sOo;
-	Thu, 18 Dec 2025 11:32:05 +0000
-Date: Thu, 18 Dec 2025 12:31:32 +0100
+	id 1vWCcr-00000000229-2mUG;
+	Thu, 18 Dec 2025 11:56:57 +0000
+Date: Thu, 18 Dec 2025 19:56:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 50/50] kernel/sched/fair.c:9181:6:
- warning: no previous prototype for 'id_can_stop_tick'
-Message-ID: <202512181204.gLkrUhbU-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-6.6-CWF-PLR-ANBZ26486 11/11]
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c:48:6: warning: no previous prototype
+ for 'resctrl_arch_mon_event_config_read'
+Message-ID: <202512181918.0WZ0ICtQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +63,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   5d719013902eb006756873427de3fc5cc5566531
-commit: 4093033106109a3d632b6fec20885521c94cdeb0 [50/50] anolis: sched: push expellee tasks to a runnable cpu when expel starts
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251218/202512181204.gLkrUhbU-lkp@intel.com/config)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-PLR-ANBZ26486
+head:   0bcb74c919819123b737554f5d35edefa0555d65
+commit: e481c8b2b5c7c5ef95ef3521111c2235a87bd5d0 [11/11] x86/resctrl: Remove MSR reading of event configuration value
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251218/202512181918.0WZ0ICtQ-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512181204.gLkrUhbU-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512181918.0WZ0ICtQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512181204.gLkrUhbU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512181918.0WZ0ICtQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/sched/fair.c:4264:6: warning: no previous prototype for 'set_group_prefer_node' [-Wmissing-prototypes]
-    4264 | void set_group_prefer_node(struct task_group *tg)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/fair.c:9181:6: warning: no previous prototype for 'id_can_stop_tick' [-Wmissing-prototypes]
-    9181 | bool id_can_stop_tick(struct rq *rq)
-         |      ^~~~~~~~~~~~~~~~
+>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:48:6: warning: no previous prototype for 'resctrl_arch_mon_event_config_read' [-Wmissing-prototypes]
+      48 | void resctrl_arch_mon_event_config_read(void *info)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:65:6: warning: no previous prototype for 'resctrl_arch_mon_event_config_write' [-Wmissing-prototypes]
+      65 | void resctrl_arch_mon_event_config_write(void *info)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/id_can_stop_tick +9181 kernel/sched/fair.c
+vim +/resctrl_arch_mon_event_config_read +48 arch/x86/kernel/cpu/resctrl/rdtgroup.c
 
-  9172	
-  9173	#if defined(CONFIG_NO_HZ_FULL) && defined(CONFIG_SMP)
-  9174	bool id_can_stop_tick(struct rq *rq)
-  9175	{
-  9176		if (!sched_feat(ID_PUSH_EXPELLEE))
-  9177			return true;
-  9178		return !sched_idle_rq(rq);
-  9179	}
-  9180	#else
-> 9181	bool id_can_stop_tick(struct rq *rq)
-  9182	{
-  9183		return true;
-  9184	}
-  9185	#endif
-  9186	
+cfefad27a56d45 arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2019-03-20  47  
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22 @48  void resctrl_arch_mon_event_config_read(void *info)
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  49  {
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  50  	struct resctrl_mon_config_info *mon_info = info;
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  51  	unsigned int index;
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  52  	u64 msrval;
+82ee7c9f7c456d arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-02-13  53  
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  54  	index = mon_event_config_index_get(mon_info->evtid);
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  55  	if (index == INVALID_CONFIG_INDEX) {
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  56  		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  57  		return;
+4821fe9c07e15e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-02-13  58  	}
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  59  	rdmsrl(MSR_IA32_EVT_CFG_BASE + index, msrval);
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  60  
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  61  	/* Report only the valid event configuration bits */
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  62  	mon_info->mon_config = msrval & MAX_EVT_CONFIG_BITS;
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  63  }
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  64  
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22 @65  void resctrl_arch_mon_event_config_write(void *info)
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  66  {
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  67  	struct resctrl_mon_config_info *mon_info = info;
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  68  	unsigned int index;
+82ee7c9f7c456d arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-02-13  69  
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  70  	index = mon_event_config_index_get(mon_info->evtid);
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  71  	if (index == INVALID_CONFIG_INDEX) {
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  72  		pr_warn_once("Invalid event id %d\n", mon_info->evtid);
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  73  		mon_info->err = -EINVAL;
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  74  		return;
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  75  	}
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  76  	wrmsr(MSR_IA32_EVT_CFG_BASE + index, mon_info->mon_config, 0);
+60cf5e101fd444 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Fenghua Yu      2016-10-28  77  
+c7d51b50e13f5e arch/x86/kernel/cpu/resctrl/rdtgroup.c   James Morse     2024-01-22  78  	mon_info->err = 0;
+0b9aa6562650f4 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  79  }
+0b9aa6562650f4 arch/x86/kernel/cpu/intel_rdt_rdtgroup.c Reinette Chatre 2018-06-22  80  
+
+:::::: The code at line 48 was first introduced by commit
+:::::: c7d51b50e13f5e409032cc3d60d038286802e6c1 x86/resctrl: Move the resctrl filesystem code to /fs/resctrl
+
+:::::: TO: James Morse <james.morse@arm.com>
+:::::: CC: winterddd <tianruidong@linux.alibaba.com>
 
 -- 
 0-DAY CI Kernel Test Service
