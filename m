@@ -1,106 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CD82DA75B;
-	Thu, 18 Dec 2025 08:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D9E2F12B3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 08:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766045269; cv=none; b=j9KB94Y6vTpkIfQtq1H4pablF6cwG+62JAAb2lCYrpwvsDyZIWpkgulIAG12foWQ4qPTGQt1orPEDfv/6MFb0DhsBIJ0PntsBM/g2FAfWGIXHrrrDQnxM1uX4CIMeVWhiafrye6PA5lLaIRpo2KIN2pDR0YlZ9Kssh/BWVAG4PU=
+	t=1766045464; cv=none; b=CnsPJoPbkWhhHP6YZaO8Glh91RoSltzxi49D81riaalMsIPq1frH8BTHF1pjfVNKS6BYUa9WN1XtybiH1vx0Y/QO/tzMWQJTVTX1mO0LljY4rcGlZNAgnYlyEL/qnv/AcDl1g/jgsaqgUE7WzoT7qywVqVSSJFD7FPE3Bi4OLI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766045269; c=relaxed/simple;
-	bh=14gY+Zc1p3HwVRsTSgMA78u73WvDD7wU1U0G11fiKTo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TL9Zagb5uTAp0tYpezc6z4HqPx3XHJuzpo4ULdrFTKzybqXTMYzFbMia9Jf5onyH6mlEyIIuJr1YgJ9qC3559bon9/BXf5F89kFEbD2PaVr7CDk294Wbc4xuv8Lf/C8mlOJeJPeqptw0rwvhjjQdcGq9GXq2vqnUX0CaWpwpCJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HLFQO/Tz; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766045464; c=relaxed/simple;
+	bh=uiVn+PFW6BDRwA6pNPwXEhvpVvHeUkiEqBZQkJcZb9o=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=BADwlYOWHja3tog5S2XxK6rUl7xHXhBArYd16Gp9f8pwVMC9pr//SYAXv5mWSqxuwMUjM56WAh3R31nMLZQdQiP07YtySXRfCZMdoDswpuhfwGq5ScnnbQjSGwg6RJBdLoFzb4xRUjKXgulDRZ79FX0/d99wOftKcfS2BJZgSOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Mw2YQSL7; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HLFQO/Tz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766045268; x=1797581268;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=14gY+Zc1p3HwVRsTSgMA78u73WvDD7wU1U0G11fiKTo=;
-  b=HLFQO/TzxvQg++oZruoB9iZu/zKv+fUoBEaeVjP/RrH0m5HVpa7CT2no
-   0X866rsUd1g2pPje2wBmA5XQIPg8EtgoQ9I9TGoYN+lt7lGPskkP581wE
-   Uxjms3aIoLeqzp0QviXE70MDj8liExYWU4r4E/rif02jPtpr0IsxAVLrM
-   jZq7iWkrCEz8fsls0HZOvhWyM0jwJuuh1CiBB5bot8HZGqQkkPg2Coi56
-   v0FX5N4WjLJiabr3aoUaaYqU0YnqwhYgtiPisvv3Omx1Vrso1hynmyuMO
-   o18+egb6EXdB4KDQzxe7Ozl/9LeRY5b/jQvQtzxaNaCNiz4GaPgnLDv8b
-   A==;
-X-CSE-ConnectionGUID: XLB9FNfsRUSxkhTvWjLEKA==
-X-CSE-MsgGUID: AEks0EEQRruNOf9coPtE2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="67187775"
-X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="67187775"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 00:07:47 -0800
-X-CSE-ConnectionGUID: s0eG5tcXREGumC82roQDkQ==
-X-CSE-MsgGUID: sl+PnTamSgmfVL34L/a1nA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="198599185"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 18 Dec 2025 00:07:46 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vW931-000000001nv-34xy;
-	Thu, 18 Dec 2025 08:07:43 +0000
-Date: Thu, 18 Dec 2025 16:06:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joel Granados <joel.granados@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [joel-granados:jag/dovec_consolidate 21/24] Warning:
- kernel/sysctl.c:958 function parameter 'k_ptr_op' not described in
- 'proc_ulong_k2u_conv_kop'
-Message-ID: <202512181539.YS7kV2m4-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Mw2YQSL7"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-430f8866932so216702f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 00:11:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1766045458; x=1766650258; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lMR4ru/kjMK2+W8gXNHMkf+DOJfulikDiV7jP3bza+g=;
+        b=Mw2YQSL7HxG9/k7CBlKLMStw1hOkiPO3Hr1I1c28mfTcMurImd3z/2J9e5hcF5dXcB
+         5wsDef8Kjt1XG7+judkbo4KxceEj0HJNs/eUGsJcgm0HUsUvxdXZbVLpPuXJ2pgeKh6z
+         Aevi4Yf+h0KQsLA85xg9Ho7eKGEkh6HWF/adl+HQjJmsJfP0OibfYwQNnWB/ylY7qwnx
+         yP+PIudU6XwZzojyK6ikrkbODjP89a80T7GNBJkHmga0kBedWWxVpvySbABOLpaLCBsF
+         +20iErWrw3U5Z5P2OlNOGl6xsVIVudDsewi+crcT4Lj5/zeXAlnvCk9AwLBnccXbAMsB
+         5pmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766045458; x=1766650258;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lMR4ru/kjMK2+W8gXNHMkf+DOJfulikDiV7jP3bza+g=;
+        b=EXt2xGlywRvWyEU1u0Rg34bRi+dJ2yA9iOn7TpQgZ21pJrK4ia8Y/BlbowLY0eucFE
+         2I5GEY18SojuwXz75A1E/RXKrYze+szLcehUcLGLHy117FmBhib+HF8cqqiFbHU1vzvc
+         2ddePAtRUx4/gYBpJIQRe1Rp1IUjX6tsJqg+vtaOahtAePivS1LUZkReWXcZ8G3X5ZkT
+         nfFm+T2fDhv6RAG/eujApc7uV1RRLOxliHGnO1ZKUrlK0hNACW+2sKmWvqLyFbl8VH1s
+         83hrW0sNoir6Z55M/6wnV/pW9z4sxLsyw+zTXOLGKXt4CwRW1iwZeWDilPPSgMY8uVib
+         a6sg==
+X-Forwarded-Encrypted: i=1; AJvYcCVVki8pXc357nAV/PuAPv4ur+pc5ZkeOB4Jc6HSVGoj02mwnElkioWylIHdf3rRuqHmXdcwusUpk/BPyI8H@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUk7aK9ERQTKyWB3UfNM4gTve31Xap2iXZxTUdbycSAUAriD1+
+	v+oTGxYtK1rW4fb0FKEh1b1tdoDUYR8sKofnGNtF+QsBTAC6QdVXxfYPn/o5nVLXeyXUtpYn4dl
+	bBTdEvLHU8AOh67hxHw==
+X-Google-Smtp-Source: AGHT+IGx+neHgD8/NWVc2BOJoOLqIncjiW6qyu9IlOCRErxi0s4CHpJulltKfG/fv8DGitKvrf9HtVpcsb8LpJA=
+X-Received: from wrbey10.prod.google.com ([2002:a05:6000:24ca:b0:430:f9bd:2c6a])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6000:2012:b0:430:ff81:296c with SMTP id ffacd0b85a97d-430ff812d35mr10959601f8f.34.1766045458352;
+ Thu, 18 Dec 2025 00:10:58 -0800 (PST)
+Date: Thu, 18 Dec 2025 08:10:57 +0000
+In-Reply-To: <202512181203.IOv6IChH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+References: <202512181203.IOv6IChH-lkp@intel.com>
+Message-ID: <aUO3ES90gStGvjxn@google.com>
+Subject: Re: drivers/android/binder/rust_binderfs.c:134 binderfs_binder_device_create()
+ error: Calling ida_alloc_max() with a 'max' argument which is a power of 2.
+ -1 missing?
+From: Alice Ryhl <aliceryhl@google.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Matt Gilbride <mattgilbride@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joel.granados/linux.git jag/dovec_consolidate
-head:   96185449a89d542ae186d3a530dfd59920e7773a
-commit: 8ce0559763f13a61d67e832563e660b5891b7b60 [21/24] SQUASH with  proc_ulong_k2u_conv_kop
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251218/202512181539.YS7kV2m4-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512181539.YS7kV2m4-lkp@intel.com/reproduce)
+On Thu, Dec 18, 2025 at 10:17:52AM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
+> commit: eafedbc7c050c44744fbdf80bdf3315e860b7513 rust_binder: add Rust Binder driver
+> config: loongarch-randconfig-r071-20251218 (https://download.01.org/0day-ci/archive/20251218/202512181203.IOv6IChH-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202512181203.IOv6IChH-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/android/binder/rust_binderfs.c:134 binderfs_binder_device_create() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
+> drivers/android/binder/rust_binderfs.c:418 binderfs_binder_ctl_create() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
+> 
+> vim +/max +134 drivers/android/binder/rust_binderfs.c
+> 
+> eafedbc7c050c4 Alice Ryhl 2025-09-19  130  
+> eafedbc7c050c4 Alice Ryhl 2025-09-19  131  	/* Reserve new minor number for the new device. */
+> eafedbc7c050c4 Alice Ryhl 2025-09-19  132  	mutex_lock(&binderfs_minors_mutex);
+> eafedbc7c050c4 Alice Ryhl 2025-09-19  133  	if (++info->device_count <= info->mount_opts.max)
+> eafedbc7c050c4 Alice Ryhl 2025-09-19 @134  		minor = ida_alloc_max(&binderfs_minors,
+> eafedbc7c050c4 Alice Ryhl 2025-09-19  135  				      use_reserve ? BINDERFS_MAX_MINOR :
+> eafedbc7c050c4 Alice Ryhl 2025-09-19  136  						    BINDERFS_MAX_MINOR_CAPPED,
+> 
+> ida_alloc_max() takes the maximum valid id not the count.  These should
+> be BINDERFS_MAX_MINOR - 1, BINDERFS_MAX_MINOR_CAPPED - 1.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512181539.YS7kV2m4-lkp@intel.com/
+Hmm, this is reported for rust_binderfs.c, but looks like binderfs.c has
+the same code. That means the bug has been there for a long time.
 
-All warnings (new ones prefixed by >>):
-
-   Warning: kernel/sysctl.c:475 function parameter 'u_ptr' not described in 'proc_int_k2u_conv_kop'
-   Warning: kernel/sysctl.c:475 function parameter 'k_ptr' not described in 'proc_int_k2u_conv_kop'
-   Warning: kernel/sysctl.c:475 function parameter 'negp' not described in 'proc_int_k2u_conv_kop'
-   Warning: kernel/sysctl.c:475 function parameter 'k_ptr_op' not described in 'proc_int_k2u_conv_kop'
-   Warning: kernel/sysctl.c:502 function parameter 'u_ptr' not described in 'proc_int_u2k_conv_uop'
-   Warning: kernel/sysctl.c:502 function parameter 'k_ptr' not described in 'proc_int_u2k_conv_uop'
-   Warning: kernel/sysctl.c:502 function parameter 'negp' not described in 'proc_int_u2k_conv_uop'
-   Warning: kernel/sysctl.c:502 function parameter 'u_ptr_op' not described in 'proc_int_u2k_conv_uop'
-   Warning: kernel/sysctl.c:537 function parameter 'negp' not described in 'proc_int_conv'
-   Warning: kernel/sysctl.c:896 function parameter 'negp' not described in 'proc_ulong_conv'
->> Warning: kernel/sysctl.c:958 function parameter 'k_ptr_op' not described in 'proc_ulong_k2u_conv_kop'
-   Warning: kernel/sysctl.c:475 function parameter 'u_ptr' not described in 'proc_int_k2u_conv_kop'
-   Warning: kernel/sysctl.c:475 function parameter 'k_ptr' not described in 'proc_int_k2u_conv_kop'
-   Warning: kernel/sysctl.c:475 function parameter 'negp' not described in 'proc_int_k2u_conv_kop'
-   Warning: kernel/sysctl.c:475 function parameter 'k_ptr_op' not described in 'proc_int_k2u_conv_kop'
-   Warning: kernel/sysctl.c:502 function parameter 'u_ptr' not described in 'proc_int_u2k_conv_uop'
-   Warning: kernel/sysctl.c:502 function parameter 'k_ptr' not described in 'proc_int_u2k_conv_uop'
-   Warning: kernel/sysctl.c:502 function parameter 'negp' not described in 'proc_int_u2k_conv_uop'
-   Warning: kernel/sysctl.c:502 function parameter 'u_ptr_op' not described in 'proc_int_u2k_conv_uop'
-   Warning: kernel/sysctl.c:537 function parameter 'negp' not described in 'proc_int_conv'
-   Warning: kernel/sysctl.c:896 function parameter 'negp' not described in 'proc_ulong_conv'
->> Warning: kernel/sysctl.c:958 function parameter 'k_ptr_op' not described in 'proc_ulong_k2u_conv_kop'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Alice
