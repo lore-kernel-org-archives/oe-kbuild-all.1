@@ -1,74 +1,74 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6556217B425
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 07:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C1E267B92
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 07:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766041532; cv=none; b=aPldFdoKTailPtg6KQsQ0aSxwV+MGxXXM95xaM9fslauNR9LQ1CK5YRAMUjq/U8L3okTHnyRy0HttoSeUic0hbrOntzwgOSrLjnzYPHf4cOSePZP8xeTd59zv7YwehOrE2emo2t6ZKe5NYVEgLUr/TBQEklM2Ukhi04WL3ZdeTo=
+	t=1766042279; cv=none; b=H0cGgd1hHPy4/tc5Pu9KcAIwlqN2VaZHuZEFk2mbDt/+4Nn0WOvaAicvrmVMSZLzuHyDEvkFvvvzV5uZ5Z2GwXLmEKoY53Z8LQkndMwewGHpnx8rbV31DnvJYYuSff+qIvAzsWBLaMylou9YJpJe5OhUG7IOGCMHShSUuNM9QsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766041532; c=relaxed/simple;
-	bh=jeGPhNX3TRiq6YzX9ol22Y+2GlfVWu1RumkkCJ2pxKU=;
+	s=arc-20240116; t=1766042279; c=relaxed/simple;
+	bh=ZG2uGVos9jKrEEh0YiSgQg9bh1K8XhAuGphKItgKMUc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jsXOGzZdk0SyGfMavE9gphwuJxruCZf/gCv7RUND+U4vx4Ve2x/o5GJfcmkq7Xe5OLxLvct2LvGAjf9V8uwrovfnuvz8LSVpbZFfheQphRvhxSV4p/ViJhSVyvDwUYABAuta6GgCgsBgLbzmSYizKNZivn0BD/y4EaMzluYSNRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FMAR6qIZ; arc=none smtp.client-ip=209.85.221.47
+	 Content-Disposition; b=W8l3oUUoo3A716/0QuCduzllCHatsZceYnyoVfs/byZvlopX1/w4a6afAoPhcxHxvEFMKuoSBUnAkVdRcVGnb2Nf8sMBKrPPKI/jL8/cRJpRteGBIwMsE97/CXQCEe5nSMNqmOVJnegvjKrSCAC+CMcfLoCKa0ybj+XBD1875bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FLJXmzVC; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FMAR6qIZ"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42e2ba54a6fso89659f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 23:05:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FLJXmzVC"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-42fbad1fa90so249444f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 23:17:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766041529; x=1766646329; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1766042276; x=1766647076; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ArDYjTNEnUF4IGjgL6stzEBCxqWfodJ5gdRYTtvI4IY=;
-        b=FMAR6qIZto2RiKerUd4QrEmu/1INpF1uyACFvWO/tLMUbv5EXYa3zntuDcYC4ZV1hC
-         iPQp1epTfIiuCkTabSHUYE35v6t6MleIcncERdNk/nWU2KPKzEvQiupGl6wb2aAK0W94
-         Ri7yMdpUXsoOg+1950KhMnNExtD0i0Qdh8IJ/Rs4EsKWQSCfyUQdORucUOp3xJwCNVFr
-         273FEPFDspYW1h1X1iFM5TEmw9EsH64AzJbsglqaMzgn1x1gobVt4W/yVdF22dSWGIJU
-         v4xAaY/CLahO53ZW3kBP23TRfpARss4lGvx2Vd8ge3iWq6EK0Ds8u30+rCQnyatR3Vi5
-         PUQg==
+        bh=Jf5BAcGhlQ0Lnqc8uMzINeGbDdKgDigIFHuO+3zKQo4=;
+        b=FLJXmzVC/oijd18fCwV54NVrhv97SIPJOI3ctrOMCp1zzrxRCF/zNTru10IpY9aXyP
+         Lx3s3PUXxTxgxiFhxF2bJcwz0J8ODJznGy7/MAOzV9CE3StEN6iRKez3wAawj/ZaTidg
+         /sqjokOvc4tXuz6iGN545oAsKsGPmVNc4korcgSVXOrmYo4iQHQq1o8v7gBDMX8dPfiw
+         xxl5cWzP5/oF7eXi2eDs4bGm3HBcmmv5tY1ikxHuSONHjIFSdNGNOYXths28eDsH1bEq
+         xu8VYX2YNw5ufgtBVAHnr5Cxdnj3YoR2kS98+ShdEe4DzmG/92IwO27yhJCEPUP59Uj1
+         W8lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766041529; x=1766646329;
+        d=1e100.net; s=20230601; t=1766042276; x=1766647076;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ArDYjTNEnUF4IGjgL6stzEBCxqWfodJ5gdRYTtvI4IY=;
-        b=sqP/smEwJCuqSXJ1na3CetF0ExsvUBuv0Vm2MLP/zq11+odEf++9siA2J0vf1X2Zic
-         4ICOVmIiYb8O41nUKRsXv8kGlm0IFJY3Gf4lsaXHzwXN6LTqh8fzT6b74w29qxQiDUEI
-         D35QkrC9X1t+VignGJetFzKHx1+T/M75DUSJ/fFPU7f3/6Ok8WO+Jrw9O8SiUOh+lAXO
-         MxCYHJuEVoT51Yv8WdfrU1+5HCUhHgGt4nU6T4LNa0qUVUcyA2Q2e/NCEzELuJoQnsT1
-         ncKqyVuCJ23bh9YTjc29QSMzQDtiPPCVuAIAED1yVSBeTgAcuVNN2Pl4ne6xhsh2RNjM
-         67rw==
-X-Forwarded-Encrypted: i=1; AJvYcCX3MUjlOwXbmqIt7/XEFw4r41+Wie7deRdbQdXi2E20wMgx2kcwORfugq6W7HpOMPwZ51X3r6yVYY7Akza+@lists.linux.dev
-X-Gm-Message-State: AOJu0YySPbIUo3MxtZqCI8t/iH0ARUDNtBxd//L+gGPkUt2plAiniEJt
-	rzcTObCEezCd+Nz+uQxAexVGbkc9URt4LhPjN9A5brSS8lgExPHrCUOh20L2wvxlQlE=
-X-Gm-Gg: AY/fxX5unzXF+9bqGB4UcDZ47093dNJUknQgW/7y1Ieq+gWWSnLq7fZ6nxXPtpjGZa4
-	LDwskEi7fQozOP1dW/+O2SvoQaSa0dM+ctvB62FozXn9dMtANPCxxvR6asdz4Sv7DkO8hZD314H
-	RPTqsU8lni8/7AREbmxs6TDuFIKbqKv4iav8hJIrGeX9Qa13eFi0m4YCfUZs7fHnj2zz2RFxmt9
-	ifw/ISI9m/qiQX127BHXb2QaAZVm3q/3Gad5838cbOYBa2NlhkTKF2cNvEiCJtqDASzCvXarOVx
-	+DdUutnUnxaNGcxXwWneP1S+bpichcVj0CiYKSZksApSzEK9YNYvr3r9RheAVq/j3kKJ5NKumm1
-	Zuvy1CRmiMM3P6g3BnfYSfCTzBI58ku0FfaCZJHcJHW3fM23K8ahdM0vvhOUTS0S2aGypNHcUg2
-	LlmRo7MDj4ZIDeTj0G
-X-Google-Smtp-Source: AGHT+IGKNeIi233kyv1f0hD/iKruunS7x30uHwMXq0eSJaZQnV0D/eoFKL6iRVudXOeGP+Bn3B5+rw==
-X-Received: by 2002:a05:6000:2083:b0:430:fc3a:fbce with SMTP id ffacd0b85a97d-430fc3afd23mr16948339f8f.15.1766041528550;
-        Wed, 17 Dec 2025 23:05:28 -0800 (PST)
+        bh=Jf5BAcGhlQ0Lnqc8uMzINeGbDdKgDigIFHuO+3zKQo4=;
+        b=DMhrzw2gvXtcak9taDirhhU6PDYiJ3PvOyDMiqxJl7sKrI456KygACmCoLVcUydKez
+         DoCueKE2qpvS0gxAfAmUmr3yof83hjU6su6xJZ5PL+8eQoIcyt+9SrbJ+WGJdSLCo4Gd
+         /OKkn3tTcha/O27bjBpZfLZfyZE1y/Ug6hjvLAOcFRdaD0C87z9gMWAP9DAdrj/24xag
+         KNgOVntJByVchfjNkvGQAzN7kkafkE4pDTNmGV0RJtdBB4bEUOTi2h2opMlEG2CMYWLG
+         jNWxWEHxEYhBTY6iNwXa40gp8SFW77ZkPFM4WHl7XT/B7eJvnJR6RmKrE+xOGcjYFLFN
+         NKRw==
+X-Forwarded-Encrypted: i=1; AJvYcCWV+n/osJrRRBUFfJ+ltXB4zRDirRjU2XHzNId3i5fATKXRR5emjJwHh40ejZMHpufkRxvDSTb1MOHosAXt@lists.linux.dev
+X-Gm-Message-State: AOJu0YzosuuhxfvhW3fYgu21IhdkctnOxIxoSAaPAXwxmCQm4bO/II9i
+	HkN6U9hJhLK/55vvV1WOLLjfo7btRuoOQsojGQ4eUg9IBNCAsmtHycJab4fxmHl0iV8=
+X-Gm-Gg: AY/fxX62rytdaVwI5Eo/TaDRUn9H279P3fShXpeP7i8CMCJ43Rp+pRZoYwhwureLI9r
+	5Ne3z2A3u2nH31s7U8r69uQT+9zRyFi4Q9+KTHD9d6qrcyJtF6YWcLYvVSi8LgN7gTnjef5Zfp/
+	VTZJqesGqxnLs8PguH0NyNenRnmEEYpybDVbwL57zgtmO2BkvJC957Ap4hcMxiU80PKOhujMz9M
+	S3Z/ryOx4ep5GSM74uo5jzerAwimX3oOFvH6s7n6DcTJtc4EF4JP7lE+pA3EphbKwIh0/JM3LBt
+	TVaarS+IJ65lcLKw21wu98lUOMjc19g8jA3Jy6zdddlDk1xmUBDM2Uqw8kxUK6zw0QJFvPJOxSM
+	+b+c1WIDbzDXcAI8hbzXYIJYeLHhTO5piKjRDxx2/rmElfn/Ftpch8z+GNw639StV2aeRWAJGdD
+	h5PF6n6bTco7lxoA2g
+X-Google-Smtp-Source: AGHT+IHP0/nOTUAYZJnjYxs4Ze+aKEzrPADjEBA33VeDRR8gsG0whl1HjnLrlF5DyOhSaqSl0ytkbQ==
+X-Received: by 2002:a05:6000:2c0d:b0:431:a16:5533 with SMTP id ffacd0b85a97d-4310a1656f6mr6517869f8f.31.1766042275841;
+        Wed, 17 Dec 2025 23:17:55 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43244940148sm3394185f8f.15.2025.12.17.23.05.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324493fd73sm3294161f8f.13.2025.12.17.23.17.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 23:05:28 -0800 (PST)
-Date: Thu, 18 Dec 2025 10:05:24 +0300
+        Wed, 17 Dec 2025 23:17:55 -0800 (PST)
+Date: Thu, 18 Dec 2025 10:17:52 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Saeed Mahameed <saeedm@nvidia.com>
+To: oe-kbuild@lists.linux.dev, Alice Ryhl <aliceryhl@google.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Parav Pandit <parav@nvidia.com>, Feng Liu <feliu@nvidia.com>,
-	William Tu <witu@nvidia.com>, Mark Bloch <mbloch@nvidia.com>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/eswitch.h:981
- mlx5_esw_vport_vhca_id() warn: signedness bug returning '(-45)'
-Message-ID: <202512180851.WNLFBz7t-lkp@intel.com>
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Matt Gilbride <mattgilbride@google.com>
+Subject: drivers/android/binder/rust_binderfs.c:134
+ binderfs_binder_device_create() error: Calling ida_alloc_max() with a 'max'
+ argument which is a power of 2. -1 missing?
+Message-ID: <202512181203.IOv6IChH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,29 +80,114 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
-commit: 1baf30426553efb3ac518b0e9d5c1c3f8ed7762a net/mlx5: E-Switch, Set/Query hca cap via vhca id
-config: alpha-randconfig-r073-20251217 (https://download.01.org/0day-ci/archive/20251218/202512180851.WNLFBz7t-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.3.0
+commit: eafedbc7c050c44744fbdf80bdf3315e860b7513 rust_binder: add Rust Binder driver
+config: loongarch-randconfig-r071-20251218 (https://download.01.org/0day-ci/archive/20251218/202512181203.IOv6IChH-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512180851.WNLFBz7t-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512181203.IOv6IChH-lkp@intel.com/
 
 smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/eswitch.h:981 mlx5_esw_vport_vhca_id() warn: signedness bug returning '(-45)'
+drivers/android/binder/rust_binderfs.c:134 binderfs_binder_device_create() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
+drivers/android/binder/rust_binderfs.c:418 binderfs_binder_ctl_create() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
 
-vim +981 drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
+vim +/max +134 drivers/android/binder/rust_binderfs.c
 
-1baf30426553efb Saeed Mahameed 2025-06-16  978  static inline bool
-1baf30426553efb Saeed Mahameed 2025-06-16  979  mlx5_esw_vport_vhca_id(struct mlx5_eswitch *esw, u16 vportn, u16 *vhca_id)
-1baf30426553efb Saeed Mahameed 2025-06-16  980  {
-1baf30426553efb Saeed Mahameed 2025-06-16 @981  	return -EOPNOTSUPP;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  130  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  131  	/* Reserve new minor number for the new device. */
+eafedbc7c050c4 Alice Ryhl 2025-09-19  132  	mutex_lock(&binderfs_minors_mutex);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  133  	if (++info->device_count <= info->mount_opts.max)
+eafedbc7c050c4 Alice Ryhl 2025-09-19 @134  		minor = ida_alloc_max(&binderfs_minors,
+eafedbc7c050c4 Alice Ryhl 2025-09-19  135  				      use_reserve ? BINDERFS_MAX_MINOR :
+eafedbc7c050c4 Alice Ryhl 2025-09-19  136  						    BINDERFS_MAX_MINOR_CAPPED,
 
-This should be either true or false since it's a bool function.
+ida_alloc_max() takes the maximum valid id not the count.  These should
+be BINDERFS_MAX_MINOR - 1, BINDERFS_MAX_MINOR_CAPPED - 1.
 
-1baf30426553efb Saeed Mahameed 2025-06-16  982  }
+eafedbc7c050c4 Alice Ryhl 2025-09-19  137  				      GFP_KERNEL);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  138  	else
+eafedbc7c050c4 Alice Ryhl 2025-09-19  139  		minor = -ENOSPC;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  140  	if (minor < 0) {
+eafedbc7c050c4 Alice Ryhl 2025-09-19  141  		--info->device_count;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  142  		mutex_unlock(&binderfs_minors_mutex);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  143  		return minor;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  144  	}
+eafedbc7c050c4 Alice Ryhl 2025-09-19  145  	mutex_unlock(&binderfs_minors_mutex);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  146  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  147  	ret = -ENOMEM;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  148  	device = kzalloc(sizeof(*device), GFP_KERNEL);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  149  	if (!device)
+eafedbc7c050c4 Alice Ryhl 2025-09-19  150  		goto err;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  151  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  152  	req->name[BINDERFS_MAX_NAME] = '\0'; /* NUL-terminate */
+eafedbc7c050c4 Alice Ryhl 2025-09-19  153  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  154  	ctx = rust_binder_new_context(req->name);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  155  	if (!ctx)
+eafedbc7c050c4 Alice Ryhl 2025-09-19  156  		goto err;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  157  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  158  	inode = new_inode(sb);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  159  	if (!inode)
+eafedbc7c050c4 Alice Ryhl 2025-09-19  160  		goto err;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  161  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  162  	inode->i_ino = minor + INODE_OFFSET;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  163  	simple_inode_init_ts(inode);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  164  	init_special_inode(inode, S_IFCHR | 0600,
+eafedbc7c050c4 Alice Ryhl 2025-09-19  165  			   MKDEV(MAJOR(binderfs_dev), minor));
+eafedbc7c050c4 Alice Ryhl 2025-09-19  166  	inode->i_fop = &rust_binder_fops;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  167  	inode->i_uid = info->root_uid;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  168  	inode->i_gid = info->root_gid;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  169  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  170  	req->major = MAJOR(binderfs_dev);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  171  	req->minor = minor;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  172  	device->ctx = ctx;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  173  	device->minor = minor;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  174  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  175  	if (userp && copy_to_user(userp, req, sizeof(*req))) {
+eafedbc7c050c4 Alice Ryhl 2025-09-19  176  		ret = -EFAULT;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  177  		goto err;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  178  	}
+eafedbc7c050c4 Alice Ryhl 2025-09-19  179  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  180  	root = sb->s_root;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  181  	inode_lock(d_inode(root));
+eafedbc7c050c4 Alice Ryhl 2025-09-19  182  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  183  	/* look it up */
+eafedbc7c050c4 Alice Ryhl 2025-09-19  184  	dentry = lookup_noperm(&QSTR(req->name), root);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  185  	if (IS_ERR(dentry)) {
+eafedbc7c050c4 Alice Ryhl 2025-09-19  186  		inode_unlock(d_inode(root));
+eafedbc7c050c4 Alice Ryhl 2025-09-19  187  		ret = PTR_ERR(dentry);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  188  		goto err;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  189  	}
+eafedbc7c050c4 Alice Ryhl 2025-09-19  190  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  191  	if (d_really_is_positive(dentry)) {
+eafedbc7c050c4 Alice Ryhl 2025-09-19  192  		/* already exists */
+eafedbc7c050c4 Alice Ryhl 2025-09-19  193  		dput(dentry);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  194  		inode_unlock(d_inode(root));
+eafedbc7c050c4 Alice Ryhl 2025-09-19  195  		ret = -EEXIST;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  196  		goto err;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  197  	}
+eafedbc7c050c4 Alice Ryhl 2025-09-19  198  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  199  	inode->i_private = device;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  200  	d_instantiate(dentry, inode);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  201  	fsnotify_create(root->d_inode, dentry);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  202  	inode_unlock(d_inode(root));
+eafedbc7c050c4 Alice Ryhl 2025-09-19  203  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  204  	return 0;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  205  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  206  err:
+eafedbc7c050c4 Alice Ryhl 2025-09-19  207  	kfree(device);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  208  	rust_binder_remove_context(ctx);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  209  	mutex_lock(&binderfs_minors_mutex);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  210  	--info->device_count;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  211  	ida_free(&binderfs_minors, minor);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  212  	mutex_unlock(&binderfs_minors_mutex);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  213  	iput(inode);
+eafedbc7c050c4 Alice Ryhl 2025-09-19  214  
+eafedbc7c050c4 Alice Ryhl 2025-09-19  215  	return ret;
+eafedbc7c050c4 Alice Ryhl 2025-09-19  216  }
 
 -- 
 0-DAY CI Kernel Test Service
