@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EDE1BDCF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 00:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBED981ACA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 01:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766018787; cv=none; b=bvi9tKEGUdRluIzqgDE5uE52VO5geo48N0cwJga8ryK++PfBQbbxqwtZ/ef+zXKHCYLZL+9k/NXIjKdhawWUpuNZI3QR9KTY6Kx6cG569dkfiyGdtC5NhS8TG6LWgErNo0xEg/4X0yOlcsyiZyHQrbruuXMHRSY6HMqyBrQbo6s=
+	t=1766020265; cv=none; b=ZRFYxRFEivCevavHhRlFWJr8yUuTlfE9PZDIfL8t8PQFH25GX9fMl+p8tDlWPx4ceikr35vtJOIVsKvZWYnHQq/nvqpdyEjzA3t1CUC7LQGNaHAv33UyjnJnYqnQVFr+GImHLhUDNek82svf17VsdDk3m2bTdTRxFZHWi1u+/us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766018787; c=relaxed/simple;
-	bh=KHyj37zXgBm9Jnjlb4VtpRzMfb2Yw1RzBE5AyLoi9Ks=;
+	s=arc-20240116; t=1766020265; c=relaxed/simple;
+	bh=YNsu1114FSOl2QVGpYzauM9dz7fwvs2nI+B6ePj0GmI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fel9Yl2cCb0KnTQJMPxsqIr0f40ka2IIAkGTnVuRm+LdZ0mQQ2n6yJ6SWNqnetoOVP7CgG71Niaa8qtZAr/91oWtanUL8LyrRJG0oZZ83ulcJH8ypmB+OS+yVPJWjCHpIorCgM47pk01fjny9W0QMD+AiuLB4MFXGAXJctEsIHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dsKgQ+ER; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=sqp96WCZBQW+lZ45kRkb/uHXnop37okrLult8XmR1YWLdHZB0Mx4c84tnXMG1B5OKWL2p8QvEN2fsUQfknizU0JkEbb3/XZAXpptnRecPUEimM9Xw3YzvxX0SDI8DnpZVldVQpaYYSNSEYbViFbqExLkIdrBydS3OBUY5z7yqlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RntPIJE0; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dsKgQ+ER"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RntPIJE0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766018785; x=1797554785;
+  t=1766020264; x=1797556264;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KHyj37zXgBm9Jnjlb4VtpRzMfb2Yw1RzBE5AyLoi9Ks=;
-  b=dsKgQ+ERkh45TWk9Hi+qQwSI5S52d7+bIpUkLkUBxjM4nqnD9VRAT6FO
-   F+jko9rVVXSzlYbYPlctQoMEbGKxTeswYZ5rV83sH9rBmV+jnVgzups7X
-   7lwSUTGzgRdWlg96OA2fnruD8dSeJMoO6b6E0vVI4T+cViFxCpOzWcVoG
-   oeTKXA+xiGyD04kOOMIQLDyPdK2uW030bflfdwV/xcApzfR59svgyPONG
-   g2/KQ7gd0jGrhccsZiNuTzgYMj73+L1RIQ8/lnJmsiKqGsnrvE+lWfG4T
-   zSNwL90XA/AA0/9nsfQrHmETy2mb6RyLUtDB6mF8G21dqKxkR03eLDGV7
+  bh=YNsu1114FSOl2QVGpYzauM9dz7fwvs2nI+B6ePj0GmI=;
+  b=RntPIJE0wHMuyeIErzJcuLQdRld2V9hOmDXRDszGL/o4dtEdyEVWW0gE
+   7IjCqv5Wr9olzAuaP7YFnXQ5dCJf/xXA4nyT9aoDdycwV+GWXOpmUNcTD
+   fyDpMA91Vtdsn86mzcV0BxT/I2lmoC4mXWjr7C+KN5fcTdVT0RajsPKTs
+   z0AUPTbskBxIjchu73X/waRSLFu+BWd6mwH676xjU4SI0wj/YNTdDCr+q
+   aX1tSDf0t+cZTymONsEuiXHyGPA9kpjbo47azdxpDQhkpNmqnK4pvIXI2
+   W4WGrVhsoilH+kiqBtzpX+02WyPphy4jJhnqByxwzJ98PXVmDM9tJASnk
    g==;
-X-CSE-ConnectionGUID: 2vRlUvo+TzObrkPHK08bwg==
-X-CSE-MsgGUID: ImTGZFweSEmQmTShHD6Y2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="85387738"
+X-CSE-ConnectionGUID: KXn9j7TmQE+xLvu79YR6wA==
+X-CSE-MsgGUID: 1lpB+8A0RlmLNsoc5QFe1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="78283445"
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="85387738"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 16:46:23 -0800
-X-CSE-ConnectionGUID: chxl2h8lR9iTX6h8x1oOSQ==
-X-CSE-MsgGUID: MXK0rfU1T16drlcJFo/lgQ==
+   d="scan'208";a="78283445"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 17:11:03 -0800
+X-CSE-ConnectionGUID: /sYdzD9ERTKQn6JKpqXcaA==
+X-CSE-MsgGUID: MqnRYaF2SZO/FoGjC/e0Cw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="221848124"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Dec 2025 16:46:21 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+   d="scan'208";a="203526670"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 17 Dec 2025 17:11:02 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vW29r-000000001OD-2Uoe;
-	Thu, 18 Dec 2025 00:46:19 +0000
-Date: Thu, 18 Dec 2025 08:45:23 +0800
+	id 1vW2Xk-000000003my-0Ope;
+	Thu, 18 Dec 2025 01:11:00 +0000
+Date: Thu, 18 Dec 2025 02:10:18 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 2/2] drivers/dma/fsl-qdma.c:387:15:
- sparse: sparse: restricted __le32 degrades to integer
-Message-ID: <202512180850.Q89JsCEX-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 40/40] mm/workingset.c:198:6:
+ warning: no previous prototype for 'unpack_shadow'
+Message-ID: <202512180250.4tRJ1ILh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,103 +62,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   d36711b0a31fb7c6682f53e306fa330cc0b125a2
-commit: 106c1ac953a66556ec77456c46e818208d3a9bce [2/2] dmaengine: fsl-qdma: fix SoC may hang on 16 byte unaligned read
-config: arm64-randconfig-r132-20251216 (https://download.01.org/0day-ci/archive/20251218/202512180850.Q89JsCEX-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512180850.Q89JsCEX-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   12597ffc824d027b45aa3fda9606a4f0c3835d81
+commit: 1a3bbc191000a8382db034c86dd4eef905327197 [40/40] ANDROID: mm: export unpack_shadow
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251218/202512180250.4tRJ1ILh-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512180250.4tRJ1ILh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512180850.Q89JsCEX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512180250.4tRJ1ILh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/dma/fsl-qdma.c:387:15: sparse: sparse: restricted __le32 degrades to integer
-   drivers/dma/fsl-qdma.c:390:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [usertype] data @@     got unsigned long long @@
-   drivers/dma/fsl-qdma.c:390:19: sparse:     expected restricted __le64 [usertype] data
-   drivers/dma/fsl-qdma.c:390:19: sparse:     got unsigned long long
-   drivers/dma/fsl-qdma.c:392:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] cmd @@     got restricted __le32 [usertype] @@
-   drivers/dma/fsl-qdma.c:392:13: sparse:     expected unsigned int [assigned] [usertype] cmd
-   drivers/dma/fsl-qdma.c:392:13: sparse:     got restricted __le32 [usertype]
-   drivers/dma/fsl-qdma.c:394:13: sparse: sparse: invalid assignment: |=
-   drivers/dma/fsl-qdma.c:394:13: sparse:    left side has type unsigned int
-   drivers/dma/fsl-qdma.c:394:13: sparse:    right side has type restricted __le32
-   drivers/dma/fsl-qdma.c:395:19: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [usertype] data @@     got unsigned long long @@
-   drivers/dma/fsl-qdma.c:395:19: sparse:     expected restricted __le64 [usertype] data
-   drivers/dma/fsl-qdma.c:395:19: sparse:     got unsigned long long
-   drivers/dma/fsl-qdma.c:646:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
-   drivers/dma/fsl-qdma.c:646:50: sparse:     expected void [noderef] __iomem *addr
-   drivers/dma/fsl-qdma.c:646:50: sparse:     got void *
-   drivers/dma/fsl-qdma.c:682:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
-   drivers/dma/fsl-qdma.c:682:58: sparse:     expected void [noderef] __iomem *addr
-   drivers/dma/fsl-qdma.c:682:58: sparse:     got void *
-   drivers/dma/fsl-qdma.c:689:58: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
-   drivers/dma/fsl-qdma.c:689:58: sparse:     expected void [noderef] __iomem *addr
-   drivers/dma/fsl-qdma.c:689:58: sparse:     got void *
-   drivers/dma/fsl-qdma.c:697:50: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
-   drivers/dma/fsl-qdma.c:697:50: sparse:     expected void [noderef] __iomem *addr
-   drivers/dma/fsl-qdma.c:697:50: sparse:     got void *
-   drivers/dma/fsl-qdma.c:703:50: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void * @@
-   drivers/dma/fsl-qdma.c:703:50: sparse:     expected void [noderef] __iomem *addr
-   drivers/dma/fsl-qdma.c:703:50: sparse:     got void *
-   drivers/dma/fsl-qdma.c:786:67: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *block @@     got void [noderef] __iomem *[assigned] block @@
-   drivers/dma/fsl-qdma.c:786:67: sparse:     expected void *block
-   drivers/dma/fsl-qdma.c:786:67: sparse:     got void [noderef] __iomem *[assigned] block
+All warnings (new ones prefixed by >>):
 
-vim +387 drivers/dma/fsl-qdma.c
+>> mm/workingset.c:198:6: warning: no previous prototype for 'unpack_shadow' [-Wmissing-prototypes]
+     198 | void unpack_shadow(void *shadow, int *memcgidp, pg_data_t **pgdat,
+         |      ^~~~~~~~~~~~~
 
-b092529e0aa098 Peng Ma 2018-10-30  354  
-b092529e0aa098 Peng Ma 2018-10-30  355  static void fsl_qdma_comp_fill_memcpy(struct fsl_qdma_comp *fsl_comp,
-b092529e0aa098 Peng Ma 2018-10-30  356  				      dma_addr_t dst, dma_addr_t src, u32 len)
-b092529e0aa098 Peng Ma 2018-10-30  357  {
-8f95adcf3a5aab Peng Ma 2019-05-22  358  	u32 cmd;
-b092529e0aa098 Peng Ma 2018-10-30  359  	struct fsl_qdma_format *sdf, *ddf;
-b092529e0aa098 Peng Ma 2018-10-30  360  	struct fsl_qdma_format *ccdf, *csgf_desc, *csgf_src, *csgf_dest;
-b092529e0aa098 Peng Ma 2018-10-30  361  
-b092529e0aa098 Peng Ma 2018-10-30  362  	ccdf = fsl_comp->virt_addr;
-b092529e0aa098 Peng Ma 2018-10-30  363  	csgf_desc = fsl_comp->virt_addr + 1;
-b092529e0aa098 Peng Ma 2018-10-30  364  	csgf_src = fsl_comp->virt_addr + 2;
-b092529e0aa098 Peng Ma 2018-10-30  365  	csgf_dest = fsl_comp->virt_addr + 3;
-b092529e0aa098 Peng Ma 2018-10-30  366  	sdf = fsl_comp->desc_virt_addr;
-b092529e0aa098 Peng Ma 2018-10-30  367  	ddf = fsl_comp->desc_virt_addr + 1;
-b092529e0aa098 Peng Ma 2018-10-30  368  
-b092529e0aa098 Peng Ma 2018-10-30  369  	memset(fsl_comp->virt_addr, 0, FSL_QDMA_COMMAND_BUFFER_SIZE);
-b092529e0aa098 Peng Ma 2018-10-30  370  	memset(fsl_comp->desc_virt_addr, 0, FSL_QDMA_DESCRIPTOR_BUFFER_SIZE);
-b092529e0aa098 Peng Ma 2018-10-30  371  	/* Head Command Descriptor(Frame Descriptor) */
-b092529e0aa098 Peng Ma 2018-10-30  372  	qdma_desc_addr_set64(ccdf, fsl_comp->bus_addr + 16);
-b092529e0aa098 Peng Ma 2018-10-30  373  	qdma_ccdf_set_format(ccdf, qdma_ccdf_get_offset(ccdf));
-b092529e0aa098 Peng Ma 2018-10-30  374  	qdma_ccdf_set_ser(ccdf, qdma_ccdf_get_status(ccdf));
-b092529e0aa098 Peng Ma 2018-10-30  375  	/* Status notification is enqueued to status queue. */
-b092529e0aa098 Peng Ma 2018-10-30  376  	/* Compound Command Descriptor(Frame List Table) */
-b092529e0aa098 Peng Ma 2018-10-30  377  	qdma_desc_addr_set64(csgf_desc, fsl_comp->desc_bus_addr);
-b092529e0aa098 Peng Ma 2018-10-30  378  	/* It must be 32 as Compound S/G Descriptor */
-b092529e0aa098 Peng Ma 2018-10-30  379  	qdma_csgf_set_len(csgf_desc, 32);
-b092529e0aa098 Peng Ma 2018-10-30  380  	qdma_desc_addr_set64(csgf_src, src);
-b092529e0aa098 Peng Ma 2018-10-30  381  	qdma_csgf_set_len(csgf_src, len);
-b092529e0aa098 Peng Ma 2018-10-30  382  	qdma_desc_addr_set64(csgf_dest, dst);
-b092529e0aa098 Peng Ma 2018-10-30  383  	qdma_csgf_set_len(csgf_dest, len);
-b092529e0aa098 Peng Ma 2018-10-30  384  	/* This entry is the last entry. */
-b092529e0aa098 Peng Ma 2018-10-30  385  	qdma_csgf_set_f(csgf_dest, len);
-b092529e0aa098 Peng Ma 2018-10-30  386  	/* Descriptor Buffer */
-8f95adcf3a5aab Peng Ma 2019-05-22 @387  	cmd = cpu_to_le32(FSL_QDMA_CMD_RWTTYPE <<
-106c1ac953a665 Peng Ma 2024-02-01  388  			  FSL_QDMA_CMD_RWTTYPE_OFFSET) |
-106c1ac953a665 Peng Ma 2024-02-01  389  			  FSL_QDMA_CMD_PF;
-8f95adcf3a5aab Peng Ma 2019-05-22  390  	sdf->data = QDMA_SDDF_CMD(cmd);
-8f95adcf3a5aab Peng Ma 2019-05-22  391  
-8f95adcf3a5aab Peng Ma 2019-05-22  392  	cmd = cpu_to_le32(FSL_QDMA_CMD_RWTTYPE <<
-b092529e0aa098 Peng Ma 2018-10-30  393  			  FSL_QDMA_CMD_RWTTYPE_OFFSET);
-8f95adcf3a5aab Peng Ma 2019-05-22  394  	cmd |= cpu_to_le32(FSL_QDMA_CMD_LWC << FSL_QDMA_CMD_LWC_OFFSET);
-8f95adcf3a5aab Peng Ma 2019-05-22  395  	ddf->data = QDMA_SDDF_CMD(cmd);
-b092529e0aa098 Peng Ma 2018-10-30  396  }
-b092529e0aa098 Peng Ma 2018-10-30  397  
 
-:::::: The code at line 387 was first introduced by commit
-:::::: 8f95adcf3a5aabb7a416d3c03c561acd580df213 dmaengine: fsl-qdma: fixed the source/destination descriptor format
+vim +/unpack_shadow +198 mm/workingset.c
 
-:::::: TO: Peng Ma <peng.ma@nxp.com>
-:::::: CC: Vinod Koul <vkoul@kernel.org>
+   197	
+ > 198	void unpack_shadow(void *shadow, int *memcgidp, pg_data_t **pgdat,
+   199				  unsigned long *evictionp, bool *workingsetp)
+   200	{
+   201		unsigned long entry = xa_to_value(shadow);
+   202		int memcgid, nid;
+   203		bool workingset;
+   204	
+   205		workingset = entry & ((1UL << WORKINGSET_SHIFT) - 1);
+   206		entry >>= WORKINGSET_SHIFT;
+   207		nid = entry & ((1UL << NODES_SHIFT) - 1);
+   208		entry >>= NODES_SHIFT;
+   209		memcgid = entry & ((1UL << MEM_CGROUP_ID_SHIFT) - 1);
+   210		entry >>= MEM_CGROUP_ID_SHIFT;
+   211	
+   212		*memcgidp = memcgid;
+   213		*pgdat = NODE_DATA(nid);
+   214		*evictionp = entry;
+   215		*workingsetp = workingset;
+   216	}
+   217	EXPORT_SYMBOL_GPL(unpack_shadow);
+   218	
 
 -- 
 0-DAY CI Kernel Test Service
