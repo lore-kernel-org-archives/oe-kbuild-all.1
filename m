@@ -1,57 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9541F4CBB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 07:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6556217B425
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 07:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766041364; cv=none; b=mqlm3fXBaxFtV5UYWg7vKnKYCwfNO8Yg8O5TVWjr24sXVOXhotogqNXggAYD0+nYjHQNhFgLsQkqEdeYlI/zB1rjq6aM0vSX/bVswrSKKLyXR3xtkQ3l0S/DIusjyaQHJ+nd24xvNM/bDOpvt0biZQR5Ru6gcl+5dzr8L4pPbzc=
+	t=1766041532; cv=none; b=aPldFdoKTailPtg6KQsQ0aSxwV+MGxXXM95xaM9fslauNR9LQ1CK5YRAMUjq/U8L3okTHnyRy0HttoSeUic0hbrOntzwgOSrLjnzYPHf4cOSePZP8xeTd59zv7YwehOrE2emo2t6ZKe5NYVEgLUr/TBQEklM2Ukhi04WL3ZdeTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766041364; c=relaxed/simple;
-	bh=89+W6eNuOr1T1BGEF/eRj1v69ALzCtfZVgPs9QfJu5E=;
+	s=arc-20240116; t=1766041532; c=relaxed/simple;
+	bh=jeGPhNX3TRiq6YzX9ol22Y+2GlfVWu1RumkkCJ2pxKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HHqAE5Nu9FzFiU2qXyRXcvA+R46nE/o1Ku8ovHE7VIk+FEHoiM+lFWw3+liEHXds0M2iuumCxQTcIvLmngyRFqWdOVMclWEHh03spY7XLvCXZbUJtuw9yutCs+8aPdwsTa8ABL1dN2XtcHtmiAYfk5wklxLMtd4LaiEJS9z+tYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WI/n4uh7; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=jsXOGzZdk0SyGfMavE9gphwuJxruCZf/gCv7RUND+U4vx4Ve2x/o5GJfcmkq7Xe5OLxLvct2LvGAjf9V8uwrovfnuvz8LSVpbZFfheQphRvhxSV4p/ViJhSVyvDwUYABAuta6GgCgsBgLbzmSYizKNZivn0BD/y4EaMzluYSNRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FMAR6qIZ; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WI/n4uh7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766041363; x=1797577363;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=89+W6eNuOr1T1BGEF/eRj1v69ALzCtfZVgPs9QfJu5E=;
-  b=WI/n4uh7S5wAeiVoRZtM3o7B3MvYgXrd56+RRjeY+R2ry4UeIVs+cEXX
-   mkD6akGlTL0zzb53uEuan7ozdTd8L46ukgrSDgFDPW+DIv8dOXB3oc+IU
-   xgFw4I8BCHBDbLdqXsk8+N3pBtema+GM1OiqEvlO8GJEuVQjwTWTjpN7b
-   tqFVEp2Bpu7YbVrGoeaDYvjiHdm6kIKvdZ+V5Tf0mNBDsLAiD91JyUTKD
-   jpiyoKDVRtPK8rfU4MDc//8LpJCfR28GAdswvYW4tUfzX5AmxKabe+A1H
-   uEcIPLOO/xt2b8y6LKtmKE8ARQS0bHVnZKGfMj137rqHz5p2U/tzUi1nq
-   w==;
-X-CSE-ConnectionGUID: EuFR/DtPTeqwci3WO322wA==
-X-CSE-MsgGUID: mFzFCyfNRtyGEX2kVLYWyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11645"; a="67869443"
-X-IronPort-AV: E=Sophos;i="6.21,156,1763452800"; 
-   d="scan'208";a="67869443"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2025 23:02:43 -0800
-X-CSE-ConnectionGUID: vuNUbJBCQSu1JbRZu+bqrg==
-X-CSE-MsgGUID: 3gCts4zhTXCa2PQDXfkyfA==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Dec 2025 23:02:41 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vW823-000000001iv-3pS8;
-	Thu, 18 Dec 2025 07:02:39 +0000
-Date: Thu, 18 Dec 2025 15:02:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 43/43]
- arch/arm64/kvm/hyp_trace.c:96:27: sparse: sparse: symbol 'hyp_cb' was not
- declared. Should it be static?
-Message-ID: <202512181438.aPDEbKQq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FMAR6qIZ"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42e2ba54a6fso89659f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 17 Dec 2025 23:05:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1766041529; x=1766646329; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ArDYjTNEnUF4IGjgL6stzEBCxqWfodJ5gdRYTtvI4IY=;
+        b=FMAR6qIZto2RiKerUd4QrEmu/1INpF1uyACFvWO/tLMUbv5EXYa3zntuDcYC4ZV1hC
+         iPQp1epTfIiuCkTabSHUYE35v6t6MleIcncERdNk/nWU2KPKzEvQiupGl6wb2aAK0W94
+         Ri7yMdpUXsoOg+1950KhMnNExtD0i0Qdh8IJ/Rs4EsKWQSCfyUQdORucUOp3xJwCNVFr
+         273FEPFDspYW1h1X1iFM5TEmw9EsH64AzJbsglqaMzgn1x1gobVt4W/yVdF22dSWGIJU
+         v4xAaY/CLahO53ZW3kBP23TRfpARss4lGvx2Vd8ge3iWq6EK0Ds8u30+rCQnyatR3Vi5
+         PUQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766041529; x=1766646329;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ArDYjTNEnUF4IGjgL6stzEBCxqWfodJ5gdRYTtvI4IY=;
+        b=sqP/smEwJCuqSXJ1na3CetF0ExsvUBuv0Vm2MLP/zq11+odEf++9siA2J0vf1X2Zic
+         4ICOVmIiYb8O41nUKRsXv8kGlm0IFJY3Gf4lsaXHzwXN6LTqh8fzT6b74w29qxQiDUEI
+         D35QkrC9X1t+VignGJetFzKHx1+T/M75DUSJ/fFPU7f3/6Ok8WO+Jrw9O8SiUOh+lAXO
+         MxCYHJuEVoT51Yv8WdfrU1+5HCUhHgGt4nU6T4LNa0qUVUcyA2Q2e/NCEzELuJoQnsT1
+         ncKqyVuCJ23bh9YTjc29QSMzQDtiPPCVuAIAED1yVSBeTgAcuVNN2Pl4ne6xhsh2RNjM
+         67rw==
+X-Forwarded-Encrypted: i=1; AJvYcCX3MUjlOwXbmqIt7/XEFw4r41+Wie7deRdbQdXi2E20wMgx2kcwORfugq6W7HpOMPwZ51X3r6yVYY7Akza+@lists.linux.dev
+X-Gm-Message-State: AOJu0YySPbIUo3MxtZqCI8t/iH0ARUDNtBxd//L+gGPkUt2plAiniEJt
+	rzcTObCEezCd+Nz+uQxAexVGbkc9URt4LhPjN9A5brSS8lgExPHrCUOh20L2wvxlQlE=
+X-Gm-Gg: AY/fxX5unzXF+9bqGB4UcDZ47093dNJUknQgW/7y1Ieq+gWWSnLq7fZ6nxXPtpjGZa4
+	LDwskEi7fQozOP1dW/+O2SvoQaSa0dM+ctvB62FozXn9dMtANPCxxvR6asdz4Sv7DkO8hZD314H
+	RPTqsU8lni8/7AREbmxs6TDuFIKbqKv4iav8hJIrGeX9Qa13eFi0m4YCfUZs7fHnj2zz2RFxmt9
+	ifw/ISI9m/qiQX127BHXb2QaAZVm3q/3Gad5838cbOYBa2NlhkTKF2cNvEiCJtqDASzCvXarOVx
+	+DdUutnUnxaNGcxXwWneP1S+bpichcVj0CiYKSZksApSzEK9YNYvr3r9RheAVq/j3kKJ5NKumm1
+	Zuvy1CRmiMM3P6g3BnfYSfCTzBI58ku0FfaCZJHcJHW3fM23K8ahdM0vvhOUTS0S2aGypNHcUg2
+	LlmRo7MDj4ZIDeTj0G
+X-Google-Smtp-Source: AGHT+IGKNeIi233kyv1f0hD/iKruunS7x30uHwMXq0eSJaZQnV0D/eoFKL6iRVudXOeGP+Bn3B5+rw==
+X-Received: by 2002:a05:6000:2083:b0:430:fc3a:fbce with SMTP id ffacd0b85a97d-430fc3afd23mr16948339f8f.15.1766041528550;
+        Wed, 17 Dec 2025 23:05:28 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43244940148sm3394185f8f.15.2025.12.17.23.05.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Dec 2025 23:05:28 -0800 (PST)
+Date: Thu, 18 Dec 2025 10:05:24 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Saeed Mahameed <saeedm@nvidia.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Parav Pandit <parav@nvidia.com>, Feng Liu <feliu@nvidia.com>,
+	William Tu <witu@nvidia.com>, Mark Bloch <mbloch@nvidia.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/eswitch.h:981
+ mlx5_esw_vport_vhca_id() warn: signedness bug returning '(-45)'
+Message-ID: <202512180851.WNLFBz7t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,31 +78,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   12597ffc824d027b45aa3fda9606a4f0c3835d81
-commit: 34305ad4b1bbf0b1938712ef0070a78d8b2c3583 [43/43] ANDROID: KVM: arm64: Add host support for the nVHE hyp tracing
-config: arm64-randconfig-r123-20251217 (https://download.01.org/0day-ci/archive/20251218/202512181438.aPDEbKQq-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251218/202512181438.aPDEbKQq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ea1013c1539270e372fc99854bc6e4d94eaeff66
+commit: 1baf30426553efb3ac518b0e9d5c1c3f8ed7762a net/mlx5: E-Switch, Set/Query hca cap via vhca id
+config: alpha-randconfig-r073-20251217 (https://download.01.org/0day-ci/archive/20251218/202512180851.WNLFBz7t-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512181438.aPDEbKQq-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512180851.WNLFBz7t-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/hyp_trace.c:96:27: sparse: sparse: symbol 'hyp_cb' was not declared. Should it be static?
-   arch/arm64/kvm/hyp_trace.c:488:5: sparse: sparse: symbol 'hyp_trace_release' was not declared. Should it be static?
+smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/eswitch.h:981 mlx5_esw_vport_vhca_id() warn: signedness bug returning '(-45)'
 
-vim +/hyp_cb +96 arch/arm64/kvm/hyp_trace.c
+vim +981 drivers/net/ethernet/mellanox/mlx5/core/eswitch.h
 
-    95	
-  > 96	struct ring_buffer_ext_cb hyp_cb = {
-    97		.update_footers = __update_footers,
-    98		.swap_reader = __swap_reader_page,
-    99	};
-   100	
+1baf30426553efb Saeed Mahameed 2025-06-16  978  static inline bool
+1baf30426553efb Saeed Mahameed 2025-06-16  979  mlx5_esw_vport_vhca_id(struct mlx5_eswitch *esw, u16 vportn, u16 *vhca_id)
+1baf30426553efb Saeed Mahameed 2025-06-16  980  {
+1baf30426553efb Saeed Mahameed 2025-06-16 @981  	return -EOPNOTSUPP;
+
+This should be either true or false since it's a bool function.
+
+1baf30426553efb Saeed Mahameed 2025-06-16  982  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
