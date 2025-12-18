@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D9230F92F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 21:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D9A2741A6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 21:48:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766093806; cv=none; b=ajx/OqBEssGnM/SnXcvauLraZk0NI7ddc+3HYJB3wCg+bE1vni8yvGxZnw3tZeL+s/t04i6LhW+MLtiSVHbAt14U1YTj6k8Kv2ZQIykj+ih9CyR6pcE4n7Etj6NXTHiW/eY8T82pWxPzpwF2vxtRlfgssbLz2cnTMvNXqqH0GmM=
+	t=1766094515; cv=none; b=oQVdGZB+YPA2Ac1BQ4oaSAmmSuLfy6kk4GpSsmXLUdix2OZqY9V7vkkltX2y5XcnfRty8Xjry2YbjiRV6hMiyqv7s1b8YVBCqPv4fGCoXKzHLuNiLudjgjXJz4fDDG2Dnj/dtnlfLhLVMRcjoRjkzAFjRPAlFL4xiOHqDS88ulU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766093806; c=relaxed/simple;
-	bh=5sHi3bFMDiwX0tmxanhx4jyjqbwPRr5gyqoAJgQPGvE=;
+	s=arc-20240116; t=1766094515; c=relaxed/simple;
+	bh=+cZY0s55Jgl+6XhQxTqcKteCuS7gpOrm8LmnS24nyeE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Had+mxjBGoLE83+0vmXWMoHGVKyIRruWmvPPihT4A1HMQFv0sZ8ViRnW1YxtEIOx+G3LNYOWmSQ20GlViIn/q3bAJsSLQ/a8ZXk73ksYkYfWgs30pDlG63rnZI9NJd96+SJz+CRlIHmsObYGYmUsTElNixRHX9ZADSRK5ArOog4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ajK6TyRF; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=HG/h0aCWW3cq8znC2JWhHzP1bJWJUCMB+kQ3OlAp57x3Q3APtUSzpTRalAPVWZc97cS69SK35SYUTLbyzisxLSL5v0EhysnffHHlSvPVFHoZiDNt5Ly5tFtsy8qloJUl10G93xMpeirEdFKYdEUaynhTqFl88nx9nbXnW3tFt1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O3lJMSIr; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ajK6TyRF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O3lJMSIr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766093796; x=1797629796;
+  t=1766094513; x=1797630513;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5sHi3bFMDiwX0tmxanhx4jyjqbwPRr5gyqoAJgQPGvE=;
-  b=ajK6TyRFGmnTPyhzkhsh1gXGRmRbAz5b2gJi8TtdgR1HpS6VGd9Qr310
-   HBTjlC7V7k2HGzYi8/qnvKltIAa4DgcmdH88NNlfxnxj/eCHSyplY2Mwp
-   x181PZX0u5A6fW7ULwqEEfs4s0bHq4evEI6eZSWTw3sZ3vUtpg/o9Kw7F
-   YwyVVZeTBo4ZLwGFYqR2IqqvdsCK9jjeBWdNk8t/v20tm1skSFVOLQhOX
-   lrs6bteN8Oe6G9iW3DD80N+I6a7LQDcdHWtmPyI8THUMKXd2+sC1BDnbC
-   AC4Hodmq9qrnM8SGGJzIYhNpGPxDLWcphgnpTtq0r9xNrvsmv0BZbCWJq
-   Q==;
-X-CSE-ConnectionGUID: Jb1c+o62TuefRA+g7KdMYA==
-X-CSE-MsgGUID: rnA5QMekSXWBA/4yvzY05w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="78692872"
+  bh=+cZY0s55Jgl+6XhQxTqcKteCuS7gpOrm8LmnS24nyeE=;
+  b=O3lJMSIriUwL7yrDdI+D45BhVTUNkJZSHAcl6EIocflpdnlLyGHRTF2t
+   58qydJfY8dEbBTMENQvasP9fV9hsaetLY3KeOro9y8y0mI17du1X0YJPH
+   3n6RrXTu19o2zCk5z9DUHWlSB5+bZnOBcXb/e9DXIQBLqJRZtxu/NSzoG
+   54amomizztyG1aAZBZsTxxDBw3NmVAfucL1u7chZ5Nz35n8yhPjvbsR8o
+   CUuXWVkf5m3Ny1ywISkXOz+xoQ/ZafRyfCDmkeDDGDHJN6U8MnThoCzov
+   po6erc0TlzgEGU5MIXF/gvAS2vnBZ13Ff88/7bPnUG2PMWTtt45NGtOxC
+   A==;
+X-CSE-ConnectionGUID: GOv2/TUiQEaMiCMq7Fa1mw==
+X-CSE-MsgGUID: XFv/ghkcQnuQkSB6X/XkQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="67809863"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="78692872"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 13:36:32 -0800
-X-CSE-ConnectionGUID: eeqTbE4ZSR+xVuD4GyBLdQ==
-X-CSE-MsgGUID: YhvwjWEASQiGCYyx3oeOtw==
+   d="scan'208";a="67809863"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 13:48:33 -0800
+X-CSE-ConnectionGUID: aS1g/rA7T3SFO24UxRNGEQ==
+X-CSE-MsgGUID: h+JJ612jTRiVqsA8ewFFRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="198752449"
+   d="scan'208";a="198598775"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 18 Dec 2025 13:36:31 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 18 Dec 2025 13:48:31 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWLfg-000000002g9-364M;
-	Thu, 18 Dec 2025 21:36:28 +0000
-Date: Fri, 19 Dec 2025 05:36:12 +0800
+	id 1vWLrJ-000000002gz-12Fn;
+	Thu, 18 Dec 2025 21:48:29 +0000
+Date: Fri, 19 Dec 2025 05:47:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 4/4]
- arch/arm64/mm/mmu.c:1499:5: warning: no previous prototype for
- 'check_range_driver_managed'
-Message-ID: <202512190511.Bh62PB13-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1944/1944]
+ arch/x86/kernel/unwind_orc.o: warning: objtool: missing symbol for section
+ .text
+Message-ID: <202512190624.AbYfKuZU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +63,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Sudarshan,
+Hi Shile,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   500d05631d89314552da084e17819640507698bf
-commit: 1b4aca7d82ae9b40145484fa09ceab38a6a06062 [4/4] ANDROID: arm64/mm: implement {populate/depopulate}_range_driver_managed
-config: arm64-randconfig-003-20251219 (https://download.01.org/0day-ci/archive/20251219/202512190511.Bh62PB13-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190511.Bh62PB13-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4e9c55920995d70b3e88b60c69753df54b03fdf4
+commit: badd79c400ed404df871e1d035bed971d20ead4c [1944/1944] x86/unwind/orc: Remove boot-time ORC unwind tables sorting
+config: x86_64-buildonly-randconfig-006-20251216 (https://download.01.org/0day-ci/archive/20251219/202512190624.AbYfKuZU-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190624.AbYfKuZU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512190511.Bh62PB13-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512190624.AbYfKuZU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/mm/mmu.c:1499:5: warning: no previous prototype for 'check_range_driver_managed' [-Wmissing-prototypes]
-    1499 | int check_range_driver_managed(u64 start, u64 size, const char *resource_name)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/printk.h:7,
-                    from include/linux/kernel.h:16,
-                    from arch/arm64/mm/mmu.c:11:
-   arch/arm64/mm/mmu.c: In function 'check_range_driver_managed':
-   include/linux/kern_levels.h:5:18: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH "\001"  /* ASCII Start Of Header */
-         |                  ^~~~~~
-   include/linux/kern_levels.h:11:18: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR KERN_SOH "3" /* error conditions */
-         |                  ^~~~~~~~
-   include/linux/printk.h:343:9: note: in expansion of macro 'KERN_ERR'
-     343 |  printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~
-   arch/arm64/mm/mmu.c:1509:3: note: in expansion of macro 'pr_err'
-    1509 |   pr_err("%s: couldn't find memory resource for start 0x%lx\n",
-         |   ^~~~~~
-   arch/arm64/mm/mmu.c:1509:59: note: format string is defined here
-    1509 |   pr_err("%s: couldn't find memory resource for start 0x%lx\n",
-         |                                                         ~~^
-         |                                                           |
-         |                                                           long unsigned int
-         |                                                         %llx
-
-
-vim +/check_range_driver_managed +1499 arch/arm64/mm/mmu.c
-
-  1498	
-> 1499	int check_range_driver_managed(u64 start, u64 size, const char *resource_name)
-  1500	{
-  1501		struct mem_section *ms;
-  1502		unsigned long pfn = __phys_to_pfn(start);
-  1503		unsigned long end_pfn = __phys_to_pfn(start + size);
-  1504		struct resource *res;
-  1505		unsigned long flags;
-  1506	
-  1507		res = lookup_resource(&iomem_resource, start);
-  1508		if (!res) {
-  1509			pr_err("%s: couldn't find memory resource for start 0x%lx\n",
-  1510				   __func__, start);
-  1511			return -EINVAL;
-  1512		}
-  1513	
-  1514		flags = res->flags;
-  1515	
-  1516		if (!(flags & IORESOURCE_SYSRAM_DRIVER_MANAGED) ||
-  1517		    strstr(resource_name, "System RAM (") != resource_name)
-  1518			return -EINVAL;
-  1519	
-  1520		for (; pfn < end_pfn; pfn += PAGES_PER_SECTION) {
-  1521			ms = __pfn_to_section(pfn);
-  1522			if (early_section(ms))
-  1523				return -EINVAL;
-  1524		}
-  1525	
-  1526		return 0;
-  1527	}
-  1528	
+   arch/x86/kernel/unwind_orc.c:179:13: warning: unused function 'orc_sort_swap' [-Wunused-function]
+     179 | static void orc_sort_swap(void *_a, void *_b, int size)
+         |             ^~~~~~~~~~~~~
+   arch/x86/kernel/unwind_orc.c:199:12: warning: unused function 'orc_sort_cmp' [-Wunused-function]
+     199 | static int orc_sort_cmp(const void *_a, const void *_b)
+         |            ^~~~~~~~~~~~
+   2 warnings generated.
+>> arch/x86/kernel/unwind_orc.o: warning: objtool: missing symbol for section .text
 
 -- 
 0-DAY CI Kernel Test Service
