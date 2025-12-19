@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43512D94B0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 18 Dec 2025 22:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612BA84039
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 00:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766097096; cv=none; b=NeT2JSILHhn/lyxlZ5Pw2jcRghbByXuWkwKlPdFHiR980SLDxrCkOxwKIzT8/aAYiv1AA2n5nBYiDElFITsUGTd58rqukM+H5gL/mz3JL+2JgGEYyiUafQliNE86O9CEUPb88ogBaW7rDGTMWYCf3YpapXxjQwJ9JwakD3mhCSc=
+	t=1766102863; cv=none; b=aG3D0ocvJbh9WNE7g1ql0mhJFkTwKsd4etAm+2oZEvPG07nZ31R4pEBmxmExOx/gzh19BPUN2wNBOR2k8O4EibQZ/cgF+16kpdP74BPEm85U9dQrmIJYd7c+sDZoJKdwSRklhThVzn032veHgpTbZAKLcGflyYaCn4F5AEEnpfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766097096; c=relaxed/simple;
-	bh=/5dkCNwy9dNsCUn8z6xBGJtmN1aw2J0QO6Ipj2esJCM=;
+	s=arc-20240116; t=1766102863; c=relaxed/simple;
+	bh=AMlj+DH8HhPkkaxziT9pDky9amwe1MKBXcLEMN2p4cA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RucD8oMQUvR313Hl2nSwY8VEhCLGMAgAgtHjjAckE0I2rNzVXh5Dmfi6GDiupSKm9eAASEFF6c+HFK/nYnVQfrUMv8COeFJ/Gd1TVm0uCejWgh9RM4zLgQVFd6Kw3lpk5LiLmqgHSIXdzVFhk9BmmRmdd2ax0SBiIVAqApBmAXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=alHPMvWs; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=t4XVlRAYPAVn2fNUXJa4+kf7kIPoT3upmCBuap78a7U0fVjVMpbM1+/iBqmOxC/MADLcopmUz2C4TiyieJYdVLre6joMlLhLFswwtyclJIzUHdEX+RNtoH9I9SRthpaOomCvJ3qTIO9gAWmMBYb5/foYZDU+pBP1tk6FqPTuNZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NBRPRQHI; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="alHPMvWs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NBRPRQHI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766097095; x=1797633095;
+  t=1766102860; x=1797638860;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/5dkCNwy9dNsCUn8z6xBGJtmN1aw2J0QO6Ipj2esJCM=;
-  b=alHPMvWsBYJUCVTgVwiHtD4zJluq14H2DS2EPtRFYfsi+o5iN5cf1y/A
-   dTpS4Q3pFHXxaBWCjW899nqSNhCC3Jw4Uv+24PxBnFVgZDtQCd4XDA/D8
-   JOlPxU4sF5z01ibQm9If5jb+fTSdq5Ck/VJN44nI5tv/iFeVp58jVidTp
-   0af+iigKZndQ4GmaYTsi7O0kxnDb3v0ZyzSMXGR2T+1JzU/it6Kfl/5B+
-   l9Pj+5wIA4iGhLrhwGSy5uJ0Xz6BAM3eszRsQZx2WAQ3b7s/4wVvIoA3r
-   /BTlVTtR5lYrIEDRTur7HP/pZoyfGo+Hkk6SAHR33ywUEhlTtDnPdKJGn
-   A==;
-X-CSE-ConnectionGUID: BcNTuoieS/W7KxaYeE2eEA==
-X-CSE-MsgGUID: fv65hteFSa2FyGeEkQOvxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="67811865"
+  bh=AMlj+DH8HhPkkaxziT9pDky9amwe1MKBXcLEMN2p4cA=;
+  b=NBRPRQHItExy/XkdpAXM7m9odcNaIxQsbv+QzDa5FznnsJqkCD4AewEx
+   ZUx5WP/df1n3436qMVDVcOYQI2H0xMZHYh9sRBdXC8YyKsaHVIHlnupfd
+   tovPajR8u41WGHSmIPPG8W/1gbLPFlbLGXZBTVeBNTAuLCGYOVCnW7rCV
+   T1p7/0OdBTq9+Lm/HrJg4apkjkvjXUyA/BK2Iz5fuh25PQfM4uk8JCGwZ
+   X5Uus994tW3f+SUJNcIzo3zgJFhqB+zNKz102AQtbkwSV+gKJuKrcmC8p
+   0mlrlwCFpT3Xp8ZZ+mqRxILacPIfNyGuxIx5iKphmC8Cz7n85YQ76wtZx
+   w==;
+X-CSE-ConnectionGUID: m8x0OM8sQzKBbxA8US8BLw==
+X-CSE-MsgGUID: HxbkA8PVQ7m1bLJ5qMJB7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="71697393"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="67811865"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 14:31:34 -0800
-X-CSE-ConnectionGUID: RL41qQaESeGm7VFEdYv53g==
-X-CSE-MsgGUID: 5783pPgpSO25W+H+H29+eg==
+   d="scan'208";a="71697393"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 16:07:37 -0800
+X-CSE-ConnectionGUID: 7RntzhyXQ0O1XrCpMDSr/Q==
+X-CSE-MsgGUID: GZdAOeqERZq4DuI9D4drMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="199174931"
+   d="scan'208";a="198732727"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 18 Dec 2025 14:31:33 -0800
+  by orviesa007.jf.intel.com with ESMTP; 18 Dec 2025 16:07:36 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWMWw-000000002j4-37sX;
-	Thu, 18 Dec 2025 22:31:30 +0000
-Date: Fri, 19 Dec 2025 06:30:58 +0800
+	id 1vWO1t-000000002mz-3aDY;
+	Fri, 19 Dec 2025 00:07:33 +0000
+Date: Fri, 19 Dec 2025 08:07:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 4/4]
- drivers/tty/serial/msm_geni_serial_earlycon.c:360:8: warning:
- initializer-string for array of 'char' truncates NUL terminator but
- destination lacks 'nonstring' attribute (16 chars into 15 available)
-Message-ID: <202512190651.fDVf9u5V-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 43/43]
+ arch/arm64/kvm/hyp_events.c:25:27: warning: no previous prototype for
+ 'hyp_event_trace_host_hcall'
+Message-ID: <202512190855.CkeFJE1z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,123 +63,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mukesh,
+Hi Vincent,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   500d05631d89314552da084e17819640507698bf
-commit: e1be87019fc97f736f2729a2a4198d250d28633b [4/4] ANDROID: serial: msm_geni_serial_earlycon: Add Earlycon support
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251219/202512190651.fDVf9u5V-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190651.fDVf9u5V-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   d13a7e3b3e0f1ca9e8faea93fbebfed911c2588d
+commit: 508af69a745a81d6fedd161b4d5d614a9d1f9788 [43/43] ANDROID: KVM: arm64: Add EL2 wakeup cause hyp events
+config: arm64-randconfig-r123-20251217 (https://download.01.org/0day-ci/archive/20251219/202512190855.CkeFJE1z-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190855.CkeFJE1z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512190651.fDVf9u5V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512190855.CkeFJE1z-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/msm_geni_serial_earlycon.c: In function 'msm_geni_serial_earlycon_setup':
-   drivers/tty/serial/msm_geni_serial_earlycon.c:307:13: warning: variable 'rx_stale' set but not used [-Wunused-but-set-variable]
-     307 |         u32 rx_stale = 0;
-         |             ^~~~~~~~
-   drivers/tty/serial/msm_geni_serial_earlycon.c:305:13: warning: variable 'rx_parity_cfg' set but not used [-Wunused-but-set-variable]
-     305 |         u32 rx_parity_cfg = 0;
-         |             ^~~~~~~~~~~~~
-   drivers/tty/serial/msm_geni_serial_earlycon.c:304:13: warning: variable 'rx_trans_cfg' set but not used [-Wunused-but-set-variable]
-     304 |         u32 rx_trans_cfg = 0;
-         |             ^~~~~~~~~~~~
-   In file included from include/linux/linkage.h:6,
-                    from include/linux/kernel.h:8,
-                    from include/linux/delay.h:22,
-                    from drivers/tty/serial/msm_geni_serial_earlycon.c:6:
-   drivers/tty/serial/msm_geni_serial_earlycon.c: At top level:
->> drivers/tty/serial/msm_geni_serial_earlycon.c:360:8: warning: initializer-string for array of 'char' truncates NUL terminator but destination lacks 'nonstring' attribute (16 chars into 15 available) [-Wunterminated-string-initialization]
-     360 |                         msm_geni_serial_earlycon_setup);
-         | ^                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~      
-   include/linux/stringify.h:9:34: note: in definition of macro '__stringify_1'
-       9 | #define __stringify_1(x...)     #x
-         |                                  ^
-   include/linux/serial_core.h:372:29: note: in expansion of macro '__stringify'
-     372 |                 = { .name = __stringify(_name),                         \
-         |                             ^~~~~~~~~~~
-   include/linux/serial_core.h:380:9: note: in expansion of macro '_OF_EARLYCON_DECLARE'
-     380 |         _OF_EARLYCON_DECLARE(_name, compat, fn,                         \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/msm_geni_serial_earlycon.c:359:1: note: in expansion of macro 'OF_EARLYCON_DECLARE'
-     359 | OF_EARLYCON_DECLARE(msm_geni_serial, "qcom,msm-geni-console",
-         | ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:25:27: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
+      25 |         enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+         |                           ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
+      14 | HYP_EVENT(hyp_enter,
+         | ^~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:25:27: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
+      25 |         enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+         |                           ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
+      23 | HYP_EVENT(hyp_exit,
+         | ^~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:25:27: warning: no previous prototype for 'hyp_event_trace_host_hcall' [-Wmissing-prototypes]
+      25 |         enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+         |                           ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:32:1: note: in expansion of macro 'HYP_EVENT'
+      32 | HYP_EVENT(host_hcall,
+         | ^~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:25:27: warning: no previous prototype for 'hyp_event_trace_host_smc' [-Wmissing-prototypes]
+      25 |         enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+         |                           ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:46:1: note: in expansion of macro 'HYP_EVENT'
+      46 | HYP_EVENT(host_smc,
+         | ^~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:25:27: warning: no previous prototype for 'hyp_event_trace_host_mem_abort' [-Wmissing-prototypes]
+      25 |         enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter, \
+         |                           ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:61:1: note: in expansion of macro 'HYP_EVENT'
+      61 | HYP_EVENT(host_mem_abort,
+         | ^~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:249:6: warning: no previous prototype for 'kvm_hyp_events_enable_early' [-Wmissing-prototypes]
+     249 | bool kvm_hyp_events_enable_early(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:284:6: warning: no previous prototype for 'kvm_hyp_init_events_tracefs' [-Wmissing-prototypes]
+     284 | void kvm_hyp_init_events_tracefs(struct dentry *parent)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:323:5: warning: no previous prototype for 'kvm_hyp_init_events' [-Wmissing-prototypes]
+     323 | int kvm_hyp_init_events(void)
+         |     ^~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 
-vim +360 drivers/tty/serial/msm_geni_serial_earlycon.c
+vim +/hyp_event_trace_host_hcall +25 arch/arm64/kvm/hyp_events.c
 
-   296	
-   297	static int __init
-   298	msm_geni_serial_earlycon_setup(struct earlycon_device *dev,
-   299					const char *opt)
-   300	{
-   301		int ret = 0;
-   302		u32 tx_trans_cfg = 0;
-   303		u32 tx_parity_cfg = 0;
- > 304		u32 rx_trans_cfg = 0;
-   305		u32 rx_parity_cfg = 0;
-   306		u32 stop_bit = 0;
-   307		u32 rx_stale = 0;
-   308		u32 bits_per_char = 0;
-   309		unsigned long cfg0, cfg1;
-   310		struct uart_port *uport = &dev->port;
-   311	
-   312		if (!uport->membase) {
-   313			ret = -ENOMEM;
-   314			goto exit;
-   315		}
-   316	
-   317		if (get_se_proto_earlycon(uport->membase) != UART_PROTOCOL) {
-   318			ret = -ENXIO;
-   319			goto exit;
-   320		}
-   321	
-   322		/*
-   323		 * Ignore Flow control.
-   324		 * Disable Tx Parity.
-   325		 * Don't check Parity during Rx.
-   326		 * Disable Rx Parity.
-   327		 * n = 8.
-   328		 * Stop bit = 0.
-   329		 * Stale timeout in bit-time (3 chars worth).
-   330		 */
-   331		tx_trans_cfg |= UART_CTS_MASK;
-   332		tx_parity_cfg = 0;
-   333		rx_trans_cfg = 0;
-   334		rx_parity_cfg = 0;
-   335		bits_per_char = 0x8;
-   336		stop_bit = 0;
-   337		rx_stale = 0x18;
-   338	
-   339		msm_geni_serial_poll_abort_tx(uport);
-   340	
-   341		se_get_packing_config_earlycon(8, 1, false, &cfg0, &cfg1);
-   342	
-   343		se_io_init_earlycon(uport->membase);
-   344	
-   345		geni_se_select_fifo_mode_earlycon(uport->membase);
-   346		writel_relaxed(cfg0, uport->membase + SE_GENI_TX_PACKING_CFG0);
-   347		writel_relaxed(cfg1, uport->membase + SE_GENI_TX_PACKING_CFG1);
-   348		writel_relaxed(tx_trans_cfg, uport->membase + SE_UART_TX_TRANS_CFG);
-   349		writel_relaxed(tx_parity_cfg, uport->membase + SE_UART_TX_PARITY_CFG);
-   350		writel_relaxed(bits_per_char, uport->membase + SE_UART_TX_WORD_LEN);
-   351		writel_relaxed(stop_bit, uport->membase + SE_UART_TX_STOP_BIT_LEN);
-   352	
-   353		dev->con->write = msm_geni_serial_early_console_write;
-   354		dev->con->setup = NULL;
-   355	exit:
-   356		return ret;
-   357	}
-   358	
-   359	OF_EARLYCON_DECLARE(msm_geni_serial, "qcom,msm-geni-console",
- > 360				msm_geni_serial_earlycon_setup);
+09014fb1f2df19 Vincent Donnefort 2023-01-26  22  
+09014fb1f2df19 Vincent Donnefort 2023-01-26  23  #define HYP_EVENT(__name, __proto, __struct, __assign, __printk)		\
+09014fb1f2df19 Vincent Donnefort 2023-01-26  24  	HYP_EVENT_FORMAT(__name, __struct);					\
+09014fb1f2df19 Vincent Donnefort 2023-01-26 @25  	enum print_line_t hyp_event_trace_##__name(struct trace_iterator *iter,	\
+09014fb1f2df19 Vincent Donnefort 2023-01-26  26  					  int flags, struct trace_event *event) \
+09014fb1f2df19 Vincent Donnefort 2023-01-26  27  	{									\
+09014fb1f2df19 Vincent Donnefort 2023-01-26  28  		struct ht_iterator *ht_iter = (struct ht_iterator *)iter;	\
+09014fb1f2df19 Vincent Donnefort 2023-01-26  29  		struct trace_hyp_format_##__name __maybe_unused *__entry =	\
+09014fb1f2df19 Vincent Donnefort 2023-01-26  30  			(struct trace_hyp_format_##__name *)ht_iter->ent;	\
+09014fb1f2df19 Vincent Donnefort 2023-01-26  31  		trace_seq_puts(&ht_iter->seq, #__name);				\
+09014fb1f2df19 Vincent Donnefort 2023-01-26  32  		trace_seq_putc(&ht_iter->seq, ' ');				\
+09014fb1f2df19 Vincent Donnefort 2023-01-26  33  		trace_seq_printf(&ht_iter->seq, __printk);			\
+09014fb1f2df19 Vincent Donnefort 2023-01-26  34  		trace_seq_putc(&ht_iter->seq, '\n');				\
+09014fb1f2df19 Vincent Donnefort 2023-01-26  35  		return TRACE_TYPE_HANDLED;					\
+09014fb1f2df19 Vincent Donnefort 2023-01-26  36  	}
+09014fb1f2df19 Vincent Donnefort 2023-01-26  37  #include <asm/kvm_hypevents.h>
+09014fb1f2df19 Vincent Donnefort 2023-01-26  38  
+
+:::::: The code at line 25 was first introduced by commit
+:::::: 09014fb1f2df192b186cd253fa990925f262f308 ANDROID: KVM: arm64: Add support for nVHE hyp events
+
+:::::: TO: Vincent Donnefort <vdonnefort@google.com>
+:::::: CC: Vincent Donnefort <vdonnefort@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
