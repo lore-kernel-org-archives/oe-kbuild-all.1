@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634FA33A037
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 13:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7D933A032
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 13:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766150488; cv=none; b=CWwvkB/4Xcq1OnYpOEMo9jFnSYjvpUNfFFcNP2TsAt5Mdc7FemmqpEBOogXSAKCGf75DJau80zXMTO13mwURyGaQfimisezrrScSuKN1uSCX35FClD13jogkgLTGby7mr7lWqwWu8kLrZjOgTt1v3OnJcQzu/5KeDSA2l7z3JNQ=
+	t=1766150489; cv=none; b=PEC1EA5KbAxpmVE7YLwXaKUFqPIJj+cG5yXcsbx01m7lfNJdV9vvgs9fIBngTFxgWE0Y65AvfdJH31yrUX7crTnlD1EoIrxa1g+7a9EopDzgmf4ljSpKy3Mz8EEoGt2a7PHjjTbLbecJlg/HY0Tzk8W6c83yNEsKCLUL2MUKlRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766150488; c=relaxed/simple;
-	bh=cMLayl0CNugrpNvhwp9/DSMel/lAFeLVEXpmBnbJ9rk=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KyGSrgYw58NB6AwtgDN522lHVoVLBV8FbNf9gCgZK7Xe6y9ecS2jG2/yptwJkMA8WYzmOcqr7xGjKQxUHjpkrhyc/6MEkNsl3Tg0ETiSCtLyNuVA4ZAiOhjuRxkeMuUL8klY6mQyz6E0aWDXDo5UfCaxH3bVGv5TFHKUuHysZ6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qgtw+bQc; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1766150489; c=relaxed/simple;
+	bh=IaM2WYbP65eUKENtr95JBeIRCgTZBbjwAd+02CuRD4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g32Y/SwldG3Eq5yJAD8Bje12jPDpKTCkJb66kViIk5n3cUCASWVyXhkkL2wLtXw6TikMcT4nLFDX8JsmJgCD0SvDsLsTz0kYDvanl6s7wUXup1mL8woWx2XcHZzSLJefKdZvB/HS4dLGIYaGOTGvcE+P+rRfRnkGsO7xQOtiCFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dV2Ye7Zh; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qgtw+bQc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dV2Ye7Zh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766150488; x=1797686488;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=cMLayl0CNugrpNvhwp9/DSMel/lAFeLVEXpmBnbJ9rk=;
-  b=Qgtw+bQcaLpboKMs38Y7hXyhLIlPQSFK0bTdCGhdNie5mgcAqAz770AU
-   FgrjIEKG2rP1uzLd2AH9v75233RRLWrXqw4RufiguqUy9vK+dj8REbuAH
-   uyNAsqJHccHved8UXTeUG5/c224Ato89p5C8BpJtZC5wVlnXMkAsKZ4KR
-   9FlMPnhvixKz96Vx07s/FM6x+zExcoO4R36EKiU9X25KMx6IgbfuWSzQU
-   9M54wVgFmYb0ejPm3QKBtaKtuJnBqu3Jhf8DRhON5rFX0DQ0y+i+KYf9y
-   gI+m8CKgeuQqPUtDuYxnu0NCQxbJPKXBf+77ov+lmEPQgjoH/r0b75tD7
-   Q==;
-X-CSE-ConnectionGUID: O8SeU/bhQJypeBFYJjC1Lw==
-X-CSE-MsgGUID: LBbWCWWQRiGfv0FjDGUWHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68263634"
+  t=1766150487; x=1797686487;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IaM2WYbP65eUKENtr95JBeIRCgTZBbjwAd+02CuRD4Q=;
+  b=dV2Ye7ZhQbPJn5rS6ZqFcgzF2GVo79k8JZDZ/kn1OpgyJEJRDXIPibXU
+   KSs6hZCNdftBeEkm3vQK3A4FZLdZOCRw6g79lI/8VWunUaHqDxqEdQPIX
+   YwOmupjD3Fg2o0wajmWNv3vb/dsApA3UnNPVlHDG6zz0jqNNbMVrzFhya
+   I5VzD6iLs1gotqrIR8DfwBRxrKHuqM80BSlcpo+jfhYboAHbjqmzqqJGw
+   LZtlt4VRSvEABndoUPtQE57Rqkl9hlLFVPmDxzp3K71Wchdnku/cPoxl1
+   +UaTiaeyVb1+4K4QlSWp9ytNTeMP9R6/e1/gOb47TNFoEjHUKMizhdH3v
+   A==;
+X-CSE-ConnectionGUID: FVXMyP/+Qoe0qtCwODt19w==
+X-CSE-MsgGUID: X1tBkH9tQS+74DaZ0nxbXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="67109034"
 X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
-   d="scan'208";a="68263634"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 05:21:27 -0800
-X-CSE-ConnectionGUID: AleSKtmtSgqF+GnBg/QwPw==
-X-CSE-MsgGUID: UkS28KmLRuCYUEiGa4nOLQ==
+   d="scan'208";a="67109034"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 05:21:26 -0800
+X-CSE-ConnectionGUID: eBAOOEjfTpGh6fazQBkmig==
+X-CSE-MsgGUID: kXVF7Pd6T46WK6V8QrWB3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
-   d="scan'208";a="236284595"
+   d="scan'208";a="229898018"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 19 Dec 2025 05:21:26 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 19 Dec 2025 05:21:25 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWaQ7-000000003a6-2CqV;
+	id 1vWaQ7-000000003a1-1zMc;
 	Fri, 19 Dec 2025 13:21:23 +0000
-Date: Fri, 19 Dec 2025 21:20:38 +0800
+Date: Fri, 19 Dec 2025 21:20:37 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Subject: xe_pci.c:undefined reference to `xe_configfs_check_device'
-Message-ID: <202512192237.8icOR4eh-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 4/4]
+ fs/erofs/decompressor_lzma.c:42:33: error: implicit declaration of function
+ 'xz_dec_microlzma_end'
+Message-ID: <202512192109.Et054WMw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,45 +63,220 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd9b004b7ff3289fb7bae35130c0a5c0537266af
-commit: 13dda74a164b570d93d412e812dc80549506410f drm/xe/configfs: Dump custom settings when binding
-date:   4 months ago
-config: powerpc64-randconfig-r053-20251218 (https://download.01.org/0day-ci/archive/20251219/202512192237.8icOR4eh-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512192237.8icOR4eh-lkp@intel.com/reproduce)
+Hi Gao,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   500d05631d89314552da084e17819640507698bf
+commit: ede603374aab4bb8a612fd3c1c84ceef11435fa1 [4/4] FROMGIT: erofs: lzma compression support
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251219/202512192109.Et054WMw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512192109.Et054WMw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512192237.8icOR4eh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512192109.Et054WMw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `xe_configfs_clear_survivability_mode'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `xe_guc_init_post_hwconfig':
-   xe_guc.c:(.text+0xf6c): undefined reference to `xe_configfs_get_psmi_enabled'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.o: in function `xe_hw_engines_init_early':
-   xe_hw_engine.c:(.text+0xebc): undefined reference to `xe_configfs_get_engines_allowed'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.data.rel.ro+0x10): undefined reference to `xe_configfs_init'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.data.rel.ro+0x18): undefined reference to `xe_configfs_exit'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_pci_probe':
->> xe_pci.c:(.text+0x1224): undefined reference to `xe_configfs_check_device'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_debugfs_register':
-   xe_psmi.c:(.text+0x53c): undefined reference to `xe_configfs_get_psmi_enabled'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_init':
-   xe_psmi.c:(.text+0x5f8): undefined reference to `xe_configfs_get_psmi_enabled'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_rtp.o: in function `xe_rtp_match_psmi_enabled':
-   xe_rtp.c:(.text+0xba0): undefined reference to `xe_configfs_get_psmi_enabled'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_fini':
-   xe_survivability_mode.c:(.text+0x260): undefined reference to `xe_configfs_clear_survivability_mode'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_is_requested':
-   xe_survivability_mode.c:(.text+0x2cc): undefined reference to `xe_configfs_get_survivability_mode'
-   powerpc64-linux-ld: xe_survivability_mode.c:(.text+0x304): undefined reference to `xe_configfs_clear_survivability_mode'
+   fs/erofs/decompressor_lzma.c: In function 'z_erofs_lzma_exit':
+>> fs/erofs/decompressor_lzma.c:42:33: error: implicit declaration of function 'xz_dec_microlzma_end' [-Werror=implicit-function-declaration]
+      42 |                                 xz_dec_microlzma_end(strm->state);
+         |                                 ^~~~~~~~~~~~~~~~~~~~
+   fs/erofs/decompressor_lzma.c: In function 'z_erofs_load_lzma_config':
+>> fs/erofs/decompressor_lzma.c:136:31: error: implicit declaration of function 'xz_dec_microlzma_alloc' [-Werror=implicit-function-declaration]
+     136 |                 strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
+         |                               ^~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/decompressor_lzma.c:136:29: warning: assignment to 'struct xz_dec_microlzma *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     136 |                 strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
+         |                             ^
+   fs/erofs/decompressor_lzma.c: In function 'z_erofs_lzma_decompress':
+>> fs/erofs/decompressor_lzma.c:193:9: error: implicit declaration of function 'xz_dec_microlzma_reset' [-Werror=implicit-function-declaration]
+     193 |         xz_dec_microlzma_reset(strm->state, inlen, outlen,
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+>> fs/erofs/decompressor_lzma.c:266:26: error: implicit declaration of function 'xz_dec_microlzma_run' [-Werror=implicit-function-declaration]
+     266 |                 xz_err = xz_dec_microlzma_run(strm->state, &strm->buf);
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/xz_dec_microlzma_end +42 fs/erofs/decompressor_lzma.c
+
+    21	
+    22	void z_erofs_lzma_exit(void)
+    23	{
+    24		/* there should be no running fs instance */
+    25		while (z_erofs_lzma_avail_strms) {
+    26			struct z_erofs_lzma *strm;
+    27	
+    28			spin_lock(&z_erofs_lzma_lock);
+    29			strm = z_erofs_lzma_head;
+    30			if (!strm) {
+    31				spin_unlock(&z_erofs_lzma_lock);
+    32				DBG_BUGON(1);
+    33				return;
+    34			}
+    35			z_erofs_lzma_head = NULL;
+    36			spin_unlock(&z_erofs_lzma_lock);
+    37	
+    38			while (strm) {
+    39				struct z_erofs_lzma *n = strm->next;
+    40	
+    41				if (strm->state)
+  > 42					xz_dec_microlzma_end(strm->state);
+    43				kfree(strm);
+    44				--z_erofs_lzma_avail_strms;
+    45				strm = n;
+    46			}
+    47		}
+    48	}
+    49	
+    50	int z_erofs_lzma_init(void)
+    51	{
+    52		unsigned int i;
+    53	
+    54		/* by default, use # of possible CPUs instead */
+    55		if (!z_erofs_lzma_nstrms)
+    56			z_erofs_lzma_nstrms = num_possible_cpus();
+    57	
+    58		for (i = 0; i < z_erofs_lzma_nstrms; ++i) {
+    59			struct z_erofs_lzma *strm = kzalloc(sizeof(*strm), GFP_KERNEL);
+    60	
+    61			if (!strm) {
+    62				z_erofs_lzma_exit();
+    63				return -ENOMEM;
+    64			}
+    65			spin_lock(&z_erofs_lzma_lock);
+    66			strm->next = z_erofs_lzma_head;
+    67			z_erofs_lzma_head = strm;
+    68			spin_unlock(&z_erofs_lzma_lock);
+    69			++z_erofs_lzma_avail_strms;
+    70		}
+    71		return 0;
+    72	}
+    73	
+    74	int z_erofs_load_lzma_config(struct super_block *sb,
+    75				     struct erofs_super_block *dsb,
+    76				     struct z_erofs_lzma_cfgs *lzma, int size)
+    77	{
+    78		static DEFINE_MUTEX(lzma_resize_mutex);
+    79		unsigned int dict_size, i;
+    80		struct z_erofs_lzma *strm, *head = NULL;
+    81		int err;
+    82	
+    83		if (!lzma || size < sizeof(struct z_erofs_lzma_cfgs)) {
+    84			erofs_err(sb, "invalid lzma cfgs, size=%u", size);
+    85			return -EINVAL;
+    86		}
+    87		if (lzma->format) {
+    88			erofs_err(sb, "unidentified lzma format %x, please check kernel version",
+    89				  le16_to_cpu(lzma->format));
+    90			return -EINVAL;
+    91		}
+    92		dict_size = le32_to_cpu(lzma->dict_size);
+    93		if (dict_size > Z_EROFS_LZMA_MAX_DICT_SIZE || dict_size < 4096) {
+    94			erofs_err(sb, "unsupported lzma dictionary size %u",
+    95				  dict_size);
+    96			return -EINVAL;
+    97		}
+    98	
+    99		erofs_info(sb, "EXPERIMENTAL MicroLZMA in use. Use at your own risk!");
+   100	
+   101		/* in case 2 z_erofs_load_lzma_config() race to avoid deadlock */
+   102		mutex_lock(&lzma_resize_mutex);
+   103	
+   104		if (z_erofs_lzma_max_dictsize >= dict_size) {
+   105			mutex_unlock(&lzma_resize_mutex);
+   106			return 0;
+   107		}
+   108	
+   109		/* 1. collect/isolate all streams for the following check */
+   110		for (i = 0; i < z_erofs_lzma_avail_strms; ++i) {
+   111			struct z_erofs_lzma *last;
+   112	
+   113	again:
+   114			spin_lock(&z_erofs_lzma_lock);
+   115			strm = z_erofs_lzma_head;
+   116			if (!strm) {
+   117				spin_unlock(&z_erofs_lzma_lock);
+   118				wait_event(z_erofs_lzma_wq,
+   119					   READ_ONCE(z_erofs_lzma_head));
+   120				goto again;
+   121			}
+   122			z_erofs_lzma_head = NULL;
+   123			spin_unlock(&z_erofs_lzma_lock);
+   124	
+   125			for (last = strm; last->next; last = last->next)
+   126				++i;
+   127			last->next = head;
+   128			head = strm;
+   129		}
+   130	
+   131		err = 0;
+   132		/* 2. walk each isolated stream and grow max dict_size if needed */
+   133		for (strm = head; strm; strm = strm->next) {
+   134			if (strm->state)
+   135				xz_dec_microlzma_end(strm->state);
+ > 136			strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
+   137			if (!strm->state)
+   138				err = -ENOMEM;
+   139		}
+   140	
+   141		/* 3. push back all to the global list and update max dict_size */
+   142		spin_lock(&z_erofs_lzma_lock);
+   143		DBG_BUGON(z_erofs_lzma_head);
+   144		z_erofs_lzma_head = head;
+   145		spin_unlock(&z_erofs_lzma_lock);
+   146	
+   147		z_erofs_lzma_max_dictsize = dict_size;
+   148		mutex_unlock(&lzma_resize_mutex);
+   149		return err;
+   150	}
+   151	
+   152	int z_erofs_lzma_decompress(struct z_erofs_decompress_req *rq,
+   153				    struct list_head *pagepool)
+   154	{
+   155		const unsigned int nrpages_out =
+   156			PAGE_ALIGN(rq->pageofs_out + rq->outputsize) >> PAGE_SHIFT;
+   157		const unsigned int nrpages_in =
+   158			PAGE_ALIGN(rq->inputsize) >> PAGE_SHIFT;
+   159		unsigned int inputmargin, inlen, outlen, pageofs;
+   160		struct z_erofs_lzma *strm;
+   161		u8 *kin;
+   162		bool bounced = false;
+   163		int no, ni, j, err = 0;
+   164	
+   165		/* 1. get the exact LZMA compressed size */
+   166		kin = kmap(*rq->in);
+   167		inputmargin = 0;
+   168		while (!kin[inputmargin & ~PAGE_MASK])
+   169			if (!(++inputmargin & ~PAGE_MASK))
+   170				break;
+   171	
+   172		if (inputmargin >= PAGE_SIZE) {
+   173			kunmap(*rq->in);
+   174			return -EFSCORRUPTED;
+   175		}
+   176		rq->inputsize -= inputmargin;
+   177	
+   178		/* 2. get an available lzma context */
+   179	again:
+   180		spin_lock(&z_erofs_lzma_lock);
+   181		strm = z_erofs_lzma_head;
+   182		if (!strm) {
+   183			spin_unlock(&z_erofs_lzma_lock);
+   184			wait_event(z_erofs_lzma_wq, READ_ONCE(z_erofs_lzma_head));
+   185			goto again;
+   186		}
+   187		z_erofs_lzma_head = strm->next;
+   188		spin_unlock(&z_erofs_lzma_lock);
+   189	
+   190		/* 3. multi-call decompress */
+   191		inlen = rq->inputsize;
+   192		outlen = rq->outputsize;
+ > 193		xz_dec_microlzma_reset(strm->state, inlen, outlen,
 
 -- 
 0-DAY CI Kernel Test Service
