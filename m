@@ -1,188 +1,223 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616E319DF4F;
-	Fri, 19 Dec 2025 00:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77DA61946DF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 01:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766104843; cv=none; b=WYz2IpmljNnTHiGsR8ZiAP2hgcubaDJ8NoCzKirQCOAUffIYvFaew0MjFFbFyMemNFaYgDAxerm9NEoxWRed5O4ppD6A6iU4TU5INCstjTDiYK2Zx7XJAdNnmZvdqknSmDVSpRa9HPCH6I8B9q5ki5FhQ8BhPxAMAnMKnfzV41E=
+	t=1766106163; cv=none; b=TjmYhI5tXyKu6256THdyvQviH+6Xa8lh48tVaBCrhn5kdqW2Uktuc/pslY7dpJqGyQfIiJMUmOST+9Ihaa6L9hQRtO72r9RgDzPH+MsExo3QPuqVSHgIWo8yobjMChviH3OLWzPXBpu/ycyYgleLrv+k5OMQbq9KTnrjAZO2yhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766104843; c=relaxed/simple;
-	bh=vxQk63A/fOKnwXCzCiDXgbPKWUi3Hr0AvJ+PmmRsnH4=;
+	s=arc-20240116; t=1766106163; c=relaxed/simple;
+	bh=a6Z9HYnJ5qr7pLKTZnaZzjuB5ejt95ATz5XOIb7CIvw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TQ5T9OrgrGXpum9nkrax2XvZlc3wgdLBK9nQFvjcbEeiHFCfiqW6BuMbtL45LG1eOe0z0MYbc1Dmb+gGdSP/yr6T+MVl+eN7i5PV2gLC+8Wt3VDBxoSCXH2hANQ4Fc2Flzbm4iDlLKHW3EiZMP+D+bLdtf/XJK6XMt7di8FUd5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YzqGOUkQ; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=ZYfDINUghAvA1ETjj8PWVXBvCyAnbb7Zs9fJg2YpKx5QrKgpnTD308ga1zpbU/W+pkwx8jNIE0JbXMmnTNTNkTyb6IQ4Gc8MZN7PXrlNNIXtC/ceF4zqhaNaXdSVV4BlF22wt9T21YwnmaWcOMBHSb2vjb/wW1qh4msFR/gi4Tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MpJ9zBLW; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YzqGOUkQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MpJ9zBLW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766104840; x=1797640840;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vxQk63A/fOKnwXCzCiDXgbPKWUi3Hr0AvJ+PmmRsnH4=;
-  b=YzqGOUkQaRz4Aau1z9NZTxrVYFNGXN0+FZvHYUwzo1ThmgvwlNLpb+0H
-   kbrBvXuOvjCsIlA2n4u14AA/4UG3fYXNrTsuBCSz11MlI7rCTzi8YDwkg
-   xLhxLI9F6jSF7FB5ecBau9/8CleASfL3pZqUVKr04WSIHrIgzMoY/4F9R
-   nQLogsF3IIPfs9llMshKmxaMf60R5+Kd0EZhyan33MDAThVE/tl5w7Wrh
-   ggTrUu12zC2RF5jV0mg4B3px2h9NS58PtWX3ono1GItBZbkNHfwyBJBjh
-   2sBif0RTDT4wHNJ8PGD7cv2Nm9CovOCFSATuYZsc38r1HKohuYxxg+2LB
+  t=1766106161; x=1797642161;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=a6Z9HYnJ5qr7pLKTZnaZzjuB5ejt95ATz5XOIb7CIvw=;
+  b=MpJ9zBLWPAn2kcGNcZBKOQ3kpnTLe6WJcj87NRffQDe4o+x+Jo1TOsMf
+   NoY2LP76XNYwOeji3Vu3Fl+j38bZTEU+A0g28Arye5D7li98m7CUXInRj
+   bry0+sV6wl6X8EazzTyAtpqv7ZEPS4OND7beuarqJHXYMQfDrV5DT5ZMt
+   t5K6bv9ZipBHemakIyuULD8wyb5ZTaVq1IwwGGdBddyQ7E0CrzgNCVEUu
+   /r0ODxsohpJEHyRuhwre6rHzYzXGQl1oasFBYnO/0UwvPD0UrpMoNnqJG
+   mcJ7sv48vTIbBrM0EPxaJsMsbmWZxP8cD/dK0Vpcm7lDC0TJmZrTOxCjh
    Q==;
-X-CSE-ConnectionGUID: /quwyQYLSh28a1Zf8RQFmw==
-X-CSE-MsgGUID: Kzilb4M8SYKXKaw+y1bjNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68143351"
+X-CSE-ConnectionGUID: S1nZRxVqT/iV7EOm1Pm6yw==
+X-CSE-MsgGUID: Pc6N0BqfTcis6uUoFA4Q/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="78385916"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="68143351"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 16:40:40 -0800
-X-CSE-ConnectionGUID: gMydyncaQ1OYqLKnujbRDA==
-X-CSE-MsgGUID: pWNg8ZT1RyWxK8z+leCdvQ==
+   d="scan'208";a="78385916"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 17:02:40 -0800
+X-CSE-ConnectionGUID: cNQHXd9vQtajPuEyOlFGrA==
+X-CSE-MsgGUID: +ieTQ77WS2G5axCbdXfmuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="222142888"
+   d="scan'208";a="202906791"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Dec 2025 16:40:39 -0800
+  by orviesa003.jf.intel.com with ESMTP; 18 Dec 2025 17:02:40 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWOXs-000000002oT-1Vvm;
-	Fri, 19 Dec 2025 00:40:36 +0000
-Date: Fri, 19 Dec 2025 08:40:18 +0800
+	id 1vWOtA-000000002p1-3hMK;
+	Fri, 19 Dec 2025 01:02:36 +0000
+Date: Fri, 19 Dec 2025 09:02:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 1917/2322] sound/core/pcm_native.c:3308:6: error:
- cannot jump from this asm goto statement to one of its possible targets
-Message-ID: <202512190802.i4Jzbcsl-lkp@intel.com>
+To: Dave Penkler <dpenkler@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpib/eastwood/fluke_gpib.c:1002:28: warning: assignment to
+ 'void *' from 'int' makes pointer from integer without a cast
+Message-ID: <202512190834.UN1eHu38-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1058ca9db0edaedcb16480cc74b78ed06f0d1f54
-commit: f3d233daf011abbad2f6ebd0e545b42d2f378a4f [1917/2322] ALSA: pcm: Relax __free() variable declarations
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20251219/202512190802.i4Jzbcsl-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190802.i4Jzbcsl-lkp@intel.com/reproduce)
+Hi Dave,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dd9b004b7ff3289fb7bae35130c0a5c0537266af
+commit: e6ab504633e4c06e35377ecf3c8cbc304de79858 staging: gpib: Destage gpib
+date:   3 weeks ago
+config: s390-randconfig-001-20251219 (https://download.01.org/0day-ci/archive/20251219/202512190834.UN1eHu38-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190834.UN1eHu38-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512190802.i4Jzbcsl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512190834.UN1eHu38-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> sound/core/pcm_native.c:3308:6: error: cannot jump from this asm goto statement to one of its possible targets
-           if (put_user(result, &_xfern->result))
-               ^
-   arch/riscv/include/asm/uaccess.h:403:3: note: expanded from macro 'put_user'
-                   __put_user((x), __p) :                          \
-                   ^
-   arch/riscv/include/asm/uaccess.h:376:2: note: expanded from macro '__put_user'
-           __put_user_error(__val, __gu_ptr, __pu_err);            \
-           ^
-   arch/riscv/include/asm/uaccess.h:340:2: note: expanded from macro '__put_user_error'
-           __put_user_nocheck(x, ptr, err_label);                  \
-           ^
-   arch/riscv/include/asm/uaccess.h:321:3: note: expanded from macro '__put_user_nocheck'
-                   __put_user_asm("sb", (x), __gu_ptr, label);     \
-                   ^
-   arch/riscv/include/asm/uaccess.h:282:2: note: expanded from macro '__put_user_asm'
-           asm goto(                                               \
-           ^
-   sound/core/pcm_native.c:3295:6: note: possible target of asm goto statement
-           if (put_user(0, &_xfern->result))
-               ^
-   arch/riscv/include/asm/uaccess.h:403:3: note: expanded from macro 'put_user'
-                   __put_user((x), __p) :                          \
-                   ^
-   arch/riscv/include/asm/uaccess.h:376:2: note: expanded from macro '__put_user'
-           __put_user_error(__val, __gu_ptr, __pu_err);            \
-           ^
-   arch/riscv/include/asm/uaccess.h:341:15: note: expanded from macro '__put_user_error'
-           break;                                                  \
-                                                                   ^
-   sound/core/pcm_native.c:3300:8: note: jump exits scope of variable with __attribute__((cleanup))
-           void *bufs __free(kfree) =
-                 ^
-   sound/core/pcm_native.c:3295:6: error: cannot jump from this asm goto statement to one of its possible targets
-           if (put_user(0, &_xfern->result))
-               ^
-   arch/riscv/include/asm/uaccess.h:403:3: note: expanded from macro 'put_user'
-                   __put_user((x), __p) :                          \
-                   ^
-   arch/riscv/include/asm/uaccess.h:376:2: note: expanded from macro '__put_user'
-           __put_user_error(__val, __gu_ptr, __pu_err);            \
-           ^
-   arch/riscv/include/asm/uaccess.h:340:2: note: expanded from macro '__put_user_error'
-           __put_user_nocheck(x, ptr, err_label);                  \
-           ^
-   arch/riscv/include/asm/uaccess.h:321:3: note: expanded from macro '__put_user_nocheck'
-                   __put_user_asm("sb", (x), __gu_ptr, label);     \
-                   ^
-   arch/riscv/include/asm/uaccess.h:282:2: note: expanded from macro '__put_user_asm'
-           asm goto(                                               \
-           ^
-   sound/core/pcm_native.c:3308:6: note: possible target of asm goto statement
-           if (put_user(result, &_xfern->result))
-               ^
-   arch/riscv/include/asm/uaccess.h:403:3: note: expanded from macro 'put_user'
-                   __put_user((x), __p) :                          \
-                   ^
-   arch/riscv/include/asm/uaccess.h:376:2: note: expanded from macro '__put_user'
-           __put_user_error(__val, __gu_ptr, __pu_err);            \
-           ^
-   arch/riscv/include/asm/uaccess.h:341:15: note: expanded from macro '__put_user_error'
-           break;                                                  \
-                                                                   ^
-   sound/core/pcm_native.c:3300:8: note: jump bypasses initialization of variable with __attribute__((cleanup))
-           void *bufs __free(kfree) =
-                 ^
-   2 errors generated.
+   drivers/gpib/eastwood/fluke_gpib.c: In function 'fluke_attach_impl':
+   drivers/gpib/eastwood/fluke_gpib.c:1002:30: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
+    1002 |         nec_priv->mmiobase = ioremap(e_priv->gpib_iomem_res->start,
+         |                              ^~~~~~~
+         |                              iounmap
+>> drivers/gpib/eastwood/fluke_gpib.c:1002:28: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1002 |         nec_priv->mmiobase = ioremap(e_priv->gpib_iomem_res->start,
+         |                            ^
+   drivers/gpib/eastwood/fluke_gpib.c:1036:40: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1036 |         e_priv->write_transfer_counter = ioremap(e_priv->write_transfer_counter_res->start,
+         |                                        ^
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for OF_GPIO
+   Depends on [n]: GPIOLIB [=y] && OF [=y] && HAS_IOMEM [=n]
+   Selected by [y]:
+   - REGULATOR_RT5133 [=y] && REGULATOR [=y] && I2C [=y] && GPIOLIB [=y] && OF [=y]
 
 
-vim +3308 sound/core/pcm_native.c
+vim +1002 drivers/gpib/eastwood/fluke_gpib.c
 
-67616feda99e32 Takashi Iwai 2017-08-30  3283  
-67616feda99e32 Takashi Iwai 2017-08-30  3284  static int snd_pcm_xfern_frames_ioctl(struct snd_pcm_substream *substream,
-67616feda99e32 Takashi Iwai 2017-08-30  3285  				      struct snd_xfern __user *_xfern)
-67616feda99e32 Takashi Iwai 2017-08-30  3286  {
-67616feda99e32 Takashi Iwai 2017-08-30  3287  	struct snd_xfern xfern;
-67616feda99e32 Takashi Iwai 2017-08-30  3288  	struct snd_pcm_runtime *runtime = substream->runtime;
-67616feda99e32 Takashi Iwai 2017-08-30  3289  	snd_pcm_sframes_t result;
-67616feda99e32 Takashi Iwai 2017-08-30  3290  
-f0061c18c169f0 Takashi Iwai 2022-09-26  3291  	if (runtime->state == SNDRV_PCM_STATE_OPEN)
-67616feda99e32 Takashi Iwai 2017-08-30  3292  		return -EBADFD;
-67616feda99e32 Takashi Iwai 2017-08-30  3293  	if (runtime->channels > 128)
-67616feda99e32 Takashi Iwai 2017-08-30  3294  		return -EINVAL;
-67616feda99e32 Takashi Iwai 2017-08-30  3295  	if (put_user(0, &_xfern->result))
-67616feda99e32 Takashi Iwai 2017-08-30  3296  		return -EFAULT;
-67616feda99e32 Takashi Iwai 2017-08-30  3297  	if (copy_from_user(&xfern, _xfern, sizeof(xfern)))
-67616feda99e32 Takashi Iwai 2017-08-30  3298  		return -EFAULT;
-67616feda99e32 Takashi Iwai 2017-08-30  3299  
-f3d233daf011ab Takashi Iwai 2025-12-16  3300  	void *bufs __free(kfree) =
-f3d233daf011ab Takashi Iwai 2025-12-16  3301  		memdup_array_user(xfern.bufs, runtime->channels, sizeof(void *));
-67616feda99e32 Takashi Iwai 2017-08-30  3302  	if (IS_ERR(bufs))
-40a024b81d1cba Takashi Iwai 2024-09-02  3303  		return PTR_ERR(bufs);
-67616feda99e32 Takashi Iwai 2017-08-30  3304  	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-67616feda99e32 Takashi Iwai 2017-08-30  3305  		result = snd_pcm_lib_writev(substream, bufs, xfern.frames);
-67616feda99e32 Takashi Iwai 2017-08-30  3306  	else
-67616feda99e32 Takashi Iwai 2017-08-30  3307  		result = snd_pcm_lib_readv(substream, bufs, xfern.frames);
-ebe6976d3634a3 Al Viro      2020-03-19 @3308  	if (put_user(result, &_xfern->result))
-ebe6976d3634a3 Al Viro      2020-03-19  3309  		return -EFAULT;
-67616feda99e32 Takashi Iwai 2017-08-30  3310  	return result < 0 ? result : 0;
-67616feda99e32 Takashi Iwai 2017-08-30  3311  }
-67616feda99e32 Takashi Iwai 2017-08-30  3312  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   962  
+4800ec89999049 drivers/staging/gpib/eastwood/fluke_gpib.c Michael Rubin 2025-04-08   963  static int fluke_attach_impl(struct gpib_board *board, const struct gpib_board_config *config,
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   964  			     unsigned int handshake_mode)
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   965  {
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   966  	struct fluke_priv *e_priv;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   967  	struct nec7210_priv *nec_priv;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   968  	int isr_flags = 0;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   969  	int retval;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   970  	int irq;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   971  	struct resource *res;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   972  	dma_cap_mask_t dma_cap;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   973  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   974  	if (!fluke_gpib_pdev) {
+f2bda0b660bd37 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2025-02-14   975  		dev_err(board->gpib_dev, "No fluke device was found, attach failed.\n");
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   976  		return -ENODEV;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   977  	}
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   978  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   979  	retval = fluke_generic_attach(board);
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   980  	if (retval)
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   981  		return retval;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   982  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   983  	e_priv = board->private_data;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   984  	nec_priv = &e_priv->nec7210_priv;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   985  	nec_priv->offset = fluke_reg_offset;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   986  	board->dev = &fluke_gpib_pdev->dev;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   987  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   988  	res = platform_get_resource(fluke_gpib_pdev, IORESOURCE_MEM, 0);
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   989  	if (!res) {
+f2bda0b660bd37 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2025-02-14   990  		dev_err(&fluke_gpib_pdev->dev, "Unable to locate mmio resource\n");
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   991  		return -ENODEV;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   992  	}
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   993  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   994  	if (request_mem_region(res->start,
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   995  			       resource_size(res),
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   996  			       fluke_gpib_pdev->name) == NULL) {
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   997  		dev_err(&fluke_gpib_pdev->dev, "cannot claim registers\n");
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   998  		return -ENXIO;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18   999  	}
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1000  	e_priv->gpib_iomem_res = res;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1001  
+baf8855c916007 drivers/staging/gpib/eastwood/fluke_gpib.c Arnd Bergmann 2024-12-13 @1002  	nec_priv->mmiobase = ioremap(e_priv->gpib_iomem_res->start,
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1003  				     resource_size(e_priv->gpib_iomem_res));
+baf8855c916007 drivers/staging/gpib/eastwood/fluke_gpib.c Arnd Bergmann 2024-12-13  1004  	if (!nec_priv->mmiobase) {
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1005  		dev_err(&fluke_gpib_pdev->dev, "Could not map I/O memory\n");
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1006  		return -ENOMEM;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1007  	}
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1008  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1009  	res = platform_get_resource(fluke_gpib_pdev, IORESOURCE_MEM, 1);
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1010  	if (!res) {
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1011  		dev_err(&fluke_gpib_pdev->dev, "Unable to locate mmio resource for gpib dma port\n");
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1012  		return -ENODEV;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1013  	}
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1014  	if (request_mem_region(res->start,
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1015  			       resource_size(res),
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1016  			       fluke_gpib_pdev->name) == NULL) {
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1017  		dev_err(&fluke_gpib_pdev->dev, "cannot claim registers\n");
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1018  		return -ENXIO;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1019  	}
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1020  	e_priv->dma_port_res = res;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1021  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1022  	res = platform_get_resource(fluke_gpib_pdev, IORESOURCE_MEM, 2);
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1023  	if (!res) {
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1024  		dev_err(&fluke_gpib_pdev->dev, "Unable to locate mmio resource for write transfer counter\n");
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1025  		return -ENODEV;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1026  	}
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1027  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1028  	if (request_mem_region(res->start,
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1029  			       resource_size(res),
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1030  			       fluke_gpib_pdev->name) == NULL) {
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1031  		dev_err(&fluke_gpib_pdev->dev, "cannot claim registers\n");
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1032  		return -ENXIO;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1033  	}
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1034  	e_priv->write_transfer_counter_res = res;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1035  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1036  	e_priv->write_transfer_counter = ioremap(e_priv->write_transfer_counter_res->start,
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1037  						 resource_size(e_priv->write_transfer_counter_res));
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1038  	if (!e_priv->write_transfer_counter) {
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1039  		dev_err(&fluke_gpib_pdev->dev, "Could not map I/O memory\n");
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1040  		return -ENOMEM;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1041  	}
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1042  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1043  	irq = platform_get_irq(fluke_gpib_pdev, 0);
+51ab134daf5b9b drivers/staging/gpib/eastwood/fluke_gpib.c Chen Ni       2025-04-07  1044  	if (irq < 0)
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1045  		return -EBUSY;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1046  	retval = request_irq(irq, fluke_gpib_interrupt, isr_flags, fluke_gpib_pdev->name, board);
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1047  	if (retval) {
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1048  		dev_err(&fluke_gpib_pdev->dev,
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1049  			"cannot register interrupt handler err=%d\n",
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1050  			retval);
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1051  		return retval;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1052  	}
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1053  	e_priv->irq = irq;
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1054  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1055  	dma_cap_zero(dma_cap);
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1056  	dma_cap_set(DMA_SLAVE, dma_cap);
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1057  	e_priv->dma_channel = dma_request_channel(dma_cap, gpib_dma_channel_filter, NULL);
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1058  	if (!e_priv->dma_channel) {
+f2bda0b660bd37 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2025-02-14  1059  		dev_err(board->gpib_dev, "failed to allocate a dma channel.\n");
+073b54f342be3e drivers/staging/gpib/eastwood/fluke_gpib.c Paul Retourné 2025-04-11  1060  		/*
+073b54f342be3e drivers/staging/gpib/eastwood/fluke_gpib.c Paul Retourné 2025-04-11  1061  		 * we don't error out here because unaccel interface will still
+073b54f342be3e drivers/staging/gpib/eastwood/fluke_gpib.c Paul Retourné 2025-04-11  1062  		 * work without dma
+073b54f342be3e drivers/staging/gpib/eastwood/fluke_gpib.c Paul Retourné 2025-04-11  1063  		 */
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1064  	}
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1065  
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1066  	return fluke_init(e_priv, board, handshake_mode);
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1067  }
+55936779f49612 drivers/staging/gpib/eastwood/fluke_gpib.c Dave Penkler  2024-09-18  1068  
 
-:::::: The code at line 3308 was first introduced by commit
-:::::: ebe6976d3634a311367f72c2402f148ab9f23920 pcm_native: result of put_user() needs to be checked
+:::::: The code at line 1002 was first introduced by commit
+:::::: baf8855c916007a8a372576b65492316f43ed60b staging: gpib: fix address space mixup
 
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
