@@ -1,66 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9BE2749C4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 04:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF39288535;
+	Fri, 19 Dec 2025 04:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766118595; cv=none; b=ORQ32RHrq1w3hgeg15hly1f0VS2BmIf5hV4fnwjZNwKiIrMv8JpW9OkBK4YsLQBuB3AcUB6/JY8IMhgKbDIURcqxPA/aXg9Gv+FZ5lcqguCcClNkA7ElcsGBy7sayDKvESor23AWDhA0szkBHdMTRfOOMtyadS2OIoG/+1Q1Knc=
+	t=1766120037; cv=none; b=i1rGBkN0Vo1nkPG9nvtGaI5gVYiz00UkI2aC9Uj7XGkNnSRN6GPUYX4X5VelrPWCqN2oc64n89j423B876hFNDqJdDwsTcb3OtfUszuoDisHDVRnUqftlhOn8EjWlcyTb412P73VtUGZtJ1+CnVJgYOOsR3D0T61PBro4os/SOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766118595; c=relaxed/simple;
-	bh=tI+x0eCt5Jk0AIqnw9KGquZ/jqfDBwv7KX4+L3F8dt8=;
+	s=arc-20240116; t=1766120037; c=relaxed/simple;
+	bh=hE9E3Ug+7uhFPPxWAz/WZoEyJgKJTbWKXQ+/RMI7KXU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ENZuqPCMWmx4WOhjewicE3h9WnzbHIZiTr27YSylDRYIEuX8ZsLwOG2T38NfI7eIMvXjqUSoEMHwJlyhCWavxpKPtuPY3YQ/r1CT597ta4OBXi30nwPtSbCxYgNH2ApX4+AhNR0l+o9RjUj0AtMRHMKDBLiYznqsGCvliXXv3vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ip6215jE; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=tQP7JVM4yoqWv3hSC4xHUdx2vI3IuzaNreu/uVTcSoS+REjoHLifh+vVVIQnS14klHKIL721HYq2rwiASHX6hTmSLUvEvak5CWGLzgdA72VzofIqRRHzVIlDdMizmhQiq91xK0xNSnF9IxWb0G0ieviFagq4S29OTEtLiHxUDhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0QLdmYH; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ip6215jE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0QLdmYH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766118593; x=1797654593;
+  t=1766120036; x=1797656036;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tI+x0eCt5Jk0AIqnw9KGquZ/jqfDBwv7KX4+L3F8dt8=;
-  b=ip6215jE3MpEqiJYxqxdesiCfImd23ohfYJSsqEys2jnCaSMhJ9n2Fr2
-   57tsbsqadN6Ez+mU3vxP87kVQOViA6OUaRU0nIhIUYP1maxz0iZTrAXvx
-   uJ/0MyO7b7jR41DKd99rhRtBrY8BOJP8cWvtVurbDCbXdvGf4XKCgAzzb
-   obsC8M1BvzHmL52YrXh6ak4iBap0RkA4ttAaCIq2O1Y4O0mzAZQlAT41S
-   XNQDSPI6+e9ua20GnlWnfguLyko2C1sOf6sG0tHFfMZGWjvTiXvFZvIG0
-   BpuTL+nd1hR2d2nZSrWawCCJ64nkETY/iFNxIshrPjNAYBIRaXNybqEpg
-   A==;
-X-CSE-ConnectionGUID: I/ARi86GTN2Et5gAa5kJ+g==
-X-CSE-MsgGUID: V/T1d1HjRuKNkzcYTN4hhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="85666124"
+  bh=hE9E3Ug+7uhFPPxWAz/WZoEyJgKJTbWKXQ+/RMI7KXU=;
+  b=H0QLdmYHdun3QaFWsCcYcV3NBu7gMJEtpuN/y9nCzRV37kG9EFBHL3mk
+   kog2ZSxasRlB3GnGEvvptlGs0o9qFGLAVHi8VQZaUGXJopb+JqIVjehTA
+   PWLXZKEagQlsCTQGKpLG14X+iNJyMoKCH/qcd2KZUB1W0dhfdjORopJlF
+   p14fASrdT3E5OHBHy3SFC81Em/doiUub68jOqVWq6TB/6gBwXc4VQ4BQh
+   RPDOn546JCO2WnyAich8Ngvqn1vJJvnkFqafuHekudaKTeyi8Zf7TyIe3
+   E8ecx+QHXMy1OSHsW5eYtkcaO1nNCYO5uZvUD2KYDsvcQO2hsHsHIKm5A
+   w==;
+X-CSE-ConnectionGUID: FbqlmXgLS+e6Vt5yPB/CDQ==
+X-CSE-MsgGUID: gV+q9zJ2TMmwj4NsA1wbfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68157671"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="85666124"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 20:29:52 -0800
-X-CSE-ConnectionGUID: c7W7TVl6Rx67mKtgG3hQrA==
-X-CSE-MsgGUID: k7h3XoBJQzCGu4K+mE5Ogw==
+   d="scan'208";a="68157671"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 20:53:55 -0800
+X-CSE-ConnectionGUID: 8Bsyd2beRLaaC8ATL7Mnmg==
+X-CSE-MsgGUID: zYXGz6aXQsKbYaNPzWnQsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="197914218"
+   d="scan'208";a="198680831"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 18 Dec 2025 20:29:49 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 18 Dec 2025 20:53:49 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWS7e-0000000030L-01B1;
-	Fri, 19 Dec 2025 04:29:46 +0000
-Date: Fri, 19 Dec 2025 12:29:29 +0800
+	id 1vWSUs-0000000031h-3wlH;
+	Fri, 19 Dec 2025 04:53:46 +0000
+Date: Fri, 19 Dec 2025 12:52:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rusydi H. Makarim" <rusydi.makarim@kriptograf.id>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-	"Rusydi H. Makarim" <rusydi.makarim@kriptograf.id>
-Subject: Re: [PATCH 1/3] lib/crypto: Add KUnit test vectors for Ascon-Hash256
-Message-ID: <202512191115.8pVsYusz-lkp@intel.com>
-References: <20251215-ascon_hash256-v1-1-24ae735e571e@kriptograf.id>
+To: Ankur Arora <ankur.a.arora@oracle.com>, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
+	catalin.marinas@arm.com, will@kernel.org, peterz@infradead.org,
+	akpm@linux-foundation.org, mark.rutland@arm.com,
+	harisokn@amazon.com, cl@gentwo.org, ast@kernel.org,
+	rafael@kernel.org, daniel.lezcano@linaro.org, memxor@gmail.com,
+	zhenglifeng1@huawei.com, xueshuai@linux.alibaba.com,
+	joao.m.martins@oracle.com, boris.ostrovsky@oracle.com,
+	konrad.wilk@oracle.com, Ankur Arora <ankur.a.arora@oracle.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Christoph Lameter <cl@linux-foundation.org>
+Subject: Re: [PATCH v8 03/12] arm64/delay: move some constants out to a
+ separate header
+Message-ID: <202512191227.TXFkHrQf-lkp@intel.com>
+References: <20251215044919.460086-4-ankur.a.arora@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,57 +75,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251215-ascon_hash256-v1-1-24ae735e571e@kriptograf.id>
+In-Reply-To: <20251215044919.460086-4-ankur.a.arora@oracle.com>
 
-Hi Rusydi,
+Hi Ankur,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on ebiggers/libcrypto-next]
-[also build test WARNING on ebiggers/libcrypto-fixes linus/master v6.19-rc1 next-20251218]
-[cannot apply to herbert-cryptodev-2.6/master herbert-crypto-2.6/master]
+[auto build test ERROR on bpf-next/master]
+[also build test ERROR on bpf/master linus/master arnd-asm-generic/master v6.19-rc1 next-20251218]
+[cannot apply to arm64/for-next/core bpf-next/net]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rusydi-H-Makarim/lib-crypto-Initial-implementation-of-Ascon-Hash256/20251215-165442
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git libcrypto-next
-patch link:    https://lore.kernel.org/r/20251215-ascon_hash256-v1-1-24ae735e571e%40kriptograf.id
-patch subject: [PATCH 1/3] lib/crypto: Add KUnit test vectors for Ascon-Hash256
-config: parisc-randconfig-001-20251216 (https://download.01.org/0day-ci/archive/20251219/202512191115.8pVsYusz-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191115.8pVsYusz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ankur-Arora/asm-generic-barrier-Add-smp_cond_load_relaxed_timeout/20251215-130116
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20251215044919.460086-4-ankur.a.arora%40oracle.com
+patch subject: [PATCH v8 03/12] arm64/delay: move some constants out to a separate header
+config: x86_64-buildonly-randconfig-004-20251215 (https://download.01.org/0day-ci/archive/20251219/202512191227.TXFkHrQf-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191227.TXFkHrQf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512191115.8pVsYusz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512191227.TXFkHrQf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from lib/crypto/tests/ascon_hash_kunit.c:6:
->> include/crypto/ascon_hash.h:24:18: warning: 'ascon_p_rndc' defined but not used [-Wunused-const-variable=]
-      24 | static const u64 ascon_p_rndc[] = {
-         |                  ^~~~~~~~~~~~
+>> drivers/soc/qcom/rpmh-rsc.c:29:10: fatal error: 'asm/delay-const.h' file not found
+      29 | #include <asm/delay-const.h>
+         |          ^~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/ascon_p_rndc +24 include/crypto/ascon_hash.h
+vim +29 drivers/soc/qcom/rpmh-rsc.c
 
-    18	
-    19	/*
-    20	 * The standard of Ascon permutation in NIST SP 800-232 specifies 16 round
-    21	 * constants to accomodate potential functionality extensions in the future
-    22	 * (see page 2).
-    23	 */
-  > 24	static const u64 ascon_p_rndc[] = {
-    25		0x000000000000003cULL, 0x000000000000002dULL, 0x000000000000001eULL,
-    26		0x000000000000000fULL, 0x00000000000000f0ULL, 0x00000000000000e1ULL,
-    27		0x00000000000000d2ULL, 0x00000000000000c3ULL, 0x00000000000000b4ULL,
-    28		0x00000000000000a5ULL, 0x0000000000000096ULL, 0x0000000000000087ULL,
-    29		0x0000000000000078ULL, 0x0000000000000069ULL, 0x000000000000005aULL,
-    30		0x000000000000004bULL,
-    31	};
-    32	
+     8	
+     9	#include <linux/atomic.h>
+    10	#include <linux/cpu_pm.h>
+    11	#include <linux/delay.h>
+    12	#include <linux/interrupt.h>
+    13	#include <linux/io.h>
+    14	#include <linux/iopoll.h>
+    15	#include <linux/kernel.h>
+    16	#include <linux/ktime.h>
+    17	#include <linux/list.h>
+    18	#include <linux/module.h>
+    19	#include <linux/notifier.h>
+    20	#include <linux/of.h>
+    21	#include <linux/of_irq.h>
+    22	#include <linux/of_platform.h>
+    23	#include <linux/platform_device.h>
+    24	#include <linux/pm_domain.h>
+    25	#include <linux/pm_runtime.h>
+    26	#include <linux/slab.h>
+    27	#include <linux/spinlock.h>
+    28	#include <linux/wait.h>
+  > 29	#include <asm/delay-const.h>
+    30	
 
 -- 
 0-DAY CI Kernel Test Service
