@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12762149C6F;
-	Fri, 19 Dec 2025 05:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6B7A2C21FB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 05:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766121357; cv=none; b=nR4HgiqVE2gXMeyrJUgHt87gpHK5QRdWTd7lNzcCFuzEOFQ/HJss2GQCQh08XwBYbaJ9z8iyNlaerSbZGIm/9y1hYobxk0wpeyNgdCK0nshdahcMdSVO4VZzf/zVD8km/b8Vf8RfU1pEQdoaV/S0ywXPVgvNwYh6cHut095yJZw=
+	t=1766122078; cv=none; b=mWO2B2y3LWaTtLKlCnE81aIW40ri41xg2XG8ddgW1xYBjkyhVzGPv4bnJQS7PwOUW5tcbvNGdi0H93YvtnfTpGb+b3bmiGwRmjlK4hgbbsYIHgq93nPlCHmbdIYi5GErQdf0ZH+oScsIwyDgGfgGzfAO0JBtMczRvlJ7TfPwD4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766121357; c=relaxed/simple;
-	bh=cFqyeFbB1zVEz+ivYITj2OeUc7Hd+oEnsWJEaRGYWjg=;
+	s=arc-20240116; t=1766122078; c=relaxed/simple;
+	bh=5MzfvGAjuea3dcQy5JJhCoWtGa6Tb1bRaVwMRTshCMg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MkXxI6lOWl8IXZPhvOsg8sXhP68ZvCRLc4I7SVDTngr6TVghbMAyqngwifUaH8iixq6zEtmyyQlqO6jWIHaS43QcERVFV9ThwYW2foP9RNJx6bSEoW0LioAR+7XueoC8lii7EdKV2mk8anVxqMUD/H7WrUunudPPbVjqEPCspyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=akgVZUi1; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Oh9ClWWb9yEqvWer9h15E1O2QIBsX51f65+9SqI2Z8f+t8EPQRiescwe1/7M5t+BEkQEGVRg4b7aW6LmD260Ao1H1DoMzMQQtYW8aKymZAHG45un/4gEdh/SZE0o0bNk1GSOTvNw7ZjfjCwiY7wpcbo9P4SpX7qkpZoOKGAlzBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=guopV3Jp; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="akgVZUi1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="guopV3Jp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766121356; x=1797657356;
+  t=1766122076; x=1797658076;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cFqyeFbB1zVEz+ivYITj2OeUc7Hd+oEnsWJEaRGYWjg=;
-  b=akgVZUi1meyAYoatZyECIljZwQC4AkJzkRf8cOlvXIH56HpZKIMOnZFt
-   dzzX8aKJhuTctC77Eo3c6ACU9GaUZZBUTtNXuPl1fbfStZNmV5KnIQs6W
-   MvVn0yBvGkNS2Ln2Jww13SLvUc3rjxIDduI4n9oZJfbfPPFWf7/AEXCbK
-   wsag8kynLiH5I/pDYmlA9SuHb+zGULsbifc77Sa/7RwEZDyHySeaeVcmg
-   n3LFCl6+UECVUM0SOzfD+r3sKxLRKR+kk/vRcPPAn2GEeMUaWw7hkXBD8
-   GiWafdYyiSE6WdcD5VENPX6ypwEBUjzD3rdQjAAWphMxtjm+GgXGocFCj
-   w==;
-X-CSE-ConnectionGUID: aNNxwBtQQEyqiOS88HFxog==
-X-CSE-MsgGUID: FkxHq07lSay+qS4ZzgOp9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="93556429"
+  bh=5MzfvGAjuea3dcQy5JJhCoWtGa6Tb1bRaVwMRTshCMg=;
+  b=guopV3JpQifqPT3fraoMWyHBmEohrByqjVRLJ0slABuMGNhWR+64cY3p
+   ETucCU9fUXbupdcRc20WSLBsAMMpcwJHDGBGx21ufmutRbRyIsUZHyBL0
+   f5krm9RkjuEW2rCya1VawbkkP0Sl03+AGDknTUNTqSUpGZKurEw9c71c0
+   ZJ5XTJ9HNkT07eVrbVmO3Acj3LwISSBKppEoV41w/CcrpnpS+nX4Pp/A2
+   AG0iO4uDZjnG15VnFl4eyKeF4EjdZsxnC1ZaNzFk5tUFZdieeCJIh1OLS
+   9zc6yAP+rA0K3E0BWeSXugaUzcgKnpNKtpMzqlVSPSOHyre7rmLnXn4lb
+   g==;
+X-CSE-ConnectionGUID: LZV2JlGlTMOkq+EsOlQmZQ==
+X-CSE-MsgGUID: +mt/F9WSSmKPTwbsFI9T4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68124096"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="93556429"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 21:15:54 -0800
-X-CSE-ConnectionGUID: +zQry788TjetSQu2CUO0Hw==
-X-CSE-MsgGUID: Y6uVMh4hQQOk0iJkU/K5eg==
+   d="scan'208";a="68124096"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 21:27:55 -0800
+X-CSE-ConnectionGUID: OXzhouoORXy/hq1jkG0rtw==
+X-CSE-MsgGUID: 29cFaH7VS9e7xePbj3fuag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="198372333"
+   d="scan'208";a="229452168"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 18 Dec 2025 21:15:52 -0800
+  by orviesa002.jf.intel.com with ESMTP; 18 Dec 2025 21:27:55 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWSqE-0000000033Y-2cSe;
-	Fri, 19 Dec 2025 05:15:50 +0000
-Date: Fri, 19 Dec 2025 13:15:28 +0800
+	id 1vWT1s-00000000353-0S5y;
+	Fri, 19 Dec 2025 05:27:52 +0000
+Date: Fri, 19 Dec 2025 13:27:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pci@vger.kernel.org, Frank Li <Frank.Li@nxp.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>
-Subject: [pci:controller/dwc 8/8]
- drivers/pci/controller/dwc/pcie-designware-host.c:1175:6: warning: variable
- 'ret' is used uninitialized whenever 'if' condition is true
-Message-ID: <202512191339.583iyg1a-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 0/4]
+ drivers/of/property.c:1326: warning: Excess function parameter 'dev'
+ description in 'of_link_property'
+Message-ID: <202512191351.MmtFLfVF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,94 +63,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/dwc
-head:   c4a86e6600fa082d6646044fcce2183ad5e52283
-commit: c4a86e6600fa082d6646044fcce2183ad5e52283 [8/8] PCI: dwc: Skip PME_Turn_Off broadcast and L2/L3 transition during suspend if link is not up
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251219/202512191339.583iyg1a-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191339.583iyg1a-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   500d05631d89314552da084e17819640507698bf
+commit: 6427c92e7f02c14472f805097a6d19c70a5f5592 [0/4] UPSTREAM: of: property: Update implementation of add_links() to create fwnode links
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251219/202512191351.MmtFLfVF-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191351.MmtFLfVF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512191339.583iyg1a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512191351.MmtFLfVF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pci/controller/dwc/pcie-designware-host.c:1175:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    1175 |         if (!dw_pcie_link_up(pci))
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-designware-host.c:1218:9: note: uninitialized use occurs here
-    1218 |         return ret;
-         |                ^~~
-   drivers/pci/controller/dwc/pcie-designware-host.c:1175:2: note: remove the 'if' if its condition is always false
-    1175 |         if (!dw_pcie_link_up(pci))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-    1176 |                 goto stop_link;
-         |                 ~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-designware-host.c:1173:9: note: initialize the variable 'ret' to silence this warning
-    1173 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
+>> drivers/of/property.c:1326: warning: Excess function parameter 'dev' description in 'of_link_property'
 
 
-vim +1175 drivers/pci/controller/dwc/pcie-designware-host.c
+vim +1326 drivers/of/property.c
 
-  1168	
-  1169	int dw_pcie_suspend_noirq(struct dw_pcie *pci)
-  1170	{
-  1171		u8 offset = dw_pcie_find_capability(pci, PCI_CAP_ID_EXP);
-  1172		u32 val;
-  1173		int ret;
-  1174	
-> 1175		if (!dw_pcie_link_up(pci))
-  1176			goto stop_link;
-  1177	
-  1178		/*
-  1179		 * If L1SS is supported, then do not put the link into L2 as some
-  1180		 * devices such as NVMe expect low resume latency.
-  1181		 */
-  1182		if (dw_pcie_readw_dbi(pci, offset + PCI_EXP_LNKCTL) & PCI_EXP_LNKCTL_ASPM_L1)
-  1183			return 0;
-  1184	
-  1185		if (pci->pp.ops->pme_turn_off) {
-  1186			pci->pp.ops->pme_turn_off(&pci->pp);
-  1187		} else {
-  1188			ret = dw_pcie_pme_turn_off(pci);
-  1189			if (ret)
-  1190				return ret;
-  1191		}
-  1192	
-  1193		ret = read_poll_timeout(dw_pcie_get_ltssm, val,
-  1194					val == DW_PCIE_LTSSM_L2_IDLE ||
-  1195					val <= DW_PCIE_LTSSM_DETECT_WAIT,
-  1196					PCIE_PME_TO_L2_TIMEOUT_US/10,
-  1197					PCIE_PME_TO_L2_TIMEOUT_US, false, pci);
-  1198		if (ret) {
-  1199			/* Only log message when LTSSM isn't in DETECT or POLL */
-  1200			dev_err(pci->dev, "Timeout waiting for L2 entry! LTSSM: 0x%x\n", val);
-  1201			return ret;
-  1202		}
-  1203	
-  1204		/*
-  1205		 * Per PCIe r6.0, sec 5.3.3.2.1, software should wait at least
-  1206		 * 100ns after L2/L3 Ready before turning off refclock and
-  1207		 * main power. This is harmless when no endpoint is connected.
-  1208		 */
-  1209		udelay(1);
-  1210	
-  1211	stop_link:
-  1212		dw_pcie_stop_link(pci);
-  1213		if (pci->pp.ops->deinit)
-  1214			pci->pp.ops->deinit(&pci->pp);
-  1215	
-  1216		pci->suspended = true;
-  1217	
-  1218		return ret;
-  1219	}
-  1220	EXPORT_SYMBOL_GPL(dw_pcie_suspend_noirq);
-  1221	
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1304  
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1305  /**
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1306   * of_link_property - Create device links to suppliers listed in a property
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1307   * @dev: Consumer device
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1308   * @con_np: The consumer device tree node which contains the property
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1309   * @prop_name: Name of property to be parsed
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1310   *
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1311   * This function checks if the property @prop_name that is present in the
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1312   * @con_np device tree node is one of the known common device tree bindings
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1313   * that list phandles to suppliers. If @prop_name isn't one, this function
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1314   * doesn't do anything.
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1315   *
+6427c92e7f02c1 Saravana Kannan 2020-11-20  1316   * If @prop_name is one, this function attempts to create fwnode links from the
+6427c92e7f02c1 Saravana Kannan 2020-11-20  1317   * consumer device tree node @con_np to all the suppliers device tree nodes
+6427c92e7f02c1 Saravana Kannan 2020-11-20  1318   * listed in @prop_name.
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1319   *
+6427c92e7f02c1 Saravana Kannan 2020-11-20  1320   * Any failed attempt to create a fwnode link will NOT result in an immediate
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1321   * return.  of_link_property() must create links to all the available supplier
+6427c92e7f02c1 Saravana Kannan 2020-11-20  1322   * device tree nodes even when attempts to create a link to one or more
+6427c92e7f02c1 Saravana Kannan 2020-11-20  1323   * suppliers fail.
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1324   */
+6427c92e7f02c1 Saravana Kannan 2020-11-20  1325  static int of_link_property(struct device_node *con_np, const char *prop_name)
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04 @1326  {
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1327  	struct device_node *phandle;
+af1b967af5ffb9 Saravana Kannan 2019-10-11  1328  	const struct supplier_bindings *s = of_supplier_bindings;
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1329  	unsigned int i = 0;
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1330  	bool matched = false;
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1331  	int ret = 0;
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1332  
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1333  	/* Do not stop at first failed link, link all available suppliers. */
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1334  	while (!matched && s->parse_prop) {
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1335  		while ((phandle = s->parse_prop(con_np, prop_name, i))) {
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1336  			matched = true;
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1337  			i++;
+6427c92e7f02c1 Saravana Kannan 2020-11-20  1338  			of_link_to_phandle(con_np, phandle);
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1339  			of_node_put(phandle);
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1340  		}
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1341  		s++;
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1342  	}
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1343  	return ret;
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1344  }
+a3e1d1a7f5fccc Saravana Kannan 2019-09-04  1345  
+
+:::::: The code at line 1326 was first introduced by commit
+:::::: a3e1d1a7f5fcccaf1d252278425fea9a4a553100 of: property: Add functional dependency link from DT bindings
+
+:::::: TO: Saravana Kannan <saravanak@google.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
