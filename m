@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A9232C21FF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 09:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85181233D88
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 09:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766135710; cv=none; b=Q8yUulIRWPByT4ZU61ac/Rh+PnLGL+hRt3qwMc3zrOHLbbx3F+E1Wzzeg4HV7CY03gdymEiHqDQfjl28eBk3Q3JVPtCF8HkZOPk7Swo0PnWmmbo7F+e8QXOQf1xQOyzz2p5HDyagNCzrv6RpbRcq5pxdPy3fwm+xXREihRkqtUU=
+	t=1766137570; cv=none; b=Gy6tnkPiKyFRQlLjDbZwX/UAeqHfscWyMZsyQlhuxuF9s4OTT8logReBJw6AjorXCRk5IF/iaJdFOF8lmqvkQFfhzRvoBTco88CrzjmuN4JkmNY4vYkcmuKFTKON3AQQ+3+NqlWQWoU8OZV88rlfCg/JIWvtA8+HNVLgVUnIVZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766135710; c=relaxed/simple;
-	bh=yibTQH3CeF36X+p7XVRLuioj8AZeIrb2cQHv1YJcEUI=;
+	s=arc-20240116; t=1766137570; c=relaxed/simple;
+	bh=bKbW+c3COgn6ebtaQJkJdPNDfqwRujqoYDBL35Pflnw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dZX1G/UpVzueV82IrBFBje0as4LI5gCPT4Uc1IkhtoQPUKXsPfr+34/8flE5qeziSMHoVkiShgzOVG8z0W2EFACVCiuWqT960rv5uLzqz/AEgEKuZiHwceT2pHe9EviNvmvz8NYF2eABNXK6iZ4VSYT2Yh+BKfuwp9iqsTdkfaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mcH6do+6; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=mKsmu9ZSjL5j+x7bpNze/m+kIvPkZ/n9297usOk+gCk6m8fg5VQX0zDr9mqkCkxMjh5RjrHW8S7hg0Conc52OHNJsjjLUa1ylbnXk6lYtsZb6A2QRSrGkeIQO/SFUQChZQ2qOwLOkRmXKDitLLHP1IueOQ6eu4hrcljSBcOic8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLAUTjpY; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mcH6do+6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLAUTjpY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766135708; x=1797671708;
+  t=1766137569; x=1797673569;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yibTQH3CeF36X+p7XVRLuioj8AZeIrb2cQHv1YJcEUI=;
-  b=mcH6do+6OhH7y++Vj5Zv+09EH61IbJwARClhF3HIoObEWSMHpt7ZU7vv
-   Tv21bCa22NWlloHFGfPoq2WgTcKnV9JVnQ8KF8zA2faYG6+dz5J+xf39s
-   ljHVk5aWdgxFF/bLCH06mT5fuQ8P0QfNd/DYYJMJ5rHkYuppoD9m+NAd/
-   qP98RLWekUcXtxtlrkh3TIic6cjXJAOYH5ViXlr74nej3ntKaXlv0sGNO
-   kk+6mxPDAdIOW8ipnK69y+fN2OhQ5uO5eu/4Iu5bwhLA1yWiuT/z9jgzY
-   IyIateWu1xgzeQTitpElE/a7p0VzLOJh0Xyg19MmxKKTWz5XHNNphN8uk
-   A==;
-X-CSE-ConnectionGUID: Xjv4hAXaTmalMkvkHqipHQ==
-X-CSE-MsgGUID: bdu+oWnqR3Gl8Fe+ehjnmg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="78732237"
-X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="78732237"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 01:15:07 -0800
-X-CSE-ConnectionGUID: Bo/UTG6NSLWjzySkGa1uhw==
-X-CSE-MsgGUID: tEsVqsGfSBGEZ4gVmzQi5w==
+  bh=bKbW+c3COgn6ebtaQJkJdPNDfqwRujqoYDBL35Pflnw=;
+  b=XLAUTjpYbENX45I/u2zXf76PGeJrPFfZV6IfV4olY8/ZYUEHvXbpENgy
+   MAlZ+cp/3Lewx2Ol9yaO8K1tBHJoyPyuEs1KjM044dlhjLUx9CyfX8UqH
+   vB17OTjPSZzlm1vqbPiNJpqSyM/noa/jk+osF6E5C12BlK69AFA200va0
+   gLPxJwO5XSi+7WOall/APfHJ6/Ef+BHIyYCP95TyHjj26UozT5Pqb/sHs
+   0fjeBtfP2GbTp50MK2+SK44ltVJEer00JNTIQQ8QxPQqXXVEM/QtHRjEs
+   5jf+OsQXEMmS3mQs2dVOE+hBe8qs78y0poupffI/zl4E0Fnl/e3YF5qmm
+   g==;
+X-CSE-ConnectionGUID: zMemuM8TTluHOVC3JPIUHw==
+X-CSE-MsgGUID: uyQ6tCDPRnCay6LGioOfrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79218662"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
+   d="scan'208";a="79218662"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 01:46:08 -0800
+X-CSE-ConnectionGUID: 9/E1WZy1Sbe/xXsEUKur+w==
+X-CSE-MsgGUID: SHk03YsYRe+kz2cbPanNkA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="203209502"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
+   d="scan'208";a="198834081"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Dec 2025 01:15:06 -0800
+  by orviesa007.jf.intel.com with ESMTP; 19 Dec 2025 01:46:07 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWWZj-000000003Iz-2Dx6;
-	Fri, 19 Dec 2025 09:15:03 +0000
-Date: Fri, 19 Dec 2025 17:14:16 +0800
+	id 1vWX3k-000000003KL-2RZb;
+	Fri, 19 Dec 2025 09:46:04 +0000
+Date: Fri, 19 Dec 2025 17:45:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 0/4]
- drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7402: warning: Function
- parameter or member 'adapter' not described in 'txgbe_linkdown_subtask'
-Message-ID: <202512191730.8sVYUdwN-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 43/43]
+ arch/arm64/kvm/hyp/pgtable.c:1184:18: sparse: sparse: dubious: x & !y
+Message-ID: <202512191739.qZACisbl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,85 +62,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Duanqiang,
+Hi Quentin,
 
-FYI, the error/warning still remains.
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   a2dd3d028a03896d70974c70f36eebc729c1d69f
-commit: a899781823a6a54ad6e6182191e05f441b56d436 [0/4] anolis: net: txgbe: fix bond port rate is unknown when linkup
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251219/202512191730.8sVYUdwN-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191730.8sVYUdwN-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   d13a7e3b3e0f1ca9e8faea93fbebfed911c2588d
+commit: b489c53001270b0d70152c82a4d1e0dcc8b4ff21 [43/43] ANDROID: KVM: arm64: Allow setting {P,U}XN in stage-2 PTEs
+config: arm64-randconfig-r123-20251217 (https://download.01.org/0day-ci/archive/20251219/202512191739.qZACisbl-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191739.qZACisbl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512191730.8sVYUdwN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512191739.qZACisbl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/hyp/pgtable.c:1184:18: sparse: sparse: dubious: x & !y
+--
+>> arch/arm64/kvm/hyp/nvhe/../pgtable.c:1184:18: sparse: sparse: dubious: x & !y
 
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:329: warning: Function parameter or member 'quiet' not described in 'txgbe_read_reg'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:578: warning: Function parameter or member 'txqueue' not described in 'txgbe_tx_timeout'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:659: warning: Function parameter or member 'napi_budget' not described in 'txgbe_clean_tx_irq'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:659: warning: expecting prototype for txgbe_(). Prototype was for txgbe_clean_tx_irq() instead
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:1561: warning: Function parameter or member 'size' not described in 'txgbe_add_rx_frag'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:1561: warning: Excess function parameter 'rx_desc' description in 'txgbe_add_rx_frag'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:2184: warning: expecting prototype for ixgbe_update_itr(). Prototype was for txgbe_update_itr() instead
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:2570: warning: Function parameter or member 'queues' not described in 'txgbe_irq_enable'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:2570: warning: Function parameter or member 'flush' not described in 'txgbe_irq_enable'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:3077: warning: Function parameter or member 'adapter' not described in 'txgbe_configure_msi_and_legacy'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:3327: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Return a number of entries in the RSS indirection table
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:3341: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Write the RETA table to HW
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:3693: warning: Function parameter or member 'adapter' not described in 'txgbe_configure_bridge_mode'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:4748: warning: Function parameter or member 'pb' not described in 'txgbe_lpbthresh'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:5694: warning: cannot understand function prototype: 'const u32 def_rss_key[10] = '
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:6545: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * __txgbe_shutdown is not used when power management
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:6899: warning: Function parameter or member 'adapter' not described in 'txgbe_fdir_reinit_subtask'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:6953: warning: Function parameter or member 'adapter' not described in 'txgbe_check_hang_subtask'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7001: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_update_link'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7134: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_link_is_up'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7242: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_link_is_down'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7332: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_flush_tx'
->> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7402: warning: Function parameter or member 'adapter' not described in 'txgbe_linkdown_subtask'
->> drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7402: warning: expecting prototype for txgbe_watchdog_subtask(). Prototype was for txgbe_linkdown_subtask() instead
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7432: warning: Function parameter or member 'adapter' not described in 'txgbe_watchdog_subtask'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7508: warning: Function parameter or member 'adapter' not described in 'txgbe_sfp_detection_subtask'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7589: warning: Function parameter or member 'adapter' not described in 'txgbe_sfp_link_config_subtask'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7690: warning: Function parameter or member 't' not described in 'txgbe_service_timer'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:7690: warning: Excess function parameter 'data' description in 'txgbe_service_timer'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:9190: warning: expecting prototype for skb_pad(). Prototype was for txgbe_skb_pad_nonzero() instead
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:9804: warning: Function parameter or member 'dev' not described in 'txgbe_setup_tc'
-   drivers/net/ethernet/wangxun/txgbe/txgbe_main.c:9804: warning: Excess function parameter 'netdev' description in 'txgbe_setup_tc'
+vim +1184 arch/arm64/kvm/hyp/pgtable.c
 
-
-vim +7402 drivers/net/ethernet/wangxun/txgbe/txgbe_main.c
-
-  7396	
-  7397	/**
-  7398	 * txgbe_watchdog_subtask - check and bring link up
-  7399	 * @adapter - pointer to the device adapter structure
-  7400	 **/
-  7401	static void txgbe_linkdown_subtask(struct txgbe_adapter *adapter)
-> 7402	{
-  7403		u32 __maybe_unused value = 0;
-  7404		struct txgbe_hw *hw = &adapter->hw;
-  7405	
-  7406		/* if interface is down do nothing */
-  7407		if (test_bit(__TXGBE_DOWN, &adapter->state) ||
-  7408		    test_bit(__TXGBE_REMOVING, &adapter->state) ||
-  7409		    test_bit(__TXGBE_RESETTING, &adapter->state))
-  7410			return;
-  7411	
-  7412		if (!(adapter->flags2 & TXGBE_FLAG2_LINK_DOWN))
-  7413			txgbe_watchdog_update_link(adapter);
-  7414	
-  7415		if (!adapter->link_up)
-  7416			txgbe_watchdog_link_is_down(adapter);
-  7417	
+  1176	
+  1177	int kvm_pgtable_stage2_relax_perms(struct kvm_pgtable *pgt, u64 addr,
+  1178					   enum kvm_pgtable_prot prot)
+  1179	{
+  1180		int ret;
+  1181		u32 level;
+  1182		kvm_pte_t set = 0, clr = 0;
+  1183	
+> 1184		if (prot & !KVM_PGTABLE_PROT_RWX)
+  1185			return -EINVAL;
+  1186	
+  1187		if (prot & KVM_PGTABLE_PROT_R)
+  1188			set |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R;
+  1189	
+  1190		if (prot & KVM_PGTABLE_PROT_W)
+  1191			set |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
+  1192	
+  1193		if (prot & KVM_PGTABLE_PROT_X)
+  1194			clr |= KVM_PTE_LEAF_ATTR_HI_S2_XN;
+  1195	
+  1196		ret = stage2_update_leaf_attrs(pgt, addr, 1, set, clr, NULL, &level);
+  1197		if (!ret)
+  1198			kvm_call_hyp(__kvm_tlb_flush_vmid_ipa, pgt->mmu, addr, level);
+  1199		return ret;
+  1200	}
+  1201	
 
 -- 
 0-DAY CI Kernel Test Service
