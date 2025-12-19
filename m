@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C16849C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 00:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616E319DF4F;
+	Fri, 19 Dec 2025 00:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766103579; cv=none; b=f0fj4LHoDhQmuOD7PQnava+6/5QMIs01FxyYRCgRk82sqRK/7Pq+bizog3ryLDSi96Ab3XGI9Pp0A7uMOxEKGW4ofgTdtzmfti0FOkwmCmC+UIaOwJdIWG76i8LJ9wv1eMAIvKpPqRVBuAxmF+cmiCFzAVTB5qIK6KQwGj9mDro=
+	t=1766104843; cv=none; b=WYz2IpmljNnTHiGsR8ZiAP2hgcubaDJ8NoCzKirQCOAUffIYvFaew0MjFFbFyMemNFaYgDAxerm9NEoxWRed5O4ppD6A6iU4TU5INCstjTDiYK2Zx7XJAdNnmZvdqknSmDVSpRa9HPCH6I8B9q5ki5FhQ8BhPxAMAnMKnfzV41E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766103579; c=relaxed/simple;
-	bh=plHSMre1F44PWAOzdkgRda41yImP8ir6ZcOH3phDob4=;
+	s=arc-20240116; t=1766104843; c=relaxed/simple;
+	bh=vxQk63A/fOKnwXCzCiDXgbPKWUi3Hr0AvJ+PmmRsnH4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DU3HkPnl+RIeDIG/FHeFVFFI6+ST7iYGjZJEiv7vhej8BiCILZbKwp3FRlCUFFtZHqtMc7laR9F7JOmu5f2Wykig1w88xQxTLxptlK/PhA8XikbY7bRGPP/XgKorvHSe8kHlg9UTDeaFdFlaEfqm1SMEA6Vr0+8F9M8UkEH96W0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c+fupnWg; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=TQ5T9OrgrGXpum9nkrax2XvZlc3wgdLBK9nQFvjcbEeiHFCfiqW6BuMbtL45LG1eOe0z0MYbc1Dmb+gGdSP/yr6T+MVl+eN7i5PV2gLC+8Wt3VDBxoSCXH2hANQ4Fc2Flzbm4iDlLKHW3EiZMP+D+bLdtf/XJK6XMt7di8FUd5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YzqGOUkQ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c+fupnWg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YzqGOUkQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766103578; x=1797639578;
+  t=1766104840; x=1797640840;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=plHSMre1F44PWAOzdkgRda41yImP8ir6ZcOH3phDob4=;
-  b=c+fupnWg+eYKKuJh+s1gz5uWLvIoRPU3v7y5z62AwYsTByM7qH9EjXCK
-   +HksrMezFopWtpXb3alM0zUXYaMQwu8CgZRFbGCADUCELOcnXyrd1ED0K
-   XxK/FQeq3WqDlaTVy2OeXSLheRiL96HfTzRfM1stfFtbM2kpZ+E7zdlG3
-   0cQZu+VxIxhEoBLt7uTLsfGPzybDr1jhHoge62ejaFe8G+f/YNU2tK7NA
-   Llc5StNS0Ct17Ejp4y1uo9rk80P7JrWqMWgmLhj3eJUaKGN65MiksBzQQ
-   ee0SzT90yOvPdakzmHMPHSbfpTWPo1ZAW26/7FIvxntQXBF+bDv/JlqeY
+  bh=vxQk63A/fOKnwXCzCiDXgbPKWUi3Hr0AvJ+PmmRsnH4=;
+  b=YzqGOUkQaRz4Aau1z9NZTxrVYFNGXN0+FZvHYUwzo1ThmgvwlNLpb+0H
+   kbrBvXuOvjCsIlA2n4u14AA/4UG3fYXNrTsuBCSz11MlI7rCTzi8YDwkg
+   xLhxLI9F6jSF7FB5ecBau9/8CleASfL3pZqUVKr04WSIHrIgzMoY/4F9R
+   nQLogsF3IIPfs9llMshKmxaMf60R5+Kd0EZhyan33MDAThVE/tl5w7Wrh
+   ggTrUu12zC2RF5jV0mg4B3px2h9NS58PtWX3ono1GItBZbkNHfwyBJBjh
+   2sBif0RTDT4wHNJ8PGD7cv2Nm9CovOCFSATuYZsc38r1HKohuYxxg+2LB
    Q==;
-X-CSE-ConnectionGUID: JjP0OQHNT1ytTHnLo/S4RQ==
-X-CSE-MsgGUID: G84u2UKxR1alVs0wW9LZXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="93541467"
+X-CSE-ConnectionGUID: /quwyQYLSh28a1Zf8RQFmw==
+X-CSE-MsgGUID: Kzilb4M8SYKXKaw+y1bjNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68143351"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="93541467"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 16:19:37 -0800
-X-CSE-ConnectionGUID: lifiEpBNR+W7Ks12A6mBAQ==
-X-CSE-MsgGUID: vhkefhpBQBugX1sPBoK30A==
+   d="scan'208";a="68143351"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 16:40:40 -0800
+X-CSE-ConnectionGUID: gMydyncaQ1OYqLKnujbRDA==
+X-CSE-MsgGUID: pWNg8ZT1RyWxK8z+leCdvQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
+   d="scan'208";a="222142888"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Dec 2025 16:19:36 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 18 Dec 2025 16:40:39 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWODW-000000002nf-1Wfx;
-	Fri, 19 Dec 2025 00:19:34 +0000
-Date: Fri, 19 Dec 2025 08:18:49 +0800
+	id 1vWOXs-000000002oT-1Vvm;
+	Fri, 19 Dec 2025 00:40:36 +0000
+Date: Fri, 19 Dec 2025 08:40:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Gustavo Sousa <gustavo.sousa@intel.com>
-Subject: powerpc64-linux-ld: xe_pci.c:undefined reference to
- `xe_configfs_media_gt_allowed'
-Message-ID: <202512190827.IeXYj4qg-lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 1917/2322] sound/core/pcm_native.c:3308:6: error:
+ cannot jump from this asm goto statement to one of its possible targets
+Message-ID: <202512190802.i4Jzbcsl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,53 +62,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dd9b004b7ff3289fb7bae35130c0a5c0537266af
-commit: 7abd69278bb53ab6b43f9650daba550cc7624858 drm/xe/configfs: Add attribute to disable GT types
-date:   9 weeks ago
-config: powerpc64-randconfig-r053-20251218 (https://download.01.org/0day-ci/archive/20251219/202512190827.IeXYj4qg-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190827.IeXYj4qg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1058ca9db0edaedcb16480cc74b78ed06f0d1f54
+commit: f3d233daf011abbad2f6ebd0e545b42d2f378a4f [1917/2322] ALSA: pcm: Relax __free() variable declarations
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20251219/202512190802.i4Jzbcsl-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190802.i4Jzbcsl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512190827.IeXYj4qg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512190802.i4Jzbcsl-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `xe_configfs_get_survivability_mode'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_guc.o: in function `xe_guc_init_post_hwconfig':
-   xe_guc.c:(.text+0x2f08): undefined reference to `xe_configfs_get_psmi_enabled'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_hw_engine.o: in function `xe_hw_engines_init_early':
-   xe_hw_engine.c:(.text+0xed4): undefined reference to `xe_configfs_get_engines_allowed'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_configfs_post_ctx_restore_bb':
-   xe_lrc.c:(.text+0xb28): undefined reference to `xe_configfs_get_ctx_restore_post_bb'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `setup_configfs_mid_ctx_restore_bb':
-   xe_lrc.c:(.text+0xbb8): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_lrc.o: in function `xe_lrc_init':
-   xe_lrc.c:(.text+0x3300): undefined reference to `xe_configfs_get_ctx_restore_mid_bb'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.data.rel.ro+0x10): undefined reference to `xe_configfs_init'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_module.o:(.data.rel.ro+0x18): undefined reference to `xe_configfs_exit'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_info_init':
-   xe_pci.c:(.text+0x12ac): undefined reference to `xe_configfs_primary_gt_allowed'
->> powerpc64-linux-ld: xe_pci.c:(.text+0x1388): undefined reference to `xe_configfs_media_gt_allowed'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_pci.o: in function `xe_pci_probe':
-   xe_pci.c:(.text+0x1724): undefined reference to `xe_configfs_check_device'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_debugfs_register':
-   xe_psmi.c:(.text+0x508): undefined reference to `xe_configfs_get_psmi_enabled'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_psmi.o: in function `xe_psmi_init':
-   xe_psmi.c:(.text+0x5c4): undefined reference to `xe_configfs_get_psmi_enabled'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_rtp.o: in function `xe_rtp_match_psmi_enabled':
-   xe_rtp.c:(.text+0xb34): undefined reference to `xe_configfs_get_psmi_enabled'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_survivability_mode.o: in function `xe_survivability_mode_is_requested':
-   xe_survivability_mode.c:(.text+0x434): undefined reference to `xe_configfs_get_survivability_mode'
-   powerpc64-linux-ld: drivers/gpu/drm/xe/xe_sriov_pf.o: in function `xe_sriov_pf_readiness':
-   xe_sriov_pf.c:(.text+0x2a0): undefined reference to `xe_configfs_get_max_vfs'
+>> sound/core/pcm_native.c:3308:6: error: cannot jump from this asm goto statement to one of its possible targets
+           if (put_user(result, &_xfern->result))
+               ^
+   arch/riscv/include/asm/uaccess.h:403:3: note: expanded from macro 'put_user'
+                   __put_user((x), __p) :                          \
+                   ^
+   arch/riscv/include/asm/uaccess.h:376:2: note: expanded from macro '__put_user'
+           __put_user_error(__val, __gu_ptr, __pu_err);            \
+           ^
+   arch/riscv/include/asm/uaccess.h:340:2: note: expanded from macro '__put_user_error'
+           __put_user_nocheck(x, ptr, err_label);                  \
+           ^
+   arch/riscv/include/asm/uaccess.h:321:3: note: expanded from macro '__put_user_nocheck'
+                   __put_user_asm("sb", (x), __gu_ptr, label);     \
+                   ^
+   arch/riscv/include/asm/uaccess.h:282:2: note: expanded from macro '__put_user_asm'
+           asm goto(                                               \
+           ^
+   sound/core/pcm_native.c:3295:6: note: possible target of asm goto statement
+           if (put_user(0, &_xfern->result))
+               ^
+   arch/riscv/include/asm/uaccess.h:403:3: note: expanded from macro 'put_user'
+                   __put_user((x), __p) :                          \
+                   ^
+   arch/riscv/include/asm/uaccess.h:376:2: note: expanded from macro '__put_user'
+           __put_user_error(__val, __gu_ptr, __pu_err);            \
+           ^
+   arch/riscv/include/asm/uaccess.h:341:15: note: expanded from macro '__put_user_error'
+           break;                                                  \
+                                                                   ^
+   sound/core/pcm_native.c:3300:8: note: jump exits scope of variable with __attribute__((cleanup))
+           void *bufs __free(kfree) =
+                 ^
+   sound/core/pcm_native.c:3295:6: error: cannot jump from this asm goto statement to one of its possible targets
+           if (put_user(0, &_xfern->result))
+               ^
+   arch/riscv/include/asm/uaccess.h:403:3: note: expanded from macro 'put_user'
+                   __put_user((x), __p) :                          \
+                   ^
+   arch/riscv/include/asm/uaccess.h:376:2: note: expanded from macro '__put_user'
+           __put_user_error(__val, __gu_ptr, __pu_err);            \
+           ^
+   arch/riscv/include/asm/uaccess.h:340:2: note: expanded from macro '__put_user_error'
+           __put_user_nocheck(x, ptr, err_label);                  \
+           ^
+   arch/riscv/include/asm/uaccess.h:321:3: note: expanded from macro '__put_user_nocheck'
+                   __put_user_asm("sb", (x), __gu_ptr, label);     \
+                   ^
+   arch/riscv/include/asm/uaccess.h:282:2: note: expanded from macro '__put_user_asm'
+           asm goto(                                               \
+           ^
+   sound/core/pcm_native.c:3308:6: note: possible target of asm goto statement
+           if (put_user(result, &_xfern->result))
+               ^
+   arch/riscv/include/asm/uaccess.h:403:3: note: expanded from macro 'put_user'
+                   __put_user((x), __p) :                          \
+                   ^
+   arch/riscv/include/asm/uaccess.h:376:2: note: expanded from macro '__put_user'
+           __put_user_error(__val, __gu_ptr, __pu_err);            \
+           ^
+   arch/riscv/include/asm/uaccess.h:341:15: note: expanded from macro '__put_user_error'
+           break;                                                  \
+                                                                   ^
+   sound/core/pcm_native.c:3300:8: note: jump bypasses initialization of variable with __attribute__((cleanup))
+           void *bufs __free(kfree) =
+                 ^
+   2 errors generated.
+
+
+vim +3308 sound/core/pcm_native.c
+
+67616feda99e32 Takashi Iwai 2017-08-30  3283  
+67616feda99e32 Takashi Iwai 2017-08-30  3284  static int snd_pcm_xfern_frames_ioctl(struct snd_pcm_substream *substream,
+67616feda99e32 Takashi Iwai 2017-08-30  3285  				      struct snd_xfern __user *_xfern)
+67616feda99e32 Takashi Iwai 2017-08-30  3286  {
+67616feda99e32 Takashi Iwai 2017-08-30  3287  	struct snd_xfern xfern;
+67616feda99e32 Takashi Iwai 2017-08-30  3288  	struct snd_pcm_runtime *runtime = substream->runtime;
+67616feda99e32 Takashi Iwai 2017-08-30  3289  	snd_pcm_sframes_t result;
+67616feda99e32 Takashi Iwai 2017-08-30  3290  
+f0061c18c169f0 Takashi Iwai 2022-09-26  3291  	if (runtime->state == SNDRV_PCM_STATE_OPEN)
+67616feda99e32 Takashi Iwai 2017-08-30  3292  		return -EBADFD;
+67616feda99e32 Takashi Iwai 2017-08-30  3293  	if (runtime->channels > 128)
+67616feda99e32 Takashi Iwai 2017-08-30  3294  		return -EINVAL;
+67616feda99e32 Takashi Iwai 2017-08-30  3295  	if (put_user(0, &_xfern->result))
+67616feda99e32 Takashi Iwai 2017-08-30  3296  		return -EFAULT;
+67616feda99e32 Takashi Iwai 2017-08-30  3297  	if (copy_from_user(&xfern, _xfern, sizeof(xfern)))
+67616feda99e32 Takashi Iwai 2017-08-30  3298  		return -EFAULT;
+67616feda99e32 Takashi Iwai 2017-08-30  3299  
+f3d233daf011ab Takashi Iwai 2025-12-16  3300  	void *bufs __free(kfree) =
+f3d233daf011ab Takashi Iwai 2025-12-16  3301  		memdup_array_user(xfern.bufs, runtime->channels, sizeof(void *));
+67616feda99e32 Takashi Iwai 2017-08-30  3302  	if (IS_ERR(bufs))
+40a024b81d1cba Takashi Iwai 2024-09-02  3303  		return PTR_ERR(bufs);
+67616feda99e32 Takashi Iwai 2017-08-30  3304  	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+67616feda99e32 Takashi Iwai 2017-08-30  3305  		result = snd_pcm_lib_writev(substream, bufs, xfern.frames);
+67616feda99e32 Takashi Iwai 2017-08-30  3306  	else
+67616feda99e32 Takashi Iwai 2017-08-30  3307  		result = snd_pcm_lib_readv(substream, bufs, xfern.frames);
+ebe6976d3634a3 Al Viro      2020-03-19 @3308  	if (put_user(result, &_xfern->result))
+ebe6976d3634a3 Al Viro      2020-03-19  3309  		return -EFAULT;
+67616feda99e32 Takashi Iwai 2017-08-30  3310  	return result < 0 ? result : 0;
+67616feda99e32 Takashi Iwai 2017-08-30  3311  }
+67616feda99e32 Takashi Iwai 2017-08-30  3312  
+
+:::::: The code at line 3308 was first introduced by commit
+:::::: ebe6976d3634a311367f72c2402f148ab9f23920 pcm_native: result of put_user() needs to be checked
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
