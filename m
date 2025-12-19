@@ -1,110 +1,126 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1B27405A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 04:29:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BB82741AC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 04:29:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766118591; cv=none; b=G+sETkAMqDASINlhA7SQe8vwA9AMexU77UQCZ9aSJJd585UJfMi2RoMr5DScH0k+4tc3tyq7xuB1lv6TO55pu7w0RIgf0rmlJkweakldfjmnM3a3xteYI1D2VlgwovoR7Gs3ZlaOcieWr0w3+lZK1Tq2rncTmOzYaLcDX9GSwqc=
+	t=1766118593; cv=none; b=lvH8tmqxYBQ47BjwQW+Cgp1ST57gij0MiESiQmBK6oZ7J1wRS0vYmoXokbFnVOun/yeSX0YEMkXSRkql+TZET5Ausjzsuvl1B3+ZzThVVzsum/KYlTSdACoXxHuK93dVHxjBJxb94qe5TQq6JQdqAZ9LGzd8TnW99iKmvlCpMJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766118591; c=relaxed/simple;
-	bh=V2U0B9b0ArWvtRZOExEcSX6zGTp9fYaT4+4R8Se30Y4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YdhZAWE/65rmIpyQm3Fxz1RVwbx9t7jaLzKdEGyZ81Y/VCa6INbwj5ZOK126mramPai+f0ZgcloW+DN5IlFqxnzQ3fKAEur+vm0zUslW32Yml9xOMVosA4kbga+DljiqZWWDwtXy0cZOR3gB05yxt8OPF6S8eZ5xO60ZnMuVM5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AlZ8PFYA; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1766118593; c=relaxed/simple;
+	bh=llECf9WKOVRZJexROjZ0okO194boZmTBekOvXC+2K/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DhNS8fGUbV5OcEmkSq7KEhz7Y71OnDmSGDNJhiHJtafUeLv3fGC3d4D9r/v2/DjkZoyCwZfLpnq7tSPkwjzi8FqRgnGCR9a+d+Xom+duzWspCVuRJs3+6df5yEmxVOWCR5hciB7595cRvjeChG88u1fuCsRVbqQI52CUVdPPCs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l7dNPoTe; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AlZ8PFYA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l7dNPoTe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766118590; x=1797654590;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=V2U0B9b0ArWvtRZOExEcSX6zGTp9fYaT4+4R8Se30Y4=;
-  b=AlZ8PFYAIiHoI0msnK9Qzhxm4jhAgEBMtXURz4NMQfop3vD2ftwFGgJ7
-   HYapqXZzWVZlNbpNl1WrCSIcqeFTu5AA9Y21cwFY2NM5wGA/lJ8LJvjGE
-   pmQ9wBWyZ1RZmBxuIebrH4xT1HXdq9k9tjnf38hB1RcYO58fn/v/ZYNy3
-   XfzPC0Mf7yC5FEH+HkZKH5Atq3w9GQb53eXwjEBiIlLsnKn25VsZtSvov
-   sbLxy+zXkxJOuOdzhLLcXQkF6nsy560gVEazrTPXuvWJxYjIZ/ic1tOTU
-   JGVNwEL3lMXdAx6lh81IX2F2Hmc+i7soSwcoi+KbFMqcbQwFZMavUy9ii
-   Q==;
-X-CSE-ConnectionGUID: +RPPBfS9SJ6qpwIvJJY5uw==
-X-CSE-MsgGUID: DSt6CsAuTIezzWhNFZNgrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="78793294"
+  t=1766118592; x=1797654592;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=llECf9WKOVRZJexROjZ0okO194boZmTBekOvXC+2K/A=;
+  b=l7dNPoTe1B+CR89tPp9u89H0LgrXE6wJ7HJJjVjjken8Qg26AQrFxnYO
+   /vvpQl600Q1rQIJJbz+NFNzniugd3Uz/6zItK2HNjIaoKaSyE9V2Tm25+
+   RR1B3fSwhCdhJNZCXXZWSCZJm+0pGLDBd5mG5XMap+Rbk+8tt4Mfmjb2l
+   Jp6WGdCCagWiz+NrcKowyO3jUo3XKBoKEXx0PwbyVqw0jLK8oG3z16XdK
+   rUPVAMbeeLG3bzy0DwPu2CQx6bQKk1SxDBOY5MtkR8SDV8tX4Pi70kcF6
+   EU0ePE4rUS+TwiHB8+UVuJisFU5ob4MuG52N71099q5C9M2AV8LM3QJ/k
+   A==;
+X-CSE-ConnectionGUID: rJ20aXr0Q1a0ijqGhGMQbw==
+X-CSE-MsgGUID: jknoO+IOSbWFjxCChF3QRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="78793295"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="78793294"
+   d="scan'208";a="78793295"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 20:29:49 -0800
-X-CSE-ConnectionGUID: xu29lmxrSvuRM8aXuZ4bgA==
-X-CSE-MsgGUID: iQy51I96T2yo4j/h2CjOUg==
+X-CSE-ConnectionGUID: HI9Hu3Y+Tx+5qya4SlHgUg==
+X-CSE-MsgGUID: jjwgdw7hQ/KEV0b6vnNGBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="229802995"
+   d="scan'208";a="229802993"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 18 Dec 2025 20:29:48 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWS7e-0000000030P-0G0r;
+	id 1vWS7e-0000000030N-08hW;
 	Fri, 19 Dec 2025 04:29:46 +0000
-Date: Fri, 19 Dec 2025 12:29:30 +0800
+Date: Fri, 19 Dec 2025 12:29:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: Jijie Shao <shaojijie@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-numa-sched-domain-ANBZ26672 3/3]
- mm/page_alloc.c:297:20: warning: 'add_to_free_list' declared 'static' but
- never defined
-Message-ID: <202512191232.C0sgoMb8-lkp@intel.com>
+Subject: Re: [PATCH RFC net-next 5/6] net: hibmcge: support get phy device
+ from apci
+Message-ID: <202512191242.SbxFVIcH-lkp@intel.com>
+References: <20251215125705.1567527-6-shaojijie@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251215125705.1567527-6-shaojijie@huawei.com>
 
-Hi Johannes,
+Hi Jijie,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-numa-sched-domain-ANBZ26672
-head:   7937ef3c1b34894ed22447a9af04c96f5f50cff6
-commit: dce9170c150f27ea23a2a52e539cc02b6957b595 [3/3] mm: page_alloc: batch vmstat updates in expand()
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251219/202512191232.C0sgoMb8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191232.C0sgoMb8-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jijie-Shao/net-phy-change-of_phy_leds-to-fwnode_phy_leds/20251215-211344
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251215125705.1567527-6-shaojijie%40huawei.com
+patch subject: [PATCH RFC net-next 5/6] net: hibmcge: support get phy device from apci
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20251219/202512191242.SbxFVIcH-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191242.SbxFVIcH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512191232.C0sgoMb8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512191242.SbxFVIcH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/page_alloc.c:297:20: warning: 'add_to_free_list' declared 'static' but never defined [-Wunused-function]
-     297 | static inline void add_to_free_list(struct page *page, struct zone *zone,
-         |                    ^~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/hisilicon/hibmcge/hbg_mdio.c:360:37: warning: variable 'phydev' is uninitialized when used here [-Wuninitialized]
+     360 |                 return dev_err_probe(dev, PTR_ERR(phydev),
+         |                                                   ^~~~~~
+   drivers/net/ethernet/hisilicon/hibmcge/hbg_mdio.c:356:27: note: initialize the variable 'phydev' to silence this warning
+     356 |         struct phy_device *phydev;
+         |                                  ^
+         |                                   = NULL
+   1 warning generated.
 
 
-vim +297 mm/page_alloc.c
+vim +/phydev +360 drivers/net/ethernet/hisilicon/hibmcge/hbg_mdio.c
 
-418508c13222dd Miklos Szeredi     2007-05-23  292  
-dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  293  static bool page_contains_unaccepted(struct page *page, unsigned int order);
-dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  294  static void accept_page(struct page *page, unsigned int order);
-b77471c6760a22 Kirill A. Shutemov 2024-08-09  295  static bool cond_accept_memory(struct zone *zone, unsigned int order);
-dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  296  static bool __free_unaccepted(struct page *page);
-8c8774fcbaf476 Johannes Weiner    2024-03-20 @297  static inline void add_to_free_list(struct page *page, struct zone *zone,
-8c8774fcbaf476 Johannes Weiner    2024-03-20  298                                      unsigned int order, int migratetype,
-8c8774fcbaf476 Johannes Weiner    2024-03-20  299                                      bool tail);
-dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  300  
-
-:::::: The code at line 297 was first introduced by commit
-:::::: 8c8774fcbaf47634f07ee957e9cd9403f5e0ce2c mm: page_alloc: consolidate free page accounting
-
-:::::: TO: Johannes Weiner <hannes@cmpxchg.org>
-:::::: CC: 小龙 <wenqing.ly@alibaba-inc.com>
+   351	
+   352	static int hbg_find_phy_device_from_acpi(struct hbg_priv *priv)
+   353	{
+   354		struct device *dev = &priv->pdev->dev;
+   355		struct fwnode_handle *phy_fwnode;
+   356		struct phy_device *phydev;
+   357	
+   358		phy_fwnode = fwnode_get_phy_node(dev_fwnode(dev));
+   359		if (IS_ERR(phy_fwnode))
+ > 360			return dev_err_probe(dev, PTR_ERR(phydev),
+   361					     "failed to get phy fwnode\n");
+   362	
+   363		phydev = fwnode_phy_find_device(phy_fwnode);
+   364		/* We're done with the phy_node handle */
+   365		fwnode_handle_put(phy_fwnode);
+   366		if (!phydev)
+   367			return dev_err_probe(dev, -ENODEV,
+   368					     "failed to get phy fwnode device\n");
+   369		priv->mac.phydev = phydev;
+   370		return 0;
+   371	}
+   372	
 
 -- 
 0-DAY CI Kernel Test Service
