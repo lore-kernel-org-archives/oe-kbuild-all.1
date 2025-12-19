@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8551C318151
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 11:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE011C5D57
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 12:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766144536; cv=none; b=MkrmrrK3TMUHt4ERuItAPJJmVhNPgZzSL4QQVaNpE/k2oJnUOyiOTpq7GCwZ7hH2gylI5ZFMtgEMwB7s6F7f7g3SHAqCRrmyhDVUzn74v8EURWwnJdLmHOIUtKhKWU5nyWRIAhZ41byYSRWWSZ6ybTEtHHuDy98KU/TO0oCNGOE=
+	t=1766149048; cv=none; b=txwxor9nGMxVVnBzKJxlKltfeNe+K7Zqc62lqQHNbbRfTxs1Z4M0QuROzbh2kTQ3BwdEX023h7jnvqOH7EAhhKfLPAHNctEK8f3oq/1D62fmws1IW4UCQhljRf0p8tP3IYaUxsvyZfrAcKmc+NcmHtsilvQuMvjcfXz6ej/zrTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766144536; c=relaxed/simple;
-	bh=HmV+KiYHwc6feJ8cnS+/iaS5YJO//xHjJWB8dVKfT84=;
+	s=arc-20240116; t=1766149048; c=relaxed/simple;
+	bh=kkFXtqrWXMCWx2FAU0bG1qW3dcBhhICuw4MXDG1A/QM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EfSolWOnnJp7dU/lthRxfJAYfCFmGh1vLriZDZJdXZjXMxf8uDhYImBc1zDbapHTvtZRGC3Tl9pWkDP2Vyy9f81p5MOy8cSqD+czrEOdQbgdQox1fILSSnwlkmPzNtmENVHz2QiyFmOJZgc1rLsRKLinwDiNnYseV1UAE3cxOLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EC9R4srZ; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=lq8LNtOUs/1f4OyFk5e7pBUSLcHUI/iwaUYU0vVTm/UTfXbAOAXQdlKeJtebOXqm1Z5GIlmB0kFX2nNzEm544KUOl7pJv8lzQXTfu0/6/BSXae1L2kCvvGmt3YmKgz+AdHsd/cfL+eFmS0FxZM037NXcsAZbUr6SZ83YqxfP5eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xl1jmsEO; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EC9R4srZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xl1jmsEO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766144535; x=1797680535;
+  t=1766149045; x=1797685045;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HmV+KiYHwc6feJ8cnS+/iaS5YJO//xHjJWB8dVKfT84=;
-  b=EC9R4srZbR9t+T2uznTzGoiwxugxPV7B1QwOsQzodEpqO5qtwR7Z+hF2
-   JRyT5SQ4fJ+d+tGGgdchEgNvndbWLdHWxuYYFHiEqtRCPS+Ux1tBT/WtU
-   6fxaSx1SqGF922oG0fmmPHmcl4+1kgElIbCCpNaduyup47QTLg4+l57KE
-   /PP/LxNVjiSq98AKnSj9Bg2+kSmuQaD/lnClKPkETqvFlCzIRy49TsQdi
-   xNQRzre9+SBl6jI1Gzp/LfBkpftwdg5BVWNAEEE7THCwvnrwmHTcrdXfJ
-   YI69xkg6vZWyykoTBIBk78XACl6OsIc2TowRGURmctlK+Kc97X0bUPGzp
+  bh=kkFXtqrWXMCWx2FAU0bG1qW3dcBhhICuw4MXDG1A/QM=;
+  b=Xl1jmsEOd5yEpVkwMDI8JQtTONb4a4mcHfRzozwVNvb265YJg0g96drt
+   SUG62eNLxgf3/sMA1UURBll1MmFGobjL0YJn6wyUb0dI0teT+esMW4fFX
+   NNH1ifavNzryfpLW010vAZNnj7MfP+gB6Ps+NBNbqPUWVAmdylAXNZZun
+   TyjV9ksSYnSom9p8cTY2+oJVHetcjEoneZYpovzjRMFenL19r2lt07dm2
+   9WI+NY71w9skKhY998yPtILHLjZ8386sW+VoesafXyXgRUxnGvc7FpgeW
+   wjfPKsHqMASe5RnT7oiCUWPV2UUcjmhZYVQr8ZEpAUAK502sQk9ImK3o4
    w==;
-X-CSE-ConnectionGUID: Qav5CiveRgCNfhwHTl4Gfw==
-X-CSE-MsgGUID: ghVoFYtLQgSGNIcgn4hSUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="67983490"
+X-CSE-ConnectionGUID: rDwwnJQ9TGOVpYsM4/oIQQ==
+X-CSE-MsgGUID: Nuu+vm2UTLK3XVufXjIO7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="71954426"
 X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
-   d="scan'208";a="67983490"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 03:42:14 -0800
-X-CSE-ConnectionGUID: 5otiesE/QZuj3a7uUnVbXw==
-X-CSE-MsgGUID: I6ePv68uSdS98oSKqexVcg==
+   d="scan'208";a="71954426"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 04:57:25 -0800
+X-CSE-ConnectionGUID: MHwONuDaTUas6Ox+881pQg==
+X-CSE-MsgGUID: DIgzi9iIQJWIFcPUBf/EuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
-   d="scan'208";a="203360215"
+   d="scan'208";a="198920485"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 19 Dec 2025 03:42:14 -0800
+  by orviesa008.jf.intel.com with ESMTP; 19 Dec 2025 04:57:23 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWYs7-000000003SX-3DGE;
-	Fri, 19 Dec 2025 11:42:11 +0000
-Date: Fri, 19 Dec 2025 19:41:25 +0800
+	id 1vWa2r-000000003Yr-2rKc;
+	Fri, 19 Dec 2025 12:57:21 +0000
+Date: Fri, 19 Dec 2025 20:56:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 43/43]
- drivers/dma-buf/dma-buf.c:41:1: sparse: sparse: symbol
- 'dmabuf_accounting_key' was not declared. Should it be static?
-Message-ID: <202512191948.MbjtKubm-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 0/4] kernel/sched/sched.h:2575:9:
+ warning: conversion from 'long unsigned int' to 'unsigned int' changes value
+ from '17580779487' to '400910303'
+Message-ID: <202512192000.jzDBNSuc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,26 +63,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   d13a7e3b3e0f1ca9e8faea93fbebfed911c2588d
-commit: baa7a3655a17c8a3f9d60cbd0110bc482312f1ba [43/43] ANDROID: add command line parameter for dmabuf accounting
-config: arm64-randconfig-r123-20251217 (https://download.01.org/0day-ci/archive/20251219/202512191948.MbjtKubm-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191948.MbjtKubm-lkp@intel.com/reproduce)
+Hi Cruz,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   a2dd3d028a03896d70974c70f36eebc729c1d69f
+commit: d293a754cf1338f5f03897c4b2322ee6accfe3c0 [0/4] anolis: sched: increase the maximum number of supported sched features
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251219/202512192000.jzDBNSuc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512192000.jzDBNSuc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512191948.MbjtKubm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512192000.jzDBNSuc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/dma-buf/dma-buf.c:41:1: sparse: sparse: symbol 'dmabuf_accounting_key' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/dmabuf_accounting_key +41 drivers/dma-buf/dma-buf.c
+   In file included from kernel/sched/core.c:87:
+>> kernel/sched/sched.h:2575:9: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '17580779487' to '400910303' [-Woverflow]
+    2575 |         (1UL << __SCHED_FEAT_##name) * enabled |
+         |         ^
+   kernel/sched/features.h:7:1: note: in expansion of macro 'SCHED_FEAT'
+       7 | SCHED_FEAT(PLACE_LAG, true)
+         | ^~~~~~~~~~
+--
+   In file included from kernel/sched/fair.c:56:
+>> kernel/sched/sched.h:2575:9: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '17580779487' to '400910303' [-Woverflow]
+    2575 |         (1UL << __SCHED_FEAT_##name) * enabled |
+         |         ^
+   kernel/sched/features.h:7:1: note: in expansion of macro 'SCHED_FEAT'
+       7 | SCHED_FEAT(PLACE_LAG, true)
+         | ^~~~~~~~~~
+   kernel/sched/fair.c:4264:6: warning: no previous prototype for 'set_group_prefer_node' [-Wmissing-prototypes]
+    4264 | void set_group_prefer_node(struct task_group *tg)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'set_group_prefer_node':
+   kernel/sched/fair.c:4293:33: error: implicit declaration of function 'cpu_load'; did you mean 'cpu_of'? [-Wimplicit-function-declaration]
+    4293 |                         load += cpu_load(cpu_rq(cpu));
+         |                                 ^~~~~~~~
+         |                                 cpu_of
+   kernel/sched/fair.c: At top level:
+   kernel/sched/fair.c:7451:22: error: conflicting types for 'cpu_load'; have 'long unsigned int(struct rq *)'
+    7451 | static unsigned long cpu_load(struct rq *rq)
+         |                      ^~~~~~~~
+   kernel/sched/fair.c:4293:33: note: previous implicit declaration of 'cpu_load' with type 'int()'
+    4293 |                         load += cpu_load(cpu_rq(cpu));
+         |                                 ^~~~~~~~
+   kernel/sched/fair.c:9186:6: warning: no previous prototype for 'id_can_stop_tick' [-Wmissing-prototypes]
+    9186 | bool id_can_stop_tick(struct rq *rq)
+         |      ^~~~~~~~~~~~~~~~
+--
+   In file included from kernel/sched/build_utility.c:53:
+>> kernel/sched/sched.h:2575:9: warning: conversion from 'long unsigned int' to 'unsigned int' changes value from '17580779487' to '400910303' [-Woverflow]
+    2575 |         (1UL << __SCHED_FEAT_##name) * enabled |
+         |         ^
+   kernel/sched/features.h:7:1: note: in expansion of macro 'SCHED_FEAT'
+       7 | SCHED_FEAT(PLACE_LAG, true)
+         | ^~~~~~~~~~
+   In file included from kernel/sched/build_utility.c:105:
+   kernel/sched/isolation.c:324:6: warning: no previous prototype for 'update_wilds_cpumask' [-Wmissing-prototypes]
+     324 | void update_wilds_cpumask(cpumask_var_t new_allowed, cpumask_var_t old_allowed)
+         |      ^~~~~~~~~~~~~~~~~~~~
 
-    40	
-  > 41	DEFINE_STATIC_KEY_TRUE(dmabuf_accounting_key);
-    42	
+
+vim +2575 kernel/sched/sched.h
+
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2568  
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2569  /*
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2570   * Each translation unit has its own copy of sysctl_sched_features to allow
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2571   * constants propagation at compile time and compiler optimization based on
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2572   * features default.
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2573   */
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2574  #define SCHED_FEAT(name, enabled)	\
+765cc3a4b224e2 Patrick Bellasi 2017-11-08 @2575  	(1UL << __SCHED_FEAT_##name) * enabled |
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2576  static const_debug __maybe_unused unsigned int sysctl_sched_features =
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2577  #include "features.h"
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2578  	0;
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2579  #undef SCHED_FEAT
+765cc3a4b224e2 Patrick Bellasi 2017-11-08  2580  
+
+:::::: The code at line 2575 was first introduced by commit
+:::::: 765cc3a4b224e22bf524fabe40284a524f37cdd0 sched/core: Optimize sched_feat() for !CONFIG_SCHED_DEBUG builds
+
+:::::: TO: Patrick Bellasi <patrick.bellasi@arm.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
