@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7D933A032
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 13:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF60D33121B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 14:14:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766150489; cv=none; b=PEC1EA5KbAxpmVE7YLwXaKUFqPIJj+cG5yXcsbx01m7lfNJdV9vvgs9fIBngTFxgWE0Y65AvfdJH31yrUX7crTnlD1EoIrxa1g+7a9EopDzgmf4ljSpKy3Mz8EEoGt2a7PHjjTbLbecJlg/HY0Tzk8W6c83yNEsKCLUL2MUKlRI=
+	t=1766153670; cv=none; b=iiyCMimfhQJ7sicyf226W/MRcYBOQFmyQC+HiwyjazzQh+8FoTN5DNz4+ZOBGh/rHndHbB2OCUVpHLm245+gRIJjzxVThLx8ektCabOvuFvJXpLk9V496AQoM2o4EpXTiNKvYKubZ9gyFWSb6GjSC13dsL6roALMiSupj9JyMIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766150489; c=relaxed/simple;
-	bh=IaM2WYbP65eUKENtr95JBeIRCgTZBbjwAd+02CuRD4Q=;
+	s=arc-20240116; t=1766153670; c=relaxed/simple;
+	bh=nKYbpOSmadilAtfXHx/U38yCB0lAUjHser2qs5cZbEQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g32Y/SwldG3Eq5yJAD8Bje12jPDpKTCkJb66kViIk5n3cUCASWVyXhkkL2wLtXw6TikMcT4nLFDX8JsmJgCD0SvDsLsTz0kYDvanl6s7wUXup1mL8woWx2XcHZzSLJefKdZvB/HS4dLGIYaGOTGvcE+P+rRfRnkGsO7xQOtiCFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dV2Ye7Zh; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=jvTU0nXr2xiYKFfa+FbUKNpMNS+3/oztPyQKcvnz1XOJQ6n8HR39iiVT0vddeAO6Q8nSRX6HEdBrygFLrb7LJh+LmIt8jIKzWgOOoynGXlsbV3GMPT7sSPQ9JsQJhjA8a0+rpM0t80Wrj+hLhgDDfG4ozYO4A+xN+uSo0Q9843c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PHNgyOaM; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dV2Ye7Zh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PHNgyOaM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766150487; x=1797686487;
+  t=1766153669; x=1797689669;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IaM2WYbP65eUKENtr95JBeIRCgTZBbjwAd+02CuRD4Q=;
-  b=dV2Ye7ZhQbPJn5rS6ZqFcgzF2GVo79k8JZDZ/kn1OpgyJEJRDXIPibXU
-   KSs6hZCNdftBeEkm3vQK3A4FZLdZOCRw6g79lI/8VWunUaHqDxqEdQPIX
-   YwOmupjD3Fg2o0wajmWNv3vb/dsApA3UnNPVlHDG6zz0jqNNbMVrzFhya
-   I5VzD6iLs1gotqrIR8DfwBRxrKHuqM80BSlcpo+jfhYboAHbjqmzqqJGw
-   LZtlt4VRSvEABndoUPtQE57Rqkl9hlLFVPmDxzp3K71Wchdnku/cPoxl1
-   +UaTiaeyVb1+4K4QlSWp9ytNTeMP9R6/e1/gOb47TNFoEjHUKMizhdH3v
-   A==;
-X-CSE-ConnectionGUID: FVXMyP/+Qoe0qtCwODt19w==
-X-CSE-MsgGUID: X1tBkH9tQS+74DaZ0nxbXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="67109034"
+  bh=nKYbpOSmadilAtfXHx/U38yCB0lAUjHser2qs5cZbEQ=;
+  b=PHNgyOaMMpinsmvchr6nu0T/C5JcJfy6TrfSgGSeARtUaEzKjJduSQnu
+   +rrSeLxzWVUVzcKyVS/Ye8p3gitrK9TVe59b7MRRH2uFg0MOUzVHK3Cm0
+   tIivpFyq2tyx2DKLAQCZ2gFuy+gGf9FX6/EytnVeh6ATG1fuYq3Ovs7YZ
+   W1BCokw/ohmbC9Ezh1DI17T10qTCR8DNdyCaQhentgcOqdrOJY6Losp50
+   vFdGnDlET1+kZjlQ6svgsxdZKykSLRujjQx8bs0tGNyf5NzgqiGiDEtUg
+   o82ai/5Es63mCnNozvqJj+Rlx51IK2jklDaKVJJZYKPDtV80bA8pNpebQ
+   g==;
+X-CSE-ConnectionGUID: J18MH4I0TICwIwj6k7hFIw==
+X-CSE-MsgGUID: AM6PlEwkRCmBzfp6jx6Q8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68189713"
 X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
-   d="scan'208";a="67109034"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 05:21:26 -0800
-X-CSE-ConnectionGUID: eBAOOEjfTpGh6fazQBkmig==
-X-CSE-MsgGUID: kXVF7Pd6T46WK6V8QrWB3A==
+   d="scan'208";a="68189713"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 06:14:29 -0800
+X-CSE-ConnectionGUID: iCP70u6bTb2BO7+JFVR+gg==
+X-CSE-MsgGUID: GW5o8ah1Q0+fXu3eEUSRCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
-   d="scan'208";a="229898018"
+   d="scan'208";a="198775382"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Dec 2025 05:21:25 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 19 Dec 2025 06:14:27 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWaQ7-000000003a1-1zMc;
-	Fri, 19 Dec 2025 13:21:23 +0000
-Date: Fri, 19 Dec 2025 21:20:37 +0800
+	id 1vWbFR-000000003cH-2MVD;
+	Fri, 19 Dec 2025 14:14:25 +0000
+Date: Fri, 19 Dec 2025 22:14:21 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 4/4]
- fs/erofs/decompressor_lzma.c:42:33: error: implicit declaration of function
- 'xz_dec_microlzma_end'
-Message-ID: <202512192109.Et054WMw-lkp@intel.com>
+Subject: [android-common:android16-6.12 2/2]
+ include/trace/stages/init.h:2:23: warning: 'str__vb2__trace_system_name'
+ defined but not used
+Message-ID: <202512192224.4rOvSe8Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,220 +63,138 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Gao,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   500d05631d89314552da084e17819640507698bf
-commit: ede603374aab4bb8a612fd3c1c84ceef11435fa1 [4/4] FROMGIT: erofs: lzma compression support
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251219/202512192109.Et054WMw-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512192109.Et054WMw-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   4ea712f633944563723dfcca523d09d6ea887835
+commit: 9fdc7af173200d5b0ccddeb1223be296839029bf [2/2] ANDROID: vendor_hooks: Add hook for vb2
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20251219/202512192224.4rOvSe8Q-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512192224.4rOvSe8Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512192109.Et054WMw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512192224.4rOvSe8Q-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/erofs/decompressor_lzma.c: In function 'z_erofs_lzma_exit':
->> fs/erofs/decompressor_lzma.c:42:33: error: implicit declaration of function 'xz_dec_microlzma_end' [-Werror=implicit-function-declaration]
-      42 |                                 xz_dec_microlzma_end(strm->state);
-         |                                 ^~~~~~~~~~~~~~~~~~~~
-   fs/erofs/decompressor_lzma.c: In function 'z_erofs_load_lzma_config':
->> fs/erofs/decompressor_lzma.c:136:31: error: implicit declaration of function 'xz_dec_microlzma_alloc' [-Werror=implicit-function-declaration]
-     136 |                 strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/decompressor_lzma.c:136:29: warning: assignment to 'struct xz_dec_microlzma *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     136 |                 strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
-         |                             ^
-   fs/erofs/decompressor_lzma.c: In function 'z_erofs_lzma_decompress':
->> fs/erofs/decompressor_lzma.c:193:9: error: implicit declaration of function 'xz_dec_microlzma_reset' [-Werror=implicit-function-declaration]
-     193 |         xz_dec_microlzma_reset(strm->state, inlen, outlen,
-         |         ^~~~~~~~~~~~~~~~~~~~~~
->> fs/erofs/decompressor_lzma.c:266:26: error: implicit declaration of function 'xz_dec_microlzma_run' [-Werror=implicit-function-declaration]
-     266 |                 xz_err = xz_dec_microlzma_run(strm->state, &strm->buf);
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/vb2.h:24,
+                    from drivers/android/vendor_hooks.c:83:
+>> include/trace/stages/init.h:2:23: warning: 'str__vb2__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/dmv_debug.h:45,
+                    from drivers/android/vendor_hooks.c:82:
+   include/trace/stages/init.h:2:23: warning: 'str__dmv_debug__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/kasan.h:18,
+                    from drivers/android/vendor_hooks.c:81:
+   include/trace/stages/init.h:2:23: warning: 'str__kasan__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/usb.h:29,
+                    from drivers/android/vendor_hooks.c:80:
+   include/trace/stages/init.h:2:23: warning: 'str__usb__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/gzvm.h:29,
+                    from drivers/android/vendor_hooks.c:79:
+   include/trace/stages/init.h:2:23: warning: 'str__gzvm__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/user.h:21,
+                    from drivers/android/vendor_hooks.c:78:
+   include/trace/stages/init.h:2:23: warning: 'str__user__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
 
-vim +/xz_dec_microlzma_end +42 fs/erofs/decompressor_lzma.c
+vim +/str__vb2__trace_system_name +2 include/trace/stages/init.h
 
-    21	
-    22	void z_erofs_lzma_exit(void)
-    23	{
-    24		/* there should be no running fs instance */
-    25		while (z_erofs_lzma_avail_strms) {
-    26			struct z_erofs_lzma *strm;
-    27	
-    28			spin_lock(&z_erofs_lzma_lock);
-    29			strm = z_erofs_lzma_head;
-    30			if (!strm) {
-    31				spin_unlock(&z_erofs_lzma_lock);
-    32				DBG_BUGON(1);
-    33				return;
-    34			}
-    35			z_erofs_lzma_head = NULL;
-    36			spin_unlock(&z_erofs_lzma_lock);
-    37	
-    38			while (strm) {
-    39				struct z_erofs_lzma *n = strm->next;
-    40	
-    41				if (strm->state)
-  > 42					xz_dec_microlzma_end(strm->state);
-    43				kfree(strm);
-    44				--z_erofs_lzma_avail_strms;
-    45				strm = n;
-    46			}
-    47		}
-    48	}
-    49	
-    50	int z_erofs_lzma_init(void)
-    51	{
-    52		unsigned int i;
-    53	
-    54		/* by default, use # of possible CPUs instead */
-    55		if (!z_erofs_lzma_nstrms)
-    56			z_erofs_lzma_nstrms = num_possible_cpus();
-    57	
-    58		for (i = 0; i < z_erofs_lzma_nstrms; ++i) {
-    59			struct z_erofs_lzma *strm = kzalloc(sizeof(*strm), GFP_KERNEL);
-    60	
-    61			if (!strm) {
-    62				z_erofs_lzma_exit();
-    63				return -ENOMEM;
-    64			}
-    65			spin_lock(&z_erofs_lzma_lock);
-    66			strm->next = z_erofs_lzma_head;
-    67			z_erofs_lzma_head = strm;
-    68			spin_unlock(&z_erofs_lzma_lock);
-    69			++z_erofs_lzma_avail_strms;
-    70		}
-    71		return 0;
-    72	}
-    73	
-    74	int z_erofs_load_lzma_config(struct super_block *sb,
-    75				     struct erofs_super_block *dsb,
-    76				     struct z_erofs_lzma_cfgs *lzma, int size)
-    77	{
-    78		static DEFINE_MUTEX(lzma_resize_mutex);
-    79		unsigned int dict_size, i;
-    80		struct z_erofs_lzma *strm, *head = NULL;
-    81		int err;
-    82	
-    83		if (!lzma || size < sizeof(struct z_erofs_lzma_cfgs)) {
-    84			erofs_err(sb, "invalid lzma cfgs, size=%u", size);
-    85			return -EINVAL;
-    86		}
-    87		if (lzma->format) {
-    88			erofs_err(sb, "unidentified lzma format %x, please check kernel version",
-    89				  le16_to_cpu(lzma->format));
-    90			return -EINVAL;
-    91		}
-    92		dict_size = le32_to_cpu(lzma->dict_size);
-    93		if (dict_size > Z_EROFS_LZMA_MAX_DICT_SIZE || dict_size < 4096) {
-    94			erofs_err(sb, "unsupported lzma dictionary size %u",
-    95				  dict_size);
-    96			return -EINVAL;
-    97		}
-    98	
-    99		erofs_info(sb, "EXPERIMENTAL MicroLZMA in use. Use at your own risk!");
-   100	
-   101		/* in case 2 z_erofs_load_lzma_config() race to avoid deadlock */
-   102		mutex_lock(&lzma_resize_mutex);
-   103	
-   104		if (z_erofs_lzma_max_dictsize >= dict_size) {
-   105			mutex_unlock(&lzma_resize_mutex);
-   106			return 0;
-   107		}
-   108	
-   109		/* 1. collect/isolate all streams for the following check */
-   110		for (i = 0; i < z_erofs_lzma_avail_strms; ++i) {
-   111			struct z_erofs_lzma *last;
-   112	
-   113	again:
-   114			spin_lock(&z_erofs_lzma_lock);
-   115			strm = z_erofs_lzma_head;
-   116			if (!strm) {
-   117				spin_unlock(&z_erofs_lzma_lock);
-   118				wait_event(z_erofs_lzma_wq,
-   119					   READ_ONCE(z_erofs_lzma_head));
-   120				goto again;
-   121			}
-   122			z_erofs_lzma_head = NULL;
-   123			spin_unlock(&z_erofs_lzma_lock);
-   124	
-   125			for (last = strm; last->next; last = last->next)
-   126				++i;
-   127			last->next = head;
-   128			head = strm;
-   129		}
-   130	
-   131		err = 0;
-   132		/* 2. walk each isolated stream and grow max dict_size if needed */
-   133		for (strm = head; strm; strm = strm->next) {
-   134			if (strm->state)
-   135				xz_dec_microlzma_end(strm->state);
- > 136			strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
-   137			if (!strm->state)
-   138				err = -ENOMEM;
-   139		}
-   140	
-   141		/* 3. push back all to the global list and update max dict_size */
-   142		spin_lock(&z_erofs_lzma_lock);
-   143		DBG_BUGON(z_erofs_lzma_head);
-   144		z_erofs_lzma_head = head;
-   145		spin_unlock(&z_erofs_lzma_lock);
-   146	
-   147		z_erofs_lzma_max_dictsize = dict_size;
-   148		mutex_unlock(&lzma_resize_mutex);
-   149		return err;
-   150	}
-   151	
-   152	int z_erofs_lzma_decompress(struct z_erofs_decompress_req *rq,
-   153				    struct list_head *pagepool)
-   154	{
-   155		const unsigned int nrpages_out =
-   156			PAGE_ALIGN(rq->pageofs_out + rq->outputsize) >> PAGE_SHIFT;
-   157		const unsigned int nrpages_in =
-   158			PAGE_ALIGN(rq->inputsize) >> PAGE_SHIFT;
-   159		unsigned int inputmargin, inlen, outlen, pageofs;
-   160		struct z_erofs_lzma *strm;
-   161		u8 *kin;
-   162		bool bounced = false;
-   163		int no, ni, j, err = 0;
-   164	
-   165		/* 1. get the exact LZMA compressed size */
-   166		kin = kmap(*rq->in);
-   167		inputmargin = 0;
-   168		while (!kin[inputmargin & ~PAGE_MASK])
-   169			if (!(++inputmargin & ~PAGE_MASK))
-   170				break;
-   171	
-   172		if (inputmargin >= PAGE_SIZE) {
-   173			kunmap(*rq->in);
-   174			return -EFSCORRUPTED;
-   175		}
-   176		rq->inputsize -= inputmargin;
-   177	
-   178		/* 2. get an available lzma context */
-   179	again:
-   180		spin_lock(&z_erofs_lzma_lock);
-   181		strm = z_erofs_lzma_head;
-   182		if (!strm) {
-   183			spin_unlock(&z_erofs_lzma_lock);
-   184			wait_event(z_erofs_lzma_wq, READ_ONCE(z_erofs_lzma_head));
-   185			goto again;
-   186		}
-   187		z_erofs_lzma_head = strm->next;
-   188		spin_unlock(&z_erofs_lzma_lock);
-   189	
-   190		/* 3. multi-call decompress */
-   191		inlen = rq->inputsize;
-   192		outlen = rq->outputsize;
- > 193		xz_dec_microlzma_reset(strm->state, inlen, outlen,
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
