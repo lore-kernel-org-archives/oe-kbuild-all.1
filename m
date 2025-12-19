@@ -1,33 +1,58 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ED403242DF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 13:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD81D3009F7;
+	Fri, 19 Dec 2025 13:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766149281; cv=none; b=LAW8LCO5aTMZWrfCDIDIdYG/xPl1o9+z5mxrLfPoXYPTELU39ED7DTF658m/eEst2kZs8k8yYELc3CiN4LzIR+je5wicKptu45G0Mg5hQKFtX1lxwfJQ7uNE+pvxFIsH+UQVhYwRpIQh2SPPyBMw/6ocVi/8ETiujhlOMikq+/s=
+	t=1766149769; cv=none; b=FfHLpbW380fdl2PmHSlJP5ql5ie5ixtXKV8yNLDcYo4dpYm9MJMZbTb8Khjw41kJoG/VOm0Gnz3+4CeJMFjdN1uSuiW5qH7Rh5WZ8FdY8wuAbcoU/Vzw7CsqqtDm65QF/9iOWULKUmybFwyCFzdcSCg044j8L5HuCbPBN7WKPzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766149281; c=relaxed/simple;
-	bh=hFCkNShrKkRni63liXUNQVzh01fqFy+VEzS0LGO4OZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mAq+iwunojwawyys5BOBIgd2qe3a/42+Bf7PSknR5bNduEhXeg2iN/DAXxifRWcGt8VNec6QoRB2nAXASeQARglHtQ251l3gHE03yVoa9SDyqIaOaxExtyJTe3HWFc6D4SmW/lXdawrCG4tXbh1LL2nRcKYs2JyEn4HRUs2sxW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D6527FEC;
-	Fri, 19 Dec 2025 05:01:00 -0800 (PST)
-Received: from arm.com (arrakis.cambridge.arm.com [10.1.197.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0C6C33F73F;
-	Fri, 19 Dec 2025 05:01:06 -0800 (PST)
-Date: Fri, 19 Dec 2025 13:01:04 +0000
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	Kees Cook <kees@kernel.org>
-Subject: Re: [linux-next:master 1388/2322] vmlinux.o: warning: objtool:
- lkdtm_PANIC_IN_HARDIRQ(): unexpected end of section
- .text.lkdtm_PANIC_IN_HARDIRQ
-Message-ID: <aUVMkNzi5L80EoJv@arm.com>
-References: <202512190111.jxFSqxUH-lkp@intel.com>
+	s=arc-20240116; t=1766149769; c=relaxed/simple;
+	bh=0YDidwStzOsTHy/NPlx6w2CXLDJTRj0k5aNCsy37OIs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HYq541lZh63nlOxSQ9iMrO8qfZEH47SOUE1F8jjlC1fA46LAo5oswsXh8L8cEJ1i39kf3yfqld9CxHCHxkW0RORhAZKCX+5kcHjeu6B9PCQ7iOdlpcusQv4nJL6WCMAVmOVid/l3FQ+k9PbmFokzMCuJZIt5q/b5OmmXbgUWf+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNNZXOb3; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNNZXOb3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766149767; x=1797685767;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0YDidwStzOsTHy/NPlx6w2CXLDJTRj0k5aNCsy37OIs=;
+  b=SNNZXOb33DTtmayobOia0J8WdT9eW/pXsubZuduOxFvf7T+cN8nqLHxj
+   tZt//LEmxD/vGO3AWVBV5YwuQfq0PxhOmLC024s61eI0wtqaRRVgGCLRX
+   IaP3Q5ebGzJBA4G4d/ElbJsGVTVJfRKYGgTNfb83NWsnl+U3AURu+CKUr
+   UH7uImQmBLyqsSY2Ex4gUwmXn6Fh81+EzXx1EUOZB5Z0I2x19BkGeOgh7
+   5SmZDRJ19RcdDsLx2fBc8KlQs/IVk/XtcRXyVkgRSFOcG+sR7HStQ92Vb
+   efK9QAJ/WEnNRERRC2qSwweasr/72k6okVGQUXwRCB3VNd16gEcW3S5N2
+   A==;
+X-CSE-ConnectionGUID: saQiKlqoSv6vXXjU0xisfQ==
+X-CSE-MsgGUID: XoANgv3RTFyVe5K9gkVVTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="55685320"
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
+   d="scan'208";a="55685320"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 05:09:26 -0800
+X-CSE-ConnectionGUID: Fdg9HkwySsSNaUdDFJh/2g==
+X-CSE-MsgGUID: qPoBMol2SjqukOWiNqyCFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
+   d="scan'208";a="198759484"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 19 Dec 2025 05:09:25 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vWaEU-000000003ZJ-42Pc;
+	Fri, 19 Dec 2025 13:09:22 +0000
+Date: Fri, 19 Dec 2025 21:08:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-v3 14/15] ld.lld: error: relocation R_X86_64_32S
+ cannot be used against symbol 'saved_context'; recompile with -fPIC
+Message-ID: <202512192147.tSHsiVv7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -36,57 +61,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202512190111.jxFSqxUH-lkp@intel.com>
 
-On Fri, Dec 19, 2025 at 01:56:52AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   1058ca9db0edaedcb16480cc74b78ed06f0d1f54
-> commit: eb972eab0794dedeef5b3b1845e5f9a78793f184 [1388/2322] lkdtm/bugs: Add cases for BUG and PANIC occurring in hardirq context
-> config: x86_64-randconfig-161-20251218 (https://download.01.org/0day-ci/archive/20251219/202512190111.jxFSqxUH-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512190111.jxFSqxUH-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512190111.jxFSqxUH-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> vmlinux.o: warning: objtool: lkdtm_PANIC_IN_HARDIRQ(): unexpected end of section .text.lkdtm_PANIC_IN_HARDIRQ
-> >> vmlinux.o: warning: objtool: lkdtm_BUG_IN_HARDIRQ(): unexpected end of section .text.lkdtm_BUG_IN_HARDIRQ
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v3
+head:   5ed57ce1a7de9e649ede6b45207ee2f3bdf4cd2f
+commit: b7e8d6fe21add95370ab27990dd2e972eebdc16b [14/15] x86/kernel: Switch to PIE linking for the core kernel
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251219/202512192147.tSHsiVv7-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512192147.tSHsiVv7-lkp@intel.com/reproduce)
 
-I think the while (...); confuses clang and objtool. I'll add this diff
-on top, it seems to silence it:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512192147.tSHsiVv7-lkp@intel.com/
 
-diff --git a/drivers/misc/lkdtm/bugs.c b/drivers/misc/lkdtm/bugs.c
-index fa05d77acb55..502059078b45 100644
---- a/drivers/misc/lkdtm/bugs.c
-+++ b/drivers/misc/lkdtm/bugs.c
-@@ -120,8 +120,8 @@ static void lkdtm_PANIC_IN_HARDIRQ(void)
- 			       CLOCK_MONOTONIC, HRTIMER_MODE_REL_HARD);
- 	hrtimer_start(&timer, us_to_ktime(100), HRTIMER_MODE_REL_HARD);
+All errors (new ones prefixed by >>):
 
--	while (wait_for_panic)
--		;
-+	while (READ_ONCE(wait_for_panic))
-+		cpu_relax();
-
- 	hrtimer_cancel(&timer);
- }
-@@ -150,8 +150,8 @@ static void lkdtm_BUG_IN_HARDIRQ(void)
- 			       CLOCK_MONOTONIC, HRTIMER_MODE_REL_HARD);
- 	hrtimer_start(&timer, us_to_ktime(100), HRTIMER_MODE_REL_HARD);
-
--	while (wait_for_bug)
--		;
-+	while (READ_ONCE(wait_for_bug))
-+		cpu_relax();
-
- 	hrtimer_cancel(&timer);
- }
-
-Thanks for the report.
+>> ld.lld: error: relocation R_X86_64_32S cannot be used against symbol 'saved_context'; recompile with -fPIC
+   >>> defined in vmlinux.o
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(virtual_mapped)
 
 -- 
-Catalin
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
