@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85181233D88
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 09:46:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B766A2D4B77;
+	Fri, 19 Dec 2025 09:57:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766137570; cv=none; b=Gy6tnkPiKyFRQlLjDbZwX/UAeqHfscWyMZsyQlhuxuF9s4OTT8logReBJw6AjorXCRk5IF/iaJdFOF8lmqvkQFfhzRvoBTco88CrzjmuN4JkmNY4vYkcmuKFTKON3AQQ+3+NqlWQWoU8OZV88rlfCg/JIWvtA8+HNVLgVUnIVZ0=
+	t=1766138231; cv=none; b=bhcATFvtLAzyWo1pyAodzG9L/Kbadr6UotYM/JmCmM3JpAR2BanNFvyG0ZVSbfbjs3MdG8jhfR/+mGKnd9yzWMnhBtXFAG0YF++H4HVyCMfAFe6jrcOvlETqOfYh/OtpJEKIeWmtsJiffAgaSMLkqjpuONwub9INHGb4xjsAqo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766137570; c=relaxed/simple;
-	bh=bKbW+c3COgn6ebtaQJkJdPNDfqwRujqoYDBL35Pflnw=;
+	s=arc-20240116; t=1766138231; c=relaxed/simple;
+	bh=u89IDNdrVN1pKbu3Ux1Nks5TsvnFdS55bJYVAlc8Vmk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mKsmu9ZSjL5j+x7bpNze/m+kIvPkZ/n9297usOk+gCk6m8fg5VQX0zDr9mqkCkxMjh5RjrHW8S7hg0Conc52OHNJsjjLUa1ylbnXk6lYtsZb6A2QRSrGkeIQO/SFUQChZQ2qOwLOkRmXKDitLLHP1IueOQ6eu4hrcljSBcOic8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLAUTjpY; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=d2I0NHf9E/4JbuVlXBVbhrQwQdywCYFGXjSdCLiDC9LAzXThltabC/aYyIi+wbaaYEfnP0XsqpZ0f12KvPEb4QC+1l/80Oy9zdh3ufyd8BA6nULLvTWz3klqE55ofqj5KyvLa0RfTEfglKbCIQg8yksJJgOLBnd9AhFEfqjdjkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jzrZeYeu; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLAUTjpY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jzrZeYeu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766137569; x=1797673569;
+  t=1766138229; x=1797674229;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bKbW+c3COgn6ebtaQJkJdPNDfqwRujqoYDBL35Pflnw=;
-  b=XLAUTjpYbENX45I/u2zXf76PGeJrPFfZV6IfV4olY8/ZYUEHvXbpENgy
-   MAlZ+cp/3Lewx2Ol9yaO8K1tBHJoyPyuEs1KjM044dlhjLUx9CyfX8UqH
-   vB17OTjPSZzlm1vqbPiNJpqSyM/noa/jk+osF6E5C12BlK69AFA200va0
-   gLPxJwO5XSi+7WOall/APfHJ6/Ef+BHIyYCP95TyHjj26UozT5Pqb/sHs
-   0fjeBtfP2GbTp50MK2+SK44ltVJEer00JNTIQQ8QxPQqXXVEM/QtHRjEs
-   5jf+OsQXEMmS3mQs2dVOE+hBe8qs78y0poupffI/zl4E0Fnl/e3YF5qmm
-   g==;
-X-CSE-ConnectionGUID: zMemuM8TTluHOVC3JPIUHw==
-X-CSE-MsgGUID: uyQ6tCDPRnCay6LGioOfrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79218662"
+  bh=u89IDNdrVN1pKbu3Ux1Nks5TsvnFdS55bJYVAlc8Vmk=;
+  b=jzrZeYeuD3/ND6kPZhVAT107TR2HBZmPtPkSRfV9mQmIbsyMn2u1eCTP
+   RxIaHNNioTTBQAEw1C3B7ZEOjKJ36apx1hsarxM5qgSBpyVb7pqYGNPgI
+   F+LsEGO06zccW7BLPLrQbMcInOFhCPovEjkcikYZOyxc4hBdX8e4LelwA
+   Z1sD3+T68AOS+llGd3+eQLcc0EMhUUeMUmm039+NonFcJQKK6aogGa52d
+   Ww+bms2mhKTiJ+81Kw6HEf3wBzAoTqJK46sC2oA0bW+fyKMbsBeBJtKZS
+   DtlcdlS5BQ2wnKN4eKOTZkVSUpoaAlHwvRpx70pzLr5aYphpLz/npb8Ux
+   Q==;
+X-CSE-ConnectionGUID: oBOCy7orTTqvLo6Fx/Rubw==
+X-CSE-MsgGUID: tZwPMsVLTGuGUzwzClPmRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="79219290"
 X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
-   d="scan'208";a="79218662"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 01:46:08 -0800
-X-CSE-ConnectionGUID: 9/E1WZy1Sbe/xXsEUKur+w==
-X-CSE-MsgGUID: SHk03YsYRe+kz2cbPanNkA==
+   d="scan'208";a="79219290"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 01:57:09 -0800
+X-CSE-ConnectionGUID: 0Ue14b+bQUusScmFZuptnw==
+X-CSE-MsgGUID: kblD3U/3TUyAgN69cDlMYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,161,1763452800"; 
-   d="scan'208";a="198834081"
+   d="scan'208";a="229862036"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 19 Dec 2025 01:46:07 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 19 Dec 2025 01:57:07 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWX3k-000000003KL-2RZb;
-	Fri, 19 Dec 2025 09:46:04 +0000
-Date: Fri, 19 Dec 2025 17:45:44 +0800
+	id 1vWXEO-000000003Kt-3q9u;
+	Fri, 19 Dec 2025 09:57:04 +0000
+Date: Fri, 19 Dec 2025 17:56:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 43/43]
- arch/arm64/kvm/hyp/pgtable.c:1184:18: sparse: sparse: dubious: x & !y
-Message-ID: <202512191739.qZACisbl-lkp@intel.com>
+To: Shuming Fan <shumingf@realtek.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>
+Subject: [linux-next:master 2070/2671] sound/soc/codecs/rt1320-sdw.c:1389:6:
+ warning: variable 'ret' is used uninitialized whenever 'if' condition is
+ true
+Message-ID: <202512191711.wY6XU796-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,55 +64,112 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Quentin,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   d13a7e3b3e0f1ca9e8faea93fbebfed911c2588d
-commit: b489c53001270b0d70152c82a4d1e0dcc8b4ff21 [43/43] ANDROID: KVM: arm64: Allow setting {P,U}XN in stage-2 PTEs
-config: arm64-randconfig-r123-20251217 (https://download.01.org/0day-ci/archive/20251219/202512191739.qZACisbl-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191739.qZACisbl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
+commit: da1682d5e8b53a51072552844c551b1b784e52c2 [2070/2671] ASoC: rt1320: support calibration and temperature/r0 loading
+config: i386-randconfig-001-20251219 (https://download.01.org/0day-ci/archive/20251219/202512191711.wY6XU796-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191711.wY6XU796-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512191739.qZACisbl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512191711.wY6XU796-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/hyp/pgtable.c:1184:18: sparse: sparse: dubious: x & !y
+All error/warnings (new ones prefixed by >>, old ones prefixed by <<):
+
+>> sound/soc/codecs/rt1320-sdw.c:1389:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+1389 |         if (!fw_ready) {
+|             ^~~~~~~~~
+sound/soc/codecs/rt1320-sdw.c:1423:9: note: uninitialized use occurs here
+1423 |         return ret;
+|                ^~~
+sound/soc/codecs/rt1320-sdw.c:1389:2: note: remove the 'if' if its condition is always false
+1389 |         if (!fw_ready) {
+|         ^~~~~~~~~~~~~~~~
+1390 |                 dev_warn(dev, "%s, DSP FW is NOT readyn", __func__);
+|                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1391 |                 goto _exit_;
+|                 ~~~~~~~~~~~~
+1392 |         }
+|         ~
+sound/soc/codecs/rt1320-sdw.c:1368:9: note: initialize the variable 'ret' to silence this warning
+1368 |         int ret;
+|                ^
+|                 = 0
+1 warning generated.
 --
->> arch/arm64/kvm/hyp/nvhe/../pgtable.c:1184:18: sparse: sparse: dubious: x & !y
+>> ERROR: modpost: "__udivdi3" [sound/soc/codecs/snd-soc-rt1320-sdw.ko] undefined!
+>> ERROR: modpost: "__umoddi3" [sound/soc/codecs/snd-soc-rt1320-sdw.ko] undefined!
 
-vim +1184 arch/arm64/kvm/hyp/pgtable.c
 
-  1176	
-  1177	int kvm_pgtable_stage2_relax_perms(struct kvm_pgtable *pgt, u64 addr,
-  1178					   enum kvm_pgtable_prot prot)
-  1179	{
-  1180		int ret;
-  1181		u32 level;
-  1182		kvm_pte_t set = 0, clr = 0;
-  1183	
-> 1184		if (prot & !KVM_PGTABLE_PROT_RWX)
-  1185			return -EINVAL;
-  1186	
-  1187		if (prot & KVM_PGTABLE_PROT_R)
-  1188			set |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R;
-  1189	
-  1190		if (prot & KVM_PGTABLE_PROT_W)
-  1191			set |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
-  1192	
-  1193		if (prot & KVM_PGTABLE_PROT_X)
-  1194			clr |= KVM_PTE_LEAF_ATTR_HI_S2_XN;
-  1195	
-  1196		ret = stage2_update_leaf_attrs(pgt, addr, 1, set, clr, NULL, &level);
-  1197		if (!ret)
-  1198			kvm_call_hyp(__kvm_tlb_flush_vmid_ipa, pgt->mmu, addr, level);
-  1199		return ret;
-  1200	}
-  1201	
+vim +1389 sound/soc/codecs/rt1320-sdw.c
+
+  1361	
+  1362	static int rt1320_t0_load(struct rt1320_sdw_priv *rt1320, unsigned int l_t0, unsigned int r_t0)
+  1363	{
+  1364		struct device *dev = &rt1320->sdw_slave->dev;
+  1365		unsigned int factor = (1 << 22), fw_ready;
+  1366		int l_t0_data[38], r_t0_data[38];
+  1367		unsigned int fw_status_addr;
+  1368		int ret;
+  1369	
+  1370		switch (rt1320->dev_id) {
+  1371		case RT1320_DEV_ID:
+  1372			fw_status_addr = RT1320_DSPFW_STATUS_ADDR;
+  1373			break;
+  1374		case RT1321_DEV_ID:
+  1375			fw_status_addr = RT1321_DSPFW_STATUS_ADDR;
+  1376			break;
+  1377		default:
+  1378			dev_err(dev, "%s: Unknown device ID %d\n", __func__, rt1320->dev_id);
+  1379			return -EINVAL;
+  1380		}
+  1381	
+  1382		regmap_write(rt1320->regmap,
+  1383				SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
+  1384					RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x00);
+  1385		rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, 0x00);
+  1386	
+  1387		regmap_read(rt1320->regmap, fw_status_addr, &fw_ready);
+  1388		fw_ready &= 0x1;
+> 1389		if (!fw_ready) {
+  1390			dev_warn(dev, "%s, DSP FW is NOT ready\n", __func__);
+  1391			goto _exit_;
+  1392		}
+  1393	
+  1394		rt1320_fw_param_protocol(rt1320, RT1320_GET_PARAM, 3, &l_t0_data[0], sizeof(l_t0_data));
+  1395		rt1320_fw_param_protocol(rt1320, RT1320_GET_PARAM, 4, &r_t0_data[0], sizeof(r_t0_data));
+  1396	
+  1397		l_t0_data[37] = l_t0 * factor;
+  1398		r_t0_data[37] = r_t0 * factor;
+  1399	
+  1400		dev_dbg(dev, "%s, write LR t0=0x%x, 0x%x\n", __func__, l_t0_data[37], r_t0_data[37]);
+  1401	
+  1402		rt1320_fw_param_protocol(rt1320, RT1320_SET_PARAM, 3, &l_t0_data[0], sizeof(l_t0_data));
+  1403		rt1320_fw_param_protocol(rt1320, RT1320_SET_PARAM, 4, &r_t0_data[0], sizeof(r_t0_data));
+  1404		ret = rt1320_check_fw_ready(rt1320);
+  1405		if (ret < 0)
+  1406			dev_err(dev, "%s: Failed to set FW param 3,4!\n", __func__);
+  1407	
+  1408		rt1320->temp_l_calib = l_t0;
+  1409		rt1320->temp_r_calib = r_t0;
+  1410	
+  1411		memset(&l_t0_data[0], 0x00, sizeof(l_t0_data));
+  1412		memset(&r_t0_data[0], 0x00, sizeof(r_t0_data));
+  1413		rt1320_fw_param_protocol(rt1320, RT1320_GET_PARAM, 3, &l_t0_data[0], sizeof(l_t0_data));
+  1414		rt1320_fw_param_protocol(rt1320, RT1320_GET_PARAM, 4, &r_t0_data[0], sizeof(r_t0_data));
+  1415		dev_dbg(dev, "%s, read after writing LR t0=0x%x, 0x%x\n", __func__, l_t0_data[37], r_t0_data[37]);
+  1416	
+  1417	_exit_:
+  1418		regmap_write(rt1320->regmap,
+  1419				SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
+  1420					RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03);
+  1421		rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, 0x03);
+  1422	
+  1423		return ret;
+  1424	}
+  1425	
 
 -- 
 0-DAY CI Kernel Test Service
