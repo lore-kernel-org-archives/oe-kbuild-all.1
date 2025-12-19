@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802EF2BE02B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 05:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285CA149C6F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 05:15:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766120637; cv=none; b=Oa0vNVTc5+Nr49TvzfAC3adGyCdRYgsNOfOcy+Y1fRPPpnsRQ46AeWRO66aySTFM5Wnciae8SipeSuD6rnPFUEtq4pknjSQQxAothUlzRV4bpkVm7OXx5+qVXvGQQkmqn8eA5SVjIuGBRZO2NZDikIpUBzWuN8dsVDx/pfwxcCg=
+	t=1766121355; cv=none; b=DEBcRup+Qa6t3K43qhwrjt6Cd3zVmosr56heDxcutBmolOhh3vJY2xvtlYKVLJn7vaRrZiWktKKGSUqrDbZCwv+ZBpGM12DaHe4wIn0YCiyDSfBvX1kVidBnTlLoDuNkhzvKfPVwhJyzNKkG+mOkrKR4F8hMrJWQUwp8+sB87uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766120637; c=relaxed/simple;
-	bh=Ocxpvoe8XnSZhYq8X8XXICHdixHUD/5yK9hlNR2KkJc=;
+	s=arc-20240116; t=1766121355; c=relaxed/simple;
+	bh=iJ61QoTK7UdwSLd5rky8wiiVQDWeXyG49I8TOhkpikA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JilAt/bXEt5i6h4XEDDKYBvdTqNqp05RhtJM2efduA0faS80UI50eliAtt1NJqHJDqTXB5MdUm3vkNiw+h89GL47hloZF0O7/+ae1lcV4URWuLYLYq0igztxaBCF/Eq37RblBxRz5fOsaMZT2b73oujLGWlgxsfD9heJ9+OlV+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OXZRDsRD; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=MA5ujX4tyRxo0NcyLQkth+VuDfT5YvZ1X7Hf0HjGYXNHtiP6JyowogP+UeGX+tVQdXLjjFJ5N/CtLvPoj1kgV8rB0cAgfzMRrGZ+pG9hI2dncyzyf3MEDlVTJBAVFuMb36MzoHdgPwnYkj2wIlbetUNftNTuGLdBtFk9Ho2WlJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AwzKjiuf; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OXZRDsRD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwzKjiuf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766120632; x=1797656632;
+  t=1766121354; x=1797657354;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ocxpvoe8XnSZhYq8X8XXICHdixHUD/5yK9hlNR2KkJc=;
-  b=OXZRDsRD2cHv+Dvt0Q2Li41NpqCIi6AqnlF1bjjOwt9cKX7EfLlvgz5U
-   CIenKfvMB6X2634zvmxXX9NLpqvbyn61BGNaVm6uw/Mz9SWCQI8MmV51f
-   yQs6hbKM1zZC7caJQc/0gbCLGYhQSru4mLuYo7LFPUB1czyhr5vx1CK9l
-   C/nDn2EZ/jQjwi0HRCRAPFkLzzHz2PAcHfChENaL+bA9+GKQTdN+0lRaJ
-   bWVuN70/k0LS+bq0uXcRJDS7WkTBx8eYoFm8L67Yx7iahs2ws3r4fOo52
-   B90W8c5DHBGssacOEJ3pFD1N3GhCjh0r0PL4yBjKzrPMI1oCl+vFsS4rp
+  bh=iJ61QoTK7UdwSLd5rky8wiiVQDWeXyG49I8TOhkpikA=;
+  b=AwzKjiuft0HGRD/fSH2AtJlsb9F7WAFPWhKsL/zt50Xhq8lHP0+TbS6f
+   KXVZZqDObgZEo40dZ0gx/ZvRUtkIz4UiQMWwe8tWdKIlGtjnYsDkF8kqJ
+   XA1J125EOmR/0a1/ExwRyM0hgiZqgvib1cM0w5VK7GHUf56Bar4Jxd9OY
+   I81wJmVZc9fMgjll/YRssmJoLbB9pMtD+gtw4mfyxyiILguTSCRnDhDpC
+   lbLEvRLtNuw+cd/z8bkn3ZbqxhALE12AJbu9gdx0eDby1+Bnx7lXNsxCT
+   clcsUjsEm3x+c5Eps/z6l/7GrZLov2z5n0WhchmWvl+kQrlzIaoL2adLE
    w==;
-X-CSE-ConnectionGUID: Cz/ruLQdSG+VbBAB6eQyOQ==
-X-CSE-MsgGUID: X0ZriLr8RSqc+GVupn5neA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="68158193"
+X-CSE-ConnectionGUID: 4beli7fLT9OPaqYef2Lg9A==
+X-CSE-MsgGUID: 0DeJ0f+zSdy9YHEAZQyEew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="71942712"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="68158193"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 21:03:51 -0800
-X-CSE-ConnectionGUID: 9lzsgJ3oTZemM0FWeLmIVw==
-X-CSE-MsgGUID: 7Z5UA8DESQG2JLlt5LhGnQ==
+   d="scan'208";a="71942712"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 21:15:53 -0800
+X-CSE-ConnectionGUID: vrk4JxoBS1mVLOPYUNQ1aw==
+X-CSE-MsgGUID: ZKLm1zy7R0KKNgIgUlCLEw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="199246943"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 18 Dec 2025 21:03:50 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 18 Dec 2025 21:15:52 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWSeZ-0000000032H-2Cml;
-	Fri, 19 Dec 2025 05:03:47 +0000
-Date: Fri, 19 Dec 2025 13:03:43 +0800
+	id 1vWSqE-0000000033W-2VvH;
+	Fri, 19 Dec 2025 05:15:50 +0000
+Date: Fri, 19 Dec 2025 13:15:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-CWF-PLR-ANBZ26486 11/11]
- drivers/block/virtio_blk.c:2236:6: warning: no previous prototype for
- 'blk_mq_virtio_map_queues_rpair'
-Message-ID: <202512191320.138QOjhb-lkp@intel.com>
+Subject: [android-common:android16-6.12 4/4] drivers/tty/n_gsm.c:4171:
+ warning: Function parameter or struct member 'dlci' not described in
+ 'gsm_modem_send_initial_msc'
+Message-ID: <202512191342.GiGds9qo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,66 +61,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-CWF-PLR-ANBZ26486
-head:   0bcb74c919819123b737554f5d35edefa0555d65
-commit: 2c3c7ee76ab63d70704930b0875ce8b49ecc660f [11/11] anolis: virtio-blk: choose right vq in map_queues for ring pair mode
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251219/202512191320.138QOjhb-lkp@intel.com/config)
+Hi Seppo,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   e81a8aa2967acbb7f13879f471406ee2b0c83cc0
+commit: 5416e89b81b00443cb03c88df8da097ae091a141 [4/4] tty: n_gsm: Don't block input queue by waiting MSC
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20251219/202512191342.GiGds9qo-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191320.138QOjhb-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191342.GiGds9qo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512191320.138QOjhb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512191342.GiGds9qo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/block/virtio_blk.c:26:
-   drivers/block/virtio_blk_ext.c:113:5: warning: no previous prototype for 'virtblk_get_ext_feature_bar' [-Wmissing-prototypes]
-     113 | int virtblk_get_ext_feature_bar(struct virtio_device *vdev, u32 *bar_offset)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/virtio_blk_ext.c:157:5: warning: no previous prototype for 'virtblk_get_ext_feature' [-Wmissing-prototypes]
-     157 | int virtblk_get_ext_feature(void __iomem *ioaddr, u32 *host_features)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/virtio_blk_ext.c:172:6: warning: no previous prototype for 'virtblk_set_ext_feature' [-Wmissing-prototypes]
-     172 | void virtblk_set_ext_feature(void __iomem *ioaddr, u32 guest_ext_features)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/block/virtio_blk.c:1821:5: warning: no previous prototype for 'check_ext_feature' [-Wmissing-prototypes]
-    1821 | int check_ext_feature(struct virtio_blk *vblk, void __iomem *ioaddr,
-         |     ^~~~~~~~~~~~~~~~~
->> drivers/block/virtio_blk.c:2236:6: warning: no previous prototype for 'blk_mq_virtio_map_queues_rpair' [-Wmissing-prototypes]
-    2236 | void blk_mq_virtio_map_queues_rpair(struct blk_mq_queue_map *qmap,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/tty/n_gsm.c:4171: warning: Function parameter or struct member 'dlci' not described in 'gsm_modem_send_initial_msc'
 
 
-vim +/blk_mq_virtio_map_queues_rpair +2236 drivers/block/virtio_blk.c
+vim +4171 drivers/tty/n_gsm.c
 
-  2234	
-  2235	#ifdef CONFIG_VIRTIO_BLK_RING_PAIR
-> 2236	void blk_mq_virtio_map_queues_rpair(struct blk_mq_queue_map *qmap,
-  2237		struct virtio_device *vdev, int first_vec)
-  2238	{
-  2239		const struct cpumask *mask;
-  2240		unsigned int queue, cpu;
-  2241	
-  2242		if (!vdev->config->get_vq_affinity)
-  2243			goto fallback;
-  2244	
-  2245		for (queue = 0; queue < qmap->nr_queues; queue++) {
-  2246			mask = vdev->config->get_vq_affinity(vdev, first_vec +
-  2247							virtblk_qid_to_cq_qid(queue));
-  2248			if (!mask)
-  2249				goto fallback;
-  2250	
-  2251			for_each_cpu(cpu, mask)
-  2252				qmap->mq_map[cpu] = qmap->queue_offset + queue;
-  2253		}
-  2254	
-  2255		return;
-  2256	fallback:
-  2257		blk_mq_map_queues(qmap);
-  2258	}
-  2259	
+  4159	
+  4160	/**
+  4161	 * gsm_modem_send_initial_msc - Send initial modem status message
+  4162	 *
+  4163	 * @dlci channel
+  4164	 *
+  4165	 * Send an initial MSC message after DLCI open to set the initial
+  4166	 * modem status lines. This is only done for basic mode.
+  4167	 * Does not wait for a response as we cannot block the input queue
+  4168	 * processing.
+  4169	 */
+  4170	static int gsm_modem_send_initial_msc(struct gsm_dlci *dlci)
+> 4171	{
+  4172		u8 modembits[2];
+  4173	
+  4174		if (dlci->adaption != 1 || dlci->gsm->encoding != GSM_BASIC_OPT)
+  4175			return 0;
+  4176	
+  4177		modembits[0] = (dlci->addr << 2) | 2 | EA; /* DLCI, Valid, EA */
+  4178		modembits[1] = (gsm_encode_modem(dlci) << 1) | EA;
+  4179		return gsm_control_command(dlci->gsm, CMD_MSC, (const u8 *)&modembits, 2);
+  4180	}
+  4181	
 
 -- 
 0-DAY CI Kernel Test Service
