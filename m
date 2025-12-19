@@ -1,150 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F021A2545
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 04:19:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1B27405A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 Dec 2025 04:29:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766117992; cv=none; b=GFFHjX3D+HVddFeQdlcuGcmV1660IgXAy4Jw8vMXYBvz6jxT1q3yTQwbGR2mPStwvhIjSQE+BW6UGVSlcF21UoKtnBCYlk1PZoKk50ITZd/PKlWSAkWS/5d7BHNDhqae7sr1KzcDb0O8rTY0dlAaYh/a9Ss8LVFEmI//kOOFxN0=
+	t=1766118591; cv=none; b=G+sETkAMqDASINlhA7SQe8vwA9AMexU77UQCZ9aSJJd585UJfMi2RoMr5DScH0k+4tc3tyq7xuB1lv6TO55pu7w0RIgf0rmlJkweakldfjmnM3a3xteYI1D2VlgwovoR7Gs3ZlaOcieWr0w3+lZK1Tq2rncTmOzYaLcDX9GSwqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766117992; c=relaxed/simple;
-	bh=kb/q+CxMKxalJ56rYLg94hBhu2VIhCz5KjTsK7miPVE=;
+	s=arc-20240116; t=1766118591; c=relaxed/simple;
+	bh=V2U0B9b0ArWvtRZOExEcSX6zGTp9fYaT4+4R8Se30Y4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tf+lPCJQy2kRr2xBT0D/Ul2lbxb2RG/DBKf+ROwh93L/kDRCBQ6ZWYjITNBgZJ9JrNSAM7kdO8ZIredf5zxlMHXP3EwubDXOPLEp1EbbAwu33LqlnsTUJZbQRHDmOu75Qs4U/PVXMMekgq/Z0wgBuIR4JPXNp3qkhyWnjngnZKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b/FwUyXa; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=YdhZAWE/65rmIpyQm3Fxz1RVwbx9t7jaLzKdEGyZ81Y/VCa6INbwj5ZOK126mramPai+f0ZgcloW+DN5IlFqxnzQ3fKAEur+vm0zUslW32Yml9xOMVosA4kbga+DljiqZWWDwtXy0cZOR3gB05yxt8OPF6S8eZ5xO60ZnMuVM5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AlZ8PFYA; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b/FwUyXa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AlZ8PFYA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766117990; x=1797653990;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kb/q+CxMKxalJ56rYLg94hBhu2VIhCz5KjTsK7miPVE=;
-  b=b/FwUyXaDVsbnvSpSJ/4yvEk2GDzz0gpkel4bAngOwLC06hN38ewMgZi
-   nbEbsvQa6KNfdBiDqgMSGnYniE3Fm1ItNo6ahtme0a1I4tRYmAsjhP4du
-   O86I+NJMe4KOU3G5ppLYM56QPJ3EVrqcfEl6LUYZKZ7zvljtVgo5sN/Il
-   jQuVFsM23WDmrUXYDWXakYhGnx0DFMgLCgtA2JK5A/k1CCAi6Mv99zyiv
-   CGuRJ0Qb5TzrhPp8jNcCVyJFIh/ZeuV5SMvAQRHcYNf0n0tHEFnZAqLEi
-   noaqJfVTHhB+N37p6jW0tvng+zXPK2617Z/FL72L0ZDvbi716FLxAqP52
-   A==;
-X-CSE-ConnectionGUID: wS4mSsXeRYyFYwK5L2Av7A==
-X-CSE-MsgGUID: JXiSX1JYQy6qBHkO6uAU0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="67831605"
+  t=1766118590; x=1797654590;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=V2U0B9b0ArWvtRZOExEcSX6zGTp9fYaT4+4R8Se30Y4=;
+  b=AlZ8PFYAIiHoI0msnK9Qzhxm4jhAgEBMtXURz4NMQfop3vD2ftwFGgJ7
+   HYapqXZzWVZlNbpNl1WrCSIcqeFTu5AA9Y21cwFY2NM5wGA/lJ8LJvjGE
+   pmQ9wBWyZ1RZmBxuIebrH4xT1HXdq9k9tjnf38hB1RcYO58fn/v/ZYNy3
+   XfzPC0Mf7yC5FEH+HkZKH5Atq3w9GQb53eXwjEBiIlLsnKn25VsZtSvov
+   sbLxy+zXkxJOuOdzhLLcXQkF6nsy560gVEazrTPXuvWJxYjIZ/ic1tOTU
+   JGVNwEL3lMXdAx6lh81IX2F2Hmc+i7soSwcoi+KbFMqcbQwFZMavUy9ii
+   Q==;
+X-CSE-ConnectionGUID: +RPPBfS9SJ6qpwIvJJY5uw==
+X-CSE-MsgGUID: DSt6CsAuTIezzWhNFZNgrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11646"; a="78793294"
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="67831605"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 20:19:49 -0800
-X-CSE-ConnectionGUID: CBmk2z1dRna6EsEWo1qZ0A==
-X-CSE-MsgGUID: u1kbjGZ4SnqgP5oztrZFeA==
+   d="scan'208";a="78793294"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2025 20:29:49 -0800
+X-CSE-ConnectionGUID: xu29lmxrSvuRM8aXuZ4bgA==
+X-CSE-MsgGUID: iQy51I96T2yo4j/h2CjOUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,159,1763452800"; 
-   d="scan'208";a="236185460"
+   d="scan'208";a="229802995"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Dec 2025 20:19:48 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 18 Dec 2025 20:29:48 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWRxx-000000002zY-2Q7Q;
-	Fri, 19 Dec 2025 04:19:45 +0000
-Date: Fri, 19 Dec 2025 12:18:54 +0800
+	id 1vWS7e-0000000030P-0G0r;
+	Fri, 19 Dec 2025 04:29:46 +0000
+Date: Fri, 19 Dec 2025 12:29:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-xarray:xarray 3/3] lib/xarray.c:2426:6: warning: no previous
- prototype for function 'xa_dump_index'
-Message-ID: <202512191244.8tmkPR7E-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-6.6-numa-sched-domain-ANBZ26672 3/3]
+ mm/page_alloc.c:297:20: warning: 'add_to_free_list' declared 'static' but
+ never defined
+Message-ID: <202512191232.C0sgoMb8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   git://git.infradead.org/users/willy/xarray.git xarray
-head:   aaf7f456296680f7d1d9c04154a92050cdf5316f
-commit: aaf7f456296680f7d1d9c04154a92050cdf5316f [3/3] XArray: Add CONFIG_DEBUG_XARRAY
-config: arm-randconfig-004-20251216 (https://download.01.org/0day-ci/archive/20251219/202512191244.8tmkPR7E-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191244.8tmkPR7E-lkp@intel.com/reproduce)
+Hi Johannes,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-numa-sched-domain-ANBZ26672
+head:   7937ef3c1b34894ed22447a9af04c96f5f50cff6
+commit: dce9170c150f27ea23a2a52e539cc02b6957b595 [3/3] mm: page_alloc: batch vmstat updates in expand()
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251219/202512191232.C0sgoMb8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251219/202512191232.C0sgoMb8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512191244.8tmkPR7E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512191232.C0sgoMb8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/xarray.c:2426:6: warning: no previous prototype for function 'xa_dump_index' [-Wmissing-prototypes]
-    2426 | void xa_dump_index(unsigned long index, unsigned int shift)
-         |      ^
-   lib/xarray.c:2426:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2426 | void xa_dump_index(unsigned long index, unsigned int shift)
-         | ^
-         | static 
->> lib/xarray.c:2436:6: warning: no previous prototype for function 'xa_dump_entry' [-Wmissing-prototypes]
-    2436 | void xa_dump_entry(const void *entry, unsigned long index, unsigned long shift)
-         |      ^
-   lib/xarray.c:2436:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2436 | void xa_dump_entry(const void *entry, unsigned long index, unsigned long shift)
-         | ^
-         | static 
-   2 warnings generated.
+>> mm/page_alloc.c:297:20: warning: 'add_to_free_list' declared 'static' but never defined [-Wunused-function]
+     297 | static inline void add_to_free_list(struct page *page, struct zone *zone,
+         |                    ^~~~~~~~~~~~~~~~
 
 
-vim +/xa_dump_index +2426 lib/xarray.c
+vim +297 mm/page_alloc.c
 
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2425  
-ad3d6c7263e368 Matthew Wilcox 2017-11-07 @2426  void xa_dump_index(unsigned long index, unsigned int shift)
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2427  {
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2428  	if (!shift)
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2429  		pr_info("%lu: ", index);
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2430  	else if (shift >= BITS_PER_LONG)
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2431  		pr_info("0-%lu: ", ~0UL);
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2432  	else
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2433  		pr_info("%lu-%lu: ", index, index | ((1UL << shift) - 1));
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2434  }
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2435  
-ad3d6c7263e368 Matthew Wilcox 2017-11-07 @2436  void xa_dump_entry(const void *entry, unsigned long index, unsigned long shift)
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2437  {
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2438  	if (!entry)
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2439  		return;
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2440  
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2441  	xa_dump_index(index, shift);
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2442  
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2443  	if (xa_is_node(entry)) {
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2444  		if (shift == 0) {
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2445  			pr_cont("%px\n", entry);
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2446  		} else {
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2447  			unsigned long i;
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2448  			struct xa_node *node = xa_to_node(entry);
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2449  			xa_dump_node(node);
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2450  			for (i = 0; i < XA_CHUNK_SIZE; i++)
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2451  				xa_dump_entry(node->slots[i],
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2452  				      index + (i << node->shift), node->shift);
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2453  		}
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2454  	} else if (xa_is_value(entry))
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2455  		pr_cont("value %ld (0x%lx) [%px]\n", xa_to_value(entry),
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2456  						xa_to_value(entry), entry);
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2457  	else if (!xa_is_internal(entry))
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2458  		pr_cont("%px\n", entry);
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2459  	else if (xa_is_retry(entry))
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2460  		pr_cont("retry (%ld)\n", xa_to_internal(entry));
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2461  	else if (xa_is_sibling(entry))
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2462  		pr_cont("sibling (slot %ld)\n", xa_to_sibling(entry));
-9f14d4f1f1045f Matthew Wilcox 2018-10-01  2463  	else if (xa_is_zero(entry))
-9f14d4f1f1045f Matthew Wilcox 2018-10-01  2464  		pr_cont("zero (%ld)\n", xa_to_internal(entry));
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2465  	else
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2466  		pr_cont("UNKNOWN ENTRY (%px)\n", entry);
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2467  }
-ad3d6c7263e368 Matthew Wilcox 2017-11-07  2468  
+418508c13222dd Miklos Szeredi     2007-05-23  292  
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  293  static bool page_contains_unaccepted(struct page *page, unsigned int order);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  294  static void accept_page(struct page *page, unsigned int order);
+b77471c6760a22 Kirill A. Shutemov 2024-08-09  295  static bool cond_accept_memory(struct zone *zone, unsigned int order);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  296  static bool __free_unaccepted(struct page *page);
+8c8774fcbaf476 Johannes Weiner    2024-03-20 @297  static inline void add_to_free_list(struct page *page, struct zone *zone,
+8c8774fcbaf476 Johannes Weiner    2024-03-20  298                                      unsigned int order, int migratetype,
+8c8774fcbaf476 Johannes Weiner    2024-03-20  299                                      bool tail);
+dcdfdd40fa82b6 Kirill A. Shutemov 2023-06-06  300  
 
-:::::: The code at line 2426 was first introduced by commit
-:::::: ad3d6c7263e368abdc151e1cc13dc78aa39cc7a7 xarray: Add XArray load operation
+:::::: The code at line 297 was first introduced by commit
+:::::: 8c8774fcbaf47634f07ee957e9cd9403f5e0ce2c mm: page_alloc: consolidate free page accounting
 
-:::::: TO: Matthew Wilcox <willy@infradead.org>
-:::::: CC: Matthew Wilcox <willy@infradead.org>
+:::::: TO: Johannes Weiner <hannes@cmpxchg.org>
+:::::: CC: 小龙 <wenqing.ly@alibaba-inc.com>
 
 -- 
 0-DAY CI Kernel Test Service
