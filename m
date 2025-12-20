@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08B91F4CA9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:35:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E367244664;
+	Sat, 20 Dec 2025 15:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766244947; cv=none; b=dR/WOnVGBFePSjXp8MnN63j4u0qwyape4qtRLCzgMFJIq576CpGYMPV56MBq824l+OVODNiPt0L/a93GNVtnS+hDAaTXYNLnSZcOYHYuekYmYJqnLM2QUCAIREFzX4xZli5iyZqDiB2a1SPbRFwG7O8UeACQbGdLs9KS9cpsTUw=
+	t=1766245462; cv=none; b=FSoJrXIlKW3twYhQbTKRMGpbkPBB0bBbi94m0upFEBm7OkB1ZS8zNoqSLsdMTwkkQUOY/oBb9SwxvEjFWxZJPj3TqfS3K455rt/86SbG+ckMJzwx/rmaOkRMWSea7cIC7zr1hQZJR87wDkhdR5gM3JaiK2Qj9wN35OoV0KVMQx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766244947; c=relaxed/simple;
-	bh=BV5nTbXeR1w7Bkj4hUzXcjjiqqHjudO0UFkY8C86vAU=;
+	s=arc-20240116; t=1766245462; c=relaxed/simple;
+	bh=cyQKvVQUsfUFBpx8YaykRKpT0aTBA25NUWADHIQEPPY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GEXsiyRu/+SrbcCsSC+SoxwJ5Vhw8pMC32+Fv3e13xWYeaIbD7Xt4KFDVZjOYEOA16ORc9lvdE0sYTQoNY+sW22JSCBt0U0zSU/MMyP6c8CWO0t9skMXYJTff1ClXk6WsHpL1IqIrlb6CgSYkxZRDJO7IILSiJUbRVZxqoWwo98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d5hE3YwC; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=JrHk278cBVr75Vssnmvw7fdfqOIqWtjEO8m0P++d1c4XGUz27BK9lbbiDak5ipcL35NEijyPcV2u89MhELYNJPRe4EWYee5eqYoMiEAC3idt+pktAQXR/k2C0IVmnwRkoLZBTvR9Vb9ckL3cDGMLwZBd//YkusGw7+Q74eLxSRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mtJSaa6l; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d5hE3YwC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mtJSaa6l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766244946; x=1797780946;
+  t=1766245461; x=1797781461;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BV5nTbXeR1w7Bkj4hUzXcjjiqqHjudO0UFkY8C86vAU=;
-  b=d5hE3YwCqnQdvHOtYC6LKbVgOpvsiuU7/S8AzfsCkJ0R2vRYSEiXpYR6
-   Zwdm7uEOjipiV0Ng1IfGzgKAiZidsGL0IHtVhemLQ1Bqn2xjXSCn9us3o
-   /2zBZVBczdXzTP9J5m03YH2I+La62sBqy3XlWaxudx+Pa8l+m4I0rmH2N
-   MLHUFRnBAU7nqGyyj1cFY/08vEq/XerVUb7j25R8k1z9DGtuFYMoPuXfS
-   iqeGMD0bQyxiK57fN/rW6wc7DBVoaKfl3c9zb4YbmJojkLC0mA2APtsz7
-   7wQOMr/i36QdI8NqFVO4xEayhRDPCrFt1tnCi0P3lszJambaAELoDvLaL
+  bh=cyQKvVQUsfUFBpx8YaykRKpT0aTBA25NUWADHIQEPPY=;
+  b=mtJSaa6l2YOlBX/8L5at0Qan3vTLF0t01p7gZXmLYXOzk7TZxsq5x8g5
+   HhjHNBy3Q0DSaUp9qe0mMCA+B3f6UMmBgSrJXB0Scooe/NizRTt3NAvJO
+   q1U0z6MeGTknLzdwMkvoGB3Avi2Aj+aElorib9yzaLltky1D6JUBY5nz0
+   5lm5LrqJxVmCbWbWeueYs8HsUlZDkAdcrMT0dPI1NwRMneP6CoS/0Z8GK
+   hdzg9iR67+bmQA+6Ri56v6Wx0Jv0k4TR/0RxhVUqEISTcTjF1jUWPl5CV
+   ZjQNpbE+CLmtVe/qqCEqngPsLiTgRhdrPEVKX8qzhMPPr7SquujkoyU1e
    Q==;
-X-CSE-ConnectionGUID: HqMJkK6aQtWPkMo2ogMcnQ==
-X-CSE-MsgGUID: lcu38JHIT1Wd1aWfoXR/5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="79296949"
+X-CSE-ConnectionGUID: F7YVTXG2SP+0i1VNkbextg==
+X-CSE-MsgGUID: 6AX9p4zmQLOWq8CzLljIJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="90838733"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="79296949"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:35:45 -0800
-X-CSE-ConnectionGUID: ilPmho4uRZW2zwnAMfaiug==
-X-CSE-MsgGUID: 5GawnLD3TA6oIkgyqO1Yow==
+   d="scan'208";a="90838733"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:44:20 -0800
+X-CSE-ConnectionGUID: FbqEfdviTDS9pin2HYdybQ==
+X-CSE-MsgGUID: IQ7EZ4jvTJ+DSbSByasnRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="236534715"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 20 Dec 2025 07:35:42 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="222597992"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 20 Dec 2025 07:44:18 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWyzc-000000004ga-39a2;
-	Sat, 20 Dec 2025 15:35:40 +0000
-Date: Sat, 20 Dec 2025 16:34:46 +0100
+	id 1vWz7v-000000004m5-2bfi;
+	Sat, 20 Dec 2025 15:44:15 +0000
+Date: Sat, 20 Dec 2025 23:43:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rusydi H. Makarim" <rusydi.makarim@kriptograf.id>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-	"Rusydi H. Makarim" <rusydi.makarim@kriptograf.id>
-Subject: Re: [PATCH 2/3] lib/crypto: Initial implementation of Ascon-Hash256
-Message-ID: <202512201605.QLcE0Qu7-lkp@intel.com>
-References: <20251215-ascon_hash256-v1-2-24ae735e571e@kriptograf.id>
+To: Maarten Lankhorst <dev@lankhorst.se>, intel-xe@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [i915-rt v4 19/20] drm/i915/display: Do not take uncore lock in
+ i915_get_vblank_counter
+Message-ID: <202512202303.UVIG27Cq-lkp@intel.com>
+References: <20251218163408.97508-20-dev@lankhorst.se>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,107 +64,217 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251215-ascon_hash256-v1-2-24ae735e571e@kriptograf.id>
+In-Reply-To: <20251218163408.97508-20-dev@lankhorst.se>
 
-Hi Rusydi,
+Hi Maarten,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 92de2d349e02c2dd96d8d1b7016cc78cf80fc085]
+[auto build test ERROR on drm-i915/for-linux-next]
+[also build test ERROR on drm-i915/for-linux-next-fixes drm-xe/drm-xe-next drm-tip/drm-tip linus/master v6.19-rc1 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rusydi-H-Makarim/lib-crypto-Add-KUnit-test-vectors-for-Ascon-Hash256/20251215-215114
-base:   92de2d349e02c2dd96d8d1b7016cc78cf80fc085
-patch link:    https://lore.kernel.org/r/20251215-ascon_hash256-v1-2-24ae735e571e%40kriptograf.id
-patch subject: [PATCH 2/3] lib/crypto: Initial implementation of Ascon-Hash256
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251220/202512201605.QLcE0Qu7-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512201605.QLcE0Qu7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/drm-i915-display-Fix-intel_lpe_audio_irq_handler-for-PREEMPT-RT/20251219-044020
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
+patch link:    https://lore.kernel.org/r/20251218163408.97508-20-dev%40lankhorst.se
+patch subject: [i915-rt v4 19/20] drm/i915/display: Do not take uncore lock in i915_get_vblank_counter
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20251220/202512202303.UVIG27Cq-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202303.UVIG27Cq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512201605.QLcE0Qu7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202303.UVIG27Cq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> lib/crypto/hash_info.c:35:10: error: 'HASH_ALGO_ASCON_HASH256' undeclared here (not in a function); did you mean 'HASH_ALGO_SHA3_256'?
-      35 |         [HASH_ALGO_ASCON_HASH256] = "ascon-hash256",
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-         |          HASH_ALGO_SHA3_256
->> lib/crypto/hash_info.c:35:10: error: array index in initializer not of integer type
-   lib/crypto/hash_info.c:35:10: note: (near initialization for 'hash_algo_name')
-   lib/crypto/hash_info.c:35:37: warning: excess elements in array initializer
-      35 |         [HASH_ALGO_ASCON_HASH256] = "ascon-hash256",
-         |                                     ^~~~~~~~~~~~~~~
-   lib/crypto/hash_info.c:35:37: note: (near initialization for 'hash_algo_name')
-   lib/crypto/hash_info.c:63:10: error: array index in initializer not of integer type
-      63 |         [HASH_ALGO_ASCON_HASH256] = ASCON_HASH256_DIGEST_SIZE,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-   lib/crypto/hash_info.c:63:10: note: (near initialization for 'hash_digest_size')
->> lib/crypto/hash_info.c:63:37: error: 'ASCON_HASH256_DIGEST_SIZE' undeclared here (not in a function); did you mean 'SHA256_DIGEST_SIZE'?
-      63 |         [HASH_ALGO_ASCON_HASH256] = ASCON_HASH256_DIGEST_SIZE,
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                     SHA256_DIGEST_SIZE
-   lib/crypto/hash_info.c:63:37: warning: excess elements in array initializer
-   lib/crypto/hash_info.c:63:37: note: (near initialization for 'hash_digest_size')
+   In file included from drivers/gpu/drm/i915/i915_driver.c:75:
+   In file included from drivers/gpu/drm/i915/gem/i915_gem_context.h:9:
+   In file included from drivers/gpu/drm/i915/gem/i915_gem_context_types.h:19:
+   In file included from drivers/gpu/drm/i915/gt/intel_context_types.h:17:
+   In file included from drivers/gpu/drm/i915/gt/intel_engine_types.h:26:
+>> drivers/gpu/drm/i915/intel_uncore.h:455:11: error: expected ';' at end of declaration
+     455 |         u32 upper lower, old_upper, loop = 0;
+         |                  ^
+         |                  ;
+>> drivers/gpu/drm/i915/intel_uncore.h:456:31: error: use of undeclared identifier 'uncoree'
+     456 |         upper = intel_uncore_read_fw(uncoree, upper_reg);
+         |                                      ^
+>> drivers/gpu/drm/i915/intel_uncore.h:456:40: error: use of undeclared identifier 'upper_reg'
+     456 |         upper = intel_uncore_read_fw(uncoree, upper_reg);
+         |                                               ^
+>> drivers/gpu/drm/i915/intel_uncore.h:458:3: error: use of undeclared identifier 'old_upper'
+     458 |                 old_upper = upper;
+         |                 ^
+>> drivers/gpu/drm/i915/intel_uncore.h:459:3: error: use of undeclared identifier 'lower'
+     459 |                 lower = intel_uncore_read_fw(uncore, lower_reg);
+         |                 ^
+>> drivers/gpu/drm/i915/intel_uncore.h:459:40: error: use of undeclared identifier 'lower_reg'
+     459 |                 lower = intel_uncore_read_fw(uncore, lower_reg);
+         |                                                      ^
+   drivers/gpu/drm/i915/intel_uncore.h:460:40: error: use of undeclared identifier 'upper_reg'
+     460 |                 upper = intel_uncore_read_fw(uncore, upper_reg);
+         |                                                      ^
+   drivers/gpu/drm/i915/intel_uncore.h:461:20: error: use of undeclared identifier 'old_upper'
+     461 |         } while (upper != old_upper && loop++ < 2);
+         |                           ^
+>> drivers/gpu/drm/i915/intel_uncore.h:461:33: error: use of undeclared identifier 'loop'
+     461 |         } while (upper != old_upper && loop++ < 2);
+         |                                        ^
+   drivers/gpu/drm/i915/intel_uncore.h:463:28: error: use of undeclared identifier 'lower'
+     463 |         return (u64)upper << 32 | lower;
+         |                                   ^
+>> drivers/gpu/drm/i915/intel_uncore.h:483:44: error: too many arguments to function call, expected single argument 'uncore', have 3 arguments
+     483 |         ret = intel_uncore_read64_2x32_fw(uncore, lower_reg, upper_reg);
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~         ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_uncore.h:453:1: note: 'intel_uncore_read64_2x32_fw' declared here
+     453 | intel_uncore_read64_2x32_fw(struct intel_uncore *uncore)
+         | ^                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   11 errors generated.
+--
+   In file included from drivers/gpu/drm/i915/gem/i915_gem_shmem.c:14:
+   In file included from drivers/gpu/drm/i915/i915_drv.h:40:
+   In file included from drivers/gpu/drm/i915/gem/i915_gem_context_types.h:19:
+   In file included from drivers/gpu/drm/i915/gt/intel_context_types.h:17:
+   In file included from drivers/gpu/drm/i915/gt/intel_engine_types.h:26:
+>> drivers/gpu/drm/i915/intel_uncore.h:455:11: error: expected ';' at end of declaration
+     455 |         u32 upper lower, old_upper, loop = 0;
+         |                  ^
+         |                  ;
+>> drivers/gpu/drm/i915/intel_uncore.h:456:31: error: use of undeclared identifier 'uncoree'
+     456 |         upper = intel_uncore_read_fw(uncoree, upper_reg);
+         |                                      ^
+>> drivers/gpu/drm/i915/intel_uncore.h:456:40: error: use of undeclared identifier 'upper_reg'
+     456 |         upper = intel_uncore_read_fw(uncoree, upper_reg);
+         |                                               ^
+>> drivers/gpu/drm/i915/intel_uncore.h:458:3: error: use of undeclared identifier 'old_upper'
+     458 |                 old_upper = upper;
+         |                 ^
+>> drivers/gpu/drm/i915/intel_uncore.h:459:3: error: use of undeclared identifier 'lower'
+     459 |                 lower = intel_uncore_read_fw(uncore, lower_reg);
+         |                 ^
+>> drivers/gpu/drm/i915/intel_uncore.h:459:40: error: use of undeclared identifier 'lower_reg'
+     459 |                 lower = intel_uncore_read_fw(uncore, lower_reg);
+         |                                                      ^
+   drivers/gpu/drm/i915/intel_uncore.h:460:40: error: use of undeclared identifier 'upper_reg'
+     460 |                 upper = intel_uncore_read_fw(uncore, upper_reg);
+         |                                                      ^
+   drivers/gpu/drm/i915/intel_uncore.h:461:20: error: use of undeclared identifier 'old_upper'
+     461 |         } while (upper != old_upper && loop++ < 2);
+         |                           ^
+>> drivers/gpu/drm/i915/intel_uncore.h:461:33: error: use of undeclared identifier 'loop'
+     461 |         } while (upper != old_upper && loop++ < 2);
+         |                                        ^
+   drivers/gpu/drm/i915/intel_uncore.h:463:28: error: use of undeclared identifier 'lower'
+     463 |         return (u64)upper << 32 | lower;
+         |                                   ^
+>> drivers/gpu/drm/i915/intel_uncore.h:483:44: error: too many arguments to function call, expected single argument 'uncore', have 3 arguments
+     483 |         ret = intel_uncore_read64_2x32_fw(uncore, lower_reg, upper_reg);
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~         ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_uncore.h:453:1: note: 'intel_uncore_read64_2x32_fw' declared here
+     453 | intel_uncore_read64_2x32_fw(struct intel_uncore *uncore)
+         | ^                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gem/i915_gem_shmem.c:515:34: warning: result of comparison of constant 17592186040320 with expression of type 'resource_size_t' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+     515 |         if (BITS_PER_LONG == 64 && size > MAX_LFS_FILESIZE)
+         |                                    ~~~~ ^ ~~~~~~~~~~~~~~~~
+   1 warning and 11 errors generated.
+--
+   In file included from drivers/gpu/drm/i915/display/hsw_ips.c:13:
+   In file included from drivers/gpu/drm/i915/display/intel_de.h:12:
+>> drivers/gpu/drm/i915/intel_uncore.h:455:11: error: expected ';' at end of declaration
+     455 |         u32 upper lower, old_upper, loop = 0;
+         |                  ^
+         |                  ;
+>> drivers/gpu/drm/i915/intel_uncore.h:456:31: error: use of undeclared identifier 'uncoree'
+     456 |         upper = intel_uncore_read_fw(uncoree, upper_reg);
+         |                                      ^
+>> drivers/gpu/drm/i915/intel_uncore.h:456:40: error: use of undeclared identifier 'upper_reg'
+     456 |         upper = intel_uncore_read_fw(uncoree, upper_reg);
+         |                                               ^
+>> drivers/gpu/drm/i915/intel_uncore.h:458:3: error: use of undeclared identifier 'old_upper'
+     458 |                 old_upper = upper;
+         |                 ^
+>> drivers/gpu/drm/i915/intel_uncore.h:459:3: error: use of undeclared identifier 'lower'
+     459 |                 lower = intel_uncore_read_fw(uncore, lower_reg);
+         |                 ^
+>> drivers/gpu/drm/i915/intel_uncore.h:459:40: error: use of undeclared identifier 'lower_reg'
+     459 |                 lower = intel_uncore_read_fw(uncore, lower_reg);
+         |                                                      ^
+   drivers/gpu/drm/i915/intel_uncore.h:460:40: error: use of undeclared identifier 'upper_reg'
+     460 |                 upper = intel_uncore_read_fw(uncore, upper_reg);
+         |                                                      ^
+   drivers/gpu/drm/i915/intel_uncore.h:461:20: error: use of undeclared identifier 'old_upper'
+     461 |         } while (upper != old_upper && loop++ < 2);
+         |                           ^
+>> drivers/gpu/drm/i915/intel_uncore.h:461:33: error: use of undeclared identifier 'loop'
+     461 |         } while (upper != old_upper && loop++ < 2);
+         |                                        ^
+   drivers/gpu/drm/i915/intel_uncore.h:463:28: error: use of undeclared identifier 'lower'
+     463 |         return (u64)upper << 32 | lower;
+         |                                   ^
+>> drivers/gpu/drm/i915/intel_uncore.h:483:44: error: too many arguments to function call, expected single argument 'uncore', have 3 arguments
+     483 |         ret = intel_uncore_read64_2x32_fw(uncore, lower_reg, upper_reg);
+         |               ~~~~~~~~~~~~~~~~~~~~~~~~~~~         ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_uncore.h:453:1: note: 'intel_uncore_read64_2x32_fw' declared here
+     453 | intel_uncore_read64_2x32_fw(struct intel_uncore *uncore)
+         | ^                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/i915/display/hsw_ips.c:13:
+>> drivers/gpu/drm/i915/display/intel_de.h:71:9: error: too many arguments to function call, expected single argument 'uncore', have 3 arguments
+      70 |         return intel_uncore_read64_2x32_fw(__to_uncore(display),
+         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      71 |                                            lower_reg, upper_reg);
+         |                                            ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/intel_uncore.h:453:1: note: 'intel_uncore_read64_2x32_fw' declared here
+     453 | intel_uncore_read64_2x32_fw(struct intel_uncore *uncore)
+         | ^                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12 errors generated.
 
 
-vim +35 lib/crypto/hash_info.c
+vim +455 drivers/gpu/drm/i915/intel_uncore.h
 
-    10	
-    11	const char *const hash_algo_name[HASH_ALGO__LAST] = {
-    12		[HASH_ALGO_MD4]		= "md4",
-    13		[HASH_ALGO_MD5]		= "md5",
-    14		[HASH_ALGO_SHA1]	= "sha1",
-    15		[HASH_ALGO_RIPE_MD_160]	= "rmd160",
-    16		[HASH_ALGO_SHA256]	= "sha256",
-    17		[HASH_ALGO_SHA384]	= "sha384",
-    18		[HASH_ALGO_SHA512]	= "sha512",
-    19		[HASH_ALGO_SHA224]	= "sha224",
-    20		[HASH_ALGO_RIPE_MD_128]	= "rmd128",
-    21		[HASH_ALGO_RIPE_MD_256]	= "rmd256",
-    22		[HASH_ALGO_RIPE_MD_320]	= "rmd320",
-    23		[HASH_ALGO_WP_256]	= "wp256",
-    24		[HASH_ALGO_WP_384]	= "wp384",
-    25		[HASH_ALGO_WP_512]	= "wp512",
-    26		[HASH_ALGO_TGR_128]	= "tgr128",
-    27		[HASH_ALGO_TGR_160]	= "tgr160",
-    28		[HASH_ALGO_TGR_192]	= "tgr192",
-    29		[HASH_ALGO_SM3_256]	= "sm3",
-    30		[HASH_ALGO_STREEBOG_256] = "streebog256",
-    31		[HASH_ALGO_STREEBOG_512] = "streebog512",
-    32		[HASH_ALGO_SHA3_256]    = "sha3-256",
-    33		[HASH_ALGO_SHA3_384]    = "sha3-384",
-    34		[HASH_ALGO_SHA3_512]    = "sha3-512",
-  > 35		[HASH_ALGO_ASCON_HASH256] = "ascon-hash256",
-    36	};
-    37	EXPORT_SYMBOL_GPL(hash_algo_name);
-    38	
-    39	const int hash_digest_size[HASH_ALGO__LAST] = {
-    40		[HASH_ALGO_MD4]		= MD5_DIGEST_SIZE,
-    41		[HASH_ALGO_MD5]		= MD5_DIGEST_SIZE,
-    42		[HASH_ALGO_SHA1]	= SHA1_DIGEST_SIZE,
-    43		[HASH_ALGO_RIPE_MD_160]	= RMD160_DIGEST_SIZE,
-    44		[HASH_ALGO_SHA256]	= SHA256_DIGEST_SIZE,
-    45		[HASH_ALGO_SHA384]	= SHA384_DIGEST_SIZE,
-    46		[HASH_ALGO_SHA512]	= SHA512_DIGEST_SIZE,
-    47		[HASH_ALGO_SHA224]	= SHA224_DIGEST_SIZE,
-    48		[HASH_ALGO_RIPE_MD_128]	= RMD128_DIGEST_SIZE,
-    49		[HASH_ALGO_RIPE_MD_256]	= RMD256_DIGEST_SIZE,
-    50		[HASH_ALGO_RIPE_MD_320]	= RMD320_DIGEST_SIZE,
-    51		[HASH_ALGO_WP_256]	= WP256_DIGEST_SIZE,
-    52		[HASH_ALGO_WP_384]	= WP384_DIGEST_SIZE,
-    53		[HASH_ALGO_WP_512]	= WP512_DIGEST_SIZE,
-    54		[HASH_ALGO_TGR_128]	= TGR128_DIGEST_SIZE,
-    55		[HASH_ALGO_TGR_160]	= TGR160_DIGEST_SIZE,
-    56		[HASH_ALGO_TGR_192]	= TGR192_DIGEST_SIZE,
-    57		[HASH_ALGO_SM3_256]	= SM3256_DIGEST_SIZE,
-    58		[HASH_ALGO_STREEBOG_256] = STREEBOG256_DIGEST_SIZE,
-    59		[HASH_ALGO_STREEBOG_512] = STREEBOG512_DIGEST_SIZE,
-    60		[HASH_ALGO_SHA3_256]    = SHA3_256_DIGEST_SIZE,
-    61		[HASH_ALGO_SHA3_384]    = SHA3_384_DIGEST_SIZE,
-    62		[HASH_ALGO_SHA3_512]    = SHA3_512_DIGEST_SIZE,
-  > 63		[HASH_ALGO_ASCON_HASH256] = ASCON_HASH256_DIGEST_SIZE,
+   451	
+   452	static inline u64
+   453	intel_uncore_read64_2x32_fw(struct intel_uncore *uncore)
+   454	{
+ > 455		u32 upper lower, old_upper, loop = 0;
+ > 456		upper = intel_uncore_read_fw(uncoree, upper_reg);
+   457		do {
+ > 458			old_upper = upper;
+ > 459			lower = intel_uncore_read_fw(uncore, lower_reg);
+   460			upper = intel_uncore_read_fw(uncore, upper_reg);
+ > 461		} while (upper != old_upper && loop++ < 2);
+   462	
+   463		return (u64)upper << 32 | lower;
+   464	}
+   465	
+   466	static inline u64
+   467	intel_uncore_read64_2x32(struct intel_uncore *uncore,
+   468				 i915_reg_t lower_reg, i915_reg_t upper_reg)
+   469	{
+   470		enum forcewake_domains fw_domains;
+   471		unsigned long flags;
+   472		u64 ret;
+   473	
+   474		fw_domains = intel_uncore_forcewake_for_reg(uncore, lower_reg,
+   475							    FW_REG_READ);
+   476	
+   477		fw_domains |= intel_uncore_forcewake_for_reg(uncore, upper_reg,
+   478							    FW_REG_READ);
+   479	
+   480		spin_lock_irqsave(&uncore->lock, flags);
+   481		intel_uncore_forcewake_get__locked(uncore, fw_domains);
+   482	
+ > 483		ret = intel_uncore_read64_2x32_fw(uncore, lower_reg, upper_reg);
+   484	
+   485		intel_uncore_forcewake_put__locked(uncore, fw_domains);
+   486		spin_unlock_irqrestore(&uncore->lock, flags);
+   487	
+   488		return ret;
+   489	}
+   490	
 
 -- 
 0-DAY CI Kernel Test Service
