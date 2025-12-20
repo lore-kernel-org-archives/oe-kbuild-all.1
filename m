@@ -1,102 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640A225487B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 21:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6917042049;
+	Sat, 20 Dec 2025 21:34:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766266128; cv=none; b=ZEHu0Tkw/OpPYyMKlWfxiXG8x8nvwcUn41Hm80rkzaBQT+TmbpB2h0LcxWm5l/KRPukRZGODcSrdMmNuNpqZncjNsHgjtnI1l35lsipGYlkRuVb6fFQMnYa/+kQ/UateUlVBZhUCOCD+uSt6wuaMq7tTsOq6HXr9n0lrdHT48/M=
+	t=1766266492; cv=none; b=pofmxLPJPuyLUkhGcyoQ+oPtkhQTv135bzOf+sECkSUQrD67lFVok/DoaWF4RNDEEcMi3ycpXmUQkftEwoIV8bpMY7BJuTpOiaBTvBWoIH+DCTcW+r6+juY0RqTTj7EWTiC8aAOMeOuwJsJnXtMeNVNylITAjl1nMufbGqfVrTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766266128; c=relaxed/simple;
-	bh=sGsIIRwZqxu5V+RYmT2JWr+PX3aFc+VIk1V9JeVfjkY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TN7acULG/VA7wAFfM9m1QWjs8ILIPRJsTfte9vyNf1suePA2cxDXfMuqIujF1glfRChxqvXvfMYUCaN8u3bBKQL1yOHE0+4wXAYgMnCTC060LavjYi3iWE8kKNnjFRZIhgvlrGkBAQiTaidpKHcZBTQbO6zwmTAIy+j5cbIRmJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcVop3Zp; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1766266492; c=relaxed/simple;
+	bh=TPrZbdGURUWVr83ioH21DlxQDqf0527AKNGtmtqm8rE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tne52PRuIR4ChUEZiCn8p7lFxQUpXU6lS82UzAiuCzAZw4irP0xBH/F6X4tEEh7RI/x+bRuQnzpSjV//LBVtotBr1dcSzs16Gz4uX4s5MpotNf0tLbMUIk4qI+bFEGVoeTLkD913o5WQqadTh79ua1AxLvTk7sMAUt2iBz/KHX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h778bSiB; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcVop3Zp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h778bSiB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766266126; x=1797802126;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=sGsIIRwZqxu5V+RYmT2JWr+PX3aFc+VIk1V9JeVfjkY=;
-  b=bcVop3ZpXTZa3OI7mA+rm0BMY2gsMHvYbGLnPlQ7rN6jU2RZU+ZFaoak
-   fCIsKMGOtDLLqs265Cig4zTM33xX+fzboiKl1U9aDAEl6eBEqZFmPnQf+
-   Ag1mJmnbbNYyI7dG2r0ntr1O5mPB1Kn4FWi/Q4G0aZymF0pqh8veu1LWi
-   lpVCXemyuxg2jvXufFZVw2WJN3TUU5A+4COKCLAJkYqwof6dXFyfreV5Q
-   fGyB1qUa3UIxFc2rB7iqEKqEknNGGF2Ts9B5KHKPCpQMIQWJT9qlYgnrt
-   9Xjl37sZdITsFX6xokhhuOq/8lj+F9J2lpQS1mVr4541xlFLPyeciHMz2
+  t=1766266491; x=1797802491;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TPrZbdGURUWVr83ioH21DlxQDqf0527AKNGtmtqm8rE=;
+  b=h778bSiBJcsbWS7/polYk1NWNkhwK6B3yUp6hzU2rmUXzg4aUr1wY13N
+   s7aiQCRtvuP91a1wd5HkeaHNFAVvs7Oupk1eA6R27YR4Kms1+hzhgXZ9b
+   X3ihWZgGC6ceYXRZtR4wt4sWUxmsv2NXGVsyPCux+mb3DqLvGd2C2vM+H
+   g3kJPcuL3eQe5GvbQ5zTmjgif4ck7ECus3Gl0LJDJ0KyvCMogewyXGo4U
+   xLk1zFKDNcZruVL5eHsB5Gl8oga21vL7Hrqy6h3VWjHS+HK9mTrib7tt6
+   889fNBtn6PgRhTJg84Jr6CoSBPFXzV+nK0AuMlca9OE7HmsDbwG8xNpCU
    A==;
-X-CSE-ConnectionGUID: dek/i2l6QbeuWXVeRLMHoA==
-X-CSE-MsgGUID: XKOmzC7KQbCTh+FABnSt1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="90847617"
+X-CSE-ConnectionGUID: AiNiGJMyRraSfPDFaXpn7w==
+X-CSE-MsgGUID: PltDKJWNSdqPYiu/hlXEXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="72032872"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="90847617"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 13:28:46 -0800
-X-CSE-ConnectionGUID: HA08KyLXQHKXq0dYVzdFUg==
-X-CSE-MsgGUID: Y0k9SvBoR+WuXgtoFk4Klg==
+   d="scan'208";a="72032872"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 13:34:50 -0800
+X-CSE-ConnectionGUID: HRAItO7LTgC4bB+OaeLogQ==
+X-CSE-MsgGUID: wi1fM9ZfRKiJiOHsgTvoIA==
 X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Dec 2025 13:28:45 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
+   d="scan'208";a="199416244"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 20 Dec 2025 13:34:48 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vX4VG-0000000058h-28JF;
-	Sat, 20 Dec 2025 21:28:42 +0000
-Date: Sun, 21 Dec 2025 05:27:58 +0800
+	id 1vX4b7-000000004mu-261M;
+	Sat, 20 Dec 2025 21:34:45 +0000
+Date: Sat, 20 Dec 2025 22:34:34 +0100
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3418/3418]
- drivers/net/ethernet/linkdata/sxe/sxepf/sxe_main.c:48: warning: Excess
- function parameter 'file' description in 'SXE_MSG_LEVEL_DEFAULT'
-Message-ID: <202512210525.8hRRLO09-lkp@intel.com>
+To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, anna-maria@linutronix.de,
+	frederic@kernel.org, tglx@linutronix.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH] clockevents: add a error handling in
+ tick_broadcast_init_sysfs()
+Message-ID: <202512202225.llvIQzJk-lkp@intel.com>
+References: <20251218090625.557965-1-lihaoxiang@isrc.iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251218090625.557965-1-lihaoxiang@isrc.iscas.ac.cn>
 
-Hi liujie_answer,
+Hi Haoxiang,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   1588d318a9e388d05b6cf5e2a63134c8beb6a355
-commit: 3c27aa8f615da8e36e1dc802839c98702187757c [3418/3418] Linkdata：net：fix sxe compile errors 'sxe_resume' defined but not used
-config: arm64-randconfig-001-20251217 (https://download.01.org/0day-ci/archive/20251221/202512210525.8hRRLO09-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210525.8hRRLO09-lkp@intel.com/reproduce)
+[auto build test ERROR on tip/timers/core]
+[also build test ERROR on linus/master v6.16-rc1 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haoxiang-Li/clockevents-add-a-error-handling-in-tick_broadcast_init_sysfs/20251218-170931
+base:   tip/timers/core
+patch link:    https://lore.kernel.org/r/20251218090625.557965-1-lihaoxiang%40isrc.iscas.ac.cn
+patch subject: [PATCH] clockevents: add a error handling in tick_broadcast_init_sysfs()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251220/202512202225.llvIQzJk-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202225.llvIQzJk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210525.8hRRLO09-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202225.llvIQzJk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_main.c:48: warning: Excess function parameter 'file' description in 'SXE_MSG_LEVEL_DEFAULT'
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_main.c:48: warning: Excess function parameter 'author' description in 'SXE_MSG_LEVEL_DEFAULT'
->> drivers/net/ethernet/linkdata/sxe/sxepf/sxe_main.c:48: warning: Excess function parameter 'date' description in 'SXE_MSG_LEVEL_DEFAULT'
+>> kernel/time/clockevents.c:737:3: error: call to undeclared function 'put_deivce'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     737 |                 put_deivce(&tick_bc_dev);
+         |                 ^
+   kernel/time/clockevents.c:737:3: note: did you mean 'put_device'?
+   include/linux/device.h:1162:6: note: 'put_device' declared here
+    1162 | void put_device(struct device *dev);
+         |      ^
+   1 error generated.
 
 
-vim +48 drivers/net/ethernet/linkdata/sxe/sxepf/sxe_main.c
+vim +/put_deivce +737 kernel/time/clockevents.c
 
-8cee206b555824 liujie_answer 2025-04-01  47  
-8cee206b555824 liujie_answer 2025-04-01 @48  #define SXE_MSG_LEVEL_DEFAULT (NETIF_MSG_DRV | NETIF_MSG_PROBE | NETIF_MSG_LINK)
-8cee206b555824 liujie_answer 2025-04-01  49  
-
-:::::: The code at line 48 was first introduced by commit
-:::::: 8cee206b5558245197158bd20895f95cc28d8468 Ethernet: Linkdata: Supports Linkdata ethernet Controllers
-
-:::::: TO: liujie_answer <liujie5@linkdatatechnology.com>
-:::::: CC: liujie_answer <liujie5@linkdatatechnology.com>
+   731	
+   732	static __init int tick_broadcast_init_sysfs(void)
+   733	{
+   734		int err = device_register(&tick_bc_dev);
+   735	
+   736		if (err) {
+ > 737			put_deivce(&tick_bc_dev);
+   738			return err;
+   739		}
+   740	
+   741		err = device_create_file(&tick_bc_dev, &dev_attr_current_device);
+   742		return err;
+   743	}
+   744	#else
+   745	static struct tick_device *tick_get_tick_dev(struct device *dev)
+   746	{
+   747		return &per_cpu(tick_cpu_device, dev->id);
+   748	}
+   749	static inline int tick_broadcast_init_sysfs(void) { return 0; }
+   750	#endif
+   751	
 
 -- 
 0-DAY CI Kernel Test Service
