@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7023B8F5B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 04:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6251A1F099C;
+	Sat, 20 Dec 2025 05:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766203902; cv=none; b=qHN2hA4ZN4dPMyh1bdDjNfWfbMVydfwJR1tNQT0yQvrYp7mRf/+qcrTZRG1sHak/KSUffufLYSKvslLanpPNsne8Vvygt3TgLAk1VNeSQtVFu3HPIQ73lrWq+V0Q0BU5a0EYo7/JdaJjDyOPZIIpAt+HnbdMv7OfNf6Q9978hMg=
+	t=1766207627; cv=none; b=d8CacllknMqTTgaPRB4cbiZhrXLF1UOJbP8QIUwCmtRUtjCjMDVWpifH8MetAMKsz58AifD2Rd1++qVGoSRFKH/mVR+6oipH7ml5CZnJ+9zymH69qOX49uYl6/6NqlnYvBi1SmKAmtGUyy16IMAAH2ohUrDyVrRJYAl+gW0nP+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766203902; c=relaxed/simple;
-	bh=vPaXe3ol8Ji1/mT6288vW3FqTTQLWwa4bu97sZ4woBg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h7V8DbXd+RhUAC5Deepp1G7wi8/+LNv6aVZB4FGc4NUOvWn+jjzMek/AysS2HWbvgtiVTAE9dk0EcB57vdvNrqbxVsG2fVVQ0hwF9IjdY/pDWPogPnsri+8PKh9NvsYweA4zcIJFF7+apZjcvru3U7mB7T+PYiRPowwmpwgCxn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f2VnLYr+; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1766207627; c=relaxed/simple;
+	bh=ZcLSKFFXyPlwDK310t9a5hYrDRgEz8LSQOm4CLfkE00=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c9dZlWr6eT7SOnZHGmdj/tRy2W7+U+/6LAgwYpxAo6dcBp3YNK1J78Im/cdGNuQLJb7setXjO4nLWBe24pTsgF5MVYzLcaxQnq7SdDEmuBs9Yk5/VXDXSQVX28M+L16p0ppZW12LjqG61EVjkkff20CiclzMwAtBfdN2R99/f0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBySW845; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f2VnLYr+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBySW845"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766203901; x=1797739901;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vPaXe3ol8Ji1/mT6288vW3FqTTQLWwa4bu97sZ4woBg=;
-  b=f2VnLYr+pSU69jHnVnUPvqr+eEEsD99GOvdeDX7OqtCl/DznyfsGiyT/
-   dkSEGq5K4upShRV6ANUfA4ucmgs1VFxBQwvbf97Etd9rFHKTlOfAqn7n1
-   Sn0VhqBV9LxrFoK402uLOQ/6rmuxINEAsyV/6N6q35pB33S6lsn9BEi/j
-   3OGX9FpINkC3J6bQhE3g9Oef3bVWBojBNRUdGZ5LzNF95PMtUM63q1YvB
-   qUm3IzlZ2SpKHdQq4Vs22TcHPSTQKV3xoqkQv+obwPut/OxypAaimuB3V
-   6iwy4DW6T4nSBY3fqSz87HXnVu7qv+arqTwG6CwQuNJxwrL8gjUTtwom1
-   Q==;
-X-CSE-ConnectionGUID: x5WkGPdjRQGDxwbe8hsq7A==
-X-CSE-MsgGUID: FJ9Yoj4bS4ihSOCWHrnDtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="79613216"
+  t=1766207625; x=1797743625;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZcLSKFFXyPlwDK310t9a5hYrDRgEz8LSQOm4CLfkE00=;
+  b=mBySW845x1WnDjWlncpNF7Ldi0wt/rmH3hq742TrXEt2pVHHkbdDM7mL
+   58hs7Oad1BQoKlEZPF7sLlK2cLWBK0Y3Uq3DgAI6UO85LLJfGUtbPxuYe
+   nAEZKxbKjX9mgd7LxFSBsj2MBl/2S+bOq9dci1AatQ9qdH4ARZm7ah7sK
+   Km5y+J1DWbaHTrnSH3EGqiSKkfsjUia4Cq3k7dalHW7Gx4RD1IV/H6+yF
+   EBT/ZuNr/jDkNnbZuadCIPqQQpRJ1SwigvfQbJQWuYtCALt8XGoumF5iH
+   w9bP634kOjiwC57C7nF9EhmSbyvjAUhFjNiP2/Wb6aW6FhasKRMHL606C
+   g==;
+X-CSE-ConnectionGUID: eFhcGQtKTquyfT+212tiDA==
+X-CSE-MsgGUID: IFe0te1cQyGpjE+K1iYPRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="78478931"
 X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="79613216"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 20:11:40 -0800
-X-CSE-ConnectionGUID: nILw6jkSSGub4hYBUl5Y5Q==
-X-CSE-MsgGUID: /AOwyuEGS92qq07KXUQjVw==
+   d="scan'208";a="78478931"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 21:13:45 -0800
+X-CSE-ConnectionGUID: W9jqGzsISjqRa9i4XVC5zg==
+X-CSE-MsgGUID: PnZH+RuoQzmb3XUMSfIIBA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="199076614"
+   d="scan'208";a="222454505"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Dec 2025 20:11:39 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 19 Dec 2025 21:13:42 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWoJc-000000004K5-25kJ;
-	Sat, 20 Dec 2025 04:11:36 +0000
-Date: Sat, 20 Dec 2025 12:10:40 +0800
+	id 1vWpHf-000000004Lt-3QWK;
+	Sat, 20 Dec 2025 05:13:39 +0000
+Date: Sat, 20 Dec 2025 13:13:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mark:stacktrace/tests 2/5] stacktrace_kunit.c:undefined reference
- to `kunit_kmalloc_array'
-Message-ID: <202512201238.Y2GQKk8I-lkp@intel.com>
+To: Tomas Melin <tomas.melin@vaisala.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno Sa <nuno.sa@analog.com>, Lars-Peter Clausen <lars@metafoo.de>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Tomas Melin <tomas.melin@vaisala.com>
+Subject: Re: [PATCH 1/2] iio: adc: ad9467: include two's complement in
+ default mode
+Message-ID: <202512201254.2FFxkibV-lkp@intel.com>
+References: <20251216-b4-ad9467-optional-backend-v1-1-83e61531ef4d@vaisala.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,67 +70,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251216-b4-ad9467-optional-backend-v1-1-83e61531ef4d@vaisala.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git stacktrace/tests
-head:   9fd0a6b1cdf040215994ff60cdf83b349d5480c4
-commit: 7b244ac0f694315794b60badb50cb146f2f5fc8c [2/5] WIP: lib: add basic stacktrace tests
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512201238.Y2GQKk8I-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512201238.Y2GQKk8I-lkp@intel.com/reproduce)
+Hi Tomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on a7b10f0963c651a6406d958a5f64b9c5594f84da]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomas-Melin/iio-adc-ad9467-include-two-s-complement-in-default-mode/20251216-233841
+base:   a7b10f0963c651a6406d958a5f64b9c5594f84da
+patch link:    https://lore.kernel.org/r/20251216-b4-ad9467-optional-backend-v1-1-83e61531ef4d%40vaisala.com
+patch subject: [PATCH 1/2] iio: adc: ad9467: include two's complement in default mode
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512201254.2FFxkibV-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512201254.2FFxkibV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512201238.Y2GQKk8I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512201254.2FFxkibV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: lib/tests/stacktrace_kunit.o: in function `std_test_init':
->> stacktrace_kunit.c:(.text+0x1cb): undefined reference to `kunit_kmalloc_array'
-   ld: lib/tests/stacktrace_kunit.o: in function `std_test_exit':
->> stacktrace_kunit.c:(.text+0x20f): undefined reference to `kunit_kfree'
-   ld: lib/tests/stacktrace_kunit.o: in function `std_expect_empty':
->> stacktrace_kunit.c:(.text+0x2e1): undefined reference to `kunit_binary_assert_format'
->> ld: stacktrace_kunit.c:(.text+0x2ef): undefined reference to `__kunit_do_failed_assertion'
->> ld: stacktrace_kunit.c:(.text+0x324): undefined reference to `kunit_binary_assert_format'
-   ld: stacktrace_kunit.c:(.text+0x332): undefined reference to `__kunit_do_failed_assertion'
-   ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind':
->> stacktrace_kunit.c:(.text+0x3cf): undefined reference to `kunit_binary_ptr_assert_format'
-   ld: stacktrace_kunit.c:(.text+0x3dd): undefined reference to `__kunit_do_failed_assertion'
-   ld: lib/tests/stacktrace_kunit.o: in function `std_expect_trace':
->> stacktrace_kunit.c:(.text+0x449): undefined reference to `kunit_fail_assert_format'
-   ld: stacktrace_kunit.c:(.text+0x459): undefined reference to `__kunit_do_failed_assertion'
->> ld: stacktrace_kunit.c:(.text+0x53f): undefined reference to `kunit_fail_assert_format'
-   ld: stacktrace_kunit.c:(.text+0x54f): undefined reference to `__kunit_do_failed_assertion'
-   ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable_notail':
-   stacktrace_kunit.c:(.text+0x67f): undefined reference to `kunit_binary_ptr_assert_format'
-   ld: stacktrace_kunit.c:(.text+0x68d): undefined reference to `__kunit_do_failed_assertion'
-   ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable_tail':
-   stacktrace_kunit.c:(.text+0x71f): undefined reference to `kunit_binary_ptr_assert_format'
-   ld: stacktrace_kunit.c:(.text+0x72d): undefined reference to `__kunit_do_failed_assertion'
-   ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_reliable':
-   stacktrace_kunit.c:(.text+0x7bf): undefined reference to `kunit_binary_ptr_assert_format'
-   ld: stacktrace_kunit.c:(.text+0x7cd): undefined reference to `__kunit_do_failed_assertion'
-   ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_notail':
-   stacktrace_kunit.c:(.text+0x867): undefined reference to `kunit_binary_ptr_assert_format'
-   ld: stacktrace_kunit.c:(.text+0x875): undefined reference to `__kunit_do_failed_assertion'
-   ld: lib/tests/stacktrace_kunit.o: in function `test_unwind_tail':
-   stacktrace_kunit.c:(.text+0x917): undefined reference to `kunit_binary_ptr_assert_format'
-   ld: stacktrace_kunit.c:(.text+0x925): undefined reference to `__kunit_do_failed_assertion'
-   ld: lib/tests/stacktrace_kunit.o: in function `test_unwind':
-   stacktrace_kunit.c:(.text+0x9c7): undefined reference to `kunit_binary_ptr_assert_format'
-   ld: stacktrace_kunit.c:(.text+0x9d5): undefined reference to `__kunit_do_failed_assertion'
-   ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_notail':
-   stacktrace_kunit.c:(.text+0xa6f): undefined reference to `kunit_binary_ptr_assert_format'
-   ld: stacktrace_kunit.c:(.text+0xa7d): undefined reference to `__kunit_do_failed_assertion'
-   ld: lib/tests/stacktrace_kunit.o: in function `test_nounwind_tail':
-   stacktrace_kunit.c:(.text+0xb0f): undefined reference to `kunit_binary_ptr_assert_format'
-   ld: stacktrace_kunit.c:(.text+0xb1d): undefined reference to `__kunit_do_failed_assertion'
-   ld: lib/tests/stacktrace_kunit.o: in function `std_test_exit.cold':
->> stacktrace_kunit.c:(.text.unlikely+0x70): undefined reference to `kunit_log_append'
->> ld: stacktrace_kunit.c:(.text.unlikely+0xbc): undefined reference to `kunit_log_append'
-   ld: lib/tests/stacktrace_kunit.o: in function `std_expect_callers_present_reliable.cold':
-   stacktrace_kunit.c:(.text.unlikely+0x159): undefined reference to `kunit_log_append'
+>> drivers/iio/adc/ad9467.c:686:3: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     686 |                 FIELD_PREP(AN877_ADC_OUTPUT_MODE_MASK,
+         |                 ^
+   drivers/iio/adc/ad9467.c:1197:4: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1197 |                         FIELD_PREP(AN877_ADC_OUTPUT_MODE_MASK,
+         |                         ^
+   2 errors generated.
+
+
+vim +/FIELD_PREP +686 drivers/iio/adc/ad9467.c
+
+   678	
+   679	static int ad9647_calibrate_prepare(struct ad9467_state *st)
+   680	{
+   681		unsigned int cmode;
+   682		unsigned int c;
+   683		int ret;
+   684	
+   685		cmode = (st->info->default_output_mode & ~AN877_ADC_OUTPUT_MODE_MASK) |
+ > 686			FIELD_PREP(AN877_ADC_OUTPUT_MODE_MASK,
+   687				   AN877_ADC_OUTPUT_MODE_OFFSET_BINARY);
+   688		ret = ad9467_outputmode_set(st, cmode);
+   689		if (ret)
+   690			return ret;
+   691	
+   692		for (c = 0; c < st->info->num_channels; c++) {
+   693			ret = ad9467_testmode_set(st, c, AN877_ADC_TESTMODE_PN9_SEQ);
+   694			if (ret)
+   695				return ret;
+   696	
+   697			ret = ad9467_backend_testmode_on(st, c,
+   698							 IIO_BACKEND_ADI_PRBS_9A);
+   699			if (ret)
+   700				return ret;
+   701		}
+   702	
+   703		return 0;
+   704	}
+   705	
 
 -- 
 0-DAY CI Kernel Test Service
