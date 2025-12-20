@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC94C86341
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 12:01:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5400E219A89
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 12:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766232114; cv=none; b=DjzjdImo+R5f4Fc7497vONfnGoI/mAkLrY5XCveAWa+hpuyR63IdsjSqmJBHirUTIkomN6bt3F0xbNKF49UhglX/N0GL7gXH7JMplgBB7bhQpaRhB8TuX1WLwOckeX/d5jkSpaI/gVWDbGHxDm6rwL6fmBRmxSW0XUdD1usElDE=
+	t=1766232115; cv=none; b=IbE//tZgff6TIz8lrdcPWCr09mfaAUWJKZ94ewYpax3/MJMIPbaaMDGPHtpquxL6IFwyGNJaTHOuyRBHamAaC3tzVvzkejlMI8iPQ0YW80vEn1g/8gw3szTW0jooTjqZ1N6t3F9bwlSmRXj8usdh2nNxD0k6bSe/3XLNRdZP6h4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766232114; c=relaxed/simple;
-	bh=ny6grBHDCdf3fjMHb1kmLArgJZT6Jwr141Fc54U9x4A=;
+	s=arc-20240116; t=1766232115; c=relaxed/simple;
+	bh=soTs0nKEyPzWiVrQzqa/m1yBpgKre7AS7OEFz6seBKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=q4qDDS2w9Ti7Ql8wLGGhgMGMxeyI8n0+IeAd8sLBiVA6Vb7JyN9dSM4GnHoQO4t73VKL2/XmkXRaGsw4ZYWCoFjoXgTSWyoiqwXVW1khx6+69gYt2UGs0WDkDpNbmJrRbI629/aihzesrQqHv+EzlabKameDZB+hiif3TU1i/II=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brzILjJw; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=nEjVhYErByV/A5/sjxZ8qSLJrUVy+2SlCepthQ4KMbG0r0Ii9s4jibMCUlR/Mx5FVcdRJqu38ZvCSHdspP4NmNfrok/aCmnXT/VYTE2q2NM50MGJD9O0LdMGelQFfjgM316cO9JtpZASy3a8Wa094zWJFwRYxdVPRXqbup/e1+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fOI+Sfin; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brzILjJw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fOI+Sfin"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766232113; x=1797768113;
+  t=1766232114; x=1797768114;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ny6grBHDCdf3fjMHb1kmLArgJZT6Jwr141Fc54U9x4A=;
-  b=brzILjJwjhv2oRGBL9MOeaB6eimiwTaw/E4WcozwbHMeFfZIVPPokmDa
-   uTP9NExVoEQJlf2TFB7F5Q2zkbH5FzQAblJYfxsrbfJKfK9XtUlX7gsq/
-   S4JeIHajuDZtAOmWGQ4WotzsOEFO6YxEZ+4sd0alIteBMQze36gXtO8fD
-   gopE3gujbxK4ySs4Xp7+G/k2fWiv1Pkheqh6+jauy4LaT7OghXpeqPdXQ
-   hQAZT3TdtYhkFba9cZJsmjmXYFRcJskYbkktLYM2tFsgkIsc9Xwbqbyvk
-   p2tGL8+/hI4qXvkO12CyFMFeLv69CReLtjpZC8ERhMmix5PDSqsZKrae+
-   Q==;
-X-CSE-ConnectionGUID: bfukP/yZQkmGUXQ9WvKuEw==
-X-CSE-MsgGUID: 5K9jr5/AQmWAhO1JhMFY1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="68049911"
+  bh=soTs0nKEyPzWiVrQzqa/m1yBpgKre7AS7OEFz6seBKs=;
+  b=fOI+Sfin2BsG6MmFx9wS+qo+mCM8c7Kc+UBHcP+3j9D8D3LFqUKj+oV1
+   a4bODOsAo0IiH7fbKMqYZJm+bRBbVoXMrkJifotaks+LmKBzByL9bf0pA
+   9jbt1hAcRkVqokM1W1xXnPJ3EQFOAg8q4PRlZ5TZDsYbSfm8st/8nfHG7
+   6Wet9DOBMAtbswK/EpntmaIw/jrERXg1bR0Pu/hhSs51etaZOVnAAhCIi
+   Uj4FLNoN9ChaT8t/+fdwZDlIauUYLPA7SVD+0mTADJ4XxD8w7RVGxCArx
+   pFHuIJkRH66ROWGKvtlw5tAmK9xsgWj3fsGc0kQyyCho2IziHHnFKDhfd
+   A==;
+X-CSE-ConnectionGUID: yu2C7NmbRCKtmNrufdSzpg==
+X-CSE-MsgGUID: WpwqhwNBRNGsSAS43TZnoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="68049914"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="68049911"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 04:01:51 -0800
-X-CSE-ConnectionGUID: pvYkaqTSThyVd6BDwS7bJA==
-X-CSE-MsgGUID: ytz1dkY5RPGUrhRQBpL2Zg==
+   d="scan'208";a="68049914"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 04:01:52 -0800
+X-CSE-ConnectionGUID: bxXeAQ9KT/i1NudAUE9AAw==
+X-CSE-MsgGUID: mVHb/GjmRHeKepxZtX1Igw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="203528228"
+   d="scan'208";a="199958983"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Dec 2025 04:01:51 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 20 Dec 2025 04:01:51 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWvee-000000004W1-3FfF;
+	id 1vWvee-000000004W3-3NrI;
 	Sat, 20 Dec 2025 12:01:48 +0000
-Date: Sat, 20 Dec 2025 20:01:01 +0800
+Date: Sat, 20 Dec 2025 20:01:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
+To: Ard Biesheuvel <ardb@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:stageing2 3/4] include/linux/mm.h:3472:15: error: use of
- undeclared identifier 'PMD_SHIFT'
-Message-ID: <202512202236.SK4aqxcX-lkp@intel.com>
+Subject: [ardb:lockless-random-v2 6/7]
+ include/linux/atomic/atomic-arch-fallback.h:399:29: error: implicit
+ declaration of function 'arch_cmpxchg64_local'; did you mean
+ 'try_cmpxchg64_local'?
+Message-ID: <202512201942.b8QAB1Ke-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +64,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alexshi/linux.git stageing2
-head:   02122754a0d846c51f96405c17b44bf723f78d0f
-commit: c3b93c1c3dab4373661c8ed654e4bd5243b72ee2 [3/4] mm/thp: appoint THP pmd size by oder
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20251220/202512202236.SK4aqxcX-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b324c9f4fa112d61a553bf489b5f4f7ceea05ea8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202236.SK4aqxcX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git lockless-random-v2
+head:   dbb71d73b311be70b14e89a9b5f804efeae1637f
+commit: e09c333785b181335f70697c2bd41bf828e42dcd [6/7] random: Use a lockless fast path for get_random_uXX()
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20251220/202512201942.b8QAB1Ke-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512201942.b8QAB1Ke-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202236.SK4aqxcX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512201942.b8QAB1Ke-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm/kernel/asm-offsets.c:14:
->> include/linux/mm.h:3472:15: error: use of undeclared identifier 'PMD_SHIFT'
-    3472 |         if (order == PMD_ORDER) {
-         |                      ^~~~~~~~~
-   include/linux/pgtable.h:8:20: note: expanded from macro 'PMD_ORDER'
-       8 | #define PMD_ORDER       (PMD_SHIFT - PAGE_SHIFT)
-         |                          ^~~~~~~~~
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:182: arch/arm/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1314: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from include/linux/atomic.h:80,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/openrisc/include/asm/bitops.h:41,
+                    from include/linux/bitops.h:67,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/openrisc/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/utsname.h:6,
+                    from drivers/char/random.c:28:
+   drivers/char/random.c: In function 'get_random_u8':
+>> include/linux/atomic/atomic-arch-fallback.h:399:29: error: implicit declaration of function 'arch_cmpxchg64_local'; did you mean 'try_cmpxchg64_local'? [-Wimplicit-function-declaration]
+     399 | #define raw_cmpxchg64_local arch_cmpxchg64_local
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:407:16: note: in expansion of macro 'raw_cmpxchg64_local'
+     407 |         ___r = raw_cmpxchg64_local((_ptr), ___o, (_new)); \
+         |                ^~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:5031:9: note: in expansion of macro 'raw_try_cmpxchg64_local'
+    5031 |         raw_try_cmpxchg64_local(__ai_ptr, __ai_oldp, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/random.c:552:14: note: in expansion of macro 'try_cmpxchg64_local'
+     552 |         if (!try_cmpxchg64_local(&batch->posgen, &next, next + 1)) {            \
+         |              ^~~~~~~~~~~~~~~~~~~
+   drivers/char/random.c:570:1: note: in expansion of macro 'DEFINE_BATCHED_ENTROPY'
+     570 | DEFINE_BATCHED_ENTROPY(u8)
+         | ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/PMD_SHIFT +3472 include/linux/mm.h
+vim +399 include/linux/atomic/atomic-arch-fallback.h
 
-  3466	
-  3467	static inline spinlock_t *thp_pxd_lock(struct mm_struct *mm, struct vm_fault *vmf,
-  3468					       const int order)
-  3469	{
-  3470		spinlock_t *ptl;
-  3471	
-> 3472		if (order == PMD_ORDER) {
-  3473			ptl = pmd_lockptr(mm, vmf->pmd);
-  3474			spin_lock(ptl);
-  3475		} else {
-  3476			ptl = pud_lockptr(mm, vmf->pud);
-  3477			spin_lock(ptl);
-  3478		}
-  3479	
-  3480		return ptl;
-  3481	}
-  3482	
+8c8b096a23d12f Peter Zijlstra 2023-05-31  398  
+9257959a6e5b4f Mark Rutland   2023-06-05 @399  #define raw_cmpxchg64_local arch_cmpxchg64_local
+8c8b096a23d12f Peter Zijlstra 2023-05-31  400  
+
+:::::: The code at line 399 was first introduced by commit
+:::::: 9257959a6e5b4fca6fc8e985790bff62c2046f20 locking/atomic: scripts: restructure fallback ifdeffery
+
+:::::: TO: Mark Rutland <mark.rutland@arm.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
