@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA0826A1CF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 18:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE4222154B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 18:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766253650; cv=none; b=n0/hKhWgt7m3Tv4p4bwyRiEde+oD7h2SlpNU3cA4SO7+maJ7MlWHAw/rS3PKJhnfrz8aD3sJlWxZ3d87ZS60SG9cQew3S8llMafqEtLCGSPKa0vjqqz6fTsI0U3Mu5decXP9OIK4qxutxI8ilsH0vImp58gf2JfYgYBRyzLuu0Q=
+	t=1766254250; cv=none; b=rAVkNBHUJbtMXipoM/+QdAg7ABnG8Cc24OHk4DkE0Q/xaSofn9nYO0m/J4lUKmbCxGeA77QWrr8NKMN0s3v3lnZ3FUtz7OPHiBerZFggh7VESorTA5F/U7hdJVmqkoAd6+TzV/22kCNNvgddBPukxvqCPT1ekWB5E2IWC6KgjKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766253650; c=relaxed/simple;
-	bh=z9/AnnpZpGCCzvsUGqXrRypgPL3A2pSXr/8QM/T6QnQ=;
+	s=arc-20240116; t=1766254250; c=relaxed/simple;
+	bh=J3bKISQ29zUaFbQRa9ORpntqiTQZpnC2eZxc8NzD25Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l5SpPpNaDfnHeVBxTuv0tLGb1JXLRFNr3MKjBaaW6UPh+onJ1whOyitl9yd02Pql+XBNmB5SsALOEjUCLGWRpYqcMeYgB6xNdEYrisiI4tjytbkMBIWXFzLt7Wbzbk7hB6L2qEQmRLHL6oigQrDxZde0CFVJrreCoYvpih81NHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EjOp1wd1; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=Or8EEAtIngH9iWfbaPFxM/Jhmj712cmFpgvsQuVtgtUkzHQ/CXrDxJYT8l0BgPf/r78gIGGQrQJEifMw0/ah+jtA5+dnY2nmbcY3FayP8XYsGSrJir8q0yV/8SzisNRm8Lh13GXRd6KlF+W3nQwGuSZ5NVfkS6Yg6e5H/oPcnIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cnTQfcCA; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EjOp1wd1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cnTQfcCA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766253648; x=1797789648;
+  t=1766254249; x=1797790249;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z9/AnnpZpGCCzvsUGqXrRypgPL3A2pSXr/8QM/T6QnQ=;
-  b=EjOp1wd13C1nintB14/YshrrzJfNXzvfToe7ATRQ2qFaCqwefI7mrlrZ
-   EZlun6+Pae0UJs3hR5sIhSSaYVxvEWZTBK4mI16SI6C7fv1NOTob8+N7Y
-   RETOnNWo214AQGpDOzEtzJgvOJ/rBUrmocZe0kXPgZ6qaYVwTa2nerSnr
-   0flw2XqJJkWhF9s1Bt0HsTEwOp9f6m4+0dhrYtWU6A9cIyqJ6289tHcPS
-   WZik70A8G+KSfISE9jYvyY8yBtcmZWpXG6dGxUQjWrDZd6k5IWl4/lC+Q
-   QB3w0to5Ro0pPZ5GxyM4lTidg3zy1LCqEUHvkaLDe92IaJdxLfWw3gQ3Z
-   A==;
-X-CSE-ConnectionGUID: 8Cfvq6UTTMKs0erlTIZmCQ==
-X-CSE-MsgGUID: bX+YMajgRleM4IYyKy2aeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="67176396"
+  bh=J3bKISQ29zUaFbQRa9ORpntqiTQZpnC2eZxc8NzD25Y=;
+  b=cnTQfcCA2Vo3ZIac0SAZ4yO/PoCxDyXQybhvzDlhEmEn7BpNzAPp7OGU
+   uzv1F8QhaT3vitrlbCkNpz3V/qrK4c36NrDte5U1NOk6dsvLb5eDrzxHL
+   Z39SGOBo+yfRYxclRdKCW/xzApHwri5ke/0yb6Fd2MWaVWa5/+tW2c1Ae
+   OcZz9VdfrgDrzKoOhjv62GN8gr/IrafGSswAPfb3M1oScG0ZEcFhIt1g5
+   3QDCgGZWKyNTOhAwc8WBTavgwjxaKMWUfJhxf6E1BmQwoZYZiWEIumHh7
+   nRKcZdymjIEc0j5Kjg9XWdiHsA2iV4Thc9ZzxedUjm0MWikbWOnLbTeSw
+   w==;
+X-CSE-ConnectionGUID: 6jIET17MQbG8q/Zn/XgWMg==
+X-CSE-MsgGUID: SXGAhGatR/aDTnMog5opag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="70752566"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="67176396"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 10:00:47 -0800
-X-CSE-ConnectionGUID: yX4SDSP3RzymphqIGl/B4Q==
-X-CSE-MsgGUID: 3zr3EKmFR627LU8wiztVEA==
+   d="scan'208";a="70752566"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 10:10:46 -0800
+X-CSE-ConnectionGUID: qLd3F7sWRPyv+uzx0UvKYg==
+X-CSE-MsgGUID: XHnIflL8QwSeFuj6FImi4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199180431"
+   d="scan'208";a="198749923"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 20 Dec 2025 10:00:43 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 20 Dec 2025 10:10:45 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vX1Fy-000000004jI-3EQC;
-	Sat, 20 Dec 2025 18:00:42 +0000
-Date: Sat, 20 Dec 2025 19:00:14 +0100
+	id 1vX1Pf-000000004jo-0Yzz;
+	Sat, 20 Dec 2025 18:10:43 +0000
+Date: Sat, 20 Dec 2025 19:10:09 +0100
 From: kernel test robot <lkp@intel.com>
-To: pr-hung <bkedx0000@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:pr/28 1/1] net/ipv4/netfilter/ip_tables.c:329:35:
- error: expected ';' after expression
-Message-ID: <202512201845.aFyJYqeV-lkp@intel.com>
+Subject: [android-common:android17-6.18 4/4] kismet: WARNING: unmet direct
+ dependencies detected for DRM_TTM when selected by GKI_HIDDEN_DRM_CONFIGS
+Message-ID: <202512201933.8NDm4bsY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,239 +62,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jcmvbkbc/linux-xtensa pr/28
-head:   76e15fe6ef9321298cff1ef706e46852baa4915b
-commit: 76e15fe6ef9321298cff1ef706e46852baa4915b [1/1] Fix potential vulnerability in cloned code (net/ipv4/netfilter/ip_tables.c)
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251220/202512201845.aFyJYqeV-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512201845.aFyJYqeV-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   8a0f08a5606260a0680a6074ee5392a57cd3133d
+commit: 51c9ed876ce194f1f3c6bd778b7bb46a8deb1dd9 [4/4] ANDROID: GKI: Add DRM_TTM config to GKI
+config: arm-kismet-CONFIG_DRM_TTM-CONFIG_GKI_HIDDEN_DRM_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20251220/202512201933.8NDm4bsY-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251220/202512201933.8NDm4bsY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512201845.aFyJYqeV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512201933.8NDm4bsY-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
->> net/ipv4/netfilter/ip_tables.c:329:35: error: expected ';' after expression
-     329 |                             !(e->ip.flags & IPT_F_GOTO)) {
-         |                                                        ^
-         |                                                        ;
->> net/ipv4/netfilter/ip_tables.c:329:35: error: expected expression
->> net/ipv4/netfilter/ip_tables.c:343:30: error: use of undeclared identifier 'v'
-     343 |                         e = get_entry(table_base, v);
-         |                                                   ^
->> net/ipv4/netfilter/ip_tables.c:347:3: error: expected 'while' in do/while loop
-     347 |                 acpar.target   = t->u.kernel.target;
-         |                 ^
-   net/ipv4/netfilter/ip_tables.c:277:2: note: to match this 'do'
-     277 |         do {
-         |         ^
->> net/ipv4/netfilter/ip_tables.c:348:20: error: use of undeclared identifier 't'
-     348 |                 acpar.targinfo = t->data;
-         |                                  ^
-   net/ipv4/netfilter/ip_tables.c:350:13: error: use of undeclared identifier 't'
-     350 |                 verdict = t->u.kernel.target->target(skb, &acpar);
-         |                           ^
->> net/ipv4/netfilter/ip_tables.c:357:4: error: 'break' statement not in loop or switch statement
-     357 |                         break;
-         |                         ^
->> net/ipv4/netfilter/ip_tables.c:329:8: warning: expression result unused [-Wunused-value]
-     329 |                             !(e->ip.flags & IPT_F_GOTO)) {
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> net/ipv4/netfilter/ip_tables.c:359:4: error: while loop outside of a function
-     359 |         } while (!acpar.hotdrop);
-         |           ^
->> net/ipv4/netfilter/ip_tables.c:361:2: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     361 |         xt_write_recseq_end(addend);
-         |         ^
-         |         int
->> net/ipv4/netfilter/ip_tables.c:361:22: error: a parameter list without types is only allowed in a function definition
-     361 |         xt_write_recseq_end(addend);
-         |                             ^
-   net/ipv4/netfilter/ip_tables.c:362:2: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     362 |         local_bh_enable();
-         |         ^
-         |         int
->> net/ipv4/netfilter/ip_tables.c:362:17: error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
-     362 |         local_bh_enable();
-         |                        ^
-         |                         void
->> net/ipv4/netfilter/ip_tables.c:362:2: error: conflicting types for 'local_bh_enable'
-     362 |         local_bh_enable();
-         |         ^
-   ./include/linux/bottom_half.h:31:20: note: previous definition is here
-      31 | static inline void local_bh_enable(void)
-         |                    ^
->> net/ipv4/netfilter/ip_tables.c:364:2: error: expected identifier or '('
-     364 |         if (acpar.hotdrop)
-         |         ^
-   net/ipv4/netfilter/ip_tables.c:366:2: error: expected identifier or '('
-     366 |         else return verdict;
-         |         ^
->> net/ipv4/netfilter/ip_tables.c:367:1: error: extraneous closing brace ('}')
-     367 | }
-         | ^
-   1 warning and 16 errors generated.
-
-
-vim +329 net/ipv4/netfilter/ip_tables.c
-
-98e86403162d08 Jan Engelhardt            2009-04-15  220  
-^1da177e4c3f41 Linus Torvalds            2005-04-16  221  /* Returns one of the generic firewall policies, like NF_ACCEPT. */
-^1da177e4c3f41 Linus Torvalds            2005-04-16  222  unsigned int
-8844e01062ddd8 Florian Westphal          2021-10-11  223  ipt_do_table(void *priv,
-8844e01062ddd8 Florian Westphal          2021-10-11  224  	     struct sk_buff *skb,
-8844e01062ddd8 Florian Westphal          2021-10-11  225  	     const struct nf_hook_state *state)
-^1da177e4c3f41 Linus Torvalds            2005-04-16  226  {
-8844e01062ddd8 Florian Westphal          2021-10-11  227  	const struct xt_table *table = priv;
-6cb8ff3f1a535b Eric W. Biederman         2015-09-18  228  	unsigned int hook = state->hook;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  229  	static const char nulldevname[IFNAMSIZ] __attribute__((aligned(sizeof(long))));
-5452e425adfdfc Jan Engelhardt            2008-04-14  230  	const struct iphdr *ip;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  231  	/* Initializing verdict to NF_DROP keeps gcc happy. */
-^1da177e4c3f41 Linus Torvalds            2005-04-16  232  	unsigned int verdict = NF_DROP;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  233  	const char *indev, *outdev;
-d5d1baa15f5b05 Jan Engelhardt            2009-06-26  234  	const void *table_base;
-f3c5c1bfd43085 Jan Engelhardt            2010-04-19  235  	struct ipt_entry *e, **jumpstack;
-7814b6ec6d0d63 Florian Westphal          2015-07-14  236  	unsigned int stackidx, cpu;
-d5d1baa15f5b05 Jan Engelhardt            2009-06-26  237  	const struct xt_table_info *private;
-de74c169962872 Jan Engelhardt            2009-07-05  238  	struct xt_action_param acpar;
-7f5c6d4f665bb5 Eric Dumazet              2011-04-04  239  	unsigned int addend;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  240  
-^1da177e4c3f41 Linus Torvalds            2005-04-16  241  	/* Initialization */
-7814b6ec6d0d63 Florian Westphal          2015-07-14  242  	stackidx = 0;
-3db05fea51cdb1 Herbert Xu                2007-10-15  243  	ip = ip_hdr(skb);
-1c491ba2592f62 David S. Miller           2015-04-03  244  	indev = state->in ? state->in->name : nulldevname;
-1c491ba2592f62 David S. Miller           2015-04-03  245  	outdev = state->out ? state->out->name : nulldevname;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  246  	/* We handle fragments by dealing with the first fragment as
-^1da177e4c3f41 Linus Torvalds            2005-04-16  247  	 * if it was a normal packet.  All other fragments are treated
-^1da177e4c3f41 Linus Torvalds            2005-04-16  248  	 * normally, except that they will NEVER match rules that ask
-^1da177e4c3f41 Linus Torvalds            2005-04-16  249  	 * things we don't know, ie. tcp syn flag or ports).  If the
-^1da177e4c3f41 Linus Torvalds            2005-04-16  250  	 * rule is also a fragment-specific rule, non-fragments won't
-^1da177e4c3f41 Linus Torvalds            2005-04-16  251  	 * match it. */
-de74c169962872 Jan Engelhardt            2009-07-05  252  	acpar.fragoff = ntohs(ip->frag_off) & IP_OFFSET;
-de74c169962872 Jan Engelhardt            2009-07-05  253  	acpar.thoff   = ip_hdrlen(skb);
-b4ba26119b0605 Jan Engelhardt            2009-07-07  254  	acpar.hotdrop = false;
-613dbd95723aee Pablo Neira Ayuso         2016-11-03  255  	acpar.state   = state;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  256  
-9efdb14f76f4d7 Varsha Rao                2017-08-30  257  	WARN_ON(!(table->valid_hooks & (1 << hook)));
-7f5c6d4f665bb5 Eric Dumazet              2011-04-04  258  	local_bh_disable();
-7f5c6d4f665bb5 Eric Dumazet              2011-04-04  259  	addend = xt_write_recseq_begin();
-d3d40f237480ab Mark Tomlinson            2021-03-08  260  	private = READ_ONCE(table->private); /* Address dependency. */
-f3c5c1bfd43085 Jan Engelhardt            2010-04-19  261  	cpu        = smp_processor_id();
-482cfc318559e2 Florian Westphal          2015-06-11  262  	table_base = private->entries;
-f3c5c1bfd43085 Jan Engelhardt            2010-04-19  263  	jumpstack  = (struct ipt_entry **)private->jumpstack[cpu];
-7814b6ec6d0d63 Florian Westphal          2015-07-14  264  
-7814b6ec6d0d63 Florian Westphal          2015-07-14  265  	/* Switch to alternate jumpstack if we're being invoked via TEE.
-7814b6ec6d0d63 Florian Westphal          2015-07-14  266  	 * TEE issues XT_CONTINUE verdict on original skb so we must not
-7814b6ec6d0d63 Florian Westphal          2015-07-14  267  	 * clobber the jumpstack.
-7814b6ec6d0d63 Florian Westphal          2015-07-14  268  	 *
-7814b6ec6d0d63 Florian Westphal          2015-07-14  269  	 * For recursion via REJECT or SYNPROXY the stack will be clobbered
-7814b6ec6d0d63 Florian Westphal          2015-07-14  270  	 * but it is no problem since absolute verdict is issued by these.
-7814b6ec6d0d63 Florian Westphal          2015-07-14  271  	 */
-dcebd3153e0a77 Florian Westphal          2015-07-14  272  	if (static_key_false(&xt_tee_enabled))
-a1f1acb9c5db9b Sebastian Andrzej Siewior 2025-05-12  273  		jumpstack += private->stacksize * current->in_nf_duplicate;
-784544739a25c3 Stephen Hemminger         2009-02-20  274  
-2e4e6a17af35be Harald Welte              2006-01-12  275  	e = get_entry(table_base, private->hook_entry[hook]);
-^1da177e4c3f41 Linus Torvalds            2005-04-16  276  
-^1da177e4c3f41 Linus Torvalds            2005-04-16  277  	do {
-87a2e70db62fec Jan Engelhardt            2010-10-13  278  		const struct xt_entry_target *t;
-dcea992aca82cb Jan Engelhardt            2010-02-24  279  		const struct xt_entry_match *ematch;
-71ae0dff02d756 Florian Westphal          2015-06-11  280  		struct xt_counters *counter;
-a1ff4ac84e5850 Jan Engelhardt            2009-04-15  281  
-9efdb14f76f4d7 Varsha Rao                2017-08-30  282  		WARN_ON(!e);
-a1ff4ac84e5850 Jan Engelhardt            2009-04-15  283  		if (!ip_packet_match(ip, indev, outdev,
-de74c169962872 Jan Engelhardt            2009-07-05  284  		    &e->ip, acpar.fragoff)) {
-dcea992aca82cb Jan Engelhardt            2010-02-24  285   no_match:
-a1ff4ac84e5850 Jan Engelhardt            2009-04-15  286  			e = ipt_next_entry(e);
-a1ff4ac84e5850 Jan Engelhardt            2009-04-15  287  			continue;
-a1ff4ac84e5850 Jan Engelhardt            2009-04-15  288  		}
-^1da177e4c3f41 Linus Torvalds            2005-04-16  289  
-ef53d702c3614f Jan Engelhardt            2009-07-09  290  		xt_ematch_foreach(ematch, e) {
-de74c169962872 Jan Engelhardt            2009-07-05  291  			acpar.match     = ematch->u.kernel.match;
-de74c169962872 Jan Engelhardt            2009-07-05  292  			acpar.matchinfo = ematch->data;
-de74c169962872 Jan Engelhardt            2009-07-05  293  			if (!acpar.match->match(skb, &acpar))
-dcea992aca82cb Jan Engelhardt            2010-02-24  294  				goto no_match;
-ef53d702c3614f Jan Engelhardt            2009-07-09  295  		}
-dcea992aca82cb Jan Engelhardt            2010-02-24  296  
-71ae0dff02d756 Florian Westphal          2015-06-11  297  		counter = xt_get_this_cpu_counter(&e->counters);
-71ae0dff02d756 Florian Westphal          2015-06-11  298  		ADD_COUNTER(*counter, skb->len, 1);
-^1da177e4c3f41 Linus Torvalds            2005-04-16  299  
-dc3c09d327220d Taehee Yoo                2018-04-13  300  		t = ipt_get_target_c(e);
-9efdb14f76f4d7 Varsha Rao                2017-08-30  301  		WARN_ON(!t->u.kernel.target);
-ba9dda3ab5a865 Jozsef Kadlecsik          2007-07-07  302  
-f0165888610a17 Gao feng                  2013-03-21  303  #if IS_ENABLED(CONFIG_NETFILTER_XT_TARGET_TRACE)
-ba9dda3ab5a865 Jozsef Kadlecsik          2007-07-07  304  		/* The packet is traced: log it */
-3db05fea51cdb1 Herbert Xu                2007-10-15  305  		if (unlikely(skb->nf_trace))
-9dff2c966a0a79 Eric W. Biederman         2015-09-15  306  			trace_packet(state->net, skb, hook, state->in,
-9dff2c966a0a79 Eric W. Biederman         2015-09-15  307  				     state->out, table->name, private, e);
-ba9dda3ab5a865 Jozsef Kadlecsik          2007-07-07  308  #endif
-^1da177e4c3f41 Linus Torvalds            2005-04-16  309  		/* Standard target? */
-^1da177e4c3f41 Linus Torvalds            2005-04-16  310  		if (!t->u.kernel.target->target) {
-^1da177e4c3f41 Linus Torvalds            2005-04-16  311  			int v;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  312  
-87a2e70db62fec Jan Engelhardt            2010-10-13  313  			v = ((struct xt_standard_target *)t)->verdict;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  314  			if (v < 0) {
-^1da177e4c3f41 Linus Torvalds            2005-04-16  315  				/* Pop from stack? */
-243bf6e29eef64 Jan Engelhardt            2010-10-13  316  				if (v != XT_RETURN) {
-95c961747284a6 Eric Dumazet              2012-04-15  317  					verdict = (unsigned int)(-v) - 1;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  318  					break;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  319  				}
-7814b6ec6d0d63 Florian Westphal          2015-07-14  320  				if (stackidx == 0) {
-f3c5c1bfd43085 Jan Engelhardt            2010-04-19  321  					e = get_entry(table_base,
-f3c5c1bfd43085 Jan Engelhardt            2010-04-19  322  					    private->underflow[hook]);
-f3c5c1bfd43085 Jan Engelhardt            2010-04-19  323  				} else {
-7814b6ec6d0d63 Florian Westphal          2015-07-14  324  					e = jumpstack[--stackidx];
-f3c5c1bfd43085 Jan Engelhardt            2010-04-19  325  					e = ipt_next_entry(e);
-f3c5c1bfd43085 Jan Engelhardt            2010-04-19  326  				}
-^1da177e4c3f41 Linus Torvalds            2005-04-16  327  				continue;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  328  			}
-57ebd808a97d7c Florian Westphal          2018-02-07 @329  			    !(e->ip.flags & IPT_F_GOTO)) {
-76e15fe6ef9321 pr-hung                   2025-12-18  330  			if (table_base + v != ipt_next_entry(e) &&
-57ebd808a97d7c Florian Westphal          2018-02-07  331  				if (unlikely(stackidx >= private->stacksize)) {
-76e15fe6ef9321 pr-hung                   2025-12-18  332  				if (unlikely(stackidx >= private->stacksize)) {
-76e15fe6ef9321 pr-hung                   2025-12-18  333  					verdict = NF_DROP;
-57ebd808a97d7c Florian Westphal          2018-02-07  334  					verdict = NF_DROP;
-57ebd808a97d7c Florian Westphal          2018-02-07  335  					break;
-76e15fe6ef9321 pr-hung                   2025-12-18  336  					break;
-76e15fe6ef9321 pr-hung                   2025-12-18  337  				}
-57ebd808a97d7c Florian Westphal          2018-02-07  338  				}
-7814b6ec6d0d63 Florian Westphal          2015-07-14  339  				jumpstack[stackidx++] = e;
-57ebd808a97d7c Florian Westphal          2018-02-07  340  			}
-76e15fe6ef9321 pr-hung                   2025-12-18  341  			}
-^1da177e4c3f41 Linus Torvalds            2005-04-16  342  
-^1da177e4c3f41 Linus Torvalds            2005-04-16 @343  			e = get_entry(table_base, v);
-7a6b1c46e28ab0 Jan Engelhardt            2009-04-15  344  			continue;
-7a6b1c46e28ab0 Jan Engelhardt            2009-04-15  345  		}
-7a6b1c46e28ab0 Jan Engelhardt            2009-04-15  346  
-de74c169962872 Jan Engelhardt            2009-07-05 @347  		acpar.target   = t->u.kernel.target;
-de74c169962872 Jan Engelhardt            2009-07-05 @348  		acpar.targinfo = t->data;
-bb70dfa5f8ab4a Jan Engelhardt            2009-04-15  349  
-de74c169962872 Jan Engelhardt            2009-07-05  350  		verdict = t->u.kernel.target->target(skb, &acpar);
-9beceb54fa2c0b Taehee Yoo                2017-07-27  351  		if (verdict == XT_CONTINUE) {
-^1da177e4c3f41 Linus Torvalds            2005-04-16  352  			/* Target might have changed stuff. */
-3db05fea51cdb1 Herbert Xu                2007-10-15  353  			ip = ip_hdr(skb);
-98e86403162d08 Jan Engelhardt            2009-04-15  354  			e = ipt_next_entry(e);
-9beceb54fa2c0b Taehee Yoo                2017-07-27  355  		} else {
-^1da177e4c3f41 Linus Torvalds            2005-04-16  356  			/* Verdict */
-^1da177e4c3f41 Linus Torvalds            2005-04-16 @357  			break;
-9beceb54fa2c0b Taehee Yoo                2017-07-27  358  		}
-b4ba26119b0605 Jan Engelhardt            2009-07-07 @359  	} while (!acpar.hotdrop);
-7814b6ec6d0d63 Florian Westphal          2015-07-14  360  
-7f5c6d4f665bb5 Eric Dumazet              2011-04-04 @361  	xt_write_recseq_end(addend);
-7f5c6d4f665bb5 Eric Dumazet              2011-04-04 @362  	local_bh_enable();
-7f5c6d4f665bb5 Eric Dumazet              2011-04-04  363  
-b4ba26119b0605 Jan Engelhardt            2009-07-07 @364  	if (acpar.hotdrop)
-^1da177e4c3f41 Linus Torvalds            2005-04-16  365  		return NF_DROP;
-^1da177e4c3f41 Linus Torvalds            2005-04-16  366  	else return verdict;
-^1da177e4c3f41 Linus Torvalds            2005-04-16 @367  }
-^1da177e4c3f41 Linus Torvalds            2005-04-16  368  
-
-:::::: The code at line 329 was first introduced by commit
-:::::: 57ebd808a97d7c5b1e1afb937c2db22beba3c1f8 netfilter: add back stackpointer size checks
-
-:::::: TO: Florian Westphal <fw@strlen.de>
-:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_TTM when selected by GKI_HIDDEN_DRM_CONFIGS
+   WARNING: unmet direct dependencies detected for USB_PHY
+     Depends on [n]: USB_SUPPORT [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_USB_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for DRM_TTM
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_DRM_CONFIGS [=y] && HAS_IOMEM [=y] && DRM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
