@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868C6849C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:57:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8694A2222C4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:57:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766246244; cv=none; b=XpQocGYUL7iAtnQUVvMFdmbYhjnoobsEaIj1xXUohggJKsB9zP7Xrueoe7OYloXdzZ/gkran1kPNav1lrlGhVbU+VYFYbgjEJlcPo7xIqx8H6c48ScLnVlfnun90G5tyNVzW096X+dnrUjfU30LoIy3BsO+3PqEalELYdVCjDNw=
+	t=1766246244; cv=none; b=KkgYkJovSDT/VJMhrSdsalNvgquJK4MT676HBJ53GxWEn4YBykcmbGTb+wySLpzqsOguvyc7adL7Gb3VOh0R7nGMcn6ZrS7qk+NWg40JobGJNLNlcOIrKRnBi4GdZ2Nui3LlDsrYM0boNk1SMxVx1Qx3Q5SytSM54koXSROyi5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766246244; c=relaxed/simple;
-	bh=M8k3WILHwIXAJAjzZ6OhaWuEZA6Sbtkoe0mNMRH6/U4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VDuNQhyFO5xcS8ND4jnho+HYIi6+LyZIDsvnLH+VCTvC9KJYUuNacw8Ojw6OOFF2Z8xfSJ4+tU0Qhjos3OOH8D5OglTZPJSDmqtw8UvHGAQYFHb4QFKRS6u62aUgYBtY0PKPpsm8SafDp0RRVgjvfRxMI97rBd+0mrJjBLXccV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EaZsXzu+; arc=none smtp.client-ip=192.198.163.13
+	bh=omb8aI6wKga/G/zA6JK4uiX66ncJ32nFc7DQH8j4tXc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ILjcUW+77ocEzb6IEjEzrP3cqP85qFO4+t+laPfFlyBznmbMqAZVewdj4zT95B9oOwYZDAFtK/nkoAMMSYr5ljMCk9KcO74ECr7rTTTB24oR85PVC4z3exBYYsN0TzgkcAPwH9dPKEGjEcYjT1RcJgviGbeoDoU2ODz/gVcz2TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A1Z5LiOz; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EaZsXzu+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A1Z5LiOz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1766246242; x=1797782242;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M8k3WILHwIXAJAjzZ6OhaWuEZA6Sbtkoe0mNMRH6/U4=;
-  b=EaZsXzu+ZYf6hs9WO3KnxqRKNEzpcxvJ8n9cz0LtX6v7CyvyuPAUstse
-   keQAM+MmZt4qcZHyIEclDUcjSq6Warvj11VQz/hvywMdgT41rNQ4ul6RV
-   k6FTsHX12GNJBs9w9/+MctKLzKH39qGC1hnbjIZ4UxXTQpcnahmiqf5Mo
-   KqDa1MT7anKXCwyaQJMtR8ikV6wzD5otP+S8KHSQizzITWgu7JADqv2OY
-   elSJeag7h3048DFMejfgglV2wLjyvd79oa0qzM6MIxtjNcK3m+xalpmwK
-   JkkzA9VO8TpDBjnuR/WRawUJ6GDPF9w/TZ3hV7kNiOWcUwJ1+AbRK78+i
-   A==;
-X-CSE-ConnectionGUID: AbHq9xTJSEepVvdk2vefJg==
-X-CSE-MsgGUID: Bse6PhrZQti0A2qym/L7Kw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="70748088"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=omb8aI6wKga/G/zA6JK4uiX66ncJ32nFc7DQH8j4tXc=;
+  b=A1Z5LiOzgBk4cTn8DThser6bO5XeWoPTvFe2gjTxStYj0cavNu9ARvV2
+   YPOJ25ZqOb7UR2R9PexbVswRYaWNNVmfNdAdFVyLy17n04Y2X+QPkFKKD
+   qV4zHPkFMOG9e+CEPvhy0SwCS0aBAGAOZ16wbEZEC7FmQC120avfJnyYP
+   M4ezD8fnOkdDZQyK+Nt2XDm48Jtn8WeQ/mocm5yLl/kREXbYzTtgGZh73
+   sPs3yfTZ5H4H+y9mTvzP2G/cSR8BGEj9woVSbkz42eWMg1DoDFpGqq/n0
+   2qJbQV8z+zYG83rhkWR0JtudDRJXD5HK6pnurIJaGq17haM3XKQB4sX0w
+   w==;
+X-CSE-ConnectionGUID: PbzARl2USZCtaYngvZ9MTA==
+X-CSE-MsgGUID: JtGBQjPGTc6kbrPCt7wAFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="70748091"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="70748088"
+   d="scan'208";a="70748091"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:57:20 -0800
-X-CSE-ConnectionGUID: j20DfxI7Rz+f3uLOGipOFw==
-X-CSE-MsgGUID: RVtQQip2SomxC4CrXsKuiA==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:57:22 -0800
+X-CSE-ConnectionGUID: khUkmQb/T6yFNLxdOyu/ZQ==
+X-CSE-MsgGUID: jqJ4ouu/Th6EhCZZbpXwAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199642885"
+   d="scan'208";a="199642893"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2025 07:57:20 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2025 07:57:21 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWzKX-000000004nn-3KCX;
-	Sat, 20 Dec 2025 15:57:17 +0000
-Date: Sat, 20 Dec 2025 23:57:09 +0800
+	id 1vWzKZ-000000004oF-0FiO;
+	Sat, 20 Dec 2025 15:57:19 +0000
+Date: Sat, 20 Dec 2025 23:57:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yushan Wang <wangyushan12@huawei.com>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC v2 1/3] soc cache: L3 cache driver for HiSilicon SoC
-Message-ID: <202512202328.j12YpAxc-lkp@intel.com>
-References: <20251217102357.1730573-2-wangyushan12@huawei.com>
+Subject: [openeuler:OLK-6.6 3544/3544]
+ arch/arm64/kernel/cpufeature.c:2129:13: warning: 'enable_pseudo_nmi' defined
+ but not used
+Message-ID: <202512202332.cPVupLsK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +62,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251217102357.1730573-2-wangyushan12@huawei.com>
 
-Hi Yushan,
+Hi caijian,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.19-rc1 next-20251219]
-[cannot apply to soc/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yushan-Wang/soc-cache-L3-cache-driver-for-HiSilicon-SoC/20251217-203916
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251217102357.1730573-2-wangyushan12%40huawei.com
-patch subject: [PATCH RFC v2 1/3] soc cache: L3 cache driver for HiSilicon SoC
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512202328.j12YpAxc-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202328.j12YpAxc-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   04473ee9ed912a16fff0d8846ad565bbf3d63c77
+commit: c6ce2becb89528f83c1ad3c0607ad05baecebc0a [3544/3544] arm64/cpufeature: Fix pseudo nmi identifier undeclaration complilation error
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251220/202512202332.cPVupLsK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202332.cPVupLsK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202328.j12YpAxc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202332.cPVupLsK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/soc/hisilicon/hisi_soc_l3c.c:20:10: fatal error: asm/cputype.h: No such file or directory
-      20 | #include <asm/cputype.h>
-         |          ^~~~~~~~~~~~~~~
-   compilation terminated.
+>> arch/arm64/kernel/cpufeature.c:2129:13: warning: 'enable_pseudo_nmi' defined but not used [-Wunused-variable]
+    2129 | static bool enable_pseudo_nmi;
+         |             ^~~~~~~~~~~~~~~~~
 
 
-vim +20 drivers/soc/hisilicon/hisi_soc_l3c.c
+vim +/enable_pseudo_nmi +2129 arch/arm64/kernel/cpufeature.c
 
-    19	
-  > 20	#include <asm/cputype.h>
-    21	
+3e6c69a058deaa Mark Brown     2019-12-09  2127  
+f72387e1f8bc99 Mark Brown     2022-11-03  2128  #if IS_ENABLED(CONFIG_ARM64_PSEUDO_NMI) || IS_ENABLED(CONFIG_ARM64_NMI)
+bc3c03ccb4641f Julien Thierry 2019-01-31 @2129  static bool enable_pseudo_nmi;
+f72387e1f8bc99 Mark Brown     2022-11-03  2130  #endif
+bc3c03ccb4641f Julien Thierry 2019-01-31  2131  
+
+:::::: The code at line 2129 was first introduced by commit
+:::::: bc3c03ccb4641fb940b27a0d369431876923a8fe arm64: Enable the support of pseudo-NMIs
+
+:::::: TO: Julien Thierry <julien.thierry@arm.com>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
 
 -- 
 0-DAY CI Kernel Test Service
