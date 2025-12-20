@@ -1,58 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4AE3A1E72
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 03:18:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA3E2BFC7B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 03:29:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766200721; cv=none; b=Ysmnb79qmJZDJ71ZtSn9vTbKRER1HmgxMFS3gM2r3sumouLDWWpuEj69wWnKQ56IQohK7G6u7PEgRiyF680ZsOzNwq9qzLsexv887/e3vtGcNKjQG06LHM9CIgROc/dWTQRb0S+oxsdPnAkrPUqmDumoU3zcKetbyLtU9QEU00Y=
+	t=1766201381; cv=none; b=ELq1tdxle1SO3sw6mpRh+gqUwv+uTRbHZETNkB5GO0JVHpMJlC6avuzu0GbJ25ZyaEGJHFLf3C+ApfrpxmpMFpBz6DEKHgmiDucPkGCG+EHXoABxGs9DDFfZDHL3vJDYHEs1RgCykA0xe0pzWLwOVJwtLX3+DnSc/Z0szXwtYKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766200721; c=relaxed/simple;
-	bh=ZQ7A92sfV4vGxOV2Y7cFE+dK3ecbFgTJ38FmUyk1QiY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ncMjarjRaGk8+d1pYeNvo+75g/yzt/YMtOrkvUp9F7MwyNa+LhCwgW3VawxDHJTfbPY1TXDYRsmlx5U8YVo4u7TrLVNokShL6FEWM61daH+8l5FfoPWYt48+2E9Uup0M8PjMrn4U7QRUdkYjiNjn2CgU9qbJaKDgak7ofnwfSUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J/UmpdN4; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1766201381; c=relaxed/simple;
+	bh=dHJPsoiZM2Pt/LO2/t7tfW6iX8YWiA+lglnGn2p7WUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ir3jHP19yv6aO5qQuvnwe9NwvPf++ccO9aNnQQ9QxdZJQStKRqBklrkhvSt5/je1Jq27jDUyOeLArvJbiCFNjoMNMsvR4fj26kcxPC77i4vXAi9WnrF59ARdLbsLc8zPDVDTGyG3OwmhYKPuxMGcJphW8SwhOA4rpXaTs16qqZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bTBWk1sL; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J/UmpdN4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bTBWk1sL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766200719; x=1797736719;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZQ7A92sfV4vGxOV2Y7cFE+dK3ecbFgTJ38FmUyk1QiY=;
-  b=J/UmpdN4LMAR33kggagKA4stI2OXIKPQheHbEk7/AMPj6qKMcXXE426h
-   qQSZjGTv410zDs15GAj1NOIjnVRBi1rbPfoUe7/H6dX8ok5+uhYX3o3dF
-   FDMjCYbNX0A0m3Xg96R61k1gEgJOCpmdtSHspt9+aaNpcwU9XFR8WzFEz
-   QiHW6vdgbboMFasV23T9PB1tQgg2oKj9lfsDKYBKtat+Y5w9szEEFhgJa
-   R07dx1+RIx4jhvf9KsHpN3B76fWub8+0EAdV8W9Yv6xJPVvuyR7cqBK7a
-   RRVSUDPq9VccjJ14ATKjcLPJTwhzAXf/k5nNvEqtjrfJ/HUHbDcetjfvB
-   Q==;
-X-CSE-ConnectionGUID: 9EUPCkpZSu+DB4laGo7kTA==
-X-CSE-MsgGUID: UZl5vgRZShqIFCSTTD1kIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="78875750"
+  t=1766201380; x=1797737380;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dHJPsoiZM2Pt/LO2/t7tfW6iX8YWiA+lglnGn2p7WUA=;
+  b=bTBWk1sLPXacj++tlTS3VUJaFgz5uGl9jVzbtMcgMlXuyBXvOGa50M0f
+   Diz+h75EhaihLEehSRUJqpxOkflZSIfMpCdHeEJFM31tg2NpFtYvtmB5g
+   4pW6yK84duM7Oj65fUu9/aqkB9p0Rk5H01HI3TH3PXpT8nA4zfsYwFHkE
+   19gVev5TXzZ01kSYLw11eXiE8HGEPWJ9IXc+iM+Y8+vEfIbpm5gDAOzJ8
+   LXVvQ01Ex2wr4EcZIo+wTXxLnlG+cDClZA08JxEINB6PUxuXLE3vDdabq
+   aiE8a9ZH2UqWg5XCOCD26q3SV1M8thERndV0Hz14TqHNc9i5ulofKHqfL
+   w==;
+X-CSE-ConnectionGUID: R9MKJlUJSyiIFveqKy+pBg==
+X-CSE-MsgGUID: Ax2n23LvT6CkV8gGsy8kEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11647"; a="78876315"
 X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="78875750"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 19:18:38 -0800
-X-CSE-ConnectionGUID: NOFnou7KSwmG9Uo17PlGHw==
-X-CSE-MsgGUID: WqO4dfbDTN+ub0ZvjvCP+Q==
+   d="scan'208";a="78876315"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2025 19:29:39 -0800
+X-CSE-ConnectionGUID: us1GrXXXQlOBIDNvR1VgMQ==
+X-CSE-MsgGUID: doZUs0N3T4aTJaxl17UW0Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,162,1763452800"; 
-   d="scan'208";a="198272491"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 19 Dec 2025 19:18:37 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 19 Dec 2025 19:29:37 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWnUI-000000004I9-0qed;
-	Sat, 20 Dec 2025 03:18:34 +0000
-Date: Sat, 20 Dec 2025 11:17:48 +0800
+	id 1vWnew-000000004IX-2Tl8;
+	Sat, 20 Dec 2025 03:29:34 +0000
+Date: Sat, 20 Dec 2025 11:28:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:kerne-unload 6/6] include/uapi/linux/bpf.h:13:10: fatal
- error: linux/trace_pritk.h: No such file or directory
-Message-ID: <202512201109.MTzVY3dm-lkp@intel.com>
+To: Tomas Melin <tomas.melin@vaisala.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nuno Sa <nuno.sa@analog.com>, Lars-Peter Clausen <lars@metafoo.de>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Tomas Melin <tomas.melin@vaisala.com>
+Subject: Re: [PATCH 1/2] iio: adc: ad9467: include two's complement in
+ default mode
+Message-ID: <202512201109.STBoyjad-lkp@intel.com>
+References: <20251216-b4-ad9467-optional-backend-v1-1-83e61531ef4d@vaisala.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,51 +67,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251216-b4-ad9467-optional-backend-v1-1-83e61531ef4d@vaisala.com>
 
-tree:   https://github.com/norov/linux kerne-unload
-head:   04bdfeb9b9df4788222284b4c6ca893be2634104
-commit: 04bdfeb9b9df4788222284b4c6ca893be2634104 [6/6] drop trace_printk.h
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512201109.MTzVY3dm-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512201109.MTzVY3dm-lkp@intel.com/reproduce)
+Hi Tomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on a7b10f0963c651a6406d958a5f64b9c5594f84da]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomas-Melin/iio-adc-ad9467-include-two-s-complement-in-default-mode/20251216-233841
+base:   a7b10f0963c651a6406d958a5f64b9c5594f84da
+patch link:    https://lore.kernel.org/r/20251216-b4-ad9467-optional-backend-v1-1-83e61531ef4d%40vaisala.com
+patch subject: [PATCH 1/2] iio: adc: ad9467: include two's complement in default mode
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512201109.STBoyjad-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512201109.STBoyjad-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512201109.MTzVY3dm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512201109.STBoyjad-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/bpf.h:7,
-                    from include/linux/security.h:35,
-                    from include/linux/perf_event.h:53,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:96,
-                    from include/linux/syscalls_api.h:1,
-                    from kernel/sched/sched.h:61,
-                    from kernel/sched/rq-offsets.c:5:
->> include/uapi/linux/bpf.h:13:10: fatal error: linux/trace_pritk.h: No such file or directory
-      13 | #include <linux/trace_pritk.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
-   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1314: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   drivers/iio/adc/ad9467.c: In function 'ad9647_calibrate_prepare':
+>> drivers/iio/adc/ad9467.c:686:17: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     686 |                 FIELD_PREP(AN877_ADC_OUTPUT_MODE_MASK,
+         |                 ^~~~~~~~~~
 
 
-vim +13 include/uapi/linux/bpf.h
+vim +/FIELD_PREP +686 drivers/iio/adc/ad9467.c
 
-    10	
-    11	#include <linux/types.h>
-    12	#include <linux/bpf_common.h>
-  > 13	#include <linux/trace_pritk.h>
-    14	
+   678	
+   679	static int ad9647_calibrate_prepare(struct ad9467_state *st)
+   680	{
+   681		unsigned int cmode;
+   682		unsigned int c;
+   683		int ret;
+   684	
+   685		cmode = (st->info->default_output_mode & ~AN877_ADC_OUTPUT_MODE_MASK) |
+ > 686			FIELD_PREP(AN877_ADC_OUTPUT_MODE_MASK,
+   687				   AN877_ADC_OUTPUT_MODE_OFFSET_BINARY);
+   688		ret = ad9467_outputmode_set(st, cmode);
+   689		if (ret)
+   690			return ret;
+   691	
+   692		for (c = 0; c < st->info->num_channels; c++) {
+   693			ret = ad9467_testmode_set(st, c, AN877_ADC_TESTMODE_PN9_SEQ);
+   694			if (ret)
+   695				return ret;
+   696	
+   697			ret = ad9467_backend_testmode_on(st, c,
+   698							 IIO_BACKEND_ADI_PRBS_9A);
+   699			if (ret)
+   700				return ret;
+   701		}
+   702	
+   703		return 0;
+   704	}
+   705	
 
 -- 
 0-DAY CI Kernel Test Service
