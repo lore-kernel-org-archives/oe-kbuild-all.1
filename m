@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3F32264C0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 14:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8AB283FDD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 14:23:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766240590; cv=none; b=XdenVqTsTDUg5ltJiaAClAfzCKXOvxEbBmzFNXlReyyaJJWhnIqlBSA2P6mz92yQRKhrAFA35w+6us7dfGTVzb07GYOBHEysqO2bNeFhkW8ZZfoETN470ujWpmlIZaiUOxbdTf2h+eOlNN8sCK/OLIFr3/dULU7MhX4I3F2umEg=
+	t=1766240592; cv=none; b=DlbS+crt1FTr0XK4j3jxeRShrDxSCQCYI+z4SYfVzbBknEKxYwxq0ExL6YwchiLOE0dYftxnz7188YGWzOaLbp9kM7oMiY6ZiR4fzHb3d7aKeszuaMMydObQTDp8+RnkUCenanyFlYYVC4pkMkxoCbbbsr3JSEdInqSM4K2onJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766240590; c=relaxed/simple;
-	bh=9twIaXHPOuT7Kl3dCEGEfkknclR+6sCN7GVHktRZWcw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g44d6SXtVvG34NYK1FkLcO8eJYy0Ag44dZ/eKArldgM2q2MV+NMClQ7UtRFEVe6wpV9ld8mgKxqRVQxxkkduAuvea3rGOkTGbxmAc4mO3aZdiD1ZMSSyVkJEdO8fZsjWhzww7u36vRDSMcncUF8f7ZIysLPf/yVRY1gtbc6oS/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hVVi8R8h; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1766240592; c=relaxed/simple;
+	bh=Dbt9/ccFGcKGqcTvsevgBQhv/qsPgmb+CCsoGM4rT44=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qXdGsck2ecPsOzYWAqtc0ArYv80CKF0i62iU2peXH47K3ctve14uw1IJf/9dl5gnnFQbnygjKpVH6NKknd9wg7YjoDHCJhScA8IvJXKeByb3yP+GWUoAigdrGihBGi7NJ3RPXNSy8lFJJhWT8/Jv59VK3nWVmT9oA7pv+9zui4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OkWLOAc9; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hVVi8R8h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OkWLOAc9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766240589; x=1797776589;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9twIaXHPOuT7Kl3dCEGEfkknclR+6sCN7GVHktRZWcw=;
-  b=hVVi8R8h1hXPOAX3Nu4x6teMBD1reFRzNk+Rwpa9apS3wq91lZxkLYpL
-   UZQxow6VWu4EsXPU1JthXKoSv3IHpU0e9NTLuWgEbjz00RX38crH0EgJz
-   hcklySTr4JoB2W+PWvr4IapTWwcx9ND5ClksH1Fy17vNOsWmKB8qXMR1Z
-   5VK+C91mywFQX8a8ovjPM4G3VY4wmdxvBuLgNLMv5hddhuwI6F3Hixbnt
-   F1Etr3tWKm3tRXT/021ptrFEJJiMjH6RXxdxRYht26Jk9B38WLcyVNZyT
-   CzsaE0Zr05T7VYlsLg3pf6UUQ9gAXj+X78/NR4CX7iTb4iJUu7yERw/VJ
-   A==;
-X-CSE-ConnectionGUID: TQpfK73vThKngnX4G20i3A==
-X-CSE-MsgGUID: AEReN5XeSJSeIROi/+64MA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68327858"
+  t=1766240591; x=1797776591;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Dbt9/ccFGcKGqcTvsevgBQhv/qsPgmb+CCsoGM4rT44=;
+  b=OkWLOAc9Gy1iD6UjI7NXbCvASPPvnI/ALIwwBy1sxbXI6VkZMX4Tofoj
+   QD6KYT04o6uMxZzqLVbm9V1i1NVfqx3yUetNsSd7eYpqiBD72wlq1N0rp
+   ByKRyx5LJDFHzjm//fXpyzizkGbPigh0hnSKSB+hFvscCVslrwDYhQWmI
+   bknnPIIi5hLg09l0Mab7Yi1wBmxvlEUlHpm6+3EYvzzHv/3stu3ljT/Bx
+   9YsOk2ZIDsvX2aNo2Dow2CjFXKKzfUyaDFQsugLiqhpruAIxrB2yQvTiI
+   B7+761YdiD49egEmd4DtOalU0kUgjHAkdYsgXguMXd7ymDmmRwvSOqHP+
+   g==;
+X-CSE-ConnectionGUID: TZMR3sffStu8n3HbIvWAQQ==
+X-CSE-MsgGUID: 7EJeMxWoRqyFuolJY402Lw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68327860"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="68327858"
+   d="scan'208";a="68327860"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:23:07 -0800
-X-CSE-ConnectionGUID: m4WDwG/HT2KcHYZ/s4n8qQ==
-X-CSE-MsgGUID: Usgg3celTrC+jtaPCYXKWA==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:23:08 -0800
+X-CSE-ConnectionGUID: P6Qta79vSWODKGVjAR4CPQ==
+X-CSE-MsgGUID: kgtzO02BTeCH+dz7VVsEmw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199984398"
+   d="scan'208";a="199984399"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 20 Dec 2025 06:23:06 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWxrM-000000004dF-0hNh;
+	id 1vWxrM-000000004dH-0qlW;
 	Sat, 20 Dec 2025 14:23:04 +0000
-Date: Sat, 20 Dec 2025 22:23:00 +0800
+Date: Sat, 20 Dec 2025 22:23:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan =?iso-8859-1?Q?S=F8rensen?= <ssorensen@roku.com>
+To: alexs@kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/3] Bluetooth: mgmt: Add idle_timeout to configurable
- system parameters
-Message-ID: <202512202114.v6VR6ui1-lkp@intel.com>
-References: <20251216092011.111208-4-ssorensen@roku.com>
+Subject: [alexshi:thp1 1/1] mm/huge_memory.c:1286:26: error: use of
+ undeclared identifier 'addr'; did you mean 'haddr'?
+Message-ID: <202512202205.xyBP7Yhl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,164 +61,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251216092011.111208-4-ssorensen@roku.com>
 
-Hi Stefan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on linus/master v6.19-rc1]
-[cannot apply to bluetooth-next/master next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-S-rensen/Bluetooth-hci_conn-use-mod_delayed_work-for-active-mode-timeout/20251216-172823
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20251216092011.111208-4-ssorensen%40roku.com
-patch subject: [PATCH 3/3] Bluetooth: mgmt: Add idle_timeout to configurable system parameters
-config: x86_64-randconfig-121-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202114.v6VR6ui1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202114.v6VR6ui1-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git thp1
+head:   92bbb3ed72c8bba724b402ec1693356bcaae871a
+commit: 92bbb3ed72c8bba724b402ec1693356bcaae871a [1/1] merge HPAGE_PMD_MASK into addr
+config: sparc64-randconfig-r132-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202205.xyBP7Yhl-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202205.xyBP7Yhl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202114.v6VR6ui1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202205.xyBP7Yhl-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/bluetooth/mgmt_config.c:127:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] type @@     got restricted __le32 [usertype] @@
-   net/bluetooth/mgmt_config.c:127:17: sparse:     expected restricted __le16 [usertype] type
-   net/bluetooth/mgmt_config.c:127:17: sparse:     got restricted __le32 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +127 net/bluetooth/mgmt_config.c
+>> mm/huge_memory.c:1286:26: error: use of undeclared identifier 'addr'; did you mean 'haddr'?
+    1286 |                 folio_zero_user(folio, addr);
+         |                                        ^~~~
+         |                                        haddr
+   mm/huge_memory.c:1254:17: note: 'haddr' declared here
+    1254 |                 unsigned long haddr)
+         |                               ^
+   1 error generated.
 
-    13	
-    14	#define HDEV_PARAM_U32(_param_name_) \
-    15		struct {\
-    16			struct mgmt_tlv_hdr entry; \
-    17			__le32 value; \
-    18		} __packed _param_name_
-    19	
-    20	#define HDEV_PARAM_U16(_param_name_) \
-    21		struct {\
-    22			struct mgmt_tlv_hdr entry; \
-    23			__le16 value; \
-    24		} __packed _param_name_
-    25	
-    26	#define HDEV_PARAM_U8(_param_name_) \
-    27		struct {\
-    28			struct mgmt_tlv_hdr entry; \
-    29			__u8 value; \
-    30		} __packed _param_name_
-    31	
-    32	#define TLV_SET_U16(_param_code_, _param_name_) \
-    33		{ \
-    34			{ cpu_to_le16(_param_code_), sizeof(__u16) }, \
-    35			cpu_to_le16(hdev->_param_name_) \
-    36		}
-    37	
-    38	#define TLV_SET_U32(_param_code_, _param_name_) \
-    39		{ \
-    40			{ cpu_to_le32(_param_code_), sizeof(__u32) }, \
-    41			cpu_to_le32(hdev->_param_name_) \
-    42		}
-    43	
-    44	#define TLV_SET_U8(_param_code_, _param_name_) \
-    45		{ \
-    46			{ cpu_to_le16(_param_code_), sizeof(__u8) }, \
-    47			hdev->_param_name_ \
-    48		}
-    49	
-    50	#define TLV_SET_U16_JIFFIES_TO_MSECS(_param_code_, _param_name_) \
-    51		{ \
-    52			{ cpu_to_le16(_param_code_), sizeof(__u16) }, \
-    53			cpu_to_le16(jiffies_to_msecs(hdev->_param_name_)) \
-    54		}
-    55	
-    56	int read_def_system_config(struct sock *sk, struct hci_dev *hdev, void *data,
-    57				   u16 data_len)
-    58	{
-    59		int ret;
-    60		struct mgmt_rp_read_def_system_config {
-    61			/* Please see mgmt-api.txt for documentation of these values */
-    62			HDEV_PARAM_U16(def_page_scan_type);
-    63			HDEV_PARAM_U16(def_page_scan_int);
-    64			HDEV_PARAM_U16(def_page_scan_window);
-    65			HDEV_PARAM_U16(def_inq_scan_type);
-    66			HDEV_PARAM_U16(def_inq_scan_int);
-    67			HDEV_PARAM_U16(def_inq_scan_window);
-    68			HDEV_PARAM_U16(def_br_lsto);
-    69			HDEV_PARAM_U16(def_page_timeout);
-    70			HDEV_PARAM_U16(sniff_min_interval);
-    71			HDEV_PARAM_U16(sniff_max_interval);
-    72			HDEV_PARAM_U16(le_adv_min_interval);
-    73			HDEV_PARAM_U16(le_adv_max_interval);
-    74			HDEV_PARAM_U16(def_multi_adv_rotation_duration);
-    75			HDEV_PARAM_U16(le_scan_interval);
-    76			HDEV_PARAM_U16(le_scan_window);
-    77			HDEV_PARAM_U16(le_scan_int_suspend);
-    78			HDEV_PARAM_U16(le_scan_window_suspend);
-    79			HDEV_PARAM_U16(le_scan_int_discovery);
-    80			HDEV_PARAM_U16(le_scan_window_discovery);
-    81			HDEV_PARAM_U16(le_scan_int_adv_monitor);
-    82			HDEV_PARAM_U16(le_scan_window_adv_monitor);
-    83			HDEV_PARAM_U16(le_scan_int_connect);
-    84			HDEV_PARAM_U16(le_scan_window_connect);
-    85			HDEV_PARAM_U16(le_conn_min_interval);
-    86			HDEV_PARAM_U16(le_conn_max_interval);
-    87			HDEV_PARAM_U16(le_conn_latency);
-    88			HDEV_PARAM_U16(le_supv_timeout);
-    89			HDEV_PARAM_U16(def_le_autoconnect_timeout);
-    90			HDEV_PARAM_U16(advmon_allowlist_duration);
-    91			HDEV_PARAM_U16(advmon_no_filter_duration);
-    92			HDEV_PARAM_U8(enable_advmon_interleave_scan);
-    93			HDEV_PARAM_U32(idle_timeout);
-    94		} __packed rp = {
-    95			TLV_SET_U16(0x0000, def_page_scan_type),
-    96			TLV_SET_U16(0x0001, def_page_scan_int),
-    97			TLV_SET_U16(0x0002, def_page_scan_window),
-    98			TLV_SET_U16(0x0003, def_inq_scan_type),
-    99			TLV_SET_U16(0x0004, def_inq_scan_int),
-   100			TLV_SET_U16(0x0005, def_inq_scan_window),
-   101			TLV_SET_U16(0x0006, def_br_lsto),
-   102			TLV_SET_U16(0x0007, def_page_timeout),
-   103			TLV_SET_U16(0x0008, sniff_min_interval),
-   104			TLV_SET_U16(0x0009, sniff_max_interval),
-   105			TLV_SET_U16(0x000a, le_adv_min_interval),
-   106			TLV_SET_U16(0x000b, le_adv_max_interval),
-   107			TLV_SET_U16(0x000c, def_multi_adv_rotation_duration),
-   108			TLV_SET_U16(0x000d, le_scan_interval),
-   109			TLV_SET_U16(0x000e, le_scan_window),
-   110			TLV_SET_U16(0x000f, le_scan_int_suspend),
-   111			TLV_SET_U16(0x0010, le_scan_window_suspend),
-   112			TLV_SET_U16(0x0011, le_scan_int_discovery),
-   113			TLV_SET_U16(0x0012, le_scan_window_discovery),
-   114			TLV_SET_U16(0x0013, le_scan_int_adv_monitor),
-   115			TLV_SET_U16(0x0014, le_scan_window_adv_monitor),
-   116			TLV_SET_U16(0x0015, le_scan_int_connect),
-   117			TLV_SET_U16(0x0016, le_scan_window_connect),
-   118			TLV_SET_U16(0x0017, le_conn_min_interval),
-   119			TLV_SET_U16(0x0018, le_conn_max_interval),
-   120			TLV_SET_U16(0x0019, le_conn_latency),
-   121			TLV_SET_U16(0x001a, le_supv_timeout),
-   122			TLV_SET_U16_JIFFIES_TO_MSECS(0x001b,
-   123						     def_le_autoconnect_timeout),
-   124			TLV_SET_U16(0x001d, advmon_allowlist_duration),
-   125			TLV_SET_U16(0x001e, advmon_no_filter_duration),
-   126			TLV_SET_U8(0x001f, enable_advmon_interleave_scan),
- > 127			TLV_SET_U32(0x0020, idle_timeout),
-   128		};
-   129	
-   130		bt_dev_dbg(hdev, "sock %p", sk);
-   131	
-   132		ret = mgmt_cmd_complete(sk, hdev->id,
-   133					MGMT_OP_READ_DEF_SYSTEM_CONFIG,
-   134					0, &rp, sizeof(rp));
-   135		return ret;
-   136	}
-   137	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=n] && CAN [=y]
+   Selected by [y]:
+   - CAN [=y] && NET [=y]
+
+
+vim +1286 mm/huge_memory.c
+
+74d2fad1334d12 Toshi Kani       2016-10-07  1252  
+ebcfc63d6bca3c Dev Jain         2024-10-08  1253  static struct folio *vma_alloc_anon_folio_pmd(struct vm_area_struct *vma,
+92bbb3ed72c8bb Alex Shi         2025-12-16  1254  		unsigned long haddr)
+71e3aac0724ffe Andrea Arcangeli 2011-01-13  1255  {
+ebcfc63d6bca3c Dev Jain         2024-10-08  1256  	gfp_t gfp = vma_thp_gfp_mask(vma);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1257  	const int order = HPAGE_PMD_ORDER;
+ebcfc63d6bca3c Dev Jain         2024-10-08  1258  	struct folio *folio;
+71e3aac0724ffe Andrea Arcangeli 2011-01-13  1259  
+92bbb3ed72c8bb Alex Shi         2025-12-16  1260  	folio = vma_alloc_folio(gfp, order, vma, haddr);
+00501b531c4723 Johannes Weiner  2014-08-08  1261  
+ebcfc63d6bca3c Dev Jain         2024-10-08  1262  	if (unlikely(!folio)) {
+ebcfc63d6bca3c Dev Jain         2024-10-08  1263  		count_vm_event(THP_FAULT_FALLBACK);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1264  		count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1265  		return NULL;
+ebcfc63d6bca3c Dev Jain         2024-10-08  1266  	}
+00501b531c4723 Johannes Weiner  2014-08-08  1267  
+ebcfc63d6bca3c Dev Jain         2024-10-08  1268  	VM_BUG_ON_FOLIO(!folio_test_large(folio), folio);
+cfe3236d32d07b Kefeng Wang      2023-03-02  1269  	if (mem_cgroup_charge(folio, vma->vm_mm, gfp)) {
+cfe3236d32d07b Kefeng Wang      2023-03-02  1270  		folio_put(folio);
+6b251fc96cf2cd Andrea Arcangeli 2015-09-04  1271  		count_vm_event(THP_FAULT_FALLBACK);
+85b9f46e8ea451 David Rientjes   2020-04-06  1272  		count_vm_event(THP_FAULT_FALLBACK_CHARGE);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1273  		count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1274  		count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1275  		return NULL;
+6b251fc96cf2cd Andrea Arcangeli 2015-09-04  1276  	}
+cfe3236d32d07b Kefeng Wang      2023-03-02  1277  	folio_throttle_swaprate(folio, gfp);
+00501b531c4723 Johannes Weiner  2014-08-08  1278  
+5708d96da20b99 Zi Yan           2024-10-11  1279         /*
+c51a4f11e6d824 Zi Yan           2024-12-09  1280  	* When a folio is not zeroed during allocation (__GFP_ZERO not used)
+c51a4f11e6d824 Zi Yan           2024-12-09  1281  	* or user folios require special handling, folio_zero_user() is used to
+c51a4f11e6d824 Zi Yan           2024-12-09  1282  	* make sure that the page corresponding to the faulting address will be
+c51a4f11e6d824 Zi Yan           2024-12-09  1283  	* hot in the cache after zeroing.
+5708d96da20b99 Zi Yan           2024-10-11  1284  	*/
+c51a4f11e6d824 Zi Yan           2024-12-09  1285  	if (user_alloc_needs_zeroing())
+ebcfc63d6bca3c Dev Jain         2024-10-08 @1286  		folio_zero_user(folio, addr);
+52f37629fd3c7b Minchan Kim      2013-04-29  1287  	/*
+cfe3236d32d07b Kefeng Wang      2023-03-02  1288  	 * The memory barrier inside __folio_mark_uptodate makes sure that
+78fefd04c12349 Kefeng Wang      2024-06-18  1289  	 * folio_zero_user writes become visible before the set_pmd_at()
+52f37629fd3c7b Minchan Kim      2013-04-29  1290  	 * write.
+52f37629fd3c7b Minchan Kim      2013-04-29  1291  	 */
+cfe3236d32d07b Kefeng Wang      2023-03-02  1292  	__folio_mark_uptodate(folio);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1293  	return folio;
+ebcfc63d6bca3c Dev Jain         2024-10-08  1294  }
+ebcfc63d6bca3c Dev Jain         2024-10-08  1295  
+
+:::::: The code at line 1286 was first introduced by commit
+:::::: ebcfc63d6bca3cce1bfca30092712f3468b4ecff mm: abstract THP allocation
+
+:::::: TO: Dev Jain <dev.jain@arm.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
