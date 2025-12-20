@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF364D8CE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 18:00:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58E217C77;
+	Sat, 20 Dec 2025 18:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766253639; cv=none; b=gLMZmzqCdDHwc4BY33NKeFihzGooUGvgid77hMwO/M0r9ze/M4W9hsHWmY4QQQHJ8R/pOPY5Ob8/7TixgRnVOW43hFbLl2CktHOcJTZgwQklL98fee2CO9huPzXb/lQyI1aC1bm9R5toU3pp/ybYm3qlTUKrhSQuNkWbGWdIaFk=
+	t=1766253640; cv=none; b=KXn8IJDSkzXpArE8EHfIR3XfzpQvStOcngpDI335xwzDwQKsynowfWz6yujBmnHgf+bDjMj5zpWJW9+0QtqlD8E6FA34I4eIokRHHrsUelRQQ/RsqP88blp7H1QRG2eIrmVOMV0IRGBtXYsKrrDccLviHA5KSn8CuLBArOuRBb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766253639; c=relaxed/simple;
-	bh=SYPp67EXUgBqb75MwRC7/agUdny3gwwAS5wvCL7XnBc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kwwwZ47RjEVGKmwZGfOeI+M3E691QV68wt5RHw+ND+vxEcuDFe3W0E0Q15W53JlnV6qvPfXxE6dBRyYQ0Z5eCVFNlGOIaznn9sUaGNrzpJ1nlAQM8CyakB7tM36vyEY2jFKevljHrHMiQ8YN4SvQwbsMeG4Qzti34ZmYjGIKFv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kzPxm6zc; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1766253640; c=relaxed/simple;
+	bh=iZOzBrN9E6HT9Vz/gHHRFRpMcm7hVTbfgPpqMMo+7fg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ItGj15gnET7div157k+yME1RJ9nxZOzT5KfiNg3qK6md/hk+O6CPoEkf11s2el73sjRhyvLKDME4azkKwwiNNB7tCejPPM62dfbe1saJXWIx12gmsAZBlcSQ1h63wrE5jp9tRiLv9ku0pXM5u5+Fu8w0ua3Ky0afFDEOVTimciI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GMq93kfV; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kzPxm6zc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GMq93kfV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766253637; x=1797789637;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SYPp67EXUgBqb75MwRC7/agUdny3gwwAS5wvCL7XnBc=;
-  b=kzPxm6zcjGWO6qsE4xBBUG9gzUtt9RZUAKaWSI1NueUyCyLcxIclaniB
-   F46UqM+oOEufsrAigu0M7a6YSVDRq8Jcmuoe4Fj1YRvlZhuCnIbHkyOMi
-   dILENU5TzrUyTLQJ2AieaUn4N19YMryVO/hUIUhyHTCZ4HO5JVAE7p0RU
-   FED8PgRM8pl+47yYFZZ2g4EbUHJPYQAmhr0AoRaOK9KNU8I77MS1U3qip
-   RtcZgkr9PcR5wiqghBezjmaQFi4IXbfKi4r1GrV3iiPngNIzUo6FpbCQ+
-   3/zEsOXnvt7IkBn6a9rKGlLjr3zps34WDEcQRviwEHx9fu5lnTX7/NFeU
-   g==;
-X-CSE-ConnectionGUID: +mv+vq4PRjuKHqFmSEqu+g==
-X-CSE-MsgGUID: lSd7eojWSsGeg1YOdUV4EQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="72041944"
+  t=1766253639; x=1797789639;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iZOzBrN9E6HT9Vz/gHHRFRpMcm7hVTbfgPpqMMo+7fg=;
+  b=GMq93kfV5g0KVgwBNb8SwQu/stCzFBtyIyGw8tGtGZxHINZKsit/3AkI
+   X9BiS5CxYtS9qxZcFiHuadOz4GHA5/z54iJtvGYNAIMPaQVtUxKPfIaEE
+   ViHOoBkCJHbZx8FLiq/Km8ngDVCfyyfjU+0zy8zThAFLNF6pTUQ/MHh/c
+   qzvcgrIzrUnd+8UQcI3eEBBaPbIjdLNScayqzOzNx/026HSs60JhU87ih
+   iUHMSpmrE+A1rI9ptuNU9oo0usNHjChMQUDzV8KWi0Z6hQAKKFvhpDPHj
+   dFxQZ7fig/N7R5TawjTjs2WOo0ZaGAIiezMSZKw+GJwvMbttas4bToAe6
+   A==;
+X-CSE-ConnectionGUID: lwoSZPiJTgCrG537LoqsQg==
+X-CSE-MsgGUID: z4lry0UaRSuyVLlEerFvgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="93655467"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="72041944"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 10:00:36 -0800
-X-CSE-ConnectionGUID: uyXPikkVSWiDGXQOEKR+hA==
-X-CSE-MsgGUID: /tiyoLQBSC2civsdGZiFmg==
+   d="scan'208";a="93655467"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 10:00:38 -0800
+X-CSE-ConnectionGUID: URlEA9PHS3Grb2hfNuJ1lg==
+X-CSE-MsgGUID: akQG4a5tSN6nQJS3wlgYiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="200017651"
+   d="scan'208";a="199180350"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Dec 2025 10:00:35 -0800
+  by orviesa008.jf.intel.com with ESMTP; 20 Dec 2025 10:00:33 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vX1Fo-000000004zj-2qou;
+	id 1vX1Fo-000000004zh-2i2t;
 	Sat, 20 Dec 2025 18:00:32 +0000
-Date: Sun, 21 Dec 2025 01:59:53 +0800
+Date: Sun, 21 Dec 2025 01:59:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3563/3563]
- drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c:545:5: error: no previous
- prototype for function 'ps3_pci_init'
-Message-ID: <202512210106.IqHUCCpt-lkp@intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-mmc@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] wifi: rsi: sdio: Reduce use of #ifdef for
+ CONFIG_PM
+Message-ID: <202512210133.jrzKgXWS-lkp@intel.com>
+References: <f291cca2741f6ac994b2bde1fb9d21194fec4d3e.1765968841.git.ukleinek@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,405 +66,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <f291cca2741f6ac994b2bde1fb9d21194fec4d3e.1765968841.git.ukleinek@kernel.org>
 
-Hi liujie_answer,
+Hi Uwe,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   04473ee9ed912a16fff0d8846ad565bbf3d63c77
-commit: 97a2bb6ece556f3882263ee8df2b77f10c511311 [3563/3563] SCSI: Linkdata: Supports Linkdata HBA/RAID Controllers
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251221/202512210106.IqHUCCpt-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210106.IqHUCCpt-lkp@intel.com/reproduce)
+[auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/sdio-Provide-a-bustype-shutdown-function/20251217-191920
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/f291cca2741f6ac994b2bde1fb9d21194fec4d3e.1765968841.git.ukleinek%40kernel.org
+patch subject: [PATCH v1 2/4] wifi: rsi: sdio: Reduce use of #ifdef for CONFIG_PM
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251221/202512210133.jrzKgXWS-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210133.jrzKgXWS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210106.IqHUCCpt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512210133.jrzKgXWS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/scsi/linkdata/ps3stor/ps3_ioc_manager.c:5:
-   In file included from include/linux/pci.h:1669:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_ioc_manager.c:307:5: error: no previous prototype for function 'ps3_hard_reset_to_ready' [-Werror,-Wmissing-prototypes]
-     307 | int ps3_hard_reset_to_ready(struct ps3_instance *instance)
-         |     ^
-   drivers/scsi/linkdata/ps3stor/ps3_ioc_manager.c:307:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     307 | int ps3_hard_reset_to_ready(struct ps3_instance *instance)
-         | ^
-         | static 
-   6 errors generated.
---
-   In file included from drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:5:
-   In file included from include/linux/pci.h:1669:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:876:6: error: no previous prototype for function 'ps3_set_task_manager_busy' [-Werror,-Wmissing-prototypes]
-     876 | void ps3_set_task_manager_busy(struct ps3_instance *instance,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:876:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     876 | void ps3_set_task_manager_busy(struct ps3_instance *instance,
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:1110:5: error: no previous prototype for function 'ps3_wait_for_outstanding_complete' [-Werror,-Wmissing-prototypes]
-    1110 | int ps3_wait_for_outstanding_complete(struct ps3_instance *instance)
-         |     ^
-   drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:1110:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1110 | int ps3_wait_for_outstanding_complete(struct ps3_instance *instance)
-         | ^
-         | static 
-   7 errors generated.
---
-   In file included from drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:14:
-   In file included from drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.h:6:
-   In file included from drivers/scsi/linkdata/ps3stor/ps3_irq.h:8:
-   In file included from include/scsi/scsi_host.h:11:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:131:6: error: no previous prototype for function 'ps3_trigger_irq_poll' [-Werror,-Wmissing-prototypes]
-     131 | void ps3_trigger_irq_poll(struct ps3_irq *irq)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:131:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     131 | void ps3_trigger_irq_poll(struct ps3_irq *irq)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:243:5: error: no previous prototype for function 'ps3_resp_status_convert' [-Werror,-Wmissing-prototypes]
-     243 | int ps3_resp_status_convert(unsigned int resp_status)
-         |     ^
-   drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:243:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     243 | int ps3_resp_status_convert(unsigned int resp_status)
-         | ^
-         | static 
-   7 errors generated.
---
-   In file included from drivers/scsi/linkdata/ps3stor/ps3_qos.c:7:
-   In file included from include/scsi/scsi_host.h:11:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:211:1: error: no previous prototype for function 'ps3_qos_cmd_waitq_get' [-Werror,-Wmissing-prototypes]
-     211 | ps3_qos_cmd_waitq_get(struct ps3_qos_tg_context *qos_tg_ctx,
-         | ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:210:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     210 | struct qos_wait_queue *
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:15: error: no previous prototype for function 'ps3_qos_vd_cmdword_get' [-Werror,-Wmissing-prototypes]
-     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:15: error: no previous prototype for function 'ps3_qos_exclusive_cmdword_get' [-Werror,-Wmissing-prototypes]
-     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:15: error: no previous prototype for function 'ps3_qos_tg_decision' [-Werror,-Wmissing-prototypes]
-     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:15: error: no previous prototype for function 'ps3_qos_all_pd_rc_get' [-Werror,-Wmissing-prototypes]
-     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clear_all' [-Werror,-Wmissing-prototypes]
-     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clean' [-Werror,-Wmissing-prototypes]
-     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:6: error: no previous prototype for function 'ps3_qos_pd_waitq_ratio_update' [-Werror,-Wmissing-prototypes]
-    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:15: error: no previous prototype for function 'ps3_hba_qos_decision' [-Werror,-Wmissing-prototypes]
-    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:6: error: no previous prototype for function 'ps3_hba_qos_waitq_notify' [-Werror,-Wmissing-prototypes]
-    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:6: error: no previous prototype for function 'ps3_cmd_waitq_abort' [-Werror,-Wmissing-prototypes]
-    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:6: error: no previous prototype for function 'ps3_hba_qos_waitq_clear_all' [-Werror,-Wmissing-prototypes]
-    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:6: error: no previous prototype for function 'ps3_hba_qos_vd_init' [-Werror,-Wmissing-prototypes]
-    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:6: error: no previous prototype for function 'ps3_hba_qos_vd_reset' [-Werror,-Wmissing-prototypes]
-    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-         | ^
-         | static 
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
---
-   In file included from drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:6:
-   In file included from drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.h:7:
-   In file included from include/scsi/scsi_cmnd.h:5:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:508:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:85:6: error: no previous prototype for function 'ps3_cmd_stat_content_clear' [-Werror,-Wmissing-prototypes]
-      85 | void ps3_cmd_stat_content_clear(struct ps3_instance *instance)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:85:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      85 | void ps3_cmd_stat_content_clear(struct ps3_instance *instance)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:403:6: error: no previous prototype for function 'ps3_io_recv_ok_stat_inc' [-Werror,-Wmissing-prototypes]
-     403 | void ps3_io_recv_ok_stat_inc(struct ps3_instance *ins,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:403:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     403 | void ps3_io_recv_ok_stat_inc(struct ps3_instance *ins,
-         | ^
-         | static 
-   7 errors generated.
-..
+>> drivers/net/wireless/rsi/rsi_91x_sdio.c:1454:36: error: no member named 'wowlan_config' in 'struct wiphy'
+    1454 |         if (hw && hw->wiphy && hw->wiphy->wowlan_config) {
+         |                                ~~~~~~~~~  ^
+>> drivers/net/wireless/rsi/rsi_91x_sdio.c:1455:7: error: call to undeclared function 'rsi_config_wowlan'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1455 |                 if (rsi_config_wowlan(adapter, hw->wiphy->wowlan_config))
+         |                     ^
+   drivers/net/wireless/rsi/rsi_91x_sdio.c:1455:45: error: no member named 'wowlan_config' in 'struct wiphy'
+    1455 |                 if (rsi_config_wowlan(adapter, hw->wiphy->wowlan_config))
+         |                                                ~~~~~~~~~  ^
+   3 errors generated.
 
 
-vim +/ps3_pci_init +545 drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c
+vim +1454 drivers/net/wireless/rsi/rsi_91x_sdio.c
 
-   544	
- > 545	int ps3_pci_init(struct pci_dev *pdev, struct ps3_instance *instance)
-   546	{
-   547		resource_size_t base_addr = 0;
-   548		int ret = PS3_SUCCESS;
-   549	
-   550		ret = pci_enable_device_mem(pdev);
-   551		if (ret != PS3_SUCCESS) {
-   552			LOG_ERROR("hno:%u pci id[%u] pci enable failed\n",
-   553				  PS3_HOST(instance), pdev->dev.id);
-   554			goto l_pci_enable_device_mem_failed;
-   555		}
-   556	
-   557		pci_set_master(pdev);
-   558	
-   559		instance->reg_bar = PS3_REGISTER_BAR_INDEX;
-   560		ret = (pci_resource_flags(pdev, instance->reg_bar) & IORESOURCE_MEM);
-   561		if (!ret) {
-   562			LOG_ERROR("hno:%u Bar %lu isnot IORESOURCE_MEM\n",
-   563				  PS3_HOST(instance), instance->reg_bar);
-   564			goto l_bar_check_failed;
-   565		}
-   566		ret = pci_request_selected_regions(pdev, 1 << instance->reg_bar,
-   567						   "PS3 pci regions");
-   568		if (ret != PS3_SUCCESS) {
-   569			LOG_ERROR("hno:%u IO memory region busy\n", PS3_HOST(instance));
-   570			goto l_pci_request_selected_regions_failed;
-   571		}
-   572	#if defined(PS3_SUPPORT_PCIE_REPORT)
-   573		pci_enable_pcie_error_reporting(pdev);
-   574	#endif
-   575		if (instance->ioc_adpter->reg_set) {
-   576			instance->reg_set =
-   577				(struct Ps3Fifo __iomem *)instance->ioc_adpter->reg_set(
-   578					pdev, instance->reg_bar);
-   579		} else {
-   580			instance->reg_set = (struct Ps3Fifo __iomem *)ioremap(
-   581				pci_resource_start(pdev, instance->reg_bar),
-   582				PS3_REGISTER_SET_SIZE);
-   583		}
-   584		if (instance->reg_set == NULL) {
-   585			LOG_ERROR("hno:%u ioremap failed\n", PS3_HOST(instance));
-   586			goto l_ioremap_failed;
-   587		} else {
-   588			pci_set_drvdata(pdev, instance);
-   589		}
-   590	
-   591		ps3_atomic_set(&instance->watchdog_reg_read_fail_count, 0);
-   592		LOG_INFO(
-   593			"reg_bar_idx = %lu, bar_base_paddr = 0x%llx, reg_set_vaddr = 0x%p\n",
-   594			instance->reg_bar, (unsigned long long)base_addr, instance->reg_set);
-   595	
-   596		return PS3_SUCCESS;
-   597	l_ioremap_failed:
-   598		pci_release_selected_regions(instance->pdev, 1 << instance->reg_bar);
-   599	#if defined(PS3_SUPPORT_PCIE_REPORT)
-   600		pci_disable_pcie_error_reporting(pdev);
-   601	#endif
-   602	l_pci_request_selected_regions_failed:
-   603		pci_disable_device(instance->pdev);
-   604	l_bar_check_failed:
-   605	l_pci_enable_device_mem_failed:
-   606		return -PS3_FAILED;
-   607	}
-   608	
+b6c8d06c8a6465 Karun Eagalapati  2017-10-27  1444  
+063848c3e1558e Karun Eagalapati  2017-10-27  1445  static void rsi_shutdown(struct device *dev)
+063848c3e1558e Karun Eagalapati  2017-10-27  1446  {
+063848c3e1558e Karun Eagalapati  2017-10-27  1447  	struct sdio_func *pfunction = dev_to_sdio_func(dev);
+063848c3e1558e Karun Eagalapati  2017-10-27  1448  	struct rsi_hw *adapter = sdio_get_drvdata(pfunction);
+f9bf6e729f4ebc Wu Yunchuan       2023-08-03  1449  	struct rsi_91x_sdiodev *sdev = adapter->rsi_dev;
+063848c3e1558e Karun Eagalapati  2017-10-27  1450  	struct ieee80211_hw *hw = adapter->hw;
+063848c3e1558e Karun Eagalapati  2017-10-27  1451  
+063848c3e1558e Karun Eagalapati  2017-10-27  1452  	rsi_dbg(ERR_ZONE, "SDIO Bus shutdown =====>\n");
+063848c3e1558e Karun Eagalapati  2017-10-27  1453  
+b241e260820b68 Marek Vasut       2023-05-28 @1454  	if (hw && hw->wiphy && hw->wiphy->wowlan_config) {
+b241e260820b68 Marek Vasut       2023-05-28 @1455  		if (rsi_config_wowlan(adapter, hw->wiphy->wowlan_config))
+063848c3e1558e Karun Eagalapati  2017-10-27  1456  			rsi_dbg(ERR_ZONE, "Failed to configure WoWLAN\n");
+16bbc3eb83728c Martin Kepplinger 2020-01-29  1457  	}
+063848c3e1558e Karun Eagalapati  2017-10-27  1458  
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1459  	if (IS_ENABLED(CONFIG_RSI_COEX) && adapter->priv->coex_mode > 1 &&
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1460  	    adapter->priv->bt_adapter) {
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1461  		rsi_bt_ops.detach(adapter->priv->bt_adapter);
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1462  		adapter->priv->bt_adapter = NULL;
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1463  	}
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1464  
+063848c3e1558e Karun Eagalapati  2017-10-27  1465  	rsi_sdio_disable_interrupts(sdev->pfunction);
+063848c3e1558e Karun Eagalapati  2017-10-27  1466  
+063848c3e1558e Karun Eagalapati  2017-10-27  1467  	if (sdev->write_fail)
+063848c3e1558e Karun Eagalapati  2017-10-27  1468  		rsi_dbg(INFO_ZONE, "###### Device is not ready #######\n");
+063848c3e1558e Karun Eagalapati  2017-10-27  1469  
+063848c3e1558e Karun Eagalapati  2017-10-27  1470  	rsi_dbg(INFO_ZONE, "***** RSI module shut down *****\n");
+063848c3e1558e Karun Eagalapati  2017-10-27  1471  }
+063848c3e1558e Karun Eagalapati  2017-10-27  1472  
 
 -- 
 0-DAY CI Kernel Test Service
