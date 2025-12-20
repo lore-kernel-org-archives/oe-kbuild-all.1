@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB4F21CA0D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 22:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF58C26ED58
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 23:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766270767; cv=none; b=B5T7NBM1/66+UApqOVLVakE/2vORKDZIk5KtHXnROTAQa8GmX9MoTVl1Lb2NyJJluWlpkxBndIYF5/7rnB3Mz2CLRwkeKZI9vQcsno5ZOl5ki+eHyOUERFbB4JDhxcl5uLtKNkvI4ZzRVnuNnNI0qy67WgrtYH2Ix4fXWWkALMc=
+	t=1766272373; cv=none; b=ZnPKuMNxn9h4eGmNm6/uHCUYmn4NVaIHdA+vQThOqVjUcagu7Dad9mEEUIVcHcAb9H7Y01RXUHGygJ0ZFZAEZzRzbWd5krqmF+PnuL91nsVmxIqoDK/Mp30qYIDucrsaXAgDglMKkEN3Jo5R93gcZ9zMZaUiV+cz1cqRuY3oi4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766270767; c=relaxed/simple;
-	bh=bqV5TyU5J/Ga+U3o+uzi9ZFeOmqgF6sTivCW7bXDCpY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZCpmwYFdWHh6W8qUQ05kj5V7GMNCkHm7AGJlE5XsL703hl1X8UGnqmFqgV2kE2w0r1hsV4ynPvHzjmMabi0yngEgEj8Eig0+GFJmNP6rQ4aStlzemcOuoEeE3/C5t3qh2pGc4x7+n+UBeN0jNfeXYzxQPiwxfQoJr/Tkh+zXd+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y7CzfPzS; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1766272373; c=relaxed/simple;
+	bh=O+0xK4Ln5zYTeI9RcC3XM6MqD0pDffnd7I8ABazyXdU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tqwTOSQzKmT+aWMqPSJLwusASpHTraynq96kE9iiI44rvcb0v6thkKZmWmYw8l98wWriQ2XfHf4cJIxVX24Nqn9cW/9Acrs2hRWJeQ5PFm2rIEdQIxwmWD4p+MU/eWfkNSfeCaKWyI3nfl3LE0Kfu37L5k9hQmnSrAbYwqB9trI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P+751jgT; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y7CzfPzS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P+751jgT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766270764; x=1797806764;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bqV5TyU5J/Ga+U3o+uzi9ZFeOmqgF6sTivCW7bXDCpY=;
-  b=Y7CzfPzSohgSeU8t1ca7l/zWKmx8PWlZuNiv8/QCTbHFuhVkfH2/y9RR
-   WTFo2EHtIpLQj6cWKLdxgqjMMzu0yY6T7+riQdd/Y/Mk8w+KQOUk9KN4c
-   FYAcQOmFH1ubyd6PrjJy9ahmMya3NWrY5zZqGYUZ7o9wlOdeK0G60bcD6
-   0Zbn4cz4Yw78qlnxDeA6KscFIT96cH5H2WzZHTwOPtyHMh+U9p1ysj43S
-   mSDfdug9NIaO0WSTfIVh0/ozZZ66aTq6PhUAH52G7Gp0o39ARPQTv0YFx
-   aU8DARI3VmRxdijDuz7BGo3WA5Y7kKfXgXHSsUx2KDEWixsglgoKNvmGT
-   g==;
-X-CSE-ConnectionGUID: uC5NrjFGRQW4a7A0KIrt6w==
-X-CSE-MsgGUID: vGkbT1X7Tsa8fYXt3VnjPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68265784"
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="68265784"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 14:46:03 -0800
-X-CSE-ConnectionGUID: 92vZp5oCQDGEOwhHHWekaA==
-X-CSE-MsgGUID: jDdV41mOSliyssVkLrf9qw==
+  t=1766272371; x=1797808371;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O+0xK4Ln5zYTeI9RcC3XM6MqD0pDffnd7I8ABazyXdU=;
+  b=P+751jgTXyMAljBLrIbGwW/i7+FKiVp5E/wS1MNc/2ZBf/UR72eMzO/D
+   LJxMIW9pBDkXq0bc02svCkgbXemRIMF7TFcrEwf62g99pv4tO9yapnt9E
+   rJTgWyW9GDiWBOlh9tEvaZG3bvlMs5vfhj8Rpggk+K1TjXDz/UlXkTpvE
+   UT647XBrNGqfPa8y4vR7PIf+h3H7HwSekbV40shyelqfLz9pK7bI9HHSZ
+   jJXasikUsEXF7fn4LWVHaCnidKNELAZMHbKMTdi0EQMFO8QDivSb8NKOq
+   xf2pQ4J8e+XAriHGQIQPSUXWoxkYsN4wH3uMg2+1Ll+fdVt7i5wFJf1HM
+   Q==;
+X-CSE-ConnectionGUID: T7I+sORaTzaah9KN9XlegA==
+X-CSE-MsgGUID: FUuiLJTKR9euEAXWbvsJTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68124955"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="68124955"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 15:12:51 -0800
+X-CSE-ConnectionGUID: d64TpFpCTFWbiuIkkOp1rQ==
+X-CSE-MsgGUID: VSN/CYwtSTWrVSSkLEfF3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="204118978"
+   d="scan'208";a="199433518"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Dec 2025 14:45:49 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 20 Dec 2025 15:12:50 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vX5hq-000000004oG-266s;
-	Sat, 20 Dec 2025 22:45:46 +0000
-Date: Sat, 20 Dec 2025 23:45:03 +0100
+	id 1vX67z-000000004p2-0C9I;
+	Sat, 20 Dec 2025 23:12:47 +0000
+Date: Sun, 21 Dec 2025 00:12:03 +0100
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu,
-	axboe@kernel.dk
-Cc: oe-kbuild-all@lists.linux.dev, bschubert@ddn.com,
-	asml.silence@gmail.com, io-uring@vger.kernel.org,
-	csander@purestorage.com, xiaobing.li@samsung.com,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 19/25] fuse: add io-uring kernel-managed buffer ring
-Message-ID: <202512202342.AGVIgnBx-lkp@intel.com>
-References: <20251218083319.3485503-20-joannelkoong@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 12/12] kismet: WARNING: unmet
+ direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH when
+ selected by GKI_HIDDEN_DMA_CONFIGS
+Message-ID: <202512210026.yPXV8Eny-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,115 +62,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251218083319.3485503-20-joannelkoong@gmail.com>
 
-Hi Joanne,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on axboe/for-next]
-[also build test WARNING on linus/master v6.19-rc1 next-20251219]
-[cannot apply to mszeredi-fuse/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/io_uring-kbuf-refactor-io_buf_pbuf_register-logic-into-generic-helpers/20251218-165107
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251218083319.3485503-20-joannelkoong%40gmail.com
-patch subject: [PATCH v2 19/25] fuse: add io-uring kernel-managed buffer ring
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251220/202512202342.AGVIgnBx-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202342.AGVIgnBx-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   2141da9e498139ac37a520b62dfdc77db8003146
+commit: 194fc9ea8a50fa11e9b03bf04449614fc79be59a [12/12] ANDROID: GKI: enable hidden configs for DMA
+config: x86_64-kismet-CONFIG_ASYNC_TX_ENABLE_CHANNEL_SWITCH-CONFIG_GKI_HIDDEN_DMA_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20251221/202512210026.yPXV8Eny-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251221/202512210026.yPXV8Eny-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202342.AGVIgnBx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512210026.yPXV8Eny-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> fs/fuse/dev_uring.c:704:35: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     703 |                                     "header_type=%u, header_size=%lu, "
-         |                                                                  ~~~
-         |                                                                  %zu
-     704 |                                     "use_bufring=%d\n", type, header_size,
-         |                                                               ^~~~~~~~~~~
-   ./include/linux/printk.h:726:46: note: expanded from macro 'pr_info_ratelimited'
-     726 |         printk_ratelimited(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                             ~~~     ^~~~~~~~~~~
-   ./include/linux/printk.h:706:17: note: expanded from macro 'printk_ratelimited'
-     706 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                        ~~~    ^~~~~~~~~~~
-   ./include/linux/printk.h:512:60: note: expanded from macro 'printk'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   ./include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   fs/fuse/dev_uring.c:743:35: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-     742 |                                     "header_type=%u, header_size=%lu, "
-         |                                                                  ~~~
-         |                                                                  %zu
-     743 |                                     "use_bufring=%d\n", type, header_size,
-         |                                                               ^~~~~~~~~~~
-   ./include/linux/printk.h:726:46: note: expanded from macro 'pr_info_ratelimited'
-     726 |         printk_ratelimited(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                             ~~~     ^~~~~~~~~~~
-   ./include/linux/printk.h:706:17: note: expanded from macro 'printk_ratelimited'
-     706 |                 printk(fmt, ##__VA_ARGS__);                             \
-         |                        ~~~    ^~~~~~~~~~~
-   ./include/linux/printk.h:512:60: note: expanded from macro 'printk'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   ./include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +704 fs/fuse/dev_uring.c
-
-   670	
-   671	static __always_inline int copy_header_to_ring(struct fuse_ring_ent *ent,
-   672						       enum fuse_uring_header_type type,
-   673						       const void *header,
-   674						       size_t header_size)
-   675	{
-   676		bool use_bufring = ent->queue->use_bufring;
-   677		int err = 0;
-   678	
-   679		if (use_bufring) {
-   680			struct iov_iter iter;
-   681	
-   682			err =  get_kernel_ring_header(ent, type, &iter);
-   683			if (err)
-   684				goto done;
-   685	
-   686			if (copy_to_iter(header, header_size, &iter) != header_size)
-   687				err = -EFAULT;
-   688		} else {
-   689			void __user *ring = get_user_ring_header(ent, type);
-   690	
-   691			if (!ring) {
-   692				err = -EINVAL;
-   693				goto done;
-   694			}
-   695	
-   696			if (copy_to_user(ring, header, header_size))
-   697				err = -EFAULT;
-   698		}
-   699	
-   700	done:
-   701		if (err)
-   702			pr_info_ratelimited("Copying header to ring failed: "
-   703					    "header_type=%u, header_size=%lu, "
- > 704					    "use_bufring=%d\n", type, header_size,
-   705					    use_bufring);
-   706	
-   707		return err;
-   708	}
-   709	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH when selected by GKI_HIDDEN_DMA_CONFIGS
+   WARNING: unmet direct dependencies detected for ASYNC_TX_ENABLE_CHANNEL_SWITCH
+     Depends on [n]: DMADEVICES [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_DMA_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_DRM_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_SHA256
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - INCREMENTAL_FS [=y] && BLOCK [=y]
+   
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_DRM_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_DRM_CONFIGS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
