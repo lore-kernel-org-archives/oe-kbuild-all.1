@@ -1,144 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E912E090B;
-	Sat, 20 Dec 2025 16:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D197261C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 16:48:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766248953; cv=none; b=iUk8pqUb+txWoXQ9EHa5wZD82MC1Ar0rw5AmDu2kdt8aPxBUOjy0BGvpvWWErkNwvDP5M9+C15D1GR0gQmYdTsrs8vCmAJNCrKFK6yvL2gEkm5NpJmQHgX1+8D1Io5TxP4G/LnJq0YHiwWVlhMNeJbaTPpTuKBYB5AUiU1350qQ=
+	t=1766249333; cv=none; b=aQampedCqs++YmbUv31h7F9EYXHSZFVuJbu9jg1onqGP3wWp5IGKLP1NVjXfw8C8yNBLPh/C2bvjhha3QLtp3PvsOBFlCrsHFJDYvJQv/RIj1om3OVbAXy5DOTeup9YKz7Ss89JxMC3k1EcCpDhBdHMdulXSuaqzc53Q4zSLudY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766248953; c=relaxed/simple;
-	bh=TXnF+6Y/X/cvzV+gzLc9kK5K/qf4PUFeAfhUcqk0IiI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KV0u3Sq0ruUKYSyzVmkzYwRShNr85ob0mHi/XsMYfoWSttrtlqOVrbfebaSYm7X68KszwJUffIDZI/MZJXVfIxsKMsu4gusXT+chHTBi/B/YaoCzIZw88TFMtKIzG/hJifz8IbgrBTLLMjTk4Al6dwVOLCVNiwlJFR2KEW3+POs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jc+46oJN; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766249333; c=relaxed/simple;
+	bh=7/cSBAYVV1agSiaDatXuYp7PTBfcouVx1GyrTJRY0Zw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ARwMtP3jBBl778e/xyhjpxKb4UC0SC2Iobxd1Mw61HEdGlalfZy6KB/6SKczx7CSruGmF6eHQhuV7fjc4xmw12e/H6/cFI0d1eYZldaXOCytqD1o2xL417bbzEEsDP8X4MMQI4A/uFYiwEtrPF3DxJ+6tEArQHSnO4B56zun0nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=schnwalter.eu; spf=pass smtp.mailfrom=schnwalter.eu; dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b=owAoKP7j; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Iwe9E1d6; arc=none smtp.client-ip=202.12.124.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=schnwalter.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schnwalter.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jc+46oJN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766248951; x=1797784951;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TXnF+6Y/X/cvzV+gzLc9kK5K/qf4PUFeAfhUcqk0IiI=;
-  b=Jc+46oJNln39kOMQWHa+XSLnj09iUKru/FSBG+xOLuzHFOsqZ7zVLG4a
-   O9xqLhGcq1fNEmREazQYG1GcvXyzuisJwpgHhPhOncXn8QOqK3R7P0FPx
-   6l7cHR7ACY1iA+5QAZEMG0iYA0rVGKIwIuBXhCq46pfVIu6Adl7/E+HVW
-   gapz9a78DLv/7sHbrju8AZbkQBgOPqlYiUbV/JSPb3tBThQ0BbdoCguBx
-   0ILKAN8lqkS2gjnZm7jWeHflLQDv34e/f//63GG/NxKEgjVNQFAxxBTqL
-   KTua53+4gxDPgx9B7MzbWDrmdtUQVdnBf7fR01mJK0JlkVrIwkU4P3cNg
-   Q==;
-X-CSE-ConnectionGUID: /qdL5xhrRW+/iQF0mhef3w==
-X-CSE-MsgGUID: D609MIXhSsmhAA0JugO9aQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="85764594"
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="85764594"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 08:42:30 -0800
-X-CSE-ConnectionGUID: qC9C4mkYTJ6Du3i4F1bxqQ==
-X-CSE-MsgGUID: cKF+9GaETzqL8blds+JfXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199170422"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 20 Dec 2025 08:42:26 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vX02B-000000004tH-319A;
-	Sat, 20 Dec 2025 16:42:23 +0000
-Date: Sun, 21 Dec 2025 00:41:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ma Ke <make24@iscas.ac.cn>, andrew@lunn.ch, olteanv@gmail.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, tobias@waldekranz.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org, Ma Ke <make24@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] net: dsa: Fix error handling in dsa_port_parse_of
-Message-ID: <202512210004.b6WzJwXn-lkp@intel.com>
-References: <20251214131204.4684-1-make24@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=schnwalter.eu header.i=@schnwalter.eu header.b="owAoKP7j";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Iwe9E1d6"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 534A27A00E7;
+	Sat, 20 Dec 2025 11:48:50 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-05.internal (MEProxy); Sat, 20 Dec 2025 11:48:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=schnwalter.eu;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1766249330; x=1766335730; bh=D9pG8buwRCScj6TxLVgjTBd++nPmrAvF
+	XoCTsaZJYTQ=; b=owAoKP7jeOv1+9o6QglVG5teumwehcaAtShqxx/5ZcAagnaM
+	tO3w9ijck3Cfdr0lTFRrJe4ADq0zBkUtjIYrQ65i20/ikHbwdEzDLML0V4xROrjO
+	hgARhza4WxuY1YuFFiNsdwUFRZrdN0Lr973HWeKmUWBkvmlOF/pic+SwMuc8sJtr
+	7eABwA5vqpfag316sJ7inVuTK8QTO0OuJ5kn1CnLGQjCYyLrgtvACV+S1tG917DC
+	tTqk/4AXFMC4yTv8g3sFLOQjj84JWr3uPBXlwQv+WTmxY7p4DkV3pGlvyKdGfKBi
+	Q5D/DDkNjHOPYwA5oulaeEPr2AOXglHIQ6UFDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1766249330; x=
+	1766335730; bh=D9pG8buwRCScj6TxLVgjTBd++nPmrAvFXoCTsaZJYTQ=; b=I
+	we9E1d6dkmO9chEDuE2zaRQsH/W1Hwtd0xtFizCWV9kl8i2w+o6G2xmD/cn+8jEK
+	dWBj8MOYUr8gbrmO+XLSWuT/ynKa0SjI11UGJGYZtxoGhpastH3dPogzOK302Qkv
+	n8wDlKV6DJhZfvO1ZkReQsF43I/NSjkVmDrDh+mxeyK6JixeQfSVyOF/3wF5bbHq
+	+NQTwvfDYwr/bGNz1HZX2h+woN5/NhFBJuZG0tMmKl9qTyTqZ5M8uXvUr4bHAARE
+	0gFC0RnTxMvW1GWoruSoQZnyDetHcum41zcJ/gPOUX4WxHhz4qpyeCPNqf1QUhlU
+	NfwV1GMj7LlCQum2CEbZQ==
+X-ME-Sender: <xms:cdNGaXAsIKb6lX-EdoSWryZPcorbQapHFKmjC6CR6DHnOumAeejXUg>
+    <xme:cdNGaYVfbpas9nEAfTWbvXrLbOzyG-9dIIQPKUPzK8xiC_ILPT8zC4GN25tuoL2WZ
+    q6a7_gCvxc3V90v3ysjEjC6McIoXvQn5EfgA8zNcOwW4Duoi_tCzg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdehudejtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdghrghlthgv
+    rhcuhggvrhhnvghrucfuvefjpffgkfffgfftfdcuoegtohhnthgrtghtsehstghhnhifrg
+    hlthgvrhdrvghuqeenucggtffrrghtthgvrhhnpeffkedtffefgeevudfghfeihfdtkeel
+    gfelgfffudevgeetvedthffhveeigeefkeenucffohhmrghinhepghhithhhuhgsrdgtoh
+    hmpdhkvghrnhgvlhdrohhrghdptddurdhorhhgnecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomheptghonhhtrggtthesshgthhhnfigrlhhtvghrrd
+    gvuhdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
+    lhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlh
+    drohhrghdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgv
+    lhdrtghomhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlih
+    hnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghr
+    nhgvlhdrohhrgh
+X-ME-Proxy: <xmx:cdNGaQ3ch1Dg-9WtkuVtKexx2IP_-2gXH8LuhVvHLrGdmFIcpBiYNA>
+    <xmx:cdNGaeyg-XIWMq0uWSmikZpxDODkPa3tiTy7n4p4Yj7RkIWdXO-zuQ>
+    <xmx:cdNGaSvnMIXoMmC9jjoflQNQlo0xKkyF1QqivX2ubqX5IV0ixf9_Rg>
+    <xmx:cdNGaQx_FO8ayZv5J2xAWJsGYJlfYNYAAagK3dfOm7NkDk_2SgHHnw>
+    <xmx:ctNGaQ_93qhPVhyT0_qhSt7rBIhn_aXUmiSCoS3RqIijPkcLleO8g2Nm>
+Feedback-ID: i455149b6:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 572B21EA0066; Sat, 20 Dec 2025 11:48:49 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251214131204.4684-1-make24@iscas.ac.cn>
-
-Hi Ma,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-[also build test ERROR on net/main linus/master v6.19-rc1 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ma-Ke/net-dsa-Fix-error-handling-in-dsa_port_parse_of/20251214-211443
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20251214131204.4684-1-make24%40iscas.ac.cn
-patch subject: [PATCH v2] net: dsa: Fix error handling in dsa_port_parse_of
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20251221/202512210004.b6WzJwXn-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b324c9f4fa112d61a553bf489b5f4f7ceea05ea8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210004.b6WzJwXn-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210004.b6WzJwXn-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> net/dsa/dsa.c:1266:15: error: incompatible pointer types passing 'struct net_device *' to parameter of type 'struct device *' [-Wincompatible-pointer-types]
-    1266 |                         put_device(conduit);
-         |                                    ^~~~~~~
-   include/linux/device.h:1181:32: note: passing argument to parameter 'dev' here
-    1181 | void put_device(struct device *dev);
-         |                                ^
-   1 error generated.
+X-ThreadId: ALMo3NTH8JG3
+Date: Sat, 20 Dec 2025 18:48:24 +0200
+From: "Walter Werner SCHNEIDER" <contact@schnwalter.eu>
+To: "kernel test robot" <lkp@intel.com>, linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Sakari Ailus" <sakari.ailus@linux.intel.com>,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>
+Message-Id: <fd4b9d79-635e-4e43-b5ad-5b457216fb77@app.fastmail.com>
+In-Reply-To: <202512202343.sZsxwdcf-lkp@intel.com>
+References: <20251218-ov2732-driver-v1-1-0ceef92c4016@schnwalter.eu>
+ <202512202343.sZsxwdcf-lkp@intel.com>
+Subject: Re: [PATCH 1/2] media: i2c: Add ov2732 image sensor driver
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
-vim +1266 net/dsa/dsa.c
+On Sat, Dec 20, 2025, at 17:57, kernel test robot wrote:
+> Hi Walter,
+>
+> kernel test robot noticed the following build warnings:
 
-  1244	
-  1245	static int dsa_port_parse_of(struct dsa_port *dp, struct device_node *dn)
-  1246	{
-  1247		struct device_node *ethernet = of_parse_phandle(dn, "ethernet", 0);
-  1248		const char *name = of_get_property(dn, "label", NULL);
-  1249		bool link = of_property_read_bool(dn, "link");
-  1250		int err = 0;
-  1251	
-  1252		dp->dn = dn;
-  1253	
-  1254		if (ethernet) {
-  1255			struct net_device *conduit;
-  1256			const char *user_protocol;
-  1257	
-  1258			conduit = of_find_net_device_by_node(ethernet);
-  1259			of_node_put(ethernet);
-  1260			if (!conduit)
-  1261				return -EPROBE_DEFER;
-  1262	
-  1263			user_protocol = of_get_property(dn, "dsa-tag-protocol", NULL);
-  1264			err = dsa_port_parse_cpu(dp, conduit, user_protocol);
-  1265			if (err)
-> 1266				put_device(conduit);
-  1267	
-  1268			return err;
-  1269		}
-  1270	
-  1271		if (link)
-  1272			return dsa_port_parse_dsa(dp);
-  1273	
-  1274		return dsa_port_parse_user(dp, name);
-  1275	}
-  1276	
+FYI: All the warnings have been fixed in the latest version of the patch set.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> [auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+>
+> url:    
+> https://github.com/intel-lab-lkp/linux/commits/Walter-Werner-SCHNEIDER/media-i2c-Add-ov2732-image-sensor-driver/20251218-062039
+> base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> patch link:    
+> https://lore.kernel.org/r/20251218-ov2732-driver-v1-1-0ceef92c4016%40schnwalter.eu
+> patch subject: [PATCH 1/2] media: i2c: Add ov2732 image sensor driver
+> config: nios2-allmodconfig 
+> (https://download.01.org/0day-ci/archive/20251220/202512202343.sZsxwdcf-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 11.5.0
+> reproduce (this is a W=1 build): 
+> (https://download.01.org/0day-ci/archive/20251220/202512202343.sZsxwdcf-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: 
+> https://lore.kernel.org/oe-kbuild-all/202512202343.sZsxwdcf-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    drivers/media/i2c/ov2732.c: In function 'ov2732_set_fmt':
+>>> drivers/media/i2c/ov2732.c:282:13: warning: variable 'prev_line_len' set but not used [-Wunused-but-set-variable]
+>      282 |         u32 prev_line_len;
+>          |             ^~~~~~~~~~~~~
+>
+>
+> vim +/prev_line_len +282 drivers/media/i2c/ov2732.c
+>
+>    274	
+>    275	static int ov2732_set_fmt(struct v4l2_subdev *sd,
+>    276				  struct v4l2_subdev_state *state,
+>    277				  struct v4l2_subdev_format *fmt)
+>    278	{
+>    279		struct ov2732 *ov2732 = to_ov2732(sd);
+>    280		const struct ov2732_mode *mode;
+>    281		struct v4l2_mbus_framefmt *format;
+>  > 282		u32 prev_line_len;
+>    283		s64 vblank_def;
+>    284	
+>    285		format = v4l2_subdev_state_get_format(state, 0);
+>    286		prev_line_len = format->width + ov2732->hblank->val;
+>    287	
+>    288		mode = v4l2_find_nearest_size(supported_modes,
+>    289					      ARRAY_SIZE(supported_modes),
+>    290					      width, height,
+>    291					      fmt->format.width, fmt->format.height);
+>    292	
+>    293		fmt->format.code = MEDIA_BUS_FMT_SBGGR10_1X10;
+>    294		fmt->format.width = mode->width;
+>    295		fmt->format.height = mode->height;
+>    296		fmt->format.field = V4L2_FIELD_NONE;
+>    297	
+>    298		*v4l2_subdev_state_get_format(state, fmt->pad) = fmt->format;
+>    299	
+>    300		if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+>    301			vblank_def = mode->vts - mode->height;
+>    302			__v4l2_ctrl_modify_range(ov2732->vblank,
+>    303						 vblank_def,
+>    304						 OV2732_VTS_MAX - mode->height,
+>    305						 1, vblank_def);
+>    306		}
+>    307	
+>    308		return 0;
+>    309	}
+>    310	
+>
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
