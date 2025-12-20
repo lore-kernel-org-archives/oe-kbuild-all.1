@@ -1,73 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E5921CC4F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868C6849C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766245465; cv=none; b=GZSKRCvcHEaFauICyabneV4iGplUENuAF09/6h7hM0b9IQT9hKIIKS0yidhMb/iqdHFk9W3wxYmKVwQdE1UtE86wa4sjI93GIfeIvR+OJtRil3XVNBa8fZy4c1tqD3wVy+M2C8WcE7jIrU/UrZby15GrRDaGUn1QveTYz8rcwqA=
+	t=1766246244; cv=none; b=XpQocGYUL7iAtnQUVvMFdmbYhjnoobsEaIj1xXUohggJKsB9zP7Xrueoe7OYloXdzZ/gkran1kPNav1lrlGhVbU+VYFYbgjEJlcPo7xIqx8H6c48ScLnVlfnun90G5tyNVzW096X+dnrUjfU30LoIy3BsO+3PqEalELYdVCjDNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766245465; c=relaxed/simple;
-	bh=i30qgdidF5swEfrY8bISvHkNXQBtVxmPrBDz6HH/8cE=;
+	s=arc-20240116; t=1766246244; c=relaxed/simple;
+	bh=M8k3WILHwIXAJAjzZ6OhaWuEZA6Sbtkoe0mNMRH6/U4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SyGqxaRwvzzJTDdNhlybDgn9bcKILFbTgSVzW3uccv1xrhlq4YPqF721YUZPKM3dFfN2wPPGNMLWLpNlCtHIHIYu5sykX3tijm7omtzx6byWS0wrQal8Gve9OGbNKU3ZEV3olZuUu4UJo4ZtdtOoq8JwsFNXLIGKUb+dIo1m708=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QIsqb+y8; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=VDuNQhyFO5xcS8ND4jnho+HYIi6+LyZIDsvnLH+VCTvC9KJYUuNacw8Ojw6OOFF2Z8xfSJ4+tU0Qhjos3OOH8D5OglTZPJSDmqtw8UvHGAQYFHb4QFKRS6u62aUgYBtY0PKPpsm8SafDp0RRVgjvfRxMI97rBd+0mrJjBLXccV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EaZsXzu+; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIsqb+y8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EaZsXzu+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766245464; x=1797781464;
+  t=1766246242; x=1797782242;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=i30qgdidF5swEfrY8bISvHkNXQBtVxmPrBDz6HH/8cE=;
-  b=QIsqb+y823hmSLn7pQLe3rWFE1RvuxZ0wSV4Tzzs5VBQbHZa83sk9NsV
-   ucjbYHQdwDKkyK4KpJiz1VFI9n4BnvspzGdgFYPPV+cLLc1Vie717Xnhn
-   ox8IvhZnpXhbKSGFNjgqRVwpx0cgZ5JuyOckdA5V/zdHZZ4E6XyYy9mqE
-   /V7X0h+lB4eUnAjrMADjDHQWtVpMeI2KdzK7/QWByti8dX5w0NriKTnob
-   38jlDSRaj2qgnR7mQ6THh7kCiHDMQy+PoeCVLFmpyeP1ZkrvazVeFF25F
-   m2mmYTy9zXAjQPRBi2wFH19HUqOaN5od6/jSBuugFqGfcLhKmONL8OGD/
-   g==;
-X-CSE-ConnectionGUID: fukn7O1DRrCap83ajKWYPQ==
-X-CSE-MsgGUID: AVLBdMUmTIuysUSQQhxwxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="79297148"
+  bh=M8k3WILHwIXAJAjzZ6OhaWuEZA6Sbtkoe0mNMRH6/U4=;
+  b=EaZsXzu+ZYf6hs9WO3KnxqRKNEzpcxvJ8n9cz0LtX6v7CyvyuPAUstse
+   keQAM+MmZt4qcZHyIEclDUcjSq6Warvj11VQz/hvywMdgT41rNQ4ul6RV
+   k6FTsHX12GNJBs9w9/+MctKLzKH39qGC1hnbjIZ4UxXTQpcnahmiqf5Mo
+   KqDa1MT7anKXCwyaQJMtR8ikV6wzD5otP+S8KHSQizzITWgu7JADqv2OY
+   elSJeag7h3048DFMejfgglV2wLjyvd79oa0qzM6MIxtjNcK3m+xalpmwK
+   JkkzA9VO8TpDBjnuR/WRawUJ6GDPF9w/TZ3hV7kNiOWcUwJ1+AbRK78+i
+   A==;
+X-CSE-ConnectionGUID: AbHq9xTJSEepVvdk2vefJg==
+X-CSE-MsgGUID: Bse6PhrZQti0A2qym/L7Kw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="70748088"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="79297148"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:44:24 -0800
-X-CSE-ConnectionGUID: 7rxyLLmsSwu8Qk61HDxw4w==
-X-CSE-MsgGUID: odg2+K3HSBq45ro0hb4fag==
+   d="scan'208";a="70748088"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:57:20 -0800
+X-CSE-ConnectionGUID: j20DfxI7Rz+f3uLOGipOFw==
+X-CSE-MsgGUID: RVtQQip2SomxC4CrXsKuiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="236535410"
+   d="scan'208";a="199642885"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 20 Dec 2025 07:44:18 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2025 07:57:20 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWz7v-000000004m1-2LBa;
-	Sat, 20 Dec 2025 15:44:15 +0000
-Date: Sat, 20 Dec 2025 23:43:44 +0800
+	id 1vWzKX-000000004nn-3KCX;
+	Sat, 20 Dec 2025 15:57:17 +0000
+Date: Sat, 20 Dec 2025 23:57:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hou Tao <houtao@huaweicloud.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	houtao1@huawei.com
-Subject: Re: [PATCH 03/13] kernfs: add support for get_unmapped_area callback
-Message-ID: <202512202307.ewUcqBQV-lkp@intel.com>
-References: <20251220040446.274991-4-houtao@huaweicloud.com>
+To: Yushan Wang <wangyushan12@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC v2 1/3] soc cache: L3 cache driver for HiSilicon SoC
+Message-ID: <202512202328.j12YpAxc-lkp@intel.com>
+References: <20251217102357.1730573-2-wangyushan12@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,77 +62,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251220040446.274991-4-houtao@huaweicloud.com>
+In-Reply-To: <20251217102357.1730573-2-wangyushan12@huawei.com>
 
-Hi Hou,
+Hi Yushan,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on driver-core/driver-core-testing]
-[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus akpm-mm/mm-everything linus/master v6.19-rc1 next-20251219]
-[cannot apply to pci/next pci/for-linus]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.19-rc1 next-20251219]
+[cannot apply to soc/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hou-Tao/PCI-P2PDMA-Release-the-per-cpu-ref-of-pgmap-when-vm_insert_page-fails/20251220-121804
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20251220040446.274991-4-houtao%40huaweicloud.com
-patch subject: [PATCH 03/13] kernfs: add support for get_unmapped_area callback
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20251220/202512202307.ewUcqBQV-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202307.ewUcqBQV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yushan-Wang/soc-cache-L3-cache-driver-for-HiSilicon-SoC/20251217-203916
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251217102357.1730573-2-wangyushan12%40huawei.com
+patch subject: [PATCH RFC v2 1/3] soc cache: L3 cache driver for HiSilicon SoC
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512202328.j12YpAxc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202328.j12YpAxc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202307.ewUcqBQV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202328.j12YpAxc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/kernfs/file.c: In function 'kernfs_get_unmapped_area':
->> fs/kernfs/file.c:480:16: error: implicit declaration of function 'mm_get_unmapped_area'; did you mean 'get_unmapped_area'? [-Wimplicit-function-declaration]
-     480 |         addr = mm_get_unmapped_area(file, uaddr, len, pgoff, flags);
-         |                ^~~~~~~~~~~~~~~~~~~~
-         |                get_unmapped_area
+>> drivers/soc/hisilicon/hisi_soc_l3c.c:20:10: fatal error: asm/cputype.h: No such file or directory
+      20 | #include <asm/cputype.h>
+         |          ^~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +480 fs/kernfs/file.c
+vim +20 drivers/soc/hisilicon/hisi_soc_l3c.c
 
-   456	
-   457	static unsigned long kernfs_get_unmapped_area(struct file *file, unsigned long uaddr,
-   458						      unsigned long len, unsigned long pgoff,
-   459						      unsigned long flags)
-   460	{
-   461		struct kernfs_open_file *of = kernfs_of(file);
-   462		const struct kernfs_ops *ops;
-   463		long addr;
-   464	
-   465		if (!(of->kn->flags & KERNFS_HAS_MMAP))
-   466			return -ENODEV;
-   467	
-   468		mutex_lock(&of->mutex);
-   469	
-   470		addr = -ENODEV;
-   471		if (!kernfs_get_active_of(of))
-   472			goto out_unlock;
-   473	
-   474		ops = kernfs_ops(of->kn);
-   475		if (ops->get_unmapped_area) {
-   476			addr = ops->get_unmapped_area(of, uaddr, len, pgoff, flags);
-   477			if (!IS_ERR_VALUE(addr) || addr != -EOPNOTSUPP)
-   478				goto out_put;
-   479		}
- > 480		addr = mm_get_unmapped_area(file, uaddr, len, pgoff, flags);
-   481	
-   482	out_put:
-   483		kernfs_put_active_of(of);
-   484	out_unlock:
-   485		mutex_unlock(&of->mutex);
-   486	
-   487		return addr;
-   488	}
-   489	
+    19	
+  > 20	#include <asm/cputype.h>
+    21	
 
 -- 
 0-DAY CI Kernel Test Service
