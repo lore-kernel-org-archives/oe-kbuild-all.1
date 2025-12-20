@@ -1,154 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A02B1A238F;
-	Sat, 20 Dec 2025 14:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C211F2C033C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 14:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766241318; cv=none; b=oMk+tOylS/icWy3Q/49/XGqTWaqJt99ahy3/tCrfy0lApcPzK0emMywqoAWb17kadgEuFVQLzrRDAb01CTjEUfY9wFr10yysLofNyGngR1+ywAyyCNewNM1BK60xkvwmy89S++IsxGfrEIxpGf3loBZn1RNH8fmqRKD+Nf5sLqw=
+	t=1766241318; cv=none; b=QDKxAkMGe/haWAW9dlZuXFeXpBUWFAAYskPxyviV2XmZboDXnI7Z1pZNSRHno4M7SJyY2Xn/dM9sP8Nz9OJwX4uywyQw9IobAKkDnr9dlUlya6ndkv+9h/JNhYpjnmgBD2FyoFecbUHwfFVVbV6AHSuqigfx3CD2t1SnKagwXdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766241318; c=relaxed/simple;
-	bh=WM/il7ZMre39u/faJj3qK3pSI2dS3NEYI7+2+0W3exQ=;
+	bh=GsZe3oYDGQQQdCIWN2VonPdTj7WIfct+WPUTYIxdLoo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qs+OVkT6t+ci8w+hXVGOUMvg3Zc46kcilAoHdscKeaDzf2u5LCauQYWdeUHyBq7urlu2IG3aOJILHu+7tz+dyNdatJDb9mzDCFyfage+4lEQLG10RThav3iQj3DjY27NjXi1d4H7fDHZtyJpi5tcGyN2rqjWdTWEtjK7Ez1YMn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bG3hIOAD; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=ENmUFMfFICvRPHDwle4HBP/u4+1GNyT1JhjzI2x9bVLB9dqtiFRacvzbqv3DPipytcP215N1WoyOtd/jnmME8KdGmZX4OIaW3s6Tao2sNssFqWHaZVlNHY1TsXad/JcZOIV7OQSofMtJB1kCvbBTO9lS9pZUHWdRsP9kx9Z5RVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m96SALnY; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bG3hIOAD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m96SALnY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1766241316; x=1797777316;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WM/il7ZMre39u/faJj3qK3pSI2dS3NEYI7+2+0W3exQ=;
-  b=bG3hIOADrpOC4IL9gXFLmMBQKZNbJN6vRgMv/N333lDYVd7mEWOkV9PQ
-   fphfMzP5DflhdynNymosWJLbhDsET9qI2UVtwoCUee+C4Shn9Ck25RG7D
-   ahNCM4YbD1kkJf6QM4nIHMsrEwEkTUGU2vZI1yA/MQ0WN40jKjh5muIBO
-   ehYdeLm4WcL+EKSpNyKWs2nYBSsA7H95Pvd6+MXx0c1a79+upv/eo9O7h
-   THG5cjD2nPsMm35mUKI3LBi9wvGdJdlKy2wZP0KsWffJBCxUn0PQC6qO4
-   WxOkMnsX+79+PnyveEDcXOeRz/0idfmSD78KYTBNQPSxGMFcWd4018lG7
-   g==;
-X-CSE-ConnectionGUID: spqNY2wUSJS3B1HNSFD+fw==
-X-CSE-MsgGUID: 4l5hM7V3QdWTyaB8uMB5HQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="85760170"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=GsZe3oYDGQQQdCIWN2VonPdTj7WIfct+WPUTYIxdLoo=;
+  b=m96SALnYt2cD2bKP9DD1SwTELbPyB22cteE4n6BM22con19QAB3NLMF5
+   YpFXyRez4z2x+wWMtOrad6JM6s4Aqaes+C6bqur/YVoGnQ9TIEaTB/egh
+   fC2vzGMIAgdHq4Dt5T4FlHZMJ4gPfFs02PbflpkXt2nNCmWbjfJRQ9omG
+   Yvfgj/tZAkxqbFEBpKmI/X9P0IF9MMgsdZfwXFuibMQQssEm1+0Dyq5SG
+   RDOKgxTKE7VVbggYencGT3ljyMxqAOTrRtZExX+CR+BS4HbJs4/75/jFE
+   XW1QbAVka53BtXSlagf6MYHtpjRgl57tM05jIy6M6kyroJEtO1uO/gcIK
+   w==;
+X-CSE-ConnectionGUID: 8g6strvxSAGWcMxNlyGy2A==
+X-CSE-MsgGUID: 6EygXBeuTZ+pV4Y2CEMceg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="93650047"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="85760170"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:35:12 -0800
-X-CSE-ConnectionGUID: hWrhJhBLT62i1i8dmPvNBw==
-X-CSE-MsgGUID: 2kf2E3v1ThCIfiZO94rSYw==
+   d="scan'208";a="93650047"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:35:11 -0800
+X-CSE-ConnectionGUID: NyNwaJ+vTy2l5No14hj0xg==
+X-CSE-MsgGUID: bt6upZJbQYeISeMZTtOfIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="236526229"
+   d="scan'208";a="199023541"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 20 Dec 2025 06:35:07 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 20 Dec 2025 06:35:07 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWy2z-000000004eL-0Zah;
+	id 1vWy2z-000000004eD-05w0;
 	Sat, 20 Dec 2025 14:35:05 +0000
-Date: Sat, 20 Dec 2025 22:34:47 +0800
+Date: Sat, 20 Dec 2025 22:34:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>,
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-iio@vger.kernel.org,
-	joshua.yeong@starfivetech.com, devicetree@vger.kernel.org,
-	linux@roeck-us.net, Frank Li <Frank.Li@nxp.com>,
-	Carlos Song <carlos.song@nxp.com>,
-	Adrian Fluturel <fluturel.adrian@gmail.com>
-Subject: Re: [PATCH v12 2/2] iio: magnetometer: Add mmc5633 sensor
-Message-ID: <202512202141.aAwyC19D-lkp@intel.com>
-References: <20251215-i3c_ddr-v12-2-1ae31225b4d9@nxp.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Linus Walleij <linusw@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
+	linux-mips@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	=?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
+Subject: Re: [PATCH 05/13] pinctrl: eyeq5: Use match data
+Message-ID: <202512202142.StvDXvbg-lkp@intel.com>
+References: <20251217-eyeq6lplus-v1-5-e9cdbd3af4c2@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20251215-i3c_ddr-v12-2-1ae31225b4d9@nxp.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251217-eyeq6lplus-v1-5-e9cdbd3af4c2@bootlin.com>
 
-Hi Frank,
+Hi Benoît,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dt-bindings-trivial-devices-add-MEMSIC-3-axis-magnetometer/20251216-010451
+url:    https://github.com/intel-lab-lkp/linux/commits/Beno-t-Monin/dt-bindings-mips-Add-Mobileye-EyeQ6Lplus-SoC/20251217-214926
 base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20251215-i3c_ddr-v12-2-1ae31225b4d9%40nxp.com
-patch subject: [PATCH v12 2/2] iio: magnetometer: Add mmc5633 sensor
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512202141.aAwyC19D-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202141.aAwyC19D-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20251217-eyeq6lplus-v1-5-e9cdbd3af4c2%40bootlin.com
+patch subject: [PATCH 05/13] pinctrl: eyeq5: Use match data
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20251220/202512202142.StvDXvbg-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202142.StvDXvbg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202141.aAwyC19D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202142.StvDXvbg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/iio/magnetometer/mmc5633.c:362:2: error: cannot jump from switch statement to this case label
-     362 |         default:
-         |         ^
-   drivers/iio/magnetometer/mmc5633.c:357:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     357 |                 guard(mutex)(&data->mutex);
-         |                 ^
-   include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
-     414 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:9:1: note: expanded from here
-       9 | __UNIQUE_ID_guard_966
-         | ^
-   1 error generated.
+   drivers/pinctrl/pinctrl-eyeq5.c: In function 'eq5p_pinconf_set':
+>> drivers/pinctrl/pinctrl-eyeq5.c:533:13: warning: 'offset' is used uninitialized [-Wuninitialized]
+     533 |         u32 val = BIT(offset);
+         |             ^~~
+   drivers/pinctrl/pinctrl-eyeq5.c:532:22: note: 'offset' was declared here
+     532 |         unsigned int offset;
+         |                      ^~~~~~
 
 
-vim +362 drivers/iio/magnetometer/mmc5633.c
+vim +/offset +533 drivers/pinctrl/pinctrl-eyeq5.c
 
-   343	
-   344	static int mmc5633_write_raw(struct iio_dev *indio_dev,
-   345				     struct iio_chan_spec const *chan, int val,
-   346				     int val2, long mask)
-   347	{
-   348		struct mmc5633_data *data = iio_priv(indio_dev);
-   349		int ret;
-   350	
-   351		switch (mask) {
-   352		case IIO_CHAN_INFO_SAMP_FREQ:
-   353			ret = mmc5633_get_samp_freq_index(data, val, val2);
-   354			if (ret < 0)
-   355				return ret;
-   356	
-   357			guard(mutex)(&data->mutex);
-   358	
-   359			return regmap_update_bits(data->regmap, MMC5633_REG_CTRL1,
-   360						  MMC5633_CTRL1_BW_MASK,
-   361						  FIELD_PREP(MMC5633_CTRL1_BW_MASK, ret));
- > 362		default:
-   363			return -EINVAL;
-   364		}
-   365	}
-   366	
+41795aa1f56a6e Théo Lebrun  2024-07-30  524  
+41795aa1f56a6e Théo Lebrun  2024-07-30  525  static int eq5p_pinconf_set(struct pinctrl_dev *pctldev, unsigned int pin,
+41795aa1f56a6e Théo Lebrun  2024-07-30  526  			    unsigned long *configs, unsigned int num_configs)
+41795aa1f56a6e Théo Lebrun  2024-07-30  527  {
+41795aa1f56a6e Théo Lebrun  2024-07-30  528  	struct eq5p_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
+41795aa1f56a6e Théo Lebrun  2024-07-30  529  	const char *pin_name = pctldev->desc->pins[pin].name;
+41795aa1f56a6e Théo Lebrun  2024-07-30  530  	struct device *dev = pctldev->dev;
+e3ba56038b97ee Benoît Monin 2025-12-17  531  	const struct eq5p_bank *bank;
+e3ba56038b97ee Benoît Monin 2025-12-17  532  	unsigned int offset;
+41795aa1f56a6e Théo Lebrun  2024-07-30 @533  	u32 val = BIT(offset);
+41795aa1f56a6e Théo Lebrun  2024-07-30  534  	unsigned int i;
+e3ba56038b97ee Benoît Monin 2025-12-17  535  	int ret;
+e3ba56038b97ee Benoît Monin 2025-12-17  536  
+e3ba56038b97ee Benoît Monin 2025-12-17  537  	ret = eq5p_pin_to_bank_offset(pctrl, pin, &bank, &offset);
+e3ba56038b97ee Benoît Monin 2025-12-17  538  	if (ret)
+e3ba56038b97ee Benoît Monin 2025-12-17  539  		return ret;
+41795aa1f56a6e Théo Lebrun  2024-07-30  540  
+41795aa1f56a6e Théo Lebrun  2024-07-30  541  	for (i = 0; i < num_configs; i++) {
+41795aa1f56a6e Théo Lebrun  2024-07-30  542  		enum pin_config_param param = pinconf_to_config_param(configs[i]);
+41795aa1f56a6e Théo Lebrun  2024-07-30  543  		u32 arg = pinconf_to_config_argument(configs[i]);
+41795aa1f56a6e Théo Lebrun  2024-07-30  544  
+41795aa1f56a6e Théo Lebrun  2024-07-30  545  		switch (param) {
+41795aa1f56a6e Théo Lebrun  2024-07-30  546  		case PIN_CONFIG_BIAS_DISABLE:
+41795aa1f56a6e Théo Lebrun  2024-07-30  547  			dev_dbg(dev, "pin=%s bias_disable\n", pin_name);
+41795aa1f56a6e Théo Lebrun  2024-07-30  548  
+41795aa1f56a6e Théo Lebrun  2024-07-30  549  			eq5p_update_bits(pctrl, bank, EQ5P_PD, val, 0);
+41795aa1f56a6e Théo Lebrun  2024-07-30  550  			eq5p_update_bits(pctrl, bank, EQ5P_PU, val, 0);
+41795aa1f56a6e Théo Lebrun  2024-07-30  551  			break;
+41795aa1f56a6e Théo Lebrun  2024-07-30  552  
+41795aa1f56a6e Théo Lebrun  2024-07-30  553  		case PIN_CONFIG_BIAS_PULL_DOWN:
+41795aa1f56a6e Théo Lebrun  2024-07-30  554  			dev_dbg(dev, "pin=%s bias_pull_down arg=%u\n",
+41795aa1f56a6e Théo Lebrun  2024-07-30  555  				pin_name, arg);
+41795aa1f56a6e Théo Lebrun  2024-07-30  556  
+41795aa1f56a6e Théo Lebrun  2024-07-30  557  			if (arg == 0) /* cannot connect to GND */
+41795aa1f56a6e Théo Lebrun  2024-07-30  558  				return -ENOTSUPP;
+41795aa1f56a6e Théo Lebrun  2024-07-30  559  
+41795aa1f56a6e Théo Lebrun  2024-07-30  560  			eq5p_update_bits(pctrl, bank, EQ5P_PD, val, val);
+41795aa1f56a6e Théo Lebrun  2024-07-30  561  			eq5p_update_bits(pctrl, bank, EQ5P_PU, val, 0);
+41795aa1f56a6e Théo Lebrun  2024-07-30  562  			break;
+41795aa1f56a6e Théo Lebrun  2024-07-30  563  
+41795aa1f56a6e Théo Lebrun  2024-07-30  564  		case PIN_CONFIG_BIAS_PULL_UP:
+41795aa1f56a6e Théo Lebrun  2024-07-30  565  			dev_dbg(dev, "pin=%s bias_pull_up arg=%u\n",
+41795aa1f56a6e Théo Lebrun  2024-07-30  566  				pin_name, arg);
+41795aa1f56a6e Théo Lebrun  2024-07-30  567  
+41795aa1f56a6e Théo Lebrun  2024-07-30  568  			if (arg == 0) /* cannot connect to VDD */
+41795aa1f56a6e Théo Lebrun  2024-07-30  569  				return -ENOTSUPP;
+41795aa1f56a6e Théo Lebrun  2024-07-30  570  
+41795aa1f56a6e Théo Lebrun  2024-07-30  571  			eq5p_update_bits(pctrl, bank, EQ5P_PD, val, 0);
+41795aa1f56a6e Théo Lebrun  2024-07-30  572  			eq5p_update_bits(pctrl, bank, EQ5P_PU, val, val);
+41795aa1f56a6e Théo Lebrun  2024-07-30  573  			break;
+41795aa1f56a6e Théo Lebrun  2024-07-30  574  
+41795aa1f56a6e Théo Lebrun  2024-07-30  575  		case PIN_CONFIG_DRIVE_STRENGTH:
+41795aa1f56a6e Théo Lebrun  2024-07-30  576  			dev_dbg(dev, "pin=%s drive_strength arg=%u\n",
+41795aa1f56a6e Théo Lebrun  2024-07-30  577  				pin_name, arg);
+41795aa1f56a6e Théo Lebrun  2024-07-30  578  
+41795aa1f56a6e Théo Lebrun  2024-07-30  579  			eq5p_pinconf_set_drive_strength(pctldev, pin, arg);
+41795aa1f56a6e Théo Lebrun  2024-07-30  580  			break;
+41795aa1f56a6e Théo Lebrun  2024-07-30  581  
+41795aa1f56a6e Théo Lebrun  2024-07-30  582  		default:
+41795aa1f56a6e Théo Lebrun  2024-07-30  583  			dev_err(dev, "Unsupported pinconf %u\n", param);
+41795aa1f56a6e Théo Lebrun  2024-07-30  584  			return -ENOTSUPP;
+41795aa1f56a6e Théo Lebrun  2024-07-30  585  		}
+41795aa1f56a6e Théo Lebrun  2024-07-30  586  	}
+41795aa1f56a6e Théo Lebrun  2024-07-30  587  
+41795aa1f56a6e Théo Lebrun  2024-07-30  588  	return 0;
+41795aa1f56a6e Théo Lebrun  2024-07-30  589  }
+41795aa1f56a6e Théo Lebrun  2024-07-30  590  
 
 -- 
 0-DAY CI Kernel Test Service
