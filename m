@@ -1,58 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E854727E7EC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:57:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654C227F01B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:57:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766246245; cv=none; b=pzndMUABbZ9CpwkgpFHejfndgyz+KiYU77PkGIOhTQidqJadsdAj6lIIwTqsKMxhRD38najC9Pk7T1pFzaAV/iNG1ROfdQ2P8WqijpF2dTTEFyQPIYttuzUNX1SFa4lMndOBCT1l5kv8VRIFtnXbPcXuV3YFhhRoEj7PFO0XkdI=
+	t=1766246245; cv=none; b=JTNzgggbyatAoQUlXthnt0BB+CN2l1/jbmaRcBG+H90JwtJlRCqBV4yGHDLoQJnMWijrP+tVYqroY810X7EIKcCARxJJYvziJ5rxRteFF4OndZ4CcL9HvbaSv/sUfB5BaiJwMpyaDyhA4triY+rTGJkcNjl/D6eIx5jzHee6JG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766246245; c=relaxed/simple;
-	bh=syR6Hg9uLACiJsmpduVS7ohGP+f4y9vfeNemYUHPaHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=soG/ZMy4pxpZqxeangh6sEPaLh6wJez0rQx57e/kL+ERSGjVnhoI1QCvZqMhblVjMcm4+8kTtW0r1CgmWOVWvpl1p1aaethO3DrGtq715MCLHVpEK9LLc+IjSjK1EzsM1Wn9yBHXtirGK0CaOrr+sbYQ4kgV/fTBAyl6XeBdpfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kt+JAY7B; arc=none smtp.client-ip=192.198.163.13
+	bh=WfuXL9MxQrDXB1XrFT8GW1/JYSrUNrkGTTS/9rOpJPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pu5PHZL/DXcKVPar+lMcLNVdvLHlosmoEcyE+Uci6zuN6Fln5U4IbSUPnDkExGp/wyjHeHzzfvHo7hERLR4VKF70c2xPlu0fFfZOHS6BklqVoVZRqM2mSMFuV9GtL3U5/HFQ1OzX/zBMFj6SE0Uxc1Mh/AZrv+luBQ+aOZ14SDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H86VXIe2; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kt+JAY7B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H86VXIe2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1766246244; x=1797782244;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=syR6Hg9uLACiJsmpduVS7ohGP+f4y9vfeNemYUHPaHw=;
-  b=Kt+JAY7Bzr8EtqK+xOg3GBQkbe2AfULOpjGHr7hHLihrN1tjzwJDSmcf
-   v/DmyoaKhPWtKCEGT93PpFFzP5I3dRwxXuX+OWy7sDLOscuxodMj2O1er
-   abtPLJ2L2B7urquDsrmpJlZUHqfD3fDjcocy+y4kjvyHOc9AMmCizgfF4
-   j7cy/0HeI1Gdzr433AtZPVplChACNQi3FtbzzqvO685Dvi0XO4L+t9evh
-   BFQ6zvPhYhmQM9Q1N+4ISvVYf+ly62N9HkKpKTRKjLBBwfB06NOLedMEG
-   p7QxYduOAlD42P/5nrLBPNpaXpFNqhXqgSVJfT0JiLJIzb45WFYs/WS2I
-   w==;
-X-CSE-ConnectionGUID: By8kMYg/RJ6kCW9m7NaxWA==
-X-CSE-MsgGUID: zNS0rkayTFiIoqhleGly2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="70748095"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WfuXL9MxQrDXB1XrFT8GW1/JYSrUNrkGTTS/9rOpJPQ=;
+  b=H86VXIe27w1omfKpYLyxUkMFCiOSy1J9DG5Z+RTCescdwREvqlP3RHoR
+   fKycvTq9HDmaDWSggzUe8TPmata0K6MdtHVonhuzex71rfD6niOXNOCUW
+   nu1tddzVMQ3mgT1E+Prf62OsxnBEelsznsC3HI1XorB5HDK6QK+drsIds
+   s/YM78JQtRd8YoD+FVYrKbRa9yuaPu+UfKue8AgoSCns44UPmMYqBQOzD
+   4zydK5+rOcOVOxvOqGv/F4n3aHzcAARo9jpuMsOR0q6jVtdh0LDG8KGfB
+   b6Et9X/QWgr2YOFE2Y3YIWZTG8MJE0xhlJOnpJsYoKb9/9fftDMxzpDF1
+   Q==;
+X-CSE-ConnectionGUID: vUsruf2dRUCz144j9AMmWg==
+X-CSE-MsgGUID: KhHO/FguQM67GkKLXDxYbw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="70748097"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="70748095"
+   d="scan'208";a="70748097"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:57:22 -0800
-X-CSE-ConnectionGUID: DiljvyOfQgOOKPk7NjbhZQ==
-X-CSE-MsgGUID: Ngr1c1jiQt2rdLePQ3KwmQ==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:57:23 -0800
+X-CSE-ConnectionGUID: MwGbUAuDQkCUtCZF5ZcgsQ==
+X-CSE-MsgGUID: wVRmyF8jSw6V81iZoY1mwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199642892"
+   d="scan'208";a="199642890"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2025 07:57:21 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWzKZ-000000004oC-00xP;
-	Sat, 20 Dec 2025 15:57:19 +0000
-Date: Sat, 20 Dec 2025 23:57:07 +0800
+	id 1vWzKY-000000004nw-2nil;
+	Sat, 20 Dec 2025 15:57:18 +0000
+Date: Sat, 20 Dec 2025 23:57:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Baokun Li <libaokun1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3415/3415] fs/fscache/main.c:51:21: warning:
- unused variable 'fscache_min_object_max_active'
-Message-ID: <202512202356.o0JDRNMp-lkp@intel.com>
+To: Weiming Shi <bestswngs@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, horms@kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, xmei5@asu.edu,
+	Weiming Shi <bestswngs@gmail.com>
+Subject: Re: [PATCH v2] net: skbuff: add usercopy region to
+ skbuff_fclone_cache
+Message-ID: <202512202310.PGCBLw9b-lkp@intel.com>
+References: <20251215180903.954968-2-bestswngs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,52 +66,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251215180903.954968-2-bestswngs@gmail.com>
 
-Hi Baokun,
+Hi Weiming,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   1588d318a9e388d05b6cf5e2a63134c8beb6a355
-commit: c55fa11d134b40dbe1a4a5512a7fe43497cb6d5e [3415/3415] fscache: limit fscache_object_max_active to avoid blocking
-config: x86_64-buildonly-randconfig-006-20251215 (https://download.01.org/0day-ci/archive/20251220/202512202356.o0JDRNMp-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202356.o0JDRNMp-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v6.19-rc1 next-20251219]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Weiming-Shi/net-skbuff-add-usercopy-region-to-skbuff_fclone_cache/20251216-021811
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251215180903.954968-2-bestswngs%40gmail.com
+patch subject: [PATCH v2] net: skbuff: add usercopy region to skbuff_fclone_cache
+config: arm-randconfig-r073-20251216 (https://download.01.org/0day-ci/archive/20251220/202512202310.PGCBLw9b-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202310.PGCBLw9b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202356.o0JDRNMp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202310.PGCBLw9b-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from <built-in>:2:
-   In file included from include/linux/compiler_types.h:69:
-   include/linux/compiler-clang.h:34:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
-      34 | #define __SANITIZE_ADDRESS__
-         |         ^
-   <built-in>:352:9: note: previous definition is here
-     352 | #define __SANITIZE_ADDRESS__ 1
-         |         ^
->> fs/fscache/main.c:51:21: warning: unused variable 'fscache_min_object_max_active' [-Wunused-variable]
-      51 | static unsigned int fscache_min_object_max_active = FSCACHE_MIN_OBJECT_MAX_ACTIVE;
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/fscache/main.c:52:21: warning: unused variable 'fscache_min_op_max_active' [-Wunused-variable]
-      52 | static unsigned int fscache_min_op_max_active = FSCACHE_MIN_OBJECT_MAX_ACTIVE / 2;
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/arm/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:386,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from net/core/skbuff.c:37:
+   net/core/skbuff.c: In function 'skb_init':
+>> include/linux/stddef.h:8:14: warning: passing argument 5 of 'kmem_cache_create_usercopy' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   net/core/skbuff.c:5164:7: note: in expansion of macro 'NULL'
+    5164 |       NULL);
+         |       ^~~~
+   In file included from arch/arm/include/asm/pgtable-nommu.h:13,
+                    from arch/arm/include/asm/pgtable.h:25,
+                    from include/linux/pgtable.h:6,
+                    from include/linux/mm.h:31,
+                    from net/core/skbuff.c:40:
+   include/linux/slab.h:408:20: note: expected 'unsigned int' but argument is of type 'void *'
+     408 |       unsigned int useroffset, unsigned int usersize,
+         |       ~~~~~~~~~~~~~^~~~~~~~~~
+   net/core/skbuff.c:5160:36: error: too few arguments to function 'kmem_cache_create_usercopy'
+    5160 |  net_hotdata.skbuff_fclone_cache = kmem_cache_create_usercopy("skbuff_fclone_cache",
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm/include/asm/pgtable-nommu.h:13,
+                    from arch/arm/include/asm/pgtable.h:25,
+                    from include/linux/pgtable.h:6,
+                    from include/linux/mm.h:31,
+                    from net/core/skbuff.c:40:
+   include/linux/slab.h:406:1: note: declared here
+     406 | kmem_cache_create_usercopy(const char *name, unsigned int size,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=n] && CAN [=y]
+   Selected by [y]:
+   - CAN [=y] && NET [=y]
 
 
-vim +/fscache_min_object_max_active +51 fs/fscache/main.c
+vim +/kmem_cache_create_usercopy +8 include/linux/stddef.h
 
-    46	
-    47	/* these values serve as lower bounds, will be adjusted in fscache_init() */
-    48	#define FSCACHE_MIN_OBJECT_MAX_ACTIVE 4
-    49	static unsigned int fscache_object_max_active = FSCACHE_MIN_OBJECT_MAX_ACTIVE;
-    50	static unsigned int fscache_op_max_active = FSCACHE_MIN_OBJECT_MAX_ACTIVE / 2;
-  > 51	static unsigned int fscache_min_object_max_active = FSCACHE_MIN_OBJECT_MAX_ACTIVE;
-  > 52	static unsigned int fscache_min_op_max_active = FSCACHE_MIN_OBJECT_MAX_ACTIVE / 2;
-    53	
+^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
+6e218287432472 Richard Knutsson 2006-09-30  9  
 
 -- 
 0-DAY CI Kernel Test Service
