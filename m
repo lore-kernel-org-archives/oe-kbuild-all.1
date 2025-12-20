@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F122E2FC871
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 16:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7603930BF72
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 16:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766247688; cv=none; b=peretRP2qJNljzCB3XTl6YU/EdP2v6sexK+jOsM5rHHPzKBBDhZ++mXweQo90cNtwykNBc1ed0xCArWbMLjAZ35qIs87Q8L7M4To+B4ZjcFqEhp1xykiB3sk2cTHPOFYZFwBgZPZRPXtcBSnv4AE0/QFoClPO51vizXi/AJnn/U=
+	t=1766247689; cv=none; b=pBzRTXwnAg22QpAunG+xdiv4xmtNYftklqJjL77npdbGtnimVw6laoQUOQTotJNp6D8Ww6C/iHiEN9V7n1nOMXM/u3kfLUMapxHARHWZ9ML4NTS74Qlf5DupdMlUkRvxwoOovkMNb9YDWBaadk5zYnPq+VYbfpXW50ioh0qSe+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766247688; c=relaxed/simple;
-	bh=apTlI39XIeAh2vc0/wn/NRk8DAtPU/n7j0es00YMik0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qGtieWsHSLXtXlXL3xZjDF/Ys4bw4W0WH/VGOYCAdsgQjixVGMUWZtQh1A3RipXQ2sQrS8YDQ4KTBqJePMFrayW4ljZXh4J7YHWZ8LhW7LBBtG9bJxJlFx3EYKcw69rog9e6bFsj5hCSqBogKPU7Ipca3UPHQnS36wXOGJvI0os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YBJ7aetC; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1766247689; c=relaxed/simple;
+	bh=M6OKeqRYm4T/gTgflSPXWGhNilkyUfsYAEKOPTK/+hQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HHV1ZtKROejTATDXmhZcRLZuEyFA4KUSIT3mkb1iwoHHN9p64CT+VHN1utBJhPADhAzbxgvxRcpLV0mn2Ny9LynLmIych8IflmEqLixuz3yYUC9eWzrzMg2RCcziBGse+vsZkDK3d7j2r8TsgAanpQL+xoVo7jy+5PSgUWqBGuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fuetCjue; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YBJ7aetC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fuetCjue"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766247686; x=1797783686;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=apTlI39XIeAh2vc0/wn/NRk8DAtPU/n7j0es00YMik0=;
-  b=YBJ7aetCQJmmqYZNp9lbQX2IdB87xjzhmNcpZ1EhC3DreNRpTyEoIahX
-   KhJe4Ad9NFbjxj/BCD6u/dkwZNpyDJP7/9T/sSmVDFFOfUVwJqL+NCy73
-   wqTsah8qNlvhCUdB0Cgb0O/fJ4uWN9j4Nst1A8gIL01QtEH0oJHwdMBGU
-   1cYczqm+2D493J0HukLLyOtjFa49H81LA51vJDCvLHceTH2pZzwW9//26
-   fIGfKIt72WHtOpPhsbXteHgC1B5XeY6O/SnYwg1GFRLSdXOPBMETy9tzA
-   mqQ8xlEQkKtNhsf5EAA0JheVtrk2uachhk4cjTh38hjkICvy5Egh0uXxc
-   w==;
-X-CSE-ConnectionGUID: 4/xd8wjFSgy+UfmaFh1yhA==
-X-CSE-MsgGUID: n/JDu4+oSg6hYkjLU6IXNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="67929311"
+  t=1766247687; x=1797783687;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=M6OKeqRYm4T/gTgflSPXWGhNilkyUfsYAEKOPTK/+hQ=;
+  b=fuetCjueunv/G4jbaa+IYUknlFR4Pi7ijyYVWT3gmvqQcvqA2YdsS1BR
+   cCPcBLVleftaFndf3JRqy+q6EJdnqJa78QdYuMVeuhsj4Nff5zcL2kkvQ
+   fkgMLBdjWEzaBHqocHJ0xkOPnuqU342zUpXwdx3rv6NyPuDLQ7EqAVxwr
+   qmlhk93zLqVlID+BgBBnzm+i9IqVAxMjh+aioCHSL/ng6s/7dXK8xV7eF
+   o9/DA01yLBT02hKMrgGtWWGmQAJ5dzX9BTb+lAnv6jYkqFh4W8kgH7shC
+   +Q/E4tGB1kUxuhb3u+tYaw3/lJvskp2wJZC8BSOPziSimTZ0s36p2MlND
+   A==;
+X-CSE-ConnectionGUID: lg4N9kY/QOWgkRRQ78WaRQ==
+X-CSE-MsgGUID: woNqldn0Tb+FLw9QaE7wlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="67375372"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="67929311"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 08:21:25 -0800
-X-CSE-ConnectionGUID: KY8zcA+YSFiw7J1mb+eD8A==
-X-CSE-MsgGUID: +kJcyU2LSjqtQVxyL2/m1A==
+   d="scan'208";a="67375372"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 08:21:26 -0800
+X-CSE-ConnectionGUID: Y8quD3aHQxS9TPQlAtiCUg==
+X-CSE-MsgGUID: oz11ZpJOSYOZ0X6FSje0Tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199364119"
+   d="scan'208";a="222604687"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Dec 2025 08:21:25 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 20 Dec 2025 08:21:24 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWzhq-000000004rw-2m7m;
+	id 1vWzhq-000000004rn-2PVx;
 	Sat, 20 Dec 2025 16:21:22 +0000
-Date: Sun, 21 Dec 2025 00:20:23 +0800
+Date: Sun, 21 Dec 2025 00:20:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3547/3547] drivers/cpufreq/acpi-cpufreq.c:638:13:
- warning: 'sched_set_itmt' defined but not used
-Message-ID: <202512210018.ZcEdgI6o-lkp@intel.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] wifi: rsi: sdio: Reduce use of #ifdef for
+ CONFIG_PM
+Message-ID: <202512210032.6Skz9prt-lkp@intel.com>
+References: <f291cca2741f6ac994b2bde1fb9d21194fec4d3e.1765968841.git.ukleinek@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,38 +65,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <f291cca2741f6ac994b2bde1fb9d21194fec4d3e.1765968841.git.ukleinek@kernel.org>
 
-Hi LeoLiu-oc,
+Hi Uwe,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   04473ee9ed912a16fff0d8846ad565bbf3d63c77
-commit: 06ee47aa957617950ebf29f2a9dbb5682233ba4e [3547/3547] cpufreq: ACPI: add ITMT support when CPPC enabled
-config: x86_64-randconfig-006-20251216 (https://download.01.org/0day-ci/archive/20251221/202512210018.ZcEdgI6o-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210018.ZcEdgI6o-lkp@intel.com/reproduce)
+[auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Uwe-Kleine-K-nig/sdio-Provide-a-bustype-shutdown-function/20251217-191920
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/f291cca2741f6ac994b2bde1fb9d21194fec4d3e.1765968841.git.ukleinek%40kernel.org
+patch subject: [PATCH v1 2/4] wifi: rsi: sdio: Reduce use of #ifdef for CONFIG_PM
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20251221/202512210032.6Skz9prt-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210032.6Skz9prt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210018.ZcEdgI6o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512210032.6Skz9prt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/cpufreq/acpi-cpufreq.c:638:13: warning: 'sched_set_itmt' defined but not used [-Wunused-function]
-     638 | static void sched_set_itmt(void)
-         |             ^~~~~~~~~~~~~~
+   drivers/net/wireless/rsi/rsi_91x_sdio.c: In function 'rsi_shutdown':
+>> drivers/net/wireless/rsi/rsi_91x_sdio.c:1454:41: error: 'struct wiphy' has no member named 'wowlan_config'
+    1454 |         if (hw && hw->wiphy && hw->wiphy->wowlan_config) {
+         |                                         ^~
+>> drivers/net/wireless/rsi/rsi_91x_sdio.c:1455:21: error: implicit declaration of function 'rsi_config_wowlan' [-Werror=implicit-function-declaration]
+    1455 |                 if (rsi_config_wowlan(adapter, hw->wiphy->wowlan_config))
+         |                     ^~~~~~~~~~~~~~~~~
+   drivers/net/wireless/rsi/rsi_91x_sdio.c:1455:57: error: 'struct wiphy' has no member named 'wowlan_config'
+    1455 |                 if (rsi_config_wowlan(adapter, hw->wiphy->wowlan_config))
+         |                                                         ^~
+   cc1: some warnings being treated as errors
 
 
-vim +/sched_set_itmt +638 drivers/cpufreq/acpi-cpufreq.c
+vim +1454 drivers/net/wireless/rsi/rsi_91x_sdio.c
 
-   637	
- > 638	static void sched_set_itmt(void)
-   639	{
-   640		schedule_work(&sched_itmt_work);
-   641	}
-   642	
+b6c8d06c8a6465 Karun Eagalapati  2017-10-27  1444  
+063848c3e1558e Karun Eagalapati  2017-10-27  1445  static void rsi_shutdown(struct device *dev)
+063848c3e1558e Karun Eagalapati  2017-10-27  1446  {
+063848c3e1558e Karun Eagalapati  2017-10-27  1447  	struct sdio_func *pfunction = dev_to_sdio_func(dev);
+063848c3e1558e Karun Eagalapati  2017-10-27  1448  	struct rsi_hw *adapter = sdio_get_drvdata(pfunction);
+f9bf6e729f4ebc Wu Yunchuan       2023-08-03  1449  	struct rsi_91x_sdiodev *sdev = adapter->rsi_dev;
+063848c3e1558e Karun Eagalapati  2017-10-27  1450  	struct ieee80211_hw *hw = adapter->hw;
+063848c3e1558e Karun Eagalapati  2017-10-27  1451  
+063848c3e1558e Karun Eagalapati  2017-10-27  1452  	rsi_dbg(ERR_ZONE, "SDIO Bus shutdown =====>\n");
+063848c3e1558e Karun Eagalapati  2017-10-27  1453  
+b241e260820b68 Marek Vasut       2023-05-28 @1454  	if (hw && hw->wiphy && hw->wiphy->wowlan_config) {
+b241e260820b68 Marek Vasut       2023-05-28 @1455  		if (rsi_config_wowlan(adapter, hw->wiphy->wowlan_config))
+063848c3e1558e Karun Eagalapati  2017-10-27  1456  			rsi_dbg(ERR_ZONE, "Failed to configure WoWLAN\n");
+16bbc3eb83728c Martin Kepplinger 2020-01-29  1457  	}
+063848c3e1558e Karun Eagalapati  2017-10-27  1458  
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1459  	if (IS_ENABLED(CONFIG_RSI_COEX) && adapter->priv->coex_mode > 1 &&
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1460  	    adapter->priv->bt_adapter) {
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1461  		rsi_bt_ops.detach(adapter->priv->bt_adapter);
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1462  		adapter->priv->bt_adapter = NULL;
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1463  	}
+cbde979b33fa16 Siva Rebbagondla  2019-02-04  1464  
+063848c3e1558e Karun Eagalapati  2017-10-27  1465  	rsi_sdio_disable_interrupts(sdev->pfunction);
+063848c3e1558e Karun Eagalapati  2017-10-27  1466  
+063848c3e1558e Karun Eagalapati  2017-10-27  1467  	if (sdev->write_fail)
+063848c3e1558e Karun Eagalapati  2017-10-27  1468  		rsi_dbg(INFO_ZONE, "###### Device is not ready #######\n");
+063848c3e1558e Karun Eagalapati  2017-10-27  1469  
+063848c3e1558e Karun Eagalapati  2017-10-27  1470  	rsi_dbg(INFO_ZONE, "***** RSI module shut down *****\n");
+063848c3e1558e Karun Eagalapati  2017-10-27  1471  }
+063848c3e1558e Karun Eagalapati  2017-10-27  1472  
 
 -- 
 0-DAY CI Kernel Test Service
