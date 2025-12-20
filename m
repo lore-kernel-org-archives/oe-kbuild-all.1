@@ -1,112 +1,101 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D622EFDA1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 17:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D441E2606
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 17:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766252436; cv=none; b=aFwtV8IEZ9KUjrGYDo8h8iYX/hxcrPY/W9HV8jDO1ZZnDK345EnrgiOo3oz+OvXJtoitcTh/AaCcxD4KZdkGGjN8eUZnLtPSiPC4gzWyxHFxQZhghwdISHmkTLmihWGUp9rx4fDHvyLLLN0ii1VzmIsS4vUXn6tag0ByD3yC6Bo=
+	t=1766252808; cv=none; b=GXeGKU8PvkOheYgfjTJII4l+gTNvkUvEkLDeNrFlr7v/BSTfosYcuOB8vVHfMwR6HcvXnYdphVfw/dsT13hV2yuUaj1z/O4uEZrACIdefRSTu0wwx/N1k0FAxtV6ERmojyncBFmTaZGyJG1BVueK6OXiNNV8prCN0xr/PEIqxxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766252436; c=relaxed/simple;
-	bh=wNoDWg6mJO3cLoCYf3JqbMN76LZntd42xBIfHg2bFSo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s6F2P+pGOeSy65n/A78Uooorc24l8yqipn3hmS02Fv/cvg3oGzhwJXPYQkm8VrS4/08JZINiogFBz1jk4SHpooArDCUgcMx8X/3vC6Oc2yaBoKihkOA+1+4Jh4rHOi8IxviBAjBaOEYbRyVp0HZRAjcisBFbJ4eByObA3XUAZMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W003036l; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766252808; c=relaxed/simple;
+	bh=2HCK7U+HqSDq/h3jl9cW4lcZS+ia1UR54vdVdBd2xm0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mh40gNHXCUqr2vI04Zs/QHfUKexn7HPmWcCSzAmjT+nDwwV5Uc7E0H3AfR+4GMHm6uecpsROGhTPMxeJ0qUWuIq60ky9oMe5MbZkoRldqBc6cPGFl+WU/5RhSpyU5GUUPRt0+jZR9a/PVDAwhfio4fCEyXZufRIqTBrpT9sry4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aIzM6EMX; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W003036l"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so19851585e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 09:40:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766252433; x=1766857233; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lzi9+ITS5sdqpVBInAmAuup4pJjmlBO/nHdw3S/rzlM=;
-        b=W003036l4mgcMs1QXKeUWL3YK1yPscH/LzrNUuOxSBO0V46Zy53T/rqxQEMdDEnzWH
-         EchnTGTrpJwxF02p4rcJ7nuNKZFHEowP//l9x5ze8P+lVBDAcTi3qaUlSIH88ZpWsBn6
-         xzks2Z8oWGxQMlyyAeNhBCJhQw3NeUQlYanI7PxV53JW4KPolp0NS1FRFxhAQpaCl7kt
-         2IVxb2xmj0Xs+6gstavkygBn247fkUkkCT/lGhZ44TVqMG9RjBeC3XcHZZV3o1KvWRn0
-         xs3DepVN3uYzfORfoHLSXh95hZJwLwAdbKp2SyFabaMiRId3Wr90GVABfzdONdNZbFCc
-         SpHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766252433; x=1766857233;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lzi9+ITS5sdqpVBInAmAuup4pJjmlBO/nHdw3S/rzlM=;
-        b=KIc5FpmIzoHz3XAPK3b/lR5NmjXsIbMqmFi9GwdvrLIhdH6hpQjupGisKLS/+DZnok
-         QjaHykvBuI1KwuLEuRdxz1WZYMOLaPlrFoG/j4yghlK8j3FXhpswxL5LgF7MbvEGLlAW
-         +wyn4ixJRc2D21HfOG2Rp/DaKnA5yzJLIexaQyoNSnyjCGBn2DFFb3Byc7rSkLh+6x9G
-         edjaOLOdHUSdbxHfnPoqcnuCLu/9bTjdQB91h6d4sHiTPRmQqvOkfiRgXC7LmBpGEoXq
-         nxC6ySXuDHgzPOa31V7jpDQEOoTO7dQ+XlhSgTnipZaDz23Vo6BAoWANH3EY58h87Ho3
-         qRyA==
-X-Gm-Message-State: AOJu0Yy9+ECuPJ+4p4nZP1P5LSxrzBB6mVuHKPPEflVPxpJaJltxmkZe
-	qkXmrxUGREU8aVdn9UfkijxcmBQuBy0tH4KyJWx9XtH6U53A3+7T8Xzy
-X-Gm-Gg: AY/fxX4mtfel0iX6ycySku7bDt/KnWJ8nzXqpRucaXaU1cGfaU46znLMTh4hQbURmpP
-	w91jv4czs0Z5fTVw6cPgRUUMzgvjfc6Jk5S/jhMaJZaxJgDmj8GtMpyzCdc5W1BHRSDPcq7fXlx
-	wbX2iLCxdakya8fi0PZe9Xn/dvsBffD0TF7WTcGyqBF8I9zIdr4FI+4XuF6ET+bzTrNVGcUg6P/
-	VtXhPjMxBq2JxHNgFJxbHPKVLS+SVGXGIp0sRfEZ7Th67fFVHBqWXZfssuIW1NRPlQEei9vHsRI
-	DQZc4pnkKaDO5ppvCUSjpgmLVRz2dMxfB2KoymitR1DN377PgbWFaxZPlTDqW9aIXkizK0iQggc
-	5VmLAoaKn3Il0BRevJ1cjRffn7WfoinK0dDpKGOAreYs9tKr0Ea6extYIt4urYfLUk7X7a3UgYw
-	d2roRwCVaDREpffOOGqI8vYrD8ltc/nLQO3SgUI0OZUfI0YGDUETT5mjSjlFN/4Rw=
-X-Google-Smtp-Source: AGHT+IHPPGw/WHQIJwktqhLNGJj8eH/hNThrbMxno8BNgOCv7QHcQA+6VdmLbgDJhuJHb3ULiVIiFg==
-X-Received: by 2002:a5d:5f87:0:b0:431:a50:6e9b with SMTP id ffacd0b85a97d-4324e4fce39mr6851071f8f.37.1766252433062;
-        Sat, 20 Dec 2025 09:40:33 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea82fa1sm11264780f8f.23.2025.12.20.09.40.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Dec 2025 09:40:32 -0800 (PST)
-Date: Sat, 20 Dec 2025 17:40:31 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>
-Subject: Re: [linux-next:master 1525/2671]
- include/linux/compiler_types.h:630:45: error: call to
- '__compiletime_assert_588' declared with attribute error: min(((pos + len -
- 1) >> 12) - (pos >> 12) + 1, max_pages) signedness error
-Message-ID: <20251220174031.0d00085b@pumpkin>
-In-Reply-To: <202512202322.0kwyiXce-lkp@intel.com>
-References: <202512202322.0kwyiXce-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aIzM6EMX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766252806; x=1797788806;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2HCK7U+HqSDq/h3jl9cW4lcZS+ia1UR54vdVdBd2xm0=;
+  b=aIzM6EMXHNHvZ5rUpN2TsFzvabkx3839wnBK4XT1fnXVPZ/HTPrqXm5a
+   5TKvqGoqMv7S3MxdsYriBTw3gzzjhOAoXa5oPZ8gOWWz1x6f6Lq2tQ8Ew
+   vmaNxA6sDexJyTqas/PtG6ujh69nNzto/CLQf65CIK5e7fAvFHOhUQTKi
+   6OqaSE+JNGD4e+eLP9trIdJVOgRouFxfn7aYL0v8vn8hMZYxxn7jv8s4U
+   Qu75BuE92p/shDIsv7uEc+ajDsuy838n3RYtYIO0vFNe5dibclTUfBMq8
+   e/Z9B8/X6oTWrTnoEJ4lDF5Cv+H/lnv/XsZ8oQErfl+Sl6u1KA0vMD5z+
+   w==;
+X-CSE-ConnectionGUID: m/1gd3HuRG6kRUD8HpDssA==
+X-CSE-MsgGUID: JAb4ndDHRNCOGkNcnY58cQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="70751742"
+X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
+   d="scan'208";a="70751742"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 09:46:46 -0800
+X-CSE-ConnectionGUID: KoweDhyvR6aqHYTKjGfNNw==
+X-CSE-MsgGUID: t0zWgyMqQmyTV3y7XD8KPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
+   d="scan'208";a="198893930"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 20 Dec 2025 09:46:45 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vX12Q-000000004j2-2QSc;
+	Sat, 20 Dec 2025 17:46:42 +0000
+Date: Sat, 20 Dec 2025 18:46:09 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 4/4] kismet: WARNING: unmet direct
+ dependencies detected for INTERCONNECT_QCOM when selected by
+ GKI_HIDDEN_QCOM_CONFIGS
+Message-ID: <202512201832.cpsTAXU4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 20 Dec 2025 23:57:10 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   8a0f08a5606260a0680a6074ee5392a57cd3133d
+commit: 39f48f66f74cdfa79f254376442a07663ab58335 [4/4] ANDROID: GKI: Add GKI_HIDDEN_MCP251XFD_CONFIGS
+config: arm64-kismet-CONFIG_INTERCONNECT_QCOM-CONFIG_GKI_HIDDEN_QCOM_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20251220/202512201832.cpsTAXU4-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251220/202512201832.cpsTAXU4-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
-> commit: 0f5bb0cfb0b40a31d2fe146ecbef5727690fa547 [1525/2671] fs: use min() or umin() instead of min_t()
-> config: i386-randconfig-015-20251219 (https://download.01.org/0day-ci/archive/20251220/202512202322.0kwyiXce-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202322.0kwyiXce-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512202322.0kwyiXce-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from <command-line>:
->    In function 'fuse_wr_pages',
->        inlined from 'fuse_perform_write' at fs/fuse/file.c:1347:27:
-> >> include/linux/compiler_types.h:630:45: error: call to '__compiletime_assert_588' declared with attribute error: min(((pos + len - 1) >> 12) - (pos >> 12) + 1, max_pages) signedness error  
-...
->    fs/fuse/file.c:1326:16: note: in expansion of macro 'min'
->     1326 |         return min(((pos + len - 1) >> PAGE_SHIFT) - (pos >> PAGE_SHIFT) + 1,
->          |                ^~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512201832.cpsTAXU4-lkp@intel.com/
 
-Seen before, I think there is a pending change to fuse/file.c to simplify the
-expression and avoid the problem.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for INTERCONNECT_QCOM when selected by GKI_HIDDEN_QCOM_CONFIGS
+   WARNING: unmet direct dependencies detected for USB_PHY
+     Depends on [n]: USB_SUPPORT [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_USB_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_DRM_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
+     Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=n] && !GENERIC_ATOMIC64 [=n])
+     Selected by [y]:
+     - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
+   
+   WARNING: unmet direct dependencies detected for INTERCONNECT_QCOM
+     Depends on [n]: INTERCONNECT [=n] && ARCH_QCOM [=y]
+     Selected by [y]:
+     - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
 
-	David
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
