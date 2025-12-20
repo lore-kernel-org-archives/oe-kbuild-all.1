@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34B81531C8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:23:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A8F2165EA;
+	Sat, 20 Dec 2025 15:23:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766244198; cv=none; b=Q6Yvx0YZQMDkgzbESnRNnX1NtawGFSwiUitYASpWnsjGYYs0Ktt5SE6oP2SXv3Eeq2gMh8pxI5X4hMX2R7L+OkZJeega9m6dxfnj4X93yFd9zSyL7ZskJmk+dWWWb1MA7dJMJSqJanN7uYoMEZKJag4thFm328dtVb3xeIwXqJI=
+	t=1766244200; cv=none; b=qheNUgVyqfvsZQFGp6+YzKVWkozHyp3IJz3lC3/MjcmmqH1/K7kbPZJNZYzV92qpekbYTTfkfc5gcO4z48l4boRPEy1dG8nd5SksUOmCjDiwnRDqoazw/MbKv7kU31gO6fPmJXFl/r/8FUEguM9EPHA/crSCJv3WW1I9nW+NjGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766244198; c=relaxed/simple;
-	bh=e5X02tCHBH8zBZqkv+J0rSNPdf9MrBKgpAe/pzKdusI=;
+	s=arc-20240116; t=1766244200; c=relaxed/simple;
+	bh=9qhnXS9xsI2Lo4xdyS5pDwfOiv+UWPCUjGv+CcPPerU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gb5nL8mYeKUUpy2NRfQgKRcu30VT+xP4qYvYg/l0/d8KpmYzJZ1V95FQI1aLqgi3nAjBW8ef4Nalatq1h4JDGFq1vJBHhM4Qq1kZx4RsQUXK/EKni9WEsdEPIxFqiC/Q2AkGPMG7Z130ENwrjXbt/Lu5PqhPHCAxcDFFjixSJbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IC5gNBWj; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=aD/rmU2I2gpgYaUlUW2Ri3x+slPQ3ug41eKsL8lxOyd4w0ax4j5010neP6Z4fUyXq1pbtg3oSNEP6aCds3mDJNu4+2DRtD0h2cdHdj/cA6az6KogJB9tb+G7V0lZWy2zDmD8/C4D6bjyvPrbYy9yuFC6GXk4tuGXWLO60tfXmiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=efZysvyu; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IC5gNBWj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="efZysvyu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766244197; x=1797780197;
+  t=1766244199; x=1797780199;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e5X02tCHBH8zBZqkv+J0rSNPdf9MrBKgpAe/pzKdusI=;
-  b=IC5gNBWj8Y8e15oBXwbq3qSmFiZQur6LQkXOQDqMMbafq4blALUU1WKW
-   XPHubeqcmBwbvzf6/zFF7C9gMEuWAg8BStv63XD/HTiD8MsEqSm6u7zRr
-   M2y5Z4YqnFdFrdulDyV6T+qA5gmI2xX0GZ2GD2+xyme5giJgXOEopGvOx
-   bapqYUDraL0P+YCh/IkqZZZcS5eJSrPS53XkEt2qA3Xc7tWa+EpuGjZkp
-   BG8hnqy4If51xRPgBwndwv09bb1deazC7d3+KvuHDtZIiL2skZYoGZXjR
-   jUK4bsHaxQki/3FlVh/zhVueG2NHu6cvLsefWDtvJ/vIYEh4f6yrDCG5l
-   g==;
-X-CSE-ConnectionGUID: rF9kA0yhSmmOgUp6AGr07A==
-X-CSE-MsgGUID: wMAUv5lDQlqckcE1U4toKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68153773"
+  bh=9qhnXS9xsI2Lo4xdyS5pDwfOiv+UWPCUjGv+CcPPerU=;
+  b=efZysvyu15b3G1PM0XCa3//Y1fykEQi0q5gNjTc2QlnkSSIoZ4N0Dm47
+   fhOlxe/KDlfo1m+kXgy7a4c7+anQmixRONhKv3YavuIiUA7hqa9BlkMvF
+   d8XZbvRtJK83djgdy2db5Go8upF/9gwyd3Bc6gYlZoT8mV+BoBJOLqREe
+   l3n04yeh/52KTfd3HJITi9TnvRW+6PodkFYfJaNZjwFfXf8EoSO21ttc3
+   l5xu/3WDJFn+00RYWWWySzRnXHFm3AfMj+h7NSV9cXNknbwp5JPB9dTVt
+   D13QVhtYhrgiVQx2G/4KjW1wy/NThkZH0el9WfK+3PlVv6fGaqkx+Duht
+   Q==;
+X-CSE-ConnectionGUID: Urz+KhesQRatDlBDjeW3bA==
+X-CSE-MsgGUID: 49CbxDdBTEy3z6bwvfnU+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68153775"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="68153773"
+   d="scan'208";a="68153775"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:23:16 -0800
-X-CSE-ConnectionGUID: CbprkIdOSIevIhKWaoXWeg==
-X-CSE-MsgGUID: KnAQZrH4QkGHSf/GYymbIw==
+X-CSE-ConnectionGUID: p7CpL5mQR0GXEdGy5+JnSw==
+X-CSE-MsgGUID: pOd5rr+yT3yshp/kDtBTuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="204053787"
+   d="scan'208";a="204053786"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 20 Dec 2025 07:23:15 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWynZ-000000004jz-09nB;
+	id 1vWynZ-000000004k1-0ZOO;
 	Sat, 20 Dec 2025 15:23:13 +0000
-Date: Sat, 20 Dec 2025 23:22:25 +0800
+Date: Sat, 20 Dec 2025 23:22:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:thp1 1/1] mm/huge_memory.c:1286:40: error: 'addr'
- undeclared; did you mean 'haddr'?
-Message-ID: <202512202358.3DYLbnUy-lkp@intel.com>
+To: hungkien05 <nguyenhunghnuekt@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:pr/24 1/1] arch/x86/kvm/emulate.c:1759:4: error:
+ expected expression
+Message-ID: <202512202349.UyMH6sV9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,80 +62,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/alexshi/linux.git thp1
-head:   92bbb3ed72c8bba724b402ec1693356bcaae871a
-commit: 92bbb3ed72c8bba724b402ec1693356bcaae871a [1/1] merge HPAGE_PMD_MASK into addr
-config: s390-randconfig-r072-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202358.3DYLbnUy-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202358.3DYLbnUy-lkp@intel.com/reproduce)
+tree:   https://github.com/jcmvbkbc/linux-xtensa pr/24
+head:   dcd699a99ce2f40e50263e0ec438e3b57b133598
+commit: dcd699a99ce2f40e50263e0ec438e3b57b133598 [1/1] Fix potential vulnerability in cloned code (arch/x86/kvm/emulate.c)
+config: x86_64-buildonly-randconfig-002-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202349.UyMH6sV9-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202349.UyMH6sV9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202358.3DYLbnUy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202349.UyMH6sV9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/huge_memory.c: In function 'vma_alloc_anon_folio_pmd':
->> mm/huge_memory.c:1286:40: error: 'addr' undeclared (first use in this function); did you mean 'haddr'?
-    1286 |                 folio_zero_user(folio, addr);
-         |                                        ^~~~
-         |                                        haddr
-   mm/huge_memory.c:1286:40: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/kvm/emulate.c:1741:2: warning: '/*' within block comment [-Wcomment]
+    1741 |         /*
+         |         ^
+>> arch/x86/kvm/emulate.c:1759:4: error: expected expression
+    1759 |          */
+         |           ^
+   arch/x86/kvm/emulate.c:1760:2: error: expected expression
+    1760 |         if (seg == VCPU_SREG_SS && selector == 3 &&
+         |         ^
+   1 warning and 2 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for I2C_K1
+   Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && OF [=n]
+   Selected by [y]:
+   - MFD_SPACEMIT_P1 [=y] && HAS_IOMEM [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y]) && I2C [=y]
 
 
-vim +1286 mm/huge_memory.c
+vim +1759 arch/x86/kvm/emulate.c
 
-74d2fad1334d12 Toshi Kani       2016-10-07  1252  
-ebcfc63d6bca3c Dev Jain         2024-10-08  1253  static struct folio *vma_alloc_anon_folio_pmd(struct vm_area_struct *vma,
-92bbb3ed72c8bb Alex Shi         2025-12-16  1254  		unsigned long haddr)
-71e3aac0724ffe Andrea Arcangeli 2011-01-13  1255  {
-ebcfc63d6bca3c Dev Jain         2024-10-08  1256  	gfp_t gfp = vma_thp_gfp_mask(vma);
-ebcfc63d6bca3c Dev Jain         2024-10-08  1257  	const int order = HPAGE_PMD_ORDER;
-ebcfc63d6bca3c Dev Jain         2024-10-08  1258  	struct folio *folio;
-71e3aac0724ffe Andrea Arcangeli 2011-01-13  1259  
-92bbb3ed72c8bb Alex Shi         2025-12-16  1260  	folio = vma_alloc_folio(gfp, order, vma, haddr);
-00501b531c4723 Johannes Weiner  2014-08-08  1261  
-ebcfc63d6bca3c Dev Jain         2024-10-08  1262  	if (unlikely(!folio)) {
-ebcfc63d6bca3c Dev Jain         2024-10-08  1263  		count_vm_event(THP_FAULT_FALLBACK);
-ebcfc63d6bca3c Dev Jain         2024-10-08  1264  		count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK);
-ebcfc63d6bca3c Dev Jain         2024-10-08  1265  		return NULL;
-ebcfc63d6bca3c Dev Jain         2024-10-08  1266  	}
-00501b531c4723 Johannes Weiner  2014-08-08  1267  
-ebcfc63d6bca3c Dev Jain         2024-10-08  1268  	VM_BUG_ON_FOLIO(!folio_test_large(folio), folio);
-cfe3236d32d07b Kefeng Wang      2023-03-02  1269  	if (mem_cgroup_charge(folio, vma->vm_mm, gfp)) {
-cfe3236d32d07b Kefeng Wang      2023-03-02  1270  		folio_put(folio);
-6b251fc96cf2cd Andrea Arcangeli 2015-09-04  1271  		count_vm_event(THP_FAULT_FALLBACK);
-85b9f46e8ea451 David Rientjes   2020-04-06  1272  		count_vm_event(THP_FAULT_FALLBACK_CHARGE);
-ebcfc63d6bca3c Dev Jain         2024-10-08  1273  		count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK);
-ebcfc63d6bca3c Dev Jain         2024-10-08  1274  		count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE);
-ebcfc63d6bca3c Dev Jain         2024-10-08  1275  		return NULL;
-6b251fc96cf2cd Andrea Arcangeli 2015-09-04  1276  	}
-cfe3236d32d07b Kefeng Wang      2023-03-02  1277  	folio_throttle_swaprate(folio, gfp);
-00501b531c4723 Johannes Weiner  2014-08-08  1278  
-5708d96da20b99 Zi Yan           2024-10-11  1279         /*
-c51a4f11e6d824 Zi Yan           2024-12-09  1280  	* When a folio is not zeroed during allocation (__GFP_ZERO not used)
-c51a4f11e6d824 Zi Yan           2024-12-09  1281  	* or user folios require special handling, folio_zero_user() is used to
-c51a4f11e6d824 Zi Yan           2024-12-09  1282  	* make sure that the page corresponding to the faulting address will be
-c51a4f11e6d824 Zi Yan           2024-12-09  1283  	* hot in the cache after zeroing.
-5708d96da20b99 Zi Yan           2024-10-11  1284  	*/
-c51a4f11e6d824 Zi Yan           2024-12-09  1285  	if (user_alloc_needs_zeroing())
-ebcfc63d6bca3c Dev Jain         2024-10-08 @1286  		folio_zero_user(folio, addr);
-52f37629fd3c7b Minchan Kim      2013-04-29  1287  	/*
-cfe3236d32d07b Kefeng Wang      2023-03-02  1288  	 * The memory barrier inside __folio_mark_uptodate makes sure that
-78fefd04c12349 Kefeng Wang      2024-06-18  1289  	 * folio_zero_user writes become visible before the set_pmd_at()
-52f37629fd3c7b Minchan Kim      2013-04-29  1290  	 * write.
-52f37629fd3c7b Minchan Kim      2013-04-29  1291  	 */
-cfe3236d32d07b Kefeng Wang      2023-03-02  1292  	__folio_mark_uptodate(folio);
-ebcfc63d6bca3c Dev Jain         2024-10-08  1293  	return folio;
-ebcfc63d6bca3c Dev Jain         2024-10-08  1294  }
-ebcfc63d6bca3c Dev Jain         2024-10-08  1295  
-
-:::::: The code at line 1286 was first introduced by commit
-:::::: ebcfc63d6bca3cce1bfca30092712f3468b4ecff mm: abstract THP allocation
-
-:::::: TO: Dev Jain <dev.jain@arm.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+  1733	
+  1734	static int load_segment_descriptor(struct x86_emulate_ctxt *ctxt,
+  1735					   u16 selector, int seg)
+  1736	{
+  1737		u8 cpl = ctxt->ops->cpl(ctxt);
+  1738	
+  1739	
+  1740		/*
+  1741		/*
+  1742		 * None of MOV, POP and LSS can load a NULL selector in CPL=3, but
+  1743		 * None of MOV, POP and LSS can load a NULL selector in CPL=3, but
+  1744		 * they can load it at CPL<3 (Intel's manual says only LSS can,
+  1745		 * they can load it at CPL<3 (Intel's manual says only LSS can,
+  1746		 * but it's wrong).
+  1747		 * but it's wrong).
+  1748		 *
+  1749		 *
+  1750		 * However, the Intel manual says that putting IST=1/DPL=3 in
+  1751		 * However, the Intel manual says that putting IST=1/DPL=3 in
+  1752		 * an interrupt gate will result in SS=3 (the AMD manual instead
+  1753		 * an interrupt gate will result in SS=3 (the AMD manual instead
+  1754		 * says it doesn't), so allow SS=3 in __load_segment_descriptor
+  1755		 * says it doesn't), so allow SS=3 in __load_segment_descriptor
+  1756		 * and only forbid it here.
+  1757		 * and only forbid it here.
+  1758		 */
+> 1759		 */
+  1760		if (seg == VCPU_SREG_SS && selector == 3 &&
+  1761		if (seg == VCPU_SREG_SS && selector == 3 &&
+  1762		    ctxt->mode == X86EMUL_MODE_PROT64)
+  1763		    ctxt->mode == X86EMUL_MODE_PROT64)
+  1764			return emulate_exception(ctxt, GP_VECTOR, 0, true);
+  1765			return emulate_exception(ctxt, GP_VECTOR, 0, true);
+  1766	
+  1767	
+  1768		return __load_segment_descriptor(ctxt, selector, seg, cpl,
+  1769						 X86_TRANSFER_NONE, NULL);
+  1770	}
+  1771	
 
 -- 
 0-DAY CI Kernel Test Service
