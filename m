@@ -1,70 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F895231A55
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E5921CC4F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766245463; cv=none; b=QCeGHRU75HkmXVvpD5JT2osFjmtiyIKPNPKm76CwThOuj2Lv0afKXHJs2xlqhDW9ChddVzLyRsBhxo0/CxzALtX9RoKeJTv4VRefNwa4EW40KfkC7cclpYy3SNPyAgLYHj4OT+YipxQRElHzl1J1mQPRlT0FDeQTkQLtESrw84I=
+	t=1766245465; cv=none; b=GZSKRCvcHEaFauICyabneV4iGplUENuAF09/6h7hM0b9IQT9hKIIKS0yidhMb/iqdHFk9W3wxYmKVwQdE1UtE86wa4sjI93GIfeIvR+OJtRil3XVNBa8fZy4c1tqD3wVy+M2C8WcE7jIrU/UrZby15GrRDaGUn1QveTYz8rcwqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766245463; c=relaxed/simple;
-	bh=sPTfzgRAB6RKo0v/+78CZE6GdRZEgXz+wQviLbdQR20=;
+	s=arc-20240116; t=1766245465; c=relaxed/simple;
+	bh=i30qgdidF5swEfrY8bISvHkNXQBtVxmPrBDz6HH/8cE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mDBHDpgF9gKMC7zY8xL9BWok8uyIKYUbGsd+X1fYn37gzRDw7xbX/6/KseABZoaJEsT5PQUwqX1oYyO65xeOJoHv9NcbNVkw4J5+Ml9Tdr6yx/X34QRIg5ZJI680DaoSbPxXRIFClT/X24b3skgAD9ULjQOpUrzcLRZziOphR+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JsKqw0pu; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=SyGqxaRwvzzJTDdNhlybDgn9bcKILFbTgSVzW3uccv1xrhlq4YPqF721YUZPKM3dFfN2wPPGNMLWLpNlCtHIHIYu5sykX3tijm7omtzx6byWS0wrQal8Gve9OGbNKU3ZEV3olZuUu4UJo4ZtdtOoq8JwsFNXLIGKUb+dIo1m708=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QIsqb+y8; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JsKqw0pu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QIsqb+y8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766245462; x=1797781462;
+  t=1766245464; x=1797781464;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sPTfzgRAB6RKo0v/+78CZE6GdRZEgXz+wQviLbdQR20=;
-  b=JsKqw0puHYgMNfV5Q3PSuQUWKFzfRvpfjs6P/GMLlgHcfhx2jDD3qJFY
-   nviuHTpvCYGn2rnnfHqHqSde5kJGB9pMQRTeMrE3BHXyZBlpOKimvaCRj
-   w3Yqcw7XT7hQsThNSANecXV/H0iXzBlGbtvO/yWvF3ft+adtge7orkrfd
-   0R4nYB6atS/eyVYEy5EiR4GUKUFEotdrEugtvjcLvwNd5AleT2bFi7MDV
-   K99CDWBg8kokHR9nZ8Facbn+S8tdwqq3/IBx7Bn6AmaP0YBBDUB9ChWMp
-   UyljpaXo6dlSvh3hhja9oJf2e7kPvpP5DvOjR9uD4nHTnDXSJK+He8HFu
+  bh=i30qgdidF5swEfrY8bISvHkNXQBtVxmPrBDz6HH/8cE=;
+  b=QIsqb+y823hmSLn7pQLe3rWFE1RvuxZ0wSV4Tzzs5VBQbHZa83sk9NsV
+   ucjbYHQdwDKkyK4KpJiz1VFI9n4BnvspzGdgFYPPV+cLLc1Vie717Xnhn
+   ox8IvhZnpXhbKSGFNjgqRVwpx0cgZ5JuyOckdA5V/zdHZZ4E6XyYy9mqE
+   /V7X0h+lB4eUnAjrMADjDHQWtVpMeI2KdzK7/QWByti8dX5w0NriKTnob
+   38jlDSRaj2qgnR7mQ6THh7kCiHDMQy+PoeCVLFmpyeP1ZkrvazVeFF25F
+   m2mmYTy9zXAjQPRBi2wFH19HUqOaN5od6/jSBuugFqGfcLhKmONL8OGD/
    g==;
-X-CSE-ConnectionGUID: euNc/iUhR0uu05FxTnIRsQ==
-X-CSE-MsgGUID: hIrebmUDTZuDDdTySC/BsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="90838739"
+X-CSE-ConnectionGUID: fukn7O1DRrCap83ajKWYPQ==
+X-CSE-MsgGUID: AVLBdMUmTIuysUSQQhxwxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="79297148"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="90838739"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:44:22 -0800
-X-CSE-ConnectionGUID: wENouVOqQGO/o8GLybGm3A==
-X-CSE-MsgGUID: wToCnkxuQL2Ch03L4CHG+g==
+   d="scan'208";a="79297148"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:44:24 -0800
+X-CSE-ConnectionGUID: 7rxyLLmsSwu8Qk61HDxw4w==
+X-CSE-MsgGUID: odg2+K3HSBq45ro0hb4fag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="222597991"
+   d="scan'208";a="236535410"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Dec 2025 07:44:18 -0800
+  by orviesa001.jf.intel.com with ESMTP; 20 Dec 2025 07:44:18 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWz7v-000000004m3-2Tdb;
+	id 1vWz7v-000000004m1-2LBa;
 	Sat, 20 Dec 2025 15:44:15 +0000
-Date: Sat, 20 Dec 2025 23:43:43 +0800
+Date: Sat, 20 Dec 2025 23:43:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Naga Bhavani Akella <naga.akella@oss.qualcomm.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Johan Hedberg <johan.hedberg@gmail.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	anubhavg@qti.qualcomm.com, mohamull@qti.qualcomm.com,
-	hbandi@qti.qualcomm.com, Simon Horman <horms@kernel.org>,
-	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Naga Bhavani Akella <naga.akella@oss.qualcomm.com>
-Subject: Re: [PATCH v1] Bluetooth: hci_sync: Initial LE Channel Sounding
- support by defining required HCI command/event structures.
-Message-ID: <202512202353.A3cnxg81-lkp@intel.com>
-References: <20251216113753.3969183-1-naga.akella@oss.qualcomm.com>
+To: Hou Tao <houtao@huaweicloud.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-mm@kvack.org, linux-nvme@lists.infradead.org,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+	houtao1@huawei.com
+Subject: Re: [PATCH 03/13] kernfs: add support for get_unmapped_area callback
+Message-ID: <202512202307.ewUcqBQV-lkp@intel.com>
+References: <20251220040446.274991-4-houtao@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,55 +76,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251216113753.3969183-1-naga.akella@oss.qualcomm.com>
+In-Reply-To: <20251220040446.274991-4-houtao@huaweicloud.com>
 
-Hi Naga,
+Hi Hou,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bluetooth-next/master]
-[also build test ERROR on net-next/main net/main linus/master v6.19-rc1]
-[cannot apply to bluetooth/master next-20251219]
+[auto build test ERROR on driver-core/driver-core-testing]
+[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus akpm-mm/mm-everything linus/master v6.19-rc1 next-20251219]
+[cannot apply to pci/next pci/for-linus]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Naga-Bhavani-Akella/Bluetooth-hci_sync-Initial-LE-Channel-Sounding-support-by-defining-required-HCI-command-event-structures/20251216-202908
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
-patch link:    https://lore.kernel.org/r/20251216113753.3969183-1-naga.akella%40oss.qualcomm.com
-patch subject: [PATCH v1] Bluetooth: hci_sync: Initial LE Channel Sounding support by defining required HCI command/event structures.
-config: x86_64-randconfig-161-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202353.A3cnxg81-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202353.A3cnxg81-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hou-Tao/PCI-P2PDMA-Release-the-per-cpu-ref-of-pgmap-when-vm_insert_page-fails/20251220-121804
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20251220040446.274991-4-houtao%40huaweicloud.com
+patch subject: [PATCH 03/13] kernfs: add support for get_unmapped_area callback
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20251220/202512202307.ewUcqBQV-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202307.ewUcqBQV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202353.A3cnxg81-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202307.ewUcqBQV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from net/bluetooth/hci_core.c:39:
-   In file included from include/net/bluetooth/hci_core.h:35:
->> include/net/bluetooth/hci.h:2430:8: error: redefinition of 'hci_cp_le_cs_set_proc_param'
-    2430 | struct hci_cp_le_cs_set_proc_param {
-         |        ^
-   include/net/bluetooth/hci.h:2407:8: note: previous definition is here
-    2407 | struct hci_cp_le_cs_set_proc_param {
-         |        ^
-   1 error generated.
+   fs/kernfs/file.c: In function 'kernfs_get_unmapped_area':
+>> fs/kernfs/file.c:480:16: error: implicit declaration of function 'mm_get_unmapped_area'; did you mean 'get_unmapped_area'? [-Wimplicit-function-declaration]
+     480 |         addr = mm_get_unmapped_area(file, uaddr, len, pgoff, flags);
+         |                ^~~~~~~~~~~~~~~~~~~~
+         |                get_unmapped_area
 
 
-vim +/hci_cp_le_cs_set_proc_param +2430 include/net/bluetooth/hci.h
+vim +480 fs/kernfs/file.c
 
-  2428	
-  2429	#define HCI_OP_LE_CS_SET_PROC_ENABLE		0x2094
-> 2430	struct hci_cp_le_cs_set_proc_param {
-  2431		__le16  conn_hdl;
-  2432		__u8	config_id;
-  2433		__u8	enable;
-  2434	} __packed;
-  2435	
+   456	
+   457	static unsigned long kernfs_get_unmapped_area(struct file *file, unsigned long uaddr,
+   458						      unsigned long len, unsigned long pgoff,
+   459						      unsigned long flags)
+   460	{
+   461		struct kernfs_open_file *of = kernfs_of(file);
+   462		const struct kernfs_ops *ops;
+   463		long addr;
+   464	
+   465		if (!(of->kn->flags & KERNFS_HAS_MMAP))
+   466			return -ENODEV;
+   467	
+   468		mutex_lock(&of->mutex);
+   469	
+   470		addr = -ENODEV;
+   471		if (!kernfs_get_active_of(of))
+   472			goto out_unlock;
+   473	
+   474		ops = kernfs_ops(of->kn);
+   475		if (ops->get_unmapped_area) {
+   476			addr = ops->get_unmapped_area(of, uaddr, len, pgoff, flags);
+   477			if (!IS_ERR_VALUE(addr) || addr != -EOPNOTSUPP)
+   478				goto out_put;
+   479		}
+ > 480		addr = mm_get_unmapped_area(file, uaddr, len, pgoff, flags);
+   481	
+   482	out_put:
+   483		kernfs_put_active_of(of);
+   484	out_unlock:
+   485		mutex_unlock(&of->mutex);
+   486	
+   487		return addr;
+   488	}
+   489	
 
 -- 
 0-DAY CI Kernel Test Service
