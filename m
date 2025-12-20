@@ -1,79 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3251D5CF2;
-	Sat, 20 Dec 2025 14:00:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB071F94A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 14:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766239205; cv=none; b=UJ23aXg/7RkxhnNQoTiVF+uneiAIWLGRD2C3zeFTl1QCp9rvOtatubsNUl8FP7Yk0Dw4l6R+zTmoJpzcJVrysj/s2dF7ma8BvgTj/VYO3ABxbi4MJvUlXFpCU47a6Ra9mXQsp2t+nalTCwfhnEZ9zpuaiKqxgvBF+sUcUH6BT7Q=
+	t=1766239259; cv=none; b=RJ8E6UMO+ykUd0IpJZV1NLo2k148l0e+6C1NqZryzVRw61zP1Nri18ADTCLIpwmHjONpGiKPUVC0EChFLoaCb2DhmAI7wDY4XfPluCnG4ZGm/mpeH451So98Qpj/G7LxXyQvua7Ij8OQaQn1LPuNjv+Le7YdomWMOoyeJNF+qNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766239205; c=relaxed/simple;
-	bh=+H/npnpo/aHP5YbM3+ZLB+6vTAQkvqdVC9uKXkV2xjY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dJ6MYG7EQQxXB0rBVMXMHx3yVpzOIfwyiVTPrqe9/EjoofsfiZt2fnp19pfM1pLi68LXkLpbky1Lzkmn71ooZz2eOS0D262bYDj3VldG/uiYuiTWSTK0XdEVIiH1ikS1cHR/3f8BNFavjE1vbnwB/UhffbRqlG0Hx4BGeaLp69k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lZ3FIy4U; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1766239259; c=relaxed/simple;
+	bh=zar8llpB67yDAwCnM4bxHRtkkwSz2ipn+8pD9L0CPFE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pOJIWtm10S4MwEIoSqrWjvL2HJQpj+1LOY0krJlEGWxSjbA3iC9J3zQvXMAjcr4iVOcln5ngYOwDyiztFpUmsckBRYyzNr5G+H2VSkHiGqY1pre3u//EFio3jGR+undexHXxz/vAhA+QmD8AWjclvqaUgBwuu8Gq8Knc3pL3Dd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mVtOosaq; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lZ3FIy4U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mVtOosaq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766239203; x=1797775203;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+H/npnpo/aHP5YbM3+ZLB+6vTAQkvqdVC9uKXkV2xjY=;
-  b=lZ3FIy4UPHxD3QK4tMDXpXDXRqn+RVyW4HnRu0u2hLiN+g62aAbt0lfu
-   1DsnBCZ3Ib6jC+j7vVyU6371VhdP7wEbDV5uEVEA+KUQAZAT+a59OtwVB
-   ussylQGCEE6BDLxl5IG7ntkSAM9vcjmfjvieQnJLzs18TDz1BWH23im/I
-   r09df/QmR3IoaP1zVxdVw9dKpUsOZO+s4e8UIINtrFphG2Eklig1gjAx3
-   EF6eM0UYXNR1eaNOSJmSE6beV3XfUg5cmWc5R15nViKZmvGmA/ulTYstC
-   SiqHGuFQF3KCLjLHN1eXZ2932kIX9pDWFhfi4TKTWbknENz+hFamzaxQd
-   A==;
-X-CSE-ConnectionGUID: 5ueHKRmfQT+OgNl6I66rVA==
-X-CSE-MsgGUID: T/FABtD1S3uhrwW8ruxZnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="71806575"
+  t=1766239258; x=1797775258;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zar8llpB67yDAwCnM4bxHRtkkwSz2ipn+8pD9L0CPFE=;
+  b=mVtOosaqxMi/+kbYDlvR/mjbqKGno4snFA9FExNQn0aub9xccG1n3Rer
+   vmhEb9kv87WlkqjSDZlmJasMlkmu96mtTpUMUvmh0Ze6RpemyGYTnkhX/
+   wFtZAot3IfbJiuDiGo26ooTDBuPyB/UHchB9P11RqCGWr38Fu5pIH0QQB
+   vxu/G3dAb1gFrzhmKzh1pPmQeABWsD64tfjpnqz0dS7n73bVfxGlvOVXd
+   AGclVEizRdvqpkyqSEYMaOZYWXZpuu3YdwE7YvT9JM0Kr9oZKZHJkVv6D
+   wum1G/9k0e7dF3Ku2k7+FvXqpJCHxwPSvLYao0hoZP9iQfC0mwLHHBTZZ
+   w==;
+X-CSE-ConnectionGUID: AUNR1YLKR3+3RaNlqmm4Uw==
+X-CSE-MsgGUID: xtfFlC6ASNuYTt3RaMvqPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="85590749"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="71806575"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:00:02 -0800
-X-CSE-ConnectionGUID: 8w7HrFL5RDqOfTYJHrs1RQ==
-X-CSE-MsgGUID: t8l+VLJmR8aABKYJ508zcQ==
+   d="scan'208";a="85590749"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:00:58 -0800
+X-CSE-ConnectionGUID: Bc2lby3XSn2pOrIkwvJsOA==
+X-CSE-MsgGUID: QaZ6acGJToaOewS5wx6yLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="198256643"
+   d="scan'208";a="199344204"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 20 Dec 2025 05:59:57 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 20 Dec 2025 06:00:56 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWxUv-000000004b5-3nWI;
-	Sat, 20 Dec 2025 13:59:53 +0000
-Date: Sat, 20 Dec 2025 21:59:51 +0800
+	id 1vWxVu-000000004bW-1tUg;
+	Sat, 20 Dec 2025 14:00:54 +0000
+Date: Sat, 20 Dec 2025 22:00:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Price <steven.price@arm.com>, kvm@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Steven Price <steven.price@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
-	James Morse <james.morse@arm.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Joey Gouly <joey.gouly@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Christoffer Dall <christoffer.dall@arm.com>,
-	Fuad Tabba <tabba@google.com>, linux-coco@lists.linux.dev,
-	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
-	Gavin Shan <gshan@redhat.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	Alper Gun <alpergun@google.com>,
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
-	Emi Kisanuki <fj0570is@fujitsu.com>,
-	Vishal Annapurve <vannapurve@google.com>
-Subject: Re: [PATCH v12 19/46] KVM: arm64: Expose support for private memory
-Message-ID: <202512202152.gapj1OD5-lkp@intel.com>
-References: <20251217101125.91098-20-steven.price@arm.com>
+To: kernel@openeuler.org, Zhang Qiao <zhangqiao22@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3201/3201] kernel/sched/soft_domain.c:186:10:
+ error: implicit declaration of function 'cpu_util_cfs'
+Message-ID: <202512202153.mHQVnY6o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,78 +61,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251217101125.91098-20-steven.price@arm.com>
 
-Hi Steven,
+Hi Zhang,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.19-rc1 next-20251219]
-[cannot apply to kvmarm/next kvm/queue kvm/next arm64/for-next/core kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Price/kvm-arm64-Include-kvm_emulate-h-in-kvm-arm_psci-h/20251218-030351
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251217101125.91098-20-steven.price%40arm.com
-patch subject: [PATCH v12 19/46] KVM: arm64: Expose support for private memory
-config: arm64-randconfig-001-20251219 (https://download.01.org/0day-ci/archive/20251220/202512202152.gapj1OD5-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project b324c9f4fa112d61a553bf489b5f4f7ceea05ea8)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202152.gapj1OD5-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   1588d318a9e388d05b6cf5e2a63134c8beb6a355
+commit: dd6655291bf7230ef984e1d283a5ec05821f996f [3201/3201] sched: Attach task group to soft domain
+config: x86_64-buildonly-randconfig-002-20250909 (https://download.01.org/0day-ci/archive/20251220/202512202153.mHQVnY6o-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202153.mHQVnY6o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202152.gapj1OD5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202153.mHQVnY6o-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kernel/asm-offsets.c:16:
->> include/linux/kvm_host.h:725:45: error: expected identifier or '('
-     725 | static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
-         |                                             ^
->> include/linux/kvm_host.h:725:45: error: expected ')'
-   include/linux/kvm_host.h:725:20: note: to match this '('
-     725 | static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
-         |                    ^
-   arch/arm64/include/asm/kvm_host.h:1465:40: note: expanded from macro 'kvm_arch_has_private_mem'
-    1465 | #define kvm_arch_has_private_mem(kvm) ((kvm)->arch.is_realm)
-         |                                        ^
-   In file included from arch/arm64/kernel/asm-offsets.c:16:
-   include/linux/kvm_host.h:725:20: error: expected ')'
-     725 | static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
-         |                    ^
-   arch/arm64/include/asm/kvm_host.h:1465:45: note: expanded from macro 'kvm_arch_has_private_mem'
-    1465 | #define kvm_arch_has_private_mem(kvm) ((kvm)->arch.is_realm)
-         |                                             ^
-   include/linux/kvm_host.h:725:20: note: to match this '('
-   arch/arm64/include/asm/kvm_host.h:1465:39: note: expanded from macro 'kvm_arch_has_private_mem'
-    1465 | #define kvm_arch_has_private_mem(kvm) ((kvm)->arch.is_realm)
-         |                                       ^
-   3 errors generated.
-   make[3]: *** [scripts/Makefile.build:182: arch/arm64/kernel/asm-offsets.s] Error 1 shuffle=1976660145
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1314: prepare0] Error 2 shuffle=1976660145
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1976660145
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1976660145
-   make: Target 'prepare' not remade because of errors.
+>> kernel/sched/soft_domain.c:186:10: error: implicit declaration of function 'cpu_util_cfs' [-Werror,-Wimplicit-function-declaration]
+     186 |                 sum += cpu_util_cfs(cpu_rq(cpu));
+         |                        ^
+   kernel/sched/soft_domain.c:186:10: note: did you mean 'cpu_util_irq'?
+   kernel/sched/sched.h:3118:29: note: 'cpu_util_irq' declared here
+    3118 | static inline unsigned long cpu_util_irq(struct rq *rq)
+         |                             ^
+   kernel/sched/soft_domain.c:269:6: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
+     269 |         int cpu;
+         |             ^
+   1 warning and 1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_PRELOAD
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
 
 
-vim +725 include/linux/kvm_host.h
+vim +/cpu_util_cfs +186 kernel/sched/soft_domain.c
 
-f481b069e67437 Paolo Bonzini       2015-05-17  723  
-d1e54dd08f163a Fuad Tabba          2025-07-29  724  #ifndef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
-a7800aa80ea4d5 Sean Christopherson 2023-11-13 @725  static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  726  {
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  727  	return false;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  728  }
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  729  #endif
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  730  
+   179	
+   180	static unsigned long sum_util(struct cpumask *mask)
+   181	{
+   182		unsigned long sum = 0;
+   183		int cpu;
+   184	
+   185		for_each_cpu(cpu, mask)
+ > 186			sum += cpu_util_cfs(cpu_rq(cpu));
+   187	
+   188		return sum;
+   189	}
+   190	
 
 -- 
 0-DAY CI Kernel Test Service
