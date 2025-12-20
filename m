@@ -1,68 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1AB2472BA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:21:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34B81531C8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:23:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766244109; cv=none; b=FTrXX20fHkvRo2P9bLP7wHhpdfWD5VlOaXfWoHG+SW58rg1IYp2vZ5upWAp05EE/seighVEXMQl0BcBCCxP7Wb3Ym5bQVdxrxcdIEeQmg0ST1XtWrH1tuinETejxpd9vLzGadxIvN6iQRJapqUeJHg83Rtf0Zr9VJCrR5PISC9s=
+	t=1766244198; cv=none; b=Q6Yvx0YZQMDkgzbESnRNnX1NtawGFSwiUitYASpWnsjGYYs0Ktt5SE6oP2SXv3Eeq2gMh8pxI5X4hMX2R7L+OkZJeega9m6dxfnj4X93yFd9zSyL7ZskJmk+dWWWb1MA7dJMJSqJanN7uYoMEZKJag4thFm328dtVb3xeIwXqJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766244109; c=relaxed/simple;
-	bh=NjY3JMdOK8jrfC4Nq2dQYCX2l+pMW1t2mckvjy00Mps=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rrFih6DsLuGzC3Qm3KyjWHinZBG+UAVUKkp1WpIO5kGA+yw9hfa6hIPAsXtQtndDUOyGO3HMpy7hUF2E0R0FpfWyRxhEhmZMhGb3IAXyf8KhwKPL3LRV1FIYb6UshqciEiDJoEWIFmRUwdWXMEwMVg0laiWw1O65PQjETnfjjdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dsmdWWje; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1766244198; c=relaxed/simple;
+	bh=e5X02tCHBH8zBZqkv+J0rSNPdf9MrBKgpAe/pzKdusI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gb5nL8mYeKUUpy2NRfQgKRcu30VT+xP4qYvYg/l0/d8KpmYzJZ1V95FQI1aLqgi3nAjBW8ef4Nalatq1h4JDGFq1vJBHhM4Qq1kZx4RsQUXK/EKni9WEsdEPIxFqiC/Q2AkGPMG7Z130ENwrjXbt/Lu5PqhPHCAxcDFFjixSJbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IC5gNBWj; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dsmdWWje"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IC5gNBWj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766244107; x=1797780107;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NjY3JMdOK8jrfC4Nq2dQYCX2l+pMW1t2mckvjy00Mps=;
-  b=dsmdWWjeE+qQEYn5KHStyHZd+uB/eN9kKhY59tccX0/DPh2598ZQCywn
-   MJHfksK/bOtj0xNsv17Mg0yqPTNDPiHKjSy1rjHSN7sTx/egnPwDOLsYq
-   M4r42rCikWDDkg9UdpEtGBGWygdiExNa8UTRWBLbgTJZmQzld+qNLTG9T
-   bQ9sXUYQduTEjXWnq/tbhsvzbjPYNmxz42USlW6dK4OMW5ZX/K3uOZBdb
-   HSzRI8IpBooccWQcpDMrYk1k/dZ9+SfiNQTich/qYCmgEZm3XqWaMLEnO
-   ctoahw6yrhHMJSdJUrc3mjfzKJMMgPdUyxni9uM72B41IcMJfv+UiswY6
-   w==;
-X-CSE-ConnectionGUID: u02r4OvdT3Sa/hYTZKn96w==
-X-CSE-MsgGUID: OKaaBSqgTwCqW3wLUWITWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68153724"
+  t=1766244197; x=1797780197;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e5X02tCHBH8zBZqkv+J0rSNPdf9MrBKgpAe/pzKdusI=;
+  b=IC5gNBWj8Y8e15oBXwbq3qSmFiZQur6LQkXOQDqMMbafq4blALUU1WKW
+   XPHubeqcmBwbvzf6/zFF7C9gMEuWAg8BStv63XD/HTiD8MsEqSm6u7zRr
+   M2y5Z4YqnFdFrdulDyV6T+qA5gmI2xX0GZ2GD2+xyme5giJgXOEopGvOx
+   bapqYUDraL0P+YCh/IkqZZZcS5eJSrPS53XkEt2qA3Xc7tWa+EpuGjZkp
+   BG8hnqy4If51xRPgBwndwv09bb1deazC7d3+KvuHDtZIiL2skZYoGZXjR
+   jUK4bsHaxQki/3FlVh/zhVueG2NHu6cvLsefWDtvJ/vIYEh4f6yrDCG5l
+   g==;
+X-CSE-ConnectionGUID: rF9kA0yhSmmOgUp6AGr07A==
+X-CSE-MsgGUID: wMAUv5lDQlqckcE1U4toKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68153773"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="68153724"
+   d="scan'208";a="68153773"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:21:46 -0800
-X-CSE-ConnectionGUID: fpTfV4MIRJ6CTuNLMdbHAA==
-X-CSE-MsgGUID: fvMVinswSlS7iyQ8nLoFIQ==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:23:16 -0800
+X-CSE-ConnectionGUID: CbprkIdOSIevIhKWaoXWeg==
+X-CSE-MsgGUID: KnAQZrH4QkGHSf/GYymbIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="204053589"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Dec 2025 07:21:43 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="204053787"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 20 Dec 2025 07:23:15 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWym3-000000004fM-44z2;
-	Sat, 20 Dec 2025 15:21:39 +0000
-Date: Sat, 20 Dec 2025 16:21:12 +0100
+	id 1vWynZ-000000004jz-09nB;
+	Sat, 20 Dec 2025 15:23:13 +0000
+Date: Sat, 20 Dec 2025 23:22:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris J Arges <carges@cloudflare.com>, zohar@linux.ibm.com,
-	roberto.sassu@huawei.com
-Cc: oe-kbuild-all@lists.linux.dev, kernel-team@cloudflare.com,
-	Chris J Arges <carges@cloudflare.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	Kees Cook <kees@kernel.org>, linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ima: Fix stack-out-of-bounds in is_bprm_creds_for_exec()
-Message-ID: <202512201634.hYE4i2PX-lkp@intel.com>
-References: <20251219195456.912190-1-carges@cloudflare.com>
+To: alexs@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:thp1 1/1] mm/huge_memory.c:1286:40: error: 'addr'
+ undeclared; did you mean 'haddr'?
+Message-ID: <202512202358.3DYLbnUy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,294 +61,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251219195456.912190-1-carges@cloudflare.com>
 
-Hi Chris,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on zohar-integrity/next-integrity]
-[also build test ERROR on linus/master v6.19-rc1 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-J-Arges/ima-Fix-stack-out-of-bounds-in-is_bprm_creds_for_exec/20251220-035711
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity
-patch link:    https://lore.kernel.org/r/20251219195456.912190-1-carges%40cloudflare.com
-patch subject: [PATCH] ima: Fix stack-out-of-bounds in is_bprm_creds_for_exec()
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251220/202512201634.hYE4i2PX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512201634.hYE4i2PX-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git thp1
+head:   92bbb3ed72c8bba724b402ec1693356bcaae871a
+commit: 92bbb3ed72c8bba724b402ec1693356bcaae871a [1/1] merge HPAGE_PMD_MASK into addr
+config: s390-randconfig-r072-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202358.3DYLbnUy-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202358.3DYLbnUy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512201634.hYE4i2PX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202358.3DYLbnUy-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> security/integrity/ima/ima_main.c:429:32: error: too many arguments to function call, expected 7, have 8
-     427 |                         rc = ima_appraise_measurement(func, iint, file,
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~
-     428 |                                                       pathname, xattr_value,
-     429 |                                                       xattr_len, modsig, bprm_is_check);
-         |                                                                          ^~~~~~~~~~~~~
-   security/integrity/ima/ima.h:463:19: note: 'ima_appraise_measurement' declared here
-     463 | static inline int ima_appraise_measurement(enum ima_hooks func,
-         |                   ^                        ~~~~~~~~~~~~~~~~~~~~
-     464 |                                            struct ima_iint_cache *iint,
-         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     465 |                                            struct file *file,
-         |                                            ~~~~~~~~~~~~~~~~~~
-     466 |                                            const unsigned char *filename,
-         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     467 |                                            struct evm_ima_xattr_data *xattr_value,
-         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     468 |                                            int xattr_len,
-         |                                            ~~~~~~~~~~~~~~
-     469 |                                            const struct modsig *modsig)
-         |                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   mm/huge_memory.c: In function 'vma_alloc_anon_folio_pmd':
+>> mm/huge_memory.c:1286:40: error: 'addr' undeclared (first use in this function); did you mean 'haddr'?
+    1286 |                 folio_zero_user(folio, addr);
+         |                                        ^~~~
+         |                                        haddr
+   mm/huge_memory.c:1286:40: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +429 security/integrity/ima/ima_main.c
+vim +1286 mm/huge_memory.c
 
-   235	
-   236	static int process_measurement(struct file *file, const struct cred *cred,
-   237				       struct lsm_prop *prop, char *buf, loff_t size,
-   238				       int mask, enum ima_hooks func,
-   239				       enum kernel_read_file_id read_id, bool bprm_is_check)
-   240	{
-   241		struct inode *real_inode, *inode = file_inode(file);
-   242		struct ima_iint_cache *iint = NULL;
-   243		struct ima_template_desc *template_desc = NULL;
-   244		struct inode *metadata_inode;
-   245		char *pathbuf = NULL;
-   246		char filename[NAME_MAX];
-   247		const char *pathname = NULL;
-   248		int rc = 0, action, must_appraise = 0;
-   249		int pcr = CONFIG_IMA_MEASURE_PCR_IDX;
-   250		struct evm_ima_xattr_data *xattr_value = NULL;
-   251		struct modsig *modsig = NULL;
-   252		int xattr_len = 0;
-   253		bool violation_check;
-   254		enum hash_algo hash_algo;
-   255		unsigned int allowed_algos = 0;
-   256	
-   257		if (!ima_policy_flag || !S_ISREG(inode->i_mode))
-   258			return 0;
-   259	
-   260		/* Return an IMA_MEASURE, IMA_APPRAISE, IMA_AUDIT action
-   261		 * bitmask based on the appraise/audit/measurement policy.
-   262		 * Included is the appraise submask.
-   263		 */
-   264		action = ima_get_action(file_mnt_idmap(file), inode, cred, prop,
-   265					mask, func, &pcr, &template_desc, NULL,
-   266					&allowed_algos);
-   267		violation_check = ((func == FILE_CHECK || func == MMAP_CHECK ||
-   268				    func == MMAP_CHECK_REQPROT) &&
-   269				   (ima_policy_flag & IMA_MEASURE) &&
-   270				   ((action & IMA_MEASURE) ||
-   271				    (file->f_mode & FMODE_WRITE)));
-   272		if (!action && !violation_check)
-   273			return 0;
-   274	
-   275		must_appraise = action & IMA_APPRAISE;
-   276	
-   277		/*  Is the appraise rule hook specific?  */
-   278		if (action & IMA_FILE_APPRAISE)
-   279			func = FILE_CHECK;
-   280	
-   281		inode_lock(inode);
-   282	
-   283		if (action) {
-   284			iint = ima_inode_get(inode);
-   285			if (!iint)
-   286				rc = -ENOMEM;
-   287		}
-   288	
-   289		if (!rc && violation_check)
-   290			ima_rdwr_violation_check(file, iint, action & IMA_MEASURE,
-   291						 &pathbuf, &pathname, filename);
-   292	
-   293		inode_unlock(inode);
-   294	
-   295		if (rc)
-   296			goto out;
-   297		if (!action)
-   298			goto out;
-   299	
-   300		mutex_lock(&iint->mutex);
-   301	
-   302		if (test_and_clear_bit(IMA_CHANGE_ATTR, &iint->atomic_flags))
-   303			/*
-   304			 * Reset appraisal flags (action and non-action rule-specific)
-   305			 * if ima_inode_post_setattr was called.
-   306			 */
-   307			iint->flags &= ~(IMA_APPRAISE | IMA_APPRAISED |
-   308					 IMA_APPRAISE_SUBMASK | IMA_APPRAISED_SUBMASK |
-   309					 IMA_NONACTION_RULE_FLAGS);
-   310	
-   311		/*
-   312		 * Re-evaulate the file if either the xattr has changed or the
-   313		 * kernel has no way of detecting file change on the filesystem.
-   314		 * (Limited to privileged mounted filesystems.)
-   315		 */
-   316		if (test_and_clear_bit(IMA_CHANGE_XATTR, &iint->atomic_flags) ||
-   317		    ((inode->i_sb->s_iflags & SB_I_IMA_UNVERIFIABLE_SIGNATURE) &&
-   318		     !(inode->i_sb->s_iflags & SB_I_UNTRUSTED_MOUNTER) &&
-   319		     !(action & IMA_FAIL_UNVERIFIABLE_SIGS))) {
-   320			iint->flags &= ~IMA_DONE_MASK;
-   321			iint->measured_pcrs = 0;
-   322		}
-   323	
-   324		/*
-   325		 * On stacked filesystems, detect and re-evaluate file data and
-   326		 * metadata changes.
-   327		 */
-   328		real_inode = d_real_inode(file_dentry(file));
-   329		if (real_inode != inode &&
-   330		    (action & IMA_DO_MASK) && (iint->flags & IMA_DONE_MASK)) {
-   331			if (!IS_I_VERSION(real_inode) ||
-   332			    integrity_inode_attrs_changed(&iint->real_inode,
-   333							  real_inode)) {
-   334				iint->flags &= ~IMA_DONE_MASK;
-   335				iint->measured_pcrs = 0;
-   336			}
-   337	
-   338			/*
-   339			 * Reset the EVM status when metadata changed.
-   340			 */
-   341			metadata_inode = d_inode(d_real(file_dentry(file),
-   342						 D_REAL_METADATA));
-   343			if (evm_metadata_changed(inode, metadata_inode))
-   344				iint->flags &= ~(IMA_APPRAISED |
-   345						 IMA_APPRAISED_SUBMASK);
-   346		}
-   347	
-   348		/* Determine if already appraised/measured based on bitmask
-   349		 * (IMA_MEASURE, IMA_MEASURED, IMA_XXXX_APPRAISE, IMA_XXXX_APPRAISED,
-   350		 *  IMA_AUDIT, IMA_AUDITED)
-   351		 */
-   352		iint->flags |= action;
-   353		action &= IMA_DO_MASK;
-   354		action &= ~((iint->flags & (IMA_DONE_MASK ^ IMA_MEASURED)) >> 1);
-   355	
-   356		/* If target pcr is already measured, unset IMA_MEASURE action */
-   357		if ((action & IMA_MEASURE) && (iint->measured_pcrs & (0x1 << pcr)))
-   358			action ^= IMA_MEASURE;
-   359	
-   360		/* HASH sets the digital signature and update flags, nothing else */
-   361		if ((action & IMA_HASH) &&
-   362		    !(test_bit(IMA_DIGSIG, &iint->atomic_flags))) {
-   363			xattr_len = ima_read_xattr(file_dentry(file),
-   364						   &xattr_value, xattr_len);
-   365			if ((xattr_value && xattr_len > 2) &&
-   366			    (xattr_value->type == EVM_IMA_XATTR_DIGSIG))
-   367				set_bit(IMA_DIGSIG, &iint->atomic_flags);
-   368			iint->flags |= IMA_HASHED;
-   369			action ^= IMA_HASH;
-   370			set_bit(IMA_UPDATE_XATTR, &iint->atomic_flags);
-   371		}
-   372	
-   373		/* Nothing to do, just return existing appraised status */
-   374		if (!action) {
-   375			if (must_appraise) {
-   376				rc = mmap_violation_check(func, file, &pathbuf,
-   377							  &pathname, filename);
-   378				if (!rc)
-   379					rc = ima_get_cache_status(iint, func);
-   380			}
-   381			goto out_locked;
-   382		}
-   383	
-   384		if ((action & IMA_APPRAISE_SUBMASK) ||
-   385		    strcmp(template_desc->name, IMA_TEMPLATE_IMA_NAME) != 0) {
-   386			/* read 'security.ima' */
-   387			xattr_len = ima_read_xattr(file_dentry(file),
-   388						   &xattr_value, xattr_len);
-   389	
-   390			/*
-   391			 * Read the appended modsig if allowed by the policy, and allow
-   392			 * an additional measurement list entry, if needed, based on the
-   393			 * template format and whether the file was already measured.
-   394			 */
-   395			if (iint->flags & IMA_MODSIG_ALLOWED) {
-   396				rc = ima_read_modsig(func, buf, size, &modsig);
-   397	
-   398				if (!rc && ima_template_has_modsig(template_desc) &&
-   399				    iint->flags & IMA_MEASURED)
-   400					action |= IMA_MEASURE;
-   401			}
-   402		}
-   403	
-   404		hash_algo = ima_get_hash_algo(xattr_value, xattr_len);
-   405	
-   406		rc = ima_collect_measurement(iint, file, buf, size, hash_algo, modsig);
-   407		if (rc != 0 && rc != -EBADF && rc != -EINVAL)
-   408			goto out_locked;
-   409	
-   410		/* Defer measuring/appraising kernel modules to READING_MODULE */
-   411		if (read_id == READING_MODULE_COMPRESSED) {
-   412			must_appraise = 0;
-   413			goto out_locked;
-   414		}
-   415	
-   416		if (!pathbuf)	/* ima_rdwr_violation possibly pre-fetched */
-   417			pathname = ima_d_path(&file->f_path, &pathbuf, filename);
-   418	
-   419		if (action & IMA_MEASURE)
-   420			ima_store_measurement(iint, file, pathname,
-   421					      xattr_value, xattr_len, modsig, pcr,
-   422					      template_desc);
-   423		if (rc == 0 && (action & IMA_APPRAISE_SUBMASK)) {
-   424			rc = ima_check_blacklist(iint, modsig, pcr);
-   425			if (rc != -EPERM) {
-   426				inode_lock(inode);
-   427				rc = ima_appraise_measurement(func, iint, file,
-   428							      pathname, xattr_value,
- > 429							      xattr_len, modsig, bprm_is_check);
-   430				inode_unlock(inode);
-   431			}
-   432			if (!rc)
-   433				rc = mmap_violation_check(func, file, &pathbuf,
-   434							  &pathname, filename);
-   435		}
-   436		if (action & IMA_AUDIT)
-   437			ima_audit_measurement(iint, pathname);
-   438	
-   439		if ((file->f_flags & O_DIRECT) && (iint->flags & IMA_PERMIT_DIRECTIO))
-   440			rc = 0;
-   441	
-   442		/* Ensure the digest was generated using an allowed algorithm */
-   443		if (rc == 0 && must_appraise && allowed_algos != 0 &&
-   444		    (allowed_algos & (1U << hash_algo)) == 0) {
-   445			rc = -EACCES;
-   446	
-   447			integrity_audit_msg(AUDIT_INTEGRITY_DATA, file_inode(file),
-   448					    pathname, "collect_data",
-   449					    "denied-hash-algorithm", rc, 0);
-   450		}
-   451	out_locked:
-   452		if ((mask & MAY_WRITE) && test_bit(IMA_DIGSIG, &iint->atomic_flags) &&
-   453		     !(iint->flags & IMA_NEW_FILE))
-   454			rc = -EACCES;
-   455		mutex_unlock(&iint->mutex);
-   456		kfree(xattr_value);
-   457		ima_free_modsig(modsig);
-   458	out:
-   459		if (pathbuf)
-   460			__putname(pathbuf);
-   461		if (must_appraise) {
-   462			if (rc && (ima_appraise & IMA_APPRAISE_ENFORCE))
-   463				return -EACCES;
-   464			if (file->f_mode & FMODE_WRITE)
-   465				set_bit(IMA_UPDATE_XATTR, &iint->atomic_flags);
-   466		}
-   467		return 0;
-   468	}
-   469	
+74d2fad1334d12 Toshi Kani       2016-10-07  1252  
+ebcfc63d6bca3c Dev Jain         2024-10-08  1253  static struct folio *vma_alloc_anon_folio_pmd(struct vm_area_struct *vma,
+92bbb3ed72c8bb Alex Shi         2025-12-16  1254  		unsigned long haddr)
+71e3aac0724ffe Andrea Arcangeli 2011-01-13  1255  {
+ebcfc63d6bca3c Dev Jain         2024-10-08  1256  	gfp_t gfp = vma_thp_gfp_mask(vma);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1257  	const int order = HPAGE_PMD_ORDER;
+ebcfc63d6bca3c Dev Jain         2024-10-08  1258  	struct folio *folio;
+71e3aac0724ffe Andrea Arcangeli 2011-01-13  1259  
+92bbb3ed72c8bb Alex Shi         2025-12-16  1260  	folio = vma_alloc_folio(gfp, order, vma, haddr);
+00501b531c4723 Johannes Weiner  2014-08-08  1261  
+ebcfc63d6bca3c Dev Jain         2024-10-08  1262  	if (unlikely(!folio)) {
+ebcfc63d6bca3c Dev Jain         2024-10-08  1263  		count_vm_event(THP_FAULT_FALLBACK);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1264  		count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1265  		return NULL;
+ebcfc63d6bca3c Dev Jain         2024-10-08  1266  	}
+00501b531c4723 Johannes Weiner  2014-08-08  1267  
+ebcfc63d6bca3c Dev Jain         2024-10-08  1268  	VM_BUG_ON_FOLIO(!folio_test_large(folio), folio);
+cfe3236d32d07b Kefeng Wang      2023-03-02  1269  	if (mem_cgroup_charge(folio, vma->vm_mm, gfp)) {
+cfe3236d32d07b Kefeng Wang      2023-03-02  1270  		folio_put(folio);
+6b251fc96cf2cd Andrea Arcangeli 2015-09-04  1271  		count_vm_event(THP_FAULT_FALLBACK);
+85b9f46e8ea451 David Rientjes   2020-04-06  1272  		count_vm_event(THP_FAULT_FALLBACK_CHARGE);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1273  		count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1274  		count_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK_CHARGE);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1275  		return NULL;
+6b251fc96cf2cd Andrea Arcangeli 2015-09-04  1276  	}
+cfe3236d32d07b Kefeng Wang      2023-03-02  1277  	folio_throttle_swaprate(folio, gfp);
+00501b531c4723 Johannes Weiner  2014-08-08  1278  
+5708d96da20b99 Zi Yan           2024-10-11  1279         /*
+c51a4f11e6d824 Zi Yan           2024-12-09  1280  	* When a folio is not zeroed during allocation (__GFP_ZERO not used)
+c51a4f11e6d824 Zi Yan           2024-12-09  1281  	* or user folios require special handling, folio_zero_user() is used to
+c51a4f11e6d824 Zi Yan           2024-12-09  1282  	* make sure that the page corresponding to the faulting address will be
+c51a4f11e6d824 Zi Yan           2024-12-09  1283  	* hot in the cache after zeroing.
+5708d96da20b99 Zi Yan           2024-10-11  1284  	*/
+c51a4f11e6d824 Zi Yan           2024-12-09  1285  	if (user_alloc_needs_zeroing())
+ebcfc63d6bca3c Dev Jain         2024-10-08 @1286  		folio_zero_user(folio, addr);
+52f37629fd3c7b Minchan Kim      2013-04-29  1287  	/*
+cfe3236d32d07b Kefeng Wang      2023-03-02  1288  	 * The memory barrier inside __folio_mark_uptodate makes sure that
+78fefd04c12349 Kefeng Wang      2024-06-18  1289  	 * folio_zero_user writes become visible before the set_pmd_at()
+52f37629fd3c7b Minchan Kim      2013-04-29  1290  	 * write.
+52f37629fd3c7b Minchan Kim      2013-04-29  1291  	 */
+cfe3236d32d07b Kefeng Wang      2023-03-02  1292  	__folio_mark_uptodate(folio);
+ebcfc63d6bca3c Dev Jain         2024-10-08  1293  	return folio;
+ebcfc63d6bca3c Dev Jain         2024-10-08  1294  }
+ebcfc63d6bca3c Dev Jain         2024-10-08  1295  
+
+:::::: The code at line 1286 was first introduced by commit
+:::::: ebcfc63d6bca3cce1bfca30092712f3468b4ecff mm: abstract THP allocation
+
+:::::: TO: Dev Jain <dev.jain@arm.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
