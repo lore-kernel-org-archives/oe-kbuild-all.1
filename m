@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96271E230E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 14:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488ED257843;
+	Sat, 20 Dec 2025 14:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766239263; cv=none; b=Y4Kn6hjRfIIK2kZv2XjD6y50YBQ3A51tCrUyzIttAUuwjomjixXowEqFwttEq9D7rUq09THIOerSfB4G+AfhQc9rSQIEUXompN+ka+lA7+g7cnmTtQN+MaNvesl7kbnZ3+KyZOOCU/G7KI/wG2SPy8m4DX6RwDRncsZ+d2tSrog=
+	t=1766239869; cv=none; b=PsHTmtpBb1gzmwv7pM7GpHNRUNcVVOycA1nHl4+F0CVLRzOqTxqzDUdYJT7I95T+S7N6en3tPjAW/1+i0cvndSugWv68f34YuzxP3YdMo1Ae57QepF/spKFaUDMDNZq64DTMKGrDzcQgYtQferxXJxpZuhcwvoqYcDiITML7eZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766239263; c=relaxed/simple;
-	bh=DTyhpGPCBpzXqa1p10roAW52S9cjZ+ReeOZ3HhOKUBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rt78XmWfziLKmWhvvgOJ22NJgNZCIM9BrNkYrMP9jzLZ8vaw1Oh107d0kG0F6vZu7W/wEgSOvQAZWkKfBPLh38TyR0dkQo1XMCSY96s9zwd53L8f0qhyDtxSwJiJFuHrNnY5RQ+e5DVjcSh/Rq9NlUqaU9BPaKBM0aBoVI2oB40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JM/LEKFQ; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1766239869; c=relaxed/simple;
+	bh=tVCLGGKISwGz2fKv0BchnoYvOlaye4WMdrhR/MQ0sEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=spdxtLYEFNwvNTxbwiAvSOEFc/n468yREAJ/TtLPKHPTyX5bRHZUDEsRMN+bNSbV4n/hk0oeYPJJDYuvtAJxXbhDa5AYSVcbGS4fzVEMcRvOF/oQajxwGnZ5v4ngxxFNPX18q1/RpzrbZWei+TXDN7IRPyNJDRK8h5RghkVlX+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b7BeEfJA; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JM/LEKFQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b7BeEfJA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766239259; x=1797775259;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DTyhpGPCBpzXqa1p10roAW52S9cjZ+ReeOZ3HhOKUBA=;
-  b=JM/LEKFQ5MxTcELFfL5iixf5cN1JeQpOURw7Yjt79nioERh/hYFgKYzz
-   js5uAQ6GLhNkozXcT+BQ+AyIJ955HbThp3d4bDqdMv2a6N+dIYm1Av+vQ
-   Spyrbjl1M+RsSNpSxEvnGC8ZiOhQZ9bbsyxQ9aOqi29Oy/tvJmEsVqFmf
-   DyULdFjzZCU98l/gBWi/YA9uukxZk86jXK8dS0diRFZRreqjW6+tCRnAC
-   QIcQAVYCD6++BOx2P2u9yz4G1rASw6jlTAxMYPzVolhTDdADyJkA7um3/
-   LfQbtWccydBwTNYPCPThM7MAxdiJlBAv2DJ4j1GqD4KSsNbBe1t8lg1iK
-   g==;
-X-CSE-ConnectionGUID: DPmdP6w2QASeTDTxEAADCg==
-X-CSE-MsgGUID: 6kXhq5NVSnebeqzp5SxL6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="70743734"
+  t=1766239868; x=1797775868;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tVCLGGKISwGz2fKv0BchnoYvOlaye4WMdrhR/MQ0sEU=;
+  b=b7BeEfJA4msh/DYHCTNmxBXdNNUay1D8J4q9Gf45uFhhf8R+cRVNfniz
+   iCZBVUXXE5A7ypseXCq+H6wPoNj9Xi/7S4V15LJod33PrCBM0JVFgxW9n
+   /7AKx7s4VJyLlr4nw5wxiju2o5PfOXCp1kBW3N9wTTAkoQr0xkbsfCG4W
+   3x5pD4iH08ypKtO/6hDPdJNZChTUNHVEhD3hAHhjieG1Fh/WfnIhYzX6i
+   BxwqQLiOGKmaLwZWHFiD6U+rRTxl5kJl7vsDFu/cWWbmh44QIwFAlGrpt
+   q442BIBfbRO+XwRVZgiMgCPmyvzGi5EWs3Szex2aKgtxJsvy5CWi4S/+f
+   A==;
+X-CSE-ConnectionGUID: rP/2vZjaRLSb2tY1YhdNiQ==
+X-CSE-MsgGUID: bBl9SO4TRn20KAGf9BgOzQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="78892301"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="70743734"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:00:58 -0800
-X-CSE-ConnectionGUID: UBZMshNtTYO4VV5jUZbgJw==
-X-CSE-MsgGUID: UqHSjI+oS46kzVnvW5QlIA==
+   d="scan'208";a="78892301"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:11:06 -0800
+X-CSE-ConnectionGUID: l8FsaEglTACmckXU07ugYQ==
+X-CSE-MsgGUID: hoYjPiL6SYK+WVYT8QdxsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="198703033"
+   d="scan'208";a="236522626"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Dec 2025 06:00:56 -0800
+  by orviesa001.jf.intel.com with ESMTP; 20 Dec 2025 06:11:05 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWxVu-000000004bS-1eTf;
-	Sat, 20 Dec 2025 14:00:54 +0000
-Date: Sat, 20 Dec 2025 22:00:02 +0800
+	id 1vWxfi-000000004cL-3Q8Z;
+	Sat, 20 Dec 2025 14:11:02 +0000
+Date: Sat, 20 Dec 2025 22:10:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shipei Qu <qu@darknavy.com>, Adam Radford <aradford@gmail.com>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, Shipei Qu <qu@darknavy.com>,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	DARKNAVY <vr@darknavy.com>
-Subject: Re: [PATCH v2] scsi: 3w-sas: validate request_id reported by
- controller
-Message-ID: <202512202135.WH2v6r6v-lkp@intel.com>
-References: <20251216060156.41320-1-qu@darknavy.com>
+To: hungkien05 <nguyenhunghnuekt@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:pr/24 1/1] arch/x86/kvm/emulate.c:1741:2: warning:
+ '/*' within block comment
+Message-ID: <202512202203.DAeqyrft-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,178 +61,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251216060156.41320-1-qu@darknavy.com>
 
-Hi Shipei,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jejb-scsi/for-next]
-[also build test ERROR on mkp-scsi/for-next linus/master v6.19-rc1 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shipei-Qu/scsi-3w-sas-validate-request_id-reported-by-controller/20251216-140928
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20251216060156.41320-1-qu%40darknavy.com
-patch subject: [PATCH v2] scsi: 3w-sas: validate request_id reported by controller
-config: sparc-randconfig-001-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202135.WH2v6r6v-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202135.WH2v6r6v-lkp@intel.com/reproduce)
+tree:   https://github.com/jcmvbkbc/linux-xtensa pr/24
+head:   dcd699a99ce2f40e50263e0ec438e3b57b133598
+commit: dcd699a99ce2f40e50263e0ec438e3b57b133598 [1/1] Fix potential vulnerability in cloned code (arch/x86/kvm/emulate.c)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251220/202512202203.DAeqyrft-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202203.DAeqyrft-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202135.WH2v6r6v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202203.DAeqyrft-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/scsi/3w-sas.c: In function 'twl_interrupt':
->> drivers/scsi/3w-sas.c:1190:45: error: macro 'TW_PRINTK' passed 5 arguments, but takes just 4
-    1190 |                                   request_id);
-         |                                             ^
-   In file included from drivers/scsi/3w-sas.c:72:
-   drivers/scsi/3w-sas.h:207:9: note: macro 'TW_PRINTK' defined here
-     207 | #define TW_PRINTK(h,a,b,c) { \
-         |         ^~~~~~~~~
->> drivers/scsi/3w-sas.c:1188:25: error: 'TW_PRINTK' undeclared (first use in this function); did you mean 'KERN_PRINTK'?
-    1188 |                         TW_PRINTK(tw_dev->host, TW_DRIVER, 0x10,
-         |                         ^~~~~~~~~
-         |                         KERN_PRINTK
-   drivers/scsi/3w-sas.c:1188:25: note: each undeclared identifier is reported only once for each function it appears in
+>> arch/x86/kvm/emulate.c:1741:2: warning: '/*' within block comment [-Wcomment]
+    1741 |         /*
+         |         ^
+   arch/x86/kvm/emulate.c:1759:4: error: expected expression
+    1759 |          */
+         |           ^
+   arch/x86/kvm/emulate.c:1760:2: error: expected expression
+    1760 |         if (seg == VCPU_SREG_SS && selector == 3 &&
+         |         ^
+   1 warning and 2 errors generated.
 
 
-vim +/TW_PRINTK +1190 drivers/scsi/3w-sas.c
+vim +1741 arch/x86/kvm/emulate.c
 
-  1117	
-  1118	/* Interrupt service routine */
-  1119	static irqreturn_t twl_interrupt(int irq, void *dev_instance)
-  1120	{
-  1121		TW_Device_Extension *tw_dev = (TW_Device_Extension *)dev_instance;
-  1122		int i, handled = 0, error = 0;
-  1123		dma_addr_t mfa = 0;
-  1124		u32 reg, regl, regh, response, request_id = 0;
-  1125		struct scsi_cmnd *cmd;
-  1126		TW_Command_Full *full_command_packet;
-  1127	
-  1128		spin_lock(tw_dev->host->host_lock);
-  1129	
-  1130		/* Read host interrupt status */
-  1131		reg = readl(TWL_HISTAT_REG_ADDR(tw_dev));
-  1132	
-  1133		/* Check if this is our interrupt, otherwise bail */
-  1134		if (!(reg & TWL_HISTATUS_VALID_INTERRUPT))
-  1135			goto twl_interrupt_bail;
-  1136	
-  1137		handled = 1;
-  1138	
-  1139		/* If we are resetting, bail */
-  1140		if (test_bit(TW_IN_RESET, &tw_dev->flags))
-  1141			goto twl_interrupt_bail;
-  1142	
-  1143		/* Attention interrupt */
-  1144		if (reg & TWL_HISTATUS_ATTENTION_INTERRUPT) {
-  1145			if (twl_handle_attention_interrupt(tw_dev)) {
-  1146				TWL_MASK_INTERRUPTS(tw_dev);
-  1147				goto twl_interrupt_bail;
-  1148			}
-  1149		}
-  1150	
-  1151		/* Response interrupt */
-  1152		while (reg & TWL_HISTATUS_RESPONSE_INTERRUPT) {
-  1153			if (sizeof(dma_addr_t) > 4) {
-  1154				regh = readl(TWL_HOBQPH_REG_ADDR(tw_dev));
-  1155				regl = readl(TWL_HOBQPL_REG_ADDR(tw_dev));
-  1156				mfa = ((u64)regh << 32) | regl;
-  1157			} else
-  1158				mfa = readl(TWL_HOBQPL_REG_ADDR(tw_dev));
-  1159	
-  1160			error = 0;
-  1161			response = (u32)mfa;
-  1162	
-  1163			/* Check for command packet error */
-  1164			if (!TW_NOTMFA_OUT(response)) {
-  1165				for (i=0;i<TW_Q_LENGTH;i++) {
-  1166					if (tw_dev->sense_buffer_phys[i] == mfa) {
-  1167						request_id = le16_to_cpu(tw_dev->sense_buffer_virt[i]->header_desc.request_id);
-  1168						if (tw_dev->srb[request_id] != NULL)
-  1169							error = twl_fill_sense(tw_dev, i, request_id, 1, 1);
-  1170						else {
-  1171							/* Skip ioctl error prints */
-  1172							if (request_id != tw_dev->chrdev_request_id)
-  1173								error = twl_fill_sense(tw_dev, i, request_id, 0, 1);
-  1174							else
-  1175								memcpy(tw_dev->command_packet_virt[request_id], tw_dev->sense_buffer_virt[i], sizeof(TW_Command_Apache_Header));
-  1176						}
-  1177	
-  1178						/* Now re-post the sense buffer */
-  1179						writel((u32)((u64)tw_dev->sense_buffer_phys[i] >> 32), TWL_HOBQPH_REG_ADDR(tw_dev));
-  1180						writel((u32)tw_dev->sense_buffer_phys[i], TWL_HOBQPL_REG_ADDR(tw_dev));
-  1181						break;
-  1182					}
-  1183				}
-  1184			} else
-  1185				request_id = TW_RESID_OUT(response);
-  1186	
-  1187			if (request_id >= TW_Q_LENGTH) {
-> 1188				TW_PRINTK(tw_dev->host, TW_DRIVER, 0x10,
-  1189					  "Received out-of-range request id %u",
-> 1190					  request_id);
-  1191				TWL_MASK_INTERRUPTS(tw_dev);
-  1192				/* let the reset / error handling path deal with it */
-  1193				goto twl_interrupt_bail;
-  1194			}
-  1195	
-  1196			full_command_packet = tw_dev->command_packet_virt[request_id];
-  1197	
-  1198			/* Check for correct state */
-  1199			if (tw_dev->state[request_id] != TW_S_POSTED) {
-  1200				if (tw_dev->srb[request_id] != NULL) {
-  1201					TW_PRINTK(tw_dev->host, TW_DRIVER, 0xe, "Received a request id that wasn't posted");
-  1202					TWL_MASK_INTERRUPTS(tw_dev);
-  1203					goto twl_interrupt_bail;
-  1204				}
-  1205			}
-  1206	
-  1207			/* Check for internal command completion */
-  1208			if (tw_dev->srb[request_id] == NULL) {
-  1209				if (request_id != tw_dev->chrdev_request_id) {
-  1210					if (twl_aen_complete(tw_dev, request_id))
-  1211						TW_PRINTK(tw_dev->host, TW_DRIVER, 0xf, "Error completing AEN during attention interrupt");
-  1212				} else {
-  1213					tw_dev->chrdev_request_id = TW_IOCTL_CHRDEV_FREE;
-  1214					wake_up(&tw_dev->ioctl_wqueue);
-  1215				}
-  1216			} else {
-  1217				cmd = tw_dev->srb[request_id];
-  1218	
-  1219				if (!error)
-  1220					cmd->result = (DID_OK << 16);
-  1221	
-  1222				/* Report residual bytes for single sgl */
-  1223				if ((scsi_sg_count(cmd) <= 1) && (full_command_packet->command.newcommand.status == 0)) {
-  1224					if (full_command_packet->command.newcommand.sg_list[0].length < scsi_bufflen(tw_dev->srb[request_id]))
-  1225						scsi_set_resid(cmd, scsi_bufflen(cmd) - full_command_packet->command.newcommand.sg_list[0].length);
-  1226				}
-  1227	
-  1228				/* Now complete the io */
-  1229				scsi_dma_unmap(cmd);
-  1230				scsi_done(cmd);
-  1231				tw_dev->state[request_id] = TW_S_COMPLETED;
-  1232				twl_free_request_id(tw_dev, request_id);
-  1233				tw_dev->posted_request_count--;
-  1234			}
-  1235	
-  1236			/* Check for another response interrupt */
-  1237			reg = readl(TWL_HISTAT_REG_ADDR(tw_dev));
-  1238		}
-  1239	
-  1240	twl_interrupt_bail:
-  1241		spin_unlock(tw_dev->host->host_lock);
-  1242		return IRQ_RETVAL(handled);
-  1243	} /* End twl_interrupt() */
-  1244	
+dde7e6d12a9ef9 Avi Kivity    2010-07-29  1733  
+2356aaeb2f58f4 Paolo Bonzini 2014-05-15  1734  static int load_segment_descriptor(struct x86_emulate_ctxt *ctxt,
+2356aaeb2f58f4 Paolo Bonzini 2014-05-15  1735  				   u16 selector, int seg)
+2356aaeb2f58f4 Paolo Bonzini 2014-05-15  1736  {
+2356aaeb2f58f4 Paolo Bonzini 2014-05-15  1737  	u8 cpl = ctxt->ops->cpl(ctxt);
+33ab91103b3415 Paolo Bonzini 2017-01-12  1738  
+dcd699a99ce2f4 hungkien05    2025-12-17  1739  
+dcd699a99ce2f4 hungkien05    2025-12-17  1740  	/*
+33ab91103b3415 Paolo Bonzini 2017-01-12 @1741  	/*
+33ab91103b3415 Paolo Bonzini 2017-01-12  1742  	 * None of MOV, POP and LSS can load a NULL selector in CPL=3, but
+dcd699a99ce2f4 hungkien05    2025-12-17  1743  	 * None of MOV, POP and LSS can load a NULL selector in CPL=3, but
+dcd699a99ce2f4 hungkien05    2025-12-17  1744  	 * they can load it at CPL<3 (Intel's manual says only LSS can,
+33ab91103b3415 Paolo Bonzini 2017-01-12  1745  	 * they can load it at CPL<3 (Intel's manual says only LSS can,
+33ab91103b3415 Paolo Bonzini 2017-01-12  1746  	 * but it's wrong).
+dcd699a99ce2f4 hungkien05    2025-12-17  1747  	 * but it's wrong).
+dcd699a99ce2f4 hungkien05    2025-12-17  1748  	 *
+33ab91103b3415 Paolo Bonzini 2017-01-12  1749  	 *
+33ab91103b3415 Paolo Bonzini 2017-01-12  1750  	 * However, the Intel manual says that putting IST=1/DPL=3 in
+dcd699a99ce2f4 hungkien05    2025-12-17  1751  	 * However, the Intel manual says that putting IST=1/DPL=3 in
+dcd699a99ce2f4 hungkien05    2025-12-17  1752  	 * an interrupt gate will result in SS=3 (the AMD manual instead
+33ab91103b3415 Paolo Bonzini 2017-01-12  1753  	 * an interrupt gate will result in SS=3 (the AMD manual instead
+33ab91103b3415 Paolo Bonzini 2017-01-12  1754  	 * says it doesn't), so allow SS=3 in __load_segment_descriptor
+dcd699a99ce2f4 hungkien05    2025-12-17  1755  	 * says it doesn't), so allow SS=3 in __load_segment_descriptor
+dcd699a99ce2f4 hungkien05    2025-12-17  1756  	 * and only forbid it here.
+33ab91103b3415 Paolo Bonzini 2017-01-12  1757  	 * and only forbid it here.
+33ab91103b3415 Paolo Bonzini 2017-01-12  1758  	 */
+dcd699a99ce2f4 hungkien05    2025-12-17  1759  	 */
+dcd699a99ce2f4 hungkien05    2025-12-17  1760  	if (seg == VCPU_SREG_SS && selector == 3 &&
+33ab91103b3415 Paolo Bonzini 2017-01-12  1761  	if (seg == VCPU_SREG_SS && selector == 3 &&
+33ab91103b3415 Paolo Bonzini 2017-01-12  1762  	    ctxt->mode == X86EMUL_MODE_PROT64)
+dcd699a99ce2f4 hungkien05    2025-12-17  1763  	    ctxt->mode == X86EMUL_MODE_PROT64)
+dcd699a99ce2f4 hungkien05    2025-12-17  1764  		return emulate_exception(ctxt, GP_VECTOR, 0, true);
+33ab91103b3415 Paolo Bonzini 2017-01-12  1765  		return emulate_exception(ctxt, GP_VECTOR, 0, true);
+33ab91103b3415 Paolo Bonzini 2017-01-12  1766  
+dcd699a99ce2f4 hungkien05    2025-12-17  1767  
+3dc4bc4f6b9265 Nadav Amit    2014-12-25  1768  	return __load_segment_descriptor(ctxt, selector, seg, cpl,
+3dc4bc4f6b9265 Nadav Amit    2014-12-25  1769  					 X86_TRANSFER_NONE, NULL);
+2356aaeb2f58f4 Paolo Bonzini 2014-05-15  1770  }
+2356aaeb2f58f4 Paolo Bonzini 2014-05-15  1771  
+
+:::::: The code at line 1741 was first introduced by commit
+:::::: 33ab91103b3415e12457e3104f0e4517ce12d0f3 KVM: x86: fix emulation of "MOV SS, null selector"
+
+:::::: TO: Paolo Bonzini <pbonzini@redhat.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
