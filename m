@@ -1,78 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1E728C00D;
-	Sat, 20 Dec 2025 14:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3F32264C0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 14:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766240329; cv=none; b=rIVyMFak3cJuyY34+T+fk5FmsnwRhL4ReSqsR6K56+0CE50FZ4fC8PDPSYtVEhx7gTQeFrsReu3rbMRYYNH7UKfrThvq9RZHPtZQ6t84QvFp+63eru+LdMtM7zLoNCAGwCCZFCqzs93m1LrSTJCXPgc+m3x3v/V1Fve5RwwEbEc=
+	t=1766240590; cv=none; b=XdenVqTsTDUg5ltJiaAClAfzCKXOvxEbBmzFNXlReyyaJJWhnIqlBSA2P6mz92yQRKhrAFA35w+6us7dfGTVzb07GYOBHEysqO2bNeFhkW8ZZfoETN470ujWpmlIZaiUOxbdTf2h+eOlNN8sCK/OLIFr3/dULU7MhX4I3F2umEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766240329; c=relaxed/simple;
-	bh=IlFgiyLO8O26Ptr6Yel73607DUKyQzNFhwrReyq53qY=;
+	s=arc-20240116; t=1766240590; c=relaxed/simple;
+	bh=9twIaXHPOuT7Kl3dCEGEfkknclR+6sCN7GVHktRZWcw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mj0u6iPiHrKir5Ylk5RbJEpce5UhS6Zd4khlg6s4rL+1gERE4ScTRo0g/LT/H2AjbKLwLwMc0Se2C4dtwbTdKyFfKgvbm94C+XSpseuCoRy6I0vIZqlG97hi7S8+Oiz4lw/DLFuDK+X/PjURt+M5mSabD1PYAyrbcChpl4bEaHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBwKGwAA; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=g44d6SXtVvG34NYK1FkLcO8eJYy0Ag44dZ/eKArldgM2q2MV+NMClQ7UtRFEVe6wpV9ld8mgKxqRVQxxkkduAuvea3rGOkTGbxmAc4mO3aZdiD1ZMSSyVkJEdO8fZsjWhzww7u36vRDSMcncUF8f7ZIysLPf/yVRY1gtbc6oS/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hVVi8R8h; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBwKGwAA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hVVi8R8h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766240326; x=1797776326;
+  t=1766240589; x=1797776589;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IlFgiyLO8O26Ptr6Yel73607DUKyQzNFhwrReyq53qY=;
-  b=mBwKGwAArkvHl2kK7OarnhQHOg1BfsgtYl7i2bE7nmCVtdkLf7fdqvN+
-   yFEGtIQiWl7E7BHrD6mPW6TQQvOWVt+mUAQBYi6awlsZcHt7r7gsr+lVm
-   Vbv+8dS4wKYMUSSkY/9k1zwxVWfQWqjeGyCWaAriCyLe7Tc+AHsBBO22e
-   9wFB9WMvItLBSIMEXWKdrmI+GlBpDZuNFN443gPQHOw9l/rFg/7yugXwt
-   mYml95e1BRm/oT9y9gBBTqdaUK/NjmBqwaKku3zgtA8X3oVpb1mx5dA4M
-   MSyf7uAb9Om1mXuYxlA+e9n8LLOeYJauJ58SUnkn3Vz4y5cYn5wN7LoL+
-   w==;
-X-CSE-ConnectionGUID: UKrLO1gzTSeMOAQuQxebHg==
-X-CSE-MsgGUID: lOzIxxnhR9yEqDktAoYw6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="93649021"
+  bh=9twIaXHPOuT7Kl3dCEGEfkknclR+6sCN7GVHktRZWcw=;
+  b=hVVi8R8h1hXPOAX3Nu4x6teMBD1reFRzNk+Rwpa9apS3wq91lZxkLYpL
+   UZQxow6VWu4EsXPU1JthXKoSv3IHpU0e9NTLuWgEbjz00RX38crH0EgJz
+   hcklySTr4JoB2W+PWvr4IapTWwcx9ND5ClksH1Fy17vNOsWmKB8qXMR1Z
+   5VK+C91mywFQX8a8ovjPM4G3VY4wmdxvBuLgNLMv5hddhuwI6F3Hixbnt
+   F1Etr3tWKm3tRXT/021ptrFEJJiMjH6RXxdxRYht26Jk9B38WLcyVNZyT
+   CzsaE0Zr05T7VYlsLg3pf6UUQ9gAXj+X78/NR4CX7iTb4iJUu7yERw/VJ
+   A==;
+X-CSE-ConnectionGUID: TQpfK73vThKngnX4G20i3A==
+X-CSE-MsgGUID: AEReN5XeSJSeIROi/+64MA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68327858"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="93649021"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:18:45 -0800
-X-CSE-ConnectionGUID: WYX4smkkRf+9uiPCatM6Tg==
-X-CSE-MsgGUID: GvLJtsJsTAGDc5ftWSQ93w==
+   d="scan'208";a="68327858"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:23:07 -0800
+X-CSE-ConnectionGUID: m4WDwG/HT2KcHYZ/s4n8qQ==
+X-CSE-MsgGUID: Usgg3celTrC+jtaPCYXKWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199022075"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Dec 2025 06:18:41 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="199984398"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 20 Dec 2025 06:23:06 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWxn4-000000004e4-2aKD;
-	Sat, 20 Dec 2025 14:18:38 +0000
-Date: Sat, 20 Dec 2025 15:18:35 +0100
+	id 1vWxrM-000000004dF-0hNh;
+	Sat, 20 Dec 2025 14:23:04 +0000
+Date: Sat, 20 Dec 2025 22:23:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Price <steven.price@arm.com>, kvm@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Steven Price <steven.price@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
-	James Morse <james.morse@arm.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Joey Gouly <joey.gouly@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Christoffer Dall <christoffer.dall@arm.com>,
-	Fuad Tabba <tabba@google.com>, linux-coco@lists.linux.dev,
-	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
-	Gavin Shan <gshan@redhat.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	Alper Gun <alpergun@google.com>,
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
-	Emi Kisanuki <fj0570is@fujitsu.com>,
-	Vishal Annapurve <vannapurve@google.com>
-Subject: Re: [PATCH v12 19/46] KVM: arm64: Expose support for private memory
-Message-ID: <202512201539.ZhAox5t9-lkp@intel.com>
-References: <20251217101125.91098-20-steven.price@arm.com>
+To: Stefan =?iso-8859-1?Q?S=F8rensen?= <ssorensen@roku.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/3] Bluetooth: mgmt: Add idle_timeout to configurable
+ system parameters
+Message-ID: <202512202114.v6VR6ui1-lkp@intel.com>
+References: <20251216092011.111208-4-ssorensen@roku.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,69 +63,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251217101125.91098-20-steven.price@arm.com>
+In-Reply-To: <20251216092011.111208-4-ssorensen@roku.com>
 
-Hi Steven,
+Hi Stefan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on next-20251219]
-[cannot apply to kvmarm/next kvm/queue kvm/next arm64/for-next/core kvm/linux-next v6.16-rc1]
+[auto build test WARNING on bluetooth/master]
+[also build test WARNING on linus/master v6.19-rc1]
+[cannot apply to bluetooth-next/master next-20251219]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Price/kvm-arm64-Include-kvm_emulate-h-in-kvm-arm_psci-h/20251217-224409
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251217101125.91098-20-steven.price%40arm.com
-patch subject: [PATCH v12 19/46] KVM: arm64: Expose support for private memory
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251220/202512201539.ZhAox5t9-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ecaf673850beb241957352bd61e95ed34256635f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512201539.ZhAox5t9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-S-rensen/Bluetooth-hci_conn-use-mod_delayed_work-for-active-mode-timeout/20251216-172823
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20251216092011.111208-4-ssorensen%40roku.com
+patch subject: [PATCH 3/3] Bluetooth: mgmt: Add idle_timeout to configurable system parameters
+config: x86_64-randconfig-121-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202114.v6VR6ui1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202114.v6VR6ui1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512201539.ZhAox5t9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202114.v6VR6ui1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/bluetooth/mgmt_config.c:127:17: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le16 [usertype] type @@     got restricted __le32 [usertype] @@
+   net/bluetooth/mgmt_config.c:127:17: sparse:     expected restricted __le16 [usertype] type
+   net/bluetooth/mgmt_config.c:127:17: sparse:     got restricted __le32 [usertype]
 
-   In file included from arch/arm64/kernel/asm-offsets.c:16:
->> ./include/linux/kvm_host.h:725:45: error: expected identifier or '('
-     725 | static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
-         |                                             ^
->> ./include/linux/kvm_host.h:725:45: error: expected ')'
-   ./include/linux/kvm_host.h:725:20: note: to match this '('
-     725 | static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
-         |                    ^
-   ./arch/arm64/include/asm/kvm_host.h:1465:40: note: expanded from macro 'kvm_arch_has_private_mem'
-    1465 | #define kvm_arch_has_private_mem(kvm) ((kvm)->arch.is_realm)
-         |                                        ^
-   In file included from arch/arm64/kernel/asm-offsets.c:16:
-   ./include/linux/kvm_host.h:725:20: error: expected ')'
-     725 | static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
-         |                    ^
-   ./arch/arm64/include/asm/kvm_host.h:1465:45: note: expanded from macro 'kvm_arch_has_private_mem'
-    1465 | #define kvm_arch_has_private_mem(kvm) ((kvm)->arch.is_realm)
-         |                                             ^
-   ./include/linux/kvm_host.h:725:20: note: to match this '('
-   ./arch/arm64/include/asm/kvm_host.h:1465:39: note: expanded from macro 'kvm_arch_has_private_mem'
-    1465 | #define kvm_arch_has_private_mem(kvm) ((kvm)->arch.is_realm)
-         |                                       ^
-   3 errors generated.
+vim +127 net/bluetooth/mgmt_config.c
 
-
-vim +725 ./include/linux/kvm_host.h
-
-f481b069e67437 Paolo Bonzini       2015-05-17  723  
-d1e54dd08f163a Fuad Tabba          2025-07-29  724  #ifndef CONFIG_KVM_GENERIC_MEMORY_ATTRIBUTES
-a7800aa80ea4d5 Sean Christopherson 2023-11-13 @725  static inline bool kvm_arch_has_private_mem(struct kvm *kvm)
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  726  {
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  727  	return false;
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  728  }
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  729  #endif
-a7800aa80ea4d5 Sean Christopherson 2023-11-13  730  
+    13	
+    14	#define HDEV_PARAM_U32(_param_name_) \
+    15		struct {\
+    16			struct mgmt_tlv_hdr entry; \
+    17			__le32 value; \
+    18		} __packed _param_name_
+    19	
+    20	#define HDEV_PARAM_U16(_param_name_) \
+    21		struct {\
+    22			struct mgmt_tlv_hdr entry; \
+    23			__le16 value; \
+    24		} __packed _param_name_
+    25	
+    26	#define HDEV_PARAM_U8(_param_name_) \
+    27		struct {\
+    28			struct mgmt_tlv_hdr entry; \
+    29			__u8 value; \
+    30		} __packed _param_name_
+    31	
+    32	#define TLV_SET_U16(_param_code_, _param_name_) \
+    33		{ \
+    34			{ cpu_to_le16(_param_code_), sizeof(__u16) }, \
+    35			cpu_to_le16(hdev->_param_name_) \
+    36		}
+    37	
+    38	#define TLV_SET_U32(_param_code_, _param_name_) \
+    39		{ \
+    40			{ cpu_to_le32(_param_code_), sizeof(__u32) }, \
+    41			cpu_to_le32(hdev->_param_name_) \
+    42		}
+    43	
+    44	#define TLV_SET_U8(_param_code_, _param_name_) \
+    45		{ \
+    46			{ cpu_to_le16(_param_code_), sizeof(__u8) }, \
+    47			hdev->_param_name_ \
+    48		}
+    49	
+    50	#define TLV_SET_U16_JIFFIES_TO_MSECS(_param_code_, _param_name_) \
+    51		{ \
+    52			{ cpu_to_le16(_param_code_), sizeof(__u16) }, \
+    53			cpu_to_le16(jiffies_to_msecs(hdev->_param_name_)) \
+    54		}
+    55	
+    56	int read_def_system_config(struct sock *sk, struct hci_dev *hdev, void *data,
+    57				   u16 data_len)
+    58	{
+    59		int ret;
+    60		struct mgmt_rp_read_def_system_config {
+    61			/* Please see mgmt-api.txt for documentation of these values */
+    62			HDEV_PARAM_U16(def_page_scan_type);
+    63			HDEV_PARAM_U16(def_page_scan_int);
+    64			HDEV_PARAM_U16(def_page_scan_window);
+    65			HDEV_PARAM_U16(def_inq_scan_type);
+    66			HDEV_PARAM_U16(def_inq_scan_int);
+    67			HDEV_PARAM_U16(def_inq_scan_window);
+    68			HDEV_PARAM_U16(def_br_lsto);
+    69			HDEV_PARAM_U16(def_page_timeout);
+    70			HDEV_PARAM_U16(sniff_min_interval);
+    71			HDEV_PARAM_U16(sniff_max_interval);
+    72			HDEV_PARAM_U16(le_adv_min_interval);
+    73			HDEV_PARAM_U16(le_adv_max_interval);
+    74			HDEV_PARAM_U16(def_multi_adv_rotation_duration);
+    75			HDEV_PARAM_U16(le_scan_interval);
+    76			HDEV_PARAM_U16(le_scan_window);
+    77			HDEV_PARAM_U16(le_scan_int_suspend);
+    78			HDEV_PARAM_U16(le_scan_window_suspend);
+    79			HDEV_PARAM_U16(le_scan_int_discovery);
+    80			HDEV_PARAM_U16(le_scan_window_discovery);
+    81			HDEV_PARAM_U16(le_scan_int_adv_monitor);
+    82			HDEV_PARAM_U16(le_scan_window_adv_monitor);
+    83			HDEV_PARAM_U16(le_scan_int_connect);
+    84			HDEV_PARAM_U16(le_scan_window_connect);
+    85			HDEV_PARAM_U16(le_conn_min_interval);
+    86			HDEV_PARAM_U16(le_conn_max_interval);
+    87			HDEV_PARAM_U16(le_conn_latency);
+    88			HDEV_PARAM_U16(le_supv_timeout);
+    89			HDEV_PARAM_U16(def_le_autoconnect_timeout);
+    90			HDEV_PARAM_U16(advmon_allowlist_duration);
+    91			HDEV_PARAM_U16(advmon_no_filter_duration);
+    92			HDEV_PARAM_U8(enable_advmon_interleave_scan);
+    93			HDEV_PARAM_U32(idle_timeout);
+    94		} __packed rp = {
+    95			TLV_SET_U16(0x0000, def_page_scan_type),
+    96			TLV_SET_U16(0x0001, def_page_scan_int),
+    97			TLV_SET_U16(0x0002, def_page_scan_window),
+    98			TLV_SET_U16(0x0003, def_inq_scan_type),
+    99			TLV_SET_U16(0x0004, def_inq_scan_int),
+   100			TLV_SET_U16(0x0005, def_inq_scan_window),
+   101			TLV_SET_U16(0x0006, def_br_lsto),
+   102			TLV_SET_U16(0x0007, def_page_timeout),
+   103			TLV_SET_U16(0x0008, sniff_min_interval),
+   104			TLV_SET_U16(0x0009, sniff_max_interval),
+   105			TLV_SET_U16(0x000a, le_adv_min_interval),
+   106			TLV_SET_U16(0x000b, le_adv_max_interval),
+   107			TLV_SET_U16(0x000c, def_multi_adv_rotation_duration),
+   108			TLV_SET_U16(0x000d, le_scan_interval),
+   109			TLV_SET_U16(0x000e, le_scan_window),
+   110			TLV_SET_U16(0x000f, le_scan_int_suspend),
+   111			TLV_SET_U16(0x0010, le_scan_window_suspend),
+   112			TLV_SET_U16(0x0011, le_scan_int_discovery),
+   113			TLV_SET_U16(0x0012, le_scan_window_discovery),
+   114			TLV_SET_U16(0x0013, le_scan_int_adv_monitor),
+   115			TLV_SET_U16(0x0014, le_scan_window_adv_monitor),
+   116			TLV_SET_U16(0x0015, le_scan_int_connect),
+   117			TLV_SET_U16(0x0016, le_scan_window_connect),
+   118			TLV_SET_U16(0x0017, le_conn_min_interval),
+   119			TLV_SET_U16(0x0018, le_conn_max_interval),
+   120			TLV_SET_U16(0x0019, le_conn_latency),
+   121			TLV_SET_U16(0x001a, le_supv_timeout),
+   122			TLV_SET_U16_JIFFIES_TO_MSECS(0x001b,
+   123						     def_le_autoconnect_timeout),
+   124			TLV_SET_U16(0x001d, advmon_allowlist_duration),
+   125			TLV_SET_U16(0x001e, advmon_no_filter_duration),
+   126			TLV_SET_U8(0x001f, enable_advmon_interleave_scan),
+ > 127			TLV_SET_U32(0x0020, idle_timeout),
+   128		};
+   129	
+   130		bt_dev_dbg(hdev, "sock %p", sk);
+   131	
+   132		ret = mgmt_cmd_complete(sk, hdev->id,
+   133					MGMT_OP_READ_DEF_SYSTEM_CONFIG,
+   134					0, &rp, sizeof(rp));
+   135		return ret;
+   136	}
+   137	
 
 -- 
 0-DAY CI Kernel Test Service
