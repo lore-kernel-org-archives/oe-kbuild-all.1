@@ -1,56 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811831519B4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 20:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B177F20102B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 21:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766264147; cv=none; b=XZSyqF2vMkUF6XaiH5iF77N6ZBohjwphyGN4/qMOvUcv993WbFJTJav1qeBasqQOz5W+FYQCs8PulmBaY5JbTjgSq2Wik/q/JoVvBxv4nVorwU0p5dST1ts6QrreNiYQhVA3o194R4MSlZdUbb86mxMazGzrtXlQZLZfx4H+uPo=
+	t=1766264749; cv=none; b=gI9Re8X5WeF3HddIfqmx7VMw8qS3UbjCF04nVTr/GnNnVQz5BsNFs5qrxyZetJpOBKoWtzYlHTR1POb6tAOMRd3htSqfVQET7k+EvDz7XSxzF+QvCGGpdlHQHnzepQMr9maFDZHEkRAb3zDhhwWhKqLRHYCXNL/oWIzKtZyPKII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766264147; c=relaxed/simple;
-	bh=au2zSiYkKksFya67H4rl18hVP0C74QQhnoX+xpUANN8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m5diOMXao+dcHZQ7b4f5svvzWjewUeMsgeKMASJNHZsfNZHgGfx1FY1hTLmG65u10mycIAs57G517cO/DEjbmw/PSg2Oqr4mMDEiYG9WLXBIHQbknWMtqpq9WrEJqtlklOtPw4qKIjwayPWGRCoEGWMQDW5TfFdp/PWK67eTKtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mC/grbMj; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1766264749; c=relaxed/simple;
+	bh=wa+v52Li3qRacGPhfk7l8xyCaQD+bSWOz9EQOM/HaU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aiA9nNMoG12Uyjyod3OWfXe4+Pbqb+LC1NBrCvPkXX38zZxmt62SU/86yNRkaEg/zkmVg+2/DeOqbyfs93MSZsGH3WGUsmG2HNyRxCwHim6uXNuV/6GvkPGrbCNEwZa8OG0XAZoKqOlclfz09vh29ScnpEq3HovLc7i3bYLPDro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y5qn5VqM; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mC/grbMj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y5qn5VqM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766264146; x=1797800146;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=au2zSiYkKksFya67H4rl18hVP0C74QQhnoX+xpUANN8=;
-  b=mC/grbMjL6F8WcZubBPL6JxRr1uaZLDqiQuSCIyo9a1GQYa3300VgpCW
-   zZ1KOcrULLLWiSAnpWK+sebMT8Zr5Yreg8iIc/P95s4ycXgg2YN2GK4Mq
-   qJl7+kLu1zBh+Fx4qY1Q5HZQAQS6QlXuzUDmq3mu4ZHqegHs36z5lng/O
-   2RWsgNlixPWMmXVhQ5+ZV3rPdpxV47aNLruCxcN2H+ggJi8/zAwjP7mAZ
-   YxZM8fAIp8qF8+hziBKgs69hX179F7zhfBLNCgDz4gaRu76Tjaxou98Sy
-   lGgyyzhbUPyvyagicTLsObJTAeuueCHl+zIeeC5rHnVm7S8wZJGiBnvA5
-   A==;
-X-CSE-ConnectionGUID: qKYhiap8QteYAXvnD8uaqQ==
-X-CSE-MsgGUID: xgGyDZ1wTKWPMOtGDF1Exg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="67936865"
+  t=1766264747; x=1797800747;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wa+v52Li3qRacGPhfk7l8xyCaQD+bSWOz9EQOM/HaU4=;
+  b=Y5qn5VqMKxbRcByPw4NPqy+5mDfEgeuw6xZ/VBDW2wWL0WlTQBwzYA8d
+   xV0dK4XjXM2JVpAfRS8Fpb/XhHXnz7kEqQBYspk+q5DpBZy6iQcoJWg/H
+   QL0zmkahPQnKR3pkP+0QAuIJyzOvzmZajhhmkbftX9eBgUcwsG+LACYx5
+   EcgEGOzXR/g1gN+X1UIHeWqgLvOR42V/m8JabbCqG6GOWGIPT3xb+J6HU
+   Y5lch2iOqLDsOrC1hOWzquCrsH0XyTHIiMlLc2pAnsdjtZq9WmcTCvVcJ
+   mvWUq/tRm+J07Dd1LOY9gTMpvIEphYlKM/rv+LzECNBdW8zVATNihYooS
+   g==;
+X-CSE-ConnectionGUID: PaG9aDImSkm47p19b1ul8Q==
+X-CSE-MsgGUID: vq5DH67jSgiPWWkGoqr4aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="67180705"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="67936865"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 12:55:45 -0800
-X-CSE-ConnectionGUID: ChvyIQJ0Tt6/0KjtWLE8IA==
-X-CSE-MsgGUID: s6J6BHhcSSCxbA4gVctWSQ==
+   d="scan'208";a="67180705"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 13:05:46 -0800
+X-CSE-ConnectionGUID: AxXQ3QDXStSUIQbHLkspYQ==
+X-CSE-MsgGUID: kSn/eufzRP2VgsFe3FOtvg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
+   d="scan'208";a="199688317"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Dec 2025 12:55:43 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2025 13:05:44 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vX3zJ-0000000057x-3qo1;
-	Sat, 20 Dec 2025 20:55:41 +0000
-Date: Sun, 21 Dec 2025 04:55:11 +0800
+	id 1vX490-0000000058H-0pSz;
+	Sat, 20 Dec 2025 21:05:42 +0000
+Date: Sun, 21 Dec 2025 05:05:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xu Raoqing <xuraoqing@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3544/3544] arch/arm64/kvm/cca_base.c:52:6:
- warning: no previous prototype for 'set_cca_cvm_type'
-Message-ID: <202512210402.xNA4HhAd-lkp@intel.com>
+To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, rafael@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] PNP: add put_device() in pnpbios_init()
+Message-ID: <202512210401.KjSlGMtG-lkp@intel.com>
+References: <20251218081955.548521-1-lihaoxiang@isrc.iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,39 +63,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251218081955.548521-1-lihaoxiang@isrc.iscas.ac.cn>
 
-Hi Yang,
+Hi Haoxiang,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   04473ee9ed912a16fff0d8846ad565bbf3d63c77
-commit: 419da4d196ffa97d1430d017d1b36348fea395e5 [3544/3544] VirtCCA: Add CCA base operations.
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20251221/202512210402.xNA4HhAd-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210402.xNA4HhAd-lkp@intel.com/reproduce)
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.19-rc1 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haoxiang-Li/PNP-add-put_device-in-pnpbios_init/20251218-162345
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251218081955.548521-1-lihaoxiang%40isrc.iscas.ac.cn
+patch subject: [PATCH] PNP: add put_device() in pnpbios_init()
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251221/202512210401.KjSlGMtG-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210401.KjSlGMtG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210402.xNA4HhAd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512210401.KjSlGMtG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/kvm/cca_base.c:52:6: warning: no previous prototype for 'set_cca_cvm_type' [-Wmissing-prototypes]
-      52 | void set_cca_cvm_type(int type)
-         |      ^~~~~~~~~~~~~~~~
+   drivers/pnp/pnpbios/core.c: In function 'pnp_dock_event':
+   drivers/pnp/pnpbios/core.c:90:20: warning: variable 'value' set but not used [-Wunused-but-set-variable]
+      90 |         int i = 0, value;
+         |                    ^~~~~
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/x86/include/asm/bug.h:193,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/asm-generic/bitops/generic-non-atomic.h:7,
+                    from include/linux/bitops.h:28,
+                    from include/linux/kernel.h:23,
+                    from drivers/pnp/pnpbios/core.c:38:
+   drivers/pnp/pnpbios/core.c: In function 'pnpbios_init':
+>> include/linux/printk.h:482:10: error: expected expression before '{' token
+     482 |         ({                                                              \
+         |          ^
+   include/linux/printk.h:512:26: note: in expansion of macro 'printk_index_wrap'
+     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                          ^~~~~~~~~~~~~~~~~
+   drivers/pnp/pnpbios/core.c:542:17: note: in expansion of macro 'printk'
+     542 |                 printk(KERN_ERR
+         |                 ^~~~~~
+>> drivers/pnp/pnpbios/core.c:541:17: error: called object is not a function or function pointer
+     541 |                 put_device(&pnpbios_protocol.dev)
+         |                 ^~~~~~~~~~
 
 
-vim +/set_cca_cvm_type +52 arch/arm64/kvm/cca_base.c
+vim +541 drivers/pnp/pnpbios/core.c
 
-    51	
-  > 52	void set_cca_cvm_type(int type)
-    53	{
-    54		cca_cvm_type = type;
-    55	}
-    56	EXPORT_SYMBOL_GPL(set_cca_cvm_type);
-    57	
+   522	
+   523		/* scan the system for pnpbios support */
+   524		if (!pnpbios_probe_system())
+   525			return -ENODEV;
+   526	
+   527		/* make preparations for bios calls */
+   528		pnpbios_calls_init(pnp_bios_install);
+   529	
+   530		/* read the node info */
+   531		ret = pnp_bios_dev_node_info(&node_info);
+   532		if (ret) {
+   533			printk(KERN_ERR
+   534			       "PnPBIOS: Unable to get node info.  Aborting.\n");
+   535			return ret;
+   536		}
+   537	
+   538		/* register with the pnp layer */
+   539		ret = pnp_register_protocol(&pnpbios_protocol);
+   540		if (ret) {
+ > 541			put_device(&pnpbios_protocol.dev)
+   542			printk(KERN_ERR
+   543			       "PnPBIOS: Unable to register driver.  Aborting.\n");
+   544			return ret;
+   545		}
+   546	
+   547		/* start the proc interface */
+   548		ret = pnpbios_proc_init();
+   549		if (ret)
+   550			printk(KERN_ERR "PnPBIOS: Failed to create proc interface.\n");
+   551	
+   552		/* scan for pnpbios devices */
+   553		build_devlist();
+   554	
+   555		pnp_platform_devices = 1;
+   556		return 0;
+   557	}
+   558	
 
 -- 
 0-DAY CI Kernel Test Service
