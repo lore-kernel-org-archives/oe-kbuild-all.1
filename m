@@ -1,186 +1,155 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C211F2C033C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 14:35:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893AB2BE7AA;
+	Sat, 20 Dec 2025 14:35:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766241318; cv=none; b=QDKxAkMGe/haWAW9dlZuXFeXpBUWFAAYskPxyviV2XmZboDXnI7Z1pZNSRHno4M7SJyY2Xn/dM9sP8Nz9OJwX4uywyQw9IobAKkDnr9dlUlya6ndkv+9h/JNhYpjnmgBD2FyoFecbUHwfFVVbV6AHSuqigfx3CD2t1SnKagwXdk=
+	t=1766241318; cv=none; b=kp67e5JR8FLBRIvHkDGQ4W9WnA4O/TT+npvi5xjFtoHcN+VHupBf1MWpKCAkvGKlWQoHIrJWXEpHwvcqlhQwnHrlzUAa6I1HZ4OMsRyprnC1bIWChlls9sSNUPkzDIPK2UHZAEtJM9uMM2fv5IqtmvAZWQJnWFxfWbIGO5lMVBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766241318; c=relaxed/simple;
-	bh=GsZe3oYDGQQQdCIWN2VonPdTj7WIfct+WPUTYIxdLoo=;
+	bh=9gOKI4ydE/etDrXVJz8yRHpBpx0bgUzny4+FMywWXSY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ENmUFMfFICvRPHDwle4HBP/u4+1GNyT1JhjzI2x9bVLB9dqtiFRacvzbqv3DPipytcP215N1WoyOtd/jnmME8KdGmZX4OIaW3s6Tao2sNssFqWHaZVlNHY1TsXad/JcZOIV7OQSofMtJB1kCvbBTO9lS9pZUHWdRsP9kx9Z5RVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m96SALnY; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=QcyOk0PLy/IuJ+hak4PRYktNzQRToygVTPEeiazV8PdL3UGLFlWibxsyvAqHfBuuqLV42yUaxVUBRckI1A7FXnZxkC3e1fGF2hBQ/VcDqU+PF7ErsiPcZ0HFv1O8AhvFpx1avHXEgVc9zlMEQT2RCQ95DzKXJjlkkt7p2QJAdII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kd4dUdMF; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m96SALnY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kd4dUdMF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766241316; x=1797777316;
+  t=1766241317; x=1797777317;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=GsZe3oYDGQQQdCIWN2VonPdTj7WIfct+WPUTYIxdLoo=;
-  b=m96SALnYt2cD2bKP9DD1SwTELbPyB22cteE4n6BM22con19QAB3NLMF5
-   YpFXyRez4z2x+wWMtOrad6JM6s4Aqaes+C6bqur/YVoGnQ9TIEaTB/egh
-   fC2vzGMIAgdHq4Dt5T4FlHZMJ4gPfFs02PbflpkXt2nNCmWbjfJRQ9omG
-   Yvfgj/tZAkxqbFEBpKmI/X9P0IF9MMgsdZfwXFuibMQQssEm1+0Dyq5SG
-   RDOKgxTKE7VVbggYencGT3ljyMxqAOTrRtZExX+CR+BS4HbJs4/75/jFE
-   XW1QbAVka53BtXSlagf6MYHtpjRgl57tM05jIy6M6kyroJEtO1uO/gcIK
-   w==;
-X-CSE-ConnectionGUID: 8g6strvxSAGWcMxNlyGy2A==
-X-CSE-MsgGUID: 6EygXBeuTZ+pV4Y2CEMceg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="93650047"
+   mime-version:in-reply-to;
+  bh=9gOKI4ydE/etDrXVJz8yRHpBpx0bgUzny4+FMywWXSY=;
+  b=kd4dUdMFDTMF1X9MXbwfCZunljEORCjHTz7w+ePk5LIWB2qgluvwCFja
+   4NQWBOT60RhifzKnFPxpH5ZFPZenzRnE1kTWx9DJdzv4nbXQgPVvKoFaL
+   LvY0A3n3PK5knwDJwxd+sfdzjRWozlOXTDDJx4SMzNGwgww1uABfgEecX
+   G4zmWEz5lmuRvTm+ltM4TaOS7JcUrwEarBu8Wl2S4Y+iMIs9jGEmr79L2
+   sQql5677cRBGbYc5HL9v212ZzXxxhCrNYdQj1cHt6yl8Cr0sRAdCQw3pn
+   jTznxlqQsaBqY3cUFFWoVunkSe0+dJlUq51g/YmDYOkIzxZDZi40om7NQ
+   A==;
+X-CSE-ConnectionGUID: 6o/S2EgyThC5AY+Mj1sljw==
+X-CSE-MsgGUID: I8MZ68hrSuqghgL+zG+4cQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="93650051"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="93650047"
+   d="scan'208";a="93650051"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:35:11 -0800
-X-CSE-ConnectionGUID: NyNwaJ+vTy2l5No14hj0xg==
-X-CSE-MsgGUID: bt6upZJbQYeISeMZTtOfIg==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:35:12 -0800
+X-CSE-ConnectionGUID: N++nUyL/R02YBkaHhtghhA==
+X-CSE-MsgGUID: F/GGCguNQ5ye63EfybK99w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199023541"
+   d="scan'208";a="199023543"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 20 Dec 2025 06:35:07 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWy2z-000000004eD-05w0;
+	id 1vWy2z-000000004eI-0SXZ;
 	Sat, 20 Dec 2025 14:35:05 +0000
-Date: Sat, 20 Dec 2025 22:34:48 +0800
+Date: Sat, 20 Dec 2025 22:34:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Linus Walleij <linusw@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
-	linux-mips@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	=?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
-Subject: Re: [PATCH 05/13] pinctrl: eyeq5: Use match data
-Message-ID: <202512202142.StvDXvbg-lkp@intel.com>
-References: <20251217-eyeq6lplus-v1-5-e9cdbd3af4c2@bootlin.com>
+To: Steven Price <steven.price@arm.com>, kvm@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Steven Price <steven.price@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Marc Zyngier <maz@kernel.org>, Will Deacon <will@kernel.org>,
+	James Morse <james.morse@arm.com>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Joey Gouly <joey.gouly@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Christoffer Dall <christoffer.dall@arm.com>,
+	Fuad Tabba <tabba@google.com>, linux-coco@lists.linux.dev,
+	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
+	Gavin Shan <gshan@redhat.com>,
+	Shanker Donthineni <sdonthineni@nvidia.com>,
+	Alper Gun <alpergun@google.com>,
+	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
+	Emi Kisanuki <fj0570is@fujitsu.com>,
+	Vishal Annapurve <vannapurve@google.com>
+Subject: Re: [PATCH v12 20/46] arm64: RMI: Allow populating initial contents
+Message-ID: <202512202203.1g4jywFB-lkp@intel.com>
+References: <20251217101125.91098-21-steven.price@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251217-eyeq6lplus-v1-5-e9cdbd3af4c2@bootlin.com>
+In-Reply-To: <20251217101125.91098-21-steven.price@arm.com>
 
-Hi Benoît,
+Hi Steven,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.19-rc1 next-20251219]
+[cannot apply to kvmarm/next kvm/queue kvm/next arm64/for-next/core kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Beno-t-Monin/dt-bindings-mips-Add-Mobileye-EyeQ6Lplus-SoC/20251217-214926
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20251217-eyeq6lplus-v1-5-e9cdbd3af4c2%40bootlin.com
-patch subject: [PATCH 05/13] pinctrl: eyeq5: Use match data
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20251220/202512202142.StvDXvbg-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202142.StvDXvbg-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Price/kvm-arm64-Include-kvm_emulate-h-in-kvm-arm_psci-h/20251218-030351
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251217101125.91098-21-steven.price%40arm.com
+patch subject: [PATCH v12 20/46] arm64: RMI: Allow populating initial contents
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512202203.1g4jywFB-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202203.1g4jywFB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202142.StvDXvbg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202203.1g4jywFB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/pinctrl/pinctrl-eyeq5.c: In function 'eq5p_pinconf_set':
->> drivers/pinctrl/pinctrl-eyeq5.c:533:13: warning: 'offset' is used uninitialized [-Wuninitialized]
-     533 |         u32 val = BIT(offset);
-         |             ^~~
-   drivers/pinctrl/pinctrl-eyeq5.c:532:22: note: 'offset' was declared here
-     532 |         unsigned int offset;
-         |                      ^~~~~~
+>> arch/arm64/kvm/rmi.c:805:16: warning: variable 'data_flags' set but not used [-Wunused-but-set-variable]
+     805 |         unsigned long data_flags = 0;
+         |                       ^
+   1 warning generated.
 
 
-vim +/offset +533 drivers/pinctrl/pinctrl-eyeq5.c
+vim +/data_flags +805 arch/arm64/kvm/rmi.c
 
-41795aa1f56a6e Théo Lebrun  2024-07-30  524  
-41795aa1f56a6e Théo Lebrun  2024-07-30  525  static int eq5p_pinconf_set(struct pinctrl_dev *pctldev, unsigned int pin,
-41795aa1f56a6e Théo Lebrun  2024-07-30  526  			    unsigned long *configs, unsigned int num_configs)
-41795aa1f56a6e Théo Lebrun  2024-07-30  527  {
-41795aa1f56a6e Théo Lebrun  2024-07-30  528  	struct eq5p_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
-41795aa1f56a6e Théo Lebrun  2024-07-30  529  	const char *pin_name = pctldev->desc->pins[pin].name;
-41795aa1f56a6e Théo Lebrun  2024-07-30  530  	struct device *dev = pctldev->dev;
-e3ba56038b97ee Benoît Monin 2025-12-17  531  	const struct eq5p_bank *bank;
-e3ba56038b97ee Benoît Monin 2025-12-17  532  	unsigned int offset;
-41795aa1f56a6e Théo Lebrun  2024-07-30 @533  	u32 val = BIT(offset);
-41795aa1f56a6e Théo Lebrun  2024-07-30  534  	unsigned int i;
-e3ba56038b97ee Benoît Monin 2025-12-17  535  	int ret;
-e3ba56038b97ee Benoît Monin 2025-12-17  536  
-e3ba56038b97ee Benoît Monin 2025-12-17  537  	ret = eq5p_pin_to_bank_offset(pctrl, pin, &bank, &offset);
-e3ba56038b97ee Benoît Monin 2025-12-17  538  	if (ret)
-e3ba56038b97ee Benoît Monin 2025-12-17  539  		return ret;
-41795aa1f56a6e Théo Lebrun  2024-07-30  540  
-41795aa1f56a6e Théo Lebrun  2024-07-30  541  	for (i = 0; i < num_configs; i++) {
-41795aa1f56a6e Théo Lebrun  2024-07-30  542  		enum pin_config_param param = pinconf_to_config_param(configs[i]);
-41795aa1f56a6e Théo Lebrun  2024-07-30  543  		u32 arg = pinconf_to_config_argument(configs[i]);
-41795aa1f56a6e Théo Lebrun  2024-07-30  544  
-41795aa1f56a6e Théo Lebrun  2024-07-30  545  		switch (param) {
-41795aa1f56a6e Théo Lebrun  2024-07-30  546  		case PIN_CONFIG_BIAS_DISABLE:
-41795aa1f56a6e Théo Lebrun  2024-07-30  547  			dev_dbg(dev, "pin=%s bias_disable\n", pin_name);
-41795aa1f56a6e Théo Lebrun  2024-07-30  548  
-41795aa1f56a6e Théo Lebrun  2024-07-30  549  			eq5p_update_bits(pctrl, bank, EQ5P_PD, val, 0);
-41795aa1f56a6e Théo Lebrun  2024-07-30  550  			eq5p_update_bits(pctrl, bank, EQ5P_PU, val, 0);
-41795aa1f56a6e Théo Lebrun  2024-07-30  551  			break;
-41795aa1f56a6e Théo Lebrun  2024-07-30  552  
-41795aa1f56a6e Théo Lebrun  2024-07-30  553  		case PIN_CONFIG_BIAS_PULL_DOWN:
-41795aa1f56a6e Théo Lebrun  2024-07-30  554  			dev_dbg(dev, "pin=%s bias_pull_down arg=%u\n",
-41795aa1f56a6e Théo Lebrun  2024-07-30  555  				pin_name, arg);
-41795aa1f56a6e Théo Lebrun  2024-07-30  556  
-41795aa1f56a6e Théo Lebrun  2024-07-30  557  			if (arg == 0) /* cannot connect to GND */
-41795aa1f56a6e Théo Lebrun  2024-07-30  558  				return -ENOTSUPP;
-41795aa1f56a6e Théo Lebrun  2024-07-30  559  
-41795aa1f56a6e Théo Lebrun  2024-07-30  560  			eq5p_update_bits(pctrl, bank, EQ5P_PD, val, val);
-41795aa1f56a6e Théo Lebrun  2024-07-30  561  			eq5p_update_bits(pctrl, bank, EQ5P_PU, val, 0);
-41795aa1f56a6e Théo Lebrun  2024-07-30  562  			break;
-41795aa1f56a6e Théo Lebrun  2024-07-30  563  
-41795aa1f56a6e Théo Lebrun  2024-07-30  564  		case PIN_CONFIG_BIAS_PULL_UP:
-41795aa1f56a6e Théo Lebrun  2024-07-30  565  			dev_dbg(dev, "pin=%s bias_pull_up arg=%u\n",
-41795aa1f56a6e Théo Lebrun  2024-07-30  566  				pin_name, arg);
-41795aa1f56a6e Théo Lebrun  2024-07-30  567  
-41795aa1f56a6e Théo Lebrun  2024-07-30  568  			if (arg == 0) /* cannot connect to VDD */
-41795aa1f56a6e Théo Lebrun  2024-07-30  569  				return -ENOTSUPP;
-41795aa1f56a6e Théo Lebrun  2024-07-30  570  
-41795aa1f56a6e Théo Lebrun  2024-07-30  571  			eq5p_update_bits(pctrl, bank, EQ5P_PD, val, 0);
-41795aa1f56a6e Théo Lebrun  2024-07-30  572  			eq5p_update_bits(pctrl, bank, EQ5P_PU, val, val);
-41795aa1f56a6e Théo Lebrun  2024-07-30  573  			break;
-41795aa1f56a6e Théo Lebrun  2024-07-30  574  
-41795aa1f56a6e Théo Lebrun  2024-07-30  575  		case PIN_CONFIG_DRIVE_STRENGTH:
-41795aa1f56a6e Théo Lebrun  2024-07-30  576  			dev_dbg(dev, "pin=%s drive_strength arg=%u\n",
-41795aa1f56a6e Théo Lebrun  2024-07-30  577  				pin_name, arg);
-41795aa1f56a6e Théo Lebrun  2024-07-30  578  
-41795aa1f56a6e Théo Lebrun  2024-07-30  579  			eq5p_pinconf_set_drive_strength(pctldev, pin, arg);
-41795aa1f56a6e Théo Lebrun  2024-07-30  580  			break;
-41795aa1f56a6e Théo Lebrun  2024-07-30  581  
-41795aa1f56a6e Théo Lebrun  2024-07-30  582  		default:
-41795aa1f56a6e Théo Lebrun  2024-07-30  583  			dev_err(dev, "Unsupported pinconf %u\n", param);
-41795aa1f56a6e Théo Lebrun  2024-07-30  584  			return -ENOTSUPP;
-41795aa1f56a6e Théo Lebrun  2024-07-30  585  		}
-41795aa1f56a6e Théo Lebrun  2024-07-30  586  	}
-41795aa1f56a6e Théo Lebrun  2024-07-30  587  
-41795aa1f56a6e Théo Lebrun  2024-07-30  588  	return 0;
-41795aa1f56a6e Théo Lebrun  2024-07-30  589  }
-41795aa1f56a6e Théo Lebrun  2024-07-30  590  
+   801	
+   802	int kvm_arm_rmi_populate(struct kvm *kvm,
+   803				 struct kvm_arm_rmi_populate *args)
+   804	{
+ > 805		unsigned long data_flags = 0;
+   806		unsigned long ipa_start = args->base;
+   807		unsigned long ipa_end = ipa_start + args->size;
+   808		int ret;
+   809	
+   810		if (args->reserved ||
+   811		    (args->flags & ~KVM_ARM_RMI_POPULATE_FLAGS_MEASURE) ||
+   812		    !IS_ALIGNED(ipa_start, PAGE_SIZE) ||
+   813		    !IS_ALIGNED(ipa_end, PAGE_SIZE))
+   814			return -EINVAL;
+   815	
+   816		ret = realm_ensure_created(kvm);
+   817		if (ret)
+   818			return ret;
+   819	
+   820		if (args->flags & KVM_ARM_RMI_POPULATE_FLAGS_MEASURE)
+   821			data_flags |= RMI_MEASURE_CONTENT;
+   822	
+   823		ret = populate_region(kvm, gpa_to_gfn(ipa_start),
+   824				      args->size >> PAGE_SHIFT,
+   825				      args->source_uaddr, args->flags);
+   826	
+   827		if (ret < 0)
+   828			return ret;
+   829	
+   830		return ret * PAGE_SIZE;
+   831	}
+   832	
 
 -- 
 0-DAY CI Kernel Test Service
