@@ -1,74 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54D714A4F9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 17:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CDC1684B0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 17:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766250936; cv=none; b=HkEYgbwqGOApS3pqTpO7KFa9PNRbR/jVvswmGHuNm8Tr8KxX0GUTWil+J5HyqXQqfqbNxRmbL7F6aH7UoBUUYO2SAlor5MvOdKeASBowbo1dacAyUrZ3HTwk+rLXQJNOwY5GhlWT450URv2CX27Ev4l2UU8u1/2h0N9HyKrZjQo=
+	t=1766251128; cv=none; b=tYyqXaYDbWdcTyXDo/QOMto8Lb/bKwsCjONHccD2+QpWtis1vRRW6e6zUOjVb5gLB5w7DDqESzC1ZNrsePlKyUI0Zes1n2SbwQGQPyFjDeNc6aKQxGZKPkNOC/TRMjqFF6IOTan1j5zmoQsDAGrKgastCqNck/jWENffTvlm998=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766250936; c=relaxed/simple;
-	bh=Hcqx9K9e2DdZM+fc4kG1hUDJm+AVPCZc+SF3IRp/b7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hWcrR9pxiSbK3aP5LXgO55IvZVBzgeJseIfJVzZMVmqG82tyE3ryN3bac9U1OWOFlUUqLISikcj0xVFqlykEJD7TrjnogHaMOw3EWnCm3yrNFTpQJu3B3Tu72SnF2nhQxvlIOUuSH9841MzWIK+KWEum3MI60vilk+M1seVGyQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ar1IZ9oo; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1766251128; c=relaxed/simple;
+	bh=33NRlw9u+vRkXp44lphFQx/3fvYYYOBVEaX83ex2sx0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hoDuXaKuRPvH1Hefn1Q9m9G+UiU27koR2MJbuu6ccYVOnshqtH6iKeNV6dIPjJmvsyzBEnhb0AOf9U7dcr4kGH31Z6Bpbsjtx9OMD8A6NI9Kd9HNowhs54BM5+TLaAplzObrnqb+F6PoLlC4JQWPoycLmSMxRSNPZXgQ1hOwf+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cr+hBZkB; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ar1IZ9oo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cr+hBZkB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766250934; x=1797786934;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Hcqx9K9e2DdZM+fc4kG1hUDJm+AVPCZc+SF3IRp/b7A=;
-  b=Ar1IZ9oosIkjf9zXWs530UDURTyZ8JdB3/nqNJmhI3rYo1ResbZcMrRf
-   2a7KgQRwvGKOIjxq0DGP3h4Cjfxv9Dfrbq7VNCJS/4d0I7JcrXtemf990
-   HZalWeY+dCXorxtXGldr88FE5/BtETog2FJGNbRicKId0bD+QLqxX9jpC
-   D0y0US3YUibSpeW9W4FMwiNpCRAz/HEpcmC0KtiCKrzZhZEo/6oURBIC1
-   s4Ht/A/Jcbylu3KbBm0eMZ4eAzMKTYS7Rb61cHxecsOeAocY18/6ZON66
-   Sf1siF9fiDXJj1PuThGnZMMsQQmLl8HIj6tnGvBA1mj9afvsnhM+YNkpo
+  t=1766251126; x=1797787126;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=33NRlw9u+vRkXp44lphFQx/3fvYYYOBVEaX83ex2sx0=;
+  b=Cr+hBZkBFInwHy9+DGtw7h/6IK/gIT3PSrGectsFnCo5S8jPte6/2m1x
+   /rz4BixVIu6qPypT+Jz/nH+25C5tqFhCoTS75XB6nmce8yNsPSiMiz3U2
+   ZjXt+7JPMAye5//H+5U810IJlrGqEJlAHIE+1xn0s0bD5t3HBGE6iyduD
+   6CTpSDypf9ovedMYFGJ6zCu0GxREf7QD70poiMDM0Ix78ROXAac3bXdBG
+   bvYLXnjkA9uP3IBbLerzNSZI+llj9LcHMQpFE/J1XvQqh49r8kTrZKw/q
+   xrOCIjkdleO2bGPdQcDuGz4uRBDPyoFTjUTWZfxfn6dJrOPdkKuTFnanf
    g==;
-X-CSE-ConnectionGUID: fLBip2adQbqLVgUH3xYpLQ==
-X-CSE-MsgGUID: SESAtA9kRROV4HMNjOosxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="67931015"
+X-CSE-ConnectionGUID: InaUY53IReSQJ6Ga3zq03w==
+X-CSE-MsgGUID: CbT2apLwTkeFiwHEcDtdQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68226501"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="67931015"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 09:15:34 -0800
-X-CSE-ConnectionGUID: xj9DdeaKSq6vz1gN+HADYg==
-X-CSE-MsgGUID: upGwtnYiSQCeULUBwleOSQ==
+   d="scan'208";a="68226501"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 09:18:45 -0800
+X-CSE-ConnectionGUID: JHsIiRGsSfKyfwf1irgzew==
+X-CSE-MsgGUID: nkqIpAhJRYmCw5d+TsAGoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199046442"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Dec 2025 09:15:30 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+   d="scan'208";a="199385833"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 20 Dec 2025 09:18:44 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vX0YB-000000004vl-3lXj;
-	Sat, 20 Dec 2025 17:15:27 +0000
-Date: Sun, 21 Dec 2025 01:15:12 +0800
+	id 1vX0bK-000000004ie-1ANM;
+	Sat, 20 Dec 2025 17:18:42 +0000
+Date: Sat, 20 Dec 2025 18:18:17 +0100
 From: kernel test robot <lkp@intel.com>
-To: Alain Volmat <alain.volmat@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH 01/12] media: stm32: dcmi: Switch from __maybe_unused to
- pm_sleep_ptr()
-Message-ID: <202512210044.xNNW6QJZ-lkp@intel.com>
-References: <20251218-stm32-dcmi-dma-chaining-v1-1-39948ca6cbf6@foss.st.com>
+To: kernel@openeuler.org, zgzxx <zhangguangzhi3@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1/1] kismet: WARNING: unmet direct dependencies
+ detected for PGP_KEY_PARSER when selected by PGP_PRELOAD
+Message-ID: <202512201850.48kGCnic-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,66 +61,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251218-stm32-dcmi-dma-chaining-v1-1-39948ca6cbf6@foss.st.com>
 
-Hi Alain,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on atorgue-stm32/stm32-next]
-[also build test WARNING on robh/for-next linus/master v6.19-rc1 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alain-Volmat/media-stm32-dcmi-Switch-from-__maybe_unused-to-pm_sleep_ptr/20251219-024836
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-patch link:    https://lore.kernel.org/r/20251218-stm32-dcmi-dma-chaining-v1-1-39948ca6cbf6%40foss.st.com
-patch subject: [PATCH 01/12] media: stm32: dcmi: Switch from __maybe_unused to pm_sleep_ptr()
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20251221/202512210044.xNNW6QJZ-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210044.xNNW6QJZ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   04473ee9ed912a16fff0d8846ad565bbf3d63c77
+commit: 43d4042e06d2bf96adf67d25e8d91653507a4cf9 [1/1] KEYS: Provide a function to load keys from a PGP keyring blob
+config: x86_64-kismet-CONFIG_PGP_KEY_PARSER-CONFIG_PGP_PRELOAD-0-0 (https://download.01.org/0day-ci/archive/20251220/202512201850.48kGCnic-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251220/202512201850.48kGCnic-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210044.xNNW6QJZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512201850.48kGCnic-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/st/stm32/stm32-dcmi.c:2127:12: warning: 'dcmi_resume' defined but not used [-Wunused-function]
-    2127 | static int dcmi_resume(struct device *dev)
-         |            ^~~~~~~~~~~
->> drivers/media/platform/st/stm32/stm32-dcmi.c:2116:12: warning: 'dcmi_suspend' defined but not used [-Wunused-function]
-    2116 | static int dcmi_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~
-
-
-vim +/dcmi_resume +2127 drivers/media/platform/st/stm32/stm32-dcmi.c
-
-  2115	
-> 2116	static int dcmi_suspend(struct device *dev)
-  2117	{
-  2118		/* disable clock */
-  2119		pm_runtime_force_suspend(dev);
-  2120	
-  2121		/* change pinctrl state */
-  2122		pinctrl_pm_select_sleep_state(dev);
-  2123	
-  2124		return 0;
-  2125	}
-  2126	
-> 2127	static int dcmi_resume(struct device *dev)
-  2128	{
-  2129		/* restore pinctl default state */
-  2130		pinctrl_pm_select_default_state(dev);
-  2131	
-  2132		/* clock enable */
-  2133		pm_runtime_force_resume(dev);
-  2134	
-  2135		return 0;
-  2136	}
-  2137	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PGP_KEY_PARSER when selected by PGP_PRELOAD
+   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
+     Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
+     Selected by [y]:
+     - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
 
 -- 
 0-DAY CI Kernel Test Service
