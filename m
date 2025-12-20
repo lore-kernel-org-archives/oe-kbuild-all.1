@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2512413AF2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 14:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6231DDC2B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 14:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766241973; cv=none; b=Xr7tYPSfIT7jpnLZ5eI3rvjFe2D+PumfDRj4NWvPycsdsGvNDwVF/9pIasKdZ4Qo3RpPBaGizliO7mNvOzcbRXfp9FV7bhvTv2KkJGYwI2e00njbxmWsR+UswvqCa7vMi4mfhRP5J7K0wsmSEwc1sS+atu+tUF2jrepnZhTl7gM=
+	t=1766241974; cv=none; b=LAtOU78934rEon1GOJKMMrjPo1q5qO64OdMQ4XMgiPejDDfjqAio1QFwdPN2cxS1FyUmGDV6s+HCFiNrB3ig5+NY8p4kxbDinvFlmH+xpObk2xGgtmeP57cYc4M2IW28ymCvqz3mKpsibyBFEMgc/kmaiC9HOexWQjvsylD3s1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766241973; c=relaxed/simple;
-	bh=teQF578L67rwIC7OnjyfaI1viH8z3gmM44mCrOBZ5HQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m8E4cGU4UlmE4YNG1XCLxVPNc63sKSzIpdHETzOEy+t6VPOBptYdZ9z+nUCaThdSwbhNUWYYKNtJFn45P8cNbfDsx4lauFxvumarrISqv/P5RdOLHwH+3q1KnGtzqUPq7vwzyyOe2cLK8PYvCnmLZQaV2HuKKMnPfm4MSY3TFjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WRiipQPq; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1766241974; c=relaxed/simple;
+	bh=UP+3vEUF7U85lh8CDWWnepWIXgzJY4myXiUfJm8zV2s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vc/DokL6P7uGhWx92b3lkvyDbJok8C7/qXJuIT6nErJeN2rXD63pgRYbYqjOxqeEfmId6Ea3zJQg9KsMkGheWCk6KXcnAfiV96O0PE7NBBpdI+ewXqKkNWAp/E/BkFHn5TzITyQA8S0RXtLh9Kp0LaVkei5zYDZHU01mGQoKJ4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVoCy6g/; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WRiipQPq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVoCy6g/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766241971; x=1797777971;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=teQF578L67rwIC7OnjyfaI1viH8z3gmM44mCrOBZ5HQ=;
-  b=WRiipQPq8KqINujKwFMf6XoI3+gqB8YydNKXZD6yjUzQk0fFK4taT27g
-   lzhq8W0cCyyV/U+EWLxQfA3GiXWleNkr5Pz+UEo/pUST3Sgg8qRvtcxdE
-   y5egGhDYBnPCgZZ6t3GGKw22EPGRe6wW7VZUfxU15E1Ghg1BS/V4A9Ofe
-   ek03ZWPiICOgOmXluMAy7lSA1zW+LF/nmboUmFpnTgWD5tdEZwuPrVaDN
-   hwGECVVb7AKmRFiQ2yirzoyu0rDgN4p3mbX/4RUXUd4mQKPboSrsCq+ny
-   C7k1y91feGcwTrG+wTbbdTZobVM7DeKspRfGgjwJ/jrDBbaiquILI/bkj
-   A==;
-X-CSE-ConnectionGUID: ZBiph0ujTkqdNRyyZGA3eQ==
-X-CSE-MsgGUID: m2lfoiX0RFukTB16j5cKDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="79294949"
+  t=1766241973; x=1797777973;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UP+3vEUF7U85lh8CDWWnepWIXgzJY4myXiUfJm8zV2s=;
+  b=LVoCy6g/5A+3fpRP4FwyCwbrklv5w7VQJTVz6xuxSRorcABD+91jcFHx
+   NNyMIXZyIf1tZzQkIcI4jNHL2txRHHXtmxurydErwMKZZLv/ynvqVSKIG
+   u/iQlFDNf7XnUbmO73A5HOA9UglKMQzTUGY4UaDhMQK8DQktBVYZGZfvO
+   0ppEwpmM0LKoun/MHYTOiuMt089fqntCuEsk/7u53Q6LDgYfyvAPxIs3s
+   7viyDrr+k3uMLdvzQb0tlRzAj12CzYx6kn4LDztQJIaXxqjWvxlk1fk4+
+   AO5r79taiRIOg9Yz9bXkBTBCEpsU0JiKnMmNZbNZKgsTUMgcneMx4uHry
+   w==;
+X-CSE-ConnectionGUID: xeZAhY75TsOYwx9W+38KVA==
+X-CSE-MsgGUID: YbNsyWV+R9iaRJhkF/vyug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="85760381"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="79294949"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:46:11 -0800
-X-CSE-ConnectionGUID: bzpzg4FBRtSxBX+/70YYjQ==
-X-CSE-MsgGUID: ABnKrK5QQMS0cCG0QCQZgA==
+   d="scan'208";a="85760381"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:46:12 -0800
+X-CSE-ConnectionGUID: yak2GO9KSF2zA4c9hT1E0Q==
+X-CSE-MsgGUID: aS4qX4V9Q5a6cE9wDUbTwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199986992"
+   d="scan'208";a="199024653"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Dec 2025 06:46:09 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 20 Dec 2025 06:46:09 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWyDf-000000004g5-25QF;
+	id 1vWyDf-000000004fr-1TO5;
 	Sat, 20 Dec 2025 14:46:07 +0000
-Date: Sat, 20 Dec 2025 22:45:47 +0800
+Date: Sat, 20 Dec 2025 22:45:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:kerne-unload 6/6] include/uapi/linux/bpf.h:13:10: fatal
- error: 'linux/trace_pritk.h' file not found
-Message-ID: <202512202217.XxN9OWu6-lkp@intel.com>
+To: Weiming Shi <bestswngs@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, horms@kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, xmei5@asu.edu,
+	Weiming Shi <bestswngs@gmail.com>
+Subject: Re: [PATCH v2] net: skbuff: add usercopy region to
+ skbuff_fclone_cache
+Message-ID: <202512202238.ULq0lvo7-lkp@intel.com>
+References: <20251215180903.954968-2-bestswngs@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,51 +66,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251215180903.954968-2-bestswngs@gmail.com>
 
-tree:   https://github.com/norov/linux kerne-unload
-head:   04bdfeb9b9df4788222284b4c6ca893be2634104
-commit: 04bdfeb9b9df4788222284b4c6ca893be2634104 [6/6] drop trace_printk.h
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512202217.XxN9OWu6-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202217.XxN9OWu6-lkp@intel.com/reproduce)
+Hi Weiming,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+[also build test ERROR on net/main linus/master v6.19-rc1 next-20251219]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Weiming-Shi/net-skbuff-add-usercopy-region-to-skbuff_fclone_cache/20251216-021811
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20251215180903.954968-2-bestswngs%40gmail.com
+patch subject: [PATCH v2] net: skbuff: add usercopy region to skbuff_fclone_cache
+config: i386-randconfig-003-20251216 (https://download.01.org/0day-ci/archive/20251220/202512202238.ULq0lvo7-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202238.ULq0lvo7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202217.XxN9OWu6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202238.ULq0lvo7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:61:
-   In file included from include/linux/syscalls_api.h:1:
-   In file included from include/linux/syscalls.h:96:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
-   In file included from include/linux/perf_event.h:53:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:7:
->> include/uapi/linux/bpf.h:13:10: fatal error: 'linux/trace_pritk.h' file not found
-      13 | #include <linux/trace_pritk.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1314: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/x86/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:386,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from net/core/skbuff.c:37:
+   net/core/skbuff.c: In function 'skb_init':
+>> include/linux/stddef.h:8:14: error: passing argument 5 of 'kmem_cache_create_usercopy' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^~~~~~~~~~~
+         |              |
+         |              void *
+   net/core/skbuff.c:5164:49: note: in expansion of macro 'NULL'
+    5164 |                                                 NULL);
+         |                                                 ^~~~
+   In file included from include/linux/mm.h:34,
+                    from net/core/skbuff.c:40:
+   include/linux/slab.h:408:41: note: expected 'unsigned int' but argument is of type 'void *'
+     408 |                            unsigned int useroffset, unsigned int usersize,
+         |                            ~~~~~~~~~~~~~^~~~~~~~~~
+>> net/core/skbuff.c:5160:43: error: too few arguments to function 'kmem_cache_create_usercopy'
+    5160 |         net_hotdata.skbuff_fclone_cache = kmem_cache_create_usercopy("skbuff_fclone_cache",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:406:1: note: declared here
+     406 | kmem_cache_create_usercopy(const char *name, unsigned int size,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +13 include/uapi/linux/bpf.h
+vim +/kmem_cache_create_usercopy +8 include/linux/stddef.h
 
-    10	
-    11	#include <linux/types.h>
-    12	#include <linux/bpf_common.h>
-  > 13	#include <linux/trace_pritk.h>
-    14	
+^1da177e4c3f41 Linus Torvalds   2005-04-16  6  
+^1da177e4c3f41 Linus Torvalds   2005-04-16  7  #undef NULL
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @8  #define NULL ((void *)0)
+6e218287432472 Richard Knutsson 2006-09-30  9  
 
 -- 
 0-DAY CI Kernel Test Service
