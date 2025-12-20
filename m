@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D612D0C9A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 14:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648882D3750
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 15:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766242758; cv=none; b=E29eMqNfRWIsg8FGCj+Xjjsm+VR7GlZjC0ciSytzuZqECSCvVOWOGG/AIxw9IdeqWTImmCYspRL3t3bWI/s7hio2oo9F9evZRpqqGHvYbGSjAqsUNLGSBu/UBIjmN7J8BRI2oHDNro16PvVyF8RZ5neANh+UXX9Zkn9D91BIIwc=
+	t=1766242815; cv=none; b=cY3c9VnGetuMEpz6PAAoLCDTsCjQMvCdYXOmQj6pBTGyzNf0QzrxWW7m9gnQ8asp6J41JIV3KU17z9VQ9r5I6LD/orRvpZnPAnu99o+dXpUXCPV+trruZnTZ83407yD76rl/JGb+JiNRPrXadO4OUnuz4wUVQypeDs2jqdZHiQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766242758; c=relaxed/simple;
-	bh=L9FTQKBTLbVkpNPBXEeLCDpHfSxdJMXcIBxAsthzBCw=;
+	s=arc-20240116; t=1766242815; c=relaxed/simple;
+	bh=t0kTphUfV5Viyt9qXf69USjyofS5XLA9Xg7l4P6/zzU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TEklAP3CTjWw2Ef1RDagzxF1gm3NC8CBnDqUXqezJo24qzkOaxi//rp92bT3DL69r54UaZ4xHXY7VUybdILco5Ga83//8MM8F8INctT0XpVXOyy1cO4WhbBkL6Zak7fZJZhCfElUWBRrtf4WyatbsisXXCeReeze6pcxtBJXJ/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n43lQT26; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=WmkqibqbGK/Ku/7XkM70Q9eFx+TU+/I+dPCkSEOKbzUcpYKb26NfzhAIuF7Ylkm9tQi5Junx36isLIXXNUwreNybNDPduem0TvwafeftGaBc+s5JW6pWooerz/nQXTyrDF/8SJUXd0q1m02XjlT6keY4sLTWnocq+M1df/xrRS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UNZstMmD; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n43lQT26"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UNZstMmD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766242757; x=1797778757;
+  t=1766242813; x=1797778813;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L9FTQKBTLbVkpNPBXEeLCDpHfSxdJMXcIBxAsthzBCw=;
-  b=n43lQT26qD4FsrLwHUiIUPqR1E/YOSUmZ6JDafnx2VkWZjU4Up+ySJkR
-   N7kXqRwtevmYPXlBODIun3O91gWtROZmvt0VT2ZJiMPtMG5XkDIinkWnB
-   9igITWkYD/XKEOul4q5EVzAs02LmBHrQ9LZa+NlSg2FVyTZIGbbiZsaEd
-   5xgixK6tfFrcvOhfn7zLGuy4eGs4zxBocAQgVy/M3ITXTppTWcmH4aYqE
-   lD/GjZBAU15tzX8JOKFrkjFFID4XIx+8lws08NwxmeMBk2Ui5Cq4JG0F1
-   IB9jeZZXMyYID3zR+6m5ZJyastlb+a1thW4QCepdCQm/pYgfov0a/k//j
-   Q==;
-X-CSE-ConnectionGUID: AhsWwp4jR9uo2GA/p/SlfQ==
-X-CSE-MsgGUID: K6Z+5YerSi+LXuvKJDqFTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="78493911"
+  bh=t0kTphUfV5Viyt9qXf69USjyofS5XLA9Xg7l4P6/zzU=;
+  b=UNZstMmD4dYRzkxs2lKKdUn6JF3CN9DudBUWNyJCDgaFAJtvWYliDHlk
+   ObhqjhoWZJSw1oYcarVqDVhHkocmho2IDbq6CXDNXPYIRCR1Vkl3Giotm
+   /q2CbNiAFQ+JrHcIvezgN4zpS66FEHMxl+FszXMnue1OCzET2NcFaVDE+
+   ls3rUPGqgu1I4RWHfzHIzRC8SThDLqPQtJdpnBuqE0GdSa7D7Ax3OJ9eV
+   OR+Hh96LtazwbSdKFM+ApZoUanW9nate/preKGeszO0/UnvchhBkNQsQl
+   HxZ+4blcaeCrtFBryJf1j9YW6z7F2d0ceYqkcbLOn1H6GM5wcbKomqUxu
+   g==;
+X-CSE-ConnectionGUID: awyOgfm8Sb2xsLTp0WnHmA==
+X-CSE-MsgGUID: n1/0kg7aSayzt1lrdMVnIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68254174"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="78493911"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 06:59:13 -0800
-X-CSE-ConnectionGUID: dDq080VzSQmzHkGiUk2zMg==
-X-CSE-MsgGUID: 8Iv8/5V/TIOMm5QccIeDWQ==
+   d="scan'208";a="68254174"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 07:00:13 -0800
+X-CSE-ConnectionGUID: wxVlBfpeTN2APgbcsInRag==
+X-CSE-MsgGUID: uy/yLvW+RRy8j0MsKaC63Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="203639805"
+   d="scan'208";a="204177193"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 20 Dec 2025 06:59:12 -0800
+  by orviesa005.jf.intel.com with ESMTP; 20 Dec 2025 07:00:11 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vWyQH-000000004hN-02ix;
-	Sat, 20 Dec 2025 14:59:09 +0000
-Date: Sat, 20 Dec 2025 22:59:08 +0800
+	id 1vWyRF-000000004hl-138u;
+	Sat, 20 Dec 2025 15:00:09 +0000
+Date: Sat, 20 Dec 2025 22:59:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3547/3547]
- drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:127:25: sparse: sparse: cast to
- restricted __be64
-Message-ID: <202512202220.cTtDMo8F-lkp@intel.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:hugetlb-init/v0 15/26] arch/powerpc/mm/mem.c:223:19: error:
+ 'zone_dma_bits' undeclared; did you mean 'zone_dma_limit'?
+Message-ID: <202512202237.ObA7f9uX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,153 +62,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   04473ee9ed912a16fff0d8846ad565bbf3d63c77
-commit: b0381d106c64a4e0d4e737badd78e7d15aa917f1 [3547/3547] crypto: ccp: Support SM2 algorithm for hygon ccp.
-config: x86_64-randconfig-122-20251217 (https://download.01.org/0day-ci/archive/20251220/202512202220.cTtDMo8F-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202220.cTtDMo8F-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git hugetlb-init/v0
+head:   8f1fbf04ce5ef30eb770231992ca055d4f45e5a7
+commit: c4213ce62b5b611f3c28bdd8be9b6f0b15130071 [15/26] powerpc: introduce arch_zone_limits_init()
+config: powerpc64-randconfig-001-20251220 (https://download.01.org/0day-ci/archive/20251220/202512202237.ObA7f9uX-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202237.ObA7f9uX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202220.cTtDMo8F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512202237.ObA7f9uX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:127:25: sparse: sparse: cast to restricted __be64
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:128:25: sparse: sparse: cast to restricted __be64
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:146:25: sparse: sparse: cast to restricted __be64
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:147:25: sparse: sparse: cast to restricted __be64
->> drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:150:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:150:22: sparse:     expected unsigned long long [usertype]
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:150:22: sparse:     got restricted __be64 [usertype]
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:171:25: sparse: sparse: cast to restricted __be64
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:173:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:173:22: sparse:     expected unsigned long long [usertype]
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:173:22: sparse:     got restricted __be64 [usertype]
->> drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:202:25: sparse: sparse: cast to restricted __be32
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:208:33: sparse: sparse: cast to restricted __be32
->> drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:212:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:212:32: sparse:     expected unsigned int [usertype]
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:212:32: sparse:     got restricted __be32 [usertype]
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:215:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:215:24: sparse:     expected unsigned int [usertype]
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:215:24: sparse:     got restricted __be32 [usertype]
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:296:28: sparse: sparse: cast to restricted __be64
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:582:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:582:24: sparse:     expected unsigned int [usertype]
-   drivers/crypto/ccp/ccp-crypto-sm2-hygon.c:582:24: sparse:     got restricted __be32 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +127 drivers/crypto/ccp/ccp-crypto-sm2-hygon.c
+   In file included from include/linux/kernel.h:28,
+                    from arch/powerpc/include/asm/page.h:11,
+                    from arch/powerpc/include/asm/mmu.h:143,
+                    from arch/powerpc/include/asm/paca.h:18,
+                    from arch/powerpc/include/asm/current.h:13,
+                    from include/linux/thread_info.h:23,
+                    from include/asm-generic/preempt.h:5,
+                    from arch/powerpc/include/asm/preempt.h:5,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from include/linux/memblock.h:12,
+                    from arch/powerpc/mm/mem.c:15:
+   arch/powerpc/mm/mem.c: In function 'arch_zone_limits_init':
+>> arch/powerpc/mm/mem.c:223:19: error: 'zone_dma_bits' undeclared (first use in this function); did you mean 'zone_dma_limit'?
+              1UL << (zone_dma_bits - PAGE_SHIFT));
+                      ^~~~~~~~~~~~~
+   include/linux/minmax.h:92:28: note: in definition of macro '__careful_cmp_once'
+     auto ux = (x); auto uy = (y);   \
+                               ^
+   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
+    #define min(x, y) __careful_cmp(min, x, y)
+                      ^~~~~~~~~~~~~
+   arch/powerpc/mm/mem.c:222:28: note: in expansion of macro 'min'
+     max_zone_pfns[ZONE_DMA] = min(max_low_pfn,
+                               ^~~
+   arch/powerpc/mm/mem.c:223:19: note: each undeclared identifier is reported only once for each function it appears in
+              1UL << (zone_dma_bits - PAGE_SHIFT));
+                      ^~~~~~~~~~~~~
+   include/linux/minmax.h:92:28: note: in definition of macro '__careful_cmp_once'
+     auto ux = (x); auto uy = (y);   \
+                               ^
+   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
+    #define min(x, y) __careful_cmp(min, x, y)
+                      ^~~~~~~~~~~~~
+   arch/powerpc/mm/mem.c:222:28: note: in expansion of macro 'min'
+     max_zone_pfns[ZONE_DMA] = min(max_low_pfn,
+                               ^~~
+   In file included from <command-line>:
+   include/linux/compiler.h:168:10: error: '__UNIQUE_ID_y__663' undeclared (first use in this function); did you mean '__UNIQUE_ID_x__662'?
+     __PASTE(__UNIQUE_ID_,     \
+             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:610:9: note: in definition of macro '__compiletime_assert'
+      if (!(condition))     \
+            ^~~~~~~~~
+   include/linux/compiler_types.h:630:2: note: in expansion of macro '_compiletime_assert'
+     _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                        ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
+     ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:49:25: note: in expansion of macro 'is_signed_type'
+    #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
+                            ^~~~~~~~~~~~~~
+   include/linux/minmax.h:75:20: note: in expansion of macro '__sign_use'
+     (__sign_use(ux) & __sign_use(uy))
+                       ^~~~~~~~~~
+   include/linux/minmax.h:93:20: note: in expansion of macro '__types_ok'
+     BUILD_BUG_ON_MSG(!__types_ok(ux, uy),  \
+                       ^~~~~~~~~~
+   include/linux/minmax.h:98:2: note: in expansion of macro '__careful_cmp_once'
+     __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+     ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:16:23: note: in expansion of macro '___PASTE'
+    #define __PASTE(a, b) ___PASTE(a, b)
+                          ^~~~~~~~
+   include/linux/compiler.h:168:2: note: in expansion of macro '__PASTE'
+     __PASTE(__UNIQUE_ID_,     \
+     ^~~~~~~
+   include/linux/minmax.h:98:48: note: in expansion of macro '__UNIQUE_ID'
+     __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+                                                   ^~~~~~~~~~~
+   include/linux/minmax.h:105:19: note: in expansion of macro '__careful_cmp'
+    #define min(x, y) __careful_cmp(min, x, y)
+                      ^~~~~~~~~~~~~
+   arch/powerpc/mm/mem.c:222:28: note: in expansion of macro 'min'
+     max_zone_pfns[ZONE_DMA] = min(max_low_pfn,
+                               ^~~
 
-   115	
-   116	/* Return:
-   117	 *  1: a > b
-   118	 * -1: a < b
-   119	 *  0: a = b
-   120	 */
-   121	static int ccp_sm2_fp_cmp(const u64 *a, const u64 *b, u32 count)
-   122	{
-   123		u64 a_cpu, b_cpu;
-   124		u32 i;
-   125	
-   126		for (i = 0; i < count; i++) {
- > 127			a_cpu = be64_to_cpu(a[i]);
-   128			b_cpu = be64_to_cpu(b[i]);
-   129			if (a_cpu > b_cpu)
-   130				return 1;
-   131			else if (a_cpu < b_cpu)
-   132				return -1;
-   133		}
-   134	
-   135		return 0;
-   136	}
-   137	
-   138	/* a = a + b */
-   139	static void ccp_sm2_fp_add(u64 *a, const u64 *b, u32 count)
-   140	{
-   141		u64 a_cpu, b_cpu, c_cpu, d_cpu;
-   142		u32 carry = 0;
-   143		s32 i;
-   144	
-   145		for (i = count - 1; i >= 0; i--) {
-   146			a_cpu = be64_to_cpu(a[i]);
-   147			b_cpu = be64_to_cpu(b[i]);
-   148			c_cpu = a_cpu + b_cpu;
-   149			d_cpu = c_cpu + carry;
- > 150			a[i] = cpu_to_be64(d_cpu);
-   151	
-   152			if (c_cpu < a_cpu)
-   153				carry = 1;
-   154			else if (carry && !d_cpu)
-   155				carry = 1;
-   156			else
-   157				carry = 0;
-   158		}
-   159	}
-   160	
-   161	/* a = -a */
-   162	static void ccp_sm2_fp_neg(u64 *a, u32 count)
-   163	{
-   164		u64 a_cpu, c_cpu;
-   165		s32 i;
-   166	
-   167		for (i = 0; i <= count - 1; i++)
-   168			a[i] = ~a[i];
-   169	
-   170		for (i = count - 1; i >= 0; i--) {
-   171			a_cpu = be64_to_cpu(a[i]);
-   172			c_cpu = a_cpu + 1;
-   173			a[i] = cpu_to_be64(c_cpu);
-   174	
-   175			if (a_cpu < c_cpu)
-   176				break;
-   177		}
-   178	}
-   179	
-   180	/* a = a - b */
-   181	static void ccp_sm2_fp_sub(u64 *a, u64 *b, u32 count)
-   182	{
-   183		ccp_sm2_fp_neg(b, count);
-   184		ccp_sm2_fp_add(a, b, count);
-   185	}
-   186	
-   187	/* a and tmp must be 64B, b and c must be 32B
-   188	 * a = b * c
-   189	 */
-   190	static void ccp_sm2_fp_mmul32(u8 *a, const u32 *b, const u32 *c, u8 *tmp)
-   191	{
-   192		u64 b_cpu, c_cpu, m_cpu;
-   193		u32 rem_cpu;
-   194		u32 *base, *m_cur;
-   195		int i, j, iter;
-   196	
-   197		memset(a, 0, CCP_SM2_MMUL_LEN);
-   198	
-   199		iter = 7;
-   200		base = (u32 *)(tmp + CCP_SM2_MMUL_LEN - sizeof(u32));
-   201		for (i = iter; i >= 0; i--) {
- > 202			b_cpu = be32_to_cpu(b[i]);
-   203			memset(tmp, 0, CCP_SM2_MMUL_LEN);
-   204	
-   205			rem_cpu = 0;
-   206			m_cur = base;
-   207			for (j = iter; j >= 0; j--) {
-   208				c_cpu = be32_to_cpu(c[j]);
-   209	
-   210				m_cpu = b_cpu * c_cpu + rem_cpu;
-   211				rem_cpu = (u32)(m_cpu >> 32);
- > 212				*m_cur = cpu_to_be32((u32)(m_cpu));
-   213				m_cur--;
-   214			}
-   215			*m_cur = cpu_to_be32(rem_cpu);
-   216			ccp_sm2_fp_add((u64 *)a, (u64 *)tmp,
-   217					CCP_SM2_MMUL_LEN / sizeof(u64));
-   218	
-   219			base--;
-   220		}
-   221	}
-   222	
+
+vim +223 arch/powerpc/mm/mem.c
+
+   206	
+   207	/*
+   208	 * Zones usage:
+   209	 *
+   210	 * We setup ZONE_DMA to be 31-bits on all platforms and ZONE_NORMAL to be
+   211	 * everything else. GFP_DMA32 page allocations automatically fall back to
+   212	 * ZONE_DMA.
+   213	 *
+   214	 * By using 31-bit unconditionally, we can exploit zone_dma_limit to inform the
+   215	 * generic DMA mapping code.  32-bit only devices (if not handled by an IOMMU
+   216	 * anyway) will take a first dip into ZONE_NORMAL and get otherwise served by
+   217	 * ZONE_DMA.
+   218	 */
+   219	void __init arch_zone_limits_init(unsigned long *max_zone_pfns)
+   220	{
+   221	#ifdef CONFIG_ZONE_DMA
+   222		max_zone_pfns[ZONE_DMA]	= min(max_low_pfn,
+ > 223					      1UL << (zone_dma_bits - PAGE_SHIFT));
+   224	#endif
+   225		max_zone_pfns[ZONE_NORMAL] = max_low_pfn;
+   226	#ifdef CONFIG_HIGHMEM
+   227		max_zone_pfns[ZONE_HIGHMEM] = max_pfn;
+   228	#endif
+   229	}
+   230	
 
 -- 
 0-DAY CI Kernel Test Service
