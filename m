@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450D231D739
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 23:42:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D81305E01
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 23:46:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766360549; cv=none; b=g11Mt8tBqfyXQNJ2rcbR9+39/e1lsZkr+Eni29IxZdTvtSCI51E/lQim85EPNHAe47Z4sUf1Gg+Wzt+AxEJCaQMghY+HOIkFaAd+zYFJtgJ3D83zdpDW+y9V5RY7h/FhAV2cDIPlVs54D8aE6hdVoFbxH0Vih4fc1CyeNhuEFfA=
+	t=1766360774; cv=none; b=Blr7Fwc1QSDfI79BJnTGE4Uo4Lf78B4GvxTnodtwiu0D6BSfAeOA7qA8YEnVXsv2L/w4RTBQjULkrVaX17Yr5ojTZE+7W6+hgLVcZ9dlEOmCUFvOM2kuA1N6mU64ZdRm+255jPFkvZpoDF23xr8HfyAuZWtXMNFSxWP+CG6pdRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766360549; c=relaxed/simple;
-	bh=gGxGbnasspaVRRI7by5dOPE84jKe4QonzMZG00rj0ik=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BxhwhRFMKmjUbgrIf/3jZxbNi6cI1nTt3570F5RlXwRj/qUo/iFRdckGEf2hGP97B+l9Cz/OOFxBzfj61lnaylgbwAZ6xMLmqhLKLyeLbkiAcq7kjxcpQBP4/a8rQnVdlwZKNn88TkzHAUGUvqi8mrp5j5nj25HeMVSNEzZ0mhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zsk4KVzh; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1766360774; c=relaxed/simple;
+	bh=UO2bo9s5r8LgeO4/cLQYVh972Nh5q4iik3dZ9hlvpnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OfUU8pA5PE4erFVeSyJJ7wJQWxiFdAIhKIEcIdDaL6ZoU/kyZClXAGuhq9dyKeJ372mTKkYeTLv3EDoEtCt8M7fRh9hxKgwlWkHaWn5T7mSsrSYmqnbPVtOfDJFrUBInXVtKUUbD1+wzcugIaFn4ZFIvLkHNzUb9BXQ0XDreAro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nx0puEG2; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zsk4KVzh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nx0puEG2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766360547; x=1797896547;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gGxGbnasspaVRRI7by5dOPE84jKe4QonzMZG00rj0ik=;
-  b=Zsk4KVzhrJ22uKxgGB/U5pz3GMpTZex1My9Q97G7t3LtM6RvmV9zEOzP
-   vA9OCY8DBnELCdDPJIAU2581jjlKCiJQNfGze1UUygLJE4SUmzks7hFqh
-   ZoFbR0z+YfpIJmFAsuQnHfHiKjEpcg67YLU3SNALyYtmZ8CNOXtWWhaNM
-   V8ChzBsATtQU4zIMCFQHHViO6FpocBqZwlDytHJudHAyBnjTNkMx2kpjL
-   3DPI2L2AahvTWcKUz/TnDbKOGVzq666ofnYKsZuwSEpbdngHdfqluXi8T
-   A0kO/jpTIhAWS91m4xwmz1HLdk7/+Y0rynuifzrLnKcyXYcZGomhl3BWQ
+  t=1766360772; x=1797896772;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UO2bo9s5r8LgeO4/cLQYVh972Nh5q4iik3dZ9hlvpnY=;
+  b=Nx0puEG2Lh3ZgNRT1ukkPFjQyb/hKQpvfeDYxbgSLWLQ+uxGYUt0b5oS
+   kRZCnXHiNey1BerBJtDLo/qlTaJh1lqRza3rQJZggkTMm4Keh8gYLQnXV
+   6QoIwiNGqRY6fAMzBun9l6p23VyRRIPS+ElFMP5jduMIe3vJ5HjkeVnxf
+   DIbVPTrpAbZbCg3+Z7LGGCsJGJrludTznIiB8QpTm1bEXLRINbIj7Mz3H
+   /NeY/6IOJUsVoWRq0ozLwMg8SAfBQmWsusoBJ2cb0j5lUfV3IlMkyw1/c
+   HM79dTI2+FklNlFea91tnDurRjR7ozmSwU0sbhTkyH8fd2ierqLHpQ5YS
    A==;
-X-CSE-ConnectionGUID: F6oP7SjpQyWfKN23fijKfg==
-X-CSE-MsgGUID: eW+EQvlpTF2POzE+QJQm6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="79588027"
+X-CSE-ConnectionGUID: nOpHbR7kSIuC0wiPb51RoQ==
+X-CSE-MsgGUID: Odgdrn6WQZuvqwRI+xhNRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68271194"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="79588027"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 15:42:26 -0800
-X-CSE-ConnectionGUID: r93/8ivDRxKA/B+8tTPRGA==
-X-CSE-MsgGUID: 0Kw/AbA4S4SkWxcQYJvWJQ==
+   d="scan'208";a="68271194"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 15:46:11 -0800
+X-CSE-ConnectionGUID: uZL80fitSzWJsunpzGyxCw==
+X-CSE-MsgGUID: fcH7ietZTyyOy9WhaSNb4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="199403859"
-Received: from lkp-server01.sh.intel.com (HELO 0713df988ca2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Dec 2025 15:42:24 -0800
-Received: from kbuild by 0713df988ca2 with local (Exim 4.98.2)
+   d="scan'208";a="198538304"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 21 Dec 2025 15:46:10 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXT49-000000000It-2tdX;
-	Sun, 21 Dec 2025 23:42:21 +0000
-Date: Mon, 22 Dec 2025 07:42:21 +0800
+	id 1vXT7n-000000005HM-2mQI;
+	Sun, 21 Dec 2025 23:46:07 +0000
+Date: Mon, 22 Dec 2025 00:45:18 +0100
 From: kernel test robot <lkp@intel.com>
-To: Kevin Brodsky <kevin.brodsky@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Ryan Roberts <ryan.roberts@arm.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	linuxppc-dev@lists.ozlabs.org,
-	Kevin Brodsky <kevin.brodsky@arm.com>
-Subject: Re: [PATCH] powerpc/mm: export symbols for lazy_mmu_mode KUnit tests
-Message-ID: <202512220735.UL4ukFLo-lkp@intel.com>
-References: <20251217163812.2633648-1-kevin.brodsky@arm.com>
+To: pr-hung <bkedx0000@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:pr/26 1/1] drivers/net/netdevsim/fib.c:58:28:
+ error: duplicate member 'fib_flush_work'
+Message-ID: <202512220054.QSnSPPy9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,47 +61,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251217163812.2633648-1-kevin.brodsky@arm.com>
 
-Hi Kevin,
-
-kernel test robot noticed the following build warnings:
-
-
-
-url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20251218-003955/Kevin-Brodsky/powerpc-64s-Do-not-re-activate-batched-TLB-flush/20251215-230757
-base:   the 14th patch of https://lore.kernel.org/r/20251215150323.2218608-15-kevin.brodsky%40arm.com
-patch link:    https://lore.kernel.org/r/20251217163812.2633648-1-kevin.brodsky%40arm.com
-patch subject: [PATCH] powerpc/mm: export symbols for lazy_mmu_mode KUnit tests
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20251222/202512220735.UL4ukFLo-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220735.UL4ukFLo-lkp@intel.com/reproduce)
+tree:   https://github.com/jcmvbkbc/linux-xtensa pr/26
+head:   0c125b4fcef40ea2c876496f0e3b9b6e74dcebde
+commit: 0c125b4fcef40ea2c876496f0e3b9b6e74dcebde [1/1] Fix potential vulnerability in cloned code (drivers/net/netdevsim/fib.c)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251222/202512220054.QSnSPPy9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220054.QSnSPPy9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512220735.UL4ukFLo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512220054.QSnSPPy9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> arch/powerpc/mm/book3s64/hash_tlb.c:33:1: warning: data definition has no type or storage class
-      33 | EXPORT_SYMBOL_IF_KUNIT(ppc64_tlb_batch); /* For lazy_mmu_mode KUnit tests */
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/mm/book3s64/hash_tlb.c:33:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL_IF_KUNIT' [-Wimplicit-int]
-   arch/powerpc/mm/book3s64/hash_tlb.c:33:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
-   arch/powerpc/mm/book3s64/hash_tlb.c:158:1: warning: data definition has no type or storage class
-     158 | EXPORT_SYMBOL_IF_KUNIT(__flush_tlb_pending); /* For lazy_mmu_mode KUnit tests */
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/mm/book3s64/hash_tlb.c:158:1: error: type defaults to 'int' in declaration of 'EXPORT_SYMBOL_IF_KUNIT' [-Wimplicit-int]
-   arch/powerpc/mm/book3s64/hash_tlb.c:158:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+>> drivers/net/netdevsim/fib.c:58:28: error: duplicate member 'fib_flush_work'
+      58 |         struct work_struct fib_flush_work;
+         |                            ^~~~~~~~~~~~~~
+   drivers/net/netdevsim/fib.c: In function 'nsim_fib_flush_work':
+>> drivers/net/netdevsim/fib.c:1504:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1504 | {
+         | ^
+   drivers/net/netdevsim/fib.c:1540:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1540 | {
+         | ^
+   drivers/net/netdevsim/fib.c:1567:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1567 | {
+         | ^
+   drivers/net/netdevsim/fib.c:1573:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1573 | {
+         | ^
+   drivers/net/netdevsim/fib.c:1665:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+    1665 | {
+         | ^
+>> drivers/net/netdevsim/fib.c:1692: error: expected '{' at end of input
+   drivers/net/netdevsim/fib.c: At top level:
+>> drivers/net/netdevsim/fib.c:1502:13: warning: 'nsim_fib_flush_work' defined but not used [-Wunused-function]
+    1502 | static void nsim_fib_flush_work(struct work_struct *work)
+         |             ^~~~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1479:13: warning: 'nsim_fib_event_work' defined but not used [-Wunused-function]
+    1479 | static void nsim_fib_event_work(struct work_struct *work)
+         |             ^~~~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1458:13: warning: 'nsim_fib_set_max_all' defined but not used [-Wunused-function]
+    1458 | static void nsim_fib_set_max_all(struct nsim_fib_data *data,
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1451:12: warning: 'nsim_fib_nexthops_res_occ_get' defined but not used [-Wunused-function]
+    1451 | static u64 nsim_fib_nexthops_res_occ_get(void *priv)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1444:12: warning: 'nsim_fib_ipv6_rules_res_occ_get' defined but not used [-Wunused-function]
+    1444 | static u64 nsim_fib_ipv6_rules_res_occ_get(void *priv)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1437:12: warning: 'nsim_fib_ipv6_resource_occ_get' defined but not used [-Wunused-function]
+    1437 | static u64 nsim_fib_ipv6_resource_occ_get(void *priv)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1430:12: warning: 'nsim_fib_ipv4_rules_res_occ_get' defined but not used [-Wunused-function]
+    1430 | static u64 nsim_fib_ipv4_rules_res_occ_get(void *priv)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1423:12: warning: 'nsim_fib_ipv4_resource_occ_get' defined but not used [-Wunused-function]
+    1423 | static u64 nsim_fib_ipv4_resource_occ_get(void *priv)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1417:37: warning: 'nsim_nexthop_bucket_activity_fops' defined but not used [-Wunused-const-variable=]
+    1417 | static const struct file_operations nsim_nexthop_bucket_activity_fops = {
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1353:13: warning: 'nsim_nexthop_free' defined but not used [-Wunused-function]
+    1353 | static void nsim_nexthop_free(void *ptr, void *arg)
+         |             ^~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1323:12: warning: 'nsim_nexthop_event_nb' defined but not used [-Wunused-function]
+    1323 | static int nsim_nexthop_event_nb(struct notifier_block *nb, unsigned long event,
+         |            ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1091:13: warning: 'nsim_fib_dump_inconsistent' defined but not used [-Wunused-function]
+    1091 | static void nsim_fib_dump_inconsistent(struct notifier_block *nb)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/netdevsim/fib.c:1027:12: warning: 'nsim_fib_event_nb' defined but not used [-Wunused-function]
+    1027 | static int nsim_fib_event_nb(struct notifier_block *nb, unsigned long event,
+         |            ^~~~~~~~~~~~~~~~~
 
 
-vim +33 arch/powerpc/mm/book3s64/hash_tlb.c
+vim +/fib_flush_work +58 drivers/net/netdevsim/fib.c
 
-    31	
-    32	DEFINE_PER_CPU(struct ppc64_tlb_batch, ppc64_tlb_batch);
-  > 33	EXPORT_SYMBOL_IF_KUNIT(ppc64_tlb_batch); /* For lazy_mmu_mode KUnit tests */
-    34	
+    44	
+    45	struct nsim_fib_data {
+    46		struct notifier_block fib_nb;
+    47		struct nsim_per_fib_data ipv4;
+    48		struct nsim_per_fib_data ipv6;
+    49		struct nsim_fib_entry nexthops;
+    50		struct rhashtable fib_rt_ht;
+    51		struct list_head fib_rt_list;
+    52		struct mutex fib_lock; /* Protects FIB HT and list */
+    53		struct notifier_block nexthop_nb;
+    54		struct rhashtable nexthop_ht;
+    55		struct devlink *devlink;
+    56		struct work_struct fib_event_work;
+    57		struct work_struct fib_flush_work;
+  > 58		struct work_struct fib_flush_work;
+    59		struct list_head fib_event_queue;
+    60		spinlock_t fib_event_queue_lock; /* Protects fib event queue list */
+    61		struct mutex nh_lock; /* Protects NH HT */
+    62		struct dentry *ddir;
+    63		bool fail_route_offload;
+    64		bool fail_res_nexthop_group_replace;
+    65		bool fail_nexthop_bucket_replace;
+    66		bool fail_route_delete;
+    67	};
+    68	
 
 -- 
 0-DAY CI Kernel Test Service
