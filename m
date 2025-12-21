@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A179381ACA;
-	Sun, 21 Dec 2025 20:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6EE6FBF
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 21:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766350512; cv=none; b=M74uUnfGnSQbg0ulR7WfeSEME3o43w5OIxX8CfeIQC92lsmk61mkCnXw0IbpVRYAWehPHPiyvK7xEBGdT5xi18wE6b6fSb+nyPyb0r/s/n6Kc9evXuZ2KIWMz0l1Zbz0eP/FXWBi4LzSgzt+grOdcMUTT17t/86QYr3iXJtczRM=
+	t=1766350992; cv=none; b=OKmk2g9qZJiBgYC8a/LGH0RYrhx4ySHtq8l+oTSqZrbFVR+Z6jG0N+OnYakxp1StFnc/M9c5x3GcHjtKcKHFtPX229CFxaa+/wqzI+qMZOriPGcJtMIZ1BaMOAFfA6EvgOOykMi/ilrpt2vLx1iID42u88QzQw9gsRoOvMz6ido=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766350512; c=relaxed/simple;
-	bh=ylQv2apO3GZuwcXTS+Va+7Q2KmElHrBCdTtIAR3LXBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o+jXtplTGNiUaS0j42Ec/uDnvAK/TECB9CpLnFU/2cHTz6jzWYSFkPEkgeybbeNPJtS86nS4fPlmQEIgdDQUBRzAy7L//uvjRS+jtbb5X9CK2q/p/Pdye2RWMtUnHXIufNoNEQ8dHQiN1EdQmdQ7KZjh7iR2V3DZpIV+UIISoQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VuEDS27o; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1766350992; c=relaxed/simple;
+	bh=Tn32Df6L+ScJpVdhUlMt4je7G2PxFyspnJgPIHP/bcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=V1KXrm21UpCzRJmA+TEBg0J99hb61GIAlqsRgRJYOmJn00L+qASGqmTWQm9oKmWi8aKCVHLmb2vUDJ3nAuVTbM8ffqsdCDdHj1iUZJMipYvyqnd9k4neVjciE7HilvMqITptUGWqFxVD1xysYqRykph4CMJYLI4CRpTt5zfyNXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hRQtk57q; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VuEDS27o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hRQtk57q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766350511; x=1797886511;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ylQv2apO3GZuwcXTS+Va+7Q2KmElHrBCdTtIAR3LXBo=;
-  b=VuEDS27oRSubRLfm6SVPVqIcy6poO6J0ktnGYVgcc42rn+tZoVo7TC0u
-   hfiC1EikIrxNJXLLXACTbsUGrbkGPZKr9CyNBc69O27a5dEM5rwIJ2qTc
-   bqoWVs0yDMMKykXcv+j03PdwXcOAh7GEIebGW7iZ5SgxxfJLfmhgvWJLj
-   +MovrGd6NgTixxuqHmqNvlSzIiA32WMnfCEUWcVh4+fSIz1DuDzPd/Pb3
-   sWC/qH+g6ldi1xUL8UyKT8UGaNbPjlxACb6EJlZRvXqcFpx32j1b7cB4V
-   9LTFjVReNMNqeBVCpMiQ+nXcwzL2+FHEz7rDHOeQcuHIpUmcDjC0y4EYR
+  t=1766350991; x=1797886991;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Tn32Df6L+ScJpVdhUlMt4je7G2PxFyspnJgPIHP/bcg=;
+  b=hRQtk57qC1dt2gJR3olDpHyf/MFaEp5Ad9binbmjcgQtsoXSu70WyriK
+   Clv2WY5uyfbTQLMh3dIXlx7ZfoC3WK1TMxnwgIBiS3ykcRuCFSusFRNVv
+   7QxZQBC1psWcw1hW3FCsPme6fSjgCTYdkj48bBFsFtq46elZk6foiQSjf
+   KfJ06rnpL0/fOZCPCZW7U8TcmhxmWLxQBfsHUxsYZC2Zcg+h0JEFOjUlo
+   hg0u2Xl9bZzYNCGrfbXkm8ussO5WDDupCIVLAapqJdSWOsbIapeYHiPKf
+   GRIwsm34Vy63G7aaWHl7S/UL9wGSKwfC+4rTo38BFixk9jwCYRHoCySzC
    Q==;
-X-CSE-ConnectionGUID: LLTjcJMhQ8WYEXIksefTIg==
-X-CSE-MsgGUID: wAaIddcJQOGIpGcphcrphw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="79673866"
+X-CSE-ConnectionGUID: mYu6RTj7QCWQO1h37uW7+g==
+X-CSE-MsgGUID: cXFhzHxVQGC4gMXiVpXSQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="79338766"
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="79673866"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 12:55:10 -0800
-X-CSE-ConnectionGUID: CCh31AOZSq+zbw6znigUEg==
-X-CSE-MsgGUID: pSbmKb/BRSWppP6Y3qj19A==
+   d="scan'208";a="79338766"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 13:03:09 -0800
+X-CSE-ConnectionGUID: jis1ia4ETjOy1FIaysZ80g==
+X-CSE-MsgGUID: A1dCQMwhSY+GUuM3v9Edsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="199004900"
+   d="scan'208";a="199884770"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Dec 2025 12:55:08 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 21 Dec 2025 13:03:08 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXQSH-000000005Ea-31Sd;
-	Sun, 21 Dec 2025 20:55:05 +0000
-Date: Sun, 21 Dec 2025 21:54:58 +0100
+	id 1vXQa1-000000005Em-3hHB;
+	Sun, 21 Dec 2025 21:03:05 +0000
+Date: Sun, 21 Dec 2025 22:02:47 +0100
 From: kernel test robot <lkp@intel.com>
-To: Zhan Xusheng <zhanxusheng1024@gmail.com>, peterz@infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	linux-sched@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Zhan Xusheng <zhanxusheng@xiaomi.com>
-Subject: Re: [PATCH] sched/fair: factor out common sched_entity stats/task
- lookup
-Message-ID: <202512212116.MgXjzmJz-lkp@intel.com>
-References: <20251217070040.8723-1-zhanxusheng@xiaomi.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 12/12] kismet: WARNING: unmet
+ direct dependencies detected for CRYPTO_SHA256 when selected by
+ INCREMENTAL_FS
+Message-ID: <202512212211.NQUf9JuB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,56 +62,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251217070040.8723-1-zhanxusheng@xiaomi.com>
 
-Hi Zhan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/sched/core]
-[also build test ERROR on peterz-queue/sched/core linus/master v6.19-rc1 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhan-Xusheng/sched-fair-factor-out-common-sched_entity-stats-task-lookup/20251217-150252
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20251217070040.8723-1-zhanxusheng%40xiaomi.com
-patch subject: [PATCH] sched/fair: factor out common sched_entity stats/task lookup
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251221/202512212116.MgXjzmJz-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512212116.MgXjzmJz-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   2141da9e498139ac37a520b62dfdc77db8003146
+commit: a95005100dd1e4f70c4fce3abead12cb5f1d7b0d [12/12] ANDROID: Incremental fs: Remove unnecessary dependencies
+config: x86_64-kismet-CONFIG_CRYPTO_SHA256-CONFIG_INCREMENTAL_FS-0-0 (https://download.01.org/0day-ci/archive/20251221/202512212211.NQUf9JuB-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251221/202512212211.NQUf9JuB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512212116.MgXjzmJz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512212211.NQUf9JuB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> kernel/sched/fair.c:1337:37: error: use of undeclared identifier 'p'
-    1337 |         get_se_stats_and_task(se, &stats, &p);
-         |                                            ^
-   1 error generated.
-
-
-vim +/p +1337 kernel/sched/fair.c
-
-  1327	
-  1328	static inline void
-  1329	update_stats_enqueue_sleeper_fair(struct cfs_rq *cfs_rq, struct sched_entity *se)
-  1330	{
-  1331		struct sched_statistics *stats;
-  1332		struct task_struct *tsk = NULL;
-  1333	
-  1334		if (!schedstat_enabled())
-  1335			return;
-  1336	
-> 1337		get_se_stats_and_task(se, &stats, &p);
-  1338	
-  1339		__update_stats_enqueue_sleeper(rq_of(cfs_rq), tsk, stats);
-  1340	}
-  1341	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for CRYPTO_SHA256 when selected by INCREMENTAL_FS
+   WARNING: unmet direct dependencies detected for USB_PHY
+     Depends on [n]: USB_SUPPORT [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_USB_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_SHA256
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - INCREMENTAL_FS [=y] && BLOCK [=y]
+   
+   WARNING: unmet direct dependencies detected for SND_SOC_MAX98357A
+     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && GPIOLIB [=n]
+     Selected by [y]:
+     - SND_SOC_AMD_RV_RT5682_MACH [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_SOC_AMD_ACP3x [=y] && I2C [=y] && CROS_EC [=y]
+     - SND_SOC_STORM [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_SOC_QCOM [=y]
+   
+   WARNING: unmet direct dependencies detected for SND_SOC_DMIC
+     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && GPIOLIB [=n]
+     Selected by [y]:
+     - SND_SOC_STM32_DFSDM [=y] && SOUND [=y] && !UML && SND [=y] && (ARCH_STM32 || COMPILE_TEST [=y]) && SND_SOC [=y] && STM32_DFSDM_ADC [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_LIB_SHA256
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - SND_SOC_CROS_EC_CODEC [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && CROS_EC [=y]
 
 -- 
 0-DAY CI Kernel Test Service
