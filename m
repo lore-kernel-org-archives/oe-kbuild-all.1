@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB6B27A469
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 12:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A45828468E;
+	Sun, 21 Dec 2025 13:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766321771; cv=none; b=aaISfs7kUq4yThxCZaE+OobbQNFqUrhCb4QZKWzQ18ZcHZmO/7iZFP+hOWoAnJhqWZy04UThEh4PvSRf84Ej2qT7vQr8+bquWNS1mFVPa6qijOvME9dyPtzG5epD7tc5xH6Lzso1P8kYeowI2580obSh36PR2MW3935hRBvT4/k=
+	t=1766322124; cv=none; b=a3AqDK/JtdeybdhoSo3AMNp5rbne827gc3r0T6F5C/qPBUyonBzovU/pHlL3W4XB5oslzWrE5v4vo9loWE5obZywFcyDkHcP0BM9A8OIlgCLO71wZxyUgpS+a1jumVMyj79niiVjCodVcXi0olbBiz3J0WwGDB3btXapcQAoe04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766321771; c=relaxed/simple;
-	bh=N7NHTxid8yacV9LmMZv3GiH9rqE+GSW/aaVG38SLO2c=;
+	s=arc-20240116; t=1766322124; c=relaxed/simple;
+	bh=IelPuQfpRKpMJVdVfQngugsAIYeDlUYPxZTLwugxbgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OaTL5Z+OShmHLjLyioaROTq/wyXm7OzgBb9nz764lZQ3sAYeXt1U19fTY8eb/BnOxj3BttoXsLhG2hsx2Rvi/mqonpoZvoCEJCbvpCDDCnu+RlkrR1yTH/CH/unV6PNX6YJslx7GHKBqMLp+qwcz07T0BB8KwxOef3B8+XHpgBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MmYszv5X; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=P/K/2Kdt/SLlGDfhjTfu40LjFWSxvBSov90LzlfaPc8kupbqkHJNBy3Oet5e7C8Tqg76YuCilBLc9IpSfVcaW9nxDTes4OcQ7HrxWN06H81G3H74D0LxDxeMY5abfluqACIkPhzvfFvUxUDXhOJv09+tzyPQMZq1f6dyTRukuAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ER1Ik8HC; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MmYszv5X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ER1Ik8HC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766321771; x=1797857771;
+  t=1766322123; x=1797858123;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=N7NHTxid8yacV9LmMZv3GiH9rqE+GSW/aaVG38SLO2c=;
-  b=MmYszv5XjgoSwxXbYeuC/fSk3ZfSyWL5vCy7HSfmIk2AH5SHyu1ArGUn
-   0sbHv0AxYMLRnwn90QZPFeB6ub4e3e3Fhr8dzXsdbM2uRRcVFsN6bqu7Q
-   87yniupSgfvhofH/K7ZssO5mwCvXOeYnDEHgyUs/HghaBdD776oAmnm8Z
-   E8YUsQbrXZQi7Sj2FOuVkXcmQW2tcF77CHABjq3ZGYFa3oJW+Wg5WjlId
-   OUSE5rFtfRoBVg1iQHBEpsdSyr5q8ahhCZEveL/bkPHrUFlp9E3dIldhp
-   mNmtjnO1Urf6SUfUUuukTviaAxxeDwrc7vOzHnoT53gGOUSxtDkHcuJ9s
-   A==;
-X-CSE-ConnectionGUID: I+AHwe7hTriPEVGv6pEOGw==
-X-CSE-MsgGUID: NWnoBmbkTy+N2Y6Rg6zDTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="78922141"
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="78922141"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 04:56:03 -0800
-X-CSE-ConnectionGUID: T3harOe5Sy+FFUZAbgnesQ==
-X-CSE-MsgGUID: m5TyObk+QUSRXptB26i0Ow==
+  bh=IelPuQfpRKpMJVdVfQngugsAIYeDlUYPxZTLwugxbgg=;
+  b=ER1Ik8HCkSNidPJusuCBSOzgpU6+wfTGksbvdFIGtuHm7Y1lcBoU8Y1U
+   aBQ0wiVv1AiQk3LOw8kXVa+sV8tKoHOwQH4upbPYSfcnz/EzZ3LvNPW14
+   pYfC+flf8P7VtLfdd+UO3qVsC7Vv7cbpX+EfKHDtUt5pNjC6A7YIjqrzQ
+   BOPaY4Zfde0tcxKUWxWLtEi+MmzUeDfQ1nplyxjkmj6wtNaGYRnaUjvL0
+   AVjKZ3l9gzQxjgAG4y9M6DouCsxZXRSgIrcIUzWh6QloqdavYB/rIkifo
+   aVdrNYMjnk0i82vHwQetNotFl0MRMraQPY/WXn7vsUyO862uBVx9CvkZC
+   w==;
+X-CSE-ConnectionGUID: cR4vcmhWSiqI5/TT86m8Gg==
+X-CSE-MsgGUID: 51M+95FfRIWs2UDBWZC8iA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68084631"
+X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
+   d="scan'208";a="68084631"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 05:02:02 -0800
+X-CSE-ConnectionGUID: tSMa9SGsQR6X4MkfEPOybw==
+X-CSE-MsgGUID: zpzgTZWNSviZ9bksHBD5rw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199205661"
+X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
+   d="scan'208";a="198547878"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Dec 2025 04:56:00 -0800
+  by orviesa010.jf.intel.com with ESMTP; 21 Dec 2025 05:02:01 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXIyc-0000000053s-0SQE;
-	Sun, 21 Dec 2025 12:55:58 +0000
-Date: Sun, 21 Dec 2025 13:55:43 +0100
+	id 1vXJ4Q-00000000548-17Dx;
+	Sun, 21 Dec 2025 13:01:58 +0000
+Date: Sun, 21 Dec 2025 14:01:10 +0100
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
-Subject: Re: [PATCH] rust: sync: implement Unpin for ARef
-Message-ID: <202512211302.CuYHRqLX-lkp@intel.com>
-References: <20251217-unpin-for-aref-v1-1-84711b747d02@google.com>
+To: Vitaliy Filippov <vitalifster@gmail.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Vitaliy Filippov <vitalifster@gmail.com>
+Subject: Re: [PATCH] Do not require atomic writes to be power of 2 sized and
+ aligned on length boundary
+Message-ID: <202512211420.W7jr2osh-lkp@intel.com>
+References: <20251220173833.71176-1-vitalifster@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,45 +65,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251217-unpin-for-aref-v1-1-84711b747d02@google.com>
+In-Reply-To: <20251220173833.71176-1-vitalifster@gmail.com>
 
-Hi Alice,
+Hi Vitaliy,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v6.19-rc1 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-sync-implement-Unpin-for-ARef/20251218-013900
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20251217-unpin-for-aref-v1-1-84711b747d02%40google.com
-patch subject: [PATCH] rust: sync: implement Unpin for ARef
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251221/202512211302.CuYHRqLX-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vitaliy-Filippov/Do-not-require-atomic-writes-to-be-power-of-2-sized-and-aligned-on-length-boundary/20251221-014115
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20251220173833.71176-1-vitalifster%40gmail.com
+patch subject: [PATCH] Do not require atomic writes to be power of 2 sized and aligned on length boundary
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251221/202512211420.W7jr2osh-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211302.CuYHRqLX-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211420.W7jr2osh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512211302.CuYHRqLX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512211420.W7jr2osh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0277]: the trait bound `T: sync::aref::AlwaysRefCounted` is not satisfied
-   --> rust/kernel/sync/aref.rs:87:19
-   |
-   87 | impl<T> Unpin for ARef<T> {}
-   |                   ^^^^^^^ the trait `sync::aref::AlwaysRefCounted` is not implemented for `T`
-   |
-   note: required by a bound in `sync::aref::ARef`
-   --> rust/kernel/sync/aref.rs:68:20
-   |
-   68 | pub struct ARef<T: AlwaysRefCounted> {
-   |                    ^^^^^^^^^^^^^^^^ required by this bound in `ARef`
-   help: consider restricting type parameter `T` with trait `AlwaysRefCounted`
-   |
-   87 | impl<T: sync::aref::AlwaysRefCounted> Unpin for ARef<T> {}
-   |       ++++++++++++++++++++++++++++++
+>> fs/read_write.c:1805:9: warning: unused variable 'len' [-Wunused-variable]
+    1805 |         size_t len = iov_iter_count(iter);
+         |                ^~~
+   1 warning generated.
+
+
+vim +/len +1805 fs/read_write.c
+
+c34fc6f26ab86d Prasad Singamsetty 2024-06-20  1802  
+c3be7ebbbce520 John Garry         2024-10-19  1803  int generic_atomic_write_valid(struct kiocb *iocb, struct iov_iter *iter)
+c34fc6f26ab86d Prasad Singamsetty 2024-06-20  1804  {
+c34fc6f26ab86d Prasad Singamsetty 2024-06-20 @1805  	size_t len = iov_iter_count(iter);
 
 -- 
 0-DAY CI Kernel Test Service
