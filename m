@@ -1,226 +1,262 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11B82628D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 05:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A85150997
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 05:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766294137; cv=none; b=hYArJKN4g6ZgOSdiykgmxN0seRmpQfjFWVBCZXoqMXMBsxd21E3YZZSq5Rpsva1VB4jEZ9omNb6r5pRYjeiHUIYQkB7FV/UE7s+XmvL6tQPuD4Kax9YsA8XbuVse2Cin+flT8gUjPB0iV/zVV8gmaBWk/PR5imYRSw9fr2cZrIo=
+	t=1766295718; cv=none; b=jr6Whn4y1on3+EdFhD39mcLEbCuuA9wPh88VKp7y9wKtUui3wX/l++NzmToWgOOF9vCXpn7kEJ4+T5TeHmJ4kMjXh7GZKBN2aVcGyHxI12eb6MEU3JAzzVlLhNDSAeaGrfONn3nx9ll+lM9zdDz9iDbM3jn2gBCcHQ/qiKSFhvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766294137; c=relaxed/simple;
-	bh=lqw/hboHx3ROopTDDyy9VMaHC5uPA3PcmRQKg2v2bbE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aFYLui9tH6dpzjZDKSQ9PwysJDSRPq0tj0ulzR9hv/ffhgiI8EI6CnTJBVaG6HEZPDpZ+0pMrf7UNpy6YeLbUUDcoSMb2UnxTfBzVNMDYRMSMs1YDz064I+v/ayyV1iW5AUxbuEYkZZ8sMYU+/99VCr6210g2mxxT3z7FRp9Yjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WYTllWGt; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766295718; c=relaxed/simple;
+	bh=ilDZvq9j0rpAdtg4q6FG1s4dYhcSzP1Zt6HYS9wQDGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZKM7fTDLNvG9oUVvQS75sXkZ6EM3kDFIw3EK8ZOvf6TlTmY173jv/VRp4briHXErPFnBYgjbNWAwbi3aN/RT5/SnQFTbL4cBpDXZfcwE1y6zx2uyVvqX/8iMV6Wn/q0mOSPALl/BOBW6OCYoFrVujCl3gr/AjPG9kvD1r0m7iwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QISamCjv; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WYTllWGt"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-34c5f0222b0so2544499a91.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 20 Dec 2025 21:15:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766294135; x=1766898935; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zrm+sCPHTPnZ3R2lUhrTFOXrDyXAJEp9c+N8RivifRI=;
-        b=WYTllWGtB733rp93V9eYSRk6VZG6onxyFHGxOocN7WAV8+FDhMqkFPloE2p9XSFs14
-         Tn9RZjyelLmRumqNlW+2YJGg3ity6LKM9LFNJX4U6aBK+v5ah/4n2ATaQAsBLF62pWkb
-         BycYSl31HTAj85N9Mg44RjnrT60xSccQ7MhCE5qsPgyhKMHHiM0oYCEDSM3Bq9Rx5MBk
-         BS4Abmqt+gCU62260wl+sd/NkKLEfHABoEtiGrv4pimqnwrHVXAsX8kFWV09zFk20q1O
-         0C4GkD6eaEBKMJYHoB5QT7Js8N+Y4marKi2U/bJo41ncy4hkxDZgGlz29M0pJ2pz54Yd
-         l6KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766294135; x=1766898935;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Zrm+sCPHTPnZ3R2lUhrTFOXrDyXAJEp9c+N8RivifRI=;
-        b=KIzS9IVu+LIpL6KvrgDTYWNAzPaYuu9fWLRs05ofoG/FemJi3TZeLOMw/35ff5kNZh
-         RpWH1kvALiIepD6G4HR4jUeU0UcKSleiLP5U0G+4g0TDprjt1ohCfJibaq2XIN5PY0X0
-         ph0AzSGXy7FYzkLFqHX2LgQcUF1SgdZ2QydjsH7VIH7rOzqukjQQ6B8Xgsqbt42jAZNf
-         5JSLCOwx15ur5ZHp/zvU+NNQwRyL87aqp62VWJ+oz7fx+bBHbbEFREnpqzujTbcQXtNw
-         nHMj4NJVbRkaoXHHMnp/DnqfZrfyaRrKWP1OHm6zfXsPBkEnRNNs3zsDfdboI7lX+lmp
-         3A1g==
-X-Forwarded-Encrypted: i=1; AJvYcCX6U1HvXW5vAgSYy5dCKueYtQlFmRERQS2E6U9UPs3BeHGo2mxjVZykIdpZGZQWb4V1yKW3Tzqh2hXyLZVH@lists.linux.dev
-X-Gm-Message-State: AOJu0YyNY/ap5I6QvgSmXbVsWj0qqqWTlnKD2/wj+niqBGeCJ/y32bHo
-	btNTvsmmy2i5SOL9Ht/Fra4JSyOsK33/vAUK4wsduXwV8qxMUWG+17uM
-X-Gm-Gg: AY/fxX6M0Gx5LElJAxRCRJqATzFao9FMq4+IHrHXu6mhPooxhzqN+jXu4hlZ/pCuRNL
-	Va+LuiPR05x35bSCOS/DvAtfpF0zduHNY6eM0H5NoJ/z4RbhlGKyaqovSS9d3c2IptMjykAEzyr
-	r5z6N6K+ZZujVYCA7XEiTlWzrxK8U4b0mOSnwieDQjEaIy4QhGqBVW01CcjqEKCceyd4SkBtQHI
-	DxQgwNu7FaiL+vYFImFWUiNoDUzUV7k5JvWkxE8PvDZSbqyjSJbV0IjfzFXsCSn8Y+VVTCBhXaX
-	R7Z1jc4Z73GnhFroQePNx4CbAyKzrYWbwypS5A6Drld75gigHQkXnBbXEtNxXQoaIYNMIn4iWuY
-	b2d2YSnYAXfU21U0GG+BfO4dL5A7FzfmwcKVS6EmtuOm/KFoosKRiNN27s2nqxrIGvI+b/+J3GD
-	cvMJG3nzFIh5ucZ9IspH64kJDp
-X-Google-Smtp-Source: AGHT+IG8fgdP5DyvYQfIsi79vPvO3rvDS48h/0TZoR1EsxLyaeNxkQLWaGjIbOP2x9FZnMrWOAqXpQ==
-X-Received: by 2002:a17:90b:33c9:b0:32e:6fae:ba52 with SMTP id 98e67ed59e1d1-34e9211d59dmr6149016a91.6.1766294135006;
-        Sat, 20 Dec 2025 21:15:35 -0800 (PST)
-Received: from Barrys-MBP.hub ([47.72.129.29])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e9223adf5sm6402226a91.14.2025.12.20.21.15.28
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 20 Dec 2025 21:15:34 -0800 (PST)
-From: Barry Song <21cnbao@gmail.com>
-To: lkp@intel.com
-Cc: 21cnbao@gmail.com,
-	ada.coupriediaz@arm.com,
-	anshuman.khandual@arm.com,
-	ardb@kernel.org,
-	catalin.marinas@arm.com,
-	iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	m.szyprowski@samsung.com,
-	maz@kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	robin.murphy@arm.com,
-	ryan.roberts@arm.com,
-	surenb@google.com,
-	v-songbaohua@oppo.com,
-	will@kernel.org,
-	zhengtangquan@oppo.com
-Subject: Re: [PATCH 5/6] dma-mapping: Allow batched DMA sync operations if supported by the arch
-Date: Sun, 21 Dec 2025 13:15:23 +0800
-Message-Id: <20251221051523.18557-1-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <202512201836.f6KX6WMH-lkp@intel.com>
-References: <202512201836.f6KX6WMH-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QISamCjv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766295716; x=1797831716;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ilDZvq9j0rpAdtg4q6FG1s4dYhcSzP1Zt6HYS9wQDGU=;
+  b=QISamCjvYn4/BmbvW+UTytww7XbB95SbNuLX4qLYPNQlFVkxVcK86qa6
+   WCtXDQj3VtwzPwzMoyMkkwNJ6J+27b5pf7u9CfflU3terux4YlWtKJv6N
+   3y/E0OI3exctJDUVSfEjb3CVaeK2GlWwyvzUaljNEvS/X7bR9EweSbHNH
+   9Bk9I77/oJmOY5GD7Q7Zv53Dtk5+WQbVyTCQPpdmaRDQQUdz38O+3JqKu
+   EVflA9WFeNtmSslTFJwRNRqlIX01mnVaAAhed5XuhEA5/Px0pjrFD1bo9
+   uAT73iYnDDVP8gIQKwPXqzz/ZTLe5RwqwBF6+wy6rnjgQr0V9Q60ju8OZ
+   w==;
+X-CSE-ConnectionGUID: 6llaNrTPRdiGxzCAaiNrXg==
+X-CSE-MsgGUID: NGtbkuuzS5O+GoKtQJjhqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68134211"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="68134211"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 21:41:56 -0800
+X-CSE-ConnectionGUID: mtpzOS9sRE+mycIlwkIccA==
+X-CSE-MsgGUID: KKIzcC9iSDe4gOLNlgJ8dw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
+   d="scan'208";a="199211767"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 20 Dec 2025 21:41:55 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vXCCW-000000004wW-303A;
+	Sun, 21 Dec 2025 05:41:52 +0000
+Date: Sun, 21 Dec 2025 06:41:30 +0100
+From: kernel test robot <lkp@intel.com>
+To: Chuck Lever <cel@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 2/2] NFSD: Add asynchronous write throttling support
+Message-ID: <202512210637.Fz6bpRxI-lkp@intel.com>
+References: <20251219141105.1247093-3-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251219141105.1247093-3-cel@kernel.org>
 
->
-> All errors (new ones prefixed by >>):
->
-> >> kernel/dma/direct.c:456:4: error: call to undeclared function 'dma_direct_unmap_phys_batch_add'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      456 |                         dma_direct_unmap_phys_batch_add(dev, sg->dma_address,
->          |                         ^
->    kernel/dma/direct.c:456:4: note: did you mean 'dma_direct_unmap_phys'?
->    kernel/dma/direct.h:188:20: note: 'dma_direct_unmap_phys' declared here
->      188 | static inline void dma_direct_unmap_phys(struct device *dev, dma_addr_t addr,
->          |                    ^
-> >> kernel/dma/direct.c:484:22: error: call to undeclared function 'dma_direct_map_phys_batch_add'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      484 |                         sg->dma_address = dma_direct_map_phys_batch_add(dev, sg_phys(sg),
->          |                                           ^
->    2 errors generated.
->
->
+Hi Chuck,
 
-Thanks very much for the report.
-Can you please check if the below diff fix the build issue?
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-From 5541aa1efa19777e435c9f3cca7cd2c6a490d9f1 Mon Sep 17 00:00:00 2001
-From: Barry Song <v-songbaohua@oppo.com>
-Date: Sun, 21 Dec 2025 13:09:36 +0800
-Subject: [PATCH] kernel/dma: Fix build errors for dma_direct_map_phys
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.19-rc1 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202512201836.f6KX6WMH-lkp@intel.com/
-Signed-off-by: Barry Song <v-songbaohua@oppo.com>
----
- kernel/dma/direct.h | 38 ++++++++++++++++++++++++++------------
- 1 file changed, 26 insertions(+), 12 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/NFSD-Add-aggressive-write-throttling-control/20251219-221859
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20251219141105.1247093-3-cel%40kernel.org
+patch subject: [RFC PATCH 2/2] NFSD: Add asynchronous write throttling support
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251221/202512210637.Fz6bpRxI-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210637.Fz6bpRxI-lkp@intel.com/reproduce)
 
-diff --git a/kernel/dma/direct.h b/kernel/dma/direct.h
-index a211bab26478..bcc398b5aa6b 100644
---- a/kernel/dma/direct.h
-+++ b/kernel/dma/direct.h
-@@ -138,8 +138,7 @@ static inline dma_addr_t __dma_direct_map_phys(struct device *dev,
- 	return DMA_MAPPING_ERROR;
- }
- 
--#ifdef CONFIG_ARCH_WANT_BATCHED_DMA_SYNC
--static inline dma_addr_t dma_direct_map_phys_batch_add(struct device *dev,
-+static inline dma_addr_t dma_direct_map_phys(struct device *dev,
- 		phys_addr_t phys, size_t size, enum dma_data_direction dir,
- 		unsigned long attrs)
- {
-@@ -147,13 +146,13 @@ static inline dma_addr_t dma_direct_map_phys_batch_add(struct device *dev,
- 
- 	if (dma_addr != DMA_MAPPING_ERROR && !dev_is_dma_coherent(dev) &&
- 	    !(attrs & (DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_MMIO)))
--		arch_sync_dma_for_device_batch_add(phys, size, dir);
-+		arch_sync_dma_for_device(phys, size, dir);
- 
- 	return dma_addr;
- }
--#endif
- 
--static inline dma_addr_t dma_direct_map_phys(struct device *dev,
-+#ifdef CONFIG_ARCH_WANT_BATCHED_DMA_SYNC
-+static inline dma_addr_t dma_direct_map_phys_batch_add(struct device *dev,
- 		phys_addr_t phys, size_t size, enum dma_data_direction dir,
- 		unsigned long attrs)
- {
-@@ -161,13 +160,20 @@ static inline dma_addr_t dma_direct_map_phys(struct device *dev,
- 
- 	if (dma_addr != DMA_MAPPING_ERROR && !dev_is_dma_coherent(dev) &&
- 	    !(attrs & (DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_MMIO)))
--		arch_sync_dma_for_device(phys, size, dir);
-+		arch_sync_dma_for_device_batch_add(phys, size, dir);
- 
- 	return dma_addr;
- }
-+#else
-+static inline dma_addr_t dma_direct_map_phys_batch_add(struct device *dev,
-+		phys_addr_t phys, size_t size, enum dma_data_direction dir,
-+		unsigned long attrs)
-+{
-+	return dma_direct_map_phys(dev, phys, size, dir, attrs);
-+}
-+#endif
- 
--#ifdef CONFIG_ARCH_WANT_BATCHED_DMA_SYNC
--static inline void dma_direct_unmap_phys_batch_add(struct device *dev, dma_addr_t addr,
-+static inline void dma_direct_unmap_phys(struct device *dev, dma_addr_t addr,
- 		size_t size, enum dma_data_direction dir, unsigned long attrs)
- {
- 	phys_addr_t phys;
-@@ -178,14 +184,14 @@ static inline void dma_direct_unmap_phys_batch_add(struct device *dev, dma_addr_
- 
- 	phys = dma_to_phys(dev, addr);
- 	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
--		dma_direct_sync_single_for_cpu_batch_add(dev, addr, size, dir);
-+		dma_direct_sync_single_for_cpu(dev, addr, size, dir);
- 
- 	swiotlb_tbl_unmap_single(dev, phys, size, dir,
- 					 attrs | DMA_ATTR_SKIP_CPU_SYNC);
- }
--#endif
- 
--static inline void dma_direct_unmap_phys(struct device *dev, dma_addr_t addr,
-+#ifdef CONFIG_ARCH_WANT_BATCHED_DMA_SYNC
-+static inline void dma_direct_unmap_phys_batch_add(struct device *dev, dma_addr_t addr,
- 		size_t size, enum dma_data_direction dir, unsigned long attrs)
- {
- 	phys_addr_t phys;
-@@ -196,9 +202,17 @@ static inline void dma_direct_unmap_phys(struct device *dev, dma_addr_t addr,
- 
- 	phys = dma_to_phys(dev, addr);
- 	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
--		dma_direct_sync_single_for_cpu(dev, addr, size, dir);
-+		dma_direct_sync_single_for_cpu_batch_add(dev, addr, size, dir);
- 
- 	swiotlb_tbl_unmap_single(dev, phys, size, dir,
- 					 attrs | DMA_ATTR_SKIP_CPU_SYNC);
- }
-+#else
-+static inline void dma_direct_unmap_phys_batch_add(struct device *dev, dma_addr_t addr,
-+		size_t size, enum dma_data_direction dir, unsigned long attrs)
-+{
-+	dma_direct_unmap_phys(dev, addr, size, dir, attrs);
-+}
-+#endif
-+
- #endif /* _KERNEL_DMA_DIRECT_H */
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512210637.Fz6bpRxI-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/nfsd/vfs.c: In function 'nfsd_vfs_write':
+>> fs/nfsd/vfs.c:1490:25: error: break statement not within loop or switch
+    1490 |                         break;
+         |                         ^~~~~
+
+
+vim +1490 fs/nfsd/vfs.c
+
+  1389	
+  1390	/**
+  1391	 * nfsd_vfs_write - write data to an already-open file
+  1392	 * @rqstp: RPC execution context
+  1393	 * @fhp: File handle of file to write into
+  1394	 * @nf: An open file matching @fhp
+  1395	 * @offset: Byte offset of start
+  1396	 * @payload: xdr_buf containing the write payload
+  1397	 * @cnt: IN: number of bytes to write, OUT: number of bytes actually written
+  1398	 * @stable: An NFS stable_how value
+  1399	 * @verf: NFS WRITE verifier
+  1400	 *
+  1401	 * Upon return, caller must invoke fh_put on @fhp.
+  1402	 *
+  1403	 * Return values:
+  1404	 *   An nfsstat value in network byte order.
+  1405	 */
+  1406	__be32
+  1407	nfsd_vfs_write(struct svc_rqst *rqstp, struct svc_fh *fhp,
+  1408		       struct nfsd_file *nf, loff_t offset,
+  1409		       const struct xdr_buf *payload, unsigned long *cnt,
+  1410		       int stable, __be32 *verf)
+  1411	{
+  1412		struct nfsd_net		*nn = net_generic(SVC_NET(rqstp), nfsd_net_id);
+  1413		struct file		*file = nf->nf_file;
+  1414		struct super_block	*sb = file_inode(file)->i_sb;
+  1415		struct kiocb		kiocb;
+  1416		struct svc_export	*exp;
+  1417		struct iov_iter		iter;
+  1418		errseq_t		since;
+  1419		__be32			nfserr;
+  1420		int			host_err;
+  1421		unsigned long		exp_op_flags = 0;
+  1422		unsigned int		pflags = current->flags;
+  1423		bool			restore_flags = false;
+  1424		unsigned int		nvecs;
+  1425		int			saved_nr_dirtied_pause = 0;
+  1426		bool			throttle_adjusted = false;
+  1427	
+  1428		trace_nfsd_write_opened(rqstp, fhp, offset, *cnt);
+  1429	
+  1430		if (sb->s_export_op)
+  1431			exp_op_flags = sb->s_export_op->flags;
+  1432	
+  1433		if (test_bit(RQ_LOCAL, &rqstp->rq_flags) &&
+  1434		    !(exp_op_flags & EXPORT_OP_REMOTE_FS)) {
+  1435			/*
+  1436			 * We want throttling in balance_dirty_pages()
+  1437			 * and shrink_inactive_list() to only consider
+  1438			 * the backingdev we are writing to, so that nfs to
+  1439			 * localhost doesn't cause nfsd to lock up due to all
+  1440			 * the client's dirty pages or its congested queue.
+  1441			 */
+  1442			current->flags |= PF_LOCAL_THROTTLE;
+  1443			restore_flags = true;
+  1444		}
+  1445	
+  1446		exp = fhp->fh_export;
+  1447	
+  1448		/*
+  1449		 * If aggressive write throttling is enabled, reduce the per-task
+  1450		 * dirty page limit to throttle NFSD writes more aggressively.
+  1451		 * This helps prevent memory exhaustion when fast network clients
+  1452		 * overwhelm slow storage.
+  1453		 */
+  1454		if (nfsd_aggressive_write_throttle) {
+  1455			saved_nr_dirtied_pause = current->nr_dirtied_pause;
+  1456			current->nr_dirtied_pause = NFSD_AGGRESSIVE_DIRTY_LIMIT;
+  1457			throttle_adjusted = true;
+  1458		}
+  1459	
+  1460		if (!EX_ISSYNC(exp))
+  1461			stable = NFS_UNSTABLE;
+  1462		init_sync_kiocb(&kiocb, file);
+  1463		kiocb.ki_pos = offset;
+  1464		if (likely(!fhp->fh_use_wgather)) {
+  1465			switch (stable) {
+  1466			case NFS_FILE_SYNC:
+  1467				/* persist data and timestamps */
+  1468				kiocb.ki_flags |= IOCB_DSYNC | IOCB_SYNC;
+  1469				break;
+  1470			case NFS_DATA_SYNC:
+  1471				/* persist data only */
+  1472				kiocb.ki_flags |= IOCB_DSYNC;
+  1473				break;
+  1474			}
+  1475		}
+  1476	
+  1477		/*
+  1478		 * If async throttling is enabled, check memory pressure
+  1479		 * before attempting buffered writes. Return -EAGAIN if
+  1480		 * the system is low on memory, allowing NFSD to return
+  1481		 * an NFS error code asking the client to retry later.
+  1482		 *
+  1483		 * Skip this for NFSv2 since it lacks NFSERR_JUKEBOX.
+  1484		 */
+  1485		if (nfsd_async_write_throttle && rqstp->rq_vers >= 3) {
+  1486			host_err =
+  1487				balance_dirty_pages_ratelimited_flags(file->f_mapping,
+  1488								      BDP_ASYNC);
+  1489			if (host_err == -EAGAIN)
+> 1490				break;
+  1491		}
+  1492	
+  1493		nvecs = xdr_buf_to_bvec(rqstp->rq_bvec, rqstp->rq_maxpages, payload);
+  1494	
+  1495		since = READ_ONCE(file->f_wb_err);
+  1496		if (verf)
+  1497			nfsd_copy_write_verifier(verf, nn);
+  1498	
+  1499		switch (nfsd_io_cache_write) {
+  1500		case NFSD_IO_DIRECT:
+  1501			host_err = nfsd_direct_write(rqstp, fhp, nf, nvecs,
+  1502						     cnt, &kiocb);
+  1503			break;
+  1504		case NFSD_IO_DONTCACHE:
+  1505			if (file->f_op->fop_flags & FOP_DONTCACHE)
+  1506				kiocb.ki_flags |= IOCB_DONTCACHE;
+  1507			fallthrough;
+  1508		case NFSD_IO_BUFFERED:
+  1509			iov_iter_bvec(&iter, ITER_SOURCE, rqstp->rq_bvec, nvecs, *cnt);
+  1510			host_err = vfs_iocb_iter_write(file, &kiocb, &iter);
+  1511			if (host_err < 0)
+  1512				break;
+  1513			*cnt = host_err;
+  1514			break;
+  1515		}
+  1516		if (host_err < 0) {
+  1517			commit_reset_write_verifier(nn, rqstp, host_err);
+  1518			goto out_nfserr;
+  1519		}
+  1520		nfsd_stats_io_write_add(nn, exp, *cnt);
+  1521		fsnotify_modify(file);
+  1522		host_err = filemap_check_wb_err(file->f_mapping, since);
+  1523		if (host_err < 0)
+  1524			goto out_nfserr;
+  1525	
+  1526		if (stable && fhp->fh_use_wgather) {
+  1527			host_err = wait_for_concurrent_writes(file);
+  1528			if (host_err < 0)
+  1529				commit_reset_write_verifier(nn, rqstp, host_err);
+  1530		}
+  1531	
+  1532	out_nfserr:
+  1533		if (host_err >= 0) {
+  1534			trace_nfsd_write_io_done(rqstp, fhp, offset, *cnt);
+  1535			nfserr = nfs_ok;
+  1536		} else {
+  1537			trace_nfsd_write_err(rqstp, fhp, offset, host_err);
+  1538			nfserr = nfserrno(host_err);
+  1539		}
+  1540		if (throttle_adjusted)
+  1541			current->nr_dirtied_pause = saved_nr_dirtied_pause;
+  1542		if (restore_flags)
+  1543			current_restore_flags(pflags, PF_LOCAL_THROTTLE);
+  1544		return nfserr;
+  1545	}
+  1546	
+
 -- 
-2.39.3 (Apple Git-146)
-
-Thanks
-Barry
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
