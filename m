@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CC042050
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 09:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0EB1DE4FB
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 10:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766310960; cv=none; b=WOKeVD4pn4jjLsjPQxeaxbZdV9iw4vRy2GAqu5GylJWPpboZXJ9Q3lpEuI6j5RMFYf1EhtERHJBQCfTy0ojGQb8EENF18JmnF0EpHXMzDelJ9qQSelHPf2Yzvlte8ChQHsfNl8Xk9rb9FCePkMj64B79JMGbfXVM9M7Ee9ZFXI0=
+	t=1766311563; cv=none; b=De5WiN7qaAe8fW1qFKyoapBOySHaNzuP2wJsvLpS6N8GJ2sRoRhmIBS8LTyVjHM6+crLc5GNR/F0jvf/Rb81yrIf0NYiIPndTyG8t/NUy9cFLQo67b63pbzn5vuP0RnI1p+rfGgG2r1NxqhugDowoFHu2HSw9nzxnbMd0IPjVqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766310960; c=relaxed/simple;
-	bh=zFcm1C47GuN6VHb7EUQ1wJByQ+u/Qt0u0H3rKPBN05g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EBW/yEE7FPJAi3HINOqThTZVqCLeUAZQQRZsOXnnPb8HRukiLDxGZUWMibP891XdeWUM1afvnEaDYz/Iw2CVpLFMhVTblsHW0C6QeSeMBwddgQMAaAj3xcc5tLhoyLjeKx1Rn5fsE0jdCxR3Vw3hw46ar52c4m3vfYbwICXhsiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VtxBCQTq; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1766311563; c=relaxed/simple;
+	bh=cV+GHpTGrrwmoaSg/9bIgLvAKQ7H+KiJlZ1VTLWlF/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hhu1BshAe9FXUTfw47I8F1ClPIls4il+qEY8t8dskM1I26AOvnF6Z3jhUReqwdKtVUv6U8r0+a2A3fqTgJG+Cz/NCWppD3KKeBfVOq4xask2Fax1v8zO40a/XpVd6/XW1rPUT9RZlcLVEo5fC0kol8qP6s1npj0hKFhuHU4Dcjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KADYRJAJ; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VtxBCQTq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KADYRJAJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766310959; x=1797846959;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zFcm1C47GuN6VHb7EUQ1wJByQ+u/Qt0u0H3rKPBN05g=;
-  b=VtxBCQTqu+5lFWnHw6QJMTaip5VGYKMc3KH/ZYqAUA7a6KyLBgPv8gBf
-   wnlb4+MSmuf6AadXZnX8JaVc3WYMaedaUTynbYwDCY64xcezgjZRXuHny
-   zZx4yngCv6Yas048bcKt/V9iPYWFPqmn6gJk9ptdNJDO5/NcaQGowp71z
-   7Jycsia+1+q+K4sSl8U0aoXRuaU1o/ljtDPs1J1nyN1e9+w2w4T26grWG
-   msXGNj1aNl1iLjQe9l5LmuVp/4a0HclFYeHd6KXKriR9irVM3T5xqjuM1
-   rv3qkP6ZDROAg5VEIMUOoGoDlXgCK466qaHxyXjSvS6Qx/QUFk7pdEpa+
+  t=1766311561; x=1797847561;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cV+GHpTGrrwmoaSg/9bIgLvAKQ7H+KiJlZ1VTLWlF/U=;
+  b=KADYRJAJzTMFShd7/j5u7y9PY5sBDiolIcXRioH4ir649O30pspoTVPA
+   wB/LQk/WV6Y34Rk54k6M5PW88VCfY7dyFPnLuz6Mt1QCHhkkKuSpKYC6F
+   RRckM3olkikX0OA2Yql8HsvF+UYot+7o8TAuj4yPrNgKM8WAurECvBoDf
+   O1cwI4aB/DETC0oQs5FAp0Vwv0a27T9Xy12N/NXKl4U2dkcd0PJIzXsC5
+   2jtRyjC7s+TPmh4j7ti6+ljBIcCFHLrqSHSWBrfcyErdX5y0W8RpIU0wG
+   HsStNCCZCeA7rtRIu0bfH3HV6HqZG3krILxQdqAZJyD+xy0Fn8GCQnElI
    Q==;
-X-CSE-ConnectionGUID: qWJD4zIOQsmsoxaQ0AwlxA==
-X-CSE-MsgGUID: TXJtcYgZS0WBRjUJpxWXEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="79567364"
+X-CSE-ConnectionGUID: 2G99VeGtRHO7mAv3/dGweA==
+X-CSE-MsgGUID: SoEKTBNmSMekpRqIATy5WA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="78520856"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="79567364"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 01:55:58 -0800
-X-CSE-ConnectionGUID: TOmsbnVlSTi8h2rT+H3iNQ==
-X-CSE-MsgGUID: ycbzPmJPRfywE9dswfnxig==
+   d="scan'208";a="78520856"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 02:06:00 -0800
+X-CSE-ConnectionGUID: nflT/EZyRHC2O+klgEorOg==
+X-CSE-MsgGUID: FEZ3aVxdQYmwUT8gB9f+6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="222754962"
+   d="scan'208";a="199244550"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Dec 2025 01:55:57 -0800
+  by orviesa007.jf.intel.com with ESMTP; 21 Dec 2025 02:05:58 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXGAN-0000000050K-1uoO;
-	Sun, 21 Dec 2025 09:55:55 +0000
-Date: Sun, 21 Dec 2025 10:55:04 +0100
+	id 1vXGK3-0000000050O-26rW;
+	Sun, 21 Dec 2025 10:05:55 +0000
+Date: Sun, 21 Dec 2025 11:05:32 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Timur Tabi <ttabi@nvidia.com>, Gary Guo <gary@garyguo.net>,
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
+	John Hubbard <jhubbard@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Lyude Paul <lyude@redhat.com>, nouveau@lists.freedesktop.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 12/12] kismet: WARNING: unmet
- direct dependencies detected for GPIO_SWNODE_UNDEFINED when selected by
- GKI_HIDDEN_GPIO_CONFIGS
-Message-ID: <202512211041.QvN7dGAn-lkp@intel.com>
+Subject: Re: [PATCH v3 9/9] gpu: nova-core: create GSP-RM logging buffers
+ debugfs entries
+Message-ID: <202512211136.RZfacOxt-lkp@intel.com>
+References: <20251218013910.459045-10-ttabi@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +68,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251218013910.459045-10-ttabi@nvidia.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   2141da9e498139ac37a520b62dfdc77db8003146
-commit: a9941c3487c04548801b67e356636d615668c152 [12/12] ANDROID: GKI: x86: Add GPIO_SWNODE_UNDEFINED to hidden gpio
-config: x86_64-kismet-CONFIG_GPIO_SWNODE_UNDEFINED-CONFIG_GKI_HIDDEN_GPIO_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20251221/202512211041.QvN7dGAn-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20251221/202512211041.QvN7dGAn-lkp@intel.com/reproduce)
+Hi Timur,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on ea1013c1539270e372fc99854bc6e4d94eaeff66]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Timur-Tabi/rust-pci-add-PCI-device-name-method/20251218-121537
+base:   ea1013c1539270e372fc99854bc6e4d94eaeff66
+patch link:    https://lore.kernel.org/r/20251218013910.459045-10-ttabi%40nvidia.com
+patch subject: [PATCH v3 9/9] gpu: nova-core: create GSP-RM logging buffers debugfs entries
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251221/202512211136.RZfacOxt-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211136.RZfacOxt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512211041.QvN7dGAn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512211136.RZfacOxt-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for GPIO_SWNODE_UNDEFINED when selected by GKI_HIDDEN_GPIO_CONFIGS
-   WARNING: unmet direct dependencies detected for GPIO_SWNODE_UNDEFINED
-     Depends on [n]: GPIOLIB [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_GPIO_CONFIGS [=y] && X86 [=y]
+All errors (new ones prefixed by >>):
+
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   Diff in drivers/gpu/nova-core/gsp/boot.rs:164:
+    
+            let this = self.as_mut().project();
+    
+   -        this.cmdq.send_command(bar, commands::SetSystemInfo::new(pdev))?;
+   +        this.cmdq
+   +            .send_command(bar, commands::SetSystemInfo::new(pdev))?;
+            this.cmdq.send_command(bar, commands::SetRegistry::new())?;
+    
+            gsp_falcon.reset(bar)?;
+   Diff in drivers/gpu/nova-core/gsp/boot.rs:164:
+    
+            let this = self.as_mut().project();
+    
+   -        this.cmdq.send_command(bar, commands::SetSystemInfo::new(pdev))?;
+   +        this.cmdq
+   +            .send_command(bar, commands::SetSystemInfo::new(pdev))?;
+            this.cmdq.send_command(bar, commands::SetRegistry::new())?;
+    
+            gsp_falcon.reset(bar)?;
+>> Diff in drivers/gpu/nova-core/gsp.rs:192:
+            // Look up nova_core debugfs directory - only create entries if it exists.
+            // If nova_core doesn't exist, debugfs_dir will be empty and file creation
+            // becomes a no-op (data is still stored, just not exposed via debugfs).
+   -        let debugfs_dir = debugfs::Dir::lookup(c_str!("nova_core"), None)
+   -            .unwrap_or_else(debugfs::Dir::empty);
+   +        let debugfs_dir =
+   +            debugfs::Dir::lookup(c_str!("nova_core"), None).unwrap_or_else(debugfs::Dir::empty);
+    
+            let logs = debugfs_dir.scope(log_buffers, pdev.name(), |logs, dir| {
+                dir.read_binary_file(c_str!("loginit"), &logs.loginit);
+   Diff in drivers/gpu/nova-core/gsp/boot.rs:164:
+    
+            let this = self.as_mut().project();
+    
+   -        this.cmdq.send_command(bar, commands::SetSystemInfo::new(pdev))?;
+   +        this.cmdq
+   +            .send_command(bar, commands::SetSystemInfo::new(pdev))?;
+            this.cmdq.send_command(bar, commands::SetRegistry::new())?;
+    
+            gsp_falcon.reset(bar)?;
+>> Diff in drivers/gpu/nova-core/gsp.rs:192:
+            // Look up nova_core debugfs directory - only create entries if it exists.
+            // If nova_core doesn't exist, debugfs_dir will be empty and file creation
+            // becomes a no-op (data is still stored, just not exposed via debugfs).
+   -        let debugfs_dir = debugfs::Dir::lookup(c_str!("nova_core"), None)
+   -            .unwrap_or_else(debugfs::Dir::empty);
+   +        let debugfs_dir =
+   +            debugfs::Dir::lookup(c_str!("nova_core"), None).unwrap_or_else(debugfs::Dir::empty);
+    
+            let logs = debugfs_dir.scope(log_buffers, pdev.name(), |logs, dir| {
+                dir.read_binary_file(c_str!("loginit"), &logs.loginit);
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[2]: *** [Makefile:1871: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
