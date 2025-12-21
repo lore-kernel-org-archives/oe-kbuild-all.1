@@ -1,57 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4047315E5BB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 07:05:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFF4481DD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 07:11:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766300759; cv=none; b=C32Z4OEQTuZV3KaW46gHzPO3Sc17wFVrlbGdDTzx8/WLkqwM+f+nbmJB1ltACsR6+etjV3V8Epny78maoOVmRn41yUMud7ydmiz3GYUsB/s45tGp+lM1UESo7yra6Rwn/hp08WG+dR/cY0ojy1tislP0T3tKuwzIbOZnb39kfPY=
+	t=1766301063; cv=none; b=E7SZPAg2c1Zkz7zc97TaiRd7wo1K5/M9Ei23HRC4+XQDw3mjIsKhBxZhuIClMk8i2R5wQM2rjGKGNlocBX/NGbzFuFKP34y6TWJ1kkX7A7wj8nwYjx2U2wfPlcO1Ss1aGwwBy1W48QCa2T5uj0A6SIQrBJlZKBpNrlZeRaXvNdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766300759; c=relaxed/simple;
-	bh=h9/vqPf6bqvGPTjzoOetIMpYdBvqVQQ8QW5nhste1eI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D9aVel37pvdS6w5apofdFadOIOEQEKXCFUz5DBwLo+tJ9tBrFTQ5STSkn2b763ETqSQTJID6GEC8BEEgxzEyXrqmGYkri1dSG23ZAm0uD03nGh16Iugr3NPh8d2RHmt8VTdNd/xXp5KtX2olAeEmngPjdT7yazyiHUL6UIEuScA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FA1Rql6w; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1766301063; c=relaxed/simple;
+	bh=pUcNV5KVp9JG5QHdkt8tf0jL5xiJu4V00/rw6BChgSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aw7r6Tq8s6jRkyLaCt+8Tt+YVzS2t5HYKhpKxq9NspHMhHpcoyc2bZl+Yg4XxgiJvt0Am2vSbZjWglBjRhb+IkXiVxbodhPSI66yqaQKSPFwGk912xp5bEvYALKxpS8s5T0Gyd6NsJbDhq5eW0OcDnUsiJMryTZcHFogMjdsiic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CIgk4B7f; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FA1Rql6w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CIgk4B7f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766300757; x=1797836757;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h9/vqPf6bqvGPTjzoOetIMpYdBvqVQQ8QW5nhste1eI=;
-  b=FA1Rql6weBrfd+eS2JE7xgEeciD8X2k8SupAaMpj/pOGC7V6T6vLxywM
-   pL8Na7j0ET8YSxpAEowd9D3fWQaXCYOCK5ujX7ZFN6PTxT/jmSf7TLwbf
-   +Yiwy0B9oeUULqhM+mn4Ex6A6gdtejE7BnIwBTDsdEg0TGbD6pBNq2sMX
-   hunIRvMTljQH7erSjkr1/l51Mk1Vv6jVUi4Ywi3IlMyYzoHRJus1v32PW
-   SLZqmSUAMHTEkStqrtPfvlQiOwVCoh2NDEPGMJUJzOmoE1xAmnpDy5sGy
-   yFeg2efT9xDs/a8IBDMeKsKofSA4nezkXPupew1V+uUmdCtXIb8M1V/UR
-   g==;
-X-CSE-ConnectionGUID: hgdIvgM+Qr+WIb5pbzMsmA==
-X-CSE-MsgGUID: nDSsLPqQRM67V2WQFF0fAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68242790"
+  t=1766301061; x=1797837061;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pUcNV5KVp9JG5QHdkt8tf0jL5xiJu4V00/rw6BChgSk=;
+  b=CIgk4B7fByqNyZ/IGbrGcWctzWPjivwroENs5EbKUtg8NWJy3EVEZGmY
+   Vf/XveY9jFWQCtUJkpycQOEScdSTJELUsiBSUPW509h0DF67rwL5KXXaa
+   yVeeDPfpK2SRoN2EnlPBjuhYcjwsuW/+BvEtjD8LmFKjvYMVfUjWwlZzv
+   dOTGPsa+O8GkwKwfBEC2/yDOUhFXDms8pkCcPsBSQ+zGKgpia/EW72ROw
+   DWged1/WofoMLltP1cPi3jYSk1oRRyYzzXhDvpEBBA0N8LMZYpth0aqyi
+   Nyx9CGYa7Vl8m+fCEIMJiWx08qHwdykEXeqj69XNcoDofnkkwT2kvX2jd
+   A==;
+X-CSE-ConnectionGUID: krr4Ms6iSGCxp5aSD9PrxA==
+X-CSE-MsgGUID: r2sf6r6URgaBtJioZv+xfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68242924"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="68242790"
+   d="scan'208";a="68242924"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 23:05:57 -0800
-X-CSE-ConnectionGUID: B4jsnxZoRPGYffVz0nVeDA==
-X-CSE-MsgGUID: nVMq0T/bTvCTuY5S3BOOTQ==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 23:11:00 -0800
+X-CSE-ConnectionGUID: BwKEE3XIT669p95RFe3K0g==
+X-CSE-MsgGUID: /MGz7wTwRwmYFW/kePXy7Q==
 X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Dec 2025 23:05:55 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 20 Dec 2025 23:10:59 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXDVp-000000004xk-2Y6v;
-	Sun, 21 Dec 2025 07:05:53 +0000
-Date: Sun, 21 Dec 2025 08:05:02 +0100
+	id 1vXDai-000000005OH-42S1;
+	Sun, 21 Dec 2025 07:10:56 +0000
+Date: Sun, 21 Dec 2025 15:10:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shuming Fan <shumingf@realtek.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [broonie-sound:for-6.20 19/38]
- sound/soc/codecs/rt1320-sdw.c:1488:49: warning: '%s' directive output may be
- truncated writing up to 127 bytes into a region of size 106
-Message-ID: <202512210839.aNgsFHcb-lkp@intel.com>
+To: Vitaliy Filippov <vitalifster@gmail.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Vitaliy Filippov <vitalifster@gmail.com>
+Subject: Re: [PATCH] Do not require atomic writes to be power of 2 sized and
+ aligned on length boundary
+Message-ID: <202512211405.FsWuMZAC-lkp@intel.com>
+References: <20251220173833.71176-1-vitalifster@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,239 +62,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251220173833.71176-1-vitalifster@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-6.20
-head:   dc8d1ba537c0bb4da91695b473dbe9a404f7ed7e
-commit: da1682d5e8b53a51072552844c551b1b784e52c2 [19/38] ASoC: rt1320: support calibration and temperature/r0 loading
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251221/202512210839.aNgsFHcb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210839.aNgsFHcb-lkp@intel.com/reproduce)
+Hi Vitaliy,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v6.19-rc1 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vitaliy-Filippov/Do-not-require-atomic-writes-to-be-power-of-2-sized-and-aligned-on-length-boundary/20251221-014115
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20251220173833.71176-1-vitalifster%40gmail.com
+patch subject: [PATCH] Do not require atomic writes to be power of 2 sized and aligned on length boundary
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20251221/202512211405.FsWuMZAC-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211405.FsWuMZAC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210839.aNgsFHcb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512211405.FsWuMZAC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_dspfw_load_code':
->> sound/soc/codecs/rt1320-sdw.c:1488:49: warning: '%s' directive output may be truncated writing up to 127 bytes into a region of size 106 [-Wformat-truncation=]
-    1488 |                          "realtek/rt1320/rt1320_%s_%s_%s.dat", vendor, product, sku);
-         |                                                 ^~             ~~~~~~
-   sound/soc/codecs/rt1320-sdw.c:1487:17: note: 'snprintf' output between 29 and 410 bytes into a destination of size 128
-    1487 |                 snprintf(filename, sizeof(filename),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1488 |                          "realtek/rt1320/rt1320_%s_%s_%s.dat", vendor, product, sku);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/read_write.c: In function 'generic_atomic_write_valid':
+>> fs/read_write.c:1805:16: warning: unused variable 'len' [-Wunused-variable]
+    1805 |         size_t len = iov_iter_count(iter);
+         |                ^~~
 
 
-vim +1488 sound/soc/codecs/rt1320-sdw.c
+vim +/len +1805 fs/read_write.c
 
-  1438	
-  1439		struct snd_soc_dapm_context *dapm =
-  1440			snd_soc_component_get_dapm(rt1320->component);
-  1441		struct device *dev = &rt1320->sdw_slave->dev;
-  1442		unsigned int val, i, fw_offset, fw_ready;
-  1443		unsigned int fw_status_addr;
-  1444		struct rt1320_dspfwheader *fwheader;
-  1445		struct rt1320_imageinfo *ptr_img;
-  1446		struct sdw_bpt_section sec[10];
-  1447		const struct firmware *fw = NULL;
-  1448		unsigned char *fw_data;
-  1449		bool dev_fw_match = false;
-  1450		static const char hdr_sig[] = "AFX";
-  1451		unsigned int hdr_size = 0;
-  1452		const char *dmi_vendor, *dmi_product, *dmi_sku;
-  1453		char vendor[128], product[128], sku[128];
-  1454		char *ptr_vendor, *ptr_product, *ptr_sku;
-  1455		char filename[128];
-  1456	
-  1457		switch (rt1320->dev_id) {
-  1458		case RT1320_DEV_ID:
-  1459			fw_status_addr = RT1320_DSPFW_STATUS_ADDR;
-  1460			break;
-  1461		case RT1321_DEV_ID:
-  1462			fw_status_addr = RT1321_DSPFW_STATUS_ADDR;
-  1463			break;
-  1464		default:
-  1465			dev_err(dev, "%s: Unknown device ID %d\n", __func__, rt1320->dev_id);
-  1466			return;
-  1467		}
-  1468	
-  1469		dmi_vendor = dmi_get_system_info(DMI_SYS_VENDOR);
-  1470		dmi_product = dmi_get_system_info(DMI_PRODUCT_NAME);
-  1471		dmi_sku = dmi_get_system_info(DMI_PRODUCT_SKU);
-  1472	
-  1473		if (dmi_vendor && dmi_product && dmi_sku) {
-  1474			strscpy(vendor, dmi_vendor);
-  1475			strscpy(product, dmi_product);
-  1476			strscpy(sku, dmi_sku);
-  1477			ptr_vendor = &vendor[0];
-  1478			ptr_product = &product[0];
-  1479			ptr_sku = &sku[0];
-  1480			ptr_vendor = strsep(&ptr_vendor, " ");
-  1481			ptr_product = strsep(&ptr_product, " ");
-  1482			ptr_sku = strsep(&ptr_sku, " ");
-  1483	
-  1484			dev_dbg(dev, "%s: DMI vendor=%s, product=%s, sku=%s\n", __func__,
-  1485				vendor, product, sku);
-  1486	
-  1487			snprintf(filename, sizeof(filename),
-> 1488				 "realtek/rt1320/rt1320_%s_%s_%s.dat", vendor, product, sku);
-  1489			dev_dbg(dev, "%s: try to load FW file %s\n", __func__, filename);
-  1490		} else if (rt1320->dspfw_name) {
-  1491			snprintf(filename, sizeof(filename), "rt1320_%s.dat",
-  1492				 rt1320->dspfw_name);
-  1493			dev_dbg(dev, "%s: try to load FW file %s\n", __func__, filename);
-  1494		} else {
-  1495			dev_warn(dev, "%s: Can't find proper FW file name\n", __func__);
-  1496			return;
-  1497		}
-  1498	
-  1499		snd_soc_dapm_mutex_lock(dapm);
-  1500		regmap_write(rt1320->regmap,
-  1501				SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
-  1502					RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x00);
-  1503		rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, 0x00);
-  1504	
-  1505		regmap_read(rt1320->regmap, fw_status_addr, &fw_ready);
-  1506		fw_ready &= 0x1;
-  1507		if (fw_ready) {
-  1508			dev_dbg(dev, "%s, DSP FW was already\n", __func__);
-  1509			rt1320->fw_load_done = true;
-  1510			goto _exit_;
-  1511		}
-  1512	
-  1513		/* change to IRAM */
-  1514		regmap_update_bits(rt1320->regmap, 0xf01e, 0x80, 0x00);
-  1515	
-  1516		request_firmware(&fw, filename, dev);
-  1517		if (fw) {
-  1518			fwheader = (struct rt1320_dspfwheader *)fw->data;
-  1519			dev_dbg(dev, "%s, fw sync = 0x%x, num=%d, crc=0x%x\n", __func__,
-  1520				fwheader->sync, fwheader->num, fwheader->crc);
-  1521	
-  1522			if (fwheader->sync != 0x0a1c5679) {
-  1523				dev_err(dev, "%s: FW sync error\n", __func__);
-  1524				release_firmware(fw);
-  1525				goto _exit_;
-  1526			}
-  1527	
-  1528			fw_offset = sizeof(struct rt1320_dspfwheader) + (sizeof(struct rt1320_imageinfo) * fwheader->num);
-  1529			dev_dbg(dev, "%s, fw_offset = 0x%x\n", __func__, fw_offset);
-  1530	
-  1531			regcache_cache_bypass(rt1320->regmap, true);
-  1532	
-  1533			for (i = 0; i < fwheader->num; i++) {
-  1534				ptr_img = (struct rt1320_imageinfo *)&fw->data[sizeof(struct rt1320_dspfwheader) + (sizeof(struct rt1320_imageinfo) * i)];
-  1535	
-  1536				dev_dbg(dev, "%s, fw_offset=0x%x, load fw addr=0x%x, size=%d\n", __func__,
-  1537					fw_offset, ptr_img->addr, ptr_img->size);
-  1538	
-  1539				fw_data = (unsigned char *)&fw->data[fw_offset];
-  1540	
-  1541				/* The binary file has a header of 64 bytes */
-  1542				if (memcmp(fw_data, hdr_sig, sizeof(hdr_sig)) == 0)
-  1543					hdr_size = 64;
-  1544				else
-  1545					hdr_size = 0;
-  1546	
-  1547				sec[i].addr = ptr_img->addr;
-  1548				sec[i].len = ptr_img->size - hdr_size;
-  1549				sec[i].buf = fw_data + hdr_size;
-  1550	
-  1551				dev_dbg(dev, "%s, hdr_size=%d, sec[%d].buf[0]=0x%x\n",
-  1552					__func__, hdr_size, i, sec[i].buf[0]);
-  1553	
-  1554				switch (rt1320->dev_id) {
-  1555				case RT1320_DEV_ID:
-  1556					if (ptr_img->addr == 0x3fc29d80)
-  1557						if (fw_data[9] == '0')
-  1558							dev_fw_match = true;
-  1559					break;
-  1560				case RT1321_DEV_ID:
-  1561					if (ptr_img->addr == 0x3fc00000)
-  1562						if (fw_data[9] == '1')
-  1563							dev_fw_match = true;
-  1564					break;
-  1565				default:
-  1566					dev_err(dev, "%s: Unknown device ID %d\n", __func__, rt1320->dev_id);
-  1567					goto _exit_;
-  1568				}
-  1569	
-  1570				fw_offset += ptr_img->size;
-  1571			}
-  1572	
-  1573			if (dev_fw_match) {
-  1574				dev_dbg(dev, "%s, starting BRA downloading FW..\n", __func__);
-  1575				rt1320->bra_msg.dev_num = rt1320->sdw_slave->dev_num;
-  1576				rt1320->bra_msg.flags = SDW_MSG_FLAG_WRITE;
-  1577				rt1320->bra_msg.sections = fwheader->num;
-  1578				rt1320->bra_msg.sec = &sec[0];
-  1579				rt1320_data_rw(rt1320, 0, NULL, 0, RT1320_BRA_WRITE);
-  1580				dev_dbg(dev, "%s, BRA downloading FW done..\n", __func__);
-  1581			}
-  1582	
-  1583			regcache_cache_bypass(rt1320->regmap, false);
-  1584			release_firmware(fw);
-  1585	
-  1586			if (!dev_fw_match) {
-  1587				dev_err(dev, "%s: FW file doesn't match to device\n", __func__);
-  1588				goto _exit_;
-  1589			}
-  1590		} else {
-  1591			dev_err(dev, "%s: Failed to load %s firmware\n", __func__, filename);
-  1592			goto _exit_;
-  1593		}
-  1594	
-  1595		/* run RAM code */
-  1596		regmap_read(rt1320->regmap, 0x3fc2bfc0, &val);
-  1597		val |= 0x8;
-  1598		regmap_write(rt1320->regmap, 0x3fc2bfc0, val);
-  1599	
-  1600		/* clear frame counter */
-  1601		switch (rt1320->dev_id) {
-  1602		case RT1320_DEV_ID:
-  1603			regmap_write(rt1320->regmap, 0x3fc2bfcb, 0x00);
-  1604			regmap_write(rt1320->regmap, 0x3fc2bfca, 0x00);
-  1605			regmap_write(rt1320->regmap, 0x3fc2bfc9, 0x00);
-  1606			regmap_write(rt1320->regmap, 0x3fc2bfc8, 0x00);
-  1607			break;
-  1608		case RT1321_DEV_ID:
-  1609			regmap_write(rt1320->regmap, 0x3fc2dfcb, 0x00);
-  1610			regmap_write(rt1320->regmap, 0x3fc2dfca, 0x00);
-  1611			regmap_write(rt1320->regmap, 0x3fc2dfc9, 0x00);
-  1612			regmap_write(rt1320->regmap, 0x3fc2dfc8, 0x00);
-  1613			break;
-  1614		}
-  1615	
-  1616		/* enable DSP FW */
-  1617		regmap_write(rt1320->regmap, 0xc081, 0xfc);
-  1618		regmap_update_bits(rt1320->regmap, 0xf01e, 0x1, 0x0);
-  1619	
-  1620		/* RsRatio should restore into DSP FW when FW was ready */
-  1621		rt1320_invrs_load(rt1320);
-  1622	
-  1623		/* DSP clock switches to PLL */
-  1624		regmap_write(rt1320->regmap, 0xc081, 0xfc);
-  1625		/* pass DSP settings */
-  1626		regmap_write(rt1320->regmap, 0xc5c3, 0xf3);
-  1627		regmap_write(rt1320->regmap, 0xc5c8, 0x05);
-  1628	
-  1629		rt1320->fw_load_done = true;
-  1630	
-  1631		pm_runtime_set_autosuspend_delay(dev, 3000);
-  1632		pm_runtime_mark_last_busy(dev);
-  1633	
-  1634	_exit_:
-  1635		regmap_write(rt1320->regmap,
-  1636				SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
-  1637					RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03);
-  1638		rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, 0x03);
-  1639	
-  1640		snd_soc_dapm_mutex_unlock(dapm);
-  1641	}
-  1642	
+c34fc6f26ab86d0 Prasad Singamsetty 2024-06-20  1802  
+c3be7ebbbce5201 John Garry         2024-10-19  1803  int generic_atomic_write_valid(struct kiocb *iocb, struct iov_iter *iter)
+c34fc6f26ab86d0 Prasad Singamsetty 2024-06-20  1804  {
+c34fc6f26ab86d0 Prasad Singamsetty 2024-06-20 @1805  	size_t len = iov_iter_count(iter);
 
 -- 
 0-DAY CI Kernel Test Service
