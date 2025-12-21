@@ -1,73 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B84315ECD7
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 07:33:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A522C128816
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 07:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766302382; cv=none; b=X10QZipiG1roYsB9sXe98UlAG/NXIc+5Cu9I+HZ3mN2ek77k6m2WvMMDDwvM6WFtpm1OeCCtG0sr9RMSXBNMs4OKUYKcQ9a4Kv169tmlmGp7UP48vRZtoYaW0toJJ9G0NMH1VwVhtfLy0ohjSIfpTTedtmGKKxJfV9Vtf84yQUU=
+	t=1766302919; cv=none; b=Y8t4QE1rJMJKSavBbeHdFXVzVpJH+1CmkXTtygv/vGdAAHo6MYxOMOWaSwLf9q+yVo2y5AR1McOZE18lVOiAbGXHgdXM7G5C3vpTGH21GBA0qrnVw1rOaYaA7wzzxHudOLzY8vWUhqepG9I05SKsYqn49RBBW9Uwwwk3g3S8o3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766302382; c=relaxed/simple;
-	bh=acLNH9XZUwJ+/RUGFg15css9I9hbu1oRWu7mAn9c4XA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j/O1m9GZTOAgylmIYJYrNr0XcG+XmA1bwazlIj7TDQbXaoHpBsDGDLK9p6z+PWAJI6xQWfcIqblO7ULwT6jvnLbFS18k4ZfujWDZcitXdyV0Ca7gFO8p+/gWuuJBDXfk3+YYGvzdmawEdjk+f+LBzFWcOJc9PCAiPpyQQiYInsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RPk2S39r; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1766302919; c=relaxed/simple;
+	bh=W+V0TD+jONJAYwrihi/QQdvI7RpWCF7hXiek7bcErqQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Y8TdJb6pHq06GNrxsqVyEB+7We0WVlVCIjRYwhF5sNjzGzvJuTJDX36mzYVKQGvvMh/B1TZ4gRe27AQ2s2GtHlcCK7CisRKmFErLhjHwcV1gJ59v2qEyTHb0f7hSXVR99Vsn9XYWyWolpLOIJeRwMcGRQUy3ptnEJSwThBQdCwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D7lzs7+W; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPk2S39r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D7lzs7+W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766302382; x=1797838382;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=acLNH9XZUwJ+/RUGFg15css9I9hbu1oRWu7mAn9c4XA=;
-  b=RPk2S39raFefSgmMNL0y5LirZF3+SeuONNQCzGK4byi/x1LEx9q474cj
-   iW56eXHfAY9AN2Bpk3B8Jw+dT2jY0FxpX9yRi8naVqlpP7FNberdU6jTi
-   FiThVkaBTMVrtAbVi7MuR/IVn4OStNVjPHUm4d6jmx/Yad0/9FFK4+ICE
-   BdaSrVKSy0OLdogdqjxiZMKjuddRQWt3d4L2zlvTSG0WZ+Yam4A2wOe+c
-   +Pmbsh/xUgYzfA3+lLMMmlUJ5OKj4XClExenhPxPyI9Fwl2a+GR61QBxk
-   UV78boy3OrzOrkyeVF0hYFeYz3YWumxzfxT1Y7h5KBN6WtyEmFuW87zpE
-   g==;
-X-CSE-ConnectionGUID: tRroR2M9T6GE+LsyqeCg9Q==
-X-CSE-MsgGUID: PpaK2SYMRaGcka2hW8tWjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="72044555"
+  t=1766302918; x=1797838918;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W+V0TD+jONJAYwrihi/QQdvI7RpWCF7hXiek7bcErqQ=;
+  b=D7lzs7+Wl031rSX8QskgKCzTieCjaoZGMqNLaqdoqVLYMfit2jx006CT
+   27GpK12jg2T3qg0tPuU3T4gVfKxoc6LNgzNdW2wY5nL40KXyRbdpC+oMX
+   iUpYPkTHuiC+KXoFGc9cYOT6CnMvT0gVLDk/qRNjzvdET63ubECWT4/Cw
+   FZTRDZgCbLuJvLnIOOUE7XY6CaRwbsee6HM9+qR0AYAfv42OHgzCv2IRl
+   MZULNB7OCsTCKOvYVuQzk5/CXICfnQAr/Bgn0JFoS3QbHaok6ECRsbCk9
+   VXXeZrrAYyfmOQZT5xdhQsG8OfgMRqNryBgaPBYiSDu81kPtFkZb2XvbC
+   w==;
+X-CSE-ConnectionGUID: UXSzXpI+RkuKDex/0lrCUw==
+X-CSE-MsgGUID: +Le97lYdRpuDUNqBMIshpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68351107"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="72044555"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 23:33:01 -0800
-X-CSE-ConnectionGUID: WhT26M+xQ7i3MqpLrDYIvA==
-X-CSE-MsgGUID: /f0OMu86QL+ajuC4w0edDw==
+   d="scan'208";a="68351107"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 23:41:58 -0800
+X-CSE-ConnectionGUID: fI18tgGWQOutf7+DsabqIQ==
+X-CSE-MsgGUID: atdDBqM0QVyWyilWPVUQCA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
+   d="scan'208";a="203378544"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Dec 2025 23:32:56 -0800
+  by orviesa003.jf.intel.com with ESMTP; 20 Dec 2025 23:41:56 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXDvx-000000004y0-3IUv;
-	Sun, 21 Dec 2025 07:32:53 +0000
-Date: Sun, 21 Dec 2025 08:31:59 +0100
+	id 1vXE4f-000000004y8-3hQg;
+	Sun, 21 Dec 2025 07:41:53 +0000
+Date: Sun, 21 Dec 2025 08:41:04 +0100
 From: kernel test robot <lkp@intel.com>
-To: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Lee Jones <lee@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Badhri Jagan Sridharan <badhri@google.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>,
-	Amit Sunil Dhamne <amitsd@google.com>
-Subject: Re: [PATCH v2 4/5] power: supply: max77759: add charger driver
-Message-ID: <202512210844.O8gAG2p9-lkp@intel.com>
-References: <20251218-max77759-charger-v2-4-2b259980a686@google.com>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:hugetlb-init/v0 27/28] mm/hugetlb_vmemmap.c:802:14: error:
+ implicit declaration of function 'hugetlb_bootmem_allocated'; did you mean
+ 'hugetlb_bootmem_alloc'?
+Message-ID: <202512210834.YHPLSyhE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,42 +62,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251218-max77759-charger-v2-4-2b259980a686@google.com>
 
-Hi Amit,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lee-mfd/for-mfd-fixes]
-[also build test WARNING on sre-power-supply/for-next usb/usb-testing usb/usb-next usb/usb-linus v6.16-rc1 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amit-Sunil-Dhamne-via-B4-Relay/dt-bindings-mfd-maxim-max77759-add-charger-child-node/20251219-065531
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-fixes
-patch link:    https://lore.kernel.org/r/20251218-max77759-charger-v2-4-2b259980a686%40google.com
-patch subject: [PATCH v2 4/5] power: supply: max77759: add charger driver
-reproduce: (https://download.01.org/0day-ci/archive/20251221/202512210844.O8gAG2p9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git hugetlb-init/v0
+head:   292ef08ce02ab877991020b00c1c4710ba07bcc5
+commit: 280d6f20bf3968dd188012e8a061a752d88ef96f [27/28] dev: Revert "mm/hugetlb: deal with multiple calls to hugetlb_bootmem_alloc"
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251221/202512210834.YHPLSyhE-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210834.YHPLSyhE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210844.O8gAG2p9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512210834.YHPLSyhE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
-   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/power/supply/maxim,max77759-charger.yaml
-   Warning: arch/riscv/kernel/kexec_image.c references a file that doesn't exist: Documentation/riscv/boot-image-header.rst
-   Warning: drivers/clocksource/timer-armada-370-xp.c references a file that doesn't exist: Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
-   Warning: include/rv/da_monitor.h references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
-   Using alabaster theme
-   ERROR: Cannot find file ./include/linux/pci.h
+   mm/hugetlb_vmemmap.c: In function 'hugetlb_vmemmap_init_early':
+>> mm/hugetlb_vmemmap.c:802:14: error: implicit declaration of function 'hugetlb_bootmem_allocated'; did you mean 'hugetlb_bootmem_alloc'? [-Wimplicit-function-declaration]
+     802 |         if (!hugetlb_bootmem_allocated())
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |              hugetlb_bootmem_alloc
+
+
+vim +802 mm/hugetlb_vmemmap.c
+
+b1222550fbf738 Frank van der Linden 2025-02-28  785  
+b1222550fbf738 Frank van der Linden 2025-02-28  786  /*
+b1222550fbf738 Frank van der Linden 2025-02-28  787   * Initialize memmap section for a gigantic page, HVO-style.
+b1222550fbf738 Frank van der Linden 2025-02-28  788   */
+b1222550fbf738 Frank van der Linden 2025-02-28  789  void __init hugetlb_vmemmap_init_early(int nid)
+b1222550fbf738 Frank van der Linden 2025-02-28  790  {
+b1222550fbf738 Frank van der Linden 2025-02-28  791  	unsigned long psize, paddr, section_size;
+b1222550fbf738 Frank van der Linden 2025-02-28  792  	unsigned long ns, i, pnum, pfn, nr_pages;
+b1222550fbf738 Frank van der Linden 2025-02-28  793  	unsigned long start, end;
+b1222550fbf738 Frank van der Linden 2025-02-28  794  	struct huge_bootmem_page *m = NULL;
+b1222550fbf738 Frank van der Linden 2025-02-28  795  	void *map;
+b1222550fbf738 Frank van der Linden 2025-02-28  796  
+b1222550fbf738 Frank van der Linden 2025-02-28  797  	/*
+b1222550fbf738 Frank van der Linden 2025-02-28  798  	 * Noting to do if bootmem pages were not allocated
+b1222550fbf738 Frank van der Linden 2025-02-28  799  	 * early in boot, or if HVO wasn't enabled in the
+b1222550fbf738 Frank van der Linden 2025-02-28  800  	 * first place.
+b1222550fbf738 Frank van der Linden 2025-02-28  801  	 */
+b1222550fbf738 Frank van der Linden 2025-02-28 @802  	if (!hugetlb_bootmem_allocated())
+b1222550fbf738 Frank van der Linden 2025-02-28  803  		return;
+b1222550fbf738 Frank van der Linden 2025-02-28  804  
+b1222550fbf738 Frank van der Linden 2025-02-28  805  	if (!READ_ONCE(vmemmap_optimize_enabled))
+b1222550fbf738 Frank van der Linden 2025-02-28  806  		return;
+b1222550fbf738 Frank van der Linden 2025-02-28  807  
+b1222550fbf738 Frank van der Linden 2025-02-28  808  	section_size = (1UL << PA_SECTION_SHIFT);
+b1222550fbf738 Frank van der Linden 2025-02-28  809  
+b1222550fbf738 Frank van der Linden 2025-02-28  810  	list_for_each_entry(m, &huge_boot_pages[nid], list) {
+b1222550fbf738 Frank van der Linden 2025-02-28  811  		if (!vmemmap_should_optimize_bootmem_page(m))
+b1222550fbf738 Frank van der Linden 2025-02-28  812  			continue;
+b1222550fbf738 Frank van der Linden 2025-02-28  813  
+b1222550fbf738 Frank van der Linden 2025-02-28  814  		nr_pages = pages_per_huge_page(m->hstate);
+b1222550fbf738 Frank van der Linden 2025-02-28  815  		psize = nr_pages << PAGE_SHIFT;
+b1222550fbf738 Frank van der Linden 2025-02-28  816  		paddr = virt_to_phys(m);
+b1222550fbf738 Frank van der Linden 2025-02-28  817  		pfn = PHYS_PFN(paddr);
+b1222550fbf738 Frank van der Linden 2025-02-28  818  		map = pfn_to_page(pfn);
+b1222550fbf738 Frank van der Linden 2025-02-28  819  		start = (unsigned long)map;
+b1222550fbf738 Frank van der Linden 2025-02-28  820  		end = start + nr_pages * sizeof(struct page);
+b1222550fbf738 Frank van der Linden 2025-02-28  821  
+b1222550fbf738 Frank van der Linden 2025-02-28  822  		if (vmemmap_populate_hvo(start, end, nid,
+b1222550fbf738 Frank van der Linden 2025-02-28  823  					HUGETLB_VMEMMAP_RESERVE_SIZE) < 0)
+b1222550fbf738 Frank van der Linden 2025-02-28  824  			continue;
+b1222550fbf738 Frank van der Linden 2025-02-28  825  
+b1222550fbf738 Frank van der Linden 2025-02-28  826  		memmap_boot_pages_add(HUGETLB_VMEMMAP_RESERVE_SIZE / PAGE_SIZE);
+b1222550fbf738 Frank van der Linden 2025-02-28  827  
+b1222550fbf738 Frank van der Linden 2025-02-28  828  		pnum = pfn_to_section_nr(pfn);
+b1222550fbf738 Frank van der Linden 2025-02-28  829  		ns = psize / section_size;
+b1222550fbf738 Frank van der Linden 2025-02-28  830  
+b1222550fbf738 Frank van der Linden 2025-02-28  831  		for (i = 0; i < ns; i++) {
+b1222550fbf738 Frank van der Linden 2025-02-28  832  			sparse_init_early_section(nid, map, pnum,
+b1222550fbf738 Frank van der Linden 2025-02-28  833  					SECTION_IS_VMEMMAP_PREINIT);
+b1222550fbf738 Frank van der Linden 2025-02-28  834  			map += section_map_size();
+b1222550fbf738 Frank van der Linden 2025-02-28  835  			pnum++;
+b1222550fbf738 Frank van der Linden 2025-02-28  836  		}
+b1222550fbf738 Frank van der Linden 2025-02-28  837  
+b1222550fbf738 Frank van der Linden 2025-02-28  838  		m->flags |= HUGE_BOOTMEM_HVO;
+b1222550fbf738 Frank van der Linden 2025-02-28  839  	}
+b1222550fbf738 Frank van der Linden 2025-02-28  840  }
+b1222550fbf738 Frank van der Linden 2025-02-28  841  
+
+:::::: The code at line 802 was first introduced by commit
+:::::: b1222550fbf73840e31a103305d03ad53b8f5a59 mm/hugetlb: do pre-HVO for bootmem allocated pages
+
+:::::: TO: Frank van der Linden <fvdl@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
