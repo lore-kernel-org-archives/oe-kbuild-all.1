@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A85150997
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 05:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8353C204583
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 05:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766295718; cv=none; b=jr6Whn4y1on3+EdFhD39mcLEbCuuA9wPh88VKp7y9wKtUui3wX/l++NzmToWgOOF9vCXpn7kEJ4+T5TeHmJ4kMjXh7GZKBN2aVcGyHxI12eb6MEU3JAzzVlLhNDSAeaGrfONn3nx9ll+lM9zdDz9iDbM3jn2gBCcHQ/qiKSFhvE=
+	t=1766295961; cv=none; b=BWRk7sgVxkOvRIW3MtOr/Z6DLhxXclGgO/P9zOWtKA3d21ecZP2+mlagJabS1OZ+Csi6BhHp+zajsqBXwPJPqTdf2XQa0MlaP1wUBeL6A+8wQYBQWKg6RydyHhmcgOlzsETvXcAQnCB3CIF/3h/5C/lPqPI2uKvQHGrlceyuqII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766295718; c=relaxed/simple;
-	bh=ilDZvq9j0rpAdtg4q6FG1s4dYhcSzP1Zt6HYS9wQDGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZKM7fTDLNvG9oUVvQS75sXkZ6EM3kDFIw3EK8ZOvf6TlTmY173jv/VRp4briHXErPFnBYgjbNWAwbi3aN/RT5/SnQFTbL4cBpDXZfcwE1y6zx2uyVvqX/8iMV6Wn/q0mOSPALl/BOBW6OCYoFrVujCl3gr/AjPG9kvD1r0m7iwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QISamCjv; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1766295961; c=relaxed/simple;
+	bh=OROeqfWEG1k4X6b2Brp/rVXHGQy4z9G9jpiC6YMcmN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WFla94kSO/4j4xVTZ0iG2iyWkXuCgrF3bofQkk7vkyj5Zf/i++YHNJgwmPw2TX5JOJtIoW3IFU2J+v2gB6EJuH7R2VtsX8f4wzAnM8hORLApOuvvx9QeeF4Fb/6ec6zw3pfbbLaHv7G7XacluouvWajECAginD++PBacp/7/cP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RPdqggQn; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QISamCjv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPdqggQn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766295716; x=1797831716;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ilDZvq9j0rpAdtg4q6FG1s4dYhcSzP1Zt6HYS9wQDGU=;
-  b=QISamCjvYn4/BmbvW+UTytww7XbB95SbNuLX4qLYPNQlFVkxVcK86qa6
-   WCtXDQj3VtwzPwzMoyMkkwNJ6J+27b5pf7u9CfflU3terux4YlWtKJv6N
-   3y/E0OI3exctJDUVSfEjb3CVaeK2GlWwyvzUaljNEvS/X7bR9EweSbHNH
-   9Bk9I77/oJmOY5GD7Q7Zv53Dtk5+WQbVyTCQPpdmaRDQQUdz38O+3JqKu
-   EVflA9WFeNtmSslTFJwRNRqlIX01mnVaAAhed5XuhEA5/Px0pjrFD1bo9
-   uAT73iYnDDVP8gIQKwPXqzz/ZTLe5RwqwBF6+wy6rnjgQr0V9Q60ju8OZ
-   w==;
-X-CSE-ConnectionGUID: 6llaNrTPRdiGxzCAaiNrXg==
-X-CSE-MsgGUID: NGtbkuuzS5O+GoKtQJjhqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68134211"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68134211"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 21:41:56 -0800
-X-CSE-ConnectionGUID: mtpzOS9sRE+mycIlwkIccA==
-X-CSE-MsgGUID: KKIzcC9iSDe4gOLNlgJ8dw==
+  t=1766295959; x=1797831959;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OROeqfWEG1k4X6b2Brp/rVXHGQy4z9G9jpiC6YMcmN0=;
+  b=RPdqggQnH1stp5HNnCNYOoTKHRvTnb0lG/1abQ+HuYY3ml1PEA4ggBhb
+   0K2a+ZTEkeFsAD4uYqZ5BP6gXuy1RH1o6X42HtHnfSWDREdkaBUeS/hEB
+   eGPAm2wrHH8+xF3Bz9JmGkAstuzsupB0zE57DZoVREoh3DGO46GbKqQOQ
+   LCLfWr/gLxyJiml+g1lLM/ORYX4gAhekD8YC1dGRsWZI/HKejdhkrrT1n
+   VmmDIWKkTcj/pB+sj4J4jb6DDDqAB8CULCqTjGrAY0L5aSS/Ow0WtQEa7
+   7QuO23rOAGFVDqIK0HB4fquNVcwtRkQvyZWXN07Yg1daEAYwPScZD8DRO
+   A==;
+X-CSE-ConnectionGUID: /iOTyUiSR4WN9jJAYVFiCQ==
+X-CSE-MsgGUID: 7RkDAzTsQ9a7zIbQqbGteg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="78831859"
+X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
+   d="scan'208";a="78831859"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 21:45:58 -0800
+X-CSE-ConnectionGUID: 7DlBzMezR6adI148uGbcyA==
+X-CSE-MsgGUID: KhNVufBRS4GQtidkQbgHmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199211767"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 20 Dec 2025 21:41:55 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="200122726"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 20 Dec 2025 21:45:57 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXCCW-000000004wW-303A;
-	Sun, 21 Dec 2025 05:41:52 +0000
-Date: Sun, 21 Dec 2025 06:41:30 +0100
+	id 1vXCGR-000000005Lb-1Zds;
+	Sun, 21 Dec 2025 05:45:55 +0000
+Date: Sun, 21 Dec 2025 13:45:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <cel@kernel.org>
+To: kernel@openeuler.org, zgzxx <zhangguangzhi3@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/2] NFSD: Add asynchronous write throttling support
-Message-ID: <202512210637.Fz6bpRxI-lkp@intel.com>
-References: <20251219141105.1247093-3-cel@kernel.org>
+Subject: [openeuler:OLK-6.6 3557/3557]
+ security/integrity/ima/ima_digest_list.c:164:37: sparse: sparse: cast to
+ restricted __le16
+Message-ID: <202512211327.X52XldqR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,200 +62,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251219141105.1247093-3-cel@kernel.org>
 
-Hi Chuck,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.19-rc1 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/NFSD-Add-aggressive-write-throttling-control/20251219-221859
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20251219141105.1247093-3-cel%40kernel.org
-patch subject: [RFC PATCH 2/2] NFSD: Add asynchronous write throttling support
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251221/202512210637.Fz6bpRxI-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210637.Fz6bpRxI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   04473ee9ed912a16fff0d8846ad565bbf3d63c77
+commit: 5fbe16a682d5af0c2f7145096851e31e3c921d64 [3557/3557] ima: Execute parser to upload digest lists not recognizable by the kernel
+config: arm64-randconfig-r132-20251218 (https://download.01.org/0day-ci/archive/20251221/202512211327.X52XldqR-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211327.X52XldqR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210637.Fz6bpRxI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512211327.X52XldqR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> security/integrity/ima/ima_digest_list.c:164:37: sparse: sparse: cast to restricted __le16
+   security/integrity/ima/ima_digest_list.c:165:42: sparse: sparse: cast to restricted __le16
+   security/integrity/ima/ima_digest_list.c:166:37: sparse: sparse: cast to restricted __le16
+>> security/integrity/ima/ima_digest_list.c:167:38: sparse: sparse: cast to restricted __le32
+   security/integrity/ima/ima_digest_list.c:168:40: sparse: sparse: cast to restricted __le32
+>> security/integrity/ima/ima_digest_list.c:416:20: sparse: sparse: symbol 'parser_task' was not declared. Should it be static?
 
-   fs/nfsd/vfs.c: In function 'nfsd_vfs_write':
->> fs/nfsd/vfs.c:1490:25: error: break statement not within loop or switch
-    1490 |                         break;
-         |                         ^~~~~
+vim +164 security/integrity/ima/ima_digest_list.c
 
+b3fef06570ef2b Roberto Sassu 2023-09-12  138  
+b3fef06570ef2b Roberto Sassu 2023-09-12  139  int ima_parse_compact_list(loff_t size, void *buf, int op)
+b3fef06570ef2b Roberto Sassu 2023-09-12  140  {
+b3fef06570ef2b Roberto Sassu 2023-09-12  141  	u8 *digest;
+b3fef06570ef2b Roberto Sassu 2023-09-12  142  	void *bufp = buf, *bufendp = buf + size;
+b3fef06570ef2b Roberto Sassu 2023-09-12  143  	struct compact_list_hdr *hdr;
+b3fef06570ef2b Roberto Sassu 2023-09-12  144  	size_t digest_len;
+b3fef06570ef2b Roberto Sassu 2023-09-12  145  	int ret = 0, i;
+b3fef06570ef2b Roberto Sassu 2023-09-12  146  
+80701e75d21f48 Roberto Sassu 2023-09-12  147  	if (!(ima_digest_list_actions & ima_policy_flag))
+80701e75d21f48 Roberto Sassu 2023-09-12  148  		return -EACCES;
+80701e75d21f48 Roberto Sassu 2023-09-12  149  
+b3fef06570ef2b Roberto Sassu 2023-09-12  150  	while (bufp < bufendp) {
+b3fef06570ef2b Roberto Sassu 2023-09-12  151  		if (bufp + sizeof(*hdr) > bufendp) {
+b3fef06570ef2b Roberto Sassu 2023-09-12  152  			pr_err("compact list, invalid data\n");
+b3fef06570ef2b Roberto Sassu 2023-09-12  153  			return -EINVAL;
+b3fef06570ef2b Roberto Sassu 2023-09-12  154  		}
+b3fef06570ef2b Roberto Sassu 2023-09-12  155  
+b3fef06570ef2b Roberto Sassu 2023-09-12  156  		hdr = bufp;
+b3fef06570ef2b Roberto Sassu 2023-09-12  157  
+b3fef06570ef2b Roberto Sassu 2023-09-12  158  		if (hdr->version != 1) {
+b3fef06570ef2b Roberto Sassu 2023-09-12  159  			pr_err("compact list, unsupported version\n");
+b3fef06570ef2b Roberto Sassu 2023-09-12  160  			return -EINVAL;
+b3fef06570ef2b Roberto Sassu 2023-09-12  161  		}
+b3fef06570ef2b Roberto Sassu 2023-09-12  162  
+b3fef06570ef2b Roberto Sassu 2023-09-12  163  		if (ima_canonical_fmt) {
+b3fef06570ef2b Roberto Sassu 2023-09-12 @164  			hdr->type = le16_to_cpu(hdr->type);
+b3fef06570ef2b Roberto Sassu 2023-09-12  165  			hdr->modifiers = le16_to_cpu(hdr->modifiers);
+b3fef06570ef2b Roberto Sassu 2023-09-12  166  			hdr->algo = le16_to_cpu(hdr->algo);
+b3fef06570ef2b Roberto Sassu 2023-09-12 @167  			hdr->count = le32_to_cpu(hdr->count);
+b3fef06570ef2b Roberto Sassu 2023-09-12  168  			hdr->datalen = le32_to_cpu(hdr->datalen);
+b3fef06570ef2b Roberto Sassu 2023-09-12  169  		}
+b3fef06570ef2b Roberto Sassu 2023-09-12  170  
+b3fef06570ef2b Roberto Sassu 2023-09-12  171  		if (hdr->algo >= HASH_ALGO__LAST)
+b3fef06570ef2b Roberto Sassu 2023-09-12  172  			return -EINVAL;
+b3fef06570ef2b Roberto Sassu 2023-09-12  173  
+b3fef06570ef2b Roberto Sassu 2023-09-12  174  		digest_len = hash_digest_size[hdr->algo];
+b3fef06570ef2b Roberto Sassu 2023-09-12  175  
+b3fef06570ef2b Roberto Sassu 2023-09-12  176  		if (hdr->type >= COMPACT__LAST) {
+b3fef06570ef2b Roberto Sassu 2023-09-12  177  			pr_err("compact list, invalid type %d\n", hdr->type);
+b3fef06570ef2b Roberto Sassu 2023-09-12  178  			return -EINVAL;
+b3fef06570ef2b Roberto Sassu 2023-09-12  179  		}
+b3fef06570ef2b Roberto Sassu 2023-09-12  180  
+b3fef06570ef2b Roberto Sassu 2023-09-12  181  		bufp += sizeof(*hdr);
+b3fef06570ef2b Roberto Sassu 2023-09-12  182  
+b3fef06570ef2b Roberto Sassu 2023-09-12  183  		for (i = 0; i < hdr->count; i++) {
+b3fef06570ef2b Roberto Sassu 2023-09-12  184  			if (bufp + digest_len > bufendp) {
+b3fef06570ef2b Roberto Sassu 2023-09-12  185  				pr_err("compact list, invalid data\n");
+b3fef06570ef2b Roberto Sassu 2023-09-12  186  				return -EINVAL;
+b3fef06570ef2b Roberto Sassu 2023-09-12  187  			}
+b3fef06570ef2b Roberto Sassu 2023-09-12  188  
+b3fef06570ef2b Roberto Sassu 2023-09-12  189  			digest = bufp;
+b3fef06570ef2b Roberto Sassu 2023-09-12  190  			bufp += digest_len;
+b3fef06570ef2b Roberto Sassu 2023-09-12  191  
+b3fef06570ef2b Roberto Sassu 2023-09-12  192  			if (op == DIGEST_LIST_OP_ADD)
+b3fef06570ef2b Roberto Sassu 2023-09-12  193  				ret = ima_add_digest_data_entry(digest,
+b3fef06570ef2b Roberto Sassu 2023-09-12  194  					hdr->algo, hdr->type, hdr->modifiers);
+b3fef06570ef2b Roberto Sassu 2023-09-12  195  			else if (op == DIGEST_LIST_OP_DEL)
+b3fef06570ef2b Roberto Sassu 2023-09-12  196  				ima_del_digest_data_entry(digest, hdr->algo,
+b3fef06570ef2b Roberto Sassu 2023-09-12  197  					hdr->type);
+b3fef06570ef2b Roberto Sassu 2023-09-12  198  			if (ret < 0 && ret != -EEXIST)
+b3fef06570ef2b Roberto Sassu 2023-09-12  199  				return ret;
+b3fef06570ef2b Roberto Sassu 2023-09-12  200  		}
+b3fef06570ef2b Roberto Sassu 2023-09-12  201  
+b3fef06570ef2b Roberto Sassu 2023-09-12  202  		if (i != hdr->count ||
+b3fef06570ef2b Roberto Sassu 2023-09-12  203  		    bufp != (void *)hdr + sizeof(*hdr) + hdr->datalen) {
+b3fef06570ef2b Roberto Sassu 2023-09-12  204  			pr_err("compact list, invalid data\n");
+b3fef06570ef2b Roberto Sassu 2023-09-12  205  			return -EINVAL;
+b3fef06570ef2b Roberto Sassu 2023-09-12  206  		}
+b3fef06570ef2b Roberto Sassu 2023-09-12  207  	}
+b3fef06570ef2b Roberto Sassu 2023-09-12  208  
+b3fef06570ef2b Roberto Sassu 2023-09-12  209  	return bufp - buf;
+b3fef06570ef2b Roberto Sassu 2023-09-12  210  }
+80701e75d21f48 Roberto Sassu 2023-09-12  211  
 
-vim +1490 fs/nfsd/vfs.c
+:::::: The code at line 164 was first introduced by commit
+:::::: b3fef06570ef2b61dd7181e5c1d128bfcbf6b2ef ima: Add parser of compact digest list
 
-  1389	
-  1390	/**
-  1391	 * nfsd_vfs_write - write data to an already-open file
-  1392	 * @rqstp: RPC execution context
-  1393	 * @fhp: File handle of file to write into
-  1394	 * @nf: An open file matching @fhp
-  1395	 * @offset: Byte offset of start
-  1396	 * @payload: xdr_buf containing the write payload
-  1397	 * @cnt: IN: number of bytes to write, OUT: number of bytes actually written
-  1398	 * @stable: An NFS stable_how value
-  1399	 * @verf: NFS WRITE verifier
-  1400	 *
-  1401	 * Upon return, caller must invoke fh_put on @fhp.
-  1402	 *
-  1403	 * Return values:
-  1404	 *   An nfsstat value in network byte order.
-  1405	 */
-  1406	__be32
-  1407	nfsd_vfs_write(struct svc_rqst *rqstp, struct svc_fh *fhp,
-  1408		       struct nfsd_file *nf, loff_t offset,
-  1409		       const struct xdr_buf *payload, unsigned long *cnt,
-  1410		       int stable, __be32 *verf)
-  1411	{
-  1412		struct nfsd_net		*nn = net_generic(SVC_NET(rqstp), nfsd_net_id);
-  1413		struct file		*file = nf->nf_file;
-  1414		struct super_block	*sb = file_inode(file)->i_sb;
-  1415		struct kiocb		kiocb;
-  1416		struct svc_export	*exp;
-  1417		struct iov_iter		iter;
-  1418		errseq_t		since;
-  1419		__be32			nfserr;
-  1420		int			host_err;
-  1421		unsigned long		exp_op_flags = 0;
-  1422		unsigned int		pflags = current->flags;
-  1423		bool			restore_flags = false;
-  1424		unsigned int		nvecs;
-  1425		int			saved_nr_dirtied_pause = 0;
-  1426		bool			throttle_adjusted = false;
-  1427	
-  1428		trace_nfsd_write_opened(rqstp, fhp, offset, *cnt);
-  1429	
-  1430		if (sb->s_export_op)
-  1431			exp_op_flags = sb->s_export_op->flags;
-  1432	
-  1433		if (test_bit(RQ_LOCAL, &rqstp->rq_flags) &&
-  1434		    !(exp_op_flags & EXPORT_OP_REMOTE_FS)) {
-  1435			/*
-  1436			 * We want throttling in balance_dirty_pages()
-  1437			 * and shrink_inactive_list() to only consider
-  1438			 * the backingdev we are writing to, so that nfs to
-  1439			 * localhost doesn't cause nfsd to lock up due to all
-  1440			 * the client's dirty pages or its congested queue.
-  1441			 */
-  1442			current->flags |= PF_LOCAL_THROTTLE;
-  1443			restore_flags = true;
-  1444		}
-  1445	
-  1446		exp = fhp->fh_export;
-  1447	
-  1448		/*
-  1449		 * If aggressive write throttling is enabled, reduce the per-task
-  1450		 * dirty page limit to throttle NFSD writes more aggressively.
-  1451		 * This helps prevent memory exhaustion when fast network clients
-  1452		 * overwhelm slow storage.
-  1453		 */
-  1454		if (nfsd_aggressive_write_throttle) {
-  1455			saved_nr_dirtied_pause = current->nr_dirtied_pause;
-  1456			current->nr_dirtied_pause = NFSD_AGGRESSIVE_DIRTY_LIMIT;
-  1457			throttle_adjusted = true;
-  1458		}
-  1459	
-  1460		if (!EX_ISSYNC(exp))
-  1461			stable = NFS_UNSTABLE;
-  1462		init_sync_kiocb(&kiocb, file);
-  1463		kiocb.ki_pos = offset;
-  1464		if (likely(!fhp->fh_use_wgather)) {
-  1465			switch (stable) {
-  1466			case NFS_FILE_SYNC:
-  1467				/* persist data and timestamps */
-  1468				kiocb.ki_flags |= IOCB_DSYNC | IOCB_SYNC;
-  1469				break;
-  1470			case NFS_DATA_SYNC:
-  1471				/* persist data only */
-  1472				kiocb.ki_flags |= IOCB_DSYNC;
-  1473				break;
-  1474			}
-  1475		}
-  1476	
-  1477		/*
-  1478		 * If async throttling is enabled, check memory pressure
-  1479		 * before attempting buffered writes. Return -EAGAIN if
-  1480		 * the system is low on memory, allowing NFSD to return
-  1481		 * an NFS error code asking the client to retry later.
-  1482		 *
-  1483		 * Skip this for NFSv2 since it lacks NFSERR_JUKEBOX.
-  1484		 */
-  1485		if (nfsd_async_write_throttle && rqstp->rq_vers >= 3) {
-  1486			host_err =
-  1487				balance_dirty_pages_ratelimited_flags(file->f_mapping,
-  1488								      BDP_ASYNC);
-  1489			if (host_err == -EAGAIN)
-> 1490				break;
-  1491		}
-  1492	
-  1493		nvecs = xdr_buf_to_bvec(rqstp->rq_bvec, rqstp->rq_maxpages, payload);
-  1494	
-  1495		since = READ_ONCE(file->f_wb_err);
-  1496		if (verf)
-  1497			nfsd_copy_write_verifier(verf, nn);
-  1498	
-  1499		switch (nfsd_io_cache_write) {
-  1500		case NFSD_IO_DIRECT:
-  1501			host_err = nfsd_direct_write(rqstp, fhp, nf, nvecs,
-  1502						     cnt, &kiocb);
-  1503			break;
-  1504		case NFSD_IO_DONTCACHE:
-  1505			if (file->f_op->fop_flags & FOP_DONTCACHE)
-  1506				kiocb.ki_flags |= IOCB_DONTCACHE;
-  1507			fallthrough;
-  1508		case NFSD_IO_BUFFERED:
-  1509			iov_iter_bvec(&iter, ITER_SOURCE, rqstp->rq_bvec, nvecs, *cnt);
-  1510			host_err = vfs_iocb_iter_write(file, &kiocb, &iter);
-  1511			if (host_err < 0)
-  1512				break;
-  1513			*cnt = host_err;
-  1514			break;
-  1515		}
-  1516		if (host_err < 0) {
-  1517			commit_reset_write_verifier(nn, rqstp, host_err);
-  1518			goto out_nfserr;
-  1519		}
-  1520		nfsd_stats_io_write_add(nn, exp, *cnt);
-  1521		fsnotify_modify(file);
-  1522		host_err = filemap_check_wb_err(file->f_mapping, since);
-  1523		if (host_err < 0)
-  1524			goto out_nfserr;
-  1525	
-  1526		if (stable && fhp->fh_use_wgather) {
-  1527			host_err = wait_for_concurrent_writes(file);
-  1528			if (host_err < 0)
-  1529				commit_reset_write_verifier(nn, rqstp, host_err);
-  1530		}
-  1531	
-  1532	out_nfserr:
-  1533		if (host_err >= 0) {
-  1534			trace_nfsd_write_io_done(rqstp, fhp, offset, *cnt);
-  1535			nfserr = nfs_ok;
-  1536		} else {
-  1537			trace_nfsd_write_err(rqstp, fhp, offset, host_err);
-  1538			nfserr = nfserrno(host_err);
-  1539		}
-  1540		if (throttle_adjusted)
-  1541			current->nr_dirtied_pause = saved_nr_dirtied_pause;
-  1542		if (restore_flags)
-  1543			current_restore_flags(pflags, PF_LOCAL_THROTTLE);
-  1544		return nfserr;
-  1545	}
-  1546	
+:::::: TO: Roberto Sassu <roberto.sassu@huawei.com>
+:::::: CC: zgzxx <zhangguangzhi3@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
