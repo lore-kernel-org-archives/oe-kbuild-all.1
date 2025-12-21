@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3373A1B5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 12:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB6B27A469
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 12:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766321769; cv=none; b=OM0tufwJQpyH8NjJ+vBgRTrUtOeKBrUl/+Y4XQ1LTr/ko1qrAhKoUa57HUOaRzck8wntyst7neTEkICU65JINQnVn/pJ5wR7qGnnZat68sCQPty46vwWzHxh5Qth3bMUDov7DKBC9hX41l6zJTovm5ezUk7zThHK5+SO4jXvEZw=
+	t=1766321771; cv=none; b=aaISfs7kUq4yThxCZaE+OobbQNFqUrhCb4QZKWzQ18ZcHZmO/7iZFP+hOWoAnJhqWZy04UThEh4PvSRf84Ej2qT7vQr8+bquWNS1mFVPa6qijOvME9dyPtzG5epD7tc5xH6Lzso1P8kYeowI2580obSh36PR2MW3935hRBvT4/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766321769; c=relaxed/simple;
-	bh=jsJZ1II4XRPc30w40lEoaXMAYocfn6g371YygDJTotQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JtK67ZdzZXCdxu46wkcPA3Wg8yjfgNhyIejb5QI1IhEL8ioPYAtZxWsRIYXTnCTRcPkkigZAaXTLoXCE3JfjoMJWM8YDGQOFcbUKRB43CoS5QSuxIPLDXWJ5O9y272Lp1FV5rTsgfyN5wBZq9f9nSbv+4TdzpMdjtMchUFLXpmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eQbBvaSt; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1766321771; c=relaxed/simple;
+	bh=N7NHTxid8yacV9LmMZv3GiH9rqE+GSW/aaVG38SLO2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OaTL5Z+OShmHLjLyioaROTq/wyXm7OzgBb9nz764lZQ3sAYeXt1U19fTY8eb/BnOxj3BttoXsLhG2hsx2Rvi/mqonpoZvoCEJCbvpCDDCnu+RlkrR1yTH/CH/unV6PNX6YJslx7GHKBqMLp+qwcz07T0BB8KwxOef3B8+XHpgBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MmYszv5X; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eQbBvaSt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MmYszv5X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766321766; x=1797857766;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jsJZ1II4XRPc30w40lEoaXMAYocfn6g371YygDJTotQ=;
-  b=eQbBvaStiyksmKPAzOQd1irGx3ToCXaVVx30l8gt/CNrb+xKqn9Zp6B4
-   JQ2wk7UNiDxkV0Ze6uEI4KkDp/w8xzMZwI1jMqsAOTbNsOJXyFKg9mILq
-   ynA6piFNfLuHcw7OyOJX6ti3TtOrSRPyrjVwR085Zy2jKvQnte9KEpuaW
-   JoSi7a6O9NDf0EvNA1jNSb+A939Dr9YZZq6LVLQcbhwNoQcMCbmVuLCra
-   auRqVIXxpTpjXBXdYkW46yQnRhv+iJSGP9QSBI8qDTCjiLG2+wuJwgl2G
-   mSctlbmECFEjoKGxE4Fpdt8R4+9gQSiahA4NwfJPSJqsX/Kz3cnD05eXx
-   g==;
-X-CSE-ConnectionGUID: 7H/2u9lrTtmUq66LVymQOw==
-X-CSE-MsgGUID: eNR+B6TIQZimBh1+fdkJ0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="70779231"
+  t=1766321771; x=1797857771;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=N7NHTxid8yacV9LmMZv3GiH9rqE+GSW/aaVG38SLO2c=;
+  b=MmYszv5XjgoSwxXbYeuC/fSk3ZfSyWL5vCy7HSfmIk2AH5SHyu1ArGUn
+   0sbHv0AxYMLRnwn90QZPFeB6ub4e3e3Fhr8dzXsdbM2uRRcVFsN6bqu7Q
+   87yniupSgfvhofH/K7ZssO5mwCvXOeYnDEHgyUs/HghaBdD776oAmnm8Z
+   E8YUsQbrXZQi7Sj2FOuVkXcmQW2tcF77CHABjq3ZGYFa3oJW+Wg5WjlId
+   OUSE5rFtfRoBVg1iQHBEpsdSyr5q8ahhCZEveL/bkPHrUFlp9E3dIldhp
+   mNmtjnO1Urf6SUfUUuukTviaAxxeDwrc7vOzHnoT53gGOUSxtDkHcuJ9s
+   A==;
+X-CSE-ConnectionGUID: I+AHwe7hTriPEVGv6pEOGw==
+X-CSE-MsgGUID: NWnoBmbkTy+N2Y6Rg6zDTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="78922141"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="70779231"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 04:56:01 -0800
-X-CSE-ConnectionGUID: pJ9KccjvRXK/x12VfooBFw==
-X-CSE-MsgGUID: rmO5DeDLSmmQM+bGiXp+pQ==
+   d="scan'208";a="78922141"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 04:56:03 -0800
+X-CSE-ConnectionGUID: T3harOe5Sy+FFUZAbgnesQ==
+X-CSE-MsgGUID: m5TyObk+QUSRXptB26i0Ow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199322229"
+   d="scan'208";a="199205661"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 21 Dec 2025 04:56:01 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 21 Dec 2025 04:56:00 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXIyc-0000000053u-0bOe;
+	id 1vXIyc-0000000053s-0SQE;
 	Sun, 21 Dec 2025 12:55:58 +0000
-Date: Sun, 21 Dec 2025 13:55:54 +0100
+Date: Sun, 21 Dec 2025 13:55:43 +0100
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 26/26] kismet: WARNING: unmet direct
- dependencies detected for SPI_PHYTIUM when selected by SPI_PHYTIUM_PLAT
-Message-ID: <202512211329.psDS1DgT-lkp@intel.com>
+To: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>
+Subject: Re: [PATCH] rust: sync: implement Unpin for ARef
+Message-ID: <202512211302.CuYHRqLX-lkp@intel.com>
+References: <20251217-unpin-for-aref-v1-1-84711b747d02@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,24 +69,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251217-unpin-for-aref-v1-1-84711b747d02@google.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   a9d28381f95a89bdcdd37365e033274ba5247458
-commit: 3aecfb5d583a915dc68f9fb5b5bc7dd643d5016d [26/26] anolis: spi: add support for Phytium SPI
-config: x86_64-kismet-CONFIG_SPI_PHYTIUM-CONFIG_SPI_PHYTIUM_PLAT-0-0 (https://download.01.org/0day-ci/archive/20251221/202512211329.psDS1DgT-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20251221/202512211329.psDS1DgT-lkp@intel.com/reproduce)
+Hi Alice,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-sync-implement-Unpin-for-ARef/20251218-013900
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20251217-unpin-for-aref-v1-1-84711b747d02%40google.com
+patch subject: [PATCH] rust: sync: implement Unpin for ARef
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251221/202512211302.CuYHRqLX-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211302.CuYHRqLX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512211329.psDS1DgT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512211302.CuYHRqLX-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SPI_PHYTIUM when selected by SPI_PHYTIUM_PLAT
-   WARNING: unmet direct dependencies detected for SPI_PHYTIUM
-     Depends on [n]: SPI [=y] && SPI_MASTER [=y] && (ARCH_PHYTIUM || COMPILE_TEST [=n])
-     Selected by [y]:
-     - SPI_PHYTIUM_PLAT [=y] && SPI [=y] && SPI_MASTER [=y]
+All errors (new ones prefixed by >>):
+
+>> error[E0277]: the trait bound `T: sync::aref::AlwaysRefCounted` is not satisfied
+   --> rust/kernel/sync/aref.rs:87:19
+   |
+   87 | impl<T> Unpin for ARef<T> {}
+   |                   ^^^^^^^ the trait `sync::aref::AlwaysRefCounted` is not implemented for `T`
+   |
+   note: required by a bound in `sync::aref::ARef`
+   --> rust/kernel/sync/aref.rs:68:20
+   |
+   68 | pub struct ARef<T: AlwaysRefCounted> {
+   |                    ^^^^^^^^^^^^^^^^ required by this bound in `ARef`
+   help: consider restricting type parameter `T` with trait `AlwaysRefCounted`
+   |
+   87 | impl<T: sync::aref::AlwaysRefCounted> Unpin for ARef<T> {}
+   |       ++++++++++++++++++++++++++++++
 
 -- 
 0-DAY CI Kernel Test Service
