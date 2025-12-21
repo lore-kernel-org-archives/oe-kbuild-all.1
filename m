@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0277C221F26
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 23:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D23244685;
+	Sun, 21 Dec 2025 23:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766358625; cv=none; b=REIhPcDD7m+G7fBEdYdAV2Ko1fDQlimJjpcfsFdoXGecXQhOpVkZsYhXJ3gFaAhHylPK/g1Erbh0gq7D7MrywRAktEjqFq3koFlBUiqkVebAkNhkYe+XrgEnhmpRf8Wr7u08HaYqnAqqPKUsl9OTSrYJvnfYWT7S2rU5b1cp6O4=
+	t=1766358625; cv=none; b=X/H3W7eP9TCmi1C4Lo2xE8tSHOGuyBz8Ue8WWEfTaVd8vvXIAWV96Px3XuRmlrWjyoU8QiVwKpxbGwj8d7T7hBR7SctzynSyYwkwGI40HXWB5SIiUV5M94Xm+nHgQ1bUmvN98vUTVKNauk6D4YuHDAXwd9V5/G7nHbSJ35HNSOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766358625; c=relaxed/simple;
-	bh=fHkh02+0rvsGN/WoqkQab0/nZwRBpU8bZa8Ue9X9nnA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WKHW9ZnJTMdZHSjZlhFxPq8qbEOGepCfFFqJYtqUqXnNTkcngAdac/5uc7b/5jWVQwr1LPOq6z+QN8Ge1L20pWdPqs4Q5w3h9u+g48gBmuNc52EGxEjaqQeKtxw3cU5EPrZQjpsMaNSnSO6fz7tJnFbTvB5OCcqQAUHFfaJSGdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YrEgdJkZ; arc=none smtp.client-ip=192.198.163.18
+	bh=6zpSdqdlSzoo8fCgyPSroS/HYQ+lMrvBg/qO7XNW5hQ=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K85nY7vr0iqWNXATCPnL6rv0y72N7ik7csaY3wUxZt0OjVsnuuR24haeT3QcQDCJULq6iok/QombhjyUgB0opCd9147ySlB+ya0QztxgZiR3rspmSSHNy6FSziFc7Uxb3uwkvxB0PlyksI7rngDPZ3cO372r9MMTTpDjQOYeqJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E/QR/F37; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YrEgdJkZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E/QR/F37"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766358623; x=1797894623;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fHkh02+0rvsGN/WoqkQab0/nZwRBpU8bZa8Ue9X9nnA=;
-  b=YrEgdJkZwFPbrTSHVI5lYeeN92MYEmJd0fbXYCrgyQKJI8j0SZRUDxZA
-   7OwYbRWsxwLWpQ/G8lq4ZMLfofHtM9izG2j+fzeAHSjZqWV7ZZqCbyv1M
-   WlZ1qcBDeZJhaRZDNh8ajrvsVWbveKy+skdyvg7HcH19B6qNA9mvDeuXj
-   9fEgG63+EM3QXr8rBKiGQ1NvoEZ/FNHZHtsV9dr4SYpvPGJTxE29S4uLI
-   jPapy/I21RIUsxAduFOwJsvNsVW2ORaEFn+EaSJrkCWPTWTt5x5e2G8M2
-   KiRBYGMNyFPu5vVC0WyCPVjHZC10i7+BUVjtQCNdrEu4HXJAeD36hY1ZV
+  t=1766358622; x=1797894622;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=6zpSdqdlSzoo8fCgyPSroS/HYQ+lMrvBg/qO7XNW5hQ=;
+  b=E/QR/F37sTVquLA4KI4cy91PxXpL2WUqlwZ7LzuDcj31kI3JKQW3IZnm
+   15F4lZYdK4BPHzQ6tHvHTUufM5zvbNaUy4YN2EXSoTekWkKxOda+1mSoM
+   pm2uSo/dKLysY5zzq40SQDfVLXKvD5tUS7KSlDFMoEc4q5Cy44bQ/B8Nz
+   5fJGhJlTW8u2jWFiOCA8Lp0eMBOodO7jx+jJYZBWy+9nOUsMdufc8lQMY
+   nr5X+DFQDsF0GklnVYaFU7jinjL0yWCKt5h4uRmoyByKvtRWr+BBLn4C3
+   yWXMwBs+vbvAa/GQfPha35r/ovKv7SlqYbLmgPn6pDZ43Bc+f4KLHpNeV
    A==;
-X-CSE-ConnectionGUID: SgXarbHRTJWQooZ9TydYLA==
-X-CSE-MsgGUID: UBkfIFkCSnqgslSwqnC+uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="67418574"
+X-CSE-ConnectionGUID: ABzX2IbTS6ubdIcDavPs4g==
+X-CSE-MsgGUID: seFhtRyERgS0FVa3CLU7Gw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="79341706"
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="67418574"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 15:10:22 -0800
-X-CSE-ConnectionGUID: dbA6W2SBT/6/sIpmqpKvNw==
-X-CSE-MsgGUID: o+yIcGnpSvuSd6aWDqZ9Qw==
+   d="scan'208";a="79341706"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 15:10:21 -0800
+X-CSE-ConnectionGUID: MyFq2L5dSa+wvwmdNzsH+A==
+X-CSE-MsgGUID: 2YFVCXFZQ1ytg3zrEhly7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="199679064"
+   d="scan'208";a="199901000"
 Received: from lkp-server01.sh.intel.com (HELO 0713df988ca2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Dec 2025 15:10:21 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 21 Dec 2025 15:10:22 -0800
 Received: from kbuild by 0713df988ca2 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXSZ9-000000000HD-1ZbO;
-	Sun, 21 Dec 2025 23:10:19 +0000
-Date: Mon, 22 Dec 2025 07:10:12 +0800
+	id 1vXSZA-000000000HP-0bZy;
+	Sun, 21 Dec 2025 23:10:20 +0000
+Date: Mon, 22 Dec 2025 07:10:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Granados <joel.granados@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] loadpin: Implement custom proc_handler for enforce
-Message-ID: <202512221207.wmjLxyLE-lkp@intel.com>
-References: <20251219-jag-const_loadpin-v2-1-a1490ab35a1d@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: rust/helpers/pci.c:36:2: error: call to undeclared function
+ 'pci_free_irq_vectors'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202512220740.4Kexm4dW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,91 +61,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251219-jag-const_loadpin-v2-1-a1490ab35a1d@kernel.org>
 
-Hi Joel,
+CC: linux-kernel@vger.kernel.org
+TO: Danilo Krummrich <dakr@kernel.org>
+CC: Alice Ryhl <aliceryhl@google.com>
+CC: Joel Fernandes <joelagnelf@nvidia.com>
 
-kernel test robot noticed the following build errors:
+Hi Danilo,
 
-[auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+FYI, the error/warning still remains.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joel-Granados/loadpin-Implement-custom-proc_handler-for-enforce/20251219-185849
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20251219-jag-const_loadpin-v2-1-a1490ab35a1d%40kernel.org
-patch subject: [PATCH v2] loadpin: Implement custom proc_handler for enforce
-config: sh-randconfig-002-20251221 (https://download.01.org/0day-ci/archive/20251222/202512221207.wmjLxyLE-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221207.wmjLxyLE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9094662f6707d1d4b53d18baba459604e8bb0783
+commit: 473b9f331718267815649cd93801da832200db71 rust: pci: fix build failure when CONFIG_PCI_MSI is disabled
+date:   3 weeks ago
+config: x86_64-buildonly-randconfig-003-20251221 (https://download.01.org/0day-ci/archive/20251222/202512220740.4Kexm4dW-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220740.4Kexm4dW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221207.wmjLxyLE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512220740.4Kexm4dW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/sh/include/asm/bug.h:112,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sh/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:18,
-                    from security/loadpin/loadpin.c:12:
-   security/loadpin/loadpin.c: In function 'report_writable':
->> security/loadpin/loadpin.c:86:25: error: 'loadpin_root_writable' undeclared (first use in this function)
-      86 |                         loadpin_root_writable ? "writable" : "read-only");
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:585:9: note: in expansion of macro 'printk'
-     585 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   security/loadpin/loadpin.c:83:17: note: in expansion of macro 'pr_info'
-      83 |                 pr_info("%pg (%u:%u): %s\n", mnt_sb->s_bdev,
-         |                 ^~~~~~~
-   security/loadpin/loadpin.c:86:25: note: each undeclared identifier is reported only once for each function it appears in
-      86 |                         loadpin_root_writable ? "writable" : "read-only");
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:585:9: note: in expansion of macro 'printk'
-     585 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   security/loadpin/loadpin.c:83:17: note: in expansion of macro 'pr_info'
-      83 |                 pr_info("%pg (%u:%u): %s\n", mnt_sb->s_bdev,
-         |                 ^~~~~~~
-   security/loadpin/loadpin.c: In function 'loadpin_check':
-   security/loadpin/loadpin.c:167:17: error: 'loadpin_root_writable' undeclared (first use in this function)
-     167 |                 loadpin_root_writable = sb_is_writable(pinned_root);
-         |                 ^~~~~~~~~~~~~~~~~~~~~
+   In file included from rust/helpers/helpers.c:40:
+>> rust/helpers/pci.c:36:2: error: call to undeclared function 'pci_free_irq_vectors'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   36 |         pci_free_irq_vectors(dev);
+   |         ^
+   rust/helpers/pci.c:36:2: note: did you mean 'pci_alloc_irq_vectors'?
+   include/linux/pci.h:2161:1: note: 'pci_alloc_irq_vectors' declared here
+   2161 | pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+   | ^
+   1 error generated.
+>> rust/helpers/pci.c:36:2: error: call to undeclared function 'pci_free_irq_vectors'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   make[3]: *** [rust/Makefile:495: rust/helpers/helpers.o] Error 1 shuffle=4010275255
+>> Unable to generate bindings: clang diagnosed error: rust/helpers/pci.c:36:2: error: call to undeclared function 'pci_free_irq_vectors'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
 
 
-vim +/loadpin_root_writable +86 security/loadpin/loadpin.c
+vim +/pci_free_irq_vectors +36 rust/helpers/pci.c
 
-    79	
-    80	static void report_writable(struct super_block *mnt_sb)
-    81	{
-    82		if (mnt_sb->s_bdev) {
-    83			pr_info("%pg (%u:%u): %s\n", mnt_sb->s_bdev,
-    84				MAJOR(mnt_sb->s_bdev->bd_dev),
-    85				MINOR(mnt_sb->s_bdev->bd_dev),
-  > 86				loadpin_root_writable ? "writable" : "read-only");
-    87		} else
-    88			pr_info("mnt_sb lacks block device, treating as: writable\n");
-    89	
-    90		if (!loadpin_root_writable)
-    91			pr_info("load pinning engaged.\n");
-    92	}
-    93	
+    33	
+    34	void rust_helper_pci_free_irq_vectors(struct pci_dev *dev)
+    35	{
+  > 36		pci_free_irq_vectors(dev);
+    37	}
+    38	
 
 -- 
 0-DAY CI Kernel Test Service
