@@ -1,59 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016A8219FC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 07:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B84315ECD7
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 07:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766302263; cv=none; b=X17Dzq7VU9aIHZoTxTvBi7SnWlFtSCCq1Y/kYKly4uVcpyimG8yczHPzisWuy+8zlPwYVHHqq55jwewOtPa7gXqqfi6HFha6RhYCn9RG5imUqYSBdPcbCnYU8EF9rJ3B/AnnxTNrrbYH0NklukCp5dq+DEHK3ya8GSudaT0KhdE=
+	t=1766302382; cv=none; b=X10QZipiG1roYsB9sXe98UlAG/NXIc+5Cu9I+HZ3mN2ek77k6m2WvMMDDwvM6WFtpm1OeCCtG0sr9RMSXBNMs4OKUYKcQ9a4Kv169tmlmGp7UP48vRZtoYaW0toJJ9G0NMH1VwVhtfLy0ohjSIfpTTedtmGKKxJfV9Vtf84yQUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766302263; c=relaxed/simple;
-	bh=I4Mbo/UiRVxhYMX/GFqeqeb30wJzIzUWgeTT0Quc3c0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=mug8ZCkha23iNcSbVbWeJcQt4xE2vOR5KhlvPPxyh9UFUXnpWuEaAKb9lEGVZ1SKFdLEyrgo4WjGpKzjB4kFatbrM+a7p5vREAMY/TFVRQGFbKdaa7ybTDi6zLH80rG8iN2d6hkDjQEd+uYHfE+yDzi0rYKrU1u4H2jsgQzAuUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K01XhdFo; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1766302382; c=relaxed/simple;
+	bh=acLNH9XZUwJ+/RUGFg15css9I9hbu1oRWu7mAn9c4XA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j/O1m9GZTOAgylmIYJYrNr0XcG+XmA1bwazlIj7TDQbXaoHpBsDGDLK9p6z+PWAJI6xQWfcIqblO7ULwT6jvnLbFS18k4ZfujWDZcitXdyV0Ca7gFO8p+/gWuuJBDXfk3+YYGvzdmawEdjk+f+LBzFWcOJc9PCAiPpyQQiYInsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RPk2S39r; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K01XhdFo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RPk2S39r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766302261; x=1797838261;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=I4Mbo/UiRVxhYMX/GFqeqeb30wJzIzUWgeTT0Quc3c0=;
-  b=K01XhdFoJmA8d8CTc6XMVl7Os7PYnp9JZTZ83E1448yqpU1k3LtA7KNt
-   PsDfaR8iSe4CkQ72HEiudTPFyGiyW/Fy2hUmVif6y3t1cBwcPQv958aes
-   sB4sQqqlme8hu0DghsrlvTB+VvkyLcW7aDlyNcHRlUjMIE2ENyTbx8p+w
-   NaKNkXbmM8xClyBYIwSPoBLbjQ/SKpMuIpZdtXxat4Hn7Oy/6vhS2mt/A
-   FXKGPrPSXhZANGZ1MgYT9/TFKERvYwl4zlSqKnC3bf0dvmHbCuCh/ksO8
-   FvwwvDo4+YN4pgs2j6xMKaPmOAfRE9crFw52werpeqOtyoIfs7AuQqRyC
-   Q==;
-X-CSE-ConnectionGUID: zz5AXtm7TMKi0no2ADCpSQ==
-X-CSE-MsgGUID: cshWMikESdyzCnN8uj3j3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="71830799"
+  t=1766302382; x=1797838382;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=acLNH9XZUwJ+/RUGFg15css9I9hbu1oRWu7mAn9c4XA=;
+  b=RPk2S39raFefSgmMNL0y5LirZF3+SeuONNQCzGK4byi/x1LEx9q474cj
+   iW56eXHfAY9AN2Bpk3B8Jw+dT2jY0FxpX9yRi8naVqlpP7FNberdU6jTi
+   FiThVkaBTMVrtAbVi7MuR/IVn4OStNVjPHUm4d6jmx/Yad0/9FFK4+ICE
+   BdaSrVKSy0OLdogdqjxiZMKjuddRQWt3d4L2zlvTSG0WZ+Yam4A2wOe+c
+   +Pmbsh/xUgYzfA3+lLMMmlUJ5OKj4XClExenhPxPyI9Fwl2a+GR61QBxk
+   UV78boy3OrzOrkyeVF0hYFeYz3YWumxzfxT1Y7h5KBN6WtyEmFuW87zpE
+   g==;
+X-CSE-ConnectionGUID: tRroR2M9T6GE+LsyqeCg9Q==
+X-CSE-MsgGUID: PpaK2SYMRaGcka2hW8tWjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="72044555"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="71830799"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 23:31:01 -0800
-X-CSE-ConnectionGUID: FtV1NawtQpeEh9/ANTAlxQ==
-X-CSE-MsgGUID: q2OMrSYBSvyeTrPL8+jBrw==
+   d="scan'208";a="72044555"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 23:33:01 -0800
+X-CSE-ConnectionGUID: WhT26M+xQ7i3MqpLrDYIvA==
+X-CSE-MsgGUID: /f0OMu86QL+ajuC4w0edDw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="198496333"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 20 Dec 2025 23:30:59 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 20 Dec 2025 23:32:56 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXDu5-000000005On-1UHj;
-	Sun, 21 Dec 2025 07:30:57 +0000
-Date: Sun, 21 Dec 2025 15:30:55 +0800
+	id 1vXDvx-000000004y0-3IUv;
+	Sun, 21 Dec 2025 07:32:53 +0000
+Date: Sun, 21 Dec 2025 08:31:59 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] net: usb: sr9700: fix incorrect command used to write
- single register
-Message-ID: <aUeiLz-0bv9GSkxJ@7f1fa5bf6f72>
+To: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Lee Jones <lee@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Badhri Jagan Sridharan <badhri@google.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>,
+	Amit Sunil Dhamne <amitsd@google.com>
+Subject: Re: [PATCH v2 4/5] power: supply: max77759: add charger driver
+Message-ID: <202512210844.O8gAG2p9-lkp@intel.com>
+References: <20251218-max77759-charger-v2-4-2b259980a686@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +76,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251221072732.41426-1-enelsonmoore@gmail.com>
+In-Reply-To: <20251218-max77759-charger-v2-4-2b259980a686@google.com>
 
-Hi,
+Hi Amit,
 
-Thanks for your patch.
+kernel test robot noticed the following build warnings:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test WARNING on lee-mfd/for-mfd-fixes]
+[also build test WARNING on sre-power-supply/for-next usb/usb-testing usb/usb-next usb/usb-linus v6.16-rc1 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Amit-Sunil-Dhamne-via-B4-Relay/dt-bindings-mfd-maxim-max77759-add-charger-child-node/20251219-065531
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-fixes
+patch link:    https://lore.kernel.org/r/20251218-max77759-charger-v2-4-2b259980a686%40google.com
+patch subject: [PATCH v2 4/5] power: supply: max77759: add charger driver
+reproduce: (https://download.01.org/0day-ci/archive/20251221/202512210844.O8gAG2p9-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] net: usb: sr9700: fix incorrect command used to write single register
-Link: https://lore.kernel.org/stable/20251221072732.41426-1-enelsonmoore%40gmail.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512210844.O8gAG2p9-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/power/supply/maxim,max77759-charger.yaml
+   Warning: arch/riscv/kernel/kexec_image.c references a file that doesn't exist: Documentation/riscv/boot-image-header.rst
+   Warning: drivers/clocksource/timer-armada-370-xp.c references a file that doesn't exist: Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
+   Warning: include/rv/da_monitor.h references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
+   Using alabaster theme
+   ERROR: Cannot find file ./include/linux/pci.h
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
