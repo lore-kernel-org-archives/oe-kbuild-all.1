@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00DB179A3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 13:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A15320459A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 14:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766325364; cv=none; b=Fbi268bj4cvmxETCuvhWqE+ps8WwAfFj5UO1u3NOzBbppdk/LC/3tJQoPBbApPbiugSyT+5Rcat4kM8M05QVYx+hBy8YEhp7g+nei0/OsmI+4jJ1jFsJ9y1QFHh2IL17qUhWOFt862XBruVTl2hqg+81Xpf3yeXKBG9znYvczr4=
+	t=1766326945; cv=none; b=eytsCgZ9XRYZV3SHygeQJ38o8Kpp8Xxm8iNQom9cm1If2PaptbCkbfClWGz9e2u74tUVwrqUTVkbGLsQxQ56z1VFxhsYcLj+IzZL/KCqsrmw5APyhiDBJR755K8CyYsBQQ4sRCILxWuHgxRLXs2AQ+gh0l+gztIYgB/DqIXOUB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766325364; c=relaxed/simple;
-	bh=3yaF5Q8sXBZpYeTbbKdb8AeS/ggOF5lwnsRmUMeOP8Y=;
+	s=arc-20240116; t=1766326945; c=relaxed/simple;
+	bh=s8PNLfnTdNXIjeHaEWkOdnenR4Ibe/pwO1z3YMi9NUg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SGPgfilS2XI8mw4aSDgM5cpQREt1NfZX7uPK5jhRFPM+efeDtJk5oHgib3xFiQHjVBqGIsZNa72Jv/IvFgDFwsXCEI5zkjgowK+0NE+4zzFGdrvDdnwL3dWmKAC/ghlkf+D+aunC82xTdMKNmRAeM50beHaiWQb9cKY2sr5EK/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YycxlWHV; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=lvp6QPXD9kg786ijnPzK8rU39sYPPsTzI9FVvlQGl0hmWcA1LvNs7mei7D2o6rv5rF9lz5wi0J75b2ALBIY4RxD2D0c/tGOerSIL8fkTj/93imbcJNex/cRtsLyod3E83fGfTkOVP/xLZwL1JAb3IkAiW2l9/Fn/8bPtUOE9oz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SAUGiu6e; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YycxlWHV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SAUGiu6e"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766325363; x=1797861363;
+  t=1766326942; x=1797862942;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3yaF5Q8sXBZpYeTbbKdb8AeS/ggOF5lwnsRmUMeOP8Y=;
-  b=YycxlWHVLSVCmkMdtsHW0ihXfKzmfo6NTTm2Vdad989247N02OiZQt8d
-   s2qnjaS/2wXFmpNd6T5KYlAK92/wcpxzy4Ccg4Idtk6R35wdVmsBpW9nF
-   fIm8aDsfK/e4w8EK1D446UnhKXQm4YIirIcApGkwKU+s0eeqA1VY9ZJDg
-   Oqc0nJOeKDGM/R/wWfLArVoaIK+0/YZlrqqgbyQ4GMv25DDuRhbuhExo2
-   FyjiLtF8wqmzRfPhRPf+yhSaaqoimudLAN0+knRKbUm9DZ5kHJf63SOUc
-   j8V7jG0uVD9EYy9bYjIFC9ebgyHyEsWfcmdiqknhFR5YUOmhCyV4y+sKb
-   Q==;
-X-CSE-ConnectionGUID: T+lrQSjqRjGhXiZCLe6P6Q==
-X-CSE-MsgGUID: rbYRVwwKRDSGz5dwh+hMgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68187288"
+  bh=s8PNLfnTdNXIjeHaEWkOdnenR4Ibe/pwO1z3YMi9NUg=;
+  b=SAUGiu6ecrvqmbZ/tavWQRAV6p0cfJa141ruShLje892GyJSXQd5qmKP
+   NXgIB4ZHmmR/w7IWNTt5tmwin/gWD9jemzW4MVIXGlV9iyZRDmPGJYwnN
+   i37yhd6cs2JRw2VRzvX+DnJd6ywhCHB+xBE6moXIvoN8UEIaD8QlNj3j8
+   SrqaEkSjwekmkPG39jtmOMWHTGnUazZByXxRa2PsoPLw0F54uXtKjeHm8
+   X7sj9wtgqBetOvaP9cZa3t2ObHh+YKxpekAXhr1LJ++LcgPJeDoMXUsDJ
+   fI88xZLXI8lisYxCe7o1V8hGANAfYAllYJmL0LNfW4a4lxH/or3sY6p78
+   A==;
+X-CSE-ConnectionGUID: PjK10L7cT8mW5Ip20ZDGmQ==
+X-CSE-MsgGUID: XPpI9ynQRJ6DWAkvHxiCgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="78845602"
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="68187288"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 05:56:02 -0800
-X-CSE-ConnectionGUID: YtdOkhOmRmKAXVn6QtoFOg==
-X-CSE-MsgGUID: mki3VGVOSOiDubFsbiHuTA==
+   d="scan'208";a="78845602"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 06:22:22 -0800
+X-CSE-ConnectionGUID: sGzIxBZNSa2UKNvPttIhoA==
+X-CSE-MsgGUID: kqnKtY9bRw6+b8rB4Pu5pA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="229966689"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 21 Dec 2025 05:56:01 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="204379679"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 21 Dec 2025 06:22:20 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXJug-0000000054m-2w43;
-	Sun, 21 Dec 2025 13:55:58 +0000
-Date: Sun, 21 Dec 2025 14:55:22 +0100
+	id 1vXKK9-000000005jh-2ZYK;
+	Sun, 21 Dec 2025 14:22:17 +0000
+Date: Sun, 21 Dec 2025 22:21:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1] lib/sbitmap.c:104: warning:
- Excess function parameter 'map' description in 'sbitmap_spinlock'
-Message-ID: <202512211453.xEx45izL-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1942/1942]
+ arch/arm64/kernel/vdso/gettimeofday.c:268:13: warning: no previous prototype
+ for '__kernel_clock_gettime'
+Message-ID: <202512212208.f4EG9uym-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,89 +63,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   16aa689262af24cd0897f463b3d0dd9ecee6b37c
-commit: 05baf38affa65735b6698f089e82af7c0e17b349 [1/1] ANDROID: sbitmap: Fix sbitmap_spinlock()
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251221/202512211453.xEx45izL-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211453.xEx45izL-lkp@intel.com/reproduce)
+Hi Andrew,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4e9c55920995d70b3e88b60c69753df54b03fdf4
+commit: f43f336031282e8ea7e5f7f887c5a6ff7b9c99b0 [1942/1942] arm64:vdso: Rewrite gettimeofday into C.
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20251221/202512212208.f4EG9uym-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512212208.f4EG9uym-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512211453.xEx45izL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512212208.f4EG9uym-lkp@intel.com/
 
+Note: functions only called from assembly code should be annotated with the asmlinkage attribute
 All warnings (new ones prefixed by >>):
 
-   lib/sbitmap.c:104: warning: Function parameter or member 'sb' not described in 'sbitmap_spinlock'
->> lib/sbitmap.c:104: warning: Excess function parameter 'map' description in 'sbitmap_spinlock'
->> lib/sbitmap.c:104: warning: Excess function parameter 'map_nr' description in 'sbitmap_spinlock'
+>> arch/arm64/kernel/vdso/gettimeofday.c:268:13: warning: no previous prototype for '__kernel_clock_gettime' [-Wmissing-prototypes]
+     268 | notrace int __kernel_clock_gettime(clockid_t clock, struct timespec *ts)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/vdso/gettimeofday.c:302:13: warning: no previous prototype for '__kernel_gettimeofday' [-Wmissing-prototypes]
+     302 | notrace int __kernel_gettimeofday(struct timeval *tv, struct timezone *tz)
+         |             ^~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/vdso/gettimeofday.c:325:5: warning: no previous prototype for '__kernel_clock_getres' [-Wmissing-prototypes]
+     325 | int __kernel_clock_getres(clockid_t clock_id, struct timespec *res)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+--
+>> arch/arm64/kernel/vdso/gettimeofday.c:268:13: warning: no previous prototype for '__kernel_clock_gettime' [-Wmissing-prototypes]
+     268 | notrace int __kernel_clock_gettime(clockid_t clock, struct timespec *ts)
+         |             ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/vdso/gettimeofday.c:302:13: warning: no previous prototype for '__kernel_gettimeofday' [-Wmissing-prototypes]
+     302 | notrace int __kernel_gettimeofday(struct timeval *tv, struct timezone *tz)
+         |             ^~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/vdso/gettimeofday.c:325:5: warning: no previous prototype for '__kernel_clock_getres' [-Wmissing-prototypes]
+     325 | int __kernel_clock_getres(clockid_t clock_id, struct timespec *res)
+         |     ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +104 lib/sbitmap.c
+vim +/__kernel_clock_gettime +268 arch/arm64/kernel/vdso/gettimeofday.c
 
-bf2c4282a10a92 Ming Lei        2021-01-22   59  
-783d6780cd6684 Yang Yang       2024-07-16   60  /**
-783d6780cd6684 Yang Yang       2024-07-16   61   * sbitmap_spinlock() - Get the spinlock corresponding to sbitmap_work.
-783d6780cd6684 Yang Yang       2024-07-16   62   * @map: The memory address of the index sbitmap_work area.
-783d6780cd6684 Yang Yang       2024-07-16   63   * @map_nr: Number of words (cachelines) being used for the bitmap.
-783d6780cd6684 Yang Yang       2024-07-16   64   * @index: The index of the spinlock.
-783d6780cd6684 Yang Yang       2024-07-16   65   *
-783d6780cd6684 Yang Yang       2024-07-16   66   * this lock: serializes simultaneous updates of ->word and ->cleared.
-783d6780cd6684 Yang Yang       2024-07-16   67   * sbitmap_spinlock is for checking on ->cleared and updating on both
-783d6780cd6684 Yang Yang       2024-07-16   68   * ->cleared and ->word need to be done atomically.
-783d6780cd6684 Yang Yang       2024-07-16   69   *  Prevent the following situations from causing block:
-783d6780cd6684 Yang Yang       2024-07-16   70   * Configuration for sbq:
-783d6780cd6684 Yang Yang       2024-07-16   71   * depth=64, wake_batch=6, shift=6, map_nr=1
-783d6780cd6684 Yang Yang       2024-07-16   72   *
-783d6780cd6684 Yang Yang       2024-07-16   73   * 1. There are 64 requests in progress:
-783d6780cd6684 Yang Yang       2024-07-16   74   * map->word = 0xFFFFFFFFFFFFFFFF
-783d6780cd6684 Yang Yang       2024-07-16   75   * 2. After all the 64 requests complete, and no more requests come:
-783d6780cd6684 Yang Yang       2024-07-16   76   * map->word = 0xFFFFFFFFFFFFFFFF, map->cleared = 0xFFFFFFFFFFFFFFFF
-783d6780cd6684 Yang Yang       2024-07-16   77   * 3. Now two tasks try to allocate requests:
-783d6780cd6684 Yang Yang       2024-07-16   78   * T1:                                       T2:
-783d6780cd6684 Yang Yang       2024-07-16   79   * __blk_mq_get_tag                          .
-783d6780cd6684 Yang Yang       2024-07-16   80   * __sbitmap_queue_get                       .
-783d6780cd6684 Yang Yang       2024-07-16   81   * sbitmap_get                               .
-783d6780cd6684 Yang Yang       2024-07-16   82   * sbitmap_find_bit                          .
-783d6780cd6684 Yang Yang       2024-07-16   83   * sbitmap_find_bit_in_word                  .
-783d6780cd6684 Yang Yang       2024-07-16   84   * sbitmap_get_word  -> nr=-1              __blk_mq_get_tag
-783d6780cd6684 Yang Yang       2024-07-16   85   * sbitmap_deferred_clear                    __sbitmap_queue_get
-783d6780cd6684 Yang Yang       2024-07-16   86   * //map->cleared=0xFFFFFFFFFFFFFFFF         sbitmap_find_bit
-783d6780cd6684 Yang Yang       2024-07-16   87   *   if (!READ_ONCE(map->cleared))           sbitmap_find_bit_in_word
-783d6780cd6684 Yang Yang       2024-07-16   88   *     return false;                         __sbitmap_get_word -> nr=-1
-783d6780cd6684 Yang Yang       2024-07-16   89   * mask = xchg(&map->cleared, 0)             sbitmap_deferred_clear
-783d6780cd6684 Yang Yang       2024-07-16   90   * atomic_long_andnot()                      // map->cleared=0
-783d6780cd6684 Yang Yang       2024-07-16   91   *                                             if (!(map->cleared))
-783d6780cd6684 Yang Yang       2024-07-16   92   *                                               return false;
-783d6780cd6684 Yang Yang       2024-07-16   93   *
-783d6780cd6684 Yang Yang       2024-07-16   94   *                                    // map->cleared is cleared by T1
-783d6780cd6684 Yang Yang       2024-07-16   95   *                                    // T2 fail to acquire the tag
-783d6780cd6684 Yang Yang       2024-07-16   96   *
-783d6780cd6684 Yang Yang       2024-07-16   97   * 4. T2 is the sole tag waiter. When T1 puts the tag, T2 cannot be woken
-783d6780cd6684 Yang Yang       2024-07-16   98   * up due to the wake_batch being set at 6. If no more requests come, T1
-783d6780cd6684 Yang Yang       2024-07-16   99   * will wait here indefinitely.
-783d6780cd6684 Yang Yang       2024-07-16  100   *
-783d6780cd6684 Yang Yang       2024-07-16  101   * Return: Returns the spinlock corresponding to index.
-783d6780cd6684 Yang Yang       2024-07-16  102   */
-05baf38affa657 Bart Van Assche 2025-04-03  103  static spinlock_t *sbitmap_spinlock(struct sbitmap *sb, unsigned int index)
-783d6780cd6684 Yang Yang       2024-07-16 @104  {
-05baf38affa657 Bart Van Assche 2025-04-03  105  	const unsigned int max_map_nr = *(unsigned int *)&sb->map[-1];
-05baf38affa657 Bart Van Assche 2025-04-03  106  	spinlock_t *const base_lock = (spinlock_t *)
-05baf38affa657 Bart Van Assche 2025-04-03  107  		round_up((uintptr_t)&sb->map[max_map_nr],
-05baf38affa657 Bart Van Assche 2025-04-03  108  			 __alignof__(spinlock_t));
-05baf38affa657 Bart Van Assche 2025-04-03  109  
-05baf38affa657 Bart Van Assche 2025-04-03  110  	WARN_ON_ONCE(index < 0 || index >= sb->map_nr);
-783d6780cd6684 Yang Yang       2024-07-16  111  
-783d6780cd6684 Yang Yang       2024-07-16  112  	return &base_lock[index];
-783d6780cd6684 Yang Yang       2024-07-16  113  }
-783d6780cd6684 Yang Yang       2024-07-16  114  
-
-:::::: The code at line 104 was first introduced by commit
-:::::: 783d6780cd66848c96945c8143a808a2b98c9836 ANDROID: Fixed the KMI corruption issue caused by the patch of 72d04bdcf3f7.
-
-:::::: TO: Yang Yang <yang.yang@vivo.com>
-:::::: CC: Todd Kjos <tkjos@google.com>
+   267	
+ > 268	notrace int __kernel_clock_gettime(clockid_t clock, struct timespec *ts)
+   269	{
+   270		const struct vdso_data *vd = &_vdso_data;
+   271	
+   272		switch (clock) {
+   273		case CLOCK_REALTIME:
+   274			if (do_realtime(vd, ts))
+   275				goto fallback;
+   276			break;
+   277		case CLOCK_MONOTONIC:
+   278			if (do_monotonic(vd, ts))
+   279				goto fallback;
+   280			break;
+   281		case CLOCK_MONOTONIC_RAW:
+   282			if (do_monotonic_raw(vd, ts))
+   283				goto fallback;
+   284			break;
+   285		case CLOCK_REALTIME_COARSE:
+   286			do_realtime_coarse(vd, ts);
+   287			break;
+   288		case CLOCK_MONOTONIC_COARSE:
+   289			do_monotonic_coarse(vd, ts);
+   290			break;
+   291		default:
+   292			goto fallback;
+   293		}
+   294	
+   295		return 0;
+   296	fallback:
+   297		return clock_gettime_fallback(clock, ts);
+   298	}
+   299	
+   300	
+   301	
+   302	notrace int __kernel_gettimeofday(struct timeval *tv, struct timezone *tz)
+   303	{
+   304		const struct vdso_data *vd = &_vdso_data;
+   305	
+   306		if (likely(tv != NULL)) {
+   307			struct timespec ts;
+   308	
+   309			if (do_realtime(vd, &ts))
+   310				return gettimeofday_fallback(tv, tz);
+   311	
+   312			tv->tv_sec = ts.tv_sec;
+   313			tv->tv_usec = ts.tv_nsec / 1000;
+   314		}
+   315	
+   316		if (unlikely(tz != NULL)) {
+   317			tz->tz_minuteswest = vd->tz_minuteswest;
+   318			tz->tz_dsttime = vd->tz_dsttime;
+   319		}
+   320	
+   321		return 0;
+   322	}
+   323	
+   324	
+ > 325	int __kernel_clock_getres(clockid_t clock_id, struct timespec *res)
 
 -- 
 0-DAY CI Kernel Test Service
