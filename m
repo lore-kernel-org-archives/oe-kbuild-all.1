@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B0F315D5A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 19:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49481D435F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 19:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766345471; cv=none; b=M70hLRnmnxPSDlLs37E8oYBcsX8k3sWQDg6PpU7fk/i4Qhbqc8uSecr8OR8mtRuUanuBjUhYh06u64If2ahEGQPcfTKoVbEZr5VrQhvbNAgPoDfPcQPavZGHaz1+OKdztuSVIrSni7kBXh/gd9ZxtEu2XQl+hu1Po9FRnUs1ER0=
+	t=1766345533; cv=none; b=MS274f5JH3mMdUAhv9Ee0+fuGMljxKmtvIFFcAM6DIV1l8dJFBxRjg1MGAzB5fMdn2NgMJv+LC2HLmUwkWBlYHLJjaVygVflUag2BHmHAeCExvXWDt9lHpopBsCm481Dfodm3wgcydZDhNc4L6ELr29StenF9k6RKYMywres5c8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766345471; c=relaxed/simple;
-	bh=DKjmW1bukYDobQ06uuEc8wGhreYKXUH8Qxc35Hza860=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AuxZULj6wdF/pbykslyTzK80xMwZFsMkCt0T9+XnnL8SWjho9/moz/U+z1PtkuVdQq/QO66Rp7hiL5fTp/6h9g6E0F9HlURgYsCetC/t70Y+l9VNWnpRcBs9JOgMfU2o0eNSBqmRWvoNaRq7o2jKkMMS582QjAuAgULfFM/fOU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OEyPWwyz; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1766345533; c=relaxed/simple;
+	bh=b9Nwd9sXKSYEQNfuaVJPScUfQ1fvQxMuXpR46Wa/4LM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UT/gmaoQrkMzDh4qT3zhOdDoSpbKXH4pkxyq6Pv+zL+to/mg/L9o1I4/zwb1KGvfWV4S+PbDCISQ5WgWaXAYKz7jfJICq4W9MgQUoCRTOUHsjHTeyI7NqJ95OKGDlOWMwhV9N6fmc/AoDyT+vcRorgrzeYk6LX88fWFhFSxqZBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wuzr45lr; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OEyPWwyz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wuzr45lr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766345468; x=1797881468;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DKjmW1bukYDobQ06uuEc8wGhreYKXUH8Qxc35Hza860=;
-  b=OEyPWwyz6Y0cjqn4qd7Acpw340puso/W39aEmeBHYnK5jgROAHV1xx9d
-   3WiCoezzhIX0hEaG61l+mb7rbJlIZ6lnLcYdt98oZoLdQvSEvebjrsy0Z
-   +4R2+EFAcZ99QqpF4E9AVzY4EVmJC8DJGDHg+WgTQt6DDgUPwmH8ydvvp
-   zoA5TpY8Okm67oGc9HKrOouhQBpLWJS/nq3qyYqn2rD98VSC8C0QUWXlj
-   2CUjJ1LNPcMQbDn2wDntyvfWMgFyTouQNLKdGEjCoiElHdrq6H6mIg/19
-   xVVnqH/eDdvZXZWVFdEoboBJbA+ydNZ0SBF7P4nexX1+8JLQUE45S4E/C
-   A==;
-X-CSE-ConnectionGUID: l8aLgpuGRw6RYEzsp4g66w==
-X-CSE-MsgGUID: EuPzu+YxSeONBXNJBR/Jkg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="71850073"
+  t=1766345532; x=1797881532;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b9Nwd9sXKSYEQNfuaVJPScUfQ1fvQxMuXpR46Wa/4LM=;
+  b=Wuzr45lrHAYD6ZghjB9sF76SPdFjJEk1aS1QJk9rEt3vv7xN0FLTc1rK
+   ctAmkmf/JRePX1wjgtiF8Q5+lmA6b55didaCXalFdykeh0ma+iE4CGwya
+   2wpkcCHVMY6+tG+63IsynkMuEQHz0g3IUr5sZwU4c8aZtYqa/sroI7v0Y
+   dv3ijORrdRXmy+4O7U92URVfmM3NrY8m0kJPvSSb873Cl+Mj+6byvaaNy
+   1rY5hK8MShxaBXchb7+KP32Ig5ATRvxgmKyJVGMDgT2xeHseGNFgd1j/A
+   dTTcsNWX4Mr+9vAq8nACg0AaTxjsim9dR2qGG6yiYlRi0TWVT8hvBr5e0
+   g==;
+X-CSE-ConnectionGUID: pPZqF4B7RGGiqoVnadgVZA==
+X-CSE-MsgGUID: u7gjKilxSS+AQtcxtr211A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="79582786"
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="71850073"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 11:31:08 -0800
-X-CSE-ConnectionGUID: ciB/9KAoSDGjnmRPqY3I/Q==
-X-CSE-MsgGUID: Q01K6bHKQTOK1thCehhXog==
+   d="scan'208";a="79582786"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 11:32:11 -0800
+X-CSE-ConnectionGUID: ZAYyN8XSTVSW1Pl8TDrcXg==
+X-CSE-MsgGUID: k5+MMjNURX+fVBoDoahJDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="222844165"
+   d="scan'208";a="236766300"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Dec 2025 11:31:07 -0800
+  by orviesa001.jf.intel.com with ESMTP; 21 Dec 2025 11:32:07 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXP8y-000000005D6-2T3b;
-	Sun, 21 Dec 2025 19:31:04 +0000
-Date: Sun, 21 Dec 2025 20:30:20 +0100
+	id 1vXP9w-000000005DA-2giu;
+	Sun, 21 Dec 2025 19:32:04 +0000
+Date: Sun, 21 Dec 2025 20:31:25 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 5/5] fs/fs-writeback.c:138:6:
- warning: no previous prototype for 'wb_wakeup'
-Message-ID: <202512212055.FqHvVmJI-lkp@intel.com>
+To: Ahmed Tiba <ahmed.tiba@arm.com>, linux-acpi@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, tony.luck@intel.com, bp@alien8.de,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	catalin.marinas@arm.com, will@kernel.org,
+	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
+	linux-doc@vger.kernel.org, Dmitry.Lamerov@arm.com,
+	Michael.Zhao2@arm.com, ahmed.tiba@arm.com
+Subject: Re: [PATCH 02/12] ras: add estatus core implementation
+Message-ID: <202512212012.arq4zqYv-lkp@intel.com>
+References: <20251217112845.1814119-3-ahmed.tiba@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,41 +68,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251217112845.1814119-3-ahmed.tiba@arm.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   54e1389bda8399711722cd321abe212a2327e9a3
-commit: 55cf94258af72fd493779ab2b7a4278d5c8d1d21 [5/5] ANDROID: writeback: export symbols to do a hierarchical writeback control
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251221/202512212055.FqHvVmJI-lkp@intel.com/config)
+Hi Ahmed,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on efi/next]
+[also build test WARNING on rafael-pm/linux-next rafael-pm/bleeding-edge robh/for-next linus/master v6.19-rc1 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Tiba/ras-add-estatus-core-interfaces/20251217-200718
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+patch link:    https://lore.kernel.org/r/20251217112845.1814119-3-ahmed.tiba%40arm.com
+patch subject: [PATCH 02/12] ras: add estatus core implementation
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251221/202512212012.arq4zqYv-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512212055.FqHvVmJI-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512212012.arq4zqYv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512212055.FqHvVmJI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512212012.arq4zqYv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/fs-writeback.c:138:6: warning: no previous prototype for 'wb_wakeup' [-Wmissing-prototypes]
-     138 | void wb_wakeup(struct bdi_writeback *wb)
-         |      ^~~~~~~~~
-   fs/fs-writeback.c:1349:6: warning: no previous prototype for 'redirty_tail_locked' [-Wmissing-prototypes]
-    1349 | void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
-         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/firmware/efi/estatus.c:505:13: warning: 'estatus_cache_add' defined but not used [-Wunused-function]
+     505 | static void estatus_cache_add(struct estatus_source *source,
+         |             ^~~~~~~~~~~~~~~~~
+   drivers/firmware/efi/estatus.c:435:12: warning: 'estatus_cached' defined but not used [-Wunused-function]
+     435 | static int estatus_cached(struct acpi_hest_generic_status *estatus)
+         |            ^~~~~~~~~~~~~~
+   drivers/firmware/efi/estatus.c:411:12: warning: 'estatus_print_estatus' defined but not used [-Wunused-function]
+     411 | static int estatus_print_estatus(const char *pfx,
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/firmware/efi/estatus.c:340:13: warning: 'estatus_clear_estatus' defined but not used [-Wunused-function]
+     340 | static void estatus_clear_estatus(struct estatus_source *source,
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/firmware/efi/estatus.c:321:12: warning: 'estatus_read_estatus' defined but not used [-Wunused-function]
+     321 | static int estatus_read_estatus(struct estatus_source *source,
+         |            ^~~~~~~~~~~~~~~~~~~~
+>> drivers/firmware/efi/estatus.c:117:12: warning: 'estatus_panic_timeout' defined but not used [-Wunused-variable]
+     117 | static int estatus_panic_timeout __read_mostly = 30;
+         |            ^~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/include/asm/uprobes.h:13,
+                    from include/linux/uprobes.h:66,
+                    from include/linux/mm_types.h:16,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:16,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs/super_types.h:7,
+                    from include/linux/fs/super.h:5,
+                    from include/linux/fs.h:5,
+                    from include/linux/seq_file.h:11,
+                    from include/linux/seq_buf.h:7,
+                    from include/linux/trace_seq.h:5,
+                    from include/linux/cper.h:13,
+                    from drivers/firmware/efi/estatus.c:10:
+   drivers/firmware/efi/estatus.c:106:29: warning: 'estatus_report_chain' defined but not used [-Wunused-variable]
+     106 | static ATOMIC_NOTIFIER_HEAD(estatus_report_chain);
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/notifier.h:116:37: note: in definition of macro 'ATOMIC_NOTIFIER_HEAD'
+     116 |         struct atomic_notifier_head name =                      \
+         |                                     ^~~~
 
 
-vim +/wb_wakeup +138 fs/fs-writeback.c
+vim +/estatus_panic_timeout +117 drivers/firmware/efi/estatus.c
 
-   137	
- > 138	void wb_wakeup(struct bdi_writeback *wb)
-   139	{
-   140		spin_lock_irq(&wb->work_lock);
-   141		if (test_bit(WB_registered, &wb->state))
-   142			mod_delayed_work(bdi_wq, &wb->dwork, 0);
-   143		spin_unlock_irq(&wb->work_lock);
-   144	}
-   145	EXPORT_SYMBOL_GPL(wb_wakeup);
-   146	
+   116	
+ > 117	static int estatus_panic_timeout __read_mostly = 30;
+   118	
 
 -- 
 0-DAY CI Kernel Test Service
