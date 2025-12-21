@@ -1,69 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710C62AE68;
-	Sun, 21 Dec 2025 09:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060DC1CAA65
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 09:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766310431; cv=none; b=oYTvfuizGUn1530ZsXyjUX7+CjAVM2JcezN6sWs5IH3EkD9sPJodT+9TudH6TephUtHH74HVUu0jyxRlw8XCItaCow8nHzHfQSwOh8AkhSPD+hyt3VDp2J3YGSWdHUcMRrkuG3c2ck36aLwl3l3IbPvT/DMyW90OXruKtGYioIo=
+	t=1766310600; cv=none; b=sJuLtHJ3ivqsLB9h9fZeUDc73dUNALob6Ai9wnnFKPJSZ7Pn5RBVx+/AhpWwmudIwtzbNz6yCxCC2aeAiUtYPptq7X5T+g+kAfpOebXhRIgYVTOhWr7KY5qaZKVxGj4No4wt0QN9QvzkqvAGUUDfyGwjxfT4Q6s7iREzRaIalVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766310431; c=relaxed/simple;
-	bh=4rJv5dqd8vQSSuUWkhvYaw7fdGbR4zlzLZporGj9z9g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ldRtvmYaoPCqjrYhYNbBrxJHDTtDMVdDUcgIDLaNsEO43hyeA3ICfpO5ty0oml+syhHtCYDL9ZddHFeLNZ6lTdWigYc+jiiVBYltToLaSd6rwT+Qv5zJT5+02EI44WiG6C5FtK3VofkSoNrzGFy/pptTTZNEK/j9y48/Khy6Rzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IZA/yq+0; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1766310600; c=relaxed/simple;
+	bh=+VZIveRn4m6cJxSttsq0QVPfmaAFj1nD39nZd4+U0P4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KcrDUnvSZXh2pbzCA0XxS6eW+3OpmuFyphfzeYaVlqG7nQTZvNws7zqM1YVsRemKjtVFrEsXglOQQ+YOmBJ0SuqNF9pngHaRLmNo9rqCA49mlS6uinJUm8bh2UmMCCDOUF1D+HZk6nuyjL6xxCOXW25oCJ6y53Bz6L75gts5XCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LgjTR9ja; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZA/yq+0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LgjTR9ja"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766310430; x=1797846430;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4rJv5dqd8vQSSuUWkhvYaw7fdGbR4zlzLZporGj9z9g=;
-  b=IZA/yq+0KCpiqnsPPB5kXMm5/qaUQPJ0mrZRApAPoY+EbqbqKrY4vqro
-   lHc9JPjulfcV8FtkU+uHJkQGX1lPZ3ntIAQdVVolgZucwz1yfNfExZWp/
-   WcWSRZu+eQtDPHtuovt0Aih2YY6a3JVDXRUK8pvH6sMTjR2+Rs4l/Ysp3
-   84ja2FsVcBebkWWgJYKpRAc/c8+F9iXAjrdOvnhTqQhLMv0NEULmfFMKD
-   m0ssnvEpTBrrmqN57evbd6lB0hA8BZacPRcqYsPJvDEms+vnujM3Klqrk
-   VPAw5hRjba5yBB4/QaIvOSeONCCjqXDngOyo7EPbtGvLRmt3K7TAVll9Q
-   Q==;
-X-CSE-ConnectionGUID: uHbn3ndDS5qmh/0Y4SDHwg==
-X-CSE-MsgGUID: gkNLP27hRsaL/qRDun/z3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68246097"
+  t=1766310599; x=1797846599;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+VZIveRn4m6cJxSttsq0QVPfmaAFj1nD39nZd4+U0P4=;
+  b=LgjTR9ja0O/t89pRj1QwwByQft6I4FqqhdJr1KHmFmTlWe9fJT3mz4jC
+   xAPPFT2+xgx+rzAi+nXT8unt3IqJF3N1s0BlJR5DFRzOpDFptQ01rSW9g
+   ahZ9mbXodgjp/F+dnw16cO+f5GyGy12ZIABkZD+alm+pt0QYaLe5kooZz
+   nv/7TGkXINCTt2q3vlKStGKS0GvQZngx+Z5eEl6COoL3YFtjB/4vtncTD
+   LqNqbLD2p7jFd54GEbm2wslZrwSWFPPaOCIkzIHaCmlkx9snuF7I3I2ih
+   Xlt+AIt8FX/R7mVBnpgIpItzbpUnjRBCtud/5orKQBzWx1LvMawOpIZwW
+   w==;
+X-CSE-ConnectionGUID: IrQOcCOhR9iBrhhPockmJg==
+X-CSE-MsgGUID: XWS7ypESSKCA3AT9IbDnHQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="85617449"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="68246097"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 01:47:09 -0800
-X-CSE-ConnectionGUID: MeU1WLjjRvyTa7CkqD6twQ==
-X-CSE-MsgGUID: CMUSjbIkShmtezCjTP8dpQ==
+   d="scan'208";a="85617449"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 01:49:58 -0800
+X-CSE-ConnectionGUID: /QyQSHNhSheUWBHfPdLRig==
+X-CSE-MsgGUID: KoC7+QUqSza6PhAvGNZrQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="229935926"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Dec 2025 01:47:06 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+   d="scan'208";a="199566234"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 21 Dec 2025 01:49:57 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXG1n-000000005Vl-21fQ;
-	Sun, 21 Dec 2025 09:47:03 +0000
-Date: Sun, 21 Dec 2025 17:46:40 +0800
+	id 1vXG4Z-0000000050G-1guQ;
+	Sun, 21 Dec 2025 09:49:55 +0000
+Date: Sun, 21 Dec 2025 10:49:15 +0100
 From: kernel test robot <lkp@intel.com>
-To: Luigi Rizzo <lrizzo@google.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Marc Zyngier <maz@kernel.org>, Luigi Rizzo <rizzo.unipi@gmail.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Willem de Bruijn <willemb@google.com>
-Subject: Re: [PATCH-v3 2/3] genirq: Adaptive Global Software Interrupt
- Moderation (GSIM)
-Message-ID: <202512211737.PVtnFVdB-lkp@intel.com>
-References: <20251217112128.1401896-3-lrizzo@google.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 1/1] kernel/bpf/dmabuf_iter.c:128:29:
+ warning: no previous prototype for 'bpf_iter_dmabuf_next'
+Message-ID: <202512211046.chAx6DtB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,44 +61,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251217112128.1401896-3-lrizzo@google.com>
 
-Hi Luigi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/irq/core]
-[also build test ERROR on linus/master v6.19-rc1]
-[cannot apply to next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luigi-Rizzo/genirq-Fixed-Global-Software-Interrupt-Moderation-GSIM/20251217-193249
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20251217112128.1401896-3-lrizzo%40google.com
-patch subject: [PATCH-v3 2/3] genirq: Adaptive Global Software Interrupt Moderation (GSIM)
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20251221/202512211737.PVtnFVdB-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211737.PVtnFVdB-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   16aa689262af24cd0897f463b3d0dd9ecee6b37c
+commit: 755db8b11c512ff80570c0a57821350f2ba67937 [1/1] BACKPORT: bpf: Add open coded dmabuf iterator
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251221/202512211046.chAx6DtB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211046.chAx6DtB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512211737.PVtnFVdB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512211046.chAx6DtB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: __hexagon_udivdi3
-   >>> referenced by irq_moderation_hook.c
-   >>>               kernel/irq/irq_moderation_hook.o:(irq_moderation_update_epoch) in archive vmlinux.a
-   >>> referenced by irq_moderation_hook.c
-   >>>               kernel/irq/irq_moderation_hook.o:(irq_moderation_update_epoch) in archive vmlinux.a
-   >>> referenced by irq_moderation_hook.c
-   >>>               kernel/irq/irq_moderation_hook.o:(irq_moderation_update_epoch) in archive vmlinux.a
-   >>> referenced 1 more times
-   >>> did you mean: __hexagon_udivsi3
-   >>> defined in: vmlinux.a(arch/hexagon/lib/udivsi3.o)
+   kernel/bpf/dmabuf_iter.c:117:17: warning: no previous prototype for 'bpf_iter_dmabuf_new' [-Wmissing-prototypes]
+     117 | __bpf_kfunc int bpf_iter_dmabuf_new(struct bpf_iter_dmabuf *it)
+         |                 ^~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/dmabuf_iter.c:128:29: warning: no previous prototype for 'bpf_iter_dmabuf_next' [-Wmissing-prototypes]
+     128 | __bpf_kfunc struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *it)
+         |                             ^~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/dmabuf_iter.c:140:18: warning: no previous prototype for 'bpf_iter_dmabuf_destroy' [-Wmissing-prototypes]
+     140 | __bpf_kfunc void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/bpf_iter_dmabuf_next +128 kernel/bpf/dmabuf_iter.c
+
+   127	
+ > 128	__bpf_kfunc struct dma_buf *bpf_iter_dmabuf_next(struct bpf_iter_dmabuf *it)
+   129	{
+   130		struct bpf_iter_dmabuf_kern *kit = (void *)it;
+   131	
+   132		if (kit->dmabuf)
+   133			kit->dmabuf = dma_buf_iter_next(kit->dmabuf);
+   134		else
+   135			kit->dmabuf = dma_buf_iter_begin();
+   136	
+   137		return kit->dmabuf;
+   138	}
+   139	
+ > 140	__bpf_kfunc void bpf_iter_dmabuf_destroy(struct bpf_iter_dmabuf *it)
 
 -- 
 0-DAY CI Kernel Test Service
