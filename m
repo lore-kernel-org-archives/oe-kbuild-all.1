@@ -1,75 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA2B1E89C;
-	Sun, 21 Dec 2025 00:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F363A1427A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 00:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766275617; cv=none; b=R8oGl3SYA48RtchKeHFLo+/rEptYncguK0FNCKr/n/UeC+u/OC30S1XMepsRUCPtGeV5PGj/qJne5VpGWO9RIjMkjQbYluiDzRrm29ghQ+U4f9oVo7LSEnS2qOM6zMGKRAqnC/zh0IzT2VKH8jOrwVMy33t0cT/g80gJofzoFlw=
+	t=1766275913; cv=none; b=aI2tctpx28y1MKrGda5oKbFFgMURc0v+e6LlCFRQ4AfGnAc51DeVHeFvS6Xt+gG/vxEptgolJBtXnVlmlF8Rx5g1us+S2f0tV+jDcZo/HfYiXhb0TqGilKCExnGiNrUXEjGBidQvMxxkjj4swUjcevYNK7nADjZAproF/MUjZCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766275617; c=relaxed/simple;
-	bh=sOt6CEZpOSyORmbi/kzA8CZ3ShnRxK4EN8upthUlT8w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMeQYxLFJwzKiEt2v4oLAaaamJORtzjmdO2k4Mqw+clQ4aSHXj+C3aFXmaTHTTZz7qme4aMOEg5KHUHF7FIbUCFz6wEtLiBE3ka8b3RUnqSX9vMIQnDDN6IAcKxIJODsACQfGtFWpC2tW0Goq03BnKtAca2IkxGwuwRR4cOyLGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mz4HMRBS; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1766275913; c=relaxed/simple;
+	bh=1/yKFxGolvoi6QgV+qBU3p966qzNAae7hpL/VIvskYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Bd9GSMuhn+QD6KhT9huvr9otaVJuxRv4aseGJGqdEa4urspZH9Si+liBQYAHHGa0l57qo5//7xXdrep3Un5g32xgEYUPXmKqRobXsZta8xmTNkwC3EJWVq/fkS4t2t+cCy4zR4lPqvDU0wUrCGg8rbVrRen4Mh/0+mcOqHk0Dtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fHkIro08; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mz4HMRBS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fHkIro08"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766275615; x=1797811615;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sOt6CEZpOSyORmbi/kzA8CZ3ShnRxK4EN8upthUlT8w=;
-  b=Mz4HMRBSEG79si1dVVPxJRijHpw0jSVxuDcP+TmEMqGKfq4Rn/TAQHPR
-   lVrC335T7Y8L6iORTKXeoEWFKqVWUZ0LMUwEKTHG6MBUAXgThIhWFQjZN
-   XZ9Pc1V4HWNtndNlhneR09oMdxyZJHpGjVvoK3+etJnJ2SXwLSgkNQDiF
-   FQQgc9VRiKfa/hFt5wW+BLcQT0CBxijwmfQBlrc0ibO7hU4M/N4hreyj9
-   CyGZlsl4Ahy89QIpD5TB1RU+Uvwm88sLpLKrpK+Wr5e3MsIvpyxJqo0ge
-   gW9nBJo7ibHiuWH6y/A9mO3o/xEIaQQ0yew8djgPxqIc0L1AgmJa0RJEV
-   A==;
-X-CSE-ConnectionGUID: r2Lr4yVhSSOZCYkuWR9MWg==
-X-CSE-MsgGUID: AIyjDkvSSN2E3uCr9mfyog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="72035922"
+  t=1766275912; x=1797811912;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1/yKFxGolvoi6QgV+qBU3p966qzNAae7hpL/VIvskYI=;
+  b=fHkIro08zOWkQIaY0NQiwMPe0+eRwjycffjwu2mB8/A+7s49puZ+bm6A
+   ylgHD76FvL8lRi9Jkysf0lWqS7s4B/LUbq1JlYOnnWZrjmOAImmQIg/6p
+   yP5qjCz6/uJ0KRaYx5cM5XLspVUgUHcXHVFyO6XUTE2LVYJheRXA4Ucmq
+   GCu9apzUNGe8cBwW529f87nXFPgavmNzN1OfisoVoSBM2XuJKBSYe6Ki6
+   uJNjh+RXdYNLCBkqYs9Z0a9C1/v++91PaL/ujli0atB2S+SSEKi00onHP
+   EshkmTpnDHKTGQmcuzgv7k2XUqBZZo2K36gutiaPiMic3XxUfNz24IAgy
+   Q==;
+X-CSE-ConnectionGUID: Uu8lhz+GT1Gp9Aq3GVR0BA==
+X-CSE-MsgGUID: W8Nw9114SmqMCq67L8G6dw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="79643463"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="72035922"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 16:06:55 -0800
-X-CSE-ConnectionGUID: uQzW/VJJQIqjaHIxzp2Fmg==
-X-CSE-MsgGUID: JPj19i+eQvy24iR01DTvYA==
+   d="scan'208";a="79643463"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 16:11:52 -0800
+X-CSE-ConnectionGUID: na3clGN0RiC/O5pxrAjUXA==
+X-CSE-MsgGUID: AdKh3Nd0QDuZJJ6ZmXuQZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="199099060"
+   d="scan'208";a="203660828"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 20 Dec 2025 16:06:50 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 20 Dec 2025 16:11:50 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vX6yG-000000004qW-0ki6;
-	Sun, 21 Dec 2025 00:06:48 +0000
-Date: Sun, 21 Dec 2025 01:06:34 +0100
+	id 1vX736-000000004qe-15pW;
+	Sun, 21 Dec 2025 00:11:48 +0000
+Date: Sun, 21 Dec 2025 01:11:31 +0100
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Asahi Lina <lina+kernel@asahilina.net>,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	iommu@lists.linux.dev, linux-mm@kvack.org,
-	Alice Ryhl <aliceryhl@google.com>
-Subject: Re: [PATCH v4] io: add io_pgtable abstraction
-Message-ID: <202512210130.LVNt1EfI-lkp@intel.com>
-References: <20251219-io-pgtable-v4-1-68aaa7a40380@google.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal:spec 129/131] Warning: kernel/sys.c:3251 expecting prototype
+ for sys_setfsuid(). Prototype was for __sys_setfsuid() instead
+Message-ID: <202512210158.yjFmDujD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,46 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251219-io-pgtable-v4-1-68aaa7a40380@google.com>
 
-Hi Alice,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 3e7f562e20ee87a25e104ef4fce557d39d62fa85]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/io-add-io_pgtable-abstraction/20251219-185557
-base:   3e7f562e20ee87a25e104ef4fce557d39d62fa85
-patch link:    https://lore.kernel.org/r/20251219-io-pgtable-v4-1-68aaa7a40380%40google.com
-patch subject: [PATCH v4] io: add io_pgtable abstraction
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251221/202512210130.LVNt1EfI-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210130.LVNt1EfI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
+head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
+commit: d905125c2e0652ca410fcece9b90b862974f9e53 [129/131] kernel/api: add API specification for sys_setfsuid
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251221/202512210158.yjFmDujD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210158.yjFmDujD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210130.LVNt1EfI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512210158.yjFmDujD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> warning: this function has a `#[must_use]` attribute with no message, but returns a type already marked as `#[must_use]`
-   --> rust/kernel/io/pgtable.rs:162:5
-   |
-   162 | /     pub unsafe fn map_pages(
-   163 | |         &self,
-   164 | |         iova: usize,
-   165 | |         paddr: PhysAddr,
-   ...   |
-   169 | |         flags: alloc::Flags,
-   170 | |     ) -> (usize, Result) {
-   | |________________________^
-   |
-   = help: either add some descriptive message or remove the attribute
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#double_must_use
-   = note: `-W clippy::double-must-use` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::double_must_use)]`
+   Warning: kernel/sys.c:1998 expecting prototype for sys_setuid(). Prototype was for __sys_setuid() instead
+>> Warning: kernel/sys.c:3251 expecting prototype for sys_setfsuid(). Prototype was for __sys_setfsuid() instead
 
 -- 
 0-DAY CI Kernel Test Service
