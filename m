@@ -1,62 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A45828468E;
-	Sun, 21 Dec 2025 13:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7398239E9D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 13:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766322124; cv=none; b=a3AqDK/JtdeybdhoSo3AMNp5rbne827gc3r0T6F5C/qPBUyonBzovU/pHlL3W4XB5oslzWrE5v4vo9loWE5obZywFcyDkHcP0BM9A8OIlgCLO71wZxyUgpS+a1jumVMyj79niiVjCodVcXi0olbBiz3J0WwGDB3btXapcQAoe04=
+	t=1766323085; cv=none; b=fKWBEUzyWxxXbzIi2ncBctH/oPPIPt+ub3hJrWOk5qH2tvGTNCWscVQFrxtHfLJ/MIRWEF8pAqGsOUP6t849PWKSQSru32WIXL2wAcNknpAIo19OPaSVdcZbDqwWskjrLz8+hUUNx/mCdWg7WZaJpKivl1SNinUE5gtb+hnS/os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766322124; c=relaxed/simple;
-	bh=IelPuQfpRKpMJVdVfQngugsAIYeDlUYPxZTLwugxbgg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P/K/2Kdt/SLlGDfhjTfu40LjFWSxvBSov90LzlfaPc8kupbqkHJNBy3Oet5e7C8Tqg76YuCilBLc9IpSfVcaW9nxDTes4OcQ7HrxWN06H81G3H74D0LxDxeMY5abfluqACIkPhzvfFvUxUDXhOJv09+tzyPQMZq1f6dyTRukuAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ER1Ik8HC; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1766323085; c=relaxed/simple;
+	bh=eJvYUKmzImpFT950h3Q+BKG7gS8ccwVPu2QT0YONmak=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZqG3t1f1K2TcNYVqKAW9cadVIHt/g7PrzsMcfPRsQ5Uctt34m+q2FV25zBNqMWNL3IMl0qd3UEjsCF9NvCp5Icjv/ussjjCxa7HSKqx0VdIvfdlySmAnAdrMHmnvxXcAwixbE4J4BTZDWBZCdh0CfIIki2nEAgNgBv11fhZjNrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KIFhKU6Q; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ER1Ik8HC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KIFhKU6Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766322123; x=1797858123;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IelPuQfpRKpMJVdVfQngugsAIYeDlUYPxZTLwugxbgg=;
-  b=ER1Ik8HCkSNidPJusuCBSOzgpU6+wfTGksbvdFIGtuHm7Y1lcBoU8Y1U
-   aBQ0wiVv1AiQk3LOw8kXVa+sV8tKoHOwQH4upbPYSfcnz/EzZ3LvNPW14
-   pYfC+flf8P7VtLfdd+UO3qVsC7Vv7cbpX+EfKHDtUt5pNjC6A7YIjqrzQ
-   BOPaY4Zfde0tcxKUWxWLtEi+MmzUeDfQ1nplyxjkmj6wtNaGYRnaUjvL0
-   AVjKZ3l9gzQxjgAG4y9M6DouCsxZXRSgIrcIUzWh6QloqdavYB/rIkifo
-   aVdrNYMjnk0i82vHwQetNotFl0MRMraQPY/WXn7vsUyO862uBVx9CvkZC
-   w==;
-X-CSE-ConnectionGUID: cR4vcmhWSiqI5/TT86m8Gg==
-X-CSE-MsgGUID: 51M+95FfRIWs2UDBWZC8iA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68084631"
+  t=1766323082; x=1797859082;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eJvYUKmzImpFT950h3Q+BKG7gS8ccwVPu2QT0YONmak=;
+  b=KIFhKU6QJohkNnw0Nk4AzyT7axoCHa1W9hbKg6FWjxnUszeMgLNvf023
+   aTCG9EIudKQes5vgmFpO5xDkYpOEYfGCHoL2sxgpAC57ccZVQFUcAi3AY
+   wN2DucOtyjjE6fXP9OVTpfYH9vOIPpYO6fLvlNSXLJ57b+HH3HdJF7gab
+   a7boNj9Fcp9Js3CgRsasvk0ayeMtKNLKwbcGrj3+4I1bBmlsu5NcScxed
+   X/ju9t7BTlPPkOh2Gpsc6jFYb8Q3rxiJMTtEgHYIXVT6hTECYThlplrSa
+   03+TxoQOQDlyEn4QZQl0onGXlcOg+OGetKQ4VfqcrA4m9Lr57KqL0japy
+   Q==;
+X-CSE-ConnectionGUID: wSWnxABURkmgVfSmXJpBtw==
+X-CSE-MsgGUID: LuIld+WQQNSBOL6B6rD6rA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="93681373"
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="68084631"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 05:02:02 -0800
-X-CSE-ConnectionGUID: tSMa9SGsQR6X4MkfEPOybw==
-X-CSE-MsgGUID: zpzgTZWNSviZ9bksHBD5rw==
+   d="scan'208";a="93681373"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 05:18:01 -0800
+X-CSE-ConnectionGUID: HkubRZmMQu2l+bh0e0KdKg==
+X-CSE-MsgGUID: oyBZETbETqqjD7RRRKXrdA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="198547878"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 21 Dec 2025 05:02:01 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 21 Dec 2025 05:18:00 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXJ4Q-00000000548-17Dx;
-	Sun, 21 Dec 2025 13:01:58 +0000
-Date: Sun, 21 Dec 2025 14:01:10 +0100
+	id 1vXJJu-0000000054K-1epv;
+	Sun, 21 Dec 2025 13:17:58 +0000
+Date: Sun, 21 Dec 2025 14:17:15 +0100
 From: kernel test robot <lkp@intel.com>
-To: Vitaliy Filippov <vitalifster@gmail.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Vitaliy Filippov <vitalifster@gmail.com>
-Subject: Re: [PATCH] Do not require atomic writes to be power of 2 sized and
- aligned on length boundary
-Message-ID: <202512211420.W7jr2osh-lkp@intel.com>
-References: <20251220173833.71176-1-vitalifster@gmail.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frederic-dynticks:timers/core 7/7]
+ ./include/linux/kernel_stat.h:167:9: error: implicit declaration of function
+ 'kcpustat_fetch_default'; did you mean 'kcpustat_cpu_fetch_default'?
+Message-ID: <202512211446.GiIMpzdi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,45 +60,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251220173833.71176-1-vitalifster@gmail.com>
 
-Hi Vitaliy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.19-rc1 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vitaliy-Filippov/Do-not-require-atomic-writes-to-be-power-of-2-sized-and-aligned-on-length-boundary/20251221-014115
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20251220173833.71176-1-vitalifster%40gmail.com
-patch subject: [PATCH] Do not require atomic writes to be power of 2 sized and aligned on length boundary
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251221/202512211420.W7jr2osh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211420.W7jr2osh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/core
+head:   377cf035e0d76753d72649b16d4d9b693e7f4b86
+commit: 377cf035e0d76753d72649b16d4d9b693e7f4b86 [7/7] tick/sched: Consolidate fetching idle time
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251221/202512211446.GiIMpzdi-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211446.GiIMpzdi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512211420.W7jr2osh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512211446.GiIMpzdi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/read_write.c:1805:9: warning: unused variable 'len' [-Wunused-variable]
-    1805 |         size_t len = iov_iter_count(iter);
-         |                ^~~
-   1 warning generated.
+   In file included from ./include/linux/cgroup.h:27,
+                    from ./include/linux/cgroup_api.h:1,
+                    from kernel/sched/sched.h:28,
+                    from kernel/sched/rq-offsets.c:5:
+   ./include/linux/kernel_stat.h: In function 'kcpustat_cpu_fetch':
+>> ./include/linux/kernel_stat.h:167:9: error: implicit declaration of function 'kcpustat_fetch_default'; did you mean 'kcpustat_cpu_fetch_default'? [-Wimplicit-function-declaration]
+     167 |         kcpustat_fetch_default(dst, cpu);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         kcpustat_cpu_fetch_default
 
 
-vim +/len +1805 fs/read_write.c
+vim +167 ./include/linux/kernel_stat.h
 
-c34fc6f26ab86d Prasad Singamsetty 2024-06-20  1802  
-c3be7ebbbce520 John Garry         2024-10-19  1803  int generic_atomic_write_valid(struct kiocb *iocb, struct iov_iter *iter)
-c34fc6f26ab86d Prasad Singamsetty 2024-06-20  1804  {
-c34fc6f26ab86d Prasad Singamsetty 2024-06-20 @1805  	size_t len = iov_iter_count(iter);
+   164	
+   165	static inline void kcpustat_cpu_fetch(struct kernel_cpustat *dst, int cpu)
+   166	{
+ > 167		kcpustat_fetch_default(dst, cpu);
+   168	}
+   169	
 
 -- 
 0-DAY CI Kernel Test Service
