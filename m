@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F9DEEBB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 00:23:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858F31A9FB0;
+	Sun, 21 Dec 2025 00:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766276634; cv=none; b=MWeMY30bLHU2W5BcLJR05vjeI/6ycyetMhY/2bDUc1NQHgTMzEa4/iVagVV5yyYqTiTwFAUXqCToJQ2X7OG/fu8ex/mnZ1FFXhf6DCVMmJziegdtKAp+D0ccDQwhtq0HaBMX4GF1NAebBbeRF6HGrDml0uDrrEm3eA7xE2ZMCAg=
+	t=1766276753; cv=none; b=JmEegnzkZS6hZaAHbjzhzDnUd6+OcvZPPxXW8dUbpz2DzwAHoWseZsMhhNOZ4iW2IeD8jZc6m0dfCsYR1dlgbgpqE45UzY0lp6nhPmxVUGwEdMNJhJDoZW87dW0Ks9s2ggTBAJor/CqxRNZv3ugz8v44Z4pPF0uo4Y6hc6vP4+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766276634; c=relaxed/simple;
-	bh=JXg4Mr047vPdUho5LB9aE2nwtbJUWIu1U94LoKE4YyQ=;
+	s=arc-20240116; t=1766276753; c=relaxed/simple;
+	bh=sT+uWjBV1AXrfDter/6EUkkwOVvmA+f+485uIIQIuEM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AI133sBeIEYqwXiZoryalA0ptyklubbdpLSudOlyfsmipaloteB/ENAM/YArKxrEaw5mjKuyw2TkxgfLnYuxaVTIbvvEz4+kwsCZy0bbdMKdzubklEPpjJpPagMa317kV1clR3XTcwIB7UU5Gcnx40X4K8S/utOPB9dTYXL+YNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fh5MvwKb; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=R6aDHLbg42+FrbT0gSUkkckg5rF8PI+sPXzJZJZk66rBJD1sa8kOQZiWPfxGquMHN3i0X4Nn7lERw2yPg7O5kGgOnssT6E49oXQwS1HrBGO+D/1o+JXZ/EZRLxmqsEgIji9e1TtJXgLipk0G9gsprvUtsWJKLK1iXUGcPMoU9Fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gh5ivkIb; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fh5MvwKb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gh5ivkIb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766276632; x=1797812632;
+  t=1766276751; x=1797812751;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JXg4Mr047vPdUho5LB9aE2nwtbJUWIu1U94LoKE4YyQ=;
-  b=fh5MvwKbqtFU5B22myDbG4gd94RKpeNU4lrRAliYQRaa6sHofeRyaNDm
-   5Qmfq8HQRLN0yiQeux1F3V3AsfzW/iALjf2a2JoDh88GYgkordhFx/LYq
-   w0mV2afNDpc/Eh3S80gHOxf/FxxXg8JErqJw4+atcZvY3LRCrb0XQfavL
-   BvwEghFENn8AnfGR3etBb33VEIIS7ijVOOpSU8pPOdOatnn1emB3Yu/12
-   O4PalygI2V+/e48bsurHcr6a64qOhXYpBC66707o9afkeuMam03og2m47
-   1TGATD10AlsiJ9zsS+lxrtTLU2D7BywBXJC7BqPnPnLgTvCvf/GxXfzfS
-   Q==;
-X-CSE-ConnectionGUID: MjNmc2jQTsqRqxLCBoCL3A==
-X-CSE-MsgGUID: oquMooH6RhWqkMwGrON+jA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68236119"
+  bh=sT+uWjBV1AXrfDter/6EUkkwOVvmA+f+485uIIQIuEM=;
+  b=Gh5ivkIb/76r1s6wGfTyDyAcHShEvfpaevIO1kQXILemF75OpfE7wIOH
+   /zh2D+V6qVOEUtuiYb3xK/l3jBowty+XEu/rrH+0kowTSMu3Ys+C3iDOJ
+   j7bVTMk3SOX/hf+sish4cbMIhXUammPr4w/DJNxrQOEmECafj3szmmZYP
+   cIqYFLkOtQ2tPTIDXkXqN/k539n5j4Pg4lHUE5quF0uCjUlqr2tLkr3Je
+   Nf4dYAvXZzey+IiQyTaQ/yMbGZT3RvQMyvv0vZeP1CW4P2jv5r/rwb0qp
+   cJKGyVMLKz3IWhuv7MvqVoQEc0pKwt99TXk4r1cCGcTWTO/ljdvi/sK2R
+   w==;
+X-CSE-ConnectionGUID: n/gVI8PwQI+qxg4Qd7Ah+w==
+X-CSE-MsgGUID: kqzEl21IQh+vXi9eehGcxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="79643816"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="68236119"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 16:23:51 -0800
-X-CSE-ConnectionGUID: T27x8or+TEKhzFUDAQLETQ==
-X-CSE-MsgGUID: NTI/6VKMTSqa1gdEUkb5xQ==
+   d="scan'208";a="79643816"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 16:25:51 -0800
+X-CSE-ConnectionGUID: c0d+Uhu/RAiyOsK4zsWAUA==
+X-CSE-MsgGUID: koNYKXUyQLSCygSTPUPXAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="204128126"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Dec 2025 16:23:50 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="199713052"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 20 Dec 2025 16:25:49 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vX7Ei-000000004qy-29Rf;
-	Sun, 21 Dec 2025 00:23:48 +0000
-Date: Sun, 21 Dec 2025 01:23:39 +0100
+	id 1vX7Gd-000000005DV-2o4a;
+	Sun, 21 Dec 2025 00:25:47 +0000
+Date: Sun, 21 Dec 2025 08:24:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 458/458]
- arch/arm64/kernel/vdso/vgettimeofday.c:27:8: warning: no previous prototype
- for '__kernel_time'
-Message-ID: <202512210122.WHWpFlcs-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-v3 5/15] ERROR: modpost: "native_irq_return_iret"
+ [drivers/misc/sgi-gru/gru.ko] undefined!
+Message-ID: <202512210826.NsDOdr0m-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,42 +62,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Chiawei,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   8cc11e1aa30fd981a8d5bd390a4352c37dfe543e
-commit: 7bbd50f11d3086fe75fac78882de0d42e27293fa [458/458] ANDROID: arch: arm64: vdso: export the symbols for time()
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251221/202512210122.WHWpFlcs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210122.WHWpFlcs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v3
+head:   5ed57ce1a7de9e649ede6b45207ee2f3bdf4cd2f
+commit: c5725ac2b07bbee3b9ab9c959018b145825b6a23 [5/15] x86/sync_core: Use RIP-relative addressing
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251221/202512210826.NsDOdr0m-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210826.NsDOdr0m-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210122.WHWpFlcs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512210826.NsDOdr0m-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   arch/arm64/kernel/vdso/vgettimeofday.c:9:5: warning: no previous prototype for '__kernel_clock_gettime' [-Wmissing-prototypes]
-       9 | int __kernel_clock_gettime(clockid_t clock,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/vdso/vgettimeofday.c:15:5: warning: no previous prototype for '__kernel_gettimeofday' [-Wmissing-prototypes]
-      15 | int __kernel_gettimeofday(struct __kernel_old_timeval *tv,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/vdso/vgettimeofday.c:21:5: warning: no previous prototype for '__kernel_clock_getres' [-Wmissing-prototypes]
-      21 | int __kernel_clock_getres(clockid_t clock_id,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kernel/vdso/vgettimeofday.c:27:8: warning: no previous prototype for '__kernel_time' [-Wmissing-prototypes]
-      27 | time_t __kernel_time(time_t *time)
-         |        ^~~~~~~~~~~~~
-
-
-vim +/__kernel_time +27 arch/arm64/kernel/vdso/vgettimeofday.c
-
-    26	
-  > 27	time_t __kernel_time(time_t *time)
+>> ERROR: modpost: "native_irq_return_iret" [drivers/misc/sgi-gru/gru.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
