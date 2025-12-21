@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F3F46B5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 03:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A56548EE
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 03:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766287258; cv=none; b=mOoJGwQ6hQa6FxIEPplMuqIVm8Hix+xWgzTwKbBXoJOpsRUPQoHpJYUqdhEZZtyRbjSpsNmnYeL8qDgT7hoYEbjpeYD5YuYG5Dyio83AWma+Dt4ryYG9LHskGF4DGs11K9luypZcYfc1InLcICcUA0wk4h+U9VYOFIgy1vYEdeo=
+	t=1766289478; cv=none; b=r1hMrcnQA9GXLYu7aQohVFn2G/usbyN7v/ywiv0dllpWVJTvWlNxeVHjcmaq8hLCNFuNARfkH5IsG8Et1Kpbf3vLzxlX3Dhdq7/TIjpMCv4bZCwLLZgE4BbnlpE3dHhC8GZKldF27unJCAfxoHXovtOIC3oNDZV2+JKzXDrC8NY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766287258; c=relaxed/simple;
-	bh=hp1Zvf6yzmeGs9mIELPZ459DBHYfJmhw4WIgX+M5HgY=;
+	s=arc-20240116; t=1766289478; c=relaxed/simple;
+	bh=LlARctBywG0K0PO7gIzaWkVX/DehRD5oJCgxgI8TOOs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rUZ4EYu/WqBlMyYUNWQ1f8bJ80hpYVU1+98ww8B/Aw3SYUdZR1cJgUaYQL5Jrwlak4yFC4pfLgVu9YxF/1FMKfjvQqEft3cde1ap5mZ0yW81GIv8izQuHawO4dHcHDJX//N3mJ+Nlpz5aPI2vSYEZ2fvb2nPCNWnYP8WXB11A7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D/gzNAbm; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=HLL8fAWxsNG4+78k297+miab8yS1VM1ZMNIxJLXRHwk/kMWpBCNxw4Esqx1nLDaFumkYFbD0EJkYefmbd0Cjm+/8yIr4rfMQ4z3HqUv7936W8rAVRmzIz6CuA9XNzDaiNSCm1QpEIxjxAfbI9gZry16URYi7RfpVgEi9hihIzP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NpHgSZ+o; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D/gzNAbm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NpHgSZ+o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766287256; x=1797823256;
+  t=1766289476; x=1797825476;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hp1Zvf6yzmeGs9mIELPZ459DBHYfJmhw4WIgX+M5HgY=;
-  b=D/gzNAbm+wEuFHsB3k5ekzEf6SL2G6qp1Hw5NMznWAdWdGmLikytVlmp
-   Zaq7h0lgXdvYj+o1ATsaFoiwchWG1KNdMNqZ8OjSMeHR59xCI46gKsOJ+
-   x752lKLBkTPBz3MJRU9MqOfGxjZHvQqD3bTNCu6aECaurMVtvomSaOMHk
-   9IVI0906RSWOmZueOG1Pudm3+sW1Eqb9E8ctSGO0gciPdWw9nh1PnvPv0
-   bQ6EeNGK2/o4gS/nM/taQngS7O1RsiSSh+Vg0l/bcKPxp9uC/9B6D/JqK
-   PwzIE3nCrhgOHontqC7euTsGLPd9Ps9Wg2SvWrZGpPECQw1IXEpUMXFmv
+  bh=LlARctBywG0K0PO7gIzaWkVX/DehRD5oJCgxgI8TOOs=;
+  b=NpHgSZ+oQZ9WN3r4HsDV5CXVIzxoqVLfABAEB9FiAYifjz7gYSPLABcp
+   w3a8o3reCMXYB6Y5SWlUCX+F9zhpm6YTa8V4vQdbvruapolGkkKMTibYx
+   mklp7vsLiINKtrnqFRY6ISrT5qoU8BMfvcNNNR7LPTl3Ntc3I5xegFNV7
+   rNndUajMH5m7LKm4/1Vob6lNmL0KdCDNYsT22sI1jsRp+xM7yqc8P+87F
+   GT9lD+0q08rik4b6guy0ZybndC2T7tyqoUO53pFOWLEAWnZ7d4UKad1FD
+   ZKm+Wocr6HABGrED1gWEw5BNP3nTWrssYdA6iEe5SSdKO5DoV3HBtG2HF
    w==;
-X-CSE-ConnectionGUID: XosRQgjFSD2WKlubIbK9Hw==
-X-CSE-MsgGUID: v2aZnATFR62rk0FbAeLU1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="78511689"
+X-CSE-ConnectionGUID: tWOqJ+MDT2+FzaAs9cnG+A==
+X-CSE-MsgGUID: ijRC1jCZS62jUTqKgkkMvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="71826362"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="78511689"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 19:20:56 -0800
-X-CSE-ConnectionGUID: 4wSwpS+6TxqUJ3QvMSK2Pw==
-X-CSE-MsgGUID: qSSpQx4JQd2DzPE3raZ/cg==
+   d="scan'208";a="71826362"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 19:57:55 -0800
+X-CSE-ConnectionGUID: p2Z5DhRJSkOgdeSM2y9FOw==
+X-CSE-MsgGUID: oE87xGa3Q5iUE6kDpjbYtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="198356555"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 20 Dec 2025 19:20:54 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
+   d="scan'208";a="200102027"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 20 Dec 2025 19:57:54 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXA04-000000005ID-1bbr;
-	Sun, 21 Dec 2025 03:20:52 +0000
-Date: Sun, 21 Dec 2025 11:20:35 +0800
+	id 1vXAZr-000000004vU-46YT;
+	Sun, 21 Dec 2025 03:57:51 +0000
+Date: Sun, 21 Dec 2025 04:57:23 +0100
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3563/3563]
- drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:6: error: no previous prototype
- for function 'ps3_hba_qos_waitq_poll'
-Message-ID: <202512211148.JPQqoPy8-lkp@intel.com>
+Subject: [sashal:spec 4/131] Diff in
+ tools/kapi/src/extractor/vmlinux/binary_utils.rs:48:
+Message-ID: <202512210455.fOiqaYU6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,301 +62,603 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi openeuler-ci-bot,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   04473ee9ed912a16fff0d8846ad565bbf3d63c77
-commit: 663a9a1c191fd26f1d8cb44edb6e0e50dd0536b2 [3563/3563] !14287 [OLK-6.6] SCSI: Support Linkdata HBA/RAID Controllers
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20251221/202512211148.JPQqoPy8-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
+head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
+commit: 5b43072768b7c760c4421498125a39575340b306 [4/131] tools/kapi: Add kernel API specification extraction tool
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251221/202512210455.fOiqaYU6-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211148.JPQqoPy8-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210455.fOiqaYU6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512211148.JPQqoPy8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512210455.fOiqaYU6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:211:1: error: no previous prototype for function 'ps3_qos_cmd_waitq_get' [-Werror,-Wmissing-prototypes]
-     211 | ps3_qos_cmd_waitq_get(struct ps3_qos_tg_context *qos_tg_ctx,
-         | ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:210:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     210 | struct qos_wait_queue *
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:15: error: no previous prototype for function 'ps3_qos_vd_cmdword_get' [-Werror,-Wmissing-prototypes]
-     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:15: error: no previous prototype for function 'ps3_qos_exclusive_cmdword_get' [-Werror,-Wmissing-prototypes]
-     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:15: error: no previous prototype for function 'ps3_qos_tg_decision' [-Werror,-Wmissing-prototypes]
-     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:15: error: no previous prototype for function 'ps3_qos_all_pd_rc_get' [-Werror,-Wmissing-prototypes]
-     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clear_all' [-Werror,-Wmissing-prototypes]
-     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clean' [-Werror,-Wmissing-prototypes]
-     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:6: error: no previous prototype for function 'ps3_qos_pd_waitq_ratio_update' [-Werror,-Wmissing-prototypes]
-    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:15: error: no previous prototype for function 'ps3_hba_qos_decision' [-Werror,-Wmissing-prototypes]
-    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:6: error: no previous prototype for function 'ps3_hba_qos_waitq_notify' [-Werror,-Wmissing-prototypes]
-    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:6: error: no previous prototype for function 'ps3_cmd_waitq_abort' [-Werror,-Wmissing-prototypes]
-    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:6: error: no previous prototype for function 'ps3_hba_qos_waitq_clear_all' [-Werror,-Wmissing-prototypes]
-    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:6: error: no previous prototype for function 'ps3_hba_qos_vd_init' [-Werror,-Wmissing-prototypes]
-    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:6: error: no previous prototype for function 'ps3_hba_qos_vd_reset' [-Werror,-Wmissing-prototypes]
-    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:6: error: no previous prototype for function 'ps3_hba_qos_waitq_poll' [-Werror,-Wmissing-prototypes]
-    3023 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3023 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3279:15: error: no previous prototype for function 'ps3_raid_qos_decision' [-Werror,-Wmissing-prototypes]
-    3279 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3279:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3279 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3334:6: error: no previous prototype for function 'ps3_qos_mgrq_resend' [-Werror,-Wmissing-prototypes]
-    3334 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3334:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3334 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3478:6: error: no previous prototype for function 'ps3_raid_qos_waitq_notify' [-Werror,-Wmissing-prototypes]
-    3478 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3478:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3478 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3821:15: error: no previous prototype for function 'ps3_raid_qos_waitq_abort' [-Werror,-Wmissing-prototypes]
-    3821 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3821:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3821 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in tools/kapi/src/extractor/vmlinux/binary_utils.rs:48:
+        }
+    
+        pub fn read_u32(&mut self) -> Option<u32> {
+   -        self.read_bytes(4).map(|b| u32::from_le_bytes(b.try_into().unwrap()))
+   +        self.read_bytes(4)
+   +            .map(|b| u32::from_le_bytes(b.try_into().unwrap()))
+        }
+    
+        pub fn read_u8(&mut self) -> Option<u8> {
+   Diff in tools/kapi/src/extractor/vmlinux/binary_utils.rs:56:
+        }
+    
+        pub fn read_i32(&mut self) -> Option<i32> {
+   -        self.read_bytes(4).map(|b| i32::from_le_bytes(b.try_into().unwrap()))
+   +        self.read_bytes(4)
+   +            .map(|b| i32::from_le_bytes(b.try_into().unwrap()))
+        }
+    
+        pub fn read_u64(&mut self) -> Option<u64> {
+   Diff in tools/kapi/src/extractor/vmlinux/binary_utils.rs:63:
+   -        self.read_bytes(8).map(|b| u64::from_le_bytes(b.try_into().unwrap()))
+   +        self.read_bytes(8)
+   +            .map(|b| u64::from_le_bytes(b.try_into().unwrap()))
+        }
+    
+        pub fn read_i64(&mut self) -> Option<i64> {
+   Diff in tools/kapi/src/extractor/vmlinux/binary_utils.rs:67:
+   -        self.read_bytes(8).map(|b| i64::from_le_bytes(b.try_into().unwrap()))
+   +        self.read_bytes(8)
+   +            .map(|b| i64::from_le_bytes(b.try_into().unwrap()))
+        }
+    
+        pub fn read_usize(&mut self) -> Option<usize> {
+   Diff in tools/kapi/src/extractor/vmlinux/binary_utils.rs:101:
+            }
+            Some(result)
+        }
+   -
+   -
+    }
+    
+    // Structure layout definitions for calculating sizes
+>> Diff in tools/kapi/src/extractor/vmlinux/binary_utils.rs:48:
+        }
+    
+        pub fn read_u32(&mut self) -> Option<u32> {
+   -        self.read_bytes(4).map(|b| u32::from_le_bytes(b.try_into().unwrap()))
+   +        self.read_bytes(4)
+   +            .map(|b| u32::from_le_bytes(b.try_into().unwrap()))
+        }
+    
+        pub fn read_u8(&mut self) -> Option<u8> {
+   Diff in tools/kapi/src/extractor/vmlinux/binary_utils.rs:56:
+        }
+    
+        pub fn read_i32(&mut self) -> Option<i32> {
+   -        self.read_bytes(4).map(|b| i32::from_le_bytes(b.try_into().unwrap()))
+   +        self.read_bytes(4)
+   +            .map(|b| i32::from_le_bytes(b.try_into().unwrap()))
+        }
+    
+        pub fn read_u64(&mut self) -> Option<u64> {
+   Diff in tools/kapi/src/extractor/vmlinux/binary_utils.rs:63:
+   -        self.read_bytes(8).map(|b| u64::from_le_bytes(b.try_into().unwrap()))
+   +        self.read_bytes(8)
+   +            .map(|b| u64::from_le_bytes(b.try_into().unwrap()))
+        }
+    
+        pub fn read_i64(&mut self) -> Option<i64> {
+   Diff in tools/kapi/src/extractor/vmlinux/binary_utils.rs:67:
+   -        self.read_bytes(8).map(|b| i64::from_le_bytes(b.try_into().unwrap()))
+   +        self.read_bytes(8)
+   +            .map(|b| i64::from_le_bytes(b.try_into().unwrap()))
+        }
+    
+        pub fn read_usize(&mut self) -> Option<usize> {
+   Diff in tools/kapi/src/extractor/vmlinux/binary_utils.rs:101:
+            }
+            Some(result)
+        }
+   -
+   -
+    }
+    
+    // Structure layout definitions for calculating sizes
+>> Diff in tools/kapi/src/extractor/vmlinux/magic_finder.rs:1:
+    // Magic markers for each section
+   -pub const MAGIC_PARAM: u32 = 0x4B415031;    // 'KAP1'
+   -pub const MAGIC_RETURN: u32 = 0x4B415232;   // 'KAR2'
+   -pub const MAGIC_ERROR: u32 = 0x4B414533;    // 'KAE3'
+   -pub const MAGIC_LOCK: u32 = 0x4B414C34;     // 'KAL4'
+   +pub const MAGIC_PARAM: u32 = 0x4B415031; // 'KAP1'
+   +pub const MAGIC_RETURN: u32 = 0x4B415232; // 'KAR2'
+   +pub const MAGIC_ERROR: u32 = 0x4B414533; // 'KAE3'
+   +pub const MAGIC_LOCK: u32 = 0x4B414C34; // 'KAL4'
+    pub const MAGIC_CONSTRAINT: u32 = 0x4B414335; // 'KAC5'
+   -pub const MAGIC_INFO: u32 = 0x4B414936;     // 'KAI6'
+   -pub const MAGIC_SIGNAL: u32 = 0x4B415337;   // 'KAS7'
+   -pub const MAGIC_SIGMASK: u32 = 0x4B414D38;  // 'KAM8'
+   -pub const MAGIC_STRUCT: u32 = 0x4B415439;   // 'KAT9'
+   -pub const MAGIC_EFFECT: u32 = 0x4B414641;   // 'KAFA'
+   -pub const MAGIC_TRANS: u32 = 0x4B415442;    // 'KATB'
+   -pub const MAGIC_CAP: u32 = 0x4B414343;      // 'KACC'
+   +pub const MAGIC_INFO: u32 = 0x4B414936; // 'KAI6'
+   +pub const MAGIC_SIGNAL: u32 = 0x4B415337; // 'KAS7'
+   +pub const MAGIC_SIGMASK: u32 = 0x4B414D38; // 'KAM8'
+   +pub const MAGIC_STRUCT: u32 = 0x4B415439; // 'KAT9'
+   +pub const MAGIC_EFFECT: u32 = 0x4B414641; // 'KAFA'
+   +pub const MAGIC_TRANS: u32 = 0x4B415442; // 'KATB'
+   +pub const MAGIC_CAP: u32 = 0x4B414343; // 'KACC'
+    
+    pub struct MagicOffsets {
+        pub param_offset: Option<usize>,
+   Diff in tools/kapi/src/extractor/vmlinux/magic_finder.rs:57:
+                match value {
+                    MAGIC_PARAM if offsets.param_offset.is_none() => {
+                        offsets.param_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_RETURN if offsets.return_offset.is_none() => {
+                        offsets.return_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_ERROR if offsets.error_offset.is_none() => {
+                        offsets.error_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_LOCK if offsets.lock_offset.is_none() => {
+                        offsets.lock_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_CONSTRAINT if offsets.constraint_offset.is_none() => {
+                        offsets.constraint_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_INFO if offsets.info_offset.is_none() => {
+                        offsets.info_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_SIGNAL if offsets.signal_offset.is_none() => {
+                        offsets.signal_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_SIGMASK if offsets.sigmask_offset.is_none() => {
+                        offsets.sigmask_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_STRUCT if offsets.struct_offset.is_none() => {
+                        offsets.struct_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_EFFECT if offsets.effect_offset.is_none() => {
+                        offsets.effect_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_TRANS if offsets.trans_offset.is_none() => {
+                        offsets.trans_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_CAP if offsets.cap_offset.is_none() => {
+                        offsets.cap_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    _ => {}
+                }
+    
+   Diff in tools/kapi/src/extractor/vmlinux/magic_finder.rs:100:
+            offsets
+        }
+    }
+   +
+>> Diff in tools/kapi/src/extractor/vmlinux/mod.rs:1:
+    use super::{
+        ApiExtractor, ApiSpec, CapabilitySpec, ConstraintSpec, ErrorSpec, LockSpec, ParamSpec,
+   -    ReturnSpec, SideEffectSpec, SignalMaskSpec, SignalSpec, StateTransitionSpec, StructSpec,
+   -    StructFieldSpec,
+   +    ReturnSpec, SideEffectSpec, SignalMaskSpec, SignalSpec, StateTransitionSpec, StructFieldSpec,
+   +    StructSpec,
+    };
+    use crate::formatter::OutputFormatter;
+    use anyhow::{Context, Result};
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:13:
+    mod binary_utils;
+    mod magic_finder;
+    use binary_utils::{
+   -    DataReader, addr_family_spec_layout_size, async_spec_layout_size, buffer_spec_layout_size,
+   -    protocol_behavior_spec_layout_size, signal_mask_spec_layout_size,
+   -    sizes, socket_state_spec_layout_size, struct_field_layout_size,
+   +    addr_family_spec_layout_size, async_spec_layout_size, buffer_spec_layout_size,
+   +    protocol_behavior_spec_layout_size, signal_mask_spec_layout_size, sizes,
+   +    socket_state_spec_layout_size, struct_field_layout_size, DataReader,
+    };
+    
+    // Helper to convert empty strings to None
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:22:
+    fn opt_string(s: String) -> Option<String> {
+   -    if s.is_empty() { None } else { Some(s) }
+   +    if s.is_empty() {
+   +        None
+   +    } else {
+   +        Some(s)
+   +    }
+    }
+    
+    pub struct VmlinuxExtractor {
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:124:
+                    let magic_offset = offset + param_magic_offset;
+                    if magic_offset + 4 <= data.len() {
+                        let magic_bytes = &data[magic_offset..magic_offset + 4];
+   -                    let magic_value = u32::from_le_bytes([magic_bytes[0], magic_bytes[1], magic_bytes[2], magic_bytes[3]]);
+   +                    let magic_value = u32::from_le_bytes([
+   +                        magic_bytes[0],
+   +                        magic_bytes[1],
+   +                        magic_bytes[2],
+   +                        magic_bytes[3],
+   +                    ]);
+    
+                        if magic_value == magic_finder::MAGIC_PARAM {
+                            // Avoid duplicate detection of the same spec
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:131:
+   -                        if last_found_offset.is_none() || offset >= last_found_offset.unwrap() + param_magic_offset {
+   +                        if last_found_offset.is_none()
+   +                            || offset >= last_found_offset.unwrap() + param_magic_offset
+   +                        {
+                                let api_type = if name.starts_with("sys_") {
+                                    "syscall"
+                                } else if name.ends_with("_ioctl") {
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:160:
+        Ok(specs)
+    }
+    
+   -
+   -
+   -
+    fn is_valid_api_name(name: &str) -> bool {
+        // Validate API name format and length
+        if name.is_empty() || name.len() < 3 || name.len() > 100 {
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:181:
+        }
+    
+        // Match common kernel API patterns
+   -    name.starts_with("sys_") ||
+   -    name.starts_with("__") ||
+   -    name.ends_with("_ioctl") ||
+   -    name.contains("_") ||
+   -    name.len() > 6
+   +    name.starts_with("sys_")
+   +        || name.starts_with("__")
+   +        || name.ends_with("_ioctl")
+   +        || name.contains("_")
+   +        || name.len() > 6
+    }
+    
+    impl ApiExtractor for VmlinuxExtractor {
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:195:
+                .iter()
+                .map(|spec| {
+                    // Parse the full spec for listing
+   -                parse_binary_to_api_spec(&self.kapi_data, spec.offset)
+   -                    .unwrap_or_else(|_| ApiSpec {
+   -                        name: spec.name.clone(),
+   -                        api_type: spec.api_type.clone(),
+   -                        description: None,
+   -                        long_description: None,
+   -                        version: None,
+   -                        context_flags: vec![],
+   -                        param_count: None,
+   -                        error_count: None,
+   -                        examples: None,
+   -                        notes: None,
+   -                        since_version: None,
+   -                        subsystem: None,
 --
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1958:1: error: unused function 'ps3_scsih_dev_id_get' [-Werror,-Wunused-function]
-    1958 | ps3_scsih_dev_id_get(const struct scsi_cmnd *s_cmd)
-         | ^~~~~~~~~~~~~~~~~~~~
-   1 error generated.
---
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:21:27: error: unused variable 'PS3_INTERRUPT_CMD_DISABLE_ALL_MASK' [-Werror,-Wunused-const-variable]
-      21 | static const unsigned int PS3_INTERRUPT_CMD_DISABLE_ALL_MASK = 0x02;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:22:27: error: unused variable 'PS3_INTERRUPT_CMD_ENABLE_MSIX' [-Werror,-Wunused-const-variable]
-      22 | static const unsigned int PS3_INTERRUPT_CMD_ENABLE_MSIX = 0x01;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:23:27: error: unused variable 'PS3_INTERRUPT_MASK_DISABLE' [-Werror,-Wunused-const-variable]
-      23 | static const unsigned int PS3_INTERRUPT_MASK_DISABLE = 0x00000002;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:24:27: error: unused variable 'PS3_INTERRUPT_STATUS_EXIST_IRQ' [-Werror,-Wunused-const-variable]
-      24 | static const unsigned int PS3_INTERRUPT_STATUS_EXIST_IRQ = 0x00000001;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:25:27: error: unused variable 'PS3_INTERRUPT_CLEAR_IRQ' [-Werror,-Wunused-const-variable]
-      25 | static const unsigned int PS3_INTERRUPT_CLEAR_IRQ = 0x00000001;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:27:27: error: unused variable 'PS3_SSD_IOPS_MSIX_VECTORS' [-Werror,-Wunused-const-variable]
-      27 | static const unsigned int PS3_SSD_IOPS_MSIX_VECTORS = 8;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:28:27: error: unused variable 'PS3_HDD_IOPS_MSIX_VECTORS' [-Werror,-Wunused-const-variable]
-      28 | static const unsigned int PS3_HDD_IOPS_MSIX_VECTORS = 8;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   7 errors generated.
---
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_driver_log.c:41:19: error: unused function 'time_for_log' [-Werror,-Wunused-function]
-      41 | static inline int time_for_log(char *buff, int buf_len)
-         |                   ^~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_driver_log.c:65:19: error: unused function 'time_for_file_name' [-Werror,-Wunused-function]
-      65 | static inline int time_for_file_name(char *buff, int buf_len)
-         |                   ^~~~~~~~~~~~~~~~~~
-   2 errors generated.
-
-
-vim +/ps3_hba_qos_waitq_poll +3023 drivers/scsi/linkdata/ps3stor/ps3_qos.c
-
-97a2bb6ece556f liujie_answer 2024-12-24  2935  
-97a2bb6ece556f liujie_answer 2024-12-24 @2936  void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-97a2bb6ece556f liujie_answer 2024-12-24  2937  {
-97a2bb6ece556f liujie_answer 2024-12-24  2938  	struct ps3_qos_vd_mgr *qos_vd_mgr = NULL;
-97a2bb6ece556f liujie_answer 2024-12-24  2939  
-97a2bb6ece556f liujie_answer 2024-12-24  2940  	qos_vd_mgr = ps3_qos_vd_mgr_get_by_id(instance, disk_id);
-97a2bb6ece556f liujie_answer 2024-12-24  2941  	qos_vd_mgr->valid = PS3_FALSE;
-97a2bb6ece556f liujie_answer 2024-12-24  2942  }
-97a2bb6ece556f liujie_answer 2024-12-24  2943  
-97a2bb6ece556f liujie_answer 2024-12-24  2944  void ps3_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-97a2bb6ece556f liujie_answer 2024-12-24  2945  {
-97a2bb6ece556f liujie_answer 2024-12-24  2946  	if (!PS3_QOS_INITED(instance))
-97a2bb6ece556f liujie_answer 2024-12-24  2947  		return;
-97a2bb6ece556f liujie_answer 2024-12-24  2948  
-97a2bb6ece556f liujie_answer 2024-12-24  2949  	if (instance->qos_context.opts.qos_vd_reset)
-97a2bb6ece556f liujie_answer 2024-12-24  2950  		instance->qos_context.opts.qos_vd_reset(instance, disk_id);
-97a2bb6ece556f liujie_answer 2024-12-24  2951  }
-97a2bb6ece556f liujie_answer 2024-12-24  2952  
-97a2bb6ece556f liujie_answer 2024-12-24  2953  static void ps3_qos_pd_notify_timeout(struct ps3_instance *instance)
-97a2bb6ece556f liujie_answer 2024-12-24  2954  {
-97a2bb6ece556f liujie_answer 2024-12-24  2955  	struct ps3_qos_pd_context *qos_pd_ctx = NULL;
-97a2bb6ece556f liujie_answer 2024-12-24  2956  	unsigned short i = 0;
-97a2bb6ece556f liujie_answer 2024-12-24  2957  	struct ps3_qos_pd_mgr *qos_pd_mgr = NULL;
-97a2bb6ece556f liujie_answer 2024-12-24  2958  	unsigned long timeout_jiffies = 0;
-97a2bb6ece556f liujie_answer 2024-12-24  2959  
-97a2bb6ece556f liujie_answer 2024-12-24  2960  	qos_pd_ctx = &instance->qos_context.pd_ctx;
-97a2bb6ece556f liujie_answer 2024-12-24  2961  	for (i = 1; i <= instance->qos_context.max_pd_count; i++) {
-97a2bb6ece556f liujie_answer 2024-12-24  2962  		qos_pd_mgr = ps3_qos_pd_mgr_get(instance, i);
-97a2bb6ece556f liujie_answer 2024-12-24  2963  		timeout_jiffies = qos_pd_mgr->last_sched_jiffies +
-97a2bb6ece556f liujie_answer 2024-12-24  2964  				  PS3_QOS_WAITQ_TIMEOUT * HZ;
-97a2bb6ece556f liujie_answer 2024-12-24  2965  		if (time_after(jiffies, timeout_jiffies)) {
-97a2bb6ece556f liujie_answer 2024-12-24  2966  			if (ps3_qos_single_pd_notify(qos_pd_ctx, qos_pd_mgr)) {
-97a2bb6ece556f liujie_answer 2024-12-24  2967  				LOG_INFO(
-97a2bb6ece556f liujie_answer 2024-12-24  2968  					"awake qos pd quota waitq by poll. host_no:%u vid:%u pid:%u\n",
-97a2bb6ece556f liujie_answer 2024-12-24  2969  					PS3_HOST(instance), qos_pd_mgr->vd_id,
-97a2bb6ece556f liujie_answer 2024-12-24  2970  					qos_pd_mgr->disk_id);
-97a2bb6ece556f liujie_answer 2024-12-24  2971  			}
-97a2bb6ece556f liujie_answer 2024-12-24  2972  		}
-97a2bb6ece556f liujie_answer 2024-12-24  2973  	}
-97a2bb6ece556f liujie_answer 2024-12-24  2974  }
-97a2bb6ece556f liujie_answer 2024-12-24  2975  
-97a2bb6ece556f liujie_answer 2024-12-24  2976  static unsigned char ps3_qos_vd_notify_timeout(struct ps3_instance *instance)
-97a2bb6ece556f liujie_answer 2024-12-24  2977  {
-97a2bb6ece556f liujie_answer 2024-12-24  2978  	struct ps3_qos_vd_context *qos_vd_ctx = NULL;
-97a2bb6ece556f liujie_answer 2024-12-24  2979  	unsigned short i = 0;
-97a2bb6ece556f liujie_answer 2024-12-24  2980  	struct ps3_qos_vd_mgr *qos_vd_mgr = NULL;
-97a2bb6ece556f liujie_answer 2024-12-24  2981  	unsigned long timeout_jiffies = 0;
-97a2bb6ece556f liujie_answer 2024-12-24  2982  	unsigned char notified = PS3_FALSE;
-97a2bb6ece556f liujie_answer 2024-12-24  2983  
-97a2bb6ece556f liujie_answer 2024-12-24  2984  	for (i = 1; i <= instance->qos_context.max_vd_count; i++) {
-97a2bb6ece556f liujie_answer 2024-12-24  2985  		qos_vd_ctx = &instance->qos_context.vd_ctx;
-97a2bb6ece556f liujie_answer 2024-12-24  2986  		qos_vd_mgr = &qos_vd_ctx->qos_vd_mgrs[i];
-97a2bb6ece556f liujie_answer 2024-12-24  2987  		timeout_jiffies = qos_vd_mgr->last_sched_jiffies +
-97a2bb6ece556f liujie_answer 2024-12-24  2988  				  PS3_QOS_WAITQ_TIMEOUT * HZ;
-97a2bb6ece556f liujie_answer 2024-12-24  2989  		if (time_after(jiffies, timeout_jiffies)) {
-97a2bb6ece556f liujie_answer 2024-12-24  2990  			if (ps3_qos_single_vd_notify(qos_vd_ctx, qos_vd_mgr)) {
-97a2bb6ece556f liujie_answer 2024-12-24  2991  				notified = PS3_TRUE;
-97a2bb6ece556f liujie_answer 2024-12-24  2992  				LOG_INFO(
-97a2bb6ece556f liujie_answer 2024-12-24  2993  					"awake qos vd quota waitq by poll. host_no:%u vid:%u\n",
-97a2bb6ece556f liujie_answer 2024-12-24  2994  					PS3_HOST(instance), qos_vd_mgr->id);
-97a2bb6ece556f liujie_answer 2024-12-24  2995  			}
-97a2bb6ece556f liujie_answer 2024-12-24  2996  		}
-97a2bb6ece556f liujie_answer 2024-12-24  2997  	}
-97a2bb6ece556f liujie_answer 2024-12-24  2998  
-97a2bb6ece556f liujie_answer 2024-12-24  2999  	return notified;
-97a2bb6ece556f liujie_answer 2024-12-24  3000  }
-97a2bb6ece556f liujie_answer 2024-12-24  3001  
-97a2bb6ece556f liujie_answer 2024-12-24  3002  static unsigned char ps3_qos_tg_notify_timeout(struct ps3_instance *instance)
-97a2bb6ece556f liujie_answer 2024-12-24  3003  {
-97a2bb6ece556f liujie_answer 2024-12-24  3004  	struct ps3_qos_tg_context *qos_tg_ctx = NULL;
-97a2bb6ece556f liujie_answer 2024-12-24  3005  	unsigned char notified = PS3_FALSE;
-97a2bb6ece556f liujie_answer 2024-12-24  3006  	unsigned long timeout_jiffies = 0;
-97a2bb6ece556f liujie_answer 2024-12-24  3007  
-97a2bb6ece556f liujie_answer 2024-12-24  3008  	qos_tg_ctx = &instance->qos_context.tg_ctx;
-97a2bb6ece556f liujie_answer 2024-12-24  3009  	timeout_jiffies =
-97a2bb6ece556f liujie_answer 2024-12-24  3010  		qos_tg_ctx->last_sched_jiffies + PS3_QOS_WAITQ_TIMEOUT * HZ;
-97a2bb6ece556f liujie_answer 2024-12-24  3011  	if (qos_tg_ctx->total_wait_cmd_cnt &&
-97a2bb6ece556f liujie_answer 2024-12-24  3012  	    ps3_qos_tag_rsc_available(instance) &&
-97a2bb6ece556f liujie_answer 2024-12-24  3013  	    time_after(jiffies, timeout_jiffies)) {
-97a2bb6ece556f liujie_answer 2024-12-24  3014  		queue_work(qos_tg_ctx->work_queue, &qos_tg_ctx->resend_work);
-97a2bb6ece556f liujie_answer 2024-12-24  3015  		notified = PS3_TRUE;
-97a2bb6ece556f liujie_answer 2024-12-24  3016  		LOG_INFO("awake qos cmd waitq by poll. host_no:%u\n",
-97a2bb6ece556f liujie_answer 2024-12-24  3017  			 PS3_HOST(instance));
-97a2bb6ece556f liujie_answer 2024-12-24  3018  	}
-97a2bb6ece556f liujie_answer 2024-12-24  3019  
-97a2bb6ece556f liujie_answer 2024-12-24  3020  	return notified;
-97a2bb6ece556f liujie_answer 2024-12-24  3021  }
-97a2bb6ece556f liujie_answer 2024-12-24  3022  
-97a2bb6ece556f liujie_answer 2024-12-24 @3023  void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-97a2bb6ece556f liujie_answer 2024-12-24  3024  {
-97a2bb6ece556f liujie_answer 2024-12-24  3025  	if (!ps3_qos_tg_notify_timeout(instance)) {
-97a2bb6ece556f liujie_answer 2024-12-24  3026  		if (!ps3_qos_vd_notify_timeout(instance))
-97a2bb6ece556f liujie_answer 2024-12-24  3027  			ps3_qos_pd_notify_timeout(instance);
-97a2bb6ece556f liujie_answer 2024-12-24  3028  	}
-97a2bb6ece556f liujie_answer 2024-12-24  3029  }
-97a2bb6ece556f liujie_answer 2024-12-24  3030  
-
-:::::: The code at line 3023 was first introduced by commit
-:::::: 97a2bb6ece556f3882263ee8df2b77f10c511311 SCSI: Linkdata: Supports Linkdata HBA/RAID Controllers
-
-:::::: TO: liujie_answer <liujie5@linkdatatechnology.com>
-:::::: CC: liujie_answer <liujie5@linkdatatechnology.com>
+            }
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:337:
+            &mut reader,
+            magic_offsets.param_offset,
+            sizes::MAX_PARAMS as u32,
+   -        |r| parse_param(r, 0),  // Index doesn't seem to be used in parse_param
+   +        |r| parse_param(r, 0), // Index doesn't seem to be used in parse_param
+        );
+    
+        // Read return_spec
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:370:
+        // Read examples and notes - position reader at info section if magic found
+        let (examples, notes) = if let Some(info_offset) = magic_offsets.info_offset {
+            reader.pos = info_offset + 4; // +4 to skip magic
+   -        let examples = reader.read_cstring(sizes::DESC * 2).filter(|s| !s.is_empty());
+   -        let notes = reader.read_cstring(sizes::DESC * 2).filter(|s| !s.is_empty());
+   +        let examples = reader
+   +            .read_cstring(sizes::DESC * 2)
+   +            .filter(|s| !s.is_empty());
+   +        let notes = reader
+   +            .read_cstring(sizes::DESC * 2)
+   +            .filter(|s| !s.is_empty());
+            (examples, notes)
+        } else {
+   -        let examples = reader.read_cstring(sizes::DESC * 2).filter(|s| !s.is_empty());
+   -        let notes = reader.read_cstring(sizes::DESC * 2).filter(|s| !s.is_empty());
+   +        let examples = reader
+   +            .read_cstring(sizes::DESC * 2)
+   +            .filter(|s| !s.is_empty());
+   +        let notes = reader
+   +            .read_cstring(sizes::DESC * 2)
+   +            .filter(|s| !s.is_empty());
+            (examples, notes)
+        };
+    
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:460:
+            addr_family_spec_layout_size() * sizes::MAX_ADDR_FAMILIES +
+            4 + // addr_family_count
+            6 + 2 + // 6 bool flags + padding
+   -        sizes::DESC * 3 // 3 semantic descriptions
+   +        sizes::DESC * 3, // 3 semantic descriptions
+        );
+    
+        Ok(ApiSpec {
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:470:
+            long_description,
+            version,
+            context_flags,
+   -        param_count: if parameters.is_empty() { None } else { Some(parameters.len() as u32) },
+   -        error_count: if errors.is_empty() { None } else { Some(errors.len() as u32) },
+   +        param_count: if parameters.is_empty() {
+   +            None
+   +        } else {
+   +            Some(parameters.len() as u32)
+   +        },
+   +        error_count: if errors.is_empty() {
+   +            None
+   +        } else {
+   +            Some(errors.len() as u32)
+   +        },
+            examples,
+            notes,
+            since_version,
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:603:
+        // Skip error_values pointer (8 bytes)
+        reader.skip(8);
+        let _error_count = reader.read_u32().unwrap_or(0); // Don't fail on return spec
+   -    // Skip is_success function pointer (8 bytes)
+   +                                                       // Skip is_success function pointer (8 bytes)
+        reader.skip(8);
+    
+        let description = reader.read_string_or_default(sizes::DESC);
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:684:
+        let _transform_to = reader.read_i32()?; // transform_to
+        let timing_bytes = reader.read_bytes(32)?; // timing[32]
+        let timing = if let Some(end) = timing_bytes.iter().position(|&b| b == 0) {
+   -        String::from_utf8_lossy(&timing_bytes[..end]).parse().unwrap_or(0)
+   +        String::from_utf8_lossy(&timing_bytes[..end])
+   +            .parse()
+   +            .unwrap_or(0)
+        } else {
+            0
+        };
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:727:
+    
+        let _signal_count = reader.read_u32()?;
+    
+   -    Some(SignalMaskSpec {
+   -        name,
+   -        description,
+   -    })
+   +    Some(SignalMaskSpec { name, description })
+    }
+    
+    fn parse_struct_field(reader: &mut DataReader) -> Option<StructFieldSpec> {
+   Diff in tools/kapi/src/extractor/vmlinux/mod.rs:862:
+            alternatives,
+        })
+    }
+   +
+>> Diff in tools/kapi/src/extractor/vmlinux/magic_finder.rs:1:
+    // Magic markers for each section
+   -pub const MAGIC_PARAM: u32 = 0x4B415031;    // 'KAP1'
+   -pub const MAGIC_RETURN: u32 = 0x4B415232;   // 'KAR2'
+   -pub const MAGIC_ERROR: u32 = 0x4B414533;    // 'KAE3'
+   -pub const MAGIC_LOCK: u32 = 0x4B414C34;     // 'KAL4'
+   +pub const MAGIC_PARAM: u32 = 0x4B415031; // 'KAP1'
+   +pub const MAGIC_RETURN: u32 = 0x4B415232; // 'KAR2'
+   +pub const MAGIC_ERROR: u32 = 0x4B414533; // 'KAE3'
+   +pub const MAGIC_LOCK: u32 = 0x4B414C34; // 'KAL4'
+    pub const MAGIC_CONSTRAINT: u32 = 0x4B414335; // 'KAC5'
+   -pub const MAGIC_INFO: u32 = 0x4B414936;     // 'KAI6'
+   -pub const MAGIC_SIGNAL: u32 = 0x4B415337;   // 'KAS7'
+   -pub const MAGIC_SIGMASK: u32 = 0x4B414D38;  // 'KAM8'
+   -pub const MAGIC_STRUCT: u32 = 0x4B415439;   // 'KAT9'
+   -pub const MAGIC_EFFECT: u32 = 0x4B414641;   // 'KAFA'
+   -pub const MAGIC_TRANS: u32 = 0x4B415442;    // 'KATB'
+   -pub const MAGIC_CAP: u32 = 0x4B414343;      // 'KACC'
+   +pub const MAGIC_INFO: u32 = 0x4B414936; // 'KAI6'
+   +pub const MAGIC_SIGNAL: u32 = 0x4B415337; // 'KAS7'
+   +pub const MAGIC_SIGMASK: u32 = 0x4B414D38; // 'KAM8'
+   +pub const MAGIC_STRUCT: u32 = 0x4B415439; // 'KAT9'
+   +pub const MAGIC_EFFECT: u32 = 0x4B414641; // 'KAFA'
+   +pub const MAGIC_TRANS: u32 = 0x4B415442; // 'KATB'
+   +pub const MAGIC_CAP: u32 = 0x4B414343; // 'KACC'
+    
+    pub struct MagicOffsets {
+        pub param_offset: Option<usize>,
+   Diff in tools/kapi/src/extractor/vmlinux/magic_finder.rs:57:
+                match value {
+                    MAGIC_PARAM if offsets.param_offset.is_none() => {
+                        offsets.param_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_RETURN if offsets.return_offset.is_none() => {
+                        offsets.return_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_ERROR if offsets.error_offset.is_none() => {
+                        offsets.error_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_LOCK if offsets.lock_offset.is_none() => {
+                        offsets.lock_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_CONSTRAINT if offsets.constraint_offset.is_none() => {
+                        offsets.constraint_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_INFO if offsets.info_offset.is_none() => {
+                        offsets.info_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_SIGNAL if offsets.signal_offset.is_none() => {
+                        offsets.signal_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_SIGMASK if offsets.sigmask_offset.is_none() => {
+                        offsets.sigmask_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_STRUCT if offsets.struct_offset.is_none() => {
+                        offsets.struct_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_EFFECT if offsets.effect_offset.is_none() => {
+                        offsets.effect_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_TRANS if offsets.trans_offset.is_none() => {
+                        offsets.trans_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    MAGIC_CAP if offsets.cap_offset.is_none() => {
+                        offsets.cap_offset = Some(base_offset + i);
+   -                },
+   +                }
+                    _ => {}
+                }
+    
+   Diff in tools/kapi/src/extractor/vmlinux/magic_finder.rs:100:
+            offsets
+        }
+    }
+   +
+>> Diff in tools/kapi/src/extractor/debugfs.rs:1:
+    use crate::formatter::OutputFormatter;
+   -use anyhow::{Context, Result, bail};
+   +use anyhow::{bail, Context, Result};
+    use serde::Deserialize;
+    use std::fs;
+    use std::io::Write;
+   Diff in tools/kapi/src/extractor/debugfs.rs:6:
+    use std::path::PathBuf;
+    
+   -use super::{ApiExtractor, ApiSpec, CapabilitySpec, display_api_spec};
+   +use super::{display_api_spec, ApiExtractor, ApiSpec, CapabilitySpec};
+    
+    #[derive(Deserialize)]
+    struct KernelApiJson {
+>> Diff in tools/kapi/src/extractor/kerneldoc_parser.rs:1:
+    use super::{
+   -    ApiSpec, CapabilitySpec, ConstraintSpec, ErrorSpec, LockSpec, ParamSpec,
+   -    ReturnSpec, SideEffectSpec, SignalSpec, StateTransitionSpec, StructSpec,
+   -    StructFieldSpec,
+   +    ApiSpec, CapabilitySpec, ConstraintSpec, ErrorSpec, LockSpec, ParamSpec, ReturnSpec,
+   +    SideEffectSpec, SignalSpec, StateTransitionSpec, StructFieldSpec, StructSpec,
+    };
+    use anyhow::Result;
+    use std::collections::HashMap;
+   Diff in tools/kapi/src/extractor/kerneldoc_parser.rs:89:
+                        let desc = desc.trim();
+                        if !param_name.contains('-') {
+                            // This is a basic parameter description - add to map
+   -                        param_map.insert(param_name.to_string(), ParamSpec {
+   -                            index: param_map.len() as u32,
+   -                            name: param_name.to_string(),
+   -                            type_name: String::new(),
+   -                            description: desc.to_string(),
+   -                            flags: 0,
+   -                            param_type: 0,
+   -                            constraint_type: 0,
+   -                            constraint: None,
+   -                            min_value: None,
+   -                            max_value: None,
+   -                            valid_mask: None,
+   -                            enum_values: vec![],
+   -                            size: None,
+   -                            alignment: None,
+   -                        });
+   +                        param_map.insert(
+   +                            param_name.to_string(),
+   +                            ParamSpec {
+   +                                index: param_map.len() as u32,
+   +                                name: param_name.to_string(),
+   +                                type_name: String::new(),
+   +                                description: desc.to_string(),
+   +                                flags: 0,
+   +                                param_type: 0,
+   +                                constraint_type: 0,
+   +                                constraint: None,
+   +                                min_value: None,
+   +                                max_value: None,
+   +                                valid_mask: None,
+   +                                enum_values: vec![],
+   +                                size: None,
+   +                                alignment: None,
+   +                            },
+   +                        );
+                        }
+                    }
+                }
+   Diff in tools/kapi/src/extractor/kerneldoc_parser.rs:240:
+                            _ => super::KAPI_LOCK_INTERNAL,
+                        };
+                    }
+   -            }
+   -            else if let Some(rest) = line.strip_prefix("lock-desc:") {
+   +            } else if let Some(rest) = line.strip_prefix("lock-desc:") {
+                    if let Some(lock) = current_lock.as_mut() {
+                        lock.description = self.collect_multiline_value(&lines, i, rest);
+                    }
+   Diff in tools/kapi/src/extractor/kerneldoc_parser.rs:280:
+                    if let Some(signal) = current_signal.as_mut() {
+                        signal.direction = self.parse_signal_direction(rest.trim());
+                    }
+   -            }
+   -            else if let Some(rest) = line.strip_prefix("signal-action:") {
+   +            } else if let Some(rest) = line.strip_prefix("signal-action:") {
+                    if let Some(signal) = current_signal.as_mut() {
+                        signal.action = self.parse_signal_action(rest.trim());
+                    }
+   Diff in tools/kapi/src/extractor/kerneldoc_parser.rs:288:
+   -            }
+   -            else if let Some(rest) = line.strip_prefix("signal-condition:") {
+   +            } else if let Some(rest) = line.strip_prefix("signal-condition:") {
+                    if let Some(signal) = current_signal.as_mut() {
+                        signal.condition = Some(self.collect_multiline_value(&lines, i, rest));
+                    }
+   Diff in tools/kapi/src/extractor/kerneldoc_parser.rs:293:
+   -            }
+   -            else if let Some(rest) = line.strip_prefix("signal-desc:") {
+   +            } else if let Some(rest) = line.strip_prefix("signal-desc:") {
+                    if let Some(signal) = current_signal.as_mut() {
+                        signal.description = Some(self.collect_multiline_value(&lines, i, rest));
+                    }
+   Diff in tools/kapi/src/extractor/kerneldoc_parser.rs:298:
+   -            }
+   -            else if let Some(rest) = line.strip_prefix("signal-timing:") {
+   +            } else if let Some(rest) = line.strip_prefix("signal-timing:") {
+                    if let Some(signal) = current_signal.as_mut() {
+                        signal.timing = self.parse_signal_timing(rest.trim());
+                    }
+   Diff in tools/kapi/src/extractor/kerneldoc_parser.rs:303:
+   -            }
+   -            else if let Some(rest) = line.strip_prefix("signal-priority:") {
+   +            } else if let Some(rest) = line.strip_prefix("signal-priority:") {
+                    if let Some(signal) = current_signal.as_mut() {
+                        signal.priority = rest.trim().parse().unwrap_or(0);
+                    }
+   Diff in tools/kapi/src/extractor/kerneldoc_parser.rs:308:
+..
 
 -- 
 0-DAY CI Kernel Test Service
