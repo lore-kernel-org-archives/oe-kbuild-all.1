@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AB1224B14
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 08:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DE313E02A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 09:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766307601; cv=none; b=ndPMyMhgm+M96xAA1Enkb7jVR76TIwdWrp972EBCwHmD39k4SgiNdAExgrj6j4+BvVqFbk3tKfWxtFsCivA8yOcpdX0fe1FwV4fgPeL3/ZbEr/D12w0gvmrU+xfSFGpMGh7Dwp31C/2mVw95Q26glgk8zTqu6ByDCVJ7JV0/A78=
+	t=1766308020; cv=none; b=u/qt4j0voRn6QIEi2L11EED0rYMa0l7dy6drmUTSY49PebcMVy3hO9ubAmtZhy0wmMRd0RuIJmWKpRfraZnA8tgknV8EmmwaGaZoTEJX2DpvpEaKCevPJqAcjTd+cDgcPoQQK4kBThgoEhI3p8fhLbp0YdLsUQUAMp/xgFs+pfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766307601; c=relaxed/simple;
-	bh=gHos2fzT8yeafsEFzUQQFKMQPKpJGiZ8L2ecH/P/bCg=;
+	s=arc-20240116; t=1766308020; c=relaxed/simple;
+	bh=jQzU3vGAsGPYNFWjV9/r8YHArZmshCuBezH4YmBejQg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j4MZW8Jp3DiyVbskBb34JICoj3ZgBAec4f1zDCwtMU+Wg+2LoWf5QVWumKyOeVIcQ2sWnxbHkl8mDoPepyNeNWpeXlue6yTb5MH0+IoWLOsxkw8i747Ipf0RkYsnkBWoEgwqglZo2uybKlb+BhHP26VxJQP3he44V9LmfYo0jWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ddW4a3P4; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=IzA0uaRX4eScUSpN1Y/SHllYLwxYwsIDLLtSr3gels8HyS5g0hUzoXoglt9qLRf4fwX33CMlm8ihUhAr5sDi14tkZvAZqv7o7ZdHrjIuTf054Nt6fpwvXiqWI8UgYUMFFhzLdmc+Wxu/89VasR2L4B4thl89vyEVRcYgD1ib5uM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=acFE5H8R; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ddW4a3P4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="acFE5H8R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766307600; x=1797843600;
+  t=1766308019; x=1797844019;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gHos2fzT8yeafsEFzUQQFKMQPKpJGiZ8L2ecH/P/bCg=;
-  b=ddW4a3P4OnG82iyWEFVkQeFEPRv9GrLslsf/HWJckm2aPiltzL8UZjnD
-   DoPATF63KFfBRZOZjixXbQJgW2t3chmyycTfOEGQRQPC3obK6ykEoPnfg
-   qA9WXWc9XB+8gvME0EC1SLZ7ERpzHZQsFLEg1fqS1ukuW9tX6YHFbstYN
-   AYjEZGG0qa7XxcR3SDVRsVocqNQZXHMe0tWl/4J/kVr8BNb2Riw7BPRFs
-   IrG2k59ECr9kbkWmCHE+1AE5RTtTj5MxlL+Iu3/YnGc5Xrx9dzhrilxxq
-   ThufOnh1E9JNW2chM/wF1TL4jK/RherAmbRE2R8cqCliUMTvB2m6LrtwH
-   A==;
-X-CSE-ConnectionGUID: XcPXoLHFSY+V+U1Sjx9lew==
-X-CSE-MsgGUID: yXDSbpkcQ36s+az1lQAKaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="72046602"
+  bh=jQzU3vGAsGPYNFWjV9/r8YHArZmshCuBezH4YmBejQg=;
+  b=acFE5H8R8zuuiAQqpT0xjY1O9pg+kc2Oia3qf2uQNSER47u7KnpKS8Tt
+   XqzkV7yzyB0E/tk1PuziLPhj4nYE60TLn9CeNNtr6woJ6mIDHbtwdenPC
+   fj5IW+xCpeJZKem+Cp8i/puBkShoJuKKbRYAHfR2LzIkFBdmc/BvGcdgd
+   C9AfnU3IBi6mCGtzxtGzzNTIjHiULqrFKhN3ZekVY66b4NwNHvQSdki+3
+   miDUvV2f9k14NWg2SzE0JRiPiYLscr+EelNwbLeTJfTSKjq/rM0vBHe4g
+   SLCbGXxcs3cT6SBgGapc22YcBbsDTjrriVgzG5j2fB4jjtRQMb81i28XQ
+   g==;
+X-CSE-ConnectionGUID: le+a1xzEQ2OHe9kXDo+n7A==
+X-CSE-MsgGUID: eeoFTJ+1QY25FwHfB6eEfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="68353307"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="72046602"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 00:59:58 -0800
-X-CSE-ConnectionGUID: pUlMregRTfu6kjB78M27vw==
-X-CSE-MsgGUID: H9JXVwoOQ42Mv7ksSy1sSg==
+   d="scan'208";a="68353307"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 01:06:58 -0800
+X-CSE-ConnectionGUID: ay+WrYSWQSSO/WmeGBKvsg==
+X-CSE-MsgGUID: x6PGnPhKQRaT7wycueyvow==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
+   d="scan'208";a="229924051"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Dec 2025 00:59:57 -0800
+  by orviesa002.jf.intel.com with ESMTP; 21 Dec 2025 01:06:57 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXFIA-000000004zU-3dh9;
-	Sun, 21 Dec 2025 08:59:54 +0000
-Date: Sun, 21 Dec 2025 09:59:35 +0100
+	id 1vXFOx-000000004zk-0CF1;
+	Sun, 21 Dec 2025 09:06:55 +0000
+Date: Sun, 21 Dec 2025 10:06:22 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 12/12] kismet: WARNING: unmet
- direct dependencies detected for DRM_PRIVACY_SCREEN when selected by
- GKI_HIDDEN_DRM_CONFIGS
-Message-ID: <202512210907.kCn9f5MR-lkp@intel.com>
+Subject: [android-common:android15-6.6 1/1] mm/vmscan.c:2623:15: warning: no
+ previous prototype for function 'shrink_inactive_list'
+Message-ID: <202512211054.zPZscHf0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,28 +62,182 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   2141da9e498139ac37a520b62dfdc77db8003146
-commit: 37d3c7ab72bddb663d31da64d4b888d56ef11440 [12/12] ANDROID: GKI: x86: Enable DRM privacy screen
-config: x86_64-kismet-CONFIG_DRM_PRIVACY_SCREEN-CONFIG_GKI_HIDDEN_DRM_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20251221/202512210907.kCn9f5MR-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20251221/202512210907.kCn9f5MR-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   16aa689262af24cd0897f463b3d0dd9ecee6b37c
+commit: 8cb9b0ef9dbf1ee46c01906f91af8e35c12527d1 [1/1] ANDROID: GKI: add vendor hook to reclaim cold pagecache  generated by bufferio in advance.
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251221/202512211054.zPZscHf0-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211054.zPZscHf0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210907.kCn9f5MR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512211054.zPZscHf0-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN when selected by GKI_HIDDEN_DRM_CONFIGS
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_DRM_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_DRM_CONFIGS [=y] && X86 [=y]
+All warnings (new ones prefixed by >>):
+
+   In file included from mm/vmscan.c:15:
+   In file included from ./include/linux/mm.h:2238:
+   ./include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/vmscan.c:30:
+   ./include/linux/mm_inline.h:49:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   ./include/linux/mm_inline.h:51:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      51 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/vmscan.c:678:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     678 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
+         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/vmscan.c:1043:15: warning: no previous prototype for function 'shrink_slab' [-Wmissing-prototypes]
+    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         |               ^
+   mm/vmscan.c:1043:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
+         | ^
+         | static 
+   mm/vmscan.c:2442:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    2442 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+>> mm/vmscan.c:2623:15: warning: no previous prototype for function 'shrink_inactive_list' [-Wmissing-prototypes]
+    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
+         |               ^
+   mm/vmscan.c:2623:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
+         | ^
+         | static 
+   mm/vmscan.c:2971:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2971 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
+         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
+   mm/vmscan.c:2972:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2972 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
+         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
+   mm/vmscan.c:7018:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    7018 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ./include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   10 warnings generated.
+
+
+vim +/shrink_inactive_list +2623 mm/vmscan.c
+
+  2618	
+  2619	/*
+  2620	 * shrink_inactive_list() is a helper for shrink_node().  It returns the number
+  2621	 * of reclaimed pages
+  2622	 */
+> 2623	unsigned long shrink_inactive_list(unsigned long nr_to_scan,
+  2624			struct lruvec *lruvec, struct scan_control *sc,
+  2625			enum lru_list lru)
+  2626	{
+  2627		LIST_HEAD(folio_list);
+  2628		unsigned long nr_scanned;
+  2629		unsigned int nr_reclaimed = 0;
+  2630		unsigned long nr_taken;
+  2631		struct reclaim_stat stat;
+  2632		bool file = is_file_lru(lru);
+  2633		enum vm_event_item item;
+  2634		struct pglist_data *pgdat = lruvec_pgdat(lruvec);
+  2635		bool stalled = false;
+  2636	
+  2637		while (unlikely(too_many_isolated(pgdat, file, sc))) {
+  2638			if (stalled)
+  2639				return 0;
+  2640	
+  2641			/* wait a bit for the reclaimer. */
+  2642			stalled = true;
+  2643			reclaim_throttle(pgdat, VMSCAN_THROTTLE_ISOLATED);
+  2644	
+  2645			/* We are about to die and free our memory. Return now. */
+  2646			if (fatal_signal_pending(current))
+  2647				return SWAP_CLUSTER_MAX;
+  2648		}
+  2649	
+  2650		lru_add_drain();
+  2651	
+  2652		spin_lock_irq(&lruvec->lru_lock);
+  2653	
+  2654		nr_taken = isolate_lru_folios(nr_to_scan, lruvec, &folio_list,
+  2655					     &nr_scanned, sc, lru);
+  2656	
+  2657		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, nr_taken);
+  2658		item = PGSCAN_KSWAPD + reclaimer_offset();
+  2659		if (!cgroup_reclaim(sc))
+  2660			__count_vm_events(item, nr_scanned);
+  2661		__count_memcg_events(lruvec_memcg(lruvec), item, nr_scanned);
+  2662		__count_vm_events(PGSCAN_ANON + file, nr_scanned);
+  2663	
+  2664		spin_unlock_irq(&lruvec->lru_lock);
+  2665	
+  2666		if (nr_taken == 0)
+  2667			return 0;
+  2668	
+  2669		nr_reclaimed = shrink_folio_list(&folio_list, pgdat, sc, &stat, false);
+  2670		trace_android_vh_handle_trylock_failed_folio(&folio_list);
+  2671	
+  2672		spin_lock_irq(&lruvec->lru_lock);
+  2673		move_folios_to_lru(lruvec, &folio_list);
+  2674	
+  2675		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, -nr_taken);
+  2676		item = PGSTEAL_KSWAPD + reclaimer_offset();
+  2677		if (!cgroup_reclaim(sc))
+  2678			__count_vm_events(item, nr_reclaimed);
+  2679		__count_memcg_events(lruvec_memcg(lruvec), item, nr_reclaimed);
+  2680		__count_vm_events(PGSTEAL_ANON + file, nr_reclaimed);
+  2681		spin_unlock_irq(&lruvec->lru_lock);
+  2682	
+  2683		lru_note_cost(lruvec, file, stat.nr_pageout, nr_scanned - nr_reclaimed);
+  2684		mem_cgroup_uncharge_list(&folio_list);
+  2685		free_unref_page_list(&folio_list);
+  2686	
+  2687		/*
+  2688		 * If dirty folios are scanned that are not queued for IO, it
+  2689		 * implies that flushers are not doing their job. This can
+  2690		 * happen when memory pressure pushes dirty folios to the end of
+  2691		 * the LRU before the dirty limits are breached and the dirty
+  2692		 * data has expired. It can also happen when the proportion of
+  2693		 * dirty folios grows not through writes but through memory
+  2694		 * pressure reclaiming all the clean cache. And in some cases,
+  2695		 * the flushers simply cannot keep up with the allocation
+  2696		 * rate. Nudge the flusher threads in case they are asleep.
+  2697		 */
+  2698		if (stat.nr_unqueued_dirty == nr_taken) {
+  2699			wakeup_flusher_threads(WB_REASON_VMSCAN);
+  2700			/*
+  2701			 * For cgroupv1 dirty throttling is achieved by waking up
+  2702			 * the kernel flusher here and later waiting on folios
+  2703			 * which are in writeback to finish (see shrink_folio_list()).
+  2704			 *
+  2705			 * Flusher may not be able to issue writeback quickly
+  2706			 * enough for cgroupv1 writeback throttling to work
+  2707			 * on a large system.
+  2708			 */
+  2709			if (!writeback_throttling_sane(sc))
+  2710				reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
+  2711		}
+  2712	
+  2713		sc->nr.dirty += stat.nr_dirty;
+  2714		sc->nr.congested += stat.nr_congested;
+  2715		sc->nr.unqueued_dirty += stat.nr_unqueued_dirty;
+  2716		sc->nr.writeback += stat.nr_writeback;
+  2717		sc->nr.immediate += stat.nr_immediate;
+  2718		sc->nr.taken += nr_taken;
+  2719		if (file)
+  2720			sc->nr.file_taken += nr_taken;
+  2721	
+  2722		trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
+  2723				nr_scanned, nr_reclaimed, &stat, sc->priority, file);
+  2724		return nr_reclaimed;
+  2725	}
+  2726	EXPORT_SYMBOL(shrink_inactive_list);
+  2727	
 
 -- 
 0-DAY CI Kernel Test Service
