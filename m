@@ -1,142 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5325A1FC101;
-	Sun, 21 Dec 2025 19:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B0F315D5A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 19:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766344075; cv=none; b=QMsU+c0QBwgVme9NkRdqFHUbfBMX0C4i/nk0YkH6us+nvGQVneePSWwPpFLCrA7ES3AryRPnwLqZVYKfZpGC/347hpRXV8AN/nASU7Xl/JqWVnoOLpriWnbHfpxOQjqOY5FbUVMvYw2iJQCfKIrngm1whZpR9v2FWzKng70peO4=
+	t=1766345471; cv=none; b=M70hLRnmnxPSDlLs37E8oYBcsX8k3sWQDg6PpU7fk/i4Qhbqc8uSecr8OR8mtRuUanuBjUhYh06u64If2ahEGQPcfTKoVbEZr5VrQhvbNAgPoDfPcQPavZGHaz1+OKdztuSVIrSni7kBXh/gd9ZxtEu2XQl+hu1Po9FRnUs1ER0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766344075; c=relaxed/simple;
-	bh=5qRIeksMsfEJsG09uI0wVp8Q5PSrhw5lrhG/r6Dm2Bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NgKsaCzpkWfx4/b81+2aoo5xhHeEeSD8rdVSksdW7ddOi3cs2rOeCzGqgrGllXcvwbTTxj0eiqlJ6INYISP7IkNNIOAdZ2W/13noT6POXsJgwYuXvBb4hgMZ4W+HSTsQjqbGvCQok0NKfRXvVOw55cpp2D2PdcYLtX4c/Tjpp28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NJdyQaQE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766345471; c=relaxed/simple;
+	bh=DKjmW1bukYDobQ06uuEc8wGhreYKXUH8Qxc35Hza860=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AuxZULj6wdF/pbykslyTzK80xMwZFsMkCt0T9+XnnL8SWjho9/moz/U+z1PtkuVdQq/QO66Rp7hiL5fTp/6h9g6E0F9HlURgYsCetC/t70Y+l9VNWnpRcBs9JOgMfU2o0eNSBqmRWvoNaRq7o2jKkMMS582QjAuAgULfFM/fOU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OEyPWwyz; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NJdyQaQE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 394FAC4CEFB;
-	Sun, 21 Dec 2025 19:07:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766344074;
-	bh=5qRIeksMsfEJsG09uI0wVp8Q5PSrhw5lrhG/r6Dm2Bo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NJdyQaQE0RKum87djB/p76VFtKzoStwkO6UQuhuJKEO51HPv4aOci1PpiVqRCfo13
-	 6bqbA4/TPkTyB7oFKolG4gZTCbRxHGzpQZAR3xXaN17wp8uTA9g+HgEhCg9ewCByE/
-	 BFWLAFExrSjQIiHg3jBi/ggBBxTmitBuM9Qq+tI3irDy1FeBGJULvOf4VhEWjg0vEj
-	 hE9OM87+RLGyfxP67EjCP6DC4cOBQHfXN/6rKrRA7tzF+NEqnfetjiObV2AZGdJbtZ
-	 nRVdWRWLA8VvW8uzvT1LeObbIP6f8E8Wbh6siljW5LWEjtgwC3/XgDT15OOnufwcb3
-	 y2nIzcR+GtbZg==
-Date: Sun, 21 Dec 2025 19:07:42 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Frank Li <Frank.Li@nxp.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Miquel Raynal <miquel.raynal@bootlin.com>,
- David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-iio@vger.kernel.org,
- joshua.yeong@starfivetech.com, devicetree@vger.kernel.org,
- linux@roeck-us.net, Carlos Song <carlos.song@nxp.com>, Adrian Fluturel
- <fluturel.adrian@gmail.com>
-Subject: Re: [PATCH v12 2/2] iio: magnetometer: Add mmc5633 sensor
-Message-ID: <20251221190742.4162108b@jic23-huawei>
-In-Reply-To: <202512202141.aAwyC19D-lkp@intel.com>
-References: <20251215-i3c_ddr-v12-2-1ae31225b4d9@nxp.com>
-	<202512202141.aAwyC19D-lkp@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OEyPWwyz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766345468; x=1797881468;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DKjmW1bukYDobQ06uuEc8wGhreYKXUH8Qxc35Hza860=;
+  b=OEyPWwyz6Y0cjqn4qd7Acpw340puso/W39aEmeBHYnK5jgROAHV1xx9d
+   3WiCoezzhIX0hEaG61l+mb7rbJlIZ6lnLcYdt98oZoLdQvSEvebjrsy0Z
+   +4R2+EFAcZ99QqpF4E9AVzY4EVmJC8DJGDHg+WgTQt6DDgUPwmH8ydvvp
+   zoA5TpY8Okm67oGc9HKrOouhQBpLWJS/nq3qyYqn2rD98VSC8C0QUWXlj
+   2CUjJ1LNPcMQbDn2wDntyvfWMgFyTouQNLKdGEjCoiElHdrq6H6mIg/19
+   xVVnqH/eDdvZXZWVFdEoboBJbA+ydNZ0SBF7P4nexX1+8JLQUE45S4E/C
+   A==;
+X-CSE-ConnectionGUID: l8aLgpuGRw6RYEzsp4g66w==
+X-CSE-MsgGUID: EuPzu+YxSeONBXNJBR/Jkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="71850073"
+X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
+   d="scan'208";a="71850073"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 11:31:08 -0800
+X-CSE-ConnectionGUID: ciB/9KAoSDGjnmRPqY3I/Q==
+X-CSE-MsgGUID: Q01K6bHKQTOK1thCehhXog==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
+   d="scan'208";a="222844165"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 21 Dec 2025 11:31:07 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vXP8y-000000005D6-2T3b;
+	Sun, 21 Dec 2025 19:31:04 +0000
+Date: Sun, 21 Dec 2025 20:30:20 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 5/5] fs/fs-writeback.c:138:6:
+ warning: no previous prototype for 'wb_wakeup'
+Message-ID: <202512212055.FqHvVmJI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 20 Dec 2025 22:34:47 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   54e1389bda8399711722cd321abe212a2327e9a3
+commit: 55cf94258af72fd493779ab2b7a4278d5c8d1d21 [5/5] ANDROID: writeback: export symbols to do a hierarchical writeback control
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251221/202512212055.FqHvVmJI-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512212055.FqHvVmJI-lkp@intel.com/reproduce)
 
-> Hi Frank,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dt-bindings-trivial-devices-add-MEMSIC-3-axis-magnetometer/20251216-010451
-> base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-> patch link:    https://lore.kernel.org/r/20251215-i3c_ddr-v12-2-1ae31225b4d9%40nxp.com
-> patch subject: [PATCH v12 2/2] iio: magnetometer: Add mmc5633 sensor
-> config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512202141.aAwyC19D-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202141.aAwyC19D-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512202141.aAwyC19D-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> drivers/iio/magnetometer/mmc5633.c:362:2: error: cannot jump from switch statement to this case label  
->      362 |         default:
->          |         ^
->    drivers/iio/magnetometer/mmc5633.c:357:3: note: jump bypasses initialization of variable with __attribute__((cleanup))
->      357 |                 guard(mutex)(&data->mutex);
->          |                 ^
->    include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
->      414 |         CLASS(_name, __UNIQUE_ID(guard))
->          |                      ^
->    include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
->      168 |         __PASTE(__UNIQUE_ID_,                                   \
->          |         ^
->    include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
->       16 | #define __PASTE(a, b) ___PASTE(a, b)
->          |                       ^
->    include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
->       15 | #define ___PASTE(a, b) a##b
->          |                        ^
->    <scratch space>:9:1: note: expanded from here
->        9 | __UNIQUE_ID_guard_966
->          | ^
->    1 error generated.
-> 
-> 
-> vim +362 drivers/iio/magnetometer/mmc5633.c
-> 
->    343	
->    344	static int mmc5633_write_raw(struct iio_dev *indio_dev,
->    345				     struct iio_chan_spec const *chan, int val,
->    346				     int val2, long mask)
->    347	{
->    348		struct mmc5633_data *data = iio_priv(indio_dev);
->    349		int ret;
->    350	
->    351		switch (mask) {
->    352		case IIO_CHAN_INFO_SAMP_FREQ:
-{
->    353			ret = mmc5633_get_samp_freq_index(data, val, val2);
->    354			if (ret < 0)
->    355				return ret;
->    356	
->    357			guard(mutex)(&data->mutex);
->    358	
->    359			return regmap_update_bits(data->regmap, MMC5633_REG_CTRL1,
->    360						  MMC5633_CTRL1_BW_MASK,
->    361						  FIELD_PREP(MMC5633_CTRL1_BW_MASK, ret));
-}
-Needed to add scope for the guard to apply to.
-If this is all that comes up I'll fix it whilst applying.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512212055.FqHvVmJI-lkp@intel.com/
 
-thanks,
+All warnings (new ones prefixed by >>):
 
-Jonathan
+>> fs/fs-writeback.c:138:6: warning: no previous prototype for 'wb_wakeup' [-Wmissing-prototypes]
+     138 | void wb_wakeup(struct bdi_writeback *wb)
+         |      ^~~~~~~~~
+   fs/fs-writeback.c:1349:6: warning: no previous prototype for 'redirty_tail_locked' [-Wmissing-prototypes]
+    1349 | void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
+         |      ^~~~~~~~~~~~~~~~~~~
 
->  > 362		default:  
->    363			return -EINVAL;
->    364		}
->    365	}
->    366	
-> 
 
+vim +/wb_wakeup +138 fs/fs-writeback.c
+
+   137	
+ > 138	void wb_wakeup(struct bdi_writeback *wb)
+   139	{
+   140		spin_lock_irq(&wb->work_lock);
+   141		if (test_bit(WB_registered, &wb->state))
+   142			mod_delayed_work(bdi_wq, &wb->dwork, 0);
+   143		spin_unlock_irq(&wb->work_lock);
+   144	}
+   145	EXPORT_SYMBOL_GPL(wb_wakeup);
+   146	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
