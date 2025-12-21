@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDF622D785
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 17:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925502F616B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 17:52:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766339559; cv=none; b=Uw+5KggXbWAUkHfCQoMuZ5l9voyjykx307PiEDNw+ai3+dU0a5Rsjmknrp4C7YmhskRST95Zbcid1/q76+3zqcszwff0LwmOJCKecaflpq2ljwTfXpVfaKZjBtE1Qr3PxV7ThaqQakdYOar1DZKKSIkbJ+nUGovQIo1gg0ecl/A=
+	t=1766339562; cv=none; b=EADcu8hlC1b680XDXeL89zCqeJh4DXrPP6tw+zQRV95l0sylNYoN3/4YiCVQCWFgz9lqJqRiDSrImOxIKou88/DyiRmiuuKVf/N/0Y+UlzT/+nkadspjlc28Ka1UGLiYKsyrRuTa9H0ItMRyHVOzcKGrh4r+IckZp+57IOcWkTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766339559; c=relaxed/simple;
-	bh=TCSH8c7HByb17NGpPTrz9BNUpmRQA7ACBcGIB8yY71c=;
+	s=arc-20240116; t=1766339562; c=relaxed/simple;
+	bh=D5FD1lKIBBbO1KHKz/ypmV26+VT4E9vdIxDLJV8gouI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=my7GE8fUUpfHInnHwG+YWd02QTyGAc2/Od7rzMCNMkHIgSpiSddTBMZFTr7XON3lgDZ9+n21AibUnmsPc8a8YrcTBnnkWDvdxXsTywjgBksOS43v/VIeo2/VGFxRb+CWkug97B9dtuzBfTkPax5NcQf+vkCbpFD0VsFRXCn/qjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bn5L1Ne/; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=ZjxuNG1PfvwcIDKZJ8pl/Ml+BH316v33Ue9Y0m2Gc7+tiNi5caQlSEKT+kauH/Fie7g8APDNNqfVEjHEFwyC3CNaDdw047KN37CbntfQLqV4YG3OL0zsWODZsbPvFA9tY7bqfCKkaQJRunBRT0rOcZG2EBHKKxG5eH1ogK7bYO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JeKHzGPH; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bn5L1Ne/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JeKHzGPH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766339558; x=1797875558;
+  t=1766339559; x=1797875559;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TCSH8c7HByb17NGpPTrz9BNUpmRQA7ACBcGIB8yY71c=;
-  b=bn5L1Ne/H4rc3Yp4j1ysT1yBVE2Vy6bXK5K4DFVAvKc5oeCQdh87vBxy
-   I5XvbrChsoSF1ZLIXmaS+O5/7t/IccmTbJCgmwu97OAK3cLTB9EmHzEZX
-   L5k/hKfydHbZonWiL9HLKLfSd0B48i4l2OWy0JSCRIJQNMiaJJhsPaXY9
-   eJed9UhWzG04iFRCMM13r/GPFP8ibU2noTraKilKbsVpVN+n6BVkgaOdT
-   gglf4gkXnMgbwZOeUgyJRWVMIwF7IzIxyIhEge8uDrOFxbsKnuiCN7kZX
-   75B7igsZtN5OWPShXTV8s83ieyYo4OZAkMhmxVUgZuxz0iw1AUGnI7MBK
+  bh=D5FD1lKIBBbO1KHKz/ypmV26+VT4E9vdIxDLJV8gouI=;
+  b=JeKHzGPHeG4ix2Ervqfo5kK6qIG/CSfByEP25BR5jFWZNKAAfkWtvYfs
+   /cGzGxmzRbAa/P6Zyvcn/nE1zExZvj0TfE7BQMqW5kID+Ed2U0m4E8Vzc
+   iTStF0s36oat4KyU1p7gilS+U99Jbu9bqyCbiiqSeqBJnqbQ9e/6ZLo3A
+   /UIUn5Yl8v9MGKyVmbN/tamAUAqRWY8Jwyhigqk7JrXY5pdFiMXBNN6mm
+   F/9RSWhms6NPqkhG1wm40MIwdL9xrQOKxGCzjU7qguoav7ANP4/verK+2
+   Q0DgB6ItGj0kLM9QZyxfnhtFsbTROw3sM5EuzlQ2Q6HYi9Bu4N1LOY8lh
    g==;
-X-CSE-ConnectionGUID: z59R5ePGSB6eTSHVu9d+BQ==
-X-CSE-MsgGUID: sZSHt2+yTtCOiZvys8+hzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68094925"
+X-CSE-ConnectionGUID: 6Mr9k090SSaENb66QaQORw==
+X-CSE-MsgGUID: bb0lUhF9RCuZ7EVw0r6kAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68094927"
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="68094925"
+   d="scan'208";a="68094927"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 09:52:36 -0800
-X-CSE-ConnectionGUID: gqsodMYFQdGHL1nQOQ2efA==
-X-CSE-MsgGUID: ITxgmqtgQje6p+/yCVxYmw==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 09:52:37 -0800
+X-CSE-ConnectionGUID: 34G8B0fFSACBeIgD4inobA==
+X-CSE-MsgGUID: fuqFWHIJTSyp/RSXW0qD6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,166,1763452800"; 
-   d="scan'208";a="229997491"
+   d="scan'208";a="229997492"
 Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Dec 2025 09:52:35 -0800
+  by orviesa002.jf.intel.com with ESMTP; 21 Dec 2025 09:52:36 -0800
 Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXNbd-000000005up-2Baj;
+	id 1vXNbd-000000005ur-2Hnz;
 	Sun, 21 Dec 2025 17:52:33 +0000
-Date: Mon, 22 Dec 2025 01:52:32 +0800
+Date: Mon, 22 Dec 2025 01:52:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/1] mm/shmem.c:2541:12: warning: no
- previous prototype for 'shmem_fault'
-Message-ID: <202512220107.G3wRxXU3-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-6.6-DMR-PMT-enhancement-ANBZ27534 38/38]
+ mm/unevictable.c:160:6: warning: no previous prototype for
+ 'del_unevict_task'
+Message-ID: <202512220115.MuxAZBIX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +63,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kalesh,
+Hi Xin,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   54e1389bda8399711722cd321abe212a2327e9a3
-commit: 5c1d7ef6718a61393212b8f7971d146d6e1c8e8f [1/1] ANDROID: 16K: Handle pgoff > file_size for shmem and file backed VMAs
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251222/202512220107.G3wRxXU3-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220107.G3wRxXU3-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-DMR-PMT-enhancement-ANBZ27534
+head:   8fd16e3e83fed920d6bd6c026a7d3e5be5fe0f9c
+commit: b9a2e0d8ac85271df6a10641da7513f8e44611d8 [38/38] anolis: mm: unevictable: adjust three key functions
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20251222/202512220115.MuxAZBIX-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220115.MuxAZBIX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512220107.G3wRxXU3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512220115.MuxAZBIX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/shmem.c:2541:12: warning: no previous prototype for 'shmem_fault' [-Wmissing-prototypes]
-    2541 | vm_fault_t shmem_fault(struct vm_fault *vmf)
-         |            ^~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [y]:
-   - INTEL_MEI_HDCP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
-   - INTEL_MEI_PXP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
+>> mm/unevictable.c:160:6: warning: no previous prototype for 'del_unevict_task' [-Wmissing-prototypes]
+     160 | void del_unevict_task(struct task_struct *tsk)
+         |      ^~~~~~~~~~~~~~~~
 
 
-vim +/shmem_fault +2541 mm/shmem.c
+vim +/del_unevict_task +160 mm/unevictable.c
 
-  2540	
-> 2541	vm_fault_t shmem_fault(struct vm_fault *vmf)
-  2542	{
-  2543		struct inode *inode = file_inode(vmf->vma->vm_file);
-  2544		gfp_t gfp = mapping_gfp_mask(inode->i_mapping);
-  2545		struct folio *folio = NULL;
-  2546		vm_fault_t ret = 0;
-  2547		int err;
-  2548	
-  2549		/*
-  2550		 * Trinity finds that probing a hole which tmpfs is punching can
-  2551		 * prevent the hole-punch from ever completing: noted in i_private.
-  2552		 */
-  2553		if (unlikely(inode->i_private)) {
-  2554			ret = shmem_falloc_wait(vmf, inode);
-  2555			if (ret)
-  2556				return ret;
-  2557		}
-  2558	
-  2559		WARN_ON_ONCE(vmf->page != NULL);
-  2560		err = shmem_get_folio_gfp(inode, vmf->pgoff, 0, &folio, SGP_CACHE,
-  2561					  gfp, vmf, &ret);
-  2562		if (err)
-  2563			return vmf_error(err);
-  2564		if (folio) {
-  2565			vmf->page = folio_file_page(folio, vmf->pgoff);
-  2566			ret |= VM_FAULT_LOCKED;
-  2567		}
-  2568		return ret;
-  2569	}
-  2570	
+   159	
+ > 160	void del_unevict_task(struct task_struct *tsk)
+   161	{
+   162		struct evict_pid_entry *result;
+   163	
+   164		if (!tsk) {
+   165			struct evict_pid_entry *pid_entry, *tmp;
+   166	
+   167			mutex_lock(&pid_mutex);
+   168			list_for_each_entry_safe(pid_entry, tmp, &pid_list, list) {
+   169				rcu_read_lock();
+   170				tsk = find_task_by_pid_ns(pid_entry->rootpid,
+   171						&init_pid_ns);
+   172				rcu_read_unlock();
+   173				if (!tsk) {
+   174					list_del(&pid_entry->list);
+   175					__remove_entry(pid_entry);
+   176					kfree(pid_entry);
+   177				}
+   178			}
+   179			mutex_unlock(&pid_mutex);
+   180			return;
+   181		}
+   182	
+   183		mutex_lock(&pid_mutex);
+   184		result = lookup_unevict_entry(tsk);
+   185		if (result) {
+   186			list_del(&result->list);
+   187			__remove_entry(result);
+   188			mutex_unlock(&pid_mutex);
+   189			__evict_pid(result);
+   190			kfree(result);
+   191		} else
+   192			mutex_unlock(&pid_mutex);
+   193	}
+   194	
 
 -- 
 0-DAY CI Kernel Test Service
