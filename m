@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CDD522759C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 08:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9714978F2B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 21 Dec 2025 08:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766304121; cv=none; b=j8kzeXVaGaQ9BI7xE14A2Tym4p2DaHv438eyy8Z3PQ6PeWCPcYa3Zy99+CT5lljG6ZXQJXQWocrC3cddIPQZJWYMWngz1BRHpWZDlQqFJwt5fyKZg6TYfN1WUUdBZkMIl2EsTmkW3K7sd46Mj9QoDc3BvmLyk1XW8NNQB+JJ4jI=
+	t=1766306084; cv=none; b=E3/nzX2AXp7w7DaPS/+UJjBiFdlbXlz+O3WD57Ph/VzVoWfbysNRWJMsQLl/506KopqmOriYXcxJWQFmPcNGNwRz8RtMq/g5De3MJ1k/CIIFeWAaAQkKxlDAbgeUTfQTJIdxBKPahOOX9+ry7gBCbURIKJ8kGE42rmHkxX1jtQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766304121; c=relaxed/simple;
-	bh=LiessboveNLb8gRgwGCBla+Y4lpMJXDlr0NPiT+O+/A=;
+	s=arc-20240116; t=1766306084; c=relaxed/simple;
+	bh=3OioRMcArPhc0ygXAre+38pQvJUlLoXvBvRQPNVG+p8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ayfOmVpU2bglG9ZYbVS0r3Vuku7SWnZSx4f2PBpEtnWxSWCe3NqEPEG8mVzw8/OXIaVZA5fkQLqPecugjONRcqJlKc3MZR7BcdC7BcBJZnlIf1w7ovMsNGbmzvVxrSVvvmS2LOV5dR3hYO8UXztUS7IT0BT2YaT43E78akrW5mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e1yh6KLL; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=VlJpwJhGuY1/KdjN/eIGOaQFKcE43ueN97VIfeAyue4Xyz2anAWlfBuAF58oCfQ5HXuPo2A5GxrRDDHpNEgi5yVw8Ad81iutQT8XpZLICIkX8IoJfYzzM5x/H8ltesd+VbRVsYwrljYNuztnSqumlfLBYft35yh+Ki8zJbZ7h14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QV34KsS4; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e1yh6KLL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QV34KsS4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766304120; x=1797840120;
+  t=1766306081; x=1797842081;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LiessboveNLb8gRgwGCBla+Y4lpMJXDlr0NPiT+O+/A=;
-  b=e1yh6KLLLgL8kftPdvXFceV6uF1FBVnFPdVAeeoxKJvTorcpbCDXsmiP
-   3nY9cr7ILveTONW6W3xOi5K5wE9sGxwBN+ks0VOcLKidt9GZG36D7UuDq
-   dyMllmtpAp5wdaG5eOuhZIjsHqufKVj/SJLieIvl6ZR0NP6kj31g7k+sy
-   YAG5GtQ1E0orW+gXbowWp97nw0HtogtsnUq1KSG+T/DlczPtWWhiuv1cd
-   loL09931fLJ9OKcu91B8SRvINB+5m8+7uUP3GmJFZ+9D5dSV5U2YiptMa
-   AjmM0Zjj+jcKY1hzi5PwhmMlfZCaCQEOQb4omhoBtbr7WPK+TCZ5CdjEz
+  bh=3OioRMcArPhc0ygXAre+38pQvJUlLoXvBvRQPNVG+p8=;
+  b=QV34KsS4bVhW4ryg/QmpA9bMh4m+GbhMdQq+INx5OlrGjoEYkqY1cRy/
+   JVzzry60267R41y0dvE171ZrJmf3Wtf6G1JJfh+bdk/vDhD4FxbUeLVgZ
+   IrIseSsATtw6FQmm7csBnl1NkPETPDq0bAChkS7vP8p/VqLz0E0b5a4KW
+   Lo1bQafK4AI5Ryg3A5cMZ7zltY+SC4/yramv8zh+fY2nKond6jSdrSOJG
+   2OLUXRc+yEboK86IN2krFhuuKgVCEaARNyKzSpK1MlXRRpZkeiwnp2SNg
+   QVhD9MgoA+QfgyKqCFjmcN3hQMTsoFDypRIDs1abjnNSIYiPJShZnimxS
    w==;
-X-CSE-ConnectionGUID: E1b+jc46S0Cim/eLZOUl+g==
-X-CSE-MsgGUID: C6UlH2o+TC2jjWGrCXfceg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="55774012"
+X-CSE-ConnectionGUID: T6LeQ/QaROGf5YlIJ+h6fA==
+X-CSE-MsgGUID: 7F8Wgq+RT1aQ+x2cuvUSGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="70771765"
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="55774012"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 00:01:59 -0800
-X-CSE-ConnectionGUID: cGa0Dba9S46bWD8lYHs0Yg==
-X-CSE-MsgGUID: oXL/2caNRqSpUoSwd4ehlg==
+   d="scan'208";a="70771765"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 00:34:04 -0800
+X-CSE-ConnectionGUID: 1H3Pc3k5TJ6gQW+PvegNhw==
+X-CSE-MsgGUID: rhxaIruVTxm1NO0zLH9ssw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="198997097"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 21 Dec 2025 00:01:58 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="198395198"
+Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 21 Dec 2025 00:34:03 -0800
+Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXEO2-000000004ya-0xSH;
-	Sun, 21 Dec 2025 08:01:54 +0000
-Date: Sun, 21 Dec 2025 09:01:42 +0100
+	id 1vXEt6-000000005T3-3Fl2;
+	Sun, 21 Dec 2025 08:34:00 +0000
+Date: Sun, 21 Dec 2025 16:33:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Conor Dooley <conor+lkp@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 1/1] mm/vmscan.c:2623:15: warning: no
- previous prototype for 'shrink_inactive_list'
-Message-ID: <202512210917.jAqz75ZS-lkp@intel.com>
+Subject: [conor:pinctrl 7/14] drivers/pinctrl/pinconf-generic.c:392:1: error:
+ version control conflict marker in file
+Message-ID: <202512211613.nnkZGVuI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,140 +62,194 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   16aa689262af24cd0897f463b3d0dd9ecee6b37c
-commit: 8cb9b0ef9dbf1ee46c01906f91af8e35c12527d1 [1/1] ANDROID: GKI: add vendor hook to reclaim cold pagecache  generated by bufferio in advance.
-config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251221/202512210917.jAqz75ZS-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git pinctrl
+head:   a8805fb8a49841ef67f240537e28ed40ce539661
+commit: 596864db6236b48f63f554719d00841b8c5ff80c [7/14] pinctrl: pinconf-generic: perform basic checks on pincfg properties
+config: i386-buildonly-randconfig-001-20251221 (https://download.01.org/0day-ci/archive/20251221/202512211613.nnkZGVuI-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512210917.jAqz75ZS-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512211613.nnkZGVuI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512210917.jAqz75ZS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512211613.nnkZGVuI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the conor/pinctrl HEAD a8805fb8a49841ef67f240537e28ed40ce539661 builds fine.
+      It only hurts bisectability.
 
-   mm/vmscan.c:1043:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
-    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^~~~~~~~~~~
->> mm/vmscan.c:2623:15: warning: no previous prototype for 'shrink_inactive_list' [-Wmissing-prototypes]
-    2623 | unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-         |               ^~~~~~~~~~~~~~~~~~~~
+All error/warnings (new ones prefixed by >>):
+
+   drivers/pinctrl/pinconf-generic.c: In function 'parse_dt_cfg':
+   drivers/pinctrl/pinconf-generic.c:226:16: warning: variable 'test' set but not used [-Wunused-but-set-variable]
+     226 |         int i, test;
+         |                ^~~~
+   drivers/pinctrl/pinconf-generic.c: In function 'pinconf_generic_parse_dt_config':
+>> drivers/pinctrl/pinconf-generic.c:392:1: error: version control conflict marker in file
+     392 | <<<<<<< HEAD
+         | ^~~~~~~
+   drivers/pinctrl/pinconf-generic.c:395:1: error: version control conflict marker in file
+     395 | =======
+         | ^~~~~~~
+>> drivers/pinctrl/pinconf-generic.c:407:45: error: expected statement before ')' token
+     407 |                 pctldev->desc->custom_params)
+         |                                             ^
+   drivers/pinctrl/pinconf-generic.c:412:1: error: version control conflict marker in file
+     412 | =======
+         | ^~~~~~~
+   drivers/pinctrl/pinconf-generic.c: At top level:
+>> drivers/pinctrl/pinconf-generic.c:419:9: warning: data definition has no type or storage class
+     419 |         ret = 0;
+         |         ^~~
+>> drivers/pinctrl/pinconf-generic.c:419:9: error: type defaults to 'int' in declaration of 'ret' [-Wimplicit-int]
+   drivers/pinctrl/pinconf-generic.c:420:1: error: version control conflict marker in file
+     420 | >>>>>>> e296cfc3eca6 (pinctrl: pinconf-generic: perform basic checks on pincfg properties)
+         | ^~~~~~~
+   drivers/pinctrl/pinconf-generic.c:433:9: warning: data definition has no type or storage class
+     433 |         *configs = kmemdup(cfg, ncfg * sizeof(unsigned long), GFP_KERNEL);
+         |         ^
+>> drivers/pinctrl/pinconf-generic.c:433:10: error: type defaults to 'int' in declaration of 'configs' [-Wimplicit-int]
+     433 |         *configs = kmemdup(cfg, ncfg * sizeof(unsigned long), GFP_KERNEL);
+         |          ^~~~~~~
+   In file included from include/linux/percpu.h:5,
+                    from arch/x86/include/asm/msr.h:16,
+                    from arch/x86/include/asm/tsc.h:11,
+                    from arch/x86/include/asm/timex.h:6,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/fs_dirent.h:5,
+                    from include/linux/fs/super_types.h:5,
+                    from include/linux/fs/super.h:5,
+                    from include/linux/fs.h:5,
+                    from include/linux/debugfs.h:15,
+                    from drivers/pinctrl/pinconf-generic.c:14:
+>> include/linux/alloc_tag.h:263:1: error: braced-group within expression allowed only inside a function
+     263 | ({                                                                      \
+         | ^
+   include/linux/fortify-string.h:767:25: note: in expansion of macro 'alloc_hooks'
+     767 | #define kmemdup(...)    alloc_hooks(kmemdup_noprof(__VA_ARGS__))
+         |                         ^~~~~~~~~~~
+   drivers/pinctrl/pinconf-generic.c:433:20: note: in expansion of macro 'kmemdup'
+     433 |         *configs = kmemdup(cfg, ncfg * sizeof(unsigned long), GFP_KERNEL);
+         |                    ^~~~~~~
+>> drivers/pinctrl/pinconf-generic.c:434:9: error: expected identifier or '(' before 'if'
+     434 |         if (!*configs) {
+         |         ^~
+   drivers/pinctrl/pinconf-generic.c:439:9: warning: data definition has no type or storage class
+     439 |         *nconfigs = ncfg;
+         |         ^
+>> drivers/pinctrl/pinconf-generic.c:439:10: error: type defaults to 'int' in declaration of 'nconfigs' [-Wimplicit-int]
+     439 |         *nconfigs = ncfg;
+         |          ^~~~~~~~
+>> drivers/pinctrl/pinconf-generic.c:439:21: error: 'ncfg' undeclared here (not in a function)
+     439 |         *nconfigs = ncfg;
+         |                     ^~~~
+>> drivers/pinctrl/pinconf-generic.c:441:4: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
+     441 | out:
+         |    ^
+>> drivers/pinctrl/pinconf-generic.c:443:9: error: expected identifier or '(' before 'return'
+     443 |         return ret;
+         |         ^~~~~~
+>> drivers/pinctrl/pinconf-generic.c:444:1: error: expected identifier or '(' before '}' token
+     444 | }
+         | ^
+   drivers/pinctrl/pinconf-generic.c: In function 'pinconf_generic_parse_dt_config':
+>> drivers/pinctrl/pinconf-generic.c:417:9: warning: control reaches end of non-void function [-Wreturn-type]
+     417 |         }
+         |         ^
 
 
-vim +/shrink_inactive_list +2623 mm/vmscan.c
+vim +392 drivers/pinctrl/pinconf-generic.c
 
-  2618	
-  2619	/*
-  2620	 * shrink_inactive_list() is a helper for shrink_node().  It returns the number
-  2621	 * of reclaimed pages
-  2622	 */
-> 2623	unsigned long shrink_inactive_list(unsigned long nr_to_scan,
-  2624			struct lruvec *lruvec, struct scan_control *sc,
-  2625			enum lru_list lru)
-  2626	{
-  2627		LIST_HEAD(folio_list);
-  2628		unsigned long nr_scanned;
-  2629		unsigned int nr_reclaimed = 0;
-  2630		unsigned long nr_taken;
-  2631		struct reclaim_stat stat;
-  2632		bool file = is_file_lru(lru);
-  2633		enum vm_event_item item;
-  2634		struct pglist_data *pgdat = lruvec_pgdat(lruvec);
-  2635		bool stalled = false;
-  2636	
-  2637		while (unlikely(too_many_isolated(pgdat, file, sc))) {
-  2638			if (stalled)
-  2639				return 0;
-  2640	
-  2641			/* wait a bit for the reclaimer. */
-  2642			stalled = true;
-  2643			reclaim_throttle(pgdat, VMSCAN_THROTTLE_ISOLATED);
-  2644	
-  2645			/* We are about to die and free our memory. Return now. */
-  2646			if (fatal_signal_pending(current))
-  2647				return SWAP_CLUSTER_MAX;
-  2648		}
-  2649	
-  2650		lru_add_drain();
-  2651	
-  2652		spin_lock_irq(&lruvec->lru_lock);
-  2653	
-  2654		nr_taken = isolate_lru_folios(nr_to_scan, lruvec, &folio_list,
-  2655					     &nr_scanned, sc, lru);
-  2656	
-  2657		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, nr_taken);
-  2658		item = PGSCAN_KSWAPD + reclaimer_offset();
-  2659		if (!cgroup_reclaim(sc))
-  2660			__count_vm_events(item, nr_scanned);
-  2661		__count_memcg_events(lruvec_memcg(lruvec), item, nr_scanned);
-  2662		__count_vm_events(PGSCAN_ANON + file, nr_scanned);
-  2663	
-  2664		spin_unlock_irq(&lruvec->lru_lock);
-  2665	
-  2666		if (nr_taken == 0)
-  2667			return 0;
-  2668	
-  2669		nr_reclaimed = shrink_folio_list(&folio_list, pgdat, sc, &stat, false);
-  2670		trace_android_vh_handle_trylock_failed_folio(&folio_list);
-  2671	
-  2672		spin_lock_irq(&lruvec->lru_lock);
-  2673		move_folios_to_lru(lruvec, &folio_list);
-  2674	
-  2675		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, -nr_taken);
-  2676		item = PGSTEAL_KSWAPD + reclaimer_offset();
-  2677		if (!cgroup_reclaim(sc))
-  2678			__count_vm_events(item, nr_reclaimed);
-  2679		__count_memcg_events(lruvec_memcg(lruvec), item, nr_reclaimed);
-  2680		__count_vm_events(PGSTEAL_ANON + file, nr_reclaimed);
-  2681		spin_unlock_irq(&lruvec->lru_lock);
-  2682	
-  2683		lru_note_cost(lruvec, file, stat.nr_pageout, nr_scanned - nr_reclaimed);
-  2684		mem_cgroup_uncharge_list(&folio_list);
-  2685		free_unref_page_list(&folio_list);
-  2686	
-  2687		/*
-  2688		 * If dirty folios are scanned that are not queued for IO, it
-  2689		 * implies that flushers are not doing their job. This can
-  2690		 * happen when memory pressure pushes dirty folios to the end of
-  2691		 * the LRU before the dirty limits are breached and the dirty
-  2692		 * data has expired. It can also happen when the proportion of
-  2693		 * dirty folios grows not through writes but through memory
-  2694		 * pressure reclaiming all the clean cache. And in some cases,
-  2695		 * the flushers simply cannot keep up with the allocation
-  2696		 * rate. Nudge the flusher threads in case they are asleep.
-  2697		 */
-  2698		if (stat.nr_unqueued_dirty == nr_taken) {
-  2699			wakeup_flusher_threads(WB_REASON_VMSCAN);
-  2700			/*
-  2701			 * For cgroupv1 dirty throttling is achieved by waking up
-  2702			 * the kernel flusher here and later waiting on folios
-  2703			 * which are in writeback to finish (see shrink_folio_list()).
-  2704			 *
-  2705			 * Flusher may not be able to issue writeback quickly
-  2706			 * enough for cgroupv1 writeback throttling to work
-  2707			 * on a large system.
-  2708			 */
-  2709			if (!writeback_throttling_sane(sc))
-  2710				reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
-  2711		}
-  2712	
-  2713		sc->nr.dirty += stat.nr_dirty;
-  2714		sc->nr.congested += stat.nr_congested;
-  2715		sc->nr.unqueued_dirty += stat.nr_unqueued_dirty;
-  2716		sc->nr.writeback += stat.nr_writeback;
-  2717		sc->nr.immediate += stat.nr_immediate;
-  2718		sc->nr.taken += nr_taken;
-  2719		if (file)
-  2720			sc->nr.file_taken += nr_taken;
-  2721	
-  2722		trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
-  2723				nr_scanned, nr_reclaimed, &stat, sc->priority, file);
-  2724		return nr_reclaimed;
-  2725	}
-  2726	EXPORT_SYMBOL(shrink_inactive_list);
-  2727	
+   359	
+   360	/**
+   361	 * pinconf_generic_parse_dt_config()
+   362	 * parse the config properties into generic pinconfig values.
+   363	 * @np: node containing the pinconfig properties
+   364	 * @pctldev: pincontrol device
+   365	 * @configs: array with nconfigs entries containing the generic pinconf values
+   366	 *           must be freed when no longer necessary.
+   367	 * @nconfigs: number of configurations
+   368	 */
+   369	int pinconf_generic_parse_dt_config(struct device_node *np,
+   370					    struct pinctrl_dev *pctldev,
+   371					    unsigned long **configs,
+   372					    unsigned int *nconfigs)
+   373	{
+   374		unsigned long *cfg;
+   375		unsigned int max_cfg, ncfg = 0;
+   376		int ret;
+   377	
+   378		if (!np)
+   379			return -EINVAL;
+   380	
+   381		/* allocate a temporary array big enough to hold one of each option */
+   382		max_cfg = ARRAY_SIZE(dt_params);
+   383		if (pctldev)
+   384			max_cfg += pctldev->desc->num_custom_params;
+   385		cfg = kcalloc(max_cfg, sizeof(*cfg), GFP_KERNEL);
+   386		if (!cfg)
+   387			return -ENOMEM;
+   388	
+   389		ret = parse_dt_cfg(np, dt_params, ARRAY_SIZE(dt_params), cfg, &ncfg);
+   390		if (ret)
+   391			return ret;
+ > 392	<<<<<<< HEAD
+   393	||||||| parent of e296cfc3eca6 (pinctrl: pinconf-generic: perform basic checks on pincfg properties)
+   394		parse_dt_cfg(np, dt_params, ARRAY_SIZE(dt_params), cfg, &ncfg);
+   395	=======
+   396	
+   397	>>>>>>> e296cfc3eca6 (pinctrl: pinconf-generic: perform basic checks on pincfg properties)
+   398		if (pctldev && pctldev->desc->num_custom_params &&
+   399			pctldev->desc->custom_params) {
+   400	<<<<<<< HEAD
+   401			ret = parse_dt_cfg(np, pctldev->desc->custom_params,
+   402					   pctldev->desc->num_custom_params, cfg, &ncfg);
+   403			if (ret)
+   404				return ret;
+   405		}
+   406	||||||| parent of e296cfc3eca6 (pinctrl: pinconf-generic: perform basic checks on pincfg properties)
+ > 407			pctldev->desc->custom_params)
+   408			parse_dt_cfg(np, pctldev->desc->custom_params,
+   409				     pctldev->desc->num_custom_params, cfg, &ncfg);
+   410	
+   411		ret = 0;
+   412	=======
+   413			parse_dt_cfg(np, pctldev->desc->custom_params,
+   414				     pctldev->desc->num_custom_params, cfg, &ncfg);
+   415			if (ret)
+   416				return ret;
+ > 417		}
+   418	
+ > 419		ret = 0;
+   420	>>>>>>> e296cfc3eca6 (pinctrl: pinconf-generic: perform basic checks on pincfg properties)
+   421	
+   422		/* no configs found at all */
+   423		if (ncfg == 0) {
+   424			*configs = NULL;
+   425			*nconfigs = 0;
+   426			goto out;
+   427		}
+   428	
+   429		/*
+   430		 * Now limit the number of configs to the real number of
+   431		 * found properties.
+   432		 */
+ > 433		*configs = kmemdup(cfg, ncfg * sizeof(unsigned long), GFP_KERNEL);
+ > 434		if (!*configs) {
+   435			ret = -ENOMEM;
+   436			goto out;
+   437		}
+   438	
+ > 439		*nconfigs = ncfg;
+   440	
+ > 441	out:
+   442		kfree(cfg);
+ > 443		return ret;
+ > 444	}
+   445	EXPORT_SYMBOL_GPL(pinconf_generic_parse_dt_config);
+   446	
 
 -- 
 0-DAY CI Kernel Test Service
