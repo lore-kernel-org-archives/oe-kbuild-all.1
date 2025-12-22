@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879C11C5D5E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 06:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398283A1E8B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 06:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766384418; cv=none; b=X3UiWHu3V/Ra8QbuaplSvW5GdZA0MTeXoSvk4Q3T51yrfZygWsdqTMLqGziDME5yWUWZRF6gpZoG+s210S+w9w9tSjNM7bgdhcfWO7uArjAYxUhWb1sCgDeMpLfUJHIWNUkiVeDxeOS7C/++Jr6C3M/1Njb3/TP9MGRLPa3c5rI=
+	t=1766384718; cv=none; b=EicMHbaKR5GJxIZhw9JN2pl2fWFKrCMcDj/Fszq66ck5yDgSUMmlrPyn6VcJygsl0YPd4m0PlWVoAHp6YWmr2DIjBrpuFJAreQXhCk2jn0ZuC7hmd2E5h6/ZPj+i2y0Npql4wtIho9c2aQA5ue1QkSA/hmcqk1jUPMbbXgAdloE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766384418; c=relaxed/simple;
-	bh=jsT/83NMTi28yooiJ/szpFYUopsA0wY2HcFOZTbrcik=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CV44mtl1AXQGFHo0rn/xNVpVSz9tiyGMQbQcIH1zBC99bua6dry6gU0bC9z9H25y6F7a5Sj7VYxOtxDFXAtm5g5DkxDfUxW272H1umek9SHpPJpWl7elunPNShmtyGIwJn1rCdlF2CWgiCBi3Z8OznEh4dthiJSb6EXviK5opm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NVJe5mNP; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1766384718; c=relaxed/simple;
+	bh=NajQSvDFj6afByzC4DUuAXLFKxQGM0BHmRcJVNFTln0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OOgu92XPfq+dkZcOP8QKR3hVU+dKHibEGYoP9K835zbbM8Wq7G0FxMFUcL8AyaAPv4Ogs783OY9OCAsSpx93sjFWEmgtjfqHvVx0Bm7St/mm2DFZ1H4/Rw9TCPpBIgZNfGfNbdSTC1uwBCnoev1d38yIyeM1Z4DSAK/mhG1d15Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MbuPQIiI; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NVJe5mNP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MbuPQIiI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766384417; x=1797920417;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jsT/83NMTi28yooiJ/szpFYUopsA0wY2HcFOZTbrcik=;
-  b=NVJe5mNPk48sUXhEyqrjB33a4hMXwUK1SwjiQRgR/rhhA5p1s7zKofVW
-   f3qrNv4qSxWRJljMAfLhZjnv/JFpFkLUT0iODP1yOKU6i5vGy9hHsAtoR
-   FW9s0ApPiPgOoiRwPbnRlY9yPqJUMLaHlUfTE2q7g/gwS2yn/Is2ZK0Xh
-   wbFJ2gzza0OC1Ie/eImaeou2cgArY9n/022eo3GnwOLYYYT49frjFlehM
-   tv4f5qaDAs9Qel/Y+WQXYYLfPOZxDIx/VQ4ZELE05vT0BZUClnoBummcw
-   CJJn4jnhvjh6i+1NINqPoKyq9kcK6nRr+qDFJ072tHh7ECnNcayrVJuph
-   w==;
-X-CSE-ConnectionGUID: tRLKflIxSJ6C8ER7M1Yy0w==
-X-CSE-MsgGUID: /X3XoEEmTYGc3aa/BV9H7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68281616"
-X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="68281616"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 22:20:16 -0800
-X-CSE-ConnectionGUID: JS/x5GghQT2fxmlYbKglpw==
-X-CSE-MsgGUID: e+UJOfP7RQKdUPt2IUS/Eg==
+  t=1766384717; x=1797920717;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NajQSvDFj6afByzC4DUuAXLFKxQGM0BHmRcJVNFTln0=;
+  b=MbuPQIiIDX832atEF6L/AXBHGJyfSVl+FtKZb2K+hEayw2yY+h+5oV8M
+   UP6vRzNsXH535ziYyYzX9PeLWzxwnBVkxUlrbzs/uqDpl9Hf0abFyqt8I
+   3/QzBtdAEoAtgkuODoNTh/TleAzhCvuFPYgDmWKAKXT1df9M6JIz9ZxTv
+   dUK0dkv6lJicyTMHRs7Tz2b57yvry/M1Uiovrd3JOby+TmSDiQPXgZxDx
+   /780bnTLsnAACDl7OPOGpxlAb/GajsspqBilbP+D6je5KBRp1zoBocmUU
+   AmpQqVcn1c5IiIN2Zvl4tQSl447MoXa75XBq4DMQf1tK2AzfwhM/eaCxI
+   Q==;
+X-CSE-ConnectionGUID: l4NzCwhPTJGp48tlvDWr3A==
+X-CSE-MsgGUID: cJMEUMtnTd2mVmC6Oiv+cQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68177617"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="68177617"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 22:25:17 -0800
+X-CSE-ConnectionGUID: r2148qVwQYu8R3u2PYubKg==
+X-CSE-MsgGUID: nZW1nG+XT/2Gs0JkICEANw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="230103295"
+   d="scan'208";a="199202111"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 21 Dec 2025 22:20:15 -0800
+  by orviesa009.jf.intel.com with ESMTP; 21 Dec 2025 22:25:15 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXZHA-000000005Ns-2K7w;
-	Mon, 22 Dec 2025 06:20:12 +0000
-Date: Mon, 22 Dec 2025 07:19:27 +0100
+	id 1vXZM0-000000005O0-2lCW;
+	Mon, 22 Dec 2025 06:25:12 +0000
+Date: Mon, 22 Dec 2025 07:24:30 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 12/12] kismet: WARNING: unmet
- direct dependencies detected for INTEL_TCC when selected by
- GKI_HIDDEN_X86_CONFIGS
-Message-ID: <202512220700.MRWntWQu-lkp@intel.com>
+To: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, anna-maria@linutronix.de,
+	frederic@kernel.org, tglx@linutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH] clockevents: add a error handling in
+ tick_broadcast_init_sysfs()
+Message-ID: <202512220734.2gooRBi1-lkp@intel.com>
+References: <20251218090625.557965-1-lihaoxiang@isrc.iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +65,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251218090625.557965-1-lihaoxiang@isrc.iscas.ac.cn>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   2141da9e498139ac37a520b62dfdc77db8003146
-commit: 206061b5b2f4bae5e87a6510fb2ea23acd238f20 [12/12] ANDROID: GKI: x86: Enable Intel TCC lib as x86 hidden
-config: x86_64-kismet-CONFIG_INTEL_TCC-CONFIG_GKI_HIDDEN_X86_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20251222/202512220700.MRWntWQu-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20251222/202512220700.MRWntWQu-lkp@intel.com/reproduce)
+Hi Haoxiang,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/timers/core]
+[also build test ERROR on linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Haoxiang-Li/clockevents-add-a-error-handling-in-tick_broadcast_init_sysfs/20251218-170931
+base:   tip/timers/core
+patch link:    https://lore.kernel.org/r/20251218090625.557965-1-lihaoxiang%40isrc.iscas.ac.cn
+patch subject: [PATCH] clockevents: add a error handling in tick_broadcast_init_sysfs()
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251222/202512220734.2gooRBi1-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220734.2gooRBi1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512220700.MRWntWQu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512220734.2gooRBi1-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for INTEL_TCC when selected by GKI_HIDDEN_X86_CONFIGS
-   WARNING: unmet direct dependencies detected for INTEL_TCC
-     Depends on [n]: THERMAL [=n] && (X86 [=y] || X86_INTEL_QUARK [=n] || COMPILE_TEST [=y]) && X86 [=y]
-     Selected by [y]:
-     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
+All errors (new ones prefixed by >>):
+
+   kernel/time/clockevents.c: In function 'tick_broadcast_init_sysfs':
+>> kernel/time/clockevents.c:737:17: error: implicit declaration of function 'put_deivce'; did you mean 'put_device'? [-Wimplicit-function-declaration]
+     737 |                 put_deivce(&tick_bc_dev);
+         |                 ^~~~~~~~~~
+         |                 put_device
+
+
+vim +737 kernel/time/clockevents.c
+
+   731	
+   732	static __init int tick_broadcast_init_sysfs(void)
+   733	{
+   734		int err = device_register(&tick_bc_dev);
+   735	
+   736		if (err) {
+ > 737			put_deivce(&tick_bc_dev);
+   738			return err;
+   739		}
+   740	
+   741		err = device_create_file(&tick_bc_dev, &dev_attr_current_device);
+   742		return err;
+   743	}
+   744	#else
+   745	static struct tick_device *tick_get_tick_dev(struct device *dev)
+   746	{
+   747		return &per_cpu(tick_cpu_device, dev->id);
+   748	}
+   749	static inline int tick_broadcast_init_sysfs(void) { return 0; }
+   750	#endif
+   751	
 
 -- 
 0-DAY CI Kernel Test Service
