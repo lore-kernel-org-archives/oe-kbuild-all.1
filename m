@@ -1,71 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1D934F485;
-	Mon, 22 Dec 2025 16:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1620C330664
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766422407; cv=none; b=US5kKsTO7Uqr5s6Plt6ELMQF6zScpeYZo9zE//4f7MB3tElpALsL5meANEKW7OrEaR2+Okv/74YGd0/4J1p6yliRoeRRura6tv483egxKnR4IZ4O7bgMPvbUMH7/nos8bMIM/FMbK+HnJ/w1EW1w0ecS7H1Nj6sctTj2fMSnO+4=
+	t=1766422923; cv=none; b=tscAyxeKUDg2beZZUeWeB2ofnyYp8gIiDa/tjwnS7RRNV0xzSAU5XvWDPaRTAxTZCZdaDxIRMJE5y8xFvvJZICKRxVBrs9dm7iSNhRpuTXQp0cNOa0Zvgn9YqFlY4s2VRr3wGYZ7ee7wFKTaSK8O2utpRoE5ytaeTlE9k6wL2ZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766422407; c=relaxed/simple;
-	bh=SLzPCyVSf2GCKYqR6ihp41nIyXMktxWN6o79iAcwaVc=;
+	s=arc-20240116; t=1766422923; c=relaxed/simple;
+	bh=LGG15ojBLdKkERv/MqoV0ZtxTNpAjJ2EhYD0wVwVu1c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dK9O1gM4wCF9ojHCjka3IrxWuFT91kgKmyaBKCQ5kA4nb3pp9GTB1oxS1vuWm6gOlte+ZB6jUpTp7MP65NmRMl+xzppfnbzhf7AGBndXZb18sNgFWEcNNa3Bxcu6weQmQrJeKFlbIJ9yz7qbn831PajMj/MFh0YamY3psDJeTes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TWRWEj6j; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=GsIICZ+SaefErOqZiu8H4MJ4OsatsG48i/hxa6r4XkbBLojIfrWxWgiH+GmrHIVfp0LZIlyahJZX7nzFcblolp0ObzwX7EkUetb+6CaYUcmNALlNHCNApsDcAWYliyQclTZC7Q+t1c6tm9V1mDoM4sV3KpOUmvrTVgdeqlEvarM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AomRw8Nd; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TWRWEj6j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AomRw8Nd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766422406; x=1797958406;
+  t=1766422922; x=1797958922;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SLzPCyVSf2GCKYqR6ihp41nIyXMktxWN6o79iAcwaVc=;
-  b=TWRWEj6jswPKwFATdx2TyUi/xMY4YZ/kSTbHIz7nxuaCYDmeP7z+l86H
-   kqSURJZqNsqIlYqhM08yod8qKYxXkEbu/d4MwFXlNKJa5D5mRilW7tYVV
-   +qjlC47cbOo49M7DiyoBpMud+tkEh4je8YfkUzZclKfLx4Xt7bNBhybcB
-   SL3r8BDLCh2wppW3GYbB7qlZVF7SA+HttarODiruyZ+L/Mtbo0rW3MuEw
-   +3IhQFStlgpvVKMvykZGSdc8tvg+tF9pR8uof5J5AcJMuDzbp2kojB2pb
-   /zKe9YganBMJfOLZ2tYjiDxBN1onyGoKyeGf2D78sErvMIMzt29Q3PsrO
+  bh=LGG15ojBLdKkERv/MqoV0ZtxTNpAjJ2EhYD0wVwVu1c=;
+  b=AomRw8Nd5iPq7TUqs0V9hOc295x9o31OWeFvdhV2EdKzkUTrFtkVKgny
+   pHjkEDQklGqSBNB9RtvW+mYNvaxBw6chIeLJOrz5mT35Rc1ADjTucxF07
+   yqtsy8+uOdQjfwD1TEaP6qSQQwMEMDW5BPWETSEmplXBHzhIJLvWtyoX9
+   DG3B3JnntzD4RMu/vIpwNZpMDLWMiQX9dzcuWmRWWn4P3lEyoVO7AS1dz
+   qgdluIFcOdDW7Ktrc0sYTJkAj/gvZgrRkIUCBwAwRkNUI91z/DbM75Ijh
+   pdJQQvXg2g+E+aYgGp2Br06g5Ezy9CF1qSLeCqp79oeTB5p4WXECx9gQx
    A==;
-X-CSE-ConnectionGUID: L1gShBqdSoio5lmJtMmsrQ==
-X-CSE-MsgGUID: xkv7O37QTo+1dvwLO0OhSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="55849965"
+X-CSE-ConnectionGUID: fGLT1vb4TGy/cQsSF0GAeQ==
+X-CSE-MsgGUID: 4eNP+CW4SI6YbeM9DjJ+CA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79396414"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="55849965"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 08:53:26 -0800
-X-CSE-ConnectionGUID: 6fDkPJhHRFmrLp8CGDNaLQ==
-X-CSE-MsgGUID: AZDQkn5AQxWF4NRtHppNNg==
+   d="scan'208";a="79396414"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:02:00 -0800
+X-CSE-ConnectionGUID: Ca5K+FRjQw6k815hH9b+RQ==
+X-CSE-MsgGUID: qaXeiiRuR+SGzeE9u1mpVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="204049302"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Dec 2025 08:53:22 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="200465840"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 22 Dec 2025 09:01:58 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXj9s-000000005Ym-1Tsx;
-	Mon, 22 Dec 2025 16:53:20 +0000
-Date: Mon, 22 Dec 2025 17:52:47 +0100
+	id 1vXjIA-000000000tx-3cUJ;
+	Mon, 22 Dec 2025 17:01:55 +0000
+Date: Tue, 23 Dec 2025 01:01:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sascha Bischoff <Sascha.Bischoff@arm.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, nd <nd@arm.com>,
-	"maz@kernel.org" <maz@kernel.org>,
-	"oliver.upton@linux.dev" <oliver.upton@linux.dev>,
-	Joey Gouly <Joey.Gouly@arm.com>,
-	Suzuki Poulose <Suzuki.Poulose@arm.com>,
-	"yuzenghui@huawei.com" <yuzenghui@huawei.com>,
-	"peter.maydell@linaro.org" <peter.maydell@linaro.org>,
-	"lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-	Timothy Hayes <Timothy.Hayes@arm.com>
-Subject: Re: [PATCH 14/32] KVM: arm64: gic-v5: Implement GICv5 load/put and
- save/restore
-Message-ID: <202512221751.nHKObHNq-lkp@intel.com>
-References: <20251212152215.675767-15-sascha.bischoff@arm.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4] mm, hugetlb: implement movable_gigantic_pages sysctl
+Message-ID: <202512230059.GQuOZMqh-lkp@intel.com>
+References: <20251218151211.1237411-1-gourry@gourry.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,83 +62,257 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251212152215.675767-15-sascha.bischoff@arm.com>
+In-Reply-To: <20251218151211.1237411-1-gourry@gourry.net>
 
-Hi Sascha,
+Hi Gregory,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.19-rc2 next-20251219]
-[cannot apply to kvmarm/next arm64/for-next/core kvm/queue kvm/next kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Bischoff/KVM-arm64-Account-for-RES1-bits-in-DECLARE_FEAT_MAP-and-co/20251212-233140
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251212152215.675767-15-sascha.bischoff%40arm.com
-patch subject: [PATCH 14/32] KVM: arm64: gic-v5: Implement GICv5 load/put and save/restore
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251222/202512221751.nHKObHNq-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ecaf673850beb241957352bd61e95ed34256635f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221751.nHKObHNq-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-hugetlb-implement-movable_gigantic_pages-sysctl/20251218-231524
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20251218151211.1237411-1-gourry%40gourry.net
+patch subject: [PATCH v4] mm, hugetlb: implement movable_gigantic_pages sysctl
+config: x86_64-randconfig-104-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230059.GQuOZMqh-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230059.GQuOZMqh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221751.nHKObHNq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230059.GQuOZMqh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kernel/asm-offsets.c:16:
-   In file included from ./include/linux/kvm_host.h:45:
-   In file included from ./arch/arm64/include/asm/kvm_host.h:36:
->> ./include/kvm/arm_vgic.h:392:19: error: field has incomplete type 'struct gicv5_vpe'
-     392 |         struct gicv5_vpe gicv5_vpe;
-         |                          ^
-   ./include/kvm/arm_vgic.h:392:9: note: forward declaration of 'struct gicv5_vpe'
-     392 |         struct gicv5_vpe gicv5_vpe;
-         |                ^
-   1 error generated.
+   mm/hugetlb.c:497:56: warning: declaration of 'struct hugetlb_cgroup' will not be visible outside of this function [-Wvisibility]
+     497 | static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
+         |                                                        ^
+>> mm/hugetlb.c:505:9: error: incomplete definition of type 'struct hugetlb_cgroup'
+     505 |                         &h_cg->rsvd_hugepage[hstate_index(h)];
+         |                          ~~~~^
+   mm/hugetlb.c:497:56: note: forward declaration of 'struct hugetlb_cgroup'
+     497 | static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
+         |                                                        ^
+   mm/hugetlb.c:506:19: error: incomplete definition of type 'struct hugetlb_cgroup'
+     506 |                 nrg->css = &h_cg->css;
+         |                             ~~~~^
+   mm/hugetlb.c:497:56: note: forward declaration of 'struct hugetlb_cgroup'
+     497 | static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
+         |                                                        ^
+   mm/hugetlb.c:517:16: error: incomplete definition of type 'struct hugetlb_cgroup'
+     517 |                 css_get(&h_cg->css);
+         |                          ~~~~^
+   mm/hugetlb.c:497:56: note: forward declaration of 'struct hugetlb_cgroup'
+     497 | static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
+         |                                                        ^
+   mm/hugetlb.c:580:42: warning: declaration of 'struct hugetlb_cgroup' will not be visible outside of this function [-Wvisibility]
+     580 |                      long to, struct hstate *h, struct hugetlb_cgroup *cg,
+         |                                                        ^
+>> mm/hugetlb.c:587:39: error: incompatible pointer types passing 'struct hugetlb_cgroup *' to parameter of type 'struct hugetlb_cgroup *' [-Werror,-Wincompatible-pointer-types]
+     587 |                 record_hugetlb_cgroup_uncharge_info(cg, h, map, nrg);
+         |                                                     ^~
+   mm/hugetlb.c:497:72: note: passing argument to parameter 'h_cg' here
+     497 | static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
+         |                                                                        ^
+   mm/hugetlb.c:605:17: warning: declaration of 'struct hugetlb_cgroup' will not be visible outside of this function [-Wvisibility]
+     605 |                                      struct hugetlb_cgroup *h_cg,
+         |                                             ^
+   mm/hugetlb.c:646:26: error: incompatible pointer types passing 'struct hugetlb_cgroup *' to parameter of type 'struct hugetlb_cgroup *' [-Werror,-Wincompatible-pointer-types]
+     646 |                                                     iter->from, h, h_cg,
+         |                                                                    ^~~~
+   mm/hugetlb.c:580:58: note: passing argument to parameter 'cg' here
+     580 |                      long to, struct hstate *h, struct hugetlb_cgroup *cg,
+         |                                                                        ^
+   mm/hugetlb.c:659:16: error: incompatible pointer types passing 'struct hugetlb_cgroup *' to parameter of type 'struct hugetlb_cgroup *' [-Werror,-Wincompatible-pointer-types]
+     659 |                                             t, h, h_cg, regions_needed);
+         |                                                   ^~~~
+   mm/hugetlb.c:580:58: note: passing argument to parameter 'cg' here
+     580 |                      long to, struct hstate *h, struct hugetlb_cgroup *cg,
+         |                                                                        ^
+   mm/hugetlb.c:739:17: warning: declaration of 'struct hugetlb_cgroup' will not be visible outside of this function [-Wvisibility]
+     739 |                        struct hugetlb_cgroup *h_cg)
+         |                               ^
+   mm/hugetlb.c:776:45: error: incompatible pointer types passing 'struct hugetlb_cgroup *' to parameter of type 'struct hugetlb_cgroup *' [-Werror,-Wincompatible-pointer-types]
+     776 |         add = add_reservation_in_range(resv, f, t, h_cg, h, NULL);
+         |                                                    ^~~~
+   mm/hugetlb.c:605:33: note: passing argument to parameter 'h_cg' here
+     605 |                                      struct hugetlb_cgroup *h_cg,
+         |                                                             ^
+>> mm/hugetlb.c:909:4: error: call to undeclared function 'hugetlb_cgroup_uncharge_file_region'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     909 |                         hugetlb_cgroup_uncharge_file_region(
+         |                         ^
+   mm/hugetlb.c:930:4: error: call to undeclared function 'hugetlb_cgroup_uncharge_file_region'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     930 |                         hugetlb_cgroup_uncharge_file_region(resv, rg,
+         |                         ^
+   mm/hugetlb.c:938:4: error: call to undeclared function 'hugetlb_cgroup_uncharge_file_region'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     938 |                         hugetlb_cgroup_uncharge_file_region(resv, rg,
+         |                         ^
+   mm/hugetlb.c:944:4: error: call to undeclared function 'hugetlb_cgroup_uncharge_file_region'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     944 |                         hugetlb_cgroup_uncharge_file_region(resv, rg,
+         |                         ^
+   mm/hugetlb.c:1097:15: warning: declaration of 'struct hugetlb_cgroup' will not be visible outside of this function [-Wvisibility]
+    1097 |                                           struct hugetlb_cgroup *h_cg,
+         |                                                  ^
+   mm/hugetlb.c:1107:9: error: incomplete definition of type 'struct hugetlb_cgroup'
+    1107 |                         &h_cg->rsvd_hugepage[hstate_index(h)];
+         |                          ~~~~^
+   mm/hugetlb.c:1097:15: note: forward declaration of 'struct hugetlb_cgroup'
+    1097 |                                           struct hugetlb_cgroup *h_cg,
+         |                                                  ^
+   mm/hugetlb.c:1109:24: error: incomplete definition of type 'struct hugetlb_cgroup'
+    1109 |                 resv_map->css = &h_cg->css;
+         |                                  ~~~~^
+   mm/hugetlb.c:1097:15: note: forward declaration of 'struct hugetlb_cgroup'
+    1097 |                                           struct hugetlb_cgroup *h_cg,
+         |                                                  ^
+>> mm/hugetlb.c:1287:3: error: call to undeclared function 'resv_map_put_hugetlb_cgroup_uncharge_info'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1287 |                 resv_map_put_hugetlb_cgroup_uncharge_info(reservations);
+         |                 ^
+   mm/hugetlb.c:1287:3: note: did you mean 'resv_map_set_hugetlb_cgroup_uncharge_info'?
+   mm/hugetlb.c:1096:1: note: 'resv_map_set_hugetlb_cgroup_uncharge_info' declared here
+    1096 | resv_map_set_hugetlb_cgroup_uncharge_info(struct resv_map *resv_map,
+         | ^
+>> mm/hugetlb.c:1479:18: error: call to undeclared function 'hugetlb_cgroup_from_folio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1479 |         VM_BUG_ON_FOLIO(hugetlb_cgroup_from_folio(folio), folio);
+         |                         ^
+   mm/hugetlb.c:1479:18: note: did you mean 'get_obj_cgroup_from_folio'?
+   include/linux/memcontrol.h:1675:20: note: 'get_obj_cgroup_from_folio' declared here
+    1675 | struct obj_cgroup *get_obj_cgroup_from_folio(struct folio *folio);
+         |                    ^
+>> mm/hugetlb.c:1480:18: error: call to undeclared function 'hugetlb_cgroup_from_folio_rsvd'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1480 |         VM_BUG_ON_FOLIO(hugetlb_cgroup_from_folio_rsvd(folio), folio);
+         |                         ^
+>> mm/hugetlb.c:1483:6: error: call to undeclared function 'hstate_is_gigantic_no_runtime'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1483 |         if (hstate_is_gigantic_no_runtime(h))
+         |             ^
+   mm/hugetlb.c:1474:6: warning: no previous prototype for function 'remove_hugetlb_folio' [-Wmissing-prototypes]
+    1474 | void remove_hugetlb_folio(struct hstate *h, struct folio *folio,
+         |      ^
+   mm/hugetlb.c:1474:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1474 | void remove_hugetlb_folio(struct hstate *h, struct folio *folio,
+         | ^
+         | static 
+   mm/hugetlb.c:1510:6: warning: no previous prototype for function 'add_hugetlb_folio' [-Wmissing-prototypes]
+    1510 | void add_hugetlb_folio(struct hstate *h, struct folio *folio,
+         |      ^
+   mm/hugetlb.c:1510:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1510 | void add_hugetlb_folio(struct hstate *h, struct folio *folio,
+         | ^
+         | static 
+   mm/hugetlb.c:1545:6: error: call to undeclared function 'hstate_is_gigantic_no_runtime'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1545 |         if (hstate_is_gigantic_no_runtime(h))
+         |             ^
+>> mm/hugetlb.c:1807:2: error: call to undeclared function 'hugetlb_cgroup_uncharge_folio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1807 |         hugetlb_cgroup_uncharge_folio(hstate_index(h),
+         |         ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   7 warnings and 20 errors generated.
 
 
-vim +392 ./include/kvm/arm_vgic.h
+vim +505 mm/hugetlb.c
 
-   360	
-   361	struct vgic_v5_cpu_if {
-   362		u64	vgic_apr;
-   363		u64	vgic_vmcr;
-   364	
-   365		/* PPI register state */
-   366		u64	vgic_ppi_hmr[2];
-   367		u64	vgic_ppi_dvir[2];
-   368		u64	vgic_ppi_priorityr[16];
-   369	
-   370		/* The pending state of the guest. This is merged with the exit state */
-   371		u64	vgic_ppi_pendr[2];
-   372	
-   373		/* The state flushed to the regs when entering the guest */
-   374		u64	vgic_ppi_activer_entry[2];
-   375		u64	vgic_ich_ppi_enabler_entry[2];
-   376		u64	vgic_ppi_pendr_entry[2];
-   377	
-   378		/* The saved state of the regs when leaving the guest */
-   379		u64	vgic_ppi_activer_exit[2];
-   380		u64	vgic_ich_ppi_enabler_exit[2];
-   381		u64	vgic_ppi_pendr_exit[2];
-   382	
-   383		/*
-   384		 * The ICSR is re-used across host and guest, and hence it needs to be
-   385		 * saved/restored. Only one copy is required as the host should block
-   386		 * preemption between executing GIC CDRCFG and acccessing the
-   387		 * ICC_ICSR_EL1. A guest, of course, can never guarantee this, and hence
-   388		 * it is the hyp's responsibility to keep the state constistent.
-   389		 */
-   390		u64	vgic_icsr;
-   391	
- > 392		struct gicv5_vpe gicv5_vpe;
-   393	};
-   394	
+075a61d07a8eca2 Mina Almasry  2020-04-01  495  
+075a61d07a8eca2 Mina Almasry  2020-04-01  496  /* Helper that records hugetlb_cgroup uncharge info. */
+075a61d07a8eca2 Mina Almasry  2020-04-01  497  static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
+075a61d07a8eca2 Mina Almasry  2020-04-01  498  						struct hstate *h,
+075a61d07a8eca2 Mina Almasry  2020-04-01  499  						struct resv_map *resv,
+075a61d07a8eca2 Mina Almasry  2020-04-01  500  						struct file_region *nrg)
+075a61d07a8eca2 Mina Almasry  2020-04-01  501  {
+075a61d07a8eca2 Mina Almasry  2020-04-01  502  #ifdef CONFIG_CGROUP_HUGETLB
+075a61d07a8eca2 Mina Almasry  2020-04-01  503  	if (h_cg) {
+075a61d07a8eca2 Mina Almasry  2020-04-01  504  		nrg->reservation_counter =
+075a61d07a8eca2 Mina Almasry  2020-04-01 @505  			&h_cg->rsvd_hugepage[hstate_index(h)];
+075a61d07a8eca2 Mina Almasry  2020-04-01  506  		nrg->css = &h_cg->css;
+d85aecf2844ff02 Miaohe Lin    2021-03-24  507  		/*
+d85aecf2844ff02 Miaohe Lin    2021-03-24  508  		 * The caller will hold exactly one h_cg->css reference for the
+d85aecf2844ff02 Miaohe Lin    2021-03-24  509  		 * whole contiguous reservation region. But this area might be
+d85aecf2844ff02 Miaohe Lin    2021-03-24  510  		 * scattered when there are already some file_regions reside in
+d85aecf2844ff02 Miaohe Lin    2021-03-24  511  		 * it. As a result, many file_regions may share only one css
+d85aecf2844ff02 Miaohe Lin    2021-03-24  512  		 * reference. In order to ensure that one file_region must hold
+d85aecf2844ff02 Miaohe Lin    2021-03-24  513  		 * exactly one h_cg->css reference, we should do css_get for
+d85aecf2844ff02 Miaohe Lin    2021-03-24  514  		 * each file_region and leave the reference held by caller
+d85aecf2844ff02 Miaohe Lin    2021-03-24  515  		 * untouched.
+d85aecf2844ff02 Miaohe Lin    2021-03-24  516  		 */
+d85aecf2844ff02 Miaohe Lin    2021-03-24  517  		css_get(&h_cg->css);
+075a61d07a8eca2 Mina Almasry  2020-04-01  518  		if (!resv->pages_per_hpage)
+075a61d07a8eca2 Mina Almasry  2020-04-01  519  			resv->pages_per_hpage = pages_per_huge_page(h);
+075a61d07a8eca2 Mina Almasry  2020-04-01  520  		/* pages_per_hpage should be the same for all entries in
+075a61d07a8eca2 Mina Almasry  2020-04-01  521  		 * a resv_map.
+075a61d07a8eca2 Mina Almasry  2020-04-01  522  		 */
+075a61d07a8eca2 Mina Almasry  2020-04-01  523  		VM_BUG_ON(resv->pages_per_hpage != pages_per_huge_page(h));
+075a61d07a8eca2 Mina Almasry  2020-04-01  524  	} else {
+075a61d07a8eca2 Mina Almasry  2020-04-01  525  		nrg->reservation_counter = NULL;
+075a61d07a8eca2 Mina Almasry  2020-04-01  526  		nrg->css = NULL;
+075a61d07a8eca2 Mina Almasry  2020-04-01  527  	}
+075a61d07a8eca2 Mina Almasry  2020-04-01  528  #endif
+075a61d07a8eca2 Mina Almasry  2020-04-01  529  }
+075a61d07a8eca2 Mina Almasry  2020-04-01  530  
+d85aecf2844ff02 Miaohe Lin    2021-03-24  531  static void put_uncharge_info(struct file_region *rg)
+d85aecf2844ff02 Miaohe Lin    2021-03-24  532  {
+d85aecf2844ff02 Miaohe Lin    2021-03-24  533  #ifdef CONFIG_CGROUP_HUGETLB
+d85aecf2844ff02 Miaohe Lin    2021-03-24  534  	if (rg->css)
+d85aecf2844ff02 Miaohe Lin    2021-03-24  535  		css_put(rg->css);
+d85aecf2844ff02 Miaohe Lin    2021-03-24  536  #endif
+d85aecf2844ff02 Miaohe Lin    2021-03-24  537  }
+d85aecf2844ff02 Miaohe Lin    2021-03-24  538  
+a9b3f867404b35b Mina Almasry  2020-04-01  539  static bool has_same_uncharge_info(struct file_region *rg,
+a9b3f867404b35b Mina Almasry  2020-04-01  540  				   struct file_region *org)
+a9b3f867404b35b Mina Almasry  2020-04-01  541  {
+a9b3f867404b35b Mina Almasry  2020-04-01  542  #ifdef CONFIG_CGROUP_HUGETLB
+0739eb437f3d397 Baolin Wang   2021-11-05  543  	return rg->reservation_counter == org->reservation_counter &&
+a9b3f867404b35b Mina Almasry  2020-04-01  544  	       rg->css == org->css;
+a9b3f867404b35b Mina Almasry  2020-04-01  545  
+a9b3f867404b35b Mina Almasry  2020-04-01  546  #else
+a9b3f867404b35b Mina Almasry  2020-04-01  547  	return true;
+a9b3f867404b35b Mina Almasry  2020-04-01  548  #endif
+a9b3f867404b35b Mina Almasry  2020-04-01  549  }
+a9b3f867404b35b Mina Almasry  2020-04-01  550  
+a9b3f867404b35b Mina Almasry  2020-04-01  551  static void coalesce_file_region(struct resv_map *resv, struct file_region *rg)
+a9b3f867404b35b Mina Almasry  2020-04-01  552  {
+3259914f8cab1ba XU pengfei    2022-09-14  553  	struct file_region *nrg, *prg;
+a9b3f867404b35b Mina Almasry  2020-04-01  554  
+a9b3f867404b35b Mina Almasry  2020-04-01  555  	prg = list_prev_entry(rg, link);
+a9b3f867404b35b Mina Almasry  2020-04-01  556  	if (&prg->link != &resv->regions && prg->to == rg->from &&
+a9b3f867404b35b Mina Almasry  2020-04-01  557  	    has_same_uncharge_info(prg, rg)) {
+a9b3f867404b35b Mina Almasry  2020-04-01  558  		prg->to = rg->to;
+a9b3f867404b35b Mina Almasry  2020-04-01  559  
+a9b3f867404b35b Mina Almasry  2020-04-01  560  		list_del(&rg->link);
+d85aecf2844ff02 Miaohe Lin    2021-03-24  561  		put_uncharge_info(rg);
+a9b3f867404b35b Mina Almasry  2020-04-01  562  		kfree(rg);
+a9b3f867404b35b Mina Almasry  2020-04-01  563  
+7db5e7b67e3e8d7 Wei Yang      2020-10-13  564  		rg = prg;
+a9b3f867404b35b Mina Almasry  2020-04-01  565  	}
+a9b3f867404b35b Mina Almasry  2020-04-01  566  
+a9b3f867404b35b Mina Almasry  2020-04-01  567  	nrg = list_next_entry(rg, link);
+a9b3f867404b35b Mina Almasry  2020-04-01  568  	if (&nrg->link != &resv->regions && nrg->from == rg->to &&
+a9b3f867404b35b Mina Almasry  2020-04-01  569  	    has_same_uncharge_info(nrg, rg)) {
+a9b3f867404b35b Mina Almasry  2020-04-01  570  		nrg->from = rg->from;
+a9b3f867404b35b Mina Almasry  2020-04-01  571  
+a9b3f867404b35b Mina Almasry  2020-04-01  572  		list_del(&rg->link);
+d85aecf2844ff02 Miaohe Lin    2021-03-24  573  		put_uncharge_info(rg);
+a9b3f867404b35b Mina Almasry  2020-04-01  574  		kfree(rg);
+a9b3f867404b35b Mina Almasry  2020-04-01  575  	}
+a9b3f867404b35b Mina Almasry  2020-04-01  576  }
+a9b3f867404b35b Mina Almasry  2020-04-01  577  
+2103cf9c3f3ba00 Peter Xu      2021-03-12  578  static inline long
+84448c8ecd9a130 Jakob Koschel 2022-04-28  579  hugetlb_resv_map_add(struct resv_map *map, struct list_head *rg, long from,
+2103cf9c3f3ba00 Peter Xu      2021-03-12  580  		     long to, struct hstate *h, struct hugetlb_cgroup *cg,
+2103cf9c3f3ba00 Peter Xu      2021-03-12  581  		     long *regions_needed)
+2103cf9c3f3ba00 Peter Xu      2021-03-12  582  {
+2103cf9c3f3ba00 Peter Xu      2021-03-12  583  	struct file_region *nrg;
+2103cf9c3f3ba00 Peter Xu      2021-03-12  584  
+2103cf9c3f3ba00 Peter Xu      2021-03-12  585  	if (!regions_needed) {
+2103cf9c3f3ba00 Peter Xu      2021-03-12  586  		nrg = get_file_region_entry_from_cache(map, from, to);
+2103cf9c3f3ba00 Peter Xu      2021-03-12 @587  		record_hugetlb_cgroup_uncharge_info(cg, h, map, nrg);
+84448c8ecd9a130 Jakob Koschel 2022-04-28  588  		list_add(&nrg->link, rg);
+2103cf9c3f3ba00 Peter Xu      2021-03-12  589  		coalesce_file_region(map, nrg);
+2103cf9c3f3ba00 Peter Xu      2021-03-12  590  	} else
+2103cf9c3f3ba00 Peter Xu      2021-03-12  591  		*regions_needed += 1;
+2103cf9c3f3ba00 Peter Xu      2021-03-12  592  
+2103cf9c3f3ba00 Peter Xu      2021-03-12  593  	return to - from;
+2103cf9c3f3ba00 Peter Xu      2021-03-12  594  }
+2103cf9c3f3ba00 Peter Xu      2021-03-12  595  
 
 -- 
 0-DAY CI Kernel Test Service
