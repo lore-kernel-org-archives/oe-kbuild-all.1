@@ -1,162 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A427B29AB05
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81671E7C2E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766424294; cv=none; b=tAKrxd6tDBUPJGwXqhsbuZlL93dEqBlgSwPU7lqCQmWJBn5BjVKpSQd+tlDP40jj0LTMtiGFbZ4mp+/JcL+Bu0w6/Q+nDChQqo8Yeck60OV29NH9X8JXhPfWQSmMRAkEgF+A0CGBUQ+oV85Vn8f1Evd/DPcUJ43wkIgFFpzWN7E=
+	t=1766424626; cv=none; b=Qg7Kn5qFvZx5utlMhKifKTUHK3EihiOKVtgfmunWDgpoKDqSPoZuuJkOyirag+NIElteRS0tBoAiZHqVJvMtpJts4jIn0XFWQ1njFHYQa60aFZSGQRKdsy+lLHrTf7J1bQ4P2h7WEUbQy4yisgYEEueD6oQqr7iKzSWbwnKSa6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766424294; c=relaxed/simple;
-	bh=MCKSWfOvavrYFvYfqIbXjHAbqKmqWfPUGaaemTTVLWA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=S/CLfM6Obv/ip4kDT1AcVEqjolIaZMON+AIn+pZgaOQslBrk0TPvNBBifRd5BmTlWSEc0nepRBwjopUW3I5h/K6ClLfGjB6RZNgLZ5Pbv4RgDR66+QmbksDSUsi6msmWMqRNv7Y2XDKoA1VYGUkInsfzg7jCEso805y8bCJBsVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KInYqvF5; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1766424626; c=relaxed/simple;
+	bh=+XWq99uUTmTdvUsvsTb32D8N3doBKKUrmz0SW3Bbk8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fIVt3ijJMW7xJkCfUa63bLrtW+zi1hkuemenLRKw9hGv6NoDnUjbvDnVJclNNDItXLy4G4kzr633cGf387A+rx3Ta6XHhz+Qi5UpFR8eyfY+TKqwWqUMuPmeGVh7brJ92/mcq3GT9+89p2NBoPpymKMLbk+Q9uvZ+DCjV3Qn3NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJ5XS8cg; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KInYqvF5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJ5XS8cg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766424292; x=1797960292;
-  h=date:from:to:cc:subject:message-id;
-  bh=MCKSWfOvavrYFvYfqIbXjHAbqKmqWfPUGaaemTTVLWA=;
-  b=KInYqvF5cx/+fzr2pgU5QgnjrY/pwnZzPGWhsdqWxTP4UDf2AClIgUQa
-   qZ3MGNFyB9BK6cFqfBh8SgFkaToen0Z3TQ9Z/XQjo8kFyrh1Zh3zHEk6D
-   1zNeT78/xrJWUezWVIkWwBzmPPAAJKfKNjnSX9Qwa2h6c7K4ajy+cNFr7
-   GvT/+1uMyU3C8/UL6Z94tyx93qcvybJ+kgpY8N4jLIfPuoRi1KRq1ybrh
-   QVGDoKsM/jg3uDpFF0wECxvSQfWjlbHV4iPyPLHnDLVq0hU6tEZ02Mfw4
-   mvxlakCxy7FyoqXtefM07sL7cVfFgy/DQd1EdQSdjt7m6dcx6m0ZYByPd
-   w==;
-X-CSE-ConnectionGUID: k/+RVvd4Tu6YG7ABjzHd4A==
-X-CSE-MsgGUID: 9Wz+IgynRKa0Yptn4TmEDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68324759"
+  t=1766424624; x=1797960624;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+XWq99uUTmTdvUsvsTb32D8N3doBKKUrmz0SW3Bbk8g=;
+  b=fJ5XS8cgkz9iUbTmeiGI5qrWoM1qxUYEMh4AKw3aDAXpo6Szjh+PLTWY
+   WyEtvwYL/1DNMQqOLZBxSAgZ5yJ34U0hc+OAsT/C9mFzfjQGK+ETgeXfp
+   2QR2krrrvSUMYTFbsU2NF4k26YeWXBTDzv5BNmEw3gIZ3QnMZq80gA3vc
+   x0A2bCsFfPj9PfdM9pN7RwBvf2YD9CIJ0OGMUJrVwjoPXFYXFYKOdz1dG
+   WlP5s0SMHOoftf3OXD/wVvg0xeAjycBN1KgpuH2baHs2rQr0qLcqKU7mi
+   Hg0coWzde7OZqpzvdMim5ewj1Fc3vMEl60SJu62kDePuBZnI6k9B+xqH4
+   g==;
+X-CSE-ConnectionGUID: hnVlLN++TpaOs5uoUB5WeA==
+X-CSE-MsgGUID: 0HUbIyyJSGS3hC2LlmZC7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="70858470"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="68324759"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:24:50 -0800
-X-CSE-ConnectionGUID: qjbveXNtTdCGpb/SKtfteA==
-X-CSE-MsgGUID: Obrrhzq8TwelPx9jrMnF1A==
+   d="scan'208";a="70858470"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:30:24 -0800
+X-CSE-ConnectionGUID: 1itHutb2RVyIinTdT+7oqw==
+X-CSE-MsgGUID: mLx52Z19S4qVQmvwV6XkAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="199341829"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 22 Dec 2025 09:24:48 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="199562279"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 22 Dec 2025 09:30:22 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXjeI-000000000vX-0kyW;
-	Mon, 22 Dec 2025 17:24:46 +0000
-Date: Tue, 23 Dec 2025 01:23:56 +0800
+	id 1vXjjg-000000005ZE-2sEK;
+	Mon, 22 Dec 2025 17:30:20 +0000
+Date: Mon, 22 Dec 2025 18:29:27 +0100
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: alexs@kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.19-netnext-rss 13/25]
- include/linux/pcs/pcs.h:90:1: warning: 'fwnode_phylink_pcs_get_from_fwnode'
- defined but not used
-Message-ID: <202512230130.94MwkRl8-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: [alexshi:ptdesc1215 1/1] ./arch/riscv/include/asm/pgalloc.h:29:54:
+ error: passing argument 1 of 'lowmem_page_address' from incompatible pointer
+ type
+Message-ID: <202512221858.8l7ANfJZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-netnext-rss
-head:   2f037797178ec9f630e7f6bd06d51e4045963b0b
-commit: b6f8889bc1af697fdda06f6aee505a2b96e1da55 [13/25] net: phylink: support late PCS provider attach
-config: sparc-randconfig-r073-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230130.94MwkRl8-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230130.94MwkRl8-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git ptdesc1215
+head:   f6b3ada105829eaafc93899aabaee60344844f57
+commit: f6b3ada105829eaafc93899aabaee60344844f57 [1/1] mm/pgtable: convert pgtable_t to ptdesc pointer
+config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251222/202512221858.8l7ANfJZ-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221858.8l7ANfJZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230130.94MwkRl8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221858.8l7ANfJZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:25:
->> include/linux/pcs/pcs.h:90:1: warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used [-Wunused-function]
-      90 | fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/pcs/pcs.h:78:12: warning: 'register_fwnode_pcs_notifier' defined but not used [-Wunused-function]
-      78 | static int register_fwnode_pcs_notifier(struct notifier_block *nb)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from ./arch/riscv/include/asm/page.h:12,
+                    from ./arch/riscv/include/asm/thread_info.h:11,
+                    from ./include/linux/thread_info.h:60,
+                    from ./include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from ./include/linux/preempt.h:79,
+                    from ./include/linux/spinlock.h:56,
+                    from ./include/linux/mmzone.h:8,
+                    from ./include/linux/gfp.h:7,
+                    from ./include/linux/slab.h:16,
+                    from kernel/fork.c:16:
+   ./arch/riscv/include/asm/pgalloc.h: In function 'pmd_populate':
+>> ./arch/riscv/include/asm/pgalloc.h:29:54: error: passing argument 1 of 'lowmem_page_address' from incompatible pointer type [-Wincompatible-pointer-types]
+      29 |         unsigned long pfn = virt_to_pfn(page_address(pte));
+         |                                                      ^~~
+         |                                                      |
+         |                                                      pgtable_t {aka struct ptdesc *}
+   ./include/linux/pfn.h:11:27: note: in definition of macro 'PFN_DOWN'
+      11 | #define PFN_DOWN(x)     ((x) >> PAGE_SHIFT)
+         |                           ^
+   ./arch/riscv/include/asm/page.h:187:34: note: in expansion of macro 'phys_to_pfn'
+     187 | #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
+         |                                  ^~~~~~~~~~~
+   ./arch/riscv/include/asm/page.h:176:33: note: in expansion of macro '__va_to_pa_nodebug'
+     176 | #define __virt_to_phys(x)       __va_to_pa_nodebug(x)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   ./arch/riscv/include/asm/page.h:181:25: note: in expansion of macro '__virt_to_phys'
+     181 | #define __pa(x)         __virt_to_phys((unsigned long)(x))
+         |                         ^~~~~~~~~~~~~~
+   ./arch/riscv/include/asm/page.h:187:46: note: in expansion of macro '__pa'
+     187 | #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
+         |                                              ^~~~
+   ./arch/riscv/include/asm/pgalloc.h:29:29: note: in expansion of macro 'virt_to_pfn'
+      29 |         unsigned long pfn = virt_to_pfn(page_address(pte));
+         |                             ^~~~~~~~~~~
+   ./arch/riscv/include/asm/pgalloc.h:29:41: note: in expansion of macro 'page_address'
+      29 |         unsigned long pfn = virt_to_pfn(page_address(pte));
+         |                                         ^~~~~~~~~~~~
+   In file included from ./include/linux/pagemap.h:8,
+                    from ./include/linux/mempolicy.h:16,
+                    from kernel/fork.c:34:
+   ./include/linux/mm.h:2510:69: note: expected 'const struct page *' but argument is of type 'pgtable_t' {aka 'struct ptdesc *'}
+    2510 | static __always_inline void *lowmem_page_address(const struct page *page)
+         |                                                  ~~~~~~~~~~~~~~~~~~~^~~~
+   ./arch/riscv/include/asm/page.h:75:24: note: 'pgtable_t' declared here
+      75 | typedef struct ptdesc *pgtable_t;
+         |                        ^~~~~~~~~
+   In file included from ./include/linux/mmzone.h:22:
+   ./arch/riscv/include/asm/pgalloc.h: In function '__pte_free_tlb':
+   ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'struct ptdesc *' is not compatible with any association
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^
+   ./arch/riscv/include/asm/pgalloc.h:136:32: note: in expansion of macro 'page_ptdesc'
+     136 |         tlb_remove_ptdesc(tlb, page_ptdesc(pte));
+         |                                ^~~~~~~~~~~
 
 
-vim +/fwnode_phylink_pcs_get_from_fwnode +90 include/linux/pcs/pcs.h
+vim +/lowmem_page_address +29 ./arch/riscv/include/asm/pgalloc.h
 
-    24	
-    25	/**
-    26	 * fwnode_pcs_get - Retrieves a PCS from a firmware node
-    27	 * @fwnode: firmware node
-    28	 * @index: index fwnode PCS handle in firmware node
-    29	 *
-    30	 * Get a PCS from the firmware node at index.
-    31	 *
-    32	 * Returns a pointer to the phylink_pcs or a negative
-    33	 * error pointer. Can return -EPROBE_DEFER if the PCS is not
-    34	 * present in global providers list (either due to driver
-    35	 * still needs to be probed or it failed to probe/removed)
-    36	 */
-    37	struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
-    38					   int index);
-    39	
-    40	/**
-    41	 * fwnode_phylink_pcs_get_from_fwnode - Retrieves the PCS provided
-    42	 *					by the firmware node from a
-    43	 *					firmware node
-    44	 * @fwnode: firmware node
-    45	 * @pcs_fwnode: PCS firmware node
-    46	 *
-    47	 * Parse 'pcs-handle' in 'fwnode' and get the PCS that match
-    48	 * 'pcs_fwnode' firmware node.
-    49	 *
-    50	 * Returns a pointer to the phylink_pcs or a negative
-    51	 * error pointer. Can return -EPROBE_DEFER if the PCS is not
-    52	 * present in global providers list (either due to driver
-    53	 * still needs to be probed or it failed to probe/removed)
-    54	 */
-    55	struct phylink_pcs *
-    56	fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
-    57					   struct fwnode_handle *pcs_fwnode);
-    58	
-    59	/**
-    60	 * fwnode_phylink_pcs_parse - generic PCS parse for fwnode PCS provider
-    61	 * @fwnode: firmware node
-    62	 * @available_pcs: pointer to preallocated array of PCS
-    63	 * @num_pcs: where to store count of parsed PCS
-    64	 *
-    65	 * Generic helper function to fill available_pcs array with PCS parsed
-    66	 * from a "pcs-handle" fwnode property defined in firmware node up to
-    67	 * passed num_pcs.
-    68	 *
-    69	 * If available_pcs is NULL, num_pcs is updated with the count of the
-    70	 * parsed PCS.
-    71	 *
-    72	 * Returns 0 or a negative error.
-    73	 */
-    74	int fwnode_phylink_pcs_parse(struct fwnode_handle *fwnode,
-    75				     struct phylink_pcs **available_pcs,
-    76				     unsigned int *num_pcs);
-    77	#else
-  > 78	static int register_fwnode_pcs_notifier(struct notifier_block *nb)
-    79	{
-    80		return -EOPNOTSUPP;
-    81	}
-    82	
-    83	static inline struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
-    84							 int index)
-    85	{
-    86		return ERR_PTR(-ENOENT);
-    87	}
-    88	
-    89	static struct phylink_pcs *
-  > 90	fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
-    91					   struct fwnode_handle *pcs_fwnode)
-    92	{
-    93		return ERR_PTR(-ENOENT);
-    94	}
-    95	
+07037db5d479f9 Palmer Dabbelt 2017-07-10  25  
+07037db5d479f9 Palmer Dabbelt 2017-07-10  26  static inline void pmd_populate(struct mm_struct *mm,
+07037db5d479f9 Palmer Dabbelt 2017-07-10  27  	pmd_t *pmd, pgtable_t pte)
+07037db5d479f9 Palmer Dabbelt 2017-07-10  28  {
+07037db5d479f9 Palmer Dabbelt 2017-07-10 @29  	unsigned long pfn = virt_to_pfn(page_address(pte));
+07037db5d479f9 Palmer Dabbelt 2017-07-10  30  
+07037db5d479f9 Palmer Dabbelt 2017-07-10  31  	set_pmd(pmd, __pmd((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
+07037db5d479f9 Palmer Dabbelt 2017-07-10  32  }
+07037db5d479f9 Palmer Dabbelt 2017-07-10  33  
+
+:::::: The code at line 29 was first introduced by commit
+:::::: 07037db5d479f90377c998259a4f9a469c404edf RISC-V: Paging and MMU
+
+:::::: TO: Palmer Dabbelt <palmer@dabbelt.com>
+:::::: CC: Palmer Dabbelt <palmer@dabbelt.com>
 
 -- 
 0-DAY CI Kernel Test Service
