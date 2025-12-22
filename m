@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C163328F1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 18:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7593332EB3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 18:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766426852; cv=none; b=Rw9qaV6aw030M/IJZn92A2tp39EU6A67WU1p7GlPHcXxzvvNB9AT4IFzZmsds8yvaSO7sv2eHvApvGYDJDwtvvrfbTLxXRcvOqJQ8ZHE5fwr+x7Ah42gMi9wnFOvBawyo0wiZTgr9qlYud8QJ29bBa4Kq8HGzVzZUifTbxLA190=
+	t=1766426853; cv=none; b=SOUcj9PzE9ejb1tZ3aAhZF4pKGBRINftYPSMtyeEXsbmRWAaar5sQX3l4ec1Hy4YrhGs5TxdRtiJunb8CrbOcaVC1cVyhmDUSiqGhfxllbjUIlfT65LEk0F3HXnIJoM9Vb9Fr1sPnXO33vGDD4kz6pfar+TziYU1bWT6T0gdspk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766426852; c=relaxed/simple;
-	bh=Tad8xJomDjr9PzEesm/2YjnYnTB/6EmDoZ5Vc12UDP4=;
+	s=arc-20240116; t=1766426853; c=relaxed/simple;
+	bh=pz07FSO+xOatVH/lpEhVhWdyc62EAch9ckpWnY20ahY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tFE8uItc8dLriu/WmKN/LyjA2VlW5P5Q7X/Csl3A+mgc50KODsNXk8j0oVeTQGLv58pi+RzqUYrLKabI4ayyaQWYFMd2/kEdijL+akvfMQeqV6RresZzu0XltVN7ZvXthYmC92m1Ggfj76/GO2bdSmuSuiCIvZGl4WaMlqvmwqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLalgujU; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cit1W+n1OulA7iDgQ42IkmBzdTFhISR43buz2LoJV2X3INJtVd7pXbGxMUlXeaC0amNTHUZX8jU4z++InQVKV4sFgEgk2gykdsPWl0OIdN1Gwv2MAunoVCK74jJqI5XN+/ZcYNFxCh5iirNzqmWvEWT2fRETffJVUvL085VMX/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TgzwDxvO; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLalgujU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TgzwDxvO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1766426851; x=1797962851;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Tad8xJomDjr9PzEesm/2YjnYnTB/6EmDoZ5Vc12UDP4=;
-  b=eLalgujUmcZxrH+OiTyjL30ueeSuv2++AjJ5Bsf/fnuPEHZZh5CDTjG2
-   hf/llF1ZRizY9SkubOWfL0m7EwVHhN/PyfFVY5nnWXjT0lWGKGiXhe3yo
-   vPiAWASYQDLhd8o4lW+uXiHammztWB76c+f0ZQfVTP3syHTYHukK3D/Bz
-   pVGx12JLCon1/GXIx/Kb9wR7u9ltuObPl0vJ8yBV1eJDR+JSMzyWEeXT0
-   iMLj/VGSWpsvUdobBVtdLEQ4K9DKDjDJtt2FLsXW939SyBlJRx1VvOqXa
-   zyW9DCY6IvKtzWjhWVAeCpiqN1egXcZZ8fSbcsP97w6mXYmBo9eqsih3g
-   A==;
-X-CSE-ConnectionGUID: JeKuE/4+TUewj/YBI2xLWA==
-X-CSE-MsgGUID: nOEdg9lvR9WiHr7IN2WSWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79738455"
+  bh=pz07FSO+xOatVH/lpEhVhWdyc62EAch9ckpWnY20ahY=;
+  b=TgzwDxvOpS97AcxqCgwWP3wEQE40gURzJQwwTNVlWkYcoAPDbR00pq+g
+   Nen5Tuzjsy9iP3ZXs6D+AUTjjKvUrNy812O1ybgOQw139JRdMM6V/5bP9
+   PHRvewnPZO7WKnqKVC5tk3e0DH2ciA1dhpNN1TL+h2dZ3y7v3YsoBuD5U
+   TIshcfPBmOAnJmNXw+10QCTjUr2GX3tYmIhg9art7ttFUFS8AAuxL6Tsm
+   Q+OnEI/8FXMyDQVyHVuYAR2G6lCFCbgEhmZ4SS71lWcClUZpToS1J/7ik
+   vaf3zIQVuHiD9IMDhEa9E86dOb2XbSYh0jDXzsncaojzgjGSAAzKlIH86
+   Q==;
+X-CSE-ConnectionGUID: 1QJB12y4R+mSm+ItjfE3Ig==
+X-CSE-MsgGUID: wU04UubsQ9+1DRjb6xcvtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79401676"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="79738455"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 10:07:30 -0800
-X-CSE-ConnectionGUID: +K4DxN1TTe6UKd3K7oRbqw==
-X-CSE-MsgGUID: RMyYK3frQay9Dy25TbH2tw==
+   d="scan'208";a="79401676"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 10:07:30 -0800
+X-CSE-ConnectionGUID: ul4byNHcR4u3728hwhd0cw==
+X-CSE-MsgGUID: wu6eGePhSbqZyPxxnTn9hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="199494213"
+   d="scan'208";a="198822935"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Dec 2025 10:07:28 -0800
+  by orviesa010.jf.intel.com with ESMTP; 22 Dec 2025 10:07:29 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXkJa-000000000xd-1EwS;
+	id 1vXkJa-000000000xf-1LsF;
 	Mon, 22 Dec 2025 18:07:26 +0000
-Date: Tue, 23 Dec 2025 02:07:07 +0800
+Date: Tue, 23 Dec 2025 02:06:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
+To: Chuck Lever <cel@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4] mm, hugetlb: implement movable_gigantic_pages sysctl
-Message-ID: <202512230203.paEsVKn0-lkp@intel.com>
-References: <20251218151211.1237411-1-gourry@gourry.net>
+Subject: Re: [RFC PATCH 2/2] NFSD: Add asynchronous write throttling support
+Message-ID: <202512230126.gowu7NIP-lkp@intel.com>
+References: <20251219141105.1247093-3-cel@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,243 +62,201 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251218151211.1237411-1-gourry@gourry.net>
+In-Reply-To: <20251219141105.1247093-3-cel@kernel.org>
 
-Hi Gregory,
+Hi Chuck,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.19-rc2 next-20251219]
+[cannot apply to hch-configfs/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-hugetlb-implement-movable_gigantic_pages-sysctl/20251218-231524
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251218151211.1237411-1-gourry%40gourry.net
-patch subject: [PATCH v4] mm, hugetlb: implement movable_gigantic_pages sysctl
-config: x86_64-randconfig-101-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230203.paEsVKn0-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230203.paEsVKn0-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chuck-Lever/NFSD-Add-aggressive-write-throttling-control/20251219-221859
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20251219141105.1247093-3-cel%40kernel.org
+patch subject: [RFC PATCH 2/2] NFSD: Add asynchronous write throttling support
+config: parisc-randconfig-001-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230126.gowu7NIP-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230126.gowu7NIP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230203.paEsVKn0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230126.gowu7NIP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-         |         mem_cgroup_uncharge_folios
-   mm/hugetlb.c: At top level:
-   mm/hugetlb.c:1842:6: warning: no previous prototype for 'init_new_hugetlb_folio' [-Wmissing-prototypes]
-    1842 | void init_new_hugetlb_folio(struct folio *folio)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c: In function 'init_new_hugetlb_folio':
-   mm/hugetlb.c:1847:9: error: implicit declaration of function 'set_hugetlb_cgroup' [-Wimplicit-function-declaration]
-    1847 |         set_hugetlb_cgroup(folio, NULL);
-         |         ^~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c:1848:9: error: implicit declaration of function 'set_hugetlb_cgroup_rsvd' [-Wimplicit-function-declaration]
-    1848 |         set_hugetlb_cgroup_rsvd(folio, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c: At top level:
-   mm/hugetlb.c:1954:6: warning: no previous prototype for 'prep_and_add_allocated_folios' [-Wmissing-prototypes]
-    1954 | void prep_and_add_allocated_folios(struct hstate *h,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c: In function 'alloc_pool_huge_folio':
-   mm/hugetlb.c:1984:9: error: implicit declaration of function 'for_each_node_mask_to_alloc'; did you mean 'for_each_node_mask'? [-Wimplicit-function-declaration]
-    1984 |         for_each_node_mask_to_alloc(next_node, nr_nodes, node, nodes_allowed) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         for_each_node_mask
-   mm/hugetlb.c:1984:78: error: expected ';' before '{' token
-    1984 |         for_each_node_mask_to_alloc(next_node, nr_nodes, node, nodes_allowed) {
-         |                                                                              ^~
-         |                                                                              ;
-   mm/hugetlb.c:1981:15: warning: unused variable 'gfp_mask' [-Wunused-variable]
-    1981 |         gfp_t gfp_mask = htlb_alloc_mask(h) | __GFP_THISNODE;
-         |               ^~~~~~~~
-   mm/hugetlb.c:1994:1: warning: no return statement in function returning non-void [-Wreturn-type]
-    1994 | }
-         | ^
-   mm/hugetlb.c: In function 'remove_pool_hugetlb_folio':
-   mm/hugetlb.c:2010:9: error: implicit declaration of function 'for_each_node_mask_to_free'; did you mean 'for_each_node_mask'? [-Wimplicit-function-declaration]
-    2010 |         for_each_node_mask_to_free(h, nr_nodes, node, nodes_allowed) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         for_each_node_mask
-   mm/hugetlb.c:2010:69: error: expected ';' before '{' token
-    2010 |         for_each_node_mask_to_free(h, nr_nodes, node, nodes_allowed) {
-         |                                                                     ^~
-         |                                                                     ;
-   mm/hugetlb.c:2007:23: warning: unused variable 'folio' [-Wunused-variable]
-    2007 |         struct folio *folio = NULL;
-         |                       ^~~~~
-   mm/hugetlb.c:2025:1: warning: no return statement in function returning non-void [-Wreturn-type]
-    2025 | }
-         | ^
-   mm/hugetlb.c: In function 'alloc_hugetlb_folio':
-   mm/hugetlb.c:2953:23: error: implicit declaration of function 'hugetlb_cgroup_charge_cgroup_rsvd' [-Wimplicit-function-declaration]
-    2953 |                 ret = hugetlb_cgroup_charge_cgroup_rsvd(
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c:2959:15: error: implicit declaration of function 'hugetlb_cgroup_charge_cgroup' [-Wimplicit-function-declaration]
-    2959 |         ret = hugetlb_cgroup_charge_cgroup(idx, pages_per_huge_page(h), &h_cg);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c:2990:9: error: implicit declaration of function 'hugetlb_cgroup_commit_charge' [-Wimplicit-function-declaration]
-    2990 |         hugetlb_cgroup_commit_charge(idx, pages_per_huge_page(h), h_cg, folio);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c:2995:17: error: implicit declaration of function 'hugetlb_cgroup_commit_charge_rsvd' [-Wimplicit-function-declaration]
-    2995 |                 hugetlb_cgroup_commit_charge_rsvd(idx, pages_per_huge_page(h),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c:3047:9: error: implicit declaration of function 'hugetlb_cgroup_uncharge_cgroup'; did you mean 'copy_hugetlb_cgroup_uncharge_info'? [-Wimplicit-function-declaration]
-    3047 |         hugetlb_cgroup_uncharge_cgroup(idx, pages_per_huge_page(h), h_cg);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         copy_hugetlb_cgroup_uncharge_info
-   mm/hugetlb.c:3050:17: error: implicit declaration of function 'hugetlb_cgroup_uncharge_cgroup_rsvd' [-Wimplicit-function-declaration]
-    3050 |                 hugetlb_cgroup_uncharge_cgroup_rsvd(idx, pages_per_huge_page(h),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c: In function '__alloc_bootmem_huge_page':
-   mm/hugetlb.c:3136:60: error: expected ';' before '{' token
-    3136 |                                     &hugetlb_bootmem_nodes) {
-         |                                                            ^~
-         |                                                            ;
-   mm/hugetlb.c:3131:17: error: label 'found' used but not defined
-    3131 |                 goto found;
-         |                 ^~~~
-   mm/hugetlb.c: In function 'adjust_pool_surplus':
-   mm/hugetlb.c:3742:98: error: expected ';' before '{' token
-    3742 |                 for_each_node_mask_to_alloc(&h->next_nid_to_alloc, nr_nodes, node, nodes_allowed) {
-         |                                                                                                  ^~
-         |                                                                                                  ;
-   mm/hugetlb.c:3747:77: error: expected ';' before '{' token
-    3747 |                 for_each_node_mask_to_free(h, nr_nodes, node, nodes_allowed) {
-         |                                                                             ^~
-         |                                                                             ;
-   mm/hugetlb.c:3755:1: warning: label 'found' defined but not used [-Wunused-label]
-    3755 | found:
-         | ^~~~~
-   mm/hugetlb.c: At top level:
-   mm/hugetlb.c:4010:6: warning: no previous prototype for 'demote_pool_huge_page' [-Wmissing-prototypes]
-    4010 | long demote_pool_huge_page(struct hstate *src, nodemask_t *nodes_allowed,
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c: In function 'demote_pool_huge_page':
-   mm/hugetlb.c:4028:71: error: expected ';' before '{' token
-    4028 |         for_each_node_mask_to_free(src, nr_nodes, node, nodes_allowed) {
-         |                                                                       ^~
-         |                                                                       ;
-   mm/hugetlb.c: At top level:
-   mm/hugetlb.c:4079:9: warning: no previous prototype for '__nr_hugepages_store_common' [-Wmissing-prototypes]
-    4079 | ssize_t __nr_hugepages_store_common(bool obey_mempolicy,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c: In function 'hugetlb_init':
->> mm/hugetlb.c:4166:9: error: implicit declaration of function 'hugetlb_sysfs_init'; did you mean 'hugetlb_count_init'? [-Wimplicit-function-declaration]
-    4166 |         hugetlb_sysfs_init();
-         |         ^~~~~~~~~~~~~~~~~~
-         |         hugetlb_count_init
->> mm/hugetlb.c:4167:9: error: implicit declaration of function 'hugetlb_cgroup_file_init'; did you mean 'hugetlb_count_init'? [-Wimplicit-function-declaration]
-    4167 |         hugetlb_cgroup_file_init();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         hugetlb_count_init
->> mm/hugetlb.c:4168:9: error: implicit declaration of function 'hugetlb_sysctl_init'; did you mean 'hugetlb_count_init'? [-Wimplicit-function-declaration]
-    4168 |         hugetlb_sysctl_init();
-         |         ^~~~~~~~~~~~~~~~~~~
-         |         hugetlb_count_init
-   mm/hugetlb.c: In function 'hugetlb_vm_op_open':
->> mm/hugetlb.c:4687:17: error: implicit declaration of function 'resv_map_dup_hugetlb_cgroup_uncharge_info'; did you mean 'resv_map_set_hugetlb_cgroup_uncharge_info'? [-Wimplicit-function-declaration]
-    4687 |                 resv_map_dup_hugetlb_cgroup_uncharge_info(resv);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                 resv_map_set_hugetlb_cgroup_uncharge_info
-   mm/hugetlb.c: In function 'hugetlb_vm_op_close':
->> mm/hugetlb.c:4729:9: error: implicit declaration of function 'hugetlb_cgroup_uncharge_counter'; did you mean 'copy_hugetlb_cgroup_uncharge_info'? [-Wimplicit-function-declaration]
-    4729 |         hugetlb_cgroup_uncharge_counter(resv, start, end);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         copy_hugetlb_cgroup_uncharge_info
-   mm/hugetlb.c: In function 'hugetlb_reserve_pages':
->> mm/hugetlb.c:6616:69: error: passing argument 2 of 'resv_map_set_hugetlb_cgroup_uncharge_info' from incompatible pointer type [-Wincompatible-pointer-types]
-    6616 |                 resv_map_set_hugetlb_cgroup_uncharge_info(resv_map, h_cg, h);
-         |                                                                     ^~~~
-         |                                                                     |
-         |                                                                     struct hugetlb_cgroup *
-   mm/hugetlb.c:1097:66: note: expected 'struct hugetlb_cgroup *' but argument is of type 'struct hugetlb_cgroup *'
-    1097 |                                           struct hugetlb_cgroup *h_cg,
-         |                                           ~~~~~~~~~~~~~~~~~~~~~~~^~~~
->> mm/hugetlb.c:6650:73: error: passing argument 6 of 'region_add' from incompatible pointer type [-Wincompatible-pointer-types]
-    6650 |                 add = region_add(resv_map, from, to, regions_needed, h, h_cg);
-         |                                                                         ^~~~
-         |                                                                         |
-         |                                                                         struct hugetlb_cgroup *
-   mm/hugetlb.c:739:47: note: expected 'struct hugetlb_cgroup *' but argument is of type 'struct hugetlb_cgroup *'
-     739 |                        struct hugetlb_cgroup *h_cg)
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~^~~~
->> mm/hugetlb.c:6684:25: error: implicit declaration of function 'hugetlb_cgroup_put_rsvd_cgroup' [-Wimplicit-function-declaration]
-    6684 |                         hugetlb_cgroup_put_rsvd_cgroup(h_cg);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/hugetlb.c: In function 'move_hugetlb_state':
->> mm/hugetlb.c:7174:9: error: implicit declaration of function 'hugetlb_cgroup_migrate'; did you mean 'mem_cgroup_migrate'? [-Wimplicit-function-declaration]
-    7174 |         hugetlb_cgroup_migrate(old_folio, new_folio);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         mem_cgroup_migrate
-   mm/hugetlb.c: At top level:
-   mm/hugetlb.c:3951:13: warning: 'demote_free_hugetlb_folios' defined but not used [-Wunused-function]
-    3951 | static long demote_free_hugetlb_folios(struct hstate *src, struct hstate *dst,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/vfs.c: In function 'nfsd_vfs_write':
+>> fs/nfsd/vfs.c:1490:4: error: break statement not within loop or switch
+       break;
+       ^~~~~
 
 
-vim +4166 mm/hugetlb.c
+vim +1490 fs/nfsd/vfs.c
 
-06808b0827e1cd Lee Schermerhorn       2009-12-14  4111  
-a3437870160cf2 Nishanth Aravamudan    2008-07-23  4112  static int __init hugetlb_init(void)
-a3437870160cf2 Nishanth Aravamudan    2008-07-23  4113  {
-8382d914ebf720 Davidlohr Bueso        2014-04-03  4114  	int i;
-8382d914ebf720 Davidlohr Bueso        2014-04-03  4115  
-d6995da311221a Mike Kravetz           2021-02-24  4116  	BUILD_BUG_ON(sizeof_field(struct page, private) * BITS_PER_BYTE <
-d6995da311221a Mike Kravetz           2021-02-24  4117  			__NR_HPAGEFLAGS);
-7b4f21f5e0386d David Hildenbrand      2025-09-01  4118  	BUILD_BUG_ON_INVALID(HUGETLB_PAGE_ORDER > MAX_FOLIO_ORDER);
-d6995da311221a Mike Kravetz           2021-02-24  4119  
-c2833a5bf75b36 Mike Kravetz           2020-06-03  4120  	if (!hugepages_supported()) {
-c2833a5bf75b36 Mike Kravetz           2020-06-03  4121  		if (hugetlb_max_hstate || default_hstate_max_huge_pages)
-c2833a5bf75b36 Mike Kravetz           2020-06-03  4122  			pr_warn("HugeTLB: huge pages not supported, ignoring associated command-line parameters\n");
-0ef89d25d3e390 Benjamin Herrenschmidt 2008-07-31  4123  		return 0;
-d715cf804a0318 Liam R. Howlett        2017-07-10  4124  	}
-d715cf804a0318 Liam R. Howlett        2017-07-10  4125  
-282f4214384ee2 Mike Kravetz           2020-06-03  4126  	/*
-282f4214384ee2 Mike Kravetz           2020-06-03  4127  	 * Make sure HPAGE_SIZE (HUGETLB_PAGE_ORDER) hstate exists.  Some
-282f4214384ee2 Mike Kravetz           2020-06-03  4128  	 * architectures depend on setup being done here.
-282f4214384ee2 Mike Kravetz           2020-06-03  4129  	 */
-a3437870160cf2 Nishanth Aravamudan    2008-07-23  4130  	hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
-282f4214384ee2 Mike Kravetz           2020-06-03  4131  	if (!parsed_default_hugepagesz) {
-282f4214384ee2 Mike Kravetz           2020-06-03  4132  		/*
-282f4214384ee2 Mike Kravetz           2020-06-03  4133  		 * If we did not parse a default huge page size, set
-282f4214384ee2 Mike Kravetz           2020-06-03  4134  		 * default_hstate_idx to HPAGE_SIZE hstate. And, if the
-282f4214384ee2 Mike Kravetz           2020-06-03  4135  		 * number of huge pages for this default size was implicitly
-282f4214384ee2 Mike Kravetz           2020-06-03  4136  		 * specified, set that here as well.
-282f4214384ee2 Mike Kravetz           2020-06-03  4137  		 * Note that the implicit setting will overwrite an explicit
-282f4214384ee2 Mike Kravetz           2020-06-03  4138  		 * setting.  A warning will be printed in this case.
-282f4214384ee2 Mike Kravetz           2020-06-03  4139  		 */
-282f4214384ee2 Mike Kravetz           2020-06-03  4140  		default_hstate_idx = hstate_index(size_to_hstate(HPAGE_SIZE));
-f8b74815a452ff Vaishali Thakkar       2016-02-17  4141  		if (default_hstate_max_huge_pages) {
-282f4214384ee2 Mike Kravetz           2020-06-03  4142  			if (default_hstate.max_huge_pages) {
-282f4214384ee2 Mike Kravetz           2020-06-03  4143  				char buf[32];
-282f4214384ee2 Mike Kravetz           2020-06-03  4144  
-282f4214384ee2 Mike Kravetz           2020-06-03  4145  				string_get_size(huge_page_size(&default_hstate),
-282f4214384ee2 Mike Kravetz           2020-06-03  4146  					1, STRING_UNITS_2, buf, 32);
-282f4214384ee2 Mike Kravetz           2020-06-03  4147  				pr_warn("HugeTLB: Ignoring hugepages=%lu associated with %s page size\n",
-282f4214384ee2 Mike Kravetz           2020-06-03  4148  					default_hstate.max_huge_pages, buf);
-282f4214384ee2 Mike Kravetz           2020-06-03  4149  				pr_warn("HugeTLB: Using hugepages=%lu for number of default huge pages\n",
-282f4214384ee2 Mike Kravetz           2020-06-03  4150  					default_hstate_max_huge_pages);
-282f4214384ee2 Mike Kravetz           2020-06-03  4151  			}
-282f4214384ee2 Mike Kravetz           2020-06-03  4152  			default_hstate.max_huge_pages =
-282f4214384ee2 Mike Kravetz           2020-06-03  4153  				default_hstate_max_huge_pages;
-b5389086ad7be0 Zhenguo Yao            2021-11-05  4154  
-0a7a0f6f7f3679 Peng Liu               2022-04-29  4155  			for_each_online_node(i)
-b5389086ad7be0 Zhenguo Yao            2021-11-05  4156  				default_hstate.max_huge_pages_node[i] =
-b5389086ad7be0 Zhenguo Yao            2021-11-05  4157  					default_hugepages_in_node[i];
-282f4214384ee2 Mike Kravetz           2020-06-03  4158  		}
-f8b74815a452ff Vaishali Thakkar       2016-02-17  4159  	}
-a3437870160cf2 Nishanth Aravamudan    2008-07-23  4160  
-cf11e85fc08cc6 Roman Gushchin         2020-04-10  4161  	hugetlb_cma_check();
-a3437870160cf2 Nishanth Aravamudan    2008-07-23  4162  	hugetlb_init_hstates();
-aa888a74977a8f Andi Kleen             2008-07-23  4163  	gather_bootmem_prealloc();
-a3437870160cf2 Nishanth Aravamudan    2008-07-23  4164  	report_hugepages();
-a3437870160cf2 Nishanth Aravamudan    2008-07-23  4165  
-a3437870160cf2 Nishanth Aravamudan    2008-07-23 @4166  	hugetlb_sysfs_init();
-7179e7bf4592ac Jianguo Wu             2012-12-18 @4167  	hugetlb_cgroup_file_init();
-962de54828c5bb Kefeng Wang            2023-03-09 @4168  	hugetlb_sysctl_init();
-9a30523066cde7 Lee Schermerhorn       2009-12-14  4169  
+  1389	
+  1390	/**
+  1391	 * nfsd_vfs_write - write data to an already-open file
+  1392	 * @rqstp: RPC execution context
+  1393	 * @fhp: File handle of file to write into
+  1394	 * @nf: An open file matching @fhp
+  1395	 * @offset: Byte offset of start
+  1396	 * @payload: xdr_buf containing the write payload
+  1397	 * @cnt: IN: number of bytes to write, OUT: number of bytes actually written
+  1398	 * @stable: An NFS stable_how value
+  1399	 * @verf: NFS WRITE verifier
+  1400	 *
+  1401	 * Upon return, caller must invoke fh_put on @fhp.
+  1402	 *
+  1403	 * Return values:
+  1404	 *   An nfsstat value in network byte order.
+  1405	 */
+  1406	__be32
+  1407	nfsd_vfs_write(struct svc_rqst *rqstp, struct svc_fh *fhp,
+  1408		       struct nfsd_file *nf, loff_t offset,
+  1409		       const struct xdr_buf *payload, unsigned long *cnt,
+  1410		       int stable, __be32 *verf)
+  1411	{
+  1412		struct nfsd_net		*nn = net_generic(SVC_NET(rqstp), nfsd_net_id);
+  1413		struct file		*file = nf->nf_file;
+  1414		struct super_block	*sb = file_inode(file)->i_sb;
+  1415		struct kiocb		kiocb;
+  1416		struct svc_export	*exp;
+  1417		struct iov_iter		iter;
+  1418		errseq_t		since;
+  1419		__be32			nfserr;
+  1420		int			host_err;
+  1421		unsigned long		exp_op_flags = 0;
+  1422		unsigned int		pflags = current->flags;
+  1423		bool			restore_flags = false;
+  1424		unsigned int		nvecs;
+  1425		int			saved_nr_dirtied_pause = 0;
+  1426		bool			throttle_adjusted = false;
+  1427	
+  1428		trace_nfsd_write_opened(rqstp, fhp, offset, *cnt);
+  1429	
+  1430		if (sb->s_export_op)
+  1431			exp_op_flags = sb->s_export_op->flags;
+  1432	
+  1433		if (test_bit(RQ_LOCAL, &rqstp->rq_flags) &&
+  1434		    !(exp_op_flags & EXPORT_OP_REMOTE_FS)) {
+  1435			/*
+  1436			 * We want throttling in balance_dirty_pages()
+  1437			 * and shrink_inactive_list() to only consider
+  1438			 * the backingdev we are writing to, so that nfs to
+  1439			 * localhost doesn't cause nfsd to lock up due to all
+  1440			 * the client's dirty pages or its congested queue.
+  1441			 */
+  1442			current->flags |= PF_LOCAL_THROTTLE;
+  1443			restore_flags = true;
+  1444		}
+  1445	
+  1446		exp = fhp->fh_export;
+  1447	
+  1448		/*
+  1449		 * If aggressive write throttling is enabled, reduce the per-task
+  1450		 * dirty page limit to throttle NFSD writes more aggressively.
+  1451		 * This helps prevent memory exhaustion when fast network clients
+  1452		 * overwhelm slow storage.
+  1453		 */
+  1454		if (nfsd_aggressive_write_throttle) {
+  1455			saved_nr_dirtied_pause = current->nr_dirtied_pause;
+  1456			current->nr_dirtied_pause = NFSD_AGGRESSIVE_DIRTY_LIMIT;
+  1457			throttle_adjusted = true;
+  1458		}
+  1459	
+  1460		if (!EX_ISSYNC(exp))
+  1461			stable = NFS_UNSTABLE;
+  1462		init_sync_kiocb(&kiocb, file);
+  1463		kiocb.ki_pos = offset;
+  1464		if (likely(!fhp->fh_use_wgather)) {
+  1465			switch (stable) {
+  1466			case NFS_FILE_SYNC:
+  1467				/* persist data and timestamps */
+  1468				kiocb.ki_flags |= IOCB_DSYNC | IOCB_SYNC;
+  1469				break;
+  1470			case NFS_DATA_SYNC:
+  1471				/* persist data only */
+  1472				kiocb.ki_flags |= IOCB_DSYNC;
+  1473				break;
+  1474			}
+  1475		}
+  1476	
+  1477		/*
+  1478		 * If async throttling is enabled, check memory pressure
+  1479		 * before attempting buffered writes. Return -EAGAIN if
+  1480		 * the system is low on memory, allowing NFSD to return
+  1481		 * an NFS error code asking the client to retry later.
+  1482		 *
+  1483		 * Skip this for NFSv2 since it lacks NFSERR_JUKEBOX.
+  1484		 */
+  1485		if (nfsd_async_write_throttle && rqstp->rq_vers >= 3) {
+  1486			host_err =
+  1487				balance_dirty_pages_ratelimited_flags(file->f_mapping,
+  1488								      BDP_ASYNC);
+  1489			if (host_err == -EAGAIN)
+> 1490				break;
+  1491		}
+  1492	
+  1493		nvecs = xdr_buf_to_bvec(rqstp->rq_bvec, rqstp->rq_maxpages, payload);
+  1494	
+  1495		since = READ_ONCE(file->f_wb_err);
+  1496		if (verf)
+  1497			nfsd_copy_write_verifier(verf, nn);
+  1498	
+  1499		switch (nfsd_io_cache_write) {
+  1500		case NFSD_IO_DIRECT:
+  1501			host_err = nfsd_direct_write(rqstp, fhp, nf, nvecs,
+  1502						     cnt, &kiocb);
+  1503			break;
+  1504		case NFSD_IO_DONTCACHE:
+  1505			if (file->f_op->fop_flags & FOP_DONTCACHE)
+  1506				kiocb.ki_flags |= IOCB_DONTCACHE;
+  1507			fallthrough;
+  1508		case NFSD_IO_BUFFERED:
+  1509			iov_iter_bvec(&iter, ITER_SOURCE, rqstp->rq_bvec, nvecs, *cnt);
+  1510			host_err = vfs_iocb_iter_write(file, &kiocb, &iter);
+  1511			if (host_err < 0)
+  1512				break;
+  1513			*cnt = host_err;
+  1514			break;
+  1515		}
+  1516		if (host_err < 0) {
+  1517			commit_reset_write_verifier(nn, rqstp, host_err);
+  1518			goto out_nfserr;
+  1519		}
+  1520		nfsd_stats_io_write_add(nn, exp, *cnt);
+  1521		fsnotify_modify(file);
+  1522		host_err = filemap_check_wb_err(file->f_mapping, since);
+  1523		if (host_err < 0)
+  1524			goto out_nfserr;
+  1525	
+  1526		if (stable && fhp->fh_use_wgather) {
+  1527			host_err = wait_for_concurrent_writes(file);
+  1528			if (host_err < 0)
+  1529				commit_reset_write_verifier(nn, rqstp, host_err);
+  1530		}
+  1531	
+  1532	out_nfserr:
+  1533		if (host_err >= 0) {
+  1534			trace_nfsd_write_io_done(rqstp, fhp, offset, *cnt);
+  1535			nfserr = nfs_ok;
+  1536		} else {
+  1537			trace_nfsd_write_err(rqstp, fhp, offset, host_err);
+  1538			nfserr = nfserrno(host_err);
+  1539		}
+  1540		if (throttle_adjusted)
+  1541			current->nr_dirtied_pause = saved_nr_dirtied_pause;
+  1542		if (restore_flags)
+  1543			current_restore_flags(pflags, PF_LOCAL_THROTTLE);
+  1544		return nfserr;
+  1545	}
+  1546	
 
 -- 
 0-DAY CI Kernel Test Service
