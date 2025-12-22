@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D262333D51F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 10:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88FAD33E341
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 10:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766399165; cv=none; b=fa3Zxw02Xx+OjkvVq2EFjLYFcrD55iIolVVtkyscHMr3G2neH5JdrvI109K2ZjacodFdluOzFAA7VhJ/vWAw+we/PNVCy9DXetdqQKpI0gNhOWRyhBh2VbU8ZUaIxP14yib0Tm7Qx/dRamtBTbSu5Rko1nmViOJ35AhQMoEn2WM=
+	t=1766399171; cv=none; b=Yv0fBnIedZTC27974FiXLsSnkssjncfBDLnMePjZlP903kHQ1ObkrLtgsKUeG6MHHkvZsAQIh7mBwU+Sqds7Q2DYiMox5F6ik/iXgaf5NZ64dE/3MUcSr84Tijuycm1/yxRYKH0sdAJbgzp+GMOpbrg8z/BNaxj6gLB1qAbICa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766399165; c=relaxed/simple;
-	bh=W6G0Y54AKitJY4BXJSSvb5I7FlUQE9YTG2qdYCg2/WQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XwAPluGaEv+zTWKfFqnE+FRjuSagZ4Ggv36C52l2YUkcz0TGhZlVroLLrVV1GpNFVb/DqMOOCKALJAgWQ1qUoBxGA9yDeTy0DO8G0/R3j0Ax3i9d+LyKTvIEeLIqdIkR7F6FDQ1Q/wg1dpHTgV53Llw2MaLtYzdKqSJPoWUGyMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R0s2pzzW; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1766399171; c=relaxed/simple;
+	bh=ENnZE6ti2jbYtefxEp76FQELKIhd+OPJYGLeNA4mMZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=W0ZAGDAKW72CSSAtNZY411P0qHrpIxdMghRgn2j645pJvApuIdonbvjlBp0HW+5c0kf2mMuCHk6TT3l8HEppAlyjgPrumuD72sTUlqvlndd8vHdErd57DT8YwPrxWIBWx80nTTbo9zi2ZYW4WLL8We0TLATQ1iyy9sp18ukUR+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=matE79BY; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R0s2pzzW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="matE79BY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766399161; x=1797935161;
+  t=1766399167; x=1797935167;
   h=date:from:to:cc:subject:message-id;
-  bh=W6G0Y54AKitJY4BXJSSvb5I7FlUQE9YTG2qdYCg2/WQ=;
-  b=R0s2pzzWxRFAYlvhytp3f0mP1tNIa7oSirZgD7f/8DKi7XI+FFFOiOuZ
-   no/2Yr1GwsjgXZQkmlBwKOJ8o7ffhYrMkpplzvhtKpTXZbFmrG+y0OP+0
-   eu2mDLPCpDe5ZdxW45ArLO6mK3KEfZcxj5ROEoyWZLWm4C3u19mwTRigs
-   OY3z1w4tZ6ZPI+G5KJMH0VvhyIesYyuuCDWF/As9VELyzN2ukFqZub+KG
-   IL+XA5XmsMaYxiGgOMhyYZd/Cp1ihl2o4hKDmKcdHjH+A2gsgy2FadtpM
-   SmsVmUdnX3oXE1qnVzpldRkJKW5Dxy24fAcjmW0l+d21W6vuD11vfo5Hk
-   g==;
-X-CSE-ConnectionGUID: R5PE4wziTB2zVzzPQoLuOg==
-X-CSE-MsgGUID: U3DRJY1/TpuBu3+8Y5m4CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68297234"
+  bh=ENnZE6ti2jbYtefxEp76FQELKIhd+OPJYGLeNA4mMZQ=;
+  b=matE79BYDkT6VjG45xZvKcLrLEUxFX88hbw6Nq2gtLhALNUvVhT4QnJX
+   YY6CNJdTGumYBTI2ziPpi6ADlHdoeg5HFtMZGguxraWDV9WfVLEnmpwpw
+   14UmondO72IoBRAriAUHSi1xSp53CCQC+DTEga1g5kjwui5s/ed2/7vke
+   jIjDTk/ZqYEg0iX05/2TqmsiqatHBA398UoLPgUCluSI5w8R9xhtUBj7m
+   Y2VWqde3o7V0jWOcjSxUv4aHhza27ci8jvmfmT9HgAL3I9hvrCPVdF73R
+   kwOCAERfP+bULrwJy+HVrcAE3ezn8/z9TfflDGcvmufbPxRHoBJ/oY8KR
+   Q==;
+X-CSE-ConnectionGUID: h2/cfsuuQjGC75sETmgZyw==
+X-CSE-MsgGUID: EXwRGU9FTySY8xeFxThhlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="78971824"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="68297234"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 02:26:01 -0800
-X-CSE-ConnectionGUID: 4kWIjmNwS3miMJwqAxjKSQ==
-X-CSE-MsgGUID: KKoFmCycQxWVGY4f+vMSVg==
+   d="scan'208";a="78971824"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 02:26:01 -0800
+X-CSE-ConnectionGUID: IfzSaalTSkms7p3UnFIEEQ==
+X-CSE-MsgGUID: cMJQKcovQs22vSjxyJ6Fyw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
+   d="scan'208";a="199405189"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Dec 2025 02:25:59 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 22 Dec 2025 02:25:59 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXd6z-000000000Ny-1n3N;
+	id 1vXd6z-000000000O4-2CHr;
 	Mon, 22 Dec 2025 10:25:57 +0000
-Date: Mon, 22 Dec 2025 18:24:53 +0800
+Date: Mon, 22 Dec 2025 18:24:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Dongxu Sun <sundongxu3@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 42/42]
- arch/x86/platform/efi/memmap.c:94: warning: Excess function parameter 'ctx'
- description in 'efi_memmap_install'
-Message-ID: <202512221830.3WosvhG4-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3542/3542]
+ arch/arm64/kvm/vgic/vgic-v4.c:260: warning: Function parameter or member
+ 'vcpu' not described in 'kvm_vgic_get_vcpu_vpeid'
+Message-ID: <202512221812.bA9JN365-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,48 +60,43 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Ard,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   d13a7e3b3e0f1ca9e8faea93fbebfed911c2588d
-commit: 0d01140e921757455730dcb6c00e45a0383f1716 [42/42] efi: memmap: Move manipulation routines into x86 arch tree
-config: x86_64-randconfig-015-20251213 (https://download.01.org/0day-ci/archive/20251222/202512221830.3WosvhG4-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221830.3WosvhG4-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   04473ee9ed912a16fff0d8846ad565bbf3d63c77
+commit: 78feb450c1fbd0f2a1a542882ed62a0993c86c5a [3542/3542] KVM: arm64: GICv4.1: Add support for MBIGEN save/restore
+config: arm64-randconfig-001-20251215 (https://download.01.org/0day-ci/archive/20251222/202512221812.bA9JN365-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221812.bA9JN365-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221830.3WosvhG4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221812.bA9JN365-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/x86/platform/efi/memmap.c:94: warning: Function parameter or member 'data' not described in 'efi_memmap_install'
->> arch/x86/platform/efi/memmap.c:94: warning: Excess function parameter 'ctx' description in 'efi_memmap_install'
+>> arch/arm64/kvm/vgic/vgic-v4.c:260: warning: Function parameter or member 'vcpu' not described in 'kvm_vgic_get_vcpu_vpeid'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+   Selected by [y]:
+   - ARM64_MPAM [=y]
 
 
-vim +94 arch/x86/platform/efi/memmap.c
+vim +260 arch/arm64/kvm/vgic/vgic-v4.c
 
-    82	
-    83	/**
-    84	 * efi_memmap_install - Install a new EFI memory map in efi.memmap
-    85	 * @ctx: map allocation parameters (address, size, flags)
-    86	 *
-    87	 * Unlike efi_memmap_init_*(), this function does not allow the caller
-    88	 * to switch from early to late mappings. It simply uses the existing
-    89	 * mapping function and installs the new memmap.
-    90	 *
-    91	 * Returns zero on success, a negative error code on failure.
-    92	 */
-    93	int __init efi_memmap_install(struct efi_memory_map_data *data)
-  > 94	{
-    95		efi_memmap_unmap();
-    96	
-    97		return __efi_memmap_init(data);
-    98	}
-    99	
+   253	
+   254	/**
+   255	 * kvm_vgic_get_vcpu_vpeid - Get the VCPU's vpeid
+   256	 *
+   257	 * The vtimer mbigen needs the vcpu vpeid info which will resident.
+   258	 */
+   259	u16 kvm_vgic_get_vcpu_vpeid(struct kvm_vcpu *vcpu)
+ > 260	{
+   261		return vcpu->arch.vgic_cpu.vgic_v3.its_vpe.vpe_id;
+   262	}
+   263	#endif
+   264	
 
 -- 
 0-DAY CI Kernel Test Service
