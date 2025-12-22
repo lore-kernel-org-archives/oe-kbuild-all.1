@@ -1,318 +1,234 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1620C330664
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3099E3314C0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766422923; cv=none; b=tscAyxeKUDg2beZZUeWeB2ofnyYp8gIiDa/tjwnS7RRNV0xzSAU5XvWDPaRTAxTZCZdaDxIRMJE5y8xFvvJZICKRxVBrs9dm7iSNhRpuTXQp0cNOa0Zvgn9YqFlY4s2VRr3wGYZ7ee7wFKTaSK8O2utpRoE5ytaeTlE9k6wL2ZQ=
+	t=1766422923; cv=none; b=f+PWEg7oVniiU8sx6Z9GOz++xuw2G3hpzwY63W1KzliGjikF+UFE4+WsuJ10aRZIrOasrV6g/R9t7yy4f5gC09sn+5rkWUia/f/mXJqIIvDJoGBG+gsv/xc8dq+/+AhZNEqHCbbgLzHOg0Z6g92hGCPa2GbdQS114+N+QtF19zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766422923; c=relaxed/simple;
-	bh=LGG15ojBLdKkERv/MqoV0ZtxTNpAjJ2EhYD0wVwVu1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GsIICZ+SaefErOqZiu8H4MJ4OsatsG48i/hxa6r4XkbBLojIfrWxWgiH+GmrHIVfp0LZIlyahJZX7nzFcblolp0ObzwX7EkUetb+6CaYUcmNALlNHCNApsDcAWYliyQclTZC7Q+t1c6tm9V1mDoM4sV3KpOUmvrTVgdeqlEvarM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AomRw8Nd; arc=none smtp.client-ip=198.175.65.13
+	bh=pO6nZrjC3tnpvwWDRYM1Fx5qJBNF/RAzaNHHU9qheP0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=m3XOxZLl1wWqlDyqPA7yUCEKQIfdSSUK12xFywqftDpi9pVRgBncffj/hpKRlAQAbCNYQOsHxkhYx/9XTPFz/fXBf2si5Wf+ziPLDJm8Q2twQwPtLmPEaMmL/Cr0MjhrXJNV+TWlIivyT6dVvf6hB3emOtdAT0qQcPOVFKn4HbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=boCHE/cf; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AomRw8Nd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="boCHE/cf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1766422922; x=1797958922;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LGG15ojBLdKkERv/MqoV0ZtxTNpAjJ2EhYD0wVwVu1c=;
-  b=AomRw8Nd5iPq7TUqs0V9hOc295x9o31OWeFvdhV2EdKzkUTrFtkVKgny
-   pHjkEDQklGqSBNB9RtvW+mYNvaxBw6chIeLJOrz5mT35Rc1ADjTucxF07
-   yqtsy8+uOdQjfwD1TEaP6qSQQwMEMDW5BPWETSEmplXBHzhIJLvWtyoX9
-   DG3B3JnntzD4RMu/vIpwNZpMDLWMiQX9dzcuWmRWWn4P3lEyoVO7AS1dz
-   qgdluIFcOdDW7Ktrc0sYTJkAj/gvZgrRkIUCBwAwRkNUI91z/DbM75Ijh
-   pdJQQvXg2g+E+aYgGp2Br06g5Ezy9CF1qSLeCqp79oeTB5p4WXECx9gQx
-   A==;
-X-CSE-ConnectionGUID: fGLT1vb4TGy/cQsSF0GAeQ==
-X-CSE-MsgGUID: 4eNP+CW4SI6YbeM9DjJ+CA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79396414"
+  h=date:from:to:cc:subject:message-id;
+  bh=pO6nZrjC3tnpvwWDRYM1Fx5qJBNF/RAzaNHHU9qheP0=;
+  b=boCHE/cfAMpPNLAev07YNrQdQPC4GrFud6xemMhG5e7tAYTkkZnB24Ta
+   H+JMAMGLKFFnDnRHRIexxydI5RSg/z3RbXYTnjJI7Mha9YY8meN82Jo+1
+   SCUkZCn/llF9LlqqrwDmrnbq4K/cXuiDkA9W84AhjRakfhEsLLm+2UYj8
+   qDnAIDBtA+hPUpw6dAcIADxMPvWjlJtFebL6bCvTsQtUKAGJ5t8PzxB/p
+   P9FpLhC6Uy/FYUYTx6W63+FNQ0TOuRacLhw3WVDkwxcDKD5dmVpiZ5WkL
+   tSUpf6SezXLhINbVO/Lv8Us7Zr0nylnx7yUyEwq+3+Dzi+W3Ds1Qt8KgL
+   Q==;
+X-CSE-ConnectionGUID: KkopHBk5TLmDka/C/j2MTg==
+X-CSE-MsgGUID: +ld6BhzgR5Ote+TBFoK4rQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68264499"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="79396414"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:02:00 -0800
-X-CSE-ConnectionGUID: Ca5K+FRjQw6k815hH9b+RQ==
-X-CSE-MsgGUID: qaXeiiRuR+SGzeE9u1mpVA==
+   d="scan'208";a="68264499"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:02:01 -0800
+X-CSE-ConnectionGUID: VNjjall5QS27Sa3CIzCEtw==
+X-CSE-MsgGUID: jCqtiPNeTYyH0eOTreagtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="200465840"
+   d="scan'208";a="198707802"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Dec 2025 09:01:58 -0800
+  by orviesa006.jf.intel.com with ESMTP; 22 Dec 2025 09:01:59 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXjIA-000000000tx-3cUJ;
-	Mon, 22 Dec 2025 17:01:55 +0000
-Date: Tue, 23 Dec 2025 01:01:35 +0800
+	id 1vXjIB-000000000tz-3HM3;
+	Mon, 22 Dec 2025 17:01:56 +0000
+Date: Tue, 23 Dec 2025 01:01:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
+To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4] mm, hugetlb: implement movable_gigantic_pages sysctl
-Message-ID: <202512230059.GQuOZMqh-lkp@intel.com>
-References: <20251218151211.1237411-1-gourry@gourry.net>
+Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 467/799]
+ fs/bcachefs/vfs/fs.c:1025:1: warning: the frame size of 1368 bytes is larger
+ than 1280 bytes
+Message-ID: <202512230007.74l5HPAc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218151211.1237411-1-gourry@gourry.net>
 
-Hi Gregory,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-hugetlb-implement-movable_gigantic_pages-sysctl/20251218-231524
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251218151211.1237411-1-gourry%40gourry.net
-patch subject: [PATCH v4] mm, hugetlb: implement movable_gigantic_pages sysctl
-config: x86_64-randconfig-104-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230059.GQuOZMqh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230059.GQuOZMqh-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
+head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
+commit: 221177ea260493d2314aa23273a9bc7fe93529c5 [467/799] bcachefs: move vfs-specific code to vfs/
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251223/202512230007.74l5HPAc-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230007.74l5HPAc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230059.GQuOZMqh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230007.74l5HPAc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/hugetlb.c:497:56: warning: declaration of 'struct hugetlb_cgroup' will not be visible outside of this function [-Wvisibility]
-     497 | static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
-         |                                                        ^
->> mm/hugetlb.c:505:9: error: incomplete definition of type 'struct hugetlb_cgroup'
-     505 |                         &h_cg->rsvd_hugepage[hstate_index(h)];
-         |                          ~~~~^
-   mm/hugetlb.c:497:56: note: forward declaration of 'struct hugetlb_cgroup'
-     497 | static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
-         |                                                        ^
-   mm/hugetlb.c:506:19: error: incomplete definition of type 'struct hugetlb_cgroup'
-     506 |                 nrg->css = &h_cg->css;
-         |                             ~~~~^
-   mm/hugetlb.c:497:56: note: forward declaration of 'struct hugetlb_cgroup'
-     497 | static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
-         |                                                        ^
-   mm/hugetlb.c:517:16: error: incomplete definition of type 'struct hugetlb_cgroup'
-     517 |                 css_get(&h_cg->css);
-         |                          ~~~~^
-   mm/hugetlb.c:497:56: note: forward declaration of 'struct hugetlb_cgroup'
-     497 | static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
-         |                                                        ^
-   mm/hugetlb.c:580:42: warning: declaration of 'struct hugetlb_cgroup' will not be visible outside of this function [-Wvisibility]
-     580 |                      long to, struct hstate *h, struct hugetlb_cgroup *cg,
-         |                                                        ^
->> mm/hugetlb.c:587:39: error: incompatible pointer types passing 'struct hugetlb_cgroup *' to parameter of type 'struct hugetlb_cgroup *' [-Werror,-Wincompatible-pointer-types]
-     587 |                 record_hugetlb_cgroup_uncharge_info(cg, h, map, nrg);
-         |                                                     ^~
-   mm/hugetlb.c:497:72: note: passing argument to parameter 'h_cg' here
-     497 | static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
-         |                                                                        ^
-   mm/hugetlb.c:605:17: warning: declaration of 'struct hugetlb_cgroup' will not be visible outside of this function [-Wvisibility]
-     605 |                                      struct hugetlb_cgroup *h_cg,
-         |                                             ^
-   mm/hugetlb.c:646:26: error: incompatible pointer types passing 'struct hugetlb_cgroup *' to parameter of type 'struct hugetlb_cgroup *' [-Werror,-Wincompatible-pointer-types]
-     646 |                                                     iter->from, h, h_cg,
-         |                                                                    ^~~~
-   mm/hugetlb.c:580:58: note: passing argument to parameter 'cg' here
-     580 |                      long to, struct hstate *h, struct hugetlb_cgroup *cg,
-         |                                                                        ^
-   mm/hugetlb.c:659:16: error: incompatible pointer types passing 'struct hugetlb_cgroup *' to parameter of type 'struct hugetlb_cgroup *' [-Werror,-Wincompatible-pointer-types]
-     659 |                                             t, h, h_cg, regions_needed);
-         |                                                   ^~~~
-   mm/hugetlb.c:580:58: note: passing argument to parameter 'cg' here
-     580 |                      long to, struct hstate *h, struct hugetlb_cgroup *cg,
-         |                                                                        ^
-   mm/hugetlb.c:739:17: warning: declaration of 'struct hugetlb_cgroup' will not be visible outside of this function [-Wvisibility]
-     739 |                        struct hugetlb_cgroup *h_cg)
-         |                               ^
-   mm/hugetlb.c:776:45: error: incompatible pointer types passing 'struct hugetlb_cgroup *' to parameter of type 'struct hugetlb_cgroup *' [-Werror,-Wincompatible-pointer-types]
-     776 |         add = add_reservation_in_range(resv, f, t, h_cg, h, NULL);
-         |                                                    ^~~~
-   mm/hugetlb.c:605:33: note: passing argument to parameter 'h_cg' here
-     605 |                                      struct hugetlb_cgroup *h_cg,
-         |                                                             ^
->> mm/hugetlb.c:909:4: error: call to undeclared function 'hugetlb_cgroup_uncharge_file_region'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     909 |                         hugetlb_cgroup_uncharge_file_region(
-         |                         ^
-   mm/hugetlb.c:930:4: error: call to undeclared function 'hugetlb_cgroup_uncharge_file_region'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     930 |                         hugetlb_cgroup_uncharge_file_region(resv, rg,
-         |                         ^
-   mm/hugetlb.c:938:4: error: call to undeclared function 'hugetlb_cgroup_uncharge_file_region'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     938 |                         hugetlb_cgroup_uncharge_file_region(resv, rg,
-         |                         ^
-   mm/hugetlb.c:944:4: error: call to undeclared function 'hugetlb_cgroup_uncharge_file_region'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     944 |                         hugetlb_cgroup_uncharge_file_region(resv, rg,
-         |                         ^
-   mm/hugetlb.c:1097:15: warning: declaration of 'struct hugetlb_cgroup' will not be visible outside of this function [-Wvisibility]
-    1097 |                                           struct hugetlb_cgroup *h_cg,
-         |                                                  ^
-   mm/hugetlb.c:1107:9: error: incomplete definition of type 'struct hugetlb_cgroup'
-    1107 |                         &h_cg->rsvd_hugepage[hstate_index(h)];
-         |                          ~~~~^
-   mm/hugetlb.c:1097:15: note: forward declaration of 'struct hugetlb_cgroup'
-    1097 |                                           struct hugetlb_cgroup *h_cg,
-         |                                                  ^
-   mm/hugetlb.c:1109:24: error: incomplete definition of type 'struct hugetlb_cgroup'
-    1109 |                 resv_map->css = &h_cg->css;
-         |                                  ~~~~^
-   mm/hugetlb.c:1097:15: note: forward declaration of 'struct hugetlb_cgroup'
-    1097 |                                           struct hugetlb_cgroup *h_cg,
-         |                                                  ^
->> mm/hugetlb.c:1287:3: error: call to undeclared function 'resv_map_put_hugetlb_cgroup_uncharge_info'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1287 |                 resv_map_put_hugetlb_cgroup_uncharge_info(reservations);
-         |                 ^
-   mm/hugetlb.c:1287:3: note: did you mean 'resv_map_set_hugetlb_cgroup_uncharge_info'?
-   mm/hugetlb.c:1096:1: note: 'resv_map_set_hugetlb_cgroup_uncharge_info' declared here
-    1096 | resv_map_set_hugetlb_cgroup_uncharge_info(struct resv_map *resv_map,
+   fs/bcachefs/vfs/fs.c: In function 'bch2_rename2':
+>> fs/bcachefs/vfs/fs.c:1025:1: warning: the frame size of 1368 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+    1025 | }
          | ^
->> mm/hugetlb.c:1479:18: error: call to undeclared function 'hugetlb_cgroup_from_folio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1479 |         VM_BUG_ON_FOLIO(hugetlb_cgroup_from_folio(folio), folio);
-         |                         ^
-   mm/hugetlb.c:1479:18: note: did you mean 'get_obj_cgroup_from_folio'?
-   include/linux/memcontrol.h:1675:20: note: 'get_obj_cgroup_from_folio' declared here
-    1675 | struct obj_cgroup *get_obj_cgroup_from_folio(struct folio *folio);
-         |                    ^
->> mm/hugetlb.c:1480:18: error: call to undeclared function 'hugetlb_cgroup_from_folio_rsvd'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1480 |         VM_BUG_ON_FOLIO(hugetlb_cgroup_from_folio_rsvd(folio), folio);
-         |                         ^
->> mm/hugetlb.c:1483:6: error: call to undeclared function 'hstate_is_gigantic_no_runtime'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1483 |         if (hstate_is_gigantic_no_runtime(h))
-         |             ^
-   mm/hugetlb.c:1474:6: warning: no previous prototype for function 'remove_hugetlb_folio' [-Wmissing-prototypes]
-    1474 | void remove_hugetlb_folio(struct hstate *h, struct folio *folio,
-         |      ^
-   mm/hugetlb.c:1474:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1474 | void remove_hugetlb_folio(struct hstate *h, struct folio *folio,
-         | ^
-         | static 
-   mm/hugetlb.c:1510:6: warning: no previous prototype for function 'add_hugetlb_folio' [-Wmissing-prototypes]
-    1510 | void add_hugetlb_folio(struct hstate *h, struct folio *folio,
-         |      ^
-   mm/hugetlb.c:1510:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1510 | void add_hugetlb_folio(struct hstate *h, struct folio *folio,
-         | ^
-         | static 
-   mm/hugetlb.c:1545:6: error: call to undeclared function 'hstate_is_gigantic_no_runtime'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1545 |         if (hstate_is_gigantic_no_runtime(h))
-         |             ^
->> mm/hugetlb.c:1807:2: error: call to undeclared function 'hugetlb_cgroup_uncharge_folio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1807 |         hugetlb_cgroup_uncharge_folio(hstate_index(h),
-         |         ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   7 warnings and 20 errors generated.
 
 
-vim +505 mm/hugetlb.c
+vim +1025 fs/bcachefs/vfs/fs.c
 
-075a61d07a8eca2 Mina Almasry  2020-04-01  495  
-075a61d07a8eca2 Mina Almasry  2020-04-01  496  /* Helper that records hugetlb_cgroup uncharge info. */
-075a61d07a8eca2 Mina Almasry  2020-04-01  497  static void record_hugetlb_cgroup_uncharge_info(struct hugetlb_cgroup *h_cg,
-075a61d07a8eca2 Mina Almasry  2020-04-01  498  						struct hstate *h,
-075a61d07a8eca2 Mina Almasry  2020-04-01  499  						struct resv_map *resv,
-075a61d07a8eca2 Mina Almasry  2020-04-01  500  						struct file_region *nrg)
-075a61d07a8eca2 Mina Almasry  2020-04-01  501  {
-075a61d07a8eca2 Mina Almasry  2020-04-01  502  #ifdef CONFIG_CGROUP_HUGETLB
-075a61d07a8eca2 Mina Almasry  2020-04-01  503  	if (h_cg) {
-075a61d07a8eca2 Mina Almasry  2020-04-01  504  		nrg->reservation_counter =
-075a61d07a8eca2 Mina Almasry  2020-04-01 @505  			&h_cg->rsvd_hugepage[hstate_index(h)];
-075a61d07a8eca2 Mina Almasry  2020-04-01  506  		nrg->css = &h_cg->css;
-d85aecf2844ff02 Miaohe Lin    2021-03-24  507  		/*
-d85aecf2844ff02 Miaohe Lin    2021-03-24  508  		 * The caller will hold exactly one h_cg->css reference for the
-d85aecf2844ff02 Miaohe Lin    2021-03-24  509  		 * whole contiguous reservation region. But this area might be
-d85aecf2844ff02 Miaohe Lin    2021-03-24  510  		 * scattered when there are already some file_regions reside in
-d85aecf2844ff02 Miaohe Lin    2021-03-24  511  		 * it. As a result, many file_regions may share only one css
-d85aecf2844ff02 Miaohe Lin    2021-03-24  512  		 * reference. In order to ensure that one file_region must hold
-d85aecf2844ff02 Miaohe Lin    2021-03-24  513  		 * exactly one h_cg->css reference, we should do css_get for
-d85aecf2844ff02 Miaohe Lin    2021-03-24  514  		 * each file_region and leave the reference held by caller
-d85aecf2844ff02 Miaohe Lin    2021-03-24  515  		 * untouched.
-d85aecf2844ff02 Miaohe Lin    2021-03-24  516  		 */
-d85aecf2844ff02 Miaohe Lin    2021-03-24  517  		css_get(&h_cg->css);
-075a61d07a8eca2 Mina Almasry  2020-04-01  518  		if (!resv->pages_per_hpage)
-075a61d07a8eca2 Mina Almasry  2020-04-01  519  			resv->pages_per_hpage = pages_per_huge_page(h);
-075a61d07a8eca2 Mina Almasry  2020-04-01  520  		/* pages_per_hpage should be the same for all entries in
-075a61d07a8eca2 Mina Almasry  2020-04-01  521  		 * a resv_map.
-075a61d07a8eca2 Mina Almasry  2020-04-01  522  		 */
-075a61d07a8eca2 Mina Almasry  2020-04-01  523  		VM_BUG_ON(resv->pages_per_hpage != pages_per_huge_page(h));
-075a61d07a8eca2 Mina Almasry  2020-04-01  524  	} else {
-075a61d07a8eca2 Mina Almasry  2020-04-01  525  		nrg->reservation_counter = NULL;
-075a61d07a8eca2 Mina Almasry  2020-04-01  526  		nrg->css = NULL;
-075a61d07a8eca2 Mina Almasry  2020-04-01  527  	}
-075a61d07a8eca2 Mina Almasry  2020-04-01  528  #endif
-075a61d07a8eca2 Mina Almasry  2020-04-01  529  }
-075a61d07a8eca2 Mina Almasry  2020-04-01  530  
-d85aecf2844ff02 Miaohe Lin    2021-03-24  531  static void put_uncharge_info(struct file_region *rg)
-d85aecf2844ff02 Miaohe Lin    2021-03-24  532  {
-d85aecf2844ff02 Miaohe Lin    2021-03-24  533  #ifdef CONFIG_CGROUP_HUGETLB
-d85aecf2844ff02 Miaohe Lin    2021-03-24  534  	if (rg->css)
-d85aecf2844ff02 Miaohe Lin    2021-03-24  535  		css_put(rg->css);
-d85aecf2844ff02 Miaohe Lin    2021-03-24  536  #endif
-d85aecf2844ff02 Miaohe Lin    2021-03-24  537  }
-d85aecf2844ff02 Miaohe Lin    2021-03-24  538  
-a9b3f867404b35b Mina Almasry  2020-04-01  539  static bool has_same_uncharge_info(struct file_region *rg,
-a9b3f867404b35b Mina Almasry  2020-04-01  540  				   struct file_region *org)
-a9b3f867404b35b Mina Almasry  2020-04-01  541  {
-a9b3f867404b35b Mina Almasry  2020-04-01  542  #ifdef CONFIG_CGROUP_HUGETLB
-0739eb437f3d397 Baolin Wang   2021-11-05  543  	return rg->reservation_counter == org->reservation_counter &&
-a9b3f867404b35b Mina Almasry  2020-04-01  544  	       rg->css == org->css;
-a9b3f867404b35b Mina Almasry  2020-04-01  545  
-a9b3f867404b35b Mina Almasry  2020-04-01  546  #else
-a9b3f867404b35b Mina Almasry  2020-04-01  547  	return true;
-a9b3f867404b35b Mina Almasry  2020-04-01  548  #endif
-a9b3f867404b35b Mina Almasry  2020-04-01  549  }
-a9b3f867404b35b Mina Almasry  2020-04-01  550  
-a9b3f867404b35b Mina Almasry  2020-04-01  551  static void coalesce_file_region(struct resv_map *resv, struct file_region *rg)
-a9b3f867404b35b Mina Almasry  2020-04-01  552  {
-3259914f8cab1ba XU pengfei    2022-09-14  553  	struct file_region *nrg, *prg;
-a9b3f867404b35b Mina Almasry  2020-04-01  554  
-a9b3f867404b35b Mina Almasry  2020-04-01  555  	prg = list_prev_entry(rg, link);
-a9b3f867404b35b Mina Almasry  2020-04-01  556  	if (&prg->link != &resv->regions && prg->to == rg->from &&
-a9b3f867404b35b Mina Almasry  2020-04-01  557  	    has_same_uncharge_info(prg, rg)) {
-a9b3f867404b35b Mina Almasry  2020-04-01  558  		prg->to = rg->to;
-a9b3f867404b35b Mina Almasry  2020-04-01  559  
-a9b3f867404b35b Mina Almasry  2020-04-01  560  		list_del(&rg->link);
-d85aecf2844ff02 Miaohe Lin    2021-03-24  561  		put_uncharge_info(rg);
-a9b3f867404b35b Mina Almasry  2020-04-01  562  		kfree(rg);
-a9b3f867404b35b Mina Almasry  2020-04-01  563  
-7db5e7b67e3e8d7 Wei Yang      2020-10-13  564  		rg = prg;
-a9b3f867404b35b Mina Almasry  2020-04-01  565  	}
-a9b3f867404b35b Mina Almasry  2020-04-01  566  
-a9b3f867404b35b Mina Almasry  2020-04-01  567  	nrg = list_next_entry(rg, link);
-a9b3f867404b35b Mina Almasry  2020-04-01  568  	if (&nrg->link != &resv->regions && nrg->from == rg->to &&
-a9b3f867404b35b Mina Almasry  2020-04-01  569  	    has_same_uncharge_info(nrg, rg)) {
-a9b3f867404b35b Mina Almasry  2020-04-01  570  		nrg->from = rg->from;
-a9b3f867404b35b Mina Almasry  2020-04-01  571  
-a9b3f867404b35b Mina Almasry  2020-04-01  572  		list_del(&rg->link);
-d85aecf2844ff02 Miaohe Lin    2021-03-24  573  		put_uncharge_info(rg);
-a9b3f867404b35b Mina Almasry  2020-04-01  574  		kfree(rg);
-a9b3f867404b35b Mina Almasry  2020-04-01  575  	}
-a9b3f867404b35b Mina Almasry  2020-04-01  576  }
-a9b3f867404b35b Mina Almasry  2020-04-01  577  
-2103cf9c3f3ba00 Peter Xu      2021-03-12  578  static inline long
-84448c8ecd9a130 Jakob Koschel 2022-04-28  579  hugetlb_resv_map_add(struct resv_map *map, struct list_head *rg, long from,
-2103cf9c3f3ba00 Peter Xu      2021-03-12  580  		     long to, struct hstate *h, struct hugetlb_cgroup *cg,
-2103cf9c3f3ba00 Peter Xu      2021-03-12  581  		     long *regions_needed)
-2103cf9c3f3ba00 Peter Xu      2021-03-12  582  {
-2103cf9c3f3ba00 Peter Xu      2021-03-12  583  	struct file_region *nrg;
-2103cf9c3f3ba00 Peter Xu      2021-03-12  584  
-2103cf9c3f3ba00 Peter Xu      2021-03-12  585  	if (!regions_needed) {
-2103cf9c3f3ba00 Peter Xu      2021-03-12  586  		nrg = get_file_region_entry_from_cache(map, from, to);
-2103cf9c3f3ba00 Peter Xu      2021-03-12 @587  		record_hugetlb_cgroup_uncharge_info(cg, h, map, nrg);
-84448c8ecd9a130 Jakob Koschel 2022-04-28  588  		list_add(&nrg->link, rg);
-2103cf9c3f3ba00 Peter Xu      2021-03-12  589  		coalesce_file_region(map, nrg);
-2103cf9c3f3ba00 Peter Xu      2021-03-12  590  	} else
-2103cf9c3f3ba00 Peter Xu      2021-03-12  591  		*regions_needed += 1;
-2103cf9c3f3ba00 Peter Xu      2021-03-12  592  
-2103cf9c3f3ba00 Peter Xu      2021-03-12  593  	return to - from;
-2103cf9c3f3ba00 Peter Xu      2021-03-12  594  }
-2103cf9c3f3ba00 Peter Xu      2021-03-12  595  
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   886  
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   887  static int bch2_rename2(struct mnt_idmap *idmap,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   888  			struct inode *src_vdir, struct dentry *src_dentry,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   889  			struct inode *dst_vdir, struct dentry *dst_dentry,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   890  			unsigned flags)
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   891  {
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   892  	struct bch_fs *c = src_vdir->i_sb->s_fs_info;
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   893  	struct bch_inode_info *src_dir = to_bch_ei(src_vdir);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   894  	struct bch_inode_info *dst_dir = to_bch_ei(dst_vdir);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   895  	struct bch_inode_info *src_inode = to_bch_ei(src_dentry->d_inode);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   896  	struct bch_inode_info *dst_inode = to_bch_ei(dst_dentry->d_inode);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   897  	struct bch_inode_unpacked dst_dir_u, src_dir_u;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   898  	struct bch_inode_unpacked src_inode_u, dst_inode_u, *whiteout_inode_u;
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   899  	enum bch_rename_mode mode = flags & RENAME_EXCHANGE
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   900  		? BCH_RENAME_EXCHANGE
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   901  		: dst_dentry->d_inode
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   902  		? BCH_RENAME_OVERWRITE : BCH_RENAME;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   903  	bool whiteout = !!(flags & RENAME_WHITEOUT);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   904  	int ret;
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   905  
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   906  	if (flags & ~(RENAME_NOREPLACE|RENAME_EXCHANGE|RENAME_WHITEOUT))
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   907  		return -EINVAL;
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   908  
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   909  	if (mode == BCH_RENAME_OVERWRITE) {
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   910  		ret = filemap_write_and_wait_range(src_inode->v.i_mapping,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   911  						   0, LLONG_MAX);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   912  		if (ret)
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   913  			return ret;
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   914  	}
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   915  
+168f4c5fb375131 fs/bcachefs/fs.c Kent Overstreet   2019-06-24   916  	bch2_lock_inodes(INODE_UPDATE_LOCK,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   917  			 src_dir,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   918  			 dst_dir,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   919  			 src_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   920  			 dst_inode);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   921  
+0e869d7484badc3 fs/bcachefs/fs.c Kent Overstreet   2025-07-14   922  	CLASS(btree_trans, trans)(c);
+f369de82679f4f7 fs/bcachefs/fs.c Kent Overstreet   2024-07-04   923  
+112d21fd1a122f7 fs/bcachefs/fs.c Kent Overstreet   2024-06-08   924  	ret   = bch2_subvol_is_ro_trans(trans, src_dir->ei_inum.subvol) ?:
+112d21fd1a122f7 fs/bcachefs/fs.c Kent Overstreet   2024-06-08   925  		bch2_subvol_is_ro_trans(trans, dst_dir->ei_inum.subvol);
+0d72ab35a925d66 fs/bcachefs/fs.c Kent Overstreet   2023-12-29   926  	if (ret)
+74ec2f302402c4c fs/bcachefs/fs.c Kent Overstreet   2024-10-14   927  		goto err_tx_restart;
+0d72ab35a925d66 fs/bcachefs/fs.c Kent Overstreet   2023-12-29   928  
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   929  	if (inode_attr_changing(dst_dir, src_inode, Inode_opt_project)) {
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   930  		ret = bch2_fs_quota_transfer(c, src_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   931  					     dst_dir->ei_qid,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   932  					     1 << QTYP_PRJ,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   933  					     KEY_TYPE_QUOTA_PREALLOC);
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   934  		if (ret)
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   935  			goto err;
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   936  	}
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   937  
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   938  	if (mode == BCH_RENAME_EXCHANGE &&
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   939  	    inode_attr_changing(src_dir, dst_inode, Inode_opt_project)) {
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   940  		ret = bch2_fs_quota_transfer(c, dst_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   941  					     src_dir->ei_qid,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   942  					     1 << QTYP_PRJ,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   943  					     KEY_TYPE_QUOTA_PREALLOC);
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   944  		if (ret)
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   945  			goto err;
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   946  	}
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   947  retry:
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   948  	bch2_trans_begin(trans);
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   949  
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   950  	ret = bch2_rename_trans(trans,
+6fed42bb7750e21 fs/bcachefs/fs.c Kent Overstreet   2021-03-16   951  				inode_inum(src_dir), &src_dir_u,
+6fed42bb7750e21 fs/bcachefs/fs.c Kent Overstreet   2021-03-16   952  				inode_inum(dst_dir), &dst_dir_u,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   953  				&src_inode_u,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   954  				&dst_inode_u,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   955  				&src_dentry->d_name,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   956  				&dst_dentry->d_name,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   957  				mode);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   958  	if (unlikely(ret))
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   959  		goto err_tx_restart;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   960  
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   961  	if (whiteout) {
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   962  		whiteout_inode_u = bch2_trans_kmalloc_nomemzero(trans, sizeof(*whiteout_inode_u));
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   963  		ret = PTR_ERR_OR_ZERO(whiteout_inode_u);
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   964  		if (unlikely(ret))
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   965  			goto err_tx_restart;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   966  		bch2_inode_init_early(c, whiteout_inode_u);
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   967  
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   968  		ret = bch2_create_trans(trans,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   969  					inode_inum(src_dir), &src_dir_u,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   970  					whiteout_inode_u,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   971  					&src_dentry->d_name,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   972  					from_kuid(i_user_ns(&src_dir->v), current_fsuid()),
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   973  					from_kgid(i_user_ns(&src_dir->v), current_fsgid()),
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   974  					S_IFCHR|WHITEOUT_MODE, 0,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   975  					NULL, NULL, (subvol_inum) { 0 }, 0) ?:
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   976  		      bch2_quota_acct(c, bch_qid(whiteout_inode_u), Q_INO, 1,
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   977  				      KEY_TYPE_QUOTA_PREALLOC);
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   978  		if (unlikely(ret))
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   979  			goto err_tx_restart;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   980  	}
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   981  
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   982  	ret = bch2_trans_commit(trans, NULL, NULL, 0);
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   983  	if (unlikely(ret)) {
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   984  err_tx_restart:
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   985  		if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   986  			goto retry;
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   987  		goto err;
+4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   988  	}
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   989  
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   990  	BUG_ON(src_inode->v.i_ino != src_inode_u.bi_inum);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   991  	BUG_ON(dst_inode &&
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   992  	       dst_inode->v.i_ino != dst_inode_u.bi_inum);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   993  
+6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12   994  	bch2_inode_update_after_write(trans, src_dir, &src_dir_u,
+e614a6c52d32c9c fs/bcachefs/fs.c Hongbo Li         2025-01-07   995  				      ATTR_MTIME|ATTR_CTIME|ATTR_SIZE);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   996  
+68a2054d88f7cd2 fs/bcachefs/fs.c Kent Overstreet   2021-11-05   997  	if (src_dir != dst_dir)
+6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12   998  		bch2_inode_update_after_write(trans, dst_dir, &dst_dir_u,
+e614a6c52d32c9c fs/bcachefs/fs.c Hongbo Li         2025-01-07   999  					      ATTR_MTIME|ATTR_CTIME|ATTR_SIZE);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1000  
+6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12  1001  	bch2_inode_update_after_write(trans, src_inode, &src_inode_u,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1002  				      ATTR_CTIME);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1003  
+68a2054d88f7cd2 fs/bcachefs/fs.c Kent Overstreet   2021-11-05  1004  	if (dst_inode)
+6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12  1005  		bch2_inode_update_after_write(trans, dst_inode, &dst_inode_u,
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1006  					      ATTR_CTIME);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1007  err:
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1008  	bch2_fs_quota_transfer(c, src_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1009  			       bch_qid(&src_inode->ei_inode),
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1010  			       1 << QTYP_PRJ,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1011  			       KEY_TYPE_QUOTA_NOCHECK);
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1012  	if (dst_inode)
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1013  		bch2_fs_quota_transfer(c, dst_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1014  				       bch_qid(&dst_inode->ei_inode),
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1015  				       1 << QTYP_PRJ,
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1016  				       KEY_TYPE_QUOTA_NOCHECK);
+96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1017  
+168f4c5fb375131 fs/bcachefs/fs.c Kent Overstreet   2019-06-24  1018  	bch2_unlock_inodes(INODE_UPDATE_LOCK,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1019  			   src_dir,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1020  			   dst_dir,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1021  			   src_inode,
+9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1022  			   dst_inode);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1023  
+1a1c93e7f814174 fs/bcachefs/fs.c Kent Overstreet   2024-02-09  1024  	return bch2_err_class(ret);
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16 @1025  }
+1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1026  
+
+:::::: The code at line 1025 was first introduced by commit
+:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
+
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
