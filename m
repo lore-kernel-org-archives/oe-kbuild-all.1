@@ -1,81 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCF3274670
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 23:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36D7273D77
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 23:34:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766445950; cv=none; b=P1uJFBTw55MUYu9OjX0fgsmvlPP+iOFTr5793yK+WL2dlVZkTc1LFGi3yPSkcYhcFeFj+oD5xqrfhS0XAtEvQckdAuRJlbJ3vSujL/PNdYTcfN4zd0eM0XG5J+rJFXughm5k0ZQfjB4f84WMUSV5GAiYXJP26d9PMhucziNqyNI=
+	t=1766446474; cv=none; b=BvkXhKTw12tNbpsQb6cxB9bQj5eU9RnFZ3gxyEaWLNS/LEjDnerVtLSmMukJglwTuy1k8tMSPwo5AJBgXKE/DTG4MqDPawBcxmlqxwF09ikDX4W86jPAnVMg0e8EvgUFzrkAkmZG+p2YXGTpmBb6ZOyQo91YxxOt2fAFQcTywXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766445950; c=relaxed/simple;
-	bh=aLWgQgX6ZOlwdNAGfokk80pu41lCq/OPyRGXFv/OyVM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=O/mkFf/sLDpgnOID0k+QxsoRcqWN2Q2CXt0m0520kzaKFhQ2aSaMZcFdu9Q1nvwrIyMOVJdQqfT88/8HM8uUrlD4OvvxFJE20phaPwibVvI4sWW4yMJheXEhfUAy7KCjoUhcb13bZ5Ov4TFmwcISKDgNHtEISXQgEiceAAkVhSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PtIuMUqu; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1766446474; c=relaxed/simple;
+	bh=rsVXZf5HCfD/6XyIRrhSxqfkKef54C0oJ3OxPaZqzQg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xs0/kG8y517pSjujYQm2wX1qF791vnEBQAvPiHGJedjvEZkJnqqfnYpo6hgicHZ5G78PwEK7oIehISbm7JD8dCwPm+WUOLc/fXersYdNWHoqvWX0/O6jaZymjJDVk3kXyQd/7GHl/atL28SenibDXM2Kgnae3hxNyIbB4cCB42g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SssORAXk; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PtIuMUqu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SssORAXk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766445948; x=1797981948;
-  h=date:from:to:cc:subject:message-id;
-  bh=aLWgQgX6ZOlwdNAGfokk80pu41lCq/OPyRGXFv/OyVM=;
-  b=PtIuMUquhkrnLNsK4pb6LBJC6805X2HQA0GPEKATLCAJoPF8cy0QGgZW
-   lPxfccJ4uOlbFEd9/3PGhFXOaZ3gFL3zaQgZ8LywNeGeNAVI9PWtqMIfL
-   RO/AaOOZt5cX10b8ca101LijkmTgSc8ihkix9VRFNUSFZqJeqV64GqrsS
-   PgA8bLNqItNiuoaTLVYoB6uuuja4LE7VXYTgrLvj6WjmjuLFX796ERshx
-   klHz93t02KB2G+2Chn1GeF8aUreqlmFNst7ef0QrthipR3PWIqXaenDk1
-   fvRF7cq00rGOBOnVyC2FMlSjCRA5lPn6WSd77kgbTl32JqPzfk8frhg/u
-   w==;
-X-CSE-ConnectionGUID: WTADoxvDTKKP6FMC0wGJug==
-X-CSE-MsgGUID: lyPS/kn+RDutviNFkW/yYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="93772277"
+  t=1766446472; x=1797982472;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rsVXZf5HCfD/6XyIRrhSxqfkKef54C0oJ3OxPaZqzQg=;
+  b=SssORAXkl80/6wmAK4aaj/6ITkcZ2+R2sUFWN2M+0Gl21+V05r9FxLwa
+   N7klAppGLDsByjl49YVnMDq/LaFByoRl8F+0oudsrYlXX5P4dS6n0Ef12
+   UwVg9ugjUWmFMMq5yvzGE0cpeiRp0hABt17tzSdKpb5j/vsNsoeZlwDgF
+   GKNdlxyRd0kJMh1da20BN3c/IYn6juffTzx3JQL2BijwnwLzFVGMIvMuB
+   NBAYPKDCujJxhmV+tWzhrEo+JXnWm6v/8t8x4KLXxy5beuDAC3HeWjbVs
+   3q7z5qtQbDlTM1tXO4yJ+LVxhPJ8aYvJF75oRZ0G956x2Tjd0oa2/8+OL
+   g==;
+X-CSE-ConnectionGUID: +LEpF9ViTLmqEIx9B2YyoQ==
+X-CSE-MsgGUID: mzzKFhBuT8KQ38bCHOsYtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68285411"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="93772277"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 15:25:46 -0800
-X-CSE-ConnectionGUID: SApn+hdVRXmjL2vNTrgWBg==
-X-CSE-MsgGUID: UOOIfvaaSw2ES14YtmV28w==
+   d="scan'208";a="68285411"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 15:34:31 -0800
+X-CSE-ConnectionGUID: 87TMfIpKRPaZoBYu7cvMtA==
+X-CSE-MsgGUID: wkAk98NKRvq/e5JI8YBASA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="198883192"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 22 Dec 2025 15:25:44 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="199945400"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 22 Dec 2025 15:34:28 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXpHZ-000000001DZ-3G6C;
-	Mon, 22 Dec 2025 23:25:41 +0000
-Date: Tue, 23 Dec 2025 07:25:22 +0800
+	id 1vXpQ1-000000005f2-19it;
+	Mon, 22 Dec 2025 23:34:25 +0000
+Date: Tue, 23 Dec 2025 00:34:06 +0100
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Joerg Roedel <joerg.roedel@amd.com>, Kevin Tian <kevin.tian@intel.com>
-Subject: ERROR: modpost: "__pt_no_sw_bit"
- [drivers/iommu/generic_pt/fmt/iommu_amdv1.ko] undefined!
-Message-ID: <202512230720.9y9DtWIo-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ruidong Tian <tianruidong@linux.alibaba.com>, catalin.marinas@arm.com,
+	will@kernel.org, lpieralisi@kernel.org, guohanjun@huawei.com,
+	sudeep.holla@arm.com, xueshuai@linux.alibaba.com,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
+	lenb@kernel.org, tony.luck@intel.com, bp@alien8.de,
+	yazen.ghannam@amd.com, misono.tomohiro@fujitsu.com
+Cc: oe-kbuild-all@lists.linux.dev, tianruidong@linux.alibaba.com
+Subject: Re: [PATCH v4 14/17] ras: ATL: Unify ATL interface for ARM64 and AMD
+Message-ID: <202512230007.Vs6IvFVD-lkp@intel.com>
+References: <20251222094351.38792-16-tianruidong@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251222094351.38792-16-tianruidong@linux.alibaba.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b927546677c876e26eba308550207c2ddf812a43
-commit: efa03dab7ce4ed786b131f412440e2fd45fba11f iommupt: Flush the CPU cache after any writes to the page table
-date:   7 weeks ago
-config: powerpc64-randconfig-r051-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230720.9y9DtWIo-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230720.9y9DtWIo-lkp@intel.com/reproduce)
+Hi Ruidong,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge ras/edac-for-next linus/master v6.19-rc2 next-20251219]
+[cannot apply to arm64/for-next/core tip/smp/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ruidong-Tian/ACPI-AEST-Parse-the-AEST-table/20251222-175211
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20251222094351.38792-16-tianruidong%40linux.alibaba.com
+patch subject: [PATCH v4 14/17] ras: ATL: Unify ATL interface for ARM64 and AMD
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251223/202512230007.Vs6IvFVD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230007.Vs6IvFVD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230720.9y9DtWIo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230007.Vs6IvFVD-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "__pt_no_sw_bit" [drivers/iommu/generic_pt/fmt/iommu_amdv1.ko] undefined!
+   drivers/ras/amd/fmpm.c: In function 'save_spa':
+>> drivers/ras/amd/fmpm.c:336:15: error: implicit declaration of function 'amd_convert_umc_mca_addr_to_sys_addr'; did you mean 'convert_umc_mca_addr_to_sys_addr'? [-Wimplicit-function-declaration]
+     336 |         spa = amd_convert_umc_mca_addr_to_sys_addr(&a_err);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               convert_umc_mca_addr_to_sys_addr
+--
+   drivers/ras/amd/atl/umc.c: In function '_retire_row_mi300':
+>> drivers/ras/amd/atl/umc.c:321:24: error: implicit declaration of function 'amd_convert_umc_mca_addr_to_sys_addr'; did you mean 'convert_umc_mca_addr_to_sys_addr'? [-Wimplicit-function-declaration]
+     321 |                 addr = amd_convert_umc_mca_addr_to_sys_addr(a_err);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                        convert_umc_mca_addr_to_sys_addr
+
+
+vim +336 drivers/ras/amd/fmpm.c
+
+6f15e617cc9932 Yazen Ghannam 2024-02-13  298  
+838850c50884cd Yazen Ghannam 2024-03-01  299  static void save_spa(struct fru_rec *rec, unsigned int entry,
+838850c50884cd Yazen Ghannam 2024-03-01  300  		     u64 addr, u64 id, unsigned int cpu)
+838850c50884cd Yazen Ghannam 2024-03-01  301  {
+838850c50884cd Yazen Ghannam 2024-03-01  302  	unsigned int i, fru_idx, spa_entry;
+838850c50884cd Yazen Ghannam 2024-03-01  303  	struct atl_err a_err;
+838850c50884cd Yazen Ghannam 2024-03-01  304  	unsigned long spa;
+838850c50884cd Yazen Ghannam 2024-03-01  305  
+838850c50884cd Yazen Ghannam 2024-03-01  306  	if (entry >= max_nr_entries) {
+838850c50884cd Yazen Ghannam 2024-03-01  307  		pr_warn_once("FRU descriptor entry %d out-of-bounds (max: %d)\n",
+838850c50884cd Yazen Ghannam 2024-03-01  308  			     entry, max_nr_entries);
+838850c50884cd Yazen Ghannam 2024-03-01  309  		return;
+838850c50884cd Yazen Ghannam 2024-03-01  310  	}
+838850c50884cd Yazen Ghannam 2024-03-01  311  
+838850c50884cd Yazen Ghannam 2024-03-01  312  	/* spa_nr_entries is always multiple of max_nr_entries */
+838850c50884cd Yazen Ghannam 2024-03-01  313  	for (i = 0; i < spa_nr_entries; i += max_nr_entries) {
+838850c50884cd Yazen Ghannam 2024-03-01  314  		fru_idx = i / max_nr_entries;
+838850c50884cd Yazen Ghannam 2024-03-01  315  		if (fru_records[fru_idx] == rec)
+838850c50884cd Yazen Ghannam 2024-03-01  316  			break;
+838850c50884cd Yazen Ghannam 2024-03-01  317  	}
+838850c50884cd Yazen Ghannam 2024-03-01  318  
+838850c50884cd Yazen Ghannam 2024-03-01  319  	if (i >= spa_nr_entries) {
+838850c50884cd Yazen Ghannam 2024-03-01  320  		pr_warn_once("FRU record %d not found\n", i);
+838850c50884cd Yazen Ghannam 2024-03-01  321  		return;
+838850c50884cd Yazen Ghannam 2024-03-01  322  	}
+838850c50884cd Yazen Ghannam 2024-03-01  323  
+838850c50884cd Yazen Ghannam 2024-03-01  324  	spa_entry = i + entry;
+838850c50884cd Yazen Ghannam 2024-03-01  325  	if (spa_entry >= spa_nr_entries) {
+838850c50884cd Yazen Ghannam 2024-03-01  326  		pr_warn_once("spa_entries[] index out-of-bounds\n");
+838850c50884cd Yazen Ghannam 2024-03-01  327  		return;
+838850c50884cd Yazen Ghannam 2024-03-01  328  	}
+838850c50884cd Yazen Ghannam 2024-03-01  329  
+838850c50884cd Yazen Ghannam 2024-03-01  330  	memset(&a_err, 0, sizeof(struct atl_err));
+838850c50884cd Yazen Ghannam 2024-03-01  331  
+838850c50884cd Yazen Ghannam 2024-03-01  332  	a_err.addr = addr;
+838850c50884cd Yazen Ghannam 2024-03-01  333  	a_err.ipid = id;
+838850c50884cd Yazen Ghannam 2024-03-01  334  	a_err.cpu  = cpu;
+838850c50884cd Yazen Ghannam 2024-03-01  335  
+838850c50884cd Yazen Ghannam 2024-03-01 @336  	spa = amd_convert_umc_mca_addr_to_sys_addr(&a_err);
+838850c50884cd Yazen Ghannam 2024-03-01  337  	if (IS_ERR_VALUE(spa)) {
+838850c50884cd Yazen Ghannam 2024-03-01  338  		pr_debug("Failed to get system address\n");
+838850c50884cd Yazen Ghannam 2024-03-01  339  		return;
+838850c50884cd Yazen Ghannam 2024-03-01  340  	}
+838850c50884cd Yazen Ghannam 2024-03-01  341  
+838850c50884cd Yazen Ghannam 2024-03-01  342  	spa_entries[spa_entry] = spa;
+838850c50884cd Yazen Ghannam 2024-03-01  343  	pr_debug("fru_idx: %u, entry: %u, spa_entry: %u, spa: 0x%016llx\n",
+838850c50884cd Yazen Ghannam 2024-03-01  344  		 fru_idx, entry, spa_entry, spa_entries[spa_entry]);
+838850c50884cd Yazen Ghannam 2024-03-01  345  }
+838850c50884cd Yazen Ghannam 2024-03-01  346  
 
 -- 
 0-DAY CI Kernel Test Service
