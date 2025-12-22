@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B297E105
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 04:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947A55B1EB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 05:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766377817; cv=none; b=phqFaBfION4GuIVNqfSr+YHHzS9JQtsA8nlvmK4qM33XPNr0PueR/Hvmhovse428Rz8LSKZEaN3ahYXznXInqET95BGeVrJKN6xIfmpTGbGMtZdn5nNBMffujyLiVSVohDIcjTAj/0m8cj+xHnobaTt+UK7mQNIdsatrcVFk39s=
+	t=1766379738; cv=none; b=XXkEN9wJgDL08RgOhtsjkdLK7IHFq7TtZgNwQgpixsfijlh7ZqAgqMj+VYflEGkBrhtxcVqkBDOUcwkYn+bTgxnoR6lQsqbjMrmqHBRMpOFg3pgZk4/3CXvc7p8jDPmf6Ac+Bu+APGQLYmpWqd/6PJzUX3i9giCXHlV9B7Ec9/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766377817; c=relaxed/simple;
-	bh=/FfDXGOpwD2/zMy+WSoClNpBnnwc0bo+fAnZt+g8eSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uR58SSNGgQ3P4QTwDEpwtodsE3c2jlDFSQ2QvIVD/iEMLsCSbQxzC6AVRXRFwXDp/k75eRRsMCmUIP+LLiiRgA1IHbRHEmJhWm1yhFMJylDNQ7VZNpxfisW1WSS+etYfLSq5gZYxJKcCV7Rt/yPzeUzx06IrLTnAHft8AiIIorU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwXepuaz; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1766379738; c=relaxed/simple;
+	bh=blIjubQYIGL0QxI9JnbsbYFZJ3h5UaT7l5utd9UMyOs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HW+M7rmdIVBphBmuwxA3HpRE6fIBQaR4QBDi6o6toVeqx1ajGFSiEzgE2kIBY9Il7TLHfM/SWhIKx5xrtlk95D0Y3L/7bMPtG2/I7E5TkBVS5t+XwXTKOAteLzsG5ZvACFT3L6+y+E42Vcxvd6t5K1Tjel6uE5RKTzDVm8CvJGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yqt0W2cu; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwXepuaz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yqt0W2cu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766377816; x=1797913816;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/FfDXGOpwD2/zMy+WSoClNpBnnwc0bo+fAnZt+g8eSg=;
-  b=CwXepuaz6DrtPITi7gMcTwjo8Vpqs9lPNRP7MZoXk4m/ynT1TPqKQqxa
-   28FPd0iFkcoL/qFZxhygWbii9euLh5uu+IQsBcrPaiDyzgRsJXElxIM6+
-   XANDhGWJl68N3dqP4H6nUljCRYlAOWQll1AcmiXItU6IFkmvA2bGm7tkq
-   /5s6ShSqAkPW3HTscF75o6XkOIGnXXS2///1hDtem13a7F2+cFx/rQ0X0
-   tKOwnyv05RCGzD9OYhZ7BBOFHADjOoJfs5RkyN8dhs88sVWrnGfjBEVxo
-   nrLY4sGlf00dWTAUYE9pBpXmj7LLxPvHygak/KdSIw+ATdEwyJTtRRBs+
-   A==;
-X-CSE-ConnectionGUID: IifQ4xXURySOMcPFIdFCng==
-X-CSE-MsgGUID: 13WK5EBjTlyxnMvlFb4ZKQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="72081618"
+  t=1766379737; x=1797915737;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=blIjubQYIGL0QxI9JnbsbYFZJ3h5UaT7l5utd9UMyOs=;
+  b=Yqt0W2cuLwfsQ4mWF6cDaODvxaB4FxLK5Bv3+ieA9vKm/O821ntfQemu
+   eW5ClMC6AAjD34cNPpiLqSRbp6H1AvTBf1WAgovvj0G9L0ZErrbl+GGg2
+   5HfqaP9C8K5Cfdqs5H9yRX2lXh6GZAYbFw+DeSbfdVut96i5WR0nV7woG
+   I144BMg/uG1iyAl14v1e5zzqIZUtezZVCUTGFqM7TB5WZjUo2vcESPOwN
+   XuNfayOipRGVuMmk44m8h/cI354hLbNTDlky6PptDviKhfKMf2tCHdaVy
+   5sWzf0gtBEfo69vRuLqBzl0XL6aIAixfOuxMZuraPvxvWEFOAfD/Rqv7Q
+   Q==;
+X-CSE-ConnectionGUID: /j7fYDD0S3KGX2/Y33OiHQ==
+X-CSE-MsgGUID: gZh335zQRxC4+lyDAxFFFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68281423"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="72081618"
+   d="scan'208";a="68281423"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 20:30:16 -0800
-X-CSE-ConnectionGUID: BImzOO70RXuTWgue//rBtw==
-X-CSE-MsgGUID: pyz8x/LbQUyDo0hnQyPMXQ==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 21:02:16 -0800
+X-CSE-ConnectionGUID: OydS4gqHR6eRg2RqohbgaQ==
+X-CSE-MsgGUID: 6tYC9+o0Rci+OI35D9v0VA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="230445471"
+   d="scan'208";a="230449177"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Dec 2025 20:30:14 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 21 Dec 2025 21:02:13 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXXYh-000000005MG-1EWg;
-	Mon, 22 Dec 2025 04:30:11 +0000
-Date: Mon, 22 Dec 2025 05:30:01 +0100
+	id 1vXY3f-000000005MW-2555;
+	Mon, 22 Dec 2025 05:02:11 +0000
+Date: Mon, 22 Dec 2025 06:01:27 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 3/3] fs/fs-writeback.c:1349:6:
- warning: no previous prototype for function 'redirty_tail_locked'
-Message-ID: <202512220545.jDxxyINJ-lkp@intel.com>
+To: Ziming Du <duziming2@huawei.com>, bhelgaas@google.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrisw@redhat.com,
+	jbarnes@virtuousgeek.org, alex.williamson@redhat.com,
+	liuyongqiang13@huawei.com, duziming2@huawei.com
+Subject: Re: [PATCH 2/3] PCI/sysfs: Prohibit unaligned access to I/O port on
+ non-x86
+Message-ID: <202512220635.gFQlRFAa-lkp@intel.com>
+References: <20251216083912.758219-3-duziming2@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,78 +66,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251216083912.758219-3-duziming2@huawei.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   54e1389bda8399711722cd321abe212a2327e9a3
-commit: 55cf94258af72fd493779ab2b7a4278d5c8d1d21 [3/3] ANDROID: writeback: export symbols to do a hierarchical writeback control
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251222/202512220545.jDxxyINJ-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ecaf673850beb241957352bd61e95ed34256635f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220545.jDxxyINJ-lkp@intel.com/reproduce)
+Hi Ziming,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ziming-Du/PCI-sysfs-fix-null-pointer-dereference-during-PCI-hotplug/20251216-163452
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20251216083912.758219-3-duziming2%40huawei.com
+patch subject: [PATCH 2/3] PCI/sysfs: Prohibit unaligned access to I/O port on non-x86
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251222/202512220635.gFQlRFAa-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220635.gFQlRFAa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512220545.jDxxyINJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512220635.gFQlRFAa-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/fs-writeback.c:138:6: warning: no previous prototype for function 'wb_wakeup' [-Wmissing-prototypes]
-     138 | void wb_wakeup(struct bdi_writeback *wb)
-         |      ^
-   fs/fs-writeback.c:138:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     138 | void wb_wakeup(struct bdi_writeback *wb)
-         | ^
-         | static 
->> fs/fs-writeback.c:1349:6: warning: no previous prototype for function 'redirty_tail_locked' [-Wmissing-prototypes]
-    1349 | void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
-         |      ^
-   fs/fs-writeback.c:1349:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1349 | void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
-         | ^
-         | static 
-   2 warnings generated.
+>> drivers/pci/pci-sysfs.c:1145:13: warning: 'is_unaligned' defined but not used [-Wunused-function]
+    1145 | static bool is_unaligned(unsigned long port, size_t size)
+         |             ^~~~~~~~~~~~
 
 
-vim +/redirty_tail_locked +1349 fs/fs-writeback.c
+vim +/is_unaligned +1145 drivers/pci/pci-sysfs.c
 
-  1339	
-  1340	/*
-  1341	 * Redirty an inode: set its when-it-was dirtied timestamp and move it to the
-  1342	 * furthest end of its superblock's dirty-inode list.
-  1343	 *
-  1344	 * Before stamping the inode's ->dirtied_when, we check to see whether it is
-  1345	 * already the most-recently-dirtied inode on the b_dirty list.  If that is
-  1346	 * the case then the inode must have been redirtied while it was being written
-  1347	 * out and we don't reset its dirtied_when.
-  1348	 */
-> 1349	void redirty_tail_locked(struct inode *inode, struct bdi_writeback *wb)
-  1350	{
-  1351		struct list_head *target_list = &wb->b_dirty;
-  1352		assert_spin_locked(&inode->i_lock);
-  1353	
-  1354		inode->i_state &= ~I_SYNC_QUEUED;
-  1355		/*
-  1356		 * When the inode is being freed just don't bother with dirty list
-  1357		 * tracking. Flush worker will ignore this inode anyway and it will
-  1358		 * trigger assertions in inode_io_list_move_locked().
-  1359		 */
-  1360		if (inode->i_state & I_FREEING) {
-  1361			list_del_init(&inode->i_io_list);
-  1362			wb_io_lists_depopulated(wb);
-  1363			return;
-  1364		}
-  1365		trace_android_vh_redirty_tail_locked(&target_list, inode, wb);
-  1366		if (!list_empty(target_list)) {
-  1367			struct inode *tail;
-  1368	
-  1369			tail = wb_inode(target_list->next);
-  1370			if (time_before(inode->dirtied_when, tail->dirtied_when))
-  1371				inode->dirtied_when = jiffies;
-  1372		}
-  1373		inode_io_list_move_locked(inode, wb, target_list);
-  1374	}
-  1375	EXPORT_SYMBOL_GPL(redirty_tail_locked);
-  1376	
+  1143	
+  1144	#if !defined(CONFIG_X86)
+> 1145	static bool is_unaligned(unsigned long port, size_t size)
+  1146	{
+  1147		return port & (size - 1);
+  1148	}
+  1149	#endif
+  1150	
 
 -- 
 0-DAY CI Kernel Test Service
