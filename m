@@ -1,150 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E2833290B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 21:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0053C3009C1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 21:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766437995; cv=none; b=U8xwYL4yhWHxT9QPvWjpGLxwuyLRUlKkEZDm0MEhK6e58o8O7WJpphGNlHp8cqoZThWNt0j2v/zpc3vTBr4Ozohe4FBf8qpr/qBt37E0QjvvdReFiYGzaYqJXKHlgZvoCGlBEE/RYf8YKh9EjjYo13s9kOhUhLzV403S4SHLzH0=
+	t=1766438548; cv=none; b=TVmOJhpMq5QMKL90MNzb3RVNX/YHBfnY/lx95JEznHR4LtMB7pmpeYlm9mC1Ok07WN1/7YvznpTjQdI3fB9rdNRIV6wEVCKCjjcHeiZQfrNA70V775lKmc0aj0agFFvPxsxqWOC2w+DCA5GPIKZbDOA1AY8IHgOLDxOTwQ6nKqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766437995; c=relaxed/simple;
-	bh=cmOEXUCSTIuc4gc7f8F6EjncWp8HFRySTs8GKyFb0rg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=imup5ELYTfjxR4LJMIiljgSG7fSAoIyNcns08uW609+KYB+75OlyM7v6RT/gfjLmXei9BbL0/gnGY6No+jDcwMTzMjz4uf5X5F5uZ0oVSbpj8exIHTWhoLjdKMnjTIBLYxdqLxaFakiTc1LIZ4lVCCRVdG86KwOjc/5WJFqC13w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CdZeU7Z+; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1766438548; c=relaxed/simple;
+	bh=WHC2LCbLzfTjf9EpAh4/w6qThobsuZGYJY438eTYmVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QaDCJ2ePeyRElititjK5BTMq1JmWRCsgDeN9Gq+SDeHmydc1cRUMdGbOxyUbEzx97+oExjcEyiPGTwlY9fsrUSQKwVFoJurNpiybuh7nkmvc738uQvehBEBaOdq9NpIYxBmmXieGCuWF5ch5awjRkuZGkeo4USgPSU4JuApkrHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T6g63fDG; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CdZeU7Z+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T6g63fDG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766437993; x=1797973993;
-  h=date:from:to:cc:subject:message-id;
-  bh=cmOEXUCSTIuc4gc7f8F6EjncWp8HFRySTs8GKyFb0rg=;
-  b=CdZeU7Z+WkPSViLG6MVp/vRoePvQABXR0+NLhCerNXwP1afc/qs2UFf+
-   CILgBv9rd6FBjrzgNGd6HCRtrSLvnc3slsbfuDozb3DlJHP0BCp4OQfsl
-   Nu8Rb9WtLHBtINmG2O0gSxNFHlv22HT1qgrG/EH88SaTZMch0D0wtkHsw
-   6JNH9NMp+8jqWSKylVOIovaF2SjgW9e7f17LFxUEfKwUWuUHxyPX98AAo
-   BgCARVdK/O1id6uD+tXfcpP/EenPct6Ovemq38qKAC/xoubQP8TYTzPlv
-   nGLIvGxnMJXwOt4F+jqmViz42K7VaeTxo2jY3A99uA8PZkKTuS1h2SNoo
-   Q==;
-X-CSE-ConnectionGUID: //7XWnUzTamaHThJEIkuAQ==
-X-CSE-MsgGUID: Lbk5R8hJTPCaJhqgwTbw6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="78611118"
+  t=1766438547; x=1797974547;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WHC2LCbLzfTjf9EpAh4/w6qThobsuZGYJY438eTYmVg=;
+  b=T6g63fDGYDWpbi1KNBLkmD962Jyee+ZevV3RNJF7H9hK/t7FFxlCu8mO
+   fzUxSJzfmlN1w4b2ue+0hx80b+PdoH0g+mCBxXAuqidSilnoa98e/r7VE
+   w0x/rU9hY4BAt//K4mJtx0KZo7hl3ju0reU547muY3eH+qN+uCA0kOKcA
+   grU1evxFVyQL0mb9Vwe5K3mfIpuvhH/69Y1HecR+9R/a6FskOPYGemP6F
+   l3vE37+MP7WPua7/qlKYi2hYJfj7OXtFrQlY88InPX2yakMlpulLLsM6E
+   baaUh8gFSMZxM4IL4XpUY2MXTpEhdHYoOz59Y6En01oQbk5Qw2xptXhEj
+   g==;
+X-CSE-ConnectionGUID: 8edmWlakS4KtHKKw7EQ7+Q==
+X-CSE-MsgGUID: xYQAhT2+T7KU9cvNgw//Aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="67289163"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="78611118"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 13:13:12 -0800
-X-CSE-ConnectionGUID: w44MwuErQaCE2rtf7rkQpg==
-X-CSE-MsgGUID: nzdJfPpLT02kMwYDBE7/pw==
+   d="scan'208";a="67289163"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 13:22:26 -0800
+X-CSE-ConnectionGUID: OmuNR9s+R32uQN5NHa3lJA==
+X-CSE-MsgGUID: nVM+T/0RRHal263zpgRWcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="199608077"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 22 Dec 2025 13:13:11 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="223095432"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 22 Dec 2025 13:22:25 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXnDD-0000000017X-2W7w;
-	Mon, 22 Dec 2025 21:13:04 +0000
-Date: Tue, 23 Dec 2025 05:12:41 +0800
+	id 1vXnMF-000000005cO-18qc;
+	Mon, 22 Dec 2025 21:22:23 +0000
+Date: Mon, 22 Dec 2025 22:22:02 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-12 0/2] mm/cma.c:196:
- warning: Function parameter or struct member 'gcma' not described in
- 'cma_init_reserved_mem'
-Message-ID: <202512230500.ZwIE9cg0-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: [android-common:android11-kiwi-5.4 458/458]
+ arch/x86/entry/entry_64.S:1732: Warning: no instruction mnemonic suffix
+ given and no register operands; using default for `sysret'
+Message-ID: <202512222229.4qMbNdJR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Suren,
+Hi Kees,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-12
-head:   a2bc6533e6cc289203eaf3d879c1b485dce2cbef
-commit: 0dad457899d7c4f28855dfadf6c71a1ff8d751ff [0/2] ANDROID: integrate GCMA with CMA using dt-bindings
-config: i386-randconfig-012-20251221 (https://download.01.org/0day-ci/archive/20251223/202512230500.ZwIE9cg0-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
+head:   8cc11e1aa30fd981a8d5bd390a4352c37dfe543e
+commit: aca7e5b6a5008dcf551516490b0ba4510e073d08 [458/458] libsubcmd: Fix use-after-free for realloc(..., 0)
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251222/202512222229.4qMbNdJR-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230500.ZwIE9cg0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512222229.4qMbNdJR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230500.ZwIE9cg0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512222229.4qMbNdJR-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/cma.c:196: warning: Function parameter or struct member 'gcma' not described in 'cma_init_reserved_mem'
+   arch/x86/entry/entry_64.S: Assembler messages:
+>> arch/x86/entry/entry_64.S:1732: Warning: no instruction mnemonic suffix given and no register operands; using default for `sysret'
+--
+>> arch/x86/entry/common.c:278:16: warning: no previous prototype for 'do_syscall_64' [-Wmissing-prototypes]
+     278 | __visible void do_syscall_64(unsigned long nr, struct pt_regs *regs)
+         |                ^~~~~~~~~~~~~
+--
+>> drivers/acpi/cppc_acpi.c:611:5: warning: no previous prototype for 'pcc_data_alloc' [-Wmissing-prototypes]
+     611 | int pcc_data_alloc(int pcc_ss_id)
+         |     ^~~~~~~~~~~~~~
+--
+>> drivers/mailbox/pcc.c:179: warning: Function parameter or member 'irq' not described in 'pcc_mbox_irq'
+>> drivers/mailbox/pcc.c:179: warning: Function parameter or member 'p' not described in 'pcc_mbox_irq'
 
 
-vim +196 mm/cma.c
+vim +1732 arch/x86/entry/entry_64.S
 
-27d121d0ec6d60 Hari Bathini       2022-03-22  179  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  180  /**
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  181   * cma_init_reserved_mem() - create custom contiguous area from reserved memory
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  182   * @base: Base address of the reserved area
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  183   * @size: Size of the reserved area (in bytes),
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  184   * @order_per_bit: Order of pages represented by one bit on bitmap.
-e8b098fc5747a7 Mike Rapoport      2018-04-05  185   * @name: The name of the area. If this parameter is NULL, the name of
-e8b098fc5747a7 Mike Rapoport      2018-04-05  186   *        the area will be set to "cmaN", where N is a running counter of
-e8b098fc5747a7 Mike Rapoport      2018-04-05  187   *        used areas.
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  188   * @res_cma: Pointer to store the created cma region.
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  189   *
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  190   * This function creates custom contiguous area from already reserved memory.
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  191   */
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  192  int __init cma_init_reserved_mem(phys_addr_t base, phys_addr_t size,
-ac173824959ade Sasha Levin        2015-04-14  193  				 unsigned int order_per_bit,
-f318dd083c8128 Laura Abbott       2017-04-18  194  				 const char *name,
-0dad457899d7c4 Suren Baghdasaryan 2025-02-28  195  				 struct cma **res_cma, bool gcma)
-de9e14eebf33a6 Marek Szyprowski   2014-10-13 @196  {
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  197  	struct cma *cma;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  198  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  199  	/* Sanity checks */
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  200  	if (cma_area_count == ARRAY_SIZE(cma_areas)) {
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  201  		pr_err("Not enough slots for CMA reserved regions!\n");
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  202  		return -ENOSPC;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  203  	}
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  204  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  205  	if (!size || !memblock_is_region_reserved(base, size))
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  206  		return -EINVAL;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  207  
-e16faf26780fc0 David Hildenbrand  2022-03-22  208  	/* ensure minimal alignment required by mm core */
-e16faf26780fc0 David Hildenbrand  2022-03-22  209  	if (!IS_ALIGNED(base | size, CMA_MIN_ALIGNMENT_BYTES))
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  210  		return -EINVAL;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  211  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  212  	/*
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  213  	 * Each reserved area must be initialised later, when more kernel
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  214  	 * subsystems (like slab allocator) are available.
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  215  	 */
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  216  	cma = &cma_areas[cma_area_count];
-18e98e56f4407b Barry Song         2020-08-11  217  
-18e98e56f4407b Barry Song         2020-08-11  218  	if (name)
-18e98e56f4407b Barry Song         2020-08-11  219  		snprintf(cma->name, CMA_MAX_NAME, name);
-18e98e56f4407b Barry Song         2020-08-11  220  	else
-0dad457899d7c4 Suren Baghdasaryan 2025-02-28  221  		snprintf(cma->name, CMA_MAX_NAME,
-0dad457899d7c4 Suren Baghdasaryan 2025-02-28  222  			 gcma ? "gcma%d\n" : "cma%d\n", cma_area_count);
-18e98e56f4407b Barry Song         2020-08-11  223  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  224  	cma->base_pfn = PFN_DOWN(base);
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  225  	cma->count = size >> PAGE_SHIFT;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  226  	cma->order_per_bit = order_per_bit;
-0dad457899d7c4 Suren Baghdasaryan 2025-02-28  227  	cma->gcma = gcma;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  228  	*res_cma = cma;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  229  	cma_area_count++;
-5c0532500f102a Hao Ge             2024-07-29  230  	totalcma_pages += cma->count;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  231  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  232  	return 0;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  233  }
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  234  
+ddeb8f2149de28 arch/x86/kernel/entry_64.S Alexander van Heukelum 2008-11-24  1723  
+dffb3f9db6b593 arch/x86/entry/entry_64.S  Andy Lutomirski        2019-07-01  1724  #ifndef CONFIG_IA32_EMULATION
+dffb3f9db6b593 arch/x86/entry/entry_64.S  Andy Lutomirski        2019-07-01  1725  /*
+dffb3f9db6b593 arch/x86/entry/entry_64.S  Andy Lutomirski        2019-07-01  1726   * This handles SYSCALL from 32-bit code.  There is no way to program
+dffb3f9db6b593 arch/x86/entry/entry_64.S  Andy Lutomirski        2019-07-01  1727   * MSRs to fully disable 32-bit SYSCALL.
+dffb3f9db6b593 arch/x86/entry/entry_64.S  Andy Lutomirski        2019-07-01  1728   */
+ddeb8f2149de28 arch/x86/kernel/entry_64.S Alexander van Heukelum 2008-11-24  1729  ENTRY(ignore_sysret)
+8c1f75587a18ca arch/x86/entry/entry_64.S  Josh Poimboeuf         2017-07-11  1730  	UNWIND_HINT_EMPTY
+ddeb8f2149de28 arch/x86/kernel/entry_64.S Alexander van Heukelum 2008-11-24  1731  	mov	$-ENOSYS, %eax
+ddeb8f2149de28 arch/x86/kernel/entry_64.S Alexander van Heukelum 2008-11-24 @1732  	sysret
+ddeb8f2149de28 arch/x86/kernel/entry_64.S Alexander van Heukelum 2008-11-24  1733  END(ignore_sysret)
+dffb3f9db6b593 arch/x86/entry/entry_64.S  Andy Lutomirski        2019-07-01  1734  #endif
+2deb4be2807763 arch/x86/entry/entry_64.S  Andy Lutomirski        2016-07-14  1735  
 
-:::::: The code at line 196 was first introduced by commit
-:::::: de9e14eebf33a60712a52a0bc6e08c043c0aba53 drivers: dma-contiguous: add initialization from device tree
+:::::: The code at line 1732 was first introduced by commit
+:::::: ddeb8f2149de280d54f0c8910cead42e6042b2cb x86_64: get rid of the use of KPROBE_ENTRY / KPROBE_END
 
-:::::: TO: Marek Szyprowski <m.szyprowski@samsung.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Alexander van Heukelum <heukelum@mailshack.com>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
