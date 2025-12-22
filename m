@@ -1,69 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC43E33A9D9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 23:37:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DE333C52E;
+	Mon, 22 Dec 2025 23:37:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766446678; cv=none; b=My6VD5gVlyyG3QXPkFARXyNXb3+CeMdD9kN0YwpC+4cx+PFDYFKfPpaVBn6QEtQmTRieBN1+ZGLeseFQm5crP+dtUWNM7kbJcae70zxQdYeumBySGFLNtiv7WUb1/s6qRIOPvpM4tql5oTtLqI5RMigMctyAItx5wdbSmRSVgRo=
+	t=1766446680; cv=none; b=FRjViwXyUFtvGuoYMKpxtTVJ71gEl4HnwsCDgZlSwagT08+4zAoVbiGBuE17QdgMKpvqzWD+ujT/qz13NT4CAeWwosLCfqWeYwsfxqB75NapxKX5ZbhBWcooWWbKSt9FbibytngbhWvyT7q60kU82XIxB6mopswOWvf6OxhhTLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766446678; c=relaxed/simple;
-	bh=GTTxBXThMiBVh7rRCqGTTA5RCCI7spzskoPCS18amCc=;
+	s=arc-20240116; t=1766446680; c=relaxed/simple;
+	bh=FnuE/O9HxUgy9+sc5bMXa0KAmbMJC+TFTgxYzciborU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=diVsn8rjUhJyrSDNrUi+4Lopu9SrhWsqqkNtLD9taNK93uwSLYcI3VmK2OByR06VP60SpEwDRSKGpoisL/OeMX+LY1XkYFsaKr6ETd/nfAuyk9ZybknQ1sAD5r2bzE2aygMYK+ZSqDxGB9BCFOm4Sf7amXuX2bawRrlViDLyxao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LRbeyqb7; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZXFGFEaWnjUq+vmdhdGtTktHToQa8KzOCD689PqH1QU9TcuzluFRr+H3fEzCZ4aw1r+I3jofZFDAJ+NOhIfCJ64vD4/eMMUGKmpl2r3I4EnR2Y02FKL2/8kuHVABTWakds9lSBNW0B3jGqFHyLvUwnDLMOeVXYIp/BOveLp0TmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BsclPsdf; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LRbeyqb7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BsclPsdf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766446676; x=1797982676;
+  t=1766446679; x=1797982679;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GTTxBXThMiBVh7rRCqGTTA5RCCI7spzskoPCS18amCc=;
-  b=LRbeyqb7gm/DcXVEOvVv0j9pc+gP/fdcsMIZn5rtoPgOmSFxZqCAXlQW
-   g+Nmcszc7ry3NAkuXVgCVRD1GPwQbyGR9YG5oebR83QbGF8NSoOE9cg+D
-   7LIV5VN+7Dn9RxDSoDDUHpGFBq9j98iaRjam8XCXxlA2PDQSGObamg1pP
-   Syh1LHyCiQ1QSmPTcYW2xkFT0w7iUM++iOTqjVVuE9T9E7EuyiCcIlBDu
-   zmWKYmcqKrbEm4x+U8iAK2XqqIIcwlpF7Qqlge8srsm7elgG/EJfhPe0q
-   YG/nqPk3zLTnTqCYqrT6JvCBk0203JXMpg4RKFqlAZx3ss4maprSsTr+C
-   A==;
-X-CSE-ConnectionGUID: RpiRDBeyQkOoBft5B3ukBA==
-X-CSE-MsgGUID: ebN4lqfsSBifvRbkOBGbEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68285656"
+  bh=FnuE/O9HxUgy9+sc5bMXa0KAmbMJC+TFTgxYzciborU=;
+  b=BsclPsdfs8VXRiqNSKwiXikcQHgdIKpDjcANYBkb4zvYXVzrEtON3CSJ
+   xE+/Q3dCa81gCJ/vvolfRXZD1qzmYdVn65khgPeoWBVSsgu4pIU5yYG/U
+   ADL0yWlldO2aWl8IOACgsYbrv0dm6u6E/vGpfiAWzjJ3fHXShRDplZAdc
+   Wk2tu7KGwyvTvzqgar/vEj0UQSqIZNk6yXtpdjxmjjMOo+KvVM3owlzgK
+   kvAgfea7QhvmizWr+z5Yu8Zh3k+v3PDMhUDa06jDWaWWcZEmsyNaeSkN0
+   6RCmqb2HTL6gNDV72jMzMUSUwODTuppa4J4mfxpoiP3LLz9lytbtCh/Bo
+   g==;
+X-CSE-ConnectionGUID: P5A6BW/4R+yMppVcl9iQ2w==
+X-CSE-MsgGUID: PATpBCjyRqC7WSOEW5Te/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68285671"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="68285656"
+   d="scan'208";a="68285671"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 15:37:48 -0800
-X-CSE-ConnectionGUID: POAPZcI2RCufB4ctO2x9QQ==
-X-CSE-MsgGUID: Cike9Nj7R1aVw0ldq9KVzg==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 15:37:49 -0800
+X-CSE-ConnectionGUID: /7rmrmvcQjykLlDXEdLJnQ==
+X-CSE-MsgGUID: KqFvZ5MLSmaJFSgmmnDnWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="199945999"
+   d="scan'208";a="199945998"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 22 Dec 2025 15:37:44 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 22 Dec 2025 15:37:43 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXpTC-000000001Dz-09Wj;
-	Mon, 22 Dec 2025 23:37:42 +0000
-Date: Tue, 23 Dec 2025 07:36:43 +0800
+	id 1vXpTB-000000001Dx-40xf;
+	Mon, 22 Dec 2025 23:37:41 +0000
+Date: Tue, 23 Dec 2025 07:36:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wanpeng Li <kernellwp@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, K Prateek Nayak <kprateek.nayak@amd.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Juri Lelli <juri.lelli@redhat.com>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Wanpeng Li <wanpengli@tencent.com>
-Subject: Re: [PATCH v2 4/9] sched/fair: Add penalty calculation and
- application logic
-Message-ID: <202512230746.EpT2QbVU-lkp@intel.com>
-References: <20251219035334.39790-5-kernellwp@gmail.com>
+To: Harry Yoo <harry.yoo@oracle.com>, akpm@linux-foundation.org,
+	vbabka@suse.cz
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	andreyknvl@gmail.com, cl@gentwo.org, dvyukov@google.com,
+	glider@google.com, hannes@cmpxchg.org, linux-mm@kvack.org,
+	mhocko@kernel.org, muchun.song@linux.dev, rientjes@google.com,
+	roman.gushchin@linux.dev, ryabinin.a.a@gmail.com,
+	shakeel.butt@linux.dev, surenb@google.com,
+	vincenzo.frascino@arm.com, yeoreum.yun@arm.com,
+	harry.yoo@oracle.com, tytso@mit.edu, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, hao.li@linux.dev
+Subject: Re: [PATCH V4 4/8] mm/slab: abstract slabobj_ext access via new
+ slab_obj_ext() helper
+Message-ID: <202512230850.bBE4pAZ5-lkp@intel.com>
+References: <20251222110843.980347-5-harry.yoo@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,151 +73,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251219035334.39790-5-kernellwp@gmail.com>
+In-Reply-To: <20251222110843.980347-5-harry.yoo@oracle.com>
 
-Hi Wanpeng,
+Hi Harry,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on kvm/next tip/sched/core peterz-queue/sched/core tip/master linus/master v6.19-rc2 next-20251219]
-[cannot apply to kvm/linux-next tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wanpeng-Li/sched-fair-Add-rate-limiting-and-validation-helpers/20251219-125353
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20251219035334.39790-5-kernellwp%40gmail.com
-patch subject: [PATCH v2 4/9] sched/fair: Add penalty calculation and application logic
-config: openrisc-randconfig-r122-20251221 (https://download.01.org/0day-ci/archive/20251223/202512230746.EpT2QbVU-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230746.EpT2QbVU-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Yoo/mm-slab-use-unsigned-long-for-orig_size-to-ensure-proper-metadata-align/20251222-191144
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20251222110843.980347-5-harry.yoo%40oracle.com
+patch subject: [PATCH V4 4/8] mm/slab: abstract slabobj_ext access via new slab_obj_ext() helper
+config: x86_64-buildonly-randconfig-001-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230850.bBE4pAZ5-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230850.bBE4pAZ5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230746.EpT2QbVU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230850.bBE4pAZ5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:1158:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *running @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:1158:49: sparse:     expected struct task_struct *running
-   kernel/sched/fair.c:1158:49: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:1194:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_entity *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1194:33: sparse:     expected struct sched_entity *se
-   kernel/sched/fair.c:1194:33: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:1250:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1250:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1250:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:13176:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:13176:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:13176:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8354:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8354:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:8354:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8558:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8558:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:8558:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8757:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:8757:39: sparse:     expected struct task_struct *donor
-   kernel/sched/fair.c:8757:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:8784:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8784:37: sparse:     expected struct task_struct *tsk
-   kernel/sched/fair.c:8784:37: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:9089:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *p_yielding @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:9089:20: sparse:     expected struct task_struct *p_yielding
-   kernel/sched/fair.c:9089:20: sparse:     got struct task_struct [noderef] __rcu *donor
->> kernel/sched/fair.c:9150:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *p_yielding @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:9150:44: sparse:     expected struct task_struct *p_yielding
-   kernel/sched/fair.c:9150:44: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:9295:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/fair.c:9295:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:9295:38: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/fair.c:10331:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:10331:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:10331:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:10959:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:10959:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:10959:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:12431:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12431:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12431:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:12069:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12069:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:12069:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:12544:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12544:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12544:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:6688:35: sparse: sparse: marked inline, but without a definition
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2647:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2647:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2647:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2314:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2314:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2314:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2303:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2303:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2303:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2314:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2314:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2314:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2314:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2314:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2314:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2314:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2314:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2314:26: sparse:    struct task_struct *
+All errors (new ones prefixed by >>):
 
-vim +9150 kernel/sched/fair.c
+>> mm/slub.c:2056:33: error: passing 'union codetag_ref' to parameter of incompatible type 'union codetag_ref *'; take the address with &
+    2056 |                 if (unlikely(is_codetag_empty(ext->ref)))
+         |                                               ^~~~~~~~
+         |                                               &
+   include/linux/compiler.h:47:41: note: expanded from macro 'unlikely'
+      47 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+         |                                           ^
+   include/linux/compiler.h:32:34: note: expanded from macro '__branch_check__'
+      32 |                         ______r = __builtin_expect(!!(x), expect);      \
+         |                                                       ^
+   include/linux/alloc_tag.h:52:56: note: passing argument to parameter 'ref' here
+      52 | static inline bool is_codetag_empty(union codetag_ref *ref)
+         |                                                        ^
+>> mm/slub.c:2056:33: error: passing 'union codetag_ref' to parameter of incompatible type 'union codetag_ref *'; take the address with &
+    2056 |                 if (unlikely(is_codetag_empty(ext->ref)))
+         |                                               ^~~~~~~~
+         |                                               &
+   include/linux/compiler.h:47:68: note: expanded from macro 'unlikely'
+      47 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+         |                                                                      ^
+   include/linux/compiler.h:34:19: note: expanded from macro '__branch_check__'
+      34 |                                              expect, is_constant);      \
+         |                                                      ^~~~~~~~~~~
+   include/linux/alloc_tag.h:52:56: note: passing argument to parameter 'ref' here
+      52 | static inline bool is_codetag_empty(union codetag_ref *ref)
+         |                                                        ^
+   2 errors generated.
 
-  9134	
-  9135	/*
-  9136	 * Apply debounce for reverse yield pairs to reduce ping-pong effects.
-  9137	 * When A yields to B, then B yields back to A within ~600us, downscale
-  9138	 * the penalty to prevent oscillation.
-  9139	 *
-  9140	 * The 600us threshold is chosen to be:
-  9141	 * - Long enough to catch rapid back-and-forth yields
-  9142	 * - Short enough to not affect legitimate sequential yields
-  9143	 *
-  9144	 * Returns the (possibly reduced) penalty value.
-  9145	 */
-  9146	static u64 yield_deboost_apply_debounce(struct rq *rq, struct task_struct *p_target,
-  9147						u64 penalty, u64 need, u64 gran)
-  9148	{
-  9149		u64 now = rq_clock(rq);
-> 9150		struct task_struct *p_yielding = rq->donor;
-  9151		pid_t src_pid, dst_pid;
-  9152		pid_t last_src, last_dst;
-  9153		u64 last_ns;
-  9154	
-  9155		if (!p_yielding || !p_target)
-  9156			return penalty;
-  9157	
-  9158		src_pid = p_yielding->pid;
-  9159		dst_pid = p_target->pid;
-  9160		last_src = rq->yield_deboost_last_src_pid;
-  9161		last_dst = rq->yield_deboost_last_dst_pid;
-  9162		last_ns = rq->yield_deboost_last_pair_time_ns;
-  9163	
-  9164		/* Detect reverse pair: previous was target->source */
-  9165		if (last_src == dst_pid && last_dst == src_pid &&
-  9166		    (now - last_ns) <= 600 * NSEC_PER_USEC) {
-  9167			u64 alt = max(need, gran);
-  9168	
-  9169			if (penalty > alt)
-  9170				penalty = alt;
-  9171		}
-  9172	
-  9173		/* Update tracking state */
-  9174		rq->yield_deboost_last_src_pid = src_pid;
-  9175		rq->yield_deboost_last_dst_pid = dst_pid;
-  9176		rq->yield_deboost_last_pair_time_ns = now;
-  9177	
-  9178		return penalty;
-  9179	}
-  9180	
+
+vim +2056 mm/slub.c
+
+  2042	
+  2043	static inline void mark_objexts_empty(struct slabobj_ext *obj_exts)
+  2044	{
+  2045		unsigned long slab_exts;
+  2046		struct slab *obj_exts_slab;
+  2047	
+  2048		obj_exts_slab = virt_to_slab(obj_exts);
+  2049		slab_exts = slab_obj_exts(obj_exts_slab);
+  2050		if (slab_exts) {
+  2051			unsigned int offs = obj_to_index(obj_exts_slab->slab_cache,
+  2052							 obj_exts_slab, obj_exts);
+  2053			struct slabobj_ext *ext = slab_obj_ext(obj_exts_slab,
+  2054							       slab_exts, offs);
+  2055	
+> 2056			if (unlikely(is_codetag_empty(ext->ref)))
+  2057				return;
+  2058	
+  2059			/* codetag should be NULL here */
+  2060			WARN_ON(ext->ref.ct);
+  2061			set_codetag_empty(&ext->ref);
+  2062		}
+  2063	}
+  2064	
 
 -- 
 0-DAY CI Kernel Test Service
