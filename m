@@ -1,107 +1,224 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF93331A55
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 16:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FE63328F1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 16:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766421446; cv=none; b=Em5NZIuNRGZWPrKfTVBJaucRYksw6Ie9BEKnfomkeBfsBHbjnw23XSHTgAKRk8fsYZVwQBfg2UjM4QF4D+ZqpOI8589Z9Kj3KXXRPfTmRYCfdQA7jnj0S02s7nOjzd88kG4w+9fkvE3yWcI6KomXG+Rsvb9sX6k+c2bLDzMZW30=
+	t=1766422234; cv=none; b=UJ0ve2baT6MngCUeym050LEU7ENRNqAcD1qYObe0hcbKxE9Rl8sr6xFYsL93wy+64gYW2PxjKmpb6Lv9zgMe5HnQy/d0qujSSx9V4+tWh/O8q2FXbqULfRZo8ifh0I0kfouyRFNvSh/HvdaK0I75t0AVO4iwgji9/5m8dffMAV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766421446; c=relaxed/simple;
-	bh=Wfss8ZAwJ5UIe7i0MAIm06rFmw1wyA7oQVPNPhENjB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BwuGLU6MiSqLHjmxYIhZSfO2nAG4pWv5fEn2NMhm2WDWkhEsUNme+YIMZC1CjgTk4TJKj/kTvt3OLZ5FNzxq8XSB/Zsu60ejI9z4edLP5FJRVlD8ZAMmBJRy6GOusThZ+n9Yp+1RxQ6mOTmfe3NvYfr8QQ+2hwJs5Ps0vRaa8aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JheAFY/m; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1766422234; c=relaxed/simple;
+	bh=96mVW64sPhr23FAIg0rYVwkHsM/AYJRpkhj2jG4xsEw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Y5tqgwaza7CscBI752AJHswc/RC3Dfg+tMJdOzXZUTx/MnTb2vigtS+WpdE8Yl0cx5D5dIyW2BHMQc/dIwd9vuiYf+MF1wWlo+IEzcgxkqYtxR1rfTew+IqXh294FCZre1qV1Js3KaHlF90yitLQACLuBUpuFtUma6q9dFWsVOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RA/DSmWI; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JheAFY/m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RA/DSmWI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766421445; x=1797957445;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Wfss8ZAwJ5UIe7i0MAIm06rFmw1wyA7oQVPNPhENjB8=;
-  b=JheAFY/mr0hZtq40KUQ7KYfWeoRsBBmaJo/s3zxQyb1xdTg6yWzOH5u5
-   sePJYi+i469CpEnUMxGgWGV9o9VjFJ3REncsQC4J1lhLLh19mKWQG4Idt
-   ot8VYzHaoItX2d428Tq7nQYWOaTPXObnq0CMsdRNcCkJnGC91x8ZRQ0t6
-   RrX0K0ryYqCrye4URSGPWxVyunl074jvU7Xkm/fwG9W1gGTzl5lk7XQa5
-   zLld2oA8kcKRhV7u9Q6R9RhS/yys6i2LoA7Q+HGhPm60Ep6QZBf+WiN2M
-   g5c4xE0BXopHoEzfavVW/nua8d/l1g6qcYBjVClYn3oJoP1+MAHKEMJGS
-   w==;
-X-CSE-ConnectionGUID: N0HFrL7mTDSpFEBTh+Thtg==
-X-CSE-MsgGUID: Z+nkUN7fS5yzkAQ0/axH2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="85689883"
+  t=1766422233; x=1797958233;
+  h=date:from:to:cc:subject:message-id;
+  bh=96mVW64sPhr23FAIg0rYVwkHsM/AYJRpkhj2jG4xsEw=;
+  b=RA/DSmWIiMR+KXzbzeq0NfiWOHLUeYq94cYks5wc0NBxy+T10/p1lVT+
+   ++9nua/G5bfw+Msnu4+abkHDYC1GntqjJPWm7ynuT92lLtWZuiE0niH27
+   Z0Gt588MUIOwSpxgA+Vw9MZc6s1gQpmoF+kiLniLnELzHqa03CXt7PwOm
+   N4EEI3fJgjncRD3uUsA8hT1k+KwFVewSu25MXd2Br+0OxjX1V25MLK43r
+   IJcWqep9v+cjvxIXD3iup4zqu7K5IUgKb/iEFrU9Yi9CMhBoL8ARQrEBt
+   PjJFqmrKSOIN60nPlCUbI9QNSSbPTjN7cSz/0JHexpDDM97WDmzJB4oqM
+   Q==;
+X-CSE-ConnectionGUID: 8ixiH4WXTcarKpeKUORxQw==
+X-CSE-MsgGUID: zrDyRBFxRoadcBmiDTZX6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68170023"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="85689883"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 08:37:24 -0800
-X-CSE-ConnectionGUID: HqEQfpXsRMepr58LKHUvkA==
-X-CSE-MsgGUID: LzvYjuweSq2YalunxA0MLg==
+   d="scan'208";a="68170023"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 08:50:32 -0800
+X-CSE-ConnectionGUID: RT4ESgfhQOigO46UYGpW/A==
+X-CSE-MsgGUID: ZZhr6vZkSGiESP+pWe7l1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="223051484"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Dec 2025 08:37:22 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="230224264"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 22 Dec 2025 08:50:30 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXiuO-000000005Ye-16hZ;
-	Mon, 22 Dec 2025 16:37:20 +0000
-Date: Mon, 22 Dec 2025 17:36:24 +0100
+	id 1vXj75-000000000tH-48Gg;
+	Mon, 22 Dec 2025 16:50:27 +0000
+Date: Tue, 23 Dec 2025 00:50:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhu Yanjun <yanjun.zhu@linux.dev>, zyjzyj2000@gmail.com, jgg@ziepe.ca,
-	leon@kernel.org, linux-rdma@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Zhu Yanjun <yanjun.zhu@linux.dev>
-Subject: Re: [PATCH v2 2/2] RDMA/rxe: Replace struct rxe_sge with struct
- ib_sge
-Message-ID: <202512221736.Qj6n9uZT-lkp@intel.com>
-References: <20251221233404.332108-2-yanjun.zhu@linux.dev>
+To: Sascha Bischoff <sascha.bischoff@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [arm-platforms:kvm-arm64/gicv5-full 48/82]
+ arch/arm64/kvm/vgic/vgic-v5.c:737:26: warning: variable 'd' set but not used
+Message-ID: <202512230041.45OmXxwl-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251221233404.332108-2-yanjun.zhu@linux.dev>
 
-Hi Zhu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rdma/for-next]
-[also build test ERROR on linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhu-Yanjun/RDMA-rxe-Replace-struct-rxe_sge-with-struct-ib_sge/20251222-074206
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20251221233404.332108-2-yanjun.zhu%40linux.dev
-patch subject: [PATCH v2 2/2] RDMA/rxe: Replace struct rxe_sge with struct ib_sge
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251222/202512221736.Qj6n9uZT-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221736.Qj6n9uZT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/gicv5-full
+head:   1426b88096b597395df4c82f089b87c62bab45da
+commit: 784f082a09f253879e4c4f57182b3a7e0bb92539 [48/82] KVM: arm64: gic-v5: Init/tear down VMTEs
+config: arm64-randconfig-003-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230041.45OmXxwl-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230041.45OmXxwl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221736.Qj6n9uZT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230041.45OmXxwl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from usr/include/linux/posix_types.h:5,
-                    from usr/include/linux/types.h:9,
-                    from ./usr/include/rdma/rdma_user_rxe.h:37,
-                    from <command-line>:
->> ./usr/include/rdma/rdma_user_rxe.h:141:53: error: array type has incomplete element type 'struct ib_sge'
-     141 |                 __DECLARE_FLEX_ARRAY(struct ib_sge, sge);
-         |                                                     ^~~
-   usr/include/linux/stddef.h:56:22: note: in definition of macro '__DECLARE_FLEX_ARRAY'
-      56 |                 TYPE NAME[]; \
-         |                      ^~~~
+   arch/arm64/kvm/vgic/vgic-v5.c: In function 'vgic_v5_init':
+>> arch/arm64/kvm/vgic/vgic-v5.c:737:26: warning: variable 'd' set but not used [-Wunused-but-set-variable]
+     737 |         struct irq_data *d;
+         |                          ^
+   At top level:
+   arch/arm64/kvm/vgic/vgic-v5.c:174:12: warning: 'vgic_v5_irs_assign_vmt' defined but not used [-Wunused-function]
+     174 | static int vgic_v5_irs_assign_vmt(bool two_level, u8 vm_id_bits, phys_addr_t vmt_base)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/d +737 arch/arm64/kvm/vgic/vgic-v5.c
+
+   722	
+   723	/*
+   724	 * Claim and populate a VMTE (optionally making a new L2 VMT valid), create VPE
+   725	 * doorbells, allocate VPET and populate for each VPE. Finally, we also init the
+   726	 * vIRS, which means allocating and making the virtual SPI IST valid.
+   727	 *
+   728	 * Note: We do need to put the cart before the horse here. The VPE doorbells are
+   729	 * our conduit for communication with the IRS, which means we need to have those
+   730	 * before making the VMTE valid.
+   731	 */
+   732	int vgic_v5_init(struct kvm *kvm)
+   733	{
+   734		int nr_vcpus, ret = 0;
+   735		struct kvm_vcpu *vcpu, *vcpu0;
+   736		unsigned long i;
+ > 737		struct irq_data *d;
+   738		unsigned int db_virq;
+   739	
+   740		if (!vgic_v5_vmt_allocated()) {
+   741			pr_err("No VM tables allocated; something is horribly wrong\n");
+   742			return -ENODEV;
+   743		}
+   744	
+   745		kvm_for_each_vcpu(i, vcpu, kvm) {
+   746			if (vcpu_has_nv(vcpu)) {
+   747				kvm_err("Nested GICv5 VMs are currently unsupported\n");
+   748				return -EINVAL;
+   749			}
+   750		}
+   751		nr_vcpus = atomic_read(&kvm->online_vcpus);
+   752		if (WARN_ON(nr_vcpus == 0)) {
+   753			ret = -ENODEV;
+   754			goto fail;
+   755	
+   756		}
+   757		kvm->arch.vgic.gicv5_vm.nr_vpes = nr_vcpus;
+   758	
+   759		/*
+   760		 * We only allow userspace to drive the SW_PPI, if it is
+   761		 * implemented.
+   762		 */
+   763		kvm->arch.vgic.gicv5_vm.userspace_ppis[0] = GICV5_SW_PPI & GICV5_HWIRQ_ID;
+   764		kvm->arch.vgic.gicv5_vm.userspace_ppis[0] &= ppi_caps->impl_ppi_mask[0];
+   765		kvm->arch.vgic.gicv5_vm.userspace_ppis[1] = 0;
+   766	
+   767		ret = vgic_v5_allocate_vm_id(kvm);
+   768		if (ret)
+   769			goto fail;
+   770	
+   771		if (vgic_v5_create_per_vm_domain(&kvm->arch.vgic.gicv5_vm))
+   772			goto fail_cleanup_id;
+   773	
+   774		/*
+   775		 * Allocate VPE doorbells first - these are our conduit for
+   776		 * communicating with the host irqchip driver. Can't do any earlier as
+   777		 * we wouldn't know the VM ID.
+   778		 */
+   779		db_virq = irq_domain_alloc_irqs(kvm->arch.vgic.gicv5_vm.domain,
+   780						nr_vcpus, NUMA_NO_NODE,
+   781						&kvm->arch.vgic.gicv5_vm);
+   782		if (db_virq < 0) {
+   783			ret = db_virq;
+   784			goto fail_cleanup_domain;
+   785		}
+   786		kvm->arch.vgic.gicv5_vm.vpe_db_base = db_virq;
+   787	
+   788		kvm_for_each_vcpu(i, vcpu, kvm) {
+   789			d = irq_domain_get_irq_data(kvm->arch.vgic.gicv5_vm.domain,
+   790						    db_virq + i);
+   791			irq_set_status_flags(db_virq + i, IRQ_NOAUTOEN);
+   792	
+   793			ret = request_irq(db_virq + i, db_handler, 0, "vcpu", vcpu);
+   794			if (ret)
+   795				goto fail_cleanup_partial_dbs;
+   796	
+   797			/* Stash it with the VCPU for easy retrieval */
+   798			vcpu->arch.vgic_cpu.vgic_v5.gicv5_vpe.db = db_virq + i;
+   799		}
+   800	
+   801		/* Populate VMTE (with VPET and VM descriptor) */
+   802		ret = vgic_v5_vmte_init(kvm);
+   803		if (ret)
+   804			goto fail_cleanup_dbs;
+   805	
+   806		/* We pick the first vcpu to make the VMTE valid - any would do */
+   807		vcpu0 = kvm_get_vcpu(kvm, 0);
+   808		ret = vgic_v5_send_command(vcpu0, VMTE_MAKE_VALID);
+   809		if (ret)
+   810			goto fail_cleanup_vmte;
+   811	
+   812		/* Loop over all VPEs, allocate/populate their data structures */
+   813		kvm_for_each_vcpu(i, vcpu, kvm) {
+   814			ret = vgic_v5_vmte_alloc_vpe(vcpu);
+   815			if (ret)
+   816				goto fail_cleanup_vpes;
+   817		}
+   818	
+   819		return ret;
+   820	
+   821	fail_cleanup_vpes:
+   822		/* i contains the first vCPU that failed */
+   823		if (i == 0)
+   824			goto fail_cleanup_vmte;
+   825	
+   826		do {
+   827			vcpu = kvm_get_vcpu(kvm, --i);
+   828			vgic_v5_vmte_free_vpe(vcpu);
+   829		} while (i != 0);
+   830	
+   831	fail_cleanup_vmte:
+   832		vgic_v5_vmte_release(kvm);
+   833	
+   834	fail_cleanup_dbs:
+   835		i = nr_vcpus;
+   836	fail_cleanup_partial_dbs:
+   837		/* i contains the first vCPU that failed */
+   838		if (i == 0)
+   839			goto fail_cleanup_domain;
+   840	
+   841		do {
+   842			vcpu = kvm_get_vcpu(kvm, --i);
+   843			vgic_v5_disable_vcpu(vcpu);
+   844		} while (i != 0);
+   845	
+   846	fail_cleanup_domain:
+   847		vgic_v5_teardown_per_vm_domain(&kvm->arch.vgic.gicv5_vm);
+   848	
+   849	fail_cleanup_id:
+   850		vgic_v5_release_vm_id(kvm);
+   851	
+   852	fail:
+   853		return ret;
+   854	}
+   855	
 
 -- 
 0-DAY CI Kernel Test Service
