@@ -1,148 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0C81F3BA2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 07:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BAB322B9E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 07:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766388018; cv=none; b=Cp0z3f5Zh7hQmVR0NhqLEL6jXvdOKxYI2FGAc/esAQMm7awzyqmtfKCEblwYuRjSsK6NhsOBAkHcxkLRS+yIpTOsAzsP8fZWfT/DUbZZg1yOR/WU8+AskzwwhHMJFTLsc7eI3tbIj9ZFrdjBnQGX0kLP6Rh1UKsv7H2zyXZpzUQ=
+	t=1766389269; cv=none; b=TjLdVHaB5W1Kj+8maz2vufYiHmGwlbUT6z+F9snZ4DO69bf7jLmhmga/vfq99Tz5YybMQkEvpef228Uo3QkOpm2xMOiYgwDLv59Ep0H9cyotbtA6nHxWLC5QTNwBUJwo29KVTTkEEMDwSyMZMvd5ah/jcqt79/4FahieYDUJLIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766388018; c=relaxed/simple;
-	bh=wC/AM3/k4phkkS1kcOSnWFqSOIekFdGIazlKW67NVcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=il4F74IKa301v4GtTHjHGx8aEAyjEzZAC/svUqSnlxaavUghGI8+/E4Gzw0avG6Ecy3pAfHvnkzlEy+nCOswqkjowuDdmY06zcEaejJQ8If4rSBuTd2aBeLrlbeAPwY+/VBCZzx5fZ/XS6zO4wECetGgDk/oiK4Q+5XEEPlJDm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=axZf/c7p; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1766389269; c=relaxed/simple;
+	bh=uQG7MiZbYi6QP17SDZznloPLqj1mW6XqZgO+T9FLQlI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cpQNOAN7nu3uSQLhON0IqNbNsUzB1JBYf81URVYU41CRQN8TCo7J8bmTcNuS6yeIPbxrZ8mWoNzqYQPFJZVmv2ejIAnvYwhTKCdYxhFeYa/6NC7VDGn55JhfhCF2pQoCQEk4TJ6hbyQ2kSi/zLN3Or0x+vJ2x9z1HeFN9Y6vBM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HHb0/+ga; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="axZf/c7p"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HHb0/+ga"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766388017; x=1797924017;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wC/AM3/k4phkkS1kcOSnWFqSOIekFdGIazlKW67NVcg=;
-  b=axZf/c7pBxXsxWUBB/QkDbLh3Vi7Nj0yesQ2DWSBGrQCKXxQQ7xaIvz/
-   PcZJOi/Sox+wlIYSXs4uLKi+7qbhV0pdMp1tIT+Z5kMYs1aA8H/p8OzZS
-   +cqs7N38ezcXNUbVFytHY0LEUHYtYHwaeNfPk2idXnPATAyqdubPi091V
-   uBlnM8xMdwmTiH16JWJ4noofaDuYy1pPUAp+H26VaM4BZ01uy8XWnCXyj
-   aNykZ4xR8EZ+U1YJ+dVx7MWirb46/LFLfhJgstJf8pQNXsEeWIYZy2ecC
-   0zpf4tbJaEOxmb62CUNPngI6CyAEF0r6D1rGYBCjiCKgOcApKW7cdpnN8
+  t=1766389267; x=1797925267;
+  h=date:from:to:cc:subject:message-id;
+  bh=uQG7MiZbYi6QP17SDZznloPLqj1mW6XqZgO+T9FLQlI=;
+  b=HHb0/+ga7QXjuOeFOlPUjQ8qEN6oiKXm0iu8FcDm8pAWb23/RqBNReJU
+   XXBxe8hM6RdmMStinZRt4pO+kVmJA7aEDRH7OtvQNK/9II6h2MJR0JJ2/
+   7eLaZ2K7g+JvXDP+sAea+L6s7k36l3qgQcndLnB+rtLcJ5G0VNGIQL/ow
+   6G9pmJHGjfg3787cGRVdRBnElGlsuB0NqkZsxaSsMaZ4BhwSWXDuT7Aun
+   h4TyRjcmyIUu4sXoEqNNR6Ty95BAcJ7qtQOqcx1+3tahR03PNbXn5Z74Y
+   8Z+CUc6cmmIjDQp+u2duXNr32Gy+l3nimCS3k2Zf1jf4SU0ljJkGJZW0a
    g==;
-X-CSE-ConnectionGUID: LMS9ypHmRDWSDTNOWtU7/w==
-X-CSE-MsgGUID: YtgWZFYARHKbWqGbq7ztlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="71871479"
+X-CSE-ConnectionGUID: 2LQAaaRvS7+XqikE6TcWjw==
+X-CSE-MsgGUID: zzXI7Nd6R5GixuF4mPOFMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="85826676"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="71871479"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 23:20:16 -0800
-X-CSE-ConnectionGUID: cIcELGEWRgC0sQF01ujASA==
-X-CSE-MsgGUID: oIB6lzEHRw6GzTBS37xB7Q==
+   d="scan'208";a="85826676"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 23:41:05 -0800
+X-CSE-ConnectionGUID: R+ZHGN9pQDeAitW6o4FSRw==
+X-CSE-MsgGUID: zsODuClpT5quEnbCBsZUtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="199965454"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Dec 2025 23:20:15 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="199368965"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 21 Dec 2025 23:41:03 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXaDF-000000005Om-10oh;
-	Mon, 22 Dec 2025 07:20:13 +0000
-Date: Mon, 22 Dec 2025 08:19:55 +0100
+	id 1vXaXN-000000000Dn-1N7o;
+	Mon, 22 Dec 2025 07:41:01 +0000
+Date: Mon, 22 Dec 2025 15:40:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 3/3] mm/cma.c:196: warning: Function
- parameter or struct member 'gcma' not described in 'cma_init_reserved_mem'
-Message-ID: <202512220825.XX5cjpRM-lkp@intel.com>
+To: Amit Cohen <amcohen@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Ido Schimmel <idosch@nvidia.com>
+Subject: [jpirko-mlxsw:xdp 18/36] include/net/libeth/xdp.h:1498:8:
+ error: too few arguments to function 'xdp_build_skb_from_buff'
+Message-ID: <202512221549.UD5tddYH-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   54e1389bda8399711722cd321abe212a2327e9a3
-commit: 0dad457899d7c4f28855dfadf6c71a1ff8d751ff [3/3] ANDROID: integrate GCMA with CMA using dt-bindings
-config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251222/202512220825.XX5cjpRM-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project ecaf673850beb241957352bd61e95ed34256635f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220825.XX5cjpRM-lkp@intel.com/reproduce)
+tree:   https://github.com/jpirko/linux_mlxsw xdp
+head:   2b8b8ddc8690a398f4deb27a032bd473320a6691
+commit: a9594ca8b4dea6c838edd404e1c6cc8f58993015 [18/36] xdp: Pass netdevice to xdp_build_skb_from_buff()
+config: parisc-randconfig-002-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221549.UD5tddYH-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221549.UD5tddYH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512220825.XX5cjpRM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221549.UD5tddYH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/cma.c:196: warning: Function parameter or struct member 'gcma' not described in 'cma_init_reserved_mem'
+   In file included from drivers/net/ethernet/intel/ice/ice_txrx_lib.c:6:
+   include/net/libeth/xdp.h: In function '__libeth_xdp_run_pass':
+>> include/net/libeth/xdp.h:1498:8: error: too few arguments to function 'xdp_build_skb_from_buff'
+    1498 |  skb = xdp_build_skb_from_buff(&xdp->base);
+         |        ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/net/libeth/rx.h:10,
+                    from include/linux/net/intel/libie/rx.h:7,
+                    from drivers/net/ethernet/intel/ice/ice_txrx_lib.c:5:
+   include/net/xdp.h:377:17: note: declared here
+     377 | struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/net/ethernet/intel/ice/ice_txrx.c:11:
+   include/net/libeth/xdp.h: In function '__libeth_xdp_run_pass':
+>> include/net/libeth/xdp.h:1498:8: error: too few arguments to function 'xdp_build_skb_from_buff'
+    1498 |  skb = xdp_build_skb_from_buff(&xdp->base);
+         |        ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/events/xdp.h:12,
+                    from include/linux/bpf_trace.h:5,
+                    from drivers/net/ethernet/intel/ice/ice_txrx.c:9:
+   include/net/xdp.h:377:17: note: declared here
+     377 | struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_txrx.c: In function 'ice_clean_rx_irq':
+>> drivers/net/ethernet/intel/ice/ice_txrx.c:1042:9: error: too few arguments to function 'xdp_build_skb_from_buff'
+    1042 |   skb = xdp_build_skb_from_buff(&xdp->base);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/events/xdp.h:12,
+                    from include/linux/bpf_trace.h:5,
+                    from drivers/net/ethernet/intel/ice/ice_txrx.c:9:
+   include/net/xdp.h:377:17: note: declared here
+     377 | struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +196 mm/cma.c
+vim +/xdp_build_skb_from_buff +1498 include/net/libeth/xdp.h
 
-27d121d0ec6d60 Hari Bathini       2022-03-22  179  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  180  /**
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  181   * cma_init_reserved_mem() - create custom contiguous area from reserved memory
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  182   * @base: Base address of the reserved area
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  183   * @size: Size of the reserved area (in bytes),
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  184   * @order_per_bit: Order of pages represented by one bit on bitmap.
-e8b098fc5747a7 Mike Rapoport      2018-04-05  185   * @name: The name of the area. If this parameter is NULL, the name of
-e8b098fc5747a7 Mike Rapoport      2018-04-05  186   *        the area will be set to "cmaN", where N is a running counter of
-e8b098fc5747a7 Mike Rapoport      2018-04-05  187   *        used areas.
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  188   * @res_cma: Pointer to store the created cma region.
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  189   *
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  190   * This function creates custom contiguous area from already reserved memory.
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  191   */
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  192  int __init cma_init_reserved_mem(phys_addr_t base, phys_addr_t size,
-ac173824959ade Sasha Levin        2015-04-14  193  				 unsigned int order_per_bit,
-f318dd083c8128 Laura Abbott       2017-04-18  194  				 const char *name,
-0dad457899d7c4 Suren Baghdasaryan 2025-02-28  195  				 struct cma **res_cma, bool gcma)
-de9e14eebf33a6 Marek Szyprowski   2014-10-13 @196  {
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  197  	struct cma *cma;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  198  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  199  	/* Sanity checks */
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  200  	if (cma_area_count == ARRAY_SIZE(cma_areas)) {
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  201  		pr_err("Not enough slots for CMA reserved regions!\n");
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  202  		return -ENOSPC;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  203  	}
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  204  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  205  	if (!size || !memblock_is_region_reserved(base, size))
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  206  		return -EINVAL;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  207  
-e16faf26780fc0 David Hildenbrand  2022-03-22  208  	/* ensure minimal alignment required by mm core */
-e16faf26780fc0 David Hildenbrand  2022-03-22  209  	if (!IS_ALIGNED(base | size, CMA_MIN_ALIGNMENT_BYTES))
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  210  		return -EINVAL;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  211  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  212  	/*
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  213  	 * Each reserved area must be initialised later, when more kernel
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  214  	 * subsystems (like slab allocator) are available.
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  215  	 */
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  216  	cma = &cma_areas[cma_area_count];
-18e98e56f4407b Barry Song         2020-08-11  217  
-18e98e56f4407b Barry Song         2020-08-11  218  	if (name)
-18e98e56f4407b Barry Song         2020-08-11  219  		snprintf(cma->name, CMA_MAX_NAME, name);
-18e98e56f4407b Barry Song         2020-08-11  220  	else
-0dad457899d7c4 Suren Baghdasaryan 2025-02-28  221  		snprintf(cma->name, CMA_MAX_NAME,
-0dad457899d7c4 Suren Baghdasaryan 2025-02-28  222  			 gcma ? "gcma%d\n" : "cma%d\n", cma_area_count);
-18e98e56f4407b Barry Song         2020-08-11  223  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  224  	cma->base_pfn = PFN_DOWN(base);
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  225  	cma->count = size >> PAGE_SHIFT;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  226  	cma->order_per_bit = order_per_bit;
-0dad457899d7c4 Suren Baghdasaryan 2025-02-28  227  	cma->gcma = gcma;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  228  	*res_cma = cma;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  229  	cma_area_count++;
-5c0532500f102a Hao Ge             2024-07-29  230  	totalcma_pages += cma->count;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  231  
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  232  	return 0;
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  233  }
-de9e14eebf33a6 Marek Szyprowski   2014-10-13  234  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1425  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1426  /**
+5495c58c65aa3d6 Alexander Lobakin 2025-06-12  1427   * libeth_xdp_run_prog - run XDP program (non-XSk path) and handle all verdicts
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1428   * @xdp: XDP buffer to process
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1429   * @bq: XDP Tx bulk to queue ``XDP_TX`` buffers
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1430   * @fl: driver ``XDP_TX`` bulk flush callback
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1431   *
+5495c58c65aa3d6 Alexander Lobakin 2025-06-12  1432   * Run the attached XDP program and handle all possible verdicts. XSk has its
+5495c58c65aa3d6 Alexander Lobakin 2025-06-12  1433   * own version.
+1bb635d3748b715 Alexander Lobakin 2025-06-12  1434   * Prefer using it via LIBETH_XDP_DEFINE_RUN{,_PASS,_PROG}().
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1435   *
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1436   * Return: true if the buffer should be passed up the stack, false if the poll
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1437   * should go to the next buffer.
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1438   */
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1439  #define libeth_xdp_run_prog(xdp, bq, fl)				      \
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1440  	(__libeth_xdp_run_flush(xdp, bq, __libeth_xdp_run_prog,		      \
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1441  				libeth_xdp_tx_queue_bulk,		      \
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1442  				fl) == LIBETH_XDP_PASS)
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1443  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1444  /**
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1445   * __libeth_xdp_run_pass - helper to run XDP program and handle the result
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1446   * @xdp: XDP buffer to process
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1447   * @bq: XDP Tx bulk to queue ``XDP_TX`` frames
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1448   * @napi: NAPI to build an skb and pass it up the stack
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1449   * @rs: onstack libeth RQ stats
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1450   * @md: metadata that should be filled to the XDP buffer
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1451   * @prep: callback for filling the metadata
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1452   * @run: driver wrapper to run XDP program
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1453   * @populate: driver callback to populate an skb with the HW descriptor data
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1454   *
+5495c58c65aa3d6 Alexander Lobakin 2025-06-12  1455   * Inline abstraction that does the following (non-XSk path):
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1456   * 1) adds frame size and frag number (if needed) to the onstack stats;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1457   * 2) fills the descriptor metadata to the onstack &libeth_xdp_buff
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1458   * 3) runs XDP program if present;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1459   * 4) handles all possible verdicts;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1460   * 5) on ``XDP_PASS`, builds an skb from the buffer;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1461   * 6) populates it with the descriptor metadata;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1462   * 7) passes it up the stack.
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1463   *
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1464   * In most cases, number 2 means just writing the pointer to the HW descriptor
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1465   * to the XDP buffer. If so, please use LIBETH_XDP_DEFINE_RUN{,_PASS}()
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1466   * wrappers to build a driver function.
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1467   */
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1468  static __always_inline void
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1469  __libeth_xdp_run_pass(struct libeth_xdp_buff *xdp,
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1470  		      struct libeth_xdp_tx_bulk *bq, struct napi_struct *napi,
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1471  		      struct libeth_rq_napi_stats *rs, const void *md,
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1472  		      void (*prep)(struct libeth_xdp_buff *xdp,
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1473  				   const void *md),
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1474  		      bool (*run)(struct libeth_xdp_buff *xdp,
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1475  				  struct libeth_xdp_tx_bulk *bq),
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1476  		      bool (*populate)(struct sk_buff *skb,
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1477  				       const struct libeth_xdp_buff *xdp,
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1478  				       struct libeth_rq_napi_stats *rs))
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1479  {
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1480  	struct sk_buff *skb;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1481  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1482  	rs->bytes += xdp->base.data_end - xdp->data;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1483  	rs->packets++;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1484  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1485  	if (xdp_buff_has_frags(&xdp->base))
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1486  		libeth_xdp_buff_stats_frags(rs, xdp);
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1487  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1488  	if (prep && (!__builtin_constant_p(!!md) || md))
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1489  		prep(xdp, md);
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1490  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1491  	if (!bq || !run || !bq->prog)
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1492  		goto build;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1493  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1494  	if (!run(xdp, bq))
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1495  		return;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1496  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1497  build:
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12 @1498  	skb = xdp_build_skb_from_buff(&xdp->base);
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1499  	if (unlikely(!skb)) {
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1500  		libeth_xdp_return_buff_slow(xdp);
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1501  		return;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1502  	}
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1503  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1504  	xdp->data = NULL;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1505  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1506  	if (unlikely(!populate(skb, xdp, rs))) {
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1507  		napi_consume_skb(skb, true);
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1508  		return;
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1509  	}
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1510  
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1511  	napi_gro_receive(napi, skb);
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1512  }
+4c805f7ae1ce61a Alexander Lobakin 2025-06-12  1513  
 
-:::::: The code at line 196 was first introduced by commit
-:::::: de9e14eebf33a60712a52a0bc6e08c043c0aba53 drivers: dma-contiguous: add initialization from device tree
+:::::: The code at line 1498 was first introduced by commit
+:::::: 4c805f7ae1ce61a90121378a5ee1f47b3b870c73 libeth: xdp: add XDP prog run and verdict result handling
 
-:::::: TO: Marek Szyprowski <m.szyprowski@samsung.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Alexander Lobakin <aleksander.lobakin@intel.com>
+:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
