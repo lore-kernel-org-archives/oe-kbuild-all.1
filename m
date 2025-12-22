@@ -1,120 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CD63233EA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2918231845;
+	Mon, 22 Dec 2025 17:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766423547; cv=none; b=lJkW/ClH5gvx10T71DmyqoH+nRrkXa9wmjoVPM4REmagyVfg7sdvzs1l9uzPFLki4MdGVxOW6haCLNui0KaE8TdHtTupKzm5hZCxZrjsV09v3xX/fY/KyBcKR7UUCjXDgSHDBinPeqmWfqDOp1hIS6ydlwxs7wo/ZV9j6JHOkPM=
+	t=1766423649; cv=none; b=phK56IcQND7WyY9i9VZ/ycNy38dUn02C9JoZoMu9qZ8B0HHYARcul2pSE8lKVC+7IbZqB7g1EglEc9HQ5C3VebMcWtmGlvKW70NDaOaSwdgOvPIdSvbQrrjDwDWLaNIgSEncPO6NeNb/a41ScesqtBJPtW+bg/eyBup8z4MWkMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766423547; c=relaxed/simple;
-	bh=OhoBkjnY0xpu56sErDgnqNkAe2///XrHKr2YYE9m49Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UnQbHexdY3tHyDrFlbzTvzHBtuwHktDfijK5nUYDW8xTkvc5g2QtVGmUDDOlD81iBWIVhFYv2T4+0IueyqEj1Mw+ApBiPT4dLUF7k8kWCb2/EilCwAv+tURVa6M/gW/xQoLKn8eONVpbw11dHQ6+iSY7F6uXC0VLhx1dXhBbABM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q7RNGgzq; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1766423649; c=relaxed/simple;
+	bh=KwGwrcMpJiU3MVYBV9KIwxN3Y+/Oe9IZDbzfQgGZV5E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HWWYunBfmkvuS4j1Nt80ZiKhDWrkuqRCCxhu5GPDXvH0ScG/K7dQCSgklhqolVggaJPDa93tyHWHnrAftDWC6t7R+ZiOkI8lBI7sQxa4IlBewIJpzcncwzbsfuZgQV9w8LOCV+eJr7suSpSPqAPawh7iTS+lhkn8o7pi+l6yw54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hcVOqUGt; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q7RNGgzq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hcVOqUGt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766423545; x=1797959545;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OhoBkjnY0xpu56sErDgnqNkAe2///XrHKr2YYE9m49Q=;
-  b=Q7RNGgzqTl7o6tR13sHhnrCC4U7vLFWBk1kiAev8uKK4Q9/UG+aWvxD6
-   Fc8QVJ2HgbFTjYSfCWAclV5ktnpQzA/tCpUJLpPoMPKKC4wwZfq4Tj8u1
-   ycdYYKOWEYLF/nxRAtP5uV0oHtur+315zNY1Tyx9s+boZxbYvp5o+u4PA
-   LbfxKalTp+fRBkosp8bP6X72wbWJ1sNO6JmxS5yqgWILTeaE/xMWRgCbx
-   dnVkb6dH0uwJLIYAtqoUfnn16IgzrMyQlm7yaWTC+gv4/OTceGNP4c14b
-   rWHSU7gMioLat4zPdnX7x9+6dPMicSsG4j2gT1o3YwFaC1MBsKU81wOMZ
+  t=1766423648; x=1797959648;
+  h=date:from:to:cc:subject:message-id;
+  bh=KwGwrcMpJiU3MVYBV9KIwxN3Y+/Oe9IZDbzfQgGZV5E=;
+  b=hcVOqUGtDttbXKCtEkUi0zk6jUfxLyLvfmNCqGocG5oLbacuQa8bZmEq
+   fJ9B3Qx6ulOAx3SmUKiBHkVfhsTD3/2XreHSRyeGcaYB08yx0LXkSxp2l
+   gkxy41bcC4k9UyFlaJ5SKFgMbPo9NwX2XKOqxTGeITXsyCNYlWiScRqBf
+   wDX5bUqdJ8Ev2WkQ36C9OfJZGqKni3S276fEsPC4dupO7MYGPIa3ZOblz
+   beLaNHdY+36u+cXxusrO6Z8VewbettbgW8A9OHe440eLtbhJwAtivcA6Q
+   gZReo/GXFf4/FWQ0+Bmy4tsk8NOwHjfmJxplfzRMnS1DZcekfnDi/YX31
    w==;
-X-CSE-ConnectionGUID: SPJ48dOgRzWlrbqPNna0Fw==
-X-CSE-MsgGUID: WGIWMXV8TwCKM6wp0vV7/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="78597817"
+X-CSE-ConnectionGUID: 0C5Ajw36SdqrfDCJIyFtDQ==
+X-CSE-MsgGUID: tp5jDnAvROaVSvYxp0DXzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="72130770"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="78597817"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:12:25 -0800
-X-CSE-ConnectionGUID: ABC+28DlTxmt6hXgPIzs/A==
-X-CSE-MsgGUID: nDZNxFzbQoGY51lH+MPhJg==
+   d="scan'208";a="72130770"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:14:08 -0800
+X-CSE-ConnectionGUID: G4ht34QKT46t14mWxEp+MQ==
+X-CSE-MsgGUID: pXHf6azTQxiBImg+Bu2NEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="198710127"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 22 Dec 2025 09:12:22 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="198811632"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 22 Dec 2025 09:14:06 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXjSG-000000005Yy-23k6;
-	Mon, 22 Dec 2025 17:12:20 +0000
-Date: Mon, 22 Dec 2025 18:11:48 +0100
+	id 1vXjTv-000000000us-1q6x;
+	Mon, 22 Dec 2025 17:14:03 +0000
+Date: Tue, 23 Dec 2025 01:13:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rusydi H. Makarim" <rusydi.makarim@kriptograf.id>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-	"Rusydi H. Makarim" <rusydi.makarim@kriptograf.id>
-Subject: Re: [PATCH 1/3] lib/crypto: Add KUnit test vectors for Ascon-Hash256
-Message-ID: <202512221855.nLchuL2R-lkp@intel.com>
-References: <20251215-ascon_hash256-v1-1-24ae735e571e@kriptograf.id>
+To: Marco Elver <elver@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:locking/core 35/39] WARNING: modpost: EXPORT
+ symbol "rhashtable_insert_slow" [vmlinux] version generation failed, symbol
+ will not be versioned.
+Message-ID: <202512230100.SV9PzmsR-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251215-ascon_hash256-v1-1-24ae735e571e@kriptograf.id>
 
-Hi Rusydi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 92de2d349e02c2dd96d8d1b7016cc78cf80fc085]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rusydi-H-Makarim/lib-crypto-Add-KUnit-test-vectors-for-Ascon-Hash256/20251215-215114
-base:   92de2d349e02c2dd96d8d1b7016cc78cf80fc085
-patch link:    https://lore.kernel.org/r/20251215-ascon_hash256-v1-1-24ae735e571e%40kriptograf.id
-patch subject: [PATCH 1/3] lib/crypto: Add KUnit test vectors for Ascon-Hash256
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20251222/202512221855.nLchuL2R-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221855.nLchuL2R-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/core
+head:   77b4ebc9e43b02f3c50dab48963d969964ea83ef
+commit: 078d1288b6dd1f2d9ecff5021861beada37b5133 [35/39] rhashtable: Enable context analysis
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20251223/202512230100.SV9PzmsR-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 185f5fd5ce4c65116ca8cf6df467a682ef090499)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230100.SV9PzmsR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221855.nLchuL2R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230100.SV9PzmsR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from lib/crypto/tests/ascon_hash_kunit.c:6:
->> include/crypto/ascon_hash.h:24:18: warning: 'ascon_p_rndc' defined but not used [-Wunused-const-variable=]
-      24 | static const u64 ascon_p_rndc[] = {
-         |                  ^~~~~~~~~~~~
-
-
-vim +/ascon_p_rndc +24 include/crypto/ascon_hash.h
-
-    18	
-    19	/*
-    20	 * The standard of Ascon permutation in NIST SP 800-232 specifies 16 round
-    21	 * constants to accomodate potential functionality extensions in the future
-    22	 * (see page 2).
-    23	 */
-  > 24	static const u64 ascon_p_rndc[] = {
-    25		0x000000000000003cULL, 0x000000000000002dULL, 0x000000000000001eULL,
-    26		0x000000000000000fULL, 0x00000000000000f0ULL, 0x00000000000000e1ULL,
-    27		0x00000000000000d2ULL, 0x00000000000000c3ULL, 0x00000000000000b4ULL,
-    28		0x00000000000000a5ULL, 0x0000000000000096ULL, 0x0000000000000087ULL,
-    29		0x0000000000000078ULL, 0x0000000000000069ULL, 0x000000000000005aULL,
-    30		0x000000000000004bULL,
-    31	};
-    32	
+>> WARNING: modpost: EXPORT symbol "rhashtable_insert_slow" [vmlinux] version generation failed, symbol will not be versioned.
+Is "rhashtable_insert_slow" prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: EXPORT symbol "rhashtable_walk_start_check" [vmlinux] version generation failed, symbol will not be versioned.
+Is "rhashtable_walk_start_check" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "stack_depot_save_flags" [vmlinux] version generation failed, symbol will not be versioned.
+Is "stack_depot_save_flags" prototyped in <asm/asm-prototypes.h>?
+WARNING: modpost: EXPORT symbol "stack_depot_save" [vmlinux] version generation failed, symbol will not be versioned.
+Is "stack_depot_save" prototyped in <asm/asm-prototypes.h>?
+>> WARNING: modpost: "rhashtable_insert_slow" [fs/dlm/dlm.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_walk_start_check" [fs/nfsd/nfsd.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_insert_slow" [fs/nfsd/nfsd.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_insert_slow" [fs/gfs2/gfs2.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_walk_start_check" [fs/gfs2/gfs2.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_insert_slow" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_insert_slow" [drivers/net/vxlan/vxlan.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_insert_slow" [net/sched/act_ct.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_insert_slow" [net/sched/cls_flower.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_walk_start_check" [net/netlink/netlink_diag.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_insert_slow" [net/netfilter/nf_tables.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_walk_start_check" [net/netfilter/nf_tables.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_insert_slow" [net/netfilter/nf_flow_table.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_walk_start_check" [net/netfilter/nf_flow_table.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_walk_start_check" [net/sctp/sctp.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_insert_slow" [net/sctp/sctp.ko] has no CRC!
+>> WARNING: modpost: "rhashtable_insert_slow" [net/rds/rds.ko] has no CRC!
 
 -- 
 0-DAY CI Kernel Test Service
