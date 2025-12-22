@@ -1,171 +1,97 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D765826B77D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 07:07:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69AB3043C8
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 07:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766387246; cv=none; b=CQgfurpR2KC3qFQj46ElyRALHnlmd07QU9P1CNDDHPmFfQoPX9LKgDo6ap20fzegtAfWoutR4zCqul8gPP5s2/kaFIaglCis8Vc6Z1a6D0T8u/9AmbZSqXxs9HLt3F4kTDLOQAHlpbISUhAzZcWdnTKJagqJOm4a5ZMGX7IA9VM=
+	t=1766387598; cv=none; b=Ms/fjmdU4kvbr8PWfX36gKql1bw7Tam8mXnk8Lbeng77scezN4rhaIhjTQcIFFyGIT2ctK7cF7yzFOvLAmDivFhjMRAGew7SYljxmIGyLmYt9mLLdl4ZV6w6X+o7fxXqChq/2CUArKSFcb0YeUTiiwzIRso3+1kOIYl0I1XG2qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766387246; c=relaxed/simple;
-	bh=ORXgiQfDPaOWk3tJGrtR2nJ3qyIYziTjTEVgBZZAoAw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gTUKfY1G+EKIVEaJF6r0dmDI6UlPQbbXFdaISEasXUmDF126Oru9k0ghSmTm7SzHRkPmw4N8us9pV+v3NeP3z3LiwgOjqG+zGHyG/gpS3G4WDTQFrlc39dJF05f4NVepzWewUTctVk9KVYut3PFEA5vnJbs3ZD4bmK2ajIcOw10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5zTgAua; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1766387598; c=relaxed/simple;
+	bh=5PRAxuyaQ3qfs3Br8yDEAYXRrW6MmfugQR3ifEqu6VY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PkX/smwi6qN9LAH63jXiwU4GO6N0V+GxSRIAnYFV4F1cfcgzuAk1deOJimJei8hDqafYOaz9Fcp1kKu08vgsPeQ7Gp8aoD2Bmk9wSSL3OS5FgKZVQEDO3Q4mP8t28BsCoktCeqS7OFDQuXc+ZmiiFEHVZkcfRz3yoVI0lm7cZ+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RRIXLAZw; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5zTgAua"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RRIXLAZw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766387245; x=1797923245;
-  h=date:from:to:cc:subject:message-id;
-  bh=ORXgiQfDPaOWk3tJGrtR2nJ3qyIYziTjTEVgBZZAoAw=;
-  b=C5zTgAuaqjFjIaX/TNQCwN3a9706JN/jN1SVBPRW91VvJOaZQCtQ5VD2
-   nvA64yvnFY6VsvsoRQliMnhe6VygrgCW+B8oRRfMbjCUA0yWE9L8OGtx6
-   UsCs5vk/QxBJfuQhhWIf4Mw9loKQv8lfefpS0gfEM46cZHsUQ8c22NBD6
-   8QskCcpKUtcRUjKOmAxuNt2iFZYN+BIoRoOxsypZAhzT6B3OsgjvNQ31O
-   YR3EhGYfzoHgg8AD1NMrnf3O/xIWKzJJifVB6MoLUObbfXvn8vVdzW4vo
-   BUD7Fa6Uy5YBO0rOivj15mUO+BrSUt9OFLAmb3erEcrE9nj2GahbHH9U1
-   Q==;
-X-CSE-ConnectionGUID: Fv+kZbKXTCKtMh4xBOZS9g==
-X-CSE-MsgGUID: abcwm37jTQ6Pi8UgrLCXhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="78959569"
+  t=1766387596; x=1797923596;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5PRAxuyaQ3qfs3Br8yDEAYXRrW6MmfugQR3ifEqu6VY=;
+  b=RRIXLAZw0cQ+KF96QFlAYzXYuMaM3wPV6kOZtCFpZHIIyDUpkzOi330T
+   sJPT7kdfsdN54UUBg/kIiU337zkFLNzuUG681/d/Jo7hmgi5pAuw+6le7
+   M/jWgi7F1ZqYImhbDESQaousuG1aE1HnLW+LmiebzqWYzwSrJcX2kusBx
+   SoP7PcmBmkBF2S+1pxFapQr8M73zvxwv0Lf99cLwo2xF/58o4lJjNoicN
+   ysnlzpfL+hY70ztV5M1fsEtgGf9ymP00UeettXG+7cEV3OlJkYdK6WbhW
+   j9iliO6I4I/0LyoOVxM3hd+Q2i3T+r83FXl0Qaf4VJSuFzdyVE+zmFOXg
+   w==;
+X-CSE-ConnectionGUID: 9XS+bsDnReuINhPSdFsmCw==
+X-CSE-MsgGUID: J/5HzapwS7OUFaaMC9IWfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="78959995"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="78959569"
+   d="scan'208";a="78959995"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 23:07:24 -0800
-X-CSE-ConnectionGUID: I5hVjzvFRti+6hKKuzCxOg==
-X-CSE-MsgGUID: 79Bn4gZwS3+s0OQ0PSjOjg==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 23:13:16 -0800
+X-CSE-ConnectionGUID: r5QRPOU4RdmK7gqx5gleDQ==
+X-CSE-MsgGUID: YH9xmQf6QrGSgvCBZNPlhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="198611662"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 21 Dec 2025 23:07:22 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="198612186"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa006.jf.intel.com with ESMTP; 21 Dec 2025 23:13:15 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXa0g-000000000Bi-2LBZ;
-	Mon, 22 Dec 2025 07:07:17 +0000
-Date: Mon, 22 Dec 2025 15:06:16 +0800
+	id 1vXa6T-000000005OW-0JCa;
+	Mon, 22 Dec 2025 07:13:13 +0000
+Date: Mon, 22 Dec 2025 08:12:55 +0100
 From: kernel test robot <lkp@intel.com>
-To: elver@google.com
+To: Sean Christopherson <seanjc@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [melver:ctx-analysis/dev 15/36]
- drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse: sparse: incorrect type
- in assignment (different modifiers)
-Message-ID: <202512221530.MlauzzGz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: [sean-jc:x86/kvmclock_vs_tsc 18/40] arch/x86/kernel/tsc.c:992:1:
+ warning: 'inline' is not at beginning of declaration
+Message-ID: <202512220830.FpjjQxV4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
-head:   716611610a85ff05508277ffc92888daae793783
-commit: d5763d7d16e6622be412ac6431b9ae9f4e988b2f [15/36] srcu: Support Clang's context analysis
-config: arm64-randconfig-r122-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221530.MlauzzGz-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221530.MlauzzGz-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/kvmclock_vs_tsc
+head:   4dfb74d29d6000337e365500598a903406bdc106
+commit: a78dcf986454c519879bc57b91a3d676436f3574 [18/40] x86/tsc: WARN if TSC sched_clock save/restore used with PV sched_clock
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251222/202512220830.FpjjQxV4-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220830.FpjjQxV4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221530.MlauzzGz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512220830.FpjjQxV4-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected int ( *handler )( ... ) @@     got int ( [noderef] *__v )( ... ) @@
-   drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:     expected int ( *handler )( ... )
-   drivers/infiniband/core/uverbs_ioctl.c:440:17: sparse:     got int ( [noderef] *__v )( ... )
+All warnings (new ones prefixed by >>):
 
-vim +440 drivers/infiniband/core/uverbs_ioctl.c
+>> arch/x86/kernel/tsc.c:992:1: warning: 'inline' is not at beginning of declaration [-Wold-style-declaration]
+     992 | static bool __always_inline tsc_is_save_restore_needed(void)
+         | ^~~~~~
 
-fac9658cabb98a Matan Barak         2017-08-03  427  
-3a863577a74962 Jason Gunthorpe     2018-08-09  428  static int ib_uverbs_run_method(struct bundle_priv *pbundle,
-3a863577a74962 Jason Gunthorpe     2018-08-09  429  				unsigned int num_attrs)
-fac9658cabb98a Matan Barak         2017-08-03  430  {
-15a1b4becba886 Jason Gunthorpe     2018-11-25  431  	int (*handler)(struct uverbs_attr_bundle *attrs);
-155f04366e3cad Gustavo A. R. Silva 2024-03-01  432  	struct uverbs_attr_bundle *bundle =
-155f04366e3cad Gustavo A. R. Silva 2024-03-01  433  		container_of(&pbundle->bundle, struct uverbs_attr_bundle, hdr);
-3a863577a74962 Jason Gunthorpe     2018-08-09  434  	size_t uattrs_size = array_size(sizeof(*pbundle->uattrs), num_attrs);
-3a863577a74962 Jason Gunthorpe     2018-08-09  435  	unsigned int destroy_bkey = pbundle->method_elm->destroy_bkey;
-3a863577a74962 Jason Gunthorpe     2018-08-09  436  	unsigned int i;
-fac9658cabb98a Matan Barak         2017-08-03  437  	int ret;
-fac9658cabb98a Matan Barak         2017-08-03  438  
-3a863577a74962 Jason Gunthorpe     2018-08-09  439  	/* See uverbs_disassociate_api() */
-3a863577a74962 Jason Gunthorpe     2018-08-09 @440  	handler = srcu_dereference(
-3a863577a74962 Jason Gunthorpe     2018-08-09  441  		pbundle->method_elm->handler,
-3a863577a74962 Jason Gunthorpe     2018-08-09  442  		&pbundle->bundle.ufile->device->disassociate_srcu);
-3a863577a74962 Jason Gunthorpe     2018-08-09  443  	if (!handler)
-3a863577a74962 Jason Gunthorpe     2018-08-09  444  		return -EIO;
-3a863577a74962 Jason Gunthorpe     2018-08-09  445  
-155f04366e3cad Gustavo A. R. Silva 2024-03-01  446  	pbundle->uattrs = uverbs_alloc(bundle, uattrs_size);
-3a863577a74962 Jason Gunthorpe     2018-08-09  447  	if (IS_ERR(pbundle->uattrs))
-3a863577a74962 Jason Gunthorpe     2018-08-09  448  		return PTR_ERR(pbundle->uattrs);
-3a863577a74962 Jason Gunthorpe     2018-08-09  449  	if (copy_from_user(pbundle->uattrs, pbundle->user_attrs, uattrs_size))
-3a863577a74962 Jason Gunthorpe     2018-08-09  450  		return -EFAULT;
-3a863577a74962 Jason Gunthorpe     2018-08-09  451  
-3a863577a74962 Jason Gunthorpe     2018-08-09  452  	for (i = 0; i != num_attrs; i++) {
-3a863577a74962 Jason Gunthorpe     2018-08-09  453  		ret = uverbs_set_attr(pbundle, &pbundle->uattrs[i]);
-3a863577a74962 Jason Gunthorpe     2018-08-09  454  		if (unlikely(ret))
-3a863577a74962 Jason Gunthorpe     2018-08-09  455  			return ret;
-3a863577a74962 Jason Gunthorpe     2018-08-09  456  	}
-3a863577a74962 Jason Gunthorpe     2018-08-09  457  
-3a863577a74962 Jason Gunthorpe     2018-08-09  458  	/* User space did not provide all the mandatory attributes */
-3a863577a74962 Jason Gunthorpe     2018-08-09  459  	if (unlikely(!bitmap_subset(pbundle->method_elm->attr_mandatory,
-3a863577a74962 Jason Gunthorpe     2018-08-09  460  				    pbundle->bundle.attr_present,
-3a863577a74962 Jason Gunthorpe     2018-08-09  461  				    pbundle->method_elm->key_bitmap_len)))
-fac9658cabb98a Matan Barak         2017-08-03  462  		return -EINVAL;
-fac9658cabb98a Matan Barak         2017-08-03  463  
-07f05f40d956d4 Jason Gunthorpe     2018-11-25  464  	if (pbundle->method_elm->has_udata)
-155f04366e3cad Gustavo A. R. Silva 2024-03-01  465  		uverbs_fill_udata(bundle, &pbundle->bundle.driver_udata,
-4785860e04bc8d Jason Gunthorpe     2018-11-30  466  				  UVERBS_ATTR_UHW_IN, UVERBS_ATTR_UHW_OUT);
-f89adedaf3feb2 Gal Pressman        2019-04-30  467  	else
-f89adedaf3feb2 Gal Pressman        2019-04-30  468  		pbundle->bundle.driver_udata = (struct ib_udata){};
-07f05f40d956d4 Jason Gunthorpe     2018-11-25  469  
-3a863577a74962 Jason Gunthorpe     2018-08-09  470  	if (destroy_bkey != UVERBS_API_ATTR_BKEY_LEN) {
-155f04366e3cad Gustavo A. R. Silva 2024-03-01  471  		struct uverbs_obj_attr *destroy_attr = &bundle->attrs[destroy_bkey].obj_attr;
-fac9658cabb98a Matan Barak         2017-08-03  472  
-155f04366e3cad Gustavo A. R. Silva 2024-03-01  473  		ret = uobj_destroy(destroy_attr->uobject, bundle);
-aa72c9a5f98644 Jason Gunthorpe     2018-07-26  474  		if (ret)
-3a863577a74962 Jason Gunthorpe     2018-08-09  475  			return ret;
-3a863577a74962 Jason Gunthorpe     2018-08-09  476  		__clear_bit(destroy_bkey, pbundle->uobj_finalize);
-aa72c9a5f98644 Jason Gunthorpe     2018-07-26  477  
-155f04366e3cad Gustavo A. R. Silva 2024-03-01  478  		ret = handler(bundle);
-3a863577a74962 Jason Gunthorpe     2018-08-09  479  		uobj_put_destroy(destroy_attr->uobject);
-3a863577a74962 Jason Gunthorpe     2018-08-09  480  	} else {
-155f04366e3cad Gustavo A. R. Silva 2024-03-01  481  		ret = handler(bundle);
-7452a3c745a2e7 Jason Gunthorpe     2018-07-25  482  	}
-7452a3c745a2e7 Jason Gunthorpe     2018-07-25  483  
-d6f4a21f309dfe Jason Gunthorpe     2019-01-11  484  	/*
-d6f4a21f309dfe Jason Gunthorpe     2019-01-11  485  	 * Until the drivers are revised to use the bundle directly we have to
-d6f4a21f309dfe Jason Gunthorpe     2019-01-11  486  	 * assume that the driver wrote to its UHW_OUT and flag userspace
-d6f4a21f309dfe Jason Gunthorpe     2019-01-11  487  	 * appropriately.
-d6f4a21f309dfe Jason Gunthorpe     2019-01-11  488  	 */
-d6f4a21f309dfe Jason Gunthorpe     2019-01-11  489  	if (!ret && pbundle->method_elm->has_udata) {
-d6f4a21f309dfe Jason Gunthorpe     2019-01-11  490  		const struct uverbs_attr *attr =
-155f04366e3cad Gustavo A. R. Silva 2024-03-01  491  			uverbs_attr_get(bundle, UVERBS_ATTR_UHW_OUT);
-d6f4a21f309dfe Jason Gunthorpe     2019-01-11  492  
-d6f4a21f309dfe Jason Gunthorpe     2019-01-11  493  		if (!IS_ERR(attr))
-155f04366e3cad Gustavo A. R. Silva 2024-03-01  494  			ret = uverbs_set_output(bundle, attr);
-d6f4a21f309dfe Jason Gunthorpe     2019-01-11  495  	}
-d6f4a21f309dfe Jason Gunthorpe     2019-01-11  496  
-3a863577a74962 Jason Gunthorpe     2018-08-09  497  	/*
-3a863577a74962 Jason Gunthorpe     2018-08-09  498  	 * EPROTONOSUPPORT is ONLY to be returned if the ioctl framework can
-3a863577a74962 Jason Gunthorpe     2018-08-09  499  	 * not invoke the method because the request is not supported.  No
-3a863577a74962 Jason Gunthorpe     2018-08-09  500  	 * other cases should return this code.
-3a863577a74962 Jason Gunthorpe     2018-08-09  501  	 */
-3a863577a74962 Jason Gunthorpe     2018-08-09  502  	if (WARN_ON_ONCE(ret == -EPROTONOSUPPORT))
-3a863577a74962 Jason Gunthorpe     2018-08-09  503  		return -EINVAL;
-fac9658cabb98a Matan Barak         2017-08-03  504  
-3a863577a74962 Jason Gunthorpe     2018-08-09  505  	return ret;
-fac9658cabb98a Matan Barak         2017-08-03  506  }
-fac9658cabb98a Matan Barak         2017-08-03  507  
 
-:::::: The code at line 440 was first introduced by commit
-:::::: 3a863577a7496278892360a69d90d8465733100c IB/uverbs: Use uverbs_api to unmarshal ioctl commands
+vim +/inline +992 arch/x86/kernel/tsc.c
 
-:::::: TO: Jason Gunthorpe <jgg@mellanox.com>
-:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
+   991	
+ > 992	static bool __always_inline tsc_is_save_restore_needed(void)
+   993	{
+   994		if (WARN_ON_ONCE(!using_native_sched_clock()))
+   995			return false;
+   996	
+   997		return static_branch_likely(&__use_tsc) || sched_clock_stable();
+   998	}
+   999	
 
 -- 
 0-DAY CI Kernel Test Service
