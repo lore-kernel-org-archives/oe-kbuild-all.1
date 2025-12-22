@@ -1,91 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC6C228C9D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 01:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8418B3C0C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 01:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766367615; cv=none; b=vBIbok7jPaS+0c5XcltEt0GAlMZNejwT9TMGN0kvCqBnpv+Lm9PNNgtbz+g/gacKw03OPMpghb3NOV0umiXkRdJfcD6jGSovjCOBfFVF8m/Fuxg0KPdvDXy88iaYiTWLy5wNdJg18XJ0YPMLIF2eTDESGPL8fyTYqexRczhEIag=
+	t=1766368027; cv=none; b=FkEbKnJwjPGaSfyhpbDbwiQ4AcF8iaaZHWLJUVMitaSQ4vWdSu38x8QeZHU5a1bgpwmirz/IARAQvbt/MkcmyJi98kwjZOPuztEVQcL/2qmYtljcp5f8rgnTIUV+iadRLt9npZBrtKunQJf1ZwL1Ba8uB+u/bfs/cBppBMg5MXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766367615; c=relaxed/simple;
-	bh=2q6INEmyrOoSbPu7j2eQCDHhOBRUry9i6FZ++OK4gZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WSGMg+QLWpPsDe07tevpzCoO0TiuWyH4sFLntGi831InNqepS4US5mkUtMvu2Qluyd1pCtfTW3khWdp/iLrTPynbNn8+JO6HxyZBlJOHwn4mz8OOT1faMR+FjjKO8iW1dAivoKrJmcemlaBF52BApIZ1h8nFIXdTATZpo86jXHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MsFYvrEu; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766368027; c=relaxed/simple;
+	bh=Y8gMJRS51QMXwcZwKcV47RvpfGhr5eyz4YBxVEmySoM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=N0ldGXRNOI+0O+o1PB6hl2pz7bvtdsa6Lsn82K87BbloS+a+qgqD1LI6EwwhViTFhN/8JqFlYrV/aGJKQq5AQhlGrLPXeiHbAHG8UCeG/Illp9KyRDQe1tV8FQ8hC4xMK2y7tkBYMV1N1wHMRdBgZwhFFACopFV8M1noeSizpNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=lYRbuysm; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MsFYvrEu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766367613; x=1797903613;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2q6INEmyrOoSbPu7j2eQCDHhOBRUry9i6FZ++OK4gZE=;
-  b=MsFYvrEudbZ+9oqB1k6JATh5CYn6yMBjKHCH5XCy9cJfR8B4biSjbscK
-   VkdTcosTuHFsujpQPFCP+2Xei1gifw+Z8hsZSwC8DbywvjiO4fS8TM6Oh
-   z3RrygYJOYtp9jUbIhw9HNvURdOHeKJT3/083qnOxGxC/QfTytyY2Dnz9
-   c/pflzYCApOGOTqEpOuYlqkYW1n5D8amGFQh4zVrEdg0LrdJYWq28T3c3
-   +IfvkieAANL9bgvivho/j5s0EFXOfOqkBh8wOVCop93DSJ16KFB4fOcOO
-   QorzPggsXOFM3CagwoedY2dtdRnaklgnYpfbpX74J2+4ic9MVUyFw5VQa
-   Q==;
-X-CSE-ConnectionGUID: Etg5qAF/TCy+Og1zEQzwGQ==
-X-CSE-MsgGUID: 3ZLmDaD7SKOYeyGfvHXwZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="72085412"
-X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="72085412"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 17:40:12 -0800
-X-CSE-ConnectionGUID: DMa9O9r7SR67aSs7ZI3D/g==
-X-CSE-MsgGUID: +wCeriODQ0uyo9Osz/uH0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="198554747"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 21 Dec 2025 17:40:12 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vXUu9-000000005JM-0ktG;
-	Mon, 22 Dec 2025 01:40:09 +0000
-Date: Mon, 22 Dec 2025 02:40:04 +0100
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 12/12] kismet: WARNING: unmet
- direct dependencies detected for DRM_PRIVACY_SCREEN when selected by
- GKI_HIDDEN_DRM_CONFIGS
-Message-ID: <202512220248.RwtHkPeI-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="lYRbuysm"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=rSMZmesBLFgpq+A0LYpVko4h+lt0AEEuH7RX7GEQVlo=;
+	b=lYRbuysmu5FfGITGv6TYTLp3eumslNXWu5jf/XWdplckklCgTmhi4Ys0azd9VS900rj2hSeix
+	vxLPDzJJo0lXa4MbcXWl26NzKCdGbjZFQXzmlDjSTnDVJ8Q8Q+/CGkZQGQlaUPE5ESZWJgdGZ0X
+	Y8ULjA2ipNdsiZc7Y9MgRjo=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4dZLX74R6xz1K98D;
+	Mon, 22 Dec 2025 09:43:51 +0800 (CST)
+Received: from dggpemf100008.china.huawei.com (unknown [7.185.36.138])
+	by mail.maildlp.com (Postfix) with ESMTPS id 1C2A040539;
+	Mon, 22 Dec 2025 09:46:55 +0800 (CST)
+Received: from [10.174.177.243] (10.174.177.243) by
+ dggpemf100008.china.huawei.com (7.185.36.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 22 Dec 2025 09:46:54 +0800
+Message-ID: <2f528a53-5acb-4e2b-9346-231f882ecb6a@huawei.com>
+Date: Mon, 22 Dec 2025 09:46:53 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/6] mm: cma: add cma_alloc_frozen{_compound}()
+To: kernel test robot <lkp@intel.com>, Andrew Morton
+	<akpm@linux-foundation.org>, David Hildenbrand <david@redhat.com>, Oscar
+ Salvador <osalvador@suse.de>, Muchun Song <muchun.song@linux.dev>
+CC: <oe-kbuild-all@lists.linux.dev>, Linux Memory Management List
+	<linux-mm@kvack.org>, <sidhartha.kumar@oracle.com>, <jane.chu@oracle.com>, Zi
+ Yan <ziy@nvidia.com>, Vlastimil Babka <vbabka@suse.cz>, Brendan Jackman
+	<jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Matthew Wilcox
+	<willy@infradead.org>
+References: <20251216114844.2126250-6-wangkefeng.wang@huawei.com>
+ <202512202141.mGkUgIRF-lkp@intel.com>
+Content-Language: en-US
+From: Kefeng Wang <wangkefeng.wang@huawei.com>
+In-Reply-To: <202512202141.mGkUgIRF-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ dggpemf100008.china.huawei.com (7.185.36.138)
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   2141da9e498139ac37a520b62dfdc77db8003146
-commit: 37d3c7ab72bddb663d31da64d4b888d56ef11440 [12/12] ANDROID: GKI: x86: Enable DRM privacy screen
-config: x86_64-kismet-CONFIG_DRM_PRIVACY_SCREEN-CONFIG_GKI_HIDDEN_DRM_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20251222/202512220248.RwtHkPeI-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20251222/202512220248.RwtHkPeI-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512220248.RwtHkPeI-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN when selected by GKI_HIDDEN_DRM_CONFIGS
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_DRM_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_DRM_CONFIGS [=y] && X86 [=y]
+On 2025/12/20 22:34, kernel test robot wrote:
+> Hi Kefeng,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on akpm-mm/mm-everything]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-debug_vm_pgtable-add-debug_vm_pgtable_free_huge_page/20251216-195027
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20251216114844.2126250-6-wangkefeng.wang%40huawei.com
+> patch subject: [PATCH v4 5/6] mm: cma: add cma_alloc_frozen{_compound}()
+> config: s390-randconfig-r053-20251218 (https://download.01.org/0day-ci/archive/20251220/202512202141.mGkUgIRF-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202141.mGkUgIRF-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512202141.mGkUgIRF-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>     mm/hugetlb_cma.c: In function 'hugetlb_cma_alloc_folio':
+>>> mm/hugetlb_cma.c:44:11: warning: array subscript [0, 0] is outside array bounds of 'struct cma *[1]' [-Warray-bounds]
+>         page = cma_alloc_frozen_compound(hugetlb_cma[nid], order);
+>                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> Kconfig warnings: (for reference only)
+>     WARNING: unmet direct dependencies detected for CAN_DEV
+>     Depends on [n]: NETDEVICES [=n] && CAN [=m]
+>     Selected by [m]:
+>     - CAN [=m] && NET [=y]
+> 
+> 
+> vim +44 mm/hugetlb_cma.c
+> 
+>      28	
+>      29	struct folio *hugetlb_cma_alloc_folio(int order, gfp_t gfp_mask,
+>      30					      int nid, nodemask_t *nodemask)
+>      31	{
+>      32		int node;
+>      33		struct folio *folio;
+>      34		struct page *page = NULL;
+>      35	
+>      36		if (hugetlb_cma[nid])
+>      37			page = cma_alloc_frozen_compound(hugetlb_cma[nid], order);
+>      38	
+>      39		if (!page && !(gfp_mask & __GFP_THISNODE)) {
+>      40			for_each_node_mask(node, *nodemask) {
+>      41				if (node == nid || !hugetlb_cma[node])
+>      42					continue;
+>      43	
+>    > 44				page = cma_alloc_frozen_compound(hugetlb_cma[nid], order);
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Oh, it should be hugetlb_cma[node] in the fallback path, thanks for the 
+reporting.
+
