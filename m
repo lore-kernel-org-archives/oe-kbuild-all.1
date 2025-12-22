@@ -1,140 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6B6324B0C;
-	Mon, 22 Dec 2025 07:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173C5288537
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 07:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766389271; cv=none; b=I2S+vgZNFehL453KXgtUln/HEoWR8Bb9RIgEG5vyddSGWhRZSgiH1fER+W1MP8fusF0ITjsAvZZjTPSLj/16pYHqR0aKRoSTLfAjXArUr5jW0g4+1z+PiaHMjTUvX4B1/1XA8iDRO7bnCFe4U5wiXcy4UYqRGpTB0S1HWJAY12k=
+	t=1766389699; cv=none; b=Ad2edOrcTfm3GBBsrlXiJFNslPwWk9vlATn80ygPLCQb39hjwpEa4WVhS7mgxbxQWhY2Lnebj5bvLPNTAaaKgUPrT6Jg4WzTY4YGIcofgsbFIXWsrdLrkv8wzI5Sa2aj60Vf7rT94/kf0cXr29/6jGlFfsht46/Dknw+Sv1NM5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766389271; c=relaxed/simple;
-	bh=4MDkoZXsbTeDAKtCmLilPDDbW0DnDAgKiSa7dR/gabU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AGsWrg7BpiGgXnVpN+BxQcfnVciqTFC6TGK46vULxkuoNYToh/QHCUMYjXgmkINlOcsnshbKEYXvoHH6DIIXJDO3Jo93OP2xOEOWj4Xo4vTwGLhsWTBsB8pXxEvcW5Bo9sbaTrVb33rKvQMjzA4l7PgJ/6EitgjgugdmfZ2H2VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l1p6h7X/; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1766389699; c=relaxed/simple;
+	bh=XivsxssY0JeAP69cwY24po+6spXhSOKp9UvjM25rzJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XEfazm9QT7w448Q5GjLIcKLL3+uxzpKxOEUkhA56Ia7QWeizzY2lAJcDQCF93R7MekxroJJb9OYC2MeJJ1OAK2axLbxGkBn4I7Y4yyTWXf5b0JGAMt859gC0QkFEf4MXxFyHLt46WB7H2SKslPVbEFEiGbHTUrcvFvnKVkavksU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DL21SJ3i; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l1p6h7X/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DL21SJ3i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766389269; x=1797925269;
-  h=date:from:to:cc:subject:message-id;
-  bh=4MDkoZXsbTeDAKtCmLilPDDbW0DnDAgKiSa7dR/gabU=;
-  b=l1p6h7X/8aX18Actt/Mb45Wez5cKJN3LM/DlQYJVqHSTwekZjjJOrck1
-   a0o/sKH+x4iVndPbfyWf1gOkMX5ExjzM6sETl92p825kuprlgQJTCCDYi
-   t7p4L/QKJPOo41bHaEg0bix0hzP4bRBfuuTdzfDKWWTMqihahael0YOgQ
-   MWw7HeXeBWzNuRPCRFf3fpBhdCR2aMaGnKBZBWU40hIzo9OWoFZEjs5jX
-   kHmFq37hlyvzweH7O93L05vl2DipAU6P7+tbFSgdFOvrgOH1kW7Rf3IwH
-   Ndy1vTQulWJPb95z8fA1U5XGFfnsV274Jt9hXRHzPf3LftRsVYwesalhZ
+  t=1766389699; x=1797925699;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XivsxssY0JeAP69cwY24po+6spXhSOKp9UvjM25rzJU=;
+  b=DL21SJ3iiHWRAZW8AmR6Gyr5KRQj5Om9sYsu3THM7TnBHzPKGRrtMWzi
+   ZG2Vp8XEVK6MUFk1o0K+vEKB6zo4TzPdZive7e0LuBIx6uVjgdSGUAwgR
+   PsxqokCVf0Am3IBBgT5WVbGBG9N7MLY8VrdEFZPH9fBQwv9CMAAagatL0
+   /Tnbh5/In6KRLkYBUC3JSWTv0pgvltqAjxnjfrUQr8QO2/P71WCRMYt5U
+   ZxT4CLZ0LUxxevtsxSDDC10rjGExduzV6jr8jZnvWdMCXSK3vwtXOrZp5
+   SvSu7GzlqDuF7tmorn0bbu0hvIEBptZn5C+KX1sY1MFX+BOlkMJnGxoU6
    A==;
-X-CSE-ConnectionGUID: xL7FCEZYSeqsxT6NZwGf6g==
-X-CSE-MsgGUID: mkQhhNMmRqKGt58AC3Bfag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="85826678"
+X-CSE-ConnectionGUID: LpRVDjGYT/a1mJnJ2E4swg==
+X-CSE-MsgGUID: F2SNEIqoSOyTqqDHp2fPXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="71873583"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="85826678"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 23:41:05 -0800
-X-CSE-ConnectionGUID: a0Pw20a1QOa6XO55kqDBIg==
-X-CSE-MsgGUID: VvCYedBzTOuk4o1Q6djbZw==
+   d="scan'208";a="71873583"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 23:48:18 -0800
+X-CSE-ConnectionGUID: +FUyrWf+RFW5GUFzUQqHxw==
+X-CSE-MsgGUID: h6qnCO74R9KKowk37ZRhcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="199368968"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Dec 2025 23:41:03 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="204403993"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 21 Dec 2025 23:48:16 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXaXN-000000000Dl-1G2W;
-	Mon, 22 Dec 2025 07:41:01 +0000
-Date: Mon, 22 Dec 2025 15:40:59 +0800
+	id 1vXaeL-000000005PA-2FKR;
+	Mon, 22 Dec 2025 07:48:13 +0000
+Date: Mon, 22 Dec 2025 08:47:30 +0100
 From: kernel test robot <lkp@intel.com>
 To: Amit Cohen <amcohen@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Ido Schimmel <idosch@nvidia.com>
-Subject: [jpirko-mlxsw:xdp 18/36] include/net/libeth/xdp.h:1498:42:
- error: too few arguments to function call, expected 2, have 1
-Message-ID: <202512221557.TaOWZa4D-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Cc: oe-kbuild-all@lists.linux.dev, Ido Schimmel <idosch@nvidia.com>
+Subject: [jpirko-mlxsw:xdp 18/36] include/net/libeth/xdp.h:1498:15: error:
+ too few arguments to function 'xdp_build_skb_from_buff'
+Message-ID: <202512220803.HDjHZnXO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 tree:   https://github.com/jpirko/linux_mlxsw xdp
 head:   2b8b8ddc8690a398f4deb27a032bd473320a6691
 commit: a9594ca8b4dea6c838edd404e1c6cc8f58993015 [18/36] xdp: Pass netdevice to xdp_build_skb_from_buff()
-config: um-randconfig-001-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221557.TaOWZa4D-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 185f5fd5ce4c65116ca8cf6df467a682ef090499)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221557.TaOWZa4D-lkp@intel.com/reproduce)
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251222/202512220803.HDjHZnXO-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220803.HDjHZnXO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221557.TaOWZa4D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512220803.HDjHZnXO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/intel/ice/ice_txrx.c:7:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
-   In file included from drivers/net/ethernet/intel/ice/ice_txrx.c:11:
->> include/net/libeth/xdp.h:1498:42: error: too few arguments to function call, expected 2, have 1
-    1498 |         skb = xdp_build_skb_from_buff(&xdp->base);
-         |               ~~~~~~~~~~~~~~~~~~~~~~~           ^
-   include/net/xdp.h:377:17: note: 'xdp_build_skb_from_buff' declared here
-     377 | struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp,
-         |                 ^                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     378 |                                         struct net_device *dev);
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ice/ice_txrx.c:1042:43: error: too few arguments to function call, expected 2, have 1
-    1042 |                 skb = xdp_build_skb_from_buff(&xdp->base);
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~           ^
-   include/net/xdp.h:377:17: note: 'xdp_build_skb_from_buff' declared here
-     377 | struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp,
-         |                 ^                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     378 |                                         struct net_device *dev);
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 2 errors generated.
---
-   In file included from drivers/net/ethernet/intel/ice/ice_txrx_lib.c:4:
-   In file included from include/linux/filter.h:9:
-   In file included from include/linux/bpf.h:32:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
    In file included from drivers/net/ethernet/intel/ice/ice_txrx_lib.c:6:
->> include/net/libeth/xdp.h:1498:42: error: too few arguments to function call, expected 2, have 1
+   include/net/libeth/xdp.h: In function '__libeth_xdp_run_pass':
+>> include/net/libeth/xdp.h:1498:15: error: too few arguments to function 'xdp_build_skb_from_buff'
     1498 |         skb = xdp_build_skb_from_buff(&xdp->base);
-         |               ~~~~~~~~~~~~~~~~~~~~~~~           ^
-   include/net/xdp.h:377:17: note: 'xdp_build_skb_from_buff' declared here
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/net/libeth/rx.h:10,
+                    from include/linux/net/intel/libie/rx.h:7,
+                    from drivers/net/ethernet/intel/ice/ice_txrx_lib.c:5:
+   include/net/xdp.h:377:17: note: declared here
      377 | struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp,
-         |                 ^                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     378 |                                         struct net_device *dev);
-         |                                         ~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/net/ethernet/intel/ice/ice_txrx.c:11:
+   include/net/libeth/xdp.h: In function '__libeth_xdp_run_pass':
+>> include/net/libeth/xdp.h:1498:15: error: too few arguments to function 'xdp_build_skb_from_buff'
+    1498 |         skb = xdp_build_skb_from_buff(&xdp->base);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/events/xdp.h:12,
+                    from include/linux/bpf_trace.h:5,
+                    from drivers/net/ethernet/intel/ice/ice_txrx.c:9:
+   include/net/xdp.h:377:17: note: declared here
+     377 | struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_txrx.c: In function 'ice_clean_rx_irq':
+>> drivers/net/ethernet/intel/ice/ice_txrx.c:1042:23: error: too few arguments to function 'xdp_build_skb_from_buff'
+    1042 |                 skb = xdp_build_skb_from_buff(&xdp->base);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~
+   include/net/xdp.h:377:17: note: declared here
+     377 | struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from ice_txrx.c:11:
+   include/net/libeth/xdp.h: In function '__libeth_xdp_run_pass':
+>> include/net/libeth/xdp.h:1498:15: error: too few arguments to function 'xdp_build_skb_from_buff'
+    1498 |         skb = xdp_build_skb_from_buff(&xdp->base);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/events/xdp.h:12,
+                    from include/linux/bpf_trace.h:5,
+                    from ice_txrx.c:9:
+   include/net/xdp.h:377:17: note: declared here
+     377 | struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   ice_txrx.c: In function 'ice_clean_rx_irq':
+   ice_txrx.c:1042:23: error: too few arguments to function 'xdp_build_skb_from_buff'
+    1042 |                 skb = xdp_build_skb_from_buff(&xdp->base);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~
+   include/net/xdp.h:377:17: note: declared here
+     377 | struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1498 include/net/libeth/xdp.h
+vim +/xdp_build_skb_from_buff +1498 include/net/libeth/xdp.h
 
 4c805f7ae1ce61 Alexander Lobakin 2025-06-12  1425  
 4c805f7ae1ce61 Alexander Lobakin 2025-06-12  1426  /**
