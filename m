@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D52826CE2D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 10:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9491C226861
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 11:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766400680; cv=none; b=sfIIWYniksvU+qfXVzkhSEVXS8Hd9BicTfZEYnXh4CX9mfvr2y6094yMNxIFZlbN9xqzH7Jp4sP03z56pnk2npA03wDEAv8AFTKSUtqV9031RXOU6nBdBGrSQav7Mpld5W5REFXY/WplzYSs3hvNsibq8sqY+JmRx2+CQ82A8lU=
+	t=1766401642; cv=none; b=gJJk269ouL00I//iuwJ7y9xKbgu0g/D8m/kkBxCMHSsP/dJEefbYcZVHlUQEXLHCPHdJHXF6/Y2hklfK+VkXrFv3yi8vouct2Cx1fowU7HIlmMTXVgx0NJUbk/WiTyjsJpksED05agz8YEYc6lUDBd9nKHnq6h2iB1w+mHlV2Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766400680; c=relaxed/simple;
-	bh=Tn4AIQWEcixUbHbQ897Ik58itunnClsvHMFALrFjhl4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ppYRPCFefd6MwMz8+bjvGEiakbuANUvqfjq2jnuaDSdx421HrVKkv06OIR3188Jnp8xC6qDcVUldD/L4+Y4YQRctsMzhtPv3rjOWPaxyHVV8KW5fFi+gCl1mhz4Ll12OOumAgeTtib5HcSn7Nfsv1Lh7ofsktVl51apxinIUZdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FeR13fiX; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1766401642; c=relaxed/simple;
+	bh=tcW5l6VrXXlOTEIFgckRUbeTyCmj9GRWXn6I47nzyKo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H7Gh9Q2L3usUy8tJChdREXa7zNg50q7C1lCDIErFkNiUBJsHQjU4WIRiIq3hGZ31KZqQ6Syr7u8UfHRunFi/niHncuNM303lW0N2u0dc+TZ2ikaTjIalfnhRMUWYDxhP3hduuaPjPwEmZ21JMeBdtClx8FcOK+8oOSICFk3CfbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hrFodArR; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FeR13fiX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hrFodArR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766400679; x=1797936679;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Tn4AIQWEcixUbHbQ897Ik58itunnClsvHMFALrFjhl4=;
-  b=FeR13fiXELT09UPhhcmWgn7iI3xHzEaanSdGXjxxi9RcKB33fI0NqAxv
-   7kRByZU8jcNL4qxBP79VgXe2tecT9fe2qwF6JdNUtuKwM8XnXjsR3hwm5
-   HOx9YgrL/S0fgQKZRUfTxlYAXOnxLVgRtwK7nBaLBlP+SjiQ093zPEBgw
-   vS8Uvgo0FIWqRQJkL/sfR5yEQ/BkRUUh/4RO3v7U3OAyZjKmEbES/b/8U
-   2mX6KOiie132gyjAGRmYZ5AhsGpIg/ucHpFWHvK0+AWBsiMp634+0xy3h
-   DP0LUuZt5I7carKoO3MUoE4p37fUZN2c08yhX4xuDCBiC/VpbmKkvjnBg
+  t=1766401640; x=1797937640;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tcW5l6VrXXlOTEIFgckRUbeTyCmj9GRWXn6I47nzyKo=;
+  b=hrFodArRPaADVaaym4WPSSgeXZQSIgnEFCFTwkOW4b9z+wf0c7t5fnYg
+   ILDQnXJQhot/q8Vz6G2TcvpsTv3XE0q88QomOalaPP9c56RjqV7bVTd23
+   FqqD7uu53zzLurVrXVTmU16CTOvKMdD31NKk5u/HzZhZh8mVbECRyZvsI
+   6jzX84wCfaSgf9tOcFxUePU+J/Bwkh24RRwcsC5lD2k9AJOfGMbk7qVmj
+   fVhYOj3Cl5Hc7nDJPU1GCGqPIXxnPca0f0wEcpLrjR5x+XhrbRA6tZQg/
+   2Xi74GnCfrbZ7BVuJpH8zyKgO5Rj2fY8d6HIx7OeaYIFeSYWGvCr79aDt
    Q==;
-X-CSE-ConnectionGUID: hdWMe0CVSlOq03vQnWdyyQ==
-X-CSE-MsgGUID: aqT8JFcfRCCcA06Wp7A35A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68236793"
+X-CSE-ConnectionGUID: y3uOvxUeQBurkzgU/qeVow==
+X-CSE-MsgGUID: uc6KrEx7Rzu5GWXDU2LsNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="72104237"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="68236793"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 02:51:18 -0800
-X-CSE-ConnectionGUID: uzywKkWHTnKg9JNMSPpunQ==
-X-CSE-MsgGUID: aDU29xJ3RAuIbhLiwP/E8g==
+   d="scan'208";a="72104237"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 03:07:19 -0800
+X-CSE-ConnectionGUID: zkF2HHeZRzmMTDJvSs5Aaw==
+X-CSE-MsgGUID: 420zfMw8RuKvuXZHShpT3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="236920656"
+   d="scan'208";a="199254850"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 22 Dec 2025 02:51:17 -0800
+  by orviesa009.jf.intel.com with ESMTP; 22 Dec 2025 03:07:18 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXdVS-000000005Qq-3G6k;
-	Mon, 22 Dec 2025 10:51:14 +0000
-Date: Mon, 22 Dec 2025 11:51:07 +0100
+	id 1vXdkx-000000005RI-0RrC;
+	Mon, 22 Dec 2025 11:07:15 +0000
+Date: Mon, 22 Dec 2025 12:06:51 +0100
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sashal:spec 38/131] htmldocs:
- Documentation/filesystems/api-summary:47: ./fs/locks.c:2347: WARNING: Block
- quote ends without a blank line; unexpected unindent. [docutils]
-Message-ID: <202512221137.JK2URmKe-lkp@intel.com>
+To: Charles Hsu <hsu.yungteng@gmail.com>, Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
+	devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	Charles Hsu <hsu.yungteng@gmail.com>
+Subject: Re: [PATCH 2/2] hwmon: pmbus: add support for STEF48H28
+Message-ID: <202512221250.KCb0UUiG-lkp@intel.com>
+References: <20251216083712.260140-2-hsu.yungteng@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,30 +64,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251216083712.260140-2-hsu.yungteng@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
-head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
-commit: 6e2efef314de6b3ba3b41078599a2c5f25f9c1d9 [38/131] kernel/api: add API specification for sys_flock
-reproduce: (https://download.01.org/0day-ci/archive/20251222/202512221137.JK2URmKe-lkp@intel.com/reproduce)
+Hi Charles,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on robh/for-next linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Hsu/hwmon-pmbus-add-support-for-STEF48H28/20251216-164903
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20251216083712.260140-2-hsu.yungteng%40gmail.com
+patch subject: [PATCH 2/2] hwmon: pmbus: add support for STEF48H28
+reproduce: (https://download.01.org/0day-ci/archive/20251222/202512221250.KCb0UUiG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221137.JK2URmKe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221250.KCb0UUiG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Documentation/filesystems/api-summary:47: ./fs/locks.c:2256: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/api-summary:47: ./fs/locks.c:2311: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/api-summary:47: ./fs/locks.c:2322: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/api-summary:47: ./fs/locks.c:2331: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/api-summary:47: ./fs/locks.c:2343: ERROR: Unexpected indentation. [docutils]
->> Documentation/filesystems/api-summary:47: ./fs/locks.c:2347: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/filesystems/api-summary:47: ./fs/locks.c:2354: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/api-summary:47: ./fs/locks.c:2356: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/filesystems/api-summary:47: ./fs/locks.c:2363: ERROR: Unexpected indentation. [docutils]
-   Documentation/filesystems/api-summary:47: ./fs/locks.c:2366: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/filesystems/api-summary:47: ./fs/locks.c:2372: ERROR: Unexpected indentation. [docutils]
+   WARNING: No kernel-doc for file ./include/linux/hid_bpf.h
+   ERROR: Cannot find file ./include/linux/hid_bpf.h
+   WARNING: No kernel-doc for file ./include/linux/hid_bpf.h
+   ERROR: Cannot find file ./include/linux/hid.h
+   WARNING: No kernel-doc for file ./include/linux/hid.h
+>> Documentation/hwmon/stef48h28.rst:4: WARNING: Title underline too short.
+
+
+vim +4 Documentation/hwmon/stef48h28.rst
+
+     2	
+     3	Kernel driver stef48h28
+   > 4	======================
+     5	
 
 -- 
 0-DAY CI Kernel Test Service
