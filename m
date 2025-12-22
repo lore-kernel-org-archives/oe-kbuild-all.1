@@ -1,95 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD2D1E1DE9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 16:29:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A6E1F151C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 16:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766420971; cv=none; b=UDtvWQPtxIyC08wkHD5hUBstp66rB9PtHpMECXxPvmcV/gookoTJrE8ShgnbE8rsRG8TkmStv9MVH8uUXjpyzGm4NUfO6qm89Ug7aA4wskVOmoG+EST2B/piHxjRMWk41I+njpY21336NTeEMp4m4hTSHuh6lZ+fMxLxW+owNTk=
+	t=1766421206; cv=none; b=qCdM0cEdQklHybQN1Vl+by7rtsNI0pQj19IABctssF5VY10K5/Wpf0FWgvLZzImfxexyVwlPFV8ynsVyeeGl4tzW30E0qnCkNuyJqS8HOTEpPmZI2kDBDjQYWHK7hPtSclmo/qcvcetwCbRRt73ICzYvNpVIUf/JunBHPTXLoNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766420971; c=relaxed/simple;
-	bh=PO/UTXU0HajYepMmQCuXCtZMxVeo1/ynidsXWPn6qyo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ciPAaicgX6plv49sngYGFfdVJlHuW+Q5K2TLSpK5CMS7ZqTQhn+1q48U9tPQBxU07uxHt1rJE3kR/neUrpzW+E3euifJ3H9tD400wJVp8/W75W6YDbA6/YDh2bWnp5N4Fbv5ssNuOZjD/gB8Fr0+LT4pyc5yk8YC/2gfDYxMHBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WTZuWURa; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1766421206; c=relaxed/simple;
+	bh=Od44s3rALHG0gHjq28dUWHgUWeod9b1zesMPGVeEGdU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aQJTNm3pb3kkgwKVNOvsenemzGZSPpJ7uTyC8BAFPEzya3dtTPBgCNhHYbqULdPrAShw5LzvTuHO5cBGl0nYQbYTyRKdZC0VPw1aobq8S2aHku7mONrBAn4i1JJw3XEVZdOuNgSIdB6o6uKNwVVAWW1QU7pY0YiASdpC1SeugmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jsIoXLww; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WTZuWURa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsIoXLww"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766420969; x=1797956969;
-  h=date:from:to:cc:subject:message-id;
-  bh=PO/UTXU0HajYepMmQCuXCtZMxVeo1/ynidsXWPn6qyo=;
-  b=WTZuWURaYM3Gix/Ne3dO9FBGEYFEp9t8jEmUdV+7bnSHLTB/CdD9yjC9
-   rGQXRqpCza4s+OIBlloY6A3EXYOJ8/z4hAwtofnyy6XJpWjWEg1iIlrnz
-   GmcjqD9NddkOzbHYjlhTq8Hyb5pwhYuP+U2VMPLuk/4EVBqvhEwPkt3i6
-   Sdo2XAMM7pQpjiw1+VzZQfT39VBgIm3HUSZTmY1AdYr5ACfB43kaUC2F1
-   gbDe1JQjXsDzMj10nM5gd0L0DcDeh4x7PeCuKibwO9fvqrD7QIolomB2B
-   kiLnxyl0L5QIB95lAR4eZYobaV9DnjJRBdqZAJPFyTGrCTlyfeqNZGxHT
-   Q==;
-X-CSE-ConnectionGUID: VPSmYGw+SAi6khZMyY0DAA==
-X-CSE-MsgGUID: QuaRM+VdRBaFJkmUM0dJrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="90937887"
+  t=1766421205; x=1797957205;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Od44s3rALHG0gHjq28dUWHgUWeod9b1zesMPGVeEGdU=;
+  b=jsIoXLww+m5/mfJSwpTid37um60mrmpU/NRL8czGbUJVCxnrukw2FyQX
+   ba474O5wvZQh+VmDyRCz2/64nVsa/tDcR5XC7cfBvmXcaX7Nq2yftBafK
+   33wqMMg1+wOzeVOEMvCz06FNmb3vpYxTNgge8AESkRQNyC7BRZ67l0F+3
+   KDY/802eczmsR5oa6JaxfnCSs+zO6Kr24YqkjjHzz7QhpkuSgpSe2vATV
+   9cvMRaU2jHzADYpNv6t95hgPwnqWqkG/jZabdhYpxr8zZuDv0OR/WwGqj
+   kSFzEGpJ86D+2AgmeUg4yjbtJtYIz44D7Po2Pis2hpKGGqn2rKu/tIR+f
+   g==;
+X-CSE-ConnectionGUID: e6A0OnOOQVK67v1c2J7MDw==
+X-CSE-MsgGUID: /7H/a+L3RAyzEAEd6O7yiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="93748331"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="90937887"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 08:29:29 -0800
-X-CSE-ConnectionGUID: CgtP9U13RSmkJld8z18g5w==
-X-CSE-MsgGUID: dMqwICRBRB2MVYDtJEcf0Q==
+   d="scan'208";a="93748331"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 08:33:23 -0800
+X-CSE-ConnectionGUID: O1Orh5fQSkmT+fXBYYOCCA==
+X-CSE-MsgGUID: 7F355vvTRrG8v9QVo5oPBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="200061640"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 22 Dec 2025 08:29:27 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="230221418"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 22 Dec 2025 08:33:23 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXimj-000000000pP-0jWN;
-	Mon, 22 Dec 2025 16:29:25 +0000
-Date: Tue, 23 Dec 2025 00:29:06 +0800
+	id 1vXiqW-000000005YW-0jxw;
+	Mon, 22 Dec 2025 16:33:20 +0000
+Date: Mon, 22 Dec 2025 17:33:00 +0100
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: alexs@kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3418/3418]
- arch/x86/kernel/alternative.c:78:21: sparse: sparse: symbol 'x86nops' was not
- declared. Should it be static?
-Message-ID: <202512230026.G2nO9RjO-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: [alexshi:pgtable14 1/2]
+ ./arch/powerpc/include/asm/book3s/64/pgtable.h:1326:68: error: implicit
+ declaration of function 'page_ptdesc'
+Message-ID: <202512221734.A8ZOnZEK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   1588d318a9e388d05b6cf5e2a63134c8beb6a355
-commit: 8243b036681b074fab34e18024d1ee24c656b432 [3418/3418] x86: Remove dynamic NOP selection
-config: x86_64-randconfig-121-20251217 (https://download.01.org/0day-ci/archive/20251223/202512230026.G2nO9RjO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230026.G2nO9RjO-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git pgtable14
+head:   d9bb8deea009b236ba354e09f922bfa97741bced
+commit: 75736837bf306bf5c2a2d52cc5ac9e74f187a116 [1/2] mm/pgtable: use ptdesc for pgtable pointer-6.19
+config: powerpc64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251222/202512221734.A8ZOnZEK-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221734.A8ZOnZEK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230026.G2nO9RjO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221734.A8ZOnZEK-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/alternative.c:78:21: sparse: sparse: symbol 'x86nops' was not declared. Should it be static?
+All error/warnings (new ones prefixed by >>):
 
-vim +/x86nops +78 arch/x86/kernel/alternative.c
+   In file included from ./arch/powerpc/include/asm/book3s/64/mmu-hash.h:20,
+                    from ./arch/powerpc/include/asm/book3s/64/mmu.h:32,
+                    from ./arch/powerpc/include/asm/mmu.h:377,
+                    from ./arch/powerpc/include/asm/paca.h:18,
+                    from ./arch/powerpc/include/asm/current.h:13,
+                    from ./include/linux/thread_info.h:23,
+                    from ./include/asm-generic/preempt.h:5,
+                    from ./arch/powerpc/include/asm/preempt.h:5,
+                    from ./include/linux/preempt.h:79,
+                    from ./include/linux/alloc_tag.h:11,
+                    from ./include/linux/rhashtable-types.h:12,
+                    from ./include/linux/ipc.h:7,
+                    from ./include/uapi/linux/sem.h:5,
+                    from ./include/linux/sem.h:5,
+                    from ./include/linux/compat.h:14,
+                    from arch/powerpc/kernel/asm-offsets.c:13:
+>> ./arch/powerpc/include/asm/book3s/64/pgtable.h:1323:67: warning: 'struct ptdesc' declared inside parameter list will not be visible outside of this definition or declaration
+    1323 |                                               pmd_t *pmdp, struct ptdesc *pgtable)
+         |                                                                   ^~~~~~
+   ./arch/powerpc/include/asm/book3s/64/pgtable.h: In function 'pgtable_trans_huge_deposit':
+>> ./arch/powerpc/include/asm/book3s/64/pgtable.h:1326:68: error: implicit declaration of function 'page_ptdesc' [-Wimplicit-function-declaration]
+    1326 |                 return radix__pgtable_trans_huge_deposit(mm, pmdp, page_ptdesc(pgtable));
+         |                                                                    ^~~~~~~~~~~
+>> ./arch/powerpc/include/asm/book3s/64/pgtable.h:1326:68: error: passing argument 3 of 'radix__pgtable_trans_huge_deposit' makes pointer from integer without a cast [-Wint-conversion]
+    1326 |                 return radix__pgtable_trans_huge_deposit(mm, pmdp, page_ptdesc(pgtable));
+         |                                                                    ^~~~~~~~~~~~~~~~~~~~
+         |                                                                    |
+         |                                                                    int
+   In file included from ./arch/powerpc/include/asm/book3s/64/pgtable.h:297:
+   ./arch/powerpc/include/asm/book3s/64/radix.h:294:51: note: expected 'pgtable_t' {aka 'pte_t *'} but argument is of type 'int'
+     294 |                                         pgtable_t pgtable);
+         |                                         ~~~~~~~~~~^~~~~~~
+>> ./arch/powerpc/include/asm/book3s/64/pgtable.h:1327:59: error: passing argument 3 of 'hash__pgtable_trans_huge_deposit' makes pointer from integer without a cast [-Wint-conversion]
+    1327 |         return hash__pgtable_trans_huge_deposit(mm, pmdp, page_ptdesc(pgtable));
+         |                                                           ^~~~~~~~~~~~~~~~~~~~
+         |                                                           |
+         |                                                           int
+   In file included from ./arch/powerpc/include/asm/book3s/64/hash.h:19,
+                    from ./arch/powerpc/include/asm/book3s/64/pgtable.h:296:
+   ./arch/powerpc/include/asm/book3s/64/hash-4k.h:164:52: note: expected 'pgtable_t' {aka 'pte_t *'} but argument is of type 'int'
+     164 |                                          pgtable_t pgtable);
+         |                                          ~~~~~~~~~~^~~~~~~
 
-    77	
-  > 78	const unsigned char x86nops[] =
-    79	{
-    80		BYTES_NOP1,
-    81		BYTES_NOP2,
-    82		BYTES_NOP3,
-    83		BYTES_NOP4,
-    84		BYTES_NOP5,
-    85		BYTES_NOP6,
-    86		BYTES_NOP7,
-    87		BYTES_NOP8,
-    88	};
-    89	
+
+vim +/page_ptdesc +1326 ./arch/powerpc/include/asm/book3s/64/pgtable.h
+
+  1310	
+  1311	#define __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR_FULL
+  1312	pmd_t pmdp_huge_get_and_clear_full(struct vm_area_struct *vma,
+  1313					   unsigned long addr,
+  1314					   pmd_t *pmdp, int full);
+  1315	
+  1316	#define __HAVE_ARCH_PUDP_HUGE_GET_AND_CLEAR_FULL
+  1317	pud_t pudp_huge_get_and_clear_full(struct vm_area_struct *vma,
+  1318					   unsigned long addr,
+  1319					   pud_t *pudp, int full);
+  1320	
+  1321	#define __HAVE_ARCH_PGTABLE_DEPOSIT
+  1322	static inline void pgtable_trans_huge_deposit(struct mm_struct *mm,
+> 1323						      pmd_t *pmdp, struct ptdesc *pgtable)
+  1324	{
+  1325		if (radix_enabled())
+> 1326			return radix__pgtable_trans_huge_deposit(mm, pmdp, page_ptdesc(pgtable));
+> 1327		return hash__pgtable_trans_huge_deposit(mm, pmdp, page_ptdesc(pgtable));
+  1328	}
+  1329	
 
 -- 
 0-DAY CI Kernel Test Service
