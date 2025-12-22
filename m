@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3099E3314C0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:02:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B05F333447
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766422923; cv=none; b=f+PWEg7oVniiU8sx6Z9GOz++xuw2G3hpzwY63W1KzliGjikF+UFE4+WsuJ10aRZIrOasrV6g/R9t7yy4f5gC09sn+5rkWUia/f/mXJqIIvDJoGBG+gsv/xc8dq+/+AhZNEqHCbbgLzHOg0Z6g92hGCPa2GbdQS114+N+QtF19zk=
+	t=1766422927; cv=none; b=Eji0BC2pyND6/gEP3VGLRjm9DtemJMgMM4rioSYojL6/cse4ArOUyaUiy6qig5jvzb+yHIRpxp5Yvjv0ZbFnmhr4j6SkrNR2EceIsSSmmHjGRQ+OvMBR7vloca4OW8Vhf/9WgevuortcZ8eG0mUXP/AobuLw9EXMBAq/uASNAP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766422923; c=relaxed/simple;
-	bh=pO6nZrjC3tnpvwWDRYM1Fx5qJBNF/RAzaNHHU9qheP0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=m3XOxZLl1wWqlDyqPA7yUCEKQIfdSSUK12xFywqftDpi9pVRgBncffj/hpKRlAQAbCNYQOsHxkhYx/9XTPFz/fXBf2si5Wf+ziPLDJm8Q2twQwPtLmPEaMmL/Cr0MjhrXJNV+TWlIivyT6dVvf6hB3emOtdAT0qQcPOVFKn4HbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=boCHE/cf; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1766422927; c=relaxed/simple;
+	bh=1fnahG/l8SQgJ/U1y7QsuIrpQPja+ZVJmEhWgWN3RjI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Fe0jKYKLxbvOqB3s8GBO3lxDtbgJ6gUddfe5L0qdGSQaO8NMD2ZOKubnfXpWG8EMnGofgU9JrYuu4Bwn4dnnVTIwj3jo2oheY/EZtC7y1mE+lgDbzMSPNilGmxLOdJNuvS1fEIGTYkKf9rkFRZJ91WWQ70ZicElRWvkOxIOOubM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kbvd8UyV; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="boCHE/cf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kbvd8UyV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766422922; x=1797958922;
+  t=1766422925; x=1797958925;
   h=date:from:to:cc:subject:message-id;
-  bh=pO6nZrjC3tnpvwWDRYM1Fx5qJBNF/RAzaNHHU9qheP0=;
-  b=boCHE/cfAMpPNLAev07YNrQdQPC4GrFud6xemMhG5e7tAYTkkZnB24Ta
-   H+JMAMGLKFFnDnRHRIexxydI5RSg/z3RbXYTnjJI7Mha9YY8meN82Jo+1
-   SCUkZCn/llF9LlqqrwDmrnbq4K/cXuiDkA9W84AhjRakfhEsLLm+2UYj8
-   qDnAIDBtA+hPUpw6dAcIADxMPvWjlJtFebL6bCvTsQtUKAGJ5t8PzxB/p
-   P9FpLhC6Uy/FYUYTx6W63+FNQ0TOuRacLhw3WVDkwxcDKD5dmVpiZ5WkL
-   tSUpf6SezXLhINbVO/Lv8Us7Zr0nylnx7yUyEwq+3+Dzi+W3Ds1Qt8KgL
-   Q==;
-X-CSE-ConnectionGUID: KkopHBk5TLmDka/C/j2MTg==
-X-CSE-MsgGUID: +ld6BhzgR5Ote+TBFoK4rQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68264499"
+  bh=1fnahG/l8SQgJ/U1y7QsuIrpQPja+ZVJmEhWgWN3RjI=;
+  b=Kbvd8UyVkh2lXeWZ0XZ7kjKrDIgElAeyIq1BCUk9ADeBKXBtnFdt6zIF
+   +b0AiMwopMAUIX9yIgn/dHPCNQu0Tz/HQRfj4EHAUdTLkNYaJyeTM1MD4
+   sPVHh0VWI7gwWiVw9FsmP/HHhGlPf4t9SMUaP5fTugDTMuC2ERrPpysfF
+   P7HyRUtyUR3TE8H+Ah7ETKPdUpzXHKR212RJx7+1OOxGC6MYnEGNnlj0X
+   nW0TFU+1xhC38AOm161t4EhrCbD1W7wGRelyFUlG3yAW4XMuj2oKz6RaY
+   uXN9jmzxMPjaJ4VEvMfLLAv28ifpB5jVozCxszovUBLCvrPg0h+rlB0xc
+   A==;
+X-CSE-ConnectionGUID: fneqehciSsePmrPLc69tGQ==
+X-CSE-MsgGUID: yDsizo8vQq++yTjVlCO7RQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68264504"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="68264499"
+   d="scan'208";a="68264504"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:02:01 -0800
-X-CSE-ConnectionGUID: VNjjall5QS27Sa3CIzCEtw==
-X-CSE-MsgGUID: jCqtiPNeTYyH0eOTreagtw==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:02:05 -0800
+X-CSE-ConnectionGUID: AZT3dn35T0mqG0CPO/xlZQ==
+X-CSE-MsgGUID: r9/9adD7SfmtyZy6qTjVdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="198707802"
+   d="scan'208";a="198707817"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 22 Dec 2025 09:01:59 -0800
+  by orviesa006.jf.intel.com with ESMTP; 22 Dec 2025 09:02:00 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXjIB-000000000tz-3HM3;
-	Mon, 22 Dec 2025 17:01:56 +0000
-Date: Tue, 23 Dec 2025 01:01:44 +0800
+	id 1vXjID-000000000u2-084l;
+	Mon, 22 Dec 2025 17:01:57 +0000
+Date: Tue, 23 Dec 2025 01:01:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-rebalance_v2 467/799]
- fs/bcachefs/vfs/fs.c:1025:1: warning: the frame size of 1368 bytes is larger
- than 1280 bytes
-Message-ID: <202512230007.74l5HPAc-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3557/3557]
+ drivers/irqchip/irq-gic-phytium-2500.c:1216:78: sparse: sparse: dubious: !x |
+ !y
+Message-ID: <202512230028.LM8FWjL7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,175 +60,169 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-rebalance_v2
-head:   d4b3d00447faf8d4d95db47e3902e4ca4db8fbdc
-commit: 221177ea260493d2314aa23273a9bc7fe93529c5 [467/799] bcachefs: move vfs-specific code to vfs/
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251223/202512230007.74l5HPAc-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230007.74l5HPAc-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   04473ee9ed912a16fff0d8846ad565bbf3d63c77
+commit: 792b82446538ed840a6e23b89673ce21564702bd [3557/3557] Fix gic support for Phytium S2500
+config: arm64-randconfig-r132-20251218 (https://download.01.org/0day-ci/archive/20251223/202512230028.LM8FWjL7-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230028.LM8FWjL7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230007.74l5HPAc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230028.LM8FWjL7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/irqchip/irq-gic-phytium-2500.c:1216:78: sparse: sparse: dubious: !x | !y
+>> drivers/irqchip/irq-gic-phytium-2500.c:302:29: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500.c:327:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500.c:454:24: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500.c:479:24: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500.c:266:24: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500.c:767:24: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500.c:1155:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500.c:1156:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500.c:1157:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500.c:1409:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500.c:266:24: sparse: sparse: dereference of noderef expression
+--
+>> drivers/irqchip/irq-gic-phytium-2500-its.c:1479:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct raw_spinlock [usertype] *lock @@     got struct raw_spinlock [noderef] __percpu * @@
+   drivers/irqchip/irq-gic-phytium-2500-its.c:1479:9: sparse:     expected struct raw_spinlock [usertype] *lock
+   drivers/irqchip/irq-gic-phytium-2500-its.c:1479:9: sparse:     got struct raw_spinlock [noderef] __percpu *
+   drivers/irqchip/irq-gic-phytium-2500-its.c:1485:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct raw_spinlock [usertype] *lock @@     got struct raw_spinlock [noderef] __percpu * @@
+   drivers/irqchip/irq-gic-phytium-2500-its.c:1485:9: sparse:     expected struct raw_spinlock [usertype] *lock
+   drivers/irqchip/irq-gic-phytium-2500-its.c:1485:9: sparse:     got struct raw_spinlock [noderef] __percpu *
+>> drivers/irqchip/irq-gic-phytium-2500-its.c:2934:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cpumask [usertype] **mask @@     got struct cpumask [usertype] *[noderef] __percpu * @@
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2934:45: sparse:     expected struct cpumask [usertype] **mask
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2934:45: sparse:     got struct cpumask [usertype] *[noderef] __percpu *
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4281:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct raw_spinlock [usertype] *lock @@     got struct raw_spinlock [noderef] __percpu * @@
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4281:9: sparse:     expected struct raw_spinlock [usertype] *lock
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4281:9: sparse:     got struct raw_spinlock [noderef] __percpu *
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4286:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct raw_spinlock [usertype] *lock @@     got struct raw_spinlock [noderef] __percpu * @@
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4286:9: sparse:     expected struct raw_spinlock [usertype] *lock
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4286:9: sparse:     got struct raw_spinlock [noderef] __percpu *
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4421:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct raw_spinlock [usertype] *lock @@     got struct raw_spinlock [noderef] __percpu * @@
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4421:9: sparse:     expected struct raw_spinlock [usertype] *lock
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4421:9: sparse:     got struct raw_spinlock [noderef] __percpu *
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4439:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct raw_spinlock [usertype] *lock @@     got struct raw_spinlock [noderef] __percpu * @@
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4439:9: sparse:     expected struct raw_spinlock [usertype] *lock
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4439:9: sparse:     got struct raw_spinlock [noderef] __percpu *
+   drivers/irqchip/irq-gic-phytium-2500-its.c: note: in included file (through include/linux/spinlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+   include/linux/spinlock_api_smp.h:111:9: sparse: sparse: context imbalance in 'vpe_to_cpuid_lock' - wrong count at exit
+   drivers/irqchip/irq-gic-phytium-2500-its.c:284:13: sparse: sparse: context imbalance in 'vpe_to_cpuid_unlock' - unexpected unlock
+>> drivers/irqchip/irq-gic-phytium-2500-its.c:1481:18: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2337:23: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2337:23: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2751:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2751:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2772:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2806:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2806:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2810:38: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2828:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2828:49: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2829:25: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2839:30: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2882:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2909:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2938:9: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:2939:14: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3009:9: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3021:45: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3021:45: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3023:9: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3078:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3078:15: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3093:29: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3093:29: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3118:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3156:31: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3161:13: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3180:17: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3185:21: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3244:43: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3279:9: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3280:9: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3318:26: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3321:26: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3321:26: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3919:26: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3968:13: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3969:36: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3969:36: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3984:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:3998:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4030:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4140:26: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4220:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4235:35: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4282:18: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:4422:16: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:5309:19: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:5309:19: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:5314:31: sparse: sparse: dereference of noderef expression
+   drivers/irqchip/irq-gic-phytium-2500-its.c:5334:14: sparse: sparse: dereference of noderef expression
 
-   fs/bcachefs/vfs/fs.c: In function 'bch2_rename2':
->> fs/bcachefs/vfs/fs.c:1025:1: warning: the frame size of 1368 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-    1025 | }
-         | ^
+vim +1216 drivers/irqchip/irq-gic-phytium-2500.c
 
+ade50f9f855e6a Li Yuting 2024-01-17  1181  
+ade50f9f855e6a Li Yuting 2024-01-17  1182  static int __gic_update_rdist_properties(struct redist_region *region,
+ade50f9f855e6a Li Yuting 2024-01-17  1183  					 void __iomem *ptr)
+ade50f9f855e6a Li Yuting 2024-01-17  1184  {
+ade50f9f855e6a Li Yuting 2024-01-17  1185  	u64 typer = gic_read_typer(ptr + GICR_TYPER);
+ade50f9f855e6a Li Yuting 2024-01-17  1186  	u32 ctlr = readl_relaxed(ptr + GICR_CTLR);
+ade50f9f855e6a Li Yuting 2024-01-17  1187  
+ade50f9f855e6a Li Yuting 2024-01-17  1188  	/* Boot-time cleanup */
+ade50f9f855e6a Li Yuting 2024-01-17  1189  	if ((typer & GICR_TYPER_VLPIS) && (typer & GICR_TYPER_RVPEID)) {
+ade50f9f855e6a Li Yuting 2024-01-17  1190  		u64 val;
+ade50f9f855e6a Li Yuting 2024-01-17  1191  
+ade50f9f855e6a Li Yuting 2024-01-17  1192  		/* Deactivate any present vPE */
+ade50f9f855e6a Li Yuting 2024-01-17  1193  		val = gicr_read_vpendbaser(ptr + SZ_128K + GICR_VPENDBASER);
+ade50f9f855e6a Li Yuting 2024-01-17  1194  		if (val & GICR_VPENDBASER_Valid)
+ade50f9f855e6a Li Yuting 2024-01-17  1195  			gicr_write_vpendbaser(GICR_VPENDBASER_PendingLast,
+ade50f9f855e6a Li Yuting 2024-01-17  1196  					      ptr + SZ_128K + GICR_VPENDBASER);
+ade50f9f855e6a Li Yuting 2024-01-17  1197  
+ade50f9f855e6a Li Yuting 2024-01-17  1198  		/* Mark the VPE table as invalid */
+ade50f9f855e6a Li Yuting 2024-01-17  1199  		val = gicr_read_vpropbaser(ptr + SZ_128K + GICR_VPROPBASER);
+ade50f9f855e6a Li Yuting 2024-01-17  1200  		val &= ~GICR_VPROPBASER_4_1_VALID;
+ade50f9f855e6a Li Yuting 2024-01-17  1201  		gicr_write_vpropbaser(val, ptr + SZ_128K + GICR_VPROPBASER);
+ade50f9f855e6a Li Yuting 2024-01-17  1202  	}
+ade50f9f855e6a Li Yuting 2024-01-17  1203  
+ade50f9f855e6a Li Yuting 2024-01-17  1204  	gic_data.rdists.has_vlpis &= !!(typer & GICR_TYPER_VLPIS);
+ade50f9f855e6a Li Yuting 2024-01-17  1205  
+ade50f9f855e6a Li Yuting 2024-01-17  1206  	/*
+ade50f9f855e6a Li Yuting 2024-01-17  1207  	 * TYPER.RVPEID implies some form of DirectLPI, no matter what the
+ade50f9f855e6a Li Yuting 2024-01-17  1208  	 * doc says... :-/ And CTLR.IR implies another subset of DirectLPI
+ade50f9f855e6a Li Yuting 2024-01-17  1209  	 * that the ITS driver can make use of for LPIs (and not VLPIs).
+ade50f9f855e6a Li Yuting 2024-01-17  1210  	 *
+ade50f9f855e6a Li Yuting 2024-01-17  1211  	 * These are 3 different ways to express the same thing, depending
+ade50f9f855e6a Li Yuting 2024-01-17  1212  	 * on the revision of the architecture and its relaxations over
+ade50f9f855e6a Li Yuting 2024-01-17  1213  	 * time. Just group them under the 'direct_lpi' banner.
+ade50f9f855e6a Li Yuting 2024-01-17  1214  	 */
+ade50f9f855e6a Li Yuting 2024-01-17  1215  	gic_data.rdists.has_rvpeid &= !!(typer & GICR_TYPER_RVPEID);
+ade50f9f855e6a Li Yuting 2024-01-17 @1216  	gic_data.rdists.has_direct_lpi &= (!!(typer & GICR_TYPER_DirectLPIS) |
+ade50f9f855e6a Li Yuting 2024-01-17  1217  					   !!(ctlr & GICR_CTLR_IR) |
+ade50f9f855e6a Li Yuting 2024-01-17  1218  					   gic_data.rdists.has_rvpeid);
+ade50f9f855e6a Li Yuting 2024-01-17  1219  	gic_data.rdists.has_vpend_valid_dirty &= !!(typer & GICR_TYPER_DIRTY);
+ade50f9f855e6a Li Yuting 2024-01-17  1220  
+ade50f9f855e6a Li Yuting 2024-01-17  1221  	/* Detect non-sensical configurations */
+ade50f9f855e6a Li Yuting 2024-01-17  1222  	if (WARN_ON_ONCE(gic_data.rdists.has_rvpeid && !gic_data.rdists.has_vlpis)) {
+ade50f9f855e6a Li Yuting 2024-01-17  1223  		gic_data.rdists.has_direct_lpi = false;
+ade50f9f855e6a Li Yuting 2024-01-17  1224  		gic_data.rdists.has_vlpis = false;
+ade50f9f855e6a Li Yuting 2024-01-17  1225  		gic_data.rdists.has_rvpeid = false;
+ade50f9f855e6a Li Yuting 2024-01-17  1226  	}
+ade50f9f855e6a Li Yuting 2024-01-17  1227  
+ade50f9f855e6a Li Yuting 2024-01-17  1228  	gic_data.ppi_nr = min(GICR_TYPER_NR_PPIS(typer), gic_data.ppi_nr);
+ade50f9f855e6a Li Yuting 2024-01-17  1229  
+ade50f9f855e6a Li Yuting 2024-01-17  1230  	return 1;
+ade50f9f855e6a Li Yuting 2024-01-17  1231  }
+ade50f9f855e6a Li Yuting 2024-01-17  1232  
 
-vim +1025 fs/bcachefs/vfs/fs.c
+:::::: The code at line 1216 was first introduced by commit
+:::::: ade50f9f855e6afd85e65b6b036a1bb948d4dfff Add gic support for Phytium S2500
 
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   886  
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   887  static int bch2_rename2(struct mnt_idmap *idmap,
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   888  			struct inode *src_vdir, struct dentry *src_dentry,
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   889  			struct inode *dst_vdir, struct dentry *dst_dentry,
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   890  			unsigned flags)
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   891  {
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   892  	struct bch_fs *c = src_vdir->i_sb->s_fs_info;
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   893  	struct bch_inode_info *src_dir = to_bch_ei(src_vdir);
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   894  	struct bch_inode_info *dst_dir = to_bch_ei(dst_vdir);
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   895  	struct bch_inode_info *src_inode = to_bch_ei(src_dentry->d_inode);
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   896  	struct bch_inode_info *dst_inode = to_bch_ei(dst_dentry->d_inode);
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   897  	struct bch_inode_unpacked dst_dir_u, src_dir_u;
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   898  	struct bch_inode_unpacked src_inode_u, dst_inode_u, *whiteout_inode_u;
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   899  	enum bch_rename_mode mode = flags & RENAME_EXCHANGE
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   900  		? BCH_RENAME_EXCHANGE
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   901  		: dst_dentry->d_inode
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   902  		? BCH_RENAME_OVERWRITE : BCH_RENAME;
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   903  	bool whiteout = !!(flags & RENAME_WHITEOUT);
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   904  	int ret;
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   905  
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   906  	if (flags & ~(RENAME_NOREPLACE|RENAME_EXCHANGE|RENAME_WHITEOUT))
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   907  		return -EINVAL;
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   908  
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   909  	if (mode == BCH_RENAME_OVERWRITE) {
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   910  		ret = filemap_write_and_wait_range(src_inode->v.i_mapping,
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   911  						   0, LLONG_MAX);
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   912  		if (ret)
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   913  			return ret;
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   914  	}
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   915  
-168f4c5fb375131 fs/bcachefs/fs.c Kent Overstreet   2019-06-24   916  	bch2_lock_inodes(INODE_UPDATE_LOCK,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   917  			 src_dir,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   918  			 dst_dir,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   919  			 src_inode,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   920  			 dst_inode);
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   921  
-0e869d7484badc3 fs/bcachefs/fs.c Kent Overstreet   2025-07-14   922  	CLASS(btree_trans, trans)(c);
-f369de82679f4f7 fs/bcachefs/fs.c Kent Overstreet   2024-07-04   923  
-112d21fd1a122f7 fs/bcachefs/fs.c Kent Overstreet   2024-06-08   924  	ret   = bch2_subvol_is_ro_trans(trans, src_dir->ei_inum.subvol) ?:
-112d21fd1a122f7 fs/bcachefs/fs.c Kent Overstreet   2024-06-08   925  		bch2_subvol_is_ro_trans(trans, dst_dir->ei_inum.subvol);
-0d72ab35a925d66 fs/bcachefs/fs.c Kent Overstreet   2023-12-29   926  	if (ret)
-74ec2f302402c4c fs/bcachefs/fs.c Kent Overstreet   2024-10-14   927  		goto err_tx_restart;
-0d72ab35a925d66 fs/bcachefs/fs.c Kent Overstreet   2023-12-29   928  
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   929  	if (inode_attr_changing(dst_dir, src_inode, Inode_opt_project)) {
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   930  		ret = bch2_fs_quota_transfer(c, src_inode,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   931  					     dst_dir->ei_qid,
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   932  					     1 << QTYP_PRJ,
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   933  					     KEY_TYPE_QUOTA_PREALLOC);
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   934  		if (ret)
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   935  			goto err;
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   936  	}
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   937  
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   938  	if (mode == BCH_RENAME_EXCHANGE &&
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   939  	    inode_attr_changing(src_dir, dst_inode, Inode_opt_project)) {
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   940  		ret = bch2_fs_quota_transfer(c, dst_inode,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   941  					     src_dir->ei_qid,
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   942  					     1 << QTYP_PRJ,
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   943  					     KEY_TYPE_QUOTA_PREALLOC);
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   944  		if (ret)
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   945  			goto err;
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   946  	}
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   947  retry:
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   948  	bch2_trans_begin(trans);
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17   949  
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   950  	ret = bch2_rename_trans(trans,
-6fed42bb7750e21 fs/bcachefs/fs.c Kent Overstreet   2021-03-16   951  				inode_inum(src_dir), &src_dir_u,
-6fed42bb7750e21 fs/bcachefs/fs.c Kent Overstreet   2021-03-16   952  				inode_inum(dst_dir), &dst_dir_u,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   953  				&src_inode_u,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   954  				&dst_inode_u,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   955  				&src_dentry->d_name,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   956  				&dst_dentry->d_name,
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   957  				mode);
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   958  	if (unlikely(ret))
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   959  		goto err_tx_restart;
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   960  
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   961  	if (whiteout) {
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   962  		whiteout_inode_u = bch2_trans_kmalloc_nomemzero(trans, sizeof(*whiteout_inode_u));
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   963  		ret = PTR_ERR_OR_ZERO(whiteout_inode_u);
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   964  		if (unlikely(ret))
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   965  			goto err_tx_restart;
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   966  		bch2_inode_init_early(c, whiteout_inode_u);
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   967  
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   968  		ret = bch2_create_trans(trans,
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   969  					inode_inum(src_dir), &src_dir_u,
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   970  					whiteout_inode_u,
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   971  					&src_dentry->d_name,
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   972  					from_kuid(i_user_ns(&src_dir->v), current_fsuid()),
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   973  					from_kgid(i_user_ns(&src_dir->v), current_fsgid()),
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   974  					S_IFCHR|WHITEOUT_MODE, 0,
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   975  					NULL, NULL, (subvol_inum) { 0 }, 0) ?:
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   976  		      bch2_quota_acct(c, bch_qid(whiteout_inode_u), Q_INO, 1,
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   977  				      KEY_TYPE_QUOTA_PREALLOC);
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   978  		if (unlikely(ret))
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   979  			goto err_tx_restart;
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   980  	}
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   981  
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   982  	ret = bch2_trans_commit(trans, NULL, NULL, 0);
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   983  	if (unlikely(ret)) {
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   984  err_tx_restart:
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   985  		if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   986  			goto retry;
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   987  		goto err;
-4645855df01eda7 fs/bcachefs/fs.c Sasha Finkelstein 2024-08-18   988  	}
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   989  
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   990  	BUG_ON(src_inode->v.i_ino != src_inode_u.bi_inum);
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   991  	BUG_ON(dst_inode &&
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   992  	       dst_inode->v.i_ino != dst_inode_u.bi_inum);
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02   993  
-6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12   994  	bch2_inode_update_after_write(trans, src_dir, &src_dir_u,
-e614a6c52d32c9c fs/bcachefs/fs.c Hongbo Li         2025-01-07   995  				      ATTR_MTIME|ATTR_CTIME|ATTR_SIZE);
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16   996  
-68a2054d88f7cd2 fs/bcachefs/fs.c Kent Overstreet   2021-11-05   997  	if (src_dir != dst_dir)
-6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12   998  		bch2_inode_update_after_write(trans, dst_dir, &dst_dir_u,
-e614a6c52d32c9c fs/bcachefs/fs.c Hongbo Li         2025-01-07   999  					      ATTR_MTIME|ATTR_CTIME|ATTR_SIZE);
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1000  
-6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12  1001  	bch2_inode_update_after_write(trans, src_inode, &src_inode_u,
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1002  				      ATTR_CTIME);
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1003  
-68a2054d88f7cd2 fs/bcachefs/fs.c Kent Overstreet   2021-11-05  1004  	if (dst_inode)
-6bd68ec266ad718 fs/bcachefs/fs.c Kent Overstreet   2023-09-12  1005  		bch2_inode_update_after_write(trans, dst_inode, &dst_inode_u,
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1006  					      ATTR_CTIME);
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1007  err:
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1008  	bch2_fs_quota_transfer(c, src_inode,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1009  			       bch_qid(&src_inode->ei_inode),
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1010  			       1 << QTYP_PRJ,
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1011  			       KEY_TYPE_QUOTA_NOCHECK);
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1012  	if (dst_inode)
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1013  		bch2_fs_quota_transfer(c, dst_inode,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1014  				       bch_qid(&dst_inode->ei_inode),
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1015  				       1 << QTYP_PRJ,
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1016  				       KEY_TYPE_QUOTA_NOCHECK);
-96012e143e699db fs/bcachefs/fs.c Kent Overstreet   2018-12-17  1017  
-168f4c5fb375131 fs/bcachefs/fs.c Kent Overstreet   2019-06-24  1018  	bch2_unlock_inodes(INODE_UPDATE_LOCK,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1019  			   src_dir,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1020  			   dst_dir,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1021  			   src_inode,
-9638574229e3ae0 fs/bcachefs/fs.c Kent Overstreet   2019-10-02  1022  			   dst_inode);
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1023  
-1a1c93e7f814174 fs/bcachefs/fs.c Kent Overstreet   2024-02-09  1024  	return bch2_err_class(ret);
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16 @1025  }
-1c6fdbd8f2465dd fs/bcachefs/fs.c Kent Overstreet   2017-03-16  1026  
-
-:::::: The code at line 1025 was first introduced by commit
-:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
-
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: TO: Li Yuting <liyuting2071@phytium.com.cn>
+:::::: CC: Li Yuting <liyuting2071@phytium.com.cn>
 
 -- 
 0-DAY CI Kernel Test Service
