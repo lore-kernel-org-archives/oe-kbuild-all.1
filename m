@@ -1,133 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E82248F5C;
-	Mon, 22 Dec 2025 02:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B64B2D23B9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 02:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766369158; cv=none; b=DO3I3w3jqzsDBgR0bGItMte98Gc6tro2pWScGKu6KzrZIy8E3nJ3YkBzDkY/UULbzQGm+eEeXLV/BcKq3hSNWJaPuVmrpiiNfmo1ct3j4oYbFFPfjL4fn2S1iYSyfajV2a/m9DSTNui+tCowgYEHYMu+wIZIMJ4Vhr06+wHNNyA=
+	t=1766369638; cv=none; b=mJ9WXrvMx8npqQb0GTjgLwRi9UkK/0vUEwJHxZeLoxqJTcl9ftRgZ0gmJ0Dvo9KRmpEtOuS2dra1dX5R8YBidhlOZkD35jAmvd7IV0kXGV1lLlu5G2sii03AtNWkDky5qEadNaqzbpAZ1NvEv3sTESMLiuGTJxQ51IaD3vyPdP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766369158; c=relaxed/simple;
-	bh=74Ut1XHK0Vm4PFNeT//uEB30ynxJ0edLsHANsPIf0HY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rQllRadUgCPhAwjvpcC1AbboVZHodvKwZR6y+raUOVcStuqTCXlMmE0fGoQyFKQDX8620bDgTGoxhJcmhL1UymwnOy8/r6Hxmbqcvr7MoXf3BfLo9kHHqUb7fNdcbKtOFTM9v/r9nygwG+ulUwSe7nac7/WV2soyX6UX+UOBYbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aS5C+Cq4; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1766369638; c=relaxed/simple;
+	bh=gnX2+92LMJr0vNMwGrVVK02OK+Q4MGs1f1CekwpxvXg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=uQZEOnmoQ1L9GXaHV9+j/md/sPSPB6EZ8vHnllAbOxXNoZPJ65hX5B9ayl1rBWlUsVZkqb3SnYSKoXpgonvuaCOM9IXb+YmRmsx2oYNgJdgRn4fgMQx99TOCeHljDzPwdnRft5qTMxH5RJra3cGJ6g99G3H32QUs4LILYwPIAHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M+eJg71i; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aS5C+Cq4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M+eJg71i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766369156; x=1797905156;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=74Ut1XHK0Vm4PFNeT//uEB30ynxJ0edLsHANsPIf0HY=;
-  b=aS5C+Cq4daRQr5kEiMNanZZBQZdlFnGNUkSGtVktj1sjy7zFnskhYUjV
-   xdLtZTfOzXkRKmNMFEoSsCCAL0cE+mbUy6Rt+zs7Dau1d4iX7/bMwLToM
-   IAVCtJ0RhihZiq+Zn64QvbOWspBI13ujp/9Jg9Aoh8uA5I+rzfn1H6qyU
-   34zeqnUF72ymZG6xSAprxVH4K+V0K3GBP3WAHt1Zs1TnAoqZwbPiznCAE
-   gl1IWRVuLrQBBnkBEqXrT+58Kdm+8fhtVP7fPfBUtbMNzACbvAhjP11hI
-   /QBSamFhR/4Qoyvl+LApEdR+1sd3WyCBao+UmARLBHbep47fO8yiJrYRr
+  t=1766369636; x=1797905636;
+  h=date:from:to:cc:subject:message-id;
+  bh=gnX2+92LMJr0vNMwGrVVK02OK+Q4MGs1f1CekwpxvXg=;
+  b=M+eJg71io93diu/U3o9kCg2LaV9kqrjLA3pMYnJiWMm0diPGdp1Tyb6d
+   z4NYbvjyLnpGn3Wqhi5wl1G5BxIT018wgDdDbxJJmZidkwK73LfLwqeov
+   t4Xm//A6NcLzPidn5Oj3ufhyOVl4+BhudybiGeYFJHkNs/PesiVkJW3s0
+   8usJ5jof2Vdek93j6xTZ6sPRBLFdvK8buNQAuPqjAzopQ1IZuxzoZJTc6
+   3OF6EB6+8vQG1VI6pu6pPuF0vhYFuZMd/gP+e95p6V9yKe+AVnio6MBo9
+   wp2EdG0LkWV+S/r86Sqidin6k9RyV3y1cOEOCsI70FSxaLio2h10AyAx7
    Q==;
-X-CSE-ConnectionGUID: OLi4P90MRBCZR2e0DSD9Rg==
-X-CSE-MsgGUID: voDBJ0bkTr+5r4adf16WYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68380077"
+X-CSE-ConnectionGUID: OJsiF6+YRv2Pr86GybslVQ==
+X-CSE-MsgGUID: m56CjpykSsStf6ENZ8w0Wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="67222017"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="68380077"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 18:05:56 -0800
-X-CSE-ConnectionGUID: yyog3z2hQm6/itLrAJirFQ==
-X-CSE-MsgGUID: G27CFI2eSW6N9+rNHGbJrw==
+   d="scan'208";a="67222017"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 18:13:55 -0800
+X-CSE-ConnectionGUID: CeH0uQgdSQeeylUogfa6Ug==
+X-CSE-MsgGUID: 4AUBpHnhRLaOWqeMHf0+Sg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="203873738"
+   d="scan'208";a="199709287"
 Received: from lkp-server02.sh.intel.com (HELO 9d662e18a02b) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 21 Dec 2025 18:05:52 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 21 Dec 2025 18:13:53 -0800
 Received: from kbuild by 9d662e18a02b with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXVIY-0000000003B-2U6u;
-	Mon, 22 Dec 2025 02:05:35 +0000
-Date: Mon, 22 Dec 2025 10:03:00 +0800
+	id 1vXVQk-0000000003d-3O0I;
+	Mon, 22 Dec 2025 02:13:50 +0000
+Date: Mon, 22 Dec 2025 10:13:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v23 3/7] firmware: imx: add driver for NXP EdgeLock
- Enclave
-Message-ID: <202512220932.Gu4LnMge-lkp@intel.com>
-References: <20251219-imx-se-if-v23-3-5c6773d00318@nxp.com>
+To: Ben Collins <bcollins@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Sourabh Jain <sourabhjain@linux.ibm.com>
+Subject: arch/powerpc/kexec/core.c:217:20: sparse: sparse: incorrect
+ type in assignment (different base types)
+Message-ID: <202512221044.ZxX0SAof-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251219-imx-se-if-v23-3-5c6773d00318@nxp.com>
 
-Hi Pankaj,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 4a26e7032d7d57c998598c08a034872d6f0d3945]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20251219-132830
-base:   4a26e7032d7d57c998598c08a034872d6f0d3945
-patch link:    https://lore.kernel.org/r/20251219-imx-se-if-v23-3-5c6773d00318%40nxp.com
-patch subject: [PATCH v23 3/7] firmware: imx: add driver for NXP EdgeLock Enclave
-config: xtensa-randconfig-001-20251221 (https://download.01.org/0day-ci/archive/20251222/202512220932.Gu4LnMge-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220932.Gu4LnMge-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+commit: 38c64dfe0af12778953846df5f259e913275cfe5 kexec: Include kernel-end even without crashkernel
+date:   6 weeks ago
+config: powerpc-randconfig-r111-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221044.ZxX0SAof-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 42b3483ac4987cae1bdb632398e8a3ce2dea6633)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221044.ZxX0SAof-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512220932.Gu4LnMge-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221044.ZxX0SAof-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/powerpc/kexec/core.c:217:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int static [addressable] [toplevel] [usertype] kernel_end @@     got restricted __be32 [usertype] @@
+   arch/powerpc/kexec/core.c:217:20: sparse:     expected unsigned int static [addressable] [toplevel] [usertype] kernel_end
+   arch/powerpc/kexec/core.c:217:20: sparse:     got restricted __be32 [usertype]
 
-   In file included from drivers/firmware/imx/ele_base_msg.h:14,
-                    from drivers/firmware/imx/ele_common.c:6:
-   drivers/firmware/imx/ele_common.c: In function 'se_val_rsp_hdr_n_status':
->> drivers/firmware/imx/se_ctrl.h:16:25: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-    #define RES_STATUS(x)   FIELD_GET(0x000000ff, x)
-                            ^~~~~~~~~
-   drivers/firmware/imx/ele_common.c:241:11: note: in expansion of macro 'RES_STATUS'
-     status = RES_STATUS(msg->data[0]);
-              ^~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/firmware/imx/se_ctrl.c: In function 'get_se_soc_info':
->> drivers/firmware/imx/se_ctrl.c:168:6: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     if (FIELD_GET(DEV_GETINFO_MIN_VER_MASK, var_se_info.soc_rev))
-         ^~~~~~~~~
-   At top level:
-   drivers/firmware/imx/se_ctrl.c:374:12: warning: 'se_resume' defined but not used [-Wunused-function]
-    static int se_resume(struct device *dev)
-               ^~~~~~~~~
-   drivers/firmware/imx/se_ctrl.c:357:12: warning: 'se_suspend' defined but not used [-Wunused-function]
-    static int se_suspend(struct device *dev)
-               ^~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +217 arch/powerpc/kexec/core.c
 
+6f29c3298b1821 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-17  203  
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  204  static int __init kexec_setup(void)
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  205  {
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  206  	struct device_node *node;
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  207  
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  208  	node = of_find_node_by_path("/chosen");
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  209  	if (!node)
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  210  		return -ENOENT;
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  211  
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  212  	/* remove any stale properties so ours can be found */
+38c64dfe0af127 arch/powerpc/kexec/core.c           Ben Collins     2025-04-21  213  	of_remove_property(node, of_find_property(node, kernel_end_prop.name,
+38c64dfe0af127 arch/powerpc/kexec/core.c           Ben Collins     2025-04-21  214  						  NULL));
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  215  
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  216  	/* information needed by userspace when using default_machine_kexec */
+ea961a828fe725 arch/powerpc/kernel/machine_kexec.c Anton Blanchard 2014-01-22 @217  	kernel_end = cpu_to_be_ulong(__pa(_end));
+79d1c712958f94 arch/powerpc/kernel/machine_kexec.c Nathan Fontenot 2012-10-02  218  	of_add_property(node, &kernel_end_prop);
+2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  219  
 
-vim +/FIELD_GET +16 drivers/firmware/imx/se_ctrl.h
+:::::: The code at line 217 was first introduced by commit
+:::::: ea961a828fe7250e954f086d74d9323c3d44c3e4 powerpc: Fix endian issues in kexec and crash dump code
 
-    15	
-  > 16	#define RES_STATUS(x)			FIELD_GET(0x000000ff, x)
-    17	#define MAX_NVM_MSG_LEN			(256)
-    18	#define MESSAGING_VERSION_6		0x6
-    19	#define MESSAGING_VERSION_7		0x7
-    20	
+:::::: TO: Anton Blanchard <anton@samba.org>
+:::::: CC: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 
 -- 
 0-DAY CI Kernel Test Service
