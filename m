@@ -1,121 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A002F3C34
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 15:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC2022B594
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 15:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766416164; cv=none; b=jUYrKORuuB0gEc7vuzihsGBBC6gjZSPIPbZg0P8VXUVKXYUrQVzx3F+UZDo+drZzTIdaVqRDLUtFWW8Dc45m0ls3ThWOEjw+X2ojzlNgUshopGEqBd1UxWruh/Mi1BWyjG/EQmO98j5JvONaMuAX/QVo3kQRNRBSNDY6MRqbkKo=
+	t=1766416574; cv=none; b=YFOGO48PKAfDX2j8d8qua10JBPCk4B0b4ycRuD2K0FMaDyMgBjUdOTWc3ptwI0b2G/fDsX9R1kIhiWibhyksJMukbEjjK2XAv8EbdKqiFEqnH0cT+Vk+hl63MJwhZjX0PHsq9t7x2CHt7USLcGIu4IQxEDeM7rlIQk2DsGJkj5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766416164; c=relaxed/simple;
-	bh=XRs6A9pv8ezbn6Fuw0PLRVeUah6I8ZgTuylbrwvwL50=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=siZyoljZLuoNPcXnfwuo87lmL1RBSaXnMlXeW/k6FmJu6UnEn2qz7ca0y9DjId+WAQLx3LRJpoBu5SklClEvGbTpxOYcdbEhLrhvTNzB/NocacqdSsfxGL/6BftCwyF4wsoIhbeHTylCNDZm4WqaXjFD/DduNvpXb9CNrxfp8fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P17B9iK/; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1766416574; c=relaxed/simple;
+	bh=ERPX7EnqwwHf4fsOzVD89lASBPNJkBlQtQPKEI29Kr4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cqIEbqmtJSwaUSVKyoBwbBuTX6PntnbCAWPwXRNtUAu0H8U3urWNGAOW1d3eBrG4r/8MH+wUxlTKm4a8+udrj8j6c8d1LLcoYVwq+yiJrSjgh7bsGWt9nypaVknBgpSqpkld8G0iZzHhGF1Lgt6N1G4nU3nvVGpOuQYtwF1VfYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCWSiurG; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P17B9iK/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCWSiurG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766416163; x=1797952163;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XRs6A9pv8ezbn6Fuw0PLRVeUah6I8ZgTuylbrwvwL50=;
-  b=P17B9iK/3Zh7uwwf1H4WeUt/Ulf4eAToawEa76p4VT8XuFmdOYv+2p1C
-   XQoe7dzlhSZRE8VLsn9r/7CJz9JAmu9cy4zfdA4Bte3AU6YsCyN8YeZbH
-   ougKYb+AnCLnyUMXKze+oaoQXqTw1YgQELGar6KD06qaUheej3nXSl3zv
-   4sWaMOlDxNVGlA0X1GIy8eiu2jp5JkYvzi56lo0ZbuGsZktCccD2LsW5L
-   0MxBGGNEzlUhyH+AWevSMqR6s4+RTUYxcGIwZPBwg02aCHmLmcJS//xNV
-   QqgWiXStcqTRzqoq78M87uqSrwlVNBgBZ6EOApFp5k8OTk1p3eF4ObR7R
+  t=1766416571; x=1797952571;
+  h=date:from:to:cc:subject:message-id;
+  bh=ERPX7EnqwwHf4fsOzVD89lASBPNJkBlQtQPKEI29Kr4=;
+  b=aCWSiurGBJKAHNatXx8VuzNy/c5q2J0Pqks8kHUaPBBdzyQgZBt2sis4
+   jScrrDoJzi/oJJIejh8HqzrW1wiWVINNsARoajYbvXIJko6acxf1j0z+H
+   61hPS4t3NqRPTnma8W2rZ1hvWX7SPHwCdVkdtVZpNiLqbo4dMG1biW/PY
+   mHBCQDfFThf22Ws2ZD4+J/rQ7aP37XcivOWApqhTXSKBlitjEfolPNkPb
+   TeAI0y+b+MDMVx8G3j75qoRhM4XUZjmMGDpYNXG02lfoGc3SKJ8rJVkhX
+   EEdLvYvLgPHc5Ap2ar1byUh8OgP5hjQlqT6mQ+Vksw9p+ln5cQdiOL3Os
    A==;
-X-CSE-ConnectionGUID: Yo9KQY6lQduoF1O+274+BA==
-X-CSE-MsgGUID: DSZugZK6Tjyu8s1M4wdVOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="72119167"
+X-CSE-ConnectionGUID: CgYD6LfNQQC+9fxU2SPgMA==
+X-CSE-MsgGUID: jb28FLeyRf+wru4FfBQhfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79388350"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="72119167"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 07:09:23 -0800
-X-CSE-ConnectionGUID: kXHUF8USTH+cu9JTeW1dCQ==
-X-CSE-MsgGUID: Gi8z51YORhuI2uwxvoDFqw==
+   d="scan'208";a="79388350"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 07:16:10 -0800
+X-CSE-ConnectionGUID: edMps+tCSn2q1MFW4oOqRQ==
+X-CSE-MsgGUID: a/S1ttD4S8KpECw81gQM2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="223029810"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Dec 2025 07:09:21 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="200049896"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 22 Dec 2025 07:16:08 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXhXD-000000005Xg-2UM3;
-	Mon, 22 Dec 2025 15:09:19 +0000
-Date: Mon, 22 Dec 2025 16:08:25 +0100
+	id 1vXhdl-000000000jB-3gdZ;
+	Mon, 22 Dec 2025 15:16:05 +0000
+Date: Mon, 22 Dec 2025 23:15:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Yuan Can <yuancan@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 12/12] kismet: WARNING: unmet
- direct dependencies detected for SND_JACK when selected by
- GKI_HIDDEN_SND_CONFIGS
-Message-ID: <202512221648.rLW5F22W-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 3541/3541] mm/memcontrol.c:3147:6:
+ warning: no previous prototype for 'hisi_oom_recover'
+Message-ID: <202512222346.eorgTDJ9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   4e640d57b9513962095028e1186dddf47814e50f
-commit: 1e702f432d551041753c46ec0d6d49484e776441 [12/12] ANDROID: GKI: Added missing SND configs
-config: x86_64-kismet-CONFIG_SND_JACK-CONFIG_GKI_HIDDEN_SND_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20251222/202512221648.rLW5F22W-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20251222/202512221648.rLW5F22W-lkp@intel.com/reproduce)
+Hi Weilong,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   04473ee9ed912a16fff0d8846ad565bbf3d63c77
+commit: b498d9f1bacd40d583c0970cab02ad522127a7e7 [3541/3541] arm64/ascend: Add new enable_oom_killer interface for oom contrl
+config: arm64-randconfig-r113-20251213 (https://download.01.org/0day-ci/archive/20251222/202512222346.eorgTDJ9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512222346.eorgTDJ9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221648.rLW5F22W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512222346.eorgTDJ9-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SND_JACK when selected by GKI_HIDDEN_SND_CONFIGS
-   WARNING: unmet direct dependencies detected for CRYPTO_CCM
-     Depends on [n]: CRYPTO [=n]
-     Selected by [m]:
-     - RTLLIB_CRYPTO_CCMP [=m] && STAGING [=y] && RTLLIB [=m]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_ARC4
-     Depends on [n]: CRYPTO [=n]
-     Selected by [m]:
-     - RTLLIB_CRYPTO_TKIP [=m] && STAGING [=y] && RTLLIB [=m]
-     - RTLLIB_CRYPTO_WEP [=m] && STAGING [=y] && RTLLIB [=m]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_AES
-     Depends on [n]: CRYPTO [=n]
-     Selected by [m]:
-     - RTLLIB_CRYPTO_CCMP [=m] && STAGING [=y] && RTLLIB [=m]
-   
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-     Depends on [n]: SOUND [=n] && !UML && SND [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_MICHAEL_MIC
-     Depends on [n]: CRYPTO [=n]
-     Selected by [m]:
-     - RTLLIB_CRYPTO_TKIP [=m] && STAGING [=y] && RTLLIB [=m]
-   
-   WARNING: unmet direct dependencies detected for SND_JACK
-     Depends on [n]: SOUND [=n] && !UML && SND [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-     Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
-   
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-     Depends on [n]: SOUND [=n] && !UML && SND [=n]
-     Selected by [y]:
-     - GKI_HIDDEN_SND_CONFIGS [=y]
+All warnings (new ones prefixed by >>):
+
+>> mm/memcontrol.c:3147:6: warning: no previous prototype for 'hisi_oom_recover' [-Wmissing-prototypes]
+    3147 | void hisi_oom_recover(struct obj_cgroup *objcg)
+         |      ^~~~~~~~~~~~~~~~
+
+
+vim +/hisi_oom_recover +3147 mm/memcontrol.c
+
+  3145	
+  3146	#ifdef CONFIG_ASCEND_OOM
+> 3147	void hisi_oom_recover(struct obj_cgroup *objcg)
+  3148	{
+  3149		struct mem_cgroup *memcg;
+  3150	
+  3151		memcg = get_mem_cgroup_from_objcg(objcg);
+  3152		if (!mem_cgroup_is_root(memcg))
+  3153			memcg_oom_recover(memcg);
+  3154		css_put(&memcg->css);
+  3155	}
+  3156	#else
+  3157	static inline void hisi_oom_recover(struct obj_cgroup *objcg) { }
+  3158	#endif
+  3159	
 
 -- 
 0-DAY CI Kernel Test Service
