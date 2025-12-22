@@ -1,135 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E6D1FC0EF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 20:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D1D2C21C4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 20:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766434669; cv=none; b=jOzu8Ou3YgLlKbxDqs6/xZz9hbxVlEfuipHcmcVztp1jQOxx2IXnQliXGM97C8oaZbsJpSUVmwHlSd/LHHbjPvpLNQeiPz5aV04+hh6ItRXDE3l4S00WH8akc4gEXMWL1gBJfW1r6ThmrEjV0jEuK7iHGJ8ImLso93kWm/vVzzI=
+	t=1766434729; cv=none; b=XOfaBO1U2QpAccz2FaFV8cLhWJQs65MtLBV1o54R148ddy3AaEgxIwN0S3Q1zwWtDArV6MObAlNUW1q9ZI3B3X3RzbYKF1PYdzqt7VDyq/HVr2B3cFZwxiBbGWJLNKq9v0xPujQLQ8hdE7V177G3V76lyGpfinOzqpk4cMYCjbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766434669; c=relaxed/simple;
-	bh=9J11EGyZ//qs1wCNLxc5BldSS8QLUzyLHBCWPMOrS3g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JahqIIA35HLODyZKBF8Y9jciMF9Cqs8iCES0rztjHE3/EL0MX/CM+D0czlNViLBQHdB2LX7K/0kLY7W488ig6cCAwYlqdj/KQdp46oRh7Qfj0Jxgzru3NoUUlsiOEoVs6xaNkvxZ5MTzLJzbxAFnvIwSmG8vzOmKyA9lPQG8zbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UUFsrKr+; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1766434729; c=relaxed/simple;
+	bh=s5g1M7ASUPGtsz/ukcH8wpUAsY/+CWsCNL66LhghGtM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=lt+o9zIHj6u2460drJ+cgvm3m7hDqKtdBqz+1oY7uooms1ZhqdCRmG5BQo5THEmZTHUiBRq9BNHHrP+KfbX5nvG9GGGbmbFWuhMmBQl5GoBABNiTA95MG5/lD/x0YAs211ydM1mF05BaYqI480u/Hxi9hCSg2+WzTjjJkBqKY0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cKg+wnB3; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UUFsrKr+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cKg+wnB3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766434667; x=1797970667;
-  h=date:from:to:cc:subject:message-id;
-  bh=9J11EGyZ//qs1wCNLxc5BldSS8QLUzyLHBCWPMOrS3g=;
-  b=UUFsrKr+vRSxRG5Vq/e9quEERQKSw+ePtrWeSO65Kl3VRoeevo9e4Tfl
-   KaVPxP9BGcSQqxZ3iwZiAlJSAAFcCQ7DJV2m/X+LwAxansZH4yjIyKIR2
-   76W3ulxZmBwbwsDIgHNxy7nNCI7/DK3gYKhgemFfn5yB5npTPGZeXmHav
-   ltM0NOgdEbVw0CIHuVeN0FTMm1MsCFhWHenSMO1QGt47MSyFb5HF9U7wA
-   337ziK3U5+m9NntfqB4iNTmJdKMjM2aSyxEsKg8B+hu6iC8JR4iVB5rfh
-   5bM79sx8AWxj8/y9wMcvB7o+KZMe7rsfyr7EqpfYFFtxc74e7kpscgDB7
-   Q==;
-X-CSE-ConnectionGUID: MhyG0UQ0SIykukLGxUguzA==
-X-CSE-MsgGUID: ifEMmmKDQx6TI5D/tQp6IQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79410608"
+  t=1766434728; x=1797970728;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=s5g1M7ASUPGtsz/ukcH8wpUAsY/+CWsCNL66LhghGtM=;
+  b=cKg+wnB3SF5a+6tgouoUdWbIVRHSCZO56eQhU+5sf58nP7JsmGQfobjS
+   +mzOU6oZ+YMVkQhm3KBQerM5u6x2Yv48L8RZSyTxc08SiyF9UNjEZqMpu
+   dVPFppyHEAlYl3kSLB3OJzk4ZcILEBNxnCvtc0sVJFqcbakl3VaWDYMpN
+   6JKM7MmCSaKPmjNnzLT6dz+Eze7P4oiV0goXb2CiEfTEtHVA/nJtu450E
+   RJ2csY57uOgFW6XJoiAykSgDAmJahmsL1rdeEvGSqsjORy/fMfIBxDjz/
+   Ms5yZTaQB2VatMrG5IEDdsa+dnpl0dglWy5JkW/aRuHr9/Y3zEhTnBNzC
+   g==;
+X-CSE-ConnectionGUID: 3ymZXedERkOYz+kXTu9gAw==
+X-CSE-MsgGUID: H9jQG4f3T3OTNEgelEHoeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="78924474"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="79410608"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 12:17:46 -0800
-X-CSE-ConnectionGUID: KwtYUj92RmmsFSTuIGChSg==
-X-CSE-MsgGUID: lXmhMjsgQl+TkbZi5l3cuQ==
+   d="scan'208";a="78924474"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 12:18:46 -0800
+X-CSE-ConnectionGUID: p1ZZCoQSQauXkUmCfs7Aww==
+X-CSE-MsgGUID: xuHBzkFYSWCBI68xzLusfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="199914354"
+   d="scan'208";a="199637323"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 22 Dec 2025 12:17:44 -0800
+  by orviesa008.jf.intel.com with ESMTP; 22 Dec 2025 12:18:44 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXmLU-0000000014T-12a2;
-	Mon, 22 Dec 2025 20:17:36 +0000
-Date: Tue, 23 Dec 2025 04:17:12 +0800
+	id 1vXmMc-0000000014X-2B9O;
+	Mon, 22 Dec 2025 20:18:42 +0000
+Date: Tue, 23 Dec 2025 04:18:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Carlos Song <carlos.song@nxp.com>,
- Adrian Fluturel <fluturel.adrian@gmail.com>,
- Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: [jic23-iio:testing 47/49]
- drivers/base/regmap/regmap-i3c.c:41: undefined reference to
- `i3c_device_do_xfers'
-Message-ID: <202512230418.nu3V6Yua-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Ionut Nechita (WindRiver)" <djiony2011@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] block: Fix WARN_ON in blk_mq_run_hw_queue when
+ called from interrupt context
+Message-ID: <aUmnn5Lk5bs5O5xV@a397199831b6>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251222201541.11961-3-ionut.nechita@windriver.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
-head:   4e44c635ba8c281f74001d47e20bbcb7f516530c
-commit: 6e5f6bf2e3f036e6d7466d2a3322445729ea3356 [47/49] iio: magnetometer: Add mmc5633 sensor
-config: sparc64-randconfig-001-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230418.nu3V6Yua-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230418.nu3V6Yua-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230418.nu3V6Yua-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   sparc64-linux-ld: drivers/base/regmap/regmap-i3c.o: in function `regmap_i3c_read':
->> drivers/base/regmap/regmap-i3c.c:41: undefined reference to `i3c_device_do_xfers'
-   sparc64-linux-ld: drivers/base/regmap/regmap-i3c.o: in function `regmap_i3c_write':
-   drivers/base/regmap/regmap-i3c.c:22: undefined reference to `i3c_device_do_xfers'
-   sparc64-linux-ld: drivers/iio/magnetometer/mmc5633.o: in function `mmc5633_is_support_hdr':
->> drivers/iio/magnetometer/mmc5633.c:193: undefined reference to `i3c_device_get_supported_xfer_mode'
-   sparc64-linux-ld: drivers/iio/magnetometer/mmc5633.o: in function `mmc5633_read_measurement':
->> drivers/iio/magnetometer/mmc5633.c:230: undefined reference to `i3c_device_do_xfers'
->> sparc64-linux-ld: drivers/iio/magnetometer/mmc5633.c:237: undefined reference to `i3c_device_do_xfers'
-   sparc64-linux-ld: drivers/iio/magnetometer/mmc5633.c:251: undefined reference to `i3c_device_do_xfers'
->> sparc64-linux-ld: drivers/iio/magnetometer/mmc5633.c:230: undefined reference to `i3c_device_do_xfers'
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_DEV
-   Depends on [n]: NETDEVICES [=n] && CAN [=y]
-   Selected by [y]:
-   - CAN [=y] && NET [=y]
-   WARNING: unmet direct dependencies detected for REGMAP_I3C
-   Depends on [n]: I3C [=n]
-   Selected by [y]:
-   - MMC5633 [=y] && IIO [=y] && (I2C [=y] || I3C [=n])
-
-
-vim +41 drivers/base/regmap/regmap-i3c.c
-
-6445500b43129b Vitor Soares   2019-06-06  24  
-6445500b43129b Vitor Soares   2019-06-06  25  static int regmap_i3c_read(void *context,
-6445500b43129b Vitor Soares   2019-06-06  26  			   const void *reg, size_t reg_size,
-6445500b43129b Vitor Soares   2019-06-06  27  			   void *val, size_t val_size)
-6445500b43129b Vitor Soares   2019-06-06  28  {
-6445500b43129b Vitor Soares   2019-06-06  29  	struct device *dev = context;
-6445500b43129b Vitor Soares   2019-06-06  30  	struct i3c_device *i3c = dev_to_i3cdev(dev);
-79c3ae7ada0548 Frank Li       2025-10-28  31  	struct i3c_xfer xfers[2];
-6445500b43129b Vitor Soares   2019-06-06  32  
-6445500b43129b Vitor Soares   2019-06-06  33  	xfers[0].rnw = false;
-6445500b43129b Vitor Soares   2019-06-06  34  	xfers[0].len = reg_size;
-6445500b43129b Vitor Soares   2019-06-06  35  	xfers[0].data.out = reg;
-6445500b43129b Vitor Soares   2019-06-06  36  
-6445500b43129b Vitor Soares   2019-06-06  37  	xfers[1].rnw = true;
-6445500b43129b Vitor Soares   2019-06-06  38  	xfers[1].len = val_size;
-6445500b43129b Vitor Soares   2019-06-06  39  	xfers[1].data.in = val;
-6445500b43129b Vitor Soares   2019-06-06  40  
-c2f2b01b74be8b Linus Torvalds 2025-12-08 @41  	return i3c_device_do_xfers(i3c, xfers, ARRAY_SIZE(xfers), I3C_SDR);
-6445500b43129b Vitor Soares   2019-06-06  42  }
-6445500b43129b Vitor Soares   2019-06-06  43  
-
-:::::: The code at line 41 was first introduced by commit
-:::::: c2f2b01b74be8b40a2173372bcd770723f87e7b2 Merge tag 'i3c/for-6.19' of git://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux
-
-:::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2 2/2] block: Fix WARN_ON in blk_mq_run_hw_queue when called from interrupt context
+Link: https://lore.kernel.org/stable/20251222201541.11961-3-ionut.nechita%40windriver.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
