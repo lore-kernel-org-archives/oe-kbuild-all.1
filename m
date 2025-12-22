@@ -1,156 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81671E7C2E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:30:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD52D2DFA32
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766424626; cv=none; b=Qg7Kn5qFvZx5utlMhKifKTUHK3EihiOKVtgfmunWDgpoKDqSPoZuuJkOyirag+NIElteRS0tBoAiZHqVJvMtpJts4jIn0XFWQ1njFHYQa60aFZSGQRKdsy+lLHrTf7J1bQ4P2h7WEUbQy4yisgYEEueD6oQqr7iKzSWbwnKSa6k=
+	t=1766424899; cv=none; b=QLXcxs+aKxi5x2Uc6AD1tV1eLU8XJR/xN6Yip+r8ywSonh4xCVPOPJ1DrU/hTmfrGaoyXLi/ZK+O8GG+k0/d3UL4xEyQJ42QCeZZD/i0Nb9l224/GSrDsyuBEM0Mn7pYRDylxdTKgvotUpvtWLt7lT7r8Ciermj86V/mKvYnur8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766424626; c=relaxed/simple;
-	bh=+XWq99uUTmTdvUsvsTb32D8N3doBKKUrmz0SW3Bbk8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fIVt3ijJMW7xJkCfUa63bLrtW+zi1hkuemenLRKw9hGv6NoDnUjbvDnVJclNNDItXLy4G4kzr633cGf387A+rx3Ta6XHhz+Qi5UpFR8eyfY+TKqwWqUMuPmeGVh7brJ92/mcq3GT9+89p2NBoPpymKMLbk+Q9uvZ+DCjV3Qn3NE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJ5XS8cg; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1766424899; c=relaxed/simple;
+	bh=W6E+S7NiJJsAcDAwU2dLMFiRcLe7Es/dnZOryHJAj7Q=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=A10cbnpDWuRuXaFIEx5sDnguKWyoae4fjq8dKwjnUFOYqH247BYgcG5lQjIO6be7jqL0NZMxzTDITRcyrA02ZudIaCh/z46y0SCZBOL5tdkqw9GiCsCE0NCA3wnU+rvenybOwhhHIV4fIXM0WURW+w55zqhOTRmIRZ9/0quCOrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9wnwr3T; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJ5XS8cg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9wnwr3T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766424624; x=1797960624;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+XWq99uUTmTdvUsvsTb32D8N3doBKKUrmz0SW3Bbk8g=;
-  b=fJ5XS8cgkz9iUbTmeiGI5qrWoM1qxUYEMh4AKw3aDAXpo6Szjh+PLTWY
-   WyEtvwYL/1DNMQqOLZBxSAgZ5yJ34U0hc+OAsT/C9mFzfjQGK+ETgeXfp
-   2QR2krrrvSUMYTFbsU2NF4k26YeWXBTDzv5BNmEw3gIZ3QnMZq80gA3vc
-   x0A2bCsFfPj9PfdM9pN7RwBvf2YD9CIJ0OGMUJrVwjoPXFYXFYKOdz1dG
-   WlP5s0SMHOoftf3OXD/wVvg0xeAjycBN1KgpuH2baHs2rQr0qLcqKU7mi
-   Hg0coWzde7OZqpzvdMim5ewj1Fc3vMEl60SJu62kDePuBZnI6k9B+xqH4
+  t=1766424898; x=1797960898;
+  h=date:from:to:cc:subject:message-id;
+  bh=W6E+S7NiJJsAcDAwU2dLMFiRcLe7Es/dnZOryHJAj7Q=;
+  b=U9wnwr3TXW/6cCEUA6FZK5lfcaHPRZiwwtlq6awSyTc6ze8HGuvTEXeg
+   6PpL5UHkFSYu3MCqlLDaCLymLx3GBtUwopMArkcFXAhYTzGLL2GehRX1i
+   9nmXCjCLu81N7BndPYuM4xR/ygxQ4pFPdtEjrmHEO1w44jW8Fb45Uk29E
+   5tcS1egMqclW1UqQIv1b5CfqCk2QI5RNClUHvN72MygxsA4LnojKDEanH
+   vDwwBRPfi+CFlorBD5RfLrFkVzyP6fbYrm9IcEsu46pMfuDBauUWFYyYd
+   aY6KCzslsyCeC0P/c3Kq4mcLGQAlX2PvrKtZ8wCKEnn98H/sUmkXwTYFz
    g==;
-X-CSE-ConnectionGUID: hnVlLN++TpaOs5uoUB5WeA==
-X-CSE-MsgGUID: 0HUbIyyJSGS3hC2LlmZC7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="70858470"
+X-CSE-ConnectionGUID: vfZ6ym+rRqqvexzxnfbtBg==
+X-CSE-MsgGUID: E2GPBC/sRO6AdOMCQATs3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="72132559"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="70858470"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:30:24 -0800
-X-CSE-ConnectionGUID: 1itHutb2RVyIinTdT+7oqw==
-X-CSE-MsgGUID: mLx52Z19S4qVQmvwV6XkAA==
+   d="scan'208";a="72132559"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:34:58 -0800
+X-CSE-ConnectionGUID: oqFsc27FQwu89xhlMgsjaw==
+X-CSE-MsgGUID: IncpWO5zQAa6juqxBCGwfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="199562279"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 22 Dec 2025 09:30:22 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="199490213"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 22 Dec 2025 09:34:55 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXjjg-000000005ZE-2sEK;
-	Mon, 22 Dec 2025 17:30:20 +0000
-Date: Mon, 22 Dec 2025 18:29:27 +0100
+	id 1vXjo4-000000000w5-2Dyl;
+	Mon, 22 Dec 2025 17:34:52 +0000
+Date: Tue, 23 Dec 2025 01:34:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:ptdesc1215 1/1] ./arch/riscv/include/asm/pgalloc.h:29:54:
- error: passing argument 1 of 'lowmem_page_address' from incompatible pointer
- type
-Message-ID: <202512221858.8l7ANfJZ-lkp@intel.com>
+To: Ilya Bakoulin <Ilya.Bakoulin@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Alvin Lee <alvin.lee2@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>
+Subject: 
+ drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn401/dcn401_hwseq.c:3494:82:
+ sparse: sparse: Using plain integer as NULL pointer
+Message-ID: <202512230120.bouZOGIU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/alexshi/linux.git ptdesc1215
-head:   f6b3ada105829eaafc93899aabaee60344844f57
-commit: f6b3ada105829eaafc93899aabaee60344844f57 [1/1] mm/pgtable: convert pgtable_t to ptdesc pointer
-config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251222/202512221858.8l7ANfJZ-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221858.8l7ANfJZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+commit: f96012baa5d3b4336092855e4e6d24830ea50736 drm/amd/display: add new block sequence-building/executing functions
+date:   9 weeks ago
+config: i386-randconfig-063-20251221 (https://download.01.org/0day-ci/archive/20251223/202512230120.bouZOGIU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230120.bouZOGIU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221858.8l7ANfJZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230120.bouZOGIU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn401/dcn401_hwseq.c:3494:82: sparse: sparse: Using plain integer as NULL pointer
 
-   In file included from ./arch/riscv/include/asm/page.h:12,
-                    from ./arch/riscv/include/asm/thread_info.h:11,
-                    from ./include/linux/thread_info.h:60,
-                    from ./include/asm-generic/preempt.h:5,
-                    from ./arch/riscv/include/generated/asm/preempt.h:1,
-                    from ./include/linux/preempt.h:79,
-                    from ./include/linux/spinlock.h:56,
-                    from ./include/linux/mmzone.h:8,
-                    from ./include/linux/gfp.h:7,
-                    from ./include/linux/slab.h:16,
-                    from kernel/fork.c:16:
-   ./arch/riscv/include/asm/pgalloc.h: In function 'pmd_populate':
->> ./arch/riscv/include/asm/pgalloc.h:29:54: error: passing argument 1 of 'lowmem_page_address' from incompatible pointer type [-Wincompatible-pointer-types]
-      29 |         unsigned long pfn = virt_to_pfn(page_address(pte));
-         |                                                      ^~~
-         |                                                      |
-         |                                                      pgtable_t {aka struct ptdesc *}
-   ./include/linux/pfn.h:11:27: note: in definition of macro 'PFN_DOWN'
-      11 | #define PFN_DOWN(x)     ((x) >> PAGE_SHIFT)
-         |                           ^
-   ./arch/riscv/include/asm/page.h:187:34: note: in expansion of macro 'phys_to_pfn'
-     187 | #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
-         |                                  ^~~~~~~~~~~
-   ./arch/riscv/include/asm/page.h:176:33: note: in expansion of macro '__va_to_pa_nodebug'
-     176 | #define __virt_to_phys(x)       __va_to_pa_nodebug(x)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   ./arch/riscv/include/asm/page.h:181:25: note: in expansion of macro '__virt_to_phys'
-     181 | #define __pa(x)         __virt_to_phys((unsigned long)(x))
-         |                         ^~~~~~~~~~~~~~
-   ./arch/riscv/include/asm/page.h:187:46: note: in expansion of macro '__pa'
-     187 | #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
-         |                                              ^~~~
-   ./arch/riscv/include/asm/pgalloc.h:29:29: note: in expansion of macro 'virt_to_pfn'
-      29 |         unsigned long pfn = virt_to_pfn(page_address(pte));
-         |                             ^~~~~~~~~~~
-   ./arch/riscv/include/asm/pgalloc.h:29:41: note: in expansion of macro 'page_address'
-      29 |         unsigned long pfn = virt_to_pfn(page_address(pte));
-         |                                         ^~~~~~~~~~~~
-   In file included from ./include/linux/pagemap.h:8,
-                    from ./include/linux/mempolicy.h:16,
-                    from kernel/fork.c:34:
-   ./include/linux/mm.h:2510:69: note: expected 'const struct page *' but argument is of type 'pgtable_t' {aka 'struct ptdesc *'}
-    2510 | static __always_inline void *lowmem_page_address(const struct page *page)
-         |                                                  ~~~~~~~~~~~~~~~~~~~^~~~
-   ./arch/riscv/include/asm/page.h:75:24: note: 'pgtable_t' declared here
-      75 | typedef struct ptdesc *pgtable_t;
-         |                        ^~~~~~~~~
-   In file included from ./include/linux/mmzone.h:22:
-   ./arch/riscv/include/asm/pgalloc.h: In function '__pte_free_tlb':
-   ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'struct ptdesc *' is not compatible with any association
-     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   ./arch/riscv/include/asm/pgalloc.h:136:32: note: in expansion of macro 'page_ptdesc'
-     136 |         tlb_remove_ptdesc(tlb, page_ptdesc(pte));
-         |                                ^~~~~~~~~~~
+vim +3494 drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn401/dcn401_hwseq.c
 
-
-vim +/lowmem_page_address +29 ./arch/riscv/include/asm/pgalloc.h
-
-07037db5d479f9 Palmer Dabbelt 2017-07-10  25  
-07037db5d479f9 Palmer Dabbelt 2017-07-10  26  static inline void pmd_populate(struct mm_struct *mm,
-07037db5d479f9 Palmer Dabbelt 2017-07-10  27  	pmd_t *pmd, pgtable_t pte)
-07037db5d479f9 Palmer Dabbelt 2017-07-10  28  {
-07037db5d479f9 Palmer Dabbelt 2017-07-10 @29  	unsigned long pfn = virt_to_pfn(page_address(pte));
-07037db5d479f9 Palmer Dabbelt 2017-07-10  30  
-07037db5d479f9 Palmer Dabbelt 2017-07-10  31  	set_pmd(pmd, __pmd((pfn << _PAGE_PFN_SHIFT) | _PAGE_TABLE));
-07037db5d479f9 Palmer Dabbelt 2017-07-10  32  }
-07037db5d479f9 Palmer Dabbelt 2017-07-10  33  
-
-:::::: The code at line 29 was first introduced by commit
-:::::: 07037db5d479f90377c998259a4f9a469c404edf RISC-V: Paging and MMU
-
-:::::: TO: Palmer Dabbelt <palmer@dabbelt.com>
-:::::: CC: Palmer Dabbelt <palmer@dabbelt.com>
+  3458	
+  3459	void dcn401_post_unlock_reset_opp_sequence(
+  3460			struct dc *dc,
+  3461			struct pipe_ctx *opp_head,
+  3462			struct block_sequence_state *seq_state)
+  3463	{
+  3464		struct display_stream_compressor *dsc = opp_head->stream_res.dsc;
+  3465		struct dccg *dccg = dc->res_pool->dccg;
+  3466	
+  3467		/* Wait for all DPP pipes in current mpc blending tree completes double
+  3468		 * buffered disconnection before resetting OPP
+  3469		 */
+  3470		if (dc->hwss.wait_for_mpcc_disconnect_sequence)
+  3471			dc->hwss.wait_for_mpcc_disconnect_sequence(dc, dc->res_pool, opp_head, seq_state);
+  3472	
+  3473		if (dsc) {
+  3474			bool *is_ungated = NULL;
+  3475			/* Check DSC power gate status */
+  3476			if (dc->hwseq && dc->hwseq->funcs.dsc_pg_status) {
+  3477				hwss_add_dsc_pg_status(seq_state, dc->hwseq, dsc->inst, false);
+  3478			}
+  3479	
+  3480			/* Seamless update specific where we will postpone non
+  3481				* double buffered DSCCLK disable logic in post unlock
+  3482				* sequence after DSC is disconnected from OPP but not
+  3483				* yet power gated.
+  3484				*/
+  3485	
+  3486			/* DSC wait disconnect pending clear */
+  3487			hwss_add_dsc_wait_disconnect_pending_clear(seq_state, dsc, is_ungated);
+  3488	
+  3489			/* DSC disable */
+  3490			hwss_add_dsc_disable(seq_state, dsc, is_ungated);
+  3491	
+  3492			/* Set reference DSCCLK */
+  3493			if (dccg && dccg->funcs->set_ref_dscclk) {
+> 3494				hwss_add_dccg_set_ref_dscclk(seq_state, dccg, dsc->inst, 0);
+  3495			}
+  3496		}
+  3497	}
+  3498	
 
 -- 
 0-DAY CI Kernel Test Service
