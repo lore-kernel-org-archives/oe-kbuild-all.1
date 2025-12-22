@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB6E31C567
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C163328F1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 18:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766425350; cv=none; b=oAG6TSICj0bnUJC4pqrEgU/SEJC1xNIvo7HE/91G90eH/JW85JrhQ/Aw3KrFoo9gA2MLdx0k8jB8G+wYTlHQa314+3wOgy+FdPcpTEN0GhLYsS+byEXAEVuFJ1b+Q5l6upsbaLwdHnRQNxUlbuKoib1yzA9B4fkvJy0Ie1tfcqw=
+	t=1766426852; cv=none; b=Rw9qaV6aw030M/IJZn92A2tp39EU6A67WU1p7GlPHcXxzvvNB9AT4IFzZmsds8yvaSO7sv2eHvApvGYDJDwtvvrfbTLxXRcvOqJQ8ZHE5fwr+x7Ah42gMi9wnFOvBawyo0wiZTgr9qlYud8QJ29bBa4Kq8HGzVzZUifTbxLA190=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766425350; c=relaxed/simple;
-	bh=9r2J2BeMZsqV64gs8m9CzDJDduEmUqA6Dih2rwLyGRo=;
+	s=arc-20240116; t=1766426852; c=relaxed/simple;
+	bh=Tad8xJomDjr9PzEesm/2YjnYnTB/6EmDoZ5Vc12UDP4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eBefgX+ooOnP7U2NVCeR6crC9fTH5FrmJcTO7zign/b9mTKnI2xOd1WjcEZoUSruLh3QHN0ZdPG/041v/Vstur3CKUJ0mD0ZVdsOsWDFIPBpIdSROJxtuhqaUBaMhSIo0tT9iCJtwM9WdI07dYMIcYGUBOcX2VfFb4bkg5LaJro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nk6MCFhD; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=tFE8uItc8dLriu/WmKN/LyjA2VlW5P5Q7X/Csl3A+mgc50KODsNXk8j0oVeTQGLv58pi+RzqUYrLKabI4ayyaQWYFMd2/kEdijL+akvfMQeqV6RresZzu0XltVN7ZvXthYmC92m1Ggfj76/GO2bdSmuSuiCIvZGl4WaMlqvmwqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLalgujU; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nk6MCFhD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLalgujU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766425349; x=1797961349;
+  t=1766426851; x=1797962851;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9r2J2BeMZsqV64gs8m9CzDJDduEmUqA6Dih2rwLyGRo=;
-  b=nk6MCFhD6/DYx7EbRiF3hK30SlI4VsvLnrpi/pz0ZghplOrbF7C6GxtH
-   LPuZ+pPDMNmIcckZ3BAOrRqYh/+9wWMM2IKQqa8bT0d6jWwCSmyzrnSMX
-   oj+4QJiNhY8bp55y6v2iL10T3chj5ZWbKElCGsl0rDKWtSRrUKxNeVe6F
-   FeI6yEZ+LLtB0KbMV7uXMmRPSuwZ/JIRr1ZlE7Fp1osF0JIwY4uBWNxJ6
-   sC1Vnzw5VP7JL/KyI9PiZb74yZaujY0RhHrSE8TYQleQ5LOGNYXQ0W2P5
-   mmh2Zr/PINGtKURzNxKlfBaaGAAT27fAHHHuiCrfjXSxBkAYIWJTnn0fj
-   Q==;
-X-CSE-ConnectionGUID: XwP1HuIcT26SRVh1RsIAfw==
-X-CSE-MsgGUID: FUMLaLv7SbOQxanJeoGsHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68325647"
+  bh=Tad8xJomDjr9PzEesm/2YjnYnTB/6EmDoZ5Vc12UDP4=;
+  b=eLalgujUmcZxrH+OiTyjL30ueeSuv2++AjJ5Bsf/fnuPEHZZh5CDTjG2
+   hf/llF1ZRizY9SkubOWfL0m7EwVHhN/PyfFVY5nnWXjT0lWGKGiXhe3yo
+   vPiAWASYQDLhd8o4lW+uXiHammztWB76c+f0ZQfVTP3syHTYHukK3D/Bz
+   pVGx12JLCon1/GXIx/Kb9wR7u9ltuObPl0vJ8yBV1eJDR+JSMzyWEeXT0
+   iMLj/VGSWpsvUdobBVtdLEQ4K9DKDjDJtt2FLsXW939SyBlJRx1VvOqXa
+   zyW9DCY6IvKtzWjhWVAeCpiqN1egXcZZ8fSbcsP97w6mXYmBo9eqsih3g
+   A==;
+X-CSE-ConnectionGUID: JeKuE/4+TUewj/YBI2xLWA==
+X-CSE-MsgGUID: nOEdg9lvR9WiHr7IN2WSWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79738455"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="68325647"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:42:28 -0800
-X-CSE-ConnectionGUID: e3Q2RjwOTDWCARgz7v5k0g==
-X-CSE-MsgGUID: K8/Yi7lyQLiOJwxA+U5K+Q==
+   d="scan'208";a="79738455"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 10:07:30 -0800
+X-CSE-ConnectionGUID: +K4DxN1TTe6UKd3K7oRbqw==
+X-CSE-MsgGUID: RMyYK3frQay9Dy25TbH2tw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="203704509"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 22 Dec 2025 09:42:24 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="199494213"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 22 Dec 2025 10:07:28 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXjvI-000000005ZM-3FWF;
-	Mon, 22 Dec 2025 17:42:20 +0000
-Date: Mon, 22 Dec 2025 18:41:42 +0100
+	id 1vXkJa-000000000xd-1EwS;
+	Mon, 22 Dec 2025 18:07:26 +0000
+Date: Tue, 23 Dec 2025 02:07:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rusydi H. Makarim" <rusydi.makarim@kriptograf.id>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-	"Rusydi H. Makarim" <rusydi.makarim@kriptograf.id>
-Subject: Re: [PATCH 2/3] lib/crypto: Initial implementation of Ascon-Hash256
-Message-ID: <202512221849.wfygt22c-lkp@intel.com>
-References: <20251215-ascon_hash256-v1-2-24ae735e571e@kriptograf.id>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4] mm, hugetlb: implement movable_gigantic_pages sysctl
+Message-ID: <202512230203.paEsVKn0-lkp@intel.com>
+References: <20251218151211.1237411-1-gourry@gourry.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,107 +62,243 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251215-ascon_hash256-v1-2-24ae735e571e@kriptograf.id>
+In-Reply-To: <20251218151211.1237411-1-gourry@gourry.net>
 
-Hi Rusydi,
+Hi Gregory,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 92de2d349e02c2dd96d8d1b7016cc78cf80fc085]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rusydi-H-Makarim/lib-crypto-Add-KUnit-test-vectors-for-Ascon-Hash256/20251215-215114
-base:   92de2d349e02c2dd96d8d1b7016cc78cf80fc085
-patch link:    https://lore.kernel.org/r/20251215-ascon_hash256-v1-2-24ae735e571e%40kriptograf.id
-patch subject: [PATCH 2/3] lib/crypto: Initial implementation of Ascon-Hash256
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251222/202512221849.wfygt22c-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-Price/mm-hugetlb-implement-movable_gigantic_pages-sysctl/20251218-231524
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20251218151211.1237411-1-gourry%40gourry.net
+patch subject: [PATCH v4] mm, hugetlb: implement movable_gigantic_pages sysctl
+config: x86_64-randconfig-101-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230203.paEsVKn0-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221849.wfygt22c-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230203.paEsVKn0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221849.wfygt22c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230203.paEsVKn0-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> lib/crypto/hash_info.c:35:10: error: 'HASH_ALGO_ASCON_HASH256' undeclared here (not in a function); did you mean 'HASH_ALGO_SHA3_256'?
-      35 |         [HASH_ALGO_ASCON_HASH256] = "ascon-hash256",
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-         |          HASH_ALGO_SHA3_256
->> lib/crypto/hash_info.c:35:10: error: array index in initializer not of integer type
-   lib/crypto/hash_info.c:35:10: note: (near initialization for 'hash_algo_name')
->> lib/crypto/hash_info.c:35:37: warning: excess elements in array initializer
-      35 |         [HASH_ALGO_ASCON_HASH256] = "ascon-hash256",
-         |                                     ^~~~~~~~~~~~~~~
-   lib/crypto/hash_info.c:35:37: note: (near initialization for 'hash_algo_name')
-   lib/crypto/hash_info.c:63:10: error: array index in initializer not of integer type
-      63 |         [HASH_ALGO_ASCON_HASH256] = ASCON_HASH256_DIGEST_SIZE,
-         |          ^~~~~~~~~~~~~~~~~~~~~~~
-   lib/crypto/hash_info.c:63:10: note: (near initialization for 'hash_digest_size')
->> lib/crypto/hash_info.c:63:37: error: 'ASCON_HASH256_DIGEST_SIZE' undeclared here (not in a function); did you mean 'SHA256_DIGEST_SIZE'?
-      63 |         [HASH_ALGO_ASCON_HASH256] = ASCON_HASH256_DIGEST_SIZE,
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                     SHA256_DIGEST_SIZE
-   lib/crypto/hash_info.c:63:37: warning: excess elements in array initializer
-   lib/crypto/hash_info.c:63:37: note: (near initialization for 'hash_digest_size')
+         |         mem_cgroup_uncharge_folios
+   mm/hugetlb.c: At top level:
+   mm/hugetlb.c:1842:6: warning: no previous prototype for 'init_new_hugetlb_folio' [-Wmissing-prototypes]
+    1842 | void init_new_hugetlb_folio(struct folio *folio)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c: In function 'init_new_hugetlb_folio':
+   mm/hugetlb.c:1847:9: error: implicit declaration of function 'set_hugetlb_cgroup' [-Wimplicit-function-declaration]
+    1847 |         set_hugetlb_cgroup(folio, NULL);
+         |         ^~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c:1848:9: error: implicit declaration of function 'set_hugetlb_cgroup_rsvd' [-Wimplicit-function-declaration]
+    1848 |         set_hugetlb_cgroup_rsvd(folio, NULL);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c: At top level:
+   mm/hugetlb.c:1954:6: warning: no previous prototype for 'prep_and_add_allocated_folios' [-Wmissing-prototypes]
+    1954 | void prep_and_add_allocated_folios(struct hstate *h,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c: In function 'alloc_pool_huge_folio':
+   mm/hugetlb.c:1984:9: error: implicit declaration of function 'for_each_node_mask_to_alloc'; did you mean 'for_each_node_mask'? [-Wimplicit-function-declaration]
+    1984 |         for_each_node_mask_to_alloc(next_node, nr_nodes, node, nodes_allowed) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         for_each_node_mask
+   mm/hugetlb.c:1984:78: error: expected ';' before '{' token
+    1984 |         for_each_node_mask_to_alloc(next_node, nr_nodes, node, nodes_allowed) {
+         |                                                                              ^~
+         |                                                                              ;
+   mm/hugetlb.c:1981:15: warning: unused variable 'gfp_mask' [-Wunused-variable]
+    1981 |         gfp_t gfp_mask = htlb_alloc_mask(h) | __GFP_THISNODE;
+         |               ^~~~~~~~
+   mm/hugetlb.c:1994:1: warning: no return statement in function returning non-void [-Wreturn-type]
+    1994 | }
+         | ^
+   mm/hugetlb.c: In function 'remove_pool_hugetlb_folio':
+   mm/hugetlb.c:2010:9: error: implicit declaration of function 'for_each_node_mask_to_free'; did you mean 'for_each_node_mask'? [-Wimplicit-function-declaration]
+    2010 |         for_each_node_mask_to_free(h, nr_nodes, node, nodes_allowed) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         for_each_node_mask
+   mm/hugetlb.c:2010:69: error: expected ';' before '{' token
+    2010 |         for_each_node_mask_to_free(h, nr_nodes, node, nodes_allowed) {
+         |                                                                     ^~
+         |                                                                     ;
+   mm/hugetlb.c:2007:23: warning: unused variable 'folio' [-Wunused-variable]
+    2007 |         struct folio *folio = NULL;
+         |                       ^~~~~
+   mm/hugetlb.c:2025:1: warning: no return statement in function returning non-void [-Wreturn-type]
+    2025 | }
+         | ^
+   mm/hugetlb.c: In function 'alloc_hugetlb_folio':
+   mm/hugetlb.c:2953:23: error: implicit declaration of function 'hugetlb_cgroup_charge_cgroup_rsvd' [-Wimplicit-function-declaration]
+    2953 |                 ret = hugetlb_cgroup_charge_cgroup_rsvd(
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c:2959:15: error: implicit declaration of function 'hugetlb_cgroup_charge_cgroup' [-Wimplicit-function-declaration]
+    2959 |         ret = hugetlb_cgroup_charge_cgroup(idx, pages_per_huge_page(h), &h_cg);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c:2990:9: error: implicit declaration of function 'hugetlb_cgroup_commit_charge' [-Wimplicit-function-declaration]
+    2990 |         hugetlb_cgroup_commit_charge(idx, pages_per_huge_page(h), h_cg, folio);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c:2995:17: error: implicit declaration of function 'hugetlb_cgroup_commit_charge_rsvd' [-Wimplicit-function-declaration]
+    2995 |                 hugetlb_cgroup_commit_charge_rsvd(idx, pages_per_huge_page(h),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c:3047:9: error: implicit declaration of function 'hugetlb_cgroup_uncharge_cgroup'; did you mean 'copy_hugetlb_cgroup_uncharge_info'? [-Wimplicit-function-declaration]
+    3047 |         hugetlb_cgroup_uncharge_cgroup(idx, pages_per_huge_page(h), h_cg);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         copy_hugetlb_cgroup_uncharge_info
+   mm/hugetlb.c:3050:17: error: implicit declaration of function 'hugetlb_cgroup_uncharge_cgroup_rsvd' [-Wimplicit-function-declaration]
+    3050 |                 hugetlb_cgroup_uncharge_cgroup_rsvd(idx, pages_per_huge_page(h),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c: In function '__alloc_bootmem_huge_page':
+   mm/hugetlb.c:3136:60: error: expected ';' before '{' token
+    3136 |                                     &hugetlb_bootmem_nodes) {
+         |                                                            ^~
+         |                                                            ;
+   mm/hugetlb.c:3131:17: error: label 'found' used but not defined
+    3131 |                 goto found;
+         |                 ^~~~
+   mm/hugetlb.c: In function 'adjust_pool_surplus':
+   mm/hugetlb.c:3742:98: error: expected ';' before '{' token
+    3742 |                 for_each_node_mask_to_alloc(&h->next_nid_to_alloc, nr_nodes, node, nodes_allowed) {
+         |                                                                                                  ^~
+         |                                                                                                  ;
+   mm/hugetlb.c:3747:77: error: expected ';' before '{' token
+    3747 |                 for_each_node_mask_to_free(h, nr_nodes, node, nodes_allowed) {
+         |                                                                             ^~
+         |                                                                             ;
+   mm/hugetlb.c:3755:1: warning: label 'found' defined but not used [-Wunused-label]
+    3755 | found:
+         | ^~~~~
+   mm/hugetlb.c: At top level:
+   mm/hugetlb.c:4010:6: warning: no previous prototype for 'demote_pool_huge_page' [-Wmissing-prototypes]
+    4010 | long demote_pool_huge_page(struct hstate *src, nodemask_t *nodes_allowed,
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c: In function 'demote_pool_huge_page':
+   mm/hugetlb.c:4028:71: error: expected ';' before '{' token
+    4028 |         for_each_node_mask_to_free(src, nr_nodes, node, nodes_allowed) {
+         |                                                                       ^~
+         |                                                                       ;
+   mm/hugetlb.c: At top level:
+   mm/hugetlb.c:4079:9: warning: no previous prototype for '__nr_hugepages_store_common' [-Wmissing-prototypes]
+    4079 | ssize_t __nr_hugepages_store_common(bool obey_mempolicy,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c: In function 'hugetlb_init':
+>> mm/hugetlb.c:4166:9: error: implicit declaration of function 'hugetlb_sysfs_init'; did you mean 'hugetlb_count_init'? [-Wimplicit-function-declaration]
+    4166 |         hugetlb_sysfs_init();
+         |         ^~~~~~~~~~~~~~~~~~
+         |         hugetlb_count_init
+>> mm/hugetlb.c:4167:9: error: implicit declaration of function 'hugetlb_cgroup_file_init'; did you mean 'hugetlb_count_init'? [-Wimplicit-function-declaration]
+    4167 |         hugetlb_cgroup_file_init();
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         hugetlb_count_init
+>> mm/hugetlb.c:4168:9: error: implicit declaration of function 'hugetlb_sysctl_init'; did you mean 'hugetlb_count_init'? [-Wimplicit-function-declaration]
+    4168 |         hugetlb_sysctl_init();
+         |         ^~~~~~~~~~~~~~~~~~~
+         |         hugetlb_count_init
+   mm/hugetlb.c: In function 'hugetlb_vm_op_open':
+>> mm/hugetlb.c:4687:17: error: implicit declaration of function 'resv_map_dup_hugetlb_cgroup_uncharge_info'; did you mean 'resv_map_set_hugetlb_cgroup_uncharge_info'? [-Wimplicit-function-declaration]
+    4687 |                 resv_map_dup_hugetlb_cgroup_uncharge_info(resv);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                 resv_map_set_hugetlb_cgroup_uncharge_info
+   mm/hugetlb.c: In function 'hugetlb_vm_op_close':
+>> mm/hugetlb.c:4729:9: error: implicit declaration of function 'hugetlb_cgroup_uncharge_counter'; did you mean 'copy_hugetlb_cgroup_uncharge_info'? [-Wimplicit-function-declaration]
+    4729 |         hugetlb_cgroup_uncharge_counter(resv, start, end);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         copy_hugetlb_cgroup_uncharge_info
+   mm/hugetlb.c: In function 'hugetlb_reserve_pages':
+>> mm/hugetlb.c:6616:69: error: passing argument 2 of 'resv_map_set_hugetlb_cgroup_uncharge_info' from incompatible pointer type [-Wincompatible-pointer-types]
+    6616 |                 resv_map_set_hugetlb_cgroup_uncharge_info(resv_map, h_cg, h);
+         |                                                                     ^~~~
+         |                                                                     |
+         |                                                                     struct hugetlb_cgroup *
+   mm/hugetlb.c:1097:66: note: expected 'struct hugetlb_cgroup *' but argument is of type 'struct hugetlb_cgroup *'
+    1097 |                                           struct hugetlb_cgroup *h_cg,
+         |                                           ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> mm/hugetlb.c:6650:73: error: passing argument 6 of 'region_add' from incompatible pointer type [-Wincompatible-pointer-types]
+    6650 |                 add = region_add(resv_map, from, to, regions_needed, h, h_cg);
+         |                                                                         ^~~~
+         |                                                                         |
+         |                                                                         struct hugetlb_cgroup *
+   mm/hugetlb.c:739:47: note: expected 'struct hugetlb_cgroup *' but argument is of type 'struct hugetlb_cgroup *'
+     739 |                        struct hugetlb_cgroup *h_cg)
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> mm/hugetlb.c:6684:25: error: implicit declaration of function 'hugetlb_cgroup_put_rsvd_cgroup' [-Wimplicit-function-declaration]
+    6684 |                         hugetlb_cgroup_put_rsvd_cgroup(h_cg);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/hugetlb.c: In function 'move_hugetlb_state':
+>> mm/hugetlb.c:7174:9: error: implicit declaration of function 'hugetlb_cgroup_migrate'; did you mean 'mem_cgroup_migrate'? [-Wimplicit-function-declaration]
+    7174 |         hugetlb_cgroup_migrate(old_folio, new_folio);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         mem_cgroup_migrate
+   mm/hugetlb.c: At top level:
+   mm/hugetlb.c:3951:13: warning: 'demote_free_hugetlb_folios' defined but not used [-Wunused-function]
+    3951 | static long demote_free_hugetlb_folios(struct hstate *src, struct hstate *dst,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +35 lib/crypto/hash_info.c
+vim +4166 mm/hugetlb.c
 
-    10	
-    11	const char *const hash_algo_name[HASH_ALGO__LAST] = {
-    12		[HASH_ALGO_MD4]		= "md4",
-    13		[HASH_ALGO_MD5]		= "md5",
-    14		[HASH_ALGO_SHA1]	= "sha1",
-    15		[HASH_ALGO_RIPE_MD_160]	= "rmd160",
-    16		[HASH_ALGO_SHA256]	= "sha256",
-    17		[HASH_ALGO_SHA384]	= "sha384",
-    18		[HASH_ALGO_SHA512]	= "sha512",
-    19		[HASH_ALGO_SHA224]	= "sha224",
-    20		[HASH_ALGO_RIPE_MD_128]	= "rmd128",
-    21		[HASH_ALGO_RIPE_MD_256]	= "rmd256",
-    22		[HASH_ALGO_RIPE_MD_320]	= "rmd320",
-    23		[HASH_ALGO_WP_256]	= "wp256",
-    24		[HASH_ALGO_WP_384]	= "wp384",
-    25		[HASH_ALGO_WP_512]	= "wp512",
-    26		[HASH_ALGO_TGR_128]	= "tgr128",
-    27		[HASH_ALGO_TGR_160]	= "tgr160",
-    28		[HASH_ALGO_TGR_192]	= "tgr192",
-    29		[HASH_ALGO_SM3_256]	= "sm3",
-    30		[HASH_ALGO_STREEBOG_256] = "streebog256",
-    31		[HASH_ALGO_STREEBOG_512] = "streebog512",
-    32		[HASH_ALGO_SHA3_256]    = "sha3-256",
-    33		[HASH_ALGO_SHA3_384]    = "sha3-384",
-    34		[HASH_ALGO_SHA3_512]    = "sha3-512",
-  > 35		[HASH_ALGO_ASCON_HASH256] = "ascon-hash256",
-    36	};
-    37	EXPORT_SYMBOL_GPL(hash_algo_name);
-    38	
-    39	const int hash_digest_size[HASH_ALGO__LAST] = {
-    40		[HASH_ALGO_MD4]		= MD5_DIGEST_SIZE,
-    41		[HASH_ALGO_MD5]		= MD5_DIGEST_SIZE,
-    42		[HASH_ALGO_SHA1]	= SHA1_DIGEST_SIZE,
-    43		[HASH_ALGO_RIPE_MD_160]	= RMD160_DIGEST_SIZE,
-    44		[HASH_ALGO_SHA256]	= SHA256_DIGEST_SIZE,
-    45		[HASH_ALGO_SHA384]	= SHA384_DIGEST_SIZE,
-    46		[HASH_ALGO_SHA512]	= SHA512_DIGEST_SIZE,
-    47		[HASH_ALGO_SHA224]	= SHA224_DIGEST_SIZE,
-    48		[HASH_ALGO_RIPE_MD_128]	= RMD128_DIGEST_SIZE,
-    49		[HASH_ALGO_RIPE_MD_256]	= RMD256_DIGEST_SIZE,
-    50		[HASH_ALGO_RIPE_MD_320]	= RMD320_DIGEST_SIZE,
-    51		[HASH_ALGO_WP_256]	= WP256_DIGEST_SIZE,
-    52		[HASH_ALGO_WP_384]	= WP384_DIGEST_SIZE,
-    53		[HASH_ALGO_WP_512]	= WP512_DIGEST_SIZE,
-    54		[HASH_ALGO_TGR_128]	= TGR128_DIGEST_SIZE,
-    55		[HASH_ALGO_TGR_160]	= TGR160_DIGEST_SIZE,
-    56		[HASH_ALGO_TGR_192]	= TGR192_DIGEST_SIZE,
-    57		[HASH_ALGO_SM3_256]	= SM3256_DIGEST_SIZE,
-    58		[HASH_ALGO_STREEBOG_256] = STREEBOG256_DIGEST_SIZE,
-    59		[HASH_ALGO_STREEBOG_512] = STREEBOG512_DIGEST_SIZE,
-    60		[HASH_ALGO_SHA3_256]    = SHA3_256_DIGEST_SIZE,
-    61		[HASH_ALGO_SHA3_384]    = SHA3_384_DIGEST_SIZE,
-    62		[HASH_ALGO_SHA3_512]    = SHA3_512_DIGEST_SIZE,
-  > 63		[HASH_ALGO_ASCON_HASH256] = ASCON_HASH256_DIGEST_SIZE,
+06808b0827e1cd Lee Schermerhorn       2009-12-14  4111  
+a3437870160cf2 Nishanth Aravamudan    2008-07-23  4112  static int __init hugetlb_init(void)
+a3437870160cf2 Nishanth Aravamudan    2008-07-23  4113  {
+8382d914ebf720 Davidlohr Bueso        2014-04-03  4114  	int i;
+8382d914ebf720 Davidlohr Bueso        2014-04-03  4115  
+d6995da311221a Mike Kravetz           2021-02-24  4116  	BUILD_BUG_ON(sizeof_field(struct page, private) * BITS_PER_BYTE <
+d6995da311221a Mike Kravetz           2021-02-24  4117  			__NR_HPAGEFLAGS);
+7b4f21f5e0386d David Hildenbrand      2025-09-01  4118  	BUILD_BUG_ON_INVALID(HUGETLB_PAGE_ORDER > MAX_FOLIO_ORDER);
+d6995da311221a Mike Kravetz           2021-02-24  4119  
+c2833a5bf75b36 Mike Kravetz           2020-06-03  4120  	if (!hugepages_supported()) {
+c2833a5bf75b36 Mike Kravetz           2020-06-03  4121  		if (hugetlb_max_hstate || default_hstate_max_huge_pages)
+c2833a5bf75b36 Mike Kravetz           2020-06-03  4122  			pr_warn("HugeTLB: huge pages not supported, ignoring associated command-line parameters\n");
+0ef89d25d3e390 Benjamin Herrenschmidt 2008-07-31  4123  		return 0;
+d715cf804a0318 Liam R. Howlett        2017-07-10  4124  	}
+d715cf804a0318 Liam R. Howlett        2017-07-10  4125  
+282f4214384ee2 Mike Kravetz           2020-06-03  4126  	/*
+282f4214384ee2 Mike Kravetz           2020-06-03  4127  	 * Make sure HPAGE_SIZE (HUGETLB_PAGE_ORDER) hstate exists.  Some
+282f4214384ee2 Mike Kravetz           2020-06-03  4128  	 * architectures depend on setup being done here.
+282f4214384ee2 Mike Kravetz           2020-06-03  4129  	 */
+a3437870160cf2 Nishanth Aravamudan    2008-07-23  4130  	hugetlb_add_hstate(HUGETLB_PAGE_ORDER);
+282f4214384ee2 Mike Kravetz           2020-06-03  4131  	if (!parsed_default_hugepagesz) {
+282f4214384ee2 Mike Kravetz           2020-06-03  4132  		/*
+282f4214384ee2 Mike Kravetz           2020-06-03  4133  		 * If we did not parse a default huge page size, set
+282f4214384ee2 Mike Kravetz           2020-06-03  4134  		 * default_hstate_idx to HPAGE_SIZE hstate. And, if the
+282f4214384ee2 Mike Kravetz           2020-06-03  4135  		 * number of huge pages for this default size was implicitly
+282f4214384ee2 Mike Kravetz           2020-06-03  4136  		 * specified, set that here as well.
+282f4214384ee2 Mike Kravetz           2020-06-03  4137  		 * Note that the implicit setting will overwrite an explicit
+282f4214384ee2 Mike Kravetz           2020-06-03  4138  		 * setting.  A warning will be printed in this case.
+282f4214384ee2 Mike Kravetz           2020-06-03  4139  		 */
+282f4214384ee2 Mike Kravetz           2020-06-03  4140  		default_hstate_idx = hstate_index(size_to_hstate(HPAGE_SIZE));
+f8b74815a452ff Vaishali Thakkar       2016-02-17  4141  		if (default_hstate_max_huge_pages) {
+282f4214384ee2 Mike Kravetz           2020-06-03  4142  			if (default_hstate.max_huge_pages) {
+282f4214384ee2 Mike Kravetz           2020-06-03  4143  				char buf[32];
+282f4214384ee2 Mike Kravetz           2020-06-03  4144  
+282f4214384ee2 Mike Kravetz           2020-06-03  4145  				string_get_size(huge_page_size(&default_hstate),
+282f4214384ee2 Mike Kravetz           2020-06-03  4146  					1, STRING_UNITS_2, buf, 32);
+282f4214384ee2 Mike Kravetz           2020-06-03  4147  				pr_warn("HugeTLB: Ignoring hugepages=%lu associated with %s page size\n",
+282f4214384ee2 Mike Kravetz           2020-06-03  4148  					default_hstate.max_huge_pages, buf);
+282f4214384ee2 Mike Kravetz           2020-06-03  4149  				pr_warn("HugeTLB: Using hugepages=%lu for number of default huge pages\n",
+282f4214384ee2 Mike Kravetz           2020-06-03  4150  					default_hstate_max_huge_pages);
+282f4214384ee2 Mike Kravetz           2020-06-03  4151  			}
+282f4214384ee2 Mike Kravetz           2020-06-03  4152  			default_hstate.max_huge_pages =
+282f4214384ee2 Mike Kravetz           2020-06-03  4153  				default_hstate_max_huge_pages;
+b5389086ad7be0 Zhenguo Yao            2021-11-05  4154  
+0a7a0f6f7f3679 Peng Liu               2022-04-29  4155  			for_each_online_node(i)
+b5389086ad7be0 Zhenguo Yao            2021-11-05  4156  				default_hstate.max_huge_pages_node[i] =
+b5389086ad7be0 Zhenguo Yao            2021-11-05  4157  					default_hugepages_in_node[i];
+282f4214384ee2 Mike Kravetz           2020-06-03  4158  		}
+f8b74815a452ff Vaishali Thakkar       2016-02-17  4159  	}
+a3437870160cf2 Nishanth Aravamudan    2008-07-23  4160  
+cf11e85fc08cc6 Roman Gushchin         2020-04-10  4161  	hugetlb_cma_check();
+a3437870160cf2 Nishanth Aravamudan    2008-07-23  4162  	hugetlb_init_hstates();
+aa888a74977a8f Andi Kleen             2008-07-23  4163  	gather_bootmem_prealloc();
+a3437870160cf2 Nishanth Aravamudan    2008-07-23  4164  	report_hugepages();
+a3437870160cf2 Nishanth Aravamudan    2008-07-23  4165  
+a3437870160cf2 Nishanth Aravamudan    2008-07-23 @4166  	hugetlb_sysfs_init();
+7179e7bf4592ac Jianguo Wu             2012-12-18 @4167  	hugetlb_cgroup_file_init();
+962de54828c5bb Kefeng Wang            2023-03-09 @4168  	hugetlb_sysctl_init();
+9a30523066cde7 Lee Schermerhorn       2009-12-14  4169  
 
 -- 
 0-DAY CI Kernel Test Service
