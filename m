@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947A55B1EB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 05:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB44137C52
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 05:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766379738; cv=none; b=XXkEN9wJgDL08RgOhtsjkdLK7IHFq7TtZgNwQgpixsfijlh7ZqAgqMj+VYflEGkBrhtxcVqkBDOUcwkYn+bTgxnoR6lQsqbjMrmqHBRMpOFg3pgZk4/3CXvc7p8jDPmf6Ac+Bu+APGQLYmpWqd/6PJzUX3i9giCXHlV9B7Ec9/M=
+	t=1766380877; cv=none; b=rDpv0/Wd0GB4HSCevYAFYWk4wlxKWiCqCjLO4+TTogrr+6nx/+N1ByMYPmbKs+xEx+egi/SM2YBqi8bQJnjYXcXJ5IsxukO3Bsl5CdwlpUnF8NgRjdTAKKvBL9rw6qPss8AEMf15kusl1gjzefxrKqtJtRB8pX3pkLLi63Lifxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766379738; c=relaxed/simple;
-	bh=blIjubQYIGL0QxI9JnbsbYFZJ3h5UaT7l5utd9UMyOs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HW+M7rmdIVBphBmuwxA3HpRE6fIBQaR4QBDi6o6toVeqx1ajGFSiEzgE2kIBY9Il7TLHfM/SWhIKx5xrtlk95D0Y3L/7bMPtG2/I7E5TkBVS5t+XwXTKOAteLzsG5ZvACFT3L6+y+E42Vcxvd6t5K1Tjel6uE5RKTzDVm8CvJGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yqt0W2cu; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1766380877; c=relaxed/simple;
+	bh=p6KipLXKmtIELuezSAxior5HpJS0ccXXJcwtGSCg570=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Xo0yWW3eptzbpIHcRlRHGQA4YKOAEn9KyTcw2+2D2Cl517w0wdlSSyf6sAl467Fjz/gtKJECIckb/xduBd42C/zkiyVfQllCVAVUjAWegjUWDrlo6XSpkpqPbHzdbmKTo/tCKDr/x+QsDn/e0ebTZeABS5iLRyHH41ruUzuo2Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=evqTw6ok; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yqt0W2cu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="evqTw6ok"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766379737; x=1797915737;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=blIjubQYIGL0QxI9JnbsbYFZJ3h5UaT7l5utd9UMyOs=;
-  b=Yqt0W2cuLwfsQ4mWF6cDaODvxaB4FxLK5Bv3+ieA9vKm/O821ntfQemu
-   eW5ClMC6AAjD34cNPpiLqSRbp6H1AvTBf1WAgovvj0G9L0ZErrbl+GGg2
-   5HfqaP9C8K5Cfdqs5H9yRX2lXh6GZAYbFw+DeSbfdVut96i5WR0nV7woG
-   I144BMg/uG1iyAl14v1e5zzqIZUtezZVCUTGFqM7TB5WZjUo2vcESPOwN
-   XuNfayOipRGVuMmk44m8h/cI354hLbNTDlky6PptDviKhfKMf2tCHdaVy
-   5sWzf0gtBEfo69vRuLqBzl0XL6aIAixfOuxMZuraPvxvWEFOAfD/Rqv7Q
-   Q==;
-X-CSE-ConnectionGUID: /j7fYDD0S3KGX2/Y33OiHQ==
-X-CSE-MsgGUID: gZh335zQRxC4+lyDAxFFFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="68281423"
+  t=1766380876; x=1797916876;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=p6KipLXKmtIELuezSAxior5HpJS0ccXXJcwtGSCg570=;
+  b=evqTw6okKRm/4lDD3ewk2mV/ru0jGqEd89pqZamurlupiBIdBkV60+Gz
+   0wKwFMSpgxFLtGu/QbrI9j/Rff0xtRgZt7CvWpfV0M5l38KljQu95GYuh
+   kstgYFW9aKlz51mCTz1bHGoYW7v9mk0Wwa4EOenLPM3gNpdn5yobtB1pP
+   S9Lr7huI80EfdemyRt8p3FgK8O+KfT84MdxQ37dLEvSp+deyXBdIElTEi
+   AZBvNJ5aVg7Xq3y9dHP0nhSpSZN6Z5r8ulNdcvZ4vNKfjMmKTeJYtyEfF
+   81NPivldyi4f8ofVvwScInzDatfLzCicbyJWvlGgd6iXYbANIhTkjiZBn
+   A==;
+X-CSE-ConnectionGUID: 2rqbxqfCRVutgVQ+M5oLPg==
+X-CSE-MsgGUID: jBh65vAsTciWddspupyiZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="72083929"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="68281423"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 21:02:16 -0800
-X-CSE-ConnectionGUID: OydS4gqHR6eRg2RqohbgaQ==
-X-CSE-MsgGUID: 6tYC9+o0Rci+OI35D9v0VA==
+   d="scan'208";a="72083929"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Dec 2025 21:21:15 -0800
+X-CSE-ConnectionGUID: uUEwz7DsRUSmswuP4pgE+Q==
+X-CSE-MsgGUID: Xsm7sYHhRaajq+iGUGIRhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="230449177"
+   d="scan'208";a="200319301"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Dec 2025 21:02:13 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 21 Dec 2025 21:21:14 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXY3f-000000005MW-2555;
-	Mon, 22 Dec 2025 05:02:11 +0000
-Date: Mon, 22 Dec 2025 06:01:27 +0100
+	id 1vXYM3-000000005Mq-3MAk;
+	Mon, 22 Dec 2025 05:21:11 +0000
+Date: Mon, 22 Dec 2025 06:21:06 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ziming Du <duziming2@huawei.com>, bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, chrisw@redhat.com,
-	jbarnes@virtuousgeek.org, alex.williamson@redhat.com,
-	liuyongqiang13@huawei.com, duziming2@huawei.com
-Subject: Re: [PATCH 2/3] PCI/sysfs: Prohibit unaligned access to I/O port on
- non-x86
-Message-ID: <202512220635.gFQlRFAa-lkp@intel.com>
-References: <20251216083912.758219-3-duziming2@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 12/12] kismet: WARNING: unmet
+ direct dependencies detected for INTEL_SCU when selected by
+ GKI_HIDDEN_X86_CONFIGS
+Message-ID: <202512220637.PeSv1sKu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,48 +62,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251216083912.758219-3-duziming2@huawei.com>
 
-Hi Ziming,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ziming-Du/PCI-sysfs-fix-null-pointer-dereference-during-PCI-hotplug/20251216-163452
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20251216083912.758219-3-duziming2%40huawei.com
-patch subject: [PATCH 2/3] PCI/sysfs: Prohibit unaligned access to I/O port on non-x86
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251222/202512220635.gFQlRFAa-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512220635.gFQlRFAa-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   2141da9e498139ac37a520b62dfdc77db8003146
+commit: 80646a059eb38a5cd606e549940844bef477d3da [12/12] ANDROID: GKI: x86: Enable Intel SCU IPC as x86 hidden
+config: x86_64-kismet-CONFIG_INTEL_SCU-CONFIG_GKI_HIDDEN_X86_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20251222/202512220637.PeSv1sKu-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20251222/202512220637.PeSv1sKu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512220635.gFQlRFAa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512220637.PeSv1sKu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/pci/pci-sysfs.c:1145:13: warning: 'is_unaligned' defined but not used [-Wunused-function]
-    1145 | static bool is_unaligned(unsigned long port, size_t size)
-         |             ^~~~~~~~~~~~
-
-
-vim +/is_unaligned +1145 drivers/pci/pci-sysfs.c
-
-  1143	
-  1144	#if !defined(CONFIG_X86)
-> 1145	static bool is_unaligned(unsigned long port, size_t size)
-  1146	{
-  1147		return port & (size - 1);
-  1148	}
-  1149	#endif
-  1150	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for INTEL_SCU when selected by GKI_HIDDEN_X86_CONFIGS
+   WARNING: unmet direct dependencies detected for INTEL_SCU
+     Depends on [n]: X86_PLATFORM_DEVICES [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
 
 -- 
 0-DAY CI Kernel Test Service
