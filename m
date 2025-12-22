@@ -1,175 +1,146 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1794D5FDA7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 10:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A055FDA7;
+	Mon, 22 Dec 2025 10:04:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766397874; cv=none; b=YAPAei/gXheTG4OWhypr0ak4yHID+EYo9I7p/O/3xVEEqfcU17umXoXWgWxh4IAIKQLOkJDAkU9pFV5J0qY/TMZFpvrF5wqrIc6qtKabwRVrBPYPGWyiSsXlnVlusha5/uUtEy/Hoc48e71VRFZyZ1mBRLnb4ysKqHi8dXzEU3g=
+	t=1766397877; cv=none; b=jqTbDyus5dt1agrOIT33iTc2j2NIJpfEH/GmMAM9I/ZFahtv20W0RKutMm0ziWaEmXmx+NVyplEekQ0wCvhDpR2OOmvhZT0oEbBknmBMVM2754CFErledc77VhAjNhF/dU0Z57sjXBxpzpiXM38fRquMSQw1xH7bY53XY9G0888=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766397874; c=relaxed/simple;
-	bh=Q3grZHDGwNHo2joIOfDhlIytXVx/UxSE6DjwY+aK1aU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Xr6rZtHtRmfXynUgsXQWBWqwBLuCFNJMrrje3lZA5mJHge7oH+7SweqFq/F3JJ3ogJTChcdDkk8+HJNGdF36m9V2jH8k/DdftLwu0rc+aVpV7xuI9v8aBGAGtdCjqCl65bHRm7LzveliJuhrt1Irf0wmlKnAjMwvo5sabaqMPmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HvAhBEz1; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1766397877; c=relaxed/simple;
+	bh=J1EZZVCwpTiIbAyrMOpmNy+FRRI8Ai9A8vQMUUkNmH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TljKWLncv38+gd7xfaFGZdDPg7oK+pYbRMjezEKBZ7uBnvsdfz7SBXxXNvG2rNZsa/S9KtCOh6aAb/brIeHLZgONQjd4T3Pa+kCvivyh5XHIiz86CYc9Fltb4kd4klrIW0m5QlVgxn46y6bRZNfGCZoE1PKI6CNFoXiKmlSQ2LU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DX3xwYra; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HvAhBEz1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DX3xwYra"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766397873; x=1797933873;
-  h=date:from:to:cc:subject:message-id;
-  bh=Q3grZHDGwNHo2joIOfDhlIytXVx/UxSE6DjwY+aK1aU=;
-  b=HvAhBEz1dgGWMLfheHWTUnAJRsWjqwFRCJEnmKWk/bIZHVeQALTQ8PnO
-   CVoJ59lvh3PnBqHTCLR7Itx41BdPJS73aVwy1bAYZ+G8BZ12FLk41L008
-   JdUTi1hdTNxeNldU1BpGtNwHf2TuYEJEBYQgcE3UB037n9JKeGpwQchmm
-   LTJXK9X0HmkkcajGVfCxEZh4yRyDZEjyHdKKD1phk80GUXwJUsz2rdCJn
-   2sY4PMxgGO4QzMTJ4Y9lt9exCLk2GtkY5i3+LxwL09w+Jy/bThDwLc0W8
-   CDTmLI+Xl6HKPjtw+Tk8bKN5NgbGqCSdvcKMnXJ1LxdvnNLamvz3OIpLE
-   w==;
-X-CSE-ConnectionGUID: gErr7SaDSwSSyEIQVCsTmA==
-X-CSE-MsgGUID: aNIYi+3qQjSblJzCFF9YGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="71883092"
+  t=1766397876; x=1797933876;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J1EZZVCwpTiIbAyrMOpmNy+FRRI8Ai9A8vQMUUkNmH0=;
+  b=DX3xwYraDdOg7VESPHMr33rlqhhNbppdLOtjw1WzT0k1mYAcMNnAhkVk
+   rQStC4xW7BdQeIsHLb0DcXK8TwD/2kRhC/0MZhoHB7xenrd+KebeiO9Zo
+   SxkqvOUhipJLJJTTiQRXOaf5NghgOmwjcz82j4M0aoNKZWbqgxA7ai11E
+   7RcRFMQMSaAGFOQ1TApGjXnrYD3NrhFSNULv7tCxGEZoZFBxEWCUEofjo
+   Mmdnf4qbDMnDN7TX915Jo4igKHm4JD3rPreuamYEP0ZeJ9xGYBLU/aNAe
+   a/8GHxoJ9zWCkhmaca4af9Pijy4tjoMFjhXsrO0gJ46Gts9kHwbCFkmJv
+   g==;
+X-CSE-ConnectionGUID: vV0eway8TG6gy5IAnaL7Ig==
+X-CSE-MsgGUID: s1JxU+D3SbiCj6vbO5pUrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11649"; a="71883094"
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="71883092"
+   d="scan'208";a="71883094"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 02:04:32 -0800
-X-CSE-ConnectionGUID: QPCEPcYwQBSw8nZlYN5oww==
-X-CSE-MsgGUID: pYhY9oI5TDqvp9v2PlFc3A==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 02:04:36 -0800
+X-CSE-ConnectionGUID: SENbKwQ2TGuu/Q2AuFUCmg==
+X-CSE-MsgGUID: nfxshazyT4av5RHtxHYyhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,167,1763452800"; 
-   d="scan'208";a="222977992"
+   d="scan'208";a="222977989"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
   by fmviesa002.fm.intel.com with ESMTP; 22 Dec 2025 02:04:31 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXcmC-000000000MP-3VK6;
+	id 1vXcmC-000000000MH-2wzD;
 	Mon, 22 Dec 2025 10:04:28 +0000
-Date: Mon, 22 Dec 2025 18:03:44 +0800
+Date: Mon, 22 Dec 2025 18:03:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1944/1944]
- drivers/gpio/gpio-phytium-platform.c:111:2-3: Unneeded semicolon
-Message-ID: <202512221720.DJfxv97T-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Vincent Mailhol <mailhol@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Chris Mason <chris.mason@fusionio.com>,
+	David Sterba <dsterba@suse.com>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-btrfs@vger.kernel.org, linux-hardening@vger.kernel.org,
+	Vincent Mailhol <mailhol@kernel.org>
+Subject: Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and
+ is_negative()
+Message-ID: <202512221735.mRV4BZqB-lkp@intel.com>
+References: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   4e9c55920995d70b3e88b60c69753df54b03fdf4
-commit: 00711bad7e372a30c4975ba43811ffa666aff0e1 [1944/1944] gpio: add phytium gpio driver
-config: arm64-randconfig-r052-20251217 (https://download.01.org/0day-ci/archive/20251222/202512221720.DJfxv97T-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
+Hi Vincent,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3e7f562e20ee87a25e104ef4fce557d39d62fa85]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Mailhol/kbuild-remove-gcc-s-Wtype-limits/20251220-190509
+base:   3e7f562e20ee87a25e104ef4fce557d39d62fa85
+patch link:    https://lore.kernel.org/r/20251220-remove_wtype-limits-v3-3-24b170af700e%40kernel.org
+patch subject: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()
+config: x86_64-randconfig-161-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221735.mRV4BZqB-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221720.DJfxv97T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221735.mRV4BZqB-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpio/gpio-phytium-platform.c:111:2-3: Unneeded semicolon
+smatch warnings:
+fs/libfs.c:1628 generic_check_addressable() warn: unsigned '*_d' is never less than zero.
+fs/libfs.c:1628 generic_check_addressable() warn: unsigned '_a' is never less than zero.
+mm/vmalloc.c:4708 remap_vmalloc_range_partial() warn: unsigned '*_d' is never less than zero.
+mm/vmalloc.c:4708 remap_vmalloc_range_partial() warn: unsigned '_a' is never less than zero.
 
-vim +111 drivers/gpio/gpio-phytium-platform.c
+vim +1628 fs/libfs.c
 
-    35	
-    36	static int phytium_gpio_probe(struct platform_device *pdev)
-    37	{
-    38		struct device *dev = &pdev->dev;
-    39		struct resource *res;
-    40		struct phytium_gpio *gpio;
-    41		struct gpio_irq_chip *girq;
-    42		struct fwnode_handle *fwnode;
-    43		int err, irq_count;
-    44	
-    45		gpio = devm_kzalloc(&pdev->dev, sizeof(*gpio), GFP_KERNEL);
-    46		if (!gpio)
-    47			return -ENOMEM;
-    48	
-    49		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-    50		gpio->regs = devm_ioremap_resource(&pdev->dev, res);
-    51		if (IS_ERR(gpio->regs))
-    52			return PTR_ERR(gpio->regs);
-    53	
-    54		if (!device_get_child_node_count(dev))
-    55			return -ENODEV;
-    56	
-    57		device_for_each_child_node(dev, fwnode) {
-    58			int idx;
-    59	
-    60			if (fwnode_property_read_u32(fwnode, "reg", &idx) ||
-    61			    idx >= MAX_NPORTS) {
-    62				dev_err(dev, "missing/invalid port index\n");
-    63				fwnode_handle_put(fwnode);
-    64				return -EINVAL;
-    65			}
-    66	
-    67			if (fwnode_property_read_u32(fwnode, "nr-gpios",
-    68						     &gpio->ngpio[idx])) {
-    69				dev_info(dev,
-    70					 "failed to get number of gpios for Port%c\n",
-    71					 idx ? 'B' : 'A');
-    72				gpio->ngpio[idx] = NGPIO_DEFAULT;
-    73			}
-    74		}
-    75	
-    76		/* irq_chip support */
-    77		gpio->irq_chip.name = dev_name(dev);
-    78		gpio->irq_chip.irq_ack = phytium_gpio_irq_ack;
-    79		gpio->irq_chip.irq_mask = phytium_gpio_irq_mask;
-    80		gpio->irq_chip.irq_unmask = phytium_gpio_irq_unmask;
-    81		gpio->irq_chip.irq_set_type = phytium_gpio_irq_set_type;
-    82		gpio->irq_chip.irq_enable = phytium_gpio_irq_enable;
-    83		gpio->irq_chip.irq_disable = phytium_gpio_irq_disable;
-    84	#ifdef CONFIG_SMP
-    85		gpio->irq_chip.irq_set_affinity = phytium_gpio_irq_set_affinity;
-    86	#endif
-    87		raw_spin_lock_init(&gpio->lock);
-    88	
-    89		gpio->gc.base = -1;
-    90		gpio->gc.get_direction = phytium_gpio_get_direction;
-    91		gpio->gc.direction_input = phytium_gpio_direction_input;
-    92		gpio->gc.direction_output = phytium_gpio_direction_output;
-    93		gpio->gc.get = phytium_gpio_get;
-    94		gpio->gc.set = phytium_gpio_set;
-    95		gpio->gc.ngpio = gpio->ngpio[0] + gpio->ngpio[1];
-    96		gpio->gc.label = dev_name(dev);
-    97		gpio->gc.parent = dev;
-    98		gpio->gc.owner = THIS_MODULE;
-    99	
-   100		girq = &gpio->gc.irq;
-   101		girq->handler = handle_bad_irq;
-   102		girq->default_type = IRQ_TYPE_NONE;
-   103	
-   104		for (irq_count = 0; irq_count < gpio->ngpio[0]; irq_count++) {
-   105			gpio->irq[irq_count] = -ENXIO;
-   106			gpio->irq[irq_count] = platform_get_irq(pdev, irq_count);
-   107			if (gpio->irq[irq_count] < 0) {
-   108				dev_warn(dev, "no irq is found.\n");
-   109				break;
-   110			}
- > 111		};
-   112	
-   113		girq->num_parents = irq_count;
-   114		girq->parents = gpio->irq;
-   115		girq->parent_handler = phytium_gpio_irq_handler;
-   116	
-   117		girq->chip = &gpio->irq_chip;
-   118	
-   119		err = devm_gpiochip_add_data(dev, &gpio->gc, gpio);
-   120		if (err)
-   121			return err;
-   122	
-   123		platform_set_drvdata(pdev, gpio);
-   124		dev_info(dev, "Phytium GPIO controller @%pa registered\n",
-   125			&res->start);
-   126	
-   127		return 0;
-   128	}
-   129	
+1b061d9247f71c Christoph Hellwig   2010-05-26  1613  
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1614  /**
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1615   * generic_check_addressable - Check addressability of file system
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1616   * @blocksize_bits:	log of file system block size
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1617   * @num_blocks:		number of blocks in file system
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1618   *
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1619   * Determine whether a file system with @num_blocks blocks (and a
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1620   * block size of 2**@blocksize_bits) is addressable by the sector_t
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1621   * and page cache of the system.  Return 0 if so and -EFBIG otherwise.
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1622   */
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1623  int generic_check_addressable(unsigned blocksize_bits, u64 num_blocks)
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1624  {
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1625  	u64 last_fs_block = num_blocks - 1;
+25050181b61aa0 Pankaj Raghav       2025-06-30  1626  	u64 last_fs_page, max_bytes;
+25050181b61aa0 Pankaj Raghav       2025-06-30  1627  
+25050181b61aa0 Pankaj Raghav       2025-06-30 @1628  	if (check_shl_overflow(num_blocks, blocksize_bits, &max_bytes))
+25050181b61aa0 Pankaj Raghav       2025-06-30  1629  		return -EFBIG;
+25050181b61aa0 Pankaj Raghav       2025-06-30  1630  
+25050181b61aa0 Pankaj Raghav       2025-06-30  1631  	last_fs_page = (max_bytes >> PAGE_SHIFT) - 1;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1632  
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1633  	if (unlikely(num_blocks == 0))
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1634  		return 0;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1635  
+25050181b61aa0 Pankaj Raghav       2025-06-30  1636  	if (blocksize_bits < 9)
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1637  		return -EINVAL;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1638  
+a33f13efe05192 Joel Becker         2010-08-16  1639  	if ((last_fs_block > (sector_t)(~0ULL) >> (blocksize_bits - 9)) ||
+a33f13efe05192 Joel Becker         2010-08-16  1640  	    (last_fs_page > (pgoff_t)(~0ULL))) {
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1641  		return -EFBIG;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1642  	}
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1643  	return 0;
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1644  }
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1645  EXPORT_SYMBOL(generic_check_addressable);
+30ca22c70e3ef0 Patrick J. LoPresti 2010-07-22  1646  
 
 -- 
 0-DAY CI Kernel Test Service
