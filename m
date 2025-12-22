@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E403931C567
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB6E31C567
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766425346; cv=none; b=IxFYg4UaA9PYOXVabt6W77CtayO7IILURmvpXK3NtJTUIMKHBgTtmUEpy6qrXLY5lVMKxRr+LiZOKODnk/UKk1VRQXxjtu26/3y93cy5hAI5rWyUXKz71GIigoXmUTPeRS3mdTy5gszhhrNqh9tu9XfDt8kMiGq6X6kH+jgVPo8=
+	t=1766425350; cv=none; b=oAG6TSICj0bnUJC4pqrEgU/SEJC1xNIvo7HE/91G90eH/JW85JrhQ/Aw3KrFoo9gA2MLdx0k8jB8G+wYTlHQa314+3wOgy+FdPcpTEN0GhLYsS+byEXAEVuFJ1b+Q5l6upsbaLwdHnRQNxUlbuKoib1yzA9B4fkvJy0Ie1tfcqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766425346; c=relaxed/simple;
-	bh=OmPECR7b5cVH5orCA/ZpVFUL6VtFKt99jmlg40EWCdM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C2LnMQ000y70AFSZmoYepmxdVudfyRoeaVaGte1KAEilUeYZ60AZYTiFMnUUHP5W5jDglaKnuMtzbS84eoT4DyGbMv6AYzcs00Xl1aQlynYzRZGvujj3/Lx7fd5ftRCg24QGPYMvBO5eM1hGQlDfT6Opr34+zaEfqOcmZN3MN94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TtMBJ8Aw; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1766425350; c=relaxed/simple;
+	bh=9r2J2BeMZsqV64gs8m9CzDJDduEmUqA6Dih2rwLyGRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eBefgX+ooOnP7U2NVCeR6crC9fTH5FrmJcTO7zign/b9mTKnI2xOd1WjcEZoUSruLh3QHN0ZdPG/041v/Vstur3CKUJ0mD0ZVdsOsWDFIPBpIdSROJxtuhqaUBaMhSIo0tT9iCJtwM9WdI07dYMIcYGUBOcX2VfFb4bkg5LaJro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nk6MCFhD; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TtMBJ8Aw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nk6MCFhD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766425345; x=1797961345;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OmPECR7b5cVH5orCA/ZpVFUL6VtFKt99jmlg40EWCdM=;
-  b=TtMBJ8AwgzSiSieujDhbWtKYnNsAxEPknTYVa6PRyEa5xID8XG3iZkzY
-   id56XSHG/FYrIpKh0M6/z/kwG9c1UKvJDmEloYKdidkKelADaoK5LQQr1
-   9tuRQModR8tKxPU0u4GyfyE1UJLDsd+gCR3ysVOt/S5tSZGNy/c/AMJ7y
-   zWlFmLFh/yBrT1LCCtYnmgSl0niUUr4MHa34DzSSSyuhS+wZ5Kpv4/V81
-   Ln2HGzJ6lV8D280PGKVuTyc2C5otWFybRktBb7s3l4fgZ+hdLFRY1Wa4c
-   US8iXYtRIzC6+CdbE+UHNkztVKXsO77TQQteHMoK0XpOkPXQzgNniCgE/
-   A==;
-X-CSE-ConnectionGUID: rJIsKdMoRBuJ5subsj2jJw==
-X-CSE-MsgGUID: gx7J5S3fRbCGk8whN9ZCDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="67475404"
+  t=1766425349; x=1797961349;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9r2J2BeMZsqV64gs8m9CzDJDduEmUqA6Dih2rwLyGRo=;
+  b=nk6MCFhD6/DYx7EbRiF3hK30SlI4VsvLnrpi/pz0ZghplOrbF7C6GxtH
+   LPuZ+pPDMNmIcckZ3BAOrRqYh/+9wWMM2IKQqa8bT0d6jWwCSmyzrnSMX
+   oj+4QJiNhY8bp55y6v2iL10T3chj5ZWbKElCGsl0rDKWtSRrUKxNeVe6F
+   FeI6yEZ+LLtB0KbMV7uXMmRPSuwZ/JIRr1ZlE7Fp1osF0JIwY4uBWNxJ6
+   sC1Vnzw5VP7JL/KyI9PiZb74yZaujY0RhHrSE8TYQleQ5LOGNYXQ0W2P5
+   mmh2Zr/PINGtKURzNxKlfBaaGAAT27fAHHHuiCrfjXSxBkAYIWJTnn0fj
+   Q==;
+X-CSE-ConnectionGUID: XwP1HuIcT26SRVh1RsIAfw==
+X-CSE-MsgGUID: FUMLaLv7SbOQxanJeoGsHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68325647"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="67475404"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:42:24 -0800
-X-CSE-ConnectionGUID: sQ9ZxMowRnaQ/CoFZpxsJQ==
-X-CSE-MsgGUID: KBa3Heb3Q+OcLVF35L0aXA==
+   d="scan'208";a="68325647"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:42:28 -0800
+X-CSE-ConnectionGUID: e3Q2RjwOTDWCARgz7v5k0g==
+X-CSE-MsgGUID: K8/Yi7lyQLiOJwxA+U5K+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="230233050"
+   d="scan'208";a="203704509"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 22 Dec 2025 09:42:23 -0800
+  by orviesa003.jf.intel.com with ESMTP; 22 Dec 2025 09:42:24 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXjvI-000000005ZO-3Pzi;
+	id 1vXjvI-000000005ZM-3FWF;
 	Mon, 22 Dec 2025 17:42:20 +0000
-Date: Mon, 22 Dec 2025 18:42:14 +0100
+Date: Mon, 22 Dec 2025 18:41:42 +0100
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:pgtable14 1/2] ./include/linux/mm_types.h:633:51: error:
- '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not
- compatible with any association
-Message-ID: <202512221855.U8xBOJci-lkp@intel.com>
+To: "Rusydi H. Makarim" <rusydi.makarim@kriptograf.id>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+	"Rusydi H. Makarim" <rusydi.makarim@kriptograf.id>
+Subject: Re: [PATCH 2/3] lib/crypto: Initial implementation of Ascon-Hash256
+Message-ID: <202512221849.wfygt22c-lkp@intel.com>
+References: <20251215-ascon_hash256-v1-2-24ae735e571e@kriptograf.id>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,135 +69,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251215-ascon_hash256-v1-2-24ae735e571e@kriptograf.id>
 
-tree:   https://github.com/alexshi/linux.git pgtable14
-head:   d9bb8deea009b236ba354e09f922bfa97741bced
-commit: 75736837bf306bf5c2a2d52cc5ac9e74f187a116 [1/2] mm/pgtable: use ptdesc for pgtable pointer-6.19
-config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251222/202512221855.U8xBOJci-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221855.U8xBOJci-lkp@intel.com/reproduce)
+Hi Rusydi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 92de2d349e02c2dd96d8d1b7016cc78cf80fc085]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rusydi-H-Makarim/lib-crypto-Add-KUnit-test-vectors-for-Ascon-Hash256/20251215-215114
+base:   92de2d349e02c2dd96d8d1b7016cc78cf80fc085
+patch link:    https://lore.kernel.org/r/20251215-ascon_hash256-v1-2-24ae735e571e%40kriptograf.id
+patch subject: [PATCH 2/3] lib/crypto: Initial implementation of Ascon-Hash256
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251222/202512221849.wfygt22c-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221849.wfygt22c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221855.U8xBOJci-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221849.wfygt22c-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from ./include/linux/mmzone.h:22,
-                    from ./include/linux/gfp.h:7,
-                    from ./include/linux/mm.h:7,
-                    from mm/memory.c:43:
-   mm/memory.c: In function 'deposit_prealloc_pte':
->> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
-     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   mm/memory.c:5355:41: note: in expansion of macro 'page_ptdesc'
-    5355 |                                         page_ptdesc(vmf->prealloc_pte));
-         |                                         ^~~~~~~~~~~
---
-   In file included from ./include/linux/mmzone.h:22,
-                    from ./include/linux/gfp.h:7,
-                    from ./include/linux/mm.h:7,
-                    from mm/huge_memory.c:8:
-   mm/huge_memory.c: In function '__do_huge_pmd_anonymous_page':
->> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
-     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   mm/huge_memory.c:1356:49: note: in expansion of macro 'page_ptdesc'
-    1356 |                                                 page_ptdesc(pgtable));
-         |                                                 ^~~~~~~~~~~
-   mm/huge_memory.c: In function 'set_huge_zero_folio':
->> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
-     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   mm/huge_memory.c:1454:45: note: in expansion of macro 'page_ptdesc'
-    1454 |         pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
-         |                                             ^~~~~~~~~~~
-   mm/huge_memory.c: In function 'insert_pmd':
->> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
-     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   mm/huge_memory.c:1580:53: note: in expansion of macro 'page_ptdesc'
-    1580 |                 pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
-         |                                                     ^~~~~~~~~~~
-   mm/huge_memory.c: In function 'copy_huge_non_present_pmd':
->> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
-     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   mm/huge_memory.c:1841:53: note: in expansion of macro 'page_ptdesc'
-    1841 |         pgtable_trans_huge_deposit(dst_mm, dst_pmd, page_ptdesc(pgtable));
-         |                                                     ^~~~~~~~~~~
-   mm/huge_memory.c: In function 'copy_huge_pmd':
->> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
-     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   mm/huge_memory.c:1936:53: note: in expansion of macro 'page_ptdesc'
-    1936 |         pgtable_trans_huge_deposit(dst_mm, dst_pmd, page_ptdesc(pgtable));
-         |                                                     ^~~~~~~~~~~
-   mm/huge_memory.c: In function 'move_huge_pmd':
->> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
-     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   mm/huge_memory.c:2498:57: note: in expansion of macro 'page_ptdesc'
-    2498 |                                                         page_ptdesc(pgtable));
-         |                                                         ^~~~~~~~~~~
-   mm/huge_memory.c: In function 'move_pages_huge_pmd':
->> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
-     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   mm/huge_memory.c:2804:49: note: in expansion of macro 'page_ptdesc'
-    2804 |         pgtable_trans_huge_deposit(mm, dst_pmd, page_ptdesc(src_pgtable));
-         |                                                 ^~~~~~~~~~~
---
-   In file included from ./include/linux/mmzone.h:22,
-                    from ./include/linux/gfp.h:7,
-                    from ./include/linux/mm.h:7,
-                    from mm/khugepaged.c:4:
-   mm/khugepaged.c: In function 'collapse_huge_page':
->> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
-     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
-         |                                                   ^
-   mm/khugepaged.c:1231:45: note: in expansion of macro 'page_ptdesc'
-    1231 |         pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
-         |                                             ^~~~~~~~~~~
---
-   arch/s390/mm/pgtable.c: In function 'pgtable_trans_huge_withdraw':
->> arch/s390/mm/pgtable.c:546:17: error: assignment to 'pgtable_t' {aka 'long unsigned int *'} from incompatible pointer type 'struct ptdesc *' [-Wincompatible-pointer-types]
-     546 |         pgtable = pmd_huge_pte(mm, pmdp);
-         |                 ^
-   In file included from ./arch/s390/include/asm/processor.h:37,
-                    from ./include/linux/sched.h:13,
-                    from arch/s390/mm/pgtable.c:9:
-   ./arch/s390/include/asm/page.h:120:16: note: 'pgtable_t' declared here
-     120 | typedef pte_t *pgtable_t;
-         |                ^~~~~~~~~
->> arch/s390/mm/pgtable.c:551:40: error: assignment to 'struct ptdesc *' from incompatible pointer type 'pte_t *' {aka 'long unsigned int *'} [-Wincompatible-pointer-types]
-     551 |                 pmd_huge_pte(mm, pmdp) = (pgtable_t) lh->next;
-         |                                        ^
+>> lib/crypto/hash_info.c:35:10: error: 'HASH_ALGO_ASCON_HASH256' undeclared here (not in a function); did you mean 'HASH_ALGO_SHA3_256'?
+      35 |         [HASH_ALGO_ASCON_HASH256] = "ascon-hash256",
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+         |          HASH_ALGO_SHA3_256
+>> lib/crypto/hash_info.c:35:10: error: array index in initializer not of integer type
+   lib/crypto/hash_info.c:35:10: note: (near initialization for 'hash_algo_name')
+>> lib/crypto/hash_info.c:35:37: warning: excess elements in array initializer
+      35 |         [HASH_ALGO_ASCON_HASH256] = "ascon-hash256",
+         |                                     ^~~~~~~~~~~~~~~
+   lib/crypto/hash_info.c:35:37: note: (near initialization for 'hash_algo_name')
+   lib/crypto/hash_info.c:63:10: error: array index in initializer not of integer type
+      63 |         [HASH_ALGO_ASCON_HASH256] = ASCON_HASH256_DIGEST_SIZE,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~
+   lib/crypto/hash_info.c:63:10: note: (near initialization for 'hash_digest_size')
+>> lib/crypto/hash_info.c:63:37: error: 'ASCON_HASH256_DIGEST_SIZE' undeclared here (not in a function); did you mean 'SHA256_DIGEST_SIZE'?
+      63 |         [HASH_ALGO_ASCON_HASH256] = ASCON_HASH256_DIGEST_SIZE,
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                     SHA256_DIGEST_SIZE
+   lib/crypto/hash_info.c:63:37: warning: excess elements in array initializer
+   lib/crypto/hash_info.c:63:37: note: (near initialization for 'hash_digest_size')
 
 
-vim +633 ./include/linux/mm_types.h
+vim +35 lib/crypto/hash_info.c
 
-9a35de4ffc209b Vishal Moola (Oracle  2023-08-07  624) 
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  625) #define ptdesc_page(pt)			(_Generic((pt),			\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  626) 	const struct ptdesc *:		(const struct page *)(pt),	\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  627) 	struct ptdesc *:		(struct page *)(pt)))
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  628) 
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  629) #define ptdesc_folio(pt)		(_Generic((pt),			\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  630) 	const struct ptdesc *:		(const struct folio *)(pt),	\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  631) 	struct ptdesc *:		(struct folio *)(pt)))
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  632) 
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07 @633) #define page_ptdesc(p)			(_Generic((p),			\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  634) 	const struct page *:		(const struct ptdesc *)(p),	\
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  635) 	struct page *:			(struct ptdesc *)(p)))
-bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  636) 
-
-:::::: The code at line 633 was first introduced by commit
-:::::: bf2d4334f72e4e033166c5a3bf1331a7238eab9d mm: add utility functions for ptdesc
-
-:::::: TO: Vishal Moola (Oracle) <vishal.moola@gmail.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+    10	
+    11	const char *const hash_algo_name[HASH_ALGO__LAST] = {
+    12		[HASH_ALGO_MD4]		= "md4",
+    13		[HASH_ALGO_MD5]		= "md5",
+    14		[HASH_ALGO_SHA1]	= "sha1",
+    15		[HASH_ALGO_RIPE_MD_160]	= "rmd160",
+    16		[HASH_ALGO_SHA256]	= "sha256",
+    17		[HASH_ALGO_SHA384]	= "sha384",
+    18		[HASH_ALGO_SHA512]	= "sha512",
+    19		[HASH_ALGO_SHA224]	= "sha224",
+    20		[HASH_ALGO_RIPE_MD_128]	= "rmd128",
+    21		[HASH_ALGO_RIPE_MD_256]	= "rmd256",
+    22		[HASH_ALGO_RIPE_MD_320]	= "rmd320",
+    23		[HASH_ALGO_WP_256]	= "wp256",
+    24		[HASH_ALGO_WP_384]	= "wp384",
+    25		[HASH_ALGO_WP_512]	= "wp512",
+    26		[HASH_ALGO_TGR_128]	= "tgr128",
+    27		[HASH_ALGO_TGR_160]	= "tgr160",
+    28		[HASH_ALGO_TGR_192]	= "tgr192",
+    29		[HASH_ALGO_SM3_256]	= "sm3",
+    30		[HASH_ALGO_STREEBOG_256] = "streebog256",
+    31		[HASH_ALGO_STREEBOG_512] = "streebog512",
+    32		[HASH_ALGO_SHA3_256]    = "sha3-256",
+    33		[HASH_ALGO_SHA3_384]    = "sha3-384",
+    34		[HASH_ALGO_SHA3_512]    = "sha3-512",
+  > 35		[HASH_ALGO_ASCON_HASH256] = "ascon-hash256",
+    36	};
+    37	EXPORT_SYMBOL_GPL(hash_algo_name);
+    38	
+    39	const int hash_digest_size[HASH_ALGO__LAST] = {
+    40		[HASH_ALGO_MD4]		= MD5_DIGEST_SIZE,
+    41		[HASH_ALGO_MD5]		= MD5_DIGEST_SIZE,
+    42		[HASH_ALGO_SHA1]	= SHA1_DIGEST_SIZE,
+    43		[HASH_ALGO_RIPE_MD_160]	= RMD160_DIGEST_SIZE,
+    44		[HASH_ALGO_SHA256]	= SHA256_DIGEST_SIZE,
+    45		[HASH_ALGO_SHA384]	= SHA384_DIGEST_SIZE,
+    46		[HASH_ALGO_SHA512]	= SHA512_DIGEST_SIZE,
+    47		[HASH_ALGO_SHA224]	= SHA224_DIGEST_SIZE,
+    48		[HASH_ALGO_RIPE_MD_128]	= RMD128_DIGEST_SIZE,
+    49		[HASH_ALGO_RIPE_MD_256]	= RMD256_DIGEST_SIZE,
+    50		[HASH_ALGO_RIPE_MD_320]	= RMD320_DIGEST_SIZE,
+    51		[HASH_ALGO_WP_256]	= WP256_DIGEST_SIZE,
+    52		[HASH_ALGO_WP_384]	= WP384_DIGEST_SIZE,
+    53		[HASH_ALGO_WP_512]	= WP512_DIGEST_SIZE,
+    54		[HASH_ALGO_TGR_128]	= TGR128_DIGEST_SIZE,
+    55		[HASH_ALGO_TGR_160]	= TGR160_DIGEST_SIZE,
+    56		[HASH_ALGO_TGR_192]	= TGR192_DIGEST_SIZE,
+    57		[HASH_ALGO_SM3_256]	= SM3256_DIGEST_SIZE,
+    58		[HASH_ALGO_STREEBOG_256] = STREEBOG256_DIGEST_SIZE,
+    59		[HASH_ALGO_STREEBOG_512] = STREEBOG512_DIGEST_SIZE,
+    60		[HASH_ALGO_SHA3_256]    = SHA3_256_DIGEST_SIZE,
+    61		[HASH_ALGO_SHA3_384]    = SHA3_384_DIGEST_SIZE,
+    62		[HASH_ALGO_SHA3_512]    = SHA3_512_DIGEST_SIZE,
+  > 63		[HASH_ALGO_ASCON_HASH256] = ASCON_HASH256_DIGEST_SIZE,
 
 -- 
 0-DAY CI Kernel Test Service
