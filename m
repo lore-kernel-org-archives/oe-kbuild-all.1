@@ -1,132 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551BD2C0278
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 16:10:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD2D1E1DE9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 16:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766419826; cv=none; b=BJmV4jQitA1XPEU7M1Fb92ifWLICWbSq11+2gzdOltIwacz4CIHshjWVsfkD0ZbWkDMnKOctN9TlVP65hJX2uXXwpzMEve56N43C2qOBS40pj1YvEZCEMnHFcYRhqS2WoUewrqrxgQAa61eT5lpP7BvYBuQ6Hf1Ai/mP0nCGJ7g=
+	t=1766420971; cv=none; b=UDtvWQPtxIyC08wkHD5hUBstp66rB9PtHpMECXxPvmcV/gookoTJrE8ShgnbE8rsRG8TkmStv9MVH8uUXjpyzGm4NUfO6qm89Ug7aA4wskVOmoG+EST2B/piHxjRMWk41I+njpY21336NTeEMp4m4hTSHuh6lZ+fMxLxW+owNTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766419826; c=relaxed/simple;
-	bh=uAdpruomkDZatJF4m9PKEEMnlAPgNsn8CikjU4yM1F4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UI7nHwIVES5rlaiIkRD/ATS+EiaZ8QEvrApAD/Dc+E6l+kKZbpuZZgQ9CdJPLiryDoLRHb4QY3V4cICz7UZJkd1tL826GYraaVKlZkF0SbThPgFilHFRDylvLqJCGP1yRUm6GeLBp8SoYPlgiQwzVA4xWedlSALp297+uf/7d8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AH4dwgYl; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1766420971; c=relaxed/simple;
+	bh=PO/UTXU0HajYepMmQCuXCtZMxVeo1/ynidsXWPn6qyo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ciPAaicgX6plv49sngYGFfdVJlHuW+Q5K2TLSpK5CMS7ZqTQhn+1q48U9tPQBxU07uxHt1rJE3kR/neUrpzW+E3euifJ3H9tD400wJVp8/W75W6YDbA6/YDh2bWnp5N4Fbv5ssNuOZjD/gB8Fr0+LT4pyc5yk8YC/2gfDYxMHBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WTZuWURa; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AH4dwgYl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WTZuWURa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766419824; x=1797955824;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uAdpruomkDZatJF4m9PKEEMnlAPgNsn8CikjU4yM1F4=;
-  b=AH4dwgYli3U++mey5cDF/2d1eaOM66j24ewYU9B6l0OEJn/tJjORO28J
-   /PwEP44OylklMpdx09+kFHQBgmYDa6kNresCgqG3rP4hFI05psLnJu7lb
-   4jVqhwH1RnNkc1orz/aRR66HmV2/MU+tb5MzBaVkYBoSaPktZ8DKBgl5l
-   giNQBI59T56B0Nenu+SDuVmlgAWComHxQexsVTLWqJHgUuiak1fIsFKmN
-   eK958NHBeDotckvoXPKDDZjEDMd4WfNe4yXRSiJ01hDMzErQ92IFwNL7P
-   sVinP/6ujc6g8VfTpjvP29XBgLID5N7dFKne5cvrwSZWTCGtP5uxqpa4O
+  t=1766420969; x=1797956969;
+  h=date:from:to:cc:subject:message-id;
+  bh=PO/UTXU0HajYepMmQCuXCtZMxVeo1/ynidsXWPn6qyo=;
+  b=WTZuWURaYM3Gix/Ne3dO9FBGEYFEp9t8jEmUdV+7bnSHLTB/CdD9yjC9
+   rGQXRqpCza4s+OIBlloY6A3EXYOJ8/z4hAwtofnyy6XJpWjWEg1iIlrnz
+   GmcjqD9NddkOzbHYjlhTq8Hyb5pwhYuP+U2VMPLuk/4EVBqvhEwPkt3i6
+   Sdo2XAMM7pQpjiw1+VzZQfT39VBgIm3HUSZTmY1AdYr5ACfB43kaUC2F1
+   gbDe1JQjXsDzMj10nM5gd0L0DcDeh4x7PeCuKibwO9fvqrD7QIolomB2B
+   kiLnxyl0L5QIB95lAR4eZYobaV9DnjJRBdqZAJPFyTGrCTlyfeqNZGxHT
    Q==;
-X-CSE-ConnectionGUID: VEH/OXXLQGmKF7o9XMMPaw==
-X-CSE-MsgGUID: 6kFZku0tTDG5aOI8SK50Iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="72138306"
+X-CSE-ConnectionGUID: VPSmYGw+SAi6khZMyY0DAA==
+X-CSE-MsgGUID: QuaRM+VdRBaFJkmUM0dJrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="90937887"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="72138306"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 08:10:23 -0800
-X-CSE-ConnectionGUID: gcBlUs7cTwmR/y510AEgVw==
-X-CSE-MsgGUID: dRl65JFzR+STSvVzrzcvGg==
+   d="scan'208";a="90937887"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 08:29:29 -0800
+X-CSE-ConnectionGUID: CgtP9U13RSmkJld8z18g5w==
+X-CSE-MsgGUID: dMqwICRBRB2MVYDtJEcf0Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="199862886"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 22 Dec 2025 08:10:22 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="200061640"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 22 Dec 2025 08:29:27 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXiUG-000000005YO-0MKS;
-	Mon, 22 Dec 2025 16:10:20 +0000
-Date: Mon, 22 Dec 2025 17:09:53 +0100
+	id 1vXimj-000000000pP-0jWN;
+	Mon, 22 Dec 2025 16:29:25 +0000
+Date: Tue, 23 Dec 2025 00:29:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.19-jumbo 65/113]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb:
- ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do
- not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-Message-ID: <202512221724.ePbrGqNm-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 3418/3418]
+ arch/x86/kernel/alternative.c:78:21: sparse: sparse: symbol 'x86nops' was not
+ declared. Should it be static?
+Message-ID: <202512230026.G2nO9RjO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-jumbo
-head:   66904bf768dae3a22817ce7c9d40db68314a4ced
-commit: 3339397672bd2845fd3df9473b698e6d9dfb3cdc [65/113] arm64: dts: r4pro: add gmac 1+2 and phys
-config: arm64-randconfig-2052-20251220 (https://download.01.org/0day-ci/archive/20251222/202512221724.ePbrGqNm-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221724.ePbrGqNm-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   1588d318a9e388d05b6cf5e2a63134c8beb6a355
+commit: 8243b036681b074fab34e18024d1ee24c656b432 [3418/3418] x86: Remove dynamic NOP selection
+config: x86_64-randconfig-121-20251217 (https://download.01.org/0day-ci/archive/20251223/202512230026.G2nO9RjO-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230026.G2nO9RjO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512221724.ePbrGqNm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230026.G2nO9RjO-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:685.24-706.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
---
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
---
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/kernel/alternative.c:78:21: sparse: sparse: symbol 'x86nops' was not declared. Should it be static?
+
+vim +/x86nops +78 arch/x86/kernel/alternative.c
+
+    77	
+  > 78	const unsigned char x86nops[] =
+    79	{
+    80		BYTES_NOP1,
+    81		BYTES_NOP2,
+    82		BYTES_NOP3,
+    83		BYTES_NOP4,
+    84		BYTES_NOP5,
+    85		BYTES_NOP6,
+    86		BYTES_NOP7,
+    87		BYTES_NOP8,
+    88	};
+    89	
 
 -- 
 0-DAY CI Kernel Test Service
