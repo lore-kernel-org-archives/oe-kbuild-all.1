@@ -1,127 +1,196 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD52D2DFA32
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E403931C567
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 17:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766424899; cv=none; b=QLXcxs+aKxi5x2Uc6AD1tV1eLU8XJR/xN6Yip+r8ywSonh4xCVPOPJ1DrU/hTmfrGaoyXLi/ZK+O8GG+k0/d3UL4xEyQJ42QCeZZD/i0Nb9l224/GSrDsyuBEM0Mn7pYRDylxdTKgvotUpvtWLt7lT7r8Ciermj86V/mKvYnur8=
+	t=1766425346; cv=none; b=IxFYg4UaA9PYOXVabt6W77CtayO7IILURmvpXK3NtJTUIMKHBgTtmUEpy6qrXLY5lVMKxRr+LiZOKODnk/UKk1VRQXxjtu26/3y93cy5hAI5rWyUXKz71GIigoXmUTPeRS3mdTy5gszhhrNqh9tu9XfDt8kMiGq6X6kH+jgVPo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766424899; c=relaxed/simple;
-	bh=W6E+S7NiJJsAcDAwU2dLMFiRcLe7Es/dnZOryHJAj7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=A10cbnpDWuRuXaFIEx5sDnguKWyoae4fjq8dKwjnUFOYqH247BYgcG5lQjIO6be7jqL0NZMxzTDITRcyrA02ZudIaCh/z46y0SCZBOL5tdkqw9GiCsCE0NCA3wnU+rvenybOwhhHIV4fIXM0WURW+w55zqhOTRmIRZ9/0quCOrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9wnwr3T; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1766425346; c=relaxed/simple;
+	bh=OmPECR7b5cVH5orCA/ZpVFUL6VtFKt99jmlg40EWCdM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C2LnMQ000y70AFSZmoYepmxdVudfyRoeaVaGte1KAEilUeYZ60AZYTiFMnUUHP5W5jDglaKnuMtzbS84eoT4DyGbMv6AYzcs00Xl1aQlynYzRZGvujj3/Lx7fd5ftRCg24QGPYMvBO5eM1hGQlDfT6Opr34+zaEfqOcmZN3MN94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TtMBJ8Aw; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9wnwr3T"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TtMBJ8Aw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766424898; x=1797960898;
-  h=date:from:to:cc:subject:message-id;
-  bh=W6E+S7NiJJsAcDAwU2dLMFiRcLe7Es/dnZOryHJAj7Q=;
-  b=U9wnwr3TXW/6cCEUA6FZK5lfcaHPRZiwwtlq6awSyTc6ze8HGuvTEXeg
-   6PpL5UHkFSYu3MCqlLDaCLymLx3GBtUwopMArkcFXAhYTzGLL2GehRX1i
-   9nmXCjCLu81N7BndPYuM4xR/ygxQ4pFPdtEjrmHEO1w44jW8Fb45Uk29E
-   5tcS1egMqclW1UqQIv1b5CfqCk2QI5RNClUHvN72MygxsA4LnojKDEanH
-   vDwwBRPfi+CFlorBD5RfLrFkVzyP6fbYrm9IcEsu46pMfuDBauUWFYyYd
-   aY6KCzslsyCeC0P/c3Kq4mcLGQAlX2PvrKtZ8wCKEnn98H/sUmkXwTYFz
-   g==;
-X-CSE-ConnectionGUID: vfZ6ym+rRqqvexzxnfbtBg==
-X-CSE-MsgGUID: E2GPBC/sRO6AdOMCQATs3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="72132559"
+  t=1766425345; x=1797961345;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OmPECR7b5cVH5orCA/ZpVFUL6VtFKt99jmlg40EWCdM=;
+  b=TtMBJ8AwgzSiSieujDhbWtKYnNsAxEPknTYVa6PRyEa5xID8XG3iZkzY
+   id56XSHG/FYrIpKh0M6/z/kwG9c1UKvJDmEloYKdidkKelADaoK5LQQr1
+   9tuRQModR8tKxPU0u4GyfyE1UJLDsd+gCR3ysVOt/S5tSZGNy/c/AMJ7y
+   zWlFmLFh/yBrT1LCCtYnmgSl0niUUr4MHa34DzSSSyuhS+wZ5Kpv4/V81
+   Ln2HGzJ6lV8D280PGKVuTyc2C5otWFybRktBb7s3l4fgZ+hdLFRY1Wa4c
+   US8iXYtRIzC6+CdbE+UHNkztVKXsO77TQQteHMoK0XpOkPXQzgNniCgE/
+   A==;
+X-CSE-ConnectionGUID: rJIsKdMoRBuJ5subsj2jJw==
+X-CSE-MsgGUID: gx7J5S3fRbCGk8whN9ZCDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="67475404"
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="72132559"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:34:58 -0800
-X-CSE-ConnectionGUID: oqFsc27FQwu89xhlMgsjaw==
-X-CSE-MsgGUID: IncpWO5zQAa6juqxBCGwfA==
+   d="scan'208";a="67475404"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 09:42:24 -0800
+X-CSE-ConnectionGUID: sQ9ZxMowRnaQ/CoFZpxsJQ==
+X-CSE-MsgGUID: KBa3Heb3Q+OcLVF35L0aXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,168,1763452800"; 
-   d="scan'208";a="199490213"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 22 Dec 2025 09:34:55 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="230233050"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 22 Dec 2025 09:42:23 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXjo4-000000000w5-2Dyl;
-	Mon, 22 Dec 2025 17:34:52 +0000
-Date: Tue, 23 Dec 2025 01:34:20 +0800
+	id 1vXjvI-000000005ZO-3Pzi;
+	Mon, 22 Dec 2025 17:42:20 +0000
+Date: Mon, 22 Dec 2025 18:42:14 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ilya Bakoulin <Ilya.Bakoulin@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Alvin Lee <alvin.lee2@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>
-Subject: 
- drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn401/dcn401_hwseq.c:3494:82:
- sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202512230120.bouZOGIU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: alexs@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:pgtable14 1/2] ./include/linux/mm_types.h:633:51: error:
+ '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not
+ compatible with any association
+Message-ID: <202512221855.U8xBOJci-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9448598b22c50c8a5bb77a9103e2d49f134c9578
-commit: f96012baa5d3b4336092855e4e6d24830ea50736 drm/amd/display: add new block sequence-building/executing functions
-date:   9 weeks ago
-config: i386-randconfig-063-20251221 (https://download.01.org/0day-ci/archive/20251223/202512230120.bouZOGIU-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230120.bouZOGIU-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git pgtable14
+head:   d9bb8deea009b236ba354e09f922bfa97741bced
+commit: 75736837bf306bf5c2a2d52cc5ac9e74f187a116 [1/2] mm/pgtable: use ptdesc for pgtable pointer-6.19
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251222/202512221855.U8xBOJci-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221855.U8xBOJci-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230120.bouZOGIU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512221855.U8xBOJci-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn401/dcn401_hwseq.c:3494:82: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +3494 drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn401/dcn401_hwseq.c
+   In file included from ./include/linux/mmzone.h:22,
+                    from ./include/linux/gfp.h:7,
+                    from ./include/linux/mm.h:7,
+                    from mm/memory.c:43:
+   mm/memory.c: In function 'deposit_prealloc_pte':
+>> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^
+   mm/memory.c:5355:41: note: in expansion of macro 'page_ptdesc'
+    5355 |                                         page_ptdesc(vmf->prealloc_pte));
+         |                                         ^~~~~~~~~~~
+--
+   In file included from ./include/linux/mmzone.h:22,
+                    from ./include/linux/gfp.h:7,
+                    from ./include/linux/mm.h:7,
+                    from mm/huge_memory.c:8:
+   mm/huge_memory.c: In function '__do_huge_pmd_anonymous_page':
+>> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^
+   mm/huge_memory.c:1356:49: note: in expansion of macro 'page_ptdesc'
+    1356 |                                                 page_ptdesc(pgtable));
+         |                                                 ^~~~~~~~~~~
+   mm/huge_memory.c: In function 'set_huge_zero_folio':
+>> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^
+   mm/huge_memory.c:1454:45: note: in expansion of macro 'page_ptdesc'
+    1454 |         pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
+         |                                             ^~~~~~~~~~~
+   mm/huge_memory.c: In function 'insert_pmd':
+>> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^
+   mm/huge_memory.c:1580:53: note: in expansion of macro 'page_ptdesc'
+    1580 |                 pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
+         |                                                     ^~~~~~~~~~~
+   mm/huge_memory.c: In function 'copy_huge_non_present_pmd':
+>> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^
+   mm/huge_memory.c:1841:53: note: in expansion of macro 'page_ptdesc'
+    1841 |         pgtable_trans_huge_deposit(dst_mm, dst_pmd, page_ptdesc(pgtable));
+         |                                                     ^~~~~~~~~~~
+   mm/huge_memory.c: In function 'copy_huge_pmd':
+>> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^
+   mm/huge_memory.c:1936:53: note: in expansion of macro 'page_ptdesc'
+    1936 |         pgtable_trans_huge_deposit(dst_mm, dst_pmd, page_ptdesc(pgtable));
+         |                                                     ^~~~~~~~~~~
+   mm/huge_memory.c: In function 'move_huge_pmd':
+>> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^
+   mm/huge_memory.c:2498:57: note: in expansion of macro 'page_ptdesc'
+    2498 |                                                         page_ptdesc(pgtable));
+         |                                                         ^~~~~~~~~~~
+   mm/huge_memory.c: In function 'move_pages_huge_pmd':
+>> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^
+   mm/huge_memory.c:2804:49: note: in expansion of macro 'page_ptdesc'
+    2804 |         pgtable_trans_huge_deposit(mm, dst_pmd, page_ptdesc(src_pgtable));
+         |                                                 ^~~~~~~~~~~
+--
+   In file included from ./include/linux/mmzone.h:22,
+                    from ./include/linux/gfp.h:7,
+                    from ./include/linux/mm.h:7,
+                    from mm/khugepaged.c:4:
+   mm/khugepaged.c: In function 'collapse_huge_page':
+>> ./include/linux/mm_types.h:633:51: error: '_Generic' selector of type 'pte_t *' {aka 'long unsigned int *'} is not compatible with any association
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^
+   mm/khugepaged.c:1231:45: note: in expansion of macro 'page_ptdesc'
+    1231 |         pgtable_trans_huge_deposit(mm, pmd, page_ptdesc(pgtable));
+         |                                             ^~~~~~~~~~~
+--
+   arch/s390/mm/pgtable.c: In function 'pgtable_trans_huge_withdraw':
+>> arch/s390/mm/pgtable.c:546:17: error: assignment to 'pgtable_t' {aka 'long unsigned int *'} from incompatible pointer type 'struct ptdesc *' [-Wincompatible-pointer-types]
+     546 |         pgtable = pmd_huge_pte(mm, pmdp);
+         |                 ^
+   In file included from ./arch/s390/include/asm/processor.h:37,
+                    from ./include/linux/sched.h:13,
+                    from arch/s390/mm/pgtable.c:9:
+   ./arch/s390/include/asm/page.h:120:16: note: 'pgtable_t' declared here
+     120 | typedef pte_t *pgtable_t;
+         |                ^~~~~~~~~
+>> arch/s390/mm/pgtable.c:551:40: error: assignment to 'struct ptdesc *' from incompatible pointer type 'pte_t *' {aka 'long unsigned int *'} [-Wincompatible-pointer-types]
+     551 |                 pmd_huge_pte(mm, pmdp) = (pgtable_t) lh->next;
+         |                                        ^
 
-  3458	
-  3459	void dcn401_post_unlock_reset_opp_sequence(
-  3460			struct dc *dc,
-  3461			struct pipe_ctx *opp_head,
-  3462			struct block_sequence_state *seq_state)
-  3463	{
-  3464		struct display_stream_compressor *dsc = opp_head->stream_res.dsc;
-  3465		struct dccg *dccg = dc->res_pool->dccg;
-  3466	
-  3467		/* Wait for all DPP pipes in current mpc blending tree completes double
-  3468		 * buffered disconnection before resetting OPP
-  3469		 */
-  3470		if (dc->hwss.wait_for_mpcc_disconnect_sequence)
-  3471			dc->hwss.wait_for_mpcc_disconnect_sequence(dc, dc->res_pool, opp_head, seq_state);
-  3472	
-  3473		if (dsc) {
-  3474			bool *is_ungated = NULL;
-  3475			/* Check DSC power gate status */
-  3476			if (dc->hwseq && dc->hwseq->funcs.dsc_pg_status) {
-  3477				hwss_add_dsc_pg_status(seq_state, dc->hwseq, dsc->inst, false);
-  3478			}
-  3479	
-  3480			/* Seamless update specific where we will postpone non
-  3481				* double buffered DSCCLK disable logic in post unlock
-  3482				* sequence after DSC is disconnected from OPP but not
-  3483				* yet power gated.
-  3484				*/
-  3485	
-  3486			/* DSC wait disconnect pending clear */
-  3487			hwss_add_dsc_wait_disconnect_pending_clear(seq_state, dsc, is_ungated);
-  3488	
-  3489			/* DSC disable */
-  3490			hwss_add_dsc_disable(seq_state, dsc, is_ungated);
-  3491	
-  3492			/* Set reference DSCCLK */
-  3493			if (dccg && dccg->funcs->set_ref_dscclk) {
-> 3494				hwss_add_dccg_set_ref_dscclk(seq_state, dccg, dsc->inst, 0);
-  3495			}
-  3496		}
-  3497	}
-  3498	
+
+vim +633 ./include/linux/mm_types.h
+
+9a35de4ffc209b Vishal Moola (Oracle  2023-08-07  624) 
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  625) #define ptdesc_page(pt)			(_Generic((pt),			\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  626) 	const struct ptdesc *:		(const struct page *)(pt),	\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  627) 	struct ptdesc *:		(struct page *)(pt)))
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  628) 
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  629) #define ptdesc_folio(pt)		(_Generic((pt),			\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  630) 	const struct ptdesc *:		(const struct folio *)(pt),	\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  631) 	struct ptdesc *:		(struct folio *)(pt)))
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  632) 
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07 @633) #define page_ptdesc(p)			(_Generic((p),			\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  634) 	const struct page *:		(const struct ptdesc *)(p),	\
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  635) 	struct page *:			(struct ptdesc *)(p)))
+bf2d4334f72e4e Vishal Moola (Oracle  2023-08-07  636) 
+
+:::::: The code at line 633 was first introduced by commit
+:::::: bf2d4334f72e4e033166c5a3bf1331a7238eab9d mm: add utility functions for ptdesc
+
+:::::: TO: Vishal Moola (Oracle) <vishal.moola@gmail.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
