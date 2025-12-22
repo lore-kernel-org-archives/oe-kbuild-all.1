@@ -1,76 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6A6309EF0;
-	Mon, 22 Dec 2025 19:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4233D33CEB5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 20:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766433328; cv=none; b=uaX6oqL2/dhOyCd42OTiZ6KLpPgIj5FeB+esc8vIys/veJ0NhKoKA6s+fneZDkFWgnX8Cd0WrbnaXHqTJ+9AirsMNwhWbMaTPMr7+iLHJ4bMrgb3kWkHVVYmda5zj8uMSUPJII0AKgez0qiUVQxJszzvB/dgdvvyvo5xqK4QA4A=
+	t=1766433867; cv=none; b=Chc4EGudGV1xDwN9UX8/PcZh8y8nIhLchQBDXqCOvDQSIhoeulOkKUgrfiPBdgVJ3AvpFvF+3lmeOK944iFXX8e9TvqJnWauR+uVd5efLa/FWbSwRgU0chMISO9wwkJg7iUZTcwWmGxqCR+KiAy5KHu5iT9FU0F4VkC5OKh2b5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766433328; c=relaxed/simple;
-	bh=faxuRQ98w3w3AiTuKAdaMxKF7N4LhPW8CIv8V3TK6l0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SZ3EPEHRyb2ot4pVyfEVBrZQIlcdXpgU791UMSFnhGlt+/4FKQdQ/M4isthGGlY/oGE90gls7WgFs0oIIvV/bRPBKQeS8OK3Hm4e58tcOtmgLkRPsjq+9eklvDjR4mCvXJi/NkQ9cCvUi0B7V0zqvAEpKnea+XOpEUqUBzuPSbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CNn4xAk2; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1766433867; c=relaxed/simple;
+	bh=EzzN5J05CdSsPNtN0eHvoVAMfh931ECpKEn3Ew2y/+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K/Dk7r3oCp+nWqh+Ut+kLxRaNDCU5FLtCYeRif2XqCZZRdF3Odv0GXn6TlRYEtHYixtoKkyY5Smp4NUvUKJ6YWDNvSFtzhRFk8q/eT9IqL0kaerK3boj81GV5JnOZDOYSm92MHvt13Mz6D7akfWgJwE7Z28dP/ddKnEjkKdEBJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GzcYyU0r; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CNn4xAk2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GzcYyU0r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766433327; x=1797969327;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=faxuRQ98w3w3AiTuKAdaMxKF7N4LhPW8CIv8V3TK6l0=;
-  b=CNn4xAk2CQeEEmcccOuSnHFqB9DQvYkjwj+JG4xritc/9TmCPCtrbZxE
-   2lCEKYUBn8NDPiQN5NQZpyvMJxEK3n+TDg6sb8RP5flO+BzJR7PrnQpM5
-   Kr5JUk9Vy64h2e5kQCzALYNZxCZum4Ntjb/a0br4tjsqdhBSwCoJFDFBx
-   cr+57auG/TWEd2yiwyy+SD5WE64PSXQMLQsSUFGadfOhFwnMi1B5+DMX9
-   HwuyGzPYEl0YlbrzA8R4LtSPwYSLxl+dfgjqYF4D2mdpaN5JOykiijcaA
-   2UE5KRVhalrjUE3vNfJy0D2DIklPsqzcR1VMxW4PCbk/pQHeS3a5P1bpr
-   w==;
-X-CSE-ConnectionGUID: PczTDdMASP66bzybcdroAQ==
-X-CSE-MsgGUID: RlWH+pN0S/OrA62vvqm8fA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68274158"
+  t=1766433866; x=1797969866;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EzzN5J05CdSsPNtN0eHvoVAMfh931ECpKEn3Ew2y/+U=;
+  b=GzcYyU0r3tG48N6+2WTc0Qq7SHaoROIY/vcxhXMNzzl30qMjoW2X6/CU
+   AWxsmG4j3d1jUqbXMAQQJcvmHMOYXv5qGepibYP2Mrx4QFrMMCYbT5SPs
+   ErumOa+YvIr4CAYPdKUkdRPj9UamjJ4LDweWotfs+paxURAAmqQEG7gYq
+   rDHm/yCIr78q21c1CsPBvBLyKOCukcn+J/YSDB/oKAwR8tMRlWcjmJrDE
+   YD+DUCaWu8ycL5I8RCywMkEZM4z58CQp+Lkb+YtuJg++5YkQR9oMzRwrx
+   AcUKf68cUusxorUMQhU6DH5cF/CJCzmeniUXIOIc8zSgw3EkJL+bWoTK9
+   g==;
+X-CSE-ConnectionGUID: 0T4APeVWST2P0wsP7oRasA==
+X-CSE-MsgGUID: LyxZvbA1R0yQcvxrxlL6mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68333886"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="68274158"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 11:55:27 -0800
-X-CSE-ConnectionGUID: 1xlpX9p5Q2WyLoOdvs0kaw==
-X-CSE-MsgGUID: BmooQDGgRI+OgxdmXGgAKw==
+   d="scan'208";a="68333886"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 12:04:26 -0800
+X-CSE-ConnectionGUID: ccMR6aEFR4CAUN5qcvBtJA==
+X-CSE-MsgGUID: mk1C9NRXTe2qF5HHPloNVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="237011330"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 22 Dec 2025 11:55:21 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="204656240"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 22 Dec 2025 12:04:25 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXlzy-0000000013h-24Qj;
-	Mon, 22 Dec 2025 19:55:18 +0000
-Date: Tue, 23 Dec 2025 03:55:07 +0800
+	id 1vXm8k-000000005bM-0tjP;
+	Mon, 22 Dec 2025 20:04:22 +0000
+Date: Mon, 22 Dec 2025 21:03:24 +0100
 From: kernel test robot <lkp@intel.com>
-To: Vincent Mailhol <mailhol@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Chris Mason <chris.mason@fusionio.com>,
-	David Sterba <dsterba@suse.com>, Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	linux-sparse@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-btrfs@vger.kernel.org, linux-hardening@vger.kernel.org,
-	Vincent Mailhol <mailhol@kernel.org>
-Subject: Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and
- is_negative()
-Message-ID: <202512230342.Lgha2HGH-lkp@intel.com>
-References: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [sashal:spec 67/131] htmldocs: Documentation/filesystems/splice:11:
+ ./fs/splice.c:1759: WARNING: Block quote ends without a blank line;
+ unexpected unindent. [docutils]
+Message-ID: <202512222156.TVN3h6Be-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,71 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
 
-Hi Vincent,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 3e7f562e20ee87a25e104ef4fce557d39d62fa85]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Mailhol/kbuild-remove-gcc-s-Wtype-limits/20251220-190509
-base:   3e7f562e20ee87a25e104ef4fce557d39d62fa85
-patch link:    https://lore.kernel.org/r/20251220-remove_wtype-limits-v3-3-24b170af700e%40kernel.org
-patch subject: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()
-config: i386-randconfig-141-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230342.Lgha2HGH-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
+head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
+commit: bed3e754e9e820f768b4de8fd6924e69291f1314 [67/131] kernel/api: add API specification for sys_vmsplice
+reproduce: (https://download.01.org/0day-ci/archive/20251222/202512222156.TVN3h6Be-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230342.Lgha2HGH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512222156.TVN3h6Be-lkp@intel.com/
 
-New smatch warnings:
-block/blk-settings.c:702 blk_stack_atomic_writes_chunk_sectors() warn: unsigned '*_d' is never less than zero.
-block/blk-settings.c:702 blk_stack_atomic_writes_chunk_sectors() warn: unsigned '_a' is never less than zero.
-drivers/nvme/host/core.c:3353 nvme_mps_to_sectors() warn: unsigned '*_d' is never less than zero.
-drivers/nvme/host/core.c:3353 nvme_mps_to_sectors() warn: unsigned '_a' is never less than zero.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/nvme/host/core.c:5032 nvme_free_cels() warn: iterator 'i' not incremented
-
-vim +702 block/blk-settings.c
-
-d7f36dc446e894 John Garry 2024-11-18  689  
-63d092d1c1b1f7 John Garry 2025-07-11  690  static void blk_stack_atomic_writes_chunk_sectors(struct queue_limits *t)
-d7f36dc446e894 John Garry 2024-11-18  691  {
-63d092d1c1b1f7 John Garry 2025-07-11  692  	unsigned int chunk_bytes;
-d7f36dc446e894 John Garry 2024-11-18  693  
-63d092d1c1b1f7 John Garry 2025-07-11  694  	if (!t->chunk_sectors)
-63d092d1c1b1f7 John Garry 2025-07-11  695  		return;
-63d092d1c1b1f7 John Garry 2025-07-11  696  
-63d092d1c1b1f7 John Garry 2025-07-11  697  	/*
-63d092d1c1b1f7 John Garry 2025-07-11  698  	 * If chunk sectors is so large that its value in bytes overflows
-63d092d1c1b1f7 John Garry 2025-07-11  699  	 * UINT_MAX, then just shift it down so it definitely will fit.
-63d092d1c1b1f7 John Garry 2025-07-11  700  	 * We don't support atomic writes of such a large size anyway.
-63d092d1c1b1f7 John Garry 2025-07-11  701  	 */
-63d092d1c1b1f7 John Garry 2025-07-11 @702  	if (check_shl_overflow(t->chunk_sectors, SECTOR_SHIFT, &chunk_bytes))
-63d092d1c1b1f7 John Garry 2025-07-11  703  		chunk_bytes = t->chunk_sectors;
-d7f36dc446e894 John Garry 2024-11-18  704  
-d7f36dc446e894 John Garry 2024-11-18  705  	/*
-d7f36dc446e894 John Garry 2024-11-18  706  	 * Find values for limits which work for chunk size.
-d7f36dc446e894 John Garry 2024-11-18  707  	 * b->atomic_write_hw_unit_{min, max} may not be aligned with chunk
-63d092d1c1b1f7 John Garry 2025-07-11  708  	 * size, as the chunk size is not restricted to a power-of-2.
-d7f36dc446e894 John Garry 2024-11-18  709  	 * So we need to find highest power-of-2 which works for the chunk
-d7f36dc446e894 John Garry 2024-11-18  710  	 * size.
-63d092d1c1b1f7 John Garry 2025-07-11  711  	 * As an example scenario, we could have t->unit_max = 16K and
-63d092d1c1b1f7 John Garry 2025-07-11  712  	 * t->chunk_sectors = 24KB. For this case, reduce t->unit_max to a
-63d092d1c1b1f7 John Garry 2025-07-11  713  	 * value aligned with both limits, i.e. 8K in this example.
-d7f36dc446e894 John Garry 2024-11-18  714  	 */
-63d092d1c1b1f7 John Garry 2025-07-11  715  	t->atomic_write_hw_unit_max = min(t->atomic_write_hw_unit_max,
-63d092d1c1b1f7 John Garry 2025-07-11  716  					max_pow_of_two_factor(chunk_bytes));
-d7f36dc446e894 John Garry 2024-11-18  717  
-63d092d1c1b1f7 John Garry 2025-07-11  718  	t->atomic_write_hw_unit_min = min(t->atomic_write_hw_unit_min,
-d7f36dc446e894 John Garry 2024-11-18  719  					  t->atomic_write_hw_unit_max);
-63d092d1c1b1f7 John Garry 2025-07-11  720  	t->atomic_write_hw_max = min(t->atomic_write_hw_max, chunk_bytes);
-63d092d1c1b1f7 John Garry 2025-07-11  721  }
-d7f36dc446e894 John Garry 2024-11-18  722  
+   Documentation/filesystems/splice:11: ./fs/splice.c:1664: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/splice:11: ./fs/splice.c:1722: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/splice:11: ./fs/splice.c:1734: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/splice:11: ./fs/splice.c:1744: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/splice:11: ./fs/splice.c:1756: ERROR: Unexpected indentation. [docutils]
+>> Documentation/filesystems/splice:11: ./fs/splice.c:1759: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/filesystems/splice:11: ./fs/splice.c:1765: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/splice:11: ./fs/splice.c:1768: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/filesystems/splice:11: ./fs/splice.c:1775: ERROR: Unexpected indentation. [docutils]
+   Documentation/filesystems/splice:11: ./fs/splice.c:1778: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/filesystems/splice:11: ./fs/splice.c:1784: ERROR: Unexpected indentation. [docutils]
 
 -- 
 0-DAY CI Kernel Test Service
