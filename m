@@ -1,141 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7A3126BF7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 22:19:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF311224AE0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 22:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766441961; cv=none; b=mHySX6djUl5gSlMu8AQE9ERn+zDu5ErmB7HOCmFoIHfwyp1hvdYoUx8NrsFH/1dyAbcrRJ/hf5//wIRjdOOyrGDSVVHhdlWZ3E0jC3/xXDZDUH8xuTBFSOCvYxPgRSXKDXlogN2/PHU7wbO9GHlv9koyyK5kw/zOPNGuH5vCOAI=
+	t=1766443086; cv=none; b=ilBI7NrWkLRq6G4a4y2ewcuEbODxiL0ry/HfFTOOLQVmWuqUicuOAmcI4/TW2U0ERNHuTZ8plqawx1zRE4kQjgJZEo0BkfKu5tdz86546vSfxzgYJMHHNAYZnvSfHTivd4310Xa3rTbCRExx/vTo1oTSrm2yCnp1wuL8JDEKJfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766441961; c=relaxed/simple;
-	bh=dQ/s5g4Ian6ioHx/lf1wibw3buSKQJjac3nIOVr/Irw=;
+	s=arc-20240116; t=1766443086; c=relaxed/simple;
+	bh=e/ZqiB9SKkv3oLdvnUdUjq3vj8Zzs7bQjjRRuR//PGA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UE8wiUjpGRFK1ApHqhvZt986KvW2wDgMXZ4icaw69lUPI6WE5eHWOTaZA1Yjg3x+NlKUlYaopBSZBgl82eed5RVWncpGJnYPu4K5jbBHUHIQKlABsoGDsHg0+CSR3AUAsZAxpblkrYYzAko3AyZZzjmqGb/BP9ZpIkVXl2bdHsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nafX/XMc; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=jxk9RgDrPgwvGyp25la5bcTsPoiqw3A07poO0EvDEyqLAjFSuH1LksvUQOowvZUR/NL1Ovx/y6w1PYwggmrL2u9HUrlj7yuRAt8GwtgWxMAktWhPE8n+q9ZqgdI6J7QTY3WkHNDRujdmcn50WsRw+AB3bSG4yq2Kk8o256GAaus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G9sATghM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nafX/XMc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766441959; x=1797977959;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dQ/s5g4Ian6ioHx/lf1wibw3buSKQJjac3nIOVr/Irw=;
-  b=nafX/XMcjWTZvpx12UIJdqTTiBF0JJsyOYtxXYtTzBAQHzQayhn0xnHW
-   +7fwn6qbiRm+U45j2tO4nxsYywU8v/jwsB4Vq8wSN8gz7tnPdUbVfqLt+
-   GZ7glPH7ClJln6VTH+9+uDwZlrJ1k2HXVIUodoRzJSxFDjXnF4J+6+2ir
-   Vt/imhwLO4CNHpceoi4oiomj6PdFl/xAY6IliXqgbkuzI23t0+WZKJdUl
-   8IMEJ9wyQm6t28PtHYUmKxDRsR0dkxU2PDSmxNmo9iyR4FeeJLmjfU1vp
-   mWNhz4OZs+D2kNOgBexw++yF/iLQf2PjXCZXYEsAE8YmcoBcrIZDGwCRm
-   w==;
-X-CSE-ConnectionGUID: teDBT8+lR7ugjuCvKigg2A==
-X-CSE-MsgGUID: pEftPW6lQo6R3ElEmiIJcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79017630"
-X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="79017630"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 14:19:18 -0800
-X-CSE-ConnectionGUID: 8ZdtjugMTpaUyreTt9B8MA==
-X-CSE-MsgGUID: w98j602qRNi2vVHfzDgBYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="230287947"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 22 Dec 2025 14:19:13 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vXoFC-000000001Ap-13Vn;
-	Mon, 22 Dec 2025 22:19:10 +0000
-Date: Tue, 23 Dec 2025 06:18:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bing Jiao <bingjiao@google.com>, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, akpm@linux-foundation.org,
-	gourry@gourry.net, longman@redhat.com, hannes@cmpxchg.org,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	muchun.song@linux.dev, tj@kernel.org, mkoutny@suse.com,
-	david@kernel.org, zhengqi.arch@bytedance.com,
-	lorenzo.stoakes@oracle.com, axelrasmussen@google.com,
-	yuanchu@google.com, weixugc@google.com, cgroups@vger.kernel.org,
-	Bing Jiao <bingjiao@google.com>
-Subject: Re: [PATCH v2 1/2] mm/vmscan: respect mems_effective in
- demote_folio_list()
-Message-ID: <202512230655.QvO6dmjt-lkp@intel.com>
-References: <20251221233635.3761887-2-bingjiao@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G9sATghM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D43AFC4CEF1;
+	Mon, 22 Dec 2025 22:38:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766443086;
+	bh=e/ZqiB9SKkv3oLdvnUdUjq3vj8Zzs7bQjjRRuR//PGA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G9sATghMPu2g7Urn6UWTd3Mv+bwBvDe3pbk8O/S+usiRlZxRsPrr2mBBJLUOH7ffq
+	 KKP7byzuLGmacvogcfqjkki27W0ypxODqfRzCE6Z91ZQgT9Ix/EWCEINpekBGgcgQd
+	 Kyi3JKOucwWxQqRx7RlfAgrAapNRhZHjth5dssORwadvtTI3jozpiUfZkBz/8N2B1U
+	 Qsb3leS+JR5urmUfPFINV/pxsF3y3lZvLPyAHOb1HidksT4jy5gXNdQtrvXNUF/0xD
+	 tp/sEg+TJFr5XC6BnYLjy/qQ0ho5euoukJfc2LCScuu8zpebfROtjJ/ucMeGYlZFLn
+	 9OMYVwlLLoIoA==
+Date: Mon, 22 Dec 2025 23:37:50 +0100
+From: Joel Granados <joel.granados@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] loadpin: Implement custom proc_handler for enforce
+Message-ID: <3ssgbez3k6p5sainl3bpsf3eifspr5jhneav5nqdrazyqqenug@szi2e26nl4np>
+References: <20251219-jag-const_loadpin-v2-1-a1490ab35a1d@kernel.org>
+ <202512221207.wmjLxyLE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="innxzvalh7ladtgl"
+Content-Disposition: inline
+In-Reply-To: <202512221207.wmjLxyLE-lkp@intel.com>
+
+
+--innxzvalh7ladtgl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251221233635.3761887-2-bingjiao@google.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bing,
+On Mon, Dec 22, 2025 at 07:10:12AM +0800, kernel test robot wrote:
+> Hi Joel,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Joel-Granados/load=
+pin-Implement-custom-proc_handler-for-enforce/20251219-185849
+> base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> patch link:    https://lore.kernel.org/r/20251219-jag-const_loadpin-v2-1-=
+a1490ab35a1d%40kernel.org
+> patch subject: [PATCH v2] loadpin: Implement custom proc_handler for enfo=
+rce
+> config: sh-randconfig-002-20251221 (https://download.01.org/0day-ci/archi=
+ve/20251222/202512221207.wmjLxyLE-lkp@intel.com/config)
+> compiler: sh4-linux-gcc (GCC) 14.3.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20251222/202512221207.wmjLxyLE-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512221207.wmjLxyLE-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    In file included from include/asm-generic/bug.h:31,
+>                     from arch/sh/include/asm/bug.h:112,
+>                     from include/linux/bug.h:5,
+>                     from include/linux/thread_info.h:13,
+>                     from include/asm-generic/preempt.h:5,
+>                     from ./arch/sh/include/generated/asm/preempt.h:1,
+>                     from include/linux/preempt.h:79,
+>                     from include/linux/spinlock.h:56,
+>                     from include/linux/mmzone.h:8,
+>                     from include/linux/gfp.h:7,
+>                     from include/linux/umh.h:4,
+>                     from include/linux/kmod.h:9,
+>                     from include/linux/module.h:18,
+>                     from security/loadpin/loadpin.c:12:
+>    security/loadpin/loadpin.c: In function 'report_writable':
+> >> security/loadpin/loadpin.c:86:25: error: 'loadpin_root_writable' undec=
+lared (first use in this function)
+Indeed, this will happen with CONFIG_SYSCTL=3Dn. Let me address this in
+V3.
 
-kernel test robot noticed the following build warnings:
+--=20
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on tj-cgroup/for-next linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Joel Granados
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bing-Jiao/mm-vmscan-respect-mems_effective-in-demote_folio_list/20251222-074143
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251221233635.3761887-2-bingjiao%40google.com
-patch subject: [PATCH v2 1/2] mm/vmscan: respect mems_effective in demote_folio_list()
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251223/202512230655.QvO6dmjt-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230655.QvO6dmjt-lkp@intel.com/reproduce)
+--innxzvalh7ladtgl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230655.QvO6dmjt-lkp@intel.com/
+-----BEGIN PGP SIGNATURE-----
 
-All warnings (new ones prefixed by >>):
+iQGzBAABCgAdFiEErkcJVyXmMSXOyyeQupfNUreWQU8FAmlJyD0ACgkQupfNUreW
+QU8FhQv/asta6X5jBXCUlROy9mriwgzRQKlMFs3OFzOuJcOqPEf1UZgvQPLJuBx2
+K82LIv6XSpPpIfJ8lazCeQGvvIku3x/DnDh9kmlgsrwTDFQv8gH336N8azjhC1lu
+Jq99f2bTmn6xLMRq5LGW4rYWgC/KzoAqss1kdBFPagWNfaJ6/eBzDJtWpAGwIbW8
+MFyGIY2kjoh0ih4ODoEMoyfnncYwAwXAouI3GWEyK9V7ix93Flnb6XseGFMIAbLq
+ZjbGaIxVo2LSg5SlavGnVufQOfoCzGm8HKZXs0nsdyTCBHXmFXmb3UM4sGb0tf4A
+Yu/fCGalWv90gNBH3hnOpid61wBeEoVEDl3bJOHXNrrnRrtAEWve5OPjor1DevCe
+1NaSw+TRvi4E6FZEwvQgeNAW36hwg5xIn7WP/JH3agH1qGWmofmY0hb4aiNQbWuA
+4/6s5dg5Z7/AyvcMD91yb2VA5XGHxKP/6NXdwKsfcHArsgPB7T65cCVs6z0N7Eoe
+mhdgcwca
+=5oaQ
+-----END PGP SIGNATURE-----
 
-   In file included from include/linux/bpf.h:32,
-                    from include/linux/security.h:35,
-                    from include/linux/perf_event.h:53,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:96,
-                    from include/linux/syscalls_api.h:1,
-                    from kernel/sched/sched.h:61,
-                    from kernel/sched/rq-offsets.c:5:
-   include/linux/memcontrol.h: In function 'mem_cgroup_filter_mems_allowed':
->> include/linux/memcontrol.h:1824:1: warning: no return statement in function returning non-void [-Wreturn-type]
-    1824 | }
-         | ^
---
-   In file included from include/linux/bpf.h:32,
-                    from include/linux/security.h:35,
-                    from include/linux/perf_event.h:53,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:96,
-                    from include/linux/syscalls_api.h:1,
-                    from kernel/sched/sched.h:61,
-                    from kernel/sched/rq-offsets.c:5:
-   include/linux/memcontrol.h: In function 'mem_cgroup_filter_mems_allowed':
->> include/linux/memcontrol.h:1824:1: warning: no return statement in function returning non-void [-Wreturn-type]
-    1824 | }
-         | ^
-
-
-vim +1824 include/linux/memcontrol.h
-
-  1820	
-  1821	static inline bool mem_cgroup_filter_mems_allowed(struct mem_cgroup *memcg,
-  1822							  nodemask_t *mask)
-  1823	{
-> 1824	}
-  1825	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--innxzvalh7ladtgl--
