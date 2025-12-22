@@ -1,65 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8675A332EA1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 22:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7A3126BF7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 22:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766441959; cv=none; b=BGQn+hEnZ1apIFxn4tD1t+TvgjmuLhu8Z+XhqBeV/ScZ/O8AujwI/zUahPVF4qssb46EWB7IRKXuy7m4IE08kV3AlfHGpiTuZsoyHeeYNDaUi80XEz0DbveFD+lvYoQ0Aqv4XJxj4eEokGnjf8V+pRpje3sSvxf3of+MBPC4fRw=
+	t=1766441961; cv=none; b=mHySX6djUl5gSlMu8AQE9ERn+zDu5ErmB7HOCmFoIHfwyp1hvdYoUx8NrsFH/1dyAbcrRJ/hf5//wIRjdOOyrGDSVVHhdlWZ3E0jC3/xXDZDUH8xuTBFSOCvYxPgRSXKDXlogN2/PHU7wbO9GHlv9koyyK5kw/zOPNGuH5vCOAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766441959; c=relaxed/simple;
-	bh=LMIwR1QzE1dN5DWfiB55QZR22+q9BIL9KZyq0yjR++U=;
+	s=arc-20240116; t=1766441961; c=relaxed/simple;
+	bh=dQ/s5g4Ian6ioHx/lf1wibw3buSKQJjac3nIOVr/Irw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OdcsfZoGzcJDamSG7oxts6VWrqC42QWkkmeqPnp1XRMlWHRUachgzrO7aQZsln9k01Cj1VDcLilwF7GAPlcVL6/vUSQOlXRCfmI8/jdRw75LbYJbr32H09H6LCbb5dQBtMwVMrTMzX8Y2t9/Rl7VcF6QA3n+1+e9GzfYTLSp7DA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ar96zbca; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=UE8wiUjpGRFK1ApHqhvZt986KvW2wDgMXZ4icaw69lUPI6WE5eHWOTaZA1Yjg3x+NlKUlYaopBSZBgl82eed5RVWncpGJnYPu4K5jbBHUHIQKlABsoGDsHg0+CSR3AUAsZAxpblkrYYzAko3AyZZzjmqGb/BP9ZpIkVXl2bdHsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nafX/XMc; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ar96zbca"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nafX/XMc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766441956; x=1797977956;
+  t=1766441959; x=1797977959;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LMIwR1QzE1dN5DWfiB55QZR22+q9BIL9KZyq0yjR++U=;
-  b=ar96zbcaWCPt5Oros21HybeLqDUBbftYBMZG1910W8bTIlz7r8e3VUMh
-   Pn2771GYGGlKWfMHO7xec1c7pHRh2n+m/pDauPn6ZH5Wd4yGZKL45pwP9
-   W6FZzrMAqvUZNGDZgp1cfS/8Nx80iwijqtFoKXNZVNBvbHwg5qiQQ9IIb
-   fjT6y8l81/OXDWRKVTtCo2NsqMIWq0leUYc9VnO6sWqx2sNmbB5iGkLwE
-   adfRM/A0VCBs9vUPwDREslC1B8lowdPtaXkchWkgtuWS44fLdqKC2RrX4
-   r3W5kJFgXweBBQs0CYcQ5nkQ9ycxf3OUk3c2AbTMn2HYsvrERx+Hs/97c
-   A==;
-X-CSE-ConnectionGUID: gAZuWuzdTI22lCDNEenrQQ==
-X-CSE-MsgGUID: 7esC/xTNQtSPTbrzHg+Lrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68281974"
+  bh=dQ/s5g4Ian6ioHx/lf1wibw3buSKQJjac3nIOVr/Irw=;
+  b=nafX/XMcjWTZvpx12UIJdqTTiBF0JJsyOYtxXYtTzBAQHzQayhn0xnHW
+   +7fwn6qbiRm+U45j2tO4nxsYywU8v/jwsB4Vq8wSN8gz7tnPdUbVfqLt+
+   GZ7glPH7ClJln6VTH+9+uDwZlrJ1k2HXVIUodoRzJSxFDjXnF4J+6+2ir
+   Vt/imhwLO4CNHpceoi4oiomj6PdFl/xAY6IliXqgbkuzI23t0+WZKJdUl
+   8IMEJ9wyQm6t28PtHYUmKxDRsR0dkxU2PDSmxNmo9iyR4FeeJLmjfU1vp
+   mWNhz4OZs+D2kNOgBexw++yF/iLQf2PjXCZXYEsAE8YmcoBcrIZDGwCRm
+   w==;
+X-CSE-ConnectionGUID: teDBT8+lR7ugjuCvKigg2A==
+X-CSE-MsgGUID: pEftPW6lQo6R3ElEmiIJcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79017630"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="68281974"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 14:19:15 -0800
-X-CSE-ConnectionGUID: 9K/FKi/DQ4af+RDWCxBIvw==
-X-CSE-MsgGUID: USWKQR9WSl2xKH2NMJoLvg==
+   d="scan'208";a="79017630"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 14:19:18 -0800
+X-CSE-ConnectionGUID: 8ZdtjugMTpaUyreTt9B8MA==
+X-CSE-MsgGUID: w98j602qRNi2vVHfzDgBYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="203752058"
+   d="scan'208";a="230287947"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 22 Dec 2025 14:19:12 -0800
+  by orviesa002.jf.intel.com with ESMTP; 22 Dec 2025 14:19:13 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXoFC-000000001An-0wwA;
+	id 1vXoFC-000000001Ap-13Vn;
 	Mon, 22 Dec 2025 22:19:10 +0000
-Date: Tue, 23 Dec 2025 06:18:44 +0800
+Date: Tue, 23 Dec 2025 06:18:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Dumazet <edumazet@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	Eric Dumazet <eric.dumazet@gmail.com>
-Subject: Re: [PATCH] x86/apic: Inline __x2apic_send_IPI_dest()
-Message-ID: <202512230547.YPNxhzQP-lkp@intel.com>
-References: <20251222092208.770136-1-edumazet@google.com>
+To: Bing Jiao <bingjiao@google.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, akpm@linux-foundation.org,
+	gourry@gourry.net, longman@redhat.com, hannes@cmpxchg.org,
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+	muchun.song@linux.dev, tj@kernel.org, mkoutny@suse.com,
+	david@kernel.org, zhengqi.arch@bytedance.com,
+	lorenzo.stoakes@oracle.com, axelrasmussen@google.com,
+	yuanchu@google.com, weixugc@google.com, cgroups@vger.kernel.org,
+	Bing Jiao <bingjiao@google.com>
+Subject: Re: [PATCH v2 1/2] mm/vmscan: respect mems_effective in
+ demote_folio_list()
+Message-ID: <202512230655.QvO6dmjt-lkp@intel.com>
+References: <20251221233635.3761887-2-bingjiao@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,52 +71,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251222092208.770136-1-edumazet@google.com>
+In-Reply-To: <20251221233635.3761887-2-bingjiao@google.com>
 
-Hi Eric,
+Hi Bing,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on tip/master]
-[also build test ERROR on tip/x86/core linus/master v6.19-rc2 next-20251219]
-[cannot apply to tip/auto-latest]
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on tj-cgroup/for-next linus/master v6.19-rc2 next-20251219]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/x86-apic-Inline-__x2apic_send_IPI_dest/20251222-172515
-base:   tip/master
-patch link:    https://lore.kernel.org/r/20251222092208.770136-1-edumazet%40google.com
-patch subject: [PATCH] x86/apic: Inline __x2apic_send_IPI_dest()
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20251223/202512230547.YPNxhzQP-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230547.YPNxhzQP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bing-Jiao/mm-vmscan-respect-mems_effective-in-demote_folio_list/20251222-074143
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20251221233635.3761887-2-bingjiao%40google.com
+patch subject: [PATCH v2 1/2] mm/vmscan: respect mems_effective in demote_folio_list()
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20251223/202512230655.QvO6dmjt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230655.QvO6dmjt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230547.YPNxhzQP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230655.QvO6dmjt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/apic/hw_nmi.c:24:
-   arch/x86/kernel/apic/local.h: In function '__x2apic_send_IPI_dest':
->> arch/x86/kernel/apic/local.h:48:9: error: implicit declaration of function 'native_x2apic_icr_write'; did you mean 'native_apic_msr_read'? [-Wimplicit-function-declaration]
-      48 |         native_x2apic_icr_write(cfg, apicid);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-         |         native_apic_msr_read
+   In file included from include/linux/bpf.h:32,
+                    from include/linux/security.h:35,
+                    from include/linux/perf_event.h:53,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:96,
+                    from include/linux/syscalls_api.h:1,
+                    from kernel/sched/sched.h:61,
+                    from kernel/sched/rq-offsets.c:5:
+   include/linux/memcontrol.h: In function 'mem_cgroup_filter_mems_allowed':
+>> include/linux/memcontrol.h:1824:1: warning: no return statement in function returning non-void [-Wreturn-type]
+    1824 | }
+         | ^
+--
+   In file included from include/linux/bpf.h:32,
+                    from include/linux/security.h:35,
+                    from include/linux/perf_event.h:53,
+                    from include/linux/trace_events.h:10,
+                    from include/trace/syscall.h:7,
+                    from include/linux/syscalls.h:96,
+                    from include/linux/syscalls_api.h:1,
+                    from kernel/sched/sched.h:61,
+                    from kernel/sched/rq-offsets.c:5:
+   include/linux/memcontrol.h: In function 'mem_cgroup_filter_mems_allowed':
+>> include/linux/memcontrol.h:1824:1: warning: no return statement in function returning non-void [-Wreturn-type]
+    1824 | }
+         | ^
 
 
-vim +48 arch/x86/kernel/apic/local.h
+vim +1824 include/linux/memcontrol.h
 
-    43	
-    44	static inline void __x2apic_send_IPI_dest(unsigned int apicid, int vector,
-    45						  unsigned int dest)
-    46	{
-    47		unsigned long cfg = __prepare_ICR(0, vector, dest);
-  > 48		native_x2apic_icr_write(cfg, apicid);
-    49	}
-    50	
+  1820	
+  1821	static inline bool mem_cgroup_filter_mems_allowed(struct mem_cgroup *memcg,
+  1822							  nodemask_t *mask)
+  1823	{
+> 1824	}
+  1825	
 
 -- 
 0-DAY CI Kernel Test Service
