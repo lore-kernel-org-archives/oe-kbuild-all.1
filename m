@@ -1,228 +1,174 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804C22F851
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 11:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC14A324B23
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 11:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766491069; cv=none; b=dCRTAhhJQf5IkCRmuFeqaqSFcqM69FxK3fOnd/GiecrYioukw3oJlcjcaUgyf5HTcRd/kQrL1FLnCmEJs6sGDA+N6ray0OZGuvx42wIDOhy8k1NfHSQxs9JxIvy2GycQ0ZJWPW5pAS37aGL9vN7g4OUrT55qRJ+r+zvYmsgMObQ=
+	t=1766491121; cv=none; b=TlKruBZJGaCyM2oDOPyHt4gdiK7nRs0GrcdtcCbVcucX49D/j/fztL4T3R53gkbh1JBkdZEq9skZ7WcFswk+5WaPpOWomGnOZhmoiVm8syUT42w4poeppg+UvkFm/TueoKVAugoatrhCY/nQ0mxZc6bCQaN7wHUR8R11rAbYU5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766491069; c=relaxed/simple;
-	bh=CfyuhRWXd5ayrLjTR1Q4KkTd3rnMGholdluLU5Z9TGU=;
-	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=JN7n/AP0/ViaBAZcimfzw+Hsj1ooctYHG3kkSVAKgbGBR5/OItkwiCHGsGMrnsBll8CZdIEcgctdFakCSsWe7VmLJQIqzd3rNUNoqO0dplo/zT5N76jvYA4g/pGgarLSESAXZ7zg4L6LornUBTWSd4UPLlsmHVKWbNex5dJltNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=OAW3LPcF; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1766491121; c=relaxed/simple;
+	bh=+r8hmJo/eIPLNbeG+lsbo/ZCl3qZMdkC4bU2eWmt9SE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ucifpf+qHGVFoAuMFc/kd8uyHen5/VmKMwyPjDGJHph9saKujNkFTYuKM+hNtrqADiBpLkRA8NCEax2t+O4YrPBDAdfKUgeBMiVbNFxC9rU6E3oowYEStdOfyx1eDdOahbdm5gmR/7Z/Ii29Oph7eFLA2AfIvFYtLJFZYG8DzYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mVjuhXY0; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="OAW3LPcF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BvzCdP0HSo6CLidEPN/0n/NDcLHbMmPtB1W+JZKiqPU=;
-  b=OAW3LPcFA3BlxTdQUPEgVyV5Ih3XpL83awV98ff7FupPXtQGx77lVck0
-   D5xiUL3KpYAyFOmDFmAT+acmiZdyD8wiS3k36NeWeIpL62nu7M5Jl2xTW
-   I+ZX8J9wAvwNhLqKxEtvZEuTqcun1zwOAo+h+AnY5t7ABQp8uZ6ccIdDB
-   c=;
-X-CSE-ConnectionGUID: aufqR5CUSOWmNZQdOSMYxg==
-X-CSE-MsgGUID: GqmQ1M4aStiyzHMhiIDuyQ==
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.21,170,1763420400"; 
-   d="scan'208";a="255712672"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 12:57:43 +0100
-Date: Tue, 23 Dec 2025 12:57:43 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Sascha Bischoff <sascha.bischoff@arm.com>
-cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [arm-platforms:kvm-arm64/gicv5-full 63/82] arch/arm64/kvm/vgic/vgic-kvm-device.c:187:3-9:
- preceding lock on line 111 (fwd)
-Message-ID: <db3b9674-4fb1-3c5a-ad3-944949960b2@inria.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mVjuhXY0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766491120; x=1798027120;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+r8hmJo/eIPLNbeG+lsbo/ZCl3qZMdkC4bU2eWmt9SE=;
+  b=mVjuhXY0BvAWxEvQhYlCqIx5QZ+YWKBZlpAtJHoMKCtj3tAnXv5NlTC2
+   A7vs+aYOx/qFx3XSIpwfI5/T7NwL2cte0FMglhL7RAF0/71SWtU0noGW0
+   Iczv/l99YUoW4SfZLwbiJVLTNw9T0gTJwnYUSw2MyLtlSL+4ezjaAWQx0
+   wColSOQrxDMiBVemYgqxYbh/13z0aSOTzzmKh0bmiqwuz/aUTJ4jSVEES
+   Hh/MlsrUywK/rS/iyopaKUe7O9k71FnZLi5KdPRZYmnKm4Bxv8VBScmB8
+   JdHNG1H4eXLOgDJB6vXsUeKIX4mLrKF/hkqlB/FyqDuPePhorf+eY9ylH
+   A==;
+X-CSE-ConnectionGUID: BBPr7z+mSBmu8FEcRZ4KYQ==
+X-CSE-MsgGUID: OVNaGGp7QS6tWe2HAuLrsg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="85754302"
+X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
+   d="scan'208";a="85754302"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 03:58:39 -0800
+X-CSE-ConnectionGUID: sS5n7jz8QxC+rhhJv33Thg==
+X-CSE-MsgGUID: UakKEjSCRuuCvNwQ7rj56g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
+   d="scan'208";a="200067102"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 23 Dec 2025 03:58:38 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vY12B-000000001qv-2CjW;
+	Tue, 23 Dec 2025 11:58:35 +0000
+Date: Tue, 23 Dec 2025 19:58:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jerry Wu <w.7erry@foxmail.com>, vladimir.oltean@nxp.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jerry Wu <w.7erry@foxmail.com>
+Subject: Re: [PATCH] Prevent crash when adding interface under a lag
+Message-ID: <202512231955.Jle1VCFu-lkp@intel.com>
+References: <tencent_9E2B81D645D04DFE191C86F128212F842B05@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_9E2B81D645D04DFE191C86F128212F842B05@qq.com>
 
-Please check whether an unlock is needed on line 187.
+Hi Jerry,
 
-julia
+kernel test robot noticed the following build errors:
 
----------- Forwarded message ----------
-Date: Tue, 23 Dec 2025 19:37:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [arm-platforms:kvm-arm64/gicv5-full 63/82]
-    arch/arm64/kvm/vgic/vgic-kvm-device.c:187:3-9: preceding lock on line 111
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-CC: linux-arm-kernel@lists.infradead.org
-TO: Sascha Bischoff <sascha.bischoff@arm.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/gicv5-full
-head:   1426b88096b597395df4c82f089b87c62bab45da
-commit: 77646e062bb3fbc3f7a614ab5d1bc7f273748c61 [63/82] KVM: arm64: gic-v5: Register the IRS IODEV
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: arm64-randconfig-r064-20251223 (https://download.01.org/0day-ci/archive/20251223/202512231907.IGXeZ6an-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jerry-Wu/Prevent-crash-when-adding-interface-under-a-lag/20251221-013514
+base:   linus/master
+patch link:    https://lore.kernel.org/r/tencent_9E2B81D645D04DFE191C86F128212F842B05%40qq.com
+patch subject: [PATCH] Prevent crash when adding interface under a lag
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20251223/202512231955.Jle1VCFu-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512231955.Jle1VCFu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202512231907.IGXeZ6an-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512231955.Jle1VCFu-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/vgic/vgic-kvm-device.c:187:3-9: preceding lock on line 111
+All errors (new ones prefixed by >>):
 
-vim +187 arch/arm64/kvm/vgic/vgic-kvm-device.c
+   In file included from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/debugobjects.h:6,
+                    from include/linux/timer.h:8,
+                    from include/linux/netdevice.h:24,
+                    from include/linux/if_bridge.h:12,
+                    from include/linux/dsa/ocelot.h:8,
+                    from drivers/net/ethernet/mscc/ocelot.c:7:
+   drivers/net/ethernet/mscc/ocelot.c: In function 'ocelot_set_aggr_pgids':
+>> include/linux/find.h:586:63: error: passing argument 3 of 'find_next_bit' makes integer from pointer without a cast [-Wint-conversion]
+     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
+         |                                                               ^~~~~
+         |                                                               |
+         |                                                               struct ocelot_port *
+   drivers/net/ethernet/mscc/ocelot.c:2322:17: note: in expansion of macro 'for_each_set_bit'
+    2322 |                 for_each_set_bit(port, &bond_mask, ocelot->num_phys_ports) {
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/find.h:61:43: note: expected 'long unsigned int' but argument is of type 'struct ocelot_port *'
+      61 |                             unsigned long offset)
+         |                             ~~~~~~~~~~~~~~^~~~~~
+>> include/linux/find.h:586:31: error: assignment to 'struct ocelot_port *' from 'long unsigned int' makes pointer from integer without a cast [-Wint-conversion]
+     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
+         |                               ^
+   drivers/net/ethernet/mscc/ocelot.c:2322:17: note: in expansion of macro 'for_each_set_bit'
+    2322 |                 for_each_set_bit(port, &bond_mask, ocelot->num_phys_ports) {
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/find.h:586:77: warning: comparison between pointer and integer
+     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
+         |                                                                             ^
+   drivers/net/ethernet/mscc/ocelot.c:2322:17: note: in expansion of macro 'for_each_set_bit'
+    2322 |                 for_each_set_bit(port, &bond_mask, ocelot->num_phys_ports) {
+         |                 ^~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/mscc/ocelot.c:2323:72: error: array subscript is not an integer
+    2323 |                         struct ocelot_port *ocelot_port = ocelot->ports[port];
+         |                                                                        ^
+   In file included from include/soc/mscc/ocelot_vcap.h:9,
+                    from drivers/net/ethernet/mscc/ocelot.c:13:
+>> include/soc/mscc/ocelot.h:923:55: error: invalid operands to binary * (have 'int' and 'struct ocelot_port *')
+     923 |         __ocelot_write_ix(ocelot, val, reg, reg##_RSZ * (ri))
+         |                                                       ^
+   drivers/net/ethernet/mscc/ocelot.c:2329:25: note: in expansion of macro 'ocelot_write_rix'
+    2329 |                         ocelot_write_rix(ocelot, bond_mask,
+         |                         ^~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/mscc/ocelot.c:2333:62: error: assignment to 'u8' {aka 'unsigned char'} from 'struct ocelot_port *' makes integer from pointer without a cast [-Wint-conversion]
+    2333 |                                 aggr_idx[num_active_ports++] = port;
+         |                                                              ^
+>> drivers/net/ethernet/mscc/ocelot.c:2352:27: error: assignment to 'struct ocelot_port *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2352 |                 for (port = lag; port < ocelot->num_phys_ports; port++) {
+         |                           ^
+   drivers/net/ethernet/mscc/ocelot.c:2352:39: warning: comparison between pointer and integer
+    2352 |                 for (port = lag; port < ocelot->num_phys_ports; port++) {
+         |                                       ^
+   drivers/net/ethernet/mscc/ocelot.c:2353:72: error: array subscript is not an integer
+    2353 |                         struct ocelot_port *ocelot_port = ocelot->ports[port];
+         |                                                                        ^
+   In file included from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:31,
+                    from arch/parisc/include/asm/bug.h:97,
+                    from include/linux/ktime.h:24,
+                    from include/linux/timer.h:6:
+>> include/vdso/bits.h:7:40: error: invalid operands to binary << (have 'long unsigned int' and 'struct ocelot_port *')
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   drivers/net/ethernet/mscc/ocelot.c:2359:44: note: in expansion of macro 'BIT'
+    2359 |                                 visited |= BIT(port);
+         |                                            ^~~
 
-9f968c9266aa30 arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05   77
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   78  /**
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   79   * kvm_vgic_addr - set or get vgic VM base addresses
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   80   * @kvm:   pointer to the vm struct
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05   81   * @attr:  pointer to the attribute being retrieved/updated
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   82   * @write: if true set the address in the VM address space, if false read the
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   83   *          address
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   84   *
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   85   * Set or get the vgic base addresses for the distributor and the virtual CPU
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   86   * interface in the VM physical address space.  These addresses are properties
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   87   * of the emulated core/SoC and therefore user space initially knows this
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   88   * information.
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   89   * Check them for sanity (alignment, double assignment). We can't check for
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   90   * overlapping regions in case of a virtual GICv3 here, since we don't know
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   91   * the number of VCPUs yet, so we defer this check to map_resources().
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   92   */
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05   93  static int kvm_vgic_addr(struct kvm *kvm, struct kvm_device_attr *attr, bool write)
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   94  {
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05   95  	u64 __user *uaddr = (u64 __user *)attr->addr;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21   96  	struct vgic_dist *vgic = &kvm->arch.vgic;
-c56a87da0a7fa1 arch/arm64/kvm/vgic/vgic-kvm-device.c Ricardo Koller        2021-10-04   97  	phys_addr_t *addr_ptr, alignment, size;
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22   98  	u64 undef_value = VGIC_ADDR_UNDEF;
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05   99  	u64 addr;
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  100  	int r;
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  101
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  102  	/* Reading a redistributor region addr implies getting the index */
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  103  	if (write || attr->attr == KVM_VGIC_V3_ADDR_TYPE_REDIST_REGION)
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  104  		if (get_user(addr, uaddr))
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  105  			return -EFAULT;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  106
-59112e9c390be5 arch/arm64/kvm/vgic/vgic-kvm-device.c Jean-Philippe Brucker 2023-05-18  107  	/*
-59112e9c390be5 arch/arm64/kvm/vgic/vgic-kvm-device.c Jean-Philippe Brucker 2023-05-18  108  	 * Since we can't hold config_lock while registering the redistributor
-59112e9c390be5 arch/arm64/kvm/vgic/vgic-kvm-device.c Jean-Philippe Brucker 2023-05-18  109  	 * iodevs, take the slots_lock immediately.
-59112e9c390be5 arch/arm64/kvm/vgic/vgic-kvm-device.c Jean-Philippe Brucker 2023-05-18  110  	 */
-59112e9c390be5 arch/arm64/kvm/vgic/vgic-kvm-device.c Jean-Philippe Brucker 2023-05-18 @111  	mutex_lock(&kvm->slots_lock);
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  112  	switch (attr->attr) {
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  113  	case KVM_VGIC_V2_ADDR_TYPE_DIST:
-72030536ebf5e5 virt/kvm/arm/vgic/vgic-kvm-device.c   Christoffer Dall      2017-05-08  114  		r = vgic_check_type(kvm, KVM_DEV_TYPE_ARM_VGIC_V2);
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  115  		addr_ptr = &vgic->vgic_dist_base;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  116  		alignment = SZ_4K;
-c56a87da0a7fa1 arch/arm64/kvm/vgic/vgic-kvm-device.c Ricardo Koller        2021-10-04  117  		size = KVM_VGIC_V2_DIST_SIZE;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  118  		break;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  119  	case KVM_VGIC_V2_ADDR_TYPE_CPU:
-72030536ebf5e5 virt/kvm/arm/vgic/vgic-kvm-device.c   Christoffer Dall      2017-05-08  120  		r = vgic_check_type(kvm, KVM_DEV_TYPE_ARM_VGIC_V2);
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  121  		addr_ptr = &vgic->vgic_cpu_base;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  122  		alignment = SZ_4K;
-c56a87da0a7fa1 arch/arm64/kvm/vgic/vgic-kvm-device.c Ricardo Koller        2021-10-04  123  		size = KVM_VGIC_V2_CPU_SIZE;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  124  		break;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  125  	case KVM_VGIC_V3_ADDR_TYPE_DIST:
-72030536ebf5e5 virt/kvm/arm/vgic/vgic-kvm-device.c   Christoffer Dall      2017-05-08  126  		r = vgic_check_type(kvm, KVM_DEV_TYPE_ARM_VGIC_V3);
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  127  		addr_ptr = &vgic->vgic_dist_base;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  128  		alignment = SZ_64K;
-c56a87da0a7fa1 arch/arm64/kvm/vgic/vgic-kvm-device.c Ricardo Koller        2021-10-04  129  		size = KVM_VGIC_V3_DIST_SIZE;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  130  		break;
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  131  	case KVM_VGIC_V3_ADDR_TYPE_REDIST: {
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  132  		struct vgic_redist_region *rdreg;
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  133
-72030536ebf5e5 virt/kvm/arm/vgic/vgic-kvm-device.c   Christoffer Dall      2017-05-08  134  		r = vgic_check_type(kvm, KVM_DEV_TYPE_ARM_VGIC_V3);
-1aab6f468c10a1 virt/kvm/arm/vgic/vgic-kvm-device.c   Christoffer Dall      2017-05-08  135  		if (r)
-1aab6f468c10a1 virt/kvm/arm/vgic/vgic-kvm-device.c   Christoffer Dall      2017-05-08  136  			break;
-1aab6f468c10a1 virt/kvm/arm/vgic/vgic-kvm-device.c   Christoffer Dall      2017-05-08  137  		if (write) {
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  138  			r = vgic_v3_set_redist_base(kvm, 0, addr, 0);
-1aab6f468c10a1 virt/kvm/arm/vgic/vgic-kvm-device.c   Christoffer Dall      2017-05-08  139  			goto out;
-1aab6f468c10a1 virt/kvm/arm/vgic/vgic-kvm-device.c   Christoffer Dall      2017-05-08  140  		}
-94ac0835391efc arch/arm64/kvm/vgic/vgic-kvm-device.c Eric Auger            2021-04-12  141  		rdreg = list_first_entry_or_null(&vgic->rd_regions,
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  142  						 struct vgic_redist_region, list);
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  143  		if (!rdreg)
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  144  			addr_ptr = &undef_value;
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  145  		else
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  146  			addr_ptr = &rdreg->base;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  147  		break;
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  148  	}
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  149  	case KVM_VGIC_V3_ADDR_TYPE_REDIST_REGION:
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  150  	{
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  151  		struct vgic_redist_region *rdreg;
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  152  		u8 index;
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  153
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  154  		r = vgic_check_type(kvm, KVM_DEV_TYPE_ARM_VGIC_V3);
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  155  		if (r)
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  156  			break;
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  157
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  158  		index = addr & KVM_VGIC_V3_RDIST_INDEX_MASK;
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  159
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  160  		if (write) {
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  161  			gpa_t base = addr & KVM_VGIC_V3_RDIST_BASE_MASK;
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  162  			u32 count = FIELD_GET(KVM_VGIC_V3_RDIST_COUNT_MASK, addr);
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  163  			u8 flags = FIELD_GET(KVM_VGIC_V3_RDIST_FLAGS_MASK, addr);
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  164
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  165  			if (!count || flags)
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  166  				r = -EINVAL;
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  167  			else
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  168  				r = vgic_v3_set_redist_base(kvm, index,
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  169  							    base, count);
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  170  			goto out;
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  171  		}
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  172
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  173  		rdreg = vgic_v3_rdist_region_from_index(kvm, index);
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  174  		if (!rdreg) {
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  175  			r = -ENOENT;
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  176  			goto out;
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  177  		}
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  178
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  179  		addr = index;
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  180  		addr |= rdreg->base;
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  181  		addr |= (u64)rdreg->count << KVM_VGIC_V3_RDIST_COUNT_SHIFT;
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  182  		goto out;
-04c11093222579 virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2018-05-22  183  	}
-77646e062bb3fb arch/arm64/kvm/vgic/vgic-kvm-device.c Sascha Bischoff       2025-12-11  184  	case KVM_VGIC_V5_ADDR_TYPE_IRS:
-77646e062bb3fb arch/arm64/kvm/vgic/vgic-kvm-device.c Sascha Bischoff       2025-12-11  185  		r = vgic_check_type(kvm, KVM_DEV_TYPE_ARM_VGIC_V5);
-77646e062bb3fb arch/arm64/kvm/vgic/vgic-kvm-device.c Sascha Bischoff       2025-12-11  186  		if (r)
-77646e062bb3fb arch/arm64/kvm/vgic/vgic-kvm-device.c Sascha Bischoff       2025-12-11 @187  			return r;
-77646e062bb3fb arch/arm64/kvm/vgic/vgic-kvm-device.c Sascha Bischoff       2025-12-11  188  		addr_ptr = &vgic->vgic_v5_irs_data->vgic_v5_irs_base;
-77646e062bb3fb arch/arm64/kvm/vgic/vgic-kvm-device.c Sascha Bischoff       2025-12-11  189  		alignment = SZ_64K;
-77646e062bb3fb arch/arm64/kvm/vgic/vgic-kvm-device.c Sascha Bischoff       2025-12-11  190  		size = KVM_VGIC_V5_IRS_SIZE;
-77646e062bb3fb arch/arm64/kvm/vgic/vgic-kvm-device.c Sascha Bischoff       2025-12-11  191  		get_user(addr, uaddr);
-77646e062bb3fb arch/arm64/kvm/vgic/vgic-kvm-device.c Sascha Bischoff       2025-12-11  192  		break;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  193  	default:
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  194  		r = -ENODEV;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  195  	}
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  196
-72030536ebf5e5 virt/kvm/arm/vgic/vgic-kvm-device.c   Christoffer Dall      2017-05-08  197  	if (r)
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  198  		goto out;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  199
-59112e9c390be5 arch/arm64/kvm/vgic/vgic-kvm-device.c Jean-Philippe Brucker 2023-05-18  200  	mutex_lock(&kvm->arch.config_lock);
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  201  	if (write) {
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  202  		r = vgic_check_iorange(kvm, *addr_ptr, addr, alignment, size);
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  203  		if (!r)
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  204  			*addr_ptr = addr;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  205  	} else {
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  206  		addr = *addr_ptr;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  207  	}
-59112e9c390be5 arch/arm64/kvm/vgic/vgic-kvm-device.c Jean-Philippe Brucker 2023-05-18  208  	mutex_unlock(&kvm->arch.config_lock);
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  209
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  210  out:
-59112e9c390be5 arch/arm64/kvm/vgic/vgic-kvm-device.c Jean-Philippe Brucker 2023-05-18  211  	mutex_unlock(&kvm->slots_lock);
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  212
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  213  	if (!r && !write)
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  214  		r =  put_user(addr, uaddr);
-4b85080f4e378f arch/arm64/kvm/vgic/vgic-kvm-device.c Marc Zyngier          2022-07-05  215
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  216  	return r;
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  217  }
-e2c1f9abff83ee virt/kvm/arm/vgic/vgic-kvm-device.c   Eric Auger            2015-12-21  218
+
+vim +586 include/linux/find.h
+
+6b8ecb84f8f6401 include/asm-generic/bitops/find.h Yury Norov 2021-08-14  584  
+bc9d6635c293a2a include/linux/find.h              Yury Norov 2021-08-14  585  #define for_each_set_bit(bit, addr, size) \
+fdae96a3fc7f70e include/linux/find.h              Yury Norov 2022-09-19 @586  	for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
+bc9d6635c293a2a include/linux/find.h              Yury Norov 2021-08-14  587  
 
 -- 
 0-DAY CI Kernel Test Service
