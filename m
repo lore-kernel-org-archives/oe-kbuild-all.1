@@ -1,139 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB21730B52B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 09:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530F11D47B4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 09:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766481089; cv=none; b=kDTuGxKFPGr1KTcB1bMbC2ZpcMvPk4cyMpY1igiJA+0DnhJWGbZ2f/3SQZ8dbu1BEIIwxTT57iBUildBdB7nBM1F2EDdUFvNhXUhRaMNpANblkBX5aZcfgIE2bXm51NUQiF6CgR1eM25CPkBQ2tA+WqTwudtL498HwzZPIIK78A=
+	t=1766482248; cv=none; b=bxryXs9S0tAdYPTZ5ousqivCUecaG4Ce+BoHrvHZZIp7Hg8DzPTEsEZaU26oVwis+erKWJRcca2DmVo5iigAYE5XVhpAvMqlcARbR2XqY5He+MCrOSmLkXsfiU7Xg/QlJ2P+biD8Df36kk73mkFXaTIzJUO41vZADBM46bXJKcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766481089; c=relaxed/simple;
-	bh=heJRkNkDNlsSkJB1Yo2V1tdxLM/91AoUJD3TiFeQbSY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VOH3LUGA+mTDCmclFlYCcqiNax3u3s1URewuptf5ZL7X/SsCVqcTQc/+4g34n+o5Ym22596Jy1mr8gJMRfoCy54fpv5Z8zsVJAthpkg0gkAm6rarm72FJBJLSorhBmomGraZAI+aX+cAXBH3L79Vss0L+D2+XXNdWFPMkOd11sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fGb+JjFK; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fGb+JjFK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766481087; x=1798017087;
-  h=date:from:to:cc:subject:message-id;
-  bh=heJRkNkDNlsSkJB1Yo2V1tdxLM/91AoUJD3TiFeQbSY=;
-  b=fGb+JjFKv3M/mLMFdgRSgAo2FRGjxCNLnRXHpEgWOX54iLdHw57xj8CS
-   gQ0stODOEaWZc/wpvvFYaxnwjxOKR4Pa3Urm8RCtlJnBcU7sYJ+91XWOV
-   +A289apH7yMte8hIMJ4Zb36pthKUA9oSDhdfm7J2gsgQDTFUYO8ZWOleQ
-   bpLwUiFSujTsRbRTXOxXYmsJnABPtkM2CHAt0qVL+tY3n0qTN4lqie+ku
-   Hd+nwGXYcCBC4HphqnRy1MLOHvNER6d0pWH3VeBbIYkrnjWqo8WTSrQ+W
-   RXu+IJ5TNTGSwNlcfgt1ODYLbd3+Fr13lBdOw9Nnx8iJg9UoIWE2Ckgoz
-   g==;
-X-CSE-ConnectionGUID: j4O6vZNCTjaK9fqSYQFp+A==
-X-CSE-MsgGUID: kvFLvolDRv2wJhhjLp67sg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="79782181"
-X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="79782181"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 01:11:26 -0800
-X-CSE-ConnectionGUID: I1M1Oa9LTzOBFR1Ew6eSmQ==
-X-CSE-MsgGUID: jm7BepW0R/CmNocr7DQaAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="223219613"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Dec 2025 01:11:25 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vXyQM-000000001fd-42x2;
-	Tue, 23 Dec 2025 09:11:22 +0000
-Date: Tue, 23 Dec 2025 17:10:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/1]
- drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member
- 'pm_nb' not described in 'gh_rm'
-Message-ID: <202512231729.g2LI6DtQ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1766482248; c=relaxed/simple;
+	bh=EggfDK/Sw7lcl82z0+mkykA1utYrVkW2otpA+KYNS5A=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kGi+lOTUmXuDch1Sli8P+tn5s/Oh9zTW5j+lHYYw2dU7OIl8+1mrcVYDS+altvEEeGwwTAevE4V/GNjvEilc11O7x4/ysGY7uFE5m0mTlv9MgF/3Fhbnemj4axzTeai8OTihTIMHxK7lsb+aJZW9lRazEPcRXIOe6DkZAElHqxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4db8qX1zTnzJ46DT;
+	Tue, 23 Dec 2025 17:30:00 +0800 (CST)
+Received: from dubpeml100005.china.huawei.com (unknown [7.214.146.113])
+	by mail.maildlp.com (Postfix) with ESMTPS id 318E94056C;
+	Tue, 23 Dec 2025 17:30:39 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml100005.china.huawei.com
+ (7.214.146.113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.36; Tue, 23 Dec
+ 2025 09:30:38 +0000
+Date: Tue, 23 Dec 2025 09:30:37 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: kernel test robot <lkp@intel.com>
+CC: Frank Li <Frank.Li@nxp.com>, <oe-kbuild-all@lists.linux.dev>, Carlos Song
+	<carlos.song@nxp.com>, Adrian Fluturel <fluturel.adrian@gmail.com>, "Andy
+ Shevchenko" <andriy.shevchenko@intel.com>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>
+Subject: Re: [jic23-iio:testing 47/49] drivers/base/regmap/regmap-i3c.c:41:
+ undefined reference to `i3c_device_do_xfers'
+Message-ID: <20251223093037.00003f7a@huawei.com>
+In-Reply-To: <202512230418.nu3V6Yua-lkp@intel.com>
+References: <202512230418.nu3V6Yua-lkp@intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100011.china.huawei.com (7.191.174.247) To
+ dubpeml100005.china.huawei.com (7.214.146.113)
 
-Hi Hrishabh,
+On Tue, 23 Dec 2025 04:17:12 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-FYI, the error/warning still remains.
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+> head:   4e44c635ba8c281f74001d47e20bbcb7f516530c
+> commit: 6e5f6bf2e3f036e6d7466d2a3322445729ea3356 [47/49] iio: magnetometer: Add mmc5633 sensor
+> config: sparc64-randconfig-001-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230418.nu3V6Yua-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230418.nu3V6Yua-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512230418.nu3V6Yua-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    sparc64-linux-ld: drivers/base/regmap/regmap-i3c.o: in function `regmap_i3c_read':
+> >> drivers/base/regmap/regmap-i3c.c:41: undefined reference to `i3c_device_do_xfers'  
+>    sparc64-linux-ld: drivers/base/regmap/regmap-i3c.o: in function `regmap_i3c_write':
+>    drivers/base/regmap/regmap-i3c.c:22: undefined reference to `i3c_device_do_xfers'
+>    sparc64-linux-ld: drivers/iio/magnetometer/mmc5633.o: in function `mmc5633_is_support_hdr':
+> >> drivers/iio/magnetometer/mmc5633.c:193: undefined reference to `i3c_device_get_supported_xfer_mode'  
+>    sparc64-linux-ld: drivers/iio/magnetometer/mmc5633.o: in function `mmc5633_read_measurement':
+> >> drivers/iio/magnetometer/mmc5633.c:230: undefined reference to `i3c_device_do_xfers'
+> >> sparc64-linux-ld: drivers/iio/magnetometer/mmc5633.c:237: undefined reference to `i3c_device_do_xfers'  
+>    sparc64-linux-ld: drivers/iio/magnetometer/mmc5633.c:251: undefined reference to `i3c_device_do_xfers'
+> >> sparc64-linux-ld: drivers/iio/magnetometer/mmc5633.c:230: undefined reference to `i3c_device_do_xfers'  
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   b952cc514e6f0e92951693f5131909bb1264ded3
-commit: 8cde8d25c90b1eba83a82ef30f7fab4a2b2bf68c [1/1] ANDROID: virt: gunyah: Fetch fresh Gunyah information after restore
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251223/202512231729.g2LI6DtQ-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512231729.g2LI6DtQ-lkp@intel.com/reproduce)
+Seems like we need a stub.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512231729.g2LI6DtQ-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member 'adev' not described in 'gh_rm'
->> drivers/virt/gunyah/rsc_mgr.c:194: warning: Function parameter or member 'pm_nb' not described in 'gh_rm'
-   drivers/virt/gunyah/rsc_mgr.c:669: warning: Function parameter or member '_rm' not described in 'gh_rm_call'
-   drivers/virt/gunyah/rsc_mgr.c:669: warning: Excess function parameter 'rm' description in 'gh_rm_call'
+Jonathan
 
 
-vim +194 drivers/virt/gunyah/rsc_mgr.c
+> 
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for CAN_DEV
+>    Depends on [n]: NETDEVICES [=n] && CAN [=y]
+>    Selected by [y]:
+>    - CAN [=y] && NET [=y]
+>    WARNING: unmet direct dependencies detected for REGMAP_I3C
+>    Depends on [n]: I3C [=n]
+>    Selected by [y]:
+>    - MMC5633 [=y] && IIO [=y] && (I2C [=y] || I3C [=n])
+> 
+> 
+> vim +41 drivers/base/regmap/regmap-i3c.c
+> 
+> 6445500b43129b Vitor Soares   2019-06-06  24  
+> 6445500b43129b Vitor Soares   2019-06-06  25  static int regmap_i3c_read(void *context,
+> 6445500b43129b Vitor Soares   2019-06-06  26  			   const void *reg, size_t reg_size,
+> 6445500b43129b Vitor Soares   2019-06-06  27  			   void *val, size_t val_size)
+> 6445500b43129b Vitor Soares   2019-06-06  28  {
+> 6445500b43129b Vitor Soares   2019-06-06  29  	struct device *dev = context;
+> 6445500b43129b Vitor Soares   2019-06-06  30  	struct i3c_device *i3c = dev_to_i3cdev(dev);
+> 79c3ae7ada0548 Frank Li       2025-10-28  31  	struct i3c_xfer xfers[2];
+> 6445500b43129b Vitor Soares   2019-06-06  32  
+> 6445500b43129b Vitor Soares   2019-06-06  33  	xfers[0].rnw = false;
+> 6445500b43129b Vitor Soares   2019-06-06  34  	xfers[0].len = reg_size;
+> 6445500b43129b Vitor Soares   2019-06-06  35  	xfers[0].data.out = reg;
+> 6445500b43129b Vitor Soares   2019-06-06  36  
+> 6445500b43129b Vitor Soares   2019-06-06  37  	xfers[1].rnw = true;
+> 6445500b43129b Vitor Soares   2019-06-06  38  	xfers[1].len = val_size;
+> 6445500b43129b Vitor Soares   2019-06-06  39  	xfers[1].data.in = val;
+> 6445500b43129b Vitor Soares   2019-06-06  40  
+> c2f2b01b74be8b Linus Torvalds 2025-12-08 @41  	return i3c_device_do_xfers(i3c, xfers, ARRAY_SIZE(xfers), I3C_SDR);
+> 6445500b43129b Vitor Soares   2019-06-06  42  }
+> 6445500b43129b Vitor Soares   2019-06-06  43  
+> 
+> :::::: The code at line 41 was first introduced by commit
+> :::::: c2f2b01b74be8b40a2173372bcd770723f87e7b2 Merge tag 'i3c/for-6.19' of git://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux
+> 
+> :::::: TO: Linus Torvalds <torvalds@linux-foundation.org>
+> :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+> 
 
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  155  
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  156  /**
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  157   * struct gh_rm - private data for communicating w/Gunyah resource manager
-705a9b5feb1ba9f Elliot Berman           2023-06-12  158   * @dev: pointer to RM platform device
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  159   * @tx_ghrsc: message queue resource to TX to RM
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  160   * @rx_ghrsc: message queue resource to RX from RM
-9a9fc8d1b2882c3 Elliot Berman           2023-04-17  161   * @msgq: mailbox instance of TX/RX resources above
-9a9fc8d1b2882c3 Elliot Berman           2023-04-17  162   * @msgq_client: mailbox client of above msgq
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  163   * @active_rx_connection: ongoing gh_rm_connection for which we're receiving fragments
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  164   * @last_tx_ret: return value of last mailbox tx
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  165   * @call_xarray: xarray to allocate & lookup sequence IDs for Request/Response flows
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  166   * @next_seq: next ID to allocate (for xa_alloc_cyclic)
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  167   * @cache: cache for allocating Tx messages
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  168   * @send_lock: synchronization to allow only one request to be sent at a time
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  169   * @nh: notifier chain for clients interested in RM notification messages
-f251362242ba3ef Elliot Berman           2022-10-14  170   * @miscdev: /dev/gunyah
-4cf9feacb7e4ba2 Elliot Berman           2022-12-13  171   * @irq_domain: Domain to translate Gunyah hwirqs to Linux irqs
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  172   */
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  173  struct gh_rm {
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  174  	struct device *dev;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  175  	struct gh_resource tx_ghrsc;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  176  	struct gh_resource rx_ghrsc;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  177  	struct gh_msgq msgq;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  178  	struct mbox_client msgq_client;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  179  	struct gh_rm_connection *active_rx_connection;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  180  	int last_tx_ret;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  181  
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  182  	struct xarray call_xarray;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  183  	u32 next_seq;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  184  
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  185  	struct kmem_cache *cache;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  186  	struct mutex send_lock;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  187  	struct blocking_notifier_head nh;
-f251362242ba3ef Elliot Berman           2022-10-14  188  
-1dce9d7d4deea1d Prakruthi Deepak Heragu 2023-02-27  189  	struct auxiliary_device adev;
-f251362242ba3ef Elliot Berman           2022-10-14  190  	struct miscdevice miscdev;
-4cf9feacb7e4ba2 Elliot Berman           2022-12-13  191  	struct irq_domain *irq_domain;
-8cde8d25c90b1eb Hrishabh Rajput         2025-08-13  192  
-8cde8d25c90b1eb Hrishabh Rajput         2025-08-13  193  	struct notifier_block pm_nb;
-d5e8df2cc4a1706 Elliot Berman           2022-08-10 @194  };
-d5e8df2cc4a1706 Elliot Berman           2022-08-10  195  
-
-:::::: The code at line 194 was first introduced by commit
-:::::: d5e8df2cc4a17063dcebc67a939356ad49a665bd FROMLIST: gunyah: rsc_mgr: Add resource manager RPC core
-
-:::::: TO: Elliot Berman <quic_eberman@quicinc.com>
-:::::: CC: Aleksei Vetrov <vvvvvv@google.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
