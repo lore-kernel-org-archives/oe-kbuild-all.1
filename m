@@ -1,213 +1,180 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D09A32AAA9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 12:57:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AEB33A710
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 13:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766494662; cv=none; b=Qry8r3fNIAFsZOn0I2tmDbtIzaYqpsS2uxmj8e65NT0xPYeEL/64mP8z2ryIAwg1A9p1gPZrMzCKS9p2uI8l9l54EQPhc2ue8XejsUClQhd0WAkVbh5RXl2U98lCrSq5WkPq5rMoUI/pj3qN/O4xJU/8unNdgjrzp+ckpJe1iGg=
+	t=1766494875; cv=none; b=oB31t0v8GS7U2U6wqse/3aLljk82SO9KL85QIvC//ic46aWtlkrnJbIhzo+CJfrbo0vO6Kqwa0SIKLvEwI8SXvpM61dQVSsFNhNxDvImBL0aMHI5JzVj6hmF46jrLM0JxglcKywPaSq42iD3nsN+R43T3PhrF5J/WiJhex3jCEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766494662; c=relaxed/simple;
-	bh=0cSaQBGP0JNbkjTGPmy0w2tQB3fkB56bXg98JD9xhgc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gFcXDdrCDXGPvYPidREp4/Rlm4/Z9XYvloatQkznrOKB20jOtKcWoSt18KKAU1Ld83QCNoMLisEUY79cZnQQvzTwXWrzE4LVG7i8gLRVdQrpRWAmzSj/FVQJK0PoKrW1gRkTPnl4IGirBH6qtSgwp0OhUh+M1LkQS5XO5Ce+Y5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=lVdxw+iX; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1766494875; c=relaxed/simple;
+	bh=TevvI3rU/AuIv5eN3JEJ7iY2d31Wf0hWbYdepAL2FJM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=fzxGmxLm60hmDmirKqKHzU8sU4NvB4XBztcbEzoWaastrQ0FkM1FSx7GQZOXb6nuqL6dHydgUv9+A5f31kTuQV5en/DFoFfBK8OfW6BV7udP+uKda/xV0VdHrauOygIVxCj+QXax/C+jDyrHVrmdNd4/GB3FN4VATGvd6tj6Juw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a6bx0KiV; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="lVdxw+iX"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BN7Uw92010872;
-	Tue, 23 Dec 2025 12:57:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Eojjdw
-	TpV0a0uzjajItXh7sM23uq+A0hHxp8F5KWUk8=; b=lVdxw+iXQcJtO8zKfjPYCH
-	hG+usMvldov/yN7zBnRn5knwVyf88zk6MZI9JQDYe1HEOXm+VESXTnZY0yJ+gRJc
-	uKQxF3NNCixK3bIXrYFDuXGWuNjZ3qPz/HIO3IQ3CLk9uo+tMd71VFyjslcrU2Zc
-	2+nlffIeoa16flWGdznt9BhAMm1Hz7m9RHElKQVngmpLgoJ/dOmFQzIBixQ/RUwD
-	vQY2T2upXAD+D7mv9kODPgd26tQryp6N9mlTFkjexrrpDyTID6jGAZ+OTvLN0Y6t
-	St7CSlq97ttGnVEunLb5dXp3A66XHAKEnLihArSzwIecJLV2GLK9ZdWivSNSOWeQ
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b5j7e4j5r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Dec 2025 12:57:28 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5BNCjeFs026492;
-	Tue, 23 Dec 2025 12:57:28 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b5j7e4j5p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Dec 2025 12:57:28 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BNAAxjk004608;
-	Tue, 23 Dec 2025 12:57:27 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4b674mu6w6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 Dec 2025 12:57:27 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5BNCvNQn29950388
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 Dec 2025 12:57:23 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 51EC52004B;
-	Tue, 23 Dec 2025 12:57:23 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5D0D220040;
-	Tue, 23 Dec 2025 12:57:21 +0000 (GMT)
-Received: from [9.39.22.157] (unknown [9.39.22.157])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 23 Dec 2025 12:57:21 +0000 (GMT)
-Message-ID: <fb309e19-9c2c-492c-abac-8aa6031f3124@linux.ibm.com>
-Date: Tue, 23 Dec 2025 18:27:19 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a6bx0KiV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766494873; x=1798030873;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TevvI3rU/AuIv5eN3JEJ7iY2d31Wf0hWbYdepAL2FJM=;
+  b=a6bx0KiV4rJSAFswaPTzmM1uByPNznHI3n0GQQ1lAOcQT3VgBrMhYgT2
+   zYsk7Dm1TmFyTmycYTlcsqVua2cRoVNlTByFLRH9JjqsSY9SFWbsvQ7Wg
+   xv8IJc5LkMFDNWX0dgN+eMUsY6jAxMuofW6Ncj4450bVWSxfCggEsvSWv
+   bWHLfXuhLuBKnNwAq8kRaK4PM5DsuMSj1Ms0Hq0pnfaymCHI6INaT7hVW
+   FrLZYzHTbSlUoYxoOeVPZrEyfQG52BFq18749XuKW/hqabEvUwYZAcyYZ
+   chdTyEUcS4/RLnjhePm8IR8Iw8M8xWIy5HTm4I/EJNEOGYBh4KGhZIeQb
+   g==;
+X-CSE-ConnectionGUID: DrE+oimcRkyIO3cRcK7QjA==
+X-CSE-MsgGUID: ypUHsFHgS8qjBrGdDx/P4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79062539"
+X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
+   d="scan'208";a="79062539"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 05:01:12 -0800
+X-CSE-ConnectionGUID: H9bbzZSWTA686IX1iG6plw==
+X-CSE-MsgGUID: poBDjUXkRm2A0fDXNk7FSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
+   d="scan'208";a="199757678"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 23 Dec 2025 05:01:10 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vY20i-000000001wH-3TQf;
+	Tue, 23 Dec 2025 13:01:08 +0000
+Date: Tue, 23 Dec 2025 21:01:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 1/1] mm/memory.c:1709:
+ warning: Function parameter or member 'mm_wr_locked' not described in
+ 'unmap_vmas'
+Message-ID: <202512232002.uJ519OY9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: arch/powerpc/kexec/core.c:217:20: sparse: sparse: incorrect type
- in assignment (different base types)
-To: kernel test robot <lkp@intel.com>, Ben Collins <bcollins@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        shivang upadhyay <shivangu@linux.ibm.com>,
-        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Hari Bathini <hbathini@linux.ibm.com>
-References: <202512221405.VHPKPjnp-lkp@intel.com>
-Content-Language: en-US
-From: Sourabh Jain <sourabhjain@linux.ibm.com>
-In-Reply-To: <202512221405.VHPKPjnp-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=G8YR0tk5 c=1 sm=1 tr=0 ts=694a91b8 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=NEAV23lmAAAA:8
- a=hGzw-44bAAAA:8 a=wMNdZWldAAAA:8 a=O1bWE6anNRU1bnsqH8UA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=mmqRlSCDY2ywfjPLJ4af:22 a=HvKuF1_PTVFglORKqfwH:22
- a=FUarYpL4UH3yWsho8X8J:22
-X-Proofpoint-ORIG-GUID: 0VKgn2tWtb28lJapprSFjPooqxXsfezw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDEwNCBTYWx0ZWRfX08SD5BX2iqN5
- l5db5UF/5dA/BY8pWb5UbYdDruDf41k7jRltMYlxCDGmM+EqALB895v90xvctQ34dS1G9bor23a
- oZevOVNnv4B9n3LwI2EjgU9WaeQc0YOAPP7HAH6vn+V01ga3pjFxWFxQtaiaFzYwK6LrqbkWGdG
- LAw8IfvHAdrZTl18zQJvstVuBZk24kPqviM3xg5+7vocFpoYpu6ITkMZnbc6QX6F9M+W9FyhzUM
- U7GVsX7GP3zqHlLUnZ65MVGDaU4jOaiRiW7a8B5fBUobndaznDCoGxVTY0oseQqtKUbq86VhtJn
- jGVVREMgIiY51d8NbLsLgBbVbgAYMu9y9Lkj4iytMQZ8SctSUJqqb2FxJeMTb0RAfK+NHt06u0/
- t1tHHN1LXQzmgaBxVHmat/uhHSwKwD7KPT7DWXqI7KNfZN6l+z7WRYGZOsH9j7rJqfwFDcIL7b7
- Pbqj4msipt7Gco7UHsg==
-X-Proofpoint-GUID: MHHvmlOPd_Cmo5X4rH4gjnzdpaoutqZv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-23_03,2025-12-22_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 clxscore=1011 adultscore=0 spamscore=0
- malwarescore=0 impostorscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2512120000 definitions=main-2512230104
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-+Cc: PowerPC mailing list.
+Hi Suren,
 
-and added some comments below.
+FYI, the error/warning still remains.
 
-On 22/12/25 12:14, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   9448598b22c50c8a5bb77a9103e2d49f134c9578
-> commit: 38c64dfe0af12778953846df5f259e913275cfe5 kexec: Include kernel-end even without crashkernel
-> date:   6 weeks ago
-> config: powerpc-randconfig-r111-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221405.VHPKPjnp-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 42b3483ac4987cae1bdb632398e8a3ce2dea6633)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221405.VHPKPjnp-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512221405.VHPKPjnp-lkp@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->>> arch/powerpc/kexec/core.c:217:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int static [addressable] [toplevel] [usertype] kernel_end @@     got restricted __be32 [usertype] @@
->     arch/powerpc/kexec/core.c:217:20: sparse:     expected unsigned int static [addressable] [toplevel] [usertype] kernel_end
->     arch/powerpc/kexec/core.c:217:20: sparse:     got restricted __be32 [usertype]
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   b952cc514e6f0e92951693f5131909bb1264ded3
+commit: 2ff3b23c7fde9ad4a23158d219b9e9a5a0e90982 [1/1] UPSTREAM: mm: introd=
+uce __vm_flags_mod and use it in untrack_pfn
+config: x86_64-randconfig-r071-20251223 (https://download.01.org/0day-ci/ar=
+chive/20251223/202512232002.uJ519OY9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20251223/202512232002.uJ519OY9-lkp@intel.com/reproduce)
 
-If CONFIG_CRASH_DUMP is enabled (which is not done in config shared by 
-kernel test robot) sparse warn
-about other assignments in the same file. And these warnings are not 
-limited to 32-bit.
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512232002.uJ519OY9-lkp@i=
+ntel.com/
 
-../arch/powerpc/kexec/core.c:181:29: sparse: warning: incorrect type in 
-assignment (different base types)
-../arch/powerpc/kexec/core.c:181:29: sparse:    expected unsigned int 
-static [addressable] [toplevel] [usertype] crashk_base
-../arch/powerpc/kexec/core.c:181:29: sparse:    got restricted __be32 
-[usertype]
-../arch/powerpc/kexec/core.c:183:29: sparse: warning: incorrect type in 
-assignment (different base types)
-../arch/powerpc/kexec/core.c:183:29: sparse:    expected unsigned int 
-static [addressable] [toplevel] [usertype] crashk_size
-../arch/powerpc/kexec/core.c:183:29: sparse:    got restricted __be32 
-[usertype]
-../arch/powerpc/kexec/core.c:191:19: sparse: warning: incorrect type in 
-assignment (different base types)
-../arch/powerpc/kexec/core.c:191:19: sparse:    expected unsigned long 
-long static [addressable] [toplevel] mem_limit
-../arch/powerpc/kexec/core.c:191:19: sparse:    got restricted __be32 
-[usertype]
-../arch/powerpc/kexec/core.c:217:20: sparse: warning: incorrect type in 
-assignment (different base types)
-../arch/powerpc/kexec/core.c:217:20: sparse:    expected unsigned int 
-static [addressable] [toplevel] [usertype] kernel_end
-../arch/powerpc/kexec/core.c:217:20: sparse:    got restricted __be32 
-[usertype]
-   CHECK   ../arch/powerpc/kexec/core_32.c
+All warnings (new ones prefixed by >>):
 
-To resolve these warnings:
+   mm/memory.c:1709: warning: Function parameter or member 'start_t' not de=
+scribed in 'unmap_vmas'
+   mm/memory.c:1709: warning: Function parameter or member 'end_t' not desc=
+ribed in 'unmap_vmas'
+>> mm/memory.c:1709: warning: Function parameter or member 'mm_wr_locked' n=
+ot described in 'unmap_vmas'
 
-Should we use __force tpyecast and silence the warnings?
-for example:
-kernel_end = (__force phys_addr_t) cpu_to_be_ulong(__pa(_end));
 
-Or
+vim +1709 mm/memory.c
 
-Use proper data types __be<32|64> and duplicated the definition and 
-assignment? seems like bit too much.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1685 =20
+f5cc4eef9987d0 Al Viro            2012-03-05  1686  /**
+f5cc4eef9987d0 Al Viro            2012-03-05  1687   * unmap_vmas - unmap a=
+ range of memory covered by a list of vma's
+f5cc4eef9987d0 Al Viro            2012-03-05  1688   * @tlb: address of the=
+ caller's struct mmu_gather
+763ecb035029f5 Liam R. Howlett    2022-09-06  1689   * @mt: the maple tree
+f5cc4eef9987d0 Al Viro            2012-03-05  1690   * @vma: the starting v=
+ma
+f5cc4eef9987d0 Al Viro            2012-03-05  1691   * @start_addr: virtual=
+ address at which to start unmapping
+f5cc4eef9987d0 Al Viro            2012-03-05  1692   * @end_addr: virtual a=
+ddress at which to end unmapping
+f5cc4eef9987d0 Al Viro            2012-03-05  1693   *
+f5cc4eef9987d0 Al Viro            2012-03-05  1694   * Unmap all pages in t=
+he vma list.
+f5cc4eef9987d0 Al Viro            2012-03-05  1695   *
+f5cc4eef9987d0 Al Viro            2012-03-05  1696   * Only addresses betwe=
+en `start' and `end' will be unmapped.
+f5cc4eef9987d0 Al Viro            2012-03-05  1697   *
+f5cc4eef9987d0 Al Viro            2012-03-05  1698   * The VMA list must be=
+ sorted in ascending virtual address order.
+f5cc4eef9987d0 Al Viro            2012-03-05  1699   *
+f5cc4eef9987d0 Al Viro            2012-03-05  1700   * unmap_vmas() assumes=
+ that the caller will flush the whole unmapped address
+f5cc4eef9987d0 Al Viro            2012-03-05  1701   * range after unmap_vm=
+as() returns.  So the only responsibility here is to
+f5cc4eef9987d0 Al Viro            2012-03-05  1702   * ensure that any thus=
+-far unmapped pages are flushed before unmap_vmas()
+f5cc4eef9987d0 Al Viro            2012-03-05  1703   * drops the lock and s=
+chedules.
+f5cc4eef9987d0 Al Viro            2012-03-05  1704   */
+763ecb035029f5 Liam R. Howlett    2022-09-06  1705  void unmap_vmas(struct =
+mmu_gather *tlb, struct maple_tree *mt,
+f5cc4eef9987d0 Al Viro            2012-03-05  1706  		struct vm_area_struct=
+ *vma, unsigned long start_addr,
+e9fdabfc2aeb27 Liam R. Howlett    2023-04-28  1707  		unsigned long end_add=
+r, unsigned long start_t,
+2ff3b23c7fde9a Suren Baghdasaryan 2023-01-26  1708  		unsigned long end_t, =
+bool mm_wr_locked)
+f5cc4eef9987d0 Al Viro            2012-03-05 @1709  {
+ac46d4f3c43241 J=C3=A9r=C3=B4me Glisse      2018-12-28  1710  	struct mmu_n=
+otifier_range range;
+999dad824c39ed Peter Xu           2022-05-12  1711  	struct zap_details det=
+ails =3D {
+04ada095dcfc4a Mike Kravetz       2022-11-14  1712  		.zap_flags =3D ZAP_FL=
+AG_DROP_MARKER | ZAP_FLAG_UNMAP,
+999dad824c39ed Peter Xu           2022-05-12  1713  		/* Careful - we need =
+to zap private pages too! */
+999dad824c39ed Peter Xu           2022-05-12  1714  		.even_cows =3D true,
+999dad824c39ed Peter Xu           2022-05-12  1715  	};
+e9fdabfc2aeb27 Liam R. Howlett    2023-04-28  1716  	MA_STATE(mas, mt, star=
+t_t, start_t);
+f5cc4eef9987d0 Al Viro            2012-03-05  1717 =20
+6f4f13e8d9e27c J=C3=A9r=C3=B4me Glisse      2019-05-13  1718  	mmu_notifier=
+_range_init(&range, MMU_NOTIFY_UNMAP, 0, vma, vma->vm_mm,
+6f4f13e8d9e27c J=C3=A9r=C3=B4me Glisse      2019-05-13  1719  				start_add=
+r, end_addr);
+ac46d4f3c43241 J=C3=A9r=C3=B4me Glisse      2018-12-28  1720  	mmu_notifier=
+_invalidate_range_start(&range);
+763ecb035029f5 Liam R. Howlett    2022-09-06  1721  	do {
+2ff3b23c7fde9a Suren Baghdasaryan 2023-01-26  1722  		unmap_single_vma(tlb,=
+ vma, start_addr, end_addr, &details,
+2ff3b23c7fde9a Suren Baghdasaryan 2023-01-26  1723  				 mm_wr_locked);
+e9fdabfc2aeb27 Liam R. Howlett    2023-04-28  1724  	} while ((vma =3D mas_=
+find(&mas, end_t - 1)) !=3D NULL);
+ac46d4f3c43241 J=C3=A9r=C3=B4me Glisse      2018-12-28  1725  	mmu_notifier=
+_invalidate_range_end(&range);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1726  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1727 =20
 
-Or
+:::::: The code at line 1709 was first introduced by commit
+:::::: f5cc4eef9987d0b517364d01e290d6438e47ee5d VM: make zap_page_range() c=
+allers that act on a single VMA use separate helper
 
-Do we have better way to handle these warnings? If yes, please share.
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
-- Sourabh Jain
-
->
-> vim +217 arch/powerpc/kexec/core.c
->
-> 6f29c3298b1821 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-17  203
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  204  static int __init kexec_setup(void)
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  205  {
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  206  	struct device_node *node;
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  207
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  208  	node = of_find_node_by_path("/chosen");
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  209  	if (!node)
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  210  		return -ENOENT;
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  211
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  212  	/* remove any stale properties so ours can be found */
-> 38c64dfe0af127 arch/powerpc/kexec/core.c           Ben Collins     2025-04-21  213  	of_remove_property(node, of_find_property(node, kernel_end_prop.name,
-> 38c64dfe0af127 arch/powerpc/kexec/core.c           Ben Collins     2025-04-21  214  						  NULL));
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  215
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  216  	/* information needed by userspace when using default_machine_kexec */
-> ea961a828fe725 arch/powerpc/kernel/machine_kexec.c Anton Blanchard 2014-01-22 @217  	kernel_end = cpu_to_be_ulong(__pa(_end));
-> 79d1c712958f94 arch/powerpc/kernel/machine_kexec.c Nathan Fontenot 2012-10-02  218  	of_add_property(node, &kernel_end_prop);
-> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  219
->
-> :::::: The code at line 217 was first introduced by commit
-> :::::: ea961a828fe7250e954f086d74d9323c3d44c3e4 powerpc: Fix endian issues in kexec and crash dump code
->
-> :::::: TO: Anton Blanchard <anton@samba.org>
-> :::::: CC: Benjamin Herrenschmidt <benh@kernel.crashing.org>
->
-
+--=20
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
