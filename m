@@ -1,158 +1,148 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23ED4314D16
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 20:36:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4B2314D36
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 20:36:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766522180; cv=none; b=sBS3QZk1YS2s9egwfZdbA/a1JrHOgTNyu1+mPP23hZeV0W6RrhVtUa6HM5Ju756U8Cf1FN6QnyF+503AbSpi8RBDYcHepcNVMtCER/eO5/vm8MPyAEdQLUipPeqN5c7+52+13oR5S9R4Z/+EYYVK8v899oVOfNAp1CuW8ARQYJo=
+	t=1766522182; cv=none; b=L7GJzhWXwBfbXk6Rt2nns9ChpEharVZH0qIK6O8QZMIwBhfO/uARPl4U2tfNRAf+vHXCjbPTMVEGPwiPBa0to3zC6Um3khUSw1VDEmQX/UURZJvJtXXfOltKN9Thp2mcSa/yNHQ1FXg4ZsGHu8x1TxUzXvwr9a3BSJ+GqZN72Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766522180; c=relaxed/simple;
-	bh=bdBihIhiS3nSo/7TjS6OgN7r9ca73ctS3AI5zKywJfU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tbW3ocN6t/zx6YdP6VjwYHf2LVn5p7vCciP5rGTTH/DAjdUP+L2tcy1uDHpEzPQn3yzfL5O9m3P/sIZuTFUhYeWlP8GBLdLtUe45DmOCMVT8nD7AdM7JBsOKkDrsSjIsooPHqKoB/w2FPRZYcg5wfmxDN/Av1tbn8ZVGHtpjdzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XNFUj4sc; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1766522182; c=relaxed/simple;
+	bh=WiaKcg6tqwr+deTq4kuVVXhsBv+dWmCSB3tiAiPsCn0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hkP0IzhXvn1fUUdAiLphzPK9FQumngv3pCwkDNNnt/0NO2K/ezHdX6ksBJK/pUChoL4dhit0efS9ZfXu6fgbfehh//CnRaxyjvPSMYxdRblCZnpI8kGjuurzAnkoTkYFSMzbktsjiy1mH9h9wzEMbclML46ret0ggkouaFs92Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HKs9FKN5; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XNFUj4sc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKs9FKN5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766522179; x=1798058179;
-  h=date:from:to:cc:subject:message-id;
-  bh=bdBihIhiS3nSo/7TjS6OgN7r9ca73ctS3AI5zKywJfU=;
-  b=XNFUj4scrq/Y9m7vfaL+uf0HJyPBCMRdkfRuXeRD3cEy3ki2Xg/yWDGO
-   wVXKSrP/Bo0wndm54zu4A251Ty6lpRFUnKpxHskOFBrtnsGWAsLAFczLl
-   EFh3vI8S0MXxwiTJ7luSBrEK1+M09vozZY7HZP85S2znUZyE6XWddT1Yc
-   CHl5O2QSjNwBnpucyDk5ox+XJGg7HYZ1rPGWGQxM0LbWBQiB1WK5etI9w
-   21ne6IxoZtHLj2hitPo36A/93tJ+E1z1H6EAB7tmmIkc0J82vCZ0qEAak
-   oHL/txriVfbs3WJX/AKacM5tPgzw5Olw9qwFLFiE/EosS1q+TiGStjjv6
-   Q==;
-X-CSE-ConnectionGUID: c1o4v4JlTU+B9jRE6TslEg==
-X-CSE-MsgGUID: G0csYpOaRY6fSxFqQv2PHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="71999153"
+  t=1766522181; x=1798058181;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WiaKcg6tqwr+deTq4kuVVXhsBv+dWmCSB3tiAiPsCn0=;
+  b=HKs9FKN5RG61i9FDGKrCpumLXMQX3rUeoGeilA14P6NbXkgM6Emz8Rsk
+   IVlprorocaVwnJdTITJzyOy2DAIbmG+q2QgiGFL0YN3Xj2QDUXEemCXo3
+   GV6BJCfQPCwD92AueNShZ42kkHGBzaktshQUqeckiQt5iY7pHYJwJIy5V
+   yhltI69+wYA76+xVfUlF6GDS+0eUV4h/Fj0VY2gB2aJ/3TNT2dY/4JyJV
+   4DSk1v+Q2V1W744BCZbgVr1i9Xpb4/2Dnibz8x1c8aaAirL9KgCxQdgtu
+   yota3AO7ygpTKIRm4M4bM/QvTk0PVpsTqgkQLPmzttI/b9W6K/HqCSyQU
+   w==;
+X-CSE-ConnectionGUID: 5SuXkPflTeizt9WktxE+iA==
+X-CSE-MsgGUID: ZLQdiNWHQGyJckyGoTIxUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="71999155"
 X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="71999153"
+   d="scan'208";a="71999155"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 12:36:19 -0800
-X-CSE-ConnectionGUID: N9XHXqbkTIu5NX0aY/rvRg==
-X-CSE-MsgGUID: MCwtL+bTSsqJJDACogCUzw==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 12:36:20 -0800
+X-CSE-ConnectionGUID: M3uEnjh3SWGNRRVwUNZ+9A==
+X-CSE-MsgGUID: OK99AN2yRaW09OhWVIaCrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="199520269"
+   d="scan'208";a="199520264"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
   by fmviesa007.fm.intel.com with ESMTP; 23 Dec 2025 12:36:17 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vY978-000000002Lt-2U8y;
+	id 1vY978-000000002Lv-2ZAk;
 	Tue, 23 Dec 2025 20:36:14 +0000
-Date: Wed, 24 Dec 2025 04:35:59 +0800
+Date: Wed, 24 Dec 2025 04:35:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>
-Subject: 
- drivers/media/platform/qcom/iris/iris_firmware.c:49:undefined reference to
- `qcom_mdt_get_size'
-Message-ID: <202512240451.STA6LPmq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Kyle Hsieh <kylehsieh1995@gmail.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Beguin <liambeguin@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Kyle Hsieh <kylehsieh1995@gmail.com>
+Subject: Re: [PATCH 2/2] iio: adc: ltc2309: add support for ltc2305
+Message-ID: <202512240416.ckqhNpHO-lkp@intel.com>
+References: <20251223-add_ltc2305_driver-v1-2-dfa0827fd620@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251223-add_ltc2305_driver-v1-2-dfa0827fd620@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b927546677c876e26eba308550207c2ddf812a43
-commit: 2df158047d532d0e2a6b39953656c738872151a3 ipa: fix compile-testing with qcom-mdt=m
-date:   5 months ago
-config: loongarch-randconfig-r071-20251223 (https://download.01.org/0day-ci/archive/20251224/202512240451.STA6LPmq-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240451.STA6LPmq-lkp@intel.com/reproduce)
+Hi Kyle,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Hsieh/dt-bindings-adc-ltc2497-add-support-for-ltc2305/20251223-171509
+base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+patch link:    https://lore.kernel.org/r/20251223-add_ltc2305_driver-v1-2-dfa0827fd620%40gmail.com
+patch subject: [PATCH 2/2] iio: adc: ltc2309: add support for ltc2305
+config: sparc64-randconfig-001-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240416.ckqhNpHO-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240416.ckqhNpHO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512240451.STA6LPmq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512240416.ckqhNpHO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   loongarch64-linux-ld: drivers/media/platform/qcom/iris/iris_firmware.o: in function `iris_load_fw_to_memory':
->> drivers/media/platform/qcom/iris/iris_firmware.c:49:(.text+0xf4): undefined reference to `qcom_mdt_get_size'
->> loongarch64-linux-ld: drivers/media/platform/qcom/iris/iris_firmware.c:61:(.text+0x13c): undefined reference to `qcom_mdt_load'
+   drivers/iio/adc/ltc2309.c: In function 'ltc2309_probe':
+>> drivers/iio/adc/ltc2309.c:195:29: warning: unused variable 'match' [-Wunused-variable]
+     const struct of_device_id *match;
+                                ^~~~~
 
 
-vim +49 drivers/media/platform/qcom/iris/iris_firmware.c
+vim +/match +195 drivers/iio/adc/ltc2309.c
 
-d19b163356b81b Dikshita Agarwal 2025-02-07  16  
-d19b163356b81b Dikshita Agarwal 2025-02-07  17  static int iris_load_fw_to_memory(struct iris_core *core, const char *fw_name)
-d19b163356b81b Dikshita Agarwal 2025-02-07  18  {
-d19b163356b81b Dikshita Agarwal 2025-02-07  19  	u32 pas_id = core->iris_platform_data->pas_id;
-d19b163356b81b Dikshita Agarwal 2025-02-07  20  	const struct firmware *firmware = NULL;
-d19b163356b81b Dikshita Agarwal 2025-02-07  21  	struct device *dev = core->dev;
-d19b163356b81b Dikshita Agarwal 2025-02-07  22  	struct reserved_mem *rmem;
-d19b163356b81b Dikshita Agarwal 2025-02-07  23  	struct device_node *node;
-d19b163356b81b Dikshita Agarwal 2025-02-07  24  	phys_addr_t mem_phys;
-d19b163356b81b Dikshita Agarwal 2025-02-07  25  	size_t res_size;
-d19b163356b81b Dikshita Agarwal 2025-02-07  26  	ssize_t fw_size;
-d19b163356b81b Dikshita Agarwal 2025-02-07  27  	void *mem_virt;
-d19b163356b81b Dikshita Agarwal 2025-02-07  28  	int ret;
-d19b163356b81b Dikshita Agarwal 2025-02-07  29  
-d19b163356b81b Dikshita Agarwal 2025-02-07  30  	if (strlen(fw_name) >= MAX_FIRMWARE_NAME_SIZE - 4)
-d19b163356b81b Dikshita Agarwal 2025-02-07  31  		return -EINVAL;
-d19b163356b81b Dikshita Agarwal 2025-02-07  32  
-d19b163356b81b Dikshita Agarwal 2025-02-07  33  	node = of_parse_phandle(dev->of_node, "memory-region", 0);
-d19b163356b81b Dikshita Agarwal 2025-02-07  34  	if (!node)
-d19b163356b81b Dikshita Agarwal 2025-02-07  35  		return -EINVAL;
-d19b163356b81b Dikshita Agarwal 2025-02-07  36  
-d19b163356b81b Dikshita Agarwal 2025-02-07  37  	rmem = of_reserved_mem_lookup(node);
-d19b163356b81b Dikshita Agarwal 2025-02-07  38  	of_node_put(node);
-d19b163356b81b Dikshita Agarwal 2025-02-07  39  	if (!rmem)
-d19b163356b81b Dikshita Agarwal 2025-02-07  40  		return -EINVAL;
-d19b163356b81b Dikshita Agarwal 2025-02-07  41  
-d19b163356b81b Dikshita Agarwal 2025-02-07  42  	mem_phys = rmem->base;
-d19b163356b81b Dikshita Agarwal 2025-02-07  43  	res_size = rmem->size;
-d19b163356b81b Dikshita Agarwal 2025-02-07  44  
-d19b163356b81b Dikshita Agarwal 2025-02-07  45  	ret = request_firmware(&firmware, fw_name, dev);
-d19b163356b81b Dikshita Agarwal 2025-02-07  46  	if (ret)
-d19b163356b81b Dikshita Agarwal 2025-02-07  47  		return ret;
-d19b163356b81b Dikshita Agarwal 2025-02-07  48  
-d19b163356b81b Dikshita Agarwal 2025-02-07 @49  	fw_size = qcom_mdt_get_size(firmware);
-d19b163356b81b Dikshita Agarwal 2025-02-07  50  	if (fw_size < 0 || res_size < (size_t)fw_size) {
-d19b163356b81b Dikshita Agarwal 2025-02-07  51  		ret = -EINVAL;
-d19b163356b81b Dikshita Agarwal 2025-02-07  52  		goto err_release_fw;
-d19b163356b81b Dikshita Agarwal 2025-02-07  53  	}
-d19b163356b81b Dikshita Agarwal 2025-02-07  54  
-d19b163356b81b Dikshita Agarwal 2025-02-07  55  	mem_virt = memremap(mem_phys, res_size, MEMREMAP_WC);
-e68c3c50a73649 Dan Carpenter    2025-02-17  56  	if (!mem_virt) {
-e68c3c50a73649 Dan Carpenter    2025-02-17  57  		ret = -ENOMEM;
-d19b163356b81b Dikshita Agarwal 2025-02-07  58  		goto err_release_fw;
-e68c3c50a73649 Dan Carpenter    2025-02-17  59  	}
-d19b163356b81b Dikshita Agarwal 2025-02-07  60  
-d19b163356b81b Dikshita Agarwal 2025-02-07 @61  	ret = qcom_mdt_load(dev, firmware, fw_name,
-d19b163356b81b Dikshita Agarwal 2025-02-07  62  			    pas_id, mem_virt, mem_phys, res_size, NULL);
-d19b163356b81b Dikshita Agarwal 2025-02-07  63  	if (ret)
-d19b163356b81b Dikshita Agarwal 2025-02-07  64  		goto err_mem_unmap;
-d19b163356b81b Dikshita Agarwal 2025-02-07  65  
-d19b163356b81b Dikshita Agarwal 2025-02-07  66  	ret = qcom_scm_pas_auth_and_reset(pas_id);
-d19b163356b81b Dikshita Agarwal 2025-02-07  67  	if (ret)
-d19b163356b81b Dikshita Agarwal 2025-02-07  68  		goto err_mem_unmap;
-d19b163356b81b Dikshita Agarwal 2025-02-07  69  
-d19b163356b81b Dikshita Agarwal 2025-02-07  70  	return ret;
-d19b163356b81b Dikshita Agarwal 2025-02-07  71  
-d19b163356b81b Dikshita Agarwal 2025-02-07  72  err_mem_unmap:
-d19b163356b81b Dikshita Agarwal 2025-02-07  73  	memunmap(mem_virt);
-d19b163356b81b Dikshita Agarwal 2025-02-07  74  err_release_fw:
-d19b163356b81b Dikshita Agarwal 2025-02-07  75  	release_firmware(firmware);
-d19b163356b81b Dikshita Agarwal 2025-02-07  76  
-d19b163356b81b Dikshita Agarwal 2025-02-07  77  	return ret;
-d19b163356b81b Dikshita Agarwal 2025-02-07  78  }
-d19b163356b81b Dikshita Agarwal 2025-02-07  79  
-
-:::::: The code at line 49 was first introduced by commit
-:::::: d19b163356b81b7da9bbc47d6c45c4dab8db32d9 media: iris: implement video firmware load/unload
-
-:::::: TO: Dikshita Agarwal <quic_dikshita@quicinc.com>
-:::::: CC: Hans Verkuil <hverkuil@xs4all.nl>
+   192	
+   193	static int ltc2309_probe(struct i2c_client *client)
+   194	{
+ > 195		const struct of_device_id *match;
+   196		const struct ltc230x_chip_info *chip_info;
+   197		struct iio_dev *indio_dev;
+   198		struct ltc2309 *ltc2309;
+   199		int ret;
+   200	
+   201		indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*ltc2309));
+   202		if (!indio_dev)
+   203			return -ENOMEM;
+   204	
+   205		ltc2309 = iio_priv(indio_dev);
+   206		chip_info = device_get_match_data(&client->dev);
+   207		if (!chip_info)
+   208			return -EINVAL;
+   209	
+   210		ltc2309->dev = &indio_dev->dev;
+   211		ltc2309->client = client;
+   212	
+   213		indio_dev->name = chip_info->name;
+   214		indio_dev->modes = INDIO_DIRECT_MODE;
+   215		indio_dev->channels = chip_info->channels;
+   216		indio_dev->num_channels = chip_info->num_channels;
+   217		indio_dev->info = &ltc2309_info;
+   218	
+   219		ret = devm_regulator_get_enable_read_voltage(&client->dev, "vref");
+   220		if (ret < 0 && ret != -ENODEV)
+   221			return dev_err_probe(ltc2309->dev, ret,
+   222					     "failed to get vref voltage\n");
+   223	
+   224		ltc2309->vref_mv = ret == -ENODEV ? LTC2309_INTERNAL_REF_MV : ret / 1000;
+   225	
+   226		mutex_init(&ltc2309->lock);
+   227	
+   228		return devm_iio_device_register(&client->dev, indio_dev);
+   229	}
+   230	
 
 -- 
 0-DAY CI Kernel Test Service
