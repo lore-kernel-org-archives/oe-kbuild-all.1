@@ -1,150 +1,128 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62961624C0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 22:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDBE2DEA78
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 22:34:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766529283; cv=none; b=d7ce81RYKGbJI1AppxNhEJV/y4FYIAS6sk0AmBGNLnSGJrhDUWgREeVmAKbWs0+l/LEc1cUw622URu+Zs+ijVcQWNHaBu0o8/Ldj/NeKR1w7sovn0scHSRTAyNHG+pb5FMN7rR9tEwq6scqM80L8UJbdr0RhYqwERIRfC48K9aI=
+	t=1766529285; cv=none; b=iTB2PD0AIr9c2wjb7y0Y+qjviwtiZJmo4SS2ZX66YZuxzd+z2QG/UT2kgDJOd7Ayv1E7L/MORYx5ESLJ7qSNMjHXgg8AL5s3JTc9l0VyCx0c+yUmwYl0kDWVMHFrb4GdXMwKD4WKGATmNchF4pu70TUKc1OSvfUWsAz6ETw4Ez4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766529283; c=relaxed/simple;
-	bh=ALeeB22tUHwZJHJODx3uLVKy7pQj9tvKqlUMl7pRgwE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UJz7J+oARQSHEQdpGmFpdZ0jw9nOCJ4b1CwXfkFnomrTFKq+rLPUtFJPEdaTs5OtRcoTjS/Go+YeDPsfOtJZWMdOrniGs1JCwKYZ/4GJ7vNxm+u4mypj6g/vuTnMpiZsZT7HO07pH+Utkac2VP1clHOqg1JjeqczgwQHUYemp8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K1tSrnaO; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1766529285; c=relaxed/simple;
+	bh=Fes5loOBsU+mC0Ceq2TtLjtj3mpKZi3TTjEVwXp7psU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Iq3i0ZMfxoi0VH+NItZVPpq6v2QWQi4dMUa5/mjGLrTzmA8zglctzmA3K2uK24V49rqajls1yoOvvRoS7yz5CA1m3e9agHJWJ2kfrcAUkJULMciM0435WdNQdgUD7hk5aVZA1mkXccnkwMJswMqsHRrshxjlG75Np4HIndaU5WM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DN+8W+Dh; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K1tSrnaO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DN+8W+Dh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766529281; x=1798065281;
-  h=date:from:to:cc:subject:message-id;
-  bh=ALeeB22tUHwZJHJODx3uLVKy7pQj9tvKqlUMl7pRgwE=;
-  b=K1tSrnaO9JkDCjb5vvKpPoDmgFrfbevE1w9ZnKnZhvUVsiJEMKMltZT+
-   IS/CQ5LhhGpCH96OjszaS4m2Pcv+xhyoQMzjCgc+wBzhd2FvRJFGq8SGU
-   jgp5a+GnM50fO+rtEDVnQDHoGYNTSL/KOa8CA+Wbz/SV5P2Drjcy1gxAM
-   qo9RWrLviYqoDIme+nnQNVGlzm7JyNzvk1itERat8YYts1wTAJo6HsKYZ
-   EZKNcAzU/yJEiu2idJCnSgPGee/j+rUQALY24p+xQelikSgDEfpzqq1BA
-   QRX7K2WopynpV3ggZa9QnRMaWNxMJ1hI7Kj30E1/A8ffgunp+noySjJrU
-   A==;
-X-CSE-ConnectionGUID: hdDPfTnnT0C8YQDmM8PGXw==
-X-CSE-MsgGUID: F2s0ZP/PRdqqlqMQhcBuGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79099099"
+  t=1766529283; x=1798065283;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Fes5loOBsU+mC0Ceq2TtLjtj3mpKZi3TTjEVwXp7psU=;
+  b=DN+8W+DhrAHUUEqjjd2UebXZVTEg2omWxL9EjbfxVy4k+5gXyW7uTfp0
+   hAGBxnCA2bDlEVVknG58dMh4NpJgPrTehu1PAIytXmQTZPgYHNs4oxrOC
+   DSxnjBGovPBi1DzyZ/VeJnA1aKEbFf14rFPAjggS8HFYeAUrHaHhhAtQt
+   r1PuHvnZ7hqb0DYYup2AiHg1wN/3lnO2hO3jzA3ZlTgIZqtbtH8m6t841
+   CxrB7VpLiqIF1a7rp3f1FsxALEuuiRsJPWTpF748kLyiQyrzVCChiWj64
+   sT18rFNpCxCo7JpMgQZp/CAsQkKMVTKsrG9o+O5Gc4SXNR2FeCTH7Kpg9
+   w==;
+X-CSE-ConnectionGUID: Z0SYm8axRTKDyASMDJAEfQ==
+X-CSE-MsgGUID: H83xatGWQGKfrbnvstJG7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79099103"
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="79099099"
+   d="scan'208";a="79099103"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 14:34:40 -0800
-X-CSE-ConnectionGUID: 5AEYYeXXQtW3vo2H1EV09w==
-X-CSE-MsgGUID: /sUgaskdQfidIWcq7ZBl8w==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 14:34:41 -0800
+X-CSE-ConnectionGUID: kdb3EiWAQeqPbPvmCjRM3w==
+X-CSE-MsgGUID: YKgfYRbQRqympAkXtZtTdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="204414922"
+   d="scan'208";a="204414911"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
   by orviesa004.jf.intel.com with ESMTP; 23 Dec 2025 14:34:38 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYAxg-000000002RT-0fqB;
+	id 1vYAxg-000000002RN-0Dgu;
 	Tue, 23 Dec 2025 22:34:36 +0000
-Date: Wed, 24 Dec 2025 06:33:54 +0800
+Date: Wed, 24 Dec 2025 06:33:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Fourier <fourier.thomas@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>
-Subject: drivers/block/rnbd/rnbd-clt.c:1429 init_dev() warn: unsigned
- 'dev->clt_device_id' is never less than zero.
-Message-ID: <202512240645.rx8BjT1r-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Aaron Tomlin <atomlin@atomlin.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org, mark.rutland@arm.com,
+	mathieu.desnoyers@efficios.com, corbet@lwn.net
+Cc: oe-kbuild-all@lists.linux.dev, atomlin@atomlin.com, sean@ashe.io,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] tracing: Add bitmask-list option for human-readable
+ bitmask display
+Message-ID: <202512240638.SumtF5C4-lkp@intel.com>
+References: <20251223035622.2084081-1-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251223035622.2084081-1-atomlin@atomlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b927546677c876e26eba308550207c2ddf812a43
-commit: c9b5645fd8ca10f310e41b07540f98e6a9720f40 block: rnbd-clt: Fix leaked ID in init_dev()
-date:   5 days ago
-config: csky-randconfig-r072-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240645.rx8BjT1r-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
+Hi Aaron,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/tracing-Add-bitmask-list-option-for-human-readable-bitmask-display/20251223-120923
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20251223035622.2084081-1-atomlin%40atomlin.com
+patch subject: [PATCH] tracing: Add bitmask-list option for human-readable bitmask display
+config: s390-randconfig-r071-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240638.SumtF5C4-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240638.SumtF5C4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512240645.rx8BjT1r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512240638.SumtF5C4-lkp@intel.com/
 
-New smatch warnings:
-drivers/block/rnbd/rnbd-clt.c:1429 init_dev() warn: unsigned 'dev->clt_device_id' is never less than zero.
+All error/warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/block/rnbd/rnbd-clt.c:1241 find_and_get_or_create_sess() error: 'sess' dereferencing possible ERR_PTR()
+   kernel/trace/trace_output.c: In function 'trace_print_bitmask_seq':
+>> kernel/trace/trace_output.c:202:33: error: implicit declaration of function 'trace_get_global_array'; did you mean 'ftrace_init_global_array_ops'? [-Werror=implicit-function-declaration]
+     const struct trace_array *tr = trace_get_global_array();
+                                    ^~~~~~~~~~~~~~~~~~~~~~
+                                    ftrace_init_global_array_ops
+>> kernel/trace/trace_output.c:202:33: warning: initialization of 'const struct trace_array *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   cc1: some warnings being treated as errors
 
-vim +1429 drivers/block/rnbd/rnbd-clt.c
 
-  1401	
-  1402	static struct rnbd_clt_dev *init_dev(struct rnbd_clt_session *sess,
-  1403					      enum rnbd_access_mode access_mode,
-  1404					      const char *pathname,
-  1405					      u32 nr_poll_queues)
-  1406	{
-  1407		struct rnbd_clt_dev *dev;
-  1408		int ret;
-  1409	
-  1410		dev = kzalloc_node(sizeof(*dev), GFP_KERNEL, NUMA_NO_NODE);
-  1411		if (!dev)
-  1412			return ERR_PTR(-ENOMEM);
-  1413	
-  1414		/*
-  1415		 * nr_cpu_ids: the number of softirq queues
-  1416		 * nr_poll_queues: the number of polling queues
-  1417		 */
-  1418		dev->hw_queues = kcalloc(nr_cpu_ids + nr_poll_queues,
-  1419					 sizeof(*dev->hw_queues),
-  1420					 GFP_KERNEL);
-  1421		if (!dev->hw_queues) {
-  1422			ret = -ENOMEM;
-  1423			goto out_alloc;
-  1424		}
-  1425	
-  1426		dev->clt_device_id = ida_alloc_max(&index_ida,
-  1427						   (1 << (MINORBITS - RNBD_PART_BITS)) - 1,
-  1428						   GFP_KERNEL);
-> 1429		if (dev->clt_device_id < 0) {
-  1430			ret = dev->clt_device_id;
-  1431			pr_err("Failed to initialize device '%s' from session %s, allocating idr failed, err: %d\n",
-  1432			       pathname, sess->sessname, ret);
-  1433			goto out_queues;
-  1434		}
-  1435	
-  1436		dev->pathname = kstrdup(pathname, GFP_KERNEL);
-  1437		if (!dev->pathname) {
-  1438			ret = -ENOMEM;
-  1439			goto out_ida;
-  1440		}
-  1441	
-  1442		dev->sess		= sess;
-  1443		dev->access_mode	= access_mode;
-  1444		dev->nr_poll_queues	= nr_poll_queues;
-  1445		mutex_init(&dev->lock);
-  1446		refcount_set(&dev->refcount, 1);
-  1447		dev->dev_state = DEV_STATE_INIT;
-  1448	
-  1449		/*
-  1450		 * Here we called from sysfs entry, thus clt-sysfs is
-  1451		 * responsible that session will not disappear.
-  1452		 */
-  1453		WARN_ON(!rnbd_clt_get_sess(sess));
-  1454	
-  1455		return dev;
-  1456	
-  1457	out_ida:
-  1458		ida_free(&index_ida, dev->clt_device_id);
-  1459	out_queues:
-  1460		kfree(dev->hw_queues);
-  1461	out_alloc:
-  1462		kfree(dev);
-  1463		return ERR_PTR(ret);
-  1464	}
-  1465	
+vim +202 kernel/trace/trace_output.c
+
+   196	
+   197	const char *
+   198	trace_print_bitmask_seq(struct trace_seq *p, void *bitmask_ptr,
+   199				unsigned int bitmask_size)
+   200	{
+   201		const char *ret = trace_seq_buffer_ptr(p);
+ > 202		const struct trace_array *tr = trace_get_global_array();
+   203		bool show_bitmask_list = tr->trace_flags &
+   204					 TRACE_ITER(BITMASK_LIST);
+   205	
+   206		trace_seq_bitmask(p, bitmask_ptr, bitmask_size * 8,
+   207				  show_bitmask_list);
+   208		trace_seq_putc(p, 0);
+   209	
+   210		return ret;
+   211	}
+   212	EXPORT_SYMBOL_GPL(trace_print_bitmask_seq);
+   213	
 
 -- 
 0-DAY CI Kernel Test Service
