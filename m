@@ -1,132 +1,213 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA08433032B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 11:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D09A32AAA9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 12:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766491123; cv=none; b=ggne/SlmqITfQt/HEdkik6eWFyeKG8xik5GQyb0aX73c0y2CP2gLIrGXirw/Ba73iU4aMLy1ohfM4NStU9tFrwpQ5yDKoyXmLjsq+HoDZvJ4d5Eysrq/nEoHq/aH3kaqVH/+JYuPFGi1Y65CpVRKHZUBxRQVW4zYo90uwd9etDQ=
+	t=1766494662; cv=none; b=Qry8r3fNIAFsZOn0I2tmDbtIzaYqpsS2uxmj8e65NT0xPYeEL/64mP8z2ryIAwg1A9p1gPZrMzCKS9p2uI8l9l54EQPhc2ue8XejsUClQhd0WAkVbh5RXl2U98lCrSq5WkPq5rMoUI/pj3qN/O4xJU/8unNdgjrzp+ckpJe1iGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766491123; c=relaxed/simple;
-	bh=SrGOy+3teWABqpBs8frHuhqSiTVX68KMj2fgRMvXvcg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lGbz6On+ooFzgx7dSWEvP6ykEFHbnFOv3EZVS5Ef0dZiYXuxEqI7L3P8FOjfKYkd8plZd3ZWukYcJa8HT5QDE57OqSUvONzzbTlzzPoYXV8fqweBlU57dsjwjlsaTQ5IuWLjSrEKp6ouqDF+2rdWiQjL1MKOSg1rb1/xzxv0T7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWAmgOMZ; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766494662; c=relaxed/simple;
+	bh=0cSaQBGP0JNbkjTGPmy0w2tQB3fkB56bXg98JD9xhgc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gFcXDdrCDXGPvYPidREp4/Rlm4/Z9XYvloatQkznrOKB20jOtKcWoSt18KKAU1Ld83QCNoMLisEUY79cZnQQvzTwXWrzE4LVG7i8gLRVdQrpRWAmzSj/FVQJK0PoKrW1gRkTPnl4IGirBH6qtSgwp0OhUh+M1LkQS5XO5Ce+Y5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=lVdxw+iX; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWAmgOMZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766491122; x=1798027122;
-  h=date:from:to:cc:subject:message-id;
-  bh=SrGOy+3teWABqpBs8frHuhqSiTVX68KMj2fgRMvXvcg=;
-  b=gWAmgOMZxzNWGHa0K4jAiTF3jOAquE0M1dvrEFBODTYT20kM11bYduFW
-   5MlQLRoLFU0F9UORVGJZjs3MvvIGgPy60/mPK0kv3too6exjfZB8xEAgx
-   BZSd80WcbJYeZqVffSyYSqLc7GqTYiCAi6NPH4EGcwfdg+nzv5gOVxLIZ
-   z2C9z4DunR8eW2t7PI9kn4BmxQWFSqwPYxi5GtqTTwYb/jnnBu8VdSc4D
-   y51g5+qcB/nCTFzFfxT40LSewj+rmE3vNrnwcxp+hRLYOJ1dwCHZ7snoc
-   JkGEO535IHDpgh1SFASieHUDlp3wl8SD54JXSll/OZ1kI+EoxqEoOozg2
-   A==;
-X-CSE-ConnectionGUID: mcFNZLzzToWD82AFL6tSpQ==
-X-CSE-MsgGUID: GlXRxJnUQNmV+wKiNma3EA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="85754305"
-X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="85754305"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 03:58:39 -0800
-X-CSE-ConnectionGUID: Wc64O7bpQgesQdBUA/0q4g==
-X-CSE-MsgGUID: o2xsdvmtQFiJTpGpPrxDYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="200067109"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Dec 2025 03:58:38 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vY12B-000000001qx-2M7I;
-	Tue, 23 Dec 2025 11:58:35 +0000
-Date: Tue, 23 Dec 2025 19:58:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gabriele Monaco <gmonaco@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [glemco:staging_rv_hybrid_automata 20/21]
- kernel/trace/rv/monitors/nomiss/nomiss.c:200:13: error: conflicting types for
- 'handle_syscall'; have 'void(void *, struct pt_regs *, long int)'
-Message-ID: <202512231906.LlE3scHH-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="lVdxw+iX"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BN7Uw92010872;
+	Tue, 23 Dec 2025 12:57:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Eojjdw
+	TpV0a0uzjajItXh7sM23uq+A0hHxp8F5KWUk8=; b=lVdxw+iXQcJtO8zKfjPYCH
+	hG+usMvldov/yN7zBnRn5knwVyf88zk6MZI9JQDYe1HEOXm+VESXTnZY0yJ+gRJc
+	uKQxF3NNCixK3bIXrYFDuXGWuNjZ3qPz/HIO3IQ3CLk9uo+tMd71VFyjslcrU2Zc
+	2+nlffIeoa16flWGdznt9BhAMm1Hz7m9RHElKQVngmpLgoJ/dOmFQzIBixQ/RUwD
+	vQY2T2upXAD+D7mv9kODPgd26tQryp6N9mlTFkjexrrpDyTID6jGAZ+OTvLN0Y6t
+	St7CSlq97ttGnVEunLb5dXp3A66XHAKEnLihArSzwIecJLV2GLK9ZdWivSNSOWeQ
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b5j7e4j5r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Dec 2025 12:57:28 +0000 (GMT)
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5BNCjeFs026492;
+	Tue, 23 Dec 2025 12:57:28 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b5j7e4j5p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Dec 2025 12:57:28 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BNAAxjk004608;
+	Tue, 23 Dec 2025 12:57:27 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4b674mu6w6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Dec 2025 12:57:27 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5BNCvNQn29950388
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 23 Dec 2025 12:57:23 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 51EC52004B;
+	Tue, 23 Dec 2025 12:57:23 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5D0D220040;
+	Tue, 23 Dec 2025 12:57:21 +0000 (GMT)
+Received: from [9.39.22.157] (unknown [9.39.22.157])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 23 Dec 2025 12:57:21 +0000 (GMT)
+Message-ID: <fb309e19-9c2c-492c-abac-8aa6031f3124@linux.ibm.com>
+Date: Tue, 23 Dec 2025 18:27:19 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: arch/powerpc/kexec/core.c:217:20: sparse: sparse: incorrect type
+ in assignment (different base types)
+To: kernel test robot <lkp@intel.com>, Ben Collins <bcollins@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        shivang upadhyay <shivangu@linux.ibm.com>,
+        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Hari Bathini <hbathini@linux.ibm.com>
+References: <202512221405.VHPKPjnp-lkp@intel.com>
+Content-Language: en-US
+From: Sourabh Jain <sourabhjain@linux.ibm.com>
+In-Reply-To: <202512221405.VHPKPjnp-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=G8YR0tk5 c=1 sm=1 tr=0 ts=694a91b8 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=NEAV23lmAAAA:8
+ a=hGzw-44bAAAA:8 a=wMNdZWldAAAA:8 a=O1bWE6anNRU1bnsqH8UA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=mmqRlSCDY2ywfjPLJ4af:22 a=HvKuF1_PTVFglORKqfwH:22
+ a=FUarYpL4UH3yWsho8X8J:22
+X-Proofpoint-ORIG-GUID: 0VKgn2tWtb28lJapprSFjPooqxXsfezw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjIzMDEwNCBTYWx0ZWRfX08SD5BX2iqN5
+ l5db5UF/5dA/BY8pWb5UbYdDruDf41k7jRltMYlxCDGmM+EqALB895v90xvctQ34dS1G9bor23a
+ oZevOVNnv4B9n3LwI2EjgU9WaeQc0YOAPP7HAH6vn+V01ga3pjFxWFxQtaiaFzYwK6LrqbkWGdG
+ LAw8IfvHAdrZTl18zQJvstVuBZk24kPqviM3xg5+7vocFpoYpu6ITkMZnbc6QX6F9M+W9FyhzUM
+ U7GVsX7GP3zqHlLUnZ65MVGDaU4jOaiRiW7a8B5fBUobndaznDCoGxVTY0oseQqtKUbq86VhtJn
+ jGVVREMgIiY51d8NbLsLgBbVbgAYMu9y9Lkj4iytMQZ8SctSUJqqb2FxJeMTb0RAfK+NHt06u0/
+ t1tHHN1LXQzmgaBxVHmat/uhHSwKwD7KPT7DWXqI7KNfZN6l+z7WRYGZOsH9j7rJqfwFDcIL7b7
+ Pbqj4msipt7Gco7UHsg==
+X-Proofpoint-GUID: MHHvmlOPd_Cmo5X4rH4gjnzdpaoutqZv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-23_03,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 clxscore=1011 adultscore=0 spamscore=0
+ malwarescore=0 impostorscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2512120000 definitions=main-2512230104
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gmonaco/linux.git staging_rv_hybrid_automata
-head:   4ee25b194d8ceffecc62e47ef7825e84ff983e2b
-commit: 5d49442d8069b2f0242f3ee6a01868bc5fc83836 [20/21] rv: Add deadline monitors
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20251223/202512231906.LlE3scHH-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512231906.LlE3scHH-lkp@intel.com/reproduce)
++Cc: PowerPC mailing list.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512231906.LlE3scHH-lkp@intel.com/
+and added some comments below.
 
-All errors (new ones prefixed by >>):
+On 22/12/25 12:14, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+> commit: 38c64dfe0af12778953846df5f259e913275cfe5 kexec: Include kernel-end even without crashkernel
+> date:   6 weeks ago
+> config: powerpc-randconfig-r111-20251222 (https://download.01.org/0day-ci/archive/20251222/202512221405.VHPKPjnp-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 42b3483ac4987cae1bdb632398e8a3ce2dea6633)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251222/202512221405.VHPKPjnp-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512221405.VHPKPjnp-lkp@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>>> arch/powerpc/kexec/core.c:217:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int static [addressable] [toplevel] [usertype] kernel_end @@     got restricted __be32 [usertype] @@
+>     arch/powerpc/kexec/core.c:217:20: sparse:     expected unsigned int static [addressable] [toplevel] [usertype] kernel_end
+>     arch/powerpc/kexec/core.c:217:20: sparse:     got restricted __be32 [usertype]
 
->> kernel/trace/rv/monitors/nomiss/nomiss.c:200:13: error: conflicting types for 'handle_syscall'; have 'void(void *, struct pt_regs *, long int)'
-     200 | static void handle_syscall(void *data, struct pt_regs *regs, long id)
-         |             ^~~~~~~~~~~~~~
-   In file included from arch/x86/um/asm/elf.h:9,
-                    from arch/um/include/asm/uaccess.h:10,
-                    from include/linux/uaccess.h:13,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/mm.h:36,
-                    from include/linux/kallsyms.h:13,
-                    from include/linux/ftrace.h:13,
-                    from kernel/trace/rv/monitors/nomiss/nomiss.c:2:
-   arch/um/include/shared/skas/skas.h:14:13: note: previous declaration of 'handle_syscall' with type 'void(struct uml_pt_regs *)'
-      14 | extern void handle_syscall(struct uml_pt_regs *regs);
-         |             ^~~~~~~~~~~~~~
---
->> kernel/trace/rv/monitors/throttle/throttle.c:157:13: error: conflicting types for 'handle_syscall'; have 'void(void *, struct pt_regs *, long int)'
-     157 | static void handle_syscall(void *data, struct pt_regs *regs, long id)
-         |             ^~~~~~~~~~~~~~
-   In file included from arch/x86/um/asm/elf.h:9,
-                    from arch/um/include/asm/uaccess.h:10,
-                    from include/linux/uaccess.h:13,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/mm.h:36,
-                    from include/linux/kallsyms.h:13,
-                    from include/linux/ftrace.h:13,
-                    from kernel/trace/rv/monitors/throttle/throttle.c:2:
-   arch/um/include/shared/skas/skas.h:14:13: note: previous declaration of 'handle_syscall' with type 'void(struct uml_pt_regs *)'
-      14 | extern void handle_syscall(struct uml_pt_regs *regs);
-         |             ^~~~~~~~~~~~~~
+If CONFIG_CRASH_DUMP is enabled (which is not done in config shared by 
+kernel test robot) sparse warn
+about other assignments in the same file. And these warnings are not 
+limited to 32-bit.
 
+../arch/powerpc/kexec/core.c:181:29: sparse: warning: incorrect type in 
+assignment (different base types)
+../arch/powerpc/kexec/core.c:181:29: sparse:    expected unsigned int 
+static [addressable] [toplevel] [usertype] crashk_base
+../arch/powerpc/kexec/core.c:181:29: sparse:    got restricted __be32 
+[usertype]
+../arch/powerpc/kexec/core.c:183:29: sparse: warning: incorrect type in 
+assignment (different base types)
+../arch/powerpc/kexec/core.c:183:29: sparse:    expected unsigned int 
+static [addressable] [toplevel] [usertype] crashk_size
+../arch/powerpc/kexec/core.c:183:29: sparse:    got restricted __be32 
+[usertype]
+../arch/powerpc/kexec/core.c:191:19: sparse: warning: incorrect type in 
+assignment (different base types)
+../arch/powerpc/kexec/core.c:191:19: sparse:    expected unsigned long 
+long static [addressable] [toplevel] mem_limit
+../arch/powerpc/kexec/core.c:191:19: sparse:    got restricted __be32 
+[usertype]
+../arch/powerpc/kexec/core.c:217:20: sparse: warning: incorrect type in 
+assignment (different base types)
+../arch/powerpc/kexec/core.c:217:20: sparse:    expected unsigned int 
+static [addressable] [toplevel] [usertype] kernel_end
+../arch/powerpc/kexec/core.c:217:20: sparse:    got restricted __be32 
+[usertype]
+   CHECK   ../arch/powerpc/kexec/core_32.c
 
-vim +200 kernel/trace/rv/monitors/nomiss/nomiss.c
+To resolve these warnings:
 
-   199	
- > 200	static void handle_syscall(void *data, struct pt_regs *regs, long id)
-   201	{
-   202		struct task_struct *p;
-   203		int new_policy = -1;
-   204	
-   205		new_policy = extract_params(regs, id, &p);
-   206		if (new_policy < 0 || new_policy == p->policy)
-   207			return;
-   208		if (p->policy == SCHED_DEADLINE)
-   209			da_reset(EXPAND_ID(&p->dl, DL_TASK));
-   210		else if (new_policy == SCHED_DEADLINE)
-   211			da_create_or_get(EXPAND_ID(&p->dl, DL_TASK));
-   212	}
-   213	
+Should we use __force tpyecast and silence the warnings?
+for example:
+kernel_end = (__force phys_addr_t) cpu_to_be_ulong(__pa(_end));
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Or
+
+Use proper data types __be<32|64> and duplicated the definition and 
+assignment? seems like bit too much.
+
+Or
+
+Do we have better way to handle these warnings? If yes, please share.
+
+- Sourabh Jain
+
+>
+> vim +217 arch/powerpc/kexec/core.c
+>
+> 6f29c3298b1821 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-17  203
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  204  static int __init kexec_setup(void)
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  205  {
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  206  	struct device_node *node;
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  207
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  208  	node = of_find_node_by_path("/chosen");
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  209  	if (!node)
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  210  		return -ENOENT;
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  211
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  212  	/* remove any stale properties so ours can be found */
+> 38c64dfe0af127 arch/powerpc/kexec/core.c           Ben Collins     2025-04-21  213  	of_remove_property(node, of_find_property(node, kernel_end_prop.name,
+> 38c64dfe0af127 arch/powerpc/kexec/core.c           Ben Collins     2025-04-21  214  						  NULL));
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  215
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  216  	/* information needed by userspace when using default_machine_kexec */
+> ea961a828fe725 arch/powerpc/kernel/machine_kexec.c Anton Blanchard 2014-01-22 @217  	kernel_end = cpu_to_be_ulong(__pa(_end));
+> 79d1c712958f94 arch/powerpc/kernel/machine_kexec.c Nathan Fontenot 2012-10-02  218  	of_add_property(node, &kernel_end_prop);
+> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 2008-12-16  219
+>
+> :::::: The code at line 217 was first introduced by commit
+> :::::: ea961a828fe7250e954f086d74d9323c3d44c3e4 powerpc: Fix endian issues in kexec and crash dump code
+>
+> :::::: TO: Anton Blanchard <anton@samba.org>
+> :::::: CC: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+>
+
