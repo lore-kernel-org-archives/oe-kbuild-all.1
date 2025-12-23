@@ -1,87 +1,319 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C1313777E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 01:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12B113D891;
+	Tue, 23 Dec 2025 01:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766452577; cv=none; b=PVVtF4a4EyqvsDAxcGRfcf72Hz/6jZHhe1pM1KsOf5ZvLbo9AONYcwaYX4zXVODVDYU8mSB8ycEW9HMMIVzzp1xLj/sAqNKXlSPulQi2cPmq9br2jzrQs67+i/izEEk/8RrM1ghFRqHnWa8reUbryFNE6stEcDR11j/6mEce5gg=
+	t=1766452731; cv=none; b=qrBnQzUSRCy4Ys4Mrvu/OB0eagZihvr56BBwAhIWEM00XOpmGQ0oRCiEB7x3kDSyJW15v7sk5odba0NXKWbJhRVXAkhaT1vIztc5hWvtzG5dUsSY8W3QMgpO2Eb5aNibeCyNk+K1xHMuo+pkXTJCc5mvaaZLmmfAzN33P5YdOlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766452577; c=relaxed/simple;
-	bh=/Y4CADJQ2/1H7FtDt9gGt2kugpPxJDUInPGbykEBk3Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dxhPUAAyUHkYdZnhPpNsuEdYzPGN+Kuno/E5S8iyabq9WKzfHbjpPeB0hXDhQwQ1tBZX5XZTRFVKaLOKE4h0Qt02o8V3nwmemrA/CakniPpBmhYStnurkQfo9YvJa06Qen6TCWXN9hoKMnMLJNow92yLiaHG7F2cU2cJJ3TMw4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4dZxs31QVzzYQtH8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 09:15:35 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 5F1384056D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 09:16:11 +0800 (CST)
-Received: from [10.34.206.51] (unknown [10.34.206.51])
-	by APP4 (Coremail) with SMTP id gCh0CgAn1fVW7UlpyIyZBA--.24819S2;
-	Tue, 23 Dec 2025 09:16:07 +0800 (CST)
-Message-ID: <b010db20-d044-4ecf-bb87-af580e4c0f07@huaweicloud.com>
-Date: Tue, 23 Dec 2025 09:16:06 +0800
+	s=arc-20240116; t=1766452731; c=relaxed/simple;
+	bh=MgkW2R9lnTeSxYxmms0jpSDguy/EHETG6PKO7HWLO38=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VBnGWywVXWHGn4HbkAxisWZmKzAw8Cd5xUcxPmeFLfpO6NYlIR9HtE060YoEMKxgQxh9VnpuyTehDF8hgWeeG34LyMZn9zJeKWhT6Z6t6akXJcQON/0zb/QCG3MuCNkIb/o2YAu5Eq79zWa9JDTGy2NyHFqmxHZ3RDXULoLarYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bY3ctldO; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bY3ctldO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766452729; x=1797988729;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MgkW2R9lnTeSxYxmms0jpSDguy/EHETG6PKO7HWLO38=;
+  b=bY3ctldOP1PzQN6rD1PnCwLIzxFIRXiYJcypXW6Q0Sql3K1TjCJa9PWe
+   l/zyCjhpZZKZyu1gAvkwPP3lzYL2PQ0KvtGJDs4IoT75dvL7fgnAte03n
+   hsqzOdQScAE+AaEN0GgO0vgU8aHHBvSpz1oG+Viw67rUvxYr2J9dS1fv9
+   4u7PsEMKWJxG7tk1f47fcO6Zs8via2vTifIgQ9Wv4EHKWTknTeVNisWVk
+   tHKzGMknM/Ql+U/cjNUNJU51CXVQ3OQ/kuuLG2iBfRqTbzZt5mNkdyVbU
+   YVAxwI3uZuVrPgAvgWBQ7W+dg9eR06XqRW3Xv9sll1komBNUq4jToGlFF
+   A==;
+X-CSE-ConnectionGUID: npPu1Af/T+qmqDR/r/5Faw==
+X-CSE-MsgGUID: swHjhao5SuSOzPAnP3gXjw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68347972"
+X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
+   d="scan'208";a="68347972"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 17:18:48 -0800
+X-CSE-ConnectionGUID: znlUpYS+QS2gEaKf08Mtaw==
+X-CSE-MsgGUID: PN8XDdVPSven7B3LV4uYeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
+   d="scan'208";a="198902419"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 22 Dec 2025 17:18:45 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vXr2x-000000001Ht-1Ep2;
+	Tue, 23 Dec 2025 01:18:43 +0000
+Date: Tue, 23 Dec 2025 09:17:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: pip-izony <eeodqql09@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, Seungjin Bae <eeodqql09@gmail.com>,
+	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
+	Sanghoon Choi <csh0052@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: ttusb-dec: fix heap-buffer-overflow in
+ ttusb_dec_process_urb_frame()
+Message-ID: <202512230947.zdHvFcAE-lkp@intel.com>
+References: <20251222054644.938208-2-eeodqql09@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: mm/hugetlb_cgroup.c:829:44: warning: '%s' directive output may be
- truncated writing up to 1623 bytes into a region of size between 32 and 63
-To: kernel test robot <lkp@intel.com>, Xiu Jianfeng <xiujianfeng@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-References: <202512212332.9lFRbgdS-lkp@intel.com>
-From: Xiujianfeng <xiujianfeng@huaweicloud.com>
-In-Reply-To: <202512212332.9lFRbgdS-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgAn1fVW7UlpyIyZBA--.24819S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrKry5Zr4UZr17Xr13Jw4fKrg_yoWkZrgE9r
-	13KrykCrWktFs09w4vgrnI9r9aka45tFyrKw18K3y3uwnxZw48uFZ3CF98uFn3t3WvgrZx
-	C3ZxJ3sFqr1YkjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
-	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x02
-	67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vI
-	r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jjVbkUUUUU=
-X-CM-SenderInfo: x0lxyxpdqiv03j6k3tpzhluzxrxghudrp/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251222054644.938208-2-eeodqql09@gmail.com>
+
+Hi pip-izony,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linuxtv-media-pending/master]
+[also build test ERROR on media-tree/master sailus-media-tree/master linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/pip-izony/media-ttusb-dec-fix-heap-buffer-overflow-in-ttusb_dec_process_urb_frame/20251222-134809
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20251222054644.938208-2-eeodqql09%40gmail.com
+patch subject: [PATCH v2] media: ttusb-dec: fix heap-buffer-overflow in ttusb_dec_process_urb_frame()
+config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20251223/202512230947.zdHvFcAE-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 185f5fd5ce4c65116ca8cf6df467a682ef090499)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230947.zdHvFcAE-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230947.zdHvFcAE-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/media/usb/ttusb-dec/ttusb_dec.c:713:7: error: expected ')'
+     713 |                                                 __func__);
+         |                                                 ^
+   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:6: note: to match this '('
+     711 |                                         dev_warn(&dec->udev->dev,
+         |                                         ^
+   include/linux/dev_printk.h:156:2: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_index_wrap'
+     109 |                 dev_printk_index_emit(level, fmt);                      \
+         |                 ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_index_emit'
+     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
+         |         ^
+   include/linux/printk.h:479:2: note: expanded from macro 'printk_index_subsys_emit'
+     479 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
+         |         ^
+   include/linux/printk.h:436:27: note: expanded from macro '__printk_index_emit'
+     436 |                 if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
+         |                                         ^
+>> drivers/media/usb/ttusb-dec/ttusb_dec.c:713:7: error: expected ')'
+     713 |                                                 __func__);
+         |                                                 ^
+   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:6: note: to match this '('
+     711 |                                         dev_warn(&dec->udev->dev,
+         |                                         ^
+   include/linux/dev_printk.h:156:2: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_index_wrap'
+     109 |                 dev_printk_index_emit(level, fmt);                      \
+         |                 ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_index_emit'
+     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
+         |         ^
+   include/linux/printk.h:479:2: note: expanded from macro 'printk_index_subsys_emit'
+     479 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
+         |         ^
+   include/linux/printk.h:445:32: note: expanded from macro '__printk_index_emit'
+     445 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
+         |                                                            ^
+>> drivers/media/usb/ttusb-dec/ttusb_dec.c:713:7: error: expected ')'
+     713 |                                                 __func__);
+         |                                                 ^
+   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:6: note: to match this '('
+     711 |                                         dev_warn(&dec->udev->dev,
+         |                                         ^
+   include/linux/dev_printk.h:156:2: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_index_wrap'
+     109 |                 dev_printk_index_emit(level, fmt);                      \
+         |                 ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_index_emit'
+     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
+         |         ^
+   include/linux/printk.h:479:2: note: expanded from macro 'printk_index_subsys_emit'
+     479 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
+         |         ^
+   include/linux/printk.h:445:41: note: expanded from macro '__printk_index_emit'
+     445 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
+         |                                                                     ^
+>> drivers/media/usb/ttusb-dec/ttusb_dec.c:713:7: error: expected ')'
+     713 |                                                 __func__);
+         |                                                 ^
+   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:6: note: to match this '('
+     711 |                                         dev_warn(&dec->udev->dev,
+         |                                         ^
+   include/linux/dev_printk.h:156:2: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^
+   include/linux/dev_printk.h:110:10: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                        ^
+   4 errors generated.
 
 
+vim +713 drivers/media/usb/ttusb-dec/ttusb_dec.c
 
-On 12/21/2025 11:23 PM, kernel test robot wrote:
-> Hi Xiu,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   9094662f6707d1d4b53d18baba459604e8bb0783
-> commit: 47179fe03588caa13a9bae642b058901709ddc55 mm/hugetlb_cgroup: prepare cftypes based on template
-> date:   1 year, 6 months ago
-> config: s390-randconfig-001-20251220 (https://download.01.org/0day-ci/archive/20251221/202512212332.9lFRbgdS-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 10.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251221/202512212332.9lFRbgdS-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512212332.9lFRbgdS-lkp@intel.com/
+   640	
+   641	static void ttusb_dec_process_urb_frame(struct ttusb_dec *dec, u8 *b,
+   642						int length)
+   643	{
+   644		swap_bytes(b, length);
+   645	
+   646		while (length) {
+   647			switch (dec->packet_state) {
+   648	
+   649			case 0:
+   650			case 1:
+   651			case 2:
+   652				if (*b++ == 0xaa)
+   653					dec->packet_state++;
+   654				else
+   655					dec->packet_state = 0;
+   656	
+   657				length--;
+   658				break;
+   659	
+   660			case 3:
+   661				if (*b == 0x00) {
+   662					dec->packet_state++;
+   663					dec->packet_length = 0;
+   664				} else if (*b != 0xaa) {
+   665					dec->packet_state = 0;
+   666				}
+   667	
+   668				b++;
+   669				length--;
+   670				break;
+   671	
+   672			case 4:
+   673				dec->packet[dec->packet_length++] = *b++;
+   674	
+   675				if (dec->packet_length == 2) {
+   676					if (dec->packet[0] == 'A' &&
+   677					    dec->packet[1] == 'V') {
+   678						dec->packet_type =
+   679							TTUSB_DEC_PACKET_PVA;
+   680						dec->packet_state++;
+   681					} else if (dec->packet[0] == 'S') {
+   682						dec->packet_type =
+   683							TTUSB_DEC_PACKET_SECTION;
+   684						dec->packet_state++;
+   685					} else if (dec->packet[0] == 0x00) {
+   686						dec->packet_type =
+   687							TTUSB_DEC_PACKET_EMPTY;
+   688						dec->packet_payload_length = 2;
+   689						dec->packet_state = 7;
+   690					} else {
+   691						printk("%s: unknown packet type: %02x%02x\n",
+   692						       __func__,
+   693						       dec->packet[0], dec->packet[1]);
+   694						dec->packet_state = 0;
+   695					}
+   696				}
+   697	
+   698				length--;
+   699				break;
+   700	
+   701			case 5:
+   702				dec->packet[dec->packet_length++] = *b++;
+   703	
+   704				if (dec->packet_type == TTUSB_DEC_PACKET_PVA &&
+   705				    dec->packet_length == 8) {
+   706					int len = 8 +
+   707						(dec->packet[6] << 8) +
+   708						dec->packet[7];
+   709	
+   710					if (len > MAX_PVA_LENGTH + 4) {
+   711						dev_warn(&dec->udev->dev,
+   712							"%s: packet too long - discarding\n"
+ > 713							__func__);
+   714						dec->packet_state = 0;
+   715					} else {
+   716						dec->packet_state++;
+   717						dec->packet_payload_length = len;
+   718					}
+   719				} else if (dec->packet_type ==
+   720						TTUSB_DEC_PACKET_SECTION &&
+   721					   dec->packet_length == 5) {
+   722					dec->packet_state++;
+   723					dec->packet_payload_length = 5 +
+   724						((dec->packet[3] & 0x0f) << 8) +
+   725						dec->packet[4];
+   726				}
+   727	
+   728				length--;
+   729				break;
+   730	
+   731			case 6: {
+   732				int remainder = dec->packet_payload_length -
+   733						dec->packet_length;
+   734	
+   735				if (length >= remainder) {
+   736					memcpy(dec->packet + dec->packet_length,
+   737					       b, remainder);
+   738					dec->packet_length += remainder;
+   739					b += remainder;
+   740					length -= remainder;
+   741					dec->packet_state++;
+   742				} else {
+   743					memcpy(&dec->packet[dec->packet_length],
+   744					       b, length);
+   745					dec->packet_length += length;
+   746					length = 0;
+   747				}
+   748	
+   749				break;
+   750			}
+   751	
+   752			case 7: {
+   753				int tail = 4;
+   754	
+   755				dec->packet[dec->packet_length++] = *b++;
+   756	
+   757				if (dec->packet_type == TTUSB_DEC_PACKET_SECTION &&
+   758				    dec->packet_payload_length % 2)
+   759					tail++;
+   760	
+   761				if (dec->packet_length ==
+   762				    dec->packet_payload_length + tail) {
+   763					ttusb_dec_process_packet(dec);
+   764					dec->packet_state = 0;
+   765				}
+   766	
+   767				length--;
+   768				break;
+   769			}
+   770	
+   771			default:
+   772				printk("%s: illegal packet state encountered.\n",
+   773				       __func__);
+   774				dec->packet_state = 0;
+   775			}
+   776		}
+   777	}
+   778	
 
-Thank you, the fix patch is on the way:
-
-https://lore.kernel.org/all/20251222072359.3626182-1-xiujianfeng@huaweicloud.com/
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
