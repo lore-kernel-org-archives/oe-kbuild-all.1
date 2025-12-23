@@ -1,155 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C5521FF48
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 Dec 2025 23:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6922581
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 00:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766447929; cv=none; b=kIKeIIY0upffWmYWrtYVzSNkfq98Z/SHCGZ2YD9lghk2H2lOj0S7ukfdVi7+4GDUu+ieRje0j5len8MekzDnTT2R91KMlyKpIpPQ9r/pwjWBY2x7I2FrgL9SIhULgtvFC/f+0Sgb7wynXG1Aj04kaHW9SBXpfLq+YSwUO1XlbUg=
+	t=1766448593; cv=none; b=Zwl4Xm9/IFa2l+45k7xMACaWRcR/QbAxYKgIsF9pqlEhAoclsfRozVM3n3bwOLF24wRV7GhKJG626c58lDMMerTY2s6Y6c+Sq8DvZzMvtzzOdYsgzQFfFYq7yC8HsA1gM2WB2uQhZD49c4nCMoy7A/xNbd2lR5PTmmkoPjg4V0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766447929; c=relaxed/simple;
-	bh=4211WQMwwnCSjPflo5VzaCkvoQJTQSFbYSbhBwlemF8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pUR4jxZP4/l5qcbdrG9hjVEjhaE7vQUvH0m/7K4hg/dM1XfBix/kcHOK1MSlO2u+mo55CWV9XN2raDHa48oczBOUoqKTmF/7t8gYZZB+SfCbvAzEnn6l7gVZOydVK1+I6gXBOy3Q9eapMkwry0ad9srpvTfWhYX8pyYfK0o7Vbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ORYMVlVU; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1766448593; c=relaxed/simple;
+	bh=scb8dq1HBfysrB12FXHWH+apjzmHxbCBklwomg04vvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GRdPQayzjOa6MF29nhG/TXYMX/P0miMU0sn6JFs9FVvCmYs04XCWES2cs7DL7zzGdWWkONCNBbc5BLLkvq62U4Vq66BHO/B3x1F55Tj4pDwA8bsGlDrNutmjakRI78ISZZD0LQwKVaRneoOcy6UhwTDW83j9+quzGrnCksLBh00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n+SbMTFR; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ORYMVlVU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n+SbMTFR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766447927; x=1797983927;
-  h=date:from:to:cc:subject:message-id;
-  bh=4211WQMwwnCSjPflo5VzaCkvoQJTQSFbYSbhBwlemF8=;
-  b=ORYMVlVUCqMhdpDam0EAoNGGR9bIyxFr/TKQvJaP30v07SBbQDmz5I1N
-   BghZg6JVNb1SyuLhtLKjQ31oxRAI7uEUzy55iLQrvD0MrjxPtLRmUZZ8z
-   eM42FJXFIa3XxDd0Gkdy0lf2YIOuy8FwupKNKH5XAjM6qa953jQQDk1EH
-   cAglTXUMcLqIRz+whb+4jnBqpqWm+sq/NR9vcL+2l3FBXpqAGLJE1qaYK
-   8Hy16mVnCblt03qiXsT7vIpEpf9amowlhaPL+ZftKuT+u91bZO9743wGl
-   UatO5iwx22HKWsOUPzbWqbxdK4PeSIEEf/q1xMyu1163Mqec6VIPfvpme
-   g==;
-X-CSE-ConnectionGUID: Hj6rpYztRJ60vjsoUtJSWw==
-X-CSE-MsgGUID: X7rDGuv4TPWlKxRBEv3Huw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="85888360"
+  t=1766448591; x=1797984591;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=scb8dq1HBfysrB12FXHWH+apjzmHxbCBklwomg04vvQ=;
+  b=n+SbMTFR6D/bZDYdkq7FS6NJx0EsqtOnEiOYrFdi8zxE9pXJ4PVBCZh5
+   ovh9HmhVZBO5pj8sR61RgW5+t0RaggJk13Dn5tQoXL2MI8ybcScKqUe3u
+   3iXbkudeXPDNGAsbJdpLzLg6b5N0Yr2i6eaENwla4OOE8t5QSDkRTvWf6
+   y3A7gPRLR8sSi7r2VXaGUFlQCSAfevHJwQZQjnwaGjStq/XbPWtgAzV6P
+   bz1ubKh7RROkW+GM+uwdYYVjKs+MeLivQXjC9/+Ly6E/VVuf80BnbjPa9
+   +Kfx8feHGNmduUv/Ty+qc6EnD3gT/v7TgftfAwjFDSO9ZWm5o/u+dfZUW
+   Q==;
+X-CSE-ConnectionGUID: 1+Dkb4IXRUCtiBYtKPKOUQ==
+X-CSE-MsgGUID: cnqVPfEBRVytOBWJuD+9PQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68058081"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="85888360"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 15:58:47 -0800
-X-CSE-ConnectionGUID: ECblDhpZSxWB5E43RlehTQ==
-X-CSE-MsgGUID: PtXnGnkfR4W8Vkw09e9/Zw==
+   d="scan'208";a="68058081"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 16:09:51 -0800
+X-CSE-ConnectionGUID: zNGOi2JSQ5GX20sFnuD9QQ==
+X-CSE-MsgGUID: 6sBPvKYiRGuXkiAxOW5low==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="199673639"
+   d="scan'208";a="199634082"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 22 Dec 2025 15:58:45 -0800
+  by orviesa007.jf.intel.com with ESMTP; 22 Dec 2025 16:09:45 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXpnW-000000001F2-405v;
-	Mon, 22 Dec 2025 23:58:42 +0000
-Date: Tue, 23 Dec 2025 07:58:23 +0800
+	id 1vXpyB-000000001FR-0Qwm;
+	Tue, 23 Dec 2025 00:09:43 +0000
+Date: Tue, 23 Dec 2025 08:08:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Song Zhang <zhangsong34@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 3541/3541] kernel/sched/fair.c:151:14:
- sparse: sparse: symbol 'sysctl_sched_prio_load_balance_enabled' was not
- declared. Should it be static?
-Message-ID: <202512230734.tlvqbdf4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Harry Yoo <harry.yoo@oracle.com>, akpm@linux-foundation.org,
+	vbabka@suse.cz
+Cc: oe-kbuild-all@lists.linux.dev, andreyknvl@gmail.com, cl@gentwo.org,
+	dvyukov@google.com, glider@google.com, hannes@cmpxchg.org,
+	linux-mm@kvack.org, mhocko@kernel.org, muchun.song@linux.dev,
+	rientjes@google.com, roman.gushchin@linux.dev,
+	ryabinin.a.a@gmail.com, shakeel.butt@linux.dev, surenb@google.com,
+	vincenzo.frascino@arm.com, yeoreum.yun@arm.com,
+	harry.yoo@oracle.com, tytso@mit.edu, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, hao.li@linux.dev
+Subject: Re: [PATCH V4 4/8] mm/slab: abstract slabobj_ext access via new
+ slab_obj_ext() helper
+Message-ID: <202512230727.ktAJv4eA-lkp@intel.com>
+References: <20251222110843.980347-5-harry.yoo@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251222110843.980347-5-harry.yoo@oracle.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   c098fa18c07cc52100a52db8fd0c2900461888c9
-commit: 89bf80a4d6d5ba852b9042480e0be23c2c4a628c [3541/3541] sched: Introduce priority load balance for qos scheduler
-config: arm64-randconfig-r113-20251213 (https://download.01.org/0day-ci/archive/20251223/202512230734.tlvqbdf4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230734.tlvqbdf4-lkp@intel.com/reproduce)
+Hi Harry,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Yoo/mm-slab-use-unsigned-long-for-orig_size-to-ensure-proper-metadata-align/20251222-191144
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20251222110843.980347-5-harry.yoo%40oracle.com
+patch subject: [PATCH V4 4/8] mm/slab: abstract slabobj_ext access via new slab_obj_ext() helper
+config: parisc-randconfig-002-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230727.ktAJv4eA-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230727.ktAJv4eA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230734.tlvqbdf4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230727.ktAJv4eA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/fair.c:143:14: sparse: sparse: symbol 'sysctl_overload_detect_period' was not declared. Should it be static?
-   kernel/sched/fair.c:144:14: sparse: sparse: symbol 'sysctl_offline_wait_interval' was not declared. Should it be static?
->> kernel/sched/fair.c:151:14: sparse: sparse: symbol 'sysctl_sched_prio_load_balance_enabled' was not declared. Should it be static?
-   kernel/sched/fair.c:179:5: sparse: sparse: symbol 'sysctl_sched_util_low_pct' was not declared. Should it be static?
-   kernel/sched/fair.c:1271:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1271:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1271:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:3054:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/fair.c:3054:13: sparse:     expected struct task_struct *tsk
-   kernel/sched/fair.c:3054:13: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:12846:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12846:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12846:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:5925:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:5925:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:5925:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:7998:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7998:20: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:7998:20: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8310:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:8310:9: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:8310:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:8421:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8421:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8421:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8641:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:8641:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:8641:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:8999:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8999:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8999:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:10040:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:10040:40: sparse:     expected struct sched_domain *child
-   kernel/sched/fair.c:10040:40: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:10677:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/fair.c:10677:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/fair.c:10677:22: sparse:    struct task_struct *
-   kernel/sched/fair.c:12118:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12118:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12118:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:11775:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:11775:44: sparse:     expected struct sched_domain *sd_parent
-   kernel/sched/fair.c:11775:44: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:12214:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:12214:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/fair.c:12214:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c:3000:9: sparse: sparse: context imbalance in 'task_numa_placement' - different lock contexts for basic block
-   kernel/sched/fair.c:7214:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:7214:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:7214:28: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:7220:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:7220:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:7220:28: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:7227:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *sd @@     got struct sched_domain [noderef] __rcu *child @@
-   kernel/sched/fair.c:7227:28: sparse:     expected struct sched_domain *sd
-   kernel/sched/fair.c:7227:28: sparse:     got struct sched_domain [noderef] __rcu *child
-   kernel/sched/fair.c:7235:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/fair.c:7235:17: sparse:     expected struct sched_domain *[assigned] tmp
-   kernel/sched/fair.c:7235:17: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2312:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2312:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2312:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2148:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2148:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2148:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2148:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2148:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2148:25: sparse:    struct task_struct *
+All errors (new ones prefixed by >>):
 
-vim +/sysctl_sched_prio_load_balance_enabled +151 kernel/sched/fair.c
+   In file included from include/asm-generic/bug.h:5,
+                    from arch/parisc/include/asm/bug.h:97,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from mm/slub.c:13:
+   mm/slub.c: In function 'mark_objexts_empty':
+>> mm/slub.c:2056:36: error: incompatible type for argument 1 of 'is_codetag_empty'
+      if (unlikely(is_codetag_empty(ext->ref)))
+                                    ~~~^~~~~
+   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
+    # define unlikely(x) __builtin_expect(!!(x), 0)
+                                             ^
+   In file included from include/linux/workqueue.h:9,
+                    from include/linux/mm_types.h:19,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/slub.c:13:
+   include/linux/alloc_tag.h:52:56: note: expected 'union codetag_ref *' but argument is of type 'union codetag_ref'
+    static inline bool is_codetag_empty(union codetag_ref *ref)
+                                        ~~~~~~~~~~~~~~~~~~~^~~
 
-   149	
-   150	#ifdef CONFIG_QOS_SCHED_PRIO_LB
- > 151	unsigned int sysctl_sched_prio_load_balance_enabled;
-   152	#endif
-   153	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=n] && CAN [=y]
+   Selected by [y]:
+   - CAN [=y] && NET [=y]
+
+
+vim +/is_codetag_empty +2056 mm/slub.c
+
+  2042	
+  2043	static inline void mark_objexts_empty(struct slabobj_ext *obj_exts)
+  2044	{
+  2045		unsigned long slab_exts;
+  2046		struct slab *obj_exts_slab;
+  2047	
+  2048		obj_exts_slab = virt_to_slab(obj_exts);
+  2049		slab_exts = slab_obj_exts(obj_exts_slab);
+  2050		if (slab_exts) {
+  2051			unsigned int offs = obj_to_index(obj_exts_slab->slab_cache,
+  2052							 obj_exts_slab, obj_exts);
+  2053			struct slabobj_ext *ext = slab_obj_ext(obj_exts_slab,
+  2054							       slab_exts, offs);
+  2055	
+> 2056			if (unlikely(is_codetag_empty(ext->ref)))
+  2057				return;
+  2058	
+  2059			/* codetag should be NULL here */
+  2060			WARN_ON(ext->ref.ct);
+  2061			set_codetag_empty(&ext->ref);
+  2062		}
+  2063	}
+  2064	
 
 -- 
 0-DAY CI Kernel Test Service
