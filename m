@@ -1,69 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6922581
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 00:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D886A8D2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 00:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766448593; cv=none; b=Zwl4Xm9/IFa2l+45k7xMACaWRcR/QbAxYKgIsF9pqlEhAoclsfRozVM3n3bwOLF24wRV7GhKJG626c58lDMMerTY2s6Y6c+Sq8DvZzMvtzzOdYsgzQFfFYq7yC8HsA1gM2WB2uQhZD49c4nCMoy7A/xNbd2lR5PTmmkoPjg4V0U=
+	t=1766449192; cv=none; b=noszzvVHmVULUH4xK7t/9quUFEmz/60yts4FXOQeFf72Wqcit4xxi1lk1pMeCKVj9m7VpAsiDAFarJnXuHMD7NRUcZvQnjBeFNLt5kKrXbhixbSFU4KNwITje3WB0wO9iZ+dDRM1ffChMF3ZqZNqLaFZ3yB4Ix7oNbWoYBclW9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766448593; c=relaxed/simple;
-	bh=scb8dq1HBfysrB12FXHWH+apjzmHxbCBklwomg04vvQ=;
+	s=arc-20240116; t=1766449192; c=relaxed/simple;
+	bh=MYDbdyXM9tc0jKuTCmqBbzVS66Wa1/+2HYH29cdFIIw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GRdPQayzjOa6MF29nhG/TXYMX/P0miMU0sn6JFs9FVvCmYs04XCWES2cs7DL7zzGdWWkONCNBbc5BLLkvq62U4Vq66BHO/B3x1F55Tj4pDwA8bsGlDrNutmjakRI78ISZZD0LQwKVaRneoOcy6UhwTDW83j9+quzGrnCksLBh00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n+SbMTFR; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=VbHLopcq6WFmWUE9GnK/PNItvIkxCOL6A14BJaZqJGzJ6CugeNljSS+rqkn5kVCFrUtO34opqrKLiPbmVMlqZYIxCxVRcAnD701t6RXcbXi0iBVeS7RRZ7mp5DaNLbb0j/haYnuiP+qtvBSLUzaxBzxgsiERXZCowJ+ZNb2WHjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lv5bU5tS; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n+SbMTFR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lv5bU5tS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766448591; x=1797984591;
+  t=1766449190; x=1797985190;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=scb8dq1HBfysrB12FXHWH+apjzmHxbCBklwomg04vvQ=;
-  b=n+SbMTFR6D/bZDYdkq7FS6NJx0EsqtOnEiOYrFdi8zxE9pXJ4PVBCZh5
-   ovh9HmhVZBO5pj8sR61RgW5+t0RaggJk13Dn5tQoXL2MI8ybcScKqUe3u
-   3iXbkudeXPDNGAsbJdpLzLg6b5N0Yr2i6eaENwla4OOE8t5QSDkRTvWf6
-   y3A7gPRLR8sSi7r2VXaGUFlQCSAfevHJwQZQjnwaGjStq/XbPWtgAzV6P
-   bz1ubKh7RROkW+GM+uwdYYVjKs+MeLivQXjC9/+Ly6E/VVuf80BnbjPa9
-   +Kfx8feHGNmduUv/Ty+qc6EnD3gT/v7TgftfAwjFDSO9ZWm5o/u+dfZUW
-   Q==;
-X-CSE-ConnectionGUID: 1+Dkb4IXRUCtiBYtKPKOUQ==
-X-CSE-MsgGUID: cnqVPfEBRVytOBWJuD+9PQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68058081"
+  bh=MYDbdyXM9tc0jKuTCmqBbzVS66Wa1/+2HYH29cdFIIw=;
+  b=lv5bU5tShMYLrXPN1AlapUmaCsPJRcapeCftUrW4V+6ozvelAASz5w+E
+   3K14yNYPEerLsClQ7HmvUVzbqLNBoja2xy+2Vi2opmTjFoArpUx34HTdV
+   LFz/jWTHcyXbevHwBUotFU/zrt1Br0uSVGkKkrPDfXWSBfex89ZlcMTS3
+   qNDbasxUXCCquEl8uPEv5O07GY5FDSNIqkYW+m1hK+D2AnkKr4oZxWNz4
+   VK9jy9EqfKT/G1PH8yJUUeZBR+wsqLG212SZcM/sxvMkr374prYJnKtiI
+   2fvsorHBshl79+lGflImz8ELj9el1BUnPQ6GDw/oyRyXXkOzXO0N1cVDu
+   A==;
+X-CSE-ConnectionGUID: 8hlHUWgHTzCrqozjNBJmHQ==
+X-CSE-MsgGUID: C0nzA5wfR+GMeaShAcBurA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="78619096"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="68058081"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 16:09:51 -0800
-X-CSE-ConnectionGUID: zNGOi2JSQ5GX20sFnuD9QQ==
-X-CSE-MsgGUID: 6sBPvKYiRGuXkiAxOW5low==
+   d="scan'208";a="78619096"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 16:19:50 -0800
+X-CSE-ConnectionGUID: IBycN3GhS62ndaPYp+70hw==
+X-CSE-MsgGUID: WnBRouCSRh28LdrnWYNu4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="199634082"
+   d="scan'208";a="199302145"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 22 Dec 2025 16:09:45 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 22 Dec 2025 16:19:46 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXpyB-000000001FR-0Qwm;
-	Tue, 23 Dec 2025 00:09:43 +0000
-Date: Tue, 23 Dec 2025 08:08:54 +0800
+	id 1vXq7r-000000001Fd-194D;
+	Tue, 23 Dec 2025 00:19:43 +0000
+Date: Tue, 23 Dec 2025 08:19:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harry Yoo <harry.yoo@oracle.com>, akpm@linux-foundation.org,
-	vbabka@suse.cz
-Cc: oe-kbuild-all@lists.linux.dev, andreyknvl@gmail.com, cl@gentwo.org,
-	dvyukov@google.com, glider@google.com, hannes@cmpxchg.org,
-	linux-mm@kvack.org, mhocko@kernel.org, muchun.song@linux.dev,
-	rientjes@google.com, roman.gushchin@linux.dev,
-	ryabinin.a.a@gmail.com, shakeel.butt@linux.dev, surenb@google.com,
-	vincenzo.frascino@arm.com, yeoreum.yun@arm.com,
-	harry.yoo@oracle.com, tytso@mit.edu, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org, hao.li@linux.dev
-Subject: Re: [PATCH V4 4/8] mm/slab: abstract slabobj_ext access via new
- slab_obj_ext() helper
-Message-ID: <202512230727.ktAJv4eA-lkp@intel.com>
-References: <20251222110843.980347-5-harry.yoo@oracle.com>
+To: Yazhou Tang <yazhoutang@foxmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
+	john.fastabend@gmail.com, andrii@kernel.org, martin.lau@linux.dev,
+	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org, tangyazhou518@outlook.com,
+	shenghaoyuan0928@163.com, ziye@zju.edu.cn
+Subject: Re: [PATCH bpf-next 1/2] bpf: Add interval and tnum analysis for
+ signed and unsigned BPF_DIV
+Message-ID: <202512230859.IsGUdbZS-lkp@intel.com>
+References: <tencent_7C98FAECA40C98489ACF4515CE346F031509@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,84 +68,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251222110843.980347-5-harry.yoo@oracle.com>
+In-Reply-To: <tencent_7C98FAECA40C98489ACF4515CE346F031509@qq.com>
 
-Hi Harry,
+Hi Yazhou,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Harry-Yoo/mm-slab-use-unsigned-long-for-orig_size-to-ensure-proper-metadata-align/20251222-191144
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20251222110843.980347-5-harry.yoo%40oracle.com
-patch subject: [PATCH V4 4/8] mm/slab: abstract slabobj_ext access via new slab_obj_ext() helper
-config: parisc-randconfig-002-20251223 (https://download.01.org/0day-ci/archive/20251223/202512230727.ktAJv4eA-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230727.ktAJv4eA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yazhou-Tang/selftests-bpf-Add-tests-for-BPF_DIV-analysis/20251221-174300
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/tencent_7C98FAECA40C98489ACF4515CE346F031509%40qq.com
+patch subject: [PATCH bpf-next 1/2] bpf: Add interval and tnum analysis for signed and unsigned BPF_DIV
+config: i386-randconfig-053-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230859.IsGUdbZS-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230859.IsGUdbZS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230727.ktAJv4eA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230859.IsGUdbZS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:5,
-                    from arch/parisc/include/asm/bug.h:97,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/slub.c:13:
-   mm/slub.c: In function 'mark_objexts_empty':
->> mm/slub.c:2056:36: error: incompatible type for argument 1 of 'is_codetag_empty'
-      if (unlikely(is_codetag_empty(ext->ref)))
-                                    ~~~^~~~~
-   include/linux/compiler.h:77:42: note: in definition of macro 'unlikely'
-    # define unlikely(x) __builtin_expect(!!(x), 0)
-                                             ^
-   In file included from include/linux/workqueue.h:9,
-                    from include/linux/mm_types.h:19,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from mm/slub.c:13:
-   include/linux/alloc_tag.h:52:56: note: expected 'union codetag_ref *' but argument is of type 'union codetag_ref'
-    static inline bool is_codetag_empty(union codetag_ref *ref)
-                                        ~~~~~~~~~~~~~~~~~~~^~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_DEV
-   Depends on [n]: NETDEVICES [=n] && CAN [=y]
-   Selected by [y]:
-   - CAN [=y] && NET [=y]
+   ld: kernel/bpf/verifier.o: in function `__bpf_sdiv':
+>> kernel/bpf/verifier.c:15227:(.text+0xfcb2): undefined reference to `__divdi3'
+>> ld: kernel/bpf/verifier.c:15227:(.text+0xfd37): undefined reference to `__divdi3'
+   ld: kernel/bpf/verifier.c:15227:(.text+0xfdae): undefined reference to `__divdi3'
+   ld: kernel/bpf/verifier.c:15227:(.text+0xfe0c): undefined reference to `__divdi3'
+   ld: kernel/bpf/verifier.c:15227:(.text+0xff7c): undefined reference to `__divdi3'
+   ld: kernel/bpf/verifier.o: in function `scalar_min_max_udiv':
+>> kernel/bpf/verifier.c:15138:(.text+0x1b9bb): undefined reference to `__udivdi3'
+>> ld: kernel/bpf/verifier.c:15139:(.text+0x1b9dc): undefined reference to `__udivdi3'
+   ld: kernel/bpf/tnum.o: in function `tnum_udiv':
+>> kernel/bpf/tnum.c:227:(.text+0x1b3): undefined reference to `__udivdi3'
+>> ld: kernel/bpf/tnum.c:219:(.text+0x28d): undefined reference to `__udivdi3'
+   ld: kernel/bpf/tnum.c:227:(.text+0xb05): undefined reference to `__udivdi3'
+   ld: kernel/bpf/tnum.o:kernel/bpf/tnum.c:219: more undefined references to `__udivdi3' follow
+   ld: kernel/bpf/tnum.o: in function `tnum_sdiv':
+>> kernel/bpf/tnum.c:300:(.text+0x131d): undefined reference to `__divdi3'
 
 
-vim +/is_codetag_empty +2056 mm/slub.c
+vim +15227 kernel/bpf/verifier.c
 
-  2042	
-  2043	static inline void mark_objexts_empty(struct slabobj_ext *obj_exts)
-  2044	{
-  2045		unsigned long slab_exts;
-  2046		struct slab *obj_exts_slab;
-  2047	
-  2048		obj_exts_slab = virt_to_slab(obj_exts);
-  2049		slab_exts = slab_obj_exts(obj_exts_slab);
-  2050		if (slab_exts) {
-  2051			unsigned int offs = obj_to_index(obj_exts_slab->slab_cache,
-  2052							 obj_exts_slab, obj_exts);
-  2053			struct slabobj_ext *ext = slab_obj_ext(obj_exts_slab,
-  2054							       slab_exts, offs);
-  2055	
-> 2056			if (unlikely(is_codetag_empty(ext->ref)))
-  2057				return;
-  2058	
-  2059			/* codetag should be NULL here */
-  2060			WARN_ON(ext->ref.ct);
-  2061			set_codetag_empty(&ext->ref);
-  2062		}
-  2063	}
-  2064	
+ 15118	
+ 15119	static void scalar_min_max_udiv(struct bpf_reg_state *dst_reg,
+ 15120					struct bpf_reg_state *src_reg)
+ 15121	{
+ 15122		u64 *dst_umin = &dst_reg->umin_value;
+ 15123		u64 *dst_umax = &dst_reg->umax_value;
+ 15124		u64 umin_val = src_reg->umin_value;
+ 15125		u64 umax_val = src_reg->umax_value;
+ 15126	
+ 15127		if (umin_val == 0) {
+ 15128			/* BPF div specification: x / 0 = 0
+ 15129			 * 1. If umin_val == umax_val == 0, i.e. divisor is certainly 0,
+ 15130			 * then the result must be 0, [a,b] / [0,0] = [0,0].
+ 15131			 * 2. If umin_val == 0 && umax_val != 0, then dst_umin = x / 0 = 0,
+ 15132			 * dst_umax = dst_umax / 1, remains unchanged, [a,b] / [0,x] = [0,b].
+ 15133			 */
+ 15134			*dst_umin = 0;
+ 15135			if (umax_val == 0)
+ 15136				*dst_umax = 0;
+ 15137		} else {
+ 15138			*dst_umin = *dst_umin / umax_val;
+ 15139			*dst_umax = *dst_umax / umin_val;
+ 15140		}
+ 15141	
+ 15142		/* Reset signed interval to TOP. */
+ 15143		dst_reg->smin_value = S64_MIN;
+ 15144		dst_reg->smax_value = S64_MAX;
+ 15145	}
+ 15146	
+ 15147	static s32 __bpf_sdiv32(s32 a, s32 b)
+ 15148	{
+ 15149		/* BPF div specification: x / 0 = 0 */
+ 15150		if (unlikely(b == 0))
+ 15151			return 0;
+ 15152		/* BPF mod specification: S32_MIN / -1 = S32_MIN */
+ 15153		if (unlikely(a == S32_MIN && b == -1))
+ 15154			return S32_MIN;
+ 15155		return a / b;
+ 15156	}
+ 15157	
+ 15158	/* The divisor interval does not cross 0,
+ 15159	 * i.e. src_min and src_max have same sign.
+ 15160	 */
+ 15161	static void __sdiv32_range(s32 dst_min, s32 dst_max, s32 src_min, s32 src_max,
+ 15162					s32 *res_min, s32 *res_max)
+ 15163	{
+ 15164		s32 tmp_res[4] = {
+ 15165			__bpf_sdiv32(dst_min, src_min),
+ 15166			__bpf_sdiv32(dst_min, src_max),
+ 15167			__bpf_sdiv32(dst_max, src_min),
+ 15168			__bpf_sdiv32(dst_max, src_max)
+ 15169		};
+ 15170	
+ 15171		*res_min = min_array(tmp_res, 4);
+ 15172		*res_max = max_array(tmp_res, 4);
+ 15173	}
+ 15174	
+ 15175	static void scalar32_min_max_sdiv(struct bpf_reg_state *dst_reg,
+ 15176					struct bpf_reg_state *src_reg)
+ 15177	{
+ 15178		u32 *dst_smin = &dst_reg->s32_min_value;
+ 15179		u32 *dst_smax = &dst_reg->s32_max_value;
+ 15180		u32 smin_val = src_reg->s32_min_value;
+ 15181		u32 smax_val = src_reg->s32_max_value;
+ 15182		s32 res_min, res_max, tmp_min, tmp_max;
+ 15183	
+ 15184		if (smin_val <= 0 && smax_val >= 0) {
+ 15185			/* BPF div specification: x / 0 = 0
+ 15186			 * Set initial result to 0, as 0 is in divisor interval.
+ 15187			 */
+ 15188			res_min = 0;
+ 15189			res_max = 0;
+ 15190			/* negative divisor interval: [a_min,a_max] / [b_min,-1] */
+ 15191			if (smin_val < 0) {
+ 15192				__sdiv32_range(*dst_smin, *dst_smax, smin_val, -1,
+ 15193						&tmp_min, &tmp_max);
+ 15194				__scalar32_min_max_join(&res_min, &res_max, tmp_min, tmp_max);
+ 15195			}
+ 15196			/* positive divisor interval: [a_min,a_max] / [1,b_max] */
+ 15197			if (smax_val > 0) {
+ 15198				__sdiv32_range(*dst_smin, *dst_smax, 1, smax_val,
+ 15199						&tmp_min, &tmp_max);
+ 15200				__scalar32_min_max_join(&res_min, &res_max, tmp_min, tmp_max);
+ 15201			}
+ 15202		} else {
+ 15203			__sdiv32_range(*dst_smin, *dst_smax, smin_val, smax_val,
+ 15204				&res_min, &res_max);
+ 15205		}
+ 15206	
+ 15207		/* BPF mod specification: S32_MIN / -1 = S32_MIN */
+ 15208		if (*dst_smin == S32_MIN && smin_val <= -1 && smax_val >= -1)
+ 15209			res_min = S32_MIN;
+ 15210	
+ 15211		*dst_smin = res_min;
+ 15212		*dst_smax = res_max;
+ 15213	
+ 15214		/* Reset unsigned interval to TOP. */
+ 15215		dst_reg->u32_min_value = 0;
+ 15216		dst_reg->u32_max_value = U32_MAX;
+ 15217	}
+ 15218	
+ 15219	static s64 __bpf_sdiv(s64 a, s64 b)
+ 15220	{
+ 15221		/* BPF div specification: x / 0 = 0 */
+ 15222		if (unlikely(b == 0))
+ 15223			return 0;
+ 15224		/* BPF div specification: S64_MIN / -1 = S64_MIN */
+ 15225		if (unlikely(a == S64_MIN && b == -1))
+ 15226			return S64_MIN;
+ 15227		return a / b;
+ 15228	}
+ 15229	
 
 -- 
 0-DAY CI Kernel Test Service
