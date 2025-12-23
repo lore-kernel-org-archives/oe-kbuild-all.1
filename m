@@ -1,118 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE4B34104E;
-	Tue, 23 Dec 2025 13:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779132D24BD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 13:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766496862; cv=none; b=j8bsLbmK7bn21WBemkbG7PZUgThGqE7wqBrP4IJfmBCWQmOqVqVXVUJGaSGVuf/+1m3MAVnPp+T587/dXjUH9GbnpKP27uNOZ9JWScFPcFnwrdR0ZmOya/AQgP5tYndXeh5GFN/VRRZrp/SidcK+ALt4JUtur2LOaWoPej1B3cQ=
+	t=1766498337; cv=none; b=DnCq7rtuQzwhgtZvEC2ZK/DQnX++Ev7CXFLpr5UaKXm7MzSh/EpcUhZzdgR6RMr3zzpvzLfU7FyVzvQ5pzSuZOtyGR+lJ8+D0zQtJng8LXINecgVuZEf0WfrXjuK6HUvZxK/f913JrYpRF0Z9I/jRW2jc9IfnGr4Q1o0DGuvyNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766496862; c=relaxed/simple;
-	bh=LAjeeJNsj8WZgSWWjK8ChoLGUFGD2bPpENzji4wLAUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pm8oFqDf/Z/2O22ps60EGpWDWu8QC/qPmjo7wm+sEwrS/aL968L/pvgCif46jM782+PJDavddIiO1L/LuyqLIyy2Xy6a6RZh8un31KQePlpeVK4ckjp9rlVxOq6hfPzBqMdd1TFY3i+BzSMNxcNTfH8QQS+knGktt4RrJVIRSH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KhqI8a+L; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1766498337; c=relaxed/simple;
+	bh=gk+IARRiINQjwUKtzqpFndJ2tAuxUjevRsIAhFJJsbc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lnP4dTEu+xVofifEQ4KSohh1qRgqbPLpr+4dar3OMcRdwkRBcoejxxX9M+rzlMCyMpYPxAkev27mda3Bq8Yk64RzzTRtFypPQr9W2AQdWXbyNpVqvAEpixktpHLdQFJp4jo76pT3pAQST+4YcT3UrPwyTxM6Bm3cc7g4NS/tllg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BQ/jC4Tq; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KhqI8a+L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BQ/jC4Tq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766496861; x=1798032861;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LAjeeJNsj8WZgSWWjK8ChoLGUFGD2bPpENzji4wLAUo=;
-  b=KhqI8a+Lueas/k7SV8CODPfz+qeKu43TY4L4EunMltFSEBMFjxHVW36Q
-   m19VBZmFTabCUFPurhQSw1qrHtN/0+E8W+JfsxUaSYHK+uOmibE/dJbfX
-   kmQ/lNKGSvsd4/ZcqqRADx4Mggd7PxVeXtWAzkVZOgBL4hTAGK+aG2Ndp
-   dT2Cy41aHFTdUG5/d+IRA+zGbkD6NdFJRISgieun62NFTci4WnJz2xh/w
-   heMSBIUfxWDS5YLv9XMQVq5AMHTvdPgkt2pAByEEpXkpQ5NYomO8oChcd
-   tMFRzP1SQ81keRNHqzV+2SXCuGQjwgMlTp5XCLQAaPDrcInLLd69UmKdl
-   Q==;
-X-CSE-ConnectionGUID: D7mHgiZ/S3GcmMuIuItH8Q==
-X-CSE-MsgGUID: 4VuxHhFOQMO36Np1yl66Cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="85759887"
+  t=1766498332; x=1798034332;
+  h=date:from:to:cc:subject:message-id;
+  bh=gk+IARRiINQjwUKtzqpFndJ2tAuxUjevRsIAhFJJsbc=;
+  b=BQ/jC4TqZBslgQwZOyKgVh799EPfXKYTatMd6bxOKBFjefBwNLYSg+We
+   pHVSjXNYjJxUCfm/tQ+vkMYyg+EdhT/qFG468aYU7yi5NeoF8yK7x4sko
+   xq7kBhCHIk9UtjLbGYCHEjD4MQ2dyivePN9BIfj7p3SaL5cF1wYKyjs0B
+   Kh1LJYF8E3kONx7Qw85OnW1sr2W7q79cn3Rk4XjaZr5qa6MBiWspCT2Xp
+   HbBdmmy0wR/nEf3JQtUan7ywl9lvTgH0SKJseGvD1FmAivdCtzDH6Dm+9
+   Xwoz8rB0c9b8cFcTDPI0hNKnxxtfqVy3m+Vn998hwaCjIpHTDvagrBfeS
+   A==;
+X-CSE-ConnectionGUID: O0i1lCsKTTicfXTFbINFew==
+X-CSE-MsgGUID: iBEmqkvwRYWecVQS07y+qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="72193308"
 X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="85759887"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 05:34:16 -0800
-X-CSE-ConnectionGUID: DDVVe4AaTRqVfF6F3nz5uw==
-X-CSE-MsgGUID: ylVe7GpWRZig4T73DO5+EQ==
+   d="scan'208";a="72193308"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 05:58:51 -0800
+X-CSE-ConnectionGUID: BuEr+sBUQGCdf8OOv1A9WA==
+X-CSE-MsgGUID: oOPbgKInTZaYpZdb1fQ95A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="204283660"
+   d="scan'208";a="199697940"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Dec 2025 05:34:13 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 23 Dec 2025 05:58:49 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vY2Wh-000000001yL-1fLY;
-	Tue, 23 Dec 2025 13:34:11 +0000
-Date: Tue, 23 Dec 2025 21:33:16 +0800
+	id 1vY2tU-00000000203-4A62;
+	Tue, 23 Dec 2025 13:58:08 +0000
+Date: Tue, 23 Dec 2025 21:55:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Osose Itua <osose.itua@savoirfairelinux.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	michael.hennerich@analog.com, jerome.oufella@savoirfairelinux.com,
-	Osose Itua <osose.itua@savoirfairelinux.com>
-Subject: Re: [PATCH v2 1/2] net: phy: adin: enable configuration of the LP
- Termination Register
-Message-ID: <202512232136.7GHkdaw8-lkp@intel.com>
-References: <20251222222210.3651577-2-osose.itua@savoirfairelinux.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2/2]
+ drivers/crypto/ccp/hygon/hct.c:233:18: sparse: sparse: symbol 'hct_mdev_type'
+ was not declared. Should it be static?
+Message-ID: <202512232143.LPloCdRW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251222222210.3651577-2-osose.itua@savoirfairelinux.com>
 
-Hi Osose,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-[also build test ERROR on net-next/main linus/master horms-ipvs/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Osose-Itua/net-phy-adin-enable-configuration-of-the-LP-Termination-Register/20251223-064926
-base:   net/main
-patch link:    https://lore.kernel.org/r/20251222222210.3651577-2-osose.itua%40savoirfairelinux.com
-patch subject: [PATCH v2 1/2] net: phy: adin: enable configuration of the LP Termination Register
-config: hexagon-randconfig-002-20251223 (https://download.01.org/0day-ci/archive/20251223/202512232136.7GHkdaw8-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512232136.7GHkdaw8-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c098fa18c07cc52100a52db8fd0c2900461888c9
+commit: c74ae2c5da57becf3f41c596d79b3dd30fa1baa6 [2/2] hct: add mediated ccp driver support for hygon crypto technology.
+config: x86_64-randconfig-123-20251223 (https://download.01.org/0day-ci/archive/20251223/202512232143.LPloCdRW-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512232143.LPloCdRW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512232136.7GHkdaw8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512232143.LPloCdRW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/crypto/ccp/hygon/hct.c:233:18: sparse: sparse: symbol 'hct_mdev_type' was not declared. Should it be static?
+>> drivers/crypto/ccp/hygon/hct.c:237:18: sparse: sparse: symbol 'hct_mdev_types' was not declared. Should it be static?
+>> drivers/crypto/ccp/hygon/hct.c:459:23: sparse: sparse: cast to restricted __le32
+>> drivers/crypto/ccp/hygon/hct.c:1204:20: sparse: sparse: symbol 'hct_mdev_driver' was not declared. Should it be static?
+>> drivers/crypto/ccp/hygon/hct.c:1333:13: sparse: sparse: symbol 'hct_pin_memory' was not declared. Should it be static?
 
->> drivers/net/phy/adin.c:7:10: fatal error: 'cerrno' file not found
-       7 | #include <cerrno>
-         |          ^~~~~~~~
-   1 error generated.
+vim +/hct_mdev_type +233 drivers/crypto/ccp/hygon/hct.c
 
-
-vim +/cerrno +7 drivers/net/phy/adin.c
-
-   > 7	#include <cerrno>
-     8	#include <linux/kernel.h>
-     9	#include <linux/bitfield.h>
-    10	#include <linux/delay.h>
-    11	#include <linux/errno.h>
-    12	#include <linux/ethtool_netlink.h>
-    13	#include <linux/init.h>
-    14	#include <linux/module.h>
-    15	#include <linux/mii.h>
-    16	#include <linux/phy.h>
-    17	#include <linux/property.h>
-    18	
+   232	
+ > 233	struct mdev_type hct_mdev_type = {
+   234		.sysfs_name = "1",
+   235		.pretty_name = "hct mdev type"
+   236	};
+ > 237	struct mdev_type *hct_mdev_types[] = {
+   238		&hct_mdev_type
+   239	};
+   240	
 
 -- 
 0-DAY CI Kernel Test Service
