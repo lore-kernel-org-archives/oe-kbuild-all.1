@@ -1,70 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4B2314D36
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 20:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C36288517
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 20:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766522182; cv=none; b=L7GJzhWXwBfbXk6Rt2nns9ChpEharVZH0qIK6O8QZMIwBhfO/uARPl4U2tfNRAf+vHXCjbPTMVEGPwiPBa0to3zC6Um3khUSw1VDEmQX/UURZJvJtXXfOltKN9Thp2mcSa/yNHQ1FXg4ZsGHu8x1TxUzXvwr9a3BSJ+GqZN72Gs=
+	t=1766523568; cv=none; b=AqS4MzhZTLNW0md+Rr8xipZYCwhmOUw+jP6OKGF/2HOzxA8f5cKgSr8YfvB4rUDYwdlfluj9F3IamPVCDD2py0BH0YDVAVoEAql4Q4YVjEScG4vtxhVFDS4m7iJ9mCFFYY+w1fvgMxKmAT5pLr3df+p8msu3O144sSHFqxgC9vQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766522182; c=relaxed/simple;
-	bh=WiaKcg6tqwr+deTq4kuVVXhsBv+dWmCSB3tiAiPsCn0=;
+	s=arc-20240116; t=1766523568; c=relaxed/simple;
+	bh=WFi7cvhAPiPh/XR+92Qqh6vdtwN3HsAQzlz22Tp190A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hkP0IzhXvn1fUUdAiLphzPK9FQumngv3pCwkDNNnt/0NO2K/ezHdX6ksBJK/pUChoL4dhit0efS9ZfXu6fgbfehh//CnRaxyjvPSMYxdRblCZnpI8kGjuurzAnkoTkYFSMzbktsjiy1mH9h9wzEMbclML46ret0ggkouaFs92Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HKs9FKN5; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=omli6a1y5r53GdS/pjradBG97HpS6c2Duieq0VWljJi9+VV7aBPhnZta6Sje+aU04nbyeWILyOKLhsmTzQXInlvtoEcN+dkK2J3Is0nvpT1r9pP28IGgBeUUvbAqDZT/O8Mq0mm3WmYyDQVPAQcfGFscjzySUqLxZxelKBxOR1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D1FLaU+I; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKs9FKN5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D1FLaU+I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766522181; x=1798058181;
+  t=1766523567; x=1798059567;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WiaKcg6tqwr+deTq4kuVVXhsBv+dWmCSB3tiAiPsCn0=;
-  b=HKs9FKN5RG61i9FDGKrCpumLXMQX3rUeoGeilA14P6NbXkgM6Emz8Rsk
-   IVlprorocaVwnJdTITJzyOy2DAIbmG+q2QgiGFL0YN3Xj2QDUXEemCXo3
-   GV6BJCfQPCwD92AueNShZ42kkHGBzaktshQUqeckiQt5iY7pHYJwJIy5V
-   yhltI69+wYA76+xVfUlF6GDS+0eUV4h/Fj0VY2gB2aJ/3TNT2dY/4JyJV
-   4DSk1v+Q2V1W744BCZbgVr1i9Xpb4/2Dnibz8x1c8aaAirL9KgCxQdgtu
-   yota3AO7ygpTKIRm4M4bM/QvTk0PVpsTqgkQLPmzttI/b9W6K/HqCSyQU
-   w==;
-X-CSE-ConnectionGUID: 5SuXkPflTeizt9WktxE+iA==
-X-CSE-MsgGUID: ZLQdiNWHQGyJckyGoTIxUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="71999155"
+  bh=WFi7cvhAPiPh/XR+92Qqh6vdtwN3HsAQzlz22Tp190A=;
+  b=D1FLaU+IoRZpmeTdsv3H1Vgt5JBFMTFy4yuCJkdJfBz3AJRCNyX3UarN
+   FmQSrF1AqC31JV83Ej0cioDQnVD3v3oY3UPqqDl7B8zCBhxDKbVf553OD
+   NSBctp0a/ev5xQFRngVQC/7bGqFE3ljyOPF0AqYKmk8BTjGKkycITb1cx
+   1ASX4NLz99DvwFb3TYuvJTZA9OmV1oJW0HqGwyJr621qRCljXvFBL5XIh
+   QmmDmUuy84ONuymSg9rNbGfFC1XPeu4p9nsVzVI/sp1aWu9Lz6Qe742Dc
+   a5uhgU4KZVvTqdPQPHmulC8+woHOlZB4o0JjnKe6yFmZLk8RR0WwAYi9V
+   g==;
+X-CSE-ConnectionGUID: TpGPn9nYSyqQfhbap26zwQ==
+X-CSE-MsgGUID: 2bH46tHZRKmdR86W2YIcIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="68415526"
 X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="71999155"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 12:36:20 -0800
-X-CSE-ConnectionGUID: M3uEnjh3SWGNRRVwUNZ+9A==
-X-CSE-MsgGUID: OK99AN2yRaW09OhWVIaCrA==
+   d="scan'208";a="68415526"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 12:59:26 -0800
+X-CSE-ConnectionGUID: dDDoQCVvRCCDHIFDxhpvxg==
+X-CSE-MsgGUID: kzgOIQu/SqCJ7OoAlAsY/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="199520264"
+   d="scan'208";a="199105678"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 23 Dec 2025 12:36:17 -0800
+  by orviesa010.jf.intel.com with ESMTP; 23 Dec 2025 12:59:25 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vY978-000000002Lv-2ZAk;
-	Tue, 23 Dec 2025 20:36:14 +0000
-Date: Wed, 24 Dec 2025 04:35:53 +0800
+	id 1vY9TV-000000002N7-2fPV;
+	Tue, 23 Dec 2025 20:59:21 +0000
+Date: Wed, 24 Dec 2025 04:58:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kyle Hsieh <kylehsieh1995@gmail.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Beguin <liambeguin@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Kyle Hsieh <kylehsieh1995@gmail.com>
-Subject: Re: [PATCH 2/2] iio: adc: ltc2309: add support for ltc2305
-Message-ID: <202512240416.ckqhNpHO-lkp@intel.com>
-References: <20251223-add_ltc2305_driver-v1-2-dfa0827fd620@gmail.com>
+To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Subject: Re: [PATCH 2/2] cgroup-v2/freezer: Print information about
+ unfreezable process
+Message-ID: <202512240409.06R0khaZ-lkp@intel.com>
+References: <20251223102124.738818-4-ptikhomirov@virtuozzo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,76 +66,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251223-add_ltc2305_driver-v1-2-dfa0827fd620@gmail.com>
+In-Reply-To: <20251223102124.738818-4-ptikhomirov@virtuozzo.com>
 
-Hi Kyle,
+Hi Pavel,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
+[auto build test ERROR on tj-cgroup/for-next]
+[also build test ERROR on linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kyle-Hsieh/dt-bindings-adc-ltc2497-add-support-for-ltc2305/20251223-171509
-base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
-patch link:    https://lore.kernel.org/r/20251223-add_ltc2305_driver-v1-2-dfa0827fd620%40gmail.com
-patch subject: [PATCH 2/2] iio: adc: ltc2309: add support for ltc2305
-config: sparc64-randconfig-001-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240416.ckqhNpHO-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240416.ckqhNpHO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Tikhomirov/cgroup-v2-freezer-allow-freezing-with-kthreads/20251223-182826
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+patch link:    https://lore.kernel.org/r/20251223102124.738818-4-ptikhomirov%40virtuozzo.com
+patch subject: [PATCH 2/2] cgroup-v2/freezer: Print information about unfreezable process
+config: s390-randconfig-r071-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240409.06R0khaZ-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240409.06R0khaZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512240416.ckqhNpHO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512240409.06R0khaZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/iio/adc/ltc2309.c: In function 'ltc2309_probe':
->> drivers/iio/adc/ltc2309.c:195:29: warning: unused variable 'match' [-Wunused-variable]
-     const struct of_device_id *match;
-                                ^~~~~
+   kernel/cgroup/freezer.c: In function 'warn_freeze_timeout_task':
+>> kernel/cgroup/freezer.c:374:7: error: implicit declaration of function 'try_get_task_stack'; did you mean 'tryget_task_struct'? [-Werror=implicit-function-declaration]
+     if (!try_get_task_stack(task))
+          ^~~~~~~~~~~~~~~~~~
+          tryget_task_struct
+>> kernel/cgroup/freezer.c:377:2: error: implicit declaration of function 'put_task_stack'; did you mean 'put_task_struct'? [-Werror=implicit-function-declaration]
+     put_task_stack(task);
+     ^~~~~~~~~~~~~~
+     put_task_struct
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=n] && CAN [=y]
+   Selected by [y]:
+   - CAN [=y] && NET [=y]
 
 
-vim +/match +195 drivers/iio/adc/ltc2309.c
+vim +374 kernel/cgroup/freezer.c
 
-   192	
-   193	static int ltc2309_probe(struct i2c_client *client)
-   194	{
- > 195		const struct of_device_id *match;
-   196		const struct ltc230x_chip_info *chip_info;
-   197		struct iio_dev *indio_dev;
-   198		struct ltc2309 *ltc2309;
-   199		int ret;
-   200	
-   201		indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*ltc2309));
-   202		if (!indio_dev)
-   203			return -ENOMEM;
-   204	
-   205		ltc2309 = iio_priv(indio_dev);
-   206		chip_info = device_get_match_data(&client->dev);
-   207		if (!chip_info)
-   208			return -EINVAL;
-   209	
-   210		ltc2309->dev = &indio_dev->dev;
-   211		ltc2309->client = client;
-   212	
-   213		indio_dev->name = chip_info->name;
-   214		indio_dev->modes = INDIO_DIRECT_MODE;
-   215		indio_dev->channels = chip_info->channels;
-   216		indio_dev->num_channels = chip_info->num_channels;
-   217		indio_dev->info = &ltc2309_info;
-   218	
-   219		ret = devm_regulator_get_enable_read_voltage(&client->dev, "vref");
-   220		if (ret < 0 && ret != -ENODEV)
-   221			return dev_err_probe(ltc2309->dev, ret,
-   222					     "failed to get vref voltage\n");
-   223	
-   224		ltc2309->vref_mv = ret == -ENODEV ? LTC2309_INTERNAL_REF_MV : ret / 1000;
-   225	
-   226		mutex_init(&ltc2309->lock);
-   227	
-   228		return devm_iio_device_register(&client->dev, indio_dev);
-   229	}
-   230	
+   357	
+   358	static void warn_freeze_timeout_task(struct cgroup *cgrp, int timeout,
+   359					     struct task_struct *task)
+   360	{
+   361		char *buf __free(kfree) = NULL;
+   362		pid_t tgid;
+   363	
+   364		buf = kmalloc(PATH_MAX, GFP_KERNEL);
+   365		if (!buf)
+   366			return;
+   367	
+   368		if (cgroup_path(cgrp, buf, PATH_MAX) < 0)
+   369			return;
+   370	
+   371		tgid = task_pid_nr_ns(task, &init_pid_ns);
+   372		pr_warn("Freeze of %s took %ld sec, due to unfreezable process %d:%s.\n",
+   373			buf, timeout / USEC_PER_SEC, tgid, task->comm);
+ > 374		if (!try_get_task_stack(task))
+   375			return;
+   376		show_stack(task, NULL, KERN_WARNING);
+ > 377		put_task_stack(task);
+   378	}
+   379	
 
 -- 
 0-DAY CI Kernel Test Service
