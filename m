@@ -1,416 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2FF2AD22
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 00:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D171E8320
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 00:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766449917; cv=none; b=HFn1GhwVji4mZ7kPGn8j8aS3Y1hLNqj9MfvcnZ3xhaWKxUQw6qDJxKBSaU5NtLAJ7r0GH0PR6Xde3Bv1NosC35tQoj3P7q8/ERFsNTeDluuXiEiLvyEIVL2/BIu2sbA+uDHKEukD7YNBxDL3PmtVWEnzKHCRvsTKkWEoLvcqCYI=
+	t=1766449947; cv=none; b=RT/6bFy+gS68zlPw05G4AS0USOEdEUCc4YIz++OKpDkrabS791kj+Svkyxc/cQtVdbjBmS65gQzb80hfyOAEBTKOPd0eSta44hqQh0L5N/JWvFSMC5sTqUX0bwOPkqdoVAtD1mlu1E1EZWePvzGUbIPCcchtm520sii0vvzM9fc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766449917; c=relaxed/simple;
-	bh=6xa/ToTTgcCibm/eav9Wap/Pur9+s1GlB/60Ot/4yC8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=McUC+EC4ExReEZL5E5mWn5BkUyzJ3ndoPzpq50Wxdrv9utf2kQ6GZjBBWoVjSlvSzPPUwS0fCoMo+IhEwLkiaOSqY8ttP/k/AVS7wNQ82QMF1Is+jTlloixQwXIsx5VgV0dcxRLAkpETse+7UAp0Yp0LdguTmj6TIOOgaI8VdOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VHFwb4pk; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1766449947; c=relaxed/simple;
+	bh=Eza7K8Hl4yp9MxEzmTsAFTND0l3DA0PL5Z+ptFQ0JzU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=S6Fc8+DaS2IL4fYo0KX9Q0k/qIUn6T5gaJHtkqSEWyKR9PI4EdAsNS3GtJ7K4N/BuHWsnyUGUjpswxQlbQKG8HhvpuvPP/pLrrPTsN9LlEb3k0HZoD8PEV6yF5z5/IDztpu5TAYz9Gdgw8LuxxJmGetLrbKZLmC3uQYXtZGqt/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lEZHldmg; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VHFwb4pk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lEZHldmg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766449915; x=1797985915;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6xa/ToTTgcCibm/eav9Wap/Pur9+s1GlB/60Ot/4yC8=;
-  b=VHFwb4pknlRMBt1JerSV9iFzodS46kEdkSKGLxFgD4AC4bAjcvVNknz5
-   ZzWmAJhKbwBkEvdGfQzmQWMRY6caQRzJaxwqYeV0AydegpZZp38uNcwhf
-   dSOLJYPVlH+h0pADVd4MrHBFrT2pTBdcSJVpz9FhUbesJix6JJ5HhoJ9C
-   Ot+SMWFYylT3okofwO6xjNwF1nPxCqto5geGJx2UtBJ+FwRMtwDX1HZO8
-   vlfpabqRVwlOz3bA44SBKlecS56AIkBDsirpDdcucw5s1wYM8N/6v7O/4
-   7Ehgf8UJNQLByiQK3GOlobRvzC9piZMAxqONjPOsmeBfNvFRUxK4xab50
-   Q==;
-X-CSE-ConnectionGUID: kwXYn0EhQt6BmhgwgJbVkA==
-X-CSE-MsgGUID: RqZME0y3Q32L8f7AglSGtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="67298737"
+  t=1766449945; x=1797985945;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Eza7K8Hl4yp9MxEzmTsAFTND0l3DA0PL5Z+ptFQ0JzU=;
+  b=lEZHldmgT4PnOFQStbf0MCHGxDRIEl8rMwJGjTGtvkeKhAb6X9zKAWtK
+   2NHMesYPZIP5gXXtKOsFjefXFSB7eb6DX5/o8bDZ87KPGYE29EcG6Tl5g
+   kXm9jSS9HBFQWxqlJjzpTklBBUEZK84Z+BEslAdnghqvggRejOyys9zLa
+   BtA+ENw3KgdFGhZ1nofntJxj87TOVBksZMImYQgFahg0dRimk0124j5yV
+   DQ0F59UGhUocQahkVOPwjSfx9P9DtGXd6s0XfhYk+xRGgflN2Yzt9kRrz
+   jjXLFE3jj8JkPSFxOj3urMpgNxCd7F4CAhqHvSGdfY9jKhTAsXK/BkXL/
+   g==;
+X-CSE-ConnectionGUID: uYEZ/v+pT+mx0py6RNab4Q==
+X-CSE-MsgGUID: FlIYFXrrRsGg7dg1gVTfWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11650"; a="68198850"
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="67298737"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 16:31:55 -0800
-X-CSE-ConnectionGUID: M57HItmIR6GW6BQqQ7QeQQ==
-X-CSE-MsgGUID: LY2ktNm0Ts2Hh8a6T/LNjQ==
+   d="scan'208";a="68198850"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Dec 2025 16:32:23 -0800
+X-CSE-ConnectionGUID: 28DGTStPSIOZkBmfeSxobA==
+X-CSE-MsgGUID: Z00yP19ZRqeYQ8QtAwMTTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,169,1763452800"; 
-   d="scan'208";a="204135361"
+   d="scan'208";a="237055158"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Dec 2025 16:31:52 -0800
+  by orviesa001.jf.intel.com with ESMTP; 22 Dec 2025 16:31:58 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vXqJX-000000001Ft-0yVD;
-	Tue, 23 Dec 2025 00:31:47 +0000
-Date: Tue, 23 Dec 2025 08:31:34 +0800
+	id 1vXqJa-000000001Fv-2z1M;
+	Tue, 23 Dec 2025 00:31:51 +0000
+Date: Tue, 23 Dec 2025 08:31:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: pip-izony <eeodqql09@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Seungjin Bae <eeodqql09@gmail.com>,
-	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
-	Sanghoon Choi <csh0052@gmail.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: ttusb-dec: fix heap-buffer-overflow in
- ttusb_dec_process_urb_frame()
-Message-ID: <202512230853.nWSWHk5e-lkp@intel.com>
-References: <20251222054644.938208-2-eeodqql09@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 1/1] mm/memory.c:1709:
+ warning: Function parameter or member 'start_t' not described in 'unmap_vmas'
+Message-ID: <202512230833.oXYzqXCr-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251222054644.938208-2-eeodqql09@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi pip-izony,
+Hi Liam,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on linuxtv-media-pending/master]
-[also build test ERROR on media-tree/master sailus-media-tree/master linus/master sailus-media-tree/streams v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   b952cc514e6f0e92951693f5131909bb1264ded3
+commit: e9fdabfc2aeb273168e60795e68896dfdeed6fdd [1/1] FROMLIST: BACKPORT: =
+mm: Change do_vmi_align_munmap() side tree index
+config: x86_64-randconfig-r071-20251223 (https://download.01.org/0day-ci/ar=
+chive/20251223/202512230833.oXYzqXCr-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20251223/202512230833.oXYzqXCr-lkp@intel.com/reproduce)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/pip-izony/media-ttusb-dec-fix-heap-buffer-overflow-in-ttusb_dec_process_urb_frame/20251222-134809
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20251222054644.938208-2-eeodqql09%40gmail.com
-patch subject: [PATCH v2] media: ttusb-dec: fix heap-buffer-overflow in ttusb_dec_process_urb_frame()
-config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20251223/202512230853.nWSWHk5e-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512230853.nWSWHk5e-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512230853.nWSWHk5e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512230833.oXYzqXCr-lkp@i=
+ntel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/openrisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/openrisc/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:18,
-                    from drivers/media/usb/ttusb-dec/ttusb_dec.c:10:
-   drivers/media/usb/ttusb-dec/ttusb_dec.c: In function 'ttusb_dec_process_urb_frame':
->> drivers/media/usb/ttusb-dec/ttusb_dec.c:713:49: error: expected ')' before '__func__'
-     713 |                                                 __func__);
-         |                                                 ^~~~~~~~
-   include/linux/printk.h:436:42: note: in definition of macro '__printk_index_emit'
-     436 |                 if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
-         |                                          ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:156:9: note: in expansion of macro 'dev_printk_index_wrap'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:41: note: in expansion of macro 'dev_warn'
-     711 |                                         dev_warn(&dec->udev->dev,
-         |                                         ^~~~~~~~
-   include/linux/printk.h:436:41: note: to match this '('
-     436 |                 if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
-         |                                         ^
-   include/linux/printk.h:479:9: note: in expansion of macro '__printk_index_emit'
-     479 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:156:9: note: in expansion of macro 'dev_printk_index_wrap'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:41: note: in expansion of macro 'dev_warn'
-     711 |                                         dev_warn(&dec->udev->dev,
-         |                                         ^~~~~~~~
->> drivers/media/usb/ttusb-dec/ttusb_dec.c:713:49: error: expected ')' before '__func__'
-     713 |                                                 __func__);
-         |                                                 ^~~~~~~~
-   include/linux/printk.h:445:61: note: in definition of macro '__printk_index_emit'
-     445 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                             ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:156:9: note: in expansion of macro 'dev_printk_index_wrap'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:41: note: in expansion of macro 'dev_warn'
-     711 |                                         dev_warn(&dec->udev->dev,
-         |                                         ^~~~~~~~
-   include/linux/printk.h:445:60: note: to match this '('
-     445 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                            ^
-   include/linux/printk.h:479:9: note: in expansion of macro '__printk_index_emit'
-     479 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:156:9: note: in expansion of macro 'dev_printk_index_wrap'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:41: note: in expansion of macro 'dev_warn'
-     711 |                                         dev_warn(&dec->udev->dev,
-         |                                         ^~~~~~~~
->> drivers/media/usb/ttusb-dec/ttusb_dec.c:713:49: error: expected ')' before '__func__'
-     713 |                                                 __func__);
-         |                                                 ^~~~~~~~
-   include/linux/printk.h:445:70: note: in definition of macro '__printk_index_emit'
-     445 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                                      ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:156:9: note: in expansion of macro 'dev_printk_index_wrap'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:41: note: in expansion of macro 'dev_warn'
-     711 |                                         dev_warn(&dec->udev->dev,
-         |                                         ^~~~~~~~
-   include/linux/printk.h:445:69: note: to match this '('
-     445 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                                     ^
-   include/linux/printk.h:479:9: note: in expansion of macro '__printk_index_emit'
-     479 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:156:9: note: in expansion of macro 'dev_printk_index_wrap'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:41: note: in expansion of macro 'dev_warn'
-     711 |                                         dev_warn(&dec->udev->dev,
-         |                                         ^~~~~~~~
-   In file included from include/linux/device.h:15,
-                    from include/linux/pci.h:37,
-                    from drivers/media/usb/ttusb-dec/ttusb_dec.c:11:
->> drivers/media/usb/ttusb-dec/ttusb_dec.c:713:49: error: expected ')' before '__func__'
-     713 |                                                 __func__);
-         |                                                 ^~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:41: note: in expansion of macro 'dev_warn'
-     711 |                                         dev_warn(&dec->udev->dev,
-         |                                         ^~~~~~~~
-   include/linux/dev_printk.h:110:24: note: to match this '('
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                        ^
-   include/linux/dev_printk.h:156:9: note: in expansion of macro 'dev_printk_index_wrap'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:41: note: in expansion of macro 'dev_warn'
-     711 |                                         dev_warn(&dec->udev->dev,
-         |                                         ^~~~~~~~
->> drivers/media/usb/ttusb-dec/ttusb_dec.c:712:49: warning: format '%s' expects a matching 'char *' argument [-Wformat=]
-     712 |                                                 "%s: packet too long - discarding\n"
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                             ^~~~~~~
-   drivers/media/usb/ttusb-dec/ttusb_dec.c:711:41: note: in expansion of macro 'dev_warn'
-     711 |                                         dev_warn(&dec->udev->dev,
-         |                                         ^~~~~~~~
-   drivers/media/usb/ttusb-dec/ttusb_dec.c:712:51: note: format string is defined here
-     712 |                                                 "%s: packet too long - discarding\n"
-         |                                                  ~^
-         |                                                   |
-         |                                                   char *
+>> mm/memory.c:1709: warning: Function parameter or member 'start_t' not de=
+scribed in 'unmap_vmas'
+>> mm/memory.c:1709: warning: Function parameter or member 'end_t' not desc=
+ribed in 'unmap_vmas'
 
 
-vim +713 drivers/media/usb/ttusb-dec/ttusb_dec.c
+vim +1709 mm/memory.c
 
-   640	
-   641	static void ttusb_dec_process_urb_frame(struct ttusb_dec *dec, u8 *b,
-   642						int length)
-   643	{
-   644		swap_bytes(b, length);
-   645	
-   646		while (length) {
-   647			switch (dec->packet_state) {
-   648	
-   649			case 0:
-   650			case 1:
-   651			case 2:
-   652				if (*b++ == 0xaa)
-   653					dec->packet_state++;
-   654				else
-   655					dec->packet_state = 0;
-   656	
-   657				length--;
-   658				break;
-   659	
-   660			case 3:
-   661				if (*b == 0x00) {
-   662					dec->packet_state++;
-   663					dec->packet_length = 0;
-   664				} else if (*b != 0xaa) {
-   665					dec->packet_state = 0;
-   666				}
-   667	
-   668				b++;
-   669				length--;
-   670				break;
-   671	
-   672			case 4:
-   673				dec->packet[dec->packet_length++] = *b++;
-   674	
-   675				if (dec->packet_length == 2) {
-   676					if (dec->packet[0] == 'A' &&
-   677					    dec->packet[1] == 'V') {
-   678						dec->packet_type =
-   679							TTUSB_DEC_PACKET_PVA;
-   680						dec->packet_state++;
-   681					} else if (dec->packet[0] == 'S') {
-   682						dec->packet_type =
-   683							TTUSB_DEC_PACKET_SECTION;
-   684						dec->packet_state++;
-   685					} else if (dec->packet[0] == 0x00) {
-   686						dec->packet_type =
-   687							TTUSB_DEC_PACKET_EMPTY;
-   688						dec->packet_payload_length = 2;
-   689						dec->packet_state = 7;
-   690					} else {
-   691						printk("%s: unknown packet type: %02x%02x\n",
-   692						       __func__,
-   693						       dec->packet[0], dec->packet[1]);
-   694						dec->packet_state = 0;
-   695					}
-   696				}
-   697	
-   698				length--;
-   699				break;
-   700	
-   701			case 5:
-   702				dec->packet[dec->packet_length++] = *b++;
-   703	
-   704				if (dec->packet_type == TTUSB_DEC_PACKET_PVA &&
-   705				    dec->packet_length == 8) {
-   706					int len = 8 +
-   707						(dec->packet[6] << 8) +
-   708						dec->packet[7];
-   709	
-   710					if (len > MAX_PVA_LENGTH + 4) {
-   711						dev_warn(&dec->udev->dev,
- > 712							"%s: packet too long - discarding\n"
- > 713							__func__);
-   714						dec->packet_state = 0;
-   715					} else {
-   716						dec->packet_state++;
-   717						dec->packet_payload_length = len;
-   718					}
-   719				} else if (dec->packet_type ==
-   720						TTUSB_DEC_PACKET_SECTION &&
-   721					   dec->packet_length == 5) {
-   722					dec->packet_state++;
-   723					dec->packet_payload_length = 5 +
-   724						((dec->packet[3] & 0x0f) << 8) +
-   725						dec->packet[4];
-   726				}
-   727	
-   728				length--;
-   729				break;
-   730	
-   731			case 6: {
-   732				int remainder = dec->packet_payload_length -
-   733						dec->packet_length;
-   734	
-   735				if (length >= remainder) {
-   736					memcpy(dec->packet + dec->packet_length,
-   737					       b, remainder);
-   738					dec->packet_length += remainder;
-   739					b += remainder;
-   740					length -= remainder;
-   741					dec->packet_state++;
-   742				} else {
-   743					memcpy(&dec->packet[dec->packet_length],
-   744					       b, length);
-   745					dec->packet_length += length;
-   746					length = 0;
-   747				}
-   748	
-   749				break;
-   750			}
-   751	
-   752			case 7: {
-   753				int tail = 4;
-   754	
-   755				dec->packet[dec->packet_length++] = *b++;
-   756	
-   757				if (dec->packet_type == TTUSB_DEC_PACKET_SECTION &&
-   758				    dec->packet_payload_length % 2)
-   759					tail++;
-   760	
-   761				if (dec->packet_length ==
-   762				    dec->packet_payload_length + tail) {
-   763					ttusb_dec_process_packet(dec);
-   764					dec->packet_state = 0;
-   765				}
-   766	
-   767				length--;
-   768				break;
-   769			}
-   770	
-   771			default:
-   772				printk("%s: illegal packet state encountered.\n",
-   773				       __func__);
-   774				dec->packet_state = 0;
-   775			}
-   776		}
-   777	}
-   778	
+^1da177e4c3f415 Linus Torvalds  2005-04-16  1685 =20
+f5cc4eef9987d0b Al Viro         2012-03-05  1686  /**
+f5cc4eef9987d0b Al Viro         2012-03-05  1687   * unmap_vmas - unmap a r=
+ange of memory covered by a list of vma's
+f5cc4eef9987d0b Al Viro         2012-03-05  1688   * @tlb: address of the c=
+aller's struct mmu_gather
+763ecb035029f50 Liam R. Howlett 2022-09-06  1689   * @mt: the maple tree
+f5cc4eef9987d0b Al Viro         2012-03-05  1690   * @vma: the starting vma
+f5cc4eef9987d0b Al Viro         2012-03-05  1691   * @start_addr: virtual a=
+ddress at which to start unmapping
+f5cc4eef9987d0b Al Viro         2012-03-05  1692   * @end_addr: virtual add=
+ress at which to end unmapping
+f5cc4eef9987d0b Al Viro         2012-03-05  1693   *
+f5cc4eef9987d0b Al Viro         2012-03-05  1694   * Unmap all pages in the=
+ vma list.
+f5cc4eef9987d0b Al Viro         2012-03-05  1695   *
+f5cc4eef9987d0b Al Viro         2012-03-05  1696   * Only addresses between=
+ `start' and `end' will be unmapped.
+f5cc4eef9987d0b Al Viro         2012-03-05  1697   *
+f5cc4eef9987d0b Al Viro         2012-03-05  1698   * The VMA list must be s=
+orted in ascending virtual address order.
+f5cc4eef9987d0b Al Viro         2012-03-05  1699   *
+f5cc4eef9987d0b Al Viro         2012-03-05  1700   * unmap_vmas() assumes t=
+hat the caller will flush the whole unmapped address
+f5cc4eef9987d0b Al Viro         2012-03-05  1701   * range after unmap_vmas=
+() returns.  So the only responsibility here is to
+f5cc4eef9987d0b Al Viro         2012-03-05  1702   * ensure that any thus-f=
+ar unmapped pages are flushed before unmap_vmas()
+f5cc4eef9987d0b Al Viro         2012-03-05  1703   * drops the lock and sch=
+edules.
+f5cc4eef9987d0b Al Viro         2012-03-05  1704   */
+763ecb035029f50 Liam R. Howlett 2022-09-06  1705  void unmap_vmas(struct mm=
+u_gather *tlb, struct maple_tree *mt,
+f5cc4eef9987d0b Al Viro         2012-03-05  1706  		struct vm_area_struct *=
+vma, unsigned long start_addr,
+e9fdabfc2aeb273 Liam R. Howlett 2023-04-28  1707  		unsigned long end_addr,=
+ unsigned long start_t,
+e9fdabfc2aeb273 Liam R. Howlett 2023-04-28  1708  		unsigned long end_t)
+f5cc4eef9987d0b Al Viro         2012-03-05 @1709  {
+ac46d4f3c43241f J=C3=A9r=C3=B4me Glisse   2018-12-28  1710  	struct mmu_not=
+ifier_range range;
+999dad824c39ed1 Peter Xu        2022-05-12  1711  	struct zap_details detai=
+ls =3D {
+04ada095dcfc4ae Mike Kravetz    2022-11-14  1712  		.zap_flags =3D ZAP_FLAG=
+_DROP_MARKER | ZAP_FLAG_UNMAP,
+999dad824c39ed1 Peter Xu        2022-05-12  1713  		/* Careful - we need to=
+ zap private pages too! */
+999dad824c39ed1 Peter Xu        2022-05-12  1714  		.even_cows =3D true,
+999dad824c39ed1 Peter Xu        2022-05-12  1715  	};
+e9fdabfc2aeb273 Liam R. Howlett 2023-04-28  1716  	MA_STATE(mas, mt, start_=
+t, start_t);
+f5cc4eef9987d0b Al Viro         2012-03-05  1717 =20
+6f4f13e8d9e27ce J=C3=A9r=C3=B4me Glisse   2019-05-13  1718  	mmu_notifier_r=
+ange_init(&range, MMU_NOTIFY_UNMAP, 0, vma, vma->vm_mm,
+6f4f13e8d9e27ce J=C3=A9r=C3=B4me Glisse   2019-05-13  1719  				start_addr,=
+ end_addr);
+ac46d4f3c43241f J=C3=A9r=C3=B4me Glisse   2018-12-28  1720  	mmu_notifier_i=
+nvalidate_range_start(&range);
+763ecb035029f50 Liam R. Howlett 2022-09-06  1721  	do {
+999dad824c39ed1 Peter Xu        2022-05-12  1722  		unmap_single_vma(tlb, v=
+ma, start_addr, end_addr, &details);
+e9fdabfc2aeb273 Liam R. Howlett 2023-04-28  1723  	} while ((vma =3D mas_fi=
+nd(&mas, end_t - 1)) !=3D NULL);
+ac46d4f3c43241f J=C3=A9r=C3=B4me Glisse   2018-12-28  1724  	mmu_notifier_i=
+nvalidate_range_end(&range);
+^1da177e4c3f415 Linus Torvalds  2005-04-16  1725  }
+^1da177e4c3f415 Linus Torvalds  2005-04-16  1726 =20
 
--- 
+:::::: The code at line 1709 was first introduced by commit
+:::::: f5cc4eef9987d0b517364d01e290d6438e47ee5d VM: make zap_page_range() c=
+allers that act on a single VMA use separate helper
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
