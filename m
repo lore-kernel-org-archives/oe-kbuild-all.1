@@ -1,136 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C75220698
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 14:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C85D2701CF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 15:01:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766499570; cv=none; b=XrIqsXBwmGgdakeFOgXyWBEUk3FtmfY0f+2RTBM/uxsX9+qzPkLFGnX3ed3XOtzGXB9CM5fZEhiMBcDznWI++5t1tDi4XIPvrGu7WbPqPhzK9nqfqF2I/pAp9G+gNDoBg8qXaflClVsvnip9sqmaZY/fo/xNmnxnnffTlxQDY7Y=
+	t=1766502087; cv=none; b=aZrvoavJudrTrJT/yehHCemHu2b+EvjPN6eQImP8ISj48+I8/mtgCJVZRH1bpYmYb699mf1su6WbW6ntfqbJGXBnKTV8w8nCE9KZ9ouLJAxbX7ggVwcG6rKYpxGm+ZCmPhPOyCpYEcv1s97TzHoEvHd9J8BY8KNWEfE5TCGKPpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766499570; c=relaxed/simple;
-	bh=ZZQg8s4/nNF1ZlkzREeuw4bYSFY91iLUDaAHPJx09QE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nl8VpylmDGQ892qe8j+zo5wtFOACqpFfmERMmvQ6vQVICTusYTVrQ+wHKhEIgSropxKaSlp16tpFfFVh/sJHKYz0rJ+PSmnhrVYsULXI+jS/SFAmSKDCyn4pNY2ABMOLC4c7BNQjrBt4QpVK1hCwZRq3PGaj3olGyIQ1njLVgaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=imrFSS0M; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1766502087; c=relaxed/simple;
+	bh=PD+EpiJAe+4y48SySV6x4ZLXwe0npMinN8kKjCDtMcI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DjB7YqhPmH5EcQS3yNlIkshGT8EARfZyySNK0lJpDdC/upvWc/JNxYi9c4F7wYYoC6/anlrQID06vyrO3SEJWhnXpnMuSsZTEnqkUHgwg2nmkXsrjAZjmuAbHY7ZKppk1+OVxdUWm4PH4ekONHn29Y2IyyEXdi61I6AnJawkZ4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dzu1Hv1u; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="imrFSS0M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dzu1Hv1u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766499568; x=1798035568;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZZQg8s4/nNF1ZlkzREeuw4bYSFY91iLUDaAHPJx09QE=;
-  b=imrFSS0MkgdlisaLcn8jnrmqhsbVRfM8yyGnFaYf7sT68ooCcsrJJBxp
-   qTAhAWuOT7lhdBvSVpHYN3kmaJ15bwgV6m/vjg8NnBEuBhCjk1PcKJHks
-   HIBU8vF13oia1q6CMcVsABdKSy6znjnoIfVwv7Ms6PCzfQ3PN4rU9VDcw
-   2DnheXXYEJw9R075TphvkBX1xyONpnk7h72qVjyDMewo1LLzizziOU4DU
-   +6qOpe7bwmutM5e2iRSZjyPIojbveNrPMVPBFEarlFvoEaY3usJNYKrrv
-   M4jxCSqGjBiE4h4U5uTY6t8PBm8UB1670Ab74ztuaEHlIkq54CMttSBJZ
-   Q==;
-X-CSE-ConnectionGUID: 9AuITySBQeSYIwjek7dcdw==
-X-CSE-MsgGUID: 5XvxSEiOQhqjugLssC7j3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79463736"
+  t=1766502085; x=1798038085;
+  h=date:from:to:cc:subject:message-id;
+  bh=PD+EpiJAe+4y48SySV6x4ZLXwe0npMinN8kKjCDtMcI=;
+  b=dzu1Hv1u9fbzYKk0cObDz3fr4vlASor2kJe1Fm/6JYd0O0vG1zF/tXw/
+   /DizB8JVPJ4iCKAPOaIj7AFhPg8u7BBlU4EevC10sAGG1bPJ0pvZo2Yo9
+   uneXlt2+clbu7w6GYJGL2dAtUuQpsGx2VkDqggVh9/gHp/1p3Crh05++N
+   Xme1Go94SV+ZplLnRO0brUGLb9SikL8gwinp8C1AOp/pbFsXEPJ+hr4tG
+   1vaFjT59eZB8YNAxULZobbkfi+CudOehl/4a433iOy8tYTnCQhiy+JR4W
+   Vxrk1JX6kdKXGzZ9ZV0haebvBgTc6L9y9NbpRWJDfCSDZlxrHEC+PZ5NV
+   A==;
+X-CSE-ConnectionGUID: SedwL6faSuWr9Jbr6iSubA==
+X-CSE-MsgGUID: 7iv0007GSTuFYo3C2s2ryQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79069886"
 X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="79463736"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 06:19:27 -0800
-X-CSE-ConnectionGUID: Vg9Iuvx1SiG+8Rwxb+2JDA==
-X-CSE-MsgGUID: nMqDeak8TR2g8NmJnysUGQ==
+   d="scan'208";a="79069886"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 07:01:22 -0800
+X-CSE-ConnectionGUID: V8LaIdSUS3qo8FnD7P6H0Q==
+X-CSE-MsgGUID: STYWOYhtQ86ilR2TaFAXHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,171,1763452800"; 
-   d="scan'208";a="230813594"
+   d="scan'208";a="199559862"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 23 Dec 2025 06:19:23 -0800
+  by orviesa009.jf.intel.com with ESMTP; 23 Dec 2025 07:01:21 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vY3EO-00000000217-3Qms;
-	Tue, 23 Dec 2025 14:19:20 +0000
-Date: Tue, 23 Dec 2025 22:18:06 +0800
+	id 1vY3sp-0000000022T-3gBP;
+	Tue, 23 Dec 2025 15:01:10 +0000
+Date: Tue, 23 Dec 2025 23:00:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tamir Duberstein <tamird@kernel.org>, David Gow <davidgow@google.com>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Naveen N Rao <naveen@kernel.org>, Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>,
-	Christophe Leroy <chleroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Muhammad Usama Anjum <usama.anjum@collabora.com>,
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linuxppc-dev@lists.ozlabs.org, linux-kselftest@vger.kernel.org,
-	Tamir Duberstein <tamird@gmail.com>
-Subject: Re: [PATCH v2 3/3] bitmap: break kunit into test cases
-Message-ID: <202512232235.vUHmJH7T-lkp@intel.com>
-References: <20251222-bitmap-kunit-convert-v2-3-6a61a5330eff@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 1/1] mm/memory.c:5148:
+ warning: Function parameter or member 'mm' not described in
+ 'mm_account_fault'
+Message-ID: <202512232224.xSAyjfv3-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251222-bitmap-kunit-convert-v2-3-6a61a5330eff@gmail.com>
 
-Hi Tamir,
+Hi Suren,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tamir-Duberstein/test_bitmap-extract-benchmark-module/20251222-214306
-base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
-patch link:    https://lore.kernel.org/r/20251222-bitmap-kunit-convert-v2-3-6a61a5330eff%40gmail.com
-patch subject: [PATCH v2 3/3] bitmap: break kunit into test cases
-config: arm64-randconfig-004-20251223 (https://download.01.org/0day-ci/archive/20251223/202512232235.vUHmJH7T-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512232235.vUHmJH7T-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   b952cc514e6f0e92951693f5131909bb1264ded3
+commit: a264d8efcb8f7231898dc4cb306ef8e20e6e285e [1/1] BACKPORT: mm: do not increment pgfault stats when page fault handler retries
+config: x86_64-randconfig-r071-20251223 (https://download.01.org/0day-ci/archive/20251223/202512232224.xSAyjfv3-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512232224.xSAyjfv3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512232235.vUHmJH7T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512232224.xSAyjfv3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   lib/bitmap_kunit.c: In function 'test_bitmap_printlist':
->> lib/bitmap_kunit.c:468:2: warning: 'memset' used with length equal to number of elements without multiplication by element size [-Wmemset-elt-size]
-     468 |  memset(bmap, -1, PAGE_SIZE);
-         |  ^~~~~~
+   mm/memory.c:1714: warning: Function parameter or member 'start_t' not described in 'unmap_vmas'
+   mm/memory.c:1714: warning: Function parameter or member 'end_t' not described in 'unmap_vmas'
+   mm/memory.c:1714: warning: Function parameter or member 'mm_wr_locked' not described in 'unmap_vmas'
+>> mm/memory.c:5148: warning: Function parameter or member 'mm' not described in 'mm_account_fault'
 
 
-vim +/memset +468 lib/bitmap_kunit.c
+vim +5148 mm/memory.c
 
-6ea86bdfc169ba lib/test_bitmap.c  Yury Norov       2019-05-14  459  
-8ef3340af7139f lib/bitmap_kunit.c Tamir Duberstein 2025-12-22  460  static void test_bitmap_printlist(struct kunit *kunittest)
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  461  {
-8ef3340af7139f lib/bitmap_kunit.c Tamir Duberstein 2025-12-22  462  	static long bmap[PAGE_SIZE];
-8ef3340af7139f lib/bitmap_kunit.c Tamir Duberstein 2025-12-22  463  	static char buf[PAGE_SIZE];
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  464  	char expected[256];
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  465  	int ret, slen;
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  466  	ktime_t time;
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  467  
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14 @468  	memset(bmap, -1, PAGE_SIZE);
-8ef3340af7139f lib/bitmap_kunit.c Tamir Duberstein 2025-12-22  469  	slen = snprintf(expected, sizeof(expected), "0-%ld\n", PAGE_SIZE * 8 - 1);
-8ef3340af7139f lib/bitmap_kunit.c Tamir Duberstein 2025-12-22  470  	KUNIT_ASSERT_GT(kunittest, slen, 0);
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  471  
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  472  	time = ktime_get();
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  473  	ret = bitmap_print_to_pagebuf(true, buf, bmap, PAGE_SIZE * 8);
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  474  	time = ktime_get() - time;
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  475  
-8ef3340af7139f lib/bitmap_kunit.c Tamir Duberstein 2025-12-22  476  	KUNIT_ASSERT_EQ(kunittest, ret, slen);
-8ef3340af7139f lib/bitmap_kunit.c Tamir Duberstein 2025-12-22  477  	KUNIT_ASSERT_STREQ(kunittest, buf, expected);
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  478  
-8ef3340af7139f lib/bitmap_kunit.c Tamir Duberstein 2025-12-22  479  	kunit_info(kunittest, "Time: %llu", time);
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  480  }
-db7313005e9c2d lib/test_bitmap.c  Yury Norov       2021-08-14  481  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  5129  
+bce617edecada0 Peter Xu           2020-08-11  5130  /**
+f0953a1bbaca71 Ingo Molnar        2021-05-06  5131   * mm_account_fault - Do page fault accounting
+bce617edecada0 Peter Xu           2020-08-11  5132   *
+bce617edecada0 Peter Xu           2020-08-11  5133   * @regs: the pt_regs struct pointer.  When set to NULL, will skip accounting
+bce617edecada0 Peter Xu           2020-08-11  5134   *        of perf event counters, but we'll still do the per-task accounting to
+bce617edecada0 Peter Xu           2020-08-11  5135   *        the task who triggered this page fault.
+bce617edecada0 Peter Xu           2020-08-11  5136   * @address: the faulted address.
+bce617edecada0 Peter Xu           2020-08-11  5137   * @flags: the fault flags.
+bce617edecada0 Peter Xu           2020-08-11  5138   * @ret: the fault retcode.
+bce617edecada0 Peter Xu           2020-08-11  5139   *
+f0953a1bbaca71 Ingo Molnar        2021-05-06  5140   * This will take care of most of the page fault accounting.  Meanwhile, it
+bce617edecada0 Peter Xu           2020-08-11  5141   * will also include the PERF_COUNT_SW_PAGE_FAULTS_[MAJ|MIN] perf counter
+f0953a1bbaca71 Ingo Molnar        2021-05-06  5142   * updates.  However, note that the handling of PERF_COUNT_SW_PAGE_FAULTS should
+bce617edecada0 Peter Xu           2020-08-11  5143   * still be in per-arch page fault handlers at the entry of page fault.
+bce617edecada0 Peter Xu           2020-08-11  5144   */
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5145  static inline void mm_account_fault(struct mm_struct *mm, struct pt_regs *regs,
+bce617edecada0 Peter Xu           2020-08-11  5146  				    unsigned long address, unsigned int flags,
+bce617edecada0 Peter Xu           2020-08-11  5147  				    vm_fault_t ret)
+bce617edecada0 Peter Xu           2020-08-11 @5148  {
+bce617edecada0 Peter Xu           2020-08-11  5149  	bool major;
+bce617edecada0 Peter Xu           2020-08-11  5150  
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5151  	/* Incomplete faults will be accounted upon completion. */
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5152  	if (ret & VM_FAULT_RETRY)
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5153  		return;
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5154  
+bce617edecada0 Peter Xu           2020-08-11  5155  	/*
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5156  	 * To preserve the behavior of older kernels, PGFAULT counters record
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5157  	 * both successful and failed faults, as opposed to perf counters,
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5158  	 * which ignore failed cases.
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5159  	 */
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5160  	count_vm_event(PGFAULT);
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5161  	count_memcg_event_mm(mm, PGFAULT);
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5162  
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5163  	/*
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5164  	 * Do not account for unsuccessful faults (e.g. when the address wasn't
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5165  	 * valid).  That includes arch_vma_access_permitted() failing before
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5166  	 * reaching here. So this is not a "this many hardware page faults"
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5167  	 * counter.  We should use the hw profiling for that.
+bce617edecada0 Peter Xu           2020-08-11  5168  	 */
+a264d8efcb8f72 Suren Baghdasaryan 2023-04-19  5169  	if (ret & VM_FAULT_ERROR)
+bce617edecada0 Peter Xu           2020-08-11  5170  		return;
+bce617edecada0 Peter Xu           2020-08-11  5171  
+bce617edecada0 Peter Xu           2020-08-11  5172  	/*
+bce617edecada0 Peter Xu           2020-08-11  5173  	 * We define the fault as a major fault when the final successful fault
+bce617edecada0 Peter Xu           2020-08-11  5174  	 * is VM_FAULT_MAJOR, or if it retried (which implies that we couldn't
+bce617edecada0 Peter Xu           2020-08-11  5175  	 * handle it immediately previously).
+bce617edecada0 Peter Xu           2020-08-11  5176  	 */
+bce617edecada0 Peter Xu           2020-08-11  5177  	major = (ret & VM_FAULT_MAJOR) || (flags & FAULT_FLAG_TRIED);
+bce617edecada0 Peter Xu           2020-08-11  5178  
+a2beb5f1efede6 Peter Xu           2020-08-11  5179  	if (major)
+a2beb5f1efede6 Peter Xu           2020-08-11  5180  		current->maj_flt++;
+a2beb5f1efede6 Peter Xu           2020-08-11  5181  	else
+a2beb5f1efede6 Peter Xu           2020-08-11  5182  		current->min_flt++;
+a2beb5f1efede6 Peter Xu           2020-08-11  5183  
+bce617edecada0 Peter Xu           2020-08-11  5184  	/*
+a2beb5f1efede6 Peter Xu           2020-08-11  5185  	 * If the fault is done for GUP, regs will be NULL.  We only do the
+a2beb5f1efede6 Peter Xu           2020-08-11  5186  	 * accounting for the per thread fault counters who triggered the
+a2beb5f1efede6 Peter Xu           2020-08-11  5187  	 * fault, and we skip the perf event updates.
+bce617edecada0 Peter Xu           2020-08-11  5188  	 */
+bce617edecada0 Peter Xu           2020-08-11  5189  	if (!regs)
+bce617edecada0 Peter Xu           2020-08-11  5190  		return;
+bce617edecada0 Peter Xu           2020-08-11  5191  
+a2beb5f1efede6 Peter Xu           2020-08-11  5192  	if (major)
+bce617edecada0 Peter Xu           2020-08-11  5193  		perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MAJ, 1, regs, address);
+a2beb5f1efede6 Peter Xu           2020-08-11  5194  	else
+bce617edecada0 Peter Xu           2020-08-11  5195  		perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS_MIN, 1, regs, address);
+bce617edecada0 Peter Xu           2020-08-11  5196  }
+bce617edecada0 Peter Xu           2020-08-11  5197  
+
+:::::: The code at line 5148 was first introduced by commit
+:::::: bce617edecada007aee8610fbe2c14d10b8de2f6 mm: do page fault accounting in handle_mm_fault
+
+:::::: TO: Peter Xu <peterx@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
