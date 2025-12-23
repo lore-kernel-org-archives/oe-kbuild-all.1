@@ -1,71 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7847FBAC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 13:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B77F338917
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 23 Dec 2025 13:23:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766495206; cv=none; b=S9v1z7vbI6+xVnICLTbyX0shvDv+Rgwkr+bDdiaS7sRo6x0g5CbmMMgYQ+ZGBGeNXMZtcPm0FUdRPBsTPIuc9d8v+O5ZKVYi5dEuj9UbtpqFgio7bC9muRKYHLvHc9751sHLzPvpS1A1Kr7Y89/V/twkzAN0NWNqi7lQYpufBjc=
+	t=1766496205; cv=none; b=gHDCeAMxB5QdgHOyQDsi8Qaqeb5FLb0YoETLG6WpFZ3lEFJVVyR4W2dkLNXz+CBWbu2o84cBuYAMtrZ63UjUvY03eLmSBOMy4dYz8buSUfeARVY4GFq3pbtGKhl2xrxlq89ilz1v+5hYd5/dOUSmLscZA+06vKUoSH91tBCdaoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766495206; c=relaxed/simple;
-	bh=VL07pAku+WMfh2Tgms4l8zBYIH0Nriu7UpIJArRTLIo=;
+	s=arc-20240116; t=1766496205; c=relaxed/simple;
+	bh=rqjKymunayEwPeDVegrNhyGlPplhOK5dBWljWTlzY08=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AQPFwdqdh6jDTzwuKnF48S6qTvlXaWI7DU6zIxQFU81DC91VJ4Zl3Nxz2f8PJKfMf7zVSmcFdt6Wh3znuwYwdejMAQxseahcLRk6Ebv4SDydAZ94mUN9Gibaim3NLkRNVftty+SIGaJ1kVKGF9EooX9pNchkzV3rG10KEEVGRDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OkK1pPZN; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=gF+GBbcKC1M5nHTGfSnTKf/KXczepn90vfw14wPNIRnsyzxie3ylvQnRuIh4pJUHFQhiZQPp+lngdRkS851hkO2tHgYoXcdBHPgpJCJNUTzcmCHXfcvrLc8Zsm4Q/iMQ8x7acxrv1Ff2SxuuRcAXkFm9irAI+n9TqUeGICHSHTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e6T0Rm7x; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OkK1pPZN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e6T0Rm7x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766495205; x=1798031205;
+  t=1766496204; x=1798032204;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VL07pAku+WMfh2Tgms4l8zBYIH0Nriu7UpIJArRTLIo=;
-  b=OkK1pPZNzLOUEBYGOKZANLeE5GrhBChVMxFlY4hO7i8CS052RI24pjfr
-   Z5QLO26yEYKFU3S7vG4iaH/QKWk+O97hkoDaH/W8N8T73gJKcBnvffsD+
-   VcGp0ITsJlHWQOa5oGgX9pZxJ7hNAZK10/JQ/XCdbxyW0Lh1DwyRpHySR
-   /KSxoSxSkThs0SeDAx1p+KTWpbhjCvbvUwqzjEMHtKPp9kMqHCD2NtD1V
-   u7fa3h7hfizbSoxon6fhl02+BtWx5B5v+DDGqO47QBvG1+iZhG2mQB6uY
-   tRDYHypv0KU/CXDzSjBX83RV9VOWzMFBG1CpU/qSokKhWP6MM15NthIJv
-   g==;
-X-CSE-ConnectionGUID: 4WmjVx9CQLS6m+qNzLvTaQ==
-X-CSE-MsgGUID: 1ACggDcWQoi6wM7iw5UuPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="85931719"
+  bh=rqjKymunayEwPeDVegrNhyGlPplhOK5dBWljWTlzY08=;
+  b=e6T0Rm7xRwh3rzglj4T3gPjsv6e7CEVXNL0/Zlao/Eo0XNnMZcmustOZ
+   0MsOTxMmxdpbTOITM0VcYckeLWnn+91K5H/GrloqrnZyKCJMg7Rx5h5Y/
+   UFd9DXcTBU990n+QRJEUdiqAyhGG0Y82L999Tk49G+0YjAKMoAlShiGdr
+   kQBcvSJgBK3VMXF0u97AzJ595kYikGmPH4HU6rJ5wuOAnXBKuJuc/xYFD
+   P7yY+TcV1BjvyAbBaLg8H8rdPac+EfkpbBiMvxIiCUs8YnAR5Mof0suaC
+   ihnStzvZdjJFJgcJgcfvtagchTUKAXU4fE6c0dTAZIQQouJI8DK7GB/z7
+   Q==;
+X-CSE-ConnectionGUID: EqJ87HjVRSKJdIo4KW4Q2Q==
+X-CSE-MsgGUID: EZpDCuJBQQS0QoxcFrmp3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="68226160"
 X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="85931719"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 05:06:44 -0800
-X-CSE-ConnectionGUID: QHI9sH8zSw+VzWNEjJHO3Q==
-X-CSE-MsgGUID: 3Fxvn/v1TimMHiVPVYHmpQ==
+   d="scan'208";a="68226160"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 05:23:22 -0800
+X-CSE-ConnectionGUID: MglQWePLRHij/XYMpZ4S+w==
+X-CSE-MsgGUID: UiQRl1yoQZOfG/sl/2q93g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,170,1763452800"; 
-   d="scan'208";a="200077636"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Dec 2025 05:06:41 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="199691760"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 23 Dec 2025 05:23:20 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vY262-000000005w8-2btX;
-	Tue, 23 Dec 2025 13:06:38 +0000
-Date: Tue, 23 Dec 2025 14:06:15 +0100
+	id 1vY2MA-000000001xf-2OQE;
+	Tue, 23 Dec 2025 13:23:18 +0000
+Date: Tue, 23 Dec 2025 21:22:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
-	Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, victoria@system76.com,
-	sebastian.wick@redhat.com, thomas.petazzoni@bootlin.com,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
-Message-ID: <202512231419.lVidy4qV-lkp@intel.com>
-References: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
+To: Osose Itua <osose.itua@savoirfairelinux.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, michael.hennerich@analog.com,
+	jerome.oufella@savoirfairelinux.com,
+	Osose Itua <osose.itua@savoirfairelinux.com>
+Subject: Re: [PATCH v2 1/2] net: phy: adin: enable configuration of the LP
+ Termination Register
+Message-ID: <202512232150.85cDPKrJ-lkp@intel.com>
+References: <20251222222210.3651577-2-osose.itua@savoirfairelinux.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,51 +66,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251222-vkms-all-config-v3-18-ba42dc3fb9ff@bootlin.com>
+In-Reply-To: <20251222222210.3651577-2-osose.itua@savoirfairelinux.com>
 
-Hi Louis,
+Hi Osose,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 8e7460eac786c72f48c4e04ce9be692b939428ce]
+[auto build test ERROR on net/main]
+[also build test ERROR on net-next/main linus/master horms-ipvs/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/Documentation-ABI-vkms-Add-current-VKMS-ABI-documentation/20251222-181426
-base:   8e7460eac786c72f48c4e04ce9be692b939428ce
-patch link:    https://lore.kernel.org/r/20251222-vkms-all-config-v3-18-ba42dc3fb9ff%40bootlin.com
-patch subject: [PATCH v3 18/33] drm/vkms: Introduce configfs for plane format
-reproduce: (https://download.01.org/0day-ci/archive/20251223/202512231419.lVidy4qV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Osose-Itua/net-phy-adin-enable-configuration-of-the-LP-Termination-Register/20251223-064926
+base:   net/main
+patch link:    https://lore.kernel.org/r/20251222222210.3651577-2-osose.itua%40savoirfairelinux.com
+patch subject: [PATCH v2 1/2] net: phy: adin: enable configuration of the LP Termination Register
+config: parisc-randconfig-001-20251223 (https://download.01.org/0day-ci/archive/20251223/202512232150.85cDPKrJ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251223/202512232150.85cDPKrJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512231419.lVidy4qV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512232150.85cDPKrJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Using alabaster theme
-   ERROR: Cannot find file ./include/linux/pci.h
-   WARNING: No kernel-doc for file ./include/linux/pci.h
-   ERROR: Cannot find file ./include/linux/mod_devicetable.h
-   WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
->> Documentation/ABI/testing/configfs-vkms:156: WARNING: Inline emphasis start-string without end-string. [docutils]
-   ERROR: Cannot find file ./include/linux/bootconfig.h
-   WARNING: No kernel-doc for file ./include/linux/bootconfig.h
-   ERROR: Cannot find file ./include/linux/pstore_zone.h
-   ERROR: Cannot find file ./include/linux/pstore_zone.h
-   WARNING: No kernel-doc for file ./include/linux/pstore_zone.h
+>> drivers/net/phy/adin.c:7:10: fatal error: cerrno: No such file or directory
+    #include <cerrno>
+             ^~~~~~~~
+   compilation terminated.
 
 
-vim +156 Documentation/ABI/testing/configfs-vkms
+vim +7 drivers/net/phy/adin.c
 
- > 156	What:		/sys/kernel/config/vkms/<device>/planes/<plane>/supported_formats
-   157	Date:		Nov 2025
-   158	Contact:	dri-devel@lists.freedesktop.org
-   159	Description:
-   160	        List of supported formats for this plane. To add a new
-   161	        item, write its fourcc code prefixed with '+'. To remove,
-   162	        use '-' prefix. Use '+*' to add all formats, '-*' to
-   163	        remove all.
-   164	
+   > 7	#include <cerrno>
+     8	#include <linux/kernel.h>
+     9	#include <linux/bitfield.h>
+    10	#include <linux/delay.h>
+    11	#include <linux/errno.h>
+    12	#include <linux/ethtool_netlink.h>
+    13	#include <linux/init.h>
+    14	#include <linux/module.h>
+    15	#include <linux/mii.h>
+    16	#include <linux/phy.h>
+    17	#include <linux/property.h>
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
