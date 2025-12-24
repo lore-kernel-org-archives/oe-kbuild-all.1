@@ -1,123 +1,141 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8672E9EDA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 03:27:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1052271456;
+	Wed, 24 Dec 2025 03:27:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766546862; cv=none; b=ncGn08hRjyg224vqreqSDAXYDpkgBJ7MrhFJFeoG1677pYh4drlPaw19EQh5vzLlYe7D5ilhrFKyfgnfy3IcZx40u5cs0Vnq6mLmKEljynNof+EXKn/GRjNwKZ9qINX1jfqMEu4gxyuR9D7VGAZv9uqpqet4CaMcw2cbxfP4i/g=
+	t=1766546865; cv=none; b=jILOGPKQKJVhZ757mkxRW39nIih25iTvo8f6GVOnWUGGfYHEHlV7iWlXnM7pVgAEhoyaJhdjROD4feBFcmM08nr8m7XfTZetLrE6zCuJdMPgSDxzUMRWtjxFEjVTAv75lPHXza5INYK4pU4ywo8lfDYbBhed/Uv/4FOTw6fn+z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766546862; c=relaxed/simple;
-	bh=++6OIyeAiqtOA4o71irTzZsHHRWPkJJxib8qN6tNsMY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=EZ04kTx+enFXXswx5yrDrJY7H8PzCMy3+s5P1hEjKHiZp23Owa3zBqGj7UwFYAD4IpB/4kxeqMzUXunnAyBgLKh3SkMyPoYHiVbp2ExZgxpDOGOrzhtRHFLzkgIYSZ11qVauZjAZF1z99e66IjGYR1Gy8Kio/L3ONCSQhmjisLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xa0TIaAN; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1766546865; c=relaxed/simple;
+	bh=nA7u6gjpcNff6GD+HoSy6Nia4ZNz+eOojZUn1RsdchI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YqduhyfFX/liIzJxtfTv068iZfDVjK+vDMOWdN3npc0Q/tjOKJN5IloVWJdG15L8nTI5VgY7DOyCvNzaqwb/85V53VmyN4shad/zTWOOMPrrRy+KzBoSW3pTDuv3tN/xLnQTya37CQc++o40zxilsxozK6g5z2shu1jSLLxsVMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c3mWmE6K; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xa0TIaAN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c3mWmE6K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766546860; x=1798082860;
-  h=date:from:to:cc:subject:message-id;
-  bh=++6OIyeAiqtOA4o71irTzZsHHRWPkJJxib8qN6tNsMY=;
-  b=Xa0TIaANUBH9f7QcxQ4DqSJCQ5XjFk3W39VP+8xd9ddrZSg/54nt3tFQ
-   fwx3O3HkPf7w2vpMa/G8OykFip//G+v3oTW6UYyRPpW89rOZC1Zw+Rrt0
-   oI3x54OY8JzsSDkL7yWzBUBJpKyovN1pn5uIe/v9pgxT1aeovJTQYXqVI
-   VjrC4vFeMOiysAsdLhhUJtBWt0SUYDTaDc+2l2v7VJGG9uWbrn24lkS38
-   Vo0nMg+lcFiJVS+6kEYcnPQ9Mz7+sTO+plPos4ld8XR/kQvyDyZV+wc9V
-   q5DpXVjaxGS995o8GR0U4mETEiQT5JeC2MfquyxZU7cgcXvBggHZK3RV1
-   w==;
-X-CSE-ConnectionGUID: iA7LXJGzT3amA+GUgXyHWg==
-X-CSE-MsgGUID: o/ucfGlTTWipBwRkQhEVow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="67585960"
+  t=1766546863; x=1798082863;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nA7u6gjpcNff6GD+HoSy6Nia4ZNz+eOojZUn1RsdchI=;
+  b=c3mWmE6KXHrBcEB9PYFfemKXhegtyk5VnJdiNEbgVI136YzW7pvdLwcx
+   yrnxTpCe6HlwQQWEY+7wzWp1Qbkm/3jL0Gpb8YO1xVWomdkWUi+BtXkX5
+   GsA3+jfs/ltnrujxY4hpEyffFNz07ezZLlgkYqrQL+/MykCpt4s+ruIDO
+   a5VH7CO9s4NtLSl2JAajne6kW1/9GCP97GCw7wQ9/7mKRYMycrnlMqSTn
+   nQ6gRXGrKt1CIxafEGnNdl2CkUdMP1WfB2MDHdKwna4GzKuJwx9tJvml4
+   XepSgdZoev3ZJHNcTt2AyFHGw2No0Oy3Edp8eSTnUmgHrcbe8eG6AjFpr
+   A==;
+X-CSE-ConnectionGUID: qJ4LoCPxRNSUhN1ZEj1Krg==
+X-CSE-MsgGUID: jum9YYo+Skab8r6UrtJlcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="67585961"
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="67585960"
+   d="scan'208";a="67585961"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 19:27:38 -0800
-X-CSE-ConnectionGUID: B7ErNpeKTsatXaDTARsmkw==
-X-CSE-MsgGUID: u2S+4JnXQKu3V/mIuklHeA==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 19:27:39 -0800
+X-CSE-ConnectionGUID: Pb2VFdUITb2atK7bdBZXkw==
+X-CSE-MsgGUID: i3pkqJNGQ8O7oBU6ueHwSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="204993892"
+   d="scan'208";a="204993889"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
   by orviesa005.jf.intel.com with ESMTP; 23 Dec 2025 19:27:37 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYFXC-000000002d9-3GJZ;
+	id 1vYFXC-000000002d7-39Xr;
 	Wed, 24 Dec 2025 03:27:34 +0000
-Date: Wed, 24 Dec 2025 11:26:47 +0800
+Date: Wed, 24 Dec 2025 11:26:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leonro@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [leon-rdma:dmabuf-revoke-v1 22/22]
- drivers/iommu/iommufd/selftest.c:2056:38: warning: variable 'priv' set but
- not used
-Message-ID: <202512241134.suNLfOUI-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Tejun Heo <tj@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Subject: Re: [PATCH 2/2] cgroup-v2/freezer: Print information about
+ unfreezable process
+Message-ID: <202512241151.JDZuy1z3-lkp@intel.com>
+References: <20251223102124.738818-4-ptikhomirov@virtuozzo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251223102124.738818-4-ptikhomirov@virtuozzo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dmabuf-revoke-v1
-head:   aabf78c22b38ad7fb45937e47fd9c97f7dc7b592
-commit: aabf78c22b38ad7fb45937e47fd9c97f7dc7b592 [22/22] iommufd/selftest: Reuse dma-buf revoke semantics
-config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20251224/202512241134.suNLfOUI-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241134.suNLfOUI-lkp@intel.com/reproduce)
+Hi Pavel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tj-cgroup/for-next]
+[also build test ERROR on linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Tikhomirov/cgroup-v2-freezer-allow-freezing-with-kthreads/20251223-182826
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+patch link:    https://lore.kernel.org/r/20251223102124.738818-4-ptikhomirov%40virtuozzo.com
+patch subject: [PATCH 2/2] cgroup-v2/freezer: Print information about unfreezable process
+config: sparc64-randconfig-002-20251224 (https://download.01.org/0day-ci/archive/20251224/202512241151.JDZuy1z3-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241151.JDZuy1z3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512241134.suNLfOUI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512241151.JDZuy1z3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/iommu/iommufd/selftest.c: In function 'iommufd_test_dmabuf_revoke':
->> drivers/iommu/iommufd/selftest.c:2056:38: warning: variable 'priv' set but not used [-Wunused-but-set-variable]
-    2056 |         struct iommufd_test_dma_buf *priv;
-         |                                      ^~~~
+>> kernel/cgroup/freezer.c:374:7: error: call to undeclared function 'try_get_task_stack'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     374 |         if (!try_get_task_stack(task))
+         |              ^
+   kernel/cgroup/freezer.c:374:7: note: did you mean 'tryget_task_struct'?
+   include/linux/sched/task.h:120:35: note: 'tryget_task_struct' declared here
+     120 | static inline struct task_struct *tryget_task_struct(struct task_struct *t)
+         |                                   ^
+>> kernel/cgroup/freezer.c:377:2: error: call to undeclared function 'put_task_stack'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     377 |         put_task_stack(task);
+         |         ^
+   kernel/cgroup/freezer.c:377:2: note: did you mean 'put_task_struct'?
+   include/linux/sched/task.h:128:20: note: 'put_task_struct' declared here
+     128 | static inline void put_task_struct(struct task_struct *t)
+         |                    ^
+   2 errors generated.
 
 
-vim +/priv +2056 drivers/iommu/iommufd/selftest.c
+vim +/try_get_task_stack +374 kernel/cgroup/freezer.c
 
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2052  
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2053  static int iommufd_test_dmabuf_revoke(struct iommufd_ucmd *ucmd, int fd,
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2054  				      bool revoked)
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2055  {
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21 @2056  	struct iommufd_test_dma_buf *priv;
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2057  	struct dma_buf *dmabuf;
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2058  	int rc = 0;
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2059  
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2060  	dmabuf = dma_buf_get(fd);
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2061  	if (IS_ERR(dmabuf))
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2062  		return PTR_ERR(dmabuf);
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2063  
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2064  	if (dmabuf->ops != &iommufd_test_dmabuf_ops) {
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2065  		rc = -EOPNOTSUPP;
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2066  		goto err_put;
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2067  	}
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2068  
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2069  	priv = dmabuf->priv;
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2070  	dma_resv_lock(dmabuf->resv, NULL);
-aabf78c22b38ad Leon Romanovsky 2025-12-23  2071  	if (revoked)
-aabf78c22b38ad Leon Romanovsky 2025-12-23  2072  		dma_buf_invalidate(dmabuf);
-aabf78c22b38ad Leon Romanovsky 2025-12-23  2073  	else
-aabf78c22b38ad Leon Romanovsky 2025-12-23  2074  		dma_buf_mark_valid(dmabuf);
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2075  	dma_resv_unlock(dmabuf->resv);
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2076  
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2077  err_put:
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2078  	dma_buf_put(dmabuf);
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2079  	return rc;
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2080  }
-d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2081  
-
-:::::: The code at line 2056 was first introduced by commit
-:::::: d2041f1f11dd99076010841a86c4d02d04650814 iommufd/selftest: Add some tests for the dmabuf flow
-
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+   357	
+   358	static void warn_freeze_timeout_task(struct cgroup *cgrp, int timeout,
+   359					     struct task_struct *task)
+   360	{
+   361		char *buf __free(kfree) = NULL;
+   362		pid_t tgid;
+   363	
+   364		buf = kmalloc(PATH_MAX, GFP_KERNEL);
+   365		if (!buf)
+   366			return;
+   367	
+   368		if (cgroup_path(cgrp, buf, PATH_MAX) < 0)
+   369			return;
+   370	
+   371		tgid = task_pid_nr_ns(task, &init_pid_ns);
+   372		pr_warn("Freeze of %s took %ld sec, due to unfreezable process %d:%s.\n",
+   373			buf, timeout / USEC_PER_SEC, tgid, task->comm);
+ > 374		if (!try_get_task_stack(task))
+   375			return;
+   376		show_stack(task, NULL, KERN_WARNING);
+ > 377		put_task_stack(task);
+   378	}
+   379	
 
 -- 
 0-DAY CI Kernel Test Service
