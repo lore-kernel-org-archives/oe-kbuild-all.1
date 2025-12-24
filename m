@@ -1,228 +1,199 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAA9283C9E;
-	Wed, 24 Dec 2025 03:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4BD1DED5C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 04:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766548072; cv=none; b=Dijn8/x/9QFNrAIxyOb3vdPWMbwX51k4sCLSQLcx8l7VCH8YVm+3plwH8MHSCXZ4ZUep5w/hZGh2j9cT/eM/IwAOYgZ1Yu5YF6404+3TT0sqLjBbiBX0O4HPj9hxnMIvMqTP9CcVK6GMMwM1+kFjlqot98QeMbOKnBd9uzRTUTU=
+	t=1766549431; cv=none; b=JaJP1SiyikHZi+03ophQBCtpzKqrAY5Uu3CXWNi/eZD7zDjEo98OBgJF9SLVuwXaMbE8iwAfiMLv8TVaaIUt9qk3mJLIJxPBG1IcynhHHdkgWXGCqVsv+Xum18dpRNKd+zb051MHurgmUe5pzf334s1p87yXZ8+bRtmBr0VYH14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766548072; c=relaxed/simple;
-	bh=Nrx8SnLjGi1tMAy5C7x9+knQXlEkEfFgw7pqhY61U1A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cgzd2id1yEsxBUjMVQVTfHUDpggfbhvnZqKeS798IfWZ6xm7ukBQV3OdffuUGNaYHE6bjoTFot6EyENXrsdem1jxAmC5iFqL1fVoc7jB8tzI3cK9/7ITOaToBdXXtNQJqrqZCC1Kw37kcfrgNy0VWEo1GvNzbhk4tmFFJaZSCZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gPf03/Lr; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1766549431; c=relaxed/simple;
+	bh=+Th8rRD8dMAQRPAA1EkPWHfosY5mTceaGV+sXWYogC4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=E1GoZY7IzlDNpJCQ5UURiYw/XF68vWJlweSnQXZYw83jEQ8x/z4mAnfSq3tKxRL/zYlcRmnx6lhCk10lQuDvbqUXJdKI5GLeFhAS8EwaU/6/lzno59E495CvifswGO8GbUsAvnsf/gRC1ceFxGMdNqi+wl7F5lIn2h9/quhZgIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CaqG6Rrv; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPf03/Lr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CaqG6Rrv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766548070; x=1798084070;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Nrx8SnLjGi1tMAy5C7x9+knQXlEkEfFgw7pqhY61U1A=;
-  b=gPf03/Lr6I2xxGmPL8I+aY4XaMQmPbW1JCgEWXj50THrwbwlrVVTM/Xn
-   eaRrbzrMFJMK5mIwOA2R+bqxaVRs5hHcHtH8NUAaJeJJ/7i2ii59zhhWL
-   6Kb39+qmcamn/MLoq84j6H3y5uD8gc3niyPeP6OhMM+HlIDrJ+46vh+aq
-   y0QmIaFTYw+g+VnEfTHAq9kPr5RgSufosyCbCLVxDiqzanY6vRtxA9gXw
-   MyKNeMAMvx9IKU0muzAmN1epiqM4Flc5Wkt1CWh+2d1hIhwKCWSg7JncL
-   CPqE/9Zl8U5UevnZwHiRVG7hYHTQ4Koo1xhyTXPjlDdlmPWbknsNM9peQ
-   g==;
-X-CSE-ConnectionGUID: e6t9zNWtStC+OZ8ZFEhMjw==
-X-CSE-MsgGUID: lVcseNaJQzyCWBz0QuxZIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="55959850"
+  t=1766549429; x=1798085429;
+  h=date:from:to:cc:subject:message-id;
+  bh=+Th8rRD8dMAQRPAA1EkPWHfosY5mTceaGV+sXWYogC4=;
+  b=CaqG6Rrv1WY3+j822+19s1DYhX/Z/zDEQx0zXercRQrkqGSoBSOiW/kq
+   aKRZykeKF1MiVbe2+HeN96/HhzXuthXJ3BizVxFF2r5XwIysmHM7tvMBd
+   3hVECuZhba5vJh6H+0WXb+M15EdwuRydLhiyZZ0Jg/A/sZ6IqkDhK5b/2
+   ddWyGUEd+1M8fqsl2bw9sD2HHTTSG3scyjQm9TI07a/tMNCmEs3dFJFqm
+   v5ba+PtjatjtXwR2E02wDkb3Wm69zwIXeLyGNB5uYdiZnooRdEahLYP77
+   6JbsNR3/SRan21WhKMwc/hfH3bCJgghw5qjF6LzPDk8GCIV6+H8m5OnA7
+   A==;
+X-CSE-ConnectionGUID: Uz7GTlIcTYekbeshOUqQ3A==
+X-CSE-MsgGUID: 8ES3NhsPRKG3zVLGwP6jEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="72246286"
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="55959850"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 19:47:50 -0800
-X-CSE-ConnectionGUID: 4c4zx21aSOiwPn10uk9MFg==
-X-CSE-MsgGUID: Yb0nJWM8QrS2LcCkJCGrmQ==
+   d="scan'208";a="72246286"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 20:10:29 -0800
+X-CSE-ConnectionGUID: WfK7V40bTJ+hxhl6WJrJZA==
+X-CSE-MsgGUID: mnQVWTO0RACwx4lTZCovwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="223410948"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Dec 2025 19:47:48 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="199066710"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 23 Dec 2025 20:10:27 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYFqk-0000000066O-10ma;
-	Wed, 24 Dec 2025 03:47:46 +0000
-Date: Wed, 24 Dec 2025 04:47:04 +0100
+	id 1vYGCf-000000002en-12Xh;
+	Wed, 24 Dec 2025 04:10:25 +0000
+Date: Wed, 24 Dec 2025 12:09:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?B?UGF3ZcWC?= Narewski <pawel.narewski@nokia.com>,
-	linux-gpio@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linusw@kernel.org,
-	brgl@kernel.org,
-	=?utf-8?B?UGF3ZcWC?= Narewski <pawel.narewski@nokia.com>,
-	Jakub Lewalski <jakub.lewalski@nokia.com>
-Subject: Re: [PATCH] gpiolib: fix race condition for gdev->srcu
-Message-ID: <202512240408.wrQcvO0t-lkp@intel.com>
-References: <20251223084952.1847489-1-pawel.narewski@nokia.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 0/1]
+ include/trace/events/swiotlb.h:15:23: error: variable has incomplete type
+ 'enum SWIOTLB_NO_FORCE'
+Message-ID: <202512241259.r93ijM8K-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251223084952.1847489-1-pawel.narewski@nokia.com>
 
-Hi Paweł,
+Hi Isaac,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pawe-Narewski/gpiolib-fix-race-condition-for-gdev-srcu/20251223-165142
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20251223084952.1847489-1-pawel.narewski%40nokia.com
-patch subject: [PATCH] gpiolib: fix race condition for gdev->srcu
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251224/202512240408.wrQcvO0t-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240408.wrQcvO0t-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   48ed03a80ad49e3648c77d8c2c1ca10e706d6215
+commit: 77c20b4cbcd0dca8e114cbcdcdaac61f3fb9555d [0/1] iommu/dma: Trace bounce buffer usage when mapping buffers
+config: i386-buildonly-randconfig-001-20251224 (https://download.01.org/0day-ci/archive/20251224/202512241259.r93ijM8K-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241259.r93ijM8K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512240408.wrQcvO0t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512241259.r93ijM8K-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpio/gpiolib.c:1109:2: error: no member named 'rwsem' in 'struct raw_notifier_head'
-    1109 |         BLOCKING_INIT_NOTIFIER_HEAD(&gdev->line_state_notifier);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/notifier.h:86:23: note: expanded from macro 'BLOCKING_INIT_NOTIFIER_HEAD'
-      86 |                 init_rwsem(&(name)->rwsem);     \
-         |                 ~~~~~~~~~~~~~~~~~~~~^~~~~~
-   include/linux/rwsem.h:121:16: note: expanded from macro 'init_rwsem'
-     121 |         __init_rwsem((sem), #sem, &__key);                      \
-         |                       ^~~
-   1 error generated.
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+>> include/trace/events/swiotlb.h:15:23: error: variable has incomplete type 'enum SWIOTLB_NO_FORCE'
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                                     ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+>> include/trace/events/swiotlb.h:15:23: error: variable has incomplete type 'enum SWIOTLB_NO_FORCE'
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                                     ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   In file included from drivers/iommu/dma-iommu.c:28:
+   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+>> drivers/iommu/dma-iommu.c:821:42: error: argument type 'enum SWIOTLB_NO_FORCE' is incomplete
+     821 |                 trace_swiotlb_bounced(dev, phys, size, swiotlb_force);
+         |                                                        ^~~~~~~~~~~~~
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^~~~~~~~~~~~~~~~
+   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
+      15 |                  enum swiotlb_force swiotlb_force),
+         |                       ^
+   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
+     131 | #define swiotlb_force SWIOTLB_NO_FORCE
+         |                       ^
+   5 warnings and 3 errors generated.
 
 
-vim +1109 drivers/gpio/gpiolib.c
+vim +15 include/trace/events/swiotlb.h
 
-  1044	
-  1045	int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
-  1046				       struct lock_class_key *lock_key,
-  1047				       struct lock_class_key *request_key)
-  1048	{
-  1049		struct gpio_device *gdev;
-  1050		unsigned int desc_index;
-  1051		int base = 0;
-  1052		int ret;
-  1053	
-  1054		/*
-  1055		 * First: allocate and populate the internal stat container, and
-  1056		 * set up the struct device.
-  1057		 */
-  1058		gdev = kzalloc(sizeof(*gdev), GFP_KERNEL);
-  1059		if (!gdev)
-  1060			return -ENOMEM;
-  1061	
-  1062		gdev->dev.type = &gpio_dev_type;
-  1063		gdev->dev.bus = &gpio_bus_type;
-  1064		gdev->dev.parent = gc->parent;
-  1065		rcu_assign_pointer(gdev->chip, gc);
-  1066	
-  1067		gc->gpiodev = gdev;
-  1068		gpiochip_set_data(gc, data);
-  1069	
-  1070		device_set_node(&gdev->dev, gpiochip_choose_fwnode(gc));
-  1071	
-  1072		ret = ida_alloc(&gpio_ida, GFP_KERNEL);
-  1073		if (ret < 0)
-  1074			goto err_free_gdev;
-  1075		gdev->id = ret;
-  1076	
-  1077		ret = dev_set_name(&gdev->dev, GPIOCHIP_NAME "%d", gdev->id);
-  1078		if (ret)
-  1079			goto err_free_ida;
-  1080	
-  1081		if (gc->parent && gc->parent->driver)
-  1082			gdev->owner = gc->parent->driver->owner;
-  1083		else if (gc->owner)
-  1084			/* TODO: remove chip->owner */
-  1085			gdev->owner = gc->owner;
-  1086		else
-  1087			gdev->owner = THIS_MODULE;
-  1088	
-  1089		ret = gpiochip_get_ngpios(gc, &gdev->dev);
-  1090		if (ret)
-  1091			goto err_free_dev_name;
-  1092	
-  1093		gdev->descs = kcalloc(gc->ngpio, sizeof(*gdev->descs), GFP_KERNEL);
-  1094		if (!gdev->descs) {
-  1095			ret = -ENOMEM;
-  1096			goto err_free_dev_name;
-  1097		}
-  1098	
-  1099		gdev->label = kstrdup_const(gc->label ?: "unknown", GFP_KERNEL);
-  1100		if (!gdev->label) {
-  1101			ret = -ENOMEM;
-  1102			goto err_free_descs;
-  1103		}
-  1104	
-  1105		gdev->ngpio = gc->ngpio;
-  1106		gdev->can_sleep = gc->can_sleep;
-  1107	
-  1108		rwlock_init(&gdev->line_state_lock);
-> 1109		BLOCKING_INIT_NOTIFIER_HEAD(&gdev->line_state_notifier);
-  1110		BLOCKING_INIT_NOTIFIER_HEAD(&gdev->device_notifier);
-  1111	
-  1112		ret = init_srcu_struct(&gdev->srcu);
-  1113		if (ret)
-  1114			goto err_free_label;
-  1115	
-  1116		ret = init_srcu_struct(&gdev->desc_srcu);
-  1117		if (ret)
-  1118			goto err_cleanup_gdev_srcu;
-  1119	
-  1120	
-  1121		scoped_guard(mutex, &gpio_devices_lock) {
-  1122			/*
-  1123			 * TODO: this allocates a Linux GPIO number base in the global
-  1124			 * GPIO numberspace for this chip. In the long run we want to
-  1125			 * get *rid* of this numberspace and use only descriptors, but
-  1126			 * it may be a pipe dream. It will not happen before we get rid
-  1127			 * of the sysfs interface anyways.
-  1128			 */
-  1129			base = gc->base;
-  1130			if (base < 0) {
-  1131				base = gpiochip_find_base_unlocked(gc->ngpio);
-  1132				if (base < 0) {
-  1133					ret = base;
-  1134					base = 0;
-  1135					goto err_cleanup_desc_srcu;
-  1136				}
-  1137	
-  1138				/*
-  1139				 * TODO: it should not be necessary to reflect the
-  1140				 * assigned base outside of the GPIO subsystem. Go over
-  1141				 * drivers and see if anyone makes use of this, else
-  1142				 * drop this and assign a poison instead.
-  1143				 */
-  1144				gc->base = base;
-  1145			} else {
-  1146				dev_warn(&gdev->dev,
-  1147					 "Static allocation of GPIO base is deprecated, use dynamic allocation.\n");
-  1148			}
-  1149	
-  1150			gdev->base = base;
-  1151	
-  1152			ret = gpiodev_add_to_list_unlocked(gdev);
-  1153			if (ret) {
-  1154				gpiochip_err(gc, "GPIO integer space overlap, cannot add chip\n");
-  1155				goto err_cleanup_desc_srcu;
-  1156			}
-  1157		}
-  1158	
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  11  
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  12  	TP_PROTO(struct device *dev,
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  13  		 dma_addr_t dev_addr,
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  14  		 size_t size,
+ae7871be189cb41 Geert Uytterhoeven 2016-12-16 @15  		 enum swiotlb_force swiotlb_force),
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  16  
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  17  	TP_ARGS(dev, dev_addr, size, swiotlb_force),
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  18  
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  19  	TP_STRUCT__entry(
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  20  		__string(	dev_name,	dev_name(dev)		)
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  21  		__field(	u64,	dma_mask			)
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  22  		__field(	dma_addr_t,	dev_addr		)
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  23  		__field(	size_t,	size				)
+ae7871be189cb41 Geert Uytterhoeven 2016-12-16  24  		__field(	enum swiotlb_force,	swiotlb_force	)
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  25  	),
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  26  
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  27  	TP_fast_assign(
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  28  		__assign_str(dev_name, dev_name(dev));
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  29  		__entry->dma_mask = (dev->dma_mask ? *dev->dma_mask : 0);
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  30  		__entry->dev_addr = dev_addr;
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  31  		__entry->size = size;
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  32  		__entry->swiotlb_force = swiotlb_force;
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  33  	),
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  34  
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  35  	TP_printk("dev_name: %s dma_mask=%llx dev_addr=%llx "
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  36  		"size=%zu %s",
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  37  		__get_str(dev_name),
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  38  		__entry->dma_mask,
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  39  		(unsigned long long)__entry->dev_addr,
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  40  		__entry->size,
+ae7871be189cb41 Geert Uytterhoeven 2016-12-16  41  		__print_symbolic(__entry->swiotlb_force,
+ae7871be189cb41 Geert Uytterhoeven 2016-12-16  42  			{ SWIOTLB_NORMAL,	"NORMAL" },
+fff5d99225107f5 Geert Uytterhoeven 2016-12-16  43  			{ SWIOTLB_FORCE,	"FORCE" },
+fff5d99225107f5 Geert Uytterhoeven 2016-12-16  44  			{ SWIOTLB_NO_FORCE,	"NO_FORCE" }))
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  45  );
+2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  46  
+
+:::::: The code at line 15 was first introduced by commit
+:::::: ae7871be189cb41184f1e05742b4a99e2c59774d swiotlb: Convert swiotlb_force from int to enum
+
+:::::: TO: Geert Uytterhoeven <geert+renesas@glider.be>
+:::::: CC: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
