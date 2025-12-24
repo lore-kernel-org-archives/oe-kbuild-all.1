@@ -1,186 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2303148A4;
-	Wed, 24 Dec 2025 17:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADAF6329C4B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 17:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766597825; cv=none; b=Hj7Kaw10XT6BYwjnedFsOPtn5mB7teYBKyqiA3xQDTqti43eM/Jhe1plOptix0Y/diGWuTdvHr57aE1oCPBnC6qOGGji2BwwzZuDRf/upm/JW29eMpLNxce+MIAhhhiKvp7GPRrvtgdUNuIQhQEvLeHZnrBEY00E+KS3c90KUqM=
+	t=1766598425; cv=none; b=Tuf91v+BOFw5k2cIqtg0+GfaM76ZQu91J2UzwCtIPqSIi1glH+89oBetfxd9bKEgW2ptAX4lkNQULeG8MqO8aaqEhObS82do+dc3ywzInrs9HmGqbuOk8a4SYIFrzbTN8PfqSYhHPEHjL5Gi1USh/A/i10brllJABBqROkAU72A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766597825; c=relaxed/simple;
-	bh=fo818rKYUV3iUz7vVpkzO40wvdFahdJjmFMcTzoxsVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dny1yduNqQI7F5Lb1fAp4n9MMli+LEvGUcm9BtclQvF+C+zqzmiDw5kc2Wa3lyGgZq1Oe4kI4OMSCgrYI8Tq++PigPbdeiBG0B/N6X7gtIR2FMjTcpiXXNvx8+HymNGUs2FnKWeOs5ILSqLGhTedczSnZH8XvcKT44N3SpgBYXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KkVb51ah; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1766598425; c=relaxed/simple;
+	bh=uevTN1rOrDntPWzDeQBSmiLI9hdLU7rJDCboUhWv2ac=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UFeArRsi1xDI6O87kKKFs8D7BCiXoMuE5JSnExhlqf8KDPRUbWvqOlG7HCpwB+rkHOLgqpVT0X5nhPwJKjqUXSJXOYzomGss/1LkIf7uV+UsYFappnem4QKLhyuG5bf6IPe3ILdmcZqSjBl31vqVWPCnUKJ1CTJ8Z3InbhNor1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D14GppVI; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KkVb51ah"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D14GppVI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766597821; x=1798133821;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fo818rKYUV3iUz7vVpkzO40wvdFahdJjmFMcTzoxsVA=;
-  b=KkVb51ahAMPzv+FLYs3JZupthweh1pATsDAJnXBYol/tNBXFYy1I2avj
-   gYB2NCShDuh9blUdjlQ4bTX7csnAePahN26pCL37+2bcNGfkw7x/hi7IN
-   k6/ipeKOUyoVwmdWWZ7n88eeS0LVUT9oV1SoCPEAghG6/HvHa0KqUfxWT
-   8DXUmxKLPVuVqvqiVo9fKlRQX6qeyrb1NCDOvV/3vdWlS0rhe3TsDZZUU
-   p9LKKyyi6igjIAxKSFLWxmp3i0nMl6DzNN9VhK5uCJuDZ6poQ6bF7YmqZ
-   DPoDlj/Ux/fAbkFPLw5Vd4YKslVTyETI8Bc+jPUFtcmtwnBZBRGciLlS7
-   A==;
-X-CSE-ConnectionGUID: RrGFWBFcQL2ojehQxpdpqQ==
-X-CSE-MsgGUID: l6v3fsBFRsCNZE5No+A1nQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="72291875"
+  t=1766598421; x=1798134421;
+  h=date:from:to:cc:subject:message-id;
+  bh=uevTN1rOrDntPWzDeQBSmiLI9hdLU7rJDCboUhWv2ac=;
+  b=D14GppVIPwH6zmZdbLfhz11XdKeoFdZqQZyuDN+OM9aV5C0+g55lm9nI
+   0rVPYwcuqVBjcaWZFIKxGgOo8aIQKdOyXhiCfbgaTAcG8bCpl11EQTUjF
+   FUGRhNiW84H+2gMTJHRGyXjtgMchvSDDgLOQP21LKR7N3/RPg6d71M8dX
+   J6z/Re+Cu6NaETi+821Klw6DATOAB4vFkeF++f4Tg/gaG6MlU4BxsS1ck
+   zj0mihli4uZC/DnGdVyMJetiQx6NtFC8GtY+fByjLqtxWTKNVrV6SkYys
+   6qXH6lOiCVgpzQt1w9oidutUNLXSDaESfAuhIb5Z1e+2fz3buHQSgPjkq
+   g==;
+X-CSE-ConnectionGUID: mMXpBorySJWtkskv8w2Mjg==
+X-CSE-MsgGUID: Vzy/uYi8RZOi3peHzP+SmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68591078"
 X-IronPort-AV: E=Sophos;i="6.21,174,1763452800"; 
-   d="scan'208";a="72291875"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 09:36:59 -0800
-X-CSE-ConnectionGUID: fa3qXGNKT6enRSexsYWaQw==
-X-CSE-MsgGUID: KeXmPxyBRo+wTk1epwSTeg==
+   d="scan'208";a="68591078"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 09:46:59 -0800
+X-CSE-ConnectionGUID: IRPcV0zJREKQbsI05fROsg==
+X-CSE-MsgGUID: BNI+ABQ1Q/qqbSxudkhBEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,174,1763452800"; 
-   d="scan'208";a="223542813"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Dec 2025 09:36:57 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="204606071"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 24 Dec 2025 09:46:59 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYSn8-000000006IK-3edH;
-	Wed, 24 Dec 2025 17:36:54 +0000
-Date: Wed, 24 Dec 2025 18:35:55 +0100
+	id 1vYSwp-000000003KV-3jfM;
+	Wed, 24 Dec 2025 17:46:55 +0000
+Date: Thu, 25 Dec 2025 01:46:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yanfei Xu <yanfei.xu@bytedance.com>, pbonzini@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kvm@vger.kernel.org, caixiangfeng@bytedance.com,
-	fangying.tommy@bytedance.com, yanfei.xu@bytedance.com
-Subject: Re: [PATCH] KVM: irqchip: KVM: Reduce allocation overhead in
- kvm_set_irq_routing()
-Message-ID: <202512241858.vP31c8Cu-lkp@intel.com>
-References: <20251224023201.381586-1-yanfei.xu@bytedance.com>
+To: kernel@openeuler.org, Liu Jian <liujian56@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3406/3406] kernel/cgroup/cgroup.c:6734:
+ warning: Function parameter or member 'fd' not described in
+ 'cgroup_get_from_fd_v2'
+Message-ID: <202512250139.hi51ZBjo-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251224023201.381586-1-yanfei.xu@bytedance.com>
 
-Hi Yanfei,
+Hi Liu,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on kvm/next linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yanfei-Xu/KVM-irqchip-KVM-Reduce-allocation-overhead-in-kvm_set_irq_routing/20251224-103451
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20251224023201.381586-1-yanfei.xu%40bytedance.com
-patch subject: [PATCH] KVM: irqchip: KVM: Reduce allocation overhead in kvm_set_irq_routing()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251224/202512241858.vP31c8Cu-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241858.vP31c8Cu-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   1588d318a9e388d05b6cf5e2a63134c8beb6a355
+commit: 56fee14453059f894b018d08071826d47e634800 [3406/3406] cgroup: make cgroup_bpf_prog_attach work when cgroup2 is not mounted
+config: arm64-randconfig-003-20251211 (https://download.01.org/0day-ci/archive/20251225/202512250139.hi51ZBjo-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512250139.hi51ZBjo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512241858.vP31c8Cu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512250139.hi51ZBjo-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kvm/../../../virt/kvm/irqchip.c:190:6: warning: variable 'r' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     190 |         if (!e)
-         |             ^~
-   arch/x86/kvm/../../../virt/kvm/irqchip.c:233:9: note: uninitialized use occurs here
-     233 |         return r;
-         |                ^
-   arch/x86/kvm/../../../virt/kvm/irqchip.c:190:2: note: remove the 'if' if its condition is always false
-     190 |         if (!e)
-         |         ^~~~~~~
-     191 |                 goto out;
-         |                 ~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/irqchip.c:176:7: note: initialize the variable 'r' to silence this warning
-     176 |         int r;
-         |              ^
-         |               = 0
-   1 warning generated.
+   kernel/cgroup/cgroup.c:6217: warning: Function parameter or member 'f' not described in 'cgroup_get_from_file'
+   kernel/cgroup/cgroup.c:6369: warning: Function parameter or member 'kargs' not described in 'cgroup_can_fork'
+   kernel/cgroup/cgroup.c:6430: warning: Function parameter or member 'kargs' not described in 'cgroup_post_fork'
+   kernel/cgroup/cgroup.c:6716: warning: Function parameter or member 'fd' not described in 'cgroup_get_from_fd'
+>> kernel/cgroup/cgroup.c:6734: warning: Function parameter or member 'fd' not described in 'cgroup_get_from_fd_v2'
 
 
-vim +190 arch/x86/kvm/../../../virt/kvm/irqchip.c
+vim +6734 kernel/cgroup/cgroup.c
 
-   167	
-   168	int kvm_set_irq_routing(struct kvm *kvm,
-   169				const struct kvm_irq_routing_entry *ue,
-   170				unsigned nr,
-   171				unsigned flags)
-   172	{
-   173		struct kvm_irq_routing_table *new, *old;
-   174		struct kvm_kernel_irq_routing_entry *e;
-   175		u32 i, j, nr_rt_entries = 0;
-   176		int r;
-   177	
-   178		for (i = 0; i < nr; ++i) {
-   179			if (ue[i].gsi >= KVM_MAX_IRQ_ROUTES)
-   180				return -EINVAL;
-   181			nr_rt_entries = max(nr_rt_entries, ue[i].gsi);
-   182		}
-   183	
-   184		nr_rt_entries += 1;
-   185	
-   186		new = kzalloc(struct_size(new, map, nr_rt_entries), GFP_KERNEL_ACCOUNT);
-   187		if (!new)
-   188			return -ENOMEM;
-   189		e = kcalloc(nr, sizeof(*e), GFP_KERNEL_ACCOUNT);
- > 190		if (!e)
-   191			goto out;
-   192		new->entries_addr = e;
-   193	
-   194		new->nr_rt_entries = nr_rt_entries;
-   195		for (i = 0; i < KVM_NR_IRQCHIPS; i++)
-   196			for (j = 0; j < KVM_IRQCHIP_NUM_PINS; j++)
-   197				new->chip[i][j] = -1;
-   198	
-   199		for (i = 0; i < nr; ++i) {
-   200			r = -EINVAL;
-   201			switch (ue->type) {
-   202			case KVM_IRQ_ROUTING_MSI:
-   203				if (ue->flags & ~KVM_MSI_VALID_DEVID)
-   204					goto out;
-   205				break;
-   206			default:
-   207				if (ue->flags)
-   208					goto out;
-   209				break;
-   210			}
-   211			r = setup_routing_entry(kvm, new, e + i, ue);
-   212			if (r)
-   213				goto out;
-   214			++ue;
-   215		}
-   216	
-   217		mutex_lock(&kvm->irq_lock);
-   218		old = rcu_dereference_protected(kvm->irq_routing, 1);
-   219		rcu_assign_pointer(kvm->irq_routing, new);
-   220		kvm_irq_routing_update(kvm);
-   221		kvm_arch_irq_routing_update(kvm);
-   222		mutex_unlock(&kvm->irq_lock);
-   223	
-   224		synchronize_srcu_expedited(&kvm->irq_srcu);
-   225	
-   226		new = old;
-   227		r = 0;
-   228		goto out;
-   229	
-   230	out:
-   231		free_irq_routing_table(new);
-   232	
-   233		return r;
-   234	}
-   235	
+  6729	
+  6730	/**
+  6731	 * same with cgroup_get_from_fd, only add cgrp_dfl_visible check
+  6732	 */
+  6733	struct cgroup *cgroup_get_from_fd_v2(int fd)
+> 6734	{
+  6735		struct cgroup *cgrp = cgroup_v1v2_get_from_fd(fd);
+  6736	
+  6737		if (IS_ERR(cgrp))
+  6738			return ERR_CAST(cgrp);
+  6739	
+  6740		if (!cgroup_on_dfl(cgrp)) {
+  6741			cgroup_put(cgrp);
+  6742			if (cgrp_dfl_visible)
+  6743				return ERR_PTR(-EBADF);
+  6744	
+  6745			cgrp = &cgrp_dfl_root.cgrp;
+  6746			cgroup_get(cgrp);
+  6747		}
+  6748		return cgrp;
+  6749	}
+  6750	EXPORT_SYMBOL_GPL(cgroup_get_from_fd_v2);
+  6751	
 
 -- 
 0-DAY CI Kernel Test Service
