@@ -1,65 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A081A316188
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 11:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F023E29E101
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 11:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766574058; cv=none; b=cxwAxmhSt73cGXUdId5VaWjzyFOz+o94KxBloCjn6Tt6xs2njQVq7ahmPk3semRW6byCsqOtke062tuxL41Pd5/eo50kaDB08QfdaBjtAE3KwrxN70G0YAergTKiwcveThU7zPU5EcQKwjAvDp3/b7xFrY/EeYIh6XbRkcLhZ5k=
+	t=1766574264; cv=none; b=GXSVbf2AgQ7sq7/WFi4SYi13wkSynugS2WmxXaqsfb40j7ERo0guALTiXONfVPGFsK4JC1bdFRtWEdmi0m/pEIJq0JPZd7dsLT9bSizrHF/MAcdoAxlLsltvKuuCsy6F25rTSoHYgxWThkNYjy0fKbCoYipOMqv5F0+hIhyTjLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766574058; c=relaxed/simple;
-	bh=OWxnkEfJGWM/suUT6JL+oNjh+7nD4n2oy35epXNLMck=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gCOAB5StSIDZH1l483FNaVSL+I++HqnCHUdIyxD4Tui4qE+3QrmKDl1fjfGDagrpFxY+Yth8olJdbj3W0zgIQhyN93FnO96yh+dpSkQeJARDdZ9qXVAjJAQCtn2LB5qfaGwJvbQTkY2IHoNt2+jbjjAKDWmPMdQs9uTnjeqly4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H5Gje0Hf; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1766574264; c=relaxed/simple;
+	bh=TGPVZM4nMD9x7twsQk25x9Irb9sq1hVIlqZT26us4zU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mS+AVK+DMhwkAsIVhLESeG4s/uBnXXqsroCP9cUwd9HnC4F2noZZdTYdPyv5FL68L27QOi5DeEYBEc0IblgadcsZrdf6et/q7Eo/sNHiOOCXKayfvAcJ588xNq30uySsqw/ehJo3a/znijIQSe/iEKbpZX4cNnkRuIaBvtT26+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O+mUK5Q5; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H5Gje0Hf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O+mUK5Q5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766574056; x=1798110056;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OWxnkEfJGWM/suUT6JL+oNjh+7nD4n2oy35epXNLMck=;
-  b=H5Gje0Hf0UTB9zDzwfr1r1AXITO4ewtr0jPyle/cAAxkBSy7Z1l2WmE4
-   3A2KOag15fJI5ZdHmToayBZPK1uajiYn6h+YBZpJJhgleRMVrYgNXP2RJ
-   nfE3xmlD19esS6vNmrtoyg46X3YLfsmSRfprd23YcEo+fCH85KFhjc5eP
-   QDFt3DN4Qa+7qC/QJVi+Q0ukOjUd15904/vEKOs1vBtK6SGD6KkRnTQaj
-   bSmEzleQL+pHYpBBfuHJTMn9c7caMLGRM0KhxQEs1YzJWfhHte2GpUzny
-   WVDe/tS4RWrJvK9UIOW2umHqMSkALCuAP/0DCS6ZvBKw8BYEUZEgOJaAc
+  t=1766574263; x=1798110263;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TGPVZM4nMD9x7twsQk25x9Irb9sq1hVIlqZT26us4zU=;
+  b=O+mUK5Q5gaYSl+XJjW9Gvr3LHT9mJU+NML6PieanDNj1F9IWensx+F4+
+   9DaaXpW02pWlACq4QvOdseJSmM5WW7MbfwdvUUX2+yM6aTMG9Hic3oFnV
+   3Zkz06Ijd/peh1zYIK0huJkRbiwJM/Bbn4HnvRg7h9Kmu3yFcRLvIfWwC
+   no0EbDTy6fp9YoTNoqGRFcEhaKaWirmwULYPgk66/EW7JJjOEpAOKHTZS
+   8Dmrwwe8jZSj3SH52edj/SzPLhl1mwagIhIVYvgKG56tvuxCDl+sHB6Fm
+   BxB+LJHT6HiPiM0cy/e33NPJ5KFKiaD94EuaCp/HXp5auhBtFRpxisfyk
    Q==;
-X-CSE-ConnectionGUID: gnpSdb6JQf+tcdEBinNshw==
-X-CSE-MsgGUID: IX9HiulpTLyzzs0tGMs1aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="93884990"
+X-CSE-ConnectionGUID: NGACljk7TDa78FY5wmU3kw==
+X-CSE-MsgGUID: QcgLma/pQTyaVMqoKYR74A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79135802"
 X-IronPort-AV: E=Sophos;i="6.21,173,1763452800"; 
-   d="scan'208";a="93884990"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 03:00:55 -0800
-X-CSE-ConnectionGUID: mkiEJOjeSd2iRZAebsTteg==
-X-CSE-MsgGUID: exSGdwoWTYOEvGpSeWUwmg==
+   d="scan'208";a="79135802"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 03:04:22 -0800
+X-CSE-ConnectionGUID: S95frWbtSnKrRpN0i0ynxQ==
+X-CSE-MsgGUID: /Ljq0TLcS9yjarukWq32gg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,173,1763452800"; 
-   d="scan'208";a="204133615"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 24 Dec 2025 03:00:53 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="200493602"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 24 Dec 2025 03:04:02 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYMbp-000000006Bs-3yS4;
-	Wed, 24 Dec 2025 11:00:49 +0000
-Date: Wed, 24 Dec 2025 12:00:20 +0100
+	id 1vYMeL-000000002y5-0HbK;
+	Wed, 24 Dec 2025 11:03:29 +0000
+Date: Wed, 24 Dec 2025 19:03:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hai Pham <hai.pham.ud@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Vinh Nguyen <vinh.nguyen.xz@renesas.com>,
-	Takeshi Kihara <takeshi.kihara.df@renesas.com>,
-	Khanh Le <khanh.le.xr@renesas.com>,
-	Huy Bui <huy.bui.wm@renesas.com>,
-	Phong Hoang <phong.hoang.wz@renesas.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0710000
- (renesas,hscif-r8a78000): 'power-domains' is a required property
-Message-ID: <202512241145.6laLxtJK-lkp@intel.com>
+To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Subject: Re: [PATCH 2/2] cgroup-v2/freezer: Print information about
+ unfreezable process
+Message-ID: <202512241804.JAJl5a7k-lkp@intel.com>
+References: <20251223102124.738818-4-ptikhomirov@virtuozzo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,26 +66,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251223102124.738818-4-ptikhomirov@virtuozzo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b927546677c876e26eba308550207c2ddf812a43
-commit: ad142a4ef7106326bbf5c67eb39f21ef77fe8be3 arm64: dts: renesas: r8a78000: Add initial Ironhide board support
-date:   8 weeks ago
-config: arm64-randconfig-2052-20251223 (https://download.01.org/0day-ci/archive/20251224/202512241145.6laLxtJK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241145.6laLxtJK-lkp@intel.com/reproduce)
+Hi Pavel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tj-cgroup/for-next]
+[also build test WARNING on linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Tikhomirov/cgroup-v2-freezer-allow-freezing-with-kthreads/20251223-182826
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+patch link:    https://lore.kernel.org/r/20251223102124.738818-4-ptikhomirov%40virtuozzo.com
+patch subject: [PATCH 2/2] cgroup-v2/freezer: Print information about unfreezable process
+config: arm64-randconfig-r134-20251224 (https://download.01.org/0day-ci/archive/20251224/202512241804.JAJl5a7k-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241804.JAJl5a7k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512241145.6laLxtJK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512241804.JAJl5a7k-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0710000 (renesas,hscif-r8a78000): 'resets' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/renesas,hscif.yaml
->> arch/arm64/boot/dts/renesas/r8a78000-ironhide.dtb: serial@c0710000 (renesas,hscif-r8a78000): 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/serial/renesas,hscif.yaml
+sparse warnings: (new ones prefixed by >>)
+   kernel/cgroup/freezer.c:144:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/cgroup/freezer.c:144:35: sparse:     expected struct spinlock [usertype] *lock
+   kernel/cgroup/freezer.c:144:35: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/cgroup/freezer.c:147:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/cgroup/freezer.c:147:37: sparse:     expected struct spinlock [usertype] *lock
+   kernel/cgroup/freezer.c:147:37: sparse:     got struct spinlock [noderef] __rcu *
+>> kernel/cgroup/freezer.c:416:5: sparse: sparse: symbol 'sysctl_freeze_timeout_us' was not declared. Should it be static?
+   kernel/cgroup/freezer.c: note: in included file (through include/linux/rcuwait.h, include/linux/percpu-rwsem.h, include/linux/fs/super_types.h, ...):
+   include/linux/sched/signal.h:756:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:756:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:756:37: sparse:     got struct spinlock [noderef] __rcu *
+
+vim +/sysctl_freeze_timeout_us +416 kernel/cgroup/freezer.c
+
+   414	
+   415	#define DEFAULT_FREEZE_RATELIMIT (30 * HZ)
+ > 416	int sysctl_freeze_timeout_us;
+   417	
 
 -- 
 0-DAY CI Kernel Test Service
