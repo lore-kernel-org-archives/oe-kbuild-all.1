@@ -1,199 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4BD1DED5C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 04:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2B7314A64
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 04:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766549431; cv=none; b=JaJP1SiyikHZi+03ophQBCtpzKqrAY5Uu3CXWNi/eZD7zDjEo98OBgJF9SLVuwXaMbE8iwAfiMLv8TVaaIUt9qk3mJLIJxPBG1IcynhHHdkgWXGCqVsv+Xum18dpRNKd+zb051MHurgmUe5pzf334s1p87yXZ8+bRtmBr0VYH14=
+	t=1766550533; cv=none; b=o/HDOdmYh+W5DdYRRJ4Dhv1Fi9BVU3orGXt0D5efqUDcTTZOTZeI7smE4cBFREDdnkvoHJXugvgAp2/fzJFy7f2dJ5cbWGyXSfQAFttQmdyg9aXSiuedjURHkj/51b8g9GChZPsrQbT6Ee+cPBYFa7c/L2LiV1OTLvyetlwMrFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766549431; c=relaxed/simple;
-	bh=+Th8rRD8dMAQRPAA1EkPWHfosY5mTceaGV+sXWYogC4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=E1GoZY7IzlDNpJCQ5UURiYw/XF68vWJlweSnQXZYw83jEQ8x/z4mAnfSq3tKxRL/zYlcRmnx6lhCk10lQuDvbqUXJdKI5GLeFhAS8EwaU/6/lzno59E495CvifswGO8GbUsAvnsf/gRC1ceFxGMdNqi+wl7F5lIn2h9/quhZgIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CaqG6Rrv; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1766550533; c=relaxed/simple;
+	bh=tPiWJ1qOPpAdLCRMXmRnKkf27N/SE5ckemAkPYk1rO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XuHjghnn/tNfYsUeaq7hmt5d3Tfg4gMt4druXjKqZhJGM7fDGJiNN1GxadMtCblCacLhgE42pn1oh4WqflI4qE9Ev9fIUy4OXt5xTZgX+MHyIF7m7yhlR8aLYdQqc+7a50kMt6igTG1OvuJ6J4fNg8F9gMtt0LkgLixIHpV865E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A1rqss/u; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CaqG6Rrv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A1rqss/u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766549429; x=1798085429;
-  h=date:from:to:cc:subject:message-id;
-  bh=+Th8rRD8dMAQRPAA1EkPWHfosY5mTceaGV+sXWYogC4=;
-  b=CaqG6Rrv1WY3+j822+19s1DYhX/Z/zDEQx0zXercRQrkqGSoBSOiW/kq
-   aKRZykeKF1MiVbe2+HeN96/HhzXuthXJ3BizVxFF2r5XwIysmHM7tvMBd
-   3hVECuZhba5vJh6H+0WXb+M15EdwuRydLhiyZZ0Jg/A/sZ6IqkDhK5b/2
-   ddWyGUEd+1M8fqsl2bw9sD2HHTTSG3scyjQm9TI07a/tMNCmEs3dFJFqm
-   v5ba+PtjatjtXwR2E02wDkb3Wm69zwIXeLyGNB5uYdiZnooRdEahLYP77
-   6JbsNR3/SRan21WhKMwc/hfH3bCJgghw5qjF6LzPDk8GCIV6+H8m5OnA7
-   A==;
-X-CSE-ConnectionGUID: Uz7GTlIcTYekbeshOUqQ3A==
-X-CSE-MsgGUID: 8ES3NhsPRKG3zVLGwP6jEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="72246286"
+  t=1766550531; x=1798086531;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tPiWJ1qOPpAdLCRMXmRnKkf27N/SE5ckemAkPYk1rO4=;
+  b=A1rqss/ujsUi694Mq68J+I7r1zoKY5OiOKwIFX+crIxOusRbWOvxxhc9
+   eI7Yjb6gA69GCbYgT1F67NMdgh6vXWDK6Sl9w3IJ0U9e3eU3gkJ5jYl7v
+   O8Y98z4kD2eP77uKMqAKXAOZcWluE+KsDRc7EwsYUiJVzGWOHP7oo1PyO
+   2k8dFzgMdnAGbkl9lNTTIoz1qCSf+Oy4k2xYIpb8UFIgiBOkLDRbtxYt7
+   Hlvo+wWKq3jQwpd4OwedLEgJZ7ywVjw5OJv5Pbnb5QpgvCmfleC+0Z+eZ
+   x1RfeR0VrJytUUBBZ7xoEySFA2QUOgwfDOfOZ2EYxRsIfn958/WTgxkc+
+   w==;
+X-CSE-ConnectionGUID: vyRLx7tAT6m21vMnd0HBeA==
+X-CSE-MsgGUID: klbHn+XQTgiM96uVTpOxdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="70974265"
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="72246286"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 20:10:29 -0800
-X-CSE-ConnectionGUID: WfK7V40bTJ+hxhl6WJrJZA==
-X-CSE-MsgGUID: mnQVWTO0RACwx4lTZCovwg==
+   d="scan'208";a="70974265"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 20:28:51 -0800
+X-CSE-ConnectionGUID: VrfUAIozQxmXPwuuM2h2/g==
+X-CSE-MsgGUID: CuZUL9r7SIeY3noXw8lfiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="199066710"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 23 Dec 2025 20:10:27 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="199689484"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 23 Dec 2025 20:28:49 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYGCf-000000002en-12Xh;
-	Wed, 24 Dec 2025 04:10:25 +0000
-Date: Wed, 24 Dec 2025 12:09:40 +0800
+	id 1vYGUQ-0000000066q-2MMP;
+	Wed, 24 Dec 2025 04:28:46 +0000
+Date: Wed, 24 Dec 2025 05:28:08 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 0/1]
- include/trace/events/swiotlb.h:15:23: error: variable has incomplete type
- 'enum SWIOTLB_NO_FORCE'
-Message-ID: <202512241259.r93ijM8K-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Subject: Re: [PATCH 2/2] cgroup-v2/freezer: Print information about
+ unfreezable process
+Message-ID: <202512240512.qCx1CzKN-lkp@intel.com>
+References: <20251223102124.738818-4-ptikhomirov@virtuozzo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251223102124.738818-4-ptikhomirov@virtuozzo.com>
 
-Hi Isaac,
+Hi Pavel,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   48ed03a80ad49e3648c77d8c2c1ca10e706d6215
-commit: 77c20b4cbcd0dca8e114cbcdcdaac61f3fb9555d [0/1] iommu/dma: Trace bounce buffer usage when mapping buffers
-config: i386-buildonly-randconfig-001-20251224 (https://download.01.org/0day-ci/archive/20251224/202512241259.r93ijM8K-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241259.r93ijM8K-lkp@intel.com/reproduce)
+[auto build test ERROR on tj-cgroup/for-next]
+[also build test ERROR on next-20251219]
+[cannot apply to linus/master v6.16-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Tikhomirov/cgroup-v2-freezer-allow-freezing-with-kthreads/20251223-182826
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+patch link:    https://lore.kernel.org/r/20251223102124.738818-4-ptikhomirov%40virtuozzo.com
+patch subject: [PATCH 2/2] cgroup-v2/freezer: Print information about unfreezable process
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251224/202512240512.qCx1CzKN-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240512.qCx1CzKN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512241259.r93ijM8K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512240512.qCx1CzKN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
->> include/trace/events/swiotlb.h:15:23: error: variable has incomplete type 'enum SWIOTLB_NO_FORCE'
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                                     ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
->> include/trace/events/swiotlb.h:15:23: error: variable has incomplete type 'enum SWIOTLB_NO_FORCE'
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                                     ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   In file included from drivers/iommu/dma-iommu.c:28:
-   include/trace/events/swiotlb.h:15:9: warning: declaration of 'enum SWIOTLB_NO_FORCE' will not be visible outside of this function [-Wvisibility]
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
->> drivers/iommu/dma-iommu.c:821:42: error: argument type 'enum SWIOTLB_NO_FORCE' is incomplete
-     821 |                 trace_swiotlb_bounced(dev, phys, size, swiotlb_force);
-         |                                                        ^~~~~~~~~~~~~
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^~~~~~~~~~~~~~~~
-   include/trace/events/swiotlb.h:15:9: note: forward declaration of 'enum SWIOTLB_NO_FORCE'
-      15 |                  enum swiotlb_force swiotlb_force),
-         |                       ^
-   include/linux/swiotlb.h:131:23: note: expanded from macro 'swiotlb_force'
-     131 | #define swiotlb_force SWIOTLB_NO_FORCE
-         |                       ^
-   5 warnings and 3 errors generated.
+   kernel/cgroup/freezer.c: In function 'warn_freeze_timeout_task':
+>> kernel/cgroup/freezer.c:374:14: error: implicit declaration of function 'try_get_task_stack'; did you mean 'tryget_task_struct'? [-Wimplicit-function-declaration]
+     374 |         if (!try_get_task_stack(task))
+         |              ^~~~~~~~~~~~~~~~~~
+         |              tryget_task_struct
+>> kernel/cgroup/freezer.c:377:9: error: implicit declaration of function 'put_task_stack'; did you mean 'put_task_struct'? [-Wimplicit-function-declaration]
+     377 |         put_task_stack(task);
+         |         ^~~~~~~~~~~~~~
+         |         put_task_struct
 
 
-vim +15 include/trace/events/swiotlb.h
+vim +374 kernel/cgroup/freezer.c
 
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  11  
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  12  	TP_PROTO(struct device *dev,
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  13  		 dma_addr_t dev_addr,
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  14  		 size_t size,
-ae7871be189cb41 Geert Uytterhoeven 2016-12-16 @15  		 enum swiotlb_force swiotlb_force),
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  16  
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  17  	TP_ARGS(dev, dev_addr, size, swiotlb_force),
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  18  
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  19  	TP_STRUCT__entry(
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  20  		__string(	dev_name,	dev_name(dev)		)
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  21  		__field(	u64,	dma_mask			)
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  22  		__field(	dma_addr_t,	dev_addr		)
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  23  		__field(	size_t,	size				)
-ae7871be189cb41 Geert Uytterhoeven 2016-12-16  24  		__field(	enum swiotlb_force,	swiotlb_force	)
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  25  	),
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  26  
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  27  	TP_fast_assign(
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  28  		__assign_str(dev_name, dev_name(dev));
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  29  		__entry->dma_mask = (dev->dma_mask ? *dev->dma_mask : 0);
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  30  		__entry->dev_addr = dev_addr;
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  31  		__entry->size = size;
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  32  		__entry->swiotlb_force = swiotlb_force;
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  33  	),
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  34  
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  35  	TP_printk("dev_name: %s dma_mask=%llx dev_addr=%llx "
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  36  		"size=%zu %s",
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  37  		__get_str(dev_name),
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  38  		__entry->dma_mask,
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  39  		(unsigned long long)__entry->dev_addr,
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  40  		__entry->size,
-ae7871be189cb41 Geert Uytterhoeven 2016-12-16  41  		__print_symbolic(__entry->swiotlb_force,
-ae7871be189cb41 Geert Uytterhoeven 2016-12-16  42  			{ SWIOTLB_NORMAL,	"NORMAL" },
-fff5d99225107f5 Geert Uytterhoeven 2016-12-16  43  			{ SWIOTLB_FORCE,	"FORCE" },
-fff5d99225107f5 Geert Uytterhoeven 2016-12-16  44  			{ SWIOTLB_NO_FORCE,	"NO_FORCE" }))
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  45  );
-2b2b614dd24e4e6 Zoltan Kiss        2013-09-04  46  
-
-:::::: The code at line 15 was first introduced by commit
-:::::: ae7871be189cb41184f1e05742b4a99e2c59774d swiotlb: Convert swiotlb_force from int to enum
-
-:::::: TO: Geert Uytterhoeven <geert+renesas@glider.be>
-:::::: CC: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+   357	
+   358	static void warn_freeze_timeout_task(struct cgroup *cgrp, int timeout,
+   359					     struct task_struct *task)
+   360	{
+   361		char *buf __free(kfree) = NULL;
+   362		pid_t tgid;
+   363	
+   364		buf = kmalloc(PATH_MAX, GFP_KERNEL);
+   365		if (!buf)
+   366			return;
+   367	
+   368		if (cgroup_path(cgrp, buf, PATH_MAX) < 0)
+   369			return;
+   370	
+   371		tgid = task_pid_nr_ns(task, &init_pid_ns);
+   372		pr_warn("Freeze of %s took %ld sec, due to unfreezable process %d:%s.\n",
+   373			buf, timeout / USEC_PER_SEC, tgid, task->comm);
+ > 374		if (!try_get_task_stack(task))
+   375			return;
+   376		show_stack(task, NULL, KERN_WARNING);
+ > 377		put_task_stack(task);
+   378	}
+   379	
 
 -- 
 0-DAY CI Kernel Test Service
