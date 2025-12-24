@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049E05661
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 04:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCA95B21A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 05:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766551924; cv=none; b=BY0M4fvusTGI8rRs5Od0Sv2rYwr8id3+oCDTKxaqnlIxsMYbQZoUgvCKQG6u12ieFabWEP3MJ9a3tlYpfbk3unIRSy6hojeez8iUPHlJoluFwFJGA/dg15au7GiiF0JB1kiFOrzT/fHPL5o4C1+nd5tbcpbyJXY4E1xGxKjwwOQ=
+	t=1766553180; cv=none; b=A8QiR/xc5sU5qHFQnQ3eBm7DoWk2wuRjA8jClpzs3L5oOiQ+DOQewuR9Qp61816fKEWP2gn89+TPy4RHb91Te1Ld+tjlXu1hGnexcYF+WN203v2hISV3tp3N6UkSstePAT35LexKnvAdbBJgiQX+CQas9+AvtUT9SuxuTB+KvBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766551924; c=relaxed/simple;
-	bh=03M6J2xYdQsQrpuWsEkMdbdvBKmb/rknvhwI9qv+nzc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XkmdTgR68FBfyPK1WzawRn+mlMnrLvaE47cbRXbWh9cIM0wBBdy1BC6imoQ5bs93M/XEZ6+5wtNwyeFCaieM0vB6W6R8FcCg/T0gzuWpDj7fVfApbSGX3FxBFBAKwnNn5AvSrVxsI1+BiD+VRWV1MjFfJnryjQY35cKf7r8PLt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K1GPTh2t; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1766553180; c=relaxed/simple;
+	bh=SRuEsqcvTu8W87lpjkzU0dBkznk4LNmjNWqmQzExZ54=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ki0jcRZ9cCjePIqD6it2dobi8+TDv2JAZ506iLCSVRhtxoD6gVF2M4PEyM8dfU8UEivhw5FYjE6LdAKkuPa0R+Tch7sJyREDmk2PZ9enwGLXU6NWIP3iqXZJBaWDzMMi6WkkfAccaaXrd1wycc+F2E4TgVp8GQS71J5KNpsCrdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RfWhF+9u; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K1GPTh2t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RfWhF+9u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766551923; x=1798087923;
+  t=1766553179; x=1798089179;
   h=date:from:to:cc:subject:message-id;
-  bh=03M6J2xYdQsQrpuWsEkMdbdvBKmb/rknvhwI9qv+nzc=;
-  b=K1GPTh2t+85YJ3MZ2+HUPi+I4WRJnejUKc7aEPd03AjHoqFJx6+4MYt5
-   rnzVY1yaLOsCODNy7r5+6693ykUBNF2QoD87Nr+XwMZzi6rWkUPD2mu2b
-   CIjrpZJDO5nk+nmD8tPmCBu1VxcvQ5YmrNFR85TUiFd+BCEYezrEUivHc
-   3rgNgQ9csiauV//5cueDmxgDqymz1FAA54YGGYkgb+VuJGKcg+I7963EX
-   05g+0gW7Ub4DNVcc8zwb6Ii0YSJ55xiyTuZe5etw4iDO1VOfjbUsyrDI9
-   GiKleguPqSG+3QQYkxAF6HTLmTx/rGLgmO0HmL6Titpx+nJ0mRnGz+az/
-   g==;
-X-CSE-ConnectionGUID: RCgaKaXPSZmCScoVVtfK4w==
-X-CSE-MsgGUID: qEJ5AciwRD2zDF60DbpNNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="68436651"
+  bh=SRuEsqcvTu8W87lpjkzU0dBkznk4LNmjNWqmQzExZ54=;
+  b=RfWhF+9uUeHiQAaZuxD82j0OGgdyu6Edmu+TPD71oR0er6VrMjsk/BvC
+   RmIThht7NDK10apyYe2wb08JhO3vQhvCMqJIHwTjcE5aSeEbKS1oLQsNg
+   39f9B4Q7y6ph5CITIhgLZZC8xDTUjDC5gOIDAHkfKcsPTyd+2prCwxXBG
+   kf0EuocYFoNaP3tzTibfBILx40EzbBynzLNzovtlPbVQxSxSjgmAaM3ql
+   QwAofwheOCL0X7271dW2B3CPiMPQCoOg35Yc/hTwdahDMFWRY/9MYR2tc
+   I9T6qVUTZxSCo1KWjUPOj9kGUztsmhWbr3rFDEX4zgKzQfX1rHiOYWoTq
+   w==;
+X-CSE-ConnectionGUID: F4G/EbzgTbiH3svVKt+grw==
+X-CSE-MsgGUID: /7xWel2cReuNb+d3k/qoAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="72248388"
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="68436651"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 20:52:02 -0800
-X-CSE-ConnectionGUID: MzfcDTNCQTuIgRjI6Asbzw==
-X-CSE-MsgGUID: iQ5tRVbhR82c18FGlq+9HQ==
+   d="scan'208";a="72248388"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 21:12:58 -0800
+X-CSE-ConnectionGUID: vJmReA7XQP+geEnEEH1ldg==
+X-CSE-MsgGUID: fzhjdhrYSLGd1gxEWWk0rw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="199692590"
+   d="scan'208";a="204870755"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 23 Dec 2025 20:52:00 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 23 Dec 2025 21:12:56 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYGqn-000000002gj-2Mjn;
-	Wed, 24 Dec 2025 04:51:53 +0000
-Date: Wed, 24 Dec 2025 12:51:17 +0800
+	id 1vYHB8-000000002iX-3G0t;
+	Wed, 24 Dec 2025 05:12:54 +0000
+Date: Wed, 24 Dec 2025 13:12:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ilya Bakoulin <Ilya.Bakoulin@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- Alvin Lee <alvin.lee2@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>
-Subject: 
- drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn401/dcn401_hwseq.c:3494:82:
- sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202512241240.tF5GyPW8-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:kerne-unload 6/6]
+ arch/s390/kernel/machine_kexec.c:254:2: error: call to undeclared function
+ 'tracing_off'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202512241352.Ec4E1Goi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,65 +61,50 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b927546677c876e26eba308550207c2ddf812a43
-commit: f96012baa5d3b4336092855e4e6d24830ea50736 drm/amd/display: add new block sequence-building/executing functions
-date:   9 weeks ago
-config: i386-randconfig-063-20251221 (https://download.01.org/0day-ci/archive/20251224/202512241240.tF5GyPW8-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241240.tF5GyPW8-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux kerne-unload
+head:   a2b83b8a1af321f2206864668e042008f27a0fbf
+commit: a2b83b8a1af321f2206864668e042008f27a0fbf [6/6] drop trace_printk.h
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20251224/202512241352.Ec4E1Goi-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241352.Ec4E1Goi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512241240.tF5GyPW8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512241352.Ec4E1Goi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn401/dcn401_hwseq.c:3494:82: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +3494 drivers/gpu/drm/amd/amdgpu/../display/dc/hwss/dcn401/dcn401_hwseq.c
+>> arch/s390/kernel/machine_kexec.c:254:2: error: call to undeclared function 'tracing_off'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     254 |         tracing_off();
+         |         ^
+   1 error generated.
 
-  3458	
-  3459	void dcn401_post_unlock_reset_opp_sequence(
-  3460			struct dc *dc,
-  3461			struct pipe_ctx *opp_head,
-  3462			struct block_sequence_state *seq_state)
-  3463	{
-  3464		struct display_stream_compressor *dsc = opp_head->stream_res.dsc;
-  3465		struct dccg *dccg = dc->res_pool->dccg;
-  3466	
-  3467		/* Wait for all DPP pipes in current mpc blending tree completes double
-  3468		 * buffered disconnection before resetting OPP
-  3469		 */
-  3470		if (dc->hwss.wait_for_mpcc_disconnect_sequence)
-  3471			dc->hwss.wait_for_mpcc_disconnect_sequence(dc, dc->res_pool, opp_head, seq_state);
-  3472	
-  3473		if (dsc) {
-  3474			bool *is_ungated = NULL;
-  3475			/* Check DSC power gate status */
-  3476			if (dc->hwseq && dc->hwseq->funcs.dsc_pg_status) {
-  3477				hwss_add_dsc_pg_status(seq_state, dc->hwseq, dsc->inst, false);
-  3478			}
-  3479	
-  3480			/* Seamless update specific where we will postpone non
-  3481				* double buffered DSCCLK disable logic in post unlock
-  3482				* sequence after DSC is disconnected from OPP but not
-  3483				* yet power gated.
-  3484				*/
-  3485	
-  3486			/* DSC wait disconnect pending clear */
-  3487			hwss_add_dsc_wait_disconnect_pending_clear(seq_state, dsc, is_ungated);
-  3488	
-  3489			/* DSC disable */
-  3490			hwss_add_dsc_disable(seq_state, dsc, is_ungated);
-  3491	
-  3492			/* Set reference DSCCLK */
-  3493			if (dccg && dccg->funcs->set_ref_dscclk) {
-> 3494				hwss_add_dccg_set_ref_dscclk(seq_state, dccg, dsc->inst, 0);
-  3495			}
-  3496		}
-  3497	}
-  3498	
+
+vim +/tracing_off +254 arch/s390/kernel/machine_kexec.c
+
+2c2df118a64407 Heiko Carstens     2010-02-26  247  
+60a0c68df2632f Michael Holzheu    2011-10-30  248  /*
+60a0c68df2632f Michael Holzheu    2011-10-30  249   * Reset system and call either kdump or normal kexec
+60a0c68df2632f Michael Holzheu    2011-10-30  250   */
+60a0c68df2632f Michael Holzheu    2011-10-30  251  static void __machine_kexec(void *data)
+60a0c68df2632f Michael Holzheu    2011-10-30  252  {
+60a0c68df2632f Michael Holzheu    2011-10-30  253  	pfault_fini();
+3ab121ab186692 Michael Holzheu    2012-03-11 @254  	tracing_off();
+3ab121ab186692 Michael Holzheu    2012-03-11  255  	debug_locks_off();
+10ad34bc76dfbc Martin Schwidefsky 2015-01-14  256  #ifdef CONFIG_CRASH_DUMP
+1a36a39e225d35 Martin Schwidefsky 2015-10-29  257  	if (((struct kimage *) data)->type == KEXEC_TYPE_CRASH)
+1a36a39e225d35 Martin Schwidefsky 2015-10-29  258  		__machine_kdump(data);
+10ad34bc76dfbc Martin Schwidefsky 2015-01-14  259  #endif
+1a36a39e225d35 Martin Schwidefsky 2015-10-29  260  	__do_machine_kexec(data);
+60a0c68df2632f Michael Holzheu    2011-10-30  261  }
+60a0c68df2632f Michael Holzheu    2011-10-30  262  
+
+:::::: The code at line 254 was first introduced by commit
+:::::: 3ab121ab18669226742891416fe7ecc86dadb047 [S390] kernel: Add z/VM LGR detection
+
+:::::: TO: Michael Holzheu <holzheu@linux.vnet.ibm.com>
+:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
 
 -- 
 0-DAY CI Kernel Test Service
