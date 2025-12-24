@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99AA62AF1D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 20:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE28923EAB6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 20:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766609762; cv=none; b=We/3Vm/HWiZFcCtZf7t3vGxW6YKh2db0vrD88PlZTSMrHir+Hpnl3nbt8y7YLZAqS88vBpggjy8ubwhytHVaL7jGSPmQ+FOnbcwzkPci47m01m/m411Odk/NV9CrCl2hLXsND0twxAwBPUEjuv61HzTR9LnNuZQBtf11ksqn0vI=
+	t=1766609944; cv=none; b=T7V2ulWR7RuluevNUaRGQ+XhdXMf5KY7V6PpYaRgVP5bnBtY+M8BeYWedIyhr/fCNRIGMEPTc/d0/QT0K+6Aq57LtX5/TCTFdGr2oH12srIne47TUtSaLo+HQ9GBl3vfwd4lCI+4Us/2EBIi3BikP3xxZ5Wfc8s6dYuMiJLDd14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766609762; c=relaxed/simple;
-	bh=JE7ZrPUmmxuzn97WpOFGhEw7MmKdN6mV9VuSYdEJ0B0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZNb0SXhPdz1cGmITArOs6BzBeuNiJqRURiTqse6m1xeRfyUjIKMtTxizZefva59BCep5LAMPmOVNNs5xbvEWUlisBkxDzPe3Kw3MYZ8Hl6DPx7+ZENc5JJi0vHvJ2IfuuVFXb0T/vibitTets4NtDFjUZ/8KlptZOI8B4TxA3kA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F3PhrHZE; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1766609944; c=relaxed/simple;
+	bh=I+aYQvpk/IQ3Z2qc6j/++GXIx14TlmKjZimxO+89TP4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hjgIDUGSbTSDo3f+M8+Va8BvrBVhJwyd65kC5TVUQiIE3x14us4vD0Ah0dpQmQjJvgPUxwXm5ls2PppiWcrToUACrOsyKwWTe9UMjCzgk2ovSDRJTV7DU12Y+fgL5njPgHZE3M0OrrAKPqpyviQfZCyztpfb858PMoPO/CKS4lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=avfM+XUo; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F3PhrHZE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="avfM+XUo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766609760; x=1798145760;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JE7ZrPUmmxuzn97WpOFGhEw7MmKdN6mV9VuSYdEJ0B0=;
-  b=F3PhrHZEEZXkxuKIx6eKM9NimP3ZyBu1oy5HtbgsFUkh7tpEy5ElXuSZ
-   wf90ZbJ9+61yrQE1pxJujxJTIoEC9ITBt09cI13orUb3jv3HhW/IdRgwn
-   BTmPIqnDo/LKHx6S5OJfbebVDx2AclNVj9Ba66tx/w/IGB8D5AB/K/e+Y
-   zY3atTGoT5gjbEYRzH1vPRLhguyuOwYm+bR/1QU09R1JfyfmRtgDw2IS9
-   +GoOu1w8MNGFHzlFOAWckNobW+eRsczS1X81NALC2HKPPs0frezR4LKGj
-   oFEPhYcAa2HiO6mEqgbiYgiWcq5VuJ2cMZD/z5eATMUmjCAhgJ6uamJ2b
-   Q==;
-X-CSE-ConnectionGUID: xZwqpVDBQu2uVqTI2N1olg==
-X-CSE-MsgGUID: VfRJbUAtSjSXRSP7o3rx5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="67634794"
+  t=1766609943; x=1798145943;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I+aYQvpk/IQ3Z2qc6j/++GXIx14TlmKjZimxO+89TP4=;
+  b=avfM+XUoEgIvKg8e9B8HxAK2kvqUXCTHGLlSBozZ6fXvfxNqLWRekaEs
+   whUBkTmbKZ5SxG0wxmDkMNZq1UTFXa3wYlAcOxuZjhlypSlHatTQp1rpU
+   u6O45hwCCPh8sKLSQMjqw4AakhG2tB9eoay4fRS9HGJ2NfiGGTpbvaN/A
+   DKBHPXut8aEqiW83aANKuOyF+nxZ7wlP275GuyWxnKjb4LEOX5w6keFBx
+   nXsDNnzJae1X3yMbcYvyZQJvJ9prpSDgQMtmmXVpIGpVp6yBx7LerQat2
+   CDrCRobJ2jzBkEsW0jPSkUBBKgPz32ARVq8jl3yok+Igkk+OgBLQ6eH1n
+   A==;
+X-CSE-ConnectionGUID: K67gb/xYQhew/D2H07itWg==
+X-CSE-MsgGUID: 75JAO4NORL2s6wEEpFyo3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="91095219"
 X-IronPort-AV: E=Sophos;i="6.21,174,1763452800"; 
-   d="scan'208";a="67634794"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 12:55:59 -0800
-X-CSE-ConnectionGUID: RCvwZlnQSNykGWcEnW79HA==
-X-CSE-MsgGUID: f2x86eD6RJaceP+LcuRooA==
+   d="scan'208";a="91095219"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 12:59:03 -0800
+X-CSE-ConnectionGUID: LN1m8mLsTeS1a+hrB2lUkQ==
+X-CSE-MsgGUID: HWb7SWV2TfaY/OJ4xKUFqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,174,1763452800"; 
-   d="scan'208";a="223572576"
+   d="scan'208";a="199997472"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Dec 2025 12:55:59 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 24 Dec 2025 12:58:58 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYVtk-000000006Ki-2kwG;
-	Wed, 24 Dec 2025 20:55:56 +0000
-Date: Wed, 24 Dec 2025 21:55:44 +0100
+	id 1vYVwe-000000006L2-3j9m;
+	Wed, 24 Dec 2025 20:58:56 +0000
+Date: Wed, 24 Dec 2025 21:58:34 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:x86-pie-v3 12/15] error[E0425]: cannot find function
- `pci_alloc_irq_vectors` in crate `bindings`
-Message-ID: <202512242126.SqHfrzOQ-lkp@intel.com>
+To: Ke Sun <sunke@kylinos.cn>, Miguel Ojeda <ojeda@kernel.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Timur Tabi <ttabi@nvidia.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Benno Lossin <lossin@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Tamir Duberstein <tamird@gmail.com>, rust-for-linux@vger.kernel.org,
+	Ke Sun <sunke@kylinos.cn>
+Subject: Re: [PATCH v3 3/4] rust: fmt: Default raw pointer formatting to
+ HashedPtr
+Message-ID: <202512242153.r68Pb25u-lkp@intel.com>
+References: <20251224081315.729684-4-sunke@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,41 +73,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251224081315.729684-4-sunke@kylinos.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v3
-head:   16f858473d90ca1f50cd701fcaa7a3a7d58c44f7
-commit: e221c5317b9e0d43b65232136ffb7e3cdc98bff5 [12/15] x86: Use PIE codegen for the core kernel
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251224/202512242126.SqHfrzOQ-lkp@intel.com/config)
+Hi Ke,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 9448598b22c50c8a5bb77a9103e2d49f134c9578]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ke-Sun/lib-vsprintf-Export-ptr_to_hashval-for-Rust-use/20251224-161946
+base:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+patch link:    https://lore.kernel.org/r/20251224081315.729684-4-sunke%40kylinos.cn
+patch subject: [PATCH v3 3/4] rust: fmt: Default raw pointer formatting to HashedPtr
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251224/202512242153.r68Pb25u-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512242126.SqHfrzOQ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512242153.r68Pb25u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512242126.SqHfrzOQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512242153.r68Pb25u-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> warning: unused import: `super::bindings_helper::*`
-   --> rust/bindings/lib.rs:49:13
-   |
-   49 |     pub use super::bindings_helper::*;
-   |             ^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = note: `#[warn(unused_imports)]` on by default
---
->> warning: unused import: `super::bindings_raw::*`
-   --> rust/bindings/lib.rs:62:9
-   |
-   62 |     use super::bindings_raw::*;
-   |         ^^^^^^^^^^^^^^^^^^^^^^
---
->> error[E0425]: cannot find function `pci_alloc_irq_vectors` in crate `bindings`
-   --> rust/kernel/pci/irq.rs:144:23
-   |
-   144 |             bindings::pci_alloc_irq_vectors(dev.as_raw(), min_vecs, max_vecs, irq_types.as_raw())
-   |                       ^^^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/fmt.rs:30:
+    use core::fmt::{Binary, LowerExp, LowerHex, Octal, Pointer, UpperExp, UpperHex};
+    impl_fmt_adapter_forward!(Debug, LowerHex, UpperHex, Octal, Binary, LowerExp, UpperExp);
+    
+   -use crate::ptr::{HashedPtr, RestrictedPtr, RawPtr};
+   +use crate::ptr::{HashedPtr, RawPtr, RestrictedPtr};
+    // Special handling for Pointer: default to HashedPtr for raw pointers.
+    // This overrides the default Pointer implementation for raw pointers to use hashing,
+    // which is the safe default behavior for kernel pointers.
+>> Diff in rust/kernel/fmt.rs:30:
+    use core::fmt::{Binary, LowerExp, LowerHex, Octal, Pointer, UpperExp, UpperHex};
+    impl_fmt_adapter_forward!(Debug, LowerHex, UpperHex, Octal, Binary, LowerExp, UpperExp);
+    
+   -use crate::ptr::{HashedPtr, RestrictedPtr, RawPtr};
+   +use crate::ptr::{HashedPtr, RawPtr, RestrictedPtr};
+    // Special handling for Pointer: default to HashedPtr for raw pointers.
+    // This overrides the default Pointer implementation for raw pointers to use hashing,
+    // which is the safe default behavior for kernel pointers.
+   make[2]: *** [Makefile:1871: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
