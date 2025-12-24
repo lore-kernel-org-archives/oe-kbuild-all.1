@@ -1,128 +1,228 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424D32D6E70
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 11:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94822F616C;
+	Wed, 24 Dec 2025 12:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766577476; cv=none; b=GP0/uI3M8ud7z/QjF6Gg/0hoXbWqLm+X6MgVal5WRKHqeClUXYqxrpIdf0zn8QYqo9AzBOhHrGHITLr2Tp7a4R3RMHUGTbvs53SP97bTVMlH+NOz7cOfWnktiqGPJsM8N1xl7DVnUFA4QNDEpITBvqlxiG+tN05+OvE9EaviRCE=
+	t=1766578856; cv=none; b=lLKciHhkcRZHXYhx9aqjLLiSEU7mN8Xw2b7dIJkJ8FpxzqOgZip1kQxezjeCebpsphl+/UAXlH040X/yCPtvBVu/PJnkkIoqtn3IhCyxTHy5qp5j4FOWIpzyMNMJch63KF5aQXpbjUp7Fc5SNXossaO9Q99FwHHzGyukTHHwuyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766577476; c=relaxed/simple;
-	bh=lFqI5ZQR1Tfojj1/ujo7amHKgBuDPH8B1LEeGMTwGtE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g8yMCvtduVg4loDkTK0XQRN54I5AOnO8bCX6ADFEyTwlf1VTt8WKJ2MSQgFDckInLosPWCK8AO7i5pEcTq4W1GY5Ovllw4XcM8HuCFdHU5duKQCsY1BGIX78eXCqTmia7BeQ48yatRPpnuyGNhES2fo6kIeIDhTvhWxNV6ii5uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OTELRD9j; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1766578856; c=relaxed/simple;
+	bh=jDDzoEMDWKJjxdGROLKVvjf7g0T6U4unJ1T7ysSscaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GtiBeg+mbEaMpkQXgJ0KbuCFZCN8cMlkN2+518rvKiH1D8GbqWYaYk9LU3ad42B4/RNofI9C4X3CkLvkE+OEFX+nyPklUe0yBKFfjKV0WjYG4tVcbvGQGhbubFedtFByhQvJybrM8wEj3WTgYu3AftiKYgVwt9i6MRP4I30VHMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0I56F65; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OTELRD9j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0I56F65"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766577474; x=1798113474;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lFqI5ZQR1Tfojj1/ujo7amHKgBuDPH8B1LEeGMTwGtE=;
-  b=OTELRD9j8Xy+Q/whnRhejsiwnFzip4tF5qFxsQ4bv3f9Yrp9V1vPPr3+
-   IpJC2IGW1fYBYShdapk94MVaiZD/mqYztJzFun/QS8Y5Ng/rdshuJMciY
-   dGeqF/Uh56cKlyOXaByrBmxeZRq/sm7uJW7tI2b6KfsaQ68JN+FproQ6G
-   ZCdbwNbXgZoKTlAmGUgnZKjSx/L7V4T8oExJlSjHocxpuo6XrewePJw70
-   BZd3xtdRDLHQD/PPZhGP4MepCvHEwC/hVavC6c/8rq927sdrE8cVx40Aa
-   PqJ/LlsQYwDRqIyOyRcyR8+5R5nhMK26TU/w5NGS4+6w7kBaEX2tLqnyl
-   w==;
-X-CSE-ConnectionGUID: oM6qs72BTm6Cwc3uba7/yg==
-X-CSE-MsgGUID: jbGx2RtNQ/q0fbISZT64fA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="55982031"
-X-IronPort-AV: E=Sophos;i="6.21,173,1763452800"; 
-   d="scan'208";a="55982031"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 03:57:54 -0800
-X-CSE-ConnectionGUID: CH+H4ZkxRZy/GAq3Lc1hZg==
-X-CSE-MsgGUID: LKKrlq0ORd+UnXUsEHWVcw==
+  t=1766578854; x=1798114854;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=jDDzoEMDWKJjxdGROLKVvjf7g0T6U4unJ1T7ysSscaQ=;
+  b=H0I56F653Ef0Li3/MnFZ46Qx4Ppb7eOrN6kyfaNSCuJeslV9QC1e8n4E
+   /ivHTQHW3tDNKOWsUd3puM3nUki9tEfGdBpitpc8FsnoYQ+fdo0RUb0Eo
+   UpEQylTAd4EPjlP0FYI+go19xB6QRmWFbI8hqTbg/iSp370lDwDJcusr2
+   Bu69wMKt+ovwxsnw1nFGZteDxiLP9VwOK686Twit5tsr7RUna0OmbqlBf
+   LZBuDloXlhXuzw/8Ascf0Ji2fdXpOG2562UwAAyBP6xW0GIhqXcjzTxqB
+   qfSBQUTNlc9selSBugYekNSDrFwoun9xH4Jj2RkFwrRKJh5CWmGiofAxP
+   Q==;
+X-CSE-ConnectionGUID: 6VGwG0snTY2JeoXX0hTZ9A==
+X-CSE-MsgGUID: TMNRPOhhR4S+gcV6D8r1Ww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68354720"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="68354720"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 04:20:53 -0800
+X-CSE-ConnectionGUID: LR/k6W1OQIWtevoLKMkHCA==
+X-CSE-MsgGUID: G2+gnj9MTfSPMLd72OaynQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,173,1763452800"; 
-   d="scan'208";a="205075381"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 24 Dec 2025 03:57:52 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="199759525"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 24 Dec 2025 04:20:51 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYNV0-000000006CW-21st;
-	Wed, 24 Dec 2025 11:57:50 +0000
-Date: Wed, 24 Dec 2025 12:56:58 +0100
+	id 1vYNrF-0000000032L-12pY;
+	Wed, 24 Dec 2025 12:20:49 +0000
+Date: Wed, 24 Dec 2025 20:20:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.19-rc 66/110]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb:
- /soc/ethernet@15100000/mdio-bus/switch@16: failed to match any schema with
- compatible: ['mxl,86252']
-Message-ID: <202512241228.KZHUrCY7-lkp@intel.com>
+To: =?utf-8?B?UGF3ZcWC?= Narewski <pawel.narewski@nokia.com>,
+	linux-gpio@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linusw@kernel.org,
+	brgl@kernel.org,
+	=?utf-8?B?UGF3ZcWC?= Narewski <pawel.narewski@nokia.com>,
+	Jakub Lewalski <jakub.lewalski@nokia.com>
+Subject: Re: [PATCH] gpiolib: fix race condition for gdev->srcu
+Message-ID: <202512250122.ibtipV8L-lkp@intel.com>
+References: <20251223084952.1847489-1-pawel.narewski@nokia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251223084952.1847489-1-pawel.narewski@nokia.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-rc
-head:   e896e048752d653f0878f48c08e30443dc8238d2
-commit: 1561f70c6e659229d440036b2240f9229dc6b207 [66/110] arm64: dts: r4pro: add mxl switch
-config: arm64-randconfig-2052-20251220 (https://download.01.org/0day-ci/archive/20251224/202512241228.KZHUrCY7-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241228.KZHUrCY7-lkp@intel.com/reproduce)
+Hi Paweł,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brgl/gpio/for-next]
+[also build test ERROR on linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pawe-Narewski/gpiolib-fix-race-condition-for-gdev-srcu/20251223-165142
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20251223084952.1847489-1-pawel.narewski%40nokia.com
+patch subject: [PATCH] gpiolib: fix race condition for gdev->srcu
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251225/202512250122.ibtipV8L-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512250122.ibtipV8L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512241228.KZHUrCY7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512250122.ibtipV8L-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: /soc/ethernet@15100000/mdio-bus/switch@16: failed to match any schema with compatible: ['mxl,86252']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: /soc/ethernet@15100000/mdio-bus/switch@16/ds-mux-bus/ds-mux@0: failed to match any schema with compatible: ['mxl862xx,ds-mux']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: /soc/ethernet@15100000/mdio-bus/switch@16: failed to match any schema with compatible: ['mxl,86252']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: /soc/ethernet@15100000/mdio-bus/switch@16/ds-mux-bus/ds-mux@0: failed to match any schema with compatible: ['mxl862xx,ds-mux']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
---
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: /soc/ethernet@15100000/mdio-bus/switch@16: failed to match any schema with compatible: ['mxl,86252']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: /soc/ethernet@15100000/mdio-bus/switch@16/ds-mux-bus/ds-mux@0: failed to match any schema with compatible: ['mxl862xx,ds-mux']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
---
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: /soc/ethernet@15100000/mdio-bus/switch@16: failed to match any schema with compatible: ['mxl,86252']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: /soc/ethernet@15100000/mdio-bus/switch@16/ds-mux-bus/ds-mux@0: failed to match any schema with compatible: ['mxl862xx,ds-mux']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
+All errors (new ones prefixed by >>):
+
+>> drivers/gpio/gpiolib.c:1109:2: error: no member named 'rwsem' in 'struct raw_notifier_head'
+    1109 |         BLOCKING_INIT_NOTIFIER_HEAD(&gdev->line_state_notifier);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/notifier.h:86:23: note: expanded from macro 'BLOCKING_INIT_NOTIFIER_HEAD'
+      86 |                 init_rwsem(&(name)->rwsem);     \
+         |                 ~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/linux/rwsem.h:121:16: note: expanded from macro 'init_rwsem'
+     121 |         __init_rwsem((sem), #sem, &__key);                      \
+         |                       ^~~
+   1 error generated.
+
+
+vim +1109 drivers/gpio/gpiolib.c
+
+  1044	
+  1045	int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
+  1046				       struct lock_class_key *lock_key,
+  1047				       struct lock_class_key *request_key)
+  1048	{
+  1049		struct gpio_device *gdev;
+  1050		unsigned int desc_index;
+  1051		int base = 0;
+  1052		int ret;
+  1053	
+  1054		/*
+  1055		 * First: allocate and populate the internal stat container, and
+  1056		 * set up the struct device.
+  1057		 */
+  1058		gdev = kzalloc(sizeof(*gdev), GFP_KERNEL);
+  1059		if (!gdev)
+  1060			return -ENOMEM;
+  1061	
+  1062		gdev->dev.type = &gpio_dev_type;
+  1063		gdev->dev.bus = &gpio_bus_type;
+  1064		gdev->dev.parent = gc->parent;
+  1065		rcu_assign_pointer(gdev->chip, gc);
+  1066	
+  1067		gc->gpiodev = gdev;
+  1068		gpiochip_set_data(gc, data);
+  1069	
+  1070		device_set_node(&gdev->dev, gpiochip_choose_fwnode(gc));
+  1071	
+  1072		ret = ida_alloc(&gpio_ida, GFP_KERNEL);
+  1073		if (ret < 0)
+  1074			goto err_free_gdev;
+  1075		gdev->id = ret;
+  1076	
+  1077		ret = dev_set_name(&gdev->dev, GPIOCHIP_NAME "%d", gdev->id);
+  1078		if (ret)
+  1079			goto err_free_ida;
+  1080	
+  1081		if (gc->parent && gc->parent->driver)
+  1082			gdev->owner = gc->parent->driver->owner;
+  1083		else if (gc->owner)
+  1084			/* TODO: remove chip->owner */
+  1085			gdev->owner = gc->owner;
+  1086		else
+  1087			gdev->owner = THIS_MODULE;
+  1088	
+  1089		ret = gpiochip_get_ngpios(gc, &gdev->dev);
+  1090		if (ret)
+  1091			goto err_free_dev_name;
+  1092	
+  1093		gdev->descs = kcalloc(gc->ngpio, sizeof(*gdev->descs), GFP_KERNEL);
+  1094		if (!gdev->descs) {
+  1095			ret = -ENOMEM;
+  1096			goto err_free_dev_name;
+  1097		}
+  1098	
+  1099		gdev->label = kstrdup_const(gc->label ?: "unknown", GFP_KERNEL);
+  1100		if (!gdev->label) {
+  1101			ret = -ENOMEM;
+  1102			goto err_free_descs;
+  1103		}
+  1104	
+  1105		gdev->ngpio = gc->ngpio;
+  1106		gdev->can_sleep = gc->can_sleep;
+  1107	
+  1108		rwlock_init(&gdev->line_state_lock);
+> 1109		BLOCKING_INIT_NOTIFIER_HEAD(&gdev->line_state_notifier);
+  1110		BLOCKING_INIT_NOTIFIER_HEAD(&gdev->device_notifier);
+  1111	
+  1112		ret = init_srcu_struct(&gdev->srcu);
+  1113		if (ret)
+  1114			goto err_free_label;
+  1115	
+  1116		ret = init_srcu_struct(&gdev->desc_srcu);
+  1117		if (ret)
+  1118			goto err_cleanup_gdev_srcu;
+  1119	
+  1120	
+  1121		scoped_guard(mutex, &gpio_devices_lock) {
+  1122			/*
+  1123			 * TODO: this allocates a Linux GPIO number base in the global
+  1124			 * GPIO numberspace for this chip. In the long run we want to
+  1125			 * get *rid* of this numberspace and use only descriptors, but
+  1126			 * it may be a pipe dream. It will not happen before we get rid
+  1127			 * of the sysfs interface anyways.
+  1128			 */
+  1129			base = gc->base;
+  1130			if (base < 0) {
+  1131				base = gpiochip_find_base_unlocked(gc->ngpio);
+  1132				if (base < 0) {
+  1133					ret = base;
+  1134					base = 0;
+  1135					goto err_cleanup_desc_srcu;
+  1136				}
+  1137	
+  1138				/*
+  1139				 * TODO: it should not be necessary to reflect the
+  1140				 * assigned base outside of the GPIO subsystem. Go over
+  1141				 * drivers and see if anyone makes use of this, else
+  1142				 * drop this and assign a poison instead.
+  1143				 */
+  1144				gc->base = base;
+  1145			} else {
+  1146				dev_warn(&gdev->dev,
+  1147					 "Static allocation of GPIO base is deprecated, use dynamic allocation.\n");
+  1148			}
+  1149	
+  1150			gdev->base = base;
+  1151	
+  1152			ret = gpiodev_add_to_list_unlocked(gdev);
+  1153			if (ret) {
+  1154				gpiochip_err(gc, "GPIO integer space overlap, cannot add chip\n");
+  1155				goto err_cleanup_desc_srcu;
+  1156			}
+  1157		}
+  1158	
 
 -- 
 0-DAY CI Kernel Test Service
