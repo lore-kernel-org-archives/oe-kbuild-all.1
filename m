@@ -1,106 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BB3318140
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 00:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7F2210F59
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 00:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766536389; cv=none; b=KtGyNjZafpAmu0c+8chKPcET3t8+ItsWl2gYDzECEPQHKI90wxnvvF+AOFgtGsR9XQM42cFGnhQ3wOl3fE+zMODxaZWunNKhcs8IJvNQTVpcvTnV/+BJ9TvNU3cLV2b6spDy7LXnWnLBVRl77UQKAYbGoiEZ5AJLxcV+qvGPvKY=
+	t=1766537616; cv=none; b=KkgwOqXdzNhBwDvkd0CIeSTBF2guNuicEAcSD4vMJIE6wXHk7w3jIPpi1TuDhfiAkmb/Ga6fdOTy0gjGD8RSMGtg7few0we/sqaS7Nu30eNfIdU/b6QyD9jBMY5Ez827dArS76KoELAvc9Z1AidVHAcd1LqMUxzNCQ8UxOdjLkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766536389; c=relaxed/simple;
-	bh=sc/21pFHzi4ubu5IS0OgNd+vZt50kE9eCh7PGamP2iY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XUYOnrc84Ms4kT+jm3hBmB7TjdTQ+L//qMlTyEENgpr/A5qCMhJcxNbPRfZ3cpK+BKeD70miTDyJhlcIf6EulBBuCYOH+owTzOB+N8AmgOSuqHiWAZxGJlC2RvFYcFUaX8PMOTZOd7cZaRXKKzO4jj2PR/F3VMvfwDKcmO/7VQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jeRlx3ID; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1766537616; c=relaxed/simple;
+	bh=iea6NlEKrdUYCChDYl17dhC2aGkrLOcVw8GAc9kW+OI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qTlTrNVOioBBJ8uE8GCecf7hm3nZ1KyUalUT6//YodlrKsWq0MHpple0QT3uc6211rfYkVUyKt0MLzeCffHFdlw7g7Dzid9WMZtFkwUqj9oIQcr4m17pyKOW1aZKtfR+5SKCfzv58k1HS55tNp+ak6n8e7dTFQt9G9olQms0QpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KdTVNAii; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jeRlx3ID"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KdTVNAii"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766536387; x=1798072387;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sc/21pFHzi4ubu5IS0OgNd+vZt50kE9eCh7PGamP2iY=;
-  b=jeRlx3IDhdNstNI51wGaWFcDtvKFSu+6pik/ShV2RjaoQoiqzJ68imND
-   IRy+S70BOcxQG6T6rJmV1xL/l8eltSsfsaJErgxbjRWuVYFJRtNcsCC25
-   H47kv0aLzBjtPM+oUeMXNjAtb6CoQObRRSt2dByWCstHl4newiWu8LxNP
-   kreyAsUbEKsOKwATdw+arMr075aqLslGubH/qiPaB8U1XaKHSDdVrB+IE
-   ixKdZDyUjHehZ1nZTMQSoLeB7vEH9C0h3WJ2aH8FS9abd9j3Q4zXg9ZoN
-   7/D7NPOxkuSubID2um7sLgTa2OPzimbYEYSIYZVvcCzTBH6v2A+IC3TME
-   A==;
-X-CSE-ConnectionGUID: iV3UB3RMRdeQghDaSkv6bg==
-X-CSE-MsgGUID: 76pPolw7R9OXvC8J0Cc2SA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="72010301"
+  t=1766537614; x=1798073614;
+  h=date:from:to:cc:subject:message-id;
+  bh=iea6NlEKrdUYCChDYl17dhC2aGkrLOcVw8GAc9kW+OI=;
+  b=KdTVNAii6blJbSD8nPeAp9rvpXf2T4N8HaV1mkPirna6AIQKt0xfcxVq
+   1TRjKiEYXa5e+PmU7UJQJI6+rE7m1N/CThlvf2q3JA881+JF8CPCvD35I
+   kw7v5/ipje0itYSQFG9/bgL/4udyLy689yQvAu3T4vbd9aySTsu076hTJ
+   ANfRK6iv+m4qDj7s7Zu8xt0mGJ94e1zZbeala+zRv8YuSgIMQRvQHCSov
+   kv7DgH2pW4cSseFeOJdiM+eIPnHb92/ixV0nI5S+OATyjk4mTaLSyMloI
+   NLTSuRn2ueMLVaPJ/5wuPFTc68OhG2SoS4Wal8l0MriBNfiVLR9ncsaZ/
+   w==;
+X-CSE-ConnectionGUID: 0ha0b31STcCQTf2i0yDvMg==
+X-CSE-MsgGUID: rx1+n0dKR+ygJuPp6kgW8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="68368490"
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="72010301"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 16:33:07 -0800
-X-CSE-ConnectionGUID: buiGrgzcTvytMMUaO37q0Q==
-X-CSE-MsgGUID: V5zvbk7rTXObV3Jws+UL4Q==
+   d="scan'208";a="68368490"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 16:53:32 -0800
+X-CSE-ConnectionGUID: 9PVUSc+WQNupIo0Ii43wKA==
+X-CSE-MsgGUID: A4F5lsd4RoCyD8SGTplZXg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="230557269"
+   d="scan'208";a="230939340"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 23 Dec 2025 16:33:03 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 23 Dec 2025 16:53:31 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYCoE-000000002Vp-13K0;
-	Wed, 24 Dec 2025 00:32:58 +0000
-Date: Wed, 24 Dec 2025 08:32:08 +0800
+	id 1vYD80-000000002WP-1rMB;
+	Wed, 24 Dec 2025 00:53:25 +0000
+Date: Wed, 24 Dec 2025 08:52:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yazhou Tang <tangyazhou@zju.edu.cn>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	john.fastabend@gmail.com, andrii@kernel.org, martin.lau@linux.dev,
-	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org, tangyazhou518@outlook.com,
-	shenghaoyuan0928@163.com, ziye@zju.edu.cn
-Subject: Re: [PATCH bpf-next v2 1/2] bpf: Add interval and tnum analysis for
- signed and unsigned BPF_DIV
-Message-ID: <202512240848.WegL0AOr-lkp@intel.com>
-References: <20251223091120.2413435-2-tangyazhou@zju.edu.cn>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:master 21/33]
+ fs/bcachefs/btree/interior.h:136:18: sparse: sparse: mixing different enum
+ types:
+Message-ID: <202512240819.yAJ6pzsG-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251223091120.2413435-2-tangyazhou@zju.edu.cn>
 
-Hi Yazhou,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yazhou-Tang/bpf-Add-interval-and-tnum-analysis-for-signed-and-unsigned-BPF_DIV/20251223-171652
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20251223091120.2413435-2-tangyazhou%40zju.edu.cn
-patch subject: [PATCH bpf-next v2 1/2] bpf: Add interval and tnum analysis for signed and unsigned BPF_DIV
-config: alpha-randconfig-r131-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240848.WegL0AOr-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240848.WegL0AOr-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs master
+head:   95e7fbbbe2079679f8aa76d3e4e3599c921807e0
+commit: ef4225fd3371dd0ce8b31150446324c3bd268589 [21/33] bcachefs: Btree node rewrites don't run at BCH_WATERMARK_btree
+config: arc-randconfig-r121-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240819.yAJ6pzsG-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240819.yAJ6pzsG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512240848.WegL0AOr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512240819.yAJ6pzsG-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> kernel/bpf/tnum.c:16:19: sparse: sparse: symbol 'tnum_empty' was not declared. Should it be static?
+   fs/bcachefs/data/move.c: note: in included file:
+>> fs/bcachefs/btree/interior.h:136:18: sparse: sparse: mixing different enum types:
+   fs/bcachefs/btree/interior.h:136:18: sparse:    unsigned int enum bch_trans_commit_flags
+   fs/bcachefs/btree/interior.h:136:18: sparse:    unsigned int enum bch_watermark
+--
+   fs/bcachefs/btree/interior.c: note: in included file:
+>> fs/bcachefs/btree/interior.h:136:18: sparse: sparse: mixing different enum types:
+   fs/bcachefs/btree/interior.h:136:18: sparse:    unsigned int enum bch_trans_commit_flags
+   fs/bcachefs/btree/interior.h:136:18: sparse:    unsigned int enum bch_watermark
+>> fs/bcachefs/btree/interior.h:136:18: sparse: sparse: mixing different enum types:
+   fs/bcachefs/btree/interior.h:136:18: sparse:    unsigned int enum bch_trans_commit_flags
+   fs/bcachefs/btree/interior.h:136:18: sparse:    unsigned int enum bch_watermark
 
-vim +/tnum_empty +16 kernel/bpf/tnum.c
+vim +136 fs/bcachefs/btree/interior.h
 
-    11	
-    12	#define TNUM(_v, _m)	(struct tnum){.value = _v, .mask = _m}
-    13	/* A completely unknown value */
-    14	const struct tnum tnum_unknown = { .value = 0, .mask = -1 };
-    15	/* Not well-formed Tnum, whose concrete value is empty set. */
-  > 16	const struct tnum tnum_empty = { .value = -1, .mask = -1 };
-    17	
+   125	
+   126	static inline enum bch_trans_commit_flags
+   127	btree_update_set_watermark_hipri(enum bch_trans_commit_flags flags)
+   128	{
+   129		enum bch_watermark watermark = flags & BCH_WATERMARK_MASK;
+   130		if (watermark == BCH_WATERMARK_copygc)
+   131			watermark = BCH_WATERMARK_btree_copygc;
+   132		if (watermark < BCH_WATERMARK_btree)
+   133			watermark = BCH_WATERMARK_btree;
+   134	
+   135		flags &= ~BCH_WATERMARK_MASK;
+ > 136		flags |= watermark;
+   137		return flags;
+   138	}
+   139	
 
 -- 
 0-DAY CI Kernel Test Service
