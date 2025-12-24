@@ -1,190 +1,262 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C6032860E;
-	Wed, 24 Dec 2025 16:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395641367
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 17:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766592884; cv=none; b=gxaAUGH3tfxZvX9eA0fCWzXa7DorBTa6PnHEazXs7klMm0TIX4IKt67Irh/sNmk3mXUOKaMts0XsP9ZIFIVO4t3AYoAE8ls5JDq6mj+LKILdWyRkrzULei1lMA7PQRZ/+SeCS9uawuQUd1uEdNG30l66y3wvk3j+3fd2dZgLW9M=
+	t=1766595616; cv=none; b=DGEkkZ39ARvnD2QwwHvkNo/gx5IovlXfGWqQGYQTmOxiufe0oLlc78j52a/hmkbqkzR6BuR/K3iDkTNEAMMmRcZDknStm8pWnfaRsujUKc3hme3Q3ooTRSEGbCQX3Jkk+DCfU8OchXI4ApV3d4lw/e1x6L9ootK/Jz37ENbMpxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766592884; c=relaxed/simple;
-	bh=puWmGZxXE8UpiT7pGZBgzqUpkzDtlP+dMU+x0yn5VaI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iV7R1Y5YVe6qb8vnN1/ULRNBBaozOyk7t3qaxcOwsgCAArXfEBEM47xnLU7eu6IPBxlJeRU9943O3Bun98JcXN4Gay8C9K5MDFtfPGaY95D0SR2SW0947l4QZeRP2nk5Acw7TypuvG9MDT2zvOWHF65pLl3pdq4LLgIwF44G3Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CRnXEu+b; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766595616; c=relaxed/simple;
+	bh=tFYdoUPQI/v4rHZu3mO28iDTFT2yEUIAvt67ke386Us=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=bAORNOMSfiYyrjuVTIag7BAK7gE9JyYVYylljtLUBPeRi2I8LJXZW4q+Noo7ORKG7OtQmbfOboIRqRP3+/8n1MPJWPtCc+7WN1vurJeakAPp63UmcfrS0Y6V/62exGxL1BPYJHoXaZYdbAURv6QQkZ0MJ6bad88qkHppbd2yOCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=IQDAqbEA; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CRnXEu+b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766592881; x=1798128881;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=puWmGZxXE8UpiT7pGZBgzqUpkzDtlP+dMU+x0yn5VaI=;
-  b=CRnXEu+b7DtZ3NjJzyrygeacoFyNWPZ7VcN0+nvUk8Rs62w2UjdLxZnt
-   YcWy8JMxQaHxWbjUjmhYna9sFquKvmE0+qoYGwf7CBl3d//VTJHPqz1AB
-   Z2nbFBXBpc1oeGgiRz7ZHvF1lkpSeOL58TbVhmYG9LlGqmUt4AeFWZ5+W
-   pFZtbceY+nnc1S2HNITaxIjKUrG2Q9vHHkrY1ixtOVe2iY18ud5kmaAW0
-   c7mAir/TGnOB2hwSZJ26WSuRNfdEaAA+8cF9RH4gorCOUSPVCpTA/bew5
-   +C5Ar8ok8NpmQkEgpk4VRXfom8SEbRzrqSuoPWxLSNAaMkCXOcRFo5jA6
-   w==;
-X-CSE-ConnectionGUID: sVgtDtAMQz2Zebc7TqYsww==
-X-CSE-MsgGUID: xyrzvazDQhu3DJr71yjUMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="93898558"
-X-IronPort-AV: E=Sophos;i="6.21,174,1763452800"; 
-   d="scan'208";a="93898558"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 08:14:38 -0800
-X-CSE-ConnectionGUID: IbXEZ3XjTeGoaTrUH18k5g==
-X-CSE-MsgGUID: BE8WK5MDSv2mgzXQclGqjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,174,1763452800"; 
-   d="scan'208";a="199282595"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 24 Dec 2025 08:14:33 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vYRVN-000000003FJ-2PxI;
-	Wed, 24 Dec 2025 16:14:29 +0000
-Date: Thu, 25 Dec 2025 00:13:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marijn Suijten <marijn.suijten@somainline.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Simona Vetter <simona@ffwll.ch>,
-	Casey Connolly <casey.connolly@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	~postmarketos/upstreaming@lists.sr.ht,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
-	Martin Botka <martin.botka@somainline.org>,
-	Jami Kettunen <jami.kettunen@somainline.org>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Kuogee Hsieh <quic_khsieh@quicinc.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH v2 05/11] drm/panel: Add panel driver for Samsung SOFEF01
- DDIC
-Message-ID: <202512242356.EwESE8Qv-lkp@intel.com>
-References: <20251222-drm-panels-sony-v2-5-82a87465d163@somainline.org>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="IQDAqbEA"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5BOGQb7p001275;
+	Wed, 24 Dec 2025 17:00:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=LMqwli
+	RTyLs7mB2exOXh15RpEV3eDVKH8PX5ODgQ8lM=; b=IQDAqbEA+nBQu4/csGQ8/7
+	FGq85R0yHjLFpX2d0ZTp+feP+ZAx3NtRB+fLEpZlRxbw4UT19LBWhfYe5Bu9QzVW
+	qb+3JN6LuIDzW7v8bWuRRCt40sV2dNdLHwb5C3TGWR1Y3L28/7iiNKD5ExdYN+YM
+	S+ZESnvIIZjCbXhavASWE15TZrK2ioEtrI/gXTp2QHqkHFtiBjwpb4u0mLKqGHL+
+	8WRBZDDEmBLjDsbEOLw0M/U2CgveZI22mFhYjHSaC0W+XjAn79CboTMaDOxpPBAv
+	NtiZInSZYlyWLrmc2KvVk9a35rjeX0JkB1ziYHGNLZfBcvuInbMLNEuiZZpD5TRQ
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b5kfqa99h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 24 Dec 2025 17:00:08 +0000 (GMT)
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 5BOH08OV018559;
+	Wed, 24 Dec 2025 17:00:08 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4b5kfqa99d-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 24 Dec 2025 17:00:08 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5BOFcVxa030207;
+	Wed, 24 Dec 2025 17:00:07 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4b66gy1353-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 24 Dec 2025 17:00:07 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5BOH03sT37290404
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 24 Dec 2025 17:00:03 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 37BF42005A;
+	Wed, 24 Dec 2025 17:00:03 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0D20E20040;
+	Wed, 24 Dec 2025 17:00:01 +0000 (GMT)
+Received: from [9.39.24.94] (unknown [9.39.24.94])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 24 Dec 2025 17:00:00 +0000 (GMT)
+Message-ID: <42679785-1831-4657-8ab8-c2fc1070a785@linux.ibm.com>
+Date: Wed, 24 Dec 2025 22:30:00 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251222-drm-panels-sony-v2-5-82a87465d163@somainline.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: arch/powerpc/kexec/core.c:217:20: sparse: sparse: incorrect type
+ in assignment (different base types)
+From: Sourabh Jain <sourabhjain@linux.ibm.com>
+To: kernel test robot <lkp@intel.com>, Ben Collins <bcollins@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        shivang upadhyay <shivangu@linux.ibm.com>,
+        "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Hari Bathini <hbathini@linux.ibm.com>
+References: <202512221405.VHPKPjnp-lkp@intel.com>
+ <fb309e19-9c2c-492c-abac-8aa6031f3124@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <fb309e19-9c2c-492c-abac-8aa6031f3124@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=carfb3DM c=1 sm=1 tr=0 ts=694c1c19 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=NEAV23lmAAAA:8
+ a=VnNF1IyMAAAA:8 a=hGzw-44bAAAA:8 a=wMNdZWldAAAA:8 a=eTuzvH426zKNHcTKJZgA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=mmqRlSCDY2ywfjPLJ4af:22
+ a=HvKuF1_PTVFglORKqfwH:22 a=FUarYpL4UH3yWsho8X8J:22
+X-Proofpoint-ORIG-GUID: dYfBXg6tXSDzkPY0HqQg37W7uRbdABbc
+X-Proofpoint-GUID: ZsMHvcXv1oIqgp5ySNp-DYKA0-vzcwRI
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjI0MDE0OSBTYWx0ZWRfX6eyx6vWj3dXL
+ hOcvLimwP3qQj3yYw+VRgBy2rMs4UwCtxy7qpnSURYvwnD/hwtGryhJ7P0om8S5I7th9lZpraMe
+ +4Sg7p+Dz/EmYnKXZqJDQePmaSxi8ZPrwW3TsJChiN/ylDH8Au03JyolgQGEZFGPhcopOjdzuAg
+ VsnSkDmSjU67S0gLPH9/HVIRZGMIW5EROXTwH63SrbTmHzRVUChwLOc0amRCLp9GJKeICYc9ziN
+ y/oZrF6Bx4l4pNSvaJDkiCVVhCEGo2/oxwcIB6DsqmoIGtmylRuCWn/43L9HAAjgxrYUMu1xuv2
+ qvR29zq8D4AdDSjk8hbKu/9M9hGwxqSD+6KB5EAINjG8d/OJ4bx7o1omV26NRMI8TayuSCncse4
+ U4HzvBJPTbNmLbAhLtdZVxHFAhswsw8fsm7M6uK7hnQkFVVw57vOHZjSV595q9hwAO1RQOj/EKU
+ am5fBuhAwJw0sRixUlA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-24_04,2025-12-22_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 bulkscore=0 suspectscore=0 spamscore=0 clxscore=1015
+ malwarescore=0 impostorscore=0 priorityscore=1501 adultscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2512120000 definitions=main-2512240149
 
-Hi Marijn,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on cc3aa43b44bdb43dfbac0fcb51c56594a11338a8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marijn-Suijten/drm-panel-Clean-up-SOFEF00-config-dependencies/20251222-073548
-base:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
-patch link:    https://lore.kernel.org/r/20251222-drm-panels-sony-v2-5-82a87465d163%40somainline.org
-patch subject: [PATCH v2 05/11] drm/panel: Add panel driver for Samsung SOFEF01 DDIC
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20251224/202512242356.EwESE8Qv-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512242356.EwESE8Qv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512242356.EwESE8Qv-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/panel/panel-samsung-sofef01.c:389:20: warning: cast to smaller integer type 'enum panel_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-           ctx->panel_type = (enum panel_type)of_device_get_match_data(dev);
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
 
 
-vim +389 drivers/gpu/drm/panel/panel-samsung-sofef01.c
+On 23/12/25 18:27, Sourabh Jain wrote:
+> +Cc: PowerPC mailing list.
+>
+> and added some comments below.
+>
+> On 22/12/25 12:14, kernel test robot wrote:
+>> tree: 
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 
+>> master
+>> head:   9448598b22c50c8a5bb77a9103e2d49f134c9578
+>> commit: 38c64dfe0af12778953846df5f259e913275cfe5 kexec: Include 
+>> kernel-end even without crashkernel
+>> date:   6 weeks ago
+>> config: powerpc-randconfig-r111-20251222 
+>> (https://download.01.org/0day-ci/archive/20251222/202512221405.VHPKPjnp-lkp@intel.com/config)
+>> compiler: clang version 22.0.0git 
+>> (https://github.com/llvm/llvm-project 
+>> 42b3483ac4987cae1bdb632398e8a3ce2dea6633)
+>> reproduce (this is a W=1 build): 
+>> (https://download.01.org/0day-ci/archive/20251222/202512221405.VHPKPjnp-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new 
+>> version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: 
+>> https://lore.kernel.org/oe-kbuild-all/202512221405.VHPKPjnp-lkp@intel.com/
+>>
+>> sparse warnings: (new ones prefixed by >>)
+>>>> arch/powerpc/kexec/core.c:217:20: sparse: sparse: incorrect type in 
+>>>> assignment (different base types) @@     expected unsigned int 
+>>>> static [addressable] [toplevel] [usertype] kernel_end @@     got 
+>>>> restricted __be32 [usertype] @@
+>>     arch/powerpc/kexec/core.c:217:20: sparse:     expected unsigned 
+>> int static [addressable] [toplevel] [usertype] kernel_end
+>>     arch/powerpc/kexec/core.c:217:20: sparse:     got restricted 
+>> __be32 [usertype]
+>
+> If CONFIG_CRASH_DUMP is enabled (which is not done in config shared by 
+> kernel test robot) sparse warn
+> about other assignments in the same file. And these warnings are not 
+> limited to 32-bit.
+>
+> ../arch/powerpc/kexec/core.c:181:29: sparse: warning: incorrect type 
+> in assignment (different base types)
+> ../arch/powerpc/kexec/core.c:181:29: sparse:    expected unsigned int 
+> static [addressable] [toplevel] [usertype] crashk_base
+> ../arch/powerpc/kexec/core.c:181:29: sparse:    got restricted __be32 
+> [usertype]
+> ../arch/powerpc/kexec/core.c:183:29: sparse: warning: incorrect type 
+> in assignment (different base types)
+> ../arch/powerpc/kexec/core.c:183:29: sparse:    expected unsigned int 
+> static [addressable] [toplevel] [usertype] crashk_size
+> ../arch/powerpc/kexec/core.c:183:29: sparse:    got restricted __be32 
+> [usertype]
+> ../arch/powerpc/kexec/core.c:191:19: sparse: warning: incorrect type 
+> in assignment (different base types)
+> ../arch/powerpc/kexec/core.c:191:19: sparse:    expected unsigned long 
+> long static [addressable] [toplevel] mem_limit
+> ../arch/powerpc/kexec/core.c:191:19: sparse:    got restricted __be32 
+> [usertype]
+> ../arch/powerpc/kexec/core.c:217:20: sparse: warning: incorrect type 
+> in assignment (different base types)
+> ../arch/powerpc/kexec/core.c:217:20: sparse:    expected unsigned int 
+> static [addressable] [toplevel] [usertype] kernel_end
+> ../arch/powerpc/kexec/core.c:217:20: sparse:    got restricted __be32 
+> [usertype]
+>   CHECK   ../arch/powerpc/kexec/core_32.c
+>
+> To resolve these warnings:
+>
+> Should we use __force tpyecast and silence the warnings?
+> for example:
+> kernel_end = (__force phys_addr_t) cpu_to_be_ulong(__pa(_end));
+>
+> Or
+>
+> Use proper data types __be<32|64> and duplicated the definition and 
+> assignment? seems like bit too much.
 
-   357	
-   358	static int samsung_sofef01_m_probe(struct mipi_dsi_device *dsi)
-   359	{
-   360		const struct backlight_properties props = {
-   361			.type = BACKLIGHT_RAW,
-   362			.brightness = 100,
-   363			.max_brightness = 1023,
-   364		};
-   365		struct device *dev = &dsi->dev;
-   366		struct samsung_sofef01_m *ctx;
-   367		int ret;
-   368	
-   369		ctx = devm_drm_panel_alloc(dev, struct samsung_sofef01_m, panel,
-   370					   &samsung_sofef01_m_panel_funcs,
-   371					   DRM_MODE_CONNECTOR_DSI);
-   372		if (IS_ERR(ctx))
-   373			return PTR_ERR(ctx);
-   374	
-   375		ret = devm_regulator_bulk_get_const(
-   376			dev,
-   377			ARRAY_SIZE(samsung_sofef01_m_supplies),
-   378			samsung_sofef01_m_supplies,
-   379			&ctx->supplies);
-   380		if (ret < 0)
-   381			return dev_err_probe(dev, ret, "Failed to get regulators\n");
-   382	
-   383		ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-   384		if (IS_ERR(ctx->reset_gpio))
-   385			return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-   386					     "Failed to get reset-gpios\n");
-   387	
-   388		ctx->dsi = dsi;
- > 389		ctx->panel_type = (enum panel_type)of_device_get_match_data(dev);
-   390		if (ctx->panel_type == PANEL_TYPE_TC01)
-   391			ctx->mode = &samsung_sofef01_m_61_142_mode;
-   392		else if (ctx->panel_type == PANEL_TYPE_DK01)
-   393			ctx->mode = &samsung_sofef01_m_61_141_mode;
-   394		else
-   395			ctx->mode = &samsung_sofef01_m_60_139_mode;
-   396		mipi_dsi_set_drvdata(dsi, ctx);
-   397	
-   398		dsi->lanes = 4;
-   399		dsi->format = MIPI_DSI_FMT_RGB888;
-   400		dsi->mode_flags = MIPI_DSI_CLOCK_NON_CONTINUOUS;
-   401	
-   402		ctx->panel.prepare_prev_first = true;
-   403	
-   404		ctx->panel.backlight = devm_backlight_device_register(
-   405			dev, dev_name(dev), dev, dsi,
-   406			&samsung_sofef01_m_bl_ops,
-   407			&props);
-   408		if (IS_ERR(ctx->panel.backlight))
-   409			return dev_err_probe(dev, PTR_ERR(ctx->panel.backlight),
-   410					     "Failed to create backlight\n");
-   411	
-   412		drm_panel_add(&ctx->panel);
-   413	
-   414		ret = mipi_dsi_attach(dsi);
-   415		if (ret < 0) {
-   416			dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-   417			drm_panel_remove(&ctx->panel);
-   418			return ret;
-   419		}
-   420	
-   421		return 0;
-   422	}
-   423	
+Found a better way to define variables as __be<32|64> without duplication,
+so I have posted a fix:
+https://lore.kernel.org/all/20251224151257.28672-1-sourabhjain@linux.ibm.com/
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+- Sourabh Jain
+
+
+>
+> Or
+>
+> Do we have better way to handle these warnings? If yes, please share.
+>
+> - Sourabh Jain
+>
+>>
+>> vim +217 arch/powerpc/kexec/core.c
+>>
+>> 6f29c3298b1821 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-17  203
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  204  static int __init kexec_setup(void)
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  205  {
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  206      struct device_node *node;
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  207
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  208      node = of_find_node_by_path("/chosen");
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  209      if (!node)
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  210          return -ENOENT;
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  211
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  212      /* remove any stale properties so ours can be 
+>> found */
+>> 38c64dfe0af127 arch/powerpc/kexec/core.c           Ben Collins     
+>> 2025-04-21  213      of_remove_property(node, of_find_property(node, 
+>> kernel_end_prop.name,
+>> 38c64dfe0af127 arch/powerpc/kexec/core.c           Ben Collins     
+>> 2025-04-21  214                            NULL));
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  215
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  216      /* information needed by userspace when using 
+>> default_machine_kexec */
+>> ea961a828fe725 arch/powerpc/kernel/machine_kexec.c Anton Blanchard 
+>> 2014-01-22 @217      kernel_end = cpu_to_be_ulong(__pa(_end));
+>> 79d1c712958f94 arch/powerpc/kernel/machine_kexec.c Nathan Fontenot 
+>> 2012-10-02  218      of_add_property(node, &kernel_end_prop);
+>> 2e8e4f5b80e101 arch/powerpc/kernel/machine_kexec.c Dale Farnsworth 
+>> 2008-12-16  219
+>>
+>> :::::: The code at line 217 was first introduced by commit
+>> :::::: ea961a828fe7250e954f086d74d9323c3d44c3e4 powerpc: Fix endian 
+>> issues in kexec and crash dump code
+>>
+>> :::::: TO: Anton Blanchard <anton@samba.org>
+>> :::::: CC: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+>>
+>
+>
+
