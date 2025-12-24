@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016C21D5CEA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 03:05:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8672E9EDA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 03:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766545559; cv=none; b=KYfjFDIj+JFU4w5xKFDFv3MvQKtxihF7qQg3R1TwVJJTEPeh+f4PgO+jusoKnwuY7QZAz5/s7NE/igH8LTyHPYdV1XrsiLmNL2+XBa0do6Lpg9dIlqfd7zTUIC1d4rl4rbfRyXiuBPg1w9042tjaGRVKqDbDj7UO2D5Cpn2r/+0=
+	t=1766546862; cv=none; b=ncGn08hRjyg224vqreqSDAXYDpkgBJ7MrhFJFeoG1677pYh4drlPaw19EQh5vzLlYe7D5ilhrFKyfgnfy3IcZx40u5cs0Vnq6mLmKEljynNof+EXKn/GRjNwKZ9qINX1jfqMEu4gxyuR9D7VGAZv9uqpqet4CaMcw2cbxfP4i/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766545559; c=relaxed/simple;
-	bh=uuuatFyh3bK42ZXZ7w27d9BQNCVhM+cHsZMBJztR+eg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rnnzJoQLG2+Q95dDj+SONmm+7K8M0mAvtuinujxKCL+OcIOeRoMC6ha14NWctqOut+zSoHs32vz81KvzMNi51Z35m6CMRLMAEUwAfMtMDm/buvT/KstIEZM3dYeHiplmyizWgKPQX8PIM3A5xlukixbJbCi/QC2nGx0UuzC+UEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oIPAsH0D; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1766546862; c=relaxed/simple;
+	bh=++6OIyeAiqtOA4o71irTzZsHHRWPkJJxib8qN6tNsMY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EZ04kTx+enFXXswx5yrDrJY7H8PzCMy3+s5P1hEjKHiZp23Owa3zBqGj7UwFYAD4IpB/4kxeqMzUXunnAyBgLKh3SkMyPoYHiVbp2ExZgxpDOGOrzhtRHFLzkgIYSZ11qVauZjAZF1z99e66IjGYR1Gy8Kio/L3ONCSQhmjisLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xa0TIaAN; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oIPAsH0D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xa0TIaAN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766545559; x=1798081559;
+  t=1766546860; x=1798082860;
   h=date:from:to:cc:subject:message-id;
-  bh=uuuatFyh3bK42ZXZ7w27d9BQNCVhM+cHsZMBJztR+eg=;
-  b=oIPAsH0DhY6xvvSTLXslAqH7BUi7oIsfyx+TRhq0lwjROYGqHOSBD3Sa
-   56C6SGj2ZsT+GTsmJAho1Ib76/QrIg/B7Mhwb4TGy+YwI6vL93LcSgxFe
-   hzpXHk/ccrTl9254Xv9abcAOI5h1Uy9yGSqt/B2DUZJfcGNwPyl7XwjLp
-   mj0hePYiTv9PzS1VOAXa9IlQ9OTqi6rTZ6PlK8WJTZJiLrWEjrqxo8Xrh
-   wyc25mIhrdCe47cULKoxsyK/7+J9hsPYUamOONrQs3WzkWcG0hwrrj1Xk
-   jOGYmQHP5Gavy/gmnMnoAxUIdn4+mFiVA6nRnDDkV2wwOpIxvpJceU0c0
+  bh=++6OIyeAiqtOA4o71irTzZsHHRWPkJJxib8qN6tNsMY=;
+  b=Xa0TIaANUBH9f7QcxQ4DqSJCQ5XjFk3W39VP+8xd9ddrZSg/54nt3tFQ
+   fwx3O3HkPf7w2vpMa/G8OykFip//G+v3oTW6UYyRPpW89rOZC1Zw+Rrt0
+   oI3x54OY8JzsSDkL7yWzBUBJpKyovN1pn5uIe/v9pgxT1aeovJTQYXqVI
+   VjrC4vFeMOiysAsdLhhUJtBWt0SUYDTaDc+2l2v7VJGG9uWbrn24lkS38
+   Vo0nMg+lcFiJVS+6kEYcnPQ9Mz7+sTO+plPos4ld8XR/kQvyDyZV+wc9V
+   q5DpXVjaxGS995o8GR0U4mETEiQT5JeC2MfquyxZU7cgcXvBggHZK3RV1
    w==;
-X-CSE-ConnectionGUID: e2y6+dauSfCFsbxIpqEMUQ==
-X-CSE-MsgGUID: ioUn5ugyTQ6TMdHMtukVhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="68147178"
+X-CSE-ConnectionGUID: iA7LXJGzT3amA+GUgXyHWg==
+X-CSE-MsgGUID: o/ucfGlTTWipBwRkQhEVow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="67585960"
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="68147178"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 19:05:58 -0800
-X-CSE-ConnectionGUID: 59sUSixdQDaVpSjRKV+EsQ==
-X-CSE-MsgGUID: MWgeZCTQTHGExptwUT/Lrg==
+   d="scan'208";a="67585960"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 19:27:38 -0800
+X-CSE-ConnectionGUID: B7ErNpeKTsatXaDTARsmkw==
+X-CSE-MsgGUID: u2S+4JnXQKu3V/mIuklHeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="199955702"
+   d="scan'208";a="204993892"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 23 Dec 2025 19:05:56 -0800
+  by orviesa005.jf.intel.com with ESMTP; 23 Dec 2025 19:27:37 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYFC8-000000002bx-2yFF;
-	Wed, 24 Dec 2025 03:05:49 +0000
-Date: Wed, 24 Dec 2025 11:04:53 +0800
+	id 1vYFXC-000000002d9-3GJZ;
+	Wed, 24 Dec 2025 03:27:34 +0000
+Date: Wed, 24 Dec 2025 11:26:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Leon Romanovsky <leonro@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 1/1]
- arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:57:41: error: initializer
- element is not constant
-Message-ID: <202512241032.l0LWdACh-lkp@intel.com>
+Subject: [leon-rdma:dmabuf-revoke-v1 22/22]
+ drivers/iommu/iommufd/selftest.c:2056:38: warning: variable 'priv' set but
+ not used
+Message-ID: <202512241134.suNLfOUI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,57 +60,64 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Quentin,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   48ed03a80ad49e3648c77d8c2c1ca10e706d6215
-commit: f4c9f74c6bf846c2a77b25a8d93509e9ea00192a [1/1] ANDROID: BACKPORT: KVM: arm64: Zero protected guest pages on teardown
-config: arm64-randconfig-001-20251224 (https://download.01.org/0day-ci/archive/20251224/202512241032.l0LWdACh-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241032.l0LWdACh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dmabuf-revoke-v1
+head:   aabf78c22b38ad7fb45937e47fd9c97f7dc7b592
+commit: aabf78c22b38ad7fb45937e47fd9c97f7dc7b592 [22/22] iommufd/selftest: Reuse dma-buf revoke semantics
+config: arc-allmodconfig (https://download.01.org/0day-ci/archive/20251224/202512241134.suNLfOUI-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241134.suNLfOUI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512241032.l0LWdACh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512241134.suNLfOUI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:29:0:
->> arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:57:41: error: initializer element is not constant
-    static const pkvm_id pkvm_host_poison = pkvm_hyp_id + 1;
-                                            ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:57:22: warning: 'pkvm_host_poison' defined but not used [-Wunused-const-variable=]
-    static const pkvm_id pkvm_host_poison = pkvm_hyp_id + 1;
-                         ^~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:55:22: warning: 'pkvm_host_id' defined but not used [-Wunused-const-variable=]
-    static const pkvm_id pkvm_host_id = 0;
-                         ^~~~~~~~~~~~
---
-   In file included from arch/arm64/kvm/hyp/include/nvhe/iommu.h:8:0,
-                    from arch/arm64/kvm/hyp/nvhe/mem_protect.c:19:
->> arch/arm64/kvm/hyp/include/nvhe/mem_protect.h:57:41: error: initializer element is not constant
-    static const pkvm_id pkvm_host_poison = pkvm_hyp_id + 1;
-                                            ^~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/mem_protect.c: In function '__pkvm_host_reclaim_page':
-   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1804:2: error: case label does not reduce to an integer constant
-     case pkvm_host_id:
-     ^~~~
-   arch/arm64/kvm/hyp/nvhe/mem_protect.c:1807:2: error: case label does not reduce to an integer constant
-     case pkvm_host_poison:
-     ^~~~
+   drivers/iommu/iommufd/selftest.c: In function 'iommufd_test_dmabuf_revoke':
+>> drivers/iommu/iommufd/selftest.c:2056:38: warning: variable 'priv' set but not used [-Wunused-but-set-variable]
+    2056 |         struct iommufd_test_dma_buf *priv;
+         |                                      ^~~~
 
 
-vim +57 arch/arm64/kvm/hyp/include/nvhe/mem_protect.h
+vim +/priv +2056 drivers/iommu/iommufd/selftest.c
 
-    53	
-    54	typedef u32 pkvm_id;
-    55	static const pkvm_id pkvm_host_id	= 0;
-    56	static const pkvm_id pkvm_hyp_id	= (1 << 16);
-  > 57	static const pkvm_id pkvm_host_poison	= pkvm_hyp_id + 1;
-    58	
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2052  
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2053  static int iommufd_test_dmabuf_revoke(struct iommufd_ucmd *ucmd, int fd,
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2054  				      bool revoked)
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2055  {
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21 @2056  	struct iommufd_test_dma_buf *priv;
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2057  	struct dma_buf *dmabuf;
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2058  	int rc = 0;
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2059  
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2060  	dmabuf = dma_buf_get(fd);
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2061  	if (IS_ERR(dmabuf))
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2062  		return PTR_ERR(dmabuf);
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2063  
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2064  	if (dmabuf->ops != &iommufd_test_dmabuf_ops) {
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2065  		rc = -EOPNOTSUPP;
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2066  		goto err_put;
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2067  	}
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2068  
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2069  	priv = dmabuf->priv;
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2070  	dma_resv_lock(dmabuf->resv, NULL);
+aabf78c22b38ad Leon Romanovsky 2025-12-23  2071  	if (revoked)
+aabf78c22b38ad Leon Romanovsky 2025-12-23  2072  		dma_buf_invalidate(dmabuf);
+aabf78c22b38ad Leon Romanovsky 2025-12-23  2073  	else
+aabf78c22b38ad Leon Romanovsky 2025-12-23  2074  		dma_buf_mark_valid(dmabuf);
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2075  	dma_resv_unlock(dmabuf->resv);
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2076  
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2077  err_put:
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2078  	dma_buf_put(dmabuf);
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2079  	return rc;
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2080  }
+d2041f1f11dd99 Jason Gunthorpe 2025-11-21  2081  
+
+:::::: The code at line 2056 was first introduced by commit
+:::::: d2041f1f11dd99076010841a86c4d02d04650814 iommufd/selftest: Add some tests for the dmabuf flow
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 -- 
 0-DAY CI Kernel Test Service
