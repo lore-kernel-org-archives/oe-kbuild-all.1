@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9549A32D0C9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 07:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBDA1A00F0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 08:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766561574; cv=none; b=F5lvG+JhxbWqNXVvTPRhem+txyTbWu8QQuXHSKpzf5eg+5Lt0pQn22xuxEPIkza03gLeZZZc26z5NARZkmrH/ww96nXHA92AiFNMZh/RU5T513bkP00YNcUL4qbl8xs3DlMpq7rbsqWWDS1xQDGpp0c2EVEkPzMjn8OT9igv+NQ=
+	t=1766566615; cv=none; b=JH3qekxSpGf4DCkxLjWEwYujrF7YekPy3N+2iGAWtGw+gYpJwrLsKkTAyh4AtW2OF03AM4HB/RYmMlymrTMiA/TuVE14TtemRxJzk4O7qWLPhKh1/P7pbz9daRGYJ8xElhTC1kfEAUD/ubPLdVSbr/j8iHnyGSHoEarjRBAe+9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766561574; c=relaxed/simple;
-	bh=e5zKvCRmiKFKGGpgr3Rm0+vBTS2dihD2bRWzMZ5weG8=;
+	s=arc-20240116; t=1766566615; c=relaxed/simple;
+	bh=so2owS4XLQkiVBZDYTkDDlfgk8WuRWP+JqK6hne0N2M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=URnAz/dW0REo5vnv0uYX223k0cpcpErGpcV8JhkeI5+5pJMrba3652D+8dPx+pl/0zb4+Itaw+PJ5JkAsG0e2kC/DJhJ6t0HvTyKkxOj/5hnsCi6EDJfGij7c1fOUjQUqksFBeAg0IxNvJqpBPGVGMO9f2tnSlQT5hVrOzTqV2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4i630Uu; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=qiE4YzGjISDQmvcMesSW+lI1RIHB02ZQJYyo4pKaUwtNWVIooivmHMIyFKK9lu40iDVzVZxjanhvmQgVYcAF1yLIzizqOM9WCIfKhUsG++vSWmZAC5qBe/xKqPepfMI7hKVIMk8vL6ecNOULJrR3U+Ka9jH06OnmYEeQtwmiQMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZLvLu8pj; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4i630Uu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZLvLu8pj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766561573; x=1798097573;
+  t=1766566613; x=1798102613;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e5zKvCRmiKFKGGpgr3Rm0+vBTS2dihD2bRWzMZ5weG8=;
-  b=m4i630Uu24hklRpkPEG2fO+t07ZaHincZ3I3iWW5T6UYQMxx2Xk1vh98
-   ilE8YL1vo68M+tVjhTD6kSU2cGrlNxElK7MUgkfH+/NvMjmOLFwy49EiO
-   8cMU83wU26JH6deY5zYUjmrY36gCYxr5/kj2v4QUkzkrSPASct0s2Vi20
-   vdFvcnUEVzTx7hDPBIkJth97zbc64qIFIoGok0vFPcl9Szgp8dXYz8afA
-   Rfr3I/Cdj8o6Pj61FCZh4ehB4u7EZiYuNbjiu1ZOe83/K90yWonSlkJy9
-   WB/xAx4Mbd8/v/nqCmAaub+t8KaLP9cZyQRJv8uApAGopbf54eFTktiQp
-   g==;
-X-CSE-ConnectionGUID: tILi6Jl9SdyhYCvBZIfpIQ==
-X-CSE-MsgGUID: I2BHderXQIiHYmrwulGisg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="85986951"
+  bh=so2owS4XLQkiVBZDYTkDDlfgk8WuRWP+JqK6hne0N2M=;
+  b=ZLvLu8pj6PG+GuXRZSvBhlH5n8bW67YNduuHJk1dN5AXr00h4POnMWIZ
+   C7i+MqYpvQQRgyYap/W9vWIeFSa+G3p5NjLVnJEnpDKRMDLDZCj9owI+B
+   eQoFxn09rjheKGnqlSpY35H6hMdQdRIb3PM5WS+IuDZEujKwoA4SbcIRy
+   vJXnUGe16O9Nhx3suXz840GjqT6Zg70G3mxcG1AmBTuRadLGF0zRd5HSk
+   w9tww7XIMaeEFmn3BA/csmW24Tt9R+oCgusHKYmgqgZUKrEcM3zavd7LY
+   vIh/DfKpoIV30XsIaLkbUn5/1eX32+4MY9Vi4iL3KrEL80NMj3bgN/qu4
+   w==;
+X-CSE-ConnectionGUID: h1QFr4p+QeKA+hF0//JtYg==
+X-CSE-MsgGUID: y4ppPiQUSjqtVr8YADY8FA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79770070"
 X-IronPort-AV: E=Sophos;i="6.21,173,1763452800"; 
-   d="scan'208";a="85986951"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 23:32:52 -0800
-X-CSE-ConnectionGUID: t9ml+a5hR0anBqkamrPwmQ==
-X-CSE-MsgGUID: Kpu6J8JTTQeMeNo506kgPA==
+   d="scan'208";a="79770070"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 00:56:52 -0800
+X-CSE-ConnectionGUID: KU1KZ4M9QaacIl/IbF+1Iw==
+X-CSE-MsgGUID: E2drWKrRSKyTm4Twe/A6Mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,173,1763452800"; 
-   d="scan'208";a="204102815"
+   d="scan'208";a="199636358"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 23 Dec 2025 23:32:51 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 24 Dec 2025 00:56:51 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYJMW-000000006AE-3CLG;
-	Wed, 24 Dec 2025 07:32:48 +0000
-Date: Wed, 24 Dec 2025 08:32:21 +0100
+	id 1vYKfp-000000006B2-1Hwy;
+	Wed, 24 Dec 2025 08:56:49 +0000
+Date: Wed, 24 Dec 2025 09:56:43 +0100
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 2/2] Warning:
- drivers/dma-buf/dma-buf.c:405 function parameter 'name' not described in
- 'dma_buf_set_name'
-Message-ID: <202512240848.6VkmZH4a-lkp@intel.com>
+Subject: [android-common:android16-6.12 2/2]
+ Documentation/devicetree/bindings/firmware/gunyah-cma-mem.yaml: ignoring,
+ error parsing file
+Message-ID: <202512240916.s1OpFy3F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,21 +63,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   6832dd96d0d16d34251480faa62e76d84c661c2d
-commit: 341d2ddc74eb2989062a712d7853ed359232f47d [2/2] ANDROID: dma-buf: support users to change dma_buf.name
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251224/202512240848.6VkmZH4a-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240848.6VkmZH4a-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   5453f12f6799d8f600197663a7bf7039c2e0dd7e
+commit: f51d1788938f74dab42d10114f59a836b44d1823 [2/2] ANDROID: dt-bindings: CMA support for Virtual Machines on Gunyah
+config: arm64-randconfig-2052-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240916.s1OpFy3F-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240916.s1OpFy3F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512240848.6VkmZH4a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512240916.s1OpFy3F-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/dma-buf/dma-buf.c:405 function parameter 'name' not described in 'dma_buf_set_name'
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/firmware/gunyah-cma-mem.yaml: ignoring, error parsing file
+   Traceback (most recent call last):
+     File "/usr/local/bin/dt-mk-schema", line 8, in <module>
+       sys.exit(main())
+                ~~~~^^
+     File "/usr/local/lib/python3.13/dist-packages/dtschema/mk_schema.py", line 28, in main
+       schemas = dtschema.DTValidator(args.schemas).schemas
+                 ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+     File "/usr/local/lib/python3.13/dist-packages/dtschema/validator.py", line 399, in __init__
+       self.make_property_type_cache()
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
 
 -- 
 0-DAY CI Kernel Test Service
