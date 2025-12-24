@@ -1,258 +1,337 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11020084.outbound.protection.outlook.com [52.101.69.84])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF872298991
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 04:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766551450; cv=fail; b=MiH0glCTKWpU5MTcUMCK3e/95kIXJhGC8XzH09ogSscDjXGop7STp8XUYichzvOkeE/sumaj5TT5IgUBOg34nUQVbVK+Fh7Clz66h1Q/e8ruYcnfcnN8+/KErIJg+/z6h5ydoIfuqlSnjOFKpN9G7MZntcsQsTNlZnY4bOupOYA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766551450; c=relaxed/simple;
-	bh=vSGJvGyEuTSbvZwMDaKzP2GkGtTyXus9wQ6FK/Ha2K0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mGxNZ1RQdnbm6HUvm6Q2nHH7YiDZouhNtJIWuAJJdR6Rk1v12U1sKMl1wxXyc2xCmylT+guaVpMemMNku5Q6ZTTDzge84byr09SH9EGO7/7B5ivk0mU26kTkuwebnQewZgAuQnQTpI6rWSFmhIYjjYg2hUp7pi3yNtzyxT02q1E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com; spf=pass smtp.mailfrom=virtuozzo.com; dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b=R49GQnjM; arc=fail smtp.client-ip=52.101.69.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virtuozzo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virtuozzo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBF8242D88
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 04:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766551493; cv=none; b=fcJHxfv7Y9RKiZdpO/SkkQTmlNhz6qe2q8leTaw2AOElrt0qh9Cq+O4YfHPFF0kEmCxACDiMWp47f62zshH4xGN2G2dyIx/sNs8g7BlwoMTVLu2GWZXbo3Q+o4RtnX8+ecMVPaHtVGf0P7//tcs4ic4ApGWNjHWjBa8/l+ZbXc8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766551493; c=relaxed/simple;
+	bh=eWC9VMalkeM2+UuxIieLEuhSKFlIVgwh79FdWZSTaAI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RNCrLcACGwrx/q46PlfHOX72rEmW2/NmGfVHTXCE32EoIks2jS9sN03iup3IC9reX6kzF6n8c4ovihonIYOmIMZRiqOdWr7xMVMX9y2O24LXvU3dfHcjvLV0x9nAlj9x/Mp9ToWYnmZXaApkZPn/BTHzujibr4bFLYKfKHeaI64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ab39iWdg; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=virtuozzo.com header.i=@virtuozzo.com header.b="R49GQnjM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a3RKcqdFEYZnCv+TsN8lPn5GqmhT2Bz2uAvk2etekgvEyQGtQf6VGhTGAlK8YG3+MEjl0el6s2dNec67drJlLJr7VTTaY5v4nEmhgLOLmQ71asUkNOqDrzZYkDOUQEw0+DfDrFEs1tOMTuG7lJDL8+e6tzLuWyN9Ljc0gDVGsb3XGMudyLA3k+hj7wg8aZSmV0DQUG76t5z2I6xNMKvlS+O3kdEGfPzlg9goRrNQn9+Rctbr2Ri8zgT/3WUDSMnadCboBxxVj+rtLniTP24Hp5XNWZSdWmJyCBX46F8UgqtjwGRZAm1oJo2rSnsyTvo0BHd7rL3OTCfgwkRO57CeCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lZu3V7Wi9M5QE77FeNXz+Jx6E9LtfiiSLDY5LzC4wbE=;
- b=RF6G1nV+ErJYLRzfwqnyDuxDJrYHAkMA6rkZucWDiFpv913kay+zCKzJdeNZzcoCZLvrUuzl/DSkzLUZB5Bzp1WJx+YE72JQ0H9XiqpL6J7IHfP2UOR86AxWca2fFO2dNRBJTo0RGAcAHK3ng6aqQOhRsj8dcDGaHm4gt6XKNGOUzA+PTwviROk517YUfYrWpt3aMVxGllhZ4Okoi8AcWq4rNXt7It2bbbcIgGvHDkKvudlmIEUj7xvzaWCrDLQPHbNu9SqTYcPWzBKdmZwVjArf4AlyOatTbnV54MXgeJjBR/PGI38aVLuHGqvWLPTtFQJUK8tH6r4Or1OyqSLokw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lZu3V7Wi9M5QE77FeNXz+Jx6E9LtfiiSLDY5LzC4wbE=;
- b=R49GQnjMvaVjMeh5S3og2kDaZil//kuoFbJP/7vSutRiw4UrUroMNOz2y7p2VzpZoA6m9noYtaSyy09IDUq+QTf5+B2qSyHV6TBPekISoJomFG7ZllQS7lef/9apLyt6+HjmZhhTzJBo9cJ6uwj/MLMywGIz0jKsTo1vWmRoTGZyjGLML3aY/gnLT0rpromijghbYV4yxLALPXbqwPJDwcko2jFD0zewJC+DvnK3Ow+Gkhd7LV0gNNhlNd2R6iAN2HWdYIaow915kX/kCWyEBVRombZkjSvp8j84BZcYHHOlHgU4gVa+nxV7taqyuC6Axpzq1aaeWuqka3WLX3ovRw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from DU0PR08MB9003.eurprd08.prod.outlook.com (2603:10a6:10:471::13)
- by PA4PR08MB7410.eurprd08.prod.outlook.com (2603:10a6:102:2a2::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.11; Wed, 24 Dec
- 2025 04:44:05 +0000
-Received: from DU0PR08MB9003.eurprd08.prod.outlook.com
- ([fe80::3470:51d7:36e4:36d2]) by DU0PR08MB9003.eurprd08.prod.outlook.com
- ([fe80::3470:51d7:36e4:36d2%4]) with mapi id 15.20.9434.009; Wed, 24 Dec 2025
- 04:44:05 +0000
-Message-ID: <1c21533e-347e-4faa-b6d3-385ec0edf0cd@virtuozzo.com>
-Date: Wed, 24 Dec 2025 12:43:24 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] cgroup-v2/freezer: Print information about
- unfreezable process
-To: kernel test robot <lkp@intel.com>, Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Johannes Weiner <hannes@cmpxchg.org>,
- =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, cgroups@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251223102124.738818-4-ptikhomirov@virtuozzo.com>
- <202512240409.06R0khaZ-lkp@intel.com>
-Content-Language: en-US
-From: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
-In-Reply-To: <202512240409.06R0khaZ-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: KL1PR01CA0023.apcprd01.prod.exchangelabs.com
- (2603:1096:820::35) To DU0PR08MB9003.eurprd08.prod.outlook.com
- (2603:10a6:10:471::13)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ab39iWdg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766551491; x=1798087491;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eWC9VMalkeM2+UuxIieLEuhSKFlIVgwh79FdWZSTaAI=;
+  b=Ab39iWdgbRNT4I8Rp1xXt/ItfHVadixHg37uFFQ5xib6CkXcgWcD23q/
+   W5/HMWSi2NIbtpXnfd54IiVZWf/KtIVKOB8mviYVFnOXV+mnTJ2er7/TL
+   C4W8FC2ieen9W2a96U9172gP7JZsslMRCWo1aUBVeLrSEdIKrnPjNVLbU
+   1mDuJkYkEzsVBC9Ds2tbWDJkjxftY5CpvgxxGOE5CXsEz/csEYcywqzWJ
+   x7z1boiQ1VL4pP5jogVr1oQwbkbiax08ntpwW6myd5pvy7aZ2YDw1LjS4
+   ttQL5khkFgFH/oY3+hjpzBywRKdXJaLte0L5yXJOggE2zwvNT0p4W5L5w
+   Q==;
+X-CSE-ConnectionGUID: 5epJa2UdQ1S4co8S8P9HDw==
+X-CSE-MsgGUID: STQVpMSdT0aH+XOGZrGJUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79756327"
+X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
+   d="scan'208";a="79756327"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 20:44:50 -0800
+X-CSE-ConnectionGUID: Jw/yPRqTSkmlbNomdzN6SQ==
+X-CSE-MsgGUID: CLqwHGgiRMKTGFkEG1wl4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
+   d="scan'208";a="204478077"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 23 Dec 2025 20:44:50 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vYGju-0000000067E-3QpR;
+	Wed, 24 Dec 2025 04:44:46 +0000
+Date: Wed, 24 Dec 2025 05:44:36 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 2/2]
+ tools/testing/selftests/vfio/lib/vfio_pci_device.c:249:7: warning:
+ comparison of distinct pointer types ('typeof (iova) *' (aka 'unsigned long
+ long *') and 'typeof (size - 1) *' (aka 'unsigned int *'))
+Message-ID: <202512240509.rQR5v4SQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR08MB9003:EE_|PA4PR08MB7410:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6a8a39b5-0011-42ca-156e-08de42a71129
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|10070799003|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NC9IQ3FZM3BSSGptb2JjRytpSmdWc0Z1ZExicjBCTXJ4Y2Vrc2h1emVOcXhJ?=
- =?utf-8?B?MGZlYnNManVTaEpMaC8yVm5tRmVaUVBnSko4TGo5NHdjUHVhcVpMcjBsTWll?=
- =?utf-8?B?eUZrSlNNRUJ4ejJhaHFEQytHSzg3MXRsNWdNQzkzRnc1clkrU1c0RHhqc3c2?=
- =?utf-8?B?MFQwVWJudklXWVZRbzV1czBGSUE5U1pIODRPSXYxSVBBS3M3c21VMERMaG9J?=
- =?utf-8?B?VU5wWEoremd1bVE0VE5hb3A5QWRodFJSaVpobnBicHBubWl1aHNJZHZGT2FP?=
- =?utf-8?B?cU9wcnlRTEMxK1BTY3o2ZjZTMHFTOW9TREUxd3hvZW1IRkc0bWQ0ajFKZ2xP?=
- =?utf-8?B?VHFVNVFUbVNZckVjbGc4QUpwWnVHdjVLTkQyb2VrNlZld1poczZ4K29GcWxs?=
- =?utf-8?B?RUFJNXRpRUhBSkxERG52VlF1NnZoZjVDRGUzNjVGUk5saUo5ZUQvaWpGaklE?=
- =?utf-8?B?azBLUVI5R1dRaEd5K1NVcW5QeW9LalVSSDUvbk8yeDhLeEp3MmtaNGE4Vm5k?=
- =?utf-8?B?TVh1ZGdZU1FPZk5ZeXFMYjBrNVpOMnRCMUhWUzNCZmo1MWJ6NWU3RDdNQkNm?=
- =?utf-8?B?ZmRHMTVKYm1ZckhWMDg0Zk1KMjNtc0FCeHU4SmxnTFNaVDBqWE96MkFxVzBX?=
- =?utf-8?B?dGIxK1pRaFVZd2kyZVpzMkwzMDR3Q0IvRUxYM1k4L0hwRGNMZTNXd1ZZWHFp?=
- =?utf-8?B?ZXdKYjRoZzg0bi84eUtFaWpod1BuazFEK3p0a0tjWE9vWXlQTG5pYnBxaXpu?=
- =?utf-8?B?dVZudzQwNXdVeW9heE9laDVIOWo4ZGdydStnbkRNSHpzU0xSOHE4Mms0K1Uz?=
- =?utf-8?B?Q0E0NldGdncyVWpmR2F1RkJTSENEakl3TVUzbVlFZURINzZ2UE1qb2hUdGdx?=
- =?utf-8?B?SFVGMFpoUkhpY3c5SVpzVXVGY0hJUTZTbWMvWWROalVaTWpUVUNuOHUyM0x0?=
- =?utf-8?B?RlFONWo3WlJvc285VFd4VDVkVHRiNzlJeXF5SjBHQk93eXFZZjhtekNaa08v?=
- =?utf-8?B?MXNwYXJLSmdGQVZTNk1Lb1dPVjhUZVF0Smladjh4eEYydVA1a09TOEN6STFi?=
- =?utf-8?B?QVdyUHJiT1JUYnV0ak9tb2ZxUjFHeUJuZUhtdzhURmZ5MVU5cUVtWklFOVNX?=
- =?utf-8?B?Qnh6MjhmOEllQVNHOGF0bENwT1dFNE1RZU1vaklsUE5seERIWkxIakRscHl2?=
- =?utf-8?B?RVY2QVBXWWMxR2U0Q0ltK0ZsUkJ2MVcrZWh6YW9uSzh5aDAzNnBBTklJTzNP?=
- =?utf-8?B?MnJGV1htSm5Td1luMHRRN0k0aTIvL3l5dUZPTFJnc3RycExkbzA1bzVleFBh?=
- =?utf-8?B?c3RJNWMvZDdidmhPVVRJY1I0YmM2TTVoRmZpcWM2Q3JJRHZkV2lyaXZDTG9q?=
- =?utf-8?B?Tjh4aTRRVEs4ZEgvdUNQSVVQZDN5UWFHMjVmSWlDR1F6T1JlUGpiSkpiYUtO?=
- =?utf-8?B?VFJOb2xSSHE2NnRPVXN2Nnd1dVZUSUlPVnRnYmhMNk5rNHFLYURwMGdDZytY?=
- =?utf-8?B?dWxUUXFHYUdDUVErRmdqSStkanNDaGJ0OVFqK01oUWIvRGt0VFpyMFNDZy9r?=
- =?utf-8?B?VTVRMkw1QS91Z2tQQXUrcHVLaTRHQ1dRM01jQWlObmdDQUx4UnpyZTlld215?=
- =?utf-8?B?SDNMR1EvSVZXYjVVVnBiWGJwanpJRXBja21ESGppTjhVTEVKck03cW03eGxk?=
- =?utf-8?B?V2R6YVFkUzJGVU1taVh4S3lsZzQrQkRxbnBBNGNaNWgyV3BqekcyNGtYK2Rh?=
- =?utf-8?B?bkhGWDR4Z096OFdTMWNIWlU0VzdrNG9xTDNvZUVGMWtsVW9HL21NOWRmNXhY?=
- =?utf-8?B?K0hKaFdGWmJJeDdZcG9oem8wajFiNkIxSTNjV3BBTUZYSG5ad0tQdXJzMXR1?=
- =?utf-8?B?RDZodFVHakZ2TE9MemNhc09PU0JiV0lUNm9JL3BsSGlxNUtLdWlUQVozZGxa?=
- =?utf-8?B?bW1tYTEwcWNZS3NXZFFtTjkxOCtyVjc0WktwSnRVSzBrdnh5THRMeVVhM0lt?=
- =?utf-8?B?UVA5dkt5R0dnPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9003.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(10070799003)(1800799024)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Mmk0RDFtQUpUYlk0bmY4K3NEdXk5L0Jldkh2bElZeUhXelVPWjhvdVhTUmxY?=
- =?utf-8?B?QWdONDk5bTVYL0JWNG1mN3hiZWd2R0p6cGJyZDhlYmZWRExiY1FjZHZtSWd6?=
- =?utf-8?B?TUtxQzNlVC9vSFNTQllieE5HSFNGOFY4dUU0WjdCRG9HQXFmUU1aVXg2RUcz?=
- =?utf-8?B?UFNWQlAxSVk5emF1dEc0MU1ERWZkdHNyaWtnK1JuQ0NPa05tUVJxd1RMY1dk?=
- =?utf-8?B?UVpWc0J2cnI2Z0Z0NlhYU0s5RWVHcmYwYVdSSlQ3YWh2S2gyYXJaTVBlS3Uw?=
- =?utf-8?B?YWFCdFRMdXB1RUIwSXVMWk1lbExiT3NSa0lwYXM1RmFHT00xQzFkSzhBUWRR?=
- =?utf-8?B?ZlR2YldlcEFlT1JPTVIrenJpV0QxcU80WDNpWStucy93SEhpQ1VFZnBnV3hC?=
- =?utf-8?B?RXp4eGorZW9XNGJaUzVhQ3pvS09oQ0RYV0gzcVBQV1RxZlJwampzMkhYdHRC?=
- =?utf-8?B?cmlEbWRyN2U1akJnSXJHeXBlb1h2VGhIS3BvaGt5SXdBbnlKYml1YmJxVml1?=
- =?utf-8?B?THdyL1pLWE5lcm5YRXh4dkdsSmxFeXlBUEExOUlVc0JmWkVmQzZBMmRGY0Vl?=
- =?utf-8?B?YVR2WnlMdHRvTzh3cUNtR1lJQW81M2VYTjF1ZEdOQ1Y4MURiZzFhNGxnNmxB?=
- =?utf-8?B?R1FrSWFCbTFEcGRGNTZFN0xRNmpTN256NkFpOE03bkFSS2RmaUZXMy83d3Ix?=
- =?utf-8?B?S2VrVGVaVjkxYmxvdWFOcEdtODVNMWV3dzdvVWFEcUVsQ0Q5NFRIc1RORXdY?=
- =?utf-8?B?S0xkYkNGdjBreGRtTGw3NHZiNFJoMUNIbEd1U2VTSzhrVzVjb3FwQ0FHaTF3?=
- =?utf-8?B?bHZxMzEyUDU0UndZT0s5ODRtRU1rbzkxVFBJUmV6VXVpcGEwR3F1VEVjZ1FU?=
- =?utf-8?B?VlJ6dS9IOWtURVFFUEFvU0hUL1RRR3FYYmIvQ1o3TzhCVDhXODU2bWNmYWp1?=
- =?utf-8?B?eTZoVjNmam1LQ0l5Y3c3VUdyZVlNdjVLTkZNWmFXRmRkc0lwYlNNaDFsU05N?=
- =?utf-8?B?MThDc1VJc1AyT3R5dFRBU1U1eHdMSXFoT2c5ZDZuditlK000WFkyMHRkd3BH?=
- =?utf-8?B?VlY2Y1pmdlE2N0xIaG5GcmJaMXA3S0U5aCtpWCt5enUxejdCekpveHMxc1Vq?=
- =?utf-8?B?Q0xGOXBsTkJIcWtwVFc3LzZ2YWQ3TGJaZXg0dDArWDYzUGMyNTZuUnUrQlVN?=
- =?utf-8?B?UzZxY1AybUtQZGQxOC9wUVgyQXFmWkMrWkZMMzVud2JyT2x1eERIY3ZZS2ZJ?=
- =?utf-8?B?Wk9yblFsTXhjTVE1ejI1MWVqakdoN1ZZWmtyMVJXbTd3bmM3Uy9adnNISEZp?=
- =?utf-8?B?QXgvQWlFcmtSNHRWVlNyS3pkQ0xRVTA5VWFiYzFxR1VoSktnNlVJMUFyRnE4?=
- =?utf-8?B?SkErZDNTN0tFNkwvQnRMOFowQk44empmcjJYMVJWblJVVEZYL3hmcE9ZZFV1?=
- =?utf-8?B?aFdaQzZ3eXk0MlhtYVZJTFJCQUZPOHdpSUhSTkd2cXpCTnRlcG5rZVFVU1Y5?=
- =?utf-8?B?TFN4eWRHT3VRY215eVg5L2VMbk43Zkczcmx5SFQ5MHI0N1llbFRaM0szd0NG?=
- =?utf-8?B?YUYxRDdlN3RzL1hWUXFYZGd3YndGdkZSVm5JS2tIdG00L0ZnNTk5QnN5a3JE?=
- =?utf-8?B?WGxoZm50dzNQT3VMa2ZCdUF6NThmT1NJMXBVVlU5YjVrYVVhOUpoREN2WVR5?=
- =?utf-8?B?Yy9ucUh2N045cnBlSitNWnd2a0NEdlpERlNJb1F4MHFRdW9WV3hjR3JTcUVE?=
- =?utf-8?B?Z09TYVRZcHFRUlRKVTlQM1RpRnVVYmduSUxRRmd6WnVGYlQ0N1I5NTZvVlZE?=
- =?utf-8?B?cXRnREpLOUwwdUF6RXZ3WERuZm5RenNHZDlDekJRSHM1cGtmd1k0RVhoRmsy?=
- =?utf-8?B?czF5QlFOUG5KNkRNTUxkMTIxUk56R3JaZHlBUlk0N2ZKZWZiZEJ1REpzL28y?=
- =?utf-8?B?N3dOSTc4WFlCSmRUZXh5aWIvWE9BZ28xRGxDNlJjaWFzY1NjYUU4dW1hZXZv?=
- =?utf-8?B?Q0JmMVhEUzV0MXBPeDRQWHVxc08vYW9la0Z5WHE2TnRYYnBFRzloSUVmRGF2?=
- =?utf-8?B?VkxUUFF0dHpNR0RtdFFocVVWek80YVhsNW1vN1JCUXBSRWpxV1NUTEN4VHJV?=
- =?utf-8?B?eXBJR054YjFVV1cvN1NnaHFkMnhQSEdZRzl1aDhjWDVOV05ESHdVV2I2aE9M?=
- =?utf-8?B?YkV3OHBvUmlyTTA2K3MyMmFKb0xNckN4aU5TQW9TeGtWNTN4blREL0VOMnNX?=
- =?utf-8?B?WVRnWGxkMXdCRW4rWnRFOTcxYm5mLytLMThRRTMzdGV2VjVoam9jeHRFQmFy?=
- =?utf-8?B?WlRNY1ZDaC9pTXRYaHVmK3oxU0lpM1plMU9WbStHSnJmbENacU1uTjYyWkxD?=
- =?utf-8?Q?QLyQnsX0Pzmn+G6NDtTJoP9hsFHXXRKNCVQzqmL8+L6y4?=
-X-MS-Exchange-AntiSpam-MessageData-1: tTWnAkdp/+iKNgIzh8TslNSu5kuAPv28f9k=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a8a39b5-0011-42ca-156e-08de42a71129
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9003.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Dec 2025 04:44:05.0786
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VgGDtuzLYdPKzCxq2JbIAKqi7zTdB/K7BhjKjgXAHJAN8sasRo+pMmExHwUFEcuWnmkeMngBXOaSWYwcVATqeHZIlC/UlHQezzSV5d1qoEg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB7410
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-linux$ git diff
-diff --git a/kernel/cgroup/freezer.c b/kernel/cgroup/freezer.c
-index 3880ed400879..21a0edc4a97d 100644
---- a/kernel/cgroup/freezer.c
-+++ b/kernel/cgroup/freezer.c
-@@ -4,6 +4,7 @@
- #include <linux/sysctl.h>
- #include <linux/sched.h>
- #include <linux/sched/task.h>
-+#include <linux/sched/task_stack.h>
- #include <linux/sched/signal.h>
- #include <linux/sched/debug.h>
- 
-the above should fix that.
+Hi Alex,
 
-On 12/24/25 04:58, kernel test robot wrote:
-> Hi Pavel,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on tj-cgroup/for-next]
-> [also build test ERROR on linus/master v6.19-rc2 next-20251219]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Tikhomirov/cgroup-v2-freezer-allow-freezing-with-kthreads/20251223-182826
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
-> patch link:    https://lore.kernel.org/r/20251223102124.738818-4-ptikhomirov%40virtuozzo.com
-> patch subject: [PATCH 2/2] cgroup-v2/freezer: Print information about unfreezable process
-> config: s390-randconfig-r071-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240409.06R0khaZ-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240409.06R0khaZ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512240409.06R0khaZ-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    kernel/cgroup/freezer.c: In function 'warn_freeze_timeout_task':
->>> kernel/cgroup/freezer.c:374:7: error: implicit declaration of function 'try_get_task_stack'; did you mean 'tryget_task_struct'? [-Werror=implicit-function-declaration]
->      if (!try_get_task_stack(task))
->           ^~~~~~~~~~~~~~~~~~
->           tryget_task_struct
->>> kernel/cgroup/freezer.c:377:2: error: implicit declaration of function 'put_task_stack'; did you mean 'put_task_struct'? [-Werror=implicit-function-declaration]
->      put_task_stack(task);
->      ^~~~~~~~~~~~~~
->      put_task_struct
->    cc1: some warnings being treated as errors
-> 
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for CAN_DEV
->    Depends on [n]: NETDEVICES [=n] && CAN [=y]
->    Selected by [y]:
->    - CAN [=y] && NET [=y]
-> 
-> 
-> vim +374 kernel/cgroup/freezer.c
-> 
->    357	
->    358	static void warn_freeze_timeout_task(struct cgroup *cgrp, int timeout,
->    359					     struct task_struct *task)
->    360	{
->    361		char *buf __free(kfree) = NULL;
->    362		pid_t tgid;
->    363	
->    364		buf = kmalloc(PATH_MAX, GFP_KERNEL);
->    365		if (!buf)
->    366			return;
->    367	
->    368		if (cgroup_path(cgrp, buf, PATH_MAX) < 0)
->    369			return;
->    370	
->    371		tgid = task_pid_nr_ns(task, &init_pid_ns);
->    372		pr_warn("Freeze of %s took %ld sec, due to unfreezable process %d:%s.\n",
->    373			buf, timeout / USEC_PER_SEC, tgid, task->comm);
->  > 374		if (!try_get_task_stack(task))
->    375			return;
->    376		show_stack(task, NULL, KERN_WARNING);
->  > 377		put_task_stack(task);
->    378	}
->    379	
-> 
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   6832dd96d0d16d34251480faa62e76d84c661c2d
+commit: ce0e3c403e00e9e03e80aca6570bf936a44279e2 [2/2] vfio: selftests: add iova allocator
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20251224/202512240509.rQR5v4SQ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240509.rQR5v4SQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512240509.rQR5v4SQ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:215:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     215 |         VFIO_ASSERT_NOT_NULL(allocator);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:46:39: note: expanded from macro 'VFIO_ASSERT_NOT_NULL'
+      46 | #define VFIO_ASSERT_NOT_NULL(_a, ...) VFIO_ASSERT_NE(NULL, _a, ##__VA_ARGS__)
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:38:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      38 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:215:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     215 |         VFIO_ASSERT_NOT_NULL(allocator);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:46:39: note: expanded from macro 'VFIO_ASSERT_NOT_NULL'
+      46 | #define VFIO_ASSERT_NOT_NULL(_a, ...) VFIO_ASSERT_NE(NULL, _a, ##__VA_ARGS__)
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:38:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      38 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:235:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     235 |         VFIO_ASSERT_GT(size, 0, "Invalid size arg, zero\n");
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:41:37: note: expanded from macro 'VFIO_ASSERT_GT'
+      41 | #define VFIO_ASSERT_GT(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, >, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:235:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     235 |         VFIO_ASSERT_GT(size, 0, "Invalid size arg, zero\n");
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:41:37: note: expanded from macro 'VFIO_ASSERT_GT'
+      41 | #define VFIO_ASSERT_GT(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, >, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:236:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     236 |         VFIO_ASSERT_EQ(size & (size - 1), 0, "Invalid size arg, non-power-of-2\n");
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:236:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     236 |         VFIO_ASSERT_EQ(size & (size - 1), 0, "Invalid size arg, non-power-of-2\n");
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:242:3: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     242 |                 VFIO_ASSERT_LT(allocator->range_idx, allocator->nranges,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     243 |                                "IOVA allocator out of space\n");
+         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:39:37: note: expanded from macro 'VFIO_ASSERT_LT'
+      39 | #define VFIO_ASSERT_LT(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, <, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:242:3: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     242 |                 VFIO_ASSERT_LT(allocator->range_idx, allocator->nranges,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     243 |                                "IOVA allocator out of space\n");
+         |                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:39:37: note: expanded from macro 'VFIO_ASSERT_LT'
+      39 | #define VFIO_ASSERT_LT(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, <, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+>> tools/testing/selftests/vfio/lib/vfio_pci_device.c:249:7: warning: comparison of distinct pointer types ('typeof (iova) *' (aka 'unsigned long long *') and 'typeof (size - 1) *' (aka 'unsigned int *')) [-Wcompare-distinct-pointer-types]
+     249 |                 if (check_add_overflow(iova, size - 1, &last) ||
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/../../../tools/include/linux/overflow.h:48:15: note: expanded from macro 'check_add_overflow'
+      48 |         (void) (&__a == &__b);                  \
+         |                 ~~~~ ^  ~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:257:7: warning: comparison of distinct pointer types ('typeof (iova) *' (aka 'unsigned long long *') and 'typeof (size - 1) *' (aka 'unsigned int *')) [-Wcompare-distinct-pointer-types]
+     257 |                 if (check_add_overflow(iova, size - 1, &last) ||
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/../../../tools/include/linux/overflow.h:48:15: note: expanded from macro 'check_add_overflow'
+      48 |         (void) (&__a == &__b);                  \
+         |                 ~~~~ ^  ~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:298:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     298 |         VFIO_ASSERT_NE(iova, INVALID_IOVA, "%p is not mapped into device.\n", vaddr);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:38:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      38 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:298:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     298 |         VFIO_ASSERT_NE(iova, INVALID_IOVA, "%p is not mapped into device.\n", vaddr);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:38:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      38 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:323:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     323 |         ioctl_assert(device->fd, VFIO_DEVICE_SET_IRQS, irq);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:30:2: note: expanded from macro 'ioctl_assert'
+      30 |         VFIO_ASSERT_EQ(__ret, 0, "ioctl(%s, %s, %s) returned %d\n", #_fd, #_op, #_arg, __ret); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:323:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     323 |         ioctl_assert(device->fd, VFIO_DEVICE_SET_IRQS, irq);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:30:2: note: expanded from macro 'ioctl_assert'
+      30 |         VFIO_ASSERT_EQ(__ret, 0, "ioctl(%s, %s, %s) returned %d\n", #_fd, #_op, #_arg, __ret); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:336:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     336 |         ioctl_assert(device->fd, VFIO_DEVICE_SET_IRQS, &irq);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:30:2: note: expanded from macro 'ioctl_assert'
+      30 |         VFIO_ASSERT_EQ(__ret, 0, "ioctl(%s, %s, %s) returned %d\n", #_fd, #_op, #_arg, __ret); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:336:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     336 |         ioctl_assert(device->fd, VFIO_DEVICE_SET_IRQS, &irq);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:30:2: note: expanded from macro 'ioctl_assert'
+      30 |         VFIO_ASSERT_EQ(__ret, 0, "ioctl(%s, %s, %s) returned %d\n", #_fd, #_op, #_arg, __ret); \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:37:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      37 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:32:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      31 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      32 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/lib/vfio_pci_device.c:342:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     342 |         VFIO_ASSERT_TRUE(index == VFIO_PCI_MSI_IRQ_INDEX ||
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     343 |                          index == VFIO_PCI_MSIX_IRQ_INDEX,
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     344 |                          "Unsupported IRQ index: %u\n", index);
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:43:35: note: expanded from macro 'VFIO_ASSERT_TRUE'
+      43 | #define VFIO_ASSERT_TRUE(_a, ...) VFIO_ASSERT_NE(false, (_a), ##__VA_ARGS__)
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/vfio_util.h:38:37: note: expanded from macro 'VFIO_ASSERT_NE'
+
+
+vim +249 tools/testing/selftests/vfio/lib/vfio_pci_device.c
+
+   232	
+   233	iova_t iova_allocator_alloc(struct iova_allocator *allocator, size_t size)
+   234	{
+   235		VFIO_ASSERT_GT(size, 0, "Invalid size arg, zero\n");
+   236		VFIO_ASSERT_EQ(size & (size - 1), 0, "Invalid size arg, non-power-of-2\n");
+   237	
+   238		for (;;) {
+   239			struct iommu_iova_range *range;
+   240			iova_t iova, last;
+   241	
+   242			VFIO_ASSERT_LT(allocator->range_idx, allocator->nranges,
+   243				       "IOVA allocator out of space\n");
+   244	
+   245			range = &allocator->ranges[allocator->range_idx];
+   246			iova = range->start + allocator->range_offset;
+   247	
+   248			/* Check for sufficient space at the current offset */
+ > 249			if (check_add_overflow(iova, size - 1, &last) ||
+   250			    last > range->last)
+   251				goto next_range;
+   252	
+   253			/* Align iova to size */
+   254			iova = last & ~(size - 1);
+   255	
+   256			/* Check for sufficient space at the aligned iova */
+   257			if (check_add_overflow(iova, size - 1, &last) ||
+   258			    last > range->last)
+   259				goto next_range;
+   260	
+   261			if (last == range->last) {
+   262				allocator->range_idx++;
+   263				allocator->range_offset = 0;
+   264			} else {
+   265				allocator->range_offset = last - range->start + 1;
+   266			}
+   267	
+   268			return iova;
+   269	
+   270	next_range:
+   271			allocator->range_idx++;
+   272			allocator->range_offset = 0;
+   273		}
+   274	}
+   275	
 
 -- 
-Best regards, Pavel Tikhomirov
-Senior Software Developer, Virtuozzo.
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
