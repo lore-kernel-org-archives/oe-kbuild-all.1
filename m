@@ -1,265 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BD7330B3C;
-	Wed, 24 Dec 2025 10:12:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A64D31618B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 10:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766571124; cv=none; b=JppiyRXx04BSmLdekS0YZRUJwbzWOR6rIKk+UJZWhyMdUFE3pMOmHIUJEveS5NLihr5pGTlEAqW3LA84WuiKJt2f5ght12rvtioFCHvJ2rlR8yQC6Fa8Rt8ujkUvgqFDZKmhNSknObVHOJ+Mr13GNNFpvjlPMe2tr0KhAtBezG8=
+	t=1766571720; cv=none; b=iwrSgak4TuEQPlBeA0oH/S5/Xn3/NAtZiJOj0umy0l2LMGavdP1L+HvKHvHRTzx6aIvWGSavRUn29A/JDaTHTs9wYlMdPgAzYht5k8kayywkszgnxe+Nm1Y/VVtmr2cX87As+WciJ55qWrx+mjR6LBjBQPJOfUbwwNDsLVzlHH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766571124; c=relaxed/simple;
-	bh=5z1guFUcp3PiZ1mJvphWJEQT9yKrp+OX2pIL0PT9hoQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o3GpyJZPWzI6CAtAA2nCy25qK5Ak9ON9K0qr9yyid8PLC/RP8QdJkUvCxk4KG1QJHoc6Bu+b+MU/+hpS5yqu0Mvr08yPtK4V6ZUI7GGE+3aBaH83qQKlNNExGhWGNwY4uaNoBOz7axQv+OA0EH0l6pLxnIGOjsBOEa/Dn4bvDPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oColYT7K; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1766571720; c=relaxed/simple;
+	bh=GUmPP+i4gbDuwKV6OVd/GwRcsoCn1Dc/Qzaoh4/Llhg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IAKHlvy8kyqJYAkYMLQXSK4VX/BvRUTfbJC3NdPZdZA+CofBwL/L3cfPuZkLMqk5uNJH1iZbfwtznJZ3RCiYMw3j8IIMlXRgeDjUUqVowsgcEW7qtKLbvtb2If4412hBLVfLgAYZuH1z5LDnNKhMNgiR9irBGaDN1MVeBidvQLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=fail smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gt+7oyLH; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oColYT7K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gt+7oyLH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766571120; x=1798107120;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5z1guFUcp3PiZ1mJvphWJEQT9yKrp+OX2pIL0PT9hoQ=;
-  b=oColYT7KcXpE0jmvsafQNzlrWsJPqSTpzF12OtIbmAIiJA6wcGhOy05N
-   BDfN68NeJQ295KbLm2aJgm07vi7NL597wSAMAqaEc3v5Jh1vRgIdyyi8H
-   wNeBLo7Jbwj+HtbdTu5UM+ge5sj11VRgWA4ahtyAQXXV70FPxr3zNqvsF
-   A78rNLsYwBC/++WUCwnzMnYEClcom4Xf/j07kF4XpXjWr/sUXcKv8ZYFP
-   epvvNibQryPj2BXseoimv7eNCvRV2Wcn7je7tPTwQWZoSkPIiQ1VEiTsZ
-   3ABvW/UW2CkO4Sfl0cw25qmj6DErU+jJkAsHHNhEY5IECCHIgrnlsTtCJ
-   w==;
-X-CSE-ConnectionGUID: Oo3rgVh8Q0KPu39VejUgyg==
-X-CSE-MsgGUID: Vf59oe1ZTmaKiCMpnXUyhQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="72273020"
+  t=1766571719; x=1798107719;
+  h=date:from:to:cc:subject:message-id;
+  bh=GUmPP+i4gbDuwKV6OVd/GwRcsoCn1Dc/Qzaoh4/Llhg=;
+  b=gt+7oyLHwMztnTprZ3AwIO4d/L/tR/NMC41dUjrReQqUKRvfsQAbOe/B
+   DKpwRUWNN8y5cG7ViTJStXaIDeIzDzGR3e6x1eUI1cnOkDB5e3CpUPxHE
+   nLFX8SLTK8Z04I1IaLFqjSN2O6LLZRMNEMbb4oVLhCJs5KZzKTwb6FmVF
+   oh5m8A9eUgg+sSXZN66wgf7wAAusj/eTuHDLRgF3dvJj1cuS2agMZT6Ed
+   Cdbj7TpIjo2S3dXTHT/MO0fJ4St3id+c/InC5IHncGyVe1hb647aEkMaF
+   HXBSeUHmG7sbOH838oNLcgBCt8a+/ZCj/6TLkSCTNNBk7n/PzwIwoluvE
+   g==;
+X-CSE-ConnectionGUID: NHYs935YRHGWq8KdsrEnNg==
+X-CSE-MsgGUID: Dllsm82qTkmyTJXwROC6BQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="79773874"
 X-IronPort-AV: E=Sophos;i="6.21,173,1763452800"; 
-   d="scan'208";a="72273020"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 02:11:59 -0800
-X-CSE-ConnectionGUID: zs4kUCMSSFeq0Vrn7sfkqA==
-X-CSE-MsgGUID: 8pqrvxb0Roee+TnO2WMuGQ==
+   d="scan'208";a="79773874"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 02:21:57 -0800
+X-CSE-ConnectionGUID: vuUvwK19TuS2O50AXNh9EA==
+X-CSE-MsgGUID: FMG680irQxuxG8hLe1qelg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,173,1763452800"; 
-   d="scan'208";a="205061381"
+   d="scan'208";a="223478064"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 24 Dec 2025 02:11:56 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 24 Dec 2025 02:21:56 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYLqT-000000002vR-28Mx;
-	Wed, 24 Dec 2025 10:11:53 +0000
-Date: Wed, 24 Dec 2025 18:11:17 +0800
+	id 1vYM09-000000002w1-3MiG;
+	Wed, 24 Dec 2025 10:21:53 +0000
+Date: Wed, 24 Dec 2025 18:21:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youssef Samir <youssef.abdulrahman@oss.qualcomm.com>,
-	jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com,
-	troy.hanson@oss.qualcomm.com, zachary.mckevitt@oss.qualcomm.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ogabbay@kernel.org,
-	lizhi.hou@amd.com, karol.wachowski@linux.intel.com,
-	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] accel/qaic: Handle DBC deactivation if the owner went
- away
-Message-ID: <202512241701.p3agYhbp-lkp@intel.com>
-References: <20251223153151.2232297-1-youssef.abdulrahman@oss.qualcomm.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Finn Thain <fthain@linux-m68k.org>
+Subject: [akpm-mm:mm-nonmm-unstable 68/96] arm-linux-gnueabi-ld:
+ error: zImage file size is incorrect
+Message-ID: <202512241835.avmTEP6X-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251223153151.2232297-1-youssef.abdulrahman@oss.qualcomm.com>
 
-Hi Youssef,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Youssef-Samir/accel-qaic-Handle-DBC-deactivation-if-the-owner-went-away/20251223-233305
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20251223153151.2232297-1-youssef.abdulrahman%40oss.qualcomm.com
-patch subject: [PATCH] accel/qaic: Handle DBC deactivation if the owner went away
-config: i386-randconfig-012-20251224 (https://download.01.org/0day-ci/archive/20251224/202512241701.p3agYhbp-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241701.p3agYhbp-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   c40f0b9f72a08d208c7793090ae98faaf6a58719
+commit: 613bf373e660523dbb3f2567fceb6cbd8bc2a469 [68/96] atomic: add alignment check to instrumented atomic operations
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251224/202512241835.avmTEP6X-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241835.avmTEP6X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512241701.p3agYhbp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512241835.avmTEP6X-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/accel/qaic/qaic_control.c:1471:1: error: function definition is not allowed here
-    1471 | {
-         | ^
-   drivers/accel/qaic/qaic_control.c:1484:1: error: function definition is not allowed here
-    1484 | {
-         | ^
-   drivers/accel/qaic/qaic_control.c:1492:1: error: function definition is not allowed here
-    1492 | {
-         | ^
-   drivers/accel/qaic/qaic_control.c:1515:1: error: function definition is not allowed here
-    1515 | {
-         | ^
-   drivers/accel/qaic/qaic_control.c:1539:1: error: function definition is not allowed here
-    1539 | {
-         | ^
-   drivers/accel/qaic/qaic_control.c:1544:1: error: function definition is not allowed here
-    1544 | {
-         | ^
-   drivers/accel/qaic/qaic_control.c:1592:1: error: function definition is not allowed here
-    1592 | {
-         | ^
->> drivers/accel/qaic/qaic_control.c:1602:2: error: expected '}'
-    1602 | }
-         |  ^
-   drivers/accel/qaic/qaic_control.c:1404:1: note: to match this '{'
-    1404 | {
-         | ^
-   8 errors generated.
-
-
-vim +1471 drivers/accel/qaic/qaic_control.c
-
-129776ac2e3823 Jeff Hugo 2023-03-27  1469  
-129776ac2e3823 Jeff Hugo 2023-03-27  1470  static void free_wrapper_from_list(struct wrapper_list *wrappers, struct wrapper_msg *wrapper)
-129776ac2e3823 Jeff Hugo 2023-03-27 @1471  {
-129776ac2e3823 Jeff Hugo 2023-03-27  1472  	bool all_done = false;
-129776ac2e3823 Jeff Hugo 2023-03-27  1473  
-129776ac2e3823 Jeff Hugo 2023-03-27  1474  	spin_lock(&wrappers->lock);
-129776ac2e3823 Jeff Hugo 2023-03-27  1475  	kref_put(&wrapper->ref_count, free_wrapper);
-129776ac2e3823 Jeff Hugo 2023-03-27  1476  	all_done = list_empty(&wrappers->list);
-129776ac2e3823 Jeff Hugo 2023-03-27  1477  	spin_unlock(&wrappers->lock);
-129776ac2e3823 Jeff Hugo 2023-03-27  1478  
-129776ac2e3823 Jeff Hugo 2023-03-27  1479  	if (all_done)
-129776ac2e3823 Jeff Hugo 2023-03-27  1480  		kfree(wrappers);
-129776ac2e3823 Jeff Hugo 2023-03-27  1481  }
-129776ac2e3823 Jeff Hugo 2023-03-27  1482  
-129776ac2e3823 Jeff Hugo 2023-03-27  1483  void qaic_mhi_ul_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
-129776ac2e3823 Jeff Hugo 2023-03-27  1484  {
-129776ac2e3823 Jeff Hugo 2023-03-27  1485  	struct wire_msg *msg = mhi_result->buf_addr;
-129776ac2e3823 Jeff Hugo 2023-03-27  1486  	struct wrapper_msg *wrapper = container_of(msg, struct wrapper_msg, msg);
-129776ac2e3823 Jeff Hugo 2023-03-27  1487  
-129776ac2e3823 Jeff Hugo 2023-03-27  1488  	free_wrapper_from_list(wrapper->head, wrapper);
-129776ac2e3823 Jeff Hugo 2023-03-27  1489  }
-129776ac2e3823 Jeff Hugo 2023-03-27  1490  
-129776ac2e3823 Jeff Hugo 2023-03-27  1491  void qaic_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result *mhi_result)
-129776ac2e3823 Jeff Hugo 2023-03-27  1492  {
-129776ac2e3823 Jeff Hugo 2023-03-27  1493  	struct qaic_device *qdev = dev_get_drvdata(&mhi_dev->dev);
-129776ac2e3823 Jeff Hugo 2023-03-27  1494  	struct wire_msg *msg = mhi_result->buf_addr;
-129776ac2e3823 Jeff Hugo 2023-03-27  1495  	struct resp_work *resp;
-129776ac2e3823 Jeff Hugo 2023-03-27  1496  
-129776ac2e3823 Jeff Hugo 2023-03-27  1497  	if (mhi_result->transaction_status || msg->hdr.magic_number != MANAGE_MAGIC_NUMBER) {
-129776ac2e3823 Jeff Hugo 2023-03-27  1498  		kfree(msg);
-129776ac2e3823 Jeff Hugo 2023-03-27  1499  		return;
-129776ac2e3823 Jeff Hugo 2023-03-27  1500  	}
-129776ac2e3823 Jeff Hugo 2023-03-27  1501  
-129776ac2e3823 Jeff Hugo 2023-03-27  1502  	resp = kmalloc(sizeof(*resp), GFP_ATOMIC);
-129776ac2e3823 Jeff Hugo 2023-03-27  1503  	if (!resp) {
-129776ac2e3823 Jeff Hugo 2023-03-27  1504  		kfree(msg);
-129776ac2e3823 Jeff Hugo 2023-03-27  1505  		return;
-129776ac2e3823 Jeff Hugo 2023-03-27  1506  	}
-129776ac2e3823 Jeff Hugo 2023-03-27  1507  
-129776ac2e3823 Jeff Hugo 2023-03-27  1508  	INIT_WORK(&resp->work, resp_worker);
-129776ac2e3823 Jeff Hugo 2023-03-27  1509  	resp->qdev = qdev;
-129776ac2e3823 Jeff Hugo 2023-03-27  1510  	resp->buf = msg;
-129776ac2e3823 Jeff Hugo 2023-03-27  1511  	queue_work(qdev->cntl_wq, &resp->work);
-129776ac2e3823 Jeff Hugo 2023-03-27  1512  }
-129776ac2e3823 Jeff Hugo 2023-03-27  1513  
-129776ac2e3823 Jeff Hugo 2023-03-27  1514  int qaic_control_open(struct qaic_device *qdev)
-129776ac2e3823 Jeff Hugo 2023-03-27  1515  {
-129776ac2e3823 Jeff Hugo 2023-03-27  1516  	if (!qdev->cntl_ch)
-129776ac2e3823 Jeff Hugo 2023-03-27  1517  		return -ENODEV;
-129776ac2e3823 Jeff Hugo 2023-03-27  1518  
-129776ac2e3823 Jeff Hugo 2023-03-27  1519  	qdev->cntl_lost_buf = false;
-129776ac2e3823 Jeff Hugo 2023-03-27  1520  	/*
-129776ac2e3823 Jeff Hugo 2023-03-27  1521  	 * By default qaic should assume that device has CRC enabled.
-129776ac2e3823 Jeff Hugo 2023-03-27  1522  	 * Qaic comes to know if device has CRC enabled or disabled during the
-129776ac2e3823 Jeff Hugo 2023-03-27  1523  	 * device status transaction, which is the first transaction performed
-129776ac2e3823 Jeff Hugo 2023-03-27  1524  	 * on control channel.
-129776ac2e3823 Jeff Hugo 2023-03-27  1525  	 *
-129776ac2e3823 Jeff Hugo 2023-03-27  1526  	 * So CRC validation of first device status transaction response is
-129776ac2e3823 Jeff Hugo 2023-03-27  1527  	 * ignored (by calling valid_crc_stub) and is done later during decoding
-129776ac2e3823 Jeff Hugo 2023-03-27  1528  	 * if device has CRC enabled.
-129776ac2e3823 Jeff Hugo 2023-03-27  1529  	 * Now that qaic knows whether device has CRC enabled or not it acts
-129776ac2e3823 Jeff Hugo 2023-03-27  1530  	 * accordingly.
-129776ac2e3823 Jeff Hugo 2023-03-27  1531  	 */
-129776ac2e3823 Jeff Hugo 2023-03-27  1532  	qdev->gen_crc = gen_crc;
-129776ac2e3823 Jeff Hugo 2023-03-27  1533  	qdev->valid_crc = valid_crc_stub;
-129776ac2e3823 Jeff Hugo 2023-03-27  1534  
-129776ac2e3823 Jeff Hugo 2023-03-27  1535  	return mhi_prepare_for_transfer(qdev->cntl_ch);
-129776ac2e3823 Jeff Hugo 2023-03-27  1536  }
-129776ac2e3823 Jeff Hugo 2023-03-27  1537  
-129776ac2e3823 Jeff Hugo 2023-03-27  1538  void qaic_control_close(struct qaic_device *qdev)
-129776ac2e3823 Jeff Hugo 2023-03-27  1539  {
-129776ac2e3823 Jeff Hugo 2023-03-27  1540  	mhi_unprepare_from_transfer(qdev->cntl_ch);
-129776ac2e3823 Jeff Hugo 2023-03-27  1541  }
-129776ac2e3823 Jeff Hugo 2023-03-27  1542  
-129776ac2e3823 Jeff Hugo 2023-03-27  1543  void qaic_release_usr(struct qaic_device *qdev, struct qaic_user *usr)
-129776ac2e3823 Jeff Hugo 2023-03-27  1544  {
-129776ac2e3823 Jeff Hugo 2023-03-27  1545  	struct wire_trans_terminate_to_dev *trans;
-129776ac2e3823 Jeff Hugo 2023-03-27  1546  	struct wrapper_list *wrappers;
-129776ac2e3823 Jeff Hugo 2023-03-27  1547  	struct wrapper_msg *wrapper;
-129776ac2e3823 Jeff Hugo 2023-03-27  1548  	struct wire_msg *msg;
-129776ac2e3823 Jeff Hugo 2023-03-27  1549  	struct wire_msg *rsp;
-129776ac2e3823 Jeff Hugo 2023-03-27  1550  
-129776ac2e3823 Jeff Hugo 2023-03-27  1551  	wrappers = alloc_wrapper_list();
-129776ac2e3823 Jeff Hugo 2023-03-27  1552  	if (!wrappers)
-129776ac2e3823 Jeff Hugo 2023-03-27  1553  		return;
-129776ac2e3823 Jeff Hugo 2023-03-27  1554  
-129776ac2e3823 Jeff Hugo 2023-03-27  1555  	wrapper = add_wrapper(wrappers, sizeof(*wrapper) + sizeof(*msg) + sizeof(*trans));
-129776ac2e3823 Jeff Hugo 2023-03-27  1556  	if (!wrapper)
-129776ac2e3823 Jeff Hugo 2023-03-27  1557  		return;
-129776ac2e3823 Jeff Hugo 2023-03-27  1558  
-129776ac2e3823 Jeff Hugo 2023-03-27  1559  	msg = &wrapper->msg;
-129776ac2e3823 Jeff Hugo 2023-03-27  1560  
-129776ac2e3823 Jeff Hugo 2023-03-27  1561  	trans = (struct wire_trans_terminate_to_dev *)msg->data;
-129776ac2e3823 Jeff Hugo 2023-03-27  1562  
-129776ac2e3823 Jeff Hugo 2023-03-27  1563  	trans->hdr.type = cpu_to_le32(QAIC_TRANS_TERMINATE_TO_DEV);
-129776ac2e3823 Jeff Hugo 2023-03-27  1564  	trans->hdr.len = cpu_to_le32(sizeof(*trans));
-129776ac2e3823 Jeff Hugo 2023-03-27  1565  	trans->handle = cpu_to_le32(usr->handle);
-129776ac2e3823 Jeff Hugo 2023-03-27  1566  
-129776ac2e3823 Jeff Hugo 2023-03-27  1567  	mutex_lock(&qdev->cntl_mutex);
-129776ac2e3823 Jeff Hugo 2023-03-27  1568  	wrapper->len = sizeof(msg->hdr) + sizeof(*trans);
-129776ac2e3823 Jeff Hugo 2023-03-27  1569  	msg->hdr.magic_number = MANAGE_MAGIC_NUMBER;
-129776ac2e3823 Jeff Hugo 2023-03-27  1570  	msg->hdr.sequence_number = cpu_to_le32(qdev->next_seq_num++);
-129776ac2e3823 Jeff Hugo 2023-03-27  1571  	msg->hdr.len = cpu_to_le32(wrapper->len);
-129776ac2e3823 Jeff Hugo 2023-03-27  1572  	msg->hdr.count = cpu_to_le32(1);
-129776ac2e3823 Jeff Hugo 2023-03-27  1573  	msg->hdr.handle = cpu_to_le32(usr->handle);
-129776ac2e3823 Jeff Hugo 2023-03-27  1574  	msg->hdr.padding = cpu_to_le32(0);
-129776ac2e3823 Jeff Hugo 2023-03-27  1575  	msg->hdr.crc32 = cpu_to_le32(qdev->gen_crc(wrappers));
-129776ac2e3823 Jeff Hugo 2023-03-27  1576  
-129776ac2e3823 Jeff Hugo 2023-03-27  1577  	/*
-129776ac2e3823 Jeff Hugo 2023-03-27  1578  	 * msg_xfer releases the mutex
-129776ac2e3823 Jeff Hugo 2023-03-27  1579  	 * We don't care about the return of msg_xfer since we will not do
-129776ac2e3823 Jeff Hugo 2023-03-27  1580  	 * anything different based on what happens.
-129776ac2e3823 Jeff Hugo 2023-03-27  1581  	 * We ignore pending signals since one will be set if the user is
-129776ac2e3823 Jeff Hugo 2023-03-27  1582  	 * killed, and we need give the device a chance to cleanup, otherwise
-129776ac2e3823 Jeff Hugo 2023-03-27  1583  	 * DMA may still be in progress when we return.
-129776ac2e3823 Jeff Hugo 2023-03-27  1584  	 */
-129776ac2e3823 Jeff Hugo 2023-03-27  1585  	rsp = msg_xfer(qdev, wrappers, qdev->next_seq_num - 1, true);
-129776ac2e3823 Jeff Hugo 2023-03-27  1586  	if (!IS_ERR(rsp))
-129776ac2e3823 Jeff Hugo 2023-03-27  1587  		kfree(rsp);
-129776ac2e3823 Jeff Hugo 2023-03-27  1588  	free_wrapper_from_list(wrappers, wrapper);
-129776ac2e3823 Jeff Hugo 2023-03-27  1589  }
-129776ac2e3823 Jeff Hugo 2023-03-27  1590  
-129776ac2e3823 Jeff Hugo 2023-03-27  1591  void wake_all_cntl(struct qaic_device *qdev)
-129776ac2e3823 Jeff Hugo 2023-03-27  1592  {
-129776ac2e3823 Jeff Hugo 2023-03-27  1593  	struct xfer_queue_elem *elem;
-129776ac2e3823 Jeff Hugo 2023-03-27  1594  	struct xfer_queue_elem *i;
-129776ac2e3823 Jeff Hugo 2023-03-27  1595  
-129776ac2e3823 Jeff Hugo 2023-03-27  1596  	mutex_lock(&qdev->cntl_mutex);
-129776ac2e3823 Jeff Hugo 2023-03-27  1597  	list_for_each_entry_safe(elem, i, &qdev->cntl_xfer_list, list) {
-129776ac2e3823 Jeff Hugo 2023-03-27  1598  		list_del_init(&elem->list);
-129776ac2e3823 Jeff Hugo 2023-03-27  1599  		complete_all(&elem->xfer_done);
-129776ac2e3823 Jeff Hugo 2023-03-27  1600  	}
-129776ac2e3823 Jeff Hugo 2023-03-27  1601  	mutex_unlock(&qdev->cntl_mutex);
-129776ac2e3823 Jeff Hugo 2023-03-27 @1602  }
+>> arm-linux-gnueabi-ld: warning: orphan section `.data..once' from `drivers/firmware/efi/libstub/efi-stub.stub.o' being placed in section `.data..once'
+>> arm-linux-gnueabi-ld: error: zImage file size is incorrect
+   arm-linux-gnueabi-ld: drivers/firmware/efi/libstub/efi-stub.stub.o: in function `efi_stub_common':
+>> efi-stub.c:(.text.efi_stub_common+0x190): undefined reference to `warn_slowpath_fmt'
+   arm-linux-gnueabi-ld: arch/arm/boot/compressed/vmlinux: hidden symbol `warn_slowpath_fmt' isn't defined
+   arm-linux-gnueabi-ld: final link failed: bad value
 
 -- 
 0-DAY CI Kernel Test Service
