@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9E11EB5F8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 Dec 2025 01:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E61883F;
+	Wed, 24 Dec 2025 01:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766539129; cv=none; b=LjM+W6q7dHSzU4+TnMyOaSkAWwz/AxGWG2SliXJ3/v8XbpdWDg9F264p7cwsNmMs4CTRGGTp1ATqN9h1elLzIJkQ7OpyrAWEGvaE8uYxSjzDuNhrW1ytrHCn/HcWAvIyHYOwWGysnDGQBMGDi0POm5CVFd+AH+cpr27thuJ76rg=
+	t=1766539850; cv=none; b=th0QTIEoML7frp/+RbkN8pqGvCZiXdhetJieDeFWkM+ZFQd8rxBl37Harjh5tytDwWCfUx1bJw2dbGXF3RSfB/NoRrYQJzaOQtKwbpCn/vzT30B35t+FZz+++WF8hZtwV70S8emJgNVp6cMJin6h/aGHIuLl6SQ70d+WMWfIhnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766539129; c=relaxed/simple;
-	bh=vATq63UQmPo6XuYcsjBbXcr7yKJQKCoj2UU0UrhCzTQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DxpVgpufBREVjJ+SzSaKWpUL8leLiCZRta9HypqgbZIzvQTFwrs07wgAqsJlVV1jD0B3KcSwCzvoh80yoaU8mgfh92aOYbSG9bLtomuoSmp0tdyB1v1V3o1EGxMPMHWoYfQPsgr9LXwohKDBEL9byW2AqUJ94eLZaZO+ntgbX30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GSpjd73j; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1766539850; c=relaxed/simple;
+	bh=skQ0+qYPReTeRZw8sTAnoA64uJ/Hd430GeZTZzoUiQo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m2nXP5s7fY22h00L+SKH7xGYXA8ElQuZLAIyjhPLY+p+7iqeOjn5Iaj2rsOvxmrkDrNuhzfauNXAp765OKxvK6CckOhc7RlXVeq23bQA09Kl3amFlciirmPM6b5RjFaG6DBYRs+HRdVg0pPBt01Ek0QsWtL7govGYJKEMO/xeeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V8q46HOJ; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GSpjd73j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8q46HOJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766539128; x=1798075128;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vATq63UQmPo6XuYcsjBbXcr7yKJQKCoj2UU0UrhCzTQ=;
-  b=GSpjd73jndDvJh8WfmEhefJmSpgtKc/EQbQQOSjUnPRgoSH+3JqijXaR
-   jPj+Xq4MjjBCskJhDZy8VbgAZp0G13/rrJ3e2XtrEgcK+sVu0zN8a94sa
-   Ye5BdPcoQy3uR6220dzDV73JROYeruUp1RJoFzftQ6y+j5noa7Z1wCpMr
-   o+SaZ4t+ihrE+6RsrzKBlyy6remYdZrOfTmH20AocJ64Kyhcp6+lc3uQ9
-   6zsu7c4D4znIno12zNW98aj2I39GZxbdd2RZ04l3xp60qCRlhNWd4XPf+
-   OQ/d7BKc4+84VOIm1hZwlvEooOSTxlJ4ReUHcYmKFyiORw9szHN3icjEO
-   g==;
-X-CSE-ConnectionGUID: n43kGnCXReCQ362LtrXMmg==
-X-CSE-MsgGUID: 8x6mPBQmRVCg+E7Dd5sLFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="72237325"
+  t=1766539849; x=1798075849;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=skQ0+qYPReTeRZw8sTAnoA64uJ/Hd430GeZTZzoUiQo=;
+  b=V8q46HOJaPln7pE6SssozIdyPtqfKJCpng3vUZc3dRB6c0sipIlIgtCK
+   tR71OwMTedfGZli3wd2a2G9ghLjietKmvAazS//tNRpIE+8V4N2PizTLc
+   ET5KwWJeVg8QDnyq7z9Boh6BRS5cu0CM0sInZhHUvEOxtvpfrWnHY/ImY
+   C4afwdceOx3ocCE9tQ8gnwzdtpzA5+z4uiz1ECr/pyfvSM6Tekh2aXgN3
+   K4hvzqnlg+rxkJBv4n+xorfhvZXXxFaoaUpOa7oI9fRQJmXXvoytxos9C
+   03bVcBmpT3p0hHT3EUnQQHQkViR044mvWOLSp2pIQZ+ogzJmP5FCPzDXc
+   Q==;
+X-CSE-ConnectionGUID: CFN/Y4wqQNaGeApIbEUOxg==
+X-CSE-MsgGUID: fcktV8MBQX6wpPKYdkJ5DQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11651"; a="72247638"
 X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
-   d="scan'208";a="72237325"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 17:18:47 -0800
-X-CSE-ConnectionGUID: g5z4RW/tTVyc4+FuzH82bQ==
-X-CSE-MsgGUID: CmrqwK1TSVmx7S5unjn3Xw==
+   d="scan'208";a="72247638"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2025 17:30:48 -0800
+X-CSE-ConnectionGUID: NnaiU3w5QnKuhy0O5c3kqA==
+X-CSE-MsgGUID: kbQ72kWGT/2vLf41xHnebg==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,172,1763452800"; 
+   d="scan'208";a="199564218"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Dec 2025 17:18:46 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 23 Dec 2025 17:30:46 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYDWV-0000000062y-3YmJ;
-	Wed, 24 Dec 2025 01:18:43 +0000
-Date: Wed, 24 Dec 2025 02:18:01 +0100
+	id 1vYDi8-0000000063I-0KWN;
+	Wed, 24 Dec 2025 01:30:44 +0000
+Date: Wed, 24 Dec 2025 02:30:36 +0100
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.19-jumbo 57/113]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: pcs@10080000
- (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the
- regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202512240232.jeeRG7zd-lkp@intel.com>
+To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>, Tejun Heo <tj@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>
+Subject: Re: [PATCH 2/2] cgroup-v2/freezer: Print information about
+ unfreezable process
+Message-ID: <202512240240.TCvafX5S-lkp@intel.com>
+References: <20251223102124.738818-4-ptikhomirov@virtuozzo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,94 +67,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251223102124.738818-4-ptikhomirov@virtuozzo.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-jumbo
-head:   66904bf768dae3a22817ce7c9d40db68314a4ced
-commit: 44d8c66460df75f63fd25146d8b6b69a46c8a41e [57/113] dt-bindings: net: pcs: add bindings for MediaTek USXGMII PCS
-config: arm64-randconfig-2052-20251220 (https://download.01.org/0day-ci/archive/20251224/202512240232.jeeRG7zd-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240232.jeeRG7zd-lkp@intel.com/reproduce)
+Hi Pavel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tj-cgroup/for-next]
+[also build test ERROR on linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Tikhomirov/cgroup-v2-freezer-allow-freezing-with-kthreads/20251223-182826
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git for-next
+patch link:    https://lore.kernel.org/r/20251223102124.738818-4-ptikhomirov%40virtuozzo.com
+patch subject: [PATCH 2/2] cgroup-v2/freezer: Print information about unfreezable process
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251224/202512240240.TCvafX5S-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240240.TCvafX5S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512240232.jeeRG7zd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512240240.TCvafX5S-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-emmc.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-sd.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-emmc.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5-sd.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
---
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
---
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: syscon@10060000 (mediatek,mt7988-sgmiisys0): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: syscon@10070000 (mediatek,mt7988-sgmiisys1): pcs: '#pcs-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
+All errors (new ones prefixed by >>):
+
+>> kernel/cgroup/freezer.c:374:7: error: call to undeclared function 'try_get_task_stack'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     374 |         if (!try_get_task_stack(task))
+         |              ^
+   kernel/cgroup/freezer.c:374:7: note: did you mean 'tryget_task_struct'?
+   include/linux/sched/task.h:120:35: note: 'tryget_task_struct' declared here
+     120 | static inline struct task_struct *tryget_task_struct(struct task_struct *t)
+         |                                   ^
+>> kernel/cgroup/freezer.c:377:2: error: call to undeclared function 'put_task_stack'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     377 |         put_task_stack(task);
+         |         ^
+   kernel/cgroup/freezer.c:377:2: note: did you mean 'put_task_struct'?
+   include/linux/sched/task.h:128:20: note: 'put_task_struct' declared here
+     128 | static inline void put_task_struct(struct task_struct *t)
+         |                    ^
+   2 errors generated.
+
+
+vim +/try_get_task_stack +374 kernel/cgroup/freezer.c
+
+   357	
+   358	static void warn_freeze_timeout_task(struct cgroup *cgrp, int timeout,
+   359					     struct task_struct *task)
+   360	{
+   361		char *buf __free(kfree) = NULL;
+   362		pid_t tgid;
+   363	
+   364		buf = kmalloc(PATH_MAX, GFP_KERNEL);
+   365		if (!buf)
+   366			return;
+   367	
+   368		if (cgroup_path(cgrp, buf, PATH_MAX) < 0)
+   369			return;
+   370	
+   371		tgid = task_pid_nr_ns(task, &init_pid_ns);
+   372		pr_warn("Freeze of %s took %ld sec, due to unfreezable process %d:%s.\n",
+   373			buf, timeout / USEC_PER_SEC, tgid, task->comm);
+ > 374		if (!try_get_task_stack(task))
+   375			return;
+   376		show_stack(task, NULL, KERN_WARNING);
+ > 377		put_task_stack(task);
+   378	}
+   379	
 
 -- 
 0-DAY CI Kernel Test Service
