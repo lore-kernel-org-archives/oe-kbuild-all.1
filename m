@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A442A1B2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 01:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6D525B31C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 02:25:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766624555; cv=none; b=TrxqxBf06NIUvprYQNvjTTUwW+3ZsmDk392u5C/QToU5nrG0EQUI20xlWz1WZO4Kn+3PSCWgGqngMYnJhJYqF79g8Ua2XToaqe/OvwtRaj74G2CHMZYlCy2y6OIcMZ+3TUVXIscQi7n5ZRAo7hx7hIsPF1YubFmPFt7awu/l2Lc=
+	t=1766629514; cv=none; b=WlAERGLDqrfQBTbL9hOIELQcY3Os7L5tEAO6Rq+atNn9wRChWdYb9yZabS9KEW7YZ/+80Ot7B2rCNa4HdKuicooNPbb/XRtZv7LiLqLSopLA5qE0j348a1z8oSFgbcsj7j6WmKHVL8SR/BmOgfEE19KhD2oEV9hSK7+IJ8mdCP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766624555; c=relaxed/simple;
-	bh=RQTWspxDM3bQxRIP+tysG9dW/IxdFQpMZa1N4w8xr+o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FmqyHMopgoLNuNjcDBv/lDnCE9DQU/J8eLx1rJ/6kUWbIW0/8G1MGQSDke1N2/Q2bCaq3lYApvLTtm8cepXFsaAzbF+qoG18vl/pxGw+S1wzckD7tTAISdZK7jGrvNgMT170eDOgNco2sLaq0m55n0ylClOuad6yBFUJIg6hUIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zx6GJSnI; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1766629514; c=relaxed/simple;
+	bh=G9jC/OB+SMtrtf016EulLbf/lH18UQuuTR5dIxw6gos=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BoiNAqL+RQXZ0uBSm3igwTGbJkjp3kJ55VBQI7qagbb4MdotbZSTSlxpqj6d/4KOvI1/ph6u9zys6dRF/CvGCoRExnqD/04n9pEZEUyuTrOJ3N/xzz/eySoABMlqE88HNlqb0fmu45nhK1KZ/D3SZ3Nthzua/IxK4nFgQNkQ/ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l8k35Jke; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zx6GJSnI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l8k35Jke"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766624554; x=1798160554;
+  t=1766629512; x=1798165512;
   h=date:from:to:cc:subject:message-id;
-  bh=RQTWspxDM3bQxRIP+tysG9dW/IxdFQpMZa1N4w8xr+o=;
-  b=Zx6GJSnIE3nz8jBRdHU5h7UQMJ9nDjsc8sNVSww3kjE5+2qZO7WW0aZ2
-   SqqR3l6E1Uqwll/hoQqqxnMWT5OFbzOHY+ZhLFi7c694i3s9GKoyn6mp2
-   n60mErGsnlRR0lAW0PGl6bzvI/B90+08oj1qzASoEgdPkT66Zqasv/DOy
-   0lRy6U6Veb7snD3xKPln3bQ9pbIgfgGJpLqdO0cfkRo5HgPG0UcETgg4W
-   EO/SluZn3Qp/JGrgNCHVxXx8sYRvvyCZquDosGdr/86WIaiW6MklS53GN
-   /vKTm5RatqKQg5GJQgY6OhyNIFqlaPxHr237/trkm4UZXvF33tRIJbR9C
+  bh=G9jC/OB+SMtrtf016EulLbf/lH18UQuuTR5dIxw6gos=;
+  b=l8k35JkeFMaNhzSy8KiSKoeO6aHxjOB9rBUeswJMTD1bXI9F8jqftb51
+   6EfOkhoNNUSDfw15jHIz/Zd59YdPZUmX5Z7gpX03vIHxXaqnKms3y1yjn
+   x63HK994k8TpEnPGPH+HJMkokAyUM/0631yVKfCLzsFH08bNHkIsYOpxZ
+   b4+B5uDRFjisWwBTAUxVX/JcEUv8i1Vpu/JdJiJ5y7xAzj+Rbrtubr2an
+   Ekvi9hVz2JSrJE0CF+r33fctw6zC9aqepYFbka/kZB6QpvTDw3+Goe4QK
+   a83e4f4wfgh6dCD+n7AKqAsqPYVGHhq5+Jq3fL//nESajBLMfKw/s62hY
    w==;
-X-CSE-ConnectionGUID: 5uVg7lcgSS6oNvWqAsYFUg==
-X-CSE-MsgGUID: nzKswKIJRE69LeOZZQRWsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68521228"
+X-CSE-ConnectionGUID: 9ohq0ZRiQfyFd5X7Bny9fw==
+X-CSE-MsgGUID: IJooOTFnTc+vBG70lTDvoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="67447901"
 X-IronPort-AV: E=Sophos;i="6.21,175,1763452800"; 
-   d="scan'208";a="68521228"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 17:02:34 -0800
-X-CSE-ConnectionGUID: YlTt4fLsTpGHt2lswpQF+A==
-X-CSE-MsgGUID: 6Lihi1RvR6epF11EW4pubQ==
+   d="scan'208";a="67447901"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 18:25:10 -0800
+X-CSE-ConnectionGUID: +726hNV9RxKUOVfrpuiAjQ==
+X-CSE-MsgGUID: 1b6Y2vtqQ16r+cFzOhXKEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,175,1763452800"; 
-   d="scan'208";a="230782666"
+   d="scan'208";a="201040857"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 24 Dec 2025 17:02:32 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 24 Dec 2025 18:25:09 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYZkF-000000003at-19Oa;
-	Thu, 25 Dec 2025 01:02:25 +0000
-Date: Thu, 25 Dec 2025 09:01:23 +0800
+	id 1vYb29-000000003dl-1kZ3;
+	Thu, 25 Dec 2025 02:24:57 +0000
+Date: Thu, 25 Dec 2025 10:24:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, Andrii Nakryiko <andrii@kernel.org>
-Subject: [bpf-next:master 8/9] FAILED: load BTF from
- .tmp_vmlinux1.BTF.1: No such file or directory
-Message-ID: <202512250932.X7mdviuH-lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1942/1942]
+ arch/x86/kernel/cpu/hygon.c:439:14: warning: no previous prototype for
+ function 'get_nt_block_copy_mini_len'
+Message-ID: <202512251003.lVv73hTo-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,23 +60,98 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-head:   f14cdb1367b947d373215e36cfe9c69768dbafc9
-commit: 522397d05e7d4a7c30b91841492360336b24f833 [8/9] resolve_btfids: Change in-place update with raw binary output
-config: nios2-randconfig-001-20251224 (https://download.01.org/0day-ci/archive/20251225/202512250932.X7mdviuH-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512250932.X7mdviuH-lkp@intel.com/reproduce)
+Hi qiuzhiteng,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4e9c55920995d70b3e88b60c69753df54b03fdf4
+commit: 1e3cb18ebe2976b3294e85c3d162736cc3c7c92b [1942/1942] x86: Enhanced copy capabilities for Hygon processor
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20251225/202512251003.lVv73hTo-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512251003.lVv73hTo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512250932.X7mdviuH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512251003.lVv73hTo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   Complex, interval and imaginary float types are not supported
-   Error while encoding BTF.
->> FAILED: load BTF from .tmp_vmlinux1.BTF.1: No such file or directory
+   In file included from <built-in>:2:
+   In file included from include/linux/compiler_types.h:59:
+   include/linux/compiler-clang.h:20:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      20 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:353:9: note: previous definition is here
+     353 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+   arch/x86/kernel/cpu/hygon.c:434:6: warning: no previous prototype for function 'set_c86_features_para_invalid' [-Wmissing-prototypes]
+     434 | void set_c86_features_para_invalid(void)
+         |      ^
+   arch/x86/kernel/cpu/hygon.c:434:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     434 | void set_c86_features_para_invalid(void)
+         | ^
+         | static 
+>> arch/x86/kernel/cpu/hygon.c:439:14: warning: no previous prototype for function 'get_nt_block_copy_mini_len' [-Wmissing-prototypes]
+     439 | unsigned int get_nt_block_copy_mini_len(void)
+         |              ^
+   arch/x86/kernel/cpu/hygon.c:439:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     439 | unsigned int get_nt_block_copy_mini_len(void)
+         | ^
+         | static 
+   3 warnings generated.
+   In file included from <built-in>:2:
+   In file included from include/linux/compiler_types.h:59:
+   include/linux/compiler-clang.h:20:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      20 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:353:9: note: previous definition is here
+     353 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+   1 warning generated.
+--
+   In file included from <built-in>:2:
+   In file included from include/linux/compiler_types.h:59:
+   include/linux/compiler-clang.h:20:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      20 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:353:9: note: previous definition is here
+     353 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+>> arch/x86/kernel/fpu/core.c:149:14: warning: no previous prototype for function 'get_fpustate_free_space' [-Wmissing-prototypes]
+     149 | unsigned int get_fpustate_free_space(struct fpu *fpu)
+         |              ^
+   arch/x86/kernel/fpu/core.c:149:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     149 | unsigned int get_fpustate_free_space(struct fpu *fpu)
+         | ^
+         | static 
+>> arch/x86/kernel/fpu/core.c:175:14: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+     175 |         struct fpu *fpu = &current->thread.fpu;
+         |                     ^
+   3 warnings generated.
+   In file included from <built-in>:2:
+   In file included from include/linux/compiler_types.h:59:
+   include/linux/compiler-clang.h:20:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      20 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:353:9: note: previous definition is here
+     353 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+   1 warning generated.
+
+
+vim +/get_nt_block_copy_mini_len +439 arch/x86/kernel/cpu/hygon.c
+
+   438	
+ > 439	unsigned int get_nt_block_copy_mini_len(void)
+   440	{
+   441		unsigned int mini_len = hygon_c86_data.nt_cpy_mini_len;
+   442	
+   443		return mini_len;
+   444	}
+   445	EXPORT_SYMBOL_GPL(get_nt_block_copy_mini_len);
+   446	
 
 -- 
 0-DAY CI Kernel Test Service
