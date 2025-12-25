@@ -1,116 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D407D17BED0;
-	Thu, 25 Dec 2025 04:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077408F48
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 04:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766637043; cv=none; b=lEj6HrdIsuBUHJHdI2hQaVPDGGGDrEi/A+Ik8gmuru12bv7VNWyNC/oUS+yL+6iGgYBggqTF4Asr6yPOuO4orZ7mCSKazuNOaghztqXa3qGbHEl4IfTPKbrJE2lwHP4PBaV9xYtQTbahyrPKCQL84SSjooagu4jbH3Krw4M8nLQ=
+	t=1766637101; cv=none; b=L1bbcZobyeCEYmI/DIsLrvWMdx+qnoxE31vtkJVFJm1z95PQbfECCelQZNdf9vdBPCrJvp+4UPfnO4EDSSmb3c/2fEBmhOfw1ms699sjzxfWBb5Q8urKgnldIAhc4VFno6dH5QS6zW1TSMmys4GK8OCkv9Zu65U18lJku2yo600=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766637043; c=relaxed/simple;
-	bh=0jF1HJwFcGPuiL/DoLAg+iWgJoZ/B5TQNXYupJjw4n0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D5kpqozr4cxJNBXnFq/50js+tR33GT68WIF/Fh06uxCqwSpO8s469R5P86HbcsVZENZ5vCRY3E9PdtuNhIBdwIch8nodGxXA/mP5lnCtIBc1iouxzEzN9036t2+IevRwzoJKuI16zlFY45CXvjNnC7pmwKXme2gWdDVLoMBB/pQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lJKY3UO4; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1766637101; c=relaxed/simple;
+	bh=HW5YTp3RbhGXUtfNfURozraMB3bYKrfts2bhi95ipqo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=J/ruu1Du+o4iz0VJMtKK6sTLCcj7t6QCNtWE7asJ7dKZwDdHtp7k8gyT3xbzI3PP5yY7g1NWQOBpf8z9RbrdrW7RjgvUlpe9Bfbx7T0V+pEVdLuwVbavyrFDCUg0iiftaZtnCjgZyXc6PXuLFcjaOCAfV+opsavSk5VDewSfRZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iKledFfw; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lJKY3UO4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iKledFfw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766637041; x=1798173041;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0jF1HJwFcGPuiL/DoLAg+iWgJoZ/B5TQNXYupJjw4n0=;
-  b=lJKY3UO4FYgaXl5zMRobMVoxUirktUPJlIkRgVkTBJVNldSsu6efy+xB
-   XNBbDcn3Vr9Rj8EdRpmSmcOBRpY3sk02sBZQE2XnZA0YlDxPqjfQMmQcZ
-   8/vPA9sn32G9WmOO3aypA+vYTkRs9XQUTtaNpEXlCxbVlFnS5GfyvTZAS
-   Oy0UNnTdYDa7A13/bb5Scn6twQiHT7ZcJmTEJ8MuVWQdcoNDSarHh+Ymx
-   HCFfv1ce5UNXF7iNSPvryYj9SY5DAY1x3mzIyFfHlE9UWuCiqKuDALEV/
-   u/ry81ukR6smmBvjrv0WxCj+yXdAHG8WHA+AQi/yPlouOCq5ttMDyYgMT
-   Q==;
-X-CSE-ConnectionGUID: ly7v72DgRC2DhX/NSsHNyQ==
-X-CSE-MsgGUID: 16IM76TbTbWk3onRACD+kg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="79086192"
+  t=1766637100; x=1798173100;
+  h=date:from:to:cc:subject:message-id;
+  bh=HW5YTp3RbhGXUtfNfURozraMB3bYKrfts2bhi95ipqo=;
+  b=iKledFfwyYMBX2LKDOcYMws932iVNpDF1TQzLjKlkZADjqaYixpZVO+a
+   1hZOzkJNGh0+r/rb0IZqxnDnz5V4+Y0hh3hvBW5upXUHISgsT/E3e+he9
+   q3RGIK/MK3LmQt8NZD8G3/hXU1eQcdRGMLb0sMqWH62rW06pttwwM1J7X
+   jAIKRy415NUnA5c2MF2Dp5ji/WyBTd95XVLgu/MkEkcuscf/1iWrlK15r
+   5BfmP1Vk3WpRkuXCdzQeZK8r+YlQxboso7/7kuPsGcFeqBgQou9EhzVJb
+   l3HInKxuUJlMXRR/Aw4B8Efj89pHy2SYw9/XnEz2hxtA+3UH6x/e3k0GB
+   w==;
+X-CSE-ConnectionGUID: nl43cGiuSF6DP+W576NfKQ==
+X-CSE-MsgGUID: LZgez8qjTEWfXTALrWs2Yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="72080890"
 X-IronPort-AV: E=Sophos;i="6.21,175,1763452800"; 
-   d="scan'208";a="79086192"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 20:30:40 -0800
-X-CSE-ConnectionGUID: pDRKGQpkRY6j0z/ltvJafg==
-X-CSE-MsgGUID: QZM6HknrSNmRzybAjm/6kw==
+   d="scan'208";a="72080890"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 20:31:40 -0800
+X-CSE-ConnectionGUID: ft4YZyf6RgiP03aSB7WbkA==
+X-CSE-MsgGUID: eKMw6HYBSRW8TCBcTmReNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,175,1763452800"; 
-   d="scan'208";a="200453480"
+   d="scan'208";a="199391869"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 24 Dec 2025 20:30:38 -0800
+  by orviesa010.jf.intel.com with ESMTP; 24 Dec 2025 20:31:38 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYczj-000000003k9-2jFe;
-	Thu, 25 Dec 2025 04:30:35 +0000
-Date: Thu, 25 Dec 2025 12:30:35 +0800
+	id 1vYd0h-000000003kN-3WZr;
+	Thu, 25 Dec 2025 04:31:35 +0000
+Date: Thu, 25 Dec 2025 12:30:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Md Sadre Alam <quic_mdalam@quicinc.com>, adrian.hunter@intel.com,
-	quic_asutoshd@quicinc.com, ulf.hansson@linaro.org,
-	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, ebiggers@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	quic_mdalam@quicinc.com
-Subject: Re: [PATCH] mmc: sdhci-msm: Add quirk to disable CQE for ICE legacy
- mode
-Message-ID: <202512251242.zOsGwwe8-lkp@intel.com>
-References: <20251224101050.3497746-1-quic_mdalam@quicinc.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 50/50]
+ drivers/mtd/nand/raw/nand_hynix.o: warning: objtool: hynix_nand_init+0x17e7:
+ unreachable instruction
+Message-ID: <202512251219.uUPt5kZD-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251224101050.3497746-1-quic_mdalam@quicinc.com>
 
-Hi Md,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on ulf-hansson-mmc-mirror/next v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Md-Sadre-Alam/mmc-sdhci-msm-Add-quirk-to-disable-CQE-for-ICE-legacy-mode/20251224-181537
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251224101050.3497746-1-quic_mdalam%40quicinc.com
-patch subject: [PATCH] mmc: sdhci-msm: Add quirk to disable CQE for ICE legacy mode
-config: arm64-randconfig-004-20251225 (https://download.01.org/0day-ci/archive/20251225/202512251242.zOsGwwe8-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512251242.zOsGwwe8-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   b3ee0976c4976145a60fdd1ff7fc4133b8673d96
+commit: 3115fb2cc55c45d237e7bfdcd04ed6eab3932b4c [50/50] mtd: rawnand: hynix: fixed typo
+config: x86_64-randconfig-r052-20251225 (https://download.01.org/0day-ci/archive/20251225/202512251219.uUPt5kZD-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512251219.uUPt5kZD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512251242.zOsGwwe8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512251219.uUPt5kZD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mmc/host/sdhci-msm.c:2121:36: warning: unused variable 'sdhci_msm_cqhci_ops' [-Wunused-const-variable]
-    2121 | static const struct cqhci_host_ops sdhci_msm_cqhci_ops = {
-         |                                    ^~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-
-
-vim +/sdhci_msm_cqhci_ops +2121 drivers/mmc/host/sdhci-msm.c
-
-67b13f3e221ed8 Shaik Sajida Bhanu 2021-07-16  2120  
-87a8df0dce6ad0 Ritesh Harjani     2020-01-16 @2121  static const struct cqhci_host_ops sdhci_msm_cqhci_ops = {
-c93767cf64ebf4 Eric Biggers       2021-01-25  2122  	.enable		= sdhci_msm_cqe_enable,
-87a8df0dce6ad0 Ritesh Harjani     2020-01-16  2123  	.disable	= sdhci_msm_cqe_disable,
-c93767cf64ebf4 Eric Biggers       2021-01-25  2124  #ifdef CONFIG_MMC_CRYPTO
-741521fa273fdd Eric Biggers       2024-12-12  2125  	.uses_custom_crypto_profile = true,
-c93767cf64ebf4 Eric Biggers       2021-01-25  2126  #endif
-87a8df0dce6ad0 Ritesh Harjani     2020-01-16  2127  };
-87a8df0dce6ad0 Ritesh Harjani     2020-01-16  2128  
+>> drivers/mtd/nand/raw/nand_hynix.o: warning: objtool: hynix_nand_init+0x17e7: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
