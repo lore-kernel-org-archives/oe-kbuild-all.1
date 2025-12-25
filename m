@@ -1,123 +1,135 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670731CBEB9;
-	Thu, 25 Dec 2025 19:34:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3787725B1FC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 19:34:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766691284; cv=none; b=Kt1v1eWPftw0qsUPqSG08gHNR8dLArm6ecR8zX3fyilaNWIGBP2n9mBCBGlmzXmVzxCV2e1cMEsbQCX+zgFA3T1SLaJBljbWlkXHzQ4OLrAWJyjJgpfZvnPvJvLX9dMOHznYNUgPgIVoVAbs1Z5oph1hoF7bCOaxla7/tpyx6uk=
+	t=1766691286; cv=none; b=LhAlX9yu54sotrkW2rsNdT3i1DOPi3B06sDrW729e+IpH3CEOccNBiPHrpK6TuhACWrrPwkqxYhHxHt9DRniDfLL9pyivOsWi1vhb6HNGR2l8KgPp+4auEIL719Uq7kQRH9oNitC+BwQc+hTPn6ay1G8+34YJlu14zI2Xdm6tgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766691284; c=relaxed/simple;
-	bh=ofgh9KwqcvyPHGJk9JcqQvbMV1hNNHkzTXzpIoXFyf4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ce8yhKfT4MevxbXVqcSl7hxXREbcy/kooJWEzYC+bprM1OmpvruaGgQFRbPXupY+cVMObXAPFw6yIdOJljgIwih+0D+0Hww5MEB0QVkSn6dUmaE1iOLFwbWLZ5yP3KIPqcWgqshBQfbW5vqOhDLhu7oUNfpSnVc5ckegBrz1dfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PSkH9jng; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1766691286; c=relaxed/simple;
+	bh=P2jLoPwE4HdBw7J26Hq79gg7LnGjxFXqAxNJo5L/0xc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VAZ1HtdMzAi8h7neIK+kvvuuzPCc5tYq170zqIrcrz0RhSFcmEuc4ToQVGAtbiUYUwzhZcub/mWjID62dQr62u18xKvqMoUcw5iovkGlQKUNQE9a9YMnoSzEhcZn7BQvzBUSkCpdH3LLQhI1+jOxU5J1IGLcgBgnz53zOf6An10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gykp0OqA; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PSkH9jng"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gykp0OqA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766691282; x=1798227282;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ofgh9KwqcvyPHGJk9JcqQvbMV1hNNHkzTXzpIoXFyf4=;
-  b=PSkH9jngiRrVcoodz3UQducplkxVh7GMeHdCRP4y26m1qApG4D/ojuw3
-   mLKXQqkEe3cZeGTSTGJC9jsfA43aLGcpP3M0pO2sxoayzB8BL0dOSQq/c
-   NrmCZc8E9SNxtbX/QIRQ9qilAQs3VbC3Vz60bmH/kfWpqzAPuGW5orq0c
-   DzqYOTJN09KBsmeFi5B7jK264g+2nmG5Z6a1iSaS4eLYKfVuO/seSQBbu
-   IYw06sfY7TXfeBNKBqYlmBrQDvk1SwLf+qpXVg9TNuP1e9oA4FtCDH8e5
-   OrrfXfOSNDn69hnmV6FSIirIWXXukMsbMC5APtyr639/PLIm5+QS3c/ot
-   w==;
-X-CSE-ConnectionGUID: mQyjkOuzTdyq35TgOI08dQ==
-X-CSE-MsgGUID: JiN3on12Sbmmn6awPx3FgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="79202574"
+  t=1766691284; x=1798227284;
+  h=date:from:to:cc:subject:message-id;
+  bh=P2jLoPwE4HdBw7J26Hq79gg7LnGjxFXqAxNJo5L/0xc=;
+  b=gykp0OqA+Sd6RP5y0EsVc7tGIzP8/cSaqYZOjStSIgOhALgselvCFFqg
+   5cqFLDgJZPuehe5i07Jl8z+HD5o8yefBGZQ4qyyx/0UZ3hMcxk2lvSK3w
+   H2fUg7Lqa6Alk28LOKIUWGuw6B8dH6SquXJDXpuCOaJQ1BQfV+JBzArNA
+   Q4XM+g3cCl8ctjYbsPQS3RCOedQCYCNmU84NhwQvfoiJ+M0FKjIIa9whz
+   UrWkJ8IYUPwzuMKNU1N/MRx8wTc3W4vqI3fqiL/dPOR3tULDUel1pRNnQ
+   8G6VBapSQ6C631uM6eLr1gKKe/xIE9KSzdc18szPN0/RCa5CmVbJ/yhSF
+   g==;
+X-CSE-ConnectionGUID: RGews+g0QgWOuqJfjGt64w==
+X-CSE-MsgGUID: pxeMBDc9SLaPwtpnT1NNfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="79202587"
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="79202574"
+   d="scan'208";a="79202587"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 11:34:42 -0800
-X-CSE-ConnectionGUID: LGfeeNPqSG2YVJuVAIHuUg==
-X-CSE-MsgGUID: 9T8ro8cvQtWOoKl7kiFAwQ==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 11:34:44 -0800
+X-CSE-ConnectionGUID: PBi6FOb/S9aKO6VO1DMbeA==
+X-CSE-MsgGUID: 2qRya6HnRZC7ZYM0AhLQVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="200280863"
+   d="scan'208";a="200280869"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 25 Dec 2025 11:34:36 -0800
+  by orviesa008.jf.intel.com with ESMTP; 25 Dec 2025 11:34:42 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYr6Q-000000004Ph-2y69;
-	Thu, 25 Dec 2025 19:34:29 +0000
-Date: Fri, 26 Dec 2025 03:33:36 +0800
+	id 1vYr6X-000000004Pj-1BXU;
+	Thu, 25 Dec 2025 19:34:34 +0000
+Date: Fri, 26 Dec 2025 03:33:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Khalil Blaiech <kblaiech@nvidia.com>,
-	Asmaa Mnebhi <asmaa@nvidia.com>, Jean Delvare <jdelvare@suse.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-actions@lists.infradead.org,
-	Bartosz Golaszewski <brgl@kernel.org>
-Subject: Re: [PATCH 01/12] i2c: add i2c_adapter-specific printk helpers
-Message-ID: <202512260303.nUGs1vi7-lkp@intel.com>
-References: <20251223-i2c-printk-helpers-v1-1-46a08306afdb@oss.qualcomm.com>
+To: Jack Xiao <Jack.Xiao@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>,
+ Mukul Joshi <mukul.joshi@amd.com>
+Subject: [linux-next:master 751/2671]
+ drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1352:67: warning: '%hhu' directive
+ output may be truncated writing between 1 and 3 bytes into a region of size
+ between 0 and 2
+Message-ID: <202512260319.Gs0JObld-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251223-i2c-printk-helpers-v1-1-46a08306afdb@oss.qualcomm.com>
 
-Hi Bartosz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on cc3aa43b44bdb43dfbac0fcb51c56594a11338a8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/i2c-add-i2c_adapter-specific-printk-helpers/20251223-185417
-base:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
-patch link:    https://lore.kernel.org/r/20251223-i2c-printk-helpers-v1-1-46a08306afdb%40oss.qualcomm.com
-patch subject: [PATCH 01/12] i2c: add i2c_adapter-specific printk helpers
-config: x86_64-randconfig-013-20251225 (https://download.01.org/0day-ci/archive/20251226/202512260303.nUGs1vi7-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512260303.nUGs1vi7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
+commit: e220edf2d6fd6dbf08fa93790809500a80217948 [751/2671] drm/amdgpu/mes_v12_1: initial support for mes_v12_1
+config: s390-randconfig-002-20251226 (https://download.01.org/0day-ci/archive/20251226/202512260319.Gs0JObld-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512260319.Gs0JObld-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512260303.nUGs1vi7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512260319.Gs0JObld-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/pci/saa7134/saa7134-i2c.c:31:9: warning: 'i2c_dbg' macro redefined [-Wmacro-redefined]
-      31 | #define i2c_dbg(level, fmt, arg...) do { \
-         |         ^
-   include/linux/i2c.h:775:9: note: previous definition is here
-     775 | #define i2c_dbg(adap, fmt, ...) dev_dbg(&(adap)->dev, fmt, ##__VA_ARGS__)
-         |         ^
-   1 warning generated.
+   drivers/gpu/drm/amd/amdgpu/mes_v12_1.c: In function 'mes_v12_1_sw_init':
+>> drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1352:67: warning: '%hhu' directive output may be truncated writing between 1 and 3 bytes into a region of size between 0 and 2 [-Wformat-truncation=]
+     snprintf(ring->name, sizeof(ring->name), "mes_kiq_%hhu.%hhu.%hhu.%hhu",
+                                                                      ^~~~
+   drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1352:43: note: using the range [0, 255] for directive argument
+     snprintf(ring->name, sizeof(ring->name), "mes_kiq_%hhu.%hhu.%hhu.%hhu",
+                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/mes_v12_1.c:1352:2: note: 'snprintf' output between 16 and 24 bytes into a destination of size 16
+     snprintf(ring->name, sizeof(ring->name), "mes_kiq_%hhu.%hhu.%hhu.%hhu",
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       (unsigned char)xcc_id, (unsigned char)ring->me,
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       (unsigned char)ring->pipe, (unsigned char)ring->queue);
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/i2c_dbg +31 drivers/media/pci/saa7134/saa7134-i2c.c
+vim +1352 drivers/gpu/drm/amd/amdgpu/mes_v12_1.c
 
-^1da177e4c3f415 drivers/media/video/saa7134/saa7134-i2c.c Linus Torvalds        2005-04-16  30  
-45f38cb3b80311a drivers/media/pci/saa7134/saa7134-i2c.c   Mauro Carvalho Chehab 2015-05-13 @31  #define i2c_dbg(level, fmt, arg...) do { \
-45f38cb3b80311a drivers/media/pci/saa7134/saa7134-i2c.c   Mauro Carvalho Chehab 2015-05-13  32  	if (i2c_debug == level) \
-45f38cb3b80311a drivers/media/pci/saa7134/saa7134-i2c.c   Mauro Carvalho Chehab 2015-05-13  33  		printk(KERN_DEBUG pr_fmt("i2c: " fmt), ## arg); \
-45f38cb3b80311a drivers/media/pci/saa7134/saa7134-i2c.c   Mauro Carvalho Chehab 2015-05-13  34  	} while (0)
-45f38cb3b80311a drivers/media/pci/saa7134/saa7134-i2c.c   Mauro Carvalho Chehab 2015-05-13  35  
+  1326	
+  1327	static int mes_v12_1_kiq_ring_init(struct amdgpu_device *adev, int xcc_id)
+  1328	{
+  1329		struct amdgpu_ring *ring;
+  1330		int inst = MES_PIPE_INST(xcc_id, AMDGPU_MES_KIQ_PIPE);
+  1331	
+  1332		spin_lock_init(&adev->gfx.kiq[xcc_id].ring_lock);
+  1333	
+  1334		ring = &adev->gfx.kiq[xcc_id].ring;
+  1335	
+  1336		ring->me = 3;
+  1337		ring->pipe = 1;
+  1338		ring->queue = 0;
+  1339		ring->xcc_id = xcc_id;
+  1340		ring->vm_hub = AMDGPU_GFXHUB(xcc_id);
+  1341	
+  1342		ring->adev = NULL;
+  1343		ring->ring_obj = NULL;
+  1344		ring->use_doorbell = true;
+  1345		ring->eop_gpu_addr = adev->mes.eop_gpu_addr[inst];
+  1346		ring->no_scheduler = true;
+  1347		ring->doorbell_index =
+  1348			(adev->doorbell_index.mes_ring1 +
+  1349			 xcc_id * adev->doorbell_index.xcc_doorbell_range)
+  1350			<< 1;
+  1351	
+> 1352		snprintf(ring->name, sizeof(ring->name), "mes_kiq_%hhu.%hhu.%hhu.%hhu",
+  1353			 (unsigned char)xcc_id, (unsigned char)ring->me,
+  1354			 (unsigned char)ring->pipe, (unsigned char)ring->queue);
+  1355	
+  1356		return amdgpu_ring_init(adev, ring, 1024, NULL, 0,
+  1357					AMDGPU_RING_PRIO_DEFAULT, NULL);
+  1358	}
+  1359	
 
 -- 
 0-DAY CI Kernel Test Service
