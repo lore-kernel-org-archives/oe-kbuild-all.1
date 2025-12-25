@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789093A1E9B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 21:40:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A90C1B0439
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 21:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766698824; cv=none; b=O7l5uoaDNGGS4JoXQiZJmD+HQAuSPL+0ytVH6tBi9FNglAHd61TpZ4xbr0zrfgisant9j2sOz01RBPy0Yyioqv+YgNX7a2d28kg4ihrhfQIn8W/7TQsZLli5FGwmrgxBtl01dhvVLyhRl2WQNpZcXG8O4BjQC7HB/zyOdw0Xe7Q=
+	t=1766698826; cv=none; b=tEjHrcX3/f7XPgYrm5vbEB/LcbOztsOuwCkEHITUYnonBQyygfO3XKHEXPl/vL1rrjwGBT7lDWc7uxM3obpoEn87HzOL8GSZKP4vxkGiny0GDMm0/KAw/SkfK2ZElT1qfIJwUfC9jfcD6V/11/CH0Fe96SXOVqjfp2nnKr1KtBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766698824; c=relaxed/simple;
-	bh=9t40Ejxfi5fx/z7qxWxy+ESzU3LITjSv/Fy3Zjmy6lU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WrpLl8gJmNvYDaqSMXk2ExPfkGHxe9IVQ/lmHFcaftIGemEkulKWDWH9MaGC7qB9IWCucowPFBrkvKC5vilGWRE3z9y263GXnncPBhrXF7+3CDMnCx6rUcyPv69Dm1nnxl//+IiSSTkGPyynC0YmW9KerKqAyEmpo6pnYiYYjPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xmgg7dUs; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1766698826; c=relaxed/simple;
+	bh=VGQIU2dxB5xdXxxAedLCPp142bcRAzmnrdeH9YXOaE4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fgQIk0v5YE/hFF8YgqWrHGQdC4sgkQEKeuv7j/GQ6q5gfV8daZu/SkZc2f9u/VcizBdfiTOM+ZfDK3wKYUH9EwvRxSShOeRv2E1v4GK0w44CoWmzT5oQiNebL49awaccXLn41+X0Md2FrZu4N9HtLlHYrBpasu9jBQU4R30W/BM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UFlEpSTn; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xmgg7dUs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UFlEpSTn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766698822; x=1798234822;
+  t=1766698824; x=1798234824;
   h=date:from:to:cc:subject:message-id;
-  bh=9t40Ejxfi5fx/z7qxWxy+ESzU3LITjSv/Fy3Zjmy6lU=;
-  b=Xmgg7dUs1s8SYIOmKW83w/O7fH2FCwLnhr06uxclCf2g4IDu3qespDFS
-   WiyamxpstCXI7nW2UC+z9dFmdGCY2h7YmGWVIXhey61qxGQ6PC+R4bKuc
-   AyKjDnp7YD3hay6HiqgjMMQ/eWAMth3lv1PyNMBgx20GkQOdP0WYmf4cw
-   U3Mc3PXZPteBS1foVEYgxW4sPsHwpiOdbopCNpXZgza9SK+8N3W9RebZ+
-   vZAi3Ge/dcdR6xh4OvDXTofvaqr6z3fhUqK4Zffkbnp6kZ+n6jao1KcwY
-   SyCCSB9qb/gHiYTEWpdKcFpPJplrSI/ZP0T0pQPdwkdDuRt2dJQquH4rV
-   g==;
-X-CSE-ConnectionGUID: dHSgrimGSNK7vM+/KdP0Mw==
-X-CSE-MsgGUID: b6AquH/jQQe2fp2WClm9bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="79117622"
+  bh=VGQIU2dxB5xdXxxAedLCPp142bcRAzmnrdeH9YXOaE4=;
+  b=UFlEpSTnpPbmICho6njXZgr6zmghqOh/Cbgimw5KT0fxAvgfvpi3MHIf
+   PBqcyvHGPMdODD+PpIPt0F9OZ4ImxWEW1Pz0lSZe1Pdaw78FINsO1kesN
+   y1a1gaCLGuRXCxFJKXhl1NPoW19F8t/3Knf0ISQy67lIjXzjjF9za0LWy
+   O1nvjJM4uFc06F525CDWR6viwEoRP84buoBatGR8PD06FB1bpn8la+b2+
+   tMxM3q5SvGoBL8y80uL9gxWAdZ79Pp5YAHXyvszzyAmAyAeu17BMwZMVM
+   ZwY6SpfqyOuuUnUC7sCqMQlgwoTm1AjqAGDNqG4vLRCPE8+kj7Zc2VctQ
+   Q==;
+X-CSE-ConnectionGUID: 7CAQubQUQM20G0mwDqoBvg==
+X-CSE-MsgGUID: TaSHgX9IRoq1EeYILGUwKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="67679305"
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="79117622"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 13:40:21 -0800
-X-CSE-ConnectionGUID: nO5CGAfyTbWCRzEZ4j4Ndw==
-X-CSE-MsgGUID: 7LjR+0TOTqmDgT9ZuEpX5w==
+   d="scan'208";a="67679305"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 13:40:22 -0800
+X-CSE-ConnectionGUID: CfnrzVRDSHyLmjTWo73sag==
+X-CSE-MsgGUID: 7PrcD5ZkRfmZBZEg/BWQNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="200187266"
+   d="scan'208";a="237672420"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 25 Dec 2025 13:40:20 -0800
+  by orviesa001.jf.intel.com with ESMTP; 25 Dec 2025 13:40:20 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYt4D-000000004Tl-3pBL;
+	id 1vYt4D-000000004Tn-3wCC;
 	Thu, 25 Dec 2025 21:40:17 +0000
-Date: Fri, 26 Dec 2025 05:40:01 +0800
+Date: Fri, 26 Dec 2025 05:40:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mayuresh Chitale <mchitale@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
-Subject: [avpatel:riscv_sbi_dbtr_v2 47/55]
- drivers/hwtracing/rvtrace/rvtrace-ramsink.c:135:5: warning: format specifies
- type 'unsigned long long' but the argument has type 'dma_addr_t' (aka
- 'unsigned int')
-Message-ID: <202512260529.IUoR14yt-lkp@intel.com>
+To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 13/13]
+ include/trace/events/kmem.h:419:10: error: incompatible pointer types passing
+ 'struct mem_sampling_record *' to parameter of type 'struct
+ mem_sampling_record *'
+Message-ID: <202512260557.iKOSRQRF-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,284 +61,823 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_dbtr_v2
-head:   99cb6c466559dba2b0011d84701a156c252e7c59
-commit: b075ffc5fc01b16aa5fbcec10f5920402d301188 [47/55] rvtrace: Add trace ramsink driver
-config: riscv-randconfig-r122-20251225 (https://download.01.org/0day-ci/archive/20251226/202512260529.IUoR14yt-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512260529.IUoR14yt-lkp@intel.com/reproduce)
+Hi Ze,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   52a3b0aa13aa2325ca2caf528fbcaba06ad3bab5
+commit: 5c9754d56876f60e199456beda45715da2d1a20b [13/13] mm/mem_sampling: Add eBPF interface for memory access tracing
+config: arm64-randconfig-001-20251226 (https://download.01.org/0day-ci/archive/20251226/202512260557.iKOSRQRF-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512260557.iKOSRQRF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512260529.IUoR14yt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512260557.iKOSRQRF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/hwtracing/rvtrace/rvtrace-ramsink.c:9:
-   In file included from include/linux/dma-mapping.h:8:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:108:53: note: expanded from macro 'insb'
-   #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/hwtracing/rvtrace/rvtrace-ramsink.c:9:
-   In file included from include/linux/dma-mapping.h:8:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:846:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:109:53: note: expanded from macro 'insw'
-   #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/hwtracing/rvtrace/rvtrace-ramsink.c:9:
-   In file included from include/linux/dma-mapping.h:8:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:854:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           insl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:110:53: note: expanded from macro 'insl'
-   #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-                                            ~~~~~~~~~~ ^
-   In file included from drivers/hwtracing/rvtrace/rvtrace-ramsink.c:9:
-   In file included from include/linux/dma-mapping.h:8:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:863:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsb(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:122:55: note: expanded from macro 'outsb'
-   #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/hwtracing/rvtrace/rvtrace-ramsink.c:9:
-   In file included from include/linux/dma-mapping.h:8:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:872:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsw(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:123:55: note: expanded from macro 'outsw'
-   #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/hwtracing/rvtrace/rvtrace-ramsink.c:9:
-   In file included from include/linux/dma-mapping.h:8:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:881:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           outsl(addr, buffer, count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:124:55: note: expanded from macro 'outsl'
-   #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-                                              ~~~~~~~~~~ ^
-   In file included from drivers/hwtracing/rvtrace/rvtrace-ramsink.c:9:
-   In file included from include/linux/dma-mapping.h:8:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/riscv/include/asm/io.h:140:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-                                                     ~~~~~~~~~~ ^
->> drivers/hwtracing/rvtrace/rvtrace-ramsink.c:135:5: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-                            priv->start, start_min);
-                            ^~~~~~~~~~~
-   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
-           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                                       ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                                ~~~    ^~~~~~~~~~~
-   drivers/hwtracing/rvtrace/rvtrace-ramsink.c:148:77: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-                   dev_warn(&comp->dev, "Ramsink limit address updated from %llx to %llx\n", priv->end,
-                                                                            ~~~~             ^~~~~~~~~
-                                                                            %x
-   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
-           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                                       ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                                ~~~    ^~~~~~~~~~~
-   drivers/hwtracing/rvtrace/rvtrace-ramsink.c:162:77: warning: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Wformat]
-                   dev_warn(&comp->dev, "Ramsink limit address updated from %llx to %llx\n", priv->end,
-                                                                            ~~~~             ^~~~~~~~~
-                                                                            %x
-   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
-           dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                                       ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                                ~~~    ^~~~~~~~~~~
-   10 warnings generated.
+   In file included from mm/slub.c:46:
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+>> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Werror,-Wincompatible-pointer-types]
+     419 |         TP_ARGS(record),
+         |                 ^~~~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:566:44: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |                                                   ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:217:33: note: expanded from macro '__DO_TRACE'
+     217 |                 __DO_TRACE_CALL(name, TP_ARGS(args));                   \
+         |                                               ^~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:177:62: note: expanded from macro '__DO_TRACE_CALL'
+     177 | #define __DO_TRACE_CALL(name, args)     __traceiter_##name(NULL, args)
+         |                                                                  ^~~~
+   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                                              ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+>> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Werror,-Wincompatible-pointer-types]
+     419 |         TP_ARGS(record),
+         |                 ^~~~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:566:44: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |                                                   ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:217:33: note: expanded from macro '__DO_TRACE'
+     217 |                 __DO_TRACE_CALL(name, TP_ARGS(args));                   \
+         |                                               ^~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:177:62: note: expanded from macro '__DO_TRACE_CALL'
+     177 | #define __DO_TRACE_CALL(name, args)     __traceiter_##name(NULL, args)
+         |                                                                  ^~~~
+   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                                              ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   7 warnings and 2 errors generated.
+--
+   In file included from mm/memory.c:83:
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+>> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Werror,-Wincompatible-pointer-types]
+     419 |         TP_ARGS(record),
+         |                 ^~~~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:566:44: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |                                                   ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:217:33: note: expanded from macro '__DO_TRACE'
+     217 |                 __DO_TRACE_CALL(name, TP_ARGS(args));                   \
+         |                                               ^~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:177:62: note: expanded from macro '__DO_TRACE_CALL'
+     177 | #define __DO_TRACE_CALL(name, args)     __traceiter_##name(NULL, args)
+         |                                                                  ^~~~
+   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                                              ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+>> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Werror,-Wincompatible-pointer-types]
+     419 |         TP_ARGS(record),
+         |                 ^~~~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:566:44: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |                                                   ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:217:33: note: expanded from macro '__DO_TRACE'
+     217 |                 __DO_TRACE_CALL(name, TP_ARGS(args));                   \
+         |                                               ^~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:177:62: note: expanded from macro '__DO_TRACE_CALL'
+     177 | #define __DO_TRACE_CALL(name, args)     __traceiter_##name(NULL, args)
+         |                                                                  ^~~~
+   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                                              ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   mm/memory.c:5502:17: warning: variable 'nr_pages' set but not used [-Wunused-but-set-variable]
+    5502 |         int flags = 0, nr_pages;
+         |                        ^
+   8 warnings and 2 errors generated.
+--
+   In file included from mm/page_alloc.c:41:
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+>> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Werror,-Wincompatible-pointer-types]
+     419 |         TP_ARGS(record),
+         |                 ^~~~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:566:44: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |                                                   ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:217:33: note: expanded from macro '__DO_TRACE'
+     217 |                 __DO_TRACE_CALL(name, TP_ARGS(args));                   \
+         |                                               ^~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:177:62: note: expanded from macro '__DO_TRACE_CALL'
+     177 | #define __DO_TRACE_CALL(name, args)     __traceiter_##name(NULL, args)
+         |                                                                  ^~~~
+   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                                              ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+>> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Werror,-Wincompatible-pointer-types]
+     419 |         TP_ARGS(record),
+         |                 ^~~~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:566:44: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |                                                   ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:217:33: note: expanded from macro '__DO_TRACE'
+     217 |                 __DO_TRACE_CALL(name, TP_ARGS(args));                   \
+         |                                               ^~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:177:62: note: expanded from macro '__DO_TRACE_CALL'
+     177 | #define __DO_TRACE_CALL(name, args)     __traceiter_##name(NULL, args)
+         |                                                                  ^~~~
+   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                                              ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   mm/page_alloc.c:4143:9: error: call to undeclared function 'dynamic_pool_should_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    4143 |         return dynamic_pool_should_alloc(gfp_mask & ~GFP_RELIABLE, order);
+         |                ^
+   7 warnings and 3 errors generated.
+--
+   In file included from mm/slab_common.c:35:
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+>> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Werror,-Wincompatible-pointer-types]
+     419 |         TP_ARGS(record),
+         |                 ^~~~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:566:44: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |                                                   ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:217:33: note: expanded from macro '__DO_TRACE'
+     217 |                 __DO_TRACE_CALL(name, TP_ARGS(args));                   \
+         |                                               ^~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:177:62: note: expanded from macro '__DO_TRACE_CALL'
+     177 | #define __DO_TRACE_CALL(name, args)     __traceiter_##name(NULL, args)
+         |                                                                  ^~~~
+   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                                              ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+>> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Werror,-Wincompatible-pointer-types]
+     419 |         TP_ARGS(record),
+         |                 ^~~~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:566:44: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |                                                   ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/tracepoint.h:217:33: note: expanded from macro '__DO_TRACE'
+     217 |                 __DO_TRACE_CALL(name, TP_ARGS(args));                   \
+         |                                               ^~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/linux/tracepoint.h:177:62: note: expanded from macro '__DO_TRACE_CALL'
+     177 | #define __DO_TRACE_CALL(name, args)     __traceiter_##name(NULL, args)
+         |                                                                  ^~~~
+   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                                              ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+   In file included from mm/slab_common.c:35:
+   In file included from include/trace/events/kmem.h:441:
+   In file included from include/trace/define_trace.h:95:
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+>> include/trace/events/kmem.h:416:1: error: conflicting types for '__traceiter_mm_spe_record'
+     416 | TRACE_EVENT(mm_spe_record,
+         | ^
+   include/trace/define_trace.h:28:2: note: expanded from macro 'TRACE_EVENT'
+      28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:341:2: note: expanded from macro 'DEFINE_TRACE'
+     341 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+         |         ^
+   include/linux/tracepoint.h:305:6: note: expanded from macro 'DEFINE_TRACE_FN'
+     305 |         int __traceiter_##_name(void *__data, proto);                   \
+         |             ^
+   <scratch space>:54:1: note: expanded from here
+      54 | __traceiter_mm_spe_record
+         | ^
+   include/trace/events/kmem.h:416:1: note: previous declaration is here
+     416 | TRACE_EVENT(mm_spe_record,
+         | ^
+   include/linux/tracepoint.h:566:2: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:432:2: note: expanded from macro 'DECLARE_TRACE'
+     432 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^
+   include/linux/tracepoint.h:252:13: note: expanded from macro '__DECLARE_TRACE'
+     252 |         extern int __traceiter_##name(data_proto);                      \
+         |                    ^
+   <scratch space>:57:1: note: expanded from here
+      57 | __traceiter_mm_spe_record
+         | ^
+   In file included from mm/slab_common.c:35:
+   In file included from include/trace/events/kmem.h:441:
+   In file included from include/trace/define_trace.h:95:
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+>> include/trace/events/kmem.h:416:1: error: conflicting types for '__traceiter_mm_spe_record'
+     416 | TRACE_EVENT(mm_spe_record,
+         | ^
+   include/trace/define_trace.h:28:2: note: expanded from macro 'TRACE_EVENT'
+      28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:341:2: note: expanded from macro 'DEFINE_TRACE'
+     341 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+         |         ^
+   include/linux/tracepoint.h:319:6: note: expanded from macro 'DEFINE_TRACE_FN'
+     319 |         int __traceiter_##_name(void *__data, proto)                    \
+         |             ^
+   <scratch space>:64:1: note: expanded from here
+      64 | __traceiter_mm_spe_record
+         | ^
+   include/trace/events/kmem.h:416:1: note: previous declaration is here
+     416 | TRACE_EVENT(mm_spe_record,
+         | ^
+   include/linux/tracepoint.h:566:2: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:432:2: note: expanded from macro 'DECLARE_TRACE'
+     432 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^
+   include/linux/tracepoint.h:252:13: note: expanded from macro '__DECLARE_TRACE'
+     252 |         extern int __traceiter_##name(data_proto);                      \
+         |                    ^
+   <scratch space>:57:1: note: expanded from here
+      57 | __traceiter_mm_spe_record
+         | ^
+   In file included from mm/slab_common.c:35:
+   In file included from include/trace/events/kmem.h:441:
+   In file included from include/trace/define_trace.h:95:
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:416:1: error: conflicting types for '__probestub_mm_spe_record'
+     416 | TRACE_EVENT(mm_spe_record,
+         | ^
+   include/trace/define_trace.h:28:2: note: expanded from macro 'TRACE_EVENT'
+      28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:341:2: note: expanded from macro 'DEFINE_TRACE'
+     341 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+         |         ^
+   include/linux/tracepoint.h:335:7: note: expanded from macro 'DEFINE_TRACE_FN'
+     335 |         void __probestub_##_name(void *__data, proto)                   \
+         |              ^
+   <scratch space>:75:1: note: expanded from here
+      75 | __probestub_mm_spe_record
+         | ^
+   include/trace/events/kmem.h:416:1: note: previous declaration is here
+   include/trace/define_trace.h:28:2: note: expanded from macro 'TRACE_EVENT'
+      28 |         DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:341:2: note: expanded from macro 'DEFINE_TRACE'
+     341 |         DEFINE_TRACE_FN(name, NULL, NULL, PARAMS(proto), PARAMS(args));
+         |         ^
+   include/linux/tracepoint.h:306:7: note: expanded from macro 'DEFINE_TRACE_FN'
+     306 |         void __probestub_##_name(void *__data, proto);                  \
+         |              ^
+   <scratch space>:55:1: note: expanded from here
+      55 | __probestub_mm_spe_record
+         | ^
+   In file included from mm/slab_common.c:35:
+   In file included from include/trace/events/kmem.h:441:
+   In file included from include/trace/define_trace.h:102:
+   In file included from include/trace/trace_events.h:286:
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   In file included from mm/slab_common.c:35:
+   In file included from include/trace/events/kmem.h:441:
+   In file included from include/trace/define_trace.h:102:
+   In file included from include/trace/trace_events.h:460:
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+>> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Werror,-Wincompatible-pointer-types]
+     419 |         TP_ARGS(record),
+         |                 ^~~~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/trace/trace_events.h:42:16: note: expanded from macro 'TRACE_EVENT'
+      42 |                              PARAMS(args),                     \
+         |                                     ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:427:51: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     427 | __DECLARE_EVENT_CLASS(call, PARAMS(proto), PARAMS(args), PARAMS(tstruct), \
+         |                                                   ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:410:64: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+     410 |         __data_size = trace_event_get_offsets_##call(&__data_offsets, args); \
+         |                                                                       ^~~~
+   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                                              ^
+   In file included from mm/slab_common.c:35:
+   In file included from include/trace/events/kmem.h:441:
+   In file included from include/trace/define_trace.h:102:
+   In file included from include/trace/trace_events.h:460:
+>> include/trace/events/kmem.h:428:26: error: incomplete definition of type 'struct mem_sampling_record'
+     428 |                 __entry->vaddr = record->virt_addr;
+         |                                  ~~~~~~^
+   include/trace/stages/stage6_event_callback.h:135:33: note: expanded from macro 'TP_fast_assign'
+     135 | #define TP_fast_assign(args...) args
+         |                                 ^~~~
+   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
+      44 |                              PARAMS(assign),                   \
+         |                                     ^~~~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:428:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     428 |                       PARAMS(assign), PARAMS(print))                    \
+         |                              ^~~~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:420:4: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+     420 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:429:26: error: incomplete definition of type 'struct mem_sampling_record'
+     429 |                 __entry->paddr = record->phys_addr;
+         |                                  ~~~~~~^
+   include/trace/stages/stage6_event_callback.h:135:33: note: expanded from macro 'TP_fast_assign'
+     135 | #define TP_fast_assign(args...) args
+         |                                 ^~~~
+   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
+      44 |                              PARAMS(assign),                   \
+         |                                     ^~~~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:428:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     428 |                       PARAMS(assign), PARAMS(print))                    \
+         |                              ^~~~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:420:4: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+     420 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:430:24: error: incomplete definition of type 'struct mem_sampling_record'
+     430 |                 __entry->pid = record->context_id;
+         |                                ~~~~~~^
+   include/trace/stages/stage6_event_callback.h:135:33: note: expanded from macro 'TP_fast_assign'
+     135 | #define TP_fast_assign(args...) args
+         |                                 ^~~~
+   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
+      44 |                              PARAMS(assign),                   \
+         |                                     ^~~~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:428:16: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     428 |                       PARAMS(assign), PARAMS(print))                    \
+         |                              ^~~~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:420:4: note: expanded from macro '\
+   __DECLARE_EVENT_CLASS'
+     420 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+>> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Werror,-Wincompatible-pointer-types]
+     419 |         TP_ARGS(record),
+         |                 ^~~~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/trace/trace_events.h:42:16: note: expanded from macro 'TRACE_EVENT'
+      42 |                              PARAMS(args),                     \
+         |                                     ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/trace_events.h:432:42: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     432 |         do_trace_event_raw_event_##call(__data, args);                  \
+         |                                                 ^~~~
+   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                                              ^
+   include/trace/events/kmem.h:416:1: error: incompatible function pointer types passing 'void (void *, struct mem_sampling_record *)' to parameter of type 'void (*)(void *, struct mem_sampling_record *)' [-Wincompatible-function-pointer-types]
+     416 | TRACE_EVENT(mm_spe_record,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     418 | 
+     419 |         TP_ARGS(record),
+         |         ~~~~~~~~~~~~~~~~
+     420 | 
+     421 |         TP_STRUCT__entry(
+         |         ~~~~~~~~~~~~~~~~~
+     422 |                 __field(u64, vaddr)
+         |                 ~~~~~~~~~~~~~~~~~~~
+     423 |                 __field(u64, paddr)
+         |                 ~~~~~~~~~~~~~~~~~~~
+     424 |                 __field(int, pid)
+         |                 ~~~~~~~~~~~~~~~~~
+     425 |         ),
+         |         ~~
+     426 | 
+     427 |         TP_fast_assign(
+         |         ~~~~~~~~~~~~~~~
+     428 |                 __entry->vaddr = record->virt_addr;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     429 |                 __entry->paddr = record->phys_addr;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     430 |                 __entry->pid = record->context_id;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     431 | 
+   include/trace/trace_events.h:46:2: note: expanded from macro 'TRACE_EVENT'
+      46 |         DEFINE_EVENT(name, name, PARAMS(proto), PARAMS(args));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:457:35: note: expanded from macro 'DEFINE_EVENT'
+     457 |         check_trace_callback_type_##call(trace_event_raw_event_##template); \
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   <scratch space>:118:1: note: expanded from here
+     118 | trace_event_raw_event_mm_spe_record
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/events/kmem.h:416:1: note: passing argument to parameter 'cb' here
+     416 | TRACE_EVENT(mm_spe_record,
+         | ^
+   include/linux/tracepoint.h:566:2: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:432:2: note: expanded from macro 'DECLARE_TRACE'
+     432 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^
+   include/linux/tracepoint.h:287:42: note: expanded from macro '__DECLARE_TRACE'
+     287 |         check_trace_callback_type_##name(void (*cb)(data_proto))        \
+         |                                                 ^
+   In file included from mm/slab_common.c:35:
+   In file included from include/trace/events/kmem.h:441:
+   In file included from include/trace/define_trace.h:102:
+   In file included from include/trace/trace_events.h:512:
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   In file included from mm/slab_common.c:35:
+   In file included from include/trace/events/kmem.h:441:
+   In file included from include/trace/define_trace.h:103:
+   In file included from include/trace/perf.h:75:
+   include/trace/events/kmem.h:417:18: warning: declaration of 'struct mem_sampling_record' will not be visible outside of this function [-Wvisibility]
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:416:1: error: conflicting types for 'perf_trace_mm_spe_record'
+     416 | TRACE_EVENT(mm_spe_record,
+         | ^
+   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^
+   include/trace/perf.h:17:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
+      17 | static notrace void                                                     \
+         |                                                                         ^
+   <scratch space>:93:1: note: expanded from here
+      93 | perf_trace_mm_spe_record
+         | ^
+   include/trace/events/kmem.h:416:1: note: previous declaration is here
+     416 | TRACE_EVENT(mm_spe_record,
+         | ^
+   include/trace/trace_events.h:40:2: note: expanded from macro 'TRACE_EVENT'
+      40 |         DECLARE_EVENT_CLASS(name,                              \
+         |         ^
+   include/trace/trace_events.h:467:72: note: expanded from macro 'DECLARE_EVENT_CLASS'
+     467 | #define DECLARE_EVENT_CLASS(call, proto, args, tstruct, assign, print)  \
+         |                                                                         ^
+   include/trace/trace_events.h:383:2: note: expanded from macro '\
+   _TRACE_PERF_PROTO'
+     383 |         perf_trace_##call(void *__data, proto);
+         |         ^
+   <scratch space>:27:1: note: expanded from here
+      27 | perf_trace_mm_spe_record
+         | ^
+   In file included from mm/slab_common.c:35:
+   In file included from include/trace/events/kmem.h:441:
+   In file included from include/trace/define_trace.h:103:
+   In file included from include/trace/perf.h:75:
+>> include/trace/events/kmem.h:419:10: error: incompatible pointer types passing 'struct mem_sampling_record *' to parameter of type 'struct mem_sampling_record *' [-Werror,-Wincompatible-pointer-types]
+     419 |         TP_ARGS(record),
+         |                 ^~~~~~
+   include/linux/tracepoint.h:148:26: note: expanded from macro 'TP_ARGS'
+     148 | #define TP_ARGS(args...)        args
+         |                                 ^~~~
+   include/trace/trace_events.h:42:16: note: expanded from macro 'TRACE_EVENT'
+      42 |                              PARAMS(args),                     \
+         |                                     ^~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/perf.h:31:64: note: expanded from macro 'DECLARE_EVENT_CLASS'
+      31 |         __data_size = trace_event_get_offsets_##call(&__data_offsets, args); \
+         |                                                                       ^~~~
+   include/trace/events/kmem.h:417:39: note: passing argument to parameter 'record' here
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                                              ^
+   In file included from mm/slab_common.c:35:
+   In file included from include/trace/events/kmem.h:441:
+   In file included from include/trace/define_trace.h:103:
+   In file included from include/trace/perf.h:75:
+>> include/trace/events/kmem.h:428:26: error: incomplete definition of type 'struct mem_sampling_record'
+     428 |                 __entry->vaddr = record->virt_addr;
+         |                                  ~~~~~~^
+   include/trace/stages/stage6_event_callback.h:135:33: note: expanded from macro 'TP_fast_assign'
+     135 | #define TP_fast_assign(args...) args
+         |                                 ^~~~
+   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
+      44 |                              PARAMS(assign),                   \
+         |                                     ^~~~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/perf.h:51:4: note: expanded from macro 'DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:429:26: error: incomplete definition of type 'struct mem_sampling_record'
+     429 |                 __entry->paddr = record->phys_addr;
+         |                                  ~~~~~~^
+   include/trace/stages/stage6_event_callback.h:135:33: note: expanded from macro 'TP_fast_assign'
+     135 | #define TP_fast_assign(args...) args
+         |                                 ^~~~
+   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
+      44 |                              PARAMS(assign),                   \
+         |                                     ^~~~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/perf.h:51:4: note: expanded from macro 'DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:430:24: error: incomplete definition of type 'struct mem_sampling_record'
+     430 |                 __entry->pid = record->context_id;
+         |                                ~~~~~~^
+   include/trace/stages/stage6_event_callback.h:135:33: note: expanded from macro 'TP_fast_assign'
+     135 | #define TP_fast_assign(args...) args
+         |                                 ^~~~
+   include/trace/trace_events.h:44:16: note: expanded from macro 'TRACE_EVENT'
+      44 |                              PARAMS(assign),                   \
+         |                                     ^~~~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+     107 | #define PARAMS(args...) args
+         |                         ^~~~
+   include/trace/perf.h:51:4: note: expanded from macro 'DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/events/kmem.h:417:18: note: forward declaration of 'struct mem_sampling_record'
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |                         ^
+   include/trace/events/kmem.h:416:1: error: incompatible function pointer types passing 'void (void *, struct mem_sampling_record *)' to parameter of type 'void (*)(void *, struct mem_sampling_record *)' [-Wincompatible-function-pointer-types]
+     416 | TRACE_EVENT(mm_spe_record,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+     417 |         TP_PROTO(struct mem_sampling_record *record),
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     418 | 
+     419 |         TP_ARGS(record),
+         |         ~~~~~~~~~~~~~~~~
+     420 | 
+     421 |         TP_STRUCT__entry(
+         |         ~~~~~~~~~~~~~~~~~
+     422 |                 __field(u64, vaddr)
+         |                 ~~~~~~~~~~~~~~~~~~~
+     423 |                 __field(u64, paddr)
+         |                 ~~~~~~~~~~~~~~~~~~~
+     424 |                 __field(int, pid)
+         |                 ~~~~~~~~~~~~~~~~~
+     425 |         ),
+         |         ~~
+     426 | 
+     427 |         TP_fast_assign(
+         |         ~~~~~~~~~~~~~~~
+     428 |                 __entry->vaddr = record->virt_addr;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     429 |                 __entry->paddr = record->phys_addr;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     430 |                 __entry->pid = record->context_id;
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     431 | 
+   include/trace/trace_events.h:46:2: note: expanded from macro 'TRACE_EVENT'
+      46 |         DEFINE_EVENT(name, name, PARAMS(proto), PARAMS(args));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/perf.h:67:35: note: expanded from macro 'DEFINE_EVENT'
+      67 |         check_trace_callback_type_##call(perf_trace_##template);        \
+         |                                          ^~~~~~~~~~~~~~~~~~~~~
+   <scratch space>:99:1: note: expanded from here
+      99 | perf_trace_mm_spe_record
+         | ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/events/kmem.h:416:1: note: passing argument to parameter 'cb' here
+     416 | TRACE_EVENT(mm_spe_record,
+         | ^
+   include/linux/tracepoint.h:566:2: note: expanded from macro 'TRACE_EVENT'
+     566 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:432:2: note: expanded from macro 'DECLARE_TRACE'
+     432 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwtracing/rvtrace/rvtrace-ramsink.c:260:1: sparse: sparse: bad integer constant expression
-   drivers/hwtracing/rvtrace/rvtrace-ramsink.c:260:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
-   drivers/hwtracing/rvtrace/rvtrace-ramsink.c:261:1: sparse: sparse: bad integer constant expression
-   drivers/hwtracing/rvtrace/rvtrace-ramsink.c:261:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   drivers/hwtracing/rvtrace/rvtrace-ramsink.c:262:1: sparse: sparse: bad integer constant expression
-   drivers/hwtracing/rvtrace/rvtrace-ramsink.c:262:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   drivers/hwtracing/rvtrace/rvtrace-ramsink.c:262:1: sparse: sparse: bad integer constant expression
-   drivers/hwtracing/rvtrace/rvtrace-ramsink.c:262:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HALTPOLL_CPUIDLE
+   Depends on [n]: CPU_IDLE [=n] && ARCH_CPUIDLE_HALTPOLL [=y] && ARCH_HAS_OPTIMIZED_POLL [=y]
+   Selected by [y]:
+   - ARM64 [=y]
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+   Selected by [y]:
+   - ARM64_MPAM [=y]
 
-vim +135 drivers/hwtracing/rvtrace/rvtrace-ramsink.c
 
-   107	
-   108	static int rvtrace_ramsink_setup_buf(struct rvtrace_component *comp)
-   109	{
-   110		struct rvtrace_ramsink_priv *priv = dev_get_drvdata(&comp->dev);
-   111		u64 start_min, limit_max, end;
-   112		u32 low, high;
-   113	
-   114		/* Probe min and max values for start and limit registers */
-   115		rvtrace_write32(comp->pdata, 0, RVTRACE_RAMSINK_STARTLOW_OFF);
-   116		rvtrace_write32(comp->pdata, 0, RVTRACE_RAMSINK_STARTHIGH_OFF);
-   117		low = rvtrace_read32(comp->pdata, RVTRACE_RAMSINK_STARTLOW_OFF);
-   118		high = rvtrace_read32(comp->pdata, RVTRACE_RAMSINK_STARTHIGH_OFF);
-   119		start_min = (u64)(high) << 32 | low;
-   120	
-   121		rvtrace_write32(comp->pdata, 0xffffffff, RVTRACE_RAMSINK_LIMITLOW_OFF);
-   122		rvtrace_write32(comp->pdata, 0xffffffff, RVTRACE_RAMSINK_LIMITHIGH_OFF);
-   123		low = rvtrace_read32(comp->pdata, RVTRACE_RAMSINK_LIMITLOW_OFF);
-   124		high = rvtrace_read32(comp->pdata, RVTRACE_RAMSINK_LIMITHIGH_OFF);
-   125		limit_max = (u64)(high) << 32 | low;
-   126	
-   127		if (priv->end < start_min) {
-   128			dev_err(&comp->dev, "DMA memory not addressable by device\n");
-   129			return -EINVAL;
-   130		}
-   131	
-   132		/* Setup ram sink start addresses */
-   133		if (priv->start < start_min) {
-   134			dev_warn(&comp->dev, "Ramsink start address updated from %llx to %llx\n",
- > 135				 priv->start, start_min);
-   136			priv->va += start_min - priv->start;
-   137			priv->start = start_min;
-   138		}
-   139	
-   140		priv->prev_head = priv->start;
-   141		priv->end = priv->start + priv->size;
-   142		rvtrace_write32(comp->pdata, lower_32_bits(priv->start), RVTRACE_RAMSINK_STARTLOW_OFF);
-   143		rvtrace_write32(comp->pdata, upper_32_bits(priv->start), RVTRACE_RAMSINK_STARTHIGH_OFF);
-   144		rvtrace_write32(comp->pdata, lower_32_bits(priv->start), RVTRACE_RAMSINK_WPLOW_OFF);
-   145		rvtrace_write32(comp->pdata, upper_32_bits(priv->start), RVTRACE_RAMSINK_WPHIGH_OFF);
-   146		/* Setup ram sink limit addresses */
-   147		if (priv->end > limit_max) {
-   148			dev_warn(&comp->dev, "Ramsink limit address updated from %llx to %llx\n", priv->end,
-   149				 limit_max);
-   150			priv->end = limit_max;
-   151			priv->size = priv->end - priv->start;
-   152		}
-   153	
-   154		/* Limit address needs to be set to end - 4 to avoid overflow */
-   155		end = priv->end - 4;
-   156		rvtrace_write32(comp->pdata, lower_32_bits(end), RVTRACE_RAMSINK_LIMITLOW_OFF);
-   157		rvtrace_write32(comp->pdata, upper_32_bits(end), RVTRACE_RAMSINK_LIMITHIGH_OFF);
-   158		low = rvtrace_read32(comp->pdata, RVTRACE_RAMSINK_LIMITLOW_OFF);
-   159		high = rvtrace_read32(comp->pdata, RVTRACE_RAMSINK_LIMITHIGH_OFF);
-   160		end = (u64)(high) << 32 | low;
-   161		if (end != (priv->end - 4)) {
-   162			dev_warn(&comp->dev, "Ramsink limit address updated from %llx to %llx\n", priv->end,
-   163				 end);
-   164			priv->end = end;
-   165			priv->size = priv->end - priv->start;
-   166		}
-   167	
-   168		return 0;
-   169	}
-   170	
-   171	static int rvtrace_ramsink_setup(struct rvtrace_component *comp)
-   172	{
-   173		struct device *pdev = comp->pdata->dev;
-   174		struct rvtrace_ramsink_priv *priv;
-   175	
-   176		priv = devm_kzalloc(&comp->dev, sizeof(*priv), GFP_KERNEL);
-   177		if (!priv)
-   178			return -ENOMEM;
-   179	
-   180		dev_set_drvdata(&comp->dev, priv);
-   181	
-   182		/* Derive RAM sink memory size based on component implementation ID */
-   183		switch (comp->pdata->impid) {
-   184		default:
-   185			priv->size = SZ_1M;
-   186			break;
-   187		}
-   188	
-   189		priv->va = dma_alloc_coherent(pdev, priv->size, &priv->start, GFP_KERNEL);
-   190		if (!priv->va)
-   191			return -ENOMEM;
-   192	
-   193		return rvtrace_ramsink_setup_buf(comp);
-   194	}
-   195	
-   196	static void rvtrace_ramsink_cleanup(struct rvtrace_component *comp)
-   197	{
-   198		struct rvtrace_ramsink_priv *priv = dev_get_drvdata(&comp->dev);
-   199	
-   200		dma_free_coherent(&comp->dev, priv->size, priv->va, priv->start);
-   201	}
-   202	
-   203	static int rvtrace_ramsink_probe(struct rvtrace_component *comp)
-   204	{
-   205		int ret;
-   206	
-   207		ret = rvtrace_ramsink_setup(comp);
-   208		if (ret)
-   209			return dev_err_probe(&comp->dev, ret, "failed to setup ramsink.\n");
-   210	
-   211		ret = rvtrace_enable_component(comp);
-   212		if (ret)
-   213			return dev_err_probe(&comp->dev, ret, "failed to enable ramsink.\n");
-   214	
-   215		return ret;
-   216	}
-   217	
-   218	static void rvtrace_ramsink_remove(struct rvtrace_component *comp)
-   219	{
-   220		int ret;
-   221	
-   222		ret = rvtrace_disable_component(comp);
-   223		if (ret)
-   224			dev_err(&comp->dev, "failed to disable ramsink.\n");
-   225	
-   226		rvtrace_ramsink_cleanup(comp);
-   227	}
-   228	
-   229	static struct rvtrace_component_id rvtrace_ramsink_ids[] = {
-   230		{ .type = RVTRACE_COMPONENT_TYPE_RAMSINK,
-   231		  .version = rvtrace_component_mkversion(1, 0), },
-   232		{},
-   233	};
-   234	
-   235	static struct rvtrace_driver rvtrace_ramsink_driver = {
-   236		.id_table = rvtrace_ramsink_ids,
-   237		.copyto_auxbuf = rvtrace_ramsink_copyto_auxbuf,
-   238		.stop = rvtrace_ramsink_stop,
-   239		.probe = rvtrace_ramsink_probe,
-   240		.remove = rvtrace_ramsink_remove,
-   241		.driver = {
-   242			.name = "rvtrace-ramsink",
-   243		},
-   244	};
-   245	
-   246	static int __init rvtrace_ramsink_init(void)
-   247	{
-   248		return rvtrace_register_driver(&rvtrace_ramsink_driver);
-   249	}
-   250	
-   251	static void __exit rvtrace_ramsink_exit(void)
-   252	{
-   253		rvtrace_unregister_driver(&rvtrace_ramsink_driver);
-   254	}
-   255	
-   256	module_init(rvtrace_ramsink_init);
-   257	module_exit(rvtrace_ramsink_exit);
-   258	
-   259	/* Module information */
- > 260	MODULE_AUTHOR("Mayuresh Chitale <mchitale@ventanamicro.com>");
+vim +419 include/trace/events/kmem.h
+
+   388	
+   389		TP_PROTO(struct mm_struct *mm,
+   390			int member),
+   391	
+   392		TP_ARGS(mm, member),
+   393	
+   394		TP_STRUCT__entry(
+   395			__field(unsigned int, mm_id)
+   396			__field(unsigned int, curr)
+   397			__field(int, member)
+   398			__field(long, size)
+   399		),
+   400	
+   401		TP_fast_assign(
+   402			__entry->mm_id = mm_ptr_to_hash(mm);
+   403			__entry->curr = !!(current->mm == mm);
+   404			__entry->member = member;
+   405			__entry->size = (mm_counter_sum_positive(mm, member)
+   406								<< PAGE_SHIFT);
+   407		),
+   408	
+   409		TP_printk("mm_id=%u curr=%d type=%s size=%ldB",
+   410			__entry->mm_id,
+   411			__entry->curr,
+   412			__print_symbolic(__entry->member, TRACE_MM_PAGES),
+   413			__entry->size)
+   414		);
+   415	#ifdef CONFIG_ARM_SPE_MEM_SAMPLING
+ > 416	TRACE_EVENT(mm_spe_record,
+   417		TP_PROTO(struct mem_sampling_record *record),
+   418	
+ > 419		TP_ARGS(record),
+   420	
+   421		TP_STRUCT__entry(
+   422			__field(u64, vaddr)
+   423			__field(u64, paddr)
+   424			__field(int, pid)
+   425		),
+   426	
+   427		TP_fast_assign(
+ > 428			__entry->vaddr = record->virt_addr;
+   429			__entry->paddr = record->phys_addr;
+   430			__entry->pid = record->context_id;
+   431	
+   432		),
+   433	
+   434		TP_printk("vaddr=%llu paddr=%llu pid=%d",
+   435			__entry->vaddr, __entry->paddr, __entry->pid)
+   436	);
+   437	#endif /* CONFIG_ARM_SPE_MEM_SAMPLING */
+   438	#endif /* _TRACE_KMEM_H */
+   439	
 
 -- 
 0-DAY CI Kernel Test Service
