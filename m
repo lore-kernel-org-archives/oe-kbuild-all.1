@@ -1,76 +1,60 @@
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC491373
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 00:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB96C1373
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 00:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766622053; cv=none; b=QzufeejCsNKWlHUcEGw1fSyvyuNtm2LgdPogYcRdlRNizEw41HmlZEVnHrGXLDUFsppL1AwycYiI7zLf7X9uVrp06Q/4wQzqLfjjZLMA6EUHh2HTLJxrHDjFA/mS66N7NYObuVuSGFvTpWlqqL5K3CciRvOnAFNv2xfh5adGgjI=
+	t=1766622680; cv=none; b=mdp+euY/IxrrRXT+g60RtNGTiqIUBvdrc5ITj+3o76XLk/9AQgdslL09fVZ+HTHGY5QFtQpV9jNtQmTzblTE/DsBjbmiP0WUzCR2+7TK+hOOfK+zye/MLYau097dOW+LqwVpEdwaRiklU5ekX5Zd1aQHb4e1j2jPf9BrgyZ41Qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766622053; c=relaxed/simple;
-	bh=HmMnzSCVOzda4lFUyKUre9uzxIVJCJZK1uSda56mdMU=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=NdosLf2QbJAFU4xQXmGR3BQK6Fb3ySYS24Afh2782MI4Kk+htINMHR/+vSK/52TgT4LkPmMxRIBxsGDr76g0D6DyOi8RekIA3mCftTAy+sPGdCLcr6SlKnShhvr/+l7j5nVJzn1pOtx7Ir1jPLC8/WY4kJYqYMnDNxh5/E9EZXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nxfZLen6; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+	s=arc-20240116; t=1766622680; c=relaxed/simple;
+	bh=YtHLGZo1gSgsjV4OeLsbzue0f87z+WWz4MVwCQfOVCk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EpZ6a6UkXzcB6dSS8tewmgKeyCzArrlS/erepJ7bOPagNC6FteIkwJpUa7h96UyhXC2/PoGX36RduyNiFJfDta68H4NriNnEedJaW2maz+P3TwxhDPqrFeLKirK/2hLGrY2bgjozryNTRQZonkiYCmEcPpt/wxxoEwUgly79/3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VrElveOU; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nxfZLen6"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id 443621D00119;
-	Wed, 24 Dec 2025 19:20:49 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 24 Dec 2025 19:20:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1766622049; x=1766708449; bh=GqLER5/He2ATZFOr47hO2xqlE5rJXmXQubw
-	aLbaCipw=; b=nxfZLen60ZujHlXgIEDOxUgmUTYfrfcywayX4kxqwOdHuj8/9ex
-	xmyAFnsioLUSB5uBE2273n8o1+ZJtalbxSxPhWYX5uOsUCAVodW0C0pVoNrRgytT
-	LVo2JO3GCHXzq+nSjnMSxr1e/RgpupXqcz+9GTFyy4FvWu3Qrz0vpk1Z5606p97a
-	13X9vZyJBnA5ImCCLm/KYU5ktFETmT6vh8XPfG90xJPstrupm5nlFI5aC1guwwuT
-	NJ/t0N45RQfvP3MIe6CZ7cRHTxg9Lp2ZOnjX7lE0nd2n8xAyqC2fONSpCWGvCk3t
-	cKQBm5SMNFrYSvMmG8tr4h/fkzajeh0ldsQ==
-X-ME-Sender: <xms:X4NMaXn6Uj9rebLZkmMIy8fJR8Ojn3lAFb3LDvYhLTC7LyKW4txxkw>
-    <xme:X4NMaeicWlDY25IZqOCJw--YEjbp8WCdgGRi4SLwkJ6v8H0Ud86a6hUcZJ9shT-Jr
-    YSPtKrI7XVcMarpg7rEjXNZAhSqo8z_AM8yiwy5EPbjVXgTGYKfSYA>
-X-ME-Received: <xmr:X4NMaXeZML4F5GGOfiyi0Nx-fDgTw6RjaSJsdr-wvc0abA8SplyAtKedKOvoS6FofBn4pGpkIOUCEXWRtDujW5v3FW4_gr9osOk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeigedufecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhnucfvhhgr
-    ihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhephffhtdehjeelgfeifffhhfeffffgjeefleeuudefuefhvedtieehheduhfegheeu
-    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghdptddurdhorhhgnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfhhthhgrihhnsehlihhnuhig
-    qdhmieekkhdrohhrghdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpd
-    hrtghpthhtohepphgvthgvrhiisehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohep
-    lhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlse
-    hlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepuggrvhhiugeskhgvrhhnvghl
-    rdhorhhgpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdroh
-    hrghdprhgtphhtthhopehlihhnuhigqdhmmheskhhvrggtkhdrohhrgh
-X-ME-Proxy: <xmx:X4NMaWixMzSV9KkcJ5LNMJ2fU0iS_h95QjBhLEUlkaDh2KhV1fSYtQ>
-    <xmx:X4NMaXzIu83omezfAWmNS8lrjVMIgdnhyIWDo70afWyVXbdxxW-D_A>
-    <xmx:X4NMaaPjkzjq2yP9YFmDTaLwGy-gGlF73b0RH21kMziw1gFljCBRoQ>
-    <xmx:X4NMaQXVyDcwssCwOy-H1SngGiuV8sTbhV-7TSyfKK5sxqkJKkrbdQ>
-    <xmx:YYNMaYDGIyyfRLLw6y1A1BLRh1_2x30ChV0UWHEvYU9CU2jph8i6l92C>
-Feedback-ID: i58a146ae:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 24 Dec 2025 19:20:44 -0500 (EST)
-Date: Thu, 25 Dec 2025 11:21:56 +1100 (AEDT)
-From: Finn Thain <fthain@linux-m68k.org>
-To: Peter Zijlstra <peterz@infradead.org>
-cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-    David Hildenbrand <david@kernel.org>, 
-    Andrew Morton <akpm@linux-foundation.org>, 
-    Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [akpm-mm:mm-nonmm-unstable 68/96] arm-linux-gnueabi-ld: error:
- zImage file size is incorrect
-In-Reply-To: <202512241835.avmTEP6X-lkp@intel.com>
-Message-ID: <b59bbd77-7e5a-b0ca-cf39-ae34bda80267@linux-m68k.org>
-References: <202512241835.avmTEP6X-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VrElveOU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766622678; x=1798158678;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YtHLGZo1gSgsjV4OeLsbzue0f87z+WWz4MVwCQfOVCk=;
+  b=VrElveOUooeL/c3Dp8WDlkUKkZ3oKRk/UeMtJitFnr6jttUeL5dUXUCa
+   N0PwFObIqmBXGojHkPFhs4S2t0GCxA1tAl2ayLx8NYYDdCviMAnTcRrgd
+   QJr1R5xz4lfZ2bKIby3Dnu5cdnlvSpFot4IIKqOx54VZkVAudNMLNcq7w
+   Dcn1i/Ryfu9OU879pOhei3BEuaDeg1h6QtigCpTUOsy3roi4ZTDZ6Aw4q
+   DYpFe0pk74+Ns1cBwv/k/Q3CVSwy7PW1Lp2kbw8gEfKddvEj/gC+xFlcx
+   FjbkU7hu4tU+xxy4WKBpNZmIR4cpHtTULQGsBT2LBASnJT/M+CkXAiiGa
+   Q==;
+X-CSE-ConnectionGUID: juSfqnfzTw+Ux5fxXhGvWQ==
+X-CSE-MsgGUID: 4nBFKPlQS52+ak0E1Ttwgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68329755"
+X-IronPort-AV: E=Sophos;i="6.21,175,1763452800"; 
+   d="scan'208";a="68329755"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2025 16:31:17 -0800
+X-CSE-ConnectionGUID: gnStMpddSiSoZUOoZrq6iA==
+X-CSE-MsgGUID: Y1ZDmXJ4SBi13YbkBdni4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,175,1763452800"; 
+   d="scan'208";a="199265067"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 24 Dec 2025 16:31:16 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vYZG5-000000003Zx-2d4E;
+	Thu, 25 Dec 2025 00:31:13 +0000
+Date: Thu, 25 Dec 2025 08:30:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Felix Maurer <fmaurer@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC net 5/6] hsr: Implement more robust duplicate discard for
+ PRP
+Message-ID: <202512250802.ZQJct8ti-lkp@intel.com>
+References: <af4bd23b0a4b417b9ce26d77c1d153cfaf78ec64.1766433800.git.fmaurer@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,39 +62,162 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <af4bd23b0a4b417b9ce26d77c1d153cfaf78ec64.1766433800.git.fmaurer@redhat.com>
+
+Hi Felix,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Maurer/selftests-hsr-Add-ping-test-for-PRP/20251223-050252
+base:   net/main
+patch link:    https://lore.kernel.org/r/af4bd23b0a4b417b9ce26d77c1d153cfaf78ec64.1766433800.git.fmaurer%40redhat.com
+patch subject: [RFC net 5/6] hsr: Implement more robust duplicate discard for PRP
+config: csky-randconfig-r072-20251225 (https://download.01.org/0day-ci/archive/20251225/202512250802.ZQJct8ti-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512250802.ZQJct8ti-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512250802.ZQJct8ti-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   net/hsr/prp_dup_discard_test.c: In function 'build_prp_test_data':
+>> net/hsr/prp_dup_discard_test.c:23:19: error: 'struct hsr_node' has no member named 'seq_start'
+      23 |         data->node.seq_start[HSR_PT_SLAVE_A] = 1;
+         |                   ^
+>> net/hsr/prp_dup_discard_test.c:24:19: error: 'struct hsr_node' has no member named 'seq_expected'
+      24 |         data->node.seq_expected[HSR_PT_SLAVE_A] = 1;
+         |                   ^
+   net/hsr/prp_dup_discard_test.c:25:19: error: 'struct hsr_node' has no member named 'seq_start'
+      25 |         data->node.seq_start[HSR_PT_SLAVE_B] = 1;
+         |                   ^
+   net/hsr/prp_dup_discard_test.c:26:19: error: 'struct hsr_node' has no member named 'seq_expected'
+      26 |         data->node.seq_expected[HSR_PT_SLAVE_B] = 1;
+         |                   ^
+   In file included from net/hsr/prp_dup_discard_test.c:2:
+   net/hsr/prp_dup_discard_test.c: In function 'check_prp_counters':
+   net/hsr/prp_dup_discard_test.c:39:41: error: 'struct hsr_node' has no member named 'seq_start'
+      39 |         KUNIT_EXPECT_EQ(test, data->node.seq_start[HSR_PT_SLAVE_A],
+         |                                         ^
+   include/kunit/test.h:839:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     839 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   include/kunit/test.h:1035:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1035 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1032:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1032 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/hsr/prp_dup_discard_test.c:39:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+      39 |         KUNIT_EXPECT_EQ(test, data->node.seq_start[HSR_PT_SLAVE_A],
+         |         ^~~~~~~~~~~~~~~
+   net/hsr/prp_dup_discard_test.c:39:41: error: 'struct hsr_node' has no member named 'seq_start'
+      39 |         KUNIT_EXPECT_EQ(test, data->node.seq_start[HSR_PT_SLAVE_A],
+         |                                         ^
+   include/kunit/test.h:839:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     839 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/kunit/test.h:1035:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1035 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1032:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1032 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/hsr/prp_dup_discard_test.c:39:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+      39 |         KUNIT_EXPECT_EQ(test, data->node.seq_start[HSR_PT_SLAVE_A],
+         |         ^~~~~~~~~~~~~~~
+   net/hsr/prp_dup_discard_test.c:41:41: error: 'struct hsr_node' has no member named 'seq_start'
+      41 |         KUNIT_EXPECT_EQ(test, data->node.seq_start[HSR_PT_SLAVE_B],
+         |                                         ^
+   include/kunit/test.h:839:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     839 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   include/kunit/test.h:1035:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1035 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1032:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1032 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/hsr/prp_dup_discard_test.c:41:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+      41 |         KUNIT_EXPECT_EQ(test, data->node.seq_start[HSR_PT_SLAVE_B],
+         |         ^~~~~~~~~~~~~~~
+   net/hsr/prp_dup_discard_test.c:41:41: error: 'struct hsr_node' has no member named 'seq_start'
+      41 |         KUNIT_EXPECT_EQ(test, data->node.seq_start[HSR_PT_SLAVE_B],
+         |                                         ^
+   include/kunit/test.h:839:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     839 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/kunit/test.h:1035:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1035 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1032:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1032 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/hsr/prp_dup_discard_test.c:41:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+      41 |         KUNIT_EXPECT_EQ(test, data->node.seq_start[HSR_PT_SLAVE_B],
+         |         ^~~~~~~~~~~~~~~
+   net/hsr/prp_dup_discard_test.c:43:41: error: 'struct hsr_node' has no member named 'seq_expected'
+      43 |         KUNIT_EXPECT_EQ(test, data->node.seq_expected[HSR_PT_SLAVE_A],
+         |                                         ^
+   include/kunit/test.h:839:22: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     839 |         const typeof(left) __left = (left);                                    \
+         |                      ^~~~
+   include/kunit/test.h:1035:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1035 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1032:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1032 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/hsr/prp_dup_discard_test.c:43:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+      43 |         KUNIT_EXPECT_EQ(test, data->node.seq_expected[HSR_PT_SLAVE_A],
+         |         ^~~~~~~~~~~~~~~
+   net/hsr/prp_dup_discard_test.c:43:41: error: 'struct hsr_node' has no member named 'seq_expected'
+      43 |         KUNIT_EXPECT_EQ(test, data->node.seq_expected[HSR_PT_SLAVE_A],
+         |                                         ^
+   include/kunit/test.h:839:38: note: in definition of macro 'KUNIT_BASE_BINARY_ASSERTION'
+     839 |         const typeof(left) __left = (left);                                    \
+         |                                      ^~~~
+   include/kunit/test.h:1035:9: note: in expansion of macro 'KUNIT_BINARY_INT_ASSERTION'
+    1035 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1032:9: note: in expansion of macro 'KUNIT_EXPECT_EQ_MSG'
+    1032 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
+         |         ^~~~~~~~~~~~~~~~~~~
+   net/hsr/prp_dup_discard_test.c:43:9: note: in expansion of macro 'KUNIT_EXPECT_EQ'
+      43 |         KUNIT_EXPECT_EQ(test, data->node.seq_expected[HSR_PT_SLAVE_A],
+         |         ^~~~~~~~~~~~~~~
 
 
-I've reproduced this failure and it is basically the same as the one seen 
-in linux-next (which also involved CONFIG_EFI_STUB). The same changes 
-which resolved that for x86 also resolved this new error:
+vim +23 net/hsr/prp_dup_discard_test.c
 
-https://lore.kernel.org/lkml/fcc9ca3e-8c04-43c0-606c-e798bc0cf9ce@linux-m68k.org/
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  13  
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  14  static struct prp_test_data *build_prp_test_data(struct kunit *test)
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  15  {
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  16  	struct prp_test_data *data = kunit_kzalloc(test,
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  17  		sizeof(struct prp_test_data), GFP_USER);
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  18  	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, data);
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  19  
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  20  	data->frame.node_src = &data->node;
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  21  	data->frame.port_rcv = &data->port_rcv;
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  22  	data->port_rcv.type = HSR_PT_SLAVE_A;
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07 @23  	data->node.seq_start[HSR_PT_SLAVE_A] = 1;
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07 @24  	data->node.seq_expected[HSR_PT_SLAVE_A] = 1;
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  25  	data->node.seq_start[HSR_PT_SLAVE_B] = 1;
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  26  	data->node.seq_expected[HSR_PT_SLAVE_B] = 1;
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  27  	data->node.seq_out[HSR_PT_MASTER] = 0;
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  28  	data->node.time_out[HSR_PT_MASTER] = jiffies;
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  29  	data->port.type = HSR_PT_MASTER;
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  30  
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  31  	return data;
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  32  }
+814dbf4b6c955c Jaakko Karrenpalo 2025-03-07  33  
 
-Peter, this patch has your name on it, so I wonder if you have any 
-comment. Would you prefer that I submit my version under my name instead 
-of yours?
-
-On Wed, 24 Dec 2025, kernel test robot wrote:
-
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-> head:   c40f0b9f72a08d208c7793090ae98faaf6a58719
-> commit: 613bf373e660523dbb3f2567fceb6cbd8bc2a469 [68/96] atomic: add alignment check to instrumented atomic operations
-> config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20251224/202512241835.avmTEP6X-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512241835.avmTEP6X-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512241835.avmTEP6X-lkp@intel.com/
-> 
-> All error/warnings (new ones prefixed by >>):
-> 
-> >> arm-linux-gnueabi-ld: warning: orphan section `.data..once' from `drivers/firmware/efi/libstub/efi-stub.stub.o' being placed in section `.data..once'
-> >> arm-linux-gnueabi-ld: error: zImage file size is incorrect
->    arm-linux-gnueabi-ld: drivers/firmware/efi/libstub/efi-stub.stub.o: in function `efi_stub_common':
-> >> efi-stub.c:(.text.efi_stub_common+0x190): undefined reference to `warn_slowpath_fmt'
->    arm-linux-gnueabi-ld: arch/arm/boot/compressed/vmlinux: hidden symbol `warn_slowpath_fmt' isn't defined
->    arm-linux-gnueabi-ld: final link failed: bad value
-> 
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
