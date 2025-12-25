@@ -1,186 +1,182 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354A2239562;
-	Thu, 25 Dec 2025 09:35:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC1C239562
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 09:35:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766655343; cv=none; b=c/acdC1zH0MrIMgl6FtNWxx2enzLkm+oefZzX8+eBNHVg7Wz4G6ky14Gdyssvyh2GtM+29lJEvMi6r0AQ029O6+Mce237WAPA9AyoIY4+8xKPoReunTa+yeRqkWy35IjXDi7GcEwAYPGKarIvQxVbXlrLScpSmJgzYcRI0zuijo=
+	t=1766655349; cv=none; b=gES/Gx6buTwgyuthWZyDyJJUM73ncW7joWNHUoVpa6km23B8+5uYXviu/5DogtRDk+kNyFx9DEBJNjBR9Gtj828Ax0fvT4HlaziwMrrczna+3K+Ig8JZR1kbvq2eeDw3t+WYcW6LmwjTOZ+mu1HvYzvHM/fktAF6EwprSO1ceUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766655343; c=relaxed/simple;
-	bh=TcCc2zIbX0Qe9C4Qf96J+EeN2S2w6bx5WWKs0C2meac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VKZNVa87j5C+ljzw4DMLU2PACBXn/DG6EA0Oh7JVvFeqs2qWXeyhaczVxXcdmA4aVcv3pMwpq3r7ga0hppZoT3PDBM9MfHgqX/G3UsJZRE1H+VvRK8fVnU/RxnznPf32ouC03SMnQFMID8zQSL2gOf4RWCh24rgNkcqD7MTPQI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZZYH/WH; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1766655349; c=relaxed/simple;
+	bh=t0XeGdQj1YAvAfOU1coK1DkMz4AmHrLGGN0whzkJ66Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Nh0IMcyilfsSqz5sQP1/zqr2PwwFWepxZ1h4DAxQjIrtpUMOO+UtyHvoYHWhvxqZmWWHjtV/JT5TdD2N1/AG9uozVxmqKj1cfzqn0GhcyIaeTBb+rFdUFWtbGzgUQKDvFVIwWdFqD6Yh/t3C17dZMKBz+UfcWBLcVuxFxdm+BNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e0Z+VPhV; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZZYH/WH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e0Z+VPhV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766655343; x=1798191343;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TcCc2zIbX0Qe9C4Qf96J+EeN2S2w6bx5WWKs0C2meac=;
-  b=QZZYH/WHjcWJDjDJxUhTlJcpIf7EswbqLu1ARWcXlKCdVc4RPOmcTv4J
-   InZ0K4ZcfJEOHD+nRD3KsyOWurz62/yfHZu0RULy1n+GxLW9wRC+WldJO
-   CCZrEg99WJhtZWrZuBjIWeZUR/WxojPkhGEzY1KrIPxhHwudaKSNbeo/x
-   a73f6/vqRi8vvTCNs+4X0A0j8yHQb8hXLcy8xXYuMzO47mqMZzti3yNNJ
-   HjpcZtXSh9S0xXWqW+2FY449ORoM5H2T/zzDeqE5zhRDrXVq1VoT32hyv
-   DuvcLpoIuBt1Tgd+EK+8FvXdCsA2jLqHyoAB9irCHj7FInGy0+dDzmGqz
-   Q==;
-X-CSE-ConnectionGUID: NkaeOebnQAWFn6XApg8WiQ==
-X-CSE-MsgGUID: M5/lc0PHQ1S5e5Dg9CiPYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="72317163"
+  t=1766655348; x=1798191348;
+  h=date:from:to:cc:subject:message-id;
+  bh=t0XeGdQj1YAvAfOU1coK1DkMz4AmHrLGGN0whzkJ66Y=;
+  b=e0Z+VPhVZYn5vw0n/n14P2JoMYsp8qH67k0pbodEYDYO8iuibBQxmzb9
+   UUNhUYnEE1le9mUcJ5Sa93IOwcC+zsyEKz7CU1SbKFuNIyfyESUDti9xl
+   tPkqbiU3ch2OumGIzCxaDIJSuj6tC2yBur+z5lLdSQM3wT384cidBVuhM
+   S9nyQkU524RbuuEo9x1z06TuoHgEsJkU24CF4kAKYazYlakqmZWCr+yHD
+   TuOdBThl/hCRzWoj6QUb012v6436NKEcAd5GU10LxhEtQm8pRm4djfE2C
+   QHFdJuj1PbBks+AhhEA8Eeczyky7mQiqW3H7dLow3RCh1V5JSxzBhrb28
+   g==;
+X-CSE-ConnectionGUID: G68dMxN/Se2A/HGXaeLAjw==
+X-CSE-MsgGUID: IDuqJoJKTS6YYX/7k5KJqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="72317166"
 X-IronPort-AV: E=Sophos;i="6.21,176,1763452800"; 
-   d="scan'208";a="72317163"
+   d="scan'208";a="72317166"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 01:35:42 -0800
-X-CSE-ConnectionGUID: Podu9RDwTZepowNu+9wXMg==
-X-CSE-MsgGUID: T2D3D8GcROOzwu5fhhsoRw==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 01:35:48 -0800
+X-CSE-ConnectionGUID: qMq04oDWTfWMAviKF4xKaw==
+X-CSE-MsgGUID: ae2Q34qnTueSib+cYmTv3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,176,1763452800"; 
-   d="scan'208";a="200492621"
+   d="scan'208";a="200492630"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Dec 2025 01:35:40 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 25 Dec 2025 01:35:46 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYhkp-000000003x3-0Mzd;
-	Thu, 25 Dec 2025 09:35:33 +0000
-Date: Thu, 25 Dec 2025 17:34:40 +0800
+	id 1vYhkv-000000003x5-043X;
+	Thu, 25 Dec 2025 09:35:40 +0000
+Date: Thu, 25 Dec 2025 17:34:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yanfei Xu <yanfei.xu@bytedance.com>, pbonzini@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kvm@vger.kernel.org, caixiangfeng@bytedance.com,
-	fangying.tommy@bytedance.com, yanfei.xu@bytedance.com
-Subject: Re: [PATCH] KVM: irqchip: KVM: Reduce allocation overhead in
- kvm_set_irq_routing()
-Message-ID: <202512251741.UOsoJoam-lkp@intel.com>
-References: <20251224023201.381586-1-yanfei.xu@bytedance.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1942/1942]
+ drivers/scsi/huawei/hifc/hifc_hba.c:762:37: warning: default initialization
+ of an object of type 'struct unf_low_level_function_op_s' with const member
+ leaves the object uninitialized
+Message-ID: <202512251713.lhlEoibn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251224023201.381586-1-yanfei.xu@bytedance.com>
 
-Hi Yanfei,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on kvm/next linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yanfei-Xu/KVM-irqchip-KVM-Reduce-allocation-overhead-in-kvm_set_irq_routing/20251224-103451
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20251224023201.381586-1-yanfei.xu%40bytedance.com
-patch subject: [PATCH] KVM: irqchip: KVM: Reduce allocation overhead in kvm_set_irq_routing()
-config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20251225/202512251741.UOsoJoam-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512251741.UOsoJoam-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4e9c55920995d70b3e88b60c69753df54b03fdf4
+commit: 7fc993d55d1b54ae40e29dfac825a18d04d644c6 [1942/1942] scsi/hifc: add hifc driver FC service module
+config: x86_64-randconfig-071-20251213 (https://download.01.org/0day-ci/archive/20251225/202512251713.lhlEoibn-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512251713.lhlEoibn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512251741.UOsoJoam-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512251713.lhlEoibn-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/loongarch/kvm/../../../virt/kvm/irqchip.c:190:6: warning: variable 'r' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     190 |         if (!e)
-         |             ^~
-   arch/loongarch/kvm/../../../virt/kvm/irqchip.c:233:9: note: uninitialized use occurs here
-     233 |         return r;
-         |                ^
-   arch/loongarch/kvm/../../../virt/kvm/irqchip.c:190:2: note: remove the 'if' if its condition is always false
-     190 |         if (!e)
-         |         ^~~~~~~
-     191 |                 goto out;
-         |                 ~~~~~~~~
-   arch/loongarch/kvm/../../../virt/kvm/irqchip.c:176:7: note: initialize the variable 'r' to silence this warning
-     176 |         int r;
+   In file included from <built-in>:2:
+   In file included from include/linux/compiler_types.h:59:
+   include/linux/compiler-clang.h:20:9: warning: '__SANITIZE_ADDRESS__' macro redefined [-Wmacro-redefined]
+      20 | #define __SANITIZE_ADDRESS__
+         |         ^
+   <built-in>:353:9: note: previous definition is here
+     353 | #define __SANITIZE_ADDRESS__ 1
+         |         ^
+   drivers/scsi/huawei/hifc/hifc_hba.c:343:6: warning: no previous prototype for function 'hifc_flush_root_ctx' [-Wmissing-prototypes]
+     343 | void hifc_flush_root_ctx(struct hifc_hba_s *v_hba)
+         |      ^
+   drivers/scsi/huawei/hifc/hifc_hba.c:343:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     343 | void hifc_flush_root_ctx(struct hifc_hba_s *v_hba)
+         | ^
+         | static 
+   drivers/scsi/huawei/hifc/hifc_hba.c:406:6: warning: no previous prototype for function 'hifc_flush_srq_ctx' [-Wmissing-prototypes]
+     406 | void hifc_flush_srq_ctx(struct hifc_hba_s *v_hba)
+         |      ^
+   drivers/scsi/huawei/hifc/hifc_hba.c:406:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     406 | void hifc_flush_srq_ctx(struct hifc_hba_s *v_hba)
+         | ^
+         | static 
+>> drivers/scsi/huawei/hifc/hifc_hba.c:762:37: warning: default initialization of an object of type 'struct unf_low_level_function_op_s' with const member leaves the object uninitialized [-Wdefault-const-init-field-unsafe]
+     762 |         struct unf_low_level_function_op_s low_level_fun;
+         |                                            ^
+   drivers/scsi/huawei/hifc/unf_common.h:1779:21: note: member 'xchg_mgr_type' declared 'const' here
+    1779 |         const unsigned int xchg_mgr_type;
+         |                            ^
+   drivers/scsi/huawei/hifc/hifc_hba.c:786:6: warning: no previous prototype for function 'hifc_release_probe_index' [-Wmissing-prototypes]
+     786 | void hifc_release_probe_index(unsigned int probe_index)
+         |      ^
+   drivers/scsi/huawei/hifc/hifc_hba.c:786:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     786 | void hifc_release_probe_index(unsigned int probe_index)
+         | ^
+         | static 
+   drivers/scsi/huawei/hifc/hifc_hba.c:1016:14: warning: no previous prototype for function 'hifc_assign_probe_index' [-Wmissing-prototypes]
+    1016 | unsigned int hifc_assign_probe_index(unsigned int *v_probe_index)
          |              ^
-         |               = 0
-   1 warning generated.
+   drivers/scsi/huawei/hifc/hifc_hba.c:1016:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1016 | unsigned int hifc_assign_probe_index(unsigned int *v_probe_index)
+         | ^
+         | static 
+   drivers/scsi/huawei/hifc/hifc_hba.c:1038:5: warning: no previous prototype for function 'hifc_probe' [-Wmissing-prototypes]
+    1038 | int hifc_probe(struct hifc_lld_dev *lld_dev, void **uld_dev, char *uld_dev_name)
+         |     ^
+   drivers/scsi/huawei/hifc/hifc_hba.c:1038:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1038 | int hifc_probe(struct hifc_lld_dev *lld_dev, void **uld_dev, char *uld_dev_name)
+         | ^
+         | static 
+   drivers/scsi/huawei/hifc/hifc_hba.c:1497:6: warning: no previous prototype for function 'hifc_remove' [-Wmissing-prototypes]
+    1497 | void hifc_remove(struct hifc_lld_dev *lld_dev, void *uld_dev)
+         |      ^
+   drivers/scsi/huawei/hifc/hifc_hba.c:1497:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1497 | void hifc_remove(struct hifc_lld_dev *lld_dev, void *uld_dev)
+         | ^
+         | static 
+   drivers/scsi/huawei/hifc/hifc_hba.c:1570:6: warning: no previous prototype for function 'hifc_event' [-Wmissing-prototypes]
+    1570 | void hifc_event(struct hifc_lld_dev *lld_dev, void *uld_dev,
+         |      ^
+   drivers/scsi/huawei/hifc/hifc_hba.c:1570:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1570 | void hifc_event(struct hifc_lld_dev *lld_dev, void *uld_dev,
+         | ^
+         | static 
+   9 warnings generated.
 
 
-vim +190 arch/loongarch/kvm/../../../virt/kvm/irqchip.c
+vim +762 drivers/scsi/huawei/hifc/hifc_hba.c
 
-   167	
-   168	int kvm_set_irq_routing(struct kvm *kvm,
-   169				const struct kvm_irq_routing_entry *ue,
-   170				unsigned nr,
-   171				unsigned flags)
-   172	{
-   173		struct kvm_irq_routing_table *new, *old;
-   174		struct kvm_kernel_irq_routing_entry *e;
-   175		u32 i, j, nr_rt_entries = 0;
-   176		int r;
-   177	
-   178		for (i = 0; i < nr; ++i) {
-   179			if (ue[i].gsi >= KVM_MAX_IRQ_ROUTES)
-   180				return -EINVAL;
-   181			nr_rt_entries = max(nr_rt_entries, ue[i].gsi);
-   182		}
-   183	
-   184		nr_rt_entries += 1;
-   185	
-   186		new = kzalloc(struct_size(new, map, nr_rt_entries), GFP_KERNEL_ACCOUNT);
-   187		if (!new)
-   188			return -ENOMEM;
-   189		e = kcalloc(nr, sizeof(*e), GFP_KERNEL_ACCOUNT);
- > 190		if (!e)
-   191			goto out;
-   192		new->entries_addr = e;
-   193	
-   194		new->nr_rt_entries = nr_rt_entries;
-   195		for (i = 0; i < KVM_NR_IRQCHIPS; i++)
-   196			for (j = 0; j < KVM_IRQCHIP_NUM_PINS; j++)
-   197				new->chip[i][j] = -1;
-   198	
-   199		for (i = 0; i < nr; ++i) {
-   200			r = -EINVAL;
-   201			switch (ue->type) {
-   202			case KVM_IRQ_ROUTING_MSI:
-   203				if (ue->flags & ~KVM_MSI_VALID_DEVID)
-   204					goto out;
-   205				break;
-   206			default:
-   207				if (ue->flags)
-   208					goto out;
-   209				break;
-   210			}
-   211			r = setup_routing_entry(kvm, new, e + i, ue);
-   212			if (r)
-   213				goto out;
-   214			++ue;
-   215		}
-   216	
-   217		mutex_lock(&kvm->irq_lock);
-   218		old = rcu_dereference_protected(kvm->irq_routing, 1);
-   219		rcu_assign_pointer(kvm->irq_routing, new);
-   220		kvm_irq_routing_update(kvm);
-   221		kvm_arch_irq_routing_update(kvm);
-   222		mutex_unlock(&kvm->irq_lock);
-   223	
-   224		synchronize_srcu_expedited(&kvm->irq_srcu);
-   225	
-   226		new = old;
-   227		r = 0;
-   228		goto out;
-   229	
-   230	out:
-   231		free_irq_routing_table(new);
-   232	
-   233		return r;
-   234	}
-   235	
+31015b9ad992c4 Chenguangli 2020-11-16  758  
+31015b9ad992c4 Chenguangli 2020-11-16  759  static unsigned int hifc_create_lport(struct hifc_hba_s *v_hba)
+31015b9ad992c4 Chenguangli 2020-11-16  760  {
+31015b9ad992c4 Chenguangli 2020-11-16  761  	void *lport = NULL;
+31015b9ad992c4 Chenguangli 2020-11-16 @762  	struct unf_low_level_function_op_s low_level_fun;
+31015b9ad992c4 Chenguangli 2020-11-16  763  
+31015b9ad992c4 Chenguangli 2020-11-16  764  	HIFC_CHECK(INVALID_VALUE32, v_hba, return UNF_RETURN_ERROR);
+31015b9ad992c4 Chenguangli 2020-11-16  765  	hifc_fun_op.dev = v_hba->pci_dev;
+31015b9ad992c4 Chenguangli 2020-11-16  766  	memcpy(&low_level_fun, &hifc_fun_op,
+31015b9ad992c4 Chenguangli 2020-11-16  767  	       sizeof(struct unf_low_level_function_op_s));
+31015b9ad992c4 Chenguangli 2020-11-16  768  
+31015b9ad992c4 Chenguangli 2020-11-16  769  	/* Update port configuration table */
+31015b9ad992c4 Chenguangli 2020-11-16  770  	hifc_update_lport_config(v_hba, &low_level_fun);
+31015b9ad992c4 Chenguangli 2020-11-16  771  
+31015b9ad992c4 Chenguangli 2020-11-16  772  	/* Apply for lport resources */
+31015b9ad992c4 Chenguangli 2020-11-16  773  	UNF_LOWLEVEL_ALLOC_LPORT(lport, v_hba, &low_level_fun);
+31015b9ad992c4 Chenguangli 2020-11-16  774  	if (!lport) {
+31015b9ad992c4 Chenguangli 2020-11-16  775  		HIFC_TRACE(UNF_EVTLOG_DRIVER_ERR, UNF_LOG_REG_ATT, UNF_ERR,
+31015b9ad992c4 Chenguangli 2020-11-16  776  			   "[err]Port(0x%x) can't allocate Lport",
+31015b9ad992c4 Chenguangli 2020-11-16  777  			   v_hba->port_cfg.port_id);
+31015b9ad992c4 Chenguangli 2020-11-16  778  
+31015b9ad992c4 Chenguangli 2020-11-16  779  		return UNF_RETURN_ERROR;
+31015b9ad992c4 Chenguangli 2020-11-16  780  	}
+31015b9ad992c4 Chenguangli 2020-11-16  781  	v_hba->lport = lport;
+31015b9ad992c4 Chenguangli 2020-11-16  782  
+31015b9ad992c4 Chenguangli 2020-11-16  783  	return RETURN_OK;
+31015b9ad992c4 Chenguangli 2020-11-16  784  }
+31015b9ad992c4 Chenguangli 2020-11-16  785  
+
+:::::: The code at line 762 was first introduced by commit
+:::::: 31015b9ad992c40fc0db81055932bbabe74f2533 scsi/hifc: add hifc driver port resource module
+
+:::::: TO: Chenguangli <chenguangli2@huawei.com>
+:::::: CC: Yang Yingliang <yangyingliang@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
