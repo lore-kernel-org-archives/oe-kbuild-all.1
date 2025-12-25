@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCFAD2FB;
-	Thu, 25 Dec 2025 20:47:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B75274B4D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 21:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766695643; cv=none; b=ro/yFCQR91VoJ1+27icY8gc58CR8rGO0WorjunNNO93uHCzur6UM3h5GTlycU4JqNjm3m3dJrXrgmrtfNKeM8jDPZpbpDDc8MsatMkOEzbPxnJsU5PDHHWvjzANohZQhJxyRO1UfVHU9MQHkbhCtZnNYJgbVaYp8CSuNKj6Xm9Q=
+	t=1766696992; cv=none; b=L6oOjg23Y65IpTQtbgKgDF3hWOzwT4ElqNjgqK5xqeq6Mlnej5ipBbiHapsgLUXv3ZpxyixBtWyjuXXAj8FC2Wd1k+leicpjobAGQJa4WfppZZGdzVg4Z5SegRhvsZOIQelOhM01yDQZ5PvTcbgY6JHcj38YIZ7uhtvoY/EsGn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766695643; c=relaxed/simple;
-	bh=htfALoQbErNeUwsD+B25lovdbvO1Sy5DDcxwCttPPzw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Bq5YTIYdUj4G5fIyDrSsi0CnoK7Skcc6neYMVRSU20KPpYMQ3yMR7lQMftgVF7QAOgcqLwj+UGhj0aIDjkGb0kvDYzs5wJsJwJ6n5jMUUqI4A50WjovmkG9bebYUVAChCPYJyIlrZUnwslpdUB82zWC49/+Pp9h5Zy00nhaY3g4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccW2P9iz; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1766696992; c=relaxed/simple;
+	bh=3yxAVP73TMzcwXRIwPDNqsUrMnE4pFsz8MO+1+OngHY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=HNMWBdpPzdFPVMBg8umHFeBzwdNlB58+dMJCLLOE18CYrQKIX+oad6ioPIaBPweL6hXmMLWEuvj/sVHy+H0xQ7s0LT9zB10nEPE5ON1gFOoCUHNenQkpcNKpJy1j0VKrl7eTZK5wzAt0XTFsxLENGmhSqsuI0bf04PWDg7//b+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LKjN9NTD; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccW2P9iz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LKjN9NTD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766695642; x=1798231642;
+  t=1766696990; x=1798232990;
   h=date:from:to:cc:subject:message-id;
-  bh=htfALoQbErNeUwsD+B25lovdbvO1Sy5DDcxwCttPPzw=;
-  b=ccW2P9izjb6rlApyIRo/QMdjbokAAuTPrH9ENgwi+3NQRY8DjhmQ4Qa2
-   8+sQjo5P0PjJhQTS7wnwuDLwJD2BWyUOZ8CXYf5PL/PQ/A+OMB5CDCFNO
-   LLz7V0Ohem1EnkiImVggqdw6v2c2sT7Lc2IcrX3pC7Aac4DR1YBOTwo48
-   tfZ99vqRqXEkJBIaFNNYe47VrNSfxBmWriU40fDiNVTouMGj/D93XpDTz
-   K59MiqKR908dHl0ztThIu9SYVaWtgewStD3X5+rhAJ3qtuBBxdXy7a/H3
-   2YBFMNqRAXyRy/v70Km2PjOAuqQlih/1k8Bu/B9CI50mqtRXYLStUqzJt
+  bh=3yxAVP73TMzcwXRIwPDNqsUrMnE4pFsz8MO+1+OngHY=;
+  b=LKjN9NTD1jLHTGO+eRFBNwKxzAGX92iUe4kj9ldCAXd7E1qTz3U2uz9O
+   a06F0pLcTsqtgWskNnLSPlPXSW70c+CIdZuG9HFFyd7IAt9Ejgd/ERndR
+   cjn4ryxWZjf1kf/cKkDX49vntcHD9uZS/o2WaZZP3tgkZVYtg70yb/MN7
+   FBqWOYcxEXEU+dyeGXnRYDvhhLJbOpBicOX55mQWpeddNa0ZB8fC+efYG
+   X2O0ffWHmKCd+pmC76pfpxKYLm4kxodTJrqEzpmE82GO20KpJrNoF3/Yy
+   vsBkbRPbWOvl3UgMJDWLbT4DQboDlKSUg3cQnlw6L9KjHIWmmGnbFnyON
    A==;
-X-CSE-ConnectionGUID: bhGEpeLCQEKji+dgMMYEXg==
-X-CSE-MsgGUID: B2s1/YboRHWfHrQXf/ubqA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68641388"
+X-CSE-ConnectionGUID: JBRPlSvAS4K2bDjZy9Yfxg==
+X-CSE-MsgGUID: UtpZCnvPQYWeStoYal2xWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68238938"
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="68641388"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 12:47:21 -0800
-X-CSE-ConnectionGUID: TlIHMNDLQ9eqDB/CN/RsiA==
-X-CSE-MsgGUID: hnFkDKdaQ8ijDdRfUft7WA==
+   d="scan'208";a="68238938"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 13:09:51 -0800
+X-CSE-ConnectionGUID: 9Do7bk2NQ1Cm/x/YffOVVQ==
+X-CSE-MsgGUID: icjWcqugSPmUZjA7VmoNLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="200755583"
+   d="scan'208";a="200021313"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 25 Dec 2025 12:47:19 -0800
+  by orviesa009.jf.intel.com with ESMTP; 25 Dec 2025 13:09:49 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYsEq-000000004S7-07Rb;
-	Thu, 25 Dec 2025 20:47:13 +0000
-Date: Fri, 26 Dec 2025 04:46:32 +0800
+	id 1vYsa3-000000004Sj-2C66;
+	Thu, 25 Dec 2025 21:09:18 +0000
+Date: Fri, 26 Dec 2025 05:08:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ardb:x86-pie-v3 5/15]
- arch/x86/include/asm/sync_core.h:33:15: error: invalid operand for
- instruction
-Message-ID: <202512260435.f670RACW-lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
+Subject: [broonie-ci:fileyhQmWY 15/16]
+ drivers/usb/core/driver.c:1816:16: error: void value not ignored as it ought
+ to be
+Message-ID: <202512260516.2eP96Prm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,114 +60,68 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v3
-head:   16f858473d90ca1f50cd701fcaa7a3a7d58c44f7
-commit: 7ab00e870d46ca1ce4ddfbc68a9e36149f22ecf0 [5/15] x86/sync_core: Use RIP-relative addressing
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251226/202512260435.f670RACW-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512260435.f670RACW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileyhQmWY
+head:   63a83a6e40a3f55fbf3887370f4a6b64fc656924
+commit: 1d3dcf1b026121c179aec3afdec4fb22509dfc8d [15/16] PM: runtime: Change pm_runtime_put() return type to void
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251226/202512260516.2eP96Prm-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512260516.2eP96Prm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512260435.f670RACW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512260516.2eP96Prm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/alternative.c:4:
-   In file included from include/linux/mmu_context.h:5:
-   In file included from arch/x86/include/asm/mmu_context.h:7:
-   In file included from include/linux/pkeys.h:5:
-   In file included from include/linux/mm.h:17:
-   In file included from include/linux/mmap_lock.h:15:
-   In file included from include/linux/sched/mm.h:10:
-   In file included from include/linux/sync_core.h:6:
->> arch/x86/include/asm/sync_core.h:33:15: error: invalid operand for instruction
-      33 |                 "pushq %q0\n\t"
-         |                             ^
-   <inline asm>:8:17: note: instantiated into assembly here
-       8 |         leaq 1f(%rip), %eax
-         |                        ^~~~
-   In file included from arch/x86/kernel/alternative.c:4:
-   In file included from include/linux/mmu_context.h:5:
-   In file included from arch/x86/include/asm/mmu_context.h:7:
-   In file included from include/linux/pkeys.h:5:
-   In file included from include/linux/mm.h:17:
-   In file included from include/linux/mmap_lock.h:15:
-   In file included from include/linux/sched/mm.h:10:
-   In file included from include/linux/sync_core.h:6:
->> arch/x86/include/asm/sync_core.h:33:15: error: invalid operand for instruction
-      33 |                 "pushq %q0\n\t"
-         |                             ^
-   <inline asm>:8:17: note: instantiated into assembly here
-       8 |         leaq 1f(%rip), %eax
-         |                        ^~~~
-   2 errors generated.
+   drivers/usb/core/driver.c: In function 'usb_autopm_put_interface_async':
+>> drivers/usb/core/driver.c:1816:16: error: void value not ignored as it ought to be
+    1816 |         status = pm_runtime_put(&intf->dev);
+         |                ^
 --
-   In file included from arch/x86/kernel/static_call.c:2:
-   In file included from include/linux/static_call.h:135:
-   In file included from include/linux/cpu.h:17:
-   In file included from include/linux/node.h:18:
-   In file included from include/linux/device.h:16:
-   In file included from include/linux/energy_model.h:7:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:21:
-   In file included from include/linux/sched/mm.h:10:
-   In file included from include/linux/sync_core.h:6:
->> arch/x86/include/asm/sync_core.h:33:15: error: invalid operand for instruction
-      33 |                 "pushq %q0\n\t"
-         |                             ^
-   <inline asm>:8:17: note: instantiated into assembly here
-       8 |         leaq 1f(%rip), %eax
-         |                        ^~~~
-   1 error generated.
+   kernel/irq/chip.c: In function 'irq_chip_pm_put':
+>> kernel/irq/chip.c:1546:24: error: void value not ignored as it ought to be
+    1546 |                 retval = pm_runtime_put(dev);
+         |                        ^
 
 
-vim +33 arch/x86/include/asm/sync_core.h
+vim +1816 drivers/usb/core/driver.c
 
-ac1ab12a3e6e87 Mathieu Desnoyers 2018-01-29   9  
-f69ca629d89d65 Ricardo Neri      2020-07-26  10  #ifdef CONFIG_X86_32
-0ef8047b737d74 Juergen Gross     2024-11-29  11  static __always_inline void iret_to_self(void)
-f69ca629d89d65 Ricardo Neri      2020-07-26  12  {
-f69ca629d89d65 Ricardo Neri      2020-07-26  13  	asm volatile (
-f69ca629d89d65 Ricardo Neri      2020-07-26  14  		"pushfl\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  15  		"pushl %%cs\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  16  		"pushl $1f\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  17  		"iret\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  18  		"1:"
-f69ca629d89d65 Ricardo Neri      2020-07-26  19  		: ASM_CALL_CONSTRAINT : : "memory");
-f69ca629d89d65 Ricardo Neri      2020-07-26  20  }
-f69ca629d89d65 Ricardo Neri      2020-07-26  21  #else
-0ef8047b737d74 Juergen Gross     2024-11-29  22  static __always_inline void iret_to_self(void)
-f69ca629d89d65 Ricardo Neri      2020-07-26  23  {
-f69ca629d89d65 Ricardo Neri      2020-07-26  24  	unsigned int tmp;
-f69ca629d89d65 Ricardo Neri      2020-07-26  25  
-f69ca629d89d65 Ricardo Neri      2020-07-26  26  	asm volatile (
-f69ca629d89d65 Ricardo Neri      2020-07-26  27  		"mov %%ss, %0\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  28  		"pushq %q0\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  29  		"pushq %%rsp\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  30  		"addq $8, (%%rsp)\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  31  		"pushfq\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  32  		"mov %%cs, %0\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26 @33  		"pushq %q0\n\t"
-7ab00e870d46ca Ard Biesheuvel    2023-04-07  34  		"leaq 1f(%%rip), %0\n\t"
-7ab00e870d46ca Ard Biesheuvel    2023-04-07  35  		"pushq %q0\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  36  		"iretq\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  37  		"1:"
-f69ca629d89d65 Ricardo Neri      2020-07-26  38  		: "=&r" (tmp), ASM_CALL_CONSTRAINT : : "cc", "memory");
-f69ca629d89d65 Ricardo Neri      2020-07-26  39  }
-f69ca629d89d65 Ricardo Neri      2020-07-26  40  #endif /* CONFIG_X86_32 */
-f69ca629d89d65 Ricardo Neri      2020-07-26  41  
+645daaab0b6adc Alan Stern 2006-08-30  1794  
+9ac39f28b5237a Alan Stern 2008-11-12  1795  /**
+9ac39f28b5237a Alan Stern 2008-11-12  1796   * usb_autopm_put_interface_async - decrement a USB interface's PM-usage counter
+9ac39f28b5237a Alan Stern 2008-11-12  1797   * @intf: the usb_interface whose counter should be decremented
+9ac39f28b5237a Alan Stern 2008-11-12  1798   *
+9bbdf1e0afe771 Alan Stern 2010-01-08  1799   * This routine does much the same thing as usb_autopm_put_interface():
+9bbdf1e0afe771 Alan Stern 2010-01-08  1800   * It decrements @intf's usage counter and schedules a delayed
+9bbdf1e0afe771 Alan Stern 2010-01-08  1801   * autosuspend request if the counter is <= 0.  The difference is that it
+9bbdf1e0afe771 Alan Stern 2010-01-08  1802   * does not perform any synchronization; callers should hold a private
+9bbdf1e0afe771 Alan Stern 2010-01-08  1803   * lock and handle all synchronization issues themselves.
+9ac39f28b5237a Alan Stern 2008-11-12  1804   *
+9ac39f28b5237a Alan Stern 2008-11-12  1805   * Typically a driver would call this routine during an URB's completion
+9ac39f28b5237a Alan Stern 2008-11-12  1806   * handler, if no more URBs were pending.
+9ac39f28b5237a Alan Stern 2008-11-12  1807   *
+9ac39f28b5237a Alan Stern 2008-11-12  1808   * This routine can run in atomic context.
+9ac39f28b5237a Alan Stern 2008-11-12  1809   */
+9ac39f28b5237a Alan Stern 2008-11-12  1810  void usb_autopm_put_interface_async(struct usb_interface *intf)
+9ac39f28b5237a Alan Stern 2008-11-12  1811  {
+9ac39f28b5237a Alan Stern 2008-11-12  1812  	struct usb_device	*udev = interface_to_usbdev(intf);
+fcc4a01eb86612 Alan Stern 2010-11-15  1813  	int			status;
+9ac39f28b5237a Alan Stern 2008-11-12  1814  
+6ddf27cdbc218a Ming Lei   2010-11-15  1815  	usb_mark_last_busy(udev);
+fcc4a01eb86612 Alan Stern 2010-11-15 @1816  	status = pm_runtime_put(&intf->dev);
+9bbdf1e0afe771 Alan Stern 2010-01-08  1817  	dev_vdbg(&intf->dev, "%s: cnt %d -> %d\n",
+9bbdf1e0afe771 Alan Stern 2010-01-08  1818  			__func__, atomic_read(&intf->dev.power.usage_count),
+9bbdf1e0afe771 Alan Stern 2010-01-08  1819  			status);
+9ac39f28b5237a Alan Stern 2008-11-12  1820  }
+9ac39f28b5237a Alan Stern 2008-11-12  1821  EXPORT_SYMBOL_GPL(usb_autopm_put_interface_async);
+9ac39f28b5237a Alan Stern 2008-11-12  1822  
 
-:::::: The code at line 33 was first introduced by commit
-:::::: f69ca629d89d65737537e05308ac531f7bb07d5c x86/cpu: Refactor sync_core() for readability
+:::::: The code at line 1816 was first introduced by commit
+:::::: fcc4a01eb8661226e80632327673f67bf6a5840b USB: use the runtime-PM autosuspend implementation
 
-:::::: TO: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+:::::: TO: Alan Stern <stern@rowland.harvard.edu>
+:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
