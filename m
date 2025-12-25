@@ -1,128 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8380D23C8C7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 22:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAF0286890
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 25 Dec 2025 23:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766701416; cv=none; b=TEcIB8E5rTSkoeHCwsld/OB6NS0oeFbeZLWRF9atH/dmLNXuc4n16dQffD96rvzOjwZ4dgBwRM3/0GgdI83GnCws3pFaqnhtqZ2ecWXaNMvzS/UZtD4Un4dkX1AoJ5MvusAGv3Q1ZuApvyQA/FNLmjAnGmSeCdNXZx1tskD/yQM=
+	t=1766704436; cv=none; b=bfpKWLiN1EbZDz5vVnSjh+ahckkvQHkNeZY7VxRe99XOR+8wgtmznquM4JhPi2FjawDIpDFbhjz3B1G7EmMNSLqaVRqqr0c6IL3rcpAtUAufcT/ljRrRNB++XwuD3ZBUlooGocqBGif6hMZiV1TL5vRnhJENMpV/iBYsJc9CccQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766701416; c=relaxed/simple;
-	bh=DdctBkRgKiFxd2eMhJUEAax6qUTxHDk8BIpZZPOS5pQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dAHxszk6eCER0elOKBQH6dVmj9KfN2AzVBfjPnpaBa6nrZKkSisv0dVUSYcoznFyY1UR+ektH0y0CyfMZU+VEWSlBPXFbbpYihDzHQJ0XhmYWgTOl/mOm6CF+Lv1bdvHIc5LLIDB6LTF5X1zF6gIVu3bnwDvUuqpPUDjUirSb9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aChCB9Px; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1766704436; c=relaxed/simple;
+	bh=oH1DWIFIecAA2EQvNWnKhV/Mi9721RQplJazbktpVaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Q2wEdFisVswkc+6tVcLOsJANXorCTEWKuixvOiNyV9eYGmJo2e7WVvX3ODf2JkQKRaxGJGyF7zjg+AY8S3tZ4ZIHGemg0WIr7v55RGu5hqxGM1NZ2+1j+9MhElijCtVKK7HSPQrIA60/5X5I4drMa8X41+J2Ber/WuX1kGd0rs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c0Lo4U38; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aChCB9Px"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c0Lo4U38"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766701415; x=1798237415;
-  h=date:from:to:cc:subject:message-id;
-  bh=DdctBkRgKiFxd2eMhJUEAax6qUTxHDk8BIpZZPOS5pQ=;
-  b=aChCB9PxwSxkBA54idtsbApk45s38lxEm7CynSTKcYXD6p2aLE+vXHt3
-   nl3BaieO0BS0+A8c97aK51C/s+8XcIWOzIjVyJv+T+8dnlNN9bHbcXACz
-   dDFPfR00DgwU032wy+fg+jnnEQgMplT960bD40vXgRZ00iT6GqC18RKNu
-   NA/i8G/GTgjVXt24dx/5h1M2Lg5zJ+l4fjtxinDtCEb+dWREW+JNpTW5f
-   8m92nczff9+M8Q7RuGD3dCQiId+hH1Onk+S41CQ+4qqejtTogOD2e4bJn
-   MbIU+4oTijcSLe1oqyRqtmC09AYysye686QDNrjNjOqrkymy52YiPBuRs
+  t=1766704435; x=1798240435;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=oH1DWIFIecAA2EQvNWnKhV/Mi9721RQplJazbktpVaE=;
+  b=c0Lo4U38wO4eZcbE3ZOYrYgfzDsiNy2rzCGDBm6UtjRdG7NrcXn37mhs
+   ZgW+AI0b7HYYYunYTl97Vv0nWFdiJOypm8TK3XzNumgOtkKVvMjEwEd/Z
+   xkEQHN+drmLJqOiTqN6xK3UxMd1OCBKkzicqnW9eUWNy4GdnQkHf9PrG2
+   weGqQTYXq6VgP4eqEYRMIHdM8kQkubfMUCvprIn/1H3bUMVPe/z13mvZq
+   zBHvv0kZ+yuRbbl53nxvQO2PXNBbRYjUg5q6kdYz7T9nN6q01fXKns+NN
+   1Tc8CPtu9dnop6gILMuSjPG2eS0PByfuSpLbAcDQdVmGw8U+B9L6W+4lv
    w==;
-X-CSE-ConnectionGUID: v0jJVZWcQZOVv6kueYiq3w==
-X-CSE-MsgGUID: idQtv103RAGl7f/1lD44kg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="71064356"
+X-CSE-ConnectionGUID: swKq5yexT8aw9S/oBMyrhw==
+X-CSE-MsgGUID: z1O3hoWJQsSBuZjCxbFrug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="85902897"
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="71064356"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 14:23:34 -0800
-X-CSE-ConnectionGUID: Uxtn2AkHQWSY5QavJeCbdw==
-X-CSE-MsgGUID: W+rBOymnSZuzLNlMhSXdDA==
+   d="scan'208";a="85902897"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 15:13:54 -0800
+X-CSE-ConnectionGUID: Xyr4oKEnTS60sJ6DyWcmpw==
+X-CSE-MsgGUID: O+eVfmlXT5ydOZ2o7/Bjrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="199923871"
+   d="scan'208";a="237682055"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 25 Dec 2025 14:23:32 -0800
+  by orviesa001.jf.intel.com with ESMTP; 25 Dec 2025 15:13:53 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYtk2-000000004VB-0H7B;
-	Thu, 25 Dec 2025 22:23:30 +0000
-Date: Fri, 26 Dec 2025 06:22:55 +0800
+	id 1vYuWk-000000004Wb-1ia3;
+	Thu, 25 Dec 2025 23:13:50 +0000
+Date: Fri, 26 Dec 2025 07:13:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ard Biesheuvel <ardb@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:x86-pie-v3 5/15] arch/x86/include/asm/sync_core.h:33:
- Error: incorrect register `%eax' used with `q' suffix
-Message-ID: <202512260600.wvnRppd4-lkp@intel.com>
+Subject: [ardb:x86-pie-v3 1/15] .tmp_vmlinux0.kallsyms.S:542: Error:
+ can't resolve `_text' {*UND* section} - =?us-ascii?Q?`L0=01'?= {.rodata
+ section}
+Message-ID: <202512260721.ClhdOPIq-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: application/octet-stream
+Content-Transfer-Encoding: base64
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v3
-head:   16f858473d90ca1f50cd701fcaa7a3a7d58c44f7
-commit: 7ab00e870d46ca1ce4ddfbc68a9e36149f22ecf0 [5/15] x86/sync_core: Use RIP-relative addressing
-config: x86_64-randconfig-161-20251226 (https://download.01.org/0day-ci/archive/20251226/202512260600.wvnRppd4-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512260600.wvnRppd4-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512260600.wvnRppd4-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/x86/include/asm/sync_core.h: Assembler messages:
->> arch/x86/include/asm/sync_core.h:33: Error: incorrect register `%eax' used with `q' suffix
->> arch/x86/include/asm/sync_core.h:33: Error: incorrect register `%eax' used with `q' suffix
---
-   arch/x86/include/asm/sync_core.h: Assembler messages:
->> arch/x86/include/asm/sync_core.h:33: Error: incorrect register `%eax' used with `q' suffix
-
-
-vim +33 arch/x86/include/asm/sync_core.h
-
-ac1ab12a3e6e87 Mathieu Desnoyers 2018-01-29   9  
-f69ca629d89d65 Ricardo Neri      2020-07-26  10  #ifdef CONFIG_X86_32
-0ef8047b737d74 Juergen Gross     2024-11-29  11  static __always_inline void iret_to_self(void)
-f69ca629d89d65 Ricardo Neri      2020-07-26  12  {
-f69ca629d89d65 Ricardo Neri      2020-07-26  13  	asm volatile (
-f69ca629d89d65 Ricardo Neri      2020-07-26  14  		"pushfl\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  15  		"pushl %%cs\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  16  		"pushl $1f\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  17  		"iret\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  18  		"1:"
-f69ca629d89d65 Ricardo Neri      2020-07-26  19  		: ASM_CALL_CONSTRAINT : : "memory");
-f69ca629d89d65 Ricardo Neri      2020-07-26  20  }
-f69ca629d89d65 Ricardo Neri      2020-07-26  21  #else
-0ef8047b737d74 Juergen Gross     2024-11-29  22  static __always_inline void iret_to_self(void)
-f69ca629d89d65 Ricardo Neri      2020-07-26  23  {
-f69ca629d89d65 Ricardo Neri      2020-07-26  24  	unsigned int tmp;
-f69ca629d89d65 Ricardo Neri      2020-07-26  25  
-f69ca629d89d65 Ricardo Neri      2020-07-26  26  	asm volatile (
-f69ca629d89d65 Ricardo Neri      2020-07-26  27  		"mov %%ss, %0\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  28  		"pushq %q0\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  29  		"pushq %%rsp\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  30  		"addq $8, (%%rsp)\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  31  		"pushfq\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  32  		"mov %%cs, %0\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26 @33  		"pushq %q0\n\t"
-7ab00e870d46ca Ard Biesheuvel    2023-04-07  34  		"leaq 1f(%%rip), %0\n\t"
-7ab00e870d46ca Ard Biesheuvel    2023-04-07  35  		"pushq %q0\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  36  		"iretq\n\t"
-f69ca629d89d65 Ricardo Neri      2020-07-26  37  		"1:"
-f69ca629d89d65 Ricardo Neri      2020-07-26  38  		: "=&r" (tmp), ASM_CALL_CONSTRAINT : : "cc", "memory");
-f69ca629d89d65 Ricardo Neri      2020-07-26  39  }
-f69ca629d89d65 Ricardo Neri      2020-07-26  40  #endif /* CONFIG_X86_32 */
-f69ca629d89d65 Ricardo Neri      2020-07-26  41  
-
-:::::: The code at line 33 was first introduced by commit
-:::::: f69ca629d89d65737537e05308ac531f7bb07d5c x86/cpu: Refactor sync_core() for readability
-
-:::::: TO: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+dHJlZTogICBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9h
+cmRiL2xpbnV4LmdpdCB4ODYtcGllLXYzCmhlYWQ6ICAgZGU2ZDkxOWYxZGVmZWE5MGFmNmMzMTQ3
+OWM4YzljNjZhZjY4MTBkZQpjb21taXQ6IGE5NzE1MzU2MDc0MWM3Y2M0NDhlZTg2MjY4MmRlMmI2
+ODIzOWI1M2IgWzEvMTVdIGthbGxzeW1zOiBVc2UgYSByZWxhdGl2ZSBvZmZzZXQgZm9yIHRoZSBy
+ZWxhdGl2ZSBiYXNlCmNvbmZpZzogeHRlbnNhLXJhbmRjb25maWctcjA3Mi0yMDI1MTIyNiAoaHR0
+cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9hcmNoaXZlLzIwMjUxMjI2LzIwMjUxMjI2MDcy
+MS5DbGhkT1BJcS1sa3BAaW50ZWwuY29tL2NvbmZpZykKY29tcGlsZXI6IHh0ZW5zYS1saW51eC1n
+Y2MgKEdDQykgOC41LjAKcmVwcm9kdWNlICh0aGlzIGlzIGEgVz0xIGJ1aWxkKTogKGh0dHBzOi8v
+ZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDI1MTIyNi8yMDI1MTIyNjA3MjEuQ2xo
+ZE9QSXEtbGtwQGludGVsLmNvbS9yZXByb2R1Y2UpCgpJZiB5b3UgZml4IHRoZSBpc3N1ZSBpbiBh
+IHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5lLiBub3QganVzdCBhIG5ldyB2ZXJzaW9uIG9mCnRo
+ZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZ3MKfCBSZXBvcnRl
+ZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+CnwgQ2xvc2VzOiBodHRwczov
+L2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjUxMjI2MDcyMS5DbGhkT1BJcS1sa3BA
+aW50ZWwuY29tLwoKQWxsIGVycm9ycyAobmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pOgoKICAgLnRt
+cF92bWxpbnV4MC5rYWxsc3ltcy5TOiBBc3NlbWJsZXIgbWVzc2FnZXM6Cj4+IC50bXBfdm1saW51
+eDAua2FsbHN5bXMuUzo1NDI6IEVycm9yOiBjYW4ndCByZXNvbHZlIGBfdGV4dCcgeypVTkQqIHNl
+Y3Rpb259IC0gYEwwAScgey5yb2RhdGEgc2VjdGlvbn0KCktjb25maWcgd2FybmluZ3M6IChmb3Ig
+cmVmZXJlbmNlIG9ubHkpCiAgIFdBUk5JTkc6IHVubWV0IGRpcmVjdCBkZXBlbmRlbmNpZXMgZGV0
+ZWN0ZWQgZm9yIENBTl9ERVYKICAgRGVwZW5kcyBvbiBbbl06IE5FVERFVklDRVMgWz1uXSAmJiBD
+QU4gWz1tXQogICBTZWxlY3RlZCBieSBbbV06CiAgIC0gQ0FOIFs9bV0gJiYgTkVUIFs9eV0KCi0t
+IAowLURBWSBDSSBLZXJuZWwgVGVzdCBTZXJ2aWNlCmh0dHBzOi8vZ2l0aHViLmNvbS9pbnRlbC9s
+a3AtdGVzdHMvd2lraQo=
