@@ -1,257 +1,148 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F61022A4D8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 13:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EBD284665
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 13:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766755376; cv=none; b=tqMeDnWP/VnUV3udLMWCcWpMZRhN6c+ROWmwxcMTp4iX6RGYOyV7MvO/O57NiI6/fHbKity6PHa3l5L+sFbhl2YbE74sf4U2y0OHRCJa7M2WAbR0Bu3W6meOtAGiFDYeS9QwEyV1O2IQ1359ScsJ6yIb1qsbK1/CBqhLTZzURf0=
+	t=1766755413; cv=none; b=DwfveE2zUydvPcQeJBFGDyu+MgjWuUmFySpM6Lj6MwLMBE3ci6gXuGAjpwHAvjyvl4Q1B7bLrom7D4Cdbn4L6db7GU2I8H/TwXta0E+UKfE8UGejy/0IEh7p+R5rdr+DZymscbJC5/71qbVu1QflqnSG6glsickBEvZqQxz3FLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766755376; c=relaxed/simple;
-	bh=sdWTGo4OaNt22nmWPtpcoHVI7/BhTyNzY+Rh659PxOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UGAXvPAN67WaWXybBKqBxCORdrbqdbzxDqhpC8gnvKzmEScKKh8D4axHK5ZylJR4DX8NIlr7sFLTOTZA/YnprzCdPcvijDz8+mHrKHZfmiFnEVYoWM0XPBXE5gdJLhV1HFo5DhqxhR51ZJQfuliBJintviT9gUDDqJnDjy6r+Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WP41+we+; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1766755413; c=relaxed/simple;
+	bh=8+BwpUx/vvwbD29gnGZ+KY4hotu7urGUrPP0QUJ252s=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CpiykMcUfBm5yU8SHVF4+VC/DUp5evPOo/YvVARwtVj39BsP51LPzXwStMwGiUmTOTiki7MtmRy8gl7TmvUmddd74NGmurj2hhSh0s43MeFlBSpuGLPI4EKyt6vvGVVVAJG8Gch6WulvgXw/gCUbX2inZ87mVUyhD2tRqubcY+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HxA6L5YD; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WP41+we+"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-477632b0621so45535225e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 05:22:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766755372; x=1767360172; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uGWMaAEgQZliYQZ1cD4kQtI0ZSBxBdHcIZa9v5FZ6Ak=;
-        b=WP41+we+/ZekSxjQ2EuRyFe+bV4HEQxOBF8fzF9448piNHSgwyuIIHkIwr2cg+Sva6
-         zUurYNH8FGZawuh/8h+QlZt3lTfor6wEiPWs6DfvCFzx3jhvpecRLOMz2wsnAl1xCHcu
-         6ewy6d70ngnvuPnRMnGh8kdCtzpSGPenO4FmMsBrJYp7xa5vd2WVvKVU4okTm3nQcx5z
-         jw+OwMq7LzSKwRIHR9BFkLY7VvudpIEWcq4QguEWBKL71cUVhhNwJNvV2jKV9zgVflmT
-         HJrg+p1cn2ACLxCIa0h6M3qPzbuwyi3RNx0uRXEKpg/wMsDy/W/FIQFlwVL5AO+2vkEa
-         hjqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766755372; x=1767360172;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uGWMaAEgQZliYQZ1cD4kQtI0ZSBxBdHcIZa9v5FZ6Ak=;
-        b=XRc4DQAiqNTBXuPLO2v5u+CFy0KvLITqP002lZVNz1Q7L7Si3QP7btVrolY/G0FHMK
-         uxb9tKCopfCo8wqeRM2gq87KZBCxuPuO3KA9RkQ3A1AMq/HB5BlIsJRj6lVi61CRRjwj
-         7JIP922Tgw8YyEv0ui7K0aGxNFiHiximjhs5wp3cbXn0khhoj7XC3RPqrEAlwGyHGWJb
-         rK1oEWsKb2nJtRRz3JOC4Y+NHZnyWXBa7PA6Zl3jxtdTZyAry/8Dlfhjc9UvoXGCbVEo
-         hwe8RefAApizLJiBoc6cv+FsT25FZPcQkWFEvNt88u7i0jVoBCwKb5+2WKt0XeY6ee4Y
-         0D+g==
-X-Forwarded-Encrypted: i=1; AJvYcCWabn9d+mZVpHn9sDapmBJQQRumbFtzeVMYp1/5y2JP/3+ezWNE6KtO4RU+I2M2j9Cxc0pcP1asrwKk8gEi@lists.linux.dev
-X-Gm-Message-State: AOJu0YzbUeBFgp1d1aYWXUMm2M6Dwr4pc4XglTR7N6jPfB8Fc2JVqWrv
-	GI6xxTQyCJdGuJu9diQ9roMTbSwz2ENerMgDaTnJhEVzni0ckoA8t7FjYbhbjTGq5V4782oHBh9
-	CfNUe
-X-Gm-Gg: AY/fxX6TnOuptpwqW/esgrYp5YDykiegHV3BM+qPUPD/7D6SphnVJXsA4e+uqiQyAKr
-	+tyuZn6eew5RLaO3dynVGf5ip4znvULuhK5YGo9Z3IUNbWDhcZCI5tqq6pZ61bAcpuHl59iQ8ot
-	7tyLIEl0Iab9osbNDCUEePAKztsnGGlg6v2rpMTthA+C3TdOfo2B5on/4RI0lXjD1251q4E8Ab+
-	IRxqBKTKYoXyUGamRHC01HyvvDzTPBHY/wG094TZvdBAXSjjSw25bdwrKeS2bwWiI9ULdZWqY2+
-	DfuBU8JjymdbwMN19trxNbZ4JTk9WRCz2m8niGEwOw3ULcRo8EYUX7lnjgjhAxKC81UPQbQaeOJ
-	loJyZ548vO8twQwgKzgyBip8w0HPT4a6N+2jMM8W7blAi3ZP3IwzSRfNrvTB1reYGfp3u5qMT6P
-	GriD9jc7jYDywVnmYC
-X-Google-Smtp-Source: AGHT+IFQXpFnJsaK/UAPmWW2cjqzzGXd6Tigkio3ZzpvP9HLLwg8b+q/x/EIRyRBH1w7tTOMU+kyqw==
-X-Received: by 2002:a05:600c:1c1a:b0:477:5cc6:7e44 with SMTP id 5b1f17b1804b1-47d195780eemr271414305e9.11.1766755372267;
-        Fri, 26 Dec 2025 05:22:52 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be396c909sm172320975e9.0.2025.12.26.05.22.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Dec 2025 05:22:51 -0800 (PST)
-Date: Fri, 26 Dec 2025 16:22:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Shuming Fan <shumingf@realtek.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>
-Subject: [broonie-ci:fileYYQrvG 21/41] sound/soc/codecs/rt1320-sdw.c:1575
- rt1320_rae_load() warn: 'rae_fw' from request_firmware() not released on
- lines: 1575.
-Message-ID: <202512260826.74LvGsju-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HxA6L5YD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766755411; x=1798291411;
+  h=date:from:to:cc:subject:message-id;
+  bh=8+BwpUx/vvwbD29gnGZ+KY4hotu7urGUrPP0QUJ252s=;
+  b=HxA6L5YD4GEpoWy8FNGgUa7OoRp0SeWsNoTE7IH3lAC3ldn2n5FHPTV9
+   FhtW70EDzZ010scfPCI1id3N08ymY5Mk9W43lHM8aNTs9V9jjd8mXfCSI
+   M0gbA/PegBb3QbEd8CxeN3a2qYLUtcJkDvnHio/Z6ghvpmPLvID90OvEc
+   AgGH08tHNoc7vXUYX4o1Fohbr3R4OOIYwVYiGiLtrKNL6dJdkqCrTMi04
+   KdTpaMnTyqc3mpZQIBIJYOlEJC1DbFi5+rtCGHmYzttAge7fyNqzhrjtd
+   OCW1CpkUzu7e9KIRvlgRnPG+OOHYvpQ+rMTx4b4KKmpv4rceEL19h8tYA
+   g==;
+X-CSE-ConnectionGUID: 60oeeEAXQ2SO2UzTiFWMzA==
+X-CSE-MsgGUID: H6SXdw3IQ92SfEN28TvT/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="79874260"
+X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
+   d="scan'208";a="79874260"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 05:23:31 -0800
+X-CSE-ConnectionGUID: WPvo6GK/RgWoe7WOElSe5w==
+X-CSE-MsgGUID: 1TphBrskS1ivOpOOfIXokQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
+   d="scan'208";a="199623976"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 26 Dec 2025 05:23:29 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vZ7mw-0000000053L-3m20;
+	Fri, 26 Dec 2025 13:23:26 +0000
+Date: Fri, 26 Dec 2025 21:23:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Jianquan Lin <linjianquan2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 13/13] drivers/ub/ubfi/ubc.c:61:18:
+ error: implicit declaration of function 'acpi_evaluate_integer'; did you mean
+ 'acpi_evaluate_object'?
+Message-ID: <202512262133.NDd7lyEj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git fileYYQrvG
-head:   8db50f0fa43efe8799fd40b872dcdd39a90d7549
-commit: 22937af75abb3260c2d563739181f4b61ddac2c1 [21/41] ASoC: rt1320: support RAE parameters loading
-config: i386-randconfig-141-20251224 (https://download.01.org/0day-ci/archive/20251226/202512260826.74LvGsju-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   03c9c649e6f28e26260d276ce755f785b2435da3
+commit: 028a4161a77d2e15d331a13599a6f06cdd7490b6 [13/13] ub:ubfi: register ubc usi domain
+config: arm64-randconfig-004-20251226 (https://download.01.org/0day-ci/archive/20251226/202512262133.NDd7lyEj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512262133.NDd7lyEj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512260826.74LvGsju-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512262133.NDd7lyEj-lkp@intel.com/
 
-New smatch warnings:
-sound/soc/codecs/rt1320-sdw.c:1575 rt1320_rae_load() warn: 'rae_fw' from request_firmware() not released on lines: 1575.
+All error/warnings (new ones prefixed by >>):
 
-vim +/rae_fw +1575 sound/soc/codecs/rt1320-sdw.c
+   drivers/ub/ubfi/ubc.c: In function 'acpi_processor_ubc':
+>> drivers/ub/ubfi/ubc.c:61:18: error: implicit declaration of function 'acpi_evaluate_integer'; did you mean 'acpi_evaluate_object'? [-Werror=implicit-function-declaration]
+      61 |         status = acpi_evaluate_integer(handle, "_UID", NULL, &uid);
+         |                  ^~~~~~~~~~~~~~~~~~~~~
+         |                  acpi_evaluate_object
+>> drivers/ub/ubfi/ubc.c:69:16: error: implicit declaration of function 'acpi_get_acpi_dev'; did you mean 'acpi_get_timer'? [-Werror=implicit-function-declaration]
+      69 |         adev = acpi_get_acpi_dev(handle);
+         |                ^~~~~~~~~~~~~~~~~
+         |                acpi_get_timer
+>> drivers/ub/ubfi/ubc.c:69:14: warning: assignment to 'struct acpi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+      69 |         adev = acpi_get_acpi_dev(handle);
+         |              ^
+>> drivers/ub/ubfi/ubc.c:87:9: error: implicit declaration of function 'acpi_put_acpi_dev'; did you mean 'acpi_match_acpi_device'? [-Werror=implicit-function-declaration]
+      87 |         acpi_put_acpi_dev(adev);
+         |         ^~~~~~~~~~~~~~~~~
+         |         acpi_match_acpi_device
+   cc1: some warnings being treated as errors
 
-22937af75abb32 Shuming Fan 2025-12-16  1426  static int rt1320_rae_load(struct rt1320_sdw_priv *rt1320)
-22937af75abb32 Shuming Fan 2025-12-16  1427  {
-22937af75abb32 Shuming Fan 2025-12-16  1428  	struct device *dev = &rt1320->sdw_slave->dev;
-22937af75abb32 Shuming Fan 2025-12-16  1429  	static const char func_tag[] = "FUNC";
-22937af75abb32 Shuming Fan 2025-12-16  1430  	static const char xu_tag[] = "XU";
-22937af75abb32 Shuming Fan 2025-12-16  1431  	const struct firmware *rae_fw = NULL;
-22937af75abb32 Shuming Fan 2025-12-16  1432  	unsigned int fw_offset;
-22937af75abb32 Shuming Fan 2025-12-16  1433  	unsigned char *fw_data;
-22937af75abb32 Shuming Fan 2025-12-16  1434  	unsigned char *param_data;
-22937af75abb32 Shuming Fan 2025-12-16  1435  	unsigned int addr, size;
-22937af75abb32 Shuming Fan 2025-12-16  1436  	unsigned int func, value;
-22937af75abb32 Shuming Fan 2025-12-16  1437  	const char *dmi_vendor, *dmi_product, *dmi_sku;
-22937af75abb32 Shuming Fan 2025-12-16  1438  	char vendor[128], product[128], sku[128];
-22937af75abb32 Shuming Fan 2025-12-16  1439  	char *ptr_vendor, *ptr_product, *ptr_sku;
-22937af75abb32 Shuming Fan 2025-12-16  1440  	char rae_filename[128];
-22937af75abb32 Shuming Fan 2025-12-16  1441  	char tag[5];
-22937af75abb32 Shuming Fan 2025-12-16  1442  	int ret = 0;
-22937af75abb32 Shuming Fan 2025-12-16  1443  	int retry = 200;
-22937af75abb32 Shuming Fan 2025-12-16  1444  
-22937af75abb32 Shuming Fan 2025-12-16  1445  	dmi_vendor = dmi_get_system_info(DMI_SYS_VENDOR);
-22937af75abb32 Shuming Fan 2025-12-16  1446  	dmi_product = dmi_get_system_info(DMI_PRODUCT_NAME);
-22937af75abb32 Shuming Fan 2025-12-16  1447  	dmi_sku = dmi_get_system_info(DMI_PRODUCT_SKU);
-22937af75abb32 Shuming Fan 2025-12-16  1448  
-22937af75abb32 Shuming Fan 2025-12-16  1449  	if (dmi_vendor && dmi_product && dmi_sku) {
-22937af75abb32 Shuming Fan 2025-12-16  1450  		strscpy(vendor, dmi_vendor);
-22937af75abb32 Shuming Fan 2025-12-16  1451  		strscpy(product, dmi_product);
-22937af75abb32 Shuming Fan 2025-12-16  1452  		strscpy(sku, dmi_sku);
-22937af75abb32 Shuming Fan 2025-12-16  1453  		ptr_vendor = &vendor[0];
-22937af75abb32 Shuming Fan 2025-12-16  1454  		ptr_product = &product[0];
-22937af75abb32 Shuming Fan 2025-12-16  1455  		ptr_sku = &sku[0];
-22937af75abb32 Shuming Fan 2025-12-16  1456  		ptr_vendor = strsep(&ptr_vendor, " ");
-22937af75abb32 Shuming Fan 2025-12-16  1457  		ptr_product = strsep(&ptr_product, " ");
-22937af75abb32 Shuming Fan 2025-12-16  1458  		ptr_sku = strsep(&ptr_sku, " ");
-22937af75abb32 Shuming Fan 2025-12-16  1459  
-22937af75abb32 Shuming Fan 2025-12-16  1460  		dev_dbg(dev, "%s: DMI vendor=%s, product=%s, sku=%s\n", __func__,
-22937af75abb32 Shuming Fan 2025-12-16  1461  			vendor, product, sku);
-22937af75abb32 Shuming Fan 2025-12-16  1462  
-22937af75abb32 Shuming Fan 2025-12-16  1463  		snprintf(rae_filename, sizeof(rae_filename),
-22937af75abb32 Shuming Fan 2025-12-16  1464  			 "realtek/rt1320/rt1320_RAE_%s_%s_%s.dat", vendor, product, sku);
-22937af75abb32 Shuming Fan 2025-12-16  1465  		dev_dbg(dev, "%s: try to load RAE file %s\n", __func__, rae_filename);
-22937af75abb32 Shuming Fan 2025-12-16  1466  	} else {
-22937af75abb32 Shuming Fan 2025-12-16  1467  		dev_warn(dev, "%s: Can't find proper RAE file name\n", __func__);
-22937af75abb32 Shuming Fan 2025-12-16  1468  		return -EINVAL;
-22937af75abb32 Shuming Fan 2025-12-16  1469  	}
-22937af75abb32 Shuming Fan 2025-12-16  1470  
-22937af75abb32 Shuming Fan 2025-12-16  1471  	regmap_write(rt1320->regmap,
-22937af75abb32 Shuming Fan 2025-12-16  1472  			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
-22937af75abb32 Shuming Fan 2025-12-16  1473  				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x00);
-22937af75abb32 Shuming Fan 2025-12-16  1474  	rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, 0x00);
-22937af75abb32 Shuming Fan 2025-12-16  1475  
-22937af75abb32 Shuming Fan 2025-12-16  1476  	request_firmware(&rae_fw, rae_filename, dev);
-22937af75abb32 Shuming Fan 2025-12-16  1477  	if (rae_fw) {
-22937af75abb32 Shuming Fan 2025-12-16  1478  
-22937af75abb32 Shuming Fan 2025-12-16  1479  		/* RAE CRC clear */
-22937af75abb32 Shuming Fan 2025-12-16  1480  		regmap_write(rt1320->regmap, 0xe80b, 0x0f);
-22937af75abb32 Shuming Fan 2025-12-16  1481  
-22937af75abb32 Shuming Fan 2025-12-16  1482  		/* RAE stop & CRC disable */
-22937af75abb32 Shuming Fan 2025-12-16  1483  		regmap_update_bits(rt1320->regmap, 0xe803, 0xbc, 0x00);
-22937af75abb32 Shuming Fan 2025-12-16  1484  
-22937af75abb32 Shuming Fan 2025-12-16  1485  		while (retry--) {
-22937af75abb32 Shuming Fan 2025-12-16  1486  			regmap_read(rt1320->regmap, 0xe83f, &value);
-22937af75abb32 Shuming Fan 2025-12-16  1487  			if (value & 0x40)
-22937af75abb32 Shuming Fan 2025-12-16  1488  				break;
-22937af75abb32 Shuming Fan 2025-12-16  1489  			usleep_range(1000, 1100);
-22937af75abb32 Shuming Fan 2025-12-16  1490  		}
-22937af75abb32 Shuming Fan 2025-12-16  1491  		if (!retry && !(value & 0x40)) {
-22937af75abb32 Shuming Fan 2025-12-16  1492  			dev_err(dev, "%s: RAE is not ready to load\n", __func__);
-22937af75abb32 Shuming Fan 2025-12-16  1493  			return -ETIMEDOUT;
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+   Selected by [y]:
+   - ARM64_MPAM [=y]
 
-Smatch is confused because generally people check the return value
-of request_firmware() instead of if (rae_fw)...  But this error
-path in this doesn't call release_firmware(rae_fw).
 
-22937af75abb32 Shuming Fan 2025-12-16  1494  		}
-22937af75abb32 Shuming Fan 2025-12-16  1495  
-22937af75abb32 Shuming Fan 2025-12-16  1496  		dev_dbg(dev, "%s, rae_fw size=0x%lx\n", __func__, rae_fw->size);
-22937af75abb32 Shuming Fan 2025-12-16  1497  		regcache_cache_bypass(rt1320->regmap, true);
-22937af75abb32 Shuming Fan 2025-12-16  1498  		for (fw_offset = 0; fw_offset < rae_fw->size;) {
-22937af75abb32 Shuming Fan 2025-12-16  1499  
-22937af75abb32 Shuming Fan 2025-12-16  1500  			dev_dbg(dev, "%s, fw_offset=0x%x\n", __func__, fw_offset);
-22937af75abb32 Shuming Fan 2025-12-16  1501  
-22937af75abb32 Shuming Fan 2025-12-16  1502  			fw_data = (unsigned char *)&rae_fw->data[fw_offset];
-22937af75abb32 Shuming Fan 2025-12-16  1503  
-22937af75abb32 Shuming Fan 2025-12-16  1504  			memcpy(tag, fw_data, 4);
-22937af75abb32 Shuming Fan 2025-12-16  1505  			tag[4] = '\0';
-22937af75abb32 Shuming Fan 2025-12-16  1506  			dev_dbg(dev, "%s, tag=%s\n", __func__, tag);
-22937af75abb32 Shuming Fan 2025-12-16  1507  			if (strcmp(tag, xu_tag) == 0) {
-22937af75abb32 Shuming Fan 2025-12-16  1508  				dev_dbg(dev, "%s: This is a XU tag", __func__);
-22937af75abb32 Shuming Fan 2025-12-16  1509  				memcpy(&addr, (fw_data + 4), 4);
-22937af75abb32 Shuming Fan 2025-12-16  1510  				memcpy(&size, (fw_data + 8), 4);
-22937af75abb32 Shuming Fan 2025-12-16  1511  				param_data = (unsigned char *)(fw_data + 12);
-22937af75abb32 Shuming Fan 2025-12-16  1512  
-22937af75abb32 Shuming Fan 2025-12-16  1513  				dev_dbg(dev, "%s: addr=0x%x, size=0x%x\n", __func__, addr, size);
-22937af75abb32 Shuming Fan 2025-12-16  1514  
-22937af75abb32 Shuming Fan 2025-12-16  1515  				/*
-22937af75abb32 Shuming Fan 2025-12-16  1516  				 * UI register ranges from 0x1000d000 to 0x1000d7ff
-22937af75abb32 Shuming Fan 2025-12-16  1517  				 * UI registers should be accessed by tuning tool.
-22937af75abb32 Shuming Fan 2025-12-16  1518  				 * So, there registers should be cached.
-22937af75abb32 Shuming Fan 2025-12-16  1519  				 */
-22937af75abb32 Shuming Fan 2025-12-16  1520  				if (addr <= 0x1000d7ff && addr >= 0x1000d000)
-22937af75abb32 Shuming Fan 2025-12-16  1521  					regcache_cache_bypass(rt1320->regmap, false);
-22937af75abb32 Shuming Fan 2025-12-16  1522  
-22937af75abb32 Shuming Fan 2025-12-16  1523  				rt1320_data_rw(rt1320, addr, param_data, size, RT1320_PARAM_WRITE);
-22937af75abb32 Shuming Fan 2025-12-16  1524  
-22937af75abb32 Shuming Fan 2025-12-16  1525  				regcache_cache_bypass(rt1320->regmap, true);
-22937af75abb32 Shuming Fan 2025-12-16  1526  
-22937af75abb32 Shuming Fan 2025-12-16  1527  				fw_offset += (size + 12);
-22937af75abb32 Shuming Fan 2025-12-16  1528  			} else if (strcmp(tag, func_tag) == 0) {
-22937af75abb32 Shuming Fan 2025-12-16  1529  				dev_err(dev, "%s: This is a FUNC tag", __func__);
-22937af75abb32 Shuming Fan 2025-12-16  1530  
-22937af75abb32 Shuming Fan 2025-12-16  1531  				memcpy(&func, (fw_data + 4), 4);
-22937af75abb32 Shuming Fan 2025-12-16  1532  				memcpy(&value, (fw_data + 8), 4);
-22937af75abb32 Shuming Fan 2025-12-16  1533  
-22937af75abb32 Shuming Fan 2025-12-16  1534  				dev_dbg(dev, "%s: func=0x%x, value=0x%x\n", __func__, func, value);
-22937af75abb32 Shuming Fan 2025-12-16  1535  				if (func == 1)  //DelayMs
-22937af75abb32 Shuming Fan 2025-12-16  1536  					msleep(value);
-22937af75abb32 Shuming Fan 2025-12-16  1537  
-22937af75abb32 Shuming Fan 2025-12-16  1538  				fw_offset += 12;
-22937af75abb32 Shuming Fan 2025-12-16  1539  			} else {
-22937af75abb32 Shuming Fan 2025-12-16  1540  				dev_err(dev, "%s: This is NOT a XU file (wrong tag)", __func__);
-22937af75abb32 Shuming Fan 2025-12-16  1541  				break;
-22937af75abb32 Shuming Fan 2025-12-16  1542  			}
-22937af75abb32 Shuming Fan 2025-12-16  1543  		}
-22937af75abb32 Shuming Fan 2025-12-16  1544  
-22937af75abb32 Shuming Fan 2025-12-16  1545  		regcache_cache_bypass(rt1320->regmap, false);
-22937af75abb32 Shuming Fan 2025-12-16  1546  		release_firmware(rae_fw);
-22937af75abb32 Shuming Fan 2025-12-16  1547  
-22937af75abb32 Shuming Fan 2025-12-16  1548  	} else {
-22937af75abb32 Shuming Fan 2025-12-16  1549  		dev_err(dev, "%s: Failed to load %s firmware\n", __func__, rae_filename);
-22937af75abb32 Shuming Fan 2025-12-16  1550  		ret = -EINVAL;
-22937af75abb32 Shuming Fan 2025-12-16  1551  		goto _exit_;
-22937af75abb32 Shuming Fan 2025-12-16  1552  	}
-22937af75abb32 Shuming Fan 2025-12-16  1553  
-22937af75abb32 Shuming Fan 2025-12-16  1554  	/* RAE CRC enable */
-22937af75abb32 Shuming Fan 2025-12-16  1555  	regmap_update_bits(rt1320->regmap, 0xe803, 0x0c, 0x0c);
-22937af75abb32 Shuming Fan 2025-12-16  1556  
-22937af75abb32 Shuming Fan 2025-12-16  1557  	/* RAE update */
-22937af75abb32 Shuming Fan 2025-12-16  1558  	regmap_update_bits(rt1320->regmap, 0xe80b, 0x80, 0x00);
-22937af75abb32 Shuming Fan 2025-12-16  1559  	regmap_update_bits(rt1320->regmap, 0xe80b, 0x80, 0x80);
-22937af75abb32 Shuming Fan 2025-12-16  1560  
-22937af75abb32 Shuming Fan 2025-12-16  1561  	/* RAE run */
-22937af75abb32 Shuming Fan 2025-12-16  1562  	regmap_update_bits(rt1320->regmap, 0xe803, 0x80, 0x80);
-22937af75abb32 Shuming Fan 2025-12-16  1563  
-22937af75abb32 Shuming Fan 2025-12-16  1564  	regmap_read(rt1320->regmap, 0xe80b, &value);
-22937af75abb32 Shuming Fan 2025-12-16  1565  	dev_dbg(dev, "%s: CAE run => 0xe80b reg = 0x%x\n", __func__, value);
-22937af75abb32 Shuming Fan 2025-12-16  1566  
-22937af75abb32 Shuming Fan 2025-12-16  1567  	rt1320->rae_update_done = true;
-22937af75abb32 Shuming Fan 2025-12-16  1568  
-22937af75abb32 Shuming Fan 2025-12-16  1569  _exit_:
-22937af75abb32 Shuming Fan 2025-12-16  1570  	regmap_write(rt1320->regmap,
-22937af75abb32 Shuming Fan 2025-12-16  1571  			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
-22937af75abb32 Shuming Fan 2025-12-16  1572  				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03);
-22937af75abb32 Shuming Fan 2025-12-16  1573  	rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, 0x03);
-22937af75abb32 Shuming Fan 2025-12-16  1574  
-22937af75abb32 Shuming Fan 2025-12-16 @1575  	return ret;
-22937af75abb32 Shuming Fan 2025-12-16  1576  }
+vim +61 drivers/ub/ubfi/ubc.c
+
+    50	
+    51	static acpi_status acpi_processor_ubc(acpi_handle handle, u32 lvl,
+    52					      void *context, void **rv)
+    53	{
+    54		struct ub_bus_controller *ubc = context;
+    55		struct acpi_device *adev;
+    56		unsigned long long uid;
+    57		acpi_status status;
+    58		struct device *dev;
+    59		int ret;
+    60	
+  > 61		status = acpi_evaluate_integer(handle, "_UID", NULL, &uid);
+    62		if (ACPI_FAILURE(status))
+    63			return AE_CTRL_TERMINATE;
+    64	
+    65		pr_info("ubc acpi ubc->ctl_no %u, uid: %llu\n", ubc->ctl_no, uid);
+    66		if (ubc->ctl_no != (u32)uid)
+    67			return AE_OK;
+    68	
+  > 69		adev = acpi_get_acpi_dev(handle);
+    70		if (!adev)
+    71			return AE_CTRL_TERMINATE;
+    72	
+    73		dev = bus_find_device_by_acpi_dev(&platform_bus_type, adev);
+    74		if (!dev) {
+    75			status = AE_CTRL_TERMINATE;
+    76			goto out;
+    77		}
+    78		ret = ub_update_msi_domain(dev, DOMAIN_BUS_UB_MSI);
+    79		if (ret) {
+    80			status = AE_CTRL_TERMINATE;
+    81			goto out;
+    82		}
+    83		dev_set_msi_domain(&ubc->dev, dev->msi.domain);
+    84		pr_debug("set ubc msi domain success by acpi\n");
+    85	
+    86	out:
+  > 87		acpi_put_acpi_dev(adev);
+    88		return status;
+    89	}
+    90	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
