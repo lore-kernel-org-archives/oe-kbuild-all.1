@@ -1,117 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3CBA59
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 14:05:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7792144CF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 14:52:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766757934; cv=none; b=Q3/DBFIH/UuznQVTsTguShPtaK8d0X90gEMj0qw8tO1kyXff55lTPlW4xROwvSpXUR3fvwPLQlznp0GWgWSkyAejsEozxDp+nE5dAaQQIj4s9XD3CnZHyZdDWi+k564puOFhSYXovm+tmpjnrKFPpw4nottg7yf9n+/mVkBF0sA=
+	t=1766760751; cv=none; b=aF1JPDSSk9EYnkTR+lDUrglT59wx4Ef7QO517TjTOCUo8iOiJnzBZlHpe9ajraEpv/tAJ26YXQT67AqSkVNks0pTYloB+AAThHoPNaR4oPX8DR5Rhk7PclIL9/ikHjtFlJwU3yQazKC4V4OH0AMrQeXKq+fmOn0FGEwCy576TZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766757934; c=relaxed/simple;
-	bh=Vn4ote5SeO2R3mRN/GqSGuchDfe7giVhWP+FklhxDko=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZMmnNzOlUeonmVC7RDdE7SoTajj+nfreJF9N0EUKgVWrSpuAt+c2umJPva8kfeeLwj2dpepfaJXusnDCBb4d2RJM23TNpo/ijFkbRdj7k6gAuhqU9QzjmcwTARrmU90e8eR6TxyTc+cPgRKuaPU8YSRjGLQsLTbXr3mj1fJqq4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R1wFU34O; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766760751; c=relaxed/simple;
+	bh=8cv+uRDsgY/kwycqF2X1hXxbRFbVLqnu/AZyd5HHPNM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ihMUsNflhu9DJUvENMuUH+VKJEHa/VfRXTXQpiU6cd10lzPIY2FsJqh6q1OufT3vMLHna642T4BA/4yIAd0zjnw1iwYMW0VKcdw91OY01j7ExOIS47MS54V/Zt2DjyjTeSwewpSS12P2E4rITbG5hWuosSLKNjR+kZOTQY47dTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=yEUhes3A; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1wFU34O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766757932; x=1798293932;
-  h=date:from:to:cc:subject:message-id;
-  bh=Vn4ote5SeO2R3mRN/GqSGuchDfe7giVhWP+FklhxDko=;
-  b=R1wFU34OyXgrRSXv8g9n3iEp5R55jynEFskNRqeyCeQ8pvmDf1HdZbJq
-   hiURieBjEt3h8/oWhtxVczu3V5gFVXjHsnu3kuWRxUMjQHrphiHFhhIXe
-   j5sB8aE7ZE2UJU50DzWG7FA2m7a8pEu8KDaluJmXSowHr/G5jdUIaDL5L
-   j/Z4c2zqIfl4ih2nFFt3zJpk+YuqgGjTvy2w+syAA1bVwdJe0YtvrX/lU
-   BcesCI/Ckh+gPkjVVSliRwb8qMwwRmMF3W+xMgPAizQwMuxNfX/kLZ/dM
-   eLqCy7N4eFqmi6SeWBRxfemB0h2cTu9t8+7155jq5psYE5D6+32jdmCIA
-   g==;
-X-CSE-ConnectionGUID: gTLHfR+JS/ujOkm7ZZta/w==
-X-CSE-MsgGUID: mz63nAx4QNaVBfhVu33gQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="72367598"
-X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
-   d="scan'208";a="72367598"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 06:05:31 -0800
-X-CSE-ConnectionGUID: 8VkTb0TITneTVWX6CdwLnw==
-X-CSE-MsgGUID: 8hR+DmEtQYeVFXb0Ru8uzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
-   d="scan'208";a="223872708"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Dec 2025 06:05:30 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vZ8Rc-0000000054b-0mOk;
-	Fri, 26 Dec 2025 14:05:28 +0000
-Date: Fri, 26 Dec 2025 22:04:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2]
- arch/arm64/kvm/hyp/nvhe/pkvm.c:1725:5: warning: no previous prototype for
- function '__pkvm_register_guest_smc_handler'
-Message-ID: <202512262250.aGiBTwKV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="yEUhes3A"
+Received: from [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8] (2a02-1812-162c-8f00-1e2d-b404-3319-eba8.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id D48E66B8DB8;
+	Fri, 26 Dec 2025 15:52:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1766760747;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WAThaaKjBVKVFz/Q0ebC6b7atC4HpfaPtb4nS/rc8QA=;
+	b=yEUhes3Ah6Cx5ZxXDtQNZ6VyqYrO4/f2heXKM/THg/s4+iWariqU3z5zv3TWpH3XcbTPc9
+	BU6MaOpAga2ds3WXUCL+ml8NJaghTODKtObu9OSF5VZQlZOd8ug+nexDFAGP6bcAVRHLQ8
+	YOZpyxlR7gB4kscEmxwGcW3Dk/FPRhmbbYav/50sS9AqNQNIvwBq+lPiCKeZbUCq2PTmrO
+	1VTTFP8EulztRLAcxEwMis/y2Q40bt6iy8WhO2KNglwsv5c39tSj+lSJZJkhReaJONDxrg
+	4YHDf4QZEzhQ3pw3LHrA+uM83daNFmKPLVJUNM5kEdNJYqBqTaQRMXBILqchvQ==
+Message-ID: <a844934b105136f576ab46a5779cf57ef0cc7bbb.camel@svanheule.net>
+Subject: Re: [PATCH v9 3/6] mfd: Add RTL8231 core device
+From: Sander Vanheule <sander@svanheule.net>
+To: Krzysztof Kozlowski <krzk@kernel.org>, kernel test robot
+ <lkp@intel.com>,  Lee Jones <lee@kernel.org>, Pavel Machek
+ <pavel@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,  Michael
+ Walle <mwalle@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Mark Brown
+ <broonie@kernel.org>,  Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
+ <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,  "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Randy Dunlap
+ <rdunlap@infradead.org>
+Cc: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran	
+ <fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ netdev@vger.kernel.org,  Rob Herring <robh@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>
+Date: Fri, 26 Dec 2025 15:52:25 +0100
+In-Reply-To: <a26a5397-7597-49f6-9e73-3eb853915166@kernel.org>
+References: <20251215175115.135294-4-sander@svanheule.net>
+	 <202512220956.FVakrdhV-lkp@intel.com>
+	 <12c98c7c8bead26a61764e3e9611badf2cdfcac5.camel@svanheule.net>
+	 <a26a5397-7597-49f6-9e73-3eb853915166@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
 
-Hi Sebastian,
+Hi Krzysztof,
 
-FYI, the error/warning still remains.
+On Fri, 2025-12-26 at 13:19 +0100, Krzysztof Kozlowski wrote:
+> On 26/12/2025 12:59, Sander Vanheule wrote:
+> > > kismet warnings: (new ones prefixed by >>)
+> > > > > kismet: WARNING: unmet direct dependencies detected for MDIO_BUS =
+when
+> > > > > selected by REGMAP_MDIO
+> > > =C2=A0=C2=A0 WARNING: unmet direct dependencies detected for MDIO_BUS
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 Depends on [n]: NETDEVICES [=3Dn]
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 Selected by [y]:
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 - REGMAP_MDIO [=3Dy]
+> >=20
+> > I'm a bit puzzled on how to solve this one. The issue detected here is =
+that
+> > my
+> > driver (MFD_RTL8231) selects REGMAP_MDIO, which in turn selects MDIO_BU=
+S.
+> > The
+> > latter is dependent on NETDEVICES, which is not selected in this test.=
+=C2=A0
+> > The kernel does not yet have any other consumers of REGMAP_MDIO, which =
+is
+> > probably the reason the dependency issue has gone undetected until now.
+> >=20
+> > REGMAP_MDIO is not a visible symbol, so it must be selected by drivers.
+>=20
+> Reminds me old problem, probably the same:
+>=20
+> https://lore.kernel.org/all/20250515140555.325601-2-krzysztof.kozlowski@l=
+inaro.org/
+>=20
+> https://lore.kernel.org/all/20250516141722.13772-1-afd@ti.com/
+>=20
+> Exactly the same MDIO here and there.
+> > [...]
+> Rather fix the same way Andrew did it. Or maybe his patch was not merged?
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   30a5c216991a5dd3eed018653101c71e1e657af8
-commit: 340ef6cb4081cb305235a059f1c142345ac1a71d [2/2] ANDROID: KVM: arm64: Add smc64 trap handling for protected guests
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20251226/202512262250.aGiBTwKV-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512262250.aGiBTwKV-lkp@intel.com/reproduce)
+Andrew's patch was merged, that's the code I'm seeing now. I think by
+placing the dependency under REGMAP_MDIO (or REGMAP_IRQ) instead of
+REGMAP, it just made the circular dependency less visible.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512262250.aGiBTwKV-lkp@intel.com/
+Making PINCTRL_RTL8231 "depends on GPIOLIB", like the GPIO drivers, only
+shortens the circular dependency loop:
 
-All warnings (new ones prefixed by >>):
+   error: recursive dependency detected!
+   	symbol IRQ_DOMAIN is selected by MFD_CORE
+   	symbol MFD_CORE is selected by MFD_RTL8231
+   	symbol MFD_RTL8231 depends on MDIO_BUS
+   	symbol MDIO_BUS is selected by PHYLIB
+   	symbol PHYLIB is selected by ARC_EMAC_CORE
+   	symbol ARC_EMAC_CORE is selected by EMAC_ROCKCHIP
+   	symbol EMAC_ROCKCHIP depends on OF_IRQ
+   	symbol OF_IRQ depends on IRQ_DOMAIN
 
->> arch/arm64/kvm/hyp/nvhe/pkvm.c:1725:5: warning: no previous prototype for function '__pkvm_register_guest_smc_handler' [-Wmissing-prototypes]
-    1725 | int __pkvm_register_guest_smc_handler(bool (*cb)(struct arm_smccc_1_2_regs *,
-         |     ^
-   arch/arm64/kvm/hyp/nvhe/pkvm.c:1725:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1725 | int __pkvm_register_guest_smc_handler(bool (*cb)(struct arm_smccc_1_2_regs *,
-         | ^
-         | static 
-   1 warning generated.
+Of these symbols, IRQ_DOMAIN and OF_IRQ are hidden symbols, so they must be
+selected by another symbol to be used. As shown above, OF_IRQ *depends* on
+IRQ_DOMAIN, which means some other symbol *must* select it for the dependen=
+cy to
+be satisfied, as IRQ_DOMAIN also cannot be selected directly by the user. O=
+F_IRQ
+also appears to be the only symbol in the kernel to depend on, rather than
+select, IRQ_DOMAIN.
+
+Turning the dependency of OF_IRQ on IRQ_DOMAIN around resolves the dependen=
+cy
+loop here, and ensures the hidden IRQ_DOMAIN symbol is selected whenever an=
+y
+other symbol selects OF_IRQ.
+
+The same reasoning was actually used in 2023 to suggest this change as well=
+:
+https://lore.kernel.org/lkml/20230213041535.12083-3-rdunlap@infradead.org/
+
+I found some follow-up, but it didn't look like it actually got wrapped up:
+https://lore.kernel.org/lkml/20230313023935.31037-1-rdunlap@infradead.org/
+
+Randy, do you happen to recall if/why this stalled? Should we just try to i=
+nvert
+the dependency again if there is no pressing need for the "proper" clean-up=
+?
 
 
-vim +/__pkvm_register_guest_smc_handler +1725 arch/arm64/kvm/hyp/nvhe/pkvm.c
-
-  1724	
-> 1725	int __pkvm_register_guest_smc_handler(bool (*cb)(struct arm_smccc_1_2_regs *,
-  1726							 struct arm_smccc_res *res,
-  1727							 pkvm_handle_t handle),
-  1728					      pkvm_handle_t handle)
-  1729	{
-  1730		int ret = -EINVAL;
-  1731		struct pkvm_hyp_vm *vm;
-  1732	
-  1733		if (!cb)
-  1734			return ret;
-  1735	
-  1736		hyp_read_lock(&vm_table_lock);
-  1737		vm = get_vm_by_handle(handle);
-  1738		if (vm)
-  1739			ret = cmpxchg_release(&vm->smc_handler, NULL, cb) ? -EBUSY : 0;
-  1740		hyp_read_unlock(&vm_table_lock);
-  1741	
-  1742		return ret;
-  1743	}
-  1744	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best,
+Sander
