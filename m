@@ -1,1169 +1,330 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201D01DB356
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 08:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F6A7081E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 08:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766736810; cv=none; b=cH51AwjqGvglSof2rusVy628JQSJT5JaOX2+CXQNUbkgHBP1+B8J/HuOcQfoDEJLJyDo0OCGdDKiNvwmnPyt2M7wW1/vnQPNOZN4+jNMjd5RuxpMw5JwbXIw7E8MsZMi+cl13lipWoMnUUul7eFaAC5cgRqX6mfblNlsMhLmq78=
+	t=1766739475; cv=none; b=klpeHrwRUvvls0vHpKStnJEGQQc+etfwiTyctSF0lJst4YwUDUoeL91UIovSx6CE0geuR/4LmTET1JFnO+AuKwikIujZPlXo3xiLJRzQ2zDZdXcsgPUatS7y0OJn5Cj67uhnPVrZyVLaBSWT2XAYIIFZ+gYjUKRfYCqUB5DSxZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766736810; c=relaxed/simple;
-	bh=9UBbHvyjUt8uKSJC/DdrQRi9EO7VOUX4I5lhmVAYnKA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MEqii8CKM9wyNZetCySwJuStQsBw4JilQjZ7O7ODW0NEWWXGtzNEh7ANWdkGorbwLSnGPcKIOJqWhB84Nw7jE7YPuWIcZmCpeK8Ry8xLJG580Decr7sbeWBBca771FAPfn+/LIM4Tbck2/JnotV/ukC7aKt7m4QirDr3KxwHLHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GyZSnZ5s; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1766739475; c=relaxed/simple;
+	bh=cmPc6HZ4/c9uv6uxGHPab+c+FdprQWmzEOLgHfA4ugU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TVWzc1KA8Ol4hHbeUbxrjV22HM14g6F/XpRmWm7JVh4TCDl84O2CUjxFxP6yI8VQf589O8UsB5nQwmsdG3W32808dw4wWOn4HjS6nM5XhmXq1+/M18VLyO2DfB+g24K+obDEX/Y1oWp4CeDJp0wENDTrmLSkPrgCnykazBtelnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bkAUyyAf; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GyZSnZ5s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bkAUyyAf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766736806; x=1798272806;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=9UBbHvyjUt8uKSJC/DdrQRi9EO7VOUX4I5lhmVAYnKA=;
-  b=GyZSnZ5s1bYg7G5Fj/ETlKzS2Ef2jK9rgddMQClQAm3g9Q4ipP/FeUEG
-   BN/pF4/fLvRO6Oj8Ok4CTBYRESDlbJjXF497atubTNlXFilJXpIiIDO3I
-   zXZ3xIajPk73sQhmkZHhDFagTvTBjxHqjHFB+VltFqR28j3YeoO14rV0n
-   OEam6WfJBnZjcHBfmRmjJ4wlNXUN4mhe/JA+Op4jmDh6MqWiWpanX0NVk
-   tRkSLyjCICRly5c3hmGMMdslonqvyHplcsCN5jnGDKyQu4amWEKY2jj3z
-   Wai38HKBI5yc+yzGnMS0El+TUcwHJTMdccEkO/JIinE3HlsaipDpTHMlE
-   g==;
-X-CSE-ConnectionGUID: tmx1la6MSyqGZXayRk1dsA==
-X-CSE-MsgGUID: 37CF1FZAQcy+gJG/VbXW6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="86082231"
+  t=1766739473; x=1798275473;
+  h=date:from:to:cc:subject:message-id;
+  bh=cmPc6HZ4/c9uv6uxGHPab+c+FdprQWmzEOLgHfA4ugU=;
+  b=bkAUyyAfQt3BoAMxlGJtwVAUFaKZaoy4VTimy8zwbZS6fRHpdCCNHSTy
+   EKdPtvHvPCOTUMrY8nwetjsn9XesfjPK+GLob5+MMrRvt8C/ADNgV+Ng8
+   lFvdvpcxu5j5phgSWYv8vTy5NgCVsUJxP10zaaLrzsOBB/sz9Qh+wrtSm
+   0g4dPsFye3qDSx8uo2o5zi1ONptnVPJZqghqkvKf7njHt6z4epAUuR8nc
+   Iosu9kEVDrjVQZqoEKoTk3+xWz9ln6ZUccaNK0Mnh8zXmYd6LdL49qXsu
+   eieVHJa9WBkioWMzHRBoYY1VZpyD2lI3c0t/6mpWdM+20L0D/EQO7xaED
+   w==;
+X-CSE-ConnectionGUID: Fz6KBKZaRV+HVtubQN0qjQ==
+X-CSE-MsgGUID: tdjYXb7wRamfVh5xQNmXcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="78809255"
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="86082231"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 00:13:24 -0800
-X-CSE-ConnectionGUID: vwycTEjvQD60B7SLnylsvQ==
-X-CSE-MsgGUID: FK0wsohJTwG/g2y3P3NYyg==
+   d="scan'208";a="78809255"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 00:57:53 -0800
+X-CSE-ConnectionGUID: XQsV/PPOS5qslHgsUIK6/A==
+X-CSE-MsgGUID: E3XHwEmNRJmRHxOz7k2uaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="204884346"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 26 Dec 2025 00:13:22 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="237755536"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 26 Dec 2025 00:57:50 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZ2wp-000000006pE-1dPx;
-	Fri, 26 Dec 2025 08:13:19 +0000
-Date: Fri, 26 Dec 2025 09:13:09 +0100
+	id 1vZ3ds-000000004uD-0xFl;
+	Fri, 26 Dec 2025 08:57:48 +0000
+Date: Fri, 26 Dec 2025 16:56:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: kernel@openeuler.org, Jianquan Lin <linjianquan2@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.19-rc 100/111]
- arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /
- (bananapi,bpi-r4-lite): False schema does not allow {'reg': [[0, 1073741824,
- 0, 268435456]]}
-Message-ID: <202512260939.j83lMDym-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 13/13]
+ drivers/ub/ubus/interrupt.c:121:15: error: implicit declaration of function
+ 'usi_setup_interrupts'
+Message-ID: <202512261650.agrBBnFd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-rc
-head:   fff6186ad59ed77c50897afb2a9258b9b260308d
-commit: c410b22994547b002240591b268d399a2238c1b8 [100/111] arm64: dts: medi=
-atek: mt7987: Add Bananapi-R4 Lite
-config: arm64-randconfig-2052-20251220 (https://download.01.org/0day-ci/arc=
-hive/20251226/202512260939.j83lMDym-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.12
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20251226/202512260939.j83lMDym-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   03c9c649e6f28e26260d276ce755f785b2435da3
+commit: 1faf759d302206a8387d685808928c228c9aa306 [13/13] ub:ubus: Add MSI capability for UBUS driver
+config: arm64-randconfig-004-20251226 (https://download.01.org/0day-ci/archive/20251226/202512261650.agrBBnFd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512261650.agrBBnFd-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512260939.j83lMDym-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512261650.agrBBnFd-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: / (banana=
-pi,bpi-r4-lite): memory: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: / (banana=
-pi,bpi-r4-lite): oscillator@0: 'anyOf' conditional failed, one must be fixe=
-d:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: / (banana=
-pi,bpi-r4-lite): sfp@0: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: / (banana=
-pi,bpi-r4-lite): False schema does not allow {'reg': [[0, 1073741824, 0, 26=
-8435456]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: opp_table=
-0 (operating-points-v2): $nodename:0: 'opp_table0' does not match '^opp-tab=
-le(-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: opp_table=
-0 (operating-points-v2): Unevaluated properties are not allowed ('opp-share=
-d', 'opp00', 'opp01', 'opp02', 'opp03' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/opp/opp-v2.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: l2-cache =
-(cache): 'cache-unified' is a required property
-   	from schema $id: http://devicetree.org/schemas/cache.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: clkitg (s=
-imple-bus): $nodename:0: 'clkitg' does not match '^([a-z][a-z0-9\\-]+-bus|b=
-us|localbus|soc|axi|ahb|apb)(@.+)?$'
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: soc_clksy=
-s (simple-bus): $nodename:0: 'soc_clksys' does not match '^([a-z][a-z0-9\\-=
-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
---
-   	from schema $id: http://devicetree.org/schemas/hwmon/pwm-fan.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /reserved=
--memory/wmcpu-reserved@50000000: failed to match any schema with compatible=
-: ['mediatek,wmcpu-reserved']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: soc (simp=
-le-bus): wed: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: soc (simp=
-le-bus): trng@1020f000: 'anyOf' conditional failed, one must be fixed:
-   	'reg' is a required property
-   	'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /soc/hwve=
-r@8000000: failed to match any schema with compatible: ['mediatek,hwver', '=
-syscon']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /soc/infr=
-a_bus_prot@1000310c: failed to match any schema with compatible: ['mediatek=
-,infracfg_ao_bus_hang_prot']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pinctrl@1=
-001f000 (mediatek,mt7987-pinctrl): mdio0-pins:conf: 'groups' does not match=
- any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7987-=
-pinctrl.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pinctrl@1=
-001f000 (mediatek,mt7987-pinctrl): mdio0-pins:conf: 'pins' is a required pr=
-operty
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt7987-=
-pinctrl.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /soc/boot=
-trap@1001f6f0: failed to match any schema with compatible: ['mediatek,boott=
-rap']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /soc/trng=
-@1020f000: failed to match any schema with compatible: ['mediatek,mt7987-rn=
-g']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pca9545@7=
-0 (nxp,pca9545): $nodename:0: 'pca9545@70' does not match '^(i2c-?)?mux'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: pca9545@7=
-0 (nxp,pca9545): Unevaluated properties are not allowed ('#address-cells', =
-'#size-cells', 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: eeprom@50=
- (atmel,24c02): Unevaluated properties are not allowed ('address-bits', 'pa=
-ge-size' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: spi@11008=
-800 (mediatek,mt7987-spi-single): '#address-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.=
-yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: spi@11008=
-800 (mediatek,mt7987-spi-single): '#size-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/spi/mediatek,spi-mt65xx.=
-yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: usb-phy@1=
-1c50000 (mediatek,mt7987): usb-phy@11c50000: 'auto_load_valid' does not mat=
-ch any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: usb-phy@1=
-1c50000 (mediatek,mt7987): usb-phy@11c50000:nvmem-cell-names:1: 'rx_imp' wa=
-s expected
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: usb-phy@1=
-1c50000 (mediatek,mt7987): usb-phy@11c50000:nvmem-cell-names: ['intr', 'aut=
-o_load_valid'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: usb-phy@1=
-1c50000 (mediatek,mt7987): usb-phy@11c50000:nvmem-cells: [[29], [30]] is to=
-o short
-   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: usb-phy@1=
-1c50000 (mediatek,mt7987): usb-phy@11c50700: 'auto_load_valid' does not mat=
-ch any of the regexes: '^pinctrl-[0-9]+$'
---
-   	'inside-secure,safexcel-eip197d' was expected
-   	'inside-secure,safexcel-eip97ies' was expected
-   	'inside-secure,safexcel-eip197' was expected
-   	'inside-secure,safexcel-eip97' was expected
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,saf=
-excel.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: crypto@15=
-600000 (inside-secure,safexcel-eip197b): interrupt-names: ['ring0', 'ring1'=
-, 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,saf=
-excel.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: crypto@15=
-600000 (inside-secure,safexcel-eip197b): interrupts: [[0, 214, 4], [0, 215,=
- 4], [0, 216, 4], [0, 217, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,saf=
-excel.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /soc_nets=
-ys/crypto@15600000: failed to match any schema with compatible: ['inside-se=
-cure,safexcel-eip197b', 'security-ip-197-srv']
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: mikro-bus=
- (simple-bus): #address-cells: 0 is not one of [1, 2]
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: mikro-bus=
- (simple-bus): #size-cells: 0 is not one of [1, 2]
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml
->> arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /mikro-bu=
-s/gpio-export@0: failed to match any schema with compatible: ['gpio-export']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: gpio-3: '=
-gpio-export,name', 'gpio-export,output' do not match any of the regexes: '^=
-#.*', '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|gp=
-mc|hdmi|i2c-gpio),.*', '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', '^=
-(pciclass|pinctrl-single|#pinctrl-single|PowerPC),.*', '^(pl022|pxa-mmc|rca=
-r_sound|rotary-encoder|s5m8767|sdhci),.*', '^(simple-audio-card|st-plgpio|s=
-t-spics|ts|vsc8531),.*', '^100ask,.*', '^70mai,.*', '^8dev,.*', '^9tripod,.=
-*', '^GEFanuc,.*', '^IBM,.*', '^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA-=
-Z0-9#+\\-._@]{0,63}$', '^[a-zA-Z0-9+\\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^a=
-bilis,.*', '^abracon,.*', '^abt,.*', '^acbel,.*', '^acelink,.*', '^acer,.*'=
-, '^acme,.*', '^actions,.*', '^actiontec,.*', '^active-semi,.*', '^ad,.*', =
-'^adafruit,.*', '^adapteva,.*', '^adaptrum,.*', '^adh,.*', '^adi,.*', '^adi=
-eng,.*', '^admatec,.*', '^advantech,.*', '^aeroflexgaisler,.*', '^aesop,.*'=
-, '^airoha,.*', '^al,.*', '^alcatel,.*', '^aldec,.*', '^alfa-network,.*', '=
-^allegro,.*', '^allegromicro,.*', '^alliedtelesis,.*', '^alliedvision,.*', =
-'^allo,.*', '^allwinner,.*', '^alphascale,.*', '^alps,.*', '^alt,.*', '^alt=
-r,.*', '^amarula,.*', '^amazon,.*', '^amcc,.*', '^amd,.*', '^amediatech,.*'=
-, '^amlogic,.*', '^ampere,.*', '^amphenol,.*', '^ampire,.*', '^ams,.*', '^a=
-mstaos,.*', '^analogix,.*', '^anbernic,.*', '^andestech,.*', '^anlogic,.*',=
- '^anvo,.*', '^aoly,.*', '^aosong,.*', '^apm,.*', '^apple,.*', '^aptina,.*'=
-, '^arasan,.*', '^archermind,.*', '^arcom,.*', '^arctic,.*', '^arcx,.*', '^=
-argon40,.*', '^ariaboard,.*', '^aries,.*', '^arm,.*', '^armadeus,.*', '^arm=
-som,.*', '^arrow,.*', '^artesyn,.*', '^asahi-kasei,.*', '^asc,.*', '^asix,.=
-*', '^asl-tek,.*', '^aspeed,.*', '^asrock,.*', '^asteralabs,.*', '^asus,.*'=
-, '^atheros,.*', '^atlas,.*', '^atmel,.*', '^auo,.*', '^auvidea,.*', '^avag=
-o,.*', '^avia,.*', '^avic,.*', '^avnet,.*', '^awinic,.*', '^axentia,.*', '^=
-axiado,.*', '^axis,.*', '^azoteq,.*', '^azw,.*', '^baikal,.*', '^bananapi,.=
-*', '^beacon,.*', '^beagle,.*', '^belling,.*', '^bestar,.*', '^bhf,.*', '^b=
-igtreetech,.*', '^bitmain,.*', '^blaize,.*', '^bluegiga,.*', '^blutek,.*', =
-'^boe,.*', '^bosch,.*', '^boundary,.*', '^brcm,.*', '^broadmobi,.*', '^bsh,=
-=2E*', '^bst,.*', '^bticino,.*', '^buffalo,.*', '^buglabs,.*', '^bur,.*', '=
-^bytedance,.*', '^calamp,.*', '^calao,.*', '^calaosystems,.*', '^calxeda,.*=
-', '^cameo,.*', '^canaan,.*', '^caninos,.*', '^capella,.*', '^cascoda,.*', =
-'^catalyst,.*', '^cavium,.*', '^cct,.*', '^cdns,.*', '^cdtech,.*', '^cellwi=
-se,.*', '^ceva,.*', '^chargebyte,.*', '^checkpoint,.*', '^chefree,.*', '^ch=
-ipidea,.*', '^chipone,.*', '^chipspark,.*', '^chongzhou,.*', '^chrontel,.*'=
-, '^chrp,.*', '^chunghwa,.*', '^chuwi,.*', '^ciaa,.*', '^cirrus,.*', '^cisc=
-o,.*', '^cix,.*', '^clockwork,.*', '^cloos,.*', '^cloudengines,.*', '^cnm,.=
-*', '^cnxt,.*', '^colorfly,.*', '^compal,.*', '^compulab,.*', '^comvetia,.*=
-', '^congatec,.*', '^coolpi,.*', '^coreriver,.*', '^corpro,.*', '^cortina,.=
-*', '^cosmic,.*', '^crane,.*', '^creative,.*', '^crystalfontz,.*', '^csky,.=
-*', '^csot,.*', '^csq,.*', '^csr,.*', '^ctera,.*', '^ctu,.*', '^cubietech,.=
-*', '^cudy,.*', '^cui,.*', '^cypress,.*', '^cyx,.*', '^cznic,.*', '^dallas,=
-=2E*', '^dataimage,.*', '^davicom,.*', '^deepcomputing,.*', '^dell,.*', '^d=
-elta,.*', '^densitron,.*', '^denx,.*', '^devantech,.*', '^dfi,.*', '^dfrobo=
-t,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '^digilent,.*', '^dimonoff,.*',=
- '^diodes,.*', '^dioo,.*', '^djn,.*', '^dlc,.*', '^dlg,.*', '^dlink,.*', '^=
-dmo,.*', '^domintech,.*', '^dongwoon,.*', '^dptechnics,.*', '^dragino,.*', =
-'^dream,.*', '^ds,.*', '^dserve,.*', '^dynaimage,.*', '^ea,.*', '^ebang,.*'=
-, '^ebbg,.*', '^ebs-systart,.*', '^ebv,.*', '^eckelmann,.*', '^econet,.*', =
-'^edgeble,.*', '^edimax,.*', '^edt,.*', '^ees,.*', '^eeti,.*', '^egnite,.*'=
-, '^einfochips,.*', '^eink,.*', '^elan,.*', '^element14,.*', '^elgin,.*', '=
-^elida,.*', '^elimo,.*', '^elpida,.*', '^embedfire,.*', '^embest,.*', '^emc=
-raft,.*', '^emlid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emtrion,.*=
-', '^enbw,.*', '^enclustra,.*', '^endian,.*', '^endless,.*', '^ene,.*', '^e=
-nergymicro,.*', '^engicam,.*', '^engleder,.*', '^epcos,.*', '^epfl,.*', '^e=
-pson,.*', '^esp,.*', '^est,.*', '^eswin,.*', '^ettus,.*', '^eukrea,.*', '^e=
-verest,.*', '^everspin,.*', '^evervision,.*', '^exar,.*', '^excito,.*', '^e=
-xegin,.*', '^ezchip,.*', '^facebook,.*', '^fairchild,.*', '^fairphone,.*', =
-'^faraday,.*', '^fascontek,.*', '^fastrax,.*', '^fcs,.*', '^feixin,.*', '^f=
-eiyang,.*', '^fii,.*', '^firefly,.*', '^fitipower,.*', '^flipkart,.*', '^fo=
-caltech,.*', '^forlinx,.*', '^foursemi,.*', '^foxlink,.*', '^freebox,.*', '=
-^freecom,.*', '^frida,.*', '^friendlyarm,.*', '^fsl,.*', '^fujitsu,.*', '^f=
-xtec,.*', '^galaxycore,.*', '^gameforce,.*', '^gardena,.*', '^gateway,.*', =
-'^gateworks,.*', '^gcw,.*', '^ge,.*', '^geekbuying,.*', '^gef,.*', '^gehc,.=
-*', '^gemei,.*', '^gemtek,.*', '^genesys,.*', '^genexis,.*', '^geniatech,.*=
-', '^giantec,.*', '^giantplus,.*', '^glinet,.*', '^globalscale,.*', '^globa=
-ltop,.*', '^gmt,.*', '^gocontroll,.*', '^goldelico,.*', '^goodix,.*', '^goo=
-gle,.*', '^goramo,.*', '^gplus,.*', '^grinn,.*', '^grmn,.*', '^gumstix,.*',=
- '^gw,.*', '^hannstar,.*', '^haochuangyi,.*', '^haoyu,.*', '^hardkernel,.*'=
-, '^hce,.*', '^headacoustics,.*', '^hechuang,.*', '^hideep,.*', '^himax,.*'=
-, '^hinlink,.*', '^hirschmann,.*', '^hisi,.*', '^hisilicon,.*', '^hit,.*', =
-'^hitex,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeywell,.*', '^h=
-operf,.*', '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*', '^htc,.*', '^huaw=
-ei,.*', '^hugsun,.*', '^huiling,.*', '^hwacom,.*', '^hxt,.*', '^hycon,.*', =
-'^hydis,.*', '^hynitron,.*', '^hynix,.*', '^hyundai,.*', '^i2se,.*', '^ibm,=
-=2E*', '^icplus,.*', '^idt,.*', '^iei,.*', '^ifi,.*', '^ilitek,.*', '^imagi=
-s,.*', '^img,.*', '^imi,.*', '^inanbo,.*', '^incircuit,.*', '^incostartec,.=
-*', '^indiedroid,.*', '^inet-tek,.*', '^infineon,.*', '^inforce,.*', '^inge=
-nic,.*', '^ingrasys,.*', '^injoinic,.*', '^innocomm,.*', '^innolux,.*', '^i=
-nside-secure,.*', '^insignal,.*', '^inspur,.*', '^intel,.*', '^intercontrol=
-,.*', '^invensense,.*', '^inventec,.*', '^inversepath,.*', '^iom,.*', '^iro=
-ndevice,.*', '^isee,.*', '^isil,.*', '^issi,.*', '^ite,.*', '^itead,.*', '^=
-itian,.*', '^ivo,.*', '^iwave,.*', '^jadard,.*', '^jasonic,.*', '^jdi,.*', =
-'^jedec,.*', '^jenson,.*', '^jesurun,.*', '^jethome,.*', '^jianda,.*', '^ji=
-de,.*', '^joz,.*', '^jty,.*', '^jutouch,.*', '^kam,.*', '^karo,.*', '^keith=
-koep,.*', '^keymile,.*', '^khadas,.*', '^kiebackpeter,.*', '^kinetic,.*', '=
-^kingdisplay,.*', '^kingnovel,.*', '^kionix,.*', '^kobo,.*', '^kobol,.*', '=
-^koe,.*', '^kontron,.*', '^kosagi,.*', '^kvg,.*', '^kyo,.*', '^lacie,.*', '=
-^laird,.*', '^lamobo,.*', '^lantiq,.*', '^lattice,.*', '^lckfb,.*', '^lctec=
-h,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*', '^lenovo,.*', =
-'^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*', '^linaro,.*', '=
-^lincolntech,.*', '^lineartechnology,.*', '^linkease,.*', '^linksprite,.*',=
- '^linksys,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^liontron,.*', =
-'^liteon,.*', '^litex,.*', '^lltc,.*', '^logicpd,.*', '^logictechno,.*', '^=
-longcheer,.*', '^lontium,.*', '^loongmasses,.*', '^loongson,.*', '^lsi,.*',=
- '^luckfox,.*', '^lunzn,.*', '^luxul,.*', '^lwn,.*', '^lxa,.*', '^m5stack,.=
-*', '^macnica,.*', '^mantix,.*', '^mapleboard,.*', '^marantec,.*', '^marvel=
-l,.*', '^maxbotix,.*', '^maxim,.*', '^maxlinear,.*', '^maxtor,.*', '^mayque=
-en,.*', '^mbvl,.*', '^mcube,.*', '^meas,.*', '^mecer,.*', '^mediatek,.*', '=
-^megachips,.*', '^mele,.*', '^melexis,.*', '^melfas,.*', '^mellanox,.*', '^=
-memsensing,.*', '^memsic,.*', '^menlo,.*', '^mentor,.*', '^meraki,.*', '^me=
-rrii,.*', '^methode,.*', '^micrel,.*', '^microchip,.*', '^microcrystal,.*',=
- '^micron,.*', '^microsoft,.*', '^microsys,.*', '^microtips,.*', '^mikroe,.=
-*', '^mikrotik,.*', '^milianke,.*', '^milkv,.*', '^miniand,.*', '^minix,.*'=
-, '^mips,.*', '^miramems,.*', '^mitsubishi,.*', '^mitsumi,.*', '^mixel,.*',=
- '^miyoo,.*', '^mntre,.*', '^mobileye,.*', '^modtronix,.*', '^moortec,.*', =
-'^mosaixtech,.*', '^motorcomm,.*', '^motorola,.*', '^moxa,.*', '^mpl,.*', '=
-^mps,.*', '^mqmaker,.*', '^mrvl,.*', '^mscc,.*', '^msi,.*', '^mstar,.*', '^=
-mti,.*', '^multi-inno,.*', '^mundoreader,.*', '^murata,.*', '^mxic,.*', '^m=
-xicy,.*', '^myir,.*', '^national,.*', '^neardi,.*', '^nec,.*', '^neofidelit=
-y,.*', '^neonode,.*', '^netcube,.*', '^netgear,.*', '^netlogic,.*', '^netro=
-n-dy,.*', '^netronix,.*', '^netxeon,.*', '^neweast,.*', '^newhaven,.*', '^n=
-ewvision,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^nicera,.*', '^nint=
-endo,.*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^nothing,.*', '^novatech,.=
-*', '^novatek,.*', '^novtech,.*', '^nuclei,.*', '^numonyx,.*', '^nutsboard,=
-=2E*', '^nuvoton,.*', '^nvd,.*', '^nvidia,.*', '^nxp,.*', '^oceanic,.*', '^=
-ocs,.*', '^oct,.*', '^okaya,.*', '^oki,.*', '^olimex,.*', '^olpc,.*', '^one=
-plus,.*', '^onie,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^opalkelly,.*'=
-, '^openailab,.*', '^opencores,.*', '^openembed,.*', '^openpandora,.*', '^o=
-penrisc,.*', '^openwrt,.*', '^option,.*', '^oranth,.*', '^orisetech,.*', '^=
-ortustech,.*', '^osddisplays,.*', '^osmc,.*', '^ouya,.*', '^overkiz,.*', '^=
-ovti,.*', '^oxsemi,.*', '^ozzmaker,.*', '^panasonic,.*', '^parade,.*', '^pa=
-rallax,.*', '^particle,.*', '^pda,.*', '^pegatron,.*', '^pericom,.*', '^per=
-vasive,.*', '^phicomm,.*', '^phontech,.*', '^phytec,.*', '^picochip,.*', '^=
-pinctrl-[0-9]+$', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '^plantower,=
-=2E*', '^plathome,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pni,.*', '^pocke=
-tbook,.*', '^polaroid,.*', '^polyhex,.*', '^pool[0-3],.*', '^portwell,.*', =
-'^poslab,.*', '^pov,.*', '^powertip,.*', '^powervr,.*', '^powkiddy,.*', '^p=
-ri,.*', '^primeview,.*', '^primux,.*', '^probox2,.*', '^prt,.*', '^pulsedli=
-ght,.*', '^purism,.*', '^puya,.*', '^qca,.*', '^qcom,.*', '^qemu,.*', '^qi,=
-=2E*', '^qiaodian,.*', '^qihua,.*', '^qishenglong,.*', '^qnap,.*', '^quanta=
-,.*', '^radxa,.*', '^raidsonic,.*', '^ralink,.*', '^ramtron,.*', '^raspberr=
-ypi,.*', '^raumfeld,.*', '^raydium,.*', '^raystar,.*', '^rda,.*', '^realtek=
-,.*', '^relfor,.*', '^remarkable,.*', '^renesas,.*', '^rervision,.*', '^ret=
-ronix,.*', '^revotics,.*', '^rex,.*', '^richtek,.*', '^ricoh,.*', '^rikomag=
-ic,.*', '^riot,.*', '^riscv,.*', '^rockchip,.*', '^rocktech,.*', '^rohm,.*'=
-, '^ronbo,.*', '^ronetix,.*', '^roofull,.*', '^roseapplepi,.*', '^rve,.*', =
-'^saef,.*', '^sakurapi,.*', '^samsung,.*', '^samtec,.*', '^sancloud,.*', '^=
-sandisk,.*', '^satoz,.*', '^sbs,.*', '^schindler,.*', '^schneider,.*', '^sc=
-hulercontrol,.*', '^sciosense,.*', '^sdmc,.*', '^seagate,.*', '^seeed,.*', =
-'^seirobotics,.*', '^semtech,.*', '^senseair,.*', '^sensirion,.*', '^sensor=
-tek,.*', '^sercomm,.*', '^sff,.*', '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^s=
-harp,.*', '^shift,.*', '^shimafuji,.*', '^shineworld,.*', '^shiratech,.*', =
-'^si-en,.*', '^si-linux,.*', '^sielaff,.*', '^siemens,.*', '^sifive,.*', '^=
-siflower,.*', '^sigma,.*', '^sii,.*', '^sil,.*', '^silabs,.*', '^silan,.*',=
- '^silead,.*', '^silergy,.*', '^silex-insight,.*', '^siliconfile,.*', '^sil=
-iconmitus,.*', '^silvaco,.*', '^simtek,.*', '^sinlinx,.*', '^sinovoip,.*', =
-'^sinowealth,.*', '^sipeed,.*', '^sirf,.*', '^sis,.*', '^sitronix,.*', '^sk=
-ov,.*', '^skyworks,.*', '^smartfiber,.*', '^smartlabs,.*', '^smartrg,.*', '=
-^smi,.*', '^smsc,.*', '^snps,.*', '^sochip,.*', '^socionext,.*', '^solidrun=
-,.*', '^solomon,.*', '^somfy,.*', '^sony,.*', '^sophgo,.*', '^sourceparts,.=
-*', '^spacemit,.*', '^spansion,.*', '^sparkfun,.*', '^spinalhdl,.*', '^sprd=
-,.*', '^square,.*', '^ssi,.*', '^sst,.*', '^sstar,.*', '^st,.*', '^st-erics=
-son,.*', '^starfive,.*', '^starry,.*', '^startek,.*', '^starterkit,.*', '^s=
-te,.*', '^stericsson,.*', '^storlink,.*', '^storm,.*', '^storopack,.*', '^s=
-ummit,.*', '^sunchip,.*', '^sundance,.*', '^sunplus,.*', '^supermicro,.*', =
-'^swir,.*', '^syna,.*', '^synaptics,.*', '^synology,.*', '^synopsys,.*', '^=
-taos,.*', '^tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*', '^tcs,.*',=
- '^tcu,.*', '^tdo,.*', '^team-source-display,.*', '^technexion,.*', '^techn=
-ologic,.*', '^techstar,.*', '^techwell,.*', '^teejet,.*', '^teltonika,.*', =
-'^tempo,.*', '^tenda,.*', '^tenstorrent,.*', '^terasic,.*', '^tesla,.*', '^=
-test,.*', '^tfc,.*', '^thead,.*', '^thine,.*', '^thingyjp,.*', '^thundercom=
-m,.*', '^thwc,.*', '^ti,.*', '^tianma,.*', '^tlm,.*', '^tmt,.*', '^topeet,.=
-*', '^topic,.*', '^topland,.*', '^toppoly,.*', '^topwise,.*', '^toradex,.*'=
-, '^toshiba,.*', '^toumaz,.*', '^tpk,.*', '^tplink,.*', '^tpo,.*', '^tq,.*'=
-, '^transpeed,.*', '^traverse,.*', '^tronfy,.*', '^tronsmart,.*', '^truly,.=
-*', '^tsd,.*', '^turing,.*', '^tyan,.*', '^tyhx,.*', '^u-blox,.*', '^u-boot=
-,.*', '^ubnt,.*', '^ucrobotics,.*', '^udoo,.*', '^ufispace,.*', '^ugoos,.*'=
-, '^ultrarisc,.*', '^ultratronik,.*', '^uni-t,.*', '^uniwest,.*', '^upisemi=
-,.*', '^urt,.*', '^usi,.*', '^usr,.*', '^utoo,.*', '^v3,.*', '^vaisala,.*',=
- '^valve,.*', '^vamrs,.*', '^variscite,.*', '^vdl,.*', '^vertexcom,.*', '^v=
-ia,.*', '^vialab,.*', '^vicor,.*', '^videostrong,.*', '^virtio,.*', '^virtu=
-al,.*', '^vishay,.*', '^visionox,.*', '^vitesse,.*', '^vivante,.*', '^vivax=
-,.*', '^vocore,.*', '^voipac,.*', '^voltafield,.*', '^vot,.*', '^vscom,.*',=
- '^vxt,.*', '^wacom,.*', '^wanchanglong,.*', '^wand,.*', '^waveshare,.*', '=
-^wd,.*', '^we,.*', '^welltech,.*', '^wetek,.*', '^wexler,.*', '^whwave,.*',=
- '^wi2wi,.*', '^widora,.*', '^wiligear,.*', '^willsemi,.*', '^winbond,.*', =
-'^wingtech,.*', '^winlink,.*', '^winsen,.*', '^winstar,.*', '^wirelesstag,.=
-*', '^wits,.*', '^wlf,.*', '^wm,.*', '^wobo,.*', '^wolfvision,.*', '^x-powe=
-rs,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', '^xicor,.*', '^xillybus,.*', '^=
-xingbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*', '^xnano,.*', '^xu=
-nlong,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-optoelectronics,.*=
-', '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones-toptech,.*', '^ys=
-,.*', '^ysoft,.*', '^yuridenki,.*', '^yuzukihd,.*', '^zarlink,.*', '^zealz,=
-=2E*', '^zeitec,.*', '^zidoo,.*', '^zii,.*', '^zinitix,.*', '^zkmagic,.*', =
-'^zte,.*', '^zyxel,.*'
-   	from schema $id: http://devicetree.org/schemas/vendor-prefixes.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: gpio-4: '=
-gpio-export,name', 'gpio-export,output' do not match any of the regexes: '^=
-#.*', '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|gp=
-mc|hdmi|i2c-gpio),.*', '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', '^=
-(pciclass|pinctrl-single|#pinctrl-single|PowerPC),.*', '^(pl022|pxa-mmc|rca=
-r_sound|rotary-encoder|s5m8767|sdhci),.*', '^(simple-audio-card|st-plgpio|s=
-t-spics|ts|vsc8531),.*', '^100ask,.*', '^70mai,.*', '^8dev,.*', '^9tripod,.=
-*', '^GEFanuc,.*', '^IBM,.*', '^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA-=
-Z0-9#+\\-._@]{0,63}$', '^[a-zA-Z0-9+\\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^a=
-bilis,.*', '^abracon,.*', '^abt,.*', '^acbel,.*', '^acelink,.*', '^acer,.*'=
-, '^acme,.*', '^actions,.*', '^actiontec,.*', '^active-semi,.*', '^ad,.*', =
-'^adafruit,.*', '^adapteva,.*', '^adaptrum,.*', '^adh,.*', '^adi,.*', '^adi=
-eng,.*', '^admatec,.*', '^advantech,.*', '^aeroflexgaisler,.*', '^aesop,.*'=
-, '^airoha,.*', '^al,.*', '^alcatel,.*', '^aldec,.*', '^alfa-network,.*', '=
-^allegro,.*', '^allegromicro,.*', '^alliedtelesis,.*', '^alliedvision,.*', =
-'^allo,.*', '^allwinner,.*', '^alphascale,.*', '^alps,.*', '^alt,.*', '^alt=
-r,.*', '^amarula,.*', '^amazon,.*', '^amcc,.*', '^amd,.*', '^amediatech,.*'=
-, '^amlogic,.*', '^ampere,.*', '^amphenol,.*', '^ampire,.*', '^ams,.*', '^a=
-mstaos,.*', '^analogix,.*', '^anbernic,.*', '^andestech,.*', '^anlogic,.*',=
- '^anvo,.*', '^aoly,.*', '^aosong,.*', '^apm,.*', '^apple,.*', '^aptina,.*'=
-, '^arasan,.*', '^archermind,.*', '^arcom,.*', '^arctic,.*', '^arcx,.*', '^=
-argon40,.*', '^ariaboard,.*', '^aries,.*', '^arm,.*', '^armadeus,.*', '^arm=
-som,.*', '^arrow,.*', '^artesyn,.*', '^asahi-kasei,.*', '^asc,.*', '^asix,.=
-*', '^asl-tek,.*', '^aspeed,.*', '^asrock,.*', '^asteralabs,.*', '^asus,.*'=
-, '^atheros,.*', '^atlas,.*', '^atmel,.*', '^auo,.*', '^auvidea,.*', '^avag=
-o,.*', '^avia,.*', '^avic,.*', '^avnet,.*', '^awinic,.*', '^axentia,.*', '^=
-axiado,.*', '^axis,.*', '^azoteq,.*', '^azw,.*', '^baikal,.*', '^bananapi,.=
-*', '^beacon,.*', '^beagle,.*', '^belling,.*', '^bestar,.*', '^bhf,.*', '^b=
-igtreetech,.*', '^bitmain,.*', '^blaize,.*', '^bluegiga,.*', '^blutek,.*', =
-'^boe,.*', '^bosch,.*', '^boundary,.*', '^brcm,.*', '^broadmobi,.*', '^bsh,=
-=2E*', '^bst,.*', '^bticino,.*', '^buffalo,.*', '^buglabs,.*', '^bur,.*', '=
-^bytedance,.*', '^calamp,.*', '^calao,.*', '^calaosystems,.*', '^calxeda,.*=
-', '^cameo,.*', '^canaan,.*', '^caninos,.*', '^capella,.*', '^cascoda,.*', =
-'^catalyst,.*', '^cavium,.*', '^cct,.*', '^cdns,.*', '^cdtech,.*', '^cellwi=
-se,.*', '^ceva,.*', '^chargebyte,.*', '^checkpoint,.*', '^chefree,.*', '^ch=
-ipidea,.*', '^chipone,.*', '^chipspark,.*', '^chongzhou,.*', '^chrontel,.*'=
-, '^chrp,.*', '^chunghwa,.*', '^chuwi,.*', '^ciaa,.*', '^cirrus,.*', '^cisc=
-o,.*', '^cix,.*', '^clockwork,.*', '^cloos,.*', '^cloudengines,.*', '^cnm,.=
-*', '^cnxt,.*', '^colorfly,.*', '^compal,.*', '^compulab,.*', '^comvetia,.*=
-', '^congatec,.*', '^coolpi,.*', '^coreriver,.*', '^corpro,.*', '^cortina,.=
-*', '^cosmic,.*', '^crane,.*', '^creative,.*', '^crystalfontz,.*', '^csky,.=
-*', '^csot,.*', '^csq,.*', '^csr,.*', '^ctera,.*', '^ctu,.*', '^cubietech,.=
-*', '^cudy,.*', '^cui,.*', '^cypress,.*', '^cyx,.*', '^cznic,.*', '^dallas,=
-=2E*', '^dataimage,.*', '^davicom,.*', '^deepcomputing,.*', '^dell,.*', '^d=
-elta,.*', '^densitron,.*', '^denx,.*', '^devantech,.*', '^dfi,.*', '^dfrobo=
-t,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '^digilent,.*', '^dimonoff,.*',=
- '^diodes,.*', '^dioo,.*', '^djn,.*', '^dlc,.*', '^dlg,.*', '^dlink,.*', '^=
-dmo,.*', '^domintech,.*', '^dongwoon,.*', '^dptechnics,.*', '^dragino,.*', =
-'^dream,.*', '^ds,.*', '^dserve,.*', '^dynaimage,.*', '^ea,.*', '^ebang,.*'=
-, '^ebbg,.*', '^ebs-systart,.*', '^ebv,.*', '^eckelmann,.*', '^econet,.*', =
-'^edgeble,.*', '^edimax,.*', '^edt,.*', '^ees,.*', '^eeti,.*', '^egnite,.*'=
-, '^einfochips,.*', '^eink,.*', '^elan,.*', '^element14,.*', '^elgin,.*', '=
-^elida,.*', '^elimo,.*', '^elpida,.*', '^embedfire,.*', '^embest,.*', '^emc=
-raft,.*', '^emlid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emtrion,.*=
-', '^enbw,.*', '^enclustra,.*', '^endian,.*', '^endless,.*', '^ene,.*', '^e=
-nergymicro,.*', '^engicam,.*', '^engleder,.*', '^epcos,.*', '^epfl,.*', '^e=
-pson,.*', '^esp,.*', '^est,.*', '^eswin,.*', '^ettus,.*', '^eukrea,.*', '^e=
-verest,.*', '^everspin,.*', '^evervision,.*', '^exar,.*', '^excito,.*', '^e=
-xegin,.*', '^ezchip,.*', '^facebook,.*', '^fairchild,.*', '^fairphone,.*', =
-'^faraday,.*', '^fascontek,.*', '^fastrax,.*', '^fcs,.*', '^feixin,.*', '^f=
-eiyang,.*', '^fii,.*', '^firefly,.*', '^fitipower,.*', '^flipkart,.*', '^fo=
-caltech,.*', '^forlinx,.*', '^foursemi,.*', '^foxlink,.*', '^freebox,.*', '=
-^freecom,.*', '^frida,.*', '^friendlyarm,.*', '^fsl,.*', '^fujitsu,.*', '^f=
-xtec,.*', '^galaxycore,.*', '^gameforce,.*', '^gardena,.*', '^gateway,.*', =
-'^gateworks,.*', '^gcw,.*', '^ge,.*', '^geekbuying,.*', '^gef,.*', '^gehc,.=
-*', '^gemei,.*', '^gemtek,.*', '^genesys,.*', '^genexis,.*', '^geniatech,.*=
-', '^giantec,.*', '^giantplus,.*', '^glinet,.*', '^globalscale,.*', '^globa=
-ltop,.*', '^gmt,.*', '^gocontroll,.*', '^goldelico,.*', '^goodix,.*', '^goo=
-gle,.*', '^goramo,.*', '^gplus,.*', '^grinn,.*', '^grmn,.*', '^gumstix,.*',=
- '^gw,.*', '^hannstar,.*', '^haochuangyi,.*', '^haoyu,.*', '^hardkernel,.*'=
-, '^hce,.*', '^headacoustics,.*', '^hechuang,.*', '^hideep,.*', '^himax,.*'=
-, '^hinlink,.*', '^hirschmann,.*', '^hisi,.*', '^hisilicon,.*', '^hit,.*', =
-'^hitex,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeywell,.*', '^h=
-operf,.*', '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*', '^htc,.*', '^huaw=
-ei,.*', '^hugsun,.*', '^huiling,.*', '^hwacom,.*', '^hxt,.*', '^hycon,.*', =
-'^hydis,.*', '^hynitron,.*', '^hynix,.*', '^hyundai,.*', '^i2se,.*', '^ibm,=
-=2E*', '^icplus,.*', '^idt,.*', '^iei,.*', '^ifi,.*', '^ilitek,.*', '^imagi=
-s,.*', '^img,.*', '^imi,.*', '^inanbo,.*', '^incircuit,.*', '^incostartec,.=
-*', '^indiedroid,.*', '^inet-tek,.*', '^infineon,.*', '^inforce,.*', '^inge=
-nic,.*', '^ingrasys,.*', '^injoinic,.*', '^innocomm,.*', '^innolux,.*', '^i=
-nside-secure,.*', '^insignal,.*', '^inspur,.*', '^intel,.*', '^intercontrol=
-,.*', '^invensense,.*', '^inventec,.*', '^inversepath,.*', '^iom,.*', '^iro=
-ndevice,.*', '^isee,.*', '^isil,.*', '^issi,.*', '^ite,.*', '^itead,.*', '^=
-itian,.*', '^ivo,.*', '^iwave,.*', '^jadard,.*', '^jasonic,.*', '^jdi,.*', =
-'^jedec,.*', '^jenson,.*', '^jesurun,.*', '^jethome,.*', '^jianda,.*', '^ji=
-de,.*', '^joz,.*', '^jty,.*', '^jutouch,.*', '^kam,.*', '^karo,.*', '^keith=
-koep,.*', '^keymile,.*', '^khadas,.*', '^kiebackpeter,.*', '^kinetic,.*', '=
-^kingdisplay,.*', '^kingnovel,.*', '^kionix,.*', '^kobo,.*', '^kobol,.*', '=
-^koe,.*', '^kontron,.*', '^kosagi,.*', '^kvg,.*', '^kyo,.*', '^lacie,.*', '=
-^laird,.*', '^lamobo,.*', '^lantiq,.*', '^lattice,.*', '^lckfb,.*', '^lctec=
-h,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*', '^lenovo,.*', =
-'^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*', '^linaro,.*', '=
-^lincolntech,.*', '^lineartechnology,.*', '^linkease,.*', '^linksprite,.*',=
- '^linksys,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^liontron,.*', =
-'^liteon,.*', '^litex,.*', '^lltc,.*', '^logicpd,.*', '^logictechno,.*', '^=
-longcheer,.*', '^lontium,.*', '^loongmasses,.*', '^loongson,.*', '^lsi,.*',=
- '^luckfox,.*', '^lunzn,.*', '^luxul,.*', '^lwn,.*', '^lxa,.*', '^m5stack,.=
-*', '^macnica,.*', '^mantix,.*', '^mapleboard,.*', '^marantec,.*', '^marvel=
-l,.*', '^maxbotix,.*', '^maxim,.*', '^maxlinear,.*', '^maxtor,.*', '^mayque=
-en,.*', '^mbvl,.*', '^mcube,.*', '^meas,.*', '^mecer,.*', '^mediatek,.*', '=
-^megachips,.*', '^mele,.*', '^melexis,.*', '^melfas,.*', '^mellanox,.*', '^=
-memsensing,.*', '^memsic,.*', '^menlo,.*', '^mentor,.*', '^meraki,.*', '^me=
-rrii,.*', '^methode,.*', '^micrel,.*', '^microchip,.*', '^microcrystal,.*',=
- '^micron,.*', '^microsoft,.*', '^microsys,.*', '^microtips,.*', '^mikroe,.=
-*', '^mikrotik,.*', '^milianke,.*', '^milkv,.*', '^miniand,.*', '^minix,.*'=
-, '^mips,.*', '^miramems,.*', '^mitsubishi,.*', '^mitsumi,.*', '^mixel,.*',=
- '^miyoo,.*', '^mntre,.*', '^mobileye,.*', '^modtronix,.*', '^moortec,.*', =
-'^mosaixtech,.*', '^motorcomm,.*', '^motorola,.*', '^moxa,.*', '^mpl,.*', '=
-^mps,.*', '^mqmaker,.*', '^mrvl,.*', '^mscc,.*', '^msi,.*', '^mstar,.*', '^=
-mti,.*', '^multi-inno,.*', '^mundoreader,.*', '^murata,.*', '^mxic,.*', '^m=
-xicy,.*', '^myir,.*', '^national,.*', '^neardi,.*', '^nec,.*', '^neofidelit=
-y,.*', '^neonode,.*', '^netcube,.*', '^netgear,.*', '^netlogic,.*', '^netro=
-n-dy,.*', '^netronix,.*', '^netxeon,.*', '^neweast,.*', '^newhaven,.*', '^n=
-ewvision,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^nicera,.*', '^nint=
-endo,.*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^nothing,.*', '^novatech,.=
-*', '^novatek,.*', '^novtech,.*', '^nuclei,.*', '^numonyx,.*', '^nutsboard,=
-=2E*', '^nuvoton,.*', '^nvd,.*', '^nvidia,.*', '^nxp,.*', '^oceanic,.*', '^=
-ocs,.*', '^oct,.*', '^okaya,.*', '^oki,.*', '^olimex,.*', '^olpc,.*', '^one=
-plus,.*', '^onie,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^opalkelly,.*'=
-, '^openailab,.*', '^opencores,.*', '^openembed,.*', '^openpandora,.*', '^o=
-penrisc,.*', '^openwrt,.*', '^option,.*', '^oranth,.*', '^orisetech,.*', '^=
-ortustech,.*', '^osddisplays,.*', '^osmc,.*', '^ouya,.*', '^overkiz,.*', '^=
-ovti,.*', '^oxsemi,.*', '^ozzmaker,.*', '^panasonic,.*', '^parade,.*', '^pa=
-rallax,.*', '^particle,.*', '^pda,.*', '^pegatron,.*', '^pericom,.*', '^per=
-vasive,.*', '^phicomm,.*', '^phontech,.*', '^phytec,.*', '^picochip,.*', '^=
-pinctrl-[0-9]+$', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '^plantower,=
-=2E*', '^plathome,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pni,.*', '^pocke=
-tbook,.*', '^polaroid,.*', '^polyhex,.*', '^pool[0-3],.*', '^portwell,.*', =
-'^poslab,.*', '^pov,.*', '^powertip,.*', '^powervr,.*', '^powkiddy,.*', '^p=
-ri,.*', '^primeview,.*', '^primux,.*', '^probox2,.*', '^prt,.*', '^pulsedli=
-ght,.*', '^purism,.*', '^puya,.*', '^qca,.*', '^qcom,.*', '^qemu,.*', '^qi,=
-=2E*', '^qiaodian,.*', '^qihua,.*', '^qishenglong,.*', '^qnap,.*', '^quanta=
-,.*', '^radxa,.*', '^raidsonic,.*', '^ralink,.*', '^ramtron,.*', '^raspberr=
-ypi,.*', '^raumfeld,.*', '^raydium,.*', '^raystar,.*', '^rda,.*', '^realtek=
-,.*', '^relfor,.*', '^remarkable,.*', '^renesas,.*', '^rervision,.*', '^ret=
-ronix,.*', '^revotics,.*', '^rex,.*', '^richtek,.*', '^ricoh,.*', '^rikomag=
-ic,.*', '^riot,.*', '^riscv,.*', '^rockchip,.*', '^rocktech,.*', '^rohm,.*'=
-, '^ronbo,.*', '^ronetix,.*', '^roofull,.*', '^roseapplepi,.*', '^rve,.*', =
-'^saef,.*', '^sakurapi,.*', '^samsung,.*', '^samtec,.*', '^sancloud,.*', '^=
-sandisk,.*', '^satoz,.*', '^sbs,.*', '^schindler,.*', '^schneider,.*', '^sc=
-hulercontrol,.*', '^sciosense,.*', '^sdmc,.*', '^seagate,.*', '^seeed,.*', =
-'^seirobotics,.*', '^semtech,.*', '^senseair,.*', '^sensirion,.*', '^sensor=
-tek,.*', '^sercomm,.*', '^sff,.*', '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^s=
-harp,.*', '^shift,.*', '^shimafuji,.*', '^shineworld,.*', '^shiratech,.*', =
-'^si-en,.*', '^si-linux,.*', '^sielaff,.*', '^siemens,.*', '^sifive,.*', '^=
-siflower,.*', '^sigma,.*', '^sii,.*', '^sil,.*', '^silabs,.*', '^silan,.*',=
- '^silead,.*', '^silergy,.*', '^silex-insight,.*', '^siliconfile,.*', '^sil=
-iconmitus,.*', '^silvaco,.*', '^simtek,.*', '^sinlinx,.*', '^sinovoip,.*', =
-'^sinowealth,.*', '^sipeed,.*', '^sirf,.*', '^sis,.*', '^sitronix,.*', '^sk=
-ov,.*', '^skyworks,.*', '^smartfiber,.*', '^smartlabs,.*', '^smartrg,.*', '=
-^smi,.*', '^smsc,.*', '^snps,.*', '^sochip,.*', '^socionext,.*', '^solidrun=
-,.*', '^solomon,.*', '^somfy,.*', '^sony,.*', '^sophgo,.*', '^sourceparts,.=
-*', '^spacemit,.*', '^spansion,.*', '^sparkfun,.*', '^spinalhdl,.*', '^sprd=
-,.*', '^square,.*', '^ssi,.*', '^sst,.*', '^sstar,.*', '^st,.*', '^st-erics=
-son,.*', '^starfive,.*', '^starry,.*', '^startek,.*', '^starterkit,.*', '^s=
-te,.*', '^stericsson,.*', '^storlink,.*', '^storm,.*', '^storopack,.*', '^s=
-ummit,.*', '^sunchip,.*', '^sundance,.*', '^sunplus,.*', '^supermicro,.*', =
-'^swir,.*', '^syna,.*', '^synaptics,.*', '^synology,.*', '^synopsys,.*', '^=
-taos,.*', '^tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*', '^tcs,.*',=
- '^tcu,.*', '^tdo,.*', '^team-source-display,.*', '^technexion,.*', '^techn=
-ologic,.*', '^techstar,.*', '^techwell,.*', '^teejet,.*', '^teltonika,.*', =
-'^tempo,.*', '^tenda,.*', '^tenstorrent,.*', '^terasic,.*', '^tesla,.*', '^=
-test,.*', '^tfc,.*', '^thead,.*', '^thine,.*', '^thingyjp,.*', '^thundercom=
-m,.*', '^thwc,.*', '^ti,.*', '^tianma,.*', '^tlm,.*', '^tmt,.*', '^topeet,.=
-*', '^topic,.*', '^topland,.*', '^toppoly,.*', '^topwise,.*', '^toradex,.*'=
-, '^toshiba,.*', '^toumaz,.*', '^tpk,.*', '^tplink,.*', '^tpo,.*', '^tq,.*'=
-, '^transpeed,.*', '^traverse,.*', '^tronfy,.*', '^tronsmart,.*', '^truly,.=
-*', '^tsd,.*', '^turing,.*', '^tyan,.*', '^tyhx,.*', '^u-blox,.*', '^u-boot=
-,.*', '^ubnt,.*', '^ucrobotics,.*', '^udoo,.*', '^ufispace,.*', '^ugoos,.*'=
-, '^ultrarisc,.*', '^ultratronik,.*', '^uni-t,.*', '^uniwest,.*', '^upisemi=
-,.*', '^urt,.*', '^usi,.*', '^usr,.*', '^utoo,.*', '^v3,.*', '^vaisala,.*',=
- '^valve,.*', '^vamrs,.*', '^variscite,.*', '^vdl,.*', '^vertexcom,.*', '^v=
-ia,.*', '^vialab,.*', '^vicor,.*', '^videostrong,.*', '^virtio,.*', '^virtu=
-al,.*', '^vishay,.*', '^visionox,.*', '^vitesse,.*', '^vivante,.*', '^vivax=
-,.*', '^vocore,.*', '^voipac,.*', '^voltafield,.*', '^vot,.*', '^vscom,.*',=
- '^vxt,.*', '^wacom,.*', '^wanchanglong,.*', '^wand,.*', '^waveshare,.*', '=
-^wd,.*', '^we,.*', '^welltech,.*', '^wetek,.*', '^wexler,.*', '^whwave,.*',=
- '^wi2wi,.*', '^widora,.*', '^wiligear,.*', '^willsemi,.*', '^winbond,.*', =
-'^wingtech,.*', '^winlink,.*', '^winsen,.*', '^winstar,.*', '^wirelesstag,.=
-*', '^wits,.*', '^wlf,.*', '^wm,.*', '^wobo,.*', '^wolfvision,.*', '^x-powe=
-rs,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', '^xicor,.*', '^xillybus,.*', '^=
-xingbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*', '^xnano,.*', '^xu=
-nlong,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-optoelectronics,.*=
-', '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones-toptech,.*', '^ys=
-,.*', '^ysoft,.*', '^yuridenki,.*', '^yuzukihd,.*', '^zarlink,.*', '^zealz,=
-=2E*', '^zeitec,.*', '^zidoo,.*', '^zii,.*', '^zinitix,.*', '^zkmagic,.*', =
-'^zte,.*', '^zyxel,.*'
-   	from schema $id: http://devicetree.org/schemas/vendor-prefixes.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: gpio-5: '=
-gpio-export,name', 'gpio-export,output' do not match any of the regexes: '^=
-#.*', '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|gp=
-mc|hdmi|i2c-gpio),.*', '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', '^=
-(pciclass|pinctrl-single|#pinctrl-single|PowerPC),.*', '^(pl022|pxa-mmc|rca=
-r_sound|rotary-encoder|s5m8767|sdhci),.*', '^(simple-audio-card|st-plgpio|s=
-t-spics|ts|vsc8531),.*', '^100ask,.*', '^70mai,.*', '^8dev,.*', '^9tripod,.=
-*', '^GEFanuc,.*', '^IBM,.*', '^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA-=
-Z0-9#+\\-._@]{0,63}$', '^[a-zA-Z0-9+\\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^a=
-bilis,.*', '^abracon,.*', '^abt,.*', '^acbel,.*', '^acelink,.*', '^acer,.*'=
-, '^acme,.*', '^actions,.*', '^actiontec,.*', '^active-semi,.*', '^ad,.*', =
-'^adafruit,.*', '^adapteva,.*', '^adaptrum,.*', '^adh,.*', '^adi,.*', '^adi=
-eng,.*', '^admatec,.*', '^advantech,.*', '^aeroflexgaisler,.*', '^aesop,.*'=
-, '^airoha,.*', '^al,.*', '^alcatel,.*', '^aldec,.*', '^alfa-network,.*', '=
-^allegro,.*', '^allegromicro,.*', '^alliedtelesis,.*', '^alliedvision,.*', =
-'^allo,.*', '^allwinner,.*', '^alphascale,.*', '^alps,.*', '^alt,.*', '^alt=
-r,.*', '^amarula,.*', '^amazon,.*', '^amcc,.*', '^amd,.*', '^amediatech,.*'=
-, '^amlogic,.*', '^ampere,.*', '^amphenol,.*', '^ampire,.*', '^ams,.*', '^a=
-mstaos,.*', '^analogix,.*', '^anbernic,.*', '^andestech,.*', '^anlogic,.*',=
- '^anvo,.*', '^aoly,.*', '^aosong,.*', '^apm,.*', '^apple,.*', '^aptina,.*'=
-, '^arasan,.*', '^archermind,.*', '^arcom,.*', '^arctic,.*', '^arcx,.*', '^=
-argon40,.*', '^ariaboard,.*', '^aries,.*', '^arm,.*', '^armadeus,.*', '^arm=
-som,.*', '^arrow,.*', '^artesyn,.*', '^asahi-kasei,.*', '^asc,.*', '^asix,.=
-*', '^asl-tek,.*', '^aspeed,.*', '^asrock,.*', '^asteralabs,.*', '^asus,.*'=
-, '^atheros,.*', '^atlas,.*', '^atmel,.*', '^auo,.*', '^auvidea,.*', '^avag=
-o,.*', '^avia,.*', '^avic,.*', '^avnet,.*', '^awinic,.*', '^axentia,.*', '^=
-axiado,.*', '^axis,.*', '^azoteq,.*', '^azw,.*', '^baikal,.*', '^bananapi,.=
-*', '^beacon,.*', '^beagle,.*', '^belling,.*', '^bestar,.*', '^bhf,.*', '^b=
-igtreetech,.*', '^bitmain,.*', '^blaize,.*', '^bluegiga,.*', '^blutek,.*', =
-'^boe,.*', '^bosch,.*', '^boundary,.*', '^brcm,.*', '^broadmobi,.*', '^bsh,=
-=2E*', '^bst,.*', '^bticino,.*', '^buffalo,.*', '^buglabs,.*', '^bur,.*', '=
-^bytedance,.*', '^calamp,.*', '^calao,.*', '^calaosystems,.*', '^calxeda,.*=
-', '^cameo,.*', '^canaan,.*', '^caninos,.*', '^capella,.*', '^cascoda,.*', =
-'^catalyst,.*', '^cavium,.*', '^cct,.*', '^cdns,.*', '^cdtech,.*', '^cellwi=
-se,.*', '^ceva,.*', '^chargebyte,.*', '^checkpoint,.*', '^chefree,.*', '^ch=
-ipidea,.*', '^chipone,.*', '^chipspark,.*', '^chongzhou,.*', '^chrontel,.*'=
-, '^chrp,.*', '^chunghwa,.*', '^chuwi,.*', '^ciaa,.*', '^cirrus,.*', '^cisc=
-o,.*', '^cix,.*', '^clockwork,.*', '^cloos,.*', '^cloudengines,.*', '^cnm,.=
-*', '^cnxt,.*', '^colorfly,.*', '^compal,.*', '^compulab,.*', '^comvetia,.*=
-', '^congatec,.*', '^coolpi,.*', '^coreriver,.*', '^corpro,.*', '^cortina,.=
-*', '^cosmic,.*', '^crane,.*', '^creative,.*', '^crystalfontz,.*', '^csky,.=
-*', '^csot,.*', '^csq,.*', '^csr,.*', '^ctera,.*', '^ctu,.*', '^cubietech,.=
-*', '^cudy,.*', '^cui,.*', '^cypress,.*', '^cyx,.*', '^cznic,.*', '^dallas,=
-=2E*', '^dataimage,.*', '^davicom,.*', '^deepcomputing,.*', '^dell,.*', '^d=
-elta,.*', '^densitron,.*', '^denx,.*', '^devantech,.*', '^dfi,.*', '^dfrobo=
-t,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '^digilent,.*', '^dimonoff,.*',=
- '^diodes,.*', '^dioo,.*', '^djn,.*', '^dlc,.*', '^dlg,.*', '^dlink,.*', '^=
-dmo,.*', '^domintech,.*', '^dongwoon,.*', '^dptechnics,.*', '^dragino,.*', =
-'^dream,.*', '^ds,.*', '^dserve,.*', '^dynaimage,.*', '^ea,.*', '^ebang,.*'=
-, '^ebbg,.*', '^ebs-systart,.*', '^ebv,.*', '^eckelmann,.*', '^econet,.*', =
-'^edgeble,.*', '^edimax,.*', '^edt,.*', '^ees,.*', '^eeti,.*', '^egnite,.*'=
-, '^einfochips,.*', '^eink,.*', '^elan,.*', '^element14,.*', '^elgin,.*', '=
-^elida,.*', '^elimo,.*', '^elpida,.*', '^embedfire,.*', '^embest,.*', '^emc=
-raft,.*', '^emlid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emtrion,.*=
-', '^enbw,.*', '^enclustra,.*', '^endian,.*', '^endless,.*', '^ene,.*', '^e=
-nergymicro,.*', '^engicam,.*', '^engleder,.*', '^epcos,.*', '^epfl,.*', '^e=
-pson,.*', '^esp,.*', '^est,.*', '^eswin,.*', '^ettus,.*', '^eukrea,.*', '^e=
-verest,.*', '^everspin,.*', '^evervision,.*', '^exar,.*', '^excito,.*', '^e=
-xegin,.*', '^ezchip,.*', '^facebook,.*', '^fairchild,.*', '^fairphone,.*', =
-'^faraday,.*', '^fascontek,.*', '^fastrax,.*', '^fcs,.*', '^feixin,.*', '^f=
-eiyang,.*', '^fii,.*', '^firefly,.*', '^fitipower,.*', '^flipkart,.*', '^fo=
-caltech,.*', '^forlinx,.*', '^foursemi,.*', '^foxlink,.*', '^freebox,.*', '=
-^freecom,.*', '^frida,.*', '^friendlyarm,.*', '^fsl,.*', '^fujitsu,.*', '^f=
-xtec,.*', '^galaxycore,.*', '^gameforce,.*', '^gardena,.*', '^gateway,.*', =
-'^gateworks,.*', '^gcw,.*', '^ge,.*', '^geekbuying,.*', '^gef,.*', '^gehc,.=
-*', '^gemei,.*', '^gemtek,.*', '^genesys,.*', '^genexis,.*', '^geniatech,.*=
-', '^giantec,.*', '^giantplus,.*', '^glinet,.*', '^globalscale,.*', '^globa=
-ltop,.*', '^gmt,.*', '^gocontroll,.*', '^goldelico,.*', '^goodix,.*', '^goo=
-gle,.*', '^goramo,.*', '^gplus,.*', '^grinn,.*', '^grmn,.*', '^gumstix,.*',=
- '^gw,.*', '^hannstar,.*', '^haochuangyi,.*', '^haoyu,.*', '^hardkernel,.*'=
-, '^hce,.*', '^headacoustics,.*', '^hechuang,.*', '^hideep,.*', '^himax,.*'=
-, '^hinlink,.*', '^hirschmann,.*', '^hisi,.*', '^hisilicon,.*', '^hit,.*', =
-'^hitex,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeywell,.*', '^h=
-operf,.*', '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*', '^htc,.*', '^huaw=
-ei,.*', '^hugsun,.*', '^huiling,.*', '^hwacom,.*', '^hxt,.*', '^hycon,.*', =
-'^hydis,.*', '^hynitron,.*', '^hynix,.*', '^hyundai,.*', '^i2se,.*', '^ibm,=
-=2E*', '^icplus,.*', '^idt,.*', '^iei,.*', '^ifi,.*', '^ilitek,.*', '^imagi=
-s,.*', '^img,.*', '^imi,.*', '^inanbo,.*', '^incircuit,.*', '^incostartec,.=
-*', '^indiedroid,.*', '^inet-tek,.*', '^infineon,.*', '^inforce,.*', '^inge=
-nic,.*', '^ingrasys,.*', '^injoinic,.*', '^innocomm,.*', '^innolux,.*', '^i=
-nside-secure,.*', '^insignal,.*', '^inspur,.*', '^intel,.*', '^intercontrol=
-,.*', '^invensense,.*', '^inventec,.*', '^inversepath,.*', '^iom,.*', '^iro=
-ndevice,.*', '^isee,.*', '^isil,.*', '^issi,.*', '^ite,.*', '^itead,.*', '^=
-itian,.*', '^ivo,.*', '^iwave,.*', '^jadard,.*', '^jasonic,.*', '^jdi,.*', =
-'^jedec,.*', '^jenson,.*', '^jesurun,.*', '^jethome,.*', '^jianda,.*', '^ji=
-de,.*', '^joz,.*', '^jty,.*', '^jutouch,.*', '^kam,.*', '^karo,.*', '^keith=
-koep,.*', '^keymile,.*', '^khadas,.*', '^kiebackpeter,.*', '^kinetic,.*', '=
-^kingdisplay,.*', '^kingnovel,.*', '^kionix,.*', '^kobo,.*', '^kobol,.*', '=
-^koe,.*', '^kontron,.*', '^kosagi,.*', '^kvg,.*', '^kyo,.*', '^lacie,.*', '=
-^laird,.*', '^lamobo,.*', '^lantiq,.*', '^lattice,.*', '^lckfb,.*', '^lctec=
-h,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*', '^lenovo,.*', =
-'^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*', '^linaro,.*', '=
-^lincolntech,.*', '^lineartechnology,.*', '^linkease,.*', '^linksprite,.*',=
- '^linksys,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^liontron,.*', =
-'^liteon,.*', '^litex,.*', '^lltc,.*', '^logicpd,.*', '^logictechno,.*', '^=
-longcheer,.*', '^lontium,.*', '^loongmasses,.*', '^loongson,.*', '^lsi,.*',=
- '^luckfox,.*', '^lunzn,.*', '^luxul,.*', '^lwn,.*', '^lxa,.*', '^m5stack,.=
-*', '^macnica,.*', '^mantix,.*', '^mapleboard,.*', '^marantec,.*', '^marvel=
-l,.*', '^maxbotix,.*', '^maxim,.*', '^maxlinear,.*', '^maxtor,.*', '^mayque=
-en,.*', '^mbvl,.*', '^mcube,.*', '^meas,.*', '^mecer,.*', '^mediatek,.*', '=
-^megachips,.*', '^mele,.*', '^melexis,.*', '^melfas,.*', '^mellanox,.*', '^=
-memsensing,.*', '^memsic,.*', '^menlo,.*', '^mentor,.*', '^meraki,.*', '^me=
-rrii,.*', '^methode,.*', '^micrel,.*', '^microchip,.*', '^microcrystal,.*',=
- '^micron,.*', '^microsoft,.*', '^microsys,.*', '^microtips,.*', '^mikroe,.=
-*', '^mikrotik,.*', '^milianke,.*', '^milkv,.*', '^miniand,.*', '^minix,.*'=
-, '^mips,.*', '^miramems,.*', '^mitsubishi,.*', '^mitsumi,.*', '^mixel,.*',=
- '^miyoo,.*', '^mntre,.*', '^mobileye,.*', '^modtronix,.*', '^moortec,.*', =
-'^mosaixtech,.*', '^motorcomm,.*', '^motorola,.*', '^moxa,.*', '^mpl,.*', '=
-^mps,.*', '^mqmaker,.*', '^mrvl,.*', '^mscc,.*', '^msi,.*', '^mstar,.*', '^=
-mti,.*', '^multi-inno,.*', '^mundoreader,.*', '^murata,.*', '^mxic,.*', '^m=
-xicy,.*', '^myir,.*', '^national,.*', '^neardi,.*', '^nec,.*', '^neofidelit=
-y,.*', '^neonode,.*', '^netcube,.*', '^netgear,.*', '^netlogic,.*', '^netro=
-n-dy,.*', '^netronix,.*', '^netxeon,.*', '^neweast,.*', '^newhaven,.*', '^n=
-ewvision,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^nicera,.*', '^nint=
-endo,.*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^nothing,.*', '^novatech,.=
-*', '^novatek,.*', '^novtech,.*', '^nuclei,.*', '^numonyx,.*', '^nutsboard,=
-=2E*', '^nuvoton,.*', '^nvd,.*', '^nvidia,.*', '^nxp,.*', '^oceanic,.*', '^=
-ocs,.*', '^oct,.*', '^okaya,.*', '^oki,.*', '^olimex,.*', '^olpc,.*', '^one=
-plus,.*', '^onie,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^opalkelly,.*'=
-, '^openailab,.*', '^opencores,.*', '^openembed,.*', '^openpandora,.*', '^o=
-penrisc,.*', '^openwrt,.*', '^option,.*', '^oranth,.*', '^orisetech,.*', '^=
-ortustech,.*', '^osddisplays,.*', '^osmc,.*', '^ouya,.*', '^overkiz,.*', '^=
-ovti,.*', '^oxsemi,.*', '^ozzmaker,.*', '^panasonic,.*', '^parade,.*', '^pa=
-rallax,.*', '^particle,.*', '^pda,.*', '^pegatron,.*', '^pericom,.*', '^per=
-vasive,.*', '^phicomm,.*', '^phontech,.*', '^phytec,.*', '^picochip,.*', '^=
-pinctrl-[0-9]+$', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '^plantower,=
-=2E*', '^plathome,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pni,.*', '^pocke=
-tbook,.*', '^polaroid,.*', '^polyhex,.*', '^pool[0-3],.*', '^portwell,.*', =
-'^poslab,.*', '^pov,.*', '^powertip,.*', '^powervr,.*', '^powkiddy,.*', '^p=
-ri,.*', '^primeview,.*', '^primux,.*', '^probox2,.*', '^prt,.*', '^pulsedli=
-ght,.*', '^purism,.*', '^puya,.*', '^qca,.*', '^qcom,.*', '^qemu,.*', '^qi,=
-=2E*', '^qiaodian,.*', '^qihua,.*', '^qishenglong,.*', '^qnap,.*', '^quanta=
-,.*', '^radxa,.*', '^raidsonic,.*', '^ralink,.*', '^ramtron,.*', '^raspberr=
-ypi,.*', '^raumfeld,.*', '^raydium,.*', '^raystar,.*', '^rda,.*', '^realtek=
-,.*', '^relfor,.*', '^remarkable,.*', '^renesas,.*', '^rervision,.*', '^ret=
-ronix,.*', '^revotics,.*', '^rex,.*', '^richtek,.*', '^ricoh,.*', '^rikomag=
-ic,.*', '^riot,.*', '^riscv,.*', '^rockchip,.*', '^rocktech,.*', '^rohm,.*'=
-, '^ronbo,.*', '^ronetix,.*', '^roofull,.*', '^roseapplepi,.*', '^rve,.*', =
-'^saef,.*', '^sakurapi,.*', '^samsung,.*', '^samtec,.*', '^sancloud,.*', '^=
-sandisk,.*', '^satoz,.*', '^sbs,.*', '^schindler,.*', '^schneider,.*', '^sc=
-hulercontrol,.*', '^sciosense,.*', '^sdmc,.*', '^seagate,.*', '^seeed,.*', =
-'^seirobotics,.*', '^semtech,.*', '^senseair,.*', '^sensirion,.*', '^sensor=
-tek,.*', '^sercomm,.*', '^sff,.*', '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^s=
-harp,.*', '^shift,.*', '^shimafuji,.*', '^shineworld,.*', '^shiratech,.*', =
-'^si-en,.*', '^si-linux,.*', '^sielaff,.*', '^siemens,.*', '^sifive,.*', '^=
-siflower,.*', '^sigma,.*', '^sii,.*', '^sil,.*', '^silabs,.*', '^silan,.*',=
- '^silead,.*', '^silergy,.*', '^silex-insight,.*', '^siliconfile,.*', '^sil=
-iconmitus,.*', '^silvaco,.*', '^simtek,.*', '^sinlinx,.*', '^sinovoip,.*', =
-'^sinowealth,.*', '^sipeed,.*', '^sirf,.*', '^sis,.*', '^sitronix,.*', '^sk=
-ov,.*', '^skyworks,.*', '^smartfiber,.*', '^smartlabs,.*', '^smartrg,.*', '=
-^smi,.*', '^smsc,.*', '^snps,.*', '^sochip,.*', '^socionext,.*', '^solidrun=
-,.*', '^solomon,.*', '^somfy,.*', '^sony,.*', '^sophgo,.*', '^sourceparts,.=
-*', '^spacemit,.*', '^spansion,.*', '^sparkfun,.*', '^spinalhdl,.*', '^sprd=
-,.*', '^square,.*', '^ssi,.*', '^sst,.*', '^sstar,.*', '^st,.*', '^st-erics=
-son,.*', '^starfive,.*', '^starry,.*', '^startek,.*', '^starterkit,.*', '^s=
-te,.*', '^stericsson,.*', '^storlink,.*', '^storm,.*', '^storopack,.*', '^s=
-ummit,.*', '^sunchip,.*', '^sundance,.*', '^sunplus,.*', '^supermicro,.*', =
-'^swir,.*', '^syna,.*', '^synaptics,.*', '^synology,.*', '^synopsys,.*', '^=
-taos,.*', '^tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*', '^tcs,.*',=
- '^tcu,.*', '^tdo,.*', '^team-source-display,.*', '^technexion,.*', '^techn=
-ologic,.*', '^techstar,.*', '^techwell,.*', '^teejet,.*', '^teltonika,.*', =
-'^tempo,.*', '^tenda,.*', '^tenstorrent,.*', '^terasic,.*', '^tesla,.*', '^=
-test,.*', '^tfc,.*', '^thead,.*', '^thine,.*', '^thingyjp,.*', '^thundercom=
-m,.*', '^thwc,.*', '^ti,.*', '^tianma,.*', '^tlm,.*', '^tmt,.*', '^topeet,.=
-*', '^topic,.*', '^topland,.*', '^toppoly,.*', '^topwise,.*', '^toradex,.*'=
-, '^toshiba,.*', '^toumaz,.*', '^tpk,.*', '^tplink,.*', '^tpo,.*', '^tq,.*'=
-, '^transpeed,.*', '^traverse,.*', '^tronfy,.*', '^tronsmart,.*', '^truly,.=
-*', '^tsd,.*', '^turing,.*', '^tyan,.*', '^tyhx,.*', '^u-blox,.*', '^u-boot=
-,.*', '^ubnt,.*', '^ucrobotics,.*', '^udoo,.*', '^ufispace,.*', '^ugoos,.*'=
-, '^ultrarisc,.*', '^ultratronik,.*', '^uni-t,.*', '^uniwest,.*', '^upisemi=
-,.*', '^urt,.*', '^usi,.*', '^usr,.*', '^utoo,.*', '^v3,.*', '^vaisala,.*',=
- '^valve,.*', '^vamrs,.*', '^variscite,.*', '^vdl,.*', '^vertexcom,.*', '^v=
-ia,.*', '^vialab,.*', '^vicor,.*', '^videostrong,.*', '^virtio,.*', '^virtu=
-al,.*', '^vishay,.*', '^visionox,.*', '^vitesse,.*', '^vivante,.*', '^vivax=
-,.*', '^vocore,.*', '^voipac,.*', '^voltafield,.*', '^vot,.*', '^vscom,.*',=
- '^vxt,.*', '^wacom,.*', '^wanchanglong,.*', '^wand,.*', '^waveshare,.*', '=
-^wd,.*', '^we,.*', '^welltech,.*', '^wetek,.*', '^wexler,.*', '^whwave,.*',=
- '^wi2wi,.*', '^widora,.*', '^wiligear,.*', '^willsemi,.*', '^winbond,.*', =
-'^wingtech,.*', '^winlink,.*', '^winsen,.*', '^winstar,.*', '^wirelesstag,.=
-*', '^wits,.*', '^wlf,.*', '^wm,.*', '^wobo,.*', '^wolfvision,.*', '^x-powe=
-rs,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', '^xicor,.*', '^xillybus,.*', '^=
-xingbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*', '^xnano,.*', '^xu=
-nlong,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-optoelectronics,.*=
-', '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones-toptech,.*', '^ys=
-,.*', '^ysoft,.*', '^yuridenki,.*', '^yuzukihd,.*', '^zarlink,.*', '^zealz,=
-=2E*', '^zeitec,.*', '^zidoo,.*', '^zii,.*', '^zinitix,.*', '^zkmagic,.*', =
-'^zte,.*', '^zyxel,.*'
-   	from schema $id: http://devicetree.org/schemas/vendor-prefixes.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: gpio-6: '=
-gpio-export,name', 'gpio-export,output' do not match any of the regexes: '^=
-#.*', '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|gp=
-mc|hdmi|i2c-gpio),.*', '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', '^=
-(pciclass|pinctrl-single|#pinctrl-single|PowerPC),.*', '^(pl022|pxa-mmc|rca=
-r_sound|rotary-encoder|s5m8767|sdhci),.*', '^(simple-audio-card|st-plgpio|s=
-t-spics|ts|vsc8531),.*', '^100ask,.*', '^70mai,.*', '^8dev,.*', '^9tripod,.=
-*', '^GEFanuc,.*', '^IBM,.*', '^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-zA-=
-Z0-9#+\\-._@]{0,63}$', '^[a-zA-Z0-9+\\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', '^a=
-bilis,.*', '^abracon,.*', '^abt,.*', '^acbel,.*', '^acelink,.*', '^acer,.*'=
-, '^acme,.*', '^actions,.*', '^actiontec,.*', '^active-semi,.*', '^ad,.*', =
-'^adafruit,.*', '^adapteva,.*', '^adaptrum,.*', '^adh,.*', '^adi,.*', '^adi=
-eng,.*', '^admatec,.*', '^advantech,.*', '^aeroflexgaisler,.*', '^aesop,.*'=
-, '^airoha,.*', '^al,.*', '^alcatel,.*', '^aldec,.*', '^alfa-network,.*', '=
-^allegro,.*', '^allegromicro,.*', '^alliedtelesis,.*', '^alliedvision,.*', =
-'^allo,.*', '^allwinner,.*', '^alphascale,.*', '^alps,.*', '^alt,.*', '^alt=
-r,.*', '^amarula,.*', '^amazon,.*', '^amcc,.*', '^amd,.*', '^amediatech,.*'=
-, '^amlogic,.*', '^ampere,.*', '^amphenol,.*', '^ampire,.*', '^ams,.*', '^a=
-mstaos,.*', '^analogix,.*', '^anbernic,.*', '^andestech,.*', '^anlogic,.*',=
- '^anvo,.*', '^aoly,.*', '^aosong,.*', '^apm,.*', '^apple,.*', '^aptina,.*'=
-, '^arasan,.*', '^archermind,.*', '^arcom,.*', '^arctic,.*', '^arcx,.*', '^=
-argon40,.*', '^ariaboard,.*', '^aries,.*', '^arm,.*', '^armadeus,.*', '^arm=
-som,.*', '^arrow,.*', '^artesyn,.*', '^asahi-kasei,.*', '^asc,.*', '^asix,.=
-*', '^asl-tek,.*', '^aspeed,.*', '^asrock,.*', '^asteralabs,.*', '^asus,.*'=
-, '^atheros,.*', '^atlas,.*', '^atmel,.*', '^auo,.*', '^auvidea,.*', '^avag=
-o,.*', '^avia,.*', '^avic,.*', '^avnet,.*', '^awinic,.*', '^axentia,.*', '^=
-axiado,.*', '^axis,.*', '^azoteq,.*', '^azw,.*', '^baikal,.*', '^bananapi,.=
-*', '^beacon,.*', '^beagle,.*', '^belling,.*', '^bestar,.*', '^bhf,.*', '^b=
-igtreetech,.*', '^bitmain,.*', '^blaize,.*', '^bluegiga,.*', '^blutek,.*', =
-'^boe,.*', '^bosch,.*', '^boundary,.*', '^brcm,.*', '^broadmobi,.*', '^bsh,=
-=2E*', '^bst,.*', '^bticino,.*', '^buffalo,.*', '^buglabs,.*', '^bur,.*', '=
-^bytedance,.*', '^calamp,.*', '^calao,.*', '^calaosystems,.*', '^calxeda,.*=
-', '^cameo,.*', '^canaan,.*', '^caninos,.*', '^capella,.*', '^cascoda,.*', =
-'^catalyst,.*', '^cavium,.*', '^cct,.*', '^cdns,.*', '^cdtech,.*', '^cellwi=
-se,.*', '^ceva,.*', '^chargebyte,.*', '^checkpoint,.*', '^chefree,.*', '^ch=
-ipidea,.*', '^chipone,.*', '^chipspark,.*', '^chongzhou,.*', '^chrontel,.*'=
-, '^chrp,.*', '^chunghwa,.*', '^chuwi,.*', '^ciaa,.*', '^cirrus,.*', '^cisc=
-o,.*', '^cix,.*', '^clockwork,.*', '^cloos,.*', '^cloudengines,.*', '^cnm,.=
-*', '^cnxt,.*', '^colorfly,.*', '^compal,.*', '^compulab,.*', '^comvetia,.*=
-', '^congatec,.*', '^coolpi,.*', '^coreriver,.*', '^corpro,.*', '^cortina,.=
-*', '^cosmic,.*', '^crane,.*', '^creative,.*', '^crystalfontz,.*', '^csky,.=
-*', '^csot,.*', '^csq,.*', '^csr,.*', '^ctera,.*', '^ctu,.*', '^cubietech,.=
-*', '^cudy,.*', '^cui,.*', '^cypress,.*', '^cyx,.*', '^cznic,.*', '^dallas,=
-=2E*', '^dataimage,.*', '^davicom,.*', '^deepcomputing,.*', '^dell,.*', '^d=
-elta,.*', '^densitron,.*', '^denx,.*', '^devantech,.*', '^dfi,.*', '^dfrobo=
-t,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '^digilent,.*', '^dimonoff,.*',=
- '^diodes,.*', '^dioo,.*', '^djn,.*', '^dlc,.*', '^dlg,.*', '^dlink,.*', '^=
-dmo,.*', '^domintech,.*', '^dongwoon,.*', '^dptechnics,.*', '^dragino,.*', =
-'^dream,.*', '^ds,.*', '^dserve,.*', '^dynaimage,.*', '^ea,.*', '^ebang,.*'=
-, '^ebbg,.*', '^ebs-systart,.*', '^ebv,.*', '^eckelmann,.*', '^econet,.*', =
-'^edgeble,.*', '^edimax,.*', '^edt,.*', '^ees,.*', '^eeti,.*', '^egnite,.*'=
-, '^einfochips,.*', '^eink,.*', '^elan,.*', '^element14,.*', '^elgin,.*', '=
-^elida,.*', '^elimo,.*', '^elpida,.*', '^embedfire,.*', '^embest,.*', '^emc=
-raft,.*', '^emlid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emtrion,.*=
-', '^enbw,.*', '^enclustra,.*', '^endian,.*', '^endless,.*', '^ene,.*', '^e=
-nergymicro,.*', '^engicam,.*', '^engleder,.*', '^epcos,.*', '^epfl,.*', '^e=
-pson,.*', '^esp,.*', '^est,.*', '^eswin,.*', '^ettus,.*', '^eukrea,.*', '^e=
-verest,.*', '^everspin,.*', '^evervision,.*', '^exar,.*', '^excito,.*', '^e=
-xegin,.*', '^ezchip,.*', '^facebook,.*', '^fairchild,.*', '^fairphone,.*', =
-'^faraday,.*', '^fascontek,.*', '^fastrax,.*', '^fcs,.*', '^feixin,.*', '^f=
-eiyang,.*', '^fii,.*', '^firefly,.*', '^fitipower,.*', '^flipkart,.*', '^fo=
-caltech,.*', '^forlinx,.*', '^foursemi,.*', '^foxlink,.*', '^freebox,.*', '=
-^freecom,.*', '^frida,.*', '^friendlyarm,.*', '^fsl,.*', '^fujitsu,.*', '^f=
-xtec,.*', '^galaxycore,.*', '^gameforce,.*', '^gardena,.*', '^gateway,.*', =
-'^gateworks,.*', '^gcw,.*', '^ge,.*', '^geekbuying,.*', '^gef,.*', '^gehc,.=
-*', '^gemei,.*', '^gemtek,.*', '^genesys,.*', '^genexis,.*', '^geniatech,.*=
-', '^giantec,.*', '^giantplus,.*', '^glinet,.*', '^globalscale,.*', '^globa=
-ltop,.*', '^gmt,.*', '^gocontroll,.*', '^goldelico,.*', '^goodix,.*', '^goo=
-gle,.*', '^goramo,.*', '^gplus,.*', '^grinn,.*', '^grmn,.*', '^gumstix,.*',=
- '^gw,.*', '^hannstar,.*', '^haochuangyi,.*', '^haoyu,.*', '^hardkernel,.*'=
-, '^hce,.*', '^headacoustics,.*', '^hechuang,.*', '^hideep,.*', '^himax,.*'=
-, '^hinlink,.*', '^hirschmann,.*', '^hisi,.*', '^hisilicon,.*', '^hit,.*', =
-'^hitex,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeywell,.*', '^h=
-operf,.*', '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*', '^htc,.*', '^huaw=
-ei,.*', '^hugsun,.*', '^huiling,.*', '^hwacom,.*', '^hxt,.*', '^hycon,.*', =
-'^hydis,.*', '^hynitron,.*', '^hynix,.*', '^hyundai,.*', '^i2se,.*', '^ibm,=
-=2E*', '^icplus,.*', '^idt,.*', '^iei,.*', '^ifi,.*', '^ilitek,.*', '^imagi=
-s,.*', '^img,.*', '^imi,.*', '^inanbo,.*', '^incircuit,.*', '^incostartec,.=
-*', '^indiedroid,.*', '^inet-tek,.*', '^infineon,.*', '^inforce,.*', '^inge=
-nic,.*', '^ingrasys,.*', '^injoinic,.*', '^innocomm,.*', '^innolux,.*', '^i=
-nside-secure,.*', '^insignal,.*', '^inspur,.*', '^intel,.*', '^intercontrol=
-,.*', '^invensense,.*', '^inventec,.*', '^inversepath,.*', '^iom,.*', '^iro=
-ndevice,.*', '^isee,.*', '^isil,.*', '^issi,.*', '^ite,.*', '^itead,.*', '^=
-itian,.*', '^ivo,.*', '^iwave,.*', '^jadard,.*', '^jasonic,.*', '^jdi,.*', =
-'^jedec,.*', '^jenson,.*', '^jesurun,.*', '^jethome,.*', '^jianda,.*', '^ji=
-de,.*', '^joz,.*', '^jty,.*', '^jutouch,.*', '^kam,.*', '^karo,.*', '^keith=
-koep,.*', '^keymile,.*', '^khadas,.*', '^kiebackpeter,.*', '^kinetic,.*', '=
-^kingdisplay,.*', '^kingnovel,.*', '^kionix,.*', '^kobo,.*', '^kobol,.*', '=
-^koe,.*', '^kontron,.*', '^kosagi,.*', '^kvg,.*', '^kyo,.*', '^lacie,.*', '=
-^laird,.*', '^lamobo,.*', '^lantiq,.*', '^lattice,.*', '^lckfb,.*', '^lctec=
-h,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*', '^lenovo,.*', =
-'^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*', '^linaro,.*', '=
-^lincolntech,.*', '^lineartechnology,.*', '^linkease,.*', '^linksprite,.*',=
- '^linksys,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^liontron,.*', =
-'^liteon,.*', '^litex,.*', '^lltc,.*', '^logicpd,.*', '^logictechno,.*', '^=
-longcheer,.*', '^lontium,.*', '^loongmasses,.*', '^loongson,.*', '^lsi,.*',=
- '^luckfox,.*', '^lunzn,.*', '^luxul,.*', '^lwn,.*', '^lxa,.*', '^m5stack,.=
-*', '^macnica,.*', '^mantix,.*', '^mapleboard,.*', '^marantec,.*', '^marvel=
-l,.*', '^maxbotix,.*', '^maxim,.*', '^maxlinear,.*', '^maxtor,.*', '^mayque=
-en,.*', '^mbvl,.*', '^mcube,.*', '^meas,.*', '^mecer,.*', '^mediatek,.*', '=
-^megachips,.*', '^mele,.*', '^melexis,.*', '^melfas,.*', '^mellanox,.*', '^=
-memsensing,.*', '^memsic,.*', '^menlo,.*', '^mentor,.*', '^meraki,.*', '^me=
-rrii,.*', '^methode,.*', '^micrel,.*', '^microchip,.*', '^microcrystal,.*',=
- '^micron,.*', '^microsoft,.*', '^microsys,.*', '^microtips,.*', '^mikroe,.=
-*', '^mikrotik,.*', '^milianke,.*', '^milkv,.*', '^miniand,.*', '^minix,.*'=
-, '^mips,.*', '^miramems,.*', '^mitsubishi,.*', '^mitsumi,.*', '^mixel,.*',=
- '^miyoo,.*', '^mntre,.*', '^mobileye,.*', '^modtronix,.*', '^moortec,.*', =
-'^mosaixtech,.*', '^motorcomm,.*', '^motorola,.*', '^moxa,.*', '^mpl,.*', '=
-^mps,.*', '^mqmaker,.*', '^mrvl,.*', '^mscc,.*', '^msi,.*', '^mstar,.*', '^=
-mti,.*', '^multi-inno,.*', '^mundoreader,.*', '^murata,.*', '^mxic,.*', '^m=
-xicy,.*', '^myir,.*', '^national,.*', '^neardi,.*', '^nec,.*', '^neofidelit=
-y,.*', '^neonode,.*', '^netcube,.*', '^netgear,.*', '^netlogic,.*', '^netro=
-n-dy,.*', '^netronix,.*', '^netxeon,.*', '^neweast,.*', '^newhaven,.*', '^n=
-ewvision,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^nicera,.*', '^nint=
-endo,.*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^nothing,.*', '^novatech,.=
-*', '^novatek,.*', '^novtech,.*', '^nuclei,.*', '^numonyx,.*', '^nutsboard,=
-=2E*', '^nuvoton,.*', '^nvd,.*', '^nvidia,.*', '^nxp,.*', '^oceanic,.*', '^=
-ocs,.*', '^oct,.*', '^okaya,.*', '^oki,.*', '^olimex,.*', '^olpc,.*', '^one=
-plus,.*', '^onie,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^opalkelly,.*'=
-, '^openailab,.*', '^opencores,.*', '^openembed,.*', '^openpandora,.*', '^o=
-penrisc,.*', '^openwrt,.*', '^option,.*', '^oranth,.*', '^orisetech,.*', '^=
-ortustech,.*', '^osddisplays,.*', '^osmc,.*', '^ouya,.*', '^overkiz,.*', '^=
-ovti,.*', '^oxsemi,.*', '^ozzmaker,.*', '^panasonic,.*', '^parade,.*', '^pa=
-rallax,.*', '^particle,.*', '^pda,.*', '^pegatron,.*', '^pericom,.*', '^per=
-vasive,.*', '^phicomm,.*', '^phontech,.*', '^phytec,.*', '^picochip,.*', '^=
-pinctrl-[0-9]+$', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '^plantower,=
-=2E*', '^plathome,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pni,.*', '^pocke=
-tbook,.*', '^polaroid,.*', '^polyhex,.*', '^pool[0-3],.*', '^portwell,.*', =
-'^poslab,.*', '^pov,.*', '^powertip,.*', '^powervr,.*', '^powkiddy,.*', '^p=
-ri,.*', '^primeview,.*', '^primux,.*', '^probox2,.*', '^prt,.*', '^pulsedli=
-ght,.*', '^purism,.*', '^puya,.*', '^qca,.*', '^qcom,.*', '^qemu,.*', '^qi,=
-=2E*', '^qiaodian,.*', '^qihua,.*', '^qishenglong,.*', '^qnap,.*', '^quanta=
-,.*', '^radxa,.*', '^raidsonic,.*', '^ralink,.*', '^ramtron,.*', '^raspberr=
-ypi,.*', '^raumfeld,.*', '^raydium,.*', '^raystar,.*', '^rda,.*', '^realtek=
-,.*', '^relfor,.*', '^remarkable,.*', '^renesas,.*', '^rervision,.*', '^ret=
-ronix,.*', '^revotics,.*', '^rex,.*', '^richtek,.*', '^ricoh,.*', '^rikomag=
-ic,.*', '^riot,.*', '^riscv,.*', '^rockchip,.*', '^rocktech,.*', '^rohm,.*'=
-, '^ronbo,.*', '^ronetix,.*', '^roofull,.*', '^roseapplepi,.*', '^rve,.*', =
-'^saef,.*', '^sakurapi,.*', '^samsung,.*', '^samtec,.*', '^sancloud,.*', '^=
-sandisk,.*', '^satoz,.*', '^sbs,.*', '^schindler,.*', '^schneider,.*', '^sc=
-hulercontrol,.*', '^sciosense,.*', '^sdmc,.*', '^seagate,.*', '^seeed,.*', =
-'^seirobotics,.*', '^semtech,.*', '^senseair,.*', '^sensirion,.*', '^sensor=
-tek,.*', '^sercomm,.*', '^sff,.*', '^sgd,.*', '^sgmicro,.*', '^sgx,.*', '^s=
-harp,.*', '^shift,.*', '^shimafuji,.*', '^shineworld,.*', '^shiratech,.*', =
-'^si-en,.*', '^si-linux,.*', '^sielaff,.*', '^siemens,.*', '^sifive,.*', '^=
-siflower,.*', '^sigma,.*', '^sii,.*', '^sil,.*', '^silabs,.*', '^silan,.*',=
- '^silead,.*', '^silergy,.*', '^silex-insight,.*', '^siliconfile,.*', '^sil=
-iconmitus,.*', '^silvaco,.*', '^simtek,.*', '^sinlinx,.*', '^sinovoip,.*', =
-'^sinowealth,.*', '^sipeed,.*', '^sirf,.*', '^sis,.*', '^sitronix,.*', '^sk=
-ov,.*', '^skyworks,.*', '^smartfiber,.*', '^smartlabs,.*', '^smartrg,.*', '=
-^smi,.*', '^smsc,.*', '^snps,.*', '^sochip,.*', '^socionext,.*', '^solidrun=
-,.*', '^solomon,.*', '^somfy,.*', '^sony,.*', '^sophgo,.*', '^sourceparts,.=
-*', '^spacemit,.*', '^spansion,.*', '^sparkfun,.*', '^spinalhdl,.*', '^sprd=
-,.*', '^square,.*', '^ssi,.*', '^sst,.*', '^sstar,.*', '^st,.*', '^st-erics=
-son,.*', '^starfive,.*', '^starry,.*', '^startek,.*', '^starterkit,.*', '^s=
-te,.*', '^stericsson,.*', '^storlink,.*', '^storm,.*', '^storopack,.*', '^s=
-ummit,.*', '^sunchip,.*', '^sundance,.*', '^sunplus,.*', '^supermicro,.*', =
-'^swir,.*', '^syna,.*', '^synaptics,.*', '^synology,.*', '^synopsys,.*', '^=
-taos,.*', '^tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*', '^tcs,.*',=
- '^tcu,.*', '^tdo,.*', '^team-source-display,.*', '^technexion,.*', '^techn=
-ologic,.*', '^techstar,.*', '^techwell,.*', '^teejet,.*', '^teltonika,.*', =
-'^tempo,.*', '^tenda,.*', '^tenstorrent,.*', '^terasic,.*', '^tesla,.*', '^=
-test,.*', '^tfc,.*', '^thead,.*', '^thine,.*', '^thingyjp,.*', '^thundercom=
-m,.*', '^thwc,.*', '^ti,.*', '^tianma,.*', '^tlm,.*', '^tmt,.*', '^topeet,.=
-*', '^topic,.*', '^topland,.*', '^toppoly,.*', '^topwise,.*', '^toradex,.*'=
-, '^toshiba,.*', '^toumaz,.*', '^tpk,.*', '^tplink,.*', '^tpo,.*', '^tq,.*'=
-, '^transpeed,.*', '^traverse,.*', '^tronfy,.*', '^tronsmart,.*', '^truly,.=
-*', '^tsd,.*', '^turing,.*', '^tyan,.*', '^tyhx,.*', '^u-blox,.*', '^u-boot=
-,.*', '^ubnt,.*', '^ucrobotics,.*', '^udoo,.*', '^ufispace,.*', '^ugoos,.*'=
-, '^ultrarisc,.*', '^ultratronik,.*', '^uni-t,.*', '^uniwest,.*', '^upisemi=
-,.*', '^urt,.*', '^usi,.*', '^usr,.*', '^utoo,.*', '^v3,.*', '^vaisala,.*',=
- '^valve,.*', '^vamrs,.*', '^variscite,.*', '^vdl,.*', '^vertexcom,.*', '^v=
-ia,.*', '^vialab,.*', '^vicor,.*', '^videostrong,.*', '^virtio,.*', '^virtu=
-al,.*', '^vishay,.*', '^visionox,.*', '^vitesse,.*', '^vivante,.*', '^vivax=
-,.*', '^vocore,.*', '^voipac,.*', '^voltafield,.*', '^vot,.*', '^vscom,.*',=
- '^vxt,.*', '^wacom,.*', '^wanchanglong,.*', '^wand,.*', '^waveshare,.*', '=
-^wd,.*', '^we,.*', '^welltech,.*', '^wetek,.*', '^wexler,.*', '^whwave,.*',=
- '^wi2wi,.*', '^widora,.*', '^wiligear,.*', '^willsemi,.*', '^winbond,.*', =
-'^wingtech,.*', '^winlink,.*', '^winsen,.*', '^winstar,.*', '^wirelesstag,.=
-*', '^wits,.*', '^wlf,.*', '^wm,.*', '^wobo,.*', '^wolfvision,.*', '^x-powe=
-rs,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', '^xicor,.*', '^xillybus,.*', '^=
-xingbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*', '^xnano,.*', '^xu=
-nlong,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-optoelectronics,.*=
-', '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones-toptech,.*', '^ys=
-,.*', '^ysoft,.*', '^yuridenki,.*', '^yuzukihd,.*', '^zarlink,.*', '^zealz,=
-=2E*', '^zeitec,.*', '^zidoo,.*', '^zii,.*', '^zinitix,.*', '^zkmagic,.*', =
-'^zte,.*', '^zyxel,.*'
-   	from schema $id: http://devicetree.org/schemas/vendor-prefixes.yaml
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: /mikro-bu=
-s/gpio-export@1: failed to match any schema with compatible: ['gpio-export']
-   arch/arm64/boot/dts/mediatek/mt7987a-bananapi-bpi-r4-lite.dtb: gpio-46: =
-'gpio-export,name', 'gpio-export,output' do not match any of the regexes: '=
-^#.*', '^(at25|bm|devbus|dmacap|dsa|exynos|fsi[ab]|gpio-fan|gpio-key|gpio|g=
-pmc|hdmi|i2c-gpio),.*', '^(keypad|m25p|max8952|max8997|max8998|mpmc),.*', '=
-^(pciclass|pinctrl-single|#pinctrl-single|PowerPC),.*', '^(pl022|pxa-mmc|rc=
-ar_sound|rotary-encoder|s5m8767|sdhci),.*', '^(simple-audio-card|st-plgpio|=
-st-spics|ts|vsc8531),.*', '^100ask,.*', '^70mai,.*', '^8dev,.*', '^9tripod,=
-=2E*', '^GEFanuc,.*', '^IBM,.*', '^ORCL,.*', '^SUNW,.*', '^[a-zA-Z0-9#_][a-=
-zA-Z0-9#+\\-._@]{0,63}$', '^[a-zA-Z0-9+\\-._]*@[0-9a-zA-Z,]*$', '^abb,.*', =
-'^abilis,.*', '^abracon,.*', '^abt,.*', '^acbel,.*', '^acelink,.*', '^acer,=
-=2E*', '^acme,.*', '^actions,.*', '^actiontec,.*', '^active-semi,.*', '^ad,=
-=2E*', '^adafruit,.*', '^adapteva,.*', '^adaptrum,.*', '^adh,.*', '^adi,.*'=
-, '^adieng,.*', '^admatec,.*', '^advantech,.*', '^aeroflexgaisler,.*', '^ae=
-sop,.*', '^airoha,.*', '^al,.*', '^alcatel,.*', '^aldec,.*', '^alfa-network=
-,.*', '^allegro,.*', '^allegromicro,.*', '^alliedtelesis,.*', '^alliedvisio=
-n,.*', '^allo,.*', '^allwinner,.*', '^alphascale,.*', '^alps,.*', '^alt,.*'=
-, '^altr,.*', '^amarula,.*', '^amazon,.*', '^amcc,.*', '^amd,.*', '^amediat=
-ech,.*', '^amlogic,.*', '^ampere,.*', '^amphenol,.*', '^ampire,.*', '^ams,.=
-*', '^amstaos,.*', '^analogix,.*', '^anbernic,.*', '^andestech,.*', '^anlog=
-ic,.*', '^anvo,.*', '^aoly,.*', '^aosong,.*', '^apm,.*', '^apple,.*', '^apt=
-ina,.*', '^arasan,.*', '^archermind,.*', '^arcom,.*', '^arctic,.*', '^arcx,=
-=2E*', '^argon40,.*', '^ariaboard,.*', '^aries,.*', '^arm,.*', '^armadeus,.=
-*', '^armsom,.*', '^arrow,.*', '^artesyn,.*', '^asahi-kasei,.*', '^asc,.*',=
- '^asix,.*', '^asl-tek,.*', '^aspeed,.*', '^asrock,.*', '^asteralabs,.*', '=
-^asus,.*', '^atheros,.*', '^atlas,.*', '^atmel,.*', '^auo,.*', '^auvidea,.*=
-', '^avago,.*', '^avia,.*', '^avic,.*', '^avnet,.*', '^awinic,.*', '^axenti=
-a,.*', '^axiado,.*', '^axis,.*', '^azoteq,.*', '^azw,.*', '^baikal,.*', '^b=
-ananapi,.*', '^beacon,.*', '^beagle,.*', '^belling,.*', '^bestar,.*', '^bhf=
-,.*', '^bigtreetech,.*', '^bitmain,.*', '^blaize,.*', '^bluegiga,.*', '^blu=
-tek,.*', '^boe,.*', '^bosch,.*', '^boundary,.*', '^brcm,.*', '^broadmobi,.*=
-', '^bsh,.*', '^bst,.*', '^bticino,.*', '^buffalo,.*', '^buglabs,.*', '^bur=
-,.*', '^bytedance,.*', '^calamp,.*', '^calao,.*', '^calaosystems,.*', '^cal=
-xeda,.*', '^cameo,.*', '^canaan,.*', '^caninos,.*', '^capella,.*', '^cascod=
-a,.*', '^catalyst,.*', '^cavium,.*', '^cct,.*', '^cdns,.*', '^cdtech,.*', '=
-^cellwise,.*', '^ceva,.*', '^chargebyte,.*', '^checkpoint,.*', '^chefree,.*=
-', '^chipidea,.*', '^chipone,.*', '^chipspark,.*', '^chongzhou,.*', '^chron=
-tel,.*', '^chrp,.*', '^chunghwa,.*', '^chuwi,.*', '^ciaa,.*', '^cirrus,.*',=
- '^cisco,.*', '^cix,.*', '^clockwork,.*', '^cloos,.*', '^cloudengines,.*', =
-'^cnm,.*', '^cnxt,.*', '^colorfly,.*', '^compal,.*', '^compulab,.*', '^comv=
-etia,.*', '^congatec,.*', '^coolpi,.*', '^coreriver,.*', '^corpro,.*', '^co=
-rtina,.*', '^cosmic,.*', '^crane,.*', '^creative,.*', '^crystalfontz,.*', '=
-^csky,.*', '^csot,.*', '^csq,.*', '^csr,.*', '^ctera,.*', '^ctu,.*', '^cubi=
-etech,.*', '^cudy,.*', '^cui,.*', '^cypress,.*', '^cyx,.*', '^cznic,.*', '^=
-dallas,.*', '^dataimage,.*', '^davicom,.*', '^deepcomputing,.*', '^dell,.*'=
-, '^delta,.*', '^densitron,.*', '^denx,.*', '^devantech,.*', '^dfi,.*', '^d=
-frobot,.*', '^dh,.*', '^difrnce,.*', '^digi,.*', '^digilent,.*', '^dimonoff=
-,.*', '^diodes,.*', '^dioo,.*', '^djn,.*', '^dlc,.*', '^dlg,.*', '^dlink,.*=
-', '^dmo,.*', '^domintech,.*', '^dongwoon,.*', '^dptechnics,.*', '^dragino,=
-=2E*', '^dream,.*', '^ds,.*', '^dserve,.*', '^dynaimage,.*', '^ea,.*', '^eb=
-ang,.*', '^ebbg,.*', '^ebs-systart,.*', '^ebv,.*', '^eckelmann,.*', '^econe=
-t,.*', '^edgeble,.*', '^edimax,.*', '^edt,.*', '^ees,.*', '^eeti,.*', '^egn=
-ite,.*', '^einfochips,.*', '^eink,.*', '^elan,.*', '^element14,.*', '^elgin=
-,.*', '^elida,.*', '^elimo,.*', '^elpida,.*', '^embedfire,.*', '^embest,.*'=
-, '^emcraft,.*', '^emlid,.*', '^emmicro,.*', '^empire-electronix,.*', '^emt=
-rion,.*', '^enbw,.*', '^enclustra,.*', '^endian,.*', '^endless,.*', '^ene,.=
-*', '^energymicro,.*', '^engicam,.*', '^engleder,.*', '^epcos,.*', '^epfl,.=
-*', '^epson,.*', '^esp,.*', '^est,.*', '^eswin,.*', '^ettus,.*', '^eukrea,.=
-*', '^everest,.*', '^everspin,.*', '^evervision,.*', '^exar,.*', '^excito,.=
-*', '^exegin,.*', '^ezchip,.*', '^facebook,.*', '^fairchild,.*', '^fairphon=
-e,.*', '^faraday,.*', '^fascontek,.*', '^fastrax,.*', '^fcs,.*', '^feixin,.=
-*', '^feiyang,.*', '^fii,.*', '^firefly,.*', '^fitipower,.*', '^flipkart,.*=
-', '^focaltech,.*', '^forlinx,.*', '^foursemi,.*', '^foxlink,.*', '^freebox=
-,.*', '^freecom,.*', '^frida,.*', '^friendlyarm,.*', '^fsl,.*', '^fujitsu,.=
-*', '^fxtec,.*', '^galaxycore,.*', '^gameforce,.*', '^gardena,.*', '^gatewa=
-y,.*', '^gateworks,.*', '^gcw,.*', '^ge,.*', '^geekbuying,.*', '^gef,.*', '=
-^gehc,.*', '^gemei,.*', '^gemtek,.*', '^genesys,.*', '^genexis,.*', '^genia=
-tech,.*', '^giantec,.*', '^giantplus,.*', '^glinet,.*', '^globalscale,.*', =
-'^globaltop,.*', '^gmt,.*', '^gocontroll,.*', '^goldelico,.*', '^goodix,.*'=
-, '^google,.*', '^goramo,.*', '^gplus,.*', '^grinn,.*', '^grmn,.*', '^gumst=
-ix,.*', '^gw,.*', '^hannstar,.*', '^haochuangyi,.*', '^haoyu,.*', '^hardker=
-nel,.*', '^hce,.*', '^headacoustics,.*', '^hechuang,.*', '^hideep,.*', '^hi=
-max,.*', '^hinlink,.*', '^hirschmann,.*', '^hisi,.*', '^hisilicon,.*', '^hi=
-t,.*', '^hitex,.*', '^holt,.*', '^holtek,.*', '^honestar,.*', '^honeywell,.=
-*', '^hoperf,.*', '^hoperun,.*', '^hp,.*', '^hpe,.*', '^hsg,.*', '^htc,.*',=
- '^huawei,.*', '^hugsun,.*', '^huiling,.*', '^hwacom,.*', '^hxt,.*', '^hyco=
-n,.*', '^hydis,.*', '^hynitron,.*', '^hynix,.*', '^hyundai,.*', '^i2se,.*',=
- '^ibm,.*', '^icplus,.*', '^idt,.*', '^iei,.*', '^ifi,.*', '^ilitek,.*', '^=
-imagis,.*', '^img,.*', '^imi,.*', '^inanbo,.*', '^incircuit,.*', '^incostar=
-tec,.*', '^indiedroid,.*', '^inet-tek,.*', '^infineon,.*', '^inforce,.*', '=
-^ingenic,.*', '^ingrasys,.*', '^injoinic,.*', '^innocomm,.*', '^innolux,.*'=
-, '^inside-secure,.*', '^insignal,.*', '^inspur,.*', '^intel,.*', '^interco=
-ntrol,.*', '^invensense,.*', '^inventec,.*', '^inversepath,.*', '^iom,.*', =
-'^irondevice,.*', '^isee,.*', '^isil,.*', '^issi,.*', '^ite,.*', '^itead,.*=
-', '^itian,.*', '^ivo,.*', '^iwave,.*', '^jadard,.*', '^jasonic,.*', '^jdi,=
-=2E*', '^jedec,.*', '^jenson,.*', '^jesurun,.*', '^jethome,.*', '^jianda,.*=
-', '^jide,.*', '^joz,.*', '^jty,.*', '^jutouch,.*', '^kam,.*', '^karo,.*', =
-'^keithkoep,.*', '^keymile,.*', '^khadas,.*', '^kiebackpeter,.*', '^kinetic=
-,.*', '^kingdisplay,.*', '^kingnovel,.*', '^kionix,.*', '^kobo,.*', '^kobol=
-,.*', '^koe,.*', '^kontron,.*', '^kosagi,.*', '^kvg,.*', '^kyo,.*', '^lacie=
-,.*', '^laird,.*', '^lamobo,.*', '^lantiq,.*', '^lattice,.*', '^lckfb,.*', =
-'^lctech,.*', '^leadtek,.*', '^leez,.*', '^lego,.*', '^lemaker,.*', '^lenov=
-o,.*', '^lg,.*', '^lgphilips,.*', '^libretech,.*', '^licheepi,.*', '^linaro=
-,.*', '^lincolntech,.*', '^lineartechnology,.*', '^linkease,.*', '^linkspri=
-te,.*', '^linksys,.*', '^linutronix,.*', '^linux,.*', '^linx,.*', '^liontro=
-n,.*', '^liteon,.*', '^litex,.*', '^lltc,.*', '^logicpd,.*', '^logictechno,=
-=2E*', '^longcheer,.*', '^lontium,.*', '^loongmasses,.*', '^loongson,.*', '=
-^lsi,.*', '^luckfox,.*', '^lunzn,.*', '^luxul,.*', '^lwn,.*', '^lxa,.*', '^=
-m5stack,.*', '^macnica,.*', '^mantix,.*', '^mapleboard,.*', '^marantec,.*',=
- '^marvell,.*', '^maxbotix,.*', '^maxim,.*', '^maxlinear,.*', '^maxtor,.*',=
- '^mayqueen,.*', '^mbvl,.*', '^mcube,.*', '^meas,.*', '^mecer,.*', '^mediat=
-ek,.*', '^megachips,.*', '^mele,.*', '^melexis,.*', '^melfas,.*', '^mellano=
-x,.*', '^memsensing,.*', '^memsic,.*', '^menlo,.*', '^mentor,.*', '^meraki,=
-=2E*', '^merrii,.*', '^methode,.*', '^micrel,.*', '^microchip,.*', '^microc=
-rystal,.*', '^micron,.*', '^microsoft,.*', '^microsys,.*', '^microtips,.*',=
- '^mikroe,.*', '^mikrotik,.*', '^milianke,.*', '^milkv,.*', '^miniand,.*', =
-'^minix,.*', '^mips,.*', '^miramems,.*', '^mitsubishi,.*', '^mitsumi,.*', '=
-^mixel,.*', '^miyoo,.*', '^mntre,.*', '^mobileye,.*', '^modtronix,.*', '^mo=
-ortec,.*', '^mosaixtech,.*', '^motorcomm,.*', '^motorola,.*', '^moxa,.*', '=
-^mpl,.*', '^mps,.*', '^mqmaker,.*', '^mrvl,.*', '^mscc,.*', '^msi,.*', '^ms=
-tar,.*', '^mti,.*', '^multi-inno,.*', '^mundoreader,.*', '^murata,.*', '^mx=
-ic,.*', '^mxicy,.*', '^myir,.*', '^national,.*', '^neardi,.*', '^nec,.*', '=
-^neofidelity,.*', '^neonode,.*', '^netcube,.*', '^netgear,.*', '^netlogic,.=
-*', '^netron-dy,.*', '^netronix,.*', '^netxeon,.*', '^neweast,.*', '^newhav=
-en,.*', '^newvision,.*', '^nexbox,.*', '^nextthing,.*', '^ni,.*', '^nicera,=
-=2E*', '^nintendo,.*', '^nlt,.*', '^nokia,.*', '^nordic,.*', '^nothing,.*',=
- '^novatech,.*', '^novatek,.*', '^novtech,.*', '^nuclei,.*', '^numonyx,.*',=
- '^nutsboard,.*', '^nuvoton,.*', '^nvd,.*', '^nvidia,.*', '^nxp,.*', '^ocea=
-nic,.*', '^ocs,.*', '^oct,.*', '^okaya,.*', '^oki,.*', '^olimex,.*', '^olpc=
-,.*', '^oneplus,.*', '^onie,.*', '^onion,.*', '^onnn,.*', '^ontat,.*', '^op=
-alkelly,.*', '^openailab,.*', '^opencores,.*', '^openembed,.*', '^openpando=
-ra,.*', '^openrisc,.*', '^openwrt,.*', '^option,.*', '^oranth,.*', '^oriset=
-ech,.*', '^ortustech,.*', '^osddisplays,.*', '^osmc,.*', '^ouya,.*', '^over=
-kiz,.*', '^ovti,.*', '^oxsemi,.*', '^ozzmaker,.*', '^panasonic,.*', '^parad=
-e,.*', '^parallax,.*', '^particle,.*', '^pda,.*', '^pegatron,.*', '^pericom=
-,.*', '^pervasive,.*', '^phicomm,.*', '^phontech,.*', '^phytec,.*', '^picoc=
-hip,.*', '^pinctrl-[0-9]+$', '^pine64,.*', '^pineriver,.*', '^pixcir,.*', '=
-^plantower,.*', '^plathome,.*', '^plda,.*', '^plx,.*', '^ply,.*', '^pni,.*'=
-, '^pocketbook,.*', '^polaroid,.*', '^polyhex,.*', '^pool[0-3],.*', '^portw=
-ell,.*', '^poslab,.*', '^pov,.*', '^powertip,.*', '^powervr,.*', '^powkiddy=
-,.*', '^pri,.*', '^primeview,.*', '^primux,.*', '^probox2,.*', '^prt,.*', '=
-^pulsedlight,.*', '^purism,.*', '^puya,.*', '^qca,.*', '^qcom,.*', '^qemu,.=
-*', '^qi,.*', '^qiaodian,.*', '^qihua,.*', '^qishenglong,.*', '^qnap,.*', '=
-^quanta,.*', '^radxa,.*', '^raidsonic,.*', '^ralink,.*', '^ramtron,.*', '^r=
-aspberrypi,.*', '^raumfeld,.*', '^raydium,.*', '^raystar,.*', '^rda,.*', '^=
-realtek,.*', '^relfor,.*', '^remarkable,.*', '^renesas,.*', '^rervision,.*'=
-, '^retronix,.*', '^revotics,.*', '^rex,.*', '^richtek,.*', '^ricoh,.*', '^=
-rikomagic,.*', '^riot,.*', '^riscv,.*', '^rockchip,.*', '^rocktech,.*', '^r=
-ohm,.*', '^ronbo,.*', '^ronetix,.*', '^roofull,.*', '^roseapplepi,.*', '^rv=
-e,.*', '^saef,.*', '^sakurapi,.*', '^samsung,.*', '^samtec,.*', '^sancloud,=
-=2E*', '^sandisk,.*', '^satoz,.*', '^sbs,.*', '^schindler,.*', '^schneider,=
-=2E*', '^schulercontrol,.*', '^sciosense,.*', '^sdmc,.*', '^seagate,.*', '^=
-seeed,.*', '^seirobotics,.*', '^semtech,.*', '^senseair,.*', '^sensirion,.*=
-', '^sensortek,.*', '^sercomm,.*', '^sff,.*', '^sgd,.*', '^sgmicro,.*', '^s=
-gx,.*', '^sharp,.*', '^shift,.*', '^shimafuji,.*', '^shineworld,.*', '^shir=
-atech,.*', '^si-en,.*', '^si-linux,.*', '^sielaff,.*', '^siemens,.*', '^sif=
-ive,.*', '^siflower,.*', '^sigma,.*', '^sii,.*', '^sil,.*', '^silabs,.*', '=
-^silan,.*', '^silead,.*', '^silergy,.*', '^silex-insight,.*', '^siliconfile=
-,.*', '^siliconmitus,.*', '^silvaco,.*', '^simtek,.*', '^sinlinx,.*', '^sin=
-ovoip,.*', '^sinowealth,.*', '^sipeed,.*', '^sirf,.*', '^sis,.*', '^sitroni=
-x,.*', '^skov,.*', '^skyworks,.*', '^smartfiber,.*', '^smartlabs,.*', '^sma=
-rtrg,.*', '^smi,.*', '^smsc,.*', '^snps,.*', '^sochip,.*', '^socionext,.*',=
- '^solidrun,.*', '^solomon,.*', '^somfy,.*', '^sony,.*', '^sophgo,.*', '^so=
-urceparts,.*', '^spacemit,.*', '^spansion,.*', '^sparkfun,.*', '^spinalhdl,=
-=2E*', '^sprd,.*', '^square,.*', '^ssi,.*', '^sst,.*', '^sstar,.*', '^st,.*=
-', '^st-ericsson,.*', '^starfive,.*', '^starry,.*', '^startek,.*', '^starte=
-rkit,.*', '^ste,.*', '^stericsson,.*', '^storlink,.*', '^storm,.*', '^storo=
-pack,.*', '^summit,.*', '^sunchip,.*', '^sundance,.*', '^sunplus,.*', '^sup=
-ermicro,.*', '^swir,.*', '^syna,.*', '^synaptics,.*', '^synology,.*', '^syn=
-opsys,.*', '^taos,.*', '^tbs,.*', '^tbs-biometrics,.*', '^tcg,.*', '^tcl,.*=
-', '^tcs,.*', '^tcu,.*', '^tdo,.*', '^team-source-display,.*', '^technexion=
-,.*', '^technologic,.*', '^techstar,.*', '^techwell,.*', '^teejet,.*', '^te=
-ltonika,.*', '^tempo,.*', '^tenda,.*', '^tenstorrent,.*', '^terasic,.*', '^=
-tesla,.*', '^test,.*', '^tfc,.*', '^thead,.*', '^thine,.*', '^thingyjp,.*',=
- '^thundercomm,.*', '^thwc,.*', '^ti,.*', '^tianma,.*', '^tlm,.*', '^tmt,.*=
-', '^topeet,.*', '^topic,.*', '^topland,.*', '^toppoly,.*', '^topwise,.*', =
-'^toradex,.*', '^toshiba,.*', '^toumaz,.*', '^tpk,.*', '^tplink,.*', '^tpo,=
-=2E*', '^tq,.*', '^transpeed,.*', '^traverse,.*', '^tronfy,.*', '^tronsmart=
-,.*', '^truly,.*', '^tsd,.*', '^turing,.*', '^tyan,.*', '^tyhx,.*', '^u-blo=
-x,.*', '^u-boot,.*', '^ubnt,.*', '^ucrobotics,.*', '^udoo,.*', '^ufispace,.=
-*', '^ugoos,.*', '^ultrarisc,.*', '^ultratronik,.*', '^uni-t,.*', '^uniwest=
-,.*', '^upisemi,.*', '^urt,.*', '^usi,.*', '^usr,.*', '^utoo,.*', '^v3,.*',=
- '^vaisala,.*', '^valve,.*', '^vamrs,.*', '^variscite,.*', '^vdl,.*', '^ver=
-texcom,.*', '^via,.*', '^vialab,.*', '^vicor,.*', '^videostrong,.*', '^virt=
-io,.*', '^virtual,.*', '^vishay,.*', '^visionox,.*', '^vitesse,.*', '^vivan=
-te,.*', '^vivax,.*', '^vocore,.*', '^voipac,.*', '^voltafield,.*', '^vot,.*=
-', '^vscom,.*', '^vxt,.*', '^wacom,.*', '^wanchanglong,.*', '^wand,.*', '^w=
-aveshare,.*', '^wd,.*', '^we,.*', '^welltech,.*', '^wetek,.*', '^wexler,.*'=
-, '^whwave,.*', '^wi2wi,.*', '^widora,.*', '^wiligear,.*', '^willsemi,.*', =
-'^winbond,.*', '^wingtech,.*', '^winlink,.*', '^winsen,.*', '^winstar,.*', =
-'^wirelesstag,.*', '^wits,.*', '^wlf,.*', '^wm,.*', '^wobo,.*', '^wolfvisio=
-n,.*', '^x-powers,.*', '^xen,.*', '^xes,.*', '^xiaomi,.*', '^xicor,.*', '^x=
-illybus,.*', '^xingbangda,.*', '^xinpeng,.*', '^xiphera,.*', '^xlnx,.*', '^=
-xnano,.*', '^xunlong,.*', '^xylon,.*', '^yadro,.*', '^yamaha,.*', '^yes-opt=
-oelectronics,.*', '^yic,.*', '^yiming,.*', '^ylm,.*', '^yna,.*', '^yones-to=
-ptech,.*', '^ys,.*', '^ysoft,.*', '^yuridenki,.*', '^yuzukihd,.*', '^zarlin=
-k,.*', '^zealz,.*', '^zeitec,.*', '^zidoo,.*', '^zii,.*', '^zinitix,.*', '^=
-zkmagic,.*', '^zte,.*', '^zyxel,.*'
+All error/warnings (new ones prefixed by >>):
 
---=20
+>> drivers/ub/ubus/interrupt.c:43:6: warning: no previous prototype for 'ub_intr_init' [-Wmissing-prototypes]
+      43 | void ub_intr_init(struct ub_entity *uent)
+         |      ^~~~~~~~~~~~
+   drivers/ub/ubus/interrupt.c: In function 'int_type1_capability_init':
+>> drivers/ub/ubus/interrupt.c:121:15: error: implicit declaration of function 'usi_setup_interrupts' [-Werror=implicit-function-declaration]
+     121 |         ret = usi_setup_interrupts(uent, entries, nvec, affd);
+         |               ^~~~~~~~~~~~~~~~~~~~
+   drivers/ub/ubus/interrupt.c: In function 'int_type2_capability_init':
+>> drivers/ub/ubus/interrupt.c:151:25: error: implicit declaration of function 'ub_intr_addr_count'; did you mean 'ub_intr_vec_count'? [-Werror=implicit-function-declaration]
+     151 |         addr_num = (int)ub_intr_addr_count(uent);
+         |                         ^~~~~~~~~~~~~~~~~~
+         |                         ub_intr_vec_count
+   drivers/ub/ubus/interrupt.c: In function '__ub_enable_usi_range':
+>> drivers/ub/ubus/interrupt.c:235:15: error: implicit declaration of function 'ub_setup_msi_context' [-Werror=implicit-function-declaration]
+     235 |         ret = ub_setup_msi_context(uent);
+         |               ^~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/ubus/interrupt.c:239:14: error: implicit declaration of function 'ub_setup_usi_device_domain' [-Werror=implicit-function-declaration]
+     239 |         if (!ub_setup_usi_device_domain(uent, hwsize)) {
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+   Selected by [y]:
+   - ARM64_MPAM [=y]
+
+
+vim +/usi_setup_interrupts +121 drivers/ub/ubus/interrupt.c
+
+    42	
+  > 43	void ub_intr_init(struct ub_entity *uent)
+    44	{
+    45		if (uent->cfg1_bitmap[0] & UB_INT_TYPE2_CAP_BIT)
+    46			uent->intr_type1 = 0;
+    47		else if (uent->cfg1_bitmap[0] & UB_INT_TYPE1_CAP_BIT)
+    48			uent->intr_type1 = 1;
+    49		else
+    50			uent->no_intr = 1;
+    51	}
+    52	
+    53	u32 ub_int_type1_vec_count(struct ub_entity *uent)
+    54	{
+    55		u16 vector_num = 0;
+    56		int ret;
+    57	
+    58		ret = ub_cfg_read_word(uent, UB_INT_TYPE1_SUP_INT_NUM, &vector_num);
+    59		if (ret)
+    60			return 0;
+    61	
+    62		/* Mapping between the number of bitmaps and vectors defined in the protocol */
+    63		vector_num = 1 << vector_num;
+    64	
+    65		return vector_num;
+    66	}
+    67	EXPORT_SYMBOL_GPL(ub_int_type1_vec_count);
+    68	
+    69	static void __iomem *ub_intr_map_region(struct ub_entity *uent,
+    70						enum ub_intr_tbl_type type, int nr_entries)
+    71	{
+    72		u32 addr_reg_l, addr_reg_h, offset_l, offset_h;
+    73		resource_size_t tb_phys_addr;
+    74		unsigned long flags, sz;
+    75		u64 offset;
+    76		int ret;
+    77	
+    78		if (nr_entries <= 0)
+    79			return NULL;
+    80		if (type == UB_INTR_VECTOR_TBL) {
+    81			addr_reg_l = UB_INT_VECTOR_TBL_SA_L;
+    82			addr_reg_h = UB_INT_VECTOR_TBL_SA_H;
+    83			sz = (unsigned long)(nr_entries * UB_INTR_VECTOR_ENTRY_SIZE);
+    84		} else {
+    85			addr_reg_l = UB_INT_ADDR_TBL_SA_L;
+    86			addr_reg_h = UB_INT_ADDR_TBL_SA_H;
+    87			sz = (unsigned long)(nr_entries * UB_INTR_ADDR_ENTRY_SIZE);
+    88		}
+    89	
+    90		ret = ub_cfg_read_dword(uent, addr_reg_l, &offset_l);
+    91		ret |= ub_cfg_read_dword(uent, addr_reg_h, &offset_h);
+    92		if (ret) {
+    93			ub_err(uent, "read addr register failed, ret=%d\n", ret);
+    94			return NULL;
+    95		}
+    96	
+    97		offset = ((u64)offset_h << 32) | offset_l;
+    98	
+    99		flags = ub_resource_flags(uent, 0);
+   100		if (!flags || (flags & IORESOURCE_UNSET))
+   101			return NULL;
+   102	
+   103		if (offset + sz > ub_resource_len(uent, 0)) {
+   104			ub_err(uent, "UB interrupt table(type:%u) off:%#llx + sz:%#lx is out of range!\n",
+   105			       type, offset, sz);
+   106			return NULL;
+   107		}
+   108		tb_phys_addr = ub_resource_start(uent, 0) + offset;
+   109	
+   110		return ioremap(tb_phys_addr, sz);
+   111	}
+   112	
+   113	static int int_type1_capability_init(struct ub_entity *uent,
+   114					     struct ub_usi_entry *entries, int nvec,
+   115					     struct irq_affinity *affd)
+   116	{
+   117		int ret;
+   118	
+   119		uent->intr_enabled = 1;
+   120	
+ > 121		ret = usi_setup_interrupts(uent, entries, nvec, affd);
+   122		if (ret)
+   123			goto out_disable;
+   124	
+   125		ub_cfg_write_byte(uent, UB_INT_TYPE1_ENABLE, 1);
+   126		return 0;
+   127	
+   128	out_disable:
+   129		uent->intr_enabled = 0;
+   130	
+   131		return ret;
+   132	}
+   133	
+   134	static int int_type2_capability_init(struct ub_entity *uent,
+   135					     struct ub_usi_entry *entries, int nvec,
+   136					     struct irq_affinity *affd)
+   137	{
+   138		void __iomem *vector_base, *addr_base;
+   139		int vector_num, addr_num;
+   140		int ret;
+   141	
+   142		uent->intr_enabled = 1;
+   143	
+   144		vector_num = (int)ub_intr_vec_count(uent);
+   145		/* Request & Map UB interrupt table region */
+   146		vector_base = ub_intr_map_region(uent, UB_INTR_VECTOR_TBL, vector_num);
+   147		if (!vector_base) {
+   148			ret = -ENOMEM;
+   149			goto out_disable;
+   150		}
+ > 151		addr_num = (int)ub_intr_addr_count(uent);
+   152		addr_base = ub_intr_map_region(uent, UB_INTR_ADDR_TBL, addr_num);
+   153		if (!addr_base) {
+   154			iounmap(vector_base);
+   155			ret = -ENOMEM;
+   156			goto out_disable;
+   157		}
+   158		uent->intr_vector_base = vector_base;
+   159		uent->intr_addr_base = addr_base;
+   160	
+   161		ret = usi_setup_interrupts(uent, entries, nvec, affd);
+   162		if (ret)
+   163			goto out_disable;
+   164	
+   165		ub_cfg_write_byte(uent, UB_INT_MASK, 0);
+   166		ub_cfg_write_byte(uent, UB_INT_EN, 1);
+   167	
+   168		return 0;
+   169	
+   170	out_disable:
+   171		uent->intr_enabled = 0;
+   172	
+   173		return ret;
+   174	}
+   175	
+   176	static int ub_msi_supported(struct ub_entity *uent, int nvec)
+   177	{
+   178		if (!uent || uent->no_intr || nvec < 1)
+   179			return 0;
+   180	
+   181		return 1;
+   182	}
+   183	
+   184	static int ub_usi_entry_invalid_check(struct ub_usi_entry *ents,
+   185					      int nvec, int nr_ents)
+   186	{
+   187		int i, j;
+   188	
+   189		if (!ents)
+   190			return 0;
+   191	
+   192		for (i = 0; i < nvec; i++) {
+   193			if (ents[i].entry >= nr_ents)
+   194				return -EINVAL;
+   195	
+   196			for (j = i + 1; j < nvec; j++)
+   197				if (ents[i].entry == ents[j].entry)
+   198					return -EINVAL;
+   199		}
+   200	
+   201		return 0;
+   202	}
+   203	
+   204	static int __ub_enable_usi_range(struct ub_entity *uent,
+   205					 struct ub_usi_entry *entries, int minvec,
+   206					 int maxvec, struct irq_affinity *affd)
+   207	{
+   208		int hwsize, nvec = maxvec;
+   209		int ret;
+   210	
+   211		if (maxvec < minvec)
+   212			return -ERANGE;
+   213	
+   214		if (!ub_msi_supported(uent, nvec))
+   215			return -EINVAL;
+   216	
+   217		if (uent->intr_type1)
+   218			hwsize = (int)ub_int_type1_vec_count(uent);
+   219		else
+   220			hwsize = (int)ub_intr_vec_count(uent);
+   221		if (hwsize == 0) {
+   222			ub_err(uent, "int vector cnt is zero.\n");
+   223			return -ENOSPC;
+   224		}
+   225	
+   226		ret = ub_usi_entry_invalid_check(entries, nvec, hwsize);
+   227		if (ret)
+   228			return ret;
+   229	
+   230		if (hwsize < nvec)
+   231			nvec = hwsize;
+   232		if (nvec < minvec)
+   233			return -ENOSPC;
+   234	
+ > 235		ret = ub_setup_msi_context(uent);
+   236		if (ret)
+   237			return ret;
+   238	
+ > 239		if (!ub_setup_usi_device_domain(uent, hwsize)) {
+   240			ub_err(uent, "ub setup device domain failed.\n");
+   241			return -ENODEV;
+   242		}
+   243	
+   244		if (affd) {
+   245			nvec = ub_irq_calc_affinity_vectors(minvec, nvec, affd);
+   246			if (nvec < minvec) {
+   247				ub_err(uent, "irq calc affd failed.\n");
+   248				return -ENOSPC;
+   249			}
+   250		}
+   251	
+   252		if (uent->intr_type1)
+   253			ret = int_type1_capability_init(uent, entries, nvec, affd);
+   254		else
+   255			ret = int_type2_capability_init(uent, entries, nvec, affd);
+   256		if (ret)
+   257			return ret;
+   258	
+   259		return nvec;
+   260	}
+   261	
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
