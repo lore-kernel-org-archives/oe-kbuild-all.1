@@ -1,66 +1,72 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2515E1F461D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 20:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10742F83B5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 20:41:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766781692; cv=none; b=uqvroS8M8R24DJZJ6sn6snpoo347gvVBxxwb4RSVyN9keMTIsR4TWkCIMJOyOwwuGoho/eN/QtMX7q6R5QhWsZKJ6yYIrI6N4YqnzApxAlEKcpqtKXe7FDgmV46UZ5EUxCCW83P+kpciGuDdQXP5vj4l9CebrC7IA8KQZLHTZH8=
+	t=1766781694; cv=none; b=oV0gjBggAmQ2bJsGB/RykOMqUbzJbJlX+nLwXAa5YjW73zTDeW+OBlWzfQMdbl/P0/puQsbv82mvRpJF3EO+KER6dpqUPbWKXb8SazJXfO1e35MaADANwfe/+rRda3YU1GLDrWZZeS1hDR717mtAW5kzCeF6FK0H146hO27uDLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766781692; c=relaxed/simple;
-	bh=PyFxoXyQpqjaFoS+Oep2NkkcIARWnKpl4IWfANJTiVU=;
+	s=arc-20240116; t=1766781694; c=relaxed/simple;
+	bh=zBQzHfUqOC2GvX06d1WmW6+lrYJwfd4jNRhhz+TtBZc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JORYL2tSDoVIIJSdwhJPwSVh6CStqgZnvFH6V+Ke9EGrX8wLHzKBE/FWms/2dC01XihvWk6WwxJDGxp5TJwIhu1lDRvTv1K3L8MXNWsiHicYvZ1H3VJa0hJ+bcoefb/nAaSrQ1+axpj8N+8CnDkBEco8y4i/q3HFxiWK+AZFhgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jThOXULy; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=dn0X/uKjS+rVS99gQhmRCoXRvttPyS1ZO3Tjdvf/B+ZUNMkrW3Rsr+G/R76KhyIM8kPMywGiWDyDexAhgQhaPHxyVu913PMS8oA/X7N52kd43YFoEHgO0o124KhFzpk21vG7h0GNswNSKravcCh88J521/Nca9j6tZ+CHYVPG9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkgmkrAy; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jThOXULy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkgmkrAy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766781691; x=1798317691;
+  t=1766781693; x=1798317693;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PyFxoXyQpqjaFoS+Oep2NkkcIARWnKpl4IWfANJTiVU=;
-  b=jThOXULy4fNb/mFfwTC/NDrrjvYKpIEfYUsYMDmaJ5ptwO/Uj9Mb3kQO
-   sXpanaQ8P8FSp34rMWJifPtb1QQM6TE9HEskGusBh4ntyEUDRRfVkyojp
-   FEbeo1B1QlVulFioU3Pa7wzImhwV07SuKQXNd2w0EkJfA3cWNJ26kiG2l
-   X8AfFmN8t9IPer/MhxnZjlRqi5QK+O0ejFcLrgn1B4K3Th/uAc+TFchDi
-   5ApN8d+quwTorFYLCyuOTmEDGxrTiNzw4El/YG41mMryMwPMvLI42WyhZ
-   MbiGyGBNh2RX2TsvcaJFYPg54MUx8fBTXSWvkEMLKxLYcA2TTjqKWPMWu
-   Q==;
-X-CSE-ConnectionGUID: yaLI+rFDS82odM+O7IHPMw==
-X-CSE-MsgGUID: vzEfN9Z1TRWFeqNLNrSjOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68458818"
+  bh=zBQzHfUqOC2GvX06d1WmW6+lrYJwfd4jNRhhz+TtBZc=;
+  b=mkgmkrAytVUlWkmd3A5NBoCsbhy4xkw5o1dXumJslNxjhHhZqRw2pceU
+   vHn7mz8hEJ198389oWSssh8PEC9sdh0ttnieXUKk+zFO68JtAdOZd95eI
+   J+Hn1ee8fje0N9JE5i8SFQsrDKzz+P2EqhpXwceKDqK13mzg1Pu9IkXDc
+   O12gqlIlUvKelH/RY7HWikmIvuYWGaYAxgk2W2sQlH3psHRcXrHmwe5yr
+   yqLH26g2VvsSMtISDjRLAWS08qLuNp12ZijhFiOTGjFonP7aOjXbw63es
+   PHC9rtP7LQu+879MapjKimslQi+drG1ay/tm3KIik8sSkZGUkpK+0EhW9
+   w==;
+X-CSE-ConnectionGUID: 7oHh3If3SJe3O+hL2rb+vg==
+X-CSE-MsgGUID: WyktiWR9R++J4HNd6ZJSLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68458821"
 X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68458818"
+   d="scan'208";a="68458821"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 12:41:31 -0800
-X-CSE-ConnectionGUID: XYSpYpMjS8W4LFkqruQfjQ==
-X-CSE-MsgGUID: VZOYvB9xSwWguOa+bU8EcA==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 12:41:32 -0800
+X-CSE-ConnectionGUID: FjJZNzGsTxSVpfeh4W0yOw==
+X-CSE-MsgGUID: QyamsYnjQEa1dXYFzSx0WA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
-   d="scan'208";a="223928692"
+   d="scan'208";a="223928691"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
   by fmviesa002.fm.intel.com with ESMTP; 26 Dec 2025 12:41:28 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZEcn-000000005LN-0zFH;
+	id 1vZEcn-000000005LP-17e6;
 	Fri, 26 Dec 2025 20:41:25 +0000
 Date: Sat, 27 Dec 2025 04:40:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiaolei Wang <xiaolei.wang@windriver.com>, sakari.ailus@linux.intel.com,
-	dave.stevenson@raspberrypi.com, jacopo@jmondi.org,
-	mchehab@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-	laurent.pinchart@ideasonboard.com, hverkuil+cisco@kernel.org,
-	johannes.goede@oss.qualcomm.com, hverkuil-cisco@xs4all.nl,
-	jai.luthra@ideasonboard.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: i2c: ov5647: Convert to CCI register access
- helpers
-Message-ID: <202512270443.nNMHyu7p-lkp@intel.com>
-References: <20251226031311.2068414-2-xiaolei.wang@windriver.com>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>, linux-mm@kvack.org,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, Jiayuan Chen <jiayuan.chen@shopee.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	David Hildenbrand <david@kernel.org>,
+	Qi Zheng <zhengqi.arch@bytedance.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] mm/memcg: scale memory.high penalty based on refault
+ recency
+Message-ID: <202512270457.MunhjmYM-lkp@intel.com>
+References: <20251226064257.245581-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,53 +75,231 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251226031311.2068414-2-xiaolei.wang@windriver.com>
+In-Reply-To: <20251226064257.245581-1-jiayuan.chen@linux.dev>
 
-Hi Xiaolei,
+Hi Jiayuan,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on sailus-media-tree/master]
-[also build test WARNING on linus/master v6.19-rc2 next-20251219]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiaolei-Wang/media-i2c-ov5647-Convert-to-CCI-register-access-helpers/20251226-115543
-base:   git://linuxtv.org/sailus/media_tree.git master
-patch link:    https://lore.kernel.org/r/20251226031311.2068414-2-xiaolei.wang%40windriver.com
-patch subject: [PATCH 1/2] media: i2c: ov5647: Convert to CCI register access helpers
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20251227/202512270443.nNMHyu7p-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiayuan-Chen/mm-memcg-scale-memory-high-penalty-based-on-refault-recency/20251226-144331
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20251226064257.245581-1-jiayuan.chen%40linux.dev
+patch subject: [PATCH v1] mm/memcg: scale memory.high penalty based on refault recency
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20251227/202512270457.MunhjmYM-lkp@intel.com/config)
 compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512270443.nNMHyu7p-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512270457.MunhjmYM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512270443.nNMHyu7p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512270457.MunhjmYM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/media/i2c/ov5647.c: In function 'ov5647_sensor_set_register':
->> drivers/media/i2c/ov5647.c:790:13: warning: unused variable 'ret' [-Wunused-variable]
-     790 |         int ret;
-         |             ^~~
+   In file included from <command-line>:
+   mm/workingset.c: In function 'workingset_refault':
+>> mm/workingset.c:570:33: error: invalid use of undefined type 'struct mem_cgroup'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                                 ^~
+   include/linux/compiler_types.h:611:23: note: in definition of macro '__compiletime_assert'
+     611 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:631:9: note: in expansion of macro '_compiletime_assert'
+     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/workingset.c:570:17: note: in expansion of macro 'WRITE_ONCE'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                 ^~~~~~~~~~
+>> mm/workingset.c:570:33: error: invalid use of undefined type 'struct mem_cgroup'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                                 ^~
+   include/linux/compiler_types.h:611:23: note: in definition of macro '__compiletime_assert'
+     611 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:631:9: note: in expansion of macro '_compiletime_assert'
+     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/workingset.c:570:17: note: in expansion of macro 'WRITE_ONCE'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                 ^~~~~~~~~~
+>> mm/workingset.c:570:33: error: invalid use of undefined type 'struct mem_cgroup'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                                 ^~
+   include/linux/compiler_types.h:611:23: note: in definition of macro '__compiletime_assert'
+     611 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:631:9: note: in expansion of macro '_compiletime_assert'
+     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/workingset.c:570:17: note: in expansion of macro 'WRITE_ONCE'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                 ^~~~~~~~~~
+>> mm/workingset.c:570:33: error: invalid use of undefined type 'struct mem_cgroup'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                                 ^~
+   include/linux/compiler_types.h:611:23: note: in definition of macro '__compiletime_assert'
+     611 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:631:9: note: in expansion of macro '_compiletime_assert'
+     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/workingset.c:570:17: note: in expansion of macro 'WRITE_ONCE'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                 ^~~~~~~~~~
+>> mm/workingset.c:570:33: error: invalid use of undefined type 'struct mem_cgroup'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                                 ^~
+   include/linux/compiler_types.h:611:23: note: in definition of macro '__compiletime_assert'
+     611 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:631:9: note: in expansion of macro '_compiletime_assert'
+     631 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:60:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      60 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/workingset.c:570:17: note: in expansion of macro 'WRITE_ONCE'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                 ^~~~~~~~~~
+   In file included from ./arch/nios2/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:380,
+                    from include/asm-generic/bug.h:5,
+                    from ./arch/nios2/include/generated/asm/bug.h:1,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/nios2/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/cgroup.h:12,
+                    from include/linux/memcontrol.h:13,
+                    from mm/workingset.c:8:
+>> mm/workingset.c:570:33: error: invalid use of undefined type 'struct mem_cgroup'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                                 ^~
+   include/asm-generic/rwonce.h:55:27: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                           ^
+   mm/workingset.c:570:17: note: in expansion of macro 'WRITE_ONCE'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                 ^~~~~~~~~~
+>> mm/workingset.c:570:33: error: invalid use of undefined type 'struct mem_cgroup'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                                 ^~
+   include/asm-generic/rwonce.h:55:34: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                                  ^
+   mm/workingset.c:570:17: note: in expansion of macro 'WRITE_ONCE'
+     570 |                 WRITE_ONCE(memcg->last_refault, jiffies);
+         |                 ^~~~~~~~~~
 
 
-vim +/ret +790 drivers/media/i2c/ov5647.c
+vim +570 mm/workingset.c
 
-   785	
-   786	static int ov5647_sensor_set_register(struct v4l2_subdev *sd,
-   787					      const struct v4l2_dbg_register *reg)
-   788	{
-   789		struct ov5647 *sensor = to_sensor(sd);
- > 790		int ret;
-   791	
-   792		return cci_write(sensor->regmap, reg->reg & 0xff, reg->val & 0xff, NULL);
-   793	}
-   794	#endif
-   795	
+   529	
+   530	/**
+   531	 * workingset_refault - Evaluate the refault of a previously evicted folio.
+   532	 * @folio: The freshly allocated replacement folio.
+   533	 * @shadow: Shadow entry of the evicted folio.
+   534	 *
+   535	 * Calculates and evaluates the refault distance of the previously
+   536	 * evicted folio in the context of the node and the memcg whose memory
+   537	 * pressure caused the eviction.
+   538	 */
+   539	void workingset_refault(struct folio *folio, void *shadow)
+   540	{
+   541		bool file = folio_is_file_lru(folio);
+   542		struct pglist_data *pgdat;
+   543		struct mem_cgroup *memcg;
+   544		struct lruvec *lruvec;
+   545		bool workingset;
+   546		long nr;
+   547	
+   548		VM_BUG_ON_FOLIO(!folio_test_locked(folio), folio);
+   549	
+   550		if (lru_gen_enabled()) {
+   551			lru_gen_refault(folio, shadow);
+   552			return;
+   553		}
+   554	
+   555		/*
+   556		 * The activation decision for this folio is made at the level
+   557		 * where the eviction occurred, as that is where the LRU order
+   558		 * during folio reclaim is being determined.
+   559		 *
+   560		 * However, the cgroup that will own the folio is the one that
+   561		 * is actually experiencing the refault event. Make sure the folio is
+   562		 * locked to guarantee folio_memcg() stability throughout.
+   563		 */
+   564		nr = folio_nr_pages(folio);
+   565		memcg = folio_memcg(folio);
+   566		pgdat = folio_pgdat(folio);
+   567		lruvec = mem_cgroup_lruvec(memcg, pgdat);
+   568	
+   569		if (memcg)
+ > 570			WRITE_ONCE(memcg->last_refault, jiffies);
+   571	
+   572		mod_lruvec_state(lruvec, WORKINGSET_REFAULT_BASE + file, nr);
+   573	
+   574		if (!workingset_test_recent(shadow, file, &workingset, true))
+   575			return;
+   576	
+   577		folio_set_active(folio);
+   578		workingset_age_nonresident(lruvec, nr);
+   579		mod_lruvec_state(lruvec, WORKINGSET_ACTIVATE_BASE + file, nr);
+   580	
+   581		/* Folio was active prior to eviction */
+   582		if (workingset) {
+   583			folio_set_workingset(folio);
+   584			/*
+   585			 * XXX: Move to folio_add_lru() when it supports new vs
+   586			 * putback
+   587			 */
+   588			lru_note_cost_refault(folio);
+   589			mod_lruvec_state(lruvec, WORKINGSET_RESTORE_BASE + file, nr);
+   590		}
+   591	}
+   592	
 
 -- 
 0-DAY CI Kernel Test Service
