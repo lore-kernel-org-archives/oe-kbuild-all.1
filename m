@@ -1,147 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EBD284665
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 13:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DE431BC8F;
+	Fri, 26 Dec 2025 13:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766755413; cv=none; b=DwfveE2zUydvPcQeJBFGDyu+MgjWuUmFySpM6Lj6MwLMBE3ci6gXuGAjpwHAvjyvl4Q1B7bLrom7D4Cdbn4L6db7GU2I8H/TwXta0E+UKfE8UGejy/0IEh7p+R5rdr+DZymscbJC5/71qbVu1QflqnSG6glsickBEvZqQxz3FLg=
+	t=1766755414; cv=none; b=XfjLGhvOScpZgi8eioiLR2pwxLYBPu/d0vtWKxFWRdbqy1heteEdflYnQlrRB7/5sqIGtfPbGtbF775wMsQ/eXnE0hD01HyJNf0uyA2ZxY8QVZPYkm17JJsRG4MV4hZY4VcwSzbpb883RkKSfmOf889JQhrcLYUpzExcjb5SHJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766755413; c=relaxed/simple;
-	bh=8+BwpUx/vvwbD29gnGZ+KY4hotu7urGUrPP0QUJ252s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CpiykMcUfBm5yU8SHVF4+VC/DUp5evPOo/YvVARwtVj39BsP51LPzXwStMwGiUmTOTiki7MtmRy8gl7TmvUmddd74NGmurj2hhSh0s43MeFlBSpuGLPI4EKyt6vvGVVVAJG8Gch6WulvgXw/gCUbX2inZ87mVUyhD2tRqubcY+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HxA6L5YD; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1766755414; c=relaxed/simple;
+	bh=kYn0/jK2orN0CbLrDQMs5+dFtIP9GLMhhA/ko+U2UKE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GaEJyqmcdtw6z+vlUzjrAzcsQRQ7aV4wynFPUjRBUXmakSsWS4a509Z7uM8MCT3WszwmtfiXgt0t0eAyvEmbug++rQNOjNIAgFbwZgkU8El9J0QRWQMlOqeLcUoRSvSRMcD3ckSKBCY8NOpygmj5m6nLaVLH29BawFPgT2FvBkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IPBqEMby; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HxA6L5YD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IPBqEMby"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766755411; x=1798291411;
-  h=date:from:to:cc:subject:message-id;
-  bh=8+BwpUx/vvwbD29gnGZ+KY4hotu7urGUrPP0QUJ252s=;
-  b=HxA6L5YD4GEpoWy8FNGgUa7OoRp0SeWsNoTE7IH3lAC3ldn2n5FHPTV9
-   FhtW70EDzZ010scfPCI1id3N08ymY5Mk9W43lHM8aNTs9V9jjd8mXfCSI
-   M0gbA/PegBb3QbEd8CxeN3a2qYLUtcJkDvnHio/Z6ghvpmPLvID90OvEc
-   AgGH08tHNoc7vXUYX4o1Fohbr3R4OOIYwVYiGiLtrKNL6dJdkqCrTMi04
-   KdTpaMnTyqc3mpZQIBIJYOlEJC1DbFi5+rtCGHmYzttAge7fyNqzhrjtd
-   OCW1CpkUzu7e9KIRvlgRnPG+OOHYvpQ+rMTx4b4KKmpv4rceEL19h8tYA
-   g==;
-X-CSE-ConnectionGUID: 60oeeEAXQ2SO2UzTiFWMzA==
-X-CSE-MsgGUID: H6SXdw3IQ92SfEN28TvT/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="79874260"
+  t=1766755414; x=1798291414;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kYn0/jK2orN0CbLrDQMs5+dFtIP9GLMhhA/ko+U2UKE=;
+  b=IPBqEMbyCiqFNDo8zrbtwGebbTghiXLW8qBRribmPfstPrwaOAjht8TQ
+   hKFGOk39y0jk3INLVOKgJtm6+Zt+ct87dk8FjNPumQZwAWqiJ7L/bjr2u
+   lKuK7X0JRTBq67554GQJK898VsAhJr6amMTLzBTaxrDX+dHNrx/cIzfSO
+   JKHMPv3lpQsor5fDy6N+ky1fkkr3cdfrjP4zi+bYV1y7nWeVBPeoKjj56
+   2oWbGqz07p8fMKoGTNGeGAVftYZZm3ag8x9or6fUsP+yg7AL53y513sWR
+   LikCzYQKYMq3juRMLHTURl143MI7myrLBF3+1kBs6a9v8zxqGYbuI+LL9
+   A==;
+X-CSE-ConnectionGUID: c+AGcFyFT0e3e650mxI9Xw==
+X-CSE-MsgGUID: 74foxxZiRWivwGv0HcI3aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="72365580"
 X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
-   d="scan'208";a="79874260"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 05:23:31 -0800
-X-CSE-ConnectionGUID: WPvo6GK/RgWoe7WOElSe5w==
-X-CSE-MsgGUID: 1TphBrskS1ivOpOOfIXokQ==
+   d="scan'208";a="72365580"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 05:23:33 -0800
+X-CSE-ConnectionGUID: sMaK0WugQFSQyyqBCrCHgQ==
+X-CSE-MsgGUID: SYbRYuy0TaqPlTD/iFOvsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
-   d="scan'208";a="199623976"
+   d="scan'208";a="204522834"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 26 Dec 2025 05:23:29 -0800
+  by orviesa003.jf.intel.com with ESMTP; 26 Dec 2025 05:23:29 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZ7mw-0000000053L-3m20;
+	id 1vZ7mw-0000000053J-3fOD;
 	Fri, 26 Dec 2025 13:23:26 +0000
-Date: Fri, 26 Dec 2025 21:23:05 +0800
+Date: Fri, 26 Dec 2025 21:23:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jianquan Lin <linjianquan2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 13/13] drivers/ub/ubfi/ubc.c:61:18:
- error: implicit declaration of function 'acpi_evaluate_integer'; did you mean
- 'acpi_evaluate_object'?
-Message-ID: <202512262133.NDd7lyEj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Shakeel Butt <shakeel.butt@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>, SeongJae Park <sj@kernel.org>,
+	Meta kernel team <kernel-team@meta.com>, cgroups@vger.kernel.org,
+	damon@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 8/8] memcg: rename mem_cgroup_ino() to mem_cgroup_id()
+Message-ID: <202512262017.v77XZpwk-lkp@intel.com>
+References: <20251225232116.294540-9-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251225232116.294540-9-shakeel.butt@linux.dev>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   03c9c649e6f28e26260d276ce755f785b2435da3
-commit: 028a4161a77d2e15d331a13599a6f06cdd7490b6 [13/13] ub:ubfi: register ubc usi domain
-config: arm64-randconfig-004-20251226 (https://download.01.org/0day-ci/archive/20251226/202512262133.NDd7lyEj-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512262133.NDd7lyEj-lkp@intel.com/reproduce)
+Hi Shakeel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on sj/damon/next]
+[cannot apply to akpm-mm/mm-everything tj-cgroup/for-next linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shakeel-Butt/memcg-introduce-private-id-API-for-in-kernel-users/20251226-072954
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+patch link:    https://lore.kernel.org/r/20251225232116.294540-9-shakeel.butt%40linux.dev
+patch subject: [PATCH 8/8] memcg: rename mem_cgroup_ino() to mem_cgroup_id()
+config: openrisc-allmodconfig (https://download.01.org/0day-ci/archive/20251226/202512262017.v77XZpwk-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512262017.v77XZpwk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512262133.NDd7lyEj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512262017.v77XZpwk-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/ub/ubfi/ubc.c: In function 'acpi_processor_ubc':
->> drivers/ub/ubfi/ubc.c:61:18: error: implicit declaration of function 'acpi_evaluate_integer'; did you mean 'acpi_evaluate_object'? [-Werror=implicit-function-declaration]
-      61 |         status = acpi_evaluate_integer(handle, "_UID", NULL, &uid);
-         |                  ^~~~~~~~~~~~~~~~~~~~~
-         |                  acpi_evaluate_object
->> drivers/ub/ubfi/ubc.c:69:16: error: implicit declaration of function 'acpi_get_acpi_dev'; did you mean 'acpi_get_timer'? [-Werror=implicit-function-declaration]
-      69 |         adev = acpi_get_acpi_dev(handle);
-         |                ^~~~~~~~~~~~~~~~~
-         |                acpi_get_timer
->> drivers/ub/ubfi/ubc.c:69:14: warning: assignment to 'struct acpi_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      69 |         adev = acpi_get_acpi_dev(handle);
-         |              ^
->> drivers/ub/ubfi/ubc.c:87:9: error: implicit declaration of function 'acpi_put_acpi_dev'; did you mean 'acpi_match_acpi_device'? [-Werror=implicit-function-declaration]
-      87 |         acpi_put_acpi_dev(adev);
-         |         ^~~~~~~~~~~~~~~~~
-         |         acpi_match_acpi_device
-   cc1: some warnings being treated as errors
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/openrisc/include/asm/bug.h:5,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/openrisc/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/rcupdate.h:27,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:6,
+                    from mm/damon/sysfs.c:8:
+   mm/damon/sysfs.c: In function 'debug_show':
+>> include/linux/kern_levels.h:5:25: warning: format '%u' expects argument of type 'unsigned int', but argument 2 has type 'u64' {aka 'long long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:585:9: note: in expansion of macro 'printk'
+     585 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:585:16: note: in expansion of macro 'KERN_INFO'
+     585 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   mm/damon/sysfs.c:2704:17: note: in expansion of macro 'pr_info'
+    2704 |                 pr_info("id: %u, path: %s\n", mem_cgroup_id(memcg), path);
+         |                 ^~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for RESCTRL_FS
-   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
-   Selected by [y]:
-   - ARM64_MPAM [=y]
 
+vim +5 include/linux/kern_levels.h
 
-vim +61 drivers/ub/ubfi/ubc.c
-
-    50	
-    51	static acpi_status acpi_processor_ubc(acpi_handle handle, u32 lvl,
-    52					      void *context, void **rv)
-    53	{
-    54		struct ub_bus_controller *ubc = context;
-    55		struct acpi_device *adev;
-    56		unsigned long long uid;
-    57		acpi_status status;
-    58		struct device *dev;
-    59		int ret;
-    60	
-  > 61		status = acpi_evaluate_integer(handle, "_UID", NULL, &uid);
-    62		if (ACPI_FAILURE(status))
-    63			return AE_CTRL_TERMINATE;
-    64	
-    65		pr_info("ubc acpi ubc->ctl_no %u, uid: %llu\n", ubc->ctl_no, uid);
-    66		if (ubc->ctl_no != (u32)uid)
-    67			return AE_OK;
-    68	
-  > 69		adev = acpi_get_acpi_dev(handle);
-    70		if (!adev)
-    71			return AE_CTRL_TERMINATE;
-    72	
-    73		dev = bus_find_device_by_acpi_dev(&platform_bus_type, adev);
-    74		if (!dev) {
-    75			status = AE_CTRL_TERMINATE;
-    76			goto out;
-    77		}
-    78		ret = ub_update_msi_domain(dev, DOMAIN_BUS_UB_MSI);
-    79		if (ret) {
-    80			status = AE_CTRL_TERMINATE;
-    81			goto out;
-    82		}
-    83		dev_set_msi_domain(&ubc->dev, dev->msi.domain);
-    84		pr_debug("set ubc msi domain success by acpi\n");
-    85	
-    86	out:
-  > 87		acpi_put_acpi_dev(adev);
-    88		return status;
-    89	}
-    90	
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
 
 -- 
 0-DAY CI Kernel Test Service
