@@ -1,85 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFF9201278
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 11:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF1D31B11E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 11:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766746810; cv=none; b=Vu0eBtdYRKE3oUgq7xFBpkguACmUVeVSO9yPMCsCLi4CJ/1VFku7z0NMTYsbWt+odWUsYJMdCFJ2RelkibnK2mIh6XC28QtzdYXO08yq/idyCS6D0kUyGLqGyDbSK63pm1ZYYxg5b7uCkN+GiglKLuaHbw1yCueg7wMhzIvjRs8=
+	t=1766750392; cv=none; b=QLysu3PFAgO5NzAYh6S0g6WrtX+B0WBd2tbXSkxHk1okJ7v93j1Bp5JypOYhsTGfPD2Dvfx1NzMQlMUTzWjeCr6Vdf07sZSUcwVxmh8PoxPFGozGH15fhBO4cgzXZDojWMyfFAvB1xcYjI8Cpw1O7H9fSR3sXo52fOhLMa4FUZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766746810; c=relaxed/simple;
-	bh=+w0DPZc0QPJ16eTZM3DLXVyGuFRlHLVjedUWN+5764o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pwyH0g/37S/W3gvNE4ym8rzum7NM81HcNjwSCNlwZhkafbR0V/w/tpQvHE0wIJWz2FuloEyi5yTS5LrBbyMGThZMnqsod3TevUAm+m4yaslncYhJ1NifPF8WXPW08KB++uN5/dSUYZY6fbjJOx3HsU3JlRzQUQQ2RC+NOn92+g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FGdrQeiX; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766750392; c=relaxed/simple;
+	bh=OWWYLrilFhz9YC8b9tP2fN0oE1fQiFaqy3spTA2lL2M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mTfotBwFRR4HdAJBELiFk1hrXk/d7tXGYewmzY6ZxiFYXsztI2az7bqRq/NJzbJWCiiIqVkX8jNXb/gIjm8JIaLNkMYDahXyIOKxnOiZWhteZFWNhKf7KIJJbhRUlnkbr6ZJ6qkeBtnsgKesRL+u1Y3ATpLt31wKn/OFin7ovww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=23hxyghz; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FGdrQeiX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766746808; x=1798282808;
-  h=date:from:to:cc:subject:message-id;
-  bh=+w0DPZc0QPJ16eTZM3DLXVyGuFRlHLVjedUWN+5764o=;
-  b=FGdrQeiX1dbimn7x7/NB/zaPBGUuQcLr5ZiUEMOJ5r9M0nX8Yz3uvsgI
-   a2JOp8f16ZHuA6WvqiJqsRs1q33E2wwDQM01QuB1J0IXPv/po6S8XStqW
-   eLGV7F6h4r1wZvsrPTuPA4g6KgilQdbOyJ876piBHKs93Abh3OHpUG5v3
-   R8qXdjQpnptcDWTJWTcE29KdcwTU8QI68jftQDBCcilcB59Gz23lVfc9M
-   v6PWMKDUSzTcRLQX6ohPTJElMM6OrDerUK23Fgp4XkGMqHdW6lsESZMhh
-   RR0BwS1Vu81c0rk6lkEGueurI01RcuR1rdUOKyU1JK/te8M1FTh9wu+ok
-   Q==;
-X-CSE-ConnectionGUID: ru2RA+w0TJSwgD+DxAf/Ww==
-X-CSE-MsgGUID: SXSA+pV9R+G8BMnHwCHrGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="68542428"
-X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="68542428"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 03:00:07 -0800
-X-CSE-ConnectionGUID: PlZABb2TT6GzF5iy5WcZUg==
-X-CSE-MsgGUID: ugZQWKAWSX6tdPIaIsO+Mg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="205288397"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Dec 2025 03:00:05 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vZ5Y5-000000004yf-2dho;
-	Fri, 26 Dec 2025 10:59:58 +0000
-Date: Fri, 26 Dec 2025 18:59:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jianbo Liu <jianbol@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Paolo Abeni <pabeni@redhat.com>, Leon Romanovsky <leonro@nvidia.com>,
- Tariq Toukan <tariqt@nvidia.com>
-Subject: ipsec.c:undefined reference to `ip6_dst_lookup'
-Message-ID: <202512261850.P5Jp5BSz-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="23hxyghz"
+Received: from [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8] (2a02-1812-162c-8f00-1e2d-b404-3319-eba8.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id 8C6476B8CAB;
+	Fri, 26 Dec 2025 12:59:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1766750382;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WtiGe9UVY4DRuvW+VF67JllIQ13Z+/lQWqwadNoyDPI=;
+	b=23hxyghzwayhUxPh7bSQxjkB0B59Vce2uTZ4urCcEqxrCM7VT5aTxuVfGceB/FeN+4KL3A
+	4OydY24Q2CI8/Clu1DrbSowTnyzUrNajPIG+1nW/UHlJQjPXdXhT5M9RsyDn51l6FRCs60
+	o6ny4vB2n9l5KO4Do/pK/8FnWT8rvIv/tf96TgQfjifQae0sluFCcUGoIHpmDKR/kiNJ6k
+	mPOH+gnzsXhmPuLRWy+KKt8j2kdxgnD890CBxQiEj2luZSGoqOEamX4SeCQBlplFoNPDLl
+	IEU+Ftd65iwYsnuLmjnCpGmOzYr9d9Ja6oN1ekrWQwJX0qUz+47o7JtOWVZI+Q==
+Message-ID: <12c98c7c8bead26a61764e3e9611badf2cdfcac5.camel@svanheule.net>
+Subject: Re: [PATCH v9 3/6] mfd: Add RTL8231 core device
+From: Sander Vanheule <sander@svanheule.net>
+To: kernel test robot <lkp@intel.com>, Lee Jones <lee@kernel.org>, Pavel
+ Machek	 <pavel@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Michael Walle	 <mwalle@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Mark Brown	 <broonie@kernel.org>, Andrew Lunn <andrew@lunn.ch>, Heiner
+ Kallweit	 <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>,
+ "David S. Miller"	 <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski	 <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>
+Cc: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran	
+ <fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ netdev@vger.kernel.org,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Date: Fri, 26 Dec 2025 12:59:40 +0100
+In-Reply-To: <202512220956.FVakrdhV-lkp@intel.com>
+References: <20251215175115.135294-4-sander@svanheule.net>
+	 <202512220956.FVakrdhV-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ccd1cdca5cd433c8a5dff78b69a79b31d9b77ee1
-commit: e35d7da8dd9e55b37c3e8ab548f6793af0c2ab49 net/mlx5e: Use ip6_dst_lookup instead of ipv6_dst_lookup_flow for MAC init
-date:   8 days ago
-config: um-randconfig-r061-20251226 (https://download.01.org/0day-ci/archive/20251226/202512261850.P5Jp5BSz-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512261850.P5Jp5BSz-lkp@intel.com/reproduce)
+Adding the netdev and regmap maintainers for extra input.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512261850.P5Jp5BSz-lkp@intel.com/
+On Mon, 2025-12-22 at 09:43 +0100, kernel test robot wrote:
+> url:=C2=A0=C2=A0=C2=A0 https://github.com/intel-lab-lkp/linux/commits/San=
+der-Vanheule/dt-bindings-leds-Binding-for-RTL8231-scan-matrix/20251216-0155=
+52
+> base:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd=
+.git=C2=A0for-mfd-fixes
+> patch link:=C2=A0=C2=A0=C2=A0 https://lore.kernel.org/r/20251215175115.13=
+5294-4-sander%40svanheule.net
+> patch subject: [PATCH v9 3/6] mfd: Add RTL8231 core device
+> config: alpha-kismet-CONFIG_MDIO_BUS-CONFIG_REGMAP_MDIO-0-0 (https://down=
+load.01.org/0day-ci/archive/20251222/202512220956.FVakrdhV-lkp@intel.com/co=
+nfig)
+> reproduce: (https://download.01.org/0day-ci/archive/20251222/202512220956=
+.FVakrdhV-lkp@intel.com/reproduce)
+>=20
 
-All errors (new ones prefixed by >>):
+For context: these patches introduce a new MFD with pinctrl and led subdevi=
+ces.
+The RTL8231 MFD is attached to an MDIO bus, but it can also be attached to =
+an
+I2C bus (not currently supported). The drivers use regmap to provide a bus
+abstraction.
 
-   /usr/bin/ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   /usr/bin/ld: drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec.o: in function `mlx5e_ipsec_build_accel_xfrm_attrs':
->> ipsec.c:(.ltext+0x619): undefined reference to `ip6_dst_lookup'
-   clang: error: linker command failed with exit code 1 (use -v to see invocation)
+> kismet warnings: (new ones prefixed by >>)
+> > > kismet: WARNING: unmet direct dependencies detected for MDIO_BUS when
+> > > selected by REGMAP_MDIO
+> =C2=A0=C2=A0 WARNING: unmet direct dependencies detected for MDIO_BUS
+> =C2=A0=C2=A0=C2=A0=C2=A0 Depends on [n]: NETDEVICES [=3Dn]
+> =C2=A0=C2=A0=C2=A0=C2=A0 Selected by [y]:
+> =C2=A0=C2=A0=C2=A0=C2=A0 - REGMAP_MDIO [=3Dy]
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'm a bit puzzled on how to solve this one. The issue detected here is that=
+ my
+driver (MFD_RTL8231) selects REGMAP_MDIO, which in turn selects MDIO_BUS. T=
+he
+latter is dependent on NETDEVICES, which is not selected in this test.=C2=
+=A0
+The kernel does not yet have any other consumers of REGMAP_MDIO, which is
+probably the reason the dependency issue has gone undetected until now.
+
+REGMAP_MDIO is not a visible symbol, so it must be selected by drivers.
+
+Other REGMAP_XYZ symbols (almost) exclusively use "depends on XYZ", but if =
+I
+change REGMAP_MDIO to "depends on", the warning just changes to:
+
+   WARNING: unmet direct dependencies detected for REGMAP_MDIO
+     Depends on [n]: MDIO_BUS [=3Dn]
+     Selected by [y]:
+     - MFD_RTL8231 [=3Dy] && HAS_IOMEM [=3Dy]
+
+Trying to make MFD_RTL8231 also depend on MDIO_BUS, like .e.g I2C dependent
+devices do, results in a recursive dependency:
+
+
+   error: recursive dependency detected!
+   	symbol GPIOLIB is selected by PINCTRL_RTL8231
+   	symbol PINCTRL_RTL8231 depends on MFD_RTL8231
+   	symbol MFD_RTL8231 depends on MDIO_BUS
+   	symbol MDIO_BUS is selected by PHYLIB
+   	symbol PHYLIB is selected by ARC_EMAC_CORE
+   	symbol ARC_EMAC_CORE is selected by EMAC_ROCKCHIP
+   	symbol EMAC_ROCKCHIP depends on OF_IRQ
+   	symbol OF_IRQ depends on IRQ_DOMAIN
+   	symbol IRQ_DOMAIN is selected by GENERIC_IRQ_CHIP
+   	symbol GENERIC_IRQ_CHIP is selected by GPIO_MVEBU
+   	symbol GPIO_MVEBU depends on GPIOLIB
+  =20
+The 'quick fix' appears to be to add "select NETDEVICES" to REGMAP_MDIO. Th=
+e
+platforms that use the RTL8231 MFD are typically ethernet switches, so they
+would have NETDEVICES enabled anway, but that feels very heavy handed and
+automatically pulls in a lot of extra stuff. Would this be acceptable or is
+there a more desirable approach I'm not seeing here?
+
+Best,
+Sander
