@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0B018024
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 02:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645891E3DE5;
+	Fri, 26 Dec 2025 03:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766717636; cv=none; b=Dit/fuCf4fTdVGjgYREDKtKqBm9Ao5jdAKFp2ckH/zNcwX3XLtSDqgHc1lpIPgfF59JmTQ+Z4l3GKsz9sNq65mIpBgXNNp3J0irhUl4yAIMtS3xRUDF6D/bxO4vVIZAspszcTLAr6xon0rOj7c557nYqQrGFkOE2BcEpiXxK2pI=
+	t=1766719498; cv=none; b=DajXCFWy4EYP/VhVaPD/1u5IvmyA23zlkfPp9JXu7r4kFwKqiTg93f0mqDJiWQbVUe/wANOFHJwC5RUfcr6P+J9s1uR0HQ2UcebrujMsdVJCFQvH5YrYzWuExS4oIRUAFqk4niKWbnHmfI5OXEFc6qQS1Q3lTsa+QAlH2tDU5fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766717636; c=relaxed/simple;
-	bh=OHjl3JQxL/6xfLqlXiRj90uFkadQP6C1PA3i60+bZ1g=;
+	s=arc-20240116; t=1766719498; c=relaxed/simple;
+	bh=PkGiF3AbGksqohvKGUUIK1j4unoG/RYWEFIRcHdSUVU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mlKwsKZ0RarWa7IhBSbx+1njonyY52mJjswDqTdJ8sP15X1+LuUWt1BTNuAdRHrJ1g2oRc0FT6OHjTmGs+/ii+AI1z0thpgyaneo2CeWDxtDhONkYOvZkDa+MSTH7iF/3IkX9MlQpNrAxqCj570O9sfsGv9oQ8Nffs03eu3cWwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CNZj3DN5; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=jCUkFYWICoAmb6p+lReq53dDYgxZEdgnF271WRhoCVBRGBXHX26OgAl0JjEqkOqmtNezUDV0ujrKcRbH2d98cpajs7Ub6z1296L5SqkzMpYDc2e8CqqVRg1grL+wuYS+xa23zNnJhGz4/LN60PZz3zf1fepuoWvSRfXyEhhi51E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HnalGOLg; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CNZj3DN5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HnalGOLg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766717635; x=1798253635;
+  t=1766719496; x=1798255496;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OHjl3JQxL/6xfLqlXiRj90uFkadQP6C1PA3i60+bZ1g=;
-  b=CNZj3DN5JB5YwB+7X58YMZwAZs0Ca0+nsJzdc4TKDRGvx2o+ec/097nf
-   TgXWfklxL0fmI9HPh52IwheXNspu4PPJ2q+qpgx/P0DGsyGFajfLBkuIG
-   o+rMnvJAwG1l0gDS6PQUTTq+BlHUhXyEnp++V7LLEOzsq80ZyRBE+i6zc
-   CjU6fKNFm0GieUrcYrLuONHOhzRNDDlOJFHsTBpP1ELpt8J4CN1yLZ9y1
-   +bDCyGf3xeInw3hoix5ddLnjfmeZiMui8UQA9qr4RF32LI3E8uLfXpUWa
-   3HPkjAGpCP5Ntg3itXjbjTwWLVvtD/k1uKT+BzBrZ7AqMM6iBUqMw3sMY
+  bh=PkGiF3AbGksqohvKGUUIK1j4unoG/RYWEFIRcHdSUVU=;
+  b=HnalGOLgdyLbTL2YBs+HfMldGTpQyEuDSXL/v0oQ1edKFSroYqY8/YgE
+   ZctS7IGgC52jIdgRBXRAfa27SnRnZ+2iReHCWAeSbqdkEIgnK/XihVEIU
+   XdrD2oLuaAnVDGjREiskdwWzjrXRTCqiBHbm+7NlGJ6dmkmA6e8ElqAWW
+   t15xCZTfArUcoV9N+9epQi9GM2D6WHN2QvEok4whTm5Y+oMPueTe/1Akw
+   LI2lR+EooysQDTG19BXggn2cMSR6KHAU8JUw1ejqhXvTzOi1GzOt747na
+   FaaOjoWdjcQCIRVEAlVFalj+O44vZRdh2lo80vvTMip/aPJjX24rM5TqG
    g==;
-X-CSE-ConnectionGUID: iQQszfMfTtOIbI6SioAZZA==
-X-CSE-MsgGUID: m+K9QHl/RYyz+oMXmkBg+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="71072527"
+X-CSE-ConnectionGUID: HgNxaGJkQaextWjKDyEc+g==
+X-CSE-MsgGUID: BiWXkmquTXS6nNNdMIouLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11652"; a="56058654"
 X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
-   d="scan'208";a="71072527"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 18:53:55 -0800
-X-CSE-ConnectionGUID: mhY8JzCbR66budecBOyQaQ==
-X-CSE-MsgGUID: 1bSeLnFiR/61fphAl5AtKQ==
+   d="scan'208";a="56058654"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Dec 2025 19:24:55 -0800
+X-CSE-ConnectionGUID: DR4lHJfaRCSeiH5INfu8rQ==
+X-CSE-MsgGUID: Bkt3+5EdSoGDNKYtCqGKnA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,177,1763452800"; 
+   d="scan'208";a="237712186"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Dec 2025 18:53:52 -0800
+  by orviesa001.jf.intel.com with ESMTP; 25 Dec 2025 19:24:55 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vYxxd-000000004dV-3Rmn;
-	Fri, 26 Dec 2025 02:53:49 +0000
-Date: Fri, 26 Dec 2025 10:53:23 +0800
+	id 1vYyRf-000000004ez-05BV;
+	Fri, 26 Dec 2025 03:24:51 +0000
+Date: Fri, 26 Dec 2025 11:24:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aaron Tomlin <atomlin@atomlin.com>, rostedt@goodmis.org,
-	mhiramat@kernel.org, mark.rutland@arm.com,
-	mathieu.desnoyers@efficios.com, corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, sean@ashe.io,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [v2 PATCH 1/1] tracing: Add bitmask-list option for
- human-readable bitmask display
-Message-ID: <202512261011.nLEYLg1y-lkp@intel.com>
-References: <20251225080216.2196411-2-atomlin@atomlin.com>
+To: Geliang Tang <geliang@kernel.org>, mptcp@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, Geliang Tang <tanggeliang@kylinos.cn>
+Subject: Re: [PATCH mptcp-next 1/3] mptcp: implement psock_update_sk_prot
+Message-ID: <202512261144.DxrvwMS3-lkp@intel.com>
+References: <f2508c5923c4ed365d6c12800e43a16761ed615a.1766653030.git.tanggeliang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,64 +62,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251225080216.2196411-2-atomlin@atomlin.com>
+In-Reply-To: <f2508c5923c4ed365d6c12800e43a16761ed615a.1766653030.git.tanggeliang@kylinos.cn>
 
-Hi Aaron,
+Hi Geliang,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on linus/master v6.19-rc2 next-20251219]
+[auto build test WARNING on mptcp/export]
+[also build test WARNING on mptcp/export-net linus/master v6.19-rc2 next-20251219]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/tracing-Add-bitmask-list-option-for-human-readable-bitmask-display/20251225-160415
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20251225080216.2196411-2-atomlin%40atomlin.com
-patch subject: [v2 PATCH 1/1] tracing: Add bitmask-list option for human-readable bitmask display
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251226/202512261011.nLEYLg1y-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512261011.nLEYLg1y-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/mptcp-implement-psock_update_sk_prot/20251225-170243
+base:   https://github.com/multipath-tcp/mptcp_net-next.git export
+patch link:    https://lore.kernel.org/r/f2508c5923c4ed365d6c12800e43a16761ed615a.1766653030.git.tanggeliang%40kylinos.cn
+patch subject: [PATCH mptcp-next 1/3] mptcp: implement psock_update_sk_prot
+config: arc-defconfig (https://download.01.org/0day-ci/archive/20251226/202512261144.DxrvwMS3-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512261144.DxrvwMS3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512261011.nLEYLg1y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512261144.DxrvwMS3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/trace_events.h:7,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:95,
-                    from include/linux/syscalls_api.h:1,
-                    from kernel/sched/sched.h:61,
-                    from kernel/sched/rq-offsets.c:5:
->> include/linux/trace_seq.h:145:1: error: redefinition of 'trace_seq_bitmask'
-     145 | trace_seq_bitmask(struct trace_seq *s, const unsigned long *maskp,
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/trace_seq.h:139:1: note: previous definition of 'trace_seq_bitmask' with type 'void(struct trace_seq *, const long unsigned int *, int)'
-     139 | trace_seq_bitmask(struct trace_seq *s, const unsigned long *maskp,
-         | ^~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1299: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   net/mptcp/protocol.c: In function 'mptcp_bpf_rebuild_protos':
+   net/mptcp/protocol.c:4043:51: error: 'sock_map_destroy' undeclared (first use in this function); did you mean 'sock_diag_destroy'?
+    4043 |         prot[MPTCP_BPF_BASE].destroy            = sock_map_destroy;
+         |                                                   ^~~~~~~~~~~~~~~~
+         |                                                   sock_diag_destroy
+   net/mptcp/protocol.c:4043:51: note: each undeclared identifier is reported only once for each function it appears in
+   net/mptcp/protocol.c:4044:51: error: 'sock_map_close' undeclared (first use in this function); did you mean 'sk_msg_clone'?
+    4044 |         prot[MPTCP_BPF_BASE].close              = sock_map_close;
+         |                                                   ^~~~~~~~~~~~~~
+         |                                                   sk_msg_clone
+   net/mptcp/protocol.c: At top level:
+>> net/mptcp/protocol.c:4079:12: warning: 'mptcp_bpf_update_proto' defined but not used [-Wunused-function]
+    4079 | static int mptcp_bpf_update_proto(struct sock *sk, struct sk_psock *psock, bool restore)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/trace_seq_bitmask +145 include/linux/trace_seq.h
+vim +/mptcp_bpf_update_proto +4079 net/mptcp/protocol.c
 
-   143	
-   144	static inline void
- > 145	trace_seq_bitmask(struct trace_seq *s, const unsigned long *maskp,
-   146			  int nmaskbits)
-   147	{
-   148	}
-   149	
+  4078	
+> 4079	static int mptcp_bpf_update_proto(struct sock *sk, struct sk_psock *psock, bool restore)
+  4080	{
+  4081		int family = sk->sk_family == AF_INET6 ? MPTCP_BPF_IPV6 : MPTCP_BPF_IPV4;
+  4082		int config = psock->progs.msg_parser   ? MPTCP_BPF_TX   : MPTCP_BPF_BASE;
+  4083	
+  4084		if (psock->progs.stream_verdict || psock->progs.skb_verdict)
+  4085			config = (config == MPTCP_BPF_TX) ? MPTCP_BPF_TXRX : MPTCP_BPF_RX;
+  4086	
+  4087		if (restore) {
+  4088			sk->sk_write_space = psock->saved_write_space;
+  4089			/* Pairs with lockless read in sk_clone_lock() */
+  4090			sock_replace_proto(sk, psock->sk_proto);
+  4091			return 0;
+  4092		}
+  4093	
+  4094		if (sk->sk_family == AF_INET6) {
+  4095			if (mptcp_bpf_assert_proto_ops(psock->sk_proto))
+  4096				return -EINVAL;
+  4097	
+  4098			mptcp_bpf_check_v6_needs_rebuild(psock->sk_proto);
+  4099		}
+  4100	
+  4101		/* Pairs with lockless read in sk_clone_lock() */
+  4102		sock_replace_proto(sk, &mptcp_bpf_prots[family][config]);
+  4103		return 0;
+  4104	}
+  4105	
 
 -- 
 0-DAY CI Kernel Test Service
