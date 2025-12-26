@@ -1,72 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FAE135A53;
-	Fri, 26 Dec 2025 19:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2515E1F461D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 20:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766777039; cv=none; b=eERWXeXDuiRgPQJmE2FAPg/nh4JyCmx9pYC2KSx3FuxAn9NxUJbOE1UYYdgtuiKmo7tKkm7sEK6eSMlhytSVTXoYNfAL4drJYWlWXHogLb387ytMG96tlvEQHPhjJ2UaHSV/2/z2Isb9fY2yLM/Juox2KbWxEX8sRcQ6j08PNOM=
+	t=1766781692; cv=none; b=uqvroS8M8R24DJZJ6sn6snpoo347gvVBxxwb4RSVyN9keMTIsR4TWkCIMJOyOwwuGoho/eN/QtMX7q6R5QhWsZKJ6yYIrI6N4YqnzApxAlEKcpqtKXe7FDgmV46UZ5EUxCCW83P+kpciGuDdQXP5vj4l9CebrC7IA8KQZLHTZH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766777039; c=relaxed/simple;
-	bh=arftM4pHFACLPUVgBSvAbrjbpZi/OEAJGwNcLXz/cac=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X38V+TbgnUgu+/HICyQIrs6pGzD2PraJB7oO345T/DxJrw3Hs7HiR0KTH7CL1bRrzgzRhtOWxd1iPyaXPXeRTeksl2/t4AKW1/X8qt+IPVLW+bDOF0cZDXgi3U0UlOGBJ0TG9FWhUmrFOwP0yOpAn7aLPuExvExiFdK/L0WIe+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UHCV8tqD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766781692; c=relaxed/simple;
+	bh=PyFxoXyQpqjaFoS+Oep2NkkcIARWnKpl4IWfANJTiVU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JORYL2tSDoVIIJSdwhJPwSVh6CStqgZnvFH6V+Ke9EGrX8wLHzKBE/FWms/2dC01XihvWk6WwxJDGxp5TJwIhu1lDRvTv1K3L8MXNWsiHicYvZ1H3VJa0hJ+bcoefb/nAaSrQ1+axpj8N+8CnDkBEco8y4i/q3HFxiWK+AZFhgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jThOXULy; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UHCV8tqD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84FB9C4CEF7;
-	Fri, 26 Dec 2025 19:23:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766777038;
-	bh=arftM4pHFACLPUVgBSvAbrjbpZi/OEAJGwNcLXz/cac=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UHCV8tqDXxDBwajW4CbneVRvxPst2VwYixAGh5xudZ6mebBfUrdfG67Kze9qc8l4m
-	 aAiLN6Tzka7bKK+LtsA1GEnw7ueh4Ws5gONOMWv7h4CQ93X0YC3PrIys1rfK0Wf+PZ
-	 Itgoa6jxyggijwD16L1+53v2PKOnN9OuqbwS372OcKhAZdyP0uFLSROPeaADhQqnhX
-	 80kdy+6RrZ36GcS2/DfRjeU9py3+q5///wzbvQ9wbr1s0QZ3t/bl9L+TZDCFCS4pLp
-	 SsFdD5xKqCT1JZkJ/7AY6NbspL5Sm5Q1Oe7BZJqND64a6H6oREoJzX2xV+/dE9kaTn
-	 jYNnF2uaAE5Fg==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 101/108] mm/memory.c:7487:1: sparse: sparse: symbol 'faults_monitor_controls_lock' was not declared. Should it be static?
-Date: Fri, 26 Dec 2025 11:23:54 -0800
-Message-ID: <20251226192355.259599-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <202512261908.fhV5eWFj-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jThOXULy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766781691; x=1798317691;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PyFxoXyQpqjaFoS+Oep2NkkcIARWnKpl4IWfANJTiVU=;
+  b=jThOXULy4fNb/mFfwTC/NDrrjvYKpIEfYUsYMDmaJ5ptwO/Uj9Mb3kQO
+   sXpanaQ8P8FSp34rMWJifPtb1QQM6TE9HEskGusBh4ntyEUDRRfVkyojp
+   FEbeo1B1QlVulFioU3Pa7wzImhwV07SuKQXNd2w0EkJfA3cWNJ26kiG2l
+   X8AfFmN8t9IPer/MhxnZjlRqi5QK+O0ejFcLrgn1B4K3Th/uAc+TFchDi
+   5ApN8d+quwTorFYLCyuOTmEDGxrTiNzw4El/YG41mMryMwPMvLI42WyhZ
+   MbiGyGBNh2RX2TsvcaJFYPg54MUx8fBTXSWvkEMLKxLYcA2TTjqKWPMWu
+   Q==;
+X-CSE-ConnectionGUID: yaLI+rFDS82odM+O7IHPMw==
+X-CSE-MsgGUID: vzEfN9Z1TRWFeqNLNrSjOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68458818"
+X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
+   d="scan'208";a="68458818"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Dec 2025 12:41:31 -0800
+X-CSE-ConnectionGUID: XYSpYpMjS8W4LFkqruQfjQ==
+X-CSE-MsgGUID: VZOYvB9xSwWguOa+bU8EcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,178,1763452800"; 
+   d="scan'208";a="223928692"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa002.fm.intel.com with ESMTP; 26 Dec 2025 12:41:28 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vZEcn-000000005LN-0zFH;
+	Fri, 26 Dec 2025 20:41:25 +0000
+Date: Sat, 27 Dec 2025 04:40:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xiaolei Wang <xiaolei.wang@windriver.com>, sakari.ailus@linux.intel.com,
+	dave.stevenson@raspberrypi.com, jacopo@jmondi.org,
+	mchehab@kernel.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+	laurent.pinchart@ideasonboard.com, hverkuil+cisco@kernel.org,
+	johannes.goede@oss.qualcomm.com, hverkuil-cisco@xs4all.nl,
+	jai.luthra@ideasonboard.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: i2c: ov5647: Convert to CCI register access
+ helpers
+Message-ID: <202512270443.nNMHyu7p-lkp@intel.com>
+References: <20251226031311.2068414-2-xiaolei.wang@windriver.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251226031311.2068414-2-xiaolei.wang@windriver.com>
 
-On Fri, 26 Dec 2025 20:00:49 +0800 kernel test robot <lkp@intel.com> wrote:
+Hi Xiaolei,
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   777b25c5baaa9e69b7ed0f963d0db781b36776c7
-> commit: e874404e9937c662290222d6cd67b7e07b82420a [101/108] mm/memory: implement functions and data structures for page faults monitoring
-> config: microblaze-randconfig-r123-20251226 (https://download.01.org/0day-ci/archive/20251226/202512261908.fhV5eWFj-lkp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251226/202512261908.fhV5eWFj-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512261908.fhV5eWFj-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> mm/memory.c:7487:1: sparse: sparse: symbol 'faults_monitor_controls_lock' was not declared. Should it be static?
+kernel test robot noticed the following build warnings:
 
-Thank you for the report, just pushed a fix:
-http://git.kernel.org/sj/c/1d3e0ce41f6d
+[auto build test WARNING on sailus-media-tree/master]
+[also build test WARNING on linus/master v6.19-rc2 next-20251219]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiaolei-Wang/media-i2c-ov5647-Convert-to-CCI-register-access-helpers/20251226-115543
+base:   git://linuxtv.org/sailus/media_tree.git master
+patch link:    https://lore.kernel.org/r/20251226031311.2068414-2-xiaolei.wang%40windriver.com
+patch subject: [PATCH 1/2] media: i2c: ov5647: Convert to CCI register access helpers
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20251227/202512270443.nNMHyu7p-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512270443.nNMHyu7p-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512270443.nNMHyu7p-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/i2c/ov5647.c: In function 'ov5647_sensor_set_register':
+>> drivers/media/i2c/ov5647.c:790:13: warning: unused variable 'ret' [-Wunused-variable]
+     790 |         int ret;
+         |             ^~~
 
 
-Thanks,
-SJ
+vim +/ret +790 drivers/media/i2c/ov5647.c
 
-[...]
+   785	
+   786	static int ov5647_sensor_set_register(struct v4l2_subdev *sd,
+   787					      const struct v4l2_dbg_register *reg)
+   788	{
+   789		struct ov5647 *sensor = to_sensor(sd);
+ > 790		int ret;
+   791	
+   792		return cci_write(sensor->regmap, reg->reg & 0xff, reg->val & 0xff, NULL);
+   793	}
+   794	#endif
+   795	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
