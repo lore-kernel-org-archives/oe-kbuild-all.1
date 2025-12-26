@@ -1,73 +1,71 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC8C313278
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 13:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782272AD2C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 13:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766754774; cv=none; b=T1jbZmiJOZkLzcU/0hdqxDuvv9gANOulXZvlwY6MPUWH14rvXI6HkqO+iHNld1Vb5T21bYpFL+YIi8mUft/0LKDicf6njru+/UzkKw/KRa+Pt0xnKH0i3EHitBVPB48jGyNY+a7vqYBd1GF8+YEgmqItX7neTh+8gYnO9UFFG7k=
+	t=1766754881; cv=none; b=DKInTzsnL2zzFa0Y8Y7JdPHf+k6VjiD0hkLoaSy32lotyK6IRQKsRPPca4OIIWqQU1WQNR5mDZw6D7X7ENER0lDXyQG2Pjaue3exL2mr2MP6ruum54Hz/13fRuTCvpq/Kr06qCwY6GmhQzzJCACfQ+dXagp+d13GXOF20hJ1m/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766754774; c=relaxed/simple;
-	bh=Zzyrkv+jDg1lPu6LLx7PPcO2dvReUtPC3A4PLs347n8=;
+	s=arc-20240116; t=1766754881; c=relaxed/simple;
+	bh=kERRHzZvOebDAwslu4VrNP7bS8OJH2AhtSFMu3b/ZZ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I2k5iWdmW2q/+EwAli3f9EqVZwUBVd1iL27ogC7jtgyA3QUktYEMbU+jhslsbRx589liYJk1fbuI+433j+Q+FFnb6ywQoFm46R/eite7nif2msLHsUjAYcxnadcDgvsrxeWClGk4/HdzxKFpTOUfROI5nP8ZPhsbApiHYBhlsWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M++qQwDx; arc=none smtp.client-ip=209.85.128.42
+	 Content-Disposition; b=okMXprfgdSvK3ueVKFMbQmgvGwgtA/3ykMChbvejYsi4cpB5RF4hayf7rWa+LPWihJGNJMPXUbyR1++I/0qeBbtm59x+vkiskUW7FIULT3XJaKQ3HwgEd2MX+mCz9l7+t/+4bJXeAKW3II1c/Eq1p0cCjj99y3ho7xZLCVk+Onc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BKg291fj; arc=none smtp.client-ip=209.85.128.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M++qQwDx"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-477a2ab455fso70134035e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 05:12:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BKg291fj"
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-47755de027eso42487155e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 Dec 2025 05:14:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1766754771; x=1767359571; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1766754878; x=1767359678; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=q7jnzss7SrgncsYKHhnBFIr8PlxYdzd1neAXYIb5ojw=;
-        b=M++qQwDxPrWpXwAvhoYcoQ7I5ghNn8hpbbH2NC185pEFjp3znypQfJkcTcAdvWr5Qy
-         gaR3Cpp0XuqmnCbEwhYAB7+CkBExmy6wF40Ik0prWN0eSDKwgXlvvRVkAOS55ivKU39T
-         RZvbi+hC6sr9Gv8NEM8ZVTRCdicRqg1CPR0K3TAvPf8oRW8DQ9/6tOA71oIyvF8b9QRg
-         0LzJSii5aXI8IlVMWIYgY54K6mxUNTSSqAsgfiE+F3zsLz6XCXaIferhBoOvAkBAiaww
-         C5spZs81O8L5fgaqXs8oFzeDQMON2P1DyFnu/i4KIcVnWJv2Byfi+9zq1gKtMmwB2Dig
-         bvrA==
+        bh=HdIKT5CyEmmmnLQNQTtHkyzlckiGsOl15OlWxIVgZkU=;
+        b=BKg291fj78bzrYFJ6hglXwTIqDplbwxiidLjWwDxrTlWFHhtOlP/3yLzj7K7ujfd6s
+         cCBqE6Rln/6by/p2R8NQsHdpt961xVIDgcLjI1Y3weIFF2TCFas6+KmmLzPw/Aclmw4z
+         4dGLAaEqy7eRIOH+Q1Q+652U0MGPC7SjKGW32hvxmk+ZkuZkslWcqJf29aAVBWzwsSHz
+         LGN5bdcua+mJBOffzwTVzIFtWZIiNVdX8tNFU8HJlrNKUe/7NIRkSapp1+Yu4aDsYQpP
+         JLfrglk2BsfnAawFk/AwnSUmFm+NtW/iR1rcziQ+UsBGHwj0wZaHb0N+AYT59UjnWh9o
+         6P4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766754771; x=1767359571;
+        d=1e100.net; s=20230601; t=1766754878; x=1767359678;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=q7jnzss7SrgncsYKHhnBFIr8PlxYdzd1neAXYIb5ojw=;
-        b=rGprW69gWGrDE999pfyRzCYgcGnb2Eo6fPXwIcHBgMp736xcNfLHFxWFWmqYYRBrxe
-         CjiPFXoUAyfvP3nOEX7YiqYZ1qRAgr7Jx4r98HCHSGk/F0Kw/BmzEgriiCesaU3EUfRA
-         IsFsC+AuRVVjtWC2OykT6UGeEZVElsIpLwLrwG/8VwXRWmGzhcV/6h0DuQj6oSouR8Fp
-         Ho5a0fb8DlINjU4kT1tT4fR3eJfS/PiLX8VZfuWZB+Nogy5Emc4gieMucBSM7A3YSPoh
-         7G+aPaRwVbt/NKkDLHTc+6v9+jagEh1NXm+0ACwpMUoUJTxAn8Niu++AcvyRHzo2GQAM
-         saoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWMdA7qQ25tZPrXxzRZ2M4zEN0YkysRUFI1eqz0FriPDj/Q76yYPa0vNJ9zB/D+ReNaswYxhsUCv7Mxap7l@lists.linux.dev
-X-Gm-Message-State: AOJu0YzC/sZh+/QZdZ1SOOlIXkf1WtBYlaAKZwvaRAL9fPDOS9Vinei5
-	eY0uCshKjSUF2kOvP3EYV5+/9sVK8Lwudmpw7rPCJAa75sio01wZXA82WW6EwdzCZlY=
-X-Gm-Gg: AY/fxX7g5hUgKKv6soCmW1clukvPHq7k4Jd8/b+OmPu2xhJ/S9q5aPaQdew60velKcG
-	3oqF5EaLG5FTHQZoSHCRr41kKqnLbVIYf6jttshtZvG1lR4jrXR7bnvLEvZD22TasnnF2lSvVmK
-	/JyZnLJsRCB1rydfEjyuhsxWnHE9cSZJCAt8Vbnfr+Bmg6Maui9BbllDwnJtUhDj//zzGnwPBgx
-	E2hNHYVyS8VzRQIqItxtkiuMB87gDzoErhRF2bJhUDBMXt2pIAsD56eeJcYmKC4rbNt0ubrFe4z
-	SxoN8lti91NuoNCWX5AJKyDWNsn5X46uL2ROc6BoIUPUnsBZAezPrDAhv498gLDGcFvFHIB+p1k
-	txNjZVwe0m3hKyRoEpxON00qkuuvWzyPm7Fcyg0gs36DiQi9bOIs+6Vf1fBNVbAdIhKAkdgWhTK
-	wVk5IkbOt4FKp7Clzk
-X-Google-Smtp-Source: AGHT+IGKzcbgQ+tXH1pXY7Tmn2bUwHhALa3rlAg9XLT80pEqkBwfhsO4hiRp/bMzr/tOXSWghlfGDA==
-X-Received: by 2002:a05:600c:3b1f:b0:477:9b4a:a82 with SMTP id 5b1f17b1804b1-47d36c75e0cmr122805055e9.35.1766754770832;
-        Fri, 26 Dec 2025 05:12:50 -0800 (PST)
+        bh=HdIKT5CyEmmmnLQNQTtHkyzlckiGsOl15OlWxIVgZkU=;
+        b=eNgQBSC5yHmXfvjiBUsxv7ky/d2DFam2MwxGZziHB6B74eAoBECbtcqB1+TiEDIY2o
+         cBu4HJ1og/DbS+4aTmTCubvipjWD5mo4txvYYDfPoFkswxUeNl8JW4stgQg1ruyUSU63
+         c8LlrPWlxU4atpcQQRhfdL7bkTT5y7TcHDutF/q86xkpybl7oSCOoXme53hsrE8cYAWL
+         wkFMQuSGdYoaejndogLMcPSAJLe58bQ3s3RecPTuzXTveWtdUeKNQeMD51d/Idct8Wva
+         R91PVn9+5+am7HW/8IJQb1CLk2QygEThQZBSKkO5tlwiOZnADsq+1Jp4I7dC5fF5S5LL
+         DY+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWrS7yayywXg9Xgc2HODqSod9vqbPkEmX35R5v07+AQpopsvWMU1dOX2Vg3/K7jUfWawEzscrqtrkwGrDJT@lists.linux.dev
+X-Gm-Message-State: AOJu0YzTkD3Z04Cg/ONH73G8HQbW3x9/XQUpGJI6gtZkWfVSWcxJmbaF
+	wmxmHYxadpo8dEGNagPUpeBfCBScu/yVs15WKH9QJoAbJR7NQw603agxLvcnsUr1Tqo=
+X-Gm-Gg: AY/fxX4RxV4+mxpqhgB0jTqQe+/cf9e53SBKgzFNkGik05wJ2HdV9Oo28kMnmqSA6mJ
+	sekHkw6Y/hv+/t5pl6IL+ENMPjN08g048C1Mym7oVMfE8Ez6+WQgjTjlCBZ1vkE7gKnypddyBpc
+	ZJcV5UffFGt2/jUVfbZz4F5kxJRthfu+fHx1FL7yRzkHI4kZeUVzibAq6etSCWNKyMmJp0SmnIy
+	wyukqNORZ4ToWfvWPqaBWbR/vgLK45Zn+Z+cYCECClVfYNEvhB+12VZVwgH7v7Qqb9wRMPVy/y6
+	LnJ3mdTGY9svzFXefSiIk0qMYrgXfaTVrKd6P1a9LmIPd2j7zdE+6hec+EZmRUNK4/ibSv409+9
+	vpBTfKixkCWG1ZR5IMCUYdgICpiF4bZTnvYOEnsX3h4Hltz+QN5drjZMP2jc2OZ1JIZWknH/wJM
+	GzOQ2YvlV8f26ILiWf
+X-Google-Smtp-Source: AGHT+IH9GWAJJr6VzgSN/cEleuRucyLjOeSxG2SPmXEbEB98sLdwV5IOEfVFvfSIFBlPWKdctuROdA==
+X-Received: by 2002:a05:6000:250a:b0:431:66a:cbc4 with SMTP id ffacd0b85a97d-4324e4cc43dmr25195530f8f.17.1766754877729;
+        Fri, 26 Dec 2025 05:14:37 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be279c5f8sm423216845e9.9.2025.12.26.05.12.49
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab33f5sm45859368f8f.41.2025.12.26.05.14.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Dec 2025 05:12:50 -0800 (PST)
-Date: Fri, 26 Dec 2025 16:12:47 +0300
+        Fri, 26 Dec 2025 05:14:37 -0800 (PST)
+Date: Fri, 26 Dec 2025 16:14:33 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
-	Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: [rafael-pm:bleeding-edge 69/72] drivers/acpi/bus.c:339
- acpi_osc_handshake() warn: variable dereferenced before check 'cap' (see
- line 332)
-Message-ID: <202512242052.W4GhDauV-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 50/50]
+ drivers/dma-buf/heaps/system_heap.c:347 system_heap_dma_buf_release() error:
+ buffer overflow 'pools' 3 <= 3 (assuming for loop doesn't break)
+Message-ID: <202512251032.CRikw3RC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,52 +75,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   e08ef982088f28cd65654693f29ffe430a9d4d66
-commit: e5322888e6bf4ec17964a93638c9b14433a2f6f1 [69/72] ACPI: bus: Rework the handling of \_SB._OSC platform features
-config: x86_64-randconfig-161-20251224 (https://download.01.org/0day-ci/archive/20251224/202512242052.W4GhDauV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   1937a62dd1dad3155e2ec8c130f263e8f74ddf32
+commit: b882b8502c3496eb2520d2d03fa94f7e6fa23075 [50/50] ANDROID: dma-buf: system_heap: Add pagepool support to system heap
+config: arm-randconfig-r071-20251224 (https://download.01.org/0day-ci/archive/20251225/202512251032.CRikw3RC-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512242052.W4GhDauV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512251032.CRikw3RC-lkp@intel.com/
 
-New smatch warnings:
-drivers/acpi/bus.c:339 acpi_osc_handshake() warn: variable dereferenced before check 'cap' (see line 332)
-drivers/acpi/bus.c:339 acpi_osc_handshake() warn: sizeof(NUMBER)?
+smatch warnings:
+drivers/dma-buf/heaps/system_heap.c:347 system_heap_dma_buf_release() error: buffer overflow 'pools' 3 <= 3 (assuming for loop doesn't break)
 
-Old smatch warnings:
-drivers/acpi/bus.c:297 acpi_run_osc() warn: sizeof(NUMBER)?
+vim +347 drivers/dma-buf/heaps/system_heap.c
 
-vim +/cap +339 drivers/acpi/bus.c
+5f9d15ca7993a6 John Stultz 2020-09-25  329  static void system_heap_dma_buf_release(struct dma_buf *dmabuf)
+5f9d15ca7993a6 John Stultz 2020-09-25  330  {
+5f9d15ca7993a6 John Stultz 2020-09-25  331  	struct system_heap_buffer *buffer = dmabuf->priv;
+5f9d15ca7993a6 John Stultz 2020-09-25  332  	struct sg_table *table;
+5f9d15ca7993a6 John Stultz 2020-09-25  333  	struct scatterlist *sg;
+b882b8502c3496 John Stultz 2019-06-06  334  	int i, j;
+b882b8502c3496 John Stultz 2019-06-06  335  
+b882b8502c3496 John Stultz 2019-06-06  336  	/* Zero the buffer pages before adding back to the pool */
+b882b8502c3496 John Stultz 2019-06-06  337  	system_heap_zero_buffer(buffer);
+5f9d15ca7993a6 John Stultz 2020-09-25  338  
+5f9d15ca7993a6 John Stultz 2020-09-25  339  	table = &buffer->sg_table;
+679d94cd7d9008 Guangming   2021-11-26  340  	for_each_sgtable_sg(table, sg, i) {
+0597bca8783840 John Stultz 2020-09-26  341  		struct page *page = sg_page(sg);
+0597bca8783840 John Stultz 2020-09-26  342  
+b882b8502c3496 John Stultz 2019-06-06  343  		for (j = 0; j < NUM_ORDERS; j++) {
+b882b8502c3496 John Stultz 2019-06-06  344  			if (compound_order(page) == orders[j])
+b882b8502c3496 John Stultz 2019-06-06  345  				break;
 
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  328  static int acpi_osc_handshake(acpi_handle handle, const char *uuid_str,
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  329  			      int rev, struct acpi_buffer *cap)
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  330  {
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  331  	union acpi_object in_params[4], *out_obj;
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22 @332  	size_t bufsize = cap->length / sizeof(u32);
-                                                                         ^^^^^^^^^^^
-The cap pointer is dereferenced here.
+If we don't hit this break
 
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  333  	struct acpi_object_list input;
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  334  	struct acpi_buffer output;
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  335  	u32 *capbuf, *retbuf, test;
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  336  	guid_t guid;
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  337  	int ret, i;
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  338  
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22 @339  	if (!cap || cap->length < 2 * sizeof(32) || guid_parse(uuid_str, &guid))
-                                                            ^^^^
-Checked too late.
-                                                                                      ^^^^^^^^^^
-Also this sizeof(32) should be sizeof(u32) although both are the same
-so the current code works.
+b882b8502c3496 John Stultz 2019-06-06  346  		}
+b882b8502c3496 John Stultz 2019-06-06 @347  		dmabuf_page_pool_free(pools[j], page);
+                                                                                    ^
+then j is out of bounds.
 
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  340  		return -EINVAL;
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  341  
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  342  	/* First evaluate _OSC with OSC_QUERY_ENABLE set. */
-e5322888e6bf4e Rafael J. Wysocki 2025-12-22  343  	capbuf = cap->pointer;
+0597bca8783840 John Stultz 2020-09-26  348  	}
+5f9d15ca7993a6 John Stultz 2020-09-25  349  	sg_free_table(table);
+efa04fefebbd72 John Stultz 2019-12-03  350  	kfree(buffer);
+efa04fefebbd72 John Stultz 2019-12-03  351  }
 
 -- 
 0-DAY CI Kernel Test Service
