@@ -1,132 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2467524466D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Dec 2025 17:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5594D8821;
+	Sat, 27 Dec 2025 18:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766855204; cv=none; b=Ofr0X4wcvM3icaGyM18Nd8Ao7EFxY8NN2nTmQufHQsqWBo/k8/0EIfCa6OgIwdskmu5I8T3Oy6ey8Fn3TleSI+Rj1xLO16psxG4SN13amS3a5Y8/DnTKhh6XBvR0pjJjf7BscwfQFnojDl8dRsrSoTMr2IjfSpWm5vak4ukBX+o=
+	t=1766858450; cv=none; b=Vg3XPUlhxir81mDfoC078sgHeDu5LQS9Fxe67v51gGHm1oiO6iClyGHEzOU8mVWdrU2FF29Xj0CpyFDbfbpL6iLUSeQUwnTMhYVzk1y3ql0sHPgXCx2fPtDzMQXiQR/JIbvdxduXjvQFQ/faovH8+Wo3XxMabUy1UtAQhPWSjHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766855204; c=relaxed/simple;
-	bh=wuuLWfm5DH4MOEfh+cVrhCpfpoxPtTUiU+LtWBgTOkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Wv2rrAS3wTX70CMRkcBgNG5jG6coxQj+Ss89/V3Ns5gQXYsooGz/gx1SE083R+dLccHf97Fy5qI1/Z8U4Y9JyEHUb07M7k7QeXbQlamk0IxHv9DOVoYsU8Hwb5+F0BBnCY6UqXFsu7y8P+aXibJubTkdduE3Fz6CAR/gAV0Rzj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RRSP5ryh; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1766858450; c=relaxed/simple;
+	bh=dfMzVbUsUWI/Up7Epdsz4KniuUIfKHXlQdyRBHdUDDY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=F+x/fFN2BfbLIfu0Eew8NAK2mRWvPydZt7GF0f0VFaJZG6QYLUVBvjn5XqroGmfhmiPDoUOWQDmNssKH9AU5L9lb5mvs0VwmOLYLb/AOI1G6N+eZ3XzGz/vDcIu9OzH+xOcyh6gKi/RDlaDpINkh1m/YcjlmzHzDvzwjJ56QRaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWWaASGL; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RRSP5ryh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWWaASGL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766855202; x=1798391202;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wuuLWfm5DH4MOEfh+cVrhCpfpoxPtTUiU+LtWBgTOkM=;
-  b=RRSP5ryhAKN3Kswwd2jmd1THU8PaKDW/9y12m7HC/LQS4RaKWkjxROWc
-   /ssQC5qe62WjGFx++fAnBGVVVpYOHvSeL79LQb9Un8Rj79zAZQc6SAqQn
-   yLwJwetzIG15ErHup/Cj+6aR7o7BUgSYF0yNLZs1FqYTAUj1b/Ip/0hJo
-   eZt5FZlYbv/3k2INuwXvJ0Hjj+iuDXy0wrH1hxORnUJZSz4zadG3bzEwP
-   Ec37yrW9WBjkQPkChr+uZ9BmPo4KFZDdxz3sZMoiOqD2Rxn6qjnZPCvDh
-   LuEnG2s+EMfVT2tZOKHVf2/Ple2iZFO3jKHhL41RehCDsx1qT4BGvmCa4
+  t=1766858448; x=1798394448;
+  h=date:from:to:cc:subject:message-id;
+  bh=dfMzVbUsUWI/Up7Epdsz4KniuUIfKHXlQdyRBHdUDDY=;
+  b=gWWaASGLf/dExSU9CFnZdKo1Ryi8cmKg5c7/FCinCkAJZre8GQe4NDfX
+   Ns1hJkytdLbHV0s2PoSvo5SSMzevP8rbX72wv75B6jMOmBrvKwVB5OwN/
+   5dNSNqao9jVO1aQkexyaj+4lyJyUGmu5z9feC/IAdnbhdXqfYmjlDZUCa
+   ckHecXjc2rm9Y4sLC05CmWMa/uydGmJyy51Z/NeFMSgXZ5D1+M2qX+8n5
+   hwLhjgucVwlzWvs0fosOkm4RFHId9zzW7Po6kko2fvc6c5bI4BNane3Ol
+   niHxRN5lEyMvNF1/46fQew2LeVx4HRY5qr1AFvMD1dEarRr052t+HoUp2
    w==;
-X-CSE-ConnectionGUID: 1FPWkW7ISDS634Xga7L1ug==
-X-CSE-MsgGUID: 3LYmQRibQWynevO4ZgdFng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="68531981"
+X-CSE-ConnectionGUID: Ot/rHGrRTS6LcWbwWC00/w==
+X-CSE-MsgGUID: VG/G8q5jT+WwSBgeA0VcqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="72403115"
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="68531981"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 09:06:41 -0800
-X-CSE-ConnectionGUID: xSEujfr8QceCP4r2AytQBA==
-X-CSE-MsgGUID: DuNJYorUTbabANnAhlxqLg==
+   d="scan'208";a="72403115"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 10:00:47 -0800
+X-CSE-ConnectionGUID: YUFIY6X4QAy+s115kP+qWg==
+X-CSE-MsgGUID: W+rHEYOvR8OLOfGGvNATPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="200492145"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Dec 2025 09:06:40 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="200885767"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 27 Dec 2025 10:00:46 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZXkU-000000007Em-2zvp;
-	Sat, 27 Dec 2025 17:06:38 +0000
-Date: Sat, 27 Dec 2025 18:06:04 +0100
+	id 1vZYap-00000000601-3EhM;
+	Sat, 27 Dec 2025 18:00:43 +0000
+Date: Sun, 28 Dec 2025 02:00:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.19-rc 65/111]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb:
- ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do
- not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-Message-ID: <202512271835.tBOumO6P-lkp@intel.com>
+To: Chao Yu <chao@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [chao:feature/lock_trace 12/12] ld.lld: error: duplicate
+ symbol: f2fs_simulate_lock_timeout
+Message-ID: <202512280117.JBZPJlQ0-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-rc
-head:   fff6186ad59ed77c50897afb2a9258b9b260308d
-commit: 3339397672bd2845fd3df9473b698e6d9dfb3cdc [65/111] arm64: dts: r4pro: add gmac 1+2 and phys
-config: arm64-randconfig-2052-20251220 (https://download.01.org/0day-ci/archive/20251227/202512271835.tBOumO6P-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512271835.tBOumO6P-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/lock_trace
+head:   a9004baf110bf87f6a75b023c26616d966c93733
+commit: a9004baf110bf87f6a75b023c26616d966c93733 [12/12] f2fs: sysfs: introduce inject_lock_timeout
+config: x86_64-buildonly-randconfig-004-20251227 (https://download.01.org/0day-ci/archive/20251228/202512280117.JBZPJlQ0-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512280117.JBZPJlQ0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512271835.tBOumO6P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512280117.JBZPJlQ0-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:685.24-706.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: duplicate symbol: f2fs_simulate_lock_timeout
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/dir.o:(f2fs_simulate_lock_timeout)
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/file.o:(.text+0x8)
 --
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-emmc.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
+>> ld.lld: error: duplicate symbol: __cfi_f2fs_simulate_lock_timeout
+   >>> defined at dir.c
+   >>>            fs/f2fs/dir.o:(__cfi_f2fs_simulate_lock_timeout)
+   >>> defined at file.c
+   >>>            fs/f2fs/file.o:(.text+0x0)
 --
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
+>> ld.lld: error: duplicate symbol: f2fs_simulate_lock_timeout
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/dir.o:(f2fs_simulate_lock_timeout)
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/extent_cache.o:(.text+0x8)
 --
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn15.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
+>> ld.lld: error: duplicate symbol: __cfi_f2fs_simulate_lock_timeout
+   >>> defined at dir.c
+   >>>            fs/f2fs/dir.o:(__cfi_f2fs_simulate_lock_timeout)
+   >>> defined at extent_cache.c
+   >>>            fs/f2fs/extent_cache.o:(.text+0x0)
 --
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-hog.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: ethernet-phy@24 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro-8x-sd-cn18.dtb: ethernet-phy@28 (ethernet-phy-ieee802.3-c45): leds: 'led0@0', 'led1@1' do not match any of the regexes: '^led@[a-f0-9]+$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
+>> ld.lld: error: duplicate symbol: f2fs_simulate_lock_timeout
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/dir.o:(f2fs_simulate_lock_timeout)
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/shrinker.o:(.text+0x8)
+--
+>> ld.lld: error: duplicate symbol: __cfi_f2fs_simulate_lock_timeout
+   >>> defined at dir.c
+   >>>            fs/f2fs/dir.o:(__cfi_f2fs_simulate_lock_timeout)
+   >>> defined at shrinker.c
+   >>>            fs/f2fs/shrinker.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: f2fs_simulate_lock_timeout
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/dir.o:(f2fs_simulate_lock_timeout)
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/recovery.o:(.text+0x8)
+--
+>> ld.lld: error: duplicate symbol: __cfi_f2fs_simulate_lock_timeout
+   >>> defined at dir.c
+   >>>            fs/f2fs/dir.o:(__cfi_f2fs_simulate_lock_timeout)
+   >>> defined at recovery.c
+   >>>            fs/f2fs/recovery.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: f2fs_simulate_lock_timeout
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/dir.o:(f2fs_simulate_lock_timeout)
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/segment.o:(.text+0x8)
+--
+>> ld.lld: error: duplicate symbol: __cfi_f2fs_simulate_lock_timeout
+   >>> defined at dir.c
+   >>>            fs/f2fs/dir.o:(__cfi_f2fs_simulate_lock_timeout)
+   >>> defined at segment.c
+   >>>            fs/f2fs/segment.o:(.text+0x0)
+--
+>> ld.lld: error: duplicate symbol: f2fs_simulate_lock_timeout
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/dir.o:(f2fs_simulate_lock_timeout)
+   >>> defined at f2fs.h:4945 (fs/f2fs/f2fs.h:4945)
+   >>>            fs/f2fs/node.o:(.text+0x8)
+..
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_DEV
+   Depends on [n]: NETDEVICES [=n] && CAN [=m]
+   Selected by [m]:
+   - CAN [=m] && NET [=y]
 
 -- 
 0-DAY CI Kernel Test Service
