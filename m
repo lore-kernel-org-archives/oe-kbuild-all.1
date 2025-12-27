@@ -1,240 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306152459DD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Dec 2025 08:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150D913DDAE;
+	Sat, 27 Dec 2025 08:50:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766824156; cv=none; b=E0k4qbPbs7i5Y68GzyRdIMmclTLk3bVz7TcL2MmEWMoUu5sV2WRsaEk5uwQ/53yhda/EN01ViI+ukR+KRmpORHJwUh8bK0wQv5WAQLc5St/bcXPF+8rCZVCEWtjGKg7GEnQg153EwGY5DjW+0wgFo5+qLb9ICssFZ0LdewkToVQ=
+	t=1766825427; cv=none; b=is2wzUvP9RwTstSnUL2hlWpnYeRgGnKV+rDp+hUSaQ/9f7wn+jTLH/iIS1VL4WiAI3bgUxnss3UGgoyp5KmqC51apARVnhKUh46SBD5uPSoMRQJu72u/Z5+xadcvG2+WdaJmjT8Sv7A59UztqOOC+yLUfZxuuN1EjrREz+zwvZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766824156; c=relaxed/simple;
-	bh=rgbioE1kNuN4IB/0y7On2ZcDv/ZZzU/hnI8SplipHFs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BRdPj8AM3mIpw/z2NJueHQrsbyMlInxQhTSUEUM47Z2bo+Chr85xNPRwtwlBLjrUSY0gL2xmBDvfrgY1YNeNiDNnNPz6FGJ5tk37GpaBXK2GG4vBjRYUB9GX1u2Q2EOe/pr2cJj+8G1rBLlG+sF+MQ8Adyn0AFbiVeHj2zQMhcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nScwh65u; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1766825427; c=relaxed/simple;
+	bh=RTojEMiAD/uiUEkVv8WCKlz5qD03a5+9MsYox/dtBt0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=adsevh+FQxrkD3hN/tGAT2GgScW4d2Xj3yhQRQCMJn5f7/A+714A91RftbQp3Qfb9WxYNi+17mhwyAJl1s+2Cv+y/X7GEOJuQep1k1NJq7HILnYeJmghjfkk1GZ525Mn1v5yxO9CAboPos9bdviyChoI6guXmuF25q5EbxpFa+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J7XzFEBN; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nScwh65u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J7XzFEBN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766824154; x=1798360154;
-  h=date:from:to:cc:subject:message-id;
-  bh=rgbioE1kNuN4IB/0y7On2ZcDv/ZZzU/hnI8SplipHFs=;
-  b=nScwh65u8oskKjrHnLKtczqyiHJ4aooOeQDYIuwKVR+g/IKZ7szOYosx
-   d4bOKzIAQbd8LGKP7MPvPJDbzIYFiBbRhoibUABmNZ0+HwmRzuAufxuB4
-   1vysburUs0BlQs6qcQQriSEVVGtqki3VmBG5fZLutJKle5hCsuiLLj1R7
-   mzfk/WVT6xfiGd9+TQsq419GSaLcu7hy7dY8ATkO9iF7xqXQ5l4xNAmwr
-   2rTSKfC0yab0bvJjvg++eN82+YNF9Y9XXtD1m8lysbxfEI6K0vWkboVTd
-   VwEV5VkS+sbPBFbuLLW2qWmsSqvvTLPvw0IzE0jFp0qK7oMrcryyFKpY+
+  t=1766825425; x=1798361425;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RTojEMiAD/uiUEkVv8WCKlz5qD03a5+9MsYox/dtBt0=;
+  b=J7XzFEBN4EFbFyu+gkedVrIxTnIvhzmlMicx/TMWkSRZy563N2RZIrdC
+   WfTY6ZiCv7XYwlEAS9y4377hLtdu4g8dFfuEHlYjyulYEL30wNaOPk3Tf
+   Zq90gdkf7KesmkBL/rD94oA3kK7+obReSD0j88RnKZQW3bll8XoOOcA8D
+   QY/iBeptoKLaWzn2lzz96Vn6TjgvH1Z2+lqt+8c+KePdJCYh321BOHQhJ
+   noBMgVRhYecmS4E94haG+YHHM8TPqv/S4soWAbw7ovW87P+KfeIexWsgw
+   M44CqGouQupe3UU6a2WFAAxhjXnKtTapjm6yfn5qoibFQnekcNfWIbIJu
    g==;
-X-CSE-ConnectionGUID: zUh/t3GAQAOLSQVIq1L/7A==
-X-CSE-MsgGUID: uXZ46KrZRquXVQtklGLC/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="79988945"
+X-CSE-ConnectionGUID: sW7dJuqwT/6fqzPz/2q28A==
+X-CSE-MsgGUID: 8jBf25izTiOUz0bYP6xRJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11653"; a="85957979"
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="79988945"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 00:29:13 -0800
-X-CSE-ConnectionGUID: ReprT1WKR9G7geCjm7hxvQ==
-X-CSE-MsgGUID: TsVFkOKlTECpUyNLMdWsJQ==
+   d="scan'208";a="85957979"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 00:50:24 -0800
+X-CSE-ConnectionGUID: kEUaqMdDROuKkw6VwT9uhg==
+X-CSE-MsgGUID: tYrD3lycQiO3GJGRIEib5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="205009704"
+   d="scan'208";a="237927639"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Dec 2025 00:29:11 -0800
+  by orviesa001.jf.intel.com with ESMTP; 27 Dec 2025 00:50:19 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZPfh-000000005g5-21RM;
-	Sat, 27 Dec 2025 08:29:09 +0000
-Date: Sat, 27 Dec 2025 16:28:47 +0800
+	id 1vZQ04-000000005hJ-2JLG;
+	Sat, 27 Dec 2025 08:50:13 +0000
+Date: Sat, 27 Dec 2025 16:49:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:pmdunify 3/6]
- arch/x86/include/asm/pgtable-3level.h:144:41: error: 'pmd_t' has no member
- named 'entry'
-Message-ID: <202512271636.dCQ1m2IM-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Vincent Mailhol <mailhol@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Chris Mason <chris.mason@fusionio.com>,
+	David Sterba <dsterba@suse.com>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	linux-sparse@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-btrfs@vger.kernel.org, linux-hardening@vger.kernel.org,
+	Vincent Mailhol <mailhol@kernel.org>
+Subject: Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and
+ is_negative()
+Message-ID: <202512271618.33YepxDC-lkp@intel.com>
+References: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251220-remove_wtype-limits-v3-3-24b170af700e@kernel.org>
 
-Hi Alex,
+Hi Vincent,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/alexshi/linux.git pmdunify
-head:   694b5dc7bcd7ba28db0bc95b24a78861bdffefc7
-commit: 38ff6617fbf7d3b0ad7fda7fb1c5b0cdca9f7123 [3/6] arch/x86: unify pmd_t/pud_t/p4d_t member name to entry
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251227/202512271636.dCQ1m2IM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512271636.dCQ1m2IM-lkp@intel.com/reproduce)
+[auto build test WARNING on 3e7f562e20ee87a25e104ef4fce557d39d62fa85]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Mailhol/kbuild-remove-gcc-s-Wtype-limits/20251220-190509
+base:   3e7f562e20ee87a25e104ef4fce557d39d62fa85
+patch link:    https://lore.kernel.org/r/20251220-remove_wtype-limits-v3-3-24b170af700e%40kernel.org
+patch subject: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()
+config: sparc-randconfig-r072-20251227 (https://download.01.org/0day-ci/archive/20251227/202512271618.33YepxDC-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512271636.dCQ1m2IM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512271618.33YepxDC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/block/nbd.c:1612 __nbd_ioctl() warn: unsigned '_a' is never less than zero.
 
-   include/linux/atomic/atomic-instrumented.h:4918:37: error: passing argument 2 of '__try_cmpxchg64' makes pointer from integer without a cast [-Wint-conversion]
-    4918 |         raw_try_cmpxchg64(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |                                     ^~~~~~~~~
-         |                                     |
-         |                                     int
-   arch/x86/include/asm/pgtable-3level.h:25:24: note: in expansion of macro 'try_cmpxchg64'
-      25 |         do { } while (!try_cmpxchg64(_p, &_o, (_val)));                 \
-         |                        ^~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable-3level.h:58:9: note: in expansion of macro 'pxx_xchg64'
-      58 |         pxx_xchg64(pud, pudp, native_pud_val(pud));
-         |         ^~~~~~~~~~
-   arch/x86/include/asm/cmpxchg_32.h:61:69: note: expected 'u64 *' {aka 'long long unsigned int *'} but argument is of type 'int'
-      61 | static __always_inline bool __try_cmpxchg64(volatile u64 *ptr, u64 *oldp, u64 new)
-         |                                                                ~~~~~^~~~
-   arch/x86/include/asm/pgtable-3level.h: In function 'native_pudp_get_and_clear':
-   arch/x86/include/asm/pgtable-3level.h:115:27: error: unknown type name 'pudval_t'; did you mean 'pgdval_t'?
-     115 |         return pxx_xchg64(pud, pudp, 0ULL);
-         |                           ^~~
-   arch/x86/include/asm/pgtable-3level.h:23:9: note: in definition of macro 'pxx_xchg64'
-      23 |         _pxx##val_t *_p = (_pxx##val_t *)_ptr;                          \
-         |         ^~~~
-   arch/x86/include/asm/pgtable-3level.h:115:27: error: 'pudval_t' undeclared (first use in this function); did you mean 'pgdval_t'?
-     115 |         return pxx_xchg64(pud, pudp, 0ULL);
-         |                           ^~~
-   arch/x86/include/asm/pgtable-3level.h:23:28: note: in definition of macro 'pxx_xchg64'
-      23 |         _pxx##val_t *_p = (_pxx##val_t *)_ptr;                          \
-         |                            ^~~~
-   arch/x86/include/asm/pgtable-3level.h:23:41: error: expected expression before ')' token
-      23 |         _pxx##val_t *_p = (_pxx##val_t *)_ptr;                          \
-         |                                         ^
-   arch/x86/include/asm/pgtable-3level.h:115:16: note: in expansion of macro 'pxx_xchg64'
-     115 |         return pxx_xchg64(pud, pudp, 0ULL);
-         |                ^~~~~~~~~~
-   arch/x86/include/asm/pgtable-3level.h:24:21: error: expected ';' before '_o'
-      24 |         _pxx##val_t _o = *_p;                                           \
-         |                     ^~
-   arch/x86/include/asm/pgtable-3level.h:115:16: note: in expansion of macro 'pxx_xchg64'
-     115 |         return pxx_xchg64(pud, pudp, 0ULL);
-         |                ^~~~~~~~~~
-   arch/x86/include/asm/pgtable-3level.h:25:43: error: '_o' undeclared (first use in this function); did you mean '_p'?
-      25 |         do { } while (!try_cmpxchg64(_p, &_o, (_val)));                 \
-         |                                           ^~
-   include/linux/atomic/atomic-instrumented.h:4914:16: note: in definition of macro 'try_cmpxchg64'
-    4914 |         typeof(oldp) __ai_oldp = (oldp); \
-         |                ^~~~
-   arch/x86/include/asm/pgtable-3level.h:115:16: note: in expansion of macro 'pxx_xchg64'
-     115 |         return pxx_xchg64(pud, pudp, 0ULL);
-         |                ^~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4917:49: error: invalid type argument of unary '*' (have 'int')
-    4917 |         instrument_read_write(__ai_oldp, sizeof(*__ai_oldp)); \
-         |                                                 ^~~~~~~~~~
-   arch/x86/include/asm/pgtable-3level.h:25:24: note: in expansion of macro 'try_cmpxchg64'
-      25 |         do { } while (!try_cmpxchg64(_p, &_o, (_val)));                 \
-         |                        ^~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable-3level.h:115:16: note: in expansion of macro 'pxx_xchg64'
-     115 |         return pxx_xchg64(pud, pudp, 0ULL);
-         |                ^~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:4917:31: error: passing argument 1 of 'instrument_read_write' makes pointer from integer without a cast [-Wint-conversion]
-    4917 |         instrument_read_write(__ai_oldp, sizeof(*__ai_oldp)); \
-         |                               ^~~~~~~~~
-         |                               |
-         |                               int
-   arch/x86/include/asm/pgtable-3level.h:25:24: note: in expansion of macro 'try_cmpxchg64'
-      25 |         do { } while (!try_cmpxchg64(_p, &_o, (_val)));                 \
-         |                        ^~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable-3level.h:115:16: note: in expansion of macro 'pxx_xchg64'
-     115 |         return pxx_xchg64(pud, pudp, 0ULL);
-         |                ^~~~~~~~~~
-   include/linux/instrumented.h:52:72: note: expected 'const volatile void *' but argument is of type 'int'
-      52 | static __always_inline void instrument_read_write(const volatile void *v, size_t size)
-         |                                                   ~~~~~~~~~~~~~~~~~~~~~^
-   include/linux/atomic/atomic-instrumented.h:4918:27: error: passing argument 1 of '__try_cmpxchg64' from incompatible pointer type [-Wincompatible-pointer-types]
-    4918 |         raw_try_cmpxchg64(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |                           ^~~~~~~~
-         |                           |
-         |                           int *
-   arch/x86/include/asm/pgtable-3level.h:25:24: note: in expansion of macro 'try_cmpxchg64'
-      25 |         do { } while (!try_cmpxchg64(_p, &_o, (_val)));                 \
-         |                        ^~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable-3level.h:115:16: note: in expansion of macro 'pxx_xchg64'
-     115 |         return pxx_xchg64(pud, pudp, 0ULL);
-         |                ^~~~~~~~~~
-   arch/x86/include/asm/cmpxchg_32.h:61:59: note: expected 'volatile u64 *' {aka 'volatile long long unsigned int *'} but argument is of type 'int *'
-      61 | static __always_inline bool __try_cmpxchg64(volatile u64 *ptr, u64 *oldp, u64 new)
-         |                                             ~~~~~~~~~~~~~~^~~
-   include/linux/atomic/atomic-instrumented.h:4918:37: error: passing argument 2 of '__try_cmpxchg64' makes pointer from integer without a cast [-Wint-conversion]
-    4918 |         raw_try_cmpxchg64(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |                                     ^~~~~~~~~
-         |                                     |
-         |                                     int
-   arch/x86/include/asm/pgtable-3level.h:25:24: note: in expansion of macro 'try_cmpxchg64'
-      25 |         do { } while (!try_cmpxchg64(_p, &_o, (_val)));                 \
-         |                        ^~~~~~~~~~~~~
-   arch/x86/include/asm/pgtable-3level.h:115:16: note: in expansion of macro 'pxx_xchg64'
-     115 |         return pxx_xchg64(pud, pudp, 0ULL);
-         |                ^~~~~~~~~~
-   arch/x86/include/asm/cmpxchg_32.h:61:69: note: expected 'u64 *' {aka 'long long unsigned int *'} but argument is of type 'int'
-      61 | static __always_inline bool __try_cmpxchg64(volatile u64 *ptr, u64 *oldp, u64 new)
-         |                                                                ~~~~~^~~~
-   arch/x86/include/asm/pgtable-3level.h: In function 'pmdp_establish':
->> arch/x86/include/asm/pgtable-3level.h:144:41: error: 'pmd_t' has no member named 'entry'
-     144 |         return pxx_xchg64(pmd, pmdp, pmd.entry);
-         |                                         ^
-   include/linux/atomic/atomic-instrumented.h:4918:48: note: in definition of macro 'try_cmpxchg64'
-    4918 |         raw_try_cmpxchg64(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |                                                ^~~~~~~~~~~
-   arch/x86/include/asm/pgtable-3level.h:144:16: note: in expansion of macro 'pxx_xchg64'
-     144 |         return pxx_xchg64(pmd, pmdp, pmd.entry);
-         |                ^~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:182: arch/x86/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1314: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +/_a +1612 drivers/block/nbd.c
 
-
-vim +144 arch/x86/include/asm/pgtable-3level.h
-
-   112	
-   113	static inline pud_t native_pudp_get_and_clear(pud_t *pudp)
-   114	{
- > 115		return pxx_xchg64(pud, pudp, 0ULL);
-   116	}
-   117	#else
-   118	#define native_ptep_get_and_clear(xp) native_local_ptep_get_and_clear(xp)
-   119	#define native_pmdp_get_and_clear(xp) native_local_pmdp_get_and_clear(xp)
-   120	#define native_pudp_get_and_clear(xp) native_local_pudp_get_and_clear(xp)
-   121	#endif
-   122	
-   123	#ifndef pmdp_establish
-   124	#define pmdp_establish pmdp_establish
-   125	static inline pmd_t pmdp_establish(struct vm_area_struct *vma,
-   126			unsigned long address, pmd_t *pmdp, pmd_t pmd)
-   127	{
-   128		pmd_t old;
-   129	
-   130		/*
-   131		 * If pmd has present bit cleared we can get away without expensive
-   132		 * cmpxchg64: we can update pmdp half-by-half without racing with
-   133		 * anybody.
-   134		 */
-   135		if (!(pmd_val(pmd) & _PAGE_PRESENT)) {
-   136			/* xchg acts as a barrier before setting of the high bits */
-   137			old.pmd_low = xchg(&pmdp->pmd_low, pmd.pmd_low);
-   138			old.pmd_high = READ_ONCE(pmdp->pmd_high);
-   139			WRITE_ONCE(pmdp->pmd_high, pmd.pmd_high);
-   140	
-   141			return old;
-   142		}
-   143	
- > 144		return pxx_xchg64(pmd, pmdp, pmd.entry);
-   145	}
-   146	#endif
-   147	
+55313e92bd17a87 Mike Christie     2019-08-13  1591  
+9442b739207aab6 Josef Bacik       2017-02-07  1592  /* Must be called with config_lock held */
+9442b739207aab6 Josef Bacik       2017-02-07  1593  static int __nbd_ioctl(struct block_device *bdev, struct nbd_device *nbd,
+9442b739207aab6 Josef Bacik       2017-02-07  1594  		       unsigned int cmd, unsigned long arg)
+9442b739207aab6 Josef Bacik       2017-02-07  1595  {
+5ea8d10802ec4c1 Josef Bacik       2017-04-06  1596  	struct nbd_config *config = nbd->config;
+fad7cd3310db309 Baokun Li         2021-08-04  1597  	loff_t bytesize;
+5ea8d10802ec4c1 Josef Bacik       2017-04-06  1598  
+9442b739207aab6 Josef Bacik       2017-02-07  1599  	switch (cmd) {
+9442b739207aab6 Josef Bacik       2017-02-07  1600  	case NBD_DISCONNECT:
+29eaadc0364943b Josef Bacik       2017-04-06  1601  		return nbd_disconnect(nbd);
+9442b739207aab6 Josef Bacik       2017-02-07  1602  	case NBD_CLEAR_SOCK:
+0c1c9a27ce909e3 Christoph Hellwig 2023-08-11  1603  		nbd_clear_sock_ioctl(nbd);
+29eaadc0364943b Josef Bacik       2017-04-06  1604  		return 0;
+9442b739207aab6 Josef Bacik       2017-02-07  1605  	case NBD_SET_SOCK:
+e46c7287b1c2768 Josef Bacik       2017-04-06  1606  		return nbd_add_socket(nbd, arg, false);
+9442b739207aab6 Josef Bacik       2017-02-07  1607  	case NBD_SET_BLKSIZE:
+dcbddf541f18e36 Christoph Hellwig 2020-11-16  1608  		return nbd_set_size(nbd, config->bytesize, arg);
+9442b739207aab6 Josef Bacik       2017-02-07  1609  	case NBD_SET_SIZE:
+41e76c6a3c83c85 Nick Desaulniers  2021-09-20  1610  		return nbd_set_size(nbd, arg, nbd_blksize(config));
+9442b739207aab6 Josef Bacik       2017-02-07  1611  	case NBD_SET_SIZE_BLOCKS:
+41e76c6a3c83c85 Nick Desaulniers  2021-09-20 @1612  		if (check_shl_overflow(arg, config->blksize_bits, &bytesize))
+fad7cd3310db309 Baokun Li         2021-08-04  1613  			return -EINVAL;
+41e76c6a3c83c85 Nick Desaulniers  2021-09-20  1614  		return nbd_set_size(nbd, bytesize, nbd_blksize(config));
+9442b739207aab6 Josef Bacik       2017-02-07  1615  	case NBD_SET_TIMEOUT:
+55313e92bd17a87 Mike Christie     2019-08-13  1616  		nbd_set_cmd_timeout(nbd, arg);
+9442b739207aab6 Josef Bacik       2017-02-07  1617  		return 0;
+9442b739207aab6 Josef Bacik       2017-02-07  1618  
+9442b739207aab6 Josef Bacik       2017-02-07  1619  	case NBD_SET_FLAGS:
+5ea8d10802ec4c1 Josef Bacik       2017-04-06  1620  		config->flags = arg;
+9442b739207aab6 Josef Bacik       2017-02-07  1621  		return 0;
+9442b739207aab6 Josef Bacik       2017-02-07  1622  	case NBD_DO_IT:
+2a852a693f8839b Christoph Hellwig 2022-03-30  1623  		return nbd_start_device_ioctl(nbd);
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1624  	case NBD_CLEAR_QUE:
+4b2f0260c74324a Herbert Xu        2006-01-06  1625  		/*
+4b2f0260c74324a Herbert Xu        2006-01-06  1626  		 * This is for compatibility only.  The queue is always cleared
+4b2f0260c74324a Herbert Xu        2006-01-06  1627  		 * by NBD_DO_IT or NBD_CLEAR_SOCK.
+4b2f0260c74324a Herbert Xu        2006-01-06  1628  		 */
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1629  		return 0;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1630  	case NBD_PRINT_DEBUG:
+fd8383fd88a2fd8 Josef Bacik       2016-09-08  1631  		/*
+fd8383fd88a2fd8 Josef Bacik       2016-09-08  1632  		 * For compatibility only, we no longer keep a list of
+fd8383fd88a2fd8 Josef Bacik       2016-09-08  1633  		 * outstanding requests.
+fd8383fd88a2fd8 Josef Bacik       2016-09-08  1634  		 */
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1635  		return 0;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1636  	}
+1a2ad21128bb4eb Pavel Machek      2009-04-02  1637  	return -ENOTTY;
+1a2ad21128bb4eb Pavel Machek      2009-04-02  1638  }
+1a2ad21128bb4eb Pavel Machek      2009-04-02  1639  
 
 -- 
 0-DAY CI Kernel Test Service
