@@ -1,204 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76CE91E0B9C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Dec 2025 13:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89636318139
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 Dec 2025 14:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766843442; cv=none; b=gWcn7HVRkdTS61BHfJE/oXtiFgv5IBs5RbFSSPUhM8cvBNNMfgxwB/oxg4kvWw9dkrQpmlVYxNsrO6FqgRo9OpXP497T5ll5GAl/oT96JQeQwx49PpnNcYucBXCQiS+q8XPbVmv5x9lMxpbntadrbgPGpuSLC1brvI0iiURuR8E=
+	t=1766844316; cv=none; b=gE60ADZmRwy1H5ua9eODCyl+7x3YvvhLs12k30VphX85hAVQ4DWUp7shdNEwctbMQIAsCmZ8EB8OTYqwnOdKppwAdc4ImZLdxIsatg6UQxmcuTUe4UuS98mbxFVszi1BgVt1LSnOPbSR+wv1j9KHGWvolTsmbGQJHx6z6vcTdME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766843442; c=relaxed/simple;
-	bh=Po9E7msBvBB8TQw1TBURdiHy2DyTSHR0MBrptWFvKP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rP5fuXKYt53OPAqIMVU//J2dcO8bH3jXK+pPsA17hs0+mR4F7ZYgpMuCVSSnw5rPV8U76umUCbhh6EEFK8vLLo5ZFYAfHpsfgClCfebIY2hly2oYSWGwWs1TICBUUmDVMaaj0aA/Xa0o+dLPJmzqnoDfc37peotwHyGnlHzMiH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BGTMU0lV; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1766844316; c=relaxed/simple;
+	bh=zuunppJcv02TF+4DuAxrTenuLW4JQ9TUyNnr2HLY1gA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nRVIzfUtlwApoW/spk3Iv9JgNdasMrPFsrrQ89eqcl+2dhFzplejhT2pSlZ5nS4ccteMwxOtB6COycTg9Vlb/5vSFiHbCU61LM9yP8t04FUk9NVKOiSBuU4uxaH3uO8BQp8IxyPSSdXYGOeOQKA0q1jtsauIat0mZqMES4mDAvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kL6LzcVJ; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BGTMU0lV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kL6LzcVJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766843441; x=1798379441;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Po9E7msBvBB8TQw1TBURdiHy2DyTSHR0MBrptWFvKP0=;
-  b=BGTMU0lVYnBoeUEaazDgcbZnLpEo4CSIM3xeHx929i4ociUZlPPLnXt0
-   ulGVMgXIHZY9NnNL/E9qEocvjUFyjFKWF+Jg20FPa+sXTf51FF0W2FIZZ
-   Q+dKfueE8ymi+aP5QVRPyV8d7x+OYQ6yM00DpN1dCwjCSYFwY+R9Z+rOg
-   zyA7vsJj1Ng17cvxEDjz8OzJNH8mXmgbbGMaC2GwOy0kUlJH+a7/Sp+4l
-   +Kcoi8DNFpnabLn83bQhLZUJv9IWG1YMEjTPVf2sRZu7WNdu+MnCVobE4
-   9hoWY/49rr32xFLkYBSH0pBVW+z03wtA/XaGj7dOA2/0NIh7Tiv1at3gJ
-   Q==;
-X-CSE-ConnectionGUID: zMGHctOFRc6HeofcZ5+Bfg==
-X-CSE-MsgGUID: gRawjK36SVyTmVOp2eetCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="72167997"
+  t=1766844314; x=1798380314;
+  h=date:from:to:cc:subject:message-id;
+  bh=zuunppJcv02TF+4DuAxrTenuLW4JQ9TUyNnr2HLY1gA=;
+  b=kL6LzcVJvTKqNRIgP8hyUnCv2CNp2HSZ7/iG1z945D2o0cLxxyK8bfie
+   VfUZylrQJbcTyx64E6koDQMHAp2U8TORwLg6o+2CF1viJwW9JuQ/p7jql
+   iyh8U6j5u2E7NmoN+Fwh+9wkcr+WW0pmfgD3R9wmkOQlxnEtda4KruxQj
+   EW18T1YWwesxfn+n7uIFDR1Yy5BZmkpWvPTBBSA+HhlRWzoO8QPq7wBQI
+   J4TnHwG4ueFSWPhz16rY2WSrRDh9NvwjxZ2qUmpE9F7XZd7fXVOAIe3DA
+   VeBksWCvch4J78fkHpJFVfVINjgXDhKN/STuq3WmbEyD6cw7d/IPc18z8
+   w==;
+X-CSE-ConnectionGUID: +1HeKPJNSjm/IimDkdfCmg==
+X-CSE-MsgGUID: UlK+O6FzS0eaN297CtokLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="68585876"
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="72167997"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 05:50:40 -0800
-X-CSE-ConnectionGUID: CDxm/VHbTbGWkSRwiiiQLw==
-X-CSE-MsgGUID: d8c7+A5JSLKXlVmMpZ61/g==
+   d="scan'208";a="68585876"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 06:05:07 -0800
+X-CSE-ConnectionGUID: b8VDScDSQxOZWXDXfFFlyQ==
+X-CSE-MsgGUID: lZuIZP0MQrq5hQHyFlaOCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,180,1763452800"; 
-   d="scan'208";a="201030674"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Dec 2025 05:50:39 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="200856728"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 27 Dec 2025 06:05:07 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZUgm-000000007CG-36W4;
-	Sat, 27 Dec 2025 13:50:36 +0000
-Date: Sat, 27 Dec 2025 14:50:31 +0100
+	id 1vZUum-000000005s5-3Ozi;
+	Sat, 27 Dec 2025 14:05:04 +0000
+Date: Sat, 27 Dec 2025 22:04:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: alexs@kernel.org
+To: Chao Yu <chao@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [alexshi:pmdunify 4/6] include/trace/events/xen.h:166:52: error:
- 'pmd_t' {aka 'pmld_t'} has no member named 'pmd'
-Message-ID: <202512271459.Vh3XAGoS-lkp@intel.com>
+Subject: [chao:feature/lock_trace 12/12] fs/f2fs/f2fs.h:4945:6:
+ warning: no previous prototype for 'f2fs_simulate_lock_timeout'
+Message-ID: <202512272244.vmF6BR4b-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/alexshi/linux.git pmdunify
-head:   694b5dc7bcd7ba28db0bc95b24a78861bdffefc7
-commit: 38905b0328f66722c250710e81d754e5d07f069a [4/6] use pmld_t for pmd_t pud_t p4d_t
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20251227/202512271459.Vh3XAGoS-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512271459.Vh3XAGoS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git feature/lock_trace
+head:   a9004baf110bf87f6a75b023c26616d966c93733
+commit: a9004baf110bf87f6a75b023c26616d966c93733 [12/12] f2fs: sysfs: introduce inject_lock_timeout
+config: arm-randconfig-r072-20251227 (https://download.01.org/0day-ci/archive/20251227/202512272244.vmF6BR4b-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251227/202512272244.vmF6BR4b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512271459.Vh3XAGoS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512272244.vmF6BR4b-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:132,
-                    from include/trace/events/xen.h:459,
-                    from arch/x86/xen/trace.c:21:
-   include/trace/stages/init.h:29:9: error: redefinition of '__TRACE_SYSTEM_pmdval_t'
-      29 |         __##TRACE_SYSTEM##_##a =                        \
-         |         ^~
-   include/trace/events/xen.h:204:1: note: in expansion of macro 'TRACE_DEFINE_SIZEOF'
-     204 | TRACE_DEFINE_SIZEOF(pmdval_t);
-         | ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:29:9: note: previous definition of '__TRACE_SYSTEM_pmdval_t' with type 'struct trace_eval_map'
-      29 |         __##TRACE_SYSTEM##_##a =                        \
-         |         ^~
-   include/trace/events/xen.h:156:1: note: in expansion of macro 'TRACE_DEFINE_SIZEOF'
-     156 | TRACE_DEFINE_SIZEOF(pmdval_t);
-         | ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:37:10: error: redefinition of 'TRACE_SYSTEM_pmdval_t'
-      37 |         *TRACE_SYSTEM##_##a = &__##TRACE_SYSTEM##_##a
-         |          ^~~~~~~~~~~~
-   include/trace/events/xen.h:204:1: note: in expansion of macro 'TRACE_DEFINE_SIZEOF'
-     204 | TRACE_DEFINE_SIZEOF(pmdval_t);
-         | ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:37:10: note: previous definition of 'TRACE_SYSTEM_pmdval_t' with type 'struct trace_eval_map *'
-      37 |         *TRACE_SYSTEM##_##a = &__##TRACE_SYSTEM##_##a
-         |          ^~~~~~~~~~~~
-   include/trace/events/xen.h:156:1: note: in expansion of macro 'TRACE_DEFINE_SIZEOF'
-     156 | TRACE_DEFINE_SIZEOF(pmdval_t);
-         | ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:29:9: error: redefinition of '__TRACE_SYSTEM_pmdval_t'
-      29 |         __##TRACE_SYSTEM##_##a =                        \
-         |         ^~
-   include/trace/events/xen.h:221:1: note: in expansion of macro 'TRACE_DEFINE_SIZEOF'
-     221 | TRACE_DEFINE_SIZEOF(pmdval_t);
-         | ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:29:9: note: previous definition of '__TRACE_SYSTEM_pmdval_t' with type 'struct trace_eval_map'
-      29 |         __##TRACE_SYSTEM##_##a =                        \
-         |         ^~
-   include/trace/events/xen.h:204:1: note: in expansion of macro 'TRACE_DEFINE_SIZEOF'
-     204 | TRACE_DEFINE_SIZEOF(pmdval_t);
-         | ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:37:10: error: redefinition of 'TRACE_SYSTEM_pmdval_t'
-      37 |         *TRACE_SYSTEM##_##a = &__##TRACE_SYSTEM##_##a
-         |          ^~~~~~~~~~~~
-   include/trace/events/xen.h:221:1: note: in expansion of macro 'TRACE_DEFINE_SIZEOF'
-     221 | TRACE_DEFINE_SIZEOF(pmdval_t);
-         | ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:37:10: note: previous definition of 'TRACE_SYSTEM_pmdval_t' with type 'struct trace_eval_map *'
-      37 |         *TRACE_SYSTEM##_##a = &__##TRACE_SYSTEM##_##a
-         |          ^~~~~~~~~~~~
-   include/trace/events/xen.h:204:1: note: in expansion of macro 'TRACE_DEFINE_SIZEOF'
-     204 | TRACE_DEFINE_SIZEOF(pmdval_t);
-         | ^~~~~~~~~~~~~~~~~~~
-   include/trace/events/xen.h: In function 'do_trace_event_raw_event_xen_mmu_set_pmd':
->> include/trace/events/xen.h:166:52: error: 'pmd_t' {aka 'pmld_t'} has no member named 'pmd'
-     166 |                            __entry->pmdval = pmdval.pmd),
-         |                                                    ^
-   include/trace/trace_events.h:427:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:435:23: note: in expansion of macro 'PARAMS'
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/xen.h:158:1: note: in expansion of macro 'TRACE_EVENT'
-     158 | TRACE_EVENT(xen_mmu_set_pmd,
-         | ^~~~~~~~~~~
-   include/trace/events/xen.h:165:13: note: in expansion of macro 'TP_fast_assign'
-     165 |             TP_fast_assign(__entry->pmdp = pmdp;
-         |             ^~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:133:
-   include/trace/events/xen.h: In function 'do_perf_trace_xen_mmu_set_pmd':
->> include/trace/events/xen.h:166:52: error: 'pmd_t' {aka 'pmld_t'} has no member named 'pmd'
-     166 |                            __entry->pmdval = pmdval.pmd),
-         |                                                    ^
-   include/trace/perf.h:51:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/perf.h:67:23: note: in expansion of macro 'PARAMS'
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/xen.h:158:1: note: in expansion of macro 'TRACE_EVENT'
-     158 | TRACE_EVENT(xen_mmu_set_pmd,
-         | ^~~~~~~~~~~
-   include/trace/events/xen.h:165:13: note: in expansion of macro 'TP_fast_assign'
-     165 |             TP_fast_assign(__entry->pmdp = pmdp;
-         |             ^~~~~~~~~~~~~~
+   In file included from fs/f2fs/dir.c:13:
+>> fs/f2fs/f2fs.h:4945:6: warning: no previous prototype for 'f2fs_simulate_lock_timeout' [-Wmissing-prototypes]
+    4945 | void f2fs_simulate_lock_timeout(struct f2fs_sb_info *sbi) { return; }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from fs/f2fs/checkpoint.c:22:
+>> fs/f2fs/f2fs.h:4945:6: warning: no previous prototype for 'f2fs_simulate_lock_timeout' [-Wmissing-prototypes]
+    4945 | void f2fs_simulate_lock_timeout(struct f2fs_sb_info *sbi) { return; }
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/checkpoint.c: In function 'get_sum_exec_runtime':
+   fs/f2fs/checkpoint.c:37:25: error: storage size of 'rf' isn't known
+      37 |         struct rq_flags rf;
+         |                         ^~
+   fs/f2fs/checkpoint.c:40:14: error: implicit declaration of function 'task_rq_lock'; did you mean 'task_unlock'? [-Werror=implicit-function-declaration]
+      40 |         rq = task_rq_lock(t, &rf);
+         |              ^~~~~~~~~~~~
+         |              task_unlock
+   fs/f2fs/checkpoint.c:42:9: error: implicit declaration of function 'task_rq_unlock'; did you mean 'tasklet_unlock'? [-Werror=implicit-function-declaration]
+      42 |         task_rq_unlock(rq, t, &rf);
+         |         ^~~~~~~~~~~~~~
+         |         tasklet_unlock
+   fs/f2fs/checkpoint.c:37:25: warning: unused variable 'rf' [-Wunused-variable]
+      37 |         struct rq_flags rf;
+         |                         ^~
+   cc1: some warnings being treated as errors
 
 
-vim +166 include/trace/events/xen.h
+vim +/f2fs_simulate_lock_timeout +4945 fs/f2fs/f2fs.h
 
-ff910cfdc6e928 Jeremy Linton       2017-05-31  157  
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  158  TRACE_EVENT(xen_mmu_set_pmd,
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  159  	    TP_PROTO(pmd_t *pmdp, pmd_t pmdval),
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  160  	    TP_ARGS(pmdp, pmdval),
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  161  	    TP_STRUCT__entry(
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  162  		    __field(pmd_t *, pmdp)
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  163  		    __field(pmdval_t, pmdval)
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  164  		    ),
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  165  	    TP_fast_assign(__entry->pmdp = pmdp;
-847088079162a5 Jeremy Fitzhardinge 2010-12-16 @166  			   __entry->pmdval = pmdval.pmd),
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  167  	    TP_printk("pmdp %p pmdval %0*llx (raw %0*llx)",
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  168  		      __entry->pmdp,
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  169  		      (int)sizeof(pmdval_t) * 2, (unsigned long long)pmd_val(native_make_pmd(__entry->pmdval)),
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  170  		      (int)sizeof(pmdval_t) * 2, (unsigned long long)__entry->pmdval)
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  171  	);
-847088079162a5 Jeremy Fitzhardinge 2010-12-16  172  
-
-:::::: The code at line 166 was first introduced by commit
-:::::: 847088079162a5cf8ab0d1ad1ecf7fa60c057246 xen/trace: add mmu tracepoints
-
-:::::: TO: Jeremy Fitzhardinge <jeremy.fitzhardinge@citrix.com>
-:::::: CC: Jeremy Fitzhardinge <jeremy.fitzhardinge@citrix.com>
+  4933	
+  4934	#ifdef CONFIG_F2FS_FAULT_INJECTION
+  4935	extern int f2fs_build_fault_attr(struct f2fs_sb_info *sbi, unsigned long rate,
+  4936						unsigned long type, enum fault_option fo);
+  4937	extern void f2fs_simulate_lock_timeout(struct f2fs_sb_info *sbi);
+  4938	#else
+  4939	static inline int f2fs_build_fault_attr(struct f2fs_sb_info *sbi,
+  4940						unsigned long rate, unsigned long type,
+  4941						enum fault_option fo)
+  4942	{
+  4943		return 0;
+  4944	}
+> 4945	void f2fs_simulate_lock_timeout(struct f2fs_sb_info *sbi) { return; }
+  4946	#endif
+  4947	
 
 -- 
 0-DAY CI Kernel Test Service
