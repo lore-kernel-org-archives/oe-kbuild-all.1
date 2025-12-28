@@ -1,103 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5F6241663
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 14:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A84E13C918
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 15:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766933893; cv=none; b=C9NDF/rMWc1E+TJYRmtV8kqRD+IOh64JVSJ3jjBzG3cs63pBq2eOzsvc67BaOQFuarpe2XNc8pzEAzv5msiefIUecRpCDArzK+LDOvkY+DLCdpzaoK7LZdSDKEfmyDuzbi7jwBBZqHS3ChzHyCGxfgBLCdrtZNS28vpIW/Bk6+s=
+	t=1766934501; cv=none; b=SN4OwupMkNrjmsnNtdXcBH2JhsF1Tvn5A5oSzThDi1rdR36k4xdetLHy6/IP5ST8TNnn+ogtfkQrhn2d9OsJ4AHxYEH/MhdzZD9kKBsu3gROu+hl8/Oz5OxAbA3ViQhmgRbESa+s15hmaKIqZG9FXydUGGd3+85Klw7w4Y7fOyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766933893; c=relaxed/simple;
-	bh=gZbzHWwI22WiwX5dkFQlFY+nrAOzv/iBeuExMA06dXc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=F08xYfdnPpAmZ4FxtTnAfw/UW/NRedKJjMxoNIYFrDKiaRJZfVjfVGyTLKe41pTHddVnjn1PWMFyg0hG8dvQx4/dB/PJLkNVfZG5yh4Nfz7pRoE4aRuyOnFOFFDak3eWwOEImNcHKf40wLdnVvoRXuy7DT8w93vVU5dv5md9zTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cp22KNPp; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1766934501; c=relaxed/simple;
+	bh=UccsLxp34lxy44D1EHXH3w5GJ2VQk9dZrIFqiClY1VI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jJ1Psxdjo+aac83x0dFvRjWxTrBn+IloF8xQhKqqZJgpL0L2bg37NmRlzBs8BzOu43bWzY2aSZWx1SAc67pJeItIFAeKpOrc9N+Q0aWP4X/OGT9TGDOP26KNgsUA6S+hQERFw++YajsYVafAmhF0tZrSiIDoa+uyV2Gh37LVo0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nlH8ZcsR; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cp22KNPp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nlH8ZcsR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766933892; x=1798469892;
-  h=date:from:to:cc:subject:message-id;
-  bh=gZbzHWwI22WiwX5dkFQlFY+nrAOzv/iBeuExMA06dXc=;
-  b=Cp22KNPpf1zQ91lhUWV1sc7Tawst/lc8ccMTTCbQMrxZYcVPxuSym7t1
-   TrqESvsrGWNjunn2vSLzucj+64uFDcFleJcuhMyZjeguyRWcVEaAY2kRh
-   hv9pDAoAVK4moxXmU4ppcFcEY47Cm2/civTtJl81uoQhJHIrtaSzR3TvD
-   e2ukxVpQ4a7i54H82Zl0tSuuh1QtIGMSeD2G73JgIg0ezHzkZNPXJtOLu
-   cr1SVLbkjiVWW6bvzF1mBbFjn8cKw4EnhLi0FnlUtejSog7FGAJmbDsB2
-   kBYh4ztJHEnXMFMlzx/qngOxN80tQ6RGO2k6LN4niZhn04KceVFPVVUOn
-   A==;
-X-CSE-ConnectionGUID: xQpstp+OSNCupKvT1Q1FNw==
-X-CSE-MsgGUID: gMXhuLgsRRGbxoBveAEdpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="68467455"
+  t=1766934500; x=1798470500;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UccsLxp34lxy44D1EHXH3w5GJ2VQk9dZrIFqiClY1VI=;
+  b=nlH8ZcsRB1MugpT7VGGqi6DuxObM117BOJ8zAjFoadErmUENIGQUJg3T
+   W1kNBNITJ3gicdkWu9cA72Ui5B6OUzno6JKK35+2topnOn2strL1rcZlr
+   ITK33GGBRemmhqB0GRjL+d6EqWlteZOVSKndusa5FwIOvAxrX7KeRrOhW
+   cnKJHVe0w0WAZGG7Hcr+50wY6nftHv5voD8E/9I5XZ92+O+dbJB1EN+7k
+   wg/6W4LRrR55+/L5TCVcbUtE8DeR1KVdSdifm21bqQHFKxkBaBmw06m7t
+   D1bpwyDJPgXL5UX4iL5urZ7MuJpZinGWKoZXk3nYZMwUUfmJAQX8CaYUE
+   g==;
+X-CSE-ConnectionGUID: bD9qnzHjSx6GoO24rzvfEw==
+X-CSE-MsgGUID: V+qulzETRMmK0KXAWucRPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="79943292"
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="68467455"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 06:58:11 -0800
-X-CSE-ConnectionGUID: fTswr8MlSzuz746G4tfAYA==
-X-CSE-MsgGUID: +4wJVGmpSAeDAcv0UdCACA==
+   d="scan'208";a="79943292"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 07:08:20 -0800
+X-CSE-ConnectionGUID: +LI/1qTlSpexDDhEoNlX4Q==
+X-CSE-MsgGUID: orEvOTVFTMOPIqLpvZwvog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="231807228"
+   d="scan'208";a="205774325"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 28 Dec 2025 06:58:10 -0800
+  by orviesa005.jf.intel.com with ESMTP; 28 Dec 2025 07:08:16 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZsDg-000000006Wj-0CNA;
-	Sun, 28 Dec 2025 14:58:08 +0000
-Date: Sun, 28 Dec 2025 22:57:09 +0800
+	id 1vZsNP-000000006X3-2ykq;
+	Sun, 28 Dec 2025 15:08:12 +0000
+Date: Sun, 28 Dec 2025 23:07:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-next:security-next 18/39]
- drivers/infiniband/core/roce_gid_mgmt.c:455 del_netdev_ips0() warn:
- inconsistent indenting
-Message-ID: <202512282355.U8gS7pIR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: chenxiaosong.chenxiaosong@linux.dev, smfrench@gmail.com,
+	linkinjeon@kernel.org, pc@manguebit.org, ronniesahlberg@gmail.com,
+	sprasad@microsoft.com, tom@talpey.com, bharathsm@microsoft.com,
+	senozhatsky@chromium.org, dhowells@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
+	ChenXiaoSong <chenxiaosong@kylinos.cn>
+Subject: Re: [PATCH v6 5/5] smb/client: introduce KUnit test to check search
+ result of smb2_error_map_table
+Message-ID: <202512282232.rXoA9DcV-lkp@intel.com>
+References: <20251225021035.656639-6-chenxiaosong.chenxiaosong@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251225021035.656639-6-chenxiaosong.chenxiaosong@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-next.git security-next
-head:   b47c2e193a2478a1fede28030113459f63a85fde
-commit: 7799b888f826f6e7932ca90db8ebe838f8cac3be [18/39] RDMA/core: add device registration debugging
-config: i386-randconfig-r073-20251228 (https://download.01.org/0day-ci/archive/20251228/202512282355.U8gS7pIR-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on cifs/for-next]
+[also build test ERROR on brauner-vfs/vfs.all linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/chenxiaosong-chenxiaosong-linux-dev/cifs-Label-SMB2-statuses-with-errors/20251225-101505
+base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
+patch link:    https://lore.kernel.org/r/20251225021035.656639-6-chenxiaosong.chenxiaosong%40linux.dev
+patch subject: [PATCH v6 5/5] smb/client: introduce KUnit test to check search result of smb2_error_map_table
+config: x86_64-buildonly-randconfig-001-20251228 (https://download.01.org/0day-ci/archive/20251228/202512282232.rXoA9DcV-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512282232.rXoA9DcV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512282355.U8gS7pIR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512282232.rXoA9DcV-lkp@intel.com/
 
-smatch warnings:
-drivers/infiniband/core/roce_gid_mgmt.c:455 del_netdev_ips0() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +455 drivers/infiniband/core/roce_gid_mgmt.c
-
-   441	
-   442	static void del_netdev_ips0(struct ib_device *ib_dev, u32 port,
-   443				    struct net_device *rdma_ndev, void *cookie)
-   444	{
-   445		struct net_device *ndev = cookie;
-   446	
-   447		if (IS_ENABLED(CONFIG_NET_DEV_REFCNT_TRACKER))
-   448			pr_info("netdevice_event(NETDEV_UNREGISTER) ib_dev=%p (%d)(%s) rdma_ndev=%p (%d)(%s) cookie=%p (%d)(%s) start\n",
-   449				ib_dev, ib_dev ? refcount_read(&ib_dev->refcount) : 0,
-   450				ib_dev ? ib_dev->name : "",
-   451				rdma_ndev, rdma_ndev ? netdev_refcnt_read(rdma_ndev) : 0,
-   452				rdma_ndev ? rdma_ndev->name : "",
-   453				ndev, ndev ? netdev_refcnt_read(ndev) : 0, ndev ? ndev->name : "");
-   454		ib_cache_gid_del_all_netdev_gids(ib_dev, port, ndev);
- > 455			pr_info("netdevice_event(NETDEV_UNREGISTER) ib_dev=%p (%d)(%s) rdma_ndev=%p (%d)(%s) cookie=%p (%d)(%s) end\n",
-   456				ib_dev, ib_dev ? refcount_read(&ib_dev->refcount) : 0,
-   457				ib_dev ? ib_dev->name : "",
-   458				rdma_ndev, rdma_ndev ? netdev_refcnt_read(rdma_ndev) : 0,
-   459				rdma_ndev ? rdma_ndev->name : "",
-   460				ndev, ndev ? netdev_refcnt_read(ndev) : 0, ndev ? ndev->name : "");
-   461	}
-   462	
+   ld: fs/smb/client/smb2maperror.o: in function `test_cmp_map':
+>> smb2maperror.c:(.text+0xd1): undefined reference to `kunit_binary_ptr_assert_format'
+>> ld: smb2maperror.c:(.text+0xe9): undefined reference to `__kunit_do_failed_assertion'
+>> ld: smb2maperror.c:(.text+0x135): undefined reference to `kunit_binary_assert_format'
+   ld: smb2maperror.c:(.text+0x14d): undefined reference to `__kunit_do_failed_assertion'
+   ld: smb2maperror.c:(.text+0x18b): undefined reference to `kunit_binary_assert_format'
+   ld: smb2maperror.c:(.text+0x1ac): undefined reference to `__kunit_do_failed_assertion'
+>> ld: smb2maperror.c:(.text+0x1ea): undefined reference to `kunit_binary_str_assert_format'
+   ld: smb2maperror.c:(.text+0x20b): undefined reference to `__kunit_do_failed_assertion'
 
 -- 
 0-DAY CI Kernel Test Service
