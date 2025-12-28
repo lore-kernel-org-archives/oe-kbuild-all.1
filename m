@@ -1,107 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1980E1A23A4;
-	Sun, 28 Dec 2025 02:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40BF1EEE6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 03:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766887372; cv=none; b=dsmB3IYvK1H5zV37NbJYG3oCg8JDVrK23GJJhchN3gqisa7bscFS3uSbp9NstZPmi2d6tRcUATWyEDeyiSURVk+OEoRvl6LhlplMP9BzIVzUqPpU7DfLl+a9KziMX9crrFV3KdmULGdVMtDxEEyrl6KLTyrN4PGl/pIvDtPpDts=
+	t=1766892903; cv=none; b=XwYzLPJ8zT8ZQ4w2Nejf8zUXcymxKV7ENkO4rrJL4zLDeGaJPimbk4337EIrFiUcoF/1XpS+nR8Fv8i9FGTrmJuRiQHGJ9W2kMeIuIG+CcHU6GUKoYKmnDU/48DoUYiJhuAzwLL3+stc11HnkzS++AcjuhLVs0FjZL6FMfpRu20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766887372; c=relaxed/simple;
-	bh=z2IaYp58Msew3QS/60tkLCoX0j0xeHozTFQSPz4iw2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ael9reSkr/btyYbahpGZT15iqH8cGvXPlxE78Xiq7iRJJtNVO/Qfid7BNfKmOGi8rmnIP0ZFNgDum3S1nzb00irm6aPiITPQYJU0ybldWH45kRKmkfAORrEOQBlrEGkA+xu5a/uT7XMkN9q08w/Y3cacWoGiz359ZTqWRcSkp/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MA0AW7J+; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1766892903; c=relaxed/simple;
+	bh=GuIC3bFkkJdvl1CpVIB6XPzQzDS3rWf2teTVlwCsumk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AqIHFBLFqZ7E7k9CEMMn8UHnttxFgrVId3y/TPmwFhZqa07stmN9wQgTC1+fN4/i4AIcQcrxMKb9QoywS+mXRXdVRTwsiaQho+IMIzmvLiqWx/ZEzASxRQ84eBZJyfD0fdREEYB6x2imo0YfCFG0z2eH1gzAUyXkECKaWuxFrRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=alez7AJT; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MA0AW7J+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="alez7AJT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766887371; x=1798423371;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z2IaYp58Msew3QS/60tkLCoX0j0xeHozTFQSPz4iw2E=;
-  b=MA0AW7J+b6y/BXMEqcxfoNatQk2VGoY4Twl6BYvnDJmfFL1lkmoLAgYr
-   QNQW0tpSoxfwIBrsuI4R6BEMyB2iO12WddX36Mw3iGsV3YEJ70hOewsph
-   QyvcDkqPbfjGKPi5iZ94Haxc8iKq/zvF0iCf049xC2mWkNHYSSTEDlFGU
-   Haa+s5Ro5SrZqHPNmEyTxlwgIcdkb9nxMSSOjq5caFOaFCKzkOxe74lh/
-   Fw9Wd80Y11CC6MmBQWDcqBuH0NuTy/SEJtezJQOe0o68HZjjgOGvEkMgu
-   NMEMjtes6UuUtBsIyk+OZzJutmmW8c1P0Zjv/WlOxQ40hPZbsy5GPvY0s
-   A==;
-X-CSE-ConnectionGUID: FpxqmV/HQUeM1DLXDdYAqA==
-X-CSE-MsgGUID: zoATWEK0SieQ6i9yKEmzVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="80008892"
+  t=1766892901; x=1798428901;
+  h=date:from:to:cc:subject:message-id;
+  bh=GuIC3bFkkJdvl1CpVIB6XPzQzDS3rWf2teTVlwCsumk=;
+  b=alez7AJTN/ueMCgrnAGi7+Z9QTQM4uvOSDMVxcbBuLhIYMjgrgGbP/1o
+   DhsSeO51y02NSMyAYRCrvGeksQrP8etk0KnA8axvq8TSI06Jx0tAw/bfq
+   5xIyM7B6n4bEGbBvY9MnphdP8tBa9MNWx/hMqDMW42UY3o2Q2FAwghATI
+   GgNRmkKsvMDS8SVqGR6pPq3fYwor2gu7tEHrlmvRtGet9Fx9qiReLI7rx
+   /tH1GH8yQf2ZlBmBpA+aFzNz+Z3YT91465sD99k4CdQ6s9LgoJLpzwflu
+   mnxxm9f6OYIiuSP4vXd13gGk5mixAfgIaztNJBouyzIohIxEjxHAPbbhK
+   g==;
+X-CSE-ConnectionGUID: 0A4RFfpWTW6/Sxv/bqm/Hg==
+X-CSE-MsgGUID: 3bbSqGaiQsG9Hk8qV3IfmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="85982636"
 X-IronPort-AV: E=Sophos;i="6.21,182,1763452800"; 
-   d="scan'208";a="80008892"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 18:02:50 -0800
-X-CSE-ConnectionGUID: fId7WcIxQQ6EbFuYnqCJNg==
-X-CSE-MsgGUID: 21J7Q3W4Q/6LKmiB1y74FQ==
+   d="scan'208";a="85982636"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 19:34:59 -0800
+X-CSE-ConnectionGUID: q8XkMzQJRyeii4tuPLryWg==
+X-CSE-MsgGUID: CFwf+CXMQ0WSdaXFU0lYsA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,182,1763452800"; 
-   d="scan'208";a="200936737"
+   d="scan'208";a="201577753"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Dec 2025 18:02:45 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 27 Dec 2025 19:34:57 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZg7H-000000006Bx-07Jm;
-	Sun, 28 Dec 2025 02:02:43 +0000
-Date: Sun, 28 Dec 2025 10:02:18 +0800
+	id 1vZhYU-000000006En-3xiG;
+	Sun, 28 Dec 2025 03:34:54 +0000
+Date: Sun, 28 Dec 2025 11:34:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chen Ridong <chenridong@huaweicloud.com>, akpm@linux-foundation.org,
-	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
-	david@kernel.org, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
-	hannes@cmpxchg.org, roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev, muchun.song@linux.dev,
-	zhengqi.arch@bytedance.com, mkoutny@suse.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org, lujialin4@huawei.com,
-	chenridong@huaweicloud.com
-Subject: Re: [PATCH -next v2 7/7] mm/mglru: remove memcg disable handling
- from lru_gen_shrink_node
-Message-ID: <202512280931.jlaLW51Y-lkp@intel.com>
-References: <20251224073032.161911-8-chenridong@huaweicloud.com>
+To: Greg Ungerer <gerg@uclinux.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:armnommu 3/3]
+ include/linux/build_bug.h:78:41: error: static assertion failed: "XFS:
+ sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+Message-ID: <202512281116.S91ii66Y-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251224073032.161911-8-chenridong@huaweicloud.com>
 
-Hi Chen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.19-rc2]
-[also build test WARNING on linus/master next-20251219]
-[cannot apply to akpm-mm/mm-everything rppt-memblock/for-next rppt-memblock/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/mm-mglru-use-mem_cgroup_iter-for-global-reclaim/20251224-154725
-base:   v6.19-rc2
-patch link:    https://lore.kernel.org/r/20251224073032.161911-8-chenridong%40huaweicloud.com
-patch subject: [PATCH -next v2 7/7] mm/mglru: remove memcg disable handling from lru_gen_shrink_node
-config: x86_64-randconfig-001-20251228 (https://download.01.org/0day-ci/archive/20251228/202512280931.jlaLW51Y-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512280931.jlaLW51Y-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
+head:   edf19f0aab57e81f4391d800d6845527413ca77b
+commit: edf19f0aab57e81f4391d800d6845527413ca77b [3/3] ARM: versatile: support configuring versatile machine for no-MMU
+config: arm-randconfig-r072-20251228 (https://download.01.org/0day-ci/archive/20251228/202512281116.S91ii66Y-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512281116.S91ii66Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512280931.jlaLW51Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512281116.S91ii66Y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/vmscan.o: warning: objtool: shrink_node_memcgs+0xc16: sibling call from callable instruction with modified stack frame
+   In file included from include/linux/bitfield.h:10,
+                    from include/linux/fortify-string.h:5,
+                    from include/linux/string.h:386,
+                    from include/linux/uuid.h:11,
+                    from fs/xfs/xfs_linux.h:10,
+                    from fs/xfs/xfs.h:26,
+                    from fs/xfs/xfs_super.c:7:
+   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                            ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+    #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                     ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:2: note: in expansion of macro 'static_assert'
+     static_assert(sizeof(structname) == (size), \
+     ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:137:2: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     XFS_CHECK_STRUCT_SIZE(struct xfs_attr_sf_entry,  3);
+     ^~~~~~~~~~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_dir2_data_unused) is wrong, expected 6"
+    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                            ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+    #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                     ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:2: note: in expansion of macro 'static_assert'
+     static_assert(sizeof(structname) == (size), \
+     ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:140:2: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     XFS_CHECK_STRUCT_SIZE(struct xfs_dir2_data_unused, 6);
+     ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +78 include/linux/build_bug.h
+
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
