@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AB923958A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 08:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FC71C5D59
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 09:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766910310; cv=none; b=OlrRZ/faBzkKhBpj+ROJGwLBfI/faCUIFp1ZNpel8eonvW8NnLG/PJHbL0FG7WYo6OYg7XuUmDsqXZJE8w1RayrZZS4uYnLxbahjQ/BQmwRItcl5Z7Q1BqI0AsGrJ+DENj6CUtFRXCS9gBMyGt8QS3UWKbnIqeNp7oa12kr8RvI=
+	t=1766912775; cv=none; b=Hd0IeWHdgvO8vtZOKUhpun2ptVjIqQdVu8XU55tKfdUbqg54f3vlc/CRWYx6r/6/EltfjcLAh+oq2QvYqHbjq5wcJboLVW0jArtlerFzU4gtyrcJtzXoVoa+j1noho8vxaN67Utv52VyAymU9jV9lD7ZIkpi1diZO06yxqxX3I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766910310; c=relaxed/simple;
-	bh=OJNUQ9hX1fLm94BqYiamLHyNxt9EuXuPpxlw5OKIvp4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fEHmdptgU6hfkap5fgkfJrVHBEs1KKN8z1E6v5FlXjwC3xpgufjV47Q3vUMOfQ3S8RsJT0oi98FS6nV6WPOVXBLqEdwduYz5llaeiyGfWzR01nenElp3qPLBzVF5+tnB5wQMd8N/IYPuRhPm3/QcrtJkRF8ilzn5vpbkNHUV6zY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AgnNu5Vv; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1766912775; c=relaxed/simple;
+	bh=e9B7mX/mT2Ag7tZek58Ad2bv77Ze7lUvBw8L0IvK/3w=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rJb8zYDC3wnmoThfmQPtFgcnSpjxpXg4+aSXrHEQ6aVC8vS7zVBmNuN6rapKI+fWMsr1T9ApB5Fvm/YLYALy0C/RJ+eZwQuxZ74X18NMiTyjSaIrr8Kknl5LtHyIYeHYLpE4PlwITgyOqrM2/dyEEJkyVGe3SLdGBKH07wM+xjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eF0Bwu6g; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AgnNu5Vv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eF0Bwu6g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766910308; x=1798446308;
+  t=1766912773; x=1798448773;
   h=date:from:to:cc:subject:message-id;
-  bh=OJNUQ9hX1fLm94BqYiamLHyNxt9EuXuPpxlw5OKIvp4=;
-  b=AgnNu5VvelNQcy8kYjdJDs1R+ljnU6BfcOIr8u6NPs2k9rYHFKaAeLJ0
-   Cl2Zle36ir2ANOE91nHtNZbPL7VUOt0djSRxPeHpNiTafET8ZFctuUexx
-   cfhOa40wIkpO6XascNtrs3w3bWi7PMnlHK9Uyh3wJt7JpyqczFG4ZUlnW
-   odhQrt76tgIz+h26Ijcg3EFcadk4eYiM9HP14WO7pLz6mZUSx11NCKA+B
-   O3STlyHQ8sde4+reqh9sWXbp5ABBILBR5ZK+0vebN5cpcZDG+yurtHf4i
-   RGM1YmTpynRUqVaKtU7eMazIR40Gy5YWBybxJ0QkDSL7bwXvOoSbIyVOh
-   Q==;
-X-CSE-ConnectionGUID: seY8cVkHTHaPr4brRDYVeA==
-X-CSE-MsgGUID: mQQpvT1URXyikwusJH1keQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="68547396"
+  bh=e9B7mX/mT2Ag7tZek58Ad2bv77Ze7lUvBw8L0IvK/3w=;
+  b=eF0Bwu6ggYf8OZLN2HJa1yowS+nFVqTqb/iRKbg6mCbml40qpo6MTcGL
+   AQLl8ghExINASZH10qgFsEfqF7RwAiCDDWpaes0HQY23gxe8McZPaherc
+   Q3XbmNV7Sr93g/BnDAF0dWy7wTxhFr3U98tLdvhXcSSUqYdIV3k8bAP3f
+   Q2iUgsL9Gme05ptnmHDpz63g3f2bpUsm81pFA50REaVFsSMrzMtRQWjyn
+   SRmSrRxG9LyjkeNwbDxNfkmOZN8oITMp46DGBJc4xn7j/8YvunEic8/B0
+   x1vmV4LomS6hCa5Ip3MsiKZHuELnwyQUv4Q0xHZ1Y2KqeWd/BTwEgKiK2
+   g==;
+X-CSE-ConnectionGUID: 7ct64gt/SiGpEAuyWqhavA==
+X-CSE-MsgGUID: M7WNU1H2RN2lSSWOmvQAZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="79293091"
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="68547396"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 00:25:07 -0800
-X-CSE-ConnectionGUID: urQP25oFQBCDsSUShQoQtg==
-X-CSE-MsgGUID: J8AZQsTRQn6J2toFoP6y3A==
+   d="scan'208";a="79293091"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 01:06:12 -0800
+X-CSE-ConnectionGUID: UYbOnFC8R5aKjyUFYoJaig==
+X-CSE-MsgGUID: ZmCX4MxORCC3FaKGoATlYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="204806911"
+   d="scan'208";a="205599431"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 28 Dec 2025 00:25:05 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 28 Dec 2025 01:06:10 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZm5H-000000006Nx-0LLX;
-	Sun, 28 Dec 2025 08:25:03 +0000
-Date: Sun, 28 Dec 2025 16:24:15 +0800
+	id 1vZmix-000000006OL-1HFo;
+	Sun, 28 Dec 2025 09:06:03 +0000
+Date: Sun, 28 Dec 2025 17:05:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@uclinux.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:armnommu 3/3]
- arch/arm/mm/alignment.c:776:25: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202512281641.zItti8ka-lkp@intel.com>
+To: kernel@openeuler.org, Jianquan Lin <linjianquan2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 13/13]
+ drivers/ub/ubus/services/gucd.c:198:5: warning: no previous prototype for
+ 'ub_services_init'
+Message-ID: <202512281721.3GHguL2r-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,65 +60,45 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
-head:   edf19f0aab57e81f4391d800d6845527413ca77b
-commit: edf19f0aab57e81f4391d800d6845527413ca77b [3/3] ARM: versatile: support configuring versatile machine for no-MMU
-config: arm-randconfig-r111-20251228 (https://download.01.org/0day-ci/archive/20251228/202512281641.zItti8ka-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512281641.zItti8ka-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   03c9c649e6f28e26260d276ce755f785b2435da3
+commit: 4885c5bba9c1b11faff1754a6e323b40872e82ad [13/13] ub:ubus: Add generic ub component driver
+config: arm64-randconfig-004-20251226 (https://download.01.org/0day-ci/archive/20251228/202512281721.3GHguL2r-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512281721.3GHguL2r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512281641.zItti8ka-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512281721.3GHguL2r-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm/mm/alignment.c:776:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] *ip @@
-   arch/arm/mm/alignment.c:776:25: sparse:     expected void const volatile [noderef] __user *ptr
-   arch/arm/mm/alignment.c:776:25: sparse:     got unsigned int [usertype] *ip
->> arch/arm/mm/alignment.c:791:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] *ip @@
-   arch/arm/mm/alignment.c:791:25: sparse:     expected void const volatile [noderef] __user *ptr
-   arch/arm/mm/alignment.c:791:25: sparse:     got unsigned short [usertype] *ip
+All warnings (new ones prefixed by >>):
 
-vim +776 arch/arm/mm/alignment.c
+>> drivers/ub/ubus/services/gucd.c:198:5: warning: no previous prototype for 'ub_services_init' [-Wmissing-prototypes]
+     198 | int ub_services_init(void)
+         |     ^~~~~~~~~~~~~~~~
+>> drivers/ub/ubus/services/gucd.c:205:6: warning: no previous prototype for 'ub_services_exit' [-Wmissing-prototypes]
+     205 | void ub_services_exit(void)
+         |      ^~~~~~~~~~~~~~~~
 
-c2860d43f5dfab George G. Davis   2009-06-04  769  
-1bb9fb0a147f9d Russell King      2019-09-06  770  static int alignment_get_arm(struct pt_regs *regs, u32 *ip, u32 *inst)
-67e15fa5b487ad Russell King      2019-08-31  771  {
-67e15fa5b487ad Russell King      2019-08-31  772  	u32 instr = 0;
-67e15fa5b487ad Russell King      2019-08-31  773  	int fault;
-67e15fa5b487ad Russell King      2019-08-31  774  
-67e15fa5b487ad Russell King      2019-08-31  775  	if (user_mode(regs))
-67e15fa5b487ad Russell King      2019-08-31 @776  		fault = get_user(instr, ip);
-67e15fa5b487ad Russell King      2019-08-31  777  	else
-25f12ae45fc193 Christoph Hellwig 2020-06-17  778  		fault = get_kernel_nofault(instr, ip);
-67e15fa5b487ad Russell King      2019-08-31  779  
-67e15fa5b487ad Russell King      2019-08-31  780  	*inst = __mem_to_opcode_arm(instr);
-67e15fa5b487ad Russell King      2019-08-31  781  
-67e15fa5b487ad Russell King      2019-08-31  782  	return fault;
-67e15fa5b487ad Russell King      2019-08-31  783  }
-67e15fa5b487ad Russell King      2019-08-31  784  
-67e15fa5b487ad Russell King      2019-08-31  785  static int alignment_get_thumb(struct pt_regs *regs, u16 *ip, u16 *inst)
-67e15fa5b487ad Russell King      2019-08-31  786  {
-67e15fa5b487ad Russell King      2019-08-31  787  	u16 instr = 0;
-67e15fa5b487ad Russell King      2019-08-31  788  	int fault;
-67e15fa5b487ad Russell King      2019-08-31  789  
-67e15fa5b487ad Russell King      2019-08-31  790  	if (user_mode(regs))
-67e15fa5b487ad Russell King      2019-08-31 @791  		fault = get_user(instr, ip);
-67e15fa5b487ad Russell King      2019-08-31  792  	else
-25f12ae45fc193 Christoph Hellwig 2020-06-17  793  		fault = get_kernel_nofault(instr, ip);
-67e15fa5b487ad Russell King      2019-08-31  794  
-67e15fa5b487ad Russell King      2019-08-31  795  	*inst = __mem_to_opcode_thumb16(instr);
-67e15fa5b487ad Russell King      2019-08-31  796  
-67e15fa5b487ad Russell King      2019-08-31  797  	return fault;
-67e15fa5b487ad Russell King      2019-08-31  798  }
-67e15fa5b487ad Russell King      2019-08-31  799  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+   Selected by [y]:
+   - ARM64_MPAM [=y]
 
-:::::: The code at line 776 was first introduced by commit
-:::::: 67e15fa5b487adb9b78a92789eeff2d6ec8f5cee ARM: mm: fix alignment handler faults under memory pressure
 
-:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
-:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
+vim +/ub_services_init +198 drivers/ub/ubus/services/gucd.c
+
+   197	
+ > 198	int ub_services_init(void)
+   199	{
+   200		ub_init_services();
+   201	
+   202		return ub_register_driver(&ub_component_device_driver);
+   203	}
+   204	
+ > 205	void ub_services_exit(void)
 
 -- 
 0-DAY CI Kernel Test Service
