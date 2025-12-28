@@ -1,249 +1,203 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE2533EC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 13:03:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111BAC2EA;
+	Sun, 28 Dec 2025 13:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766927041; cv=none; b=qY1r/UEowR2VN3birSeGWsDMb/V5g3Wc0nMAEWRkGoZxxxeKbOJbCRfX1E73oIzF7zWWCj2kyLg3UXCQZOeKyxROA5KNvmmgOfV+joQtCY94rfuqEYs4k/6rZW/rjnTqgKYNFJx49EDulLAq+AK4MQHKnRSzIlbAXm4kpqfyWac=
+	t=1766927042; cv=none; b=pbhEPsIf08D7+xgxVuL1xZCkOHozWNMV9LAw4voYcWpfWR8l0KNNhor89ZgfnRhxaD4q1dyqq3NN/SOl0iJB7DUgbImEHD/2qwEJzR6B3hdT3jqAzk9LEnEGmN3pqFx6uUePq3bnK8QGpU9JGSbsX5lhH2emtTsJxpnZ5j0v6bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766927041; c=relaxed/simple;
-	bh=FAwqmHKE0ZEa2bryfaTx4yR5tNwGqtSCVgTEtcj1nDs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=F8B1i6V+3sa1kZ/uGZxUexX3trhIgeTxm0YnoGG/AeD7Q4lJsgqmqcmUBKrkTxnius5dmDDOeJ08G10l50yWzYC95vAWc/1B/2nG4AvwETX7r8jcM+3COoRiozZVxZAvpyZ2xONcVq/Ka0OlEGWRlenlKBKIOIJK0qH2QYfoyCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G3FEJL0n; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1766927042; c=relaxed/simple;
+	bh=jWf0ut3gAMoXBzAN1n2GJhgWrWO9cVj+r4UhQg18Tk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YccnQXP+6yGbT2xyv+b6GcrguCXc+IiWHyQBAQBL5lT4f/MeB/pw62J+qeee3yXgtqK5q9AS0+cLRM1FWI5tB6m33smQSutVPtagBksG+INmGLHtf/Z0PKAJfg80jay95ZSukNnj30kFkktz+8KPXPxWpgzrg+IDNa4GcQaW1r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CQ/95CLL; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G3FEJL0n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQ/95CLL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766927039; x=1798463039;
-  h=date:from:to:cc:subject:message-id;
-  bh=FAwqmHKE0ZEa2bryfaTx4yR5tNwGqtSCVgTEtcj1nDs=;
-  b=G3FEJL0n+SB8cNR4EBEffpo14DuCPIx3onCjJQWtMeoj0s2ibdleZbH2
-   +malwXBqgGFeAjpbzE2hpPjfdOpNSt8kcL9+ustYAfx5vIsSfTrYhNtZZ
-   AgF9r58XWuZZbqhxssb8NTsxOGEwWrZjiXAhp5l0BMCUd2twSiQjVahkg
-   Up1XPdGsVnMt9Xk7db/eOQakcAQeNzHSwblok5qt7QiOOuALT0Lp74IEz
-   tvfSkoTB1f2gvHGjBP/rckIWpkiDeG+f9c1NKSgTKjJVhByWYeEEAJm48
-   ao+frCUu8RWuYyb2zXDTJO1avHfaTBBApydIrirC5JVb2qVVQCopyznku
-   g==;
-X-CSE-ConnectionGUID: PD+mpZCPRx6IYKncBRd9VA==
-X-CSE-MsgGUID: nIFSPVuLQV6jTTRns/8Yrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="79939369"
+  t=1766927041; x=1798463041;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jWf0ut3gAMoXBzAN1n2GJhgWrWO9cVj+r4UhQg18Tk4=;
+  b=CQ/95CLLocMZ1CjUBKHvhuB7yC/JqwNoVIHdd4lnD/QOxkMVcA2FQyup
+   iipKpc6B15PA5nAsywHBXMmhVXAunqsx0lrFJaYrAl8oysrvTd4/p7Sww
+   ZrXGjEF5LEgIHWNSIw91Y+0+hvPTlk6JPotKGS96Yx7MHdUdzxuuXP+8p
+   ZhGcKplaadz5xHHXLa1jfOu04KTZFK9DWXoVADnJFvT4YZP0Hu7hBLfQt
+   mR7UHWV4oYCI6fG0rnCkPl6po8ed9N/sba5CgB62mzxbpb8St616MzjiL
+   enqKg8FntmsgxW1cw+ddJMUMepxe6DYsSVXAKPFVdx06JK+7loo3D4HW7
+   w==;
+X-CSE-ConnectionGUID: g6a+cxVkRJCuV9zvay1VuA==
+X-CSE-MsgGUID: Hpvc9NO8QjeLWwZxKChFIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="79939371"
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="79939369"
+   d="scan'208";a="79939371"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 05:03:58 -0800
-X-CSE-ConnectionGUID: Yhf2vBNFT3KdY8s9G6CZyw==
-X-CSE-MsgGUID: siYnr0LfQbqDDwcJbniZsA==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 05:04:01 -0800
+X-CSE-ConnectionGUID: 0onEPtczSPmMnFonx103Hw==
+X-CSE-MsgGUID: U3Fp+QloSLCTvbYtK7XXSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="200619548"
+   d="scan'208";a="200619545"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Dec 2025 05:03:56 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 28 Dec 2025 05:03:57 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZqR8-000000006Tp-1ino;
+	id 1vZqR8-000000006Tl-1Y9O;
 	Sun, 28 Dec 2025 13:03:54 +0000
 Date: Sun, 28 Dec 2025 21:03:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Guo <guoyongqiang12@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 13/13]
- drivers/ub/urma/uburma/uburma_mmap.c:20:6: warning: no previous prototype for
- 'uburma_umap_priv_init'
-Message-ID: <202512282153.oGLU3b14-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Dmitry Baryshkov <lumag@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 3/3] drm/atomic: verify that gamma/degamma LUTs are
+ not too big
+Message-ID: <202512282045.vcM3bTwk-lkp@intel.com>
+References: <20251228-drm-fix-lut-checks-v2-3-50f5d1a260a7@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251228-drm-fix-lut-checks-v2-3-50f5d1a260a7@oss.qualcomm.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   03c9c649e6f28e26260d276ce755f785b2435da3
-commit: f01eef756655bd5f66bd1e3770da92e31982556d [13/13] uburma: introduce uburma basic types and helper functions
-config: arm64-randconfig-004-20251226 (https://download.01.org/0day-ci/archive/20251228/202512282153.oGLU3b14-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512282153.oGLU3b14-lkp@intel.com/reproduce)
+Hi Dmitry,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 130343ee6bca9895c47d314467db7dd3dcc8bc35]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-mode_object-add-drm_object_immutable_property_get_value/20251228-112526
+base:   130343ee6bca9895c47d314467db7dd3dcc8bc35
+patch link:    https://lore.kernel.org/r/20251228-drm-fix-lut-checks-v2-3-50f5d1a260a7%40oss.qualcomm.com
+patch subject: [PATCH v2 3/3] drm/atomic: verify that gamma/degamma LUTs are not too big
+config: x86_64-randconfig-076-20251228 (https://download.01.org/0day-ci/archive/20251228/202512282045.vcM3bTwk-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512282045.vcM3bTwk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512282153.oGLU3b14-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512282045.vcM3bTwk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/ub/urma/uburma/uburma_mmap.c:20:6: warning: no previous prototype for 'uburma_umap_priv_init' [-Wmissing-prototypes]
-      20 | void uburma_umap_priv_init(struct uburma_umap_priv *priv,
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/uburma/uburma_mmap.c:33:6: warning: no previous prototype for 'uburma_unmap_vma_pages' [-Wmissing-prototypes]
-      33 | void uburma_unmap_vma_pages(struct uburma_file *ufile)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/uburma/uburma_mmap.c:169:36: warning: no previous prototype for 'uburma_get_umap_ops' [-Wmissing-prototypes]
-     169 | const struct vm_operations_struct *uburma_get_umap_ops(void)
-         |                                    ^~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for RESCTRL_FS
-   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
-   Selected by [y]:
-   - ARM64_MPAM [=y]
+>> drivers/gpu/drm/drm_atomic_uapi.c:416:9: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     416 |                 const elem_size = sizeof(struct drm_color_lut);
+         |                 ~~~~~ ^
+         |                 int
+   drivers/gpu/drm/drm_atomic_uapi.c:441:9: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     441 |                 const elem_size = sizeof(struct drm_color_lut);
+         |                 ~~~~~ ^
+         |                 int
+   2 errors generated.
 
 
-vim +/uburma_umap_priv_init +20 drivers/ub/urma/uburma/uburma_mmap.c
+vim +/int +416 drivers/gpu/drm/drm_atomic_uapi.c
 
-    19	
-  > 20	void uburma_umap_priv_init(struct uburma_umap_priv *priv,
-    21				   struct vm_area_struct *vma)
-    22	{
-    23		struct uburma_file *ufile = vma->vm_file->private_data;
-    24	
-    25		priv->vma = vma;
-    26		vma->vm_private_data = priv;
-    27	
-    28		mutex_lock(&ufile->umap_mutex);
-    29		list_add(&priv->node, &ufile->umaps_list);
-    30		mutex_unlock(&ufile->umap_mutex);
-    31	}
-    32	
-  > 33	void uburma_unmap_vma_pages(struct uburma_file *ufile)
-    34	{
-    35		struct uburma_umap_priv *priv, *next_priv;
-    36		struct mm_struct *mm;
-    37	
-    38		if (list_empty(&ufile->umaps_list))
-    39			return;
-    40	
-    41		lockdep_assert_held(&ufile->cleanup_rwsem);
-    42		while (1) {
-    43			struct list_head local_list;
-    44	
-    45			INIT_LIST_HEAD(&local_list);
-    46			mm = NULL;
-    47			mutex_lock(&ufile->umap_mutex);
-    48			list_for_each_entry_safe(priv, next_priv, &ufile->umaps_list,
-    49						 node) {
-    50				struct mm_struct *curr_mm = priv->vma->vm_mm;
-    51	
-    52				if (!mm) {
-    53					if (!mmget_not_zero(curr_mm)) {
-    54						list_del_init(&priv->node);
-    55						continue;
-    56					}
-    57					mm = curr_mm;
-    58					list_move_tail(&priv->node, &local_list);
-    59				} else if (curr_mm == mm) {
-    60					list_move_tail(&priv->node, &local_list);
-    61				}
-    62			}
-    63			mutex_unlock(&ufile->umap_mutex);
-    64	
-    65			if (list_empty(&local_list)) {
-    66				if (mm)
-    67					mmput(mm);
-    68				return;
-    69			}
-    70	
-    71			mmap_read_lock(mm);
-    72	
-    73			list_for_each_entry_safe(priv, next_priv, &local_list, node) {
-    74				struct vm_area_struct *vma = priv->vma;
-    75	
-    76				list_del_init(&priv->node);
-    77				if (vma->vm_mm == mm)
-    78					zap_vma_ptes(vma, vma->vm_start,
-    79						     vma->vm_end - vma->vm_start);
-    80			}
-    81			mmap_read_unlock(mm);
-    82	
-    83			mmput(mm);
-    84		}
-    85	}
-    86	
-    87	static void uburma_umap_open(struct vm_area_struct *vma)
-    88	{
-    89		struct uburma_file *ufile = vma->vm_file->private_data;
-    90		struct uburma_umap_priv *priv;
-    91	
-    92		if (!down_read_trylock(&ufile->cleanup_rwsem))
-    93			goto out_zap;
-    94	
-    95		priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-    96		if (!priv)
-    97			goto out_unlock;
-    98	
-    99		uburma_umap_priv_init(priv, vma);
-   100	
-   101		up_read(&ufile->cleanup_rwsem);
-   102		return;
-   103	
-   104	out_unlock:
-   105		up_read(&ufile->cleanup_rwsem);
-   106	out_zap:
-   107		vma->vm_private_data = NULL;
-   108		zap_vma_ptes(vma, vma->vm_start, vma->vm_end - vma->vm_start);
-   109	}
-   110	
-   111	static void uburma_umap_close(struct vm_area_struct *vma)
-   112	{
-   113		struct uburma_file *ufile = vma->vm_file->private_data;
-   114		struct uburma_umap_priv *priv = vma->vm_private_data;
-   115	
-   116		if (!priv)
-   117			return;
-   118	
-   119		mutex_lock(&ufile->umap_mutex);
-   120		list_del(&priv->node);
-   121		mutex_unlock(&ufile->umap_mutex);
-   122		kfree(priv);
-   123		vma->vm_private_data = NULL;
-   124	}
-   125	
-   126	static vm_fault_t uburma_umap_fault(struct vm_fault *vmf)
-   127	{
-   128		struct uburma_file *ufile = vmf->vma->vm_file->private_data;
-   129		struct uburma_umap_priv *priv = vmf->vma->vm_private_data;
-   130		struct page *page;
-   131	
-   132		if (unlikely(!priv))
-   133			return VM_FAULT_SIGBUS;
-   134	
-   135		if (!(vmf->vma->vm_flags & (VM_WRITE | VM_MAYWRITE))) {
-   136			vmf->page = ZERO_PAGE(0);
-   137			get_page(vmf->page);
-   138			return 0;
-   139		}
-   140	
-   141		page = READ_ONCE(ufile->fault_page);
-   142		if (likely(page)) {
-   143			vmf->page = page;
-   144			get_page(vmf->page);
-   145			return 0;
-   146		}
-   147	
-   148		mutex_lock(&ufile->umap_mutex);
-   149		if (!ufile->fault_page) {
-   150			ufile->fault_page = alloc_pages(vmf->gfp_mask | __GFP_ZERO, 0);
-   151			if (!ufile->fault_page) {
-   152				mutex_unlock(&ufile->umap_mutex);
-   153				return VM_FAULT_SIGBUS;
-   154			}
-   155		}
-   156		vmf->page = ufile->fault_page;
-   157		get_page(vmf->page);
-   158		mutex_unlock(&ufile->umap_mutex);
-   159	
-   160		return 0;
-   161	}
-   162	
-   163	static const struct vm_operations_struct g_urma_umap_ops = {
-   164		.open = uburma_umap_open,
-   165		.close = uburma_umap_close,
-   166		.fault = uburma_umap_fault,
-   167	};
-   168	
- > 169	const struct vm_operations_struct *uburma_get_umap_ops(void)
+   395	
+   396	static int drm_atomic_crtc_set_property(struct drm_crtc *crtc,
+   397			struct drm_crtc_state *state, struct drm_property *property,
+   398			uint64_t val)
+   399	{
+   400		struct drm_device *dev = crtc->dev;
+   401		struct drm_mode_config *config = &dev->mode_config;
+   402		bool replaced = false;
+   403		int ret;
+   404	
+   405		if (property == config->prop_active)
+   406			state->active = val;
+   407		else if (property == config->prop_mode_id) {
+   408			struct drm_property_blob *mode =
+   409				drm_property_lookup_blob(dev, val);
+   410			ret = drm_atomic_set_mode_prop_for_crtc(state, mode);
+   411			drm_property_blob_put(mode);
+   412			return ret;
+   413		} else if (property == config->prop_vrr_enabled) {
+   414			state->vrr_enabled = val;
+   415		} else if (property == config->degamma_lut_property) {
+ > 416			const elem_size = sizeof(struct drm_color_lut);
+   417			u64 lut_size;
+   418	
+   419			ret = drm_object_immutable_property_get_value(&crtc->base,
+   420								      config->degamma_lut_size_property,
+   421								      &lut_size);
+   422			if (ret)
+   423				return ret;
+   424	
+   425			ret = drm_property_replace_blob_from_id(dev,
+   426						&state->degamma_lut,
+   427						val,
+   428						elem_size * lut_size, -1, elem_size,
+   429						&replaced);
+   430			state->color_mgmt_changed |= replaced;
+   431			return ret;
+   432		} else if (property == config->ctm_property) {
+   433			ret = drm_property_replace_blob_from_id(dev,
+   434						&state->ctm,
+   435						val,
+   436						-1, sizeof(struct drm_color_ctm), -1,
+   437						&replaced);
+   438			state->color_mgmt_changed |= replaced;
+   439			return ret;
+   440		} else if (property == config->gamma_lut_property) {
+   441			const elem_size = sizeof(struct drm_color_lut);
+   442			u64 lut_size;
+   443	
+   444			ret = drm_object_immutable_property_get_value(&crtc->base,
+   445								      config->gamma_lut_size_property,
+   446								      &lut_size);
+   447			if (ret)
+   448				return ret;
+   449	
+   450			ret = drm_property_replace_blob_from_id(dev,
+   451						&state->gamma_lut,
+   452						val,
+   453						elem_size * lut_size, -1, elem_size,
+   454						&replaced);
+   455			state->color_mgmt_changed |= replaced;
+   456			return ret;
+   457		} else if (property == config->prop_out_fence_ptr) {
+   458			s32 __user *fence_ptr = u64_to_user_ptr(val);
+   459	
+   460			if (!fence_ptr)
+   461				return 0;
+   462	
+   463			if (put_user(-1, fence_ptr))
+   464				return -EFAULT;
+   465	
+   466			set_out_fence_for_crtc(state->state, crtc, fence_ptr);
+   467		} else if (property == crtc->scaling_filter_property) {
+   468			state->scaling_filter = val;
+   469		} else if (property == crtc->sharpness_strength_property) {
+   470			state->sharpness_strength = val;
+   471		} else if (crtc->funcs->atomic_set_property) {
+   472			return crtc->funcs->atomic_set_property(crtc, state, property, val);
+   473		} else {
+   474			drm_dbg_atomic(crtc->dev,
+   475				       "[CRTC:%d:%s] unknown property [PROP:%d:%s]\n",
+   476				       crtc->base.id, crtc->name,
+   477				       property->base.id, property->name);
+   478			return -EINVAL;
+   479		}
+   480	
+   481		return 0;
+   482	}
+   483	
 
 -- 
 0-DAY CI Kernel Test Service
