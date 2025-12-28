@@ -1,96 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D4C3A1E94
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 06:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCE7277C96
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 07:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766902855; cv=none; b=b14fS1zRXKLG2MaJCDyteFGSgNwHDYzRqBbaIwviqtn+ZM0h1xI+6meCGZSMSrCxF84N9/FhXJbYtNxC+IaN3P1Y6aGFbphp37xAMkkd/C+O7fy5kR9NWf3LMv0szakf9hZxQdj9aPFpuRWsalWyvPld2XE6ig0V0SAl42v7zVM=
+	t=1766908407; cv=none; b=mbEkpAz2KxlSbA6kRhVpFsueXcqRRSWjh1qIjyMTgw/qX9WnDzwOuzQngpO4eBlRvPYuCiJ0myjD0uCRJ/RrFrkRAOz9mkQ06xRiJhdCBISnX9LielNf8ajbKTMJze6WCLjdUtYmHYfK3TM5Wcgki3GbpvzRinJ0uNt6QUhA3mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766902855; c=relaxed/simple;
-	bh=mhx54cVwSIV6UJ9/pHqI6HnK/N2hlCCaQMt2jWsUM3A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=V2Qmo5yZdYB4cNwAxUyXHrSltg/NakY7IXa+cVrJ9sRlCHc6zJN9cbt9+vO1qrUxGuqPCJaq9pUGzWQNMBa7O7f63IzU47zFfReGnVUQAee+rzmmJ8KFAE5ZzYnOdfaOXtglpLGRGziO1aZtZTX97rAO5Sk7JjPQSLK1VIAwbGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fI4VN3Ld; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1766908407; c=relaxed/simple;
+	bh=/NwBfCj//7UaV/4OmePD5UbzYZj1ijABh9/72JuycQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IIDBABKLqNLkprPf1MVKR7i6rGIcQdCXRFB2vdGwmUZDif2s2CWhPOqJ39l0TTeGq7s7fbXXuyrIJ/C1fpmFctw+7E0gEM31cyzGQ7YCp18fxpVC6XKLL997AHpnX8GAfakBC4pxrFl7wNQYztf8jLgNd1JTu7islTURgyi/3aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vxz3ayRP; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fI4VN3Ld"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vxz3ayRP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766902853; x=1798438853;
-  h=date:from:to:cc:subject:message-id;
-  bh=mhx54cVwSIV6UJ9/pHqI6HnK/N2hlCCaQMt2jWsUM3A=;
-  b=fI4VN3Ldqn0bbvuSsQlCf4159mCmT1gQaOdAH/YuPIEDzGvopbhPSxaZ
-   ksWJwNuzQZ5e8eWvKmmPs6nnAqKVzehmtLppvyzOFOsrgX+kGy53e5KsH
-   b8FwodUazrWWew0v9xnQO1z/jRwMZ3g5FwlR1GTxov+1zcsVCNXU72mxe
-   Mzq6azdoDkSwj72Lguwl2QvGXm9BttDkCQE+H1qJxmpHNseAtOGQTrC0s
-   RRwa2ftSllSrcbMgpttMLeRFXTbhnQCuaJYAMmtHPphqNTyxUZHyxvwtL
-   /pUV3zUPd73WGJmpZa+jP5uoEXcJm4ZXDJPEvgAYiGrHLje24nXo7cwmE
+  t=1766908403; x=1798444403;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/NwBfCj//7UaV/4OmePD5UbzYZj1ijABh9/72JuycQ0=;
+  b=Vxz3ayRPUOT8OiqUtcrQI5FFMR8MZWbpudlIsOKPycyd0ddy+n/H+gWH
+   TPq6Mf/0BxZZx8dpIGGSzISO2VzteVGFYZlvU5m31gzbk9Y3r3xYi7C6l
+   hiDJsbrNcGvJuLPHg6k103E0h9tJmIMpv42S6tFxF0rmqeM7aAayP4nUx
+   nTy25TM6NZ6HbJvl7GumHfb3C/eoPnMPPj7o9JEdyhtPpS4YeM0innU7H
+   bF3OvKGe5dw9m7387uKbxdiSe8P+gCGmsegwK+rwL4vkxhQnc7idKP9HL
+   HcgwCdndKyp9VY8OCDY0fOPRBeZUB4KMDPwhzzR+DIZJ14GUMX0uR00nS
    g==;
-X-CSE-ConnectionGUID: LDrM0AFfRhW0Y6mtQlLQrA==
-X-CSE-MsgGUID: uOf+yLBXQdKXHUdWuyYyFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="79288940"
+X-CSE-ConnectionGUID: 7zCFRHh0TmC0q/Xru+qIFg==
+X-CSE-MsgGUID: bu6DOvmLSBi5JVSovHzSJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="67766514"
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="79288940"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 22:20:52 -0800
-X-CSE-ConnectionGUID: wlEl/FzWTN6FQBhlEqMZMw==
-X-CSE-MsgGUID: hOOPYTQyTWa9cBdyw0PCBg==
+   d="scan'208";a="67766514"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 23:53:22 -0800
+X-CSE-ConnectionGUID: UEa8u94KT2q2ofB0p56tVw==
+X-CSE-MsgGUID: kE97tfBeR5Knrr2ku/cjWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="201137459"
+   d="scan'208";a="205715352"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Dec 2025 22:20:51 -0800
+  by orviesa005.jf.intel.com with ESMTP; 27 Dec 2025 23:53:16 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZk93-000000006IH-1HJK;
-	Sun, 28 Dec 2025 06:20:49 +0000
-Date: Sun, 28 Dec 2025 14:19:00 +0800
+	id 1vZlaT-000000006Kr-3CZq;
+	Sun, 28 Dec 2025 07:53:13 +0000
+Date: Sun, 28 Dec 2025 15:52:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:x86-efi-zboot 15/29] ld: warning: orphan section
- `.relaalloc_tags' from `init/main.o' being placed in section `.rela.dyn'
-Message-ID: <202512281406.tYX7K8Wl-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Yunke Cao <yunkec@google.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Pavan Bobba <opensource206@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	James Cowgill <james.cowgill@blaize.com>,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Diederik de Haas <didi.debian@cknow.org>
+Subject: Re: [PATCH v7 14/17] media: rkvdec: Add H264 support for the VDPU381
+ variant
+Message-ID: <202512281536.56iWFq03-lkp@intel.com>
+References: <20251218232829.337811-15-detlev.casanova@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251218232829.337811-15-detlev.casanova@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efi-zboot
-head:   b6f238d2e8720acf63467aa0d48d7fc4e31c07c2
-commit: 5a6587a00922840e8a257f0deacb00893aa15582 [15/29] x86/kernel: Switch to PIE linking for the core kernel
-config: x86_64-buildonly-randconfig-002-20251228 (https://download.01.org/0day-ci/archive/20251228/202512281406.tYX7K8Wl-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512281406.tYX7K8Wl-lkp@intel.com/reproduce)
+Hi Detlev,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master v6.19-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/media-uapi-HEVC-Add-v4l2_ctrl_hevc_ext_sps_-ls-t_rps-controls/20251219-074342
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20251218232829.337811-15-detlev.casanova%40collabora.com
+patch subject: [PATCH v7 14/17] media: rkvdec: Add H264 support for the VDPU381 variant
+config: arm-randconfig-r071-20251224 (https://download.01.org/0day-ci/archive/20251228/202512281536.56iWFq03-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512281536.56iWFq03-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512281406.tYX7K8Wl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512281536.56iWFq03-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ld: warning: orphan section `.relaalloc_tags' from `init/main.o' being placed in section `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: .tmp_vmlinux1: section `.rela.dyn' can't be allocated in segment 1
-   LOAD: .data __bug_table .orc_header .orc_unwind_ip .orc_unwind .orc_lookup .init.text .dynamic .dynstr .dynsym .gnu.hash .init.rela .init.relr .altinstr_aux .init.data .x86_cpu_dev.init .retpoline_sites .altinstructions .altinstr_replacement .apicdrivers .exit.text runtime_shift_d_hash_shift runtime_ptr_dentry_hashtable runtime_ptr___dentry_cache runtime_ptr_USER_PTR_MAX .data_nosave .bss .brk .modinfo .rela.dyn
->> ld: warning: orphan section `.relaalloc_tags' from `init/main.o' being placed in section `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: .tmp_vmlinux2: section `.rela.dyn' can't be allocated in segment 1
-   LOAD: .data __bug_table .orc_header .orc_unwind_ip .orc_unwind .orc_lookup .init.text .dynamic .dynstr .dynsym .gnu.hash .init.rela .init.relr .altinstr_aux .init.data .x86_cpu_dev.init .retpoline_sites .altinstructions .altinstr_replacement .apicdrivers .exit.text runtime_shift_d_hash_shift runtime_ptr_dentry_hashtable runtime_ptr___dentry_cache runtime_ptr_USER_PTR_MAX .data_nosave .bss .brk .modinfo .rela.dyn
->> ld: warning: orphan section `.relaalloc_tags' from `init/main.o' being placed in section `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: warning: dot moved backwards before `.rela.dyn'
-   ld: vmlinux.unstripped: section `.rela.dyn' can't be allocated in segment 1
-   LOAD: .data __bug_table .orc_header .orc_unwind_ip .orc_unwind .orc_lookup .init.text .dynamic .dynstr .dynsym .gnu.hash .init.rela .init.relr .altinstr_aux .init.data .x86_cpu_dev.init .retpoline_sites .altinstructions .altinstr_replacement .apicdrivers .exit.text runtime_shift_d_hash_shift runtime_ptr_dentry_hashtable runtime_ptr___dentry_cache runtime_ptr_USER_PTR_MAX .data_nosave .bss .brk .modinfo .rela.dyn
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/media/platform/rockchip/rkvdec/rockchip-vdec.ko] undefined!
+>> ERROR: modpost: "__aeabi_ldivmod" [drivers/media/platform/rockchip/rkvdec/rockchip-vdec.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
