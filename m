@@ -1,117 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCE7277C96
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 07:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AB923958A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 08:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766908407; cv=none; b=mbEkpAz2KxlSbA6kRhVpFsueXcqRRSWjh1qIjyMTgw/qX9WnDzwOuzQngpO4eBlRvPYuCiJ0myjD0uCRJ/RrFrkRAOz9mkQ06xRiJhdCBISnX9LielNf8ajbKTMJze6WCLjdUtYmHYfK3TM5Wcgki3GbpvzRinJ0uNt6QUhA3mc=
+	t=1766910310; cv=none; b=OlrRZ/faBzkKhBpj+ROJGwLBfI/faCUIFp1ZNpel8eonvW8NnLG/PJHbL0FG7WYo6OYg7XuUmDsqXZJE8w1RayrZZS4uYnLxbahjQ/BQmwRItcl5Z7Q1BqI0AsGrJ+DENj6CUtFRXCS9gBMyGt8QS3UWKbnIqeNp7oa12kr8RvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766908407; c=relaxed/simple;
-	bh=/NwBfCj//7UaV/4OmePD5UbzYZj1ijABh9/72JuycQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IIDBABKLqNLkprPf1MVKR7i6rGIcQdCXRFB2vdGwmUZDif2s2CWhPOqJ39l0TTeGq7s7fbXXuyrIJ/C1fpmFctw+7E0gEM31cyzGQ7YCp18fxpVC6XKLL997AHpnX8GAfakBC4pxrFl7wNQYztf8jLgNd1JTu7islTURgyi/3aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vxz3ayRP; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1766910310; c=relaxed/simple;
+	bh=OJNUQ9hX1fLm94BqYiamLHyNxt9EuXuPpxlw5OKIvp4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fEHmdptgU6hfkap5fgkfJrVHBEs1KKN8z1E6v5FlXjwC3xpgufjV47Q3vUMOfQ3S8RsJT0oi98FS6nV6WPOVXBLqEdwduYz5llaeiyGfWzR01nenElp3qPLBzVF5+tnB5wQMd8N/IYPuRhPm3/QcrtJkRF8ilzn5vpbkNHUV6zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AgnNu5Vv; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vxz3ayRP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AgnNu5Vv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766908403; x=1798444403;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/NwBfCj//7UaV/4OmePD5UbzYZj1ijABh9/72JuycQ0=;
-  b=Vxz3ayRPUOT8OiqUtcrQI5FFMR8MZWbpudlIsOKPycyd0ddy+n/H+gWH
-   TPq6Mf/0BxZZx8dpIGGSzISO2VzteVGFYZlvU5m31gzbk9Y3r3xYi7C6l
-   hiDJsbrNcGvJuLPHg6k103E0h9tJmIMpv42S6tFxF0rmqeM7aAayP4nUx
-   nTy25TM6NZ6HbJvl7GumHfb3C/eoPnMPPj7o9JEdyhtPpS4YeM0innU7H
-   bF3OvKGe5dw9m7387uKbxdiSe8P+gCGmsegwK+rwL4vkxhQnc7idKP9HL
-   HcgwCdndKyp9VY8OCDY0fOPRBeZUB4KMDPwhzzR+DIZJ14GUMX0uR00nS
-   g==;
-X-CSE-ConnectionGUID: 7zCFRHh0TmC0q/Xru+qIFg==
-X-CSE-MsgGUID: bu6DOvmLSBi5JVSovHzSJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="67766514"
+  t=1766910308; x=1798446308;
+  h=date:from:to:cc:subject:message-id;
+  bh=OJNUQ9hX1fLm94BqYiamLHyNxt9EuXuPpxlw5OKIvp4=;
+  b=AgnNu5VvelNQcy8kYjdJDs1R+ljnU6BfcOIr8u6NPs2k9rYHFKaAeLJ0
+   Cl2Zle36ir2ANOE91nHtNZbPL7VUOt0djSRxPeHpNiTafET8ZFctuUexx
+   cfhOa40wIkpO6XascNtrs3w3bWi7PMnlHK9Uyh3wJt7JpyqczFG4ZUlnW
+   odhQrt76tgIz+h26Ijcg3EFcadk4eYiM9HP14WO7pLz6mZUSx11NCKA+B
+   O3STlyHQ8sde4+reqh9sWXbp5ABBILBR5ZK+0vebN5cpcZDG+yurtHf4i
+   RGM1YmTpynRUqVaKtU7eMazIR40Gy5YWBybxJ0QkDSL7bwXvOoSbIyVOh
+   Q==;
+X-CSE-ConnectionGUID: seY8cVkHTHaPr4brRDYVeA==
+X-CSE-MsgGUID: mQQpvT1URXyikwusJH1keQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="68547396"
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="67766514"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 23:53:22 -0800
-X-CSE-ConnectionGUID: UEa8u94KT2q2ofB0p56tVw==
-X-CSE-MsgGUID: kE97tfBeR5Knrr2ku/cjWQ==
+   d="scan'208";a="68547396"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 00:25:07 -0800
+X-CSE-ConnectionGUID: urQP25oFQBCDsSUShQoQtg==
+X-CSE-MsgGUID: J8AZQsTRQn6J2toFoP6y3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="205715352"
+   d="scan'208";a="204806911"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 27 Dec 2025 23:53:16 -0800
+  by orviesa003.jf.intel.com with ESMTP; 28 Dec 2025 00:25:05 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZlaT-000000006Kr-3CZq;
-	Sun, 28 Dec 2025 07:53:13 +0000
-Date: Sun, 28 Dec 2025 15:52:27 +0800
+	id 1vZm5H-000000006Nx-0LLX;
+	Sun, 28 Dec 2025 08:25:03 +0000
+Date: Sun, 28 Dec 2025 16:24:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>, Yunke Cao <yunkec@google.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Pavan Bobba <opensource206@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	James Cowgill <james.cowgill@blaize.com>,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, kernel@collabora.com,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Diederik de Haas <didi.debian@cknow.org>
-Subject: Re: [PATCH v7 14/17] media: rkvdec: Add H264 support for the VDPU381
- variant
-Message-ID: <202512281536.56iWFq03-lkp@intel.com>
-References: <20251218232829.337811-15-detlev.casanova@collabora.com>
+To: Greg Ungerer <gerg@uclinux.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:armnommu 3/3]
+ arch/arm/mm/alignment.c:776:25: sparse: sparse: incorrect type in argument 1
+ (different address spaces)
+Message-ID: <202512281641.zItti8ka-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218232829.337811-15-detlev.casanova@collabora.com>
 
-Hi Detlev,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.19-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/media-uapi-HEVC-Add-v4l2_ctrl_hevc_ext_sps_-ls-t_rps-controls/20251219-074342
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20251218232829.337811-15-detlev.casanova%40collabora.com
-patch subject: [PATCH v7 14/17] media: rkvdec: Add H264 support for the VDPU381 variant
-config: arm-randconfig-r071-20251224 (https://download.01.org/0day-ci/archive/20251228/202512281536.56iWFq03-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512281536.56iWFq03-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git armnommu
+head:   edf19f0aab57e81f4391d800d6845527413ca77b
+commit: edf19f0aab57e81f4391d800d6845527413ca77b [3/3] ARM: versatile: support configuring versatile machine for no-MMU
+config: arm-randconfig-r111-20251228 (https://download.01.org/0day-ci/archive/20251228/202512281641.zItti8ka-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512281641.zItti8ka-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512281536.56iWFq03-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512281641.zItti8ka-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm/mm/alignment.c:776:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] *ip @@
+   arch/arm/mm/alignment.c:776:25: sparse:     expected void const volatile [noderef] __user *ptr
+   arch/arm/mm/alignment.c:776:25: sparse:     got unsigned int [usertype] *ip
+>> arch/arm/mm/alignment.c:791:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned short [usertype] *ip @@
+   arch/arm/mm/alignment.c:791:25: sparse:     expected void const volatile [noderef] __user *ptr
+   arch/arm/mm/alignment.c:791:25: sparse:     got unsigned short [usertype] *ip
 
->> ERROR: modpost: "__aeabi_uldivmod" [drivers/media/platform/rockchip/rkvdec/rockchip-vdec.ko] undefined!
->> ERROR: modpost: "__aeabi_ldivmod" [drivers/media/platform/rockchip/rkvdec/rockchip-vdec.ko] undefined!
+vim +776 arch/arm/mm/alignment.c
+
+c2860d43f5dfab George G. Davis   2009-06-04  769  
+1bb9fb0a147f9d Russell King      2019-09-06  770  static int alignment_get_arm(struct pt_regs *regs, u32 *ip, u32 *inst)
+67e15fa5b487ad Russell King      2019-08-31  771  {
+67e15fa5b487ad Russell King      2019-08-31  772  	u32 instr = 0;
+67e15fa5b487ad Russell King      2019-08-31  773  	int fault;
+67e15fa5b487ad Russell King      2019-08-31  774  
+67e15fa5b487ad Russell King      2019-08-31  775  	if (user_mode(regs))
+67e15fa5b487ad Russell King      2019-08-31 @776  		fault = get_user(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  777  	else
+25f12ae45fc193 Christoph Hellwig 2020-06-17  778  		fault = get_kernel_nofault(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  779  
+67e15fa5b487ad Russell King      2019-08-31  780  	*inst = __mem_to_opcode_arm(instr);
+67e15fa5b487ad Russell King      2019-08-31  781  
+67e15fa5b487ad Russell King      2019-08-31  782  	return fault;
+67e15fa5b487ad Russell King      2019-08-31  783  }
+67e15fa5b487ad Russell King      2019-08-31  784  
+67e15fa5b487ad Russell King      2019-08-31  785  static int alignment_get_thumb(struct pt_regs *regs, u16 *ip, u16 *inst)
+67e15fa5b487ad Russell King      2019-08-31  786  {
+67e15fa5b487ad Russell King      2019-08-31  787  	u16 instr = 0;
+67e15fa5b487ad Russell King      2019-08-31  788  	int fault;
+67e15fa5b487ad Russell King      2019-08-31  789  
+67e15fa5b487ad Russell King      2019-08-31  790  	if (user_mode(regs))
+67e15fa5b487ad Russell King      2019-08-31 @791  		fault = get_user(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  792  	else
+25f12ae45fc193 Christoph Hellwig 2020-06-17  793  		fault = get_kernel_nofault(instr, ip);
+67e15fa5b487ad Russell King      2019-08-31  794  
+67e15fa5b487ad Russell King      2019-08-31  795  	*inst = __mem_to_opcode_thumb16(instr);
+67e15fa5b487ad Russell King      2019-08-31  796  
+67e15fa5b487ad Russell King      2019-08-31  797  	return fault;
+67e15fa5b487ad Russell King      2019-08-31  798  }
+67e15fa5b487ad Russell King      2019-08-31  799  
+
+:::::: The code at line 776 was first introduced by commit
+:::::: 67e15fa5b487adb9b78a92789eeff2d6ec8f5cee ARM: mm: fix alignment handler faults under memory pressure
+
+:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
+:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
