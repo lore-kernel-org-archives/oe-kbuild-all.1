@@ -1,164 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C903B1514E4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 05:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150013A1E94
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 06:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766899075; cv=none; b=nxCv9oxSDu8RCeJboAaK1UlmA+Y+iSxBrx71c13ys9FygCfT99cRhOa9W5RjLaTAkrBJUi+tbZekXLdwGoTmm8sA3DcUga91Nj10Spq0tiZgYqjaXvbrRVGanPXI0IQCMrEWOKd122dskprk5ZQoccY94yjxNcrfovYcSJL4AS0=
+	t=1766902796; cv=none; b=imwIAyPnPsZp6c/XyvXzvjWhvywFxf3nsYTdcKgsoTLwXZbl3cwp1dDdDn0uEiEfsifolGammyVeh/7HMpPPl8NwJufLPHjf/2Jgrv+tL8pVHP8knao5pwxRYgqCNpjE0NrYzu6nhWnX1WtHfMvTzdM0nMmI8YxMAnIiC8z8+MM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766899075; c=relaxed/simple;
-	bh=8SPQGL4UPSiR/d26uvQjzey7vqt1cAI7qHZE6oLjAgA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HUM5r+QkZmeTd5N8sxEThKiFvtAospOz1bttDGwRQaCX2tMMii7q4AjXWS3tLPrJ6pKlfGRi8I8A70vMqJDUxbSHB4dtEb1kD/uKNGBkCh4+zCUhIHSLpD6dEd1L1PvsCyMwsZ3+rJ2xUkOX/BlUQuWIwudJtZDn3IkwyNIzwv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XUnLHpVb; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1766902796; c=relaxed/simple;
+	bh=Scd1gjFMkW5rwza5NknHxSHu5Um4Q3odMXbUnMNbkSM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=n2C7UaqIX3DrYPWMOukv/W5ZjUcbM9PlONLoLLn7jtMGE2E7sD5VHVIwAw7kbOiTmQdfTzKmuA3j4avFlVZY4a8+6xMosrVUyoO9TSGWdSKe622Y58jNtFDTwWoh/nuLbiJINCT6OyHdFQg4H18DSZ7R0nQ3VkIxjScFOoOINE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IGqRv014; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XUnLHpVb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IGqRv014"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766899074; x=1798435074;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8SPQGL4UPSiR/d26uvQjzey7vqt1cAI7qHZE6oLjAgA=;
-  b=XUnLHpVbKkFU1tBiJvprw6i7aCb99KfBypa7K+7Dksu1yDSEyNaBISmR
-   LSpA1vCs26n6G3hMxGSUVg21MqZdv206gAp3VCbdGL9wVcHgIbhlmcbSP
-   Cn59T2vxZ+y5RRL4Iu7fSn6hjyj0BHm/OP9MjdSHNra7X/aSyjcnbboRc
-   TaqEqEc4FSVueQqDPA2/ezui/F/z+L+vExeoi6TDta3FijXuZYXev4+QX
-   MgETvUqVzMyBcxvwR/1Lk6XdgmJ/rFx7OHFd8TpWuQn/qsljlmnZ3lzjZ
-   r0Nh3+Kv8RcqZA55Fu0i2IJyFnSH9asm2XhWFxhqeTX1ZVRLHSNgW65tJ
-   A==;
-X-CSE-ConnectionGUID: +PtXSYLISZaaTHud2i4sDA==
-X-CSE-MsgGUID: LbdGRxpFR82UknlxQHRE3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="72415536"
+  t=1766902794; x=1798438794;
+  h=date:from:to:cc:subject:message-id;
+  bh=Scd1gjFMkW5rwza5NknHxSHu5Um4Q3odMXbUnMNbkSM=;
+  b=IGqRv014mMYwkT9fdGHiYXqzCurqfIE3HBZPEbzxwcDTLBlf007IhBmv
+   PE1yRly3TjuBKAeDLxYW5HOVRCL+5ttYXHt8CRS2vucWayGx/39McsKZP
+   3WKJLjD8Sc0dX6cl97e9Ei5lihHNwYbS81fj8X3Q9dwQMVi0lzsptajls
+   4CD+ZY+7os953qOwbnbK8/sgubD5gKdKZAB9tbgem4GwimEi8qvusUhZK
+   igdUrzb2R4JRlH+d8z+vxUGUlleaclYZBP1Gc6OB8ZsjFxUzUPzhfHW/w
+   nWJ0RjANkdP9OWA2tC820E7a3wJKxtUzdCXEpO7xd9rnacajknHTnN/D6
+   w==;
+X-CSE-ConnectionGUID: y4nfVBw9RgumfmaSqhQsDA==
+X-CSE-MsgGUID: E6JkyRDWQDKbKTl2BNfRTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11654"; a="68450970"
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="72415536"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 21:17:53 -0800
-X-CSE-ConnectionGUID: ESaTSnn2SQuim7KbBrkvtg==
-X-CSE-MsgGUID: 8LHZkiokTBOXuqq3KgiJ4A==
+   d="scan'208";a="68450970"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2025 22:19:53 -0800
+X-CSE-ConnectionGUID: 33gMNuPlRFePcanUKrhMuw==
+X-CSE-MsgGUID: SqPJPuWTSKql961ORzNv0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="231324218"
+   d="scan'208";a="200964388"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 27 Dec 2025 21:17:51 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 27 Dec 2025 22:19:52 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZjA4-000000006GX-3Zh8;
-	Sun, 28 Dec 2025 05:17:48 +0000
-Date: Sun, 28 Dec 2025 13:17:07 +0800
+	id 1vZk7U-000000006ID-37Xf;
+	Sun, 28 Dec 2025 06:19:48 +0000
+Date: Sun, 28 Dec 2025 14:18:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Coddington <bcodding@hammerspace.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH v1 6/7] NFSD: Add filehandle crypto functions and helpers
-Message-ID: <202512281330.lPQZAymu-lkp@intel.com>
-References: <0688787cf4764d5add06c8ef1fecc9ea549573d7.1766848778.git.bcodding@hammerspace.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-efi-zboot 29/29]
+ drivers/firmware/efi/libstub/zboot-decompress-elf.c:105:53: error:
+ 'R_X86_64_RELATIVE' undeclared; did you mean 'R_386_RELATIVE'?
+Message-ID: <202512281414.hZR7yWaS-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0688787cf4764d5add06c8ef1fecc9ea549573d7.1766848778.git.bcodding@hammerspace.com>
 
-Hi Benjamin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on trondmy-nfs/linux-next linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Coddington/nfsd-Convert-export-flags-to-use-BIT-macro/20251228-010753
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/0688787cf4764d5add06c8ef1fecc9ea549573d7.1766848778.git.bcodding%40hammerspace.com
-patch subject: [PATCH v1 6/7] NFSD: Add filehandle crypto functions and helpers
-config: arm-randconfig-004-20251228 (https://download.01.org/0day-ci/archive/20251228/202512281330.lPQZAymu-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512281330.lPQZAymu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efi-zboot
+head:   b6f238d2e8720acf63467aa0d48d7fc4e31c07c2
+commit: b6f238d2e8720acf63467aa0d48d7fc4e31c07c2 [29/29] efi zboot for x86
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20251228/202512281414.hZR7yWaS-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512281414.hZR7yWaS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512281330.lPQZAymu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512281414.hZR7yWaS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/nfsd/nfsfh.c:282:5: warning: no previous prototype for 'fh_encrypt' [-Wmissing-prototypes]
-     282 | int fh_encrypt(struct svc_fh *fhp)
-         |     ^~~~~~~~~~
-   fs/nfsd/nfsfh.c:294:12: warning: 'fh_decrypt' defined but not used [-Wunused-function]
-     294 | static int fh_decrypt(struct svc_fh *fhp)
-         |            ^~~~~~~~~~
-   In file included from include/linux/string.h:386,
-                    from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:11,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/sched.h:37,
-                    from include/linux/sunrpc/svcauth_gss.h:12,
-                    from fs/nfsd/nfsfh.c:13:
-   fs/nfsd/nfsfh.c: In function 'fh_crypto.constprop':
->> include/linux/compiler_types.h:630:45: error: call to '__compiletime_assert_1035' declared with attribute error: min(sizeof(iv), key_len(fh->fh_raw[2])) signedness error
-     630 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+   drivers/firmware/efi/libstub/zboot-decompress-elf.c: In function 'handle_dynamic':
+   drivers/firmware/efi/libstub/zboot-decompress-elf.c:90:32: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+      90 |                         rela = (void *)(d->d_un.d_ptr + p2v_offset);
+         |                                ^
+   drivers/firmware/efi/libstub/zboot-decompress-elf.c:96:32: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+      96 |                         relr = (void *)(d->d_un.d_ptr + p2v_offset);
+         |                                ^
+>> drivers/firmware/efi/libstub/zboot-decompress-elf.c:105:53: error: 'R_X86_64_RELATIVE' undeclared (first use in this function); did you mean 'R_386_RELATIVE'?
+     105 |                 if (ELF64_R_TYPE(rela[i].r_info) != R_X86_64_RELATIVE)
+         |                                                     ^~~~~~~~~~~~~~~~~
+         |                                                     R_386_RELATIVE
+   drivers/firmware/efi/libstub/zboot-decompress-elf.c:105:53: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/firmware/efi/libstub/zboot-decompress-elf.c:108:25: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     108 |                 place = (u64 *)(rela[i].r_offset + p2v_offset);
+         |                         ^
+   drivers/firmware/efi/libstub/zboot-decompress-elf.c:114:33: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+     114 |                         place = (u64 *)(relr[i] + p2v_offset);
+         |                                 ^
+   drivers/firmware/efi/libstub/zboot-decompress-elf.c: In function 'efi_zboot_decompress_segments':
+   drivers/firmware/efi/libstub/zboot-decompress-elf.c:150:45: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     150 |                         handle_dynamic(dst, (Elf64_Off)dst - ph->p_vaddr, va_shift);
          |                                             ^
-   include/linux/fortify-string.h:627:48: note: in definition of macro '__fortify_memcpy_chk'
-     627 |         const size_t __fortify_size = (size_t)(size);                   \
-         |                                                ^~~~
-   fs/nfsd/nfsfh.c:189:17: note: in expansion of macro 'memcpy'
-     189 |                 memcpy(iv, fh_fsid(fh), min(sizeof(iv), key_len(fh->fh_fsid_type)));
-         |                 ^~~~~~
-   include/linux/compiler_types.h:618:9: note: in expansion of macro '__compiletime_assert'
-     618 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:630:9: note: in expansion of macro '_compiletime_assert'
-     630 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
-      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
-     105 | #define min(x, y)       __careful_cmp(min, x, y)
-         |                         ^~~~~~~~~~~~~
-   fs/nfsd/nfsfh.c:189:41: note: in expansion of macro 'min'
-     189 |                 memcpy(iv, fh_fsid(fh), min(sizeof(iv), key_len(fh->fh_fsid_type)));
-         |                                         ^~~
 
 
-vim +/__compiletime_assert_1035 +630 include/linux/compiler_types.h
+vim +105 drivers/firmware/efi/libstub/zboot-decompress-elf.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  616  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  617  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  618  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  619  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  620  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  621   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  622   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  623   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  624   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  625   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  626   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  627   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  628   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  629  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @630  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  631  
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   77  
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   78  static void handle_dynamic(const Elf64_Dyn *dyn, Elf64_Off p2v_offset,
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   79  			   u64 va_shift)
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   80  {
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   81  	const Elf64_Rela *rela = NULL;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   82  	u64 *relr = NULL;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   83  	int relasize = 0;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   84  	int relrsize = 0;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   85  	u64 *place;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   86  
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   87  	for (auto d = dyn; d->d_tag != DT_NULL; d++) {
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   88  		switch (d->d_tag) {
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   89  		case DT_RELA:
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   90  			rela = (void *)(d->d_un.d_ptr + p2v_offset);
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   91  			break;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   92  		case DT_RELASZ:
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   93  			relasize = d->d_un.d_val;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   94  			break;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   95  		case DT_RELR:
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   96  			relr = (void *)(d->d_un.d_ptr + p2v_offset);
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   97  			break;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   98  		case DT_RELRSZ:
+48d32d494f9f9a Ard Biesheuvel 2024-12-16   99  			relrsize = d->d_un.d_val;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  100  			break;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  101  		}
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  102  	}
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  103  
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  104  	for (int i = 0; i < relasize / sizeof(*rela); i++) {
+48d32d494f9f9a Ard Biesheuvel 2024-12-16 @105  		if (ELF64_R_TYPE(rela[i].r_info) != R_X86_64_RELATIVE)
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  106  			continue;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  107  
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  108  		place = (u64 *)(rela[i].r_offset + p2v_offset);
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  109  		*place += va_shift;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  110  	}
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  111  
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  112  	for (int i = 0; i < relrsize / sizeof(u64); i++) {
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  113  		if ((relr[i] & 1) == 0) {
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  114  			place = (u64 *)(relr[i] + p2v_offset);
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  115  			*place++ += va_shift;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  116  			continue;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  117  		}
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  118  
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  119  		for (u64 *p = place, r = relr[i] >> 1; r; p++, r >>= 1)
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  120  			if (r & 1)
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  121  				*p += va_shift;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  122  		place += 63;
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  123  	}
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  124  }
+48d32d494f9f9a Ard Biesheuvel 2024-12-16  125  
+
+:::::: The code at line 105 was first introduced by commit
+:::::: 48d32d494f9f9a7f30d08647fd94bf20c50705e9 efi/zboot: Add support for ELF payloads
+
+:::::: TO: Ard Biesheuvel <ardb@kernel.org>
+:::::: CC: Ard Biesheuvel <ardb@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
