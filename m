@@ -1,141 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E7C4A07;
-	Sun, 28 Dec 2025 16:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D835F15CD74
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 17:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766937632; cv=none; b=dzyxFpi76oNoAX1Df1RtaBKiF1ElsYwc/7zqTjUfvTodvbnqHqdaHHv55qjCbaU4EpkdXZr+76t+Unar30JeH5e+CHx1wkwwBd/9uFlTH39VIirwa8o6C84AxSzyj8BKQIre4HDPqRF8Sa5gQ9gWW6wX9Y0xfUpffo17Jf7srNc=
+	t=1766944392; cv=none; b=Ye8S10LQpSKl3qSHhWiLFnDg1WkxXhPKF6OBLTI3/Kpt+KosRFvvG1FL4NGxNts86S/t6QgQu3BQ78GxgQKaoRKbZHKJjCs9G7zqDA8Y5FRvTtyODFdfMoV2MupgDNKIOkam5SqacXbDtvMQ4l4rg0cw03CXKlFTl7w4U2IFyXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766937632; c=relaxed/simple;
-	bh=Y+X4n2c64XjvlwAe01XxJMUzi8POkH5Ol/N7tGDFfBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZOFGJ5i9zve3LecM8yP9mQWpnZj6AVsp9VCHserNuPQZfKdNpLqNiT1+RnU9Kp6L48nMK3rJwsZ1ToanUJDo2jgD6WibV6HPToLzPgPxxtZxJryNt/n+pnS7S4t/xwWS4/nyu1drABjIjChCqyjEnnJlF1Q2KOWpaObsI1Dhkco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HO+hFfDZ; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1766944392; c=relaxed/simple;
+	bh=83kM32nBtUOWKPsf82ZFspN6FGeHn090bCGfINx/sFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pEdFe8TL40Je0UCKeIHEFWmCZi4ceQCXZImgDZKIG6fU68cTZEYRAN+ToBHv6M+0u7si0iW3M3BIuPNyU4PWkDJvLBMd7cfj2PO5C+4oqb3+dyL+sikmtlTdIQybGW6RzTfWUbzujQ7VA49+FhDwyAi5IQVML5jYJ+Pxrslnwso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cRaNN1Pi; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HO+hFfDZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cRaNN1Pi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766937630; x=1798473630;
-  h=date:from:to:cc:subject:message-id;
-  bh=Y+X4n2c64XjvlwAe01XxJMUzi8POkH5Ol/N7tGDFfBQ=;
-  b=HO+hFfDZS/RLkRo7GMXv+nLSHba3l28sNvQ20JD9zc24MY7kq97DKP5m
-   mWIwOBvOIh45s+XlsRY20IKqzf4qAkclEboFuNE5PfEy3NPrvpU8VNKgT
-   9NWfx1HDITpnTljI9noJomEIuy5sxDECQBOvTBQZEd4G8IY9ZtkDR2B2G
-   pH60XO94OWmGCh/61Wjflet4OktE1Y4tkCeNB6WPWljrpZM58RRMR5VYl
-   6HO2IxtBTecuPlHWfUF2nYeFmQkpGsRM0FcJkL4weSnRFI2ix+xOlBZCO
-   aWdk1Y2I+sQWdx/i10m1tJvGbfGt8EnZm1scLo8B4MJkMcx6aYz6Hfk1r
-   w==;
-X-CSE-ConnectionGUID: X/RyFh29T36kfsVgAcgWjQ==
-X-CSE-MsgGUID: rNA2Bj7RTH6/94zWu08aIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68515477"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68515477"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 08:00:30 -0800
-X-CSE-ConnectionGUID: D7vFfm0GRwCJBxf3wWzinQ==
-X-CSE-MsgGUID: C+Au6Pu9TSyLCTAJAcXTTA==
+  t=1766944391; x=1798480391;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=83kM32nBtUOWKPsf82ZFspN6FGeHn090bCGfINx/sFg=;
+  b=cRaNN1Pi+4xAnl1MFBb3KcjWKnzlNHfXky9/HujVtCKTS6o8Imj5DV/t
+   LAAip63e0vXW9faMWNKSYjN+jQ2V4bJexPTr84d7IHqvIoLrO9yyka8us
+   8a6tH/Rtml2hhhRv2C9UmMSltsozcvoNUZXoAIFI6TdWad4T0bBy5w9AD
+   Afjh0BVaxP8nDtMI/8xomoehGdmxYghEkzcwu8V09Npuh/ICMoaSX4pWI
+   nnwKUWTnDG35oB4LKT1KElwMkNIN0vpF087cnUQi9TBk1jf40qV9SvlWg
+   aZGZWHYOTuc0zaJZXAm/Cd2aZ2H+ECbQL4Wd17yZBD86qTAdTP92j3w5+
+   Q==;
+X-CSE-ConnectionGUID: aleVXJYtQSiYfAdNdqs0qw==
+X-CSE-MsgGUID: ecBwcXbrQcuB0k5pOqD6sA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="94051095"
+X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
+   d="scan'208";a="94051095"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 09:53:10 -0800
+X-CSE-ConnectionGUID: 1AqeHVCPSu2RlHLw8zzJfQ==
+X-CSE-MsgGUID: u8NibnRrR/eFHQzHm7KEsg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,183,1763452800"; 
-   d="scan'208";a="200369247"
+X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
+   d="scan'208";a="200652956"
 Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Dec 2025 08:00:26 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 28 Dec 2025 09:53:08 -0800
 Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vZtBw-000000006Y9-2fjs;
-	Sun, 28 Dec 2025 16:00:24 +0000
-Date: Sun, 28 Dec 2025 23:59:45 +0800
+	id 1vZux0-000000006cT-0hew;
+	Sun, 28 Dec 2025 17:53:06 +0000
+Date: Mon, 29 Dec 2025 01:52:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/250-aop 39/62] error[E0061]: this function
- takes 1 argument but 2 arguments were supplied
-Message-ID: <202512282309.0qjBzlMN-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Benjamin Coddington <bcodding@hammerspace.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v1 4/7] NFSD: Add a per-knfsd reusable encfh_buf
+Message-ID: <202512290151.LBKUBvUx-lkp@intel.com>
+References: <5b7bf494b1ec816111ab34416dcde85c0bc01a0a.1766848778.git.bcodding@hammerspace.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b7bf494b1ec816111ab34416dcde85c0bc01a0a.1766848778.git.bcodding@hammerspace.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/250-aop
-head:   e08116e258e28774a3770a80debc819b89928f45
-commit: 3ecafd505020550f9bec8e4feca4d39c2db651a3 [39/62] Rust: io: Add memcpy_fromio wrapper
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251228/202512282309.0qjBzlMN-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251228/202512282309.0qjBzlMN-lkp@intel.com/reproduce)
+Hi Benjamin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on trondmy-nfs/linux-next linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Coddington/nfsd-Convert-export-flags-to-use-BIT-macro/20251228-010753
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/5b7bf494b1ec816111ab34416dcde85c0bc01a0a.1766848778.git.bcodding%40hammerspace.com
+patch subject: [PATCH v1 4/7] NFSD: Add a per-knfsd reusable encfh_buf
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20251229/202512290151.LBKUBvUx-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251229/202512290151.LBKUBvUx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512282309.0qjBzlMN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512290151.LBKUBvUx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0061]: this function takes 1 argument but 2 arguments were supplied
-   --> rust/doctests_kernel_generated.rs:7468:22
-   |
-   7468 |     let devres_mem = IoMem::<100>::new(res, device)?;
-   |                      ^^^^^^^^^^^^^^^^^      ------ unexpected argument #2
-   |
-   note: associated function defined here
-   --> rust/kernel/io/mem.rs:259:12
-   |
-   259  |     pub fn new<'a>(io_request: IoRequest<'a>) -> impl PinInit<Devres<Self>, Error> + 'a {
-   |            ^^^
-   help: remove the extra argument
-   |
-   7468 -     let devres_mem = IoMem::<100>::new(res, device)?;
-   7468 +     let devres_mem = IoMem::<100>::new(res)?;
-   |
---
->> error[E0277]: the `?` operator can only be applied to values that implement `Try`
-   --> rust/doctests_kernel_generated.rs:7468:22
-   |
-   7468 |     let devres_mem = IoMem::<100>::new(res, device)?;
-   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the `?` operator cannot be applied to type `impl PinInit<Devres<IoMem<100>>, Error>`
-   |
-   = help: the trait `Try` is not implemented for `impl PinInit<Devres<IoMem<100>>, Error>`
-   = note: the full name for the type has been written to 'rust/doctests_kernel_generated.long-type-9262828175772610124.txt'
-   = note: consider using `--verbose` to print the full type name to the console
---
->> error[E0412]: cannot find type `Device` in this scope
-   --> rust/doctests_kernel_generated.rs:7466:18
-   |
-   7466 | fn test(device: &Device, res: Resource) -> Result {
-   |                  ^^^^^^ not found in this scope
-   |
-   help: consider importing one of these items
-   |
-   3    + use kernel::auxiliary::Device;
-   |
-   3    + use kernel::device::Device;
-   |
-   3    + use kernel::dma::Device;
-   |
-   3    + use kernel::net::phy::Device;
-   |
-   and 2 other candidates
---
->> error[E0603]: struct `Resource` is private
-   --> rust/doctests_kernel_generated.rs:7464:22
-   |
-   7464 | use kernel::io::mem::Resource;
-   |                      ^^^^^^^^ private struct
-   |
-   note: the struct `Resource` is defined here
-   --> rust/kernel/io/mem.rs:14:5
-   |
-   14   | use crate::io::resource::Resource;
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   help: import `Resource` directly
-   |
-   7464 - use kernel::io::mem::Resource;
-   7464 + use kernel::io::resource::Resource;
-   |
+   fs/nfsd/nfsxdr.c: In function 'svcxdr_decode_fhandle':
+>> fs/nfsd/nfsxdr.c:66:9: error: too few arguments to function 'fh_init'
+      66 |         fh_init(fhp, NFS_FHSIZE);
+         |         ^~~~~~~
+   In file included from fs/nfsd/vfs.h:11,
+                    from fs/nfsd/nfsxdr.c:8:
+   fs/nfsd/nfsfh.h:256:1: note: declared here
+     256 | fh_init(struct svc_fh *fhp, int maxsize, struct svc_rqst *rqstp)
+         | ^~~~~~~
+
+
+vim +/fh_init +66 fs/nfsd/nfsxdr.c
+
+a887eaed2a96475 Chuck Lever 2020-10-23  48  
+635a45d34706400 Chuck Lever 2020-11-17  49  /**
+635a45d34706400 Chuck Lever 2020-11-17  50   * svcxdr_decode_fhandle - Decode an NFSv2 file handle
+635a45d34706400 Chuck Lever 2020-11-17  51   * @xdr: XDR stream positioned at an encoded NFSv2 FH
+635a45d34706400 Chuck Lever 2020-11-17  52   * @fhp: OUT: filled-in server file handle
+635a45d34706400 Chuck Lever 2020-11-17  53   *
+635a45d34706400 Chuck Lever 2020-11-17  54   * Return values:
+635a45d34706400 Chuck Lever 2020-11-17  55   *  %false: The encoded file handle was not valid
+635a45d34706400 Chuck Lever 2020-11-17  56   *  %true: @fhp has been initialized
+635a45d34706400 Chuck Lever 2020-11-17  57   */
+635a45d34706400 Chuck Lever 2020-11-17  58  bool
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  59  svcxdr_decode_fhandle(struct xdr_stream *xdr, struct svc_fh *fhp)
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  60  {
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  61  	__be32 *p;
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  62  
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  63  	p = xdr_inline_decode(xdr, NFS_FHSIZE);
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  64  	if (!p)
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  65  		return false;
+ebcd8e8b28535b6 Chuck Lever 2020-10-21 @66  	fh_init(fhp, NFS_FHSIZE);
+d8b26071e65e80a NeilBrown   2021-09-02  67  	memcpy(&fhp->fh_handle.fh_raw, p, NFS_FHSIZE);
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  68  	fhp->fh_handle.fh_size = NFS_FHSIZE;
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  69  
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  70  	return true;
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  71  }
+ebcd8e8b28535b6 Chuck Lever 2020-10-21  72  
 
 -- 
 0-DAY CI Kernel Test Service
