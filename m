@@ -1,134 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDC1824BD
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 Dec 2025 20:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6451D6195;
+	Sun, 28 Dec 2025 21:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766953833; cv=none; b=s83oIxoG2mP3IX2GiEskUbZV5WR0yDi7s5Uwa/a+JEyXDokX50RKktNELMST+YhcqLl0uD+1EC3dRc0lgNdXaTyHskuqM5YkhfWtKe0a/zAcn9IJG6wFnRMGwkagQ/zun7Zut8sZvn4KQR5Kc/KWlDnrVIjsHQSEvEYLyxy59T8=
+	t=1766958978; cv=none; b=UnxyTOECQ6OIC6xzmDQwAZnu7k6EhkAvxiI7hRH9SMDCnGrDeDtFU0zt2j/djhG3CNH4OtKNrsvqdm8vmQ7AFTguG98NBaFin9oP24OP3VOpYZpgliSSQ0557dGnbrpZi849fGuSNXNReKCtRpjUbxCxL5GMkqGJZZ832h1cbGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766953833; c=relaxed/simple;
-	bh=c6LJvG6sRWFoZr2OyZswuRCEMElrBS+m2HnrRmEiSoU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dxc9O70LuZVsIqzTLa+cy6pni1WrjGmx7/OhtxiOiS3xxZw2ktsmZkh1Agm8+25J3L8Kx9EKKhJVwB6zNVQi7j9cLhdzpdIlrQsdJ7SCoyXworWr4/eR5mDRkLRcvhel9VNQhuPpUltQSgHsAisIAWPPdb6H3LZn0rL0wRCFwBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QN35oeT+; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766958978; c=relaxed/simple;
+	bh=h9J1W/6qeXCXFcc9WTdkGzuxAMIhZc3abbaha7ymYlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y/WB2STqRL1AAwhF52f+WMUG769OwYvCewA+mK/ORd5+aM1Lx3lasp4nQdj/RBQW9meB4V3A6dYwhsE6VZL2nWhEtJuaU2a7F3U3GgRvr70LBJXz98Y3SvmSqRH6xL3IfrtPCp+h0CuGxE73288UIwZilZLA3nA0YC/pS9hMboA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V6kP6p3e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QN35oeT+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766953832; x=1798489832;
-  h=date:from:to:cc:subject:message-id;
-  bh=c6LJvG6sRWFoZr2OyZswuRCEMElrBS+m2HnrRmEiSoU=;
-  b=QN35oeT+6xXoQJkeBtsMKS5+6FxMaQKF1qpHqYFz/4Ho68UZyxkfbqfO
-   FPj59f3xxHSGhm3XufxEwDBRhT7Ik+UH959CkOXQmLCQYUDNd7Zth7B79
-   skWFcpnfW9xOVZFew8cUMBj2/722oclJxY3W3wAvrWIIpUhKJAh16TZg7
-   dS0yIf1gEVp4UblCNBf+dJwwRIN3xgnHGFzOFFsqHps8L24Cu86tRzEqO
-   oQGjYK2Xji+Lf+GSa5PtLqKaxHRObYOT3jRddbwQxje4Wsqx0aW6g3cYR
-   SGxBLyHtIfW1OmRZj8HLMbvQJ4fWOmo6hy/D9i/KaJrKO+8tODIwdJOH+
-   w==;
-X-CSE-ConnectionGUID: aX7qc+wOQg+6M/qQ/L3pwg==
-X-CSE-MsgGUID: sGy1o5dqTdmuiXCRE0BDug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="79951258"
-X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
-   d="scan'208";a="79951258"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 12:30:31 -0800
-X-CSE-ConnectionGUID: 4/GcmWQ0QUCnEVpWVJFcdw==
-X-CSE-MsgGUID: M6fIrPp0Su+2sDUAokCM6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
-   d="scan'208";a="205684573"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 28 Dec 2025 12:30:30 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vZxPC-000000006gL-2agM;
-	Sun, 28 Dec 2025 20:30:23 +0000
-Date: Mon, 29 Dec 2025 04:29:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.19-rc 23/117]
- drivers/net/pcs/pcs-mtk-lynxi.c:383:2-3: Unneeded semicolon
-Message-ID: <202512290444.1u8gmDqh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V6kP6p3e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8C3DC4CEFB;
+	Sun, 28 Dec 2025 21:56:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766958977;
+	bh=h9J1W/6qeXCXFcc9WTdkGzuxAMIhZc3abbaha7ymYlo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V6kP6p3eIsXi/oNcYimf2y8YtiQ0bXLMueMiuWkJlf9EolZjK8Jz1pqVpNqROJIXH
+	 mmtB66oeJsalB2nctBbAtKrRgm55m32EHj5CeRaZX4F1yg3SpUk5xaoYBKT7F6LqiJ
+	 MKHQ24gCf1VsREMEKT2OOER7iplYjsOPocvs33WOeK+bzcH5O5Ruo+u1RwBXM5uwn6
+	 Q5ORz1k7ECvNBHLMlqMUMUxYOqi5MHu3Gk6ZA21q6v9tf4NdDyjkGYgDF3xMk4+YTK
+	 YY0Ig05WScT50dGHEc9/37lZ69ADl8x4d3nOugpaMOf6gVi2Hs9+zn7modn6/+N4Rg
+	 vbGLgXLjnUHkQ==
+Date: Sun, 28 Dec 2025 14:56:13 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Ihor Solodrai <ihor.solodrai@linux.dev>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Andrii Nakryiko <andrii@kernel.org>
+Subject: Re: [bpf-next:master 8/9] ld.lld: error: .tmp_vmlinux1.btf.o is
+ incompatible with elf32lriscv
+Message-ID: <20251228215613.GA2167770@ax162>
+References: <202512240559.2M06DSX7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202512240559.2M06DSX7-lkp@intel.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.19-rc
-head:   44b0991cc3efe339e015f1f9bb402537bdb5e10c
-commit: 6edae4f620b970a0fd58f812250e8aa94068bd49 [23/117] net: pcs: pcs-mtk-lynxi: add platform driver for MT7988
-config: arm64-randconfig-r053-20251228 (https://download.01.org/0day-ci/archive/20251229/202512290444.1u8gmDqh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+On Wed, Dec 24, 2025 at 06:02:31AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> head:   f14cdb1367b947d373215e36cfe9c69768dbafc9
+> commit: 522397d05e7d4a7c30b91841492360336b24f833 [8/9] resolve_btfids: Change in-place update with raw binary output
+> config: riscv-randconfig-002-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240559.2M06DSX7-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240559.2M06DSX7-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512240559.2M06DSX7-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> ld.lld: error: .tmp_vmlinux1.btf.o is incompatible with elf32lriscv
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512290444.1u8gmDqh-lkp@intel.com/
+While I have not verified this, I suspect this error occurs because the
+${CC} command in gen_btf_o() in scripts/gen-btf.sh only includes
+CLANG_FLAGS for the target selection but not '-m32' or '-m64' from
+KBUILD_CFLAGS to control the word size (as documented in
+scripts/Makefile.clang).
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/pcs/pcs-mtk-lynxi.c:383:2-3: Unneeded semicolon
-
-vim +383 drivers/net/pcs/pcs-mtk-lynxi.c
-
-   346	
-   347	static struct phylink_pcs *mtk_pcs_lynxi_init(struct device *dev, struct regmap *regmap,
-   348						      u32 ana_rgc3, u32 flags,
-   349						      struct mtk_pcs_lynxi *prealloc)
-   350	{
-   351		struct mtk_pcs_lynxi *mpcs;
-   352		u32 id, ver;
-   353		int ret;
-   354	
-   355		ret = regmap_read(regmap, SGMSYS_PCS_DEVICE_ID, &id);
-   356		if (ret < 0)
-   357			return ERR_PTR(ret);
-   358	
-   359		if (id != SGMII_LYNXI_DEV_ID) {
-   360			dev_err(dev, "unknown PCS device id %08x\n", id);
-   361			return ERR_PTR(-ENODEV);
-   362		}
-   363	
-   364		ret = regmap_read(regmap, SGMSYS_PCS_SCRATCH, &ver);
-   365		if (ret < 0)
-   366			return ERR_PTR(ret);
-   367	
-   368		ver = FIELD_GET(SGMII_DEV_VERSION, ver);
-   369		if (ver != 0x1) {
-   370			dev_err(dev, "unknown PCS device version %04x\n", ver);
-   371			return ERR_PTR(-ENODEV);
-   372		}
-   373	
-   374		dev_dbg(dev, "MediaTek LynxI SGMII PCS (id 0x%08x, ver 0x%04x)\n", id,
-   375			ver);
-   376	
-   377		if (prealloc) {
-   378			mpcs = prealloc;
-   379		} else {
-   380			mpcs = kzalloc(sizeof(*mpcs), GFP_KERNEL);
-   381			if (!mpcs)
-   382				return ERR_PTR(-ENOMEM);
- > 383		};
-   384	
-   385		mpcs->ana_rgc3 = ana_rgc3;
-   386		mpcs->regmap = regmap;
-   387		mpcs->flags = flags;
-   388		mpcs->pcs.ops = &mtk_pcs_lynxi_ops;
-   389		mpcs->pcs.poll = true;
-   390		mpcs->interface = PHY_INTERFACE_MODE_NA;
-   391	
-   392		__set_bit(PHY_INTERFACE_MODE_SGMII, mpcs->pcs.supported_interfaces);
-   393		__set_bit(PHY_INTERFACE_MODE_1000BASEX, mpcs->pcs.supported_interfaces);
-   394		__set_bit(PHY_INTERFACE_MODE_2500BASEX, mpcs->pcs.supported_interfaces);
-   395	
-   396		return &mpcs->pcs;
-   397	};
-   398	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Nathan
