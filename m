@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10BE153BE9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Dec 2025 00:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE581624E9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Dec 2025 01:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766968482; cv=none; b=AEE7HyFQx5rp3MtFz99WI5eKFudmAmV9X8rB5qYoNYbst0XTDbsld3TNd9EhvgfLtN6KziapwkP6G6s+XbLXF4A7+lSYr+4ltBzBqpvx5kJp1vS2L50jodxO3ABszZnuMn1Ie+452qnCrW15T5Kz0Obq++AnQHJ/77PNWtTaIj4=
+	t=1766970122; cv=none; b=DwE6ZZ59GGrvoy8k7WroIJlKDjzhfQ/tpg9c9UYI6sIBRHgQYzRmiag9v8L1pt68jcTqt7Kn9F4V5pIKxcicZOV/w3kK+vUHYvKK/vuWhqmv/D2144+pveRAEnkcXPbEvi4kI4lMIlZn7i47eP8P/19ELjDTkcV35d4nSx/DdDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766968482; c=relaxed/simple;
-	bh=aqawSjwNX49YXJlW/LinZJE/sGDSJdwNaY1EJDAMvtE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V+eIWb/r3+LUUDQYPA+8gIeZs2oBucEK84XP5630HxYr/ezTI1E0NSPHhsnBINLodp7ZEUg9iTbaHcN31WCyopRjiYRRjf4C2TVm/zfEg4Xvbcuj/0sQlck9pMEcDlNmBfwhr0scJrYsjGozQ2aq7pnnNH6JdvH1D5c3u3Z2lEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qinxfr9m; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1766970122; c=relaxed/simple;
+	bh=xlwNDZh9YPSbJhl/Po7oDqkzhYnIPkcnnLBIw8WPKMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gPd8kYKhFuF+RoI4pzG4ecJ19R/prn/gJwNSiti2C99IBfMNdqYZF/94bRQ3ddNjY2zdvm7ANqwJJreALbB+Cx8fdSn0MxkgsHV0ihtmlmzSH9GRdcsUfunSADpg9KZ3i/FCIvwGKCkQWHLJ6Cyvqp9ysUhDrdSz28a7qR+Bt2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JvMmdynQ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qinxfr9m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvMmdynQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766968480; x=1798504480;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aqawSjwNX49YXJlW/LinZJE/sGDSJdwNaY1EJDAMvtE=;
-  b=Qinxfr9mwPgCQA3dSVSGCGR2rh+sFWxRgpEcXR6jBIiHuXTScOYkwKKH
-   +/ngK2bsvfDSGQMKeLQIz+yWFt1JWTXboVCIRd5zETELeSIvUBQeZswjC
-   vDv56OnaBQVpvyugQiNF4zi7OtMqReCwSKPU7o4sAy0fzugk5kSBqx44w
-   wh0KBeY7KgbJ2GE/qCtiJQyZZF8/PzKR+60fO/Cr55sgxJrre/UZ/FolW
-   VhO4J76AWHIH+937Ny0PYE2JudKdikRIkcxUfOgh8h6ITE3LvMZqDOb98
-   TfIbPLRVozXOFQN5Wf0PJA/nsGDzZtkqNqiNcH6p86ur0R8gLk4dec8np
-   w==;
-X-CSE-ConnectionGUID: 7Z53YIlKR1al19y9NwISeA==
-X-CSE-MsgGUID: +nf6AqdERL+yVAg9BMuvTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="94058761"
+  t=1766970121; x=1798506121;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xlwNDZh9YPSbJhl/Po7oDqkzhYnIPkcnnLBIw8WPKMY=;
+  b=JvMmdynQkwJDhoi3Kp/jfgP4bwwQn6mPs63eo+WzwjJPx72EqSVAzHUh
+   W7KmTFgpN7vvFv+ScTg4tq8gyJxKeHl0U1Iw8HHJ+tl8dVWm97BPAGVbU
+   GnoeBvNWuf7CTmpAilquax/Z7Xxoz4eWjHxd2CfIN6217Tx2q76ZafSNG
+   1fLmrCD1DiV9507FB8McGhdzBon0GDJQ+UWv8oJwFqtVOmj1O/nuPf/Sm
+   KCGChagKA5rxzl5BYAjCBGD6W9pgTajietTziGZJ6MK+y5ga9M6hKAbid
+   L7t5SEc2hsqqwHao7pgVdM/GM/Kz6PWzAyMWQYtWfkd6Lt8yZRaCTCDTX
+   Q==;
+X-CSE-ConnectionGUID: mV8oA/VrTCe3z8coFTiz9g==
+X-CSE-MsgGUID: xQNoOYPpRfymLmTDgSxhAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="67590768"
 X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
-   d="scan'208";a="94058761"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 16:34:39 -0800
-X-CSE-ConnectionGUID: DFvwOvgpQiyfn4VKf6tesw==
-X-CSE-MsgGUID: psbj55LIRayY3XvRlA7DuA==
+   d="scan'208";a="67590768"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 17:02:01 -0800
+X-CSE-ConnectionGUID: +a8rtBL0S+WqtS/uRMtNFA==
+X-CSE-MsgGUID: 2kE5IXzbTz2W1y0wP4rZzg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
-   d="scan'208";a="200763246"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 28 Dec 2025 16:34:36 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+   d="scan'208";a="204932224"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 28 Dec 2025 17:02:00 -0800
+Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1va1DL-000000006lF-0l8m;
-	Mon, 29 Dec 2025 00:34:31 +0000
-Date: Mon, 29 Dec 2025 08:33:30 +0800
+	id 1va1e1-000000007dW-0bgA;
+	Mon, 29 Dec 2025 01:01:57 +0000
+Date: Mon, 29 Dec 2025 02:01:28 +0100
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Coddington <bcodding@hammerspace.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH v1 4/7] NFSD: Add a per-knfsd reusable encfh_buf
-Message-ID: <202512290829.D6hFwVeD-lkp@intel.com>
-References: <5b7bf494b1ec816111ab34416dcde85c0bc01a0a.1766848778.git.bcodding@hammerspace.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [sashal:spec 113/131] htmldocs: Documentation/driver-api/basics:75:
+ ./kernel/signal.c:5950: WARNING: Inline emphasis start-string without
+ end-string. [docutils]
+Message-ID: <202512290259.B1YOnFTb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,71 +62,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5b7bf494b1ec816111ab34416dcde85c0bc01a0a.1766848778.git.bcodding@hammerspace.com>
 
-Hi Benjamin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on trondmy-nfs/linux-next linus/master v6.19-rc2 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Coddington/nfsd-Convert-export-flags-to-use-BIT-macro/20251228-010753
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/5b7bf494b1ec816111ab34416dcde85c0bc01a0a.1766848778.git.bcodding%40hammerspace.com
-patch subject: [PATCH v1 4/7] NFSD: Add a per-knfsd reusable encfh_buf
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20251229/202512290829.D6hFwVeD-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251229/202512290829.D6hFwVeD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
+head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
+commit: dc79a5b89557449a3ad50f5a47f2f10564df7610 [113/131] kernel/api: add API specification for sys_rt_sigaction
+reproduce: (https://download.01.org/0day-ci/archive/20251229/202512290259.B1YOnFTb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512290829.D6hFwVeD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512290259.B1YOnFTb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/nfsd/nfsxdr.c: In function 'svcxdr_decode_fhandle':
->> fs/nfsd/nfsxdr.c:66:9: error: too few arguments to function 'fh_init'; expected 3, have 2
-      66 |         fh_init(fhp, NFS_FHSIZE);
-         |         ^~~~~~~
-   In file included from fs/nfsd/vfs.h:11,
-                    from fs/nfsd/nfsxdr.c:8:
-   fs/nfsd/nfsfh.h:256:1: note: declared here
-     256 | fh_init(struct svc_fh *fhp, int maxsize, struct svc_rqst *rqstp)
-         | ^~~~~~~
-
-
-vim +/fh_init +66 fs/nfsd/nfsxdr.c
-
-a887eaed2a9647 Chuck Lever 2020-10-23  48  
-635a45d3470640 Chuck Lever 2020-11-17  49  /**
-635a45d3470640 Chuck Lever 2020-11-17  50   * svcxdr_decode_fhandle - Decode an NFSv2 file handle
-635a45d3470640 Chuck Lever 2020-11-17  51   * @xdr: XDR stream positioned at an encoded NFSv2 FH
-635a45d3470640 Chuck Lever 2020-11-17  52   * @fhp: OUT: filled-in server file handle
-635a45d3470640 Chuck Lever 2020-11-17  53   *
-635a45d3470640 Chuck Lever 2020-11-17  54   * Return values:
-635a45d3470640 Chuck Lever 2020-11-17  55   *  %false: The encoded file handle was not valid
-635a45d3470640 Chuck Lever 2020-11-17  56   *  %true: @fhp has been initialized
-635a45d3470640 Chuck Lever 2020-11-17  57   */
-635a45d3470640 Chuck Lever 2020-11-17  58  bool
-ebcd8e8b28535b Chuck Lever 2020-10-21  59  svcxdr_decode_fhandle(struct xdr_stream *xdr, struct svc_fh *fhp)
-ebcd8e8b28535b Chuck Lever 2020-10-21  60  {
-ebcd8e8b28535b Chuck Lever 2020-10-21  61  	__be32 *p;
-ebcd8e8b28535b Chuck Lever 2020-10-21  62  
-ebcd8e8b28535b Chuck Lever 2020-10-21  63  	p = xdr_inline_decode(xdr, NFS_FHSIZE);
-ebcd8e8b28535b Chuck Lever 2020-10-21  64  	if (!p)
-ebcd8e8b28535b Chuck Lever 2020-10-21  65  		return false;
-ebcd8e8b28535b Chuck Lever 2020-10-21 @66  	fh_init(fhp, NFS_FHSIZE);
-d8b26071e65e80 NeilBrown   2021-09-02  67  	memcpy(&fhp->fh_handle.fh_raw, p, NFS_FHSIZE);
-ebcd8e8b28535b Chuck Lever 2020-10-21  68  	fhp->fh_handle.fh_size = NFS_FHSIZE;
-ebcd8e8b28535b Chuck Lever 2020-10-21  69  
-ebcd8e8b28535b Chuck Lever 2020-10-21  70  	return true;
-ebcd8e8b28535b Chuck Lever 2020-10-21  71  }
-ebcd8e8b28535b Chuck Lever 2020-10-21  72  
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5888: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5892: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5899: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5902: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:5908: ERROR: Unexpected indentation. [docutils]
+>> Documentation/driver-api/basics:75: ./kernel/signal.c:5950: WARNING: Inline emphasis start-string without end-string. [docutils]
+>> Documentation/driver-api/basics:75: ./kernel/signal.c:5950: WARNING: Inline emphasis start-string without end-string. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:6220: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:6221: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:6231: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:6233: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/driver-api/basics:75: ./kernel/signal.c:6287: ERROR: Unexpected indentation. [docutils]
 
 -- 
 0-DAY CI Kernel Test Service
