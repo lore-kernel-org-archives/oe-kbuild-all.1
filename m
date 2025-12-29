@@ -1,40 +1,63 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C6451D6195;
-	Sun, 28 Dec 2025 21:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10BE153BE9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Dec 2025 00:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766958978; cv=none; b=UnxyTOECQ6OIC6xzmDQwAZnu7k6EhkAvxiI7hRH9SMDCnGrDeDtFU0zt2j/djhG3CNH4OtKNrsvqdm8vmQ7AFTguG98NBaFin9oP24OP3VOpYZpgliSSQ0557dGnbrpZi849fGuSNXNReKCtRpjUbxCxL5GMkqGJZZ832h1cbGE=
+	t=1766968482; cv=none; b=AEE7HyFQx5rp3MtFz99WI5eKFudmAmV9X8rB5qYoNYbst0XTDbsld3TNd9EhvgfLtN6KziapwkP6G6s+XbLXF4A7+lSYr+4ltBzBqpvx5kJp1vS2L50jodxO3ABszZnuMn1Ie+452qnCrW15T5Kz0Obq++AnQHJ/77PNWtTaIj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766958978; c=relaxed/simple;
-	bh=h9J1W/6qeXCXFcc9WTdkGzuxAMIhZc3abbaha7ymYlo=;
+	s=arc-20240116; t=1766968482; c=relaxed/simple;
+	bh=aqawSjwNX49YXJlW/LinZJE/sGDSJdwNaY1EJDAMvtE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y/WB2STqRL1AAwhF52f+WMUG769OwYvCewA+mK/ORd5+aM1Lx3lasp4nQdj/RBQW9meB4V3A6dYwhsE6VZL2nWhEtJuaU2a7F3U3GgRvr70LBJXz98Y3SvmSqRH6xL3IfrtPCp+h0CuGxE73288UIwZilZLA3nA0YC/pS9hMboA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V6kP6p3e; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=V+eIWb/r3+LUUDQYPA+8gIeZs2oBucEK84XP5630HxYr/ezTI1E0NSPHhsnBINLodp7ZEUg9iTbaHcN31WCyopRjiYRRjf4C2TVm/zfEg4Xvbcuj/0sQlck9pMEcDlNmBfwhr0scJrYsjGozQ2aq7pnnNH6JdvH1D5c3u3Z2lEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qinxfr9m; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V6kP6p3e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8C3DC4CEFB;
-	Sun, 28 Dec 2025 21:56:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766958977;
-	bh=h9J1W/6qeXCXFcc9WTdkGzuxAMIhZc3abbaha7ymYlo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V6kP6p3eIsXi/oNcYimf2y8YtiQ0bXLMueMiuWkJlf9EolZjK8Jz1pqVpNqROJIXH
-	 mmtB66oeJsalB2nctBbAtKrRgm55m32EHj5CeRaZX4F1yg3SpUk5xaoYBKT7F6LqiJ
-	 MKHQ24gCf1VsREMEKT2OOER7iplYjsOPocvs33WOeK+bzcH5O5Ruo+u1RwBXM5uwn6
-	 Q5ORz1k7ECvNBHLMlqMUMUxYOqi5MHu3Gk6ZA21q6v9tf4NdDyjkGYgDF3xMk4+YTK
-	 YY0Ig05WScT50dGHEc9/37lZ69ADl8x4d3nOugpaMOf6gVi2Hs9+zn7modn6/+N4Rg
-	 vbGLgXLjnUHkQ==
-Date: Sun, 28 Dec 2025 14:56:13 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Ihor Solodrai <ihor.solodrai@linux.dev>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, Andrii Nakryiko <andrii@kernel.org>
-Subject: Re: [bpf-next:master 8/9] ld.lld: error: .tmp_vmlinux1.btf.o is
- incompatible with elf32lriscv
-Message-ID: <20251228215613.GA2167770@ax162>
-References: <202512240559.2M06DSX7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qinxfr9m"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1766968480; x=1798504480;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aqawSjwNX49YXJlW/LinZJE/sGDSJdwNaY1EJDAMvtE=;
+  b=Qinxfr9mwPgCQA3dSVSGCGR2rh+sFWxRgpEcXR6jBIiHuXTScOYkwKKH
+   +/ngK2bsvfDSGQMKeLQIz+yWFt1JWTXboVCIRd5zETELeSIvUBQeZswjC
+   vDv56OnaBQVpvyugQiNF4zi7OtMqReCwSKPU7o4sAy0fzugk5kSBqx44w
+   wh0KBeY7KgbJ2GE/qCtiJQyZZF8/PzKR+60fO/Cr55sgxJrre/UZ/FolW
+   VhO4J76AWHIH+937Ny0PYE2JudKdikRIkcxUfOgh8h6ITE3LvMZqDOb98
+   TfIbPLRVozXOFQN5Wf0PJA/nsGDzZtkqNqiNcH6p86ur0R8gLk4dec8np
+   w==;
+X-CSE-ConnectionGUID: 7Z53YIlKR1al19y9NwISeA==
+X-CSE-MsgGUID: +nf6AqdERL+yVAg9BMuvTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="94058761"
+X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
+   d="scan'208";a="94058761"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 16:34:39 -0800
+X-CSE-ConnectionGUID: DFvwOvgpQiyfn4VKf6tesw==
+X-CSE-MsgGUID: psbj55LIRayY3XvRlA7DuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,184,1763452800"; 
+   d="scan'208";a="200763246"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 28 Dec 2025 16:34:36 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1va1DL-000000006lF-0l8m;
+	Mon, 29 Dec 2025 00:34:31 +0000
+Date: Mon, 29 Dec 2025 08:33:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Benjamin Coddington <bcodding@hammerspace.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v1 4/7] NFSD: Add a per-knfsd reusable encfh_buf
+Message-ID: <202512290829.D6hFwVeD-lkp@intel.com>
+References: <5b7bf494b1ec816111ab34416dcde85c0bc01a0a.1766848778.git.bcodding@hammerspace.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,30 +66,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202512240559.2M06DSX7-lkp@intel.com>
+In-Reply-To: <5b7bf494b1ec816111ab34416dcde85c0bc01a0a.1766848778.git.bcodding@hammerspace.com>
 
-On Wed, Dec 24, 2025 at 06:02:31AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> head:   f14cdb1367b947d373215e36cfe9c69768dbafc9
-> commit: 522397d05e7d4a7c30b91841492360336b24f833 [8/9] resolve_btfids: Change in-place update with raw binary output
-> config: riscv-randconfig-002-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240559.2M06DSX7-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 4ef602d446057dabf5f61fb221669ecbeda49279)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251224/202512240559.2M06DSX7-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512240559.2M06DSX7-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> ld.lld: error: .tmp_vmlinux1.btf.o is incompatible with elf32lriscv
+Hi Benjamin,
 
-While I have not verified this, I suspect this error occurs because the
-${CC} command in gen_btf_o() in scripts/gen-btf.sh only includes
-CLANG_FLAGS for the target selection but not '-m32' or '-m64' from
-KBUILD_CFLAGS to control the word size (as documented in
-scripts/Makefile.clang).
+kernel test robot noticed the following build errors:
 
-Cheers,
-Nathan
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on trondmy-nfs/linux-next linus/master v6.19-rc2 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Coddington/nfsd-Convert-export-flags-to-use-BIT-macro/20251228-010753
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/5b7bf494b1ec816111ab34416dcde85c0bc01a0a.1766848778.git.bcodding%40hammerspace.com
+patch subject: [PATCH v1 4/7] NFSD: Add a per-knfsd reusable encfh_buf
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20251229/202512290829.D6hFwVeD-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251229/202512290829.D6hFwVeD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512290829.D6hFwVeD-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/nfsd/nfsxdr.c: In function 'svcxdr_decode_fhandle':
+>> fs/nfsd/nfsxdr.c:66:9: error: too few arguments to function 'fh_init'; expected 3, have 2
+      66 |         fh_init(fhp, NFS_FHSIZE);
+         |         ^~~~~~~
+   In file included from fs/nfsd/vfs.h:11,
+                    from fs/nfsd/nfsxdr.c:8:
+   fs/nfsd/nfsfh.h:256:1: note: declared here
+     256 | fh_init(struct svc_fh *fhp, int maxsize, struct svc_rqst *rqstp)
+         | ^~~~~~~
+
+
+vim +/fh_init +66 fs/nfsd/nfsxdr.c
+
+a887eaed2a9647 Chuck Lever 2020-10-23  48  
+635a45d3470640 Chuck Lever 2020-11-17  49  /**
+635a45d3470640 Chuck Lever 2020-11-17  50   * svcxdr_decode_fhandle - Decode an NFSv2 file handle
+635a45d3470640 Chuck Lever 2020-11-17  51   * @xdr: XDR stream positioned at an encoded NFSv2 FH
+635a45d3470640 Chuck Lever 2020-11-17  52   * @fhp: OUT: filled-in server file handle
+635a45d3470640 Chuck Lever 2020-11-17  53   *
+635a45d3470640 Chuck Lever 2020-11-17  54   * Return values:
+635a45d3470640 Chuck Lever 2020-11-17  55   *  %false: The encoded file handle was not valid
+635a45d3470640 Chuck Lever 2020-11-17  56   *  %true: @fhp has been initialized
+635a45d3470640 Chuck Lever 2020-11-17  57   */
+635a45d3470640 Chuck Lever 2020-11-17  58  bool
+ebcd8e8b28535b Chuck Lever 2020-10-21  59  svcxdr_decode_fhandle(struct xdr_stream *xdr, struct svc_fh *fhp)
+ebcd8e8b28535b Chuck Lever 2020-10-21  60  {
+ebcd8e8b28535b Chuck Lever 2020-10-21  61  	__be32 *p;
+ebcd8e8b28535b Chuck Lever 2020-10-21  62  
+ebcd8e8b28535b Chuck Lever 2020-10-21  63  	p = xdr_inline_decode(xdr, NFS_FHSIZE);
+ebcd8e8b28535b Chuck Lever 2020-10-21  64  	if (!p)
+ebcd8e8b28535b Chuck Lever 2020-10-21  65  		return false;
+ebcd8e8b28535b Chuck Lever 2020-10-21 @66  	fh_init(fhp, NFS_FHSIZE);
+d8b26071e65e80 NeilBrown   2021-09-02  67  	memcpy(&fhp->fh_handle.fh_raw, p, NFS_FHSIZE);
+ebcd8e8b28535b Chuck Lever 2020-10-21  68  	fhp->fh_handle.fh_size = NFS_FHSIZE;
+ebcd8e8b28535b Chuck Lever 2020-10-21  69  
+ebcd8e8b28535b Chuck Lever 2020-10-21  70  	return true;
+ebcd8e8b28535b Chuck Lever 2020-10-21  71  }
+ebcd8e8b28535b Chuck Lever 2020-10-21  72  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
