@@ -1,124 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE68A275864
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Dec 2025 18:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230FD3C17
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Dec 2025 19:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767034687; cv=none; b=ZfILv4YYZHBKAxD+sNvSpFpdFMxlOebrJubcmgO+kpaNX1BiiSoa/tfuy5gyi8E+bwFsun/r66nnQ6GszT07+yMymFcxAn+Z+Pk+4V7w3nyOSg+imC5q1XzGSiPaZKdZlBfiS0x03LAbH52rFQ26jGWeFsKPfgH+o/AaNT2Itlc=
+	t=1767036515; cv=none; b=t0m1Kk2e7OiLrpbjBfMoSc0Z9jJNV9HzebB+KimHAm/V2CyBJUYNEddFXDnm4rRuZyfo9dIabdbJtJ2aqMKHH4Yc5ZFV2+6Ga2L6qdXFqMYrrrqi4R/zOjhGCKksFtCESzramDeGdqRUItYSpb0TPatPSVeyqin2KqhZ9t5wWIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767034687; c=relaxed/simple;
-	bh=3Q4ToYwVxWhk1MhCaKkiTm0VeaQcG0cfcO0P65iGnQM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cBYL/F4J4Q+lCDSPHSngzk41gGcHaaUg+ZlloWU3bxtnnRW8Fw6f857OHCh1iARVY6q99t/s/wkQQ/ck9D7NWe2HaJ/fNurlbdNs7a11Gm6ggVNhVk6AYxZlnWutWR9BsJQWq7+BXZz5oV4teUP5cl6Cb3vKbyvCrasw++oRO6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OvkA9weN; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767036515; c=relaxed/simple;
+	bh=OvepIgKTsXQ554crop9a18ID5p0xWukoyJgTO3AWK+s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OupPJuTv90agvnrcqfplkmTKIpcIs/qfxbSqcR5YZ5qKjEko354TmrVYGwe5dmWCHS6cWUBtdNjJHs30GwqYnIsEEx4dyuOp9pHjdQIT2AVnEDQJ1nXW6uGRqWGt3w071SeuTBJXCDKT9i+tlVBOG0TN2lQEa4luv6pRhQZOU+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jNeIe3bC; arc=none smtp.client-ip=95.215.58.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OvkA9weN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767034686; x=1798570686;
-  h=date:from:to:cc:subject:message-id;
-  bh=3Q4ToYwVxWhk1MhCaKkiTm0VeaQcG0cfcO0P65iGnQM=;
-  b=OvkA9weNg3MRNxWdebsP9UbcQQynhi+Tsika3USH0iane2R7xuFrWRuW
-   WrRGsXde9R54o+WEbXA7Yaz8MG4GIn3M9+tdrQzwNspETKk1qs/k3ZMzM
-   h83GcbSAF31MRyl0lB7Zvn4ViAcNEI2m2BTYntFISnyOONryU+C7HQ9JP
-   8UIRKM9VnMSoBN0XgnpNFcNyKpNcMl/bkJjz8DaxtlRdR7TH9OsUGl/vC
-   q/gDqkyQVGzMpTGXdRlU8P/af/CA+HOHMUINikr43/mSHvojZQ/7rLDSK
-   awNLmNfaPl7vDDrErEt/wGEGA0lOIxj5PqsO5QkGh3zOFYT/8wOj1qF58
-   A==;
-X-CSE-ConnectionGUID: XXSn+1ARRO6d3GPUOpB34w==
-X-CSE-MsgGUID: qsiofdHZQfKpsNDYhwuFUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="91296497"
-X-IronPort-AV: E=Sophos;i="6.21,186,1763452800"; 
-   d="scan'208";a="91296497"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 10:58:06 -0800
-X-CSE-ConnectionGUID: nmF33UHRQFeozPOp09L91w==
-X-CSE-MsgGUID: 3iCR8AGPQemjY1fbUuNG0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,186,1763452800"; 
-   d="scan'208";a="231645950"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 29 Dec 2025 10:58:04 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vaIRL-000000007uz-47yl;
-	Mon, 29 Dec 2025 18:58:00 +0000
-Date: Tue, 30 Dec 2025 02:57:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 1/1]
- arch/arm64/mm/fault.c:492:31: sparse: sparse: incorrect type in return
- expression (different base types)
-Message-ID: <202512300216.mvntFYgf-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jNeIe3bC"
+Message-ID: <5c9130f8-dd8a-41c4-8033-d5661f64c01a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1767036509;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Irz9LTpqvbmdmlGPdks1FZg7wCTsfvzQn5Eo49frrB4=;
+	b=jNeIe3bCnu6XyQCXlqqd5hpLnTRq96sypyzRUtDSC6IHaCuWb7ttMM4nGHeAaXtjshEnam
+	qVSotNJSq4u18h03AMXj9tATx7VRK69uKeu+c126wv8frmZHDHEs77M53pSAGB/Se5nSsX
+	2oF8EeFZniVaZ0rEM8Lx/htuO/53pDA=
+Date: Mon, 29 Dec 2025 11:28:10 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Subject: Re: [bpf-next:master 8/9] FAILED: load BTF from .tmp_vmlinux1.BTF.1:
+ No such file or directory
+To: kernel test robot <lkp@intel.com>, Dinh Nguyen <dinguyen@kernel.org>,
+ Alan Maguire <alan.maguire@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, Andrii Nakryiko <andrii@kernel.org>,
+ bpf <bpf@vger.kernel.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dwarves <dwarves@vger.kernel.org>
+References: <202512250932.X7mdviuH-lkp@intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+In-Reply-To: <202512250932.X7mdviuH-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   a0f93b828ee5433c5b427d8122a6dda0b514d985
-commit: 2fd69fa6bcab984b56ccfd4860b10f11f1966bed [1/1] FROMLIST: arm64/mm: add speculative page fault
-config: arm64-randconfig-r122-20251224 (https://download.01.org/0day-ci/archive/20251230/202512300216.mvntFYgf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251230/202512300216.mvntFYgf-lkp@intel.com/reproduce)
+On 12/24/25 5:01 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> head:   f14cdb1367b947d373215e36cfe9c69768dbafc9
+> commit: 522397d05e7d4a7c30b91841492360336b24f833 [8/9] resolve_btfids: Change in-place update with raw binary output
+> config: nios2-randconfig-001-20251224 (https://download.01.org/0day-ci/archive/20251225/202512250932.X7mdviuH-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 11.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251225/202512250932.X7mdviuH-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512250932.X7mdviuH-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    Complex, interval and imaginary float types are not supported
+>    Error while encoding BTF.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512300216.mvntFYgf-lkp@intel.com/
+Hi Dinh, Alan,
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/mm/fault.c:492:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted vm_fault_t @@
-   arch/arm64/mm/fault.c:492:31: sparse:     expected int
-   arch/arm64/mm/fault.c:492:31: sparse:     got restricted vm_fault_t
-   arch/arm64/mm/fault.c:561:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [usertype] fault @@     got int @@
-   arch/arm64/mm/fault.c:561:15: sparse:     expected restricted vm_fault_t [usertype] fault
-   arch/arm64/mm/fault.c:561:15: sparse:     got int
-   arch/arm64/mm/fault.c:591:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [usertype] fault @@     got int @@
-   arch/arm64/mm/fault.c:591:15: sparse:     expected restricted vm_fault_t [usertype] fault
-   arch/arm64/mm/fault.c:591:15: sparse:     got int
-   arch/arm64/mm/fault.c:620:13: sparse: sparse: restricted vm_fault_t degrades to integer
-   arch/arm64/mm/fault.c:620:13: sparse: sparse: restricted vm_fault_t degrades to integer
-   arch/arm64/mm/fault.c:665:39: sparse: sparse: restricted vm_fault_t degrades to integer
+Not sure why this has surfaced only now, but it appears that kernel
+build with ARCH=nios2 and CONFIG_DEBUG_INFO_BTF=y has been broken for
+a long time.
 
-vim +492 arch/arm64/mm/fault.c
+I tried the following revisions:
+  - bpf-next @ 522397d05e7d as in bug report
+  - bpf-next @ 014e1cdb5fad without the gen-btf.sh patch
+  - v6.18
+  - v6.17
+  - v6.12 (~1y ago)
 
-1d18c47c735e8a Catalin Marinas   2012-03-05  471  
-1d18c47c735e8a Catalin Marinas   2012-03-05  472  	if (unlikely(!vma))
-4745224b45097d Anshuman Khandual 2019-06-07  473  		return VM_FAULT_BADMAP;
-1d18c47c735e8a Catalin Marinas   2012-03-05  474  
-1d18c47c735e8a Catalin Marinas   2012-03-05  475  	/*
-1d18c47c735e8a Catalin Marinas   2012-03-05  476  	 * Ok, we have a good vm_area for this memory access, so we can handle
-1d18c47c735e8a Catalin Marinas   2012-03-05  477  	 * it.
-1d18c47c735e8a Catalin Marinas   2012-03-05  478  	 */
-4745224b45097d Anshuman Khandual 2019-06-07  479  	if (unlikely(vma->vm_start > addr)) {
-4745224b45097d Anshuman Khandual 2019-06-07  480  		if (!(vma->vm_flags & VM_GROWSDOWN))
-4745224b45097d Anshuman Khandual 2019-06-07  481  			return VM_FAULT_BADMAP;
-4745224b45097d Anshuman Khandual 2019-06-07  482  		if (expand_stack(vma, addr))
-4745224b45097d Anshuman Khandual 2019-06-07  483  			return VM_FAULT_BADMAP;
-4745224b45097d Anshuman Khandual 2019-06-07  484  	}
-4745224b45097d Anshuman Khandual 2019-06-07  485  
-db6f41063cbdb5 Will Deacon       2013-07-19  486  	/*
-db6f41063cbdb5 Will Deacon       2013-07-19  487  	 * Check that the permissions on the VMA allow for the fault which
-cab15ce604e550 Catalin Marinas   2016-08-11  488  	 * occurred.
-db6f41063cbdb5 Will Deacon       2013-07-19  489  	 */
-4745224b45097d Anshuman Khandual 2019-06-07  490  	if (!(vma->vm_flags & vm_flags))
-4745224b45097d Anshuman Khandual 2019-06-07  491  		return VM_FAULT_BADACCESS;
-6a1bb025d28e10 Peter Xu          2020-08-11 @492  	return handle_mm_fault(vma, addr & PAGE_MASK, mm_flags, regs);
-1d18c47c735e8a Catalin Marinas   2012-03-05  493  }
-1d18c47c735e8a Catalin Marinas   2012-03-05  494  
+All fail with the same error in pahole [1]:
 
-:::::: The code at line 492 was first introduced by commit
-:::::: 6a1bb025d28e1026fead73b7b33e2dfccba3f4d2 mm/arm64: use general page fault accounting
+	Complex, interval and imaginary float types are not supported
+	Encountered error while encoding BTF.
 
-:::::: TO: Peter Xu <peterx@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+I used v1.24 in most experiments, the default debian:bookworm
+installation.  Upgrading pahole to v1.31 doesn't change this behavior.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I also stumbled on a phoronix article [2], saying Nios II support has
+ended with GCC 15. Is it actively supported in Linux?
+
+Not clear to me if anything needs to be fixed here. I'd appreciate any input.
+
+Thanks.
+
+[1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/tree/btf_encoder.c?h=v1.31#n469
+[2] https://www.phoronix.com/news/GCC-15-Drops-Altera-Nios-II
+
+
+>>> FAILED: load BTF from .tmp_vmlinux1.BTF.1: No such file or directory
+> 
+
