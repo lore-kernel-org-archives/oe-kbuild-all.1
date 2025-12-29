@@ -1,91 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1314F1DED4C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Dec 2025 05:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61C6281376
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 Dec 2025 09:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766987228; cv=none; b=CpyfsUfcMPKmdSIIPoNwfskKg/RCBXAeWlbrx2K2e7ku74z3ZsZSbqY7nh/JemTnMpllQ64cbC5CSiIBHdpXPY90/YNLmdgjg/RhbJVeNLTxHDz5ZDhe6IdLydaIuW0eaDAewnf+WGEJSfqPY84BiXaMkbla3PX3gH+pi98+TaM=
+	t=1766998810; cv=none; b=dFMv03ZuajkRATMhAY0XTrg7n2oHWT5JZHYSKjyC7ZhIUP82P+ixoPiqoMpubFCbZ+LsymNyPXMnPnhEm8BJvftfGOW3wQofv/x3Ps59oDwaxw0jcuhtNxhnX5Zp4bsXpluF3A3YP3FmioVXQnOUE5f0jww41rO5qhNZVF7N4Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766987228; c=relaxed/simple;
-	bh=JsufpplmVEKeE/aFKbHaEGt2hJRoghvChWth398+Lt0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TDDQ4LepCxozh9i8KJaL6BD+SIjT64RpHnthYB8dMhZYok4eo9w1b/wpcYUzyFe5UxUpJvfd+96UN+2r3cGoYTFYKQF6aF21a5ktwywNqPxCS8b5J7w2kFwrqApeWggLBShMZIeE/l2L9/QNjxmcDCJyffD/dXm3cpsn+wwgbCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YATKrZ2H; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1766998810; c=relaxed/simple;
+	bh=6PzvO1icrhRnvxs3gnLcwRAV1X6auXbn+yZ1fU8K5IQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rwvhsw21qtGQy1Tm+oMZOIecbfi0Ie3czyc9NaAvJ9/aINTdiPCHbpTrud5ByhQChEKD+9LNlq+GygOp14DsksxL8X7e1sd0EuI64lkYF8SVF7SNXysm9YbZ+pDhXj3jVnNRjt0q9a/UGNY66c7uXiFY3/yrtT371VcfLQ9/kWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BLqwgYCM; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YATKrZ2H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BLqwgYCM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766987227; x=1798523227;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JsufpplmVEKeE/aFKbHaEGt2hJRoghvChWth398+Lt0=;
-  b=YATKrZ2HQEWeWtt14Ib6ntwjQwHzia9o+yymyNVS6rqdUsb729zlN7o6
-   9eYhlUPNtdOJ5W0YOp/9FdjlNaV/pQZJK257MaSUWxzci10o5dJ9FcE8P
-   S7lgxppDS1r3sfEmPB15Qiu8heksi+gt7aXWV6uNuljtGb61AKsoKkomJ
-   9gsxpbHTOdsOrXpDZqn4BH9aOx3K9y53/dR/hHfIzdxWvhvFf5/vM6zR+
-   UWTXu7Or7ma3Sr6VhK/0TbWz/b4E0k4fzLRLfruzjcV2hwlJWWJyslUn2
-   zAQL1LgIVXuJ/t0N1EH7IrpAvtcZsiD4yQ8ZW7zkBwP3fMUU13CiIx06V
-   g==;
-X-CSE-ConnectionGUID: r4Mk6xRUTyWMneAV31Lzgw==
-X-CSE-MsgGUID: FBXrm8X4QfOYZeFexgK95w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="79327463"
+  t=1766998807; x=1798534807;
+  h=date:from:to:cc:subject:message-id;
+  bh=6PzvO1icrhRnvxs3gnLcwRAV1X6auXbn+yZ1fU8K5IQ=;
+  b=BLqwgYCM7PtSKVQGxBrvBc8WmBtumTJaS6ha3moL8rbotzKksalcld9Y
+   /pHY7bWIPyGKJJg40470CCoEXPbyCbm3HqxB3kz0vNZCmwDFN7FaM1L+u
+   MMWviKUwmVkPGcEKbtM7E0AfAHt7bh4IrtBksPe69bS5xwf6JuZMXaqHG
+   2zzY1QJw9erOG8D3oeII+/AaZ3dqSltJZRb+hNYcKMysVmbQYSrsuIG99
+   xauLM0LQwq66y6KJxv/uHIjw17f4i0btGaGjdEMxmegGX9/5Ih4XVmDj3
+   7/kF1ffKQ1vl410ICO8cMzWQqOPe/r1HBktwz18C1unYec5sgkuX0gBaR
+   Q==;
+X-CSE-ConnectionGUID: OUbdJNFaTnSz3b1VFeNyJA==
+X-CSE-MsgGUID: KdHTV9waQN+Rh3FwbDYgMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11655"; a="68501284"
 X-IronPort-AV: E=Sophos;i="6.21,185,1763452800"; 
-   d="scan'208";a="79327463"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Dec 2025 21:47:03 -0800
-X-CSE-ConnectionGUID: M+YwX7SHTPumeuoL3Kpmxg==
-X-CSE-MsgGUID: UTRRnTIDQwe/QLA6/Iv8Jg==
+   d="scan'208";a="68501284"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 01:00:05 -0800
+X-CSE-ConnectionGUID: 6kFAvpyjT1a02+cE4jkQVA==
+X-CSE-MsgGUID: hnk42vdmSZ+Pb4URinae8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,185,1763452800"; 
-   d="scan'208";a="199973969"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 28 Dec 2025 21:47:02 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+   d="scan'208";a="231542288"
+Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
+  by orviesa002.jf.intel.com with ESMTP; 29 Dec 2025 01:00:03 -0800
+Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1va65r-000000007h2-2oq1;
-	Mon, 29 Dec 2025 05:46:59 +0000
-Date: Mon, 29 Dec 2025 06:46:38 +0100
+	id 1va96b-0000000076X-1F8q;
+	Mon, 29 Dec 2025 08:59:58 +0000
+Date: Mon, 29 Dec 2025 16:59:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sashal:spec 116/131] htmldocs: Documentation/driver-api/basics:75:
- ./kernel/signal.c:5541: WARNING: Bullet list ends without a blank line;
- unexpected unindent. [docutils]
-Message-ID: <202512290609.gq1OqhDT-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jakub Kicinski <kuba@kernel.org>
+Subject: powerpc64-linux-ld:
+ drivers/media/platform/qcom/iris/iris_firmware.c:61:undefined reference to
+ `.qcom_mdt_load'
+Message-ID: <202512291605.TWgDhtTQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git spec
-head:   d34c22a9d280338fc8a0f12fd5577e62f345503e
-commit: 6048f4565a51ae25f1fb6627c89d9133eaf2d3a2 [116/131] kernel/api: add API specification for sys_rt_sigqueueinfo
-reproduce: (https://download.01.org/0day-ci/archive/20251229/202512290609.gq1OqhDT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7839932417dd53bb09eb5a585a7a92781dfd7cb2
+commit: 2df158047d532d0e2a6b39953656c738872151a3 ipa: fix compile-testing with qcom-mdt=m
+date:   5 months ago
+config: powerpc64-randconfig-r123-20251228 (https://download.01.org/0day-ci/archive/20251229/202512291605.TWgDhtTQ-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251229/202512291605.TWgDhtTQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512290609.gq1OqhDT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512291605.TWgDhtTQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5438: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5442: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5443: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5533: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5538: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->> Documentation/driver-api/basics:75: ./kernel/signal.c:5541: WARNING: Bullet list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5601: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5662: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5673: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5681: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/basics:75: ./kernel/signal.c:5686: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   powerpc64-linux-ld: warning: orphan section `.stubs' from `drivers/net/ethernet/ti/davinci_cpdma.o' being placed in section `.stubs'
+   powerpc64-linux-ld: warning: discarding dynamic section .glink
+   powerpc64-linux-ld: warning: discarding dynamic section .plt
+   powerpc64-linux-ld: linkage table error against `qcom_mdt_get_size'
+   powerpc64-linux-ld: stubs don't match calculated size
+   powerpc64-linux-ld: can not build stubs: bad value
+   powerpc64-linux-ld: drivers/media/platform/qcom/iris/iris_firmware.o: in function `.iris_load_fw_to_memory.isra.0':
+   drivers/media/platform/qcom/iris/iris_firmware.c:49:(.text+0x1ec): undefined reference to `.qcom_mdt_get_size'
+>> powerpc64-linux-ld: drivers/media/platform/qcom/iris/iris_firmware.c:61:(.text+0x2ec): undefined reference to `.qcom_mdt_load'
 
 -- 
 0-DAY CI Kernel Test Service
