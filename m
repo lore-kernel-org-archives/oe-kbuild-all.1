@@ -1,144 +1,203 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013020.outbound.protection.outlook.com [40.107.159.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B11242D78;
-	Tue, 30 Dec 2025 13:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767103147; cv=none; b=DM3pEeV97bwj5PAIxWURxYO11R7w+ZYerv0TYain27aYzErxZ72xipHPosljZOWxCofVcuzRySZZp12gcVgt6Zin6Had3cbHQ+ffVgHRff1p3v4dtiqoc6T7l5ErzSEL2jCmevw/OfK9b6+bF6iotHPlXSr0nnu5ilyRJ+QEROE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767103147; c=relaxed/simple;
-	bh=OksRJgvU8zlQcIDRIgwO1NsjY/+/9nbvL8rYxjG4X4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nZcvHQOQDM6OOc3zNljFhmD8dX/j1c4VU8obArmaAJyjLTJB2P2TAcw+nlXsarjbq1ECXr671k1yHz2tLXnm3lDh5yX2A181jsg0QjVRr0aW6IJHjBZvaCk+0E+k30F15u2ndYYb/AB7hZb2YH/kTB2sVLQ1yEDJouRYs35ZNB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hhP+rDhb; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAED623F417
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Dec 2025 14:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767106662; cv=fail; b=qzDRB5Qhfn7f20bsiznSkZyCEmFapZu0Gu8BWdJ1+emm9Wc24ta4ZWiz0DXE5BZEonGeAlYtfqj33CDP0Juzb4dmsu+QbtPVKGPHW3yPfZit1Ae7C5lRhFwoegetoTV0vq+OcteKXGRw7osm9JnTkzLvzDa47WZuN3Vu+nwaklE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767106662; c=relaxed/simple;
+	bh=pvUiOPMCTJWNx2micqtCvA3T+cIKsW90x0zyOErHXYs=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=Z88G+ox43EQAOGyZx4iNn4ZVcKEEnlWMa+PK9GPO0CDNldxsXY6Xfb0SI/xIp8TJD1NUwJ7Z7MYJ55J1jkK5io7PkSufg8p9p0JoJnv3qd8trET0+o8icbLCjkR3TGCTe7CyM1dk0FVutsPZ1h+BmCaHNQLLl3KSe+yelL2dGFo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=V9KINiqz; arc=fail smtp.client-ip=40.107.159.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hhP+rDhb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767103146; x=1798639146;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OksRJgvU8zlQcIDRIgwO1NsjY/+/9nbvL8rYxjG4X4w=;
-  b=hhP+rDhbbA4t40ml7uMkPslluvGMa9njD9zdUpvxhcDljFnTH3uzdDYV
-   0eIPPsNYvEAGac5NNZ8LT20yJXFjhKNaULPJSytDoy6AbH8yx9E+1hIGI
-   GUGChKFI0CiPy0ymvJt8SLB2Vw3Ru3Mu9ZUj231XHvVzwl/DTBmAlfRii
-   EkvJmHdU2E971/WunE+l/2jyUKkqT+QIHw1m99Z12LA4rVFHgJEmgRpDz
-   pY7tdAbLen1hmwmWnaLR0Akw2OcY2M7+PPakWTyT0dRyhe+IefP5JiWFe
-   yPjxdI+P6GpQ9NH3tQO4i239hlYbqOetMJu35ECqf9mp4Vo0VzU9Xwzci
-   Q==;
-X-CSE-ConnectionGUID: qrwshEM+TrSmp1UFaa8OKg==
-X-CSE-MsgGUID: ssCpOWRNRzSr3d8Scwk3Wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="72541484"
-X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
-   d="scan'208";a="72541484"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 05:59:03 -0800
-X-CSE-ConnectionGUID: XNxBiNSFS+Oh5TvNDeBnbA==
-X-CSE-MsgGUID: Cq0f+igbRYuoswcP3DcGXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
-   d="scan'208";a="201217998"
-Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 30 Dec 2025 05:59:01 -0800
-Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vaaFW-000000000QT-11C8;
-	Tue, 30 Dec 2025 13:58:58 +0000
-Date: Tue, 30 Dec 2025 21:58:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yuto Ohnuki <ytohnuki@amazon.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Yuto Ohnuki <ytohnuki@amazon.com>
-Subject: Re: [PATCH] fs: remove stale and duplicate forward declarations
-Message-ID: <202512302139.Wl0soAlz-lkp@intel.com>
-References: <20251229071401.98146-1-ytohnuki@amazon.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="V9KINiqz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hZCZllUre+aMVAPtHY/XDmycWZHFar4jdVJNp1UaCvzwZBAcoFz+JvPCDbA2ek7WDW+ZMYW94cHYKvQ2NRjipWHxpP1wVerZxMWdjw+oxDYQPlqq3QgVYQe2OJTvXkyMDIoYlWMaXG9P/uJc/dbbTYn8ngAyAIhdMYfKmnp8n4z4Iecy+3C9C6WtXCyE4xl1oxqJPLOHRTClDzEwKtUj3C1QEvNkk7m2bIz2tSnoSiFIv/1fMEs9HDuHKlhcKbmtplF3rMuV4wmTNL3/ofmCi98XlP3RAY9XMqyYscX+lpg2w539+8a1A+vFCLT/5kjdoIi61ZgylB3moIrxNAWQyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1n/qdXGSTWILb0wKfLwUPwZP7tpBJCeTzJcE64uwfLE=;
+ b=GoxL0FhF/QvRzuMScNialt61q7IxYqw9PGlIqXvmU3PjZF2E+xqH8MsuV6THrq1uxE0FfymyC+Gi0DMbBiGCMiBZUnN8lrEHSlH+2zcOSVMq9tDDs57HkL/nPOeR1QhOsFLcsciYMxjmmUiBZuYFg1twNBD4J5hguM6X+CyzrkK40J/xU0UcmkIlHQfTwKw8G6ht6neWFxWjjRDX0wYBv1EW2LM3wxLGDUNQT8x7+cnTRfnykCQN6fyyImqAyFK8PwCfkrybr2Jt/fGEoZtE/gYXoDIepStMNMW5nA6DK+lH0vzhqzkffMNjACOoNmSeNxAB6eWSd4BQuc6QUKZZcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1n/qdXGSTWILb0wKfLwUPwZP7tpBJCeTzJcE64uwfLE=;
+ b=V9KINiqzI1eOmoWJeEBHejbpUmQeJ4xzYfxSueajL9+T8YDOj7dK3KFOl5GPCbISZCY0hsyHnqpKoQyBNeZ0jCZEqUUHuZrcWTywBtc70eL3+Xj5Hrs9SZDKtGpHPxRY2yTKcRnjgrx2yrQSqNT2/yJH6RGHeb7Cxurv80SdY9cYIOulO/8qVsTuoI/N+/iEqQ/8HOyuCex3/rJL2aoUWwiFOSwyP1BOeCjd+gMDGO3XRxL8mpO/M0ND6WiROgK1J1DxkuEJSi15/FJiRDv1UUTyumO+A5JBXn62Lrwol6SdedJFqbYo4oStQfT8FZv5a77ftG/uf8+yc48pCuIgMQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com (2603:10a6:10:2e2::22)
+ by AM9PR04MB8306.eurprd04.prod.outlook.com (2603:10a6:20b:3e4::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9456.14; Tue, 30 Dec
+ 2025 14:57:37 +0000
+Received: from DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196]) by DU2PR04MB8951.eurprd04.prod.outlook.com
+ ([fe80::753c:468d:266:196%4]) with mapi id 15.20.9456.013; Tue, 30 Dec 2025
+ 14:57:36 +0000
+From: Frank Li <Frank.Li@nxp.com>
+To: jonathan.cameron@huawei.com
+Cc: Frank.Li@nxp.com,
+	alexandre.belloni@bootlin.com,
+	andriy.shevchenko@intel.com,
+	carlos.song@nxp.com,
+	fluturel.adrian@gmail.com,
+	linux-i3c@lists.infradead.org,
+	linux-iio@vger.kernel.org,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: [PATCH 1/1] i3c: Add stub functions when I3C support is disabled
+Date: Tue, 30 Dec 2025 09:57:18 -0500
+Message-Id: <20251230145718.4088694-1-Frank.Li@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PH7PR17CA0063.namprd17.prod.outlook.com
+ (2603:10b6:510:325::27) To DU2PR04MB8951.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e2::22)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251229071401.98146-1-ytohnuki@amazon.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8951:EE_|AM9PR04MB8306:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8721580-22c5-4f28-2d58-08de47b3c541
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|19092799006|52116014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?p+fsPHgdRaoSsa56xtf7MsBB2RkfH+hrfH7UprL0yzOMD6OxTsedLkCPS9bN?=
+ =?us-ascii?Q?m52DtJkSgkF+6nN3hRr70LyGMRiT/fhQ+WMjPK5viQaCkxt4Mk15k9uZ9iQ5?=
+ =?us-ascii?Q?mAVOjnFraSllWI59B3AqBv58Y2y3raZtzN/u+NoDq1PNSYNXQZuS2OJLMPyW?=
+ =?us-ascii?Q?h8pxzOJ/nPWx0+ZfQasdViPv0yEOuWvK9nA46KnrySYqf32ZYECvyc8+n5ax?=
+ =?us-ascii?Q?IQYI9twCTurbOGxOgOmF0cKYiuDh014v3OWIJfsV2kvwChULWCQYI/OHfVXM?=
+ =?us-ascii?Q?DeWWBzva0U86LwvLiW2hsS9OQc7PxEzeZ9I4GRqgmKO4TU4hOfS8bGoDG4t5?=
+ =?us-ascii?Q?hrWzsZL1SzJaNE27D6RUQsbLbUq9Z7mRiq7PCrp+pWyld333AFAOQGvzquQG?=
+ =?us-ascii?Q?oo7c4IT8k1Q9/0KgpobRRsQMshLSvyZmJJ+WWqb4VQEdVEnjfLBCz8JO2IJb?=
+ =?us-ascii?Q?x9oQEgvVtu7i8CRILS1W7idC11XifbuUlG4PoGWTUMRHhQwyDeOpGrcMMNUA?=
+ =?us-ascii?Q?WodAY32POYYQ6quJ8QF6Xgiv1sY6u3+OSDY4a2t1sXu8M8ZQr+5NCYLyvOkQ?=
+ =?us-ascii?Q?GqPhZbdnfS9qTF43JMqnsaOoww7oI6E/qAaflms5xvsTFDQhoXiJuvtV91nf?=
+ =?us-ascii?Q?g5J1NiQgZz6yyVyeQpqQfs7aq7qZdoJWb7Bl9j37sB8Zn+se8ISxgi5sEQN5?=
+ =?us-ascii?Q?tN2FByix/705sqI+nOjpOnCPB0O5Tfz5qIxnlOpz1kF7l5owOtApUIOymG8F?=
+ =?us-ascii?Q?tfcCe1qE16tJrZFTQOAh3qnuslJOqFZvk8vO0sjoC2h/3GKlJ6e/qIaGPACI?=
+ =?us-ascii?Q?Yl2RUAfX6Z3m+eKae7lDuFR0DFjn0gowHqxcoG1TtzHDPaPZVOXvo6wYXKdu?=
+ =?us-ascii?Q?zqqqA2eC+HF+mKt8E0hdzIHlBrssv+uyGAB3Hdqq2/jPzr/nDZM1T6/8yM0M?=
+ =?us-ascii?Q?Rh3aBFEJR7jrEGIj/Z1i+6OYYSNQWgEU2XBMdeXQeDtg4jP0wzi5e8+duRgN?=
+ =?us-ascii?Q?iJ2GcBBC0imhLfqMisPqOCYk4BcNiHuBuj45qWWwm8ubAdQc3lS7uFU1ikCR?=
+ =?us-ascii?Q?NhLmh5NBHZB8qCISneeZabL3bPYZOCoXDlbXhOJYQm7rHUhelBvME1bMJzAy?=
+ =?us-ascii?Q?kSnZcKxEyIsrx+fE2YcizKJs2Nk4gLmRMYELiJWASIEaV8kjF3hlzwE7eAfA?=
+ =?us-ascii?Q?2zVXqGFC7iPnoSCZ2I/mZiBy4TsYvQAwUexhOsS0nL1gjuePwnC8eo/gFxkM?=
+ =?us-ascii?Q?GK7auqFDOa75PEQN0mMSnhCz5dzbBWehp7hSGTIprKwPLFPkJliI1fOK12Nj?=
+ =?us-ascii?Q?YjirQpWDo3CBcNLuUoU7sjY037ItXLBvl1ZeMfagXtYXtuYjhS6I6tHuJQ9y?=
+ =?us-ascii?Q?S2bJ2/KMz5WKfXvoNlsy80r/V/Yloc0lP9F2FhXckp/JITov8i9cLAe/43kv?=
+ =?us-ascii?Q?B5F0VZ3+WWM6kg4S1Fh94BJg/uljau1L8dTyt9bMON18Q07n0dNXs+cAQxmM?=
+ =?us-ascii?Q?i1P3+pIlAherr4nPxfhUkYVCKhtXLIsrQ4t1?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8951.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(19092799006)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?GkFDVVuJY+zjqC0h7ZruMCFJTtGhRMN7zMl1FRzHIVQR57PO/3bMZbfMa9qn?=
+ =?us-ascii?Q?SevDPuXAYW5oELe0Qu+PS1UpX4RWKTJMRax1VBfAf1sOmfNdTfnixNthWHUM?=
+ =?us-ascii?Q?1Ido1Etjq9T4oasaSbvMQJyyyOPYZGciANigjqqSHMVBCQQ7uvNvaOCQHiDV?=
+ =?us-ascii?Q?SS0mHQZHRoJBRaMON0lnXc46hosVSjk0+zDuI3D9dcaXoBGFETPR39hKl0CY?=
+ =?us-ascii?Q?gdAmtVUueVW37EHPOmcaocarkcEyFj8PuNunrPY+jeP8ZMxR8j7MrTsLkUaJ?=
+ =?us-ascii?Q?JlJ9f3MhMUiicY3ba9FaaN9dwK6B0k3kkR8kpzOjGb9OWUsriZ6adjWFJ3c0?=
+ =?us-ascii?Q?z4DUgt5OI/kcvn8I6dDe+NU528F/f/b2xxrI7zLmLFeuNjiMF0qRd1BMV8Yd?=
+ =?us-ascii?Q?yFdgYR8WOzJAV62OJVLhrjrKTAJyrdZ7XXdWnuIcMgq/1uzBVwWVQeSXXlK7?=
+ =?us-ascii?Q?WkWoIZkGeAuC2BGUxLjyAtq3tUq/5SKyfpVy3Qhq7V8RMm+NbEwEoL6Nx8GC?=
+ =?us-ascii?Q?LcpZ+XGHVV+J3/VB8Iz+zZRh0tmpsnUq/TTMTp6+A9lSYFCpUQdb8YhnJmMG?=
+ =?us-ascii?Q?4BuqQmhlU06rpQPxronwA1+VqzeUenyAOOsDB2/A+I+fM56lnAQ46w8sbgiY?=
+ =?us-ascii?Q?w78hs6Z93l5pMqRTmn3ef2tOW+urwWl3agII24Y1u8O5UAgY/CPjGycuMboS?=
+ =?us-ascii?Q?9aKaycU2EcHSYZ4uuTZPS/aFV5L5wdkJDokBIOrioiRm0k1QfXL4xCRj+7wh?=
+ =?us-ascii?Q?ckkA2lmKjdmO8AOWrfX70jaYyGRUA7chi+M9s/n9x4E5ZLOyluOWBWqI5/+g?=
+ =?us-ascii?Q?B6psB/cqnIjtWHa1vab7ZnVDw0awZ9DiKtUteHrvGQql4gQXP3Shm1UVGu4z?=
+ =?us-ascii?Q?2kqQHMRKCXuR4ZOcprxXuQMPiM6PyTVHQULvsMWV59zBUC351mlfjXQOxpNw?=
+ =?us-ascii?Q?yBRZome0Tn6wLE1KK6y0XmPLFJRQxm9niZcUpZqlT1UhSjoW8IcjL5Ces2wm?=
+ =?us-ascii?Q?T0ezgYjMDclyd8L9OMt6N38Gm2GPiPg9O4mvSCbTo/Pc7GZYdG0w0WpeFYm2?=
+ =?us-ascii?Q?c/C1fi8Jac1Rphcb4KjMuITpCAPylmDnPv2t7dUCP/zYXLcSA5C3wBKPdhFx?=
+ =?us-ascii?Q?b4o1vtXMdlKA59cvtfTT9RaZ928rRryIYutHgrNviUaiNVAuXr8u2pP6RHZc?=
+ =?us-ascii?Q?qH4iV+uJ6Js+loc4PMlkGmGN9MAnbU2rQHyfjij6R4zPkL+z6VZd3t0KfvN2?=
+ =?us-ascii?Q?m2qpCFyZ3abdVkYbfYupM7/iSlOIF0dxRRWEB3L2nhfvSdPUwWW2GNnp8rxC?=
+ =?us-ascii?Q?8husV5xY5hzK4gvgjF0G8BBZqfOXJijezBHLJILCGrGyOBkqHE1AeTlCMLzl?=
+ =?us-ascii?Q?6Hy9M1GgxAi0HrpqeJnQZD9GuyE4VQPf3xZoSoKXMT/kYIssjEzmm1CGy/u/?=
+ =?us-ascii?Q?U2UHo+sPeNfBO31pdcIfEdDgbe5eIOIvKK4HsWYs18nr95odmXgLVBX064AH?=
+ =?us-ascii?Q?whH/MqMjPYrapi7xVD2FulzMyaS2X191vXHiEm19NwCh9LetRQ0K9JMZyfJC?=
+ =?us-ascii?Q?jCtLD0ukoIxDQv7RK7giOmc0Ad8UgkHNXRY0ponqTpcCzCrMFd4ZOPlDDAGg?=
+ =?us-ascii?Q?Yz2aqYBHYQs/7Grfjf5OiLdFu7tWJMjTqyTf8fcFZ6l5+8zBJqCRcKDW1Rp5?=
+ =?us-ascii?Q?7pWaFAfupUaBiDIlx0PNH4LJ/i15ri3wgCK1tYj0L1/RKjpZ?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8721580-22c5-4f28-2d58-08de47b3c541
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8951.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Dec 2025 14:57:36.8479
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0l3AR7J5nt61F24OIEXIg4Q/Qb+Or4at6pDnP5CUU7EVdO54FFAafOJp5UE7n9fkTE0LB6USoNTEM1Q7czM5hA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8306
 
-Hi Yuto,
+When I3C is disabled, unused functions are removed by the linker because
+the driver relies on regmap and no I3C devices are registered, so normal
+I3C paths are never called.
 
-kernel test robot noticed the following build errors:
+However, some drivers may still call low-level I3C transfer helpers.
+Provide stub implementations to avoid adding conditional ifdefs everywhere.
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.19-rc3 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Add stubs for i3c_device_do_xfers() and
+i3c_device_get_supported_xfer_mode() only. Other stubs will be introduced
+when they are actually needed.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuto-Ohnuki/fs-remove-stale-and-duplicate-forward-declarations/20251229-151612
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20251229071401.98146-1-ytohnuki%40amazon.com
-patch subject: [PATCH] fs: remove stale and duplicate forward declarations
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20251230/202512302139.Wl0soAlz-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251230/202512302139.Wl0soAlz-lkp@intel.com/reproduce)
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202512230418.nu3V6Yua-lkp@intel.com/
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+ include/linux/i3c/device.h | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512302139.Wl0soAlz-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   In file included from block/bdev.c:14:
->> include/linux/blkdev.h:1656:41: warning: declaration of 'struct hd_geometry' will not be visible outside of this function [-Wvisibility]
-    1656 |         int (*getgeo)(struct gendisk *, struct hd_geometry *);
-         |                                                ^
-   1 warning generated.
---
-   In file included from block/ioctl.c:4:
->> include/linux/blkdev.h:1656:41: warning: declaration of 'struct hd_geometry' will not be visible outside of this function [-Wvisibility]
-    1656 |         int (*getgeo)(struct gendisk *, struct hd_geometry *);
-         |                                                ^
->> block/ioctl.c:564:33: error: incompatible pointer types passing 'struct hd_geometry *' to parameter of type 'struct hd_geometry *' [-Werror,-Wincompatible-pointer-types]
-     564 |         ret = disk->fops->getgeo(disk, &geo);
-         |                                        ^~~~
-   1 warning and 1 error generated.
-
-
-vim +564 block/ioctl.c
-
-d30a2605be9d513 David Woodhouse   2008-08-11  545  
-d8e4bb8103df02a Christoph Hellwig 2015-10-15  546  static int blkdev_getgeo(struct block_device *bdev,
-d8e4bb8103df02a Christoph Hellwig 2015-10-15  547  		struct hd_geometry __user *argp)
-d8e4bb8103df02a Christoph Hellwig 2015-10-15  548  {
-d8e4bb8103df02a Christoph Hellwig 2015-10-15  549  	struct gendisk *disk = bdev->bd_disk;
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  550  	struct hd_geometry geo;
-d8e4bb8103df02a Christoph Hellwig 2015-10-15  551  	int ret;
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  552  
-d8e4bb8103df02a Christoph Hellwig 2015-10-15  553  	if (!argp)
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  554  		return -EINVAL;
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  555  	if (!disk->fops->getgeo)
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  556  		return -ENOTTY;
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  557  
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  558  	/*
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  559  	 * We need to set the startsect first, the driver may
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  560  	 * want to override it.
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  561  	 */
-a014741c0adfb8f Vasiliy Kulikov   2010-11-08  562  	memset(&geo, 0, sizeof(geo));
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  563  	geo.start = get_start_sect(bdev);
-4fc8728aa34f548 Al Viro           2024-05-21 @564  	ret = disk->fops->getgeo(disk, &geo);
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  565  	if (ret)
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  566  		return ret;
-d8e4bb8103df02a Christoph Hellwig 2015-10-15  567  	if (copy_to_user(argp, &geo, sizeof(geo)))
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  568  		return -EFAULT;
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  569  	return 0;
-a885c8c4316e1c1 Christoph Hellwig 2006-01-08  570  }
-d8e4bb8103df02a Christoph Hellwig 2015-10-15  571  
-
+diff --git a/include/linux/i3c/device.h b/include/linux/i3c/device.h
+index 9fcb6410a584f..1dcce2876029e 100644
+--- a/include/linux/i3c/device.h
++++ b/include/linux/i3c/device.h
+@@ -308,8 +308,23 @@ static __always_inline void i3c_i2c_driver_unregister(struct i3c_driver *i3cdrv,
+ 		      i3c_i2c_driver_unregister,	\
+ 		      __i2cdrv)
+ 
++#if IS_ENABLED(CONFIG_I3C)
+ int i3c_device_do_xfers(struct i3c_device *dev, struct i3c_xfer *xfers,
+ 			int nxfers, enum i3c_xfer_mode mode);
++u32 i3c_device_get_supported_xfer_mode(struct i3c_device *dev);
++#else
++static inline int
++i3c_device_do_xfers(struct i3c_device *dev, struct i3c_xfer *xfers,
++		    int nxfers, enum i3c_xfer_mode mode)
++{
++	return -EOPNOTSUPP;
++}
++
++static inline u32 i3c_device_get_supported_xfer_mode(struct i3c_device *dev)
++{
++	return 0;
++}
++#endif
+ 
+ static inline int i3c_device_do_priv_xfers(struct i3c_device *dev,
+ 					   struct i3c_xfer *xfers,
+@@ -358,6 +373,5 @@ int i3c_device_request_ibi(struct i3c_device *dev,
+ void i3c_device_free_ibi(struct i3c_device *dev);
+ int i3c_device_enable_ibi(struct i3c_device *dev);
+ int i3c_device_disable_ibi(struct i3c_device *dev);
+-u32 i3c_device_get_supported_xfer_mode(struct i3c_device *dev);
+ 
+ #endif /* I3C_DEV_H */
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
