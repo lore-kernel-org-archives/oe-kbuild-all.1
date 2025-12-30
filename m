@@ -1,213 +1,86 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7872E6CDB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Dec 2025 10:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015CFC8CE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Dec 2025 11:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767090681; cv=none; b=hGIqADq5/xkO0jmMqtOLTbDs2+PCbgGeQxS4n1Jea/x2O6Nj1bdzXXhgatGe0AUURGbMoulqKaiXmLRYIObA6frphl1dBEFgy0A0zKvCRDb/YTKgeujCBTtA7vzvkpc3FotQQOgfBA0g/Kt5lzR/DsVg5LsQ9yGbDSizO6i5Iys=
+	t=1767095097; cv=none; b=ib3WpNpJEIfZ3EA8yI3on1+rS2jLLfY8QxngNyDG+4Loeo3dkrho891DYOxTpWonxaswH2vFPzE4lm28xE5whYn9Xhct/mTfcSaxlZrFhjeDh0iHFizN4soMSXDIo7Ssp/24TmUnzeeSTiUC/5N0CO4e98bbKnpMKg0xJ5eOPw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767090681; c=relaxed/simple;
-	bh=2mwLNf6Lhb9Ur9sWuHvTK+C1C0smKO6rNEkjt9bfY8c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A5RK7kRw8dOl+BVVJX6kCQCQe2hD6G0sogp9bUfnMcs5mex2dCVjALxvDN9jVXZJFPwn5oOfq1u6AF8zo+4Pt3Nby4ZQI3UJ9b3JrjR97yhFv1oh2REc0j9EoWXw0E9So4wnHHHjqw62wyFiKxmDB3rws31x67qZmQvAyS30pbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=F/0zcYr0; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1767095097; c=relaxed/simple;
+	bh=5FE3fRqgF8V9MTDZUDB/ICGax841jrbL30a0kW/iKyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=LuKw4LPxuuyzfk/DFT+ckErvhlyWHHHLJIXcwzYZ86UXyvXTHy0fEhlg6tvWE62x6Wc1wAG5KUEQf3gmC35ItmKKqJkAKsKI/vluVsCj5Cs9VjoojB3CBr5ljJD4g3G1ofbdopg0FhL0MxgYWoKar11rJZkWpS6AFhfxAsJyywA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9x9Ky9u; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="F/0zcYr0"
-Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E6B7E6A8;
-	Tue, 30 Dec 2025 11:30:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1767090660;
-	bh=2mwLNf6Lhb9Ur9sWuHvTK+C1C0smKO6rNEkjt9bfY8c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F/0zcYr0Qz7IU7PuuuyvLKa0OkXhXR9d/dqR7sdaey/D3PKlIR6Ksx3SrJS5pUAQo
-	 7r6DHYdh58ZM06kImyI8Wpn5oRfyFd2dwiRSQdCFf3bQwhNEpTeewUcmMgGa2GB5es
-	 sdw57s0BFoemgcInDPu6PAkizrBs2nSXAi7iCrzU=
-Date: Tue, 30 Dec 2025 12:30:58 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: kernel test robot <lkp@intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"open list:MEDIA DRIVERS FOR RENESAS - FCP" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: include/linux/compiler_types.h:597:38: error: call to
- '__compiletime_assert_437' declared with attribute error: FIELD_PREP: value
- too large for the field
-Message-ID: <20251230103058.GE6598@pendragon.ideasonboard.com>
-References: <202512051834.bESvhDiG-lkp@intel.com>
- <84f21e62-c167-4b7f-8727-bdca04eede5e@mailbox.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9x9Ky9u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767095096; x=1798631096;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5FE3fRqgF8V9MTDZUDB/ICGax841jrbL30a0kW/iKyE=;
+  b=Y9x9Ky9uRKcqjIshgrOiuPR4JwFcljdUrJnLOWe5VZfcjAxpTKpqlUjg
+   WNxCF1oYOyXLaWx9FlhQui42v1/E8iDMyzjWZ3RGwDsF6hoMk0HzRG27a
+   2bNPOARMF74v74gC6KwNGmN9M1QLxWeYklw6wBwwHG9mNVcMvuPb6flDf
+   r79rMpvsTZFVkrVTXeMEMKma5YyNSpwekxQPHLGH0vC0132EPkTmQZkke
+   qt3YnL77AuHY+6biq+zpLeYMcmtmWiqpXbL9KVbibKH2wIoN/3UcL6idH
+   lezubUfAucCilTSX2qozf7ZPVdLzDDWonMGnzXwO8u1ZVxPIKyom8g2C6
+   w==;
+X-CSE-ConnectionGUID: eZ7IJh6JTTGkCM3427601g==
+X-CSE-MsgGUID: 1QFYfP4VRny4noaYxWVWug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="91338667"
+X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
+   d="scan'208";a="91338667"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 03:44:56 -0800
+X-CSE-ConnectionGUID: UeFYGAJiTXqZsQXUV0Ryww==
+X-CSE-MsgGUID: pixQp4NRRJurgOO99WPPiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
+   d="scan'208";a="200838902"
+Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 30 Dec 2025 03:44:53 -0800
+Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vaY9j-000000000LL-1cOv;
+	Tue, 30 Dec 2025 11:44:51 +0000
+Date: Tue, 30 Dec 2025 19:44:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Chiu <andy.chiu@sifive.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?utf-8?Q?"Bj=C3=B6rn?= =?utf-8?Q?_T=C3=B6pel"?= <bjorn@rivosinc.com>,
+ Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: riscv32-linux-ld: init/main.o(__patchable_function_entries):
+ error: need linked-to section for --gc-sections
+Message-ID: <202512301903.wJiXZKa8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <84f21e62-c167-4b7f-8727-bdca04eede5e@mailbox.org>
+Content-Type: text/plain; charset=us-ascii
 
-On Tue, Dec 30, 2025 at 03:47:17AM +0100, Marek Vasut wrote:
-> On 12/5/25 11:16 AM, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   2061f18ad76ecaddf8ed17df81b8611ea88dbddd
-> > commit: 4f716a1db661cfb31502a0a6d7e62c06daf2e603 drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
-> > date:   5 weeks ago
-> > config: arc-randconfig-001-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051834.bESvhDiG-lkp@intel.com/config)
-> > compiler: arc-linux-gcc (GCC) 8.5.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051834.bESvhDiG-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202512051834.bESvhDiG-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >     In file included from <command-line>:
-> >     drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c: In function 'rcar_mipi_dsi_startup.isra.4':
-> >>> include/linux/compiler_types.h:597:38: error: call to '__compiletime_assert_437' declared with attribute error: FIELD_PREP: value too large for the field
-> 
-> [...]
-> 
-> >     rcar_mipi_dsi.c:660:14: note: in expansion of macro 'VCLKSET_DIV_V4H'
-> >        vclkset |= VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divider) - 1);
-> >                   ^~~~~~~~~~~~~~~
-> I don't think this condition can occur.
-> 
-> In drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c :
-> - rcar_mipi_dsi_startup() calls rcar_mipi_dsi_parameters_calc() which is 
-> the only site that assigns setup_info.vclk_divider this way:
-> 
->   415         switch (dsi->info->model) {
->   416         case RCAR_DSI_V3U:
->   417         default:
->   418                 setup_info->vclk_divider = 1 << ((clk_cfg->vco_cntrl >> 4) & 0x3);
->   419                 break;
->   420
->   421         case RCAR_DSI_V4H:
->   422                 setup_info->vclk_divider = 1 << (((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
->   423                 break;
->   424         }
-> 
-> In case of V3U, vclk_divider is 1 << (0..3) .
-> In case of V4H, vclk_divider is 1 << (1..8) .
-> 
-> In drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c :
-> - rcar_mipi_dsi_startup() later contains the offending code:
-> 
->   653         switch (dsi->info->model) {
->   654         case RCAR_DSI_V3U:
->   655         default:
->   656                 vclkset |= VCLKSET_DIV_V3U(__ffs(setup_info.vclk_divider));
->   657                 break;
->   658
->   659         case RCAR_DSI_V4H:
->   660                 vclkset |= VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divider) - 1);
->   661                 break;
->   662         }
-> 
-> This does the reverse of the code that assigned the value above, so:
-> 
-> In case of V3U, field value is (0..3) .
-> In case of V4H, field value is (0..7) .
-> 
-> Finally in drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h :
-> 
-> 256 #define VCLKSET_DIV_V3U_MASK            GENMASK_U32(5, 4)
-> 257 #define VCLKSET_DIV_V3U(n) 
-> FIELD_PREP(VCLKSET_DIV_V3U_MASK, (n))
-> 258 #define VCLKSET_DIV_V4H_MASK            GENMASK_U32(6, 4)
-> 259 #define VCLKSET_DIV_V4H(n) 
-> FIELD_PREP(VCLKSET_DIV_V4H_MASK, (n))
-> 
-> The masks fit exactly. For V3U the mask is 2-bit, or V4H the mask is 3-bit .
-> 
-> ...
-> 
-> I can however rewrite the code in this way, which should also mitigate 
-> this warning. Do you think this makes the code any better ?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8640b74557fc8b4c300030f6ccb8cd078f665ec8
+commit: d0262e907e2991ae09ca476281fc8cae3ec57850 riscv: ftrace: support PREEMPT
+date:   7 months ago
+config: riscv-randconfig-r132-20251230 (https://download.01.org/0day-ci/archive/20251230/202512301903.wJiXZKa8-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251230/202512301903.wJiXZKa8-lkp@intel.com/reproduce)
 
-The datasheet says that the VCLKSET.DIV field "should be same as the
-CLOCKSET2.vco_cntrl[5:3]". The change below makes this explicit, which
-may not be a bad thing, even if it duplicates the small calculation.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512301903.wJiXZKa8-lkp@intel.com/
 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c 
-> b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> index 4ef2e3c129ed7..20e2a4cae5b86 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
-> @@ -84,7 +84,6 @@ struct dsi_setup_info {
->   	unsigned long fout;
->   	u16 m;
->   	u16 n;
-> -	u16 vclk_divider;
->   	const struct dsi_clk_config *clkset;
->   };
-> 
-> @@ -338,7 +337,8 @@ rcar_mipi_dsi_post_init_phtw_v4h(struct 
-> rcar_mipi_dsi *dsi,
->   static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
->   				   unsigned long fin_rate,
->   				   unsigned long fout_target,
-> -				   struct dsi_setup_info *setup_info)
-> +				   struct dsi_setup_info *setup_info,
-> +				   u16 vclk_divider)
->   {
->   	unsigned int best_err = -1;
->   	const struct rcar_mipi_dsi_device_info *info = dsi->info;
-> @@ -391,6 +391,7 @@ static void rcar_mipi_dsi_parameters_calc(struct 
-> rcar_mipi_dsi *dsi,
->   	unsigned long fin_rate;
->   	unsigned int i;
->   	unsigned int err;
-> +	u16 vclk_divider;
-> 
->   	/*
->   	 * Calculate Fout = dot clock * ColorDepth / (2 * Lane Count)
-> @@ -415,15 +416,15 @@ static void rcar_mipi_dsi_parameters_calc(struct 
-> rcar_mipi_dsi *dsi,
->   	switch (dsi->info->model) {
->   	case RCAR_DSI_V3U:
->   	default:
-> -		setup_info->vclk_divider = 1 << ((clk_cfg->vco_cntrl >> 4) & 0x3);
-> +		vclk_divider = 1 << ((clk_cfg->vco_cntrl >> 4) & 0x3);
->   		break;
-> 
->   	case RCAR_DSI_V4H:
-> -		setup_info->vclk_divider = 1 << (((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
-> +		vclk_divider = 1 << (((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
->   		break;
->   	}
-> 
-> -	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info);
-> +	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info, vclk_divider);
-> 
->   	/* Find hsfreqrange */
->   	setup_info->hsfreq = setup_info->fout * 2;
-> @@ -439,7 +440,7 @@ static void rcar_mipi_dsi_parameters_calc(struct rcar_mipi_dsi *dsi,
->   	dev_dbg(dsi->dev,
->   		"Fout = %u * %lu / (%u * %u * %u) = %lu (target %lu Hz, error %d.%02u%%)\n",
->   		setup_info->m, fin_rate, dsi->info->n_mul, setup_info->n,
-> -		setup_info->vclk_divider, setup_info->fout, fout_target,
-> +		vclk_divider, setup_info->fout, fout_target,
->   		err / 100, err % 100);
-> 
->   	dev_dbg(dsi->dev,
-> @@ -653,11 +654,11 @@ static int rcar_mipi_dsi_startup(struct rcar_mipi_dsi *dsi,
->   	switch (dsi->info->model) {
->   	case RCAR_DSI_V3U:
->   	default:
-> -		vclkset |= VCLKSET_DIV_V3U(__ffs(setup_info.vclk_divider));
-> +		vclkset |= VCLKSET_DIV_V3U((clk_cfg->vco_cntrl >> 4) & 0x3);
->   		break;
-> 
->   	case RCAR_DSI_V4H:
-> -		vclkset |= VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divider) - 1);
-> +		vclkset |= VCLKSET_DIV_V4H((clk_cfg->vco_cntrl >> 3) & 0x7);
->   		break;
->   	}
+All errors (new ones prefixed by >>):
 
-Laurent Pinchart
+>> riscv32-linux-ld: init/main.o(__patchable_function_entries): error: need linked-to section for --gc-sections
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
