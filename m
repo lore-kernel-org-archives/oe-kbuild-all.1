@@ -1,107 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD8C2EA743
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Dec 2025 12:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E572B231830
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Dec 2025 13:25:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767097276; cv=none; b=pJCwH0Fd8rW6XyHQtqoiSyhOSzEO5NIMwSA24klCUZgg+TU1k/mS0e1C453PnMG2K3JzbnbViyVHPgslbAwXFRHH0RanmsMPMb56TcFPvyiQxFznbGvHHYgLLG2PwOoLSkmzIiMoCJHpvCywa1RilkLyGrV+X/FsfLGhvrjx46w=
+	t=1767101161; cv=none; b=L1lnyz2em+Kjhsry0JO1CJWsLDsiKgQ5ZNYJ0iDVeC8v8/UDjyzCF/moDj819INY/Rr+Gqd11xfpH5HnNMhw1lHEoVzk+NrzmwmIFYPQFNMbmW06iVzClloeoXsL6pzmzVj09paVy6n4k0k4q2ozvOMFj2g5x/XfU1ykAwa4htU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767097276; c=relaxed/simple;
-	bh=mstXLffsJ1oHsqOvr7iJnraIqZ3vkCFNBne5tuhUZg4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=am2icfI+01HQU9XLdB5k9ftfz0SBTzVdJmzUp56qCF5dpStjoWPMxerUH3LwDhJwpGHYpcz5HdLVP3020LXfZRVmZcEpiyepJWVB54TdUBGdJ1vCYHZy677QbEfbAvIAw/HGCQzH8GgU4nwsqWVwcz8mbNlvB5O7wPqPZfhdBaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VKRZA9my; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1767101161; c=relaxed/simple;
+	bh=X9BJ/Rbf7rS1REf/ADBWLWsV54eqJ6pjUtbIA3V9frw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tgbgNxgamyCl7zSvKOKUfOj13LXwwHmXaa/UPUjGmRncaIYCcWMWhdv02Ljyi9kygsdOo1ognQAeDO/bUdzi2rKm6v5CUMxXo9UEYOqJjGI56jxY+82j106x0bsYmpXLS3ERxvwQ50OXNJfdrdP1DEyOfFgQUxEtAkG847WhHkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hd2H/cTz; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VKRZA9my"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hd2H/cTz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767097275; x=1798633275;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mstXLffsJ1oHsqOvr7iJnraIqZ3vkCFNBne5tuhUZg4=;
-  b=VKRZA9myszepEEiLL36S6JteyyYWPF9j4V2AL/fqCIUJAv0oHA4i1xlf
-   4LmsnxK6GTa3BsP42bpmchzLn9T6fV10rHCCGctlx9dxRsFvJbzTRL1A/
-   SzKkmlBzHde5VFBFXYMCgjjlPoCcgCMWRaY4/evgbbY+kXdRg0XFQEKvG
-   7a1u83V/8b44OqkUUGYt4zwFLKMLUE5QeLTJt7aEQbrofDW0xUY6mjv+O
-   RjyKtrNXysw5qNiDP41p8I46jdOj6oTtTcIF8JvYHmpOM5SHMTyAie70X
-   smcASvibZhBhg1ofeG/xcqHxwH2yc2La+AD8kYQ+Uv6L2CWctSFq2aOFr
-   g==;
-X-CSE-ConnectionGUID: XctIbYxFQbOjV0MPyEYF1g==
-X-CSE-MsgGUID: saurbGwMR1yJP3VXMj51iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="80057187"
-X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
-   d="scan'208";a="80057187"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 04:21:14 -0800
-X-CSE-ConnectionGUID: quN0PFyiTv2tTZNMejTz6Q==
-X-CSE-MsgGUID: FFdZ94HRR3K7lHw4iR8taA==
+  t=1767101160; x=1798637160;
+  h=date:from:to:cc:subject:message-id;
+  bh=X9BJ/Rbf7rS1REf/ADBWLWsV54eqJ6pjUtbIA3V9frw=;
+  b=hd2H/cTzHi8nL8Zh8f4jf0pHgUJeXm4WSsrnRXCGOL75UPlVw3/d3XnW
+   l2y4L55BnD6e91UMQGGsCvjHePe+nyX8RP6VE8t2keU8tzcM1Uylqpido
+   5I7PNsJ1v3rBrFR1CxhF2VP5eX66pPLUhslGkdXvi08dpkTLbKdgNsT6k
+   TWAlXZ85yft7u3fR6SlF5kti6tpPliJRwk96l+EqaZ/yWmooJ4SO2hv8z
+   MvgN4M8lmKz9LPcised6V2n5jv+1F7nUAUj1jzNYjRGvUHh4ZEMK3hFvL
+   HDiSxhTcF0VWdQsvNbi31//u0ElRZTiYJaHjfcnhvi2KRYHoRT/tttRQB
+   w==;
+X-CSE-ConnectionGUID: emu7j8aIQD2YKimSfxA6vg==
+X-CSE-MsgGUID: FsmdW/+/S/287eb3e3Pgog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="68853279"
+X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
+   d="scan'208";a="68853279"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 05:26:00 -0800
+X-CSE-ConnectionGUID: 2MazF3RQR9igiLua5RYEdA==
+X-CSE-MsgGUID: f2YxP3BJQZ2GuUDhkwbVLQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
-   d="scan'208";a="201463271"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Dec 2025 04:21:13 -0800
-Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
+   d="scan'208";a="201680556"
+Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 30 Dec 2025 05:25:58 -0800
+Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vaYis-000000007wa-3KfD;
-	Tue, 30 Dec 2025 12:21:10 +0000
-Date: Tue, 30 Dec 2025 13:20:51 +0100
+	id 1vaZjX-000000000OJ-38Sl;
+	Tue, 30 Dec 2025 13:25:55 +0000
+Date: Tue, 30 Dec 2025 21:25:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yuto Ohnuki <ytohnuki@amazon.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Yuto Ohnuki <ytohnuki@amazon.com>
-Subject: Re: [PATCH] fs: remove stale and duplicate forward declarations
-Message-ID: <202512301303.s7YWTZHA-lkp@intel.com>
-References: <20251229071401.98146-1-ytohnuki@amazon.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:bpfoom.3.6 5/16]
+ kernel/bpf/bpf_struct_ops.c:1390:22: error: assignment to 'struct cgroup *'
+ from 'int' makes pointer from integer without a cast
+Message-ID: <202512302108.CR6UM5br-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251229071401.98146-1-ytohnuki@amazon.com>
 
-Hi Yuto,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.19-rc3 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuto-Ohnuki/fs-remove-stale-and-duplicate-forward-declarations/20251229-151612
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20251229071401.98146-1-ytohnuki%40amazon.com
-patch subject: [PATCH] fs: remove stale and duplicate forward declarations
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20251230/202512301303.s7YWTZHA-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251230/202512301303.s7YWTZHA-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git bpfoom.3.6
+head:   d16fa0113ece3fae58e5105dbed6b0dbe1c28c21
+commit: 139148647969dcf54237b1ceb50a89e39b0b5186 [5/16] bpf: Allow attaching struct_ops to cgroups
+config: i386-buildonly-randconfig-001-20251230 (https://download.01.org/0day-ci/archive/20251230/202512302108.CR6UM5br-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251230/202512302108.CR6UM5br-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512301303.s7YWTZHA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512302108.CR6UM5br-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> clang diag: include/linux/blkdev.h:1656:41: warning: declaration of 'struct hd_geometry' will not be visible outside of this function [-Wvisibility]
---
-   In file included from rust/helpers/helpers.c:16:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
->> include/linux/blkdev.h:1656:41: warning: declaration of 'struct hd_geometry' will not be visible outside of this function [-Wvisibility]
-    1656 |         int (*getgeo)(struct gendisk *, struct hd_geometry *);
-         |                                                ^
-   1 warning generated.
+   kernel/bpf/bpf_struct_ops.c: In function 'bpf_struct_ops_link_create':
+   kernel/bpf/bpf_struct_ops.c:1390:24: error: implicit declaration of function 'cgroup_get_from_fd'; did you mean 'cgroup_id_from_mm'? [-Wimplicit-function-declaration]
+    1390 |                 cgrp = cgroup_get_from_fd(attr->link_create.target_fd);
+         |                        ^~~~~~~~~~~~~~~~~~
+         |                        cgroup_id_from_mm
+>> kernel/bpf/bpf_struct_ops.c:1390:22: error: assignment to 'struct cgroup *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1390 |                 cgrp = cgroup_get_from_fd(attr->link_create.target_fd);
+         |                      ^
+>> kernel/bpf/bpf_struct_ops.c:1398:25: error: implicit declaration of function 'cgroup_put'; did you mean 'cgroup_init'? [-Wimplicit-function-declaration]
+    1398 |                         cgroup_put(cgrp);
+         |                         ^~~~~~~~~~
+         |                         cgroup_init
+
+
+vim +1390 kernel/bpf/bpf_struct_ops.c
+
+  1357	
+  1358	int bpf_struct_ops_link_create(union bpf_attr *attr)
+  1359	{
+  1360		struct bpf_struct_ops_link *link = NULL;
+  1361		struct bpf_link_primer link_primer;
+  1362		struct bpf_struct_ops_map *st_map;
+  1363		struct bpf_map *map;
+  1364		struct cgroup *cgrp;
+  1365		int err;
+  1366	
+  1367		if (attr->link_create.flags & ~BPF_F_CGROUP_FD)
+  1368			return -EINVAL;
+  1369	
+  1370		map = bpf_map_get(attr->link_create.map_fd);
+  1371		if (IS_ERR(map))
+  1372			return PTR_ERR(map);
+  1373	
+  1374		st_map = (struct bpf_struct_ops_map *)map;
+  1375	
+  1376		if (!bpf_struct_ops_valid_to_reg(map)) {
+  1377			err = -EINVAL;
+  1378			goto err_out;
+  1379		}
+  1380	
+  1381		link = kzalloc(sizeof(*link), GFP_USER);
+  1382		if (!link) {
+  1383			err = -ENOMEM;
+  1384			goto err_out;
+  1385		}
+  1386		bpf_link_init(&link->link, BPF_LINK_TYPE_STRUCT_OPS, &bpf_struct_ops_map_lops, NULL,
+  1387			      attr->link_create.attach_type);
+  1388	
+  1389		if (attr->link_create.flags & BPF_F_CGROUP_FD) {
+> 1390			cgrp = cgroup_get_from_fd(attr->link_create.target_fd);
+  1391			if (IS_ERR(cgrp)) {
+  1392				err = PTR_ERR(cgrp);
+  1393				goto err_out;
+  1394			}
+  1395			link->cgroup = cgrp;
+  1396			err = cgroup_bpf_attach_struct_ops(cgrp, link);
+  1397			if (err) {
+> 1398				cgroup_put(cgrp);
+  1399				link->cgroup = NULL;
+  1400				goto err_out;
+  1401			}
+  1402		}
+  1403	
+  1404		err = bpf_link_prime(&link->link, &link_primer);
+  1405		if (err)
+  1406			goto err_put_cgroup;
+  1407	
+  1408		init_waitqueue_head(&link->wait_hup);
+  1409	
+  1410		/* Hold the update_mutex such that the subsystem cannot
+  1411		 * do link->ops->detach() before the link is fully initialized.
+  1412		 */
+  1413		mutex_lock(&update_mutex);
+  1414		err = st_map->st_ops_desc->st_ops->reg(st_map->kvalue.data, &link->link);
+  1415		if (err) {
+  1416			mutex_unlock(&update_mutex);
+  1417			bpf_link_cleanup(&link_primer);
+  1418			link = NULL;
+  1419			goto err_out;
+  1420		}
+  1421		RCU_INIT_POINTER(link->map, map);
+  1422		mutex_unlock(&update_mutex);
+  1423	
+  1424		return bpf_link_settle(&link_primer);
+  1425	
+  1426	err_put_cgroup:
+  1427		if (link->cgroup)
+  1428			cgroup_bpf_detach_struct_ops(link->cgroup, link);
+  1429	err_out:
+  1430		bpf_map_put(map);
+  1431		kfree(link);
+  1432		return err;
+  1433	}
+  1434	
 
 -- 
 0-DAY CI Kernel Test Service
