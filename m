@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECCA1DFE22
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Dec 2025 21:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B150625B662
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Dec 2025 22:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767129802; cv=none; b=LgY094+B8klpPHpoovEpzu0tiNWrSMQnaxQKD70DFIGolELd/UOTReP+6WCcbRe/aJSboiM9zcIawa648hDVq64R9JP+cq3eeHXeGBBRUJ2Dq6XIv9MjkPnUHrX6eto9dn2phwlQ+8TkVl8nT4agYrXuMCb/6I6ROzIyvwAof0A=
+	t=1767135081; cv=none; b=qSt/ZiP+w3hj0gkaqFeOulCuGDRoovgYEyll3PpgMuyjoeXDuFPisGhGMa4a6eQ9gAmf9mtM5SCVj29dvZUQw+rWNxfH14aOPB24VN4mc83JLp16Sv7N+hc76X9/GcHbqvZhN6S5rOh8FlqjRakD1pydr/U2EbwukKA8Qn3DiLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767129802; c=relaxed/simple;
-	bh=7/SepoqWdjvk/U9ie5TprvDK+meEAIcqeIPVjqa6b/g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=utRk2JE35j4groaJbUGN6nObz7NVHktuf7BiCj/V7JDqR0rqrxVzHimfKnrzJatncN6EDuzqkxocyYoX897+w5VvgS8fDnGZZD995soBb7uFos0FJHmvJKSRc4Q26CjwLj78pU3lYSxvg4uVxLOLYbIv8m/uvr0nMvJYu13XqRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JLRZIxM/; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1767135081; c=relaxed/simple;
+	bh=iiIrdOFOFI+g5ldtCCr0SI9PsZxJwAVj2GLXKN3o2yc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C1e3sgsKLibVs8W7LKM/PdyK/+bbxzknoJdKaPwmO9hFnVdl47dyVpkQPK43mhHPA1k2UA1SEEC1TO1o9GIigqjIp6U3c07AkL1MKC6nirQaLwVIhj4KKn5oLfYXQbG7YFDXqMEbD/5cJ1DQMzr4liG3Y+GMTvUKY0EWRnxLHOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BiIfpYXP; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JLRZIxM/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BiIfpYXP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767129799; x=1798665799;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7/SepoqWdjvk/U9ie5TprvDK+meEAIcqeIPVjqa6b/g=;
-  b=JLRZIxM/Im6e5FOu33ETeJLLWXLUuHZ7uQApsKw5yVriY/jdW5A3V838
-   gnRv3XQFBVAzb0qHyKqccUH/PpqU6N9+EniIia3yIBo9o1LsRqY7Q3tlJ
-   K1bsxUXRY5d5a3izKWJ+4OBMQ5RdLSdrKWIsBUy2y5W/tTgn2FkjPn1jD
-   KgbwhoOeG2vxd+kmkG7nOQcpbxJdkbd+5/WR/Oa/0e7XXamxAZPFPAU0+
-   b4Dz9pLtUDCH6H80WIGPSmfnWMrpjpd1yIgpjglpLeLOrF1eahlNRBiTj
-   tgEqPunkBDaFjZn6OByBxt53a4fhSlvgD5I1lHW7z++T33QTQyvAoUpNQ
+  t=1767135079; x=1798671079;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iiIrdOFOFI+g5ldtCCr0SI9PsZxJwAVj2GLXKN3o2yc=;
+  b=BiIfpYXP9chOSdNo00DlgE3x5l6V7lZ0/2rfnwq0qkrznt6G+unF2If4
+   y3oSOGlHd+PSARkGPbCL+T/zRdiHT/QpGJiyI7uM6FNqzU+8ArQctDOUB
+   f+15q2kLuSbUmONarGrP86ywH7OHZ9GFGqnfH6Sd6SLVTjLNCkyyTayco
+   QL5q8CJve8X9v5qtY8vQ1I8p+qvC0aexurzjggkje1jpUnPUpm8R4tUit
+   4z/0r8fSikMLDATvrV7bpTCtGNScT7seKOR+758zuvsd55lSsS16efdDO
+   qbI9yAU+4y+knUmLX3F5quloeeQLT7Xx+W9yyo2A28bS5gUhQQF66vaAA
    g==;
-X-CSE-ConnectionGUID: u0T6DeEjQ6iBjtVCh3ec4w==
-X-CSE-MsgGUID: mNlBX3a3RmKIZPnZoujS3g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11657"; a="67910046"
-X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
-   d="scan'208";a="67910046"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 13:23:18 -0800
-X-CSE-ConnectionGUID: iilGdmsuQUamLPLsbNRkZg==
-X-CSE-MsgGUID: pg4unHMsTo2Ws+Xueu9rIQ==
+X-CSE-ConnectionGUID: TqGvDCfQTuqRBw4UI4GFXw==
+X-CSE-MsgGUID: 07Zvyt9jTT2Wn5sjWmJSbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11657"; a="68472783"
+X-IronPort-AV: E=Sophos;i="6.21,190,1763452800"; 
+   d="scan'208";a="68472783"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 14:51:19 -0800
+X-CSE-ConnectionGUID: qnO7xPkvQMuvVXxVszJGXw==
+X-CSE-MsgGUID: C1zcGa4bS1GI4uvX2ooaAA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
-   d="scan'208";a="201546031"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8a0c053bdd2a) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Dec 2025 13:23:17 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 30 Dec 2025 14:51:18 -0800
 Received: from kbuild by 8a0c053bdd2a with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vahBS-0000000081c-4AWG;
-	Tue, 30 Dec 2025 21:23:14 +0000
-Date: Tue, 30 Dec 2025 22:23:00 +0100
+	id 1vaiYd-00000000820-1EEq;
+	Tue, 30 Dec 2025 22:51:15 +0000
+Date: Tue, 30 Dec 2025 23:50:49 +0100
 From: kernel test robot <lkp@intel.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>, intel-xe@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, ankit.k.nautiyal@intel.com,
-	mika.kahola@intel.com, Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: Re: [PATCH 1/3] drm/i915/cx0: Split PLL enabling/disabling in two
- parts
-Message-ID: <202512302233.vcqoghOz-lkp@intel.com>
-References: <20251230083142.70064-2-suraj.kandpal@intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Maxime Ripard <mripard@kernel.org>, linux-doc@vger.kernel.org
+Subject: [drm-misc:for-linux-next 2/18] htmldocs:
+ Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1521:
+ WARNING: Block quote ends without a blank line; unexpected unindent.
+ [docutils]
+Message-ID: <202512302319.1PGGt3CN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,71 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251230083142.70064-2-suraj.kandpal@intel.com>
 
-Hi Suraj,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-i915/for-linux-next]
-[also build test WARNING on drm-tip/drm-tip]
-[cannot apply to drm-i915/for-linux-next-fixes linus/master v6.19-rc3 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-i915-cx0-Split-PLL-enabling-disabling-in-two-parts/20251230-163308
-base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
-patch link:    https://lore.kernel.org/r/20251230083142.70064-2-suraj.kandpal%40intel.com
-patch subject: [PATCH 1/3] drm/i915/cx0: Split PLL enabling/disabling in two parts
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20251230/202512302233.vcqoghOz-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251230/202512302233.vcqoghOz-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/misc/kernel.git for-linux-next
+head:   40630210211a34f0714fe976530ccf1291e5ef78
+commit: 9da0e06abda87b1f97014113d5231fdeb4700749 [2/18] drm/bridge: deprecate of_drm_find_bridge()
+reproduce: (https://download.01.org/0day-ci/archive/20251230/202512302319.1PGGt3CN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512302233.vcqoghOz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512302319.1PGGt3CN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/bits.h:5,
-                    from include/linux/bitops.h:6,
-                    from include/linux/log2.h:12,
-                    from drivers/gpu/drm/i915/display/intel_cx0_phy.c:6:
-   drivers/gpu/drm/i915/display/intel_cx0_phy.c: In function 'intel_cx0pll_enable_clock':
->> include/vdso/bits.h:7:33: warning: statement with no effect [-Wunused-value]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                 ^
-   drivers/gpu/drm/i915/display/intel_cx0_phy.c:32:33: note: in expansion of macro 'BIT'
-      32 | #define INTEL_CX0_LANE0         BIT(0)
-         |                                 ^~~
-   drivers/gpu/drm/i915/display/intel_cx0_phy.c:3388:43: note: in expansion of macro 'INTEL_CX0_LANE0'
-    3388 |                                           INTEL_CX0_LANE0;
-         |                                           ^~~~~~~~~~~~~~~
---
-   In file included from include/linux/bits.h:5,
-                    from include/linux/bitops.h:6,
-                    from include/linux/log2.h:12,
-                    from display/intel_cx0_phy.c:6:
-   display/intel_cx0_phy.c: In function 'intel_cx0pll_enable_clock':
->> include/vdso/bits.h:7:33: warning: statement with no effect [-Wunused-value]
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                 ^
-   display/intel_cx0_phy.c:32:33: note: in expansion of macro 'BIT'
-      32 | #define INTEL_CX0_LANE0         BIT(0)
-         |                                 ^~~
-   display/intel_cx0_phy.c:3388:43: note: in expansion of macro 'INTEL_CX0_LANE0'
-    3388 |                                           INTEL_CX0_LANE0;
-         |                                           ^~~~~~~~~~~~~~~
-
-
-vim +7 include/vdso/bits.h
-
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  6  
-3945ff37d2f48d Vincenzo Frascino 2020-03-20 @7  #define BIT(nr)			(UL(1) << (nr))
-cbdb1f163af2bb Andy Shevchenko   2022-11-28  8  #define BIT_ULL(nr)		(ULL(1) << (nr))
-3945ff37d2f48d Vincenzo Frascino 2020-03-20  9  
+   Documentation/gpu/drm-kms:360: ./drivers/gpu/drm/drm_fourcc.c:397: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:35.
+   Declaration is '.. c:function:: const struct drm_format_info * drm_format_info (u32 format)'. [duplicate_declaration.c]
+   Documentation/gpu/drm-kms:491: ./drivers/gpu/drm/drm_modeset_lock.c:377: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:48.
+   Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'. [duplicate_declaration.c]
+   Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1519: ERROR: Unexpected indentation. [docutils]
+>> Documentation/gpu/drm-kms-helpers:197: ./drivers/gpu/drm/drm_bridge.c:1521: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   ERROR: Cannot find file ./include/linux/hdmi.h
+   ERROR: Cannot find file ./include/linux/hdmi.h
+   WARNING: No kernel-doc for file ./include/linux/hdmi.h
+   WARNING: ./drivers/gpu/drm/scheduler/sched_main.c:367 function parameter 'result' not described in 'drm_sched_job_done'
+   Documentation/gpu/drm-uapi:607: ./drivers/gpu/drm/drm_ioctl.c:923: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
 
 -- 
 0-DAY CI Kernel Test Service
