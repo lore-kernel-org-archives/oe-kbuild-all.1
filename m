@@ -1,81 +1,154 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2EE21257E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Dec 2025 13:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782ECAD5A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Dec 2025 13:36:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767101763; cv=none; b=YTX5qlh1o6/2PoCeDsVmhqQQuFmZjM4Hi1LDIbY7XJS6XrxhawZJ4tWwakBsu/UAl6r6aQJgF0CfI3vQhPQp0eMTaMvJanL/AzmtCNESn5m3Sg90/J0avbMaWrkLAmhVPy7Q2/zAgjET1toGe7TTD0Jw/5kRbaTccf4EUjGYueI=
+	t=1767101764; cv=none; b=pIczeoYgpDYZMxomDq+xGn5kTa97n7X5VVVsUGxo+uV3raMhNkTxWZxYGowvcOe+legarmSgl2eD8ZUlhU2Bobt7ZabN7b3tzsoYdayqNqxIpLkwiMThSSHR5j/bQMNcObZ5a4NWMSITT+o7qVJsqgHP/Ft1CUNdBPiYRAGfvYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767101763; c=relaxed/simple;
-	bh=e63rxy722baqv/v7R/67xBYor0mGiDFUuX3FsQSZv+M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RS9rdV9FDcA8JbwQD/U9BP7vcPp6YicOV6RZ7k8EGB6q/aHX8E4amk7OAdpGdyhh0i8Y0iYH5uPu595TD+Vi/TXkvL/Op4fhTmfEgYrtUUo0sKcwseNtI0UspSNr3+F6520wbsceXYd0CTHctoc6geq2qNiiFTsGttlKdZlzxCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OGl7F3R4; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1767101764; c=relaxed/simple;
+	bh=whRaztirvx5Wyh80MSX+DutYWxXqcp9XldzpUIBN9zk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RL9ocQPV6eWApZVTJAXkogZ89G/ixCOj9PmxmfLXvQizftCGVnbVFznNOS/IEeeb8TFpk3KZs6dNvG9qIKQ7GfpUbtJymIVFx864/uv5AFXSfPV0l7SpEaCdcjU0CZAsuJ7uBdbAjgZd5P8PdxPisurN7fOF8EVD+nddGVZ5cYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ye1vpUsc; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGl7F3R4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ye1vpUsc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767101761; x=1798637761;
-  h=date:from:to:cc:subject:message-id;
-  bh=e63rxy722baqv/v7R/67xBYor0mGiDFUuX3FsQSZv+M=;
-  b=OGl7F3R4bQPeRru2tJLe5D3oLYe+cY1lipLuXSj2ZdxmWHxNvnMHgcL1
-   xXFZt0xjxGNBJp3dIbICp1RVVrHbwqnOOOLioIK5cVHP5gowpy9/g9ulm
-   epM3334L05tdSV7C0ZmpXGdjHodwSDw+i0B31RMVZKEY90ff9l9d97mWo
-   2Er/FoQYzDssDkEWsn71urQnU2GT1fF82qxozf1CubQN0y4pR+SYcZ9HF
-   obDb5vYPic3HcsDWEpgiA6X9Z4j/yf4IMrLU6IFbirGnJAXDA+ytoowcp
-   R0/MhBSn8sPhAZMFRyyrLGwwYXtr0dZ9A7JZPHiCHqa2b3cspd004ujpg
+  t=1767101762; x=1798637762;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=whRaztirvx5Wyh80MSX+DutYWxXqcp9XldzpUIBN9zk=;
+  b=Ye1vpUscRFLRctIjlqLz3acCJ99UdYRKs5GhGWfYo4e5uWQkYZSqg+pR
+   0gpu6ArBLrTkWDc4xRJZDMEBS5A7I1XuW8c2nxAe2kgv9v4yf4q/tTGGs
+   y0yP2Ts5ddvAEpt0QKVJiS5+onsfuxgYCsKCS1zUx/P8duJ//+K1vPdxP
+   IxLlI8KRPCrVZ4syw6Ts1M1MDfIATIi++6GURpORy7NvlubH2Ftvczmww
+   faRXf5heOmNiOPrZwM7R8U+NwZ/8XDuYI1rROJltNezgKu7TjFkxSdOSW
+   Ejp45gQksa/gqFkORGIzYZzb5qCevtopBYzs0A+AKUiUJVj2+tbFz2cWG
    A==;
-X-CSE-ConnectionGUID: hUaFRir+T2mNTfH5fWXxCw==
-X-CSE-MsgGUID: KGzhsY2LT8aKxvEi8bZiJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="68664416"
+X-CSE-ConnectionGUID: n67i7BcQRH6l96Z0YhImuA==
+X-CSE-MsgGUID: ZeS31JIrQ1KFXytQPfESjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="79809529"
 X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
-   d="scan'208";a="68664416"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 05:35:59 -0800
-X-CSE-ConnectionGUID: ozKvVUPoQOmWDP3gX82pdQ==
-X-CSE-MsgGUID: vjvbve3MR2W4RjYg7RWhYQ==
+   d="scan'208";a="79809529"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 05:36:01 -0800
+X-CSE-ConnectionGUID: ada3EXIlSHOIL18jvWVdKA==
+X-CSE-MsgGUID: E5snTTCFSEymNkXU32GLZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,189,1763452800"; 
-   d="scan'208";a="200429150"
+   d="scan'208";a="205734082"
 Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 30 Dec 2025 05:35:59 -0800
+  by orviesa004.jf.intel.com with ESMTP; 30 Dec 2025 05:35:59 -0800
 Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vaZtE-000000000P7-2m0m;
+	id 1vaZtE-000000000P3-2Vow;
 	Tue, 30 Dec 2025 13:35:56 +0000
-Date: Tue, 30 Dec 2025 21:35:52 +0800
+Date: Tue, 30 Dec 2025 21:35:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:bpfoom.3.6 11/16] undefined reference to
- `bpf_struct_ops_link_to_ops'
-Message-ID: <202512302131.tu5eOJfp-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tzung-Bi Shih <tzungbi@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-pm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	tzungbi@kernel.org
+Subject: Re: [PATCH] pmdomain: mediatek: Break lock dependency to
+ `prepare_lock`
+Message-ID: <202512302129.BjTBw9E6-lkp@intel.com>
+References: <20251229043244.4103262-1-tzungbi@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251229043244.4103262-1-tzungbi@kernel.org>
 
-tree:   https://github.com/rgushchin/linux.git bpfoom.3.6
-head:   d16fa0113ece3fae58e5105dbed6b0dbe1c28c21
-commit: 7752accd071a5cf12d71dff3c340ddf846b9d464 [11/16] mm: introduce BPF OOM struct ops
-config: csky-randconfig-001-20251230 (https://download.01.org/0day-ci/archive/20251230/202512302131.tu5eOJfp-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251230/202512302131.tu5eOJfp-lkp@intel.com/reproduce)
+Hi Tzung-Bi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.19-rc3 next-20251219]
+[cannot apply to amd-pstate/linux-next amd-pstate/bleeding-edge]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tzung-Bi-Shih/pmdomain-mediatek-Break-lock-dependency-to-prepare_lock/20251229-123525
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20251229043244.4103262-1-tzungbi%40kernel.org
+patch subject: [PATCH] pmdomain: mediatek: Break lock dependency to `prepare_lock`
+config: arm-randconfig-003-20251230 (https://download.01.org/0day-ci/archive/20251230/202512302129.BjTBw9E6-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251230/202512302129.BjTBw9E6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512302131.tu5eOJfp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512302129.BjTBw9E6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   csky-linux-ld: mm/bpf_oom.o: in function `bpf_handle_oom':
->> (.text+0x32): undefined reference to `bpf_struct_ops_link_to_ops'
-   csky-linux-ld: (.text+0xb0): undefined reference to `bpf_struct_ops_link_to_ops'
+>> drivers/pmdomain/mediatek/mtk-pm-domains.c:1304:12: warning: 'scpsys_resume' defined but not used [-Wunused-function]
+    1304 | static int scpsys_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~
+>> drivers/pmdomain/mediatek/mtk-pm-domains.c:1285:12: warning: 'scpsys_suspend' defined but not used [-Wunused-function]
+    1285 | static int scpsys_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~
+
+
+vim +/scpsys_resume +1304 drivers/pmdomain/mediatek/mtk-pm-domains.c
+
+  1284	
+> 1285	static int scpsys_suspend(struct device *dev)
+  1286	{
+  1287		struct scpsys *scpsys = dev_get_drvdata(dev);
+  1288		struct generic_pm_domain *genpd;
+  1289		struct scpsys_domain *pd;
+  1290		int i;
+  1291	
+  1292		for (i = 0; i < scpsys->pd_data.num_domains; i++) {
+  1293			genpd = scpsys->pd_data.domains[i];
+  1294			if (!genpd)
+  1295				continue;
+  1296	
+  1297			pd = to_scpsys_domain(genpd);
+  1298			clk_bulk_unprepare(pd->num_clks, pd->clks);
+  1299			clk_bulk_unprepare(pd->num_subsys_clks, pd->subsys_clks);
+  1300		}
+  1301		return 0;
+  1302	}
+  1303	
+> 1304	static int scpsys_resume(struct device *dev)
+  1305	{
+  1306		struct scpsys *scpsys = dev_get_drvdata(dev);
+  1307		struct generic_pm_domain *genpd;
+  1308		struct scpsys_domain *pd;
+  1309		int i, ret;
+  1310	
+  1311		for (i = 0; i < scpsys->pd_data.num_domains; i++) {
+  1312			genpd = scpsys->pd_data.domains[i];
+  1313			if (!genpd)
+  1314				continue;
+  1315	
+  1316			pd = to_scpsys_domain(genpd);
+  1317			ret = clk_bulk_prepare(pd->num_clks, pd->clks);
+  1318			if (ret)
+  1319				return ret;
+  1320			ret = clk_bulk_prepare(pd->num_subsys_clks, pd->subsys_clks);
+  1321			if (ret)
+  1322				return ret;
+  1323		}
+  1324		return 0;
+  1325	}
+  1326	
 
 -- 
 0-DAY CI Kernel Test Service
