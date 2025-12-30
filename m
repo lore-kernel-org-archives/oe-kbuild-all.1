@@ -1,140 +1,225 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF1A17B50A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Dec 2025 01:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742721DE8BF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 Dec 2025 02:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767057970; cv=none; b=FnZfQ0nZh1Z7Ibmm6PMWPnt/dgRPvH7pSE9LHVrQjSTK+G13la/xk61rl3DDr3m+eT5fN5WnYf7Z0SJE4QkuzhOcrNxh3OXs3emRW0AMUJkZC8L1dq8YWm2VtKhQ4nOMkQnsU94uMGAxrZ/+HpJUZgqAfWqs6NGCQlhsAXhxWHI=
+	t=1767062908; cv=none; b=OrORoSyKUdaxsEvtfEL3JZme11lRijf/6I+jLVJWXuwuniu6vFAH4Y6dDQx9qQmHXK9JWZBeHnp+s5XszCB10MWTxoX1Oyj5v8/EczqIGxHkCWAt5ScA5C0G+HbFzo237zrWXtKd9rkjFGXF6pg5I6JBJDhLpyq22MoFEcZabsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767057970; c=relaxed/simple;
-	bh=VAAblPWB0GeAzrG+v4d2RJn6GUK9O2/3o4ITCUt56RY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fxiFMEA1QEDs8S3F6MXyhtOeoou/bPKk9AKbmbroxe6Alf2q3uXNB7StrKwioTc9eEFZAbmru5cw1JtTrMblpxLvHQxrz6fG6KZrn6EeOM2/z0Ir25x4mt73xKXZ7xLy2UM9AfZjWxUjp44bHMaCvUwzrD05SNjYYx6itijU+1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h60DSPeD; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767062908; c=relaxed/simple;
+	bh=aiplG+jeWv13uY69nZrnVyIdUmnkujRRtJX9xzcPdr8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ahKdTnqxPUh5sQDCSv7rAocp2Tq50tDrQme31eWsH8UJfE/4MRyzeS0kIq8mNaXoaHvXaFfx4AF9c5y/Ds5m7J3f2rcg+MwW/SZu/dpgxRCmGzv4aBJ7E9CJdC95ZOTIuAgKNOgfhyOPFCXhlqfxNRJPRVWdU8d2qChlNlGvzJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nFFs78Kj; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h60DSPeD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767057968; x=1798593968;
-  h=date:from:to:cc:subject:message-id;
-  bh=VAAblPWB0GeAzrG+v4d2RJn6GUK9O2/3o4ITCUt56RY=;
-  b=h60DSPeDF7YKzxtWE85d5NGQy9pLOdDBqbPluho965+L2XBduK2GK6kP
-   +qLkgBfYYlV/2kIh3Vr2XKlNrOnIgfdxdktPtzNJ3QlLCB43ZTJmaevPx
-   L4pemR5J+cTcExmBg8onhrl6HfEZXxMUwjGctUCYrM0EQCsKfFetRvSNK
-   Xdau3p/xgo7aDXv4wknGpU7gQaGSOWSsWCfnNPFd3dHdb9vHZrv71k10G
-   ePxib1nFwhsLIisFpuzTrxG/FTz2POedd5BQVqKzHi/Up8WjGl/feerN1
-   rxFJCUkjhI2abJtVrBU5GNrgDjmyFWkoZohdaJUvPr8UTg8jrlazyAC3B
-   g==;
-X-CSE-ConnectionGUID: V/406BRFRFuEerd6T0TQQA==
-X-CSE-MsgGUID: TEcyVnGCTFqSd2FHq9jYrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="71241770"
-X-IronPort-AV: E=Sophos;i="6.21,187,1763452800"; 
-   d="scan'208";a="71241770"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Dec 2025 17:26:07 -0800
-X-CSE-ConnectionGUID: oVWjxy+UQhuQSGsaxfMTng==
-X-CSE-MsgGUID: iwjUcaiGQXS6P4JV1VvFOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,187,1763452800"; 
-   d="scan'208";a="200207061"
-Received: from lkp-server02.sh.intel.com (HELO dd3453e2b682) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 29 Dec 2025 17:26:06 -0800
-Received: from kbuild by dd3453e2b682 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vaOUp-000000008B7-0rIq;
-	Tue, 30 Dec 2025 01:26:01 +0000
-Date: Tue, 30 Dec 2025 09:25:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 0/15] arch/x86/kernel/cpu/hygon.c:480:6:
- sparse: sparse: symbol 'set_c86_features_para_invalid' was not declared.
- Should it be static?
-Message-ID: <202512300937.7Rd3gCCO-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nFFs78Kj"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4dgHZt46RNz9tWv;
+	Tue, 30 Dec 2025 03:48:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1767062902;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MwS0sCOL97hx9v2sIlHXx4kDZ6uLqIofr0CHKMWhvKs=;
+	b=nFFs78KjTvQbuA19t2YBxfM+8syKGilJRaPpDzIOpo2rYsV/cSwr3qOoYRoSSEo77i/zR0
+	4i09mb16dw9JkmEgBqvO1DlxK1/tgqo7FsY5OxdQmFqWxAJ2xgDqszzM5xGciJ5eBHDaaQ
+	IXTIUJ7QR7XgLEpjStzI5eIkU2BNnxD0PmjRrmmi2PeQ+sL+zvRJGneAMbPSfZ5tIVG6cx
+	7P6IoYEkwy8TIZ1WdOEiKN8rjPMCNvRrPKk5UatZxbnYJabXqlxDuqpTRmLc8zVg4suIyN
+	sC/ji50OjW9y/M198D8eZCBhSrmiqltNSfDYZKlRwqfQbsFzbaRD8mNun8yRuA==
+Message-ID: <84f21e62-c167-4b7f-8727-bdca04eede5e@mailbox.org>
+Date: Tue, 30 Dec 2025 03:47:17 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Subject: Re: include/linux/compiler_types.h:597:38: error: call to
+ '__compiletime_assert_437' declared with attribute error: FIELD_PREP: value
+ too large for the field
+To: kernel test robot <lkp@intel.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "open list:MEDIA DRIVERS FOR RENESAS - FCP"
+ <linux-renesas-soc@vger.kernel.org>
+References: <202512051834.bESvhDiG-lkp@intel.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <202512051834.bESvhDiG-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 091917b2a1cf2496b9f
+X-MBO-RS-META: 8x7c11goit6xgfbuswjucqzfkpouwdh6
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   f148785f0bb856bba8ceca2b699a2f102f22174a
-commit: 48fb9af1d04848a2583b2dbf3b7091eca38dd482 [0/15] mm: Enhanced copy capabilities for Hygon processor
-config: x86_64-randconfig-123-20251230 (https://download.01.org/0day-ci/archive/20251230/202512300937.7Rd3gCCO-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251230/202512300937.7Rd3gCCO-lkp@intel.com/reproduce)
+On 12/5/25 11:16 AM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   2061f18ad76ecaddf8ed17df81b8611ea88dbddd
+> commit: 4f716a1db661cfb31502a0a6d7e62c06daf2e603 drm/rcar-du: dsi: Convert register bitfields to GENMASK() macro
+> date:   5 weeks ago
+> config: arc-randconfig-001-20251205 (https://download.01.org/0day-ci/archive/20251205/202512051834.bESvhDiG-lkp@intel.com/config)
+> compiler: arc-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251205/202512051834.bESvhDiG-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202512051834.bESvhDiG-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     In file included from <command-line>:
+>     drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c: In function 'rcar_mipi_dsi_startup.isra.4':
+>>> include/linux/compiler_types.h:597:38: error: call to '__compiletime_assert_437' declared with attribute error: FIELD_PREP: value too large for the field
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512300937.7Rd3gCCO-lkp@intel.com/
+[...]
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/cpu/hygon.c:480:6: sparse: sparse: symbol 'set_c86_features_para_invalid' was not declared. Should it be static?
->> arch/x86/kernel/cpu/hygon.c:522:30: sparse: sparse: symbol 'hygon_c86_attr_group' was not declared. Should it be static?
---
->> arch/x86/kernel/fpu/core.c:466:14: sparse: sparse: symbol 'get_fpustate_free_space' was not declared. Should it be static?
-   arch/x86/kernel/fpu/core.c:656:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   arch/x86/kernel/fpu/core.c:656:39: sparse:     expected struct spinlock [usertype] *lock
-   arch/x86/kernel/fpu/core.c:656:39: sparse:     got struct spinlock [noderef] __rcu *
-   arch/x86/kernel/fpu/core.c:660:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   arch/x86/kernel/fpu/core.c:660:41: sparse:     expected struct spinlock [usertype] *lock
-   arch/x86/kernel/fpu/core.c:660:41: sparse:     got struct spinlock [noderef] __rcu *
+>     rcar_mipi_dsi.c:660:14: note: in expansion of macro 'VCLKSET_DIV_V4H'
+>        vclkset |= VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divider) - 1);
+>                   ^~~~~~~~~~~~~~~
+I don't think this condition can occur.
 
-vim +/set_c86_features_para_invalid +480 arch/x86/kernel/cpu/hygon.c
+In drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c :
+- rcar_mipi_dsi_startup() calls rcar_mipi_dsi_parameters_calc() which is 
+the only site that assigns setup_info.vclk_divider this way:
 
-   479	
- > 480	void set_c86_features_para_invalid(void)
-   481	{
-   482		memset((void *)&hygon_c86_data, 0, sizeof(struct hygon_c86_info));
-   483	}
-   484	
-   485	unsigned int get_nt_block_copy_mini_len(void)
-   486	{
-   487		unsigned int mini_len = hygon_c86_data.nt_cpy_mini_len;
-   488	
-   489		return mini_len;
-   490	}
-   491	EXPORT_SYMBOL_GPL(get_nt_block_copy_mini_len);
-   492	
-   493	static ssize_t show_nt_cpy_mini_len(struct kobject *kobj,
-   494					    struct kobj_attribute *attr, char *buf)
-   495	{
-   496		return snprintf(buf, 40, "%d\n", hygon_c86_data.nt_cpy_mini_len);
-   497	}
-   498	
-   499	static ssize_t store_nt_cpy_mini_len(struct kobject *kobj,
-   500					     struct kobj_attribute *attr,
-   501					     const char *buf, size_t count)
-   502	{
-   503		unsigned long val;
-   504		ssize_t ret;
-   505	
-   506		ret = kstrtoul(buf, 0, &val);
-   507		if (ret)
-   508			return ret;
-   509	
-   510		hygon_c86_data.nt_cpy_mini_len = val;
-   511	
-   512		return count;
-   513	}
-   514	
-   515	static struct kobj_attribute nt_cpy_mini_len_attribute = __ATTR(
-   516		nt_cpy_mini_len, 0600, show_nt_cpy_mini_len, store_nt_cpy_mini_len);
-   517	
-   518	static struct attribute *c86_default_attrs[] = {
-   519		&nt_cpy_mini_len_attribute.attr, NULL
-   520	};
-   521	
- > 522	const struct attribute_group hygon_c86_attr_group = {
-   523		.attrs = c86_default_attrs,
-   524		.name = "hygon_c86",
-   525	};
-   526	
+  415         switch (dsi->info->model) {
+  416         case RCAR_DSI_V3U:
+  417         default:
+  418                 setup_info->vclk_divider = 1 << 
+((clk_cfg->vco_cntrl >> 4) & 0x3);
+  419                 break;
+  420
+  421         case RCAR_DSI_V4H:
+  422                 setup_info->vclk_divider = 1 << 
+(((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
+  423                 break;
+  424         }
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In case of V3U, vclk_divider is 1 << (0..3) .
+In case of V4H, vclk_divider is 1 << (1..8) .
+
+In drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c :
+- rcar_mipi_dsi_startup() later contains the offending code:
+
+  653         switch (dsi->info->model) {
+  654         case RCAR_DSI_V3U:
+  655         default:
+  656                 vclkset |= 
+VCLKSET_DIV_V3U(__ffs(setup_info.vclk_divider));
+  657                 break;
+  658
+  659         case RCAR_DSI_V4H:
+  660                 vclkset |= 
+VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divider) - 1);
+  661                 break;
+  662         }
+
+This does the reverse of the code that assigned the value above, so:
+
+In case of V3U, field value is (0..3) .
+In case of V4H, field value is (0..7) .
+
+Finally in drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi_regs.h :
+
+256 #define VCLKSET_DIV_V3U_MASK            GENMASK_U32(5, 4)
+257 #define VCLKSET_DIV_V3U(n) 
+FIELD_PREP(VCLKSET_DIV_V3U_MASK, (n))
+258 #define VCLKSET_DIV_V4H_MASK            GENMASK_U32(6, 4)
+259 #define VCLKSET_DIV_V4H(n) 
+FIELD_PREP(VCLKSET_DIV_V4H_MASK, (n))
+
+The masks fit exactly. For V3U the mask is 2-bit, or V4H the mask is 3-bit .
+
+...
+
+I can however rewrite the code in this way, which should also mitigate 
+this warning. Do you think this makes the code any better ?
+
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c 
+b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+index 4ef2e3c129ed7..20e2a4cae5b86 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+@@ -84,7 +84,6 @@ struct dsi_setup_info {
+  	unsigned long fout;
+  	u16 m;
+  	u16 n;
+-	u16 vclk_divider;
+  	const struct dsi_clk_config *clkset;
+  };
+
+@@ -338,7 +337,8 @@ rcar_mipi_dsi_post_init_phtw_v4h(struct 
+rcar_mipi_dsi *dsi,
+  static void rcar_mipi_dsi_pll_calc(struct rcar_mipi_dsi *dsi,
+  				   unsigned long fin_rate,
+  				   unsigned long fout_target,
+-				   struct dsi_setup_info *setup_info)
++				   struct dsi_setup_info *setup_info,
++				   u16 vclk_divider)
+  {
+  	unsigned int best_err = -1;
+  	const struct rcar_mipi_dsi_device_info *info = dsi->info;
+@@ -391,6 +391,7 @@ static void rcar_mipi_dsi_parameters_calc(struct 
+rcar_mipi_dsi *dsi,
+  	unsigned long fin_rate;
+  	unsigned int i;
+  	unsigned int err;
++	u16 vclk_divider;
+
+  	/*
+  	 * Calculate Fout = dot clock * ColorDepth / (2 * Lane Count)
+@@ -415,15 +416,15 @@ static void rcar_mipi_dsi_parameters_calc(struct 
+rcar_mipi_dsi *dsi,
+  	switch (dsi->info->model) {
+  	case RCAR_DSI_V3U:
+  	default:
+-		setup_info->vclk_divider = 1 << ((clk_cfg->vco_cntrl >> 4) & 0x3);
++		vclk_divider = 1 << ((clk_cfg->vco_cntrl >> 4) & 0x3);
+  		break;
+
+  	case RCAR_DSI_V4H:
+-		setup_info->vclk_divider = 1 << (((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
++		vclk_divider = 1 << (((clk_cfg->vco_cntrl >> 3) & 0x7) + 1);
+  		break;
+  	}
+
+-	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info);
++	rcar_mipi_dsi_pll_calc(dsi, fin_rate, fout_target, setup_info, 
+vclk_divider);
+
+  	/* Find hsfreqrange */
+  	setup_info->hsfreq = setup_info->fout * 2;
+@@ -439,7 +440,7 @@ static void rcar_mipi_dsi_parameters_calc(struct 
+rcar_mipi_dsi *dsi,
+  	dev_dbg(dsi->dev,
+  		"Fout = %u * %lu / (%u * %u * %u) = %lu (target %lu Hz, error 
+%d.%02u%%)\n",
+  		setup_info->m, fin_rate, dsi->info->n_mul, setup_info->n,
+-		setup_info->vclk_divider, setup_info->fout, fout_target,
++		vclk_divider, setup_info->fout, fout_target,
+  		err / 100, err % 100);
+
+  	dev_dbg(dsi->dev,
+@@ -653,11 +654,11 @@ static int rcar_mipi_dsi_startup(struct 
+rcar_mipi_dsi *dsi,
+  	switch (dsi->info->model) {
+  	case RCAR_DSI_V3U:
+  	default:
+-		vclkset |= VCLKSET_DIV_V3U(__ffs(setup_info.vclk_divider));
++		vclkset |= VCLKSET_DIV_V3U((clk_cfg->vco_cntrl >> 4) & 0x3);
+  		break;
+
+  	case RCAR_DSI_V4H:
+-		vclkset |= VCLKSET_DIV_V4H(__ffs(setup_info.vclk_divider) - 1);
++		vclkset |= VCLKSET_DIV_V4H((clk_cfg->vco_cntrl >> 3) & 0x7);
+  		break;
+  	}
