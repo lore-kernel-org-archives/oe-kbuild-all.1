@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B5730DEA7;
-	Wed, 31 Dec 2025 20:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5D82E172D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Dec 2025 21:34:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767213895; cv=none; b=gGtLGkmNsy2UI3q2DPB8NfI2iDRDLpQOsrhpDXGP4jM2LynoqgIGnVINJQPfGn8DbNwRCIIS6vju5YsDcQiHwFIsZLtLu/wHh4zYmU6TmiOjwKHri7EiTpZ5rC+pebl9vYoMzmvi+BfyrI9zQNDfbJUEqlOUxckqnUrLIW/6HAI=
+	t=1767216895; cv=none; b=tmLWtPMpmc9SnPmBoZBRrWJNkPz2KWQH/P0ygQRYu+Uwc+KLN1UwM0HWBX8Llo1SriiiGSuImrWXMpUk1N44NEM1YORVD65bOpAak5BlCI+/MuapXT76ANnkvxu3HaXpQMQDmFgvrWCwl7C4d5opbxnQLOOuMKjgr0koJ3xldmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767213895; c=relaxed/simple;
-	bh=akwvPUH7wREJTQUI95u/fmYG6/w6U6MxWi4o2xhhwH8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NEK6lYnXHWNsDXk/AORa51yGJ2hRrhjjRFj0eTvHHIsaLH3FRcflSahB5rOzQWEYutPE4fipw9fvhEsJIIA4MCyeWuWAJVJc8jBk8rqY3wRcCqTq76yTL/DAr8xNC8E8SFEQnOk55yQ9w8CBDSXyOYbiFxD7gZqlxBQmkISbVPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gxraQNnw; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1767216895; c=relaxed/simple;
+	bh=ESpqi0yolK7W3p3bH+Am9IVW2ENPUxfyfqLcUiJXk0g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Z8zW3W9g8jgj6PynYQpr7ink232GxluNYcF9TjoDHtiHF0RVCLnvNWqdynfkG3Xy4TguwTqATA7mMf/rytz9U7VKBHvsXw/sFzxeZz9L2fnsN9vNykpIbk7EviJQqOLoXBWHgAgZDpGSdTX6JU9WibLVr1j4FpTbOcAWPumKSYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KzK4lFqb; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gxraQNnw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KzK4lFqb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767213893; x=1798749893;
+  t=1767216894; x=1798752894;
   h=date:from:to:cc:subject:message-id;
-  bh=akwvPUH7wREJTQUI95u/fmYG6/w6U6MxWi4o2xhhwH8=;
-  b=gxraQNnwmy7QubDVpYzayTQE3uKM2rPWX5wBVYysZ7nsSNgBed5uw/A6
-   /q1iXOF3DC9lVXZzVWlDOa3YN4e144a7jxwkLMQKkcqGZr5DYKgiSxRqF
-   j+aM2yl9tzbZOs36j7lkuxb+W2C2gJu7PVNtm+iWEKTRDWqWwcCcfLkti
-   LhlQiQcbese1HjuOf/SbSvjUbIUK4DnpWILX4d40hkjNIW0Y7l0M5HnLb
-   +i1cVZtWzgSgOqRhasmXN0ALZYmXEHC6wZCeY0bmzzqJhDKyLFCTkyVvn
-   SYE3nVoBKohxPwLsBNqJz95kBlTIpuqflIgcIYNM3bLfyq6bR7/hDvang
-   Q==;
-X-CSE-ConnectionGUID: gnoEjmKhTuqY4DY11FRSbw==
-X-CSE-MsgGUID: OXwz/HApQ8+p7hN5P6EmPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="86356341"
+  bh=ESpqi0yolK7W3p3bH+Am9IVW2ENPUxfyfqLcUiJXk0g=;
+  b=KzK4lFqbEk/M6+imGBL3rtQxpEjOXSUmzmqyUnPvMhXrTpZfqRoeOun0
+   r9V9LZYwwcjgSjC/nRxvsxWbx9hfpJ0nRACSPaYtdpcpzX+/o7ovPX/s6
+   +zd47vGlz6hSAKVEOORdJkQAGFfZkn13AySuCCfl48kfcYjPT0glIdDPe
+   cYFaHhXK2FVsJr4mBcm8JqZGH3qUG5oOGPJ33elgBkDwPslUkNdgln65u
+   sfuN4PrXPNbrcFv95vGPuLpHBbgJHfVUhFoQs7HgDpfCTBsgibd6n27EO
+   45JssCigEsLtCuN4NLn+SWLI8nRO7k7h7OhEsMaH2BOtLO6jedF/5X4MB
+   g==;
+X-CSE-ConnectionGUID: RrbtBgymSB6v6LHwxyHAwQ==
+X-CSE-MsgGUID: 8gVdVSVMRlWck8q1SzRPoA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="72638249"
 X-IronPort-AV: E=Sophos;i="6.21,193,1763452800"; 
-   d="scan'208";a="86356341"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 12:44:53 -0800
-X-CSE-ConnectionGUID: //GzPuQvR1eYHvrsKgnoZA==
-X-CSE-MsgGUID: rp6K8x2uTrC3XrZ71ZsYpA==
+   d="scan'208";a="72638249"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 13:34:53 -0800
+X-CSE-ConnectionGUID: ClVTklO7RbqbEr7FuKy1vA==
+X-CSE-MsgGUID: Y96vLyx+TVG2EEQCLtdwZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,193,1763452800"; 
-   d="scan'208";a="201969511"
+   d="scan'208";a="232202955"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 31 Dec 2025 12:44:51 -0800
+  by orviesa002.jf.intel.com with ESMTP; 31 Dec 2025 13:34:52 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vb33o-0000000006f-3xmW;
-	Wed, 31 Dec 2025 20:44:48 +0000
-Date: Wed, 31 Dec 2025 21:43:50 +0100
+	id 1vb3qD-0000000007D-1t6O;
+	Wed, 31 Dec 2025 21:34:49 +0000
+Date: Wed, 31 Dec 2025 22:34:14 +0100
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:timers/core 8/10]
- include/linux/kernel_stat.h:164:2: error: call to undeclared function
- 'kcpustat_fetch_default'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202512312120.8230jUR6-lkp@intel.com>
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb:
+ jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0',
+ 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes:
+ '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+Message-ID: <202512312242.zEwTEjC9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,48 +62,30 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/core
-head:   e2e8796db56999913bd1cf839e933af6e5d5b23e
-commit: fddf01afd946b39d896ba8c2f53ee285379bd606 [8/10] tick/sched: Consolidate fetching idle time
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20251231/202512312120.8230jUR6-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251231/202512312120.8230jUR6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9528d5c091c59b408a754a1823cf0942069867cc
+commit: e6bd92bb204757a7b1f4b4dc263a82b3985fadd3 arm64: dts: mediatek: add device-tree for Genio 1200 EVK UFS board
+date:   3 months ago
+config: arm64-randconfig-2055-20251230 (https://download.01.org/0day-ci/archive/20251231/202512312242.zEwTEjC9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251231/202512312242.zEwTEjC9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512312120.8230jUR6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512312242.zEwTEjC9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:27:
->> include/linux/kernel_stat.h:164:2: error: call to undeclared function 'kcpustat_fetch_default'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     164 |         kcpustat_fetch_default(dst, cpu);
-         |         ^
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:182: arch/x86/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1314: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +/kcpustat_fetch_default +164 include/linux/kernel_stat.h
-
-   161	
-   162	static inline void kcpustat_cpu_fetch(struct kernel_cpustat *dst, int cpu)
-   163	{
- > 164		kcpustat_fetch_default(dst, cpu);
-   165	}
-   166	#endif /* !CONFIG_VIRT_CPU_ACCOUNTING_GEN */
-   167	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi:1172.7-1180.4: Warning (graph_child_address): /soc/syscon@1c01a000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: pmic (mediatek,mt6359): '#sound-dai-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: jpeg-decoder@1a040000 (mediatek,mt8195-jpgdec): 'jpgdec@0,0', 'jpgdec@0,10000', 'jpgdec@1,0' do not match any of the regexes: '^jpgdec@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegdec.yaml
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dtb: jpeg-encoder@1a030000 (mediatek,mt8195-jpgenc): 'jpgenc@0,0', 'jpgenc@1,0' do not match any of the regexes: '^jpgenc@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mt8195-jpegenc.yaml
 
 -- 
 0-DAY CI Kernel Test Service
