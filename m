@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A7023C506
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Dec 2025 11:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F96310771
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 Dec 2025 12:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767181240; cv=none; b=Kv/I7Rt0nknCgCPgpZmDzd5LX5uiGL7J51MKcRRhx/j5oI6hfXOufDkc0OAEGFAmfZc00w6BCrrxIFwZ/0pWSD1VOxjNBkPRBCJO6T/lnBkGzGYpoHB0wZXQmU5O+iNZh4zKTvbaRc8X4b50ni1dtGZd+nEtfd09PAGi33Gp+ek=
+	t=1767183100; cv=none; b=KXIpgX6X5LQDyyNvqP/62vWZ731Q2ucHYbv7GdnthhyrdXD9im7Zmk5Zm4yZWRV3uWtyOsPGkNJI9PTo8n3a6Y48cQaiaLhrE68nPK6FJ66kz6ZBZ7Nhu9P7fGPsxSa7nM7d/v+gbGKlI0ePZUIw7T/YE6Ear3yN1h1nxZSrETw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767181240; c=relaxed/simple;
-	bh=td6wUPOCtm/5JcwCQUeuz4qZ+WRNA+OUrM6XVU8XlTQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QCgvVCfx5vEyfqus45+zV4x38vLx5cnT+vw1MEO09YMFVlkvPVUXH00dxDTU8K0vEDBwbEyfI78i+NM2AOpyy6+jLCPwNs3dZ3hoMoRTJBTiGmzMltBUezljK35flCptQyq55etJUupayRwKa9nekIsTa96YyVHkJ3B+ROEfmK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=no+wZygF; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1767183100; c=relaxed/simple;
+	bh=TdhHwd/thgvCQJcc4nLbbXuQ/cWf/qjIIxFFYAe3gIk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YsFmoa4JLootpPHfK67jnbguUnhF9HHKaiRfZFSMFyNPjM7lDWWai6CC2arb37b62yyYOvQwrzGk+AGM5jPmYom0palLoJMVwLdMW84S3bzxBkJX37Vd+qA1N3hmxz8Ib+5rQfw1ofmnEqAqFhAvBr/TeCjUod98PvIH+nU+ApA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ls024sHL; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="no+wZygF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ls024sHL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767181238; x=1798717238;
+  t=1767183099; x=1798719099;
   h=date:from:to:cc:subject:message-id;
-  bh=td6wUPOCtm/5JcwCQUeuz4qZ+WRNA+OUrM6XVU8XlTQ=;
-  b=no+wZygFV949Wa2nA7QcBAGpoyEEbc+DAyZGOGvhon0S2QH1wiwEpFbm
-   vltKjUJRSDvFbnUY4ZMy0fjkQscGjeBRz87jzvjuKiKtrsNuPezoDR5+Q
-   MAyhTUYQTPKpfbJI4p70xTDpIGRVS1SjhtOBXX9iydv9HyDJAVdjDosXA
-   ymeDZbiWXbL+nAGinJoRUtUNzuKo6ye85VIVvfBslECnWYs5VkgZ91B6g
-   XS3+ep7M6boHS9mj7Y4IjL7bi2Ie/wVK7tjh/74zbngoGITD6ZHaPkxA2
-   J+HzoRrrFvBu7HwhjLsklSgEvs9fbu+xwbeQ0hejkJX6ganC6q/UDH9qm
+  bh=TdhHwd/thgvCQJcc4nLbbXuQ/cWf/qjIIxFFYAe3gIk=;
+  b=ls024sHLiBB583d9QC0GqUFPxp1gbyZNuekdibxoVvsHcn9IgmklBt3r
+   zkTb6eZKqGEDt1D5eCchdZWIrXCyNAPLeR/SHF7Jxt96Io4cRI8ELl0yw
+   4KHPYqWTSadDM8nl4KDo88vvSwC1XQQA+9RJVhpCEsHpE6QvbJH5cS0CZ
+   rem6W7rOT0XUwscb7Sw2rSiJJaEuQKdPrUWE3H2oWsxVPjCHPAe/A1Ksi
+   d1HXDdNXzVM+T0RYktSdcmVGsxT6sgFn4y92jpajRpXXi0mY0JPMVXEul
+   lD47b6Y3Nd5QyRu0h7sYwqufSWjSF8vjE6p5Mk6IT6LPQXjMmZQ41Y89i
    g==;
-X-CSE-ConnectionGUID: bfzsJiopSmayxOP6NaZl9w==
-X-CSE-MsgGUID: ZRHHrmB7RdORqFRFllqftg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11635"; a="68689929"
-X-IronPort-AV: E=Sophos;i="6.20,256,1758610800"; 
-   d="scan'208";a="68689929"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 03:40:37 -0800
-X-CSE-ConnectionGUID: eS7R6NOOTFqebWaYtEHqXw==
-X-CSE-MsgGUID: s2rdknAkQfCitWOFn3xPYQ==
+X-CSE-ConnectionGUID: ZAUUbmL2Q7qYsiUVtmRgjQ==
+X-CSE-MsgGUID: vPVM43QmQKKiQMlsIl1Jzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11657"; a="86329321"
+X-IronPort-AV: E=Sophos;i="6.21,191,1763452800"; 
+   d="scan'208";a="86329321"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2025 04:11:38 -0800
+X-CSE-ConnectionGUID: Qd5+tqiZS+qROMNqm9TDPQ==
+X-CSE-MsgGUID: hpOe7eJqQdmV7uhAxsSGUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,191,1763452800"; 
-   d="scan'208";a="201433075"
+   d="scan'208";a="201665742"
 Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 31 Dec 2025 03:40:36 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 31 Dec 2025 04:11:36 -0800
 Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vauZ7-000000001A9-31kj;
-	Wed, 31 Dec 2025 11:40:33 +0000
-Date: Wed, 31 Dec 2025 19:39:43 +0800
+	id 1vav38-000000001BB-2mgx;
+	Wed, 31 Dec 2025 12:11:34 +0000
+Date: Wed, 31 Dec 2025 20:11:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <kees@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: include/linux/ucopysize.h:45:4: error: call to
- '__bad_copy_from' declared with 'error' attribute: copy source size is too
- small
-Message-ID: <202512311931.TKEhHBnC-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 2/2]
+ mm/pgsize_migration.c:26:1: sparse: sparse: symbol 'pgsize_migration_enabled'
+ was not declared. Should it be static?
+Message-ID: <202512312054.EmMyN6A1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,57 +60,28 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Kees,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c8ebd433459bcbf068682b09544e830acd7ed222
-commit: 808aac63e2bdf9bae08485e072bf3d317a18acbf uaccess: Introduce ucopysize.h
-date:   10 months ago
-config: um-randconfig-r054-20251231 (https://download.01.org/0day-ci/archive/20251231/202512311931.TKEhHBnC-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251231/202512311931.TKEhHBnC-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   ecd8c13eebd9ac39eaa1b45d9fe23ff020c4e68c
+commit: 918c98f267d6a1512cb5d671523bb408da4b070a [2/2] ANDROID: 16K: Introduce /sys/kernel/mm/pgsize_migration/enabled
+config: arm64-randconfig-r123-20251231 (https://download.01.org/0day-ci/archive/20251231/202512312054.EmMyN6A1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251231/202512312054.EmMyN6A1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512311931.TKEhHBnC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202512312054.EmMyN6A1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/pgsize_migration.c:26:1: sparse: sparse: symbol 'pgsize_migration_enabled' was not declared. Should it be static?
 
-   In file included from net/sctp/socket.c:45:
-   In file included from include/linux/sched/signal.h:9:
-   In file included from include/linux/sched/task.h:13:
-   In file included from include/linux/uaccess.h:10:
->> include/linux/ucopysize.h:45:4: error: call to '__bad_copy_from' declared with 'error' attribute: copy source size is too small
-                           __bad_copy_from();
-                           ^
-   1 error generated.
+vim +/pgsize_migration_enabled +26 mm/pgsize_migration.c
 
-
-vim +45 include/linux/ucopysize.h
-
-    36	
-    37	static __always_inline __must_check bool
-    38	check_copy_size(const void *addr, size_t bytes, bool is_source)
-    39	{
-    40		int sz = __builtin_object_size(addr, 0);
-    41		if (unlikely(sz >= 0 && sz < bytes)) {
-    42			if (!__builtin_constant_p(bytes))
-    43				copy_overflow(sz, bytes);
-    44			else if (is_source)
-  > 45				__bad_copy_from();
-    46			else
-    47				__bad_copy_to();
-    48			return false;
-    49		}
-    50		if (WARN_ON_ONCE(bytes > INT_MAX))
-    51			return false;
-    52		check_object_size(addr, bytes, is_source);
-    53		return true;
-    54	}
-    55	
+    23	
+    24	#define is_pgsize_migration_enabled() 	(static_branch_likely(&pgsize_migration_enabled))
+    25	#else /* PAGE_SIZE != SZ_4K */
+  > 26	DEFINE_STATIC_KEY_FALSE(pgsize_migration_enabled);
+    27	
 
 -- 
 0-DAY CI Kernel Test Service
