@@ -1,218 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567F317C69
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 12:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325EA1F91D6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 12:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767270102; cv=none; b=ibyLPyx02XoCEOH4YoQDZZ1P8SxHUtCQGwmm3PTIcbOhetoDGh6sXqwQhvAxd+t1Rp+4rRPiQY8mYkliLBUidsUYs9dLCj57n3ZxqZbVF2Ese42mZsMd80G8d+3j+wsIYhBUrX5AHTgVXMDlFdxn9gjv0K0I6cqNotoU7nVIlu8=
+	t=1767271923; cv=none; b=o8rueghzo02KGsALQ6dIRZtsHRRmz+udeStXvN6i3Es1NxRye8ME9irlSIePPpwDSYPsyDdSP4iXPVyr7oJqTR/AdDSaQwVrfV1IMEIh/NMqAnxGM7zJoAHfi4J49Ld31ZO4NEOoi1fXU5UjXbQbpmLNOsmBkCmrDsN5//CqmiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767270102; c=relaxed/simple;
-	bh=wX/N5AGvh4jWfRTcrFjw3frC/GthPvCJLgNRvW+MyLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m6YMfrAzRhadKTzeFJPGOcn/No1AvLtMJhoJ4awC0uq94ztgPRTwC5T62VZboAx/2NL/kXBaKprPzSlCgB3GdeZLiBxFpYRvuOAY9kTfJ2RnCnNRWUHvbzlkALEOlDJEGfKKVAV/xq1dWxnyceKC7kKFZVZR/i2PMP6xr1k67wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X77OqZc6; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1767271923; c=relaxed/simple;
+	bh=4WYmBcaHkTGqu7zC8Tghp6WxbACuxnJSsdP+2FpqXsY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Jgnx2Fq1wrz4Ha7uPCm0v6VGicDnXLnquqSVGdoQC0NxYe77wt13zmnTBUGBOsOtGumGxfWXp69nOzjVME0Y3bASvOW9pX2ywneKXgh9Kx0dOBu6xvhiV/kE1sSJOSFpYYsX05LnercYwTXcRbfyH3UwT2ef0RVlBUa7ElCV7gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZJasZ46; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X77OqZc6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZJasZ46"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767270100; x=1798806100;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wX/N5AGvh4jWfRTcrFjw3frC/GthPvCJLgNRvW+MyLo=;
-  b=X77OqZc6q27m3yLhUqkf407JPFDaH/DGdPNgtYNa2F7FUCtC3wsqF/YQ
-   Tan5Srzzs87y7EXI4x/V8uSAM5Q25CdWd6mORIZ4ZrqIPQOIIrROYrfLA
-   P3/bSkVy8L6BGb3wTWjR1pbrlAuZOfbrr530Rx4dkCv3HE//DPbf+lvWH
-   o6UUSV049O554qbJeEmFlleRHF3q/6Iea/YGT6vsXouMA0WHwOakijObb
-   hq+8CCgcLR/2wtVljU6+HYvZ1PXvapMFJ6hUth97iQt6jPJGZCmsTauN/
-   MyOIIg3iA+ZiybpXAbX/Q0oi0UhcJFF0VmuhdZDrBBZEnLPFW+UWmJ0GN
+  t=1767271922; x=1798807922;
+  h=date:from:to:cc:subject:message-id;
+  bh=4WYmBcaHkTGqu7zC8Tghp6WxbACuxnJSsdP+2FpqXsY=;
+  b=QZJasZ46Fpl9cQ8QyuKViyzU3Z9gqSPSEG9FoPpZSjJs+EKBs077W/xL
+   DGs6d+kPesKBZoZPQOs/nG1HzbBDhD8z3qW3o73w+qEhmX3b0Y7/bzz7T
+   fi0xQgGgxK4cTYQZWFpWVdZtMHrtpq+E7NaJWMGfzSjQwNTW4KnQAlrfc
+   McxT8RCfY2SLsNeNI6WFoYV4qG1RU4yfbeuxUmLVH0F74dUeDpZVzIkKB
+   uYMvWOB+W//RwTm+NxIktaw/aePe27ZRVHGzEEr7VdSthm1E4HyZVKWOF
+   D1inkRL35obeS6RIRwvgbCVcMujVpyZH9ygCQ+v0MBneMOwuT7ajQITCb
    Q==;
-X-CSE-ConnectionGUID: 3KX9fAXDRFmcC+4BbdfK7w==
-X-CSE-MsgGUID: Uq5CHlocTZ6R4f10O3znVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="80178921"
+X-CSE-ConnectionGUID: 0eGTzuf1TOqCo1rtHfWUOw==
+X-CSE-MsgGUID: mupKW6M7QyeZfzLvoaF/Rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="86224973"
 X-IronPort-AV: E=Sophos;i="6.21,194,1763452800"; 
-   d="scan'208";a="80178921"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 04:21:39 -0800
-X-CSE-ConnectionGUID: AseU+ksKSxuFQLODnNmhQA==
-X-CSE-MsgGUID: bZ42Sa1+RlyJuQIwt3L10g==
+   d="scan'208";a="86224973"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 04:52:01 -0800
+X-CSE-ConnectionGUID: U2yIThOHQ46GAOQH5io0oQ==
+X-CSE-MsgGUID: 0C7Zi8ltSoivNvKoEFeY7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,194,1763452800"; 
-   d="scan'208";a="225114484"
-Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Jan 2026 04:21:38 -0800
-Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
+   d="scan'208";a="202577245"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 01 Jan 2026 04:51:59 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbHgN-000000001rR-3n73;
-	Thu, 01 Jan 2026 12:21:35 +0000
-Date: Thu, 1 Jan 2026 20:20:42 +0800
+	id 1vbI9l-000000000Hp-0fdD;
+	Thu, 01 Jan 2026 12:51:57 +0000
+Date: Thu, 01 Jan 2026 13:51:52 +0100
 From: kernel test robot <lkp@intel.com>
-To: Navid-Derakhshandeh <navid.derakhshandeh1@gmail.com>,
-	mporter@kernel.crashing.org
-Cc: oe-kbuild-all@lists.linux.dev, alex.bou9@gmail.com,
-	linux-kernel@vger.kernel.org,
-	Navid-Derakhshandeh <navid.derakhshandeh1@gmail.com>
-Subject: Re: [PATCH] mailbox: rio : implement discovery for all
-Message-ID: <202601011944.D3aRBBxZ-lkp@intel.com>
-References: <20251229190724.20608-1-navid.derakhshandeh1@gmail.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-pie-v3 18/19] ld: vmlinux.o: relocation
+ R_X86_64_32S against `.rodata.str1.8' can not be used when making a PIE
+ object; recompile with -fPIE
+Message-ID: <202601011320.wfOmjyKl-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251229190724.20608-1-navid.derakhshandeh1@gmail.com>
 
-Hi Navid-Derakhshandeh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.19-rc3 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Navid-Derakhshandeh/mailbox-rio-implement-discovery-for-all/20251230-031149
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251229190724.20608-1-navid.derakhshandeh1%40gmail.com
-patch subject: [PATCH] mailbox: rio : implement discovery for all
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260101/202601011944.D3aRBBxZ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260101/202601011944.D3aRBBxZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v3
+head:   f348d9af26d490c6f504ccaa7b342803ca1eaa0d
+commit: a121b4a72e405d1096049f81933531c59256cbe6 [18/19] x86/kernel: Switch to PIE linking for the x86_64 KASLR kernel
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260101/202601011320.wfOmjyKl-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260101/202601011320.wfOmjyKl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601011944.D3aRBBxZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601011320.wfOmjyKl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/rapidio/rio.c:1074:6: warning: no previous prototype for 'rio_restart_discovery_all' [-Wmissing-prototypes]
-    1074 | void rio_restart_discovery_all(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/rapidio/rio.c: In function 'rio_restart_discovery_all':
-   drivers/rapidio/rio.c:1081:25: error: implicit declaration of function 'rio_scan_mport'; did you mean 'rio_init_mports'? [-Wimplicit-function-declaration]
-    1081 |                         rio_scan_mport(net->hport);
-         |                         ^~~~~~~~~~~~~~
-         |                         rio_init_mports
-   drivers/rapidio/rio.c: At top level:
->> drivers/rapidio/rio.c:1113:13: warning: 'rio_restart_discovery' defined but not used [-Wunused-function]
-    1113 | static void rio_restart_discovery(struct rio_net *net)
-         |             ^~~~~~~~~~~~~~~~~~~~~
->> drivers/rapidio/rio.c:1095:13: warning: 'rio_maybe_restart_discovery' defined but not used [-Wunused-function]
-    1095 | static void rio_maybe_restart_discovery(struct rio_dev *rdev)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/rio_restart_discovery_all +1074 drivers/rapidio/rio.c
-
-  1021	
-  1022	/**
-  1023	 * rio_get_input_status - Sends a Link-Request/Input-Status control symbol and
-  1024	 *                        returns link-response (if requested).
-  1025	 * @rdev: RIO devive to issue Input-status command
-  1026	 * @pnum: Device port number to issue the command
-  1027	 * @lnkresp: Response from a link partner
-  1028	 */
-  1029	static int
-  1030	rio_get_input_status(struct rio_dev *rdev, int pnum, u32 *lnkresp)
-  1031	{
-  1032		u32 regval;
-  1033		int checkcount;
-  1034	
-  1035		if (lnkresp) {
-  1036			/* Read from link maintenance response register
-  1037			 * to clear valid bit */
-  1038			rio_read_config_32(rdev,
-  1039				RIO_DEV_PORT_N_MNT_RSP_CSR(rdev, pnum),
-  1040				&regval);
-  1041			udelay(50);
-  1042		}
-  1043	
-  1044		/* Issue Input-status command */
-  1045		rio_write_config_32(rdev,
-  1046			RIO_DEV_PORT_N_MNT_REQ_CSR(rdev, pnum),
-  1047			RIO_MNT_REQ_CMD_IS);
-  1048	
-  1049		/* Exit if the response is not expected */
-  1050		if (!lnkresp)
-  1051			return 0;
-  1052	
-  1053		checkcount = 3;
-  1054		while (checkcount--) {
-  1055			udelay(50);
-  1056			rio_read_config_32(rdev,
-  1057				RIO_DEV_PORT_N_MNT_RSP_CSR(rdev, pnum),
-  1058				&regval);
-  1059			if (regval & RIO_PORT_N_MNT_RSP_RVAL) {
-  1060				*lnkresp = regval;
-  1061				return 0;
-  1062			}
-  1063		}
-  1064	
-  1065		return -EIO;
-  1066	}
-  1067	/**
-  1068	 * rio_restart_discovery_all - Restart discovery on all RapidIO networks
-  1069	 *
-  1070	 * Iterates through all registered RapidIO networks and restarts topology
-  1071	 * discovery process from each network's host port. Intended to be used
-  1072	 * after a system-wide error or configuration change.
-  1073	 */
-> 1074	void rio_restart_discovery_all(void)
-  1075	{
-  1076		struct rio_net *net;
-  1077	
-  1078		spin_lock(&rio_global_list_lock);
-  1079		list_for_each_entry(net, &rio_nets, node) {
-  1080			if (net->hport)
-  1081				rio_scan_mport(net->hport);
-  1082		}
-  1083		spin_unlock(&rio_global_list_lock);
-  1084	}
-  1085	EXPORT_SYMBOL_GPL(rio_restart_discovery_all);
-  1086	/**
-  1087	 * rio_maybe_restart_discovery - Restart discovery if device requires rediscovery
-  1088	 * @rdev: Pointer to RIO device control structure
-  1089	 *
-  1090	 * If the given device is associated with a RapidIO network,
-  1091	 * attempts to restart topology discovery from the network's host port.
-  1092	 * Intended to be called if an error condition is detected that may
-  1093	 * require rediscovery to restore normal operation.
-  1094	 */
-> 1095	static void rio_maybe_restart_discovery(struct rio_dev *rdev)
-  1096	{
-  1097		struct rio_net *net;
-  1098	
-  1099		if (!rdev || !rdev->net)
-  1100			return;
-  1101	
-  1102		net = rdev->net;
-  1103	
-  1104		/* Only restart if there is a valid host port */
-  1105		if (net->hport) {
-  1106			msleep(100); /* Brief delay for safety */
-  1107			pr_info("RIO: Discovery restart triggered for device %s (net '%s')\n",
-  1108				dev_name(&rdev->dev), dev_name(&net->dev));
-  1109			rio_scan_mport(net->hport);
-  1110		}
-  1111	}
-  1112	
-> 1113	static void rio_restart_discovery(struct rio_net *net)
-  1114	{
-  1115		if (net && net->hport) {
-  1116			/* Delay briefly to avoid hammering after repeated errors */
-  1117			msleep(100);
-  1118			pr_info("RIO: Restarting discovery process on network '%s'\n", dev_name(&net->dev));
-  1119			rio_scan_mport(net->hport);
-  1120		}
-  1121	}
-  1122	
+>> ld: vmlinux.o: relocation R_X86_64_32S against `.rodata.str1.8' can not be used when making a PIE object; recompile with -fPIE
+   ld: failed to set dynamic section sizes: bad value
 
 -- 
 0-DAY CI Kernel Test Service
