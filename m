@@ -1,96 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4787D2773C1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 10:57:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD774CB5B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 11:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767265061; cv=none; b=RzhTFyHplPMsdFfcKyOY+mqwfhfGSI7tJuv/ochaPu8zVy+uA9TgDQR/KbC3mhvvRPv1piYeelhLq+GOiZ2FTpZS96/mWs6RZhJRy9wabDZ7OtfwS0L2ak05moGcB3bwG0Oz+YY2Jhu6IILSW8AuQcsSKE/SYnQa4QGSScF0xcs=
+	t=1767265662; cv=none; b=h8zSihUY69ypAvbG3dYWBh26px5XCz2+FkgRukw/cY+3Kkvk4HbADGXRO4C/O+yyQZMPxRBO/XbEnQv0Z7SrwR3KVkDdzRaaJM8YVFQai+MOVQwk8tfKFSyvi+0ftY3dd4nVDlXSCvsg70DdvTlgSUnydOWYwtkTz8BJ8/8VpLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767265061; c=relaxed/simple;
-	bh=4/Y/95A4yl+yo7KWDXJnZ1T8CoJjj/3FqJPs6m+nuk4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=h1TWnLoVXBEYQ+RyeNFb0p0cLE0euKA69vx/fBcthwfrct3n1K1gZuClVGGQe3hxZd5fmhlz3+I6N7Vfu6Hyu0aQuv117i74hnvzHom4b1DaX7JVXw2p8BIhdTQmkfQG6HEdZ/+RYP/FntPYYrFTLrH3hY9bJKoY9DyXQ54laPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fkdmIFgw; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1767265662; c=relaxed/simple;
+	bh=F2CsFEfWiTbFJQyVCU1ukBuMYudXGhXA+USN614DUTU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=MtTm/A8/UeVzYTPh04wUpxM+gujYBkpchtAvEW+PDTGQFax9EN6s8yD7lCl3P8I7iW1AjklWIChMoyNU+sEEV3r/o9jmP3SI9POxrhaAPGZr50mYzDxfUUp2cPc6sDn2BeQu6UX1WsyQbeYvwC6vcVgWgsSevT2+s773VPFc+Wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K+S847Fh; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fkdmIFgw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K+S847Fh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767265059; x=1798801059;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4/Y/95A4yl+yo7KWDXJnZ1T8CoJjj/3FqJPs6m+nuk4=;
-  b=fkdmIFgwf3w3nB0h+pQllqBXInYc/wgCzbxGtQDtMCNSAl4vz6N+Q+mS
-   FMoSZZWaTI+5D6T+B1nlbqFOUsg+KK4zIFLGI2+CHxqJUke2aKpLhselL
-   2IJcCRDO6fCFFOWPZV48t0xdY1q7GDuxbKd66DhIM0HPikI0ppvfM06Nr
-   5o0KukCJHeor03oi9eZhLfnsvaRqJnCHf7l2SH7fTZd1QXSCQJpRZYjzH
-   SU64qw8EECnBmgxE2kSCjtrwAIuQWcQ7b3QoItaqys5jt/KKgujaN2/tU
-   Fi23jhpv2egjd8fwdoexpePXoDVQmwLTQMe9eCP2vmlTAsuZjfypw7olM
-   Q==;
-X-CSE-ConnectionGUID: HVgfNp59SSabi62JHB7IoQ==
-X-CSE-MsgGUID: p3pLsUTxR0mk/C7UPZ+r9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="71381562"
+  t=1767265659; x=1798801659;
+  h=date:from:to:cc:subject:message-id;
+  bh=F2CsFEfWiTbFJQyVCU1ukBuMYudXGhXA+USN614DUTU=;
+  b=K+S847Fhh4bFI8h+9GvV3dTp7DZD+CBG/LTeDcfH/gstgqzyTgu6kETf
+   RDVmpzk8TPnRQWrUghuX5vQE06jNqzdBl8DP96hRHkHWjnaNRvj5ivGr+
+   aO5u/fwR3GgJFgXkSjdFABzoBdQvzHTbdDwCOGE9SNvYefzSOBAmLKlee
+   ngxXYPU7gKy6UioHBd+BVNEGhSz34FkNKtpdvYouVdC4DFkDdBpv8LxEg
+   0kd2H5ac7vSP9/jFjyopM+LDwJ2R75xISftdhJD91T86+gJUakHCDCWPQ
+   slYDeGIBObQNqL7JSmepWM3vPKg5dvn7QaxWyHOFM8tdJlVqY34ijdmOR
+   A==;
+X-CSE-ConnectionGUID: D7c5eu7ZS6mJUv+QmiqgjA==
+X-CSE-MsgGUID: IIJHHSlNSluSEawEGMZufw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="68787433"
 X-IronPort-AV: E=Sophos;i="6.21,194,1763452800"; 
-   d="scan'208";a="71381562"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 02:57:39 -0800
-X-CSE-ConnectionGUID: CYs+nNdMTwi6ObfoomlDjQ==
-X-CSE-MsgGUID: F42/HKgqQ7a7ExSrZMrSiQ==
+   d="scan'208";a="68787433"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 03:07:39 -0800
+X-CSE-ConnectionGUID: WIr62LIyRXmfb1L17/+fqQ==
+X-CSE-MsgGUID: KssvcoWiSsakybgAS0Ayng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,194,1763452800"; 
-   d="scan'208";a="206664013"
+   d="scan'208";a="206138323"
 Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 01 Jan 2026 02:57:37 -0800
+  by orviesa004.jf.intel.com with ESMTP; 01 Jan 2026 03:07:37 -0800
 Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbGN5-000000001qD-0Rdc;
-	Thu, 01 Jan 2026 10:57:35 +0000
-Date: Thu, 01 Jan 2026 18:56:41 +0800
+	id 1vbGWl-000000001qT-1JzC;
+	Thu, 01 Jan 2026 11:07:35 +0000
+Date: Thu, 01 Jan 2026 19:07:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
- =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-cached-prefix-godz 37/37]
- lib/dynamic_debug.c:1710:58: warning: left shift count >= width of type
-Message-ID: <202601011817.iPamSk3Q-lkp@intel.com>
+To: Connor Abbott <cwabbott0@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Rob Clark <robin.clark@oss.qualcomm.com>
+Subject: [drm-msm:msm-next-external-fixes 32/32]
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c:365:19: error: redefinition of
+ 'a6xx_gpu'
+Message-ID: <202601011939.DSyCwgBI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://github.com/jimc/linux.git dd-cached-prefix-godz
-head:   2597763afcfbb4385a1f14cba0e170ccd7a95e68
-commit: 2597763afcfbb4385a1f14cba0e170ccd7a95e68 [37/37] dyndbg: optimized caching of dynamic prefixes
-config: xtensa-xip_kc705_defconfig (https://download.01.org/0day-ci/archive/20260101/202601011817.iPamSk3Q-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260101/202601011817.iPamSk3Q-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/drm/msm.git msm-next-external-fixes
+head:   bcf2c5315e73f60104224b7fbf07a3d9f213efab
+commit: bcf2c5315e73f60104224b7fbf07a3d9f213efab [32/32] drm/msm: Wait for MMU devcoredump when waiting for GMU
+config: arm64-randconfig-003-20260101 (https://download.01.org/0day-ci/archive/20260101/202601011939.DSyCwgBI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260101/202601011939.DSyCwgBI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601011817.iPamSk3Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601011939.DSyCwgBI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   lib/dynamic_debug.c: In function 'ddebug_prefix_key':
->> lib/dynamic_debug.c:1710:58: warning: left shift count >= width of type [-Wshift-count-overflow]
-    1710 |                ((unsigned long)prefix_flags(desc->flags) << DDEBUG_PREFIX_KEY_FLAGS_SHIFT);
-         |                                                          ^~
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c: In function 'a6xx_gmu_set_oob':
+>> drivers/gpu/drm/msm/adreno/a6xx_gmu.c:365:19: error: redefinition of 'a6xx_gpu'
+     struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
+                      ^~~~~~~~
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:360:19: note: previous definition of 'a6xx_gpu' was here
+     struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
+                      ^~~~~~~~
 
 
-vim +1710 lib/dynamic_debug.c
+vim +/a6xx_gpu +365 drivers/gpu/drm/msm/adreno/a6xx_gmu.c
 
-  1706	
-  1707	static unsigned long ddebug_prefix_key(const struct _ddebug *desc)
-  1708	{
-  1709		return ((unsigned long)desc & DDEBUG_PREFIX_KEY_ADDR_MASK) |
-> 1710		       ((unsigned long)prefix_flags(desc->flags) << DDEBUG_PREFIX_KEY_FLAGS_SHIFT);
-  1711	}
-  1712	
+   356	
+   357	/* Trigger a OOB (out of band) request to the GMU */
+   358	int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
+   359	{
+   360		struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
+   361		struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+   362		int ret;
+   363		u32 val;
+   364		int request, ack;
+ > 365		struct a6xx_gpu *a6xx_gpu = container_of(gmu, struct a6xx_gpu, gmu);
+   366	
+   367		WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
+   368	
+   369		/* Skip OOB calls since RGMU is not enabled */
+   370		if (adreno_has_rgmu(adreno_gpu))
+   371			return 0;
+   372	
+   373		if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
+   374			return -EINVAL;
+   375	
+   376		if (gmu->legacy) {
+   377			request = a6xx_gmu_oob_bits[state].set;
+   378			ack = a6xx_gmu_oob_bits[state].ack;
+   379		} else {
+   380			request = a6xx_gmu_oob_bits[state].set_new;
+   381			ack = a6xx_gmu_oob_bits[state].ack_new;
+   382			if (!request || !ack) {
+   383				DRM_DEV_ERROR(gmu->dev,
+   384					      "Invalid non-legacy GMU request %s\n",
+   385					      a6xx_gmu_oob_bits[state].name);
+   386				return -EINVAL;
+   387			}
+   388		}
+   389	
+   390		/* Trigger the equested OOB operation */
+   391		gmu_write(gmu, REG_A6XX_GMU_HOST2GMU_INTR_SET, 1 << request);
+   392	
+   393		do {
+   394			/* Wait for the acknowledge interrupt */
+   395			ret = gmu_poll_timeout(gmu, REG_A6XX_GMU_GMU2HOST_INTR_INFO, val,
+   396				val & (1 << ack), 100, 10000);
+   397	
+   398			if (!ret)
+   399				break;
+   400	
+   401			if (completion_done(&a6xx_gpu->base.fault_coredump_done))
+   402				break;
+   403	
+   404			/* We may timeout because the GMU is temporarily wedged from
+   405			 * pending faults from the GPU and we are taking a devcoredump.
+   406			 * Wait until the MMU is resumed and try again.
+   407			 */
+   408			wait_for_completion(&a6xx_gpu->base.fault_coredump_done);
+   409		} while (true);
+   410	
+   411		if (ret)
+   412			DRM_DEV_ERROR(gmu->dev,
+   413				"Timeout waiting for GMU OOB set %s: 0x%x\n",
+   414					a6xx_gmu_oob_bits[state].name,
+   415					gmu_read(gmu, REG_A6XX_GMU_GMU2HOST_INTR_INFO));
+   416	
+   417		/* Clear the acknowledge interrupt */
+   418		gmu_write(gmu, REG_A6XX_GMU_GMU2HOST_INTR_CLR, 1 << ack);
+   419	
+   420		return ret;
+   421	}
+   422	
 
 -- 
 0-DAY CI Kernel Test Service
