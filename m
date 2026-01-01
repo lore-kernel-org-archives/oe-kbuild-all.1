@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B2E202963
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 19:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8C4251795
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 21:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767296271; cv=none; b=CKOJyINWSVF1m9aOyVPUmKbfZ3HMoZZ2jM2fIcC6KO3yMRXYMKh9WCzX+Cs+ztiVmFykd3zVcNq7Sc4x2ZssczzQG76+W49nE3cpvSfn6tgwR+CKsVQauJNtZ/pRmwUx4wiEOJWaxGSRhW5qa9he7ptsBCWXnSradsHUnKkh4SE=
+	t=1767301852; cv=none; b=pdHaQ28+8SVLEha1mGItMIl6lbBwBtqu/8gX/lSuoGpi81UCiw11tNY9g5G/5sR+MzwFtcyDVlZFmECHUOvgk7gkrMZAApi/bLbgvh6mZW4qls1YepElEx/LK7vq2Guj7L0YY8msK6kPiOanuJJNRHnIeFMbLDMLmNeVs3q0R0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767296271; c=relaxed/simple;
-	bh=ghWicpWSvCTkIH6U5yOwqm++FzQrTVW/q7A76CgBWhk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FDzVtIeGYBJdrRKR/1sg0QqQbeEXyvqA7aCO2eRyvxXy1pdbkXB6yx153By7gA4l3v5Om1qI0YMwbYYvbmH9M7hHUrNDJxlxuzR3oU2RabeRO6lmU+TulGkkzPVcIFb4SxmcIUy66hF0r1JgceUOmiQucFf69kUA2yhnixGjPVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KjPTwaEk; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1767301852; c=relaxed/simple;
+	bh=utmFZR57RrcQLRfiv4eUmgfegs+CgbNvdwDyurIhMWw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VlKJ9DDYbqYZGb1h5ibL2tufQVzDGaT+o0BIVwYjaF9aKnOUbPaEIGMENuan9UWvmB7Tg8OwR9r3ib7P8OHWYQDq9lieAC/Rvl/aCadJtypmnVEDNh/1jGNMq3pJNuzGrICPdxpnuW6B9aaBYPaR47AbVK7i2hb0uFDrS4QrT6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VfsWD4cE; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KjPTwaEk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VfsWD4cE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767296269; x=1798832269;
+  t=1767301851; x=1798837851;
   h=date:from:to:cc:subject:message-id;
-  bh=ghWicpWSvCTkIH6U5yOwqm++FzQrTVW/q7A76CgBWhk=;
-  b=KjPTwaEkgtFPijczSZcN3LoaaoiEoAstlJTm1Fum/r0sxke+nlpY/nkM
-   3yqjtIl4dqrnncvX7c6lCFsWtDL6J1vzvidoBBqS67LnXVlIBo+Dc8i6I
-   6Wad8mGagEKEp24VzS0oYWUd9VW6szAIdyH2AZPAzdyM7TZlGQcfRjYUL
-   BywkaIISwG2nQcj53XM7ZQolQOx6q5NftwCLJ1cyuXvjZV55caT8V0Mw7
-   dvkGD9iEbR0NhN0lQPgvKuBA6URzvHr3OWWd7U7YnIZSxyJ1A8mlKIPGB
-   GNgOmYAGiZBVAYDkFq20ED/l5SvCTClTgNzbCdNkGtP0XlQwGhmT8j+Mg
+  bh=utmFZR57RrcQLRfiv4eUmgfegs+CgbNvdwDyurIhMWw=;
+  b=VfsWD4cE73tbcRAk0kLe4EmZzugO0+tshslqw08fBctObuOloeg6LKjg
+   etMRrn4QBmFEDQtWumUofyFD9/nw109HKrLtrkLM2I7OC4fMBh5BNDkM0
+   Bc+HuTfnItr8HslwoGJxov6r6ZRCJTX0w61G4X5VJJUciXFH9p7Mm6Fqd
+   7PIqyI8ig4VTfoogwL3OXLGWeChPcRjPOO10sBw/NNmEPAdK5YwHDk6IJ
+   Qtx/BrmXsnZJEKvp6oFjwsKGKfZOLLOZisxmkuVz8EgS3FKYGWU19xE0/
+   HHHDotuwQpZUETL9P8jDpV2+B7NeC+w1qzogbIVhOBhtLpUUZ+8YUiOAh
    w==;
-X-CSE-ConnectionGUID: YJbNcaBbQOOrAb0C8W4DAQ==
-X-CSE-MsgGUID: UnXerxENTdO77kcWnQsOEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="79542445"
+X-CSE-ConnectionGUID: kx6YayMnQaOkfYr841gfSg==
+X-CSE-MsgGUID: rec4XosxSLCs3cWeHbMH7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="68887517"
 X-IronPort-AV: E=Sophos;i="6.21,195,1763452800"; 
-   d="scan'208";a="79542445"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 11:37:48 -0800
-X-CSE-ConnectionGUID: HEkY4i+qRWeN8UcKX7QJig==
-X-CSE-MsgGUID: SFbD/POPQ4mlRQg58JQoug==
+   d="scan'208";a="68887517"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 13:10:50 -0800
+X-CSE-ConnectionGUID: 1Vjtls+KSw+7fL4h7zEndw==
+X-CSE-MsgGUID: 4hf5+joJSDOqWXXlgefQrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,195,1763452800"; 
-   d="scan'208";a="232784111"
+   d="scan'208";a="200914599"
 Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 01 Jan 2026 11:37:46 -0800
+  by orviesa010.jf.intel.com with ESMTP; 01 Jan 2026 13:10:49 -0800
 Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbOUS-00000000213-1wFZ;
-	Thu, 01 Jan 2026 19:37:44 +0000
-Date: Fri, 02 Jan 2026 03:37:26 +0800
+	id 1vbPwT-00000000227-3ql7;
+	Thu, 01 Jan 2026 21:10:45 +0000
+Date: Fri, 02 Jan 2026 05:10:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 37/37]
- drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c:545:5: error: no previous
- prototype for 'ps3_pci_init'
-Message-ID: <202601020341.iBkaK0I8-lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Hans Holmberg <hans.holmberg@wdc.com>,
+ "Darrick J. Wong" <djwong@kernel.org>
+Subject: fs/xfs/xfs_zone_alloc.c:32:5-24: WARNING:
+ atomic_dec_and_test variation before object free at line 34.
+Message-ID: <202601020543.BxObPuzj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,238 +61,34 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi liujie_answer,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   2a4cf4d9a26e82430fe6bc04eaa1ae0ef73268b3
-commit: b94b04b8f028da64ee7ab3215f07ca548cb261dd [37/37] anolis: scsi: support linkdata HBA/RAID controllers
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20260102/202601020341.iBkaK0I8-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260102/202601020341.iBkaK0I8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b69053dd3ffbc0d2dedbbc86182cdef6f641fe1b
+commit: 4e4d52075577707f8393e3fc74c1ef79ca1d3ce6 xfs: add the zoned space allocator
+date:   10 months ago
+config: arm-randconfig-r051-20251231 (https://download.01.org/0day-ci/archive/20260102/202601020543.BxObPuzj-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 86b9f90b9574b3a7d15d28a91f6316459dcfa046)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601020341.iBkaK0I8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601020543.BxObPuzj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_zone_alloc.c:32:5-24: WARNING: atomic_dec_and_test variation before object free at line 34.
 
->> drivers/scsi/linkdata/ps3stor/ps3_ioc_manager.c:307:5: error: no previous prototype for 'ps3_hard_reset_to_ready' [-Werror=missing-prototypes]
-     307 | int ps3_hard_reset_to_ready(struct ps3_instance *instance)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:876:6: error: no previous prototype for 'ps3_set_task_manager_busy' [-Werror=missing-prototypes]
-     876 | void ps3_set_task_manager_busy(struct ps3_instance *instance,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:1110:5: error: no previous prototype for 'ps3_wait_for_outstanding_complete' [-Werror=missing-prototypes]
-    1110 | int ps3_wait_for_outstanding_complete(struct ps3_instance *instance)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:131:6: error: no previous prototype for 'ps3_trigger_irq_poll' [-Werror=missing-prototypes]
-     131 | void ps3_trigger_irq_poll(struct ps3_irq *irq)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:243:5: error: no previous prototype for 'ps3_resp_status_convert' [-Werror=missing-prototypes]
-     243 | int ps3_resp_status_convert(unsigned int resp_status)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:211:1: error: no previous prototype for 'ps3_qos_cmd_waitq_get' [-Werror=missing-prototypes]
-     211 | ps3_qos_cmd_waitq_get(struct ps3_qos_tg_context *qos_tg_ctx,
-         | ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:15: error: no previous prototype for 'ps3_qos_vd_cmdword_get' [-Werror=missing-prototypes]
-     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:15: error: no previous prototype for 'ps3_qos_exclusive_cmdword_get' [-Werror=missing-prototypes]
-     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:15: error: no previous prototype for 'ps3_qos_tg_decision' [-Werror=missing-prototypes]
-     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:15: error: no previous prototype for 'ps3_qos_all_pd_rc_get' [-Werror=missing-prototypes]
-     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:6: error: no previous prototype for 'ps3_pd_quota_waitq_clear_all' [-Werror=missing-prototypes]
-     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:6: error: no previous prototype for 'ps3_pd_quota_waitq_clean' [-Werror=missing-prototypes]
-     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:6: error: no previous prototype for 'ps3_qos_pd_waitq_ratio_update' [-Werror=missing-prototypes]
-    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:15: error: no previous prototype for 'ps3_hba_qos_decision' [-Werror=missing-prototypes]
-    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:6: error: no previous prototype for 'ps3_hba_qos_waitq_notify' [-Werror=missing-prototypes]
-    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:6: error: no previous prototype for 'ps3_cmd_waitq_abort' [-Werror=missing-prototypes]
-    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:6: error: no previous prototype for 'ps3_hba_qos_waitq_clear_all' [-Werror=missing-prototypes]
-    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:6: error: no previous prototype for 'ps3_hba_qos_vd_init' [-Werror=missing-prototypes]
-    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:6: error: no previous prototype for 'ps3_hba_qos_vd_reset' [-Werror=missing-prototypes]
-    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:6: error: no previous prototype for 'ps3_hba_qos_waitq_poll' [-Werror=missing-prototypes]
-    3023 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3279:15: error: no previous prototype for 'ps3_raid_qos_decision' [-Werror=missing-prototypes]
-    3279 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3334:6: error: no previous prototype for 'ps3_qos_mgrq_resend' [-Werror=missing-prototypes]
-    3334 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3478:6: error: no previous prototype for 'ps3_raid_qos_waitq_notify' [-Werror=missing-prototypes]
-    3478 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3821:15: error: no previous prototype for 'ps3_raid_qos_waitq_abort' [-Werror=missing-prototypes]
-    3821 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:4022:6: error: no previous prototype for 'ps3_raid_qos_waitq_clear_all' [-Werror=missing-prototypes]
-    4022 | void ps3_raid_qos_waitq_clear_all(struct ps3_instance *instance,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:4083:6: error: no previous prototype for 'ps3_raid_qos_waitq_poll' [-Werror=missing-prototypes]
-    4083 | void ps3_raid_qos_waitq_poll(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:85:6: error: no previous prototype for 'ps3_cmd_stat_content_clear' [-Werror=missing-prototypes]
-      85 | void ps3_cmd_stat_content_clear(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:403:6: error: no previous prototype for 'ps3_io_recv_ok_stat_inc' [-Werror=missing-prototypes]
-     403 | void ps3_io_recv_ok_stat_inc(struct ps3_instance *ins,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_ioctl.c:785:6: error: no previous prototype for 'ps3_clean_mgr_cmd' [-Werror=missing-prototypes]
-     785 | void ps3_clean_mgr_cmd(struct ps3_instance *instance)
-         |      ^~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:578:5: error: no previous prototype for 'ps3_r1x_hash_bit_check' [-Werror=missing-prototypes]
-     578 | int ps3_r1x_hash_bit_check(struct ps3_r1x_hash_bit_mgr *hash_mgr,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:678:6: error: no previous prototype for 'ps3_r1x_conflict_queue_hash_bit_lock' [-Werror=missing-prototypes]
-     678 | void ps3_r1x_conflict_queue_hash_bit_lock(struct ps3_r1x_lock_mgr *mgr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:730:5: error: no previous prototype for 'ps3_r1x_hash_bit_lock' [-Werror=missing-prototypes]
-     730 | int ps3_r1x_hash_bit_lock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:988:6: error: no previous prototype for 'ps3_r1x_hash_bit_unlock' [-Werror=missing-prototypes]
-     988 | void ps3_r1x_hash_bit_unlock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1173:5: error: no previous prototype for 'ps3_range_check_and_insert' [-Werror=missing-prototypes]
-    1173 | int ps3_range_check_and_insert(struct ps3_range_tree_root *range_root,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1231:5: error: no previous prototype for 'ps3_r1x_hash_range_lock' [-Werror=missing-prototypes]
-    1231 | int ps3_r1x_hash_range_lock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1312:6: error: no previous prototype for 'ps3_r1x_hash_range_unlock' [-Werror=missing-prototypes]
-    1312 | void ps3_r1x_hash_range_unlock(struct ps3_r1x_lock_mgr *mgr,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_debug.c:883:5: error: no previous prototype for 'ps3_dump_dir_length' [-Werror=missing-prototypes]
-     883 | int ps3_dump_dir_length(const char *buf, size_t count)
-         |     ^~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_module_para.c:609:14: error: no previous prototype for 'ps3_cli_ver_query' [-Werror=missing-prototypes]
-     609 | unsigned int ps3_cli_ver_query(void)
-         |              ^~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_rb_tree.c:154:6: error: no previous prototype for 'rbtDelNodeDo' [-Werror=missing-prototypes]
-     154 | void rbtDelNodeDo(struct Ps3RbRoot *pRoot, struct Ps3RbNode *pNode)
-         |      ^~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/scsi/linkdata/ps3stor/ps3_device_manager.c:1581:5: error: no previous prototype for 'ps3_scsi_private_init_pd' [-Werror=missing-prototypes]
-    1581 | int ps3_scsi_private_init_pd(struct scsi_device *sdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_device_manager.c:1663:5: error: no previous prototype for 'ps3_scsi_private_init_vd' [-Werror=missing-prototypes]
-    1663 | int ps3_scsi_private_init_vd(struct scsi_device *sdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-..
+vim +32 fs/xfs/xfs_zone_alloc.c
 
-
-vim +/ps3_pci_init +545 drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c
-
-   544	
- > 545	int ps3_pci_init(struct pci_dev *pdev, struct ps3_instance *instance)
-   546	{
-   547		resource_size_t base_addr = 0;
-   548		int ret = PS3_SUCCESS;
-   549	
-   550		ret = pci_enable_device_mem(pdev);
-   551		if (ret != PS3_SUCCESS) {
-   552			LOG_ERROR("hno:%u pci id[%u] pci enable failed\n",
-   553				  PS3_HOST(instance), pdev->dev.id);
-   554			goto l_pci_enable_device_mem_failed;
-   555		}
-   556	
-   557		pci_set_master(pdev);
-   558	
-   559		instance->reg_bar = PS3_REGISTER_BAR_INDEX;
-   560		ret = (pci_resource_flags(pdev, instance->reg_bar) & IORESOURCE_MEM);
-   561		if (!ret) {
-   562			LOG_ERROR("hno:%u Bar %lu isnot IORESOURCE_MEM\n",
-   563				  PS3_HOST(instance), instance->reg_bar);
-   564			goto l_bar_check_failed;
-   565		}
-   566		ret = pci_request_selected_regions(pdev, 1 << instance->reg_bar,
-   567						   "PS3 pci regions");
-   568		if (ret != PS3_SUCCESS) {
-   569			LOG_ERROR("hno:%u IO memory region busy\n", PS3_HOST(instance));
-   570			goto l_pci_request_selected_regions_failed;
-   571		}
-   572	#if defined(PS3_SUPPORT_PCIE_REPORT)
-   573		pci_enable_pcie_error_reporting(pdev);
-   574	#endif
-   575		if (instance->ioc_adpter->reg_set) {
-   576			instance->reg_set =
-   577				(struct Ps3Fifo __iomem *)instance->ioc_adpter->reg_set(
-   578					pdev, instance->reg_bar);
-   579		} else {
-   580			instance->reg_set = (struct Ps3Fifo __iomem *)ioremap(
-   581				pci_resource_start(pdev, instance->reg_bar),
-   582				PS3_REGISTER_SET_SIZE);
-   583		}
-   584		if (instance->reg_set == NULL) {
-   585			LOG_ERROR("hno:%u ioremap failed\n", PS3_HOST(instance));
-   586			goto l_ioremap_failed;
-   587		} else {
-   588			pci_set_drvdata(pdev, instance);
-   589		}
-   590	
-   591		ps3_atomic_set(&instance->watchdog_reg_read_fail_count, 0);
-   592		LOG_INFO(
-   593			"reg_bar_idx = %lu, bar_base_paddr = 0x%llx, reg_set_vaddr = 0x%p\n",
-   594			instance->reg_bar, (unsigned long long)base_addr, instance->reg_set);
-   595	
-   596		return PS3_SUCCESS;
-   597	l_ioremap_failed:
-   598		pci_release_selected_regions(instance->pdev, 1 << instance->reg_bar);
-   599	#if defined(PS3_SUPPORT_PCIE_REPORT)
-   600		pci_disable_pcie_error_reporting(pdev);
-   601	#endif
-   602	l_pci_request_selected_regions_failed:
-   603		pci_disable_device(instance->pdev);
-   604	l_bar_check_failed:
-   605	l_pci_enable_device_mem_failed:
-   606		return -PS3_FAILED;
-   607	}
-   608	
+    27	
+    28	void
+    29	xfs_open_zone_put(
+    30		struct xfs_open_zone	*oz)
+    31	{
+  > 32		if (atomic_dec_and_test(&oz->oz_ref)) {
+    33			xfs_rtgroup_rele(oz->oz_rtg);
+  > 34			kfree(oz);
+    35		}
+    36	}
+    37	
 
 -- 
 0-DAY CI Kernel Test Service
