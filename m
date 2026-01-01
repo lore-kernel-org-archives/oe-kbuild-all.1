@@ -1,199 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979BD1D5CF2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 21:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFFA325393E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 21:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767302767; cv=none; b=BhK47X/iIqwV6Qgy7n2iJCl4Mi0e5ZzzMnPhpeOP8oHFIb7nwOkWy7P/VsRlzLWcXvIxadzJb54UeJVtdvzUDIUIf+xVZZvp9354kgHWUQrXuFA7SNY30JlNRstlvuludBASZCr3m+eBKWlF+FKGxguKmGPWS/F4TlPiNlvYmtg=
+	t=1767303974; cv=none; b=Tm8eT5IDD0OU9DrIntpvGU+nkwSeULjk+oM6qPmcdNN/YYPbzlFpkPsg27z3ah+4zbuL3+CybjtqjW4oXSMRYcNrZ0ir3f4UAx15mYGHrhVA9QYPu54iSYwrhxeoOyQcogy9LV4txecVdKMWjgf99pr2yuuozWrs+YzhY609zjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767302767; c=relaxed/simple;
-	bh=uIsqF7GrK45tixVm3vpwn9SNL9fMP4yR243+FKmFqWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fTv4Yloq6Ku4atbAWYdgZtH1C3OqihM4VZ9NBGQaKSiG6/Qj0hBLrSe5vsjeJ/iKqT0Z9i1dJy6QJ8EhmnTgnL58ERGJSufwLZJMIiXUgrsKfQDiS7J4RL/N86mFmDf/sjA4bNZcl59y4/pmqifMAJqkONpYWVIQ9sHEEtjRlUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kvd/kz4L; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767303974; c=relaxed/simple;
+	bh=6gpTSrHw38rl/w7scab3B2s/RjjATex9t1kgDLVPCB8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Kw/s+q83oxC6Ba4lePZcRlkyUK/ryzkOPkXup5AVp4zzjjq/mMOjrvdkMNY1oNQDnnPi6cfFyCgqMTxlSohnQhLoQe6EjawF6/YIh2yDNvI3mIs7SdoJLskwm/Z/ptswcrAHnqBt7hgzgeWz2Nq/PP/zaItdD0zegp1Hf1BN4qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com; spf=none smtp.mailfrom=mojatatu.com; dkim=pass (2048-bit key) header.d=mojatatu-com.20230601.gappssmtp.com header.i=@mojatatu-com.20230601.gappssmtp.com header.b=Nf/4hZiV; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kvd/kz4L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767302764; x=1798838764;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uIsqF7GrK45tixVm3vpwn9SNL9fMP4yR243+FKmFqWU=;
-  b=kvd/kz4LOhrjLdwAIvd19cWxfp9GSUUjlRiughwJ8ph6UPdhz3qGzHpF
-   nFEQjVtvfcc6sY/BqPuqKJPpTgg6eiJGqDA+RIU+NFVWVjfDoiRUPhr15
-   hF/X+JXtKhB/8phLN/ogFSkO4QXRBSEWdVjQZb7+I/fDlqVPzPlzK9mFi
-   ch61nPPlP0Vjnr+6SWFV5aA98J79+6FZqq324QjxyGrNenPouBT0mTeNN
-   uuW9kq0kyi8iOmJGewINt6Fsv4fpnQLA2a3g+/DYtLTtRORDVQQRoYOWs
-   Ga0Lo46sFB9+sq+FZNvQCkvHsFAbv40mqyzUV8MFS8hwxC5Kan6icFHM0
-   g==;
-X-CSE-ConnectionGUID: mrHQTfWFRzut383RcTRspA==
-X-CSE-MsgGUID: 65F3WJp3QHOeB/Qj3sS/Fw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="80194437"
-X-IronPort-AV: E=Sophos;i="6.21,195,1763452800"; 
-   d="scan'208";a="80194437"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 13:26:03 -0800
-X-CSE-ConnectionGUID: HpXC2jVHQFqJPKt90/TRow==
-X-CSE-MsgGUID: HFqIauY6T3Gt59Mi1T2bzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,195,1763452800"; 
-   d="scan'208";a="239134592"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 01 Jan 2026 13:26:01 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vbQBC-000000000Jd-2em9;
-	Thu, 01 Jan 2026 21:25:58 +0000
-Date: Thu, 1 Jan 2026 22:24:58 +0100
-From: kernel test robot <lkp@intel.com>
-To: Jamal Hadi Salim <jhs@mojatatu.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, andrew+netdev@lunn.ch
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	xiyou.wangcong@gmail.com, jiri@resnulli.us, victor@mojatatu.com,
-	Jamal Hadi Salim <jhs@mojatatu.com>
-Subject: Re: [PATCH net 1/2] net/sched: act_mirred: Fix leak when redirecting
- to self on egress
-Message-ID: <202601012235.hi5VYzYy-lkp@intel.com>
-References: <20251230191814.213789-1-jhs@mojatatu.com>
+	dkim=pass (2048-bit key) header.d=mojatatu-com.20230601.gappssmtp.com header.i=@mojatatu-com.20230601.gappssmtp.com header.b="Nf/4hZiV"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a07f8dd9cdso121046705ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 01 Jan 2026 13:46:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mojatatu-com.20230601.gappssmtp.com; s=20230601; t=1767303972; x=1767908772; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5blSH3wnz7PXbFZieXRGEw5D2jrirBsMHkqQ+d/vIm0=;
+        b=Nf/4hZiVCr3fCjwQIRRx8Y/JKO9TV2MBMR2U/DGM81vGgp0Z5/DuVb1F3CXwY3GZad
+         8jj8AP2g2zjJjwcsFVnyy5sDGXvVv44qBADLiVGcgXzVlB3lNBH9qDVYv3eeP8sc1ln2
+         7TQVUxT8PAbMP2/iC8r55nxGibFgr8ENhyOYpIONPFjXMkruGehyphsxyBPmgAVBsuK/
+         0HIKHZGAEGm3tndRaP6Xsvc22g82u0u3k72EorhnF+Cji3vjqu4nLgLfZR2ww7dulNW8
+         xwptdK/2gwTbvnFUXbg1Mjv+zU6quYWFYyy2nm3e6hbtMWWiIv4b+Tq3u4/YfG45NaT5
+         07rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767303972; x=1767908772;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5blSH3wnz7PXbFZieXRGEw5D2jrirBsMHkqQ+d/vIm0=;
+        b=VPIWrZKSB2gdQcofRps3i/t26U+iQjmQ5cRLQOVYgZm4galOiOd/FQGW2oDRwiEOT6
+         jwNGhwD57c0SIDxOit4i6ByIZNWXce4emRjqU63RvB5WoGzV7jL3JNWgxV927bCZrrrM
+         4wxCsr1DB2l74aOT9Ndie65MTug5GxBpxuFT/lI8vrJOPnqoFJMuo7I0fkoTP/wXycWN
+         aTAOgV35Ss9A2exIRJ+VC4hqOBEpcp+0o13AxL3XXa5uK6qEW92tYqVRJMBS3Gm3kZaQ
+         sJyrPqK7I2E+e4qwIChcdTtuetwIlU3/7cSi7CCBfjDA2ZxNZcq7fpsHqtmU/t0FM9kK
+         sXtg==
+X-Forwarded-Encrypted: i=1; AJvYcCVXpOU5Qb2fq0+m1LbCS8qO7g8cWafh0yhSLfazW2zoank1zldguOpsPY3ILYisZNbau2oUlkcYtrGmFIOS@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjfKtckaUl0s3aUPZsa3nri2NPEjybXR8izRHDLO72xkq1sVt/
+	6faqcWZHN8Tmn/VVT8zNAFjKuL8EP5k4MVV+BehEwu0KBzt1nxILpy+tFhkJZ437fSPRmqJKA04
+	F+21DkD0e9HFyU3V2/NJjb88JaO+AbyTBNHG9/vxp
+X-Gm-Gg: AY/fxX601ZlNScDtheg5bpKExwFDKcVgMrXFNaQzUVs3/zQC8iRgnrs0YXlPeujIbpc
+	X/qY8u8bPlqSHmn1LzE+JBdrkFpxI7IglKeiR6jHZlm00VovhhpctOhjUuu7QATM3b0nFKT1V9i
+	PRno77UvcupoTLbdEOmrR0376Ajh96OFUxpXQOUPg4Pv4JDwHguzP+lmR0+wboD8JL+NCkJFqLl
+	SbjUXD99cYXsANs3np0ys9HlfWOHzq8sOCNcz12cfJvgUbaLy8sFM+9UfbSH0q1dn5a3nkDSxyd
+	tLY=
+X-Google-Smtp-Source: AGHT+IHJgF8tQVAzrXfaCjgTQEfhyOF4KU5kW7jA/hvH8rjFtgG4aiPuEmPx2T2VA2d0H5R1QMDgCxJR/dPA+u/xjn4=
+X-Received: by 2002:a17:902:ec8d:b0:2a0:daa7:8a57 with SMTP id
+ d9443c01a7336-2a2f2836573mr396349285ad.30.1767303971965; Thu, 01 Jan 2026
+ 13:46:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251230191814.213789-1-jhs@mojatatu.com>
+References: <20251230191814.213789-1-jhs@mojatatu.com> <202601012235.hi5VYzYy-lkp@intel.com>
+In-Reply-To: <202601012235.hi5VYzYy-lkp@intel.com>
+From: Jamal Hadi Salim <jhs@mojatatu.com>
+Date: Thu, 1 Jan 2026 16:45:55 -0500
+X-Gm-Features: AQt7F2r5dXv7wShviUh1pTZETegtU7eYoMGvJR5K3MvdK47cld_6fVtmVPB4sQs
+Message-ID: <CAM0EoMkqvGtm8=2b+D7_5O1Rmj82ed-+JJpBkeu2JGX7SJudAA@mail.gmail.com>
+Subject: Re: [PATCH net 1/2] net/sched: act_mirred: Fix leak when redirecting
+ to self on egress
+To: kernel test robot <lkp@intel.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, andrew+netdev@lunn.ch, 
+	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, 
+	xiyou.wangcong@gmail.com, jiri@resnulli.us, victor@mojatatu.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jamal,
+On Thu, Jan 1, 2026 at 4:26=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Jamal,
 
-kernel test robot noticed the following build warnings:
+Hi Kernel test robot!
 
-[auto build test WARNING on net/main]
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on net/main]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jamal-Hadi-Salim/s=
+elftests-tc-testing-Add-test-case-redirecting-to-self-on-egress/20251231-03=
+1934
+> base:   net/main
+> patch link:    https://lore.kernel.org/r/20251230191814.213789-1-jhs%40mo=
+jatatu.com
+> patch subject: [PATCH net 1/2] net/sched: act_mirred: Fix leak when redir=
+ecting to self on egress
+> config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/202=
+60101/202601012235.hi5VYzYy-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
+227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260101/202601012235.hi5VYzYy-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601012235.hi5VYzYy-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> net/sched/act_mirred.c:271:41: warning: variable 'at_ingress' is unini=
+tialized when used here [-Wuninitialized]
+>      271 |         if (dev =3D=3D skb->dev && want_ingress =3D=3D at_ingr=
+ess) {
+>          |                                                ^~~~~~~~~~
+>    net/sched/act_mirred.c:256:17: note: initialize the variable 'at_ingre=
+ss' to silence this warning
+>      256 |         bool at_ingress;
+>          |                        ^
+>          |                         =3D 0
+>    1 warning generated.
+>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jamal-Hadi-Salim/selftests-tc-testing-Add-test-case-redirecting-to-self-on-egress/20251231-031934
-base:   net/main
-patch link:    https://lore.kernel.org/r/20251230191814.213789-1-jhs%40mojatatu.com
-patch subject: [PATCH net 1/2] net/sched: act_mirred: Fix leak when redirecting to self on egress
-config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260101/202601012235.hi5VYzYy-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260101/202601012235.hi5VYzYy-lkp@intel.com/reproduce)
+You are about 2 days late. See:
+https://patchwork.kernel.org/project/netdevbpf/patch/20260101135608.253079-=
+2-jhs@mojatatu.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601012235.hi5VYzYy-lkp@intel.com/
+[..]
 
-All warnings (new ones prefixed by >>):
+cheers,
 
->> net/sched/act_mirred.c:271:41: warning: variable 'at_ingress' is uninitialized when used here [-Wuninitialized]
-     271 |         if (dev == skb->dev && want_ingress == at_ingress) {
-         |                                                ^~~~~~~~~~
-   net/sched/act_mirred.c:256:17: note: initialize the variable 'at_ingress' to silence this warning
-     256 |         bool at_ingress;
-         |                        ^
-         |                         = 0
-   1 warning generated.
-
-
-vim +/at_ingress +271 net/sched/act_mirred.c
-
-   246	
-   247	static int tcf_mirred_to_dev(struct sk_buff *skb, struct tcf_mirred *m,
-   248				     struct net_device *dev,
-   249				     const bool m_mac_header_xmit, int m_eaction,
-   250				     int retval)
-   251	{
-   252		struct sk_buff *skb_to_send = skb;
-   253		bool want_ingress;
-   254		bool is_redirect;
-   255		bool expects_nh;
-   256		bool at_ingress;
-   257		bool dont_clone;
-   258		int mac_len;
-   259		bool at_nh;
-   260		int err;
-   261	
-   262		is_redirect = tcf_mirred_is_act_redirect(m_eaction);
-   263		if (unlikely(!(dev->flags & IFF_UP)) || !netif_carrier_ok(dev)) {
-   264			net_notice_ratelimited("tc mirred to Houston: device %s is down\n",
-   265					       dev->name);
-   266			goto err_cant_do;
-   267		}
-   268	
-   269		want_ingress = tcf_mirred_act_wants_ingress(m_eaction);
-   270	
- > 271		if (dev == skb->dev && want_ingress == at_ingress) {
-   272			pr_notice_once("tc mirred: Loop (%s:%s --> %s:%s)\n",
-   273				       netdev_name(skb->dev),
-   274				       at_ingress ? "ingress" : "egress",
-   275				       netdev_name(dev),
-   276				       want_ingress ? "ingress" : "egress");
-   277			goto err_cant_do;
-   278		}
-   279	
-   280		/* we could easily avoid the clone only if called by ingress and clsact;
-   281		 * since we can't easily detect the clsact caller, skip clone only for
-   282		 * ingress - that covers the TC S/W datapath.
-   283		 */
-   284		at_ingress = skb_at_tc_ingress(skb);
-   285		dont_clone = skb_at_tc_ingress(skb) && is_redirect &&
-   286			tcf_mirred_can_reinsert(retval);
-   287		if (!dont_clone) {
-   288			skb_to_send = skb_clone(skb, GFP_ATOMIC);
-   289			if (!skb_to_send)
-   290				goto err_cant_do;
-   291		}
-   292	
-   293		/* All mirred/redirected skbs should clear previous ct info */
-   294		nf_reset_ct(skb_to_send);
-   295		if (want_ingress && !at_ingress) /* drop dst for egress -> ingress */
-   296			skb_dst_drop(skb_to_send);
-   297	
-   298		expects_nh = want_ingress || !m_mac_header_xmit;
-   299		at_nh = skb->data == skb_network_header(skb);
-   300		if (at_nh != expects_nh) {
-   301			mac_len = at_ingress ? skb->mac_len :
-   302				  skb_network_offset(skb);
-   303			if (expects_nh) {
-   304				/* target device/action expect data at nh */
-   305				skb_pull_rcsum(skb_to_send, mac_len);
-   306			} else {
-   307				/* target device/action expect data at mac */
-   308				skb_push_rcsum(skb_to_send, mac_len);
-   309			}
-   310		}
-   311	
-   312		skb_to_send->skb_iif = skb->dev->ifindex;
-   313		skb_to_send->dev = dev;
-   314	
-   315		if (is_redirect) {
-   316			if (skb == skb_to_send)
-   317				retval = TC_ACT_CONSUMED;
-   318	
-   319			skb_set_redirected(skb_to_send, skb_to_send->tc_at_ingress);
-   320	
-   321			err = tcf_mirred_forward(at_ingress, want_ingress, skb_to_send);
-   322		} else {
-   323			err = tcf_mirred_forward(at_ingress, want_ingress, skb_to_send);
-   324		}
-   325		if (err)
-   326			tcf_action_inc_overlimit_qstats(&m->common);
-   327	
-   328		return retval;
-   329	
-   330	err_cant_do:
-   331		if (is_redirect)
-   332			retval = TC_ACT_SHOT;
-   333		tcf_action_inc_overlimit_qstats(&m->common);
-   334		return retval;
-   335	}
-   336	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+jamal
