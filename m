@@ -1,490 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C1B29A9FE
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 21:11:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979BD1D5CF2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 21:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767301913; cv=none; b=pdghpOrVwrDfl6b2ix/ZM+6XC8LFCRQLBEeKMOB4uVeeIKhApsx0ciHqMOZzDbmNkkE1naRM/eVACbA7KLESI1iDfw/kddSatbkzQO7VtFTy4a1xtbQwl246xZGDhOeSSJ1OJG3gu6v1zaJtisIfVvYewHtu70oeQnxq/i3T6zw=
+	t=1767302767; cv=none; b=BhK47X/iIqwV6Qgy7n2iJCl4Mi0e5ZzzMnPhpeOP8oHFIb7nwOkWy7P/VsRlzLWcXvIxadzJb54UeJVtdvzUDIUIf+xVZZvp9354kgHWUQrXuFA7SNY30JlNRstlvuludBASZCr3m+eBKWlF+FKGxguKmGPWS/F4TlPiNlvYmtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767301913; c=relaxed/simple;
-	bh=vc/wJto/dWtIjOq6E33FXCGNnvt87+XlrE2Qx6uHMPY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=CGAHUMdyZvKZZJhrCGreZuXcxNGgipIJvibvRtx7VbAl5FcQhJTaGnBwgqAj8oEY8xOq2NjBhhvxEzN8ocId4axykYZjSu7ySJn7mRPUfYjVAHyh2qL5NU3B5TnoI/uYOEAHBKUi/rKQj4WrYEiDgavDS2iNUUZ+LvwNllBY/S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RwWHf2JD; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1767302767; c=relaxed/simple;
+	bh=uIsqF7GrK45tixVm3vpwn9SNL9fMP4yR243+FKmFqWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fTv4Yloq6Ku4atbAWYdgZtH1C3OqihM4VZ9NBGQaKSiG6/Qj0hBLrSe5vsjeJ/iKqT0Z9i1dJy6QJ8EhmnTgnL58ERGJSufwLZJMIiXUgrsKfQDiS7J4RL/N86mFmDf/sjA4bNZcl59y4/pmqifMAJqkONpYWVIQ9sHEEtjRlUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kvd/kz4L; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RwWHf2JD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kvd/kz4L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767301910; x=1798837910;
-  h=date:from:to:cc:subject:message-id;
-  bh=vc/wJto/dWtIjOq6E33FXCGNnvt87+XlrE2Qx6uHMPY=;
-  b=RwWHf2JDnqY8NoTIg+M3SHjCWlPDHvIcTXWN9MyImcJ17YWe6mimKkUN
-   GBEwI8dGMe4KEND3+r2pMl3D+TPfA9ujkf3ebjR2GUc2UBuUgy52zlxSj
-   jx2L+Ewlar8Dp1I1aaSGwWIYCTMGAtTEnt/HApmt/18+EL0g7HIJf085t
-   OmixQFVmgpY6M98WAjiMOrRsHShz+jDQiyEmifKduJY/3TlK1S9/a3I3+
-   3sKCjsT17QOjaHxiBDTMO6YRLos3HvfMuCO89Fdb5EgpmIg/q43UjQWwp
-   s6bnZbYJ0YNGU8ngxqF8F/GPsQ+LdCcWuS299LC8PPWTNLj2Dpnuk/KYD
-   Q==;
-X-CSE-ConnectionGUID: B1QEtB6lSrO+sj7RobhPmQ==
-X-CSE-MsgGUID: z54Mv1TLTC+fyGNw/wAvEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="79940516"
+  t=1767302764; x=1798838764;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uIsqF7GrK45tixVm3vpwn9SNL9fMP4yR243+FKmFqWU=;
+  b=kvd/kz4LOhrjLdwAIvd19cWxfp9GSUUjlRiughwJ8ph6UPdhz3qGzHpF
+   nFEQjVtvfcc6sY/BqPuqKJPpTgg6eiJGqDA+RIU+NFVWVjfDoiRUPhr15
+   hF/X+JXtKhB/8phLN/ogFSkO4QXRBSEWdVjQZb7+I/fDlqVPzPlzK9mFi
+   ch61nPPlP0Vjnr+6SWFV5aA98J79+6FZqq324QjxyGrNenPouBT0mTeNN
+   uuW9kq0kyi8iOmJGewINt6Fsv4fpnQLA2a3g+/DYtLTtRORDVQQRoYOWs
+   Ga0Lo46sFB9+sq+FZNvQCkvHsFAbv40mqyzUV8MFS8hwxC5Kan6icFHM0
+   g==;
+X-CSE-ConnectionGUID: mrHQTfWFRzut383RcTRspA==
+X-CSE-MsgGUID: 65F3WJp3QHOeB/Qj3sS/Fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="80194437"
 X-IronPort-AV: E=Sophos;i="6.21,195,1763452800"; 
-   d="scan'208";a="79940516"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 13:11:50 -0800
-X-CSE-ConnectionGUID: wibfCvyrRZ69m2sng2+cZA==
-X-CSE-MsgGUID: Lf7P8fhMRrO5pGfVhr2m3Q==
+   d="scan'208";a="80194437"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 13:26:03 -0800
+X-CSE-ConnectionGUID: HpXC2jVHQFqJPKt90/TRow==
+X-CSE-MsgGUID: HFqIauY6T3Gt59Mi1T2bzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,195,1763452800"; 
-   d="scan'208";a="201945671"
-Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 01 Jan 2026 13:11:48 -0800
-Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
+   d="scan'208";a="239134592"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 01 Jan 2026 13:26:01 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbPxR-0000000022D-3xeP;
-	Thu, 01 Jan 2026 21:11:45 +0000
-Date: Fri, 02 Jan 2026 05:10:59 +0800
+	id 1vbQBC-000000000Jd-2em9;
+	Thu, 01 Jan 2026 21:25:58 +0000
+Date: Thu, 1 Jan 2026 22:24:58 +0100
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
- linux-pm@vger.kernel.org
-Subject: [rafael-pm:pm-runtime-cleanup 24/25]
- drivers/clk/tegra/clk-device.c:192:9: warning: braces around scalar
- initializer
-Message-ID: <202601020555.YQwJ94nC-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jamal Hadi Salim <jhs@mojatatu.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	horms@kernel.org, andrew+netdev@lunn.ch
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	xiyou.wangcong@gmail.com, jiri@resnulli.us, victor@mojatatu.com,
+	Jamal Hadi Salim <jhs@mojatatu.com>
+Subject: Re: [PATCH net 1/2] net/sched: act_mirred: Fix leak when redirecting
+ to self on egress
+Message-ID: <202601012235.hi5VYzYy-lkp@intel.com>
+References: <20251230191814.213789-1-jhs@mojatatu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251230191814.213789-1-jhs@mojatatu.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git pm-runtime-cleanup
-head:   e853e6ed1e01eb6846357d4692bf6131e218837e
-commit: a7e9532f30c77611ad48560b165326ce96e6e8dc [24/25] clk: tegra: Discard pm_runtime_put() return value
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260102/202601020555.YQwJ94nC-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260102/202601020555.YQwJ94nC-lkp@intel.com/reproduce)
+Hi Jamal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jamal-Hadi-Salim/selftests-tc-testing-Add-test-case-redirecting-to-self-on-egress/20251231-031934
+base:   net/main
+patch link:    https://lore.kernel.org/r/20251230191814.213789-1-jhs%40mojatatu.com
+patch subject: [PATCH net 1/2] net/sched: act_mirred: Fix leak when redirecting to self on egress
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260101/202601012235.hi5VYzYy-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260101/202601012235.hi5VYzYy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601020555.YQwJ94nC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601012235.hi5VYzYy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/clk/tegra/clk-device.c: In function 'tegra_clock_suspend':
-   drivers/clk/tegra/clk-device.c:178:9: error: expected declaration specifiers before 'return'
-     178 |         return pm_runtime_resume_and_get(dev);
-         |         ^~~~~~
-   drivers/clk/tegra/clk-device.c:179:1: error: expected declaration specifiers before '}' token
-     179 | }
-         | ^
-   drivers/clk/tegra/clk-device.c:182:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-     182 | {
-         | ^
-   drivers/clk/tegra/clk-device.c:187:32: error: storage class specified for parameter 'tegra_clock_pm'
-     187 | static const struct dev_pm_ops tegra_clock_pm = {
-         |                                ^~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:187:21: error: parameter 'tegra_clock_pm' is initialized
-     187 | static const struct dev_pm_ops tegra_clock_pm = {
-         |                     ^~~~~~~~~~
-   In file included from include/linux/kernel.h:36,
-                    from include/linux/clk.h:13,
-                    from drivers/clk/tegra/clk-device.c:3:
-   drivers/clk/tegra/clk-device.c:188:54: error: 'tegra_clock_resume' undeclared (first use in this function); did you mean 'tegra_clk_osc_resume'?
-     188 |         SET_SYSTEM_SLEEP_PM_OPS(tegra_clock_suspend, tegra_clock_resume)
-         |                                                      ^~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   include/linux/pm.h:316:19: note: in expansion of macro 'pm_sleep_ptr'
-     316 |         .resume = pm_sleep_ptr(resume_fn), \
-         |                   ^~~~~~~~~~~~
-   include/linux/pm.h:345:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     345 |         SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:188:9: note: in expansion of macro 'SET_SYSTEM_SLEEP_PM_OPS'
-     188 |         SET_SYSTEM_SLEEP_PM_OPS(tegra_clock_suspend, tegra_clock_resume)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:188:54: note: each undeclared identifier is reported only once for each function it appears in
-     188 |         SET_SYSTEM_SLEEP_PM_OPS(tegra_clock_suspend, tegra_clock_resume)
-         |                                                      ^~~~~~~~~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   include/linux/pm.h:316:19: note: in expansion of macro 'pm_sleep_ptr'
-     316 |         .resume = pm_sleep_ptr(resume_fn), \
-         |                   ^~~~~~~~~~~~
-   include/linux/pm.h:345:9: note: in expansion of macro 'SYSTEM_SLEEP_PM_OPS'
-     345 |         SYSTEM_SLEEP_PM_OPS(suspend_fn, resume_fn)
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:188:9: note: in expansion of macro 'SET_SYSTEM_SLEEP_PM_OPS'
-     188 |         SET_SYSTEM_SLEEP_PM_OPS(tegra_clock_suspend, tegra_clock_resume)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:191:34: error: storage class specified for parameter 'tegra_clock_match'
-     191 | static const struct of_device_id tegra_clock_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:191:21: error: parameter 'tegra_clock_match' is initialized
-     191 | static const struct of_device_id tegra_clock_match[] = {
-         |                     ^~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:191:56: error: variable-sized object may not be initialized except with an empty initializer
-     191 | static const struct of_device_id tegra_clock_match[] = {
-         |                                                        ^
->> drivers/clk/tegra/clk-device.c:192:9: warning: braces around scalar initializer
-     192 |         { .compatible = "nvidia,tegra20-sclk" },
-         |         ^
-   drivers/clk/tegra/clk-device.c:192:9: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:192:11: error: field name not in record or union initializer
-     192 |         { .compatible = "nvidia,tegra20-sclk" },
-         |           ^
-   drivers/clk/tegra/clk-device.c:192:11: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:192:25: error: initialization of 'const struct of_device_id *' from incompatible pointer type 'char *' [-Wincompatible-pointer-types]
-     192 |         { .compatible = "nvidia,tegra20-sclk" },
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:192:25: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:193:9: warning: braces around scalar initializer
-     193 |         { .compatible = "nvidia,tegra30-sclk" },
-         |         ^
-   drivers/clk/tegra/clk-device.c:193:9: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:193:11: error: field name not in record or union initializer
-     193 |         { .compatible = "nvidia,tegra30-sclk" },
-         |           ^
-   drivers/clk/tegra/clk-device.c:193:11: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:193:25: error: initialization of 'const struct of_device_id *' from incompatible pointer type 'char *' [-Wincompatible-pointer-types]
-     193 |         { .compatible = "nvidia,tegra30-sclk" },
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:193:25: note: (near initialization for 'tegra_clock_match')
->> drivers/clk/tegra/clk-device.c:193:9: warning: excess elements in scalar initializer
-     193 |         { .compatible = "nvidia,tegra30-sclk" },
-         |         ^
-   drivers/clk/tegra/clk-device.c:193:9: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:194:9: warning: braces around scalar initializer
-     194 |         { .compatible = "nvidia,tegra30-pllc" },
-         |         ^
-   drivers/clk/tegra/clk-device.c:194:9: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:194:11: error: field name not in record or union initializer
-     194 |         { .compatible = "nvidia,tegra30-pllc" },
-         |           ^
-   drivers/clk/tegra/clk-device.c:194:11: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:194:25: error: initialization of 'const struct of_device_id *' from incompatible pointer type 'char *' [-Wincompatible-pointer-types]
-     194 |         { .compatible = "nvidia,tegra30-pllc" },
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:194:25: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:194:9: warning: excess elements in scalar initializer
-     194 |         { .compatible = "nvidia,tegra30-pllc" },
-         |         ^
-   drivers/clk/tegra/clk-device.c:194:9: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:195:9: warning: braces around scalar initializer
-     195 |         { .compatible = "nvidia,tegra30-plle" },
-         |         ^
-   drivers/clk/tegra/clk-device.c:195:9: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:195:11: error: field name not in record or union initializer
-     195 |         { .compatible = "nvidia,tegra30-plle" },
-         |           ^
-   drivers/clk/tegra/clk-device.c:195:11: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:195:25: error: initialization of 'const struct of_device_id *' from incompatible pointer type 'char *' [-Wincompatible-pointer-types]
-     195 |         { .compatible = "nvidia,tegra30-plle" },
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:195:25: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:195:9: warning: excess elements in scalar initializer
-     195 |         { .compatible = "nvidia,tegra30-plle" },
-         |         ^
-   drivers/clk/tegra/clk-device.c:195:9: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:196:9: warning: braces around scalar initializer
-     196 |         { .compatible = "nvidia,tegra30-pllm" },
-         |         ^
-   drivers/clk/tegra/clk-device.c:196:9: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:196:11: error: field name not in record or union initializer
-     196 |         { .compatible = "nvidia,tegra30-pllm" },
-         |           ^
-   drivers/clk/tegra/clk-device.c:196:11: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:196:25: error: initialization of 'const struct of_device_id *' from incompatible pointer type 'char *' [-Wincompatible-pointer-types]
-     196 |         { .compatible = "nvidia,tegra30-pllm" },
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:196:25: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:196:9: warning: excess elements in scalar initializer
-     196 |         { .compatible = "nvidia,tegra30-pllm" },
-         |         ^
-   drivers/clk/tegra/clk-device.c:196:9: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:197:9: warning: braces around scalar initializer
-     197 |         { }
-         |         ^
-   drivers/clk/tegra/clk-device.c:197:9: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:197:9: warning: excess elements in scalar initializer
-   drivers/clk/tegra/clk-device.c:197:9: note: (near initialization for 'tegra_clock_match')
-   drivers/clk/tegra/clk-device.c:200:31: error: storage class specified for parameter 'tegra_clock_driver'
-     200 | static struct platform_driver tegra_clock_driver = {
-         |                               ^~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:200:15: error: parameter 'tegra_clock_driver' is initialized
-     200 | static struct platform_driver tegra_clock_driver = {
-         |               ^~~~~~~~~~~~~~~
-   In file included from include/linux/device.h:32,
-                    from include/linux/platform_device.h:13,
-                    from drivers/clk/tegra/clk-device.c:7:
-   include/linux/device/driver.h:286:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-     286 | { \
-         | ^
-   include/linux/platform_device.h:305:9: note: in expansion of macro 'builtin_driver'
-     305 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:209:1: note: in expansion of macro 'builtin_platform_driver'
-     209 | builtin_platform_driver(tegra_clock_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from <command-line>:
-   include/linux/compiler.h:168:17: error: storage class specified for parameter '__UNIQUE_ID_addressable_tegra_clock_driver_init_431'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |                 ^~~~~~~~~~~~
-   include/linux/compiler_types.h:15:24: note: in definition of macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
+>> net/sched/act_mirred.c:271:41: warning: variable 'at_ingress' is uninitialized when used here [-Wuninitialized]
+     271 |         if (dev == skb->dev && want_ingress == at_ingress) {
+         |                                                ^~~~~~~~~~
+   net/sched/act_mirred.c:256:17: note: initialize the variable 'at_ingress' to silence this warning
+     256 |         bool at_ingress;
          |                        ^
-   include/linux/compiler.h:168:9: note: in expansion of macro '__PASTE'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^~~~~~~
-   include/linux/compiler.h:284:9: note: in expansion of macro '__UNIQUE_ID'
-     284 |         __UNIQUE_ID(__PASTE(addressable_, sym)) = (void *)(uintptr_t)&sym;
-         |         ^~~~~~~~~~~
-   include/linux/compiler.h:287:9: note: in expansion of macro '___ADDRESSABLE'
-     287 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/init.h:251:9: note: in expansion of macro '__ADDRESSABLE'
-     251 |         __ADDRESSABLE(fn)
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:256:9: note: in expansion of macro '__define_initcall_stub'
-     256 |         __define_initcall_stub(__stub, fn)                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:269:9: note: in expansion of macro '____define_initcall'
-     269 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:275:9: note: in expansion of macro '__unique_initcall'
-     275 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:277:35: note: in expansion of macro '___define_initcall'
-     277 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:306:41: note: in expansion of macro '__define_initcall'
-     306 | #define device_initcall(fn)             __define_initcall(fn, 6)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:289:1: note: in expansion of macro 'device_initcall'
-     289 | device_initcall(__driver##_init);
-         | ^~~~~~~~~~~~~~~
-   include/linux/platform_device.h:305:9: note: in expansion of macro 'builtin_driver'
-     305 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:209:1: note: in expansion of macro 'builtin_platform_driver'
-     209 | builtin_platform_driver(tegra_clock_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:286:1: error: parameter '__UNIQUE_ID_addressable_tegra_clock_driver_init_431' is initialized
-     286 | { \
-         | ^
-   include/linux/platform_device.h:305:9: note: in expansion of macro 'builtin_driver'
-     305 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:209:1: note: in expansion of macro 'builtin_platform_driver'
-     209 | builtin_platform_driver(tegra_clock_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/device/driver.h:286:1: warning: 'used' attribute ignored [-Wattributes]
-     286 | { \
-         | ^
-   include/linux/platform_device.h:305:9: note: in expansion of macro 'builtin_driver'
-     305 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:209:1: note: in expansion of macro 'builtin_platform_driver'
-     209 | builtin_platform_driver(tegra_clock_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:168:17: error: section attribute not allowed for '__UNIQUE_ID_addressable_tegra_clock_driver_init_431'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |                 ^~~~~~~~~~~~
-   include/linux/compiler_types.h:15:24: note: in definition of macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   include/linux/compiler.h:168:9: note: in expansion of macro '__PASTE'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^~~~~~~
-   include/linux/compiler.h:284:9: note: in expansion of macro '__UNIQUE_ID'
-     284 |         __UNIQUE_ID(__PASTE(addressable_, sym)) = (void *)(uintptr_t)&sym;
-         |         ^~~~~~~~~~~
-   include/linux/compiler.h:287:9: note: in expansion of macro '___ADDRESSABLE'
-     287 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^~~~~~~~~~~~~~
-   include/linux/init.h:251:9: note: in expansion of macro '__ADDRESSABLE'
-     251 |         __ADDRESSABLE(fn)
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:256:9: note: in expansion of macro '__define_initcall_stub'
-     256 |         __define_initcall_stub(__stub, fn)                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:269:9: note: in expansion of macro '____define_initcall'
-     269 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:275:9: note: in expansion of macro '__unique_initcall'
-     275 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:277:35: note: in expansion of macro '___define_initcall'
-     277 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:306:41: note: in expansion of macro '__define_initcall'
-     306 | #define device_initcall(fn)             __define_initcall(fn, 6)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:289:1: note: in expansion of macro 'device_initcall'
-     289 | device_initcall(__driver##_init);
-         | ^~~~~~~~~~~~~~~
-   include/linux/platform_device.h:305:9: note: in expansion of macro 'builtin_driver'
-     305 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:209:1: note: in expansion of macro 'builtin_platform_driver'
-     209 | builtin_platform_driver(tegra_clock_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/err.h:5,
-                    from include/linux/clk.h:12:
-   drivers/clk/tegra/clk-device.c:209:25: error: 'tegra_clock_driver_init' undeclared (first use in this function); did you mean 'tegra_clock_driver'?
-     209 | builtin_platform_driver(tegra_clock_driver);
-         |                         ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:284:71: note: in definition of macro '___ADDRESSABLE'
-     284 |         __UNIQUE_ID(__PASTE(addressable_, sym)) = (void *)(uintptr_t)&sym;
-         |                                                                       ^~~
-   include/linux/init.h:251:9: note: in expansion of macro '__ADDRESSABLE'
-     251 |         __ADDRESSABLE(fn)
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:256:9: note: in expansion of macro '__define_initcall_stub'
-     256 |         __define_initcall_stub(__stub, fn)                      \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:269:9: note: in expansion of macro '____define_initcall'
-     269 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:275:9: note: in expansion of macro '__unique_initcall'
-     275 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:277:35: note: in expansion of macro '___define_initcall'
-     277 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:306:41: note: in expansion of macro '__define_initcall'
-     306 | #define device_initcall(fn)             __define_initcall(fn, 6)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:289:1: note: in expansion of macro 'device_initcall'
-     289 | device_initcall(__driver##_init);
-         | ^~~~~~~~~~~~~~~
-   include/linux/platform_device.h:305:9: note: in expansion of macro 'builtin_driver'
-     305 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:209:1: note: in expansion of macro 'builtin_platform_driver'
-     209 | builtin_platform_driver(tegra_clock_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm64/include/asm/alternative.h:9,
-                    from arch/arm64/include/asm/lse.h:14,
-                    from arch/arm64/include/asm/cmpxchg.h:14,
-                    from arch/arm64/include/asm/atomic.h:16,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/arm64/include/asm/bitops.h:25,
-                    from include/linux/bitops.h:67,
-                    from include/linux/kernel.h:23:
-   include/linux/init.h:257:9: error: expected declaration specifiers before 'asm'
-     257 |         asm(".section   \"" __sec "\", \"a\"            \n"     \
-         |         ^~~
-   include/linux/init.h:269:9: note: in expansion of macro '____define_initcall'
-     269 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:275:9: note: in expansion of macro '__unique_initcall'
-     275 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:277:35: note: in expansion of macro '___define_initcall'
-     277 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:306:41: note: in expansion of macro '__define_initcall'
-     306 | #define device_initcall(fn)             __define_initcall(fn, 6)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:289:1: note: in expansion of macro 'device_initcall'
-     289 | device_initcall(__driver##_init);
-         | ^~~~~~~~~~~~~~~
-   include/linux/platform_device.h:305:9: note: in expansion of macro 'builtin_driver'
-     305 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:209:1: note: in expansion of macro 'builtin_platform_driver'
-     209 | builtin_platform_driver(tegra_clock_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/kernel.h:22:
-   include/linux/build_bug.h:78:41: error: expected declaration specifiers before '_Static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   include/linux/init.h:261:9: note: in expansion of macro 'static_assert'
-     261 |         static_assert(__same_type(initcall_t, &fn));
-         |         ^~~~~~~~~~~~~
-   include/linux/init.h:269:9: note: in expansion of macro '____define_initcall'
-     269 |         ____define_initcall(fn,                                 \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/init.h:275:9: note: in expansion of macro '__unique_initcall'
-     275 |         __unique_initcall(fn, id, __sec, __initcall_id(fn))
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/init.h:277:35: note: in expansion of macro '___define_initcall'
-     277 | #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##id)
-         |                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/init.h:306:41: note: in expansion of macro '__define_initcall'
-     306 | #define device_initcall(fn)             __define_initcall(fn, 6)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:289:1: note: in expansion of macro 'device_initcall'
-     289 | device_initcall(__driver##_init);
-         | ^~~~~~~~~~~~~~~
-   include/linux/platform_device.h:305:9: note: in expansion of macro 'builtin_driver'
-     305 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:209:1: note: in expansion of macro 'builtin_platform_driver'
-     209 | builtin_platform_driver(tegra_clock_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device/driver.h:289:33: error: expected declaration specifiers before ';' token
-     289 | device_initcall(__driver##_init);
-         |                                 ^
-   include/linux/platform_device.h:305:9: note: in expansion of macro 'builtin_driver'
-     305 |         builtin_driver(__platform_driver, platform_driver_register)
-         |         ^~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:209:1: note: in expansion of macro 'builtin_platform_driver'
-     209 | builtin_platform_driver(tegra_clock_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:209:44: error: expected declaration specifiers before ';' token
-     209 | builtin_platform_driver(tegra_clock_driver);
-         |                                            ^
-   drivers/clk/tegra/clk-device.c:177:19: error: old-style parameter declarations in prototyped function definition
-     177 | static inline int tegra_clock_suspend(struct device *dev)
-         |                   ^~~~~~~~~~~~~~~~~~~
-   drivers/clk/tegra/clk-device.c:210: error: expected '{' at end of input
->> drivers/clk/tegra/clk-device.c:209:44: warning: no return statement in function returning non-void [-Wreturn-type]
-     209 | builtin_platform_driver(tegra_clock_driver);
-         |                                            ^
+         |                         = 0
+   1 warning generated.
 
 
-vim +192 drivers/clk/tegra/clk-device.c
+vim +/at_ingress +271 net/sched/act_mirred.c
 
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  190  
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  191  static const struct of_device_id tegra_clock_match[] = {
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01 @192  	{ .compatible = "nvidia,tegra20-sclk" },
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01 @193  	{ .compatible = "nvidia,tegra30-sclk" },
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  194  	{ .compatible = "nvidia,tegra30-pllc" },
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  195  	{ .compatible = "nvidia,tegra30-plle" },
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  196  	{ .compatible = "nvidia,tegra30-pllm" },
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  197  	{ }
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  198  };
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  199  
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  200  static struct platform_driver tegra_clock_driver = {
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  201  	.driver = {
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  202  		.name = "tegra-clock",
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  203  		.of_match_table = tegra_clock_match,
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  204  		.pm = &tegra_clock_pm,
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  205  		.suppress_bind_attrs = true,
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  206  	},
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  207  	.probe = tegra_clock_probe,
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01  208  };
-b1bc04a2ac5b15 Dmitry Osipenko 2021-12-01 @209  builtin_platform_driver(tegra_clock_driver);
-
-:::::: The code at line 192 was first introduced by commit
-:::::: b1bc04a2ac5b15e0b681228376664671fc2f2017 clk: tegra: Support runtime PM and power domain
-
-:::::: TO: Dmitry Osipenko <digetx@gmail.com>
-:::::: CC: Thierry Reding <treding@nvidia.com>
+   246	
+   247	static int tcf_mirred_to_dev(struct sk_buff *skb, struct tcf_mirred *m,
+   248				     struct net_device *dev,
+   249				     const bool m_mac_header_xmit, int m_eaction,
+   250				     int retval)
+   251	{
+   252		struct sk_buff *skb_to_send = skb;
+   253		bool want_ingress;
+   254		bool is_redirect;
+   255		bool expects_nh;
+   256		bool at_ingress;
+   257		bool dont_clone;
+   258		int mac_len;
+   259		bool at_nh;
+   260		int err;
+   261	
+   262		is_redirect = tcf_mirred_is_act_redirect(m_eaction);
+   263		if (unlikely(!(dev->flags & IFF_UP)) || !netif_carrier_ok(dev)) {
+   264			net_notice_ratelimited("tc mirred to Houston: device %s is down\n",
+   265					       dev->name);
+   266			goto err_cant_do;
+   267		}
+   268	
+   269		want_ingress = tcf_mirred_act_wants_ingress(m_eaction);
+   270	
+ > 271		if (dev == skb->dev && want_ingress == at_ingress) {
+   272			pr_notice_once("tc mirred: Loop (%s:%s --> %s:%s)\n",
+   273				       netdev_name(skb->dev),
+   274				       at_ingress ? "ingress" : "egress",
+   275				       netdev_name(dev),
+   276				       want_ingress ? "ingress" : "egress");
+   277			goto err_cant_do;
+   278		}
+   279	
+   280		/* we could easily avoid the clone only if called by ingress and clsact;
+   281		 * since we can't easily detect the clsact caller, skip clone only for
+   282		 * ingress - that covers the TC S/W datapath.
+   283		 */
+   284		at_ingress = skb_at_tc_ingress(skb);
+   285		dont_clone = skb_at_tc_ingress(skb) && is_redirect &&
+   286			tcf_mirred_can_reinsert(retval);
+   287		if (!dont_clone) {
+   288			skb_to_send = skb_clone(skb, GFP_ATOMIC);
+   289			if (!skb_to_send)
+   290				goto err_cant_do;
+   291		}
+   292	
+   293		/* All mirred/redirected skbs should clear previous ct info */
+   294		nf_reset_ct(skb_to_send);
+   295		if (want_ingress && !at_ingress) /* drop dst for egress -> ingress */
+   296			skb_dst_drop(skb_to_send);
+   297	
+   298		expects_nh = want_ingress || !m_mac_header_xmit;
+   299		at_nh = skb->data == skb_network_header(skb);
+   300		if (at_nh != expects_nh) {
+   301			mac_len = at_ingress ? skb->mac_len :
+   302				  skb_network_offset(skb);
+   303			if (expects_nh) {
+   304				/* target device/action expect data at nh */
+   305				skb_pull_rcsum(skb_to_send, mac_len);
+   306			} else {
+   307				/* target device/action expect data at mac */
+   308				skb_push_rcsum(skb_to_send, mac_len);
+   309			}
+   310		}
+   311	
+   312		skb_to_send->skb_iif = skb->dev->ifindex;
+   313		skb_to_send->dev = dev;
+   314	
+   315		if (is_redirect) {
+   316			if (skb == skb_to_send)
+   317				retval = TC_ACT_CONSUMED;
+   318	
+   319			skb_set_redirected(skb_to_send, skb_to_send->tc_at_ingress);
+   320	
+   321			err = tcf_mirred_forward(at_ingress, want_ingress, skb_to_send);
+   322		} else {
+   323			err = tcf_mirred_forward(at_ingress, want_ingress, skb_to_send);
+   324		}
+   325		if (err)
+   326			tcf_action_inc_overlimit_qstats(&m->common);
+   327	
+   328		return retval;
+   329	
+   330	err_cant_do:
+   331		if (is_redirect)
+   332			retval = TC_ACT_SHOT;
+   333		tcf_action_inc_overlimit_qstats(&m->common);
+   334		return retval;
+   335	}
+   336	
 
 -- 
 0-DAY CI Kernel Test Service
