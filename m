@@ -1,74 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3808020C001
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 08:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4787D2773C1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jan 2026 10:57:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767256985; cv=none; b=YJMSDn0tGYkkBBojCotle0uPkMakFi3eiVA1YxFkpsbI4zbEhtC3eUNz3WBajVOV3iPh/6TX0Y43Q+qqnJb9vbzErofkP/qyMv7d3+1wA5T3JZtDF46/i4bCFSVAmWA5tHz1F+qoL7EUz5C9ei5sHJ4FtjSEp73YPmHn0ijtCCM=
+	t=1767265061; cv=none; b=RzhTFyHplPMsdFfcKyOY+mqwfhfGSI7tJuv/ochaPu8zVy+uA9TgDQR/KbC3mhvvRPv1piYeelhLq+GOiZ2FTpZS96/mWs6RZhJRy9wabDZ7OtfwS0L2ak05moGcB3bwG0Oz+YY2Jhu6IILSW8AuQcsSKE/SYnQa4QGSScF0xcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767256985; c=relaxed/simple;
-	bh=ieUt7pqL3M0cxqtfDP5HcO19kjSX1X005ga5kEuTXB0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IAkVJkIZzLqg0jGjuR78kMdm295CLGvf2fMr7NqbD0BNrhWidTOPNgkli9zQIOhY9frY/ov7NMEM7mXdTCj6G4Xhukfhxb+jyBBt1zhIl+G5K1YTFgP8C7CO9Q4r0UYzRGlzU0tuIqvInQpbOTypoOXbrnHjZEqSAL2N2m7amSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kjy+qP51; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1767265061; c=relaxed/simple;
+	bh=4/Y/95A4yl+yo7KWDXJnZ1T8CoJjj/3FqJPs6m+nuk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=h1TWnLoVXBEYQ+RyeNFb0p0cLE0euKA69vx/fBcthwfrct3n1K1gZuClVGGQe3hxZd5fmhlz3+I6N7Vfu6Hyu0aQuv117i74hnvzHom4b1DaX7JVXw2p8BIhdTQmkfQG6HEdZ/+RYP/FntPYYrFTLrH3hY9bJKoY9DyXQ54laPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fkdmIFgw; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kjy+qP51"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fkdmIFgw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767256983; x=1798792983;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ieUt7pqL3M0cxqtfDP5HcO19kjSX1X005ga5kEuTXB0=;
-  b=kjy+qP51g6/Bv6r9QLVY0zM52JpJftiDmttTPK5GXDToYpCwhKagOwWF
-   jdQfhzwRUTHYeMy/T1P9gE8g8y6v7wQ3EXTet73q263c44YvsCukvp1lt
-   /U6xo6bPHyzdHOKd/u20xxvrXTe2YT+PNSQ4RCVT12QU+bko6wA76gGdb
-   LNjtbopuaC6UECztSUHF/uHCGFcT+l0QtKFI0Aq/mqczmV+w3qgd/UpK6
-   zfOIfxA1ro1RkcWY4bA2sFcdJ4iYdCFXPtdcWg6ivEu0rqPPmYZBThjvF
-   dIXUx5Bwkfr7G9DiYN2t5YTFJ8cB8XB9shHSISJFn4SzQQBkcIpvWxcYV
-   A==;
-X-CSE-ConnectionGUID: FHIJuMQvTvOhHkmIcUDvAA==
-X-CSE-MsgGUID: kT2F/xg6RPOZn3N+mkR7HA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="71375255"
-X-IronPort-AV: E=Sophos;i="6.21,193,1763452800"; 
-   d="scan'208";a="71375255"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 00:43:02 -0800
-X-CSE-ConnectionGUID: 09Yz4ukfTiKIlzHoSM7nJw==
-X-CSE-MsgGUID: d3GmED39QPCdGUb8PwZ7gA==
+  t=1767265059; x=1798801059;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4/Y/95A4yl+yo7KWDXJnZ1T8CoJjj/3FqJPs6m+nuk4=;
+  b=fkdmIFgwf3w3nB0h+pQllqBXInYc/wgCzbxGtQDtMCNSAl4vz6N+Q+mS
+   FMoSZZWaTI+5D6T+B1nlbqFOUsg+KK4zIFLGI2+CHxqJUke2aKpLhselL
+   2IJcCRDO6fCFFOWPZV48t0xdY1q7GDuxbKd66DhIM0HPikI0ppvfM06Nr
+   5o0KukCJHeor03oi9eZhLfnsvaRqJnCHf7l2SH7fTZd1QXSCQJpRZYjzH
+   SU64qw8EECnBmgxE2kSCjtrwAIuQWcQ7b3QoItaqys5jt/KKgujaN2/tU
+   Fi23jhpv2egjd8fwdoexpePXoDVQmwLTQMe9eCP2vmlTAsuZjfypw7olM
+   Q==;
+X-CSE-ConnectionGUID: HVgfNp59SSabi62JHB7IoQ==
+X-CSE-MsgGUID: p3pLsUTxR0mk/C7UPZ+r9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="71381562"
+X-IronPort-AV: E=Sophos;i="6.21,194,1763452800"; 
+   d="scan'208";a="71381562"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 02:57:39 -0800
+X-CSE-ConnectionGUID: CYs+nNdMTwi6ObfoomlDjQ==
+X-CSE-MsgGUID: F42/HKgqQ7a7ExSrZMrSiQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,193,1763452800"; 
-   d="scan'208";a="206118660"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 01 Jan 2026 00:42:58 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,194,1763452800"; 
+   d="scan'208";a="206664013"
+Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 01 Jan 2026 02:57:37 -0800
+Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbEGk-000000000Ej-3qSn;
-	Thu, 01 Jan 2026 08:42:54 +0000
-Date: Thu, 1 Jan 2026 09:42:32 +0100
+	id 1vbGN5-000000001qD-0Rdc;
+	Thu, 01 Jan 2026 10:57:35 +0000
+Date: Thu, 01 Jan 2026 18:56:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Hubbard <jhubbard@nvidia.com>, Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Alexandre Courbot <acourbot@nvidia.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
-	Edwin Peer <epeer@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Bjorn Helgaas <helgaas@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	John Hubbard <jhubbard@nvidia.com>
-Subject: Re: [PATCH] gpu: nova-core: bitfield: use &mut self setters instead
- of builder pattern
-Message-ID: <202601010949.aupX8V1f-lkp@intel.com>
-References: <20251231214727.448776-1-jhubbard@nvidia.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+ =?utf-8?Q?"=C5=81ukasz?= Bartosik" <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-cached-prefix-godz 37/37]
+ lib/dynamic_debug.c:1710:58: warning: left shift count >= width of type
+Message-ID: <202601011817.iPamSk3Q-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,84 +61,36 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251231214727.448776-1-jhubbard@nvidia.com>
 
-Hi John,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 7acc70476f14661149774ab88d3fe23d83ba4249]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Hubbard/gpu-nova-core-bitfield-use-mut-self-setters-instead-of-builder-pattern/20260101-054823
-base:   7acc70476f14661149774ab88d3fe23d83ba4249
-patch link:    https://lore.kernel.org/r/20251231214727.448776-1-jhubbard%40nvidia.com
-patch subject: [PATCH] gpu: nova-core: bitfield: use &mut self setters instead of builder pattern
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260101/202601010949.aupX8V1f-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260101/202601010949.aupX8V1f-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-cached-prefix-godz
+head:   2597763afcfbb4385a1f14cba0e170ccd7a95e68
+commit: 2597763afcfbb4385a1f14cba0e170ccd7a95e68 [37/37] dyndbg: optimized caching of dynamic prefixes
+config: xtensa-xip_kc705_defconfig (https://download.01.org/0day-ci/archive/20260101/202601011817.iPamSk3Q-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260101/202601011817.iPamSk3Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601010949.aupX8V1f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601011817.iPamSk3Q-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in drivers/gpu/nova-core/falcon.rs:413:
-                Delta::from_micros(150),
-            );
-    
-   -        regs::NV_PFALCON_FALCON_ENGINE::update(bar, &E::ID, |v| { v.set_reset(true); });
-   +        regs::NV_PFALCON_FALCON_ENGINE::update(bar, &E::ID, |v| {
-   +            v.set_reset(true);
-   +        });
-    
-            // TIMEOUT: falcon engine should not take more than 10us to reset.
-            fsleep(Delta::from_micros(10));
-   Diff in drivers/gpu/nova-core/falcon.rs:420:
-    
-   -        regs::NV_PFALCON_FALCON_ENGINE::update(bar, &E::ID, |v| { v.set_reset(false); });
-   +        regs::NV_PFALCON_FALCON_ENGINE::update(bar, &E::ID, |v| {
-   +            v.set_reset(false);
-   +        });
-    
-            self.reset_wait_mem_scrubbing(bar)?;
-    
->> Diff in drivers/gpu/nova-core/falcon.rs:413:
-                Delta::from_micros(150),
-            );
-    
-   -        regs::NV_PFALCON_FALCON_ENGINE::update(bar, &E::ID, |v| { v.set_reset(true); });
-   +        regs::NV_PFALCON_FALCON_ENGINE::update(bar, &E::ID, |v| {
-   +            v.set_reset(true);
-   +        });
-    
-            // TIMEOUT: falcon engine should not take more than 10us to reset.
-            fsleep(Delta::from_micros(10));
-   Diff in drivers/gpu/nova-core/falcon.rs:420:
-    
-   -        regs::NV_PFALCON_FALCON_ENGINE::update(bar, &E::ID, |v| { v.set_reset(false); });
-   +        regs::NV_PFALCON_FALCON_ENGINE::update(bar, &E::ID, |v| {
-   +            v.set_reset(false);
-   +        });
-    
-            self.reset_wait_mem_scrubbing(bar)?;
-    
-   make[2]: *** [Makefile:1871: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+   lib/dynamic_debug.c: In function 'ddebug_prefix_key':
+>> lib/dynamic_debug.c:1710:58: warning: left shift count >= width of type [-Wshift-count-overflow]
+    1710 |                ((unsigned long)prefix_flags(desc->flags) << DDEBUG_PREFIX_KEY_FLAGS_SHIFT);
+         |                                                          ^~
+
+
+vim +1710 lib/dynamic_debug.c
+
+  1706	
+  1707	static unsigned long ddebug_prefix_key(const struct _ddebug *desc)
+  1708	{
+  1709		return ((unsigned long)desc & DDEBUG_PREFIX_KEY_ADDR_MASK) |
+> 1710		       ((unsigned long)prefix_flags(desc->flags) << DDEBUG_PREFIX_KEY_FLAGS_SHIFT);
+  1711	}
+  1712	
 
 -- 
 0-DAY CI Kernel Test Service
