@@ -1,159 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727E8405F7
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jan 2026 04:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B61F17A31E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jan 2026 04:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767327057; cv=none; b=F/4jZZlcwnNFyZSFLinPh5H7jrKZ1xn7d5YT/hNju8FZQrdL0L8PoCP+gS4nf2kBDmYr3Oq2hDka3DSIc+a/jP+pgKl+M7D1g9z4NEB3R5+K4E0JxtEDA3nzmbYg7Nabsfl9rP1tATff1gRNJTjaQsrAry1RrrgKcT0BcCZ3xKo=
+	t=1767329946; cv=none; b=jjwvLk5eUy/G3bAWBTgjbl7W0rCvCGSrdVxX1O9tE2j61OGQYfxGWi4ehpf4YmxA5jV31DgGCyEgay5wBNJ+yxVfxuAyyhMUh/7psRDHP6LmAoOYl17aonqHHSgYo4IVH4y3TjIN0H415xC5VaVrvNzZQyDvW8Dh4l9DDcGEZWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767327057; c=relaxed/simple;
-	bh=pfP8FHtE4foQBk4IgW7Kzu3q+wphHGv6dFUHC8SmQAM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ftj9OkgsbH2hcXDKbs6qp9II4MZ//qJltZTnhg2rxR57rcV3UJ+Xm4PHaohHppR54xpLUdkX1I5zA3pMxo+3AuCMFEs/u3oKHeD5qatwms9YQspU6yxmcr+aYL2crAZxBiqHQOLiu4lLILsnbTOW/MwvVURNVNE+jNfiZLHVlYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OjDa64IO; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjDa64IO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767327055; x=1798863055;
-  h=date:from:to:cc:subject:message-id;
-  bh=pfP8FHtE4foQBk4IgW7Kzu3q+wphHGv6dFUHC8SmQAM=;
-  b=OjDa64IOdS3FOSrBuvKQPtMd5AtmSqsryCrvAQKW/5AofSQZI94W/MpG
-   eLUQcAiHIJEMjUtyV4Xv5N00+RxG7wXK84+n4gJaBdk5iNZCSRXi3MpVm
-   brDfdFV2WPRBFczztKAVFoCva7CWeg1uqdZtp6f+TXN7FVCuhTI73Bdfk
-   gF5pmtOh79F/5TePljO0E6zGosEv1UU3OLUPc9JgwqQyoUVt4IXRbZ3r8
-   Mtb9iDB0MBtkUi6VkubrwjFPserJYRZgBZfYnZIfBuT1aMB3JwfQU10dL
-   fZdRzWKiaFwYfbFbRjyvNvaA+BU2AIktKtafokPFS5qmrHc1QlKnga4b0
-   Q==;
-X-CSE-ConnectionGUID: Go5qLc+6RVmXJyBLSXTWKg==
-X-CSE-MsgGUID: vrMMZiO2R8KL8jLqLsa1Hg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="68870428"
-X-IronPort-AV: E=Sophos;i="6.21,196,1763452800"; 
-   d="scan'208";a="68870428"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 20:10:54 -0800
-X-CSE-ConnectionGUID: s7E/gdmLRZC0uSuUE8ajQw==
-X-CSE-MsgGUID: o6obzVjbQ4mlebwLr46xNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,196,1763452800"; 
-   d="scan'208";a="201372795"
-Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 01 Jan 2026 20:10:53 -0800
-Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vbWV1-0000000027H-0TVr;
-	Fri, 02 Jan 2026 04:10:51 +0000
-Date: Fri, 02 Jan 2026 12:10:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Filipe Manana <fdmanana@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- David Sterba <dsterba@suse.com>, Boris Burkov <boris@bur.io>
-Subject: fs/btrfs/ordered-data.c:215:5-11: ERROR: allocation function
- on line 173 returns NULL not ERR_PTR on failure
-Message-ID: <202601021217.PPsDsiqO-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1767329946; c=relaxed/simple;
+	bh=MBOje/xYkrAFiRDonh/YjmAHO8oMKM+i0qoKKYV75xA=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=apiIDw/U8sjzh8gmyUK9oDVeYPBdTgRyRgb7DzKV2Go+InqdfITh662uX4DgiOCO0qDgjFeVRCmmkZSF76vWbP/+kXR2tvSPbap3sMTrf/YzKArRyjRPV6vli8XuKK8/rQLQ1Y9SGAig2p3S/8X8swH0QXCEE5Pwk1NwV7taTSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-656cc4098f3so21872929eaf.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 01 Jan 2026 20:59:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767329943; x=1767934743;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O+AmQB/qRhVQmFyRyvwyMexTVCJAt6poo+xGp2Hku+Q=;
+        b=elw6hGD1tiyq9G04KhvsxsqUMLw1YNCniWAyvgCirsKyh3TwnrrCIq9piuMZDmFs9l
+         aL3FjTUZOFYBFpXLQBE3nHCBq541gQOGYZgnnH66Kb+nNfxiDwK65SvKwyt7QUGEp1XD
+         MFvIk5iuodwBVEm+m7heIwSfPLorTeEMnsGDy/YVrmIotBk2EU9k0r2Q/IVPSA00JRiQ
+         /nq6cc/VV0MnRjW7UNt/NC4QHcb66t+wVmAzSQzE3wkheE4V+UvKYRP/0FBgxNDjd442
+         0LdPCwNNjsbDBOaVZZrIfeaWbg7/O4yGzi5CqJizUu7JNh56LsJtxDzTiEeIcjWYEHm8
+         lLBA==
+X-Forwarded-Encrypted: i=1; AJvYcCUUmEpBM0kNMvvlXHinwxynfGf2aI1XLNA23LSQPq0EEYT6at9zKR2xOP9F5peTJ91C54WrvUWJygIcnmw7@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXSFChoQVjCimXGobpuCODDubvMUhF/ZwI7cSE5tNnXIPS7h2H
+	17wITnVGjBPghgKaMHCP3Bt7ECltz+KUZLUxCEP/rCqCZ0idyaUZJSX10jZBiLEaJdkP4npWEZ0
+	tPWoHtYwEMI4Nu9kAAF6WuIOEJnz9wKZexwhPzoSwLA6tpdjKXms7DzKHJb8=
+X-Google-Smtp-Source: AGHT+IEJOgw+s7C7AFHLDe3b3IkHaaHTh3029SB8ead8YTreFqPPvVrzrv1UEJCmDyn+ROr5A06dXci3QJIZd1diC5oXY2KitSLw
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-Received: by 2002:a05:6820:2229:b0:659:9a49:9026 with SMTP id
+ 006d021491bc7-65d0eb10455mr18137360eaf.83.1767329943245; Thu, 01 Jan 2026
+ 20:59:03 -0800 (PST)
+Date: Thu, 01 Jan 2026 20:59:03 -0800
+In-Reply-To: <68ed7606.a70a0220.b3ac9.001f.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69575097.050a0220.a1b6.034e.GAE@google.com>
+Subject: Re: [syzbot] [ntfs3?] INFO: trying to register non-static key in ntfs_setattr
+From: syzbot <syzbot+3e58a7dc1a8c00243999@syzkaller.appspotmail.com>
+To: almaz.alexandrovich@paragon-software.com, dan.carpenter@linaro.org, 
+	eadavis@qq.com, kartikey406@gmail.com, linux-kernel@vger.kernel.org, 
+	lkp@intel.com, ntfs3@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	oe-kbuild@lists.linux.dev, penguin-kernel@i-love.sakura.ne.jp, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b69053dd3ffbc0d2dedbbc86182cdef6f641fe1b
-commit: 08c649a5637371cb6bf8f3e974323cf59a7f434b btrfs: check we grabbed inode reference when allocating an ordered extent
-date:   8 months ago
-config: arm-randconfig-r051-20251231 (https://download.01.org/0day-ci/archive/20260102/202601021217.PPsDsiqO-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 86b9f90b9574b3a7d15d28a91f6316459dcfa046)
+syzbot suspects this issue was fixed by commit:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601021217.PPsDsiqO-lkp@intel.com/
+commit be99c62ac7e7af514e4b13f83c891a3cccefaa48
+Author: Edward Adam Davis <eadavis@qq.com>
+Date:   Tue Sep 16 05:50:13 2025 +0000
 
-cocci warnings: (new ones prefixed by >>)
->> fs/btrfs/ordered-data.c:215:5-11: ERROR: allocation function on line 173 returns NULL not ERR_PTR on failure
+    ntfs3: init run lock for extend inode
 
-vim +215 fs/btrfs/ordered-data.c
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=113ff222580000
+start commit:   98906f9d850e Merge tag 'rtc-6.18' of git://git.kernel.org/..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=af9170887d81dea1
+dashboard link: https://syzkaller.appspot.com/bug?extid=3e58a7dc1a8c00243999
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14f4e542580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16e5e9e2580000
 
-   147	
-   148	static struct btrfs_ordered_extent *alloc_ordered_extent(
-   149				struct btrfs_inode *inode, u64 file_offset, u64 num_bytes,
-   150				u64 ram_bytes, u64 disk_bytenr, u64 disk_num_bytes,
-   151				u64 offset, unsigned long flags, int compress_type)
-   152	{
-   153		struct btrfs_ordered_extent *entry;
-   154		int ret;
-   155		u64 qgroup_rsv = 0;
-   156		const bool is_nocow = (flags &
-   157		       ((1U << BTRFS_ORDERED_NOCOW) | (1U << BTRFS_ORDERED_PREALLOC)));
-   158	
-   159		if (is_nocow) {
-   160			/* For nocow write, we can release the qgroup rsv right now */
-   161			ret = btrfs_qgroup_free_data(inode, NULL, file_offset, num_bytes, &qgroup_rsv);
-   162			if (ret < 0)
-   163				return ERR_PTR(ret);
-   164		} else {
-   165			/*
-   166			 * The ordered extent has reserved qgroup space, release now
-   167			 * and pass the reserved number for qgroup_record to free.
-   168			 */
-   169			ret = btrfs_qgroup_release_data(inode, file_offset, num_bytes, &qgroup_rsv);
-   170			if (ret < 0)
-   171				return ERR_PTR(ret);
-   172		}
- > 173		entry = kmem_cache_zalloc(btrfs_ordered_extent_cache, GFP_NOFS);
-   174		if (!entry) {
-   175			entry = ERR_PTR(-ENOMEM);
-   176			goto out;
-   177		}
-   178	
-   179		entry->file_offset = file_offset;
-   180		entry->num_bytes = num_bytes;
-   181		entry->ram_bytes = ram_bytes;
-   182		entry->disk_bytenr = disk_bytenr;
-   183		entry->disk_num_bytes = disk_num_bytes;
-   184		entry->offset = offset;
-   185		entry->bytes_left = num_bytes;
-   186		if (WARN_ON_ONCE(!igrab(&inode->vfs_inode))) {
-   187			kmem_cache_free(btrfs_ordered_extent_cache, entry);
-   188			entry = ERR_PTR(-ESTALE);
-   189			goto out;
-   190		}
-   191		entry->inode = inode;
-   192		entry->compress_type = compress_type;
-   193		entry->truncated_len = (u64)-1;
-   194		entry->qgroup_rsv = qgroup_rsv;
-   195		entry->flags = flags;
-   196		refcount_set(&entry->refs, 1);
-   197		init_waitqueue_head(&entry->wait);
-   198		INIT_LIST_HEAD(&entry->list);
-   199		INIT_LIST_HEAD(&entry->log_list);
-   200		INIT_LIST_HEAD(&entry->root_extent_list);
-   201		INIT_LIST_HEAD(&entry->work_list);
-   202		INIT_LIST_HEAD(&entry->bioc_list);
-   203		init_completion(&entry->completion);
-   204	
-   205		/*
-   206		 * We don't need the count_max_extents here, we can assume that all of
-   207		 * that work has been done at higher layers, so this is truly the
-   208		 * smallest the extent is going to get.
-   209		 */
-   210		spin_lock(&inode->lock);
-   211		btrfs_mod_outstanding_extents(inode, 1);
-   212		spin_unlock(&inode->lock);
-   213	
-   214	out:
- > 215		if (IS_ERR(entry) && !is_nocow)
-   216			btrfs_qgroup_free_refroot(inode->root->fs_info,
-   217						  btrfs_root_id(inode->root),
-   218						  qgroup_rsv, BTRFS_QGROUP_RSV_DATA);
-   219	
-   220		return entry;
-   221	}
-   222	
+If the result looks correct, please mark the issue as fixed by replying with:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+#syz fix: ntfs3: init run lock for extend inode
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
