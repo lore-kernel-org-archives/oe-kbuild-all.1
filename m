@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2B7B672;
-	Fri,  2 Jan 2026 04:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727E8405F7
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jan 2026 04:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767326456; cv=none; b=kskA3f0ILrfF+TUBOZRohUYsKd7lS4uQrjmInJgkhvkiufZ6Pjt3tzwrZjfa4OABerv5lxx3uNRlXNMD80HvPXznvhJyjXhkHQioj8uBwS3KUryq/Xoh+pKJYzT0bnuG/XNpKwVV8hI+kZzWA9axPsStdJBhCjMt0t1raXRtyKQ=
+	t=1767327057; cv=none; b=F/4jZZlcwnNFyZSFLinPh5H7jrKZ1xn7d5YT/hNju8FZQrdL0L8PoCP+gS4nf2kBDmYr3Oq2hDka3DSIc+a/jP+pgKl+M7D1g9z4NEB3R5+K4E0JxtEDA3nzmbYg7Nabsfl9rP1tATff1gRNJTjaQsrAry1RrrgKcT0BcCZ3xKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767326456; c=relaxed/simple;
-	bh=zLPsluLjly2jBKGmzY+42WoS5hBHJMxcxxPeNmXuFhI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NDUKW4a7WNTcN7Ore8m/FMazEgDEkn9hxlWh/9OkXeKU9a1CH4/zYjP6H0IHTQmQ0IMIiIT2y0RRLrYv8zAySHRKZPB7dcg3nvVa8zi+ZsT8j4vxKR1VkF0cMVeb+1nrrQ4WQtdCF9VXDzmPKorQM7Asw+0vjLEtrBRuQWRrFsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ah5rXoFB; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1767327057; c=relaxed/simple;
+	bh=pfP8FHtE4foQBk4IgW7Kzu3q+wphHGv6dFUHC8SmQAM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Ftj9OkgsbH2hcXDKbs6qp9II4MZ//qJltZTnhg2rxR57rcV3UJ+Xm4PHaohHppR54xpLUdkX1I5zA3pMxo+3AuCMFEs/u3oKHeD5qatwms9YQspU6yxmcr+aYL2crAZxBiqHQOLiu4lLILsnbTOW/MwvVURNVNE+jNfiZLHVlYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OjDa64IO; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ah5rXoFB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjDa64IO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767326455; x=1798862455;
+  t=1767327055; x=1798863055;
   h=date:from:to:cc:subject:message-id;
-  bh=zLPsluLjly2jBKGmzY+42WoS5hBHJMxcxxPeNmXuFhI=;
-  b=ah5rXoFBriN6VEzFw0n7/z9EoR705AoGl9WGHeoS8sK3+pU55Af0E7Jc
-   7JVGQlV5BBPcjJMCd3WT4bGK/nFt0Wz2lPmbC/OJAch9KtKH1yL7ASyQv
-   f63vu0xboxMP326v6+W245VTHZZG2YcYeRwGxZKYoNvnSWjWzE7Qs+xGQ
-   WYN9kIoaRIS3+FsuW4UWZAbK/ei7Xb7t8Hl5VIaEuCijzo8VfQU/ag7qe
-   DJJpD/2sO3JBz81v38+jW7ZbNLFLFZ8QqJEaBG3aj3pSL1uGf6qSZjzQN
-   nQNTIpOEjNeThWBWd2TONfE0Y8pEnpiYSdB7R4/NnMNDE057mnSQZTJlz
-   g==;
-X-CSE-ConnectionGUID: cIr4xpy6R/KYYqmZftfOzA==
-X-CSE-MsgGUID: UUHxqOipQG20HADszEej9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="68897619"
+  bh=pfP8FHtE4foQBk4IgW7Kzu3q+wphHGv6dFUHC8SmQAM=;
+  b=OjDa64IOdS3FOSrBuvKQPtMd5AtmSqsryCrvAQKW/5AofSQZI94W/MpG
+   eLUQcAiHIJEMjUtyV4Xv5N00+RxG7wXK84+n4gJaBdk5iNZCSRXi3MpVm
+   brDfdFV2WPRBFczztKAVFoCva7CWeg1uqdZtp6f+TXN7FVCuhTI73Bdfk
+   gF5pmtOh79F/5TePljO0E6zGosEv1UU3OLUPc9JgwqQyoUVt4IXRbZ3r8
+   Mtb9iDB0MBtkUi6VkubrwjFPserJYRZgBZfYnZIfBuT1aMB3JwfQU10dL
+   fZdRzWKiaFwYfbFbRjyvNvaA+BU2AIktKtafokPFS5qmrHc1QlKnga4b0
+   Q==;
+X-CSE-ConnectionGUID: Go5qLc+6RVmXJyBLSXTWKg==
+X-CSE-MsgGUID: vrMMZiO2R8KL8jLqLsa1Hg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="68870428"
 X-IronPort-AV: E=Sophos;i="6.21,196,1763452800"; 
-   d="scan'208";a="68897619"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 20:00:54 -0800
-X-CSE-ConnectionGUID: 2cpcgIIdQMOhx0JJ/G8WbQ==
-X-CSE-MsgGUID: qjp/ytICRk2PXWt5Y/AfEw==
+   d="scan'208";a="68870428"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 20:10:54 -0800
+X-CSE-ConnectionGUID: s7E/gdmLRZC0uSuUE8ajQw==
+X-CSE-MsgGUID: o6obzVjbQ4mlebwLr46xNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,196,1763452800"; 
-   d="scan'208";a="202701444"
+   d="scan'208";a="201372795"
 Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 01 Jan 2026 20:00:53 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 01 Jan 2026 20:10:53 -0800
 Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbWLK-0000000026r-2si3;
-	Fri, 02 Jan 2026 04:00:50 +0000
-Date: Fri, 02 Jan 2026 12:00:02 +0800
+	id 1vbWV1-0000000027H-0TVr;
+	Fri, 02 Jan 2026 04:10:51 +0000
+Date: Fri, 02 Jan 2026 12:10:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anup Patel <anup.patel@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [avpatel:riscv_kvm_nested_v1 8/14]
- arch/riscv/kvm/vcpu_nested.c:23:6: warning: variable 'cpu' set but not used
-Message-ID: <202601021133.XukWlBE7-lkp@intel.com>
+To: Filipe Manana <fdmanana@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ David Sterba <dsterba@suse.com>, Boris Burkov <boris@bur.io>
+Subject: fs/btrfs/ordered-data.c:215:5-11: ERROR: allocation function
+ on line 173 returns NULL not ERR_PTR on failure
+Message-ID: <202601021217.PPsDsiqO-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,147 +60,99 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/avpatel/linux.git riscv_kvm_nested_v1
-head:   d9789002a11efbf06d07540d80dbe5fc7d7bbeb2
-commit: 82da176ef84d4434d15cb033b5240e379d17fb40 [8/14] RISC-V: KVM: Extend trap redirection for nested virtualization
-config: riscv-randconfig-002-20260102 (https://download.01.org/0day-ci/archive/20260102/202601021133.XukWlBE7-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260102/202601021133.XukWlBE7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b69053dd3ffbc0d2dedbbc86182cdef6f641fe1b
+commit: 08c649a5637371cb6bf8f3e974323cf59a7f434b btrfs: check we grabbed inode reference when allocating an ordered extent
+date:   8 months ago
+config: arm-randconfig-r051-20251231 (https://download.01.org/0day-ci/archive/20260102/202601021217.PPsDsiqO-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 86b9f90b9574b3a7d15d28a91f6316459dcfa046)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601021133.XukWlBE7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601021217.PPsDsiqO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/btrfs/ordered-data.c:215:5-11: ERROR: allocation function on line 173 returns NULL not ERR_PTR on failure
 
->> arch/riscv/kvm/vcpu_nested.c:23:6: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
-      23 |         int cpu;
-         |             ^
-   1 warning generated.
+vim +215 fs/btrfs/ordered-data.c
 
-
-vim +/cpu +23 arch/riscv/kvm/vcpu_nested.c
-
-    15	
-    16	void kvm_riscv_vcpu_nested_set_virt(struct kvm_vcpu *vcpu,
-    17					    enum kvm_vcpu_nested_set_virt_event event,
-    18					    bool virt, bool spvp, bool gva)
-    19	{
-    20		struct kvm_vcpu_nested *ns = &vcpu->arch.nested;
-    21		struct kvm_vcpu_nested_csr *nsc = &ns->csr;
-    22		unsigned long tmp, sr_fs_vs_mask = 0;
-  > 23		int cpu;
-    24	
-    25		/* If H-extension is not available for VCPU then do nothing */
-    26		if (!riscv_isa_extension_available(vcpu->arch.isa, h))
-    27			return;
-    28	
-    29		/* Grab the CPU to ensure we remain on same CPU */
-    30		cpu = get_cpu();
-    31	
-    32		/* Skip hardware CSR update if no change in virt state */
-    33		if (virt == ns->virt)
-    34			goto skip_csr_update;
-    35	
-    36		/* Update config CSRs (aka hedeleg, hideleg, henvcfg, and hstateeX) */
-    37		kvm_riscv_vcpu_config_load(vcpu, virt);
-    38	
-    39		/* TODO: Update time delta */
-    40	
-    41		/* Update G-stage page table */
-    42		kvm_riscv_mmu_update_hgatp(vcpu, virt);
-    43	
-    44		/* Swap hardware vs<xyz> CSRs except vsie and vsstatus */
-    45		nsc->vstvec = ncsr_swap(CSR_VSTVEC, nsc->vstvec);
-    46		nsc->vsscratch = ncsr_swap(CSR_VSSCRATCH, nsc->vsscratch);
-    47		nsc->vsepc = ncsr_swap(CSR_VSEPC, nsc->vsepc);
-    48		nsc->vscause = ncsr_swap(CSR_VSCAUSE, nsc->vscause);
-    49		nsc->vstval = ncsr_swap(CSR_VSTVAL, nsc->vstval);
-    50		nsc->vsatp = ncsr_swap(CSR_VSATP, nsc->vsatp);
-    51	
-    52		/* Update vsstatus CSR */
-    53		if (riscv_isa_extension_available(vcpu->arch.isa, f) ||
-    54		    riscv_isa_extension_available(vcpu->arch.isa, d))
-    55			sr_fs_vs_mask |= SR_FS;
-    56		if (riscv_isa_extension_available(vcpu->arch.isa, v))
-    57			sr_fs_vs_mask |= SR_VS;
-    58		if (virt) {
-    59			/*
-    60			 * Update vsstatus in following manner:
-    61			 * 1) Swap hardware vsstatus (i.e. virtual-HS mode sstatus) with
-    62			 *    vsstatus in nested virtualization context (i.e. virtual-VS
-    63			 *    mode sstatus)
-    64			 * 2) Swap host sstatus.[FS|VS] (i.e. HS mode sstatus.[FS|VS])
-    65			 *    with the vsstatus.[FS|VS] saved in nested virtualization
-    66			 *    context (i.e. virtual-HS mode sstatus.[FS|VS])
-    67			 */
-    68			nsc->vsstatus = ncsr_swap(CSR_VSSTATUS, nsc->vsstatus);
-    69			tmp = vcpu->arch.guest_context.sstatus & sr_fs_vs_mask;
-    70			vcpu->arch.guest_context.sstatus &= ~sr_fs_vs_mask;
-    71			vcpu->arch.guest_context.sstatus |= (nsc->vsstatus & sr_fs_vs_mask);
-    72			nsc->vsstatus &= ~sr_fs_vs_mask;
-    73			nsc->vsstatus |= tmp;
-    74		} else {
-    75			/*
-    76			 * Update vsstatus in following manner:
-    77			 * 1) Swap host sstatus.[FS|VS] (i.e. virtual-HS mode sstatus.[FS|VS])
-    78			 *    with vsstatus.[FS|VS] saved in the nested virtualization context
-    79			 *    context (i.e. HS mode sstatus.[FS|VS])
-    80			 * 2) Swap hardware vsstatus (i.e. virtual-VS mode sstatus) with
-    81			 *    vsstatus in nested virtualization context (i.e. virtual-HS
-    82			 *    mode sstatus)
-    83			 */
-    84			tmp = vcpu->arch.guest_context.sstatus & sr_fs_vs_mask;
-    85			vcpu->arch.guest_context.sstatus &= ~sr_fs_vs_mask;
-    86			vcpu->arch.guest_context.sstatus |= (nsc->vsstatus & sr_fs_vs_mask);
-    87			nsc->vsstatus &= ~sr_fs_vs_mask;
-    88			nsc->vsstatus |= tmp;
-    89			nsc->vsstatus = ncsr_swap(CSR_VSSTATUS, nsc->vsstatus);
-    90		}
-    91	
-    92	skip_csr_update:
-    93		if (event != NESTED_SET_VIRT_EVENT_SRET) {
-    94			/* Update guest hstatus.SPV bit */
-    95			nsc->hstatus &= ~HSTATUS_SPV;
-    96			nsc->hstatus |= (ns->virt) ? HSTATUS_SPV : 0;
-    97	
-    98			/* Update guest hstatus.SPVP bit */
-    99			if (ns->virt) {
-   100				nsc->hstatus &= ~HSTATUS_SPVP;
-   101				if (spvp)
-   102					nsc->hstatus |= HSTATUS_SPVP;
-   103			}
-   104	
-   105			/* Update guest hstatus.GVA bit */
-   106			if (event == NESTED_SET_VIRT_EVENT_TRAP) {
-   107				nsc->hstatus &= ~HSTATUS_GVA;
-   108				nsc->hstatus |= (gva) ? HSTATUS_GVA : 0;
-   109			}
-   110		}
-   111	
-   112		/* Update host SRET trapping */
-   113		vcpu->arch.guest_context.hstatus &= ~HSTATUS_VTSR;
-   114		if (virt) {
-   115			if (nsc->hstatus & HSTATUS_VTSR)
-   116				vcpu->arch.guest_context.hstatus |= HSTATUS_VTSR;
-   117		} else {
-   118			if (nsc->hstatus & HSTATUS_SPV)
-   119				vcpu->arch.guest_context.hstatus |= HSTATUS_VTSR;
-   120		}
-   121	
-   122		/* Update host VM trapping */
-   123		vcpu->arch.guest_context.hstatus &= ~HSTATUS_VTVM;
-   124		if (virt && (nsc->hstatus & HSTATUS_VTVM))
-   125			vcpu->arch.guest_context.hstatus |= HSTATUS_VTVM;
-   126	
-   127		/* Update virt flag */
-   128		ns->virt = virt;
-   129	
-   130		/* Release CPU */
-   131		put_cpu();
-   132	}
-   133	
+   147	
+   148	static struct btrfs_ordered_extent *alloc_ordered_extent(
+   149				struct btrfs_inode *inode, u64 file_offset, u64 num_bytes,
+   150				u64 ram_bytes, u64 disk_bytenr, u64 disk_num_bytes,
+   151				u64 offset, unsigned long flags, int compress_type)
+   152	{
+   153		struct btrfs_ordered_extent *entry;
+   154		int ret;
+   155		u64 qgroup_rsv = 0;
+   156		const bool is_nocow = (flags &
+   157		       ((1U << BTRFS_ORDERED_NOCOW) | (1U << BTRFS_ORDERED_PREALLOC)));
+   158	
+   159		if (is_nocow) {
+   160			/* For nocow write, we can release the qgroup rsv right now */
+   161			ret = btrfs_qgroup_free_data(inode, NULL, file_offset, num_bytes, &qgroup_rsv);
+   162			if (ret < 0)
+   163				return ERR_PTR(ret);
+   164		} else {
+   165			/*
+   166			 * The ordered extent has reserved qgroup space, release now
+   167			 * and pass the reserved number for qgroup_record to free.
+   168			 */
+   169			ret = btrfs_qgroup_release_data(inode, file_offset, num_bytes, &qgroup_rsv);
+   170			if (ret < 0)
+   171				return ERR_PTR(ret);
+   172		}
+ > 173		entry = kmem_cache_zalloc(btrfs_ordered_extent_cache, GFP_NOFS);
+   174		if (!entry) {
+   175			entry = ERR_PTR(-ENOMEM);
+   176			goto out;
+   177		}
+   178	
+   179		entry->file_offset = file_offset;
+   180		entry->num_bytes = num_bytes;
+   181		entry->ram_bytes = ram_bytes;
+   182		entry->disk_bytenr = disk_bytenr;
+   183		entry->disk_num_bytes = disk_num_bytes;
+   184		entry->offset = offset;
+   185		entry->bytes_left = num_bytes;
+   186		if (WARN_ON_ONCE(!igrab(&inode->vfs_inode))) {
+   187			kmem_cache_free(btrfs_ordered_extent_cache, entry);
+   188			entry = ERR_PTR(-ESTALE);
+   189			goto out;
+   190		}
+   191		entry->inode = inode;
+   192		entry->compress_type = compress_type;
+   193		entry->truncated_len = (u64)-1;
+   194		entry->qgroup_rsv = qgroup_rsv;
+   195		entry->flags = flags;
+   196		refcount_set(&entry->refs, 1);
+   197		init_waitqueue_head(&entry->wait);
+   198		INIT_LIST_HEAD(&entry->list);
+   199		INIT_LIST_HEAD(&entry->log_list);
+   200		INIT_LIST_HEAD(&entry->root_extent_list);
+   201		INIT_LIST_HEAD(&entry->work_list);
+   202		INIT_LIST_HEAD(&entry->bioc_list);
+   203		init_completion(&entry->completion);
+   204	
+   205		/*
+   206		 * We don't need the count_max_extents here, we can assume that all of
+   207		 * that work has been done at higher layers, so this is truly the
+   208		 * smallest the extent is going to get.
+   209		 */
+   210		spin_lock(&inode->lock);
+   211		btrfs_mod_outstanding_extents(inode, 1);
+   212		spin_unlock(&inode->lock);
+   213	
+   214	out:
+ > 215		if (IS_ERR(entry) && !is_nocow)
+   216			btrfs_qgroup_free_refroot(inode->root->fs_info,
+   217						  btrfs_root_id(inode->root),
+   218						  qgroup_rsv, BTRFS_QGROUP_RSV_DATA);
+   219	
+   220		return entry;
+   221	}
+   222	
 
 -- 
 0-DAY CI Kernel Test Service
