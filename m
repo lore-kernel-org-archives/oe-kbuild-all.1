@@ -1,218 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AA412CDA5
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jan 2026 02:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9CE18FC80
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jan 2026 03:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767321907; cv=none; b=kaFdgksBGUdJlz4lsDhWKrw2/L/xdNTc9QiJBP07QTNm2rticrZxA2U647zYrynQ4pPCh+q6x4Q/fB357BwRxui4c7t302Qv+hIfaypAZCvA7/E4vYUbkmatjy2VBl/qL2zqbPa2GfrYwsJppD4dc0IdhXmS7dNbiXfT1rxgBJc=
+	t=1767324549; cv=none; b=HTw7VP9mRgQPUg631KbG0WdaQ/WQ0jVakHz1I5dOp5mC88Oh23xdgisyC4rwCXf2C5nvnAm+D6Ji7axDOHCu7rxtv4QRYVEWaka6J72kf2152KAqLTod1am3jOBGS5541YH9E/n5hSsqsYe1xSdYhW8kvPpMbYGuCyL5utAXLmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767321907; c=relaxed/simple;
-	bh=0H2gR+2eaNYvuDrM/bey36vPW1/6b3BbYJTvJawBwqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M5zI6ChWiP59ojgAcwwsACBtiS9pij6DiWFr7tBsKDZaXmmtfXIOvWGMCgqsElfc6ie/lExy7SzFz8uagpAwb5No1ERCOexhlkLbSL9fbSeOwZ/k+h7fYtCzacYXPeePj3ivLSCgdVXwerQt/5Ve96vqBMXbqJmxoiTw8pXyH88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L++q2Nx+; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1767324549; c=relaxed/simple;
+	bh=zvEQjGCjZOFj1AbdgepZ7d8mNEWFIQenhSQ1z5s992E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Zkt8ast8V14HbSvCMXy7Vez7nmLyqPS90i+ez8zgnRpnwtvVaX5W15Mzq/eFonegUwnV254xRQfRBYR/w0j/4hF3xqHCSz77gZQ3DHehoH+qs7RRqzkCTftpIvVJ5uwavVWejzYnmbdqvZR88WhXmLw9YrFll0r8H3rLyyf9S30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=idg6W4Ek; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L++q2Nx+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="idg6W4Ek"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767321905; x=1798857905;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0H2gR+2eaNYvuDrM/bey36vPW1/6b3BbYJTvJawBwqw=;
-  b=L++q2Nx+41nqjFQ1N4z9qedXaCSLbRV8eWk5SDKyOtg9j5+uNwNaS1Y4
-   sgf7fGkQ1SkRlncDist81Tz/3IzulxGJU3Gq+mDHTbFo7Qk7dCKkLFxXs
-   FoylX89A4lkJF3SIRfOR4mZKi8jxysyQiu7u2DKs49zM9rBLsj7GJ7yMV
-   OKSXqji6EFn+bGIfGL5ndJoaajqihLxB//NO2yGHe/8ZDb8qDBSzWaUbB
-   vVu1qVGKEtjp0OWPSM1ROv0tBuDXX2BBUPq6OS7CJKKnKbnpTVuyi+2Ge
-   yXF/SX+adl+o/3vdfnscH8Sr6+6eg0f9WTe41MOSMqD+kLEW272B5+dGT
+  t=1767324548; x=1798860548;
+  h=date:from:to:cc:subject:message-id;
+  bh=zvEQjGCjZOFj1AbdgepZ7d8mNEWFIQenhSQ1z5s992E=;
+  b=idg6W4EkM829ZJ0syxxcEvlTHHJGq4hKzGCYxLcvH8mROcSvN6dMFg+/
+   qxH3bGZ2+7ayFHQBwPMOfK28LNrAVikUS3Z5kIH5PGhN7LHTRpny+zyiw
+   SU1uuPH2WTGPE9nxvLYzdz95+OBkr7QQCvn5AH44N/z8X1HUvgAmA6t3p
+   9QxJQjefV1Rf1acl/3Zz7KbRYX8QE6QkjLyCcale78kxwsjwOY4NQ28AP
+   /sPjUeoS53S/+4FbsdOjPzImpoDsNUBsn/jqds4ykYlU+YSDpUD67sL59
+   vRYZLOoifNajvqXnv6sEmB7FwbXswpwQkEo+rJ50YKUDEnCaLyklBcD/N
    g==;
-X-CSE-ConnectionGUID: fpRV9CoCQ9m3K37hJnPcoQ==
-X-CSE-MsgGUID: WmY5KAioREivJCs111ZNqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="80202400"
+X-CSE-ConnectionGUID: Up0EmSEzR/iIOYH9OQ4uYg==
+X-CSE-MsgGUID: 0E5ghAdpR6y1kOpxgWv3cA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11658"; a="91487293"
 X-IronPort-AV: E=Sophos;i="6.21,196,1763452800"; 
-   d="scan'208";a="80202400"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 18:45:05 -0800
-X-CSE-ConnectionGUID: 7kUooGD7QfKYMmmlPkn6bA==
-X-CSE-MsgGUID: ZqEZDqY/TNqHYJtAEG+nxg==
+   d="scan'208";a="91487293"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2026 19:29:05 -0800
+X-CSE-ConnectionGUID: DVDIFfrbS+mxkd8im/8KFw==
+X-CSE-MsgGUID: v9af+T/mRzq3QTbKBfvKFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,196,1763452800"; 
-   d="scan'208";a="202196077"
+   d="scan'208";a="206265143"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Jan 2026 18:45:03 -0800
+  by orviesa004.jf.intel.com with ESMTP; 01 Jan 2026 19:29:03 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbV9w-000000000Mj-3m0r;
-	Fri, 02 Jan 2026 02:45:00 +0000
-Date: Fri, 2 Jan 2026 03:44:40 +0100
+	id 1vbVqX-000000000Mv-0DmO;
+	Fri, 02 Jan 2026 03:29:01 +0000
+Date: Fri, 02 Jan 2026 04:28:42 +0100
 From: kernel test robot <lkp@intel.com>
-To: Navid-Derakhshandeh <navid.derakhshandeh1@gmail.com>,
-	mporter@kernel.crashing.org
-Cc: oe-kbuild-all@lists.linux.dev, alex.bou9@gmail.com,
-	linux-kernel@vger.kernel.org,
-	Navid-Derakhshandeh <navid.derakhshandeh1@gmail.com>
-Subject: Re: [PATCH] mailbox: rio : implement discovery for all
-Message-ID: <202601020343.JqiZTBBL-lkp@intel.com>
-References: <20251229190724.20608-1-navid.derakhshandeh1@gmail.com>
+To: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bjorn Andersson <andersson@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Abel Vesa <abel.vesa@oss.qualcomm.com>
+Subject: [linux-next:master 2424/2671]
+ arch/arm64/boot/dts/qcom/kaanapali-mtp.dtb: mailbox@1106000
+ (qcom,kaanapali-ipcc): compatible:0: 'qcom,kaanapali-ipcc' is not one of
+ ['qcom,milos-ipcc', 'qcom,qcs8300-ipcc', 'qcom,qdu1000-ipcc',
+ 'qcom,sa8255p-ipcc', 'qcom,sa8775p-ipcc', 'qcom,sar2130p-ipc...
+Message-ID: <202601020407.y7ML3zr1-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251229190724.20608-1-navid.derakhshandeh1@gmail.com>
 
-Hi Navid-Derakhshandeh,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.16-rc1 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Navid-Derakhshandeh/mailbox-rio-implement-discovery-for-all/20251230-031149
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20251229190724.20608-1-navid.derakhshandeh1%40gmail.com
-patch subject: [PATCH] mailbox: rio : implement discovery for all
-config: i386-randconfig-2006-20250825 (https://download.01.org/0day-ci/archive/20260102/202601020343.JqiZTBBL-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260102/202601020343.JqiZTBBL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
+commit: 1cc3a0a0210697a25e96783cf21f93d28a09ebf7 [2424/2671] arm64: dts: qcom: kaanapali: Add base MTP board
+config: arm64-randconfig-2051-20260101 (https://download.01.org/0day-ci/archive/20260102/202601020407.y7ML3zr1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260102/202601020407.y7ML3zr1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601020343.JqiZTBBL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601020407.y7ML3zr1-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
-   drivers/rapidio/rio.c:1074:6: warning: no previous prototype for 'rio_restart_discovery_all' [-Wmissing-prototypes]
-    1074 | void rio_restart_discovery_all(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/rapidio/rio.c: In function 'rio_restart_discovery_all':
->> drivers/rapidio/rio.c:1081:25: error: implicit declaration of function 'rio_scan_mport'; did you mean 'rio_init_mports'? [-Wimplicit-function-declaration]
-    1081 |                         rio_scan_mport(net->hport);
-         |                         ^~~~~~~~~~~~~~
-         |                         rio_init_mports
-   drivers/rapidio/rio.c: At top level:
->> drivers/rapidio/rio.c:1113:13: warning: 'rio_restart_discovery' defined but not used [-Wunused-function]
-    1113 | static void rio_restart_discovery(struct rio_net *net)
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   drivers/rapidio/rio.c:1095:13: warning: 'rio_maybe_restart_discovery' defined but not used [-Wunused-function]
-    1095 | static void rio_maybe_restart_discovery(struct rio_dev *rdev)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +1081 drivers/rapidio/rio.c
-
-  1021	
-  1022	/**
-  1023	 * rio_get_input_status - Sends a Link-Request/Input-Status control symbol and
-  1024	 *                        returns link-response (if requested).
-  1025	 * @rdev: RIO devive to issue Input-status command
-  1026	 * @pnum: Device port number to issue the command
-  1027	 * @lnkresp: Response from a link partner
-  1028	 */
-  1029	static int
-  1030	rio_get_input_status(struct rio_dev *rdev, int pnum, u32 *lnkresp)
-  1031	{
-  1032		u32 regval;
-  1033		int checkcount;
-  1034	
-  1035		if (lnkresp) {
-  1036			/* Read from link maintenance response register
-  1037			 * to clear valid bit */
-  1038			rio_read_config_32(rdev,
-  1039				RIO_DEV_PORT_N_MNT_RSP_CSR(rdev, pnum),
-  1040				&regval);
-  1041			udelay(50);
-  1042		}
-  1043	
-  1044		/* Issue Input-status command */
-  1045		rio_write_config_32(rdev,
-  1046			RIO_DEV_PORT_N_MNT_REQ_CSR(rdev, pnum),
-  1047			RIO_MNT_REQ_CMD_IS);
-  1048	
-  1049		/* Exit if the response is not expected */
-  1050		if (!lnkresp)
-  1051			return 0;
-  1052	
-  1053		checkcount = 3;
-  1054		while (checkcount--) {
-  1055			udelay(50);
-  1056			rio_read_config_32(rdev,
-  1057				RIO_DEV_PORT_N_MNT_RSP_CSR(rdev, pnum),
-  1058				&regval);
-  1059			if (regval & RIO_PORT_N_MNT_RSP_RVAL) {
-  1060				*lnkresp = regval;
-  1061				return 0;
-  1062			}
-  1063		}
-  1064	
-  1065		return -EIO;
-  1066	}
-  1067	/**
-  1068	 * rio_restart_discovery_all - Restart discovery on all RapidIO networks
-  1069	 *
-  1070	 * Iterates through all registered RapidIO networks and restarts topology
-  1071	 * discovery process from each network's host port. Intended to be used
-  1072	 * after a system-wide error or configuration change.
-  1073	 */
-  1074	void rio_restart_discovery_all(void)
-  1075	{
-  1076		struct rio_net *net;
-  1077	
-  1078		spin_lock(&rio_global_list_lock);
-  1079		list_for_each_entry(net, &rio_nets, node) {
-  1080			if (net->hport)
-> 1081				rio_scan_mport(net->hport);
-  1082		}
-  1083		spin_unlock(&rio_global_list_lock);
-  1084	}
-  1085	EXPORT_SYMBOL_GPL(rio_restart_discovery_all);
-  1086	/**
-  1087	 * rio_maybe_restart_discovery - Restart discovery if device requires rediscovery
-  1088	 * @rdev: Pointer to RIO device control structure
-  1089	 *
-  1090	 * If the given device is associated with a RapidIO network,
-  1091	 * attempts to restart topology discovery from the network's host port.
-  1092	 * Intended to be called if an error condition is detected that may
-  1093	 * require rediscovery to restore normal operation.
-  1094	 */
-  1095	static void rio_maybe_restart_discovery(struct rio_dev *rdev)
-  1096	{
-  1097		struct rio_net *net;
-  1098	
-  1099		if (!rdev || !rdev->net)
-  1100			return;
-  1101	
-  1102		net = rdev->net;
-  1103	
-  1104		/* Only restart if there is a valid host port */
-  1105		if (net->hport) {
-  1106			msleep(100); /* Brief delay for safety */
-  1107			pr_info("RIO: Discovery restart triggered for device %s (net '%s')\n",
-  1108				dev_name(&rdev->dev), dev_name(&net->dev));
-  1109			rio_scan_mport(net->hport);
-  1110		}
-  1111	}
-  1112	
-> 1113	static void rio_restart_discovery(struct rio_net *net)
-  1114	{
-  1115		if (net && net->hport) {
-  1116			/* Delay briefly to avoid hammering after repeated errors */
-  1117			msleep(100);
-  1118			pr_info("RIO: Restarting discovery process on network '%s'\n", dev_name(&net->dev));
-  1119			rio_scan_mport(net->hport);
-  1120		}
-  1121	}
-  1122	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/kaanapali-mtp.dtb: mailbox@1106000 (qcom,kaanapali-ipcc): compatible:0: 'qcom,kaanapali-ipcc' is not one of ['qcom,milos-ipcc', 'qcom,qcs8300-ipcc', 'qcom,qdu1000-ipcc', 'qcom,sa8255p-ipcc', 'qcom,sa8775p-ipcc', 'qcom,sar2130p-ipcc', 'qcom,sc7280-ipcc', 'qcom,sc8280xp-ipcc', 'qcom,sdx75-ipcc', 'qcom,sm6350-ipcc', 'qcom,sm6375-ipcc', 'qcom,sm8250-ipcc', 'qcom,sm8350-ipcc', 'qcom,sm8450-ipcc', 'qcom,sm8550-ipcc', 'qcom,sm8650-ipcc', 'qcom,sm8750-ipcc', 'qcom,x1e80100-ipcc']
+   	from schema $id: http://devicetree.org/schemas/mailbox/qcom-ipcc.yaml
+>> arch/arm64/boot/dts/qcom/kaanapali-mtp.dtb: /soc@0/mailbox@1106000: failed to match any schema with compatible: ['qcom,kaanapali-ipcc', 'qcom,ipcc']
+>> arch/arm64/boot/dts/qcom/kaanapali-mtp.dtb: /soc@0/phy@1c06000: failed to match any schema with compatible: ['qcom,kaanapali-qmp-gen3x2-pcie-phy']
+>> arch/arm64/boot/dts/qcom/kaanapali-mtp.dtb: interrupt-controller@b220000 (qcom,kaanapali-pdc): compatible:0: 'qcom,kaanapali-pdc' is not one of ['qcom,glymur-pdc', 'qcom,qcs615-pdc', 'qcom,qcs8300-pdc', 'qcom,qdu1000-pdc', 'qcom,sa8255p-pdc', 'qcom,sa8775p-pdc', 'qcom,sar2130p-pdc', 'qcom,sc7180-pdc', 'qcom,sc7280-pdc', 'qcom,sc8180x-pdc', 'qcom,sc8280xp-pdc', 'qcom,sdm670-pdc', 'qcom,sdm845-pdc', 'qcom,sdx55-pdc', 'qcom,sdx65-pdc', 'qcom,sdx75-pdc', 'qcom,sm4450-pdc', 'qcom,sm6350-pdc', 'qcom,sm8150-pdc', 'qcom,sm8250-pdc', 'qcom,sm8350-pdc', 'qcom,sm8450-pdc', 'qcom,sm8550-pdc', 'qcom,sm8650-pdc', 'qcom,sm8750-pdc', 'qcom,x1e80100-pdc']
+   	from schema $id: http://devicetree.org/schemas/interrupt-controller/qcom,pdc.yaml
+>> arch/arm64/boot/dts/qcom/kaanapali-mtp.dtb: /soc@0/interrupt-controller@b220000: failed to match any schema with compatible: ['qcom,kaanapali-pdc', 'qcom,pdc']
+>> arch/arm64/boot/dts/qcom/kaanapali-mtp.dtb: sram@14680000 (qcom,kaanapali-imem): pil-sram@94c:compatible: ['qcom,pil-reloc-info'] does not contain items matching the given schema
+   	from schema $id: http://devicetree.org/schemas/sram/sram.yaml
+>> arch/arm64/boot/dts/qcom/kaanapali-mtp.dtb: /soc@0/sram@14680000: failed to match any schema with compatible: ['qcom,kaanapali-imem', 'mmio-sram']
+>> arch/arm64/boot/dts/qcom/kaanapali-mtp.dtb: mailbox@17610000 (qcom,kaanapali-cpucp-mbox): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['qcom,kaanapali-cpucp-mbox', 'qcom,x1e80100-cpucp-mbox'] is too long
+   	'qcom,kaanapali-cpucp-mbox' is not one of ['qcom,glymur-cpucp-mbox']
+   	'qcom,kaanapali-cpucp-mbox' is not one of ['qcom,x1e80100-cpucp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/qcom,cpucp-mbox.yaml
+>> arch/arm64/boot/dts/qcom/kaanapali-mtp.dtb: /soc@0/mailbox@17610000: failed to match any schema with compatible: ['qcom,kaanapali-cpucp-mbox', 'qcom,x1e80100-cpucp-mbox']
 
 -- 
 0-DAY CI Kernel Test Service
