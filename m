@@ -1,116 +1,86 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D5B02D879C;
-	Fri,  2 Jan 2026 12:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E542DE6F9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jan 2026 13:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767358721; cv=none; b=dxAJWOqOWCWGuZBEpd73Vq54tJFLTYrHHE4Tnoite3Zu2r0xKj/l8y5H6gf505sVr2wxXuMpIUjA1BGdCLzBQJVn1jzyqfVwDYvRc7ZGDgpkSeHJREQSRm9cjOZ1Rz0vJwVBTCMKvjZwoMC4PaHWNvmaCw3DOtmPngX2rBLHX1A=
+	t=1767358989; cv=none; b=WJz3FDcXBrF/huJsnkPtd8qDAib0Ser0m3yvMyKjvT/fwwFTzPZjy2IOi65FEOp92uOsiPzLHierlnQqa/JrKOHA7qTasaDK+Ya0YuHiZUEh7VL8iiHypZ8x8UZZfQu+qk1ktV4iJ58d13kKXvGt0RBwwCbEu6Nn17xR8bZrsaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767358721; c=relaxed/simple;
-	bh=ditwgOA9BujE7Ln+5ZTlpsZZZAx+WuGc26hWEh8Pa7Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CcjCvdaDfiN/EjxX+HR0iuOrdIfKBcwMt7NDpEZ/TF6jMG1OvSNtlQ5SZWLw0EteFkFVap7wFyZ25HizmjoDkgjmNMmJJlHwybtAjE/s1XsW0pGShUuBuJsnTUugL5iBh7TylcfuXa8DTKJrAqONXCgq83Tu2EB4DuXCJ4JSUkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81774497;
-	Fri,  2 Jan 2026 04:58:31 -0800 (PST)
-Received: from [10.57.94.221] (unknown [10.57.94.221])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9905D3F5A1;
-	Fri,  2 Jan 2026 04:58:33 -0800 (PST)
-Message-ID: <581a0fac-7891-4644-af65-0354e22b9311@arm.com>
-Date: Fri, 2 Jan 2026 12:58:32 +0000
+	s=arc-20240116; t=1767358989; c=relaxed/simple;
+	bh=8Z6KWgka50MhdtAYd1chREQcMQ9M944BBr4jXd4GXd0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=S8zFpxLjANFJnCVRNeMPoFzCyZJ+NtrFQSBp32vlpVhXo1/cI2ne/coHDsy01BsM/6zMYn7YD1BsK23VqwGrivcen7Axxc7PKYQiCMX1isvfatEph27oRo+z+89Y5Q3thvRIcpiu3UdwXicPcDK6NAmLEeeMYWV8Fo0MOF8jT0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XgXgtE38; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XgXgtE38"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767358986; x=1798894986;
+  h=date:from:to:cc:subject:message-id;
+  bh=8Z6KWgka50MhdtAYd1chREQcMQ9M944BBr4jXd4GXd0=;
+  b=XgXgtE38AyrjLAtpnv6tr7rdw0eAXNnlEQReLdSriVurNMTosmBT5Q3c
+   LjuGE6szCZJ1yZjCXhBqrRMQ2zTrk/xZ934D6/u52VVVs0WWJWvDM2uAQ
+   6wnK1X/PEtDv7AXNJw6lJP/S1d8OFCvDStmiDyyzFCd1CDUcqGkLzRxP3
+   QC9nbBuJVdhS7axbwyM8MPXZyX8XgyDEKJCYyXddvy8O3VuEdOef355CT
+   DaYFv7N4GAF/5TdMV8xfTohzHnoabv6fEfFeY6y8Q04/xsouyHP5GHHbL
+   x/g6uxZ6uSp58zr2Of0nCNAR/IwiqZ5RDztRzoz05Ma8V8AAl5DreUP6d
+   A==;
+X-CSE-ConnectionGUID: 9s/MxEG8TJK761ptxc/HOQ==
+X-CSE-MsgGUID: Y+E/dQGdTN+XxJEmjq+nQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="67863407"
+X-IronPort-AV: E=Sophos;i="6.21,197,1763452800"; 
+   d="scan'208";a="67863407"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 05:03:05 -0800
+X-CSE-ConnectionGUID: fI9e+F2XSPucupFCj9DETg==
+X-CSE-MsgGUID: ZZID2kQ/QDObJNzcg6956Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,197,1763452800"; 
+   d="scan'208";a="205960556"
+Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 02 Jan 2026 05:03:03 -0800
+Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vbeo0-000000002GR-2VLe;
+	Fri, 02 Jan 2026 13:03:00 +0000
+Date: Fri, 02 Jan 2026 21:02:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alex Elder <elder@riscstar.com>
+Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
+ Kishon <kishon@ti.com>, Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [phy:next 13/98] phy-spacemit-k1-pcie.c:undefined reference
+ to `devm_clk_hw_register'
+Message-ID: <202601022046.OKfcBo0x-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] randomize_kstack: Unify random source across
- arches
-Content-Language: en-GB
-To: kernel test robot <lkp@intel.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Mark Rutland <mark.rutland@arm.com>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>, Ard Biesheuvel <ardb@kernel.org>,
- Jeremy Linton <jeremy.linton@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20251215163520.1144179-4-ryan.roberts@arm.com>
- <202512170038.vJZdUhEN-lkp@intel.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <202512170038.vJZdUhEN-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 16/12/2025 16:31, kernel test robot wrote:
-> Hi Ryan,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on tip/sched/core]
-> [also build test ERROR on akpm-mm/mm-everything linus/master v6.19-rc1 next-20251216]
-> [cannot apply to kees/for-next/hardening kees/for-next/execve]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Roberts/prandom-Convert-prandom_u32_state-to-__always_inline/20251216-013546
-> base:   tip/sched/core
-> patch link:    https://lore.kernel.org/r/20251215163520.1144179-4-ryan.roberts%40arm.com
-> patch subject: [PATCH v2 3/3] randomize_kstack: Unify random source across arches
-> config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20251217/202512170038.vJZdUhEN-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251217/202512170038.vJZdUhEN-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202512170038.vJZdUhEN-lkp@intel.com/
-> 
-> All error/warnings (new ones prefixed by >>):
-> 
->>> arch/x86/boot/startup/sev-startup.o: warning: objtool: section .discard.addressable has absolute relocation at offset 0x0
-> --
->    In file included from include/linux/device/driver.h:21,
->                     from include/linux/device.h:32,
->                     from include/linux/blk_types.h:11,
->                     from include/linux/writeback.h:13,
->                     from include/linux/memcontrol.h:23,
->                     from include/linux/resume_user_mode.h:8,
->                     from include/linux/entry-virt.h:6,
->                     from include/linux/kvm_host.h:5,
->                     from arch/x86/kvm/svm/svm.c:3:
->>> include/linux/module.h:132:49: error: redefinition of '__inittest'
->      132 |         static inline initcall_t __maybe_unused __inittest(void)                \
->          |                                                 ^~~~~~~~~~
->    arch/x86/kvm/svm/svm.c:5509:1: note: in expansion of macro 'module_init'
->     5509 | module_init(svm_init)
->          | ^~~~~~~~~~~
->    include/linux/module.h:132:49: note: previous definition of '__inittest' with type 'int (*(void))(void)'
->      132 |         static inline initcall_t __maybe_unused __inittest(void)                \
->          |                                                 ^~~~~~~~~~
->    include/linux/module.h:125:41: note: in expansion of macro 'module_init'
->      125 | #define late_initcall(fn)               module_init(fn)
->          |                                         ^~~~~~~~~~~
->    include/linux/randomize_kstack.h:86:1: note: in expansion of macro 'late_initcall'
->       86 | late_initcall(random_kstack_init);
->          | ^~~~~~~~~~~~~
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git next
+head:   add66a6673bc4aacd0ef0f3c4a51271501770b17
+commit: 57e920b92724dd568526990c04e79ed54241c5fc [13/98] phy: spacemit: Introduce PCIe/combo PHY
+config: s390-randconfig-r112-20260102 (https://download.01.org/0day-ci/archive/20260102/202601022046.OKfcBo0x-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260102/202601022046.OKfcBo0x-lkp@intel.com/reproduce)
 
-Oops, this is due to having put late_initcall() in the header file. I'll move
-this to a c file for the next version.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601022046.OKfcBo0x-lkp@intel.com/
 
-Thanks for the report!
+Note: the phy/next HEAD add66a6673bc4aacd0ef0f3c4a51271501770b17 builds fine.
+      It only hurts bisectability.
 
+All errors (new ones prefixed by >>):
+
+   s390-linux-ld: drivers/phy/phy-spacemit-k1-pcie.o: in function `k1_pcie_phy_probe':
+>> phy-spacemit-k1-pcie.c:(.text+0x19ec): undefined reference to `devm_clk_hw_register'
+>> s390-linux-ld: phy-spacemit-k1-pcie.c:(.text+0x1a7a): undefined reference to `devm_clk_hw_get_clk'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
