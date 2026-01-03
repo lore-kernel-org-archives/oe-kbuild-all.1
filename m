@@ -1,224 +1,106 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A39233723
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jan 2026 16:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF914A35
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jan 2026 17:16:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767458345; cv=none; b=oH8Z3ZFPRAIKpEvEW78u4qHti9P94GXXf6yZCUK6KfPpV+EFN2hAe+aYr45dnzB/c2HN1FlkoWxrlYfdEkilB225cGoN18CFIOO3ooUHu+BzKUZV9yxNswk6Xis9WrjEfXZFZSDIDE3IL2Ubt+Mb/drEIZuzfK+q4H+TiSB9pzo=
+	t=1767460586; cv=none; b=FjgKOYtqsxkENqh8a6Us2wQyns6E6vLjJbYVzduc6lsHUneTC8nIuqYY1V6TAE/qxibQZG8f5p0meDcBkL0dumJFwf8aOqFHIbG9/pSa670lPjQstOU6LuKX2OqxAMokDWYkU+SmX2XNV8bK8+6i2/FYFAZF50PK7V0olKpCnBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767458345; c=relaxed/simple;
-	bh=QT63Ti3q/SCnbDRo6KFkzp3ZWmdRyhhSiDnAwSSK2H0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bw6hX8tIXo0gyqKeTSGpqQhZ83+ZqvBb3qSqwGEUTsQj/860akAQsNNEET1SLPP0oMpsTwtzSlLB9tMMmc6gofczgaRDAKBvir7LS1nXebqaiaGBAurKqUaWLXJXJC82uC2mPtdRXAKsQR/mHrXIkHUIAk44irK14hcMd5K9GZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxTuWtf9; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767460586; c=relaxed/simple;
+	bh=v4AIt0RW1yD0AGROp5Aot2uZS8MFo6SMgqQdNpxUyjA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RsPAmzCG5hU6TFwVjrQ59HM2yL/dNqvFB7Xgr1IApMO5ngNK5KQdyX02BhDU3W7ueUA6C8wSH3WvO0xTfhNolmY5oTfq+GBQ00oHvAJNm1HR4QGr0k+rETCuqFeROQmh5UWSg6Aay3hJXijpg6037pqIOVit+IT7Xj2T4gQ4iwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZLBb9KU9; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxTuWtf9"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-64b7318f1b0so15241401a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 03 Jan 2026 08:39:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767458341; x=1768063141; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NQ0VJpwmuH/ycL+AbQbUQmziZafv9tzUCJiuILeRekU=;
-        b=fxTuWtf9aDXXchMy/tPpJQ4wP5pGY4UG21Q2L3IaJUPiKTbm89aAkabY8BSWImUk9Z
-         Y6+M2RlzHDEa7FxeZJq0zejZpwPgfjTXd+/5YwJzkfHTQ5S1QObzFfRyCTJGDzqcGpEf
-         n3dR7JrdeXTMIKtx2gBUXlv9bEVmCdLjZXP4u/I2MhkVlFvbX+VED101IPreibflBrzS
-         D08Mu+QWRWyRruhLwAac+FAc59mdWNesP2QtwqpQRKyxT+HQAPHzqLHevBzMD7JGQhY5
-         NuOkTjl6wNRTXR336pjT/Zpd2Iu0ZpInu3esf9T2MKBEcLfYI4FKSe4W5KHeawxul2TK
-         kL3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767458341; x=1768063141;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NQ0VJpwmuH/ycL+AbQbUQmziZafv9tzUCJiuILeRekU=;
-        b=J7WgFO0HBU3cG36WB1aa2iGQyHAN9IPtOoxFiO58a7xEQIjFRRFpCpFrkP2g1C5tq1
-         2uZPaU8iiwP4X1tgqXVAHfLloxU83MBT8Xy1x1tBHNSS6f1UmK+p/+/pm59qSiLnAVi3
-         zWNaH8KtRkB0JWUUO9/lXyY7YGKnwz8rLzHcffVYcLiJSDy/jl708RJHCy2pkb3IfdmE
-         h9wR7Og/eUurjt3cFL9WC8U7/jU5C49scRjH1EXOnj9CAIWwoxScG0wlxu8lQFnJw6qv
-         r7bGyR8QManQ7Tii0Rc9IHAqEFtHmaylUygFyliYLkV8d5lqFWAaE73MaO4DszGWUH8f
-         VBZg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpK1tj40kFbYmAk6/OHRRGtDSUrJz5IgfNvXBGR72P/aPyMdeyYItRb+rg+RfKgpLSSXzhNIe9nlJZ8IQ6@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzbkEybeL4feMt3uuhVj3MeaTGEkroOoCsnQZf9K6eYvOk2jzD
-	Wry2DuDZ8QNYySGFQ+2qEilyR/pQU3XY7iuqJPiPo5g5bFf0CdYxj+Z88eOUEr4J6hbXY7cX5o3
-	qYinuMUEm46v7oDgBAmOBIz0rHy7wHg==
-X-Gm-Gg: AY/fxX7/phQpDv41MfxBe4dPS7Rw+QSU6Wboa4VLOMb+SnfOgS0NZXF4qJxQ78CGNcR
-	2QFPr00MJVFuxgfJeHbkDUWHQrxk6fp2l1Vgv5vwkPNeH7zFISshYR38AZrrHFrxD4pRl5K9Bdi
-	WQaNHvsDaEmp1jGryTP1Uwn+BpJjHqsyt3RpGkRpDFxCszNg6tpSSlio9RNdMU9Hlr3oQrHgFae
-	goDdIIXQnw7Uu3epjrKeYP2s4TRm4YTL5KQQN3TzR9y7/ZUHn3BTDnvGHNhwebQuXthmi7qE7bo
-	Xuw1BOQ9UjeGjbcs6ffkauY3QQ==
-X-Google-Smtp-Source: AGHT+IFS5LZXNRKTp2yei0I3CKw/OM2zbhooTT4Se5HOpY+maSm+sUqxgjfqLvI4VUITMZajsC7w+TXAWWiHLRZEr58=
-X-Received: by 2002:a05:6402:2343:b0:641:3492:723d with SMTP id
- 4fb4d7f45d1cf-64b8eb73c83mr44417040a12.11.1767458340417; Sat, 03 Jan 2026
- 08:39:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZLBb9KU9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767460584; x=1798996584;
+  h=date:from:to:cc:subject:message-id;
+  bh=v4AIt0RW1yD0AGROp5Aot2uZS8MFo6SMgqQdNpxUyjA=;
+  b=ZLBb9KU9/JMjID35ALW2S5o/RnzxwmWz4of0uvXNmLMV46F66Uu16lot
+   T6AzQDXuwioExZUMi2cEdyakIQolmXZkTK+wReAZLEPfuwT8Xa7iVv64W
+   7MEG6N+sb1uUzaoi+ueWFdGNPBR3B+hVHc+tnKNVnM8Yaz4o9N1YFUwT6
+   A9AhYURCfZyQYiCZuqq4crU5ZyYfv3HCb6bamZ0+hsaI76d0r/ubcqSgx
+   StCN6sqTRxZaOFwSg6kDlqXPpbOzEpwvKmS1X8yIPuqzysmNvLbz1rxSN
+   LVbZ7jxYbR875rQ7GPRhSGOyy1U4PttJBKr8RBkj5sO6p3eiae2U+P7ti
+   A==;
+X-CSE-ConnectionGUID: zF1ULBisT9Kkqgr35Np1Pg==
+X-CSE-MsgGUID: B4iJ0iisSraIHq+hSESK9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="67915823"
+X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
+   d="scan'208";a="67915823"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2026 09:16:24 -0800
+X-CSE-ConnectionGUID: BmiBEChCSouW3gJwl4zHhg==
+X-CSE-MsgGUID: vbXNGlZsRZCtdt2kWXg0Cg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
+   d="scan'208";a="207073995"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 03 Jan 2026 09:16:23 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vc5Ei-000000000AH-2Q8t;
+	Sat, 03 Jan 2026 17:16:20 +0000
+Date: Sun, 04 Jan 2026 01:15:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 1/1]
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_dpe.c:749:36: sparse: sparse:
+ symbol 'dpe_crtc_helper_funcs' was not declared. Should it be static?
+Message-ID: <202601040115.RGbN8ExM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260102232934.1560-7-rick.macklem@gmail.com> <202601031746.QiLqxADW-lkp@intel.com>
-In-Reply-To: <202601031746.QiLqxADW-lkp@intel.com>
-From: Rick Macklem <rick.macklem@gmail.com>
-Date: Sat, 3 Jan 2026 08:38:48 -0800
-X-Gm-Features: AQt7F2rhrjREhLM-aP70saLtnAlEEUUOSWJAx5GCKs1X_akmuiHRNtBhGILOGNg
-Message-ID: <CAM5tNy4G+GdOyudAhoo4cw+qVotD3A+sHrm-ksntq6ri3+ba4w@mail.gmail.com>
-Subject: Re: [PATCH v1 6/7] Set SB_POSIXACL if the server supports the extension
-To: kernel test robot <lkp@intel.com>
-Cc: linux-nfs@vger.kernel.org, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, Rick Macklem <rmacklem@uoguelph.ca>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Next dumb question. This error is the same story. It needs 0001
-from the server patch series.
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   a0f93b828ee5433c5b427d8122a6dda0b514d985
+commit: 4dd668f97d174ae807ce0cc6b552f4a32c3f64e2 [1/1] ANDROID: drm: kirin: Add kirin960 dpe driver support
+config: arm64-randconfig-r122-20251224 (https://download.01.org/0day-ci/archive/20260104/202601040115.RGbN8ExM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260104/202601040115.RGbN8ExM-lkp@intel.com/reproduce)
 
-If I repost this series with that patch in it, this report wants a differen=
-t
-tag for Closed by:.
-Do I put multiple "Closed by:" lines on the commit or just the first one?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601040115.RGbN8ExM-lkp@intel.com/
 
-rick
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/hisilicon/kirin/kirin_drm_dpe.c:749:36: sparse: sparse: symbol 'dpe_crtc_helper_funcs' was not declared. Should it be static?
+>> drivers/gpu/drm/hisilicon/kirin/kirin_drm_dpe.c:757:29: sparse: sparse: symbol 'dpe_crtc_funcs' was not declared. Should it be static?
+>> drivers/gpu/drm/hisilicon/kirin/kirin_drm_dpe.c:1051:37: sparse: sparse: symbol 'dpe_plane_helper_funcs' was not declared. Should it be static?
+>> drivers/gpu/drm/hisilicon/kirin/kirin_drm_dpe.c:1056:30: sparse: sparse: symbol 'dpe_plane_funcs' was not declared. Should it be static?
 
-On Sat, Jan 3, 2026 at 8:26=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on trondmy-nfs/linux-next]
-> [also build test ERROR on v6.16-rc1 next-20251219]
-> [cannot apply to linus/master]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/rick-macklem-gmail=
--com/Add-entries-to-the-predefined-client-operations-enum/20260103-073239
-> base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-> patch link:    https://lore.kernel.org/r/20260102232934.1560-7-rick.mackl=
-em%40gmail.com
-> patch subject: [PATCH v1 6/7] Set SB_POSIXACL if the server supports the =
-extension
-> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260103/20=
-2601031746.QiLqxADW-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0=
-227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260103/202601031746.QiLqxADW-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601031746.QiLqxADW-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> fs/nfs/super.c:1356:33: error: use of undeclared identifier 'FATTR4_WO=
-RD2_POSIX_DEFAULT_ACL'
->     1356 |         if ((server->attr_bitmask[2] & FATTR4_WORD2_POSIX_DEFA=
-ULT_ACL) &&
->          |                                        ^
-> >> fs/nfs/super.c:1357:33: error: use of undeclared identifier 'FATTR4_WO=
-RD2_POSIX_ACCESS_ACL'
->     1357 |             (server->attr_bitmask[2] & FATTR4_WORD2_POSIX_ACCE=
-SS_ACL))
->          |                                        ^
->    2 errors generated.
->
->
-> vim +/FATTR4_WORD2_POSIX_DEFAULT_ACL +1356 fs/nfs/super.c
->
->   1299
->   1300  int nfs_get_tree_common(struct fs_context *fc)
->   1301  {
->   1302          struct nfs_fs_context *ctx =3D nfs_fc2context(fc);
->   1303          struct super_block *s;
->   1304          int (*compare_super)(struct super_block *, struct fs_cont=
-ext *) =3D nfs_compare_super;
->   1305          struct nfs_server *server =3D ctx->server;
->   1306          int error;
->   1307
->   1308          ctx->server =3D NULL;
->   1309          if (IS_ERR(server))
->   1310                  return PTR_ERR(server);
->   1311
->   1312          if (server->flags & NFS_MOUNT_UNSHARED)
->   1313                  compare_super =3D NULL;
->   1314
->   1315          /* -o noac implies -o sync */
->   1316          if (server->flags & NFS_MOUNT_NOAC)
->   1317                  fc->sb_flags |=3D SB_SYNCHRONOUS;
->   1318
->   1319          /* Get a superblock - note that we may end up sharing one=
- that already exists */
->   1320          fc->s_fs_info =3D server;
->   1321          s =3D sget_fc(fc, compare_super, nfs_set_super);
->   1322          fc->s_fs_info =3D NULL;
->   1323          if (IS_ERR(s)) {
->   1324                  error =3D PTR_ERR(s);
->   1325                  nfs_errorf(fc, "NFS: Couldn't get superblock");
->   1326                  goto out_err_nosb;
->   1327          }
->   1328
->   1329          if (s->s_fs_info !=3D server) {
->   1330                  nfs_free_server(server);
->   1331                  server =3D NULL;
->   1332          } else {
->   1333                  error =3D super_setup_bdi_name(s, "%u:%u", MAJOR(=
-server->s_dev),
->   1334                                               MINOR(server->s_dev)=
-);
->   1335                  if (error)
->   1336                          goto error_splat_super;
->   1337                  s->s_bdi->io_pages =3D server->rpages;
->   1338                  server->super =3D s;
->   1339          }
->   1340
->   1341          if (!s->s_root) {
->   1342                  /* initial superblock/root creation */
->   1343                  nfs_fill_super(s, ctx);
->   1344                  error =3D nfs_get_cache_cookie(s, ctx);
->   1345                  if (error < 0)
->   1346                          goto error_splat_super;
->   1347          }
->   1348
->   1349          error =3D nfs_get_root(s, fc);
->   1350          if (error < 0) {
->   1351                  nfs_errorf(fc, "NFS: Couldn't get root dentry");
->   1352                  goto error_splat_super;
->   1353          }
->   1354
->   1355          /* Set SB_POSIXACL if the server supports the NFSv4.2 ext=
-ension. */
-> > 1356          if ((server->attr_bitmask[2] & FATTR4_WORD2_POSIX_DEFAULT=
-_ACL) &&
-> > 1357              (server->attr_bitmask[2] & FATTR4_WORD2_POSIX_ACCESS_=
-ACL))
->   1358                  s->s_flags |=3D SB_POSIXACL;
->   1359
->   1360          s->s_flags |=3D SB_ACTIVE;
->   1361          error =3D 0;
->   1362
->   1363  out:
->   1364          return error;
->   1365
->   1366  out_err_nosb:
->   1367          nfs_free_server(server);
->   1368          goto out;
->   1369  error_splat_super:
->   1370          deactivate_locked_super(s);
->   1371          goto out;
->   1372  }
->   1373
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +/dpe_crtc_helper_funcs +749 drivers/gpu/drm/hisilicon/kirin/kirin_drm_dpe.c
+
+   748	
+ > 749	const struct drm_crtc_helper_funcs dpe_crtc_helper_funcs = {
+   750		.atomic_enable = dpe_crtc_atomic_enable,
+   751		.atomic_disable = dpe_crtc_atomic_disable,
+   752		.mode_set_nofb = dpe_crtc_mode_set_nofb,
+   753		.atomic_begin = dpe_crtc_atomic_begin,
+   754		.atomic_flush = dpe_crtc_atomic_flush,
+   755	};
+   756	
+ > 757	const struct drm_crtc_funcs dpe_crtc_funcs = {
+   758		.destroy = drm_crtc_cleanup,
+   759		.set_config = drm_atomic_helper_set_config,
+   760		.page_flip = drm_atomic_helper_page_flip,
+   761		.reset = drm_atomic_helper_crtc_reset,
+   762		.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
+   763		.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
+   764		.enable_vblank = dpe_enable_vblank,
+   765		.disable_vblank = dpe_disable_vblank,
+   766	};
+   767	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
