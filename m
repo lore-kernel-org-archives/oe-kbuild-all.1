@@ -1,64 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B156E1CD1E4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jan 2026 12:54:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779D32D838C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jan 2026 14:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767444862; cv=none; b=SrBjDBLePL6GXOdWSnLbE5MXxBlhezbTYZN0DGz5ukhVz1a3wdKT4xaKtuhpIGplp9RmehD/pww4CqUFY4vkTKdfaynlGnWQOc6DAnj43TpOYTO1rIMltuBuxUmaDxDNzh4MAkUKJ3j2CYFMaIjMtUkhB1gAcHWxHqkkSdcU6tU=
+	t=1767450506; cv=none; b=HfoKnwp0uRnDOI+Ms+XVStv6mfcB1nFiKqXyjaH6yQmNauneRksuPN/Jm+2SdAqPRxCMQlZgU99Jcfyst/BiUQWOsO83Z2IhijF4TqDg5wN3+gg7nqUois69mTs4OWtShR8Np+Rxs/W0/3jBgPNhB/TygUEoJy855e9ey/QZCPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767444862; c=relaxed/simple;
-	bh=oK30coeQKfL/fVgDXIniWhU24jzI0TWms9wqUpCrdLM=;
+	s=arc-20240116; t=1767450506; c=relaxed/simple;
+	bh=VEXaGo2DCaFhuwJSYRD7mwidNsifYMsc2iWnuMabtz8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dYbYNDlviYhOarsGLLda7ege03NGwHq6rvnlGoM66uI3Z+Uns7dSfxDOmsQ6eBDUzP3KmRSHX1lZYokvGX8clKt7XJBD0/I0B6aIwNbN9IpaNkC0BH6CAh6CeBSuyVz0YspapoMcpVwqlxMfDWtZFcUa+CyKBP5rIooeeTEl7ko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D5Vlyitk; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=ck31qOgqRoB4IxMWYtWk/oMHlVLFHRxtDd1zn3YNC7/oLfqqrYevY8MHj1K8Dtsw40rDA27RcF3Jm+UJ/ISZBLYOBVPSJwejiP28bPcJoA+6wrCH1RcYeBb1mBsA9lIQRv1y1Nj6u0kkJZ3Jk9RCU53gCV/d5W69QMnNV3MX0ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UlWQ5cHS; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D5Vlyitk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UlWQ5cHS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767444861; x=1798980861;
+  t=1767450505; x=1798986505;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oK30coeQKfL/fVgDXIniWhU24jzI0TWms9wqUpCrdLM=;
-  b=D5Vlyitko9D2pLek0Fgzwbqdc7TBGUB3j0DIJowW1NiBjtmxyfnxtpsk
-   2vAl4BSD1bKVGpHJf+GAPuIme2jr8SYmcHG80kKDlaVUlHwnqe83DABue
-   n4xMIIZg6ApaYN6CNfn30mZ/inH/GOq3sUTMWYmdkWDXm+wz1UXGuUGox
-   2EBuiSNdWBeHbVyXTP9va84pYuUObsYvxnfklkSXWsJLI5Mgg8TicRyeH
-   nck81FOID/nu/F69eTLMXEZviq5/mnzUQ7JIl35x6LMO6pcErJM9zalaP
-   8BIjwpTNsknZ5mg26z+Nt1h+j0VNUWMM9agc43hqR9iMuFI7UOEJD8g4y
-   w==;
-X-CSE-ConnectionGUID: cdZF8Y3JTgGEltjIOk+GgQ==
-X-CSE-MsgGUID: eCzQhCUbQg6KLyjh5cdXTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="91550615"
+  bh=VEXaGo2DCaFhuwJSYRD7mwidNsifYMsc2iWnuMabtz8=;
+  b=UlWQ5cHS7s3LDYTs1yPqSpcZLZvvh6tlYIw5YRxQlkuHJMb9NMQ7tHEw
+   pNGRjHZFh8mU8gEFIcP1lWvN+gATswUHpneZ0bBHNIUR8f0pDKOlE/lus
+   etbH/zSvMH7BQMW6klZQ0z4H8xs+SKvPgs3haPuxLwhqUX68mQHwg+9T7
+   Cob0zNj/w/wTyj0HY/hhjYv36eKlaL36XgvFhwN2F01kdHDXE88Yc9n83
+   /fOGaDGunhrHQQA3R7HCF+QBH+VxAMzP8i9JuLR6rCM+VLdENnCphN+Eu
+   UBITtIAZokfjCtttbk4/7yKsJSk5AoHhODIjSisNXbUwhbY/Z+kjuQvuL
+   A==;
+X-CSE-ConnectionGUID: IxaobSHoRj6r1pugHZNnVA==
+X-CSE-MsgGUID: ozsdv/sgSeSWpVenvkVS2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="68809061"
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="91550615"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2026 04:54:20 -0800
-X-CSE-ConnectionGUID: fzJkLddPSuGrlf+nLBTUCQ==
-X-CSE-MsgGUID: 7GpofOlQQ/qWltUQ7b8BMQ==
+   d="scan'208";a="68809061"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2026 06:28:24 -0800
+X-CSE-ConnectionGUID: PHs/u2mNTECGxKh3vTDqAQ==
+X-CSE-MsgGUID: 3U0rgGSfQVisFca1RHWokA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="202956797"
+   d="scan'208";a="239467274"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Jan 2026 04:54:18 -0800
+  by orviesa001.jf.intel.com with ESMTP; 03 Jan 2026 06:28:19 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vc195-000000000hV-417J;
-	Sat, 03 Jan 2026 12:54:15 +0000
-Date: Sat, 3 Jan 2026 13:53:34 +0100
+	id 1vc2c4-000000000iL-384z;
+	Sat, 03 Jan 2026 14:28:16 +0000
+Date: Sat, 3 Jan 2026 15:28:13 +0100
 From: kernel test robot <lkp@intel.com>
-To: Timur Tabi <ttabi@nvidia.com>, Danilo Krummrich <dakr@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	John Hubbard <jhubbard@nvidia.com>, nouveau@lists.freedesktop.org,
+To: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
 	rust-for-linux@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 11/11] gpu: nova-core: add PIO support for loading
- firmware images
-Message-ID: <202601031330.EOufCyjz-lkp@intel.com>
-References: <20260103045934.64521-12-ttabi@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, lossin@kernel.org, lyude@redhat.com,
+	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
+	gary@garyguo.net, a.hindborg@kernel.org, aliceryhl@google.com,
+	tmgross@umich.edu, dakr@kernel.org, peterz@infradead.org,
+	mingo@redhat.com, will@kernel.org, longman@redhat.com,
+	felipe_life@live.com, daniel@sedlak.dev,
+	daniel.almeida@collabora.com, thomas.hellstrom@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
+Subject: Re: [PATCH v10 6/7] rust: ww_mutex: implement LockSet
+Message-ID: <202601031513.bVzSj6aK-lkp@intel.com>
+References: <20260103073554.34855-7-work@onurozkan.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,209 +71,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260103045934.64521-12-ttabi@nvidia.com>
+In-Reply-To: <20260103073554.34855-7-work@onurozkan.dev>
 
-Hi Timur,
+Hi Onur,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 7acc70476f14661149774ab88d3fe23d83ba4249]
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on rust/rust-next linus/master v6.19-rc3 next-20251219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Timur-Tabi/gpu-nova-core-rename-Imem-to-ImemSecure/20260103-130228
-base:   7acc70476f14661149774ab88d3fe23d83ba4249
-patch link:    https://lore.kernel.org/r/20260103045934.64521-12-ttabi%40nvidia.com
-patch subject: [PATCH v5 11/11] gpu: nova-core: add PIO support for loading firmware images
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260103/202601031330.EOufCyjz-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Onur-zkan/rust-add-C-wrappers-for-ww_mutex-inline-functions/20260103-153912
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20260103073554.34855-7-work%40onurozkan.dev
+patch subject: [PATCH v10 6/7] rust: ww_mutex: implement LockSet
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260103/202601031513.bVzSj6aK-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
 rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601031330.EOufCyjz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601031513.bVzSj6aK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601031330.EOufCyjz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601031513.bVzSj6aK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in drivers/gpu/nova-core/falcon/hal/ga102.rs:13:
-    use crate::{
-        driver::Bar0,
-        falcon::{
-   +        hal::LoadMethod,
-            Falcon,
-            FalconBromParams,
-            FalconEngine,
-   Diff in drivers/gpu/nova-core/falcon/hal/ga102.rs:19:
-            FalconModSelAlgo,
-   -        hal::LoadMethod,
-            PeregrineCoreSelect, //
-        },
-        regs,
->> Diff in drivers/gpu/nova-core/falcon/hal/tu102.rs:12:
-    use crate::{
-        driver::Bar0,
-        falcon::{
-   +        hal::LoadMethod, //
-            Falcon,
-            FalconBromParams,
-            FalconEngine,
-   Diff in drivers/gpu/nova-core/falcon/hal/tu102.rs:18:
-   -        hal::LoadMethod, //
-        },
-        regs, //
-    };
-   Diff in drivers/gpu/nova-core/falcon.rs:674:
-    
-        /// Perform a DMA load into `IMEM` and `DMEM` of `fw`, and prepare the falcon to run it.
-        pub(crate) fn dma_load<F: FalconFirmware<Target = E>>(&self, bar: &Bar0, fw: &F) -> Result {
-   -
-            // The Non-Secure section only exists on firmware used by Turing and GA100, and
-            // those platforms do not use DMA.
-            if fw.imem_ns_load_params().is_some() {
->> Diff in drivers/gpu/nova-core/firmware/fwsec.rs:516:
-            // console error message on other platforms, only try to load it if it's
-            // supposed to be there.
-            let gbl_fw = if chipset < Chipset::GA102 {
-   -            Some(super::request_firmware(dev, chipset, "gen_bootloader", FIRMWARE_VERSION)?)
-   +            Some(super::request_firmware(
-   +                dev,
-   +                chipset,
-   +                "gen_bootloader",
-   +                FIRMWARE_VERSION,
-   +            )?)
-            } else {
-                None
-            };
->> Diff in drivers/gpu/nova-core/firmware/fwsec.rs:516:
-            // console error message on other platforms, only try to load it if it's
-            // supposed to be there.
-            let gbl_fw = if chipset < Chipset::GA102 {
-   -            Some(super::request_firmware(dev, chipset, "gen_bootloader", FIRMWARE_VERSION)?)
-   +            Some(super::request_firmware(
-   +                dev,
-   +                chipset,
-   +                "gen_bootloader",
-   +                FIRMWARE_VERSION,
-   +            )?)
-            } else {
-                None
-            };
->> Diff in drivers/gpu/nova-core/falcon/hal/ga102.rs:13:
-    use crate::{
-        driver::Bar0,
-        falcon::{
-   +        hal::LoadMethod,
-            Falcon,
-            FalconBromParams,
-            FalconEngine,
-   Diff in drivers/gpu/nova-core/falcon/hal/ga102.rs:19:
-            FalconModSelAlgo,
-   -        hal::LoadMethod,
-            PeregrineCoreSelect, //
-        },
-        regs,
->> Diff in drivers/gpu/nova-core/falcon/hal/tu102.rs:12:
-    use crate::{
-        driver::Bar0,
-        falcon::{
-   +        hal::LoadMethod, //
-            Falcon,
-            FalconBromParams,
-            FalconEngine,
-   Diff in drivers/gpu/nova-core/falcon/hal/tu102.rs:18:
-   -        hal::LoadMethod, //
-        },
-        regs, //
-    };
-   Diff in drivers/gpu/nova-core/falcon.rs:674:
-    
-        /// Perform a DMA load into `IMEM` and `DMEM` of `fw`, and prepare the falcon to run it.
-        pub(crate) fn dma_load<F: FalconFirmware<Target = E>>(&self, bar: &Bar0, fw: &F) -> Result {
-   -
-            // The Non-Secure section only exists on firmware used by Turing and GA100, and
-            // those platforms do not use DMA.
-            if fw.imem_ns_load_params().is_some() {
->> Diff in drivers/gpu/nova-core/firmware/fwsec.rs:516:
-            // console error message on other platforms, only try to load it if it's
-            // supposed to be there.
-            let gbl_fw = if chipset < Chipset::GA102 {
-   -            Some(super::request_firmware(dev, chipset, "gen_bootloader", FIRMWARE_VERSION)?)
-   +            Some(super::request_firmware(
-   +                dev,
-   +                chipset,
-   +                "gen_bootloader",
-   +                FIRMWARE_VERSION,
-   +            )?)
-            } else {
-                None
-            };
->> Diff in drivers/gpu/nova-core/falcon/hal/ga102.rs:13:
-    use crate::{
-        driver::Bar0,
-        falcon::{
-   +        hal::LoadMethod,
-            Falcon,
-            FalconBromParams,
-            FalconEngine,
-   Diff in drivers/gpu/nova-core/falcon/hal/ga102.rs:19:
-            FalconModSelAlgo,
-   -        hal::LoadMethod,
-            PeregrineCoreSelect, //
-        },
-        regs,
->> Diff in drivers/gpu/nova-core/falcon/hal/tu102.rs:12:
-    use crate::{
-        driver::Bar0,
-        falcon::{
-   +        hal::LoadMethod, //
-            Falcon,
-            FalconBromParams,
-            FalconEngine,
-   Diff in drivers/gpu/nova-core/falcon/hal/tu102.rs:18:
-   -        hal::LoadMethod, //
-        },
-        regs, //
-    };
->> Diff in drivers/gpu/nova-core/falcon/hal/ga102.rs:13:
-    use crate::{
-        driver::Bar0,
-        falcon::{
-   +        hal::LoadMethod,
-            Falcon,
-            FalconBromParams,
-            FalconEngine,
-   Diff in drivers/gpu/nova-core/falcon/hal/ga102.rs:19:
-            FalconModSelAlgo,
-   -        hal::LoadMethod,
-            PeregrineCoreSelect, //
-        },
-        regs,
->> Diff in drivers/gpu/nova-core/falcon/hal/tu102.rs:12:
-    use crate::{
-        driver::Bar0,
-        falcon::{
-   +        hal::LoadMethod, //
-            Falcon,
-            FalconBromParams,
-            FalconEngine,
-   Diff in drivers/gpu/nova-core/falcon/hal/tu102.rs:18:
-   -        hal::LoadMethod, //
-        },
-        regs, //
-    };
-   make[2]: *** [Makefile:1871: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+>> warning: this let-binding has unit value
+   --> rust/kernel/sync/lock/ww_mutex/lock_set.rs:273:17
+   |
+   273 |                 let _ = lock_set.lock(&mutex1)?;
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: omit the `let` binding: `lock_set.lock(&mutex1)?;`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#let_unit_value
+   = note: `-W clippy::let-unit-value` implied by `-W clippy::all`
+   = help: to override `-W clippy::all` add `#[allow(clippy::let_unit_value)]`
+--
+>> warning: matching over `()` is more explicit
+   --> rust/kernel/sync/lock/ww_mutex/lock_set.rs:273:21
+   |
+   273 |                 let _ = lock_set.lock(&mutex1)?;
+   |                     ^ help: use `()` instead of `_`: `()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ignored_unit_patterns
+   = note: requested on the command line with `-W clippy::ignored-unit-patterns`
+--
+>> warning: this let-binding has unit value
+   --> rust/kernel/sync/lock/ww_mutex/lock_set.rs:274:17
+   |
+   274 |                 let _ = lock_set.lock(&mutex2)?;
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: omit the `let` binding: `lock_set.lock(&mutex2)?;`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#let_unit_value
+--
+>> warning: matching over `()` is more explicit
+   --> rust/kernel/sync/lock/ww_mutex/lock_set.rs:274:21
+   |
+   274 |                 let _ = lock_set.lock(&mutex2)?;
+   |                     ^ help: use `()` instead of `_`: `()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#ignored_unit_patterns
 
 -- 
 0-DAY CI Kernel Test Service
