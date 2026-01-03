@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7EA10785
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jan 2026 15:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FEE2C0F83
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jan 2026 15:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767453384; cv=none; b=NarBpZ+DU/1pXbaizOmgt2PDgceme3dRqsK+qvY3BzG7a/O9mb42s9tW5u0LcDNg+QY/L0Cz0jDrcRNZfvQN0N5DgA7Lx4Wr+eSDkNlk5vTNhWe9UA+nbffEWsn1G6q7f5CMWs0+NAN6JSCUtgHvAgERnz9vy+5p8Xamz606qo4=
+	t=1767455382; cv=none; b=oVXuzlbPYsecrU9PeaGEifAcbbJWRuuWbXWtyFvu2Apct7+ZJFGRMT9kjfDDUg68GnTwe2HC3YECRERym7ETI3ZaEiUvVmK6wkuyznFg2LR/j/ZjFK6hRcI2xKTcswj8aqYZPX+y+uK6LRcm1HsWWLMU/LEY2r7qSl+pdaq4AeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767453384; c=relaxed/simple;
-	bh=WA47E2M1Val9QGYZXc/26+ZRFqYTuqueR4HcUVIvX6Q=;
+	s=arc-20240116; t=1767455382; c=relaxed/simple;
+	bh=UdpQuAVYg3go+KFGqbG7KFffUg4tuMyA9VNoUN7RR3Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V4kkWTJof+D/IC7jMbo8jUBuqBj0eUUM+yerIZ8LGYTpiJCgUEbh9qWSzmA8VfyIMpW+UwsLXdJYM2SUWRjMWCP4Ujrx0xsQkEG8MnWi/4Mv9roUF4/WXiqas7W0ZRjxgSijc05SSDXZawa1sFZAp5xxexDHxorDTT9DfZQwwaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mTzr3Y7E; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=skF34k+vjzfwy+q+4QzYQHpLOSp4JmexI3UnGEXawFYvK58E97InjTstEC62k8Z+0rjcfjATJkKqwWLi8kTK6JX/agO1e58uUPvvrKrX9eWDLJRbxQ+H0KAYeWi/BnnjW4FQZcFrcOJXp2wn7xF+tOxPJE5xQ51Fc2yxxp1MrNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OMzsZJIA; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mTzr3Y7E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OMzsZJIA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767453381; x=1798989381;
+  t=1767455368; x=1798991368;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WA47E2M1Val9QGYZXc/26+ZRFqYTuqueR4HcUVIvX6Q=;
-  b=mTzr3Y7E1TaWmhH++hYgC0hASg9vGkRlIqwgE04jEjBY4QifXSjffTYp
-   27JvdFvFDjbL3C/xUphxEvymUiQqCOGi0ZYJS1NY/UcSimUeqFqe43x8N
-   HYOrxhidg69gWC5SEd6DbH6wTlzX8h6rE1TIAfClFWNmh2BsF9CTmxAm2
-   aiTjci6lndzLB+l5HEgi0Ab05l52RK2A00koedikuFcknFyDiqBi8oVh2
-   A7OcYwjLG6QpFckBdudX4Tpnv0L/g+ABUeWZmUPdZdpWWqFPQSovSJV5x
-   TaFzL9WT2b9YhaJ+hyOS9pQpeXt+6BU6Edhmv6ptIMEMQiUnBJpbPOCYS
+  bh=UdpQuAVYg3go+KFGqbG7KFffUg4tuMyA9VNoUN7RR3Y=;
+  b=OMzsZJIAjdFh/HUD1xm50HyjOweOw/3sxZi0eaq9MkKpEmCv7qqMeQES
+   eSYyGNdznc3NQKCs5MhU92JIHZULKJkOYZMU0dca3tq/EEa75lKIYjZ+Y
+   bAakV33wWDHQ42jItwOOAZcQWq39Kyhe8IzIIZ1014wwc6Rflxr4MN0Nk
+   lOqOPsuczqEdEetrMGOreh2fT+/P4zyaf1PqDpDNcp+fo08YgY+Uf/y6D
+   uRqFxPE3HoLftIwMgawHXeUPRL+w9ZhPtg/VQp9yY0UrQ4kQdMYVzTFFA
+   TeIkF/9bjMCONMruB9gpukhcssEyzEBQyVKdbjlExrkIFFIXsA62I4g8Z
    Q==;
-X-CSE-ConnectionGUID: teGFtDm3SRa7wuiZfI76SQ==
-X-CSE-MsgGUID: hmcvgU6aTPKKfZ1VBsKanQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="71480990"
+X-CSE-ConnectionGUID: e0xX5bQ9R/WeZ1VyWSV63A==
+X-CSE-MsgGUID: 8e21lN9/R1qsYKf2pMY5Aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="91553964"
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="71480990"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2026 07:16:20 -0800
-X-CSE-ConnectionGUID: ttISP+njRxGC+mIimTDmUA==
-X-CSE-MsgGUID: YUYexHeJRve/5uFg0Wum+A==
+   d="scan'208";a="91553964"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2026 07:49:23 -0800
+X-CSE-ConnectionGUID: VXe0M/DUTV+IwoUHCnqyLA==
+X-CSE-MsgGUID: J3J+DASXReGVxFLZ02U9iw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="201150554"
+   d="scan'208";a="202033309"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa006.jf.intel.com with ESMTP; 03 Jan 2026 07:16:19 -0800
+  by orviesa008.jf.intel.com with ESMTP; 03 Jan 2026 07:49:20 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vc3MW-000000000ib-3vxv;
-	Sat, 03 Jan 2026 15:16:16 +0000
-Date: Sat, 3 Jan 2026 16:15:29 +0100
+	id 1vc3sT-000000000j3-1173;
+	Sat, 03 Jan 2026 15:49:17 +0000
+Date: Sat, 3 Jan 2026 16:49:04 +0100
 From: kernel test robot <lkp@intel.com>
-To: rick.macklem@gmail.com, linux-nfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Rick Macklem <rmacklem@uoguelph.ca>
-Subject: Re: [PATCH v1 5/7] Make nfs4_server_supports_acls() global
-Message-ID: <202601031639.zIQYLs4h-lkp@intel.com>
-References: <20260102232934.1560-6-rick.macklem@gmail.com>
+To: Charan Pedumuru <charan.pedumuru@gmail.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Stefan Agner <stefan@agner.ch>, Lucas Stach <dev@lynxeye.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mtd@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Charan Pedumuru <charan.pedumuru@gmail.com>
+Subject: Re: [PATCH v4] dt-bindings: mtd: nvidia,tegra20-nand: convert to DT
+ schema
+Message-ID: <202601031603.9yKl8K9G-lkp@intel.com>
+References: <20260103-nvidia-nand-v4-1-3156f46f3a5e@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,72 +75,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260102232934.1560-6-rick.macklem@gmail.com>
+In-Reply-To: <20260103-nvidia-nand-v4-1-3156f46f3a5e@gmail.com>
 
-Hi,
+Hi Charan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on linus/master v6.19-rc3 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 43edce71d70c603d3f3f1b1c886f65cd02d80c24]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/rick-macklem-gmail-com/Add-entries-to-the-predefined-client-operations-enum/20260103-073239
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20260102232934.1560-6-rick.macklem%40gmail.com
-patch subject: [PATCH v1 5/7] Make nfs4_server_supports_acls() global
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260103/202601031639.zIQYLs4h-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601031639.zIQYLs4h-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Charan-Pedumuru/dt-bindings-mtd-nvidia-tegra20-nand-convert-to-DT-schema/20260103-131107
+base:   43edce71d70c603d3f3f1b1c886f65cd02d80c24
+patch link:    https://lore.kernel.org/r/20260103-nvidia-nand-v4-1-3156f46f3a5e%40gmail.com
+patch subject: [PATCH v4] dt-bindings: mtd: nvidia,tegra20-nand: convert to DT schema
+reproduce: (https://download.01.org/0day-ci/archive/20260103/202601031603.9yKl8K9G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601031639.zIQYLs4h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601031603.9yKl8K9G-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/nfs/nfs4proc.c: In function 'nfs4_server_supports_acls':
->> fs/nfs/nfs4proc.c:6083:50: error: 'FATTR4_WORD2_POSIX_DEFAULT_ACL' undeclared (first use in this function)
-    6083 |                 return server->attr_bitmask[2] & FATTR4_WORD2_POSIX_DEFAULT_ACL;
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/nfs4proc.c:6083:50: note: each undeclared identifier is reported only once for each function it appears in
->> fs/nfs/nfs4proc.c:6085:50: error: 'FATTR4_WORD2_POSIX_ACCESS_ACL' undeclared (first use in this function); did you mean 'FATTR4_WORD1_TIME_ACCESS_SET'?
-    6085 |                 return server->attr_bitmask[2] & FATTR4_WORD2_POSIX_ACCESS_ACL;
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                  FATTR4_WORD1_TIME_ACCESS_SET
-   fs/nfs/nfs4proc.c: In function 'nfs4_proc_create_session':
-   fs/nfs/nfs4proc.c:9630:19: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
-    9630 |         unsigned *ptr;
-         |                   ^~~
-   fs/nfs/nfs4proc.c: In function 'nfs4_server_supports_acls':
->> fs/nfs/nfs4proc.c:6087:1: warning: control reaches end of non-void function [-Wreturn-type]
-    6087 | }
-         | ^
-
-
-vim +/FATTR4_WORD2_POSIX_DEFAULT_ACL +6083 fs/nfs/nfs4proc.c
-
-  6071	
-  6072	bool nfs4_server_supports_acls(const struct nfs_server *server,
-  6073					      enum nfs4_acl_type type)
-  6074	{
-  6075		switch (type) {
-  6076		default:
-  6077			return server->attr_bitmask[0] & FATTR4_WORD0_ACL;
-  6078		case NFS4ACL_DACL:
-  6079			return server->attr_bitmask[1] & FATTR4_WORD1_DACL;
-  6080		case NFS4ACL_SACL:
-  6081			return server->attr_bitmask[1] & FATTR4_WORD1_SACL;
-  6082		case NFS4ACL_POSIXDEFAULT:
-> 6083			return server->attr_bitmask[2] & FATTR4_WORD2_POSIX_DEFAULT_ACL;
-  6084		case NFS4ACL_POSIXACCESS:
-> 6085			return server->attr_bitmask[2] & FATTR4_WORD2_POSIX_ACCESS_ACL;
-  6086		}
-> 6087	}
-  6088	
+   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mtd/nvidia-tegra20-nand.txt
+   Warning: arch/riscv/kernel/kexec_image.c references a file that doesn't exist: Documentation/riscv/boot-image-header.rst
+   Warning: drivers/clocksource/timer-armada-370-xp.c references a file that doesn't exist: Documentation/devicetree/bindings/timer/marvell,armada-370-xp-timer.txt
+   Warning: include/rv/da_monitor.h references a file that doesn't exist: Documentation/trace/rv/da_monitor_synthesis.rst
+   Using alabaster theme
+   ERROR: Cannot find file ./include/linux/pci.h
 
 -- 
 0-DAY CI Kernel Test Service
