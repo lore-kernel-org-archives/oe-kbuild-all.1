@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EE12165EA;
-	Sat,  3 Jan 2026 16:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8BA3242D86
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jan 2026 16:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767457583; cv=none; b=jJQphvVDaAWkgGBx8/4UBrNbp7GNBp6ZrubPiKNGor2U6bdVZlviRYTlQ6RX4VlzKn/+l5b32E2eORb8cwQ03UZVfCcBV6ZdhdPm4K9sFC7lyFwRnoUyLgyIOh8dmq16POB4PowetihWkrTX0OUOaOXQvwVxBCMQtnQllmiauWs=
+	t=1767457702; cv=none; b=jePeWaXItpB3XmlSbRcFkosCQYKRU64430RTprR0vm2K5acuMK22E8RFZsYj5Ndm5IBCdjQRfXvSj0bns8dPG0+7gzhQPNRu7SVBVzTh2aKKA/PVsA/oc3c8pEAXWLOZ5zI6btLxaK8Cyj9dmsdVJPxysYiwqPzp+YRwZDCvHoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767457583; c=relaxed/simple;
-	bh=OWxOb6VTnRAAgbI2d9BeFgE9kL6fOd6E2WPvb6X/EsE=;
+	s=arc-20240116; t=1767457702; c=relaxed/simple;
+	bh=UGnURp+PHWkUGyQ6O3VUg3NstazSRDcOt3/JvIZ+8/w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j0DvkE/WJ7k6vO8YCiP5VsxQNelhftJFdVtmCtQvjdTy4GwltN3ZppC4fSlg1ORDQQ4XWcShBsfl5FYrNcqmbj6RXdF/+23CxvD4eSSI6pNrTBQNkX0ZvG745Cwyjl+JO1srw1jclGNlpa0TWK1QhRSyJ1jLrF4OunT/a/hzZ9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NGO6C6XH; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=pIexwWAyxCSt9PfVddzm0UCmCZhaKKdSVd2dtzo0lF3M0uvRjL3qt0UvM+sQZsOzhKTtupzrv9tDl6M6Jj9YIRuDr1aHaofdMs5ZxSwFipyvAw/D+3aDXEiGo8+oEf7+2zSCIZH7ZtfErnU/uRn0TZRntQ4/w1crtn/T1v4flrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I8+e/kJb; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NGO6C6XH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I8+e/kJb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767457582; x=1798993582;
+  t=1767457701; x=1798993701;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OWxOb6VTnRAAgbI2d9BeFgE9kL6fOd6E2WPvb6X/EsE=;
-  b=NGO6C6XHn0A41kQLc4RJipFSFJbAlccrKOFGg/GdfQz7iKpglTweXys7
-   4OLOa/ezlPkgzBBqvivKpWSN/lrkYZZFeLc08sV3HpUWvxPp1bu7ZLYR9
-   Awrccsft/AF6+L9vMzuYP+8RBDsIwp7eyawGp4D47krdlbW3Y6+bd2cnl
-   zCbj0xz7Dq9M5PHe1uG1JxhQari+fhwMvJuctXePJE2s+YJzXPmbYoJwr
-   lEbLUdIHJ7CLs4uuDCoBRVtbFieUp5Avb5HXcpgQkZGfuYuwIMpqFDpgw
-   TyGTfb1yAmyRXKb2+/wLZYvlEaNXSIBKnQQRGF9COjpvh0econe6TL8MJ
-   Q==;
-X-CSE-ConnectionGUID: 6pQLbbY6RC+OZ9JHuYWZjQ==
-X-CSE-MsgGUID: 7+pVOR0sRGyxlz83ffyyJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="68805909"
+  bh=UGnURp+PHWkUGyQ6O3VUg3NstazSRDcOt3/JvIZ+8/w=;
+  b=I8+e/kJb/sGMJ9dNA5aKCOlWFF1QwONPlMlTHYzDUGiPkqmjnvCZYXQY
+   5sMC8DSNkTUYSfz051ips3RwBY/QA9UujdmkSS8icNoeHLvs6zL9HifBl
+   x5cA6InM+0XC8iA5SRxnxym4R1Iu2BntB76+9efbQKUC3OPz5Q525QycP
+   gB+BT/CTgK1JCTAoMZ1c9MRN6VJgqLw84xc3a+kC4QmcNxwGgFq3+NB19
+   zxHZ5lMjPxowpUbNknu5VfiELmuqNKpMzi+qrSNeOPKeTV/dJRmAYlGe4
+   1dtCfPJl1Va0wEIwAQuro9CE502VodpJhn+jqttZiORceZch+V1VN4K7r
+   w==;
+X-CSE-ConnectionGUID: bWnfeauySB+i3m6m6r4xnQ==
+X-CSE-MsgGUID: ehC8zUSMRHOFD6ktpAHQMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="68643488"
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="68805909"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2026 08:26:21 -0800
-X-CSE-ConnectionGUID: K1BT0t4VR6iqr50bA7RJig==
-X-CSE-MsgGUID: QNAldfiQT+aaYDB82W4f6Q==
+   d="scan'208";a="68643488"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2026 08:28:21 -0800
+X-CSE-ConnectionGUID: T0UqbDnDTFCqs1tfrM98mg==
+X-CSE-MsgGUID: 9xvwQAwkSu2P6x4qaG6ycQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="202493010"
+   d="scan'208";a="206905351"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Jan 2026 08:26:19 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 03 Jan 2026 08:28:19 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vc4SH-000000000jB-1TBA;
-	Sat, 03 Jan 2026 16:26:17 +0000
-Date: Sat, 3 Jan 2026 17:25:38 +0100
+	id 1vc4UD-000000000jF-1gZ9;
+	Sat, 03 Jan 2026 16:28:17 +0000
+Date: Sat, 3 Jan 2026 17:28:11 +0100
 From: kernel test robot <lkp@intel.com>
-To: rick.macklem@gmail.com, linux-nfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Rick Macklem <rmacklem@uoguelph.ca>
-Subject: Re: [PATCH v1 6/7] Set SB_POSIXACL if the server supports the
- extension
-Message-ID: <202601031746.QiLqxADW-lkp@intel.com>
-References: <20260102232934.1560-7-rick.macklem@gmail.com>
+To: Ping-Ke Shih <pkshih@realtek.com>, linux-wireless@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH rtw-next 09/10] wifi: rtw89: fw: consider hardware AID
+ for firmware elements
+Message-ID: <202601031731.PNwSACm3-lkp@intel.com>
+References: <20260102070840.62047-10-pkshih@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,120 +63,125 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260102232934.1560-7-rick.macklem@gmail.com>
+In-Reply-To: <20260102070840.62047-10-pkshih@realtek.com>
 
-Hi,
+Hi Ping-Ke,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on trondmy-nfs/linux-next]
-[also build test ERROR on v6.16-rc1 next-20251219]
-[cannot apply to linus/master]
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.19-rc3 next-20251219]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/rick-macklem-gmail-com/Add-entries-to-the-predefined-client-operations-enum/20260103-073239
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20260102232934.1560-7-rick.macklem%40gmail.com
-patch subject: [PATCH v1 6/7] Set SB_POSIXACL if the server supports the extension
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260103/202601031746.QiLqxADW-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601031746.QiLqxADW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ping-Ke-Shih/wifi-rtw89-update-TXWD-v3-for-RTL8922D/20260102-152315
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20260102070840.62047-10-pkshih%40realtek.com
+patch subject: [PATCH rtw-next 09/10] wifi: rtw89: fw: consider hardware AID for firmware elements
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260103/202601031731.PNwSACm3-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601031731.PNwSACm3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601031746.QiLqxADW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601031731.PNwSACm3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/nfs/super.c:1356:33: error: use of undeclared identifier 'FATTR4_WORD2_POSIX_DEFAULT_ACL'
-    1356 |         if ((server->attr_bitmask[2] & FATTR4_WORD2_POSIX_DEFAULT_ACL) &&
-         |                                        ^
->> fs/nfs/super.c:1357:33: error: use of undeclared identifier 'FATTR4_WORD2_POSIX_ACCESS_ACL'
-    1357 |             (server->attr_bitmask[2] & FATTR4_WORD2_POSIX_ACCESS_ACL))
-         |                                        ^
-   2 errors generated.
+   In file included from drivers/net/wireless/realtek/rtw89/fw.c:11:
+   drivers/net/wireless/realtek/rtw89/mac.h: In function 'rtw89_mac_chk_preload_allow':
+   drivers/net/wireless/realtek/rtw89/mac.h:1728:61: error: 'struct rtw89_hal' has no member named 'cid'
+    1728 |         if (rtwdev->chip->chip_id == RTL8922D && rtwdev->hal.cid == RTL8922D_CID7090)
+         |                                                             ^
+   drivers/net/wireless/realtek/rtw89/mac.h:1728:69: error: 'RTL8922D_CID7090' undeclared (first use in this function)
+    1728 |         if (rtwdev->chip->chip_id == RTL8922D && rtwdev->hal.cid == RTL8922D_CID7090)
+         |                                                                     ^~~~~~~~~~~~~~~~
+   drivers/net/wireless/realtek/rtw89/mac.h:1728:69: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/net/wireless/realtek/rtw89/fw.c: In function 'rtw89_build_phy_tbl_from_elm':
+>> drivers/net/wireless/realtek/rtw89/fw.c:1048:30: error: 'struct rtw89_hal' has no member named 'aid'
+    1048 |         if (aid && aid != hal->aid)
+         |                              ^~
 
 
-vim +/FATTR4_WORD2_POSIX_DEFAULT_ACL +1356 fs/nfs/super.c
+vim +1048 drivers/net/wireless/realtek/rtw89/fw.c
 
-  1299	
-  1300	int nfs_get_tree_common(struct fs_context *fc)
-  1301	{
-  1302		struct nfs_fs_context *ctx = nfs_fc2context(fc);
-  1303		struct super_block *s;
-  1304		int (*compare_super)(struct super_block *, struct fs_context *) = nfs_compare_super;
-  1305		struct nfs_server *server = ctx->server;
-  1306		int error;
-  1307	
-  1308		ctx->server = NULL;
-  1309		if (IS_ERR(server))
-  1310			return PTR_ERR(server);
-  1311	
-  1312		if (server->flags & NFS_MOUNT_UNSHARED)
-  1313			compare_super = NULL;
-  1314	
-  1315		/* -o noac implies -o sync */
-  1316		if (server->flags & NFS_MOUNT_NOAC)
-  1317			fc->sb_flags |= SB_SYNCHRONOUS;
-  1318	
-  1319		/* Get a superblock - note that we may end up sharing one that already exists */
-  1320		fc->s_fs_info = server;
-  1321		s = sget_fc(fc, compare_super, nfs_set_super);
-  1322		fc->s_fs_info = NULL;
-  1323		if (IS_ERR(s)) {
-  1324			error = PTR_ERR(s);
-  1325			nfs_errorf(fc, "NFS: Couldn't get superblock");
-  1326			goto out_err_nosb;
-  1327		}
-  1328	
-  1329		if (s->s_fs_info != server) {
-  1330			nfs_free_server(server);
-  1331			server = NULL;
-  1332		} else {
-  1333			error = super_setup_bdi_name(s, "%u:%u", MAJOR(server->s_dev),
-  1334						     MINOR(server->s_dev));
-  1335			if (error)
-  1336				goto error_splat_super;
-  1337			s->s_bdi->io_pages = server->rpages;
-  1338			server->super = s;
-  1339		}
-  1340	
-  1341		if (!s->s_root) {
-  1342			/* initial superblock/root creation */
-  1343			nfs_fill_super(s, ctx);
-  1344			error = nfs_get_cache_cookie(s, ctx);
-  1345			if (error < 0)
-  1346				goto error_splat_super;
-  1347		}
-  1348	
-  1349		error = nfs_get_root(s, fc);
-  1350		if (error < 0) {
-  1351			nfs_errorf(fc, "NFS: Couldn't get root dentry");
-  1352			goto error_splat_super;
-  1353		}
-  1354	
-  1355		/* Set SB_POSIXACL if the server supports the NFSv4.2 extension. */
-> 1356		if ((server->attr_bitmask[2] & FATTR4_WORD2_POSIX_DEFAULT_ACL) &&
-> 1357		    (server->attr_bitmask[2] & FATTR4_WORD2_POSIX_ACCESS_ACL))
-  1358			s->s_flags |= SB_POSIXACL;
-  1359	
-  1360		s->s_flags |= SB_ACTIVE;
-  1361		error = 0;
-  1362	
-  1363	out:
-  1364		return error;
-  1365	
-  1366	out_err_nosb:
-  1367		nfs_free_server(server);
-  1368		goto out;
-  1369	error_splat_super:
-  1370		deactivate_locked_super(s);
-  1371		goto out;
-  1372	}
-  1373	
+  1009	
+  1010	static
+  1011	int rtw89_build_phy_tbl_from_elm(struct rtw89_dev *rtwdev,
+  1012					 const struct rtw89_fw_element_hdr *elm,
+  1013					 const union rtw89_fw_element_arg arg)
+  1014	{
+  1015		struct rtw89_fw_elm_info *elm_info = &rtwdev->fw.elm_info;
+  1016		struct rtw89_hal *hal = &rtwdev->hal;
+  1017		struct rtw89_phy_table *tbl, **pp;
+  1018		struct rtw89_reg2_def *regs;
+  1019		bool radio = false;
+  1020		u32 n_regs, i;
+  1021		u16 aid;
+  1022		u8 idx;
+  1023	
+  1024		switch (le32_to_cpu(elm->id)) {
+  1025		case RTW89_FW_ELEMENT_ID_BB_REG:
+  1026			pp = &elm_info->bb_tbl;
+  1027			break;
+  1028		case RTW89_FW_ELEMENT_ID_BB_GAIN:
+  1029			pp = &elm_info->bb_gain;
+  1030			break;
+  1031		case RTW89_FW_ELEMENT_ID_RADIO_A:
+  1032		case RTW89_FW_ELEMENT_ID_RADIO_B:
+  1033		case RTW89_FW_ELEMENT_ID_RADIO_C:
+  1034		case RTW89_FW_ELEMENT_ID_RADIO_D:
+  1035			idx = elm->u.reg2.idx;
+  1036			pp = &elm_info->rf_radio[idx];
+  1037	
+  1038			radio = true;
+  1039			break;
+  1040		case RTW89_FW_ELEMENT_ID_RF_NCTL:
+  1041			pp = &elm_info->rf_nctl;
+  1042			break;
+  1043		default:
+  1044			return -ENOENT;
+  1045		}
+  1046	
+  1047		aid = le16_to_cpu(elm->aid);
+> 1048		if (aid && aid != hal->aid)
+  1049			return 1; /* ignore if aid not matched */
+  1050		else if (*pp)
+  1051			return 1; /* ignore if an element is existing */
+  1052	
+  1053		tbl = kzalloc(sizeof(*tbl), GFP_KERNEL);
+  1054		if (!tbl)
+  1055			return -ENOMEM;
+  1056	
+  1057		n_regs = le32_to_cpu(elm->size) / sizeof(tbl->regs[0]);
+  1058		regs = kcalloc(n_regs, sizeof(*regs), GFP_KERNEL);
+  1059		if (!regs)
+  1060			goto out;
+  1061	
+  1062		for (i = 0; i < n_regs; i++) {
+  1063			regs[i].addr = le32_to_cpu(elm->u.reg2.regs[i].addr);
+  1064			regs[i].data = le32_to_cpu(elm->u.reg2.regs[i].data);
+  1065		}
+  1066	
+  1067		tbl->n_regs = n_regs;
+  1068		tbl->regs = regs;
+  1069	
+  1070		if (radio) {
+  1071			tbl->rf_path = arg.rf_path;
+  1072			tbl->config = rtw89_phy_config_rf_reg_v1;
+  1073		}
+  1074	
+  1075		*pp = tbl;
+  1076	
+  1077		return 0;
+  1078	
+  1079	out:
+  1080		kfree(tbl);
+  1081		return -ENOMEM;
+  1082	}
+  1083	
 
 -- 
 0-DAY CI Kernel Test Service
