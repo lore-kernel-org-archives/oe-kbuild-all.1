@@ -1,134 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA1A17B50F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jan 2026 05:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4727175D53
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jan 2026 06:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767418881; cv=none; b=VypIgy3VNb78vBL8qXull9Griekms0Y2pNTSWqDtpDgaxkASWtZUft2BkY9QGdRwxk9GT5+HWJCleVYtOjXWgEvvMGTQ0QisWIzWBsA3sCqptA1iF+vES+Ju5nORRF1APqvZD0hIsORDqAZcwl0WkAumvFsBKS9EsBAQTlu5ge0=
+	t=1767421706; cv=none; b=dp+Am3L3y69xo7P0wQIU3jvpuMhG384lMFGUUctMpAKLL8FqITwb+ZMG8xkIqUdN8jYWKmExUWgd4rmDGq9DovytJaZg5EpaY+nEXl5YradfLX2XsHMh/xMAyCcq9hxaRjwqDHPwAhNJRE4OrUQAaNqzPwOgiDM5EhjLLrmRL04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767418881; c=relaxed/simple;
-	bh=hzJRWhz3myzjv4bNHLS23CIeXz7rdFoYsTg/LK+a0CA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JJLbQm5mR7V4aTRREjjT40QsmadtVawGsm0/tINPmZ2tEoyUiCO2BYxD7E50BfnazK4ZCcwWGrun+UlQ7qpvUkjYBUoqdhHNrRFCRNKZDJxNaq/NilFAnNuAQ8Uk8YBuASnFRgKdf6xpOcQFlFJsBtM9+sbwRez8sD54r31606A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KKlhx8Mx; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1767421706; c=relaxed/simple;
+	bh=UZZzaTH1B+kwFLVioQ2LqZ5InjQZJmYcyWMuiiGMkqo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gWwoEggnL+gqPZrBOY9lUoVg4+Y9lV3fjFT/Ne9MSoSBslJ12TIlwo//0MBw9RmbAWTW7lmbLbIUQXOQOzYjFdqMPADa7cBFwj9g6GVB/j+Z32oT4KFtByHVpYotcJpWPpRoFlzfwCVWD+6ERBpaUg0I/140ZUIyaTYpPk0CqDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SZpdqSzx; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KKlhx8Mx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SZpdqSzx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767418879; x=1798954879;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hzJRWhz3myzjv4bNHLS23CIeXz7rdFoYsTg/LK+a0CA=;
-  b=KKlhx8MxEvolGflHamNKgPAI1JhOEYQbljAl+rpuOdjau4eKJZL5J6R9
-   sMvNMWnP8947NWx0JPs4UPsD9GdYb8xsgy3JsNlT2QTIcBk7WbJRf2zxT
-   wKT/YS9KJJsbr2QNldnl/wHzxSKv1ea+ZflSuQC8u7yEmeRAwAhjdaUAZ
-   X56WREG2Gz23/UpcR8p0Votkf2uZN35YXF3kk6JRRQRTL6LL2E20m4I5c
-   X6xjNaL/4iT3o7NVnqiTA924xIpjpith79W6VSLRURO5mwPtvoT7maa1D
-   JMQiShqZfNyXGcaCJFasFnFLT/pMUXelIMQT2nH89ayBNYQ9Iatw65Ca9
+  t=1767421704; x=1798957704;
+  h=date:from:to:cc:subject:message-id;
+  bh=UZZzaTH1B+kwFLVioQ2LqZ5InjQZJmYcyWMuiiGMkqo=;
+  b=SZpdqSzxv/HPXqFmczQMY7QSSiA+SZbhVK9TrI45HleOl09tgMm4ZbF2
+   9y6FkIBuVaPmQB8mBbcUYyjRflEEWpMP2PV+Qg9ORtzbCXanwWSfpbjpj
+   MPyBa/OsIRVZOjlqhROWuU12fJGIto/LZ5ff07TJfpik3o1oNNmGQ1xlC
+   4nH01aVdnSkRbAjn68fw3QwYt9Dc3B8GBZkfFYnNL05en7nSyYe0ib28n
+   mUBQ/Bbh8KO6/LJYGxNobIVUnVLphV8zZKP/Orifwn1F6hPOeCoe0Bgu/
+   S1MX2chB+dUsX7/3upZqmiA1tGQV64KT5eAF0mESdmpI4VBNitwS/9wuF
    A==;
-X-CSE-ConnectionGUID: Aruy2PglTKyx5jCzpxaRHw==
-X-CSE-MsgGUID: Tt8xYz9gTGuGliZIkVpqEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="68935383"
+X-CSE-ConnectionGUID: wnfpSOsKSTaFYkAA7VameQ==
+X-CSE-MsgGUID: 8zdRt8FcTwys+2D36yofrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="68799525"
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="68935383"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 21:41:19 -0800
-X-CSE-ConnectionGUID: oXaF442BQAGMmB1v9YxQiw==
-X-CSE-MsgGUID: FSm4v2TUT+OoRxS3UIF/qw==
+   d="scan'208";a="68799525"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 22:28:23 -0800
+X-CSE-ConnectionGUID: pTeL7JA7RvWCXcS64CYuZw==
+X-CSE-MsgGUID: icb7pnuUSoSuTY5EhAWtAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
-   d="scan'208";a="202908463"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Jan 2026 21:41:14 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+   d="scan'208";a="232642980"
+Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 02 Jan 2026 22:28:21 -0800
+Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbuO0-000000000cH-0lnt;
-	Sat, 03 Jan 2026 05:41:12 +0000
-Date: Sat, 3 Jan 2026 06:40:34 +0100
+	id 1vbv7b-000000002b7-2EZ0;
+	Sat, 03 Jan 2026 06:28:19 +0000
+Date: Sat, 03 Jan 2026 14:27:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	rust-for-linux@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lossin@kernel.org, lyude@redhat.com,
-	ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com,
-	gary@garyguo.net, a.hindborg@kernel.org, aliceryhl@google.com,
-	tmgross@umich.edu, dakr@kernel.org, peterz@infradead.org,
-	mingo@redhat.com, will@kernel.org, longman@redhat.com,
-	felipe_life@live.com, daniel@sedlak.dev,
-	daniel.almeida@collabora.com, thomas.hellstrom@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
-Subject: Re: [PATCH v9 5/7] rust: ww_mutex: add Mutex, AcquireCtx and
- MutexGuard
-Message-ID: <202601030632.SukxzGNs-lkp@intel.com>
-References: <20260102175302.194435-6-work@onurozkan.dev>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 1/1]
+ arch/arm64/mm/fault.c:492:31: sparse: sparse: incorrect type in return
+ expression (different base types)
+Message-ID: <202601031423.1gEU7yKe-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260102175302.194435-6-work@onurozkan.dev>
 
-Hi Onur,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/locking/core]
-[also build test ERROR on rust/rust-next linus/master v6.16-rc1 next-20251219]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Onur-zkan/rust-add-C-wrappers-for-ww_mutex-inline-functions/20260103-021353
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20260102175302.194435-6-work%40onurozkan.dev
-patch subject: [PATCH v9 5/7] rust: ww_mutex: add Mutex, AcquireCtx and MutexGuard
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260103/202601030632.SukxzGNs-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601030632.SukxzGNs-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   a0f93b828ee5433c5b427d8122a6dda0b514d985
+commit: 2fd69fa6bcab984b56ccfd4860b10f11f1966bed [1/1] FROMLIST: arm64/mm: add speculative page fault
+config: arm64-randconfig-r122-20251224 (https://download.01.org/0day-ci/archive/20260103/202601031423.1gEU7yKe-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601031423.1gEU7yKe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601030632.SukxzGNs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601031423.1gEU7yKe-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/mm/fault.c:492:31: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted vm_fault_t @@
+   arch/arm64/mm/fault.c:492:31: sparse:     expected int
+   arch/arm64/mm/fault.c:492:31: sparse:     got restricted vm_fault_t
+   arch/arm64/mm/fault.c:561:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [usertype] fault @@     got int @@
+   arch/arm64/mm/fault.c:561:15: sparse:     expected restricted vm_fault_t [usertype] fault
+   arch/arm64/mm/fault.c:561:15: sparse:     got int
+   arch/arm64/mm/fault.c:591:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [usertype] fault @@     got int @@
+   arch/arm64/mm/fault.c:591:15: sparse:     expected restricted vm_fault_t [usertype] fault
+   arch/arm64/mm/fault.c:591:15: sparse:     got int
+   arch/arm64/mm/fault.c:620:13: sparse: sparse: restricted vm_fault_t degrades to integer
+   arch/arm64/mm/fault.c:620:13: sparse: sparse: restricted vm_fault_t degrades to integer
+   arch/arm64/mm/fault.c:665:39: sparse: sparse: restricted vm_fault_t degrades to integer
 
-   PATH=/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.88.0-bindgen-0.72.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> error: expected item, found `>>`
-   --> rust/kernel/sync/lock/ww_mutex.rs:440:1
-   |
-   440 | >>>>>>> 90f935950ff8 (rust: ww_mutex: add Mutex, AcquireCtx and MutexGuard)
-   | ^^ expected item
-   |
-   = note: for a full list of items that can appear in modules, see <https://doc.rust-lang.org/reference/items.html>
---
->> error: expected item, found `>>`
-   --> rust/kernel/sync/lock/ww_mutex.rs:440:1
-   |
-   440 | >>>>>>> 90f935950ff8 (rust: ww_mutex: add Mutex, AcquireCtx and MutexGuard)
-   | ^^ expected item
-   |
-   = note: for a full list of items that can appear in modules, see <https://doc.rust-lang.org/reference/items.html>
---
-   Error writing files: failed to resolve mod `ww_mutex`: cannot parse rust/kernel/sync/lock/ww_mutex.rs
->> error: expected item, found `>>`
-   --> rust/kernel/sync/lock/ww_mutex.rs:440:1
-   |
-   440 | >>>>>>> 90f935950ff8 (rust: ww_mutex: add Mutex, AcquireCtx and MutexGuard)
-   | ^^ expected item
-   |
-   = note: for a full list of items that can appear in modules, see <https://doc.rust-lang.org/reference/items.html>
+vim +492 arch/arm64/mm/fault.c
+
+1d18c47c735e8a Catalin Marinas   2012-03-05  471  
+1d18c47c735e8a Catalin Marinas   2012-03-05  472  	if (unlikely(!vma))
+4745224b45097d Anshuman Khandual 2019-06-07  473  		return VM_FAULT_BADMAP;
+1d18c47c735e8a Catalin Marinas   2012-03-05  474  
+1d18c47c735e8a Catalin Marinas   2012-03-05  475  	/*
+1d18c47c735e8a Catalin Marinas   2012-03-05  476  	 * Ok, we have a good vm_area for this memory access, so we can handle
+1d18c47c735e8a Catalin Marinas   2012-03-05  477  	 * it.
+1d18c47c735e8a Catalin Marinas   2012-03-05  478  	 */
+4745224b45097d Anshuman Khandual 2019-06-07  479  	if (unlikely(vma->vm_start > addr)) {
+4745224b45097d Anshuman Khandual 2019-06-07  480  		if (!(vma->vm_flags & VM_GROWSDOWN))
+4745224b45097d Anshuman Khandual 2019-06-07  481  			return VM_FAULT_BADMAP;
+4745224b45097d Anshuman Khandual 2019-06-07  482  		if (expand_stack(vma, addr))
+4745224b45097d Anshuman Khandual 2019-06-07  483  			return VM_FAULT_BADMAP;
+4745224b45097d Anshuman Khandual 2019-06-07  484  	}
+4745224b45097d Anshuman Khandual 2019-06-07  485  
+db6f41063cbdb5 Will Deacon       2013-07-19  486  	/*
+db6f41063cbdb5 Will Deacon       2013-07-19  487  	 * Check that the permissions on the VMA allow for the fault which
+cab15ce604e550 Catalin Marinas   2016-08-11  488  	 * occurred.
+db6f41063cbdb5 Will Deacon       2013-07-19  489  	 */
+4745224b45097d Anshuman Khandual 2019-06-07  490  	if (!(vma->vm_flags & vm_flags))
+4745224b45097d Anshuman Khandual 2019-06-07  491  		return VM_FAULT_BADACCESS;
+6a1bb025d28e10 Peter Xu          2020-08-11 @492  	return handle_mm_fault(vma, addr & PAGE_MASK, mm_flags, regs);
+1d18c47c735e8a Catalin Marinas   2012-03-05  493  }
+1d18c47c735e8a Catalin Marinas   2012-03-05  494  
+
+:::::: The code at line 492 was first introduced by commit
+:::::: 6a1bb025d28e1026fead73b7b33e2dfccba3f4d2 mm/arm64: use general page fault accounting
+
+:::::: TO: Peter Xu <peterx@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
