@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA5A2EBDC0;
-	Fri,  2 Jan 2026 17:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5FA27453;
+	Sat,  3 Jan 2026 01:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767375855; cv=none; b=hr//6jJl3/JN81AIVinaPJQPot9Wj7edm/NDHxY7GIqdQfzZR/lTIu4wdXWTqA7KlRCX0lzzZV8p+LxzGVhK21f37F3rN31R2TwhXlhDIJaV81/2YWxWu0IUUPQnoYWUjaDU5G2xgYRrdNy5qkp9Ci0gr7iTLdQQm2IeHtPpJPo=
+	t=1767404235; cv=none; b=BqBJhjYmdW8V0JP51+zeNwNLn7mkYC1fWyGBYfl2+8TrLtmX3ZVAyt0xfILVY2Pj7fWN0ynWxxcI1wrcYAZt2HjEBcpoeRLMOoZtc+No+MoXZtByq4CukYz/j5feVbLyek6BfoiADOzNilDXs5nL2dCFQqrcjSGctif1ETrQj5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767375855; c=relaxed/simple;
-	bh=KOZ5foOUSxYaKCChUnSfgSGAhjJZijduMAvs7fjhWnQ=;
+	s=arc-20240116; t=1767404235; c=relaxed/simple;
+	bh=VE1xzgjjWYjXm43fyyzXvGlUIdhmjF7rIMUozNnHze0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I9UgIHLMG0S82RR9Rm1Nae91a+tTzr9wtH9UDqXqqEF7DRnpqpj8mDUCfnWCIkiJNRXpi4FcWD4E9Cy7BGZC1UbwQqhL1hXbdGSk+4oJQD4fOQd1SDBbPa2+Eod3NHzBVYZL8pRlhQhdIyGrtVIzQgo9EQ1uileW3U3gyGNzcP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tzs5kWZg; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=umeqIt29tD3JHVdjzIfpQ0qdq0kiEEppCaj+tEpeJAwGddoTU+EHrqFzOvNUxNpgAvMsKW0TDK5uHQx3iJn8w+TPUl5tYQkBm2F7O4H7PxGfav9VIL8ps1t27WhmCX9Qnk4kDtGXWmzER26TzluETjdbIv7OI8WoJRg8HreZ9RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YfoHqVnI; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tzs5kWZg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YfoHqVnI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767375854; x=1798911854;
+  t=1767404234; x=1798940234;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KOZ5foOUSxYaKCChUnSfgSGAhjJZijduMAvs7fjhWnQ=;
-  b=Tzs5kWZg/BxY37LwHLPVnqXBcbvLzUwFytCOi2bmQhy65EEP4x+e7EOU
-   n3Bk/Hht1vfgDXzMbx4Wb0qNMexJhmfLjYk9Sc5TVQ9Qvb+n9fYzqgePf
-   zsV2I8r9vz116RP8BGxoKL7XjNg45j8grCzRRBFefSgURgZMsNppsYcJ2
-   inx7zfWvMHTF+lTg77HZr2OYVEjXGptQJpWQwNWbcw/d8zNLMxTmL9neH
-   gSHxkLXhQKFcvMUABaSQq+aIEMB0i3Vq3XvSPT7mD+UVJST1q9is5CP6O
-   RDATmvyb7iMREmc+u+09/NVNWcoF8HvOKClncC2VQ9OzShz2QqSRvONfI
-   w==;
-X-CSE-ConnectionGUID: C/aMLEBiSYmdfKn7sQR+RQ==
-X-CSE-MsgGUID: kJ+k7mUETKCnbtQSDdWwSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="68850817"
-X-IronPort-AV: E=Sophos;i="6.21,197,1763452800"; 
-   d="scan'208";a="68850817"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 09:44:14 -0800
-X-CSE-ConnectionGUID: bAvvsgMxSXaUZ4i9QLqufw==
-X-CSE-MsgGUID: lJ3tcmuLSl6pj5WjLyGVng==
+  bh=VE1xzgjjWYjXm43fyyzXvGlUIdhmjF7rIMUozNnHze0=;
+  b=YfoHqVnIkovhhiZSUQG+FDjgcYSgyFQwT+tr+4fjh1lpFAxqhNeq8OFU
+   /S8GiuN1isvsIRFp51bvAYukI1xziPS2IkL/8vOtl8M7zpnvjkdS7PKt7
+   wIyg1CAVV4d2lfeDapfn6hC7YnHJV5p1V5HzPsy353i2bGEG8aC3ZfILC
+   SN8Jb2N0n0qew0BctI6foHbfU8C4n77/25BHWy4DS8Tf19HLf64/kX7ki
+   Z0fpgN40KsfkmbXPQ++ImSXyT8HbL9TG+jBl76KLBFrJAgMpujW1QrHxe
+   4SeGpvPkKoJPHl1u1RmjM7INeTSTs8Scrosj9hqPSmkm0tTk8Lw3cOVF0
+   g==;
+X-CSE-ConnectionGUID: 64YSAtEGTQCINo0wNijU/w==
+X-CSE-MsgGUID: upKRnCe8S6yjVgDW8FqmSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11659"; a="72729953"
+X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
+   d="scan'208";a="72729953"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2026 17:37:12 -0800
+X-CSE-ConnectionGUID: xtDsHCaJRvmxBNbVSfJHuw==
+X-CSE-MsgGUID: 4KmqNy3cStGqWehgYBnVjQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,197,1763452800"; 
-   d="scan'208";a="202818406"
-Received: from lkp-server01.sh.intel.com (HELO c9aa31daaa89) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Jan 2026 09:44:09 -0800
-Received: from kbuild by c9aa31daaa89 with local (Exim 4.98.2)
+X-IronPort-AV: E=Sophos;i="6.21,198,1763452800"; 
+   d="scan'208";a="202388517"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa009.fm.intel.com with ESMTP; 02 Jan 2026 17:37:11 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vbjC3-000000002Nt-095Q;
-	Fri, 02 Jan 2026 17:44:07 +0000
-Date: Sat, 3 Jan 2026 01:43:28 +0800
+	id 1vbqZn-000000000Vd-3qth;
+	Sat, 03 Jan 2026 01:37:07 +0000
+Date: Sat, 3 Jan 2026 02:36:23 +0100
 From: kernel test robot <lkp@intel.com>
-To: Ruidong Tian <tianruidong@linux.alibaba.com>, catalin.marinas@arm.com,
-	will@kernel.org, lpieralisi@kernel.org, guohanjun@huawei.com,
-	sudeep.holla@arm.com, xueshuai@linux.alibaba.com,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, rafael@kernel.org,
-	lenb@kernel.org, tony.luck@intel.com, bp@alien8.de,
-	yazen.ghannam@amd.com, misono.tomohiro@fujitsu.com,
-	fengwei_yin@linux.alibaba.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	tianruidong@linux.alibaba.com
-Subject: Re: [PATCH v5 16/17] ras: AEST: support vendor node CMN700
-Message-ID: <202601030129.ltAsW4vh-lkp@intel.com>
-References: <20251230091342.50404-1-tianruidong@linux.alibaba.com>
+To: Puranjay Mohan <puranjay@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH bpf-next v3 2/2] bpf: arena: Reintroduce memcg accounting
+Message-ID: <202601030234.BWfTlyVd-lkp@intel.com>
+References: <20260102151852.570285-3-puranjay@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,60 +62,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251230091342.50404-1-tianruidong@linux.alibaba.com>
+In-Reply-To: <20260102151852.570285-3-puranjay@kernel.org>
 
-Hi Ruidong,
+Hi Puranjay,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge ras/edac-for-next linus/master v6.19-rc3 next-20251219]
-[cannot apply to arm64/for-next/core tip/smp/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on c286e7e9d1f1f3d90ad11c37e896f582b02d19c4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ruidong-Tian/ACPI-AEST-Parse-the-AEST-table/20251230-172000
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20251230091342.50404-1-tianruidong%40linux.alibaba.com
-patch subject: [PATCH v5 16/17] ras: AEST: support vendor node CMN700
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260103/202601030129.ltAsW4vh-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601030129.ltAsW4vh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Puranjay-Mohan/bpf-syscall-Introduce-memcg-enter-exit-helpers/20260102-232059
+base:   c286e7e9d1f1f3d90ad11c37e896f582b02d19c4
+patch link:    https://lore.kernel.org/r/20260102151852.570285-3-puranjay%40kernel.org
+patch subject: [PATCH bpf-next v3 2/2] bpf: arena: Reintroduce memcg accounting
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260103/202601030234.BWfTlyVd-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260103/202601030234.BWfTlyVd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601030129.ltAsW4vh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601030234.BWfTlyVd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/perf/arm-cmn.c:5:10: fatal error: 'asm/arm-cmn.h' file not found
-       5 | #include <asm/arm-cmn.h>
-         |          ^~~~~~~~~~~~~~~
-   1 error generated.
+>> kernel/bpf/syscall.c:619:21: warning: unused variable 'memcg' [-Wunused-variable]
+     619 |         struct mem_cgroup *memcg, *old_memcg;
+         |                            ^~~~~
+>> kernel/bpf/syscall.c:619:29: warning: unused variable 'old_memcg' [-Wunused-variable]
+     619 |         struct mem_cgroup *memcg, *old_memcg;
+         |                                    ^~~~~~~~~
+   2 warnings generated.
 
 
-vim +5 drivers/perf/arm-cmn.c
+vim +/memcg +619 kernel/bpf/syscall.c
 
-     4	
-   > 5	#include <asm/arm-cmn.h>
-     6	#include <linux/acpi.h>
-     7	#include <linux/bitfield.h>
-     8	#include <linux/bitops.h>
-     9	#include <linux/debugfs.h>
-    10	#include <linux/interrupt.h>
-    11	#include <linux/io.h>
-    12	#include <linux/io-64-nonatomic-lo-hi.h>
-    13	#include <linux/kernel.h>
-    14	#include <linux/list.h>
-    15	#include <linux/module.h>
-    16	#include <linux/of.h>
-    17	#include <linux/perf_event.h>
-    18	#include <linux/platform_device.h>
-    19	#include <linux/slab.h>
-    20	#include <linux/sort.h>
-    21	
+c9eb8102e21e8c Alexei Starovoitov 2025-02-21  612  
+c9eb8102e21e8c Alexei Starovoitov 2025-02-21  613  int bpf_map_alloc_pages(const struct bpf_map *map, int nid,
+317460317a02a1 Alexei Starovoitov 2024-03-07  614  			unsigned long nr_pages, struct page **pages)
+317460317a02a1 Alexei Starovoitov 2024-03-07  615  {
+317460317a02a1 Alexei Starovoitov 2024-03-07  616  	unsigned long i, j;
+317460317a02a1 Alexei Starovoitov 2024-03-07  617  	struct page *pg;
+317460317a02a1 Alexei Starovoitov 2024-03-07  618  	int ret = 0;
+317460317a02a1 Alexei Starovoitov 2024-03-07 @619  	struct mem_cgroup *memcg, *old_memcg;
+317460317a02a1 Alexei Starovoitov 2024-03-07  620  
+317460317a02a1 Alexei Starovoitov 2024-03-07  621  	for (i = 0; i < nr_pages; i++) {
+c9eb8102e21e8c Alexei Starovoitov 2025-02-21  622  		pg = __bpf_alloc_page(nid);
+317460317a02a1 Alexei Starovoitov 2024-03-07  623  
+317460317a02a1 Alexei Starovoitov 2024-03-07  624  		if (pg) {
+317460317a02a1 Alexei Starovoitov 2024-03-07  625  			pages[i] = pg;
+317460317a02a1 Alexei Starovoitov 2024-03-07  626  			continue;
+317460317a02a1 Alexei Starovoitov 2024-03-07  627  		}
+317460317a02a1 Alexei Starovoitov 2024-03-07  628  		for (j = 0; j < i; j++)
+c9eb8102e21e8c Alexei Starovoitov 2025-02-21  629  			free_pages_nolock(pages[j], 0);
+317460317a02a1 Alexei Starovoitov 2024-03-07  630  		ret = -ENOMEM;
+317460317a02a1 Alexei Starovoitov 2024-03-07  631  		break;
+317460317a02a1 Alexei Starovoitov 2024-03-07  632  	}
+317460317a02a1 Alexei Starovoitov 2024-03-07  633  
+317460317a02a1 Alexei Starovoitov 2024-03-07  634  	return ret;
+317460317a02a1 Alexei Starovoitov 2024-03-07  635  }
+317460317a02a1 Alexei Starovoitov 2024-03-07  636  
 
 -- 
 0-DAY CI Kernel Test Service
