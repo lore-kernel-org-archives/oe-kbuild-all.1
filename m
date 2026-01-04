@@ -1,92 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55068126F0A;
-	Sun,  4 Jan 2026 17:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB902D24BC
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Jan 2026 17:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767549426; cv=none; b=IiC5yhEebwhNyn+JQ7lKOoKaXVMZNLYysLbIA9n+sIwBjWvbKwLjWL7/riYvCosx6r3fV3xZWR4rXAyM1nsWN1xtyl7NomlCm6iqr3kx+xaHH1vx4LESfz/0vH4kTF+JN96BiEZnl/XNDsncTmsmnJIYOvx6jBy30gXZofFed2I=
+	t=1767549444; cv=none; b=tz5uxgnnlq3ZpWiX8kADacXJYZDyIFAAHk/tU1RXIWPIksTZZgkD1JkGF7mPR8cFwCalRhoRol+j5e+r5n6LdzzzqMrCXGIEqVIGHR7L3YowDIBN+Ou9EkOml4sf5dHsNl/SpP6mWiMxrMJT1UAocC+j2kQIP+4F4LeV0xz5h3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767549426; c=relaxed/simple;
-	bh=x1nTKAnylCVX9MkM3owrH+0o0UMQ59gwlM/bk3ClXlo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VWSYW9IS3vz1c9ibPVK8mDU6Qg1jmnyu7UN6qB/XuwcEj/rMBKOKhc9z6G+oiwPMTS52d6Zn4AR1OLx45LtaOKHEbxhTnJwDlsmxVKXGcrHpsOvUsEJHqQ2tzdtjPf0CrV2nZoFTlEE8dSnSSmRloych/wu08UNeB5MlwoiihwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cylcqxt9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767549444; c=relaxed/simple;
+	bh=rpYr84qyQDm6bynhH3+30W8Q9qixmvbqPnRe/WiROxk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ABZ1ctD7pzeAUKEcEkFX+OFm3kjmFJN0vwEKF1CH5ZeRbGuyWlPapPkTJNJSgtiibQFkbOUShYdeeZ85oPzzWKnJWs3/q+rOH3fgmFgiTEwo4X4d5J2+xP0uzXlOJTxloWwVhwoy3rZGE7qMvGFfrOqe5p/R97LuuHhC2CIY2QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JWolqK1L; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cylcqxt9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E963C19421;
-	Sun,  4 Jan 2026 17:57:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767549426;
-	bh=x1nTKAnylCVX9MkM3owrH+0o0UMQ59gwlM/bk3ClXlo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Cylcqxt9bw72yxbJmPw4Pp37ZBxVaS4bC7kFNXF5302Hd7ABMuaSGzMtWY1lYoWhx
-	 h0YscHLNcth4jhLq5eSay1vL6oYDWPKB4NzVGhsurFZPAcZb93sHMM+nrNlXTeA0S3
-	 d8Y+Js0Vs7pSG8KTaWYzmLuW8CYt+1OGwVpab0HRWJclq/SRFyBjRzgvFtsMzzjAv/
-	 cThsC+CA7Zy70+nj6fiKor0y4nWN8Zh9zbZwQAj9oSV+nE3bIPkkjd34Je5EBXQTEC
-	 PDPgd5pBGr5DtPwBusWGbrgh3hdHkFEw04nIaj9lLUpVSSqSMdjDM580UUty+zAXAy
-	 sYRszjF2sA7VA==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	damon@lists.linux.dev
-Subject: Re: [sj:damon/next 110/118] htmldocs: Documentation/admin-guide/mm/damon/usage.rst:9: WARNING: Mismatch: both interpreted text role prefix and reference suffix. [docutils]
-Date: Sun,  4 Jan 2026 09:57:02 -0800
-Message-ID: <20260104175704.57959-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <202601040942.MWKEmMKA-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JWolqK1L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767549443; x=1799085443;
+  h=date:from:to:cc:subject:message-id;
+  bh=rpYr84qyQDm6bynhH3+30W8Q9qixmvbqPnRe/WiROxk=;
+  b=JWolqK1LiSMGNjFA+nULNI9OBnkEo6jwIyDJIhy0nfov/gX+ae20Eyot
+   t4COGXrQ/9vQB/t4L/bjpSKA3CXWPsrqWYyvoLwaIVzLSwoMVh4Ma2H+w
+   HQjVm6gjMd8UmfgaPIox30bXTLwPxtLYOzCS2/Hr9ojAa8CaX3b64v8wB
+   3nnsEOMSl1dF9PmEvhMvjHRbu2kguJxF/2m18Y8I+442jKPdPh13T9xLv
+   znfvoOZaXhgs6X3A8YNdpHpMDPpirAzw5cYUsNW6EMgJftELoga0EDr+e
+   RhwbTUP+10rSYFnM6IkbnL0kSsivIwpPay3L1Th80VPkibUgCSBQfI+FC
+   g==;
+X-CSE-ConnectionGUID: wIT50qADTHu9IvD5+yqeTg==
+X-CSE-MsgGUID: aAV+0sPuRRSXkczKK78Jgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11661"; a="79569054"
+X-IronPort-AV: E=Sophos;i="6.21,201,1763452800"; 
+   d="scan'208";a="79569054"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2026 09:57:22 -0800
+X-CSE-ConnectionGUID: gJ29+HhUTX6ExHiDt3CeyA==
+X-CSE-MsgGUID: gHn6U1r3RymZZWSmEs22TQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,201,1763452800"; 
+   d="scan'208";a="225747560"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 04 Jan 2026 09:57:20 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vcSLu-000000000iX-1aLj;
+	Sun, 04 Jan 2026 17:57:18 +0000
+Date: Mon, 05 Jan 2026 01:56:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bcachefs:master 96/115] fs/bcachefs/data/ec.c:1711:2:
+ error: a label can only be part of a statement and a declaration is not a
+ statement
+Message-ID: <202601050127.UXBdXHVn-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Sun, 04 Jan 2026 09:49:08 +0100 kernel test robot <lkp@intel.com> wrote:
+tree:   https://evilpiepirate.org/git/bcachefs.git master
+head:   c8443102a129f8cf440d2e0e02ee631753f16327
+commit: 60ec49d3d5c5f92d0abff0a4886461be69672af3 [96/115] bcachefs: BCH_WRITE_must_ec, alloc_request.ec_replicas
+config: m68k-randconfig-r112-20260104 (https://download.01.org/0day-ci/archive/20260105/202601050127.UXBdXHVn-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260105/202601050127.UXBdXHVn-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   28d3c5e02b31f08aa715cf01ead66c072a9c5d5a
-> commit: 5ff971ba3599d1e5d6a1721a85d50969a3c270ca [110/118] Docs/admin-guide/mm/damon/usage: suggest use of DAMON modules
-> reproduce: (https://download.01.org/0day-ci/archive/20260104/202601040942.MWKEmMKA-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601040942.MWKEmMKA-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    WARNING: No kernel-doc for file ./include/linux/pci.h
->    ERROR: Cannot find file ./include/linux/mod_devicetable.h
->    WARNING: No kernel-doc for file ./include/linux/mod_devicetable.h
->    ERROR: Cannot find file ./include/linux/bootconfig.h
->    WARNING: No kernel-doc for file ./include/linux/bootconfig.h
-> >> Documentation/admin-guide/mm/damon/usage.rst:9: WARNING: Mismatch: both interpreted text role prefix and reference suffix. [docutils]
->    ERROR: Cannot find file ./include/linux/pstore_zone.h
->    ERROR: Cannot find file ./include/linux/pstore_zone.h
->    WARNING: No kernel-doc for file ./include/linux/pstore_zone.h
->    ERROR: Cannot find file ./include/linux/pstore_blk.h
->    ERROR: Cannot find file ./include/linux/pstore_blk.h
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601050127.UXBdXHVn-lkp@intel.com/
 
-Thank you for this report!
+All errors (new ones prefixed by >>):
 
-> 
-> 
-> vim +9 Documentation/admin-guide/mm/damon/usage.rst
-> 
->      8	
->    > 9	- *Special-purpose DAMON modules.*
->     10	  :ref:`This <damon_modules_special_purpose>`_ is for people who building,
-
-The '_' at the end of the reference was the problem.  I just pushed a fix to
-damon/next tree.
+   fs/bcachefs/data/ec.c: In function '__bch2_ec_stripe_head_get':
+>> fs/bcachefs/data/ec.c:1711:2: error: a label can only be part of a statement and a declaration is not a statement
+    1711 |  unsigned long rw_devs_change_count = READ_ONCE(c->allocator.rw_devs_change_count);
+         |  ^~~~~~~~
 
 
-Thanks,
-SJ
+vim +1711 fs/bcachefs/data/ec.c
 
-[...]
+  1669	
+  1670	static struct ec_stripe_head *
+  1671	__bch2_ec_stripe_head_get(struct btree_trans *trans,
+  1672				  unsigned disk_label,
+  1673				  unsigned algo,
+  1674				  unsigned redundancy,
+  1675				  enum bch_watermark watermark)
+  1676	{
+  1677		struct bch_fs *c = trans->c;
+  1678		struct ec_stripe_head *h;
+  1679	
+  1680		if (!redundancy)
+  1681			return NULL;
+  1682	
+  1683		int ret = bch2_trans_mutex_lock(trans, &c->ec.stripe_head_lock);
+  1684		if (ret)
+  1685			return ERR_PTR(ret);
+  1686	
+  1687		if (test_bit(BCH_FS_going_ro, &c->flags)) {
+  1688			h = ERR_PTR(bch_err_throw(c, erofs_no_writes));
+  1689			goto err;
+  1690		}
+  1691	
+  1692		list_for_each_entry(h, &c->ec.stripe_head_list, list)
+  1693			if (h->disk_label	== disk_label &&
+  1694			    h->algo		== algo &&
+  1695			    h->redundancy	== redundancy &&
+  1696			    h->watermark	== watermark) {
+  1697				ret = bch2_trans_mutex_lock(trans, &h->lock);
+  1698				if (ret) {
+  1699					h = ERR_PTR(ret);
+  1700					goto err;
+  1701				}
+  1702				goto found;
+  1703			}
+  1704	
+  1705		h = ec_new_stripe_head_alloc(c, disk_label, algo, redundancy, watermark);
+  1706		if (!h) {
+  1707			h = ERR_PTR(bch_err_throw(c, ENOMEM_stripe_head_alloc));
+  1708			goto err;
+  1709		}
+  1710	found:
+> 1711		unsigned long rw_devs_change_count = READ_ONCE(c->allocator.rw_devs_change_count);
+  1712		if (h->rw_devs_change_count != rw_devs_change_count) {
+  1713			ec_stripe_head_devs_update(c, h);
+  1714			h->rw_devs_change_count = rw_devs_change_count;
+  1715		}
+  1716	
+  1717		if (h->insufficient_devs) {
+  1718			mutex_unlock(&h->lock);
+  1719			h = NULL;
+  1720		}
+  1721	err:
+  1722		mutex_unlock(&c->ec.stripe_head_lock);
+  1723		return h;
+  1724	}
+  1725	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
