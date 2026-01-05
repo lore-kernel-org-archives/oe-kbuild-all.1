@@ -1,177 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9552C0284;
-	Mon,  5 Jan 2026 02:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3CB31ED6B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 03:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767579239; cv=none; b=GPi5g53fUbt8Ja3cgfdGSjHBNkSKdNQr0YsW6m0YLlfuuIeXqDC0P7zbdV0I8/kODB93g/XFUei3gp6vCHUso7bmBwR6+MdwX2KFQfiTd/dQPYZsNcKui09dIISQO4Vq5PC0tgzgm2mLLPs/AttBs9XSWoOm0LqsQvsuujeuBt4=
+	t=1767582157; cv=none; b=ug0/u7VnUm2X2xNFWtQG8i2/pWHU4EQvgsK8Jtn427TFPRXe/Z/TWPWGiF7yRXx4257ZFiKccB+N//ZTgwNxUR4oEUg8Qq9oH4bbEMRq8CnYBNRgEKawSI2nMylPhliv//V/aPIWxXl/VXUDI7hrZ9SkisLmX/nupiwMW4nLNqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767579239; c=relaxed/simple;
-	bh=7qEnV/Sa+t2o7OeiQX2A+W/HG0cKRT6kUazjV3jY8/8=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=fjgBioqfoA9eN8TgESnZfxHYtTUUA3IyVZHDAOY6ZFhZZuCaMHzP7hKzrxZacoii56PJvJo4j2pNGIdxP/OQXk16t54oPCp3jkvZW4Wiw1J9ltdhAbwN/FPZSfDquBArA1ljRMQp4QFDt0lvJQ8kVlSUctlVc0olZGWl2kfTcHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=paIhoqpP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767582157; c=relaxed/simple;
+	bh=iDscETH6ehFZEKfah0lShGHS2UG3isrTmk5VZvqCRGU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Uw/mbtC37UsmMqDDFD0ATRXkEpcAbAqP/2e/CY+b3I1YV3ey82oBULycT3yyraejcygVE2gV2Qn2dG3j7Lmj+D1Zfou6Ic/K0AF+HjdgnUCwp9bn3D/FW2gix1RxyEOBNTeBIlHnQ7tVMJHtPPTwp80iv2BuAhXgAWj5nyzv/BA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z029Kgls; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="paIhoqpP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92513C116C6;
-	Mon,  5 Jan 2026 02:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767579239;
-	bh=7qEnV/Sa+t2o7OeiQX2A+W/HG0cKRT6kUazjV3jY8/8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=paIhoqpPAdDvy+QzokfioEUpe2j8PgnjZ5fKBCm4TbMsRBUkMxH9q+CpBfEVh3Uuo
-	 lEeZ8dpt9iXrnEw2zsQdcMQZKFLhToUlDl87LwW6xkBTteyTzHnKqRu9VjGyVUWdBZ
-	 ohS2J/zzFEYkxzzSvJAZ58vtHQYuCoSesgaaDomqgmLEcFekQ+sn8oXbqvH6bM1QuP
-	 HWPQGUeJ8TJtcr/xKbb4nykSZMuq6nu3kVKfhvi4KFPYZCDWMHwIy8zG5jeXByuCRY
-	 Mopoj5VWsJG5KDibP1V0KnYgevQLBCRu/1ezlhblePGcvTtvK9+DNodB9xZKMFwUac
-	 Ps0VHsJEKMetA==
-Date: Mon, 5 Jan 2026 11:13:55 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: kernel/trace/fgraph.c:834 __ftrace_return_to_handler() error:
- we previously assumed 'fregs' could be null (see line 830)
-Message-Id: <20260105111355.47965a0e4d52b0ffdc102330@kernel.org>
-In-Reply-To: <20260102120913.15e5fc1b@gandalf.local.home>
-References: <202512131657.JQUt5fXQ-lkp@intel.com>
-	<20260102120913.15e5fc1b@gandalf.local.home>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z029Kgls"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767582155; x=1799118155;
+  h=date:from:to:cc:subject:message-id;
+  bh=iDscETH6ehFZEKfah0lShGHS2UG3isrTmk5VZvqCRGU=;
+  b=Z029KglszVR/b7vsfxYqVuLX1IpXx1LLT/Kb36qMLFICYkd6JCmLy3+L
+   p3YkPm70rkO46HnkIPhgm8EInRwJUVZKKlGZcnvL3dxnieAqxlvNOo+79
+   tgsEUQhFZk0/5vSVIegzBGiZ3oOS3wUzbbK1iYcFuBY794nfZgoVFSsS6
+   ylkv+9Un/tKuLmX9qvmziR7FE1Et8D5upC6XOnvqPgZQF0ZobIgE8Dnmk
+   o+S2guS5lD7X/QkixeYin+NsAACqrIzZYyADXfKtJM4lszwA6nfzHExof
+   YzdV7emkhkdSOFOXOv0gXWPIDI0dHiT20I7pqK60znJ+CQQUAcYekvGLg
+   A==;
+X-CSE-ConnectionGUID: SuCNU9ExQhmBQhyN5UVRAw==
+X-CSE-MsgGUID: KjN4H3jKSMyJ6+o088qI3Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11661"; a="67961201"
+X-IronPort-AV: E=Sophos;i="6.21,202,1763452800"; 
+   d="scan'208";a="67961201"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2026 19:02:34 -0800
+X-CSE-ConnectionGUID: 4IGo8p5DQMWX5UPPwX2m4Q==
+X-CSE-MsgGUID: qBUWRGo3SvW2WvJkQ+1P5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,202,1763452800"; 
+   d="scan'208";a="239753393"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 04 Jan 2026 19:02:33 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vcarW-0000000011R-3Ukg;
+	Mon, 05 Jan 2026 03:02:30 +0000
+Date: Mon, 05 Jan 2026 04:02:03 +0100
+From: kernel test robot <lkp@intel.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:rcu/pcpu-blkd-rcutorture-exp-testing 17/18]
+ kernel/rcu/tree.c:228:12: warning: 'rcu_exp_gp_in_progress' defined but not
+ used
+Message-ID: <202601050434.eR5n0ETb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2 Jan 2026 12:09:13 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git rcu/pcpu-blkd-rcutorture-exp-testing
+head:   93b7149fabee79b3970d81a57b4e48fb140bb0d5
+commit: b9933b786d19c3dae9303bbf3f28546b6f58d4ac [17/18] rcu: Add rcu_exp_gp_in_progress() to check expedited GP state
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260105/202601050434.eR5n0ETb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260105/202601050434.eR5n0ETb-lkp@intel.com/reproduce)
 
-> On Fri, 2 Jan 2026 17:49:39 +0300
-> Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   a919610db43b34621d0c3b333e12db9002caf5da
-> > commit: 2ca8c112c9676e2394d76760db78ffddf21d93b5 fgraph: Pass ftrace_regs to retfunc
-> > config: arm64-randconfig-r073-20251212 (https://download.01.org/0day-ci/archive/20251213/202512131657.JQUt5fXQ-lkp@intel.com/config)
-> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202512131657.JQUt5fXQ-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > kernel/trace/fgraph.c:834 __ftrace_return_to_handler() error: we previously assumed 'fregs' could be null (see line 830)
-> > 
-> > vim +/fregs +834 kernel/trace/fgraph.c
-> > 
-> > a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26  810) static inline unsigned long
-> > a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26  811) __ftrace_return_to_handler(struct ftrace_regs *fregs, unsigned long frame_pointer)
-> > d864a3ca883095 Steven Rostedt (VMware    2018-11-12  812) {
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  813) 	struct ftrace_ret_stack *ret_stack;
-> > d864a3ca883095 Steven Rostedt (VMware    2018-11-12  814) 	struct ftrace_graph_ret trace;
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  815) 	unsigned long bitmap;
-> > d864a3ca883095 Steven Rostedt (VMware    2018-11-12  816) 	unsigned long ret;
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  817) 	int offset;
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  818) 	int i;
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  819) 
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  820) 	ret_stack = ftrace_pop_return_trace(&trace, &ret, frame_pointer, &offset);
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  821) 
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  822) 	if (unlikely(!ret_stack)) {
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  823) 		ftrace_graph_stop();
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  824) 		WARN_ON(1);
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  825) 		/* Might as well panic. What else to do? */
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  826) 		return (unsigned long)panic;
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  827) 	}
-> > d864a3ca883095 Steven Rostedt (VMware    2018-11-12  828) 
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  829) 	trace.rettime = trace_clock_local();
-> > 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26 @830) 	if (fregs)
-> > 
-> > It's strange that Smatch is only now complaining about something which
-> > is from 2024...  This line assumes "freqs" can be NULL.
-> 
-> Hmm, OK, I can see why smatch is complaining. But it is missing a dependency.
-> 
-> This is called by:
-> 
-> #ifdef CONFIG_HAVE_FUNCTION_GRAPH_FREGS
-> unsigned long ftrace_return_to_handler(struct ftrace_regs *fregs)
-> {
-> 	return __ftrace_return_to_handler(fregs,
-> 				ftrace_regs_get_frame_pointer(fregs));
-> }
-> #else
-> unsigned long ftrace_return_to_handler(unsigned long frame_pointer)
-> {
-> 	return __ftrace_return_to_handler(NULL, frame_pointer);
-> }
-> #endif
-> 
-> Where if HAVE_FUNCTION_GRAPH_FREGS is true, then fregs is always set.
-> 
-> > 
-> > 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  831) 		ftrace_regs_set_instruction_pointer(fregs, ret);
-> > 2ca8c112c9676e Masami Hiramatsu (Google  2024-12-26  832) 
-> > a1be9ccc57f07d Donglin Peng              2023-04-08  833  #ifdef CONFIG_FUNCTION_GRAPH_RETVAL
-> > a3ed4157b7d898 Masami Hiramatsu (Google  2024-12-26 @834) 	trace.retval = ftrace_regs_get_return_value(fregs);
-> >                                                                                                             ^^^^^
-> > Unchecked dereference.
-> 
-> Here FUNCTION_GRAPH_RETVAL has this in the Kconfig:
-> 
-> config FUNCTION_GRAPH_RETVAL
-> 	bool "Kernel Function Graph Return Value"
-> 	depends on HAVE_FUNCTION_GRAPH_FREGS
-> 
-> It depends on HAVE_FUNCTION_GRAPH_FREGS
-> 
-> Thus, it can't be called without fregs being valid.
-> 
-> Ideas on how to tell smatch about this?
-> 
-> Hmm, I wonder if we could change this to:
-> 
-> 	/* fregs is always set when configured */
-> 	if (IS_ENABLED(CONFIG_HAVE_FUNCTION_GRAPH_FREGS))
-> 		ftrace_regs_set_instruction_pointer(fregs, ret);
-> 
-> And also add:
-> 
-> #ifdef CONFIG_FUNCTION_GRAPH_RETVAL
-> 	/* The below is always true, but makes smatch happy */
-> 	if (IS_ENABLED(CONFIG_HAVE_FUNCTION_GRAPH_FREGS))
-> 		trace.retval = ftrace_regs_get_return_value(fregs);
-> #endif
-> 
-> ?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601050434.eR5n0ETb-lkp@intel.com/
 
-Can smatch understand fregs is not NULL if the
-CONFIG_HAVE_FUNCTION_GRAPH_FREGS=y? If it can, I think this
-can skip unneeded NULL pointer check at runtime.
+All warnings (new ones prefixed by >>):
 
-(Or, define those macros to do nothing if CONFIG_HAVE_FUNCTION_GRAPH_FREGS=n)
+>> kernel/rcu/tree.c:228:12: warning: 'rcu_exp_gp_in_progress' defined but not used [-Wunused-function]
+     228 | static int rcu_exp_gp_in_progress(void)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
-Thank you,
 
-> 
-> -- Steve
-> 
-> 
-> 
-> > 
-> > a1be9ccc57f07d Donglin Peng              2023-04-08  835  #endif
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  836) 
-> > 7aa1eaef9f4282 Steven Rostedt (VMware    2024-06-03  837) 	bitmap = get_bitmap_bits(current, offset);
-> > 420e1354bcb6f0 Steven Rostedt (Google    2024-06-03  838) 
-> > 
-> 
+vim +/rcu_exp_gp_in_progress +228 kernel/rcu/tree.c
 
+   223	
+   224	/*
+   225	 * Return true if an expedited RCU grace period is in progress.
+   226	 * Similar to rcu_gp_in_progress() but checks the expedited sequence.
+   227	 */
+ > 228	static int rcu_exp_gp_in_progress(void)
+   229	{
+   230		return rcu_seq_state(rcu_seq_current(&rcu_state.expedited_sequence));
+   231	}
+   232	
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
