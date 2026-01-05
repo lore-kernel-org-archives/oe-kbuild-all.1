@@ -1,127 +1,115 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1F8218ACC
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 10:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAFE31064B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 10:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767607835; cv=none; b=SDhpFVxVZheZhPjkyrHigzqNcBbQwVpfzz/D7g+BKhvDUB9H7aZd7q9BQq4hZavr+PvM+igW4DltQRWMrE6XOE8yISn44YFdN/lKGgbvZ51gW6mpwr6eSwtPjsPM2DDLxhr/lhqJodeMfjQE4oaWBCNsCWMQd0y/19BeXrEToGM=
+	t=1767608312; cv=none; b=MYARv520TbRNXre2Yz/eV+pjZq5q6WDpTwnWhlDzxJssF1qVnluI76PbHHxsNr6/tiDKYDfwqh26ZOHh+RyJVSF9SV6idBmOo+jFWFKgrYI+2Vdp3DAk0yxxUF681/3WrTeh9hqOOXXtg+Ktw6KuN0tCx4CY6RWZusKNy4P+RfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767607835; c=relaxed/simple;
-	bh=PbGYj0RLG7CPYad+Rq+AEDImBjNt5TLUDiyB5JHGqmc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=SLnEE0UWCRUbAHjVkaTLigEFI0tbh8S9EDuvKcHk/+q50NznO+fCBIc1Of5zeNOBPYI53sa1P4zP9w4LpkV1bpQ9+BQX+hY2wQQZYUox1vz9ivVFXR/A+BZ8eaa0buJvnOpAywXrTrt9tGFrdJ/GPE54M5MT16DBvwXlz4JymOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TJKiuQzi; arc=none smtp.client-ip=209.85.221.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TJKiuQzi"
-Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-42fb0fc5aa9so5640064f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 02:10:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767607832; x=1768212632; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fxNaBeHAJ/4EZ7JTOdnqwOVDyNniPg0HIAmiaHm6nBM=;
-        b=TJKiuQziu0ZYEmfWO3aGVYVkpYg3rbOUwfsraBVxnT2uUEUPR+v8VYjPpw+LrRZjgO
-         fgK2mZwz7sZZijxuhAxQr9Q9wVoIzPhzYExnZX4A6+2mlou/IID8Y1P70Z0jraICVhDO
-         DSbh4ZrjvH1NFZRXUrzLLxLxxovZJjTXkUT8+yBZTEhC75SpfWL3z8Up1tFQ8Mjh/E40
-         e0H1atJAiSfsmW2ENDGuiSd7zjsqU+rhEnOFLygF9OtFo4w3YQqa0EZwQ1YPA0bv8rGM
-         ayfxtAMnUWpEkwnMBqxd5pReBg5UzXegEoxLzbfLatG9iWAUhapjixyxmbiSkvOaTpaX
-         wzOw==
+	s=arc-20240116; t=1767608312; c=relaxed/simple;
+	bh=/zvuWHM1k4odcHvcqxJJ1VczO0tRQWELExsu9oh7CMk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OwAw7JmwojCuEWl5isMjAkReR40xiMN5BAHk9jjQs+ktWAizsY+XkuDXftbCMGAFpjMS7xL1vTr++dCAqXbxIMaVDJU1M5NYGhusyCQS3fqe4DlJxcnmu1W7G9mMOUmYO8aE8NbjfKL4f8dV5YdGMZuCa3/LUEX23VXofP6MHB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-5dbd9c7e468so6240439137.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 02:18:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767607832; x=1768212632;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1767608309; x=1768213109;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fxNaBeHAJ/4EZ7JTOdnqwOVDyNniPg0HIAmiaHm6nBM=;
-        b=VjEs+cDD6G5GS4mRRO9fW3uzmeocqdFNi5HbrKn+RLSff4lnTcCK0aSokCdXM/QM6Q
-         x0OVbBZ7mD54/TQL4yq/+ieHFljySWKB5BhU7Wqn/PoAej5qtqPD6NAsYLYBmr3itv7S
-         1hoSQR7tKx+IV7dNEXfKoX16poy7JzzeHqsv4NIRS2LqxS8kBq2QgU1H2xHvLOzCrhYA
-         6xr1XBZKR5+ayuijCSshTq9t7kLJAnIVx2yTOZQOw1cKmr2fHQ87tja0cAQ7IRiAflFC
-         kSbpQReIyjZ5c490DbT1csRZ+BtvXOsAPOjzniwGKwCL8brk87TQryhDDBfkjdUPU8/h
-         /MMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrgl8U7Sxz/jDGAlM+ZgACf1iA7yB0/QkQLtsVfCDhZtqvWoXzVBw+uNSPYCJqsXQtkZi3xPFtItUU0BR6@lists.linux.dev
-X-Gm-Message-State: AOJu0YzKmm61X8sRpBq35mrMy8wKmGpiPul04sTttmJyQgTXFAcM9GrW
-	3q4WJV+Wshb0HmMsw2Pjzfl/khcyJIsvnMwPV/ozzKtBZ1sXoAcsVw6kVTsHh16ux58=
-X-Gm-Gg: AY/fxX5DiIBxb6rAMLYjiG2DpC/3TMUf0O91MkXm4C1TbjF8jPASFO3bRrNQLI5pkV6
-	hy7818m/WTnkRkMJH/JcDkynNYAYz/lJHWYusjMhHB2lUjs6MC+/vhRRJ5BUrmjJJdcn4/auaTY
-	jzqm3/ZasP2oJOGp+5UGUrlRS1pPpcYRMfAqIEKkRp96czPhR6hJmW0VWVx6qFfStNksS0ZU6qL
-	jJhh1hsqDhcl345i5FulVYiRqCLs+pnElVsyLq4fW3O+5HA0Oa92x/VdQZqXI4dGEL10o21KRmM
-	I+KLW+QYxFPqeZlFCQo/AYIBLDEiOSvncN4Dr8WMebrnh4/tG3IXTZqYj+w8sVmTJB/gsIO6JIg
-	X9V+YvnSQQAobESbJfGlamBLsRNmzHHZoUYcIFTM0hOmYvhEHdayaDTWVkRf1e6S2qLrisOp8J1
-	NmcpdAXjNEg3SXUpHe
-X-Google-Smtp-Source: AGHT+IFizN6ugrpoj6l/xyTx2wr6ugxEAzpdZgwgMGXWzIHWqKUPqfS+umP15OiFV+l/yYQfDLUJ0w==
-X-Received: by 2002:a5d:4a11:0:b0:431:67d:5390 with SMTP id ffacd0b85a97d-4324e50d055mr58872716f8f.54.1767607831963;
-        Mon, 05 Jan 2026 02:10:31 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea830fesm100837339f8f.20.2026.01.05.02.10.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 02:10:31 -0800 (PST)
-Date: Mon, 5 Jan 2026 13:10:27 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, "benoit.masson" <yahoo@perenite.com>,
-	jdelvare@suse.com, linux@roeck-us.net
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"benoit.masson" <yahoo@perenite.com>
-Subject: Re: [PATCH] hwmon: it87: describe per-chip temperature resources
-Message-ID: <202512300415.VRCQoZYs-lkp@intel.com>
+        bh=6Mxgg0TVTriwmzO5IEgl3p/Leeual4hKEowiAsVk7T8=;
+        b=NXV/JZiP1t50TzyzThMRq4gsox87fnAMlIW7/wy5/fChiJSVGDZ365lWGhbOtl3j5y
+         KLxz/9/WLTnGsorBI8MJRRvmY+ayLHplV3euJmwXn/3mjKXZwC3KD3T8S2Uh8hDMqbwE
+         Cz2wzFRkfzch3dxWjZDHhRuZCv8Pp6QrWis+D7c6IUDIwKicGNLh/2afFZzIV00UAJqf
+         sQvg1sjVRbQ86cgS9s6B0WZBA9E2sJ8oBe241Nxmlkcb4S1UXQbEJLqCmg9zxmYpUr7D
+         MIO/39byiBz9BHHGo93XyVxSXiY6OB6dTpyMLb/ZM1HrQpP0XUJv3anOI+oJY6SlyEmg
+         NIxw==
+X-Forwarded-Encrypted: i=1; AJvYcCVX3xJ/agmfGCRAAG3v3ehZFRRJyYnyombp3CB5S/7+K/ETJruxZnU887oqN1/K99MsNTiPR8To9lMu3Sdd@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvhoOHUm+LhF3/CmS48jIcQNl/jHbOKRuHDzFpZQYO21KntLtt
+	ioHb9pejqiIhz7yaqTZcItsWXiMGYWWkZHxk6meSe+p4wqlGVQ6HWwy4W4VL+W73
+X-Gm-Gg: AY/fxX5nL0kloWk1sJZd+TNfCpPnpLb+nGSsNels98+zCA+lHV05poJvdKm4YwCyylV
+	cu7rg/TkDrnkfqG42Zk5OwAejmwJucDzE28scyFYLq/+qmTkIR07dlOxfSPv5tI5Vv4gJ6p2CQl
+	j5sKHOxjmdQqWEW2Zlxm0JxUj5YfelIheQ2u5em8jqd5DN0vVWAQXoLS4kwlgPOaja2dqaqjdfP
+	CRfFH6gI3ne5YJrHMtXqXj70j5PARh4rCcXWD7lzR9fp2+eOY3RjrnQZIkjRP53yCPb3gZg3Dw+
+	uey9hgsd6wpfte8yNfTwMh2PpYK5ImfNzW+UKgkRxkgXCpKSCeSVy3EOIEkWgpewDU2P+AbMqxG
+	TJKYLvRuuCUp3NoBGprtl9Jdeen+rDMNYgGgTxvY/Al3iNy6H3lkcJMiG1Z29cTzVPCJfDeO1dc
+	S6VL3UUrzF2NJDO0P1AQB/x149vguLmu52Mt0G9WXr3BBWeCo8AcfV
+X-Google-Smtp-Source: AGHT+IGN3k5oo/RDTXZdeUgFK7FIBOvNSD5KAW/QnG3U2/Ohe+XDRaQKoCUmGSmYf/6/SBt5CCN0jA==
+X-Received: by 2002:a05:6102:2b88:b0:5db:dbd1:5540 with SMTP id ada2fe7eead31-5eb1a630f39mr12988227137.9.1767608308781;
+        Mon, 05 Jan 2026 02:18:28 -0800 (PST)
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-5eb1ac90a6asm14651580137.13.2026.01.05.02.18.28
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Jan 2026 02:18:28 -0800 (PST)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-55b265f5122so2518809e0c.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 02:18:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWzHNJngvbkkMObxCz8Bzv/MFQ99uT94ZjN4XVoc6nfzbgILCF3PbpfK0FSU0eIGn+knWTS1jZjfMOw4b+j@lists.linux.dev
+X-Received: by 2002:a05:6122:4692:b0:559:6960:bdf9 with SMTP id
+ 71dfb90a1353d-5615be91e87mr13750452e0c.16.1767608308216; Mon, 05 Jan 2026
+ 02:18:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251226203021.27244-1-yahoo@perenite.com>
+References: <202601022306.Dll2Dylo-lkp@intel.com>
+In-Reply-To: <202601022306.Dll2Dylo-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 5 Jan 2026 11:18:16 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUx36N=-36v0wj8T20qgM1_SxJM_=NWUNjLVqLhj9P=SQ@mail.gmail.com>
+X-Gm-Features: AQt7F2rkDIujkbNgRwKOsOO6bLW2dwWAQ6OBl6PAT1wTZ-WAPicfKwUPCq1-mk0
+Message-ID: <CAMuHMdUx36N=-36v0wj8T20qgM1_SxJM_=NWUNjLVqLhj9P=SQ@mail.gmail.com>
+Subject: Re: fs/hfsplus/unicode_test.c:43:2-7: WARNING: NULL check before some
+ freeing functions is not needed.
+To: kernel test robot <lkp@intel.com>
+Cc: Viacheslav Dubeyko <slava@dubeyko.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi benoit.masson,
+On Fri, 2 Jan 2026 at 16:18, kernel test robot <lkp@intel.com> wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   b69053dd3ffbc0d2dedbbc86182cdef6f641fe1b
+> commit: 6f84ceb98538523f49d544aa7c671c87cc23d1b1 hfsplus: introduce KUnit tests for HFS+ string operations
+> date:   6 weeks ago
+> config: arm-randconfig-r051-20251231 (https://download.01.org/0day-ci/archive/20260102/202601022306.Dll2Dylo-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 86b9f90b9574b3a7d15d28a91f6316459dcfa046)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601022306.Dll2Dylo-lkp@intel.com/
+>
+> cocci warnings: (new ones prefixed by >>)
+> >> fs/hfsplus/unicode_test.c:43:2-7: WARNING: NULL check before some freeing functions is not needed.
+>
+> vim +43 fs/hfsplus/unicode_test.c
+>
+>     39
+>     40  static void free_mock_str_env(struct test_mock_string_env *env)
+>     41  {
+>     42          if (env->buf)
 
-kernel test robot noticed the following build warnings:
+Perhaps the intention was to check the env pointer instead?
+Note that it is (currently) always a valid pointer.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>   > 43                  kfree(env->buf);
+>     44          kfree(env);
+>     45  }
+>     46
 
-url:    https://github.com/intel-lab-lkp/linux/commits/benoit-masson/hwmon-it87-describe-per-chip-temperature-resources/20251227-043108
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20251226203021.27244-1-yahoo%40perenite.com
-patch subject: [PATCH] hwmon: it87: describe per-chip temperature resources
-config: x86_64-randconfig-161-20251229 (https://download.01.org/0day-ci/archive/20251230/202512300415.VRCQoZYs-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+Gr{oetje,eeting}s,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512300415.VRCQoZYs-lkp@intel.com/
-
-smatch warnings:
-drivers/hwmon/it87.c:1694 show_pwm_temp_map() warn: variable dereferenced before IS_ERR check 'data' (see line 1691)
-
-vim +/data +1694 drivers/hwmon/it87.c
-
-94ac7ee616809d Jean Delvare   2010-03-05  1685  static ssize_t show_pwm_temp_map(struct device *dev,
-94ac7ee616809d Jean Delvare   2010-03-05  1686  				 struct device_attribute *attr, char *buf)
-94ac7ee616809d Jean Delvare   2010-03-05  1687  {
-94ac7ee616809d Jean Delvare   2010-03-05  1688  	struct sensor_device_attribute *sensor_attr = to_sensor_dev_attr(attr);
-94ac7ee616809d Jean Delvare   2010-03-05  1689  	struct it87_data *data = it87_update_device(dev);
-c962024e306ed5 Guenter Roeck  2015-04-04  1690  	int nr = sensor_attr->index;
-542f1e57c17849 benoit.masson  2025-12-26 @1691  	u8 num_map = data->num_temp_map ?: IT87_TEMP_MAP_DEFAULT;
-                                                                     ^^^^^^^^^^^^^^^^^^
-Unchecked dereference
-
-94ac7ee616809d Jean Delvare   2010-03-05  1692  	int map;
-94ac7ee616809d Jean Delvare   2010-03-05  1693  
-0282ba4a4fe6c8 Frank Crawford 2023-04-16 @1694  	if (IS_ERR(data))
-                                                                   ^^^^
-Checked too late.
-
-0282ba4a4fe6c8 Frank Crawford 2023-04-16  1695  		return PTR_ERR(data);
-0282ba4a4fe6c8 Frank Crawford 2023-04-16  1696  
-0624d861983c2c Guenter Roeck  2015-04-06  1697  	map = data->pwm_temp_map[nr];
+                        Geert
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
