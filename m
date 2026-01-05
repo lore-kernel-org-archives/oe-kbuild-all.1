@@ -1,231 +1,145 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82404330B1A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 11:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D30633CE88
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 11:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767611593; cv=none; b=pkrlllP2m8of+i0+AhIAPi2BnS7jsK+b1JSvfCPI/lgnavWiiC2IevJ75f6Stfqrf88zwdTvwh+1eGxa2ljQISNU242aXB0leHxr2l4r/7vT9/3ua1xQR5VgjZ/W78WNy97rpD51Zh3xWXN4WrhW9QA8LnCAr1DxdRd/zv/3Els=
+	t=1767611720; cv=none; b=Ztfh+cXBWqYd5oiIgYsLjzRzB9j9VZfiua0l71sUMTg3WoXe8yIgMLbHHmbDrd9bVwDPIPQOUpjf4hofYv7YifGHQQ4qerh4hbjqmhu0bJyw2Eov0LvsaTkWw27X7+ohiNFGoyqvpbZaIO/5EkLGAvDibI4gLHo4hLlAaw1sob8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767611593; c=relaxed/simple;
-	bh=wDEnx8py3cRoP5WSgMWu6tkoV48XyTkizUTd6hRARkA=;
+	s=arc-20240116; t=1767611720; c=relaxed/simple;
+	bh=0kDcymjq+o/D1vvB6qbAMa4ADp5xiX6lMJecLvFNBBY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UWDHg/HDS4sG/tSSzq/IWtyhrDvayMHJFuk2f4hqKTtfWgMpZ3csCJPFT5AoTZgfaHADBX/HaprIlUI8gcdfvtYpqbRw+BUO1LLn2YYaFVBJ3bkDxFLYWzHyMy6dUhEAUwntmeevHFFt4GwW3QJz1c+iE6hPlfkikRH4TY83AAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cRcxyqiF; arc=none smtp.client-ip=209.85.128.67
+	 Content-Disposition; b=TnbwQ5n3geDd9wFYJZRcrSueOfydAPOiCF5B2jrd0U7RcIOi9rrKLGp3hEnnl33uS39YNAqR9ZlQiClby94/MIbTXUZmhDrt35fCnU/xsvP3pQekfmjlcQI6F33inLE3ZHDOwWlAR3KPCWICwIGNYDwcg13WRDXmYrhhCyAzBL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aPsNB1bC; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cRcxyqiF"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-47774d3536dso15105775e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 03:13:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aPsNB1bC"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so109555575e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 03:15:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767611584; x=1768216384; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Sy36NtOWnUUNkuYlvTcG0nfyZwMeK2bqd85x3u4/JPg=;
-        b=cRcxyqiFh/W15aA7RVdaGGJbiOpudvI+nPkL4CiQkHFuW0JgkTyYOgn/6VyhPCgrWp
-         3/le7AK+mGNtCHovjKxB+griXUm2zQd6XAo1BBFXvi/lmKw4rkIhm1qLDDE9tanXubpx
-         v4hjJtn2DIGB2BomUp2W2P8SDEHb0ibemIibDss+Q8T7XkgK2pOuvKNkbhat7KX5K9op
-         piAtMIsSOxIijBOymEZVBIaE/h8wc4wLnmlzTfkl44+VR5JESKhXRQvf9iSmj8sM8Lzp
-         DM4dqiEf67hETJrfsscKkcgML4btZES5VW688SOIe/9M6NiJSYkLTQzQdNDVIs5yGsoj
-         RhGQ==
+        d=linaro.org; s=google; t=1767611717; x=1768216517; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uKVmfhHjbGUvqsnpsCY/VLq6NWt+vGOrMbqRldfQg/Y=;
+        b=aPsNB1bCW642v+MIcLxuOX04aYo+xV4AnMao4+0+dygRbskDDjSNJbFyIFbQ9O5QPZ
+         nMNUIvn974nwdO6Nk4stp3BgYoIOy8dNNYxGsL/D7RkhJVI0dumSomzmdGQmmajcdYGD
+         Gx9waUA1d+grr83tQ2pDFLKdUWXBxdBsU3+009cXcKhyeHcTh8daS7eQGkTDrWreC+VQ
+         x2Z1TOCDo7OBTqwXyFbZhgmJn3S/Fru7Wf6hzmq1QardArNxFzGuSZuIyyEidERTi55X
+         IafI+iEFfKvroPcnhOtqJA7m2t2a6ZyVpygqOOO42hxUkafKE8g71nzOBTSO/VLMgY0m
+         7apA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767611584; x=1768216384;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Sy36NtOWnUUNkuYlvTcG0nfyZwMeK2bqd85x3u4/JPg=;
-        b=ab9xSDR5f7SAfh2uhP85sMQY3ZGg9WRe9Erf9z310yCFgVQJTNE8HB95pajLentjgu
-         itBSfn66KAB/9tpBQ+ZjnrgxSmsY3cV3Lm/ReOHXE+cx4aFZea1VILtmLe2x9j/SkWQu
-         3g1OwNf1446Tmjmku0ZcCJAMJUrSHuGceqHcX3oLMOfpRflVXIHTOwmktR6er762NYZf
-         IH5rCEiWv+Xh/RaVKjvpCh4Fb7iKSm4cAJmu0tEpngzSGtKRcWTe5lOShRHXWV6pqC2i
-         xMHV7W7pMMUVYmqw3HI8GMvoAJNpOUhQUwYGuslaK0arpH/T9kLCALXhae8Fw/PyfAaO
-         WUOA==
-X-Forwarded-Encrypted: i=1; AJvYcCUrOUTb3xZ9s/QNQwmUx76Dt1H1KxHjOIP0dPa9aNqEW5Wk0yRV2xUCo4s222MJklUdzRfk4AmcH9VSufha@lists.linux.dev
-X-Gm-Message-State: AOJu0YxpSuex7s7XQeZEHMMtt5/4Hr3yAJ/h/yJfAYY9VZKGgXUt2buY
-	mDpB7mo1A50QKctuS/PImc3DDJC4tlsyqT5hK81fsP0l77842B1eOauG8VoppjouLy8=
-X-Gm-Gg: AY/fxX4ajjrRp19WCT3NA57Ip+wiTxYZvqq5gPhf+Hz6vW22dbjX11Wk4rnjcdcK76w
-	F+VBTRJV5tZqavnDF8nDbKwziPWQnn19mkkFekR8NKaZsRJAjwoWiHuBmHAlH+WpRHyO8YCf9Eh
-	tW4Owl5e9yLy8zRSI/lfK/TFUgXSysbGp36gVFOJpqTLZzvivpzejizeNwIVy71AVlm20/41xZX
-	1SHOIRqSkn6OR0iqH9syjEwruzmzdS+pzcADb+x7E9yLrvdvmRRgIPd74Hzt4bW1vlE3jd9bipQ
-	2q6Wtxz76ysCfAULQgrhT3FGvdh/g8aq1W6qa4ppjWBxk8KkHWIkQPEx/2+TG7+Ji+Hh2V2o8cD
-	wadVkO0DTsWbLPW3NWJS9CkeU14MoFzxPz9j05KgdlQQOQt+nn+hIT3wVkrB3qGoodEFn21B4lh
-	b50bPsefEesCyE9lLX
-X-Google-Smtp-Source: AGHT+IEJP/FgEZPj2KWjxlU5cLjyxJQY3xh0ilcQNpmede28a0I8ZSxO6DfSzSmdDBukFGb7vvgtPA==
-X-Received: by 2002:a05:600c:3110:b0:477:9e0c:f59 with SMTP id 5b1f17b1804b1-47d6ba7e485mr109359645e9.2.1767611584285;
-        Mon, 05 Jan 2026 03:13:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767611717; x=1768216517;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uKVmfhHjbGUvqsnpsCY/VLq6NWt+vGOrMbqRldfQg/Y=;
+        b=U1YBHRkIydk9p4TnU0Cifw3UzEQVovhtk1ASNSpCunjapCiJyQGx12uVk/Ctnfk9fR
+         uyFDGfAv6Bkw34a2wzHAGrHs01vzMyxWY9QDLDDFzDGxXr63o4AW/9KYYd5B20ogLd8F
+         OWlrICjoIKjr3B0tUzy1KvBZnE4A0Igt294OHRN3yJtbKAMk4BUjG81I5KahIHPXa4TB
+         wE6FpBl28tw5BQBjf08z01S9/cfmRM36j5UktIZZ+Xy2+1VfFc3g3lYfGYiGi6gMAEdt
+         pGOWJS4eJnwbyZRFFCO8BfWsNcEg/O6H3/p3yUGIBPlAXbsybKSPgbyv4sPQS7cwqcx3
+         KyeA==
+X-Forwarded-Encrypted: i=1; AJvYcCV2hpo4hpcYSxfvFbXZOnBIgSLG5FjWtNIg/XOEIj8Zl7jivVe9llPiE90PHStDWGnlaiDlUYfc/s1PSfAD@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPjZkngMzXIcw/Mjvv41XZOmdwtcFDrR7wVmONLDNLEwfWRw4S
+	bKWhZZ4Zdpb+NI1Xly3WkymNV7trxjpDktXD9k7bExPQYdDMCXWa05ZIdVu8pQkI04g=
+X-Gm-Gg: AY/fxX7E2hSsZ6Tf4SUlg85dhy5sJpLeLoUE/Bkh83NYbOpQ6rTu9843e/9U9xPSu30
+	LCjU3T0DONkSyCPA9Ul0gOMAIsClNjBMWI1LmPOS0z+/JHZXrb6rRLPTcGutzydHBtrMZLvviMb
+	Bd+90bHux9OzEOv0R2pN6V88BDu0rAG+dPr2UVl7rNQcqM1wNVmyRJPq8siNiycTfAEhERIRiS9
+	GiqS7rvE3Kt1xdpANpy4vMgQQIWAfBXLyFiVkuCcXJadFCeqkRLNJ6QXpbc7cbT4YMo74JQ3trv
+	GdT1BVCowFLjlJh/KCrNDe9eNlHBqYPW1EdTH8Sb727iyCvJVrZQeqtfSO+ntOpoLxpNAPPxy7N
+	N4BMWb4J4fBMj/7Mgfl89tcFd6GTw2eu4kaiVTFeXRsbSJVWPP7kqmu94J2EZm9NU+vsGvJIqUS
+	2PV0meAm4Z13k8daVQ
+X-Google-Smtp-Source: AGHT+IFLXEfSuIwnX/Qmm1uj6voVgb9TFrw3CDh1dWAe0goYosUym3lJQPWCK99UqpsGSqfrzBVHfg==
+X-Received: by 2002:a05:600c:1d0b:b0:477:b0b9:312a with SMTP id 5b1f17b1804b1-47d195498a2mr529711545e9.7.1767611716735;
+        Mon, 05 Jan 2026 03:15:16 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6d13e2e0sm180702655e9.1.2026.01.05.03.13.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6d33e2f4sm144597345e9.11.2026.01.05.03.15.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 03:13:03 -0800 (PST)
-Date: Mon, 5 Jan 2026 13:33:41 +0300
+        Mon, 05 Jan 2026 03:15:16 -0800 (PST)
+Date: Mon, 5 Jan 2026 14:15:13 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ntfs3@lists.linux.dev
-Subject: [paragon-software-group-ntfs3:devel 7/9] fs/ntfs3/fsntfs.c:1265
- ntfs_read_run_nb_ra() error: uninitialized symbol 'clen'.
-Message-ID: <202512230646.v5hrYXL0-lkp@intel.com>
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Vinod Koul <vkoul@kernel.org>
+Subject: [vkoul-soundwire:next 5/7] drivers/soundwire/bus_type.c:102
+ sdw_bus_probe() error: Calling ida_alloc_max() with a 'max' argument which
+ is a power of 2. -1 missing?
+Message-ID: <202512240450.hlDH3nCs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/Paragon-Software-Group/linux-ntfs3.git devel
-head:   f7edab0cee03a1cbe0e55a7bcab8d2d8b6b74278
-commit: 989e29450efaf4983c66b7a628f2ffc03b6d02e8 [7/9] fs/ntfs3: improve readahead for bitmap initialization and large directory scans
-config: i386-randconfig-141-20251222 (https://download.01.org/0day-ci/archive/20251223/202512230646.v5hrYXL0-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/soundwire.git next
+head:   c6f1e99ab03c5a94ed6389f5930e91f274b3ba67
+commit: 866160a51f5586d53e17ceab36029c8805ffea28 [5/7] soundwire: Use bus methods for .probe(), .remove() and .shutdown()
+config: i386-randconfig-141-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240450.hlDH3nCs-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512230646.v5hrYXL0-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202512240450.hlDH3nCs-lkp@intel.com/
 
 smatch warnings:
-fs/ntfs3/fsntfs.c:1265 ntfs_read_run_nb_ra() error: uninitialized symbol 'clen'.
-fs/ntfs3/fsntfs.c:1266 ntfs_read_run_nb_ra() error: uninitialized symbol 'idx'.
+drivers/soundwire/bus_type.c:102 sdw_bus_probe() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
 
-vim +/clen +1265 fs/ntfs3/fsntfs.c
+vim +/max +102 drivers/soundwire/bus_type.c
 
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1166  
-989e29450efaf49 Konstantin Komarov 2025-12-08  1167  int ntfs_read_run_nb_ra(struct ntfs_sb_info *sbi, const struct runs_tree *run,
-989e29450efaf49 Konstantin Komarov 2025-12-08  1168  			u64 vbo, void *buf, u32 bytes, struct ntfs_buffers *nb,
-989e29450efaf49 Konstantin Komarov 2025-12-08  1169  			struct file_ra_state *ra)
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1170  {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1171  	int err;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1172  	struct super_block *sb = sbi->sb;
-989e29450efaf49 Konstantin Komarov 2025-12-08  1173  	struct address_space *mapping = sb->s_bdev->bd_mapping;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1174  	u32 blocksize = sb->s_blocksize;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1175  	u8 cluster_bits = sbi->cluster_bits;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1176  	u32 off = vbo & sbi->cluster_mask;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1177  	u32 nbh = 0;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1178  	CLST vcn_next, vcn = vbo >> cluster_bits;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1179  	CLST lcn, clen;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1180  	u64 lbo, len;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1181  	size_t idx;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1182  	struct buffer_head *bh;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1183  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1184  	if (!run) {
-e8b8e97f91b80f0 Kari Argillander   2021-08-03  1185  		/* First reading of $Volume + $MFTMirr + $LogFile goes here. */
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1186  		if (vbo > MFT_REC_VOL * sbi->record_size) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1187  			err = -ENOENT;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1188  			goto out;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1189  		}
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1190  
-e8b8e97f91b80f0 Kari Argillander   2021-08-03  1191  		/* Use absolute boot's 'MFTCluster' to read record. */
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1192  		lbo = vbo + sbi->mft.lbo;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1193  		len = sbi->record_size;
+866160a51f5586 Uwe Kleine-König     2025-12-15   75  static int sdw_bus_probe(struct device *dev)
+9251345dca24b6 Vinod Koul           2017-12-14   76  {
+9251345dca24b6 Vinod Koul           2017-12-14   77  	struct sdw_slave *slave = dev_to_sdw_dev(dev);
+9251345dca24b6 Vinod Koul           2017-12-14   78  	struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
+9251345dca24b6 Vinod Koul           2017-12-14   79  	const struct sdw_device_id *id;
+9251345dca24b6 Vinod Koul           2017-12-14   80  	int ret;
+9251345dca24b6 Vinod Koul           2017-12-14   81  
+fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   82  	/*
+fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   83  	 * fw description is mandatory to bind
+fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   84  	 */
+fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   85  	if (!dev->fwnode)
+fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   86  		return -ENODEV;
+fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   87  
+fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   88  	if (!IS_ENABLED(CONFIG_ACPI) && !dev->of_node)
+fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   89  		return -ENODEV;
+fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   90  
+9251345dca24b6 Vinod Koul           2017-12-14   91  	id = sdw_get_device_id(slave, drv);
+9251345dca24b6 Vinod Koul           2017-12-14   92  	if (!id)
+9251345dca24b6 Vinod Koul           2017-12-14   93  		return -ENODEV;
+9251345dca24b6 Vinod Koul           2017-12-14   94  
+9251345dca24b6 Vinod Koul           2017-12-14   95  	/*
+9251345dca24b6 Vinod Koul           2017-12-14   96  	 * attach to power domain but don't turn on (last arg)
+9251345dca24b6 Vinod Koul           2017-12-14   97  	 */
+d42c7c6fd66a6e Claudiu Beznea       2025-07-03   98  	ret = dev_pm_domain_attach(dev, 0);
+29ffcc88f2065f Ulf Hansson          2018-04-26   99  	if (ret)
+29ffcc88f2065f Ulf Hansson          2018-04-26  100  		return ret;
+29ffcc88f2065f Ulf Hansson          2018-04-26  101  
+aab12022b076f0 Charles Keepax       2025-04-29 @102  	ret = ida_alloc_max(&slave->bus->slave_ida, SDW_FW_MAX_DEVICES, GFP_KERNEL);
 
-clen is not initialized when run is false.
+SDW_FW_MAX_DEVICES - 1
 
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1194  	} else if (!run_lookup_entry(run, vcn, &lcn, &clen, &idx)) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1195  		err = -ENOENT;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1196  		goto out;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1197  	} else {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1198  		if (lcn == SPARSE_LCN) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1199  			err = -EINVAL;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1200  			goto out;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1201  		}
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1202  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1203  		lbo = ((u64)lcn << cluster_bits) + off;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1204  		len = ((u64)clen << cluster_bits) - off;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1205  	}
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1206  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1207  	off = lbo & (blocksize - 1);
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1208  	if (nb) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1209  		nb->off = off;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1210  		nb->bytes = bytes;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1211  	}
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1212  
-989e29450efaf49 Konstantin Komarov 2025-12-08  1213  	if (ra && !ra->ra_pages)
-989e29450efaf49 Konstantin Komarov 2025-12-08  1214  		file_ra_state_init(ra, mapping);
-989e29450efaf49 Konstantin Komarov 2025-12-08  1215  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1216  	for (;;) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1217  		u32 len32 = len >= bytes ? bytes : len;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1218  		sector_t block = lbo >> sb->s_blocksize_bits;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1219  
-989e29450efaf49 Konstantin Komarov 2025-12-08  1220  		if (ra) {
-989e29450efaf49 Konstantin Komarov 2025-12-08  1221  			pgoff_t index = lbo >> PAGE_SHIFT;
-989e29450efaf49 Konstantin Komarov 2025-12-08  1222  			if (!ra_has_index(ra, index)) {
-989e29450efaf49 Konstantin Komarov 2025-12-08  1223  				page_cache_sync_readahead(mapping, ra, NULL,
-989e29450efaf49 Konstantin Komarov 2025-12-08  1224  							  index, 1);
-989e29450efaf49 Konstantin Komarov 2025-12-08  1225  				ra->prev_pos = (loff_t)index << PAGE_SHIFT;
-989e29450efaf49 Konstantin Komarov 2025-12-08  1226  			}
-989e29450efaf49 Konstantin Komarov 2025-12-08  1227  		}
-989e29450efaf49 Konstantin Komarov 2025-12-08  1228  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1229  		do {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1230  			u32 op = blocksize - off;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1231  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1232  			if (op > len32)
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1233  				op = len32;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1234  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1235  			bh = ntfs_bread(sb, block);
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1236  			if (!bh) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1237  				err = -EIO;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1238  				goto out;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1239  			}
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1240  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1241  			if (buf) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1242  				memcpy(buf, bh->b_data + off, op);
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1243  				buf = Add2Ptr(buf, op);
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1244  			}
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1245  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1246  			if (!nb) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1247  				put_bh(bh);
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1248  			} else if (nbh >= ARRAY_SIZE(nb->bh)) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1249  				err = -EINVAL;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1250  				goto out;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1251  			} else {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1252  				nb->bh[nbh++] = bh;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1253  				nb->nbufs = nbh;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1254  			}
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1255  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1256  			bytes -= op;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1257  			if (!bytes)
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1258  				return 0;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1259  			len32 -= op;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1260  			block += 1;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1261  			off = 0;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1262  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1263  		} while (len32);
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1264  
-82cae269cfa9530 Konstantin Komarov 2021-08-13 @1265  		vcn_next = vcn + clen;
-                                                                                 ^^^^
-Uninitialized.
-
-82cae269cfa9530 Konstantin Komarov 2021-08-13 @1266  		if (!run_get_entry(run, ++idx, &vcn, &lcn, &clen) ||
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1267  		    vcn != vcn_next) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1268  			err = -ENOENT;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1269  			goto out;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1270  		}
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1271  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1272  		if (lcn == SPARSE_LCN) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1273  			err = -EINVAL;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1274  			goto out;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1275  		}
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1276  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1277  		lbo = ((u64)lcn << cluster_bits);
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1278  		len = ((u64)clen << cluster_bits);
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1279  	}
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1280  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1281  out:
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1282  	if (!nbh)
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1283  		return err;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1284  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1285  	while (nbh) {
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1286  		put_bh(nb->bh[--nbh]);
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1287  		nb->bh[nbh] = NULL;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1288  	}
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1289  
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1290  	nb->nbufs = 0;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1291  	return err;
-82cae269cfa9530 Konstantin Komarov 2021-08-13  1292  }
+aab12022b076f0 Charles Keepax       2025-04-29  103  	if (ret < 0) {
+aab12022b076f0 Charles Keepax       2025-04-29  104  		dev_err(dev, "Failed to allocated ID: %d\n", ret);
+aab12022b076f0 Charles Keepax       2025-04-29  105  		return ret;
+aab12022b076f0 Charles Keepax       2025-04-29  106  	}
+aab12022b076f0 Charles Keepax       2025-04-29  107  	slave->index = ret;
+aab12022b076f0 Charles Keepax       2025-04-29  108  
+9251345dca24b6 Vinod Koul           2017-12-14  109  	ret = drv->probe(slave, id);
+9251345dca24b6 Vinod Koul           2017-12-14  110  	if (ret) {
+aab12022b076f0 Charles Keepax       2025-04-29  111  		ida_free(&slave->bus->slave_ida, slave->index);
+9251345dca24b6 Vinod Koul           2017-12-14  112  		return ret;
+29ffcc88f2065f Ulf Hansson          2018-04-26  113  	}
+56d4fe31af77f6 Vinod Koul           2017-12-14  114  
+3dca1f89ae3455 Richard Fitzgerald   2023-01-23  115  	mutex_lock(&slave->sdw_dev_lock);
 
 -- 
 0-DAY CI Kernel Test Service
