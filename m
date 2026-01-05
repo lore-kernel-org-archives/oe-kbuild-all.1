@@ -1,206 +1,208 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C09315D2A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 11:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA71331200
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 11:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767612221; cv=none; b=SrcB82CdmQrcNWQaIcLaIJRN1uAyKMUavjk+fCR1jKP0qByYGOAD/ElrzqsngS9Jv6UdvLsx3GgE0tt2D3UsT2IfpY9ja+5P9m8OUcEKxatTqiQ+2+Bry5AuZuiXnElq6AdAJAahsfrC/n4Ee/Z1yEx9J4R6Y3jkUDy+ZqWpU90=
+	t=1767612601; cv=none; b=NdLmP/qxvfpK5jwUsfxBk313fLRMYJfrtEDOgvOw1EesE0oFWhjNodoRi8kqgH/u/FaOWaS7xbTrpLuBbZhH+N7es/TQx+lBhkD0xh2vR21Rk7v37Bi6i01Hv3Jlhawf9hkTsttNxnoXLdSxmaWEXxxl++UdQcgriugQVGlSlwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767612221; c=relaxed/simple;
-	bh=QDADabKs6Wn2J9lC//yjLPw6oPm5DQHlEWXm4nrqR2w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=MoSR0W/ntP8wyjFPwZmfb4KpDwGRSEHd1N8R1R1OQyF2PyGqK/BSMeBt2LVl1+UtGZkF9zrKVj/CdvMGBxPoywHT7360Ehr7wHGgzPuseExCNndw4+shqES5VMZoAKG02P6My6nm0cCePwyh16qCPOIXPJz5NDdapo8AJjqXYlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l2bhSjgM; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767612601; c=relaxed/simple;
+	bh=MrdDFLSC+HtAVnUIntVS0+A5YDBbItxOZnu4x6lBhxs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cy8C6lhH1UnfDt2JeElyulJJvD6/OD7P1AgOydV68xJLmVf/iM7Q8SMy6DdbC35o3Bav+iZYrk4f7x6k8pwlC10CB1C1FJdPE+hIyllBBA8AvKSOJMrjwJiZ8LJX1mEkf0wxbx3kiXggCiWgCCGsKDMaZJ7ExKeWj8caApOboVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=f467u6UK; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l2bhSjgM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767612219; x=1799148219;
-  h=date:from:to:cc:subject:message-id;
-  bh=QDADabKs6Wn2J9lC//yjLPw6oPm5DQHlEWXm4nrqR2w=;
-  b=l2bhSjgMLr96b00JaAzv6UvskcR4z9HgwCj4LKIgwr4MqE/Qx69rLWfX
-   rDJnNTOSQMZEiUQGAeHlHWWf8lv45FUPdsXeyUTE1FIe5EM6tlEW0YT38
-   I55Dv+lB3OHAJfVvzH6e9N637P9M4Ci5P48Y7u/c/VPRIiklDIGt6vVB9
-   leCm0LvSSya2yJuk00EyjnrzdaBYhcFwwnTgEuN/rz0kpHa50YayMTnIF
-   PngN2iQ+Q9YcrFtotGjqLRv+682V5ASk5YyubtwUrP6kF3ibia21TtxAK
-   fTJsmgoRRz5U6CcN+CG3e2uPpQlrNysa/Cz7qYHgHdA3OSCIORn7NYQzZ
-   A==;
-X-CSE-ConnectionGUID: LWtdCWHeSsKF1lI3JpRp2Q==
-X-CSE-MsgGUID: 3Zo/+c2bQ0qDMA2NlgFg/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11661"; a="86563802"
-X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
-   d="scan'208";a="86563802"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 03:23:37 -0800
-X-CSE-ConnectionGUID: r4sne9ufRJ+k+UH6JJk2SA==
-X-CSE-MsgGUID: ZM98H0AFRgCInyALlxxdDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
-   d="scan'208";a="233064206"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 05 Jan 2026 03:23:35 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vcigO-00000000177-0Lic;
-	Mon, 05 Jan 2026 11:23:32 +0000
-Date: Mon, 05 Jan 2026 19:23:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Simon Horman <horms@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jakub Kicinski <kuba@kernel.org>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Subject: drivers/net/ethernet/marvell/octeontx2/af/cgx.c:1737:35:
- warning: '%u' directive writing between 1 and 10 bytes into a region of size
- between 4 and 6
-Message-ID: <202601051934.eKIAeUYY-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="f467u6UK"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-594270ec7f9so15324959e87.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 03:29:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1767612590; x=1768217390; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jT80HiGsZ94KHLXWj8nhFiGMKafnIFxWZMCmPRInK+8=;
+        b=f467u6UKPjBME1xpntbSW50gE+jFu8CSNXTHsCrSjQRQcbb/G/zMTtjtssRobvvmu+
+         TbersijHM4fVn/zqWcuP6LEIC46l2C+geppOLgnBNJTxVO8zo30OuBvaU5U0+9dj4MhE
+         qPvLv0CnZuplsHJjFct6fqwprXdjpZY70LGv75QSPcsvRNg7z48bFzf5IGGIMuJxKUyc
+         6+lPKueSi9Va9ehk0vEC1AMLZ+iBvJfdEFLopcox6MkPMFnBECbuxgEg/ZsLIqF9RFd2
+         GVAakF0yMjUCmjKgwQbHBCkJw2sWWhINXJcvLVyncCbd7z5e/znifQHMwLGUVGnDKp8U
+         Cw8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767612590; x=1768217390;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jT80HiGsZ94KHLXWj8nhFiGMKafnIFxWZMCmPRInK+8=;
+        b=q8kJXd6NNbjofvPxif58wKTtASPnllb6XVpt1vmZavmo3ShIaEao1D/5SLUQX37aMq
+         Z/HPwzNQBj8XjQ6jxoAZh3uOydnqrbKlG+ezev5Ng/KgcMvMmd4BV7ZDjZP2eR9Eo46F
+         30f5nCOTcSPQWRjvq4Swqe+3njIDBN1wKpwP5h2EG2Ns9j47OSqZKW8MndQblpnugOl9
+         igsd5sLohjtYc0WN/dLYgs0sKKpmMXxV/u9VCNpLgOKGBGeG2uXGGJ2kHEFkWRVLCO3d
+         advIH045nTPAOFyuxFjKynLVfGbK5Q7zwBcNMFi7DGTwMs9BjvUDPznPXBUukaSUFLl+
+         rpaA==
+X-Gm-Message-State: AOJu0YwDg5MmeCDiL7OAYVszL6LHG17at9lYUEsuXdQPBGYhDOzqes+V
+	oBP8MIehR/TO1FW+G7LmONGGMaTr0Hqzuola76DDnHmcR9LEHxJn9ZiZY1lbPfrHJ/bfdUZcZxW
+	4VRfSDCY4sb71/u9buDE2LYJ0xs8Z9TsvvTvMYF1rvA==
+X-Gm-Gg: AY/fxX4Of5zHpjCLkTpoR6QoU7KY7CoIskKjA8bOslF1sxufCKzv22T/pqLolOrJRS/
+	1fQbXZlORlizds0GUSO2Krkn95wM+Eepz/eXYvwrrXzeenOjoKZCG1GklmEZhDvhgJWWyHA0dde
+	pO9kBp54YOiKA48Rpdc3+Mj/eegW9nA1aB7JxPPbTux347fKhVaOwNFGFmCuCbOWvZ1dQrcaK5O
+	ds2YPAPOlzictyYMyQnjCdFgE4fwmwBIriQiqSBTP7ahDMbc5XE0Yx5RcvGqYSqdB9IGhljy6eJ
+	tPxA4NeQs9oxVpLczPkym0QehHBXo5Su1N9WRgY=
+X-Google-Smtp-Source: AGHT+IE9akYpq0f59nVCFGoU3ntP5OyeIMe8Sz39dRPuCDTd9RNDgsLCXmw0J+nQ77y53tFj8kwkpNotGXXU3B3MdRY=
+X-Received: by 2002:a05:6512:234b:b0:59a:123e:69ab with SMTP id
+ 2adb3069b0e04-59a17d08c20mr17697553e87.10.1767612590065; Mon, 05 Jan 2026
+ 03:29:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <202601021217.PPsDsiqO-lkp@intel.com>
+In-Reply-To: <202601021217.PPsDsiqO-lkp@intel.com>
+From: Filipe Manana <fdmanana@suse.com>
+Date: Mon, 5 Jan 2026 11:29:39 +0000
+X-Gm-Features: AQt7F2pgfbSlC8-QXX0NPMQQJL09nHRkKbvYkx8QPZJohYVr6Veypgm3QfDX0_w
+Message-ID: <CAKisOQG=gLF=ac-70r0w3Z_oNnW=JBB2c6ObFwmHz8O-7PRzZw@mail.gmail.com>
+Subject: Re: fs/btrfs/ordered-data.c:215:5-11: ERROR: allocation function on
+ line 173 returns NULL not ERR_PTR on failure
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	David Sterba <dsterba@suse.com>, Boris Burkov <boris@bur.io>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Simon,
+On Fri, Jan 2, 2026 at 4:10=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   b69053dd3ffbc0d2dedbbc86182cdef6f641fe1b
+> commit: 08c649a5637371cb6bf8f3e974323cf59a7f434b btrfs: check we grabbed =
+inode reference when allocating an ordered extent
+> date:   8 months ago
+> config: arm-randconfig-r051-20251231 (https://download.01.org/0day-ci/arc=
+hive/20260102/202601021217.PPsDsiqO-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 8=
+6b9f90b9574b3a7d15d28a91f6316459dcfa046)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601021217.PPsDsiqO-lkp=
+@intel.com/
+>
+> cocci warnings: (new ones prefixed by >>)
+> >> fs/btrfs/ordered-data.c:215:5-11: ERROR: allocation function on line 1=
+73 returns NULL not ERR_PTR on failure
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+False alarm.
+The allocation function does indeed return NULL, but if that's the
+case we set 'entry' to ERR_PTR(-ENOMEM) in line 175.
+The only other error path sets entry to ERR_PTR(-ESTALE).
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3609fa95fb0f2c1b099e69e56634edb8fc03f87c
-commit: 9312ee76490df61491fee19b5ce71f71b6de908c octeontx2-af: use unsigned int as iterator for unsigned values
-date:   5 months ago
-config: arm64-randconfig-001-20260105 (https://download.01.org/0day-ci/archive/20260105/202601051934.eKIAeUYY-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260105/202601051934.eKIAeUYY-lkp@intel.com/reproduce)
+So it's perfectly fine to test for IS_ERR(entry) at line 215.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601051934.eKIAeUYY-lkp@intel.com/
+Thanks.
 
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/marvell/octeontx2/af/cgx.c: In function 'cgx_lmac_init':
->> drivers/net/ethernet/marvell/octeontx2/af/cgx.c:1737:35: warning: '%u' directive writing between 1 and 10 bytes into a region of size between 4 and 6 [-Wformat-overflow=]
-    1737 |   sprintf(lmac->name, "cgx_fwi_%u_%u", cgx->cgx_id, i);
-         |                                   ^~
-   drivers/net/ethernet/marvell/octeontx2/af/cgx.c:1737:23: note: directive argument in the range [0, 4294967294]
-    1737 |   sprintf(lmac->name, "cgx_fwi_%u_%u", cgx->cgx_id, i);
-         |                       ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/octeontx2/af/cgx.c:1737:3: note: 'sprintf' output between 12 and 23 bytes into a destination of size 16
-    1737 |   sprintf(lmac->name, "cgx_fwi_%u_%u", cgx->cgx_id, i);
-         |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +1737 drivers/net/ethernet/marvell/octeontx2/af/cgx.c
-
-  1704	
-  1705	static int cgx_lmac_init(struct cgx *cgx)
-  1706	{
-  1707		u8 max_dmac_filters;
-  1708		struct lmac *lmac;
-  1709		int err, filter;
-  1710		unsigned int i;
-  1711		u64 lmac_list;
-  1712	
-  1713		/* lmac_list specifies which lmacs are enabled
-  1714		 * when bit n is set to 1, LMAC[n] is enabled
-  1715		 */
-  1716		if (cgx->mac_ops->non_contiguous_serdes_lane) {
-  1717			if (is_dev_rpm2(cgx))
-  1718				lmac_list =
-  1719					cgx_read(cgx, 0, RPM2_CMRX_RX_LMACS) & 0xFFULL;
-  1720			else
-  1721				lmac_list =
-  1722					cgx_read(cgx, 0, CGXX_CMRX_RX_LMACS) & 0xFULL;
-  1723		}
-  1724	
-  1725		if (cgx->lmac_count > cgx->max_lmac_per_mac)
-  1726			cgx->lmac_count = cgx->max_lmac_per_mac;
-  1727	
-  1728		for (i = 0; i < cgx->lmac_count; i++) {
-  1729			lmac = kzalloc(sizeof(struct lmac), GFP_KERNEL);
-  1730			if (!lmac)
-  1731				return -ENOMEM;
-  1732			lmac->name = kcalloc(1, sizeof("cgx_fwi_xxx_yyy"), GFP_KERNEL);
-  1733			if (!lmac->name) {
-  1734				err = -ENOMEM;
-  1735				goto err_lmac_free;
-  1736			}
-> 1737			sprintf(lmac->name, "cgx_fwi_%u_%u", cgx->cgx_id, i);
-  1738			if (cgx->mac_ops->non_contiguous_serdes_lane) {
-  1739				lmac->lmac_id = __ffs64(lmac_list);
-  1740				lmac_list   &= ~BIT_ULL(lmac->lmac_id);
-  1741			} else {
-  1742				lmac->lmac_id = i;
-  1743			}
-  1744	
-  1745			lmac->cgx = cgx;
-  1746			lmac->mac_to_index_bmap.max =
-  1747					cgx->mac_ops->dmac_filter_count /
-  1748					cgx->lmac_count;
-  1749	
-  1750			max_dmac_filters = lmac->mac_to_index_bmap.max;
-  1751	
-  1752			err = rvu_alloc_bitmap(&lmac->mac_to_index_bmap);
-  1753			if (err)
-  1754				goto err_name_free;
-  1755	
-  1756			/* Reserve first entry for default MAC address */
-  1757			set_bit(0, lmac->mac_to_index_bmap.bmap);
-  1758	
-  1759			lmac->rx_fc_pfvf_bmap.max = 128;
-  1760			err = rvu_alloc_bitmap(&lmac->rx_fc_pfvf_bmap);
-  1761			if (err)
-  1762				goto err_dmac_bmap_free;
-  1763	
-  1764			lmac->tx_fc_pfvf_bmap.max = 128;
-  1765			err = rvu_alloc_bitmap(&lmac->tx_fc_pfvf_bmap);
-  1766			if (err)
-  1767				goto err_rx_fc_bmap_free;
-  1768	
-  1769			init_waitqueue_head(&lmac->wq_cmd_cmplt);
-  1770			mutex_init(&lmac->cmd_lock);
-  1771			spin_lock_init(&lmac->event_cb_lock);
-  1772			err = cgx_configure_interrupt(cgx, lmac, lmac->lmac_id, false);
-  1773			if (err)
-  1774				goto err_bitmap_free;
-  1775	
-  1776			/* Add reference */
-  1777			cgx->lmac_idmap[lmac->lmac_id] = lmac;
-  1778			set_bit(lmac->lmac_id, &cgx->lmac_bmap);
-  1779			cgx->mac_ops->mac_pause_frm_config(cgx, lmac->lmac_id, true);
-  1780			lmac->lmac_type = cgx->mac_ops->get_lmac_type(cgx, lmac->lmac_id);
-  1781	
-  1782			/* Disable stale DMAC filters for sane state */
-  1783			for (filter = 0; filter < max_dmac_filters; filter++)
-  1784				cgx_lmac_addr_del(cgx->cgx_id, lmac->lmac_id, filter);
-  1785	
-  1786			/* As cgx_lmac_addr_del does not clear entry for index 0
-  1787			 * so it needs to be done explicitly
-  1788			 */
-  1789			cgx_lmac_addr_reset(cgx->cgx_id, lmac->lmac_id);
-  1790		}
-  1791	
-  1792		/* Start X2P reset on given MAC block */
-  1793		cgx->mac_ops->mac_x2p_reset(cgx, true);
-  1794		return cgx_lmac_verify_fwi_version(cgx);
-  1795	
-  1796	err_bitmap_free:
-  1797		rvu_free_bitmap(&lmac->tx_fc_pfvf_bmap);
-  1798	err_rx_fc_bmap_free:
-  1799		rvu_free_bitmap(&lmac->rx_fc_pfvf_bmap);
-  1800	err_dmac_bmap_free:
-  1801		rvu_free_bitmap(&lmac->mac_to_index_bmap);
-  1802	err_name_free:
-  1803		kfree(lmac->name);
-  1804	err_lmac_free:
-  1805		kfree(lmac);
-  1806		return err;
-  1807	}
-  1808	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> vim +215 fs/btrfs/ordered-data.c
+>
+>    147
+>    148  static struct btrfs_ordered_extent *alloc_ordered_extent(
+>    149                          struct btrfs_inode *inode, u64 file_offse=
+t, u64 num_bytes,
+>    150                          u64 ram_bytes, u64 disk_bytenr, u64 disk_=
+num_bytes,
+>    151                          u64 offset, unsigned long flags, int comp=
+ress_type)
+>    152  {
+>    153          struct btrfs_ordered_extent *entry;
+>    154          int ret;
+>    155          u64 qgroup_rsv =3D 0;
+>    156          const bool is_nocow =3D (flags &
+>    157                 ((1U << BTRFS_ORDERED_NOCOW) | (1U << BTRFS_ORDERE=
+D_PREALLOC)));
+>    158
+>    159          if (is_nocow) {
+>    160                  /* For nocow write, we can release the qgroup rsv=
+ right now */
+>    161                  ret =3D btrfs_qgroup_free_data(inode, NULL, file_=
+offset, num_bytes, &qgroup_rsv);
+>    162                  if (ret < 0)
+>    163                          return ERR_PTR(ret);
+>    164          } else {
+>    165                  /*
+>    166                   * The ordered extent has reserved qgroup space, =
+release now
+>    167                   * and pass the reserved number for qgroup_record=
+ to free.
+>    168                   */
+>    169                  ret =3D btrfs_qgroup_release_data(inode, file_off=
+set, num_bytes, &qgroup_rsv);
+>    170                  if (ret < 0)
+>    171                          return ERR_PTR(ret);
+>    172          }
+>  > 173          entry =3D kmem_cache_zalloc(btrfs_ordered_extent_cache, G=
+FP_NOFS);
+>    174          if (!entry) {
+>    175                  entry =3D ERR_PTR(-ENOMEM);
+>    176                  goto out;
+>    177          }
+>    178
+>    179          entry->file_offset =3D file_offset;
+>    180          entry->num_bytes =3D num_bytes;
+>    181          entry->ram_bytes =3D ram_bytes;
+>    182          entry->disk_bytenr =3D disk_bytenr;
+>    183          entry->disk_num_bytes =3D disk_num_bytes;
+>    184          entry->offset =3D offset;
+>    185          entry->bytes_left =3D num_bytes;
+>    186          if (WARN_ON_ONCE(!igrab(&inode->vfs_inode))) {
+>    187                  kmem_cache_free(btrfs_ordered_extent_cache, entry=
+);
+>    188                  entry =3D ERR_PTR(-ESTALE);
+>    189                  goto out;
+>    190          }
+>    191          entry->inode =3D inode;
+>    192          entry->compress_type =3D compress_type;
+>    193          entry->truncated_len =3D (u64)-1;
+>    194          entry->qgroup_rsv =3D qgroup_rsv;
+>    195          entry->flags =3D flags;
+>    196          refcount_set(&entry->refs, 1);
+>    197          init_waitqueue_head(&entry->wait);
+>    198          INIT_LIST_HEAD(&entry->list);
+>    199          INIT_LIST_HEAD(&entry->log_list);
+>    200          INIT_LIST_HEAD(&entry->root_extent_list);
+>    201          INIT_LIST_HEAD(&entry->work_list);
+>    202          INIT_LIST_HEAD(&entry->bioc_list);
+>    203          init_completion(&entry->completion);
+>    204
+>    205          /*
+>    206           * We don't need the count_max_extents here, we can assum=
+e that all of
+>    207           * that work has been done at higher layers, so this is t=
+ruly the
+>    208           * smallest the extent is going to get.
+>    209           */
+>    210          spin_lock(&inode->lock);
+>    211          btrfs_mod_outstanding_extents(inode, 1);
+>    212          spin_unlock(&inode->lock);
+>    213
+>    214  out:
+>  > 215          if (IS_ERR(entry) && !is_nocow)
+>    216                  btrfs_qgroup_free_refroot(inode->root->fs_info,
+>    217                                            btrfs_root_id(inode->ro=
+ot),
+>    218                                            qgroup_rsv, BTRFS_QGROU=
+P_RSV_DATA);
+>    219
+>    220          return entry;
+>    221  }
+>    222
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
