@@ -1,177 +1,127 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35D432F74B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 09:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1F8218ACC
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 10:10:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767604718; cv=none; b=ZZ76aqkzNrwy9TlFppVIhBM+9DaKto41JEdUm4rOtXrKyKvKEXmdJA8PoMK5Nv1NE11EZEn+4wMLbDQUeqial3NRdHeepx3x4bP2Ef9799RliVgHN/VXqVtVdbPPni6jC+43IhVxavE8Ot6p4AJB+5oWKHWr0M+cWJtFpyh6+dQ=
+	t=1767607835; cv=none; b=SDhpFVxVZheZhPjkyrHigzqNcBbQwVpfzz/D7g+BKhvDUB9H7aZd7q9BQq4hZavr+PvM+igW4DltQRWMrE6XOE8yISn44YFdN/lKGgbvZ51gW6mpwr6eSwtPjsPM2DDLxhr/lhqJodeMfjQE4oaWBCNsCWMQd0y/19BeXrEToGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767604718; c=relaxed/simple;
-	bh=uDGBeze7Qp/kTrEFdck8KJs8Ay1ByYEFrUBaR72pN2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MCaZgqkegi3UhBMeh3hDcidg4QLCdwBnyRODwap0VWtgdzkTwFK/l1GDMlogCJu+QvrzjdKNAX1XyPhVT62EW5GQoefx6f3y5m5LdQYn3x1PHNTs+3QXh0Jm01iKgpq6VT+qjrKtxnsId8DNOqvjxOZtLkQR1T4iG/SjqhLtwJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Cvmphz14; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1767607835; c=relaxed/simple;
+	bh=PbGYj0RLG7CPYad+Rq+AEDImBjNt5TLUDiyB5JHGqmc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=SLnEE0UWCRUbAHjVkaTLigEFI0tbh8S9EDuvKcHk/+q50NznO+fCBIc1Of5zeNOBPYI53sa1P4zP9w4LpkV1bpQ9+BQX+hY2wQQZYUox1vz9ivVFXR/A+BZ8eaa0buJvnOpAywXrTrt9tGFrdJ/GPE54M5MT16DBvwXlz4JymOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TJKiuQzi; arc=none smtp.client-ip=209.85.221.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Cvmphz14"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47d59da3d81so6956745e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 01:18:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TJKiuQzi"
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-42fb0fc5aa9so5640064f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 02:10:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767604715; x=1768209515; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=KtNuc23wxF7JVUYShxjAtkJq7LIq3vf9Fgku4TAxklw=;
-        b=Cvmphz14khpuxuwc/HC8ktB+IRR69s1NYZF3NwxW3KHahw6TWF7OvCF4RWkGKiem4z
-         EtCvZrw2WXgJptGZ3fH8WG/CP2Dl9ulcz/D097d8/Oela2ECx9J8HFsotaSXl0TwQ6BB
-         4DALVAypAwmQrd+TeQt2X5NIMtFED4jnWNXatBZwBZ+Ke0o9GTArJXpvRYYSk8Vl8ZLM
-         +717U0R291EEMGcEiWL5gFY1JDN2FKHqLodLLq7O0qMgJ77yDroP8bizZjrJzBtLLdw0
-         TgU0pRN+YQqwEmVJGrmZOg6Amu37FQuBHmYAPKmYIGpeQepvKtv3/KUTRtgLqYHh6dbl
-         MS9A==
+        d=linaro.org; s=google; t=1767607832; x=1768212632; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fxNaBeHAJ/4EZ7JTOdnqwOVDyNniPg0HIAmiaHm6nBM=;
+        b=TJKiuQziu0ZYEmfWO3aGVYVkpYg3rbOUwfsraBVxnT2uUEUPR+v8VYjPpw+LrRZjgO
+         fgK2mZwz7sZZijxuhAxQr9Q9wVoIzPhzYExnZX4A6+2mlou/IID8Y1P70Z0jraICVhDO
+         DSbh4ZrjvH1NFZRXUrzLLxLxxovZJjTXkUT8+yBZTEhC75SpfWL3z8Up1tFQ8Mjh/E40
+         e0H1atJAiSfsmW2ENDGuiSd7zjsqU+rhEnOFLygF9OtFo4w3YQqa0EZwQ1YPA0bv8rGM
+         ayfxtAMnUWpEkwnMBqxd5pReBg5UzXegEoxLzbfLatG9iWAUhapjixyxmbiSkvOaTpaX
+         wzOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767604715; x=1768209515;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KtNuc23wxF7JVUYShxjAtkJq7LIq3vf9Fgku4TAxklw=;
-        b=g7YsUvOcCBznHN8xHxVNnHMLyELTKiYeavYaZKRkXOxxftz8Z5pZVY5x6RCQZ8h2fd
-         77YSxuEzIFaPTIsyp5O/v7WSLDt89lQ4uHULKAZYJQ31AxDrqvtD1HDx4zk4jlAz6r7q
-         63v833fJfniEV9AIOGpwEyVZWHMWCbs7AiwFp3hmJ6o8hqlx1SFl5e58QlPICs+NgPsP
-         AW0LsTfz65I1ped7UtG64XmCTChPF5NmYUx2B5022UCwPfhnuRdYK0v3V9TDayfB1Mlb
-         omt2yYIJFl6gKGeVFPb125sPkaMpACkkNk5zkCB3NNKncUlllVhnXk3fMysKPOYku5La
-         N/UA==
-X-Forwarded-Encrypted: i=1; AJvYcCVULDPbWEIFDHxTEbh7NhOjBKR+47r2Rg2+2Dy7B3vxu2BRVKOrplof8fcWbpYuYfjD1j9ab5dxi8rMVeJA@lists.linux.dev
-X-Gm-Message-State: AOJu0YxPgyR41OjOntKcDdMqGcoWRthaZe7i8IovYLE+1vpOUSR7c/Uf
-	sohq0paEciVf2OdpTVidOqKJ31V9dEt+bPscNS9RPj4QpHDe30hTxSVP0dVMs1Sk/wE=
-X-Gm-Gg: AY/fxX4Q7f8godXDthshtAwilRPjzcVzAKc9BvSPM9f+xlUJxjRxn0kE2yCY5YQUmQI
-	tUbM7Dj/InpZOrDuz0tgcQ6eBVHRrPhdeYDQxG+HHv1P8FsGO/G26AqZ+YtedWiLYdIIZu7cOCX
-	yKUDRHQQHOehkcoh4SVBOsU6A3UAAhW/oHuWV53hcGMIGEogaiZY6q/wWSLT9iYaA5jbP2TEXNp
-	hlD2zEek7VFi7yBReohXRozHp8p+530jv1SYl88GbRd6ZdMtGCtUJ4f9nNC5zWKY4s7uVmdVuIR
-	i1yV0F7jeH8oG2JwlDYINlJBlAeWWnbO2eFqp9RDngjjAskq1kwrn34IIHwpnpN/+1FwHezJReb
-	Yi7whIOdoWQ42diwbLVeTfBEXLB8sdDxJRRwIomZmAUFU7AztawkPSRpxhpDH+XfZL8KRjh79YF
-	B52UyCzS6wIpNhWTnI
-X-Google-Smtp-Source: AGHT+IHqgw6Mxl8sTdZ16+AchffquZvGMldLB07kEoKTUCIorvTuAsMEk24dXkoHkEOyG+JY9d7W7A==
-X-Received: by 2002:a05:600c:46cb:b0:45d:5c71:769d with SMTP id 5b1f17b1804b1-47d6ba829c1mr95907355e9.8.1767604711605;
-        Mon, 05 Jan 2026 01:18:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767607832; x=1768212632;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fxNaBeHAJ/4EZ7JTOdnqwOVDyNniPg0HIAmiaHm6nBM=;
+        b=VjEs+cDD6G5GS4mRRO9fW3uzmeocqdFNi5HbrKn+RLSff4lnTcCK0aSokCdXM/QM6Q
+         x0OVbBZ7mD54/TQL4yq/+ieHFljySWKB5BhU7Wqn/PoAej5qtqPD6NAsYLYBmr3itv7S
+         1hoSQR7tKx+IV7dNEXfKoX16poy7JzzeHqsv4NIRS2LqxS8kBq2QgU1H2xHvLOzCrhYA
+         6xr1XBZKR5+ayuijCSshTq9t7kLJAnIVx2yTOZQOw1cKmr2fHQ87tja0cAQ7IRiAflFC
+         kSbpQReIyjZ5c490DbT1csRZ+BtvXOsAPOjzniwGKwCL8brk87TQryhDDBfkjdUPU8/h
+         /MMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUrgl8U7Sxz/jDGAlM+ZgACf1iA7yB0/QkQLtsVfCDhZtqvWoXzVBw+uNSPYCJqsXQtkZi3xPFtItUU0BR6@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKmm61X8sRpBq35mrMy8wKmGpiPul04sTttmJyQgTXFAcM9GrW
+	3q4WJV+Wshb0HmMsw2Pjzfl/khcyJIsvnMwPV/ozzKtBZ1sXoAcsVw6kVTsHh16ux58=
+X-Gm-Gg: AY/fxX5DiIBxb6rAMLYjiG2DpC/3TMUf0O91MkXm4C1TbjF8jPASFO3bRrNQLI5pkV6
+	hy7818m/WTnkRkMJH/JcDkynNYAYz/lJHWYusjMhHB2lUjs6MC+/vhRRJ5BUrmjJJdcn4/auaTY
+	jzqm3/ZasP2oJOGp+5UGUrlRS1pPpcYRMfAqIEKkRp96czPhR6hJmW0VWVx6qFfStNksS0ZU6qL
+	jJhh1hsqDhcl345i5FulVYiRqCLs+pnElVsyLq4fW3O+5HA0Oa92x/VdQZqXI4dGEL10o21KRmM
+	I+KLW+QYxFPqeZlFCQo/AYIBLDEiOSvncN4Dr8WMebrnh4/tG3IXTZqYj+w8sVmTJB/gsIO6JIg
+	X9V+YvnSQQAobESbJfGlamBLsRNmzHHZoUYcIFTM0hOmYvhEHdayaDTWVkRf1e6S2qLrisOp8J1
+	NmcpdAXjNEg3SXUpHe
+X-Google-Smtp-Source: AGHT+IFizN6ugrpoj6l/xyTx2wr6ugxEAzpdZgwgMGXWzIHWqKUPqfS+umP15OiFV+l/yYQfDLUJ0w==
+X-Received: by 2002:a5d:4a11:0:b0:431:67d:5390 with SMTP id ffacd0b85a97d-4324e50d055mr58872716f8f.54.1767607831963;
+        Mon, 05 Jan 2026 02:10:31 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6ba30531sm57512165e9.1.2026.01.05.01.18.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea830fesm100837339f8f.20.2026.01.05.02.10.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 01:18:31 -0800 (PST)
-Date: Mon, 5 Jan 2026 12:18:28 +0300
+        Mon, 05 Jan 2026 02:10:31 -0800 (PST)
+Date: Mon, 5 Jan 2026 13:10:27 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 547/2671]
- drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:640
- kfd_procfs_add_sysfs_counters() warn: Calling kobject_put|get with
- state->initialized unset from line: 631
-Message-ID: <aVuB5C1yvi-SE7hG@stanley.mountain>
-References: <202512210334.ZRd8j65a-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, "benoit.masson" <yahoo@perenite.com>,
+	jdelvare@suse.com, linux@roeck-us.net
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"benoit.masson" <yahoo@perenite.com>
+Subject: Re: [PATCH] hwmon: it87: describe per-chip temperature resources
+Message-ID: <202512300415.VRCQoZYs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <202512210334.ZRd8j65a-lkp@intel.com>
+In-Reply-To: <20251226203021.27244-1-yahoo@perenite.com>
 
-I have fixed this false positive.
+Hi benoit.masson,
 
-https://github.com/error27/smatch/commit/d19c7ae6466cf1a0d54fb873e3089b03163a98a3
+kernel test robot noticed the following build warnings:
 
-regards,
-dan carpenter
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On Sun, Dec 21, 2025 at 03:16:15AM +0800, kernel test robot wrote:
-> BCC: lkp@intel.com
-> CC: oe-kbuild-all@lists.linux.dev
-> TO: Philipp Stanner <phasta@kernel.org>
-> CC: "Christian König" <christian.koenig@amd.com>
-> CC: Felix Kuehling <felix.kuehling@amd.com>
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
-> commit: 06bc18e0def7d926265480faa555bf0b67a35a90 [547/2671] amd/amdkfd: Use dma_fence_check_and_signal()
-> :::::: branch date: 2 days ago
-> :::::: commit date: 2 weeks ago
-> config: x86_64-randconfig-161-20251218 (https://download.01.org/0day-ci/archive/20251221/202512210334.ZRd8j65a-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202512210334.ZRd8j65a-lkp@intel.com/
-> 
-> New smatch warnings:
-> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:640 kfd_procfs_add_sysfs_counters() warn: Calling kobject_put|get with state->initialized unset from line: 631
-> 
-> Old smatch warnings:
-> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:594 kfd_procfs_add_sysfs_stats() warn: Calling kobject_put|get with state->initialized unset from line: 582
-> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:887 kfd_create_process() warn: Calling kobject_put|get with state->initialized unset from line: 877
-> drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c:1999 signal_eviction_fence() warn: signedness bug returning '(-22)'
-> 
-> vim +640 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_process.c
-> 
-> 4327bed2ff8e3d Philip Cox  2020-06-30  608  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  609  static void kfd_procfs_add_sysfs_counters(struct kfd_process *p)
-> 751580b3ff9ac6 Philip Yang 2021-06-16  610  {
-> 751580b3ff9ac6 Philip Yang 2021-06-16  611  	int ret = 0;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  612  	int i;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  613  	char counters_dir_filename[MAX_SYSFS_FILENAME_LEN];
-> 751580b3ff9ac6 Philip Yang 2021-06-16  614  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  615  	if (!p || !p->kobj)
-> 751580b3ff9ac6 Philip Yang 2021-06-16  616  		return;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  617  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  618  	/*
-> 751580b3ff9ac6 Philip Yang 2021-06-16  619  	 * Create sysfs files for each GPU which supports SVM
-> 751580b3ff9ac6 Philip Yang 2021-06-16  620  	 * - proc/<pid>/counters_<gpuid>/
-> 751580b3ff9ac6 Philip Yang 2021-06-16  621  	 * - proc/<pid>/counters_<gpuid>/faults
-> 751580b3ff9ac6 Philip Yang 2021-06-16  622  	 * - proc/<pid>/counters_<gpuid>/page_in
-> 751580b3ff9ac6 Philip Yang 2021-06-16  623  	 * - proc/<pid>/counters_<gpuid>/page_out
-> 751580b3ff9ac6 Philip Yang 2021-06-16  624  	 */
-> 751580b3ff9ac6 Philip Yang 2021-06-16  625  	for_each_set_bit(i, p->svms.bitmap_supported, p->n_pdds) {
-> 751580b3ff9ac6 Philip Yang 2021-06-16  626  		struct kfd_process_device *pdd = p->pdds[i];
-> 751580b3ff9ac6 Philip Yang 2021-06-16  627  		struct kobject *kobj_counters;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  628  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  629  		snprintf(counters_dir_filename, MAX_SYSFS_FILENAME_LEN,
-> 751580b3ff9ac6 Philip Yang 2021-06-16  630  			"counters_%u", pdd->dev->id);
-> 751580b3ff9ac6 Philip Yang 2021-06-16  631  		kobj_counters = kfd_alloc_struct(kobj_counters);
-> 751580b3ff9ac6 Philip Yang 2021-06-16  632  		if (!kobj_counters)
-> 751580b3ff9ac6 Philip Yang 2021-06-16  633  			return;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  634  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  635  		ret = kobject_init_and_add(kobj_counters, &sysfs_counters_type,
-> 751580b3ff9ac6 Philip Yang 2021-06-16  636  					   p->kobj, counters_dir_filename);
-> 751580b3ff9ac6 Philip Yang 2021-06-16  637  		if (ret) {
-> 751580b3ff9ac6 Philip Yang 2021-06-16  638  			pr_warn("Creating KFD proc/%s folder failed",
-> 751580b3ff9ac6 Philip Yang 2021-06-16  639  				counters_dir_filename);
-> 751580b3ff9ac6 Philip Yang 2021-06-16 @640  			kobject_put(kobj_counters);
-> 751580b3ff9ac6 Philip Yang 2021-06-16  641  			return;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  642  		}
-> 751580b3ff9ac6 Philip Yang 2021-06-16  643  
-> 751580b3ff9ac6 Philip Yang 2021-06-16  644  		pdd->kobj_counters = kobj_counters;
-> 751580b3ff9ac6 Philip Yang 2021-06-16  645  		kfd_sysfs_create_file(kobj_counters, &pdd->attr_faults,
-> 751580b3ff9ac6 Philip Yang 2021-06-16  646  				      "faults");
-> 751580b3ff9ac6 Philip Yang 2021-06-16  647  		kfd_sysfs_create_file(kobj_counters, &pdd->attr_page_in,
-> 751580b3ff9ac6 Philip Yang 2021-06-16  648  				      "page_in");
-> 751580b3ff9ac6 Philip Yang 2021-06-16  649  		kfd_sysfs_create_file(kobj_counters, &pdd->attr_page_out,
-> 751580b3ff9ac6 Philip Yang 2021-06-16  650  				      "page_out");
-> 751580b3ff9ac6 Philip Yang 2021-06-16  651  	}
-> 751580b3ff9ac6 Philip Yang 2021-06-16  652  }
-> 4327bed2ff8e3d Philip Cox  2020-06-30  653  
-> 
-> :::::: The code at line 640 was first introduced by commit
-> :::::: 751580b3ff9ac6bf39da8586e132dbebee2409ef drm/amdkfd: add sysfs counters for vm fault and migration
-> 
-> :::::: TO: Philip Yang <Philip.Yang@amd.com>
-> :::::: CC: Alex Deucher <alexander.deucher@amd.com>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/benoit-masson/hwmon-it87-describe-per-chip-temperature-resources/20251227-043108
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20251226203021.27244-1-yahoo%40perenite.com
+patch subject: [PATCH] hwmon: it87: describe per-chip temperature resources
+config: x86_64-randconfig-161-20251229 (https://download.01.org/0day-ci/archive/20251230/202512300415.VRCQoZYs-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512300415.VRCQoZYs-lkp@intel.com/
+
+smatch warnings:
+drivers/hwmon/it87.c:1694 show_pwm_temp_map() warn: variable dereferenced before IS_ERR check 'data' (see line 1691)
+
+vim +/data +1694 drivers/hwmon/it87.c
+
+94ac7ee616809d Jean Delvare   2010-03-05  1685  static ssize_t show_pwm_temp_map(struct device *dev,
+94ac7ee616809d Jean Delvare   2010-03-05  1686  				 struct device_attribute *attr, char *buf)
+94ac7ee616809d Jean Delvare   2010-03-05  1687  {
+94ac7ee616809d Jean Delvare   2010-03-05  1688  	struct sensor_device_attribute *sensor_attr = to_sensor_dev_attr(attr);
+94ac7ee616809d Jean Delvare   2010-03-05  1689  	struct it87_data *data = it87_update_device(dev);
+c962024e306ed5 Guenter Roeck  2015-04-04  1690  	int nr = sensor_attr->index;
+542f1e57c17849 benoit.masson  2025-12-26 @1691  	u8 num_map = data->num_temp_map ?: IT87_TEMP_MAP_DEFAULT;
+                                                                     ^^^^^^^^^^^^^^^^^^
+Unchecked dereference
+
+94ac7ee616809d Jean Delvare   2010-03-05  1692  	int map;
+94ac7ee616809d Jean Delvare   2010-03-05  1693  
+0282ba4a4fe6c8 Frank Crawford 2023-04-16 @1694  	if (IS_ERR(data))
+                                                                   ^^^^
+Checked too late.
+
+0282ba4a4fe6c8 Frank Crawford 2023-04-16  1695  		return PTR_ERR(data);
+0282ba4a4fe6c8 Frank Crawford 2023-04-16  1696  
+0624d861983c2c Guenter Roeck  2015-04-06  1697  	map = data->pwm_temp_map[nr];
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
