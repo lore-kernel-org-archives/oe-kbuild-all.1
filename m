@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDAE44400
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 22:15:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83941D5178
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 22:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767651353; cv=none; b=k0Z1JehAITXEzdM4SNb8enMR4Z6tb4kHyGeqXygZkhYfq16cl0yQc06ahYSzGU6UdJtSgEU6UERMRz6lKKOfF1RAv9btkTPG1jEKIu8Y0rH7NiasPNRu5vfGWjJ/ryFCtWO7wa2Jn3bHhKLyQMD/rrZSz3IXqE3kvs1SWhJ2BAQ=
+	t=1767651928; cv=none; b=rgGfKt3zkHqiDDko2RbVfPdmDQB7BwdCd+kbhpq5zFNyFc4zSq46paeHkVYkmLmv83//si8Ouc061z2YE1J5ogky+MBJFLMo9HAIkZ2NDCwZsCj+uHOr14xLJCxFZTQfPyaJ+0q9CokPZj87g0e/T46/KePK8MbmQcZEcTzhZEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767651353; c=relaxed/simple;
-	bh=ZXXapiw9KbV8SalqO3rtvehs4C0ia2PYnkPNFZJd7As=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Xc3n5wZ4nwnfzMOVcVj9uztQqgmbfH0JQRy16uL3KfSHUQtlXRcFH2pGvxQti58jHpphE1p8ZjTZYy+MN620mNYYPGcPc+rQpYki6AlUvA4gs9M+pRIVE/F1PYYMdAhW9PuStEksACloeC690ckkq0FBYwlW1xJHnSvTuolHQ1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Twry5S4j; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1767651928; c=relaxed/simple;
+	bh=W59mWtKiQaUIxutUw8hmtwpdnRyrHjdHEgpg+KUZ4kU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WhgPiOBJKhdQLmw+TcTMzor6ek79cJegmCzh5QGu8dAs/xk/GPMQs5RcuUdWrA5I2onnclqwLZz+FULxSOXfptiC0IyYoVC7k69J/eF/kZWQ1bK7CUfF2f3kRlKkXBHDuTuAJK20eDcb4griShKs7oQKgCf/7rCO4u4aCTXB1+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ehXrubQ3; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Twry5S4j"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ehXrubQ3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767651352; x=1799187352;
+  t=1767651927; x=1799187927;
   h=date:from:to:cc:subject:message-id;
-  bh=ZXXapiw9KbV8SalqO3rtvehs4C0ia2PYnkPNFZJd7As=;
-  b=Twry5S4jsCrrn00iOnZuV3YkSgENyh3ORT8WC89j1nzaEXryn62YMgH/
-   QD2jCPhW7RX9O0QCyuTnctroAmDDln8qvsjxrdPSoEvfxnDSCaF+g+IuF
-   SdMOosZ5nYCpVbMr0IwiwDhEb5bj6cNqTVP5YknuqriFE+c93jn+8C+nl
-   0Eo0XwuteeXm9heUY9ucNT37EPRF3dKG8bCPwofhyTas7N3DKzVbHHKhz
-   Urq2l7sxlqIblxnkg+gU/74diLj3+h4nnPlFPU2itCBMaNLyKYCn66nv9
-   la4Yt80UCUsbY7YsXX2ZowRfakV8Y0g+YqDfJe4msooQIp+ZAFfZVzKy3
+  bh=W59mWtKiQaUIxutUw8hmtwpdnRyrHjdHEgpg+KUZ4kU=;
+  b=ehXrubQ3sBmdrxxn9Bt8ZcABadGYwkHsAB7IWz90DWDu+HjQBXHOgUMP
+   mOe5cdJQvs+bTfCvSJBzf34xT0oxs8p+sOaRDwUnknBCyhjIZw+fYF6YP
+   uXcnyPjLgaBxjFtASS4x8+31/gicSvuMhmT/UcWg9xZk7moBRUMCjAej2
+   OluR6n5MEZ+S1jpW9LJyWcwlmjZCYVAZpIzaYhLzmx6T811QavH/ks28A
+   YJxCaUQCdV2tTuhjvAD9qgc9qgBbkAPssRqTaEWyHYuflpii6uRKg3IGC
+   8PkwE8ToHDjqDQ5XRkcIQkRdM2KVqjUHCgcWs4HCqlRHXtxdyimRmXUtU
    Q==;
-X-CSE-ConnectionGUID: p/W2BFgJTgiHj685mAbnnw==
-X-CSE-MsgGUID: 1nuC6lKsTFqfTOKRu6WRHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="69097755"
+X-CSE-ConnectionGUID: MW3RPJnVTTalocMhu7cTmw==
+X-CSE-MsgGUID: +3Dize0gQTqlNn2YuW0JFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="72882928"
 X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="69097755"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 14:15:42 -0800
-X-CSE-ConnectionGUID: I4DFyLJPSzyXqW/hBUoKSQ==
-X-CSE-MsgGUID: LbKpAcDvR7CLKNcD95Ns2Q==
+   d="scan'208";a="72882928"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 14:25:26 -0800
+X-CSE-ConnectionGUID: vYylKGS0RWqc7wmcbBm1zA==
+X-CSE-MsgGUID: 49iycNktSv+/JlPUWmDeVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="233189821"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 05 Jan 2026 14:15:41 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+   d="scan'208";a="202551695"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 05 Jan 2026 14:25:25 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vcsrS-000000001Bx-1Tpj;
-	Mon, 05 Jan 2026 22:15:38 +0000
-Date: Mon, 05 Jan 2026 23:15:25 +0100
+	id 1vct0s-000000001XJ-2Fi1;
+	Mon, 05 Jan 2026 22:25:22 +0000
+Date: Tue, 06 Jan 2026 06:24:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gabriele Monaco <gmonaco@redhat.com>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [glemco:staging_rv_mon_kunit 25/28]
- include/kunit/static_stub.h:68:57: warning: argument 2 of
- 'kunit_hooks.get_static_stub_address' might be a candidate for a format
- attribute
-Message-ID: <202601052355.GKG7sQ4L-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-6.6 2/2] mm/rmap.c:1948: warning:
+ Function parameter or member 'folio' not described in
+ 'try_to_unmap_zero_folio'
+Message-ID: <202601060616.vGMoh3Ev-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,88 +60,63 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gmonaco/linux.git staging_rv_mon_kunit
-head:   e50630dce77a6316bf4ba69e1af30004a302bc24
-commit: e36d5a77df4847ed0ba165e749a481671fc435e2 [25/28] rv: Add KUnit stub to rv_react() and rv_*_task_monitor_slot()
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260105/202601052355.GKG7sQ4L-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260105/202601052355.GKG7sQ4L-lkp@intel.com/reproduce)
+Hi Kaihao,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   c0fb027197aee899e12b0f1e3e712b4e4aac28b3
+commit: 4601451ef45b862d745f9debf25290dc75e0de9f [2/2] anolis: mm: add switch for file zero page
+config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20260106/202601060616.vGMoh3Ev-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260106/202601060616.vGMoh3Ev-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601052355.GKG7sQ4L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601060616.vGMoh3Ev-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/trace/rv/rv_reactors.c:66:
-   kernel/trace/rv/rv_reactors.c: In function 'rv_react':
->> include/kunit/static_stub.h:68:57: warning: argument 2 of 'kunit_hooks.get_static_stub_address' might be a candidate for a format attribute [-Wsuggest-attribute=format]
-      68 |                                                         &real_fn_name); \
-   kernel/trace/rv/rv_reactors.c:472:9: note: in expansion of macro 'KUNIT_STATIC_STUB_REDIRECT'
-     472 |         KUNIT_STATIC_STUB_REDIRECT(rv_react, monitor, msg);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/rmap.c:1948: warning: Function parameter or member 'folio' not described in 'try_to_unmap_zero_folio'
+>> mm/rmap.c:1948: warning: expecting prototype for try_to_unmap_zeropage(). Prototype was for try_to_unmap_zero_folio() instead
 
 
-vim +68 include/kunit/static_stub.h
+vim +1948 mm/rmap.c
 
-e047c5eaa76324 David Gow  2023-01-31  23  
-e047c5eaa76324 David Gow  2023-01-31  24  
-e047c5eaa76324 David Gow  2023-01-31  25  /**
-e047c5eaa76324 David Gow  2023-01-31  26   * KUNIT_STATIC_STUB_REDIRECT() - call a replacement 'static stub' if one exists
-e047c5eaa76324 David Gow  2023-01-31  27   * @real_fn_name: The name of this function (as an identifier, not a string)
-e047c5eaa76324 David Gow  2023-01-31  28   * @args: All of the arguments passed to this function
-e047c5eaa76324 David Gow  2023-01-31  29   *
-e047c5eaa76324 David Gow  2023-01-31  30   * This is a function prologue which is used to allow calls to the current
-e047c5eaa76324 David Gow  2023-01-31  31   * function to be redirected by a KUnit test. KUnit tests can call
-e047c5eaa76324 David Gow  2023-01-31  32   * kunit_activate_static_stub() to pass a replacement function in. The
-582eb3aeed2d06 Kemeng Shi 2023-07-26  33   * replacement function will be called by KUNIT_STATIC_STUB_REDIRECT(), which
-e047c5eaa76324 David Gow  2023-01-31  34   * will then return from the function. If the caller is not in a KUnit context,
-e047c5eaa76324 David Gow  2023-01-31  35   * the function will continue execution as normal.
-e047c5eaa76324 David Gow  2023-01-31  36   *
-e047c5eaa76324 David Gow  2023-01-31  37   * Example:
-e047c5eaa76324 David Gow  2023-01-31  38   *
-e047c5eaa76324 David Gow  2023-01-31  39   * .. code-block:: c
-e047c5eaa76324 David Gow  2023-01-31  40   *
-e047c5eaa76324 David Gow  2023-01-31  41   *	int real_func(int n)
-e047c5eaa76324 David Gow  2023-01-31  42   *	{
-e047c5eaa76324 David Gow  2023-01-31  43   *		KUNIT_STATIC_STUB_REDIRECT(real_func, n);
-e047c5eaa76324 David Gow  2023-01-31  44   *		return 0;
-e047c5eaa76324 David Gow  2023-01-31  45   *	}
-e047c5eaa76324 David Gow  2023-01-31  46   *
-e047c5eaa76324 David Gow  2023-01-31  47   *	int replacement_func(int n)
-e047c5eaa76324 David Gow  2023-01-31  48   *	{
-e047c5eaa76324 David Gow  2023-01-31  49   *		return 42;
-e047c5eaa76324 David Gow  2023-01-31  50   *	}
-e047c5eaa76324 David Gow  2023-01-31  51   *
-e047c5eaa76324 David Gow  2023-01-31  52   *	void example_test(struct kunit *test)
-e047c5eaa76324 David Gow  2023-01-31  53   *	{
-e047c5eaa76324 David Gow  2023-01-31  54   *		kunit_activate_static_stub(test, real_func, replacement_func);
-e047c5eaa76324 David Gow  2023-01-31  55   *		KUNIT_EXPECT_EQ(test, real_func(1), 42);
-e047c5eaa76324 David Gow  2023-01-31  56   *	}
-e047c5eaa76324 David Gow  2023-01-31  57   *
-e047c5eaa76324 David Gow  2023-01-31  58   */
-e047c5eaa76324 David Gow  2023-01-31  59  #define KUNIT_STATIC_STUB_REDIRECT(real_fn_name, args...)		\
-e047c5eaa76324 David Gow  2023-01-31  60  do {									\
-e047c5eaa76324 David Gow  2023-01-31  61  	typeof(&real_fn_name) replacement;				\
-e047c5eaa76324 David Gow  2023-01-31  62  	struct kunit *current_test = kunit_get_current_test();		\
-e047c5eaa76324 David Gow  2023-01-31  63  									\
-e047c5eaa76324 David Gow  2023-01-31  64  	if (likely(!current_test))					\
-e047c5eaa76324 David Gow  2023-01-31  65  		break;							\
-e047c5eaa76324 David Gow  2023-01-31  66  									\
-e047c5eaa76324 David Gow  2023-01-31  67  	replacement = kunit_hooks.get_static_stub_address(current_test,	\
-e047c5eaa76324 David Gow  2023-01-31 @68  							&real_fn_name);	\
-e047c5eaa76324 David Gow  2023-01-31  69  									\
-e047c5eaa76324 David Gow  2023-01-31  70  	if (unlikely(replacement))					\
-e047c5eaa76324 David Gow  2023-01-31  71  		return replacement(args);				\
-e047c5eaa76324 David Gow  2023-01-31  72  } while (0)
-e047c5eaa76324 David Gow  2023-01-31  73  
+52629506420ce3 Joonsoo Kim 2014-01-21  1933  
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1934  /**
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1935   * try_to_unmap_zeropage - try to remove all page table mappings to a zero page
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1936   * with the same offset. If the flag doesn't contain TTU_ZEROPAGE, this function
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1937   * does no thing.
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1938   * @page: the page to get unmapped
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1939   * @flags: action and flags
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1940   *
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1941   * Tries to remove all the page table entries which are mapping zero
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1942   * page with the same offset, used in the pageout path.  Caller must hold the page
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1943   * lock of the newly allocated page.
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1944   *
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1945   * During rmap_walk, it holds the i_mmap_sem to avoid modify VMA which not expected.
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1946   */
+4601451ef45b86 Kaihao Bai  2022-08-29  1947  void try_to_unmap_zero_folio(struct folio *folio, enum ttu_flags flags)
+5a9179f41b5d5d Kaihao Bai  2022-08-15 @1948  {
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1949  	struct rmap_walk_control rwc = {
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1950  		.rmap_one = try_to_unmap_one,
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1951  		.arg = (void *)flags,
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1952  	};
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1953  
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1954  	if (!(flags & TTU_ZEROPAGE))
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1955  		return;
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1956  
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1957  	rmap_walk(folio, &rwc);
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1958  }
+5a9179f41b5d5d Kaihao Bai  2022-08-15  1959  
 
-:::::: The code at line 68 was first introduced by commit
-:::::: e047c5eaa76324575e1f95664be4c74ce0e2571b kunit: Expose 'static stub' API to redirect functions
+:::::: The code at line 1948 was first introduced by commit
+:::::: 5a9179f41b5d5d87f917484399fac6f5c9711654 anolis: mm: support unmapping zeropage of the same file offset
 
-:::::: TO: David Gow <davidgow@google.com>
-:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
+:::::: TO: Kaihao Bai <carlo.bai@linux.alibaba.com>
+:::::: CC: winterddd <tianruidong@linux.alibaba.com>
 
 -- 
 0-DAY CI Kernel Test Service
