@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29FB332EA1
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 16:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206F92F5A27;
+	Mon,  5 Jan 2026 16:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767630359; cv=none; b=ONtaOvsLGWXEgG0Qdt0Vv5j2S7k6YfCzzdarGRZQDdORQl5JNFVG1N/VXF+vsQpA0rtspAOl/sjMDp6T/Cf7zyTC1x37GGNCTb/3me3pV69vqxwA1D2gcn6jDyxPI5suUxQlgcWfk4SnOFDtLenHHpwx4XCG15u1glIc0tZVgkY=
+	t=1767630702; cv=none; b=P4TCKSJ6TQ1TA3FMDq/zH8zWcR9NPlx3Em1flpUMmLSH8aE22MVZHSAcR0GXR+vqvqY0NjJOjyLTptdVDTCTg8q70eWLYvK32N828Xi90LCtcn13TlGZ25WHDmGXXrpQ3oUf7ZXDX4vtfPLnupvhJYdaXQ1m44i2s2TPtL4UgpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767630359; c=relaxed/simple;
-	bh=7UaRKMnsjqC9jzolUy5e/IgQsQryyhhtDDpvwF78ihU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SYO/AsEtp5aRQaCy/64bT9oW9+b49RRSyDZE7Z9bU4VLeAskdnSfg8JpG8bfLWYd7AQyEdatXyrOyspxkdR2DxAIXmoprm8BTIBzb79U5gHOkmU3zggiPmS8PmNKxOl9KaFWYPiHfSwTNjChGUDfQVP8KS14rpsN2lUY9D7GxNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SEtcvOTt; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1767630702; c=relaxed/simple;
+	bh=nhqYyN/WN3xmHfkC+FKXpcbd8BAu66xOc+Sc8AvtDRc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WDR4t41OIYXsIFLGsz0EO9ZrYSz0OqI9b9E9idVIyZ/1MiRI9jvq7WIZZnwR/GLFLYRtg92l2aZMXJWNZppJ66GJgHDxRraYa3GmOxC70dpSqbcX3sJK/ePem6B70r/TN1b33OXNJRJ0QFflC+Yz9s33iG2+90uirL1EzVkyn4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eTH/YDWi; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SEtcvOTt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eTH/YDWi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767630356; x=1799166356;
+  t=1767630701; x=1799166701;
   h=date:from:to:cc:subject:message-id;
-  bh=7UaRKMnsjqC9jzolUy5e/IgQsQryyhhtDDpvwF78ihU=;
-  b=SEtcvOTtSn9MGAPP/u5hCda3DN+IQAF7TItn804iB1z9UHMJLJXgNW7y
-   rGquosOGcxYzUX0/bAJ3eNWJboJL75k+5yJhrlc3scM2zo2swzxf73MHd
-   acEcY+gAhdTxNHY1Cfpq2DMqT2ZzmYWBxXzDfGMc3K90UA3VBi+Fby8zw
-   aQTowXNSeMRgwebyjPMJ7jdgnzscFaFqar+Bif21VuSbJlnoQ7QcoCw4G
-   G0vUHX9zXnVMXtX96wxKj1lmAzpy3mhjmbcp0ouyFKLE0okovos0FhnyM
-   KMthleCs5QPgKymR+PDF+3PXh6F1Drlt3vfvm+QuNjwmJbn484EhyHbXR
+  bh=nhqYyN/WN3xmHfkC+FKXpcbd8BAu66xOc+Sc8AvtDRc=;
+  b=eTH/YDWibemDZyziadpcml+QuOqFKwdUFRs0zRJ7difq69WlL7qrlOxu
+   lUPvfJRCOh8h3IIPMQi4aNNlRXsbn7g0BmaeZ4cOqOf/2infYp0Pbrphw
+   7461hBATui4BKWPY4ZZSC+mrmjBdSWAyM2hMGzlJTlEQhag/vn4s0jLem
+   9vCytiKcCPSCRMj3+LwBgQb+tg5ZlDZaxdTloayO+as60RofMEeGyxgHQ
+   K9XVe/5powiCmFXJGqFnxbYJjmLjJoBf33WYY9QR0sswLTqJaVyQuCpMb
+   bUtOpwaa2j/yBd/OLszTPGAko2+JioTJJVKYAmdogIeRmmfMyjm3V7PY3
    g==;
-X-CSE-ConnectionGUID: JlMQABzkTeCOgTJ3yqZruA==
-X-CSE-MsgGUID: fPaWcV8ERbq9263rNk9T6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="68192262"
+X-CSE-ConnectionGUID: dJvGZkVUQxyvpmkKlgN2dQ==
+X-CSE-MsgGUID: PsPQN+PsQsCWPUNwlhAucA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="79631991"
 X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
-   d="scan'208";a="68192262"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 08:25:56 -0800
-X-CSE-ConnectionGUID: U2GxWUZGSLGd9hqPuiHUWw==
-X-CSE-MsgGUID: n/axhCWHQrW0asPBZVgWhQ==
+   d="scan'208";a="79631991"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 08:31:40 -0800
+X-CSE-ConnectionGUID: aTMNLjHdTJ6A4zMDqi9g2A==
+X-CSE-MsgGUID: HbQH0kE8SvCfSwHtprfhBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
-   d="scan'208";a="239911611"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 05 Jan 2026 08:25:55 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="233565515"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 05 Jan 2026 08:31:39 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vcnOy-000000001LF-1O7Y;
-	Mon, 05 Jan 2026 16:25:52 +0000
-Date: Tue, 06 Jan 2026 00:25:25 +0800
+	id 1vcnUW-000000001A9-3K8A;
+	Mon, 05 Jan 2026 16:31:36 +0000
+Date: Mon, 05 Jan 2026 17:30:39 +0100
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 2/2]
- mm/balloon_compaction.c:199: warning: Function parameter or member
- 'first_page' not described in 'balloon_page_list_dequeue_cont'
-Message-ID: <202601060008.1BRGbier-lkp@intel.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20260105 17/18]
+ kernel/bpf/core.c:2628:22: warning: comparison of distinct pointer types
+ ('struct bpf_prog_array *' and 'struct bpf_prog_array_hdr *')
+Message-ID: <202601051711.0PmYQM0T-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,102 +62,42 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   f64b5635bc6da0e12f72f202d7ac1b5bb5457209
-commit: 1f23c7bc1279ef309af72e4ee3a93f78b9b7a05e [2/2] anolis: virtio_balloon: Add deflate_cont_vq to deflate continuous pages
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20260106/202601060008.1BRGbier-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260106/202601060008.1BRGbier-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20260105
+head:   0864e0ff8ab1707473f669bf2a8dc94e97629018
+commit: 40b37ce99bc78d07509af78fd140eba26cf6f512 [17/18] treewide_some: fix multiple -Wfamnae warnings that must be audited separately
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260105/202601051711.0PmYQM0T-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260105/202601051711.0PmYQM0T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601060008.1BRGbier-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601051711.0PmYQM0T-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/balloon_compaction.c:199: warning: Function parameter or member 'first_page' not described in 'balloon_page_list_dequeue_cont'
+>> kernel/bpf/core.c:2628:22: warning: comparison of distinct pointer types ('struct bpf_prog_array *' and 'struct bpf_prog_array_hdr *') [-Wcompare-distinct-pointer-types]
+    2628 |         if (!progs || progs == &bpf_empty_prog_array.hdr)
+         |                       ~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +199 mm/balloon_compaction.c
+vim +2628 kernel/bpf/core.c
 
-   177	
-   178	/**
-   179	 * balloon_page_list_dequeue_cont() - removes continuous pages from balloon's page list
-   180	 *				      and returns a list of the continuous pages.
-   181	 * @b_dev_info: balloon device decriptor where we will grab a page from.
-   182	 * @pages: pointer to the list of pages that would be returned to the caller.
-   183	 * @max_req_pages: max number of requested pages.
-   184	 *
-   185	 * Driver must call this function to properly de-allocate a previous enlisted
-   186	 * balloon pages before definitively releasing it back to the guest system.
-   187	 * This function tries to remove @max_req_pages continuous pages from the ballooned
-   188	 * pages and return them to the caller in the @pages list.
-   189	 *
-   190	 * Note that this function may fail to dequeue some pages even if the balloon
-   191	 * isn't empty - since the page list can be temporarily empty due to compaction
-   192	 * of isolated pages.
-   193	 *
-   194	 * Return: number of pages that were added to the @pages list.
-   195	 */
-   196	size_t balloon_page_list_dequeue_cont(struct balloon_dev_info *b_dev_info,
-   197					      struct list_head *pages, struct page **first_page,
-   198					      size_t max_req_pages)
- > 199	{
-   200		struct page *page, *tmp;
-   201		unsigned long flags, tail_pfn;
-   202		size_t n_pages = 0;
-   203		bool got_first = false;
-   204	
-   205		spin_lock_irqsave(&b_dev_info->pages_lock, flags);
-   206		list_for_each_entry_safe_reverse(page, tmp, &b_dev_info->pages, lru) {
-   207			unsigned long pfn;
-   208	
-   209			if (n_pages == max_req_pages)
-   210				break;
-   211	
-   212			pfn = page_to_pfn(page);
-   213	
-   214			if (got_first && pfn != tail_pfn + 1)
-   215				break;
-   216	
-   217			/*
-   218			 * Block others from accessing the 'page' while we get around to
-   219			 * establishing additional references and preparing the 'page'
-   220			 * to be released by the balloon driver.
-   221			 */
-   222			if (!trylock_page(page)) {
-   223				if (!got_first)
-   224					continue;
-   225				else
-   226					break;
-   227			}
-   228	
-   229			if (IS_ENABLED(CONFIG_BALLOON_COMPACTION) && PageIsolated(page)) {
-   230				/* raced with isolation */
-   231				unlock_page(page);
-   232				if (!got_first)
-   233					continue;
-   234				else
-   235					break;
-   236			}
-   237			balloon_page_delete(page);
-   238			__count_vm_event(BALLOON_DEFLATE);
-   239			list_add(&page->lru, pages);
-   240			unlock_page(page);
-   241			n_pages++;
-   242			tail_pfn = pfn;
-   243			if (!got_first) {
-   244				got_first = true;
-   245				*first_page = page;
-   246			}
-   247		}
-   248		spin_unlock_irqrestore(&b_dev_info->pages_lock, flags);
-   249	
-   250		return n_pages;
-   251	}
-   252	EXPORT_SYMBOL_GPL(balloon_page_list_dequeue_cont);
-   253	
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2625  
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2626  void bpf_prog_array_free_sleepable(struct bpf_prog_array *progs)
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2627  {
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14 @2628  	if (!progs || progs == &bpf_empty_prog_array.hdr)
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2629  		return;
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2630  	call_rcu_tasks_trace(&progs->rcu, __bpf_prog_array_free_sleepable_cb);
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2631  }
+8c7dcb84e3b744 Delyan Kratunov 2022-06-14  2632  
+
+:::::: The code at line 2628 was first introduced by commit
+:::::: 8c7dcb84e3b744b2b70baa7a44a9b1881c33a9c9 bpf: implement sleepable uprobes by chaining gps
+
+:::::: TO: Delyan Kratunov <delyank@fb.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
