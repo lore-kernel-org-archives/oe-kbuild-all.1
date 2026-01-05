@@ -1,93 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A9A7261A
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 14:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842F517736
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 14:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767623568; cv=none; b=AcFoP9n6+ZUyr3unLjc5uof+LzGvKKLk4z4YFjaPtgXUR+LQa9FfKu9caJSP+fiVNuiKjD6AkurKHG3CwhMlAI25hjKG8XDhL6DcmoTJDeoPxUfQ36U+1/u6m7bY6NAUNwNkZoYoVGsKEsuvKnXiRMcyqtgW2bjxDfPM2lRcvpc=
+	t=1767624074; cv=none; b=ZwAnCQTC5klG7ZRo5CpfQ4z4bhMqDTB8mSZW8J1qdgwR0e3s+ikWWCyRMFAHnHcWdx01MKpRf+6E8gtGHnHAmD+v5RFM0qevHOLa8mPQmF3qKjPx2qsv1QQ9BNKfwJcPn/RSmijvazfPAZ7wr1l2pFrf2pVDtKKSIx6RH8It8uY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767623568; c=relaxed/simple;
-	bh=QsDRMlLWXvDPeZn5eUuxCp9S0momGaKwR+MptDHtVVA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KcI2x/bXwMVLBs7uvsrXZGTJy+dn3+H/87A6x7Phk3df/WbWBjWAzLExegtVutKwbK931WVOL92jOxxBxmbtbqYWimQX31Qni7JchmPZJv0sQNF1C9wG/cMLTVzvdqNH8Kdw5tP+PhVIN6CIzNLriCVPQJPVuckjjyIFizwX1VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GiZEoa/n; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767624074; c=relaxed/simple;
+	bh=bTjLcLJHWaZgg24aCHRY8l6q1IKMHBpyyCnHckC4lVE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=G2oMvsNgjSQfeBMsskDDrk1oKClvUJrPOdxHLYneQCIhgXnjqJ24cQwp5qIfGO3ukFUqP+zF7nqTTGO/9qldPC9+WC7aSsGeGPrWIjfunaay2n0lMkijjYuF3rZEnNitPkFTcon/jS5JpjVUM2IRdGfsVWOtESQoJoWrM2mbWHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XEQ/qp+Y; arc=none smtp.client-ip=209.85.128.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GiZEoa/n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767623564; x=1799159564;
-  h=date:from:to:cc:subject:message-id;
-  bh=QsDRMlLWXvDPeZn5eUuxCp9S0momGaKwR+MptDHtVVA=;
-  b=GiZEoa/nCjhlXTqFRgWVpCcRBORThNwudVDMCDh26y9clOcW86K3VPkz
-   nzbmwy24lHYA+DB/96iwapHB98X1do5aKYVgPl716+/rFfpDaJanVk1aq
-   DywlWZtZ8cAOGvoIG2dFWL1+DUtPGkYfyIDPUkdlt4giudZIuKhBdt/qg
-   iPrJvDXjPv7KjncpJkYlsTq5e+WQQQlWf4dffXENUxr+sIZRWMc5icq+f
-   deMu+6POlf+9sFpK2vHDq3uuPS51Smk0xkG3EjPwnKPNm/6K1Bcf6O9xr
-   m9JWlQfIee17fEiO18R/c8VJ7SJp2rM5rc0Jg6/OlZ+Qq3HCv7W6KUQKS
-   A==;
-X-CSE-ConnectionGUID: aHTgP9pCSNCnU4KAfHUWfQ==
-X-CSE-MsgGUID: sG7C9C5XSyu5P2UxTSNFBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="68181588"
-X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
-   d="scan'208";a="68181588"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 06:32:43 -0800
-X-CSE-ConnectionGUID: og0PNS2ASwydumo2bx1W6Q==
-X-CSE-MsgGUID: O9lY0+r5SzOGVVTPiUUo7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
-   d="scan'208";a="207432753"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 05 Jan 2026 06:32:39 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vcldM-0000000019d-1jVl;
-	Mon, 05 Jan 2026 14:32:36 +0000
-Date: Mon, 05 Jan 2026 15:31:50 +0100
-From: kernel test robot <lkp@intel.com>
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [boqun:rust-field 2/7] warning: unresolved link to
- `macros::has_field`
-Message-ID: <202601051530.MtwZXQPs-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XEQ/qp+Y"
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-477bf34f5f5so106463085e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 06:41:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767624068; x=1768228868; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=88DqNfpRz47a8554GL/fZsnwwkqupd67qmhEsyeDn/M=;
+        b=XEQ/qp+YTqUoJ42cceRPH2+phb/FDZZlQiakXoZPTJ5H28YINKVY7QpLPb5ZxM6wLf
+         IsZ1/K/FcIBmkAQpAp0jeykA1ar2IWTCTPkJ1RSqw5k/MxWM5JJwBspxteg3OIlYE0kW
+         mAi4YLI1Dx6sCCVlygkPZfqVZzu0RYmgs/Smu5nlbRPXsfgxaAQXA74wNIkzm5ro1/YQ
+         0mEHCGqa/PF8sDrdnPQjxWv1aQ4NmPnm/xMV4VRO9CjhuViNR9zh9Ll29NcTF9r6IbRJ
+         5FKh1fhOAU0ak4GbFDjpbCuNLEl+YUtzQHPrf+7y9/nzg3Safr2cDFxPkz8QZ9aWZXh/
+         7Mog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767624068; x=1768228868;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=88DqNfpRz47a8554GL/fZsnwwkqupd67qmhEsyeDn/M=;
+        b=QtyCYqlajMkrFGz4iJ/saBl3aFPg1HuK6wK0Tq1hDyDXqOaML0F+59j8gRtzvfxN11
+         TZghkVD66yUQXsm6tFw6pr9xX/G/w8UWT5BlV8qc0LHfzEgsaejyiFCrDBWhz9X2IB9z
+         VF/cMi+oE5Axw10jEdAWq0gfvp33fBlWUJcy2vMHuzjyLFLRyvdehWu9yl/0wV262YWH
+         8rm8nsagNOJmXwW8ZTVWDIp6XMyaKgBjZ06vHmS2i0k6D5SAV7vklrbp4zn4JCSFL7Hj
+         JOFSD3tJIRxuBIvnBcvb4pDrV1kEdkH2qlMyP/3JdoBwMAPy2Z3dQKX9wvQlrA+cqtmy
+         YG5A==
+X-Forwarded-Encrypted: i=1; AJvYcCWDIK8cxPOL2BGQs+wLGZzH9+JqArioNUTnoN/kNsFqc+mtul2IXYEpdqdQvvI7xL48B3AU7DTJrXB8Qp6X@lists.linux.dev
+X-Gm-Message-State: AOJu0YxlH5LH1fPSzIrkoDUb8gwnXwWobH4sbldaUoFCzxnDPViWYUq+
+	51zVlwTqPtFeo1PGu3lAUqNE/rKyRvznplWs9bmPCBCI87ExhmbqEUrkG/BYLiCT6SM=
+X-Gm-Gg: AY/fxX7+gwnMDmBXYANRWTdIllaqwcnlX1zYcdPq33jhIKRSFLq7hI1HhGb+rSgLfWo
+	2xqXcWWf0z7uNVJh6C0ZzaARVgzXPQUBC3SuehcvSzsKVxM60dXGQACYrHFRFIBtZOY+lgWT8Ew
+	votvz6H+pajBRLTBxM4GCyUU/ndatnVSCm+dIQY9hHwnNUBraqfy3+94KiyhGWalOQNF0zrKV0z
+	cFZsfFDuWsRMHZznFmNDI0aJ1uTRQTkPT0aWdX93yASsEt42VPQiY4ZK8+M5t7FC6zHgDF04Be9
+	P4ISopQBHlucyooWK9NQmvHIjb6fVitO/p9+Wd9jz7W2/WVOA4CGnOOnzX7A2wlwhh6DIx61xUk
+	b+nc4qyCYp13+HX2JWdXVCBo0rAr2RPTpqRHnWFfqqaeLsDKYL7m97f8/qsFKIMkuwaewr13AWI
+	Mpv0DxW3SQXSJOE6GBwCSH7IqKjm0=
+X-Google-Smtp-Source: AGHT+IHKrbVsInaXHLhjcnqkUkQWF+mFnt7KaUTOsrFlRVMgRXQB1hA8iwO/wJtEBfsfAdQ3I1FcxA==
+X-Received: by 2002:a05:600c:a012:b0:47a:940a:c972 with SMTP id 5b1f17b1804b1-47d1955b72emr689824695e9.4.1767624068218;
+        Mon, 05 Jan 2026 06:41:08 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6ba450e7sm60600605e9.1.2026.01.05.06.41.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jan 2026 06:41:07 -0800 (PST)
+Date: Mon, 5 Jan 2026 17:41:04 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-kiwi-6.1 39/39]
+ drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2009
+ kfd_topology_add_device() warn: inconsistent returns 'global
+ &topology_lock'.
+Message-ID: <202512110217.auM1jJmR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git rust-field
-head:   53dc468901ccb892049b86ce9666413b413fb44b
-commit: 795cd12ebcba060902d23c5a6b464d0687f79273 [2/7] rust: types: Introduce HasField trait and derive macro
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260105/202601051530.MtwZXQPs-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260105/202601051530.MtwZXQPs-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   3fe930d3788d26f7593523d883615b9eabe61f40
+commit: 0ac954ec7f6c6dd6b7e94340599ba4b788d056d5 [39/39] drm/amdkfd: Fix the warning of array-index-out-of-bounds
+config: arm64-randconfig-r073-20251210 (https://download.01.org/0day-ci/archive/20251211/202512110217.auM1jJmR-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 6ec8c4351cfc1d0627d1633b02ea787bd29c77d8)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601051530.MtwZXQPs-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202512110217.auM1jJmR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c:2009 kfd_topology_add_device() warn: inconsistent returns 'global &topology_lock'.
 
->> warning: unused variable: `i`
-   --> rust/macros/field.rs:50:25
-   |
-   50 |             if let Some(i) = search {
-   |                         ^ help: if this is intentional, prefix it with an underscore: `_i`
-   |
-   = note: `#[warn(unused_variables)]` on by default
---
->> warning: unresolved link to `macros::has_field`
-   --> rust/kernel/types.rs:458:11
-   |
-   458 | /// Use [`macros::has_field`] to generate the impls automatically.
-   |           ^^^^^^^^^^^^^^^^^ no item named `has_field` in module `macros`
+vim +2009 drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_topology.c
+
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1809  int kfd_topology_add_device(struct kfd_dev *gpu)
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1810  {
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1811  	uint32_t gpu_id;
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1812  	struct kfd_topology_device *dev;
+f7ce2fade6e143a Flora Cui              2017-12-08  1813  	struct kfd_cu_info cu_info;
+4f449311e9aa177 Harish Kasiviswanathan 2017-12-08  1814  	int res = 0;
+4f449311e9aa177 Harish Kasiviswanathan 2017-12-08  1815  	struct list_head temp_topology_device_list;
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1816  	void *crat_image = NULL;
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1817  	size_t image_size = 0;
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1818  	int proximity_domain;
+b7675b7bbc3c4c6 Graham Sider           2021-11-11  1819  	int i;
+b7675b7bbc3c4c6 Graham Sider           2021-11-11  1820  	const char *asic_name = amdgpu_asic_name[gpu->adev->asic_type];
+4f449311e9aa177 Harish Kasiviswanathan 2017-12-08  1821  
+4f449311e9aa177 Harish Kasiviswanathan 2017-12-08  1822  	INIT_LIST_HEAD(&temp_topology_device_list);
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1823  
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1824  	gpu_id = kfd_generate_gpu_id(gpu);
+79775b627dc49df Kent Russell           2017-08-15  1825  	pr_debug("Adding new GPU (ID: 0x%x) to topology\n", gpu_id);
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1826  
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1827  	/* Check to see if this gpu device exists in the topology_device_list.
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1828  	 * If so, assign the gpu to that device,
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1829  	 * else create a Virtual CRAT for this gpu device and then parse that
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1830  	 * CRAT to create a new topology device. Once created assign the gpu to
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1831  	 * that topology device
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1832  	 */
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1833  	down_write(&topology_lock);
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1834  	dev = kfd_assign_gpu(gpu);
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1835  	if (!dev) {
+46d18d510d78318 Mukul Joshi            2022-04-06  1836  		proximity_domain = ++topology_crat_proximity_domain;
+46d18d510d78318 Mukul Joshi            2022-04-06  1837  
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1838  		res = kfd_create_crat_image_virtual(&crat_image, &image_size,
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1839  						    COMPUTE_UNIT_GPU, gpu,
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1840  						    proximity_domain);
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1841  		if (res) {
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1842  			pr_err("Error creating VCRAT for GPU (ID: 0x%x)\n",
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1843  			       gpu_id);
+46d18d510d78318 Mukul Joshi            2022-04-06  1844  			topology_crat_proximity_domain--;
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1845  			return res;
+
+up_write(&topology_lock)?
+
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1846  		}
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1847  
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1848  		res = kfd_parse_crat_table(crat_image,
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1849  					   &temp_topology_device_list,
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1850  					   proximity_domain);
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1851  		if (res) {
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1852  			pr_err("Error parsing VCRAT for GPU (ID: 0x%x)\n",
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1853  			       gpu_id);
+46d18d510d78318 Mukul Joshi            2022-04-06  1854  			topology_crat_proximity_domain--;
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1855  			goto err;
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1856  		}
+4f449311e9aa177 Harish Kasiviswanathan 2017-12-08  1857  
+4f449311e9aa177 Harish Kasiviswanathan 2017-12-08  1858  		kfd_topology_update_device_list(&temp_topology_device_list,
+4f449311e9aa177 Harish Kasiviswanathan 2017-12-08  1859  			&topology_device_list);
+4f449311e9aa177 Harish Kasiviswanathan 2017-12-08  1860  
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1861  		dev = kfd_assign_gpu(gpu);
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1862  		if (WARN_ON(!dev)) {
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1863  			res = -ENODEV;
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1864  			goto err;
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1865  		}
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1866  
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1867  		/* Fill the cache affinity information here for the GPUs
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1868  		 * using VCRAT
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1869  		 */
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1870  		kfd_fill_cache_non_crat_info(dev, gpu);
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1871  
+8eabaf54cfb34d1 Kent Russell           2017-08-15  1872  		/* Update the SYSFS tree, since we added another topology
+8eabaf54cfb34d1 Kent Russell           2017-08-15  1873  		 * device
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1874  		 */
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1875  		res = kfd_topology_update_sysfs();
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1876  		if (!res)
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1877  			sys_props.generation_count++;
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1878  		else
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1879  			pr_err("Failed to update GPU (ID: 0x%x) to sysfs topology. res=%d\n",
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1880  						gpu_id, res);
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1881  	}
+0ac954ec7f6c6dd Ma Jun                 2022-11-02  1882  	up_write(&topology_lock);
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1883  
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1884  	dev->gpu_id = gpu_id;
+5b5c4e40a37e858 Evgeny Pinchuk         2014-07-16  1885  	gpu->id = gpu_id;
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1886  
+0f28cca87e9afc2 Ramesh Errabolu        2022-05-26  1887  	kfd_dev_create_p2p_links();
+0f28cca87e9afc2 Ramesh Errabolu        2022-05-26  1888  
+3a87177eb14113b Harish Kasiviswanathan 2017-12-08  1889  	/* TODO: Move the following lines to function
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
