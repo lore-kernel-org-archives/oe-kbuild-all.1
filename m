@@ -1,208 +1,201 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA71331200
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 11:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057AF2F291A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 11:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767612601; cv=none; b=NdLmP/qxvfpK5jwUsfxBk313fLRMYJfrtEDOgvOw1EesE0oFWhjNodoRi8kqgH/u/FaOWaS7xbTrpLuBbZhH+N7es/TQx+lBhkD0xh2vR21Rk7v37Bi6i01Hv3Jlhawf9hkTsttNxnoXLdSxmaWEXxxl++UdQcgriugQVGlSlwA=
+	t=1767612679; cv=none; b=M3mUt2zOwSLpXKKJq0zZkfmj1+WBDoTU5Zg6p3RV19wJSjP0Notf0aRozWwQn4osYZpxcxvkaYD2whvdnAbhW/C0hXAfn3JKJmkTbpOFdrizWTrcg0/DGFNX/6RWNxWQOogpCv2Pn8UTn5S0vRyZWwlnlLggRf3i/PBa9xboVAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767612601; c=relaxed/simple;
-	bh=MrdDFLSC+HtAVnUIntVS0+A5YDBbItxOZnu4x6lBhxs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cy8C6lhH1UnfDt2JeElyulJJvD6/OD7P1AgOydV68xJLmVf/iM7Q8SMy6DdbC35o3Bav+iZYrk4f7x6k8pwlC10CB1C1FJdPE+hIyllBBA8AvKSOJMrjwJiZ8LJX1mEkf0wxbx3kiXggCiWgCCGsKDMaZJ7ExKeWj8caApOboVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=f467u6UK; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1767612679; c=relaxed/simple;
+	bh=RwslXUww9C+siFbZbnejEMWpUu+MZlD1rXxwd1MJR7A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V7bAxLeBBIuVtmVm6fDNNpP9qZFaNSVvz2vIhFVmGTHVgJuMQxLg6QBKMNwivz/ZI1bTqL7MlvNY3vCtl+rb+ijjxI0RYR931aoa3UZwfGcJ/ZURV0UJf1RfxjcLJ3n9sbanKBViIPZYG0K4gke8yQ7gx1fck7davws6Br5Luxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HOqrAqY8; arc=none smtp.client-ip=209.85.128.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="f467u6UK"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-594270ec7f9so15324959e87.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 03:29:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HOqrAqY8"
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-477ba2c1ca2so151356135e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 03:31:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1767612590; x=1768217390; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jT80HiGsZ94KHLXWj8nhFiGMKafnIFxWZMCmPRInK+8=;
-        b=f467u6UKPjBME1xpntbSW50gE+jFu8CSNXTHsCrSjQRQcbb/G/zMTtjtssRobvvmu+
-         TbersijHM4fVn/zqWcuP6LEIC46l2C+geppOLgnBNJTxVO8zo30OuBvaU5U0+9dj4MhE
-         qPvLv0CnZuplsHJjFct6fqwprXdjpZY70LGv75QSPcsvRNg7z48bFzf5IGGIMuJxKUyc
-         6+lPKueSi9Va9ehk0vEC1AMLZ+iBvJfdEFLopcox6MkPMFnBECbuxgEg/ZsLIqF9RFd2
-         GVAakF0yMjUCmjKgwQbHBCkJw2sWWhINXJcvLVyncCbd7z5e/znifQHMwLGUVGnDKp8U
-         Cw8w==
+        d=linaro.org; s=google; t=1767612675; x=1768217475; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e9sJfwhc1yW8izLaVZiPz2QYrizVCNw4hM3HoCt2Dro=;
+        b=HOqrAqY8IWbwS3zdEIFV2rIzK0EWs65BCCVox2ER7gt6KpR1+3bei8VoEd919598u7
+         Cveab5MqAI2xtr2pOMVIm3Pwh0L5dFULGdF10RL94P8yoLQp1EH4SY54GUCLKCvXbH+X
+         AlEzk2c8YxYNQqY72hgMWfpxBz0QA9Yud2UuUe2BlGWDA+MNvvyKbjbxKGuaVVWib5CC
+         Y4BKvdvjP/rKFWM5o0IT6FxfjiCsfE/Raz/BjxMzReUkaYhLfpHn/yPrZ5PmebGwC+B1
+         llIzM1AJmD8dHwvXHmwlwBFY6ylaGX4abB9b67a3WrfilzVlI986Iz7Egf4vws22dGmo
+         FwuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767612590; x=1768217390;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jT80HiGsZ94KHLXWj8nhFiGMKafnIFxWZMCmPRInK+8=;
-        b=q8kJXd6NNbjofvPxif58wKTtASPnllb6XVpt1vmZavmo3ShIaEao1D/5SLUQX37aMq
-         Z/HPwzNQBj8XjQ6jxoAZh3uOydnqrbKlG+ezev5Ng/KgcMvMmd4BV7ZDjZP2eR9Eo46F
-         30f5nCOTcSPQWRjvq4Swqe+3njIDBN1wKpwP5h2EG2Ns9j47OSqZKW8MndQblpnugOl9
-         igsd5sLohjtYc0WN/dLYgs0sKKpmMXxV/u9VCNpLgOKGBGeG2uXGGJ2kHEFkWRVLCO3d
-         advIH045nTPAOFyuxFjKynLVfGbK5Q7zwBcNMFi7DGTwMs9BjvUDPznPXBUukaSUFLl+
-         rpaA==
-X-Gm-Message-State: AOJu0YwDg5MmeCDiL7OAYVszL6LHG17at9lYUEsuXdQPBGYhDOzqes+V
-	oBP8MIehR/TO1FW+G7LmONGGMaTr0Hqzuola76DDnHmcR9LEHxJn9ZiZY1lbPfrHJ/bfdUZcZxW
-	4VRfSDCY4sb71/u9buDE2LYJ0xs8Z9TsvvTvMYF1rvA==
-X-Gm-Gg: AY/fxX4Of5zHpjCLkTpoR6QoU7KY7CoIskKjA8bOslF1sxufCKzv22T/pqLolOrJRS/
-	1fQbXZlORlizds0GUSO2Krkn95wM+Eepz/eXYvwrrXzeenOjoKZCG1GklmEZhDvhgJWWyHA0dde
-	pO9kBp54YOiKA48Rpdc3+Mj/eegW9nA1aB7JxPPbTux347fKhVaOwNFGFmCuCbOWvZ1dQrcaK5O
-	ds2YPAPOlzictyYMyQnjCdFgE4fwmwBIriQiqSBTP7ahDMbc5XE0Yx5RcvGqYSqdB9IGhljy6eJ
-	tPxA4NeQs9oxVpLczPkym0QehHBXo5Su1N9WRgY=
-X-Google-Smtp-Source: AGHT+IE9akYpq0f59nVCFGoU3ntP5OyeIMe8Sz39dRPuCDTd9RNDgsLCXmw0J+nQ77y53tFj8kwkpNotGXXU3B3MdRY=
-X-Received: by 2002:a05:6512:234b:b0:59a:123e:69ab with SMTP id
- 2adb3069b0e04-59a17d08c20mr17697553e87.10.1767612590065; Mon, 05 Jan 2026
- 03:29:50 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767612675; x=1768217475;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e9sJfwhc1yW8izLaVZiPz2QYrizVCNw4hM3HoCt2Dro=;
+        b=prtm6Z2Q0fL9o39kYEbS7eIy/cfPww/r1llKShevsA4pxIqWFOaIgmWbJhVhJzcmT+
+         lafZ+Cv1ZkIdhuE7VMQAThnqKJznxw3EXMaCqL5M7tj17B6MPYRayLpsnOGkakNnoN4J
+         ASj8ADWzgmZgH7ggtZ5RUkgcMOnq+jghTcegOqqFv8peZK8gpif1zylCAKbe3VV5HVkE
+         kxuYnWQi8NsL2gHt7GJAEyk/jOwqJHpl1jUiYDiNe7S6jzFtuGvg9I7NnbLfxVPWMVEo
+         gd07RUClEueuP6FgC0Lx6wPP3g6LtxrRuHlBIZiizyNf8IjS6w6IdUOiM2vfaog26xrI
+         CvtA==
+X-Forwarded-Encrypted: i=1; AJvYcCXwar5vthV1DUAHyzvAioidiSSBHo7hambZJ6LPA6Yh3FuYEWRSNQV3kW5CEdF01ikgOO94b/RQ+sDbQ/aN@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQIApxOcpUvlDpCYh9exQ5RPD5BbAPhLQ8YR6ISi6nVxC2V2dX
+	SUc4z+uy57UJZnC9bkqjm/UOxJShR19ExAGKbDfNVuKnm7yJTu9KbFHDA4R5ZbJiMA0=
+X-Gm-Gg: AY/fxX4mOQejEVpd4imH90Lj1qS8QaThhjs8fLw1u7Uv6udR6ARmxdTzS8+Uf0O6SOg
+	2g5pAkVVHCx9vLKfCnCu5GNAYE6FA1QfBaoeaEdSvE6Cd8h/RuEFmIqYMRkebdzl1pU9mfQG+0W
+	4q7jLPcUA7YXhPb7dTVgMgXlwDB0oHoLSgsdI9WyP71qQmXkDgWDoS7zkYq+5zpQ6ij+lIUlXCm
+	o1bhwlXtWn2Qx3M5Dy4Lk+UWeQqDzc6Z1mkaOzjhS1N6fttzjMnTvYv5JsQQqUWLrNTofSAOO/b
+	YYI3WTDdtf+XM+xt71NamArTiRpLo1ySOlNsgfNXzhA0N38+mcja1LNP5/Llq3wZLCU14HYTUlK
+	11zeoGlzDMO/WTlN4Z8WUbO2vjIcXxWyQnGR6gVNMhWSYgW1QU7Go2PYr7xB8xQY3SkvYG2kNq5
+	3ipi55b8VaCDpAiQGO
+X-Google-Smtp-Source: AGHT+IHL/eAonSBI4FOtiHxiCDBvDxT4TphXeie4KJGpYgwSqO3k3EQIIdzaatHA9/x5ZY8WcU+06Q==
+X-Received: by 2002:a05:6000:178d:b0:430:f7ae:af3e with SMTP id ffacd0b85a97d-4324e5063d7mr61828078f8f.32.1767612675114;
+        Mon, 05 Jan 2026 03:31:15 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea1b36fsm99663477f8f.5.2026.01.05.03.31.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Jan 2026 03:31:14 -0800 (PST)
+Date: Mon, 5 Jan 2026 14:31:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild@lists.linux.dev, Dan Carpenter <error27@gmail.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: drivers/net/wireless/ath/wcn36xx/smd.c:1988
+ wcn36xx_smd_send_beacon() warn: potential spectre issue 'msg_body.beacon'
+ [r]
+Message-ID: <aVug_6CyqRXGVasA@stanley.mountain>
+References: <202512240945.s16QxOuf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202601021217.PPsDsiqO-lkp@intel.com>
-In-Reply-To: <202601021217.PPsDsiqO-lkp@intel.com>
-From: Filipe Manana <fdmanana@suse.com>
-Date: Mon, 5 Jan 2026 11:29:39 +0000
-X-Gm-Features: AQt7F2pgfbSlC8-QXX0NPMQQJL09nHRkKbvYkx8QPZJohYVr6Veypgm3QfDX0_w
-Message-ID: <CAKisOQG=gLF=ac-70r0w3Z_oNnW=JBB2c6ObFwmHz8O-7PRzZw@mail.gmail.com>
-Subject: Re: fs/btrfs/ordered-data.c:215:5-11: ERROR: allocation function on
- line 173 returns NULL not ERR_PTR on failure
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	David Sterba <dsterba@suse.com>, Boris Burkov <boris@bur.io>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202512240945.s16QxOuf-lkp@intel.com>
 
-On Fri, Jan 2, 2026 at 4:10=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   b69053dd3ffbc0d2dedbbc86182cdef6f641fe1b
-> commit: 08c649a5637371cb6bf8f3e974323cf59a7f434b btrfs: check we grabbed =
-inode reference when allocating an ordered extent
-> date:   8 months ago
-> config: arm-randconfig-r051-20251231 (https://download.01.org/0day-ci/arc=
-hive/20260102/202601021217.PPsDsiqO-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 8=
-6b9f90b9574b3a7d15d28a91f6316459dcfa046)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+I'm going to silence these warnings.
+
+regards,
+dan carpenter
+
+On Wed, Dec 24, 2025 at 09:04:22AM +0800, kernel test robot wrote:
+> BCC: lkp@intel.com
+> CC: oe-kbuild-all@lists.linux.dev
+> CC: linux-kernel@vger.kernel.org
+> TO: Kees Cook <kees@kernel.org>
+> CC: Nathan Chancellor <nathan@kernel.org>
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   b927546677c876e26eba308550207c2ddf812a43
+> commit: d70da12453ac3797e0c54884305ccc894e8c817b hardening: Enable i386 FORTIFY_SOURCE on Clang 16+
+> date:   10 months ago
+> :::::: branch date: 31 hours ago
+> :::::: commit date: 10 months ago
+> config: i386-randconfig-r072-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240945.s16QxOuf-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601021217.PPsDsiqO-lkp=
-@intel.com/
->
-> cocci warnings: (new ones prefixed by >>)
-> >> fs/btrfs/ordered-data.c:215:5-11: ERROR: allocation function on line 1=
-73 returns NULL not ERR_PTR on failure
-
-False alarm.
-The allocation function does indeed return NULL, but if that's the
-case we set 'entry' to ERR_PTR(-ENOMEM) in line 175.
-The only other error path sets entry to ERR_PTR(-ESTALE).
-
-So it's perfectly fine to test for IS_ERR(entry) at line 215.
-
-Thanks.
-
->
-> vim +215 fs/btrfs/ordered-data.c
->
->    147
->    148  static struct btrfs_ordered_extent *alloc_ordered_extent(
->    149                          struct btrfs_inode *inode, u64 file_offse=
-t, u64 num_bytes,
->    150                          u64 ram_bytes, u64 disk_bytenr, u64 disk_=
-num_bytes,
->    151                          u64 offset, unsigned long flags, int comp=
-ress_type)
->    152  {
->    153          struct btrfs_ordered_extent *entry;
->    154          int ret;
->    155          u64 qgroup_rsv =3D 0;
->    156          const bool is_nocow =3D (flags &
->    157                 ((1U << BTRFS_ORDERED_NOCOW) | (1U << BTRFS_ORDERE=
-D_PREALLOC)));
->    158
->    159          if (is_nocow) {
->    160                  /* For nocow write, we can release the qgroup rsv=
- right now */
->    161                  ret =3D btrfs_qgroup_free_data(inode, NULL, file_=
-offset, num_bytes, &qgroup_rsv);
->    162                  if (ret < 0)
->    163                          return ERR_PTR(ret);
->    164          } else {
->    165                  /*
->    166                   * The ordered extent has reserved qgroup space, =
-release now
->    167                   * and pass the reserved number for qgroup_record=
- to free.
->    168                   */
->    169                  ret =3D btrfs_qgroup_release_data(inode, file_off=
-set, num_bytes, &qgroup_rsv);
->    170                  if (ret < 0)
->    171                          return ERR_PTR(ret);
->    172          }
->  > 173          entry =3D kmem_cache_zalloc(btrfs_ordered_extent_cache, G=
-FP_NOFS);
->    174          if (!entry) {
->    175                  entry =3D ERR_PTR(-ENOMEM);
->    176                  goto out;
->    177          }
->    178
->    179          entry->file_offset =3D file_offset;
->    180          entry->num_bytes =3D num_bytes;
->    181          entry->ram_bytes =3D ram_bytes;
->    182          entry->disk_bytenr =3D disk_bytenr;
->    183          entry->disk_num_bytes =3D disk_num_bytes;
->    184          entry->offset =3D offset;
->    185          entry->bytes_left =3D num_bytes;
->    186          if (WARN_ON_ONCE(!igrab(&inode->vfs_inode))) {
->    187                  kmem_cache_free(btrfs_ordered_extent_cache, entry=
-);
->    188                  entry =3D ERR_PTR(-ESTALE);
->    189                  goto out;
->    190          }
->    191          entry->inode =3D inode;
->    192          entry->compress_type =3D compress_type;
->    193          entry->truncated_len =3D (u64)-1;
->    194          entry->qgroup_rsv =3D qgroup_rsv;
->    195          entry->flags =3D flags;
->    196          refcount_set(&entry->refs, 1);
->    197          init_waitqueue_head(&entry->wait);
->    198          INIT_LIST_HEAD(&entry->list);
->    199          INIT_LIST_HEAD(&entry->log_list);
->    200          INIT_LIST_HEAD(&entry->root_extent_list);
->    201          INIT_LIST_HEAD(&entry->work_list);
->    202          INIT_LIST_HEAD(&entry->bioc_list);
->    203          init_completion(&entry->completion);
->    204
->    205          /*
->    206           * We don't need the count_max_extents here, we can assum=
-e that all of
->    207           * that work has been done at higher layers, so this is t=
-ruly the
->    208           * smallest the extent is going to get.
->    209           */
->    210          spin_lock(&inode->lock);
->    211          btrfs_mod_outstanding_extents(inode, 1);
->    212          spin_unlock(&inode->lock);
->    213
->    214  out:
->  > 215          if (IS_ERR(entry) && !is_nocow)
->    216                  btrfs_qgroup_free_refroot(inode->root->fs_info,
->    217                                            btrfs_root_id(inode->ro=
-ot),
->    218                                            qgroup_rsv, BTRFS_QGROU=
-P_RSV_DATA);
->    219
->    220          return entry;
->    221  }
->    222
->
-> --
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Closes: https://lore.kernel.org/r/202512240945.s16QxOuf-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/net/wireless/ath/wcn36xx/smd.c:1988 wcn36xx_smd_send_beacon() warn: potential spectre issue 'msg_body.beacon' [r]
+> 
+> Old smatch warnings:
+> drivers/net/wireless/ath/wcn36xx/smd.c:521 wcn36xx_smd_load_nv() error: we previously assumed 'wcn->nv' could be null (see line 512)
+> drivers/net/wireless/ath/wcn36xx/smd.c:569 wcn36xx_smd_load_nv() warn: 'wcn->nv' from request_firmware() not released on lines: 569.
+> 
+> vim +1988 drivers/net/wireless/ath/wcn36xx/smd.c
+> 
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1948  
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1949  int wcn36xx_smd_send_beacon(struct wcn36xx *wcn, struct ieee80211_vif *vif,
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1950  			    struct sk_buff *skb_beacon, u16 tim_off,
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1951  			    u16 p2p_off)
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1952  {
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1953  	struct wcn36xx_hal_send_beacon_req_msg msg_body;
+> f0eea2772a6baf Daniel Mack      2018-06-29  1954  	int ret, pad, pvm_len;
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1955  
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1956  	mutex_lock(&wcn->hal_mutex);
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1957  	INIT_HAL_MSG(msg_body, WCN36XX_HAL_SEND_BEACON_REQ);
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1958  
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1959  	pvm_len = skb_beacon->data[tim_off + 1] - 3;
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1960  	pad = TIM_MIN_PVM_SIZE - pvm_len;
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1961  
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1962  	/* Padding is irrelevant to mesh mode since tim_off is always 0. */
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1963  	if (vif->type == NL80211_IFTYPE_MESH_POINT)
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1964  		pad = 0;
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1965  
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1966  	msg_body.beacon_length = skb_beacon->len + pad;
+> 25d217d6e07234 Pontus Fuchs     2016-04-18  1967  	/* TODO need to find out why + 6 is needed */
+> 25d217d6e07234 Pontus Fuchs     2016-04-18  1968  	msg_body.beacon_length6 = msg_body.beacon_length + 6;
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1969  
+> 25d217d6e07234 Pontus Fuchs     2016-04-18  1970  	if (msg_body.beacon_length > BEACON_TEMPLATE_SIZE) {
+> d7809bd9eae67b Colin Ian King   2020-01-23  1971  		wcn36xx_err("Beacon is too big: beacon size=%d\n",
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1972  			      msg_body.beacon_length);
+> 95b48c2cdae764 Dan Carpenter    2013-11-08  1973  		ret = -ENOMEM;
+> 95b48c2cdae764 Dan Carpenter    2013-11-08  1974  		goto out;
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1975  	}
+> 25d217d6e07234 Pontus Fuchs     2016-04-18  1976  	memcpy(msg_body.beacon, skb_beacon->data, skb_beacon->len);
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1977  	memcpy(msg_body.bssid, vif->addr, ETH_ALEN);
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1978  
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1979  	if (pad > 0) {
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1980  		/*
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1981  		 * The wcn36xx FW has a fixed size for the PVM in the TIM. If
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1982  		 * given the beacon template from mac80211 with a PVM shorter
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1983  		 * than the FW expectes it will overwrite the data after the
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1984  		 * TIM.
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1985  		 */
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1986  		wcn36xx_dbg(WCN36XX_DBG_HAL, "Pad TIM PVM. %d bytes at %d\n",
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1987  			    pad, pvm_len);
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18 @1988  		memmove(&msg_body.beacon[tim_off + 5 + pvm_len + pad],
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1989  			&msg_body.beacon[tim_off + 5 + pvm_len],
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1990  			skb_beacon->len - (tim_off + 5 + pvm_len));
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1991  		memset(&msg_body.beacon[tim_off + 5 + pvm_len], 0, pad);
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1992  		msg_body.beacon[tim_off + 1] += pad;
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1993  	}
+> 91c3eeba45e13a Pontus Fuchs     2016-04-18  1994  
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  1995  	/* TODO need to find out why this is needed? */
+> fa643ae2ce4e75 Chun-Yeow Yeoh   2013-12-06  1996  	if (vif->type == NL80211_IFTYPE_MESH_POINT)
+> fa643ae2ce4e75 Chun-Yeow Yeoh   2013-12-06  1997  		/* mesh beacon don't need this, so push further down */
+> fa643ae2ce4e75 Chun-Yeow Yeoh   2013-12-06  1998  		msg_body.tim_ie_offset = 256;
+> fa643ae2ce4e75 Chun-Yeow Yeoh   2013-12-06  1999  	else
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2000  		msg_body.tim_ie_offset = tim_off+4;
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2001  	msg_body.p2p_ie_offset = p2p_off;
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2002  	PREPARE_HAL_BUF(wcn->hal_buf, msg_body);
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2003  
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2004  	wcn36xx_dbg(WCN36XX_DBG_HAL,
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2005  		    "hal send beacon beacon_length %d\n",
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2006  		    msg_body.beacon_length);
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2007  
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2008  	ret = wcn36xx_smd_send_and_wait(wcn, msg_body.header.len);
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2009  	if (ret) {
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2010  		wcn36xx_err("Sending hal_send_beacon failed\n");
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2011  		goto out;
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2012  	}
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2013  	ret = wcn36xx_smd_rsp_status_check(wcn->hal_buf, wcn->hal_rsp_len);
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2014  	if (ret) {
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2015  		wcn36xx_err("hal_send_beacon response failed err=%d\n", ret);
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2016  		goto out;
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2017  	}
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2018  out:
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2019  	mutex_unlock(&wcn->hal_mutex);
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2020  	return ret;
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2021  }
+> 8e84c25821698b Eugene Krasnikov 2013-10-08  2022  
+> 
+> :::::: The code at line 1988 was first introduced by commit
+> :::::: 91c3eeba45e13ab7edfb50610df8672d52809394 wcn36xx: Pad TIM PVM if needed
+> 
+> :::::: TO: Pontus Fuchs <pontus.fuchs@gmail.com>
+> :::::: CC: Kalle Valo <kvalo@qca.qualcomm.com>
+> 
+> -- 
 > 0-DAY CI Kernel Test Service
 > https://github.com/intel/lkp-tests/wiki
