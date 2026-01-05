@@ -1,147 +1,86 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D30633CE88
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 11:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D2C2EB5A1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 11:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767611720; cv=none; b=Ztfh+cXBWqYd5oiIgYsLjzRzB9j9VZfiua0l71sUMTg3WoXe8yIgMLbHHmbDrd9bVwDPIPQOUpjf4hofYv7YifGHQQ4qerh4hbjqmhu0bJyw2Eov0LvsaTkWw27X7+ohiNFGoyqvpbZaIO/5EkLGAvDibI4gLHo4hLlAaw1sob8=
+	t=1767612103; cv=none; b=rs0fmvMOqY6m+EbQc5R3r5LvgZuoQNn7NkZtcpnIY4yIQZ/UlIBJ6TRmZOeIGIwMWZd6dsCmEuIKuuzSE6r3tF4P0lbnestLaVOFAALc9s7CN4dIF6flXIlXdaf1Z4gC6J1Mh2e4oCjc7wD+ZPCA4bcov/4ug2iYfZtluQSzTqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767611720; c=relaxed/simple;
-	bh=0kDcymjq+o/D1vvB6qbAMa4ADp5xiX6lMJecLvFNBBY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TnbwQ5n3geDd9wFYJZRcrSueOfydAPOiCF5B2jrd0U7RcIOi9rrKLGp3hEnnl33uS39YNAqR9ZlQiClby94/MIbTXUZmhDrt35fCnU/xsvP3pQekfmjlcQI6F33inLE3ZHDOwWlAR3KPCWICwIGNYDwcg13WRDXmYrhhCyAzBL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aPsNB1bC; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1767612103; c=relaxed/simple;
+	bh=mRChb+kUNKbr+2YbItOCS/M6pC6rH08lZG5CE5jrMUM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cc77s7xN+cUNcJbwgnOPYTz9VUSGidGPSZ21eTvvPyKbdtuN3hvHFR/1PQhPvIZEYHN+Vkz/M2DgC7hsriY3WPT/gVNnbh3xH78ZDT4Y57tn9V1o0TEW7kWGNfeArM4+QH2W3FASvqVs8DOtuc+0fMB8agE3WSPQOfWkMlJUYRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EiIK6KXH; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aPsNB1bC"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4779cc419b2so109555575e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 03:15:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767611717; x=1768216517; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uKVmfhHjbGUvqsnpsCY/VLq6NWt+vGOrMbqRldfQg/Y=;
-        b=aPsNB1bCW642v+MIcLxuOX04aYo+xV4AnMao4+0+dygRbskDDjSNJbFyIFbQ9O5QPZ
-         nMNUIvn974nwdO6Nk4stp3BgYoIOy8dNNYxGsL/D7RkhJVI0dumSomzmdGQmmajcdYGD
-         Gx9waUA1d+grr83tQ2pDFLKdUWXBxdBsU3+009cXcKhyeHcTh8daS7eQGkTDrWreC+VQ
-         x2Z1TOCDo7OBTqwXyFbZhgmJn3S/Fru7Wf6hzmq1QardArNxFzGuSZuIyyEidERTi55X
-         IafI+iEFfKvroPcnhOtqJA7m2t2a6ZyVpygqOOO42hxUkafKE8g71nzOBTSO/VLMgY0m
-         7apA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767611717; x=1768216517;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=uKVmfhHjbGUvqsnpsCY/VLq6NWt+vGOrMbqRldfQg/Y=;
-        b=U1YBHRkIydk9p4TnU0Cifw3UzEQVovhtk1ASNSpCunjapCiJyQGx12uVk/Ctnfk9fR
-         uyFDGfAv6Bkw34a2wzHAGrHs01vzMyxWY9QDLDDFzDGxXr63o4AW/9KYYd5B20ogLd8F
-         OWlrICjoIKjr3B0tUzy1KvBZnE4A0Igt294OHRN3yJtbKAMk4BUjG81I5KahIHPXa4TB
-         wE6FpBl28tw5BQBjf08z01S9/cfmRM36j5UktIZZ+Xy2+1VfFc3g3lYfGYiGi6gMAEdt
-         pGOWJS4eJnwbyZRFFCO8BfWsNcEg/O6H3/p3yUGIBPlAXbsybKSPgbyv4sPQS7cwqcx3
-         KyeA==
-X-Forwarded-Encrypted: i=1; AJvYcCV2hpo4hpcYSxfvFbXZOnBIgSLG5FjWtNIg/XOEIj8Zl7jivVe9llPiE90PHStDWGnlaiDlUYfc/s1PSfAD@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPjZkngMzXIcw/Mjvv41XZOmdwtcFDrR7wVmONLDNLEwfWRw4S
-	bKWhZZ4Zdpb+NI1Xly3WkymNV7trxjpDktXD9k7bExPQYdDMCXWa05ZIdVu8pQkI04g=
-X-Gm-Gg: AY/fxX7E2hSsZ6Tf4SUlg85dhy5sJpLeLoUE/Bkh83NYbOpQ6rTu9843e/9U9xPSu30
-	LCjU3T0DONkSyCPA9Ul0gOMAIsClNjBMWI1LmPOS0z+/JHZXrb6rRLPTcGutzydHBtrMZLvviMb
-	Bd+90bHux9OzEOv0R2pN6V88BDu0rAG+dPr2UVl7rNQcqM1wNVmyRJPq8siNiycTfAEhERIRiS9
-	GiqS7rvE3Kt1xdpANpy4vMgQQIWAfBXLyFiVkuCcXJadFCeqkRLNJ6QXpbc7cbT4YMo74JQ3trv
-	GdT1BVCowFLjlJh/KCrNDe9eNlHBqYPW1EdTH8Sb727iyCvJVrZQeqtfSO+ntOpoLxpNAPPxy7N
-	N4BMWb4J4fBMj/7Mgfl89tcFd6GTw2eu4kaiVTFeXRsbSJVWPP7kqmu94J2EZm9NU+vsGvJIqUS
-	2PV0meAm4Z13k8daVQ
-X-Google-Smtp-Source: AGHT+IFLXEfSuIwnX/Qmm1uj6voVgb9TFrw3CDh1dWAe0goYosUym3lJQPWCK99UqpsGSqfrzBVHfg==
-X-Received: by 2002:a05:600c:1d0b:b0:477:b0b9:312a with SMTP id 5b1f17b1804b1-47d195498a2mr529711545e9.7.1767611716735;
-        Mon, 05 Jan 2026 03:15:16 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d6d33e2f4sm144597345e9.11.2026.01.05.03.15.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 03:15:16 -0800 (PST)
-Date: Mon, 5 Jan 2026 14:15:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Vinod Koul <vkoul@kernel.org>
-Subject: [vkoul-soundwire:next 5/7] drivers/soundwire/bus_type.c:102
- sdw_bus_probe() error: Calling ida_alloc_max() with a 'max' argument which
- is a power of 2. -1 missing?
-Message-ID: <202512240450.hlDH3nCs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EiIK6KXH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767612100; x=1799148100;
+  h=date:from:to:cc:subject:message-id;
+  bh=mRChb+kUNKbr+2YbItOCS/M6pC6rH08lZG5CE5jrMUM=;
+  b=EiIK6KXHCDMYzuDHfQe8i/21w4LjV1NClIw1RbRuGe6LHaLUCdCTdzew
+   3+qnTYbGMFydq4AcEjvG9zFXjiTvX836A7e9sUWyfkBlvANUMTehJyP73
+   Jg68VPc1c+gWIEVYIexzwsOjnviQFW7zH2ToDGYaKLmfOClcKCHfMKB92
+   iGJXgf/vDP9VZeh8yI20IUOG3EorZtAxyDu7l5tjmWhFEtlv7FHJFgfrj
+   9OdZgwznkACl1sJP7MwcZUqF1eO40SrwQs/DpSfRQSlY9UcAD85cbbTmO
+   ys2bI7yC7hVfkRrcrgW+vIL55GX2HkwI62Ag2yKaHfeZTgeUOY0xLpU4q
+   g==;
+X-CSE-ConnectionGUID: K7Z+saz6T6SymgrmUGO6ag==
+X-CSE-MsgGUID: EUOojjhyTNmYvhcvIh+YNw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11661"; a="79610518"
+X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
+   d="scan'208";a="79610518"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 03:21:39 -0800
+X-CSE-ConnectionGUID: Vi7XBYcuT0WNama5E5lPpg==
+X-CSE-MsgGUID: c5hFTX/ORRmmMv5f4HQeqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
+   d="scan'208";a="202265152"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 05 Jan 2026 03:21:38 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vcieV-0000000018n-3IxQ;
+	Mon, 05 Jan 2026 11:21:35 +0000
+Date: Mon, 05 Jan 2026 12:21:24 +0100
+From: kernel test robot <lkp@intel.com>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Bjorn Andersson <andersson@kernel.org>,
+ "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Subject: [linux-next:master 3181/3725]
+ arch/arm64/boot/dts/qcom/sm8650-qrd.dtb:
+ /soc@0/cci@ac16000/i2c-bus@0/sensor@56: failed to match any schema with
+ compatible: ['samsung,s5kjn1']
+Message-ID: <202601051253.1esp6DUR-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/soundwire.git next
-head:   c6f1e99ab03c5a94ed6389f5930e91f274b3ba67
-commit: 866160a51f5586d53e17ceab36029c8805ffea28 [5/7] soundwire: Use bus methods for .probe(), .remove() and .shutdown()
-config: i386-randconfig-141-20251224 (https://download.01.org/0day-ci/archive/20251224/202512240450.hlDH3nCs-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f8f97927abf7c12382dddc93a144fc9df7919b77
+commit: 328407ba89ae6656c143967ba65465c50150aaf8 [3181/3725] arm64: dts: qcom: sm8650-qrd: Enable CAMSS and Samsung S5KJN1 camera sensor
+config: arm64-randconfig-2051-20260104 (https://download.01.org/0day-ci/archive/20260105/202601051253.1esp6DUR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260105/202601051253.1esp6DUR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202512240450.hlDH3nCs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601051253.1esp6DUR-lkp@intel.com/
 
-smatch warnings:
-drivers/soundwire/bus_type.c:102 sdw_bus_probe() error: Calling ida_alloc_max() with a 'max' argument which is a power of 2. -1 missing?
-
-vim +/max +102 drivers/soundwire/bus_type.c
-
-866160a51f5586 Uwe Kleine-König     2025-12-15   75  static int sdw_bus_probe(struct device *dev)
-9251345dca24b6 Vinod Koul           2017-12-14   76  {
-9251345dca24b6 Vinod Koul           2017-12-14   77  	struct sdw_slave *slave = dev_to_sdw_dev(dev);
-9251345dca24b6 Vinod Koul           2017-12-14   78  	struct sdw_driver *drv = drv_to_sdw_driver(dev->driver);
-9251345dca24b6 Vinod Koul           2017-12-14   79  	const struct sdw_device_id *id;
-9251345dca24b6 Vinod Koul           2017-12-14   80  	int ret;
-9251345dca24b6 Vinod Koul           2017-12-14   81  
-fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   82  	/*
-fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   83  	 * fw description is mandatory to bind
-fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   84  	 */
-fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   85  	if (!dev->fwnode)
-fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   86  		return -ENODEV;
-fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   87  
-fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   88  	if (!IS_ENABLED(CONFIG_ACPI) && !dev->of_node)
-fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   89  		return -ENODEV;
-fcb9d730be1d30 Srinivas Kandagatla  2020-09-24   90  
-9251345dca24b6 Vinod Koul           2017-12-14   91  	id = sdw_get_device_id(slave, drv);
-9251345dca24b6 Vinod Koul           2017-12-14   92  	if (!id)
-9251345dca24b6 Vinod Koul           2017-12-14   93  		return -ENODEV;
-9251345dca24b6 Vinod Koul           2017-12-14   94  
-9251345dca24b6 Vinod Koul           2017-12-14   95  	/*
-9251345dca24b6 Vinod Koul           2017-12-14   96  	 * attach to power domain but don't turn on (last arg)
-9251345dca24b6 Vinod Koul           2017-12-14   97  	 */
-d42c7c6fd66a6e Claudiu Beznea       2025-07-03   98  	ret = dev_pm_domain_attach(dev, 0);
-29ffcc88f2065f Ulf Hansson          2018-04-26   99  	if (ret)
-29ffcc88f2065f Ulf Hansson          2018-04-26  100  		return ret;
-29ffcc88f2065f Ulf Hansson          2018-04-26  101  
-aab12022b076f0 Charles Keepax       2025-04-29 @102  	ret = ida_alloc_max(&slave->bus->slave_ida, SDW_FW_MAX_DEVICES, GFP_KERNEL);
-
-SDW_FW_MAX_DEVICES - 1
-
-aab12022b076f0 Charles Keepax       2025-04-29  103  	if (ret < 0) {
-aab12022b076f0 Charles Keepax       2025-04-29  104  		dev_err(dev, "Failed to allocated ID: %d\n", ret);
-aab12022b076f0 Charles Keepax       2025-04-29  105  		return ret;
-aab12022b076f0 Charles Keepax       2025-04-29  106  	}
-aab12022b076f0 Charles Keepax       2025-04-29  107  	slave->index = ret;
-aab12022b076f0 Charles Keepax       2025-04-29  108  
-9251345dca24b6 Vinod Koul           2017-12-14  109  	ret = drv->probe(slave, id);
-9251345dca24b6 Vinod Koul           2017-12-14  110  	if (ret) {
-aab12022b076f0 Charles Keepax       2025-04-29  111  		ida_free(&slave->bus->slave_ida, slave->index);
-9251345dca24b6 Vinod Koul           2017-12-14  112  		return ret;
-29ffcc88f2065f Ulf Hansson          2018-04-26  113  	}
-56d4fe31af77f6 Vinod Koul           2017-12-14  114  
-3dca1f89ae3455 Richard Fitzgerald   2023-01-23  115  	mutex_lock(&slave->sdw_dev_lock);
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:5086.22-5177.5: Warning (avoid_unnecessary_addr_size): /soc@0/usb@a600000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:5795.27-5851.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" or "ranges" property
+>> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: /soc@0/cci@ac16000/i2c-bus@0/sensor@56: failed to match any schema with compatible: ['samsung,s5kjn1']
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
