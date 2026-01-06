@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B191DD9AC;
-	Tue,  6 Jan 2026 14:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B38330B25
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jan 2026 14:51:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767709208; cv=none; b=JDX8nBf3rqJyS5cEIY4X6oELMzHydxo3tY+GkMBa31RAD3KJV39fMXkh1aojzpmgq4YkO0JfGmD8XJCpBKj8bgfeyLit1ez9zbEU/sneoqLFV74iksL/yKKxfCJ2UyWY5nsQVJ0EBe2drgX9hzRw2M/VTXAkOGBAoamGrK48T8E=
+	t=1767711069; cv=none; b=Ty1InkdwE3YkTq3xIP1j+o0/rG2k6n7WyHsuCHAYyudmDJzZrHm9KeT0azuGqGc6vw/To+toPAUFFpcMgss9jnFXHNBJT3J13yW0hrC4vTfgFVZQtIHcgPSaLQHSi5egEsmjK219x4hF13Y0LgOOmHs/g77fot+i+GbRNr/Q/JE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767709208; c=relaxed/simple;
-	bh=NCL2dWniZ4k1N8xR25wMbusyAXxj0GiwKDTKGW/1YRM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=uv5zdJiaVk3nKquMD2q+JViHzWaKUQsLD5ud+FQ4kosdTwCUQ/hvQa7fXK4HzfEG8qxnz1W8QMxyT6ElyRjnwQ2qwPCrJTExRNSk4gjXtSdZwK0Kg72+1Bsc9a/MHO1MgPi+NpfQsNO8OMpUoflTFxJwU+GXDlcotl9lp0sjlBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SY4eARzv; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1767711069; c=relaxed/simple;
+	bh=oq7dbnp89hv+j1T/6F1P8o/m1UApAwIqzc0JqLt7ksU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pNo079I3NJnxkl0qVDNQCuGPiD8pIMBU1Fllt9T6qHtGMuQxuUG+E7UkgOljEK8ab4epmDT4IKaP0X6u+zcYSb8YC/18jnqOXBe/m1+UOK5V/EsRE7hlNHly334I7SbtA0VkZLjZlAsJYAbURCpfKBsw6gzbzJmnUE45MowNbpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SDgHNK+m; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SY4eARzv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SDgHNK+m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767709207; x=1799245207;
+  t=1767711068; x=1799247068;
   h=date:from:to:cc:subject:message-id;
-  bh=NCL2dWniZ4k1N8xR25wMbusyAXxj0GiwKDTKGW/1YRM=;
-  b=SY4eARzvNAed+YMJ0nUW62Gjulghf2N3lyPpwjbOeLI0YUv5jd5PoLzT
-   ORobMRSI5RS2TbSe9//LyHyBMp+HZ5oGV2RR64PJt6K1IhhibcibPYYe/
-   f6Et7vdshJVlVcPVYlzghiRM8e72x5u8VjLu6sOion7Bh38Vvx+q5EBzW
-   okTxEHSBOBIEq/kOCXs4EG+twBsvfAv3FNf5z3GokCa7K7iBn0mP55Ea7
-   2mW0Tv3M2eDGAFhiwNHjay//jNpnkc+ha/C3PdaeIRNwigE4Od7tRk4b8
-   dRDltON709dDcVC/XldjixdkxgwyF+SGnekq49FiKRQGkeNNvx4V0JWC+
-   A==;
-X-CSE-ConnectionGUID: Gc6OcmmhQ5yAOAIoxEmc/w==
-X-CSE-MsgGUID: D8pBgzqES56/BNstdRanXQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="80439853"
+  bh=oq7dbnp89hv+j1T/6F1P8o/m1UApAwIqzc0JqLt7ksU=;
+  b=SDgHNK+mb3G/bnYEGHrJWKuDkhrf9krcyz4IrHz3ktNOotlm6ZauhLvQ
+   3j3jIdyBknDx8Y3fQb7Q6QLSth22q15BZDJsymQG3PI3ZpWNiU8Yh17fs
+   eiquNw9Q+sKGyOljM5VBhkomJopen+M/PTvaWwZ9o+NwwAPjr7xKCu08L
+   yzR4OQVcUGLd1yVYx8L1/gvq6ZNcX0iKD/Q2FAuv6+2u6/jyf89S67jGn
+   d5cxtTQlgw37rtz35jZChAASAPU/Vbmxo5h6aEixoZ6S9/CNDPDPzF0B+
+   Mk5WucOPncXJJMUDF9lxKwy34LsxBv3IAt+Cy7S3d87CdxkQ5QtGUq9UQ
+   g==;
+X-CSE-ConnectionGUID: 8f31q8ptSOCa97SUg01+9w==
+X-CSE-MsgGUID: MTJNDACzSneKhU4TeFuHow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="79709808"
 X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="80439853"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 06:20:06 -0800
-X-CSE-ConnectionGUID: qP/qwde0Q/OWGNi58SwXcw==
-X-CSE-MsgGUID: fyPS1shdTYWbuoSm2H4uOA==
+   d="scan'208";a="79709808"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 06:51:07 -0800
+X-CSE-ConnectionGUID: SWVi3ZqET3SxUqgpezWbSA==
+X-CSE-MsgGUID: ubo+LLtiTjivMv1ytysqVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="203619006"
+   d="scan'208";a="233804598"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Jan 2026 06:20:04 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 06 Jan 2026 06:51:05 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vd7uk-00000000211-2ETq;
-	Tue, 06 Jan 2026 14:20:02 +0000
-Date: Tue, 06 Jan 2026 22:19:55 +0800
+	id 1vd8Ol-0000000022T-2zf2;
+	Tue, 06 Jan 2026 14:51:03 +0000
+Date: Tue, 06 Jan 2026 22:50:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Terry Bowman <terry.bowman@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [davejiang:cxl-port-err.v14 28/37]
- drivers/cxl/cxlpci.h:96:1: error: expected identifier or '('
-Message-ID: <202601062232.MtzWBLRG-lkp@intel.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [glemco:staging_rv_mon_kunit 28/29]
+ include/rv/ltl_monitor.h:202: undefined reference to
+ `kunit_add_action_or_reset'
+Message-ID: <202601062203.P8EHpVGu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,71 +60,63 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/davejiang/linux.git cxl-port-err.v14
-head:   a1102a7118289d39c0fdc11e0331763822387705
-commit: dfdb8cef4f5c9cd4c6e7e3e151b607a6b9c4234f [28/37] cxl: Introduce CXL Uncorrectable Protocol Error handlers for Endpoints
-config: riscv-randconfig-002-20260106 (https://download.01.org/0day-ci/archive/20260106/202601062232.MtzWBLRG-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260106/202601062232.MtzWBLRG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gmonaco/linux.git staging_rv_mon_kunit
+head:   aa87c6b5e8020a853fbc2444ded06a93a7fc1493
+commit: a3b580a4d59f349042745e54cb77765dffbdabf3 [28/29] rv: Add KUnit tests for some LTL monitors
+config: arm-randconfig-003-20260106 (https://download.01.org/0day-ci/archive/20260106/202601062203.P8EHpVGu-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260106/202601062203.P8EHpVGu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601062232.MtzWBLRG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601062203.P8EHpVGu-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/cxl/pci.c:16:
->> drivers/cxl/cxlpci.h:95:73: warning: non-void function does not return a value [-Wreturn-type]
-      95 | static inline pci_ers_result_t cxl_error_detected(struct device *dev) { }
-         |                                                                         ^
->> drivers/cxl/cxlpci.h:96:1: error: expected identifier or '('
-      96 | {
-         | ^
-   1 warning and 1 error generated.
+   arm-linux-gnueabi-ld: kernel/trace/rv/monitors/sleep/sleep.o: in function `rv_test_sleep':
+>> include/rv/ltl_monitor.h:202: undefined reference to `kunit_add_action_or_reset'
+>> arm-linux-gnueabi-ld: include/rv/ltl_monitor.h:202: undefined reference to `__kunit_do_failed_assertion'
+>> arm-linux-gnueabi-ld: include/rv/ltl_monitor.h:202: undefined reference to `__kunit_abort'
+   arm-linux-gnueabi-ld: kernel/trace/rv/monitors/sleep/sleep.o: in function `rv_test_sleep':
+   include/kunit/test.h:501: undefined reference to `kunit_kmalloc_array'
+>> arm-linux-gnueabi-ld: include/kunit/test.h:501: undefined reference to `kunit_kmalloc_array'
+   arm-linux-gnueabi-ld: kernel/trace/rv/monitors/sleep/sleep.o: in function `rv_test_sleep':
+>> kernel/trace/rv/monitors/sleep/sleep.c:269: undefined reference to `__kunit_do_failed_assertion'
+>> arm-linux-gnueabi-ld: kernel/trace/rv/monitors/sleep/sleep.c:280: undefined reference to `__kunit_do_failed_assertion'
+>> arm-linux-gnueabi-ld: kernel/trace/rv/monitors/sleep/sleep.c:281: undefined reference to `kunit_unary_assert_format'
+>> arm-linux-gnueabi-ld: kernel/trace/rv/monitors/sleep/sleep.c:281: undefined reference to `kunit_binary_assert_format'
+   arm-linux-gnueabi-ld: kernel/trace/rv/rv_monitors_test.o: in function `rv_test_sco':
+   kernel/trace/rv/rv_monitors_test.h:34: undefined reference to `kunit_try_catch_throw'
+   arm-linux-gnueabi-ld: kernel/trace/rv/rv_monitors_test.o: in function `rv_trigger_test_init':
+   include/kunit/test.h:501: undefined reference to `kunit_kmalloc_array'
+   arm-linux-gnueabi-ld: kernel/trace/rv/rv_monitors_test.o: in function `rv_trigger_test_init':
+   kernel/trace/rv/rv_monitors_test.c:62: undefined reference to `__kunit_do_failed_assertion'
+   arm-linux-gnueabi-ld: kernel/trace/rv/rv_monitors_test.c:62: undefined reference to `__kunit_abort'
+   arm-linux-gnueabi-ld: kernel/trace/rv/rv_monitors_test.c:66: undefined reference to `__kunit_activate_static_stub'
+   arm-linux-gnueabi-ld: kernel/trace/rv/rv_monitors_test.c:67: undefined reference to `__kunit_activate_static_stub'
+   arm-linux-gnueabi-ld: kernel/trace/rv/rv_monitors_test.c:69: undefined reference to `__kunit_activate_static_stub'
+   arm-linux-gnueabi-ld: kernel/trace/rv/rv_monitors_test.c:71: undefined reference to `__kunit_activate_static_stub'
+   arm-linux-gnueabi-ld: kernel/trace/rv/rv_monitors_test.c:72: undefined reference to `__kunit_activate_static_stub'
+   arm-linux-gnueabi-ld: kernel/trace/rv/rv_monitors_test.c:75: undefined reference to `kunit_ptr_not_err_assert_format'
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for AX45MP_L2_CACHE
-   Depends on [n]: CACHEMAINT_FOR_DMA [=n]
-   Selected by [y]:
-   - ARCH_R9A07G043 [=y] && SOC_RENESAS [=y] && RISCV [=y] && NONPORTABLE [=y] && !DMA_DIRECT_REMAP [=n] && RISCV_ALTERNATIVE [=y] && !RISCV_ISA_ZICBOM [=n] && RISCV_SBI [=y]
 
+vim +202 include/rv/ltl_monitor.h
 
-vim +96 drivers/cxl/cxlpci.h
-
-    79	
-    80	#ifdef CONFIG_CXL_RAS
-    81	void cxl_cor_error_detected(struct pci_dev *pdev);
-    82	pci_ers_result_t cxl_error_detected(struct device *dev);
-    83	pci_ers_result_t cxl_pci_error_detected(struct pci_dev *pdev,
-    84						pci_channel_state_t error);
-    85	void devm_cxl_dport_ras_setup(struct cxl_dport *dport);
-    86	void devm_cxl_port_ras_setup(struct cxl_port *port);
-    87	void __cxl_dport_init_ras_reporting(struct cxl_dport *dport, struct device *host);
-    88	void __cxl_uport_init_ras_reporting(struct cxl_port *port,
-    89					    struct device *host);
-    90	int __cxl_await_media_ready(struct cxl_dev_state *cxlds);
-    91	resource_size_t __cxl_rcd_component_reg_phys(struct device *dev,
-    92						     struct cxl_dport *dport);
-    93	#else
-    94	static inline void cxl_cor_error_detected(struct pci_dev *pdev) { }
-  > 95	static inline pci_ers_result_t cxl_error_detected(struct device *dev) { }
-  > 96	{
-    97		return PCI_ERS_RESULT_NONE;
-    98	}
-    99	static inline pci_ers_result_t cxl_pci_error_detected(struct pci_dev *pdev,
-   100							      pci_channel_state_t state)
-   101	{
-   102		return PCI_ERS_RESULT_NONE;
-   103	}
-   104	static inline void devm_cxl_dport_ras_setup(struct cxl_dport *dport)
-   105	{
-   106	}
-   107	static inline void devm_cxl_port_ras_setup(struct cxl_port *port)
-   108	{
-   109	}
-   110	#endif
-   111	
+   189	
+   190	/*
+   191	 * rv_prepare_test - Enable the monitor for a kunit test
+   192	 *
+   193	 * Do the bare minimum to set up the monitor, make sure it is not active and
+   194	 * real tracepoint handlers are NOT attached.
+   195	 */
+   196	static inline void ltl_prepare_test(struct kunit *test, struct rv_monitor *rv_this)
+   197	{
+   198		KUNIT_ASSERT_FALSE(test, rv_this->enabled);
+   199		ltl_monitor_init();
+   200		rv_this->enabled = 1;
+   201	
+ > 202		KUNIT_ASSERT_EQ(test, 0,
 
 -- 
 0-DAY CI Kernel Test Service
