@@ -1,98 +1,258 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B8430B536
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jan 2026 09:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212AF2DA775;
+	Tue,  6 Jan 2026 09:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767690048; cv=none; b=VFZJUbFx6HD+ZkEeugnB25XWXpVoMatHcJauF4+RVVcnEzG+JB5Wu8jERLOrYi6HkJfQlqaxCoo0PRWlth2bagUXnEEoLWvlW3HmewFBlop9AXx1OP/rLOO5gYKxao+tznDYE+Xt9cH8C1dbN6zXdSf1hQ9F6O9rYXFciI5Ypog=
+	t=1767691848; cv=none; b=GimPNMQXxg+HBvZAXVGMu643RBMtjybdhxW3vR1hOwQDNcMmSAvCawDi9OKOXoi99SCwoZK3fMBtzB+kDH4VCjDslKyfZGZghc/SQQC82vVVeqCEqVKMS5Y9kFE3ozVmYL+s2GUoGaEtM3tdRIJ8XjAwYqZjtRDEBTQzFLlo0YA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767690048; c=relaxed/simple;
-	bh=DVguPKlyGMsI3lyCRnW6F8X9OdZmWlrYQAwPxH8W/lI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QdarcPmax23dLNpCVq0dkon3QmX66405kDIuWBZ6IEdWAYaPx9mpqt/aU/faYEqhRl50sd0eMhnkntPYG3eYc5eTZfsvUYDkJxhzEEA+orbR5UN6imA5o8O+rWAZ3yYo59HeA8B5a84WdWMdh4ccK7KW8RUYkDUtrF0XrbN45tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CkLxnwh7; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1767691848; c=relaxed/simple;
+	bh=9A84fjymSv9Vu+C9GDOc1qrBye/BZMsWGoquy16U+B4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VQeVoSYvvC+l6KNrjdLrdTKAreDozk1ubrPwi/1PGTA322qlBSs2HjweYNh1mqeiaCE0XyH299WGPDueTPseU3BA3SVxoTeoytAvBbi+A9djw+aaC8sno/vUJbttCGp/Z6VlAtPfBK4w3TvrJnABqowVj9ALAsCKnQAXIK+JIJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DJ4Ui/9c; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CkLxnwh7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJ4Ui/9c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767690048; x=1799226048;
-  h=date:from:to:cc:subject:message-id;
-  bh=DVguPKlyGMsI3lyCRnW6F8X9OdZmWlrYQAwPxH8W/lI=;
-  b=CkLxnwh7eLms8ThRB7m/9fZbvvOTJFmrVWQ4+FX00q9TA/ZrtQx3tPB6
-   SA4WkVQkpY/EEQaztdTDen8axaE+FkvAtPoL1orS1B1um8nfvyoLRJe19
-   GL9jlkEe5jTVNKN0q8lgvZ0XrvPaKisCOR/9YoUYg3oxZ7JmCSMo8tJ2s
-   4BG1K2XD6freo44WAqahjEpX/zbxXh4D04889JndvRgOAtkZJ5mD4I861
-   UEKRCDh8AwNVV8yvBZvA2HL8kZ4cXyn6ILScpvreng/cWYB897oL1XwdM
-   /agV0fS+0zjaag+XAGoZrgyq+6uZ27tOE4XlMAGrbo2pV7ewG4dPcBz2V
+  t=1767691847; x=1799227847;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9A84fjymSv9Vu+C9GDOc1qrBye/BZMsWGoquy16U+B4=;
+  b=DJ4Ui/9crQMiPD3LvDVYQkZMaWiJ5zJfsbeAYFcNcIXve95ZVqxBLOu4
+   BT9Pk9SxFJzKJw+/jC7s9dTWBhvdbrzQ40rpN2YND6BBzeoV2SP9fZgDy
+   MF2Omv/9Y3Lq4dRe+WutzeZNIvaGf5eX3OWlRbwsoCUN6zqSUSIm3fwnM
+   VabidJCskO3jyED6NyPC2TNQvXm9Dh3aAuBhO6pAg06u16jpnsaYhGGPU
+   J6r34f3bxjR8JgkXDvNqOactdKQ70/3NSa/b2xMWAuSwwK8L8JqnMY4pq
+   kJXr0EQQDBL1GPFGJvvYIwyVV8zZdSaym5OZFodXnMLnZLlLbhsO1/hV7
    Q==;
-X-CSE-ConnectionGUID: CAjM8qXYQC66Jg+XEAPGqw==
-X-CSE-MsgGUID: taoRJH8dTHiTgbvdvh6pYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="72900588"
+X-CSE-ConnectionGUID: kS5zcw5VQZmd4bgV04cPJw==
+X-CSE-MsgGUID: 40Na7mFpR5amQ4IKG0hvUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="56620744"
 X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="72900588"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 01:00:47 -0800
-X-CSE-ConnectionGUID: xVzdsaC+Q2CVr1jK8ByFzw==
-X-CSE-MsgGUID: Z504t7pZS12OpyS/49pLxg==
+   d="scan'208";a="56620744"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 01:30:47 -0800
+X-CSE-ConnectionGUID: r/8mLZ1LStq9ZEC7RXKUoA==
+X-CSE-MsgGUID: PX6EmKYIRXyWUnSIWIPfqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="207077097"
+   d="scan'208";a="203578511"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Jan 2026 01:00:44 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 06 Jan 2026 01:30:44 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vd2vi-000000001I1-2VZf;
-	Tue, 06 Jan 2026 09:00:42 +0000
-Date: Tue, 06 Jan 2026 10:00:11 +0100
+	id 1vd3Ok-000000001ID-37KG;
+	Tue, 06 Jan 2026 09:30:42 +0000
+Date: Tue, 6 Jan 2026 10:30:01 +0100
 From: kernel test robot <lkp@intel.com>
-To: Marc Olberding <molberding@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Andrew Jeffery <andrew@codeconstruct.com.au>
-Subject: [linux-next:master 974/3725]
- arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: adc@1e6e9000
- (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202601060904.mATtjisF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Nanzhe Zhao <nzzhao@126.com>, Kim Jaegeuk <jaegeuk@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chao Yu <chao@kernel.org>, linux-f2fs-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org, Nanzhe Zhao <nzzhao@126.com>
+Subject: Re: [PATCH v1 3/5] f2fs: add f2fs_block_needs_zeroing() to handle
+ hole blocks
+Message-ID: <202601061013.MBnRTOrG-lkp@intel.com>
+References: <20260105153101.152892-4-nzzhao@126.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260105153101.152892-4-nzzhao@126.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f8f97927abf7c12382dddc93a144fc9df7919b77
-commit: f28674fab34f07fff9612c3f390d3699bfe8ed90 [974/3725] ARM: dts: aspeed: Add NVIDIA MSX4 HPM
-config: arm-randconfig-2051-20260104 (https://download.01.org/0day-ci/archive/20260106/202601060904.mATtjisF-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260106/202601060904.mATtjisF-lkp@intel.com/reproduce)
+Hi Nanzhe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 48b5439e04ddf4508ecaf588219012dc81d947c0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nanzhe-Zhao/f2fs-Zero-f2fs_folio_state-on-allocation/20260106-005006
+base:   48b5439e04ddf4508ecaf588219012dc81d947c0
+patch link:    https://lore.kernel.org/r/20260105153101.152892-4-nzzhao%40126.com
+patch subject: [PATCH v1 3/5] f2fs: add f2fs_block_needs_zeroing() to handle hole blocks
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260106/202601061013.MBnRTOrG-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260106/202601061013.MBnRTOrG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601060904.mATtjisF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601061013.MBnRTOrG-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: sdram@1e6e0000 (aspeed,ast2600-sdram-edac): compatible: ['aspeed,ast2600-sdram-edac', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/edac/aspeed,ast2400-sdram-edac.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
-   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
->> arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
-   arch/arm/boot/dts/aspeed/aspeed-bmc-nvidia-msx4-bmc.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
+All warnings (new ones prefixed by >>):
+
+>> fs/f2fs/data.c:2485:13: warning: variable 'block_nr' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    2485 |                 } else if((map.m_flags & F2FS_MAP_MAPPED)) {
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/data.c:2527:39: note: uninitialized use occurs here
+    2527 |                 f2fs_wait_on_block_writeback(inode, block_nr);
+         |                                                     ^~~~~~~~
+   fs/f2fs/data.c:2485:10: note: remove the 'if' if its condition is always true
+    2485 |                 } else if((map.m_flags & F2FS_MAP_MAPPED)) {
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/data.c:2454:20: note: initialize the variable 'block_nr' to silence this warning
+    2454 |                 sector_t block_nr;
+         |                                  ^
+         |                                   = 0
+   1 warning generated.
+
+
+vim +2485 fs/f2fs/data.c
+
+  2420	
+  2421	static int f2fs_read_data_large_folio(struct inode *inode,
+  2422			struct readahead_control *rac, struct folio *folio)
+  2423	{
+  2424		struct bio *bio = NULL;
+  2425		sector_t last_block_in_bio = 0;
+  2426		struct f2fs_map_blocks map = {0, };
+  2427		pgoff_t index, offset;
+  2428		unsigned max_nr_pages = rac ? readahead_count(rac) :
+  2429					folio_nr_pages(folio);
+  2430		unsigned nrpages;
+  2431		struct f2fs_folio_state *ffs;
+  2432		int ret = 0;
+  2433	
+  2434		if (!IS_IMMUTABLE(inode))
+  2435			return -EOPNOTSUPP;
+  2436	
+  2437		if (f2fs_compressed_file(inode))
+  2438			return -EOPNOTSUPP;
+  2439	
+  2440		map.m_seg_type = NO_CHECK_TYPE;
+  2441	
+  2442		if (rac)
+  2443			folio = readahead_folio(rac);
+  2444	next_folio:
+  2445		if (!folio)
+  2446			goto out;
+  2447	
+  2448		index = folio->index;
+  2449		offset = 0;
+  2450		ffs = NULL;
+  2451		nrpages = folio_nr_pages(folio);
+  2452	
+  2453		for (; nrpages; nrpages--) {
+  2454			sector_t block_nr;
+  2455			/*
+  2456			 * Map blocks using the previous result first.
+  2457			 */
+  2458			if ((map.m_flags & F2FS_MAP_MAPPED) &&
+  2459					index > map.m_lblk &&
+  2460					index < (map.m_lblk + map.m_len))
+  2461				goto got_it;
+  2462	
+  2463			/*
+  2464			 * Then do more f2fs_map_blocks() calls until we are
+  2465			 * done with this page.
+  2466			 */
+  2467			memset(&map, 0, sizeof(map));
+  2468			map.m_seg_type = NO_CHECK_TYPE;
+  2469			map.m_lblk = index;
+  2470			map.m_len = max_nr_pages;
+  2471	
+  2472			ret = f2fs_map_blocks(inode, &map, F2FS_GET_BLOCK_DEFAULT);
+  2473			if (ret)
+  2474				goto err_out;
+  2475	got_it:
+  2476			if ((f2fs_block_needs_zeroing(&map))) {
+  2477				folio_zero_range(folio, offset << PAGE_SHIFT, PAGE_SIZE);
+  2478				if (f2fs_need_verity(inode, index) &&
+  2479				    !fsverity_verify_page(folio_file_page(folio,
+  2480									index))) {
+  2481					ret = -EIO;
+  2482					goto err_out;
+  2483				}
+  2484				continue;
+> 2485			} else if((map.m_flags & F2FS_MAP_MAPPED)) {
+  2486				block_nr = map.m_pblk + index - map.m_lblk;
+  2487				if (!f2fs_is_valid_blkaddr(F2FS_I_SB(inode), block_nr,
+  2488							DATA_GENERIC_ENHANCE_READ)) {
+  2489					ret = -EFSCORRUPTED;
+  2490					goto err_out;
+  2491				}
+  2492			}
+  2493	
+  2494			/* We must increment read_pages_pending before possible BIOs submitting
+  2495			 * to prevent from premature folio_end_read() call on folio
+  2496			 */
+  2497			if (folio_test_large(folio)) {
+  2498				ffs = ffs_find_or_alloc(folio);
+  2499	
+  2500				/* set the bitmap to wait */
+  2501				spin_lock_irq(&ffs->state_lock);
+  2502				ffs->read_pages_pending++;
+  2503				spin_unlock_irq(&ffs->state_lock);
+  2504			}
+  2505	
+  2506			/*
+  2507			 * This page will go to BIO.  Do we need to send this
+  2508			 * BIO off first?
+  2509			 */
+  2510			if (bio && (!page_is_mergeable(F2FS_I_SB(inode), bio,
+  2511							last_block_in_bio, block_nr) ||
+  2512				!f2fs_crypt_mergeable_bio(bio, inode, index, NULL))) {
+  2513	submit_and_realloc:
+  2514				f2fs_submit_read_bio(F2FS_I_SB(inode), bio, DATA);
+  2515				bio = NULL;
+  2516			}
+  2517			if (bio == NULL)
+  2518				bio = f2fs_grab_read_bio(inode, block_nr,
+  2519						max_nr_pages,
+  2520						f2fs_ra_op_flags(rac),
+  2521						index, false);
+  2522	
+  2523			/*
+  2524			 * If the page is under writeback, we need to wait for
+  2525			 * its completion to see the correct decrypted data.
+  2526			 */
+  2527			f2fs_wait_on_block_writeback(inode, block_nr);
+  2528	
+  2529			if (!bio_add_folio(bio, folio, F2FS_BLKSIZE,
+  2530						offset << PAGE_SHIFT))
+  2531				goto submit_and_realloc;
+  2532	
+  2533			inc_page_count(F2FS_I_SB(inode), F2FS_RD_DATA);
+  2534			f2fs_update_iostat(F2FS_I_SB(inode), NULL, FS_DATA_READ_IO,
+  2535					F2FS_BLKSIZE);
+  2536			last_block_in_bio = block_nr;
+  2537			index++;
+  2538			offset++;
+  2539		}
+  2540		trace_f2fs_read_folio(folio, DATA);
+  2541		if (rac) {
+  2542			folio = readahead_folio(rac);
+  2543			goto next_folio;
+  2544		}
+  2545	err_out:
+  2546		/* Nothing was submitted. */
+  2547		if (!bio) {
+  2548			if (!ret)
+  2549				folio_mark_uptodate(folio);
+  2550			folio_unlock(folio);
+  2551			return ret;
+  2552		}
+  2553	
+  2554		if (ret) {
+  2555			f2fs_submit_read_bio(F2FS_I_SB(inode), bio, DATA);
+  2556	
+  2557			/* Wait bios and clear uptodate. */
+  2558			folio_lock(folio);
+  2559			folio_clear_uptodate(folio);
+  2560			folio_unlock(folio);
+  2561		}
+  2562	out:
+  2563		f2fs_submit_read_bio(F2FS_I_SB(inode), bio, DATA);
+  2564		return ret;
+  2565	}
+  2566	
 
 -- 
 0-DAY CI Kernel Test Service
