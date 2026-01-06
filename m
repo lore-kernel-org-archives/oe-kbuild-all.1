@@ -1,155 +1,218 @@
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4AE56B81
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jan 2026 23:59:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F246A92E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jan 2026 00:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767657556; cv=none; b=ObyCG9XBvnd7QR/gFTyLyumiOLOFs3NHsxSp3mbPv8uya3gYoleNlsXH9ip1CtmUXEwEwDD/WljKIj2yZwbujzkrllxE9Ch5e9ru0qROYgNgyiF8cXFfLBdMP9gv/tF0szonwEutt5HLTZ7klHmoAX09MdRLbuU4aYz9RmZBuGY=
+	t=1767659326; cv=none; b=sB4bhAXbn5HJ+3mMgb1p6N16VLNDAB0MC4jCymBaOcS6T5m+tjghht7tO0GqGgn39m68kqL9wn60vYhgiK1RtYskz8HSdcRNi5MzB8DrGEeDGTmT8391XykWF5yIsd3bvTsbqeBlT2bmWfXpCz8hQYi9YgXSNPkxyjHhRtCuPzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767657556; c=relaxed/simple;
-	bh=vydIrr+Gml+SlvhYbGq0p6Gx/f1mOX2506u2ezdMwxc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OPSr/f/v9olbypYJTDKKJQ5xTcsRFMN9vYkgGEImLPtUCgBaCL5m8RbjuZx4xLxfxDQVo8zFJKGAB++GoA9A7Oyb6d/CEDXbvMTSb7hqroVpCV91XMxEC9b3NbsrlqLOA9F+QFOpgspuLVXVttX6MX6LnZzMP9aeS15mg2NaOT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cRjeeu1/; arc=none smtp.client-ip=209.85.214.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767659326; c=relaxed/simple;
+	bh=A1BcB6UG4sGleSTTyi8JLGsvw2w73XANkY+T8kogHMw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lj8zqiFIPRG3/H2AQ+/WtL6zzIq0IGfrMchyX41LaawlPa/IciGSX2Ib+J00cDFnmWhUXa1/zTUkj4Oeq804p35ZL63gx+Qrk/+p9cXDttp6FxIFvObTZY40AlQqVxFxjZRYpbhZKU+eyJwFSzSD6JUSuoPrSIc2/AxkkyO0+fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jScDK8zg; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cRjeeu1/"
-Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-2a0eaf55d58so12581025ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jan 2026 15:59:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767657554; x=1768262354; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Td42PUfrOWAuQeqqyPhN9snX5r+zsGZdxP+4d36YAws=;
-        b=cRjeeu1/JRKQoWoj6EsKCEslfmWoOGUYVrDtreCl9rfFgOfAIKBvyAtfKPk+TkOQt/
-         WwZVxzu02bGpgGDl1hI7OPlnvNY9Uk5/HF+1h7FlEAuLh4nhtnhRyVBr7SH4E+fbeE/+
-         X7LH0PtYRU32xpeD1xvAA0k7Hj/6gHrwJQOT6yjWb2vvaCli2axrbPKSsGIUQ4ozk7ng
-         Dj6gl7XSen4B+P3vmgtrMTvcmBxw515dTeZDRxxCZWilu0OspZLf7mZxQlWAstJNte0B
-         8AL03rtV3dYP2GJ5LF7yQ3+LPgzuJq+xh5WzM3kYxpAUZ1fI4D7o6VCmFUmMzzu1jLW8
-         oJrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767657554; x=1768262354;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Td42PUfrOWAuQeqqyPhN9snX5r+zsGZdxP+4d36YAws=;
-        b=mudT8ScVwWahqLsDYoPnlKW+yAARG+i8MQI9Om3chbzppagYMNs/aWskDvdW/b/B2k
-         Jk9dJub0DEkYcNO5HwzshRwkE/NZtePjoKv4wx2HBRhskYDY/rw1/iOeIKh3KnSF25NE
-         +r6N22+2W3fOAJXcORMJ1euSj/PdUBQW4/g7bx0yCJly/N1Bu241QE+z6eMTkOln5+K+
-         sb5Qo551eEVy01vIuKqK7G+nYJN6aNYgw2zPrBhrUYXixiwS0DsMQ8oKVBr+86f327qA
-         fcVES1FZ0cQeP4k55uheyoHvosZYBUOYvP/UNwKXgAhIEgL+l4xizEQi4IHhYeLTebv/
-         Vg5A==
-X-Forwarded-Encrypted: i=1; AJvYcCWH7RRCcfTjvEeSi3z6NSpqrFzmtL3YYTEMYS7nzIynOeFvT0CrnJCjrlrYeH1CzvNkVP249e/5oL6mPh4U@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQ20eoElbH7ul7hDod0UfEi1LTTU8cp8feZyf9lcrN2K1MmKVK
-	fMC3LOnKPv0uiXEhC/2o1qBlj7GTV2MmUb99uOWPy8znyv/D19pwep7c
-X-Gm-Gg: AY/fxX5FZJnd+f9SX3SV/bUrKQMGvIoREkOlffu5d+/RF+Be2MkMb0wJdQ0gDVmzOb1
-	B3f8kmEzK4yhCFPyPaYAjtxTygdaaUlYe2yUCvxMaCFWuskvngzKgGHFK9RhodF12Rr4wVrGVl4
-	hIMZoxCTbGzchdYxWSA9d6yaCib6w08ACzJ+hgFdcqEHuK2H+DLDpQ3KgspDRvD7igU13g5lMoC
-	gW4oe9dC6XoOr19DzvqFsALOt8Khk7cwR96W69lHIyLtmz2ZadoF9a6bz6/k0DvdJGdpPwG2gWf
-	Mmhut2snlvXYgR4VY4mPVMAYPhzhD9rgkSWv0ZpWacPrQeB5Vo6770Mmv+5NnmCKB+0r1+7N0QC
-	uQsa1dRU7agdFHYBF523AFdzRKG8ny5MHL48nlGNaNKX6PuoQX1PAHtit9l+WP1IJ/Odo7T0upR
-	SLlNJKJnx2N8u29V6WubH5ZsgXDqySvp8pFw6Eior8p1sZ7mvLgHgvYWivrw==
-X-Google-Smtp-Source: AGHT+IF2yujLQdtPUNjYNIQaaHVruUByq90dGhW9WF1ysuwMpC9YYgi0f8b7TmopRm+oHlRb0Tf74A==
-X-Received: by 2002:a17:902:ecc5:b0:2a0:e80e:b11c with SMTP id d9443c01a7336-2a3e399ed7emr7963145ad.10.1767657554271;
-        Mon, 05 Jan 2026 15:59:14 -0800 (PST)
-Received: from localhost (static-103-70-166-143.unpl.net. [103.70.166.143])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cc88e3sm3044455ad.75.2026.01.05.15.59.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 15:59:13 -0800 (PST)
-Date: Tue, 6 Jan 2026 05:29:10 +0530
-From: Gopi Krishna Menon <krishnagopi487@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: kernel test robot <lkp@intel.com>, 
-	Benjamin Coddington <bcodding@hammerspace.com>, oe-kbuild-all@lists.linux.dev, 
-	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [linux-next:master 1503/2671] htmldocs:
- Documentation/filesystems/api-summary:56: ./fs/namei.c:4953: WARNING: Inline
- emphasis start-string without end-string. [docutils]
-Message-ID: <aVxP9K7mNMw-yChE@kforge-fedora>
-References: <202601011410.4vVaIDB9-lkp@intel.com>
- <745448ec-d69f-4f0c-ac02-08c5d757569f@infradead.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jScDK8zg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767659323; x=1799195323;
+  h=date:from:to:cc:subject:message-id;
+  bh=A1BcB6UG4sGleSTTyi8JLGsvw2w73XANkY+T8kogHMw=;
+  b=jScDK8zgl8JdbX6mBC/9Uz0nMKlM76sR5FPPLxxIaWs3SLm2Dm0tQXq4
+   OwxZfa4r3ff+q8bXScNpo0rF1uUkaAoOJCsxouA3ssLr/3t+bzVfqPein
+   CuG9YAqqGNjE9ItsVvm+CfJRZmejJT0LMgDuKzWVYLLru/7q7xF1ET2H0
+   Ml7ZcdB06Qxj6NQIb4lmbPREoJ44/kow0wMGUvoGHU+63xRmIwHXn30sv
+   gfN39/k57h+2EveLur/+j2HCunq7ygFpZrS95NNUZsbCBBdMJC2mL1Mq7
+   x+sCtWlc6FZwQA3x28wF0Rnd9es14AeCQhyasy1vdhi33dLByz1hd4VFg
+   Q==;
+X-CSE-ConnectionGUID: G9RRNug5RCSQLzw8SqSssQ==
+X-CSE-MsgGUID: PR/9gT7iSQmqrOJmx3+A6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="68935191"
+X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
+   d="scan'208";a="68935191"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 16:28:42 -0800
+X-CSE-ConnectionGUID: Yn1EKm2AQVONi9PEq+gqLw==
+X-CSE-MsgGUID: AS0rBfoeTL+Eps9VC/ujtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
+   d="scan'208";a="202288734"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 05 Jan 2026 16:28:41 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vcuwA-000000001Cf-3fEw;
+	Tue, 06 Jan 2026 00:28:38 +0000
+Date: Tue, 06 Jan 2026 01:27:46 +0100
+From: kernel test robot <lkp@intel.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [glemco:staging_rv_mon_kunit 27/28]
+ kernel/trace/rv/rv_monitors_test.c:33:40: error: macro "rv_get_current"
+ passed 1 arguments, but takes just 0
+Message-ID: <202601060122.kvNmHSoK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <745448ec-d69f-4f0c-ac02-08c5d757569f@infradead.org>
 
-On Thu, Jan 01, 2026 at 07:36:48PM -0800, Randy Dunlap wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gmonaco/linux.git staging_rv_mon_kunit
+head:   e50630dce77a6316bf4ba69e1af30004a302bc24
+commit: 351069275c05f144e40e59ea5ec761f4a303d3ac [27/28] rv: Add kunit stubs for current and smp_processor_id()
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260106/202601060122.kvNmHSoK-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260106/202601060122.kvNmHSoK-lkp@intel.com/reproduce)
 
-> Benjamin,
-> 
-> On 1/1/26 5:27 AM, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   cc3aa43b44bdb43dfbac0fcb51c56594a11338a8
-> > commit: 977de00dfcf87e8d95f55dfc247955dc2f9da14d [1503/2671] VFS: move dentry_create() from fs/open.c to fs/namei.c
-> > reproduce: (https://download.01.org/0day-ci/archive/20260101/202601011410.4vVaIDB9-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601011410.4vVaIDB9-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> >    ERROR: Cannot find file ./include/linux/dcache.h
-> >    WARNING: No kernel-doc for file ./include/linux/dcache.h
-> >    WARNING: ./fs/inode.c:1607 function parameter 'isnew' not described in 'ilookup5_nowait'
-> >    WARNING: ./fs/namei.c:2853 function parameter 'state' not described in '__start_dirop'
-> >    WARNING: ./fs/namei.c:2853 expecting prototype for start_dirop(). Prototype was for __start_dirop() instead
-> >>> Documentation/filesystems/api-summary:56: ./fs/namei.c:4953: WARNING: Inline emphasis start-string without end-string. [docutils]
-> >    Documentation/filesystems/api-summary:56: ./fs/namei.c:4943: ERROR: Unknown target name: "o". [docutils]
-> >    ERROR: Cannot find file ./include/linux/buffer_head.h
-> >    WARNING: No kernel-doc for file ./include/linux/buffer_head.h
-> >    ERROR: Cannot find file ./include/linux/fscache-cache.h
-> >    WARNING: No kernel-doc for file ./include/linux/fscache-cache.h
-> 
-> fs/open.c is not used in Documentation/ (where the lines were moved _from_).
-> 
-> fs/namei.c needs changes like:
-> 
-> ---
->  fs/namei.c |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> --- linux-next-20251219.orig/fs/namei.c
-> +++ linux-next-20251219/fs/namei.c
-> @@ -4938,7 +4938,7 @@ EXPORT_SYMBOL(start_creating_user_path);
->  /**
->   * dentry_create - Create and open a file
->   * @path: path to create
-> - * @flags: O_ flags
-> + * @flags: O_* flags
->   * @mode: mode bits for new file
->   * @cred: credentials to use
->   *
-> @@ -4949,7 +4949,7 @@ EXPORT_SYMBOL(start_creating_user_path);
->   * the new file is to be created. The parent directory and the
->   * negative dentry must reside on the same filesystem instance.
->   *
-> - * On success, returns a "struct file *". Otherwise a ERR_PTR
-> + * On success, returns a "struct file \*". Otherwise a ERR_PTR
->   * is returned.
->   */
->  struct file *dentry_create(struct path *path, int flags, umode_t mode,
-> 
-> 
-> Or                         &struct file \*.
-> without the quotation marks.
-> 
-> -- 
-> ~Randy
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601060122.kvNmHSoK-lkp@intel.com/
 
-Hi Randy,
+All errors (new ones prefixed by >>):
 
-I have already sent a patch for this here :
+>> kernel/trace/rv/rv_monitors_test.c:33:40: error: macro "rv_get_current" passed 1 arguments, but takes just 0
+      33 | struct task_struct *rv_get_current(void)
+         |                                        ^
+   In file included from kernel/trace/rv/rv_monitors_test.c:11:
+   include/rv/kunit_stubs.h:15:9: note: macro "rv_get_current" defined here
+      15 | #define rv_get_current() current
+         |         ^~~~~~~~~~~~~~
+>> kernel/trace/rv/rv_monitors_test.c:34:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+      34 | {
+         | ^
+>> kernel/trace/rv/rv_monitors_test.c:38:24: error: macro "rv_current_cpu" passed 1 arguments, but takes just 0
+      38 | int rv_current_cpu(void)
+         |                        ^
+   include/rv/kunit_stubs.h:16:9: note: macro "rv_current_cpu" defined here
+      16 | #define rv_current_cpu() smp_processor_id()
+         |         ^~~~~~~~~~~~~~
+   kernel/trace/rv/rv_monitors_test.c:39:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+      39 | {
+         | ^
+   In file included from include/linux/spinlock.h:55,
+                    from include/linux/kref.h:16,
+                    from include/kunit/test.h:22,
+                    from kernel/trace/rv/rv_monitors_test.h:3,
+                    from kernel/trace/rv/rv_monitors_test.c:10:
+   kernel/trace/rv/rv_monitors_test.c: In function 'rv_trigger_test_init':
+   kernel/trace/rv/rv_monitors_test.c:66:42: warning: initialization left-hand side might be a candidate for a format attribute [-Wsuggest-attribute=format]
+      66 |         kunit_activate_static_stub(test, rv_react, stub_rv_react);
+         |                                          ^~~~~~~~
+   include/linux/typecheck.h:21:30: note: in definition of macro 'typecheck_fn'
+      21 | ({      typeof(type) __tmp = function; \
+         |                              ^~~~~~~~
+   kernel/trace/rv/rv_monitors_test.c:66:9: note: in expansion of macro 'kunit_activate_static_stub'
+      66 |         kunit_activate_static_stub(test, rv_react, stub_rv_react);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/trace/rv/rv_monitors_test.c:12:
+   kernel/trace/rv/rv_monitors_test.c:66:42: warning: argument 2 of '__kunit_activate_static_stub' might be a candidate for a format attribute [-Wsuggest-attribute=format]
+      66 |         kunit_activate_static_stub(test, rv_react, stub_rv_react);
+         |                                          ^~~~~~~~
+   include/kunit/static_stub.h:97:44: note: in definition of macro 'kunit_activate_static_stub'
+      97 |         __kunit_activate_static_stub(test, real_fn_addr, replacement_addr);     \
+         |                                            ^~~~~~~~~~~~
+>> kernel/trace/rv/rv_monitors_test.c:71:42: error: 'rv_get_current' undeclared (first use in this function); did you mean 'get_current'?
+      71 |         kunit_activate_static_stub(test, rv_get_current, stub_rv_get_current);
+         |                                          ^~~~~~~~~~~~~~
+   include/linux/typecheck.h:21:30: note: in definition of macro 'typecheck_fn'
+      21 | ({      typeof(type) __tmp = function; \
+         |                              ^~~~~~~~
+   kernel/trace/rv/rv_monitors_test.c:71:9: note: in expansion of macro 'kunit_activate_static_stub'
+      71 |         kunit_activate_static_stub(test, rv_get_current, stub_rv_get_current);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/rv/rv_monitors_test.c:71:42: note: each undeclared identifier is reported only once for each function it appears in
+      71 |         kunit_activate_static_stub(test, rv_get_current, stub_rv_get_current);
+         |                                          ^~~~~~~~~~~~~~
+   include/linux/typecheck.h:21:30: note: in definition of macro 'typecheck_fn'
+      21 | ({      typeof(type) __tmp = function; \
+         |                              ^~~~~~~~
+   kernel/trace/rv/rv_monitors_test.c:71:9: note: in expansion of macro 'kunit_activate_static_stub'
+      71 |         kunit_activate_static_stub(test, rv_get_current, stub_rv_get_current);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/trace/rv/rv_monitors_test.c:72:42: error: 'rv_current_cpu' undeclared (first use in this function); did you mean 'stub_rv_current_cpu'?
+      72 |         kunit_activate_static_stub(test, rv_current_cpu, stub_rv_current_cpu);
+         |                                          ^~~~~~~~~~~~~~
+   include/linux/typecheck.h:21:30: note: in definition of macro 'typecheck_fn'
+      21 | ({      typeof(type) __tmp = function; \
+         |                              ^~~~~~~~
+   kernel/trace/rv/rv_monitors_test.c:72:9: note: in expansion of macro 'kunit_activate_static_stub'
+      72 |         kunit_activate_static_stub(test, rv_current_cpu, stub_rv_current_cpu);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-https://lore.kernel.org/all/20251231153851.7523-1-krishnagopi487@gmail.com/
 
-Gopi Krishna Menon
+vim +/rv_get_current +33 kernel/trace/rv/rv_monitors_test.c
+
+  > 11	#include <rv/kunit_stubs.h>
+  > 12	#include <kunit/static_stub.h>
+    13	#include <kunit/test-bug.h>
+    14	#include <linux/kernel.h>
+    15	#include <linux/rv.h>
+    16	
+    17	static void stub_rv_react(struct rv_monitor *monitor, const char *msg, ...)
+    18	{
+    19		struct rv_kunit_ctx *ctx = kunit_get_current_test()->priv;
+    20	
+    21		++ctx->reactions;
+    22	}
+    23	
+    24	static int stub_rv_get_task_monitor_slot(void)
+    25	{
+    26		return 0;
+    27	}
+    28	
+    29	static void stub_rv_put_task_monitor_slot(int slot)
+    30	{
+    31	}
+    32	
+  > 33	struct task_struct *rv_get_current(void)
+  > 34	{
+    35		KUNIT_STATIC_STUB_REDIRECT(rv_get_current);
+    36		return current;
+    37	}
+  > 38	int rv_current_cpu(void)
+    39	{
+    40		KUNIT_STATIC_STUB_REDIRECT(rv_current_cpu);
+    41		return smp_processor_id();
+    42	}
+    43	
+    44	static struct task_struct *stub_rv_get_current(void)
+    45	{
+    46		struct rv_kunit_ctx *ctx = kunit_get_current_test()->priv;
+    47	
+    48		return ctx->curr;
+    49	}
+    50	static int stub_rv_current_cpu(void)
+    51	{
+    52		struct rv_kunit_ctx *ctx = kunit_get_current_test()->priv;
+    53	
+    54		return ctx->cpu;
+    55	}
+    56	
+    57	static int rv_trigger_test_init(struct kunit *test)
+    58	{
+    59		struct rv_kunit_ctx *ctx;
+    60	
+    61		ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+    62		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+    63	
+    64		test->priv = ctx;
+    65	
+    66		kunit_activate_static_stub(test, rv_react, stub_rv_react);
+    67		kunit_activate_static_stub(test, rv_get_task_monitor_slot,
+    68					   stub_rv_get_task_monitor_slot);
+    69		kunit_activate_static_stub(test, rv_put_task_monitor_slot,
+    70					   stub_rv_put_task_monitor_slot);
+  > 71		kunit_activate_static_stub(test, rv_get_current, stub_rv_get_current);
+  > 72		kunit_activate_static_stub(test, rv_current_cpu, stub_rv_current_cpu);
+    73	
+    74		return 0;
+    75	}
+    76	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
