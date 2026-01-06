@@ -1,147 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B53A15ADB4;
-	Tue,  6 Jan 2026 13:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406E6279DC0
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jan 2026 14:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767707950; cv=none; b=GlAjolafAFt619KbkoO+48JkOEEq4ZvSSqU74NFOAAOv3KuvslCqPF6hT+rCCweGqUo4OWYuqbUQqkuX41c6PT6i4J6mr4I7IEDzGB09kQCoopmCESpaLxLbNKUPrOGBIt4HIoUvaWCiP6LaXi+eFQ4JLI+yP2aWg9hk8sm1pXk=
+	t=1767708609; cv=none; b=L+bG4bMorobx5tFhwD3rRycflb3leNLxv2MOYodfpC4LAPejyR/CH08ZZyPKAOjbI8MJtqCVBQhXtl6ZCigD5aYebjfi5DRTjvPi/cSSOIj0XGJZ6Ey+TOpCjJti+rLpGkZ0oBPlIKRYl0/CCJwd2HizEpDewZh+pT0+utpuSko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767707950; c=relaxed/simple;
-	bh=bATSEUYjKeNS7e/OIXZYGlu3IzOGHEmM0mmg91Ubd6Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bhZWhRADfeKfWturCjo9BFwJRlrsKlF2Hvx8IctqxbJKSOdwIDrOraQH6zJlo4+U5P6lYOf0WjEeDTG2He7+X2AB3f9jejqZB92niDV7igqsErvANpkRJEq+T5cQHujQbGnl4CLPgOgt8fwr3J8qCvhk7NGBsy+iIBU795sj/fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XC06cU5w; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1767708609; c=relaxed/simple;
+	bh=ZVGEkHIA+tBEkSfCESQTob2nEMy4TnaDjHhPH9YK0xc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ANHr93SN7ukWplCDC13uX3FvDB3Cy1LE/5hWhRVNoPsaf7HD0xm+4O9j2jcQJifv9doVPHMdvMVBgCfQVJjVb6y+0h3QFHtdP1a5QZg3ohv1OptXmMpam1vUXXyeqO5NofIBy7yZloFCXR0rjpnnj/IJ1ksSrqZryvHiTphKXEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gxvhnzRM; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XC06cU5w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gxvhnzRM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767707949; x=1799243949;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bATSEUYjKeNS7e/OIXZYGlu3IzOGHEmM0mmg91Ubd6Y=;
-  b=XC06cU5wKTzRM0RE3tGgKGRon4VkTF6eQvGoCkD+PWtb3UwhnoAfVUN0
-   bx8arBfkGBWMt8pXFomLY4J/v2Zs1zekAD/Vn6eImxBUSenWf12F0VNmM
-   lHLiM5vHI2cPML/3hhMvP+dWzTGJFp0j/K8UsI0T6pLIMdkYiCAVI0paF
-   vo2Rl7WbBBLTPN9h3iRR/c2eTerxIftlG5LmbMNbIyQudaLXwPJKwYTeG
-   Ed+MiG4UajQ8EGY1s0w1KizJbMKeNg113Ph9eA3r3vg0BE/vDO4ZzAMJl
-   i4ESR1Q2lx7q0AYelwCDoqoRErz3ux3V/pldgN7qOaGkuPfaGJn4r6XCE
-   g==;
-X-CSE-ConnectionGUID: MzOGQRSfQmKY5iMyy18z3g==
-X-CSE-MsgGUID: KZHDcwuFS/qx5Ki9MxX9eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="72701211"
+  t=1767708608; x=1799244608;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZVGEkHIA+tBEkSfCESQTob2nEMy4TnaDjHhPH9YK0xc=;
+  b=gxvhnzRMBRL9bQVwIMFJ5YaUX2D3LC+CzYRnt4poC2jlZbFuXyXZHszM
+   m1fbP+3hzcU+eGL9o+vg/UelAOlmqIYMFzgnxrF3VhKq5er/hfQdxfu8E
+   AO6MrbAku7uHv2sfI0fS86kQ53XAksowC61nKP7XEO6yNx0Foa+qTSO2d
+   Vwzs7tWCzkSibMi/2DJV3KME/EJV5W5y0bj8KGRfNpeFki/yxEX+9GABN
+   DptKuJtIHSCLee55By7k0S6MldTv8mBFUWB7AVt8fuVX2jB+kARc+Yyqi
+   p9KKlu6yrwSCxGQj7NeWZAgwa8p3ahXmjG9Zm1ld1IfHQ2N/SyiWCRtsg
+   A==;
+X-CSE-ConnectionGUID: LO8JjTjeRCOetw5+ofgJ5A==
+X-CSE-MsgGUID: Jm2RD6jSRI25YQWORj85VA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="79706242"
 X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="72701211"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 05:59:08 -0800
-X-CSE-ConnectionGUID: Kq4pX/UHTr+BztI2ExfctQ==
-X-CSE-MsgGUID: y6VDX6r9SaOkYhyKcKs3pw==
+   d="scan'208";a="79706242"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 06:10:05 -0800
+X-CSE-ConnectionGUID: gupmiaRDSuGXCdiZOS1EWg==
+X-CSE-MsgGUID: tV9fFlBFR7ugEdYaNxWqew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
-   d="scan'208";a="226198576"
+   d="scan'208";a="202681830"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Jan 2026 05:59:04 -0800
+  by orviesa007.jf.intel.com with ESMTP; 06 Jan 2026 06:10:04 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vd7aP-000000001zl-18zv;
-	Tue, 06 Jan 2026 13:59:01 +0000
-Date: Tue, 6 Jan 2026 21:58:53 +0800
+	id 1vd7l3-00000000209-27sT;
+	Tue, 06 Jan 2026 14:10:01 +0000
+Date: Tue, 06 Jan 2026 22:09:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>,
-	robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
-	robh@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
-	konrad.dybcio@oss.qualcomm.com, bjorn.andersson@oss.qualcomm.com,
-	bod@kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org,
-	saravanak@google.com, prakash.gupta@oss.qualcomm.com,
-	vikash.garodia@oss.qualcomm.com
-Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Charan Teja Kalla <charan.kalla@oss.qualcomm.com>,
-	Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>
-Subject: Re: [PATCH v4 2/3] of: factor arguments passed to of_map_id() into a
- struct
-Message-ID: <202601062128.BCmw1wNO-lkp@intel.com>
-References: <20251231114257.2382820-3-vijayanand.jitta@oss.qualcomm.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [glemco:staging_rv_mon_kunit 26/28]
+ kernel/trace/rv/rv_monitors_test.c:41:42: warning: initialization left-hand
+ side might be a candidate for a format attribute
+Message-ID: <202601062250.9mLsBNbP-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251231114257.2382820-3-vijayanand.jitta@oss.qualcomm.com>
 
-Hi Vijayanand,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on xen-tip/linux-next]
-[cannot apply to robh/for-next pci/next pci/for-linus linus/master v6.19-rc4 next-20260106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vijayanand-Jitta/of-Add-convenience-wrappers-for-of_map_id/20251231-194928
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xen/tip.git linux-next
-patch link:    https://lore.kernel.org/r/20251231114257.2382820-3-vijayanand.jitta%40oss.qualcomm.com
-patch subject: [PATCH v4 2/3] of: factor arguments passed to of_map_id() into a struct
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260106/202601062128.BCmw1wNO-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260106/202601062128.BCmw1wNO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gmonaco/linux.git staging_rv_mon_kunit
+head:   aa87c6b5e8020a853fbc2444ded06a93a7fc1493
+commit: a3a107602a180742b0a05704b5c554f5ba056bf0 [26/28] rv: Add KUnit tests for some DA/HA monitors
+config: arc-randconfig-001-20260106 (https://download.01.org/0day-ci/archive/20260106/202601062250.9mLsBNbP-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260106/202601062250.9mLsBNbP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601062128.BCmw1wNO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601062250.9mLsBNbP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/cdx/cdx_msi.c:8:
-   In function 'of_map_msi_id',
-       inlined from 'cdx_msi_prepare' at drivers/cdx/cdx_msi.c:131:8:
->> include/linux/of.h:1451:30: warning: 'dev_id' is used uninitialized [-Wuninitialized]
-    1451 |         struct of_map_id_arg arg = {
-         |                              ^~~
-   drivers/cdx/cdx_msi.c: In function 'cdx_msi_prepare':
-   drivers/cdx/cdx_msi.c:127:13: note: 'dev_id' was declared here
-     127 |         u32 dev_id;
-         |             ^~~~~~
---
-   drivers/pci/controller/dwc/pci-imx6.c: In function 'imx_pcie_add_lut_by_rid':
->> drivers/pci/controller/dwc/pci-imx6.c:1112:30: warning: 'sid_i' is used uninitialized [-Wuninitialized]
-    1112 |         arg.map_args.args[0] = sid_i;
-         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   drivers/pci/controller/dwc/pci-imx6.c:1105:13: note: 'sid_i' was declared here
-    1105 |         u32 sid_i, sid_m;
-         |             ^~~~~
->> drivers/pci/controller/dwc/pci-imx6.c:1126:17: warning: 'sid_m' is used uninitialized [-Wuninitialized]
-    1126 |         err_m = of_map_msi_id(dev->of_node, rid, &target, &sid_m);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pci-imx6.c:1105:20: note: 'sid_m' was declared here
-    1105 |         u32 sid_i, sid_m;
-         |                    ^~~~~
+   In file included from include/linux/spinlock.h:55,
+                    from include/linux/kref.h:16,
+                    from include/kunit/test.h:22,
+                    from kernel/trace/rv/rv_monitors_test.h:3,
+                    from kernel/trace/rv/rv_monitors_test.c:10:
+   kernel/trace/rv/rv_monitors_test.c: In function 'rv_trigger_test_init':
+>> kernel/trace/rv/rv_monitors_test.c:41:42: warning: initialization left-hand side might be a candidate for a format attribute [-Wsuggest-attribute=format]
+      41 |         kunit_activate_static_stub(test, rv_react, stub_rv_react);
+         |                                          ^~~~~~~~
+   include/linux/typecheck.h:21:30: note: in definition of macro 'typecheck_fn'
+      21 | ({      typeof(type) __tmp = function; \
+         |                              ^~~~~~~~
+   kernel/trace/rv/rv_monitors_test.c:41:9: note: in expansion of macro 'kunit_activate_static_stub'
+      41 |         kunit_activate_static_stub(test, rv_react, stub_rv_react);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/trace/rv/rv_monitors_test.c:11:
+>> kernel/trace/rv/rv_monitors_test.c:41:42: warning: argument 2 of '__kunit_activate_static_stub' might be a candidate for a format attribute [-Wsuggest-attribute=format]
+      41 |         kunit_activate_static_stub(test, rv_react, stub_rv_react);
+         |                                          ^~~~~~~~
+   include/kunit/static_stub.h:97:44: note: in definition of macro 'kunit_activate_static_stub'
+      97 |         __kunit_activate_static_stub(test, real_fn_addr, replacement_addr);     \
+         |                                            ^~~~~~~~~~~~
 
 
-vim +/dev_id +1451 include/linux/of.h
+vim +41 kernel/trace/rv/rv_monitors_test.c
 
-  1447	
-  1448	static inline int of_map_msi_id(const struct device_node *np, u32 id,
-  1449					struct device_node **target, u32 *id_out)
-  1450	{
-> 1451		struct of_map_id_arg arg = {
-  1452			.map_args = {
-  1453				.np = *target,
-  1454				.args_count = 1,
-  1455				.args = { *id_out },
-  1456			},
-  1457		};
-  1458	
-  1459		return of_map_id(np, id, "msi-map", "msi-map-mask", &arg);
-  1460	}
-  1461	
+    31	
+    32	static int rv_trigger_test_init(struct kunit *test)
+    33	{
+    34		struct rv_kunit_ctx *ctx;
+    35	
+    36		ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+    37		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+    38	
+    39		test->priv = ctx;
+    40	
+  > 41		kunit_activate_static_stub(test, rv_react, stub_rv_react);
+    42		kunit_activate_static_stub(test, rv_get_task_monitor_slot,
+    43					   stub_rv_get_task_monitor_slot);
+    44		kunit_activate_static_stub(test, rv_put_task_monitor_slot,
+    45					   stub_rv_put_task_monitor_slot);
+    46	
+    47		return 0;
+    48	}
+    49	
 
 -- 
 0-DAY CI Kernel Test Service
