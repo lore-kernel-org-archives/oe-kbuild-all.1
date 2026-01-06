@@ -1,307 +1,139 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0009816A956
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jan 2026 09:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870E116A956;
+	Tue,  6 Jan 2026 09:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767692894; cv=none; b=tkp0wFBva5RXkU5bjFrOIwg+/+wtZ79pWkE2rgZw6vXZzH7xjx+/RklqQtcqAiQGmBlFGj6UqNTdu/8yc55s32rSqO3J3x9XduJDktq5JnWL9DVKXX0db5mor+SX8ON1qUlEufb6QjhZiYaRp1KtE8Pdqoqs/4IzVq13FiZ+ttY=
+	t=1767693168; cv=none; b=RBC6ze/HGGYouDuXrpwqpfU+5zoCXmnUEzyhCPJtXsqhaGlIdAAZ8CqzbIb6ATYLgsn7XsA/L0l38LohUCECoe5iqClY6FtWzyL2hAmuEIFSFcKSdtD7LWB1pMa+yoF56IYSwnyxVxJk5Sx/KiBR4eWo0C5cQYoXJuscD06IQ7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767692894; c=relaxed/simple;
-	bh=cQMZsjr/Tmlb4qnBH/HzF5/jqZeSc52+MxcQisSKS58=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WCqWRly+RNFWnIs7aFTVwQ44W+AdwJoOHhGMJ4JpTJcjkvJrmclkqq9NVuIl+zB8PAQilrTwRdRNFs6bTk0bTqkUFHMXQU3WdmQhRZ2u3ukh2TRUxLVNQ5QdkRFc4FpSp8C+Z7fp5nPIZJj5VGwPeNENVaOnpBoC+e9MkjpqQQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com; spf=pass smtp.mailfrom=ionos.com; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=Y9oqJauz; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
+	s=arc-20240116; t=1767693168; c=relaxed/simple;
+	bh=mOlUFndin9zgx0MGvk8HrOVGuVsIhglztWLE0pRaUQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SiuFptHJ/nv7hV4CxotfjBhtfhFlTuU6hpMIA2d4z8p2p+oShNCh3OBTy3G651wdFPSz8HSDoC0x6WTIHO9pgU6Ke5gEZLZ29EV0K+O5cXcNuW0d9x7DXZGYIthpLLWF8Cx6hQs/d9EZB2XQldAtqmDj44fbSZo4zK/nj69ym4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VghH3tBT; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="Y9oqJauz"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-37b95f87d4eso7210891fa.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 06 Jan 2026 01:48:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1767692890; x=1768297690; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nCegXqXjwjwJ1JSFNLPRltQoJpXP+xnTbCozSwk4wdY=;
-        b=Y9oqJauzK3RO060G/sp0YPSdfkPyeq6mso4WEH+xFE3s/TJOlTLD6G0zeotzK/hMa/
-         XIXlbykYYVSUvbsbQ/3ykVYbs5amFdst1Fc0+iTqyg3s+PW2iqLXiqmYQA2i/j50TcOE
-         duuiPK21RWbHb6I2fuSvhu45qHH9z7WPahYemxuBlzYj0fR6RkMqI0b0usU2Y1wlXCG+
-         E37TXkooxQPelG82k7HqUU1V8b5EfH1lLle6Zj+sGchcBAfz5y9Eu8BZRgCpms0rn9Df
-         I53kmi2QZPM3Evb1gwyXqi8/K4Te17rGrWFvAEv+n4iqPu/Zabbmy4IS7x/6s/m3DnWV
-         vv6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767692890; x=1768297690;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nCegXqXjwjwJ1JSFNLPRltQoJpXP+xnTbCozSwk4wdY=;
-        b=XzOdNiunf17zxqIC17TtusFNWs4WVhIAgyUQ9HNBM01pkeluF0qBFKc0NO5WaB4JQt
-         GUqDcqK5ZG7DdBVoirlPxfPkMba0bAjQ+ylWAItb+9o6hrYJTTm20529QwTJn3NT1oaX
-         dyBmyVse2GlsXb3aJPWEoPe8Vnjj8NFZ1q/3Ge+VsAos+FFuat2IUJjVIkALKIUUz7Jb
-         9slz+FEdgUX71SGOiCHxWCtW5yrhs4wHGskv6gzTiiMPIQ9a1BCBto4vL4K/C5vUye9w
-         /kL5PZt38C18jbzzMpmXUh8hClmZVnn5jomSo6BivqzcksLqCGQOKVna0nhV6d0yzQW2
-         u+sg==
-X-Forwarded-Encrypted: i=1; AJvYcCWir9QwpuRLf+gHHXPqMsQI1WO3E0naBw2P8jBOzHE43Eu5dVDsHoe6wb+BIyC88sOxPkZRnSLE5yt+KcOD@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZKg6GsXJf6Dnk67rEt5uafNyr4ymcVwIiAfpisbcBe5cFuSEM
-	X96pkzaocA3tJRXORh95POFNUusO8dmVd4YmHs6VKAhwySOPPVKHByHf+WUboKgKs0JR6sZpI7V
-	X4UstmLD400Rk6AhAkMNnaRBL94LEKszWI1uRyVtV/w==
-X-Gm-Gg: AY/fxX5d88j/At3RwlssWzngMskMCR74VBN/aS/n77fpx+Ew2mrgCPOKm1vNdxaqyaj
-	k8sZRv46b6ivfVm8tfmyiNOr8w6m1qPipuN5PhNLpv0H3l2vlNbaQ1kxkL3k01jncEsO+U/G3VS
-	qAHYjzNRLP+SFH+D4tHX+cIAvUloY79o2auFhT9zVRGDyvqBWKMj8uBnr4UAgLtayvz5VYjrkRk
-	MG+fleNI5ZAhuVpOg2OZOOSapQIUZGUIeFwJUJjjmnnW98cJpzD71iNBwGMse5369FEOmE=
-X-Google-Smtp-Source: AGHT+IHVE7yR3yWbJJC1arCFl+Zb7DyqRtQwHQc1ZhsT8Sz1C5pxigkY0vnftWHmehfZak/DVDSwVlozx55HmkelQQg=
-X-Received: by 2002:a05:651c:546:b0:37f:d484:59b9 with SMTP id
- 38308e7fff4ca-382eaab4b6amr6878611fa.27.1767692889857; Tue, 06 Jan 2026
- 01:48:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VghH3tBT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767693167; x=1799229167;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mOlUFndin9zgx0MGvk8HrOVGuVsIhglztWLE0pRaUQM=;
+  b=VghH3tBTxVqLSg76Un09zK/NYEUkMzqsy5BooJwoJb21y51s+ULMjkOW
+   Z/rdk0mOFjF96NoApjt1B9Oe8XhActn231xMPDdrj57pl3xd53SHsZQ55
+   4ZRZK6YaEW8qMPFNXlBFMquvKRfafwCSNzlr39hUU/Y3dTtCnnXyz9APs
+   stbx2D2FLsC6q8JfiOP/Wh5XEVE9Rj9vNQJxeoUdg2oVbkovyHqliN9aV
+   1fLItgrXBG1PAXcPbNAKDUCpMIb3V2Pzd14CBz0sG4MM+GWbWQ33bcXVK
+   kZxZqVjqbpa78dlRhE5GHDxB9WnUyk6bqoQKARZH2XpRibsx2gXEFU0Is
+   Q==;
+X-CSE-ConnectionGUID: KGEvdQ0kQ/GLquqcxLEt/Q==
+X-CSE-MsgGUID: JvxhGB75Qka15ZPrt61UvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="68068608"
+X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
+   d="scan'208";a="68068608"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2026 01:52:46 -0800
+X-CSE-ConnectionGUID: +YfIa3PQQD6W2B4ZHODkJw==
+X-CSE-MsgGUID: FGJA41wURhGPFfgtfbwaJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,204,1763452800"; 
+   d="scan'208";a="207495077"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa004.fm.intel.com with ESMTP; 06 Jan 2026 01:52:44 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vd3k2-000000001IH-3JXz;
+	Tue, 06 Jan 2026 09:52:42 +0000
+Date: Tue, 6 Jan 2026 10:51:57 +0100
+From: kernel test robot <lkp@intel.com>
+To: Thomas Ballasi <tballasi@linux.microsoft.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] mm: vmscan: add PIDs to vmscan tracepoints
+Message-ID: <202601061007.oLjwuFir-lkp@intel.com>
+References: <20260105160423.23708-3-tballasi@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251208161513.127049-3-haris.iqbal@ionos.com> <202512120133.BuJVeI6M-lkp@intel.com>
-In-Reply-To: <202512120133.BuJVeI6M-lkp@intel.com>
-From: Haris Iqbal <haris.iqbal@ionos.com>
-Date: Tue, 6 Jan 2026 10:47:58 +0100
-X-Gm-Features: AQt7F2rGGafMUnHPRMJ3FgY-Rv0XPbQq5JFJUigS4tDPVCrt-JjQPzn6AQsPBy4
-Message-ID: <CAJpMwyhzhnDMJV2XQVsJ=LadAR995A8eYy0nhfjt-gz9xqAPbw@mail.gmail.com>
-Subject: Re: [PATCH 2/9] RDMA/rtrs: Add error description to the logs
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, linux-rdma@vger.kernel.org, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, bvanassche@acm.org, leon@kernel.org, 
-	jgg@ziepe.ca, jinpu.wang@ionos.com, grzegorz.prajsner@ionos.com, 
-	Kim Zhu <zhu.yanjun@ionos.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260105160423.23708-3-tballasi@linux.microsoft.com>
 
-On Fri, Dec 12, 2025 at 6:26=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> Hi Md,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Md-Haris-Iqbal/RDM=
-A-rtrs-srv-fix-SG-mapping/20251209-001817
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for=
--next
-> patch link:    https://lore.kernel.org/r/20251208161513.127049-3-haris.iq=
-bal%40ionos.com
-> patch subject: [PATCH 2/9] RDMA/rtrs: Add error description to the logs
-> config: arm-randconfig-r072-20251210 (https://download.01.org/0day-ci/arc=
-hive/20251212/202512120133.BuJVeI6M-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 12.5.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202512120133.BuJVeI6M-lkp@intel.com/
->
-> smatch warnings:
-> drivers/infiniband/ulp/rtrs/rtrs-srv.c:885 process_info_req() warn: passi=
-ng zero to 'ERR_PTR'
->
-> vim +/ERR_PTR +885 drivers/infiniband/ulp/rtrs/rtrs-srv.c
->
-> 9cb837480424e7 Jack Wang        2020-05-11  808  static int process_info_=
-req(struct rtrs_srv_con *con,
-> 9cb837480424e7 Jack Wang        2020-05-11  809                          =
-   struct rtrs_msg_info_req *msg)
-> 9cb837480424e7 Jack Wang        2020-05-11  810  {
-> d9372794717f44 Vaishali Thakkar 2022-01-05  811         struct rtrs_path =
-*s =3D con->c.path;
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  812         struct rtrs_srv_p=
-ath *srv_path =3D to_srv_path(s);
-> 9cb837480424e7 Jack Wang        2020-05-11  813         struct ib_send_wr=
- *reg_wr =3D NULL;
-> 9cb837480424e7 Jack Wang        2020-05-11  814         struct rtrs_msg_i=
-nfo_rsp *rsp;
-> 9cb837480424e7 Jack Wang        2020-05-11  815         struct rtrs_iu *t=
-x_iu;
-> 9cb837480424e7 Jack Wang        2020-05-11  816         struct ib_reg_wr =
-*rwr;
-> 9cb837480424e7 Jack Wang        2020-05-11  817         int mri, err;
-> 9cb837480424e7 Jack Wang        2020-05-11  818         size_t tx_sz;
-> 9cb837480424e7 Jack Wang        2020-05-11  819
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  820         err =3D post_recv=
-_path(srv_path);
-> 4693d6b767d6ca Gioh Kim         2021-08-06  821         if (err) {
-> 94ae3ce9b375c6 Kim Zhu          2025-12-08  822                 rtrs_err(=
-s, "post_recv_path(), err: %d(%pe)\n", err, ERR_PTR(err));
-> 9cb837480424e7 Jack Wang        2020-05-11  823                 return er=
-r;
-> 9cb837480424e7 Jack Wang        2020-05-11  824         }
-> 07c14027295a32 Gioh Kim         2021-05-28  825
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  826         if (strchr(msg->p=
-athname, '/') || strchr(msg->pathname, '.')) {
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  827                 rtrs_err(=
-s, "pathname cannot contain / and .\n");
-> dea7bb3ad3e08f Md Haris Iqbal   2021-09-22  828                 return -E=
-INVAL;
-> dea7bb3ad3e08f Md Haris Iqbal   2021-09-22  829         }
-> dea7bb3ad3e08f Md Haris Iqbal   2021-09-22  830
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  831         if (exist_pathnam=
-e(srv_path->srv->ctx,
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  832                          =
-  msg->pathname, &srv_path->srv->paths_uuid)) {
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  833                 rtrs_err(=
-s, "pathname is duplicated: %s\n", msg->pathname);
-> 07c14027295a32 Gioh Kim         2021-05-28  834                 return -E=
-PERM;
-> 07c14027295a32 Gioh Kim         2021-05-28  835         }
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  836         strscpy(srv_path-=
->s.sessname, msg->pathname,
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  837                 sizeof(sr=
-v_path->s.sessname));
-> 07c14027295a32 Gioh Kim         2021-05-28  838
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  839         rwr =3D kcalloc(s=
-rv_path->mrs_num, sizeof(*rwr), GFP_KERNEL);
-> 4693d6b767d6ca Gioh Kim         2021-08-06  840         if (!rwr)
-> 9cb837480424e7 Jack Wang        2020-05-11  841                 return -E=
-NOMEM;
-> 9cb837480424e7 Jack Wang        2020-05-11  842
-> 9cb837480424e7 Jack Wang        2020-05-11  843         tx_sz  =3D sizeof=
-(*rsp);
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  844         tx_sz +=3D sizeof=
-(rsp->desc[0]) * srv_path->mrs_num;
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  845         tx_iu =3D rtrs_iu=
-_alloc(1, tx_sz, GFP_KERNEL, srv_path->s.dev->ib_dev,
-> 9cb837480424e7 Jack Wang        2020-05-11  846                          =
-      DMA_TO_DEVICE, rtrs_srv_info_rsp_done);
-> 4693d6b767d6ca Gioh Kim         2021-08-06  847         if (!tx_iu) {
-> 9cb837480424e7 Jack Wang        2020-05-11  848                 err =3D -=
-ENOMEM;
-> 9cb837480424e7 Jack Wang        2020-05-11  849                 goto rwr_=
-free;
-> 9cb837480424e7 Jack Wang        2020-05-11  850         }
-> 9cb837480424e7 Jack Wang        2020-05-11  851
-> 9cb837480424e7 Jack Wang        2020-05-11  852         rsp =3D tx_iu->bu=
-f;
-> 9cb837480424e7 Jack Wang        2020-05-11  853         rsp->type =3D cpu=
-_to_le16(RTRS_MSG_INFO_RSP);
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  854         rsp->sg_cnt =3D c=
-pu_to_le16(srv_path->mrs_num);
-> 9cb837480424e7 Jack Wang        2020-05-11  855
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  856         for (mri =3D 0; m=
-ri < srv_path->mrs_num; mri++) {
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  857                 struct ib=
-_mr *mr =3D srv_path->mrs[mri].mr;
-> 9cb837480424e7 Jack Wang        2020-05-11  858
-> 9cb837480424e7 Jack Wang        2020-05-11  859                 rsp->desc=
-[mri].addr =3D cpu_to_le64(mr->iova);
-> 9cb837480424e7 Jack Wang        2020-05-11  860                 rsp->desc=
-[mri].key  =3D cpu_to_le32(mr->rkey);
-> 9cb837480424e7 Jack Wang        2020-05-11  861                 rsp->desc=
-[mri].len  =3D cpu_to_le32(mr->length);
-> 9cb837480424e7 Jack Wang        2020-05-11  862
-> 9cb837480424e7 Jack Wang        2020-05-11  863                 /*
-> 9cb837480424e7 Jack Wang        2020-05-11  864                  * Fill i=
-n reg MR request and chain them *backwards*
-> 9cb837480424e7 Jack Wang        2020-05-11  865                  */
-> 9cb837480424e7 Jack Wang        2020-05-11  866                 rwr[mri].=
-wr.next =3D mri ? &rwr[mri - 1].wr : NULL;
-> 9cb837480424e7 Jack Wang        2020-05-11  867                 rwr[mri].=
-wr.opcode =3D IB_WR_REG_MR;
-> 9cb837480424e7 Jack Wang        2020-05-11  868                 rwr[mri].=
-wr.wr_cqe =3D &local_reg_cqe;
-> 9cb837480424e7 Jack Wang        2020-05-11  869                 rwr[mri].=
-wr.num_sge =3D 0;
-> e8ae7ddb48a1b8 Jack Wang        2020-12-17  870                 rwr[mri].=
-wr.send_flags =3D 0;
-> 9cb837480424e7 Jack Wang        2020-05-11  871                 rwr[mri].=
-mr =3D mr;
-> 9cb837480424e7 Jack Wang        2020-05-11  872                 rwr[mri].=
-key =3D mr->rkey;
-> 9cb837480424e7 Jack Wang        2020-05-11  873                 rwr[mri].=
-access =3D (IB_ACCESS_LOCAL_WRITE |
-> 9cb837480424e7 Jack Wang        2020-05-11  874                          =
-          IB_ACCESS_REMOTE_WRITE);
-> 9cb837480424e7 Jack Wang        2020-05-11  875                 reg_wr =
-=3D &rwr[mri].wr;
-> 9cb837480424e7 Jack Wang        2020-05-11  876         }
-> 9cb837480424e7 Jack Wang        2020-05-11  877
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  878         err =3D rtrs_srv_=
-create_path_files(srv_path);
-> 4693d6b767d6ca Gioh Kim         2021-08-06  879         if (err)
-> 9cb837480424e7 Jack Wang        2020-05-11  880                 goto iu_f=
-ree;
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  881         kobject_get(&srv_=
-path->kobj);
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  882         get_device(&srv_p=
-ath->srv->dev);
-> ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  883         err =3D rtrs_srv_=
-change_state(srv_path, RTRS_SRV_CONNECTED);
-> ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  884         if (!err) {
->
-> Probably remove the !?
->
-> 94ae3ce9b375c6 Kim Zhu          2025-12-08 @885                 rtrs_err(=
-s, "rtrs_srv_change_state(), err: %d(%pe)\n", err, ERR_PTR(err));
->
-> err is zero.  Or is this a success path?
+Hi Thomas,
 
-The function rtrs_srv_change_state returns (bool) true for success.
-For this return value, the error log should not be sent to ERR_PTR.
-Will remove the change for this in the next version.
-Thanks.
+kernel test robot noticed the following build errors:
 
->
-> ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  886                 goto iu_f=
-ree;
-> ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  887         }
-> ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  888
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  889         rtrs_srv_start_hb=
-(srv_path);
-> 9cb837480424e7 Jack Wang        2020-05-11  890
-> 9cb837480424e7 Jack Wang        2020-05-11  891         /*
-> 9cb837480424e7 Jack Wang        2020-05-11  892          * We do not acco=
-unt number of established connections at the current
-> 9cb837480424e7 Jack Wang        2020-05-11  893          * moment, we rel=
-y on the client, which should send info request when
-> 9cb837480424e7 Jack Wang        2020-05-11  894          * all connection=
-s are successfully established.  Thus, simply notify
-> 9cb837480424e7 Jack Wang        2020-05-11  895          * listener with =
-a proper event if we are the first path.
-> 9cb837480424e7 Jack Wang        2020-05-11  896          */
-> ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  897         err =3D rtrs_srv_=
-path_up(srv_path);
-> ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  898         if (err) {
-> 94ae3ce9b375c6 Kim Zhu          2025-12-08  899                 rtrs_err(=
-s, "rtrs_srv_path_up(), err: %d(%pe)\n", err, ERR_PTR(err));
-> ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  900                 goto iu_f=
-ree;
-> ed1e52aefa16f1 Md Haris Iqbal   2023-11-20  901         }
-> 9cb837480424e7 Jack Wang        2020-05-11  902
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  903         ib_dma_sync_singl=
-e_for_device(srv_path->s.dev->ib_dev,
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  904                          =
-             tx_iu->dma_addr,
-> 9cb837480424e7 Jack Wang        2020-05-11  905                          =
-             tx_iu->size, DMA_TO_DEVICE);
-> 9cb837480424e7 Jack Wang        2020-05-11  906
-> 9cb837480424e7 Jack Wang        2020-05-11  907         /* Send info resp=
-onse */
-> 9cb837480424e7 Jack Wang        2020-05-11  908         err =3D rtrs_iu_p=
-ost_send(&con->c, tx_iu, tx_sz, reg_wr);
-> 4693d6b767d6ca Gioh Kim         2021-08-06  909         if (err) {
-> 94ae3ce9b375c6 Kim Zhu          2025-12-08  910                 rtrs_err(=
-s, "rtrs_iu_post_send(), err: %d(%pe)\n", err, ERR_PTR(err));
-> 9cb837480424e7 Jack Wang        2020-05-11  911  iu_free:
-> ae4c81644e9105 Vaishali Thakkar 2022-01-05  912                 rtrs_iu_f=
-ree(tx_iu, srv_path->s.dev->ib_dev, 1);
-> 9cb837480424e7 Jack Wang        2020-05-11  913         }
-> 9cb837480424e7 Jack Wang        2020-05-11  914  rwr_free:
-> 9cb837480424e7 Jack Wang        2020-05-11  915         kfree(rwr);
-> 9cb837480424e7 Jack Wang        2020-05-11  916
-> 9cb837480424e7 Jack Wang        2020-05-11  917         return err;
-> 9cb837480424e7 Jack Wang        2020-05-11  918  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Ballasi/mm-vmscan-add-cgroup-IDs-to-vmscan-tracepoints/20260106-000721
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260105160423.23708-3-tballasi%40linux.microsoft.com
+patch subject: [PATCH v3 2/2] mm: vmscan: add PIDs to vmscan tracepoints
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260106/202601061007.oLjwuFir-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260106/202601061007.oLjwuFir-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601061007.oLjwuFir-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from mm/vmscan.c:73:
+   In file included from include/trace/events/vmscan.h:569:
+   In file included from include/trace/define_trace.h:132:
+   In file included from include/trace/trace_events.h:256:
+>> include/trace/events/vmscan.h:140:4: error: call to undeclared function '__event_in_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     140 | +               __event_in_irq() ? "(in-irq)" : "")
+         |                 ^
+   include/trace/events/vmscan.h:188:3: error: call to undeclared function '__event_in_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     188 |                 __event_in_irq() ? "(in-irq)" : "")
+         |                 ^
+   include/trace/events/vmscan.h:263:4: error: call to undeclared function '__event_in_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     263 | +               __event_in_irq() ? "(in-irq)" : "")
+         |                 ^
+   include/trace/events/vmscan.h:306:4: error: call to undeclared function '__event_in_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     306 | +               __event_in_irq() ? "(in-irq)" : "")
+         |                 ^
+   4 errors generated.
+
+
+vim +/__event_in_irq +140 include/trace/events/vmscan.h
+
+   116	
+   117		TP_PROTO(gfp_t gfp_flags, int order, unsigned short memcg_id),
+   118	
+   119		TP_ARGS(gfp_flags, order, memcg_id),
+   120	
+   121		TP_STRUCT__entry(
+   122			__field(	unsigned long,	gfp_flags	)
+   123			__field(	int,	order		)
+   124			__field(	int,	pid		)
+   125			__field(	unsigned short,	memcg_id	)
+   126		),
+   127	
+   128		TP_fast_assign(
+   129			__entry->gfp_flags	= (__force unsigned long)gfp_flags;
+   130			__entry->order		= order;
+   131			__entry->pid		= current->pid;
+   132			__entry->memcg_id	= memcg_id;
+   133		),
+   134	
+   135		TP_printk("order=%d gfp_flags=%s pid=%d memcg_id=%u %s",
+   136			__entry->order,
+   137			show_gfp_flags(__entry->gfp_flags),
+   138			__entry->pid,
+   139			__entry->memcg_id,
+ > 140	+		__event_in_irq() ? "(in-irq)" : "")
+   141	);
+   142	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
