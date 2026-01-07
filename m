@@ -1,131 +1,295 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6239B3328F7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 18:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6592D8391
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 19:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767810076; cv=none; b=qVWH7PMIVcLSse7HCjgi8qk3WriFZCosu7rAXg8d53xsbpjX9t9kV66Hh+l+IehSkdWGdLql0ICtd0SGLagKna6zkrNPpzlGAxhFCmM/doJqWj/FSLFun1LP/zP2cEDqpTTXvSjfUWL1qV0VlvVu+KOCbuU51S2aBVHU2JoKe9o=
+	t=1767813550; cv=none; b=imERakGqYFH+Z+nbluzAowJ2sTFZqWSh+qRMXNlwC4PfOTGr7T3O9U6HIC0kZlZRoY9LRZM+MXf8cm58EsTxxhzVol/yTxLvS2mU+cZHys6blvMk411ayG9c8J2PdtCWbxnGedxiUiye7e9f3YJDsENZZsfqAaEegsL4MRDzXgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767810076; c=relaxed/simple;
-	bh=WJdrrXXFlZV6S7Z0M8LZ5vPfa+xn6eUI1tw9uUPmoJc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KVeAgY+y0RjqFmhIkPhwzGAf12un2nlT/jUsuCoh4nnicF7tweTO2aPqhIbxxy+Y6FPMsZHN05PSCrRyFNEt3raWTVHqNNqUZ4sFTmYY6dXPzN7TRq4rgElQjBbR/1K7NTAQjrRhUCJkeYJaAA8y3Gtbxaz5kpjaZZLx1a6RW2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qs/v7o1+; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767813550; c=relaxed/simple;
+	bh=+EmRxHThlCg2pCEvYFrKVsI491MON5UVyqp5jLeoDp8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S5c1vjTOkSsUpxXPAscXhpnU+psYV62U18yQRFSuBa/xyqy3eVTPVKBsvKVLss7mseJfem3lzewoukpvI7UMuObWOPS568McLZE0JdYrZ+72AshRd09O+UNBmnQidStWKxdGA5e5D5Td8o8ebQgke49urgnuP/YbXBWvlV0BcxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=perenite.com; spf=pass smtp.mailfrom=perenite.com; dkim=pass (2048-bit key) header.d=perenite-com.20230601.gappssmtp.com header.i=@perenite-com.20230601.gappssmtp.com header.b=3NBT4C9S; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=perenite.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perenite.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qs/v7o1+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767810074; x=1799346074;
-  h=date:from:to:cc:subject:message-id;
-  bh=WJdrrXXFlZV6S7Z0M8LZ5vPfa+xn6eUI1tw9uUPmoJc=;
-  b=Qs/v7o1+c/WkAjhxXIVOaw+AON2eG3nqud+toSHutD3Nix0cz32LWLbr
-   3j8BMqBPwp/BCOuhp0Iv2Vl+dKZUYDcJEjCDdMcaFhfWF/iw5QCMf+U7P
-   kbYTRfJj48pXMCiJ1KLxQBY+IhuuR5G4A+berkCmuZYyppNGGGik8F1nR
-   69goa4xkECobSZr1R5QkOETVdIH7TzKLebZqol46kDgftk9SH95DP8Cgu
-   UPYxWltWBrZBal1rNvF3fCe7AdkRcU4qQwfwYc+WA3VVfkeqqeAWE7es1
-   1H5MHiqY6mFbK3J0Zfq2Un4oF//PZTTTR2GZDCfWF1UYPKpvP7ad+p63I
-   A==;
-X-CSE-ConnectionGUID: H74Z1JXxSqSm0jTS8Jbdog==
-X-CSE-MsgGUID: Jfi/DWQsRJqz4VLjyyFUMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="69085564"
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="69085564"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 10:21:12 -0800
-X-CSE-ConnectionGUID: CGVBnhS2Tz6Uddijv//zsw==
-X-CSE-MsgGUID: 2RvkSQ2LRz2J/cwdH5NnFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="202197288"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Jan 2026 10:21:10 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vdY9b-0000000043N-3oAH;
-	Wed, 07 Jan 2026 18:21:07 +0000
-Date: Thu, 08 Jan 2026 02:20:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ido Schimmel <idosch@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
-Subject: [jpirko-mlxsw:combined_queue 10/10]
- drivers/tty/serial/xilinx_uartps.c:438:25: sparse: sparse: dereference of
- noderef expression
-Message-ID: <202601080205.PiFUdOjj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=perenite-com.20230601.gappssmtp.com header.i=@perenite-com.20230601.gappssmtp.com header.b="3NBT4C9S"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-37d96f97206so18963021fa.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 Jan 2026 11:19:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=perenite-com.20230601.gappssmtp.com; s=20230601; t=1767813545; x=1768418345; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fYrgs7nBDupcJayXwff8gTynCVcuYkcQv/zIbteI9R0=;
+        b=3NBT4C9SLSgMko36S+Jssxmlo9Qi7aN4jyWtCpmiBwEAnqoYeahNYU5hF8UMHGHZYD
+         1b3SYH9t+94RsZy9eCT3hJsz7USESQ2zHhKFTXGXf5kQnP4107TPAPlc1k2wt2f94CJV
+         WqnbPIflIimpZwBNdiLnhAbLDpAPvEL2Z4zz7nGvDGSiS8mXjT2i9DmahYmORdsi4fNi
+         1o/ZzZYrv2pLPmiLma9Gk/rpjX7Ln3ng8DK+NWhLRWOWxXL/4z3eZ5Xa+MgrKYo2RvBA
+         oaIrptfChUba79ve5IQ8dCdLz+0yZOKgEDZMujfAmoG/Jda/dr1tX9HmEuhku4qotfYT
+         DzfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767813545; x=1768418345;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fYrgs7nBDupcJayXwff8gTynCVcuYkcQv/zIbteI9R0=;
+        b=WS7lzyZkbHji1KVbh5GxdAo7+njs4M9SwN3i/Uzw+nn7Wb9ux1sB5PjyjsEwQgLmC1
+         3gJo5zsER26SkDojPnpgzVr3uIdfQ8aqvS9uVVpWfJB3exUArFabXsvq8QnHtsrkDGcs
+         VXSOC6Z5uErDYc6KAlhkS8gjoQ201mA6E4xvL7WdQsLgB1Aek6ozEuB3/xNfw/qipNEz
+         3qYsMC3fTFdLP4pe/DtMrQ8dAYMyou0xDk1SK99EyU7dPOWZqOQfYmhUF/rni8QpyjGD
+         dyUgLEBAKlgMwUO4ak/ql3EWe51KG4MB3d+DvsmmWLAeFlV0AjKTfS94KF8SniLc4rQJ
+         Dgug==
+X-Forwarded-Encrypted: i=1; AJvYcCVfRtguun0fwxrd8FvcOQjhHHza/uuJqm1v2D01S+1H4XoFrzNEjnKAeYy/DPus/1G/VQk7JBCTCtDuViAQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YyQLK+ORp32quh7efjsZLjpgl9Y+a3LnEtqySQtTkxcWwabAOr5
+	/fAeVzu/tySLHXopfS+KPq10lZzYG+2K/RI1lliC8xeX8sxH+IlXs+0KgiviNPu4QIej1Y4Ha+P
+	M9a6e79wzrft1aZzyekn/OO0ZJ34ZoJMCmafgb1So
+X-Gm-Gg: AY/fxX5vJP3MjWJV6KnyeHOIigVZKcuuFdWfseJr6SxpgCW5c+KyTselcH18n18UtMe
+	h9sD6Sz/Fran/bRaQ3Dhi2kYJYC/G+97KDfpu7fY7hFk3TqftfygYZbCeZWTgTRs8y3btgBtoQV
+	HU5XHW/jcw9MRkrNzg8lhkdMZ1oDDCTGbB0om4mdarZiwITgf2UEYF8ZbmE3qM2bcitifiCV+g0
+	GdZ9Tyc3fjU3Hpswvzf4nWA5F5DDpHdAJ/W6qHUZq7RgtHNrbu3iKFl3Q1PNaaJhhqLNL8=
+X-Google-Smtp-Source: AGHT+IFHID1uNhIC4O5ZG8p5SblpBJzUzz3ylaPWyBKkOu5jVr/jLUFMipA6M+n7v+swaN0PmYR6Yj2uBnIir/C+iPY=
+X-Received: by 2002:a05:651c:505:b0:382:f4aa:8432 with SMTP id
+ 38308e7fff4ca-382ff85b992mr10974451fa.39.1767813544823; Wed, 07 Jan 2026
+ 11:19:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20251226203021.27244-1-yahoo@perenite.com> <202512300415.VRCQoZYs-lkp@intel.com>
+In-Reply-To: <202512300415.VRCQoZYs-lkp@intel.com>
+From: Benoit Masson <yahoo@perenite.com>
+Date: Wed, 7 Jan 2026 20:18:53 +0100
+X-Gm-Features: AQt7F2qG9qETku47XoHfuzhMFcc-VZz0jwxWXRO0T_mKtC2D13Ex0ihz0VRoWcw
+Message-ID: <CAGHj7OJ=XoSSksz5DbpnP-eB3dQor0zqoXezbYRocFrqj+RTuQ@mail.gmail.com>
+Subject: Re: [PATCH] hwmon: it87: describe per-chip temperature resources
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, jdelvare@suse.com, 
+	Guenter Roeck <linux@roeck-us.net>, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   2dc192c6a328240368616b0f08864c8e7a35abb6
-commit: 1c79063b436b437afd074eb39f2374b27ac91aa2 [10/10] TMP: Revert "module: Add compile-time check for embedded NUL characters"
-config: nios2-randconfig-r132-20260107 (https://download.01.org/0day-ci/archive/20260108/202601080205.PiFUdOjj-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601080205.PiFUdOjj-lkp@intel.com/reproduce)
+On Mon, Jan 5, 2026 at 11:10=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> Hi benoit.masson,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/benoit-masson/hwmo=
+n-it87-describe-per-chip-temperature-resources/20251227-043108
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-stag=
+ing.git hwmon-next
+> patch link:    https://lore.kernel.org/r/20251226203021.27244-1-yahoo%40p=
+erenite.com
+> patch subject: [PATCH] hwmon: it87: describe per-chip temperature resourc=
+es
+> config: x86_64-randconfig-161-20251229 (https://download.01.org/0day-ci/a=
+rchive/20251230/202512300415.VRCQoZYs-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202512300415.VRCQoZYs-lkp@intel.com/
+>
+> smatch warnings:
+> drivers/hwmon/it87.c:1694 show_pwm_temp_map() warn: variable dereferenced=
+ before IS_ERR check 'data' (see line 1691)
+>
+> vim +/data +1694 drivers/hwmon/it87.c
+>
+> 94ac7ee616809d Jean Delvare   2010-03-05  1685  static ssize_t show_pwm_t=
+emp_map(struct device *dev,
+> 94ac7ee616809d Jean Delvare   2010-03-05  1686                           =
+        struct device_attribute *attr, char *buf)
+> 94ac7ee616809d Jean Delvare   2010-03-05  1687  {
+> 94ac7ee616809d Jean Delvare   2010-03-05  1688          struct sensor_dev=
+ice_attribute *sensor_attr =3D to_sensor_dev_attr(attr);
+> 94ac7ee616809d Jean Delvare   2010-03-05  1689          struct it87_data =
+*data =3D it87_update_device(dev);
+> c962024e306ed5 Guenter Roeck  2015-04-04  1690          int nr =3D sensor=
+_attr->index;
+> 542f1e57c17849 benoit.masson  2025-12-26 @1691          u8 num_map =3D da=
+ta->num_temp_map ?: IT87_TEMP_MAP_DEFAULT;
+>                                                                      ^^^^=
+^^^^^^^^^^^^^^
+> Unchecked dereference
+>
+> 94ac7ee616809d Jean Delvare   2010-03-05  1692          int map;
+> 94ac7ee616809d Jean Delvare   2010-03-05  1693
+> 0282ba4a4fe6c8 Frank Crawford 2023-04-16 @1694          if (IS_ERR(data))
+>                                                                    ^^^^
+> Checked too late.
+>
+> 0282ba4a4fe6c8 Frank Crawford 2023-04-16  1695                  return PT=
+R_ERR(data);
+> 0282ba4a4fe6c8 Frank Crawford 2023-04-16  1696
+> 0624d861983c2c Guenter Roeck  2015-04-06  1697          map =3D data->pwm=
+_temp_map[nr];
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601080205.PiFUdOjj-lkp@intel.com/
+Hi Dan,
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/tty/serial/xilinx_uartps.c:438:25: sparse: sparse: dereference of noderef expression
+Indeed I=E2=80=99d move the num_map assignment below the IS_ERR(data)
 
-vim +438 drivers/tty/serial/xilinx_uartps.c
+Is proposing a new patch V2 below the right appraoch ?
 
-fccc9d9233f918 Manikanta Guntupalli 2024-01-23  418  
-74231ab6cc2d02 Manikanta Guntupalli 2024-01-23  419  /**
-74231ab6cc2d02 Manikanta Guntupalli 2024-01-23  420   * cdns_uart_handle_tx - Handle the bytes to be transmitted.
-c8dbdc842d3061 Anirudha Sarangi     2016-09-22  421   * @dev_id: Id of the UART port
-c8dbdc842d3061 Anirudha Sarangi     2016-09-22  422   * Return: None
-c8dbdc842d3061 Anirudha Sarangi     2016-09-22  423   */
-c8dbdc842d3061 Anirudha Sarangi     2016-09-22  424  static void cdns_uart_handle_tx(void *dev_id)
-07986580d0ad14 Soren Brinkmann      2016-01-11  425  {
-c8dbdc842d3061 Anirudha Sarangi     2016-09-22  426  	struct uart_port *port = (struct uart_port *)dev_id;
-fccc9d9233f918 Manikanta Guntupalli 2024-01-23  427  	struct cdns_uart *cdns_uart = port->private_data;
-1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  428) 	struct tty_port *tport = &port->state->port;
-07986580d0ad14 Soren Brinkmann      2016-01-11  429  	unsigned int numbytes;
-1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  430) 	unsigned char ch;
-267ee93c417e68 j.turek              2025-12-21  431  	ktime_t rts_delay;
-07986580d0ad14 Soren Brinkmann      2016-01-11  432  
-1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  433) 	if (kfifo_is_empty(&tport->xmit_fifo) || uart_tx_stopped(port)) {
-74231ab6cc2d02 Manikanta Guntupalli 2024-01-23  434  		/* Disable the TX Empty interrupt */
-07986580d0ad14 Soren Brinkmann      2016-01-11  435  		writel(CDNS_UART_IXR_TXEMPTY, port->membase + CDNS_UART_IDR);
-267ee93c417e68 j.turek              2025-12-21  436  		/* Set RTS line after delay */
-267ee93c417e68 j.turek              2025-12-21  437  		if (cdns_uart->port->rs485.flags & SER_RS485_ENABLED) {
-267ee93c417e68 j.turek              2025-12-21 @438  			cdns_uart->tx_timer.function = &cdns_rs485_rx_callback;
-267ee93c417e68 j.turek              2025-12-21  439  			rts_delay = ns_to_ktime(cdns_calc_after_tx_delay(cdns_uart));
-267ee93c417e68 j.turek              2025-12-21  440  			hrtimer_start(&cdns_uart->tx_timer, rts_delay, HRTIMER_MODE_REL);
-267ee93c417e68 j.turek              2025-12-21  441  		}
-a28ef75816fcce Jiri Slaby           2022-04-21  442  		return;
-a28ef75816fcce Jiri Slaby           2022-04-21  443  	}
-a28ef75816fcce Jiri Slaby           2022-04-21  444  
-07986580d0ad14 Soren Brinkmann      2016-01-11  445  	numbytes = port->fifosize;
-1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  446) 	while (numbytes &&
-1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  447) 	       !(readl(port->membase + CDNS_UART_SR) & CDNS_UART_SR_TXFULL) &&
-1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  448) 	       uart_fifo_get(port, &ch)) {
-1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  449) 		writel(ch, port->membase + CDNS_UART_FIFO);
-07986580d0ad14 Soren Brinkmann      2016-01-11  450  		numbytes--;
-07986580d0ad14 Soren Brinkmann      2016-01-11  451  	}
-07986580d0ad14 Soren Brinkmann      2016-01-11  452  
-1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  453) 	if (kfifo_len(&tport->xmit_fifo) < WAKEUP_CHARS)
-07986580d0ad14 Soren Brinkmann      2016-01-11  454  		uart_write_wakeup(port);
-fccc9d9233f918 Manikanta Guntupalli 2024-01-23  455  
-fccc9d9233f918 Manikanta Guntupalli 2024-01-23  456  	/* Enable the TX Empty interrupt */
-fccc9d9233f918 Manikanta Guntupalli 2024-01-23  457  	writel(CDNS_UART_IXR_TXEMPTY, cdns_uart->port->membase + CDNS_UART_IER);
-07986580d0ad14 Soren Brinkmann      2016-01-11  458  }
-07986580d0ad14 Soren Brinkmann      2016-01-11  459  
+Thanks
 
-:::::: The code at line 438 was first introduced by commit
-:::::: 267ee93c417e685d9f8e079e41c70ba6ee4df5a5 serial: xilinx_uartps: fix rs485 delay_rts_after_send
+[PATCH v2] hwmon: it87: describe per-chip temperature resources
 
-:::::: TO: j.turek <jakub.turek@elsta.tech>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: benoit.masson <yahoo@perenite.com>
+---
+drivers/hwmon/it87.c | 51 ++++++++++++++++++++++++++++++++++-----------
+1 file changed, 38 insertions(+), 13 deletions(-)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/hwmon/it87.c b/drivers/hwmon/it87.c
+index e233aafa8856..f9eca0bc02bc 100644
+--- a/drivers/hwmon/it87.c
++++ b/drivers/hwmon/it87.c
+@@ -54,6 +54,7 @@
+#include <linux/hwmon-vid.h>
+#include <linux/err.h>
+#include <linux/mutex.h>
++#include <linux/minmax.h>
+#include <linux/sysfs.h>
+#include <linux/string.h>
+#include <linux/dmi.h>
+@@ -279,8 +280,9 @@ static const u8 IT87_REG_AUTO_BASE[] =3D { 0x60,
+0x68, 0x70, 0x78, 0xa0, 0xa8 };
+#define NUM_VIN ARRAY_SIZE(IT87_REG_VIN)
+#define NUM_VIN_LIMIT 8
+#define NUM_TEMP 6
+-#define NUM_TEMP_OFFSET ARRAY_SIZE(IT87_REG_TEMP_OFFSET)
+-#define NUM_TEMP_LIMIT 3
++#define IT87_TEMP_OFFSET_MAX ARRAY_SIZE(IT87_REG_TEMP_OFFSET)
++#define IT87_TEMP_LIMIT_DEFAULT 3
++#define IT87_TEMP_MAP_DEFAULT 3
+#define NUM_FAN ARRAY_SIZE(IT87_REG_FAN)
+#define NUM_FAN_DIV 3
+#define NUM_PWM ARRAY_SIZE(IT87_REG_PWM)
+@@ -290,6 +292,9 @@ struct it87_devices {
+const char *name;
+const char * const model;
+u32 features;
++ u8 num_temp_limit;
++ u8 num_temp_offset;
++ u8 num_temp_map;
+u8 peci_mask;
+u8 old_peci_mask;
+u8 smbus_bitmap; /* SMBus enable bits in extra config register */
+@@ -578,6 +583,9 @@ struct it87_data {
+int sioaddr;
+enum chips type;
+u32 features;
++ u8 num_temp_limit;
++ u8 num_temp_offset;
++ u8 num_temp_map;
+u8 peci_mask;
+u8 old_peci_mask;
+@@ -926,12 +934,13 @@ static struct it87_data
+*it87_update_device(struct device *dev)
+data->temp[i][0] =3D
+it87_read_value(data, IT87_REG_TEMP(i));
+- if (has_temp_offset(data) && i < NUM_TEMP_OFFSET)
++ if (has_temp_offset(data) &&
++ i < data->num_temp_offset)
+data->temp[i][3] =3D
+it87_read_value(data,
+IT87_REG_TEMP_OFFSET[i]);
+- if (i >=3D NUM_TEMP_LIMIT)
++ if (i >=3D data->num_temp_limit)
+continue;
+data->temp[i][1] =3D
+@@ -1679,16 +1688,18 @@ static ssize_t show_pwm_temp_map(struct device *dev=
+,
+struct sensor_device_attribute *sensor_attr =3D to_sensor_dev_attr(attr);
+struct it87_data *data =3D it87_update_device(dev);
+int nr =3D sensor_attr->index;
++ u8 num_map;
+int map;
+
+if (IS_ERR(data))
+return PTR_ERR(data);
+
++ num_map =3D data->num_temp_map ?: IT87_TEMP_MAP_DEFAULT;
+map =3D data->pwm_temp_map[nr];
+- if (map >=3D 3)
++ if (map >=3D num_map)
+map =3D 0; /* Should never happen */
+- if (nr >=3D 3) /* pwm channels 3..6 map to temp4..6 */
+- map +=3D 3;
++ if (nr >=3D num_map) /* pwm channels 3..6 map to temp4..6 */
++ map +=3D num_map;
+return sprintf(buf, "%d\n", (int)BIT(map));
+}
+@@ -1700,6 +1710,7 @@ static ssize_t set_pwm_temp_map(struct device *dev,
+struct sensor_device_attribute *sensor_attr =3D to_sensor_dev_attr(attr);
+struct it87_data *data =3D dev_get_drvdata(dev);
+int nr =3D sensor_attr->index;
++ u8 num_map =3D data->num_temp_map ?: IT87_TEMP_MAP_DEFAULT;
+long val;
+int err;
+u8 reg;
+@@ -1707,8 +1718,8 @@ static ssize_t set_pwm_temp_map(struct device *dev,
+if (kstrtol(buf, 10, &val) < 0)
+return -EINVAL;
+- if (nr >=3D 3)
+- val -=3D 3;
++ if (nr >=3D num_map)
++ val -=3D num_map;
+switch (val) {
+case BIT(0):
+@@ -3206,7 +3217,7 @@ static void it87_check_limit_regs(struct it87_data *d=
+ata)
+if (reg =3D=3D 0xff)
+it87_write_value(data, IT87_REG_VIN_MIN(i), 0);
+}
+- for (i =3D 0; i < NUM_TEMP_LIMIT; i++) {
++ for (i =3D 0; i < data->num_temp_limit; i++) {
+reg =3D it87_read_value(data, IT87_REG_TEMP_HIGH(i));
+if (reg =3D=3D 0xff)
+it87_write_value(data, IT87_REG_TEMP_HIGH(i), 127);
+@@ -3399,6 +3410,7 @@ static int it87_probe(struct platform_device *pdev)
+struct resource *res;
+struct device *dev =3D &pdev->dev;
+struct it87_sio_data *sio_data =3D dev_get_platdata(dev);
++ const struct it87_devices *chip;
+int enable_pwm_interface;
+struct device *hwmon_dev;
+int err;
+@@ -3421,9 +3433,21 @@ static int it87_probe(struct platform_device *pdev)
+data->type =3D sio_data->type;
+data->smbus_bitmap =3D sio_data->smbus_bitmap;
+data->ec_special_config =3D sio_data->ec_special_config;
+- data->features =3D it87_devices[sio_data->type].features;
+- data->peci_mask =3D it87_devices[sio_data->type].peci_mask;
+- data->old_peci_mask =3D it87_devices[sio_data->type].old_peci_mask;
++ chip =3D &it87_devices[sio_data->type];
++ data->features =3D chip->features;
++ data->peci_mask =3D chip->peci_mask;
++ data->old_peci_mask =3D chip->old_peci_mask;
++ data->num_temp_limit =3D chip->num_temp_limit ?
++ chip->num_temp_limit : IT87_TEMP_LIMIT_DEFAULT;
++ if (chip->num_temp_offset)
++ data->num_temp_offset =3D min(chip->num_temp_offset,
++ (u8)IT87_TEMP_OFFSET_MAX);
++ else if (has_temp_offset(data))
++ data->num_temp_offset =3D IT87_TEMP_OFFSET_MAX;
++ else
++ data->num_temp_offset =3D 0;
++ data->num_temp_map =3D chip->num_temp_map ?
++ chip->num_temp_map : IT87_TEMP_MAP_DEFAULT;
+/*
+* IT8705F Datasheet 0.4.1, 3h =3D=3D Version G.
+* IT8712F Datasheet 0.9.1, section 8.3.5 indicates 8h =3D=3D Version J.
