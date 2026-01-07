@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C5E3A7F62
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 17:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6239B3328F7
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 18:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767807491; cv=none; b=TWpwzU+UY1FXCA2C9fOBRAjpozt7KwqnHZduqqp5OJpr9IPNIC6Ps1Eqj4Ks/HtRStl8qTAPHE6AWe99O+CUAiT3G30IavPrTDTC/7PYQ4vLHREwvhamdsSNSL0+lF86y02/qkdNuIkzzwOvkQO+6lTw/bxtGcaALwv0dENmsNE=
+	t=1767810076; cv=none; b=qVWH7PMIVcLSse7HCjgi8qk3WriFZCosu7rAXg8d53xsbpjX9t9kV66Hh+l+IehSkdWGdLql0ICtd0SGLagKna6zkrNPpzlGAxhFCmM/doJqWj/FSLFun1LP/zP2cEDqpTTXvSjfUWL1qV0VlvVu+KOCbuU51S2aBVHU2JoKe9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767807491; c=relaxed/simple;
-	bh=5w11i+iXZuU25LHpagsu6Xue638V9iGRi85xe4NZvTo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=vCCXAIzAhPVO6qd/R3hrcA90dEVwnab8Nb1h5/hwtGoAe+JpmxS6S/4nHbZWg702sPs+RiYPvdLUUM5ItQMWl9uCdeKZpb1GN4TvkhQgSho1anedTCT4pm591hx1j8Skn4aRyk8BexuMOfzF/eY0OGKumAtNXZ7E88mxQn0/Zhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nY1bql42; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1767810076; c=relaxed/simple;
+	bh=WJdrrXXFlZV6S7Z0M8LZ5vPfa+xn6eUI1tw9uUPmoJc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KVeAgY+y0RjqFmhIkPhwzGAf12un2nlT/jUsuCoh4nnicF7tweTO2aPqhIbxxy+Y6FPMsZHN05PSCrRyFNEt3raWTVHqNNqUZ4sFTmYY6dXPzN7TRq4rgElQjBbR/1K7NTAQjrRhUCJkeYJaAA8y3Gtbxaz5kpjaZZLx1a6RW2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qs/v7o1+; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nY1bql42"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qs/v7o1+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767807488; x=1799343488;
+  t=1767810074; x=1799346074;
   h=date:from:to:cc:subject:message-id;
-  bh=5w11i+iXZuU25LHpagsu6Xue638V9iGRi85xe4NZvTo=;
-  b=nY1bql42VblDHwhJcGhb7l+0eiRfzMF3O3YC0ft0m7+eBySIROl173Zy
-   j77NDqkgjVC3un4JcK8L5JuZ+CGM/p+1Vovv2wv3KJB3bbBLgWB96AJFS
-   TU/bOeYlinZyorMpq7eABt2S9I29jnYxw2tPCzGZCbt92+gd2jkK69X8X
-   sNylkgfutTMhVJUsg5t/JPV6llHH4Orj2VgPANyew3yA6BAIHbqyE1hDU
-   OEVVej7s9bFbPwzVGh/d/UR/aEevd7r4s0gz4RAahIH/pgtcM5H82vFpc
-   chcSaI686JRO8Dq9dMJTSdx36rxLAXvWGd32sXjWz/lS7dHQz+P2zoapv
+  bh=WJdrrXXFlZV6S7Z0M8LZ5vPfa+xn6eUI1tw9uUPmoJc=;
+  b=Qs/v7o1+c/WkAjhxXIVOaw+AON2eG3nqud+toSHutD3Nix0cz32LWLbr
+   3j8BMqBPwp/BCOuhp0Iv2Vl+dKZUYDcJEjCDdMcaFhfWF/iw5QCMf+U7P
+   kbYTRfJj48pXMCiJ1KLxQBY+IhuuR5G4A+berkCmuZYyppNGGGik8F1nR
+   69goa4xkECobSZr1R5QkOETVdIH7TzKLebZqol46kDgftk9SH95DP8Cgu
+   UPYxWltWBrZBal1rNvF3fCe7AdkRcU4qQwfwYc+WA3VVfkeqqeAWE7es1
+   1H5MHiqY6mFbK3J0Zfq2Un4oF//PZTTTR2GZDCfWF1UYPKpvP7ad+p63I
    A==;
-X-CSE-ConnectionGUID: R+hKScAxTnCA6on7gV2ppQ==
-X-CSE-MsgGUID: iRUWmzntRqKiVORqlWGijg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="80296632"
+X-CSE-ConnectionGUID: H74Z1JXxSqSm0jTS8Jbdog==
+X-CSE-MsgGUID: Jfi/DWQsRJqz4VLjyyFUMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="69085564"
 X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="80296632"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 09:38:06 -0800
-X-CSE-ConnectionGUID: qqoes66VQSaeQmoYRFTfVg==
-X-CSE-MsgGUID: yYYh5MC4Rw68u81p9P0I4w==
+   d="scan'208";a="69085564"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 10:21:12 -0800
+X-CSE-ConnectionGUID: CGVBnhS2Tz6Uddijv//zsw==
+X-CSE-MsgGUID: 2RvkSQ2LRz2J/cwdH5NnFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="233697294"
+   d="scan'208";a="202197288"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 07 Jan 2026 09:38:03 -0800
+  by orviesa010.jf.intel.com with ESMTP; 07 Jan 2026 10:21:10 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vdXTt-00000000429-0FF8;
-	Wed, 07 Jan 2026 17:38:01 +0000
-Date: Thu, 08 Jan 2026 01:37:14 +0800
+	id 1vdY9b-0000000043N-3oAH;
+	Wed, 07 Jan 2026 18:21:07 +0000
+Date: Thu, 08 Jan 2026 02:20:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ido Schimmel <idosch@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
 Subject: [jpirko-mlxsw:combined_queue 10/10]
- arch/sh/boards/mach-hp6xx/hp6xx_apm.c:54:16: sparse: sparse: incorrect type
- in argument 1 (different base types)
-Message-ID: <202601080121.FnjOwoqi-lkp@intel.com>
+ drivers/tty/serial/xilinx_uartps.c:438:25: sparse: sparse: dereference of
+ noderef expression
+Message-ID: <202601080205.PiFUdOjj-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,106 +61,70 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   1c79063b436b437afd074eb39f2374b27ac91aa2
+head:   2dc192c6a328240368616b0f08864c8e7a35abb6
 commit: 1c79063b436b437afd074eb39f2374b27ac91aa2 [10/10] TMP: Revert "module: Add compile-time check for embedded NUL characters"
-config: sh-randconfig-r121-20260107 (https://download.01.org/0day-ci/archive/20260108/202601080121.FnjOwoqi-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601080121.FnjOwoqi-lkp@intel.com/reproduce)
+config: nios2-randconfig-r132-20260107 (https://download.01.org/0day-ci/archive/20260108/202601080205.PiFUdOjj-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601080205.PiFUdOjj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601080121.FnjOwoqi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601080205.PiFUdOjj-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> arch/sh/boards/mach-hp6xx/hp6xx_apm.c:54:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/boards/mach-hp6xx/hp6xx_apm.c:54:16: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/boards/mach-hp6xx/hp6xx_apm.c:54:16: sparse:     got unsigned int
->> arch/sh/boards/mach-hp6xx/hp6xx_apm.c:101:33: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/tty/serial/xilinx_uartps.c:438:25: sparse: sparse: dereference of noderef expression
 
-vim +54 arch/sh/boards/mach-hp6xx/hp6xx_apm.c
+vim +438 drivers/tty/serial/xilinx_uartps.c
 
-dd4f99b42dcce8 arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2008-03-06   29  
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   30  static void hp6x0_apm_get_power_status(struct apm_power_info *info)
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   31  {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   32  	int battery, backup, charging, percentage;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   33  	u8 pgdr;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   34  
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   35  	battery		= adc_single(ADC_CHANNEL_BATTERY);
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   36  	backup		= adc_single(ADC_CHANNEL_BACKUP);
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   37  	charging	= adc_single(ADC_CHANNEL_CHARGE);
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   38  
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   39  	percentage = 100 * (battery - HP680_BATTERY_MIN) /
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   40  			   (HP680_BATTERY_MAX - HP680_BATTERY_MIN);
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   41  
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04   42  	/* % of full battery */
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04   43  	info->battery_life = percentage;
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04   44  
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04   45  	/* We want our estimates in minutes */
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04   46  	info->units = 0;
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04   47  
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04   48  	/* Extremely(!!) rough estimate, we will replace this with a datalist later on */
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04   49  	info->time = (2 * battery);
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04   50  
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   51  	info->ac_line_status = (battery > HP680_BATTERY_AC_ON) ?
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   52  			 APM_AC_ONLINE : APM_AC_OFFLINE;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   53  
-9d56dd3b083a3b arch/sh/boards/mach-hp6xx/hp6xx_apm.c Paul Mundt         2010-01-26  @54  	pgdr = __raw_readb(PGDR);
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   55  	if (pgdr & PGDR_MAIN_BATTERY_OUT) {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   56  		info->battery_status	= APM_BATTERY_STATUS_NOT_PRESENT;
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   57  		info->battery_flag	= 0x80;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   58  	} else if (charging < 8) {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   59  		info->battery_status	= APM_BATTERY_STATUS_CHARGING;
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   60  		info->battery_flag	= 0x08;
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04   61  		info->ac_line_status	= 0x01;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   62  	} else if (percentage <= APM_CRITICAL) {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   63  		info->battery_status	= APM_BATTERY_STATUS_CRITICAL;
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   64  		info->battery_flag	= 0x04;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   65  	} else if (percentage <= APM_LOW) {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   66  		info->battery_status	= APM_BATTERY_STATUS_LOW;
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   67  		info->battery_flag	= 0x02;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   68  	} else {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   69  		info->battery_status	= APM_BATTERY_STATUS_HIGH;
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   70  		info->battery_flag	= 0x01;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   71  	}
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   72  }
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   73  
-35f3c5185b1e28 arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2006-10-06   74  static irqreturn_t hp6x0_apm_interrupt(int irq, void *dev)
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   75  {
-8c8ee8254767d5 arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2007-09-11   76  	if (!APM_DISABLED)
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   77  		apm_queue_event(APM_USER_SUSPEND);
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   78  
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   79  	return IRQ_HANDLED;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   80  }
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   81  
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   82  static int __init hp6x0_apm_init(void)
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   83  {
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   84  	int ret;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   85  
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   86  	ret = request_irq(HP680_BTN_IRQ, hp6x0_apm_interrupt,
-d11584a0449f88 arch/sh/boards/mach-hp6xx/hp6xx_apm.c Yong Zhang         2011-10-22   87  			  0, MODNAME, NULL);
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   88  	if (unlikely(ret < 0)) {
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   89  		printk(KERN_ERR MODNAME ": IRQ %d request failed\n",
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   90  		       HP680_BTN_IRQ);
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   91  		return ret;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   92  	}
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   93  
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24   94  	apm_get_power_status = hp6x0_apm_get_power_status;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   95  
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   96  	return ret;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   97  }
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   98  
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27   99  static void __exit hp6x0_apm_exit(void)
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  100  {
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27 @101  	free_irq(HP680_BTN_IRQ, 0);
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  102  }
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  103  
+fccc9d9233f918 Manikanta Guntupalli 2024-01-23  418  
+74231ab6cc2d02 Manikanta Guntupalli 2024-01-23  419  /**
+74231ab6cc2d02 Manikanta Guntupalli 2024-01-23  420   * cdns_uart_handle_tx - Handle the bytes to be transmitted.
+c8dbdc842d3061 Anirudha Sarangi     2016-09-22  421   * @dev_id: Id of the UART port
+c8dbdc842d3061 Anirudha Sarangi     2016-09-22  422   * Return: None
+c8dbdc842d3061 Anirudha Sarangi     2016-09-22  423   */
+c8dbdc842d3061 Anirudha Sarangi     2016-09-22  424  static void cdns_uart_handle_tx(void *dev_id)
+07986580d0ad14 Soren Brinkmann      2016-01-11  425  {
+c8dbdc842d3061 Anirudha Sarangi     2016-09-22  426  	struct uart_port *port = (struct uart_port *)dev_id;
+fccc9d9233f918 Manikanta Guntupalli 2024-01-23  427  	struct cdns_uart *cdns_uart = port->private_data;
+1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  428) 	struct tty_port *tport = &port->state->port;
+07986580d0ad14 Soren Brinkmann      2016-01-11  429  	unsigned int numbytes;
+1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  430) 	unsigned char ch;
+267ee93c417e68 j.turek              2025-12-21  431  	ktime_t rts_delay;
+07986580d0ad14 Soren Brinkmann      2016-01-11  432  
+1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  433) 	if (kfifo_is_empty(&tport->xmit_fifo) || uart_tx_stopped(port)) {
+74231ab6cc2d02 Manikanta Guntupalli 2024-01-23  434  		/* Disable the TX Empty interrupt */
+07986580d0ad14 Soren Brinkmann      2016-01-11  435  		writel(CDNS_UART_IXR_TXEMPTY, port->membase + CDNS_UART_IDR);
+267ee93c417e68 j.turek              2025-12-21  436  		/* Set RTS line after delay */
+267ee93c417e68 j.turek              2025-12-21  437  		if (cdns_uart->port->rs485.flags & SER_RS485_ENABLED) {
+267ee93c417e68 j.turek              2025-12-21 @438  			cdns_uart->tx_timer.function = &cdns_rs485_rx_callback;
+267ee93c417e68 j.turek              2025-12-21  439  			rts_delay = ns_to_ktime(cdns_calc_after_tx_delay(cdns_uart));
+267ee93c417e68 j.turek              2025-12-21  440  			hrtimer_start(&cdns_uart->tx_timer, rts_delay, HRTIMER_MODE_REL);
+267ee93c417e68 j.turek              2025-12-21  441  		}
+a28ef75816fcce Jiri Slaby           2022-04-21  442  		return;
+a28ef75816fcce Jiri Slaby           2022-04-21  443  	}
+a28ef75816fcce Jiri Slaby           2022-04-21  444  
+07986580d0ad14 Soren Brinkmann      2016-01-11  445  	numbytes = port->fifosize;
+1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  446) 	while (numbytes &&
+1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  447) 	       !(readl(port->membase + CDNS_UART_SR) & CDNS_UART_SR_TXFULL) &&
+1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  448) 	       uart_fifo_get(port, &ch)) {
+1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  449) 		writel(ch, port->membase + CDNS_UART_FIFO);
+07986580d0ad14 Soren Brinkmann      2016-01-11  450  		numbytes--;
+07986580d0ad14 Soren Brinkmann      2016-01-11  451  	}
+07986580d0ad14 Soren Brinkmann      2016-01-11  452  
+1788cf6a91d9fa Jiri Slaby (SUSE     2024-04-05  453) 	if (kfifo_len(&tport->xmit_fifo) < WAKEUP_CHARS)
+07986580d0ad14 Soren Brinkmann      2016-01-11  454  		uart_write_wakeup(port);
+fccc9d9233f918 Manikanta Guntupalli 2024-01-23  455  
+fccc9d9233f918 Manikanta Guntupalli 2024-01-23  456  	/* Enable the TX Empty interrupt */
+fccc9d9233f918 Manikanta Guntupalli 2024-01-23  457  	writel(CDNS_UART_IXR_TXEMPTY, cdns_uart->port->membase + CDNS_UART_IER);
+07986580d0ad14 Soren Brinkmann      2016-01-11  458  }
+07986580d0ad14 Soren Brinkmann      2016-01-11  459  
 
-:::::: The code at line 54 was first introduced by commit
-:::::: 9d56dd3b083a3bec56e9da35ce07baca81030b03 sh: Mass ctrl_in/outX to __raw_read/writeX conversion.
+:::::: The code at line 438 was first introduced by commit
+:::::: 267ee93c417e685d9f8e079e41c70ba6ee4df5a5 serial: xilinx_uartps: fix rs485 delay_rts_after_send
 
-:::::: TO: Paul Mundt <lethal@linux-sh.org>
-:::::: CC: Paul Mundt <lethal@linux-sh.org>
+:::::: TO: j.turek <jakub.turek@elsta.tech>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
