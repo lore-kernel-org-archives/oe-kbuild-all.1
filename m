@@ -1,70 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70027322B6D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 10:53:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD52284B26
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 11:34:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767783190; cv=none; b=K916UHxd9dWxbUxNehAl3jSUUk/3epPmyktsiryTq9S7oPHEJkuCutsYXcCRujYxsEQYxutBJBAc9ZGDvQp46M/TTe6GEsnr4hasNwhpELVzXUEoNW/DncwvTcSJ4s+t3inwpSwZEChHqugewtIeKcWmveF/CbzgLl+PobOuKLE=
+	t=1767785644; cv=none; b=XNIqQPbFSc6GGf3J3vKxowfvxnQ80KTd3dck1SBp3ilnB5I8+158HEWbTUZLri40NGamq7IBmgy+5bA7uo55HkC2Xltx2zFGw7PX3ompk4HD8mvvW9H401qlrDJOO+bT3alH90TeCjb4hwo6gvz+aoWEulhfcmjKB4u03LfWHqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767783190; c=relaxed/simple;
-	bh=BvZSuaPuz2QWKv/uboQwgBkx7RyykGPhhK/HVoD4tqg=;
+	s=arc-20240116; t=1767785644; c=relaxed/simple;
+	bh=HF9bxW5ifEArR+IWBvYklBpsds/zxrsa+KeSijSZQAk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YP1LLH81FPBys5Lmt8yUU92jRNpZoAbME7y11ujLDfmBVTjTO0OWqe3hv8lVQBJYdtCBB52Oxpzlgf0H9eB/9nqJQmEqaZHa9hQ+HSxAHAnMfDBGvDeeCwy8cfim2eeVw5DxZbuAtEdGKm2XgByhuF1ppk10Nxj9PDtMsWS361o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BrRfds1R; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=nHDl7PqU8bfB0hlReD/LqAIFQvDy28i1ywFfDYZIQPL2LDBr686mrLaItofbSRvkeIy8xYU+TmjDHkRfyUxXE5TorVIBi+sBv/+c9kuBnfRYBGWZxjyYTrxIflyGJNdOVIHtlPT0FHg334X4xYRrIGGElzXNqmwUarNhRZMNDi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fPG7pbjz; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BrRfds1R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fPG7pbjz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767783187; x=1799319187;
+  t=1767785643; x=1799321643;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BvZSuaPuz2QWKv/uboQwgBkx7RyykGPhhK/HVoD4tqg=;
-  b=BrRfds1RzddIVX8Yv+KqoZ76OpkEJcsQ2crrFBgyTbClRXf8UR7RgxUe
-   ZIclvUqDaNdvs7EaszO4/CZjimTDRLqMIqDxbv8V9Slu0YybfT0AruE3F
-   s2AXr1oLyDOgxPTuFnh4SeA54xJ59wgg2R8cR96py5tL45XkHMAN1iaXd
-   Uaw6Wo6LdivIPzykB5ETnvndfRpjS72fmYY0EnzKGyar2K5ox1AdzZ/vI
-   2t/SW3rXYzXnvTQjb1iFK0gHmUb8+V/5nss72eXupvVpVh0lPlumeoJt2
-   AqGdWj2D+7MAYOPhxuecJJ0R1q5ySVPz9ZTwIZy3/PpFTgnCbOLJ/7jqo
-   g==;
-X-CSE-ConnectionGUID: XUoK8NZ6Sf+bxdidEEetQw==
-X-CSE-MsgGUID: SSZup4UGT+OZ1b9ql7T+pw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="79453586"
+  bh=HF9bxW5ifEArR+IWBvYklBpsds/zxrsa+KeSijSZQAk=;
+  b=fPG7pbjzg011R7ec5EjeVxK+4fVMSKtieZF7x+T1DTevSxwJ9UhioNqc
+   24OkBIHUOVhpJ6OA3PXwQiNXvEMYycW3ltJsk63/9r5oulVTw4gxxDw9J
+   wRpWVBXCGPAU/prC9+5ExJe7eJA/NyMUlD7mrSAut50/TROerZAK8cbRb
+   POsDRnfTa2MqU2iT6NcMqTwNOCg0ssxmB2GyQKmJRPVGWYPuWW1QT/uVY
+   t28LpA1m8XY80mZZsN855NZTQSPZNN4A/ljgf0I4X9NsVoBAKI7KDDgZ0
+   52KdSAF2fg7KokwYAnh3xLZjsf3m0j/nAL+GFTfDXMiEUz9Uk8M6AfVAg
+   Q==;
+X-CSE-ConnectionGUID: jVVkM3QOT4uBDeEl+anMuQ==
+X-CSE-MsgGUID: 4PZVDwgRRDaOAqzVefZJaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11663"; a="79455971"
 X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; 
-   d="scan'208";a="79453586"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 02:53:05 -0800
-X-CSE-ConnectionGUID: JsXEonzOQh62h1mxBhnXIw==
-X-CSE-MsgGUID: 0ONkis6wRYa2MhyUp6gCWw==
+   d="scan'208";a="79455971"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 03:34:02 -0800
+X-CSE-ConnectionGUID: aMlEGbLhQaCn10YQms/Y6A==
+X-CSE-MsgGUID: UtuIl78URiC4ji1cbweZXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,207,1763452800"; 
-   d="scan'208";a="207426387"
+   d="scan'208";a="207053741"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 07 Jan 2026 02:52:58 -0800
+  by orviesa003.jf.intel.com with ESMTP; 07 Jan 2026 03:33:58 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vdR9s-000000001Zc-0pw1;
-	Wed, 07 Jan 2026 10:52:56 +0000
-Date: Wed, 7 Jan 2026 11:52:43 +0100
+	id 1vdRnY-000000001Zw-1sIe;
+	Wed, 07 Jan 2026 11:33:56 +0000
+Date: Wed, 7 Jan 2026 12:33:26 +0100
 From: kernel test robot <lkp@intel.com>
-To: Lance Yang <lance.yang@linux.dev>, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, david@kernel.org, dave.hansen@intel.com,
-	dave.hansen@linux.intel.com, will@kernel.org,
-	aneesh.kumar@kernel.org, npiggin@gmail.com, peterz@infradead.org,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-	hpa@zytor.com, arnd@arndb.de, lorenzo.stoakes@oracle.com,
-	ziy@nvidia.com, baolin.wang@linux.alibaba.com,
-	Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
-	dev.jain@arm.com, baohua@kernel.org, shy828301@gmail.com,
-	riel@surriel.com, jannh@google.com, linux-arch@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	ioworker0@gmail.com, Lance Yang <lance.yang@linux.dev>
-Subject: Re: [PATCH RESEND v3 2/2] mm: introduce pmdp_collapse_flush_sync()
- to skip redundant IPI
-Message-ID: <202601071153.9k8Fm05X-lkp@intel.com>
-References: <20260106120303.38124-3-lance.yang@linux.dev>
+To: Andy Chiu <andybnac@gmail.com>, linux-riscv@lists.infradead.org,
+	linux-doc@vger.kernel.org, pjw@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Andy Chiu <andybnac@gmail.com>,
+	Zihong Yao <zihong.plct@isrc.iscas.ac.cn>,
+	linux-kernel@vger.kernel.org, Alexandre Ghiti <alex@ghiti.fr>,
+	paul.walmsley@sifive.com, greentime.hu@sifive.com,
+	nick.hu@sifive.com, nylon.chen@sifive.com, eric.lin@sifive.com,
+	vincent.chen@sifive.com, zong.li@sifive.com,
+	yongxuan.wang@sifive.com, samuel.holland@sifive.com
+Subject: Re: [PATCH v1] Documentation: riscv: update Vector discovery for
+ userspace
+Message-ID: <202601071253.83RmycAh-lkp@intel.com>
+References: <20260107000609.63892-1-andybnac@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,208 +70,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260106120303.38124-3-lance.yang@linux.dev>
+In-Reply-To: <20260107000609.63892-1-andybnac@gmail.com>
 
-Hi Lance,
+Hi Andy,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on next-20260107]
-[cannot apply to tip/x86/core tip/x86/mm linus/master v6.16-rc1]
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v6.19-rc4 next-20260107]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lance-Yang/mm-tlb-skip-redundant-IPI-when-TLB-flush-already-synchronized/20260106-200505
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260106120303.38124-3-lance.yang%40linux.dev
-patch subject: [PATCH RESEND v3 2/2] mm: introduce pmdp_collapse_flush_sync() to skip redundant IPI
-config: riscv-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260107/202601071153.9k8Fm05X-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260107/202601071153.9k8Fm05X-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Chiu/Documentation-riscv-update-Vector-discovery-for-userspace/20260107-080917
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20260107000609.63892-1-andybnac%40gmail.com
+patch subject: [PATCH v1] Documentation: riscv: update Vector discovery for userspace
+reproduce: (https://download.01.org/0day-ci/archive/20260107/202601071253.83RmycAh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601071153.9k8Fm05X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601071253.83RmycAh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/khugepaged.c: In function 'collapse_huge_page':
-   mm/khugepaged.c:1180:16: error: implicit declaration of function 'pmdp_collapse_flush_sync'; did you mean 'pmdp_collapse_flush'? [-Wimplicit-function-declaration]
-    1180 |         _pmd = pmdp_collapse_flush_sync(vma, address, pmd);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                pmdp_collapse_flush
->> mm/khugepaged.c:1180:16: error: incompatible types when assigning to type 'pmd_t' from type 'int'
-   mm/khugepaged.c: In function 'try_collapse_pte_mapped_thp':
-   mm/khugepaged.c:1665:19: error: incompatible types when assigning to type 'pmd_t' from type 'int'
-    1665 |         pgt_pmd = pmdp_collapse_flush_sync(vma, haddr, pmd);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   mm/khugepaged.c: In function 'retract_page_tables':
-   mm/khugepaged.c:1818:35: error: incompatible types when assigning to type 'pmd_t' from type 'int'
-    1818 |                         pgt_pmd = pmdp_collapse_flush_sync(vma, addr, pmd);
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:453: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:462: ./include/uapi/linux/landlock.h:153: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:462: ./include/uapi/linux/landlock.h:176: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/arch/riscv/vector.rst:163: WARNING: Unparseable C cross-reference: 'prctl(PR_RISCV_V_GET_CONTROL)'
+   Invalid C declaration: Expected end of definition. [error at 5]
+   prctl(PR_RISCV_V_GET_CONTROL)
+   -----^
 
 
-vim +1180 mm/khugepaged.c
+vim +163 Documentation/arch/riscv/vector.rst
 
-  1092	
-  1093	static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long address,
-  1094						   int referenced, int unmapped,
-  1095						   struct collapse_control *cc)
-  1096	{
-  1097		LIST_HEAD(compound_pagelist);
-  1098		pmd_t *pmd, _pmd;
-  1099		pte_t *pte;
-  1100		pgtable_t pgtable;
-  1101		struct folio *folio;
-  1102		spinlock_t *pmd_ptl, *pte_ptl;
-  1103		enum scan_result result = SCAN_FAIL;
-  1104		struct vm_area_struct *vma;
-  1105		struct mmu_notifier_range range;
-  1106	
-  1107		VM_BUG_ON(address & ~HPAGE_PMD_MASK);
-  1108	
-  1109		/*
-  1110		 * Before allocating the hugepage, release the mmap_lock read lock.
-  1111		 * The allocation can take potentially a long time if it involves
-  1112		 * sync compaction, and we do not need to hold the mmap_lock during
-  1113		 * that. We will recheck the vma after taking it again in write mode.
-  1114		 */
-  1115		mmap_read_unlock(mm);
-  1116	
-  1117		result = alloc_charge_folio(&folio, mm, cc);
-  1118		if (result != SCAN_SUCCEED)
-  1119			goto out_nolock;
-  1120	
-  1121		mmap_read_lock(mm);
-  1122		result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
-  1123		if (result != SCAN_SUCCEED) {
-  1124			mmap_read_unlock(mm);
-  1125			goto out_nolock;
-  1126		}
-  1127	
-  1128		result = find_pmd_or_thp_or_none(mm, address, &pmd);
-  1129		if (result != SCAN_SUCCEED) {
-  1130			mmap_read_unlock(mm);
-  1131			goto out_nolock;
-  1132		}
-  1133	
-  1134		if (unmapped) {
-  1135			/*
-  1136			 * __collapse_huge_page_swapin will return with mmap_lock
-  1137			 * released when it fails. So we jump out_nolock directly in
-  1138			 * that case.  Continuing to collapse causes inconsistency.
-  1139			 */
-  1140			result = __collapse_huge_page_swapin(mm, vma, address, pmd,
-  1141							     referenced);
-  1142			if (result != SCAN_SUCCEED)
-  1143				goto out_nolock;
-  1144		}
-  1145	
-  1146		mmap_read_unlock(mm);
-  1147		/*
-  1148		 * Prevent all access to pagetables with the exception of
-  1149		 * gup_fast later handled by the ptep_clear_flush and the VM
-  1150		 * handled by the anon_vma lock + PG_lock.
-  1151		 *
-  1152		 * UFFDIO_MOVE is prevented to race as well thanks to the
-  1153		 * mmap_lock.
-  1154		 */
-  1155		mmap_write_lock(mm);
-  1156		result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
-  1157		if (result != SCAN_SUCCEED)
-  1158			goto out_up_write;
-  1159		/* check if the pmd is still valid */
-  1160		vma_start_write(vma);
-  1161		result = check_pmd_still_valid(mm, address, pmd);
-  1162		if (result != SCAN_SUCCEED)
-  1163			goto out_up_write;
-  1164	
-  1165		anon_vma_lock_write(vma->anon_vma);
-  1166	
-  1167		mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, address,
-  1168					address + HPAGE_PMD_SIZE);
-  1169		mmu_notifier_invalidate_range_start(&range);
-  1170	
-  1171		pmd_ptl = pmd_lock(mm, pmd); /* probably unnecessary */
-  1172		/*
-  1173		 * This removes any huge TLB entry from the CPU so we won't allow
-  1174		 * huge and small TLB entries for the same virtual address to
-  1175		 * avoid the risk of CPU bugs in that area.
-  1176		 *
-  1177		 * Parallel GUP-fast is fine since GUP-fast will back off when
-  1178		 * it detects PMD is changed.
-  1179		 */
-> 1180		_pmd = pmdp_collapse_flush_sync(vma, address, pmd);
-  1181		spin_unlock(pmd_ptl);
-  1182		mmu_notifier_invalidate_range_end(&range);
-  1183	
-  1184		pte = pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
-  1185		if (pte) {
-  1186			result = __collapse_huge_page_isolate(vma, address, pte, cc,
-  1187							      &compound_pagelist);
-  1188			spin_unlock(pte_ptl);
-  1189		} else {
-  1190			result = SCAN_NO_PTE_TABLE;
-  1191		}
-  1192	
-  1193		if (unlikely(result != SCAN_SUCCEED)) {
-  1194			if (pte)
-  1195				pte_unmap(pte);
-  1196			spin_lock(pmd_ptl);
-  1197			BUG_ON(!pmd_none(*pmd));
-  1198			/*
-  1199			 * We can only use set_pmd_at when establishing
-  1200			 * hugepmds and never for establishing regular pmds that
-  1201			 * points to regular pagetables. Use pmd_populate for that
-  1202			 */
-  1203			pmd_populate(mm, pmd, pmd_pgtable(_pmd));
-  1204			spin_unlock(pmd_ptl);
-  1205			anon_vma_unlock_write(vma->anon_vma);
-  1206			goto out_up_write;
-  1207		}
-  1208	
-  1209		/*
-  1210		 * All pages are isolated and locked so anon_vma rmap
-  1211		 * can't run anymore.
-  1212		 */
-  1213		anon_vma_unlock_write(vma->anon_vma);
-  1214	
-  1215		result = __collapse_huge_page_copy(pte, folio, pmd, _pmd,
-  1216						   vma, address, pte_ptl,
-  1217						   &compound_pagelist);
-  1218		pte_unmap(pte);
-  1219		if (unlikely(result != SCAN_SUCCEED))
-  1220			goto out_up_write;
-  1221	
-  1222		/*
-  1223		 * The smp_wmb() inside __folio_mark_uptodate() ensures the
-  1224		 * copy_huge_page writes become visible before the set_pmd_at()
-  1225		 * write.
-  1226		 */
-  1227		__folio_mark_uptodate(folio);
-  1228		pgtable = pmd_pgtable(_pmd);
-  1229	
-  1230		spin_lock(pmd_ptl);
-  1231		BUG_ON(!pmd_none(*pmd));
-  1232		pgtable_trans_huge_deposit(mm, pmd, pgtable);
-  1233		map_anon_folio_pmd_nopf(folio, pmd, vma, address);
-  1234		spin_unlock(pmd_ptl);
-  1235	
-  1236		folio = NULL;
-  1237	
-  1238		result = SCAN_SUCCEED;
-  1239	out_up_write:
-  1240		mmap_write_unlock(mm);
-  1241	out_nolock:
-  1242		if (folio)
-  1243			folio_put(folio);
-  1244		trace_mm_collapse_huge_page(mm, result == SCAN_SUCCEED, result);
-  1245		return result;
-  1246	}
-  1247	
+   162	
+ > 163	c:macro:`HWCAP` is designed to serve as a quick check to see if the standard
 
 -- 
 0-DAY CI Kernel Test Service
