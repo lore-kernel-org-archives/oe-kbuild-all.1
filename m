@@ -1,106 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54C734028F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 16:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0026C344030
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 16:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767804249; cv=none; b=Dp+IzWVNWVSWCDGDzTzC9+nGvoUBD8ZTQP0EMPh3hygnUfK9QCiYHHgC4z3KmwpjxXXbny3e5weFnNoY7P46wpD5mca/IoURNLE4h3rZtXnVnDsGJaKxfqg22Snw/MIHEHpaMZw7H0NEsZotf2hNZA+WnXVrBOL1JGSQR1pcdfk=
+	t=1767804551; cv=none; b=NML/HM+h9b8mdgE+E06FtKw+lkYIn/Ibfgb1VVWhWZe2eOFZjN9U5S8fTJT+hvNO+JhfUNdDJjArq8utVoc7Dpu04OUmg7IfrMcKpXTZl4NFk+tjRAVturpHrrsDk4HTJMolyalbnvvsQuOrzZo6lSoeY78gexUzi+D6rVGimc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767804249; c=relaxed/simple;
-	bh=S7SD/QNz+8Kwx/gdaPDcVjZPgP07xJkYVkHQdktZEdk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jDBW4bdXBSXqbImF4DmDemzJkCH+BXWDVeBmv1oLlQ9FHSihyJmCA4xOsZa61PAyyk6/6V9C+FjwiHifpiHbDdQ1x1Wj21umJ8lfQhy36louTOPw44vQ6qMgZWL19v3wtbg7bGT9+s9dduCqSliDMCg8Kgg6cbNC1bZBNDh5xr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b1qbkLNf; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1767804551; c=relaxed/simple;
+	bh=inZ7e/LbKWKCBMJeF0jdqCGb48ue0bSiQkjDj/xImH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RcHXpTWUHu8drUygt6x+sil69M++Sa67Y3lKA8Cj9nYYy7F9Dj9NTATxSnKsgSy/3Y0tWyxLWwtw1uIm5oaY/Rl+dCv0chB0+TOUAAqlyx6G3Oxcs3+5+TL+BLHI2BHfqqa+IDYAhRlqCoEUiBpH6z1giilH/88g06/Aarbbn48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XYfDI6aW; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b1qbkLNf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XYfDI6aW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767804243; x=1799340243;
-  h=date:from:to:cc:subject:message-id;
-  bh=S7SD/QNz+8Kwx/gdaPDcVjZPgP07xJkYVkHQdktZEdk=;
-  b=b1qbkLNf4bGoO31nLivnfuiLj2F+2QG3a8xLc2wIC/2sI+rZCtNxn6Wc
-   qb+NXdiurwAJv6tR1GrSvafgYp7KuSZGzUFTsA09O6HAfol+K2aHMkwHy
-   01ltCYpd/ijp22mqsklWNBA6y63ouBYdwCjjqudVHZcH6DAmy2l+LvqqV
-   1dmVJoBPUqHv/m7w1i3pYORDduX4C4j6OQ3UZ+5nx4FxnErW5Oq97srk/
-   ao48BPdsEcX4Wb06Aj6BoKCMywswUo+EjiK8Qw7GCRNzpqElMvDwaWUb+
-   TqhwHhcWAZ9lmGZzE8l9uaU7pUqDMM4x9buOHxoBGHjVgE4TVfRVT9ps0
+  t=1767804547; x=1799340547;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=inZ7e/LbKWKCBMJeF0jdqCGb48ue0bSiQkjDj/xImH0=;
+  b=XYfDI6aWKVVzXlPraj0u04Gtud9StaDclR+vZDQjF96wGVmTjy//q2Nl
+   y/QbP1bVIGoqBYbe2DwQUmBcdsg32z5eTP7+lYz+vQbpgFnsonBF4xHIk
+   DQ8Vv97mkA6YJoBqIS6aNWdMNZY7WuhSaJEKSC4hagS+nXKJ2i+x9SbD8
+   sUs3cfytlwd45nyiHMTzpppgJOQtkDUaE27K56MpLWVkig4oDEXKr6YUE
+   JW8mTXWgEJOCfQIoP8GM8G2LUopI4nvs9Uv1BG8r+nT4ev8LCTN55AO5Y
+   Rwx++UPVsp07l+2YntAqBtQV+tMBdVcDi8psbuRTvgy1G3J6k8MXJPton
    g==;
-X-CSE-ConnectionGUID: pCAa2KVKQCKt3BZ+/St+HA==
-X-CSE-MsgGUID: zW6EBnplTxGTKx4oHquTpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="94647759"
+X-CSE-ConnectionGUID: eoYcCgM9SQO5hN42DlrZMg==
+X-CSE-MsgGUID: df96Ll5DTlO+1wrWllF3zg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="79481765"
 X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="94647759"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 08:44:00 -0800
-X-CSE-ConnectionGUID: zrMZHINZTWiql+y8D2akbA==
-X-CSE-MsgGUID: hxVKCZsORAK0CHm+fxb1Bg==
+   d="scan'208";a="79481765"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 08:49:03 -0800
+X-CSE-ConnectionGUID: EDvKlPTaQwO9Ja5o9oEAhQ==
+X-CSE-MsgGUID: IYy4spkqSx2auKsyvSfkXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="202587291"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 07 Jan 2026 08:43:59 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="234117394"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 07 Jan 2026 08:49:00 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vdWdY-000000003zc-3wqO;
-	Wed, 07 Jan 2026 16:43:56 +0000
-Date: Thu, 08 Jan 2026 00:43:02 +0800
+	id 1vdWiP-000000001bY-3wzv;
+	Wed, 07 Jan 2026 16:48:57 +0000
+Date: Wed, 7 Jan 2026 17:48:47 +0100
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:scratch/gourry/isolation/v3 1/9]
- include/linux/node.h:108:76: error: expected ';' before '}' token
-Message-ID: <202601080039.LOcqrmzn-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Vasileios Amoiridis <vassilisamir@gmail.com>, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, linux@roeck-us.net
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Vasileios Amoiridis <vasileios.amoiridis@cern.ch>
+Subject: Re: [PATCH v1 2/2] hwmon: Add support for HiTRON HAC300S PSU
+Message-ID: <202601071730.jz3sGdba-lkp@intel.com>
+References: <20260106160353.14023-3-vassilisamir@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260106160353.14023-3-vassilisamir@gmail.com>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/isolation/v3
-head:   8a4f71e8f0a8aef992da7df176a352073872a47c
-commit: c96cbb611777a60e4328fc821843d1bc092dcca1 [1/9] numa,memory_hotplug: create N_PRIVATE (Private Nodes)
-config: i386-buildonly-randconfig-002-20260107 (https://download.01.org/0day-ci/archive/20260108/202601080039.LOcqrmzn-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601080039.LOcqrmzn-lkp@intel.com/reproduce)
+Hi Vasileios,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on groeck-staging/hwmon-next linus/master v6.19-rc4 next-20260107]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vasileios-Amoiridis/dt-bindings-trivial-devices-Add-hitron-hac300s/20260107-000618
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260106160353.14023-3-vassilisamir%40gmail.com
+patch subject: [PATCH v1 2/2] hwmon: Add support for HiTRON HAC300S PSU
+reproduce: (https://download.01.org/0day-ci/archive/20260107/202601071730.jz3sGdba-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601080039.LOcqrmzn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601071730.jz3sGdba-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/swap.h:11,
-                    from include/linux/suspend.h:5,
-                    from arch/x86/kernel/asm-offsets.c:14:
-   include/linux/node.h: In function 'node_mark_private':
->> include/linux/node.h:108:76: error: expected ';' before '}' token
-     108 | static inline int node_mark_private(int nid, bool enable) { return -ENODEV }
-         |                                                                            ^
-   make[3]: *** [scripts/Makefile.build:182: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=3953546934
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1314: prepare0] Error 2 shuffle=3953546934
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3953546934
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3953546934
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +108 include/linux/node.h
-
-   102	
-   103	static inline void node_update_perf_attrs(unsigned int nid,
-   104						  struct access_coordinate *coord,
-   105						  enum access_coordinate_class access)
-   106	{
-   107	}
- > 108	static inline int node_mark_private(int nid, bool enable) { return -ENODEV }
-   109	#endif
-   110	
+   ERROR: Cannot find file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/mutex.h
+   WARNING: No kernel-doc for file ./include/linux/mutex.h
+   ERROR: Cannot find file ./include/linux/fwctl.h
+   WARNING: No kernel-doc for file ./include/linux/fwctl.h
+>> Documentation/hwmon/hac300s.rst: WARNING: document isn't included in any toctree [toc.not_included]
 
 -- 
 0-DAY CI Kernel Test Service
