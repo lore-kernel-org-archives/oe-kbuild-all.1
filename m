@@ -1,144 +1,102 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBC93451CE
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 19:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D02733EAE0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 19:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767815034; cv=none; b=af0iL8kF6E1U+OyyF+GvUvoWkUKPjJ5OLKIC0/DsIixyPQEQ4rt9WOh5x4PLu86JJz2uLdikyJtRFnYHGriH7wRUDYCtL6sINrAE6lM1yI6DkB22N1cC62MESCNGVLvtMi5qRss+7AP1VeJNhga2U5FAq3hnzQqWQ60KV/XEOFA=
+	t=1767815053; cv=none; b=MUAhemjKQg0Z6OsNaARUnXA05SV2n9BrVooLKzv5YqEVjP8f6+lireK57efwK5pszq07mbHvgw1jwIJieRIBrF+XS2dG7soR9apz9gL5kY7Dih3XxKJDvHI0Pa8o2RDYO4sn8HbZvYuSjckuTVLnwNyAl60/tPEnsJ+tge+D818=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767815034; c=relaxed/simple;
-	bh=H4kQ2ImpfCXfEiF09CqkE7nLS72g/BDW/WAuAGSer90=;
+	s=arc-20240116; t=1767815053; c=relaxed/simple;
+	bh=ecrjmWwMeICqv836gN3xD2ueXnPOAfbSEgKZWBJF9nY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oVrF8BnwI6DMiigsmAbMykFMOSEhjjagGYODI/S+RYgrALbJfd5ZIWqyfWva8m1Sja70ijOSA4Tq2y1Ryjep91U29xYMYAauTYc8y6pPjC1wyvAYT8i14qG3jWpZKMzOJYPThbNwkXT1BrGw3ZATSBdcyChZV6bxKOwdfD5WX+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AuSpyynV; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=rIApKpcpvoyeDR/L3y5qmsYORrcxKrjNr2W3akyrEhPk+WiLBBhAsT3eFyw+t8PNih6lURmTCENI4ciD3qJqdJemWxDPNUZxe19t+aexNXj0pGgut026DQxbzH/IR1qjJdFl+VA6axZkK4HpxU50ZmuzjG6y3p4YSyEDtlGUyII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkrxhdID; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AuSpyynV"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47774d3536dso11415195e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 Jan 2026 11:43:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767815022; x=1768419822; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=hfhdkkmV7GAX86e2yZLGIC3icQWfc8GaVLQ0woZU3MY=;
-        b=AuSpyynV917fOH5olGwPnzTgTU/ouV9DRH2Xww4qFq1t+zjBLICT/iFiE+6TqsosKj
-         EesVARtZZhA70vAJDn1TBHN8k940pEz8g6JWcMQdiRIxO3uMzL4gwPKdR1Lglb3rZUVU
-         1v8krirrnsRSNsMRZbzTlw3w9sUbf+N2zaT6QZ4MPaK1WV6ZFj5iu2CmLgp7o03fkrmq
-         eE752j22rrDMW7vwAeNp/ZkaN89pqO5fF8d2KfV8mwfGy5vKadTdzte2mfwBaqxqWHlY
-         7c9FDuk6Zaa6BTa1TrX4VzbyCOh1Z8ugxq0RTDH5VjEMmtMRK0vpMwToW3safQvEP8Mj
-         nn2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767815022; x=1768419822;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hfhdkkmV7GAX86e2yZLGIC3icQWfc8GaVLQ0woZU3MY=;
-        b=qfaLay3cG865Rp+kYiZzE8hMGc/5cmV1+DZYAkO8hbeKqHLW7ejuU2m69svAL3Fs9i
-         8XYzrqHlL4OWq3SY0rhQK5YQaCKBcHUx6wX8dQcSAcwvWVMKjo14WF12kw4bFKoKcE84
-         /3CL19Mvv5Yld7NbE4EOKloekK84KgvD/23OIKZvZtEE5JmzJOJtuuzL8LU4EZ6oNIkk
-         7RA1k0GgJjWa4nDadkn5TZYq2YF8w3mxnhdXwLrs8n0VhpSj3pCB+PpSFx/DhQr/WcIB
-         TN2roOK4PULKFuzazRRjZJ+2c02AqiRd7+9K+9eUsfkxzg08ca4b6tyDRkndInBZyRri
-         Tl0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVIO9IG0zyaLe0ghzuTkDC+jDyB+jB3ABnj2qBzJD+Aq9Oy9z9GSVyk007rD5TtRkJABnsayfbTSIc0Nnk1@lists.linux.dev
-X-Gm-Message-State: AOJu0YzE841mlGTx9qjHwslCoxQuUMbOjn/ixD7c0HUJ+HX+KbVyjTRD
-	rpySnJrWbDUJYaPF250ssGAzSTcwDIJMLgXomYyDYMbRrr2gK1mPe9aNx7+tqKUXcOY=
-X-Gm-Gg: AY/fxX4OJvUs6p9qiYIfCywwvBMMjWb6+z87jQLyQwOkT4S1wAddlnWysDaP1E6P9WN
-	VYpzRPNM0oueV83Kj+/PakdHVDVeqrxWsPmLYySa6fAYLXRCGcP/LyK0QVJPYI9ftCXhd3tlmFE
-	j/TtWmSdRi+Dex4wtsR8QNPxlns88SdpB+4P/bdGDK5xCoNYWYhZvAb5c613qdAZxPgncMH+5CO
-	7hGDYSkZ9ErWqYytxxFX46Sj0hlqBWJ1q1KNcTCdSTea1WfytNBPiQo1UaHK98BMsQdYwRB2Q6s
-	L653k/0l+mC0kXrobyrdZVIlBiWlZODbdt0faKSdWpgjmwunjmZYl7UOjygj4GD0vyHr7d+vcf0
-	IIZZ9njDq02D0hYN9R9fnlTO+O8NlDAJBOxTcIstS2i5cNUtb9L8nS4jsReVpqfiNcXuWT6cmPG
-	8KhPpMwbzT2E7E/JCI
-X-Google-Smtp-Source: AGHT+IF+nx5zCtfYVsKIp8PB8gUjhPK5j02V7HcCtFysVmUTplF5yysifhIl1OB40IVLi4DTO94Aqw==
-X-Received: by 2002:a05:600c:1f8f:b0:47d:6c36:a125 with SMTP id 5b1f17b1804b1-47d8487f5cfmr44268665e9.17.1767815022126;
-        Wed, 07 Jan 2026 11:43:42 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d865f84besm22141875e9.1.2026.01.07.11.43.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 11:43:41 -0800 (PST)
-Date: Wed, 7 Jan 2026 22:43:38 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Benoit Masson <yahoo@perenite.com>
-Cc: oe-kbuild@lists.linux.dev, jdelvare@suse.com,
-	Guenter Roeck <linux@roeck-us.net>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: it87: describe per-chip temperature resources
-Message-ID: <aV63aitdddpwja7g@stanley.mountain>
-References: <20251226203021.27244-1-yahoo@perenite.com>
- <202512300415.VRCQoZYs-lkp@intel.com>
- <CAGHj7OJ=XoSSksz5DbpnP-eB3dQor0zqoXezbYRocFrqj+RTuQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkrxhdID"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767815047; x=1799351047;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ecrjmWwMeICqv836gN3xD2ueXnPOAfbSEgKZWBJF9nY=;
+  b=RkrxhdIDCCMxm4BJKXPuNKV0vWRt2d6yCMzhLmDa73YP1BQaipjkMhj2
+   56k0r1kHM+F0+/N3baHOwm/4Szfu0AjJtSlQaSIzZEDWUgnaa+143PEYs
+   uyifIvM3jQ0bF5fhfc3TaIeKUEIkuT54v8bmYbufj3SaSEe8Ffhxg3xwh
+   gxtCCq5mNRaF0MTrFtw6DFLiULeySBxpsqnIBQ+bagTg0NzOqLaAKIzmS
+   QqFvGWsSvtiwoZt0gWoD/xtFTxI64PqRT1upqPfcvLKwH70cn0juUpdC8
+   RglDOzMvAfmFzhW04Bcxm03BGA7yonSChxF/FdX9FHKeuLoUiz3qM89bi
+   w==;
+X-CSE-ConnectionGUID: ZRZf03bxTSSics8NMmIJ5A==
+X-CSE-MsgGUID: r+1PITg6QFyW7u4hQhveHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="94659885"
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
+   d="scan'208";a="94659885"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 11:44:02 -0800
+X-CSE-ConnectionGUID: C6mZjKYjREyoVPPmOgjp6Q==
+X-CSE-MsgGUID: H2h6R2iiRPer3D3VzttYvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
+   d="scan'208";a="207153122"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by orviesa003.jf.intel.com with ESMTP; 07 Jan 2026 11:44:00 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vdZRm-000000001c0-1Ka5;
+	Wed, 07 Jan 2026 19:43:58 +0000
+Date: Wed, 7 Jan 2026 20:43:21 +0100
+From: kernel test robot <lkp@intel.com>
+To: Riwen Lu <luriwen@kylinos.cn>, rafael@kernel.org, lenb@kernel.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-acpi@vger.kernel.org, Riwen Lu <luriwen@kylinos.cn>
+Subject: Re: [PATCH v1] ACPI: PM: Introduce CONFIG_ACPI_S2IDLE for
+ platform-independent S2Idle support
+Message-ID: <202601072006.dGGykCqj-lkp@intel.com>
+References: <20260107015907.1421272-1-luriwen@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGHj7OJ=XoSSksz5DbpnP-eB3dQor0zqoXezbYRocFrqj+RTuQ@mail.gmail.com>
+In-Reply-To: <20260107015907.1421272-1-luriwen@kylinos.cn>
 
-On Wed, Jan 07, 2026 at 08:18:53PM +0100, Benoit Masson wrote:
-> On Mon, Jan 5, 2026 at 11:10 AM Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> >
-> > Hi benoit.masson,
-> >
-> > kernel test robot noticed the following build warnings:
-> >
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/benoit-masson/hwmon-it87-describe-per-chip-temperature-resources/20251227-043108
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-> > patch link:    https://lore.kernel.org/r/20251226203021.27244-1-yahoo%40perenite.com
-> > patch subject: [PATCH] hwmon: it87: describe per-chip temperature resources
-> > config: x86_64-randconfig-161-20251229 (https://download.01.org/0day-ci/archive/20251230/202512300415.VRCQoZYs-lkp@intel.com/config)
-> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202512300415.VRCQoZYs-lkp@intel.com/
-> >
-> > smatch warnings:
-> > drivers/hwmon/it87.c:1694 show_pwm_temp_map() warn: variable dereferenced before IS_ERR check 'data' (see line 1691)
-> >
-> > vim +/data +1694 drivers/hwmon/it87.c
-> >
-> > 94ac7ee616809d Jean Delvare   2010-03-05  1685  static ssize_t show_pwm_temp_map(struct device *dev,
-> > 94ac7ee616809d Jean Delvare   2010-03-05  1686                                   struct device_attribute *attr, char *buf)
-> > 94ac7ee616809d Jean Delvare   2010-03-05  1687  {
-> > 94ac7ee616809d Jean Delvare   2010-03-05  1688          struct sensor_device_attribute *sensor_attr = to_sensor_dev_attr(attr);
-> > 94ac7ee616809d Jean Delvare   2010-03-05  1689          struct it87_data *data = it87_update_device(dev);
-> > c962024e306ed5 Guenter Roeck  2015-04-04  1690          int nr = sensor_attr->index;
-> > 542f1e57c17849 benoit.masson  2025-12-26 @1691          u8 num_map = data->num_temp_map ?: IT87_TEMP_MAP_DEFAULT;
-> >                                                                      ^^^^^^^^^^^^^^^^^^
-> > Unchecked dereference
-> >
-> > 94ac7ee616809d Jean Delvare   2010-03-05  1692          int map;
-> > 94ac7ee616809d Jean Delvare   2010-03-05  1693
-> > 0282ba4a4fe6c8 Frank Crawford 2023-04-16 @1694          if (IS_ERR(data))
-> >                                                                    ^^^^
-> > Checked too late.
-> >
-> > 0282ba4a4fe6c8 Frank Crawford 2023-04-16  1695                  return PTR_ERR(data);
-> > 0282ba4a4fe6c8 Frank Crawford 2023-04-16  1696
-> > 0624d861983c2c Guenter Roeck  2015-04-06  1697          map = data->pwm_temp_map[nr];
-> >
-> 
-> Hi Dan,
-> 
-> Indeed I’d move the num_map assignment below the IS_ERR(data)
-> 
-> Is proposing a new patch V2 below the right appraoch ?
+Hi Riwen,
 
-This doesn't seem to have hit linux-next yet, so sending a v2 sounds
-good.
+kernel test robot noticed the following build warnings:
 
-regards,
-dan carpenter
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.19-rc4 next-20260107]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Riwen-Lu/ACPI-PM-Introduce-CONFIG_ACPI_S2IDLE-for-platform-independent-S2Idle-support/20260107-101450
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20260107015907.1421272-1-luriwen%40kylinos.cn
+patch subject: [PATCH v1] ACPI: PM: Introduce CONFIG_ACPI_S2IDLE for platform-independent S2Idle support
+config: loongarch-kismet-CONFIG_ACPI_S2IDLE-CONFIG_ACPI_SYSTEM_POWER_STATES_SUPPORT-0-0 (https://download.01.org/0day-ci/archive/20260107/202601072006.dGGykCqj-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260107/202601072006.dGGykCqj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601072006.dGGykCqj-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for ACPI_S2IDLE when selected by ACPI_SYSTEM_POWER_STATES_SUPPORT
+   WARNING: unmet direct dependencies detected for ACPI_S2IDLE
+     Depends on [n]: ACPI [=y] && SUSPEND [=n]
+     Selected by [y]:
+     - ACPI_SYSTEM_POWER_STATES_SUPPORT [=y] && ACPI [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
