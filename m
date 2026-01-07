@@ -1,80 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DDC3A0B24;
-	Wed,  7 Jan 2026 21:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25214221277
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 22:26:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767823045; cv=none; b=NZBRC64NW3Ja0628vakkIYX5Tsz09eH3VnlBf7MDjWR1awJxVBf03GhGLe66gJZ0v81DOHIeErjsBdQKPM9uoTq24V5ompy+qJ7l/6MFPMGl55kC3T+rJ6PmZnw1SIaoyrhVYqQPMqGDRCXcQpPG9WY/kBf9aDaFpKEsDANHlGo=
+	t=1767824766; cv=none; b=or2WH1u2xA999+w4fNIm/UBP1YW17OR7Bk+2B+rmbRUTgo/MLw3cCN0rJZpTWP8RLx41gcZyRXUv1jlrnKK2M53ST3ggfjXZKfD5rQx82dLfdlcsRgATyWExkqkLiRKaYHPJ83JU+Dh0MG/JY8rEmMv268bRZ30tyBR3CdllVLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767823045; c=relaxed/simple;
-	bh=nD0ENe12JC/ZFZ4QhNz2eXYrR1c16qF9MZIM3WZT7pw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VUyYPYfSmfgcDIElG4G22xZCcIhTFfTcrNKM7Rrqci4FXx8ZNFuo2lXL6+IaEN4PtKfwRGYcQiUOmOlf8AdvkxN4moD6OyQ/14FeRwX4BiH82rXkMpzASzmefPfdfMkX/3HLQSMQbJcNFKdFpCcWH7GTfwhQLDg4bL/jI1wankQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RmvOH/ed; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1767824766; c=relaxed/simple;
+	bh=9hOqLeKQfUMSYkkpTVWyJSzNqwKSLw0uBLxQwep2krQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B4za5d3VEjBMCiX7lMeVLoGQiAkcrb23ZwQZQyWKFvv2Gv/gabkB4BLTAnr7LvURaS/PZ88xNeMyfjVqNCZ2qq0/MhokFHft6q8OzrhHR5Pizg5+6N83Ey3SwtcK5S5OPwpEBhe3N5LKFaxKaThi3127y06N0axciUGe9oWU38U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F9XXCgPg; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RmvOH/ed"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F9XXCgPg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767823044; x=1799359044;
-  h=date:from:to:cc:subject:message-id;
-  bh=nD0ENe12JC/ZFZ4QhNz2eXYrR1c16qF9MZIM3WZT7pw=;
-  b=RmvOH/edxyg0YwlwHHqL+XkXYDcOP6dps+94QPKcTLFXnNpqD+w4Kesw
-   yEF7aQjD61eGsIiL5Vk7ZuFVtFIYN6gDZXDqFXNithrXwJXx+F2Kq93lf
-   tP1Is1JnSiCsABVGv2Lix3sLpwAM3cG18vDSHtCM7sZk6ey4LjsSHgL7q
-   2krHAd5mg+W3skf9WpZRQTQfcCM2KF+/19IButaZae7OAiu2EdkQ5wkf6
-   4s3D6eO271rd1Je9YbQK1QqxkPkUKuz4ZxHg5LyHkc/8+Ir2mFpNqtP5O
-   7BF4xQC88Xi/OfwMkMbbvuy8I/2ufZqbfkIkhfIZlyT+PzWWjGrv6+2kt
-   A==;
-X-CSE-ConnectionGUID: 6WOl4vrKQp+Wt2TrCq689A==
-X-CSE-MsgGUID: fl+lr8+9Tgu7XE4J0+tkpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="80561188"
+  t=1767824765; x=1799360765;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9hOqLeKQfUMSYkkpTVWyJSzNqwKSLw0uBLxQwep2krQ=;
+  b=F9XXCgPguSIVmWM42N3zuO/kn2lLWDInlWuNL4kMmMS2KhNwhXyZpv2F
+   /onQNeCau//gJOJHgtuk7+k0UmxdHBbe2EameggVh8HocCkPNMLPxI7JM
+   X4b5t5D3Vj1GUTz8GLfdrr4RY18y2K/KzgcLVqPKDEIMhEj/1NZ6uQY80
+   e7mjyoFHMkbnNo6fRpI2GosxCQejFd28606EW8sFNyDEqUir4nE2AQIpx
+   aUzPQy/wsr8IPOdtPavWO0l07zc8DVCVEwnRvvlbqqsnhY1kNrBwwW0dv
+   hONl2e1BdTi7l2uEwWSZk5LO7865ED+pKW0MfGtKZFVMu6+ePrz3ZeJQC
+   Q==;
+X-CSE-ConnectionGUID: KE+oOYb+REWfpLlE9ha6eg==
+X-CSE-MsgGUID: JqqLCL/zQ1myVEt8Mzx6WQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="91861177"
 X-IronPort-AV: E=Sophos;i="6.21,209,1763452800"; 
-   d="scan'208";a="80561188"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 13:57:23 -0800
-X-CSE-ConnectionGUID: 68QykzVOQ8+7gKaQNlUkAw==
-X-CSE-MsgGUID: K9RoVVHATQSHIZLHgjfU4w==
+   d="scan'208";a="91861177"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 14:26:04 -0800
+X-CSE-ConnectionGUID: yPETnroYRD6Zd3gHvp1mfA==
+X-CSE-MsgGUID: Pv0S92j0SW2lMmeidoZfJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,209,1763452800"; 
-   d="scan'208";a="207565305"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 07 Jan 2026 13:57:21 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="208103094"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 07 Jan 2026 14:26:02 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vdbWn-000000004Bl-3WI7;
-	Wed, 07 Jan 2026 21:57:17 +0000
-Date: Thu, 08 Jan 2026 05:56:49 +0800
+	id 1vdbyZ-000000001d6-2Awd;
+	Wed, 07 Jan 2026 22:25:59 +0000
+Date: Wed, 7 Jan 2026 23:25:14 +0100
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:scratch/gourry/isolation/v3 1/9] Warning:
- mm/numa_memblks.c:216 expecting prototype for numa_add_memblk(). Prototype
- was for numa_add_spm_memblk() instead
-Message-ID: <202601080543.kRym66fR-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Kartik Rajput <kkartik@nvidia.com>, lenb@kernel.org,
+	sakari.ailus@linux.intel.com, mika.westerberg@linux.intel.com,
+	andriy.shevchenko@linux.intel.com, thierry.reding@gmail.com,
+	jonathanh@nvidia.com, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Kartik Rajput <kkartik@nvidia.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ACPI: bus: Use OF match data for PRP0001 matched devices
+Message-ID: <202601072317.QNoPkgyy-lkp@intel.com>
+References: <20260107062453.10893-1-kkartik@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107062453.10893-1-kkartik@nvidia.com>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/isolation/v3
-head:   8a4f71e8f0a8aef992da7df176a352073872a47c
-commit: c96cbb611777a60e4328fc821843d1bc092dcca1 [1/9] numa,memory_hotplug: create N_PRIVATE (Private Nodes)
-config: x86_64-randconfig-075-20260108 (https://download.01.org/0day-ci/archive/20260108/202601080543.kRym66fR-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601080543.kRym66fR-lkp@intel.com/reproduce)
+Hi Kartik,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge westeri-thunderbolt/next linus/master v6.19-rc4 next-20260107]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kartik-Rajput/ACPI-bus-Use-OF-match-data-for-PRP0001-matched-devices/20260107-142543
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20260107062453.10893-1-kkartik%40nvidia.com
+patch subject: [PATCH] ACPI: bus: Use OF match data for PRP0001 matched devices
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260107/202601072317.QNoPkgyy-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260107/202601072317.QNoPkgyy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601080543.kRym66fR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601072317.QNoPkgyy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> Warning: mm/numa_memblks.c:216 expecting prototype for numa_add_memblk(). Prototype was for numa_add_spm_memblk() instead
+   drivers/acpi/bus.c: In function 'acpi_device_get_match_data':
+>> drivers/acpi/bus.c:1034:28: error: expected identifier or '(' before '=' token
+    1034 |         struct acpi_device = ACPI_COMPANION(dev);
+         |                            ^
+   In file included from include/linux/acpi.h:38,
+                    from drivers/acpi/bus.c:19:
+>> include/acpi/acpi_bus.h:531:10: error: expected statement before ')' token
+     531 |         })
+         |          ^
+   include/linux/acpi.h:58:41: note: in expansion of macro 'to_acpi_device_node'
+      58 | #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnode)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   drivers/acpi/bus.c:1034:30: note: in expansion of macro 'ACPI_COMPANION'
+    1034 |         struct acpi_device = ACPI_COMPANION(dev);
+         |                              ^~~~~~~~~~~~~~
+>> drivers/acpi/bus.c:1036:60: error: 'adev' undeclared (first use in this function); did you mean 'dev'?
+    1036 |         if (!strcmp(ACPI_DT_NAMESPACE_HID, acpi_device_hid(adev))
+         |                                                            ^~~~
+         |                                                            dev
+   drivers/acpi/bus.c:1036:60: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/acpi/bus.c:1036:66: error: expected ')' before 'return'
+    1036 |         if (!strcmp(ACPI_DT_NAMESPACE_HID, acpi_device_hid(adev))
+         |            ~                                                     ^
+         |                                                                  )
+    1037 |                 return acpi_of_device_get_match_data(dev);
+         |                 ~~~~~~                                            
+>> drivers/acpi/bus.c:1044:1: error: expected expression before '}' token
+    1044 | }
+         | ^
+>> drivers/acpi/bus.c:1033:38: warning: unused variable 'match' [-Wunused-variable]
+    1033 |         const struct acpi_device_id *match;
+         |                                      ^~~~~
+>> drivers/acpi/bus.c:1032:38: warning: unused variable 'acpi_ids' [-Wunused-variable]
+    1032 |         const struct acpi_device_id *acpi_ids = dev->driver->acpi_match_table;
+         |                                      ^~~~~~~~
+>> drivers/acpi/bus.c:1044:1: warning: control reaches end of non-void function [-Wreturn-type]
+    1044 | }
+         | ^
+   drivers/acpi/bus.c: At top level:
+>> drivers/acpi/bus.c:1019:20: warning: 'acpi_of_device_get_match_data' defined but not used [-Wunused-function]
+    1019 | static const void *acpi_of_device_get_match_data(const struct device *dev)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +1034 drivers/acpi/bus.c
+
+  1018	
+> 1019	static const void *acpi_of_device_get_match_data(const struct device *dev)
+  1020	{
+  1021		struct acpi_device *adev = ACPI_COMPANION(dev);
+  1022		const struct of_device_id *match = NULL;
+  1023	
+  1024		if (!acpi_of_match_device(adev, dev->driver->of_match_table, &match))
+  1025			return NULL;
+  1026	
+  1027		return match->data;
+  1028	}
+  1029	
+  1030	const void *acpi_device_get_match_data(const struct device *dev)
+  1031	{
+> 1032		const struct acpi_device_id *acpi_ids = dev->driver->acpi_match_table;
+> 1033		const struct acpi_device_id *match;
+> 1034		struct acpi_device = ACPI_COMPANION(dev);
+  1035	
+> 1036		if (!strcmp(ACPI_DT_NAMESPACE_HID, acpi_device_hid(adev))
+  1037			return acpi_of_device_get_match_data(dev);
+  1038	
+  1039		match = acpi_match_device(acpi_ids, dev);
+  1040		if (!match)
+  1041			return NULL;
+  1042	
+  1043		return (const void *)match->driver_data;
+> 1044	}
+  1045	EXPORT_SYMBOL_GPL(acpi_device_get_match_data);
+  1046	
 
 -- 
 0-DAY CI Kernel Test Service
