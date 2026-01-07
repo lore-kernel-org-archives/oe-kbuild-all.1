@@ -1,140 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7C522A4FE
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 19:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBC93451CE
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jan 2026 19:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767813857; cv=none; b=VQpR3KHSbD3xImaRDBWWz+AmzpUNjRP2BlIPVdWg0NN30ncv7Mqxks0Rt3A9oWm1YBNso/HEtLc2CwuW+qM6/Zv0AcDH4iBcRYeIT7xzIqq8OPFVtp7MvdrIGiKyv/PO1Ayfb9JYek4t3hcDBluFkxsPBU0fu67M/1cxvjiYFEE=
+	t=1767815034; cv=none; b=af0iL8kF6E1U+OyyF+GvUvoWkUKPjJ5OLKIC0/DsIixyPQEQ4rt9WOh5x4PLu86JJz2uLdikyJtRFnYHGriH7wRUDYCtL6sINrAE6lM1yI6DkB22N1cC62MESCNGVLvtMi5qRss+7AP1VeJNhga2U5FAq3hnzQqWQ60KV/XEOFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767813857; c=relaxed/simple;
-	bh=L6f1PifJpqxsnm0Lnab1vQ+mLCz6DECvZ25laxXR5rU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GmJkP2wU+kXndKvv6QH+kUTuAAKLEOdlWcbuOI/vgmwMnUN0pcH6R3iLMovrbPco3jIkYn4JN72tKDjC6qZtGhQPgTPhtt+ROEQ1UCW5JLdimZ9tUkQ04jW5Y9qjX4mE6+6TL8gpCpx9YwKQ0Y5Ifb5KGd5Hca4LJ7re37dqfoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MaRBb51Q; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767815034; c=relaxed/simple;
+	bh=H4kQ2ImpfCXfEiF09CqkE7nLS72g/BDW/WAuAGSer90=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oVrF8BnwI6DMiigsmAbMykFMOSEhjjagGYODI/S+RYgrALbJfd5ZIWqyfWva8m1Sja70ijOSA4Tq2y1Ryjep91U29xYMYAauTYc8y6pPjC1wyvAYT8i14qG3jWpZKMzOJYPThbNwkXT1BrGw3ZATSBdcyChZV6bxKOwdfD5WX+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AuSpyynV; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MaRBb51Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767813856; x=1799349856;
-  h=date:from:to:cc:subject:message-id;
-  bh=L6f1PifJpqxsnm0Lnab1vQ+mLCz6DECvZ25laxXR5rU=;
-  b=MaRBb51QCkGsED9yiAIICUBZdeX9b+AzopvshMo1eT8McPpm412MD2qn
-   vK+LRSihE3q7OAswVywfQiI5nL9zw2pj5enFRClZcyMHWEbasAYrAn1Y9
-   cKiKMyUHkUj0PT7AueXly6YZq9ym9vZrajDu2WmZWwMe4/Ac/Z+iFRGLN
-   JTRMxMdCehgw5g+wI27gvu0/mHu6nN1e0HVoNX05NLqondNkb5X3dBHLK
-   AikuLDrxSMrT/WaZnsfAh0iS68H3P0HRlbjo5A28W1ctZ2EXxYJwiMoxz
-   HuBeb5fi0kklEXvUqSksDipdi/zCt5KztHpWrEA5kXYOQQdm5k8054QFF
-   Q==;
-X-CSE-ConnectionGUID: voSoO+GUQE6UNGXHKTtkeQ==
-X-CSE-MsgGUID: JYL5oTLCR7Kty5TrrrNXDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="69267574"
-X-IronPort-AV: E=Sophos;i="6.21,208,1763452800"; 
-   d="scan'208";a="69267574"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 11:24:15 -0800
-X-CSE-ConnectionGUID: 1IeyQUOwQTmJiQY/wBjy4w==
-X-CSE-MsgGUID: 1q/G+Pi1RU+xT6hNBU1cIQ==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Jan 2026 11:24:13 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vdZ8d-00000000469-0fGk;
-	Wed, 07 Jan 2026 19:24:11 +0000
-Date: Thu, 08 Jan 2026 03:23:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:scratch/gourry/isolation/v3 1/9]
- include/linux/poll.h:134:27: warning: division by zero is undefined
-Message-ID: <202601080313.MTon6YNv-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AuSpyynV"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47774d3536dso11415195e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 Jan 2026 11:43:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767815022; x=1768419822; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hfhdkkmV7GAX86e2yZLGIC3icQWfc8GaVLQ0woZU3MY=;
+        b=AuSpyynV917fOH5olGwPnzTgTU/ouV9DRH2Xww4qFq1t+zjBLICT/iFiE+6TqsosKj
+         EesVARtZZhA70vAJDn1TBHN8k940pEz8g6JWcMQdiRIxO3uMzL4gwPKdR1Lglb3rZUVU
+         1v8krirrnsRSNsMRZbzTlw3w9sUbf+N2zaT6QZ4MPaK1WV6ZFj5iu2CmLgp7o03fkrmq
+         eE752j22rrDMW7vwAeNp/ZkaN89pqO5fF8d2KfV8mwfGy5vKadTdzte2mfwBaqxqWHlY
+         7c9FDuk6Zaa6BTa1TrX4VzbyCOh1Z8ugxq0RTDH5VjEMmtMRK0vpMwToW3safQvEP8Mj
+         nn2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767815022; x=1768419822;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hfhdkkmV7GAX86e2yZLGIC3icQWfc8GaVLQ0woZU3MY=;
+        b=qfaLay3cG865Rp+kYiZzE8hMGc/5cmV1+DZYAkO8hbeKqHLW7ejuU2m69svAL3Fs9i
+         8XYzrqHlL4OWq3SY0rhQK5YQaCKBcHUx6wX8dQcSAcwvWVMKjo14WF12kw4bFKoKcE84
+         /3CL19Mvv5Yld7NbE4EOKloekK84KgvD/23OIKZvZtEE5JmzJOJtuuzL8LU4EZ6oNIkk
+         7RA1k0GgJjWa4nDadkn5TZYq2YF8w3mxnhdXwLrs8n0VhpSj3pCB+PpSFx/DhQr/WcIB
+         TN2roOK4PULKFuzazRRjZJ+2c02AqiRd7+9K+9eUsfkxzg08ca4b6tyDRkndInBZyRri
+         Tl0g==
+X-Forwarded-Encrypted: i=1; AJvYcCVIO9IG0zyaLe0ghzuTkDC+jDyB+jB3ABnj2qBzJD+Aq9Oy9z9GSVyk007rD5TtRkJABnsayfbTSIc0Nnk1@lists.linux.dev
+X-Gm-Message-State: AOJu0YzE841mlGTx9qjHwslCoxQuUMbOjn/ixD7c0HUJ+HX+KbVyjTRD
+	rpySnJrWbDUJYaPF250ssGAzSTcwDIJMLgXomYyDYMbRrr2gK1mPe9aNx7+tqKUXcOY=
+X-Gm-Gg: AY/fxX4OJvUs6p9qiYIfCywwvBMMjWb6+z87jQLyQwOkT4S1wAddlnWysDaP1E6P9WN
+	VYpzRPNM0oueV83Kj+/PakdHVDVeqrxWsPmLYySa6fAYLXRCGcP/LyK0QVJPYI9ftCXhd3tlmFE
+	j/TtWmSdRi+Dex4wtsR8QNPxlns88SdpB+4P/bdGDK5xCoNYWYhZvAb5c613qdAZxPgncMH+5CO
+	7hGDYSkZ9ErWqYytxxFX46Sj0hlqBWJ1q1KNcTCdSTea1WfytNBPiQo1UaHK98BMsQdYwRB2Q6s
+	L653k/0l+mC0kXrobyrdZVIlBiWlZODbdt0faKSdWpgjmwunjmZYl7UOjygj4GD0vyHr7d+vcf0
+	IIZZ9njDq02D0hYN9R9fnlTO+O8NlDAJBOxTcIstS2i5cNUtb9L8nS4jsReVpqfiNcXuWT6cmPG
+	8KhPpMwbzT2E7E/JCI
+X-Google-Smtp-Source: AGHT+IF+nx5zCtfYVsKIp8PB8gUjhPK5j02V7HcCtFysVmUTplF5yysifhIl1OB40IVLi4DTO94Aqw==
+X-Received: by 2002:a05:600c:1f8f:b0:47d:6c36:a125 with SMTP id 5b1f17b1804b1-47d8487f5cfmr44268665e9.17.1767815022126;
+        Wed, 07 Jan 2026 11:43:42 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d865f84besm22141875e9.1.2026.01.07.11.43.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 11:43:41 -0800 (PST)
+Date: Wed, 7 Jan 2026 22:43:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Benoit Masson <yahoo@perenite.com>
+Cc: oe-kbuild@lists.linux.dev, jdelvare@suse.com,
+	Guenter Roeck <linux@roeck-us.net>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: it87: describe per-chip temperature resources
+Message-ID: <aV63aitdddpwja7g@stanley.mountain>
+References: <20251226203021.27244-1-yahoo@perenite.com>
+ <202512300415.VRCQoZYs-lkp@intel.com>
+ <CAGHj7OJ=XoSSksz5DbpnP-eB3dQor0zqoXezbYRocFrqj+RTuQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGHj7OJ=XoSSksz5DbpnP-eB3dQor0zqoXezbYRocFrqj+RTuQ@mail.gmail.com>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/isolation/v3
-head:   8a4f71e8f0a8aef992da7df176a352073872a47c
-commit: c96cbb611777a60e4328fc821843d1bc092dcca1 [1/9] numa,memory_hotplug: create N_PRIVATE (Private Nodes)
-config: mips-randconfig-r073-20260107 (https://download.01.org/0day-ci/archive/20260108/202601080313.MTon6YNv-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601080313.MTon6YNv-lkp@intel.com/reproduce)
+On Wed, Jan 07, 2026 at 08:18:53PM +0100, Benoit Masson wrote:
+> On Mon, Jan 5, 2026 at 11:10 AM Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> >
+> > Hi benoit.masson,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/benoit-masson/hwmon-it87-describe-per-chip-temperature-resources/20251227-043108
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+> > patch link:    https://lore.kernel.org/r/20251226203021.27244-1-yahoo%40perenite.com
+> > patch subject: [PATCH] hwmon: it87: describe per-chip temperature resources
+> > config: x86_64-randconfig-161-20251229 (https://download.01.org/0day-ci/archive/20251230/202512300415.VRCQoZYs-lkp@intel.com/config)
+> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202512300415.VRCQoZYs-lkp@intel.com/
+> >
+> > smatch warnings:
+> > drivers/hwmon/it87.c:1694 show_pwm_temp_map() warn: variable dereferenced before IS_ERR check 'data' (see line 1691)
+> >
+> > vim +/data +1694 drivers/hwmon/it87.c
+> >
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1685  static ssize_t show_pwm_temp_map(struct device *dev,
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1686                                   struct device_attribute *attr, char *buf)
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1687  {
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1688          struct sensor_device_attribute *sensor_attr = to_sensor_dev_attr(attr);
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1689          struct it87_data *data = it87_update_device(dev);
+> > c962024e306ed5 Guenter Roeck  2015-04-04  1690          int nr = sensor_attr->index;
+> > 542f1e57c17849 benoit.masson  2025-12-26 @1691          u8 num_map = data->num_temp_map ?: IT87_TEMP_MAP_DEFAULT;
+> >                                                                      ^^^^^^^^^^^^^^^^^^
+> > Unchecked dereference
+> >
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1692          int map;
+> > 94ac7ee616809d Jean Delvare   2010-03-05  1693
+> > 0282ba4a4fe6c8 Frank Crawford 2023-04-16 @1694          if (IS_ERR(data))
+> >                                                                    ^^^^
+> > Checked too late.
+> >
+> > 0282ba4a4fe6c8 Frank Crawford 2023-04-16  1695                  return PTR_ERR(data);
+> > 0282ba4a4fe6c8 Frank Crawford 2023-04-16  1696
+> > 0624d861983c2c Guenter Roeck  2015-04-06  1697          map = data->pwm_temp_map[nr];
+> >
+> 
+> Hi Dan,
+> 
+> Indeed I’d move the num_map assignment below the IS_ERR(data)
+> 
+> Is proposing a new patch V2 below the right appraoch ?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601080313.MTon6YNv-lkp@intel.com/
+This doesn't seem to have hit linux-next yet, so sending a v2 sounds
+good.
 
-All warnings (new ones prefixed by >>):
+regards,
+dan carpenter
 
-   In file included from arch/mips/kernel/asm-offsets.c:19:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:11:
-   include/linux/node.h:108:75: error: expected ';' after return statement
-     108 | static inline int node_mark_private(int nid, bool enable) { return -ENODEV }
-         |                                                                           ^
-         |                                                                           ;
-   In file included from arch/mips/kernel/asm-offsets.c:26:
-   In file included from include/linux/kvm_host.h:5:
-   In file included from include/linux/entry-virt.h:7:
-   In file included from include/linux/syscalls.h:96:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:7:
->> include/linux/poll.h:134:27: warning: division by zero is undefined [-Wdivision-by-zero]
-     134 |                 M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
-         |                                         ^~~~~~~~~
-   include/linux/poll.h:132:32: note: expanded from macro 'M'
-     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
-     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
-         |                                                          ^ ~~~~~~~~~
-   include/linux/poll.h:134:39: warning: division by zero is undefined [-Wdivision-by-zero]
-     134 |                 M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
-         |                                                     ^~~~~~~~~
-   include/linux/poll.h:132:32: note: expanded from macro 'M'
-     132 | #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/poll.h:118:51: note: expanded from macro '__MAP'
-     118 |         (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
-         |                                                          ^ ~~~~~~~~~
-   2 warnings and 1 error generated.
-   make[3]: *** [scripts/Makefile.build:182: arch/mips/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1314: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +134 include/linux/poll.h
-
-7a163b2195cda0c Al Viro 2018-02-01  129  
-7a163b2195cda0c Al Viro 2018-02-01  130  static inline __poll_t demangle_poll(u16 val)
-7a163b2195cda0c Al Viro 2018-02-01  131  {
-7a163b2195cda0c Al Viro 2018-02-01  132  #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
-7a163b2195cda0c Al Viro 2018-02-01  133  	return M(IN) | M(OUT) | M(PRI) | M(ERR) | M(NVAL) |
-7a163b2195cda0c Al Viro 2018-02-01 @134  		M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
-7a163b2195cda0c Al Viro 2018-02-01  135  		M(HUP) | M(RDHUP) | M(MSG);
-7a163b2195cda0c Al Viro 2018-02-01  136  #undef M
-7a163b2195cda0c Al Viro 2018-02-01  137  }
-7a163b2195cda0c Al Viro 2018-02-01  138  #undef __MAP
-7a163b2195cda0c Al Viro 2018-02-01  139  
-7a163b2195cda0c Al Viro 2018-02-01  140  
-
-:::::: The code at line 134 was first introduced by commit
-:::::: 7a163b2195cda0cddf47b5caf14a7229d4e2bea3 unify {de,}mangle_poll(), get rid of kernel-side POLL...
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
