@@ -1,292 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E4720E6E2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 19:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF172DB7A2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 19:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767900019; cv=none; b=c1GzZQzxx0TKAw+8xUp2Lwwm9jn+R6f8qlWn7B5N+fO8FbLbhuxzpBmeRDBQMXnp4YfxqXhGB2m1qY6N1gdVDynDsmSe0fXWsmxxoAun+iFTnoHRIb6ZTpiJPtyKoJXBs3KrqeZYG4OwCCMr34QFrMINN+MDxAqli+rlFQjIpfk=
+	t=1767900495; cv=none; b=Qb8dLmYi7R6adu4x/sHpLP1PPYxbOMb6PMdvnZbg92l9jISlCmIdVW1zwnn0dXqBgnhC5o6RgDsxZ4BRqoctcv4bAncC6DD5TS266RMnM6MAmtT3bgIPqQB6QBHdZf/l4r+ttliDllqAuqNelUv9daXrx1Vk5JtHM8VNj2xvypg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767900019; c=relaxed/simple;
-	bh=FBaPQlSoTU5UHUYndbWv1nQt4mmWHgIdDAUljiKLbro=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RUyVtqyEYTXxOb/zmEecsVAU1i27FTwbayUdK1eLHig/84+e01tYyAljJy5Wxjmndtr2m2L+lDL48qnQ68AgSlRLhRQe1GpShQ2Mi7+4SJWolDrea8cMF0pwfL3hkhfBo9X0HmNhcOhSHqPJFZKWnru9IUET381NetMDTf58dBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O2mY2EJM; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1767900495; c=relaxed/simple;
+	bh=HYjgasAM9joSSOxjKtGxTseCl09Y2+/LEVPQ9aPyrBI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cPbh9yO+lgBu5BoLtDhmLQcivtI/aLwD2fTod6aZ0c4a/Ks8Z2ZkzskzlbBDVB01sg3zd1mOP+bwWUzXhu5irnHtSL1fl4x5KIxNBnmo7WvvoKd/D9KKwe6takKp36UUYBgwEbftBCzBkEsSHJCs9Jvkc6sQhX/gnYNIjvOUXk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kpnDQOeg; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O2mY2EJM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kpnDQOeg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767900018; x=1799436018;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FBaPQlSoTU5UHUYndbWv1nQt4mmWHgIdDAUljiKLbro=;
-  b=O2mY2EJM8BABzGWqpu/7Mx60a3H3X1UMcfjO2X2l6147HNJztNdibzQG
-   i38wt+g8hFRlwP80XKDYwd3+CylS9GtGfHZApYwPInzd01iKUWPE7MRfP
-   IhrdKktwcCdq2pgkzKdNZ4vYmKJdmQoXgRtNJdOY8/9ju1grkzRUTbCp/
-   IXaCd1eHp+q/Fn8vcEweJaLRrDh9vNgHR3pBlIwhwUdnTelAX7YEhL2aE
-   b91T0kCG+NkO1LXNbegstUYIFRe3AduYI7FNew93p1p0aNZ3KWXZydnDF
-   8pwljU9LYL9obZGhnceOMpCTMj8QgHqNp23wQBwOj7BDeIdk5EViYW7Jx
+  t=1767900493; x=1799436493;
+  h=date:from:to:cc:subject:message-id;
+  bh=HYjgasAM9joSSOxjKtGxTseCl09Y2+/LEVPQ9aPyrBI=;
+  b=kpnDQOegX36PwBWAHyk61rJ2ui9ib+XYueABA6lm2enaqDP85lUlP5RS
+   CAkPUEMdf1km6T0Zh1VcXrvKaDwTD/ITCsCB8Ku4Bb+k19CzNc8t3pO40
+   2Yfcl7apKYZ0qjTYA1K+WCE5zt8dZb7fQHYD5Q4JzZwYS9qEXf1is4nlk
+   Ni0Y0STUs7V7yqU+Q3IzivK3hznufF1OCE8qpZgi2sgZzcNvxK+nB5P2i
+   2AjJDpJhuGPNLeXFT+TMvDaBlTU+Ytaumt0nnOQZxTBMgl245GpclUhxv
+   A8VU11ieHHudIIN3mcAgo0eNPIHBRdwCM5OmPHK8w7KKj+WZn21TGI8HN
    g==;
-X-CSE-ConnectionGUID: PsMhihcVTDmHLvE+hWuhTA==
-X-CSE-MsgGUID: E8ItpWsfQ1qpj4kN1gnepA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="86702599"
+X-CSE-ConnectionGUID: 3G2sLFP5SZ+FYJqIYduKcA==
+X-CSE-MsgGUID: 4QQ7/nkrR0euASYvq9plVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69189463"
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="86702599"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 11:20:16 -0800
-X-CSE-ConnectionGUID: JN1S6bCYR3WKLjz2HSm2wg==
-X-CSE-MsgGUID: WywU1gmIRreo/ZIK9+auZQ==
+   d="scan'208";a="69189463"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 11:28:12 -0800
+X-CSE-ConnectionGUID: 4/Oe5lUHTvagjZ+Tfcgeag==
+X-CSE-MsgGUID: pRIC3fXRRoGkzgUBiln58g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="203197976"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 08 Jan 2026 11:20:08 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="203343824"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 08 Jan 2026 11:28:13 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vdvYC-00000000568-2Bfv;
-	Thu, 08 Jan 2026 19:20:04 +0000
-Date: Fri, 9 Jan 2026 03:19:52 +0800
+	id 1vdvg2-000000001qU-0B5c;
+	Thu, 08 Jan 2026 19:28:10 +0000
+Date: Thu, 08 Jan 2026 20:28:04 +0100
 From: kernel test robot <lkp@intel.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Mina Almasry <almasrymina@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Stanislav Fomichev <sdf@fomichev.me>, asml.silence@gmail.com,
-	matttbe@kernel.org, skhawaja@google.com,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v8 3/5] net: devmem: implement autorelease token
- management
-Message-ID: <202601090223.Ygqrrc5p-lkp@intel.com>
-References: <20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-3-92c968631496@meta.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-cleanup-2026-01-07 2/47]
+ sound/soc/codecs/rt1320-sdw.c:1249:45: error: implicit declaration of
+ function 'snd_soc_component_get_dapm'; did you mean
+ 'snd_soc_component_to_dapm'?
+Message-ID: <202601082045.iZ44ons7-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-3-92c968631496@meta.com>
 
-Hi Bobby,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/net-devmem-refactor-sock_devmem_dontneed-for-autorelease-split/20260108-095740
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260107-scratch-bobbyeshleman-devmem-tcp-token-upstream-v8-3-92c968631496%40meta.com
-patch subject: [PATCH net-next v8 3/5] net: devmem: implement autorelease token management
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20260109/202601090223.Ygqrrc5p-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601090223.Ygqrrc5p-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-cleanup-2026-01-07
+head:   fe6b9a73807b5ac65643101c473a796bef5ac5ea
+commit: fecb4376e44345a1bc605555edde8e3efcc4d726 [2/47] ASoC: soc-component: remove compatibility definition for component
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260108/202601082045.iZ44ons7-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601082045.iZ44ons7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601090223.Ygqrrc5p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601082045.iZ44ons7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   net/ipv4/tcp.c: In function 'tcp_recvmsg_dmabuf':
->> net/ipv4/tcp.c:2600:41: error: implicit declaration of function 'net_devmem_dmabuf_binding_get'; did you mean 'net_devmem_dmabuf_binding_put'? [-Wimplicit-function-declaration]
-    2600 |                                         net_devmem_dmabuf_binding_get(binding);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         net_devmem_dmabuf_binding_put
+   sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_r0_cali_put':
+>> sound/soc/codecs/rt1320-sdw.c:1249:45: error: implicit declaration of function 'snd_soc_component_get_dapm'; did you mean 'snd_soc_component_to_dapm'? [-Wimplicit-function-declaration]
+    1249 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(rt1320->component);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                             snd_soc_component_to_dapm
+>> sound/soc/codecs/rt1320-sdw.c:1249:45: error: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_dspfw_load_code':
+   sound/soc/codecs/rt1320-sdw.c:1586:17: error: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1586 |                 snd_soc_component_get_dapm(rt1320->component);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_r0_load_mode_put':
+   sound/soc/codecs/rt1320-sdw.c:2391:45: error: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2391 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(rt1320->component);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_r0_temperature_put':
+   sound/soc/codecs/rt1320-sdw.c:2519:45: error: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2519 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(rt1320->component);
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +2600 net/ipv4/tcp.c
+vim +1249 sound/soc/codecs/rt1320-sdw.c
 
-  2498	
-  2499	/* On error, returns the -errno. On success, returns number of bytes sent to the
-  2500	 * user. May not consume all of @remaining_len.
-  2501	 */
-  2502	static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *skb,
-  2503				      unsigned int offset, struct msghdr *msg,
-  2504				      int remaining_len)
-  2505	{
-  2506		struct dmabuf_cmsg dmabuf_cmsg = { 0 };
-  2507		struct tcp_xa_pool tcp_xa_pool;
-  2508		unsigned int start;
-  2509		int i, copy, n;
-  2510		int sent = 0;
-  2511		int err = 0;
-  2512	
-  2513		tcp_xa_pool.max = 0;
-  2514		tcp_xa_pool.idx = 0;
-  2515		do {
-  2516			start = skb_headlen(skb);
-  2517	
-  2518			if (skb_frags_readable(skb)) {
-  2519				err = -ENODEV;
-  2520				goto out;
-  2521			}
-  2522	
-  2523			/* Copy header. */
-  2524			copy = start - offset;
-  2525			if (copy > 0) {
-  2526				copy = min(copy, remaining_len);
-  2527	
-  2528				n = copy_to_iter(skb->data + offset, copy,
-  2529						 &msg->msg_iter);
-  2530				if (n != copy) {
-  2531					err = -EFAULT;
-  2532					goto out;
-  2533				}
-  2534	
-  2535				offset += copy;
-  2536				remaining_len -= copy;
-  2537	
-  2538				/* First a dmabuf_cmsg for # bytes copied to user
-  2539				 * buffer.
-  2540				 */
-  2541				memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
-  2542				dmabuf_cmsg.frag_size = copy;
-  2543				err = put_cmsg_notrunc(msg, SOL_SOCKET,
-  2544						       SO_DEVMEM_LINEAR,
-  2545						       sizeof(dmabuf_cmsg),
-  2546						       &dmabuf_cmsg);
-  2547				if (err)
-  2548					goto out;
-  2549	
-  2550				sent += copy;
-  2551	
-  2552				if (remaining_len == 0)
-  2553					goto out;
-  2554			}
-  2555	
-  2556			/* after that, send information of dmabuf pages through a
-  2557			 * sequence of cmsg
-  2558			 */
-  2559			for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
-  2560				struct net_devmem_dmabuf_binding *binding = NULL;
-  2561				skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
-  2562				struct net_iov *niov;
-  2563				u64 frag_offset;
-  2564				int end;
-  2565	
-  2566				/* !skb_frags_readable() should indicate that ALL the
-  2567				 * frags in this skb are dmabuf net_iovs. We're checking
-  2568				 * for that flag above, but also check individual frags
-  2569				 * here. If the tcp stack is not setting
-  2570				 * skb_frags_readable() correctly, we still don't want
-  2571				 * to crash here.
-  2572				 */
-  2573				if (!skb_frag_net_iov(frag)) {
-  2574					net_err_ratelimited("Found non-dmabuf skb with net_iov");
-  2575					err = -ENODEV;
-  2576					goto out;
-  2577				}
-  2578	
-  2579				niov = skb_frag_net_iov(frag);
-  2580				if (!net_is_devmem_iov(niov)) {
-  2581					err = -ENODEV;
-  2582					goto out;
-  2583				}
-  2584	
-  2585				end = start + skb_frag_size(frag);
-  2586				copy = end - offset;
-  2587	
-  2588				if (copy > 0) {
-  2589					copy = min(copy, remaining_len);
-  2590	
-  2591					frag_offset = net_iov_virtual_addr(niov) +
-  2592						      skb_frag_off(frag) + offset -
-  2593						      start;
-  2594					dmabuf_cmsg.frag_offset = frag_offset;
-  2595					dmabuf_cmsg.frag_size = copy;
-  2596	
-  2597					binding = net_devmem_iov_binding(niov);
-  2598	
-  2599					if (!sk->sk_devmem_info.binding) {
-> 2600						net_devmem_dmabuf_binding_get(binding);
-  2601						sk->sk_devmem_info.binding = binding;
-  2602					}
-  2603	
-  2604					if (sk->sk_devmem_info.binding != binding) {
-  2605						err = -EFAULT;
-  2606						goto out;
-  2607					}
-  2608	
-  2609					if (static_branch_unlikely(&tcp_devmem_ar_key)) {
-  2610						err = tcp_xa_pool_refill(sk,
-  2611									 &tcp_xa_pool,
-  2612									 skb_shinfo(skb)->nr_frags - i);
-  2613						if (err)
-  2614							goto out;
-  2615	
-  2616						dmabuf_cmsg.frag_token =
-  2617							tcp_xa_pool.tokens[tcp_xa_pool.idx];
-  2618					} else {
-  2619						dmabuf_cmsg.frag_token =
-  2620							net_iov_virtual_addr(niov) >> PAGE_SHIFT;
-  2621					}
-  2622	
-  2623	
-  2624					/* Will perform the exchange later */
-  2625					dmabuf_cmsg.dmabuf_id = net_devmem_iov_binding_id(niov);
-  2626	
-  2627					offset += copy;
-  2628					remaining_len -= copy;
-  2629	
-  2630					err = put_cmsg_notrunc(msg, SOL_SOCKET,
-  2631							       SO_DEVMEM_DMABUF,
-  2632							       sizeof(dmabuf_cmsg),
-  2633							       &dmabuf_cmsg);
-  2634					if (err)
-  2635						goto out;
-  2636	
-  2637					tcp_xa_pool_inc_pp_ref_count(&tcp_xa_pool, frag);
-  2638	
-  2639					sent += copy;
-  2640	
-  2641					if (remaining_len == 0)
-  2642						goto out;
-  2643				}
-  2644				start = end;
-  2645			}
-  2646	
-  2647			tcp_xa_pool_commit(sk, &tcp_xa_pool);
-  2648			if (!remaining_len)
-  2649				goto out;
-  2650	
-  2651			/* if remaining_len is not satisfied yet, we need to go to the
-  2652			 * next frag in the frag_list to satisfy remaining_len.
-  2653			 */
-  2654			skb = skb_shinfo(skb)->frag_list ?: skb->next;
-  2655	
-  2656			offset = offset - start;
-  2657		} while (skb);
-  2658	
-  2659		if (remaining_len) {
-  2660			err = -EFAULT;
-  2661			goto out;
-  2662		}
-  2663	
-  2664	out:
-  2665		tcp_xa_pool_commit(sk, &tcp_xa_pool);
-  2666		if (!sent)
-  2667			sent = err;
-  2668	
-  2669		return sent;
-  2670	}
-  2671	
+da1682d5e8b53a Shuming Fan 2025-12-16  1243  
+da1682d5e8b53a Shuming Fan 2025-12-16  1244  static int rt1320_r0_cali_put(struct snd_kcontrol *kcontrol,
+da1682d5e8b53a Shuming Fan 2025-12-16  1245  			      struct snd_ctl_elem_value *ucontrol)
+da1682d5e8b53a Shuming Fan 2025-12-16  1246  {
+da1682d5e8b53a Shuming Fan 2025-12-16  1247  	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+da1682d5e8b53a Shuming Fan 2025-12-16  1248  	struct rt1320_sdw_priv *rt1320 = snd_soc_component_get_drvdata(component);
+da1682d5e8b53a Shuming Fan 2025-12-16 @1249  	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(rt1320->component);
+da1682d5e8b53a Shuming Fan 2025-12-16  1250  	int ret;
+da1682d5e8b53a Shuming Fan 2025-12-16  1251  
+da1682d5e8b53a Shuming Fan 2025-12-16  1252  	if (!rt1320->hw_init)
+da1682d5e8b53a Shuming Fan 2025-12-16  1253  		return 0;
+da1682d5e8b53a Shuming Fan 2025-12-16  1254  
+da1682d5e8b53a Shuming Fan 2025-12-16  1255  	ret = pm_runtime_resume(component->dev);
+da1682d5e8b53a Shuming Fan 2025-12-16  1256  	if (ret < 0 && ret != -EACCES)
+da1682d5e8b53a Shuming Fan 2025-12-16  1257  		return ret;
+da1682d5e8b53a Shuming Fan 2025-12-16  1258  
+da1682d5e8b53a Shuming Fan 2025-12-16  1259  	rt1320->cali_done = false;
+da1682d5e8b53a Shuming Fan 2025-12-16  1260  	snd_soc_dapm_mutex_lock(dapm);
+da1682d5e8b53a Shuming Fan 2025-12-16  1261  	if (snd_soc_component_get_bias_level(component) == SND_SOC_BIAS_OFF &&
+da1682d5e8b53a Shuming Fan 2025-12-16  1262  		ucontrol->value.integer.value[0]) {
+da1682d5e8b53a Shuming Fan 2025-12-16  1263  		rt1320_calibrate(rt1320);
+da1682d5e8b53a Shuming Fan 2025-12-16  1264  	}
+da1682d5e8b53a Shuming Fan 2025-12-16  1265  	snd_soc_dapm_mutex_unlock(dapm);
+da1682d5e8b53a Shuming Fan 2025-12-16  1266  
+da1682d5e8b53a Shuming Fan 2025-12-16  1267  	return 0;
+da1682d5e8b53a Shuming Fan 2025-12-16  1268  }
+da1682d5e8b53a Shuming Fan 2025-12-16  1269  
+
+:::::: The code at line 1249 was first introduced by commit
+:::::: da1682d5e8b53a51072552844c551b1b784e52c2 ASoC: rt1320: support calibration and temperature/r0 loading
+
+:::::: TO: Shuming Fan <shumingf@realtek.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
