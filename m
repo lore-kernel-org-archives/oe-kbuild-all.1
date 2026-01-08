@@ -1,135 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF172DB7A2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 19:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E67C3148AC;
+	Thu,  8 Jan 2026 19:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767900495; cv=none; b=Qb8dLmYi7R6adu4x/sHpLP1PPYxbOMb6PMdvnZbg92l9jISlCmIdVW1zwnn0dXqBgnhC5o6RgDsxZ4BRqoctcv4bAncC6DD5TS266RMnM6MAmtT3bgIPqQB6QBHdZf/l4r+ttliDllqAuqNelUv9daXrx1Vk5JtHM8VNj2xvypg=
+	t=1767900501; cv=none; b=AIv1xwVqg5bdLnNAu8Rr701lDsLOXC6FPl7+2kZOeL0Q7qdHTycdrbekyS3oZbnPVsnQYFO0vcwvCu3ClsCccYbPPp76cxQJukJZTUbgKYcceCTI6LjvIKtj+zjaA3yDve0NL2fAUjvGAm/hzNxd0/TOevl0WYIy4gNpCF+7F60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767900495; c=relaxed/simple;
-	bh=HYjgasAM9joSSOxjKtGxTseCl09Y2+/LEVPQ9aPyrBI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cPbh9yO+lgBu5BoLtDhmLQcivtI/aLwD2fTod6aZ0c4a/Ks8Z2ZkzskzlbBDVB01sg3zd1mOP+bwWUzXhu5irnHtSL1fl4x5KIxNBnmo7WvvoKd/D9KKwe6takKp36UUYBgwEbftBCzBkEsSHJCs9Jvkc6sQhX/gnYNIjvOUXk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kpnDQOeg; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1767900501; c=relaxed/simple;
+	bh=XvOnMQDfOyENr09Rp3L+wfaU/IlpF+7Wa8jhQqykkYw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kJ3oJLg8I4mDu964nDSz60O+54uSBxXL2p76c27RBHd0H6FxC6pY8ZXIHFHzV72aJxFEa7u0QYldbE41JOauoBZQusSkYkTotfRHCWsZ00uhRLuleT4q1DC2UIlOz0GXAXEFeD37KAVzlZnFv9vBWwXXumuVqKepwhXasusnU+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VqXJbsTi; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kpnDQOeg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VqXJbsTi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767900493; x=1799436493;
-  h=date:from:to:cc:subject:message-id;
-  bh=HYjgasAM9joSSOxjKtGxTseCl09Y2+/LEVPQ9aPyrBI=;
-  b=kpnDQOegX36PwBWAHyk61rJ2ui9ib+XYueABA6lm2enaqDP85lUlP5RS
-   CAkPUEMdf1km6T0Zh1VcXrvKaDwTD/ITCsCB8Ku4Bb+k19CzNc8t3pO40
-   2Yfcl7apKYZ0qjTYA1K+WCE5zt8dZb7fQHYD5Q4JzZwYS9qEXf1is4nlk
-   Ni0Y0STUs7V7yqU+Q3IzivK3hznufF1OCE8qpZgi2sgZzcNvxK+nB5P2i
-   2AjJDpJhuGPNLeXFT+TMvDaBlTU+Ytaumt0nnOQZxTBMgl245GpclUhxv
-   A8VU11ieHHudIIN3mcAgo0eNPIHBRdwCM5OmPHK8w7KKj+WZn21TGI8HN
+  t=1767900499; x=1799436499;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XvOnMQDfOyENr09Rp3L+wfaU/IlpF+7Wa8jhQqykkYw=;
+  b=VqXJbsTinXtxdIC/DPod60aryG3rNf4nd/IS0NDA8ILEjKwngX7ueIue
+   YcbhIxOvmTHzhIKNCCb2QJa3ynvCXJpxMiEFPhVLVw8DaJ3k1dRrbkRJY
+   iKKvoCK/tne3crbS340SlpbiGKSlSfnlctHN2d/w/LXP5oVIlilIilwdC
+   Oorc05e/HXmN9sZ9LfhR42ZfDMDtIUsgh48Jrvi87Zc0VN3U8XlowwHnn
+   DcQHoaBjgskxcvtqZvg3GpuIDKy2I7Ko9swKupAj/cJ1EQPRPCXAOfcNI
+   tDyJ5M8QjRiEQ4AbdKoylmh8er+TxHQuw8L/Cq5CVMu8Q0dRZ7s7+m5fT
    g==;
-X-CSE-ConnectionGUID: 3G2sLFP5SZ+FYJqIYduKcA==
-X-CSE-MsgGUID: 4QQ7/nkrR0euASYvq9plVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69189463"
+X-CSE-ConnectionGUID: wixV0FoDSRmzZuIvL1UJBA==
+X-CSE-MsgGUID: Ucx0h+QVSFiEw99eAt1cpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="79924894"
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="69189463"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 11:28:12 -0800
-X-CSE-ConnectionGUID: 4/Oe5lUHTvagjZ+Tfcgeag==
-X-CSE-MsgGUID: pRIC3fXRRoGkzgUBiln58g==
+   d="scan'208";a="79924894"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 11:28:18 -0800
+X-CSE-ConnectionGUID: qBJyqdnhQPWix8HD1d4k7w==
+X-CSE-MsgGUID: WqHy0LjERLmZyto7c0vMiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="203343824"
+   d="scan'208";a="203717852"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 08 Jan 2026 11:28:13 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 08 Jan 2026 11:28:12 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vdvg2-000000001qU-0B5c;
+	id 1vdvg2-000000001qS-00W4;
 	Thu, 08 Jan 2026 19:28:10 +0000
-Date: Thu, 08 Jan 2026 20:28:04 +0100
+Date: Thu, 8 Jan 2026 20:27:54 +0100
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2026-01-07 2/47]
- sound/soc/codecs/rt1320-sdw.c:1249:45: error: implicit declaration of
- function 'snd_soc_component_get_dapm'; did you mean
- 'snd_soc_component_to_dapm'?
-Message-ID: <202601082045.iZ44ons7-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jonathan Corbet <corbet@lwn.net>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>,
+	Aravind Ramesh <arramesh@micron.com>
+Subject: Re: [PATCH V3 15/21] famfs_fuse: Create files with famfs fmaps
+Message-ID: <202601082047.rhEHIxuL-lkp@intel.com>
+References: <20260107153332.64727-16-john@groves.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107153332.64727-16-john@groves.net>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2026-01-07
-head:   fe6b9a73807b5ac65643101c473a796bef5ac5ea
-commit: fecb4376e44345a1bc605555edde8e3efcc4d726 [2/47] ASoC: soc-component: remove compatibility definition for component
-config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260108/202601082045.iZ44ons7-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601082045.iZ44ons7-lkp@intel.com/reproduce)
+Hi John,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v6.19-rc4 next-20260108]
+[cannot apply to mszeredi-fuse/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Groves/dax-add-fsdev-c-driver-for-fs-dax-on-character-dax/20260108-013232
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260107153332.64727-16-john%40groves.net
+patch subject: [PATCH V3 15/21] famfs_fuse: Create files with famfs fmaps
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260108/202601082047.rhEHIxuL-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601082047.rhEHIxuL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601082045.iZ44ons7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601082047.rhEHIxuL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_r0_cali_put':
->> sound/soc/codecs/rt1320-sdw.c:1249:45: error: implicit declaration of function 'snd_soc_component_get_dapm'; did you mean 'snd_soc_component_to_dapm'? [-Wimplicit-function-declaration]
-    1249 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(rt1320->component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                             snd_soc_component_to_dapm
->> sound/soc/codecs/rt1320-sdw.c:1249:45: error: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_dspfw_load_code':
-   sound/soc/codecs/rt1320-sdw.c:1586:17: error: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1586 |                 snd_soc_component_get_dapm(rt1320->component);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_r0_load_mode_put':
-   sound/soc/codecs/rt1320-sdw.c:2391:45: error: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2391 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(rt1320->component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/rt1320-sdw.c: In function 'rt1320_r0_temperature_put':
-   sound/soc/codecs/rt1320-sdw.c:2519:45: error: initialization of 'struct snd_soc_dapm_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2519 |         struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(rt1320->component);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +1249 sound/soc/codecs/rt1320-sdw.c
-
-da1682d5e8b53a Shuming Fan 2025-12-16  1243  
-da1682d5e8b53a Shuming Fan 2025-12-16  1244  static int rt1320_r0_cali_put(struct snd_kcontrol *kcontrol,
-da1682d5e8b53a Shuming Fan 2025-12-16  1245  			      struct snd_ctl_elem_value *ucontrol)
-da1682d5e8b53a Shuming Fan 2025-12-16  1246  {
-da1682d5e8b53a Shuming Fan 2025-12-16  1247  	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-da1682d5e8b53a Shuming Fan 2025-12-16  1248  	struct rt1320_sdw_priv *rt1320 = snd_soc_component_get_drvdata(component);
-da1682d5e8b53a Shuming Fan 2025-12-16 @1249  	struct snd_soc_dapm_context *dapm = snd_soc_component_get_dapm(rt1320->component);
-da1682d5e8b53a Shuming Fan 2025-12-16  1250  	int ret;
-da1682d5e8b53a Shuming Fan 2025-12-16  1251  
-da1682d5e8b53a Shuming Fan 2025-12-16  1252  	if (!rt1320->hw_init)
-da1682d5e8b53a Shuming Fan 2025-12-16  1253  		return 0;
-da1682d5e8b53a Shuming Fan 2025-12-16  1254  
-da1682d5e8b53a Shuming Fan 2025-12-16  1255  	ret = pm_runtime_resume(component->dev);
-da1682d5e8b53a Shuming Fan 2025-12-16  1256  	if (ret < 0 && ret != -EACCES)
-da1682d5e8b53a Shuming Fan 2025-12-16  1257  		return ret;
-da1682d5e8b53a Shuming Fan 2025-12-16  1258  
-da1682d5e8b53a Shuming Fan 2025-12-16  1259  	rt1320->cali_done = false;
-da1682d5e8b53a Shuming Fan 2025-12-16  1260  	snd_soc_dapm_mutex_lock(dapm);
-da1682d5e8b53a Shuming Fan 2025-12-16  1261  	if (snd_soc_component_get_bias_level(component) == SND_SOC_BIAS_OFF &&
-da1682d5e8b53a Shuming Fan 2025-12-16  1262  		ucontrol->value.integer.value[0]) {
-da1682d5e8b53a Shuming Fan 2025-12-16  1263  		rt1320_calibrate(rt1320);
-da1682d5e8b53a Shuming Fan 2025-12-16  1264  	}
-da1682d5e8b53a Shuming Fan 2025-12-16  1265  	snd_soc_dapm_mutex_unlock(dapm);
-da1682d5e8b53a Shuming Fan 2025-12-16  1266  
-da1682d5e8b53a Shuming Fan 2025-12-16  1267  	return 0;
-da1682d5e8b53a Shuming Fan 2025-12-16  1268  }
-da1682d5e8b53a Shuming Fan 2025-12-16  1269  
-
-:::::: The code at line 1249 was first introduced by commit
-:::::: da1682d5e8b53a51072552844c551b1b784e52c2 ASoC: rt1320: support calibration and temperature/r0 loading
-
-:::::: TO: Shuming Fan <shumingf@realtek.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+>> Warning: fs/fuse/famfs.c:83 function parameter 'fmap_buf' not described in 'famfs_fuse_meta_alloc'
+>> Warning: fs/fuse/famfs.c:83 function parameter 'fmap_buf_size' not described in 'famfs_fuse_meta_alloc'
+>> Warning: fs/fuse/famfs.c:83 function parameter 'fmap_buf' not described in 'famfs_fuse_meta_alloc'
+>> Warning: fs/fuse/famfs.c:83 function parameter 'fmap_buf_size' not described in 'famfs_fuse_meta_alloc'
 
 -- 
 0-DAY CI Kernel Test Service
