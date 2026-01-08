@@ -1,148 +1,121 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8194722B5AD
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 05:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D8833B6FD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 06:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767851235; cv=none; b=TsvB+cDBlyJMuiAcCh41mQGQ0s8NgOhfzaN03dP3b+wByB/VcS3NNz1QPLw4PhjH+PNQBEmamrr6QzBAwhFLUSOa69ZQ4Qd8Qc4+wKOHAjVlphgQlgzo1JbJedoIGpAlnmIy6FOVz5a5poPp58nTvFUpFHf6H+SSXkmhLylmHHY=
+	t=1767855488; cv=none; b=TYmaXy14R+NrkO6T0QwjvIU+6ALzc1CaPopzOFgcm1lvEAf9NLmVx0gSCYaPOVyFNTUHVzvbLUaUrOQ1N7to22GX+1ud9zsfml4B/mQ1dMb6EZjsICywwGXPbV6gG98R0vBc9mUIs0amndn5i1v4Yu6KS3JFyUyRwawJ33RmLQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767851235; c=relaxed/simple;
-	bh=5tyAolAS9iPLfPNG07uT+8o6rAj1fMPhQkoGw7cW4Jk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b2w7edMdBYZDcV8+dp2flD3vNR3+v+VQIytToBJR2vHiecbg4bRQ9Ty4PCsKAqZnxtIjUmav6yMQddfONw82E3GWsJ42G2+94RPBxTI+N+H2+6sD4wRqztVg/QsqN+BcJQHXEn0XkdcVO9yYX/NrNswAecaqHEOkmurpiGNhc9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xYYMTVuR; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1767855488; c=relaxed/simple;
+	bh=7vFgoLWAIgPIHGT5KFTdk5F+YCFrFK5R4kdyOoHIsg0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oU2ZfmQQNGNp0PSK7PC5JcqzY64RxFnxtvcLHIclz4BM3BYj49PAY1MZab87h2L2gaGnZq7UcP5TBmELgnlmz8VED1VOt4HE8/j7rvZsjVMOJpyPahUVljh7HP92fPXCQ0XxNN2Bfl+3SezBX7eTs1aEt/EmHCBxAbX4NvK6SfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mRQnnJQH; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xYYMTVuR"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47a8195e515so19756845e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 Jan 2026 21:47:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767851232; x=1768456032; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ALmovQLnJmYNUaSjlGPYrf6+F8qDX4GgFWn1LRaYNS4=;
-        b=xYYMTVuRLog+A1v72UCZkGAhQznLDcK9/OihbsBb8JZjsIhFYt1iCm+ZZLZucPxB9n
-         whFOfeas8wyFiww9KtpjFnKUdEPHdJdLRAsxJyWZuY7vaarU4BMtIofcsOAXoy2tj1WG
-         nmTTYpkY2WTAAYMmOz9thvCkUp+6q+TvOGrUOqXMsL0h6YVaU/ERpnXA5zOYPz/h8Oes
-         TLPiuOjQp4KE6VK+mVxb6ZfzPI7XwTdWjaQ+Gj2f1NkbS0x+ice4HkL98kbI9V+EpRMW
-         bu2oZ9mEdEjJ9S8Ji2QFcdHvoa6yl/kRrhSV2qqK/CdW87WTpmqKUrDd1g2dZB1e0n8C
-         ALqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767851232; x=1768456032;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ALmovQLnJmYNUaSjlGPYrf6+F8qDX4GgFWn1LRaYNS4=;
-        b=k6bT/K+K19p0TwFqmjho3mz1jQKNrOT0PgX/XdLx6QdCjPQ/Ll2wG82Puz2UOLNDxv
-         3x7qHW4fUsmPzbdcpTdD/OhGoi/DeX5clsQh4/VLgn8aAAdMnJH4qXW0DWenc/FDt+0D
-         AUGyDy+59oJ8Jpr8j64ZdHJMUno4ev5rk3Q3DDk2UjZX/7n4dIFUdEgy5zGR0Qmm4Bjb
-         0ntL5ryH3RrCmcr+Pda6Wgg75XyXV4ewi/aT1YwqgujTDcQkAkI0spSXZjwvfJXbaexz
-         9dea1nPyg2MgNsC2efWk/2+ByubhAFng2IUp4r2a5aghJTC+ajXeeH/gYL8phZVYDFQr
-         L8Kw==
-X-Forwarded-Encrypted: i=1; AJvYcCUu9cQc+1GGIuoViIvba3SQJShA6QddNnBt7JT/5doiSA1zk43ORdxSgQ45HQCLIiTLg1jnIfPCnxRd8Bbg@lists.linux.dev
-X-Gm-Message-State: AOJu0Yysp3n1e8dmAkJK0UvncP02hqL132PSunzX4cwAeKJ6ujk7+Z59
-	fk2w2VCOeEctPOUA1lBWYiCvFf0TkCgvJQnC8oaSlcW6+cLFbebaie/VGcblHt4SPEk=
-X-Gm-Gg: AY/fxX7rvqUbMUX/uBbfcWxMjEkZsV6DJ0JDBmC+uRtA3EsZJxqsPazfdoYGqi5BYlv
-	dRFCoQNwgQzL0QjM/SrZDmn2uVq7E4g6CgzYZG/gtbzXmFMsqkxu5cY+yq3Nxd519f79iU7xA1k
-	uOP+nuvQQE74xltG5fnzRRILJPM0tkkQcf5Kbi8KWTuLi/XiT7DhxRW97zY1ERZXFiQ3NUyeuSA
-	SS/nxQwufuHOXk9IscIGD2X4d/Bdl3xlBE11GvRR71m4mjOiO9pkA9fkLQQFuH8OcqBUzJgefl+
-	uimH/6Chwm+/6FpMMdoUKd+kVKySEOR1PdZOQWph1VHDuHlOyHK5gEDPp2cjRpf5sOVxMzssetf
-	Tbiv6tRdVaJ0EfXgZhj+YY/uvOYF3V2xtB3pmL/MpJ+3yx0Tg2XAfAxw6cHWHD0xYCzaNHsrmpQ
-	Qi3SF4whV8kaDUNxiH
-X-Google-Smtp-Source: AGHT+IHw8DBSfe8Szxf3RZyP2+mguimjL01vZZBZGbTuZhrz7aGyjSeOiB7B+OIsLniRF3fswTN5qQ==
-X-Received: by 2002:a05:6000:24c8:b0:432:84f9:8bed with SMTP id ffacd0b85a97d-432c364380cmr6666972f8f.28.1767851231593;
-        Wed, 07 Jan 2026 21:47:11 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dacc5sm13783950f8f.5.2026.01.07.21.47.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Jan 2026 21:47:11 -0800 (PST)
-Date: Thu, 8 Jan 2026 08:47:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Gabriele Monaco <gmonaco@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [glemco:staging_rv_mon_kunit 21/29]
- kernel/trace/rv/monitors/deadline/deadline.h:130 extract_params() warn:
- variable dereferenced before check 'p' (see line 129)
-Message-ID: <202601081024.CGC2yhFU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mRQnnJQH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767855487; x=1799391487;
+  h=date:from:to:cc:subject:message-id;
+  bh=7vFgoLWAIgPIHGT5KFTdk5F+YCFrFK5R4kdyOoHIsg0=;
+  b=mRQnnJQH4L8rbX63uXzkaGu6u+lRhY1lJ2b39mE91QQRKb4YQwnf+QyI
+   xaf2bEnOeH4ELnFHpcLlEG/1dXdxeObcbus4gWPz9ejLMHekL02sTaSzP
+   0GlI59PDp/9VJXeNylSr7sIWM/rVsEfgVqy6fpCqbPismo/ZlCzXhU5ZB
+   fv4bKXKUuwpN02KAQPa9SZB96CtFkERIZXpJygY4Yyu2YLM4DISCYuXfH
+   U9M2PAKZf2sbFb4TJvgc7KEheeQ1HmUHldQkEd9702h+CVWx8AhU1WvzE
+   r4tJJ7/8pEKCEq63BcTv7k+xP6V1Nd6eDcCj0dah1vcSpeF5ZnpCF5gUX
+   A==;
+X-CSE-ConnectionGUID: tYbUZcCZSYSdprsBjatroQ==
+X-CSE-MsgGUID: HGLFMo/QS0+TIGRWfYrmHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="73078708"
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
+   d="scan'208";a="73078708"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 22:58:06 -0800
+X-CSE-ConnectionGUID: MlQFhX/UQmSFs7uym55/IA==
+X-CSE-MsgGUID: dp3cdwsmTbG9nZEgApakqg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
+   d="scan'208";a="203034053"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa006.fm.intel.com with ESMTP; 07 Jan 2026 22:58:05 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vdjy7-000000001i1-1tRO;
+	Thu, 08 Jan 2026 06:58:03 +0000
+Date: Thu, 08 Jan 2026 07:57:40 +0100
+From: kernel test robot <lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:bitmap_print_to_pagebuf 1/11]
+ progs/hid_bpf_helpers.h:117:31: error: declaration of 'struct bpf_wq' will
+ not be visible outside of this function
+Message-ID: <202601080713.0nlkw29x-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gmonaco/linux.git staging_rv_mon_kunit
-head:   45a96d573274287926f2fd31092f229238476843
-commit: 5c22af5956b42cc02d383e188c13d383d334043a [21/29] rv: Add deadline monitors
-config: csky-randconfig-r072-20260108 (https://download.01.org/0day-ci/archive/20260108/202601081024.CGC2yhFU-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
+tree:   https://github.com/norov/linux bitmap_print_to_pagebuf
+head:   968801bfd953b7e957910242c3072477e530a90f
+commit: b0a848143ae37cdb8a3986a901d29a94dfc23616 [1/11] mm: add tail_in_page() macro
+config: x86_64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260108/202601080713.0nlkw29x-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601080713.0nlkw29x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601081024.CGC2yhFU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601080713.0nlkw29x-lkp@intel.com/
 
-smatch warnings:
-kernel/trace/rv/monitors/deadline/deadline.h:130 extract_params() warn: variable dereferenced before check 'p' (see line 129)
+All errors (new ones prefixed by >>):
 
-vim +/p +130 kernel/trace/rv/monitors/deadline/deadline.h
-
-5c22af5956b42c Gabriele Monaco 2025-07-31   90  static inline int extract_params(struct pt_regs *regs, long id, struct task_struct **p)
-5c22af5956b42c Gabriele Monaco 2025-07-31   91  {
-5c22af5956b42c Gabriele Monaco 2025-07-31   92  	size_t size = offsetof(struct sched_attr, sched_nice);
-5c22af5956b42c Gabriele Monaco 2025-07-31   93  	struct sched_attr __user *uattr, attr;
-5c22af5956b42c Gabriele Monaco 2025-07-31   94  	int new_policy = -1, ret;
-5c22af5956b42c Gabriele Monaco 2025-07-31   95  	unsigned long args[6];
-5c22af5956b42c Gabriele Monaco 2025-07-31   96  	pid_t pid;
-5c22af5956b42c Gabriele Monaco 2025-07-31   97  
-5c22af5956b42c Gabriele Monaco 2025-07-31   98  	switch (id) {
-5c22af5956b42c Gabriele Monaco 2025-07-31   99  	case __NR_sched_setscheduler:
-5c22af5956b42c Gabriele Monaco 2025-07-31  100  		syscall_get_arguments(current, regs, args);
-5c22af5956b42c Gabriele Monaco 2025-07-31  101  		pid = args[0];
-5c22af5956b42c Gabriele Monaco 2025-07-31  102  		new_policy = args[1];
-5c22af5956b42c Gabriele Monaco 2025-07-31  103  		break;
-5c22af5956b42c Gabriele Monaco 2025-07-31  104  	case __NR_sched_setattr:
-5c22af5956b42c Gabriele Monaco 2025-07-31  105  		syscall_get_arguments(current, regs, args);
-5c22af5956b42c Gabriele Monaco 2025-07-31  106  		pid = args[0];
-5c22af5956b42c Gabriele Monaco 2025-07-31  107  		uattr = (void *)args[1];
-5c22af5956b42c Gabriele Monaco 2025-07-31  108  		/*
-5c22af5956b42c Gabriele Monaco 2025-07-31  109  		 * Just copy up to sched_flags, we are not interested after that
-5c22af5956b42c Gabriele Monaco 2025-07-31  110  		 */
-5c22af5956b42c Gabriele Monaco 2025-07-31  111  		ret = copy_struct_from_user(&attr, size, uattr, size);
-5c22af5956b42c Gabriele Monaco 2025-07-31  112  		if (ret)
-5c22af5956b42c Gabriele Monaco 2025-07-31  113  			return ret;
-5c22af5956b42c Gabriele Monaco 2025-07-31  114  		if (attr.sched_flags & SCHED_FLAG_KEEP_POLICY)
-5c22af5956b42c Gabriele Monaco 2025-07-31  115  			return -EINVAL;
-5c22af5956b42c Gabriele Monaco 2025-07-31  116  		new_policy = attr.sched_policy;
-5c22af5956b42c Gabriele Monaco 2025-07-31  117  		break;
-5c22af5956b42c Gabriele Monaco 2025-07-31  118  	default:
-5c22af5956b42c Gabriele Monaco 2025-07-31  119  		return -EINVAL;
-5c22af5956b42c Gabriele Monaco 2025-07-31  120  	}
-5c22af5956b42c Gabriele Monaco 2025-07-31  121  	if (!pid)
-5c22af5956b42c Gabriele Monaco 2025-07-31  122  		*p = current;
-5c22af5956b42c Gabriele Monaco 2025-07-31  123  	else {
-5c22af5956b42c Gabriele Monaco 2025-07-31  124  		/*
-5c22af5956b42c Gabriele Monaco 2025-07-31  125  		 * Required for find_task_by_vpid, make sure the caller doesn't
-5c22af5956b42c Gabriele Monaco 2025-07-31  126  		 * need to get_task_struct().
-5c22af5956b42c Gabriele Monaco 2025-07-31  127  		 */
-5c22af5956b42c Gabriele Monaco 2025-07-31  128  		guard(rcu)();
-5c22af5956b42c Gabriele Monaco 2025-07-31 @129  		*p = find_task_by_vpid(pid);
-5c22af5956b42c Gabriele Monaco 2025-07-31 @130  		if (unlikely(!p))
-
-s/p/*p/
-
-5c22af5956b42c Gabriele Monaco 2025-07-31  131  			return -EINVAL;
-5c22af5956b42c Gabriele Monaco 2025-07-31  132  	}
-5c22af5956b42c Gabriele Monaco 2025-07-31  133  
-5c22af5956b42c Gabriele Monaco 2025-07-31  134  	return new_policy & ~SCHED_RESET_ON_FORK;
-5c22af5956b42c Gabriele Monaco 2025-07-31  135  }
+   In file included from progs/hid.c:3:
+>> progs/hid_bpf_helpers.h:117:31: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+     117 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
+         |                               ^
+   progs/hid_bpf_helpers.h:118:32: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+     118 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
+         |                                ^
+   progs/hid_bpf_helpers.h:119:44: error: declaration of 'struct bpf_wq' will not be visible outside of this function [-Werror,-Wvisibility]
+     119 | extern int bpf_wq_set_callback_impl(struct bpf_wq *wq,
+         |                                            ^
+>> progs/hid.c:448:16: error: field has incomplete type 'struct bpf_wq'
+     448 |         struct bpf_wq work;
+         |                       ^
+   progs/hid.c:448:9: note: forward declaration of 'struct bpf_wq'
+     448 |         struct bpf_wq work;
+         |                ^
+>> progs/hid.c:487:18: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+     487 |         if (bpf_wq_init(wq, &hmap, 0) != 0)
+         |                         ^~
+   progs/hid_bpf_helpers.h:117:39: note: passing argument to parameter 'wq' here
+     117 | extern int bpf_wq_init(struct bpf_wq *wq, void *p__map, unsigned int flags) __weak __ksym;
+         |                                       ^
+   progs/hid.c:490:26: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+     490 |         if (bpf_wq_set_callback(wq, wq_cb_sleepable, 0))
+         |                                 ^~
+   progs/hid_bpf_helpers.h:119:52: note: passing argument to parameter 'wq' here
+     119 | extern int bpf_wq_set_callback_impl(struct bpf_wq *wq,
+         |                                                    ^
+   progs/hid.c:493:19: error: incompatible pointer types passing 'struct bpf_wq *' to parameter of type 'struct bpf_wq *' [-Wincompatible-pointer-types]
+     493 |         if (bpf_wq_start(wq, 0))
+         |                          ^~
+   progs/hid_bpf_helpers.h:118:40: note: passing argument to parameter 'wq' here
+     118 | extern int bpf_wq_start(struct bpf_wq *wq, unsigned int flags) __weak __ksym;
+         |                                        ^
+   progs/hid.c:503:24: error: incomplete definition of type 'struct hid_device'
+     503 |         int hid = hid_ctx->hid->id;
+         |                   ~~~~~~~~~~~~^
+   progs/hid_bpf_helpers.h:59:9: note: forward declaration of 'struct hid_device'
+      59 |         struct hid_device *hid;
+         |                ^
+   8 errors generated.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
