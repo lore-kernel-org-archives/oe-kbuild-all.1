@@ -1,83 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10074270EDF
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 05:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8194722B5AD
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 05:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767848829; cv=none; b=oaDHIcXfLtfwWzAEcmTNi5vpt2KweFulBnrb8qhHsSQijqtvKFoagj21Kr/m/scWIirnZ7+4zQvc8AhfhGtabgaFVuNNHx5PEy43XaRctZ286jqDZa07jIRkf9+Dvzyp484k1KnJSBZb9nnSlyb5+vPaBM+Fkg7BTbAd33+5rVc=
+	t=1767851235; cv=none; b=TsvB+cDBlyJMuiAcCh41mQGQ0s8NgOhfzaN03dP3b+wByB/VcS3NNz1QPLw4PhjH+PNQBEmamrr6QzBAwhFLUSOa69ZQ4Qd8Qc4+wKOHAjVlphgQlgzo1JbJedoIGpAlnmIy6FOVz5a5poPp58nTvFUpFHf6H+SSXkmhLylmHHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767848829; c=relaxed/simple;
-	bh=jLuYaHG/SFSaG/8MUScEx1zQ9mDZmwF0Rg/5RnDiGbM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=F5jO/IwoMeO2TU+QZoGq69dIcJJ3OHeX7WbEd36v2GZzd+24KDZFLRnQYpZ+JhJLTKVdIWOHjySituYchOxTpaMcdT/kPijRck2CyL1eX/zfid67VfHDaX90kDy69RAckcylQiTho5ZIASV3ebG+CQg156pit1i3QnjOiabj5w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hKt6n2UF; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767851235; c=relaxed/simple;
+	bh=5tyAolAS9iPLfPNG07uT+8o6rAj1fMPhQkoGw7cW4Jk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=b2w7edMdBYZDcV8+dp2flD3vNR3+v+VQIytToBJR2vHiecbg4bRQ9Ty4PCsKAqZnxtIjUmav6yMQddfONw82E3GWsJ42G2+94RPBxTI+N+H2+6sD4wRqztVg/QsqN+BcJQHXEn0XkdcVO9yYX/NrNswAecaqHEOkmurpiGNhc9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xYYMTVuR; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hKt6n2UF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767848827; x=1799384827;
-  h=date:from:to:cc:subject:message-id;
-  bh=jLuYaHG/SFSaG/8MUScEx1zQ9mDZmwF0Rg/5RnDiGbM=;
-  b=hKt6n2UFqEgS+pRbgJxOw0Ay4rBy1HJB2g1LkLZZEDTxxh1B5upRWwLQ
-   akPmQcELUDzF2Q+rFXJwKYS9t4yLbtcbHlJ14k9KXGWCalwvgp78kirGh
-   vnyR2DXz4SMr8vITYf/p9QyZhk+7mHNxdhUJqPRVgD02bL09/GVG8Qk/d
-   9vs36wJ7qGmsfXwWZQ2jB4fZdNSZE3SBDwAIYzEovS8Qy17p7nKwyV3Xg
-   8Gnr3+1NJFcl8hG3eNGURQr4GVOc9Q3QSAN6gp8lVdtFU/B6sDPU3EYH3
-   LFDL2tRbrbVkxohE4mBfo4ZCOpsb3DEPI9F/C7izHHgjXNFDOzICeFwTg
-   Q==;
-X-CSE-ConnectionGUID: uGkRXzfyTvyB1emhjBJEIg==
-X-CSE-MsgGUID: 39JNuEFmRqezfjYJXtuR5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="80586349"
-X-IronPort-AV: E=Sophos;i="6.21,209,1763452800"; 
-   d="scan'208";a="80586349"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 21:07:06 -0800
-X-CSE-ConnectionGUID: M8W48Nx4STCJVqNNZkwH5g==
-X-CSE-MsgGUID: g8JgXqM3TkSv/K502jOEYA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,209,1763452800"; 
-   d="scan'208";a="203126396"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 07 Jan 2026 21:07:05 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vdiEg-000000001gu-2ZSG;
-	Thu, 08 Jan 2026 05:07:02 +0000
-Date: Thu, 08 Jan 2026 06:06:50 +0100
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-2025-07 1/1] kismet: WARNING:
- unmet direct dependencies detected for FB_IOMEM_HELPERS when selected by
- DRM_XE_DISPLAY
-Message-ID: <202601080622.TE9Ljysx-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xYYMTVuR"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47a8195e515so19756845e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 Jan 2026 21:47:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767851232; x=1768456032; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ALmovQLnJmYNUaSjlGPYrf6+F8qDX4GgFWn1LRaYNS4=;
+        b=xYYMTVuRLog+A1v72UCZkGAhQznLDcK9/OihbsBb8JZjsIhFYt1iCm+ZZLZucPxB9n
+         whFOfeas8wyFiww9KtpjFnKUdEPHdJdLRAsxJyWZuY7vaarU4BMtIofcsOAXoy2tj1WG
+         nmTTYpkY2WTAAYMmOz9thvCkUp+6q+TvOGrUOqXMsL0h6YVaU/ERpnXA5zOYPz/h8Oes
+         TLPiuOjQp4KE6VK+mVxb6ZfzPI7XwTdWjaQ+Gj2f1NkbS0x+ice4HkL98kbI9V+EpRMW
+         bu2oZ9mEdEjJ9S8Ji2QFcdHvoa6yl/kRrhSV2qqK/CdW87WTpmqKUrDd1g2dZB1e0n8C
+         ALqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767851232; x=1768456032;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ALmovQLnJmYNUaSjlGPYrf6+F8qDX4GgFWn1LRaYNS4=;
+        b=k6bT/K+K19p0TwFqmjho3mz1jQKNrOT0PgX/XdLx6QdCjPQ/Ll2wG82Puz2UOLNDxv
+         3x7qHW4fUsmPzbdcpTdD/OhGoi/DeX5clsQh4/VLgn8aAAdMnJH4qXW0DWenc/FDt+0D
+         AUGyDy+59oJ8Jpr8j64ZdHJMUno4ev5rk3Q3DDk2UjZX/7n4dIFUdEgy5zGR0Qmm4Bjb
+         0ntL5ryH3RrCmcr+Pda6Wgg75XyXV4ewi/aT1YwqgujTDcQkAkI0spSXZjwvfJXbaexz
+         9dea1nPyg2MgNsC2efWk/2+ByubhAFng2IUp4r2a5aghJTC+ajXeeH/gYL8phZVYDFQr
+         L8Kw==
+X-Forwarded-Encrypted: i=1; AJvYcCUu9cQc+1GGIuoViIvba3SQJShA6QddNnBt7JT/5doiSA1zk43ORdxSgQ45HQCLIiTLg1jnIfPCnxRd8Bbg@lists.linux.dev
+X-Gm-Message-State: AOJu0Yysp3n1e8dmAkJK0UvncP02hqL132PSunzX4cwAeKJ6ujk7+Z59
+	fk2w2VCOeEctPOUA1lBWYiCvFf0TkCgvJQnC8oaSlcW6+cLFbebaie/VGcblHt4SPEk=
+X-Gm-Gg: AY/fxX7rvqUbMUX/uBbfcWxMjEkZsV6DJ0JDBmC+uRtA3EsZJxqsPazfdoYGqi5BYlv
+	dRFCoQNwgQzL0QjM/SrZDmn2uVq7E4g6CgzYZG/gtbzXmFMsqkxu5cY+yq3Nxd519f79iU7xA1k
+	uOP+nuvQQE74xltG5fnzRRILJPM0tkkQcf5Kbi8KWTuLi/XiT7DhxRW97zY1ERZXFiQ3NUyeuSA
+	SS/nxQwufuHOXk9IscIGD2X4d/Bdl3xlBE11GvRR71m4mjOiO9pkA9fkLQQFuH8OcqBUzJgefl+
+	uimH/6Chwm+/6FpMMdoUKd+kVKySEOR1PdZOQWph1VHDuHlOyHK5gEDPp2cjRpf5sOVxMzssetf
+	Tbiv6tRdVaJ0EfXgZhj+YY/uvOYF3V2xtB3pmL/MpJ+3yx0Tg2XAfAxw6cHWHD0xYCzaNHsrmpQ
+	Qi3SF4whV8kaDUNxiH
+X-Google-Smtp-Source: AGHT+IHw8DBSfe8Szxf3RZyP2+mguimjL01vZZBZGbTuZhrz7aGyjSeOiB7B+OIsLniRF3fswTN5qQ==
+X-Received: by 2002:a05:6000:24c8:b0:432:84f9:8bed with SMTP id ffacd0b85a97d-432c364380cmr6666972f8f.28.1767851231593;
+        Wed, 07 Jan 2026 21:47:11 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0dacc5sm13783950f8f.5.2026.01.07.21.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jan 2026 21:47:11 -0800 (PST)
+Date: Thu, 8 Jan 2026 08:47:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Gabriele Monaco <gmonaco@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [glemco:staging_rv_mon_kunit 21/29]
+ kernel/trace/rv/monitors/deadline/deadline.h:130 extract_params() warn:
+ variable dereferenced before check 'p' (see line 129)
+Message-ID: <202601081024.CGC2yhFU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-07
-head:   dea313686ec2d0755aaa69b826d7e63fc2acad98
-commit: dea313686ec2d0755aaa69b826d7e63fc2acad98 [1/1] UPSTREAM: af_unix: Initialise scc_index in unix_add_edge().
-config: i386-kismet-CONFIG_FB_IOMEM_HELPERS-CONFIG_DRM_XE_DISPLAY-0-0 (https://download.01.org/0day-ci/archive/20260108/202601080622.TE9Ljysx-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260108/202601080622.TE9Ljysx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gmonaco/linux.git staging_rv_mon_kunit
+head:   45a96d573274287926f2fd31092f229238476843
+commit: 5c22af5956b42cc02d383e188c13d383d334043a [21/29] rv: Add deadline monitors
+config: csky-randconfig-r072-20260108 (https://download.01.org/0day-ci/archive/20260108/202601081024.CGC2yhFU-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601080622.TE9Ljysx-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202601081024.CGC2yhFU-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS when selected by DRM_XE_DISPLAY
-   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
-     Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
-     Selected by [m]:
-     - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_XE [=m] && DRM_XE [=m]=m [=m]
+smatch warnings:
+kernel/trace/rv/monitors/deadline/deadline.h:130 extract_params() warn: variable dereferenced before check 'p' (see line 129)
+
+vim +/p +130 kernel/trace/rv/monitors/deadline/deadline.h
+
+5c22af5956b42c Gabriele Monaco 2025-07-31   90  static inline int extract_params(struct pt_regs *regs, long id, struct task_struct **p)
+5c22af5956b42c Gabriele Monaco 2025-07-31   91  {
+5c22af5956b42c Gabriele Monaco 2025-07-31   92  	size_t size = offsetof(struct sched_attr, sched_nice);
+5c22af5956b42c Gabriele Monaco 2025-07-31   93  	struct sched_attr __user *uattr, attr;
+5c22af5956b42c Gabriele Monaco 2025-07-31   94  	int new_policy = -1, ret;
+5c22af5956b42c Gabriele Monaco 2025-07-31   95  	unsigned long args[6];
+5c22af5956b42c Gabriele Monaco 2025-07-31   96  	pid_t pid;
+5c22af5956b42c Gabriele Monaco 2025-07-31   97  
+5c22af5956b42c Gabriele Monaco 2025-07-31   98  	switch (id) {
+5c22af5956b42c Gabriele Monaco 2025-07-31   99  	case __NR_sched_setscheduler:
+5c22af5956b42c Gabriele Monaco 2025-07-31  100  		syscall_get_arguments(current, regs, args);
+5c22af5956b42c Gabriele Monaco 2025-07-31  101  		pid = args[0];
+5c22af5956b42c Gabriele Monaco 2025-07-31  102  		new_policy = args[1];
+5c22af5956b42c Gabriele Monaco 2025-07-31  103  		break;
+5c22af5956b42c Gabriele Monaco 2025-07-31  104  	case __NR_sched_setattr:
+5c22af5956b42c Gabriele Monaco 2025-07-31  105  		syscall_get_arguments(current, regs, args);
+5c22af5956b42c Gabriele Monaco 2025-07-31  106  		pid = args[0];
+5c22af5956b42c Gabriele Monaco 2025-07-31  107  		uattr = (void *)args[1];
+5c22af5956b42c Gabriele Monaco 2025-07-31  108  		/*
+5c22af5956b42c Gabriele Monaco 2025-07-31  109  		 * Just copy up to sched_flags, we are not interested after that
+5c22af5956b42c Gabriele Monaco 2025-07-31  110  		 */
+5c22af5956b42c Gabriele Monaco 2025-07-31  111  		ret = copy_struct_from_user(&attr, size, uattr, size);
+5c22af5956b42c Gabriele Monaco 2025-07-31  112  		if (ret)
+5c22af5956b42c Gabriele Monaco 2025-07-31  113  			return ret;
+5c22af5956b42c Gabriele Monaco 2025-07-31  114  		if (attr.sched_flags & SCHED_FLAG_KEEP_POLICY)
+5c22af5956b42c Gabriele Monaco 2025-07-31  115  			return -EINVAL;
+5c22af5956b42c Gabriele Monaco 2025-07-31  116  		new_policy = attr.sched_policy;
+5c22af5956b42c Gabriele Monaco 2025-07-31  117  		break;
+5c22af5956b42c Gabriele Monaco 2025-07-31  118  	default:
+5c22af5956b42c Gabriele Monaco 2025-07-31  119  		return -EINVAL;
+5c22af5956b42c Gabriele Monaco 2025-07-31  120  	}
+5c22af5956b42c Gabriele Monaco 2025-07-31  121  	if (!pid)
+5c22af5956b42c Gabriele Monaco 2025-07-31  122  		*p = current;
+5c22af5956b42c Gabriele Monaco 2025-07-31  123  	else {
+5c22af5956b42c Gabriele Monaco 2025-07-31  124  		/*
+5c22af5956b42c Gabriele Monaco 2025-07-31  125  		 * Required for find_task_by_vpid, make sure the caller doesn't
+5c22af5956b42c Gabriele Monaco 2025-07-31  126  		 * need to get_task_struct().
+5c22af5956b42c Gabriele Monaco 2025-07-31  127  		 */
+5c22af5956b42c Gabriele Monaco 2025-07-31  128  		guard(rcu)();
+5c22af5956b42c Gabriele Monaco 2025-07-31 @129  		*p = find_task_by_vpid(pid);
+5c22af5956b42c Gabriele Monaco 2025-07-31 @130  		if (unlikely(!p))
+
+s/p/*p/
+
+5c22af5956b42c Gabriele Monaco 2025-07-31  131  			return -EINVAL;
+5c22af5956b42c Gabriele Monaco 2025-07-31  132  	}
+5c22af5956b42c Gabriele Monaco 2025-07-31  133  
+5c22af5956b42c Gabriele Monaco 2025-07-31  134  	return new_policy & ~SCHED_RESET_ON_FORK;
+5c22af5956b42c Gabriele Monaco 2025-07-31  135  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
