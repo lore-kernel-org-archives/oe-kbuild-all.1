@@ -1,171 +1,178 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE093ECBDE
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 09:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29484377A4
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 09:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767863290; cv=none; b=ccsT5H6D7fuDmenFfUgq0BwSmNdlHvlo7e2ZPfD0xc41GSuw48IntBkyaC9WiVbnHAMOpdfygi+HPj30jzTMajIHPfk8VvstFv+QIGsm8bVrXBW1UhF7kTLZHxzqf+AVi40HIgifdSdvhMyNIugwRmVvmGHgleVQ7zE1YFfVcqI=
+	t=1767864223; cv=none; b=s5n2rMpNyCYCYtduFzC76jKQWcytdzCwSx9hD3RvAWwjpCS1srsYwLpbKwXXbwd/Fb5wRDwz5DiLDu5lmwsgoEW6A7sb+qv/7OOmphM8kaOaieDV9yvdbYltbK1Ib3FTeqJw2vph2UJmiLZocJA/ZQBwT68A1gi0+qAmQFrMItQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767863290; c=relaxed/simple;
-	bh=0TNtIG+2OoHgZi7w18M+Yhl2LXKqauKQ1R0ycxP/udU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=LsIWhjEnlWUM4+ZpFA8DGiFOiq0/oCKFSqLlela/NS1JOICYjLvGZewC2zGESgaKBCAcXzIbW+GOQkbMFsghwHxnigofaThywyKagBu7cKhfXVM02B0Rwjcusa6l+XxhayppH5208FFAsLDyFKmJ0Ihhyal8pvztFQAoGzIG4rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CHgWQ1AS; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767864223; c=relaxed/simple;
+	bh=GE1YL8KZCkG4Mq/OgGzEYuNZCrNW1uZ7TumAhpU7sVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IHMQtrY9gjWd4lCnCFiJhbcrnUmTdVECCIALk+NJ9fbLYXFCGHAb8o6Cr0gvuzmERyQKpsIFI9Wgll2A+qhpij+tZZFEFocJTMv1DrQqMU2Txdr59C9FFAjnTQlGC0DbDkW15aWK6jf58SG5+nJg+Dtbf+CFW1vJny9+Ip19res=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E+d36dJQ; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHgWQ1AS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767863282; x=1799399282;
-  h=date:from:to:cc:subject:message-id;
-  bh=0TNtIG+2OoHgZi7w18M+Yhl2LXKqauKQ1R0ycxP/udU=;
-  b=CHgWQ1ASIc+mY8dlS/NhjYxBjCvdgN37rwc+c50F+PVNbMEPfqi7O1us
-   0pKMtoe6j9kK/aueBCgZx2I4d4y/p+S9dEvg8w6iJ38hMGKfn+dVj8eCv
-   MwKWTbypTxUOuikv3Dfw9TGiGNnWX0KBIS/eZsIKbxANn0Nwp0gh3VacH
-   OCDNW/w28UuYmdf/afHuwe9woJ5S5ylq0BUssFYLl4k7Dk0Fb96Xcz4vW
-   Jf1XnsljqFh3nLSntrHD1JKAKpLvzh1azMsDglycI9G29xqFRGb5p4/Fu
-   NjkVBvGUaRCHA8BPoQNzclF9kOWpmIfch4/8jXGlZqmQkhkFI/H+XBVPr
-   g==;
-X-CSE-ConnectionGUID: NZzjOVWmRHSApWA5dl2lUA==
-X-CSE-MsgGUID: 4f07YEg9Ro+ENmIduvdrBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="79879047"
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="79879047"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 01:07:47 -0800
-X-CSE-ConnectionGUID: bHRxgd/1Tp+hNMzWBKsDxA==
-X-CSE-MsgGUID: WuNCRBLySA6CfOJBsEAlrg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="202355405"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 08 Jan 2026 01:07:45 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vdlza-000000004XI-1guV;
-	Thu, 08 Jan 2026 09:07:42 +0000
-Date: Thu, 08 Jan 2026 17:07:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Caleb James DeLisle <cjd@cjdns.fr>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: drivers/tty/serial/8250/8250_core.c:330:48: warning:
- parameter 'line' set but not used
-Message-ID: <202601081607.yrciuDfu-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E+d36dJQ"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4779cb0a33fso31780245e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 08 Jan 2026 01:23:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767864214; x=1768469014; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zGXQyxE2vz1SfJ48RCDqUYJUfL/Bt9aXZXLDnvM/FCI=;
+        b=E+d36dJQn3LL9zKdWOOgwt0W7iFfLqSbzNy+WFYMEK+o0mf6Rws9YL1196MFN5AUSM
+         taFmLG01hvq/25p+72qjuzZjlcp/i5QLDCmVX8/uP6W03jcQq3wzaDqqXuBZfweRc5UH
+         LAqzmHmNT3Ai/PDVlQoKncAgOo7TAkTRfHvQV7nogEP+dleCuaQI3vQ7eHuQjGIElht/
+         Cu/ty3q6w1/AQCcHaye87OAk7375u+ngOS4NVp17xMRKJaqDMaHsUzF76Aaj6IzlujS+
+         koGwaydTyWyRmiurBvr3zAfiWfcbZiz2fuj5XkZ98IT9hIoC/zS+Q6CBUIkXBC0eoIOd
+         J2IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767864214; x=1768469014;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zGXQyxE2vz1SfJ48RCDqUYJUfL/Bt9aXZXLDnvM/FCI=;
+        b=YGH/oycAEIheZK97YGSxlNrWvQu5GrGLtApjt1KGRPQYFnNty61NspwmZC26wbo+NI
+         z8KbyXuIgNF3EeeNgk6rKj71c4RGYqRf83hG1pKHwg9XDbVKF2ln9yT8wcFa5phJzI4Y
+         WNuGdNBwzsbK9YsodlxttniQAPuMW0RlP+1WigH+GoxxDkXZ3Jc4N1WnZksAjKX7eERZ
+         ePX050SmxQF8xwyQDJFXeRWaUNxrv5c6gd5XRg4mLyPY7qAJBDjCDB09uB3qRu83Gqmd
+         aFCtXRbNIAmWCdrne3GfbTfCF3u1r0O27qvNsNqsV5F4lHCIIdT1RlH4/CE5AfN/nza3
+         /XnQ==
+X-Gm-Message-State: AOJu0YxoskWnBon7gjxDtR52PUFGPF40NPX1OWZwrkwpF43m81HM4keb
+	dqnOd7yp3E2yqVCb2317QUa9h7DwuKCXqx8cHC2NMhyBVjYnDIuOMzoahqFQyNo8mvQ=
+X-Gm-Gg: AY/fxX42F+2ZQ9BWakgYM1IDrqvN+wfUrBSfwUHZJW6fAbtBvNMkElZF22F65R3KQoj
+	rQ8snYAAMIkDR7r++A4Oke8IBqBHuH0z4grq4ylPsHpFLbpF+ANLwn98w8NQn38LO6hplyGKvMj
+	YVzSc5rUyF1lWJYjBJn0hXRNxERa3U4ktvOKhx9TSJwmzLX02qAZQJVmmyXFSSAbvQRkcukthRA
+	P5LnuRFoxXBGVbtqmRFdtLTaLXW5qfiHV5VVb1SP3P0vXAOG6JoCPRp9IMiXc/6cYtzDQAAfscB
+	5mKjCyrrkIxd/NgA0epX4uT1+tp/VNU9B2/3WkbSnw93uODmYRHRNw0HxnraAscDUd+SWEyyxAP
+	FvaafD0w9Q1tMtson4qwFHf4/1UP8DizFLmq/Q2Wfyi95lrZCsmzH+PXe/uty+5/WTxMJt7IBcI
+	RdJv/Dv5lc9aiwnBEMvqS3d7JyVno=
+X-Google-Smtp-Source: AGHT+IF/NrMEjFeefIJzR8iU1U30zHWbFO9iluedXaDPZ4QNmkMxM8PkEMkZo2rWCUzC44gTfJ4DPw==
+X-Received: by 2002:a05:600c:c08b:b0:47d:6856:9bd9 with SMTP id 5b1f17b1804b1-47d84b33bccmr53946745e9.23.1767864214162;
+        Thu, 08 Jan 2026 01:23:34 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d86637b90sm36426085e9.2.2026.01.08.01.23.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 01:23:33 -0800 (PST)
+Date: Thu, 8 Jan 2026 12:23:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Philip Li <philip.li@intel.com>, Yujie Liu <yujie.liu@intel.com>,
+	kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1378
+ kvm_trylock_all_vcpus() warn: iterator 'i' not incremented
+Message-ID: <aV93kq7uh1cWCVF1@stanley.mountain>
+References: <202512200337.um368Um1-lkp@intel.com>
+ <aVt23tyDlVK0JaEU@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aVt23tyDlVK0JaEU@stanley.mountain>
 
-Hi Caleb,
+Hi Philip,
 
-First bad commit (maybe != root cause):
+Sorry for not CC'ing you on this email.  Do you think you could help
+me reproduce this warning?
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
-commit: 79ee1d20e37cd553cc961962fca8107e69a0c293 mips: econet: Fix incorrect Kconfig dependencies
-date:   8 months ago
-config: mips-randconfig-r051-20260108 (https://download.01.org/0day-ci/archive/20260108/202601081607.yrciuDfu-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601081607.yrciuDfu-lkp@intel.com/reproduce)
+regards,
+dan carpenter
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601081607.yrciuDfu-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/tty/serial/8250/8250_core.c:39:
-   drivers/tty/serial/8250/8250.h:97:17: error: 'CONFIG_SERIAL_8250_NR_UARTS' undeclared here (not in a function); did you mean 'CONFIG_SERIAL_8250'?
-      97 | #define UART_NR CONFIG_SERIAL_8250_NR_UARTS
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_core.c:316:47: note: in expansion of macro 'UART_NR'
-     316 | static struct uart_8250_port serial8250_ports[UART_NR];
-         |                                               ^~~~~~~
-   drivers/tty/serial/8250/8250_core.c: In function 'serial8250_get_port':
->> drivers/tty/serial/8250/8250_core.c:330:48: warning: parameter 'line' set but not used [-Wunused-but-set-parameter]
-     330 | struct uart_8250_port *serial8250_get_port(int line)
-         |                                            ~~~~^~~~
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/bits.h:22,
-                    from include/linux/ioport.h:13,
-                    from include/linux/acpi.h:12,
-                    from drivers/tty/serial/8250/8250_core.c:15:
-   drivers/tty/serial/8250/8250_core.c: In function 'early_serial_setup':
-   include/linux/compiler.h:197:77: error: expression in static assertion is not an integer
-     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                             ^
-   include/linux/compiler.h:202:28: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     202 | #define __must_be_array(a) __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_core.c:542:20: note: in expansion of macro 'ARRAY_SIZE'
-     542 |  if (port->line >= ARRAY_SIZE(serial8250_ports) || nr_uarts == 0)
-         |                    ^~~~~~~~~~
-   drivers/tty/serial/8250/8250_core.c: In function 'serial8250_suspend_port':
-   drivers/tty/serial/8250/8250_core.c:580:34: warning: parameter 'line' set but not used [-Wunused-but-set-parameter]
-     580 | void serial8250_suspend_port(int line)
-         |                              ~~~~^~~~
-   drivers/tty/serial/8250/8250_core.c: In function 'serial8250_resume_port':
-   drivers/tty/serial/8250/8250_core.c:604:33: warning: parameter 'line' set but not used [-Wunused-but-set-parameter]
-     604 | void serial8250_resume_port(int line)
-         |                             ~~~~^~~~
-   drivers/tty/serial/8250/8250_core.c: In function 'serial8250_get_port':
->> drivers/tty/serial/8250/8250_core.c:333:1: warning: control reaches end of non-void function [-Wreturn-type]
-     333 | }
-         | ^
-   At top level:
->> drivers/tty/serial/8250/8250_core.c:316:30: warning: 'serial8250_ports' defined but not used [-Wunused-variable]
-     316 | static struct uart_8250_port serial8250_ports[UART_NR];
-         |                              ^~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SERIAL_8250
-   Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && !S390
-   Selected by [y]:
-   - ECONET [=y]
-   WARNING: unmet direct dependencies detected for SERIAL_OF_PLATFORM
-   Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && SERIAL_8250 [=y] && OF [=y]
-   Selected by [y]:
-   - ECONET [=y]
-
-
-vim +/line +330 drivers/tty/serial/8250/8250_core.c
-
-a4416cd1ac7b48 drivers/tty/serial/8250/8250_core.c Peter Hurley              2015-02-24  315  
-^1da177e4c3f41 drivers/serial/8250.c               Linus Torvalds            2005-04-16 @316  static struct uart_8250_port serial8250_ports[UART_NR];
-^1da177e4c3f41 drivers/serial/8250.c               Linus Torvalds            2005-04-16  317  
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  318  /**
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  319   * serial8250_get_port - retrieve struct uart_8250_port
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  320   * @line: serial line number
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  321   *
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  322   * This function retrieves struct uart_8250_port for the specific line.
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  323   * This struct *must* *not* be used to perform a 8250 or serial core operation
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  324   * which is not accessible otherwise. Its only purpose is to make the struct
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  325   * accessible to the runtime-pm callbacks for context suspend/restore.
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  326   * The lock assumption made here is none because runtime-pm suspend/resume
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  327   * callbacks should not be invoked if there is any operation performed on the
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  328   * port.
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  329   */
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05 @330  struct uart_8250_port *serial8250_get_port(int line)
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  331  {
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  332  	return &serial8250_ports[line];
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05 @333  }
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  334  EXPORT_SYMBOL_GPL(serial8250_get_port);
-ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  335  
-
-:::::: The code at line 330 was first introduced by commit
-:::::: ae14a7954f5124208e6e93cafb3099f83acd43f5 tty: serial: 8250_core: provide a function to export uart_8250_port
-
-:::::: TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Mon, Jan 05, 2026 at 11:31:26AM +0300, Dan Carpenter wrote:
+> Hi,
+> 
+> I'm going to be taking a break from reporting Smatch warnings until we
+> can work out new funding for it.  I'm pretty confident that we will be
+> able to but there wasn't a lot of notice and everyone was off for the
+> Holiday Season so we haven't really started the fund raising process.
+> 
+> https://lore.kernel.org/all/aTaiGSbWZ9DJaGo7@stanley.mountain/
+> 
+> I imagine that we should just send these warnings directly, but there
+> are some which are obvious false positives so I'd like to clean that
+> up before we start sending unfiltered warnings.
+> 
+> I've never been able to reproduce these warnings "iterator 'i' not
+> incremented" false positives.  I've tried deleting my cross function
+> database and using the exact same config and everything I know how to
+> reproduce them but I can't.  Are you using the latest version of
+> Smatch?
+> 
+> regards,
+> dan carpenter
+> 
+> On Sat, Dec 20, 2025 at 03:40:19AM +0800, kernel test robot wrote:
+> > BCC: lkp@intel.com
+> > CC: oe-kbuild-all@lists.linux.dev
+> > CC: linux-kernel@vger.kernel.org
+> > TO: Maxim Levitsky <mlevitsk@redhat.com>
+> > CC: Paolo Bonzini <pbonzini@redhat.com>
+> > 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   dd9b004b7ff3289fb7bae35130c0a5c0537266af
+> > commit: e4a454ced74c0ac97c8bd32f086ee3ad74528780 KVM: add kvm_lock_all_vcpus and kvm_trylock_all_vcpus
+> > date:   7 months ago
+> > :::::: branch date: 22 hours ago
+> > :::::: commit date: 7 months ago
+> > config: riscv-randconfig-r073-20251214 (https://download.01.org/0day-ci/archive/20251220/202512200337.um368Um1-lkp@intel.com/config)
+> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1335a05ab8bc8339ce24be3a9da89d8c3f4e0571)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Closes: https://lore.kernel.org/r/202512200337.um368Um1-lkp@intel.com/
+> > 
+> > New smatch warnings:
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1378 kvm_trylock_all_vcpus() warn: iterator 'i' not incremented
+> > 
+> > Old smatch warnings:
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:283 kvm_make_all_cpus_request() warn: iterator 'i' not incremented
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:487 kvm_destroy_vcpus() warn: iterator 'i' not incremented
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1384 kvm_trylock_all_vcpus() warn: iterator 'j' not incremented
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1401 kvm_lock_all_vcpus() warn: iterator 'i' not incremented
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1409 kvm_lock_all_vcpus() warn: iterator 'j' not incremented
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1425 kvm_unlock_all_vcpus() warn: iterator 'i' not incremented
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1721 kvm_commit_memory_region() error: we previously assumed 'old' could be null (see line 1714)
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:1723 kvm_commit_memory_region() error: we previously assumed 'new' could be null (see line 1715)
+> > include/linux/kvm_host.h:1010 kvm_get_vcpu_by_id() warn: iterator 'i' not incremented
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:4961 kvm_vm_ioctl_reset_dirty_pages() warn: iterator 'i' not incremented
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:6092 kvm_get_stat_per_vcpu() warn: iterator 'i' not incremented
+> > arch/riscv/kvm/../../../virt/kvm/kvm_main.c:6103 kvm_clear_stat_per_vcpu() warn: iterator 'i' not incremented
+> > 
+> > vim +/i +1378 arch/riscv/kvm/../../../virt/kvm/kvm_main.c
+> > 
+> > 6aa8b732ca01c3d drivers/kvm/kvm_main.c Avi Kivity     2006-12-10  1370  
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1371  int kvm_trylock_all_vcpus(struct kvm *kvm)
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1372  {
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1373  	struct kvm_vcpu *vcpu;
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1374  	unsigned long i, j;
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1375  
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1376  	lockdep_assert_held(&kvm->lock);
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1377  
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12 @1378  	kvm_for_each_vcpu(i, vcpu, kvm)
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1379  		if (!mutex_trylock_nest_lock(&vcpu->mutex, &kvm->lock))
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1380  			goto out_unlock;
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1381  	return 0;
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1382  
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1383  out_unlock:
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1384  	kvm_for_each_vcpu(j, vcpu, kvm) {
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1385  		if (i == j)
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1386  			break;
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1387  		mutex_unlock(&vcpu->mutex);
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1388  	}
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1389  	return -EINTR;
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1390  }
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1391  EXPORT_SYMBOL_GPL(kvm_trylock_all_vcpus);
+> > e4a454ced74c0ac virt/kvm/kvm_main.c    Maxim Levitsky 2025-05-12  1392  
+> > 
+> > -- 
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
