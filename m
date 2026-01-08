@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F43D3DA7FC
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 09:07:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE093ECBDE
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 09:08:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767863288; cv=none; b=qHJ1ZHGoaEKtr/9bymghtW97y/6knQSCBJg7cRNqDgcXyHtILBOK1sLCgevXk0+vevwgHz6ClX9x9x2pIpSotoEKnJmkUVny84JVmErTq+Abl2hKJUfgsD/eiAf6B5kvgfGHcCDNjRW8b1gLTc59dwhIhdn9K50pCiKxWS2TqJg=
+	t=1767863290; cv=none; b=ccsT5H6D7fuDmenFfUgq0BwSmNdlHvlo7e2ZPfD0xc41GSuw48IntBkyaC9WiVbnHAMOpdfygi+HPj30jzTMajIHPfk8VvstFv+QIGsm8bVrXBW1UhF7kTLZHxzqf+AVi40HIgifdSdvhMyNIugwRmVvmGHgleVQ7zE1YFfVcqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767863288; c=relaxed/simple;
-	bh=EurNCdkX13vvFzzFrxFqH9EtiasCa0P6ndZevKzGZc8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=h2mADVX+qt55R+zzn0ehLwwxSzB2Sttjann+9IF26BiiLhCpdZ9k2y4w34hucRix+0qb1sNZhNvsmk3cCkkApHDhaNCeDK2OfFlQUODbPA/4/JDr7Srmnu71VDW6ruxM8iorMsp8/wPz0Hu23MK4ZwpWWYaKJuojct6vonKRCZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MsddTxkp; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1767863290; c=relaxed/simple;
+	bh=0TNtIG+2OoHgZi7w18M+Yhl2LXKqauKQ1R0ycxP/udU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=LsIWhjEnlWUM4+ZpFA8DGiFOiq0/oCKFSqLlela/NS1JOICYjLvGZewC2zGESgaKBCAcXzIbW+GOQkbMFsghwHxnigofaThywyKagBu7cKhfXVM02B0Rwjcusa6l+XxhayppH5208FFAsLDyFKmJ0Ihhyal8pvztFQAoGzIG4rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CHgWQ1AS; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MsddTxkp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHgWQ1AS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767863279; x=1799399279;
+  t=1767863282; x=1799399282;
   h=date:from:to:cc:subject:message-id;
-  bh=EurNCdkX13vvFzzFrxFqH9EtiasCa0P6ndZevKzGZc8=;
-  b=MsddTxkpxaIWSsH7g+2zD+ThBCfi0cPNthnqhtDyzENOYDcDo7hOUUPi
-   frb2bDNWhx3wyG8bwzu6KHn0sk+aD7B5ATmVh3ofWJhax3bKDCwb1QD7E
-   UQsSsq0P5rBen9Tq8WAECR/k/va56jTed4g+m+JUKxdHfsLaeNVdGidi7
-   W7LYhnUvW7aFC++su5X4qPO81GAwKbE0xlTrtewP7OhYEibmx56nzfn3/
-   QgA1fGUpqQTEZ7f2Khw0BlqhhtKyFviB7CBDHqTD/5lLbl6pTvLbuu4HJ
-   HvWIzQ5uHqwy52bEK09H38S7xnWPBmG4/BvBgQaZOF/kI/nBCoiW6Y8Br
-   Q==;
-X-CSE-ConnectionGUID: B2hBlYCzQ92jky5w088iOw==
-X-CSE-MsgGUID: b0H6o05uTvCKzmdUfdUl6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="79879045"
+  bh=0TNtIG+2OoHgZi7w18M+Yhl2LXKqauKQ1R0ycxP/udU=;
+  b=CHgWQ1ASIc+mY8dlS/NhjYxBjCvdgN37rwc+c50F+PVNbMEPfqi7O1us
+   0pKMtoe6j9kK/aueBCgZx2I4d4y/p+S9dEvg8w6iJ38hMGKfn+dVj8eCv
+   MwKWTbypTxUOuikv3Dfw9TGiGNnWX0KBIS/eZsIKbxANn0Nwp0gh3VacH
+   OCDNW/w28UuYmdf/afHuwe9woJ5S5ylq0BUssFYLl4k7Dk0Fb96Xcz4vW
+   Jf1XnsljqFh3nLSntrHD1JKAKpLvzh1azMsDglycI9G29xqFRGb5p4/Fu
+   NjkVBvGUaRCHA8BPoQNzclF9kOWpmIfch4/8jXGlZqmQkhkFI/H+XBVPr
+   g==;
+X-CSE-ConnectionGUID: NZzjOVWmRHSApWA5dl2lUA==
+X-CSE-MsgGUID: 4f07YEg9Ro+ENmIduvdrBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="79879047"
 X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="79879045"
+   d="scan'208";a="79879047"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 01:07:47 -0800
-X-CSE-ConnectionGUID: 3NckUXGMQvmV6qhs++/GAQ==
-X-CSE-MsgGUID: 2uygjwjSS/a+VSEzG0lSIw==
+X-CSE-ConnectionGUID: bHRxgd/1Tp+hNMzWBKsDxA==
+X-CSE-MsgGUID: WuNCRBLySA6CfOJBsEAlrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,210,1763452800"; 
-   d="scan'208";a="202355401"
+   d="scan'208";a="202355405"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 08 Jan 2026 01:07:45 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vdlza-000000004XE-14iM;
+	id 1vdlza-000000004XI-1guV;
 	Thu, 08 Jan 2026 09:07:42 +0000
-Date: Thu, 08 Jan 2026 17:07:11 +0800
+Date: Thu, 08 Jan 2026 17:07:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:scratch/gourry/isolation/v3 7/9]
- drivers/dax/kmem.c:98:10: warning: variable 'rc' is uninitialized when used
- here
-Message-ID: <202601081800.7cg24FfU-lkp@intel.com>
+To: Caleb James DeLisle <cjd@cjdns.fr>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: drivers/tty/serial/8250/8250_core.c:330:48: warning:
+ parameter 'line' set but not used
+Message-ID: <202601081607.yrciuDfu-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,182 +60,111 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/isolation/v3
-head:   8a4f71e8f0a8aef992da7df176a352073872a47c
-commit: 1af0d8e02635ffeccfda23b44794ec8d205e53f3 [7/9] drivers/dax: add private_node bit to dev_dax
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260108/202601081800.7cg24FfU-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601081800.7cg24FfU-lkp@intel.com/reproduce)
+Hi Caleb,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
+commit: 79ee1d20e37cd553cc961962fca8107e69a0c293 mips: econet: Fix incorrect Kconfig dependencies
+date:   8 months ago
+config: mips-randconfig-r051-20260108 (https://download.01.org/0day-ci/archive/20260108/202601081607.yrciuDfu-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260108/202601081607.yrciuDfu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601081800.7cg24FfU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601081607.yrciuDfu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/dax/kmem.c:98:10: warning: variable 'rc' is uninitialized when used here [-Wuninitialized]
-      98 |                 return rc;
-         |                        ^~
-   drivers/dax/kmem.c:74:11: note: initialize the variable 'rc' to silence this warning
-      74 |         int i, rc, mapped = 0;
-         |                  ^
-         |                   = 0
-   1 warning generated.
+   In file included from drivers/tty/serial/8250/8250_core.c:39:
+   drivers/tty/serial/8250/8250.h:97:17: error: 'CONFIG_SERIAL_8250_NR_UARTS' undeclared here (not in a function); did you mean 'CONFIG_SERIAL_8250'?
+      97 | #define UART_NR CONFIG_SERIAL_8250_NR_UARTS
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/8250/8250_core.c:316:47: note: in expansion of macro 'UART_NR'
+     316 | static struct uart_8250_port serial8250_ports[UART_NR];
+         |                                               ^~~~~~~
+   drivers/tty/serial/8250/8250_core.c: In function 'serial8250_get_port':
+>> drivers/tty/serial/8250/8250_core.c:330:48: warning: parameter 'line' set but not used [-Wunused-but-set-parameter]
+     330 | struct uart_8250_port *serial8250_get_port(int line)
+         |                                            ~~~~^~~~
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/bits.h:22,
+                    from include/linux/ioport.h:13,
+                    from include/linux/acpi.h:12,
+                    from drivers/tty/serial/8250/8250_core.c:15:
+   drivers/tty/serial/8250/8250_core.c: In function 'early_serial_setup':
+   include/linux/compiler.h:197:77: error: expression in static assertion is not an integer
+     197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
+         |                                                                             ^
+   include/linux/compiler.h:202:28: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
+     202 | #define __must_be_array(a) __BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/tty/serial/8250/8250_core.c:542:20: note: in expansion of macro 'ARRAY_SIZE'
+     542 |  if (port->line >= ARRAY_SIZE(serial8250_ports) || nr_uarts == 0)
+         |                    ^~~~~~~~~~
+   drivers/tty/serial/8250/8250_core.c: In function 'serial8250_suspend_port':
+   drivers/tty/serial/8250/8250_core.c:580:34: warning: parameter 'line' set but not used [-Wunused-but-set-parameter]
+     580 | void serial8250_suspend_port(int line)
+         |                              ~~~~^~~~
+   drivers/tty/serial/8250/8250_core.c: In function 'serial8250_resume_port':
+   drivers/tty/serial/8250/8250_core.c:604:33: warning: parameter 'line' set but not used [-Wunused-but-set-parameter]
+     604 | void serial8250_resume_port(int line)
+         |                             ~~~~^~~~
+   drivers/tty/serial/8250/8250_core.c: In function 'serial8250_get_port':
+>> drivers/tty/serial/8250/8250_core.c:333:1: warning: control reaches end of non-void function [-Wreturn-type]
+     333 | }
+         | ^
+   At top level:
+>> drivers/tty/serial/8250/8250_core.c:316:30: warning: 'serial8250_ports' defined but not used [-Wunused-variable]
+     316 | static struct uart_8250_port serial8250_ports[UART_NR];
+         |                              ^~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SERIAL_8250
+   Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && !S390
+   Selected by [y]:
+   - ECONET [=y]
+   WARNING: unmet direct dependencies detected for SERIAL_OF_PLATFORM
+   Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && SERIAL_8250 [=y] && OF [=y]
+   Selected by [y]:
+   - ECONET [=y]
 
 
-vim +/rc +98 drivers/dax/kmem.c
+vim +/line +330 drivers/tty/serial/8250/8250_core.c
 
-    67	
-    68	static int dev_dax_kmem_probe(struct dev_dax *dev_dax)
-    69	{
-    70		struct device *dev = &dev_dax->dev;
-    71		unsigned long total_len = 0, orig_len = 0;
-    72		struct dax_kmem_data *data;
-    73		struct memory_dev_type *mtype;
-    74		int i, rc, mapped = 0;
-    75		mhp_t mhp_flags;
-    76		int numa_node;
-    77		int adist = MEMTIER_DEFAULT_DAX_ADISTANCE;
-    78	
-    79		/*
-    80		 * Ensure good NUMA information for the persistent memory.
-    81		 * Without this check, there is a risk that slow memory
-    82		 * could be mixed in a node with faster memory, causing
-    83		 * unavoidable performance issues.
-    84		 */
-    85		numa_node = dev_dax->target_node;
-    86		if (numa_node < 0) {
-    87			dev_warn(dev, "rejecting DAX region with invalid node: %d\n",
-    88					numa_node);
-    89			return -EINVAL;
-    90		}
-    91	
-    92		/*
-    93		 * If this memory is intended for a private node, set the
-    94		 * node private now.  If it can't be done, fail before hotplug
-    95		 */
-    96		if (dev_dax->private_node && node_mark_private(numa_node, true)) {
-    97			dev_warn(dev, "failed to mark node private\n");
-  > 98			return rc;
-    99		}
-   100	
-   101		mt_calc_adistance(numa_node, &adist);
-   102		mtype = kmem_find_alloc_memory_type(adist);
-   103		if (IS_ERR(mtype))
-   104			return PTR_ERR(mtype);
-   105	
-   106		for (i = 0; i < dev_dax->nr_range; i++) {
-   107			struct range range;
-   108	
-   109			orig_len += range_len(&dev_dax->ranges[i].range);
-   110			rc = dax_kmem_range(dev_dax, i, &range);
-   111			if (rc) {
-   112				dev_info(dev, "mapping%d: %#llx-%#llx too small after alignment\n",
-   113						i, range.start, range.end);
-   114				continue;
-   115			}
-   116			total_len += range_len(&range);
-   117		}
-   118	
-   119		if (!total_len) {
-   120			dev_warn(dev, "rejecting DAX region without any memory after alignment\n");
-   121			return -EINVAL;
-   122		} else if (total_len != orig_len) {
-   123			char buf[16];
-   124	
-   125			string_get_size(orig_len - total_len, 1, STRING_UNITS_2,
-   126					buf, sizeof(buf));
-   127			dev_warn(dev, "DAX region truncated by %s due to alignment\n", buf);
-   128		}
-   129	
-   130		init_node_memory_type(numa_node, mtype);
-   131	
-   132		rc = -ENOMEM;
-   133		data = kzalloc(struct_size(data, res, dev_dax->nr_range), GFP_KERNEL);
-   134		if (!data)
-   135			goto err_dax_kmem_data;
-   136	
-   137		data->res_name = kstrdup(dev_name(dev), GFP_KERNEL);
-   138		if (!data->res_name)
-   139			goto err_res_name;
-   140	
-   141		rc = memory_group_register_static(numa_node, PFN_UP(total_len));
-   142		if (rc < 0)
-   143			goto err_reg_mgid;
-   144		data->mgid = rc;
-   145	
-   146		for (i = 0; i < dev_dax->nr_range; i++) {
-   147			struct resource *res;
-   148			struct range range;
-   149	
-   150			rc = dax_kmem_range(dev_dax, i, &range);
-   151			if (rc)
-   152				continue;
-   153	
-   154			/* Region is permanently reserved if hotremove fails. */
-   155			res = request_mem_region(range.start, range_len(&range), data->res_name);
-   156			if (!res) {
-   157				dev_warn(dev, "mapping%d: %#llx-%#llx could not reserve region\n",
-   158						i, range.start, range.end);
-   159				/*
-   160				 * Once some memory has been onlined we can't
-   161				 * assume that it can be un-onlined safely.
-   162				 */
-   163				if (mapped)
-   164					continue;
-   165				rc = -EBUSY;
-   166				goto err_request_mem;
-   167			}
-   168			data->res[i] = res;
-   169	
-   170			/*
-   171			 * Set flags appropriate for System RAM.  Leave ..._BUSY clear
-   172			 * so that add_memory() can add a child resource.  Do not
-   173			 * inherit flags from the parent since it may set new flags
-   174			 * unknown to us that will break add_memory() below.
-   175			 */
-   176			res->flags = IORESOURCE_SYSTEM_RAM;
-   177	
-   178			mhp_flags = MHP_NID_IS_MGID;
-   179			if (dev_dax->memmap_on_memory)
-   180				mhp_flags |= MHP_MEMMAP_ON_MEMORY;
-   181	
-   182			/*
-   183			 * Ensure that future kexec'd kernels will not treat
-   184			 * this as RAM automatically.
-   185			 */
-   186			rc = add_memory_driver_managed(data->mgid, range.start,
-   187					range_len(&range), kmem_name, mhp_flags);
-   188	
-   189			if (rc) {
-   190				dev_warn(dev, "mapping%d: %#llx-%#llx memory add failed\n",
-   191						i, range.start, range.end);
-   192				remove_resource(res);
-   193				kfree(res);
-   194				data->res[i] = NULL;
-   195				if (mapped)
-   196					continue;
-   197				goto err_request_mem;
-   198			}
-   199			mapped++;
-   200		}
-   201	
-   202		dev_set_drvdata(dev, data);
-   203	
-   204		return 0;
-   205	
-   206	err_request_mem:
-   207		memory_group_unregister(data->mgid);
-   208	err_reg_mgid:
-   209		kfree(data->res_name);
-   210	err_res_name:
-   211		kfree(data);
-   212	err_dax_kmem_data:
-   213		clear_node_memory_type(numa_node, mtype);
-   214		return rc;
-   215	}
-   216	
+a4416cd1ac7b48 drivers/tty/serial/8250/8250_core.c Peter Hurley              2015-02-24  315  
+^1da177e4c3f41 drivers/serial/8250.c               Linus Torvalds            2005-04-16 @316  static struct uart_8250_port serial8250_ports[UART_NR];
+^1da177e4c3f41 drivers/serial/8250.c               Linus Torvalds            2005-04-16  317  
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  318  /**
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  319   * serial8250_get_port - retrieve struct uart_8250_port
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  320   * @line: serial line number
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  321   *
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  322   * This function retrieves struct uart_8250_port for the specific line.
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  323   * This struct *must* *not* be used to perform a 8250 or serial core operation
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  324   * which is not accessible otherwise. Its only purpose is to make the struct
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  325   * accessible to the runtime-pm callbacks for context suspend/restore.
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  326   * The lock assumption made here is none because runtime-pm suspend/resume
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  327   * callbacks should not be invoked if there is any operation performed on the
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  328   * port.
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  329   */
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05 @330  struct uart_8250_port *serial8250_get_port(int line)
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  331  {
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  332  	return &serial8250_ports[line];
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05 @333  }
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  334  EXPORT_SYMBOL_GPL(serial8250_get_port);
+ae14a7954f5124 drivers/tty/serial/8250/8250_core.c Sebastian Andrzej Siewior 2014-09-05  335  
+
+:::::: The code at line 330 was first introduced by commit
+:::::: ae14a7954f5124208e6e93cafb3099f83acd43f5 tty: serial: 8250_core: provide a function to export uart_8250_port
+
+:::::: TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
