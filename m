@@ -1,91 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8052D249A;
-	Thu,  8 Jan 2026 05:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10074270EDF
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 05:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767848533; cv=none; b=CoIARXlahBw4Q0T/ncyED2zzEpr9banX6WMaN91vda/NQWCwudkNAMbM4fKDcqWU5pm8HVYn5AR9SR2Iy3H87BExoaZLXMWzBlxlbA5oOOgNFATASWhQnPbKfQMS7i5fezaNxHHz6LZy1gElHGH84r8+mwxfS5YeSauUbJI7G+A=
+	t=1767848829; cv=none; b=oaDHIcXfLtfwWzAEcmTNi5vpt2KweFulBnrb8qhHsSQijqtvKFoagj21Kr/m/scWIirnZ7+4zQvc8AhfhGtabgaFVuNNHx5PEy43XaRctZ286jqDZa07jIRkf9+Dvzyp484k1KnJSBZb9nnSlyb5+vPaBM+Fkg7BTbAd33+5rVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767848533; c=relaxed/simple;
-	bh=i4vxDHGS1uCPrVEmpsixJJW62XNo1Hexm5sGNP4HlFQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XCI9tBJfNF8qjpciEUl81pDg8UiJZwbOeLTmd8tAwnNQomXrKsnGE9yT7cp6xNbUKSOb5GfEK7obWOA5roXbC6x7teQ1Ou/H7KLeMBa4x9BhnMn5EVCRs5ZyTJpojBix3LwJ5sixbXAWm124i2RaVrLfmo9NVwvVrCI46debCuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MuHyXbUY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767848829; c=relaxed/simple;
+	bh=jLuYaHG/SFSaG/8MUScEx1zQ9mDZmwF0Rg/5RnDiGbM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=F5jO/IwoMeO2TU+QZoGq69dIcJJ3OHeX7WbEd36v2GZzd+24KDZFLRnQYpZ+JhJLTKVdIWOHjySituYchOxTpaMcdT/kPijRck2CyL1eX/zfid67VfHDaX90kDy69RAckcylQiTho5ZIASV3ebG+CQg156pit1i3QnjOiabj5w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hKt6n2UF; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MuHyXbUY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 488F7C116C6;
-	Thu,  8 Jan 2026 05:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767848532;
-	bh=i4vxDHGS1uCPrVEmpsixJJW62XNo1Hexm5sGNP4HlFQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MuHyXbUY5gsIUFy+nPKOl8ADyxIguPI/IQJK4MooIQvzrXrOv1dSjqvd6sL2FTTQR
-	 dsTx6NRFmFE2kFF02ftOKz9Tbk12OTfkey2pgxVBKE4M8YiqnfDabVxUdcmeeuT+by
-	 ldIlmHeJPMfY593xmKo4ys6xlPvD1ABrhoexmOGv8qm9Qc9qXBmQkw8oy5n7Re814Z
-	 HetvJrum9TH1HffpcDkGris04F2JqKm02pm3EhhOrv8N+L/wx39iNNM9JHIkvENVQO
-	 rFFouuRy85Cu7GLmYcLuGTEa7eBpXQZ8nlsuoLG6bQvEuHr7glgbhOm06G0AjnziCq
-	 r58hBkxQjP9/g==
-From: SeongJae Park <sj@kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: kernel test robot <lkp@intel.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Meta kernel team <kernel-team@meta.com>,
-	cgroups@vger.kernel.org,
-	damon@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 8/8] memcg: rename mem_cgroup_ino() to mem_cgroup_id()
-Date: Wed,  7 Jan 2026 21:02:02 -0800
-Message-ID: <20260108050204.78666-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251227221206.282703-1-sj@kernel.org>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hKt6n2UF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767848827; x=1799384827;
+  h=date:from:to:cc:subject:message-id;
+  bh=jLuYaHG/SFSaG/8MUScEx1zQ9mDZmwF0Rg/5RnDiGbM=;
+  b=hKt6n2UFqEgS+pRbgJxOw0Ay4rBy1HJB2g1LkLZZEDTxxh1B5upRWwLQ
+   akPmQcELUDzF2Q+rFXJwKYS9t4yLbtcbHlJ14k9KXGWCalwvgp78kirGh
+   vnyR2DXz4SMr8vITYf/p9QyZhk+7mHNxdhUJqPRVgD02bL09/GVG8Qk/d
+   9vs36wJ7qGmsfXwWZQ2jB4fZdNSZE3SBDwAIYzEovS8Qy17p7nKwyV3Xg
+   8Gnr3+1NJFcl8hG3eNGURQr4GVOc9Q3QSAN6gp8lVdtFU/B6sDPU3EYH3
+   LFDL2tRbrbVkxohE4mBfo4ZCOpsb3DEPI9F/C7izHHgjXNFDOzICeFwTg
+   Q==;
+X-CSE-ConnectionGUID: uGkRXzfyTvyB1emhjBJEIg==
+X-CSE-MsgGUID: 39JNuEFmRqezfjYJXtuR5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11664"; a="80586349"
+X-IronPort-AV: E=Sophos;i="6.21,209,1763452800"; 
+   d="scan'208";a="80586349"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2026 21:07:06 -0800
+X-CSE-ConnectionGUID: M8W48Nx4STCJVqNNZkwH5g==
+X-CSE-MsgGUID: g8JgXqM3TkSv/K502jOEYA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,209,1763452800"; 
+   d="scan'208";a="203126396"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 07 Jan 2026 21:07:05 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vdiEg-000000001gu-2ZSG;
+	Thu, 08 Jan 2026 05:07:02 +0000
+Date: Thu, 08 Jan 2026 06:06:50 +0100
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-2025-07 1/1] kismet: WARNING:
+ unmet direct dependencies detected for FB_IOMEM_HELPERS when selected by
+ DRM_XE_DISPLAY
+Message-ID: <202601080622.TE9Ljysx-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Sat, 27 Dec 2025 14:12:05 -0800 SeongJae Park <sj@kernel.org> wrote:
+tree:   https://android.googlesource.com/kernel/common android16-6.12-2025-07
+head:   dea313686ec2d0755aaa69b826d7e63fc2acad98
+commit: dea313686ec2d0755aaa69b826d7e63fc2acad98 [1/1] UPSTREAM: af_unix: Initialise scc_index in unix_add_edge().
+config: i386-kismet-CONFIG_FB_IOMEM_HELPERS-CONFIG_DRM_XE_DISPLAY-0-0 (https://download.01.org/0day-ci/archive/20260108/202601080622.TE9Ljysx-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260108/202601080622.TE9Ljysx-lkp@intel.com/reproduce)
 
-> On Fri, 26 Dec 2025 20:31:38 +0800 kernel test robot <lkp@intel.com> wrote:
-> 
-> > Hi Shakeel,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > [auto build test WARNING on sj/damon/next]
-> > [cannot apply to akpm-mm/mm-everything tj-cgroup/for-next linus/master v6.19-rc2 next-20251219]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Shakeel-Butt/memcg-introduce-private-id-API-for-in-kernel-users/20251226-072954
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> 
-> damon/next tree contains some debugging-purpose only changes that not aim to be
-> upstreamed.
-[...]
-> And this issue happens due to a damon/next chage that made for only debugging
-> and thus not aiming to be upstreamed.  Hence, no action from Shakeel is needed.
-> 
-> I will resolve this issue after this patch is added to damon/next.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601080622.TE9Ljysx-lkp@intel.com/
 
-FWIW, I ended up removing the debugging-only-purpose commit from damon/next.
-So hopefully it will not cause any noise.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS when selected by DRM_XE_DISPLAY
+   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
+     Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
+     Selected by [m]:
+     - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_XE [=m] && DRM_XE [=m]=m [=m]
 
-
-Thanks,
-SJ
-
-[...]
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
