@@ -1,150 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4052F2741B5
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 18:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999A529AB1A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 18:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767983857; cv=none; b=ALxqf3uPmB03XdClWq/1pL/o0mKQYti7JaHvRj/622zBZvGmv3fA2ppenEYKqZ7Q7t4TBb3mRj38fp3S1zEoSpiMpdqKmV6gOTtzaFY3uI53maIp6UxHXiKWVogapNpDqGf6bFNOLKZZ4A8iyQ6H9UO1DdNCOeDpEv0QREiZOvk=
+	t=1767983979; cv=none; b=M1XaGN8TtnnPHt2nWMIKHpdjy7SWb7ugFF6yjhjEvTlBz6GoGGBkTOxmCEZYomsZZKZJsNOEzJ20lDI6WDkEXG/0cei2yehgCR8F+ZwkdIX/esxc0qg167Ra8D2ydt0ub5+vHotKTNf3JZQoSu0cs2cV6QNpmEoG3ro6j7C8jU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767983857; c=relaxed/simple;
-	bh=9KjQEDxUOxCCJQuijyCpUSUCuD9EKLUMUoDlB7TwslY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eqKgRWszrGNxFQpzqr1lJEH70HWzKvJjKQcwmspx+S/RSz+tT1HAPAedPkYQq+5OjJnWefW/1oCyXEERw+7fSW/znkU3Ss8bXD9ENiKb79BFl1pWa26Qaq3c/Im2GmZXpcuiTww8estrnYw+zjBkIvT+h8RFZdKg8G3Byrdg/DY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1AVHKKF; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767983979; c=relaxed/simple;
+	bh=iii0d123ExKIJrlcwvMsxl1ja4HVBrDf1cJ4y3FJyAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZjWmI8T8i+z7UcCDoIrykItmq3gxHSu0oFpNpE3kDBIzsxfzk9IZRP7wi5Gkzq5HIktogB2acdZD5IhCszeG1YG+tqs3caGl6hazwkyts1SwstgoVB/Rn7AFdR2+EJ/H2+ckIcG0U+stFtQnRxBUmFxMhb1wQmN0M2UvXCZfMWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=atHUGk6N; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1AVHKKF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767983856; x=1799519856;
-  h=date:from:to:cc:subject:message-id;
-  bh=9KjQEDxUOxCCJQuijyCpUSUCuD9EKLUMUoDlB7TwslY=;
-  b=P1AVHKKFZG3ZAdzbr30mc4zEnhVEmxHRZDdQebE5hhPAemHWV5w8Ilc6
-   ydWAhnrsYukjR0ov8q9EbW6/SvsfmB/ocsE38XMNBZ+Xz75FUrH8sQIhO
-   dS83KeYkAWITVPwGj/Y7wXcNi2xTpmdink2e+upvAg7uM85YU+h0PWA7q
-   LSBuqptPoRF8oUeaRbtedk3QltC5gkkbWtHuDcZ1a+vmSzDYJUv0Atos7
-   UlnxfTQisquETfB1zKvXAiMl8abejWXqWO8zPHC2RaijW3AwjNSLZ4p/v
-   HQ6E/LCMhR8/8dbx0Xb8/KjoiwbzUy7ToenXiEyknCvBKptbb/caFyFjy
-   g==;
-X-CSE-ConnectionGUID: Ew4O6/InT3qLgBWbHTeQJg==
-X-CSE-MsgGUID: pI2i+ZByTV2KNjA15MeTbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="69269280"
-X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="69269280"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 10:37:36 -0800
-X-CSE-ConnectionGUID: F4l7l7S1QwyMqN5XNiNr7A==
-X-CSE-MsgGUID: pCzUMMlWSeCDE5VT2+wDTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
-   d="scan'208";a="208065826"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Jan 2026 10:37:34 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1veHMa-000000007cW-1Nis;
-	Fri, 09 Jan 2026 18:37:32 +0000
-Date: Sat, 10 Jan 2026 02:36:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:scratch/gourry/isolation/v7 4/8]
- mm/hugetlb.c:4202:18: warning: implicit conversion from 'unsigned long long'
- to 'unsigned long' changes value from 17179869184 to 0
-Message-ID: <202601100240.odZAUwQW-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="atHUGk6N"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-11f42e97229so5325808c88.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 09 Jan 2026 10:39:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1767983975; x=1768588775; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QGkAMkqR+V4OBARM5yVeFTyT/fTTXcnLUWDxaN4DzMQ=;
+        b=atHUGk6N/tb1F+q1CmHhTFaqm/naoKia4M/yxBBAcZMH3s+vJLqEwRl+L1H3yBzSLQ
+         2Pe12sj045bh+yKefuVzFYtl54YU7u7GkkekDK+d8L8cVt3S3+E1laV07hU2ymXSDDyl
+         CyFmmO+Uq/01Rq7uXbxbNYYtd/L3hHKBhI73w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767983975; x=1768588775;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QGkAMkqR+V4OBARM5yVeFTyT/fTTXcnLUWDxaN4DzMQ=;
+        b=w0Qz4BdX9DWVcAtw4tt/j8M0ffM6BO7pgpRh4NyZMHn7uR5eAJUCr8kvEMG0XWnlOk
+         wMylJIY3vqoxS4Xx7ZRnUvvNKJbkw/aZLBTs/AjGAZojT1cKRBGD+iJ8IpVBW+BhXdap
+         eqjyz0fZ74WXwdqYTYYRQCmBk1F+Go2gW/Ip/58EYz2xyWs8290lcXZBzZvk0Vu6BKqf
+         rnH5mEyglmpeSLkjaL0IJl8tGPf/i5EX+EXKSy7ry8EuHhBPw4zP8j8qJHPzbKBPIHuM
+         SHTLD/Nbo30viTSrHfX+Ac79Gr4hcMDpKDcEb8wcjgIN9cXscnR/WIKyZiQZucnrRq/E
+         hgrw==
+X-Forwarded-Encrypted: i=1; AJvYcCV5oQ9YFaSVexqx2vLx9hzhHjpJyUINpvT72qY8f1ZAVq31e+5mb5yrxjTokKLIo36AYQf6GsPAP74XzYTE@lists.linux.dev
+X-Gm-Message-State: AOJu0YzYFmDGV/p5t2aUR7uqkHH0c9CzUNsPVWVQ9CTwa2jePkHOLdwV
+	fWOO2hSXjDvNeYaTaVLRgNSFVHisg6Mc8f4gngyx84djABNPTmZLsEt2CK0yq1aFxw==
+X-Gm-Gg: AY/fxX6PMgH+QwSiNYejlvVKN332gSBrmm8s+1jK7rsutHVrOpsmCbairHbO1RITW6D
+	Tv1lRYIaRrawwq5C6zPW09yBZnaOOH+FwqzS4AUTjAyQZL7w178Z+bVkFNwL0SNL38k08fqoQzX
+	/oyjX6nUBMEBUB5pdtseQetBuc40oaCLG6FR3VBilrTzXWx/ETPWhgQnrBrgIcaA+NbXCuDbwGR
+	AVP4xp+PkFa4dm1fG8D8/fvTzaIcNxaYfeQl1T1TbIJCYNRq9E+arEqirEDiooeoQ8lAiWAA13s
+	aqbHcsEMsHYCQQOYgE5VU3x7sdgHxfB+2Iqo475YPBpmJykPmG8xSjPbne+mETHg+KsvsDqMPAp
+	R+tsI717Pw9X+bjsxb/R7EI6Sa1v4z0tXJ1+JcQewYQHTLSDk/8pCVBW7HiDzXaYlZfUQJnvF7R
+	kY5+k7pe00dmjyf7ZwR8+TERcifHqJJoUb144pu75qcR/dpQciCw==
+X-Google-Smtp-Source: AGHT+IHonbgs6ZEi4A+cvUsv/vZJaz7TJOTduFOwUmD0NihA9pCUnmtwr83vFvcpz3aX6hWOmbkJ4w==
+X-Received: by 2002:a05:7022:698a:b0:11b:9386:a3bf with SMTP id a92af1059eb24-121f8b64dc4mr10304781c88.42.1767983975254;
+        Fri, 09 Jan 2026 10:39:35 -0800 (PST)
+Received: from localhost ([2a00:79e0:2e7c:8:b4c7:3d26:a6c4:9c0e])
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-121f24984a3sm18424854c88.13.2026.01.09.10.39.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Jan 2026 10:39:34 -0800 (PST)
+Date: Fri, 9 Jan 2026 10:39:32 -0800
+From: Brian Norris <briannorris@chromium.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>
+Subject: Re: drivers/base/power/runtime-test.c:22 pm_runtime_depth_test()
+ warn: pm_runtime_get_sync() also returns 1 on success
+Message-ID: <aWFLZJxddp0b3bkS@google.com>
+References: <202601091832.YueBSiOb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202601091832.YueBSiOb-lkp@intel.com>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/isolation/v7
-head:   354a292e4159ea3350cbb9653e8a16b0e34d04df
-commit: 8e120b8da3a1fe6cd7d3321c333cba6b21d09601 [4/8] cpuset: introduce cpuset.mems.sysram
-config: powerpc-randconfig-r062-20260109 (https://download.01.org/0day-ci/archive/20260110/202601100240.odZAUwQW-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260110/202601100240.odZAUwQW-lkp@intel.com/reproduce)
+On Fri, Jan 09, 2026 at 02:02:09PM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   623fb9912f6af600cda3b6bd166ac738c1115ef4
+> commit: 7f7acd193ba8aaa8ed07cfadc335bb17a991fd42 PM: runtime: Add basic kunit tests for API contracts
+> config: x86_64-randconfig-161-20260109 (https://download.01.org/0day-ci/archive/20260109/202601091832.YueBSiOb-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> smatch version: v0.5.0-8985-g2614ff1a
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202601091832.YueBSiOb-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/base/power/runtime-test.c:22 pm_runtime_depth_test() warn: pm_runtime_get_sync() also returns 1 on success
+> drivers/base/power/runtime-test.c:78 pm_runtime_idle_test() warn: pm_runtime_get_sync() also returns 1 on success
+> drivers/base/power/runtime-test.c:182 pm_runtime_error_test() warn: pm_runtime_get_sync() also returns 1 on success
+> 
+> Old smatch warnings:
+> drivers/base/power/runtime-test.c:185 pm_runtime_error_test() warn: pm_runtime_get_sync() also returns 1 on success
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601100240.odZAUwQW-lkp@intel.com/
+FWIW, these are all false positives. These are unit tests which are
+purposely exercising the return codes of this notably-complex API under
+controlled conditions.
 
-All warnings (new ones prefixed by >>):
+Brian
 
-   In file included from mm/hugetlb.c:17:
-   include/linux/cpuset.h:312:20: error: redefinition of 'cpuset_sysram_nodes_allowed'
-     312 | static inline void cpuset_sysram_nodes_allowed(struct cgroup *cgroup,
-         |                    ^
-   include/linux/cpuset.h:223:20: note: previous definition is here
-     223 | static inline void cpuset_sysram_nodes_allowed(struct cgroup *cgroup,
-         |                    ^
-   include/linux/cpuset.h:318:19: error: redefinition of 'cpuset_sysram_nodemask'
-     318 | static nodemask_t cpuset_sysram_nodemask(struct task_struct *p)
-         |                   ^
-   include/linux/cpuset.h:229:26: note: previous definition is here
-     229 | static inline nodemask_t cpuset_sysram_nodemask(struct task_struct *p)
-         |                          ^
->> mm/hugetlb.c:4202:18: warning: implicit conversion from 'unsigned long long' to 'unsigned long' changes value from 17179869184 to 0 [-Wconstant-conversion]
-    4202 |         WARN_ON(order > MAX_FOLIO_ORDER);
-         |                         ^~~~~~~~~~~~~~~
-   include/linux/mm.h:2284:63: note: expanded from macro 'MAX_FOLIO_ORDER'
-    2284 | #define MAX_FOLIO_ORDER         get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G)
-         |                                 ~~~~~~~~~                            ^~~~~~
-   include/linux/sizes.h:56:19: note: expanded from macro 'SZ_16G'
-      56 | #define SZ_16G                          _AC(0x400000000, ULL)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
-      21 | #define _AC(X,Y)        __AC(X,Y)
-         |                         ^~~~~~~~~
-   include/uapi/linux/const.h:20:20: note: expanded from macro '__AC'
-      20 | #define __AC(X,Y)       (X##Y)
-         |                          ^~~~
-   <scratch space>:119:1: note: expanded from here
-     119 | 0x400000000ULL
-         | ^~~~~~~~~~~~~~
-   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON'
-     110 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   1 warning and 2 errors generated.
-
-
-vim +4202 mm/hugetlb.c
-
-9fee021d15ddd8 Vaishali Thakkar     2016-05-19  4191  
-d00181b96eb86c Kiryl Shutsemau      2015-11-06  4192  void __init hugetlb_add_hstate(unsigned int order)
-a3437870160cf2 Nishanth Aravamudan  2008-07-23  4193  {
-a3437870160cf2 Nishanth Aravamudan  2008-07-23  4194  	struct hstate *h;
-8faa8b077b2cdc Andi Kleen           2008-07-23  4195  	unsigned long i;
-8faa8b077b2cdc Andi Kleen           2008-07-23  4196  
-a3437870160cf2 Nishanth Aravamudan  2008-07-23  4197  	if (size_to_hstate(PAGE_SIZE << order)) {
-a3437870160cf2 Nishanth Aravamudan  2008-07-23  4198  		return;
-a3437870160cf2 Nishanth Aravamudan  2008-07-23  4199  	}
-47d38344abd0c7 Aneesh Kumar K.V     2012-07-31  4200  	BUG_ON(hugetlb_max_hstate >= HUGE_MAX_HSTATE);
-59838b2566f6d0 Frank van der Linden 2023-10-04  4201  	BUG_ON(order < order_base_2(__NR_USED_SUBPAGE));
-7b4f21f5e0386d David Hildenbrand    2025-09-01 @4202  	WARN_ON(order > MAX_FOLIO_ORDER);
-47d38344abd0c7 Aneesh Kumar K.V     2012-07-31  4203  	h = &hstates[hugetlb_max_hstate++];
-667574e873b5f7 Miaohe Lin           2024-07-12  4204  	__mutex_init(&h->resize_lock, "resize mutex", &h->resize_key);
-a3437870160cf2 Nishanth Aravamudan  2008-07-23  4205  	h->order = order;
-aca78307bfdaf3 Miaohe Lin           2021-02-24  4206  	h->mask = ~(huge_page_size(h) - 1);
-8faa8b077b2cdc Andi Kleen           2008-07-23  4207  	for (i = 0; i < MAX_NUMNODES; ++i)
-8faa8b077b2cdc Andi Kleen           2008-07-23  4208  		INIT_LIST_HEAD(&h->hugepage_freelists[i]);
-0edaecfab218d7 Aneesh Kumar K.V     2012-07-31  4209  	INIT_LIST_HEAD(&h->hugepage_activelist);
-a3437870160cf2 Nishanth Aravamudan  2008-07-23  4210  	snprintf(h->name, HSTATE_NAME_LEN, "hugepages-%lukB",
-c2c3a60a857bfe Miaohe Lin           2022-09-01  4211  					huge_page_size(h)/SZ_1K);
-8faa8b077b2cdc Andi Kleen           2008-07-23  4212  
-a3437870160cf2 Nishanth Aravamudan  2008-07-23  4213  	parsed_hstate = h;
-a3437870160cf2 Nishanth Aravamudan  2008-07-23  4214  }
-a3437870160cf2 Nishanth Aravamudan  2008-07-23  4215  
-
-:::::: The code at line 4202 was first introduced by commit
-:::::: 7b4f21f5e0386dfe02c68c009294d8f26e3c1bad mm/hugetlb: check for unreasonable folio sizes when registering hstate
-
-:::::: TO: David Hildenbrand <david@redhat.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> vim +22 drivers/base/power/runtime-test.c
+> 
+> 7f7acd193ba8aa Brian Norris 2025-09-25   13  static void pm_runtime_depth_test(struct kunit *test)
+> 7f7acd193ba8aa Brian Norris 2025-09-25   14  {
+> 7f7acd193ba8aa Brian Norris 2025-09-25   15  	struct device *dev = kunit_device_register(test, DEVICE_NAME);
+> 7f7acd193ba8aa Brian Norris 2025-09-25   16  
+> 7f7acd193ba8aa Brian Norris 2025-09-25   17  	KUNIT_ASSERT_PTR_NE(test, NULL, dev);
+> 7f7acd193ba8aa Brian Norris 2025-09-25   18  
+> 7f7acd193ba8aa Brian Norris 2025-09-25   19  	pm_runtime_enable(dev);
+> 7f7acd193ba8aa Brian Norris 2025-09-25   20  
+> 7f7acd193ba8aa Brian Norris 2025-09-25   21  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+> 7f7acd193ba8aa Brian Norris 2025-09-25  @22  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_get_sync(dev));
+> 
+> Use pm_runtime_resume_and_get()?
+> 
+> 7f7acd193ba8aa Brian Norris 2025-09-25   23  	KUNIT_EXPECT_TRUE(test, pm_runtime_active(dev));
+> 7f7acd193ba8aa Brian Norris 2025-09-25   24  	KUNIT_EXPECT_EQ(test, 1, pm_runtime_get_sync(dev)); /* "already active" */
+> 7f7acd193ba8aa Brian Norris 2025-09-25   25  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_put_sync(dev));
+> 7f7acd193ba8aa Brian Norris 2025-09-25   26  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_put_sync(dev));
+> 7f7acd193ba8aa Brian Norris 2025-09-25   27  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
+> 7f7acd193ba8aa Brian Norris 2025-09-25   28  }
+> 
