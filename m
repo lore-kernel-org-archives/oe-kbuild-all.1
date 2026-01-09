@@ -1,68 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B808C27A122
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 16:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C4F329E7B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 16:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767975746; cv=none; b=u/s549lQqPBJQC8JuOMeSWzuEqr6FarmRdELV+FDP/dREfnqpUiTDAtwGdHsYu3EuNk0nA2+SB98kjJbYZxhgUIs+IZ678qHTHToZsbNsF/XZigufM3hFPs1NKzSePvgqSBqREw9bIdWaKNUaIhhLesCT/L6J0P9RBR7mD0ExBI=
+	t=1767976828; cv=none; b=Y/4KQ9tvs6QItLLRALqCBd/5uKyjScxKN+ZdI/hkUhPuXxuFC6fDfUOQryjhTwtN1jVbsLojORowsznktUShVDhbcqEO3DRnsShn45DUeX/lrAnanXxUlCSbBdsKHkiEruBWlu0wK+P/5VxTBTpk3Hzv12n+AH6jThOC9Y3kuyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767975746; c=relaxed/simple;
-	bh=Ly5rsu9iAyn9lW0IFWV/1YmnCBk3D0LSGmuBOF+470I=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=bawCKuO0WBjSPE9PanY2uJJFUucA/TJyEWF+wBBZSxRr1b7+oQ12kBkBri5ghXIY+ekKUWHjnRTD5KeAeQr+U/95c386aEgAsD6uHjblKdxggHiF19EsknbbFFDZ4WnTc+MOJdlyLv6yA6i/qvR6H/zlEPvC1lnmIpy8WDhRlLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kp6zpKd+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767976828; c=relaxed/simple;
+	bh=TP07gOAs3B0am8i5Rt0ojHWjVvM7C8IRoD/4mTj1Hho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t1vuIH246dJndGlQrsdCJbJPdH18c0exYwsvRD+0/JUgfKTB/tuug/eRD73N3ukzbESuTpq/U7DTmoRQS5gVFMl8HkJa3R6klpHiadGZVz3I1tfoCHAvoO5lGsPnOWuJJZbc5MQb9E+DFT2oHn9mZyIKiU0Mn1K+H7GvetG9r5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hDjZD+OY; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kp6zpKd+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D373C4CEF1;
-	Fri,  9 Jan 2026 16:22:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767975746;
-	bh=Ly5rsu9iAyn9lW0IFWV/1YmnCBk3D0LSGmuBOF+470I=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=kp6zpKd+Le+FlxEkkb0lIwlDXyO3zbz+qGxAgdrwblE6+eSaebxkz3JFeNI8thkWx
-	 ZWkOmjHAruLbDEz53ggeUo2zqzG+N9XC8+EXtLjoc5ARcPFyOTPupkWQht/tNSNTXA
-	 FhclIOxgVyqpCRSew9fq3uTLPWvBAmIW23L08clUReZJK0DSefSJozBur+3P8vb7W9
-	 9oWjpItm2awRrZjMDC0LHtr6P+Mif3/SYCI8d1saq0bnzqrma4xfM+Cs5y5guD49xy
-	 H89h7bAHbkecmNJ2G4XSD32LNkJoM+qtqtcOcJJohTTH5KjA4oJXDBp69coq/wVmje
-	 VohysB/Z0MLVA==
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hDjZD+OY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767976827; x=1799512827;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TP07gOAs3B0am8i5Rt0ojHWjVvM7C8IRoD/4mTj1Hho=;
+  b=hDjZD+OYoMz2M7Yy+xwQK/qBFIkmD6tztP77/en58/duzChG6FNZtS5H
+   rxPQGyp2KmM5UA901NW+412ZoGvh10iYiq4/9YR8rgu5MG000CF0vlOKG
+   YtFIHOhLokNkwwGdBlUF63C1lX8IIeO8sORLjfVz1QgCOi/+91EZQQw2n
+   pVSaTwPrOYhjMlU0y6ihwLCTKQ9DRMg/XZtWlh0WXsEdJJbUYI6T0jTfH
+   gpDTWPzK5fe18So2rzgDyKRfCLXtpPdgb1AXs4pJ/qdOFF1gXIsSctE3J
+   FD0uUKvt3b/W+n7E9gUg3IEAUsyqLEjq4hiJD7kmvsNHAvQ2wHhR8XmDo
+   w==;
+X-CSE-ConnectionGUID: vSn3VOvHRSWNZolbITcLHA==
+X-CSE-MsgGUID: ePb6su9mTASNmtAv/qh+5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="80725881"
+X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
+   d="scan'208";a="80725881"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 08:40:26 -0800
+X-CSE-ConnectionGUID: U0scOjERQW+xdPsgBXfNzg==
+X-CSE-MsgGUID: zCn7kt+sRsqxEiGU1KK8Ww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,214,1763452800"; 
+   d="scan'208";a="207989526"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 09 Jan 2026 08:40:25 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1veFXC-0000000026e-1iZ9;
+	Fri, 09 Jan 2026 16:40:22 +0000
+Date: Fri, 9 Jan 2026 17:40:09 +0100
+From: kernel test robot <lkp@intel.com>
+To: dongwon.kim@intel.com, dri-devel@lists.freedesktop.org,
+	airlied@redhat.com, kraxel@redhat.com,
+	dmitry.osipenko@collabora.com
+Cc: oe-kbuild-all@lists.linux.dev, nirmoyd@nvidia.com,
+	vivek.kasireddy@intel.com
+Subject: Re: [PATCH v7 2/3] drm/virtio: Add support for saving and restoring
+ virtio_gpu_objects
+Message-ID: <202601091715.AaqfDsnD-lkp@intel.com>
+References: <20260107182745.229481-3-dongwon.kim@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 09 Jan 2026 17:22:23 +0100
-Message-Id: <DFK73G5XKCEW.3IE3GE9726PDQ@kernel.org>
-Subject: Re: [PATCH] drm/gpuvm: fix name in kernel doc of
- drm_gpuvm_bo_obtain_locked()
-Cc: <lkp@intel.com>, <bbrezillon@kernel.org>,
- <dri-devel@lists.freedesktop.org>, <oe-kbuild-all@lists.linux.dev>
-To: "Alice Ryhl" <aliceryhl@google.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <202601091113.0b0WuRML-lkp@intel.com>
- <20260109082019.3999814-1-aliceryhl@google.com>
-In-Reply-To: <20260109082019.3999814-1-aliceryhl@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107182745.229481-3-dongwon.kim@intel.com>
 
-On Fri Jan 9, 2026 at 9:20 AM CET, Alice Ryhl wrote:
-> When renaming this function, the name in the docs was not updated. This
-> causes a KernelDoc warning. Thus, fix it.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202601091113.0b0WuRML-lkp@i=
-ntel.com/
-> Fixes: 9bf4ca1e699c ("drm/gpuvm: drm_gpuvm_bo_obtain() requires lock and =
-staged mode")
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+Hi,
 
-Applied to drm-misc-next, thanks!
+kernel test robot noticed the following build errors:
 
-> ---
-> Does anyone know what the config option to enable these warnings in my
-> own build is?
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next daeinki-drm-exynos/exynos-drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-tip/drm-tip linus/master v6.19-rc4 next-20260109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I think any of the documentation targets should do the trick, I usually use=
- the
-htmldocs make target.
+url:    https://github.com/intel-lab-lkp/linux/commits/dongwon-kim-intel-com/drm-virtio-Freeze-and-restore-hooks-to-support-suspend-and-resume/20260108-024124
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260107182745.229481-3-dongwon.kim%40intel.com
+patch subject: [PATCH v7 2/3] drm/virtio: Add support for saving and restoring virtio_gpu_objects
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260109/202601091715.AaqfDsnD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601091715.AaqfDsnD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601091715.AaqfDsnD-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/virtio/virtgpu_prime.c: In function 'virtgpu_dma_buf_obj_resubmit':
+>> drivers/gpu/drm/virtio/virtgpu_prime.c:291:17: error: implicit declaration of function 'DRM_ERROR'; did you mean 'pud_ERROR'? [-Wimplicit-function-declaration]
+     291 |                 DRM_ERROR("no sgt bound to virtio_gpu_object\n");
+         |                 ^~~~~~~~~
+         |                 pud_ERROR
+
+
+vim +291 drivers/gpu/drm/virtio/virtgpu_prime.c
+
+   282	
+   283	int virtgpu_dma_buf_obj_resubmit(struct virtio_gpu_device *vgdev,
+   284					 struct virtio_gpu_object *bo)
+   285	{
+   286		struct virtio_gpu_mem_entry *ents;
+   287		struct scatterlist *sl;
+   288		int i;
+   289	
+   290		if (!bo->sgt) {
+ > 291			DRM_ERROR("no sgt bound to virtio_gpu_object\n");
+   292			return -ENOMEM;
+   293		}
+   294	
+   295		ents = kvmalloc_array(bo->sgt->nents,
+   296				      sizeof(struct virtio_gpu_mem_entry),
+   297				      GFP_KERNEL);
+   298		if (!ents) {
+   299			DRM_ERROR("failed to allocate ent list\n");
+   300			return -ENOMEM;
+   301		}
+   302	
+   303		for_each_sgtable_dma_sg(bo->sgt, sl, i) {
+   304			ents[i].addr = cpu_to_le64(sg_dma_address(sl));
+   305			ents[i].length = cpu_to_le32(sg_dma_len(sl));
+   306			ents[i].padding = 0;
+   307		}
+   308	
+   309		virtio_gpu_cmd_resource_create_blob(vgdev, bo, &bo->params,
+   310						    ents, bo->sgt->nents);
+   311	
+   312		return 0;
+   313	}
+   314	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
