@@ -1,66 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1373596FE
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 09:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68FAE334C1B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 09:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767951868; cv=none; b=pIc/h673k2VFBGwXzRgQGig676l5ewCLKaKTzsG8hvTlZ8K5th4Ydz1iGQaACX/ywVQMGkyrRiiJT91CEJMI+/f+YE9nLnjxPgS9iuMXU4n3pfQqJm6uNE5VxPNAR8B96R2IOH9WJiYJcKxIXX0STVeQbqEgO36otYGgo19JWxE=
+	t=1767952631; cv=none; b=bPEdbeub9CmoroiiCKh4t5eg8O02JSVcde49mBSupx7noNPUTdLNbRlrGuhbKDvodf+42W9irUsFpS1H32F8NVju4eT22QWq6PhT/LiBNzLk99M6QdgmVeZEwcUrdbMvf9Xc6G3QYWW710lZnapghbehwdmcLDNNNpAtedfAoxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767951868; c=relaxed/simple;
-	bh=IJxznVoX5ne1r388YU++/zYk6bsR+JbaDIGMXKa2qFE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f4as1UiiBk26NjQSh5RGMDUxxLzxabRGsuAzXX5WMFPaS4Tcqx2OoV2CPOqdyLshOM1I/89mKXf4q/JIP/PLT3/qqQmrL0dUFW6OFlj3rUTX08BlgTPh/wja4hKVKmwinHOmrb8YDVfqNs66z5pD50GevYAlC3SfB0/vzHSnD5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X2St/wIL; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767952631; c=relaxed/simple;
+	bh=dz7KB5U3gx3viAJcCdLa2VPDIKl8SwY4jJYjy8LTtOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PZQkSdcS9T8ydvagL2v5B7y2nVFAv/17cqJL/y+f0NCfpi8LnC1o7Rkc274NpIxd/mKj/LIYkynwv1tXUah5eO7iZK5lFj/gDvbGiht0cuxp5sPruseabitC5ZO0vE3+XvUi8p8cBNyrJaW7mjFRYmplWpH0SrKlJIA8gcP2G5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B3RRot+7; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X2St/wIL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767951866; x=1799487866;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IJxznVoX5ne1r388YU++/zYk6bsR+JbaDIGMXKa2qFE=;
-  b=X2St/wILQ0roaSFhS2yxrF+tY9eTkmzR+pbg3HQU8trz3oBVOWn3gh+A
-   qX9VXUCXZbwH9kWqHzn7XnbrYtjamqESQy1M4am2ILFYXgyQBWnCZB9b7
-   CxVhFVOAeQ6Ax2Z37rH6KJuX+3ndtdq6D5PgyH+YuEngTKX4odNAgPMTP
-   qmjrR9quNRG1q4AYHGL0N7v7zaIyt5pTVZGofRgZtkihru+PbTxUXX1j+
-   Jqmv76f9tJsh34Vn7KxMjbyC0xAdnmQ8aTku1MGdFJZlkbUWG2vwFc2hn
-   kwhEbqeiQ7h5QMzKtji6c/Ltyic6PU6jjX/ty2s1X8qqVEtyo7hLmTeWT
-   Q==;
-X-CSE-ConnectionGUID: +cfeuMIjTzumPgOtrETnvw==
-X-CSE-MsgGUID: /uvPKRigSb2hhhWWFE6Nqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="79629233"
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="79629233"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 01:44:25 -0800
-X-CSE-ConnectionGUID: cjXF3zoNSOaQ7AzVDVz3MA==
-X-CSE-MsgGUID: sf8wvSN6TxKjT8vIVNKvCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="207581254"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 09 Jan 2026 01:44:22 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1ve92Z-0000000022u-1yss;
-	Fri, 09 Jan 2026 09:44:19 +0000
-Date: Fri, 9 Jan 2026 10:44:00 +0100
-From: kernel test robot <lkp@intel.com>
-To: Benno Lossin <lossin@kernel.org>, Gary Guo <gary@garyguo.net>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 12/12] rust: pin-init: internal: init: add escape hatch
- for referencing initialized fields
-Message-ID: <202601091003.kjIJiuUn-lkp@intel.com>
-References: <20260108135127.3153925-13-lossin@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B3RRot+7"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47774d3536dso25668755e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 09 Jan 2026 01:57:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1767952627; x=1768557427; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4RqShnqGsHgQYTVYTqto7aLrJkECk/U5MKTx+2e9Xsk=;
+        b=B3RRot+7t3Tkcp0YGXGP9zQ/txw53SHgY3odBl22VFkUrjf7XcBHkaJXiemVEVhi01
+         75y5ERmGrKM+zAN0o4k/NT83zHq5TGh8bnpZsAbPhKTYEbvkPb/9HGNT904Zp6rb+C4T
+         ggn2+Lj107PbdRnQOE0GR2moHuYGOm+cjUzPnjpB+x1ydgi5notUwP6sC69UWRIy1hkP
+         QRVodrK6wx16rvKqmTbDaaZ2UqoueF9Uv9VOf9KFaPQjUVn4+Zo3a01/9Mo/SZ+g6UVv
+         DiBZ9ulpe5tfy5Xwh0UMblM3rboHtIv3ciSuRZ3KhkpTnSiPnrVP2LdEJ+XXEpPJjSgg
+         9Lww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767952627; x=1768557427;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4RqShnqGsHgQYTVYTqto7aLrJkECk/U5MKTx+2e9Xsk=;
+        b=JPVIwSYbhnfs4X2FqFejNb8I/0g4DkK/DI57kJN2o+6a/3Gj74WEop07WZSsqubGlA
+         41sOYZIT0f3hYo4IiwVv0+5frbBS6QndgFFKO+mEMkP5KIS8vBAyrs9sV+MYe6wzau16
+         g+GLFNwU9tM4zBK4R7Gj0O7A7ND8g8AjIWoTiDzgcPtfIHT5hGo8Gi3w+XXs+yU/XxFc
+         OdqxL75LVtbA6H2Z4MRKAiZSNTb/n4b/FTNtiesZ0bb/UNpxqJx+FmffOD3bbKDPwd3H
+         cGTkvVLFDIDZ9butxQvPMCoaaMEslmJbXmGHngo2xkrl7yv9S+bUZPIOGa7nf7TPpzsK
+         7eSg==
+X-Forwarded-Encrypted: i=1; AJvYcCXvbJmAePojG4QZUjMvjsUsx1xqfYHcnv3tC8poC9qtjtBc8Y50jiG03Mj2Nn0dczX93Vgsf+tkn9KYnFAA@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPRy6y+vnSWrsUS6RPjzFWnMcHlFATWL4ZCpKsYCuIUbZpMxFs
+	L/jd/fHtDhF3JCZFrLys0JD3mm5QDcOygaIkPNPslP4NHAxLcH0632FEs3y6S0YRGDk=
+X-Gm-Gg: AY/fxX465ZyCGrjPSMr0tUbwtI+2H38e9fRa55BZq6rcEgtFcVzTZxQ1etixfLyetOo
+	H4kZ6e9W4A8JB9AW9GN5VnrujanLXzfnkPT+Xn8XC7ZsOQpEb/r0Jzpx5wej9uwOv2bQvm9JprZ
+	GSiehqw+PTVkotRNRXKJV3KoSPlpzRLjJ9InFNjgeZGRtabyicxgevP12gjqKTy/fWlHS/RDu4i
+	NGOGwj7EAmGqZsRUBjcKhuuCLTM5tBvE2abBB3jrDgwqaYcbZeIsjOx1ExENMRE1C1FGeEcf3/S
+	0aTapOrV4u757PJKWGZJCpTej0PofHWxO1P1W5L3TNJyDwTcaLde3QykfMj+mss+plQ+PtiHqEY
+	g9Y5wA36HfmHAdR6+yFUBUbCLgnheItEstpf99YOSTigQYxhc8mQWF5hyT0fSj3Sz+J3xbhvtjA
+	W3VD4n9WYX8fKzSSlVJ62PkmFylXY=
+X-Google-Smtp-Source: AGHT+IHzh/pNeqZUBGaG4KiRPl2v7SR9G8ylIFzlUQ3MiO5GcK+In2/wGNHZw3ijn2CU17RqJrvdWQ==
+X-Received: by 2002:a05:600c:6308:b0:479:1348:c63e with SMTP id 5b1f17b1804b1-47d8486d60dmr81639985e9.9.1767952626449;
+        Fri, 09 Jan 2026 01:57:06 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f410c6csm211143335e9.1.2026.01.09.01.57.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jan 2026 01:57:06 -0800 (PST)
+Date: Fri, 9 Jan 2026 12:57:03 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Al Viro <viro@zeniv.linux.org.uk>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: [viro-vfs:work.filename 15/59] fs/namei.c:160 getname_long() warn:
+ the 'EMBEDDED_NAME_MAX' macro might need parens
+Message-ID: <202601091728.qaU51LaE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,55 +74,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260108135127.3153925-13-lossin@kernel.org>
 
-Hi Benno,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rust/rust-next]
-[also build test WARNING on linus/master v6.19-rc4 next-20260109]
-[cannot apply to rust/pin-init-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benno-Lossin/rust-pin-init-allow-the-crate-to-refer-to-itself-as-pin-init-in-doc-tests/20260108-234753
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260108135127.3153925-13-lossin%40kernel.org
-patch subject: [PATCH 12/12] rust: pin-init: internal: init: add escape hatch for referencing initialized fields
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260109/202601091003.kjIJiuUn-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601091003.kjIJiuUn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git work.filename
+head:   30ba070760d3eb039c6eb91ad17d8c1e13335a7b
+commit: 2a0db5f7653b3576c430f8821654f365aaa7f178 [15/59] struct filename: saner handling of long names
+config: powerpc64-randconfig-r071-20260109 (https://download.01.org/0day-ci/archive/20260109/202601091728.qaU51LaE-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 10.5.0
+smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601091003.kjIJiuUn-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202601091728.qaU51LaE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+fs/namei.c:160 getname_long() warn: the 'EMBEDDED_NAME_MAX' macro might need parens
 
->> warning: large size difference between variants
-   --> rust/pin-init/internal/src/init.rs:59:1
-   |
-   59 | / enum InitializerAttribute {
-   60 | |     DefaultError(DefaultErrorAttribute),
-   | |     ----------------------------------- the largest variant contains at least 224 bytes
-   61 | |     DisableInitializedFieldAccess,
-   | |     ----------------------------- the second-largest variant carries no data at all
-   62 | | }
-   | |_^ the entire enum is at least 224 bytes
-   |
-   = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#large_enum_variant
-   = note: `-W clippy::large-enum-variant` implied by `-W clippy::all`
-   = help: to override `-W clippy::all` add `#[allow(clippy::large_enum_variant)]`
-   help: consider boxing the large fields to reduce the total size of the enum
-   |
-   60 -     DefaultError(DefaultErrorAttribute),
-   60 +     DefaultError(Box<DefaultErrorAttribute>),
-   |
+vim +/EMBEDDED_NAME_MAX +160 fs/namei.c
+
+2a0db5f7653b35 Al Viro       2025-11-19  152  static int getname_long(struct filename *name, const char __user *filename)
+b8000a3628d80e Al Viro       2025-11-19  153  {
+b8000a3628d80e Al Viro       2025-11-19  154  	int len;
+2a0db5f7653b35 Al Viro       2025-11-19  155  	char *p __free(kfree) = kmalloc(PATH_MAX, GFP_KERNEL);
+b8000a3628d80e Al Viro       2025-11-19  156  	if (unlikely(!p))
+2a0db5f7653b35 Al Viro       2025-11-19  157  		return -ENOMEM;
+b8000a3628d80e Al Viro       2025-11-19  158  
+2a0db5f7653b35 Al Viro       2025-11-19  159  	memcpy(p, &name->iname, EMBEDDED_NAME_MAX);
+2a0db5f7653b35 Al Viro       2025-11-19 @160  	len = strncpy_from_user(p + EMBEDDED_NAME_MAX,
+
+It's harmless, but the "p + 192" happens before the
+"- sizeof(struct __filename_head)".
+
+b8000a3628d80e Al Viro       2025-11-19  161  				filename + EMBEDDED_NAME_MAX,
+b8000a3628d80e Al Viro       2025-11-19  162  				PATH_MAX - EMBEDDED_NAME_MAX);
+b8000a3628d80e Al Viro       2025-11-19  163  	if (unlikely(len < 0))
+2a0db5f7653b35 Al Viro       2025-11-19  164  		return len;
+b8000a3628d80e Al Viro       2025-11-19  165  	if (unlikely(len == PATH_MAX - EMBEDDED_NAME_MAX))
+2a0db5f7653b35 Al Viro       2025-11-19  166  		return -ENAMETOOLONG;
+2a0db5f7653b35 Al Viro       2025-11-19  167  	name->name = no_free_ptr(p);
+2a0db5f7653b35 Al Viro       2025-11-19  168  	return 0;
+b8000a3628d80e Al Viro       2025-11-19  169  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
