@@ -1,121 +1,181 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CD333BBAC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 11:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903D631577B;
+	Fri,  9 Jan 2026 11:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767956536; cv=none; b=MgRTFhRvH0DiaPvNFHW6qrtbUeZ1JSQWa3kK9sNx152lbMdQ0vRvJvU4+JaS7G5Yns3CCo9QekPFC63O72CByHO7TNyuxckGx6l1vmOvH/3yCGyPmvAy6Ls/u2qAtfQTa3LbPZ3thCzrN39FZVdRuZVRadCEJ+HpvspEDFjuRGI=
+	t=1767956546; cv=none; b=PwYBuyOLtgAZSPLoeU3aJXS9Wsk+ZqoMpPVPbSEkh4AUyoJu0O3jR334IpKaEUmufMhEE4eJq7f+xY1VFlJb117fp/wPyiHp7ngWnysegWvm5qjHqBNORzKtEaUF6SLpXvnHH2ZqJUsOCQ0k0YeB8fAklQBC5Qn/tUmHYcIygUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767956536; c=relaxed/simple;
-	bh=unnzlzKdz7+4ys3fNzAnT3ActZDULosSet73g3yW8XU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JNABhxZ9u4JoSkT+x3Fdp3OeGnQdmck37W30DZNu/MTdvFEupeZPaMiCm181wH68UHeg2s165tBP66fwSsVm7XDbIflDwL+3eaaAL2lC1wBXMVeER01ouDuNfu43EA6fJmxFto+bphyamaQjwJrwKMyN9O5z7rrF6BrKClClxMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XE3LBmz8; arc=none smtp.client-ip=209.85.221.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1767956546; c=relaxed/simple;
+	bh=NLAzUFsYzqRocu0Mbc+PVUKaBpxEzEiinbIfImNWFtg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=oVKdOmO9TTxK4tfxcwFX2Z7l8tb8fLgYolbCv1SzgTCks9s6+EibEQivy63w+kZtJxJ31PVhRE1yufzIpbdQ5Xxb5f/S/BNGx4IXmjLy/kcwlToli0qsoPuzo4R1+6fAtsbGzdIKmOTYJ3EEtwhSUAPPicrHCjAWQxayMmP7bdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AHbEZsJp; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XE3LBmz8"
-Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-430f57cd471so2142895f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 09 Jan 2026 03:02:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767956533; x=1768561333; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=h7B8LHXmNZwI578mO2uE441BM//edoTtfT9Cj5GtXsI=;
-        b=XE3LBmz8pu+yx+w39oE1r+jVTm0tDxQ0papQGJFBA5x9B6UacCdLvfhF6RtsaTuLKi
-         eLzfcjEH7daNyyTc6ZK/cHA3BIJdGVDnwpNrtRUio+oxrUG1HaUSlzgck1q73vCZXdW6
-         GP3LR1fNo8/4P2CxdBcvmyuTSMGUd2hWTatzuE+obm6qlW+tMB3WqtyvnvQh6Rczybi9
-         +TWi3Zv4+LYd8WbJG75CCNDK8Ef/Fe5hP5XukPmIv2EfudndmeY3UAA4kFpLMoAsW3u8
-         Pd33hX0z0Rmf06SSVR8Y18KznN16NP+oDk4ITVG6ZPaemrAClFBVwqKH98Nv8eH/m6qK
-         I+iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767956533; x=1768561333;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=h7B8LHXmNZwI578mO2uE441BM//edoTtfT9Cj5GtXsI=;
-        b=lRr6q7gT3JDYScbs9zGSlZDaSk9rq63gDJjbbWgMSUZxz3N49l0oKAI/XpKdHB22HP
-         go/CNSE0XlPNw9K36ilGzqJ77H+5IYotcjGLvEUPsmW0FUcaczcfYT4ZkSfuWj1sTzDQ
-         ch30oG5P8RNMmNK/R2G+Ytgxumg9R+w9f1HiRlHSjB7Djk7EHI2SGRdnbgaa61xrvHp5
-         /KqUi57nBR/yjdSNOPV5JjApN5TBd7h/Jod1vemDKqITTICqYvB5MGFUGzBvwqjWJqkC
-         HwuT7K88s+BFIlUJBMaodeStSFaqkxZ6DZI5GZN48pBXB1sAqaTHPUS9nJ7hj0JebHdK
-         YV6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWzabARX82zWdQLT9mMGyGEuzUwgdvYqUiTClEfJG7N6iGfEMh3StoG6/V4NJdKQPVx9KpxJIIpHOmkQs/c@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+CzSycC+l8V4fIJFwIGHr1lLn0iuU7qQx6DuqNI+Ju7fQ4JbJ
-	jIYRn9Uh5df1YHc7u2yPkICl08YO/uAs5gHQzQrCWafdG4rMhWLLdhud6i/8cywIoFE=
-X-Gm-Gg: AY/fxX6QitFTYPecip/QHOpEeU7TW+8ngdl+JY92NSuCPpIRh1705XzDy88bBv4CJ9B
-	EECDmJ3UANJH0dJgsR9gkADre/0feZL/evX4G30l4pZWpoocnilG07clW2/ASSF9tYW4GE5JTUi
-	SxiON/AvuUD3nAeVlrBrU962tF6XpGxMVq2WYQ6+YLJSjLWJ07nR44IfW84gmkVUe090SPJoHYf
-	L6R62xm0pRaJLCSqUSrVtYk/azIAsm8MrPm7g5tHYPJwjbmwRHlZ/60jY4Nby72Iq0wQfQkkFmC
-	9OXTcAqm8hhu5VL74Fw60kOV2O2pjQD/EdbriiTm+OWNbftvrdZyCKtYrA0z5WSbS47vrL4829T
-	pToHADG3c2IgcOpMw23bS+iOB3e2lCct5R8bQquV1FYYchPEWEEEiY5cas6szWvItwToDOCpcfg
-	oqd52kiamUx7lnrOhr
-X-Google-Smtp-Source: AGHT+IHtZQD3lyZahBuogsv0efT5rIOdiTCSiSRMPBKBytEpayQpnudygIFup55X2R9m1Syyq0idWw==
-X-Received: by 2002:a05:6000:1862:b0:430:f58d:40da with SMTP id ffacd0b85a97d-432c3628038mr10599502f8f.10.1767956532938;
-        Fri, 09 Jan 2026 03:02:12 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5ede7esm21731924f8f.32.2026.01.09.03.02.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 03:02:12 -0800 (PST)
-Date: Fri, 9 Jan 2026 14:02:09 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Brian Norris <briannorris@chromium.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: drivers/base/power/runtime-test.c:22 pm_runtime_depth_test() warn:
- pm_runtime_get_sync() also returns 1 on success
-Message-ID: <202601091832.YueBSiOb-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AHbEZsJp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767956544; x=1799492544;
+  h=date:from:to:cc:subject:message-id;
+  bh=NLAzUFsYzqRocu0Mbc+PVUKaBpxEzEiinbIfImNWFtg=;
+  b=AHbEZsJpbZmCLbOV8xipgAB5fZsn8p6sHO3eVFVJI/IUHilnSk9um12s
+   8JXYxR67gPSgHiXj5oLAcNPJoNYaPLzBNueowaUKMi6IDFHDhwE3w3ObE
+   oi3pqZc3I87NVl5TdrhYCkCsiugqV3xc//uQK0bxJGf0JVDfGIzNISGxv
+   R7IUd1m8OPZkgljYHJLG4YHJNkQiokT3PSwsk8HsnzS36xDnS3/c/S1ge
+   zjHL2RfV22jrZl8dWPugRZmHP+8aH1St4sUHAjut5mqDFI3f3EiWJEaaa
+   gVDXWDFCvusGL7vQJQHQGTaXyPTlbGdNrO4FPPf1amDf5ZGwJwykpg8Ra
+   g==;
+X-CSE-ConnectionGUID: W7A8c95OQueFDl6o1i1nyg==
+X-CSE-MsgGUID: CbDQPCt5SXSPfTolAaaADQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="72973377"
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
+   d="scan'208";a="72973377"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 03:02:24 -0800
+X-CSE-ConnectionGUID: syqDyg7CTU2BspCIuMx7tw==
+X-CSE-MsgGUID: Q+v9eWzYTieEwV1tCzaDEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
+   d="scan'208";a="226820203"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 09 Jan 2026 03:02:22 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1veAG3-0000000023U-3oNR;
+	Fri, 09 Jan 2026 11:02:19 +0000
+Date: Fri, 09 Jan 2026 12:01:30 +0100
+From: kernel test robot <lkp@intel.com>
+To: Maxim Mikityanskiy <maxim@isovalent.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Daniel Borkmann <daniel@iogearbox.net>
+Subject: [cilium:max/vxlan-bigtcp 21/21]
+ net/ipv4/udp_offload.c:743:7: warning: variable 'ulen' is uninitialized when
+ used here
+Message-ID: <202601091257.BJEzIJ6l-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   623fb9912f6af600cda3b6bd166ac738c1115ef4
-commit: 7f7acd193ba8aaa8ed07cfadc335bb17a991fd42 PM: runtime: Add basic kunit tests for API contracts
-config: x86_64-randconfig-161-20260109 (https://download.01.org/0day-ci/archive/20260109/202601091832.YueBSiOb-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8985-g2614ff1a
+tree:   https://github.com/cilium/linux.git max/vxlan-bigtcp
+head:   de0493575c7f01a82c2b58b308fae122df5aa143
+commit: de0493575c7f01a82c2b58b308fae122df5aa143 [21/21] tmp: combine checks
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260109/202601091257.BJEzIJ6l-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601091257.BJEzIJ6l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601091832.YueBSiOb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601091257.BJEzIJ6l-lkp@intel.com/
 
-New smatch warnings:
-drivers/base/power/runtime-test.c:22 pm_runtime_depth_test() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/base/power/runtime-test.c:78 pm_runtime_idle_test() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/base/power/runtime-test.c:182 pm_runtime_error_test() warn: pm_runtime_get_sync() also returns 1 on success
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/base/power/runtime-test.c:185 pm_runtime_error_test() warn: pm_runtime_get_sync() also returns 1 on success
+>> net/ipv4/udp_offload.c:743:7: warning: variable 'ulen' is uninitialized when used here [-Wuninitialized]
+     743 |                 if (ulen > udp_get_len_short(uh2) || flush) {
+         |                     ^~~~
+   net/ipv4/udp_offload.c:705:19: note: initialize the variable 'ulen' to silence this warning
+     705 |         unsigned int ulen;
+         |                          ^
+         |                           = 0
+   1 warning generated.
 
-vim +22 drivers/base/power/runtime-test.c
 
-7f7acd193ba8aa Brian Norris 2025-09-25   13  static void pm_runtime_depth_test(struct kunit *test)
-7f7acd193ba8aa Brian Norris 2025-09-25   14  {
-7f7acd193ba8aa Brian Norris 2025-09-25   15  	struct device *dev = kunit_device_register(test, DEVICE_NAME);
-7f7acd193ba8aa Brian Norris 2025-09-25   16  
-7f7acd193ba8aa Brian Norris 2025-09-25   17  	KUNIT_ASSERT_PTR_NE(test, NULL, dev);
-7f7acd193ba8aa Brian Norris 2025-09-25   18  
-7f7acd193ba8aa Brian Norris 2025-09-25   19  	pm_runtime_enable(dev);
-7f7acd193ba8aa Brian Norris 2025-09-25   20  
-7f7acd193ba8aa Brian Norris 2025-09-25   21  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
-7f7acd193ba8aa Brian Norris 2025-09-25  @22  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_get_sync(dev));
+vim +/ulen +743 net/ipv4/udp_offload.c
 
-Use pm_runtime_resume_and_get()?
+da5bab079f9b7d9 Daniel Borkmann    2013-06-08  695  
+0b935d7f8c07bf0 Eric Dumazet       2021-11-15  696  
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  697  #define UDP_GRO_CNT_MAX 64
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  698  static struct sk_buff *udp_gro_receive_segment(struct list_head *head,
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  699  					       struct sk_buff *skb)
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  700  {
+4b1a86281cc1d0d Alexander Lobakin  2020-11-11  701  	struct udphdr *uh = udp_gro_udphdr(skb);
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  702  	struct sk_buff *pp = NULL;
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  703  	struct udphdr *uh2;
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  704  	struct sk_buff *p;
+4dd2b82d5adfbe0 Eric Dumazet       2019-05-01  705  	unsigned int ulen;
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  706  	int ret = 0;
+5babae777c61aa8 Richard Gobert     2024-04-30  707  	int flush;
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  708  
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  709  	/* requires non zero csum, for symmetry with GSO */
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  710  	if (!uh->check) {
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  711  		NAPI_GRO_CB(skb)->flush = 1;
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  712  		return NULL;
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  713  	}
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  714  
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  715  	/* pull encapsulating udp header */
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  716  	skb_gro_pull(skb, sizeof(struct udphdr));
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  717  
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  718  	list_for_each_entry(p, head, list) {
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  719  		if (!NAPI_GRO_CB(p)->same_flow)
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  720  			continue;
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  721  
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  722  		uh2 = udp_hdr(p);
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  723  
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  724  		/* Match ports only, as csum is always non zero */
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  725  		if ((*(u32 *)&uh->source != *(u32 *)&uh2->source)) {
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  726  			NAPI_GRO_CB(p)->same_flow = 0;
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  727  			continue;
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  728  		}
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  729  
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  730  		if (NAPI_GRO_CB(skb)->is_flist != NAPI_GRO_CB(p)->is_flist) {
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  731  			NAPI_GRO_CB(skb)->flush = 1;
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  732  			return p;
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  733  		}
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  734  
+4b0ebbca3e16797 Richard Gobert     2024-05-09  735  		flush = gro_receive_network_flush(uh, uh2, p);
+5babae777c61aa8 Richard Gobert     2024-04-30  736  
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  737  		/* Terminate the flow on len mismatch or if it grow "too much".
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  738  		 * Under small packet flood GRO count could elsewhere grow a lot
+4dd2b82d5adfbe0 Eric Dumazet       2019-05-01  739  		 * leading to excessive truesize values.
+21f1b8a6636c4db Paolo Abeni        2019-04-26  740  		 * On len mismatch merge the first packet shorter than gso_size,
+21f1b8a6636c4db Paolo Abeni        2019-04-26  741  		 * otherwise complete the GRO packet.
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  742  		 */
+57eb5d520e53206 Maxim Mikityanskiy 2025-10-21 @743  		if (ulen > udp_get_len_short(uh2) || flush) {
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  744  			pp = p;
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  745  		} else {
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  746  			if (NAPI_GRO_CB(skb)->is_flist) {
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  747  				if (!pskb_may_pull(skb, skb_gro_offset(skb))) {
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  748  					NAPI_GRO_CB(skb)->flush = 1;
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  749  					return NULL;
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  750  				}
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  751  				if ((skb->ip_summed != p->ip_summed) ||
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  752  				    (skb->csum_level != p->csum_level)) {
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  753  					NAPI_GRO_CB(skb)->flush = 1;
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  754  					return NULL;
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  755  				}
+9f735b6f8a77d7b Felix Fietkau      2025-07-05  756  				skb_set_network_header(skb, skb_gro_receive_network_offset(skb));
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  757  				ret = skb_gro_receive_list(p, skb);
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  758  			} else {
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  759  				skb_gro_postpull_rcsum(skb, uh,
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  760  						       sizeof(struct udphdr));
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  761  
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  762  				ret = skb_gro_receive(p, skb);
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  763  			}
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  764  		}
+9fd1ff5d2ac7181 Steffen Klassert   2020-01-25  765  
+57eb5d520e53206 Maxim Mikityanskiy 2025-10-21  766  		if (ret || ulen != udp_get_len_short(uh2) ||
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  767  		    NAPI_GRO_CB(p)->count >= UDP_GRO_CNT_MAX)
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  768  			pp = p;
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  769  
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  770  		return pp;
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  771  	}
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  772  
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  773  	/* mismatch, but we never need to flush */
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  774  	return NULL;
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  775  }
+e20cf8d3f1f763a Paolo Abeni        2018-11-07  776  
 
-7f7acd193ba8aa Brian Norris 2025-09-25   23  	KUNIT_EXPECT_TRUE(test, pm_runtime_active(dev));
-7f7acd193ba8aa Brian Norris 2025-09-25   24  	KUNIT_EXPECT_EQ(test, 1, pm_runtime_get_sync(dev)); /* "already active" */
-7f7acd193ba8aa Brian Norris 2025-09-25   25  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_put_sync(dev));
-7f7acd193ba8aa Brian Norris 2025-09-25   26  	KUNIT_EXPECT_EQ(test, 0, pm_runtime_put_sync(dev));
-7f7acd193ba8aa Brian Norris 2025-09-25   27  	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(dev));
-7f7acd193ba8aa Brian Norris 2025-09-25   28  }
+:::::: The code at line 743 was first introduced by commit
+:::::: 57eb5d520e532063143bb2c4b08f6e3ec36d5bee net: Use helpers to get/set UDP len tree-wide
 
+:::::: TO: Maxim Mikityanskiy <maxim@isovalent.com>
+:::::: CC: Maxim Mikityanskiy <maxim@isovalent.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
