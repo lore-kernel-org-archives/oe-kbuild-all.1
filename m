@@ -1,151 +1,273 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D04333372B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jan 2026 23:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FAB314F112;
+	Fri,  9 Jan 2026 00:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767914371; cv=none; b=sfXiZu+fA4db8Iwknt13ntZPQ7lFYZXMJXVfBHkAcMiRfjivNdkS/TASOvVaHexBgCuU3K42rOq/SgoTZNxrCRoJ8fkE8ne+AbAl0Zbve2uWLTQoe1jFRgtY2kutfh4TD5T62J2oY8okK0BAlivj6Bpb1py6ecB2r25j8cIIUo4=
+	t=1767919402; cv=none; b=tj8zUkBlqjjY6VD20U0jGCR11ZurnjiYwNGgkYIjcl4OgJl0UkeAoG58XJmQxCWTUjNlM5v91bNSXE0xWtr6Jv89wEIrn0oJN5x+AvMZMzbO6nzOx40sX9nRF3RjJ2BKaTKzTB9o/LzMJ/JXNtGKSJKiqpLpCTsWxmig82GLOUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767914371; c=relaxed/simple;
-	bh=OTnlbV99kvE0FIdJ3Aw50iQurmfknuBbH3J471/m0Hc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bCJZpIu8mNt9ngovoJksjEqzJiz2BH0KVc2zIMkoRaFwjp4REbU7DbsEhq0UTukMw+PqIBDXF5pzkiBxtckzzeAeSeF00IB/aFj7mgSNamGYevpgTptLJk0qIeSJ3JWEpTCbeLd8h80j8J01jzqm8t+YuDtUZj9ygb68ncIPDFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQK7y+IB; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1767919402; c=relaxed/simple;
+	bh=zVzERIgtq6HANfaqGjDaXa14817otLnOv1j2W1S2R40=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KuXKfkR6Pz7l/P8K+adulFs85GEntHfycf3MDfCBi+9XJT4/0WTo0aWc2RhzsfXWPytvp3D6LrmiOuDrYLav61Z6c54217PWvsVS7iVN++MllglfjTgd6EI1r5ZpXqOHQt2h+rRcTavIGe1yRZVYjrxgiqnTLAra8UgzPQsZbEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RIg6dMTb; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQK7y+IB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RIg6dMTb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767914370; x=1799450370;
-  h=date:from:to:cc:subject:message-id;
-  bh=OTnlbV99kvE0FIdJ3Aw50iQurmfknuBbH3J471/m0Hc=;
-  b=JQK7y+IBd3JNs4xDt0RaunwJCQreW+P6O5Q/cHrexxnSAIVyNNfFuG3Q
-   wwgXdpTQTuwz4wBhxugALtnOne24oQQ6+wOOeESU2Qx/x50SMxsdFiKgy
-   mgyH1ua755Yi/dnAbKX40o4YgRPf5kU7SiXdEwqMdhJ/juOEH8MSskWAe
-   bXOZRbmKqd0StJ97mJbtd1wxpqj6ASnhv/Z5fElwlaPHpqEUMq8AlI4+6
-   H9IrEwzF5wn3PUnpRmdL6ct4cHY7bb5t8gNkdI38fq0lsWK8dM1ugBB3n
-   fQWgkpN5CO449rusnPKgruATOeKUMlXaFZoAjOGEuwQRMYL5cfjOJmEmL
-   A==;
-X-CSE-ConnectionGUID: xk1aGJ5hTRusNxT+Z7fB5g==
-X-CSE-MsgGUID: 9pDqvw2gTgyqAzCgPyGf/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="79597540"
+  t=1767919401; x=1799455401;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zVzERIgtq6HANfaqGjDaXa14817otLnOv1j2W1S2R40=;
+  b=RIg6dMTbnMIoy3pwYucBqnad6pEOsWLlkcws7zqN3kIMStwZQzy2bltt
+   tdGuU70F8wxZ3hPHgloU2ElpEVsmEdNhwMv5ncqOlF4KtPHAtnOuIPSsF
+   1G1VfeEcQJSBVmpijF6CaG1CYBjkWCrRhvBvX0OlCWAcLjjxrnsyUHuOh
+   wD2ARBb6dctSE55et9aOI4LR1oULNucugso9BtW6dM9zBH4g9TUW4niC/
+   +LDXvgIIGb0fvIWYYC6e6WqAKBUdpgSGquPrLFW00iBgZ7hoF1yzF69YS
+   XDaNO/op9NWGjj8fkHgFB363OjgG/HJxEo/Y37cilCeV8+FZYusPWsviY
+   w==;
+X-CSE-ConnectionGUID: 7jR907a+QcuNmIUKop2m9g==
+X-CSE-MsgGUID: VOqHdo1ySgqu6WHdOrBbCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69379392"
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="79597540"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 15:19:29 -0800
-X-CSE-ConnectionGUID: pcrLeyUFTH6PenRoR3vxjQ==
-X-CSE-MsgGUID: eTIPKMm5SD+JX4MCMhcMYg==
+   d="scan'208";a="69379392"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 16:43:20 -0800
+X-CSE-ConnectionGUID: VKvGiQJ1RGCD67zKyZQvxg==
+X-CSE-MsgGUID: WiZL7CY1Q6a6wgJASFoWvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="203759713"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Jan 2026 15:19:27 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="208393548"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by orviesa005.jf.intel.com with ESMTP; 08 Jan 2026 16:43:15 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vdzHp-000000005FQ-2oiA;
-	Thu, 08 Jan 2026 23:19:25 +0000
-Date: Fri, 09 Jan 2026 07:19:12 +0800
+	id 1ve0au-000000001tk-2Obc;
+	Fri, 09 Jan 2026 00:43:12 +0000
+Date: Fri, 9 Jan 2026 01:42:24 +0100
 From: kernel test robot <lkp@intel.com>
-To: Brian Masney <bmasney@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [masneyb:clk-divider-round-rate 20/24]
- drivers/clk/stm32/clk-stm32-core.c:372:10: error: too many arguments to
- function 'divider_ro_determine_rate'
-Message-ID: <202601090757.xXf5r0Ly-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Samiullah Khawaja <skhawaja@google.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, David Matlack <dmatlack@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Samiullah Khawaja <skhawaja@google.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Shuah Khan <skhan@linuxfoundation.org>, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Parav Pandit <parav@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, William Tu <witu@nvidia.com>
+Subject: Re: [PATCH 3/3] vfio: selftests: Add iommufd hwpt replace test
+Message-ID: <202601090106.YNZaDPcd-lkp@intel.com>
+References: <20260107201800.2486137-4-skhawaja@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107201800.2486137-4-skhawaja@google.com>
 
-tree:   https://github.com/masneyb/linux clk-divider-round-rate
-head:   9eb89e7dd5ecfeccd15287f3febc64260d269304
-commit: bf2cd5c0bd6b682ce3e91c81cb806eb4d8c985f7 [20/24] clk: stm32: stm32-core: convert from divider_ro_round_rate() to divider_ro_determine_rate()
-config: arm-randconfig-003-20260109 (https://download.01.org/0day-ci/archive/20260109/202601090757.xXf5r0Ly-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601090757.xXf5r0Ly-lkp@intel.com/reproduce)
+Hi Samiullah,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6cd6c12031130a349a098dbeb19d8c3070d2dfbe]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Samiullah-Khawaja/iommu-vt-d-Allow-replacing-no_pasid-iommu_domain/20260108-041955
+base:   6cd6c12031130a349a098dbeb19d8c3070d2dfbe
+patch link:    https://lore.kernel.org/r/20260107201800.2486137-4-skhawaja%40google.com
+patch subject: [PATCH 3/3] vfio: selftests: Add iommufd hwpt replace test
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260109/202601090106.YNZaDPcd-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601090106.YNZaDPcd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601090757.xXf5r0Ly-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601090106.YNZaDPcd-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/clk/stm32/clk-stm32-core.c: In function 'clk_stm32_divider_determine_rate':
->> drivers/clk/stm32/clk-stm32-core.c:372:43: warning: passing argument 2 of 'divider_ro_determine_rate' makes pointer from integer without a cast [-Wint-conversion]
-      return divider_ro_determine_rate(hw, req->rate,
-                                           ~~~^~~~~~
-   In file included from drivers/clk/stm32/clk-stm32-core.h:7,
-                    from drivers/clk/stm32/clk-stm32-core.c:17:
-   include/linux/clk-provider.h:753:75: note: expected 'struct clk_rate_request *' but argument is of type 'long unsigned int'
-    int divider_ro_determine_rate(struct clk_hw *hw, struct clk_rate_request *req,
-                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/clk/stm32/clk-stm32-core.c:373:8: error: passing argument 3 of 'divider_ro_determine_rate' from incompatible pointer type [-Werror=incompatible-pointer-types]
-           &req->best_parent_rate,
-           ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/clk/stm32/clk-stm32-core.h:7,
-                    from drivers/clk/stm32/clk-stm32-core.c:17:
-   include/linux/clk-provider.h:754:38: note: expected 'const struct clk_div_table *' but argument is of type 'long unsigned int *'
-             const struct clk_div_table *table, u8 width,
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
->> drivers/clk/stm32/clk-stm32-core.c:374:15: warning: passing argument 4 of 'divider_ro_determine_rate' makes integer from pointer without a cast [-Wint-conversion]
-           divider->table,
-           ~~~~~~~^~~~~~~
-   In file included from drivers/clk/stm32/clk-stm32-core.h:7,
-                    from drivers/clk/stm32/clk-stm32-core.c:17:
-   include/linux/clk-provider.h:754:48: note: expected 'u8' {aka 'unsigned char'} but argument is of type 'const struct clk_div_table * const'
-             const struct clk_div_table *table, u8 width,
-                                                ~~~^~~~~
->> drivers/clk/stm32/clk-stm32-core.c:372:10: error: too many arguments to function 'divider_ro_determine_rate'
-      return divider_ro_determine_rate(hw, req->rate,
-             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/clk/stm32/clk-stm32-core.h:7,
-                    from drivers/clk/stm32/clk-stm32-core.c:17:
-   include/linux/clk-provider.h:753:5: note: declared here
-    int divider_ro_determine_rate(struct clk_hw *hw, struct clk_rate_request *req,
-        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/stm32/clk-stm32-core.c: In function 'clk_stm32_composite_determine_rate':
-   drivers/clk/stm32/clk-stm32-core.c:437:7: warning: unused variable 'rate' [-Wunused-variable]
-     long rate;
-          ^~~~
-   cc1: some warnings being treated as errors
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:32:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      32 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   In file included from tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c:8:
+   In file included from tools/testing/selftests/vfio/lib/include/libvfio.h:6:
+   tools/testing/selftests/vfio/lib/include/libvfio/iommu.h:51:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+      51 |         VFIO_ASSERT_EQ(__iommu_unmap(iommu, region, NULL), 0);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:32:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      32 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   In file included from tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c:8:
+   In file included from tools/testing/selftests/vfio/lib/include/libvfio.h:6:
+   tools/testing/selftests/vfio/lib/include/libvfio/iommu.h:58:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+      58 |         VFIO_ASSERT_EQ(__iommu_unmap_all(iommu, NULL), 0);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:32:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      32 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   In file included from tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c:8:
+   In file included from tools/testing/selftests/vfio/lib/include/libvfio.h:6:
+   tools/testing/selftests/vfio/lib/include/libvfio/iommu.h:58:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+      58 |         VFIO_ASSERT_EQ(__iommu_unmap_all(iommu, NULL), 0);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:32:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      32 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   In file included from tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c:8:
+   In file included from tools/testing/selftests/vfio/lib/include/libvfio.h:8:
+   tools/testing/selftests/vfio/lib/include/libvfio/vfio_pci_device.h:80:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+      80 |         VFIO_ASSERT_NE(r, -1, "F_GETFL failed for fd %d\n", fd);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:33:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      33 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   In file included from tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c:8:
+   In file included from tools/testing/selftests/vfio/lib/include/libvfio.h:8:
+   tools/testing/selftests/vfio/lib/include/libvfio/vfio_pci_device.h:80:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+      80 |         VFIO_ASSERT_NE(r, -1, "F_GETFL failed for fd %d\n", fd);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:33:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      33 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   In file included from tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c:8:
+   In file included from tools/testing/selftests/vfio/lib/include/libvfio.h:8:
+   tools/testing/selftests/vfio/lib/include/libvfio/vfio_pci_device.h:83:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+      83 |         VFIO_ASSERT_NE(r, -1, "F_SETFL O_NONBLOCK failed for fd %d\n", fd);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:33:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      33 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   In file included from tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c:8:
+   In file included from tools/testing/selftests/vfio/lib/include/libvfio.h:8:
+   tools/testing/selftests/vfio/lib/include/libvfio/vfio_pci_device.h:83:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+      83 |         VFIO_ASSERT_NE(r, -1, "F_SETFL O_NONBLOCK failed for fd %d\n", fd);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:33:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      33 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+>> tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c:23:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+      23 |         VFIO_ASSERT_NE(vaddr, MAP_FAILED);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:33:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      33 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+>> tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c:23:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+      23 |         VFIO_ASSERT_NE(vaddr, MAP_FAILED);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:33:37: note: expanded from macro 'VFIO_ASSERT_NE'
+      33 | #define VFIO_ASSERT_NE(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, !=, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c:35:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+      35 |         VFIO_ASSERT_EQ(munmap(region->vaddr, region->size), 0);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:32:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      32 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:4: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                      ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                         ^~~~~~~~~~
+   tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c:35:2: warning: format specifies type 'unsigned long' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+      35 |         VFIO_ASSERT_EQ(munmap(region->vaddr, region->size), 0);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:32:37: note: expanded from macro 'VFIO_ASSERT_EQ'
+      32 | #define VFIO_ASSERT_EQ(_a, _b, ...) VFIO_ASSERT_OP(_a, _b, ==, ##__VA_ARGS__)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   tools/testing/selftests/vfio/lib/include/libvfio/assert.h:27:22: note: expanded from macro 'VFIO_ASSERT_OP'
+      26 |         fprintf(stderr, "  Observed: %#lx %s %#lx\n",                           \
+         |                                              ~~~~
+      27 |                         (u64)__lhs, #_op, (u64)__rhs);                          \
+         |                                           ^~~~~~~~~~
+   14 warnings generated.
 
 
-vim +/divider_ro_determine_rate +372 drivers/clk/stm32/clk-stm32-core.c
+vim +23 tools/testing/selftests/vfio/vfio_iommufd_hwpt_replace_test.c
 
-   353	
-   354	static int clk_stm32_divider_determine_rate(struct clk_hw *hw,
-   355						    struct clk_rate_request *req)
-   356	{
-   357		struct clk_stm32_div *div = to_clk_stm32_divider(hw);
-   358		const struct stm32_div_cfg *divider;
-   359	
-   360		if (div->div_id == NO_STM32_DIV)
-   361			return 0;
-   362	
-   363		divider = &div->clock_data->dividers[div->div_id];
-   364	
-   365		/* if read only, just return current value */
-   366		if (divider->flags & CLK_DIVIDER_READ_ONLY) {
-   367			u32 val;
-   368	
-   369			val =  readl(div->base + divider->offset) >> divider->shift;
-   370			val &= clk_div_mask(divider->width);
-   371	
- > 372			return divider_ro_determine_rate(hw, req->rate,
- > 373							 &req->best_parent_rate,
- > 374							 divider->table,
-   375							 divider->width,
-   376							 divider->flags, val);
-   377		}
-   378	
-   379		return divider_determine_rate(hw, req, divider->table, divider->width,
-   380					      divider->flags);
-   381	}
-   382	
+    13	
+    14	static void region_setup(struct iommu *iommu,
+    15				 struct iova_allocator *iova_allocator,
+    16				 struct dma_region *region, u64 size)
+    17	{
+    18		const int flags = MAP_SHARED | MAP_ANONYMOUS;
+    19		const int prot = PROT_READ | PROT_WRITE;
+    20		void *vaddr;
+    21	
+    22		vaddr = mmap(NULL, size, prot, flags, -1, 0);
+  > 23		VFIO_ASSERT_NE(vaddr, MAP_FAILED);
+    24	
+    25		region->vaddr = vaddr;
+    26		region->iova = iova_allocator_alloc(iova_allocator, size);
+    27		region->size = size;
+    28	
+    29		iommu_map(iommu, region);
+    30	}
+    31	
 
 -- 
 0-DAY CI Kernel Test Service
