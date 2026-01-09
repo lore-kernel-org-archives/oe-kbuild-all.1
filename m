@@ -1,134 +1,118 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1AB50094C;
-	Fri,  9 Jan 2026 15:30:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76904363C64
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 16:12:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767972657; cv=none; b=ds/hRoQamhu+uD92gLU3U6ny0IHzA18CZA6db05D71G0RG4UbBNrhRjXfbcnhjZV3OgQjVY9mZgDZCwOsR4q3pkLD4BBe3o3q853fTBh6M6qxdzbeeG3wGYzuxHAjZiy4BWZ0irajB50jw6sgJbGlCWc/Dr8NqPwFsXXla/G68Y=
+	t=1767975168; cv=none; b=nDXhZglaeQ6ZDCeSkr5HZ7maLRDUgROP4U5bsk+6abb2J27jgxQlwnVN8RLVCopapcUSwrrqtAlWk96DAF5n7XCiIsBonR99LAL2rRBHw7mFeIZ5nERAqY9tysI4CnYl1MeFAYgYEjHuRvZ1gCcmrnVsl0PM0FSbkmjJJPHojyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767972657; c=relaxed/simple;
-	bh=l0K0iHQxhWpbfVeLEUJ7Fm+JtumcN7lMgtZ7tN4usXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L0EZ8da0pOkbiz4tzmfMAlSPJT6rQNVQsnjYszd9YE5LTrn0rtc+lc0zu42XG7jePqSvbzAj6tOkFWJqZELhnA0yBaCTeQPtUgA/AwftaQhtEdg5UbfiJqu8XSKA2cQfAq6dYf9H/ajH846w+Ond/SO3/BGcFxwPl3p16494qvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf07.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id 32F721398C3;
-	Fri,  9 Jan 2026 15:22:32 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf07.hostedemail.com (Postfix) with ESMTPA id D407020037;
-	Fri,  9 Jan 2026 15:22:29 +0000 (UTC)
-Date: Fri, 9 Jan 2026 10:23:01 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>, Mark
- Rutland <mark.rutland@arm.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Andrew Morton
- <akpm@linux-foundation.org>, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: [PATCH 3/5] tracing: Have tracer option be instance specific
-Message-ID: <20260109102301.19daeb27@gandalf.local.home>
-In-Reply-To: <202511071533.domGENBS-lkp@intel.com>
-References: <20251105161935.545400234@kernel.org>
-	<202511071533.domGENBS-lkp@intel.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1767975168; c=relaxed/simple;
+	bh=Z1pwYaB9YWaqpeLpN7YTuR0+lMIpPCAE9oljsDgAwrs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=rQVAuOd0TRZl+HQKOV2Pd3bFA7Zex8iG+3RUUmSbeQ9NkkHqaRemp4NPjiJHlOpvwEbRFZ8t68g4eJodNiDHTbqwuBxFjh+8kCILmlZ9Wm46b0ZlTT0Mbp7il/PZ9PyWP/B4VeH7ny/Y709szHAVVVZpzjIuazkA1qezodBzCtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=y8sgO60v; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="y8sgO60v"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id EAB951A274B;
+	Fri,  9 Jan 2026 16:12:42 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BF07E606C6;
+	Fri,  9 Jan 2026 16:12:42 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 919E4103C8928;
+	Fri,  9 Jan 2026 17:12:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767975161; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=IMKc9MHd9MKGMdEe0mbvetFcSECq5KlF8/ItyQ9UOfs=;
+	b=y8sgO60vNrvAN5ao1UXWP6frwmiiF1cnmKVMcW7QO/HxbpUAJ9DUZYz8PYoxa7TnZrgNHn
+	QND0OCqd76x2H0tjmg8+G4y+EtalIPSC+KQYf8rjCNA+B5vKbQ7u4oDcUStLUPz8K94/C9
+	oyRk9NcfDbOqVoQ0naI+QN+HiG8sH2m5klgIFBZj/3DQSQTfjNIQKQn/ggmyMPfbWE34jX
+	CVuL3G4rcCcj1gXHvVrTXR94pzDkpKEQ64TpUMAPIFBtvXhBobJARsAvcWYmEBKq08Aajg
+	6m7OKpbbmdqmn48f1azdA0ffbcXKznXdVek37fyAE5LdhLHaDG1pH4odU3nhqQ==
+From: Gregory CLEMENT <gregory.clement@bootlin.com>
+To: kernel test robot <lkp@intel.com>, Rob Herring <robh@kernel.org>, Linus
+ Walleij <linus.walleij@linaro.org>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, Vignesh
+ Raghavendra <vigneshr@ti.com>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, Vladimir Kondratiev
+ <vladimir.kondratiev@mobileye.com>, =?utf-8?Q?Beno=C3=AEt?= Monin
+ <benoit.monin@bootlin.com>, =?utf-8?Q?Th=C3=A9o?= Lebrun
+ <theo.lebrun@bootlin.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org
+Subject: Re: [PATCH v3 2/4] of: reserved_mem: Support multiple 'reg' entries
+ for memory-region
+In-Reply-To: <202601082105.TThX0916-lkp@intel.com>
+References: <20260107-mtd-memregion-v3-2-f9fc9107b992@bootlin.com>
+ <202601082105.TThX0916-lkp@intel.com>
+Date: Fri, 09 Jan 2026 17:12:35 +0100
+Message-ID: <87qzryn4ss.fsf@BLaptop.bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D407020037
-X-Stat-Signature: jcuq6amaw9651isigmpghnke7jqeogp4
-X-Rspamd-Server: rspamout05
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19jdSeoFBztHLOMU/lMm14vAteYNKPwXT0=
-X-HE-Tag: 1767972149-424104
-X-HE-Meta: U2FsdGVkX19ilsxq7u3MRtKL3dJWwByiZPh/dNykQoGfoiGRpH0i/9tNzbovF3etCkRCiRnHo67ShzJFR/TraY0X0a9rM0tfe2y6bnDYxcu0iNSbLdNupEDNpoREIG8kiiV2i0pLDtLKSY8sKgGq0GEuZauFHyo4PITU50uRah6+FlLoS8w5Qyivk6Ee+beVybcCb7dexIMQy2UaVsru7qRMocTetT5YY+f2ZfBaBdn9FI0gDV25+4Mcn4mWhfr3Q/0CJd8HA68QvRB3EjoCMa9AX9JXcPu+3ezm/eGMG2WDkxQMuCckiyUEIvqbV3rrGoh9OFBNR6KXtvyT8FzvabHby38Ah4Wc3MGLKpJhF68+U9PWPpv6gwZpjzPdzv5Zhleh7hguR73jsagOpzzOhgaj25IoZY7Pf0i1lB3A5ROKNBONjkfzbHQXswos25UOP7DjiG+U+l55bw7GCXi+W7A6UTqnz/VcizWk5Q2JAFmq6RhP7PU6BaVhFOzmiM6zQwqiT3rbbzdHA/1gHeXNng==
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, 5 Jan 2026 18:23:31 +0300
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+kernel test robot <lkp@intel.com> writes:
 
-> Hi Steven,
-
-Hi Dan,
-
-> 
+> Hi Gregory,
+>
 > kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Remove-dummy-options-and-flags/20251106-010511
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-> patch link:    https://lore.kernel.org/r/20251105161935.545400234%40kernel.org
-
-This is an old patch (v1) and v3 fixed this issue:
-   https://lore.kernel.org/all/20251110234341.767135255@kernel.org/
-
- and v4 was applied and is now in mainline.
-
-The patch you are reporting on was sent Nov 5th, the fix was sent Nov 10th.
-
-Why is this sending reports about an old patch that is obsolete? Is there
-something wrong with your setup?
-
--- Steve
-
-> patch subject: [PATCH 3/5] tracing: Have tracer option be instance specific
-> config: i386-randconfig-r072-20251107 (https://download.01.org/0day-ci/archive/20251107/202511071533.domGENBS-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>
+> [auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-CLEMENT/of=
+-reserved_mem-Fix-placement-of-__free-annotation/20260107-211455
+> base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+> patch link:    https://lore.kernel.org/r/20260107-mtd-memregion-v3-2-f9fc=
+9107b992%40bootlin.com
+> patch subject: [PATCH v3 2/4] of: reserved_mem: Support multiple 'reg' en=
+tries for memory-region
+> config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20=
+260108/202601082105.TThX0916-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260108/202601082105.TThX0916-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202511071533.domGENBS-lkp@intel.com/
-> 
-> smatch warnings:
-> kernel/trace/trace.c:6313 tracing_set_tracer() warn: iterator used outside loop: 't'
-> 
-> vim +/t +6313 kernel/trace/trace.c
-> 
-> 9c5b9d3d65e4858 Masami Hiramatsu         2020-01-11  6285  int tracing_set_tracer(struct trace_array *tr, const char *buf)
-> 09d23a1d8a82e81 Steven Rostedt (Red Hat  2015-02-03  6286) {
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6287  	struct tracer *trace;
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6288  	struct tracers *t;
-> 12883efb670c28d Steven Rostedt (Red Hat  2013-03-05  6289) #ifdef CONFIG_TRACER_MAX_TRACE
-> 34600f0e9c33c9c Steven Rostedt           2013-01-22  6290  	bool had_max_tr;
-> 12883efb670c28d Steven Rostedt (Red Hat  2013-03-05  6291) #endif
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6292  	int ret;
-> bc0c38d139ec7fc Steven Rostedt           2008-05-12  6293  
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6294  	guard(mutex)(&trace_types_lock);
-> 1027fcb206a0fb8 Steven Rostedt           2009-03-12  6295  
-> 7a1d1e4b9639ff0 Steven Rostedt (Google   2024-06-12  6296) 	update_last_data(tr);
-> 7a1d1e4b9639ff0 Steven Rostedt (Google   2024-06-12  6297) 
-> a1f157c7a3bb342 Zheng Yejian             2023-09-06  6298  	if (!tr->ring_buffer_expanded) {
-> 2b6080f28c7cc3e Steven Rostedt           2012-05-11  6299  		ret = __tracing_resize_ring_buffer(tr, trace_buf_size,
-> 438ced1720b5840 Vaibhav Nagarnaik        2012-02-02  6300  						RING_BUFFER_ALL_CPUS);
-> 73c5162aa362a54 Steven Rostedt           2009-03-11  6301  		if (ret < 0)
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6302  			return ret;
-> 73c5162aa362a54 Steven Rostedt           2009-03-11  6303  		ret = 0;
-> 73c5162aa362a54 Steven Rostedt           2009-03-11  6304  	}
-> 73c5162aa362a54 Steven Rostedt           2009-03-11  6305  
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6306  	list_for_each_entry(t, &tr->tracers, list) {
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6307  		if (strcmp(t->tracer->name, buf) == 0)
-> bc0c38d139ec7fc Steven Rostedt           2008-05-12  6308  			break;
-> bc0c38d139ec7fc Steven Rostedt           2008-05-12  6309  	}
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6310  	if (!t)
-> 
-> t can't be NULL here.  It needs to be if (list_entry_is_head()) return;
-> 
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6311  		return -EINVAL;
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6312  
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05 @6313  	if (t->tracer == tr->current_trace)
-> d33b10c0c73adca Steven Rostedt           2024-12-24  6314  		return 0;
-> bc0c38d139ec7fc Steven Rostedt           2008-05-12  6315  
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6316  	trace = t->tracer;
-> 4699bbb369ba1d3 Steven Rostedt           2025-11-05  6317  
-> 
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601082105.TThX0916-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>>> Warning: drivers/of/of_reserved_mem.c:746 function parameter 'rmem' not=
+ described in 'of_reserved_mem_array_lookup'
+>>> Warning: drivers/of/of_reserved_mem.c:902 expecting prototype for of_re=
+served_mem_region_count(). Prototype was for of_reserved_mem_region_total_c=
+ount() instead
+>>> Warning: drivers/of/of_reserved_mem.c:746 function parameter 'rmem'
+>not described in 'of_reserved_mem_array_lookup'
 
+It was a stupid typo in the description!
+
+I will fix it.
+
+Gregory
+
+>
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
+--=20
+Gr=C3=A9gory CLEMENT, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
