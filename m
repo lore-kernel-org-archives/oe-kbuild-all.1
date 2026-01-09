@@ -1,103 +1,122 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A348A1A9F84;
-	Fri,  9 Jan 2026 01:19:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251FA274B26
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 02:11:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767921561; cv=none; b=Ga5d0xSXoaeLjBtN+qkF9ewRMnNABLqrbap7kwzwNwWxb0DO0tXIV0RFqSHgW1y8Td7sOUAIe5RA1XuK2ZUzDOd1H5tDpmpFYpQFUxQtDSLZxspcMINVLm27E7nLmjPz09eh9rEyyHHMAmVMn1tyi4ki2ZN3kNxIK2QFZlXLsM0=
+	t=1767924693; cv=none; b=nTPaWmvKQGV43ho7N8QAAEESFSRhsfe8O6r38C//Tk8IpEic5pNAJYiDn9wTyOcgOj4+zscKzfCev1eFAfxyavVOPRCVQrNapUiGeWs4ldwfogQG494UEuakbj9n5x2QcOQyFM1sxa7hpQjia4xwfUVl7U0u2wEfeuFYpa6ceEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767921561; c=relaxed/simple;
-	bh=ELxtyq4vddEpI3Ogsxk5PIfoXaHqV4FbI5PRrNHftnc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fYVLdcIwZWifB/3kpemHdbidEGLFlPNd5m6TU5laAVJr3MSSNK9rQj3DYqnlu6m5o4QyHSVp+0udvXLbavk7vzTnfirySToEVxlGbOlh9DwRRRbD1PqebJV6VOZ/huRZj+NDc6QFio6x/ZL8iBWNNiFVnDk3rTN6Wf1HDZoPif4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lC8X/y4b; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1767924693; c=relaxed/simple;
+	bh=js08W/gcwGY+AsvM1e0W61pE7i0B0uS9kQTu1k0iXLk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=p6j122fmKiHKEZWfq0XfWNpWEu5kZCVVTwf5DoI+q7IQfmFgi5NRZBGvHOT0yUrSEZe6/ZW8onFVseBYiyAQf2vz5vCZAjKqFLW8L/9vksZdPXqs/3hVJm7i1fIGIhXu6y6TsD4eGagQmDOvhQOj7yPLKWtMlwTwEBna1BtyL2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZAwPuK8+; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lC8X/y4b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZAwPuK8+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767921558; x=1799457558;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ELxtyq4vddEpI3Ogsxk5PIfoXaHqV4FbI5PRrNHftnc=;
-  b=lC8X/y4bY95s37dM+QQlS92vN6PgunYiaFTFHiDAPaO27GfhAKT7zi5F
-   P9htY3Imj+FqvJRPtsAFun7WNXnbsNi/7uraVLJtDabnxgRUzT3Nptueu
-   6eGE38QnmfWltv1jcYuC9oKOHS/HFhZo3sXR+gUpALHes5NJ7ozLpGXJ4
-   Np8OsBoK60HMvejbItK9VllxUnmtayXEfwTTI6wZPFUCKS3S7NHJf3HU3
-   Ev3i1w47ozu/4PdVMZn0DC5Q91YcIGlH0CyGf00Q1PNKxypiMoEcaZg/G
-   LFsScpJUn4ISyUcsmjsSC1mlmejh5dhWQTPhtpHT7Rs6Z9hQ4+IAW8z3c
-   A==;
-X-CSE-ConnectionGUID: b5/I5ZZMS9S0mkxlPbTMAg==
-X-CSE-MsgGUID: ARIW+U3XRtSVsyV2He0tzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69043473"
+  t=1767924691; x=1799460691;
+  h=date:from:to:cc:subject:message-id;
+  bh=js08W/gcwGY+AsvM1e0W61pE7i0B0uS9kQTu1k0iXLk=;
+  b=ZAwPuK8+gpbkH5TA8Z2tQKHXU2nL2fY0+sLy1pVirydPXUY5Uv63UZyw
+   8BxXCcBcMoUIM6JUYCTNA+YcwtHbsKhZGV1SZVN5+e21tvgsfaDQqsqWa
+   1vLF1RknTsthURXqxYn/qfe1CWp6hJqn7w+aygMCzbCfcLn/4iUVOdla1
+   W3fT/02EIFMVhl1c9Dpqt5iT6uQECydPDL11GcPVnes+/CqPrz77GDvyc
+   6sKl4MUZqqXhF9l16QrSjVS0aCpNEl/7eCfpK3HElhnusXq5q65O4N65Z
+   W1/TwA2SvmkPOVrBpJ7ZZib1jDhUZEsk0ovUchzc8GgyBQ9U+EZEFHamd
+   w==;
+X-CSE-ConnectionGUID: P0anfL31Q5uQs+ldAq2UTg==
+X-CSE-MsgGUID: iaSQpcRXSH+UUUWr9hR2MQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69045893"
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="69043473"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 17:19:18 -0800
-X-CSE-ConnectionGUID: Up0brljGS2aY70NDK/Nubg==
-X-CSE-MsgGUID: BVSgPC8AQ3CKeoOrT0tl0w==
+   d="scan'208";a="69045893"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 18:11:30 -0800
+X-CSE-ConnectionGUID: NA6XevqIS1iONeIKNHz3hw==
+X-CSE-MsgGUID: 7SUYpoybReG4F2Y+2voDbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="202967176"
+   d="scan'208";a="203636871"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Jan 2026 17:19:15 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 08 Jan 2026 18:11:16 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1ve19l-000000001uK-02YQ;
-	Fri, 09 Jan 2026 01:19:13 +0000
-Date: Fri, 9 Jan 2026 02:18:29 +0100
+	id 1ve1y5-000000001vY-3lrh;
+	Fri, 09 Jan 2026 02:11:13 +0000
+Date: Fri, 09 Jan 2026 03:11:07 +0100
 From: kernel test robot <lkp@intel.com>
-To: Pnina Feder <pnina.feder@mobileye.com>, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, pmladek@suse.com,
-	bhe@redhat.com, linux-kernel@vger.kernel.org, lkp@intel.com,
-	mgorman@suse.de, mingo@redhat.com, peterz@infradead.org,
-	pnina.feder@mobileye.com, rostedt@goodmis.org,
-	senozhatsky@chromium.org, tglx@linutronix.de, vkondra@mobileye.com
-Subject: Re: [PATCH v4] panic: add panic_force_cpu= parameter to redirect
- panic to a specific CPU
-Message-ID: <202601090229.rC0GNQqG-lkp@intel.com>
-References: <20260107215659.3619730-1-pnina.feder@mobileye.com>
+To: alexs@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexshi:pgtable20260106 5/5]
+ ./arch/arm64/include/asm/tlb.h:78:26: error: controlling expression type
+ 'pgtable_t' (aka 'struct ptdesc *') not compatible with any generic
+ association type
+Message-ID: <202601090335.Y6huXUc1-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260107215659.3619730-1-pnina.feder@mobileye.com>
 
-Hi Pnina,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on linus/master v6.19-rc4 next-20260108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pnina-Feder/panic-add-panic_force_cpu-parameter-to-redirect-panic-to-a-specific-CPU/20260108-055823
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260107215659.3619730-1-pnina.feder%40mobileye.com
-patch subject: [PATCH v4] panic: add panic_force_cpu= parameter to redirect panic to a specific CPU
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260109/202601090229.rC0GNQqG-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601090229.rC0GNQqG-lkp@intel.com/reproduce)
+tree:   https://github.com/alexshi/linux.git pgtable20260106
+head:   f05a003afdd36f111f484e715d286cc31e3dbd59
+commit: f05a003afdd36f111f484e715d286cc31e3dbd59 [5/5] mm/pgtable: convert pgtable_t to ptdesc pointer
+config: arm64-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260109/202601090335.Y6huXUc1-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601090335.Y6huXUc1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601090229.rC0GNQqG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601090335.Y6huXUc1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: kernel/panic.c:344 function parameter 'buf' not described in 'panic_force_target_cpu'
->> Warning: kernel/panic.c:344 function parameter 'buf_size' not described in 'panic_force_target_cpu'
->> Warning: kernel/panic.c:344 function parameter 'buf' not described in 'panic_force_target_cpu'
->> Warning: kernel/panic.c:344 function parameter 'buf_size' not described in 'panic_force_target_cpu'
+   In file included from mm/oom_kill.c:49:
+>> ./arch/arm64/include/asm/tlb.h:78:26: error: controlling expression type 'pgtable_t' (aka 'struct ptdesc *') not compatible with any generic association type
+      78 |         struct ptdesc *ptdesc = page_ptdesc(pte);
+         |                                 ^~~~~~~~~~~~~~~~
+   ./include/linux/mm_types.h:633:36: note: expanded from macro 'page_ptdesc'
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^~~
+   1 error generated.
+--
+   In file included from kernel/sched/core.c:83:
+>> ./arch/arm64/include/asm/tlb.h:78:26: error: controlling expression type 'pgtable_t' (aka 'struct ptdesc *') not compatible with any generic association type
+      78 |         struct ptdesc *ptdesc = page_ptdesc(pte);
+         |                                 ^~~~~~~~~~~~~~~~
+   ./include/linux/mm_types.h:633:36: note: expanded from macro 'page_ptdesc'
+     633 | #define page_ptdesc(p)                  (_Generic((p),                  \
+         |                                                   ^~~
+   kernel/sched/core.c:7733:12: warning: array index -1 is before the beginning of the array [-Warray-bounds]
+    7733 |                                        preempt_modes[preempt_dynamic_mode] : "undef",
+         |                                        ^             ~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:7708:1: note: array 'preempt_modes' declared here
+    7708 | const char *preempt_modes[] = {
+         | ^
+   1 warning and 1 error generated.
+
+
+vim +78 ./arch/arm64/include/asm/tlb.h
+
+58d0ba578bc3b7 Catalin Marinas       2012-03-05  74  
+58d0ba578bc3b7 Catalin Marinas       2012-03-05  75  static inline void __pte_free_tlb(struct mmu_gather *tlb, pgtable_t pte,
+58d0ba578bc3b7 Catalin Marinas       2012-03-05  76  				  unsigned long addr)
+58d0ba578bc3b7 Catalin Marinas       2012-03-05  77  {
+11b4fa8b2a56c0 Vishal Moola (Oracle  2023-08-07 @78) 	struct ptdesc *ptdesc = page_ptdesc(pte);
+11b4fa8b2a56c0 Vishal Moola (Oracle  2023-08-07  79) 
+11b4fa8b2a56c0 Vishal Moola (Oracle  2023-08-07  80) 	tlb_remove_ptdesc(tlb, ptdesc);
+58d0ba578bc3b7 Catalin Marinas       2012-03-05  81  }
+58d0ba578bc3b7 Catalin Marinas       2012-03-05  82  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 11b4fa8b2a56c0e7b9db4fe21c134a4cba414657 arm64: convert various functions to use ptdescs
+
+:::::: TO: Vishal Moola (Oracle) <vishal.moola@gmail.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
