@@ -1,117 +1,116 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42FB2494F0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 08:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70798350D49
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 08:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767946825; cv=none; b=hOaTYpJg0am8JsbhTMH3VNkHfhlh8m35KDwUWyiDbQRDssLPPD1zYRjf4BE0GGwP4/7XSADQNuglyDheRWfGwkKFa7Y1nLzfK7KdwCjTij6VLKzuN4qY0JrXeiUWo2UinwoalxDHyGK+RTW5Mht+bNboe1Z+PKBEeodzjwr178Q=
+	t=1767948325; cv=none; b=DYR54T0AtC3A1qVmHqifAoPjXqSGz4wdcOF50gUagS0qnANqvfYEc9F1xukBX2w0RyMgxWk5K0DNu2vVcyIm0Au6/e+oYrRy+0giT3k0CBuAzjezksW9o6QRTZJYdwpo7K+4CNz2BDkKhIRqtHCsM0F9HFpJaHAaLfPm4SlpOK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767946825; c=relaxed/simple;
-	bh=1tZFHv16ZwL+7SKnmUSQAUFEBTMTAOwSnIDQecX4Q3E=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=uGu/h2RHCeuh3uxRXqcH4/qr8Z2NX27P/JxPRvjUHbPcijtAv+c93hrWYssDfSiP+owZuYoEPZtOwergYCgknH3h7/ohI/Lc3xKDe4cRwKd7LE7SwCEfQWz1o6rBQ6sw4rjEhWLd0Mstc2ZS/Bz+nVnO8H3dQNTpzhZZm9qJkJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g09VJCeY; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1767948325; c=relaxed/simple;
+	bh=+R9ZQNbcrHscdGDFavQLmbf+oRUkezZn5P5k8m+NfNI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nZcayqQG9OC7o4Y22SM1/QiwD0ggx0VgGKKC/kS/vYx19hndqmhmsVLhmv4lDmsK/CDtozJtm6P1ZkYkMDRGLb6G0cNPAeJlb9OrzFHCX5EFqd6oZEUiDtSLtVYmsMes6g0tlz9Y8wsuQRAlsGuz4x+RYJMG4NRHaGlOy/D8Ymk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VnSiN7qm; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g09VJCeY"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-477964c22e0so22085075e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 09 Jan 2026 00:20:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1767946822; x=1768551622; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zyry+szf9M9K8ZoJdoLtp8bdGl2dJDUUhxBOiIqV+fg=;
-        b=g09VJCeYLe5ueXxpbrLlSIgL3epJobiMWMPjWx9K2Up8ULnNO16zC/UjL6DLOT1FdE
-         xcfeW5G+hDVuNLX0929LQkk3Fimz7DyCvWgF2x1wfRGvUqIxrF+OApBgJBBdRtJIoKQY
-         1tIOUPwr59EdDNwgcRm9tU7FC3Subos+mwi9qHiQ3poYZT9EPWacf0JlWknnFOYuKfJF
-         AtKVkzTb8v0UZqp3M6jV8kCdtvMaBg46rKTm6/TPeD3xERXZQAvQ53veZBvmcR2svSkC
-         HhCiXywOlkkGtk9ZihJnoYPO/ABLruTOoT4Ah9o99klCtq8CJd/rVbdQXTFQp6YgFiwz
-         bsNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767946822; x=1768551622;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zyry+szf9M9K8ZoJdoLtp8bdGl2dJDUUhxBOiIqV+fg=;
-        b=Fi9Yi3YZCdb+WYI0Wze2X6Shh9e5H4tXHlJx0JejJ9cnXB2bKpHY5Mu8RufBd0zYi+
-         j3kTipPSz7cKHN9QXKPM5DGJ7c47TDLqMmVYgMrQjUnn6Eg+tuenrs6+bKm6/Idq2KID
-         g4kh+mVdqyxHpsgH4RvckqEK6VicpSfHMzMjYANgmWFmnmDmoApRXgAW57ZOYAd2nuxw
-         KoUeleAkhrm1GdcP5K+Ydp2RZ6vwJ8jxxD2X/hY3y493ItqRLUk908Cq2IMlVzY6jVes
-         fXVOgvVn3hcG944bZHgYZ8a6a14g2ec4ZtmxxVsw6WauxSqWfgfTSaAuqfQYmhrzJzJA
-         QdGg==
-X-Forwarded-Encrypted: i=1; AJvYcCUbmQ0kqqBplKfdgJPrD6LshzBF1AI/Zkx8uRJClfUaGziyplv0yJhVwnRVHMo1Sic3Dt4Mqgys+qAVBF8I@lists.linux.dev
-X-Gm-Message-State: AOJu0YwllF+mrEUKNHzNMAkmDrFHgoOYMJ2ddo39+EoMDcrChGO/eU1k
-	uwzGLwGNG9c89/vB299717Ou/0kFc+7/6heaGsXi0JCr3GgFBH6//CwcyrMj8QmdHGloshQR8s0
-	l676NZNnjxS9ybgM5gw==
-X-Google-Smtp-Source: AGHT+IH8/dxnFkIPXI5oH6OCxXDjMpSEFjD+Jve3O5XrIh566SkPJXqi/4GrJctYsg/eEDEY2rX+Mxrfi2nwKBM=
-X-Received: from wmot14.prod.google.com ([2002:a05:600c:450e:b0:479:2d82:5535])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:198a:b0:477:a289:d854 with SMTP id 5b1f17b1804b1-47d8484a113mr111305585e9.5.1767946822104;
- Fri, 09 Jan 2026 00:20:22 -0800 (PST)
-Date: Fri,  9 Jan 2026 08:20:18 +0000
-In-Reply-To: <202601091113.0b0WuRML-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VnSiN7qm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767948325; x=1799484325;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+R9ZQNbcrHscdGDFavQLmbf+oRUkezZn5P5k8m+NfNI=;
+  b=VnSiN7qm5ZQSmnXN/H6+47Vl4JO/zkXKgNdBjNk1zlPjNP8Ax0qlsZfn
+   31KFklgsCJ9GiYM0xnyIv8hdvdqWkEa7718VXN1ym2BovkWVMHl+nAXfk
+   NnnwxL/k42IOzllR47wq43r/cxY0v68u0pTpl6x9R00cLDpTX/6hCJOcE
+   I8eEr390tU4ohoh+l0X9VvAECP+vgZ1TsqzszsJiVTXpERyk05pWRTaCf
+   rr7JsIcNqcuRwTn3B1yza6hvfdiWFt+CzKxLatXts4FJSL4///Q/Sd8C2
+   Agzp48ZHlNA2Le2ZBdNh9U4sI5wZlcgg36SmOqS07iMGNiBYUhLaP6PI+
+   g==;
+X-CSE-ConnectionGUID: tCEofC5eSOyD1mqZMGGyVA==
+X-CSE-MsgGUID: 82/FW/JETN2htmkvE/Gl9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="72963621"
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
+   d="scan'208";a="72963621"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 00:45:24 -0800
+X-CSE-ConnectionGUID: VKE8T/f/Rt2G+Dw/Lmq2Lw==
+X-CSE-MsgGUID: 2H9icBJKTneWzTPzMBoglg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
+   d="scan'208";a="203044676"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Jan 2026 00:45:21 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1ve87S-0000000022C-3wgx;
+	Fri, 09 Jan 2026 08:45:18 +0000
+Date: Fri, 9 Jan 2026 09:44:26 +0100
+From: kernel test robot <lkp@intel.com>
+To: Benno Lossin <lossin@kernel.org>, Gary Guo <gary@garyguo.net>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, Fiona Behrens <me@kloenk.dev>,
+	Christian Schrefl <chrisi.schrefl@gmail.com>,
+	Alban Kurti <kurti@invicto.ai>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH 08/12] rust: pin-init: rewrite the initializer macros
+ using `syn`
+Message-ID: <202601090928.HMBGPBHb-lkp@intel.com>
+References: <20260108135127.3153925-9-lossin@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <202601091113.0b0WuRML-lkp@intel.com>
-X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1324; i=aliceryhl@google.com;
- h=from:subject; bh=1tZFHv16ZwL+7SKnmUSQAUFEBTMTAOwSnIDQecX4Q3E=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBpYLot7X73B4sGZrWfHFlDRnVAcjmhZlZf6QzFU
- f6Z9C0QNSqJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaWC6LQAKCRAEWL7uWMY5
- RpkQD/9aqpRA3ZLxzulyknkdjstWLk1KiYjiealHIgUZdFDW0rYeHeBzEfDLpJ8b1GRI6H6zhso
- xESviPCfPyzVhiBR6zyT2Rzn0/PCSM2SDc2aQl1WO3oadL+vEBVdUXN4L4hKwQ6SSxIfCbi6pBZ
- 5Dp2ckM4IAXcN1Mh3wbBrT/sjEpNYEXK/9U6TDXfHECzKta3sJ2lysB6C7AEo9gm6CaNAywDVGW
- ZltLkRyUzDvZyIl5ihoJIAl6IhDwA7R8emT3+xH9Tb+gXtrb3ibLq+Y6q1dMYCUQclqLkvGU2UZ
- W+VceUZb3eN5hsVxdYabyWhW7sAspA5t1gnXSKUHvhdU+oEKL7DAdmhkCh4P2/1vrGmSspam/eq
- PWzaI1QU8lrE+G9g+mmlHBw15qqYaeVU/yBCoCz2XyRf4aTkvWvTKzjaQFwAq9Jkmw+7bKPTfg5
- RfdnCiAjN5NRL8eI7wiosZUq43NxW99+KBbaStBVbadsehvcLg8gRiAyPwCFGqAh0yo2G+YzJ9R
- sqAbQgWf/M0PgsF5VYzFVp/SRY1idQrvl53v/MJNeW3+ONCsSlvVX7YfhXlMpicVXy2ZTpxk6wC
- iOlpC+BhEc3zU/hWQ4yIRyCKXpHIFpBf9sFip0cVNB0uR+uMIivNNuuERjcPPvu7eclSSZJMeSF RVGfFz930NlKcSQ==
-X-Mailer: git-send-email 2.52.0.457.g6b5491de43-goog
-Message-ID: <20260109082019.3999814-1-aliceryhl@google.com>
-Subject: [PATCH] drm/gpuvm: fix name in kernel doc of drm_gpuvm_bo_obtain_locked()
-From: Alice Ryhl <aliceryhl@google.com>
-To: lkp@intel.com
-Cc: aliceryhl@google.com, bbrezillon@kernel.org, dakr@kernel.org, 
-	dri-devel@lists.freedesktop.org, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108135127.3153925-9-lossin@kernel.org>
 
-When renaming this function, the name in the docs was not updated. This
-causes a KernelDoc warning. Thus, fix it.
+Hi Benno,
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202601091113.0b0WuRML-lkp@intel.com/
-Fixes: 9bf4ca1e699c ("drm/gpuvm: drm_gpuvm_bo_obtain() requires lock and staged mode")
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
----
-Does anyone know what the config option to enable these warnings in my
-own build is?
+kernel test robot noticed the following build warnings:
 
- drivers/gpu/drm/drm_gpuvm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+[auto build test WARNING on rust/rust-next]
+[also build test WARNING on linus/master v6.19-rc4 next-20260109]
+[cannot apply to rust/pin-init-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index 0bb115b6b59c..c75b4877ab92 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -1815,8 +1815,8 @@ drm_gpuvm_bo_find(struct drm_gpuvm *gpuvm,
- EXPORT_SYMBOL_GPL(drm_gpuvm_bo_find);
- 
- /**
-- * drm_gpuvm_bo_obtain() - obtains an instance of the &drm_gpuvm_bo for the
-- * given &drm_gpuvm and &drm_gem_object
-+ * drm_gpuvm_bo_obtain_locked() - obtains an instance of the &drm_gpuvm_bo for
-+ * the given &drm_gpuvm and &drm_gem_object
-  * @gpuvm: The &drm_gpuvm the @obj is mapped in.
-  * @obj: The &drm_gem_object being mapped in the @gpuvm.
-  *
+url:    https://github.com/intel-lab-lkp/linux/commits/Benno-Lossin/rust-pin-init-allow-the-crate-to-refer-to-itself-as-pin-init-in-doc-tests/20260108-234753
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20260108135127.3153925-9-lossin%40kernel.org
+patch subject: [PATCH 08/12] rust: pin-init: rewrite the initializer macros using `syn`
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260109/202601090928.HMBGPBHb-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601090928.HMBGPBHb-lkp@intel.com/reproduce)
 
-base-commit: ec27500c8f2b65a3be6ce39a5844d6d246d1b2b0
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601090928.HMBGPBHb-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> warning: unreachable `pub` item
+   --> rust/pin-init/internal/src/init.rs:12:1
+   |
+   12 | pub struct Initializer {
+   | ---^^^^^^^^^^^^^^^^^^^
+   | |
+   | help: consider restricting its visibility: `pub(crate)`
+   |
+   = help: or consider exporting it for use by other crates
+   = note: requested on the command line with `-W unreachable-pub`
+
 -- 
-2.52.0.457.g6b5491de43-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
