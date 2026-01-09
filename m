@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E9627465C;
-	Fri,  9 Jan 2026 02:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC241F17E8
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 02:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767925481; cv=none; b=pVqAGwQAO6qRaMQtsZWR1R4o7qtwGyynXNDZdQSrcVWlBBiWF8e95goGT9j4U/UOWu3YbXfPYzdK9yMaEdqmzvUA/kSoQviGF9H3xTpRYP9QWGdn/SUmE+fkxT8Me7fkUY5VonYA1Yn6mrAHKBHAc2fRrptQfI7+DWnFWhe7wfk=
+	t=1767926740; cv=none; b=ZnATDCrgjMdwFAr5Hef5RNleDro1W4ykvLhbFZf1jCI9wkohNi9V8mt+/frl2iU/mjetfxL3f4SVQWf82/Py1hO3u41Z6Y4FGznLl20xcgn5OabusmEcnETcdQQGpXEGX/1ZMIrbBCHQXKk4cL/T14IBkaf0wj1Zuhuqmt6QEeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767925481; c=relaxed/simple;
-	bh=lQ4GGjt0Rj3i0mrurqMR6fqMwzGvomMJPo78swHAmzc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=BjPhzsOV5ZMoALVChtPLPS8AnlOK6fO4anrX3FNf6R252WmUwND0o++QorfQS6nH5rOcu3WaXecIolbF8nE0CU6yaAkDrBNqdBATxKvXAPUCgszbk1PSMJ5+b43+62XQ3vTFBVAeg9Z43R9jFfsrnWeG5/Z8sSOe1QLQSmOGwf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZIFAMX6; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1767926740; c=relaxed/simple;
+	bh=/5M9N4Je6Z/BpqlmvgLSQ0HwfOcc852CLXku2lczdqU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Y/jM+adVOchCRXQKbbRBzusgcDsNLj2Q/rElxfGIOmvGrIv0Mzvc2JNsaPOmGg1hfJWREi0DFHMJXwwMPWKW0rKqfTRy1YVISaeAx17yzwnd9xJOuTLmnBUXRcTIoVfXIzjsz11O3lKROlqNgINoiubueAc1pBADfUbq7p/hkVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O6yEPXdw; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZIFAMX6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O6yEPXdw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767925479; x=1799461479;
+  t=1767926738; x=1799462738;
   h=date:from:to:cc:subject:message-id;
-  bh=lQ4GGjt0Rj3i0mrurqMR6fqMwzGvomMJPo78swHAmzc=;
-  b=eZIFAMX6Bm6NArgPtdH39nWOvWlqxCPEejccOKtq+yGWfieP8wJ26CfT
-   AbphlhYgc76YCO/J0dswATlICbuzkwwfAZ22m3rbmSTdsSgT1SXETb1/P
-   DM0COgAF+MwfDgtmgiB552Nqxcqlmgroat2raklARQy8D1L7foaGrLTxF
-   eh6bZ1NCAOrYELStfbt45/NxOFRGthnZ3CG/7MybY4HgBs3orn2vpONcY
-   WDQLNd2z9foRICfPasa3bD9PlmG1pGfKBP68TKIornc5wrXif/XFpKrqh
-   BGI8aoxSPPrpPfqhoaI9uEUOLMBKi+fyBCkwdUIMVpK5LSK4ne6pP5WWG
-   g==;
-X-CSE-ConnectionGUID: /AclPfunS8GtqdC4Mwiddg==
-X-CSE-MsgGUID: +nhTHzVfRa+BQKa1DUL1lw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69384683"
+  bh=/5M9N4Je6Z/BpqlmvgLSQ0HwfOcc852CLXku2lczdqU=;
+  b=O6yEPXdwhVQ+dOq7jn34uGmi4f6ibkqyMu/HpMqAZt7dN8FGem4//YS4
+   EMZm1BzRXSOM5Ymz+x7dmnpW9r4pAkQ2MEfm/G9QFzVs8sd1XpxGg3VWe
+   Lj7LZwgeL7N0YqxhvOC/BtaI8kCUKcxagO0+54862wUnmpIuVKD4n1hC9
+   sxFc9vA3IiRdyxNfIXHMZZhCCx2etySJUjxMwGbCjFA6xp8ZSpCCxSqKp
+   4Zyd1nPzIoOqHkyAhjV0U1TcDOycVghE/U+fTsmJbDRy64LUpNy8QjsR2
+   tq8oTzo1PwmO3YZleTaCzC1AZNhCv4X9gt3uGc9JbOwGet/ZIzxBGfFbp
+   Q==;
+X-CSE-ConnectionGUID: h6iNPPL4RrSeFNT2N0msyg==
+X-CSE-MsgGUID: rJInRP1bTgyCGFfcUdIEWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="80676256"
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="69384683"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 18:24:39 -0800
-X-CSE-ConnectionGUID: aaUwJGcGQkeQo8yW3hsZsA==
-X-CSE-MsgGUID: jdjLckdMTwuSmtf3ZCoP2Q==
+   d="scan'208";a="80676256"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 18:45:38 -0800
+X-CSE-ConnectionGUID: 2LIovAO2TRiIHgLQjv5UGw==
+X-CSE-MsgGUID: bmyij+0BTMuSZgQ3Khz4Ag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="203387294"
+   d="scan'208";a="226756579"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 08 Jan 2026 18:24:37 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 08 Jan 2026 18:45:36 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1ve2Az-000000005Ka-3wjx;
-	Fri, 09 Jan 2026 02:24:33 +0000
-Date: Fri, 09 Jan 2026 10:24:28 +0800
+	id 1ve2VK-000000005L2-0vot;
+	Fri, 09 Jan 2026 02:45:34 +0000
+Date: Fri, 09 Jan 2026 10:45:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bing Jiao <bingjiao@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- David Hildenbrand <david@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-new 259/263] mm/vmscan.c:1046:6: warning:
- variable 'target_nid' is uninitialized when used here
-Message-ID: <202601091037.vUSHeJCH-lkp@intel.com>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>
+Subject: [linux-next:master 3642/4725]
+ arch/x86/kernel/cpu/aperfmperf.c:444 scale_freq_tick() warn: unsigned '*_d'
+ is never less than zero.
+Message-ID: <202601091047.oyAz4jQp-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,106 +61,67 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   ba756a5e4580859e0b26f6679d882f81935a7b14
-commit: d92027a5f30a6c5c582169114b1e56d6536ca8f8 [259/263] mm/vmscan: select the closest preferred node in demote_folio_list()
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20260109/202601091037.vUSHeJCH-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fc4e91c639c0af93d63c3d5bc0ee45515dd7504a
+commit: 5ce3218d4f102aca5e90d3c831259b6e380f88b4 [3642/4725] overflow: Remove is_non_negative() and is_negative()
+config: x86_64-randconfig-161-20260108 (https://download.01.org/0day-ci/archive/20260109/202601091047.oyAz4jQp-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601091037.vUSHeJCH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601091037.vUSHeJCH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601091047.oyAz4jQp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+arch/x86/kernel/cpu/aperfmperf.c:444 scale_freq_tick() warn: unsigned '*_d' is never less than zero.
+arch/x86/kernel/cpu/aperfmperf.c:444 scale_freq_tick() warn: unsigned '_a' is never less than zero.
 
->> mm/vmscan.c:1046:6: warning: variable 'target_nid' is uninitialized when used here [-Wuninitialized]
-    1046 |         if (target_nid == NUMA_NO_NODE)
-         |             ^~~~~~~~~~
-   mm/vmscan.c:1026:16: note: initialize the variable 'target_nid' to silence this warning
-    1026 |         int target_nid;
-         |                       ^
-         |                        = 0
-   1 warning generated.
+vim +444 arch/x86/kernel/cpu/aperfmperf.c
 
+5a9d10145a54f7 Rafael J. Wysocki 2024-08-28  436  
+73a5fa7d51366a Thomas Gleixner   2022-04-15  437  static void scale_freq_tick(u64 acnt, u64 mcnt)
+55cb0b70749361 Thomas Gleixner   2022-04-15  438  {
+5a9d10145a54f7 Rafael J. Wysocki 2024-08-28  439  	u64 freq_scale, freq_ratio;
+55cb0b70749361 Thomas Gleixner   2022-04-15  440  
+bb6e89df9028b2 Thomas Gleixner   2022-04-15  441  	if (!arch_scale_freq_invariant())
+bb6e89df9028b2 Thomas Gleixner   2022-04-15  442  		return;
+bb6e89df9028b2 Thomas Gleixner   2022-04-15  443  
+55cb0b70749361 Thomas Gleixner   2022-04-15 @444  	if (check_shl_overflow(acnt, 2*SCHED_CAPACITY_SHIFT, &acnt))
+55cb0b70749361 Thomas Gleixner   2022-04-15  445  		goto error;
+55cb0b70749361 Thomas Gleixner   2022-04-15  446  
+5a9d10145a54f7 Rafael J. Wysocki 2024-08-28  447  	if (static_branch_unlikely(&arch_hybrid_cap_scale_key))
+5a9d10145a54f7 Rafael J. Wysocki 2024-08-28  448  		freq_ratio = READ_ONCE(this_cpu_ptr(arch_cpu_scale)->freq_ratio);
+5a9d10145a54f7 Rafael J. Wysocki 2024-08-28  449  	else
+5a9d10145a54f7 Rafael J. Wysocki 2024-08-28  450  		freq_ratio = arch_max_freq_ratio;
+5a9d10145a54f7 Rafael J. Wysocki 2024-08-28  451  
+5a9d10145a54f7 Rafael J. Wysocki 2024-08-28  452  	if (check_mul_overflow(mcnt, freq_ratio, &mcnt) || !mcnt)
+55cb0b70749361 Thomas Gleixner   2022-04-15  453  		goto error;
+55cb0b70749361 Thomas Gleixner   2022-04-15  454  
+55cb0b70749361 Thomas Gleixner   2022-04-15  455  	freq_scale = div64_u64(acnt, mcnt);
+55cb0b70749361 Thomas Gleixner   2022-04-15  456  	if (!freq_scale)
+55cb0b70749361 Thomas Gleixner   2022-04-15  457  		goto error;
+55cb0b70749361 Thomas Gleixner   2022-04-15  458  
+55cb0b70749361 Thomas Gleixner   2022-04-15  459  	if (freq_scale > SCHED_CAPACITY_SCALE)
+55cb0b70749361 Thomas Gleixner   2022-04-15  460  		freq_scale = SCHED_CAPACITY_SCALE;
+55cb0b70749361 Thomas Gleixner   2022-04-15  461  
+55cb0b70749361 Thomas Gleixner   2022-04-15  462  	this_cpu_write(arch_freq_scale, freq_scale);
+55cb0b70749361 Thomas Gleixner   2022-04-15  463  	return;
+55cb0b70749361 Thomas Gleixner   2022-04-15  464  
+55cb0b70749361 Thomas Gleixner   2022-04-15  465  error:
+55cb0b70749361 Thomas Gleixner   2022-04-15  466  	pr_warn("Scheduler frequency invariance went wobbly, disabling!\n");
+55cb0b70749361 Thomas Gleixner   2022-04-15  467  	schedule_work(&disable_freq_invariance_work);
+55cb0b70749361 Thomas Gleixner   2022-04-15  468  }
+bb6e89df9028b2 Thomas Gleixner   2022-04-15  469  #else
+bb6e89df9028b2 Thomas Gleixner   2022-04-15  470  static inline void bp_init_freq_invariance(void) { }
+bb6e89df9028b2 Thomas Gleixner   2022-04-15  471  static inline void scale_freq_tick(u64 acnt, u64 mcnt) { }
+bb6e89df9028b2 Thomas Gleixner   2022-04-15  472  #endif /* CONFIG_X86_64 && CONFIG_SMP */
+73a5fa7d51366a Thomas Gleixner   2022-04-15  473  
 
-vim +/target_nid +1046 mm/vmscan.c
+:::::: The code at line 444 was first introduced by commit
+:::::: 55cb0b70749361d7f82a979768c77ac301f07da9 x86/smp: Move APERF/MPERF code where it belongs
 
-26aa2d199d6f2c Dave Hansen             2021-09-02  1017  
-26aa2d199d6f2c Dave Hansen             2021-09-02  1018  /*
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  1019)  * Take folios on @demote_folios and attempt to demote them to another node.
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  1020)  * Folios which are not demoted are left on @demote_folios.
-26aa2d199d6f2c Dave Hansen             2021-09-02  1021   */
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  1022) static unsigned int demote_folio_list(struct list_head *demote_folios,
-059c4bb2dc3b93 Bing Jiao               2026-01-08  1023  				      struct pglist_data *pgdat,
-059c4bb2dc3b93 Bing Jiao               2026-01-08  1024  				      struct mem_cgroup *memcg)
-26aa2d199d6f2c Dave Hansen             2021-09-02  1025  {
-d92027a5f30a6c Bing Jiao               2026-01-08  1026  	int target_nid;
-26aa2d199d6f2c Dave Hansen             2021-09-02  1027  	unsigned int nr_succeeded;
-32008027289239 Jagdish Gediya          2022-08-18  1028  	nodemask_t allowed_mask;
-d92027a5f30a6c Bing Jiao               2026-01-08  1029  	nodemask_t preferred;
-32008027289239 Jagdish Gediya          2022-08-18  1030  
-32008027289239 Jagdish Gediya          2022-08-18  1031  	struct migration_target_control mtc = {
-32008027289239 Jagdish Gediya          2022-08-18  1032  		/*
-32008027289239 Jagdish Gediya          2022-08-18  1033  		 * Allocate from 'node', or fail quickly and quietly.
-32008027289239 Jagdish Gediya          2022-08-18  1034  		 * When this happens, 'page' will likely just be discarded
-32008027289239 Jagdish Gediya          2022-08-18  1035  		 * instead of migrated.
-32008027289239 Jagdish Gediya          2022-08-18  1036  		 */
-bd63d0fde2a2c3 Fushuai Wang            2025-10-06  1037  		.gfp_mask = (GFP_HIGHUSER_MOVABLE & ~__GFP_RECLAIM) |
-32008027289239 Jagdish Gediya          2022-08-18  1038  			__GFP_NOMEMALLOC | GFP_NOWAIT,
-e42dfe4e0a51b4 Baolin Wang             2024-03-06  1039  		.nmask = &allowed_mask,
-e42dfe4e0a51b4 Baolin Wang             2024-03-06  1040  		.reason = MR_DEMOTION,
-32008027289239 Jagdish Gediya          2022-08-18  1041  	};
-26aa2d199d6f2c Dave Hansen             2021-09-02  1042  
-49fd9b6df54e61 Matthew Wilcox (Oracle  2022-09-02  1043) 	if (list_empty(demote_folios))
-26aa2d199d6f2c Dave Hansen             2021-09-02  1044  		return 0;
-26aa2d199d6f2c Dave Hansen             2021-09-02  1045  
-26aa2d199d6f2c Dave Hansen             2021-09-02 @1046  	if (target_nid == NUMA_NO_NODE)
-059c4bb2dc3b93 Bing Jiao               2026-01-08  1047  		/* No lower-tier nodes or nodes were hot-unplugged. */
-26aa2d199d6f2c Dave Hansen             2021-09-02  1048  		return 0;
-26aa2d199d6f2c Dave Hansen             2021-09-02  1049  
-32008027289239 Jagdish Gediya          2022-08-18  1050  	node_get_allowed_targets(pgdat, &allowed_mask);
-059c4bb2dc3b93 Bing Jiao               2026-01-08  1051  	mem_cgroup_node_filter_allowed(memcg, &allowed_mask);
-059c4bb2dc3b93 Bing Jiao               2026-01-08  1052  	if (nodes_empty(allowed_mask))
-059c4bb2dc3b93 Bing Jiao               2026-01-08  1053  		return 0;
-059c4bb2dc3b93 Bing Jiao               2026-01-08  1054  
-d92027a5f30a6c Bing Jiao               2026-01-08  1055  	target_nid = next_demotion_node(pgdat->node_id, &preferred);
-d92027a5f30a6c Bing Jiao               2026-01-08  1056  	while (target_nid != NUMA_NO_NODE &&
-d92027a5f30a6c Bing Jiao               2026-01-08  1057  	       !node_isset(target_nid, allowed_mask)) {
-d92027a5f30a6c Bing Jiao               2026-01-08  1058  		/* Filter out preferred nodes that are not in allowed. */
-d92027a5f30a6c Bing Jiao               2026-01-08  1059  		nodes_and(preferred, preferred, allowed_mask);
-d92027a5f30a6c Bing Jiao               2026-01-08  1060  		if (!nodes_empty(preferred)) {
-d92027a5f30a6c Bing Jiao               2026-01-08  1061  			/* Randomly select one node from preferred. */
-d92027a5f30a6c Bing Jiao               2026-01-08  1062  			target_nid = node_random(&preferred);
-d92027a5f30a6c Bing Jiao               2026-01-08  1063  			break;
-d92027a5f30a6c Bing Jiao               2026-01-08  1064  		}
-d92027a5f30a6c Bing Jiao               2026-01-08  1065  		/*
-d92027a5f30a6c Bing Jiao               2026-01-08  1066  		 * Preferred nodes in the lower tier are not set in allowed.
-d92027a5f30a6c Bing Jiao               2026-01-08  1067  		 * Recursively get preferred from the next lower tier.
-d92027a5f30a6c Bing Jiao               2026-01-08  1068  		 */
-d92027a5f30a6c Bing Jiao               2026-01-08  1069  		target_nid = next_demotion_node(target_nid, &preferred);
-d92027a5f30a6c Bing Jiao               2026-01-08  1070  	}
-d92027a5f30a6c Bing Jiao               2026-01-08  1071  
-d92027a5f30a6c Bing Jiao               2026-01-08  1072  	if (target_nid == NUMA_NO_NODE)
-d92027a5f30a6c Bing Jiao               2026-01-08  1073  		/* Nodes are gone (e.g., hot-unplugged). */
-d92027a5f30a6c Bing Jiao               2026-01-08  1074  		return 0;
-059c4bb2dc3b93 Bing Jiao               2026-01-08  1075  	mtc.nid = target_nid;
-32008027289239 Jagdish Gediya          2022-08-18  1076  
-26aa2d199d6f2c Dave Hansen             2021-09-02  1077  	/* Demotion ignores all cpuset and mempolicy settings */
-29ea04095b9697 SeongJae Park           2025-06-16  1078  	migrate_pages(demote_folios, alloc_demote_folio, NULL,
-32008027289239 Jagdish Gediya          2022-08-18  1079  		      (unsigned long)&mtc, MIGRATE_ASYNC, MR_DEMOTION,
-26aa2d199d6f2c Dave Hansen             2021-09-02  1080  		      &nr_succeeded);
-26aa2d199d6f2c Dave Hansen             2021-09-02  1081  
-26aa2d199d6f2c Dave Hansen             2021-09-02  1082  	return nr_succeeded;
-26aa2d199d6f2c Dave Hansen             2021-09-02  1083  }
-26aa2d199d6f2c Dave Hansen             2021-09-02  1084  
-
-:::::: The code at line 1046 was first introduced by commit
-:::::: 26aa2d199d6f2cfa6f2ef2a5dfe891f2250e71a0 mm/migrate: demote pages during reclaim
-
-:::::: TO: Dave Hansen <dave.hansen@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
