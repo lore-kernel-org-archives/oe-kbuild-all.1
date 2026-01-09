@@ -1,79 +1,59 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78319221F13
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 21:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EB122AE65
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 21:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767994848; cv=none; b=cVQxD8vn7sfhCeKZLUUP7QRSjmDp4qKU0YyrAdH/um/l/43e6W3oOwZivEFlF02qfcaFmSvOBGq6DZx1MaFNM0mDAw4H8h9bv74EwtsemPhQOGqLYFrKFcpj20sTI5jAbB5/Bmm+HbpGD3ANK87+YLh3szJazmHvIw3y2QKh2Xo=
+	t=1767995751; cv=none; b=eEo/p/PVlylTT09o+dfZIbh61cV60/WSQl2FGrCOh8qd8LGOSgrgNMJjxboqfClmKBvrAPUOrxR+OH/oaYG9sPMmS876PC7EEmNOYEwr0lpK9JDVyhtgsLPkgcc7JiUmSzQl1j3HrR2dMIkL+qCXMLz3qDMwSQqBd5PX6GoJDNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767994848; c=relaxed/simple;
-	bh=/QSJlUBUdWSP+SY66u3JljD/2KGdEYC7dW5U/Cw+/PE=;
+	s=arc-20240116; t=1767995751; c=relaxed/simple;
+	bh=nxvbnhQ94iieMXFePkCByiBPHnVN8cP0EIPmc3mwLWw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fbWnk0V4GM+JM9sBrR2eRvzAUSr+JVThiJznNP5oBr1QJa8GujcpIYK08Yh+KN7pG2mFsi93pOqCxg8J/8/88vBjHD84augy0xJgCtMTOY+WroUre8j60V2mKf9mbrwtY3TERtYXUGp/w9x5UWpyXzl6IN5vvCrNkchpayUhuGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Vt6i0YVx; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=NWF748QdJXXfc3vW1UV+1399sCTp20wpxXY9iUzAY+ZzI6CflRFffl4tPaXs+Q/DGHxRKwDGatvy3E+zKxGiukCYC9AOp8WB5UeENFLbt0vtIZf0EdTV8JsfAGeOwanx6jx9j3+IZ+glzi8V6D7qndLS6tIdkcQvJ9+zqZ7vNBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mfgz8WZ1; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Vt6i0YVx"
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47d63594f7eso28780575e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 09 Jan 2026 13:40:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767994845; x=1768599645; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sCTw4EBCGwVONJjQmcyN+IYawg2li4nH7oS2Xxt6ei4=;
-        b=Vt6i0YVxdeEo/uleWOgI12WlrtYqNuUmcHiDcXJ5ODiM7MhxqHZ4FArkeNel1sHDvk
-         RS9h4vg/6hrwNQrWaW5ywKgNqUwWoP1RMfMjEfyRInGVBb/6QtO36muVR66qyDPK6ohx
-         HzZs3j3et6P65MIjyH5Y+d7dBivLmtNrEyeT1pjdi9vEhVBmz8vUecy/O3KCAyT/yltI
-         rs0nKfGaDM7ZD5wO4ZYLM/Qpx7xmfmhaKeNUCB5wO6ceLR1j2QaHmTHescr999hh3BWW
-         VXSZPihq73m+QydoHJammHZ+45Db5wD/NGwvyjn+Bzbqc6g5H6tS7vYwqmoIsaAm9HaT
-         QrzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767994845; x=1768599645;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sCTw4EBCGwVONJjQmcyN+IYawg2li4nH7oS2Xxt6ei4=;
-        b=YIbrVKMld2VVgho0mkw9KFSf8i84Qgqt9h4Q7TbTpSej1wkPf/UwN2SoOMA02QFYRp
-         QdFnB10TeeNQq0aU85htX8DPPGwJdzmfDtcTN+dNaTYIemDBPfTnynW+uAOaGo01o8Fq
-         COEgykLvzxYjAuaEDdcKGJWmbvTk6vnxgElc1u2AfEvCRE3e8RNGvFLeuAWmm5PALRft
-         O1OGt2oVFqq6iMk5k6EEhabiFwx+HLRvDSFhI6fbBpASJK79YerM+hGaDmEBYAwh4X9e
-         E/gYocH1FFvjXrVu8TYTsxo7uWQKaV3VPNjWOaivEqs1oPh1ZdD9csA/WkiH6nFHE042
-         R3NA==
-X-Forwarded-Encrypted: i=1; AJvYcCU1jFP+fkF7my0wPkcffO6aUCMt/i3YEpiUKY2jpioRiDG0WXYYfsvbYhOKckUKeAfhRC0O/BbtOcu7dBTl@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy82Q9gfFi8n1kLX7zq+5SG+wkmr1KuPxWfu/gO9sPg8nfvosFh
-	CIS/tIf8npNZ9zyVbxqlOD2+bwFedfPbUlGmWnZHmglZGqarCYLgwUoh65MdOStW8+o=
-X-Gm-Gg: AY/fxX6qapcU1OG3gslzpEW0rIdHS/Yxkq3WKFoZxcNaMnynCtcfbbRWzNrEJ1tlOX7
-	bIHpcwpsmieDE0Yw8F0nv+xkRSnwXfc7fsqkm5hZ7a1rZITaPErZ3sUeiceMe4+GJ6yMhFMIYuo
-	rRMThyCCyJ8jvevoqmojxJ6+7vkw+W88enV1UVARqDbnnO/oNGFwjGUQOYcuEya+tcmOf0R/qVe
-	AKeU7FT+2cX7er/4iOC2C3uITVaxYygbyjRSkuxXQK3llvvC2kGTdDzjLG7LpsnT7T3+wb7LLSu
-	wYnIGQOweuJu1xHOHy8Akksp4NhQ+pD5i+Xvmm2C39/jM7ZoMmKsZPaTg+6dIX6QyruJ4U81HxM
-	2p8egB32479YJJcaQVWqYRSYMP2mi5xzFBJ4BnqdJUj9wM3eAGj9Bh4Y4hEJkE8rNjKgBgwqNvY
-	pogFdrj5PeJHu3MlKw
-X-Google-Smtp-Source: AGHT+IHZeutMutt4esVNRapvQ9J/Z5RqsU8ZQldTS4RPxGqd9QwuZ9aFqAW34NuikYYDRpVsKKDUiw==
-X-Received: by 2002:a05:600c:4fd4:b0:479:35e7:a0e3 with SMTP id 5b1f17b1804b1-47d84b3b687mr128511495e9.30.1767994844639;
-        Fri, 09 Jan 2026 13:40:44 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f68f4ddsm235668775e9.2.2026.01.09.13.40.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 13:40:44 -0800 (PST)
-Date: Sat, 10 Jan 2026 00:40:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: oe-kbuild@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH 3/5] tracing: Have tracer option be instance specific
-Message-ID: <aWF12Wjv_MIKu6hQ@stanley.mountain>
-References: <20251105161935.545400234@kernel.org>
- <202511071533.domGENBS-lkp@intel.com>
- <20260109102301.19daeb27@gandalf.local.home>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mfgz8WZ1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767995750; x=1799531750;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nxvbnhQ94iieMXFePkCByiBPHnVN8cP0EIPmc3mwLWw=;
+  b=mfgz8WZ1MVVPFQkccUUBZJ5hLcz2uOtVIqesq9v91D8sRbfjlr400wgr
+   Yiu1N6fsNYQOJA9a/aqVwn/skbmUoRvXAmj1vmgdFlTc1dBwLwAFznAq1
+   h1fCmO98Vrd4Y4Br5VIuhCMj5QZycRL8tMlOSTx/H/D57gsgEot37+Aex
+   fLAr7GZKHt98HfmPdcwymuEFzdro5xwMEBrR/zYCfX55Bu4ByOBB+zCAg
+   ZcKchWfGVbKY5Sjur01Fuqqs0vWz+Z2fsexCNYrzUWgTHs+7MS5fRKYKI
+   xGzzMkqGLz2jI63cdbd1UTAN1ZF/YUpw0QQ2jCG4v/CYQOm8jj63ponEG
+   w==;
+X-CSE-ConnectionGUID: VrBnN8VOSz+xwF/Al9Azpg==
+X-CSE-MsgGUID: KCi8sPE9R4GqRNsbpXcDCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11666"; a="80746160"
+X-IronPort-AV: E=Sophos;i="6.21,215,1763452800"; 
+   d="scan'208";a="80746160"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 13:55:49 -0800
+X-CSE-ConnectionGUID: BEYileuBRdifNwGEV9HCjQ==
+X-CSE-MsgGUID: OrMHRQArSMyIPJlfp++J0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,215,1763452800"; 
+   d="scan'208";a="203482413"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 09 Jan 2026 13:55:48 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1veKSP-000000007lE-3IeG;
+	Fri, 09 Jan 2026 21:55:45 +0000
+Date: Sat, 10 Jan 2026 05:55:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: rick.macklem@gmail.com, linux-nfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Rick Macklem <rmacklem@uoguelph.ca>
+Subject: Re: [PATCH v1 5/7] Make nfs4_server_supports_acls() global
+Message-ID: <202601100546.EDWB9nf6-lkp@intel.com>
+References: <20260102232934.1560-6-rick.macklem@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,41 +62,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260109102301.19daeb27@gandalf.local.home>
+In-Reply-To: <20260102232934.1560-6-rick.macklem@gmail.com>
 
-On Fri, Jan 09, 2026 at 10:23:01AM -0500, Steven Rostedt wrote:
-> On Mon, 5 Jan 2026 18:23:31 +0300
-> Dan Carpenter <dan.carpenter@linaro.org> wrote:
-> 
-> > Hi Steven,
-> 
-> Hi Dan,
-> 
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Remove-dummy-options-and-flags/20251106-010511
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-> > patch link:    https://lore.kernel.org/r/20251105161935.545400234%40kernel.org
-> 
-> This is an old patch (v1) and v3 fixed this issue:
->    https://lore.kernel.org/all/20251110234341.767135255@kernel.org/
-> 
->  and v4 was applied and is now in mainline.
-> 
-> The patch you are reporting on was sent Nov 5th, the fix was sent Nov 10th.
-> 
-> Why is this sending reports about an old patch that is obsolete? Is there
-> something wrong with your setup?
-> 
-> -- Steve
->
+Hi,
 
-Yeah.  I appologize.  That was my bad.  I accidentally was looking
-at old emails.  I think this was the only one I sent, though.
+kernel test robot noticed the following build errors:
 
-regards,
-dan carpenter
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on linus/master v6.19-rc4 next-20260109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/rick-macklem-gmail-com/Add-entries-to-the-predefined-client-operations-enum/20260103-073239
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20260102232934.1560-6-rick.macklem%40gmail.com
+patch subject: [PATCH v1 5/7] Make nfs4_server_supports_acls() global
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260110/202601100546.EDWB9nf6-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260110/202601100546.EDWB9nf6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601100546.EDWB9nf6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/nfs/nfs4proc.c: In function 'nfs4_server_supports_acls':
+>> fs/nfs/nfs4proc.c:6083:50: error: 'FATTR4_WORD2_POSIX_DEFAULT_ACL' undeclared (first use in this function)
+    6083 |                 return server->attr_bitmask[2] & FATTR4_WORD2_POSIX_DEFAULT_ACL;
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4proc.c:6083:50: note: each undeclared identifier is reported only once for each function it appears in
+>> fs/nfs/nfs4proc.c:6085:50: error: 'FATTR4_WORD2_POSIX_ACCESS_ACL' undeclared (first use in this function); did you mean 'FATTR4_WORD1_TIME_ACCESS_SET'?
+    6085 |                 return server->attr_bitmask[2] & FATTR4_WORD2_POSIX_ACCESS_ACL;
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                  FATTR4_WORD1_TIME_ACCESS_SET
+
+
+vim +/FATTR4_WORD2_POSIX_DEFAULT_ACL +6083 fs/nfs/nfs4proc.c
+
+  6071	
+  6072	bool nfs4_server_supports_acls(const struct nfs_server *server,
+  6073					      enum nfs4_acl_type type)
+  6074	{
+  6075		switch (type) {
+  6076		default:
+  6077			return server->attr_bitmask[0] & FATTR4_WORD0_ACL;
+  6078		case NFS4ACL_DACL:
+  6079			return server->attr_bitmask[1] & FATTR4_WORD1_DACL;
+  6080		case NFS4ACL_SACL:
+  6081			return server->attr_bitmask[1] & FATTR4_WORD1_SACL;
+  6082		case NFS4ACL_POSIXDEFAULT:
+> 6083			return server->attr_bitmask[2] & FATTR4_WORD2_POSIX_DEFAULT_ACL;
+  6084		case NFS4ACL_POSIXACCESS:
+> 6085			return server->attr_bitmask[2] & FATTR4_WORD2_POSIX_ACCESS_ACL;
+  6086		}
+  6087	}
+  6088	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
