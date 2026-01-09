@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D252329E73
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 09:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3FB3321B3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 09:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767949405; cv=none; b=J6yhvFJWlh+L5AwtvOeVq57spJYB6nnYoyWtvuSRi+su3jEJOp536/e8YxkSDz+qhnCwAT3GxfzK8N0L2e0r3YqZW9NQZzAmpbITRkHlS/RuLMXoPdLz9dAhttNtvKbuZAokw77Q0k63lMW9AvlKbPNCf4jvFVOo82X5aTnwc/I=
+	t=1767949645; cv=none; b=f61Ql7/OO4a3dMHTqBIbJZz00UmbOuzwiXEOrlWk5RYEycUUOXPyqJyobks3NmtLGLS4ZSW1bi6R6HsQYObRQKPsMM+GeHgox5CJQONbPo1JKjJDaMEqrB07KRkZQtRqB05mjc7W25LDP1UM2feuy1UOGAfK4VU0m0K9t4HvifI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767949405; c=relaxed/simple;
-	bh=SCJTmQMDIObP9wvvSTD0LQOD0jhq8mukwbbebz4X98w=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=O8AnJc/V2F9X49LmSPzkXT17V91dFHf1netn6e5phpqum/yFcv3T9YkOoycMKQbQ8fsm35oVOrm1qpufWyrzYjQ7Zt8lSpuFTAbvXki5iqt1vfDlfmIoGsoyIv2yCs84NYtTqTlPTPt0K6CZVaYRq6hLVEv0IApdLX7TzUDzBYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QuB1kldb; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1767949645; c=relaxed/simple;
+	bh=7G+9t76Xl4vHftcLGMuOQGnxXB3QER2/OcCqkK/nIrc=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gbQtDouVOSl0RgB/AcIMof7i7VAPu1ux370O2GBVp/wZHKSKE6x2TxLwxGbv2G49qV6pzMeLzqB1GBdcH/PNHZyhC7BDe8PcIR+zv9glwrb3Qy3nLwZVuF7lsGMizhqcs6PFbDJs5dXlnOmzO6WLZqrb9sZrd6zq+lWD2dO8EiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KaHvuC0R; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QuB1kldb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KaHvuC0R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767949404; x=1799485404;
+  t=1767949644; x=1799485644;
   h=date:from:to:cc:subject:message-id;
-  bh=SCJTmQMDIObP9wvvSTD0LQOD0jhq8mukwbbebz4X98w=;
-  b=QuB1kldbrKixMvKYzfw8W9jRdsY5uJ4KUZR4SrTrfETjiNx72SWtIdPj
-   G+yoEsyB8a1sb6n8grjgjHagV3j9F0ojziaEI3fWkRftBdgT//3tZsAlB
-   xxAYBMSDAwIg9zG6+F/hQnWVV4L3aM4l5DkLwxZSUdrKlxVMD5i5Jqkwh
-   7AO98rGc7Qf/r42Zih7cowkt+548lNAyIpFE1VmoHI313io4mLzUktGHC
-   zxKck9v64fbHUKvXzdzOeDgsQIRQqHdIdD1O3Au98RVNkTk9ddHaZp3kH
-   Y/5aOHs9BsyikXRcGYB2HgF6eyczRPmTDHAjmDet+o0M4OZag1l2mk8oq
-   A==;
-X-CSE-ConnectionGUID: aSSzg+eBRwe/bDcwCEEVoA==
-X-CSE-MsgGUID: S7arco9/SJKBzWMvZhjfaw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69068840"
+  bh=7G+9t76Xl4vHftcLGMuOQGnxXB3QER2/OcCqkK/nIrc=;
+  b=KaHvuC0RUoEIz5/1xjrfcisepAzbZr3hjw6Ch0OSDyZQaTCEgBbr5kOU
+   CIE1YKruTWFcBLHipBmJQNepsN+2NtldpVwY3dht0chE4X3aDozfHgaUA
+   ZYxyYEuqv7VWp8ynfG++b/jJcN4CYfNQjY8DCPCtN7/da6w7FU6KCxzG6
+   uRM03WebgveB7Ve4taRShz4o4oTEmC79UkCODcUjVSfUG9uQLX2VTCPou
+   +geMn5vn1IXsIhfK+2KG9XGgp8Am8RXGCGntTENoKitgtZmM3wS4/djeo
+   nWZcPn4etfLgd2B9UtpQrXGHBBCX+6W3nAqGk+TC/Lve4jGJltv9t281H
+   g==;
+X-CSE-ConnectionGUID: rxs0RGKCQU2d4rX87s87Gw==
+X-CSE-MsgGUID: NcwTtwUnSaOq/zMhVrIkEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="79969587"
 X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="69068840"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 01:03:23 -0800
-X-CSE-ConnectionGUID: Odzc50hjTdOmLOMBYxLOiw==
-X-CSE-MsgGUID: CDtJdgyWTh2aawsocIykdA==
+   d="scan'208";a="79969587"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 01:07:23 -0800
+X-CSE-ConnectionGUID: CSXAaBX5Rxqqxxgf/OHtHw==
+X-CSE-MsgGUID: kPUvjnHuR6GdWO0qTRzt6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="203202788"
+   d="scan'208";a="202541278"
 Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 09 Jan 2026 01:03:21 -0800
+  by orviesa006.jf.intel.com with ESMTP; 09 Jan 2026 01:07:21 -0800
 Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1ve8Ot-0000000022S-0S1N;
-	Fri, 09 Jan 2026 09:03:19 +0000
-Date: Fri, 09 Jan 2026 10:02:45 +0100
+	id 1ve8Sl-0000000022W-0f0N;
+	Fri, 09 Jan 2026 09:07:19 +0000
+Date: Fri, 09 Jan 2026 10:06:42 +0100
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Amir Goldstein <amir73il@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1] htmldocs:
- Documentation/gpu/rfc/color_pipeline.rst:300: WARNING: Definition list ends
- without a blank line; unexpected unindent. [docutils]
-Message-ID: <202601091018.DKbNfcnT-lkp@intel.com>
+Subject: [amir73il:user_path_file 2/2] fs/overlayfs/file.c:51:69:
+ warning: passing argument 1 of 'file_user_cred' discards 'const' qualifier
+ from pointer target type
+Message-ID: <202601091014.yhnPpyCU-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,151 +60,69 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Uma,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   343ae88aa8b1ab4bc0df083d2d5c8c58d3b560d2
-commit: acfa087c53ea775bb262d9430896dc5a1889e2dd [1/1] FROMLIST: drm/doc/rfc: Add documentation for multi-segmented 1D LUT
-reproduce: (https://download.01.org/0day-ci/archive/20260109/202601091018.DKbNfcnT-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux user_path_file
+head:   e01a54da66bb15db70e9c68e9c4fcfd458fab424
+commit: e01a54da66bb15db70e9c68e9c4fcfd458fab424 [2/2] backing_file: store user_path_file
+config: x86_64-rhel-9.4-ltp (https://download.01.org/0day-ci/archive/20260109/202601091014.yhnPpyCU-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601091014.yhnPpyCU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601091018.DKbNfcnT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601091014.yhnPpyCU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Documentation/gpu/drm-kms:491: ./drivers/gpu/drm/drm_modeset_lock.c:392: WARNING: Duplicate C declaration, also defined at gpu/drm-kms:49.
-   Declaration is '.. c:function:: int drm_modeset_lock (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'. [duplicate_declaration.c]
-   WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.2.3 -internal ./include/linux/hdmi.h' failed with return code 2
-   Documentation/gpu/drm-uapi:434: ./drivers/gpu/drm/drm_ioctl.c:882: WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:70.
-   Declaration is '.. c:function:: bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'. [duplicate_declaration.c]
->> Documentation/gpu/rfc/color_pipeline.rst:300: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/gpu/rfc/color_pipeline.rst:301: WARNING: Definition list ends without a blank line; unexpected unindent. [docutils]
-   Documentation/gpu/rfc/color_pipeline.rst:347: ERROR: Unexpected indentation. [docutils]
->> Documentation/gpu/rfc/color_pipeline.rst:349: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/gpu/rfc/color_pipeline.rst:350: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/gpu/rfc/color_pipeline.rst:378: ERROR: Unexpected indentation. [docutils]
->> Documentation/gpu/rfc/color_pipeline.rst:376: WARNING: Inline emphasis start-string without end-string. [docutils]
-   Documentation/gpu/rfc/color_pipeline.rst:382: ERROR: Unexpected indentation. [docutils]
-   Documentation/gpu/rfc/color_pipeline.rst:384: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/gpu/rfc/color_pipeline.rst:385: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/gpu/rfc/color_pipeline.rst:388: ERROR: Unexpected indentation. [docutils]
-   Documentation/gpu/rfc/color_pipeline.rst:385: WARNING: Inline emphasis start-string without end-string. [docutils]
+   fs/overlayfs/file.c: In function 'ovl_open_realfile':
+>> fs/overlayfs/file.c:51:69: warning: passing argument 1 of 'file_user_cred' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+      51 |                                                      file_user_cred(file),
+         |                                                                     ^~~~
+   In file included from fs/overlayfs/file.c:14:
+   include/linux/backing-file.h:32:62: note: expected 'struct file *' but argument is of type 'const struct file *'
+      32 | static inline const struct cred *file_user_cred(struct file *f)
+         |                                                 ~~~~~~~~~~~~~^
 
 
-vim +300 Documentation/gpu/rfc/color_pipeline.rst
+vim +51 fs/overlayfs/file.c
 
-   290	
-   291		struct drm_color_lut_range {
-   292		       __u32 flags;
-   293		       __u16 count;
-   294		       __s32 start, end;
-   295		       __u32 norm_factor;
-   296	
-   297		       struct {
-   298		               __u16 intp;
-   299		               __u16 fracp;
- > 300		       } precision;
-   301		};
-   302	
-   303	If a hardware has multiple segments in 1D LUT, each segment will be represented
-   304	by one instance of the above structure and the whole 1D LUT block will be represented
-   305	by an array of drm_color_lut_range.
-   306	
-   307	Here,
-   308	
-   309	flags : This indicates LUT characteristics like linearly increasing, negative
-   310		reflect or any other property of the LUT.
-   311	
-   312	count : Number of samples in the respective segments.
-   313	
-   314	start, end : It indicates the starting point and ending point of the segment respectively.
-   315		This represent a point in 0 to 1.0 color space curve and the value depends on
-   316		the normalization factor chosen.
-   317	
-   318	norm_factor : This factor helps define a scale to represent LUT sample with the smallest step size
-   319		      in case of uniform or non-uniform LUT sample distribution.
-   320	
-   321	precision: It indicates the fixed point precision of HW LUT including integer and fractional component.
-   322	
-   323	To explain the usage with some real life example
-   324	------------------------------------------------
-   325	
-   326	1. Conventional 1D LUT with just one segment
-   327	
-   328			|---|---|------------------------------------|
-   329			0   1   2                                   1024
-   330	
-   331	
-   332		- Hardware Description: A color block with a LUT linearly interpolating and
-   333					covering range from 0 to 1.0
-   334						- Number of segments - 1
-   335						- Number of samples in LUT 1024
-   336						- Precision of LUT samples in HW 0.10
-   337						- Normalization Factor - Max value to represent 1.0
-   338							 in terms of smallest step size which is 1024.
-   339	
-   340		In this case, it will be represented by the following structure.
-   341	
-   342		struct drm_color_lut_range lut_1024[] = {
-   343				.start = 0 .end = (1 << 10);
-   344				.normalization_factor = 1024;
-   345				.count = 1024;
-   346				.precision {
-   347					.int_comp = 0;
-   348					.fractional_comp = 10;
- > 349				}
-   350			}
-   351	
-   352	2. Piece Wise Linear 1D LUT
-   353	
-   354		        |---|---|------------------------------------|
-   355			0   1   2                                   32
-   356			|    \
-   357	                |       \
-   358	                |          \
-   359	                |             \
-   360	                |                \
-   361			0                   \
-   362	                |---|---|--...-------|
-   363			0   1   2            8
-   364	
-   365		- Hardware Description: A color block with a LUT linearly interpolating and
-   366					covering range from 0 to 1.0
-   367						- Number of segments 2
-   368						- Number of samples
-   369							- segment 1 - 9 (covers range from 0 to 1/32)
-   370							- segment 2 - 30 (covers range from 2/32 to 1.0)
-   371						- Precision of LUT samples in HW 0.24
-   372						- Normalization Factor - Max value to represent 1.0
-   373							 in terms of smallest step size which is 8*32.
-   374	
-   375			struct drm_color_lut_range lut_pwl[] = {
- > 376			        /* segment 1 */
-   377			        {
-   378					.count = 9,
-   379					.start = 0, .end = 8,
-   380					.norm_factor = 8*32,
-   381					.precision = {
-   382						.intp = 0,
-   383						.fracp = 24,
-   384					},
-   385				},
-   386			        /* segment 2 */
-   387				{
-   388					.count = 30,
-   389					.start = 8*2, .end = 8*32,
-   390					.norm_factor = 8*32,
-   391					.precision = {
-   392						.intp = 0,
-   393						.fracp = 24,
-   394					},
-   395			        },
-   396			}
-   397	
+    26	
+    27	static struct file *ovl_open_realfile(const struct file *file,
+    28					      const struct path *realpath)
+    29	{
+    30		struct inode *realinode = d_inode(realpath->dentry);
+    31		struct inode *inode = file_inode(file);
+    32		struct mnt_idmap *real_idmap;
+    33		struct file *realfile;
+    34		int flags = file->f_flags | OVL_OPEN_FLAGS;
+    35		int acc_mode = ACC_MODE(flags);
+    36		int err;
+    37	
+    38		if (flags & O_APPEND)
+    39			acc_mode |= MAY_APPEND;
+    40	
+    41		with_ovl_creds(inode->i_sb) {
+    42			real_idmap = mnt_idmap(realpath->mnt);
+    43			err = inode_permission(real_idmap, realinode, MAY_OPEN | acc_mode);
+    44			if (err) {
+    45				realfile = ERR_PTR(err);
+    46			} else {
+    47				if (!inode_owner_or_capable(real_idmap, realinode))
+    48					flags &= ~O_NOATIME;
+    49	
+    50				realfile = backing_file_open(file_user_path(file),
+  > 51							     file_user_cred(file),
+    52							     flags, realpath, current_cred());
+    53			}
+    54		}
+    55	
+    56		pr_debug("open(%p[%pD2/%c], 0%o) -> (%p, 0%o)\n",
+    57			 file, file, ovl_whatisit(inode, realinode), file->f_flags,
+    58			 realfile, IS_ERR(realfile) ? 0 : realfile->f_flags);
+    59	
+    60		return realfile;
+    61	}
+    62	
 
 -- 
 0-DAY CI Kernel Test Service
