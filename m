@@ -1,119 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB3C2D131D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 07:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA64C8EB
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 07:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767944726; cv=none; b=I5EJ+pVpyPBQgSNRy2XVUa/7lms40Zu5qv4RmUMUudp66a0wVHUOa15bNhsdyz8ukKBPAq1ulQkCZaRYKi+39sHWGaiyJL2zDUKgMp6hHYHNlSfQzBZLz4v2M0J9e7u+8FPcxxT2DfCXgf7JviDzIL6/fshNYMyWbiYxiRHFrLo=
+	t=1767945243; cv=none; b=Z1gLoyflmbWj6M1FhE+hmENjN8QEaQMqmNRHRQp6IXbwm/iSO3OLi46xxlW7T/wQBMferxdFuTVQ+MQ1br6w8g5GCwbhlCvyA/ckE9qI2kRYMNRCoqVHZxyjjbCkoR50zMAcVEsCmUsWdDpX8pv6FVqJGlNA8zZlHKYudQ2X+nE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767944726; c=relaxed/simple;
-	bh=B9AuQJTXV9wQV7VS4Se1Qf45TehA6mrvp6M/nzMRcdI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f6QMXtj9qhFmKcC9pEQLP3m0aHjHksi/a0ipTBPMtPsE2za2NqMO2z/bmJR+sTFczYHHcvsyh5wfp0R9WnQjCGJJkLlzHoJDaaR+1ZBjFCAnpC303PLAAt3JzfZy9Pcb70YkYXg/QYMkvzWGmyHYYBYl/CmUtfBkEoyauRr2mEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mR2bxLcc; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1767945243; c=relaxed/simple;
+	bh=UBl6nO+UW7MIwwPjH/cY7CrgyYxzDug711QOeI3SpE0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bFJu9er11+ShRkXmjv6GgxxMyzMBLhBbyM4J8qddbns6k2POftp/oETE70Z3FWs2IDcBHJrd3gnmf1bIZfiaM0SygdFS3A/O0ndiCzMA7MR7xuBpLAukq4x9L+iMOHu5Ad0Y+4paNXpLaNnZ4ZkF0syn3yxnlQ//v+sC7sUqvRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qV+WLt5v; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mR2bxLcc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767944724; x=1799480724;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B9AuQJTXV9wQV7VS4Se1Qf45TehA6mrvp6M/nzMRcdI=;
-  b=mR2bxLccs1bfZmW6UeZgDXA24tugPQ5CxemNGpCcERaIDMQSyT/x+yof
-   bHhPNyccha2aQCMSlMprg04VdHx5EVDGiT00FFmLIuEUhy+puy1wDmOUB
-   +PVRREZ+hZv9we/+H7c9F82uLN/DZNCzqGhp1RvN24ev+UbdTxAqud/Bc
-   OTJZ62qgFEeT/VXNbelTt+DjSdEoVbrJwuMCjEIsgdaM7+oGCsMWhLSLN
-   fvqXV0R++A5BnSsg+jof4kyQ7cVKDUJVKhrnlO2ZYXwZFXm4S9GRTOWnC
-   xx/JeK5v9+IcpYupk5sGKwqg4EzvijW426xA2zRwxzlgm3QoOPHlk+Hof
-   A==;
-X-CSE-ConnectionGUID: 3X8ltPVdRV+xyOI4r02S1Q==
-X-CSE-MsgGUID: SWNuMk8tRHabCaO4hgwCCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="86912501"
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="86912501"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 23:45:24 -0800
-X-CSE-ConnectionGUID: +++36T+mSqqo6gfRQWD6Qg==
-X-CSE-MsgGUID: 54QTaAWYQ+SKatFi2ottTw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
-   d="scan'208";a="207941505"
-Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 08 Jan 2026 23:45:20 -0800
-Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1ve7BO-0000000021A-0u91;
-	Fri, 09 Jan 2026 07:45:18 +0000
-Date: Fri, 9 Jan 2026 08:45:15 +0100
-From: kernel test robot <lkp@intel.com>
-To: Benno Lossin <lossin@kernel.org>, Gary Guo <gary@garyguo.net>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, Fiona Behrens <me@kloenk.dev>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alban Kurti <kurti@invicto.ai>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH 06/12] rust: pin-init: rewrite `#[pin_data]` using `syn`
-Message-ID: <202601090815.gvBfNWeh-lkp@intel.com>
-References: <20260108135127.3153925-7-lossin@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qV+WLt5v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C44E4C4CEF1;
+	Fri,  9 Jan 2026 07:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767945243;
+	bh=UBl6nO+UW7MIwwPjH/cY7CrgyYxzDug711QOeI3SpE0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qV+WLt5vTta8lOYS3slaMGDcvSJAuU9EFijOeHSnbKgAOu2Vr3KrysvlL0bNEBuWZ
+	 wMX5sWe6LAmfdMSygPCp+ed2FZWq/ogk369E4zTQ7ty2UupSpQZRvaZwPAa70+rQXh
+	 X7VGghz3m04VqL78t5GNcLoGbjXviy3rw14IGE2eYEDOBcrXnQ3ilUND/XNm5IhW+W
+	 vV+VjmqqvKDE6jEoK52jqhRwrrFZ4Dt91YgQC4J7gADJ+QfhBOOj3tmiwd39KRGYU2
+	 eorjG22/B0zxox3exl+jeKdYORcOszDSOWuu2w50K0nKyiRd5bJSWw+HaBythm6zSU
+	 sqzImG2uaTswQ==
+Message-ID: <0fc9bf7e-291c-46f2-aafd-bd15835f41e2@kernel.org>
+Date: Fri, 9 Jan 2026 08:53:57 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260108135127.3153925-7-lossin@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 3642/4725]
+ arch/x86/kernel/cpu/aperfmperf.c:444 scale_freq_tick() warn: unsigned '*_d'
+ is never less than zero.
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>
+References: <202601091047.oyAz4jQp-lkp@intel.com>
+From: Vincent Mailhol <mailhol@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=mailhol@kernel.org; keydata=
+ xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
+ JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
+ fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
+ F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
+ 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
+ YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
+ dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
+ zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
+In-Reply-To: <202601091047.oyAz4jQp-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Benno,
+Hi kernel test robot team,
 
-kernel test robot noticed the following build warnings:
+Le 09/01/2026 à 03:45, kernel test robot a écrit :
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   fc4e91c639c0af93d63c3d5bc0ee45515dd7504a
+> commit: 5ce3218d4f102aca5e90d3c831259b6e380f88b4 [3642/4725] overflow: Remove is_non_negative() and is_negative()
+> config: x86_64-randconfig-161-20260108 (https://download.01.org/0day-ci/archive/20260109/202601091047.oyAz4jQp-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601091047.oyAz4jQp-lkp@intel.com/
+> 
+> smatch warnings:
+> arch/x86/kernel/cpu/aperfmperf.c:444 scale_freq_tick() warn: unsigned '*_d' is never less than zero.
+> arch/x86/kernel/cpu/aperfmperf.c:444 scale_freq_tick() warn: unsigned '_a' is never less than zero.
 
-[auto build test WARNING on rust/rust-next]
-[also build test WARNING on linus/master v6.19-rc4 next-20260109]
-[cannot apply to rust/pin-init-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benno-Lossin/rust-pin-init-allow-the-crate-to-refer-to-itself-as-pin-init-in-doc-tests/20260108-234753
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20260108135127.3153925-7-lossin%40kernel.org
-patch subject: [PATCH 06/12] rust: pin-init: rewrite `#[pin_data]` using `syn`
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260109/202601090815.gvBfNWeh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601090815.gvBfNWeh-lkp@intel.com/reproduce)
+This warning has been silenced in smatch this week:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601090815.gvBfNWeh-lkp@intel.com/
+  https://github.com/error27/smatch/commit/a7b509b8171b4982b5a2a355f64d083dd76e03f9
 
-All warnings (new ones prefixed by >>):
+Can you update the smatch tool in your CI? That will fix the issue.
 
->> warning: hidden lifetime parameters in types are deprecated
-   --> rust/pin-init/internal/src/pin_data.rs:24:33
-   |
-   24 |     fn parse(input: syn::parse::ParseStream) -> Result<Self> {
-   |                     ------------^^^^^^^^^^^
-   |                     |
-   |                     expected lifetime parameter
-   |
-   = note: `-W elided-lifetimes-in-paths` implied by `-W rust-2018-idioms`
-   = help: to override `-W rust-2018-idioms` add `#[allow(elided_lifetimes_in_paths)]`
-   help: indicate the anonymous lifetime
-   |
-   24 |     fn parse(input: syn::parse::ParseStream<'_>) -> Result<Self> {
-   |                                            ++++
+Thank you,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Yours sincerely,
+Vincent Mailhol
+
