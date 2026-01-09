@@ -1,121 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC23733556E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 09:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89722D9EF3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 10:06:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767952774; cv=none; b=l/1t97p0LJpX38jXK2C3Os1GySdgCc9fpKtTzmpd45M/+YEuMSHnzwxVtWwzylPYfMpLW71M/pcws6dTJ9XBkWwTVKcPdEvQcVCR2Mpw95Q2KN99x87QsZqjLaERDwAody09lSD7gETW4zJeUXk/44JYlMSl9ItkfUaqzLpI04E=
+	t=1767953196; cv=none; b=E+mURrabjsMZtHe4gYOXA7OvcNs/7fqHwceq5F8y+cfwRFWzxdj+uHXZ5QbICauQuqv3ql/ui/eFP6zq+oMuwi/dzqS4Ut64PXnp1bsrh94wt1w84Tl5b7dQYQzt2WMSjGJEAbNlPsB8sOheN8FhsmZQxGA2QZ4qT2PZ5415Li0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767952774; c=relaxed/simple;
-	bh=LZqrWDWTbIDrSdAD71KA7FejUHmPysfIUvdtncvlfKI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tSn2ItmPzOO0sDHvuWWQaBUmamJXUo6xu0BgES7IxW8nrINqp0jJxcJwBo3KOJDkJxE8JmsV0cG/d0pucGVeqgO++ZCAQfmUr1HE7bqwqtBvmwMwac+sO3KkEJD8HYYWGS+zY8rA9YMiIz846TLIa3fVqsrBGsyR+aXMwA03eB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kK/pmPuJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767953196; c=relaxed/simple;
+	bh=dVNLGsEhjzyMH5zCyCwHe0TBnaaS+ieMSiJ5T5S71bE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=SlSudTljempcxEg1yKkFzkJBkpuXQf3lXkgFn8s5gOZg/TV0SakhZreZi3+WDmueklExb1DCY7sKD6tZ0PXw9dZLVaNRk4OhKEMDfjhLeKi269ZOEGTRY1Ffe9NBmUKHjGx0F4Wmz+jt6/t8Ay6G/K7JpWqvEYB7OhUjCO976SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mubJKFwE; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kK/pmPuJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF13CC19424
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 09:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767952773;
-	bh=LZqrWDWTbIDrSdAD71KA7FejUHmPysfIUvdtncvlfKI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kK/pmPuJrvyyiwbA6vSwLsyYrGo56fLiZDs5EMnjNQIIDnBBtEsvx4J/kkVB46Gl/
-	 TknbapiBzHZIHIpnQiNoh7DI3pAgvPcncIEbGXHeOiWY00iY8Tuz4wmOF9PGqq2d1g
-	 q60uw1XQ/8zr6h0E5noT7z8IOal7Tl1CGktpDFTFZzZwZ96+5y6f0LXLvfPUW/v+je
-	 yX5HlsM23SlB8BMCJP9iOzis9BsyVzvJgHxUK/75m1jaUeZHXYJozKakCjd26iExzi
-	 t+/R3E1TpX7u7O46fAsB7/eHzpmVvPeAmPU/m2dAaCUlrXBKP2YsEKhPCmXNUGvf/q
-	 ILJFYPmERafaA==
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2a0f3f74587so33890855ad.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 09 Jan 2026 01:59:33 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWlFZwLMouWXUvSQGK4CqfniHNY0wFSfkDgi5REQqyXz1vodVbubS/TPgFyVzCzsE24lLeXaqmV994t2fl7@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw32gt7we/v370jOTEVxilLociBq/mIAJrnSfRRRmLu4FNEwtKj
-	zDuZkPWz9xPb5bTROBYnVWi4+chDKTZUyJfa8dyXW0dpTk6V5I5H0Q8Xp/cB09HgFqcbmbtdW9D
-	GIH/uYnQLyDKUVYK5siKlpQg74h/Yw10=
-X-Google-Smtp-Source: AGHT+IGrbRetguYoybNkQKDlNdppaa9rD7nNlywiwGgjsunAkMECDoUhmYB8SkLaUuN3hyN6tGYVk9Sq/oPFzzfNB5o=
-X-Received: by 2002:a17:902:f549:b0:295:195:23b6 with SMTP id
- d9443c01a7336-2a3ee4f39c4mr86961425ad.55.1767952773361; Fri, 09 Jan 2026
- 01:59:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mubJKFwE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767953194; x=1799489194;
+  h=date:from:to:cc:subject:message-id;
+  bh=dVNLGsEhjzyMH5zCyCwHe0TBnaaS+ieMSiJ5T5S71bE=;
+  b=mubJKFwE6GvZcWRGGbKd5JXAunMqn4SNpITCCfvkiTZUUXYgPDOoDdxa
+   OkJ8O+QQNENvmd6d9OXjTL86GVnPfF/hJDMaLh8YCMkzelrG2+9S4ggSx
+   AWzd7dRs+Ki6E86upP+TS6slHbd/8LGh3m/mf9Na/mHaYr4RZS+gjy5ZL
+   uI5w6zUkmyvPK3TWXeeHxJwIhA7YbN2zidWU+saLz9fuo6JBUZZ9FRgIs
+   abU/8gm/riu3nBxQ4K7i2tq5ViM09KoswZBO7QfmuQKXLHSamRlIl54TC
+   G8+KEycN/D5VHTzNFG33wbk3Pc3eyHbNDkSltdav0eawsS0zqQegVG3Z5
+   A==;
+X-CSE-ConnectionGUID: FgPy21xGRoqjEbbb5G8dpw==
+X-CSE-MsgGUID: tfKq3jXbQrCi3kBcqkQ/jQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="69384250"
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
+   d="scan'208";a="69384250"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2026 02:06:33 -0800
+X-CSE-ConnectionGUID: BWQsWYuPSMGzJEMGMqhPUQ==
+X-CSE-MsgGUID: Bv4YTppOSX6RYcq9byw+xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,212,1763452800"; 
+   d="scan'208";a="203216687"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 09 Jan 2026 02:06:33 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1ve9O2-000000005jI-0PWm;
+	Fri, 09 Jan 2026 10:06:30 +0000
+Date: Fri, 09 Jan 2026 18:05:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Brian Masney <bmasney@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [masneyb:clk-divider-round-rate 20/24]
+ drivers/clk/stm32/clk-stm32-core.c:372:57: error: passing argument 2 of
+ 'divider_ro_determine_rate' makes pointer from integer without a cast
+Message-ID: <202601091726.rESzZopU-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202601011320.wfOmjyKl-lkp@intel.com> <CAMj1kXH8L19zFLnM26JnBKJ5pbqp0-igOn095NTtW8ji0UAbbQ@mail.gmail.com>
- <CAMj1kXF4kfpvzT+-GzLFBNBb=aTN8Km0tumTm2Kw9zbu4iRuVg@mail.gmail.com>
- <aV+HboykUV1ac4Oo@rli9-mobl> <CAMj1kXH4NysHuvSyeJtyRENLe-6ua3zij-vMcz0Dyw8o3JVjBw@mail.gmail.com>
- <aWDM1OMaaoLKAp9M@xsang-OptiPlex-9020>
-In-Reply-To: <aWDM1OMaaoLKAp9M@xsang-OptiPlex-9020>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 9 Jan 2026 10:59:22 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXHdvfcUAf96QLyme9eQ6jw3WjT5JzP+-NngVAkFKaUwsA@mail.gmail.com>
-X-Gm-Features: AQt7F2p417HP2DcTInPzGneZG-_NkR0gbFQjARrNnuAR0HaZgMLrcv4gT2V8dTY
-Message-ID: <CAMj1kXHdvfcUAf96QLyme9eQ6jw3WjT5JzP+-NngVAkFKaUwsA@mail.gmail.com>
-Subject: Re: [ardb:x86-pie-v3 18/19] ld: vmlinux.o: relocation R_X86_64_32S
- against `.rodata.str1.8' can not be used when making a PIE object; recompile
- with -fPIE
-To: Oliver Sang <oliver.sang@intel.com>
-Cc: Philip Li <philip.li@intel.com>, kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 9 Jan 2026 at 10:39, Oliver Sang <oliver.sang@intel.com> wrote:
->
-> hi, Ard Biesheuvel,
->
-> On Thu, Jan 08, 2026 at 11:33:54AM +0100, Ard Biesheuvel wrote:
-> > On Thu, 8 Jan 2026 at 11:31, Philip Li <philip.li@intel.com> wrote:
-> > >
-> > > On Thu, Jan 08, 2026 at 11:25:42AM +0100, Ard Biesheuvel wrote:
-> > > > On Thu, 1 Jan 2026 at 17:03, Ard Biesheuvel <ardb@kernel.org> wrote:
-> > > > >
-> > > > > This does not reproduce. Where are the build artifacts?
-> > > > >
-> > > >
-> > > > I kindly ask again: where can I see the build artifacts that produced
-> > > > this error?
-> > >
-> > > Sorry for not responding in time, we just start the investigation. So far,
-> > > it found the internal build has set below extra flags for x86_64, which probably
-> > > leads to this issue.
-> > >
-> > >         KBUILD_CFLAGS_KERNEL=" -falign-functions=64"  KBUILD_CFLAGS_MODULE=" -DMODULE -falign-functions=64"
-> > >
-> >
-> > Why would you pass additional C flags and not mention this in the reports?
-> >
-> >
-> > > But we haven't got further root cause.
-> > >
-> >
-> > Thanks, standing by for further updates.
-> >
->
-> by further check, the issue is reproduced with
-> KBUILD_CFLAGS_KERNEL=" -falign-functions=64"
->
-> sorry that the reproducer in [1] is not correct. need append the flag.
->
-> so below can be used to reproduce with gcc-14:
->
-> mkdir build_dir && cp config build_dir/.config
-> make KBUILD_CFLAGS_KERNEL=" -falign-functions=64" W=1 O=build_dir ARCH=x86_64 olddefconfig
-> make KBUILD_CFLAGS_KERNEL=" -falign-functions=64" W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
->
-> but we don't have good idea about the compatibility of this flag with your
-> change?
->
-> +ldflags-$(CONFIG_RANDOMIZE_BASE)       := --pie -z notext $(ldflags-pie-y)
->
-> not sure if you still need vmlinux.o from us which is 300+ M. if so, I will
-> upload it. thanks
->
+tree:   https://github.com/masneyb/linux clk-divider-round-rate
+head:   9eb89e7dd5ecfeccd15287f3febc64260d269304
+commit: bf2cd5c0bd6b682ce3e91c81cb806eb4d8c985f7 [20/24] clk: stm32: stm32-core: convert from divider_ro_round_rate() to divider_ro_determine_rate()
+config: arm-randconfig-002-20260109 (https://download.01.org/0day-ci/archive/20260109/202601091726.rESzZopU-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601091726.rESzZopU-lkp@intel.com/reproduce)
 
-Thanks Oliver!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601091726.rESzZopU-lkp@intel.com/
 
-I think the problem is the use of KBUILD_CFLAGS_KERNEL in general. I
-don't think you are supposed to set it from the command line like
-that.
+All errors (new ones prefixed by >>):
 
-As per Documentation/kbuild/kbuild.rst, the environment variable to
-use is CFLAGS_KERNEL.
+   drivers/clk/stm32/clk-stm32-core.c: In function 'clk_stm32_divider_determine_rate':
+>> drivers/clk/stm32/clk-stm32-core.c:372:57: error: passing argument 2 of 'divider_ro_determine_rate' makes pointer from integer without a cast [-Wint-conversion]
+     372 |                 return divider_ro_determine_rate(hw, req->rate,
+         |                                                      ~~~^~~~~~
+         |                                                         |
+         |                                                         long unsigned int
+   In file included from drivers/clk/stm32/clk-stm32-core.h:7,
+                    from drivers/clk/stm32/clk-stm32-core.c:17:
+   include/linux/clk-provider.h:753:75: note: expected 'struct clk_rate_request *' but argument is of type 'long unsigned int'
+     753 | int divider_ro_determine_rate(struct clk_hw *hw, struct clk_rate_request *req,
+         |                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/clk/stm32/clk-stm32-core.c:373:50: error: passing argument 3 of 'divider_ro_determine_rate' from incompatible pointer type [-Wincompatible-pointer-types]
+     373 |                                                  &req->best_parent_rate,
+         |                                                  ^~~~~~~~~~~~~~~~~~~~~~
+         |                                                  |
+         |                                                  long unsigned int *
+   include/linux/clk-provider.h:754:59: note: expected 'const struct clk_div_table *' but argument is of type 'long unsigned int *'
+     754 |                               const struct clk_div_table *table, u8 width,
+         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+>> drivers/clk/stm32/clk-stm32-core.c:374:57: error: passing argument 4 of 'divider_ro_determine_rate' makes integer from pointer without a cast [-Wint-conversion]
+     374 |                                                  divider->table,
+         |                                                  ~~~~~~~^~~~~~~
+         |                                                         |
+         |                                                         const struct clk_div_table *
+   include/linux/clk-provider.h:754:69: note: expected 'u8' {aka 'unsigned char'} but argument is of type 'const struct clk_div_table *'
+     754 |                               const struct clk_div_table *table, u8 width,
+         |                                                                  ~~~^~~~~
+>> drivers/clk/stm32/clk-stm32-core.c:372:24: error: too many arguments to function 'divider_ro_determine_rate'; expected 6, have 7
+     372 |                 return divider_ro_determine_rate(hw, req->rate,
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+   ......
+     376 |                                                  divider->flags, val);
+         |                                                                  ~~~
+   include/linux/clk-provider.h:753:5: note: declared here
+     753 | int divider_ro_determine_rate(struct clk_hw *hw, struct clk_rate_request *req,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/stm32/clk-stm32-core.c: In function 'clk_stm32_composite_determine_rate':
+   drivers/clk/stm32/clk-stm32-core.c:437:14: warning: unused variable 'rate' [-Wunused-variable]
+     437 |         long rate;
+         |              ^~~~
+
+
+vim +/divider_ro_determine_rate +372 drivers/clk/stm32/clk-stm32-core.c
+
+   353	
+   354	static int clk_stm32_divider_determine_rate(struct clk_hw *hw,
+   355						    struct clk_rate_request *req)
+   356	{
+   357		struct clk_stm32_div *div = to_clk_stm32_divider(hw);
+   358		const struct stm32_div_cfg *divider;
+   359	
+   360		if (div->div_id == NO_STM32_DIV)
+   361			return 0;
+   362	
+   363		divider = &div->clock_data->dividers[div->div_id];
+   364	
+   365		/* if read only, just return current value */
+   366		if (divider->flags & CLK_DIVIDER_READ_ONLY) {
+   367			u32 val;
+   368	
+   369			val =  readl(div->base + divider->offset) >> divider->shift;
+   370			val &= clk_div_mask(divider->width);
+   371	
+ > 372			return divider_ro_determine_rate(hw, req->rate,
+ > 373							 &req->best_parent_rate,
+ > 374							 divider->table,
+   375							 divider->width,
+   376							 divider->flags, val);
+   377		}
+   378	
+   379		return divider_determine_rate(hw, req, divider->table, divider->width,
+   380					      divider->flags);
+   381	}
+   382	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
