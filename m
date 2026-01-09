@@ -1,81 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40272853F3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 02:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E562A2FFDCA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jan 2026 02:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767924898; cv=none; b=IAK/96Dq+6An+erEsaO9MSlTqSpyE5yySDRH5V8OCjfcD74EStQKv3o2RPmtlw3bxX4hZDBa1chbdnfb9CoarA/GvjV95V4ciW42KuygBXU1nq4u7biX1v2FggmRsFkeJ9wgHDGpAqbtBMGZgLp2YWRUP8bDdlS/4qqQQCxW+lE=
+	t=1767925299; cv=none; b=jvqrsl3VxAmHA6S5YY6MZmqB5fMGN/NCao1Js7c+JPgJcy7Y7ZM15aharZdC9yH638hmQ5GTaWbzAO7Qk+P4i0IjNOYHwMqv3MQld6g8WK57gMHZox/iNeixqFAiPeCuTPS7YHljsk9K8bvlQyYzj+QB4eyQdkwDACSwj/7g5AI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767924898; c=relaxed/simple;
-	bh=AvEMkIWWq8iZBzj1n/zxxNppwUJjV0/aT7sx3CCzKCs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=C+bbNEA5o3Ahg4ReGRy6KAmqYaV4m7vFaqWiEBLYvOC5dR9KGmK024l+z9jlX9YKwZD8I2unNfpEZll/yWhNMXLfnnmk3R6bOGDMhKLzFzMRcLMXU5ECLFZwYgdcj84earJBreGdKql6M68aKHvktJt6yfsTMsC6lhBvJImcaiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ljyDmvz/; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1767925299; c=relaxed/simple;
+	bh=zcH313QWQ24pL1QlL9W4cZPOigVmIDErCdOJ5bFttJs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u+1wRkromLVHCS6YQT+cUz7E38joZes6Icu9JS1clNPqzygYL+obddytzaCPYGzeZwAiFxhzvlm2p8TMIVY9RSmg4clvk3P1CDY5SzlxF12fIrThnilLY4bEwEjfgQCcIav51Sa7hXXNz5FH2DIvhG88EU85ZcQfKZk09wWUJvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OWEqClhS; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ljyDmvz/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OWEqClhS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767924896; x=1799460896;
-  h=date:from:to:cc:subject:message-id;
-  bh=AvEMkIWWq8iZBzj1n/zxxNppwUJjV0/aT7sx3CCzKCs=;
-  b=ljyDmvz/SUtokqJVE1VRHhnSwA9Uz+18krHmyfhrgZCteXP/80UJ6YKW
-   +s5ifWqt8HMhOZ5J9ulDGIf8/zSXhup3sYZi/ZQzdnu53cCS9XuAXbLKj
-   RBYlr2ocL/Kw8JQMsjEOfcii++4CjzgHo4HSdRCLwudrP/7G9WMngwrpP
-   FBwDvA+g7W56QwWlEyYoJKYEmD67S2Waclo3inJkTtTXOX+rpjbqR9l24
-   PHkjPdnGqOW69QGHXERSh7Ljzn4tSn4wbBiNk1rUEmS6T/nyn8rpkR3bV
-   L0LvH+32eeBvaSuTZSJEiAEP3aGb6PprUc9YqRCJ/k17NhEp94Ov2TGiJ
-   Q==;
-X-CSE-ConnectionGUID: TncAXkToRYqGuj3K7KLLrg==
-X-CSE-MsgGUID: B/N79gnkTy60p2NWlSNC7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="73166502"
+  t=1767925298; x=1799461298;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zcH313QWQ24pL1QlL9W4cZPOigVmIDErCdOJ5bFttJs=;
+  b=OWEqClhS3ivLS7CFsAez70YFJg7bU6ruhy8qr6j5ESJD5wkbVL0VB0SU
+   hRFhgkGGgQbMJX+V5aOkkyFNJ3QkVY3a8NxphtFlB/FakKG0wzPQae1JI
+   SxEQ39D67VhZlvsWPJTiNPuqpEk+5e7yj5jdfFYi3RcFyx2IQVbjvMLnq
+   ti2NWDDxK+jqDn4FwBrR2C4EWWgnmMXuJ6HQ6cQCXmhoUod7BwLgYekWH
+   Zle7k+0EU/D1YPgp/9bCa5Odf9vzgWOaFcpnrTerISOCE38BAjzZvmBOA
+   +uH5rqQTaJK+hWyveSYWWOpHvl7d5XqQoAj7mYJkZO6G6mAzFKlrrCPMo
+   w==;
+X-CSE-ConnectionGUID: GpZgLfiuRFCK4hnjFhhhhA==
+X-CSE-MsgGUID: v/yb/yL+Rj+0RHv/iMpAhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11665"; a="68312854"
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="73166502"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 18:14:54 -0800
-X-CSE-ConnectionGUID: YAiqOdmMTriWX84qktnl8A==
-X-CSE-MsgGUID: wt2ZDzWGSSmxTr2nnuM9yg==
+   d="scan'208";a="68312854"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2026 18:21:37 -0800
+X-CSE-ConnectionGUID: 5a/Mw41bT3y1AsMb6koWyw==
+X-CSE-MsgGUID: ZIpaxJy2S3WJSknVd69/rQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,211,1763452800"; 
-   d="scan'208";a="203782279"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 08 Jan 2026 18:14:40 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="207834175"
+Received: from igk-lkp-server01.igk.intel.com (HELO 92b2e8bd97aa) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 08 Jan 2026 18:21:21 -0800
+Received: from kbuild by 92b2e8bd97aa with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1ve21J-000000005K0-1s9c;
-	Fri, 09 Jan 2026 02:14:33 +0000
-Date: Fri, 09 Jan 2026 10:14:00 +0800
+	id 1ve27l-000000001vc-3wPH;
+	Fri, 09 Jan 2026 02:21:13 +0000
+Date: Fri, 9 Jan 2026 03:20:44 +0100
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, NeilBrown <neil@brown.name>,
- Jeff Layton <jlayton@kernel.org>
-Subject: [cel:nfsd-testing 39/41] nfsctl.c:undefined reference to
- `nfsd4_cancel_copy_by_sb'
-Message-ID: <202601091018.3j76XsxT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jihan LIN via B4 Relay <devnull+linjh22s.gmail.com@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jihan LIN <linjh22s@gmail.com>
+Subject: Re: [PATCH] Documentation/kbuild: Document gendwarfksyms build
+ dependencies
+Message-ID: <202601090349.xxTPrbB1-lkp@intel.com>
+References: <20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux nfsd-testing
-head:   2e04c850fae081223bb6707b782cba843a5b43f5
-commit: 9980cc2f56eef78e7a6fe4a49e179340c8319df6 [39/41] nfsd: cancel async COPY operations when admin revokes filesystem state
-config: arm-versatile_defconfig (https://download.01.org/0day-ci/archive/20260109/202601091018.3j76XsxT-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260109/202601091018.3j76XsxT-lkp@intel.com/reproduce)
+Hi Jihan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jihan-LIN-via-B4-Relay/Documentation-kbuild-Document-gendwarfksyms-build-dependencies/20260108-194655
+base:   f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
+patch link:    https://lore.kernel.org/r/20260108-documents_gendwarfksyms-v1-1-52b1f9c38c70%40gmail.com
+patch subject: [PATCH] Documentation/kbuild: Document gendwarfksyms build dependencies
+reproduce: (https://download.01.org/0day-ci/archive/20260109/202601090349.xxTPrbB1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601091018.3j76XsxT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601090349.xxTPrbB1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: fs/nfsd/nfsctl.o: in function `write_unlock_fs':
->> nfsctl.c:(.text+0xaf4): undefined reference to `nfsd4_cancel_copy_by_sb'
+   WARNING: No kernel-doc for file ./include/linux/hid_bpf.h
+   ERROR: Cannot find file ./include/linux/hid.h
+   WARNING: No kernel-doc for file ./include/linux/hid.h
+   ERROR: Cannot find file ./include/linux/i2c-atr.h
+   WARNING: No kernel-doc for file ./include/linux/i2c-atr.h
+>> Documentation/kbuild/gendwarfksyms.rst:18: WARNING: Title underline too short.
+
+
+vim +18 Documentation/kbuild/gendwarfksyms.rst
+
+    16	
+    17	Dependencies
+  > 18	-----
+    19	
 
 -- 
 0-DAY CI Kernel Test Service
