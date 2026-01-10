@@ -1,86 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56AD22A4D6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jan 2026 18:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E97126C17
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jan 2026 18:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768069697; cv=none; b=jyfU/kNasE9ecvwLZWPg7ncmrWxa8aJ+OxXJFXSuiAVunaVofUbjicG5OzjfBFubPAwCmYn00NlpVDam0H4a5P/7JxSk44IxxZymhqEobbrO2WmXRK9OBes4mMl94rkM4pqmIYhP63N+Zpfc7c+4345i4Tx0RdPLXl3xVWl04eo=
+	t=1768071022; cv=none; b=TZYdqq9suGpxlOWlg0LQV8BFMdfjVIcZlUCi0owS0a1QMficD+4X/cClN63Tzt/v3/SXGsJ74RuL4CmtPkg0QDsJKPiNmUk1F8ibcxzYHyOxKEMxBfeirvp4NMj3xH9M+YwtoBZW2aM7sAzZYaIyO1jbTHD6GH3LGwYAcdz32uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768069697; c=relaxed/simple;
-	bh=UNJG3DVwPCIdKPuwyLC0I17VB4VyFlgQSClE27MSFqI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=RcFPHz6Rh7VyTZ5utxcbUrZrP9ZKVg5T3dkkRGY2oCunD8lPDM2YRbM6Kuv8eQIJ03b/+30S6pfG3qwIrQqdSur//hBInf2jyBmLtxgKozWvLNdcckFAGKNqWJ6ntJV0nOk6sb8nk/AGyyJ8wbErxslg6pS81Fb0sqKLSQ/ZGV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=STtSih4+; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1768071022; c=relaxed/simple;
+	bh=KP/JVl3r6x4FSvM+KLvDJWnpRJEv9h9Ro9E1qTkua1Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=enBV38ldLk7VSMr1oIZU9R1i40OPYdgYhy+s5SODC0HB1U0p6/bSB8rLs7VqLGqJxrjnkcL9sfsf03m4F5voeMrY8h+eEOdkqI085FFbR0VPjxE7YXBjxtlVV8KJuk90Fe57gVbcv/n/cRqpT1B5jn8fviWpsTLPyVQaBz8U8tU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HtaIAtAL; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="STtSih4+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HtaIAtAL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768069696; x=1799605696;
-  h=date:from:to:cc:subject:message-id;
-  bh=UNJG3DVwPCIdKPuwyLC0I17VB4VyFlgQSClE27MSFqI=;
-  b=STtSih4+xu5+gT4qsAq/xiYMfOkDcST/XQZM1DTyXw4rtmTrNqlC+COj
-   SnFiuHBwhTX7FqVoeXaqXSJKdbf5fNermktjHeCf2xEoHRJsBVZqwDY10
-   U8F5bHbiFpJ+D4RlmG04VNhBgSxJWBo2nfjUrbDuZCcvWcGzdPRqBinJV
-   pxKrrP7fmaxV3IXYAdXdIciGMYhjsoIThmKQYQclINhkD2qmixPLc96si
-   ZLxVD8As0CC6GCwMgzkN/yGEI8lLXmqkKiQRY/7k+6F1SL/te43JUa/Yd
-   n4Aw60G2ycXQylQzj0cVASCO9ZQk1ArmxUlzXe5yokO38P8EFGj5m6rt+
-   Q==;
-X-CSE-ConnectionGUID: DMtehY+LQJCYEC1c3LUfZw==
-X-CSE-MsgGUID: aWwNhQVJT76TlUIg6rYiDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11667"; a="69462940"
+  t=1768071020; x=1799607020;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KP/JVl3r6x4FSvM+KLvDJWnpRJEv9h9Ro9E1qTkua1Y=;
+  b=HtaIAtALfdGqkAG8QSlitGFN1RAo5rsvmeA9yuYNZDTJobTgsKoreo/v
+   085EwYaUmrACAUH/7eFreTIMmbNC7gwKxy5jfNttVyO6v45sYhBpLOYLt
+   nayIYMhpioIbnxYy8/aSI5Xqdb/JpOndQGJ+1e5PuNEElPGS4PswxV6RI
+   JqYhDpufMkoo2x890j1xFQYrGqRh6FZ4vGcNYfvPbbw5PliC2sgn4yM05
+   N5ktCobSqPDHckuWX6xFHqN8n8lwZikV1w/e5FRl+L8KqNrcmcZIWV6iE
+   2qVmpPOOrp/g6CmP4tLdjsuFW9Pi+5nOQ5GvruunFKhFeDvaoR05XOhrR
+   w==;
+X-CSE-ConnectionGUID: E7hGVZJ9RpKu3Ytm/RZ0Jg==
+X-CSE-MsgGUID: CMPCi6T8SymNJjjxOgjjyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11667"; a="80868137"
 X-IronPort-AV: E=Sophos;i="6.21,217,1763452800"; 
-   d="scan'208";a="69462940"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2026 10:28:15 -0800
-X-CSE-ConnectionGUID: /0vJEFrwRyCPWBmlduRBOQ==
-X-CSE-MsgGUID: Zzv41JlXQcu4ncpWod9Kwg==
+   d="scan'208";a="80868137"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2026 10:50:19 -0800
+X-CSE-ConnectionGUID: 1rdwCJ5VRAy4L9/WBEmnXg==
+X-CSE-MsgGUID: RNOoCIBaTsSlgbSGdrgbpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,217,1763452800"; 
-   d="scan'208";a="234424406"
+   d="scan'208";a="208216482"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Jan 2026 10:28:14 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 10 Jan 2026 10:50:14 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vedh5-000000008zw-2NBp;
-	Sat, 10 Jan 2026 18:28:11 +0000
-Date: Sun, 11 Jan 2026 02:27:20 +0800
+	id 1vee2O-0000000091g-3Iq1;
+	Sat, 10 Jan 2026 18:50:12 +0000
+Date: Sun, 11 Jan 2026 02:49:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: chenmiao <chenmiao.ku@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Stafford Horne <shorne@gmail.com>
-Subject: WARNING: modpost: vmlinux: section mismatch in reference:
- __set_fixmap+0x58 (section: .text) -> map_page.isra.0 (section: .init.text)
-Message-ID: <202601110226.7yBgkamQ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Sami Tolvanen <samitolvanen@google.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
+	Viktor Malik <vmalik@redhat.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: [PATCH bpf-next v5 1/4] bpf: crypto: Use the correct destructor
+ kfunc type
+Message-ID: <202601110205.4dwPV9eI-lkp@intel.com>
+References: <20260110082548.113748-7-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260110082548.113748-7-samitolvanen@google.com>
 
-Hi chenmiao,
+Hi Sami,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7893cc12251f6f19e7689a4cf3ba803bddbd8437
-commit: 4735037b5d9b0f809c51976c87d737fa2c48fdea openrisc: Add text patching API support
-date:   4 months ago
-config: openrisc-randconfig-r073-20260110 (https://download.01.org/0day-ci/archive/20260111/202601110226.7yBgkamQ-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 10.5.0
-smatch version: v0.5.0-8985-g2614ff1a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260111/202601110226.7yBgkamQ-lkp@intel.com/reproduce)
+[auto build test WARNING on 5714ca8cba5ed736f3733663c446cbee63a10a64]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sami-Tolvanen/bpf-crypto-Use-the-correct-destructor-kfunc-type/20260110-162850
+base:   5714ca8cba5ed736f3733663c446cbee63a10a64
+patch link:    https://lore.kernel.org/r/20260110082548.113748-7-samitolvanen%40google.com
+patch subject: [PATCH bpf-next v5 1/4] bpf: crypto: Use the correct destructor kfunc type
+config: sh-randconfig-r133-20260110 (https://download.01.org/0day-ci/archive/20260111/202601110205.4dwPV9eI-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260111/202601110205.4dwPV9eI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601110226.7yBgkamQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601110205.4dwPV9eI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/bpf/crypto.c:264:18: sparse: sparse: symbol 'bpf_crypto_ctx_release_dtor' was not declared. Should it be static?
 
->> WARNING: modpost: vmlinux: section mismatch in reference: __set_fixmap+0x58 (section: .text) -> map_page.isra.0 (section: .init.text)
+vim +/bpf_crypto_ctx_release_dtor +264 kernel/bpf/crypto.c
+
+   263	
+ > 264	__bpf_kfunc void bpf_crypto_ctx_release_dtor(void *ctx)
+   265	{
+   266		bpf_crypto_ctx_release(ctx);
+   267	}
+   268	CFI_NOSEAL(bpf_crypto_ctx_release_dtor);
+   269	
 
 -- 
 0-DAY CI Kernel Test Service
