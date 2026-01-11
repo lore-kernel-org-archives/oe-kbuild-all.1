@@ -1,183 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E6733D6EA;
-	Sun, 11 Jan 2026 18:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC72122301
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jan 2026 18:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768154641; cv=none; b=kxf7Trk4fgCtIfvPz4v4PpUwpOCS440lIIKP2728ur0dCLKbVQWMGkH3GeL0j8x5eGEZQpNH+Jw4IzV/GeCvwr1TEVsSNBDxBX9BHwD+2TzJno+/W27IW6QPcCsGLI37WiNKKf3EHyV9+WhsWrw4hU5AEPitkDTMxfzi03haaXM=
+	t=1768155296; cv=none; b=Un8gXLXfWKs0eBDyYc51uNT2XeoYGGO1Fk2j+KENqcUnuhBKlrHiOAvjjosv9YggySFjPvAvBH437zl+Qn52ccSVmPAExijvrON3YVKznGUGM8/WvRGOpmcXoAbj+foOLhmoIpUymmKizANQz5AlgTivuJjITVC+qZoL5TYlexM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768154641; c=relaxed/simple;
-	bh=zbTnStaZRGXqT6TfypigN7OHnqv2DHIxSoAC5Gw88yg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YIzTC2cfZohvUAFCWDjzf1HmkkSjxtlHWOu8vL/bLjQ8etsZWpR1h7eXmzyLHZeTyWQaIueqPCXBWuMeOJ2PZr/B0ZZmxwo7e4X0wwAQo7l484u72txW3jLLJwwp8z+ktHLcScNbM6dzS8nQ6Xqdaj9LpleokE/Qf7e5pA6CJKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i42kBWKP; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1768155296; c=relaxed/simple;
+	bh=roqgV7Qy+VeXsXv6yHTBTls5Nw+dcGcXFmke+1GwoWI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Fp8k0EWkRGuPwLJwIPPe1lTDN+9EpUHd5kJkhegcotjoeuso6vNNy0LoIvDk4xHQMQcUZtB6Gl/KvSir7ynQyR9ZZIHe2p2Csd2OkIvavXDCpHDIhd4Wqq8EZdKDKWZY19+DwjNAb8lvcbtMqC98+UuKsxvcAgFe8cIP02OBFXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dbMsh4XQ; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i42kBWKP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dbMsh4XQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768154638; x=1799690638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zbTnStaZRGXqT6TfypigN7OHnqv2DHIxSoAC5Gw88yg=;
-  b=i42kBWKPjkZz60wg96NQ4np0Ou2H8oiJDPekp3L8WbI8YGOVN6jSHk4/
-   J3sP7evtRezLYVvL5blTP8V4PNs0WsDroUa4whMmWqDJkx6UvH9PJpHpG
-   2Ch5lenerW31GfLUt0b5r1XHj0ZTgqL+7LPtdZt4NAE7eSFXbNMss6j39
-   MC0d37AohG0aEur+84InF02wRnyRUC++2hxOrQglW/JRCpk0nTbhWUxSx
-   9ONDI0XaeFW4R81nLJnRkCO307WQrd5L2ONY7HFIRIXcAqHeYCFppfq0a
-   cXnaFx1jwSxBOoJbDCLmWwpTMlkdnTMJcs9bAqVjGmxRXCN1/S3JI3m20
-   g==;
-X-CSE-ConnectionGUID: ebdITIrfQNuKQLKXCaU6bw==
-X-CSE-MsgGUID: 8txKHc1SSmSZ2crbpEdL9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="68452006"
+  t=1768155294; x=1799691294;
+  h=date:from:to:cc:subject:message-id;
+  bh=roqgV7Qy+VeXsXv6yHTBTls5Nw+dcGcXFmke+1GwoWI=;
+  b=dbMsh4XQJ7Sv9/yw55tgd9k5A1GRBS1Lv+qgZx4qSlUPAUNQwJGwlqtt
+   p2csKBZoatBimu3GWLdMu2viu2qriSnF8npCRPgOeDbbs2eX5zxbPPNbb
+   EfVUExkUIUqb9sFIfvvKV/I1hsln8ZzOIPbMJRM/i839thbOYw4wYYbn0
+   B4vZZvbf7afFbEN8whuhTWKVR1aym7ADe+wuqpT4nTeqapwE4xjfEV3/5
+   I+73HWMr6W8ttX2qvDu+Kst9XHTDpU0e7xp1KbNTvn8teMUtR972ihy3E
+   zTzTVd5jRNdZqgy4mHJkItGfv0NMsK8BD/mg/p7amnnzNhORtgyzmikIX
+   w==;
+X-CSE-ConnectionGUID: Unp9eD+VQ5afqCEtaMPTDA==
+X-CSE-MsgGUID: moC7DjalSV6VB4wXzc+l/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69374639"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="68452006"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 10:03:57 -0800
-X-CSE-ConnectionGUID: pCRMPKXFTZmo/M3PkCS/fg==
-X-CSE-MsgGUID: EucFxaScS++i9cFiaip57w==
+   d="scan'208";a="69374639"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 10:14:53 -0800
+X-CSE-ConnectionGUID: QYD7v0HfTV+GOkOVesXx5Q==
+X-CSE-MsgGUID: rcQNIfj2TTuq0azRmSE3+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="208441509"
+   d="scan'208";a="208967370"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 11 Jan 2026 10:03:51 -0800
+  by orviesa005.jf.intel.com with ESMTP; 11 Jan 2026 10:14:51 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vezn1-00000000CbA-48AU;
-	Sun, 11 Jan 2026 18:03:47 +0000
-Date: Mon, 12 Jan 2026 02:03:31 +0800
+	id 1vezxh-00000000Cbc-0rkz;
+	Sun, 11 Jan 2026 18:14:49 +0000
+Date: Mon, 12 Jan 2026 02:13:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Martin Liu <liumartin@google.com>,
-	David Rientjes <rientjes@google.com>, christian.koenig@amd.com,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	SeongJae Park <sj@kernel.org>, Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R . Howlett" <liam.howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Christian Brauner <brauner@kernel.org>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	David Hildenbrand <david@redhat.com>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	linux-trace-kernel@vger.kernel.org, Yu Zhao <yuzhao@google.com>
-Subject: Re: [PATCH v12 3/3] mm: Implement precise OOM killer task selection
-Message-ID: <202601120124.RK3AWOwu-lkp@intel.com>
-References: <20260111150249.1222944-4-mathieu.desnoyers@efficios.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: [linux-next:master 1628/5095]
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
+Message-ID: <202601120253.FKudUXx4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260111150249.1222944-4-mathieu.desnoyers@efficios.com>
 
-Hi Mathieu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20260109]
-[cannot apply to akpm-mm/mm-everything kees/for-next/execve tip/sched/core linus/master v6.19-rc4 v6.19-rc3 v6.19-rc2 v6.19-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Desnoyers/lib-Introduce-hierarchical-per-cpu-counters/20260111-231206
-base:   next-20260109
-patch link:    https://lore.kernel.org/r/20260111150249.1222944-4-mathieu.desnoyers%40efficios.com
-patch subject: [PATCH v12 3/3] mm: Implement precise OOM killer task selection
-config: arm-randconfig-001-20260112 (https://download.01.org/0day-ci/archive/20260112/202601120124.RK3AWOwu-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120124.RK3AWOwu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
+commit: 4cffecaf127ae10ada4da0636f87e0170e347402 [1628/5095] drm/xe/pf: Prepare for new threshold KLVs
+config: alpha-randconfig-r072-20260111 (https://download.01.org/0day-ci/archive/20260112/202601120253.FKudUXx4-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.3.0
+smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601120124.RK3AWOwu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601120253.FKudUXx4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
+drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
 
->> kernel/fork.c:637:6: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     635 |                         pr_alert("BUG: Bad rss-counter state mm:%p type:%s val:%ld Comm:%s Pid:%d\n",
-         |                                                                                ~~~
-         |                                                                                %d
-     636 |                                  mm, resident_page_types[i],
-     637 |                                  percpu_counter_tree_precise_sum(&mm->rss_stat[i]),
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:534:35: note: expanded from macro 'pr_alert'
-     534 |         printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:511:60: note: expanded from macro 'printk'
-     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:483:19: note: expanded from macro 'printk_index_wrap'
-     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning generated.
---
->> mm/oom_kill.c:351:6: warning: variable 'points_min' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     351 |         if (oom_task_origin(task)) {
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   mm/oom_kill.c:392:22: note: uninitialized use occurs here
-     392 |         oc->chosen_points = points_min;
-         |                             ^~~~~~~~~~
-   mm/oom_kill.c:351:2: note: remove the 'if' if its condition is always false
-     351 |         if (oom_task_origin(task)) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     352 |                 points = LONG_MAX;
-         |                 ~~~~~~~~~~~~~~~~~~
-     353 |                 goto select;
-         |                 ~~~~~~~~~~~~
-     354 |         }
-         |         ~
-   mm/oom_kill.c:326:25: note: initialize the variable 'points_min' to silence this warning
-     326 |         long points, points_min, points_max;
-         |                                ^
-         |                                 = 0
-   1 warning generated.
+vim +314 drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
 
+a1498ab229ca16 Michal Wajdeczko 2024-08-30  313  
+a1498ab229ca16 Michal Wajdeczko 2024-08-30 @314  	MAKE_XE_GUC_KLV_THRESHOLDS_SET(encode_threshold_config);
+a1498ab229ca16 Michal Wajdeczko 2024-08-30  315  #undef encode_threshold_config
+a1498ab229ca16 Michal Wajdeczko 2024-08-30  316  
+ac6598aed1b36d Michal Wajdeczko 2024-04-15  317  	return n;
+ac6598aed1b36d Michal Wajdeczko 2024-04-15  318  }
+ac6598aed1b36d Michal Wajdeczko 2024-04-15  319  
 
-vim +637 kernel/fork.c
+:::::: The code at line 314 was first introduced by commit
+:::::: a1498ab229ca16dfc35331dfb309f8e28b84bb5d drm/xe/pf: Add thresholds to the VF KLV config
 
-6af8cb80d3a9a6 David Hildenbrand    2025-03-03  625  
-d70f2a14b72a4b Andrew Morton        2018-01-31  626  static void check_mm(struct mm_struct *mm)
-d70f2a14b72a4b Andrew Morton        2018-01-31  627  {
-d70f2a14b72a4b Andrew Morton        2018-01-31  628  	int i;
-d70f2a14b72a4b Andrew Morton        2018-01-31  629  
-8495f7e6732ed2 Sai Praneeth Prakhya 2019-09-25  630  	BUILD_BUG_ON_MSG(ARRAY_SIZE(resident_page_types) != NR_MM_COUNTERS,
-8495f7e6732ed2 Sai Praneeth Prakhya 2019-09-25  631  			 "Please make sure 'struct resident_page_types[]' is updated as well");
-8495f7e6732ed2 Sai Praneeth Prakhya 2019-09-25  632  
-d70f2a14b72a4b Andrew Morton        2018-01-31  633  	for (i = 0; i < NR_MM_COUNTERS; i++) {
-25d942f31cc499 Mathieu Desnoyers    2026-01-11  634  		if (unlikely(percpu_counter_tree_precise_compare_value(&mm->rss_stat[i], 0) != 0))
-72456781289a6e Mathieu Desnoyers    2026-01-11  635  			pr_alert("BUG: Bad rss-counter state mm:%p type:%s val:%ld Comm:%s Pid:%d\n",
-25d942f31cc499 Mathieu Desnoyers    2026-01-11  636  				 mm, resident_page_types[i],
-25d942f31cc499 Mathieu Desnoyers    2026-01-11 @637  				 percpu_counter_tree_precise_sum(&mm->rss_stat[i]),
-881388f3433819 Xuanye Liu           2025-07-23  638  				 current->comm,
-881388f3433819 Xuanye Liu           2025-07-23  639  				 task_pid_nr(current));
-881388f3433819 Xuanye Liu           2025-07-23  640  	}
-d70f2a14b72a4b Andrew Morton        2018-01-31  641  
-d70f2a14b72a4b Andrew Morton        2018-01-31  642  	if (mm_pgtables_bytes(mm))
-d70f2a14b72a4b Andrew Morton        2018-01-31  643  		pr_alert("BUG: non-zero pgtables_bytes on freeing mm: %ld\n",
-d70f2a14b72a4b Andrew Morton        2018-01-31  644  				mm_pgtables_bytes(mm));
-d70f2a14b72a4b Andrew Morton        2018-01-31  645  
+:::::: TO: Michal Wajdeczko <michal.wajdeczko@intel.com>
+:::::: CC: Michal Wajdeczko <michal.wajdeczko@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
