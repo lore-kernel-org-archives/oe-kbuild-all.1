@@ -1,173 +1,156 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11E222A1D4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jan 2026 17:51:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EB922A1D4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jan 2026 17:51:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768153912; cv=none; b=RYBWVL5ROh9aeuSeCX1sBtwZjeryGXMxHfaDIq/FFB7GOCm0H09w55+VJHtDwL7M76nEU5rNmUs+kLaLcuhBNVG5xDajLmcPiB6UcQQeRrP4KfM+Eooq3KaJRP3ZdXACoMaAmR/rs2iQngni0dn8wNzBy7nD0NeHj/MVYFBTBNg=
+	t=1768153918; cv=none; b=cOacca1GS0CmiL6AH5nzrj2yFK61RCWOAeCuyciOAFAojDjO6znJG7wuJ24/CNyw3DfRKP0atWx24TLOD7GFA2RCYegktR9K49254DbLefHKHgdrXEboY7y+eSpauxN8p03SOWBDZD7/Wo4IipJ/dtTk8CfCadICj/dlA+bmrIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768153912; c=relaxed/simple;
-	bh=sLhFDd+4V/L6gbfrsspQd4eaKkcKUgy46YE8tJb/nUI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=VWFAAj1103fZFEqyj2aCSiTXFYoNqvk9FaOM61ERyMAlk0zX4Pvp9z+UZfy6ka0L6iLFeRqdGWKgr1a8R10jB5cIKhbeBJIm36Ijjaz0F/jqCYpE/Zxu1Ta7X3Hclpv+koLpCvfBM5k4X0H7gKYEDNA9H96ZAm7zGhijnMnUwsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KasBC1R0; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1768153918; c=relaxed/simple;
+	bh=viw5OtDo1SR27nNYQb3yaEG9m7nx3g9bn+c8S3YKMHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OmerRoXnYvuX7s9gKpNzv6d5n0YlAaKSlUaOeyyWlkjpFNYB1/9RiyYzwN4K4KFgI1bzjwO3+cMGTYehbUV0Tmx3cfZ+T/WWl0LGzFajuv7wYapsDjuz7SiAkfqLeK/9yKTji/DlTQqPzDgFbJpoaxS70r3A6AGlLog615v2cl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UeBswBYa; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KasBC1R0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UeBswBYa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768153911; x=1799689911;
-  h=date:from:to:cc:subject:message-id;
-  bh=sLhFDd+4V/L6gbfrsspQd4eaKkcKUgy46YE8tJb/nUI=;
-  b=KasBC1R0L9NCpFNDRSdUqYSdvC+u5WxAYZ+LyxXUwuZoBKP6oJinkjO+
-   WmMbWRV8GyxTN9GnsErK6Y5ZyekvU4cKjf6Tp+uDICQ2+Iq9M9jVzDkpT
-   NWXzgC8ycqr/HZ6wrXg0UnTcN2MOzdyAxByuJGhVPjMGlL3JHslwc/lMV
-   hbsCqH/YRn7TufA0WF5Zd1kPXws8nMEBSlhuci4x4dMgg+y9Lcd6gPDuW
-   LrHgzOCWshAxJ3wQ7aTM7YzAgq6Vds2HZBoa5G+nDOg1IYVeVMHL4CfFH
-   BlTnZKnOTYeqe516N0IBaGB5EMdHtmmzpLv7mjPiPWOGeEWJe1/MOmzQV
-   g==;
-X-CSE-ConnectionGUID: pabixFvcSZqkD99VhQkQqA==
-X-CSE-MsgGUID: dg8VUAh0S9mPrRUNLW/EdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="86864389"
+  t=1768153916; x=1799689916;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=viw5OtDo1SR27nNYQb3yaEG9m7nx3g9bn+c8S3YKMHk=;
+  b=UeBswBYayCq41ZP7beZOBbdI3CI20UZH9DQnTImFup/xk46frc7CmWMH
+   rmDaxlLQPpAzzPwMQGvqxlmBRFukyOk7k/VFV1Wn22xZ/MmANb7yCOp+l
+   1S/JfgWTJcmvToKmhyt0ZUnvtusqCnLO2KH+Xa5DsKAYwlUhbG7ORIAae
+   OkiCL035M2Whj36FzmXNee7bUTKLzk8qurx9+zt/eP+expk2eFFyM1LTM
+   r2IkueDVfhI0GqvwFEFzOrDKM4zcrGjtRNnpYQzCCLIggly1Vg2+tkzFb
+   wTcbSEr/3OcE5CKg8mFekAvdPYUFuLaOZbK/ACHhDL5k3PRsszbehwpvg
+   A==;
+X-CSE-ConnectionGUID: xsAoHVVsTdCpXrmb0wBxiA==
+X-CSE-MsgGUID: uUx0HGPDSDixzm6mWSJP2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="86864411"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="86864389"
+   d="scan'208";a="86864411"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 09:51:50 -0800
-X-CSE-ConnectionGUID: qeO1xivMT0qLtayVDehxBg==
-X-CSE-MsgGUID: D0dmf81/QKWitSi6ozf7rg==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 09:51:56 -0800
+X-CSE-ConnectionGUID: BnhW/eJpSvecJ7L2w8Biag==
+X-CSE-MsgGUID: 4j/oD/w/Tj6xSu7Z4uxK7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="208052628"
+   d="scan'208";a="208052625"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 11 Jan 2026 09:51:49 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vezbO-00000000Cak-35na;
+	id 1vezbO-00000000Cai-2yxL;
 	Sun, 11 Jan 2026 17:51:46 +0000
-Date: Mon, 12 Jan 2026 01:50:48 +0800
+Date: Mon, 12 Jan 2026 01:50:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ido Schimmel <idosch@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
-Subject: [jpirko-mlxsw:combined_queue 23/23]
- drivers/watchdog/sb_wdog.c:268:27: sparse: sparse: incorrect type in argument
- 1 (different address spaces)
-Message-ID: <202601120116.1juB2der-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Martin Liu <liumartin@google.com>,
+	David Rientjes <rientjes@google.com>, christian.koenig@amd.com,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	SeongJae Park <sj@kernel.org>, Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R . Howlett" <liam.howlett@oracle.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Christian Brauner <brauner@kernel.org>,
+	Wei Yang <richard.weiyang@gmail.com>,
+	David Hildenbrand <david@redhat.com>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	linux-trace-kernel@vger.kernel.org, Yu Zhao <yuzhao@google.com>
+Subject: Re: [PATCH v12 3/3] mm: Implement precise OOM killer task selection
+Message-ID: <202601120122.xSlEJ1AJ-lkp@intel.com>
+References: <20260111150249.1222944-4-mathieu.desnoyers@efficios.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260111150249.1222944-4-mathieu.desnoyers@efficios.com>
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   d1ec28ccbb7a3c86b11e03944d9231500dad60ae
-commit: d1ec28ccbb7a3c86b11e03944d9231500dad60ae [23/23] TMP: Revert "module: Add compile-time check for embedded NUL characters"
-config: mips-randconfig-r111-20260111 (https://download.01.org/0day-ci/archive/20260112/202601120116.1juB2der-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120116.1juB2der-lkp@intel.com/reproduce)
+Hi Mathieu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20260109]
+[cannot apply to akpm-mm/mm-everything kees/for-next/execve tip/sched/core linus/master v6.19-rc4 v6.19-rc3 v6.19-rc2 v6.19-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Desnoyers/lib-Introduce-hierarchical-per-cpu-counters/20260111-231206
+base:   next-20260109
+patch link:    https://lore.kernel.org/r/20260111150249.1222944-4-mathieu.desnoyers%40efficios.com
+patch subject: [PATCH v12 3/3] mm: Implement precise OOM killer task selection
+config: arc-randconfig-002-20260112 (https://download.01.org/0day-ci/archive/20260112/202601120122.xSlEJ1AJ-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120122.xSlEJ1AJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601120116.1juB2der-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601120122.xSlEJ1AJ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/watchdog/sb_wdog.c:268:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got char *wd_cfg_reg @@
-   drivers/watchdog/sb_wdog.c:268:27: sparse:     expected void const volatile [noderef] __iomem *mem
-   drivers/watchdog/sb_wdog.c:268:27: sparse:     got char *wd_cfg_reg
->> drivers/watchdog/sb_wdog.c:269:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *mem @@     got char * @@
-   drivers/watchdog/sb_wdog.c:269:42: sparse:     expected void const volatile [noderef] __iomem *mem
-   drivers/watchdog/sb_wdog.c:269:42: sparse:     got char *
-   drivers/watchdog/sb_wdog.c:274:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/watchdog/sb_wdog.c:274:24: sparse:    char *
-   drivers/watchdog/sb_wdog.c:274:24: sparse:    char [noderef] __iomem *
->> drivers/watchdog/sb_wdog.c:306:34: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/watchdog/sb_wdog.c:320:22: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/watchdog/sb_wdog.c:330:22: sparse: sparse: cast removes address space '__iomem' of expression
+All warnings (new ones prefixed by >>):
 
-vim +268 drivers/watchdog/sb_wdog.c
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/arc/include/asm/bug.h:30,
+                    from include/linux/bug.h:5,
+                    from include/linux/slab.h:15,
+                    from kernel/fork.c:16:
+   kernel/fork.c: In function 'check_mm':
+>> include/linux/kern_levels.h:5:18: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
+    #define KERN_SOH "\001"  /* ASCII Start Of Header */
+                     ^~~~~~
+   include/linux/printk.h:483:11: note: in definition of macro 'printk_index_wrap'
+      _p_func(_fmt, ##__VA_ARGS__);    \
+              ^~~~
+   include/linux/printk.h:534:2: note: in expansion of macro 'printk'
+     printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
+     ^~~~~~
+   include/linux/kern_levels.h:9:20: note: in expansion of macro 'KERN_SOH'
+    #define KERN_ALERT KERN_SOH "1" /* action must be taken immediately */
+                       ^~~~~~~~
+   include/linux/printk.h:534:9: note: in expansion of macro 'KERN_ALERT'
+     printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
+            ^~~~~~~~~~
+   kernel/fork.c:635:4: note: in expansion of macro 'pr_alert'
+       pr_alert("BUG: Bad rss-counter state mm:%p type:%s val:%ld Comm:%s Pid:%d\n",
+       ^~~~~~~~
+   kernel/fork.c:635:61: note: format string is defined here
+       pr_alert("BUG: Bad rss-counter state mm:%p type:%s val:%ld Comm:%s Pid:%d\n",
+                                                              ~~^
+                                                              %d
 
-75c752e6c3147f5 Andrew Sharp     2007-12-13  253  
-75c752e6c3147f5 Andrew Sharp     2007-12-13  254  /*
-75c752e6c3147f5 Andrew Sharp     2007-12-13  255   * interrupt handler
-75c752e6c3147f5 Andrew Sharp     2007-12-13  256   *
-75c752e6c3147f5 Andrew Sharp     2007-12-13  257   * doesn't do a whole lot for user, but oh so cleverly written so kernel
-75c752e6c3147f5 Andrew Sharp     2007-12-13  258   * code can use it to re-up the watchdog, thereby saving the kernel from
-75c752e6c3147f5 Andrew Sharp     2007-12-13  259   * having to create and maintain a timer, just to tickle another timer,
-75c752e6c3147f5 Andrew Sharp     2007-12-13  260   * which is just so wrong.
-75c752e6c3147f5 Andrew Sharp     2007-12-13  261   */
-75c752e6c3147f5 Andrew Sharp     2007-12-13  262  irqreturn_t sbwdog_interrupt(int irq, void *addr)
-75c752e6c3147f5 Andrew Sharp     2007-12-13  263  {
-75c752e6c3147f5 Andrew Sharp     2007-12-13  264  	unsigned long wd_init;
-75c752e6c3147f5 Andrew Sharp     2007-12-13  265  	char *wd_cfg_reg = (char *)addr;
-75c752e6c3147f5 Andrew Sharp     2007-12-13  266  	u8 cfg;
-75c752e6c3147f5 Andrew Sharp     2007-12-13  267  
-75c752e6c3147f5 Andrew Sharp     2007-12-13 @268  	cfg = __raw_readb(wd_cfg_reg);
-75c752e6c3147f5 Andrew Sharp     2007-12-13 @269  	wd_init = __raw_readq(wd_cfg_reg - 8) & 0x7fffff;
-75c752e6c3147f5 Andrew Sharp     2007-12-13  270  
-75c752e6c3147f5 Andrew Sharp     2007-12-13  271  	/*
-75c752e6c3147f5 Andrew Sharp     2007-12-13  272  	 * if it's the second watchdog timer, it's for those users
-75c752e6c3147f5 Andrew Sharp     2007-12-13  273  	 */
-df3c9de3dee539c Alan Cox         2008-05-19  274  	if (wd_cfg_reg == user_dog)
-27c766aaacb265d Joe Perches      2012-02-15  275  		pr_crit("%s in danger of initiating system reset "
-a77dba7e444a661 Wim Van Sebroeck 2009-04-14  276  			"in %ld.%01ld seconds\n",
-a77dba7e444a661 Wim Van Sebroeck 2009-04-14  277  			ident.identity,
-a77dba7e444a661 Wim Van Sebroeck 2009-04-14  278  			wd_init / 1000000, (wd_init / 100000) % 10);
-df3c9de3dee539c Alan Cox         2008-05-19  279  	else
-75c752e6c3147f5 Andrew Sharp     2007-12-13  280  		cfg |= 1;
-75c752e6c3147f5 Andrew Sharp     2007-12-13  281  
-75c752e6c3147f5 Andrew Sharp     2007-12-13  282  	__raw_writeb(cfg, wd_cfg_reg);
-75c752e6c3147f5 Andrew Sharp     2007-12-13  283  
-75c752e6c3147f5 Andrew Sharp     2007-12-13  284  	return IRQ_HANDLED;
-75c752e6c3147f5 Andrew Sharp     2007-12-13  285  }
-75c752e6c3147f5 Andrew Sharp     2007-12-13  286  
-75c752e6c3147f5 Andrew Sharp     2007-12-13  287  static int __init sbwdog_init(void)
-75c752e6c3147f5 Andrew Sharp     2007-12-13  288  {
-75c752e6c3147f5 Andrew Sharp     2007-12-13  289  	int ret;
-75c752e6c3147f5 Andrew Sharp     2007-12-13  290  
-75c752e6c3147f5 Andrew Sharp     2007-12-13  291  	/*
-75c752e6c3147f5 Andrew Sharp     2007-12-13  292  	 * register a reboot notifier
-75c752e6c3147f5 Andrew Sharp     2007-12-13  293  	 */
-75c752e6c3147f5 Andrew Sharp     2007-12-13  294  	ret = register_reboot_notifier(&sbwdog_notifier);
-75c752e6c3147f5 Andrew Sharp     2007-12-13  295  	if (ret) {
-27c766aaacb265d Joe Perches      2012-02-15  296  		pr_err("%s: cannot register reboot notifier (err=%d)\n",
-75c752e6c3147f5 Andrew Sharp     2007-12-13  297  		       ident.identity, ret);
-75c752e6c3147f5 Andrew Sharp     2007-12-13  298  		return ret;
-75c752e6c3147f5 Andrew Sharp     2007-12-13  299  	}
-75c752e6c3147f5 Andrew Sharp     2007-12-13  300  
-75c752e6c3147f5 Andrew Sharp     2007-12-13  301  	/*
-75c752e6c3147f5 Andrew Sharp     2007-12-13  302  	 * get the resources
-75c752e6c3147f5 Andrew Sharp     2007-12-13  303  	 */
-75c752e6c3147f5 Andrew Sharp     2007-12-13  304  
-86b591288045353 Yong Zhang       2011-09-07  305  	ret = request_irq(1, sbwdog_interrupt, IRQF_SHARED,
-75c752e6c3147f5 Andrew Sharp     2007-12-13 @306  		ident.identity, (void *)user_dog);
-75c752e6c3147f5 Andrew Sharp     2007-12-13  307  	if (ret) {
-27c766aaacb265d Joe Perches      2012-02-15  308  		pr_err("%s: failed to request irq 1 - %d\n",
-df3c9de3dee539c Alan Cox         2008-05-19  309  		       ident.identity, ret);
-ae44855ae8b36e4 Akinobu Mita     2010-08-21  310  		goto out;
-75c752e6c3147f5 Andrew Sharp     2007-12-13  311  	}
-75c752e6c3147f5 Andrew Sharp     2007-12-13  312  
-df3c9de3dee539c Alan Cox         2008-05-19  313  	ret = misc_register(&sbwdog_miscdev);
-df3c9de3dee539c Alan Cox         2008-05-19  314  	if (ret == 0) {
-27c766aaacb265d Joe Perches      2012-02-15  315  		pr_info("%s: timeout is %ld.%ld secs\n",
-df3c9de3dee539c Alan Cox         2008-05-19  316  			ident.identity,
-df3c9de3dee539c Alan Cox         2008-05-19  317  			timeout / 1000000, (timeout / 100000) % 10);
-ae44855ae8b36e4 Akinobu Mita     2010-08-21  318  		return 0;
-ae44855ae8b36e4 Akinobu Mita     2010-08-21  319  	}
-df3c9de3dee539c Alan Cox         2008-05-19  320  	free_irq(1, (void *)user_dog);
-ae44855ae8b36e4 Akinobu Mita     2010-08-21  321  out:
-ae44855ae8b36e4 Akinobu Mita     2010-08-21  322  	unregister_reboot_notifier(&sbwdog_notifier);
-ae44855ae8b36e4 Akinobu Mita     2010-08-21  323  
-75c752e6c3147f5 Andrew Sharp     2007-12-13  324  	return ret;
-75c752e6c3147f5 Andrew Sharp     2007-12-13  325  }
-75c752e6c3147f5 Andrew Sharp     2007-12-13  326  
 
-:::::: The code at line 268 was first introduced by commit
-:::::: 75c752e6c3147f596c13365b200b91d754b66f59 [WATCHDOG] Add support for SB1 hardware watchdog
+vim +5 include/linux/kern_levels.h
 
-:::::: TO: Andrew Sharp <andy.sharp@onstor.com>
-:::::: CC: Wim Van Sebroeck <wim@iguana.be>
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
 
 -- 
 0-DAY CI Kernel Test Service
