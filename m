@@ -1,88 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463A4150997
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jan 2026 23:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD912DB7B6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jan 2026 23:54:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768174406; cv=none; b=tjr4ds8BBiOW/mM7pW3pp8Fo1bym2k9zYJNdDyPSTM69y6kdQ5ymA4pfqTlWHw7Qw2c9SRGPn/AIXQundsaS6+ZZeiqGdrKX8cfVbdKmi1BlHv3SMwZO/jm6DLH/L090SZq4yc6xoLt+j3Evx234h/MMkcSv4v1T7XZy3h9bipc=
+	t=1768175667; cv=none; b=uwQrVP+r8HfxP4277IvlwnVIIGr6oFqmnffCdHy7RJzjP17vgCoSNA9l3OVJPbEIDSEVMZn87KLcuoPSEscrXMg00GBlwv1/AJGa+1r9CwFEffB16iSRXrZyRJ3JVTjskKejbOTekY3y6rUTqZ/ksnB0nshMdoE9Vo4ULHntY9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768174406; c=relaxed/simple;
-	bh=1Sw5IJlTePcCKxUVFxjzBPEfLyQmJNBf7wrpFx/w7ow=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=X6ZclME/r9ZdZdMQTgc9ig/eB3+22TxWXYgl+5MjLJRQl8eU0kAUhtFEqc4qaZqe8cr1veLW8p/fQ+t45MOLEAb5lQVo+w+Lu0PMLNlyfGev5385jJEKS/lMPRdy8PX/KfTgxk8TfwD9Fvr5/iRNZMDTh1yv4T31PzmtFpZ54b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Abuo1x1V; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1768175667; c=relaxed/simple;
+	bh=bM7ul9eph4WTRbOwiK6rmSwM6rglbWk1cWCvNsH2JbA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=a9YYFQ8ygYnhmFwen0y8orXh7XyjyQjFkM1knj8K2VNWnz9LTAs4e1GPcKVKk+ZyTX9EqYwmIrneTDLp1eJpwNl7+A3m2/vD5qGgmXLF+W5qagCuPN8IWb+sbLGHf+bp997LASKLZN6IGxZJs5hJaOTMs5IrRos1V5FcJWoNmAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CPY42y/x; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Abuo1x1V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CPY42y/x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768174404; x=1799710404;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1Sw5IJlTePcCKxUVFxjzBPEfLyQmJNBf7wrpFx/w7ow=;
-  b=Abuo1x1VEGNqLJCDNTH16I7olzTXK2f+2wFEYHJHPW3vRqtxKsnfRl47
-   TDYub8Y85L78BE0YsyxoMAIr6Y/Ec6Uf07ypMvx/YOwy3T0TKw8RdYcZK
-   Y08WiD61wUXtWDlMVF7DhNpDfpHl7EnELiCExzTK2PzPTXaykICKurLWk
-   Lrir3U6XWSvyh1g0LTxYzz88YA2WbMtx3aF+DRpmYg3yN4OOZoNWvOn9v
-   uTTiW4j3Wm9QLiQSBXmafrqDcKEJlFQbuwKysT47R4OoXDyQCB7KH4nRB
-   eCKsbPSE6XDmeqBeRfQWf0fVgULSaDdr1T0MmPJxKEx14xmnejapq//0V
-   Q==;
-X-CSE-ConnectionGUID: mBtmOjDEQ9OZO+viHFJ2+w==
-X-CSE-MsgGUID: r8A3ZueNSj6i21f0nkQTzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="57004129"
+  t=1768175665; x=1799711665;
+  h=date:from:to:cc:subject:message-id;
+  bh=bM7ul9eph4WTRbOwiK6rmSwM6rglbWk1cWCvNsH2JbA=;
+  b=CPY42y/xdR4fg9Fi/8Ev4h87AFotwZWvDE9q6TI777G+sqPXuvMc4N+U
+   4L07mKVrdpcE8lmCBFvxAUVY3Bxyq7l8xSUYBHBEqLfK5Ofhs5THA9TaT
+   P6q6pxtwIK4riq71j2MbCaIgdXdj3M61ftnvWePCBSiNw0MX+PjOpWdOZ
+   Tftx7oEkwzwBbvKVHv9gRlFOo6+kGR0rGPYLihsbFvNA3qanQflNH+CFe
+   HCCZVAr4qwOQFcQikAIycjyxzW/vqz2kJ1BnYBZBG6ZIbyy30rZt8VNzE
+   hfdKHzbMclXDGsK9J5fgh0EU7haeceVsaiKQxgE0SUFKIkoMWFVHuxU3N
+   w==;
+X-CSE-ConnectionGUID: uUrKWIVyS0K5Ej2b1F3LPA==
+X-CSE-MsgGUID: A1TDz6f3QdyDv4rqthOA1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="79746959"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="57004129"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 15:33:24 -0800
-X-CSE-ConnectionGUID: lGR5gkyORyuqmTo5r9L5xQ==
-X-CSE-MsgGUID: 9e7wO2OvQySp+kD6PrBMaQ==
+   d="scan'208";a="79746959"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 15:54:21 -0800
+X-CSE-ConnectionGUID: bR5soxUMSryqHC40eSdOzA==
+X-CSE-MsgGUID: MjO1t50VSUWTSECFV9I2eg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="204017707"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 11 Jan 2026 15:33:21 -0800
-Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
+   d="scan'208";a="234654236"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 11 Jan 2026 15:54:20 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vf4vv-000000000Xl-0eyO;
-	Sun, 11 Jan 2026 23:33:19 +0000
-Date: Mon, 12 Jan 2026 00:33:07 +0100
+	id 1vf5GD-00000000Cmq-24ki;
+	Sun, 11 Jan 2026 23:54:17 +0000
+Date: Mon, 12 Jan 2026 07:53:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Duje =?utf-8?Q?Mihanovi=C4=87"?= <duje.mihanovic@skole.hr>
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>
-Subject: kismet: WARNING: unmet direct dependencies detected for
- LEDS_EXPRESSWIRE when selected by BACKLIGHT_KTD2801
-Message-ID: <202601120036.2Xd4g2KD-lkp@intel.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frederic-dynticks:timers/core 13/15]
+ kernel/sched/cputime.c:481:72: error: implicit declaration of function
+ 'vtime_enabled_this_cpu'; did you mean 'vtime_generic_enabled_this_cpu'?
+Message-ID: <202601120712.tHOUbhUe-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9c7ef209cd0f7c1a92ed61eed3e835d6e4abc66c
-commit: a5554f1b5bc3be5d01f41b7550aa5b05b7c88c09 backlight: Add Kinetic KTD2801 Backlight support
-date:   1 year, 10 months ago
-config: hexagon-kismet-CONFIG_LEDS_EXPRESSWIRE-CONFIG_BACKLIGHT_KTD2801-0-0 (https://download.01.org/0day-ci/archive/20260112/202601120036.2Xd4g2KD-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20260112/202601120036.2Xd4g2KD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/core
+head:   dbfc29e2be8d36d0159dc4337c7362bf51c8da9f
+commit: 68fe31b4f141a343ee788815606d24da6609cb86 [13/15] sched/cputime: Handle idle irqtime gracefully
+config: powerpc-randconfig-r071-20260112 (https://download.01.org/0day-ci/archive/20260112/202601120712.tHOUbhUe-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.4.0
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120712.tHOUbhUe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601120036.2Xd4g2KD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601120712.tHOUbhUe-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE when selected by BACKLIGHT_KTD2801
-   WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
-     Depends on [n]: NEW_LEDS [=n] && GPIOLIB [=n]
-     Selected by [y]:
-     - BACKLIGHT_KTD2801 [=y] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=y]
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/sched/build_policy.c:57:
+   kernel/sched/cputime.c: In function 'kcpustat_irq_enter':
+>> kernel/sched/cputime.c:481:72: error: implicit declaration of function 'vtime_enabled_this_cpu'; did you mean 'vtime_generic_enabled_this_cpu'? [-Werror=implicit-function-declaration]
+     481 |         if (!vtime_generic_enabled_this_cpu() && (irqtime_enabled() || vtime_enabled_this_cpu()))
+         |                                                                        ^~~~~~~~~~~~~~~~~~~~~~
+         |                                                                        vtime_generic_enabled_this_cpu
+   cc1: some warnings being treated as errors
+
+
+vim +481 kernel/sched/cputime.c
+
+   476	
+   477	void kcpustat_irq_enter(ktime_t now)
+   478	{
+   479		struct kernel_cpustat *kc = kcpustat_this_cpu;
+   480	
+ > 481		if (!vtime_generic_enabled_this_cpu() && (irqtime_enabled() || vtime_enabled_this_cpu()))
+   482			kcpustat_idle_stop(kc, now);
+   483	}
+   484	
 
 -- 
 0-DAY CI Kernel Test Service
