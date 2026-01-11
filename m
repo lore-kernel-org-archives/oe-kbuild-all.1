@@ -1,113 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC72122301
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jan 2026 18:14:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717851DF248;
+	Sun, 11 Jan 2026 18:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768155296; cv=none; b=Un8gXLXfWKs0eBDyYc51uNT2XeoYGGO1Fk2j+KENqcUnuhBKlrHiOAvjjosv9YggySFjPvAvBH437zl+Qn52ccSVmPAExijvrON3YVKznGUGM8/WvRGOpmcXoAbj+foOLhmoIpUymmKizANQz5AlgTivuJjITVC+qZoL5TYlexM=
+	t=1768155532; cv=none; b=bqMMEgqNk/2/VzPNo1Fiz+96ZeTT9hSd5/PRAx10Yv6fG7G8/7DBrGcinm9GUZf07KyXeTZ6+yZiOfZu0aMs38YE5018BoJSY3SXi27MuJQbhxK5rTLAzkPAgfFdiOGTMElLyt5dpdLRGiJxnMphrc57fzRyKJKbxzR9RMNURII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768155296; c=relaxed/simple;
-	bh=roqgV7Qy+VeXsXv6yHTBTls5Nw+dcGcXFmke+1GwoWI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Fp8k0EWkRGuPwLJwIPPe1lTDN+9EpUHd5kJkhegcotjoeuso6vNNy0LoIvDk4xHQMQcUZtB6Gl/KvSir7ynQyR9ZZIHe2p2Csd2OkIvavXDCpHDIhd4Wqq8EZdKDKWZY19+DwjNAb8lvcbtMqC98+UuKsxvcAgFe8cIP02OBFXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dbMsh4XQ; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768155532; c=relaxed/simple;
+	bh=naJ9Gdxbxkx5ufird6hbPL7VRPVnCQr/Q0icXG1nlnI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JjRiOqhXbH7+9DJGi2ctPEPE9zPuby0iqb9MIxiqj97Jzl1nUHdw7SYiEgYriSspweZxHPyUk7BWwz9AAeW/DC3xTJZiAwhvgtfnlop4RvJ5Dm7qwdNq8qTP+pC+5C0pqEjwAQbFydspl57J8d9CUq2+jQBJvxGByEn1I9NRaMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=gMInXO3L; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dbMsh4XQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768155294; x=1799691294;
-  h=date:from:to:cc:subject:message-id;
-  bh=roqgV7Qy+VeXsXv6yHTBTls5Nw+dcGcXFmke+1GwoWI=;
-  b=dbMsh4XQJ7Sv9/yw55tgd9k5A1GRBS1Lv+qgZx4qSlUPAUNQwJGwlqtt
-   p2csKBZoatBimu3GWLdMu2viu2qriSnF8npCRPgOeDbbs2eX5zxbPPNbb
-   EfVUExkUIUqb9sFIfvvKV/I1hsln8ZzOIPbMJRM/i839thbOYw4wYYbn0
-   B4vZZvbf7afFbEN8whuhTWKVR1aym7ADe+wuqpT4nTeqapwE4xjfEV3/5
-   I+73HWMr6W8ttX2qvDu+Kst9XHTDpU0e7xp1KbNTvn8teMUtR972ihy3E
-   zTzTVd5jRNdZqgy4mHJkItGfv0NMsK8BD/mg/p7amnnzNhORtgyzmikIX
-   w==;
-X-CSE-ConnectionGUID: Unp9eD+VQ5afqCEtaMPTDA==
-X-CSE-MsgGUID: moC7DjalSV6VB4wXzc+l/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69374639"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="69374639"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 10:14:53 -0800
-X-CSE-ConnectionGUID: QYD7v0HfTV+GOkOVesXx5Q==
-X-CSE-MsgGUID: rcQNIfj2TTuq0azRmSE3+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="208967370"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 11 Jan 2026 10:14:51 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vezxh-00000000Cbc-0rkz;
-	Sun, 11 Jan 2026 18:14:49 +0000
-Date: Mon, 12 Jan 2026 02:13:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: [linux-next:master 1628/5095]
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
-Message-ID: <202601120253.FKudUXx4-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="gMInXO3L"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=+f4zTVplTYgO3DUqTn1Asrt3QSGB3nQZRvJfEoRZmTM=; b=gMInXO3LPrjWY2lGM4rdXWUhtP
+	7o2dWycw7AtLWxOXy0r6kokE9tSVvhP5XMjD8IeQDkRKlzoHDWrcmxyyI2Xo1FPn4tgv49uI+LaGm
+	rn2YjBLVSCwBynLOQoA83s5z8eUuv4yacAsPYlwM1QWMPb5JAtwAALi/AiktsG9FYN4AUH1ENGWe9
+	pTxkyJ918F19NKRf6vJRzg+bpIPRCmJINBThI7yAVsnaiwC+CkYErd+ZiH0LTv1FLE96ihFiu5eE3
+	RUV2W0wa5D9zFdk6o+huE4MGbGPRJuFVsyxjUcR1pdg+7XH3pHeC9Svqns/v2ZCGMCesb1wWYcT3h
+	l3TEfjOw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99 #2 (Red Hat Linux))
+	id 1vf02s-00000009hQT-1NU4;
+	Sun, 11 Jan 2026 18:20:10 +0000
+Date: Sun, 11 Jan 2026 18:20:10 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Eric Dumazet <edumazet@google.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>,
+	Will Deacon <will@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: Re: include/net/sock.h:2100:16: sparse: sparse: cast to non-scalar
+Message-ID: <20260111182010.GH3634291@ZenIV>
+References: <202601110443.5ENBRFej-lkp@intel.com>
+ <20260110221508.GF3634291@ZenIV>
+ <20260110223548.GA4041651@ZenIV>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260110223548.GA4041651@ZenIV>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
-commit: 4cffecaf127ae10ada4da0636f87e0170e347402 [1628/5095] drm/xe/pf: Prepare for new threshold KLVs
-config: alpha-randconfig-r072-20260111 (https://download.01.org/0day-ci/archive/20260112/202601120253.FKudUXx4-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.3.0
-smatch version: v0.5.0-8985-g2614ff1a
+On Sat, Jan 10, 2026 at 10:35:48PM +0000, Al Viro wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601120253.FKudUXx4-lkp@intel.com/
+> Folks involved in putting that cast in arch/alpha/include/asm/rwonce.h Cc'd...
 
-smatch warnings:
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:314 encode_config() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c:2568 pf_restore_vf_config_klv() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
-drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c:310 pf_add_config_attrs() warn: if();
+FWIW, there's a way to strip qualifiers from *any* non-array type.
+Look:
 
-vim +314 drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c
+void f(void)
+{
+	const int x;
+	x = 1;		// an error
+	typeof(((typeof(x)(*)(void))0)()) y;
+	y = 2;		// perfectly fine
+}
 
-a1498ab229ca16 Michal Wajdeczko 2024-08-30  313  
-a1498ab229ca16 Michal Wajdeczko 2024-08-30 @314  	MAKE_XE_GUC_KLV_THRESHOLDS_SET(encode_threshold_config);
-a1498ab229ca16 Michal Wajdeczko 2024-08-30  315  #undef encode_threshold_config
-a1498ab229ca16 Michal Wajdeczko 2024-08-30  316  
-ac6598aed1b36d Michal Wajdeczko 2024-04-15  317  	return n;
-ac6598aed1b36d Michal Wajdeczko 2024-04-15  318  }
-ac6598aed1b36d Michal Wajdeczko 2024-04-15  319  
+The way it works is that qualifiers are stripped from return type when
+deriving a function type.  That was spelled out only in C17; 6.7.6.3[5]
+| If, in the declaration "T D1", D1 has the form
+| D ( parameter-type-list )
+|  or
+| D ( identifier-list[opt] )
+| and the type specified for ident in the declaration "T D" is
+| "derived-declarator-type-list T", then the type specified for ident
+| is "derived-declarator-type-list function returning the unqualified version
+| of T".
+but that "unqualified version of..." matched the common practice in
+earlier variants of standard; they stopped issuing TCs by that point
+(~2014), but both clang and gcc behave that way with any variant of
+standard.
 
-:::::: The code at line 314 was first introduced by commit
-:::::: a1498ab229ca16dfc35331dfb309f8e28b84bb5d drm/xe/pf: Add thresholds to the VF KLV config
+IOW, this
 
-:::::: TO: Michal Wajdeczko <michal.wajdeczko@intel.com>
-:::::: CC: Michal Wajdeczko <michal.wajdeczko@intel.com>
+#define unqual_non_array(T) __typeof__(((T(*)(void))0)())
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+would do the right thing without that _Generic cascade and it'll work
+just fine for e.g. kuid_t.  Using it for an array would trigger an error,
+array-returning functions being forbidden...
+
+Guys, do you have any problems with replacing __unqual_scalar_typeof()
+uses with that thing?
+
+As in,#ifndef __smp_load_acquire
+#define __smp_load_acquire(p)                                           \
+({                                                                      \
+        unqual_non_array(__typeof__(*p)) ___p1 = READ_ONCE(*p);         \
+...
+
+Objections?  IMO it's more palatable than current __unqual_scalar_typeof()...
