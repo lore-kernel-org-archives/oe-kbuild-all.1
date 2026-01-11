@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EB922A1D4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jan 2026 17:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E6733D6EA;
+	Sun, 11 Jan 2026 18:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768153918; cv=none; b=cOacca1GS0CmiL6AH5nzrj2yFK61RCWOAeCuyciOAFAojDjO6znJG7wuJ24/CNyw3DfRKP0atWx24TLOD7GFA2RCYegktR9K49254DbLefHKHgdrXEboY7y+eSpauxN8p03SOWBDZD7/Wo4IipJ/dtTk8CfCadICj/dlA+bmrIg=
+	t=1768154641; cv=none; b=kxf7Trk4fgCtIfvPz4v4PpUwpOCS440lIIKP2728ur0dCLKbVQWMGkH3GeL0j8x5eGEZQpNH+Jw4IzV/GeCvwr1TEVsSNBDxBX9BHwD+2TzJno+/W27IW6QPcCsGLI37WiNKKf3EHyV9+WhsWrw4hU5AEPitkDTMxfzi03haaXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768153918; c=relaxed/simple;
-	bh=viw5OtDo1SR27nNYQb3yaEG9m7nx3g9bn+c8S3YKMHk=;
+	s=arc-20240116; t=1768154641; c=relaxed/simple;
+	bh=zbTnStaZRGXqT6TfypigN7OHnqv2DHIxSoAC5Gw88yg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OmerRoXnYvuX7s9gKpNzv6d5n0YlAaKSlUaOeyyWlkjpFNYB1/9RiyYzwN4K4KFgI1bzjwO3+cMGTYehbUV0Tmx3cfZ+T/WWl0LGzFajuv7wYapsDjuz7SiAkfqLeK/9yKTji/DlTQqPzDgFbJpoaxS70r3A6AGlLog615v2cl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UeBswBYa; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=YIzTC2cfZohvUAFCWDjzf1HmkkSjxtlHWOu8vL/bLjQ8etsZWpR1h7eXmzyLHZeTyWQaIueqPCXBWuMeOJ2PZr/B0ZZmxwo7e4X0wwAQo7l484u72txW3jLLJwwp8z+ktHLcScNbM6dzS8nQ6Xqdaj9LpleokE/Qf7e5pA6CJKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i42kBWKP; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UeBswBYa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i42kBWKP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768153916; x=1799689916;
+  t=1768154638; x=1799690638;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=viw5OtDo1SR27nNYQb3yaEG9m7nx3g9bn+c8S3YKMHk=;
-  b=UeBswBYayCq41ZP7beZOBbdI3CI20UZH9DQnTImFup/xk46frc7CmWMH
-   rmDaxlLQPpAzzPwMQGvqxlmBRFukyOk7k/VFV1Wn22xZ/MmANb7yCOp+l
-   1S/JfgWTJcmvToKmhyt0ZUnvtusqCnLO2KH+Xa5DsKAYwlUhbG7ORIAae
-   OkiCL035M2Whj36FzmXNee7bUTKLzk8qurx9+zt/eP+expk2eFFyM1LTM
-   r2IkueDVfhI0GqvwFEFzOrDKM4zcrGjtRNnpYQzCCLIggly1Vg2+tkzFb
-   wTcbSEr/3OcE5CKg8mFekAvdPYUFuLaOZbK/ACHhDL5k3PRsszbehwpvg
-   A==;
-X-CSE-ConnectionGUID: xsAoHVVsTdCpXrmb0wBxiA==
-X-CSE-MsgGUID: uUx0HGPDSDixzm6mWSJP2A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="86864411"
+  bh=zbTnStaZRGXqT6TfypigN7OHnqv2DHIxSoAC5Gw88yg=;
+  b=i42kBWKPjkZz60wg96NQ4np0Ou2H8oiJDPekp3L8WbI8YGOVN6jSHk4/
+   J3sP7evtRezLYVvL5blTP8V4PNs0WsDroUa4whMmWqDJkx6UvH9PJpHpG
+   2Ch5lenerW31GfLUt0b5r1XHj0ZTgqL+7LPtdZt4NAE7eSFXbNMss6j39
+   MC0d37AohG0aEur+84InF02wRnyRUC++2hxOrQglW/JRCpk0nTbhWUxSx
+   9ONDI0XaeFW4R81nLJnRkCO307WQrd5L2ONY7HFIRIXcAqHeYCFppfq0a
+   cXnaFx1jwSxBOoJbDCLmWwpTMlkdnTMJcs9bAqVjGmxRXCN1/S3JI3m20
+   g==;
+X-CSE-ConnectionGUID: ebdITIrfQNuKQLKXCaU6bw==
+X-CSE-MsgGUID: 8txKHc1SSmSZ2crbpEdL9w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="68452006"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="86864411"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 09:51:56 -0800
-X-CSE-ConnectionGUID: BnhW/eJpSvecJ7L2w8Biag==
-X-CSE-MsgGUID: 4j/oD/w/Tj6xSu7Z4uxK7w==
+   d="scan'208";a="68452006"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 10:03:57 -0800
+X-CSE-ConnectionGUID: pCRMPKXFTZmo/M3PkCS/fg==
+X-CSE-MsgGUID: EucFxaScS++i9cFiaip57w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="208052625"
+   d="scan'208";a="208441509"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Jan 2026 09:51:49 -0800
+  by orviesa004.jf.intel.com with ESMTP; 11 Jan 2026 10:03:51 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vezbO-00000000Cai-2yxL;
-	Sun, 11 Jan 2026 17:51:46 +0000
-Date: Mon, 12 Jan 2026 01:50:49 +0800
+	id 1vezn1-00000000CbA-48AU;
+	Sun, 11 Jan 2026 18:03:47 +0000
+Date: Mon, 12 Jan 2026 02:03:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	linux-kernel@vger.kernel.org,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
@@ -78,7 +78,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	Al Viro <viro@zeniv.linux.org.uk>,
 	linux-trace-kernel@vger.kernel.org, Yu Zhao <yuzhao@google.com>
 Subject: Re: [PATCH v12 3/3] mm: Implement precise OOM killer task selection
-Message-ID: <202601120122.xSlEJ1AJ-lkp@intel.com>
+Message-ID: <202601120124.RK3AWOwu-lkp@intel.com>
 References: <20260111150249.1222944-4-mathieu.desnoyers@efficios.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -104,53 +104,80 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Desnoyers/lib-Int
 base:   next-20260109
 patch link:    https://lore.kernel.org/r/20260111150249.1222944-4-mathieu.desnoyers%40efficios.com
 patch subject: [PATCH v12 3/3] mm: Implement precise OOM killer task selection
-config: arc-randconfig-002-20260112 (https://download.01.org/0day-ci/archive/20260112/202601120122.xSlEJ1AJ-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120122.xSlEJ1AJ-lkp@intel.com/reproduce)
+config: arm-randconfig-001-20260112 (https://download.01.org/0day-ci/archive/20260112/202601120124.RK3AWOwu-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120124.RK3AWOwu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601120122.xSlEJ1AJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601120124.RK3AWOwu-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/arc/include/asm/bug.h:30,
-                    from include/linux/bug.h:5,
-                    from include/linux/slab.h:15,
-                    from kernel/fork.c:16:
-   kernel/fork.c: In function 'check_mm':
->> include/linux/kern_levels.h:5:18: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
-    #define KERN_SOH "\001"  /* ASCII Start Of Header */
-                     ^~~~~~
-   include/linux/printk.h:483:11: note: in definition of macro 'printk_index_wrap'
-      _p_func(_fmt, ##__VA_ARGS__);    \
-              ^~~~
-   include/linux/printk.h:534:2: note: in expansion of macro 'printk'
-     printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
-     ^~~~~~
-   include/linux/kern_levels.h:9:20: note: in expansion of macro 'KERN_SOH'
-    #define KERN_ALERT KERN_SOH "1" /* action must be taken immediately */
-                       ^~~~~~~~
-   include/linux/printk.h:534:9: note: in expansion of macro 'KERN_ALERT'
-     printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
-            ^~~~~~~~~~
-   kernel/fork.c:635:4: note: in expansion of macro 'pr_alert'
-       pr_alert("BUG: Bad rss-counter state mm:%p type:%s val:%ld Comm:%s Pid:%d\n",
-       ^~~~~~~~
-   kernel/fork.c:635:61: note: format string is defined here
-       pr_alert("BUG: Bad rss-counter state mm:%p type:%s val:%ld Comm:%s Pid:%d\n",
-                                                              ~~^
-                                                              %d
+>> kernel/fork.c:637:6: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
+     635 |                         pr_alert("BUG: Bad rss-counter state mm:%p type:%s val:%ld Comm:%s Pid:%d\n",
+         |                                                                                ~~~
+         |                                                                                %d
+     636 |                                  mm, resident_page_types[i],
+     637 |                                  percpu_counter_tree_precise_sum(&mm->rss_stat[i]),
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:534:35: note: expanded from macro 'pr_alert'
+     534 |         printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
+         |                                  ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:511:60: note: expanded from macro 'printk'
+     511 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:483:19: note: expanded from macro 'printk_index_wrap'
+     483 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   1 warning generated.
+--
+>> mm/oom_kill.c:351:6: warning: variable 'points_min' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+     351 |         if (oom_task_origin(task)) {
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   mm/oom_kill.c:392:22: note: uninitialized use occurs here
+     392 |         oc->chosen_points = points_min;
+         |                             ^~~~~~~~~~
+   mm/oom_kill.c:351:2: note: remove the 'if' if its condition is always false
+     351 |         if (oom_task_origin(task)) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     352 |                 points = LONG_MAX;
+         |                 ~~~~~~~~~~~~~~~~~~
+     353 |                 goto select;
+         |                 ~~~~~~~~~~~~
+     354 |         }
+         |         ~
+   mm/oom_kill.c:326:25: note: initialize the variable 'points_min' to silence this warning
+     326 |         long points, points_min, points_max;
+         |                                ^
+         |                                 = 0
+   1 warning generated.
 
 
-vim +5 include/linux/kern_levels.h
+vim +637 kernel/fork.c
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+6af8cb80d3a9a6 David Hildenbrand    2025-03-03  625  
+d70f2a14b72a4b Andrew Morton        2018-01-31  626  static void check_mm(struct mm_struct *mm)
+d70f2a14b72a4b Andrew Morton        2018-01-31  627  {
+d70f2a14b72a4b Andrew Morton        2018-01-31  628  	int i;
+d70f2a14b72a4b Andrew Morton        2018-01-31  629  
+8495f7e6732ed2 Sai Praneeth Prakhya 2019-09-25  630  	BUILD_BUG_ON_MSG(ARRAY_SIZE(resident_page_types) != NR_MM_COUNTERS,
+8495f7e6732ed2 Sai Praneeth Prakhya 2019-09-25  631  			 "Please make sure 'struct resident_page_types[]' is updated as well");
+8495f7e6732ed2 Sai Praneeth Prakhya 2019-09-25  632  
+d70f2a14b72a4b Andrew Morton        2018-01-31  633  	for (i = 0; i < NR_MM_COUNTERS; i++) {
+25d942f31cc499 Mathieu Desnoyers    2026-01-11  634  		if (unlikely(percpu_counter_tree_precise_compare_value(&mm->rss_stat[i], 0) != 0))
+72456781289a6e Mathieu Desnoyers    2026-01-11  635  			pr_alert("BUG: Bad rss-counter state mm:%p type:%s val:%ld Comm:%s Pid:%d\n",
+25d942f31cc499 Mathieu Desnoyers    2026-01-11  636  				 mm, resident_page_types[i],
+25d942f31cc499 Mathieu Desnoyers    2026-01-11 @637  				 percpu_counter_tree_precise_sum(&mm->rss_stat[i]),
+881388f3433819 Xuanye Liu           2025-07-23  638  				 current->comm,
+881388f3433819 Xuanye Liu           2025-07-23  639  				 task_pid_nr(current));
+881388f3433819 Xuanye Liu           2025-07-23  640  	}
+d70f2a14b72a4b Andrew Morton        2018-01-31  641  
+d70f2a14b72a4b Andrew Morton        2018-01-31  642  	if (mm_pgtables_bytes(mm))
+d70f2a14b72a4b Andrew Morton        2018-01-31  643  		pr_alert("BUG: non-zero pgtables_bytes on freeing mm: %ld\n",
+d70f2a14b72a4b Andrew Morton        2018-01-31  644  				mm_pgtables_bytes(mm));
+d70f2a14b72a4b Andrew Morton        2018-01-31  645  
 
 -- 
 0-DAY CI Kernel Test Service
