@@ -1,143 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from YT5PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11021130.outbound.protection.outlook.com [40.107.192.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1501EBFF7;
-	Sun, 11 Jan 2026 19:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768158537; cv=none; b=CAANyMmMvBwJPmbDZUwuywBANW2uNHN44cmBxHtI2eZ3/ZCWiDDqYCvLO7CVDzB69ADInVwOks0OEVHXj0gZHSbUYXyGfNaslLbXg9gFlCfqmPZ56jfkYByzIiYmwrpp/zBu85YNHpcYPmfQsEdKnNOhpSaAl0hyTtiipPxv8yM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768158537; c=relaxed/simple;
-	bh=zs9/X34UCjwV8bFsafnWUa1DBqKEiu2YwcITL57ckvo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AQgWdx6khC1o5+4feBHrK/0YOhfyjExXfUg6qgWVt/cvd7MgFB4Di8nMrpGWxLHL+Lq3gGPBSvqUzanxikWLL/Dw+X6pmqpLUlsQFeOBZiCEpHxpxjrcxsyDj1XTJCFqM+QT18GDylB36b1im1RiBFFzKo9vdF4goNj/TzX688A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KQj76FX6; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6E11EBFF7
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jan 2026 19:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.192.130
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768159562; cv=fail; b=V98cZoZ+Cne4RS6om88kifku10cpm48G6/OFCV5vBMcc67uvgs0kHN8In1d6aXAhZr9kqgnX33PvVf1CShSw43vypILgpGMIOdcB/CroWCgb4dkWWH/7vCp979n6q9F+uNsifUSKanDOtSDAypXAKGOIFr3p2uSo87vi2rYy3L8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768159562; c=relaxed/simple;
+	bh=IqZ3sMt9/sh8zUpMH6QkpqqY1bx2EddENGgkFLHqqrQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=BTxahQiuH96Ft0g9yV651OcaiX4GM8neWW2CShVbg7a1kCIAHZkUpGgSa0NXgDU6OqyOGIu88J74csjyY/iMwswEUs3a96O0+KNU8VWZRJzXsKWMqWLE3WCkBCuomxVfBBQmXeIhCOHi50HGQCfALfFME1/MnZ1ucYe51hf56ns=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=r9Ssqwzm; arc=fail smtp.client-ip=40.107.192.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KQj76FX6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768158535; x=1799694535;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zs9/X34UCjwV8bFsafnWUa1DBqKEiu2YwcITL57ckvo=;
-  b=KQj76FX68+fIN3iSWqRmtUvsnKr9XwaAS8PfSPhmm6HOXMjdyOhgix+j
-   iBpcWXM2tbqI3Xxs+JYi2WFGUJDHJgobuDTzwTS/Zjyc7F0fdR965P6d6
-   sp9fXKowsz139Go1gupukUCiRdz1agJuLLcZPO+8UIoG47xYVLpmc/ycy
-   R1pUGLPD3uBg57Oqk6mVkgVO4/U/+aT4eyyRVDHvstTYkT1phSgl1GV9A
-   ud+DuzUBelFj8sP8U0Cdz6Ei8GsD9a3gpVAvk3/N3sZAR7TjPwTMazNUk
-   QxgYTG1jgq/R7fbiWrwGqcThYX3rJUMreY8UImqhCo0VyyLjX7xjvhoBS
-   w==;
-X-CSE-ConnectionGUID: om4p7WnpRTS4F6nwO5luyA==
-X-CSE-MsgGUID: BTRk3ZiPSvS5PtRRH5i7vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80901994"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="80901994"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 11:08:55 -0800
-X-CSE-ConnectionGUID: QS+41tJ2Ssa96H4+AiuNJg==
-X-CSE-MsgGUID: rXOqrG9KQTSW2xYkkqTLOw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="208757941"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 Jan 2026 11:08:52 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vf0ny-00000000CdE-1yjp;
-	Sun, 11 Jan 2026 19:08:50 +0000
-Date: Mon, 12 Jan 2026 03:08:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="r9Ssqwzm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jHXnPtaWZ+mq/QaerkW/bYvtyBRVviio1Sg+Z+vvWuLeBT9XBMC1PLEDDucZqN/Vc9FNqXud6EilMKWiXlfauLIhDY2e5FQHO8R3VBZHbEiVITosXFBTNTc8QIlXWmzGgZUmDs5Nt59AfHL1qwwTkXdGYvg7DepIdDiEVZvx8R8i+2fEpxW7X4m1x5unaX404MbgkTlj8vQ90tjDr5YhbDhgCvWOZVjS5FB+CMkxED0/Us5B9aG2iR9OvWtuQFBkyNUMNFJOqdU1pua/ORz6sc5oBOu2NceG3sJ+SKxGtAYx9LZ0HX7O9G4rW2Su0phzKmKNxr4pJMJS4k4zj1h9LQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uW+dB+XyS2eeQdorBL35bjJ/ysxwN2Qaeduw9cxeNI4=;
+ b=GJwzKk+1cPKAZNpDwPG1iOcthp9TuAc+LGn02zS2je6rotVAUaonGsXJYWgJ/aeK2TnlLgNFZbyeyk3MS1T9bupzyo0Wpe8biBY10vVeDsCFVYCirx1IGBq8+kSX1aWIjUhsQfXPf4/VkeVThxHAlRBxP0EFvwbZsJhygwzKtPLtO4igqa/E24qTNTs0JSGGgTbYjuvYTi+KEhagiiK4UYNPxql5L5CUm1QuvoDPyhu379oDWwoiWgFi0g0AjlCamDZheJbeQyp5ZuxEop+o4zVX/f8IQYBGfrEAO1Lgq0McaAkKyayLi61DgB2uF6WtBvf9zK8CAH1VkKAUBga5Sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uW+dB+XyS2eeQdorBL35bjJ/ysxwN2Qaeduw9cxeNI4=;
+ b=r9SsqwzmD5JDbnqhZE1Wqn374Ror0Md1xemi6GQywb3OU6wcR20w+GvplRZNhN4lzsJtC7EysATBH8kKz0fW1ObaIBekJY6vEPd1U9bR3duZNBoagN+hOcwn2CjETPVnYhK4sRZuWJISSeygf0hd0zgQljP6PImdeJiMw0eenwT/3b2DmGy0JNqy0ibkwqcoeWrNvUY2JS/RDp+1knyO00bk1JU7sjENnhrHB1xKXtCIkOh01hKHNEr4Epyd9DS8Zpl3OOhdT5CHYTpoER2mQIC9UEnZkTrhSzETSGBWhA6q51DbkzJCaZyUjjHa1w6l197zIq2tlpkTtxWtY52i6Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:be::5)
+ by YQXPR01MB6557.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:4d::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Sun, 11 Jan
+ 2026 19:25:57 +0000
+Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6004:a862:d45d:90c1]) by YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::6004:a862:d45d:90c1%5]) with mapi id 15.20.9499.005; Sun, 11 Jan 2026
+ 19:25:56 +0000
+Message-ID: <24a78f8a-202f-4d25-8967-b15a665b89e0@efficios.com>
+Date: Sun, 11 Jan 2026 14:25:55 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 1/3] lib: Introduce hierarchical per-cpu counters
+To: kernel test robot <lkp@intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dma-pool: don't allocate DMA32 pool if no 32-bit memory
-Message-ID: <202601120212.Wm3uFeKw-lkp@intel.com>
-References: <20260111152632.2133580-1-vladimir.kondratiev@mobileye.com>
+ Linux Memory Management List <linux-mm@kvack.org>,
+ linux-kernel@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux-foundation.org>,
+ Martin Liu <liumartin@google.com>, David Rientjes <rientjes@google.com>,
+ christian.koenig@amd.com, Shakeel Butt <shakeel.butt@linux.dev>,
+ SeongJae Park <sj@kernel.org>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <liam.howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Christian Brauner <brauner@kernel.org>,
+ Wei Yang <richard.weiyang@gmail.com>, David Hildenbrand <david@redhat.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, Al Viro <viro@zeniv.linux.org.uk>,
+ linux-trace-kernel@vger.kernel.org, Yu Zhao <yuzhao@google.com>
+References: <20260111150249.1222944-2-mathieu.desnoyers@efficios.com>
+ <202601120245.v2Trbgck-lkp@intel.com>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Content-Language: en-US
+In-Reply-To: <202601120245.v2Trbgck-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YQBPR0101CA0312.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6c::17) To YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:be::5)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260111152632.2133580-1-vladimir.kondratiev@mobileye.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT2PR01MB9175:EE_|YQXPR01MB6557:EE_
+X-MS-Office365-Filtering-Correlation-Id: a94a90e7-0b55-4bf2-c756-08de51473e77
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|10070799003|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?L01Db1FaZzltVldWbHBEY2VRYjRPT25RTTZBZVVBZ3o2Q3piejdUWGVjSlM4?=
+ =?utf-8?B?U2d4SFVaSEk1RmtlSUxHNk5nTHlTRHR4RHJiOElaM05GUUYvdmU3N0N4QUVk?=
+ =?utf-8?B?ZS92RXAza0dyWlVrTWwxNkhhREdkcjhHcnNzRVdhOUVHTXJldmZUZGV2cGxo?=
+ =?utf-8?B?NzVPZ05OZnMwc1Q3b1pNem1yclhwQTBieXVvSWptTnI2bXE5TTFKdW5YaHdC?=
+ =?utf-8?B?bGtiMHoweWp3S0p6dXdSYjRQRnBncEZWeGk0SCtpNzcyeWNxL0JQaEkraEZF?=
+ =?utf-8?B?N255SVdnQTFjNHlIalhrZU9wRnJKYjhXTmQ5RXBudThyR3o2OTZpZEpxYmR0?=
+ =?utf-8?B?YjluT0dxMEZhQzFDWEN5Q05sVjZMUlpXTmZJTFQzcXdGT3lRYlZEL3Qva3l6?=
+ =?utf-8?B?SlU4dis5REM1ZUZQVUVMNXE1UlhYNHJDbmxkWFlqQVNETExlK1BOZ2F0TTgx?=
+ =?utf-8?B?OHBLZ0cxQ1c2NHVMRlJCV0VISjB1dlFHQU1MbW9QTjB6Z0tYOGZRSFJNRUFB?=
+ =?utf-8?B?Yk5aUlI1OWh6dFdVRXRwRmlLdzl4VU9KUmVsWWJQR0UvaHBXaWF6R09UcXRL?=
+ =?utf-8?B?Qk82bDczZHdMR2VpZjRrY3U1aVFrNnZoSHFzaVJ2czJJQVpsQ3lLTjg4RlJF?=
+ =?utf-8?B?Zkp6UkkzYW8yNThLRnlVMWhPVDJMMXZvb3F3b0pva3hjQ3NuZWg4RCt1azZy?=
+ =?utf-8?B?MmxsVTNOck5HRmF5azZsdFRCR3dCcE15QlBIK3cyTFlaWHFLcVN1SFVIMU9p?=
+ =?utf-8?B?TlFaTEhEYVJUU1VpYlpqM2RENWVsUXlZVWttYWh3V3ZjSjdVVEJOV1VkUzYx?=
+ =?utf-8?B?aWNpaGpWNnN6OFhmZ3ZaU0NmZE03VXJkUVUxUnpBZXIydnFUcURoaXptdWNw?=
+ =?utf-8?B?b2MvR0dwaURmVmxyU2dQZEhYQytOa0I2d00xM3c1RCtDYnNodUVoejJDdG5Y?=
+ =?utf-8?B?OUZxUGlNQ2JxaUE2RHVkRVNrdG1Fb3lRQ2h6ZnJ1MEtjbTlNY2pKL29NcHJK?=
+ =?utf-8?B?dEYyUVJLRkg0ekFuS1hycFBwREtYL3Q4Z0xkZDlxWklFeHllSTk1eHFFUTli?=
+ =?utf-8?B?VnU1LzFTcndNUXcxanNONHA5bm1hWm5wV210ZmsyT3ltTjR5UDR4a3IzaXR1?=
+ =?utf-8?B?MGtpRmNFbDJyS092eWg2Nm5OMWZFNDU0WDZmVWd4c3ltZUZlcnhab1VJUTg1?=
+ =?utf-8?B?UmFVbHZjNjZMS3doQXpLOEdNUU56bk9jbjFzMGxGNDlhZCtTU2ZPbFg2Y2tD?=
+ =?utf-8?B?SHJSNFBTVk1kUUVmSVF2Sm1wTGR4bVJqeGxJTmY5b3U2M0JtMThGOElQWUg5?=
+ =?utf-8?B?YngxZ0dVM3VCQXlueFN6TENFejVrNGlDRkpmMktIZGw4L2FFT2o4OThOVGFO?=
+ =?utf-8?B?ZjBYTmxJQVpZMVJJY3RpK2JVVWR3cVUyOWN2STBEOVEyOFpRMnFOY3NGbm5I?=
+ =?utf-8?B?eitjK0dRTHFLM296NjUzenBqbXQrUzc1Z25kS09ockpzQjNoTnlWUGhEV0x4?=
+ =?utf-8?B?cXAxdmZIOXBwdnU2RU9Ub0krb01NdE44cktJbzI4OXZCWkhlQjNSeGdrYkhT?=
+ =?utf-8?B?dnFCbzBCcUFqTCtBcEd1MjRyamlnaGV2L2xYZmN3alJhdDYvTFR2Yjh4eVZU?=
+ =?utf-8?B?TzF1SjllemVIUXVyYzhGRU5PMDk4akhzOVpnVi90WFRnOFhuc1JwYWQ2U09H?=
+ =?utf-8?B?bXJKVDA0RXZ0WHFyd2dZaDBvRCtGUnY2T1lsYjA3TGFLQkU2bm0vSTFsQlZE?=
+ =?utf-8?B?UkxvamFneDhoSEdTZHhKcE1BWlBYUnFlWGhybmlESkVNK3NPZENYdTducTdB?=
+ =?utf-8?B?S1dMdmJpTXhDZlBFQjUzdGw5c2VXT3c1QVZlYjVYQmR2dHF2UElvaDdBbWYr?=
+ =?utf-8?B?L1grcnpITnREVEdNTFd0YnFpa0NjUDRvNUFZQTRyUFJJRXc9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(366016)(1800799024);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QUhCVmpBcE12Y0FuMVRwWG9BN1JITW9rT3V1ZmVxZC9ZdE5qRkVIaHF1VlJv?=
+ =?utf-8?B?MlRDV3cxbGJveVhJUGpIMU5Ra0s0MWNsQ3hsQS85MWdpSnE5ZWVlR2J2NGpP?=
+ =?utf-8?B?Kysrb3hKZDUwbGkzVUJobTJCNWoweHUzeU9jRTJxTHUrSVRaUFNXZW9iR2Jx?=
+ =?utf-8?B?VlJibFp0ak5TcmsxNytWRXlQbjVYZk5nY24vZnpOZ0VVNWR3UDNTOEVrbWJh?=
+ =?utf-8?B?VUFYcnE4QVJSYW1VRnVhWjNYTXNxMlAzbzQ1N05LRjhKeHdxYUN3OGNjT1NW?=
+ =?utf-8?B?TEFONDlML25mTHZ5akxsbTRYRldCMkhEKzNkYVJaT2ZLTFd2NlB6Z09qVEpy?=
+ =?utf-8?B?TlVzTzFEOWdmZE51eU5YZDNVUmZIK2RtSnlVeWp2MFQ3L2hNS0JnaEcrV29X?=
+ =?utf-8?B?cENjaW9qZFhHUnBZUndMWWYzUFJSd2YxbzdETXBmamd5R09OdDluWjBicGxE?=
+ =?utf-8?B?Z1N1Mm8rSFFkZS9nOXhPOFNNc25vQklpRXhoUEUySWlvWnR5b2tlVzZIR2Qz?=
+ =?utf-8?B?aTZqKzdESC9YaXNUMllrTnAxanFGYU1HcHpKZ3lNcUV5VzBKWGRYY3FjUFEx?=
+ =?utf-8?B?NTlvTVZvZ3N2VGRPNFRDK3F1aXRuVHY3anRJR2RWa05zSC9RQmZjSmZ4NlRi?=
+ =?utf-8?B?K2VLSSs5WkNFb25hWk45S3B5QXBmM25PSE00U2tocWRFVlVFQkEzWVBJM3lH?=
+ =?utf-8?B?c3NZRFM2M3d0anVhbGViWkJVa3ZHWStQMHhsTWJ4MUpQa0l3QW8zMmtLdDZO?=
+ =?utf-8?B?WEdLSDVPWEtPWjl4dXVOT0xQNlVwS0QwYVpsNUFyUEVXTzBFRlZ5WHZDMG9s?=
+ =?utf-8?B?Q01LSk5DbTh0R0R2TE1rRDM4eWtjYThaQVRYK1A2SFlRaTlnS3huLzc0RVdW?=
+ =?utf-8?B?R3R4Sy9PN1hDVUFGQ1l2MEVIbEovVkliUEFOVzJTWTI1MGlEVFAycnRXeEhm?=
+ =?utf-8?B?SVpEMHMrUk1sdDIxeFZvay9iT0Z2bTIwQjU1bTc2SVJNSXpzY0F0R1kxbDF5?=
+ =?utf-8?B?UE1aeEhCaVlUTGVnT1dUL1hnaEJZQWZIbWZGZDg3R21wMytNMWczcVViSkxU?=
+ =?utf-8?B?bkNnQTFYZEVQelRybUZVRGFkNnJHZkIzNXFsc2NvSno5Um5uT090OHFScXRE?=
+ =?utf-8?B?ejhKSVVMSGlJK0dkMnBBdjYzSUdVbTd5bTdrWUZROGhqU003Z2c3STVrS082?=
+ =?utf-8?B?MnZ6RG9DVFBQdTZYMU40YzR1MmY3QmpESDY1akcyYVRqTm5mM3E2RUg0QjZa?=
+ =?utf-8?B?ZndITHFRcGZjcnRCeE5IbGo5Qmpqd3hteGIrLzlsb1BxWnlYRU96d2RpNWlt?=
+ =?utf-8?B?a2ltdlI3K2UvY0dtOVJzSWJxZXFxdU9JMjFUMXNqTHI0dGQrSm9yYVdGVFZt?=
+ =?utf-8?B?UGp6ekt4ZlQ3M2dLcTBxa3Z6elZCUEFIM0JuWnZVeitldG1JZG9yL3NFREZX?=
+ =?utf-8?B?T2tGTzdqaW9HQVZocHZyUUZCYkdYSHVzNXN1YUlEcDEyMHdWbGEyNWZCQUQw?=
+ =?utf-8?B?bWsxeFR2eC9nUTBBRk9LTUxtY1MvT21NY2lBMFcvOVRGNjBPNDRnWFBqSEti?=
+ =?utf-8?B?VzFwMElMS2dZSE5OT1R4ZEVPaEdDRjB0VzZteGx1dmUrYlVBLy9Ca2ZtWUtF?=
+ =?utf-8?B?eENIbVJDRXB0Yy9xSnIvZTlDZFZHaGpmS2dURGE5WTMrRWhVMGZDUWtnWEQ4?=
+ =?utf-8?B?aW9YdlI0TlB2akZ6dnFZOHlGci9TdUNZWWxIZnAxSWlwNFRXK09JVHRUYkF3?=
+ =?utf-8?B?WGFCeG1yZUhQUEJDb2ZZT1JoeXpURHZncmVPSzREWndpVlU2bFE3NlhDcU1k?=
+ =?utf-8?B?TUlDWWR0QUZ6UmhnODFXRzhMUkJpejB6M2ZYaDBVN0lTa0tTVlhMMjlKZW1w?=
+ =?utf-8?B?R1RQcmVjY21abFdiTDNXMUw3ci9HREZvR3Racm9CL0NZV09RLzc5U0FuNVFJ?=
+ =?utf-8?B?SEM2ME8yb08vQ1Vwa0MzR1RrUllMM2RtRk9UWEJFd0tIdjJaQklVSTVlSURD?=
+ =?utf-8?B?RmV6MG51MjI5QVJEcnpYUnhQakJqOXhmM0szVTRRMVd3ZXN3L3l1Nk50c2ZR?=
+ =?utf-8?B?ZG01ak9vVHM4UncvZ1dJbFNQOHdjbGM1ME10cis4SGsxYnlPUGs5ZTV1dWg0?=
+ =?utf-8?B?R1BSQldmcU5weEI0bmQ0L0dIT0RONW11YzYwampQNkRvN01KZ0oxY1RYYm1v?=
+ =?utf-8?B?eUlRUW54azNqQXYyS1htYWg2VlNYOU41K09SRUZLeTMxU0poN0xUTDJTM3pC?=
+ =?utf-8?B?cGVLTytHL0ROSkk2WjRSSkV0bXhScG03ejV3QjNReWwwYVZnTGc5a0p6ZzBx?=
+ =?utf-8?B?aWV5M09SaXRTMG5DSlgrWUxsVndtZXZaSFpQbi9idkZHeGMyRExUeUhRbG5t?=
+ =?utf-8?Q?zrp1ygdty8ihjxg6S1AJj0oPBKZ5yeDj0b5Ca+afXkep5?=
+X-MS-Exchange-AntiSpam-MessageData-1: n5g1zr1fDzFUDAQqkpDFhPsLymPYnGBMoBg=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a94a90e7-0b55-4bf2-c756-08de51473e77
+X-MS-Exchange-CrossTenant-AuthSource: YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2026 19:25:56.7280
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wwVJ0UtLrD8Cibfl/qiUypo7sszwOcLLZZVEX1KUlfhUmwgts/jc5SLFFMvxYtCUK7vPWS2vW9joDlBWhwr6CvCLU2AqqreBoWzNQ8wtidE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQXPR01MB6557
 
-Hi Vladimir,
+On 2026-01-11 13:36, kernel test robot wrote:
+> Hi Mathieu,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     In file included from init/main.c:107:
+>>> include/linux/percpu_counter_tree.h:230:13: error: incompatible pointer types passing 'atomic_long_t *' (aka 'atomic64_t *') to parameter of type 'atomic_t *' [-Werror,-Wincompatible-pointer-types]
+>       230 |         atomic_set(&counter->count, v);
+>           |                    ^~~~~~~~~~~~~~~
+>     include/linux/atomic/atomic-instrumented.h:65:22: note: passing argument to parameter 'v' here
+>        65 | atomic_set(atomic_t *v, int i)
+>           |                    
 
-kernel test robot noticed the following build errors:
+Will fix and send a v13.
 
-[auto build test ERROR on 7d0a66e4bb9081d75c82ec4957c50034cb0ea449]
+Thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vladimir-Kondratiev/dma-pool-don-t-allocate-DMA32-pool-if-no-32-bit-memory/20260111-232732
-base:   7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-patch link:    https://lore.kernel.org/r/20260111152632.2133580-1-vladimir.kondratiev%40mobileye.com
-patch subject: [PATCH] dma-pool: don't allocate DMA32 pool if no 32-bit memory
-config: arc-randconfig-001-20260111 (https://download.01.org/0day-ci/archive/20260112/202601120212.Wm3uFeKw-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120212.Wm3uFeKw-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601120212.Wm3uFeKw-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   kernel/dma/pool.c: In function 'dma_atomic_pool_init':
->> kernel/dma/pool.c:212:39: error: 'phys_ram_base' undeclared (first use in this function); did you mean 'phys_to_page'?
-     if (IS_ENABLED(CONFIG_ZONE_DMA32) && phys_ram_base < BIT_ULL(32)) {
-                                          ^~~~~~~~~~~~~
-                                          phys_to_page
-   kernel/dma/pool.c:212:39: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +212 kernel/dma/pool.c
-
-   186	
-   187	static int __init dma_atomic_pool_init(void)
-   188	{
-   189		int ret = 0;
-   190	
-   191		/*
-   192		 * If coherent_pool was not used on the command line, default the pool
-   193		 * sizes to 128KB per 1GB of memory, min 128KB, max MAX_PAGE_ORDER.
-   194		 */
-   195		if (!atomic_pool_size) {
-   196			unsigned long pages = totalram_pages() / (SZ_1G / SZ_128K);
-   197			pages = min_t(unsigned long, pages, MAX_ORDER_NR_PAGES);
-   198			atomic_pool_size = max_t(size_t, pages << PAGE_SHIFT, SZ_128K);
-   199		}
-   200		INIT_WORK(&atomic_pool_work, atomic_pool_work_fn);
-   201	
-   202		atomic_pool_kernel = __dma_atomic_pool_init(atomic_pool_size,
-   203							    GFP_KERNEL);
-   204		if (!atomic_pool_kernel)
-   205			ret = -ENOMEM;
-   206		if (has_managed_dma()) {
-   207			atomic_pool_dma = __dma_atomic_pool_init(atomic_pool_size,
-   208							GFP_KERNEL | GFP_DMA);
-   209			if (!atomic_pool_dma)
-   210				ret = -ENOMEM;
-   211		}
- > 212		if (IS_ENABLED(CONFIG_ZONE_DMA32) && phys_ram_base < BIT_ULL(32)) {
-   213			atomic_pool_dma32 = __dma_atomic_pool_init(atomic_pool_size,
-   214							GFP_KERNEL | GFP_DMA32);
-   215			if (!atomic_pool_dma32)
-   216				ret = -ENOMEM;
-   217		}
-   218	
-   219		dma_atomic_pool_debugfs_init();
-   220		return ret;
-   221	}
-   222	postcore_initcall(dma_atomic_pool_init);
-   223	
+Mathieu
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
