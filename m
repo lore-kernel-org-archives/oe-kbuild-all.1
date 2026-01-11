@@ -1,227 +1,86 @@
-Received: from YT6PR01CU002.outbound.protection.outlook.com (mail-canadacentralazon11022136.outbound.protection.outlook.com [40.107.193.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FACF352931
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jan 2026 19:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.193.136
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768159836; cv=fail; b=o6tIoINL0Qf/FoK0WnReuvJUl6agrgy4DAPU3vItdOnXlyP8FHxp6r+7oO/oxusiAX5eNxkRcT3knClK7JtmGU2rpfG7ygcJcBMvHXxRUELfmYH594e1kvN4FWqwE5fYLuZHw0J7U7TTzeQNqt2zYvE17wRhHbwRAqCPxdpj6rs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768159836; c=relaxed/simple;
-	bh=sfWPFXdyroMt979UcpmXKMVwV0MDT0L/roiK7NP/5Sc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=k2Nqek/8yloCnfOK7+D4cYt5Jry8z94MRTSC7DL/G07s6VXYZ14ZDgkuvt57Xqp+09oxKBFmAX5Q/4koaNDquPqFA2sMj6QkyYV3NTExQgnBHMEqYwhl9P9ZRfan4UxDx6wpodJ/00YIpHW6PwCs9RRgQWQqrPlnQ8m27H/6okA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=rWlV2HU4; arc=fail smtp.client-ip=40.107.193.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068892D193F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jan 2026 19:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768160002; cv=none; b=NTXc3voP4O7JV3+BfCVaZX+zk2eaaA5/ChYzVdJmBYsUlxl0qSqS1HRFBsseNvqlagrox2heOsjfPbemb7Cr9YVbHIaaniy3l6usoXmUhWxGL4RbmmJQOjR32vdCUFpFyMTuwcwcIAroPA5IAw41UqjjjtXD/rbSP3OY95jr+rA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768160002; c=relaxed/simple;
+	bh=DEoFQkk4BUhhQb3vynccCS7dNiHYPg8fqxfqzv7gAV8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=m8CmfVANiHE4hT5SATfdUQRYidse5Z5snMDcfzeoCyMay8uUCBG+wpvAz5H01q7eHAMIiPhotGlznlIOzF1JZsDwpnoPrPSvdEiQSoKmLWBSh7RBKCwdHNrP/GdODODWz4jdh4xtt6dkdHHuyUuPaXAlhZyiwQgBoc1hbo1SNQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mx6vkPOa; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="rWlV2HU4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XBP8hgKqcx8WaVnbDkRbDpOmy7lT99y9orxPSQBQP6q7z1rw5jyMZn1kKtwGCcZfFi3YUjKwAa1Ub4ou08OPBMLZYtZE9P77MMiwIWBU8BaA97lcYEuCUQIAnUKkWKd8Lyz6h5URD/o9HPTZOAUqx4cnl91laEGdYcx7WQJwA0shcYFRgmhFDX2jPgiVTZFYhgML6oU1zQt5L+clkZGoHUwgPTQqxhzqrYz0Vsk2L73KTPITz6z7Ep75DDXUj4/T1svJaR1F/3H70uSGG4PmCg3n9kKcPkYagj76tBQLfs26kj1M3jMaZTR9YlhY2v/LVN1NzpSIzH89LxCcUYmwEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+ji9nRJAe8sbQ3xDrKCECdgcu01PCumFPB7/lrsWzS8=;
- b=klgYPp0OEGEClic9nvhOdCCBsJlQLnSKKEHb95V7zUfMk6iDri5obicIrA1kXyTOcqalSkM6KLEAoS5TzHscx3FyVAi+44anYKpduzuuITopGpJ7siDEx/MFi2+5u0EMC9h3nSQanlqEnnlErrP0jfMpKCsGZmdFxDw+3FHS76fzZiTtNYVD97b41Mxa9fGEw7977NLg+lTzg3rliv2K+UG5DJ84sQhP4suhCrk4TBdUYdMgnFF2rll4surLa/xqIYEkZskx7ZgpasToWmcUFM0FtaLIRGmo7xITrJ7IXjMxE0+U15OBEXe/+v5MQKK26QIlx/yH8bIIJpTuq87umg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
- dkim=pass header.d=efficios.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+ji9nRJAe8sbQ3xDrKCECdgcu01PCumFPB7/lrsWzS8=;
- b=rWlV2HU4W44XZhk8B/22ou8G2QTA8c7oO5obpKLzwLHF3cnSJLvOnIA8NZdnIlnslohJ2PB7wWk8ZRSXh/eeK/PblhfrUpVoiDQrcY9YsY2MFNEnv9Ol0ZhDijPs3dVSjeNxa1PS4bJ3XQsBIqGapKsOMuNL7I7k9V7+PVHlYJ4W4jkX+/ZYjpNJhquyUXCVvislqmjg5v0RrTGgGaIbHQyJVrYbaCTsXzpGQjxYUGL42kNqASeb1E9+cyT+PB355yXf45eRoTAr1rHC0GzjAYgTtpAOpzw+0fWI9Tvya3/njBixHWN+UN3r2Wa0BZCwgdM2r0VE/+NKPnbGdj3uZQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=efficios.com;
-Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:be::5)
- by YQXPR01MB6557.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:4d::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Sun, 11 Jan
- 2026 19:30:33 +0000
-Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6004:a862:d45d:90c1]) by YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
- ([fe80::6004:a862:d45d:90c1%5]) with mapi id 15.20.9499.005; Sun, 11 Jan 2026
- 19:30:33 +0000
-Message-ID: <0b1ec996-47c7-4ca9-84ca-78fe977c4dfb@efficios.com>
-Date: Sun, 11 Jan 2026 14:30:30 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 3/3] mm: Implement precise OOM killer task selection
-To: kernel test robot <lkp@intel.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- linux-kernel@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux-foundation.org>,
- Martin Liu <liumartin@google.com>, David Rientjes <rientjes@google.com>,
- christian.koenig@amd.com, Shakeel Butt <shakeel.butt@linux.dev>,
- SeongJae Park <sj@kernel.org>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R . Howlett" <liam.howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Vlastimil Babka <vbabka@suse.cz>, Christian Brauner <brauner@kernel.org>,
- Wei Yang <richard.weiyang@gmail.com>, David Hildenbrand <david@redhat.com>,
- Miaohe Lin <linmiaohe@huawei.com>, Al Viro <viro@zeniv.linux.org.uk>,
- linux-trace-kernel@vger.kernel.org, Yu Zhao <yuzhao@google.com>
-References: <20260111150249.1222944-4-mathieu.desnoyers@efficios.com>
- <202601120122.xSlEJ1AJ-lkp@intel.com>
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Content-Language: en-US
-In-Reply-To: <202601120122.xSlEJ1AJ-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR01CA0031.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01::39)
- To YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:be::5)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mx6vkPOa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768160000; x=1799696000;
+  h=date:from:to:cc:subject:message-id;
+  bh=DEoFQkk4BUhhQb3vynccCS7dNiHYPg8fqxfqzv7gAV8=;
+  b=Mx6vkPOaEPVL4siB5zLHY2Td6nPu/DXNvjZ6S1NuI3UwsT3/S1jIejK9
+   vkQTQ8S0CpovJOehx1kzbua8LU9s2RSJD7xCjV38Dgqxb6VZHMAT2kAdn
+   0Xr/ouvcqa6Rn+fnyalFwHPWCLSd+YuZbHlCtRJX2vvOVmoum2AcH4SjC
+   /w8BFJ81yCh5tSfhxMFGtyTIoah2GOGV7oD1d8DPcYWD72jATBqc/hoKZ
+   bd/S62OJtabIYHHG/zjZhsLa8GSV+tcHiDCCkHJyzQ5+iTwb+ha6HBShS
+   aPn8yV3Duut+kQ43tLiGt8r8IkAMtoZBLsTcN6ssQnh/HpCDsIGjAyduB
+   A==;
+X-CSE-ConnectionGUID: 9Ovu3xXpRyCe/VcFbe8Ukg==
+X-CSE-MsgGUID: jibEs3j4TBGXAQ56/UBJsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="94924008"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="94924008"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 11:33:20 -0800
+X-CSE-ConnectionGUID: JuMHsrBnSMCntyJp2zkU9w==
+X-CSE-MsgGUID: 6uD9HjyqTgGtJm6Rd8s8sQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="227211307"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 11 Jan 2026 11:33:17 -0800
+Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vf1Bb-000000000Sz-37YP;
+	Sun, 11 Jan 2026 19:33:15 +0000
+Date: Sun, 11 Jan 2026 20:33:10 +0100
+From: kernel test robot <lkp@intel.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <lumag@kernel.org>
+Subject: kismet: WARNING: unmet direct dependencies detected for
+ DRM_BRIDGE_CONNECTOR when selected by DRM_IMX_LDB
+Message-ID: <202601112043.YYJSgtAs-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: YT2PR01MB9175:EE_|YQXPR01MB6557:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83543852-4c65-4664-5d7a-08de5147e32a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|10070799003|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?LzdhT2crYUxEcUwyUlFnY0pGRG1xZWl2ZFlNZWJRYU5PdzBqWFdSeHZRcmJa?=
- =?utf-8?B?bEN1WTZEU01JMWVyOVZWTlY2OUo2dXFGRzRjNXZRQ004MHlrOHNuVnA5bE5O?=
- =?utf-8?B?amFQcHNSYjhMOGpldHhqZFVzRzZXMUxmYm92bEFKNmwvdHREZjdPUnB0WXNW?=
- =?utf-8?B?S1ZSVG04VzMya3lUMERrQ3RGVmRIVjVnNUd3VVdMeXYvNlBpWDFIVERUcTZ0?=
- =?utf-8?B?YldxQmdOdnQwS0o0V1N0ZTl6QyswZGw4RkpVL1BlRkhLcjZFaDRpQnFTMjFi?=
- =?utf-8?B?L3lIeXJyUzZPb0JtWGlEWUowQ0FCTCtLelNRQTIrVXFmQ2ZTZHdldlVaZzRU?=
- =?utf-8?B?aXBHaEd0dU1oVEZ4SWlnL0FnMlBzcGl3NG5FeUd1c1NYME1vMEJ5YkFpOGFi?=
- =?utf-8?B?ZWxLRzZPcXJTekdMd3YrYmxVN2JaY0pvVkZ1amM1ZXZQbC8zTUowK2RjRzg1?=
- =?utf-8?B?cmcrWFhBV3JsYXBOSmtyb0pzc3dMd20yRUZrWEVXblhZd1FaYkE3a01CWkxx?=
- =?utf-8?B?ZmlodFM5ZzByRVZueXVjbnVFV1VZUmdtVHVSanBYZ1RtSHVBN2p0ZFVoWTB1?=
- =?utf-8?B?dDhJYm1zSmJlTTZJTGdwc3hOSHllWFdxWVZ3S3JxVCtCcFdJWUxOajZTRm1S?=
- =?utf-8?B?TjZRUG03OFpmaHR5RmFKUkUyaFdKTzByZUpKZlhEVVF3TndaQkVWaWE1ZGla?=
- =?utf-8?B?eWpzbTMwQzZTVmVoOURxMDFVTXYrL3lNSXorRHh2V0NVNnFwUU9XazFVZkYw?=
- =?utf-8?B?MTcwckRYWE5WQytaZk1xc0pOQWNSR28xbEhpS25EcTBsM283YzVsc2NOTjIx?=
- =?utf-8?B?MWJSUFhLTUhkVEdhVFEyOEpxKy9pOE5JNlZ1Zk9VK3NreWZrcWNYWHZyQk9p?=
- =?utf-8?B?ZUEwQ3BmQU5zLytSZlpUT0MwQWNKOXp5Ty9QeVg1RmtMWlVMUm9IUG5ndDlB?=
- =?utf-8?B?anFVQVdiUm5wVEg1Q3BDRkFLaXkxbmhFbWFtQ1hOZzdkdlNrOUR1dHpTUk1u?=
- =?utf-8?B?WjBwV0dvMGtlZDh5T0hUUmdZbWZJTE00dkhIdWs4YlcwbW9KU2Z6aWY3dFFQ?=
- =?utf-8?B?eHB0M3k1eDRVVUE1WDB6OEQxeUFHL2R6ZFVEREVxMk1RYzZpNDVJRkd1QnJT?=
- =?utf-8?B?MXk3Sm55MVZtUElJL1c4bHFPSFE2eE13ektxbEFkWFNzakNFSHpYVXhyT09V?=
- =?utf-8?B?bVNJRmZLWGN4ZlVseW1GWlIrUjRldUttWnM4eU1RSG14WThMeWJ0dkxpRjFS?=
- =?utf-8?B?UCs3c2o4TzRHMFk5RTZkSmM3THkrUmF5RGNpZzkzZWZYenBzOWpUaXZ0Y3ZT?=
- =?utf-8?B?V2xMVjUwU2VHSTJrQ3dXNXNNbkRwSjkvM2R2MVdLWG5iVzZtNDdOeW9kSGFY?=
- =?utf-8?B?RVhPdUxZNnhFb2VGVnVmekZSL1I5Wk5yemdaZVk4cy81Y2hGcWVMcUg4NFJD?=
- =?utf-8?B?NmlZajFRZnFzRk12VnJqSUJlcXVWMjRDZGMvS0hKUllTeG1zelNib1JIa1Jz?=
- =?utf-8?B?ZytJOVJuVVJJL21QVXc1MUhZUzJ0dzBNZDB5VHhkam1mU3d2cTZoTlNoYzAw?=
- =?utf-8?B?eFJxdXVhQzdFRWZBT0Zsb3cyUXNSYWllRWJ2QWdWVVZOeTRZTERBSjhnNW94?=
- =?utf-8?B?enVnWk5WMU8vcStVM0tCTHRYeHBTSXJIOXJzZUNWTThpQm9EQWlFMmpIZEd0?=
- =?utf-8?B?ZUhIbDBIYVFRRnhrcmoxMkhPelNWZ2dVdDBsYWErSFJWMkdmWlRMeWYzbXFW?=
- =?utf-8?B?NWc2TlBZTUFvNUdyYnAvSlpMMUc2NnVIWmt5TW9rSU9KU0toTWJ1aldXZzJk?=
- =?utf-8?B?SEV4S09yMU1jcThxK3RZRWQzcU9CU1k1MVk2SmFITDRpWGxVR1lEOXpaWE5y?=
- =?utf-8?B?SFR1WE80aEJMWEhMZUE5R3h2WlMwNWd3QVBXNmZnWE9mdmc9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(366016)(1800799024);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bm44anhiQVFka3VBeE5OODhObEF4WTZna1FQckpjV2NUYk5Ed2pHQ1ZuVk9k?=
- =?utf-8?B?U0NXTjJIeTI3VmtSdjN6d3BUTy9iSWxyYzByTm5Cem9LRTYwdlZkSWk2bFdx?=
- =?utf-8?B?dUZLVGl0clVMYWFJNXEwSUNXRGNBSzNHbmVRR3lrZm5IU2pRVW5jZHBGMEwy?=
- =?utf-8?B?WVhHMFZBQzllbnVxT0NMTWhmQVBjM2x2bHJlQWVTNXJJYXdxTFFyQkx1WDBh?=
- =?utf-8?B?cERkQnpGcmdkM3BQU1p3a3BzRXd1dSt6VWU1WXhRclQrZWR3VmhRS1BnTzRp?=
- =?utf-8?B?WXB2bk5HaGsxUEZFQ3FuVWFPQTFQQXRTbFBCakpmRHJQNE80ZGs0SFVHRnRP?=
- =?utf-8?B?VXBkRzVhMEl2YTN6UEVjZ0Y1SWI0eng5OC9TckNRRTd4WnhoczIyMXloeUVj?=
- =?utf-8?B?bmZqajJCOEJpMFFiOG5ueWUweXU2S1h3cVI3YmpJOTFyS2dOOVQ4ZTlabjcz?=
- =?utf-8?B?cm5ZeUlteGdzNUR3a2hCdWVTc0hyWXV6Vndnemxlb2xrYjN2bGFSMEJaa3dZ?=
- =?utf-8?B?Y3psSXRRQ3hhR2NXdjI4THlxbGR1dmUrMmtvTitxeDYzUjU0VlRMN3Bid0Z6?=
- =?utf-8?B?N1VQTlhTU3hzdTdqM3NkVU1CMzRmSmJ6Lzh5SVoxWTNMc3gvYStYdHYyVEpm?=
- =?utf-8?B?K29Zb0tNMWFtOTd0TnJlREVORnhZMmhyRGljT25nNStQT2lQdkFaeFNZeHF3?=
- =?utf-8?B?bW1hcDMrR1NjdUFxQ2dydnM1SWVqaHpudXprdG9waG5GcHpVMjd5ZXB4M1pR?=
- =?utf-8?B?Z3J1SXNmUmlnVlh0OEQ0M29KbWVBTGltZit4bEY5VUVWTG85UmcyNXJVSFN5?=
- =?utf-8?B?RmZNNjlocEJxMCtOTlFqemNWaVFiMlVrcHlXSzBTVTFMSFZlSVlwckQydzVj?=
- =?utf-8?B?Ri9uTFZQTkdpc0NnZURpOHFFbVZJNmMxWG5yWHp6Y1FFQUV3YjQrWkthelJK?=
- =?utf-8?B?OTVpWUtUZkNBVTZzVERyVHJoMFpBTUdOVkw3QklrVjdjTGI1QUt1WXM4THpr?=
- =?utf-8?B?K1AvZHM4YVF0RGhMN2tJSGp1L0NQYkxXNFpCZml2R0oyckM2STBGOGxVeUsx?=
- =?utf-8?B?WUhxTTNkWFYyRFdzd2RPbExFK2lxOGVXbDBIRXZyK2ttTXQzOTdrVU1ZOEpm?=
- =?utf-8?B?NFp3VU04ZUMyZ1hHTktJUmR3NnpNQzYzZUY2dm1VU1llRWVtTVFnSVg5bWZy?=
- =?utf-8?B?VU0vTitYeFVPKzBaVDlXeUJ0MHA2Nkk1V3ovUjJCaGs5UkpaSkhyVlYvemNj?=
- =?utf-8?B?Y28rdjNCMFFTc1c4Qkh1UFVyVUVMZmQ2bjlpTk9BaUFJTDIxMGpidzNZanlJ?=
- =?utf-8?B?TWZwdHRMYU5XNVhHcG1WRU5tZ1ZuQnA3TlBkeFlvSlNHeGxZYXkwR0w5S294?=
- =?utf-8?B?bDcxNExYTm1Bc2FEWlJLcDRaWUJ0VEJKZ3dJcHk5NVdSeVR0Q2JCNHd1Zkho?=
- =?utf-8?B?RUQ2NlJ2cEMvWXpMZG5YeUhXZEdRSUcyd1FZdFc2TkxxREQ1WHFqaUNFaEh6?=
- =?utf-8?B?Mzhja1J0ZjJwc0lxZHdsdU9wTGRtZyszeitNdzEvMWtoQytzUitiYW93K0hP?=
- =?utf-8?B?WU1uSmg1a1RDa2pscjdxWjd4MlVhdEk1WUtzeDBKaEpMSFpDQkprVUFYYWdT?=
- =?utf-8?B?VlRVQUVRZ09TMXZEZk5SZ0FJKzNZSFpRMTRMZy96K2RDSk0vV2lOSm9hbGFi?=
- =?utf-8?B?SHpPUW1maUt1czJWQzh4Zk5FWFFHbU1PTTBHSTBwa1Q3Mng3RXhaVnd5YjBO?=
- =?utf-8?B?Q1BpdjJQS2pWbm1jVHVxbU9VbHUxNUtlU04wOWh2RHR4YmFXRWt0NGhiZmV0?=
- =?utf-8?B?WWg1UERlcmROV0k3aGJ0WDBwTWlwY1dSK01zT1JzWG5wVWdRNnBYRXRjTGZY?=
- =?utf-8?B?M3hWajBFdS9lL2lXb09OVEFFM29tN2Q3Z0NNRzJuNkxLa1dKeXRLejdHby9P?=
- =?utf-8?B?V29sQ3dqT09kNVdBcWdEcDdnQkpDczFkcE0yRXNWT3NpcnBFU1BEYThQQ3BI?=
- =?utf-8?B?MWR2N29uT2psRlEwdTRuU0hTeTZ6SC9ucTJhc0tvWHpaemQ3OGdKUHd5OXZM?=
- =?utf-8?B?ZkpJT0FKZjFqSCtVeERSWDJ4bnVONGt5SC9kYThnaldvLzhMcWE1ekJORlN5?=
- =?utf-8?B?UWh1M3o4eWU3THM2ZVlXendFaFVDMWgzVWRoOWZlbk1vQk13VkxXRnhVQytr?=
- =?utf-8?B?SkFPeG9Obk1Pd3duanRMT2pDYnR6NURuUzl5bEh6OVltOWJRYWxnUEdFcERo?=
- =?utf-8?B?K0FySmZUaEtZc3JhYVpQeWNPenBRM2g2KzJ4N2dTbnROS3UxcC9mbjlUeldy?=
- =?utf-8?B?L3VVWExMSThZc3pQY2d6SnZIWlFGenlTVmtmMzE3QlJhRE1GNTRPRlk0TUJu?=
- =?utf-8?Q?+JfegQ3I0Lj9cc3oHNuLqQCp5ZkTaOLdUlHU7d6NL2QK6?=
-X-MS-Exchange-AntiSpam-MessageData-1: VDSRMBT01rUERXk2gBN4ADUNrFZcFP4yUG8=
-X-OriginatorOrg: efficios.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83543852-4c65-4664-5d7a-08de5147e32a
-X-MS-Exchange-CrossTenant-AuthSource: YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2026 19:30:32.9940
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +CZQpnvaSqmdQ1A2FAQSavBjONz/id1U4czkY/b7993wSJeXEYVrqQLApgy3t4ed+HaveZ8rQM8JRfv3TPpyQPFj4PUYdgoHocfPFyiZeXs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQXPR01MB6557
 
-On 2026-01-11 12:50, kernel test robot wrote:
-> Hi Mathieu,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-[...]> All warnings (new ones prefixed by >>):
-> 
->     In file included from include/asm-generic/bug.h:31,
->                      from arch/arc/include/asm/bug.h:30,
->                      from include/linux/bug.h:5,
->                      from include/linux/slab.h:15,
->                      from kernel/fork.c:16:
->     kernel/fork.c: In function 'check_mm':
->>> include/linux/kern_levels.h:5:18: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
->      #define KERN_SOH "\001"  /* ASCII Start Of Header */
->                       ^~~~~~
->     include/linux/printk.h:483:11: note: in definition of macro 'printk_index_wrap'
->        _p_func(_fmt, ##__VA_ARGS__);    \
->                ^~~~
->     include/linux/printk.h:534:2: note: in expansion of macro 'printk'
->       printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
->       ^~~~~~
->     include/linux/kern_levels.h:9:20: note: in expansion of macro 'KERN_SOH'
->      #define KERN_ALERT KERN_SOH "1" /* action must be taken immediately */
->                         ^~~~~~~~
->     include/linux/printk.h:534:9: note: in expansion of macro 'KERN_ALERT'
->       printk(KERN_ALERT pr_fmt(fmt), ##__VA_ARGS__)
->              ^~~~~~~~~~
->     kernel/fork.c:635:4: note: in expansion of macro 'pr_alert'
->         pr_alert("BUG: Bad rss-counter state mm:%p type:%s val:%ld Comm:%s Pid:%d\n",
->         ^~~~~~~~
->     kernel/fork.c:635:61: note: format string is defined here
->         pr_alert("BUG: Bad rss-counter state mm:%p type:%s val:%ld Comm:%s Pid:%d\n",
->                                                                ~~^
->                                                                %d
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9c7ef209cd0f7c1a92ed61eed3e835d6e4abc66c
+commit: f673055a46784ccea04465b9213e999f7bc5187e drm/imx: Add missing DRM_BRIDGE_CONNECTOR dependency
+date:   1 year, 4 months ago
+config: hexagon-kismet-CONFIG_DRM_BRIDGE_CONNECTOR-CONFIG_DRM_IMX_LDB-0-0 (https://download.01.org/0day-ci/archive/20260111/202601112043.YYJSgtAs-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20260111/202601112043.YYJSgtAs-lkp@intel.com/reproduce)
 
-percpu_counter_tree_precise_sum() needs to return a long, not int.
-Will fix for v13.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601112043.YYJSgtAs-lkp@intel.com/
 
-Thanks,
-
-Mathieu
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DRM_BRIDGE_CONNECTOR when selected by DRM_IMX_LDB
+   WARNING: unmet direct dependencies detected for DRM_BRIDGE_CONNECTOR
+     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && DRM_DISPLAY_HELPER [=n]
+     Selected by [y]:
+     - DRM_IMX_LDB [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_IMX [=y] && COMMON_CLK [=y]
 
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-https://www.efficios.com
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
