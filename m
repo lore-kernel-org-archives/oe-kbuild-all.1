@@ -1,112 +1,86 @@
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2062233E34C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 12:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59528272816;
+	Mon, 12 Jan 2026 12:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768219795; cv=none; b=pzEqFSgOTE9kPX9H8XAtm/byvL4/z143tb10/zY1rbziBZVWuA8g6mXA3aJ00K3mYMBc3DOlwnSjefP0g2LkpKd2P/v4FFj16K5/LO2Zs4G8PF3LMeHPPoFtQTfwoNbtLlEUQdngzemcPSoWdYcfW43li95V+grOTSrPc6qzfHw=
+	t=1768221157; cv=none; b=XGachL+TVBn9lm3sqt/zsrDP1uSpYcEEsUlf5w4rFmZnNNT6pE6fF4czPbUAXd5xEv2z5LuP/f78OsDPi84ggJaFu3Gn6yqPiPbOHjb86B30liTp1JYz3bnuKo6U5F+Ur2VJ0Jn7hkNGql00IjLDD4P6/NodDDKsAY/F7e5/sEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768219795; c=relaxed/simple;
-	bh=5CyUkjph43fB+ccDJy0Q9RR5T72unV7zy56vo163I7A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=mC5DcsNL6wy42BF//vZ2p0dOPiZ6qiulFAXyWR/xe2KzNZQYckBCFl2uGhuLYF8L08qK4/dmTEcgndqz7X0PqwKn1wZHSD0QZrYvSV6qw/S6WTDbxp87SFD/MXGFp+qC5ZHuwp7dGOzwlf/A9gBtmbI3giDR7lKuFReYHouM5jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=B1EVg1G6; arc=none smtp.client-ip=113.46.200.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1768221157; c=relaxed/simple;
+	bh=krOwZEv+3KpLs++saQlmDBrbdFZ6TjXWuGQdGnnLDR0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gjbThP6WDFt0eGOXkONgiW5GktvStdJ8oFc+puSEU0VwnHvRnVOWHZJ0aP/TS4uvEa2/JamB80gNnx8bfqKUqTIkWQzStqQ4yLf+yGvBW5/t2Ck4xYbHdCVEwP8Uzkh0YQiSBI9Cs7n1R0upQPkJ0wAGYQkznfG97SR7dGl/J74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VEhl+rO/; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="B1EVg1G6"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=nd1E68KFDN641HxS0Qv9w9xq/rjL/Ksfgy874Dks9LE=;
-	b=B1EVg1G6F4yvZCGuVaT1xOQH3kuzf+DMAw0zbYgmZMSwxEO78PnBywXAEk6KInOzpJqatwR5M
-	xRp2CfrdbSA9tUmacr+d6IA7Lh0+VmNVyYHA63zwASQnRNIzkaXF8T/wu2T8sYq6KNDDcNaxOdw
-	xWXirqG11V8lOX9LdUIRBsA=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4dqWLs070tz1prL8;
-	Mon, 12 Jan 2026 20:06:29 +0800 (CST)
-Received: from dggpemf500013.china.huawei.com (unknown [7.185.36.188])
-	by mail.maildlp.com (Postfix) with ESMTPS id 713BC40539;
-	Mon, 12 Jan 2026 20:09:49 +0800 (CST)
-Received: from [127.0.0.1] (10.174.178.254) by dggpemf500013.china.huawei.com
- (7.185.36.188) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 12 Jan
- 2026 20:09:48 +0800
-Message-ID: <dbed961f-f3c3-496b-9498-6821852da038@huawei.com>
-Date: Mon, 12 Jan 2026 20:09:47 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VEhl+rO/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Mjz30gjZaZm71su+mxiw8fHmGYkmZlBRp6D9eos5vWU=; b=VEhl+rO/f7bMPfgQ0gNuAPSRVQ
+	k/iAKb11ZPeW+iMKgOCekgUePvIDBLKdd++iW5zMdbYGYImvLBsgw8wki/8Q7q29Qn6BuL9c2iYS2
+	xG1l4ufJvvmZltYURlBVF2uTF7PEUzZB0MKQxSxMoEEK+3trbz4KnwA8JklO58bUAs/phkeGUiC4e
+	RXZ6KTZpdR9YRRTu5ru3cosqzNwjftfwwfrAxLHn+lhFOfbj3Cw644rdKQfz+7bQ0wK38mF1DVqxZ
+	xlBx+7kaYBi0WxLcZKpDpW3DesrVnyhDkYlWWJVu0CQyt8T6oMqUsy2jXMZJ2gt553qqXQC1GnDnn
+	GbIEi5KA==;
+Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vfH5z-00000003DfX-0d5y;
+	Mon, 12 Jan 2026 12:32:31 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id D0ABF30057E; Mon, 12 Jan 2026 13:32:24 +0100 (CET)
+Date: Mon, 12 Jan 2026 13:32:24 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: kernel test robot <lkp@intel.com>, Eric Dumazet <edumazet@google.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>,
+	Will Deacon <will@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: include/net/sock.h:2100:16: sparse: sparse: cast to non-scalar
+Message-ID: <20260112123224.GH830755@noisy.programming.kicks-ass.net>
+References: <202601110443.5ENBRFej-lkp@intel.com>
+ <20260110221508.GF3634291@ZenIV>
+ <20260110223548.GA4041651@ZenIV>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: {standard input}:4155: Error: pcrel offset for branch to .LS000B
- too far (0x38)
-To: kernel test robot <lkp@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Theodore
- Ts'o <tytso@mit.edu>, Zhang Yi <yi.zhang@huawei.com>, Jan Kara
-	<jack@suse.cz>, Ojaswin Mujoo <ojaswin@linux.ibm.com>
-References: <202601121758.kA3osRht-lkp@intel.com>
-Content-Language: en-GB
-From: Baokun Li <libaokun1@huawei.com>
-In-Reply-To: <202601121758.kA3osRht-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- dggpemf500013.china.huawei.com (7.185.36.188)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260110223548.GA4041651@ZenIV>
 
-On 2026-01-12 17:42, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   0f61b1860cc3f52aef9036d7235ed1f017632193
-> commit: a6d73242b8b5caa9f9a529eab49cc1e85ace9890 ext4: support large block size in ext4_mpage_readpages()
-> date:   6 weeks ago
-> config: csky-randconfig-001-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121758.kA3osRht-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121758.kA3osRht-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601121758.kA3osRht-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    {standard input}: Assembler messages:
->>> {standard input}:4155: Error: pcrel offset for branch to .LS000B too far (0x38)
+On Sat, Jan 10, 2026 at 10:35:48PM +0000, Al Viro wrote:
 
-Hi,
+> #define __READ_ONCE(x)                                                  \
+> ({                                                                      \
+>         __unqual_scalar_typeof(x) __x =                                 \
+> 		(*(volatile typeof(__x) *)(&(x)));                      \
+> 	mb();                                                           \
+> 	(typeof(x))__x;                                                 \
+> })
+> combined with
+> typedef struct {
+>         uid_t val;
+> } kuid_t;
+> 
+> IOW, it complains about a cast from structure to itself, which is fair
+> enough - C is pretty clear about not allowing any typecasts to or from
+> non-scalar types, tautological or not.
+> 
+> Why do we even need that cast?  Seeing that generic __READ_ONCE() is
+> #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+> the cast added on alpha seems to be pointless.
 
-Thanks for the report.
+The problem was things like test_bit() that take a volatile argument,
+doing READ_ONCE() on them would instantiate a volatile temporary and GCC
+would end up generating shit code.
 
-After looking into this issue, it turns out that replacing the original
-calculation with the macro version causes the compiler to emit a larger
-sequence of instructions.
-
-On most architectures this is harmless, because their GCC backends support
-proper branch relaxation and can automatically promote a short branch to
-a long branch when the offset grows.
-
-However, the CSKY GCC backend does not implement branch relaxation. As a
-result, once the generated basic block becomes slightly larger, some short
-branch instructions can no longer reach their targets, and the assembler
-reports the “pcrel offset too far” error.
-
-Given this, one possible workaround on the kernel side would be to replace
-the macro with a static inline helper. Using an inline function allows GCC
-to perform more aggressive optimization and typically avoids generating
-unnecessarily large instruction sequences, which helps prevent the
-short-branch overflow seen on CSKY.
-
-However, the more general and robust solution would be to improve the
-CSKY GCC backend so that it supports proper branch relaxation, as other
-architectures do. With branch relaxation in place, these issues would not
-depend on how the code is written.
-
-We’d appreciate any thoughts on which approach makes more sense.
-
-
-Thanks,
-Baokun
-
+The __unqual_scalar_typeof() was the result of trying to remove CV
+qualifiers from a type.
