@@ -1,145 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2ED1EBFF7;
-	Mon, 12 Jan 2026 01:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F881494C3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 01:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768179987; cv=none; b=JiGI30ljNxJJUuY/2QnEsWGkRtmEU/fInOvDJjCSJuu4SKsdtBWb+eJbqKWXMaxIDRLSvYyrC4z1curhknQ5ZboSFEmIVkFs0fUivN+hbrEIYQUYPwN10bpARc/dZwCj/8HXt+Dts9zNDZln03hWn9iCQmqsu0vsZI0D4Z3TpXE=
+	t=1768180587; cv=none; b=pUGckAN5RaqZAkr2nVOSc0fEztp5x39bYVmoGyPmmP1l1vlXi1ONqOBFmpftTku2Lfz7WhmPRmGRqm0aLMsg3zU2dbH8GxfuB7GE0WcDl3tYl9CfFkzUTA0pGchE+JO5oNzTm85GEnlI6wd1jTY8zppetOmZcDZXxib/+h8tia4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768179987; c=relaxed/simple;
-	bh=bJscLIX8YNa0pTLBuMKLUe5HuNdRKcxMYkcucIl5i8o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=poDoTox5ekP4cUMmDGwQInc9al9f55DrYLln+rAFjMZNtbH6muV3lKvoMI/HfwdO0wwd1tSGlZKetcIV+7MoWejNeMZ1q/07Pc/ZOzg1QyRywphU/1xeZcG6IOOJ/TfGFUocB6jMRxCqbozd4OSBnyVy5KFsekEUb0DTRplTPIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ay7vIrFS; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1768180587; c=relaxed/simple;
+	bh=qBtvZ/flvuaWXAABGRRvZ4rFYI2uLS6VHFvtJ7m5IEg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jPW/rMAN99WZbEl1Hci/pS0NDRHhwdqEGlkEAvHmYgnecGDdKODTCkwUvU8AqL4Xk7zb9jNlMzmWwtIx6BUQ+WiIqeAQQC9maI65w9EumNXURmtBpU241O9yb0SGOnLJxBtlpT11oHs15qAr+O5zueuyJNolDowWUQm+w6aIjdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QiaGKey1; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ay7vIrFS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QiaGKey1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768179986; x=1799715986;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bJscLIX8YNa0pTLBuMKLUe5HuNdRKcxMYkcucIl5i8o=;
-  b=Ay7vIrFSI1Ouf6Z5r1ZKYoLtxddHn5kniwupjUMlxIdf5OYgPZzqnaMo
-   djkev/7rC6rp6jpACS+khgHmQKSrgQR5+Hd0QgMkHNmAImmjkvojtGq52
-   o2t+izk4WrKy0VNhRiPIOd/3v6YjWbb2tDnmkNxrocnHCwLaERURMb4xg
-   QADlTBqD4HGvZcWmpswrQhv/4pF5eaml7Vvll/+Izr4hW5sqJMebjzpLS
-   z1Tk4U9GH1HZFJIFHLu+rnhwvZOAHbEflvrSlCensOwAC5rjWj+mLIU8o
-   DN3k5GwhKBE3Tl7P4duRcgNzkLqlCn7hjBjQBE1qAFGjbYea7di1brDl0
-   g==;
-X-CSE-ConnectionGUID: 1D1feuCrTfSBp3ienIxhLg==
-X-CSE-MsgGUID: x8+6RGGLQZOscehKqa2l8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="72033551"
+  t=1768180586; x=1799716586;
+  h=date:from:to:cc:subject:message-id;
+  bh=qBtvZ/flvuaWXAABGRRvZ4rFYI2uLS6VHFvtJ7m5IEg=;
+  b=QiaGKey1BHN+YZra0xc+oHsIvYZv30u53KKFuLF8sCS/DkhHL9MtHGNL
+   kRMidPMHkT7I2TBueB20PPa+zHsgdpOvi4QNwtE9CAxSmxzDc7FA+22J+
+   BM/JFwaNcNF5TT8ZuOnerkl5TU6RB0vn8MVGFmE6Rc+ag/wEUQDwMZPVv
+   TEit3/UEdkPD8gXdm361389rtPMC8ASZN6FpZKGS0h5voa+yr+6FhCH9T
+   jrqumLDlsjxJHMjls1bdN2hOEy4hlJ6R031RBPQG4oUPVK+BSlSn/Bl9e
+   jqZZghnb1JdBs/t9SSKAol78WWJ88zpwtl5Gy8FxX4pTtpOYJ9MmQvCkA
+   w==;
+X-CSE-ConnectionGUID: rPCaCjvbSLy0E0JwTm0LnA==
+X-CSE-MsgGUID: w0UaH2YKSn6aiqzBCuoC9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69441827"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="72033551"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 17:06:25 -0800
-X-CSE-ConnectionGUID: FWjlspKDTsiCiYhhRMiAVQ==
-X-CSE-MsgGUID: 7O1Mx+4lRaqh+tGfM3OHeg==
+   d="scan'208";a="69441827"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 17:16:26 -0800
+X-CSE-ConnectionGUID: j2u/X4COSqqHItnnFjboIw==
+X-CSE-MsgGUID: SQMb97ubQPSdRxrbqMQ1GA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="209023701"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 11 Jan 2026 17:06:24 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="208452899"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 11 Jan 2026 17:16:23 -0800
+Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vf6Nw-00000000Coy-3zTF;
-	Mon, 12 Jan 2026 01:06:20 +0000
-Date: Mon, 12 Jan 2026 09:05:52 +0800
+	id 1vf6Xd-000000000an-0AuE;
+	Mon, 12 Jan 2026 01:16:21 +0000
+Date: Mon, 12 Jan 2026 02:15:26 +0100
 From: kernel test robot <lkp@intel.com>
-To: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dma-pool: don't allocate DMA32 pool if no 32-bit memory
-Message-ID: <202601120747.TAMpIDnI-lkp@intel.com>
-References: <20260111152632.2133580-1-vladimir.kondratiev@mobileye.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:keys-pqc 5/8] crypto/testmgr.c:3971:15: error:
+ too few arguments to function 'crypto_sig_verify'
+Message-ID: <202601120238.GMWIKhYM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260111152632.2133580-1-vladimir.kondratiev@mobileye.com>
 
-Hi Vladimir,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 7d0a66e4bb9081d75c82ec4957c50034cb0ea449]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vladimir-Kondratiev/dma-pool-don-t-allocate-DMA32-pool-if-no-32-bit-memory/20260111-232732
-base:   7d0a66e4bb9081d75c82ec4957c50034cb0ea449
-patch link:    https://lore.kernel.org/r/20260111152632.2133580-1-vladimir.kondratiev%40mobileye.com
-patch subject: [PATCH] dma-pool: don't allocate DMA32 pool if no 32-bit memory
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260112/202601120747.TAMpIDnI-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120747.TAMpIDnI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
+head:   7b32eec2a40ecddafbcbd35bda3ccd1c54477b05
+commit: 229769f7796050dd02dbf2e67e935bb6e53cb6da [5/8] crypto: Add supplementary info param to asymmetric key signature verification
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260112/202601120238.GMWIKhYM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120238.GMWIKhYM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601120747.TAMpIDnI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601120238.GMWIKhYM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/dma/pool.c:212:39: error: use of undeclared identifier 'phys_ram_base'; did you mean 'phys_base'?
-     212 |         if (IS_ENABLED(CONFIG_ZONE_DMA32) && phys_ram_base < BIT_ULL(32)) {
-         |                                              ^~~~~~~~~~~~~
-         |                                              phys_base
-   arch/x86/include/asm/page_64.h:15:22: note: 'phys_base' declared here
-      15 | extern unsigned long phys_base;
-         |                      ^
-   1 error generated.
+   crypto/testmgr.c: In function 'test_sig_one':
+>> crypto/testmgr.c:3971:15: error: too few arguments to function 'crypto_sig_verify'
+    3971 |         err = crypto_sig_verify(tfm, vecs->c, vecs->c_size,
+         |               ^~~~~~~~~~~~~~~~~
+   In file included from crypto/testmgr.c:36:
+   include/crypto/sig.h:217:19: note: declared here
+     217 | static inline int crypto_sig_verify(struct crypto_sig *tfm,
+         |                   ^~~~~~~~~~~~~~~~~
 
 
-vim +212 kernel/dma/pool.c
+vim +/crypto_sig_verify +3971 crypto/testmgr.c
 
-   186	
-   187	static int __init dma_atomic_pool_init(void)
-   188	{
-   189		int ret = 0;
-   190	
-   191		/*
-   192		 * If coherent_pool was not used on the command line, default the pool
-   193		 * sizes to 128KB per 1GB of memory, min 128KB, max MAX_PAGE_ORDER.
-   194		 */
-   195		if (!atomic_pool_size) {
-   196			unsigned long pages = totalram_pages() / (SZ_1G / SZ_128K);
-   197			pages = min_t(unsigned long, pages, MAX_ORDER_NR_PAGES);
-   198			atomic_pool_size = max_t(size_t, pages << PAGE_SHIFT, SZ_128K);
-   199		}
-   200		INIT_WORK(&atomic_pool_work, atomic_pool_work_fn);
-   201	
-   202		atomic_pool_kernel = __dma_atomic_pool_init(atomic_pool_size,
-   203							    GFP_KERNEL);
-   204		if (!atomic_pool_kernel)
-   205			ret = -ENOMEM;
-   206		if (has_managed_dma()) {
-   207			atomic_pool_dma = __dma_atomic_pool_init(atomic_pool_size,
-   208							GFP_KERNEL | GFP_DMA);
-   209			if (!atomic_pool_dma)
-   210				ret = -ENOMEM;
-   211		}
- > 212		if (IS_ENABLED(CONFIG_ZONE_DMA32) && phys_ram_base < BIT_ULL(32)) {
-   213			atomic_pool_dma32 = __dma_atomic_pool_init(atomic_pool_size,
-   214							GFP_KERNEL | GFP_DMA32);
-   215			if (!atomic_pool_dma32)
-   216				ret = -ENOMEM;
-   217		}
-   218	
-   219		dma_atomic_pool_debugfs_init();
-   220		return ret;
-   221	}
-   222	postcore_initcall(dma_atomic_pool_init);
-   223	
+946cc46372dcf8 Tadeusz Struk 2015-06-16  3942  
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3943  static int test_sig_one(struct crypto_sig *tfm, const struct sig_testvec *vecs)
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3944  {
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3945  	u8 *ptr, *key __free(kfree);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3946  	int err, sig_size;
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3947  
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3948  	key = kmalloc(vecs->key_len + 2 * sizeof(u32) + vecs->param_len,
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3949  		      GFP_KERNEL);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3950  	if (!key)
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3951  		return -ENOMEM;
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3952  
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3953  	/* ecrdsa expects additional parameters appended to the key */
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3954  	memcpy(key, vecs->key, vecs->key_len);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3955  	ptr = key + vecs->key_len;
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3956  	ptr = test_pack_u32(ptr, vecs->algo);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3957  	ptr = test_pack_u32(ptr, vecs->param_len);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3958  	memcpy(ptr, vecs->params, vecs->param_len);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3959  
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3960  	if (vecs->public_key_vec)
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3961  		err = crypto_sig_set_pubkey(tfm, key, vecs->key_len);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3962  	else
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3963  		err = crypto_sig_set_privkey(tfm, key, vecs->key_len);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3964  	if (err)
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3965  		return err;
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3966  
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3967  	/*
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3968  	 * Run asymmetric signature verification first
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3969  	 * (which does not require a private key)
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3970  	 */
+65c4c93caaf1a9 Lukas Wunner  2024-09-10 @3971  	err = crypto_sig_verify(tfm, vecs->c, vecs->c_size,
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3972  				vecs->m, vecs->m_size);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3973  	if (err) {
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3974  		pr_err("alg: sig: verify test failed: err %d\n", err);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3975  		return err;
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3976  	}
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3977  
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3978  	/*
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3979  	 * Don't invoke sign test (which requires a private key)
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3980  	 * for vectors with only a public key.
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3981  	 */
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3982  	if (vecs->public_key_vec)
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3983  		return 0;
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3984  
+f4144b6bb74cc3 Lukas Wunner  2025-02-02  3985  	sig_size = crypto_sig_maxsize(tfm);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3986  	if (sig_size < vecs->c_size) {
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3987  		pr_err("alg: sig: invalid maxsize %u\n", sig_size);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3988  		return -EINVAL;
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3989  	}
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3990  
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3991  	u8 *sig __free(kfree) = kzalloc(sig_size, GFP_KERNEL);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3992  	if (!sig)
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3993  		return -ENOMEM;
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3994  
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3995  	/* Run asymmetric signature generation */
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3996  	err = crypto_sig_sign(tfm, vecs->m, vecs->m_size, sig, sig_size);
+f4144b6bb74cc3 Lukas Wunner  2025-02-02  3997  	if (err < 0) {
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3998  		pr_err("alg: sig: sign test failed: err %d\n", err);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  3999  		return err;
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4000  	}
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4001  
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4002  	/* Verify that generated signature equals cooked signature */
+f4144b6bb74cc3 Lukas Wunner  2025-02-02  4003  	if (err != vecs->c_size ||
+f4144b6bb74cc3 Lukas Wunner  2025-02-02  4004  	    memcmp(sig, vecs->c, vecs->c_size) ||
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4005  	    memchr_inv(sig + vecs->c_size, 0, sig_size - vecs->c_size)) {
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4006  		pr_err("alg: sig: sign test failed: invalid output\n");
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4007  		hexdump(sig, sig_size);
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4008  		return -EINVAL;
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4009  	}
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4010  
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4011  	return 0;
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4012  }
+65c4c93caaf1a9 Lukas Wunner  2024-09-10  4013  
+
+:::::: The code at line 3971 was first introduced by commit
+:::::: 65c4c93caaf1a9fca2855942e338530967162d25 crypto: sig - Introduce sig_alg backend
+
+:::::: TO: Lukas Wunner <lukas@wunner.de>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
