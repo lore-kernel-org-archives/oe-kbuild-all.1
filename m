@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1773806A9;
-	Mon, 12 Jan 2026 18:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518AF318EC1;
+	Mon, 12 Jan 2026 19:19:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768242410; cv=none; b=H/bhv6V5yUA1iE1OUbwI+3e8FmHMh9bFwIX4tExv2874hjxwhtMXrinfG5UvrJuXkSjPTx65uB6p8kH5OpXVJcx1KW7cPgJBdyfRfNYN3FEQ5JH/iZSIQR93Qro6qPTJzlFA0x9cyGvCTbSPBLHeX2TvnCrpF2FtiKxpaTPv2sc=
+	t=1768245594; cv=none; b=mKEPuGrv337d6zcZsBNfYiPlx+6riSLCRvc+ilE+GM6Clq1o/wWz2E5vOf1AxSjpXhJF4WPjsaw5dnleoBKABHu2eRgcMzav/83RLU9vfbnoZi5a4GOLx/d6+V5oqJo3mwkIKiNmnsRrVx47i3VozOfeVAbqpjfB2ScLrGGIkbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768242410; c=relaxed/simple;
-	bh=4tX4yfMZLD9CinH/qL7aTz2HXhyLociwzo5T9q1Yp6E=;
+	s=arc-20240116; t=1768245594; c=relaxed/simple;
+	bh=i2o5OSwgZxueKsGzvOapUi10A7iexUAqUjRdR47rGNE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jmVvch8d+aADPhPRRH7Shgs0q7q7nKUP3vuiGhzl5k7BHlAd3jtitY7fcGvyJ3n6H0au2lW/dxe702iRRrcIwWJDp7hDYq5WNsd9EpIYTYTE22ukco40elXRJTuTL26ZG78wf6T1Go1Y8QcatiVTpP7k7oDWxlEy2yaq2akbN/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fNVqGG21; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=Un4a0uvGRJira2Z/40+ypg20dhaZM3a63yuVHgSg3GDkt/iyFS8Y0wNCvyiEfHW9FdTdWQmRuHka9GGCMI8swof1zTEhxgD36MvzN92o3Bx5d8+a7iLZ/s0fSX5H4LdigpQ3AqU0NCD2I/Xx2KwbyPuvuzdzkyyeCrO41wf5t5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oi3QVI3h; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fNVqGG21"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oi3QVI3h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768242408; x=1799778408;
+  t=1768245591; x=1799781591;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4tX4yfMZLD9CinH/qL7aTz2HXhyLociwzo5T9q1Yp6E=;
-  b=fNVqGG211/+HxCbYy5aGaKlTyNoTHyPMlTc4pgphexFQUMGb9aYZeJ5B
-   5rO5zOPPhJvvJQJT/45ucrwaN0WL+zfpC8POZ/LYn/Osuk3sO2EMS8g0P
-   qWJ0ndIrJ6/iwYrSzhpJFwL2LtUzYDLeGe41lLn6HlprberV3h13BhFH8
-   akH2mq/Re1wir/GSF7wJHCIkynOfFSE7QAzF7XvUM45neeikKx/YcA4a4
-   D6UohQpCA2+w29Z6sa4/SwI1Sho42AvzLX/YEikX0J5hEcxcl1uwdgCGu
-   6S+qbd8xtjK9H5EAG1HHhcMkd5RMygAGkhN7EnEHADuvJW/ctpZjqgVgr
-   Q==;
-X-CSE-ConnectionGUID: sgn72qh4SZC8mxeyAhHfDQ==
-X-CSE-MsgGUID: gvWKdOnTROqHpr65UEkE6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69447445"
+  bh=i2o5OSwgZxueKsGzvOapUi10A7iexUAqUjRdR47rGNE=;
+  b=Oi3QVI3helfH/yfHKrwfy6h95/Igpk5mLWVdiutkFskg2mf4PI51jY0P
+   UC9Cg7y38dcQlaqSEnvezxJwnrwIavQbzBd43Gd5q1o9Hh8pMgqXGcUIT
+   I9WEMEXEwvEG+Q2WnLJxkAeW0jwBdTX0wayw26D7K+EnWwzUybq+G4EZQ
+   GjdCbci56vJhszFbCQGRTlQfOjQehykRnMsvX64mpGRWN5maLD46zkLhA
+   wOGkU/Ou/GYwPhQ+yXRN/CelVi8p+7lPITgtz04FCWaf40pI+1IitrHMT
+   sQF9jclM9l8EWmY64R7Zm9WaJWdzvkA/eLlu1JI4UX2XHoBDiou1baUZI
+   g==;
+X-CSE-ConnectionGUID: WP6fv/7cTWimZBDHbl9JIA==
+X-CSE-MsgGUID: 1gkdd9a8ST6tjgAWwClfFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69259347"
 X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="69447445"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 10:26:48 -0800
-X-CSE-ConnectionGUID: 4ETuplM6TSypTjzSJgZikA==
-X-CSE-MsgGUID: CPf5HPlCTZa/DTGCHI6eTA==
+   d="scan'208";a="69259347"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 11:19:50 -0800
+X-CSE-ConnectionGUID: x11Kegm6RCS/lIPaSO/jAQ==
+X-CSE-MsgGUID: voSqYQ6ITIexQAlXSQrEwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="204175332"
+   d="scan'208";a="235411264"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Jan 2026 10:26:45 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 12 Jan 2026 11:19:49 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfMck-00000000Dk0-30cu;
-	Mon, 12 Jan 2026 18:26:42 +0000
-Date: Tue, 13 Jan 2026 02:26:11 +0800
+	id 1vfNS6-00000000Dmg-1YO0;
+	Mon, 12 Jan 2026 19:19:46 +0000
+Date: Tue, 13 Jan 2026 03:19:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
-	andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org,
-	Chintan Patel <chintanlike@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v5] staging: fbtft: use dev_of_fbinfo() instead of
- info->dev
-Message-ID: <202601130116.rVB5C8Xx-lkp@intel.com>
-References: <20260112010740.186248-1-chintanlike@gmail.com>
+To: Bastien Nocera <hadess@hadess.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] Bluetooth: btusb: Use pm_ptr instead of #ifdef CONFIG_PM
+Message-ID: <202601130334.mSDifI9D-lkp@intel.com>
+References: <20260112105127.3664608-1-hadess@hadess.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,77 +62,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260112010740.186248-1-chintanlike@gmail.com>
+In-Reply-To: <20260112105127.3664608-1-hadess@hadess.net>
 
-Hi Chintan,
+Hi Bastien,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on staging/staging-testing]
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on bluetooth/master linus/master v6.19-rc5 next-20260109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chintan-Patel/staging-fbtft-use-dev_of_fbinfo-instead-of-info-dev/20260112-091221
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260112010740.186248-1-chintanlike%40gmail.com
-patch subject: [PATCH v5] staging: fbtft: use dev_of_fbinfo() instead of info->dev
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260113/202601130116.rVB5C8Xx-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130116.rVB5C8Xx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/Bluetooth-btusb-Use-pm_ptr-instead-of-ifdef-CONFIG_PM/20260112-185450
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/20260112105127.3664608-1-hadess%40hadess.net
+patch subject: [PATCH] Bluetooth: btusb: Use pm_ptr instead of #ifdef CONFIG_PM
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260113/202601130334.mSDifI9D-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130334.mSDifI9D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601130116.rVB5C8Xx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130334.mSDifI9D-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/staging/fbtft/fbtft-core.c: In function 'fbtft_fb_setcolreg':
->> drivers/staging/fbtft/fbtft-core.c:367:30: error: implicit declaration of function 'dev_of_fbinfo'; did you mean 'dev_info'? [-Wimplicit-function-declaration]
-     367 |         struct device *dev = dev_of_fbinfo(info);
-         |                              ^~~~~~~~~~~~~
-         |                              dev_info
->> drivers/staging/fbtft/fbtft-core.c:367:30: error: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/staging/fbtft/fbtft-core.c: In function 'fbtft_fb_blank':
-   drivers/staging/fbtft/fbtft-core.c:393:30: error: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     393 |         struct device *dev = dev_of_fbinfo(info);
-         |                              ^~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft-core.c: In function 'fbtft_register_framebuffer':
-   drivers/staging/fbtft/fbtft-core.c:744:30: error: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     744 |         struct device *dev = dev_of_fbinfo(fb_info);
-         |                              ^~~~~~~~~~~~~
+>> drivers/bluetooth/btusb.c:4640:20: error: use of undeclared identifier 'btusb_suspend'
+    4640 |         .suspend        = pm_ptr(btusb_suspend),
+         |                                  ^
+>> drivers/bluetooth/btusb.c:4641:20: error: use of undeclared identifier 'btusb_resume'; did you mean 'btusb_reset'?
+    4641 |         .resume         = pm_ptr(btusb_resume),
+         |                                  ^~~~~~~~~~~~
+         |                                  btusb_reset
+   include/linux/pm.h:472:53: note: expanded from macro 'pm_ptr'
+     472 | #define pm_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM), (_ptr))
+         |                                                     ^
+   include/linux/util_macros.h:136:38: note: expanded from macro 'PTR_IF'
+     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                            ^
+   drivers/bluetooth/btusb.c:979:13: note: 'btusb_reset' declared here
+     979 | static void btusb_reset(struct hci_dev *hdev)
+         |             ^
+   2 errors generated.
 
 
-vim +367 drivers/staging/fbtft/fbtft-core.c
+vim +/btusb_suspend +4640 drivers/bluetooth/btusb.c
 
-   360	
-   361	static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
-   362				      unsigned int green, unsigned int blue,
-   363				      unsigned int transp, struct fb_info *info)
-   364	{
-   365		unsigned int val;
-   366		int ret = 1;
- > 367		struct device *dev = dev_of_fbinfo(info);
-   368	
-   369		dev_dbg(dev,
-   370			"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
-   371			__func__, regno, red, green, blue, transp);
-   372	
-   373		switch (info->fix.visual) {
-   374		case FB_VISUAL_TRUECOLOR:
-   375			if (regno < 16) {
-   376				u32 *pal = info->pseudo_palette;
-   377	
-   378				val  = chan_to_field(red,   &info->var.red);
-   379				val |= chan_to_field(green, &info->var.green);
-   380				val |= chan_to_field(blue,  &info->var.blue);
-   381	
-   382				pal[regno] = val;
-   383				ret = 0;
-   384			}
-   385			break;
-   386		}
-   387		return ret;
-   388	}
-   389	
+  4635	
+  4636	static struct usb_driver btusb_driver = {
+  4637		.name		= "btusb",
+  4638		.probe		= btusb_probe,
+  4639		.disconnect	= btusb_disconnect,
+> 4640		.suspend	= pm_ptr(btusb_suspend),
+> 4641		.resume		= pm_ptr(btusb_resume),
+  4642		.id_table	= btusb_table,
+  4643		.supports_autosuspend = 1,
+  4644		.disable_hub_initiated_lpm = 1,
+  4645	
 
 -- 
 0-DAY CI Kernel Test Service
