@@ -1,47 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4762BEC5A;
-	Mon, 12 Jan 2026 15:02:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE652512F5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 15:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768230137; cv=none; b=Ta6Bd+QO4U1EwLCQytLk9qXsc7Vh7RIDYW/cxaLJS+lxzYtLvsdv16B8rWXcYgV59N52HpIaYPBb7Ef3hnui1YnXOu1LkpI8Kx4/End3ULVQYtEmN/74Or7DTKCmljdJ8radSdiyozOwjXg3FPayWWlLFs6qZjis6K8jS0PauEE=
+	t=1768230816; cv=none; b=hgIK0DZpKlHLICb7hInCD0GAmXDw9otkA/hUbrZTRqQt5tcFxuJ2rlptAsqgElgL+0fOQErVY9imxgNy7XuCCNihVL0dwo03+pDQ7sWXcME54jRhZT+n69HCXlSJoeGn79vZp93UEAjixy3vJfOhiaAp02nqqvexPa60djUYL7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768230137; c=relaxed/simple;
-	bh=bIFL8Yh6+K7dNLCRWwR/lo5RY6XFn3l/0ShCBQQwWoA=;
+	s=arc-20240116; t=1768230816; c=relaxed/simple;
+	bh=FH5lvgGlxlgcsI/c3Wc4LZGoA4WSMGev1ZgnwDVgbkw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kQuluXcm6WHnf0LpCpog6GAv/kyBkR898NiLtE2xYWP8MOflRaivz3+y1PPVAajM8orqdfDopIcnsNnojVAIDV5HSYRn1rNozT+2xCW6yWJQgOinouEWe7CNRzTgQd7A1dsOxiczm8pXTUO8np9i1IL/aJSt9bIpHCwPOi5gibg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gfgFyLfU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MgUGhD1lSrfa7/ODB4rbtC+dTQAmEWiJNIeUdWH80Lmy3VBH6HMmFy8f8D36EcxgAht/q+y47OTUaQ5zr+iajMFBHgdv7TAkR4rXh/YFv87z9liZEyodbileG5NmCFV6xlAiXQBSv2prt5grXTXG55F9AWOFaQmLl8XNbaD2qp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lumYmJh3; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gfgFyLfU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A04C7C16AAE;
-	Mon, 12 Jan 2026 15:02:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768230137;
-	bh=bIFL8Yh6+K7dNLCRWwR/lo5RY6XFn3l/0ShCBQQwWoA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gfgFyLfUXbZCw6/fDuKt+BspOKlk60jIgOLl4eYZGdkf3vjRb8fXcnzilDWhebst6
-	 qL1omQEF0AYOfYDpf9nBQmEN5EdYKpBBQ0VEwogysVb15mscETLHvWOPnuo2NYZomE
-	 lIQwDgqx720tRqBaXTXneNNmNeieT9iUom0/dWumN3k6aoFyz89i9D61QcltyOLZWn
-	 59EzeLrQ6v2WFoC+ehfY3Cf8L2K5Fm5RDGXB3DXc/NIogrfThCQvrCgUuDf5IeAYA/
-	 97p7kLqIV89VN0Qu2qy1saSE49L7hpwjPjBzSjILp1OEmJfQ+/1D/114Cq13y6xReR
-	 cY2BbJgb7XhNg==
-Date: Mon, 12 Jan 2026 15:02:12 +0000
-From: Will Deacon <will@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Al Viro <viro@zeniv.linux.org.uk>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Eric Dumazet <edumazet@google.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: include/net/sock.h:2100:16: sparse: sparse: cast to non-scalar
-Message-ID: <aWUM9L_4MKjlXcui@willie-the-truck>
-References: <202601110443.5ENBRFej-lkp@intel.com>
- <20260110221508.GF3634291@ZenIV>
- <20260110223548.GA4041651@ZenIV>
- <20260111182010.GH3634291@ZenIV>
- <20260112123722.GJ830755@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lumYmJh3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768230815; x=1799766815;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FH5lvgGlxlgcsI/c3Wc4LZGoA4WSMGev1ZgnwDVgbkw=;
+  b=lumYmJh3lREzppEyuWTo96UN5qHsU6SL4JQMeIdp+CNHsYruHmIcldGb
+   c5iXHEWz1RaJ2Et9I1WXmOddUjWq0imkB1AZPJ6jwZHnj8uKz8U7fMnL8
+   zggojf93pYbJjHJ3U0FT0TD8Muq65qWKbG6/AtAUYafaNJBI7mNeKlb9R
+   cPQWGpdu8HK3F6NzqjyIBlGDu4npJssEhuh5x618zfzjKS3KBQ530aYzx
+   ldO0snRQhq6UiZvQOn4aoQIKY20Nvix6C6M72OA9/uYajeDjal+tZWWRy
+   mWxxKA/MtX9sQdRYQ6PrYeeB6PfyvljQbBntcRhsL3FXmXzcglmLHeOjv
+   A==;
+X-CSE-ConnectionGUID: Hhq65EETSim8+rWlLuVAxw==
+X-CSE-MsgGUID: o7Ucv4AqSzySTm/asLvw7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="73349103"
+X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
+   d="scan'208";a="73349103"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 07:13:34 -0800
+X-CSE-ConnectionGUID: mwqoedS6SCmoCk5xw0p26g==
+X-CSE-MsgGUID: imcgvPMSRA2CwgvMwt4IgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
+   d="scan'208";a="208632334"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 12 Jan 2026 07:13:29 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfJbi-00000000DUC-04q9;
+	Mon, 12 Jan 2026 15:13:26 +0000
+Date: Mon, 12 Jan 2026 23:13:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Rob Herring <robh@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-rdma@vger.kernel.org,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	intel-wired-lan@lists.osuosl.org, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, devicetree@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Mark Bloch <mbloch@nvidia.com>, linux-kernel@vger.kernel.org,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Saeed Mahameed <saeedm@nvidia.com>
+Subject: Re: [Intel-wired-lan] [PATCH net-next 06/12] dpll: Support dynamic
+ pin index allocation
+Message-ID: <202601122216.BCarSN6K-lkp@intel.com>
+References: <20260108182318.20935-7-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,57 +80,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260112123722.GJ830755@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260108182318.20935-7-ivecera@redhat.com>
 
-On Mon, Jan 12, 2026 at 01:37:22PM +0100, Peter Zijlstra wrote:
-> On Sun, Jan 11, 2026 at 06:20:10PM +0000, Al Viro wrote:
-> > On Sat, Jan 10, 2026 at 10:35:48PM +0000, Al Viro wrote:
-> > 
-> > > Folks involved in putting that cast in arch/alpha/include/asm/rwonce.h Cc'd...
-> > 
-> > FWIW, there's a way to strip qualifiers from *any* non-array type.
-> > Look:
-> > 
-> > void f(void)
-> > {
-> > 	const int x;
-> > 	x = 1;		// an error
-> > 	typeof(((typeof(x)(*)(void))0)()) y;
-> > 	y = 2;		// perfectly fine
-> > }
-> > 
-> > The way it works is that qualifiers are stripped from return type when
-> > deriving a function type.  That was spelled out only in C17; 6.7.6.3[5]
-> > | If, in the declaration "T D1", D1 has the form
-> > | D ( parameter-type-list )
-> > |  or
-> > | D ( identifier-list[opt] )
-> > | and the type specified for ident in the declaration "T D" is
-> > | "derived-declarator-type-list T", then the type specified for ident
-> > | is "derived-declarator-type-list function returning the unqualified version
-> > | of T".
-> > but that "unqualified version of..." matched the common practice in
-> > earlier variants of standard; they stopped issuing TCs by that point
-> > (~2014), but both clang and gcc behave that way with any variant of
-> > standard.
-> > 
-> > IOW, this
-> > 
-> > #define unqual_non_array(T) __typeof__(((T(*)(void))0)())
-> > 
-> > would do the right thing without that _Generic cascade and it'll work
-> > just fine for e.g. kuid_t.  Using it for an array would trigger an error,
-> > array-returning functions being forbidden...
-> > 
-> > Guys, do you have any problems with replacing __unqual_scalar_typeof()
-> > uses with that thing?
-> 
-> There is also __typeof_unqual__, but I do not know if that is now
-> supported by all compilers, if so that is the better option. If not,
-> your function return type thing is awesome.
+Hi Ivan,
 
-Agreed, that's a really neat trick. I wouldn't put it past somebody to
-use READ_ONCE() on an array, but the build systems should shake any of
-those out pretty quickly.
+kernel test robot noticed the following build warnings:
 
-Will
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dt-bindings-dpll-add-common-dpll-pin-consumer-schema/20260109-022618
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260108182318.20935-7-ivecera%40redhat.com
+patch subject: [Intel-wired-lan] [PATCH net-next 06/12] dpll: Support dynamic pin index allocation
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260112/202601122216.BCarSN6K-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601122216.BCarSN6K-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601122216.BCarSN6K-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/dpll/dpll_core.c: In function 'dpll_pin_idx_free':
+>> drivers/dpll/dpll_core.c:499:28: warning: integer overflow in expression of type 'int' results in '-2147483648' [-Woverflow]
+     499 |         pin_idx -= INT_MAX + 1;
+         |                            ^
+
+
+vim +499 drivers/dpll/dpll_core.c
+
+   490	
+   491	static void dpll_pin_idx_free(u32 pin_idx)
+   492	{
+   493		if (pin_idx <= INT_MAX)
+   494			return; /* Not a dynamic pin index */
+   495	
+   496		/* Map the index value from dynamic pin index range to IDA range and
+   497		 * free it.
+   498		 */
+ > 499		pin_idx -= INT_MAX + 1;
+   500		ida_free(&dpll_pin_idx_ida, pin_idx);
+   501	}
+   502	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
