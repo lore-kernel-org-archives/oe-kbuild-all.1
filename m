@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95653374187;
-	Mon, 12 Jan 2026 17:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9314D240604
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 17:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768237243; cv=none; b=WTJURaAdGK6v739QCKo6ZOj0yTDmwZfsdRVZyZlEYt4fJHAdQb1sN4kjBER180qOFLmmmcmsjwjCRUQ+OOZOSfyPEyCJA8e2TJj4esknpEqgseBXTBD9GXFJv1u2I+qye8hmQLZyooKpsyk+0RlIICQCxfNUyZFYhoiUkGWUdEw=
+	t=1768239167; cv=none; b=McTSGJXRKkOuHxulRF2zZltyBBd9DfCcqRlLei3GnbKL9kT31iUGPQE30igQoQkExd3by6gxfQh/YQdb2OkUYaDrkMUy4wBvndu3H3NFAdtYarrl33zHX7qqCkJTdsJJTllq7BThbvTPbV0UgmcJx9x2Up2AmpwA+pYQnZ/oTnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768237243; c=relaxed/simple;
-	bh=qF61K2x/dTRZSzLm1gfFEGBiX89NQ0+CnDKlm5c8oD0=;
+	s=arc-20240116; t=1768239167; c=relaxed/simple;
+	bh=/F0DHPES9V4UKhWUy41xbv8wKwwgas3zZAi12ZfuGjU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FFTb3FA/8rwWRm/5s13kR8UmNjaJmwGp/00pGAXFQ0dY116Xpfxr+BCsxV+42s9ml7hJ8ZhJiIrS3X4Wj5vbp6KojVFynFDo7BPE3XcRwaPsP2X6W5C3R++yIyE5hVz1jfUkND9lzWAQlfzr3f8I3MAGFM70DhiQGQ8hbNRgmJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kRqfxwzS; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=GlY8/tUndL2rubEcqjOI26jFpItd/hjbSEjNXDgC3iZrfF50eVe6+I70LFGaX3hwF+07xFtahhIY1e6YL9NpNV+byodYBSaGmG6rWo8c8TionvBGR3ND8di6GX/76B1zl5mANomNLAnXOAuIxEzxIlCK0bU6bQ9mgPtVqtPcrjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bbZeEmV9; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kRqfxwzS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbZeEmV9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768237241; x=1799773241;
+  t=1768239165; x=1799775165;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qF61K2x/dTRZSzLm1gfFEGBiX89NQ0+CnDKlm5c8oD0=;
-  b=kRqfxwzSDTp+G3LyEVoqQ0INzfd9RWUj/KL16IdUOU0TalKG4HTd26Qw
-   A3NL9tzuplW2+5gXkpVGZjcIBX57X1aKjG0LMw83FsaqfSuV4j33NcWZC
-   iXwKHZdbcesZ8jxnbfiACEh6aY1WyJ7M/32sPIPRaTGIoqqGOVtWTPQQb
-   B3c8u+1k5lFLaFcPfsFwok3P8C96EF8dHJ1hszbbTPsy5iS/ZJqOFjrwK
-   oTDYPuUNmTmrOa8A1BNF4mhTHilyRn1Nv0zfVAe4Lj1OcyISS5vC9Z/WS
-   QEsV+HFDyXOxdZpcBU3hjsCY6+S9YNvVumnU8yqI+DVci/h4QKuYIZ+52
-   g==;
-X-CSE-ConnectionGUID: bLQEbcSOTjudcD3/3pe2pw==
-X-CSE-MsgGUID: OhEUZhnoTUeUJdsUKXyjDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69500550"
+  bh=/F0DHPES9V4UKhWUy41xbv8wKwwgas3zZAi12ZfuGjU=;
+  b=bbZeEmV9UKmDUsRmdl4jgqIXGqU2voKmlG+YG9ezi725erXy3rUF0YjB
+   +JRgQCqwmkS32tZxIn41Yb35mV2SKmObuVjkxEbWu73hCwLRBq4EFKAh1
+   6L8VfdFeDfqbqVT7QxC+QlWpx1XEIQqRsSdfyWlLHiv4toL85UBkadzJq
+   j046lrD3UNEHJhp4hs5KCGxFXxTKSfFYFBrrhPOtDvaITWU4YtYwPd8sn
+   VQCxQ0NkebG2CJxrxOEOWgoEgO/DU6iy72rIWA7JxB7/k+GTqbzYjkwMC
+   OJPqr7+QRa2NsHYUzslLfYKE5BzYt3OXS6NfN9NLDFGIxik6YPyAp13Ew
+   w==;
+X-CSE-ConnectionGUID: wMn1ezIqTiKNwJcILD/DLw==
+X-CSE-MsgGUID: uI/5aGBJSim3qyjnXGbPog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="79812955"
 X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="69500550"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 09:00:41 -0800
-X-CSE-ConnectionGUID: dYwOZXNnSpmU94NUInp3Eg==
-X-CSE-MsgGUID: 465Xvgt1TgiPREs5noXBIg==
+   d="scan'208";a="79812955"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 09:32:45 -0800
+X-CSE-ConnectionGUID: iAiCqQUSSjiRtSTQ9Cz4SQ==
+X-CSE-MsgGUID: QvBqkciATtaz7EMufw/x0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="208289157"
+   d="scan'208";a="208983881"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 12 Jan 2026 09:00:38 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 12 Jan 2026 09:32:42 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfLHP-00000000DcW-3MrQ;
-	Mon, 12 Jan 2026 17:00:35 +0000
-Date: Tue, 13 Jan 2026 01:00:02 +0800
+	id 1vfLmR-00000000Dg0-2gaC;
+	Mon, 12 Jan 2026 17:32:39 +0000
+Date: Tue, 13 Jan 2026 01:31:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
 	Bastien Nocera <hadess@hadess.net>
-Subject: Re: [PATCH 12/12] HID: surface: Use pm_ptr_sleep instead of #ifdef
- CONFIG_PM_SLEEP
-Message-ID: <202601130046.aUeJ5BLs-lkp@intel.com>
-References: <20260112105500.3664834-13-hadess@hadess.net>
+Subject: Re: [PATCH 09/12] HID: sony: Use pm_ptr instead of #ifdef CONFIG_PM
+Message-ID: <202601130046.THZRFNIA-lkp@intel.com>
+References: <20260112105500.3664834-10-hadess@hadess.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,7 +65,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260112105500.3664834-13-hadess@hadess.net>
+In-Reply-To: <20260112105500.3664834-10-hadess@hadess.net>
 
 Hi Bastien,
 
@@ -80,46 +79,69 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-hid-alps-Use-pm_ptr-instead-of-ifdef-CONFIG_PM/20260112-190559
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20260112105500.3664834-13-hadess%40hadess.net
-patch subject: [PATCH 12/12] HID: surface: Use pm_ptr_sleep instead of #ifdef CONFIG_PM_SLEEP
-config: x86_64-buildonly-randconfig-006-20260112 (https://download.01.org/0day-ci/archive/20260113/202601130046.aUeJ5BLs-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130046.aUeJ5BLs-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20260112105500.3664834-10-hadess%40hadess.net
+patch subject: [PATCH 09/12] HID: sony: Use pm_ptr instead of #ifdef CONFIG_PM
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260113/202601130046.THZRFNIA-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130046.THZRFNIA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601130046.aUeJ5BLs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130046.THZRFNIA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/hid/surface-hid/surface_kbd.c:291:9: error: call to undeclared function 'pm_ptr_sleep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     291 |                 .pm = pm_ptr_sleep(&surface_hid_pm_ops),
-         |                       ^
->> drivers/hid/surface-hid/surface_kbd.c:291:9: error: incompatible integer to pointer conversion initializing 'const struct dev_pm_ops *' with an expression of type 'int' [-Wint-conversion]
-     291 |                 .pm = pm_ptr_sleep(&surface_hid_pm_ops),
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hid/surface-hid/surface_kbd.c:291:9: error: initializer element is not a compile-time constant
-     291 |                 .pm = pm_ptr_sleep(&surface_hid_pm_ops),
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 errors generated.
+   In file included from include/linux/kernel.h:36,
+                    from include/linux/random.h:7,
+                    from include/linux/nodemask.h:94,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/sched.h:37,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/hid/hid-sony.c:31:
+>> drivers/hid/hid-sony.c:2402:36: error: 'sony_suspend' undeclared here (not in a function)
+    2402 |         .suspend          = pm_ptr(sony_suspend),
+         |                                    ^~~~~~~~~~~~
+   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
+     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                            ^~~
+   drivers/hid/hid-sony.c:2402:29: note: in expansion of macro 'pm_ptr'
+    2402 |         .suspend          = pm_ptr(sony_suspend),
+         |                             ^~~~~~
+>> drivers/hid/hid-sony.c:2403:36: error: 'sony_resume' undeclared here (not in a function); did you mean 'sony_remove'?
+    2403 |         .resume           = pm_ptr(sony_resume),
+         |                                    ^~~~~~~~~~~
+   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
+     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
+         |                                            ^~~
+   drivers/hid/hid-sony.c:2403:29: note: in expansion of macro 'pm_ptr'
+    2403 |         .resume           = pm_ptr(sony_resume),
+         |                             ^~~~~~
 
 
-vim +/pm_ptr_sleep +291 drivers/hid/surface-hid/surface_kbd.c
+vim +/sony_suspend +2402 drivers/hid/hid-sony.c
 
-   284	
-   285	static struct platform_driver surface_kbd_driver = {
-   286		.probe = surface_kbd_probe,
-   287		.remove = surface_kbd_remove,
-   288		.driver = {
-   289			.name = "surface_keyboard",
-   290			.acpi_match_table = surface_kbd_match,
- > 291			.pm = pm_ptr_sleep(&surface_hid_pm_ops),
-   292			.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-   293		},
-   294	};
-   295	module_platform_driver(surface_kbd_driver);
-   296	
+  2392	
+  2393	static struct hid_driver sony_driver = {
+  2394		.name             = "sony",
+  2395		.id_table         = sony_devices,
+  2396		.input_mapping    = sony_mapping,
+  2397		.input_configured = sony_input_configured,
+  2398		.probe            = sony_probe,
+  2399		.remove           = sony_remove,
+  2400		.report_fixup     = sony_report_fixup,
+  2401		.raw_event        = sony_raw_event,
+> 2402		.suspend          = pm_ptr(sony_suspend),
+> 2403		.resume	          = pm_ptr(sony_resume),
+  2404		.reset_resume     = pm_ptr(sony_resume),
+  2405	};
+  2406	
 
 -- 
 0-DAY CI Kernel Test Service
