@@ -1,44 +1,66 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2B83469F8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 09:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5854E26F46E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 09:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768210021; cv=none; b=SvkvTvAjijE8fDb8F3D6rZhdapGF8/C/VcPemdVL8JQcKcJinZ0bV3CuaD0rb+6o42BDKJ42BzezidS1pdj9Pq+HFOrPOttulUW0M4ViZCo6hBlLlaeX0qBK3GkTF/GVgmV4nT1U8ZdXs1475pFnFodxTIHWTjFTSybXEqLof7U=
+	t=1768210335; cv=none; b=BKIEtTKiDAsLpJt7BJS1ewlZ8ySkdPrVsa7zAcLvSn+S78Ilj3w/7XgVnsA0DhpSiqSswhxgAvjqi1x2wGzOab7B1FEdVdVQoi/i5ihyTxFd/PjWxO8JZqpXgZ13LWLBjhmiLfR9EDTxVXWVHWCjuzqzLFle2M4N7w2SjutGMp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768210021; c=relaxed/simple;
-	bh=WE1gkvvNFTePzVSRLj4fyywJxh9ciYHrWJwEHBTOnk4=;
+	s=arc-20240116; t=1768210335; c=relaxed/simple;
+	bh=MgXZAjy85l00z9kaenrBTZjVx8p9vhxJkgEZ/Kz95N8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TYxF3dHy96oC3TeDrCDiRFuv233bW68YkRXetxuPLtXihyKLPcdt5vaV4hh5QwgcPvfH6uB/YPL6Z+HEUrB5GH9qQA/VSx1xWSwbP+Sg/JLKmB4ivp+d8TEDi66zuF1/3uSxwwieh87LnJKmVFdEJMRe1ESxhoFMIY2CqQpcgFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vfECE-0007GN-Ax; Mon, 12 Jan 2026 10:26:46 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vfECD-000E5F-2t;
-	Mon, 12 Jan 2026 10:26:45 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1vfECD-007v7b-0I;
-	Mon, 12 Jan 2026 10:26:45 +0100
-Date: Mon, 12 Jan 2026 10:26:45 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Peng Fan <peng.fan@nxp.com>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Shawn Guo <shawnguo@kernel.org>
-Subject: Re: drivers/soc/imx/soc-imx8m.c:143 imx8m_soc_prepare() warn:
- 'drvdata->ocotp_base' from of_iomap() not released on lines: 139.
-Message-ID: <20260112092645.cmfh7lz7wd5n5fe4@pengutronix.de>
-References: <202601111406.ZVV3YaiU-lkp@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pDQHBTrPdyXWsjevWgTzuepKWI4dJhEQMKV3bSPpMDKNtpkTwjVmR8Et7UjtBSgN7nfFUhkfq7IYb/gmRu63/jq5cA4U2thUBsGI7jmjAfs0GPIObI1NDUNrJYv1VlSiEfpj+YGth1jMK1xlxtyKqbu+cuz/phweFbuelxdqZ3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K2gzWwEG; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K2gzWwEG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768210332; x=1799746332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MgXZAjy85l00z9kaenrBTZjVx8p9vhxJkgEZ/Kz95N8=;
+  b=K2gzWwEGutpJ5M1mbUXBBDTa2OgaIf4cez/oR3bdzkrROZmlLqOEQ6Ip
+   lghQL3pM2gsU2unPW4u6NIY1ZCej5NovJiJYLSbNuUGJGIO5BsJ5UBL2w
+   wjJi0HbvZCdtp4j9VELITdWq5CJU0WV/1mADaP6M/v15bRESe7DYpD+yx
+   4OynNUVc+JKTwlFRis4Epc/Gw1XlLyYpTsk8hzsm0ugpQRIquAXMpTfw0
+   PZaazcf4aqMWE3Dzung3lHbE3trl0JEXHh0ZYPKeRjlL3IX7m7+H/o7h5
+   mxL+IqUO6XtUTDOlalsquOqw2ggAgKjb8SgmXc4KO9H0Uv94rRz309ydi
+   w==;
+X-CSE-ConnectionGUID: 8v8JVLj6T2KEJQ5Kf4ROLw==
+X-CSE-MsgGUID: +NuibSK/Qbq6rSjWBUnWtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="94958894"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="94958894"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 01:32:11 -0800
+X-CSE-ConnectionGUID: jMOZdLVvSzGQ58D4KJ2F3w==
+X-CSE-MsgGUID: oaB/2rsJR962V+4WXXAhsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="208880671"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Jan 2026 01:32:09 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfEHO-00000000DCa-3j4D;
+	Mon, 12 Jan 2026 09:32:06 +0000
+Date: Mon, 12 Jan 2026 17:31:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shawn Lin <shawn.lin@rock-chips.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
+	linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>
+Subject: Re: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition
+ trace support
+Message-ID: <202601121734.epct0ieX-lkp@intel.com>
+References: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,78 +69,118 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202601111406.ZVV3YaiU-lkp@intel.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
 
-On 26-01-12, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   755bc1335e3b116b702205b72eb57b7b8aef2bb2
-> commit: 390c01073f5d0bd64db37926ddb232f33b83620d soc: imx8m: Cleanup with adding imx8m_soc_[un]prepare
-> config: m68k-randconfig-r072-20260111 (https://download.01.org/0day-ci/archive/20260111/202601111406.ZVV3YaiU-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 14.3.0
-> smatch version: v0.5.0-8985-g2614ff1a
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202601111406.ZVV3YaiU-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/soc/imx/soc-imx8m.c:143 imx8m_soc_prepare() warn: 'drvdata->ocotp_base' from of_iomap() not released on lines: 139.
-> 
-> vim +143 drivers/soc/imx/soc-imx8m.c
-> 
-> 390c01073f5d0b Peng Fan 2025-04-23  119  static int imx8m_soc_prepare(struct platform_device *pdev, const char *ocotp_compatible)
-> 390c01073f5d0b Peng Fan 2025-04-23  120  {
-> 390c01073f5d0b Peng Fan 2025-04-23  121  	struct device_node *np __free(device_node) =
-> 390c01073f5d0b Peng Fan 2025-04-23  122  		of_find_compatible_node(NULL, NULL, ocotp_compatible);
-> 390c01073f5d0b Peng Fan 2025-04-23  123  	struct imx8_soc_drvdata *drvdata = platform_get_drvdata(pdev);
-> 390c01073f5d0b Peng Fan 2025-04-23  124  	int ret = 0;
-> 390c01073f5d0b Peng Fan 2025-04-23  125  
-> 390c01073f5d0b Peng Fan 2025-04-23  126  	if (!np)
-> 390c01073f5d0b Peng Fan 2025-04-23  127  		return -EINVAL;
-> 390c01073f5d0b Peng Fan 2025-04-23  128  
-> 390c01073f5d0b Peng Fan 2025-04-23  129  	drvdata->ocotp_base = of_iomap(np, 0);
-> 390c01073f5d0b Peng Fan 2025-04-23  130  	if (!drvdata->ocotp_base)
-> 390c01073f5d0b Peng Fan 2025-04-23  131  		return -EINVAL;
-> 390c01073f5d0b Peng Fan 2025-04-23  132  
-> 390c01073f5d0b Peng Fan 2025-04-23  133  	drvdata->clk = of_clk_get_by_name(np, NULL);
-> 390c01073f5d0b Peng Fan 2025-04-23  134  	if (IS_ERR(drvdata->clk)) {
-> 390c01073f5d0b Peng Fan 2025-04-23  135  		ret = PTR_ERR(drvdata->clk);
-> 390c01073f5d0b Peng Fan 2025-04-23  136  		goto err_clk;
-> 390c01073f5d0b Peng Fan 2025-04-23  137  	}
-> 390c01073f5d0b Peng Fan 2025-04-23  138  
-> 390c01073f5d0b Peng Fan 2025-04-23  139  	return clk_prepare_enable(drvdata->clk);
-> 
-> Call iounmap() if clk_prepare_enable() fails?
+Hi Shawn,
 
-Yes, we need to check the clk_prepare_enable() return as well.
+kernel test robot noticed the following build warnings:
 
-Regards,
-  Marco
+[auto build test WARNING on pci/next]
+[also build test WARNING on next-20260109]
+[cannot apply to pci/for-linus trace/for-next mani-mhi/mhi-next linus/master v6.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> 390c01073f5d0b Peng Fan 2025-04-23  140  
-> 390c01073f5d0b Peng Fan 2025-04-23  141  err_clk:
-> 390c01073f5d0b Peng Fan 2025-04-23  142  	iounmap(drvdata->ocotp_base);
-> 390c01073f5d0b Peng Fan 2025-04-23 @143  	return ret;
-> 390c01073f5d0b Peng Fan 2025-04-23  144  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/PCI-trace-Add-PCI-controller-LTSSM-transition-tracepoint/20260112-100141
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/1768180800-63364-4-git-send-email-shawn.lin%40rock-chips.com
+patch subject: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
+config: arm64-randconfig-002-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121734.epct0ieX-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121734.epct0ieX-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601121734.epct0ieX-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/pci/controller/dwc/pcie-dw-rockchip.c: In function 'rockchip_pcie_ltssm_trace_work':
+   drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:6: error: implicit declaration of function 'dw_pcie_ltssm_status_string'; did you mean 'dw_pcie_start_link'? [-Werror=implicit-function-declaration]
+         dw_pcie_ltssm_status_string(state),
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         dw_pcie_start_link
+>> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:6: warning: passing argument 2 of 'trace_pcie_ltssm_state_transition' makes pointer from integer without a cast [-Wint-conversion]
+         dw_pcie_ltssm_status_string(state),
+         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/events/pci_controller.h:9,
+                    from drivers/pci/controller/dwc/pcie-dw-rockchip.c:26:
+   include/trace/events/pci_controller.h:20:45: note: expected 'const char *' but argument is of type 'int'
+     TP_PROTO(const char *dev_name, const char *state, u32 rate),
+                                    ~~~~~~~~~~~~^~~~~
+   include/linux/tracepoint.h:288:34: note: in definition of macro '__DECLARE_TRACE'
+     static inline void trace_##name(proto)    \
+                                     ^~~~~
+   include/linux/tracepoint.h:494:24: note: in expansion of macro 'PARAMS'
+     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
+                           ^~~~~~
+   include/linux/tracepoint.h:632:2: note: in expansion of macro 'DECLARE_TRACE_EVENT'
+     DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
+     ^~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:632:28: note: in expansion of macro 'PARAMS'
+     DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
+                               ^~~~~~
+   include/trace/events/pci_controller.h:19:1: note: in expansion of macro 'TRACE_EVENT'
+    TRACE_EVENT(pcie_ltssm_state_transition,
+    ^~~~~~~~~~~
+   include/trace/events/pci_controller.h:20:2: note: in expansion of macro 'TP_PROTO'
+     TP_PROTO(const char *dev_name, const char *state, u32 rate),
+     ^~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/trace_pcie_ltssm_state_transition +264 drivers/pci/controller/dwc/pcie-dw-rockchip.c
+
+   225	
+   226	#ifdef CONFIG_TRACING
+   227	static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
+   228	{
+   229		struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
+   230							trace_work.work);
+   231		struct dw_pcie *pci = &rockchip->pci;
+   232		enum dw_pcie_ltssm state;
+   233		u32 i, l1ss, prev_val = DW_PCIE_LTSSM_UNKNOWN, rate, val;
+   234	
+   235		for (i = 0; i < PCIE_DBG_LTSSM_HISTORY_CNT; i++) {
+   236			val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
+   237			rate = FIELD_GET(PCIE_DBG_FIFO_RATE_MASK, val);
+   238			l1ss = FIELD_GET(PCIE_DBG_FIFO_L1SUB_MASK, val);
+   239			val = FIELD_GET(PCIE_LTSSM_STATUS_MASK, val);
+   240	
+   241			/*
+   242			 * Hardware Mechanism: The ring FIFO employs two tracking counters:
+   243			 * - 'last-read-point': maintains the user's last read position
+   244			 * - 'last-valid-point': tracks the hardware's last state update
+   245			 *
+   246			 * Software Handling: When two consecutive LTSSM states are identical,
+   247			 * it indicates invalid subsequent data in the FIFO. In this case, we
+   248			 * skip the remaining entries. The dual-counter design ensures that on
+   249			 * the next state transition, reading can resume from the last user
+   250			 * position.
+   251			 */
+   252			if ((i > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
+   253				break;
+   254	
+   255			state = prev_val = val;
+   256			if (val == DW_PCIE_LTSSM_L1_IDLE) {
+   257				if (l1ss == 2)
+   258					state = DW_PCIE_LTSSM_L1_2;
+   259				else if (l1ss == 1)
+   260					state = DW_PCIE_LTSSM_L1_1;
+   261			}
+   262	
+   263			trace_pcie_ltssm_state_transition(dev_name(pci->dev),
+ > 264						dw_pcie_ltssm_status_string(state),
+   265						((rate + 1) > pci->max_link_speed) ?
+   266						PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
+   267		}
+   268	
+   269		schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
+   270	}
+   271	
 
 -- 
-#gernperDu 
-#CallMeByMyFirstName
-
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
