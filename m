@@ -1,133 +1,126 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C5A374168
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 16:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95653374187;
+	Mon, 12 Jan 2026 17:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768237024; cv=none; b=ZCrcVd96iRYhEkP74yi6pvfGGPDHve/p1wt/VlDZ4QoGXFXWS/FAIsWxltUMvOHVTscJfWYSvVpiaKfSnhMU4JnNZRiL60Ubf0ktKODQgcmSGCut6m2FniImHaNSXWYlzZIehmX972g+Ldoy1O5SDOb64Z7hSjdC/8rSFK57M9I=
+	t=1768237243; cv=none; b=WTJURaAdGK6v739QCKo6ZOj0yTDmwZfsdRVZyZlEYt4fJHAdQb1sN4kjBER180qOFLmmmcmsjwjCRUQ+OOZOSfyPEyCJA8e2TJj4esknpEqgseBXTBD9GXFJv1u2I+qye8hmQLZyooKpsyk+0RlIICQCxfNUyZFYhoiUkGWUdEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768237024; c=relaxed/simple;
-	bh=ZVhUhDahJvVOMERR8LDJiAijzjP0a8psViuZ8vlZbKw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U47ILlvSpRc98JvGjYuSSrzfji3pGwp+vm1BpEcTndLEEn7n664PheD4iIBxAiC5Fo92wC7hnAp9W9muZsmiZfOdBLrZMXZB0Ra2HYNExdTdWYDwNY7OZihL8zuH5crwMbL/3If6/5O9j3Tg2qh/jO1uRzilwm1YAcjz8yKPR2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ob96Ul8k; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1768237243; c=relaxed/simple;
+	bh=qF61K2x/dTRZSzLm1gfFEGBiX89NQ0+CnDKlm5c8oD0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FFTb3FA/8rwWRm/5s13kR8UmNjaJmwGp/00pGAXFQ0dY116Xpfxr+BCsxV+42s9ml7hJ8ZhJiIrS3X4Wj5vbp6KojVFynFDo7BPE3XcRwaPsP2X6W5C3R++yIyE5hVz1jfUkND9lzWAQlfzr3f8I3MAGFM70DhiQGQ8hbNRgmJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kRqfxwzS; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ob96Ul8k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768237022;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=c+ytZ1c/Ea9PPW16FUHxaZOlzDf1w43iH7iqICQbdK0=;
-	b=Ob96Ul8k5l+HliUoooD0oSRbXd3hMh/+oam/fbohtZwASnfennwXFKmUMY5xg6ezxxMzMb
-	r4qSucf9CnoWPVT4DrWJEauNB4fKZOTvJxgKgaw/hsWfMM8bqE11LLxphrr5OAoz61BqYH
-	+BdQ9qOwAx686g5X62GPq6d9AJoUFZc=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-481-Ugn58wkyN1CvtXd7CIAw1w-1; Mon,
- 12 Jan 2026 11:56:57 -0500
-X-MC-Unique: Ugn58wkyN1CvtXd7CIAw1w-1
-X-Mimecast-MFC-AGG-ID: Ugn58wkyN1CvtXd7CIAw1w_1768237013
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6AA9E1800372;
-	Mon, 12 Jan 2026 16:56:53 +0000 (UTC)
-Received: from [10.44.34.128] (unknown [10.44.34.128])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8CDD030001A2;
-	Mon, 12 Jan 2026 16:56:46 +0000 (UTC)
-Message-ID: <97487370-0ef5-4324-87e9-c86668055314@redhat.com>
-Date: Mon, 12 Jan 2026 17:56:45 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kRqfxwzS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768237241; x=1799773241;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qF61K2x/dTRZSzLm1gfFEGBiX89NQ0+CnDKlm5c8oD0=;
+  b=kRqfxwzSDTp+G3LyEVoqQ0INzfd9RWUj/KL16IdUOU0TalKG4HTd26Qw
+   A3NL9tzuplW2+5gXkpVGZjcIBX57X1aKjG0LMw83FsaqfSuV4j33NcWZC
+   iXwKHZdbcesZ8jxnbfiACEh6aY1WyJ7M/32sPIPRaTGIoqqGOVtWTPQQb
+   B3c8u+1k5lFLaFcPfsFwok3P8C96EF8dHJ1hszbbTPsy5iS/ZJqOFjrwK
+   oTDYPuUNmTmrOa8A1BNF4mhTHilyRn1Nv0zfVAe4Lj1OcyISS5vC9Z/WS
+   QEsV+HFDyXOxdZpcBU3hjsCY6+S9YNvVumnU8yqI+DVci/h4QKuYIZ+52
+   g==;
+X-CSE-ConnectionGUID: bLQEbcSOTjudcD3/3pe2pw==
+X-CSE-MsgGUID: OhEUZhnoTUeUJdsUKXyjDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69500550"
+X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
+   d="scan'208";a="69500550"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 09:00:41 -0800
+X-CSE-ConnectionGUID: dYwOZXNnSpmU94NUInp3Eg==
+X-CSE-MsgGUID: 465Xvgt1TgiPREs5noXBIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
+   d="scan'208";a="208289157"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 12 Jan 2026 09:00:38 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfLHP-00000000DcW-3MrQ;
+	Mon, 12 Jan 2026 17:00:35 +0000
+Date: Tue, 13 Jan 2026 01:00:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Bastien Nocera <hadess@hadess.net>
+Subject: Re: [PATCH 12/12] HID: surface: Use pm_ptr_sleep instead of #ifdef
+ CONFIG_PM_SLEEP
+Message-ID: <202601130046.aUeJ5BLs-lkp@intel.com>
+References: <20260112105500.3664834-13-hadess@hadess.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-wired-lan] [PATCH net-next 06/12] dpll: Support dynamic
- pin index allocation
-To: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>, Rob Herring <robh@kernel.org>,
- Leon Romanovsky <leon@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- linux-rdma@vger.kernel.org, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- intel-wired-lan@lists.osuosl.org, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
- Richard Cochran <richardcochran@gmail.com>,
- Prathosh Satish <Prathosh.Satish@microchip.com>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>, Mark Bloch <mbloch@nvidia.com>,
- linux-kernel@vger.kernel.org, Tariq Toukan <tariqt@nvidia.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Jonathan Lemon <jonathan.lemon@gmail.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Saeed Mahameed <saeedm@nvidia.com>
-References: <20260108182318.20935-7-ivecera@redhat.com>
- <202601122216.BCarSN6K-lkp@intel.com>
-Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <202601122216.BCarSN6K-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112105500.3664834-13-hadess@hadess.net>
+
+Hi Bastien,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on hid/for-next]
+[also build test ERROR on linus/master v6.19-rc5 next-20260109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-hid-alps-Use-pm_ptr-instead-of-ifdef-CONFIG_PM/20260112-190559
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20260112105500.3664834-13-hadess%40hadess.net
+patch subject: [PATCH 12/12] HID: surface: Use pm_ptr_sleep instead of #ifdef CONFIG_PM_SLEEP
+config: x86_64-buildonly-randconfig-006-20260112 (https://download.01.org/0day-ci/archive/20260113/202601130046.aUeJ5BLs-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130046.aUeJ5BLs-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130046.aUeJ5BLs-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hid/surface-hid/surface_kbd.c:291:9: error: call to undeclared function 'pm_ptr_sleep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     291 |                 .pm = pm_ptr_sleep(&surface_hid_pm_ops),
+         |                       ^
+>> drivers/hid/surface-hid/surface_kbd.c:291:9: error: incompatible integer to pointer conversion initializing 'const struct dev_pm_ops *' with an expression of type 'int' [-Wint-conversion]
+     291 |                 .pm = pm_ptr_sleep(&surface_hid_pm_ops),
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/surface-hid/surface_kbd.c:291:9: error: initializer element is not a compile-time constant
+     291 |                 .pm = pm_ptr_sleep(&surface_hid_pm_ops),
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
 
+vim +/pm_ptr_sleep +291 drivers/hid/surface-hid/surface_kbd.c
 
-On 1/12/26 4:13 PM, kernel test robot wrote:
-> Hi Ivan,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dt-bindings-dpll-add-common-dpll-pin-consumer-schema/20260109-022618
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20260108182318.20935-7-ivecera%40redhat.com
-> patch subject: [Intel-wired-lan] [PATCH net-next 06/12] dpll: Support dynamic pin index allocation
-> config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260112/202601122216.BCarSN6K-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601122216.BCarSN6K-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601122216.BCarSN6K-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->     drivers/dpll/dpll_core.c: In function 'dpll_pin_idx_free':
->>> drivers/dpll/dpll_core.c:499:28: warning: integer overflow in expression of type 'int' results in '-2147483648' [-Woverflow]
->       499 |         pin_idx -= INT_MAX + 1;
->           |                            ^
-> 
-> 
-> vim +499 drivers/dpll/dpll_core.c
-> 
->     490	
->     491	static void dpll_pin_idx_free(u32 pin_idx)
->     492	{
->     493		if (pin_idx <= INT_MAX)
->     494			return; /* Not a dynamic pin index */
->     495	
->     496		/* Map the index value from dynamic pin index range to IDA range and
->     497		 * free it.
->     498		 */
->   > 499		pin_idx -= INT_MAX + 1;
+   284	
+   285	static struct platform_driver surface_kbd_driver = {
+   286		.probe = surface_kbd_probe,
+   287		.remove = surface_kbd_remove,
+   288		.driver = {
+   289			.name = "surface_keyboard",
+   290			.acpi_match_table = surface_kbd_match,
+ > 291			.pm = pm_ptr_sleep(&surface_hid_pm_ops),
+   292			.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+   293		},
+   294	};
+   295	module_platform_driver(surface_kbd_driver);
+   296	
 
-'pin_idx -= (u32)INT_MAX + 1' should be here..
-
-Will fix.
-
-I.
->     500		ida_free(&dpll_pin_idx_ida, pin_idx);
->     501	}
->     502	
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
