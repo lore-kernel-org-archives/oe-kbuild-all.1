@@ -1,185 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5854E26F46E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 09:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303B23382EC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 09:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768210335; cv=none; b=BKIEtTKiDAsLpJt7BJS1ewlZ8ySkdPrVsa7zAcLvSn+S78Ilj3w/7XgVnsA0DhpSiqSswhxgAvjqi1x2wGzOab7B1FEdVdVQoi/i5ihyTxFd/PjWxO8JZqpXgZ13LWLBjhmiLfR9EDTxVXWVHWCjuzqzLFle2M4N7w2SjutGMp0=
+	t=1768210993; cv=none; b=cUP+nQxid5Yxxc83rTjJp/AFy2dGnirS7sE5h+M72lZ2XM3/QLq34zY+n4yHz0d2u/x72yImAkf3wz1vmHj00mYr0CTji+aErub3XpC8QKVYBDKY+5yW/gBX3EEgvPMjGIVbUeiFAWOKfrpLS1QnnfDVRiQpyrfAiRUWLYseZAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768210335; c=relaxed/simple;
-	bh=MgXZAjy85l00z9kaenrBTZjVx8p9vhxJkgEZ/Kz95N8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pDQHBTrPdyXWsjevWgTzuepKWI4dJhEQMKV3bSPpMDKNtpkTwjVmR8Et7UjtBSgN7nfFUhkfq7IYb/gmRu63/jq5cA4U2thUBsGI7jmjAfs0GPIObI1NDUNrJYv1VlSiEfpj+YGth1jMK1xlxtyKqbu+cuz/phweFbuelxdqZ3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K2gzWwEG; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1768210993; c=relaxed/simple;
+	bh=odBc/I3Epy0zyzFODF0gZ/MluOA2cMa3YbNHvyNv8Tw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EHYuuw+ovm+MtZHMKmVPg+7k+HZk/dFmBU7dErG9YjFJ7jru5uw6PE0ugLF5uh4asmkrZf+d9K/xfYYzLQsqsdv6+y6sYDqSPM6GxFBy+qcqZL8WNg+oC4oqzRcOXuoMZW2zjoSYWajfFQa4AupEtzhvCR5X1qjQjh8Qor8M8t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DNzgQEaO; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K2gzWwEG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DNzgQEaO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768210332; x=1799746332;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MgXZAjy85l00z9kaenrBTZjVx8p9vhxJkgEZ/Kz95N8=;
-  b=K2gzWwEGutpJ5M1mbUXBBDTa2OgaIf4cez/oR3bdzkrROZmlLqOEQ6Ip
-   lghQL3pM2gsU2unPW4u6NIY1ZCej5NovJiJYLSbNuUGJGIO5BsJ5UBL2w
-   wjJi0HbvZCdtp4j9VELITdWq5CJU0WV/1mADaP6M/v15bRESe7DYpD+yx
-   4OynNUVc+JKTwlFRis4Epc/Gw1XlLyYpTsk8hzsm0ugpQRIquAXMpTfw0
-   PZaazcf4aqMWE3Dzung3lHbE3trl0JEXHh0ZYPKeRjlL3IX7m7+H/o7h5
-   mxL+IqUO6XtUTDOlalsquOqw2ggAgKjb8SgmXc4KO9H0Uv94rRz309ydi
-   w==;
-X-CSE-ConnectionGUID: 8v8JVLj6T2KEJQ5Kf4ROLw==
-X-CSE-MsgGUID: +NuibSK/Qbq6rSjWBUnWtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="94958894"
+  t=1768210992; x=1799746992;
+  h=date:from:to:cc:subject:message-id;
+  bh=odBc/I3Epy0zyzFODF0gZ/MluOA2cMa3YbNHvyNv8Tw=;
+  b=DNzgQEaO39CLocnJDxCiGm5yNDYO4KZDqzwrYwDU1Nq+cfvDKCJ2qa8Y
+   TAYFQvzPVSXowhCmScxQ4JVgGwEhphf8XJRrLG85NSXxg2Avd1XnjyhoZ
+   s4zWsYwX3H9wIdu7EjC76BJ+mKJmPhPb2ATe4XKNNefowHuXpx3ukTxbg
+   CAz8+4hUmkfllR+Mv0Dkx0GFYM5+/YEdVPz0I+CpnQw1SKxlY0IzeEah/
+   UK5mHc4kUE2jwe04yjl8bOjt1v0Sx3duuHwXYjy7V5KEgZxoDaDjzK3lM
+   OReziOQq2prYIAuflBtzKL0H8wE8Z3NTwhXVen3ZrNX2rESZ02oAp6KZa
+   A==;
+X-CSE-ConnectionGUID: J2/AzKp8RxmWq8SpenhqYw==
+X-CSE-MsgGUID: 1YjB32+VQh6n+OSZ46+dMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="80848449"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="94958894"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 01:32:11 -0800
-X-CSE-ConnectionGUID: jMOZdLVvSzGQ58D4KJ2F3w==
-X-CSE-MsgGUID: oaB/2rsJR962V+4WXXAhsg==
+   d="scan'208";a="80848449"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 01:43:11 -0800
+X-CSE-ConnectionGUID: o6gw6VxDSFW9tr7BnVDyiw==
+X-CSE-MsgGUID: 6qwDzt19Q0usZppBw/kJ4w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="208880671"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Jan 2026 01:32:09 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 12 Jan 2026 01:43:09 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfEHO-00000000DCa-3j4D;
-	Mon, 12 Jan 2026 09:32:06 +0000
-Date: Mon, 12 Jan 2026 17:31:55 +0800
+	id 1vfES3-00000000DCz-1fwN;
+	Mon, 12 Jan 2026 09:43:07 +0000
+Date: Mon, 12 Jan 2026 17:42:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
-	linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>
-Subject: Re: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition
- trace support
-Message-ID: <202601121734.epct0ieX-lkp@intel.com>
-References: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
+To: Baokun Li <libaokun1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "Theodore Ts'o" <tytso@mit.edu>, Zhang Yi <yi.zhang@huawei.com>,
+ Jan Kara <jack@suse.cz>, Ojaswin Mujoo <ojaswin@linux.ibm.com>
+Subject: {standard input}:4155: Error: pcrel offset for branch to
+ .LS000B too far (0x38)
+Message-ID: <202601121758.kA3osRht-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
 
-Hi Shawn,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on next-20260109]
-[cannot apply to pci/for-linus trace/for-next mani-mhi/mhi-next linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/PCI-trace-Add-PCI-controller-LTSSM-transition-tracepoint/20260112-100141
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/1768180800-63364-4-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
-config: arm64-randconfig-002-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121734.epct0ieX-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121734.epct0ieX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0f61b1860cc3f52aef9036d7235ed1f017632193
+commit: a6d73242b8b5caa9f9a529eab49cc1e85ace9890 ext4: support large block size in ext4_mpage_readpages()
+date:   6 weeks ago
+config: csky-randconfig-001-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121758.kA3osRht-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121758.kA3osRht-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601121734.epct0ieX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601121758.kA3osRht-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pci/controller/dwc/pcie-dw-rockchip.c: In function 'rockchip_pcie_ltssm_trace_work':
-   drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:6: error: implicit declaration of function 'dw_pcie_ltssm_status_string'; did you mean 'dw_pcie_start_link'? [-Werror=implicit-function-declaration]
-         dw_pcie_ltssm_status_string(state),
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         dw_pcie_start_link
->> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:6: warning: passing argument 2 of 'trace_pcie_ltssm_state_transition' makes pointer from integer without a cast [-Wint-conversion]
-         dw_pcie_ltssm_status_string(state),
-         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/events/pci_controller.h:9,
-                    from drivers/pci/controller/dwc/pcie-dw-rockchip.c:26:
-   include/trace/events/pci_controller.h:20:45: note: expected 'const char *' but argument is of type 'int'
-     TP_PROTO(const char *dev_name, const char *state, u32 rate),
-                                    ~~~~~~~~~~~~^~~~~
-   include/linux/tracepoint.h:288:34: note: in definition of macro '__DECLARE_TRACE'
-     static inline void trace_##name(proto)    \
-                                     ^~~~~
-   include/linux/tracepoint.h:494:24: note: in expansion of macro 'PARAMS'
-     __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),  \
-                           ^~~~~~
-   include/linux/tracepoint.h:632:2: note: in expansion of macro 'DECLARE_TRACE_EVENT'
-     DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:632:28: note: in expansion of macro 'PARAMS'
-     DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
-                               ^~~~~~
-   include/trace/events/pci_controller.h:19:1: note: in expansion of macro 'TRACE_EVENT'
-    TRACE_EVENT(pcie_ltssm_state_transition,
-    ^~~~~~~~~~~
-   include/trace/events/pci_controller.h:20:2: note: in expansion of macro 'TP_PROTO'
-     TP_PROTO(const char *dev_name, const char *state, u32 rate),
-     ^~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/trace_pcie_ltssm_state_transition +264 drivers/pci/controller/dwc/pcie-dw-rockchip.c
-
-   225	
-   226	#ifdef CONFIG_TRACING
-   227	static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
-   228	{
-   229		struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
-   230							trace_work.work);
-   231		struct dw_pcie *pci = &rockchip->pci;
-   232		enum dw_pcie_ltssm state;
-   233		u32 i, l1ss, prev_val = DW_PCIE_LTSSM_UNKNOWN, rate, val;
-   234	
-   235		for (i = 0; i < PCIE_DBG_LTSSM_HISTORY_CNT; i++) {
-   236			val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
-   237			rate = FIELD_GET(PCIE_DBG_FIFO_RATE_MASK, val);
-   238			l1ss = FIELD_GET(PCIE_DBG_FIFO_L1SUB_MASK, val);
-   239			val = FIELD_GET(PCIE_LTSSM_STATUS_MASK, val);
-   240	
-   241			/*
-   242			 * Hardware Mechanism: The ring FIFO employs two tracking counters:
-   243			 * - 'last-read-point': maintains the user's last read position
-   244			 * - 'last-valid-point': tracks the hardware's last state update
-   245			 *
-   246			 * Software Handling: When two consecutive LTSSM states are identical,
-   247			 * it indicates invalid subsequent data in the FIFO. In this case, we
-   248			 * skip the remaining entries. The dual-counter design ensures that on
-   249			 * the next state transition, reading can resume from the last user
-   250			 * position.
-   251			 */
-   252			if ((i > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
-   253				break;
-   254	
-   255			state = prev_val = val;
-   256			if (val == DW_PCIE_LTSSM_L1_IDLE) {
-   257				if (l1ss == 2)
-   258					state = DW_PCIE_LTSSM_L1_2;
-   259				else if (l1ss == 1)
-   260					state = DW_PCIE_LTSSM_L1_1;
-   261			}
-   262	
-   263			trace_pcie_ltssm_state_transition(dev_name(pci->dev),
- > 264						dw_pcie_ltssm_status_string(state),
-   265						((rate + 1) > pci->max_link_speed) ?
-   266						PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
-   267		}
-   268	
-   269		schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
-   270	}
-   271	
+   {standard input}: Assembler messages:
+>> {standard input}:4155: Error: pcrel offset for branch to .LS000B too far (0x38)
 
 -- 
 0-DAY CI Kernel Test Service
