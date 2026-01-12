@@ -1,57 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F881494C3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 01:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87FD145A05
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 01:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768180587; cv=none; b=pUGckAN5RaqZAkr2nVOSc0fEztp5x39bYVmoGyPmmP1l1vlXi1ONqOBFmpftTku2Lfz7WhmPRmGRqm0aLMsg3zU2dbH8GxfuB7GE0WcDl3tYl9CfFkzUTA0pGchE+JO5oNzTm85GEnlI6wd1jTY8zppetOmZcDZXxib/+h8tia4=
+	t=1768180664; cv=none; b=ESqz1blw33SgLWlxdaPRcvfL+ErUO8oYTiSvL5QXdS3Bg6A5RY9G4oTRXqIfrQ3he1uGkhG+qomeZArIhtVymW1RpEIWjW/V1gDoMzdeu+excmrr1dMj/cnZfxVYEDCd+5GiZCnOmhtM+ev8elpmHde7b22AQqoKGhOGSzRxvi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768180587; c=relaxed/simple;
-	bh=qBtvZ/flvuaWXAABGRRvZ4rFYI2uLS6VHFvtJ7m5IEg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jPW/rMAN99WZbEl1Hci/pS0NDRHhwdqEGlkEAvHmYgnecGDdKODTCkwUvU8AqL4Xk7zb9jNlMzmWwtIx6BUQ+WiIqeAQQC9maI65w9EumNXURmtBpU241O9yb0SGOnLJxBtlpT11oHs15qAr+O5zueuyJNolDowWUQm+w6aIjdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QiaGKey1; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768180664; c=relaxed/simple;
+	bh=aOa78xeADb8E4/I+NAcm6BVvFtP61kwOPiB4GWl1rDY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AVqVhWAAv0joK37V5k8Q5lpG5yCDfd9x0ChQdiyAlbfPqdKHeGLtGbzN/0fZ6ysA5Q1+3qdhnqMF64eGiTrXbY0Jsi7okC8Fv/kJ0CrTU6+8J9Ppj5W0wb1TDlcfzdKXvpFQUnEWd8DTlqNlPsphUTCRNWqDAPZqlq5gnO489dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dkbE3Otx; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QiaGKey1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dkbE3Otx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768180586; x=1799716586;
+  t=1768180663; x=1799716663;
   h=date:from:to:cc:subject:message-id;
-  bh=qBtvZ/flvuaWXAABGRRvZ4rFYI2uLS6VHFvtJ7m5IEg=;
-  b=QiaGKey1BHN+YZra0xc+oHsIvYZv30u53KKFuLF8sCS/DkhHL9MtHGNL
-   kRMidPMHkT7I2TBueB20PPa+zHsgdpOvi4QNwtE9CAxSmxzDc7FA+22J+
-   BM/JFwaNcNF5TT8ZuOnerkl5TU6RB0vn8MVGFmE6Rc+ag/wEUQDwMZPVv
-   TEit3/UEdkPD8gXdm361389rtPMC8ASZN6FpZKGS0h5voa+yr+6FhCH9T
-   jrqumLDlsjxJHMjls1bdN2hOEy4hlJ6R031RBPQG4oUPVK+BSlSn/Bl9e
-   jqZZghnb1JdBs/t9SSKAol78WWJ88zpwtl5Gy8FxX4pTtpOYJ9MmQvCkA
-   w==;
-X-CSE-ConnectionGUID: rPCaCjvbSLy0E0JwTm0LnA==
-X-CSE-MsgGUID: w0UaH2YKSn6aiqzBCuoC9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="69441827"
+  bh=aOa78xeADb8E4/I+NAcm6BVvFtP61kwOPiB4GWl1rDY=;
+  b=dkbE3OtxZPdfQ6VwfB/i3KQOi5yyUgD819lZWrzxJ3Kg5cIubwYfLGC0
+   VaPU3In/LpTnZcUaj00BZUqbMJwUiFcITuSX4CC8RGUnS1zrutT53D+/c
+   ihgZbIOKWpo48/0JrGV6K4EiJiOkWQM+WPxdSfh6wPdc2euwBU/N5HlOS
+   atPaiOPKYQBQyY0znVU+etXQowBvT/QJ2FgG2AIhX6WCJc/JOZWjpKCsz
+   GON+4m4Z6TukYRdglhUC/lPPjAwNNPOwjCOPnK1XNtKFbJfJlYeF9ZaWT
+   6OrzmROruuofuajeq7S+QVTxNizRZiTUuADRXJU6+rqwxmatGJYrM8ndc
+   Q==;
+X-CSE-ConnectionGUID: fuZXj6oNTIOqvQc69GOYkA==
+X-CSE-MsgGUID: u1p87I13QUeoRMhvZJPQ0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="92122499"
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="69441827"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 17:16:26 -0800
-X-CSE-ConnectionGUID: j2u/X4COSqqHItnnFjboIw==
-X-CSE-MsgGUID: SQMb97ubQPSdRxrbqMQ1GA==
+   d="scan'208";a="92122499"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2026 17:17:42 -0800
+X-CSE-ConnectionGUID: vRzAk9jnSnW3Ks8wi/Ma1w==
+X-CSE-MsgGUID: 1OSqRe4uSmqlQRCudHqGug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="208452899"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Jan 2026 17:16:23 -0800
-Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
+   d="scan'208";a="227243250"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 11 Jan 2026 17:17:40 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vf6Xd-000000000an-0AuE;
-	Mon, 12 Jan 2026 01:16:21 +0000
-Date: Mon, 12 Jan 2026 02:15:26 +0100
+	id 1vf6Ys-00000000Cpg-18TR;
+	Mon, 12 Jan 2026 01:17:38 +0000
+Date: Mon, 12 Jan 2026 09:17:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:keys-pqc 5/8] crypto/testmgr.c:3971:15: error:
- too few arguments to function 'crypto_sig_verify'
-Message-ID: <202601120238.GMWIKhYM-lkp@intel.com>
+To: Gary Guo <gary@garyguo.net>
+Cc: oe-kbuild-all@lists.linux.dev, Benno Lossin <lossin@kernel.org>
+Subject: [nbdd0121:macros 5/12] error[E0080]: could not evaluate
+ static initializer
+Message-ID: <202601120913.Mdla6GrL-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,110 +59,176 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git keys-pqc
-head:   7b32eec2a40ecddafbcbd35bda3ccd1c54477b05
-commit: 229769f7796050dd02dbf2e67e935bb6e53cb6da [5/8] crypto: Add supplementary info param to asymmetric key signature verification
-config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260112/202601120238.GMWIKhYM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120238.GMWIKhYM-lkp@intel.com/reproduce)
+tree:   https://github.com/nbdd0121/linux macros
+head:   0b7011a368888a9d6d60e48e574bc6a2f55d7f83
+commit: 45d1d64ad977fa31b0ffa2f34057c3e0a247bb43 [5/12] rust: macros: use `quote!` for `module!` macro
+config: loongarch-randconfig-r073-20260110 (https://download.01.org/0day-ci/archive/20260112/202601120913.Mdla6GrL-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601120913.Mdla6GrL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601120238.GMWIKhYM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601120913.Mdla6GrL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   crypto/testmgr.c: In function 'test_sig_one':
->> crypto/testmgr.c:3971:15: error: too few arguments to function 'crypto_sig_verify'
-    3971 |         err = crypto_sig_verify(tfm, vecs->c, vecs->c_size,
-         |               ^~~~~~~~~~~~~~~~~
-   In file included from crypto/testmgr.c:36:
-   include/crypto/sig.h:217:19: note: declared here
-     217 | static inline int crypto_sig_verify(struct crypto_sig *tfm,
-         |                   ^~~~~~~~~~~~~~~~~
-
-
-vim +/crypto_sig_verify +3971 crypto/testmgr.c
-
-946cc46372dcf8 Tadeusz Struk 2015-06-16  3942  
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3943  static int test_sig_one(struct crypto_sig *tfm, const struct sig_testvec *vecs)
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3944  {
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3945  	u8 *ptr, *key __free(kfree);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3946  	int err, sig_size;
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3947  
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3948  	key = kmalloc(vecs->key_len + 2 * sizeof(u32) + vecs->param_len,
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3949  		      GFP_KERNEL);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3950  	if (!key)
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3951  		return -ENOMEM;
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3952  
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3953  	/* ecrdsa expects additional parameters appended to the key */
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3954  	memcpy(key, vecs->key, vecs->key_len);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3955  	ptr = key + vecs->key_len;
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3956  	ptr = test_pack_u32(ptr, vecs->algo);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3957  	ptr = test_pack_u32(ptr, vecs->param_len);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3958  	memcpy(ptr, vecs->params, vecs->param_len);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3959  
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3960  	if (vecs->public_key_vec)
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3961  		err = crypto_sig_set_pubkey(tfm, key, vecs->key_len);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3962  	else
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3963  		err = crypto_sig_set_privkey(tfm, key, vecs->key_len);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3964  	if (err)
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3965  		return err;
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3966  
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3967  	/*
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3968  	 * Run asymmetric signature verification first
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3969  	 * (which does not require a private key)
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3970  	 */
-65c4c93caaf1a9 Lukas Wunner  2024-09-10 @3971  	err = crypto_sig_verify(tfm, vecs->c, vecs->c_size,
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3972  				vecs->m, vecs->m_size);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3973  	if (err) {
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3974  		pr_err("alg: sig: verify test failed: err %d\n", err);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3975  		return err;
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3976  	}
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3977  
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3978  	/*
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3979  	 * Don't invoke sign test (which requires a private key)
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3980  	 * for vectors with only a public key.
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3981  	 */
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3982  	if (vecs->public_key_vec)
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3983  		return 0;
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3984  
-f4144b6bb74cc3 Lukas Wunner  2025-02-02  3985  	sig_size = crypto_sig_maxsize(tfm);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3986  	if (sig_size < vecs->c_size) {
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3987  		pr_err("alg: sig: invalid maxsize %u\n", sig_size);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3988  		return -EINVAL;
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3989  	}
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3990  
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3991  	u8 *sig __free(kfree) = kzalloc(sig_size, GFP_KERNEL);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3992  	if (!sig)
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3993  		return -ENOMEM;
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3994  
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3995  	/* Run asymmetric signature generation */
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3996  	err = crypto_sig_sign(tfm, vecs->m, vecs->m_size, sig, sig_size);
-f4144b6bb74cc3 Lukas Wunner  2025-02-02  3997  	if (err < 0) {
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3998  		pr_err("alg: sig: sign test failed: err %d\n", err);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  3999  		return err;
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4000  	}
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4001  
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4002  	/* Verify that generated signature equals cooked signature */
-f4144b6bb74cc3 Lukas Wunner  2025-02-02  4003  	if (err != vecs->c_size ||
-f4144b6bb74cc3 Lukas Wunner  2025-02-02  4004  	    memcmp(sig, vecs->c, vecs->c_size) ||
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4005  	    memchr_inv(sig + vecs->c_size, 0, sig_size - vecs->c_size)) {
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4006  		pr_err("alg: sig: sign test failed: invalid output\n");
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4007  		hexdump(sig, sig_size);
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4008  		return -EINVAL;
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4009  	}
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4010  
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4011  	return 0;
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4012  }
-65c4c93caaf1a9 Lukas Wunner  2024-09-10  4013  
-
-:::::: The code at line 3971 was first introduced by commit
-:::::: 65c4c93caaf1a9fca2855942e338530967162d25 crypto: sig - Introduce sig_alg backend
-
-:::::: TO: Lukas Wunner <lukas@wunner.de>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+>> error[E0080]: could not evaluate static initializer
+   --> rust/doctests_kernel_generated.rs:5992:1
+   |
+   5992 | / module! {
+   5993 | |    type: MyModule,
+   5994 | |    name: "module_firmware_test",
+   5995 | |    authors: ["Rust for Linux"],
+   5996 | |    description: "module_firmware! test module",
+   5997 | |    license: "GPL",
+   5998 | | }
+   | |_^ encountered static that tried to initialize itself with itself
+   |
+   = note: this error originates in the macro `module` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0080]: could not evaluate static initializer
+   --> samples/rust/rust_minimal.rs:7:1
+   |
+   7  | / module! {
+   8  | |     type: RustMinimal,
+   9  | |     name: "rust_minimal",
+   10 | |     authors: ["Rust for Linux Contributors"],
+   ...  |
+   18 | |     },
+   19 | | }
+   | |_^ encountered static that tried to initialize itself with itself
+   |
+   = note: this error originates in the macro `module` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0080]: could not evaluate static initializer
+   --> samples/rust/rust_misc_device.rs:117:1
+   |
+   117 | / module! {
+   118 | |     type: RustMiscDeviceModule,
+   119 | |     name: "rust_misc_device",
+   120 | |     authors: ["Lee Jones"],
+   121 | |     description: "Rust misc device sample",
+   122 | |     license: "GPL",
+   123 | | }
+   | |_^ encountered static that tried to initialize itself with itself
+   |
+   = note: this error originates in the macro `module` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0080]: could not evaluate static initializer
+   --> samples/rust/rust_print_main.rs:8:1
+   |
+   8  | / module! {
+   9  | |     type: RustPrint,
+   10 | |     name: "rust_print",
+   11 | |     authors: ["Rust for Linux Contributors"],
+   12 | |     description: "Rust printing macros sample",
+   13 | |     license: "GPL",
+   14 | | }
+   | |_^ encountered static that tried to initialize itself with itself
+   |
+   = note: this error originates in the macro `module` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0080]: could not evaluate static initializer
+   --> samples/rust/rust_debugfs.rs:44:1
+   |
+   44 | / kernel::module_platform_driver! {
+   45 | |     type: RustDebugFs,
+   46 | |     name: "rust_debugfs",
+   47 | |     authors: ["Matthew Maurer"],
+   48 | |     description: "Rust DebugFS usage sample",
+   49 | |     license: "GPL",
+   50 | | }
+   | |_^ encountered static that tried to initialize itself with itself
+   |
+   = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_platform_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0080]: could not evaluate static initializer
+   --> samples/rust/rust_debugfs_scoped.rs:16:1
+   |
+   16 | / module! {
+   17 | |     type: RustScopedDebugFs,
+   18 | |     name: "rust_debugfs_scoped",
+   19 | |     authors: ["Matthew Maurer"],
+   20 | |     description: "Rust Scoped DebugFS usage sample",
+   21 | |     license: "GPL",
+   22 | | }
+   | |_^ encountered static that tried to initialize itself with itself
+   |
+   = note: this error originates in the macro `module` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0080]: could not evaluate static initializer
+   --> samples/rust/rust_dma.rs:115:1
+   |
+   115 | / kernel::module_pci_driver! {
+   116 | |     type: DmaSampleDriver,
+   117 | |     name: "rust_dma",
+   118 | |     authors: ["Abdiel Janulgue"],
+   119 | |     description: "Rust DMA test",
+   120 | |     license: "GPL v2",
+   121 | | }
+   | |_^ encountered static that tried to initialize itself with itself
+   |
+   = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_pci_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0080]: could not evaluate static initializer
+   --> samples/rust/rust_driver_i2c.rs:68:1
+   |
+   68 | / kernel::module_i2c_driver! {
+   69 | |     type: SampleDriver,
+   70 | |     name: "rust_driver_i2c",
+   71 | |     authors: ["Igor Korotin"],
+   72 | |     description: "Rust I2C driver",
+   73 | |     license: "GPL v2",
+   74 | | }
+   | |_^ encountered static that tried to initialize itself with itself
+   |
+   = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_i2c_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0080]: could not evaluate static initializer
+   --> samples/rust/rust_i2c_client.rs:141:1
+   |
+   141 | / kernel::module_platform_driver! {
+   142 | |     type: SampleDriver,
+   143 | |     name: "rust_device_i2c",
+   144 | |     authors: ["Danilo Krummrich", "Igor Korotin"],
+   145 | |     description: "Rust I2C client registration",
+   146 | |     license: "GPL v2",
+   147 | | }
+   | |_^ encountered static that tried to initialize itself with itself
+   |
+   = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_platform_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0080]: could not evaluate static initializer
+   --> samples/rust/rust_driver_pci.rs:113:1
+   |
+   113 | / kernel::module_pci_driver! {
+   114 | |     type: SampleDriver,
+   115 | |     name: "rust_driver_pci",
+   116 | |     authors: ["Danilo Krummrich"],
+   117 | |     description: "Rust PCI driver",
+   118 | |     license: "GPL v2",
+   119 | | }
+   | |_^ encountered static that tried to initialize itself with itself
+   |
+   = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_pci_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0080]: could not evaluate static initializer
+   --> samples/rust/rust_driver_platform.rs:185:1
+   |
+   185 | / kernel::module_platform_driver! {
+   186 | |     type: SampleDriver,
+   187 | |     name: "rust_driver_platform",
+   188 | |     authors: ["Danilo Krummrich"],
+   189 | |     description: "Rust Platform driver",
+   190 | |     license: "GPL v2",
+   191 | | }
+   | |_^ encountered static that tried to initialize itself with itself
+   |
+   = note: this error originates in the macro `$crate::prelude::module` which comes from the expansion of the macro `kernel::module_platform_driver` (in Nightly builds, run with -Z macro-backtrace for more info)
+..
 
 -- 
 0-DAY CI Kernel Test Service
