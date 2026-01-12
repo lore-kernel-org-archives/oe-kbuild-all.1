@@ -1,62 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9314D240604
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 17:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A092376BF5;
+	Mon, 12 Jan 2026 17:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768239167; cv=none; b=McTSGJXRKkOuHxulRF2zZltyBBd9DfCcqRlLei3GnbKL9kT31iUGPQE30igQoQkExd3by6gxfQh/YQdb2OkUYaDrkMUy4wBvndu3H3NFAdtYarrl33zHX7qqCkJTdsJJTllq7BThbvTPbV0UgmcJx9x2Up2AmpwA+pYQnZ/oTnI=
+	t=1768239169; cv=none; b=t1vV28ZoBA2uBX6f8QoIOj+MCHL2juivuULPFhhr+g7d9wYYPpt/BqoadREZvAj77Uub/yfoWageMlSWkfKQbAE3/CfnldG1WZD6HAIHPpN15bSsXZrnHXBDIDowpw2GGiQvsjxTzMZYqtVu4TZnjpmoHLq57+RDhHUL+cf7xZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768239167; c=relaxed/simple;
-	bh=/F0DHPES9V4UKhWUy41xbv8wKwwgas3zZAi12ZfuGjU=;
+	s=arc-20240116; t=1768239169; c=relaxed/simple;
+	bh=OR/IteiQnlHXasGusgNXutT+OFGgvrqsqPj9gtcQV6w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GlY8/tUndL2rubEcqjOI26jFpItd/hjbSEjNXDgC3iZrfF50eVe6+I70LFGaX3hwF+07xFtahhIY1e6YL9NpNV+byodYBSaGmG6rWo8c8TionvBGR3ND8di6GX/76B1zl5mANomNLAnXOAuIxEzxIlCK0bU6bQ9mgPtVqtPcrjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bbZeEmV9; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=hwEQ262HMt0CVEvLdcynOfMLmo6Q44Hzgm03qIn641LMNnVmTEJFHFQEhPoNrklSEiFZAEd31QAPFpx/qwMeW3d4P0TOfsj0TwIlkE/j2qdSR6Vc9S21P0BmxlzgSWo7CrDssxCBMGLvagpVdqE2VYrk9DH8PLf0fL9zoZbXeqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AO7cGcsP; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbZeEmV9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AO7cGcsP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768239165; x=1799775165;
+  t=1768239168; x=1799775168;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/F0DHPES9V4UKhWUy41xbv8wKwwgas3zZAi12ZfuGjU=;
-  b=bbZeEmV9UKmDUsRmdl4jgqIXGqU2voKmlG+YG9ezi725erXy3rUF0YjB
-   +JRgQCqwmkS32tZxIn41Yb35mV2SKmObuVjkxEbWu73hCwLRBq4EFKAh1
-   6L8VfdFeDfqbqVT7QxC+QlWpx1XEIQqRsSdfyWlLHiv4toL85UBkadzJq
-   j046lrD3UNEHJhp4hs5KCGxFXxTKSfFYFBrrhPOtDvaITWU4YtYwPd8sn
-   VQCxQ0NkebG2CJxrxOEOWgoEgO/DU6iy72rIWA7JxB7/k+GTqbzYjkwMC
-   OJPqr7+QRa2NsHYUzslLfYKE5BzYt3OXS6NfN9NLDFGIxik6YPyAp13Ew
-   w==;
-X-CSE-ConnectionGUID: wMn1ezIqTiKNwJcILD/DLw==
-X-CSE-MsgGUID: uI/5aGBJSim3qyjnXGbPog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="79812955"
+  bh=OR/IteiQnlHXasGusgNXutT+OFGgvrqsqPj9gtcQV6w=;
+  b=AO7cGcsP55YEgI2MOMnyyZXhrucqvf7Mhyesg5YIQnP2JjzMX+YE0+ah
+   doui6maWY7cWFql3qoe0Aegq6XNlCmIkAWd4xPO0W9aaw5uXnClotf4+k
+   lCz07DTAB/5h6NFkAnnHbjEM8o5pNkiTe7LeYtyHWc3i+RGdC+F+oWOGe
+   54juC1pBcEYGHP48jQyV0Huxj3nkm8ncK4clOK/4+vHPBGFd1huVpdkHc
+   jgWWT6xQ0ier0xR5VkYATMpFppD+P+exXr8U2l8C1PlAh9ENpSecgK5aL
+   m+RnQDh/mZIA626hrdjvUoBiOBW0n9q1a9/OKY90pyJgFyRtNsFmuRi12
+   A==;
+X-CSE-ConnectionGUID: XK45AbxcTU+Ph8Usj/0Dkg==
+X-CSE-MsgGUID: +Zllj9v/QmaLGWslQNyDlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="68522611"
 X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="79812955"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 09:32:45 -0800
-X-CSE-ConnectionGUID: iAiCqQUSSjiRtSTQ9Cz4SQ==
-X-CSE-MsgGUID: QvBqkciATtaz7EMufw/x0w==
+   d="scan'208";a="68522611"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 09:32:46 -0800
+X-CSE-ConnectionGUID: cmPI29FYT3yFlVjLv98KUQ==
+X-CSE-MsgGUID: cgkz92DXRRCWb3hgnntwEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="208983881"
+   d="scan'208";a="208662251"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Jan 2026 09:32:42 -0800
+  by orviesa004.jf.intel.com with ESMTP; 12 Jan 2026 09:32:42 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfLmR-00000000Dg0-2gaC;
+	id 1vfLmR-00000000Dg2-2mFw;
 	Mon, 12 Jan 2026 17:32:39 +0000
-Date: Tue, 13 Jan 2026 01:31:52 +0800
+Date: Tue, 13 Jan 2026 01:31:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bastien Nocera <hadess@hadess.net>, linux-input@vger.kernel.org
+To: Chintan Patel <chintanlike@gmail.com>, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-omap@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Bastien Nocera <hadess@hadess.net>
-Subject: Re: [PATCH 09/12] HID: sony: Use pm_ptr instead of #ifdef CONFIG_PM
-Message-ID: <202601130046.THZRFNIA-lkp@intel.com>
-References: <20260112105500.3664834-10-hadess@hadess.net>
+	dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+	andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org,
+	Chintan Patel <chintanlike@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v5] staging: fbtft: use dev_of_fbinfo() instead of
+ info->dev
+Message-ID: <202601130026.1M3d4LWk-lkp@intel.com>
+References: <20260112010740.186248-1-chintanlike@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,83 +68,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260112105500.3664834-10-hadess@hadess.net>
+In-Reply-To: <20260112010740.186248-1-chintanlike@gmail.com>
 
-Hi Bastien,
+Hi Chintan,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on hid/for-next]
-[also build test ERROR on linus/master v6.19-rc5 next-20260109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-hid-alps-Use-pm_ptr-instead-of-ifdef-CONFIG_PM/20260112-190559
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20260112105500.3664834-10-hadess%40hadess.net
-patch subject: [PATCH 09/12] HID: sony: Use pm_ptr instead of #ifdef CONFIG_PM
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260113/202601130046.THZRFNIA-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130046.THZRFNIA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chintan-Patel/staging-fbtft-use-dev_of_fbinfo-instead-of-info-dev/20260112-091221
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260112010740.186248-1-chintanlike%40gmail.com
+patch subject: [PATCH v5] staging: fbtft: use dev_of_fbinfo() instead of info->dev
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260113/202601130026.1M3d4LWk-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130026.1M3d4LWk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601130046.THZRFNIA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130026.1M3d4LWk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:36,
-                    from include/linux/random.h:7,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/numa.h:6,
-                    from include/linux/cpumask.h:15,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/sched.h:37,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from drivers/hid/hid-sony.c:31:
->> drivers/hid/hid-sony.c:2402:36: error: 'sony_suspend' undeclared here (not in a function)
-    2402 |         .suspend          = pm_ptr(sony_suspend),
-         |                                    ^~~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   drivers/hid/hid-sony.c:2402:29: note: in expansion of macro 'pm_ptr'
-    2402 |         .suspend          = pm_ptr(sony_suspend),
-         |                             ^~~~~~
->> drivers/hid/hid-sony.c:2403:36: error: 'sony_resume' undeclared here (not in a function); did you mean 'sony_remove'?
-    2403 |         .resume           = pm_ptr(sony_resume),
-         |                                    ^~~~~~~~~~~
-   include/linux/util_macros.h:136:44: note: in definition of macro 'PTR_IF'
-     136 | #define PTR_IF(cond, ptr)       ((cond) ? (ptr) : NULL)
-         |                                            ^~~
-   drivers/hid/hid-sony.c:2403:29: note: in expansion of macro 'pm_ptr'
-    2403 |         .resume           = pm_ptr(sony_resume),
-         |                             ^~~~~~
+   drivers/staging/fbtft/fbtft-core.c: In function 'fbtft_fb_setcolreg':
+   drivers/staging/fbtft/fbtft-core.c:367:30: error: implicit declaration of function 'dev_of_fbinfo'; did you mean 'dev_info'? [-Werror=implicit-function-declaration]
+     367 |         struct device *dev = dev_of_fbinfo(info);
+         |                              ^~~~~~~~~~~~~
+         |                              dev_info
+>> drivers/staging/fbtft/fbtft-core.c:367:30: warning: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/staging/fbtft/fbtft-core.c: In function 'fbtft_fb_blank':
+   drivers/staging/fbtft/fbtft-core.c:393:30: warning: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     393 |         struct device *dev = dev_of_fbinfo(info);
+         |                              ^~~~~~~~~~~~~
+   drivers/staging/fbtft/fbtft-core.c: In function 'fbtft_register_framebuffer':
+   drivers/staging/fbtft/fbtft-core.c:744:30: warning: initialization of 'struct device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     744 |         struct device *dev = dev_of_fbinfo(fb_info);
+         |                              ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/sony_suspend +2402 drivers/hid/hid-sony.c
+vim +367 drivers/staging/fbtft/fbtft-core.c
 
-  2392	
-  2393	static struct hid_driver sony_driver = {
-  2394		.name             = "sony",
-  2395		.id_table         = sony_devices,
-  2396		.input_mapping    = sony_mapping,
-  2397		.input_configured = sony_input_configured,
-  2398		.probe            = sony_probe,
-  2399		.remove           = sony_remove,
-  2400		.report_fixup     = sony_report_fixup,
-  2401		.raw_event        = sony_raw_event,
-> 2402		.suspend          = pm_ptr(sony_suspend),
-> 2403		.resume	          = pm_ptr(sony_resume),
-  2404		.reset_resume     = pm_ptr(sony_resume),
-  2405	};
-  2406	
+   360	
+   361	static int fbtft_fb_setcolreg(unsigned int regno, unsigned int red,
+   362				      unsigned int green, unsigned int blue,
+   363				      unsigned int transp, struct fb_info *info)
+   364	{
+   365		unsigned int val;
+   366		int ret = 1;
+ > 367		struct device *dev = dev_of_fbinfo(info);
+   368	
+   369		dev_dbg(dev,
+   370			"%s(regno=%u, red=0x%X, green=0x%X, blue=0x%X, trans=0x%X)\n",
+   371			__func__, regno, red, green, blue, transp);
+   372	
+   373		switch (info->fix.visual) {
+   374		case FB_VISUAL_TRUECOLOR:
+   375			if (regno < 16) {
+   376				u32 *pal = info->pseudo_palette;
+   377	
+   378				val  = chan_to_field(red,   &info->var.red);
+   379				val |= chan_to_field(green, &info->var.green);
+   380				val |= chan_to_field(blue,  &info->var.blue);
+   381	
+   382				pal[regno] = val;
+   383				ret = 0;
+   384			}
+   385			break;
+   386		}
+   387		return ret;
+   388	}
+   389	
 
 -- 
 0-DAY CI Kernel Test Service
