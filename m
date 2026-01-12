@@ -1,57 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977A9315D49;
-	Mon, 12 Jan 2026 21:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91950342CAD;
+	Mon, 12 Jan 2026 21:43:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768253340; cv=none; b=h0t/owfXYsuDzCP3iZ+cYTqob4DCLE9nWQxPEKgFSUdHCT/6YJ7c2siU0dDKgsMV42ctdHS7uo2BoBvhHbgjdVdi7dlbuotrFiRifrTBsxjLluQJInhuj6e8f9jmTbgets37N2W0YdNkxzcLDfVz1Md8FBxQaSepGdR2BgB3pS8=
+	t=1768254229; cv=none; b=XomA+doAkqeAG8srMs3L4EjsgbMZ9snpDpl09WZSqqUmItykG017WCCBDkPnG42QeooQ50ycBC03FdBOyQjxU3B5S/6BjKZwNBjELLsmTDquuEYnj6NI0jtijD/PKnvWSdc3PrW1rAmZj7kj4ZR9aWoynmWmio/CzSANtFLseII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768253340; c=relaxed/simple;
-	bh=/hG6GjtvPRYwpj6gwW0kBPgES+TF+Z4/iJD94oTpbO4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TMOTVY+W3HX9yBStM0w/7JOSGIJIJVdlW2olsSft0NSN6dZ2xXck7k5rOwXddTWhuqGvEVUrdRx9GmpZetSzn61v4RdgkyqedAkMGl091XcKKRpMcyXNtAThpNSTOo+4sEKyqPj9X9CBCyEeDD84jGcTo1j++3pck56oqvDEXCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OBJOI0vG; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1768254229; c=relaxed/simple;
+	bh=8htnrs1PqELkKHrz5bGANLkOl/UBq2FhqFKBEdH/q34=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Dj8xUwGsBAGEcq80gTDbgjfNDIA7/7oVEuzpg6a1fB94Y195Dl0OtvncmOi03QTlMePKW9ztUld8aA2nlLuLht+8S/no/Wv+mircKCHh1ZaQ5m9+yv7MGMbkI71XN/vtfk9NVNuiZe1VPjahbUVHwbOX9IOsl0pssA9H2rmInS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V+mgDRG6; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OBJOI0vG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V+mgDRG6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768253339; x=1799789339;
+  t=1768254227; x=1799790227;
   h=date:from:to:cc:subject:message-id;
-  bh=/hG6GjtvPRYwpj6gwW0kBPgES+TF+Z4/iJD94oTpbO4=;
-  b=OBJOI0vGLS48niU0ANfL8nVOD8PbqXuJKvrORrCpLjJgd+gO83QWaR1t
-   aRqPChd2wjAgNVNceZeyREJhPsxfvnyDsl7E33amo00FZryaAw6yCk8Ip
-   0tk7+ImdaPUll+Wt3tUcZHBUHW/G17tUw3+xnMG++eghxgCPDEo1B85mH
-   QXyiDJ8rGxzAzCK8VzPKBkjZqw8o0akS2hscei0sewf1xMfncLBp3/OZ0
-   I7dqvm7pMsW9LtnmTfOfSfn2CMe/YO7NoyI+6v0AXcRN1FNZFSz0Z/Wiy
-   MOPteA8d3oKR7HUrajI6/RMGiZzL8bVGzkG8ePtkFpW/4NZKXCCISeNWn
+  bh=8htnrs1PqELkKHrz5bGANLkOl/UBq2FhqFKBEdH/q34=;
+  b=V+mgDRG69xh8jfOqgZeNMlJ6CTkQsr2TFVeIcFf0V5StOC2/mZSnKVLr
+   0T/KA5+lpI4a+nFBywW8nsjvdOHeKrqXtfG/hcL2e0iCH4gCEcG/6QDvN
+   MetMY/ASZxs6DA0hHrxaiyjYepcLi2YSWkJ2C4bTtxodMx13293cGcX2r
+   LRN+o47GTYId219yMa9ygZCr6WW/tijUbT1AtAD/zs7+90DmkTodQqoUc
+   iJNGZC8J+7LBxncKN92tteQSq8f+FH5h9I93AqsqM4rSA3lNsc2aIuqFU
+   vHVrEkykUm5Hs3qoonLY/q9nuY7MP/YsmiP917pyiBaCUe+QRRiJQg90S
    A==;
-X-CSE-ConnectionGUID: 3KG7QQRoRM69ewH6ZEi+Yg==
-X-CSE-MsgGUID: Umm1dBJAT6uEy+DNEGjw1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="68743148"
+X-CSE-ConnectionGUID: 9qGxPnDmS+alyUR36tNzPg==
+X-CSE-MsgGUID: 6lRlQ6EvQASMJLP4PVA+uw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="68744197"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="68743148"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 13:28:58 -0800
-X-CSE-ConnectionGUID: hwTfw1tvTdiO/iDqnkMs5w==
-X-CSE-MsgGUID: U5ofMK/gTIOX/k6IfiJQug==
+   d="scan'208";a="68744197"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 13:43:46 -0800
+X-CSE-ConnectionGUID: fTK6eFnbR9qbjWm9KLT9wA==
+X-CSE-MsgGUID: ZFTYDoIiT6uhcIiHrYopNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="204287916"
+   d="scan'208";a="203407745"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 12 Jan 2026 13:28:57 -0800
+  by orviesa010.jf.intel.com with ESMTP; 12 Jan 2026 13:43:44 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfPT3-00000000DtY-3j2f;
-	Mon, 12 Jan 2026 21:28:53 +0000
-Date: Tue, 13 Jan 2026 05:28:19 +0800
+	id 1vfPhO-00000000Dtq-1ahN;
+	Mon, 12 Jan 2026 21:43:42 +0000
+Date: Tue, 13 Jan 2026 05:43:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-next 6/17] fs/netfs/write_issue.c:800:9:
- warning: variable 'ret' is uninitialized when used here
-Message-ID: <202601130526.3DYjEbHp-lkp@intel.com>
+To: Maxim Mikityanskiy <maxim@isovalent.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Daniel Borkmann <daniel@iogearbox.net>
+Subject: [cilium:max/vxlan-bigtcp 21/21]
+ net/ipv4/udp_offload.c:743:7: warning: variable 'ulen' is uninitialized when
+ used here
+Message-ID: <202601130502.oURtw3Mc-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,105 +61,120 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
-head:   8dc07632381d372883f12b9ca6da7438ce683a33
-commit: bff57425b6c4175565f1c28fa1f3d53ef7de7703 [6/17] afs: Use a bvecq to hold dir content rather than folioq
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260113/202601130526.3DYjEbHp-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130526.3DYjEbHp-lkp@intel.com/reproduce)
+tree:   https://github.com/cilium/linux.git max/vxlan-bigtcp
+head:   de0493575c7f01a82c2b58b308fae122df5aa143
+commit: de0493575c7f01a82c2b58b308fae122df5aa143 [21/21] tmp: combine checks
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260113/202601130502.oURtw3Mc-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130502.oURtw3Mc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601130526.3DYjEbHp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130502.oURtw3Mc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/netfs/write_issue.c:800:9: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     800 |         return ret;
-         |                ^~~
-   fs/netfs/write_issue.c:750:9: note: initialize the variable 'ret' to silence this warning
-     750 |         int ret;
-         |                ^
-         |                 = 0
+>> net/ipv4/udp_offload.c:743:7: warning: variable 'ulen' is uninitialized when used here [-Wuninitialized]
+     743 |                 if (ulen > udp_get_len_short(uh2) || flush) {
+         |                     ^~~~
+   net/ipv4/udp_offload.c:705:19: note: initialize the variable 'ulen' to silence this warning
+     705 |         unsigned int ulen;
+         |                          ^
+         |                           = 0
    1 warning generated.
 
 
-vim +/ret +800 fs/netfs/write_issue.c
+vim +/ulen +743 net/ipv4/udp_offload.c
 
-49866ce7ea8d41 David Howells 2024-12-16  734  
-49866ce7ea8d41 David Howells 2024-12-16  735  /**
-49866ce7ea8d41 David Howells 2024-12-16  736   * netfs_writeback_single - Write back a monolithic payload
-49866ce7ea8d41 David Howells 2024-12-16  737   * @mapping: The mapping to write from
-49866ce7ea8d41 David Howells 2024-12-16  738   * @wbc: Hints from the VM
-bff57425b6c417 David Howells 2026-01-07  739   * @iter: Data to write.
-49866ce7ea8d41 David Howells 2024-12-16  740   *
-49866ce7ea8d41 David Howells 2024-12-16  741   * Write a monolithic, non-pagecache object back to the server and/or
-49866ce7ea8d41 David Howells 2024-12-16  742   * the cache.
-49866ce7ea8d41 David Howells 2024-12-16  743   */
-49866ce7ea8d41 David Howells 2024-12-16  744  int netfs_writeback_single(struct address_space *mapping,
-49866ce7ea8d41 David Howells 2024-12-16  745  			   struct writeback_control *wbc,
-49866ce7ea8d41 David Howells 2024-12-16  746  			   struct iov_iter *iter)
-49866ce7ea8d41 David Howells 2024-12-16  747  {
-49866ce7ea8d41 David Howells 2024-12-16  748  	struct netfs_io_request *wreq;
-49866ce7ea8d41 David Howells 2024-12-16  749  	struct netfs_inode *ictx = netfs_inode(mapping->host);
-49866ce7ea8d41 David Howells 2024-12-16  750  	int ret;
-49866ce7ea8d41 David Howells 2024-12-16  751  
-49866ce7ea8d41 David Howells 2024-12-16  752  	if (!mutex_trylock(&ictx->wb_lock)) {
-49866ce7ea8d41 David Howells 2024-12-16  753  		if (wbc->sync_mode == WB_SYNC_NONE) {
-49866ce7ea8d41 David Howells 2024-12-16  754  			netfs_stat(&netfs_n_wb_lock_skip);
-49866ce7ea8d41 David Howells 2024-12-16  755  			return 0;
-49866ce7ea8d41 David Howells 2024-12-16  756  		}
-49866ce7ea8d41 David Howells 2024-12-16  757  		netfs_stat(&netfs_n_wb_lock_wait);
-49866ce7ea8d41 David Howells 2024-12-16  758  		mutex_lock(&ictx->wb_lock);
-49866ce7ea8d41 David Howells 2024-12-16  759  	}
-49866ce7ea8d41 David Howells 2024-12-16  760  
-49866ce7ea8d41 David Howells 2024-12-16  761  	wreq = netfs_create_write_req(mapping, NULL, 0, NETFS_WRITEBACK_SINGLE);
-49866ce7ea8d41 David Howells 2024-12-16  762  	if (IS_ERR(wreq)) {
-49866ce7ea8d41 David Howells 2024-12-16  763  		ret = PTR_ERR(wreq);
-49866ce7ea8d41 David Howells 2024-12-16  764  		goto couldnt_start;
-49866ce7ea8d41 David Howells 2024-12-16  765  	}
-49866ce7ea8d41 David Howells 2024-12-16  766  
-bff57425b6c417 David Howells 2026-01-07  767  	wreq->buffer.iter = *iter;
-bff57425b6c417 David Howells 2026-01-07  768  
-2b1424cd131cfa David Howells 2025-05-19  769  	__set_bit(NETFS_RREQ_OFFLOAD_COLLECTION, &wreq->flags);
-20d72b00ca814d David Howells 2025-05-19  770  	trace_netfs_write(wreq, netfs_write_trace_writeback_single);
-49866ce7ea8d41 David Howells 2024-12-16  771  	netfs_stat(&netfs_n_wh_writepages);
-49866ce7ea8d41 David Howells 2024-12-16  772  
-49866ce7ea8d41 David Howells 2024-12-16  773  	if (__test_and_set_bit(NETFS_RREQ_UPLOAD_TO_SERVER, &wreq->flags))
-49866ce7ea8d41 David Howells 2024-12-16  774  		wreq->netfs_ops->begin_writeback(wreq);
-49866ce7ea8d41 David Howells 2024-12-16  775  
-bff57425b6c417 David Howells 2026-01-07  776  	for (int s = 0; s < NR_IO_STREAMS; s++) {
-bff57425b6c417 David Howells 2026-01-07  777  		struct netfs_io_subrequest *subreq;
-bff57425b6c417 David Howells 2026-01-07  778  		struct netfs_io_stream *stream = &wreq->io_streams[s];
-49866ce7ea8d41 David Howells 2024-12-16  779  
-bff57425b6c417 David Howells 2026-01-07  780  		if (!stream->avail)
-bff57425b6c417 David Howells 2026-01-07  781  			continue;
-49866ce7ea8d41 David Howells 2024-12-16  782  
-bff57425b6c417 David Howells 2026-01-07  783  		netfs_prepare_write(wreq, stream, 0);
-bff57425b6c417 David Howells 2026-01-07  784  
-bff57425b6c417 David Howells 2026-01-07  785  		subreq = stream->construct;
-bff57425b6c417 David Howells 2026-01-07  786  		subreq->len = iov_iter_count(iter);
-bff57425b6c417 David Howells 2026-01-07  787  		stream->submit_len = subreq->len;
-bff57425b6c417 David Howells 2026-01-07  788  
-bff57425b6c417 David Howells 2026-01-07  789  		netfs_issue_write(wreq, stream);		
-49866ce7ea8d41 David Howells 2024-12-16  790  	}
-49866ce7ea8d41 David Howells 2024-12-16  791  
-49866ce7ea8d41 David Howells 2024-12-16  792  	smp_wmb(); /* Write lists before ALL_QUEUED. */
-49866ce7ea8d41 David Howells 2024-12-16  793  	set_bit(NETFS_RREQ_ALL_QUEUED, &wreq->flags);
-49866ce7ea8d41 David Howells 2024-12-16  794  
-49866ce7ea8d41 David Howells 2024-12-16  795  	mutex_unlock(&ictx->wb_lock);
-2b1424cd131cfa David Howells 2025-05-19  796  	netfs_wake_collector(wreq);
-49866ce7ea8d41 David Howells 2024-12-16  797  
-20d72b00ca814d David Howells 2025-05-19  798  	netfs_put_request(wreq, netfs_rreq_trace_put_return);
-49866ce7ea8d41 David Howells 2024-12-16  799  	_leave(" = %d", ret);
-49866ce7ea8d41 David Howells 2024-12-16 @800  	return ret;
+da5bab079f9b7d Daniel Borkmann    2013-06-08  695  
+0b935d7f8c07bf Eric Dumazet       2021-11-15  696  
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  697  #define UDP_GRO_CNT_MAX 64
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  698  static struct sk_buff *udp_gro_receive_segment(struct list_head *head,
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  699  					       struct sk_buff *skb)
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  700  {
+4b1a86281cc1d0 Alexander Lobakin  2020-11-11  701  	struct udphdr *uh = udp_gro_udphdr(skb);
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  702  	struct sk_buff *pp = NULL;
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  703  	struct udphdr *uh2;
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  704  	struct sk_buff *p;
+4dd2b82d5adfbe Eric Dumazet       2019-05-01  705  	unsigned int ulen;
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  706  	int ret = 0;
+5babae777c61aa Richard Gobert     2024-04-30  707  	int flush;
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  708  
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  709  	/* requires non zero csum, for symmetry with GSO */
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  710  	if (!uh->check) {
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  711  		NAPI_GRO_CB(skb)->flush = 1;
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  712  		return NULL;
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  713  	}
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  714  
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  715  	/* pull encapsulating udp header */
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  716  	skb_gro_pull(skb, sizeof(struct udphdr));
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  717  
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  718  	list_for_each_entry(p, head, list) {
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  719  		if (!NAPI_GRO_CB(p)->same_flow)
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  720  			continue;
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  721  
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  722  		uh2 = udp_hdr(p);
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  723  
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  724  		/* Match ports only, as csum is always non zero */
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  725  		if ((*(u32 *)&uh->source != *(u32 *)&uh2->source)) {
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  726  			NAPI_GRO_CB(p)->same_flow = 0;
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  727  			continue;
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  728  		}
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  729  
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  730  		if (NAPI_GRO_CB(skb)->is_flist != NAPI_GRO_CB(p)->is_flist) {
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  731  			NAPI_GRO_CB(skb)->flush = 1;
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  732  			return p;
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  733  		}
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  734  
+4b0ebbca3e1679 Richard Gobert     2024-05-09  735  		flush = gro_receive_network_flush(uh, uh2, p);
+5babae777c61aa Richard Gobert     2024-04-30  736  
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  737  		/* Terminate the flow on len mismatch or if it grow "too much".
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  738  		 * Under small packet flood GRO count could elsewhere grow a lot
+4dd2b82d5adfbe Eric Dumazet       2019-05-01  739  		 * leading to excessive truesize values.
+21f1b8a6636c4d Paolo Abeni        2019-04-26  740  		 * On len mismatch merge the first packet shorter than gso_size,
+21f1b8a6636c4d Paolo Abeni        2019-04-26  741  		 * otherwise complete the GRO packet.
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  742  		 */
+57eb5d520e5320 Maxim Mikityanskiy 2025-10-21 @743  		if (ulen > udp_get_len_short(uh2) || flush) {
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  744  			pp = p;
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  745  		} else {
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  746  			if (NAPI_GRO_CB(skb)->is_flist) {
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  747  				if (!pskb_may_pull(skb, skb_gro_offset(skb))) {
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  748  					NAPI_GRO_CB(skb)->flush = 1;
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  749  					return NULL;
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  750  				}
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  751  				if ((skb->ip_summed != p->ip_summed) ||
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  752  				    (skb->csum_level != p->csum_level)) {
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  753  					NAPI_GRO_CB(skb)->flush = 1;
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  754  					return NULL;
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  755  				}
+9f735b6f8a77d7 Felix Fietkau      2025-07-05  756  				skb_set_network_header(skb, skb_gro_receive_network_offset(skb));
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  757  				ret = skb_gro_receive_list(p, skb);
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  758  			} else {
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  759  				skb_gro_postpull_rcsum(skb, uh,
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  760  						       sizeof(struct udphdr));
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  761  
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  762  				ret = skb_gro_receive(p, skb);
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  763  			}
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  764  		}
+9fd1ff5d2ac718 Steffen Klassert   2020-01-25  765  
+57eb5d520e5320 Maxim Mikityanskiy 2025-10-21  766  		if (ret || ulen != udp_get_len_short(uh2) ||
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  767  		    NAPI_GRO_CB(p)->count >= UDP_GRO_CNT_MAX)
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  768  			pp = p;
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  769  
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  770  		return pp;
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  771  	}
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  772  
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  773  	/* mismatch, but we never need to flush */
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  774  	return NULL;
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  775  }
+e20cf8d3f1f763 Paolo Abeni        2018-11-07  776  
 
-:::::: The code at line 800 was first introduced by commit
-:::::: 49866ce7ea8d41a3dc198f519cc9caa2d6be1891 netfs: Add support for caching single monolithic objects such as AFS dirs
+:::::: The code at line 743 was first introduced by commit
+:::::: 57eb5d520e532063143bb2c4b08f6e3ec36d5bee net: Use helpers to get/set UDP len tree-wide
 
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: Christian Brauner <brauner@kernel.org>
+:::::: TO: Maxim Mikityanskiy <maxim@isovalent.com>
+:::::: CC: Maxim Mikityanskiy <maxim@isovalent.com>
 
 -- 
 0-DAY CI Kernel Test Service
