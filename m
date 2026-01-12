@@ -1,108 +1,112 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D5A356A17
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 11:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2062233E34C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 12:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768218134; cv=none; b=Io2OSfuD8O0998lgGblMPB29iggmei1NTXEL4sfc8lbZQch/XFGsxFka2M2V6XpWMTg9lbTtnikGC9pw+KD50DvOYEaWIu8ZIUEjc4DYBntfGSn+bQ9DS/IXnCKjaeKkpobrfotJTBeZmsSuNtEqopvMjnBV7eu2+Z1I43GM6vM=
+	t=1768219795; cv=none; b=pzEqFSgOTE9kPX9H8XAtm/byvL4/z143tb10/zY1rbziBZVWuA8g6mXA3aJ00K3mYMBc3DOlwnSjefP0g2LkpKd2P/v4FFj16K5/LO2Zs4G8PF3LMeHPPoFtQTfwoNbtLlEUQdngzemcPSoWdYcfW43li95V+grOTSrPc6qzfHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768218134; c=relaxed/simple;
-	bh=qV38485eFjtXicxLbcdFdL38T91/kNlqZHvKkOIDLrI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NhoR3/hm1X5Qe09dvkFSNAIi5c8rqDo86Su0WgjHzasHkWk1/RjULLdEMAYjRKtNgvF91FmLcSu41JZ2uq+4y9qx7yO3zd2Rr7302hlr3tf8iJkwOaT1Mtbcm41Tm8O+SI+4s2dNRPncotkHSWWnCdwrl5PnWjbwXc3kijnHrbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=igOm6keo; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1768219795; c=relaxed/simple;
+	bh=5CyUkjph43fB+ccDJy0Q9RR5T72unV7zy56vo163I7A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=mC5DcsNL6wy42BF//vZ2p0dOPiZ6qiulFAXyWR/xe2KzNZQYckBCFl2uGhuLYF8L08qK4/dmTEcgndqz7X0PqwKn1wZHSD0QZrYvSV6qw/S6WTDbxp87SFD/MXGFp+qC5ZHuwp7dGOzwlf/A9gBtmbI3giDR7lKuFReYHouM5jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=B1EVg1G6; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="igOm6keo"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 9BEBB40E0200;
-	Mon, 12 Jan 2026 11:42:03 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id M2NIEAYk2y8N; Mon, 12 Jan 2026 11:42:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1768218118; bh=+I0tYpjvNjvhnMOcKvSWO6I5VWb31eWSH/dU9boIYTA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=igOm6keov7Q5B0kjb1gCaQPfBqGhRtMERRRE3ScKPjGM58eN8IedMeBbOIR8+wz3+
-	 Mp/o1zdTNn5XZL//WEmRqwBVW8y+qtx0gJzWqfnAZlnEcfo/1X8NhshZCCReouF3Kx
-	 /XM684KnY18PNJp1Rf+yz6CmD0/IOv0MwhFXQuFJztUNw+S0WTWNLCwAcpuU0ymzbi
-	 oCQOOsf3LuuGp3LQxSggGMr5vqrHxqm9Pq2UUaOe5O9twxcTo6f0n+bNWx49VITPcl
-	 p0OvZYi/5o2ZFgZq0xZ/K4pgtAh42WuYELipXduHcAr0YA6rpC21z+wrWr37+WFLEx
-	 7+2hRBzdLs9jla9SEuYvW7DPMqE1ASKoXcpNoyRYN7hQlHPJPFM7l+86L/RiZGi6NC
-	 gEFXhzvj8SBYmUgNfSqwVnIPJ+oF3iHgpdU7vWHVqmn6BwlX0OyoSxF5cgLcQ3P6B8
-	 Xq/XADq8h9IRvfUNDvBQTh544iVDLrqqDWBMKO7TH4BHRLw8h/C9yGTVP/PuHK488q
-	 VnVLf8ERSXZ4HcFCA6Acb1Dhoolt6v3j+EkQZqFpgrpK5iiDfJW55QB3S66Ufzic9f
-	 gmN5IBEs/LUj/Z5S0HNAwSh1WDoBsAJLUhVTRkjOZM5GwgXWBqQVXRAXALbPp1mngH
-	 XLkRc4lL2VpnJA7+OO3BlNm4=
-Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 5A89640E0194;
-	Mon, 12 Jan 2026 11:41:53 +0000 (UTC)
-Date: Mon, 12 Jan 2026 12:41:47 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Nikunj A Dadhania <nikunj@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: [PATCH] x86/sev: Use kfree_sensitive() when freeing a SNP message
- descriptor
-Message-ID: <20260112114147.GBaWTd-8HSy_Xp4S3X@fat_crate.local>
-References: <a9b57156-4b2-8e62-d083-c85ad9b085db@inria.fr>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="B1EVg1G6"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=nd1E68KFDN641HxS0Qv9w9xq/rjL/Ksfgy874Dks9LE=;
+	b=B1EVg1G6F4yvZCGuVaT1xOQH3kuzf+DMAw0zbYgmZMSwxEO78PnBywXAEk6KInOzpJqatwR5M
+	xRp2CfrdbSA9tUmacr+d6IA7Lh0+VmNVyYHA63zwASQnRNIzkaXF8T/wu2T8sYq6KNDDcNaxOdw
+	xWXirqG11V8lOX9LdUIRBsA=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4dqWLs070tz1prL8;
+	Mon, 12 Jan 2026 20:06:29 +0800 (CST)
+Received: from dggpemf500013.china.huawei.com (unknown [7.185.36.188])
+	by mail.maildlp.com (Postfix) with ESMTPS id 713BC40539;
+	Mon, 12 Jan 2026 20:09:49 +0800 (CST)
+Received: from [127.0.0.1] (10.174.178.254) by dggpemf500013.china.huawei.com
+ (7.185.36.188) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 12 Jan
+ 2026 20:09:48 +0800
+Message-ID: <dbed961f-f3c3-496b-9498-6821852da038@huawei.com>
+Date: Mon, 12 Jan 2026 20:09:47 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <a9b57156-4b2-8e62-d083-c85ad9b085db@inria.fr>
+User-Agent: Mozilla Thunderbird
+Subject: Re: {standard input}:4155: Error: pcrel offset for branch to .LS000B
+ too far (0x38)
+To: kernel test robot <lkp@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Theodore
+ Ts'o <tytso@mit.edu>, Zhang Yi <yi.zhang@huawei.com>, Jan Kara
+	<jack@suse.cz>, Ojaswin Mujoo <ojaswin@linux.ibm.com>
+References: <202601121758.kA3osRht-lkp@intel.com>
+Content-Language: en-GB
+From: Baokun Li <libaokun1@huawei.com>
+In-Reply-To: <202601121758.kA3osRht-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ dggpemf500013.china.huawei.com (7.185.36.188)
 
-On Sat, Dec 20, 2025 at 03:25:46PM +0100, Julia Lawall wrote:
-> cocci warnings: (new ones prefixed by >>)
-> >> arch/x86/coco/sev/core.c:2838:12-13: WARNING opportunity for kfree_sensitive/kvfree_sensitive (memset at line 2837)
+On 2026-01-12 17:42, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   0f61b1860cc3f52aef9036d7235ed1f017632193
+> commit: a6d73242b8b5caa9f9a529eab49cc1e85ace9890 ext4: support large block size in ext4_mpage_readpages()
+> date:   6 weeks ago
+> config: csky-randconfig-001-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121758.kA3osRht-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121758.kA3osRht-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601121758.kA3osRht-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    {standard input}: Assembler messages:
+>>> {standard input}:4155: Error: pcrel offset for branch to .LS000B too far (0x38)
 
-From: "Borislav Petkov (AMD)" <bp@alien8.de>
-Date: Mon, 12 Jan 2026 12:37:49 +0100
+Hi,
 
-Use the proper helper instead of an open-coded variant.
+Thanks for the report.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@inria.fr>
-Closes: https://lore.kernel.org/r/202512202235.WHPQkLZu-lkp@intel.com
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
----
- arch/x86/coco/sev/core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+After looking into this issue, it turns out that replacing the original
+calculation with the macro version causes the compiler to emit a larger
+sequence of instructions.
 
-diff --git a/arch/x86/coco/sev/core.c b/arch/x86/coco/sev/core.c
-index 379e0c09c7f3..38dad3f5f491 100644
---- a/arch/x86/coco/sev/core.c
-+++ b/arch/x86/coco/sev/core.c
-@@ -1632,8 +1632,7 @@ void snp_msg_free(struct snp_msg_desc *mdesc)
- 	free_shared_pages(mdesc->request, sizeof(struct snp_guest_msg));
- 	iounmap((__force void __iomem *)mdesc->secrets);
- 
--	memset(mdesc, 0, sizeof(*mdesc));
--	kfree(mdesc);
-+	kfree_sensitive(mdesc);
- }
- EXPORT_SYMBOL_GPL(snp_msg_free);
- 
--- 
-2.51.0
+On most architectures this is harmless, because their GCC backends support
+proper branch relaxation and can automatically promote a short branch to
+a long branch when the offset grows.
+
+However, the CSKY GCC backend does not implement branch relaxation. As a
+result, once the generated basic block becomes slightly larger, some short
+branch instructions can no longer reach their targets, and the assembler
+reports the “pcrel offset too far” error.
+
+Given this, one possible workaround on the kernel side would be to replace
+the macro with a static inline helper. Using an inline function allows GCC
+to perform more aggressive optimization and typically avoids generating
+unnecessarily large instruction sequences, which helps prevent the
+short-branch overflow seen on CSKY.
+
+However, the more general and robust solution would be to improve the
+CSKY GCC backend so that it supports proper branch relaxation, as other
+architectures do. With branch relaxation in place, these issues would not
+depend on how the code is written.
+
+We’d appreciate any thoughts on which approach makes more sense.
 
 
+Thanks,
+Baokun
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
