@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7966329E113;
-	Mon, 12 Jan 2026 23:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5662BD5AD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 23:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768261347; cv=none; b=lUxtFKDv/mNs2Y3HiQZj21/WfMFQNHic53kEnk+i6L6wqmjwHGAqFvODyvBa+24AP+4ehcE/a1dnnzZwSP1fBuIrBe+gULzQOMxtVN0gPKM2Y7L1faTRE6O7gOZV9LQ4/d5ssye2YFUE0o5XBHmprOjO4j/GlMsjoHibRNfZbZc=
+	t=1768262008; cv=none; b=NXV9rYYk2FWcU2LhTMsDUD6P+//sd585Cr4dW6z22I0YWh2wCdaFqMqRieDiUXAlqHAO+eV0b7u2LrBnaNHUmzGFna3mDXt6GA9OEt3oWSEIs+Rec3RAS3Qls4Dq+LmuTxHlwzW8ooagydjEpX/E5WrgnG5qaUZedKScth7do9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768261347; c=relaxed/simple;
-	bh=WXv/kux0cQ09ezU0dDwnnn+KtrSytsouIRVQ4+wFjRc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tb6FVfiNO6ekdL7kmIQyfAqOqTK2D+U9tiVoeqFbVul0y2pPfZSc3k45pjFU6vI/vqsRoWpAQpQwbmQ81nusJ8MmZT811Bxl1nZCTmOVxOMDNckYKcU6V8WRWOkU/7wNdMvV8tfvf6hV3Z6m8U/jfVNH3Uk/Jc/NmsHkQJ0Jy84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z3/VYzSI; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1768262008; c=relaxed/simple;
+	bh=LZkQI2JkeWFfLstjOSWjauB3Y+IFUUKfX+GPw5mChoQ=;
+	h=Date:From:Cc:Subject:Message-ID; b=W9rcoLKX/EnbO+Hqrdhx3B3O3PHgBbhCgkmZNsjPb9DrVGZuz6IMsowTPDomiEDBkFQAeXUzWFfi+aIGB2ywlnU5yuy/ODH/mlI9IhA8EiqcCU8H5hWb4k0hggp6iUvDHLcFpFxsERqqyPjUOUWzNh2Fm0oGVL02faVVxrK0LkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AwelEf0N; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z3/VYzSI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwelEf0N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768261345; x=1799797345;
-  h=date:from:to:cc:subject:message-id;
-  bh=WXv/kux0cQ09ezU0dDwnnn+KtrSytsouIRVQ4+wFjRc=;
-  b=Z3/VYzSI3mUq8PEu8I4ro0NbcDxPJJwg4TC/TmmEFnexAbRmBDThB1lK
-   F4KuTDcyXarqWRYFjPLCpi7PK9vB193M0QyRMEHI2O5lzsV5qgBCGN+PQ
-   8/lIdB1stu41lx1Nh+nmiR+VOOW8eh2F0lv/jt1b692yQLnOuB9yEwj9d
-   0HyDo6MqXc7vJKtebL++lS/RoANxE20OHIRG8xAAIwN3SdjFodB9tlTOJ
-   3SWSDkbObWlN6yzkfJ2d5dD/Q1cyBzFf3Nb2V3dmgTSapsP9TpZXm7OMD
-   BMwFNiOjnwfDjgVwyBegTNjnFeZzFdPublxi9Hf1KyhjLFbmy5zebR43x
-   A==;
-X-CSE-ConnectionGUID: r6zmlVfJSPOXl4w8xOuZfw==
-X-CSE-MsgGUID: Rclo0XsZTAKVu6rtZhZhhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69598621"
+  t=1768262006; x=1799798006;
+  h=date:from:cc:subject:message-id;
+  bh=LZkQI2JkeWFfLstjOSWjauB3Y+IFUUKfX+GPw5mChoQ=;
+  b=AwelEf0NCHsuxMCtvNVywNrpdgviNgXEEsi+GfYVrwtXpZ44h17z2OU4
+   kSBfzaj6H69QKKBgCor8gWPCq5Aox6iSM0rMCfnaXSp68Mg5cC4KXieyo
+   QO8n7J6g0pbLNZ5vImfwb4yByClssLhqF1UuNs+lAueBVc7wxxTPb0P5h
+   xJjd0IqAWVPluSDw+6pe8jB7mhU27JYNE6bLkXEj+SEAcwNe1Fd1mWMrS
+   RLOw5jMlxkx/sI4X2vppqPEOEcbhuSjxjZY4ElkUvu52s3+3zSSszj7um
+   2wJF725ZG/SK92epAIBZYQEjFOg1jlY0COb6yB9ECc+ae44lterUGptqM
+   w==;
+X-CSE-ConnectionGUID: VAs9lfFDRZaam07UtZhs+Q==
+X-CSE-MsgGUID: woLAToSwT3+NybjgW/GJQQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69529128"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="69598621"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 15:42:25 -0800
-X-CSE-ConnectionGUID: QfkO/5wZSL25n5XlG3yaog==
-X-CSE-MsgGUID: +ODGS18qTn2gIbXOe90KXA==
+   d="scan'208";a="69529128"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 15:53:26 -0800
+X-CSE-ConnectionGUID: ooH6OXfzRaC09fwVdVhVtA==
+X-CSE-MsgGUID: UMeKtTjBTA+EvBXPxKiiaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="227463261"
+   d="scan'208";a="208383772"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Jan 2026 15:42:23 -0800
+  by orviesa003.jf.intel.com with ESMTP; 12 Jan 2026 15:53:24 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfRYD-00000000DzE-0rP4;
-	Mon, 12 Jan 2026 23:42:21 +0000
-Date: Tue, 13 Jan 2026 07:41:22 +0800
+	id 1vfRis-00000000E00-0MjV;
+	Mon, 12 Jan 2026 23:53:22 +0000
+Date: Tue, 13 Jan 2026 07:52:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-next 15/17] fs/netfs/rxqueue.c:468:15:
- warning: variable 'got' set but not used
-Message-ID: <202601130700.bz0xpWB5-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Balasubramani Vivekanandan <balasubramani.vivekanandan@intel.com>
+Subject: arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid
+ register 'atomctl' for 'wsr' instruction
+Message-ID: <202601130726.HBzz6OhQ-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,88 +60,55 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
-head:   8dc07632381d372883f12b9ca6da7438ce683a33
-commit: 8a18d8ea965502452510e9bd13addd1058370329 [15/17] netfs: Add some TCP receive queue helpers
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260113/202601130700.bz0xpWB5-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130700.bz0xpWB5-lkp@intel.com/reproduce)
+Hi Lucas,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b71e635feefc852405b14620a7fc58c4c80c0f73
+commit: b67e7422d229dead0dddaad7e7c05558f24d552f drm/xe: Fix build with CONFIG_MODULES=n
+date:   4 months ago
+config: xtensa-randconfig-r063-20260112 (https://download.01.org/0day-ci/archive/20260113/202601130726.HBzz6OhQ-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130726.HBzz6OhQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601130700.bz0xpWB5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130726.HBzz6OhQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/netfs/rxqueue.c:468:15: warning: variable 'got' set but not used [-Wunused-but-set-variable]
-     468 |         unsigned int got = 0;
-         |                      ^
-   1 warning generated.
+   arch/xtensa/boot/boot-elf/bootstrap.S: Assembler messages:
+>> arch/xtensa/boot/boot-elf/bootstrap.S:58: Error: invalid register 'atomctl' for 'wsr' instruction
+   arch/xtensa/boot/boot-elf/bootstrap.S:68: Warning: value 0x1a0003000 truncated to 0xa0003000
 
 
-vim +/got +468 fs/netfs/rxqueue.c
+vim +58 arch/xtensa/boot/boot-elf/bootstrap.S
 
-   449	
-   450	/**
-   451	 * netfs_rxqueue_tcp_refill - Refill receive queue by TCP splice
-   452	 * @tcp_sock: The TCP socket to splice data from
-   453	 * @rxq: The Rx queue to splice into
-   454	 * @min_size: The amount of data we're interested in
-   455	 *
-   456	 * Refill the receive queue by splicing network receive buffer segments from a
-   457	 * TCP socket, but don't wait for data.  The caller must do any waiting
-   458	 * required.
-   459	 *
-   460	 * Note that whilst the peer may send PDUs in separate TCP packets, it's
-   461	 * possible that the local NIC may join them back together if doing receive
-   462	 * offload.
-   463	 */
-   464	int netfs_rxqueue_tcp_refill(struct socket *tcp_sock, struct netfs_rxqueue *rxq,
-   465				     size_t min_size)
-   466	{
-   467		struct bvecq *add_to = rxq->add_to;
- > 468		unsigned int got = 0;
-   469		size_t qsize = rxq->qsize;
-   470		int rc = 0;
-   471	
-   472		if (!rxq->refillable) {
-   473			WARN_ON(min_size > qsize);
-   474			return 0;
-   475		}
-   476		if (qsize >= min_size && min_size > 0)
-   477			return 0;
-   478	
-   479		do {
-   480			if (!add_to || add_to->nr_segs == add_to->max_segs) {
-   481				struct bvecq *b;
-   482				unsigned int nr_bv = (2048 - sizeof(*add_to)) / sizeof(add_to->bv[0]);
-   483	
-   484				b = netfs_alloc_rx_bvecq(nr_bv);
-   485				b->prev = add_to;
-   486				if (!add_to)
-   487					rxq->take_from = b;
-   488				else
-   489					add_to->next = b;
-   490				add_to = b;
-   491			}
-   492	
-   493			rc = netfs_tcp_splice_to_bvecq(tcp_sock, add_to, INT_MAX);
-   494			//trace_smb3_tcp_splice(rc);
-   495			if (rc < 0)
-   496				break;
-   497	
-   498			qsize += rc;
-   499			got += rc;
-   500			rc = 0;
-   501		} while (qsize < min_size);
-   502	
-   503		rxq->add_to = add_to;
-   504		rxq->qsize = qsize;
-   505		return rc;
-   506	}
-   507	EXPORT_SYMBOL(netfs_rxqueue_tcp_refill);
-   508	
+e85e335f8ff615f Max Filippov 2012-12-03  42  
+e85e335f8ff615f Max Filippov 2012-12-03  43  	.align  4
+e85e335f8ff615f Max Filippov 2012-12-03  44  _SetupMMU:
+09af39f649dac66 Max Filippov 2021-07-26  45  #if XCHAL_HAVE_WINDOWED
+e85e335f8ff615f Max Filippov 2012-12-03  46  	movi	a0, 0
+e85e335f8ff615f Max Filippov 2012-12-03  47  	wsr	a0, windowbase
+e85e335f8ff615f Max Filippov 2012-12-03  48  	rsync
+e85e335f8ff615f Max Filippov 2012-12-03  49  	movi	a0, 1
+e85e335f8ff615f Max Filippov 2012-12-03  50  	wsr	a0, windowstart
+e85e335f8ff615f Max Filippov 2012-12-03  51  	rsync
+09af39f649dac66 Max Filippov 2021-07-26  52  #endif
+e85e335f8ff615f Max Filippov 2012-12-03  53  	movi	a0, 0x1F
+e85e335f8ff615f Max Filippov 2012-12-03  54  	wsr	a0, ps
+e85e335f8ff615f Max Filippov 2012-12-03  55  	rsync
+e85e335f8ff615f Max Filippov 2012-12-03  56  
+e85e335f8ff615f Max Filippov 2012-12-03  57  #ifndef CONFIG_INITIALIZE_XTENSA_MMU_INSIDE_VMLINUX
+e85e335f8ff615f Max Filippov 2012-12-03 @58  	initialize_mmu
+
+:::::: The code at line 58 was first introduced by commit
+:::::: e85e335f8ff615f74e29e09cc2599f095600114b xtensa: add MMU v3 support
+
+:::::: TO: Max Filippov <jcmvbkbc@gmail.com>
+:::::: CC: Chris Zankel <chris@zankel.net>
 
 -- 
 0-DAY CI Kernel Test Service
