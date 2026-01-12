@@ -1,74 +1,61 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752033195EA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 08:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F005346AC2;
+	Mon, 12 Jan 2026 09:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768206151; cv=none; b=BcE8RQM+53fkAKR8dJ32JYIkBPS+M0cBPt21keymbTfWccs9MZG0/J2OZiZOdYZQ2jnsV00JTQogMcYiqg8P+KEcH9uSH2n6hLiLCRPpCQnERMPDbuGXKl+LLGJmYW5R/arAnRYfzUhHLNR4SgvueT+nulxzrTA4QZlRI70k3rE=
+	t=1768208412; cv=none; b=izAsEov8/Gv4UNT1ofmBLeWsLuuPRCW0UUifu3JW/wUnNSTAEgdn9OU6XpPV496jkH0R/AP7GHHE4foLt29FxXrvw/nsjdRWwktmaA0WrhxLFWfR8IVxsTK+rEDENJpXVGzCSHlLFUN+LWtG/uA1IPkuF+qXFT2EGJXatITEkj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768206151; c=relaxed/simple;
-	bh=pBS6hT9yEoE3yG9xzZMMjxlaeZq+lr1UAeKsg+tu/D4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Z+QHuA2NYw7s0HKx9EvVy4mwv9HA7NLapxBMo0ToixSNg1R98782565skYZ9uwsp31CQp1VVKtdkgDVzGIZhE8IaRXY9/HKAJQYLh45FR6t/TjXIUjkSjwjPydhlSYSMUYG0zpCV8zbKQonkRzu0Q82lJ7lpPkCKykSUKxe2iws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jpruEzZy; arc=none smtp.client-ip=209.85.221.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1768208412; c=relaxed/simple;
+	bh=aDa/0TXnneYAO0ragQpLpLZ66QllwouPCG6c1Bx4DBM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pTEM63LccjWfnEY27oGhg4DZEUoFWdJNUF7s6vNeArFqgowqWABgfHVdMWB/r8AhtnTsMqrB5wWXMM+750ErRzwBLPZIz9s/3d9trqAH4SyfpWD2fK6xdWUUYOVJIiRu8CPNnWoKsbLWU84DpXzXjM2emPk2tre2kzJQQLkjU00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W/zU9FC7; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jpruEzZy"
-Received: by mail-wr1-f68.google.com with SMTP id ffacd0b85a97d-42fb6ce71c7so5125701f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 00:22:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768206148; x=1768810948; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YDvuWEPZUKEGpqbYjTfK0TBpxS9LAygMi+L9OhiLhF0=;
-        b=jpruEzZyXzlB25vA5zHGKx3ErhZvVQis89RPZrAQOfB82Fe1k1EEW0kMsE3JtrFD/k
-         DNROZtSQxnylK0uMcylWwfCraA7Rs4DhzxcOPznsFg+OvzRJpREsuXEnmXnt/wI/EIvI
-         ffMOqF16t8zfTEhnHXPMI09PFi5jg0rRuH58mFsGTmY69uXovvLsa/UPcSdlgoiC+AZs
-         lKaATZKqs9hrXkRU2yd38bPS5KnYW2FjoasjoqrnfVyzzYDvCFTqabdjv5ulkGmKF0r9
-         Mo/hkL2xpXMqtdnuL5IwRZdaA4NelJ+WldLOOkPL3Gu1uD6k3Ja7MV7h+FC3Y/gEEMdu
-         KhOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768206148; x=1768810948;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YDvuWEPZUKEGpqbYjTfK0TBpxS9LAygMi+L9OhiLhF0=;
-        b=WpMxQ6WhvmBor4Vxufg/yOCw0e7h5l1cjFGP+wTMgUCZZFUE5cOU7R4siqR6CX+cWq
-         95Ivg0pbmY1zL0SEWz4u5d+sorK7YsILSYqopvV81e8mbm+jqLPq4YZ+HOvwkO7v8RI7
-         JrfCBHAGHUWTevfk/OnPKkDSuJlTjxJrk+RT8pOJV7NYmw3fz+dmrCxcOvuCMhdM9g5R
-         mcqaXLLN8HH4+YW+LzzkwmmoPzYEy9uLRnagV+IMtqdE4WBZob4hNAd9xizzabFddW80
-         9FkUc6HZw1qWSJ3lRRuNtelvHvJC+2F1c7gVACzqdJuipVaE+br7U5h4RMWF+qJ4/ELQ
-         4mjg==
-X-Forwarded-Encrypted: i=1; AJvYcCUp3UijMAbRByXGdVUN+SYI2bmwS7AyMFyoym+TIrSkS1eBP12REqNd2ORp1/skEqXJxB4L1ZDB5FD1bZq/@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywczfa2qf3Bz4SMbhQox97ylAv0EPfPeiQyGPX4QwrNZMhC8ny9
-	jp45OPDL9/nYHM9D3WO+QoemEOC9YmfM/xbKk/IhfnFq/ALxV4oyuSEgyLiENs40aDI=
-X-Gm-Gg: AY/fxX6iMwGIW8lavw+Fzmh7zmWynkfZddR53NZyadXAURxn9Ce/h3yds4tPCQXOHEq
-	veHQDQXgxTNGKxQvyUF4briwCaC3zJ2Iq274bTCPZIUlAS2PL9L27UOiilU1CYeZgbmOfARxIBg
-	wB/zOT/nZoBhoseILGLAOm67+XwWPnRkdj1cZZvbr8INq61FH673FtQFUCPhH5O3yYSj1ZvP/sB
-	U9mA22IigFzj7kV7P8vqAHkVmy1MNGR5Uam9gIMPj2G7HTOsIc1+zU9EV4dTj0v6ESLWtjU7Clw
-	+109mmTGrVfJ5ZLn6lzsTvawkZ7vRZx6IwcpJRbBKzwm35vo5XVqdE0DMSCEILW52AlmPbbvedV
-	1G6BWACCZEjK4j1X0WX9U1kj6awC1mqaS874TbiSjW4BAs6OyClCZb9zpvVOsWVH87T4Y7iu9u1
-	quVFyRu2vmuoW629HO
-X-Google-Smtp-Source: AGHT+IG19sNlE2L7P11ZZ85VXMiRlXUUO7S5z9NSt7xv7j5yOQnoxSzy6igORzNk5s+MlJd4e6hdOg==
-X-Received: by 2002:a05:6000:4024:b0:430:f59d:4dfc with SMTP id ffacd0b85a97d-432c378a153mr17382197f8f.9.1768206147657;
-        Mon, 12 Jan 2026 00:22:27 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd0e199bsm37009619f8f.16.2026.01.12.00.22.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 00:22:27 -0800 (PST)
-Date: Mon, 12 Jan 2026 11:22:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, ChunTao Tso <chuntao.tso@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Robin Chen <robin.chen@amd.com>, Chenyu Chen <chen-yu.chen@amd.com>
-Subject: [agd5f:drm-next-6.20 405/461]
- drivers/gpu/drm/amd/amdgpu/../display/modules/power/power_helpers.c:990
- set_replay_frame_skip_number() warn: variable dereferenced before check
- 'link' (see line 987)
-Message-ID: <202601121355.O4u8C4fh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W/zU9FC7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768208410; x=1799744410;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aDa/0TXnneYAO0ragQpLpLZ66QllwouPCG6c1Bx4DBM=;
+  b=W/zU9FC7fMx9vX1buwA0Lk7LaSGo1ggZ1mcEmtvH9+ql2966LtsGJZMx
+   WSx4V7fOBnzHUgRCc3H0VBpnl1fiPlZyx7ssZoi8RR5QnofX/Af6bEyMk
+   //pdqisvln5meuw2guikWaOJdvOSSNYOckBPdw3hMth8wnR2bjYAJAfrZ
+   KcYzCxt5kluo3WfS3r6cK142s+HuO3EKNLx+2ee4g6Dr5n81zT7tSkjzg
+   mp8GP8qKQTAwrOiqFC5XCzVlYtOl9IVqmSAptU/9ME3BAZ3kXMX5PWHxB
+   Pgbc9Fd2I+Ny7r5fs9SlrkTYjxRf9uVLNFdLR6qD05L3J1T459upPxQI2
+   A==;
+X-CSE-ConnectionGUID: 9g+mS1iWT1CtXhwex0sQmQ==
+X-CSE-MsgGUID: f123PVNlQKWQoiTzKtDKNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="72055816"
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="72055816"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 01:00:09 -0800
+X-CSE-ConnectionGUID: FIMgLId8SNiBi3+4Mhpi8w==
+X-CSE-MsgGUID: XsM2w3XqQWOpn/kxd0yDdg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
+   d="scan'208";a="208872417"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 12 Jan 2026 01:00:07 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfDmP-00000000DBE-3Omd;
+	Mon, 12 Jan 2026 09:00:05 +0000
+Date: Mon, 12 Jan 2026 16:59:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luigi Rizzo <lrizzo@google.com>, tglx@linutronix.de, maz@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	edumazet@google.com, linux-kernel@vger.kernel.org,
+	Luigi Rizzo <lrizzo@google.com>
+Subject: Re: [PATCH] genirq: move clear of kstat_irqs to free_desc()
+Message-ID: <202601121654.B4jBkJbI-lkp@intel.com>
+References: <20260111191710.1993867-1-lrizzo@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,63 +64,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260111191710.1993867-1-lrizzo@google.com>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-next-6.20
-head:   38a0f4cf8c6147fd10baa206ab349f8ff724e391
-commit: 9862d2ac667a0e731aa75c17c1b146da809bc3ae [405/461] drm/amd/display: Add frame skip feature support flag
-config: x86_64-randconfig-161-20260108 (https://download.01.org/0day-ci/archive/20260112/202601121355.O4u8C4fh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch version: v0.5.0-8985-g2614ff1a
+Hi Luigi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/irq/core]
+[also build test ERROR on linus/master v6.19-rc5 next-20260109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luigi-Rizzo/genirq-move-clear-of-kstat_irqs-to-free_desc/20260112-031857
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20260111191710.1993867-1-lrizzo%40google.com
+patch subject: [PATCH] genirq: move clear of kstat_irqs to free_desc()
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260112/202601121654.B4jBkJbI-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121654.B4jBkJbI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601121355.O4u8C4fh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601121654.B4jBkJbI-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/modules/power/power_helpers.c:990 set_replay_frame_skip_number() warn: variable dereferenced before check 'link' (see line 987)
+All errors (new ones prefixed by >>):
 
-vim +/link +990 drivers/gpu/drm/amd/amdgpu/../display/modules/power/power_helpers.c
+   kernel/irq/irqdesc.c:118:6: warning: unused variable 'cpu' [-Wunused-variable]
+     118 |         int cpu;
+         |             ^~~
+   kernel/irq/irqdesc.c:625:25: error: use of undeclared identifier 'cpu'
+     625 |                 for_each_possible_cpu(cpu)
+         |                                       ^
+   kernel/irq/irqdesc.c:625:25: error: use of undeclared identifier 'cpu'
+   kernel/irq/irqdesc.c:625:25: error: use of undeclared identifier 'cpu'
+   kernel/irq/irqdesc.c:625:25: error: use of undeclared identifier 'cpu'
+   kernel/irq/irqdesc.c:625:25: error: use of undeclared identifier 'cpu'
+   kernel/irq/irqdesc.c:626:35: error: use of undeclared identifier 'cpu'
+     626 |                         *per_cpu_ptr(desc->kstat_irqs, cpu) = (struct irqstat) { };
+         |                                                        ^
+>> kernel/irq/irqdesc.c:626:4: error: indirection requires pointer operand ('unsigned long' invalid)
+     626 |                         *per_cpu_ptr(desc->kstat_irqs, cpu) = (struct irqstat) { };
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 7 errors generated.
 
-f3f48d6ce5089b Chuntao Tso 2025-10-31   978  void set_replay_frame_skip_number(struct dc_link *link,
-f3f48d6ce5089b Chuntao Tso 2025-10-31   979  	enum replay_coasting_vtotal_type type,
-f3f48d6ce5089b Chuntao Tso 2025-10-31   980  	uint32_t coasting_vtotal_refresh_rate_mhz,
-f3f48d6ce5089b Chuntao Tso 2025-10-31   981  	uint32_t flicker_free_refresh_rate_mhz,
-f3f48d6ce5089b Chuntao Tso 2025-10-31   982  	bool is_defer)
-f3f48d6ce5089b Chuntao Tso 2025-10-31   983  {
-f3f48d6ce5089b Chuntao Tso 2025-10-31   984  	uint32_t *frame_skip_number_array = NULL;
-f3f48d6ce5089b Chuntao Tso 2025-10-31   985  	uint32_t frame_skip_number = 0;
-f3f48d6ce5089b Chuntao Tso 2025-10-31   986  
-9862d2ac667a0e ChunTao Tso 2025-12-08  @987  	if (false == link->replay_settings.config.frame_skip_supported)
-                                                             ^^^^^^^^^^^^^^^^^^^^^
-Dereference.
 
-9862d2ac667a0e ChunTao Tso 2025-12-08   988  		return;
-9862d2ac667a0e ChunTao Tso 2025-12-08   989  
-f3f48d6ce5089b Chuntao Tso 2025-10-31  @990  	if (link == NULL || flicker_free_refresh_rate_mhz == 0 || coasting_vtotal_refresh_rate_mhz == 0)
-                                                    ^^^^^^^^^^^^
-Checked too late.
+vim +626 kernel/irq/irqdesc.c
 
-f3f48d6ce5089b Chuntao Tso 2025-10-31   991  		return;
-f3f48d6ce5089b Chuntao Tso 2025-10-31   992  
-f3f48d6ce5089b Chuntao Tso 2025-10-31   993  	if (is_defer)
-f3f48d6ce5089b Chuntao Tso 2025-10-31   994  		frame_skip_number_array = link->replay_settings.defer_frame_skip_number_table;
-f3f48d6ce5089b Chuntao Tso 2025-10-31   995  	else
-f3f48d6ce5089b Chuntao Tso 2025-10-31   996  		frame_skip_number_array = link->replay_settings.frame_skip_number_table;
-f3f48d6ce5089b Chuntao Tso 2025-10-31   997  
-f3f48d6ce5089b Chuntao Tso 2025-10-31   998  	if (frame_skip_number_array == NULL)
-f3f48d6ce5089b Chuntao Tso 2025-10-31   999  		return;
-f3f48d6ce5089b Chuntao Tso 2025-10-31  1000  
-f3f48d6ce5089b Chuntao Tso 2025-10-31  1001  	frame_skip_number = coasting_vtotal_refresh_rate_mhz / flicker_free_refresh_rate_mhz;
-f3f48d6ce5089b Chuntao Tso 2025-10-31  1002  
-f3f48d6ce5089b Chuntao Tso 2025-10-31  1003  	if (frame_skip_number >= 1)
-f3f48d6ce5089b Chuntao Tso 2025-10-31  1004  		frame_skip_number_array[type] = frame_skip_number - 1;
-f3f48d6ce5089b Chuntao Tso 2025-10-31  1005  	else
-f3f48d6ce5089b Chuntao Tso 2025-10-31  1006  		frame_skip_number_array[type] = 0;
-f3f48d6ce5089b Chuntao Tso 2025-10-31  1007  }
+   618	
+   619	static void free_desc(unsigned int irq)
+   620	{
+   621		struct irq_desc *desc = irq_to_desc(irq);
+   622	
+   623		scoped_guard(raw_spinlock_irqsave, &desc->lock) {
+   624			desc_set_defaults(irq, desc, irq_desc_get_node(desc), NULL, NULL);
+ > 625			for_each_possible_cpu(cpu)
+ > 626				*per_cpu_ptr(desc->kstat_irqs, cpu) = (struct irqstat) { };
+   627		}
+   628		delete_irq_desc(irq);
+   629	}
+   630	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
