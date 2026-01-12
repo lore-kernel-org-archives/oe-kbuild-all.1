@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9E9342C92
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 21:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2F624A05D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 21:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768254232; cv=none; b=GhoJ7jbi0CiIZG0cIK+mEfFeCVbdXdYmYlPbiG724U8sT44NW6dE3Vw4ByU91PN2htwqA/n7Uigyu29z/uDmIhXcLj+VM2kWuWxlykomq87q/xnCaCWKq09MKpGDIIQ2UMYNhqxGkcQvOL6h+Y88Xosj6VFekTqj6c2xd8gdKa4=
+	t=1768254923; cv=none; b=HUiw5lADc2kiCFzBMsEptaiKki/Ovo1AiK4M/6dySETQXqmhn057mCu6OspeSkIAoHNarWVihiCVT8KTBJFCYGd3L8klbz6+GeLHJxN2NtFJ+AfNE6Rd5jyv/XZu6GdwSBoDtVX4jXaCBQ2s7jTrAcZTfQymIltYU0mxSgdKQUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768254232; c=relaxed/simple;
-	bh=Ny3iEeqVMn7sAULi0QOdLv6pthGPx7XoMRDxppSsFF0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sF06cZSOUaZGjgW0E6u4PbA7UwRhFjV8dvx9y3p6YUqxXNqsMhBCQtEzkaLIBkUzOedzbeOPZPKqkGwQdsE0lRzA2QmYQAD22IVUWw5viGMQuTeO6S4zdqbZe4u2bpe3a7aNBHPxmGIjcR9OEPhRM37S8Tzk/5yNY8eS3X8IDWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K3RAObiY; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1768254923; c=relaxed/simple;
+	bh=qBJvAm/sngP0RT3UvTKnG0q4vrR/YIuCheQ1kONswC0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Dcf5chxctvfePDpT/hijb0n0364gV+Ra3QJrGUav05ZujEz9rvK8uMvy2nBRYnmBYqfXfgiNkh6jwLMyAqVgz0ea9P6oRwd4A06so+XIq84P85JM+Nzbxg+fPtxSLX40T6TkrtzrXERYPzpQ0DRMksANceeU8daCVXaRLORqeFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UxbxryRR; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K3RAObiY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UxbxryRR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768254231; x=1799790231;
+  t=1768254921; x=1799790921;
   h=date:from:to:cc:subject:message-id;
-  bh=Ny3iEeqVMn7sAULi0QOdLv6pthGPx7XoMRDxppSsFF0=;
-  b=K3RAObiYbKp/AWV26vUbnByk7FB6pBJ1SylbHwXxPyUxhZE1go08kmyd
-   YvTHfBNaXEaF+0Ap85vCPdBp7sa4klCAigy0hp5aBEHhA9Md8gAEJJ8lr
-   j1Y9ONixgRKlFim47xOR8nX1gXRjgapTiOxux2qmbTPuRy75+vgx8qQP5
-   uoyfDHNWl0Yu9R/b9Me3sF70Fj35UkIqy90RyrDesOyoHJK0MwWEqW5hi
-   qNfgUeRioRws0u6yWAVdpWomYbcqv5ahZv/iMNaPzbss8RZhrpWxxC9DL
-   0uVaVjYXqAI9Bb8ocu2cm4qEVVSM085TnXR8/RaTpU8jn56pY4IkvO206
-   w==;
-X-CSE-ConnectionGUID: T+o+gXrQTMq6eQX77y0kJw==
-X-CSE-MsgGUID: TcGvZ6P7QpWUns6K3zfrRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="68744208"
+  bh=qBJvAm/sngP0RT3UvTKnG0q4vrR/YIuCheQ1kONswC0=;
+  b=UxbxryRRl3kZjjVylp4obmPGxFDlOliOCKJMyyPJtdT1p/PMtxzfuHsb
+   88rEgFvjohZawZn7stsGBAdpwzNroO4SY5GWznvJjopWOwAGuPfCQbppl
+   r4kWi19D9fvowattV+ERiDZIxMU4vb4mDfDm4GkjcNzIorwZkqcQ4ZD1N
+   /qdZ4/5gveKd/4LR3FzphBBTHCiEfP9F/LnSYySiq81qWnwXimYSRu+Ed
+   2p7rKvIfhRrYTVTiLIBi8ss4LoNnsm8F7/sPUSbVt9O4KmSkxNybPksu/
+   wSRXhfGbTqpiZY1QAiUxeEsZ0agSKbKZFz5A0IcYGMggP4bhmAqrdOH8n
+   Q==;
+X-CSE-ConnectionGUID: X3odnZQbS7657THRAOWu0A==
+X-CSE-MsgGUID: 66Qk6wrrQAKdz5yLOdkg9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69461480"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="68744208"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 13:43:46 -0800
-X-CSE-ConnectionGUID: vOq2dApXSOCEWvQcmW/jsQ==
-X-CSE-MsgGUID: RJHujjGjR+OkOpHwwLwHdQ==
+   d="scan'208";a="69461480"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 13:55:21 -0800
+X-CSE-ConnectionGUID: H4tUKJSyT+KTA6JhwT1CSw==
+X-CSE-MsgGUID: WJ0H8rqdRzKwB2B9gbil6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="203407747"
+   d="scan'208";a="208722803"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Jan 2026 13:43:44 -0800
+  by orviesa004.jf.intel.com with ESMTP; 12 Jan 2026 13:55:19 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfPhO-00000000Dts-1iFd;
-	Mon, 12 Jan 2026 21:43:42 +0000
-Date: Tue, 13 Jan 2026 05:43:09 +0800
+	id 1vfPsa-00000000Dui-2OfI;
+	Mon, 12 Jan 2026 21:55:16 +0000
+Date: Tue, 13 Jan 2026 05:55:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Kellermann <max.kellermann@ionos.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Howells <dhowells@redhat.com>
-Subject: [dhowells-fs:netfs-next 1/17]
- fs/netfs/buffered_read.c:314:undefined reference to
- `__cmpxchg_called_with_bad_pointer'
-Message-ID: <202601130529.vx5AsMfq-lkp@intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [gourryinverse:scratch/gourry/cxl/controllers/v2 2/6]
+ drivers/cxl/core/memctrl/sysram_region.c:83:14: error: implicit declaration
+ of function 'offline_and_remove_memory'
+Message-ID: <202601130511.LlhqwQib-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,147 +60,254 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
-head:   8dc07632381d372883f12b9ca6da7438ce683a33
-commit: 7b227cc6d4579599dd402543d1bd39e779164ce2 [1/17] fs/netfs: convert `netfs_io_request.error` to a `short
-config: sh-randconfig-002-20260113 (https://download.01.org/0day-ci/archive/20260113/202601130529.vx5AsMfq-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130529.vx5AsMfq-lkp@intel.com/reproduce)
+tree:   https://github.com/gourryinverse/linux scratch/gourry/cxl/controllers/v2
+head:   dcbd460f630113f17cb71133f44920a1f35c2605
+commit: ba7288831d4123b81b543a90dc594081b50ca1df [2/6] cxl: add sysram_region memory controller
+config: i386-randconfig-001-20260113 (https://download.01.org/0day-ci/archive/20260113/202601130511.LlhqwQib-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130511.LlhqwQib-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601130529.vx5AsMfq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130511.LlhqwQib-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sh4-linux-ld: fs/netfs/buffered_read.o: in function `netfs_read_to_pagecache':
->> fs/netfs/buffered_read.c:314:(.text+0x16e4): undefined reference to `__cmpxchg_called_with_bad_pointer'
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'hotunplug_store':
+>> drivers/cxl/core/memctrl/sysram_region.c:83:14: error: implicit declaration of function 'offline_and_remove_memory' [-Wimplicit-function-declaration]
+      83 |         rc = offline_and_remove_memory(range.start, range_len(&range));
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'state_store':
+>> drivers/cxl/core/memctrl/sysram_region.c:153:38: error: 'MMOP_ONLINE_MOVABLE' undeclared (first use in this function)
+     153 |                 cb_arg.online_type = MMOP_ONLINE_MOVABLE;
+         |                                      ^~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c:153:38: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/cxl/core/memctrl/sysram_region.c:155:22: error: implicit declaration of function 'walk_memory_blocks'; did you mean 'online_memory_block_cb'? [-Wimplicit-function-declaration]
+     155 |                 rc = walk_memory_blocks(range.start, range_len(&range),
+         |                      ^~~~~~~~~~~~~~~~~~
+         |                      online_memory_block_cb
+>> drivers/cxl/core/memctrl/sysram_region.c:160:38: error: 'MMOP_ONLINE' undeclared (first use in this function); did you mean 'MEM_ONLINE'?
+     160 |                 cb_arg.online_type = MMOP_ONLINE;
+         |                                      ^~~~~~~~~~~
+         |                                      MEM_ONLINE
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'hotplug_store':
+>> drivers/cxl/core/memctrl/sysram_region.c:206:14: error: implicit declaration of function 'add_memory_driver_managed' [-Wimplicit-function-declaration]
+     206 |         rc = add_memory_driver_managed(data->mgid, range.start,
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/cxl/core/memctrl/sysram_region.c:208:40: error: 'MHP_NID_IS_MGID' undeclared (first use in this function)
+     208 |                                        MHP_NID_IS_MGID);
+         |                                        ^~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'cxl_sysram_unregister':
+>> drivers/cxl/core/memctrl/sysram_region.c:240:17: error: implicit declaration of function 'memory_group_unregister' [-Wimplicit-function-declaration]
+     240 |                 memory_group_unregister(data->mgid);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'devm_cxl_add_sysram_region':
+>> drivers/cxl/core/memctrl/sysram_region.c:258:9: error: unknown type name 'mhp_t'
+     258 |         mhp_t mhp_flags;
+         |         ^~~~~
+>> drivers/cxl/core/memctrl/sysram_region.c:302:14: error: implicit declaration of function 'memory_group_register_static' [-Wimplicit-function-declaration]
+     302 |         rc = memory_group_register_static(numa_node, PFN_UP(total_len));
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c:324:21: error: 'MHP_NID_IS_MGID' undeclared (first use in this function)
+     324 |         mhp_flags = MHP_NID_IS_MGID;
+         |                     ^~~~~~~~~~~~~~~
 
 
-vim +314 fs/netfs/buffered_read.c
+vim +/offline_and_remove_memory +83 drivers/cxl/core/memctrl/sysram_region.c
 
-e2d46f2ec332533 David Howells  2024-12-16  209  
-ee4cdf7ba857a89 David Howells  2024-07-02  210  /*
-ee4cdf7ba857a89 David Howells  2024-07-02  211   * Perform a read to the pagecache from a series of sources of different types,
-ee4cdf7ba857a89 David Howells  2024-07-02  212   * slicing up the region to be read according to available cache blocks and
-ee4cdf7ba857a89 David Howells  2024-07-02  213   * network rsize.
-ee4cdf7ba857a89 David Howells  2024-07-02  214   */
-3dc00bca8dc8226 Max Kellermann 2025-05-19  215  static void netfs_read_to_pagecache(struct netfs_io_request *rreq,
-3dc00bca8dc8226 Max Kellermann 2025-05-19  216  				    struct readahead_control *ractl)
-ee4cdf7ba857a89 David Howells  2024-07-02  217  {
-ee4cdf7ba857a89 David Howells  2024-07-02  218  	struct netfs_inode *ictx = netfs_inode(rreq->inode);
-ee4cdf7ba857a89 David Howells  2024-07-02  219  	unsigned long long start = rreq->start;
-ee4cdf7ba857a89 David Howells  2024-07-02  220  	ssize_t size = rreq->len;
-ee4cdf7ba857a89 David Howells  2024-07-02  221  	int ret = 0;
-7e043a80b5dae5c David Howells  2022-11-03  222  
-ee4cdf7ba857a89 David Howells  2024-07-02  223  	do {
-ee4cdf7ba857a89 David Howells  2024-07-02  224  		struct netfs_io_subrequest *subreq;
-6698c02d64b2408 David Howells  2024-12-16  225  		enum netfs_io_source source = NETFS_SOURCE_UNKNOWN;
-ee4cdf7ba857a89 David Howells  2024-07-02  226  		ssize_t slice;
-5e51c627c5acbcf David Howells  2022-11-04  227  
-ee4cdf7ba857a89 David Howells  2024-07-02  228  		subreq = netfs_alloc_subrequest(rreq);
-16211268fcb3667 David Howells  2022-03-01  229  		if (!subreq) {
-ee4cdf7ba857a89 David Howells  2024-07-02  230  			ret = -ENOMEM;
-16211268fcb3667 David Howells  2022-03-01  231  			break;
-16211268fcb3667 David Howells  2022-03-01  232  		}
-7b589a9b45ae32a David Howells  2024-08-07  233  
-ee4cdf7ba857a89 David Howells  2024-07-02  234  		subreq->start	= start;
-ee4cdf7ba857a89 David Howells  2024-07-02  235  		subreq->len	= size;
-ee4cdf7ba857a89 David Howells  2024-07-02  236  
-ee4cdf7ba857a89 David Howells  2024-07-02  237  		source = netfs_cache_prepare_read(rreq, subreq, rreq->i_size);
-ee4cdf7ba857a89 David Howells  2024-07-02  238  		subreq->source = source;
-ee4cdf7ba857a89 David Howells  2024-07-02  239  		if (source == NETFS_DOWNLOAD_FROM_SERVER) {
-ee4cdf7ba857a89 David Howells  2024-07-02  240  			unsigned long long zp = umin(ictx->zero_point, rreq->i_size);
-ee4cdf7ba857a89 David Howells  2024-07-02  241  			size_t len = subreq->len;
-ee4cdf7ba857a89 David Howells  2024-07-02  242  
-49866ce7ea8d41a David Howells  2024-12-16  243  			if (unlikely(rreq->origin == NETFS_READ_SINGLE))
-49866ce7ea8d41a David Howells  2024-12-16  244  				zp = rreq->i_size;
-ee4cdf7ba857a89 David Howells  2024-07-02  245  			if (subreq->start >= zp) {
-ee4cdf7ba857a89 David Howells  2024-07-02  246  				subreq->source = source = NETFS_FILL_WITH_ZEROES;
-ee4cdf7ba857a89 David Howells  2024-07-02  247  				goto fill_with_zeroes;
-16211268fcb3667 David Howells  2022-03-01  248  			}
-5e51c627c5acbcf David Howells  2022-11-04  249  
-ee4cdf7ba857a89 David Howells  2024-07-02  250  			if (len > zp - subreq->start)
-ee4cdf7ba857a89 David Howells  2024-07-02  251  				len = zp - subreq->start;
-ee4cdf7ba857a89 David Howells  2024-07-02  252  			if (len == 0) {
-ee4cdf7ba857a89 David Howells  2024-07-02  253  				pr_err("ZERO-LEN READ: R=%08x[%x] l=%zx/%zx s=%llx z=%llx i=%llx",
-ee4cdf7ba857a89 David Howells  2024-07-02  254  				       rreq->debug_id, subreq->debug_index,
-ee4cdf7ba857a89 David Howells  2024-07-02  255  				       subreq->len, size,
-ee4cdf7ba857a89 David Howells  2024-07-02  256  				       subreq->start, ictx->zero_point, rreq->i_size);
-16211268fcb3667 David Howells  2022-03-01  257  				break;
-16211268fcb3667 David Howells  2022-03-01  258  			}
-ee4cdf7ba857a89 David Howells  2024-07-02  259  			subreq->len = len;
-16211268fcb3667 David Howells  2022-03-01  260  
-ee4cdf7ba857a89 David Howells  2024-07-02  261  			netfs_stat(&netfs_n_rh_download);
-ee4cdf7ba857a89 David Howells  2024-07-02  262  			if (rreq->netfs_ops->prepare_read) {
-ee4cdf7ba857a89 David Howells  2024-07-02  263  				ret = rreq->netfs_ops->prepare_read(subreq);
-e2d46f2ec332533 David Howells  2024-12-16  264  				if (ret < 0) {
-e2d46f2ec332533 David Howells  2024-12-16  265  					subreq->error = ret;
-e2d46f2ec332533 David Howells  2024-12-16  266  					/* Not queued - release both refs. */
-20d72b00ca814d7 David Howells  2025-05-19  267  					netfs_put_subrequest(subreq,
-e2d46f2ec332533 David Howells  2024-12-16  268  							     netfs_sreq_trace_put_cancel);
-20d72b00ca814d7 David Howells  2025-05-19  269  					netfs_put_subrequest(subreq,
-e2d46f2ec332533 David Howells  2024-12-16  270  							     netfs_sreq_trace_put_cancel);
-e2d46f2ec332533 David Howells  2024-12-16  271  					break;
-e2d46f2ec332533 David Howells  2024-12-16  272  				}
-ee4cdf7ba857a89 David Howells  2024-07-02  273  				trace_netfs_sreq(subreq, netfs_sreq_trace_prepare);
-2ff1e97587f4d39 David Howells  2024-03-19  274  			}
-e2d46f2ec332533 David Howells  2024-12-16  275  			goto issue;
-16211268fcb3667 David Howells  2022-03-01  276  		}
-ee4cdf7ba857a89 David Howells  2024-07-02  277  
-ee4cdf7ba857a89 David Howells  2024-07-02  278  	fill_with_zeroes:
-ee4cdf7ba857a89 David Howells  2024-07-02  279  		if (source == NETFS_FILL_WITH_ZEROES) {
-ee4cdf7ba857a89 David Howells  2024-07-02  280  			subreq->source = NETFS_FILL_WITH_ZEROES;
-ee4cdf7ba857a89 David Howells  2024-07-02  281  			trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
-ee4cdf7ba857a89 David Howells  2024-07-02  282  			netfs_stat(&netfs_n_rh_zero);
-e2d46f2ec332533 David Howells  2024-12-16  283  			goto issue;
-16211268fcb3667 David Howells  2022-03-01  284  		}
-16211268fcb3667 David Howells  2022-03-01  285  
-ee4cdf7ba857a89 David Howells  2024-07-02  286  		if (source == NETFS_READ_FROM_CACHE) {
-ee4cdf7ba857a89 David Howells  2024-07-02  287  			trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
-e2d46f2ec332533 David Howells  2024-12-16  288  			goto issue;
-16211268fcb3667 David Howells  2022-03-01  289  		}
-16211268fcb3667 David Howells  2022-03-01  290  
-ee4cdf7ba857a89 David Howells  2024-07-02  291  		pr_err("Unexpected read source %u\n", source);
-ee4cdf7ba857a89 David Howells  2024-07-02  292  		WARN_ON_ONCE(1);
-ee4cdf7ba857a89 David Howells  2024-07-02  293  		break;
-16211268fcb3667 David Howells  2022-03-01  294  
-e2d46f2ec332533 David Howells  2024-12-16  295  	issue:
-3dc00bca8dc8226 Max Kellermann 2025-05-19  296  		slice = netfs_prepare_read_iterator(subreq, ractl);
-e2d46f2ec332533 David Howells  2024-12-16  297  		if (slice < 0) {
-105549d09a539a8 David Howells  2024-12-13  298  			ret = slice;
-105549d09a539a8 David Howells  2024-12-13  299  			subreq->error = ret;
-e2d46f2ec332533 David Howells  2024-12-16  300  			trace_netfs_sreq(subreq, netfs_sreq_trace_cancel);
-e2d46f2ec332533 David Howells  2024-12-16  301  			/* Not queued - release both refs. */
-20d72b00ca814d7 David Howells  2025-05-19  302  			netfs_put_subrequest(subreq, netfs_sreq_trace_put_cancel);
-20d72b00ca814d7 David Howells  2025-05-19  303  			netfs_put_subrequest(subreq, netfs_sreq_trace_put_cancel);
-105549d09a539a8 David Howells  2024-12-13  304  			break;
-e2d46f2ec332533 David Howells  2024-12-16  305  		}
-ee4cdf7ba857a89 David Howells  2024-07-02  306  		size -= slice;
-ee4cdf7ba857a89 David Howells  2024-07-02  307  		start += slice;
-e2d46f2ec332533 David Howells  2024-12-16  308  
-5de0219a9bb9dac David Howells  2025-02-12  309  		netfs_queue_read(rreq, subreq, size <= 0);
-e2d46f2ec332533 David Howells  2024-12-16  310  		netfs_issue_read(rreq, subreq);
-ee4cdf7ba857a89 David Howells  2024-07-02  311  		cond_resched();
-ee4cdf7ba857a89 David Howells  2024-07-02  312  	} while (size > 0);
-ee4cdf7ba857a89 David Howells  2024-07-02  313  
-e2d46f2ec332533 David Howells  2024-12-16 @314  	if (unlikely(size > 0)) {
-e2d46f2ec332533 David Howells  2024-12-16  315  		smp_wmb(); /* Write lists before ALL_QUEUED. */
-e2d46f2ec332533 David Howells  2024-12-16  316  		set_bit(NETFS_RREQ_ALL_QUEUED, &rreq->flags);
-2b1424cd131cfab David Howells  2025-05-19  317  		netfs_wake_collector(rreq);
-e2d46f2ec332533 David Howells  2024-12-16  318  	}
-ee4cdf7ba857a89 David Howells  2024-07-02  319  
-ee4cdf7ba857a89 David Howells  2024-07-02  320  	/* Defer error return as we may need to wait for outstanding I/O. */
-ee4cdf7ba857a89 David Howells  2024-07-02  321  	cmpxchg(&rreq->error, 0, ret);
-16211268fcb3667 David Howells  2022-03-01  322  }
-16211268fcb3667 David Howells  2022-03-01  323  
-
-:::::: The code at line 314 was first introduced by commit
-:::::: e2d46f2ec332533816417b60933954173f602121 netfs: Change the read result collector to only use one work item
-
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: Christian Brauner <brauner@kernel.org>
+    67	
+    68	static ssize_t hotunplug_store(struct device *dev,
+    69				       struct device_attribute *attr,
+    70				       const char *buf, size_t len)
+    71	{
+    72		struct cxl_region *cxlr = to_cxl_region(dev);
+    73		struct range range;
+    74		int rc;
+    75	
+    76		if (!cxlr)
+    77			return -ENODEV;
+    78	
+    79		rc = cxl_sysram_range(cxlr, &range);
+    80		if (rc)
+    81			return rc;
+    82	
+  > 83		rc = offline_and_remove_memory(range.start, range_len(&range));
+    84	
+    85		if (rc)
+    86			return rc;
+    87	
+    88		return len;
+    89	}
+    90	static DEVICE_ATTR_WO(hotunplug);
+    91	
+    92	struct online_memory_cb_arg {
+    93		int online_type;
+    94		int rc;
+    95	};
+    96	
+    97	static int online_memory_block_cb(struct memory_block *mem, void *arg)
+    98	{
+    99		struct online_memory_cb_arg *cb_arg = arg;
+   100	
+   101		if (signal_pending(current))
+   102			return -EINTR;
+   103	
+   104		cond_resched();
+   105	
+   106		if (mem->state == MEM_ONLINE)
+   107			return 0;
+   108	
+   109		mem->online_type = cb_arg->online_type;
+   110		cb_arg->rc = device_online(&mem->dev);
+   111	
+   112		return cb_arg->rc;
+   113	}
+   114	
+   115	static int offline_memory_block_cb(struct memory_block *mem, void *arg)
+   116	{
+   117		int *rc = arg;
+   118	
+   119		if (signal_pending(current))
+   120			return -EINTR;
+   121	
+   122		cond_resched();
+   123	
+   124		if (mem->state == MEM_OFFLINE)
+   125			return 0;
+   126	
+   127		*rc = device_offline(&mem->dev);
+   128	
+   129		return *rc;
+   130	}
+   131	
+   132	static ssize_t state_store(struct device *dev,
+   133				   struct device_attribute *attr,
+   134				   const char *buf, size_t len)
+   135	{
+   136		struct cxl_region *cxlr = to_cxl_region(dev);
+   137		struct online_memory_cb_arg cb_arg;
+   138		struct range range;
+   139		int rc;
+   140	
+   141		if (!cxlr)
+   142			return -ENODEV;
+   143	
+   144		rc = cxl_sysram_range(cxlr, &range);
+   145		if (rc)
+   146			return rc;
+   147	
+   148		rc = lock_device_hotplug_sysfs();
+   149		if (rc)
+   150			return rc;
+   151	
+   152		if (sysfs_streq(buf, "online")) {
+ > 153			cb_arg.online_type = MMOP_ONLINE_MOVABLE;
+   154			cb_arg.rc = 0;
+ > 155			rc = walk_memory_blocks(range.start, range_len(&range),
+   156						&cb_arg, online_memory_block_cb);
+   157			if (!rc)
+   158				rc = cb_arg.rc;
+   159		} else if (sysfs_streq(buf, "online_normal")) {
+ > 160			cb_arg.online_type = MMOP_ONLINE;
+   161			cb_arg.rc = 0;
+   162			rc = walk_memory_blocks(range.start, range_len(&range),
+   163						&cb_arg, online_memory_block_cb);
+   164			if (!rc)
+   165				rc = cb_arg.rc;
+   166		} else if (sysfs_streq(buf, "offline")) {
+   167			int offline_rc = 0;
+   168	
+   169			rc = walk_memory_blocks(range.start, range_len(&range),
+   170						&offline_rc, offline_memory_block_cb);
+   171			if (!rc)
+   172				rc = offline_rc;
+   173		} else {
+   174			rc = -EINVAL;
+   175		}
+   176	
+   177		unlock_device_hotplug();
+   178	
+   179		if (rc)
+   180			return rc;
+   181	
+   182		return len;
+   183	}
+   184	static DEVICE_ATTR_WO(state);
+   185	
+   186	static ssize_t hotplug_store(struct device *dev,
+   187				     struct device_attribute *attr,
+   188				     const char *buf, size_t len)
+   189	{
+   190		struct cxl_region *cxlr = to_cxl_region(dev);
+   191		struct cxl_sysram_data *data;
+   192		struct range range;
+   193		int rc;
+   194	
+   195		if (!cxlr)
+   196			return -ENODEV;
+   197	
+   198		data = dev_get_drvdata(dev);
+   199		if (!data)
+   200			return -ENODEV;
+   201	
+   202		rc = cxl_sysram_range(cxlr, &range);
+   203		if (rc)
+   204			return rc;
+   205	
+ > 206		rc = add_memory_driver_managed(data->mgid, range.start,
+   207					       range_len(&range), sysram_name,
+ > 208					       MHP_NID_IS_MGID);
+   209		if (rc)
+   210			return rc;
+   211	
+   212		return len;
+   213	}
+   214	static DEVICE_ATTR_WO(hotplug);
+   215	
+   216	static struct attribute *cxl_sysram_region_attrs[] = {
+   217		&dev_attr_hotunplug.attr,
+   218		&dev_attr_state.attr,
+   219		&dev_attr_hotplug.attr,
+   220		NULL,
+   221	};
+   222	
+   223	static const struct attribute_group cxl_sysram_region_group = {
+   224		.name = "memctl",
+   225		.attrs = cxl_sysram_region_attrs,
+   226	};
+   227	
+   228	static void cxl_sysram_unregister(void *_data)
+   229	{
+   230		struct cxl_sysram_data *data = _data;
+   231		struct range range = {
+   232			.start = data->res->start,
+   233			.end = data->res->end
+   234		};
+   235	
+   236		/* We have one shot for removal, otherwise it's stuck til reboot */
+   237		if (!offline_and_remove_memory(range.start, range_len(&range))) {
+   238			remove_resource(data->res);
+   239			kfree(data->res);
+ > 240			memory_group_unregister(data->mgid);
+   241			kfree(data->res_name);
+   242			kfree(data);
+   243			return;
+   244		}
+   245		pr_err("CXL: %#llx-%#llx cannot be hotremoved until next reboot\n",
+   246		       range.start, range.end);
+   247	}
+   248	
+   249	int devm_cxl_add_sysram_region(struct cxl_region *cxlr)
+   250	{
+   251		struct cxl_region_params *p = &cxlr->params;
+   252		struct device *dev = &cxlr->dev;
+   253		struct cxl_sysram_data *data;
+   254		struct memory_dev_type *mtype;
+   255		unsigned long total_len = 0;
+   256		struct resource *res;
+   257		struct range range;
+ > 258		mhp_t mhp_flags;
 
 -- 
 0-DAY CI Kernel Test Service
