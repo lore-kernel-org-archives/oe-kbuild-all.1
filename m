@@ -1,121 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357E833E352;
-	Mon, 12 Jan 2026 20:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD2C33F8CE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 20:33:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768250037; cv=none; b=lhs9juyPTnQvZqxnDMfgZguXW4y5SHm8/I7/s8Fs0Mt0iUQYbTTDdvx5n63OAvKHBpYxkUfWKFKjS9oC1YMN5WFDds4U4fs8x4StQqbT3CI/E3HfCuHLjFGrk6iOHrzpGHbwEd3Xs2tg+TJsM1Jckm6EG/ctfHj2EO+pTqWWWx8=
+	t=1768250038; cv=none; b=FbyjHJyjEGJ0y/44uynuLsPDQCdpgVfPuI2i9b6Yqmz3wTCkZWTXTYZirkxBrBA/uWrjSFwsxDxNNrF/IK1F00BWp4fAs5EktivSOSvj3d1PW5//evcg8OPJEu4LtroLe8IxKhia4phWpBmDuhZH7wCClb7yZW80VZ8M6xxcL2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768250037; c=relaxed/simple;
-	bh=8BX5GpPt9sxcVrHLpwm2pr6ypxDcKVN5RIY9nBUe9jc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tkJ5uR3U2XgDT8yf0t5KYx+RWHCtzmXIahCDYi82TA6AdCUllpnS9I3Rv/T4l/mm4JwFg1dkLo1yVzScTDoJONJXJ66PXD/WX7M+n0YyC6V1iF05S7BngSj1b+VWXpCoRoXH4P1izH4BqTzzgVw2RjUi0FPejhREEob+6PBXmPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cgu6iFAy; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1768250038; c=relaxed/simple;
+	bh=T9ckJangESB9K1Z0yCWBCJwIyaDWgCZWLnmLdwNbkqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SKT490NNrnXOVqa51tuNbdPQdDxb3Lz9/he8bv+xSpChx1UuPaB4ZCtvGV7Fuxs71QF2vhyqC2xybw2Qd/kHJmb2dJm2ZKV6Yd9aMyTxskuMNsmiZVo9TnBIeA2R3Uy+7qNSvC5IleqekkNpu1fFsfCEg+NyxUUDxdfzqRKJTTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uq2i1OAU; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cgu6iFAy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uq2i1OAU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768250036; x=1799786036;
-  h=date:from:to:cc:subject:message-id;
-  bh=8BX5GpPt9sxcVrHLpwm2pr6ypxDcKVN5RIY9nBUe9jc=;
-  b=cgu6iFAyLvHgkGERqbcWjc+ne9R7X9lhyRRb/CXUHH7r4A7W3HRq/Zp4
-   Nx8tshEeZUJ+WWZnr27RVIvS++EyFTvJgf07Ril7QYKw0I5RMGoIT3hmb
-   DghOq65AQ28nyAXYt9nQkHg4S0GYxNTCpcPk8OPdFdpqAJqAwRw9dV17+
-   j7XqqjALk3yJH9GhIRdE240FsX9hrY2oXaBNXjlQiI2PES1hCgBaqiXCa
-   IzegWvFNFKUPAGlffwqKNGI1NtfZkZVHRN3gh60Lb8NGxczpPkFpPadte
-   InrC2gsHCYuUd9xMOu5f3V1BLABzb0T0d5vmUfcGyUtGADkAnNwU/wTsn
-   g==;
-X-CSE-ConnectionGUID: 2sjpHeosSJyLiTKl/rqyag==
-X-CSE-MsgGUID: vZUMZmb8ToWxNdJofBD21Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="73164092"
+  t=1768250035; x=1799786035;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=T9ckJangESB9K1Z0yCWBCJwIyaDWgCZWLnmLdwNbkqc=;
+  b=Uq2i1OAUR1nssVqfEMNbKfzoiYI83xe98pFFCZd8qxq6GH8u2A7qGm0P
+   LTXIBH9XqTlRRU0fSLdFUTZP9VD/7gae6650/cR470sqXqcdxLDxjtxF9
+   Whym1R5wUUu470uGWaZxiKSHp+jklxkxUKoypxUvtBeWIE6VSZrLpnlG+
+   9fCU0BdT8uDRa0z5B5H4OlGTZBTwUTaRgrtCq9bG5TzCgd88zBRO/NAW2
+   YbfX5LSpvTp5hdN+FgfhyJsaLMPkWLTwb/Wulmtg0x1TMX414L1CbkxI6
+   P+a5FQnhBrSoFkTJasqf0f6r+OyxPbO1yKNd7cNv9HFSSiEBCMGzTxQ8I
+   w==;
+X-CSE-ConnectionGUID: RXJMNOe8RwO8+D/FDB4KZA==
+X-CSE-MsgGUID: gYZNe+3MSA2z/zb76UALKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80173533"
 X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="73164092"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 12:33:54 -0800
-X-CSE-ConnectionGUID: WArX1HSEQmWC338DwGdspg==
-X-CSE-MsgGUID: OMxjS0bMRZOktnulur4ZDA==
+   d="scan'208";a="80173533"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 12:33:54 -0800
+X-CSE-ConnectionGUID: NLs7PlCyRDK73k019IQyvQ==
+X-CSE-MsgGUID: v+bGvwmDQNytenZ6mZU71Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,221,1763452800"; 
-   d="scan'208";a="209021980"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Jan 2026 12:33:53 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 12 Jan 2026 12:33:52 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfObm-00000000Dqo-1dXn;
+	id 1vfObm-00000000Dqm-1Vmc;
 	Mon, 12 Jan 2026 20:33:50 +0000
-Date: Tue, 13 Jan 2026 04:33:05 +0800
+Date: Tue, 13 Jan 2026 04:33:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-next 13/17] net/core/skbuff.c:7280:33:
- error: use of undeclared identifier 'bvec'
-Message-ID: <202601130437.tJhWp6uK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Khalil Blaiech <kblaiech@nvidia.com>,
+	Asmaa Mnebhi <asmaa@nvidia.com>, Andi Shyti <andi.shyti@kernel.org>
+Subject: Re: [PATCH v1 2/2] i2c: mlxbf: Use HZ_PER_KHZ in the driver
+Message-ID: <202601130414.VJyCNWzI-lkp@intel.com>
+References: <20260112135603.4150952-3-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112135603.4150952-3-andriy.shevchenko@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-next
-head:   8dc07632381d372883f12b9ca6da7438ce683a33
-commit: 586e10988ec72acea43cbc695cec236fd69c57f3 [13/17] net: Perform special handling for a splice from a bvecq
-config: i386-randconfig-011-20260113 (https://download.01.org/0day-ci/archive/20260113/202601130437.tJhWp6uK-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130437.tJhWp6uK-lkp@intel.com/reproduce)
+Hi Andy,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on linus/master v6.19-rc5 next-20260109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/i2c-mlxbf-Remove-unused-bus-speed-definitions/20260112-220605
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20260112135603.4150952-3-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v1 2/2] i2c: mlxbf: Use HZ_PER_KHZ in the driver
+config: i386-buildonly-randconfig-001-20260112 (https://download.01.org/0day-ci/archive/20260113/202601130414.VJyCNWzI-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130414.VJyCNWzI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601130437.tJhWp6uK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130414.VJyCNWzI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/core/skbuff.c:7280:33: error: use of undeclared identifier 'bvec'
-    7280 |                 void *kaddr = kmap_local_bvec(bvec, offset);
-         |                                               ^
-   1 error generated.
+   drivers/i2c/busses/i2c-mlxbf.c: In function 'mlxbf_i2c_probe':
+>> drivers/i2c/busses/i2c-mlxbf.c:68:44: error: 'HZ_PER_MHZ' undeclared (first use in this function)
+      68 | #define MLXBF_I2C_TYU_PLL_OUT_FREQ  (400 * HZ_PER_MHZ)
+         |                                            ^~~~~~~~~~
+   drivers/i2c/busses/i2c-mlxbf.c:173:41: note: in expansion of macro 'MLXBF_I2C_TYU_PLL_OUT_FREQ'
+     173 | #define MLXBF_I2C_COREPLL_FREQ          MLXBF_I2C_TYU_PLL_OUT_FREQ
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/busses/i2c-mlxbf.c:2325:35: note: in expansion of macro 'MLXBF_I2C_COREPLL_FREQ'
+    2325 |                 priv->frequency = MLXBF_I2C_COREPLL_FREQ;
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/busses/i2c-mlxbf.c:68:44: note: each undeclared identifier is reported only once for each function it appears in
+      68 | #define MLXBF_I2C_TYU_PLL_OUT_FREQ  (400 * HZ_PER_MHZ)
+         |                                            ^~~~~~~~~~
+   drivers/i2c/busses/i2c-mlxbf.c:173:41: note: in expansion of macro 'MLXBF_I2C_TYU_PLL_OUT_FREQ'
+     173 | #define MLXBF_I2C_COREPLL_FREQ          MLXBF_I2C_TYU_PLL_OUT_FREQ
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/busses/i2c-mlxbf.c:2325:35: note: in expansion of macro 'MLXBF_I2C_COREPLL_FREQ'
+    2325 |                 priv->frequency = MLXBF_I2C_COREPLL_FREQ;
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/bvec +7280 net/core/skbuff.c
+vim +/HZ_PER_MHZ +68 drivers/i2c/busses/i2c-mlxbf.c
 
-  7265	
-  7266	static __always_inline
-  7267	size_t iterate_one_bvec(struct bio_vec *p, size_t skip, size_t len,
-  7268				void *priv, void *priv2, iov_step_f step)
-  7269	{
-  7270	#ifdef CONFIG_HIGHMEM
-  7271		size_t progress = 0;
-  7272	
-  7273		if (skip >= p->bv_len)
-  7274			return 0;
-  7275	
-  7276		len = umin(len, p->bv_len - skip);
-  7277		while (len > 0) {
-  7278			size_t remain, consumed;
-  7279			size_t offset = p->bv_offset + skip, part;
-> 7280			void *kaddr = kmap_local_bvec(bvec, offset);
-  7281	
-  7282			part = umin(len, PAGE_SIZE - offset % PAGE_SIZE);
-  7283			remain = step(kaddr, progress, part, priv, priv2);
-  7284			kunmap_local(kaddr);
-  7285	
-  7286			consumed = part - remain;
-  7287			len -= consumed;
-  7288			progress += consumed;
-  7289			skip += consumed;
-  7290			if (remain)
-  7291				break;
-  7292		}
-  7293	
-  7294		return progress;
-  7295	#else
-  7296		return len - step(bvec_virt(p) + skip, 0, len, priv, priv2);
-  7297	#endif
-  7298	}
-  7299	
+    55	
+    56	/*
+    57	 * Note that the following SMBus, CAUSE, GPIO and PLL register addresses
+    58	 * refer to their respective offsets relative to the corresponding
+    59	 * memory-mapped region whose addresses are specified in either the DT or
+    60	 * the ACPI tables or above.
+    61	 */
+    62	
+    63	/*
+    64	 * SMBus Master core clock frequency. Timing configurations are
+    65	 * strongly dependent on the core clock frequency of the SMBus
+    66	 * Master. Default value is set to 400MHz.
+    67	 */
+  > 68	#define MLXBF_I2C_TYU_PLL_OUT_FREQ  (400 * HZ_PER_MHZ)
+    69	/* Reference clock for Bluefield - 156 MHz. */
+    70	#define MLXBF_I2C_PLL_IN_FREQ       156250000ULL
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
