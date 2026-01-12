@@ -1,103 +1,175 @@
-Received: from esa2.hc555-34.eu.iphmx.com (esa2.hc555-34.eu.iphmx.com [23.90.104.147])
+Received: from mail-m3275.qiye.163.com (mail-m3275.qiye.163.com [220.197.32.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56ED4322537;
-	Mon, 12 Jan 2026 06:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.90.104.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A122833030C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 07:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768201177; cv=none; b=YNIBmKXPlXjEKMQEUk57BknlAr0fG41cJc5SFINcD6HO5JjJUO1jw0o3YJiscks7z9UC4IUIqL2nr3CsLnGLSJD559w9INSmabVsBqf+CTQsRq0r2atnkSdpSA0E1kh8OBnxTKuoLcKb4dFGs9A6IU8+8hQT4rqnsJWCYuFVA7A=
+	t=1768202698; cv=none; b=kUGoKiaxDdfU1VWsvxeFlQ7YgSfUCsfrQc88sUKcPQcTS06EJLR0PHD/1SBRNProT8LqzVDWmQK7DHl6iE+o/zzKmIiePqTx3nO9Cj5fwPc2Uj8Jdw+7noDEcewe+vnSX1rhc68vMT9nRMD0GDvcSvZSdLLgB6rxKT+5MLC5b4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768201177; c=relaxed/simple;
-	bh=S86iPthB8Mz0CkECZazPVHa80rEM1013uyEDwE2IV5A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A1JXzXm4kWOKyeMuo/xcHiDvtDwT/ytqiziRFg35T2oIgf8F1QfIQke30Rbwh1Taw6InKx2DScY+Wqj6vzwnrxyKMLTnRMGPNh9/Mx8P5vvtuNd4Ogo8C/zkbN6ntv0uSxM8hqrJUvah0D+J17dEIjsPWjm1fF8C8bXKSg+oPQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com; spf=pass smtp.mailfrom=mobileye.com; dkim=fail (0-bit key) header.d=mobileye.com header.i=@mobileye.com header.b=PqCMs+Yo reason="key not found in DNS"; arc=none smtp.client-ip=23.90.104.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
+	s=arc-20240116; t=1768202698; c=relaxed/simple;
+	bh=TVl+0BDQtLEYkCDlB7dGp8yYMkNIpMMuVR4ynTqryGI=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=f9wVQKtUsxLTcBm8a7iGD+PgRS+crqaulLBSlj/U6q60O17Ebf4uat+K46xLfoz7p0aOvhqHWOWaYgMaeRFZCB8WaiBbxQGvihqOgnW8nN1qFg51bDcdsL8VQ2T1N0wvvREtIWoyJGuFmSwQ0t+D+j1oUvVVRfF5o8n+fPr+TEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=Vwq6YcH0; arc=none smtp.client-ip=220.197.32.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mobileye.com header.i=@mobileye.com header.b="PqCMs+Yo"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=mobileye.com; i=@mobileye.com; q=dns/txt; s=MoEyIP;
-  t=1768201174; x=1799737174;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=S86iPthB8Mz0CkECZazPVHa80rEM1013uyEDwE2IV5A=;
-  b=PqCMs+Yo+b6kCI/5KSyPmHs2HLqt6meWN5HpHkFDi4ETGwchoWazOljV
-   ue3sRHYI7vU89SMqp37xmcUTFW9uBRzL+jIxeKkCic1GcL9gUIdP13HW9
-   pyTy2mwbxyoqrtekJJQZqcwntixT3sMMEUOgjnFUHxrmMvrFLRZOcl5rL
-   yQA8e7lEk02lik/nnIN2LT4Zbbb5Cyc6Ut7+YLARu7rcZotNkY7LrGIHd
-   GeJQyq5+ohRkpJPwrY6mxdfs5oUP7PYSRk3vJ7FG0EtbzQzBD9exWODK/
-   nRWCKMvwTJG4vVB7F9jtcu+yNF3losbVzIUlQFs2Jlwm1QgLSPdfssm8U
-   g==;
-X-CSE-ConnectionGUID: Drr0LerJRRSyEz5ou9sHvw==
-X-CSE-MsgGUID: V/A2/8p6Qe25qMdG7JHeaQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from unknown (HELO ces02_data.me-corp.lan) ([146.255.191.134])
-  by esa2.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 08:59:24 +0200
-X-CSE-ConnectionGUID: EsrqnE3ATQuiZ4VSoKzRGg==
-X-CSE-MsgGUID: qZ26/BZARpCbFJcbJb1pDQ==
-Received: from unknown (HELO epgd071.me-corp.lan) ([10.154.54.6])
-  by ces02_data.me-corp.lan with SMTP; 12 Jan 2026 09:01:12 +0200
-Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Mon, 12 Jan 2026 08:59:24 +0200
-From: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
-To: lkp@intel.com,
-	mick@ics.forth.gr,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>
-Cc: iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	vladimir.kondratiev@mobileye.com,
-	Vladimir.Kondratiev@mobileye.com,
-	akpm@linux-foundation.org,
-	alex@ghiti.fr,
-	aou@eecs.berkeley.edu,
-	hch@infradead.org,
-	linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org,
-	palmer@dabbelt.com,
-	paul.walmsley@sifive.com
-Subject: [PATCH v2] dma-pool: don't allocate DMA32 pool if no 32-bit memory
-Date: Mon, 12 Jan 2026 08:58:56 +0200
-Message-ID: <20260112065857.3137331-1-vladimir.kondratiev@mobileye.com>
-In-Reply-To: <202601120747.TAMpIDnI-lkp@intel.com>
-References: <202601120747.TAMpIDnI-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="Vwq6YcH0"
+Received: from [172.16.12.14] (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 304bd6f5e;
+	Mon, 12 Jan 2026 15:19:37 +0800 (GMT+08:00)
+Message-ID: <b6667d54-ebb7-4594-a65e-011f0bf0d3cd@rock-chips.com>
+Date: Mon, 12 Jan 2026 15:19:36 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Cc: shawn.lin@rock-chips.com, oe-kbuild-all@lists.linux.dev,
+ linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>
+Subject: Re: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition
+ trace support
+To: kernel test robot <lkp@intel.com>, Manivannan Sadhasivam
+ <mani@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>
+References: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
+ <202601121428.WVvakywZ-lkp@intel.com>
+From: Shawn Lin <shawn.lin@rock-chips.com>
+In-Reply-To: <202601121428.WVvakywZ-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9bb113183609cckunm1596f8d92bc8bf
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGR1LS1ZLSUwZGhkfGB5MSEJWFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUJNS0
+	pVSktLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=Vwq6YcH02L/z2pSxGAI+djdeOneXnSlu4g4J0rkPgg1Vs3UCnWjVBxYaWuHuu0kScG34+K9P/gVm59huZBBaXAp9RqKIGc0oaPUCjzGtDzu0pvxDzgoJdDRPDTy597sGUFnf/hyIiBDDwWe6Item4gbwjjXbZk8/FcTEetG0iMc=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=e3jKY3hTxixp5DahAQTFxXosmfx7lVCjtHXMKuxx6ks=;
+	h=date:mime-version:subject:message-id:from;
 
-If system have no 32-bit memory, GFP_DMA32 pool allocation will
-obviously fail, so skip it.
 
-Changes in v2: use arch-independent "memblock_start_of_DRAM" to get
-DRAM base address
+在 2026/01/12 星期一 14:42, kernel test robot 写道:
+> Hi Shawn,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on pci/next]
+> [also build test ERROR on next-20260109]
+> [cannot apply to pci/for-linus trace/for-next mani-mhi/mhi-next linus/master v6.19-rc5]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/PCI-trace-Add-PCI-controller-LTSSM-transition-tracepoint/20260112-100141
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+> patch link:    https://lore.kernel.org/r/1768180800-63364-4-git-send-email-shawn.lin%40rock-chips.com
+> patch subject: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
+> config: loongarch-randconfig-002-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121428.WVvakywZ-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121428.WVvakywZ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601121428.WVvakywZ-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     drivers/pci/controller/dwc/pcie-dw-rockchip.c: In function 'rockchip_pcie_ltssm_trace_work':
+>>> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:41: error: implicit declaration of function 'dw_pcie_ltssm_status_string' [-Wimplicit-function-declaration]
+>       264 |                                         dw_pcie_ltssm_status_string(state),
 
-Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
----
- kernel/dma/pool.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi lkp,
 
-diff --git a/kernel/dma/pool.c b/kernel/dma/pool.c
-index ee45dee33d49..ecd77a0272f2 100644
---- a/kernel/dma/pool.c
-+++ b/kernel/dma/pool.c
-@@ -209,7 +209,7 @@ static int __init dma_atomic_pool_init(void)
- 		if (!atomic_pool_dma)
- 			ret = -ENOMEM;
- 	}
--	if (IS_ENABLED(CONFIG_ZONE_DMA32)) {
-+	if (IS_ENABLED(CONFIG_ZONE_DMA32) && memblock_start_of_DRAM() < BIT_ULL(32)) {
- 		atomic_pool_dma32 = __dma_atomic_pool_init(atomic_pool_size,
- 						GFP_KERNEL | GFP_DMA32);
- 		if (!atomic_pool_dma32)
+It depends on another patch mentioned in the cover letter. So the
+complie error is expected right now.
 
-base-commit: 7d0a66e4bb9081d75c82ec4957c50034cb0ea449
--- 
-2.43.0
+
+>           |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:41: error: passing argument 2 of 'trace_pcie_ltssm_state_transition' makes pointer from integer without a cast [-Wint-conversion]
+>       264 |                                         dw_pcie_ltssm_status_string(state),
+>           |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>           |                                         |
+>           |                                         int
+>     In file included from include/trace/events/pci_controller.h:9,
+>                      from drivers/pci/controller/dwc/pcie-dw-rockchip.c:26:
+>     include/trace/events/pci_controller.h:20:52: note: expected 'const char *' but argument is of type 'int'
+>        20 |         TP_PROTO(const char *dev_name, const char *state, u32 rate),
+>           |                                        ~~~~~~~~~~~~^~~~~
+>     include/linux/tracepoint.h:288:41: note: in definition of macro '__DECLARE_TRACE'
+>       288 |         static inline void trace_##name(proto)                          \
+>           |                                         ^~~~~
+>     include/linux/tracepoint.h:494:31: note: in expansion of macro 'PARAMS'
+>       494 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+>           |                               ^~~~~~
+>     include/linux/tracepoint.h:632:9: note: in expansion of macro 'DECLARE_TRACE_EVENT'
+>       632 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
+>           |         ^~~~~~~~~~~~~~~~~~~
+>     include/linux/tracepoint.h:632:35: note: in expansion of macro 'PARAMS'
+>       632 |         DECLARE_TRACE_EVENT(name, PARAMS(proto), PARAMS(args))
+>           |                                   ^~~~~~
+>     include/trace/events/pci_controller.h:19:1: note: in expansion of macro 'TRACE_EVENT'
+>        19 | TRACE_EVENT(pcie_ltssm_state_transition,
+>           | ^~~~~~~~~~~
+>     include/trace/events/pci_controller.h:20:9: note: in expansion of macro 'TP_PROTO'
+>        20 |         TP_PROTO(const char *dev_name, const char *state, u32 rate),
+>           |         ^~~~~~~~
+> 
+> 
+> vim +/dw_pcie_ltssm_status_string +264 drivers/pci/controller/dwc/pcie-dw-rockchip.c
+> 
+>     225	
+>     226	#ifdef CONFIG_TRACING
+>     227	static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
+>     228	{
+>     229		struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
+>     230							trace_work.work);
+>     231		struct dw_pcie *pci = &rockchip->pci;
+>     232		enum dw_pcie_ltssm state;
+>     233		u32 i, l1ss, prev_val = DW_PCIE_LTSSM_UNKNOWN, rate, val;
+>     234	
+>     235		for (i = 0; i < PCIE_DBG_LTSSM_HISTORY_CNT; i++) {
+>     236			val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
+>     237			rate = FIELD_GET(PCIE_DBG_FIFO_RATE_MASK, val);
+>     238			l1ss = FIELD_GET(PCIE_DBG_FIFO_L1SUB_MASK, val);
+>     239			val = FIELD_GET(PCIE_LTSSM_STATUS_MASK, val);
+>     240	
+>     241			/*
+>     242			 * Hardware Mechanism: The ring FIFO employs two tracking counters:
+>     243			 * - 'last-read-point': maintains the user's last read position
+>     244			 * - 'last-valid-point': tracks the hardware's last state update
+>     245			 *
+>     246			 * Software Handling: When two consecutive LTSSM states are identical,
+>     247			 * it indicates invalid subsequent data in the FIFO. In this case, we
+>     248			 * skip the remaining entries. The dual-counter design ensures that on
+>     249			 * the next state transition, reading can resume from the last user
+>     250			 * position.
+>     251			 */
+>     252			if ((i > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
+>     253				break;
+>     254	
+>     255			state = prev_val = val;
+>     256			if (val == DW_PCIE_LTSSM_L1_IDLE) {
+>     257				if (l1ss == 2)
+>     258					state = DW_PCIE_LTSSM_L1_2;
+>     259				else if (l1ss == 1)
+>     260					state = DW_PCIE_LTSSM_L1_1;
+>     261			}
+>     262	
+>     263			trace_pcie_ltssm_state_transition(dev_name(pci->dev),
+>   > 264						dw_pcie_ltssm_status_string(state),
+>     265						((rate + 1) > pci->max_link_speed) ?
+>     266						PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
+>     267		}
+>     268	
+>     269		schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
+>     270	}
+>     271	
+> 
 
