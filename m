@@ -1,165 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF5B2C026F;
-	Mon, 12 Jan 2026 10:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08D5A356A17
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 11:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768212978; cv=none; b=FXqNJTOgUQ9RZbKrFREl8uLzXn1b8Ig9M0ADxItUZBrdGSJ6NYeZ2b/1o/t3CR24ISBPrcLR+9BLrXoQlhh7Yo3/OAG0WYNb3pdJTUfw2+saG8AmA5soEohCXG25R6W7jhbFEGc4DJGglPCoYgKr/X/j7Gg4CxEvo9DF54Je13o=
+	t=1768218134; cv=none; b=Io2OSfuD8O0998lgGblMPB29iggmei1NTXEL4sfc8lbZQch/XFGsxFka2M2V6XpWMTg9lbTtnikGC9pw+KD50DvOYEaWIu8ZIUEjc4DYBntfGSn+bQ9DS/IXnCKjaeKkpobrfotJTBeZmsSuNtEqopvMjnBV7eu2+Z1I43GM6vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768212978; c=relaxed/simple;
-	bh=H8gp41/PvMnd7tQ04BGrl2ztpsHRk7DIXiv5/QpR4qY=;
+	s=arc-20240116; t=1768218134; c=relaxed/simple;
+	bh=qV38485eFjtXicxLbcdFdL38T91/kNlqZHvKkOIDLrI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CcYIyFPz4tJGpY2Wp9jaUFOhkSzTcLHNTY4K6cu4N4F/J4/SC/cSRRX1w7/UilMzst9sZQzILsSNpSrvmGvuXUR8QB+lsP7+a9YgXSUkcGh4+965eyMS2CuvunLNK4AHK9EqabLkxIK27xAjR31uro4czEZH0mogP+hz6p+unQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W6r1dJQ7; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=NhoR3/hm1X5Qe09dvkFSNAIi5c8rqDo86Su0WgjHzasHkWk1/RjULLdEMAYjRKtNgvF91FmLcSu41JZ2uq+4y9qx7yO3zd2Rr7302hlr3tf8iJkwOaT1Mtbcm41Tm8O+SI+4s2dNRPncotkHSWWnCdwrl5PnWjbwXc3kijnHrbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=igOm6keo; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W6r1dJQ7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768212976; x=1799748976;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H8gp41/PvMnd7tQ04BGrl2ztpsHRk7DIXiv5/QpR4qY=;
-  b=W6r1dJQ7JXrLh/ZaSRsXKwLbXRgPsUrZlcqvBU4V+mKRub3zad16ZzAv
-   m5xmsC2b9tvTNHi/31LjMQsOQcZzhS76wIGcMkcRtrpH/MiVZGwtSPrM3
-   yxaeh0pGmxptglJVy3OCkH01QkI362BOUblV5jMl87aU7vd8v+rVIltVJ
-   wV8fjxDBTmGNlEl5j/3cUcTVMDtF3gDBH7amzk7MFWfK9QYE7ngXLPLT+
-   aJfO/vucDy5B4WwHPNfJ7GjBx2WO5uzNhqYGJ8pCFUhTvQeqfLCtkdWde
-   IF4DYs+Y1luEC52o2vx1bx3pKKc9Un7IV0qGbQVG2LlVhYKgZuihzY/q9
-   g==;
-X-CSE-ConnectionGUID: tBGkMq1VQPS2z4InGbqFXA==
-X-CSE-MsgGUID: yKhR2iHuRGGOXUgxzVunLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11668"; a="92151271"
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="92151271"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 02:16:16 -0800
-X-CSE-ConnectionGUID: kio9i+jfSvSXaI/JTm4KcQ==
-X-CSE-MsgGUID: lWCYiL/hQqyBbhD2t3nNQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,219,1763452800"; 
-   d="scan'208";a="204337417"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Jan 2026 02:16:12 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfEy2-00000000DFc-1HOY;
-	Mon, 12 Jan 2026 10:16:10 +0000
-Date: Mon, 12 Jan 2026 18:15:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>
-Subject: Re: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition
- trace support
-Message-ID: <202601121712.JbsMAjDZ-lkp@intel.com>
-References: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="igOm6keo"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 9BEBB40E0200;
+	Mon, 12 Jan 2026 11:42:03 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id M2NIEAYk2y8N; Mon, 12 Jan 2026 11:42:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1768218118; bh=+I0tYpjvNjvhnMOcKvSWO6I5VWb31eWSH/dU9boIYTA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=igOm6keov7Q5B0kjb1gCaQPfBqGhRtMERRRE3ScKPjGM58eN8IedMeBbOIR8+wz3+
+	 Mp/o1zdTNn5XZL//WEmRqwBVW8y+qtx0gJzWqfnAZlnEcfo/1X8NhshZCCReouF3Kx
+	 /XM684KnY18PNJp1Rf+yz6CmD0/IOv0MwhFXQuFJztUNw+S0WTWNLCwAcpuU0ymzbi
+	 oCQOOsf3LuuGp3LQxSggGMr5vqrHxqm9Pq2UUaOe5O9twxcTo6f0n+bNWx49VITPcl
+	 p0OvZYi/5o2ZFgZq0xZ/K4pgtAh42WuYELipXduHcAr0YA6rpC21z+wrWr37+WFLEx
+	 7+2hRBzdLs9jla9SEuYvW7DPMqE1ASKoXcpNoyRYN7hQlHPJPFM7l+86L/RiZGi6NC
+	 gEFXhzvj8SBYmUgNfSqwVnIPJ+oF3iHgpdU7vWHVqmn6BwlX0OyoSxF5cgLcQ3P6B8
+	 Xq/XADq8h9IRvfUNDvBQTh544iVDLrqqDWBMKO7TH4BHRLw8h/C9yGTVP/PuHK488q
+	 VnVLf8ERSXZ4HcFCA6Acb1Dhoolt6v3j+EkQZqFpgrpK5iiDfJW55QB3S66Ufzic9f
+	 gmN5IBEs/LUj/Z5S0HNAwSh1WDoBsAJLUhVTRkjOZM5GwgXWBqQVXRAXALbPp1mngH
+	 XLkRc4lL2VpnJA7+OO3BlNm4=
+Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 5A89640E0194;
+	Mon, 12 Jan 2026 11:41:53 +0000 (UTC)
+Date: Mon, 12 Jan 2026 12:41:47 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Nikunj A Dadhania <nikunj@amd.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: [PATCH] x86/sev: Use kfree_sensitive() when freeing a SNP message
+ descriptor
+Message-ID: <20260112114147.GBaWTd-8HSy_Xp4S3X@fat_crate.local>
+References: <a9b57156-4b2-8e62-d083-c85ad9b085db@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1768180800-63364-4-git-send-email-shawn.lin@rock-chips.com>
+In-Reply-To: <a9b57156-4b2-8e62-d083-c85ad9b085db@inria.fr>
 
-Hi Shawn,
+On Sat, Dec 20, 2025 at 03:25:46PM +0100, Julia Lawall wrote:
+> cocci warnings: (new ones prefixed by >>)
+> >> arch/x86/coco/sev/core.c:2838:12-13: WARNING opportunity for kfree_sensitive/kvfree_sensitive (memset at line 2837)
 
-kernel test robot noticed the following build errors:
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
+Date: Mon, 12 Jan 2026 12:37:49 +0100
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on next-20260109]
-[cannot apply to pci/for-linus trace/for-next mani-mhi/mhi-next linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Use the proper helper instead of an open-coded variant.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/PCI-trace-Add-PCI-controller-LTSSM-transition-tracepoint/20260112-100141
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/1768180800-63364-4-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH v3 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
-config: arm64-randconfig-004-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121712.JbsMAjDZ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121712.JbsMAjDZ-lkp@intel.com/reproduce)
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@inria.fr>
+Closes: https://lore.kernel.org/r/202512202235.WHPQkLZu-lkp@intel.com
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+---
+ arch/x86/coco/sev/core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601121712.JbsMAjDZ-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:6: error: call to undeclared function 'dw_pcie_ltssm_status_string'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     264 |                                         dw_pcie_ltssm_status_string(state),
-         |                                         ^
->> drivers/pci/controller/dwc/pcie-dw-rockchip.c:264:6: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const char *' [-Wint-conversion]
-     264 |                                         dw_pcie_ltssm_status_string(state),
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/events/pci_controller.h:20:45: note: passing argument to parameter 'state' here
-      20 |         TP_PROTO(const char *dev_name, const char *state, u32 rate),
-         |                                                    ^
-   2 errors generated.
+diff --git a/arch/x86/coco/sev/core.c b/arch/x86/coco/sev/core.c
+index 379e0c09c7f3..38dad3f5f491 100644
+--- a/arch/x86/coco/sev/core.c
++++ b/arch/x86/coco/sev/core.c
+@@ -1632,8 +1632,7 @@ void snp_msg_free(struct snp_msg_desc *mdesc)
+ 	free_shared_pages(mdesc->request, sizeof(struct snp_guest_msg));
+ 	iounmap((__force void __iomem *)mdesc->secrets);
+ 
+-	memset(mdesc, 0, sizeof(*mdesc));
+-	kfree(mdesc);
++	kfree_sensitive(mdesc);
+ }
+ EXPORT_SYMBOL_GPL(snp_msg_free);
+ 
+-- 
+2.51.0
 
 
-vim +/dw_pcie_ltssm_status_string +264 drivers/pci/controller/dwc/pcie-dw-rockchip.c
-
-   225	
-   226	#ifdef CONFIG_TRACING
-   227	static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
-   228	{
-   229		struct rockchip_pcie *rockchip = container_of(work, struct rockchip_pcie,
-   230							trace_work.work);
-   231		struct dw_pcie *pci = &rockchip->pci;
-   232		enum dw_pcie_ltssm state;
-   233		u32 i, l1ss, prev_val = DW_PCIE_LTSSM_UNKNOWN, rate, val;
-   234	
-   235		for (i = 0; i < PCIE_DBG_LTSSM_HISTORY_CNT; i++) {
-   236			val = rockchip_pcie_readl_apb(rockchip, PCIE_CLIENT_DBG_FIFO_STATUS);
-   237			rate = FIELD_GET(PCIE_DBG_FIFO_RATE_MASK, val);
-   238			l1ss = FIELD_GET(PCIE_DBG_FIFO_L1SUB_MASK, val);
-   239			val = FIELD_GET(PCIE_LTSSM_STATUS_MASK, val);
-   240	
-   241			/*
-   242			 * Hardware Mechanism: The ring FIFO employs two tracking counters:
-   243			 * - 'last-read-point': maintains the user's last read position
-   244			 * - 'last-valid-point': tracks the hardware's last state update
-   245			 *
-   246			 * Software Handling: When two consecutive LTSSM states are identical,
-   247			 * it indicates invalid subsequent data in the FIFO. In this case, we
-   248			 * skip the remaining entries. The dual-counter design ensures that on
-   249			 * the next state transition, reading can resume from the last user
-   250			 * position.
-   251			 */
-   252			if ((i > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
-   253				break;
-   254	
-   255			state = prev_val = val;
-   256			if (val == DW_PCIE_LTSSM_L1_IDLE) {
-   257				if (l1ss == 2)
-   258					state = DW_PCIE_LTSSM_L1_2;
-   259				else if (l1ss == 1)
-   260					state = DW_PCIE_LTSSM_L1_1;
-   261			}
-   262	
-   263			trace_pcie_ltssm_state_transition(dev_name(pci->dev),
- > 264						dw_pcie_ltssm_status_string(state),
-   265						((rate + 1) > pci->max_link_speed) ?
-   266						PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
-   267		}
-   268	
-   269		schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
-   270	}
-   271	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
