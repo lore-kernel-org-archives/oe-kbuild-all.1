@@ -1,250 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5295534B19F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 06:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACFDA41
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 06:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768284632; cv=none; b=k1wRySzOXeV5EJQ24I0sCwqArwbUdCix2nGvJghpYYwL+v1WUlBkqblP4+QmmYVzIVXElbJvJS+ysubc+flguDNNWAxBYUmX0cGPsFCsBCZaBMs8weenNKKaB5WLvMwlI6ITPLAcGcWeC1GRa+9cGLZhmF3ig3J3NgmD5XgjGq4=
+	t=1768284802; cv=none; b=s6DnLhV6AWsUydo2KUeeG2nen1K55fCPLMdjn9IGhTo+4h4QNnRZIljEMsjaCREtSIcppgbvw8C5UDJrHVQP/WB8L1jzPg9l/NpwB+j5mfvOcfvvhblpd37GGavQDJHfvJ0q3sXPC1rJNt6OyOeVCHUfxfTcR8RiZURqiU2RxGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768284632; c=relaxed/simple;
-	bh=XCF+IjzI5GPDGIYVfiuVknMU9ck/wNnfCEnWUHxA+sE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=SrandRK32wrelF+NxgUugyg9az/rtKwnXFZSGLtWJEzBMkJvPAiGNbCwes3ao+uvzdao8LTphHF4ZnSOph8KDUcH7N8361I9JQEdUU9d+pUB+VedZOzFLI0su6u1uxWzkC0nykuOIIv61mWpHY8ak4ghiEU9lkXx1QpJXFm5WaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OZD5qBms; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768284802; c=relaxed/simple;
+	bh=tcLwKl29y1Aw1jNZ9CT/XY/qOBcKIiMKPKSxUolbQ34=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t2MMNtlLceNUQOzFOGlL8e7mNwgwG5ioJWZ7dOHCdm1U5KmvB7s9+JcitQxQbghdi1gYd2Ie10Yo/FvtqjAhsRbQe3clORlZW/8zGpTmeSSnQc8IvtHLst0o6Q/zpf0kzK3xsNKKzEjhajFUGRd6h2SfX7DcFiUBV4Ys5faWwW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNILGEeE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OZD5qBms"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768284630; x=1799820630;
-  h=date:from:to:cc:subject:message-id;
-  bh=XCF+IjzI5GPDGIYVfiuVknMU9ck/wNnfCEnWUHxA+sE=;
-  b=OZD5qBms+Ccp6uwDNuhLOi1bgU0yA96LvucgJRk2B4ImXNJ5k8XvkCqb
-   V+AAoQop4pAoeY7vMztcQ73Utzm/0cj/1rc5k7dbyNgMLW473iffhTgyZ
-   eC9+j/uhO0UCJclxeDt8t4Z8KSMgqsDuTUhemDM9hYtavc/qz1SoU3OwI
-   TFlGJqg2RbuzGe7FfhiJW2cD2/5jQ5hDnyPLogDyhVOn6kesibkKyadR3
-   C2DxFXr5Iv84L71Ys0/Etava9KflaOgSYvlIIemSle68XFZLKkHIK0+HH
-   E4GBZONmjw9WBSxCLe9PpxhIClkVls8yZlghzdZBVAhNafohqgGDKfoEI
-   A==;
-X-CSE-ConnectionGUID: 1RbdaIWpSz2jqnM+O6z+XA==
-X-CSE-MsgGUID: wLdR6NI6TnaDqoO1KyCgqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="73407911"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="73407911"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 22:10:30 -0800
-X-CSE-ConnectionGUID: wvvFSW2ZTSOxMRHPoZdijg==
-X-CSE-MsgGUID: g4Uv2/DlTh2YXpSSNLfcbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="208810569"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Jan 2026 22:10:28 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfXbl-00000000EJ6-2MLC;
-	Tue, 13 Jan 2026 06:10:25 +0000
-Date: Tue, 13 Jan 2026 14:09:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Christian Brauner <brauner@kernel.org>
-Subject: fs/notify/fsnotify.c:616:46: sparse: sparse: incorrect type
- in argument 1 (different address spaces)
-Message-ID: <202601131303.6SaXVeSQ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNILGEeE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDD8C116C6;
+	Tue, 13 Jan 2026 06:13:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768284801;
+	bh=tcLwKl29y1Aw1jNZ9CT/XY/qOBcKIiMKPKSxUolbQ34=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lNILGEeE22XMTkyy+9XaM/YuwhrhL+Bpt5lI6j3CxM2/jhN0AGdyIKSnCiXWaE2CK
+	 47jVtBvmFMe9e55/qB1qq/TVVFkw7vlH2PepkrhFsXakgXM9RMSU/pVKMkO+agoppZ
+	 iZBWz3vCvFbQ3NJrRf9kID7DfVUorz/I5CSJT1NKZC8dIdXCyblnng3KaWijjp6Em4
+	 wX2/ZYITTaqdkgoLOLzGhXsCgPe9BPbmqwRNqtetx1uJ7D2rm6LEKwvdYyzu7O4T6D
+	 t4E94mDkDX7Wj+nfoVneOePR4noDUoGcAGLM6sZA9j0hONCtwhCiq0/DJhVgbgCZRl
+	 uMpXFJrcs5zdQ==
+Message-ID: <b92a06fb-9032-4b96-a733-e80fe6ddfb20@kernel.org>
+Date: Mon, 12 Jan 2026 22:13:20 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [thomas-weissschuh:b4/at-vector-size-arch 2/24] ERROR: modpost:
+ "__bswapsi2" [fs/ecryptfs/ecryptfs.ko] undefined!
+To: kernel test robot <lkp@intel.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-snps-arc@lists.infradead.org
+References: <202601131142.f4Kyqt82-lkp@intel.com>
+From: Vineet Gupta <vgupta@kernel.org>
+Content-Language: en-US
+In-Reply-To: <202601131142.f4Kyqt82-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b71e635feefc852405b14620a7fc58c4c80c0f73
-commit: b944249bcea97f2f6229852ae3f05f7acdcb0681 fsnotify: add mount notification infrastructure
-date:   11 months ago
-config: i386-randconfig-063-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131303.6SaXVeSQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131303.6SaXVeSQ-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131303.6SaXVeSQ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/notify/fsnotify.c:433:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/notify/fsnotify.c:433:16: sparse:    struct fsnotify_mark_connector [noderef] __rcu *
-   fs/notify/fsnotify.c:433:16: sparse:    struct fsnotify_mark_connector *
-   fs/notify/fsnotify.c:435:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/notify/fsnotify.c:435:24: sparse:    struct hlist_node [noderef] __rcu *
-   fs/notify/fsnotify.c:435:24: sparse:    struct hlist_node *
-   fs/notify/fsnotify.c:445:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/notify/fsnotify.c:445:24: sparse:    struct hlist_node [noderef] __rcu *
-   fs/notify/fsnotify.c:445:24: sparse:    struct hlist_node *
->> fs/notify/fsnotify.c:616:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:616:46: sparse:     expected struct fsnotify_mark_connector *const *connp
-   fs/notify/fsnotify.c:616:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
-   fs/notify/fsnotify.c:620:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:620:46: sparse:     expected struct fsnotify_mark_connector *const *connp
-   fs/notify/fsnotify.c:620:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
-   fs/notify/fsnotify.c:624:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:624:46: sparse:     expected struct fsnotify_mark_connector *const *connp
-   fs/notify/fsnotify.c:624:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
-   fs/notify/fsnotify.c:628:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:628:46: sparse:     expected struct fsnotify_mark_connector *const *connp
-   fs/notify/fsnotify.c:628:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
-   fs/notify/fsnotify.c:632:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu *const * @@
-   fs/notify/fsnotify.c:632:54: sparse:     expected struct fsnotify_mark_connector *const *connp
-   fs/notify/fsnotify.c:632:54: sparse:     got struct fsnotify_mark_connector [noderef] __rcu *const *
+On 1/12/26 19:20, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/at-vector-size-arch
+> head:   48790f0896dc14ed71a371b1a81ecd5c32347185
+> commit: 7ad4197ef8bdb56c2e4b411acc9bb311e91f6350 [2/24] ARC: Always use SWAPE instructions and enable ARCH_USE_BUILTIN_BSWAP
+> config: arc-randconfig-001-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131142.f4Kyqt82-lkp@intel.com/config)
+> compiler: arc-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131142.f4Kyqt82-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601131142.f4Kyqt82-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>
+>>> ERROR: modpost: "__bswapsi2" [fs/ecryptfs/ecryptfs.ko] undefined!
+>>> ERROR: modpost: "__bswapdi2" [fs/ecryptfs/ecryptfs.ko] undefined!
+>>> ERROR: modpost: "__bswapsi2" [security/keys/trusted-keys/trusted.ko] undefined!
+>>> ERROR: modpost: "__bswapdi2" [crypto/wp512.ko] undefined!
+>>> ERROR: modpost: "__bswapsi2" [drivers/pinctrl/pinctrl-single.ko] undefined!
+>>> ERROR: modpost: "__bswapsi2" [drivers/video/backlight/qcom-wled.ko] undefined!
+>>> ERROR: modpost: "__bswapsi2" [drivers/video/fbdev/core/cfbfillrect.ko] undefined!
+>>> ERROR: modpost: "__bswapsi2" [drivers/video/fbdev/core/cfbcopyarea.ko] undefined!
+>>> ERROR: modpost: "__bswapsi2" [drivers/video/fbdev/core/cfbimgblt.ko] undefined!
+>>> ERROR: modpost: "__bswapsi2" [drivers/video/fbdev/core/sysfillrect.ko] undefined!
+> WARNING: modpost: suppressed 92 unresolved symbol warnings because there were too many)
+>
+> Kconfig warnings: (for reference only)
+>    WARNING: unmet direct dependencies detected for CAN_DEV
+>    Depends on [n]: NETDEVICES [=n] && CAN [=y]
+>    Selected by [y]:
+>    - CAN [=y] && NET [=y]
 
-vim +616 fs/notify/fsnotify.c
+Sorry my bad.
+While ARC770 cpus do support swape, it seems gcc doesn't define the builtin for
+arc700 (and generates a libcall) and as Arnd mentioned we don't have -mcpu=arc770.
+As a quick fix/hack we could add EXPORT_SYMBOL this in arch/arc/kernel/arcksyms.c ?
 
-d9a6f30bb89309 Amir Goldstein          2018-04-20  520  
-90586523eb4b34 Eric Paris              2009-05-21  521  /*
-40a100d3adc1ad Amir Goldstein          2020-07-22  522   * fsnotify - This is the main call to fsnotify.
-40a100d3adc1ad Amir Goldstein          2020-07-22  523   *
-40a100d3adc1ad Amir Goldstein          2020-07-22  524   * The VFS calls into hook specific functions in linux/fsnotify.h.
-40a100d3adc1ad Amir Goldstein          2020-07-22  525   * Those functions then in turn call here.  Here will call out to all of the
-40a100d3adc1ad Amir Goldstein          2020-07-22  526   * registered fsnotify_group.  Those groups can then use the notification event
-40a100d3adc1ad Amir Goldstein          2020-07-22  527   * in whatever means they feel necessary.
-40a100d3adc1ad Amir Goldstein          2020-07-22  528   *
-40a100d3adc1ad Amir Goldstein          2020-07-22  529   * @mask:	event type and flags
-40a100d3adc1ad Amir Goldstein          2020-07-22  530   * @data:	object that event happened on
-40a100d3adc1ad Amir Goldstein          2020-07-22  531   * @data_type:	type of object for fanotify_data_XXX() accessors
-40a100d3adc1ad Amir Goldstein          2020-07-22  532   * @dir:	optional directory associated with event -
-40a100d3adc1ad Amir Goldstein          2020-07-22  533   *		if @file_name is not NULL, this is the directory that
-40a100d3adc1ad Amir Goldstein          2020-07-22  534   *		@file_name is relative to
-40a100d3adc1ad Amir Goldstein          2020-07-22  535   * @file_name:	optional file name associated with event
-40a100d3adc1ad Amir Goldstein          2020-07-22  536   * @inode:	optional inode associated with event -
-29335033c574a1 Gabriel Krisman Bertazi 2021-10-25  537   *		If @dir and @inode are both non-NULL, event may be
-29335033c574a1 Gabriel Krisman Bertazi 2021-10-25  538   *		reported to both.
-40a100d3adc1ad Amir Goldstein          2020-07-22  539   * @cookie:	inotify rename cookie
-90586523eb4b34 Eric Paris              2009-05-21  540   */
-40a100d3adc1ad Amir Goldstein          2020-07-22  541  int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
-40a100d3adc1ad Amir Goldstein          2020-07-22  542  	     const struct qstr *file_name, struct inode *inode, u32 cookie)
-90586523eb4b34 Eric Paris              2009-05-21  543  {
-b54cecf5e2293d Amir Goldstein          2020-06-07  544  	const struct path *path = fsnotify_data_path(data, data_type);
-29335033c574a1 Gabriel Krisman Bertazi 2021-10-25  545  	struct super_block *sb = fsnotify_data_sb(data, data_type);
-b944249bcea97f Miklos Szeredi          2025-01-29  546  	const struct fsnotify_mnt *mnt_data = fsnotify_data_mnt(data, data_type);
-b944249bcea97f Miklos Szeredi          2025-01-29  547  	struct fsnotify_sb_info *sbinfo = sb ? fsnotify_sb_info(sb) : NULL;
-3427ce71554123 Miklos Szeredi          2017-10-30  548  	struct fsnotify_iter_info iter_info = {};
-60f7ed8c7c4d06 Amir Goldstein          2018-09-01  549  	struct mount *mnt = NULL;
-e54183fa7047c1 Amir Goldstein          2021-11-29  550  	struct inode *inode2 = NULL;
-e54183fa7047c1 Amir Goldstein          2021-11-29  551  	struct dentry *moved;
-e54183fa7047c1 Amir Goldstein          2021-11-29  552  	int inode2_type;
-9385a84d7e1f65 Jan Kara                2016-11-10  553  	int ret = 0;
-b944249bcea97f Miklos Szeredi          2025-01-29  554  	__u32 test_mask, marks_mask = 0;
-90586523eb4b34 Eric Paris              2009-05-21  555  
-71d734103edfa2 Mel Gorman              2020-07-08  556  	if (path)
-aa93bdc5500cc9 Amir Goldstein          2020-03-19  557  		mnt = real_mount(path->mnt);
-3a9fb89f4cd04c Eric Paris              2009-12-17  558  
-40a100d3adc1ad Amir Goldstein          2020-07-22  559  	if (!inode) {
-40a100d3adc1ad Amir Goldstein          2020-07-22  560  		/* Dirent event - report on TYPE_INODE to dir */
-40a100d3adc1ad Amir Goldstein          2020-07-22  561  		inode = dir;
-e54183fa7047c1 Amir Goldstein          2021-11-29  562  		/* For FS_RENAME, inode is old_dir and inode2 is new_dir */
-e54183fa7047c1 Amir Goldstein          2021-11-29  563  		if (mask & FS_RENAME) {
-e54183fa7047c1 Amir Goldstein          2021-11-29  564  			moved = fsnotify_data_dentry(data, data_type);
-e54183fa7047c1 Amir Goldstein          2021-11-29  565  			inode2 = moved->d_parent->d_inode;
-e54183fa7047c1 Amir Goldstein          2021-11-29  566  			inode2_type = FSNOTIFY_ITER_TYPE_INODE2;
-e54183fa7047c1 Amir Goldstein          2021-11-29  567  		}
-40a100d3adc1ad Amir Goldstein          2020-07-22  568  	} else if (mask & FS_EVENT_ON_CHILD) {
-40a100d3adc1ad Amir Goldstein          2020-07-22  569  		/*
-fecc4559780d52 Amir Goldstein          2020-12-02  570  		 * Event on child - report on TYPE_PARENT to dir if it is
-fecc4559780d52 Amir Goldstein          2020-12-02  571  		 * watching children and on TYPE_INODE to child.
-40a100d3adc1ad Amir Goldstein          2020-07-22  572  		 */
-e54183fa7047c1 Amir Goldstein          2021-11-29  573  		inode2 = dir;
-e54183fa7047c1 Amir Goldstein          2021-11-29  574  		inode2_type = FSNOTIFY_ITER_TYPE_PARENT;
-40a100d3adc1ad Amir Goldstein          2020-07-22  575  	}
-497b0c5a7c0688 Amir Goldstein          2020-07-16  576  
-7c49b8616460eb Dave Hansen             2015-09-04  577  	/*
-7c49b8616460eb Dave Hansen             2015-09-04  578  	 * Optimization: srcu_read_lock() has a memory barrier which can
-7c49b8616460eb Dave Hansen             2015-09-04  579  	 * be expensive.  It protects walking the *_fsnotify_marks lists.
-7c49b8616460eb Dave Hansen             2015-09-04  580  	 * However, if we do not walk the lists, we do not have to do
-7c49b8616460eb Dave Hansen             2015-09-04  581  	 * SRCU because we have no references to any objects and do not
-7c49b8616460eb Dave Hansen             2015-09-04  582  	 * need SRCU to keep them "alive".
-7c49b8616460eb Dave Hansen             2015-09-04  583  	 */
-07a3b8d0bf726a Amir Goldstein          2024-03-17  584  	if ((!sbinfo || !sbinfo->sb_marks) &&
-497b0c5a7c0688 Amir Goldstein          2020-07-16  585  	    (!mnt || !mnt->mnt_fsnotify_marks) &&
-9b93f33105f5f9 Amir Goldstein          2020-07-16  586  	    (!inode || !inode->i_fsnotify_marks) &&
-b944249bcea97f Miklos Szeredi          2025-01-29  587  	    (!inode2 || !inode2->i_fsnotify_marks) &&
-b944249bcea97f Miklos Szeredi          2025-01-29  588  	    (!mnt_data || !mnt_data->ns->n_fsnotify_marks))
-7c49b8616460eb Dave Hansen             2015-09-04  589  		return 0;
-71d734103edfa2 Mel Gorman              2020-07-08  590  
-b944249bcea97f Miklos Szeredi          2025-01-29  591  	if (sb)
-b944249bcea97f Miklos Szeredi          2025-01-29  592  		marks_mask |= READ_ONCE(sb->s_fsnotify_mask);
-71d734103edfa2 Mel Gorman              2020-07-08  593  	if (mnt)
-35ceae44742e11 Jan Kara                2024-07-17  594  		marks_mask |= READ_ONCE(mnt->mnt_fsnotify_mask);
-9b93f33105f5f9 Amir Goldstein          2020-07-16  595  	if (inode)
-35ceae44742e11 Jan Kara                2024-07-17  596  		marks_mask |= READ_ONCE(inode->i_fsnotify_mask);
-e54183fa7047c1 Amir Goldstein          2021-11-29  597  	if (inode2)
-35ceae44742e11 Jan Kara                2024-07-17  598  		marks_mask |= READ_ONCE(inode2->i_fsnotify_mask);
-b944249bcea97f Miklos Szeredi          2025-01-29  599  	if (mnt_data)
-b944249bcea97f Miklos Szeredi          2025-01-29  600  		marks_mask |= READ_ONCE(mnt_data->ns->n_fsnotify_mask);
-71d734103edfa2 Mel Gorman              2020-07-08  601  
-613a807fe7c793 Eric Paris              2010-07-28  602  	/*
-31a371e419c885 Amir Goldstein          2022-06-29  603  	 * If this is a modify event we may need to clear some ignore masks.
-31a371e419c885 Amir Goldstein          2022-06-29  604  	 * In that case, the object with ignore masks will have the FS_MODIFY
-04e317ba72d079 Amir Goldstein          2022-02-23  605  	 * event in its mask.
-04e317ba72d079 Amir Goldstein          2022-02-23  606  	 * Otherwise, return if none of the marks care about this type of event.
-613a807fe7c793 Eric Paris              2010-07-28  607  	 */
-71d734103edfa2 Mel Gorman              2020-07-08  608  	test_mask = (mask & ALL_FSNOTIFY_EVENTS);
-04e317ba72d079 Amir Goldstein          2022-02-23  609  	if (!(test_mask & marks_mask))
-613a807fe7c793 Eric Paris              2010-07-28  610  		return 0;
-75c1be487a690d Eric Paris              2010-07-28  611  
-9385a84d7e1f65 Jan Kara                2016-11-10  612  	iter_info.srcu_idx = srcu_read_lock(&fsnotify_mark_srcu);
-75c1be487a690d Eric Paris              2010-07-28  613  
-07a3b8d0bf726a Amir Goldstein          2024-03-17  614  	if (sbinfo) {
-1c9007d62bea6f Amir Goldstein          2021-11-29  615  		iter_info.marks[FSNOTIFY_ITER_TYPE_SB] =
-07a3b8d0bf726a Amir Goldstein          2024-03-17 @616  			fsnotify_first_mark(&sbinfo->sb_marks);
-07a3b8d0bf726a Amir Goldstein          2024-03-17  617  	}
-9bdda4e9cf2dce Amir Goldstein          2018-09-01  618  	if (mnt) {
-1c9007d62bea6f Amir Goldstein          2021-11-29  619  		iter_info.marks[FSNOTIFY_ITER_TYPE_VFSMOUNT] =
-3427ce71554123 Miklos Szeredi          2017-10-30  620  			fsnotify_first_mark(&mnt->mnt_fsnotify_marks);
-7131485a93679f Eric Paris              2009-12-17  621  	}
-9b93f33105f5f9 Amir Goldstein          2020-07-16  622  	if (inode) {
-1c9007d62bea6f Amir Goldstein          2021-11-29  623  		iter_info.marks[FSNOTIFY_ITER_TYPE_INODE] =
-9b93f33105f5f9 Amir Goldstein          2020-07-16  624  			fsnotify_first_mark(&inode->i_fsnotify_marks);
-9b93f33105f5f9 Amir Goldstein          2020-07-16  625  	}
-e54183fa7047c1 Amir Goldstein          2021-11-29  626  	if (inode2) {
-e54183fa7047c1 Amir Goldstein          2021-11-29  627  		iter_info.marks[inode2_type] =
-e54183fa7047c1 Amir Goldstein          2021-11-29  628  			fsnotify_first_mark(&inode2->i_fsnotify_marks);
-497b0c5a7c0688 Amir Goldstein          2020-07-16  629  	}
-b944249bcea97f Miklos Szeredi          2025-01-29  630  	if (mnt_data) {
-b944249bcea97f Miklos Szeredi          2025-01-29  631  		iter_info.marks[FSNOTIFY_ITER_TYPE_MNTNS] =
-b944249bcea97f Miklos Szeredi          2025-01-29  632  			fsnotify_first_mark(&mnt_data->ns->n_fsnotify_marks);
-b944249bcea97f Miklos Szeredi          2025-01-29  633  	}
-75c1be487a690d Eric Paris              2010-07-28  634  
-8edc6e1688fc8f Jan Kara                2014-11-13  635  	/*
-60f7ed8c7c4d06 Amir Goldstein          2018-09-01  636  	 * We need to merge inode/vfsmount/sb mark lists so that e.g. inode mark
-60f7ed8c7c4d06 Amir Goldstein          2018-09-01  637  	 * ignore masks are properly reflected for mount/sb mark notifications.
-8edc6e1688fc8f Jan Kara                2014-11-13  638  	 * That's why this traversal is so complicated...
-8edc6e1688fc8f Jan Kara                2014-11-13  639  	 */
-d9a6f30bb89309 Amir Goldstein          2018-04-20  640  	while (fsnotify_iter_select_report_types(&iter_info)) {
-b54cecf5e2293d Amir Goldstein          2020-06-07  641  		ret = send_to_group(mask, data, data_type, dir, file_name,
-b54cecf5e2293d Amir Goldstein          2020-06-07  642  				    cookie, &iter_info);
-613a807fe7c793 Eric Paris              2010-07-28  643  
-ff8bcbd03da881 Eric Paris              2010-10-28  644  		if (ret && (mask & ALL_FSNOTIFY_PERM_EVENTS))
-ff8bcbd03da881 Eric Paris              2010-10-28  645  			goto out;
-ff8bcbd03da881 Eric Paris              2010-10-28  646  
-d9a6f30bb89309 Amir Goldstein          2018-04-20  647  		fsnotify_iter_next(&iter_info);
-90586523eb4b34 Eric Paris              2009-05-21  648  	}
-ff8bcbd03da881 Eric Paris              2010-10-28  649  	ret = 0;
-ff8bcbd03da881 Eric Paris              2010-10-28  650  out:
-9385a84d7e1f65 Jan Kara                2016-11-10  651  	srcu_read_unlock(&fsnotify_mark_srcu, iter_info.srcu_idx);
-c4ec54b40d33f8 Eric Paris              2009-12-17  652  
-98b5c10d320adf Jean-Christophe Dubois  2010-03-23  653  	return ret;
-90586523eb4b34 Eric Paris              2009-05-21  654  }
-90586523eb4b34 Eric Paris              2009-05-21  655  EXPORT_SYMBOL_GPL(fsnotify);
-90586523eb4b34 Eric Paris              2009-05-21  656  
-
-:::::: The code at line 616 was first introduced by commit
-:::::: 07a3b8d0bf726a1e49b050bbc6bd72f031e505fe fsnotify: lazy attach fsnotify_sb_info state to sb
-
-:::::: TO: Amir Goldstein <amir73il@gmail.com>
-:::::: CC: Jan Kara <jack@suse.cz>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thx,
+-Vineet
