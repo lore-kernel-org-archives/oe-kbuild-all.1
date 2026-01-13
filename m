@@ -1,94 +1,115 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDFE35B12B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 11:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEA3239E79
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 12:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768305590; cv=none; b=Cv34B3rLVvFMgMViathsBvQNBGtYS56HucZCM8PkxSfutjlA+oekFZxqzHS5EbTWCElvHf7PgTNU+gXovH2oSc2jCVws6hgKkK2pxfAQsEX/pMkIZFXCqx1u+Q/KPcRPX8pGMMbQsjDvCdCRGR3eZCP5tZeXXIV9WF+VxUyyB34=
+	t=1768305963; cv=none; b=fWLimZR6QycD4PdbHHfJ7mqeJV8VlXgzj9BEpsBe82dLM2F8SnBjOAtQ6xZ901S8jz8G88OkzfqqoRYdH1K0fhla3sabdjdjcfyJND3e+qQaJbCwjjV5tP6ceYmP0O/zMtQACwjxrBkNScwcvizUCqtGAX02q76X8QsEmko2iTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768305590; c=relaxed/simple;
-	bh=NjWBMa2jjXNfAsOjbZaZAYP7zCKPzu/li+AWxKmNkYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ffl2nlipwmQLM5XnxNAw/02SqYdHYrIIlgPNjnCmpGmdvIKwg9MyXyrpbCAoJMz/X2rAGUP8ft/c60/NNyeb4aAcxH5zaFS6zp/XRk/HkbGjFzIjewvI5jVwUHv8r+qZFag3RtMtMH6uVmLjfbR+DZoHZHV4dvJ4nLXycEDMhi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jfJfNSLP; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0Esf+ndc; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1768305963; c=relaxed/simple;
+	bh=6IXzXB7Dxl+bTEP1MfGQdXUmw8lHFLyxasZn1lEbv2U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=c+EDANCB0Nk6iw6z2+MIFT5naie2iOffS6epT3kVFyFsNgZj+XTdMpI9Y1oI7wSASfDJc4+GAxA3PuqZSQFohGA3J8GqFU0YoH0TzG7pNq/eXNGbgh1f2MuOvIi88lGh5rBawwBerlDAJLRZTt1qIexj0w1EdUL4qz6/QP/lL8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nfaj/L0c; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jfJfNSLP";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0Esf+ndc"
-Date: Tue, 13 Jan 2026 12:59:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1768305587;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wpxv6MMA4Wy69fITrcyL9dXIhJmqxlTo0Pw5fdLwFnA=;
-	b=jfJfNSLPcwWG2pU2FIGoI4F/L+5N+SwLvyfarM1nhAQ0qFUWp13L5jx2kQg/wPuqd9N7FQ
-	Jza5z8U1RItiiA/GDxsJ+M4FlXG50R9kZ2Uxn9152pmlVs7R2/Q8MlJWTfWvTwkiEZFZgw
-	VUoTiSgclcWphGatFgs/J9NMd8xuhDMdaO0zp/xFkW1FYdQbGiESrAtCubmDYymCYYsWjO
-	5CuLmiUi8HDyKXjsbk2VYlhCl8yWvbWHKEEe5Yl2vdpOf5oVJeWiZQORAfg2C5DOg+zvOT
-	Dayxqmk+M15gfuvgnOsvjK53+vtUTZ6bYOaO7kvmm5qpiIQUd2K6rInp75uXBw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1768305587;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Wpxv6MMA4Wy69fITrcyL9dXIhJmqxlTo0Pw5fdLwFnA=;
-	b=0Esf+ndc9oiYzre9q05RJcoEjjfc9P2UkFTXFyrpx5K09Kt5cVtkVTQzP4A3bf4kBb6Df3
-	WegP9pPBy2jodCCA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: kernel test robot <lkp@intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: kernel/futex/core.c:505:38: sparse: sparse: cast removes address
- space '__user' of expression
-Message-ID: <20260113115946.L49jwJMx@linutronix.de>
-References: <202601131901.j7WJ9OeZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nfaj/L0c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768305961; x=1799841961;
+  h=date:from:to:cc:subject:message-id;
+  bh=6IXzXB7Dxl+bTEP1MfGQdXUmw8lHFLyxasZn1lEbv2U=;
+  b=nfaj/L0cQa6YER6EgEcYooQmdNDfLx5s/fxFTexmpIAjI5c6800RvyFF
+   aC+toU6k5yrKlwFDL04JQ18IOoZPfBXDL9EMCBqyYezkXejkqcdRoqOev
+   sJZ9vtsDdk0Z7+I8INHFvlgE5UXKxUb+Ld0vkrVENu+Q8M4eDBejG6hPN
+   m5jIrYTPSddCD+4JRxT812tnUfVA1c6EOO7CdoBOytPe9YtH07XEyG3MM
+   knaGmL8nnApXoSmNxJLhKSsKnghRXbdvPK5Wd4uJ2IHQsLqYQyDEQmABG
+   HyhRNqOGUttmy9nI5WSX3PJoXKDWo81dlD+XcPwzOubyJRz02fkKlttwZ
+   w==;
+X-CSE-ConnectionGUID: aA9el6m2SNq9cOA1pfsAow==
+X-CSE-MsgGUID: ODbFNRbhSZmbVc7+bvPwtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="87170076"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="87170076"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 04:06:01 -0800
+X-CSE-ConnectionGUID: IhS9paVVTBu+e3cglvdKOA==
+X-CSE-MsgGUID: nKo3LZSAToqseJlHvPpsrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="204177879"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 13 Jan 2026 04:05:59 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfd9o-00000000Ei0-2ois;
+	Tue, 13 Jan 2026 12:05:56 +0000
+Date: Tue, 13 Jan 2026 20:05:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20260113 7/16]
+ drivers/scsi/aic94xx/aic94xx_sas.h:323:28: error: field 'ssp_cmd' has
+ incomplete type
+Message-ID: <202601131922.8dbH4Nal-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <202601131901.j7WJ9OeZ-lkp@intel.com>
 
-On 2026-01-13 19:22:40 [+0800], kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   b71e635feefc852405b14620a7fc58c4c80c0f73
-> commit: cec199c5e39bde7191a08087cc3d002ccfab31ff futex: Implement FUTEX2_=
-NUMA
-> date:   9 months ago
-> config: arm64-randconfig-r123-20260113 (https://download.01.org/0day-ci/a=
-rchive/20260113/202601131901.j7WJ9OeZ-lkp@intel.com/config)
-> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf=
-1a2591520c2491aa35339f227775f4d3adf6)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260113/202601131901.j7WJ9OeZ-lkp@intel.com/reproduce)
-=E2=80=A6
->sparse warnings: (new ones prefixed by >>)
->>> kernel/futex/core.c:505:38: sparse: sparse: cast removes address space =
-'__user' of expression
->>> kernel/futex/core.c:505:51: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected unsigned int [noderef] [usert=
-ype] __user *naddr @@     got void * @@
->   kernel/futex/core.c:505:51: sparse:     expected unsigned int [noderef]=
- [usertype] __user *naddr
->   kernel/futex/core.c:505:51: sparse:     got void *
->   kernel/futex/core.c:894:9: sparse: sparse: context imbalance in 'futex_=
-q_lockptr_lock' - wrong count at exit
-=E2=80=A6
->  > 505			u32 __user *naddr =3D (void *)uaddr + size / 2;
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20260113
+head:   52754522a0ac00706210372e66bc73f60fa759d2
+commit: 2f3d1d884e953f07b26e97dced8ba1b7adba61ad [7/16] scsi: libsas/aci94xx: Avoid multiple -Wflex-array-member-not-at-end warnings
+config: sparc64-randconfig-r072-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131922.8dbH4Nal-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131922.8dbH4Nal-lkp@intel.com/reproduce)
 
-[ ] I (PeterZ) have it fixed, will post soon
-[ ] Fix it for me, I'm saving the world atm
-[ ] Ignore it because of $reasonable_reason
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131922.8dbH4Nal-lkp@intel.com/
 
-Sebastian
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/scsi/aic94xx/aic94xx_hwi.h:19,
+                    from drivers/scsi/aic94xx/aic94xx_reg.h:13,
+                    from drivers/scsi/aic94xx/aic94xx_init.c:21:
+>> drivers/scsi/aic94xx/aic94xx_sas.h:323:28: error: field 'ssp_cmd' has incomplete type
+     struct ssp_command_iu_hdr ssp_cmd;
+                               ^~~~~~~
+
+
+vim +/ssp_cmd +323 drivers/scsi/aic94xx/aic94xx_sas.h
+
+   316	
+   317	/* This is both ssp_task and long_ssp_task
+   318	 */
+   319	struct initiate_ssp_task {
+   320		u8     proto_conn_rate;	  /* proto:6,4, conn_rate:3,0 */
+   321		__le32 total_xfer_len;
+   322		struct ssp_frame_hdr  ssp_frame;
+ > 323		struct ssp_command_iu_hdr ssp_cmd;
+   324		__le16 sister_scb;	  /* 0xFFFF */
+   325		__le16 conn_handle;	  /* index to DDB for the intended target */
+   326		u8     data_dir;	  /* :1,0 */
+   327	#define DATA_DIR_NONE   0x00
+   328	#define DATA_DIR_IN     0x01
+   329	#define DATA_DIR_OUT    0x02
+   330	#define DATA_DIR_BYRECIPIENT 0x03
+   331	
+   332		u8     _r_a;
+   333		u8     retry_count;
+   334		u8     _r_b[5];
+   335		struct sg_el sg_element[3]; /* 2 real and 1 link */
+   336	} __attribute__ ((packed));
+   337	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
