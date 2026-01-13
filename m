@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E725C363C41
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 05:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1683019DA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 05:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768283371; cv=none; b=LOP1a+dnCXDD8TXBWxd8RTp8i+iTcuhapxkiuZEjCHQsZyhQo/M13juKP3vhxYlIlByVB3EfI/Su+g7aojA36IPPVQiOo9cMOgEefFzZizMbgSy0Pg80I3RUbXdjP0x9eHEvYn53JP5pgelWDPi4e1YV2BMVa1wOTvz8bJLYx6c=
+	t=1768283973; cv=none; b=aB0LXgyAQxpPTrVf9GMxTxWX8twGYTEf9rRp9QKpKbt4r5NsGio0NWzMvdozE5x3pZnimzbuG22hQKv1oYRd1Kqnot6zIbipC2En1s6gY1QoqTm6SS/0RAJaUOvm2YQ20yk9hkEfA7kU5mOv5yiunE9qNhFf7c6VhogH9Td8dTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768283371; c=relaxed/simple;
-	bh=OgkPWfvaBlgJ6hyF9e8qquxjc12LtgAcdwVBantNdMI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dlpVGDzts7GetxE6fZXmznZkUV/IAUWp0fCcQVvMhL9KAtMSNM8fiXQ9ZZt0m7pXuJ3cZjb41HiPco+olCXG1hbyEDYngcrE2pCAMHnJkzdzbNiD/Q7/VtgiDqgnp/ZwLm/wMC3MlntSN3RDy7kxuBj+33uk48fFTx2u6FbGeiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dYieJJZA; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768283973; c=relaxed/simple;
+	bh=Tj+QShmIJajzliMz1ATrmDLmsM2685rSsFtz/9shhtY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XHSkZEm8SbnHFr9t54+wGxNkIFYTAMl3mLjsF04Tzuf5K9wI5yyQTF9ZsLk6ErlbCUiLkNF1epuKqp9z7rQXP3e4stqUUdUkZqbYMvafMXC1NejL//UfCFOoas3gcPZDObO6Ni2TudLKpDVU5X20/dHYd7FVdDZMio1NLjuAlXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UmwbNYmg; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dYieJJZA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UmwbNYmg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768283369; x=1799819369;
+  t=1768283971; x=1799819971;
   h=date:from:to:cc:subject:message-id;
-  bh=OgkPWfvaBlgJ6hyF9e8qquxjc12LtgAcdwVBantNdMI=;
-  b=dYieJJZAH96GBu1CK4A2un6iPeQJfBdwiIuvjYialfAtYgqqOikSUfKv
-   xF+8hbOX891bjL33QDp6kI3gVufYtZC9MV6piGmt/QOBfjxlQDK5YjqV3
-   cvlzWOzqXQsFhrDlRyC0IwJpufL1sZ6/ybutmEm7mLvyXC8fFEmk477mT
-   aNcp5DLGH1SrPVOeVRzJDA6cuMfNUVHPV86gSyFWWtDCsAwBpb5aO8VEY
-   X/vZP2WqRmzXkQGyFERTkWXuRaqkYSydXkMMWGXHrEVETStIgytj3YPFl
-   ca3wWdQWtfYboHER+8T/R0jF7iOAz+YtlIM+fofeSGmyjUcG7wpSL98pZ
-   A==;
-X-CSE-ConnectionGUID: Tj28hkBMTHCujjB/utZKNA==
-X-CSE-MsgGUID: nBrNaiWbSuqa+LAH4LjdlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69548071"
+  bh=Tj+QShmIJajzliMz1ATrmDLmsM2685rSsFtz/9shhtY=;
+  b=UmwbNYmgOsDuEQrTY2wCCjM7WF3AJ3gqo23e2WW8Y/QhsxpftKn8fXax
+   ApMXGv/G82E48wBrIiAJyT/7RZxua1l6D8lwR4WGBBojer2ALcYE50bXx
+   9xRv2DVI+UdE8v7Uphg+0imdQk4FvEBqXhl25olH+KTdbWKIX+SifQ1GT
+   +KQRtZYe468VTaz+hUT09njza2mAkIh0ZJMUu8x+dT+PXIzmhfmGCBe3h
+   jamDC2pfJwKQGw4XXPiN1UfRXFr+26MC+SIB9rp26eRK1beLizbcRabX1
+   8yp4Gi0KgEAQCPl2JVACSvCyTsFvDaUfgYRFQnIjoGSr4cYZbZpm/gCsv
+   g==;
+X-CSE-ConnectionGUID: F0NdZQrfR3yPtScHRb4sQA==
+X-CSE-MsgGUID: mUsB4cUySXaXg24mQIZYow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80207526"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="69548071"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 21:49:28 -0800
-X-CSE-ConnectionGUID: GOuSEYg9R/ypV/2GiemlAA==
-X-CSE-MsgGUID: ojqn2+c4RO2xKFPuIUXv/A==
+   d="scan'208";a="80207526"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 21:59:30 -0800
+X-CSE-ConnectionGUID: YxAEy7q2Tpa57u9o+PITcw==
+X-CSE-MsgGUID: uCOosI2jTCCBTUTBaudDwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="209119900"
+   d="scan'208";a="235001145"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Jan 2026 21:49:27 -0800
+  by orviesa002.jf.intel.com with ESMTP; 12 Jan 2026 21:59:28 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfXHQ-00000000EIA-2fCy;
-	Tue, 13 Jan 2026 05:49:24 +0000
-Date: Tue, 13 Jan 2026 13:48:42 +0800
+	id 1vfXR7-00000000EIs-1dEF;
+	Tue, 13 Jan 2026 05:59:25 +0000
+Date: Tue, 13 Jan 2026 13:59:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 33/33]
- kernel/sched/core.c:2787:3: error: call to undeclared function
- 'move_queued_task_locked'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202601131352.jF9eiEnn-lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Trond Myklebust <trond.myklebust@hammerspace.com>,
+ Benjamin Coddington <bcodding@redhat.com>
+Subject: fs/nfs/./nfs4trace.h:1539:1: sparse: sparse: incorrect type
+ in assignment (different base types)
+Message-ID: <202601131308.QGmmnBXg-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,138 +61,91 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   c818542ead502009bd003c189fcc86795005133e
-commit: f77e294987675cc8ef143bb52667ff0025416d73 [33/33] ANDROID: sched: Fix rt/dl load balancing via chain level balance
-config: x86_64-randconfig-161-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131352.jF9eiEnn-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-smatch version: v0.5.0-8985-g2614ff1a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131352.jF9eiEnn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b71e635feefc852405b14620a7fc58c4c80c0f73
+commit: b0b7cdc99431655aec3f3afcf05e3eeca0f8dd79 nfs: new tracepoint in match_stateid operation
+date:   6 months ago
+config: x86_64-randconfig-r121-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131308.QGmmnBXg-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131308.QGmmnBXg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131352.jF9eiEnn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131308.QGmmnBXg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/nfs/nfs4trace.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, fs/nfs/nfs4trace.h):
+   fs/nfs/./nfs4trace.h:1002:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int fmode @@     got restricted fmode_t const [usertype] type @@
+   fs/nfs/./nfs4trace.h:1002:1: sparse:     expected unsigned int fmode
+   fs/nfs/./nfs4trace.h:1002:1: sparse:     got restricted fmode_t const [usertype] type
+>> fs/nfs/./nfs4trace.h:1539:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s1_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     expected int s1_seq
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     got restricted __be32 const [usertype] seqid
+   fs/nfs/./nfs4trace.h:1539:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s2_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     expected int s2_seq
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     got restricted __be32 const [usertype] seqid
+   fs/nfs/nfs4trace.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, fs/nfs/nfs4trace.h):
+   fs/nfs/./nfs4trace.h:1002:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int fmode @@     got restricted fmode_t const [usertype] type @@
+   fs/nfs/./nfs4trace.h:1002:1: sparse:     expected unsigned int fmode
+   fs/nfs/./nfs4trace.h:1002:1: sparse:     got restricted fmode_t const [usertype] type
+>> fs/nfs/./nfs4trace.h:1539:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s1_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     expected int s1_seq
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     got restricted __be32 const [usertype] seqid
+   fs/nfs/./nfs4trace.h:1539:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s2_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     expected int s2_seq
+   fs/nfs/./nfs4trace.h:1539:1: sparse:     got restricted __be32 const [usertype] seqid
 
->> kernel/sched/core.c:2787:3: error: call to undeclared function 'move_queued_task_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2787 |                 move_queued_task_locked(rq, lowest_rq, p);
-         |                 ^
-   kernel/sched/core.c:2787:3: note: did you mean '__move_queued_task_locked'?
-   kernel/sched/sched.h:3890:6: note: '__move_queued_task_locked' declared here
-    3890 | void __move_queued_task_locked(struct rq *src_rq, struct rq *dst_rq, struct task_struct *task)
-         |      ^
-   kernel/sched/core.c:8619:12: warning: array index -1 is before the beginning of the array [-Warray-bounds]
-    8619 |                                        preempt_modes[preempt_dynamic_mode] : "undef",
-         |                                        ^             ~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:8594:1: note: array 'preempt_modes' declared here
-    8594 | const char *preempt_modes[] = {
-         | ^
-   1 warning and 1 error generated.
---
-   In file included from kernel/sched/build_policy.c:52:
->> kernel/sched/rt.c:1846:7: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1846 |                 if (task_is_pushable(rq, p, cpu) == 1)
-         |                     ^
-   kernel/sched/rt.c:1846:7: note: did you mean '__task_is_pushable'?
-   kernel/sched/sched.h:3901:5: note: '__task_is_pushable' declared here
-    3901 | int __task_is_pushable(struct rq *rq, struct task_struct *p, int cpu)
-         |     ^
-   In file included from kernel/sched/build_policy.c:52:
-   kernel/sched/rt.c:1965:7: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1965 |                 if (task_is_pushable(rq, p, 0)) {
-         |                     ^
-   kernel/sched/rt.c:2059:18: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2059 |                 int pushable = task_is_pushable(rq, task, lowest->cpu);
-         |                                ^
->> kernel/sched/rt.c:2231:2: error: call to undeclared function 'move_queued_task_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2231 |         move_queued_task_locked(rq, lowest_rq, next_task);
-         |         ^
-   kernel/sched/rt.c:2231:2: note: did you mean '__move_queued_task_locked'?
-   kernel/sched/sched.h:3890:6: note: '__move_queued_task_locked' declared here
-    3890 | void __move_queued_task_locked(struct rq *src_rq, struct rq *dst_rq, struct task_struct *task)
-         |      ^
-   In file included from kernel/sched/build_policy.c:52:
-   kernel/sched/rt.c:2505:5: error: call to undeclared function 'move_queued_task_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2505 |                                 move_queued_task_locked(src_rq, this_rq, p);
-         |                                 ^
-   In file included from kernel/sched/build_policy.c:58:
->> kernel/sched/deadline.c:2472:7: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2472 |                 if (task_is_pushable(rq, p, cpu) == 1)
-         |                     ^
-   kernel/sched/deadline.c:2587:7: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2587 |                 if (task_is_pushable(rq, p, 0))
-         |                     ^
-   kernel/sched/deadline.c:2665:18: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2665 |                 int pushable = task_is_pushable(rq, task, later->cpu);
-         |                                ^
->> kernel/sched/deadline.c:2795:2: error: call to undeclared function 'move_queued_task_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2795 |         move_queued_task_locked(rq, later_rq, next_task);
-         |         ^
-   kernel/sched/deadline.c:2881:5: error: call to undeclared function 'move_queued_task_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2881 |                                 move_queued_task_locked(src_rq, this_rq, p);
-         |                                 ^
-   10 errors generated.
+vim +1539 fs/nfs/./nfs4trace.h
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-
-
-vim +/move_queued_task_locked +2787 kernel/sched/core.c
-
-5cc389bcee088b Peter Zijlstra 2015-06-11  2760  
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2761  int push_cpu_stop(void *arg)
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2762  {
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2763  	struct rq *lowest_rq = NULL, *rq = this_rq();
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2764  	struct task_struct *p = arg;
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2765  
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2766  	raw_spin_lock_irq(&p->pi_lock);
-5cb9eaa3d274f7 Peter Zijlstra 2020-11-17  2767  	raw_spin_rq_lock(rq);
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2768  
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2769  	if (task_rq(p) != rq)
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2770  		goto out_unlock;
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2771  
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2772  	if (is_migration_disabled(p)) {
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2773  		p->migration_flags |= MDF_PUSH;
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2774  		goto out_unlock;
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2775  	}
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2776  
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2777  	p->migration_flags &= ~MDF_PUSH;
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2778  
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2779  	if (p->sched_class->find_lock_rq)
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2780  		lowest_rq = p->sched_class->find_lock_rq(p, rq);
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2781  
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2782  	if (!lowest_rq)
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2783  		goto out_unlock;
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2784  
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2785  	// XXX validate p is still the highest prio task
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2786  	if (task_rq(p) == rq) {
-2b05a0b4c08ffd Connor O'Brien 2024-10-09 @2787  		move_queued_task_locked(rq, lowest_rq, p);
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2788  		resched_curr(lowest_rq);
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2789  	}
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2790  
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2791  	double_unlock_balance(rq, lowest_rq);
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2792  
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2793  out_unlock:
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2794  	rq->push_busy = false;
-5cb9eaa3d274f7 Peter Zijlstra 2020-11-17  2795  	raw_spin_rq_unlock(rq);
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2796  	raw_spin_unlock_irq(&p->pi_lock);
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2797  
-a7c81556ec4d34 Peter Zijlstra 2020-09-28  2798  	put_task_struct(p);
-5cc389bcee088b Peter Zijlstra 2015-06-11  2799  	return 0;
-5cc389bcee088b Peter Zijlstra 2015-06-11  2800  }
-4d4666820ab722 Rick Yiu       2025-06-06  2801  EXPORT_SYMBOL_GPL(push_cpu_stop);
-5cc389bcee088b Peter Zijlstra 2015-06-11  2802  
-
-:::::: The code at line 2787 was first introduced by commit
-:::::: 2b05a0b4c08ffd6dedfbd27af8708742cde39b95 sched: Add move_queued_task_locked helper
-
-:::::: TO: Connor O'Brien <connoro@google.com>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+  1526	
+  1527	#define show_stateid_type(type) \
+  1528		__print_symbolic(type, \
+  1529			{ NFS4_INVALID_STATEID_TYPE,	"INVALID" }, \
+  1530			{ NFS4_SPECIAL_STATEID_TYPE,	"SPECIAL" }, \
+  1531			{ NFS4_OPEN_STATEID_TYPE,	"OPEN" }, \
+  1532			{ NFS4_LOCK_STATEID_TYPE,	"LOCK" }, \
+  1533			{ NFS4_DELEGATION_STATEID_TYPE,	"DELEGATION" }, \
+  1534			{ NFS4_LAYOUT_STATEID_TYPE,	"LAYOUT" },	\
+  1535			{ NFS4_PNFS_DS_STATEID_TYPE,	"PNFS_DS" }, \
+  1536			{ NFS4_REVOKED_STATEID_TYPE,	"REVOKED" }, \
+  1537			{ NFS4_FREED_STATEID_TYPE,	"FREED" })
+  1538	
+> 1539	DECLARE_EVENT_CLASS(nfs4_match_stateid_event,
+  1540			TP_PROTO(
+  1541				const nfs4_stateid *s1,
+  1542				const nfs4_stateid *s2
+  1543			),
+  1544	
+  1545			TP_ARGS(s1, s2),
+  1546	
+  1547			TP_STRUCT__entry(
+  1548				__field(int, s1_seq)
+  1549				__field(int, s2_seq)
+  1550				__field(u32, s1_hash)
+  1551				__field(u32, s2_hash)
+  1552				__field(int, s1_type)
+  1553				__field(int, s2_type)
+  1554			),
+  1555	
+  1556			TP_fast_assign(
+  1557				__entry->s1_seq = s1->seqid;
+  1558				__entry->s1_hash = nfs_stateid_hash(s1);
+  1559				__entry->s1_type = s1->type;
+  1560				__entry->s2_seq = s2->seqid;
+  1561				__entry->s2_hash = nfs_stateid_hash(s2);
+  1562				__entry->s2_type = s2->type;
+  1563			),
+  1564	
+  1565			TP_printk(
+  1566				"s1=%s:%x:%u s2=%s:%x:%u",
+  1567				show_stateid_type(__entry->s1_type),
+  1568				__entry->s1_hash, __entry->s1_seq,
+  1569				show_stateid_type(__entry->s2_type),
+  1570				__entry->s2_hash, __entry->s2_seq
+  1571			)
+  1572	);
+  1573	
 
 -- 
 0-DAY CI Kernel Test Service
