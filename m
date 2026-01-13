@@ -1,128 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C1F369961
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 15:21:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DFA1DEFE9;
+	Tue, 13 Jan 2026 15:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768317684; cv=none; b=SMwjnWKSYMvrXGKwu1J0r1zkNkF+Jb5Kt06ZxLIFr0k89zTgocA1NaFWyXyX2DR7eYt965kQHixxSJbdhR8rrbQtFff9cY6StFzkTgL1Mo7lMe/XJ+A5//slBHFl0kqDaoWw3fq9Td3fsz7z0ozG3UKhKAvjsXGsEndGWqc1qks=
+	t=1768318032; cv=none; b=gnDl/+J0RgriKTmexaiw0DAqofD48amKFP9Qk89bXPuHc77KckjxzzTSE8HfkjDf22ATQBnP4lXNfUoCQMrHyGxHSs+xQNfaBMGkslRBssRndQZeN28I1md+NMJdHJJxXHByfl+NUZGE04gBzmGYAmRjAAS0Zq8uDlA8cGirTm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768317684; c=relaxed/simple;
-	bh=5hBIdtKUBO15ozkbW9O6Q2PUJD6wMONorr19X3qkoUs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eZHerQR8yZCt/Fq3RbbPvjWcnV58E/GRSnLXWzair5S/Hqmzg6igB4xp0Dwd+E80VN2+cfQ48SFIU3uQvjhCjwU4yz57vuObbIBYxhboJrC6o+YbygDl0Z8PrlcVuPek8h7RXIJ0yfIxCCJhPhJBtZs6xiwDtivy362DTdS7ny0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EhcrJIm0; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768318032; c=relaxed/simple;
+	bh=5izkz9YWdVMfAx+++xkEVc+IPz4QU2G/CDLDNbu0uiI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u8juNSHLqpkORIjyE7uwoARzxxeMkHS8ouJLNngQGZLphc2iyvf4JwTVR9IqDDwRhfjD/bMCAUH6qBVbSor3iDBolDofVZ1DWuWJzxgkk+XHO1RDMNGXKUO+nCVdL3fS/dgp+1UbzxWX+/xfYYAmk0niIFGlFtg0sy8bSTtckLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=k/7Ny8Cu; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EhcrJIm0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768317682; x=1799853682;
-  h=date:from:to:cc:subject:message-id;
-  bh=5hBIdtKUBO15ozkbW9O6Q2PUJD6wMONorr19X3qkoUs=;
-  b=EhcrJIm01joB5xMdCvFYJ/7FQ0kJEo+c6N54eLNiRThnttvapLjuLzXu
-   7b9X+5w8UZxeouXotRY8tjwZ6lpLbjhTuWJRr4Z9Q0weH36GFcArjaxIg
-   wPIp70NHmDDH/EUaZAMQTnMH/6kAdHUFfzwK6LbzcYjwk8wqHp6J05MrS
-   EUUXhCHM0v1k5/nFECzlUlPNYfLpT43+h1dRSlPY61l1OiyKCGuErGyHq
-   g+aiDf4wroV/jUE18LWTaJ7gZKYDGPGtK0UY+PQmGdubp4f+tLUQgvLj+
-   wcbWPRlyP7B68U8JkZBkotzaYdp6tDGAsX0YpI8R3z6wenn+m9UpPNHnA
-   g==;
-X-CSE-ConnectionGUID: VhTiD/0FSj+8TxnUw0RibQ==
-X-CSE-MsgGUID: GEC6sZluSe66qp3ktZkUPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="72185395"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="72185395"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 07:21:20 -0800
-X-CSE-ConnectionGUID: dK5CfsSrSOOOTJMcUUWhAg==
-X-CSE-MsgGUID: Duu093azSFqAbduAuwlnwA==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Jan 2026 07:21:19 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfgCq-00000000Ezg-29kK;
-	Tue, 13 Jan 2026 15:21:16 +0000
-Date: Tue, 13 Jan 2026 23:20:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yu Kuai <yukuai3@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Song Liu <song@kernel.org>
-Subject: drivers/md/md-linear.c:216:19: sparse: sparse: incompatible
- types in comparison expression (different address spaces):
-Message-ID: <202601132340.SXTnCe4J-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="k/7Ny8Cu"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=OMm7towrtfP3eRIO4ygJtjSPAgRnwDaV+heqCY/bJpk=; b=k/7Ny8CuWBYwcvHxWSJVI8wIfR
+	gBKH2CbhSTigkQ+cOkd0eKcR0JkcsJy5yvvKCJ/9N+qiIFB8dOZaqHtANKUWL4CgK8RvKUtBMW84a
+	BPzJt5KAItYr3zcluCqp6/5lRjO2sCsITcgKDUCxjhnbITNRT6C5tWorKesu1D9pYbmsC22PhCOei
+	+XSbtq9/CboioIk8oQOvOWjA3FOlldMg0babXWXNIuo/roPic6oiCtYksOKj1QfAKdO3ZrZAMAnEY
+	b6rXFIyjBjNn5NE3IhPird26jFKNVjlnQS6pKNkrkGwPo15FWE1U/4Qcj9aL7kwLu5Qyr5Swvm3kW
+	2sMfxSGA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vfgIU-000000037mF-2eVn;
+	Tue, 13 Jan 2026 15:27:06 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 7E0FC3005E5; Tue, 13 Jan 2026 16:27:05 +0100 (CET)
+Date: Tue, 13 Jan 2026 16:27:05 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: kernel test robot <lkp@intel.com>, Eric Dumazet <edumazet@google.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>,
+	Will Deacon <will@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: include/net/sock.h:2100:16: sparse: sparse: cast to non-scalar
+Message-ID: <20260113152705.GX830755@noisy.programming.kicks-ass.net>
+References: <202601110443.5ENBRFej-lkp@intel.com>
+ <20260110221508.GF3634291@ZenIV>
+ <20260110223548.GA4041651@ZenIV>
+ <20260112123224.GH830755@noisy.programming.kicks-ass.net>
+ <20260112193019.GK3634291@ZenIV>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112193019.GK3634291@ZenIV>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b71e635feefc852405b14620a7fc58c4c80c0f73
-commit: 127186cfb184eaccdfe948e6da66940cfa03efc5 md: reintroduce md-linear
-date:   1 year ago
-config: sparc64-randconfig-r134-20260113 (https://download.01.org/0day-ci/archive/20260113/202601132340.SXTnCe4J-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601132340.SXTnCe4J-lkp@intel.com/reproduce)
+On Mon, Jan 12, 2026 at 07:30:19PM +0000, Al Viro wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601132340.SXTnCe4J-lkp@intel.com/
+> Sure, but what does that have to do with the final cast in there?  Note
+> that generic __READ_ONCE() ends up with __unqual_scalar_typeof(x) for the
+> type of result and it seems to be working fine.
+> 
+> Why would the same type of result be a problem for alpha?  Sure, we need
+> a barrier there, so it can't be literal copy of generic __READ_ONCE(),
+> but what's the problem with using
+> 
+> #define __READ_ONCE(x)							\
+> ({									\
+> 	__unqual_scalar_typeof(x) __x =					\
+>  		(*(volatile typeof(__x) *)(&(x)));			\
+> 	mb();								\
+> 	__x;								\
+> })
+> 
+> there?  What could possibly need those qualifiers added back to the result?
+> It is, after all, an r-value, so...
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/md/md-linear.c:216:19: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/md/md-linear.c:216:19: sparse:    void [noderef] __rcu *
-   drivers/md/md-linear.c:216:19: sparse:    void *
-   drivers/md/md-linear.c:221:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/md/md-linear.c:221:9: sparse:    void [noderef] __rcu *
-   drivers/md/md-linear.c:221:9: sparse:    void *
-
-vim +216 drivers/md/md-linear.c
-
-   187	
-   188	static int linear_add(struct mddev *mddev, struct md_rdev *rdev)
-   189	{
-   190		/* Adding a drive to a linear array allows the array to grow.
-   191		 * It is permitted if the new drive has a matching superblock
-   192		 * already on it, with raid_disk equal to raid_disks.
-   193		 * It is achieved by creating a new linear_private_data structure
-   194		 * and swapping it in in-place of the current one.
-   195		 * The current one is never freed until the array is stopped.
-   196		 * This avoids races.
-   197		 */
-   198		struct linear_conf *newconf, *oldconf;
-   199	
-   200		if (rdev->saved_raid_disk != mddev->raid_disks)
-   201			return -EINVAL;
-   202	
-   203		rdev->raid_disk = rdev->saved_raid_disk;
-   204		rdev->saved_raid_disk = -1;
-   205	
-   206		newconf = linear_conf(mddev, mddev->raid_disks + 1);
-   207		if (!newconf)
-   208			return -ENOMEM;
-   209	
-   210		/* newconf->raid_disks already keeps a copy of * the increased
-   211		 * value of mddev->raid_disks, WARN_ONCE() is just used to make
-   212		 * sure of this. It is possible that oldconf is still referenced
-   213		 * in linear_congested(), therefore kfree_rcu() is used to free
-   214		 * oldconf until no one uses it anymore.
-   215		 */
- > 216		oldconf = rcu_dereference_protected(mddev->private,
-   217				lockdep_is_held(&mddev->reconfig_mutex));
-   218		mddev->raid_disks++;
-   219		WARN_ONCE(mddev->raid_disks != newconf->raid_disks,
-   220			"copied raid_disks doesn't match mddev->raid_disks");
-   221		rcu_assign_pointer(mddev->private, newconf);
-   222		md_set_array_sectors(mddev, linear_size(mddev, 0, 0));
-   223		set_capacity_and_notify(mddev->gendisk, mddev->array_sectors);
-   224		kfree_rcu(oldconf, rcu);
-   225		return 0;
-   226	}
-   227	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yeah, I'm not sure about the final cast, that was probably trying to add
+'const' back.
