@@ -1,109 +1,95 @@
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C824630C62F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 06:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6083A363C56
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 06:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768286846; cv=none; b=OGK8fnymjeaRhdwNIeGshmjITYeBpJHQiiGxaNUu0flhgMgGASK9e63GpmQAAq5+o67cJqcOd0TBRx6zZBxNKrJrbZtrND/BhGZFjHe1FRtGaSwUIHQl3CCz1fE0WuTZxwbE5+vaEYXOdB0ocWeJsI5Km+mNegVCt11E6fqoRJ4=
+	t=1768287155; cv=none; b=ImaF9TehsQ4JOxsia1KrGd0oKsSHcD+YEpl6FaKP6HQUYIJHi5GrEtIKCb+HRIblYeZsUVmrXxX2VVJOCYBGU1jNAYN5nOy+Jpzvi2EQxY8TvLB8GiY++teZ3/NpMIJIP/T3EXPj3mybuAUEiWmWyWJCvuwt8hSgNpSf/Dj6+MI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768286846; c=relaxed/simple;
-	bh=FXJG6hIpP3yOOfx1GOS2g5PNan6AIzFhuggUvnGrqDc=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=chtK1tzyk9K3cpsE/DTEJEIakEu1NuHe1Eqlj+q3IJsU1qF3TLkphHiJ3qAStI78PwO15ZQwDrf7+wSwzi1VYKpzeSu3/zGiCaeQbTN3DXPJL5HBvl6cHf2/ZFYWiSaa6UoKchSKFjT4f9Q5mss6vPOhaZcw72ZXEFwlNNW/6Ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=VZmIKdse; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=onjlnBeB; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1768287155; c=relaxed/simple;
+	bh=M3sm0mL5nWhPMfX+hAMS1/ofGPtplFcWFpC2Y7ADCOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=R823J7ftNrVzeiw20Ti0ZDxm19kZU/wIzRBZNl5dtoyEoWXmraTpFctSw/ArayyaO38MBoLzLVp6QkjMY/uEcRNz7DFWLU0DnbyfXOUFJs/hKfbWhoUe7eS1nx+ZmfxsOPNdOUNOj/G54LLg9w++b+d9xqrthdcpTAkNVgD3mjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HKaBWItW; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="VZmIKdse";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="onjlnBeB"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id CB4A2140018F;
-	Tue, 13 Jan 2026 01:47:23 -0500 (EST)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Tue, 13 Jan 2026 01:47:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1768286843;
-	 x=1768373243; bh=cEYOMM1PSktxOqi05mzVpBiogG7bA9EEwz1KvC3eXio=; b=
-	VZmIKdseuDgzijlfdj+qhHWGxVFqUdqPBk5B70BVBJg8iqRkDNg4AWQjc8AF+bAX
-	EQaaxdXDQix723/04mn56gkhcHIIMEzKMZ603y+ef+DcKC5wX6q8PaMPJt4ZYQPC
-	n4+4zMA53lYMBIGRowH0cPwmeb0aW/If+R1GLP3aw6h6Q2YbqSBTMi2XiS3ZtsXo
-	tEHmuh9wCO66PN/7zif4c5RvSx/Ufrmqw5qmRlStM6fKAY5VzmgUmpamrp2mR9p1
-	mKSSf0OIHlbAWAMFuLWXA8daP42XejZDJc8qKpJdflhhsjxCxx2ou6kqHC2LNjcO
-	AKH3V02tiI2Kzojo9xiPYw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1768286843; x=
-	1768373243; bh=cEYOMM1PSktxOqi05mzVpBiogG7bA9EEwz1KvC3eXio=; b=o
-	njlnBeBMU3hlPxkaR58mJUEK2Vrue3rPnsiGrDX/lYcogaOC8SlgDtSXkNXnNr00
-	FBID91ZliQoj15ez1Rhz9tIDsOJsEMvoRnoUsRSyNvexT48ft97d7p9uDHzf2ixJ
-	94Hxdb91eq4f+xsOuIEjGMH/AXRoYW3qvGzJjUlF0VXx80jBhYX3eEPBgxy/qxAA
-	N3UFysSa9aOJVUGFWLgH6x8fYt1iXGqrooTQTrd047DvRSElsSFc82fgivavoWmf
-	Y6r+lH15diJjjO8qmnXP1BWAqU/iQxSez5eSBKIuxsOA1LjTgT+F22J9wWp9Lvtj
-	EOJUde4W35uLxzM3qYQ4w==
-X-ME-Sender: <xms:e-plaYd9ngr25ccb1ekc4st25HucG-bZTCmaorUxelHnl5WzMUERtg>
-    <xme:e-plaVCQRZB-Mj8ElUEsp53ncFj7K01vcw_BHHH6ce2PpYxkK3jQMMnrWt_mQZEl7
-    AFCZ0Sd-spvo6YJ8cuXB1m8Dz18g4EFBMFwwhmAv_BlYA1U78-hONE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduudelieegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
-    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
-    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
-    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohephedpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehvghhuphhtrg
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthhhohhmrghsrdifvghishhsshgthhhu
-    hheslhhinhhuthhrohhnihigrdguvgdprhgtphhtthhopehlihhnuhigqdhsnhhpshdqrg
-    hrtgeslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehovgdqkhgs
-    uhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghv
-X-ME-Proxy: <xmx:e-plaeqX1YzFIpCMYwaFMknxciE1GlTPlJLJEtp_g4cqBG6P76Nopg>
-    <xmx:e-plaVlEItkHoeyaoE6xXU7aVmUPlUjxbWUw5edqBjxwvt1jOAz1vw>
-    <xmx:e-plaexXRMPAYewdg06LGisiRGKCRKop3QSExevpAVsWMCo5vnaXTQ>
-    <xmx:e-plad-4GDhZDsGc_OV6NY4YBfRxV4Y4tOYzV4Ho9U0v5WPfE7W5xQ>
-    <xmx:e-plaZaQRDuibgOEW9qxo96HpswZQxMVYsBHCVhGsayDkNXUoFNrTtmJ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 923DA700065; Tue, 13 Jan 2026 01:47:23 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKaBWItW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768287153; x=1799823153;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=M3sm0mL5nWhPMfX+hAMS1/ofGPtplFcWFpC2Y7ADCOw=;
+  b=HKaBWItWcy6auaBAv2cpLH4h4V62gYcioV4SwyYajQLvcZy6A6ozHVM+
+   6VzuEhasTNb7hDKR0xLcGdrweauaPstB+wgxbR5C4vIXvZAVyD/HYaKV6
+   iUOBdgsfvHWAP143305ZB9m31IoLhLSpgZzPUf6cj6ZAZ6FTC3b0sC1+5
+   45DhAFmgO2xsZNGf5Ddu4gcJhPq4mCergUQDKt2MC10lcqoPhJYLPOFUi
+   t41jqkuI38ho/TGG8bPD7flLVXWCImVjN/ze8aRpcQoQWL4JGYh3SKOs5
+   /wr4Gl3H85v4+nWumeCYj5EyhKR86040dHg58s+lV518ZbXsDn6GhVE6n
+   A==;
+X-CSE-ConnectionGUID: oFI8CnohTrqWMair5JACrg==
+X-CSE-MsgGUID: aDWUeXQJQya2OyXBvTxusw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="95041554"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="95041554"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 22:52:32 -0800
+X-CSE-ConnectionGUID: 5tpq/Wo1RR+NkUedJmVNWw==
+X-CSE-MsgGUID: x/U9Rv0YT3SezTH/ADeFBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="204113400"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 12 Jan 2026 22:52:30 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfYGS-00000000ELQ-0oa7;
+	Tue, 13 Jan 2026 06:52:28 +0000
+Date: Tue, 13 Jan 2026 14:52:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "Ilpo =?utf-8?Q?J=C3=A4rvinen"?= <ilpo.jarvinen@linux.intel.com>
+Subject: [pdx86-platform-drivers-x86:review-ilpo-next 8/28]
+ drivers/platform/wmi/marshalling.c:24:1: sparse: sparse: static assertion
+ failed: "ARCH_KMALLOC_MINALIGN >= 8"
+Message-ID: <202601131514.lmN2k3pc-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AZuBu9tzlIoV
-Date: Tue, 13 Jan 2026 07:47:03 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Vineet Gupta" <vgupta@kernel.org>, "kernel test robot" <lkp@intel.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-snps-arc@lists.infradead.org
-Message-Id: <49e273ef-80e5-4199-912c-79c7f62da5ec@app.fastmail.com>
-In-Reply-To: <b92a06fb-9032-4b96-a733-e80fe6ddfb20@kernel.org>
-References: <202601131142.f4Kyqt82-lkp@intel.com>
- <b92a06fb-9032-4b96-a733-e80fe6ddfb20@kernel.org>
-Subject: Re: [thomas-weissschuh:b4/at-vector-size-arch 2/24] ERROR: modpost:
- "__bswapsi2" [fs/ecryptfs/ecryptfs.ko] undefined!
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 
-On Tue, Jan 13, 2026, at 07:13, Vineet Gupta wrote:
-> On 1/12/26 19:20, kernel test robot wrote:
-> Sorry my bad.
-> While ARC770 cpus do support swape, it seems gcc doesn't define the 
-> builtin for
-> arc700 (and generates a libcall) and as Arnd mentioned we don't have 
-> -mcpu=arc770.
-> As a quick fix/hack we could add EXPORT_SYMBOL this in 
-> arch/arc/kernel/arcksyms.c ?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo-next
+head:   2511dd4dbb76ef6914c9b45ccba2492da25d772d
+commit: bfa284e9f5e77c9e7389116a403b1dc478f2d58e [8/28] platform/wmi: Introduce marshalling support
+config: i386-randconfig-062-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131514.lmN2k3pc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131514.lmN2k3pc-lkp@intel.com/reproduce)
 
-I don't think that exists in the kernel, it's only in libgcc.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131514.lmN2k3pc-lkp@intel.com/
 
-How about keeping the inline function, but making it unconditional?
+sparse warnings: (new ones prefixed by >>)
+>> drivers/platform/wmi/marshalling.c:24:1: sparse: sparse: static assertion failed: "ARCH_KMALLOC_MINALIGN >= 8"
 
-     Arnd
+vim +24 drivers/platform/wmi/marshalling.c
+
+    19	
+    20	/*
+    21	 * The WMI buffer data needs to be aligned on a 8 byte boundary to properly
+    22	 * support 64-bit WMI integers.
+    23	 */
+  > 24	static_assert(ARCH_KMALLOC_MINALIGN >= 8);
+    25	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
