@@ -1,145 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013012.outbound.protection.outlook.com [40.107.201.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780FD2D592E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 14:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768316211; cv=none; b=emF+rzZOQ90XEihQtB/1b4vlS7UUXaB1IYjck/BPMCTnFQqkZcpon7J26Q0NqFFk674lDnHHuAEZWQUlOtY1YtFkbe1poRIiyfMc69OAjuivpserxvy0cf0Kfxv9jPzxQMNKA394sIsBIcWZGVO++uBlMEYzSCJ9yhtzew5goNY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768316211; c=relaxed/simple;
-	bh=CmnG4ygItsdz2o+/1YMtaeZFiR7Yita5k4VUv9eSRXA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ti6Lkq3fll8VEuqQdejHyfYm9J+LuVnnSHjxNpaBTkU2Zxncc9cpD5zK/gbOKe53s+IZ6J1kulOOxneu1R/8iPyzwsYiQw1OQMn2FGo9UJyV3AZqGfWPwhXyCEMq3T8BAh2Q2rBtNLcqGxmEZh6vpa4eGKs/FN1MZjyngTipYdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KLdanuRd; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917202D6E6A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 14:57:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768316244; cv=fail; b=fNfqUjPI/MGyKZJhvwOeretVC9285QYbDEtxEwF3Lmd4982OYZEZWHsBvqABXcKS0kVVLf3xm1jN919mgkunlYDnv9JEVcyigXyP+qrffyxfOzE4jctmzmqcZ0Ah2MKUV4aoXydFdzLXj/j1Otq/TfG6kh4I9NHHimWmQvrUGH8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768316244; c=relaxed/simple;
+	bh=xxg79ebGwhhpPqifU8rus7+NjCYBZK/Orel67uqyHqc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=F89H2bZSx5w6uh5mgwuc7oYIyusfNj+9byOW8dTYAPL/xeLhmFSyNQ8hxoACNNwzc2GNdTsCUD5NuqNssK/eMvPCQXMs8Xc9iIwmJ/A2+NwKAB+cGVpPbd/xjkm8oXNiRL5Dfu6QEjTwnrX7tCQQAH2HMZtihbBBBYKFY3vQTw4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=uMaj2Vk0; arc=fail smtp.client-ip=40.107.201.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KLdanuRd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768316210; x=1799852210;
-  h=date:from:to:cc:subject:message-id;
-  bh=CmnG4ygItsdz2o+/1YMtaeZFiR7Yita5k4VUv9eSRXA=;
-  b=KLdanuRd7To0wMv3FNFlRBHz4tm7jQZetfqVjpOm41633z6GEjLn9lPA
-   sKgYmGzgeO8Coarx55NwczorbJ6V3P19x3trzK7MuF/yBDjY6lrPRQCM+
-   nrtLUvljYGj+vgZtYI58unbwa38dlbAZBbCUtNKk7I8Dc5l9yCk0P0Nfn
-   OP7CbKAX3Pmm/9KXI5sPwTY5zfQSmk3ocuwjJdw7ZGy0JlqRVEsR7S8Ij
-   lz4MYGPqskA7sW/HTJk8mRcU+YCy8NJr4WaGnlo0cAK3V48u34fXvOhZk
-   vCdhWnkZmu3H3b6WqPYlICI57cPh0mGhItopcbrKjNebpYqxgkbrTCJoL
-   A==;
-X-CSE-ConnectionGUID: Cs+T4yYzRVGVonPnM5lwTw==
-X-CSE-MsgGUID: KVzNgnaSRIi1P2OTAGeLQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="87183111"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="87183111"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 06:56:49 -0800
-X-CSE-ConnectionGUID: 6LhXyMSCSSWWLBRNU+ZUjw==
-X-CSE-MsgGUID: 6kJv5dFLRMqvXNMgeRNFXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="235116307"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 13 Jan 2026 06:56:47 -0800
-Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vffp6-0000000019F-1PA8;
-	Tue, 13 Jan 2026 14:56:44 +0000
-Date: Tue, 13 Jan 2026 15:55:49 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Ariel D'Alessandro" <ariel.dalessandro@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
- "Rob Herring (Arm)" <robh@kernel.org>
-Subject: arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb:
- btmrvl@2 (marvell,sd8897-bt): $nodename:0: 'btmrvl@2' does not match
- '^bluetooth(@.*)?$'
-Message-ID: <202601131506.CykI6BjZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="uMaj2Vk0"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jcP88VutlZCN0k5TGhOQdWUGYQX/Y7rod3aCZKkdQIjEOkP8ILPqPcPfylceqEqv/gmrFXe9vFzcZD6V9XY1XvDc7LMPqQU8D8qVdOncdc3LARZtq5sG1zOi2qMWzJBpgJVE6O0yCyEqJBvihzejYLLmJ6ooO2PAG8PdkRj2zyd9SZQhNHCVzrVJjgiCcMISO3s5zFeyxXMqhp84uPASDLyN4//yOoA3M9BwNXaVFIr5pbIo3v7on51oqp31Km5KN7YJL5Bm3WEHyXbB690AyOyoQLi3PcBeYVKHfJtzvl2v/yBYlFGVDAVoP1o6Uklx4/xCYueaQCqboeDzCcoqRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9yPOx3ZItACM/jQPGFGXaA3iNU5ePj2f9GpGs52SIZM=;
+ b=X8xLe9s74gAdAHWGhVwnQOV5XDJgCvqU2KAjr1ZZG22NMJx41PHaHhZSrUPu8bo7rMGMo4jYrsyEcfCkX9vWdaw610DjoNYFWSrABy9CwmNHiP1rF6IMNX5dl1trsf2YwPTqGi21s/G7MdwKVnYAoK9ltHvjYXTRtkkz1myKIc3FbgDF/hW30ZGYdyYsKK/PnTco2r9+uu2l/uZhneHKocEEE8T/cdgVe2sToR3DYOO+caxQqih8sv976D6ul1TF2QyvJ9BQzawSj18+PZ8KlQmZ3r/8EuIBDJ7j5FReLime2ZiP9Vb815pWFgJKEOIYJITtsG8QP+D8Sv/v/TM2NA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9yPOx3ZItACM/jQPGFGXaA3iNU5ePj2f9GpGs52SIZM=;
+ b=uMaj2Vk0xy4b8ur258XX1mtD4SHXW0YHLmbFoSfpCTQwL0ARnha3hNQeo0QKuRrT2a4PbxgDNyBhK09jnETb7UTY1DQQO3k6RKGfyW0VGVrSQ9aj+/RR2omRqLX9fVTvui9w9IFdb0XD95gxPOgH1Pogoz4A+7rG3AsTRkYNclk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com (2603:10b6:8:27c::8) by
+ DS7PR12MB6333.namprd12.prod.outlook.com (2603:10b6:8:96::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9499.6; Tue, 13 Jan 2026 14:57:19 +0000
+Received: from DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5]) by DS2PR12MB9567.namprd12.prod.outlook.com
+ ([fe80::636:1b52:24ca:d7e5%3]) with mapi id 15.20.9499.005; Tue, 13 Jan 2026
+ 14:57:18 +0000
+Message-ID: <80125d69-334d-4b07-b3bc-7b9fb657f466@amd.com>
+Date: Tue, 13 Jan 2026 20:27:11 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: amd: acp: soc-acpi: add is_device_rt712_vb() helper
+To: kernel test robot <lkp@intel.com>, broonie@kernel.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+ Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ yung-chuan.liao@linux.intel.com, simont@opensource.cirrus.com,
+ Sunil-kumar.Dommati@amd.com, mario.limonciello@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260110064505.1485927-1-Vijendar.Mukunda@amd.com>
+ <202601131155.RXGj4KHv-lkp@intel.com>
+Content-Language: en-US
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <202601131155.RXGj4KHv-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4PR01CA0020.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:26e::6) To DS2PR12MB9567.namprd12.prod.outlook.com
+ (2603:10b6:8:27c::8)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS2PR12MB9567:EE_|DS7PR12MB6333:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6cbdfe12-805f-4a49-fdc2-08de52b40c35
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?a3dUYzlBOW9hdHZoOWhWMjZOK1RlWnBGa1Z3UjRlTG9lL1RNUHZPOExyL2xE?=
+ =?utf-8?B?OVdGeUFoN1VnZ2VhbUh3d01QY0xaeGdCNTROaHdNTWw0R1RNZjk4RFh0ak14?=
+ =?utf-8?B?SndTb2ZqQWN3MUhua2dJMVV4ZUZ2SmpoUzFvbjF4QlNsMGJKZktZNmtPVnVQ?=
+ =?utf-8?B?QnVzdUhRZDJldWxNbWs1eDNDZGNwRk1KU0Rua1E0RG5waHZZeTN1V3dCQ2x1?=
+ =?utf-8?B?dlU5WUxqTVZtYTZodjhRKzlZQWZSSFFnMm16M2YySGZnV0d0YWVsM3pVQ3I3?=
+ =?utf-8?B?dElFdWRTaTFqSDFxRDBFNjBOeFpZWVEwR2N3L2c4UG5UcUJRZnM4bjBVWXlM?=
+ =?utf-8?B?NENjVmc3aXNoQUFrNGUwQ3p3VTZEYkVpVWVqcWprSVpNeS9HcFQ2eUFieE8w?=
+ =?utf-8?B?em9ZOUV6dVhsUlFtdlMvQjkwRkEzbUs1bUN4YWJkTWNKTVJOcjNwZUVLdUhU?=
+ =?utf-8?B?cVpYQVFYVEVTS2hIYURwa2pPNFNTd2NlR080WE5iYUo0UGNFZmhQM01nZDVz?=
+ =?utf-8?B?VmR0cFY4Mkl1dlhINlJsdEwzVW5CNWd0dFRvRHJ2aWlNTTk2bE5HUUpiUDFC?=
+ =?utf-8?B?aFZ4Q0xBMW1TZWh0a1RyYU1vTmpXZHdmZ3VMK3diVFNudXVPUzBNVmxxT2RG?=
+ =?utf-8?B?QnU0K2pIVzZCQVpMQkpYQ1VQdDlCd3pIUFR5TVZveWNKdXE5dSs4R2xiTEFJ?=
+ =?utf-8?B?eVBVYk53L3dlcDFoTjJhVkE1YzZkSEROY2toVzJPNmQ2VkR5cFk1NXlYemdo?=
+ =?utf-8?B?MzBlbmdmL3Mra25BdE55ZGw0M3BxNklQVFBCaTBNY21NNk81ZXdma2pvME1l?=
+ =?utf-8?B?RGcxMVRpbGI0dTJTWGNFOFZscFUvbzU1QzlYOGJTb09zSWhCbkl6cG0zSVNz?=
+ =?utf-8?B?dU5nMk9yVUlBY3l1d3ZSenViRnFjbXlIc3YxQncwTExUbTYraUZEbXhqdGx6?=
+ =?utf-8?B?OFFDYjVTYXhtTHlDTGpHY29hTHkrK1N6RHlRYlNZakt5VDBPSlRwSFB6UUxs?=
+ =?utf-8?B?QU5JRTgzWGdxSlY4bXdVWWdsdGk0aHdFNWg5YUdiNVVBQlc1NTkwb21wb0hY?=
+ =?utf-8?B?WHNZMXptYVZPNzlxdzlrQ1lMREVmcy9CTG9pUTI0cjNFaHlKUTduK0lJL01a?=
+ =?utf-8?B?VGpiTmRzbUUxMFlSRUxBZHhhZDEzdHYrV3VsL0l5YkY0YTJNR0UyOTRoSFF5?=
+ =?utf-8?B?dDErYWpHMDJTbTQyMjJXRE5hcVFhc2R3TkhHczgxQlpsUlNoQzJpenBEWEdk?=
+ =?utf-8?B?Y2pkK2s0NjhQZGRiQWJ6cmpqbWJpakxOY1lveXlESVNzUWdBaW9sdFZkaUZl?=
+ =?utf-8?B?SGhEUVJseXdHNnRWN1Y4a01pejlVQzl5ZG5jMFd6cENuMUh6WmJWbEtPM3Jk?=
+ =?utf-8?B?T3k5MEdZOW9WTEJsOU1jRDZPTW1ydVFEYWdiZHlrM1h5MnVuV0d4QlByQnll?=
+ =?utf-8?B?Y1Q5dGY3dWxqOGl6eXZQeGlFb3lmQjNsT2dwKzAydU51dUprS1BGbVArVXNF?=
+ =?utf-8?B?UGJKY3NEL1huTzdCV3JpWGlkb3VlSnB0MG1QQkloRWgrYTNMMXhJYmE1d0FM?=
+ =?utf-8?B?WmhsWHhwV2ZPWDBTOHAzdHJLY2swYjNaNUd1NmNsNWJjREwyblVzWkVrbDVC?=
+ =?utf-8?B?RXd3dVNISmlOaElKR2piQmdJci81S3ZaeTB2VndseHFSMlJUTkF4c1hTbTk3?=
+ =?utf-8?B?YUp3MWFrdGhOUkhlZWNKRWkxemtuck9KUjJoYWNuenduY0ZiNmtmenlEbjc3?=
+ =?utf-8?B?UC9LOHUzaGNpQVVYUStPWks4M05JT0lBaEtwM0FIL0FJMG8xL3l4K2NIV3Jr?=
+ =?utf-8?B?K0lyRGNYK1hVUHRtblVtNTZESUl2UXBoRlpxRUc3Vk9lTVFTUTVQREFEVG5q?=
+ =?utf-8?B?SzB0d0JqY1NPL280RzFERkdHalUyd0M3OXNmZGJKNkwrZmt6azNoS0QxU1BH?=
+ =?utf-8?B?UjkrTG9ZY2FHNzFkZnBmdjVPaFo1dUdUTVBVODJ4QkM0MXljbEJac1NpTmFR?=
+ =?utf-8?B?UjV6WHhxR1lRPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9567.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dTdKNDFxZXNWSFRSbm5FZWxuVnRhejIxOTByL3FUcDNJaUhzSEpsMzNFN2d1?=
+ =?utf-8?B?MTFrYWoxbUNuV0tpZHdNL052dlc0ZGRiZnVxekZ4RVFGUjI1V3FOZlo0ZzFm?=
+ =?utf-8?B?NC96MXRsYXBFSWtxWDFPaENlOTd1K09rZlpwKzRoUExWQmdGRWxqdEczNGhl?=
+ =?utf-8?B?UG1hRGljSGdKVGFjR3AxdHZDdHVEMHNMWHo4N2ZackwzVzRGbGJoWUxDbjc3?=
+ =?utf-8?B?UzUzWGQ4WDNYL2dnYnIvbjZWY0xXSWQzbGYrRHV2RjF4SUl5TkVaNEgrMTZS?=
+ =?utf-8?B?YjFrRXRQMWYyUXJUS0tGek5xZG5LVlBmRDBGMWxaVE53Q3preE04YmFBSnY2?=
+ =?utf-8?B?VTlLL0pSMjdaajdwLzlCdlo3cXJmMzUxQ2VSb1BUUy9JVzFpdERPNCtMM1VD?=
+ =?utf-8?B?YVkvS1QwLzFORXlQWmZIY2RPVWVjdVdoMmI0N3FGb0NLTThtdjFtZFRBQjNL?=
+ =?utf-8?B?MTlCUTJvWncxSlFjZXJPeGdDS1JFdGFOOVcvNE9vUHdXQmlKK3pzSlhaVVFV?=
+ =?utf-8?B?SXU0KzdTQ3J1WWNWL1ZqYkp3Tjdtbml3YUs4RHp3YzBHRmtROTFWTVNyWkh5?=
+ =?utf-8?B?RDhUejJINStJN3RWQ2kxK0ZtaVFyVXo5RDRMeFJ3RnBLOE8vaXBpWmUvN3o0?=
+ =?utf-8?B?ckZBU2JLaVZjcksrMTQ5RkdmMUxoZlBxZHJUWkFoWWlUeDhpYTU4bTRjZDl4?=
+ =?utf-8?B?OGN3ZGVxSzdOYWhxVDBmTlF2ZEMwSjNYWG14Nzc0cVgwNVJqQnVhdzlnOFlx?=
+ =?utf-8?B?b1VLZHd6NFV1NFlIRlBSVnRENEpYYVZJYWhoejI3YWdYM0NyR3JDR05oZjhq?=
+ =?utf-8?B?YTlEcUVPUzliSGJPbUdEVWhqSXdCL3Y3b2swZktrMDV0dUhac2dWSW53L0h1?=
+ =?utf-8?B?dE4rWGcrMzZpc09KTDdHZmI1WTdoMy9namRsRTlVTEM5S0JpL2cxRGY5dVlB?=
+ =?utf-8?B?SmxxNmoxMzI3cURWV21rOHoxTnRMNExjT3IvalNtc2VUQUhjVjdLam9VcUdn?=
+ =?utf-8?B?Zy95Y0toaEdUellVK282V09aUWpRSlZtcERaWmNEQlZuSHJCeHQ2a2s0cjI1?=
+ =?utf-8?B?eFUzbHM3VTFubEhSQVkyUE1xRFhwOVBzUy9jc1pWV1RLUDNWUFJwWWxFVk5a?=
+ =?utf-8?B?Mk5IMkpkMXVzeVQrbWZBSlRaZVAveWVFaXA0Zm13WFU3bW5yT2FWWlNJYzlh?=
+ =?utf-8?B?UTU1MFBTZHlYMTl2QlR6OEl2M3B6M3ZzdTY1VmdCZUN1VXJYaHNKcFk2aEJr?=
+ =?utf-8?B?MXFxUkpNdGZEK2VPSlVNeWU0cFc3bm5obUxQMFZHUy9sYllkdUh0UEtoN240?=
+ =?utf-8?B?MHJWeUZFejBianIvV2Q4QXMwcEVkMDJVZk0rZys1d29MRUROMDBFenpvdDNT?=
+ =?utf-8?B?VVN4cUNFUUVNZFFzL3BlbVV4dm5ISXBwNG9TME1GSm5PNnNRWitiTXhPYnNH?=
+ =?utf-8?B?MldUR3orbmxpeWh3ajY3WVJxVGl0K3Z4YURYNGhXRDZoR2c0bU5VbmpKa245?=
+ =?utf-8?B?WHlZRG93ZmRsLzE3MEtSVEtBSEVSVkRlNXVlSVd6RXZPS1VMU09Bb0M3Ykpa?=
+ =?utf-8?B?VWgvTmlJeDZNRzJ0WDlMdXVzMklCVmlSczY0dzdxTHNpelVWNEVKcGtkV0l4?=
+ =?utf-8?B?eWE3NExGL3RXK2NZRlpDeVMvejdoMmFnM0V1M2VPWWQySTRERFZnTXBDQXRN?=
+ =?utf-8?B?bElwbVBWdmk5aVlkdFdrQlpXVGpITVRWSVZ1T0FzMDlSOVo0YW1vK2kyYTd2?=
+ =?utf-8?B?R2xkTXRKa3piM0dsUjZUQVBjdEJNR2FPdVVkZktnQS9rWmZhOE1SbElYWG40?=
+ =?utf-8?B?ZUtjZXpzeFUxV2oxV3RnODFwVW5MbGVkL2UweGt5N25kYmFPY3QxYTQ0Rm5D?=
+ =?utf-8?B?ZGdpRENPY3A1dDBlOFFUa2JXbXVKK0t5dGhmNmVwU2FqT2hOaDdCVHZiWXFH?=
+ =?utf-8?B?eHRBUHBKa0pQdnA1eFpaTDhIbG1lMXc5cDBTSlczcDJhRjlKSGVsRjh4VFRT?=
+ =?utf-8?B?UzltMmFsTTFxb1VNU1F0UWVIbUxLbVUrN0lQeUlDK0ZGbjh5aGEwUFRrV0NV?=
+ =?utf-8?B?TTdTd2RkYW43aVM0ZEF1cnFCZnBObmRVaE9wNnhkM0JodmdaWGtwT2I0QVp5?=
+ =?utf-8?B?ZUthdHVXdWVqbkxuakVlMmlaTUNhZ3dtOUY0NTJFcDg3N0d5bldINVZWWTFi?=
+ =?utf-8?B?YVZEWmJaODFYcm1Wb1c2eXA3RlZ3L0xPODhtWFlYS3o1VkI5ODJlRjUvOXJ5?=
+ =?utf-8?B?ZFdxYXNCUU16eDA5NW02VTJNZHpIeGFRbVB3NUM0cjdnZkttUGNveFJZcnBZ?=
+ =?utf-8?B?bytpeFRyZzNjUWJYY2g2TTlDb0hPK3U1b0hnb0VHRW96OHZCN2FIQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6cbdfe12-805f-4a49-fdc2-08de52b40c35
+X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9567.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2026 14:57:18.7918
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QKp8+aIjotP1YIL18msAdpiCEBoYkho7rxJ6wsPfdfxps1o4acgMJunFwvOQU5NSI7pwCHiEoSWtmAI4D3Nejw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6333
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b71e635feefc852405b14620a7fc58c4c80c0f73
-commit: 73d2d709cc172da53402c9b2ead39bebc774ea16 dt-bindings: net: Convert Marvell 8897/8997 bindings to DT schema
-date:   6 weeks ago
-config: arm-randconfig-2051-20260111 (https://download.01.org/0day-ci/archive/20260113/202601131506.CykI6BjZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131506.CykI6BjZ-lkp@intel.com/reproduce)
+On 13/01/26 15:55, kernel test robot wrote:
+> Hi Vijendar,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on broonie-sound/for-next]
+> [also build test WARNING on next-20260113]
+> [cannot apply to linus/master v6.16-rc1]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Vijendar-Mukunda/ASoC-amd-acp-soc-acpi-add-is_device_rt712_vb-helper/20260110-144723
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> patch link:    https://lore.kernel.org/r/20260110064505.1485927-1-Vijendar.Mukunda%40amd.com
+> patch subject: [PATCH] ASoC: amd: acp: soc-acpi: add is_device_rt712_vb() helper
+> config: x86_64-kismet-CONFIG_SND_SOC_ACPI_AMD_SDCA_QUIRKS-CONFIG_SND_SOC_ACPI_AMD_MATCH-0-0 (https://download.01.org/0day-ci/archive/20260113/202601131155.RXGj4KHv-lkp@intel.com/config)
+> reproduce: (https://download.01.org/0day-ci/archive/20260113/202601131155.RXGj4KHv-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601131155.RXGj4KHv-lkp@intel.com/
+>
+> kismet warnings: (new ones prefixed by >>)
+>>> kismet: WARNING: unmet direct dependencies detected for SND_SOC_ACPI_AMD_SDCA_QUIRKS when selected by SND_SOC_ACPI_AMD_MATCH
+Will check this issue.
+>    WARNING: unmet direct dependencies detected for SND_SOC_ACPI_AMD_SDCA_QUIRKS
+>      Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && ACPI [=y] && SND_SOC_SDCA [=n]
+>      Selected by [y]:
+>      - SND_SOC_ACPI_AMD_MATCH [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y]
+>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131506.CykI6BjZ-lkp@intel.com/
-
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/rockchip/rk3288-veyron.dtsi:25.9-28.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: / (google,veyron-fievel-rev8): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 2147483648]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
->> arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: btmrvl@2 (marvell,sd8897-bt): $nodename:0: 'btmrvl@2' does not match '^bluetooth(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/marvell,sd8897-bt.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: tsadc@ff280000 (rockchip,rk3288-tsadc): False schema does not allow [[58]]
-   	from schema $id: http://devicetree.org/schemas/thermal/rockchip-thermal.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: ethernet@ff290000 (rockchip,rk3288-gmac): Unevaluated properties are not allowed ('mdio0', 'wakeup-source' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: power-controller (rockchip,rk3288-power-controller): 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-fievel.dtb: power-controller (rockchip,rk3288-power-controller): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'#clock-cells' is a required property
---
-   arch/arm/boot/dts/rockchip/rk3288-veyron.dtsi:25.9-28.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/rockchip/rk3288.dtsi:1230.20-1232.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: / (google,veyron-jaq-rev5): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 2147483648]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
->> arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: btmrvl@2 (marvell,sd8897-bt): $nodename:0: 'btmrvl@2' does not match '^bluetooth(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/marvell,sd8897-bt.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: tsadc@ff280000 (rockchip,rk3288-tsadc): False schema does not allow [[69]]
-   	from schema $id: http://devicetree.org/schemas/thermal/rockchip-thermal.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: power-controller (rockchip,rk3288-power-controller): 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: power-controller (rockchip,rk3288-power-controller): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-jaq.dtb: /sound: failed to match any schema with compatible: ['rockchip,rockchip-audio-max98090']
---
-   arch/arm/boot/dts/rockchip/rk3288-veyron.dtsi:25.9-28.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/rockchip/rk3288.dtsi:1230.20-1232.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: / (google,veyron-mighty-rev5): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 2147483648]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
->> arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: btmrvl@2 (marvell,sd8897-bt): $nodename:0: 'btmrvl@2' does not match '^bluetooth(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/marvell,sd8897-bt.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: tsadc@ff280000 (rockchip,rk3288-tsadc): False schema does not allow [[70]]
-   	from schema $id: http://devicetree.org/schemas/thermal/rockchip-thermal.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: power-controller (rockchip,rk3288-power-controller): 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: power-controller (rockchip,rk3288-power-controller): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-mighty.dtb: /sound: failed to match any schema with compatible: ['rockchip,rockchip-audio-max98090']
---
-   arch/arm/boot/dts/rockchip/rk3288-veyron.dtsi:25.9-28.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm/boot/dts/rockchip/rk3288.dtsi:1230.20-1232.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: / (google,veyron-tiger-rev8): False schema does not allow {'device_type': ['memory'], 'reg': [[0, 0, 0, 2147483648]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml
->> arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: btmrvl@2 (marvell,sd8897-bt): $nodename:0: 'btmrvl@2' does not match '^bluetooth(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/net/bluetooth/marvell,sd8897-bt.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: tsadc@ff280000 (rockchip,rk3288-tsadc): False schema does not allow [[62]]
-   	from schema $id: http://devicetree.org/schemas/thermal/rockchip-thermal.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: ethernet@ff290000 (rockchip,rk3288-gmac): Unevaluated properties are not allowed ('mdio0', 'wakeup-source' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: power-controller (rockchip,rk3288-power-controller): 'assigned-clock-parents', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$', '^power-domain@[0-9a-f]+$'
-   	from schema $id: http://devicetree.org/schemas/power/rockchip,power-controller.yaml
-   arch/arm/boot/dts/rockchip/rk3288-veyron-tiger.dtb: power-controller (rockchip,rk3288-power-controller): 'anyOf' conditional failed, one must be fixed:
-   	'clocks' is a required property
-   	'#clock-cells' is a required property
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
