@@ -1,91 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9BB330EF87
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 20:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556C33191D6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 21:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768336968; cv=none; b=TMwxaj3W4gYf2bCzk29eToD9InhkJ4CAXe9hnwMc1P0MmcBvw1jSZHJaC29pvibuX53V/5qdLkg7HCgT+lcl66fkgfvsm38GdK9wxt6TxslWOtUPIUW6wmU9f3lfFuXA+qOmemdFOqKayx6SB+0gqApiP9/l+wi8tQEfa4+OczQ=
+	t=1768338767; cv=none; b=M1ZPDclbZqODEdeRftCtHRis0FSNSbN6rNfEPsv+GPdcK9/dVm5V2KxvL84QqjU2KF95z6ei2cPnAiz71gnBiZ1lXjfZgZ3DFA6tNaNHOMnCL/NkRgv2yedcnJzO1S0j2r6IaFJbh2uTCnd7ma21YSBipskImEjJdnJGUMbak5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768336968; c=relaxed/simple;
-	bh=6rqISX3PQdxf/S9wv4Zc0TtGffYXK+SwYdj3XNqPPV8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ImLfKoELr8cDEtTGIIGfue+j1MDV9oF0VXezKS0ALr6qkcD3mZzrpaa2NInxQwll3kXu9D7GIFs9vM6rgf7fGbG1XPCh2UsC591DrwL1nWbi5hDGg9xEOey9sJmmSt6I3jAfQ3LyxJ77xAR1mNkYS+NJIOpEvQ4hLlVXuER1XX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bfQ/+RTm; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1768338767; c=relaxed/simple;
+	bh=bJlfz+d1JqwhDcOkyRemsXc75NgsqNR7txD1tLHvZb8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=a4cdfqUAscsBNdsfM7hLJUdxdY1nREdkgxf30Evk0PbrMJ+bQeJWRDYgJJaKGnrdktalh4OUpnXmuX/yCGtuUKypyteyBHtFiZuVFclBpF+e6XHfOH/WZpRpe1mrqCbIyxBNxjPwPqdmZ0se1excsRqoLMwXTedkoqzQzHDHYUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XQJ4Xjwa; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bfQ/+RTm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XQJ4Xjwa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768336967; x=1799872967;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6rqISX3PQdxf/S9wv4Zc0TtGffYXK+SwYdj3XNqPPV8=;
-  b=bfQ/+RTmDcS3VJTiRV+Zw5+684kaUyvf3hBEjkd+MgLW8RGC4E6g4VLB
-   vBBD2tePBeMDkOf8OA2N5auF3uE5HOw1/7q9IsQGlKGx+l8CMeLG6QYiA
-   6MZaHbeEoQVLCYc9RjCO03jFe5FPygVKX2RHyg4mISG8arZ6SYGRelB9/
-   NR50QVqzhk7tcJCwp+dy013vXN/N/YSGbydI3O8/cXtOotW997R15MKTE
-   R6KFlsxW50V4j/tghyJNgsRMq1/3oAB7Z3RULaEZTTjCS+gTx5lznDF6Y
-   gORHwA9x2ABYbPOIjpLgkjmnR3eB9YIRD1pgS7c6+t8bT1wi4s87po2gy
+  t=1768338766; x=1799874766;
+  h=date:from:to:cc:subject:message-id;
+  bh=bJlfz+d1JqwhDcOkyRemsXc75NgsqNR7txD1tLHvZb8=;
+  b=XQJ4Xjwalw0COxMIzrIuL0wUq9h7ZDFmjM1KEQBCdFQn6um3F+1Fg495
+   wqX+opeBrxbORtD2Fku/vFndqEsyW6ebkkw7qm4ar4HdLC8PImn+6asUu
+   SS3ib8q8xObpT6IDg0/5KhbwfY7pFETQmQMI335kKCPAOZvwE6qahM3zc
+   lhnRs7Nc0CgTF96uETWqQlJ6v4KtW0EGPWdn1MPn0pvCbzT5QMuCRJlSu
+   CtY8RoljZ9jBW13x18e4rjH2teZGJa4CD/gj59mqTNmJOe13O7T5RJjQi
+   ZzpjYJwrodluNwJOQiUDvSxLeRVyRGjIiFN8oYT1u/ScOWCQ2iPv0GLKA
    A==;
-X-CSE-ConnectionGUID: 65gN60VoQdmT3XT+d0bCRQ==
-X-CSE-MsgGUID: bYb0kx+DRG6cwpamf4VvNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="80353190"
+X-CSE-ConnectionGUID: hxFJN/3RTnK1weylBgH2Ig==
+X-CSE-MsgGUID: Zf6nWEyVSMSV2wNppnpE/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="73475965"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="80353190"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 12:42:46 -0800
-X-CSE-ConnectionGUID: rjOsWxJYReu6orOmsh/Mrw==
-X-CSE-MsgGUID: Cuh+LkaySmiPreIVIHW0ww==
+   d="scan'208";a="73475965"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 13:12:46 -0800
+X-CSE-ConnectionGUID: 8B7zGC8PQBy2vvUPQW2x1A==
+X-CSE-MsgGUID: kbqoXfwVTxCiNdUMo0kPXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="208645997"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.177])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 12:42:44 -0800
-Date: Tue, 13 Jan 2026 22:42:41 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Philip Li <philip.li@intel.com>
-Cc: kernel test robot <lkp@intel.com>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	Khalil Blaiech <kblaiech@nvidia.com>,
-	Asmaa Mnebhi <asmaa@nvidia.com>, Andi Shyti <andi.shyti@kernel.org>
-Subject: Re: [PATCH v1 2/2] i2c: mlxbf: Use HZ_PER_KHZ in the driver
-Message-ID: <aWauQVSkQsqvS_rT@smile.fi.intel.com>
-References: <20260112135603.4150952-3-andriy.shevchenko@linux.intel.com>
- <202601130414.VJyCNWzI-lkp@intel.com>
- <aWVbYYusNh_q_91o@smile.fi.intel.com>
- <aWZNHKeXFMPMG9q1@rli9-mobl>
+   d="scan'208";a="204908526"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 13 Jan 2026 13:12:44 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vflgw-00000000FNU-2FIv;
+	Tue, 13 Jan 2026 21:12:42 +0000
+Date: Wed, 14 Jan 2026 05:12:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 0/2] fs/binfmt_elf.c:2143:19:
+ error: 'struct linux_binfmt' has no member named 'min_coredump'
+Message-ID: <202601140509.Ujs5iL0m-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aWZNHKeXFMPMG9q1@rli9-mobl>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Jan 13, 2026 at 09:48:12PM +0800, Philip Li wrote:
-> On Mon, Jan 12, 2026 at 10:36:49PM +0200, Andy Shevchenko wrote:
-> > On Tue, Jan 13, 2026 at 04:33:04AM +0800, kernel test robot wrote:
-> > > Hi Andy,
-> > > 
-> > > kernel test robot noticed the following build errors:
-> > 
-> > Ah, okay, this needs to be based on the series that adds HZ_PER_GHZ as it
-> > provides the needed header inclusion.
-> 
-> Thanks for the info, and sorry for the false report.
+Hi Kalesh,
 
-No problem, can you remind the syntax on how I can mark the series that
-LKP knows the dependency on another series (which is available only in
-the mailing list)? I assume it needs message-id to the email thread?
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   0954c27bd6794b82681041439dd14bcc1f51c378
+commit: 58e2fa4ec4b1e15b7c7510bc98befafa31c03f70 [0/2] ANDROID: 16K: Remove build time dependencies on ELF_EXEC_PAGESIZE
+config: x86_64-randconfig-004-20260114 (https://download.01.org/0day-ci/archive/20260114/202601140509.Ujs5iL0m-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140509.Ujs5iL0m-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601140509.Ujs5iL0m-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from fs/compat_binfmt_elf.c:144:
+   fs/binfmt_elf.c: In function 'init_compat_elf_binfmt':
+>> fs/binfmt_elf.c:2143:19: error: 'struct linux_binfmt' has no member named 'min_coredump'
+    2143 |         elf_format.min_coredump = ELF_EXEC_PAGESIZE;
+         |                   ^
+--
+   fs/binfmt_elf.c: In function 'init_elf_binfmt':
+>> fs/binfmt_elf.c:2143:19: error: 'struct linux_binfmt' has no member named 'min_coredump'
+    2143 |         elf_format.min_coredump = ELF_EXEC_PAGESIZE;
+         |                   ^
+
+
+vim +2143 fs/binfmt_elf.c
+
+  2140	
+  2141	static int __init init_elf_binfmt(void)
+  2142	{
+> 2143		elf_format.min_coredump = ELF_EXEC_PAGESIZE;
+  2144		register_binfmt(&elf_format);
+  2145		return 0;
+  2146	}
+  2147	
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
