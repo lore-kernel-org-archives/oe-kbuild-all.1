@@ -1,208 +1,191 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF69B2773E5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 14:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271E827B34D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 14:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768313716; cv=none; b=qgkXwxN6ATU07401y0ti1Cwsecv5RFAyhxN8XvLPKNsOGedtASzxSAp6QNZU98vikb6snFhmtPzPCi1hV2AVLvg4qgbqcSht6CqOEj4JRcufQK5v+ZssoGe8Zv24en7APMgHND05FZrTPUUH0NXqZvRNlVTV/RQm4io+ptMkCuo=
+	t=1768313784; cv=none; b=qEVU90gWp7+9milbHmKpJCUpUPOpRWWloEcWNxHmQxNHJsWfsUBWai+fiDd2EDzLHABqHowyXzdNphrd8EYIu5MLCeHVQ21Y1MVfJBUVDPlO/pJnclSyYktW90A7RA3xcCjqtkbu8E4ayDPf166qZKYjFlKtlw+qBTdoKFFKAnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768313716; c=relaxed/simple;
-	bh=ZP0saPP1yT0gGFTBn1FNOJ8wSWXrzdYP4crG50lV078=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IMnNVzoPx0NV9fBnjqtgBGAKR1lqCLa1iFVp6wy8xnDFikUvJ5fgozocneNgYEp2D/DCU5/rAyvXVIHU657JGUwmRX1yFfuiB66csaNbD6S7svxhhibDNsHjexHAtehE8RhERlbt88dqUsQ1sI7rsZUZqbhWUodqa+asbWHVPkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VxPxsD52; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768313784; c=relaxed/simple;
+	bh=Lh/rYPwwX2xZd5ZhlB4eqI8l+Qn859cb8LQ9Cq7YoQQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rrRZAMerr77Wwbmny3xpsWfGWwYS1RJYEv39Lc9UBJwRszAwzPjQAD8FiVkCcU+5VQ0TWXkkWP09S1aYjzOpCHKXfu/JCxIs3ILld5iI3Ir6OmtqDUBsKYjMGAAreICq0TLPBJV6wO/qtgLy1DtLr9SfyUVPVA4znVCi5CfOXG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=QaV/QhEc; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VxPxsD52"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768313715; x=1799849715;
-  h=date:from:to:cc:subject:message-id;
-  bh=ZP0saPP1yT0gGFTBn1FNOJ8wSWXrzdYP4crG50lV078=;
-  b=VxPxsD52g/laQug0ZpDL1UuHZZSSultEn6k+cqj/JYlagEYimUzCsV7R
-   vso3m5mERAXJuBoUfFL8qbeXiwqBxt3CyVh2hMYma2WlmzXGywAonSM5n
-   pvjTEivz5zh3cPpTw68F5sxcLoZvFHHtPsc0WY9Um6IXJuhaVGI+VXVAa
-   No7GEgLBREh+SClztVr7V1CQ2pwOxhsFEL3QaJheIY8EdNHt/wJ18rMye
-   FjLrFlpazjojzgRtDYcH1u3toajVpV/ksGk1qNS6n2T1Awh5NFhWq6kuW
-   Y0bni5ZRa14VOAqHWsq2scXBzZLlyGIUMoI049FZMwifTUWEH45Y8WCwu
-   A==;
-X-CSE-ConnectionGUID: 4O7CxukCTOy9QqxyOqThVQ==
-X-CSE-MsgGUID: o98MN5MQQgSFp9V5DhhRKw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69651684"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="69651684"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 06:15:13 -0800
-X-CSE-ConnectionGUID: wIGFr5a1T46wYQWP/V+ooA==
-X-CSE-MsgGUID: ruTysV7bS0m7OAPdru352w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="209231980"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Jan 2026 06:15:11 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vffAr-00000000Eto-1Uoa;
-	Tue, 13 Jan 2026 14:15:09 +0000
-Date: Tue, 13 Jan 2026 22:14:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
- LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20260113 7/16]
- drivers/scsi/hisi_sas/hisi_sas_v1_hw.c:1002:32: error: invalid application of
- 'sizeof' to incomplete type 'struct ssp_command_iu'
-Message-ID: <202601132207.vbf56Uh9-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="QaV/QhEc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1768313774; x=1768918574; i=w_armin@gmx.de;
+	bh=6jE3VkN32EfFc0M86KtcWvLFWJtQjQFrrwtJmQVe92w=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=QaV/QhEc4LSBKl1/Jp3tV15fsiBBTIw1Bne5tJSp+zIqoAcXIdpW02J6BDE+Ee7A
+	 WxMb62mAZsYj9GDvLXoLftL60+rcJOOdL+9xnqnFJS7Xn/gBtdrfvBbNoSYsiZ+v0
+	 yf8ZbVsFfl6cP48FSLwSowHsrlov3Oni4lMzRaQn7jR/HQiKBw4Dk2/HpL+oRClg3
+	 SKALD9d2xYjI+vbrykOxgq/VLY8Z+5c+24k/Nq6eC4HDl2TbQtGJ4o3+iZrBhstlP
+	 zEEk7WvhibVUnhjLoxotaVt1qTHGCxd/ya2Lg2X3pimXLd8PjOJfEOtszRYeMYGRe
+	 iDHuwzXRHo0Kb+H/FA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.93.37] ([141.76.8.165]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MRmfo-1vGt433Qba-00V80v; Tue, 13
+ Jan 2026 15:16:13 +0100
+Message-ID: <21b70177-d06f-4bb8-9c11-8f3b053cef9a@gmx.de>
+Date: Tue, 13 Jan 2026 15:16:10 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [pdx86-platform-drivers-x86:review-ilpo-next 8/28]
+ drivers/platform/wmi/marshalling.c:24:1: sparse: sparse: static assertion
+ failed: "ARCH_KMALLOC_MINALIGN >= 8"
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+References: <202601131514.lmN2k3pc-lkp@intel.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <202601131514.lmN2k3pc-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:R6Z2xARgsZNwV5vkjH8fF5CYi7XE59U/dPZT6xzRAspe/4qGQGq
+ 6sG/EKXnLA8pqkgr4q7gIZsVCkWmKhIYM31uluc3NUkDbiU3oHLXKVvHAih8j56mUnoHqn+
+ BGzSPir6W/9IKDCvb6Kbu535EIYYgnYiJdGtRIMiUIa2ncOrf8ash6vFBz/DHUH/1pNdbgo
+ 8sXpOSeBRWuDcd5/0X2/A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:tCkdxKbIV4g=;W5XLcBi9I//qsZjMS+wUm3aEGnj
+ 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
+ 0GtS7bcgem7
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20260113
-head:   52754522a0ac00706210372e66bc73f60fa759d2
-commit: 2f3d1d884e953f07b26e97dced8ba1b7adba61ad [7/16] scsi: libsas/aci94xx: Avoid multiple -Wflex-array-member-not-at-end warnings
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260113/202601132207.vbf56Uh9-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601132207.vbf56Uh9-lkp@intel.com/reproduce)
+Am 13.01.26 um 07:52 schrieb kernel test robot:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601132207.vbf56Uh9-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-d=
+rivers-x86.git review-ilpo-next
+> head:   2511dd4dbb76ef6914c9b45ccba2492da25d772d
+> commit: bfa284e9f5e77c9e7389116a403b1dc478f2d58e [8/28] platform/wmi: In=
+troduce marshalling support
+> config: i386-randconfig-062-20260113 (https://download.01.org/0day-ci/ar=
+chive/20260113/202601131514.lmN2k3pc-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arch=
+ive/20260113/202601131514.lmN2k3pc-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new ver=
+sion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601131514.lmN2k3pc-lk=
+p@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>>> drivers/platform/wmi/marshalling.c:24:1: sparse: sparse: static assert=
+ion failed: "ARCH_KMALLOC_MINALIGN >=3D 8"
 
-All errors (new ones prefixed by >>):
+It seems that i forgot that on 32-bit architectures, u64 (aka unsigned lon=
+g long) only has an alignment of 4 bytes.
+Would it be safe to instead only guarantee that the buffer is aligned acco=
+rding to ARCH_KMALLOC_ALIGN and that 64-bit
+integers need __aligned(8)?
 
-   In file included from drivers/scsi/hisi_sas/hisi_sas_main.c:7:
->> drivers/scsi/hisi_sas/hisi_sas.h:617:47: error: field 'task' has incomplete type
-     617 |                         struct ssp_command_iu task;
-         |                                               ^~~~
---
-   In file included from drivers/scsi/hisi_sas/hisi_sas_v1_hw.c:7:
->> drivers/scsi/hisi_sas/hisi_sas.h:617:47: error: field 'task' has incomplete type
-     617 |                         struct ssp_command_iu task;
-         |                                               ^~~~
-   drivers/scsi/hisi_sas/hisi_sas_v1_hw.c: In function 'prep_ssp_v1_hw':
->> drivers/scsi/hisi_sas/hisi_sas_v1_hw.c:1002:32: error: invalid application of 'sizeof' to incomplete type 'struct ssp_command_iu'
-    1002 |                 dw2 = ((sizeof(struct ssp_command_iu) +
-         |                                ^~~~~~
---
-   In file included from drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:7:
->> drivers/scsi/hisi_sas/hisi_sas.h:617:47: error: field 'task' has incomplete type
-     617 |                         struct ssp_command_iu task;
-         |                                               ^~~~
-   drivers/scsi/hisi_sas/hisi_sas_v2_hw.c: In function 'prep_ssp_v2_hw':
->> drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:1779:25: error: invalid application of 'sizeof' to incomplete type 'struct ssp_command_iu'
-    1779 |         dw2 = (((sizeof(struct ssp_command_iu) + sizeof(struct ssp_frame_hdr)
-         |                         ^~~~~~
+I do not know if aligning a 64-bit integer on a 8 byte boundary is compati=
+ble on 32-bit with a buffer aligned on a
+4-byte boundary.
 
+Or is there a ways to tell kmalloc about such alignment requirements?
 
-vim +1002 drivers/scsi/hisi_sas/hisi_sas_v1_hw.c
+Thanks,
+Armin Wolf
 
-42e7a69368a585 John Garry  2015-11-18   950  
-a2b3820bddfbff Xiang Chen  2018-05-09   951  static void prep_ssp_v1_hw(struct hisi_hba *hisi_hba,
-78bd2b4f6e7c05 Xiaofei Tan 2018-05-21   952  			  struct hisi_sas_slot *slot)
-42e7a69368a585 John Garry  2015-11-18   953  {
-42e7a69368a585 John Garry  2015-11-18   954  	struct sas_task *task = slot->task;
-42e7a69368a585 John Garry  2015-11-18   955  	struct hisi_sas_cmd_hdr *hdr = slot->cmd_hdr;
-42e7a69368a585 John Garry  2015-11-18   956  	struct domain_device *device = task->dev;
-42e7a69368a585 John Garry  2015-11-18   957  	struct hisi_sas_device *sas_dev = device->lldd_dev;
-42e7a69368a585 John Garry  2015-11-18   958  	struct hisi_sas_port *port = slot->port;
-42e7a69368a585 John Garry  2015-11-18   959  	struct sas_ssp_task *ssp_task = &task->ssp_task;
-42e7a69368a585 John Garry  2015-11-18   960  	struct scsi_cmnd *scsi_cmnd = ssp_task->cmd;
-bbfe82cdbaf84e John Garry  2022-02-17   961  	struct sas_tmf_task *tmf = slot->tmf;
-78bd2b4f6e7c05 Xiaofei Tan 2018-05-21   962  	int has_data = 0, priority = !!tmf;
-ebf26e93cfece2 John Garry  2023-08-15   963  	u8 *buf_cmd;
-42e7a69368a585 John Garry  2015-11-18   964  	u32 dw1, dw2;
-42e7a69368a585 John Garry  2015-11-18   965  
-42e7a69368a585 John Garry  2015-11-18   966  	/* create header */
-42e7a69368a585 John Garry  2015-11-18   967  	hdr->dw0 = cpu_to_le32((1 << CMD_HDR_RESP_REPORT_OFF) |
-42e7a69368a585 John Garry  2015-11-18   968  			       (0x2 << CMD_HDR_TLR_CTRL_OFF) |
-42e7a69368a585 John Garry  2015-11-18   969  			       (port->id << CMD_HDR_PORT_OFF) |
-42e7a69368a585 John Garry  2015-11-18   970  			       (priority << CMD_HDR_PRIORITY_OFF) |
-42e7a69368a585 John Garry  2015-11-18   971  			       (1 << CMD_HDR_MODE_OFF) | /* ini mode */
-42e7a69368a585 John Garry  2015-11-18   972  			       (1 << CMD_HDR_CMD_OFF)); /* ssp */
-42e7a69368a585 John Garry  2015-11-18   973  
-42e7a69368a585 John Garry  2015-11-18   974  	dw1 = 1 << CMD_HDR_VERIFY_DTL_OFF;
-42e7a69368a585 John Garry  2015-11-18   975  
-78bd2b4f6e7c05 Xiaofei Tan 2018-05-21   976  	if (tmf) {
-42e7a69368a585 John Garry  2015-11-18   977  		dw1 |= 3 << CMD_HDR_SSP_FRAME_TYPE_OFF;
-42e7a69368a585 John Garry  2015-11-18   978  	} else {
-42e7a69368a585 John Garry  2015-11-18   979  		switch (scsi_cmnd->sc_data_direction) {
-42e7a69368a585 John Garry  2015-11-18   980  		case DMA_TO_DEVICE:
-42e7a69368a585 John Garry  2015-11-18   981  			dw1 |= 2 << CMD_HDR_SSP_FRAME_TYPE_OFF;
-42e7a69368a585 John Garry  2015-11-18   982  			has_data = 1;
-42e7a69368a585 John Garry  2015-11-18   983  			break;
-42e7a69368a585 John Garry  2015-11-18   984  		case DMA_FROM_DEVICE:
-42e7a69368a585 John Garry  2015-11-18   985  			dw1 |= 1 << CMD_HDR_SSP_FRAME_TYPE_OFF;
-42e7a69368a585 John Garry  2015-11-18   986  			has_data = 1;
-42e7a69368a585 John Garry  2015-11-18   987  			break;
-42e7a69368a585 John Garry  2015-11-18   988  		default:
-42e7a69368a585 John Garry  2015-11-18   989  			dw1 |= 0 << CMD_HDR_SSP_FRAME_TYPE_OFF;
-42e7a69368a585 John Garry  2015-11-18   990  		}
-42e7a69368a585 John Garry  2015-11-18   991  	}
-42e7a69368a585 John Garry  2015-11-18   992  
-42e7a69368a585 John Garry  2015-11-18   993  	/* map itct entry */
-42e7a69368a585 John Garry  2015-11-18   994  	dw1 |= sas_dev->device_id << CMD_HDR_DEVICE_ID_OFF;
-42e7a69368a585 John Garry  2015-11-18   995  	hdr->dw1 = cpu_to_le32(dw1);
-42e7a69368a585 John Garry  2015-11-18   996  
-78bd2b4f6e7c05 Xiaofei Tan 2018-05-21   997  	if (tmf) {
-42e7a69368a585 John Garry  2015-11-18   998  		dw2 = ((sizeof(struct ssp_tmf_iu) +
-42e7a69368a585 John Garry  2015-11-18   999  			sizeof(struct ssp_frame_hdr)+3)/4) <<
-42e7a69368a585 John Garry  2015-11-18  1000  			CMD_HDR_CFL_OFF;
-42e7a69368a585 John Garry  2015-11-18  1001  	} else {
-42e7a69368a585 John Garry  2015-11-18 @1002  		dw2 = ((sizeof(struct ssp_command_iu) +
-42e7a69368a585 John Garry  2015-11-18  1003  			sizeof(struct ssp_frame_hdr)+3)/4) <<
-42e7a69368a585 John Garry  2015-11-18  1004  			CMD_HDR_CFL_OFF;
-42e7a69368a585 John Garry  2015-11-18  1005  	}
-42e7a69368a585 John Garry  2015-11-18  1006  
-42e7a69368a585 John Garry  2015-11-18  1007  	dw2 |= (HISI_SAS_MAX_SSP_RESP_SZ/4) << CMD_HDR_MRFL_OFF;
-42e7a69368a585 John Garry  2015-11-18  1008  
-42e7a69368a585 John Garry  2015-11-18  1009  	hdr->transfer_tags = cpu_to_le32(slot->idx << CMD_HDR_IPTT_OFF);
-42e7a69368a585 John Garry  2015-11-18  1010  
-a2b3820bddfbff Xiang Chen  2018-05-09  1011  	if (has_data)
-a2b3820bddfbff Xiang Chen  2018-05-09  1012  		prep_prd_sge_v1_hw(hisi_hba, slot, hdr, task->scatter,
-42e7a69368a585 John Garry  2015-11-18  1013  					slot->n_elem);
-42e7a69368a585 John Garry  2015-11-18  1014  
-42e7a69368a585 John Garry  2015-11-18  1015  	hdr->data_transfer_len = cpu_to_le32(task->total_xfer_len);
-f557e32c0023ea Xiaofei Tan 2017-06-29  1016  	hdr->cmd_table_addr = cpu_to_le64(hisi_sas_cmd_hdr_addr_dma(slot));
-f557e32c0023ea Xiaofei Tan 2017-06-29  1017  	hdr->sts_buffer_addr = cpu_to_le64(hisi_sas_status_buf_addr_dma(slot));
-42e7a69368a585 John Garry  2015-11-18  1018  
-f557e32c0023ea Xiaofei Tan 2017-06-29  1019  	buf_cmd = hisi_sas_cmd_hdr_addr_mem(slot) +
-f557e32c0023ea Xiaofei Tan 2017-06-29  1020  		sizeof(struct ssp_frame_hdr);
-42e7a69368a585 John Garry  2015-11-18  1021  	hdr->dw2 = cpu_to_le32(dw2);
-42e7a69368a585 John Garry  2015-11-18  1022  
-42e7a69368a585 John Garry  2015-11-18  1023  	memcpy(buf_cmd, &task->ssp_task.LUN, 8);
-78bd2b4f6e7c05 Xiaofei Tan 2018-05-21  1024  	if (!tmf) {
-4dc051eb0c6b6c John Garry  2023-08-15  1025  		buf_cmd[9] = task->ssp_task.task_attr;
-42e7a69368a585 John Garry  2015-11-18  1026  		memcpy(buf_cmd + 12, task->ssp_task.cmd->cmnd,
-42e7a69368a585 John Garry  2015-11-18  1027  				task->ssp_task.cmd->cmd_len);
-42e7a69368a585 John Garry  2015-11-18  1028  	} else {
-42e7a69368a585 John Garry  2015-11-18  1029  		buf_cmd[10] = tmf->tmf;
-42e7a69368a585 John Garry  2015-11-18  1030  		switch (tmf->tmf) {
-42e7a69368a585 John Garry  2015-11-18  1031  		case TMF_ABORT_TASK:
-42e7a69368a585 John Garry  2015-11-18  1032  		case TMF_QUERY_TASK:
-42e7a69368a585 John Garry  2015-11-18  1033  			buf_cmd[12] =
-42e7a69368a585 John Garry  2015-11-18  1034  				(tmf->tag_of_task_to_be_managed >> 8) & 0xff;
-42e7a69368a585 John Garry  2015-11-18  1035  			buf_cmd[13] =
-42e7a69368a585 John Garry  2015-11-18  1036  				tmf->tag_of_task_to_be_managed & 0xff;
-42e7a69368a585 John Garry  2015-11-18  1037  			break;
-42e7a69368a585 John Garry  2015-11-18  1038  		default:
-42e7a69368a585 John Garry  2015-11-18  1039  			break;
-42e7a69368a585 John Garry  2015-11-18  1040  		}
-42e7a69368a585 John Garry  2015-11-18  1041  	}
-42e7a69368a585 John Garry  2015-11-18  1042  }
-42e7a69368a585 John Garry  2015-11-18  1043  
-
-:::::: The code at line 1002 was first introduced by commit
-:::::: 42e7a69368a5855b36cbaff130e58e2cc9976ff3 hisi_sas: Add ssp command function
-
-:::::: TO: John Garry <john.garry@huawei.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> vim +24 drivers/platform/wmi/marshalling.c
+>
+>      19=09
+>      20	/*
+>      21	 * The WMI buffer data needs to be aligned on a 8 byte boundary =
+to properly
+>      22	 * support 64-bit WMI integers.
+>      23	 */
+>    > 24	static_assert(ARCH_KMALLOC_MINALIGN >=3D 8);
+>      25=09
+>
