@@ -1,80 +1,121 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252332DF156;
-	Tue, 13 Jan 2026 19:39:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2526922083
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 19:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768333168; cv=none; b=myjoKyty8Dopi9KtQLN6Cn6MItGYkbII8tzyjs8Yrs2r7W9xnbr6hVMRJC1sYnQW2fU9jRspHpsr7DTer6rB38pExpq9U+sKFWbHv8ODiN3FyctqMFHBTb/vXEBOPT93vEi+dzFRt0hyh1VcQ3eHa6wc/qeXjUiDJRm0Y2xoF24=
+	t=1768333664; cv=none; b=lUzsXleD6P01ZRVM9ZsRk78ML+/qVTAHebbQtYlLwTElLlTYDCzEAdRwtDmKvBfW6gpKlsCJbYkQ6/nLuQ9S5Ul5IJiRWPKbQV72Bkv0ZKHWX3DY9s4atRLKjp8eJS/M3kQyVWsc1V+5uWh/CVbH8ax5tC8ip++GiBXeqE6+9po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768333168; c=relaxed/simple;
-	bh=Md+tTAcL4MNreo3sgLPso3ZupOMsNLWpXXyYAJeUp4U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t+eeufqDGw6oPsmandsxFa5Wq31eEQ1LWjdsuMfvueHz5ocYGq9Eu9Yo4sY2oZUVnSTp/rcuUVlIJBSZsCio7TPN66CWqxcCjM2JVvJScflk9YGBxy9nYwtIPznddKbpdCroInJCg9z7kVcALA9ZH1xdMIvBQ/AXsxLL7Gtwdbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XiglkeLN; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768333664; c=relaxed/simple;
+	bh=4nGng+MlNru4EttwAtUn/Mfl9pCyX+4K4UzsAA8jSeA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BHjuYKxz9F6dlC3x2G8fBnmQF/TlqZ2AOEsjt1KFfRe4kuCmxlJpCSqbWvDuKHA7PapOb+LS15T0KOWuNxOt23cD+kkxgjWu+dI36KjpnVMgNWkuS2v818BV21PvAVA0RAy4157F2CO0Xo82MJSqJ7z0jK3YrVcENT5WHNvroXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0ee2D2f; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XiglkeLN"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=eIf3mSs3dQmWXMxFRhOXa/OGUJruNGhIb42r2V5Ta2c=; b=XiglkeLNhBkHiCh4DXSmLrEDJ3
-	J8fF6SfASIdRnRMclFidwlGfgRAYxohtottdTyp60YLNZNsrykT1r3n476UvW0TJzfIx2hZoJZI89
-	q+Eu2mdpDxDv33BkDHmR91f6SxUGXBo4i3kys0iliGC7XdXR9BctykLN4DuYSowy9VXlDqp7Q2cL2
-	bxeuiBbDHfOr/5rUb3QRKh9zJ8xKRSq6duBAOPLo8pGv/loWfPP7kmVifQJLPT7xBGeQL3DcCQHm9
-	u7ndy25Ave1aQq/KVVIIF2CqMcUQMfKU8y5T1kHiT5f0ClR5ltyDrqqh8rg6JKDsdKbgZxugBpKns
-	thvnegoQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vfkEb-00000003WQW-19Pz;
-	Tue, 13 Jan 2026 19:39:21 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 3313B300606; Tue, 13 Jan 2026 20:39:20 +0100 (CET)
-Date: Tue, 13 Jan 2026 20:39:19 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: kernel/futex/core.c:505:38: sparse: sparse: cast removes address
- space '__user' of expression
-Message-ID: <20260113193919.GA810197@noisy.programming.kicks-ass.net>
-References: <202601131901.j7WJ9OeZ-lkp@intel.com>
- <20260113115946.L49jwJMx@linutronix.de>
- <20260113121040.GC831050@noisy.programming.kicks-ass.net>
- <20260113173708.HMfBY0wF@linutronix.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0ee2D2f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768333663; x=1799869663;
+  h=date:from:to:cc:subject:message-id;
+  bh=4nGng+MlNru4EttwAtUn/Mfl9pCyX+4K4UzsAA8jSeA=;
+  b=W0ee2D2fUxoFYj0n+/o+B+euIxiAQ5YpQJEJP4eUTeSCCdPBkBwX/WJj
+   J1bamz7aPaR1wWRLs6j3YZKZ5hISXNdGUoyssVn3XXNO5lYzNICJ5rgCW
+   yZ9WfdPbLqfxqGMhvRsBPJdlRjB5Lck/n9/ExNLr8heND91MWJVu70KAY
+   uHxdgxLawUrzQfL+mjxx3KqwnHEca+ojlAFCaEY0gkprIOMXtSis3dCHu
+   qIW3Vat4IXZE6t6miDJ0XFN5TQ9+65OFvWthXdEyKTgjfLRVNocituhBT
+   xvDVmmCF1MTpjuggIT6uszWsj7b3FeeHrnxQR873A1SyZeq692UYG4e5K
+   g==;
+X-CSE-ConnectionGUID: bqXfh0OJSfi+V12Hq0rhyg==
+X-CSE-MsgGUID: QkV6F2J0Srqbdaib2xlf8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="73485800"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="73485800"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 11:47:42 -0800
+X-CSE-ConnectionGUID: Ux2cp0h4ROyWSBfhQGUi+Q==
+X-CSE-MsgGUID: 18Z21NjURhOZtxXvU3kAhA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="209519883"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 13 Jan 2026 11:47:41 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfkMc-00000000FIO-2MMQ;
+	Tue, 13 Jan 2026 19:47:38 +0000
+Date: Wed, 14 Jan 2026 03:46:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 0/2]
+ kernel/locking/rwsem.c:1651:2: error: call to undeclared function
+ 'trace_android_vh_rwsem_write_finished'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202601140327.ECKMbOOh-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113173708.HMfBY0wF@linutronix.de>
 
-On Tue, Jan 13, 2026 at 06:37:08PM +0100, Sebastian Andrzej Siewior wrote:
-> On 2026-01-13 13:10:40 [+0100], Peter Zijlstra wrote:
-> > Its here and a few lines down with the same thing I think. The cast is
-> > to get byte pointer math, instead of u32 sized pointer math. Both the
-> > original uaddr and naddr have the __user thing on, but that intermediate
-> > cast trips it up.
-> > 
-> > Does this work?
-> 
-> Yes. It removes the __user thing warning which leaves us with
-> | kernel/futex/requeue.c:692:9: warning: context imbalance in 'futex_requeue' - different lock contexts for basic block
-> | kernel/futex/requeue.c:841:25: warning: context imbalance in 'futex_wait_requeue_pi' - unexpected unlock
-> | kernel/futex/pi.c:663:9: warning: context imbalance in 'wake_futex_pi' - unexpected unlock
-> | kernel/futex/pi.c:791:9: warning: context imbalance in '__fixup_pi_state_owner' - unexpected unlock
-> | kernel/futex/pi.c:1093:17: warning: context imbalance in 'futex_lock_pi' - unexpected unlock
-> | kernel/futex/pi.c:1132:5: warning: context imbalance in 'futex_unlock_pi' - different lock contexts for basic block
-> | kernel/futex/waitwake.c:275:41: warning: context imbalance in 'futex_wake_op' - different lock contexts for basic block
-> | kernel/futex/waitwake.c:460:44: warning: context imbalance in 'futex_wait_multiple_setup' - unexpected unlock
-> | kernel/futex/waitwake.c:660:28: warning: context imbalance in 'futex_wait_setup' - unexpected unlock
-> | kernel/futex/core.c:979:9: warning: context imbalance in 'futex_q_lockptr_lock' - wrong count at exit
-> 
+Hi JianMin,
 
-tip/locking/core removes all the sparse lock annotations in favour of
-clang-22 tcsan.
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   0954c27bd6794b82681041439dd14bcc1f51c378
+commit: 78cf7a145c200d185e2370c712abd8235d1bd5aa [0/2] ANDROID: rwsem: Add vendor hook to the rw-semaphore
+config: x86_64-buildonly-randconfig-001-20260114 (https://download.01.org/0day-ci/archive/20260114/202601140327.ECKMbOOh-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140327.ECKMbOOh-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601140327.ECKMbOOh-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/locking/rwsem.c:1651:2: error: call to undeclared function 'trace_android_vh_rwsem_write_finished'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1651 |         trace_android_vh_rwsem_write_finished(sem);
+         |         ^
+   kernel/locking/rwsem.c:1651:2: note: did you mean 'trace_android_vh_rwsem_write_wait_finish'?
+   include/trace/hooks/dtask.h:44:1: note: 'trace_android_vh_rwsem_write_wait_finish' declared here
+      44 | DECLARE_HOOK(android_vh_rwsem_write_wait_finish,
+         | ^
+   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
+     119 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:605:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     605 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:149:1: note: expanded from here
+     149 | trace_android_vh_rwsem_write_wait_finish
+         | ^
+   kernel/locking/rwsem.c:1662:2: error: call to undeclared function 'trace_android_vh_rwsem_write_finished'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1662 |         trace_android_vh_rwsem_write_finished(sem);
+         |         ^
+   2 errors generated.
+
+
+vim +/trace_android_vh_rwsem_write_finished +1651 kernel/locking/rwsem.c
+
+  1644	
+  1645	/*
+  1646	 * release a write lock
+  1647	 */
+  1648	void up_write(struct rw_semaphore *sem)
+  1649	{
+  1650		rwsem_release(&sem->dep_map, _RET_IP_);
+> 1651		trace_android_vh_rwsem_write_finished(sem);
+  1652		__up_write(sem);
+  1653	}
+  1654	EXPORT_SYMBOL(up_write);
+  1655	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
