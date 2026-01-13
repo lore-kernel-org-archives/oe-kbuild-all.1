@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDA635B132
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 05:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E725C363C41
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 05:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768282711; cv=none; b=NxMXvKDsFtcDWtnV1W4nKxvvHezHAqjsnjWfFDZwBVDyfDTJuFPajmlsUxYc6XSQ6GX3bBQYisWrZAVEYTEk3NA3zot9AIIKUiOZP78tiF2TfDcqLk2+6j7sL9A9po7OUWP0dfbdNreCKb/anvOFByN7EcBpr37wP/DVNDuNCds=
+	t=1768283371; cv=none; b=LOP1a+dnCXDD8TXBWxd8RTp8i+iTcuhapxkiuZEjCHQsZyhQo/M13juKP3vhxYlIlByVB3EfI/Su+g7aojA36IPPVQiOo9cMOgEefFzZizMbgSy0Pg80I3RUbXdjP0x9eHEvYn53JP5pgelWDPi4e1YV2BMVa1wOTvz8bJLYx6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768282711; c=relaxed/simple;
-	bh=z4283oX5AXsa2q27771Kwah+zmxsNJRU7fSmPchGos0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=H+nIKRSyLVK7HeW7EgHohSqYUkXIrs9vxCnSMzDqGfhRkOhR4eDF/LcFaBybIpedcgMaCUDHiqkoibkBJNBrrEJqqIV4mgpe9HnM3u25QP3kVAS0vxfSA2hmUGJTYbCde2eApqVLiEDP1vmDaiLmFdGG92Dv1JncGzb/wdxDKOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KrYV6AhP; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1768283371; c=relaxed/simple;
+	bh=OgkPWfvaBlgJ6hyF9e8qquxjc12LtgAcdwVBantNdMI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dlpVGDzts7GetxE6fZXmznZkUV/IAUWp0fCcQVvMhL9KAtMSNM8fiXQ9ZZt0m7pXuJ3cZjb41HiPco+olCXG1hbyEDYngcrE2pCAMHnJkzdzbNiD/Q7/VtgiDqgnp/ZwLm/wMC3MlntSN3RDy7kxuBj+33uk48fFTx2u6FbGeiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dYieJJZA; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KrYV6AhP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dYieJJZA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768282709; x=1799818709;
+  t=1768283369; x=1799819369;
   h=date:from:to:cc:subject:message-id;
-  bh=z4283oX5AXsa2q27771Kwah+zmxsNJRU7fSmPchGos0=;
-  b=KrYV6AhPju/gXiZZnj5Q0Jfd5dPHRn4Vxs+nWkFrZepKdrb9n4K3HrfG
-   caeJJQceOdPswOIPSZYWU524G8E4KzT3Dp41Y8bWKxNdluOQj0kss3g5R
-   JuRs69ayokXBlauAD5KmjKQl6hoFTBe/KYtkcLn6HrWi4d4mwAT1AsGaT
-   rDa5WuqrHWZEmTQ/j6rNNojczfKq6EP//PNoc1veMPaLOZD2+UAKE/BDf
-   FTUa2BchA/VDxBAVSAMD0ttGxgxoEaq9gPk+erafN9H3wXgX4LSQ8bhmT
-   blgvXxlqUezdvsD/xrG4GH8CN8MG7bAcZsD3zUWOLSEtpyb7yztxQJQl+
-   g==;
-X-CSE-ConnectionGUID: /r+NSTtiR0enpnU6yaJm8Q==
-X-CSE-MsgGUID: SXwcdl4aQ4CymGtZvSbFkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80206153"
+  bh=OgkPWfvaBlgJ6hyF9e8qquxjc12LtgAcdwVBantNdMI=;
+  b=dYieJJZAH96GBu1CK4A2un6iPeQJfBdwiIuvjYialfAtYgqqOikSUfKv
+   xF+8hbOX891bjL33QDp6kI3gVufYtZC9MV6piGmt/QOBfjxlQDK5YjqV3
+   cvlzWOzqXQsFhrDlRyC0IwJpufL1sZ6/ybutmEm7mLvyXC8fFEmk477mT
+   aNcp5DLGH1SrPVOeVRzJDA6cuMfNUVHPV86gSyFWWtDCsAwBpb5aO8VEY
+   X/vZP2WqRmzXkQGyFERTkWXuRaqkYSydXkMMWGXHrEVETStIgytj3YPFl
+   ca3wWdQWtfYboHER+8T/R0jF7iOAz+YtlIM+fofeSGmyjUcG7wpSL98pZ
+   A==;
+X-CSE-ConnectionGUID: Tj28hkBMTHCujjB/utZKNA==
+X-CSE-MsgGUID: nBrNaiWbSuqa+LAH4LjdlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69548071"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="80206153"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 21:38:28 -0800
-X-CSE-ConnectionGUID: iFJTQjo3RXuaY/ncQg8PTQ==
-X-CSE-MsgGUID: q2q7Ik0NQZierJSjbmAoZA==
+   d="scan'208";a="69548071"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 21:49:28 -0800
+X-CSE-ConnectionGUID: GOuSEYg9R/ypV/2GiemlAA==
+X-CSE-MsgGUID: ojqn2+c4RO2xKFPuIUXv/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="234996664"
+   d="scan'208";a="209119900"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 12 Jan 2026 21:38:26 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 12 Jan 2026 21:49:27 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfX6l-00000000EHW-3kMG;
-	Tue, 13 Jan 2026 05:38:23 +0000
-Date: Tue, 13 Jan 2026 13:38:12 +0800
+	id 1vfXHQ-00000000EIA-2fCy;
+	Tue, 13 Jan 2026 05:49:24 +0000
+Date: Tue, 13 Jan 2026 13:48:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Christian Brauner <brauner@kernel.org>
-Subject: fs/notify/fsnotify.c:632:54: sparse: sparse: incorrect type
- in argument 1 (different address spaces)
-Message-ID: <202601131336.7rTQaDDl-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 33/33]
+ kernel/sched/core.c:2787:3: error: call to undeclared function
+ 'move_queued_task_locked'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202601131352.jF9eiEnn-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,184 +61,138 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b71e635feefc852405b14620a7fc58c4c80c0f73
-commit: b944249bcea97f2f6229852ae3f05f7acdcb0681 fsnotify: add mount notification infrastructure
-date:   11 months ago
-config: i386-randconfig-061-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131336.7rTQaDDl-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131336.7rTQaDDl-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   c818542ead502009bd003c189fcc86795005133e
+commit: f77e294987675cc8ef143bb52667ff0025416d73 [33/33] ANDROID: sched: Fix rt/dl load balancing via chain level balance
+config: x86_64-randconfig-161-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131352.jF9eiEnn-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131352.jF9eiEnn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131336.7rTQaDDl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131352.jF9eiEnn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/notify/fsnotify.c:433:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/notify/fsnotify.c:433:16: sparse:    struct fsnotify_mark_connector [noderef] __rcu *
-   fs/notify/fsnotify.c:433:16: sparse:    struct fsnotify_mark_connector *
-   fs/notify/fsnotify.c:435:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/notify/fsnotify.c:435:24: sparse:    struct hlist_node [noderef] __rcu *
-   fs/notify/fsnotify.c:435:24: sparse:    struct hlist_node *
-   fs/notify/fsnotify.c:445:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/notify/fsnotify.c:445:24: sparse:    struct hlist_node [noderef] __rcu *
-   fs/notify/fsnotify.c:445:24: sparse:    struct hlist_node *
-   fs/notify/fsnotify.c:616:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:616:46: sparse:     expected struct fsnotify_mark_connector *const *connp
-   fs/notify/fsnotify.c:616:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
-   fs/notify/fsnotify.c:620:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:620:46: sparse:     expected struct fsnotify_mark_connector *const *connp
-   fs/notify/fsnotify.c:620:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
-   fs/notify/fsnotify.c:624:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:624:46: sparse:     expected struct fsnotify_mark_connector *const *connp
-   fs/notify/fsnotify.c:624:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
-   fs/notify/fsnotify.c:628:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
-   fs/notify/fsnotify.c:628:46: sparse:     expected struct fsnotify_mark_connector *const *connp
-   fs/notify/fsnotify.c:628:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
->> fs/notify/fsnotify.c:632:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu *const * @@
-   fs/notify/fsnotify.c:632:54: sparse:     expected struct fsnotify_mark_connector *const *connp
-   fs/notify/fsnotify.c:632:54: sparse:     got struct fsnotify_mark_connector [noderef] __rcu *const *
+All errors (new ones prefixed by >>):
 
-vim +632 fs/notify/fsnotify.c
+>> kernel/sched/core.c:2787:3: error: call to undeclared function 'move_queued_task_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2787 |                 move_queued_task_locked(rq, lowest_rq, p);
+         |                 ^
+   kernel/sched/core.c:2787:3: note: did you mean '__move_queued_task_locked'?
+   kernel/sched/sched.h:3890:6: note: '__move_queued_task_locked' declared here
+    3890 | void __move_queued_task_locked(struct rq *src_rq, struct rq *dst_rq, struct task_struct *task)
+         |      ^
+   kernel/sched/core.c:8619:12: warning: array index -1 is before the beginning of the array [-Warray-bounds]
+    8619 |                                        preempt_modes[preempt_dynamic_mode] : "undef",
+         |                                        ^             ~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:8594:1: note: array 'preempt_modes' declared here
+    8594 | const char *preempt_modes[] = {
+         | ^
+   1 warning and 1 error generated.
+--
+   In file included from kernel/sched/build_policy.c:52:
+>> kernel/sched/rt.c:1846:7: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1846 |                 if (task_is_pushable(rq, p, cpu) == 1)
+         |                     ^
+   kernel/sched/rt.c:1846:7: note: did you mean '__task_is_pushable'?
+   kernel/sched/sched.h:3901:5: note: '__task_is_pushable' declared here
+    3901 | int __task_is_pushable(struct rq *rq, struct task_struct *p, int cpu)
+         |     ^
+   In file included from kernel/sched/build_policy.c:52:
+   kernel/sched/rt.c:1965:7: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1965 |                 if (task_is_pushable(rq, p, 0)) {
+         |                     ^
+   kernel/sched/rt.c:2059:18: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2059 |                 int pushable = task_is_pushable(rq, task, lowest->cpu);
+         |                                ^
+>> kernel/sched/rt.c:2231:2: error: call to undeclared function 'move_queued_task_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2231 |         move_queued_task_locked(rq, lowest_rq, next_task);
+         |         ^
+   kernel/sched/rt.c:2231:2: note: did you mean '__move_queued_task_locked'?
+   kernel/sched/sched.h:3890:6: note: '__move_queued_task_locked' declared here
+    3890 | void __move_queued_task_locked(struct rq *src_rq, struct rq *dst_rq, struct task_struct *task)
+         |      ^
+   In file included from kernel/sched/build_policy.c:52:
+   kernel/sched/rt.c:2505:5: error: call to undeclared function 'move_queued_task_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2505 |                                 move_queued_task_locked(src_rq, this_rq, p);
+         |                                 ^
+   In file included from kernel/sched/build_policy.c:58:
+>> kernel/sched/deadline.c:2472:7: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2472 |                 if (task_is_pushable(rq, p, cpu) == 1)
+         |                     ^
+   kernel/sched/deadline.c:2587:7: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2587 |                 if (task_is_pushable(rq, p, 0))
+         |                     ^
+   kernel/sched/deadline.c:2665:18: error: call to undeclared function 'task_is_pushable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2665 |                 int pushable = task_is_pushable(rq, task, later->cpu);
+         |                                ^
+>> kernel/sched/deadline.c:2795:2: error: call to undeclared function 'move_queued_task_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2795 |         move_queued_task_locked(rq, later_rq, next_task);
+         |         ^
+   kernel/sched/deadline.c:2881:5: error: call to undeclared function 'move_queued_task_locked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2881 |                                 move_queued_task_locked(src_rq, this_rq, p);
+         |                                 ^
+   10 errors generated.
 
-   520	
-   521	/*
-   522	 * fsnotify - This is the main call to fsnotify.
-   523	 *
-   524	 * The VFS calls into hook specific functions in linux/fsnotify.h.
-   525	 * Those functions then in turn call here.  Here will call out to all of the
-   526	 * registered fsnotify_group.  Those groups can then use the notification event
-   527	 * in whatever means they feel necessary.
-   528	 *
-   529	 * @mask:	event type and flags
-   530	 * @data:	object that event happened on
-   531	 * @data_type:	type of object for fanotify_data_XXX() accessors
-   532	 * @dir:	optional directory associated with event -
-   533	 *		if @file_name is not NULL, this is the directory that
-   534	 *		@file_name is relative to
-   535	 * @file_name:	optional file name associated with event
-   536	 * @inode:	optional inode associated with event -
-   537	 *		If @dir and @inode are both non-NULL, event may be
-   538	 *		reported to both.
-   539	 * @cookie:	inotify rename cookie
-   540	 */
-   541	int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
-   542		     const struct qstr *file_name, struct inode *inode, u32 cookie)
-   543	{
-   544		const struct path *path = fsnotify_data_path(data, data_type);
-   545		struct super_block *sb = fsnotify_data_sb(data, data_type);
-   546		const struct fsnotify_mnt *mnt_data = fsnotify_data_mnt(data, data_type);
-   547		struct fsnotify_sb_info *sbinfo = sb ? fsnotify_sb_info(sb) : NULL;
-   548		struct fsnotify_iter_info iter_info = {};
-   549		struct mount *mnt = NULL;
-   550		struct inode *inode2 = NULL;
-   551		struct dentry *moved;
-   552		int inode2_type;
-   553		int ret = 0;
-   554		__u32 test_mask, marks_mask = 0;
-   555	
-   556		if (path)
-   557			mnt = real_mount(path->mnt);
-   558	
-   559		if (!inode) {
-   560			/* Dirent event - report on TYPE_INODE to dir */
-   561			inode = dir;
-   562			/* For FS_RENAME, inode is old_dir and inode2 is new_dir */
-   563			if (mask & FS_RENAME) {
-   564				moved = fsnotify_data_dentry(data, data_type);
-   565				inode2 = moved->d_parent->d_inode;
-   566				inode2_type = FSNOTIFY_ITER_TYPE_INODE2;
-   567			}
-   568		} else if (mask & FS_EVENT_ON_CHILD) {
-   569			/*
-   570			 * Event on child - report on TYPE_PARENT to dir if it is
-   571			 * watching children and on TYPE_INODE to child.
-   572			 */
-   573			inode2 = dir;
-   574			inode2_type = FSNOTIFY_ITER_TYPE_PARENT;
-   575		}
-   576	
-   577		/*
-   578		 * Optimization: srcu_read_lock() has a memory barrier which can
-   579		 * be expensive.  It protects walking the *_fsnotify_marks lists.
-   580		 * However, if we do not walk the lists, we do not have to do
-   581		 * SRCU because we have no references to any objects and do not
-   582		 * need SRCU to keep them "alive".
-   583		 */
-   584		if ((!sbinfo || !sbinfo->sb_marks) &&
-   585		    (!mnt || !mnt->mnt_fsnotify_marks) &&
-   586		    (!inode || !inode->i_fsnotify_marks) &&
-   587		    (!inode2 || !inode2->i_fsnotify_marks) &&
-   588		    (!mnt_data || !mnt_data->ns->n_fsnotify_marks))
-   589			return 0;
-   590	
-   591		if (sb)
-   592			marks_mask |= READ_ONCE(sb->s_fsnotify_mask);
-   593		if (mnt)
-   594			marks_mask |= READ_ONCE(mnt->mnt_fsnotify_mask);
-   595		if (inode)
-   596			marks_mask |= READ_ONCE(inode->i_fsnotify_mask);
-   597		if (inode2)
-   598			marks_mask |= READ_ONCE(inode2->i_fsnotify_mask);
-   599		if (mnt_data)
-   600			marks_mask |= READ_ONCE(mnt_data->ns->n_fsnotify_mask);
-   601	
-   602		/*
-   603		 * If this is a modify event we may need to clear some ignore masks.
-   604		 * In that case, the object with ignore masks will have the FS_MODIFY
-   605		 * event in its mask.
-   606		 * Otherwise, return if none of the marks care about this type of event.
-   607		 */
-   608		test_mask = (mask & ALL_FSNOTIFY_EVENTS);
-   609		if (!(test_mask & marks_mask))
-   610			return 0;
-   611	
-   612		iter_info.srcu_idx = srcu_read_lock(&fsnotify_mark_srcu);
-   613	
-   614		if (sbinfo) {
-   615			iter_info.marks[FSNOTIFY_ITER_TYPE_SB] =
-   616				fsnotify_first_mark(&sbinfo->sb_marks);
-   617		}
-   618		if (mnt) {
-   619			iter_info.marks[FSNOTIFY_ITER_TYPE_VFSMOUNT] =
-   620				fsnotify_first_mark(&mnt->mnt_fsnotify_marks);
-   621		}
-   622		if (inode) {
-   623			iter_info.marks[FSNOTIFY_ITER_TYPE_INODE] =
-   624				fsnotify_first_mark(&inode->i_fsnotify_marks);
-   625		}
-   626		if (inode2) {
-   627			iter_info.marks[inode2_type] =
-   628				fsnotify_first_mark(&inode2->i_fsnotify_marks);
-   629		}
-   630		if (mnt_data) {
-   631			iter_info.marks[FSNOTIFY_ITER_TYPE_MNTNS] =
- > 632				fsnotify_first_mark(&mnt_data->ns->n_fsnotify_marks);
-   633		}
-   634	
-   635		/*
-   636		 * We need to merge inode/vfsmount/sb mark lists so that e.g. inode mark
-   637		 * ignore masks are properly reflected for mount/sb mark notifications.
-   638		 * That's why this traversal is so complicated...
-   639		 */
-   640		while (fsnotify_iter_select_report_types(&iter_info)) {
-   641			ret = send_to_group(mask, data, data_type, dir, file_name,
-   642					    cookie, &iter_info);
-   643	
-   644			if (ret && (mask & ALL_FSNOTIFY_PERM_EVENTS))
-   645				goto out;
-   646	
-   647			fsnotify_iter_next(&iter_info);
-   648		}
-   649		ret = 0;
-   650	out:
-   651		srcu_read_unlock(&fsnotify_mark_srcu, iter_info.srcu_idx);
-   652	
-   653		return ret;
-   654	}
-   655	EXPORT_SYMBOL_GPL(fsnotify);
-   656	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+
+
+vim +/move_queued_task_locked +2787 kernel/sched/core.c
+
+5cc389bcee088b Peter Zijlstra 2015-06-11  2760  
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2761  int push_cpu_stop(void *arg)
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2762  {
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2763  	struct rq *lowest_rq = NULL, *rq = this_rq();
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2764  	struct task_struct *p = arg;
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2765  
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2766  	raw_spin_lock_irq(&p->pi_lock);
+5cb9eaa3d274f7 Peter Zijlstra 2020-11-17  2767  	raw_spin_rq_lock(rq);
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2768  
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2769  	if (task_rq(p) != rq)
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2770  		goto out_unlock;
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2771  
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2772  	if (is_migration_disabled(p)) {
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2773  		p->migration_flags |= MDF_PUSH;
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2774  		goto out_unlock;
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2775  	}
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2776  
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2777  	p->migration_flags &= ~MDF_PUSH;
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2778  
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2779  	if (p->sched_class->find_lock_rq)
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2780  		lowest_rq = p->sched_class->find_lock_rq(p, rq);
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2781  
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2782  	if (!lowest_rq)
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2783  		goto out_unlock;
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2784  
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2785  	// XXX validate p is still the highest prio task
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2786  	if (task_rq(p) == rq) {
+2b05a0b4c08ffd Connor O'Brien 2024-10-09 @2787  		move_queued_task_locked(rq, lowest_rq, p);
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2788  		resched_curr(lowest_rq);
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2789  	}
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2790  
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2791  	double_unlock_balance(rq, lowest_rq);
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2792  
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2793  out_unlock:
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2794  	rq->push_busy = false;
+5cb9eaa3d274f7 Peter Zijlstra 2020-11-17  2795  	raw_spin_rq_unlock(rq);
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2796  	raw_spin_unlock_irq(&p->pi_lock);
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2797  
+a7c81556ec4d34 Peter Zijlstra 2020-09-28  2798  	put_task_struct(p);
+5cc389bcee088b Peter Zijlstra 2015-06-11  2799  	return 0;
+5cc389bcee088b Peter Zijlstra 2015-06-11  2800  }
+4d4666820ab722 Rick Yiu       2025-06-06  2801  EXPORT_SYMBOL_GPL(push_cpu_stop);
+5cc389bcee088b Peter Zijlstra 2015-06-11  2802  
+
+:::::: The code at line 2787 was first introduced by commit
+:::::: 2b05a0b4c08ffd6dedfbd27af8708742cde39b95 sched: Add move_queued_task_locked helper
+
+:::::: TO: Connor O'Brien <connoro@google.com>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
