@@ -1,105 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD0123D294
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 02:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8ABE25393B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 02:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768270707; cv=none; b=Undpyj5qTyCwgUzV25F2VN6mAqETreHnrqkBHXStYnmXXhRxOwMwtoRTg9CZ1ghW9+Rif7OlryhLqVTViHfo73OqTIfG59w4bf00U5yQgpa7i56Blg+KT2pwegOazGvfei37s1aKt1Sh/pIgqSyrze/zJOwQWYUwRdgCL6DY16k=
+	t=1768271308; cv=none; b=RXcExrwzW8NmoEsqpeFMOROmO39F2mZT7B8OlcVqCvy+Y42GPhEZx/zSYBbCtEKJK0Y3gsCoZtMHIyCCsHypT/cFZ9Os7+QJ/hAe/RzJpqiBj5ruThjkMTqkWBHC/oYpGdrGcBQ6w4zpEH4N14b1qYcSGKU6YiGMFX3MFNtCYqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768270707; c=relaxed/simple;
-	bh=Yec0sfDxBI6Ht33ZuzbnIrm9kfnOv8pNuShawqEPPNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t6peBeWtJK0hzokUxtcY9peWDImR2RnjuuRIwtyJolJxDK0Ja813r7Xv5VEEm0mu5mjEqn5julyTkoql8taXyP2zVLLY1CRjoctV2n5E0p5C811J3TAEVoC5n6InjWFdy7P69TUwNOdEncGfbIRnacEAtu2cCGP1HpuMcskOhQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BRlYBS5z; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1768271308; c=relaxed/simple;
+	bh=YUgVSeUA/8CTaYWTMBE856Vpz1T0v3KAk9ruq/Cqcx4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kO/gQmHc3hou7dKlFNN4BiHoclI5rtrukIFwvFzz94uS41v0pTlbf3aDFka+7yqdGMADLptRV8PZHIfNUGNpTGvykfYUyz3pXB8C9wjMljf/13TCmPk9yVe4c3Ol17JmBhUG467F9I8mVJ9mcRFZOk3YdtnKsTvTFIkVt63lwgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EVg0l8QU; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRlYBS5z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EVg0l8QU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768270706; x=1799806706;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Yec0sfDxBI6Ht33ZuzbnIrm9kfnOv8pNuShawqEPPNo=;
-  b=BRlYBS5zFQC+I5CjMfOb3uZ5CLW1q/xpdTCKF1IgD3A01I8gt6i3afA8
-   zEdW90aDpXmpUsJpCabeQ3BmpGXqYAFLg0JUNE6NvCCYvTJz9cliUrM6W
-   v/wvMy77d31DSiIgwFsFK0U9hhSKC2aRCdw9bLZxrz4y7CJWVnTyDbM6t
-   yGR98PrEPQg8fKT99V/2XhtBmwlSNghbD1kGc6dFYdFtQIffBaoMRu0+w
-   De/khbqAqZlIdFedfpq8JtMO+954KZDK5fwQGfMBpof6NS2SpIdLiqT6/
-   bQ+TU2yhZR7Ahp5fPLIt10vaZPVMlQg4IYtNblSpjs8Nl5KrXZCW/XcxJ
-   w==;
-X-CSE-ConnectionGUID: +sN/Bky6QQe2W/cE5EO6DA==
-X-CSE-MsgGUID: 9cgLCoepQOSJGzi/emBB9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="73184125"
+  t=1768271307; x=1799807307;
+  h=date:from:to:cc:subject:message-id;
+  bh=YUgVSeUA/8CTaYWTMBE856Vpz1T0v3KAk9ruq/Cqcx4=;
+  b=EVg0l8QU54Pi80dOWjJbFSd/YHUts22E1sLvFKODRnteY7l7YO7CK++Y
+   QJuNVSDIl/v/NF+z+aB63zfkvPBAqySBVdg3cTbCilJVAmIB+N1JBoYmF
+   7iSMTVjHyHqBJArD+RpnsLil1bW0W/zYdgQ840F369MQ+OAck+ahdR0oR
+   JxcBc7BLBw4TIaf4Ni0kuIp4JIjTcdNMjsziOZRLFIXPSnTyyG0kIDZxG
+   4b4BaDMnoT8ToiUQPsUg99e8pQOtH2zmCcFbXBRYWSyfyuHO50Jja7Bfu
+   PutxowSSA32KUviYsPizOGnTE6XeGcT4ymwvBupHtdHfRtrCKOruQlmeb
+   g==;
+X-CSE-ConnectionGUID: qRSPm6CxTNiE/+BHh6LdGw==
+X-CSE-MsgGUID: zucltjOjQs2hvcKJPobYbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69537997"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="73184125"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 18:18:25 -0800
-X-CSE-ConnectionGUID: wNJWnrmuQbep4LDKovdUiQ==
-X-CSE-MsgGUID: sb3tkOFtS0Gig7MufspTXg==
+   d="scan'208";a="69537997"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 18:28:27 -0800
+X-CSE-ConnectionGUID: uBi0MN17SG2L5r7DMCfCqA==
+X-CSE-MsgGUID: UJEDWCl6SzeD6mSbImNL8A==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="208414571"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Jan 2026 18:18:19 -0800
+  by orviesa003.jf.intel.com with ESMTP; 12 Jan 2026 18:28:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfTz6-00000000E68-3fEh;
-	Tue, 13 Jan 2026 02:18:16 +0000
-Date: Tue, 13 Jan 2026 10:17:53 +0800
+	id 1vfU8s-00000000E6W-3GmB;
+	Tue, 13 Jan 2026 02:28:22 +0000
+Date: Tue, 13 Jan 2026 10:28:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ethan Graham <ethan.w.s.graham@gmail.com>, glider@google.com
-Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
-	andreyknvl@gmail.com, andy@kernel.org, andy.shevchenko@gmail.com,
-	brauner@kernel.org, brendan.higgins@linux.dev, davem@davemloft.net,
-	davidgow@google.com, dhowells@redhat.com, dvyukov@google.com,
-	ebiggers@kernel.org, elver@google.com, gregkh@linuxfoundation.org,
-	herbert@gondor.apana.org.au, ignat@cloudflare.com, jack@suse.cz,
-	jannh@google.com, johannes@sipsolutions.net,
-	kasan-dev@googlegroups.com, kees@kernel.org,
-	kunit-dev@googlegroups.com, linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lukas@wunner.de,
-	mcgrof@kernel.org, rmoar@google.com, shuah@kernel.org
-Subject: Re: [PATCH v4 4/6] kfuzztest: add KFuzzTest sample fuzz targets
-Message-ID: <202601130828.lXrl0Ijb-lkp@intel.com>
-References: <20260112192827.25989-5-ethan.w.s.graham@gmail.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:slf/mercury_test 1/5]
+ arch/x86/include/../../../drivers/iommu/amd/amd_iommu_types.h:817:17: error:
+ unknown type name 'u128'
+Message-ID: <202601131048.yDtytwl8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260112192827.25989-5-ethan.w.s.graham@gmail.com>
 
-Hi Ethan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
-[also build test WARNING on herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.19-rc5 next-20260109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Graham/kfuzztest-add-user-facing-API-and-data-structures/20260113-033045
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20260112192827.25989-5-ethan.w.s.graham%40gmail.com
-patch subject: [PATCH v4 4/6] kfuzztest: add KFuzzTest sample fuzz targets
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260113/202601130828.lXrl0Ijb-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130828.lXrl0Ijb-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux slf/mercury_test
+head:   ee15dac15976899b3b20ee0300633c984be79a91
+commit: e27bbe8a422c0f45db71dd9eb2e2a064c61d0107 [1/5] *** DO NOT MERGE *** iommu/amd: Hack to fake IRQ posting support
+config: i386-randconfig-004-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131048.yDtytwl8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131048.yDtytwl8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601130828.lXrl0Ijb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131048.yDtytwl8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: samples/kfuzztest/underflow_on_buffer.c:24 function parameter 'buf' not described in 'underflow_on_buffer'
->> Warning: samples/kfuzztest/underflow_on_buffer.c:24 function parameter 'buflen' not described in 'underflow_on_buffer'
->> Warning: samples/kfuzztest/underflow_on_buffer.c:24 expecting prototype for test_underflow_on_buffer(). Prototype was for underflow_on_buffer() instead
+   In file included from arch/x86/kvm/svm/avic.c:32:
+>> arch/x86/include/../../../drivers/iommu/amd/amd_iommu_types.h:817:17: error: unknown type name 'u128'
+     817 |                 u128 data128[2];
+         |                 ^~~~
+   arch/x86/include/../../../drivers/iommu/amd/amd_iommu_types.h:982:17: error: unknown type name 'u128'
+     982 |                 u128 irte;
+         |                 ^~~~
+
+
+vim +/u128 +817 arch/x86/include/../../../drivers/iommu/amd/amd_iommu_types.h
+
+8d283c35a293e6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-06-26  810  
+5694703f14b1f6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-07-11  811  /*
+5694703f14b1f6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-07-11  812   * Structure defining one entry in the device table
+5694703f14b1f6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-07-11  813   */
+8d283c35a293e6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-06-26  814  struct dev_table_entry {
+8b3f78733814b1 drivers/iommu/amd/amd_iommu_types.h Suravee Suthikulpanit 2024-11-18  815  	union {
+ee6c28684585a6 drivers/iommu/amd_iommu_types.h     Joerg Roedel          2011-11-09  816  		u64 data[4];
+8b3f78733814b1 drivers/iommu/amd/amd_iommu_types.h Suravee Suthikulpanit 2024-11-18 @817  		u128 data128[2];
+8b3f78733814b1 drivers/iommu/amd/amd_iommu_types.h Suravee Suthikulpanit 2024-11-18  818  	};
+8d283c35a293e6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-06-26  819  };
+8d283c35a293e6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-06-26  820  
+
+:::::: The code at line 817 was first introduced by commit
+:::::: 8b3f78733814b180089a400743b6f19d118aec62 iommu/amd: Introduce helper function to update 256-bit DTE
+
+:::::: TO: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
