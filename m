@@ -1,143 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B64D34F46A;
-	Tue, 13 Jan 2026 04:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9651525A357
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 04:16:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768277138; cv=none; b=FrJnSZx68AmdG83fJapw9RdFqWqtyFqknkxHsfu4sD9k55eXTwUb6Enu7zmm0vHRayBdld+S8sK3WGiwpleoaqlKzgSMem7TGDey2SXDfOdsIFU7enE9Mjh+sVb7UEyHOxpRaDkQ1oj10e6GIym/j6p+d0HDx4kyx4Ed0AalSYk=
+	t=1768277802; cv=none; b=c+oBRSBVjzyeuJiu+/JV9ZJRPQ/ndpNqDJkbuDlTfeLy4z7Twr48si6aJcDSgW2ZP2HwFGu+RqSwW2D/7QzV9jJ6gdjth7Qu01enM8RohXlPorUDLo5LEA3cP3Y5d/d6P0rXyEdezUfZ4QtAU0AfMZU9n9D0DEzijtjg086kETE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768277138; c=relaxed/simple;
-	bh=JAvD42DEp/J+hq/XcUocuUDb7ccfeSPR/tkE5oQzvwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uwud6MslewYo6tW7gIgNVt+J7xdrDxQ2Tl8DRF4Tr+S0JoLQotN7uf7o6FGkyMqKmBdMziAECM/SYs6u6JeESvL9BogMVUpJy4mZo/dz1rLoQPTsqpZe+yXGU69WP7CULtVzXhgZvxhV9cnFbj5Cpf7cYFZWplcgxSL/IcBgon0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QSOn21mo; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1768277802; c=relaxed/simple;
+	bh=f0prDkpNDjiFMNfgm2lPTAu6Ytgqaf2amBoSNF128LI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tg7UDkqL/CJT7GOLBgooDfuch6XQnqzVVgxGxsJL8/gX2okYnfLf+RJz/S0mN/rmpIb8TgHJiC0HIAiw6olI5AUJMI2E6X3hywzLs/ukg32LswKcptYdXRB4tRb7e4hcCB7ubFvnPZFrbgBbjW9oOpWevPegZuqsm2P5ZJLjJyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HdA81PZf; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QSOn21mo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HdA81PZf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768277137; x=1799813137;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JAvD42DEp/J+hq/XcUocuUDb7ccfeSPR/tkE5oQzvwQ=;
-  b=QSOn21monE6JfTF7ljQE3l+heZN1caOZAAZN7YtETihqS53XY4WVwREz
-   SsTjrUoLRlTmnqxPdUYu9XIjNvAZugoL0Ofkq46orSW/woJZEG9xBZcl3
-   KSFJSaw17akKXKC6DgWHWv6T1iEEhy3wxPviYUOLlGxWQaqruIVpXBMVf
-   Gm1zJeAdgqwU2Qr/heaiuAmzSxLUa5wR79TzfbKlw6fvGGgMY+7LAlOPi
-   HX+F3leLVmOXNDTjlOiJvUaUOgcU5G9b06Zi8796usA5rmRfr8NhgOjSI
-   zrLTMlkH7yv9Mc/slEmuM6Q6Wp8ZpLvvaEbvwZqjhS0vJLofEd8RcKg90
-   g==;
-X-CSE-ConnectionGUID: TrG1ovwRREGM2kVboAODuA==
-X-CSE-MsgGUID: Q21elZ1uR3iE358fXqzyZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80201919"
+  t=1768277801; x=1799813801;
+  h=date:from:to:cc:subject:message-id;
+  bh=f0prDkpNDjiFMNfgm2lPTAu6Ytgqaf2amBoSNF128LI=;
+  b=HdA81PZfawGmM/onUmLLNfCS8ufdQfo3AKwj1afly6NaGokxgew/aPrK
+   15m8aq9LYhwEovE96WzVEJgUT82boHB8dE6vC8g511awvprvE9yyEFZub
+   0vcfc8G+y1eddxZuwWCK45QsOLxRf+GudQTGQYWc2RaG3Tnftd0B6Z44q
+   xynO5MNrTWeOaWfFKRFcAH0u6wjjPk1GTCv6nNFWQQzCbgBmlLs+veLjC
+   0TcbtnSvndxwBeMJLtl72s9ek6dxeOrD8pOyhK465NLKhn+7P+NCS5/eB
+   xrogLzfPMHrcqBuSRuPUuQaVNshbWPJr/lEYiIVNiBacvkNpQ/6YN8t0v
+   w==;
+X-CSE-ConnectionGUID: gXtOOn4rRLejCWiMWE54jA==
+X-CSE-MsgGUID: jKCjCe7LQJGA2r9yJ3FTWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="95035124"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="80201919"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 20:05:35 -0800
-X-CSE-ConnectionGUID: SBoXRcZtT8CkM66bXqIZeg==
-X-CSE-MsgGUID: wiZNVPtrQN6+mRcLYjnVOg==
+   d="scan'208";a="95035124"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 20:16:40 -0800
+X-CSE-ConnectionGUID: ns0FJ0piQ+KINVG5x7ruag==
+X-CSE-MsgGUID: HoN7xNCEQXGqfRdfIFLQFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="204173413"
+   d="scan'208";a="203918945"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Jan 2026 20:05:34 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 12 Jan 2026 20:16:39 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfVet-00000000EC4-2dKX;
-	Tue, 13 Jan 2026 04:05:31 +0000
-Date: Tue, 13 Jan 2026 12:04:55 +0800
+	id 1vfVpc-00000000ECS-200s;
+	Tue, 13 Jan 2026 04:16:36 +0000
+Date: Tue, 13 Jan 2026 12:15:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Karthikey Kadati <karthikey3608@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Karthikey Kadati <karthikey3608@gmail.com>
-Subject: Re: [PATCH v2] staging: octeon: Remove port status typedefs
-Message-ID: <202601131108.A90iCRFi-lkp@intel.com>
-References: <20260112103843.22925-1-karthikey3608@gmail.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [gourryinverse:scratch/gourry/cxl/controllers/v2 6/6]
+ drivers/cxl/core/memctrl/sysram_region.c:267:14: error: 'MMOP_OFFLINE'
+ undeclared; did you mean 'MEM_OFFLINE'?
+Message-ID: <202601131231.u6x9Bgvd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260112103843.22925-1-karthikey3608@gmail.com>
 
-Hi Karthikey,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Karthikey-Kadati/staging-octeon-Remove-port-status-typedefs/20260112-184331
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260112103843.22925-1-karthikey3608%40gmail.com
-patch subject: [PATCH v2] staging: octeon: Remove port status typedefs
-config: mips-cavium_octeon_defconfig (https://download.01.org/0day-ci/archive/20260113/202601131108.A90iCRFi-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131108.A90iCRFi-lkp@intel.com/reproduce)
+tree:   https://github.com/gourryinverse/linux scratch/gourry/cxl/controllers/v2
+head:   dcbd460f630113f17cb71133f44920a1f35c2605
+commit: 9a7e9f00bdcec2e1a0f8843abe36f31f75d00493 [6/6] cxl/sysram: disallow onlining in ZONE_NORMAL if state is movable only
+config: i386-randconfig-001-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131231.u6x9Bgvd-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131231.u6x9Bgvd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131108.A90iCRFi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131231.u6x9Bgvd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/staging/octeon/ethernet.c: In function 'cvm_oct_common_get_stats':
-   drivers/staging/octeon/ethernet.c:204:37: error: storage size of 'rx_status' isn't known
-     204 |         struct cvmx_pip_port_status rx_status;
-         |                                     ^~~~~~~~~
-   drivers/staging/octeon/ethernet.c:205:37: error: storage size of 'tx_status' isn't known
-     205 |         struct cvmx_pko_port_status tx_status;
-         |                                     ^~~~~~~~~
->> drivers/staging/octeon/ethernet.c:205:37: warning: unused variable 'tx_status' [-Wunused-variable]
->> drivers/staging/octeon/ethernet.c:204:37: warning: unused variable 'rx_status' [-Wunused-variable]
-     204 |         struct cvmx_pip_port_status rx_status;
-         |                                     ^~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'hotunplug_store':
+   drivers/cxl/core/memctrl/sysram_region.c:92:14: error: implicit declaration of function 'offline_and_remove_memory' [-Wimplicit-function-declaration]
+      92 |         rc = offline_and_remove_memory(range.start, range_len(&range));
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'cxl_sysram_online_memory':
+   drivers/cxl/core/memctrl/sysram_region.c:149:14: error: implicit declaration of function 'walk_memory_blocks'; did you mean 'online_memory_block_cb'? [-Wimplicit-function-declaration]
+     149 |         rc = walk_memory_blocks(range->start, range_len(range),
+         |              ^~~~~~~~~~~~~~~~~~
+         |              online_memory_block_cb
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'cxl_sysram_memory_notify_cb':
+   drivers/cxl/core/memctrl/sysram_region.c:201:39: error: 'MMOP_ONLINE_MOVABLE' undeclared (first use in this function)
+     201 |         if (data->last_online_type != MMOP_ONLINE_MOVABLE)
+         |                                       ^~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c:201:39: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'cxl_sysram_auto_online':
+   drivers/cxl/core/memctrl/sysram_region.c:230:31: error: 'MMOP_ONLINE_MOVABLE' undeclared (first use in this function)
+     230 |                 online_type = MMOP_ONLINE_MOVABLE;
+         |                               ^~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c:232:31: error: 'MMOP_ONLINE_KERNEL' undeclared (first use in this function)
+     232 |                 online_type = MMOP_ONLINE_KERNEL;
+         |                               ^~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'state_show':
+   drivers/cxl/core/memctrl/sysram_region.c:263:14: error: 'MMOP_ONLINE_MOVABLE' undeclared (first use in this function)
+     263 |         case MMOP_ONLINE_MOVABLE:
+         |              ^~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c:265:14: error: 'MMOP_ONLINE_KERNEL' undeclared (first use in this function)
+     265 |         case MMOP_ONLINE_KERNEL:
+         |              ^~~~~~~~~~~~~~~~~~
+>> drivers/cxl/core/memctrl/sysram_region.c:267:14: error: 'MMOP_OFFLINE' undeclared (first use in this function); did you mean 'MEM_OFFLINE'?
+     267 |         case MMOP_OFFLINE:
+         |              ^~~~~~~~~~~~
+         |              MEM_OFFLINE
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'state_store':
+   drivers/cxl/core/memctrl/sysram_region.c:280:27: error: 'MMOP_OFFLINE' undeclared (first use in this function); did you mean 'MEM_OFFLINE'?
+     280 |         int online_type = MMOP_OFFLINE;
+         |                           ^~~~~~~~~~~~
+         |                           MEM_OFFLINE
+   drivers/cxl/core/memctrl/sysram_region.c:299:31: error: 'MMOP_ONLINE_MOVABLE' undeclared (first use in this function)
+     299 |                 online_type = MMOP_ONLINE_MOVABLE;
+         |                               ^~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c:302:31: error: 'MMOP_ONLINE' undeclared (first use in this function); did you mean 'MEM_ONLINE'?
+     302 |                 online_type = MMOP_ONLINE;
+         |                               ^~~~~~~~~~~
+         |                               MEM_ONLINE
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'hotplug_store':
+   drivers/cxl/core/memctrl/sysram_region.c:343:14: error: implicit declaration of function 'add_memory_driver_managed' [-Wimplicit-function-declaration]
+     343 |         rc = add_memory_driver_managed(data->mgid, range.start,
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c:345:40: error: 'MHP_NID_IS_MGID' undeclared (first use in this function)
+     345 |                                        MHP_NID_IS_MGID);
+         |                                        ^~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'cxl_sysram_unregister':
+   drivers/cxl/core/memctrl/sysram_region.c:382:17: error: implicit declaration of function 'memory_group_unregister' [-Wimplicit-function-declaration]
+     382 |                 memory_group_unregister(data->mgid);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c: In function 'devm_cxl_add_sysram_region':
+   drivers/cxl/core/memctrl/sysram_region.c:400:9: error: unknown type name 'mhp_t'
+     400 |         mhp_t mhp_flags;
+         |         ^~~~~
+   drivers/cxl/core/memctrl/sysram_region.c:440:34: error: 'MMOP_OFFLINE' undeclared (first use in this function); did you mean 'MEM_OFFLINE'?
+     440 |         data->last_online_type = MMOP_OFFLINE;
+         |                                  ^~~~~~~~~~~~
+         |                                  MEM_OFFLINE
+   drivers/cxl/core/memctrl/sysram_region.c:448:14: error: implicit declaration of function 'memory_group_register_static' [-Wimplicit-function-declaration]
+     448 |         rc = memory_group_register_static(numa_node, PFN_UP(total_len));
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/memctrl/sysram_region.c:470:21: error: 'MHP_NID_IS_MGID' undeclared (first use in this function)
+     470 |         mhp_flags = MHP_NID_IS_MGID;
+         |                     ^~~~~~~~~~~~~~~
 
 
-vim +/tx_status +205 drivers/staging/octeon/ethernet.c
+vim +267 drivers/cxl/core/memctrl/sysram_region.c
 
-   195	
-   196	/**
-   197	 * cvm_oct_common_get_stats - get the low level ethernet statistics
-   198	 * @dev:    Device to get the statistics from
-   199	 *
-   200	 * Returns Pointer to the statistics
-   201	 */
-   202	static struct net_device_stats *cvm_oct_common_get_stats(struct net_device *dev)
-   203	{
- > 204		struct cvmx_pip_port_status rx_status;
- > 205		struct cvmx_pko_port_status tx_status;
-   206		struct octeon_ethernet *priv = netdev_priv(dev);
-   207	
-   208		if (priv->port < CVMX_PIP_NUM_INPUT_PORTS) {
-   209			if (octeon_is_simulation()) {
-   210				/* The simulator doesn't support statistics */
-   211				memset(&rx_status, 0, sizeof(rx_status));
-   212				memset(&tx_status, 0, sizeof(tx_status));
-   213			} else {
-   214				cvmx_pip_get_port_status(priv->port, 1, &rx_status);
-   215				cvmx_pko_get_port_status(priv->port, 1, &tx_status);
-   216			}
-   217	
-   218			dev->stats.rx_packets += rx_status.inb_packets;
-   219			dev->stats.tx_packets += tx_status.packets;
-   220			dev->stats.rx_bytes += rx_status.inb_octets;
-   221			dev->stats.tx_bytes += tx_status.octets;
-   222			dev->stats.multicast += rx_status.multicast_packets;
-   223			dev->stats.rx_crc_errors += rx_status.inb_errors;
-   224			dev->stats.rx_frame_errors += rx_status.fcs_align_err_packets;
-   225			dev->stats.rx_dropped += rx_status.dropped_packets;
-   226		}
-   227	
-   228		return &dev->stats;
-   229	}
-   230	
+   252	
+   253	static ssize_t state_show(struct device *dev,
+   254				  struct device_attribute *attr, char *buf)
+   255	{
+   256		struct cxl_sysram_data *data;
+   257	
+   258		data = dev_get_drvdata(dev);
+   259		if (!data)
+   260			return -ENODEV;
+   261	
+   262		switch (data->last_online_type) {
+   263		case MMOP_ONLINE_MOVABLE:
+   264			return sysfs_emit(buf, "online\n");
+   265		case MMOP_ONLINE_KERNEL:
+   266			return sysfs_emit(buf, "online_normal\n");
+ > 267		case MMOP_OFFLINE:
+   268		default:
+   269			return sysfs_emit(buf, "offline\n");
+   270		}
+   271	}
+   272	
 
 -- 
 0-DAY CI Kernel Test Service
