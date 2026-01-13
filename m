@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8186238B9BA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 11:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B685138E11C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 11:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768303382; cv=none; b=uDv9H4DxTnT7qsEDU+n0UMqKiaaQxpqo6jjDCclVGTfq/pmwzRWkqHJcni79SLELhMLXnCs+T8lrXZ0SCRXaQxggOgWEEPtpe9+Th3icjcOvKt4zaIYU7djbcWSkXRxzixVk2kQdkni4OdFlc8JvYjRoWwVgP4cNoYgEqchWoHU=
+	t=1768305302; cv=none; b=mWRaXJhHRTCLt90EChx/Sw6DAZiET1Fq+W2dT9X/77Fw6y0lebHD3pam/iY2Gh/wuYlg1pQmSCU6UHHkADiThof79HNYPtJYAbsItGCVxmaujxhkGR0tCimsw/AL6M3hspnUicwFP+7tChehi+Pn3YUFL8nLtNk6TtlXxmXPE4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768303382; c=relaxed/simple;
-	bh=GmgIMAJtarwIAUjW1mcsf0utMxJNuBhSHB48wQRbqZY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Bk0ojJzGofHJHFX2vK+VmtUUhFQ1FNongX4NPzLc3C2a+Omf+aC5FGsdj71KRNmuOiaStVF0GMe2P0kY8JF0buwZIFPyoQAY0XfeTs+nGDhbVt051SEtE7CQW5Q7iyEHoKEhx7UTpbsVCS89Be23nIWHVzvR8Re+YHIixs0AB1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CWA/fMJT; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1768305302; c=relaxed/simple;
+	bh=uKqzLnRhJDqBS/ZeUjor7SGwJF6cuwdo3d+Fl7Yw/Lo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=A9Q3vqPAMWCQ9adtnXxSPQIJQc05GRtDEmnTaUmk3RW0e3yU6fhVzxqk2dEiFskoYsEc15myTu/TjqTjErdWNaCsT5zDD/+PBoMjsmc64Fd2n0Ooh+IVOQF3ciX7ys0vSacANBLa0jynHIgw7qrjGxGCG7UmU6w50QNs6OIZxgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O/PLv1UC; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CWA/fMJT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O/PLv1UC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768303380; x=1799839380;
+  t=1768305300; x=1799841300;
   h=date:from:to:cc:subject:message-id;
-  bh=GmgIMAJtarwIAUjW1mcsf0utMxJNuBhSHB48wQRbqZY=;
-  b=CWA/fMJTLRLAtfTnEM40VB+al3r6ZG/gvFOqqeteE0a8ClGKs35dvQCu
-   wBSnPwDVTNAkq9OQnqycZXjiMRIIkwBmX5sZE2q2D+1w5kA0egWg2m+15
-   Sw5knsqKzpLFf6puVe2KSMtsGFo61J6kNJHGl/9ieYd5IMOMZ2A/A8zLZ
-   60StNzZ+/MykWFLmVGU3AjWGImb0PZzNgCvPRRboFXjGm/XgMlmwR3rkc
-   XUa5X4VbQ7ScQAICq6m5nYBbz3OEtQpeKiaQAq+XY1k4cGcxQCkRiyun9
-   sJmu29Mvjuamnmf70WACRsK5OSNu/SmhcJB4WUeWHv22TlQz8TN8QkvU2
-   g==;
-X-CSE-ConnectionGUID: W+ezzyjkTRqUnbTIZGCJow==
-X-CSE-MsgGUID: 75KFRgufS4uG9yOaCGPrOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="81038037"
+  bh=uKqzLnRhJDqBS/ZeUjor7SGwJF6cuwdo3d+Fl7Yw/Lo=;
+  b=O/PLv1UCW0kurfefDiSJyRYPjVGjk4NDajxmM92NvEcG2rLCFuo1k53g
+   lnNbyeIhFF9cCMFvwIqf6wquYS5MpJLljs4o58lpvv705YziXQhQ1CPG4
+   bDNGpM0II65k6Tdcm3skFZmD7gvvg5OlI0N0mY3JpzB19SUfnCs0Amj1b
+   Ryu5x2NzudMTsLh46NB+SbGNoaBDjgPTLU4+Cy4g4GCqOfrm8rU8HTRv7
+   w6RwK6/GsKDekVBdDaOapxsBIbEOkLAnI6cm5OfJSkFt6ElhtvJsSWT9d
+   xosncHcgn6aHeqRRn7UMqYExVmz2CmzKGyhYAsdOKWkzw1U2KR04wIdzf
+   A==;
+X-CSE-ConnectionGUID: VV/M4Y48Q0yp4QRluTMGVQ==
+X-CSE-MsgGUID: L4xyYE2PTRyUaM8BvBA9cw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="95061781"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="81038037"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 03:22:59 -0800
-X-CSE-ConnectionGUID: oZ7k1WqeSWywVtiO6aTxOw==
-X-CSE-MsgGUID: fG24+kGTRFqnbKOdsx+Lpw==
+   d="scan'208";a="95061781"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 03:55:00 -0800
+X-CSE-ConnectionGUID: Xpqo+KObQIiVozvR3DZYsQ==
+X-CSE-MsgGUID: Am0gQjb3SSuZcfifiCX5qA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="241874309"
+   d="scan'208";a="209197094"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Jan 2026 03:22:57 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 13 Jan 2026 03:54:58 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfcUA-00000000EfO-33Vz;
-	Tue, 13 Jan 2026 11:22:54 +0000
-Date: Tue, 13 Jan 2026 19:22:40 +0800
+	id 1vfcz9-00000000Egw-49YJ;
+	Tue, 13 Jan 2026 11:54:55 +0000
+Date: Tue, 13 Jan 2026 19:54:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
+To: Quinn Tran <qutran@marvell.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: kernel/futex/core.c:505:38: sparse: sparse: cast removes
- address space '__user' of expression
-Message-ID: <202601131901.j7WJ9OeZ-lkp@intel.com>
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Nilesh Javali <njavali@marvell.com>,
+ Himanshu Madhani <himanshu.madhani@oracle.com>
+Subject: drivers/scsi/qla2xxx/qla_dfs.c:521:35: sparse: sparse: Using
+ plain integer as NULL pointer
+Message-ID: <202601131955.wPmFqPoY-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,267 +64,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   b71e635feefc852405b14620a7fc58c4c80c0f73
-commit: cec199c5e39bde7191a08087cc3d002ccfab31ff futex: Implement FUTEX2_NUMA
-date:   9 months ago
-config: arm64-randconfig-r123-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131901.j7WJ9OeZ-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131901.j7WJ9OeZ-lkp@intel.com/reproduce)
+commit: 841df27d619ee1f5ca6473e15227b39d6136562d scsi: qla2xxx: Move FCE Trace buffer allocation to user control
+date:   1 year, 1 month ago
+config: i386-randconfig-063-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131955.wPmFqPoY-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131955.wPmFqPoY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131901.j7WJ9OeZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131955.wPmFqPoY-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> kernel/futex/core.c:505:38: sparse: sparse: cast removes address space '__user' of expression
->> kernel/futex/core.c:505:51: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int [noderef] [usertype] __user *naddr @@     got void * @@
-   kernel/futex/core.c:505:51: sparse:     expected unsigned int [noderef] [usertype] __user *naddr
-   kernel/futex/core.c:505:51: sparse:     got void *
-   kernel/futex/core.c:894:9: sparse: sparse: context imbalance in 'futex_q_lockptr_lock' - wrong count at exit
+>> drivers/scsi/qla2xxx/qla_dfs.c:521:35: sparse: sparse: Using plain integer as NULL pointer
 
-vim +/__user +505 kernel/futex/core.c
+vim +521 drivers/scsi/qla2xxx/qla_dfs.c
 
-   446	
-   447	/**
-   448	 * get_futex_key() - Get parameters which are the keys for a futex
-   449	 * @uaddr:	virtual address of the futex
-   450	 * @flags:	FLAGS_*
-   451	 * @key:	address where result is stored.
-   452	 * @rw:		mapping needs to be read/write (values: FUTEX_READ,
-   453	 *              FUTEX_WRITE)
-   454	 *
-   455	 * Return: a negative error code or 0
-   456	 *
-   457	 * The key words are stored in @key on success.
-   458	 *
-   459	 * For shared mappings (when @fshared), the key is:
-   460	 *
-   461	 *   ( inode->i_sequence, page->index, offset_within_page )
-   462	 *
-   463	 * [ also see get_inode_sequence_number() ]
-   464	 *
-   465	 * For private mappings (or when !@fshared), the key is:
-   466	 *
-   467	 *   ( current->mm, address, 0 )
-   468	 *
-   469	 * This allows (cross process, where applicable) identification of the futex
-   470	 * without keeping the page pinned for the duration of the FUTEX_WAIT.
-   471	 *
-   472	 * lock_page() might sleep, the caller should not hold a spinlock.
-   473	 */
-   474	int get_futex_key(u32 __user *uaddr, unsigned int flags, union futex_key *key,
-   475			  enum futex_access rw)
-   476	{
-   477		unsigned long address = (unsigned long)uaddr;
-   478		struct mm_struct *mm = current->mm;
-   479		struct page *page;
-   480		struct folio *folio;
-   481		struct address_space *mapping;
-   482		int node, err, size, ro = 0;
-   483		bool fshared;
-   484	
-   485		fshared = flags & FLAGS_SHARED;
-   486		size = futex_size(flags);
-   487		if (flags & FLAGS_NUMA)
-   488			size *= 2;
-   489	
-   490		/*
-   491		 * The futex address must be "naturally" aligned.
-   492		 */
-   493		key->both.offset = address % PAGE_SIZE;
-   494		if (unlikely((address % size) != 0))
-   495			return -EINVAL;
-   496		address -= key->both.offset;
-   497	
-   498		if (unlikely(!access_ok(uaddr, size)))
-   499			return -EFAULT;
-   500	
-   501		if (unlikely(should_fail_futex(fshared)))
-   502			return -EFAULT;
-   503	
-   504		if (flags & FLAGS_NUMA) {
- > 505			u32 __user *naddr = (void *)uaddr + size / 2;
+   495	
+   496	static ssize_t
+   497	qla2x00_dfs_fce_write(struct file *file, const char __user *buffer,
+   498			      size_t count, loff_t *pos)
+   499	{
+   500		struct seq_file *s = file->private_data;
+   501		struct scsi_qla_host *vha = s->private;
+   502		struct qla_hw_data *ha = vha->hw;
+   503		char *buf;
+   504		int rc = 0;
+   505		unsigned long enable;
    506	
-   507			if (futex_get_value(&node, naddr))
-   508				return -EFAULT;
-   509	
-   510			if (node == FUTEX_NO_NODE) {
-   511				node = numa_node_id();
-   512				if (futex_put_value(node, naddr))
-   513					return -EFAULT;
-   514	
-   515			} else if (node >= MAX_NUMNODES || !node_possible(node)) {
-   516				return -EINVAL;
-   517			}
-   518	
-   519			key->both.node = node;
+   507		if (!IS_QLA25XX(ha) && !IS_QLA81XX(ha) && !IS_QLA83XX(ha) &&
+   508		    !IS_QLA27XX(ha) && !IS_QLA28XX(ha)) {
+   509			ql_dbg(ql_dbg_user, vha, 0xd034,
+   510			       "this adapter does not support FCE.");
+   511			return -EINVAL;
+   512		}
+   513	
+   514		buf = memdup_user_nul(buffer, count);
+   515		if (IS_ERR(buf)) {
+   516			ql_dbg(ql_dbg_user, vha, 0xd037,
+   517			    "fail to copy user buffer.");
+   518			return PTR_ERR(buf);
+   519		}
    520	
-   521		} else {
-   522			key->both.node = FUTEX_NO_NODE;
-   523		}
-   524	
-   525		/*
-   526		 * PROCESS_PRIVATE futexes are fast.
-   527		 * As the mm cannot disappear under us and the 'key' only needs
-   528		 * virtual address, we dont even have to find the underlying vma.
-   529		 * Note : We do have to check 'uaddr' is a valid user address,
-   530		 *        but access_ok() should be faster than find_vma()
-   531		 */
-   532		if (!fshared) {
-   533			/*
-   534			 * On no-MMU, shared futexes are treated as private, therefore
-   535			 * we must not include the current process in the key. Since
-   536			 * there is only one address space, the address is a unique key
-   537			 * on its own.
-   538			 */
-   539			if (IS_ENABLED(CONFIG_MMU))
-   540				key->private.mm = mm;
-   541			else
-   542				key->private.mm = NULL;
-   543	
-   544			key->private.address = address;
-   545			return 0;
-   546		}
+ > 521		enable = kstrtoul(buf, 0, 0);
+   522		rc = count;
+   523	
+   524		mutex_lock(&ha->fce_mutex);
+   525	
+   526		if (enable) {
+   527			if (ha->flags.user_enabled_fce) {
+   528				mutex_unlock(&ha->fce_mutex);
+   529				goto out_free;
+   530			}
+   531			ha->flags.user_enabled_fce = 1;
+   532			if (!ha->fce) {
+   533				rc = qla2x00_alloc_fce_trace(vha);
+   534				if (rc) {
+   535					ha->flags.user_enabled_fce = 0;
+   536					mutex_unlock(&ha->fce_mutex);
+   537					goto out_free;
+   538				}
+   539	
+   540				/* adjust fw dump buffer to take into account of this feature */
+   541				if (!ha->flags.fce_dump_buf_alloced)
+   542					qla2x00_alloc_fw_dump(vha);
+   543			}
+   544	
+   545			if (!ha->flags.fce_enabled)
+   546				qla_enable_fce_trace(vha);
    547	
-   548	again:
-   549		/* Ignore any VERIFY_READ mapping (futex common case) */
-   550		if (unlikely(should_fail_futex(true)))
-   551			return -EFAULT;
-   552	
-   553		err = get_user_pages_fast(address, 1, FOLL_WRITE, &page);
-   554		/*
-   555		 * If write access is not required (eg. FUTEX_WAIT), try
-   556		 * and get read-only access.
-   557		 */
-   558		if (err == -EFAULT && rw == FUTEX_READ) {
-   559			err = get_user_pages_fast(address, 1, 0, &page);
-   560			ro = 1;
-   561		}
-   562		if (err < 0)
-   563			return err;
-   564		else
-   565			err = 0;
-   566	
-   567		/*
-   568		 * The treatment of mapping from this point on is critical. The folio
-   569		 * lock protects many things but in this context the folio lock
-   570		 * stabilizes mapping, prevents inode freeing in the shared
-   571		 * file-backed region case and guards against movement to swap cache.
-   572		 *
-   573		 * Strictly speaking the folio lock is not needed in all cases being
-   574		 * considered here and folio lock forces unnecessarily serialization.
-   575		 * From this point on, mapping will be re-verified if necessary and
-   576		 * folio lock will be acquired only if it is unavoidable
-   577		 *
-   578		 * Mapping checks require the folio so it is looked up now. For
-   579		 * anonymous pages, it does not matter if the folio is split
-   580		 * in the future as the key is based on the address. For
-   581		 * filesystem-backed pages, the precise page is required as the
-   582		 * index of the page determines the key.
-   583		 */
-   584		folio = page_folio(page);
-   585		mapping = READ_ONCE(folio->mapping);
-   586	
-   587		/*
-   588		 * If folio->mapping is NULL, then it cannot be an anonymous
-   589		 * page; but it might be the ZERO_PAGE or in the gate area or
-   590		 * in a special mapping (all cases which we are happy to fail);
-   591		 * or it may have been a good file page when get_user_pages_fast
-   592		 * found it, but truncated or holepunched or subjected to
-   593		 * invalidate_complete_page2 before we got the folio lock (also
-   594		 * cases which we are happy to fail).  And we hold a reference,
-   595		 * so refcount care in invalidate_inode_page's remove_mapping
-   596		 * prevents drop_caches from setting mapping to NULL beneath us.
-   597		 *
-   598		 * The case we do have to guard against is when memory pressure made
-   599		 * shmem_writepage move it from filecache to swapcache beneath us:
-   600		 * an unlikely race, but we do need to retry for folio->mapping.
-   601		 */
-   602		if (unlikely(!mapping)) {
-   603			int shmem_swizzled;
-   604	
-   605			/*
-   606			 * Folio lock is required to identify which special case above
-   607			 * applies. If this is really a shmem page then the folio lock
-   608			 * will prevent unexpected transitions.
-   609			 */
-   610			folio_lock(folio);
-   611			shmem_swizzled = folio_test_swapcache(folio) || folio->mapping;
-   612			folio_unlock(folio);
-   613			folio_put(folio);
-   614	
-   615			if (shmem_swizzled)
-   616				goto again;
-   617	
-   618			return -EFAULT;
-   619		}
-   620	
-   621		/*
-   622		 * Private mappings are handled in a simple way.
-   623		 *
-   624		 * If the futex key is stored in anonymous memory, then the associated
-   625		 * object is the mm which is implicitly pinned by the calling process.
-   626		 *
-   627		 * NOTE: When userspace waits on a MAP_SHARED mapping, even if
-   628		 * it's a read-only handle, it's expected that futexes attach to
-   629		 * the object not the particular process.
-   630		 */
-   631		if (folio_test_anon(folio)) {
-   632			/*
-   633			 * A RO anonymous page will never change and thus doesn't make
-   634			 * sense for futex operations.
-   635			 */
-   636			if (unlikely(should_fail_futex(true)) || ro) {
-   637				err = -EFAULT;
-   638				goto out;
-   639			}
-   640	
-   641			key->both.offset |= FUT_OFF_MMSHARED; /* ref taken on mm */
-   642			key->private.mm = mm;
-   643			key->private.address = address;
-   644	
-   645		} else {
-   646			struct inode *inode;
-   647	
-   648			/*
-   649			 * The associated futex object in this case is the inode and
-   650			 * the folio->mapping must be traversed. Ordinarily this should
-   651			 * be stabilised under folio lock but it's not strictly
-   652			 * necessary in this case as we just want to pin the inode, not
-   653			 * update i_pages or anything like that.
-   654			 *
-   655			 * The RCU read lock is taken as the inode is finally freed
-   656			 * under RCU. If the mapping still matches expectations then the
-   657			 * mapping->host can be safely accessed as being a valid inode.
-   658			 */
-   659			rcu_read_lock();
-   660	
-   661			if (READ_ONCE(folio->mapping) != mapping) {
-   662				rcu_read_unlock();
-   663				folio_put(folio);
-   664	
-   665				goto again;
-   666			}
-   667	
-   668			inode = READ_ONCE(mapping->host);
-   669			if (!inode) {
-   670				rcu_read_unlock();
-   671				folio_put(folio);
-   672	
-   673				goto again;
-   674			}
-   675	
-   676			key->both.offset |= FUT_OFF_INODE; /* inode-based key */
-   677			key->shared.i_seq = get_inode_sequence_number(inode);
-   678			key->shared.pgoff = page_pgoff(folio, page);
-   679			rcu_read_unlock();
-   680		}
-   681	
-   682	out:
-   683		folio_put(folio);
-   684		return err;
-   685	}
-   686	
+   548			ql_dbg(ql_dbg_user, vha, 0xd045, "User enabled FCE .\n");
+   549		} else {
+   550			if (!ha->flags.user_enabled_fce) {
+   551				mutex_unlock(&ha->fce_mutex);
+   552				goto out_free;
+   553			}
+   554			ha->flags.user_enabled_fce = 0;
+   555			if (ha->flags.fce_enabled) {
+   556				qla2x00_disable_fce_trace(vha, NULL, NULL);
+   557				ha->flags.fce_enabled = 0;
+   558			}
+   559	
+   560			qla2x00_free_fce_trace(ha);
+   561			/* no need to re-adjust fw dump buffer */
+   562	
+   563			ql_dbg(ql_dbg_user, vha, 0xd04f, "User disabled FCE .\n");
+   564		}
+   565	
+   566		mutex_unlock(&ha->fce_mutex);
+   567	out_free:
+   568		kfree(buf);
+   569		return rc;
+   570	}
+   571	
 
 -- 
 0-DAY CI Kernel Test Service
