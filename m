@@ -1,107 +1,125 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA92157480
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 01:43:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E327C284B54
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 02:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768268602; cv=none; b=QEs5Xr8d1Qbns5D5QINZ7ig0wMbYIfXazhfKJOxkU2iteciy9w+Xh79lBKZ6fIiDyIuL8ytAnrDJLVWWULEqpVGh4n51ZsRDAB10n0XuviBJd31DuRjICkFaBdeoNLjLbh4Yg8fxw1hARHYHTS2cImqZ0zVoyrdVf/xmvV9n8oA=
+	t=1768270437; cv=none; b=CCk0ngJQF9aofgUczkzYnU7MjrGbge2SNyjgKr8EDsviT6XH1AYsehNjS7Ju+qz1R2y80McW3uqANrnW7iXcXTz8Nfipzh2RIejzlOZmU4QkUUcekEwd8blJ2FLp5hDxGn44xs5Q6j768NY+Wgq5nLLc96FOBxrLw97NH85Yyao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768268602; c=relaxed/simple;
-	bh=AzGYY8TVf6kHgCekFCUzEbv5VDS1oXckWndMM4wUWIQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HYBzkwkkUlZj4Te2kFUovSnAKmjE9UJu1IxwIIHTSvn93U54UOiz77pjmAdOgeW7CQh0GTOsYCKk4K5bSHfm04QLwEJT7jRae+Q/dfcAp98Z05M68I0vbzzleKIHwvzMYYRHiLkV3coV5agNe81yFa0+a1wVF7+rwlIhgTFSt/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WAnavtjN; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1768270437; c=relaxed/simple;
+	bh=hngdCgR7XmTHIGR8Yk4HkQ5ShaBBjVgcqCYFBSmEmQA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=fAbVt8+id7ZL6oPeIH+XePLfubBXGL0ZYdJ9foocpyMDspgWMpErxFz7kYoB56bjDMoKhjeQTrPDcr6+VHX+A3okjByFZAjny44KF7HcuS773IOSsi3GQqbKB5BgxtAFxoHhQmKV2sH0SGNzdIApUUP9g4pF3xXsHu+7zlLlHtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=332J2EiX; arc=none smtp.client-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WAnavtjN"
-Message-ID: <39acf3ae-031e-41fe-8343-9445775f312c@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768268599;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HlY+CfNE9yvpYaQbltrehDKBAIWVYvJbFw7ICzfvQHs=;
-	b=WAnavtjN1+zzKw4FnoeX0yz4HzyCQ7l3gW29koNOFbo8Zn1rd132wS6VXPuiccj09DukFR
-	DQa9tTNenc+jK1CJJX2Rvy95LPOqU7GeSjJIRiLLDmi90sMXRQi4rmbj5Dql2r6uMQ+Qq/
-	KB67rxnIDrFeqvIYT0uMhIXiZ3RJ/V0=
-Date: Tue, 13 Jan 2026 09:43:02 +0800
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="332J2EiX"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=njbNvq6wzsD1lY6ISl+XhujIyvR8dJCYOgLjORHUk94=;
+	b=332J2EiXwrryBVIy5b0Fli7f1yXZVXAiKDtz2AVKk0qUc+trfoNIcYddQNUP8Jy+SWhAKvP0J
+	zdjhbvlxB4i58o22w39zgltFu1kwwDEL4yqXTWFmZ1vJtvyGsd8c7Jypf5lRc2RTIrTh5Vfk2+T
+	xhpIzUHRun3Ki6zCWgfGaVk=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4dqt482NfSz1T4L9;
+	Tue, 13 Jan 2026 10:10:00 +0800 (CST)
+Received: from dggpemf500013.china.huawei.com (unknown [7.185.36.188])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5B71D404AD;
+	Tue, 13 Jan 2026 10:13:51 +0800 (CST)
+Received: from [127.0.0.1] (10.174.178.254) by dggpemf500013.china.huawei.com
+ (7.185.36.188) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 13 Jan
+ 2026 10:13:50 +0800
+Message-ID: <b07ae769-6f10-484f-9291-a8b40f58c5f9@huawei.com>
+Date: Tue, 13 Jan 2026 10:13:49 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next 2/3] bpf: Introduce BPF_BRANCH_SNAPSHOT_F_COPY
- flag for bpf_get_branch_snapshot helper
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, bpf@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
- Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, "David S . Miller" <davem@davemloft.net>,
- David Ahern <dsahern@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Matt Bobrowski
- <mattbobrowski@google.com>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-References: <20260109153420.32181-3-leon.hwang@linux.dev>
- <202601122013.hmoeIXXs-lkp@intel.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <202601122013.hmoeIXXs-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: {standard input}:4155: Error: pcrel offset for branch to .LS000B
+ too far (0x38)
+Content-Language: en-GB
+To: Jan Kara <jack@suse.cz>
+CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Theodore Ts'o <tytso@mit.edu>, Zhang Yi
+	<yi.zhang@huawei.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>,
+	<cooper.qu@linux.alibaba.com>, <yunhai@linux.alibaba.com>
+References: <202601121758.kA3osRht-lkp@intel.com>
+ <dbed961f-f3c3-496b-9498-6821852da038@huawei.com>
+ <txzy4pnt3se34lsvbtpbgvndxts6xsydxx5sswdjzdrcie7zlq@63cewvtotbu3>
+From: Baokun Li <libaokun1@huawei.com>
+In-Reply-To: <txzy4pnt3se34lsvbtpbgvndxts6xsydxx5sswdjzdrcie7zlq@63cewvtotbu3>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ dggpemf500013.china.huawei.com (7.185.36.188)
 
-Hi kernel test robot,
+On 2026-01-13 00:35, Jan Kara wrote:
+> Hi!
+>
+> On Mon 12-01-26 20:09:47, Baokun Li wrote:
+>> On 2026-01-12 17:42, kernel test robot wrote:
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+>>> head:   0f61b1860cc3f52aef9036d7235ed1f017632193
+>>> commit: a6d73242b8b5caa9f9a529eab49cc1e85ace9890 ext4: support large block size in ext4_mpage_readpages()
+>>> date:   6 weeks ago
+>>> config: csky-randconfig-001-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121758.kA3osRht-lkp@intel.com/config)
+>>> compiler: csky-linux-gcc (GCC) 15.2.0
+>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121758.kA3osRht-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202601121758.kA3osRht-lkp@intel.com/
+>>>
+>>> All errors (new ones prefixed by >>):
+>>>
+>>>    {standard input}: Assembler messages:
+>>>>> {standard input}:4155: Error: pcrel offset for branch to .LS000B too far (0x38)
+>> Hi,
+>>
+>> Thanks for the report.
+>>
+>> After looking into this issue, it turns out that replacing the original
+>> calculation with the macro version causes the compiler to emit a larger
+>> sequence of instructions.
+>>
+>> On most architectures this is harmless, because their GCC backends support
+>> proper branch relaxation and can automatically promote a short branch to
+>> a long branch when the offset grows.
+>>
+>> However, the CSKY GCC backend does not implement branch relaxation. As a
+>> result, once the generated basic block becomes slightly larger, some short
+>> branch instructions can no longer reach their targets, and the assembler
+>> reports the “pcrel offset too far” error.
+>>
+>> Given this, one possible workaround on the kernel side would be to replace
+>> the macro with a static inline helper. Using an inline function allows GCC
+>> to perform more aggressive optimization and typically avoids generating
+>> unnecessarily large instruction sequences, which helps prevent the
+>> short-branch overflow seen on CSKY.
+>>
+>> However, the more general and robust solution would be to improve the
+>> CSKY GCC backend so that it supports proper branch relaxation, as other
+>> architectures do. With branch relaxation in place, these issues would not
+>> depend on how the code is written.
+>>
+>> We’d appreciate any thoughts on which approach makes more sense.
+> Frankly, since this is such a niche platform, I'd just let those guys fix
+> their compiler and don't complicate ext4 codebase for that.
+>
+> 								Honza
 
-Thanks for the test results.
+That makes sense. I’ve CC'd the GCC C-SKY port maintainers.
+Let's see if they have any thoughts.
 
-No further testing is needed for this patch series, as it will not be
-pursued further and is not expected to be accepted upstream.
 
-Thanks again for the testing effort.
-
-Thanks,
-Leon
-
-On 13/1/26 03:22, kernel test robot wrote:
-> Hi Leon,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on bpf-next/master]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Hwang/bpf-x64-Call-perf_snapshot_branch_stack-in-trampoline/20260109-234435
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-> patch link:    https://lore.kernel.org/r/20260109153420.32181-3-leon.hwang%40linux.dev
-> patch subject: [PATCH bpf-next 2/3] bpf: Introduce BPF_BRANCH_SNAPSHOT_F_COPY flag for bpf_get_branch_snapshot helper
-> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260112/202601122013.hmoeIXXs-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601122013.hmoeIXXs-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601122013.hmoeIXXs-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> ld.lld: error: undefined symbol: bpf_branch_snapshot
->    >>> referenced by bpf_trace.c:1182 (kernel/trace/bpf_trace.c:1182)
->    >>>               vmlinux.o:(bpf_get_branch_snapshot)
->    >>> referenced by bpf_trace.c:0 (kernel/trace/bpf_trace.c:0)
->    >>>               vmlinux.o:(bpf_get_branch_snapshot)
-> 
+Regards,
+Baokun
 
