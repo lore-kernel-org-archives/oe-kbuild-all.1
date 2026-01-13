@@ -1,125 +1,106 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E327C284B54
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 02:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD0123D294
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 02:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768270437; cv=none; b=CCk0ngJQF9aofgUczkzYnU7MjrGbge2SNyjgKr8EDsviT6XH1AYsehNjS7Ju+qz1R2y80McW3uqANrnW7iXcXTz8Nfipzh2RIejzlOZmU4QkUUcekEwd8blJ2FLp5hDxGn44xs5Q6j768NY+Wgq5nLLc96FOBxrLw97NH85Yyao=
+	t=1768270707; cv=none; b=Undpyj5qTyCwgUzV25F2VN6mAqETreHnrqkBHXStYnmXXhRxOwMwtoRTg9CZ1ghW9+Rif7OlryhLqVTViHfo73OqTIfG59w4bf00U5yQgpa7i56Blg+KT2pwegOazGvfei37s1aKt1Sh/pIgqSyrze/zJOwQWYUwRdgCL6DY16k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768270437; c=relaxed/simple;
-	bh=hngdCgR7XmTHIGR8Yk4HkQ5ShaBBjVgcqCYFBSmEmQA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=fAbVt8+id7ZL6oPeIH+XePLfubBXGL0ZYdJ9foocpyMDspgWMpErxFz7kYoB56bjDMoKhjeQTrPDcr6+VHX+A3okjByFZAjny44KF7HcuS773IOSsi3GQqbKB5BgxtAFxoHhQmKV2sH0SGNzdIApUUP9g4pF3xXsHu+7zlLlHtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=332J2EiX; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1768270707; c=relaxed/simple;
+	bh=Yec0sfDxBI6Ht33ZuzbnIrm9kfnOv8pNuShawqEPPNo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t6peBeWtJK0hzokUxtcY9peWDImR2RnjuuRIwtyJolJxDK0Ja813r7Xv5VEEm0mu5mjEqn5julyTkoql8taXyP2zVLLY1CRjoctV2n5E0p5C811J3TAEVoC5n6InjWFdy7P69TUwNOdEncGfbIRnacEAtu2cCGP1HpuMcskOhQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BRlYBS5z; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="332J2EiX"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=njbNvq6wzsD1lY6ISl+XhujIyvR8dJCYOgLjORHUk94=;
-	b=332J2EiXwrryBVIy5b0Fli7f1yXZVXAiKDtz2AVKk0qUc+trfoNIcYddQNUP8Jy+SWhAKvP0J
-	zdjhbvlxB4i58o22w39zgltFu1kwwDEL4yqXTWFmZ1vJtvyGsd8c7Jypf5lRc2RTIrTh5Vfk2+T
-	xhpIzUHRun3Ki6zCWgfGaVk=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4dqt482NfSz1T4L9;
-	Tue, 13 Jan 2026 10:10:00 +0800 (CST)
-Received: from dggpemf500013.china.huawei.com (unknown [7.185.36.188])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5B71D404AD;
-	Tue, 13 Jan 2026 10:13:51 +0800 (CST)
-Received: from [127.0.0.1] (10.174.178.254) by dggpemf500013.china.huawei.com
- (7.185.36.188) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 13 Jan
- 2026 10:13:50 +0800
-Message-ID: <b07ae769-6f10-484f-9291-a8b40f58c5f9@huawei.com>
-Date: Tue, 13 Jan 2026 10:13:49 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRlYBS5z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768270706; x=1799806706;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Yec0sfDxBI6Ht33ZuzbnIrm9kfnOv8pNuShawqEPPNo=;
+  b=BRlYBS5zFQC+I5CjMfOb3uZ5CLW1q/xpdTCKF1IgD3A01I8gt6i3afA8
+   zEdW90aDpXmpUsJpCabeQ3BmpGXqYAFLg0JUNE6NvCCYvTJz9cliUrM6W
+   v/wvMy77d31DSiIgwFsFK0U9hhSKC2aRCdw9bLZxrz4y7CJWVnTyDbM6t
+   yGR98PrEPQg8fKT99V/2XhtBmwlSNghbD1kGc6dFYdFtQIffBaoMRu0+w
+   De/khbqAqZlIdFedfpq8JtMO+954KZDK5fwQGfMBpof6NS2SpIdLiqT6/
+   bQ+TU2yhZR7Ahp5fPLIt10vaZPVMlQg4IYtNblSpjs8Nl5KrXZCW/XcxJ
+   w==;
+X-CSE-ConnectionGUID: +sN/Bky6QQe2W/cE5EO6DA==
+X-CSE-MsgGUID: 9cgLCoepQOSJGzi/emBB9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="73184125"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="73184125"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 18:18:25 -0800
+X-CSE-ConnectionGUID: wNJWnrmuQbep4LDKovdUiQ==
+X-CSE-MsgGUID: sb3tkOFtS0Gig7MufspTXg==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 12 Jan 2026 18:18:19 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfTz6-00000000E68-3fEh;
+	Tue, 13 Jan 2026 02:18:16 +0000
+Date: Tue, 13 Jan 2026 10:17:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ethan Graham <ethan.w.s.graham@gmail.com>, glider@google.com
+Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
+	andreyknvl@gmail.com, andy@kernel.org, andy.shevchenko@gmail.com,
+	brauner@kernel.org, brendan.higgins@linux.dev, davem@davemloft.net,
+	davidgow@google.com, dhowells@redhat.com, dvyukov@google.com,
+	ebiggers@kernel.org, elver@google.com, gregkh@linuxfoundation.org,
+	herbert@gondor.apana.org.au, ignat@cloudflare.com, jack@suse.cz,
+	jannh@google.com, johannes@sipsolutions.net,
+	kasan-dev@googlegroups.com, kees@kernel.org,
+	kunit-dev@googlegroups.com, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, lukas@wunner.de,
+	mcgrof@kernel.org, rmoar@google.com, shuah@kernel.org
+Subject: Re: [PATCH v4 4/6] kfuzztest: add KFuzzTest sample fuzz targets
+Message-ID: <202601130828.lXrl0Ijb-lkp@intel.com>
+References: <20260112192827.25989-5-ethan.w.s.graham@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: {standard input}:4155: Error: pcrel offset for branch to .LS000B
- too far (0x38)
-Content-Language: en-GB
-To: Jan Kara <jack@suse.cz>
-CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, Theodore Ts'o <tytso@mit.edu>, Zhang Yi
-	<yi.zhang@huawei.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-	<cooper.qu@linux.alibaba.com>, <yunhai@linux.alibaba.com>
-References: <202601121758.kA3osRht-lkp@intel.com>
- <dbed961f-f3c3-496b-9498-6821852da038@huawei.com>
- <txzy4pnt3se34lsvbtpbgvndxts6xsydxx5sswdjzdrcie7zlq@63cewvtotbu3>
-From: Baokun Li <libaokun1@huawei.com>
-In-Reply-To: <txzy4pnt3se34lsvbtpbgvndxts6xsydxx5sswdjzdrcie7zlq@63cewvtotbu3>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- dggpemf500013.china.huawei.com (7.185.36.188)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112192827.25989-5-ethan.w.s.graham@gmail.com>
 
-On 2026-01-13 00:35, Jan Kara wrote:
-> Hi!
->
-> On Mon 12-01-26 20:09:47, Baokun Li wrote:
->> On 2026-01-12 17:42, kernel test robot wrote:
->>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
->>> head:   0f61b1860cc3f52aef9036d7235ed1f017632193
->>> commit: a6d73242b8b5caa9f9a529eab49cc1e85ace9890 ext4: support large block size in ext4_mpage_readpages()
->>> date:   6 weeks ago
->>> config: csky-randconfig-001-20260112 (https://download.01.org/0day-ci/archive/20260112/202601121758.kA3osRht-lkp@intel.com/config)
->>> compiler: csky-linux-gcc (GCC) 15.2.0
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601121758.kA3osRht-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202601121758.kA3osRht-lkp@intel.com/
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>    {standard input}: Assembler messages:
->>>>> {standard input}:4155: Error: pcrel offset for branch to .LS000B too far (0x38)
->> Hi,
->>
->> Thanks for the report.
->>
->> After looking into this issue, it turns out that replacing the original
->> calculation with the macro version causes the compiler to emit a larger
->> sequence of instructions.
->>
->> On most architectures this is harmless, because their GCC backends support
->> proper branch relaxation and can automatically promote a short branch to
->> a long branch when the offset grows.
->>
->> However, the CSKY GCC backend does not implement branch relaxation. As a
->> result, once the generated basic block becomes slightly larger, some short
->> branch instructions can no longer reach their targets, and the assembler
->> reports the “pcrel offset too far” error.
->>
->> Given this, one possible workaround on the kernel side would be to replace
->> the macro with a static inline helper. Using an inline function allows GCC
->> to perform more aggressive optimization and typically avoids generating
->> unnecessarily large instruction sequences, which helps prevent the
->> short-branch overflow seen on CSKY.
->>
->> However, the more general and robust solution would be to improve the
->> CSKY GCC backend so that it supports proper branch relaxation, as other
->> architectures do. With branch relaxation in place, these issues would not
->> depend on how the code is written.
->>
->> We’d appreciate any thoughts on which approach makes more sense.
-> Frankly, since this is such a niche platform, I'd just let those guys fix
-> their compiler and don't complicate ext4 codebase for that.
->
-> 								Honza
+Hi Ethan,
 
-That makes sense. I’ve CC'd the GCC C-SKY port maintainers.
-Let's see if they have any thoughts.
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
+[also build test WARNING on herbert-cryptodev-2.6/master herbert-crypto-2.6/master linus/master v6.19-rc5 next-20260109]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Regards,
-Baokun
+url:    https://github.com/intel-lab-lkp/linux/commits/Ethan-Graham/kfuzztest-add-user-facing-API-and-data-structures/20260113-033045
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20260112192827.25989-5-ethan.w.s.graham%40gmail.com
+patch subject: [PATCH v4 4/6] kfuzztest: add KFuzzTest sample fuzz targets
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260113/202601130828.lXrl0Ijb-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130828.lXrl0Ijb-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130828.lXrl0Ijb-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: samples/kfuzztest/underflow_on_buffer.c:24 function parameter 'buf' not described in 'underflow_on_buffer'
+>> Warning: samples/kfuzztest/underflow_on_buffer.c:24 function parameter 'buflen' not described in 'underflow_on_buffer'
+>> Warning: samples/kfuzztest/underflow_on_buffer.c:24 expecting prototype for test_underflow_on_buffer(). Prototype was for underflow_on_buffer() instead
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
