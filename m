@@ -1,72 +1,72 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877372D838C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 05:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516DF22FAFD;
+	Tue, 13 Jan 2026 05:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768281010; cv=none; b=LnBXN8Evg30VwpTACW2UrCUlzFBczaRoTxR8QHtYFLotcSuNOOxpjYLLaQhvtjaF4O7h/YYXBOoaUsbD5l8UCg7e/fGDhsiypAFVSRrpFqzG1v3NlR6ms1Bfebj8hAl+h+toIE9WJQDB5YRSq4W4buYUcRYWCYXDqotynkzdf+M=
+	t=1768281507; cv=none; b=TZ7cXkdF1tBMSJUti09FS7mulXqZcADZifiXO80OizQnwqdhqVGL2ldCVlUhiHKjp+2E7vHUxYbmWA9xgis77WipPSHRPw0rkC28rlhtAddEU608dYNtYuYacpJ3r2RDJOKzzdi79qqlcpIy8MxHRPctRK4tYTrzTovM/Kltwvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768281010; c=relaxed/simple;
-	bh=Wjv6Zaz6XrT0tJfxu9I4tq4S2Pax+FQGOFWkpQzMz2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bagEoQTeM1Gro6lP6kUXq9BFX6rp6kbBCed5XbgWhj40PVq5O+WlDE/C139akRjHKnFA15wiOXsNybeerheXlBUiJInkCO6O9gr+e4Oj5czIjBzYNmrL/yZLbiiZ5wO1LcITBxfBidzQhFAVfZk8O0M33EG9E1GSLW+PDn/5BZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iz0DorWF; arc=none smtp.client-ip=209.85.128.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1768281507; c=relaxed/simple;
+	bh=9iQZnMV3CUdtK45BwWJKiFUt0g3nkqqUh/ffW8zt9kc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vEdeha23/WiRpN99IMkKWMZU3LZHT1VNGNxMyJNwBuVS1LQZpRwXPwxkFBP57urDjlGxgbPnW7TLQz7s73Uh/xwhlr8BZrxsSkP03MsM313AB7plAxPC9HVSYsuEFPPSajeIbWtAyAhpfzmA+4hXhBYzD47R1I1slZe33eORfQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MZzaLESU; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iz0DorWF"
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so67759955e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 21:10:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768281007; x=1768885807; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ka9s37IOQpf1n4F84ka//EI6cLx2h6p9ldAIxcvSXSs=;
-        b=iz0DorWFIJ/2Yy25c3x/FP4cP2EIvAuQM7MPebvlJYPfxzjhkgpMmmmA0nxl62pZPV
-         xNdcbM+S9bk8t6pMLP7hZHRhdBvTY4+NYAJnY4/+J5HQFAgUrLc2gR9R8wGG/cWqS7n4
-         T6RWUsGCdh5e48MmXVmYlC5XDFxnYvGlBNRjMNocdw/KwchIJ3CB7cB/cqhoH5UsbJc9
-         GIPwj4t33p9vj9O9mlMPtyEdnLa3aNHKXN0cIMUQSwLpVMjGnTmxoKEllxkKwAWhZuGQ
-         I6D6eGAQTjrkCv6wnphIZm5AUuyaH8cSnM0iLqXNPkoSYcXrJhZxiP7/7nB6qBCsx9mA
-         snjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768281007; x=1768885807;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ka9s37IOQpf1n4F84ka//EI6cLx2h6p9ldAIxcvSXSs=;
-        b=rs+R7dYjU9TbP4opiB0WZu9pSpUQbbozYDtpNpwbGCSk1+m8ksi0ZP6/selglallTL
-         yMYwGPRIQanvOG96yyM4eo3dMeuSP7HziTPMRBPMlCf6eEynjUCI5ccV9iqBBopyk7em
-         0Crzwz5Q4eTDpa/XtQBIPT4uJLJc83iJ3I9ByZiUMHsYFujXsYPMbSXEroEj0C6CG2kD
-         JvQR7WbfJj+kAlty9DLWH0ZcAinDwm0YDDi1qu3gFMqD/g8qFC2IC2B+EAcOIfbpStwW
-         xAaS5sUdcSG3pefxWC0utD7sXjziF497cVZNxKKYvZS526CJ2kN4jeNX1vgc+tLYDVxK
-         zgrg==
-X-Forwarded-Encrypted: i=1; AJvYcCVLXAV4cajtwMbPvf6qpdJ9J/3ikC0z311I9iAJ1cdQ+fScbT74SJJ0HLr0I04Uae2CegHSyl4PZo5IBc9A@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFGuJe8e8xrH61MGHTQmVnTjsRXyaXjt+XhZMUTzXy6Qjyb2cc
-	cLKlmW4C7KC1tc4luT+Tt0N8uzIox2GGx9PsywZ57PLVrJcGhGS3Vi8RvDfd/srj248=
-X-Gm-Gg: AY/fxX7FGBExZJezLgBIf/UEVQfzvl4A418qiKwgJr26cOI0DxA3CONb09O6tlpZIF/
-	f8xxKqaaDQ/NUFgs1RUd2ywhz9TdFPCMSta6QvX/mETNP930Wc24A4Fq5Y7uOhmKN0AbB6x1u8J
-	XMdQEBpGUxGDMVWC/OuZ74Ry3XqG2kXx3JlZugSB7tZziqId6xyWx0pD7SEofkZ+RPOVxLGF8uB
-	uaNyMy5QmwyudI6IHxfRj39lDc3fS5dMmhwP3TIwbsPDriRUpgM3oIz6dhdLzZYgAvwga2CKKK/
-	9kUvoaXg56NazJ++09Iv0dHSaP7oIlSLZuGfn9O/I/Rd45Uy6Ve4X8HZp/VsrQv9ZRoBghsn4uD
-	ArQyd8jJVlHgC8I01DrwjCRJxb1cRzIBgEJiMEweYfccNtZo9Fy8kyRp8F57O1KBayagZy2mQoi
-	aL1NTIZmBEong1nWQ6
-X-Google-Smtp-Source: AGHT+IEyaRLJd9Y4u+qQUZuuxa9DXiE3wFCOSM338VWiA5DPbkRF7hTq5Cq55p5My4D4lkbA6XYZVQ==
-X-Received: by 2002:a05:600c:a106:b0:47d:73a4:45a7 with SMTP id 5b1f17b1804b1-47d84b3badfmr218580905e9.24.1768281006753;
-        Mon, 12 Jan 2026 21:10:06 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47eda5784e4sm6508885e9.18.2026.01.12.21.10.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jan 2026 21:10:06 -0800 (PST)
-Date: Tue, 13 Jan 2026 08:10:03 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/net/ethernet/freescale/ucc_geth.c:1608 ugeth_mac_config()
- error: we previously assumed 'tbiphy' could be null (see line 1605)
-Message-ID: <202601130843.rFGNXA5a-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MZzaLESU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768281505; x=1799817505;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9iQZnMV3CUdtK45BwWJKiFUt0g3nkqqUh/ffW8zt9kc=;
+  b=MZzaLESUibT8hDLqvFWoU9U9b/bPDE+h0lyGGgGeypTBaIFvt2V3N0gA
+   nHdQm4XfIeUUx9LoI9zTe0NMsC/lUmnhERncsDXdO6p9IiTqmIx/HIewd
+   6PvrkWnDJPulJtsA9Kd7Eu7iDi6Sv0nnJfpijUBqKQ1k2GNk6AfQqVqvX
+   TQw+FxXkgfLLiSUnnXtJaftF1O1GAQ2GG+WjrBBAaAbztpZVIEbvYgYTB
+   y8drYxnePvHA3+Tmwo2BlLvSrhLckiF24Ap5aflRP6IqUgpjFee0njp+m
+   bNmDlYDiuhHw3EUXBkbB8QTfg+ldIC/VakCL9+v3h+GEsM0zEGX7Mk/GK
+   A==;
+X-CSE-ConnectionGUID: 9RLBq9CHTOyd1oQHZd7rlg==
+X-CSE-MsgGUID: swispZNBRC+khGCOBLhydA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="73414871"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="73414871"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 21:18:19 -0800
+X-CSE-ConnectionGUID: 1LVxbLv/TOWxQqR2EIejXQ==
+X-CSE-MsgGUID: 6cF0U2x3R2+ZEDw6B0G6xA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="208801024"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 12 Jan 2026 21:18:15 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfWnE-00000000EFc-1LjW;
+	Tue, 13 Jan 2026 05:18:12 +0000
+Date: Tue, 13 Jan 2026 13:17:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
+	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+	Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH net-next 2/2] net: stmmac: qcom-ethqos: convert to
+ set_clk_tx_rate() method
+Message-ID: <202601131202.sz9WCQgh-lkp@intel.com>
+References: <E1vfMO1-00000002kJF-33UK@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,68 +75,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <E1vfMO1-00000002kJF-33UK@rmk-PC.armlinux.org.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b71e635feefc852405b14620a7fc58c4c80c0f73
-commit: 53036aa8d03178a8d056a24a52a301ad290877d4 net: freescale: ucc_geth: phylink conversion
-config: powerpc-randconfig-r072-20260113 (https://download.01.org/0day-ci/archive/20260113/202601130843.rFGNXA5a-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-smatch version: v0.5.0-8985-g2614ff1a
+Hi Russell,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-stmmac-qcom-ethqos-remove-mac_base/20260113-061245
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/E1vfMO1-00000002kJF-33UK%40rmk-PC.armlinux.org.uk
+patch subject: [PATCH net-next 2/2] net: stmmac: qcom-ethqos: convert to set_clk_tx_rate() method
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260113/202601131202.sz9WCQgh-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131202.sz9WCQgh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601130843.rFGNXA5a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131202.sz9WCQgh-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/freescale/ucc_geth.c:1608 ugeth_mac_config() error: we previously assumed 'tbiphy' could be null (see line 1605)
+All warnings (new ones prefixed by >>):
 
-vim +/tbiphy +1608 drivers/net/ethernet/freescale/ucc_geth.c
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c:188:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
+     188 | }
+         | ^
+   1 warning generated.
 
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1589  static void ugeth_mac_config(struct phylink_config *config, unsigned int mode,
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1590  			     const struct phylink_link_state *state)
-ce973b141dfac4 drivers/net/ucc_geth.c                    Li Yang           2006-08-14  1591  {
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1592  	struct net_device *ndev = to_net_dev(config->dev);
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1593  	struct ucc_geth_private *ugeth = netdev_priv(ndev);
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1594  	struct ucc_geth_info *ug_info = ugeth->ug_info;
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1595  	u16 value;
-ce973b141dfac4 drivers/net/ucc_geth.c                    Li Yang           2006-08-14  1596  
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1597  	if (state->interface == PHY_INTERFACE_MODE_TBI ||
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1598  	    state->interface == PHY_INTERFACE_MODE_RTBI) {
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1599  		struct phy_device *tbiphy;
-ce973b141dfac4 drivers/net/ucc_geth.c                    Li Yang           2006-08-14  1600  
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1601  		if (!ug_info->tbi_node)
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1602  			pr_warn("TBI mode requires that the device tree specify a tbi-handle\n");
-ce973b141dfac4 drivers/net/ucc_geth.c                    Li Yang           2006-08-14  1603  
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1604  		tbiphy = of_phy_find_device(ug_info->tbi_node);
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03 @1605  		if (!tbiphy)
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1606  			pr_warn("Could not get TBI device\n");
 
-We may as well return here instead of crashing on the next line.
+vim +188 drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
 
-047584ce941080 drivers/net/ucc_geth.c                    Haiying Wang      2009-06-02  1607  
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03 @1608  		value = phy_read(tbiphy, ENET_TBI_MII_CR);
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1609  		value &= ~0x1000;	/* Turn off autonegotiation */
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1610  		phy_write(tbiphy, ENET_TBI_MII_CR, value);
-ce973b141dfac4 drivers/net/ucc_geth.c                    Li Yang           2006-08-14  1611  
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1612  		put_device(&tbiphy->mdio.dev);
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1613  	}
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1614  
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1615  	if (phylink_autoneg_inband(mode)) {
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1616  		ug_info->aufc = 1;
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1617  
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1618  		init_flow_control_params(ug_info->aufc, 1, 1,
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1619  					 ug_info->pausePeriod,
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1620  					 ug_info->extensionField,
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1621  					 &ugeth->uccf->uf_regs->upsmr,
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1622  					 &ugeth->ug_regs->uempr,
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1623  					 &ugeth->ug_regs->maccfg1);
-53036aa8d03178 drivers/net/ethernet/freescale/ucc_geth.c Maxime Chevallier 2024-12-03  1624  	}
-ce973b141dfac4 drivers/net/ucc_geth.c                    Li Yang           2006-08-14  1625  }
-ce973b141dfac4 drivers/net/ucc_geth.c                    Li Yang           2006-08-14  1626  
+a7c30e62d4b895 Vinod Koul            2019-01-21  175  
+a69650e88a5551 Russell King (Oracle  2026-01-12  176) static int ethqos_set_clk_tx_rate(void *bsp_priv, struct clk *clk_tx_i,
+a69650e88a5551 Russell King (Oracle  2026-01-12  177) 				  phy_interface_t interface, int speed)
+a7c30e62d4b895 Vinod Koul            2019-01-21  178  {
+a69650e88a5551 Russell King (Oracle  2026-01-12  179) 	struct qcom_ethqos *ethqos = bsp_priv;
+98f9928843331f Russell King (Oracle  2025-02-21  180) 	long rate;
+98f9928843331f Russell King (Oracle  2025-02-21  181) 
+a69650e88a5551 Russell King (Oracle  2026-01-12  182) 	if (!phy_interface_mode_is_rgmii(interface))
+a69650e88a5551 Russell King (Oracle  2026-01-12  183) 		return 0;
+26311cd112d05a Sarosh Hasan          2024-02-26  184  
+98f9928843331f Russell King (Oracle  2025-02-21  185) 	rate = rgmii_clock(speed);
+98f9928843331f Russell King (Oracle  2025-02-21  186) 	if (rate > 0)
+a69650e88a5551 Russell King (Oracle  2026-01-12  187) 		clk_set_rate(ethqos->link_clk, rate * 2);
+a7c30e62d4b895 Vinod Koul            2019-01-21 @188  }
+a7c30e62d4b895 Vinod Koul            2019-01-21  189  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
