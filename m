@@ -1,57 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED53B3815C5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 09:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2543816FA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 09:07:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768295265; cv=none; b=aweghzYu+hhtH5bprheKcX8pzeDyXOE1ESiOtGfecZ1serT7RmmdR1cZFYYah3JyEWy9s0qRvt0RIV6pexMj4g8CdogK1UBwbOGrXfilmssrGGQZVVr6dzbBshJrWensLyLpQciB3j9XCh2u6hifjLsJ44QU4VB4mVRfRu6fI10=
+	t=1768295267; cv=none; b=VgR0Lf0Z5phPSERI2CAHmHU2hzSzHRpW7nxHuUwv4wH4HeO68SQYlGXgU0xI6WpBhHLzALy61Cyvv4jGUwcwxjT7j1big40a3wlji/KaUenr3oviYewdL9QEyP5UXxxuL3IJfclyuWwOYOGSWs9tKc166T0v/++d4935YDWsyWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768295265; c=relaxed/simple;
-	bh=S9I689+ocpT9z7BqnkFwnKfb2T5Lai0p4stBePp8DH0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DCEkoglsVRfdpXRMNJL8zU93P0Q1Z5EHrCZ8KN7cP4eBM0CQbwyfyYXKA6I4kP5nUbIylwXXDgoUYBcWjUpGD3VVXxFADrSBXu9ZsvvT59K2u3Z0C+1dOWZEDGV1/BFtSBbK+tnhMgzUgddsKjRYlaQrE0DycQEUELevS4Yla/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IShXIKvW; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768295267; c=relaxed/simple;
+	bh=5N8tHKhfU7fGPpnC1P/wzUmdhvgVCt1FFzJKTKISGkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=mXR6+2D9/n0nl6zZdpVEF3UDPxU1YzeYSt9hFSh+3hI7bUSPGw7mB73GOGTwwErJvY3gsBySkuDkByvypxNcdxo06aJSaA+YEBIJOcp0oCyY0Apgc2humvRRQjHHh5/rfMw4VUY42m4ijE0fJwWkBBFi+PIvGd4kArTi9hMi1CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eO6XT+Tn; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IShXIKvW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eO6XT+Tn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768295263; x=1799831263;
+  t=1768295265; x=1799831265;
   h=date:from:to:cc:subject:message-id;
-  bh=S9I689+ocpT9z7BqnkFwnKfb2T5Lai0p4stBePp8DH0=;
-  b=IShXIKvWqxNT7sN/XTqpsGKEmzj6N02rVK276x/GCsMv7//KRiby2XEv
-   A3MY/Wbtn6u9F4FqTCxOzgTwXfo0Kl1WYWxGp27oqSZxXkTDBFniUlHXw
-   +VqRprik87SIxaI04r+dSXTjAaApeJyfgXVlh8KT5KAPOU8pJBPe1i46O
-   bTRXNiNoZHK1V7k/521UfkzqZsdxbj7cI6ws7kcdfsRasf5EbI+bMliKZ
-   CXGaLRt0H+Xiq+cibSi9+f15Qx8gklDnIt1lr+naVp+4i6Glx5aUZK7Az
-   Rb1yGvRhvFdI16ezksP8aX4Nh3XmYjiCCA7KQK42lHn2/YHc73fp09t8X
-   A==;
-X-CSE-ConnectionGUID: rT6e3k2oTSaUlZyNIK1ODg==
-X-CSE-MsgGUID: 4qpUc8EmSueMWbKHQNqLaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69558939"
+  bh=5N8tHKhfU7fGPpnC1P/wzUmdhvgVCt1FFzJKTKISGkQ=;
+  b=eO6XT+TnQiw5rCMicFURLxIyKuZuFq8k+cSU8BMcxdzOQZkuh8jknTYR
+   TSnk4ejqlaZIYWGUKuRh6uV1+ByDobWi+7iM/DrSDEW45ISBwrIGlgxYB
+   MQ4pRbvZDGLIOvsan5JdqKCbZiswZLP//pErfNhbPS0jUnQC/0ubHasYD
+   cxjMAVPjjakeHkzMY+/fFeZ9lnh+rYwumhZrZYVeCFB2stsXU6mVf2cZs
+   mtHcn5RoVd6XqTs/ofQ6nOwTJXfnyKLWkprCsp96J7tk/LL40a0PGshh3
+   920VVLtIgdSQ3uoNk6Ew27KYhNuDJCZwRpLJ5I7s+662vnIL0SLvoIJOd
+   g==;
+X-CSE-ConnectionGUID: bBDT5IpRTSWlJ5hJs5mubA==
+X-CSE-MsgGUID: qoftNi4fRKSTwT/dUiISLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69558942"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="69558939"
+   d="scan'208";a="69558942"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 01:07:42 -0800
-X-CSE-ConnectionGUID: KwTQtl88SN6bSylisHwbJA==
-X-CSE-MsgGUID: mxd+oUjOTbaYkqIFLS4f4A==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 01:07:43 -0800
+X-CSE-ConnectionGUID: DpC3NIXTQNCorpITh/0vIg==
+X-CSE-MsgGUID: MeNYv0fXQIOEa5JqP/xGnw==
 X-ExtLoop1: 1
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 13 Jan 2026 01:07:41 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfaNG-00000000EVg-2yxM;
+	id 1vfaNG-00000000EVi-36b0;
 	Tue, 13 Jan 2026 09:07:38 +0000
-Date: Tue, 13 Jan 2026 17:06:48 +0800
+Date: Tue, 13 Jan 2026 17:06:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 0/1]
- drivers/gpu/drm/xe/xe_guc_ct.c:1814:24: error: implicit declaration of
- function 'xe_guc_log_snapshot_capture'; did you mean
- 'xe_guc_ct_snapshot_capture'?
-Message-ID: <202601131604.xpj8s1EL-lkp@intel.com>
+To: Nam Cao <namcao@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@linutronix.de>
+Subject: kernel/time/sched_clock.c:219:13: sparse: sparse:
+ dereference of noderef expression
+Message-ID: <202601131713.KsxhXQ0M-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,130 +58,105 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi John,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   113ac3ac68b3559c98fa1bcaa0e46044cabfcad6
-commit: ff6482fb458953e111a82b7c537363d9aacf04bf [0/1] drm/xe/guc: Dead CT helper
-config: x86_64-randconfig-002-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131604.xpj8s1EL-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131604.xpj8s1EL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b71e635feefc852405b14620a7fc58c4c80c0f73
+commit: 04257da0c99c9d4ff7c5bb93046482e1f7d34938 hrtimers: Make callback function pointer private
+date:   9 months ago
+config: arm64-randconfig-r121-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131713.KsxhXQ0M-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131713.KsxhXQ0M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131604.xpj8s1EL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131713.KsxhXQ0M-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/time/sched_clock.c:219:13: sparse: sparse: dereference of noderef expression
 
-   drivers/gpu/drm/xe/xe_guc_ct.c: In function 'ct_dead_capture':
->> drivers/gpu/drm/xe/xe_guc_ct.c:1814:24: error: implicit declaration of function 'xe_guc_log_snapshot_capture'; did you mean 'xe_guc_ct_snapshot_capture'? [-Wimplicit-function-declaration]
-    1814 |         snapshot_log = xe_guc_log_snapshot_capture(&guc->log, true);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        xe_guc_ct_snapshot_capture
->> drivers/gpu/drm/xe/xe_guc_ct.c:1814:22: error: assignment to 'struct xe_guc_log_snapshot *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1814 |         snapshot_log = xe_guc_log_snapshot_capture(&guc->log, true);
-         |                      ^
->> drivers/gpu/drm/xe/xe_guc_ct.c:1821:17: error: implicit declaration of function 'xe_guc_log_snapshot_free'; did you mean 'xe_guc_ct_snapshot_free'? [-Wimplicit-function-declaration]
-    1821 |                 xe_guc_log_snapshot_free(snapshot_log);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                 xe_guc_ct_snapshot_free
-   drivers/gpu/drm/xe/xe_guc_ct.c: In function 'ct_dead_print':
->> drivers/gpu/drm/xe/xe_guc_ct.c:1840:33: error: implicit declaration of function 'drm_line_printer'; did you mean 'drm_info_printer'? [-Wimplicit-function-declaration]
-    1840 |         struct drm_printer lp = drm_line_printer(&ip, "Capture", ++g_count);
-         |                                 ^~~~~~~~~~~~~~~~
-         |                                 drm_info_printer
->> drivers/gpu/drm/xe/xe_guc_ct.c:1840:33: error: invalid initializer
->> drivers/gpu/drm/xe/xe_guc_ct.c:1857:9: error: implicit declaration of function 'xe_guc_log_snapshot_print'; did you mean 'xe_guc_ct_snapshot_print'? [-Wimplicit-function-declaration]
-    1857 |         xe_guc_log_snapshot_print(dead->snapshot_log, &lp);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         xe_guc_ct_snapshot_print
+vim +219 kernel/time/sched_clock.c
 
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  176  
+32fea568aec5b7 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  177  void __init
+32fea568aec5b7 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  178  sched_clock_register(u64 (*read)(void), int bits, unsigned long rate)
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  179  {
+5ae8aabeaec3fe kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  180  	u64 res, wrap, new_mask, new_epoch, cyc, ns;
+5ae8aabeaec3fe kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  181  	u32 new_mult, new_shift;
+2707745533d6d3 kernel/time/sched_clock.c     Paul Cercueil     2020-01-07  182  	unsigned long r, flags;
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  183  	char r_unit;
+1809bfa44e1019 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  184  	struct clock_read_data rd;
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  185  
+c115739da801ea arch/arm/kernel/sched_clock.c Rob Herring       2013-02-08  186  	if (cd.rate > rate)
+c115739da801ea arch/arm/kernel/sched_clock.c Rob Herring       2013-02-08  187  		return;
+c115739da801ea arch/arm/kernel/sched_clock.c Rob Herring       2013-02-08  188  
+2707745533d6d3 kernel/time/sched_clock.c     Paul Cercueil     2020-01-07  189  	/* Cannot register a sched_clock with interrupts on */
+2707745533d6d3 kernel/time/sched_clock.c     Paul Cercueil     2020-01-07  190  	local_irq_save(flags);
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  191  
+32fea568aec5b7 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  192  	/* Calculate the mult/shift to convert counter ticks to ns. */
+5ae8aabeaec3fe kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  193  	clocks_calc_mult_shift(&new_mult, &new_shift, rate, NSEC_PER_SEC, 3600);
+5ae8aabeaec3fe kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  194  
+5ae8aabeaec3fe kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  195  	new_mask = CLOCKSOURCE_MASK(bits);
+8710e914027e4f kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  196  	cd.rate = rate;
+5ae8aabeaec3fe kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  197  
+32fea568aec5b7 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  198  	/* Calculate how many nanosecs until we risk wrapping */
+fb82fe2fe85887 kernel/time/sched_clock.c     John Stultz       2015-03-11  199  	wrap = clocks_calc_max_nsecs(new_mult, new_shift, 0, new_mask, NULL);
+8710e914027e4f kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  200  	cd.wrap_kt = ns_to_ktime(wrap);
+5ae8aabeaec3fe kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  201  
+1809bfa44e1019 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  202  	rd = cd.read_data[0];
+1809bfa44e1019 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  203  
+32fea568aec5b7 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  204  	/* Update epoch for new counter and update 'epoch_ns' from old counter*/
+5ae8aabeaec3fe kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  205  	new_epoch = read();
+13dbeb384d2d3a kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  206  	cyc = cd.actual_read_sched_clock();
+32fea568aec5b7 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  207  	ns = rd.epoch_ns + cyc_to_ns((cyc - rd.epoch_cyc) & rd.sched_clock_mask, rd.mult, rd.shift);
+13dbeb384d2d3a kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  208  	cd.actual_read_sched_clock = read;
+5ae8aabeaec3fe kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  209  
+1809bfa44e1019 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  210  	rd.read_sched_clock	= read;
+1809bfa44e1019 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  211  	rd.sched_clock_mask	= new_mask;
+1809bfa44e1019 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  212  	rd.mult			= new_mult;
+1809bfa44e1019 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  213  	rd.shift		= new_shift;
+1809bfa44e1019 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  214  	rd.epoch_cyc		= new_epoch;
+1809bfa44e1019 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  215  	rd.epoch_ns		= ns;
+32fea568aec5b7 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  216  
+1809bfa44e1019 kernel/time/sched_clock.c     Daniel Thompson   2015-03-26  217  	update_clock_read_data(&rd);
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  218  
+1b8955bc5ac575 kernel/time/sched_clock.c     David Engraf      2017-02-17 @219  	if (sched_clock_timer.function != NULL) {
+1b8955bc5ac575 kernel/time/sched_clock.c     David Engraf      2017-02-17  220  		/* update timeout for clock wrap */
+2c8bd58812ee3d kernel/time/sched_clock.c     Ahmed S. Darwish  2020-03-09  221  		hrtimer_start(&sched_clock_timer, cd.wrap_kt,
+2c8bd58812ee3d kernel/time/sched_clock.c     Ahmed S. Darwish  2020-03-09  222  			      HRTIMER_MODE_REL_HARD);
+1b8955bc5ac575 kernel/time/sched_clock.c     David Engraf      2017-02-17  223  	}
+1b8955bc5ac575 kernel/time/sched_clock.c     David Engraf      2017-02-17  224  
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  225  	r = rate;
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  226  	if (r >= 4000000) {
+92067440f1311d kernel/time/sched_clock.c     Maciej W. Rozycki 2022-04-24  227  		r = DIV_ROUND_CLOSEST(r, 1000000);
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  228  		r_unit = 'M';
+f4b62e1e113750 kernel/time/sched_clock.c     Maciej W. Rozycki 2022-04-24  229  	} else if (r >= 4000) {
+92067440f1311d kernel/time/sched_clock.c     Maciej W. Rozycki 2022-04-24  230  		r = DIV_ROUND_CLOSEST(r, 1000);
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  231  		r_unit = 'k';
+32fea568aec5b7 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  232  	} else {
+2f0778afac79bd arch/arm/kernel/sched_clock.c Marc Zyngier      2011-12-15  233  		r_unit = ' ';
+32fea568aec5b7 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  234  	}
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  235  
+32fea568aec5b7 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  236  	/* Calculate the ns resolution of this counter */
+5ae8aabeaec3fe kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  237  	res = cyc_to_ns(1ULL, new_mult, new_shift);
+5ae8aabeaec3fe kernel/time/sched_clock.c     Stephen Boyd      2014-02-17  238  
+a08ca5d1089da0 kernel/time/sched_clock.c     Stephen Boyd      2013-07-18  239  	pr_info("sched_clock: %u bits at %lu%cHz, resolution %lluns, wraps every %lluns\n",
+a08ca5d1089da0 kernel/time/sched_clock.c     Stephen Boyd      2013-07-18  240  		bits, r, r_unit, res, wrap);
+112f38a4a31668 arch/arm/kernel/sched_clock.c Russell King      2010-12-15  241  
+32fea568aec5b7 kernel/time/sched_clock.c     Ingo Molnar       2015-03-27  242  	/* Enable IRQ time accounting if we have a fast enough sched_clock() */
+a42c362980430b arch/arm/kernel/sched_clock.c Russell King      2012-09-09  243  	if (irqtime > 0 || (irqtime == -1 && rate >= 1000000))
+a42c362980430b arch/arm/kernel/sched_clock.c Russell King      2012-09-09  244  		enable_sched_clock_irqtime();
+a42c362980430b arch/arm/kernel/sched_clock.c Russell King      2012-09-09  245  
+2707745533d6d3 kernel/time/sched_clock.c     Paul Cercueil     2020-01-07  246  	local_irq_restore(flags);
+2707745533d6d3 kernel/time/sched_clock.c     Paul Cercueil     2020-01-07  247  
+d75f773c86a2b8 kernel/time/sched_clock.c     Sakari Ailus      2019-03-25  248  	pr_debug("Registered %pS as sched_clock source\n", read);
+2f0778afac79bd arch/arm/kernel/sched_clock.c Marc Zyngier      2011-12-15  249  }
+2f0778afac79bd arch/arm/kernel/sched_clock.c Marc Zyngier      2011-12-15  250  
 
-vim +1814 drivers/gpu/drm/xe/xe_guc_ct.c
+:::::: The code at line 219 was first introduced by commit
+:::::: 1b8955bc5ac575009835e371ae55e7f3af2197a9 timers, sched_clock: Update timeout for clock wrap
 
-  1785	
-  1786	#if IS_ENABLED(CONFIG_DRM_XE_DEBUG)
-  1787	static void ct_dead_capture(struct xe_guc_ct *ct, struct guc_ctb *ctb, u32 reason_code)
-  1788	{
-  1789		struct xe_guc_log_snapshot *snapshot_log;
-  1790		struct xe_guc_ct_snapshot *snapshot_ct;
-  1791		struct xe_guc *guc = ct_to_guc(ct);
-  1792		unsigned long flags;
-  1793		bool have_capture;
-  1794	
-  1795		if (ctb)
-  1796			ctb->info.broken = true;
-  1797	
-  1798		/* Ignore further errors after the first dump until a reset */
-  1799		if (ct->dead.reported)
-  1800			return;
-  1801	
-  1802		spin_lock_irqsave(&ct->dead.lock, flags);
-  1803	
-  1804		/* And only capture one dump at a time */
-  1805		have_capture = ct->dead.reason & (1 << CT_DEAD_STATE_CAPTURE);
-  1806		ct->dead.reason |= (1 << reason_code) |
-  1807				   (1 << CT_DEAD_STATE_CAPTURE);
-  1808	
-  1809		spin_unlock_irqrestore(&ct->dead.lock, flags);
-  1810	
-  1811		if (have_capture)
-  1812			return;
-  1813	
-> 1814		snapshot_log = xe_guc_log_snapshot_capture(&guc->log, true);
-  1815		snapshot_ct = xe_guc_ct_snapshot_capture((ct), true);
-  1816	
-  1817		spin_lock_irqsave(&ct->dead.lock, flags);
-  1818	
-  1819		if (ct->dead.snapshot_log || ct->dead.snapshot_ct) {
-  1820			xe_gt_err(ct_to_gt(ct), "Got unexpected dead CT capture!\n");
-> 1821			xe_guc_log_snapshot_free(snapshot_log);
-  1822			xe_guc_ct_snapshot_free(snapshot_ct);
-  1823		} else {
-  1824			ct->dead.snapshot_log = snapshot_log;
-  1825			ct->dead.snapshot_ct = snapshot_ct;
-  1826		}
-  1827	
-  1828		spin_unlock_irqrestore(&ct->dead.lock, flags);
-  1829	
-  1830		queue_work(system_unbound_wq, &(ct)->dead.worker);
-  1831	}
-  1832	
-  1833	static void ct_dead_print(struct xe_dead_ct *dead)
-  1834	{
-  1835		struct xe_guc_ct *ct = container_of(dead, struct xe_guc_ct, dead);
-  1836		struct xe_device *xe = ct_to_xe(ct);
-  1837		struct xe_gt *gt = ct_to_gt(ct);
-  1838		static int g_count;
-  1839		struct drm_printer ip = xe_gt_info_printer(gt);
-> 1840		struct drm_printer lp = drm_line_printer(&ip, "Capture", ++g_count);
-  1841	
-  1842		if (!dead->reason) {
-  1843			xe_gt_err(gt, "CTB is dead for no reason!?\n");
-  1844			return;
-  1845		}
-  1846	
-  1847		drm_printf(&lp, "CTB is dead - reason=0x%X\n", dead->reason);
-  1848	
-  1849		/* Can't generate a genuine core dump at this point, so just do the good bits */
-  1850		drm_puts(&lp, "**** Xe Device Coredump ****\n");
-  1851		xe_device_snapshot_print(xe, &lp);
-  1852	
-  1853		drm_printf(&lp, "**** GT #%d ****\n", gt->info.id);
-  1854		drm_printf(&lp, "\tTile: %d\n", gt->tile->id);
-  1855	
-  1856		drm_puts(&lp, "**** GuC Log ****\n");
-> 1857		xe_guc_log_snapshot_print(dead->snapshot_log, &lp);
-  1858	
-  1859		drm_puts(&lp, "**** GuC CT ****\n");
-  1860		xe_guc_ct_snapshot_print(dead->snapshot_ct, &lp);
-  1861	
-  1862		drm_puts(&lp, "Done.\n");
-  1863	}
-  1864	
+:::::: TO: David Engraf <david.engraf@sysgo.com>
+:::::: CC: John Stultz <john.stultz@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
