@@ -1,107 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8ABE25393B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 02:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576841B0439
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 03:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768271308; cv=none; b=RXcExrwzW8NmoEsqpeFMOROmO39F2mZT7B8OlcVqCvy+Y42GPhEZx/zSYBbCtEKJK0Y3gsCoZtMHIyCCsHypT/cFZ9Os7+QJ/hAe/RzJpqiBj5ruThjkMTqkWBHC/oYpGdrGcBQ6w4zpEH4N14b1qYcSGKU6YiGMFX3MFNtCYqE=
+	t=1768273243; cv=none; b=ck/tj/egbYsWUb6njvxVXajIeKFNtiCUqZDMxKfJVnBqNmyy+L5rn/Jc35Sm6kwPM0EStZ4PaQcY7sxrNHMvDDL9kKJRJg3pNuMnJ8FoZGiF9qtMm7qd68KVRVIl5JaKTtFoRHuggFMea1PER8M/+7Z2t0i/wShEgUKyw1AzJi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768271308; c=relaxed/simple;
-	bh=YUgVSeUA/8CTaYWTMBE856Vpz1T0v3KAk9ruq/Cqcx4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kO/gQmHc3hou7dKlFNN4BiHoclI5rtrukIFwvFzz94uS41v0pTlbf3aDFka+7yqdGMADLptRV8PZHIfNUGNpTGvykfYUyz3pXB8C9wjMljf/13TCmPk9yVe4c3Ol17JmBhUG467F9I8mVJ9mcRFZOk3YdtnKsTvTFIkVt63lwgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EVg0l8QU; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768273243; c=relaxed/simple;
+	bh=FjWx1f6JHEspVaMYRCrMQVGMzin7f6x7Uf6YF1kLDvg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FY+oT2dshFKStus9mrRRtyRrMFS+GWb2v/NHpj00m2mYq+FWoED1OpDtG495Khv5PorvSUI3yZ5M63tvUeesUPdi+7P+Z5WNz8G+KslhJiXUj6cCSiKk9/W3hchO+qGvoZvbbGM5WvTbM6wxMPIX6UQTZ0EVN+GJk1PI2KUkpZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XSLhMZTK; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EVg0l8QU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XSLhMZTK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768271307; x=1799807307;
-  h=date:from:to:cc:subject:message-id;
-  bh=YUgVSeUA/8CTaYWTMBE856Vpz1T0v3KAk9ruq/Cqcx4=;
-  b=EVg0l8QU54Pi80dOWjJbFSd/YHUts22E1sLvFKODRnteY7l7YO7CK++Y
-   QJuNVSDIl/v/NF+z+aB63zfkvPBAqySBVdg3cTbCilJVAmIB+N1JBoYmF
-   7iSMTVjHyHqBJArD+RpnsLil1bW0W/zYdgQ840F369MQ+OAck+ahdR0oR
-   JxcBc7BLBw4TIaf4Ni0kuIp4JIjTcdNMjsziOZRLFIXPSnTyyG0kIDZxG
-   4b4BaDMnoT8ToiUQPsUg99e8pQOtH2zmCcFbXBRYWSyfyuHO50Jja7Bfu
-   PutxowSSA32KUviYsPizOGnTE6XeGcT4ymwvBupHtdHfRtrCKOruQlmeb
-   g==;
-X-CSE-ConnectionGUID: qRSPm6CxTNiE/+BHh6LdGw==
-X-CSE-MsgGUID: zucltjOjQs2hvcKJPobYbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69537997"
+  t=1768273241; x=1799809241;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FjWx1f6JHEspVaMYRCrMQVGMzin7f6x7Uf6YF1kLDvg=;
+  b=XSLhMZTKv0KMprwUhLJ58PHsFiYb7wnhPfdtHZcs19zcqHv14v8aGBof
+   KI9PxWkBimoW9RTe2709DMapYbIftgxBJITRSMPy/OHOhE32YuKeaZ/4a
+   DXWzTLwPGDR4B04mTmiPv7qW+DVOFms3N6he/tw5gw/maGmuL2O/dKJRE
+   sak5buPuYYaVu6TrVEqnQNh4zRiEIJippuVurQKM3WNTyUv2YFj24I44M
+   hHaou4KJ+IJVkEInalIi3nHVHMho1R5cPhYJVut0czqLGOc2Sov6c64Ry
+   UjfUD1uBlauT3aGgzy6mZ4r/HQ+52tGvRBhlJTqSnnAMN+kl6HSH/75xH
+   Q==;
+X-CSE-ConnectionGUID: jo7N5rMWRsi/wIqow4jhOQ==
+X-CSE-MsgGUID: tkvfPhxLR0C2MarWStj9Aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80274061"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="69537997"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 18:28:27 -0800
-X-CSE-ConnectionGUID: uBi0MN17SG2L5r7DMCfCqA==
-X-CSE-MsgGUID: UJEDWCl6SzeD6mSbImNL8A==
+   d="scan'208";a="80274061"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 19:00:41 -0800
+X-CSE-ConnectionGUID: jmBMIh2ARjqRZQEtGPhxUQ==
+X-CSE-MsgGUID: 4eXrquReROuJMAv2LquGeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="208414571"
+   d="scan'208";a="203422626"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 12 Jan 2026 18:28:26 -0800
+  by orviesa006.jf.intel.com with ESMTP; 12 Jan 2026 19:00:36 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfU8s-00000000E6W-3GmB;
-	Tue, 13 Jan 2026 02:28:22 +0000
-Date: Tue, 13 Jan 2026 10:28:17 +0800
+	id 1vfUe2-00000000E84-0gDE;
+	Tue, 13 Jan 2026 03:00:34 +0000
+Date: Tue, 13 Jan 2026 10:59:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:slf/mercury_test 1/5]
- arch/x86/include/../../../drivers/iommu/amd/amd_iommu_types.h:817:17: error:
- unknown type name 'u128'
-Message-ID: <202601131048.yDtytwl8-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+	=?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>,
+	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+	Gregory CLEMENT <gregory.clement@bootlin.com>
+Subject: Re: [PATCH v3 2/4] of: reserved_mem: Support multiple 'reg' entries
+ for memory-region
+Message-ID: <202601131045.DOJtnS0c-lkp@intel.com>
+References: <20260107-mtd-memregion-v3-2-f9fc9107b992@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260107-mtd-memregion-v3-2-f9fc9107b992@bootlin.com>
 
-tree:   https://github.com/sean-jc/linux slf/mercury_test
-head:   ee15dac15976899b3b20ee0300633c984be79a91
-commit: e27bbe8a422c0f45db71dd9eb2e2a064c61d0107 [1/5] *** DO NOT MERGE *** iommu/amd: Hack to fake IRQ posting support
-config: i386-randconfig-004-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131048.yDtytwl8-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131048.yDtytwl8-lkp@intel.com/reproduce)
+Hi Gregory,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gregory-CLEMENT/of-reserved_mem-Fix-placement-of-__free-annotation/20260107-211455
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20260107-mtd-memregion-v3-2-f9fc9107b992%40bootlin.com
+patch subject: [PATCH v3 2/4] of: reserved_mem: Support multiple 'reg' entries for memory-region
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20260113/202601131045.DOJtnS0c-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131045.DOJtnS0c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131048.yDtytwl8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131045.DOJtnS0c-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kvm/svm/avic.c:32:
->> arch/x86/include/../../../drivers/iommu/amd/amd_iommu_types.h:817:17: error: unknown type name 'u128'
-     817 |                 u128 data128[2];
-         |                 ^~~~
-   arch/x86/include/../../../drivers/iommu/amd/amd_iommu_types.h:982:17: error: unknown type name 'u128'
-     982 |                 u128 irte;
-         |                 ^~~~
-
-
-vim +/u128 +817 arch/x86/include/../../../drivers/iommu/amd/amd_iommu_types.h
-
-8d283c35a293e6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-06-26  810  
-5694703f14b1f6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-07-11  811  /*
-5694703f14b1f6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-07-11  812   * Structure defining one entry in the device table
-5694703f14b1f6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-07-11  813   */
-8d283c35a293e6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-06-26  814  struct dev_table_entry {
-8b3f78733814b1 drivers/iommu/amd/amd_iommu_types.h Suravee Suthikulpanit 2024-11-18  815  	union {
-ee6c28684585a6 drivers/iommu/amd_iommu_types.h     Joerg Roedel          2011-11-09  816  		u64 data[4];
-8b3f78733814b1 drivers/iommu/amd/amd_iommu_types.h Suravee Suthikulpanit 2024-11-18 @817  		u128 data128[2];
-8b3f78733814b1 drivers/iommu/amd/amd_iommu_types.h Suravee Suthikulpanit 2024-11-18  818  	};
-8d283c35a293e6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-06-26  819  };
-8d283c35a293e6 include/asm-x86/amd_iommu_types.h   Joerg Roedel          2008-06-26  820  
-
-:::::: The code at line 817 was first introduced by commit
-:::::: 8b3f78733814b180089a400743b6f19d118aec62 iommu/amd: Introduce helper function to update 256-bit DTE
-
-:::::: TO: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+>> Warning: drivers/of/of_reserved_mem.c:746 function parameter 'rmem' not described in 'of_reserved_mem_array_lookup'
+>> Warning: drivers/of/of_reserved_mem.c:902 expecting prototype for of_reserved_mem_region_count(). Prototype was for of_reserved_mem_region_total_count() instead
+>> Warning: drivers/of/of_reserved_mem.c:746 function parameter 'rmem' not described in 'of_reserved_mem_array_lookup'
 
 -- 
 0-DAY CI Kernel Test Service
