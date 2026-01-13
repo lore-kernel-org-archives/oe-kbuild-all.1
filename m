@@ -1,340 +1,260 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17116155C82;
-	Tue, 13 Jan 2026 00:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D407521D3C5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 00:24:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768263288; cv=none; b=US8OQ9rv0qxCdxuz/H5tSWhCwwZve9NilDl0/khJujHFWn5d7dRddxyYONfzbfV3f8Qsbrs4B/U+EGr/rkdSJ0lBlRqEVxFaamw0gD1jovzmytwqbNnUYsDL/zO52qejGS+fgcVSe7wDk47EZVxoi6LVBVfy/0wWYQa+pTKmZT8=
+	t=1768263890; cv=none; b=ATWqE0Pg0q48IjGvSe7n1zgfvgLrMmrCxtUoXYEjL8X8elrp2E5vgeWQlWHDwE898xFJo+bY5yg/LsOo/vI483zeHwoDMLEecxJIePM2B2E64zvyCiQ4HliHbyN08+1QqVUU/SBIG7jbcXo8AiHdUUeWggwbyKFeKMa7+kj73Ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768263288; c=relaxed/simple;
-	bh=5GzDdjp67ayj83fKcCEL5pstjwJZWKj8QfJbEIkDkmM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DeH6bkneMWTxPOCUgDijlVMT/VTG0GQfNRKRwp8c58J7pP8U1jMPsleBAG6HghjZbpJlBYXwDLlHOQwHiOrq0nVhtR6cfvWo2oODsTbUXVtcx7pUG79jybnrFp5mQDdCBB6XT6qrRY/75gzYskMo1wLI4sLXs/vfK/KKUGSrtRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WDODSqSz; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1768263890; c=relaxed/simple;
+	bh=1BltHRTsR0X+uukcCyfIVs3uRqt8TDOPa1szpQSBpxE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sw9pEpoTL6LJU+UP2u6KIJu08r4j9sdw1CgU4JK8w4uArE06J1lapkT8DgjdtcUhoLAuxWj0un+w0B0vMzPw4/pwGcjhNjKxyR+YAPwH91hnwkMxH1pO06m6X5omt4vMPLHwsTp0IW3k1KWAZPq/OaCMPCFRIHuQ3xhSrMTDkro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HdXkS9il; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDODSqSz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HdXkS9il"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768263287; x=1799799287;
-  h=date:from:to:cc:subject:message-id;
-  bh=5GzDdjp67ayj83fKcCEL5pstjwJZWKj8QfJbEIkDkmM=;
-  b=WDODSqSzxKxMegVCENPRQEWt0xRNH08vvUNF7PYK9U1FAaYgz2MPs3Kh
-   yu84FhO0jKi/ItpbV8pUorLMTXDy9dYwqBnNvzb7kmKbjMzrD/SRtHJGX
-   Qb7MNFCaPWyY0UFv7az8pdjNIdGN/3d7whuI2FRFf3M3IFDkHxDlpFidO
-   pPN36uqsfvdvJUERDIMEGYyv0wjouNKYo70wkdS3LZrCTU8NprrjOmCBE
-   OLxOzi/GoJuslU4e8zC6QrjLW48W4QhkJVYwme7XzYlSwByTilN+XI18p
-   GBQ4cZXf+CmY99dIYUTNxIabbWm8nEhPZ6hgLgQ6CvpnB6luAkNbjQQ0a
-   A==;
-X-CSE-ConnectionGUID: dVERDGjUSimoY3wsgEVyWQ==
-X-CSE-MsgGUID: +p2hDmqrSEW9FRgdUtc1Cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="68550568"
+  t=1768263887; x=1799799887;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1BltHRTsR0X+uukcCyfIVs3uRqt8TDOPa1szpQSBpxE=;
+  b=HdXkS9ilPpO3fFOuL1sFgXOrTG5CK4Z3EQaGdoc4C2ebZBt9AdeNcBAD
+   q6QcWxvC243Kq0CJoS39/LOLLtFkTAKZOuOwHsBxyCMMtQn+MBfz0K49t
+   zF78S8axeXf6xbNd5/VE7e09z6S47iZimljloyrZglgo/qGrDPLZ9Z2Ns
+   z9t+Z6a5w2zyVAZ8E8zoioQmMW8uwRZktYGhvAmeB9dkrQn9lRosUMr9K
+   6IlD+/D9TLQaRTf4QqDMF19FMnR/4YMRfxYx3EX+WFwKxdgxkGfAmAq1p
+   JgqPMwRrZnfLc9h5SB/P45rGAk35/fvl8bGGfBTmgL7KoVNoe2JVRMoaT
+   w==;
+X-CSE-ConnectionGUID: cxHROo1vRLyO7Tev5WMqkw==
+X-CSE-MsgGUID: 9EoWjLnWT66DkPSuM7LpaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69457319"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="68550568"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 16:14:45 -0800
-X-CSE-ConnectionGUID: +G1/lsy/QnOhAkAObjJD0w==
-X-CSE-MsgGUID: NxCToESFSZeldjUbePpS6w==
+   d="scan'208";a="69457319"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 16:24:46 -0800
+X-CSE-ConnectionGUID: Z7kgkq23RPeedzUQdbIpfA==
+X-CSE-MsgGUID: q2OiVmbbSJSO8pbCMjto5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="208388492"
+   d="scan'208";a="204043097"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 12 Jan 2026 16:14:44 -0800
+  by orviesa009.jf.intel.com with ESMTP; 12 Jan 2026 16:24:44 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfS3U-00000000E1A-3iLl;
-	Tue, 13 Jan 2026 00:14:40 +0000
-Date: Tue, 13 Jan 2026 08:13:43 +0800
+	id 1vfSDB-00000000E1k-1cRR;
+	Tue, 13 Jan 2026 00:24:41 +0000
+Date: Tue, 13 Jan 2026 08:24:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:scratch/gourry/cxl/controllers/v2 2/6]
- drivers/cxl/core/memctrl/sysram_region.c:83:7: error: call to undeclared
- function 'offline_and_remove_memory'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202601130852.T6w08l92-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Namhyung Kim <namhyung@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Rosalie Fang <rosaliefang@google.com>
+Subject: Re: [PATCH] perf/core: Fix slow perf_event_task_exit() with LBR
+ callstacks
+Message-ID: <202601130832.k1P5IrSS-lkp@intel.com>
+References: <20260112165157.1919624-1-namhyung@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112165157.1919624-1-namhyung@kernel.org>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/cxl/controllers/v2
-head:   dcbd460f630113f17cb71133f44920a1f35c2605
-commit: ba7288831d4123b81b543a90dc594081b50ca1df [2/6] cxl: add sysram_region memory controller
-config: arm-randconfig-003-20260113 (https://download.01.org/0day-ci/archive/20260113/202601130852.T6w08l92-lkp@intel.com/config)
+Hi Namhyung,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on perf-tools-next/perf-tools-next]
+[also build test WARNING on tip/perf/core perf-tools/perf-tools linus/master v6.19-rc5 next-20260109]
+[cannot apply to acme/perf/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Namhyung-Kim/perf-core-Fix-slow-perf_event_task_exit-with-LBR-callstacks/20260113-005301
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/20260112165157.1919624-1-namhyung%40kernel.org
+patch subject: [PATCH] perf/core: Fix slow perf_event_task_exit() with LBR callstacks
+config: hexagon-randconfig-r122-20260113 (https://download.01.org/0day-ci/archive/20260113/202601130832.k1P5IrSS-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130852.T6w08l92-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130832.k1P5IrSS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601130852.T6w08l92-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601130832.k1P5IrSS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/events/core.c:1486:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1486:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1486:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:1499:28: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1499:28: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1499:28: sparse:    struct perf_event_context *
+   kernel/events/core.c:3669:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3669:20: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3669:20: sparse:    struct perf_event_context *
+   kernel/events/core.c:3673:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3673:18: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3673:18: sparse:    struct perf_event_context *
+   kernel/events/core.c:3674:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3674:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3674:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:3727:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3727:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3727:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:3728:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3728:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3728:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:4111:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4111:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4111:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:4519:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4519:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4519:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:5008:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:5008:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:5008:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:6651:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6651:9: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6651:9: sparse:    struct perf_buffer *
+>> kernel/events/core.c:5283:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct perf_ctx_data [noderef] __rcu **___op @@     got struct perf_ctx_data **__ai_oldp @@
+>> kernel/events/core.c:5283:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct perf_ctx_data [noderef] __rcu *__new @@     got struct perf_ctx_data *[assigned] cd @@
+   kernel/events/core.c:5294:37: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct perf_ctx_data [noderef] __rcu **___op @@     got struct perf_ctx_data **__ai_oldp @@
+   kernel/events/core.c:6166:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __poll_t [usertype] events @@     got int @@
+   kernel/events/core.c:6402:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6402:22: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6402:22: sparse:    struct perf_buffer *
+   kernel/events/core.c:6526:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6526:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6526:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6559:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6559:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6559:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6672:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6672:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6672:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6688:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6688:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6688:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:8667:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:8667:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:8667:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:8755:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:8755:13: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:8755:13: sparse:    struct perf_buffer *
+   kernel/events/core.c:8859:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:8859:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:8859:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:8861:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:8861:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:8861:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:9597:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9597:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:9597:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:10792:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10792:9: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:10792:9: sparse:    struct swevent_hlist *
+   kernel/events/core.c:10831:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10831:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:10831:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:11106:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:11106:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:11106:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:14213:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:14213:9: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:14213:9: sparse:    struct perf_event_context *
+   kernel/events/core.c:14733:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:14733:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:14733:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:184:9: sparse: sparse: context imbalance in 'perf_ctx_lock' - wrong count at exit
+   kernel/events/core.c:200:9: sparse: sparse: context imbalance in 'perf_ctx_unlock' - unexpected unlock
+   kernel/events/core.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
+   include/linux/rcupdate.h:895:9: sparse: sparse: context imbalance in 'perf_lock_task_context' - different lock contexts for basic block
+   kernel/events/core.c:1533:17: sparse: sparse: context imbalance in 'perf_pin_task_context' - unexpected unlock
+   kernel/events/core.c:3009:9: sparse: sparse: context imbalance in '__perf_install_in_context' - wrong count at exit
+   kernel/events/core.c:4982:17: sparse: sparse: context imbalance in 'find_get_context' - unexpected unlock
+   kernel/events/core.c: note: in included file:
+   kernel/events/internal.h:204:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *src @@
+   kernel/events/core.c:10645:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10645:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:10645:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:10665:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10665:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:10665:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:10781:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10781:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:10781:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:10781:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10781:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:10781:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:10781:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10781:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:10781:16: sparse:    struct swevent_hlist *
 
->> drivers/cxl/core/memctrl/sysram_region.c:83:7: error: call to undeclared function 'offline_and_remove_memory'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      83 |         rc = offline_and_remove_memory(range.start, range_len(&range));
-         |              ^
->> drivers/cxl/core/memctrl/sysram_region.c:153:24: error: use of undeclared identifier 'MMOP_ONLINE_MOVABLE'
-     153 |                 cb_arg.online_type = MMOP_ONLINE_MOVABLE;
-         |                                      ^~~~~~~~~~~~~~~~~~~
->> drivers/cxl/core/memctrl/sysram_region.c:155:8: error: call to undeclared function 'walk_memory_blocks'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     155 |                 rc = walk_memory_blocks(range.start, range_len(&range),
-         |                      ^
->> drivers/cxl/core/memctrl/sysram_region.c:160:24: error: use of undeclared identifier 'MMOP_ONLINE'; did you mean 'MEM_ONLINE'?
-     160 |                 cb_arg.online_type = MMOP_ONLINE;
-         |                                      ^~~~~~~~~~~
-         |                                      MEM_ONLINE
-   include/linux/memory.h:69:2: note: 'MEM_ONLINE' declared here
-      69 |         MEM_ONLINE,             /* exposed to userspace */
-         |         ^
-   drivers/cxl/core/memctrl/sysram_region.c:162:8: error: call to undeclared function 'walk_memory_blocks'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     162 |                 rc = walk_memory_blocks(range.start, range_len(&range),
-         |                      ^
-   drivers/cxl/core/memctrl/sysram_region.c:169:8: error: call to undeclared function 'walk_memory_blocks'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     169 |                 rc = walk_memory_blocks(range.start, range_len(&range),
-         |                      ^
->> drivers/cxl/core/memctrl/sysram_region.c:206:7: error: call to undeclared function 'add_memory_driver_managed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     206 |         rc = add_memory_driver_managed(data->mgid, range.start,
-         |              ^
->> drivers/cxl/core/memctrl/sysram_region.c:208:12: error: use of undeclared identifier 'MHP_NID_IS_MGID'
-     208 |                                        MHP_NID_IS_MGID);
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c:237:7: error: call to undeclared function 'offline_and_remove_memory'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     237 |         if (!offline_and_remove_memory(range.start, range_len(&range))) {
-         |              ^
->> drivers/cxl/core/memctrl/sysram_region.c:240:3: error: call to undeclared function 'memory_group_unregister'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     240 |                 memory_group_unregister(data->mgid);
-         |                 ^
->> drivers/cxl/core/memctrl/sysram_region.c:258:2: error: use of undeclared identifier 'mhp_t'
-     258 |         mhp_t mhp_flags;
-         |         ^~~~~
-   drivers/cxl/core/memctrl/sysram_region.c:302:7: error: call to undeclared function 'memory_group_register_static'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     302 |         rc = memory_group_register_static(numa_node, PFN_UP(total_len));
-         |              ^
-   drivers/cxl/core/memctrl/sysram_region.c:324:2: error: use of undeclared identifier 'mhp_flags'; did you mean 'pci_flags'?
-     324 |         mhp_flags = MHP_NID_IS_MGID;
-         |         ^~~~~~~~~
-         |         pci_flags
-   include/linux/pci.h:1154:21: note: 'pci_flags' declared here
-    1154 | extern unsigned int pci_flags;
-         |                     ^
-   drivers/cxl/core/memctrl/sysram_region.c:324:14: error: use of undeclared identifier 'MHP_NID_IS_MGID'
-     324 |         mhp_flags = MHP_NID_IS_MGID;
-         |                     ^~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c:325:7: error: call to undeclared function 'add_memory_driver_managed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     325 |         rc = add_memory_driver_managed(data->mgid, range.start,
-         |              ^
-   drivers/cxl/core/memctrl/sysram_region.c:326:44: error: use of undeclared identifier 'mhp_flags'; did you mean 'pci_flags'?
-     326 |                                        range_len(&range), sysram_name, mhp_flags);
-         |                                                                        ^~~~~~~~~
-         |                                                                        pci_flags
-   include/linux/pci.h:1154:21: note: 'pci_flags' declared here
-    1154 | extern unsigned int pci_flags;
-         |                     ^
-   drivers/cxl/core/memctrl/sysram_region.c:350:2: error: call to undeclared function 'memory_group_unregister'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     350 |         memory_group_unregister(data->mgid);
-         |         ^
-   17 errors generated.
+vim +5283 kernel/events/core.c
 
-
-vim +/offline_and_remove_memory +83 drivers/cxl/core/memctrl/sysram_region.c
-
-    67	
-    68	static ssize_t hotunplug_store(struct device *dev,
-    69				       struct device_attribute *attr,
-    70				       const char *buf, size_t len)
-    71	{
-    72		struct cxl_region *cxlr = to_cxl_region(dev);
-    73		struct range range;
-    74		int rc;
-    75	
-    76		if (!cxlr)
-    77			return -ENODEV;
-    78	
-    79		rc = cxl_sysram_range(cxlr, &range);
-    80		if (rc)
-    81			return rc;
-    82	
-  > 83		rc = offline_and_remove_memory(range.start, range_len(&range));
-    84	
-    85		if (rc)
-    86			return rc;
-    87	
-    88		return len;
-    89	}
-    90	static DEVICE_ATTR_WO(hotunplug);
-    91	
-    92	struct online_memory_cb_arg {
-    93		int online_type;
-    94		int rc;
-    95	};
-    96	
-    97	static int online_memory_block_cb(struct memory_block *mem, void *arg)
-    98	{
-    99		struct online_memory_cb_arg *cb_arg = arg;
-   100	
-   101		if (signal_pending(current))
-   102			return -EINTR;
-   103	
-   104		cond_resched();
-   105	
-   106		if (mem->state == MEM_ONLINE)
-   107			return 0;
-   108	
-   109		mem->online_type = cb_arg->online_type;
-   110		cb_arg->rc = device_online(&mem->dev);
-   111	
-   112		return cb_arg->rc;
-   113	}
-   114	
-   115	static int offline_memory_block_cb(struct memory_block *mem, void *arg)
-   116	{
-   117		int *rc = arg;
-   118	
-   119		if (signal_pending(current))
-   120			return -EINTR;
-   121	
-   122		cond_resched();
-   123	
-   124		if (mem->state == MEM_OFFLINE)
-   125			return 0;
-   126	
-   127		*rc = device_offline(&mem->dev);
-   128	
-   129		return *rc;
-   130	}
-   131	
-   132	static ssize_t state_store(struct device *dev,
-   133				   struct device_attribute *attr,
-   134				   const char *buf, size_t len)
-   135	{
-   136		struct cxl_region *cxlr = to_cxl_region(dev);
-   137		struct online_memory_cb_arg cb_arg;
-   138		struct range range;
-   139		int rc;
-   140	
-   141		if (!cxlr)
-   142			return -ENODEV;
-   143	
-   144		rc = cxl_sysram_range(cxlr, &range);
-   145		if (rc)
-   146			return rc;
-   147	
-   148		rc = lock_device_hotplug_sysfs();
-   149		if (rc)
-   150			return rc;
-   151	
-   152		if (sysfs_streq(buf, "online")) {
- > 153			cb_arg.online_type = MMOP_ONLINE_MOVABLE;
-   154			cb_arg.rc = 0;
- > 155			rc = walk_memory_blocks(range.start, range_len(&range),
-   156						&cb_arg, online_memory_block_cb);
-   157			if (!rc)
-   158				rc = cb_arg.rc;
-   159		} else if (sysfs_streq(buf, "online_normal")) {
- > 160			cb_arg.online_type = MMOP_ONLINE;
-   161			cb_arg.rc = 0;
-   162			rc = walk_memory_blocks(range.start, range_len(&range),
-   163						&cb_arg, online_memory_block_cb);
-   164			if (!rc)
-   165				rc = cb_arg.rc;
-   166		} else if (sysfs_streq(buf, "offline")) {
-   167			int offline_rc = 0;
-   168	
-   169			rc = walk_memory_blocks(range.start, range_len(&range),
-   170						&offline_rc, offline_memory_block_cb);
-   171			if (!rc)
-   172				rc = offline_rc;
-   173		} else {
-   174			rc = -EINVAL;
-   175		}
-   176	
-   177		unlock_device_hotplug();
-   178	
-   179		if (rc)
-   180			return rc;
-   181	
-   182		return len;
-   183	}
-   184	static DEVICE_ATTR_WO(state);
-   185	
-   186	static ssize_t hotplug_store(struct device *dev,
-   187				     struct device_attribute *attr,
-   188				     const char *buf, size_t len)
-   189	{
-   190		struct cxl_region *cxlr = to_cxl_region(dev);
-   191		struct cxl_sysram_data *data;
-   192		struct range range;
-   193		int rc;
-   194	
-   195		if (!cxlr)
-   196			return -ENODEV;
-   197	
-   198		data = dev_get_drvdata(dev);
-   199		if (!data)
-   200			return -ENODEV;
-   201	
-   202		rc = cxl_sysram_range(cxlr, &range);
-   203		if (rc)
-   204			return rc;
-   205	
- > 206		rc = add_memory_driver_managed(data->mgid, range.start,
-   207					       range_len(&range), sysram_name,
- > 208					       MHP_NID_IS_MGID);
-   209		if (rc)
-   210			return rc;
-   211	
-   212		return len;
-   213	}
-   214	static DEVICE_ATTR_WO(hotplug);
-   215	
-   216	static struct attribute *cxl_sysram_region_attrs[] = {
-   217		&dev_attr_hotunplug.attr,
-   218		&dev_attr_state.attr,
-   219		&dev_attr_hotplug.attr,
-   220		NULL,
-   221	};
-   222	
-   223	static const struct attribute_group cxl_sysram_region_group = {
-   224		.name = "memctl",
-   225		.attrs = cxl_sysram_region_attrs,
-   226	};
-   227	
-   228	static void cxl_sysram_unregister(void *_data)
-   229	{
-   230		struct cxl_sysram_data *data = _data;
-   231		struct range range = {
-   232			.start = data->res->start,
-   233			.end = data->res->end
-   234		};
-   235	
-   236		/* We have one shot for removal, otherwise it's stuck til reboot */
-   237		if (!offline_and_remove_memory(range.start, range_len(&range))) {
-   238			remove_resource(data->res);
-   239			kfree(data->res);
- > 240			memory_group_unregister(data->mgid);
-   241			kfree(data->res_name);
-   242			kfree(data);
-   243			return;
-   244		}
-   245		pr_err("CXL: %#llx-%#llx cannot be hotremoved until next reboot\n",
-   246		       range.start, range.end);
-   247	}
-   248	
-   249	int devm_cxl_add_sysram_region(struct cxl_region *cxlr)
-   250	{
-   251		struct cxl_region_params *p = &cxlr->params;
-   252		struct device *dev = &cxlr->dev;
-   253		struct cxl_sysram_data *data;
-   254		struct memory_dev_type *mtype;
-   255		unsigned long total_len = 0;
-   256		struct resource *res;
-   257		struct range range;
- > 258		mhp_t mhp_flags;
+  5271	
+  5272	static int
+  5273	attach_task_ctx_data(struct task_struct *task, struct kmem_cache *ctx_cache,
+  5274			     bool global)
+  5275	{
+  5276		struct perf_ctx_data *cd, *old = NULL;
+  5277	
+  5278		cd = alloc_perf_ctx_data(ctx_cache, global);
+  5279		if (!cd)
+  5280			return -ENOMEM;
+  5281	
+  5282		for (;;) {
+> 5283			if (try_cmpxchg(&task->perf_ctx_data, &old, cd)) {
+  5284				if (old)
+  5285					perf_free_ctx_data_rcu(old);
+  5286				/*
+  5287				 * Above try_cmpxchg() pairs with try_cmpxchg() from
+  5288				 * detach_task_ctx_data() such that
+  5289				 * if we race with perf_event_exit_task(), we must
+  5290				 * observe PF_EXITING.
+  5291				 */
+  5292				if (task->flags & PF_EXITING) {
+  5293					/* detach_task_ctx_data() may free it already */
+  5294					if (try_cmpxchg(&task->perf_ctx_data, &cd, NULL))
+  5295						perf_free_ctx_data_rcu(cd);
+  5296				}
+  5297				return 0;
+  5298			}
+  5299	
+  5300			if (!old) {
+  5301				/*
+  5302				 * After seeing a dead @old, we raced with
+  5303				 * removal and lost, try again to install @cd.
+  5304				 */
+  5305				continue;
+  5306			}
+  5307	
+  5308			if (refcount_inc_not_zero(&old->refcount)) {
+  5309				free_perf_ctx_data(cd); /* unused */
+  5310				return 0;
+  5311			}
+  5312	
+  5313			/*
+  5314			 * @old is a dead object, refcount==0 is stable, try and
+  5315			 * replace it with @cd.
+  5316			 */
+  5317		}
+  5318		return 0;
+  5319	}
+  5320	
 
 -- 
 0-DAY CI Kernel Test Service
