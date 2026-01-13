@@ -1,82 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D22D257845
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 01:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA92157480
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 01:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768266470; cv=none; b=GzzrzdDIsIKyzDFX2lvDsaoxAtwrOt0ClG+pHmk36nIZsadWQGaPqLms3jB6nlrCMfvKMFX8HrUVxD4adyMCzwaxc0rocuUxi/NuMcsW/9X4+EYxrcQNVbvHlgYGW/xb/tQnV62rVlNKDWF43NHsnfyx7uiS/pUETlziAQDomcE=
+	t=1768268602; cv=none; b=QEs5Xr8d1Qbns5D5QINZ7ig0wMbYIfXazhfKJOxkU2iteciy9w+Xh79lBKZ6fIiDyIuL8ytAnrDJLVWWULEqpVGh4n51ZsRDAB10n0XuviBJd31DuRjICkFaBdeoNLjLbh4Yg8fxw1hARHYHTS2cImqZ0zVoyrdVf/xmvV9n8oA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768266470; c=relaxed/simple;
-	bh=pasdr/Bxpr2+ZBSmpSTDy2zcxSRWUmm9S9zqpYi6x34=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NAVyjj10quaFb4o/UoM7BSsDOySUbutI+OJhTaxJI8Ea7fA/TsNtxP3rIo4BIyfUo+/UTClQF63mibMl5lk4ySgxpfZfXFEpPTx/4l3+qHGrmCIm51cYMeAmLma+vUvGifcepV26hPgnCIeZ1ziLO7iXVImkfzN8wXQVV8DQRcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MnaIU8jw; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768268602; c=relaxed/simple;
+	bh=AzGYY8TVf6kHgCekFCUzEbv5VDS1oXckWndMM4wUWIQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HYBzkwkkUlZj4Te2kFUovSnAKmjE9UJu1IxwIIHTSvn93U54UOiz77pjmAdOgeW7CQh0GTOsYCKk4K5bSHfm04QLwEJT7jRae+Q/dfcAp98Z05M68I0vbzzleKIHwvzMYYRHiLkV3coV5agNe81yFa0+a1wVF7+rwlIhgTFSt/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WAnavtjN; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MnaIU8jw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768266469; x=1799802469;
-  h=date:from:to:cc:subject:message-id;
-  bh=pasdr/Bxpr2+ZBSmpSTDy2zcxSRWUmm9S9zqpYi6x34=;
-  b=MnaIU8jwjRQd2QMneERHeDq5xG9uMWvhpes2QJ1kfcu1Gwsxq0T6dz6F
-   st779GaSYjgNZitr4Yi7zAMMPbAoNf5gU27sz3D+oYlYnIexGMITHouYB
-   432LHplxDm8CdBybJcWzYyyjnMgkL/Xdmy+uzANMpo9fv5hucwPta/7xt
-   Gkm5TCoaOZNwczusXT91D+NyqjxKgR57N3iPPgTRlYFnQYs3jwOw/WoZ4
-   txTcbMTIILUgphymkvNwcJO2sWFaJNrVLF3A3TgVNKeVGby17I+uHtDXg
-   yVAS0BmLCmhjitRlhYKglFyXJl/S/TBptzHj+Ln7pdWyCn/fogjsrIa5g
-   Q==;
-X-CSE-ConnectionGUID: apulhSSPSa2dCaPSTljJrQ==
-X-CSE-MsgGUID: NHtp9IuRSA2hwV10AXhHvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80999318"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="80999318"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 17:07:47 -0800
-X-CSE-ConnectionGUID: FfAFI9uaTOGctp29fE6d3Q==
-X-CSE-MsgGUID: kP/JhsbuTmSpR2VgGzZ8aQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="203448147"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Jan 2026 17:07:45 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfSsp-00000000E3E-0RTZ;
-	Tue, 13 Jan 2026 01:07:43 +0000
-Date: Tue, 13 Jan 2026 09:06:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hongzhen Luo <hongzhen@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev, Xiang Gao <xiang@kernel.org>,
- Hongbo Li <lihongbo22@huawei.com>
-Subject: [xiang:erofs/pagecache-share 7/10] ishare.c:undefined
- reference to `z_erofs_aops'
-Message-ID: <202601130827.dHbGXL3Y-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WAnavtjN"
+Message-ID: <39acf3ae-031e-41fe-8343-9445775f312c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768268599;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HlY+CfNE9yvpYaQbltrehDKBAIWVYvJbFw7ICzfvQHs=;
+	b=WAnavtjN1+zzKw4FnoeX0yz4HzyCQ7l3gW29koNOFbo8Zn1rd132wS6VXPuiccj09DukFR
+	DQa9tTNenc+jK1CJJX2Rvy95LPOqU7GeSjJIRiLLDmi90sMXRQi4rmbj5Dql2r6uMQ+Qq/
+	KB67rxnIDrFeqvIYT0uMhIXiZ3RJ/V0=
+Date: Tue, 13 Jan 2026 09:43:02 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Subject: Re: [PATCH bpf-next 2/3] bpf: Introduce BPF_BRANCH_SNAPSHOT_F_COPY
+ flag for bpf_get_branch_snapshot helper
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, bpf@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, "David S . Miller" <davem@davemloft.net>,
+ David Ahern <dsahern@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Matt Bobrowski
+ <mattbobrowski@google.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+References: <20260109153420.32181-3-leon.hwang@linux.dev>
+ <202601122013.hmoeIXXs-lkp@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Leon Hwang <leon.hwang@linux.dev>
+In-Reply-To: <202601122013.hmoeIXXs-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/linux.git erofs/pagecache-share
-head:   1fd57384c2a516c6a572e45ff299459be4caec29
-commit: 4a4f51597bf91590953985eb287d6664d40b7b82 [7/10] erofs: introduce the page cache share feature
-config: csky-randconfig-r132-20260113 (https://download.01.org/0day-ci/archive/20260113/202601130827.dHbGXL3Y-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601130827.dHbGXL3Y-lkp@intel.com/reproduce)
+Hi kernel test robot,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601130827.dHbGXL3Y-lkp@intel.com/
+Thanks for the test results.
 
-All errors (new ones prefixed by >>):
+No further testing is needed for this patch series, as it will not be
+pursued further and is not expected to be accepted upstream.
 
-   csky-linux-ld: fs/erofs/ishare.o: in function `erofs_ishare_free_inode':
->> ishare.c:(.text+0x418): undefined reference to `z_erofs_aops'
+Thanks again for the testing effort.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Leon
+
+On 13/1/26 03:22, kernel test robot wrote:
+> Hi Leon,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on bpf-next/master]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Hwang/bpf-x64-Call-perf_snapshot_branch_stack-in-trampoline/20260109-234435
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+> patch link:    https://lore.kernel.org/r/20260109153420.32181-3-leon.hwang%40linux.dev
+> patch subject: [PATCH bpf-next 2/3] bpf: Introduce BPF_BRANCH_SNAPSHOT_F_COPY flag for bpf_get_branch_snapshot helper
+> config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260112/202601122013.hmoeIXXs-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260112/202601122013.hmoeIXXs-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601122013.hmoeIXXs-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> ld.lld: error: undefined symbol: bpf_branch_snapshot
+>    >>> referenced by bpf_trace.c:1182 (kernel/trace/bpf_trace.c:1182)
+>    >>>               vmlinux.o:(bpf_get_branch_snapshot)
+>    >>> referenced by bpf_trace.c:0 (kernel/trace/bpf_trace.c:0)
+>    >>>               vmlinux.o:(bpf_get_branch_snapshot)
+> 
+
