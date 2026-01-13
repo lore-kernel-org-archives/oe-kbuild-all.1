@@ -1,145 +1,140 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8118F34DCE3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 16:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A72235292C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 17:37:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768323546; cv=none; b=rP4FkO29zt0ZZpWaByHp253ARQc1xIf4Vl/xJJrtIhS0jHZTeIcgUEOC7JjLlghMPFGpgTgvBrcCoQFNKBWJeRszGRr1cKmvtrwOwtnoVRf4W86BqYkdrEk+cOrOaQx0/WX/Nq9f442PM+MnFi8WhyDuqAx73WP4VrruHsPmLPk=
+	t=1768325833; cv=none; b=FZlWS10kvtMKFFhFGZZb2W0J14NE/RVR5K4Ua9x5Gf1jP+z71r2JgNlRSc5UCLIkMGlF7W3TMdFBFnCZGeiuTLe7Mq3Ikj5AkYH6N0UAMCoSYV6oVCXUdkCA+0N2iTxWXZdMOps/tRH4eqv3QJCcvHRDTujqX6mv+L9Y0wBAsN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768323546; c=relaxed/simple;
-	bh=dGFiPiX9oyqIbldoXASC+trXvPT6WEpWtDuTsmBJmK4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RaTPmVKhK94co4VFU7CAmUNxtLcfKt/9HMsk6I4JFU9kCWGFYId5DZhrhSgSnlC+ezhK3BRJNBlQHKFBhNOST+Pn204+QiknUnMDY0gG/4we03bLlzGB/JnXbdeQ+Gv1bMBsRkKPbMi5Xe2y86EvpHQUM0YAifSczAfKW6wYgBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d+4IhIQj; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768325833; c=relaxed/simple;
+	bh=Ld4Jn61VdcZeP8PY6XuXZoV9sXC76lbAh4O5X0GMSUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ucr1u9AM37kxvxE1dhign+NuNi+vbVC30UVH/oc7clgsO79Px/W5fs4bymP64x0s+ouncebGFfGNONR6pPpMgYWlwhkpNeGXuGS5p1DS7FFyHWVJygnJq8VVS7xLHvarG0KL5RRyY/6hyVFBspAbl58N6mmIr6M1pbmH0lZExcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OIoToTVN; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0qp0nOlw; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d+4IhIQj"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-34c565b888dso6561073a91.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 08:59:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768323545; x=1768928345; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PFc7ba3Q+6rwdsqcpbP0+Kowu7y/5i77jGWTDXGB1zs=;
-        b=d+4IhIQjEsz/sd9rzZ/ievXanT0po9CCMgzDEH6cwd55uw7ZTGBNRSYl07DGA/GUS3
-         GA1uLspTffzAW0DLP2Ptck8q27LA19wPtjFxrJ6l4z9Mwye2BKzU+BxO0WyhWLnCQcLe
-         Ye/VfM2chvwxBy8054ljyL5CPqBGMZ/evmMD9p6BuUyLDM3U5DaiJLQ4Jhy38oJaOkub
-         Wpha65AsuH5kX5hjKI7FgNNti8YPiLainZm0pEPdJ5rdfXUeQCmJhjEYVl8TNIESMpg6
-         /K5gPMBlEgwlSvI8d+MqD5yUnrwWMRMb+NdgBxgrfgRWD31pQCUpqy1htSwXiPp++1JY
-         1aXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768323545; x=1768928345;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PFc7ba3Q+6rwdsqcpbP0+Kowu7y/5i77jGWTDXGB1zs=;
-        b=Lw+ZpU2LfHEQ9O9J1qBpJg3zPSfWIm0iu0OkTz5ykDW8teh8x7sKcukex5TnNMtNZH
-         6bpHZPUeNxbU7KLQiogzwbpxi32mipPjR8BvO7VD1GtAWcSHSpV0/GVXbyaRXAfPZFzU
-         TuiTy5jM+wZx47eFtrQi09tuLh4p4fx0f6d7hD4r9+ZKiD/msQ08Oy7zvsFBTkxM6GTM
-         twUBL2AmO2sajRUZYDn3SZ894kga52wQyvKD62saasuOVufdnnFey1lWP9XDYW+e2gKt
-         3heL4Tr6BhUAMdOA5jhIYa5DPRNJnH9SR9lLnGNMQJdEG/RFgFEBtRlVlBwJJByAzRNh
-         +0dA==
-X-Forwarded-Encrypted: i=1; AJvYcCXEli6hjHphDgQbA1SNY+Kv93dGdLiwfPF2/R22wrnxZCno24z+ae8MfG7OkdsFmUUkAGU0hz56/weC2GhE@lists.linux.dev
-X-Gm-Message-State: AOJu0YznyBqS7Qcb+uvfigH/zmETXHENsCOFm0gdguKSYkVdlgk2RjNs
-	ha7p8NdHcGjITp5wbrFeppd7i3RpRl/E0Tx1x4nPT7GThK6UlNRQUqO4mIdgBkdincPazw8Lwlf
-	SPrh+tgYOApU/U83JWYHBM1UEP8UGzMI=
-X-Gm-Gg: AY/fxX75zhthtG1SXRBoSd1GwCNUyO+yK5h0r7luK0VSqDhZrZBWsPvN6owLLKqpib/
-	GVgFbW7gt0prxhQGoD5Xwt4X8sMsWlR2ALm4/hAO7xQflz0YtrZhuETgamM6+6MbOaeo8xXwJla
-	DC2vS+Mqce4dl8TEYiUIwPimr3gb0+CgLhgYNoiNyF5CD4AGMWF6G+bX2kGr2JGd3wMu0xq4ANS
-	CvmpSYZNyuz7jVrJMlKHjP8zoF0dtd4Os5u7kdX/DrBcT6WGbOc+bRQWTazvGS/D+kxRy0K/2wm
-	ruIozm0zpyE=
-X-Google-Smtp-Source: AGHT+IFPew82EwGZa361uBMLyM+mlCe5BXn/vPDOD1axYiZaYSYQ7bu2rg4mPqaIK5vpj+A8TfE2zjB3Qc7Xn6K806k=
-X-Received: by 2002:a17:90b:1f8e:b0:341:8ac7:24d3 with SMTP id
- 98e67ed59e1d1-34f68c7ff8emr19297950a91.34.1768323544830; Tue, 13 Jan 2026
- 08:59:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OIoToTVN";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0qp0nOlw"
+Date: Tue, 13 Jan 2026 18:37:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1768325829;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ef18KFE0hVlNY0ybnes0hIsI75xpE/CByJDj4OoqBcg=;
+	b=OIoToTVNNbi+4JmivIdGgVAgpeONXD1sNpKs7PUXAsT/AspFlqv8PEVt/E5e2NQFBPGOsT
+	W1LTRoXuqIZtAFYxV/zpLQufxEeRZe8ypcthubEDpsD4aRH3LEBuL2XfbkA4EHkMu6vq82
+	uCJU3Ev00botPhIby7tprBnGTOZbsJeHr2AFPMnDwXv1uN6j55C2/A/3jWD+tPRznVAoCf
+	1KNm7N+En68zoEGZoIUXEeXGrUYeq4Kt0Rwbdzyem+KvBGTnkXi46bAwqgj2CeOOXEQEfc
+	qJyIEfdqZ+w5gwnnDItiQIjzT5gsmAYkyGfakYzgvpM92ybOyVkjfrFU2VuSiw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1768325829;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ef18KFE0hVlNY0ybnes0hIsI75xpE/CByJDj4OoqBcg=;
+	b=0qp0nOlwV0QAk8Z/vVPHPCnnHyPfuIWHr0Fhgfe6PN/h7eZ2c0w14XJd++T3r+C/VNyeLw
+	ffvkAaD9ZzvZ17CQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: kernel/futex/core.c:505:38: sparse: sparse: cast removes address
+ space '__user' of expression
+Message-ID: <20260113173708.HMfBY0wF@linutronix.de>
+References: <202601131901.j7WJ9OeZ-lkp@intel.com>
+ <20260113115946.L49jwJMx@linutronix.de>
+ <20260113121040.GC831050@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202601131740.6C3BdBaB-lkp@intel.com>
-In-Reply-To: <202601131740.6C3BdBaB-lkp@intel.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Tue, 13 Jan 2026 08:58:52 -0800
-X-Gm-Features: AZwV_QjVLMlxOgnBM_7gyFF17Rh_T7vccR7D_JHPK4ZLbf87SAXnRZZCnsN6PFE
-Message-ID: <CAEf4BzbSNo2MR9i-=_5tk3PV_QofSZM7_+0Ek7rqP3VjVt9e4Q@mail.gmail.com>
-Subject: Re: kernel/trace/bpf_trace.c:3619:52: sparse: sparse: cast removes
- address space '__user' of expression
-To: kernel test robot <lkp@intel.com>
-Cc: Mykyta Yatsenko <yatsenko@meta.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>, 
-	Andrii Nakryiko <andrii@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260113121040.GC831050@noisy.programming.kicks-ass.net>
 
-On Tue, Jan 13, 2026 at 1:17=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   b71e635feefc852405b14620a7fc58c4c80c0f73
-> commit: a498ee7576de24b4b0916ce56cf2686e261a29f7 bpf: Implement dynptr co=
-py kfuncs
-> date:   8 months ago
-> config: i386-randconfig-063-20260113 (https://download.01.org/0day-ci/arc=
-hive/20260113/202601131740.6C3BdBaB-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20260113/202601131740.6C3BdBaB-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601131740.6C3BdBaB-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->    kernel/trace/bpf_trace.c:835:41: sparse: sparse: incorrect type in ass=
-ignment (different address spaces) @@     expected void [noderef] __user *[=
-addressable] [assigned] [usertype] sival_ptr @@     got void * @@
->    kernel/trace/bpf_trace.c:835:41: sparse:     expected void [noderef] _=
-_user *[addressable] [assigned] [usertype] sival_ptr
->    kernel/trace/bpf_trace.c:835:41: sparse:     got void *
-> >> kernel/trace/bpf_trace.c:3619:52: sparse: sparse: cast removes address=
- space '__user' of expression
->    kernel/trace/bpf_trace.c:3633:56: sparse: sparse: cast removes address=
- space '__user' of expression
->    kernel/trace/bpf_trace.c:3647:52: sparse: sparse: cast removes address=
- space '__user' of expression
->    kernel/trace/bpf_trace.c:3654:56: sparse: sparse: cast removes address=
- space '__user' of expression
->    kernel/trace/bpf_trace.c:3662:52: sparse: sparse: cast removes address=
- space '__user' of expression
->    kernel/trace/bpf_trace.c:3670:56: sparse: sparse: cast removes address=
- space '__user' of expression
+On 2026-01-13 13:10:40 [+0100], Peter Zijlstra wrote:
+> Its here and a few lines down with the same thing I think. The cast is
+> to get byte pointer math, instead of u32 sized pointer math. Both the
+> original uaddr and naddr have the __user thing on, but that intermediate
+> cast trips it up.
+> 
+> Does this work?
 
-this is intentional, but what if we cast void __user * to long and
-then to void *, would that go away? Mykyta, do you mind trying?
+Yes. It removes the __user thing warning which leaves us with
+| kernel/futex/requeue.c:692:9: warning: context imbalance in 'futex_requeue' - different lock contexts for basic block
+| kernel/futex/requeue.c:841:25: warning: context imbalance in 'futex_wait_requeue_pi' - unexpected unlock
+| kernel/futex/pi.c:663:9: warning: context imbalance in 'wake_futex_pi' - unexpected unlock
+| kernel/futex/pi.c:791:9: warning: context imbalance in '__fixup_pi_state_owner' - unexpected unlock
+| kernel/futex/pi.c:1093:17: warning: context imbalance in 'futex_lock_pi' - unexpected unlock
+| kernel/futex/pi.c:1132:5: warning: context imbalance in 'futex_unlock_pi' - different lock contexts for basic block
+| kernel/futex/waitwake.c:275:41: warning: context imbalance in 'futex_wake_op' - different lock contexts for basic block
+| kernel/futex/waitwake.c:460:44: warning: context imbalance in 'futex_wait_multiple_setup' - unexpected unlock
+| kernel/futex/waitwake.c:660:28: warning: context imbalance in 'futex_wait_setup' - unexpected unlock
+| kernel/futex/core.c:979:9: warning: context imbalance in 'futex_q_lockptr_lock' - wrong count at exit
 
->    kernel/trace/bpf_trace.c: note: in included file (through include/linu=
-x/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
->    include/linux/rcupdate.h:871:25: sparse: sparse: context imbalance in =
-'uprobe_prog_run' - unexpected unlock
->
-> vim +/__user +3619 kernel/trace/bpf_trace.c
->
->   3615
->   3616  __bpf_kfunc int bpf_probe_read_user_dynptr(struct bpf_dynptr *dpt=
-r, u32 off,
->   3617                                             u32 size, const void _=
-_user *unsafe_ptr__ign)
->   3618  {
-> > 3619          return __bpf_dynptr_copy(dptr, off, size, (const void *)u=
-nsafe_ptr__ign,
->   3620                                   copy_user_data_nofault, NULL);
->   3621  }
->   3622
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+With the following I get it down to:
+
+| kernel/futex/waitwake.c:275:41: warning: context imbalance in 'futex_wake_op' - different lock contexts for basic block
+| kernel/futex/requeue.c:692:9: warning: context imbalance in 'futex_requeue' - different lock contexts for basic block
+double_lock_hb() + double_unlock_hb()
+
+| kernel/futex/pi.c:792:9: warning: context imbalance in '__fixup_pi_state_owner' - unexpected unlock
+raw_spin_unlock_irq(&pi_state->pi_mutex.wait_lock) + lock in a label.
+
+which I give up on. I remember you said once that llvm will get support
+for it so we can bury sparse but I don't remember if it was __user or
+the lock lock annotation. Any all of these are "old".
+
+diff --git a/kernel/futex/core.c b/kernel/futex/core.c
+index 3961d256c79c4..6911d60fc5815 100644
+--- a/kernel/futex/core.c
++++ b/kernel/futex/core.c
+@@ -965,6 +965,7 @@ int futex_unqueue(struct futex_q *q)
+ }
+ 
+ void futex_q_lockptr_lock(struct futex_q *q)
++	__acquires(q->lock_ptr)
+ {
+ 	spinlock_t *lock_ptr;
+ 
+diff --git a/kernel/futex/futex.h b/kernel/futex/futex.h
+index 99595742c9941..1eba1a7a80efd 100644
+--- a/kernel/futex/futex.h
++++ b/kernel/futex/futex.h
+@@ -217,7 +217,7 @@ enum futex_access {
+ 
+ extern int get_futex_key(void __user *uaddr, unsigned int flags, union futex_key *key,
+ 			 enum futex_access rw);
+-extern void futex_q_lockptr_lock(struct futex_q *q);
++extern void futex_q_lockptr_lock(struct futex_q *q) __acquires(q->lock_ptr);
+ extern struct hrtimer_sleeper *
+ futex_setup_timer(ktime_t *time, struct hrtimer_sleeper *timeout,
+ 		  int flags, u64 range_ns);
+@@ -358,8 +358,8 @@ static inline int futex_hb_waiters_pending(struct futex_hash_bucket *hb)
+ #endif
+ }
+ 
+-extern void futex_q_lock(struct futex_q *q, struct futex_hash_bucket *hb);
+-extern void futex_q_unlock(struct futex_hash_bucket *hb);
++extern void futex_q_lock(struct futex_q *q, struct futex_hash_bucket *hb) __acquires(&hb->lock);
++extern void futex_q_unlock(struct futex_hash_bucket *hb) __releases(&hb->lock);
+ 
+ 
+ extern int futex_lock_pi_atomic(u32 __user *uaddr, struct futex_hash_bucket *hb,
+diff --git a/kernel/futex/pi.c b/kernel/futex/pi.c
+index dacb2330f1fbc..6a93a5eb5a0ab 100644
+--- a/kernel/futex/pi.c
++++ b/kernel/futex/pi.c
+@@ -614,6 +614,7 @@ int futex_lock_pi_atomic(u32 __user *uaddr, struct futex_hash_bucket *hb,
+ static int wake_futex_pi(u32 __user *uaddr, u32 uval,
+ 			 struct futex_pi_state *pi_state,
+ 			 struct rt_mutex_waiter *top_waiter)
++	__releases(q->lock_ptr)
+ {
+ 	struct task_struct *new_owner;
+ 	bool postunlock = false;
