@@ -1,163 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B685138E11C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 11:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDFE35B12B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 11:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768305302; cv=none; b=mWRaXJhHRTCLt90EChx/Sw6DAZiET1Fq+W2dT9X/77Fw6y0lebHD3pam/iY2Gh/wuYlg1pQmSCU6UHHkADiThof79HNYPtJYAbsItGCVxmaujxhkGR0tCimsw/AL6M3hspnUicwFP+7tChehi+Pn3YUFL8nLtNk6TtlXxmXPE4c=
+	t=1768305590; cv=none; b=Cv34B3rLVvFMgMViathsBvQNBGtYS56HucZCM8PkxSfutjlA+oekFZxqzHS5EbTWCElvHf7PgTNU+gXovH2oSc2jCVws6hgKkK2pxfAQsEX/pMkIZFXCqx1u+Q/KPcRPX8pGMMbQsjDvCdCRGR3eZCP5tZeXXIV9WF+VxUyyB34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768305302; c=relaxed/simple;
-	bh=uKqzLnRhJDqBS/ZeUjor7SGwJF6cuwdo3d+Fl7Yw/Lo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=A9Q3vqPAMWCQ9adtnXxSPQIJQc05GRtDEmnTaUmk3RW0e3yU6fhVzxqk2dEiFskoYsEc15myTu/TjqTjErdWNaCsT5zDD/+PBoMjsmc64Fd2n0Ooh+IVOQF3ciX7ys0vSacANBLa0jynHIgw7qrjGxGCG7UmU6w50QNs6OIZxgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O/PLv1UC; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768305590; c=relaxed/simple;
+	bh=NjWBMa2jjXNfAsOjbZaZAYP7zCKPzu/li+AWxKmNkYo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ffl2nlipwmQLM5XnxNAw/02SqYdHYrIIlgPNjnCmpGmdvIKwg9MyXyrpbCAoJMz/X2rAGUP8ft/c60/NNyeb4aAcxH5zaFS6zp/XRk/HkbGjFzIjewvI5jVwUHv8r+qZFag3RtMtMH6uVmLjfbR+DZoHZHV4dvJ4nLXycEDMhi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jfJfNSLP; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0Esf+ndc; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O/PLv1UC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768305300; x=1799841300;
-  h=date:from:to:cc:subject:message-id;
-  bh=uKqzLnRhJDqBS/ZeUjor7SGwJF6cuwdo3d+Fl7Yw/Lo=;
-  b=O/PLv1UCW0kurfefDiSJyRYPjVGjk4NDajxmM92NvEcG2rLCFuo1k53g
-   lnNbyeIhFF9cCMFvwIqf6wquYS5MpJLljs4o58lpvv705YziXQhQ1CPG4
-   bDNGpM0II65k6Tdcm3skFZmD7gvvg5OlI0N0mY3JpzB19SUfnCs0Amj1b
-   Ryu5x2NzudMTsLh46NB+SbGNoaBDjgPTLU4+Cy4g4GCqOfrm8rU8HTRv7
-   w6RwK6/GsKDekVBdDaOapxsBIbEOkLAnI6cm5OfJSkFt6ElhtvJsSWT9d
-   xosncHcgn6aHeqRRn7UMqYExVmz2CmzKGyhYAsdOKWkzw1U2KR04wIdzf
-   A==;
-X-CSE-ConnectionGUID: VV/M4Y48Q0yp4QRluTMGVQ==
-X-CSE-MsgGUID: L4xyYE2PTRyUaM8BvBA9cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="95061781"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="95061781"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 03:55:00 -0800
-X-CSE-ConnectionGUID: Xpqo+KObQIiVozvR3DZYsQ==
-X-CSE-MsgGUID: Am0gQjb3SSuZcfifiCX5qA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="209197094"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Jan 2026 03:54:58 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfcz9-00000000Egw-49YJ;
-	Tue, 13 Jan 2026 11:54:55 +0000
-Date: Tue, 13 Jan 2026 19:54:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Quinn Tran <qutran@marvell.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Nilesh Javali <njavali@marvell.com>,
- Himanshu Madhani <himanshu.madhani@oracle.com>
-Subject: drivers/scsi/qla2xxx/qla_dfs.c:521:35: sparse: sparse: Using
- plain integer as NULL pointer
-Message-ID: <202601131955.wPmFqPoY-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jfJfNSLP";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0Esf+ndc"
+Date: Tue, 13 Jan 2026 12:59:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1768305587;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Wpxv6MMA4Wy69fITrcyL9dXIhJmqxlTo0Pw5fdLwFnA=;
+	b=jfJfNSLPcwWG2pU2FIGoI4F/L+5N+SwLvyfarM1nhAQ0qFUWp13L5jx2kQg/wPuqd9N7FQ
+	Jza5z8U1RItiiA/GDxsJ+M4FlXG50R9kZ2Uxn9152pmlVs7R2/Q8MlJWTfWvTwkiEZFZgw
+	VUoTiSgclcWphGatFgs/J9NMd8xuhDMdaO0zp/xFkW1FYdQbGiESrAtCubmDYymCYYsWjO
+	5CuLmiUi8HDyKXjsbk2VYlhCl8yWvbWHKEEe5Yl2vdpOf5oVJeWiZQORAfg2C5DOg+zvOT
+	Dayxqmk+M15gfuvgnOsvjK53+vtUTZ6bYOaO7kvmm5qpiIQUd2K6rInp75uXBw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1768305587;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Wpxv6MMA4Wy69fITrcyL9dXIhJmqxlTo0Pw5fdLwFnA=;
+	b=0Esf+ndc9oiYzre9q05RJcoEjjfc9P2UkFTXFyrpx5K09Kt5cVtkVTQzP4A3bf4kBb6Df3
+	WegP9pPBy2jodCCA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: kernel test robot <lkp@intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: kernel/futex/core.c:505:38: sparse: sparse: cast removes address
+ space '__user' of expression
+Message-ID: <20260113115946.L49jwJMx@linutronix.de>
+References: <202601131901.j7WJ9OeZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <202601131901.j7WJ9OeZ-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b71e635feefc852405b14620a7fc58c4c80c0f73
-commit: 841df27d619ee1f5ca6473e15227b39d6136562d scsi: qla2xxx: Move FCE Trace buffer allocation to user control
-date:   1 year, 1 month ago
-config: i386-randconfig-063-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131955.wPmFqPoY-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131955.wPmFqPoY-lkp@intel.com/reproduce)
+On 2026-01-13 19:22:40 [+0800], kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   b71e635feefc852405b14620a7fc58c4c80c0f73
+> commit: cec199c5e39bde7191a08087cc3d002ccfab31ff futex: Implement FUTEX2_=
+NUMA
+> date:   9 months ago
+> config: arm64-randconfig-r123-20260113 (https://download.01.org/0day-ci/a=
+rchive/20260113/202601131901.j7WJ9OeZ-lkp@intel.com/config)
+> compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf=
+1a2591520c2491aa35339f227775f4d3adf6)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20260113/202601131901.j7WJ9OeZ-lkp@intel.com/reproduce)
+=E2=80=A6
+>sparse warnings: (new ones prefixed by >>)
+>>> kernel/futex/core.c:505:38: sparse: sparse: cast removes address space =
+'__user' of expression
+>>> kernel/futex/core.c:505:51: sparse: sparse: incorrect type in initializ=
+er (different address spaces) @@     expected unsigned int [noderef] [usert=
+ype] __user *naddr @@     got void * @@
+>   kernel/futex/core.c:505:51: sparse:     expected unsigned int [noderef]=
+ [usertype] __user *naddr
+>   kernel/futex/core.c:505:51: sparse:     got void *
+>   kernel/futex/core.c:894:9: sparse: sparse: context imbalance in 'futex_=
+q_lockptr_lock' - wrong count at exit
+=E2=80=A6
+>  > 505			u32 __user *naddr =3D (void *)uaddr + size / 2;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131955.wPmFqPoY-lkp@intel.com/
+[ ] I (PeterZ) have it fixed, will post soon
+[ ] Fix it for me, I'm saving the world atm
+[ ] Ignore it because of $reasonable_reason
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/scsi/qla2xxx/qla_dfs.c:521:35: sparse: sparse: Using plain integer as NULL pointer
-
-vim +521 drivers/scsi/qla2xxx/qla_dfs.c
-
-   495	
-   496	static ssize_t
-   497	qla2x00_dfs_fce_write(struct file *file, const char __user *buffer,
-   498			      size_t count, loff_t *pos)
-   499	{
-   500		struct seq_file *s = file->private_data;
-   501		struct scsi_qla_host *vha = s->private;
-   502		struct qla_hw_data *ha = vha->hw;
-   503		char *buf;
-   504		int rc = 0;
-   505		unsigned long enable;
-   506	
-   507		if (!IS_QLA25XX(ha) && !IS_QLA81XX(ha) && !IS_QLA83XX(ha) &&
-   508		    !IS_QLA27XX(ha) && !IS_QLA28XX(ha)) {
-   509			ql_dbg(ql_dbg_user, vha, 0xd034,
-   510			       "this adapter does not support FCE.");
-   511			return -EINVAL;
-   512		}
-   513	
-   514		buf = memdup_user_nul(buffer, count);
-   515		if (IS_ERR(buf)) {
-   516			ql_dbg(ql_dbg_user, vha, 0xd037,
-   517			    "fail to copy user buffer.");
-   518			return PTR_ERR(buf);
-   519		}
-   520	
- > 521		enable = kstrtoul(buf, 0, 0);
-   522		rc = count;
-   523	
-   524		mutex_lock(&ha->fce_mutex);
-   525	
-   526		if (enable) {
-   527			if (ha->flags.user_enabled_fce) {
-   528				mutex_unlock(&ha->fce_mutex);
-   529				goto out_free;
-   530			}
-   531			ha->flags.user_enabled_fce = 1;
-   532			if (!ha->fce) {
-   533				rc = qla2x00_alloc_fce_trace(vha);
-   534				if (rc) {
-   535					ha->flags.user_enabled_fce = 0;
-   536					mutex_unlock(&ha->fce_mutex);
-   537					goto out_free;
-   538				}
-   539	
-   540				/* adjust fw dump buffer to take into account of this feature */
-   541				if (!ha->flags.fce_dump_buf_alloced)
-   542					qla2x00_alloc_fw_dump(vha);
-   543			}
-   544	
-   545			if (!ha->flags.fce_enabled)
-   546				qla_enable_fce_trace(vha);
-   547	
-   548			ql_dbg(ql_dbg_user, vha, 0xd045, "User enabled FCE .\n");
-   549		} else {
-   550			if (!ha->flags.user_enabled_fce) {
-   551				mutex_unlock(&ha->fce_mutex);
-   552				goto out_free;
-   553			}
-   554			ha->flags.user_enabled_fce = 0;
-   555			if (ha->flags.fce_enabled) {
-   556				qla2x00_disable_fce_trace(vha, NULL, NULL);
-   557				ha->flags.fce_enabled = 0;
-   558			}
-   559	
-   560			qla2x00_free_fce_trace(ha);
-   561			/* no need to re-adjust fw dump buffer */
-   562	
-   563			ql_dbg(ql_dbg_user, vha, 0xd04f, "User disabled FCE .\n");
-   564		}
-   565	
-   566		mutex_unlock(&ha->fce_mutex);
-   567	out_free:
-   568		kfree(buf);
-   569		return rc;
-   570	}
-   571	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sebastian
