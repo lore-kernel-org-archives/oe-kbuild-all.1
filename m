@@ -1,149 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D60535F8B5;
-	Tue, 13 Jan 2026 19:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252332DF156;
+	Tue, 13 Jan 2026 19:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768333005; cv=none; b=BfmnWWvoAYU1vGplqe7OyMsqLAjr6/LKqTSHi5uzA+RrfepETlFINha/kmyKa9GzAhDwsm6nCJTbwyKUNNmwV5Xl3FVApW5Phu0lwzzewhzJxr9UshZIUlRohmplQLisCAU8Vx85Ky9lweOVefn3Z0tMqOWvgVAApw/qATGoJfQ=
+	t=1768333168; cv=none; b=myjoKyty8Dopi9KtQLN6Cn6MItGYkbII8tzyjs8Yrs2r7W9xnbr6hVMRJC1sYnQW2fU9jRspHpsr7DTer6rB38pExpq9U+sKFWbHv8ODiN3FyctqMFHBTb/vXEBOPT93vEi+dzFRt0hyh1VcQ3eHa6wc/qeXjUiDJRm0Y2xoF24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768333005; c=relaxed/simple;
-	bh=UPcHqN06F8MWu8zk+dWexBTxVC835Tko8HmFlRuwgps=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=b/H24NxjbGldCnmN64v+vwvKYMmvK7FSuXdqtDidBkymqy3nzw1jYZTOhGerB/etS01LvHt5gafhRwmErfXX6wBGY1+OhJKc3entUcAIpPRS/lY9xlDXIwwaPlwaHzVXhDo2GXWPQD/K9wtBjZBJh27cDmpNrO6PxEGn+mHWYQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lIca94FY; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768333168; c=relaxed/simple;
+	bh=Md+tTAcL4MNreo3sgLPso3ZupOMsNLWpXXyYAJeUp4U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t+eeufqDGw6oPsmandsxFa5Wq31eEQ1LWjdsuMfvueHz5ocYGq9Eu9Yo4sY2oZUVnSTp/rcuUVlIJBSZsCio7TPN66CWqxcCjM2JVvJScflk9YGBxy9nYwtIPznddKbpdCroInJCg9z7kVcALA9ZH1xdMIvBQ/AXsxLL7Gtwdbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XiglkeLN; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lIca94FY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768333004; x=1799869004;
-  h=date:from:to:cc:subject:message-id;
-  bh=UPcHqN06F8MWu8zk+dWexBTxVC835Tko8HmFlRuwgps=;
-  b=lIca94FYPcCO0AuhwEiJTGvy07sTnXiNPTrWEmZ+mBklRzUFWHciNZTq
-   eh+DBhm3WfaTgQXWA1vGeJ37SyMkocFjSmbL+O54Z6vcVZyfLz+09fg91
-   vt6bKGREDRn+i5+Lnfq1We0tZQUCYFZdfcsVFaJD+wJGR0tgrNgrs2il8
-   jBGK4NzrQ8QzMWDkKKGFCe4lveRRxSuqNXdlI3dK5w9rQf1Q+DMlTwlIz
-   qgFAXYUWFJVNqBj4uyo7QC5WYtEUPFIaq3hNVa4jW4KkQ6MxW26mbsESV
-   8oMN6mOjiQ+dnx4QhkyL5rEuiMPC6U/vdRCI++RFipH1CVbO2Tr3nzevt
-   w==;
-X-CSE-ConnectionGUID: 8zDR4qwZRE2ihFfi568X/w==
-X-CSE-MsgGUID: 1lb7URc+S/yzVCzImdMRgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="80274480"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="80274480"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 11:36:41 -0800
-X-CSE-ConnectionGUID: SdVpie7lQZO5iZ/5uDdTFw==
-X-CSE-MsgGUID: E5J+HiJsSfGqNWaWi9wPbw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="208931776"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Jan 2026 11:36:40 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfkBx-00000000FHY-3cIy;
-	Tue, 13 Jan 2026 19:36:37 +0000
-Date: Wed, 14 Jan 2026 03:36:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [bcachefs:master 196/196] fs/bcachefs/fs/inode.h:146:61:
- warning: expression which evaluates to zero treated as a null pointer
- constant of type 'const char *'
-Message-ID: <202601140339.12G1GVwN-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XiglkeLN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=eIf3mSs3dQmWXMxFRhOXa/OGUJruNGhIb42r2V5Ta2c=; b=XiglkeLNhBkHiCh4DXSmLrEDJ3
+	J8fF6SfASIdRnRMclFidwlGfgRAYxohtottdTyp60YLNZNsrykT1r3n476UvW0TJzfIx2hZoJZI89
+	q+Eu2mdpDxDv33BkDHmR91f6SxUGXBo4i3kys0iliGC7XdXR9BctykLN4DuYSowy9VXlDqp7Q2cL2
+	bxeuiBbDHfOr/5rUb3QRKh9zJ8xKRSq6duBAOPLo8pGv/loWfPP7kmVifQJLPT7xBGeQL3DcCQHm9
+	u7ndy25Ave1aQq/KVVIIF2CqMcUQMfKU8y5T1kHiT5f0ClR5ltyDrqqh8rg6JKDsdKbgZxugBpKns
+	thvnegoQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vfkEb-00000003WQW-19Pz;
+	Tue, 13 Jan 2026 19:39:21 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 3313B300606; Tue, 13 Jan 2026 20:39:20 +0100 (CET)
+Date: Tue, 13 Jan 2026 20:39:19 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: kernel/futex/core.c:505:38: sparse: sparse: cast removes address
+ space '__user' of expression
+Message-ID: <20260113193919.GA810197@noisy.programming.kicks-ass.net>
+References: <202601131901.j7WJ9OeZ-lkp@intel.com>
+ <20260113115946.L49jwJMx@linutronix.de>
+ <20260113121040.GC831050@noisy.programming.kicks-ass.net>
+ <20260113173708.HMfBY0wF@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113173708.HMfBY0wF@linutronix.de>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git master
-head:   d523781cfc5e70cdb73bdc883a3271ca65e7206e
-commit: d523781cfc5e70cdb73bdc883a3271ca65e7206e [196/196] bcachefs: Improve bch2_inode_peek() error message
-config: loongarch-randconfig-002-20260114 (https://download.01.org/0day-ci/archive/20260114/202601140339.12G1GVwN-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140339.12G1GVwN-lkp@intel.com/reproduce)
+On Tue, Jan 13, 2026 at 06:37:08PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2026-01-13 13:10:40 [+0100], Peter Zijlstra wrote:
+> > Its here and a few lines down with the same thing I think. The cast is
+> > to get byte pointer math, instead of u32 sized pointer math. Both the
+> > original uaddr and naddr have the __user thing on, but that intermediate
+> > cast trips it up.
+> > 
+> > Does this work?
+> 
+> Yes. It removes the __user thing warning which leaves us with
+> | kernel/futex/requeue.c:692:9: warning: context imbalance in 'futex_requeue' - different lock contexts for basic block
+> | kernel/futex/requeue.c:841:25: warning: context imbalance in 'futex_wait_requeue_pi' - unexpected unlock
+> | kernel/futex/pi.c:663:9: warning: context imbalance in 'wake_futex_pi' - unexpected unlock
+> | kernel/futex/pi.c:791:9: warning: context imbalance in '__fixup_pi_state_owner' - unexpected unlock
+> | kernel/futex/pi.c:1093:17: warning: context imbalance in 'futex_lock_pi' - unexpected unlock
+> | kernel/futex/pi.c:1132:5: warning: context imbalance in 'futex_unlock_pi' - different lock contexts for basic block
+> | kernel/futex/waitwake.c:275:41: warning: context imbalance in 'futex_wake_op' - different lock contexts for basic block
+> | kernel/futex/waitwake.c:460:44: warning: context imbalance in 'futex_wait_multiple_setup' - unexpected unlock
+> | kernel/futex/waitwake.c:660:28: warning: context imbalance in 'futex_wait_setup' - unexpected unlock
+> | kernel/futex/core.c:979:9: warning: context imbalance in 'futex_q_lockptr_lock' - wrong count at exit
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601140339.12G1GVwN-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from fs/bcachefs/init/recovery.c:21:
-   In file included from fs/bcachefs/fs/dirent.h:5:
-   In file included from fs/bcachefs/fs/str_hash.h:10:
->> fs/bcachefs/fs/inode.h:146:61: warning: expression which evaluates to zero treated as a null pointer constant of type 'const char *' [-Wnon-literal-null-conversion]
-     146 |         return __bch2_inode_find_by_inum_trans(trans, inum, inode, false);
-         |                                                                    ^~~~~
-   1 warning generated.
---
-   In file included from fs/bcachefs/data/extents.c:24:
->> fs/bcachefs/fs/inode.h:146:61: warning: expression which evaluates to zero treated as a null pointer constant of type 'const char *' [-Wnon-literal-null-conversion]
-     146 |         return __bch2_inode_find_by_inum_trans(trans, inum, inode, false);
-         |                                                                    ^~~~~
-   fs/bcachefs/data/extents.c:123:19: warning: unused function 'dev_failed' [-Wunused-function]
-     123 | static inline int dev_failed(struct bch_dev *ca)
-         |                   ^~~~~~~~~~
-   2 warnings generated.
---
-   In file included from fs/bcachefs/snapshots/snapshot.c:9:
-   In file included from fs/bcachefs/fs/namei.h:5:
-   In file included from fs/bcachefs/fs/dirent.h:5:
-   In file included from fs/bcachefs/fs/str_hash.h:10:
->> fs/bcachefs/fs/inode.h:146:61: warning: expression which evaluates to zero treated as a null pointer constant of type 'const char *' [-Wnon-literal-null-conversion]
-     146 |         return __bch2_inode_find_by_inum_trans(trans, inum, inode, false);
-         |                                                                    ^~~~~
-   fs/bcachefs/snapshots/snapshot.c:378:7: warning: variable 'lock_dropped' set but not used [-Wunused-but-set-variable]
-     378 |         bool lock_dropped = false;
-         |              ^
-   2 warnings generated.
---
-   In file included from fs/bcachefs/fs/namei.c:8:
-   In file included from fs/bcachefs/fs/dirent.h:5:
-   In file included from fs/bcachefs/fs/str_hash.h:10:
->> fs/bcachefs/fs/inode.h:146:61: warning: expression which evaluates to zero treated as a null pointer constant of type 'const char *' [-Wnon-literal-null-conversion]
-     146 |         return __bch2_inode_find_by_inum_trans(trans, inum, inode, false);
-         |                                                                    ^~~~~
-   fs/bcachefs/fs/namei.c:519:20: warning: unused function 'prt_str_reversed' [-Wunused-function]
-     519 | static inline void prt_str_reversed(struct printbuf *out, const char *s)
-         |                    ^~~~~~~~~~~~~~~~
-   2 warnings generated.
-
-
-vim +146 fs/bcachefs/fs/inode.h
-
-1f73cb4d34e787 fs/bcachefs/inode.h    Kent Overstreet 2024-09-24  129  
-d523781cfc5e70 fs/bcachefs/fs/inode.h Kent Overstreet 2026-01-13  130  #define bch2_inode_peek(_trans, _iter, _inode, _inum, _flags)			\
-d523781cfc5e70 fs/bcachefs/fs/inode.h Kent Overstreet 2026-01-13  131  	__bch2_inode_peek(_trans, _iter, _inode, _inum, _flags, __func__)
-4bd156c4b44ef3 fs/bcachefs/inode.h    Kent Overstreet 2023-11-02  132  
-77eac89c7943a4 fs/bcachefs/inode.h    Kent Overstreet 2025-05-19  133  int bch2_inode_find_by_inum_snapshot(struct btree_trans *, u64, u32,
-77eac89c7943a4 fs/bcachefs/inode.h    Kent Overstreet 2025-05-19  134  				     struct bch_inode_unpacked *, unsigned);
-b79004442bee42 fs/bcachefs/fs/inode.h Kent Overstreet 2025-11-23  135  
-b79004442bee42 fs/bcachefs/fs/inode.h Kent Overstreet 2025-11-23  136  int __bch2_inode_find_by_inum_trans(struct btree_trans *, subvol_inum,
-d523781cfc5e70 fs/bcachefs/fs/inode.h Kent Overstreet 2026-01-13  137  				    struct bch_inode_unpacked *, const char *);
-b79004442bee42 fs/bcachefs/fs/inode.h Kent Overstreet 2025-11-23  138  
-d523781cfc5e70 fs/bcachefs/fs/inode.h Kent Overstreet 2026-01-13  139  #define bch2_inode_find_by_inum_trans(_trans, _inum, _inode)			\
-d523781cfc5e70 fs/bcachefs/fs/inode.h Kent Overstreet 2026-01-13  140  	__bch2_inode_find_by_inum_trans(_trans, _inum, _inode, __func__)
-b79004442bee42 fs/bcachefs/fs/inode.h Kent Overstreet 2025-11-23  141  
-b79004442bee42 fs/bcachefs/fs/inode.h Kent Overstreet 2025-11-23  142  static inline int bch2_inode_find_by_inum_nowarn_trans(struct btree_trans *trans,
-b79004442bee42 fs/bcachefs/fs/inode.h Kent Overstreet 2025-11-23  143  				  subvol_inum inum,
-b79004442bee42 fs/bcachefs/fs/inode.h Kent Overstreet 2025-11-23  144  				  struct bch_inode_unpacked *inode)
-b79004442bee42 fs/bcachefs/fs/inode.h Kent Overstreet 2025-11-23  145  {
-b79004442bee42 fs/bcachefs/fs/inode.h Kent Overstreet 2025-11-23 @146  	return __bch2_inode_find_by_inum_trans(trans, inum, inode, false);
-b79004442bee42 fs/bcachefs/fs/inode.h Kent Overstreet 2025-11-23  147  }
-b79004442bee42 fs/bcachefs/fs/inode.h Kent Overstreet 2025-11-23  148  
-
-:::::: The code at line 146 was first introduced by commit
-:::::: b79004442bee4220b66da61d8610383092925392 bcachefs: Don't warn when inode not found in bch2_fh_to_dentry()
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+tip/locking/core removes all the sparse lock annotations in favour of
+clang-22 tcsan.
