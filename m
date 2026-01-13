@@ -1,116 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6921C330663;
-	Tue, 13 Jan 2026 13:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3D638F954;
+	Tue, 13 Jan 2026 14:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768312458; cv=none; b=Ja8j2+P1GqKOo29apaYmxHojakaQv28KSQKOkXI0vvFaSKoVWTmJA7cIce8ZwE8ZPU1jLov7h8vKjZ7pQO8IQLbuG0m5B7kbOOzeJDviug0a2nHh+XPyUOzVsNi3mfFJXPZx0DFmg0oJm5oN9zu1kkytCWvjGOUDDlt9Cruf7YI=
+	t=1768312911; cv=none; b=IhzyrTBryi9mgdAid7djKv0OU/Ikhuw1Np8Vs1p7LV7qiB2QDvKarYqixXNDXiUvGHarP4cSD9SyeAyKaB3l26Krm0+GtJKDauzIms1013d4lM46biuP55TN16ljbXMbgtYZZxhalzZ/RCzLBbup+vUZ5RILQRA7TMLkYYY9FiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768312458; c=relaxed/simple;
-	bh=+bhepDGuDR6MhZWdEj77cvVlTGoNDFhvxgoQK+HG8cY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LY83dVDqIKNqxXgQYAN+yn2FyjZGQ4WD0S9feug2WRR08OicJ1uqxvQxD+BXbTIVUgYhjzlUooR1soVi7bIWY6GBek9+qOq8bdD14kHF+vfOwLGWdN2rwpNRd2UHoBbDltiV6xbC5sNgcbQ8RsOh4XtCiQYkfimQLKtt/mehJLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AnOpY8CE; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768312911; c=relaxed/simple;
+	bh=Ky5VSxrU0PMcDbX+1v+S7rmG55ge1p1tE92wE4WB7yc=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
+	 Content-Type; b=k4tHGXs015ax3FuQ+5XizB4E8zx5qaKX0z6AdLGtuh0YRsBzcHRd+csusjOEGaQMQKRYv9b1ztECTrxf4A/9fVkc0M6k+Hl2/OgSpRucShBBr9+coP+vfd5FMqmbqDcbEf+XjkepNFi/DxvmHiu17+44kvuwUFc15TCkt/rDtLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hK1ya/+u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AnOpY8CE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768312458; x=1799848458;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+bhepDGuDR6MhZWdEj77cvVlTGoNDFhvxgoQK+HG8cY=;
-  b=AnOpY8CEbmdo2dNDJhZsO9dsiY/KtLXLMR/OcqPnnwHF8gO6fLMxI2Oo
-   /VPdxWjc7+xofgAMOYozpMWI77wrvhERkToIWjtuRMyq8iHA/NHbQbF91
-   Pgrv0krni1qLLXydQN0wCw4J2RW6Qn1Ka01MpQs0exUPvrWrnLd86PYsa
-   iA3MAnd1JZG0FTxUvucTNjapFVdM9iaYSYkIcIumPb/9kqUjbnOcXdF7K
-   AhKFIKxjp/7+LcMeVk1t0W2H1zdKAQZQLLuQ+w3oON74Z2gRE1BJd1Kju
-   htD8+nD8VtuQPLW1Sp6/rru9J25CukFYFrzGN9vq2Dx7TYASnVSZ5jhKR
-   A==;
-X-CSE-ConnectionGUID: nNLSWgm4Qy2LoaPB7VMgpA==
-X-CSE-MsgGUID: 0FXTqqksRKi9s5Rl46zDVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69518446"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="69518446"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 05:54:18 -0800
-X-CSE-ConnectionGUID: S18dgBAeToiEfghkImEGvQ==
-X-CSE-MsgGUID: kD+YWK5HRN66BnGy6WLQVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="208550518"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 13 Jan 2026 05:54:10 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfeqV-00000000ErM-25kG;
-	Tue, 13 Jan 2026 13:54:07 +0000
-Date: Tue, 13 Jan 2026 21:53:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Bryan Tan <bryan-bt.tan@broadcom.com>,
-	Vishnu Dasa <vishnu.dasa@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Long Li <longli@microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, kvm@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	berrange@redhat.com, Sargun Dhillon <sargun@sargun.me>,
-	Bobby Eshleman <bobbyeshleman@gmail.com>
-Subject: Re: [PATCH net-next v14 01/12] vsock: add netns to vsock core
-Message-ID: <202601132126.k8ZgzA9M-lkp@intel.com>
-References: <20260112-vsock-vmtest-v14-1-a5c332db3e2b@meta.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hK1ya/+u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 115FFC16AAE;
+	Tue, 13 Jan 2026 14:01:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768312910;
+	bh=Ky5VSxrU0PMcDbX+1v+S7rmG55ge1p1tE92wE4WB7yc=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:From;
+	b=hK1ya/+u1Uu7554P1dNavMAXY4O/+Pby1VPfgNaFx7vA8+4JY7wQr9G7mmD78wBv3
+	 8KPFbrWCuAHA/Roskl03a3o25MWsMiqVSenuVtsomDiHYhTcgwetuXURqzW7VtxdvL
+	 GzTzekggstpwL5slfS3N+TB6KB29HYz/xgrC2nQ165A5/8XuTxje1PLi7MxOWoEnau
+	 xB+nqsIrVQ1r9p+QEi0HcEyivFO2mutO1FGMreTTTd/FlGUQf7iSFCj8GyUONfx2uq
+	 a1Mi8v1ArwfJGeLk5EVTa39CFp5V8OBaHTSdom9YQaOieqmDTcNPr7xqJyPxf+XAzK
+	 pBZ+w3hkfK4wA==
+From: Thomas Gleixner <tglx@kernel.org>
+To: kernel test robot <lkp@intel.com>, Nam Cao <namcao@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Ingo Molnar
+ <mingo@kernel.org>
+Subject: [PATCH] time/sched_clock: Use ACCESS_PRIVATE() to evaluate
+ hrtimer::function
+In-Reply-To: <202601131713.KsxhXQ0M-lkp@intel.com>
+Date: Tue, 13 Jan 2026 15:01:47 +0100
+Message-ID: <87jyxlk3w4.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260112-vsock-vmtest-v14-1-a5c332db3e2b@meta.com>
+Content-Type: text/plain
 
-Hi Bobby,
+This dereference of sched_clock_timer::function was missed when the
+hrtimer callback function pointer was marked private.
 
-kernel test robot noticed the following build warnings:
+Fixes: 04257da0c99c ("hrtimers: Make callback function pointer private")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601131713.KsxhXQ0M-lkp@intel.com/
+---
+ kernel/time/sched_clock.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/virtio-set-skb-owner-of-virtio_transport_reset_no_sock-reply/20260113-125559
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260112-vsock-vmtest-v14-1-a5c332db3e2b%40meta.com
-patch subject: [PATCH net-next v14 01/12] vsock: add netns to vsock core
-config: hexagon-randconfig-002-20260113 (https://download.01.org/0day-ci/archive/20260113/202601132126.k8ZgzA9M-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601132126.k8ZgzA9M-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601132126.k8ZgzA9M-lkp@intel.com/
-
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
-
->> WARNING: modpost: vmlinux: section mismatch in reference: vsock_exit+0x34 (section: .exit.text) -> vsock_sysctl_ops (section: .init.data)
-WARNING: modpost: vmlinux: section mismatch in reference: vsock_exit+0x38 (section: .exit.text) -> vsock_sysctl_ops (section: .init.data)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- a/kernel/time/sched_clock.c
++++ b/kernel/time/sched_clock.c
+@@ -215,7 +215,7 @@ void sched_clock_register(u64 (*read)(vo
+ 
+ 	update_clock_read_data(&rd);
+ 
+-	if (sched_clock_timer.function != NULL) {
++	if (ACCESS_PRIVATE(sched_clock_timer, function) != NULL)) {
+ 		/* update timeout for clock wrap */
+ 		hrtimer_start(&sched_clock_timer, cd.wrap_kt,
+ 			      HRTIMER_MODE_REL_HARD);
