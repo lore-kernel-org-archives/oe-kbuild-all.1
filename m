@@ -1,126 +1,243 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516DF22FAFD;
-	Tue, 13 Jan 2026 05:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDA635B132
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 05:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768281507; cv=none; b=TZ7cXkdF1tBMSJUti09FS7mulXqZcADZifiXO80OizQnwqdhqVGL2ldCVlUhiHKjp+2E7vHUxYbmWA9xgis77WipPSHRPw0rkC28rlhtAddEU608dYNtYuYacpJ3r2RDJOKzzdi79qqlcpIy8MxHRPctRK4tYTrzTovM/Kltwvc=
+	t=1768282711; cv=none; b=NxMXvKDsFtcDWtnV1W4nKxvvHezHAqjsnjWfFDZwBVDyfDTJuFPajmlsUxYc6XSQ6GX3bBQYisWrZAVEYTEk3NA3zot9AIIKUiOZP78tiF2TfDcqLk2+6j7sL9A9po7OUWP0dfbdNreCKb/anvOFByN7EcBpr37wP/DVNDuNCds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768281507; c=relaxed/simple;
-	bh=9iQZnMV3CUdtK45BwWJKiFUt0g3nkqqUh/ffW8zt9kc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vEdeha23/WiRpN99IMkKWMZU3LZHT1VNGNxMyJNwBuVS1LQZpRwXPwxkFBP57urDjlGxgbPnW7TLQz7s73Uh/xwhlr8BZrxsSkP03MsM313AB7plAxPC9HVSYsuEFPPSajeIbWtAyAhpfzmA+4hXhBYzD47R1I1slZe33eORfQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MZzaLESU; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1768282711; c=relaxed/simple;
+	bh=z4283oX5AXsa2q27771Kwah+zmxsNJRU7fSmPchGos0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=H+nIKRSyLVK7HeW7EgHohSqYUkXIrs9vxCnSMzDqGfhRkOhR4eDF/LcFaBybIpedcgMaCUDHiqkoibkBJNBrrEJqqIV4mgpe9HnM3u25QP3kVAS0vxfSA2hmUGJTYbCde2eApqVLiEDP1vmDaiLmFdGG92Dv1JncGzb/wdxDKOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KrYV6AhP; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MZzaLESU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KrYV6AhP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768281505; x=1799817505;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9iQZnMV3CUdtK45BwWJKiFUt0g3nkqqUh/ffW8zt9kc=;
-  b=MZzaLESUibT8hDLqvFWoU9U9b/bPDE+h0lyGGgGeypTBaIFvt2V3N0gA
-   nHdQm4XfIeUUx9LoI9zTe0NMsC/lUmnhERncsDXdO6p9IiTqmIx/HIewd
-   6PvrkWnDJPulJtsA9Kd7Eu7iDi6Sv0nnJfpijUBqKQ1k2GNk6AfQqVqvX
-   TQw+FxXkgfLLiSUnnXtJaftF1O1GAQ2GG+WjrBBAaAbztpZVIEbvYgYTB
-   y8drYxnePvHA3+Tmwo2BlLvSrhLckiF24Ap5aflRP6IqUgpjFee0njp+m
-   bNmDlYDiuhHw3EUXBkbB8QTfg+ldIC/VakCL9+v3h+GEsM0zEGX7Mk/GK
-   A==;
-X-CSE-ConnectionGUID: 9RLBq9CHTOyd1oQHZd7rlg==
-X-CSE-MsgGUID: swispZNBRC+khGCOBLhydA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="73414871"
+  t=1768282709; x=1799818709;
+  h=date:from:to:cc:subject:message-id;
+  bh=z4283oX5AXsa2q27771Kwah+zmxsNJRU7fSmPchGos0=;
+  b=KrYV6AhPju/gXiZZnj5Q0Jfd5dPHRn4Vxs+nWkFrZepKdrb9n4K3HrfG
+   caeJJQceOdPswOIPSZYWU524G8E4KzT3Dp41Y8bWKxNdluOQj0kss3g5R
+   JuRs69ayokXBlauAD5KmjKQl6hoFTBe/KYtkcLn6HrWi4d4mwAT1AsGaT
+   rDa5WuqrHWZEmTQ/j6rNNojczfKq6EP//PNoc1veMPaLOZD2+UAKE/BDf
+   FTUa2BchA/VDxBAVSAMD0ttGxgxoEaq9gPk+erafN9H3wXgX4LSQ8bhmT
+   blgvXxlqUezdvsD/xrG4GH8CN8MG7bAcZsD3zUWOLSEtpyb7yztxQJQl+
+   g==;
+X-CSE-ConnectionGUID: /r+NSTtiR0enpnU6yaJm8Q==
+X-CSE-MsgGUID: SXwcdl4aQ4CymGtZvSbFkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="80206153"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="73414871"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 21:18:19 -0800
-X-CSE-ConnectionGUID: 1LVxbLv/TOWxQqR2EIejXQ==
-X-CSE-MsgGUID: 6cF0U2x3R2+ZEDw6B0G6xA==
+   d="scan'208";a="80206153"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 21:38:28 -0800
+X-CSE-ConnectionGUID: iFJTQjo3RXuaY/ncQg8PTQ==
+X-CSE-MsgGUID: q2q7Ik0NQZierJSjbmAoZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="208801024"
+   d="scan'208";a="234996664"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 12 Jan 2026 21:18:15 -0800
+  by orviesa002.jf.intel.com with ESMTP; 12 Jan 2026 21:38:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfWnE-00000000EFc-1LjW;
-	Tue, 13 Jan 2026 05:18:12 +0000
-Date: Tue, 13 Jan 2026 13:17:35 +0800
+	id 1vfX6l-00000000EHW-3kMG;
+	Tue, 13 Jan 2026 05:38:23 +0000
+Date: Tue, 13 Jan 2026 13:38:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
-	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
-	Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH net-next 2/2] net: stmmac: qcom-ethqos: convert to
- set_clk_tx_rate() method
-Message-ID: <202601131202.sz9WCQgh-lkp@intel.com>
-References: <E1vfMO1-00000002kJF-33UK@rmk-PC.armlinux.org.uk>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>
+Subject: fs/notify/fsnotify.c:632:54: sparse: sparse: incorrect type
+ in argument 1 (different address spaces)
+Message-ID: <202601131336.7rTQaDDl-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1vfMO1-00000002kJF-33UK@rmk-PC.armlinux.org.uk>
 
-Hi Russell,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-stmmac-qcom-ethqos-remove-mac_base/20260113-061245
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/E1vfMO1-00000002kJF-33UK%40rmk-PC.armlinux.org.uk
-patch subject: [PATCH net-next 2/2] net: stmmac: qcom-ethqos: convert to set_clk_tx_rate() method
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260113/202601131202.sz9WCQgh-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131202.sz9WCQgh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b71e635feefc852405b14620a7fc58c4c80c0f73
+commit: b944249bcea97f2f6229852ae3f05f7acdcb0681 fsnotify: add mount notification infrastructure
+date:   11 months ago
+config: i386-randconfig-061-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131336.7rTQaDDl-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131336.7rTQaDDl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131202.sz9WCQgh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131336.7rTQaDDl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/notify/fsnotify.c:433:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/notify/fsnotify.c:433:16: sparse:    struct fsnotify_mark_connector [noderef] __rcu *
+   fs/notify/fsnotify.c:433:16: sparse:    struct fsnotify_mark_connector *
+   fs/notify/fsnotify.c:435:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/notify/fsnotify.c:435:24: sparse:    struct hlist_node [noderef] __rcu *
+   fs/notify/fsnotify.c:435:24: sparse:    struct hlist_node *
+   fs/notify/fsnotify.c:445:24: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   fs/notify/fsnotify.c:445:24: sparse:    struct hlist_node [noderef] __rcu *
+   fs/notify/fsnotify.c:445:24: sparse:    struct hlist_node *
+   fs/notify/fsnotify.c:616:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
+   fs/notify/fsnotify.c:616:46: sparse:     expected struct fsnotify_mark_connector *const *connp
+   fs/notify/fsnotify.c:616:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
+   fs/notify/fsnotify.c:620:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
+   fs/notify/fsnotify.c:620:46: sparse:     expected struct fsnotify_mark_connector *const *connp
+   fs/notify/fsnotify.c:620:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
+   fs/notify/fsnotify.c:624:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
+   fs/notify/fsnotify.c:624:46: sparse:     expected struct fsnotify_mark_connector *const *connp
+   fs/notify/fsnotify.c:624:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
+   fs/notify/fsnotify.c:628:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu ** @@
+   fs/notify/fsnotify.c:628:46: sparse:     expected struct fsnotify_mark_connector *const *connp
+   fs/notify/fsnotify.c:628:46: sparse:     got struct fsnotify_mark_connector [noderef] __rcu **
+>> fs/notify/fsnotify.c:632:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct fsnotify_mark_connector *const *connp @@     got struct fsnotify_mark_connector [noderef] __rcu *const * @@
+   fs/notify/fsnotify.c:632:54: sparse:     expected struct fsnotify_mark_connector *const *connp
+   fs/notify/fsnotify.c:632:54: sparse:     got struct fsnotify_mark_connector [noderef] __rcu *const *
 
->> drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c:188:1: warning: non-void function does not return a value in all control paths [-Wreturn-type]
-     188 | }
-         | ^
-   1 warning generated.
+vim +632 fs/notify/fsnotify.c
 
-
-vim +188 drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-
-a7c30e62d4b895 Vinod Koul            2019-01-21  175  
-a69650e88a5551 Russell King (Oracle  2026-01-12  176) static int ethqos_set_clk_tx_rate(void *bsp_priv, struct clk *clk_tx_i,
-a69650e88a5551 Russell King (Oracle  2026-01-12  177) 				  phy_interface_t interface, int speed)
-a7c30e62d4b895 Vinod Koul            2019-01-21  178  {
-a69650e88a5551 Russell King (Oracle  2026-01-12  179) 	struct qcom_ethqos *ethqos = bsp_priv;
-98f9928843331f Russell King (Oracle  2025-02-21  180) 	long rate;
-98f9928843331f Russell King (Oracle  2025-02-21  181) 
-a69650e88a5551 Russell King (Oracle  2026-01-12  182) 	if (!phy_interface_mode_is_rgmii(interface))
-a69650e88a5551 Russell King (Oracle  2026-01-12  183) 		return 0;
-26311cd112d05a Sarosh Hasan          2024-02-26  184  
-98f9928843331f Russell King (Oracle  2025-02-21  185) 	rate = rgmii_clock(speed);
-98f9928843331f Russell King (Oracle  2025-02-21  186) 	if (rate > 0)
-a69650e88a5551 Russell King (Oracle  2026-01-12  187) 		clk_set_rate(ethqos->link_clk, rate * 2);
-a7c30e62d4b895 Vinod Koul            2019-01-21 @188  }
-a7c30e62d4b895 Vinod Koul            2019-01-21  189  
+   520	
+   521	/*
+   522	 * fsnotify - This is the main call to fsnotify.
+   523	 *
+   524	 * The VFS calls into hook specific functions in linux/fsnotify.h.
+   525	 * Those functions then in turn call here.  Here will call out to all of the
+   526	 * registered fsnotify_group.  Those groups can then use the notification event
+   527	 * in whatever means they feel necessary.
+   528	 *
+   529	 * @mask:	event type and flags
+   530	 * @data:	object that event happened on
+   531	 * @data_type:	type of object for fanotify_data_XXX() accessors
+   532	 * @dir:	optional directory associated with event -
+   533	 *		if @file_name is not NULL, this is the directory that
+   534	 *		@file_name is relative to
+   535	 * @file_name:	optional file name associated with event
+   536	 * @inode:	optional inode associated with event -
+   537	 *		If @dir and @inode are both non-NULL, event may be
+   538	 *		reported to both.
+   539	 * @cookie:	inotify rename cookie
+   540	 */
+   541	int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
+   542		     const struct qstr *file_name, struct inode *inode, u32 cookie)
+   543	{
+   544		const struct path *path = fsnotify_data_path(data, data_type);
+   545		struct super_block *sb = fsnotify_data_sb(data, data_type);
+   546		const struct fsnotify_mnt *mnt_data = fsnotify_data_mnt(data, data_type);
+   547		struct fsnotify_sb_info *sbinfo = sb ? fsnotify_sb_info(sb) : NULL;
+   548		struct fsnotify_iter_info iter_info = {};
+   549		struct mount *mnt = NULL;
+   550		struct inode *inode2 = NULL;
+   551		struct dentry *moved;
+   552		int inode2_type;
+   553		int ret = 0;
+   554		__u32 test_mask, marks_mask = 0;
+   555	
+   556		if (path)
+   557			mnt = real_mount(path->mnt);
+   558	
+   559		if (!inode) {
+   560			/* Dirent event - report on TYPE_INODE to dir */
+   561			inode = dir;
+   562			/* For FS_RENAME, inode is old_dir and inode2 is new_dir */
+   563			if (mask & FS_RENAME) {
+   564				moved = fsnotify_data_dentry(data, data_type);
+   565				inode2 = moved->d_parent->d_inode;
+   566				inode2_type = FSNOTIFY_ITER_TYPE_INODE2;
+   567			}
+   568		} else if (mask & FS_EVENT_ON_CHILD) {
+   569			/*
+   570			 * Event on child - report on TYPE_PARENT to dir if it is
+   571			 * watching children and on TYPE_INODE to child.
+   572			 */
+   573			inode2 = dir;
+   574			inode2_type = FSNOTIFY_ITER_TYPE_PARENT;
+   575		}
+   576	
+   577		/*
+   578		 * Optimization: srcu_read_lock() has a memory barrier which can
+   579		 * be expensive.  It protects walking the *_fsnotify_marks lists.
+   580		 * However, if we do not walk the lists, we do not have to do
+   581		 * SRCU because we have no references to any objects and do not
+   582		 * need SRCU to keep them "alive".
+   583		 */
+   584		if ((!sbinfo || !sbinfo->sb_marks) &&
+   585		    (!mnt || !mnt->mnt_fsnotify_marks) &&
+   586		    (!inode || !inode->i_fsnotify_marks) &&
+   587		    (!inode2 || !inode2->i_fsnotify_marks) &&
+   588		    (!mnt_data || !mnt_data->ns->n_fsnotify_marks))
+   589			return 0;
+   590	
+   591		if (sb)
+   592			marks_mask |= READ_ONCE(sb->s_fsnotify_mask);
+   593		if (mnt)
+   594			marks_mask |= READ_ONCE(mnt->mnt_fsnotify_mask);
+   595		if (inode)
+   596			marks_mask |= READ_ONCE(inode->i_fsnotify_mask);
+   597		if (inode2)
+   598			marks_mask |= READ_ONCE(inode2->i_fsnotify_mask);
+   599		if (mnt_data)
+   600			marks_mask |= READ_ONCE(mnt_data->ns->n_fsnotify_mask);
+   601	
+   602		/*
+   603		 * If this is a modify event we may need to clear some ignore masks.
+   604		 * In that case, the object with ignore masks will have the FS_MODIFY
+   605		 * event in its mask.
+   606		 * Otherwise, return if none of the marks care about this type of event.
+   607		 */
+   608		test_mask = (mask & ALL_FSNOTIFY_EVENTS);
+   609		if (!(test_mask & marks_mask))
+   610			return 0;
+   611	
+   612		iter_info.srcu_idx = srcu_read_lock(&fsnotify_mark_srcu);
+   613	
+   614		if (sbinfo) {
+   615			iter_info.marks[FSNOTIFY_ITER_TYPE_SB] =
+   616				fsnotify_first_mark(&sbinfo->sb_marks);
+   617		}
+   618		if (mnt) {
+   619			iter_info.marks[FSNOTIFY_ITER_TYPE_VFSMOUNT] =
+   620				fsnotify_first_mark(&mnt->mnt_fsnotify_marks);
+   621		}
+   622		if (inode) {
+   623			iter_info.marks[FSNOTIFY_ITER_TYPE_INODE] =
+   624				fsnotify_first_mark(&inode->i_fsnotify_marks);
+   625		}
+   626		if (inode2) {
+   627			iter_info.marks[inode2_type] =
+   628				fsnotify_first_mark(&inode2->i_fsnotify_marks);
+   629		}
+   630		if (mnt_data) {
+   631			iter_info.marks[FSNOTIFY_ITER_TYPE_MNTNS] =
+ > 632				fsnotify_first_mark(&mnt_data->ns->n_fsnotify_marks);
+   633		}
+   634	
+   635		/*
+   636		 * We need to merge inode/vfsmount/sb mark lists so that e.g. inode mark
+   637		 * ignore masks are properly reflected for mount/sb mark notifications.
+   638		 * That's why this traversal is so complicated...
+   639		 */
+   640		while (fsnotify_iter_select_report_types(&iter_info)) {
+   641			ret = send_to_group(mask, data, data_type, dir, file_name,
+   642					    cookie, &iter_info);
+   643	
+   644			if (ret && (mask & ALL_FSNOTIFY_PERM_EVENTS))
+   645				goto out;
+   646	
+   647			fsnotify_iter_next(&iter_info);
+   648		}
+   649		ret = 0;
+   650	out:
+   651		srcu_read_unlock(&fsnotify_mark_srcu, iter_info.srcu_idx);
+   652	
+   653		return ret;
+   654	}
+   655	EXPORT_SYMBOL_GPL(fsnotify);
+   656	
 
 -- 
 0-DAY CI Kernel Test Service
