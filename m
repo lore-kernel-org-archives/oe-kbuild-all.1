@@ -1,160 +1,160 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD2538F253
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 12:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C8D3921C1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 12:40:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768307066; cv=none; b=BfmGSRoWFlov5qLpfyjo54jymtzD8GlDNXQbXfPC0ZS1Pig3twu5Z049TgtpHl9FC3Ee33nv51J3XQ04Ng5OTngvzew0jUr+Ei3VJYb3hEkydFeEAaJ26rLnR+Dfxz4qS9P8guE3rL7TQ37FZUjPezQzUjermVMYP9wb2jyOYOs=
+	t=1768308006; cv=none; b=ERI3Fkz7vhDa1ffD8J07naiLE/0qOaN5kAEOTeextRDS+CQtMm77GIJobNwFYFsV+bA8RvybCSHOs7JbisNInyM0b4SznT3FYPLghDzvk/uwTHN2eDpVkuVQaJ2BO0XaW3AfMcLwaPCNQqzu53WodLKQYSy2dUmUzoZC7W8Ne3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768307066; c=relaxed/simple;
-	bh=NA+lT+rCvc4E8PozMoKtxOdXTSYE3m4kLe1roFs0jEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JoiIhzu8vbMsLDrYElKodVGRAH+jjNqUe+h8BrRTclbIN6mX9SMrXA4HCwJtWvEMJcYk/nuYrbNBFYFg6nQpL+N/yur2yc+HKWjXWm8X7osm58ioll6uJ1n1eXUmfGpTL2rnkxuxLQgA7tWdSPBCKaetbvwBp/05SP+++kpZLg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=VdgyNy8M; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hSt4CMZN; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MwX0zJhU; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=7OBoEB0T; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1768308006; c=relaxed/simple;
+	bh=YfDnd/0XsXvIrhEQN3I9Ga0xqWCnpu1Rec0p6/LMDq4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=IT6tUSVio/ewIxm4h3M4nxa7mhe7MNXMqiDh1NPiNW/5dSzm5vfDokLVx/YCsuJ5CS9AEAYPRTg5lbgKL2ZuWCy+fjKHHaNSfOhSP28DM7Fv88fwqdkYgWCc1wuiO+GN0ALPsD9+MSs7Z0gLjcfg8hP2DYaYueto5firW1KCpQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TEX/HA6V; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="VdgyNy8M";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hSt4CMZN";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MwX0zJhU";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="7OBoEB0T"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 93FCC33684;
-	Tue, 13 Jan 2026 12:24:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768307061; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4VIREq6KcfFEqYToZSs1rcoXYYB9B9DenDKR0lGfaUg=;
-	b=VdgyNy8M1/cM9/fXaeF9wajTIaQ/Xp/iUbQylO3k9E0wO529LCOKyPOPId63l/2cDlI/ZI
-	ZweKn//WYVVC2NwsfBzh+7Em6cnohBxIK4TH4x4yzRu/Jo1q6JMnW8EORiTCcTyBTId6FD
-	YSUPvGB9fSdd8ymeF32tJXRy7Bf/l+4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768307061;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4VIREq6KcfFEqYToZSs1rcoXYYB9B9DenDKR0lGfaUg=;
-	b=hSt4CMZNkuG2lUSWPL4AKxbM2Z+KtR5t99rvk3EGsNk9SHH0ufAlxo8z7T8Db9FmOs/FuT
-	HubkgGphNGa+s1Dg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=MwX0zJhU;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=7OBoEB0T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768307060; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4VIREq6KcfFEqYToZSs1rcoXYYB9B9DenDKR0lGfaUg=;
-	b=MwX0zJhU6VREU5zdOR5cKxeGFkB8zi5R09otc0ZT7h9sc7jG1bD2RT8l0ncMREESNL/TxH
-	B0+ucA7tilGghbTP2NSeLAhWhPLFWr9RoTW6Po2ZWRc0h4CmpGfIj/g/CB5kPz6Rd0/Nt/
-	IIjdnfWmI30YD5Td/uIDAp1T3Xw+LY8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768307060;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4VIREq6KcfFEqYToZSs1rcoXYYB9B9DenDKR0lGfaUg=;
-	b=7OBoEB0TZYVGqebUmFP+wmOAV43mhWtkMLsJjKrdSGi2XJt/HRjTZXGyZiG+resWyua0t7
-	o6dibttJahzzPxBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7FC973EA63;
-	Tue, 13 Jan 2026 12:24:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id O58sH3Q5ZmlYUAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 13 Jan 2026 12:24:20 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 4307AA08CF; Tue, 13 Jan 2026 13:24:20 +0100 (CET)
-Date: Tue, 13 Jan 2026 13:24:20 +0100
-From: Jan Kara <jack@suse.cz>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Roman Gushchin <roman.gushchin@linux.dev>, 
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Linux Memory Management List <linux-mm@kvack.org>, 
-	Dev Jain <dev.jain@arm.com>, Jan Kara <jack@suse.cz>
-Subject: Re: mm/filemap.c:3307 do_sync_mmap_readahead() warn: assigning (-12)
- to unsigned variable 'ra->order'
-Message-ID: <s47y6ysj4c2z5c5axtxbeset4divigctg4s3p7gbgmvfkoizeu@malcpodvrm46>
-References: <202601131311.g3lyUAks-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TEX/HA6V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768308005; x=1799844005;
+  h=date:from:to:cc:subject:message-id;
+  bh=YfDnd/0XsXvIrhEQN3I9Ga0xqWCnpu1Rec0p6/LMDq4=;
+  b=TEX/HA6VMyBP5PQdMVYIYk8ddKG6eiZPAPmEMjBgnP40kL2IGUrKCbDU
+   W0tOZo7ery/+Wwq/LQnl12+e9LSrRw+JRbqt93HIZY+Kju8j37HNkT2xK
+   IDCsIHJysIj01WFBu9GotP8Re64cnI+ouQZmRRXTzzS9rbiVa4NRfUIjB
+   Aj3b21TQjGpGPG8jbHlqOjweGLDpmnC1IYyfdRmSysctCtYA3r9SOB2X7
+   i1bH5N56x9YgsT20kTfh7/xyZ0I12vJqWXsy+Ul0tvNC6wttHwU5HZFhs
+   VuHRslcjYErVLuqKX7M3g+OU0syUvSd01Wtiv+Rbdh/8IZAcq3RUT5HHJ
+   Q==;
+X-CSE-ConnectionGUID: /fJvFOXfQZ+67MkCqEJtoQ==
+X-CSE-MsgGUID: ZeHJs6GcTZms1itngm5uLA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69748698"
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="69748698"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 04:40:04 -0800
+X-CSE-ConnectionGUID: ddTJBw1lQzmnAIwYhxFQgg==
+X-CSE-MsgGUID: hgiOQut0Ra6x9kPF8btWLw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
+   d="scan'208";a="203586123"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 13 Jan 2026 04:40:03 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfdgl-00000000Ek8-373M;
+	Tue, 13 Jan 2026 12:39:59 +0000
+Date: Tue, 13 Jan 2026 20:39:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aryan Srivastava <aryan.srivastava@alliedtelesis.co.nz>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andi Shyti <andi@smida.it>
+Subject: drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse:
+ cast from restricted __be64
+Message-ID: <202601132015.AVgB52xg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202601131311.g3lyUAks-lkp@intel.com>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.com:email,linaro.org:email,01.org:url,intel.com:email]
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Rspamd-Queue-Id: 93FCC33684
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
 
-On Tue 13-01-26 14:12:28, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   b71e635feefc852405b14620a7fc58c4c80c0f73
-> commit: 9f1edf1aedac1b287355f63f768ba4275de72dca mm: readahead: make thp readahead conditional to mmap_miss logic
-> config: x86_64-randconfig-161-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131311.g3lyUAks-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> smatch version: v0.5.0-8985-g2614ff1a
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202601131311.g3lyUAks-lkp@intel.com/
-> 
-> smatch warnings:
-> mm/filemap.c:3307 do_sync_mmap_readahead() warn: assigning (-12) to unsigned variable 'ra->order'
-...
-> 9f1edf1aedac1b2 Roman Gushchin          2025-10-06  3306  		ra->async_size = HPAGE_PMD_NR;
-> 9f1edf1aedac1b2 Roman Gushchin          2025-10-06 @3307  		ra->order = HPAGE_PMD_ORDER;
-> 
-> HPAGE_PMD_SHIFT is zero in this config?
-> ra->order is a u16.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b71e635feefc852405b14620a7fc58c4c80c0f73
+commit: 63ef02da5ddb725555cd41f125ec0bd8e893da3a i2c: octeon: add block-mode i2c operations
+date:   8 months ago
+config: arm64-randconfig-r121-20260113 (https://download.01.org/0day-ci/archive/20260113/202601132015.AVgB52xg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601132015.AVgB52xg-lkp@intel.com/reproduce)
 
-What's the config exactly? I suppose CONFIG_TRANSPARENT_HUGEPAGE is
-disabled in this case, isn't it? In that case force_thp_readahead will
-never be true and thus the branch with the assignment can never be reached
-AFAICT...
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601132015.AVgB52xg-lkp@intel.com/
 
-								Honza
+sparse warnings: (new ones prefixed by >>)
+   drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long long [usertype] val @@     got restricted __be64 [addressable] [usertype] buf @@
+   drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse:     expected unsigned long long [usertype] val
+   drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse:     got restricted __be64 [addressable] [usertype] buf
+>> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
+>> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
+>> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
+>> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
+>> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
+>> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
+>> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
+>> drivers/i2c/busses/i2c-octeon-core.c:731:23: sparse: sparse: cast from restricted __be64
+   drivers/i2c/busses/i2c-octeon-core.c:732:42: sparse: sparse: cast from restricted __be64
+
+vim +731 drivers/i2c/busses/i2c-octeon-core.c
+
+   688	
+   689	/**
+   690	 * octeon_i2c_hlc_block_comp_write - high-level-controller composite block write
+   691	 * @i2c: The struct octeon_i2c
+   692	 * @msgs: msg[0] contains address, msg[1] contains data to be written
+   693	 *
+   694	 * i2c core command is constructed and write data is written into the FIFO buffer.
+   695	 * The execution of the command will result in HW write, using the data in FIFO.
+   696	 * Used in the case where the i2c xfer is for greater than 8 bytes of write data.
+   697	 *
+   698	 * Returns: 0 on success, otherwise a negative errno.
+   699	 */
+   700	static int octeon_i2c_hlc_block_comp_write(struct octeon_i2c *i2c, struct i2c_msg *msgs)
+   701	{
+   702		bool set_ext;
+   703		int ret;
+   704		u16 len, i;
+   705		u64 cmd, ext = 0;
+   706	
+   707		octeon_i2c_hlc_enable(i2c);
+   708		octeon_i2c_block_enable(i2c);
+   709	
+   710		/* Write (size - 1) into block control register */
+   711		len = msgs[1].len - 1;
+   712		octeon_i2c_writeq_flush((u64)len, i2c->twsi_base + OCTEON_REG_BLOCK_CTL(i2c));
+   713	
+   714		/* Prepare core command */
+   715		cmd = SW_TWSI_V | SW_TWSI_SOVR | SW_TWSI_OP_7_IA;
+   716		cmd |= (u64)(msgs[0].addr & 0x7full) << SW_TWSI_ADDR_SHIFT;
+   717	
+   718		/* Set parameters for extended message (if required) */
+   719		set_ext = octeon_i2c_hlc_ext(i2c, msgs[0], &cmd, &ext);
+   720	
+   721		/* Write msg into FIFO buffer */
+   722		octeon_i2c_writeq_flush(TWSX_BLOCK_STS_RESET_PTR,
+   723					i2c->twsi_base + OCTEON_REG_BLOCK_STS(i2c));
+   724		for (i = 0; i <= len; i += 8) {
+   725			__be64 buf = 0;
+   726	
+   727			/* Copy 8 bytes or remaining bytes from message buffer */
+   728			memcpy(&buf, &msgs[1].buf[i], min(8, msgs[1].len - i));
+   729	
+   730			/* Byte-swap message data and write into FIFO */
+ > 731			buf = cpu_to_be64(buf);
+   732			octeon_i2c_writeq_flush((u64)buf, i2c->twsi_base + OCTEON_REG_BLOCK_FIFO(i2c));
+   733		}
+   734		if (set_ext)
+   735			octeon_i2c_writeq_flush(ext, i2c->twsi_base + OCTEON_REG_SW_TWSI_EXT(i2c));
+   736	
+   737		/* Send command to core (send data in FIFO) */
+   738		ret = octeon_i2c_hlc_cmd_send(i2c, cmd);
+   739		if (ret)
+   740			goto err;
+   741	
+   742		cmd = __raw_readq(i2c->twsi_base + OCTEON_REG_SW_TWSI(i2c));
+   743		if ((cmd & SW_TWSI_R) == 0) {
+   744			octeon_i2c_block_disable(i2c);
+   745			return octeon_i2c_check_status(i2c, false);
+   746		}
+   747	
+   748	err:
+   749		octeon_i2c_block_disable(i2c);
+   750		return ret;
+   751	}
+   752	
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
