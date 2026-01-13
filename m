@@ -1,174 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9651525A357
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 04:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9532E8B8B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 05:06:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768277802; cv=none; b=c+oBRSBVjzyeuJiu+/JV9ZJRPQ/ndpNqDJkbuDlTfeLy4z7Twr48si6aJcDSgW2ZP2HwFGu+RqSwW2D/7QzV9jJ6gdjth7Qu01enM8RohXlPorUDLo5LEA3cP3Y5d/d6P0rXyEdezUfZ4QtAU0AfMZU9n9D0DEzijtjg086kETE=
+	t=1768280773; cv=none; b=PbB76NV4SG5XlhB7BNWf+9382O6a1LuqFkhJny7AJTVu67bJvZGy28RSWi2oNctBYy9Ciu/Y9uUmn/dxXG+Ell9fxu1yUxCvXGWt2+3VN22gwmzbiUlCNVYkv2B6Li7WqCoJiI+VNpo4wXde5Ms0fhUGPAfhlPHfNduP5uzC/qE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768277802; c=relaxed/simple;
-	bh=f0prDkpNDjiFMNfgm2lPTAu6Ytgqaf2amBoSNF128LI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=tg7UDkqL/CJT7GOLBgooDfuch6XQnqzVVgxGxsJL8/gX2okYnfLf+RJz/S0mN/rmpIb8TgHJiC0HIAiw6olI5AUJMI2E6X3hywzLs/ukg32LswKcptYdXRB4tRb7e4hcCB7ubFvnPZFrbgBbjW9oOpWevPegZuqsm2P5ZJLjJyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HdA81PZf; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768280773; c=relaxed/simple;
+	bh=ZRs7nOjpbmPf2i/oYubJ7/RTrssGnlbR35UjhHIKHOM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=YwQWlVR1PHhAdgKReTA8bprJSVRErOyKliBcM70IwycBV74KxXMpsjcVuiPEjXaV2gbvrQ4ll/nNTSl/xEyrO7gt8amVi1nr5f34kciHKvLv/NCz/Qyt8TmAQIzgGvPimNSv28N6KquPe8iCe/7DmcRfLmmfW3CSPa804qQOpsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vjatGa/N; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HdA81PZf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768277801; x=1799813801;
-  h=date:from:to:cc:subject:message-id;
-  bh=f0prDkpNDjiFMNfgm2lPTAu6Ytgqaf2amBoSNF128LI=;
-  b=HdA81PZfawGmM/onUmLLNfCS8ufdQfo3AKwj1afly6NaGokxgew/aPrK
-   15m8aq9LYhwEovE96WzVEJgUT82boHB8dE6vC8g511awvprvE9yyEFZub
-   0vcfc8G+y1eddxZuwWCK45QsOLxRf+GudQTGQYWc2RaG3Tnftd0B6Z44q
-   xynO5MNrTWeOaWfFKRFcAH0u6wjjPk1GTCv6nNFWQQzCbgBmlLs+veLjC
-   0TcbtnSvndxwBeMJLtl72s9ek6dxeOrD8pOyhK465NLKhn+7P+NCS5/eB
-   xrogLzfPMHrcqBuSRuPUuQaVNshbWPJr/lEYiIVNiBacvkNpQ/6YN8t0v
-   w==;
-X-CSE-ConnectionGUID: gXtOOn4rRLejCWiMWE54jA==
-X-CSE-MsgGUID: jKCjCe7LQJGA2r9yJ3FTWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="95035124"
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="95035124"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2026 20:16:40 -0800
-X-CSE-ConnectionGUID: ns0FJ0piQ+KINVG5x7ruag==
-X-CSE-MsgGUID: HoN7xNCEQXGqfRdfIFLQFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="203918945"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 Jan 2026 20:16:39 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfVpc-00000000ECS-200s;
-	Tue, 13 Jan 2026 04:16:36 +0000
-Date: Tue, 13 Jan 2026 12:15:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [gourryinverse:scratch/gourry/cxl/controllers/v2 6/6]
- drivers/cxl/core/memctrl/sysram_region.c:267:14: error: 'MMOP_OFFLINE'
- undeclared; did you mean 'MEM_OFFLINE'?
-Message-ID: <202601131231.u6x9Bgvd-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vjatGa/N"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4779cb0a33fso76453125e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jan 2026 21:06:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768280770; x=1768885570; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PXsXC2ZWqdZ05RwRyvB7Fu40TmpP1HJZeKqUVJy6PqE=;
+        b=vjatGa/NefIm2C1bc1iH0it98a24ic45/vy9Bxti14GMN2aNIhbeSpR+pqFKUA1pBX
+         qn53kNCpHwlBqHt6e9EwkCfDFtRbweqx3VhZVTy3/q1Twj+L5vLaTLO6NCu4orq1pKxD
+         UEtXXtlHt/FUb46wjb4dghkmDHQ8nBRnLfmLwElsYgWyCLaPX5vK2UKdM2lp3e6nGvx1
+         mrLqlA/1kVJL27sih2S3Fj0g9EGb04elnF4c21J1Kz05a7rGc3Tm6tAbE6wC3pnZ5TJi
+         HP9jVOXnqM87NcBQdYoqQmF9j0u3ADk6FVnsWlXaZTSbG8fHBTKofpSEpN/frxNFXk89
+         S+Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768280770; x=1768885570;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PXsXC2ZWqdZ05RwRyvB7Fu40TmpP1HJZeKqUVJy6PqE=;
+        b=wZz8Ee5Vl0DkiFIdcCLH7SVVYmT8BI8hIYVt2kpANgIRB6qUiwNo5SDYJ7ztHzuwUA
+         xQ2KtxRjLIQzexkopHcvdxTODWVwxAJl+Fsw9mi3wq7lqw8+u2FpdQPhq99VmDfOgE2Q
+         JevKamiT6SqkNGOV+3wkByyl4KjBhNlYwy25FuS2Oie9Otobqg2+rZ/eEqrN0txUUrqc
+         +fqWSHRIK7BkgEIZMBGWCT50quM9TlMr0rS750O8crvor9Pjxe96+i+vCY06O0eRorr8
+         7l0CH09o+LjdOn6V8jPpT4cZoqVDYBfv0Xh7kqHxAplffx6MtCKiPpGGFyGEzsC8RzjB
+         PXfA==
+X-Forwarded-Encrypted: i=1; AJvYcCXWX7HT9cXTeH0zxsXieJpNP/b8t2xccv9s1AuRtpJHkNvOFHPfCe61BSO2//r7axlgS9uqgQZsA6u+Y6JC@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBUrCVM1a/DLFYc7vXihwilk5PEL9b+MrnhPaOd6YZd1m+dHer
+	f2AccmjYpbdhPrTzWGpxO4E1rQ5rf+Y195tozUpB6tJrMBoyF+q0fW5I2otQG4NuncE=
+X-Gm-Gg: AY/fxX5MciSXbtfhPW4KwS8DHjDqNH1C3P5txEjIFfGY//B/atasH+5G88yl8tn0Vp7
+	mtn0aGgg3batGIzT5kdRWImuBWC15eexZMUbUHp866k4Is/duKM+vus8UMVnCKzXTIlkiTBpMcZ
+	Omvw6jdCS2S5BzwhXF2d2Hx8XiJ/EqpPJXHgv2izh7ESLn9pfgmux6Qw/6XMKW+7ut15L8nQukl
+	Cfal4NvIJi85L1DleABpCMguNjO+pYUzIhi5DuuD363w8EKlujGhE3dJx7wcoqp7rosFDckPQrz
+	Ep7s74f5C+a8AztCKKkJqzAyVuSw9O8LcVnJUr7DkSPfPsiuF0SaJEF3Q4JnczQ3ryx28uW+IJ7
+	pTvC6CKIc2FTSG2xpUhYl7Oc6G2eznFxJZx2ulHXrlriSiD8JoafS0ERvQJikQPuBEQJESCtf/E
+	ZWYg9r+FW63WR/7AST
+X-Google-Smtp-Source: AGHT+IFNpkwV3j4miP//2DleZDjCdvG1hsMO5y0qYpkeSRibSBP4A7EuJNtf2C1Yrzp7b1z3gUPIfA==
+X-Received: by 2002:a05:600c:4ed3:b0:47d:6140:3284 with SMTP id 5b1f17b1804b1-47d88fc1df4mr211374195e9.37.1768280769725;
+        Mon, 12 Jan 2026 21:06:09 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47ed9eb73d8sm6881695e9.3.2026.01.12.21.06.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jan 2026 21:06:09 -0800 (PST)
+Date: Tue, 13 Jan 2026 08:06:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Yu Kuai <yukuai@fnnas.com>,
+	linux-raid@vger.kernel.org, linan122@huawei.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, yukuai@fnnas.com
+Subject: Re: [PATCH v4 05/11] md/raid5: make sure max_sectors is not less
+ than io_opt
+Message-ID: <202601130531.LGfcZsa4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112042857.2334264-6-yukuai@fnnas.com>
 
-tree:   https://github.com/gourryinverse/linux scratch/gourry/cxl/controllers/v2
-head:   dcbd460f630113f17cb71133f44920a1f35c2605
-commit: 9a7e9f00bdcec2e1a0f8843abe36f31f75d00493 [6/6] cxl/sysram: disallow onlining in ZONE_NORMAL if state is movable only
-config: i386-randconfig-001-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131231.u6x9Bgvd-lkp@intel.com/config)
+Hi Yu,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-merge-mddev-has_superblock-into-mddev_flags/20260112-123233
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260112042857.2334264-6-yukuai%40fnnas.com
+patch subject: [PATCH v4 05/11] md/raid5: make sure max_sectors is not less than io_opt
+config: i386-randconfig-141-20260113 (https://download.01.org/0day-ci/archive/20260113/202601130531.LGfcZsa4-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131231.u6x9Bgvd-lkp@intel.com/reproduce)
+smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131231.u6x9Bgvd-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202601130531.LGfcZsa4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/md/raid5.c:8100 raid5_run() warn: missing error code 'ret'
 
-   drivers/cxl/core/memctrl/sysram_region.c: In function 'hotunplug_store':
-   drivers/cxl/core/memctrl/sysram_region.c:92:14: error: implicit declaration of function 'offline_and_remove_memory' [-Wimplicit-function-declaration]
-      92 |         rc = offline_and_remove_memory(range.start, range_len(&range));
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c: In function 'cxl_sysram_online_memory':
-   drivers/cxl/core/memctrl/sysram_region.c:149:14: error: implicit declaration of function 'walk_memory_blocks'; did you mean 'online_memory_block_cb'? [-Wimplicit-function-declaration]
-     149 |         rc = walk_memory_blocks(range->start, range_len(range),
-         |              ^~~~~~~~~~~~~~~~~~
-         |              online_memory_block_cb
-   drivers/cxl/core/memctrl/sysram_region.c: In function 'cxl_sysram_memory_notify_cb':
-   drivers/cxl/core/memctrl/sysram_region.c:201:39: error: 'MMOP_ONLINE_MOVABLE' undeclared (first use in this function)
-     201 |         if (data->last_online_type != MMOP_ONLINE_MOVABLE)
-         |                                       ^~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c:201:39: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/cxl/core/memctrl/sysram_region.c: In function 'cxl_sysram_auto_online':
-   drivers/cxl/core/memctrl/sysram_region.c:230:31: error: 'MMOP_ONLINE_MOVABLE' undeclared (first use in this function)
-     230 |                 online_type = MMOP_ONLINE_MOVABLE;
-         |                               ^~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c:232:31: error: 'MMOP_ONLINE_KERNEL' undeclared (first use in this function)
-     232 |                 online_type = MMOP_ONLINE_KERNEL;
-         |                               ^~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c: In function 'state_show':
-   drivers/cxl/core/memctrl/sysram_region.c:263:14: error: 'MMOP_ONLINE_MOVABLE' undeclared (first use in this function)
-     263 |         case MMOP_ONLINE_MOVABLE:
-         |              ^~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c:265:14: error: 'MMOP_ONLINE_KERNEL' undeclared (first use in this function)
-     265 |         case MMOP_ONLINE_KERNEL:
-         |              ^~~~~~~~~~~~~~~~~~
->> drivers/cxl/core/memctrl/sysram_region.c:267:14: error: 'MMOP_OFFLINE' undeclared (first use in this function); did you mean 'MEM_OFFLINE'?
-     267 |         case MMOP_OFFLINE:
-         |              ^~~~~~~~~~~~
-         |              MEM_OFFLINE
-   drivers/cxl/core/memctrl/sysram_region.c: In function 'state_store':
-   drivers/cxl/core/memctrl/sysram_region.c:280:27: error: 'MMOP_OFFLINE' undeclared (first use in this function); did you mean 'MEM_OFFLINE'?
-     280 |         int online_type = MMOP_OFFLINE;
-         |                           ^~~~~~~~~~~~
-         |                           MEM_OFFLINE
-   drivers/cxl/core/memctrl/sysram_region.c:299:31: error: 'MMOP_ONLINE_MOVABLE' undeclared (first use in this function)
-     299 |                 online_type = MMOP_ONLINE_MOVABLE;
-         |                               ^~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c:302:31: error: 'MMOP_ONLINE' undeclared (first use in this function); did you mean 'MEM_ONLINE'?
-     302 |                 online_type = MMOP_ONLINE;
-         |                               ^~~~~~~~~~~
-         |                               MEM_ONLINE
-   drivers/cxl/core/memctrl/sysram_region.c: In function 'hotplug_store':
-   drivers/cxl/core/memctrl/sysram_region.c:343:14: error: implicit declaration of function 'add_memory_driver_managed' [-Wimplicit-function-declaration]
-     343 |         rc = add_memory_driver_managed(data->mgid, range.start,
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c:345:40: error: 'MHP_NID_IS_MGID' undeclared (first use in this function)
-     345 |                                        MHP_NID_IS_MGID);
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c: In function 'cxl_sysram_unregister':
-   drivers/cxl/core/memctrl/sysram_region.c:382:17: error: implicit declaration of function 'memory_group_unregister' [-Wimplicit-function-declaration]
-     382 |                 memory_group_unregister(data->mgid);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c: In function 'devm_cxl_add_sysram_region':
-   drivers/cxl/core/memctrl/sysram_region.c:400:9: error: unknown type name 'mhp_t'
-     400 |         mhp_t mhp_flags;
-         |         ^~~~~
-   drivers/cxl/core/memctrl/sysram_region.c:440:34: error: 'MMOP_OFFLINE' undeclared (first use in this function); did you mean 'MEM_OFFLINE'?
-     440 |         data->last_online_type = MMOP_OFFLINE;
-         |                                  ^~~~~~~~~~~~
-         |                                  MEM_OFFLINE
-   drivers/cxl/core/memctrl/sysram_region.c:448:14: error: implicit declaration of function 'memory_group_register_static' [-Wimplicit-function-declaration]
-     448 |         rc = memory_group_register_static(numa_node, PFN_UP(total_len));
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/core/memctrl/sysram_region.c:470:21: error: 'MHP_NID_IS_MGID' undeclared (first use in this function)
-     470 |         mhp_flags = MHP_NID_IS_MGID;
-         |                     ^~~~~~~~~~~~~~~
+vim +/ret +8100 drivers/md/raid5.c
 
+cc6167b4f3b3ca NeilBrown            2016-11-02  8064  	pr_info("md/raid:%s: raid level %d active with %d out of %d devices, algorithm %d\n",
+cc6167b4f3b3ca NeilBrown            2016-11-02  8065  		mdname(mddev), conf->level,
+^1da177e4c3f41 Linus Torvalds       2005-04-16  8066  		mddev->raid_disks-mddev->degraded, mddev->raid_disks,
+e183eaedd53807 NeilBrown            2009-03-31  8067  		mddev->new_layout);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  8068  
+^1da177e4c3f41 Linus Torvalds       2005-04-16  8069  	print_raid5_conf(conf);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  8070  
+fef9c61fdfabf9 NeilBrown            2009-03-31  8071  	if (conf->reshape_progress != MaxSector) {
+fef9c61fdfabf9 NeilBrown            2009-03-31  8072  		conf->reshape_safe = conf->reshape_progress;
+f67055780caac6 NeilBrown            2006-03-27  8073  		atomic_set(&conf->reshape_stripes, 0);
+f67055780caac6 NeilBrown            2006-03-27  8074  		clear_bit(MD_RECOVERY_SYNC, &mddev->recovery);
+f67055780caac6 NeilBrown            2006-03-27  8075  		clear_bit(MD_RECOVERY_CHECK, &mddev->recovery);
+f67055780caac6 NeilBrown            2006-03-27  8076  		set_bit(MD_RECOVERY_RESHAPE, &mddev->recovery);
+ad39c08186f8a0 Yu Kuai              2024-02-01  8077  		set_bit(MD_RECOVERY_NEEDED, &mddev->recovery);
+f67055780caac6 NeilBrown            2006-03-27  8078  	}
+f67055780caac6 NeilBrown            2006-03-27  8079  
+^1da177e4c3f41 Linus Torvalds       2005-04-16  8080  	/* Ok, everything is just fine now */
+a64c876fd35790 NeilBrown            2010-04-14  8081  	if (mddev->to_remove == &raid5_attrs_group)
+a64c876fd35790 NeilBrown            2010-04-14  8082  		mddev->to_remove = NULL;
+00bcb4ac7ee7e5 NeilBrown            2010-06-01  8083  	else if (mddev->kobj.sd &&
+00bcb4ac7ee7e5 NeilBrown            2010-06-01  8084  	    sysfs_create_group(&mddev->kobj, &raid5_attrs_group))
+cc6167b4f3b3ca NeilBrown            2016-11-02  8085  		pr_warn("raid5: failed to create sysfs attributes for %s\n",
+5e55e2f5fc95b3 NeilBrown            2007-03-26  8086  			mdname(mddev));
+4a5add49951e69 NeilBrown            2010-06-01  8087  	md_set_array_sectors(mddev, raid5_size(mddev, 0, 0));
+7a5febe9ffeecd NeilBrown            2005-05-16  8088  
+176df894d79741 Christoph Hellwig    2024-03-03  8089  	if (!mddev_is_dm(mddev)) {
+f63f17350e5373 Christoph Hellwig    2024-03-03  8090  		ret = raid5_set_limits(mddev);
+f63f17350e5373 Christoph Hellwig    2024-03-03  8091  		if (ret)
+f63f17350e5373 Christoph Hellwig    2024-03-03  8092  			goto abort;
+9f7c2220017771 NeilBrown            2010-07-26  8093  	}
+23032a0eb97c8e Raz Ben-Jehuda(caro  2006-12-10  8094) 
+585d578974395f Yu Kuai              2026-01-12  8095  	ret = raid5_create_ctx_pool(conf);
+585d578974395f Yu Kuai              2026-01-12  8096  	if (ret)
+01fce9e38c0e92 Yu Kuai              2026-01-12  8097  		goto abort;
+01fce9e38c0e92 Yu Kuai              2026-01-12  8098  
+845b9e229fe071 Artur Paszkiewicz    2017-04-04  8099  	if (log_init(conf, journal_dev, raid5_has_ppl(conf)))
+5aabf7c49d9ebe Song Liu             2016-11-17 @8100  		goto abort;
 
-vim +267 drivers/cxl/core/memctrl/sysram_region.c
+Presumably we should propagate the error code from log_init()?
 
-   252	
-   253	static ssize_t state_show(struct device *dev,
-   254				  struct device_attribute *attr, char *buf)
-   255	{
-   256		struct cxl_sysram_data *data;
-   257	
-   258		data = dev_get_drvdata(dev);
-   259		if (!data)
-   260			return -ENODEV;
-   261	
-   262		switch (data->last_online_type) {
-   263		case MMOP_ONLINE_MOVABLE:
-   264			return sysfs_emit(buf, "online\n");
-   265		case MMOP_ONLINE_KERNEL:
-   266			return sysfs_emit(buf, "online_normal\n");
- > 267		case MMOP_OFFLINE:
-   268		default:
-   269			return sysfs_emit(buf, "offline\n");
-   270		}
-   271	}
-   272	
+5c7e81c3de9eb3 Shaohua Li           2015-08-13  8101  
+^1da177e4c3f41 Linus Torvalds       2005-04-16  8102  	return 0;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  8103  abort:
+7eb8ff02c1df27 Li Lingfeng          2023-08-03  8104  	md_unregister_thread(mddev, &mddev->thread);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  8105  	print_raid5_conf(conf);
+95fc17aac45300 Dan Williams         2009-07-31  8106  	free_conf(conf);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  8107  	mddev->private = NULL;
+cc6167b4f3b3ca NeilBrown            2016-11-02  8108  	pr_warn("md/raid:%s: failed to run raid set.\n", mdname(mddev));
+f63f17350e5373 Christoph Hellwig    2024-03-03  8109  	return ret;
+^1da177e4c3f41 Linus Torvalds       2005-04-16  8110  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
