@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD48A17B505;
-	Tue, 13 Jan 2026 18:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA8D1AAE13
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 18:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768329100; cv=none; b=MC8wXJ6+4OpILCe4QPBdlG4U/OnBeCOqCYmGm8GssSkoSJG4DicKVlQ740uOO9sMaAi1ege2Hq9OH/ARvywkd91E9UjDSXtd8sfdFGz1AzONwMI2dFdrjPEbSAZhgZ4z/w09e3hVpcraEIhyUTjiAfh37mCTqfNwqx4KmkVn7EQ=
+	t=1768329762; cv=none; b=nI4AnB41bd1cj50k/gDzE+Z1oMA4SsG/Igz97ThuS4Cf7AeV1xyNLudBc9DApyg4jh8fjhiKety1NYv9aV5KHj8YDk0Fj0EbNofZoX4WCJFoH2Fw4gNYAIFDbXPH9SwOEKAp0eJcK7RzPKKjxeUyIWGgLur1drtZhilegAoVgJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768329100; c=relaxed/simple;
-	bh=3AWZAJ32y/BInKU15Siv1AEUwH+rprNm7o35xEBnh+s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=I5ozBZQzR31ESPtqH9hj8PfDRf+gGqo3PK6QL3jXxd5oj7KUYC6XimiBFwAEm8MFRKOuksxFmgC4ksXT+ia+K20p7dgHnEaBDSMNOzGCd4YiUD3LhwsEsToap1kMwmRWLhs6qa4vUwSjpkB1cIZCYGvGL7lXCMyVg2kcv+/YRuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c1xx2Vc1; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1768329762; c=relaxed/simple;
+	bh=Ik4g6mLqrHkdwQaEMqp7TcPt1uoS3L+6/ZTow13x/XI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=S8mgamT6Jq7wAkhnZgIaRdaOwZf7hvsDVWInIfmkWMqx0h2t4FXnTfi73eM+4Q/41PVlhzHgMvxnLkULFDhBOSOmbrGTTspumKp757ba3EdzQ0ld5JYYD2OnHdXHHSZCd99qT7Z0lLpO4f5Ih+oAXGQTBYhyTFAeBoHdvcGsuy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HX5YNbG7; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c1xx2Vc1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HX5YNbG7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768329099; x=1799865099;
+  t=1768329760; x=1799865760;
   h=date:from:to:cc:subject:message-id;
-  bh=3AWZAJ32y/BInKU15Siv1AEUwH+rprNm7o35xEBnh+s=;
-  b=c1xx2Vc1KM8NNpJB0w8z6ujnulfjc3O6s9AmCHdndWka6JB4nnoUHeQf
-   AjN051gYACueru+8CzlEGZRbPvcMdSYw3X2Udxu2oYKOYKzHkBYi8jHJR
-   YOh4h3RpIKsdfya6FY8EscyM9qiSdQK8T3LIIwbfj2TTdgjO6hjJICPUI
-   QwfIIDBnhunvkXt8ctGu1kquWzxz49xIUhO5xRL0DiHjGkewL+JFJS7D9
-   TVQLxD33x7cC3V3dKp4uzv8n/Yt+sx6fJ9H/47fWGRwTokf2epBERuknx
-   NFPLCLscMRQHECT0Eju4r+dzIpHyV12xTe969kmXIqgaYlLGmOzvcDVJI
-   g==;
-X-CSE-ConnectionGUID: A4j9SVzxRlmXh2sf3umRGQ==
-X-CSE-MsgGUID: 5OpRv/85Tse50DgDmjgowg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="68628484"
+  bh=Ik4g6mLqrHkdwQaEMqp7TcPt1uoS3L+6/ZTow13x/XI=;
+  b=HX5YNbG74DBwZ2dr0rH0+tOSufXC3MfSzbT/KQ4dBtE8UiBrzygKTuqu
+   CAMLkVrHufa3X7UUx7iEYGx2VKXqHDy6Yo9MlxfubMEaZLBIeCev5LUmW
+   yKDTtuUVR8B+z/T7ufTZLTrHmr72OyPgpwZ9xpTFPPodyEm3vGRdJdZD5
+   NQKPAmPZlf2WQYdIyM4g3l897oKb7KzwSZDPLIATDu/LlSwoeJu/cPXUM
+   Yk6/4Xo6juii6rGMFZNQtP7TQgrVrlSMW5VLpOF8pDUJTJSFzzb461Hpa
+   AILwBS951A9bChXoFQJ25V3qnzbQjtYTEslI7qc/MmaZajhQx7yQEovqr
+   Q==;
+X-CSE-ConnectionGUID: PKf7GgeLQDOOjl0Mg8aKgg==
+X-CSE-MsgGUID: lpzkLt+SSq2LXCKcNQqTYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="73466305"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="68628484"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 10:31:38 -0800
-X-CSE-ConnectionGUID: pM7Rj2fXT0CwbqVRRcanog==
-X-CSE-MsgGUID: pQAbL+twTe+MAcuCm/0EpQ==
+   d="scan'208";a="73466305"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 10:42:40 -0800
+X-CSE-ConnectionGUID: tHzGxifzStaVa5ZgEQM8bw==
+X-CSE-MsgGUID: x1GuZZMCQ4ytUc4Tu8H4Hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="235179086"
+   d="scan'208";a="203596451"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Jan 2026 10:31:37 -0800
+  by orviesa006.jf.intel.com with ESMTP; 13 Jan 2026 10:42:37 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfjB0-00000000FES-1M4Q;
-	Tue, 13 Jan 2026 18:31:34 +0000
-Date: Wed, 14 Jan 2026 02:31:31 +0800
+	id 1vfjLe-00000000FEu-3vnx;
+	Tue, 13 Jan 2026 18:42:34 +0000
+Date: Wed, 14 Jan 2026 02:41:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [frederic-dynticks:timers/core 11/14]
- include/linux/kernel_stat.h:164:2: error: call to undeclared function
- 'kcpustat_fetch_default'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202601140209.AiluAvrk-lkp@intel.com>
+To: "Maciej Wieczor-Retman" <maciej.wieczor-retman@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Hildenbrand <david@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-new 294/303] arch/arm64/kernel/traps.c:1074:9:
+ error: implicit declaration of function 'kasan_die_unless_recover'
+Message-ID: <202601140248.D9Oj5lCh-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,47 +61,379 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/core
-head:   8c562e5c98799c4f2ed88dfc1c3266a4d4e2e7a8
-commit: 3f8381521f4337e859f0e9379a4b527d8bd54c64 [11/14] tick/sched: Consolidate fetching idle time
-config: arm-randconfig-001-20260114 (https://download.01.org/0day-ci/archive/20260114/202601140209.AiluAvrk-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140209.AiluAvrk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   abb8eb84b7bb668d982e556b2b19f0e3ac42c591
+commit: c22668ddeabded18adfebc428e99d20d59bc6d9d [294/303] arm64: unify software tag-based KASAN inline recovery path
+config: arm64-randconfig-r064-20260113 (https://download.01.org/0day-ci/archive/20260114/202601140248.D9Oj5lCh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140248.D9Oj5lCh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601140209.AiluAvrk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601140248.D9Oj5lCh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/sched/rq-offsets.c:5:
-   In file included from kernel/sched/sched.h:28:
-   In file included from include/linux/cgroup_api.h:1:
-   In file included from include/linux/cgroup.h:27:
->> include/linux/kernel_stat.h:164:2: error: call to undeclared function 'kcpustat_fetch_default'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     164 |         kcpustat_fetch_default(dst, cpu);
-         |         ^
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1 shuffle=2057609588
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1314: prepare0] Error 2 shuffle=2057609588
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2057609588
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2057609588
-   make: Target 'prepare' not remade because of errors.
+     853 |         [ESR_ELx_EC_SVE]                = "SVE",
+         |                                           ^~~~~
+   arch/arm64/kernel/traps.c:853:43: note: (near initialization for 'esr_class_str[25]')
+   arch/arm64/kernel/traps.c:854:43: warning: initialized field overwritten [-Woverride-init]
+     854 |         [ESR_ELx_EC_ERET]               = "ERET/ERETAA/ERETAB",
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:854:43: note: (near initialization for 'esr_class_str[26]')
+   arch/arm64/kernel/traps.c:855:43: warning: initialized field overwritten [-Woverride-init]
+     855 |         [ESR_ELx_EC_FPAC]               = "FPAC",
+         |                                           ^~~~~~
+   arch/arm64/kernel/traps.c:855:43: note: (near initialization for 'esr_class_str[28]')
+   arch/arm64/kernel/traps.c:856:43: warning: initialized field overwritten [-Woverride-init]
+     856 |         [ESR_ELx_EC_SME]                = "SME",
+         |                                           ^~~~~
+   arch/arm64/kernel/traps.c:856:43: note: (near initialization for 'esr_class_str[29]')
+   arch/arm64/kernel/traps.c:857:43: warning: initialized field overwritten [-Woverride-init]
+     857 |         [ESR_ELx_EC_IMP_DEF]            = "EL3 IMP DEF",
+         |                                           ^~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:857:43: note: (near initialization for 'esr_class_str[31]')
+   arch/arm64/kernel/traps.c:858:43: warning: initialized field overwritten [-Woverride-init]
+     858 |         [ESR_ELx_EC_IABT_LOW]           = "IABT (lower EL)",
+         |                                           ^~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:858:43: note: (near initialization for 'esr_class_str[32]')
+   arch/arm64/kernel/traps.c:859:43: warning: initialized field overwritten [-Woverride-init]
+     859 |         [ESR_ELx_EC_IABT_CUR]           = "IABT (current EL)",
+         |                                           ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:859:43: note: (near initialization for 'esr_class_str[33]')
+   arch/arm64/kernel/traps.c:860:43: warning: initialized field overwritten [-Woverride-init]
+     860 |         [ESR_ELx_EC_PC_ALIGN]           = "PC Alignment",
+         |                                           ^~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:860:43: note: (near initialization for 'esr_class_str[34]')
+   arch/arm64/kernel/traps.c:861:43: warning: initialized field overwritten [-Woverride-init]
+     861 |         [ESR_ELx_EC_DABT_LOW]           = "DABT (lower EL)",
+         |                                           ^~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:861:43: note: (near initialization for 'esr_class_str[36]')
+   arch/arm64/kernel/traps.c:862:43: warning: initialized field overwritten [-Woverride-init]
+     862 |         [ESR_ELx_EC_DABT_CUR]           = "DABT (current EL)",
+         |                                           ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:862:43: note: (near initialization for 'esr_class_str[37]')
+   arch/arm64/kernel/traps.c:863:43: warning: initialized field overwritten [-Woverride-init]
+     863 |         [ESR_ELx_EC_SP_ALIGN]           = "SP Alignment",
+         |                                           ^~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:863:43: note: (near initialization for 'esr_class_str[38]')
+   arch/arm64/kernel/traps.c:864:43: warning: initialized field overwritten [-Woverride-init]
+     864 |         [ESR_ELx_EC_MOPS]               = "MOPS",
+         |                                           ^~~~~~
+   arch/arm64/kernel/traps.c:864:43: note: (near initialization for 'esr_class_str[39]')
+   arch/arm64/kernel/traps.c:865:43: warning: initialized field overwritten [-Woverride-init]
+     865 |         [ESR_ELx_EC_FP_EXC32]           = "FP (AArch32)",
+         |                                           ^~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:865:43: note: (near initialization for 'esr_class_str[40]')
+   arch/arm64/kernel/traps.c:866:43: warning: initialized field overwritten [-Woverride-init]
+     866 |         [ESR_ELx_EC_FP_EXC64]           = "FP (AArch64)",
+         |                                           ^~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:866:43: note: (near initialization for 'esr_class_str[44]')
+   arch/arm64/kernel/traps.c:867:43: warning: initialized field overwritten [-Woverride-init]
+     867 |         [ESR_ELx_EC_GCS]                = "Guarded Control Stack",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:867:43: note: (near initialization for 'esr_class_str[45]')
+   arch/arm64/kernel/traps.c:868:43: warning: initialized field overwritten [-Woverride-init]
+     868 |         [ESR_ELx_EC_SERROR]             = "SError",
+         |                                           ^~~~~~~~
+   arch/arm64/kernel/traps.c:868:43: note: (near initialization for 'esr_class_str[47]')
+   arch/arm64/kernel/traps.c:869:43: warning: initialized field overwritten [-Woverride-init]
+     869 |         [ESR_ELx_EC_BREAKPT_LOW]        = "Breakpoint (lower EL)",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:869:43: note: (near initialization for 'esr_class_str[48]')
+   arch/arm64/kernel/traps.c:870:43: warning: initialized field overwritten [-Woverride-init]
+     870 |         [ESR_ELx_EC_BREAKPT_CUR]        = "Breakpoint (current EL)",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:870:43: note: (near initialization for 'esr_class_str[49]')
+   arch/arm64/kernel/traps.c:871:43: warning: initialized field overwritten [-Woverride-init]
+     871 |         [ESR_ELx_EC_SOFTSTP_LOW]        = "Software Step (lower EL)",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:871:43: note: (near initialization for 'esr_class_str[50]')
+   arch/arm64/kernel/traps.c:872:43: warning: initialized field overwritten [-Woverride-init]
+     872 |         [ESR_ELx_EC_SOFTSTP_CUR]        = "Software Step (current EL)",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:872:43: note: (near initialization for 'esr_class_str[51]')
+   arch/arm64/kernel/traps.c:873:43: warning: initialized field overwritten [-Woverride-init]
+     873 |         [ESR_ELx_EC_WATCHPT_LOW]        = "Watchpoint (lower EL)",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:873:43: note: (near initialization for 'esr_class_str[52]')
+   arch/arm64/kernel/traps.c:874:43: warning: initialized field overwritten [-Woverride-init]
+     874 |         [ESR_ELx_EC_WATCHPT_CUR]        = "Watchpoint (current EL)",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:874:43: note: (near initialization for 'esr_class_str[53]')
+   arch/arm64/kernel/traps.c:875:43: warning: initialized field overwritten [-Woverride-init]
+     875 |         [ESR_ELx_EC_BKPT32]             = "BKPT (AArch32)",
+         |                                           ^~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:875:43: note: (near initialization for 'esr_class_str[56]')
+   arch/arm64/kernel/traps.c:876:43: warning: initialized field overwritten [-Woverride-init]
+     876 |         [ESR_ELx_EC_VECTOR32]           = "Vector catch (AArch32)",
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:876:43: note: (near initialization for 'esr_class_str[58]')
+   arch/arm64/kernel/traps.c:877:43: warning: initialized field overwritten [-Woverride-init]
+     877 |         [ESR_ELx_EC_BRK64]              = "BRK (AArch64)",
+         |                                           ^~~~~~~~~~~~~~~
+   arch/arm64/kernel/traps.c:877:43: note: (near initialization for 'esr_class_str[60]')
+   arch/arm64/kernel/traps.c: In function 'kasan_brk_handler':
+>> arch/arm64/kernel/traps.c:1074:9: error: implicit declaration of function 'kasan_die_unless_recover' [-Werror=implicit-function-declaration]
+    1074 |         kasan_die_unless_recover(recover, "Oops - KASAN", regs, esr, die);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/kcpustat_fetch_default +164 include/linux/kernel_stat.h
+vim +/kasan_die_unless_recover +1074 arch/arm64/kernel/traps.c
 
-   161	
-   162	static inline void kcpustat_cpu_fetch(struct kernel_cpustat *dst, int cpu)
-   163	{
- > 164		kcpustat_fetch_default(dst, cpu);
-   165	}
-   166	#endif /* !CONFIG_VIRT_CPU_ACCOUNTING_GEN */
-   167	
+   831	
+   832	static const char *esr_class_str[] = {
+   833		[0 ... ESR_ELx_EC_MAX]		= "UNRECOGNIZED EC",
+   834		[ESR_ELx_EC_UNKNOWN]		= "Unknown/Uncategorized",
+   835		[ESR_ELx_EC_WFx]		= "WFI/WFE",
+   836		[ESR_ELx_EC_CP15_32]		= "CP15 MCR/MRC",
+   837		[ESR_ELx_EC_CP15_64]		= "CP15 MCRR/MRRC",
+   838		[ESR_ELx_EC_CP14_MR]		= "CP14 MCR/MRC",
+   839		[ESR_ELx_EC_CP14_LS]		= "CP14 LDC/STC",
+   840		[ESR_ELx_EC_FP_ASIMD]		= "ASIMD",
+   841		[ESR_ELx_EC_CP10_ID]		= "CP10 MRC/VMRS",
+   842		[ESR_ELx_EC_PAC]		= "PAC",
+   843		[ESR_ELx_EC_CP14_64]		= "CP14 MCRR/MRRC",
+   844		[ESR_ELx_EC_BTI]		= "BTI",
+   845		[ESR_ELx_EC_ILL]		= "PSTATE.IL",
+   846		[ESR_ELx_EC_SVC32]		= "SVC (AArch32)",
+   847		[ESR_ELx_EC_HVC32]		= "HVC (AArch32)",
+   848		[ESR_ELx_EC_SMC32]		= "SMC (AArch32)",
+   849		[ESR_ELx_EC_SVC64]		= "SVC (AArch64)",
+   850		[ESR_ELx_EC_HVC64]		= "HVC (AArch64)",
+   851		[ESR_ELx_EC_SMC64]		= "SMC (AArch64)",
+   852		[ESR_ELx_EC_SYS64]		= "MSR/MRS (AArch64)",
+   853		[ESR_ELx_EC_SVE]		= "SVE",
+   854		[ESR_ELx_EC_ERET]		= "ERET/ERETAA/ERETAB",
+   855		[ESR_ELx_EC_FPAC]		= "FPAC",
+   856		[ESR_ELx_EC_SME]		= "SME",
+   857		[ESR_ELx_EC_IMP_DEF]		= "EL3 IMP DEF",
+   858		[ESR_ELx_EC_IABT_LOW]		= "IABT (lower EL)",
+   859		[ESR_ELx_EC_IABT_CUR]		= "IABT (current EL)",
+   860		[ESR_ELx_EC_PC_ALIGN]		= "PC Alignment",
+   861		[ESR_ELx_EC_DABT_LOW]		= "DABT (lower EL)",
+   862		[ESR_ELx_EC_DABT_CUR]		= "DABT (current EL)",
+   863		[ESR_ELx_EC_SP_ALIGN]		= "SP Alignment",
+   864		[ESR_ELx_EC_MOPS]		= "MOPS",
+   865		[ESR_ELx_EC_FP_EXC32]		= "FP (AArch32)",
+   866		[ESR_ELx_EC_FP_EXC64]		= "FP (AArch64)",
+   867		[ESR_ELx_EC_GCS]		= "Guarded Control Stack",
+   868		[ESR_ELx_EC_SERROR]		= "SError",
+   869		[ESR_ELx_EC_BREAKPT_LOW]	= "Breakpoint (lower EL)",
+   870		[ESR_ELx_EC_BREAKPT_CUR]	= "Breakpoint (current EL)",
+   871		[ESR_ELx_EC_SOFTSTP_LOW]	= "Software Step (lower EL)",
+   872		[ESR_ELx_EC_SOFTSTP_CUR]	= "Software Step (current EL)",
+   873		[ESR_ELx_EC_WATCHPT_LOW]	= "Watchpoint (lower EL)",
+   874		[ESR_ELx_EC_WATCHPT_CUR]	= "Watchpoint (current EL)",
+   875		[ESR_ELx_EC_BKPT32]		= "BKPT (AArch32)",
+ > 876		[ESR_ELx_EC_VECTOR32]		= "Vector catch (AArch32)",
+   877		[ESR_ELx_EC_BRK64]		= "BRK (AArch64)",
+   878	};
+   879	
+   880	const char *esr_get_class_string(unsigned long esr)
+   881	{
+   882		return esr_class_str[ESR_ELx_EC(esr)];
+   883	}
+   884	
+   885	/*
+   886	 * bad_el0_sync handles unexpected, but potentially recoverable synchronous
+   887	 * exceptions taken from EL0.
+   888	 */
+   889	void bad_el0_sync(struct pt_regs *regs, int reason, unsigned long esr)
+   890	{
+   891		unsigned long pc = instruction_pointer(regs);
+   892	
+   893		current->thread.fault_address = 0;
+   894		current->thread.fault_code = esr;
+   895	
+   896		arm64_force_sig_fault(SIGILL, ILL_ILLOPC, pc,
+   897				      "Bad EL0 synchronous exception");
+   898	}
+   899	
+   900	DEFINE_PER_CPU(unsigned long [OVERFLOW_STACK_SIZE/sizeof(long)], overflow_stack)
+   901		__aligned(16);
+   902	
+   903	void __noreturn panic_bad_stack(struct pt_regs *regs, unsigned long esr, unsigned long far)
+   904	{
+   905		unsigned long tsk_stk = (unsigned long)current->stack;
+   906		unsigned long irq_stk = (unsigned long)this_cpu_read(irq_stack_ptr);
+   907		unsigned long ovf_stk = (unsigned long)this_cpu_ptr(overflow_stack);
+   908	
+   909		console_verbose();
+   910		pr_emerg("Insufficient stack space to handle exception!");
+   911	
+   912		pr_emerg("ESR: 0x%016lx -- %s\n", esr, esr_get_class_string(esr));
+   913		pr_emerg("FAR: 0x%016lx\n", far);
+   914	
+   915		pr_emerg("Task stack:     [0x%016lx..0x%016lx]\n",
+   916			 tsk_stk, tsk_stk + THREAD_SIZE);
+   917		pr_emerg("IRQ stack:      [0x%016lx..0x%016lx]\n",
+   918			 irq_stk, irq_stk + IRQ_STACK_SIZE);
+   919		pr_emerg("Overflow stack: [0x%016lx..0x%016lx]\n",
+   920			 ovf_stk, ovf_stk + OVERFLOW_STACK_SIZE);
+   921	
+   922		__show_regs(regs);
+   923	
+   924		/*
+   925		 * We use nmi_panic to limit the potential for recursive overflows, and
+   926		 * to get a better stack trace.
+   927		 */
+   928		nmi_panic(NULL, "kernel stack overflow");
+   929		cpu_park_loop();
+   930	}
+   931	
+   932	void __noreturn arm64_serror_panic(struct pt_regs *regs, unsigned long esr)
+   933	{
+   934		add_taint(TAINT_MACHINE_CHECK, LOCKDEP_STILL_OK);
+   935		console_verbose();
+   936	
+   937		pr_crit("SError Interrupt on CPU%d, code 0x%016lx -- %s\n",
+   938			smp_processor_id(), esr, esr_get_class_string(esr));
+   939		if (regs)
+   940			__show_regs(regs);
+   941	
+   942		nmi_panic(regs, "Asynchronous SError Interrupt");
+   943	
+   944		cpu_park_loop();
+   945	}
+   946	
+   947	bool arm64_is_fatal_ras_serror(struct pt_regs *regs, unsigned long esr)
+   948	{
+   949		unsigned long aet = arm64_ras_serror_get_severity(esr);
+   950	
+   951		switch (aet) {
+   952		case ESR_ELx_AET_CE:	/* corrected error */
+   953		case ESR_ELx_AET_UEO:	/* restartable, not yet consumed */
+   954			/*
+   955			 * The CPU can make progress. We may take UEO again as
+   956			 * a more severe error.
+   957			 */
+   958			return false;
+   959	
+   960		case ESR_ELx_AET_UEU:	/* Uncorrected Unrecoverable */
+   961		case ESR_ELx_AET_UER:	/* Uncorrected Recoverable */
+   962			/*
+   963			 * The CPU can't make progress. The exception may have
+   964			 * been imprecise.
+   965			 *
+   966			 * Neoverse-N1 #1349291 means a non-KVM SError reported as
+   967			 * Unrecoverable should be treated as Uncontainable. We
+   968			 * call arm64_serror_panic() in both cases.
+   969			 */
+   970			return true;
+   971	
+   972		case ESR_ELx_AET_UC:	/* Uncontainable or Uncategorized error */
+   973		default:
+   974			/* Error has been silently propagated */
+   975			arm64_serror_panic(regs, esr);
+   976		}
+   977	}
+   978	
+   979	void do_serror(struct pt_regs *regs, unsigned long esr)
+   980	{
+   981		/* non-RAS errors are not containable */
+   982		if (!arm64_is_ras_serror(esr) || arm64_is_fatal_ras_serror(regs, esr))
+   983			arm64_serror_panic(regs, esr);
+   984	}
+   985	
+   986	/* GENERIC_BUG traps */
+   987	#ifdef CONFIG_GENERIC_BUG
+   988	int is_valid_bugaddr(unsigned long addr)
+   989	{
+   990		/*
+   991		 * bug_brk_handler() only called for BRK #BUG_BRK_IMM.
+   992		 * So the answer is trivial -- any spurious instances with no
+   993		 * bug table entry will be rejected by report_bug() and passed
+   994		 * back to the debug-monitors code and handled as a fatal
+   995		 * unexpected debug exception.
+   996		 */
+   997		return 1;
+   998	}
+   999	#endif
+  1000	
+  1001	int bug_brk_handler(struct pt_regs *regs, unsigned long esr)
+  1002	{
+  1003		switch (report_bug(regs->pc, regs)) {
+  1004		case BUG_TRAP_TYPE_BUG:
+  1005			die("Oops - BUG", regs, esr);
+  1006			break;
+  1007	
+  1008		case BUG_TRAP_TYPE_WARN:
+  1009			break;
+  1010	
+  1011		default:
+  1012			/* unknown/unrecognised bug trap type */
+  1013			return DBG_HOOK_ERROR;
+  1014		}
+  1015	
+  1016		/* If thread survives, skip over the BUG instruction and continue: */
+  1017		arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
+  1018		return DBG_HOOK_HANDLED;
+  1019	}
+  1020	
+  1021	#ifdef CONFIG_CFI
+  1022	int cfi_brk_handler(struct pt_regs *regs, unsigned long esr)
+  1023	{
+  1024		unsigned long target;
+  1025		u32 type;
+  1026	
+  1027		target = pt_regs_read_reg(regs, FIELD_GET(CFI_BRK_IMM_TARGET, esr));
+  1028		type = (u32)pt_regs_read_reg(regs, FIELD_GET(CFI_BRK_IMM_TYPE, esr));
+  1029	
+  1030		switch (report_cfi_failure(regs, regs->pc, &target, type)) {
+  1031		case BUG_TRAP_TYPE_BUG:
+  1032			die("Oops - CFI", regs, esr);
+  1033			break;
+  1034	
+  1035		case BUG_TRAP_TYPE_WARN:
+  1036			break;
+  1037	
+  1038		default:
+  1039			return DBG_HOOK_ERROR;
+  1040		}
+  1041	
+  1042		arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
+  1043		return DBG_HOOK_HANDLED;
+  1044	}
+  1045	#endif /* CONFIG_CFI */
+  1046	
+  1047	int reserved_fault_brk_handler(struct pt_regs *regs, unsigned long esr)
+  1048	{
+  1049		pr_err("%s generated an invalid instruction at %pS!\n",
+  1050			"Kernel text patching",
+  1051			(void *)instruction_pointer(regs));
+  1052	
+  1053		/* We cannot handle this */
+  1054		return DBG_HOOK_ERROR;
+  1055	}
+  1056	
+  1057	#ifdef CONFIG_KASAN_SW_TAGS
+  1058	
+  1059	#define KASAN_ESR_RECOVER	0x20
+  1060	#define KASAN_ESR_WRITE	0x10
+  1061	#define KASAN_ESR_SIZE_MASK	0x0f
+  1062	#define KASAN_ESR_SIZE(esr)	(1 << ((esr) & KASAN_ESR_SIZE_MASK))
+  1063	
+  1064	int kasan_brk_handler(struct pt_regs *regs, unsigned long esr)
+  1065	{
+  1066		bool recover = esr & KASAN_ESR_RECOVER;
+  1067		bool write = esr & KASAN_ESR_WRITE;
+  1068		size_t size = KASAN_ESR_SIZE(esr);
+  1069		void *addr = (void *)regs->regs[0];
+  1070		u64 pc = regs->pc;
+  1071	
+  1072		kasan_report(addr, size, write, pc);
+  1073	
+> 1074		kasan_die_unless_recover(recover, "Oops - KASAN", regs, esr, die);
+  1075	
+  1076		/* If thread survives, skip over the brk instruction and continue: */
+  1077		arm64_skip_faulting_instruction(regs, AARCH64_INSN_SIZE);
+  1078		return DBG_HOOK_HANDLED;
+  1079	}
+  1080	#endif
+  1081	
 
 -- 
 0-DAY CI Kernel Test Service
