@@ -1,81 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A88335CB93
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 23:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333A836A027;
+	Tue, 13 Jan 2026 23:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768345257; cv=none; b=B0eQ+v6SXm/CVgxzPms7Lco/JpFU2QfCan8gk8vNH9EoYHz1hjnRyIIV3MLQUbUPPxMuALYI9xcmi/oYkcm9FXIVunLA/W/TL9WA+LfUcAnPaMzIrSlZp9IuuOipL8R2/zxq/sVLSD0EkQLS5N3mwCYEkfDiSRMhTyhzA1D2Mc0=
+	t=1768345979; cv=none; b=HxhvqZGvHLF8Dc2V+9E5v/WPpcntJHYkueTeWHVfiMS6H5XV9jUBXZMn1ZKjIhxEvy7lh/tspsBLVZZiUKTKYj/s4v+0v89Cac9r4hqn5SeUW/TIo97LZCI4NF5ChHbXa8vuNZmDgR+QfdsgZU+wSVM1ZsjGtIWFOQN5L01d1Sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768345257; c=relaxed/simple;
-	bh=/w1uwaUGJ02kmN6Edi+GVSlxzkTVq1B9zz0xvjg+xVw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Mc32dSXKB357mf6BplpY1v4UhQQ1HqVb19cXp/f19dQxRsvoKRVMvekz0k0A62/KYDQHSXf12tq2tySOmbx5aNuT0zoOboT3vHz9itiGM2XVCLlXDQ/apmXx4GgyuQ0j3rZxaouyof0eeKHGkn6h5pNNJbRtUCylLTFY2zD2uYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BsJgfWpI; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1768345979; c=relaxed/simple;
+	bh=tfux4HuM++A7BLYQlaWz5mpF//WwyNWgU6Ipl96sA5I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z+4AjqR9eA5ziZVDK48XLB2j9E/YdSXIMcOUYCMVvRJ+ix2BIOI/bKsj8yaZvm1PrtsNu7eRn5A5Ov25uVGMpwhRtnzlKYeguqohp4DpOzi2vLxi+RUXrdqt0FlkuD1+dvRlO7qyBES/D3lwrmRSWcC8P6ylRp5lxx16HzlLouc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nqAAh529; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BsJgfWpI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nqAAh529"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768345255; x=1799881255;
-  h=date:from:to:cc:subject:message-id;
-  bh=/w1uwaUGJ02kmN6Edi+GVSlxzkTVq1B9zz0xvjg+xVw=;
-  b=BsJgfWpI53XHntdoUy7U/HwxXCiLOxTpRLpwG6yjbo5SEIlo/pJixkaG
-   PoFUt4YNqjDSpXudTgseGyxIYsix86cPVP9SIrR9nP03ByNEKt7y3lSUS
-   sMnbgJfcM/tntunPejTw5ZThO4sTlCpxDqlaJLyffIGbk5E2MYc3cA8AN
-   z9AS2TjTYHb6xgyacOnqJex9OzotLFwz3323enhDDKDgSc6K5Od+lXTqO
-   qlfrGkXiu52TZXI2++xwBNwz4KR7mZ4n2VkDKruHAIPlZH7AWsvlYRggF
-   osEyFUFU2A0N7XnGvqhpZ2FRKyKs6uSnFI6+xUgsZmFgXMQxGMDWB1lv+
-   g==;
-X-CSE-ConnectionGUID: yhMLl8MRSYiQuIl8OGhNPg==
-X-CSE-MsgGUID: 4C7PlecTT86/IHxjSzOgMA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="92310892"
+  t=1768345978; x=1799881978;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tfux4HuM++A7BLYQlaWz5mpF//WwyNWgU6Ipl96sA5I=;
+  b=nqAAh529Wap5PRAuBNWOW1ERqtSVdKqybJiJ2X0aGgs8bkMDkE4Ogk5y
+   SqEdgCbGQwAczu0baC93vAUgXpYKyBCfwFpAKxR67zSRxPXZwekkv8/SG
+   DGRdgVLTHv+F2UMaWFVojMUMGh4pzIF73sZVGD7NtMy0Ud2FWZIEJduLL
+   UCYWgXaIkMVhlzLSGTfPPEtUnVhL9gDQRFzrEIB8QOIf9uk9UjfTDe421
+   3z/I6+EOQjSi742o7f2dNl2sVUimySh64fHhUcN4l08TkGLAqzhPOEmMH
+   02V4ZU0eG0n3X+Tmu3jXTOGKmq+wmhwqVJjrJl5tuu0ZcRqztR6xvw2aM
+   Q==;
+X-CSE-ConnectionGUID: ldwani4sQsyNQpfxPcGBkw==
+X-CSE-MsgGUID: Tr6L4RoSR8egjxChli4MSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69376944"
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="92310892"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 15:00:52 -0800
-X-CSE-ConnectionGUID: UincIv1zSg6nz+zfLHdQ2A==
-X-CSE-MsgGUID: lX7U5I5LRningC0siRgpQQ==
+   d="scan'208";a="69376944"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 15:12:57 -0800
+X-CSE-ConnectionGUID: kzgyrO3ORaOlo4V3eNE03g==
+X-CSE-MsgGUID: IWu9cYVeQviBmeKCDLTDgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="204399098"
+   d="scan'208";a="204307734"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Jan 2026 15:00:51 -0800
+  by orviesa009.jf.intel.com with ESMTP; 13 Jan 2026 15:12:52 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfnNY-00000000FT2-1h5l;
-	Tue, 13 Jan 2026 23:00:48 +0000
-Date: Wed, 14 Jan 2026 07:00:18 +0800
+	id 1vfnZB-00000000FTo-04NN;
+	Tue, 13 Jan 2026 23:12:49 +0000
+Date: Wed, 14 Jan 2026 07:12:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
- Vlastimil Babka <vbabka@suse.cz>
-Subject: [vbabka-slab:slab/for-7.0/obj_metadata 9/10] Warning:
- mm/slub.c:7013 function parameter 'objp' not described in 'ksize'
-Message-ID: <202601140605.GNpnpgLF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Bobby Eshleman <bobbyeshleman@gmail.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Bryan Tan <bryan-bt.tan@broadcom.com>,
+	Vishnu Dasa <vishnu.dasa@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Long Li <longli@microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
+	kvm@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, berrange@redhat.com,
+	Sargun Dhillon <sargun@sargun.me>,
+	Bobby Eshleman <bobbyeshleman@gmail.com>
+Subject: Re: [PATCH net-next v14 01/12] vsock: add netns to vsock core
+Message-ID: <202601140749.5TXm5gpl-lkp@intel.com>
+References: <20260112-vsock-vmtest-v14-1-a5c332db3e2b@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112-vsock-vmtest-v14-1-a5c332db3e2b@meta.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git slab/for-7.0/obj_metadata
-head:   a4e5702b7bb846cf50d2917cadf2289c25720812
-commit: 1e8eb4117f27366855b192104098330a2f290f26 [9/10] mm/slab: move [__]ksize and slab_ksize() to mm/slub.c
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260114/202601140605.GNpnpgLF-lkp@intel.com/config)
+Hi Bobby,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/virtio-set-skb-owner-of-virtio_transport_reset_no_sock-reply/20260113-125559
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260112-vsock-vmtest-v14-1-a5c332db3e2b%40meta.com
+patch subject: [PATCH net-next v14 01/12] vsock: add netns to vsock core
+config: x86_64-buildonly-randconfig-004-20260113 (https://download.01.org/0day-ci/archive/20260114/202601140749.5TXm5gpl-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140605.GNpnpgLF-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140749.5TXm5gpl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601140605.GNpnpgLF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601140749.5TXm5gpl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> Warning: mm/slub.c:7013 function parameter 'objp' not described in 'ksize'
->> Warning: mm/slub.c:7013 function parameter 'objp' not described in 'ksize'
+>> WARNING: modpost: net/vmw_vsock/vsock: section mismatch in reference: vsock_exit+0x25 (section: .exit.text) -> vsock_sysctl_ops (section: .init.data)
 
 -- 
 0-DAY CI Kernel Test Service
