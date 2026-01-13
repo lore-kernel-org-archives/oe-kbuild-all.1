@@ -1,102 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05320387370
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jan 2026 09:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BAD381716;
+	Tue, 13 Jan 2026 09:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768295879; cv=none; b=SSLim1UlNRew57sXz84ueiJ65wqF+JWRPBM1TfH2cw87MrJlUMmron4p3OhUohkiK8FU7lqNMBr9NpgWZ70WIRXxCW4cJHX1xyAOlbZR2HLopovIfSTXDsOvgX04ReKuiZg0iVk5hfn0iNWHl2H7Kxk8/tmrg1hW2Qstk97TW8w=
+	t=1768296659; cv=none; b=IKMuSQFoVRGTp3xf6q1TkPRHwqwwZovcI/zF1ITeVUY31j2ThMWf4G/5R3b/qdVJ+wUn8Pb7I90P5mZgi6NAgqo8QD5Hkh60zij3yFwqNxlNC3gCWzd69BVBLiYL0lJ6U43mCngLHyu1NgvF+9IbtSaOdFMF/UAlPbjN00kBTuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768295879; c=relaxed/simple;
-	bh=PH+FZG01qB/KZXS23hMKgFDECHum02Ep0bOBYmI3MDI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qG9/CJa2IRsIAFMoU2878XC68XXy75TtwBQiKddI23XMFqpJj3H4+4G2t5udTZYU3pKZQvACyXzGQFPUcE5GSen6awHGlpKZG0DVir+y+KmghkmpGCGHCipQdPIW9Tip/x2ASWkPVbNwVP8fzmzYFZnIlm4bUd+VbwqeyNVMJnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XJgEQPtx; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1768296659; c=relaxed/simple;
+	bh=msk/tauSQ6PJoieOyol1fe1LeWfeLYbroHLDA1WX8do=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EzfKPzoqk2ugmvKPX+SUXdqb9nwk1FA3LkXT07kqO0rFkJHX0ch+9ityYief2z6XCU8wZ91uPhXIpppBIo5Ij/MYYWh3YarjhDBEKzFeOEMdgKSwoDFEQIzGduXi8O4SmDIVrU00/J6uVAIei0Oo/FYNujI90C6YaU+oAS2LvtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NFsTs781; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJgEQPtx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NFsTs781"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768295876; x=1799831876;
-  h=date:from:to:cc:subject:message-id;
-  bh=PH+FZG01qB/KZXS23hMKgFDECHum02Ep0bOBYmI3MDI=;
-  b=XJgEQPtxJuRmM0IoMD3pntXr3k54ipR0huPmD1dPfLhWP0H3EDWzcvA6
-   qkrmJE6SWdUICb2JK9HaZpNJ7ht3y8g2VBxd0HWIwyZjdnDnkckitT0t9
-   HLW9rYZUgAe6beoe45Be6YJumfV1gTKF9t2xAH+rTSXZXMkb+ZZ7Upv/B
-   MGXfC8AGxeqVHn1l+q8DOW/lkK0NlpGjNqxaXvYLRVMcfl4y7pZx3CpkX
-   SV7WCP1ZorO6XDLSGDwwSOVgnCL/4UhMWhvEOZttzD1tQgzG5UhSYzFwd
-   C01Vl03HJPpzZixWlklu1uPFWRkRPfL18vwifoUadkPvRi6iHe/VGlpdL
-   A==;
-X-CSE-ConnectionGUID: I5Kf+YZKRHeekIlIkH/o3w==
-X-CSE-MsgGUID: I0FW9mPvSsyubhuwcmVnsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="69498674"
+  t=1768296657; x=1799832657;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=msk/tauSQ6PJoieOyol1fe1LeWfeLYbroHLDA1WX8do=;
+  b=NFsTs781d94TK3bv36A4hRqdwpdeVRzy1a9Rt1ZedyXqFFSifLEtWX3Q
+   0aVDqPC0uAdOcCHobrLZBhU5Oc3H+P35NdUEFxMSyiV/YBYDck1PXXh9m
+   TbVGExUDaNayoyw81k2Go8o7z/dv+kuLcLc6rxpL/KY+GK71akCicgH/n
+   V1Rc2ehJ54ci7HQ4Ea4Hv6Zl5OnnnTuKtPdF5Mxubya2QL6WLlNukumaC
+   +n1xRLKftKqoBbO4uTuvFKPWgVEg9gEr9Rh8obzBSR1bSN9V9jgrewyx0
+   Q3ZEZ2LRAeCQgUySdKESnqZuKQ4M6PgHro7cYYHG9WxnMDRv2a5UH71lR
+   w==;
+X-CSE-ConnectionGUID: t8AHUn7aQWa9mTHqBt1DhA==
+X-CSE-MsgGUID: 0xgQMXktQCys91ttCdVgMg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11669"; a="95052423"
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="69498674"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 01:17:46 -0800
-X-CSE-ConnectionGUID: XThDw5/fQl+9HN2HWG72zA==
-X-CSE-MsgGUID: yQ3iOORnRsqTV8zGdbOo1g==
+   d="scan'208";a="95052423"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 01:30:55 -0800
+X-CSE-ConnectionGUID: GpcKksRDRniwK+tQiUUz5A==
+X-CSE-MsgGUID: 3fWlMPCcTJaN/AF6wpHrUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,222,1763452800"; 
-   d="scan'208";a="204230240"
+   d="scan'208";a="203550699"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 13 Jan 2026 01:17:44 -0800
+  by orviesa010.jf.intel.com with ESMTP; 13 Jan 2026 01:30:51 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfaX0-00000000EWm-3YhR;
-	Tue, 13 Jan 2026 09:17:42 +0000
-Date: Tue, 13 Jan 2026 17:17:20 +0800
+	id 1vfajf-00000000EXw-3oXr;
+	Tue, 13 Jan 2026 09:30:47 +0000
+Date: Tue, 13 Jan 2026 17:29:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mykyta Yatsenko <yatsenko@meta.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alexei Starovoitov <ast@kernel.org>,
- Andrii Nakryiko <andrii@kernel.org>
-Subject: kernel/trace/bpf_trace.c:3619:52: sparse: sparse: cast
- removes address space '__user' of expression
-Message-ID: <202601131740.6C3BdBaB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Wei Fang <wei.fang@nxp.com>, shenwei.wang@nxp.com,
+	xiaoning.wang@nxp.com, frank.li@nxp.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, ast@kernel.org, daniel@iogearbox.net,
+	hawk@kernel.org, john.fastabend@gmail.com, sdf@fomichev.me
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH net-next 11/11] net: fec: add AF_XDP zero-copy support
+Message-ID: <202601131736.i41CNo5A-lkp@intel.com>
+References: <20260113032939.3705137-12-wei.fang@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113032939.3705137-12-wei.fang@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b71e635feefc852405b14620a7fc58c4c80c0f73
-commit: a498ee7576de24b4b0916ce56cf2686e261a29f7 bpf: Implement dynptr copy kfuncs
-date:   8 months ago
-config: i386-randconfig-063-20260113 (https://download.01.org/0day-ci/archive/20260113/202601131740.6C3BdBaB-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131740.6C3BdBaB-lkp@intel.com/reproduce)
+Hi Wei,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Fang/net-fec-add-fec_txq_trigger_xmit-helper/20260113-113607
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260113032939.3705137-12-wei.fang%40nxp.com
+patch subject: [PATCH net-next 11/11] net: fec: add AF_XDP zero-copy support
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260113/202601131736.i41CNo5A-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260113/202601131736.i41CNo5A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601131740.6C3BdBaB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601131736.i41CNo5A-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/bpf_trace.c:835:41: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr @@     got void * @@
-   kernel/trace/bpf_trace.c:835:41: sparse:     expected void [noderef] __user *[addressable] [assigned] [usertype] sival_ptr
-   kernel/trace/bpf_trace.c:835:41: sparse:     got void *
->> kernel/trace/bpf_trace.c:3619:52: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c:3633:56: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c:3647:52: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c:3654:56: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c:3662:52: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c:3670:56: sparse: sparse: cast removes address space '__user' of expression
-   kernel/trace/bpf_trace.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:871:25: sparse: sparse: context imbalance in 'uprobe_prog_run' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +/__user +3619 kernel/trace/bpf_trace.c
+   drivers/net/ethernet/freescale/fec_main.c: In function 'fec_enet_rx_queue_xsk':
+>> drivers/net/ethernet/freescale/fec_main.c:2261:20: warning: variable 'dma' set but not used [-Wunused-but-set-variable]
+    2261 |         dma_addr_t dma;
+         |                    ^~~
 
-  3615	
-  3616	__bpf_kfunc int bpf_probe_read_user_dynptr(struct bpf_dynptr *dptr, u32 off,
-  3617						   u32 size, const void __user *unsafe_ptr__ign)
-  3618	{
-> 3619		return __bpf_dynptr_copy(dptr, off, size, (const void *)unsafe_ptr__ign,
-  3620					 copy_user_data_nofault, NULL);
-  3621	}
-  3622	
+
+vim +/dma +2261 drivers/net/ethernet/freescale/fec_main.c
+
+  2245	
+  2246	static int fec_enet_rx_queue_xsk(struct fec_enet_private *fep, int queue,
+  2247					 int budget, struct bpf_prog *prog)
+  2248	{
+  2249		u32 data_start = FEC_ENET_XDP_HEADROOM + fep->rx_shift;
+  2250		struct fec_enet_priv_rx_q *rxq = fep->rx_queue[queue];
+  2251		struct net_device *ndev = fep->netdev;
+  2252		struct bufdesc *bdp = rxq->bd.cur;
+  2253		u32 sub_len = 4 + fep->rx_shift;
+  2254		int cpu = smp_processor_id();
+  2255		bool wakeup_xsk = false;
+  2256		struct xdp_buff *xsk;
+  2257		int pkt_received = 0;
+  2258		struct sk_buff *skb;
+  2259		u16 status, pkt_len;
+  2260		u32 xdp_res = 0;
+> 2261		dma_addr_t dma;
+  2262		int index, err;
+  2263		u32 act;
+  2264	
 
 -- 
 0-DAY CI Kernel Test Service
