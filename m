@@ -1,138 +1,183 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A3334677D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 19:20:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8947C314B73;
+	Wed, 14 Jan 2026 19:40:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768418446; cv=none; b=YYrkBnbpOWbYpwrwHPWyd3QAP1n+ErpqvlcFsSMn3KzghKLr52VCo5HZ1QQOeST7/u0cn+xuxFOEHYEJ234MH8CrRkmDU1c5DF4gTGcRAIyOnNYG9WrOp8ifpj5F5YqygrCE0KmTeGtNw/Q3b2bORdAFtbo9VoOZFpyPAN5CVSw=
+	t=1768419623; cv=none; b=AmT467YfWL5SSsykTfrkV2GBtyC5ya+GODE+bWWe5lAyqEl1D/vmXELmbd+1th6MrlrL1eUeNYRW5PzIOTAMN6Hk9adbA3DlI5DvfHaNPtGTUFDXvFpEO+4m1L8mHiWe6xMRlc79mbiDRbpCSaBtIxyXsu3z+PynssJfzvKRGTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768418446; c=relaxed/simple;
-	bh=QKRezXrA3bG4ArDBbT58+S8c1CtyAn6iBKaQozySKZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kKgVxKtJ7Q75jHo0qF3TThidKe6lmq4IPXpk0w4a3s1pxcThg8MrgXepuDUOMLRQNCsouCL57sCfosmLoQzoJ1fUh74PgM5Tq+zZ3PxIVjKXX7Y4C5OZWen32LrGT2wttJOh8nB/VIu3wO39YVmedv3NWJr6mnR6SWxLky2LUqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ckUArX2F; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768419623; c=relaxed/simple;
+	bh=UQoSRSUJq1fJdRS4oTVdfqsPc/Q3oltC4Vc6RTrMgtk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=St7vFwU2p57ZFrsJrb7oMwOBXtbwwa6Rpx3WgOJLI15Tah7OOG8VpZJcxh09vSvkMExozKyInQUaheDz5OXZBRizZTCbOvJODXJGfjHzAfADF+xfpCphaagJIz7Nf0tzGSBfb5NZMjdszRZHPZaOcnIVDOo8BZApJQDQzWOAbcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TRXEF3GG; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ckUArX2F"
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5634feea416so125282e0c.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 11:20:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768418444; x=1769023244; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jUpDNPxjIqi9ICJXtc+mfMuxEexyo061EqFw5Nyb8q0=;
-        b=ckUArX2FwOhKxo8fL0y/s6FUHCW/i4Lds8+bysyxk8b5fuke/GbMyhYVmWOf9f+w5b
-         IdoTFyAxCQiAM9kB/tmfUviplq9AJZMpbS2SkRKOPwngZd3cJaDr6zyw8bMdlYWdzeYG
-         48ZOLjOjbYDhE2Zk/eUgDC3UyA+6K6OqjxPht0jpEqrEIYD8s1Bmkl0oFcKp/Cqkofht
-         U0WksqSl9AX8KSVlox0K9CZ8MeTM4h7ZDqyXASGbwQ0Dqp3ENZ28zthJKhTinzxslsPv
-         kQoh0JNJ1r/oNt7Tbby1ntDzDSNMGQNhqni7SDvrwbS+v85eArZ22mB8HIJsD/2xN2tI
-         K5BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768418444; x=1769023244;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jUpDNPxjIqi9ICJXtc+mfMuxEexyo061EqFw5Nyb8q0=;
-        b=gxEoZ7a53rEkrhW2ZrxQZkkii46v/Z7r6suQIopffshA44fUOMYBn0ngK4M+e2IJFE
-         TGcdBGjz/Navxi8F+FxdpzlgenCbEc9g3vqWslp5he7xvnKCLjdsIm2wIAYa3tTPxd5E
-         2wkeXuOZ0mM/oPCarMDdWsSLnR0Zs3vZRZtlDSBmGCTLCUsZyKZ/mOlCjyn7Pq1sk4XX
-         h1sJxqgZqe8psVCwKeKPQeeU92dLCOR+3EcB90NHdbWz4URB95dnRxI5SJvVxOFAE/C7
-         rbUzfnPojveYMXXeMBq9Ksk7dB4wX6StUuvFDOB+bE2f+ujSjwBf6+bzkz5Gc+RnyKvf
-         rSNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWIvp70MZm8lnpYAlpeTmguFXC0sFyOyiIveTj44MR0IU84QNm3QKoaZdW9eWnXHBI/vA1qFc/hm8Rostbl@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8SKXA+9p3aX7KMlF1Y3X5TZyFoo8vsrbaKEb5pFRP0BCJK98g
-	2fkCLPrgSzYLxTxgZ1tHLpa0jxv1AetjiHefBUB62aUBzDukIpHiUbZK5cpjog==
-X-Gm-Gg: AY/fxX5UHn72Q+QsRca1ov9YS3lvfnwuiUSihbsLGly4vHx5+FRV/L8PAHIY+t3mtZ5
-	vtwZJfPnwKomMIsWYxe/CBvxzPjcmwjKwfeM02cwMuzrRS34hmCDvDan9+vuBdxQ06Xm481rqx3
-	mKRf24/kNMpvQvPPAnP7wDDTR+WY8JP97Lrve0aQLXcetVXKsBalJ5vu1WuqXZzgx7HCUKyYBsp
-	qaEskM5yBBlPYvTBB5zohpt/BEVvqskeOaL3WWq7ARlm2fCplGWyvuBp1GtpRvbLVR0GB6QzixI
-	Zni+zb2uyDShfjpfc894pZWjGw0HJqmCw7Y7HRsHTsta5NPIL+v4TtnAmTIBPr852wMJnHOEAXK
-	qrwapPqzw/N9cJma4W8R3vNECkl7r9ak8eJwphxq8sgZlYW7PDyQyUpYL6kjAHl860N6qefiPGL
-	XMzGTcQGF2Kp86Hb4dwCHQtGQm4V/CM9WeUw==
-X-Received: by 2002:a05:690e:1c06:b0:646:eb06:f2e2 with SMTP id 956f58d0204a3-64903b513d2mr1973243d50.73.1768411311135;
-        Wed, 14 Jan 2026 09:21:51 -0800 (PST)
-Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:5::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-790aa6e12ffsm92418037b3.53.2026.01.14.09.21.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 09:21:50 -0800 (PST)
-Date: Wed, 14 Jan 2026 09:21:49 -0800
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: kernel test robot <lkp@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Bryan Tan <bryan-bt.tan@broadcom.com>,
-	Vishnu Dasa <vishnu.dasa@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Long Li <longli@microsoft.com>, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux.dev, kvm@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	berrange@redhat.com, Sargun Dhillon <sargun@sargun.me>
-Subject: Re: [PATCH net-next v14 01/12] vsock: add netns to vsock core
-Message-ID: <aWfQrS1oNcXwcXu3@devvm11784.nha0.facebook.com>
-References: <20260112-vsock-vmtest-v14-1-a5c332db3e2b@meta.com>
- <202601140749.5TXm5gpl-lkp@intel.com>
- <CAGxU2F45q7CWy3O_QhYj0Y2Bt84vA=eaTeBTu+TvEmFm0_E7Jw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRXEF3GG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768419621; x=1799955621;
+  h=date:from:to:cc:subject:message-id;
+  bh=UQoSRSUJq1fJdRS4oTVdfqsPc/Q3oltC4Vc6RTrMgtk=;
+  b=TRXEF3GGE+oso/Ppj5cUMnSO0mc0FQ5vcHYMUM9Ja4BXh5ttrGcXNgf3
+   NdN+6VAkMY/gQTCIk36fuMwosef+C8Wy6bVqMhuuBRRx5pHAc95hTIAjF
+   yBEqRVophgjjJVmR2WkRwg23xJoAJ2sJCjgmfVTioDZDMCiZBasuykKHE
+   Io3ZGdxgkcYRFyiGxe3/WjNEmCxPtZ+UN61Zq9PjS/3ZIfHnniYSSN0JD
+   YiswfnYrwnPUs5cv+D1vfl0A0cy1f/+vnzvzL5/HNZvbgwb46PvdlU+VQ
+   yAVUVofFjm3B200RlSwfiyD64gSA2kpYeop9cgfPpkfBqF/nxsxiOqVuo
+   g==;
+X-CSE-ConnectionGUID: EK8+DMepS96S/6mq4iquMQ==
+X-CSE-MsgGUID: 5m5yFcj9SwWRLxnqToTWeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69812141"
+X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
+   d="scan'208";a="69812141"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 11:40:20 -0800
+X-CSE-ConnectionGUID: XtuY3qDQRLqVn9Js/QufBw==
+X-CSE-MsgGUID: Dxsv3r6uS4qDbiHs2XEYBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
+   d="scan'208";a="204550715"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 14 Jan 2026 11:40:17 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vg6j0-00000000GvS-28nN;
+	Wed, 14 Jan 2026 19:40:14 +0000
+Date: Thu, 15 Jan 2026 03:39:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chengchang Tang <tangchengchang@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Doug Ledford <dledford@redhat.com>,
+ Jason Gunthorpe <jgg+lists@ziepe.ca>, linux-rdma@vger.kernel.org,
+ Leon Romanovsky <leon@kernel.org>,
+ Junxian Huang <huangjunxian6@hisilicon.com>
+Subject: [rdma:wip/leon-for-next 30/32]
+ drivers/infiniband/hw/hns/hns_roce_hw_v2.c:964:6: warning: no previous
+ prototype for function 'hns_roce_v2_drain_rq'
+Message-ID: <202601150334.jRDP5xSy-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGxU2F45q7CWy3O_QhYj0Y2Bt84vA=eaTeBTu+TvEmFm0_E7Jw@mail.gmail.com>
 
-On Wed, Jan 14, 2026 at 04:54:15PM +0100, Stefano Garzarella wrote:
-> On Wed, 14 Jan 2026 at 00:13, kernel test robot <lkp@intel.com> wrote:
-> >
-> > Hi Bobby,
-> >
-> > kernel test robot noticed the following build warnings:
-> >
-> > [auto build test WARNING on net-next/main]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Bobby-Eshleman/virtio-set-skb-owner-of-virtio_transport_reset_no_sock-reply/20260113-125559
-> > base:   net-next/main
-> > patch link:    https://lore.kernel.org/r/20260112-vsock-vmtest-v14-1-a5c332db3e2b%40meta.com
-> > patch subject: [PATCH net-next v14 01/12] vsock: add netns to vsock core
-> > config: x86_64-buildonly-randconfig-004-20260113 (https://download.01.org/0day-ci/archive/20260114/202601140749.5TXm5gpl-lkp@intel.com/config)
-> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140749.5TXm5gpl-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601140749.5TXm5gpl-lkp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> >
-> > >> WARNING: modpost: net/vmw_vsock/vsock: section mismatch in reference: vsock_exit+0x25 (section: .exit.text) -> vsock_sysctl_ops (section: .init.data)
-> 
-> Bobby can you check this report?
-> 
-> Could be related to `__net_initdata` annotation of `vsock_sysctl_ops` ?
-> Why we need that?
-> 
-> Thanks,
-> Stefano
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git wip/leon-for-next
+head:   c6b61cad07189d4556a968a305056263b73025f4
+commit: cfa74ad31baad3027410b6e75c8e47092aef8d97 [30/32] RDMA/hns: Support drain SQ and RQ
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260115/202601150334.jRDP5xSy-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150334.jRDP5xSy-lkp@intel.com/reproduce)
 
-Yep, no problem.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150334.jRDP5xSy-lkp@intel.com/
 
-Best,
-Bobby
+All warnings (new ones prefixed by >>):
+
+>> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:964:6: warning: no previous prototype for function 'hns_roce_v2_drain_rq' [-Wmissing-prototypes]
+   void hns_roce_v2_drain_rq(struct ib_qp *ibqp)
+        ^
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:964:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void hns_roce_v2_drain_rq(struct ib_qp *ibqp)
+   ^
+   static 
+>> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:1001:6: warning: no previous prototype for function 'hns_roce_v2_drain_sq' [-Wmissing-prototypes]
+   void hns_roce_v2_drain_sq(struct ib_qp *ibqp)
+        ^
+   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:1001:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void hns_roce_v2_drain_sq(struct ib_qp *ibqp)
+   ^
+   static 
+   2 warnings generated.
+
+
+vim +/hns_roce_v2_drain_rq +964 drivers/infiniband/hw/hns/hns_roce_hw_v2.c
+
+   963	
+ > 964	void hns_roce_v2_drain_rq(struct ib_qp *ibqp)
+   965	{
+   966		struct hns_roce_dev *hr_dev = to_hr_dev(ibqp->device);
+   967		struct ib_qp_attr attr = { .qp_state = IB_QPS_ERR };
+   968		struct hns_roce_qp *hr_qp = to_hr_qp(ibqp);
+   969		struct hns_roce_drain_cqe rdrain = {};
+   970		const struct ib_recv_wr *bad_rwr;
+   971		struct ib_cq *cq = ibqp->recv_cq;
+   972		struct ib_recv_wr rwr = {};
+   973		int ret;
+   974	
+   975		ret = ib_modify_qp(ibqp, &attr, IB_QP_STATE);
+   976		if (ret && hr_dev->state < HNS_ROCE_DEVICE_STATE_RST_DOWN) {
+   977			ibdev_err_ratelimited(&hr_dev->ib_dev,
+   978					      "failed to modify qp during drain rq, ret = %d.\n",
+   979					      ret);
+   980			return;
+   981		}
+   982	
+   983		rwr.wr_cqe = &rdrain.cqe;
+   984		rdrain.cqe.done = hns_roce_drain_qp_done;
+   985		init_completion(&rdrain.done);
+   986	
+   987		if (hr_dev->state >= HNS_ROCE_DEVICE_STATE_RST_DOWN)
+   988			ret = hns_roce_push_drain_wr(&hr_qp->rq, cq, rwr.wr_id);
+   989		else
+   990			ret = hns_roce_v2_post_recv(ibqp, &rwr, &bad_rwr);
+   991		if (ret) {
+   992			ibdev_err_ratelimited(&hr_dev->ib_dev,
+   993					      "failed to post recv for drain rq, ret = %d.\n",
+   994					      ret);
+   995			return;
+   996		}
+   997	
+   998		handle_drain_completion(cq, &rdrain, hr_dev);
+   999	}
+  1000	
+> 1001	void hns_roce_v2_drain_sq(struct ib_qp *ibqp)
+  1002	{
+  1003		struct hns_roce_dev *hr_dev = to_hr_dev(ibqp->device);
+  1004		struct ib_qp_attr attr = { .qp_state = IB_QPS_ERR };
+  1005		struct hns_roce_qp *hr_qp = to_hr_qp(ibqp);
+  1006		struct hns_roce_drain_cqe sdrain = {};
+  1007		const struct ib_send_wr *bad_swr;
+  1008		struct ib_cq *cq = ibqp->send_cq;
+  1009		struct ib_rdma_wr swr = {
+  1010			.wr = {
+  1011				.next = NULL,
+  1012				{ .wr_cqe	= &sdrain.cqe, },
+  1013				.opcode	= IB_WR_RDMA_WRITE,
+  1014			},
+  1015		};
+  1016		int ret;
+  1017	
+  1018		ret = ib_modify_qp(ibqp, &attr, IB_QP_STATE);
+  1019		if (ret && hr_dev->state < HNS_ROCE_DEVICE_STATE_RST_DOWN) {
+  1020			ibdev_err_ratelimited(&hr_dev->ib_dev,
+  1021					      "failed to modify qp during drain sq, ret = %d.\n",
+  1022					      ret);
+  1023			return;
+  1024		}
+  1025	
+  1026		sdrain.cqe.done = hns_roce_drain_qp_done;
+  1027		init_completion(&sdrain.done);
+  1028	
+  1029		if (hr_dev->state >= HNS_ROCE_DEVICE_STATE_RST_DOWN)
+  1030			ret = hns_roce_push_drain_wr(&hr_qp->sq, cq, swr.wr.wr_id);
+  1031		else
+  1032			ret = hns_roce_v2_post_send(ibqp, &swr.wr, &bad_swr);
+  1033		if (ret) {
+  1034			ibdev_err_ratelimited(&hr_dev->ib_dev,
+  1035					      "failed to post send for drain sq, ret = %d.\n",
+  1036					      ret);
+  1037			return;
+  1038		}
+  1039	
+  1040		handle_drain_completion(cq, &sdrain, hr_dev);
+  1041	}
+  1042	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
