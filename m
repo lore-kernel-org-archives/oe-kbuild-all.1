@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C5B37E2F0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 08:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12D837F8C4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 08:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768379311; cv=none; b=S2VTwe2PFHet3okLk4nf9QsQ94dErFbvHOTHc4ucbbWluWqyTfDa18fpyvANx6VImtt1uvukZddRlyZZW/ADPoLClyl1s+bn1xSc9/6aSeKScinn2Piw/cHnGJVvNom0jERoRu1oGxYBt4Kk7e/SFH0DMWfb93MELYX5eoo4rgA=
+	t=1768379979; cv=none; b=INJAcAoHuN1GeFiNCuAnNAtztM2JzhQFhgWtTLWTmvU1wbFwodzvaAK/7znp/+dr/awY6NoWboFmahf8NVC2KlPzgns7oDxiQJs5QziCkGRB1tnd1V1NRigKadUmIVnJOBsuEdtrbSSJRIV40b9K/F2fkpj4/yI+NqreQIX9VWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768379311; c=relaxed/simple;
-	bh=SeZwR5kuyj59Ap0O4i/EnkCYryjJwtjpNA/hDypS5qI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=QIXErETgJ0NTTnAcMervEql5bRsrJewcMYmd9MgszQCY0W3Bqp/XcOcBze6CSJq8fWeXhyMaQe5XaJXcXzV1LoojYLO3dVEbeXqlWNOCEQnuk+mANLRmNAy2x0JCski1taO6SIlT189YvUJj9K1Lc/3m5jnCeqnGlcaWfpMqGCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ugcdzdkh; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1768379979; c=relaxed/simple;
+	bh=2NpwZSdjC7U62+gPd7riSJ40/5NKLp8NtuFYSfWwVVM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GUP/ys4a/cLwthmgrQQ+2VSrwK6M1jTu3b/untI7HY+vy3/x2GY4AADZLNYx+eRCt1ekpW8mpwS5JNziwoJcxL/nqkAcvVzHeUGXk43MAaG5P+oPU3R171xnnwAQil1peurB6UKHaZyO7meTYcPfkL+n8vHOq59mSW1z5BAw+88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mwku133F; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ugcdzdkh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mwku133F"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768379307; x=1799915307;
+  t=1768379972; x=1799915972;
   h=date:from:to:cc:subject:message-id;
-  bh=SeZwR5kuyj59Ap0O4i/EnkCYryjJwtjpNA/hDypS5qI=;
-  b=UgcdzdkhqdxSQzLieQyQGHoYVehKVDbMNzLk0RJ+h/ZtMgVknNQhML5p
-   XaBcRTqzvCv39AmvXPo/ig4puivgWGpJG3oi5yYxNORljnwL24oYe9LT9
-   uJHPguZhhjqhfUVDMtD1TDV9Ecf9cq4KvTaMQkoLaH8y0LPIRYGGuKUX/
-   kXfIdCFSmDgJtCJnn6Gqrg9ey9OhFLgKVnHmWKITK9KggIichlHRRjG/2
-   jHPijMgLyHiq2XtPIpWnN3wW3pvXBcUs4d2hC9XATgGyAwHeDkHbwIHNz
-   +NHdH+nzTRt30P/LZy9CYfLKTGp/LyLFq45vjKm4Sn1ZmRCmxWizkGTGB
-   w==;
-X-CSE-ConnectionGUID: y/sH6XmDRiqCL1HpN1dcbw==
-X-CSE-MsgGUID: cv9OKg5MREmPqgjcvrkjlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69731178"
+  bh=2NpwZSdjC7U62+gPd7riSJ40/5NKLp8NtuFYSfWwVVM=;
+  b=Mwku133F9/Ix8Zmi5rCZQ2XpBQ3MHX6+nhv/PMqswppCBCGyM3gwMe9v
+   3o5n2Y+/zUk8qx+6YTDPRqUj5WbPYeZ5qhwGpPZswAxHLPdPPsPWUyMKv
+   GAwINzJAcGDqIdW3IiZroXCs44kreQ//56XfOhESNqieTCS6wvGGKjJm0
+   f2xqzuC0sQh9jj2cP1iGp4dQXLS96Lnui6T8hiMbYrDh95auD+PPbpL1n
+   6+XoV5vL0J8L8XCYFGHeUVTJPKmAwsH3BnIwQ8kXM5nU1+ZVDiGh+5lfy
+   tkKQ+eddR6sz9gXsu0Arkp+u0wTOzI930G+K6vV05BjDv0VY4AiFy3weJ
+   g==;
+X-CSE-ConnectionGUID: PhTIUQ6XR1GQj17H5eYaWQ==
+X-CSE-MsgGUID: ZVRRke5mTFqEufOjOEj1CA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69759590"
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69731178"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 00:28:26 -0800
-X-CSE-ConnectionGUID: ELedFjl/TAuciCyCKJwKHA==
-X-CSE-MsgGUID: ts7viitmRHWHz+1fZWPi6A==
+   d="scan'208";a="69759590"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 00:39:28 -0800
+X-CSE-ConnectionGUID: Pog82ux2Sli2ZlqE/V1tsQ==
+X-CSE-MsgGUID: f1Ja/xn8S6KA1UsbFOpYkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="205173787"
+   d="scan'208";a="227763113"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Jan 2026 00:28:25 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 14 Jan 2026 00:39:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfwEp-00000000G4K-3dJR;
-	Wed, 14 Jan 2026 08:28:23 +0000
-Date: Wed, 14 Jan 2026 16:28:01 +0800
+	id 1vfwPU-00000000G5K-1yYZ;
+	Wed, 14 Jan 2026 08:39:24 +0000
+Date: Wed, 14 Jan 2026 16:38:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1/1]
- kernel/rcu/update.c:52:1: error: use of undeclared identifier
- '__tracepoint_rcu_stall_warning'
-Message-ID: <202601141646.CKvhJpOV-lkp@intel.com>
+Subject: [jgunthorpe:for-baolu 7/7]
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1228:9: warning: argument to
+ variable-length array is too large
+Message-ID: <202601141623.FccejALW-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,115 +60,64 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   4da37933f87e227169be0a2d94ae3501e6f5e85a
-commit: d35bd9468fc35137ce63aff26dcb4bb3856d1657 [1/1] ANDROID: rcu: allow hooks into rcu stall warning
-config: x86_64-randconfig-161-20260113 (https://download.01.org/0day-ci/archive/20260114/202601141646.CKvhJpOV-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+tree:   https://github.com/jgunthorpe/linux for-baolu
+head:   cda5c27a4020d162948259df9d3c8dd61196290a
+commit: cda5c27a4020d162948259df9d3c8dd61196290a [7/7] iommu/arm-smmu-v3: Move to entry_set
+config: arm64-randconfig-r071-20260114 (https://download.01.org/0day-ci/archive/20260114/202601141623.FccejALW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
 smatch version: v0.5.0-8985-g2614ff1a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141646.CKvhJpOV-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141623.FccejALW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601141646.CKvhJpOV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601141623.FccejALW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/rcu/update.c:52:1: error: use of undeclared identifier '__tracepoint_rcu_stall_warning'
-      52 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:328:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     328 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   <scratch space>:7:1: note: expanded from here
-       7 | __tracepoint_rcu_stall_warning
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/rcu/update.c:52:1: error: use of undeclared identifier '__traceiter_rcu_stall_warning'; did you mean '__tracepoint_rcu_stall_warning'?
-      52 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:329:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     329 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
-         |                           ^~~~~~~~~~~~~~~~~~
-   <scratch space>:22:1: note: expanded from here
-      22 | __traceiter_rcu_stall_warning
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/rcu/update.c:52:1: note: '__tracepoint_rcu_stall_warning' declared here
-   include/linux/tracepoint.h:328:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     328 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
-         |                           ^
-   <scratch space>:7:1: note: expanded from here
-       7 | __tracepoint_rcu_stall_warning
-         | ^
->> kernel/rcu/update.c:52:1: error: use of undeclared identifier '__SCK__tp_func_rcu_stall_warning'
-      52 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:330:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     330 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:207:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
-     207 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
-         |                           ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
-      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:60:22: note: expanded from macro '__PASTE'
-      60 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~~~~~~
-   include/linux/compiler_types.h:59:23: note: expanded from macro '___PASTE'
-      59 | #define ___PASTE(a,b) a##b
-         |                       ^~~~
-   <scratch space>:38:1: note: expanded from here
-      38 | __SCK__tp_func_rcu_stall_warning
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/rcu/update.c:52:1: error: use of undeclared identifier '__SCT__tp_func_rcu_stall_warning'; did you mean '__SCK__tp_func_rcu_stall_warning'?
-      52 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint.h:330:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     330 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call.h:208:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
-     208 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/static_call_types.h:18:34: note: expanded from macro 'STATIC_CALL_TRAMP'
-      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:60:22: note: expanded from macro '__PASTE'
-      60 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^~~~~~~~~~~~~
-   include/linux/compiler_types.h:59:23: note: expanded from macro '___PASTE'
-      59 | #define ___PASTE(a,b) a##b
-         |                       ^~~~
-   <scratch space>:53:1: note: expanded from here
-      53 | __SCT__tp_func_rcu_stall_warning
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/rcu/update.c:52:1: note: '__SCK__tp_func_rcu_stall_warning' declared here
-   include/linux/tracepoint.h:330:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
-     330 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
-         |         ^
-   include/linux/static_call.h:207:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
-     207 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
-         |                           ^
-   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
-      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
-         |                                         ^
-   include/linux/compiler_types.h:60:22: note: expanded from macro '__PASTE'
-      60 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:59:23: note: expanded from macro '___PASTE'
-      59 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:38:1: note: expanded from here
-      38 | __SCK__tp_func_rcu_stall_warning
-         | ^
-   4 errors generated.
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: In function 'arm_smmu_write_cd_entry':
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1228:9: warning: argument to variable-length array is too large [-Wvla-larger-than=]
+    1228 |  __le64 memory[ENTRY_SYNC_MEMORY_LEN(&cd_writer.writer)];
+         |         ^~~~~~
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1228:9: note: limit is 1 bytes, but argument is 192
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c: In function 'arm_smmu_install_ste_for_dev':
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1429:9: warning: argument to variable-length array is too large [-Wvla-larger-than=]
+    1429 |  __le64 memory[ENTRY_SYNC_MEMORY_LEN(&ste_writer.writer)];
+         |         ^~~~~~
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1429:9: note: limit is 1 bytes, but argument is 192
 
 
-vim +/__tracepoint_rcu_stall_warning +52 kernel/rcu/update.c
+vim +1228 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-    51	
-  > 52	EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
-    53	
+  1212	
+  1213	void arm_smmu_write_cd_entry(struct arm_smmu_master *master, int ssid,
+  1214				     struct arm_smmu_cd *cdptr,
+  1215				     const struct arm_smmu_cd *target)
+  1216	{
+  1217		bool target_valid = target->data[0] & cpu_to_le64(CTXDESC_CD_0_V);
+  1218		bool cur_valid = cdptr->data[0] & cpu_to_le64(CTXDESC_CD_0_V);
+  1219		struct arm_smmu_cd_writer cd_writer = {
+  1220			.writer = {
+  1221				.ops = &arm_smmu_cd_writer_ops,
+  1222				.num_quantas = CTXDESC_CD_DWORDS,
+  1223				.vbit_quanta = 0,
+  1224			},
+  1225			.master = master,
+  1226			.ssid = ssid,
+  1227		};
+> 1228		__le64 memory[ENTRY_SYNC_MEMORY_LEN(&cd_writer.writer)];
+  1229	
+  1230		if (ssid != IOMMU_NO_PASID && cur_valid != target_valid) {
+  1231			if (cur_valid)
+  1232				master->cd_table.used_ssids--;
+  1233			else
+  1234				master->cd_table.used_ssids++;
+  1235		}
+  1236	
+  1237		entry_sync_write64(&cd_writer.writer, cdptr->data, target->data, memory,
+  1238				   sizeof(memory));
+  1239	}
+  1240	
 
 -- 
 0-DAY CI Kernel Test Service
