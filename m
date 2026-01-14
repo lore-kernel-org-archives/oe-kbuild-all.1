@@ -1,175 +1,249 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCB230E0C5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 14:57:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFA13101BB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 14:57:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768402678; cv=none; b=OM5AZZxAo+6LlT9fqCISRvWA41fX+maHw74OTiTcEXMH4sR9hmrrG8BWK3XUOH50YhNo6evPajRMs7l4SgOjcjok+1HM6IYNiUVovMUATBmVmbFYkwpXbGzcUMqLQSSQ3mB+7Y6q7a95J+ba5pHcwY+Dd23ivmZL5r3itPZoRz4=
+	t=1768402681; cv=none; b=MZEY6oF8ysZJnooP5tfP9Cy2dkEI+q5bayq4jp8nyIyf8HErNdrnM/aC96rRXhLcks9eV2U0MCHQz51+JrbfOgYpILysaT8A29zcDV4TZF8jwPL9oi9Uu8eTi6mXZ40toVckKOzDVPVWC884nsuYagR1P7kp9PFWTvXAAxGz+rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768402678; c=relaxed/simple;
-	bh=FslN2L09yYFbdDNdXcQIOdZUN9q5mwNNHyvbq2eRO9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QmllNTS6PsKsxAv7peG4I02/UzbfQG9eDIsrnDD3+ktonUMiLO3rYnspMVebI8I8wHht/pR5hy7LDtrht4thLnoo7KbUUOs37muSE9XDIjfYcz1bqjA1bDqa66GQ9eL9GT+4pquAECu4TKgsfFO3VDrLxSxpwwBtv6hm9k8aUOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gVFuJZle; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1768402681; c=relaxed/simple;
+	bh=YOOjuPR0bVV5rS8Xm+jMh9bFV8ClTAdDkXaf0TP6nSo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AC3vFLA/d1OBWpV8PYPj9ohVqUsVIOUkJtkWwtnTsJ9Fl7p13SJNLwM3Otfy0z8uDp2C8nQGctLUyGPplQdciTWEcDt9KMf5kqZ3qDq1jHfATYiCfgWwAw+wmzf9MXPnSRThpowSiXyDlTVTqGrLSTbjQnzfelL8xYtNTFR7s1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RdgudKqj; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gVFuJZle"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RdgudKqj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768402677; x=1799938677;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=FslN2L09yYFbdDNdXcQIOdZUN9q5mwNNHyvbq2eRO9o=;
-  b=gVFuJZleoUq6Myl/Y1ObApAI24ZZa1Dh6pccAoTQHHB01UsfgJr37Rlj
-   tZZQ3KInrql5u5XVg3gHQjI3JkDWOcX5D2Rob7s1aOfOlxefb6dX+/01d
-   hYQsBXuWo0KfK1Mcg20f4rDqssDYcEpTIlCCmNPGiqAjP9cLRERy4KFvY
-   Xw4bpb475DNhnW/Re4NvM9a3PULQdAwIgdfxq+xaeOThPgxTkIuRQxtJm
-   2YsnMYcfYkuAhrTasYv0sErDjkv/uNWFJb0eKQx2w/MbCjmdKUKC8Bgr6
-   eJ0cqedjadp8fCicL2MKsNr2l3IOgIh9Cxu+C3lEBMHBm8PfVESG0vWri
+  t=1768402675; x=1799938675;
+  h=date:from:to:cc:subject:message-id;
+  bh=YOOjuPR0bVV5rS8Xm+jMh9bFV8ClTAdDkXaf0TP6nSo=;
+  b=RdgudKqjXVD0CiqW2fvWbe5DFpkJYqCJFJmQgEVwWTWO6xY7kHmp/7TS
+   TwJQU2dhizx3HXhaGq1KqItmdEujQ80joY7QyrG3UWDpNNw4hjVlDAa6N
+   /Eezj3IY448hBqvj7ZPqWErYoqAPfiSwt7yYowZjdHWoghLyFSrMlnywr
+   cSL1wm8QoKcPTj0dlxs8x+I96nABYEySi8kd8QI0XjfvBN2RshzuejAMk
+   y7E+8h3v/O1DL8Z/a9gwq1JxcPL6CNXmbHYa1ITToBFhKsPIh/Of6tjCr
+   HxXAaEz2J0lJrLRhFhuQJzG0Lh3c9Yuqi1xOcnFbZSoJ6afw+XhVDLhCN
    A==;
-X-CSE-ConnectionGUID: mnL7XeeES9OqckKZEygbUw==
-X-CSE-MsgGUID: ZPlT3SG/QcS4rKaPuxtJjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69622450"
+X-CSE-ConnectionGUID: gIIFh56WTTey3nwBxW/9dw==
+X-CSE-MsgGUID: 6gsKb5S1TASuyZPBqnFHVg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69622442"
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69622450"
+   d="scan'208";a="69622442"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 06:57:56 -0800
-X-CSE-ConnectionGUID: s1J9TIOqSo6jHPDZE2Z4JA==
-X-CSE-MsgGUID: +l7YJBXmRZSVvVtkW6Wg2w==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 06:57:55 -0800
+X-CSE-ConnectionGUID: fpaFQE2eSb25i8cfX+CC5w==
+X-CSE-MsgGUID: UCHnXf6NRca2LgcFOcblpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="204723017"
+   d="scan'208";a="204723012"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 14 Jan 2026 06:57:53 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vg2Ji-00000000GW8-2mSy;
+	id 1vg2Ji-00000000GWA-3HdI;
 	Wed, 14 Jan 2026 14:57:50 +0000
-Date: Wed, 14 Jan 2026 22:57:19 +0800
+Date: Wed, 14 Jan 2026 22:57:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: mpenttil@redhat.com, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
-	David Hildenbrand <david@redhat.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Balbir Singh <balbirs@nvidia.com>, Zi Yan <ziy@nvidia.com>,
-	Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH 1/3] mm: unified hmm fault and migrate device pagewalk
- paths
-Message-ID: <202601142231.LW22PqTJ-lkp@intel.com>
-References: <20260114091923.3950465-2-mpenttil@redhat.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:intel-6.6-PMT-enhancement-ANBZ27534
+ 23/23] drivers/crypto/ccp/hygon/psp-dev.c:53:10: warning: no previous
+ prototype for 'atomic64_exchange'
+Message-ID: <202601142214.Smv070Ox-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260114091923.3950465-2-mpenttil@redhat.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-nonmm-unstable]
-[also build test WARNING on linus/master v6.19-rc5 next-20260114]
-[cannot apply to akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mpenttil-redhat-com/mm-unified-hmm-fault-and-migrate-device-pagewalk-paths/20260114-172232
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20260114091923.3950465-2-mpenttil%40redhat.com
-patch subject: [PATCH 1/3] mm: unified hmm fault and migrate device pagewalk paths
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20260114/202601142231.LW22PqTJ-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601142231.LW22PqTJ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-PMT-enhancement-ANBZ27534
+head:   5be39e8fdc241e57f9813026ad199ad5add77ce7
+commit: 233dbf30e3bc7b13f1f9a0bf054504691218e641 [23/23] anolis: crypto: ccp: Reduce more code intrusion in psp-dev.c and sev-dev.c
+config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20260114/202601142214.Smv070Ox-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601142214.Smv070Ox-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601142231.LW22PqTJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601142214.Smv070Ox-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/hmm.c: In function 'hmm_vma_handle_absent_pmd':
->> mm/hmm.c:423:27: warning: unused variable 'range' [-Wunused-variable]
-     423 |         struct hmm_range *range = hmm_vma_walk->range;
-         |                           ^~~~~
+>> drivers/crypto/ccp/hygon/psp-dev.c:53:10: warning: no previous prototype for 'atomic64_exchange' [-Wmissing-prototypes]
+      53 | uint64_t atomic64_exchange(uint64_t *dst, uint64_t val)
+         |          ^~~~~~~~~~~~~~~~~
+   drivers/crypto/ccp/hygon/psp-dev.c:58:5: warning: no previous prototype for 'psp_mutex_init' [-Wmissing-prototypes]
+      58 | int psp_mutex_init(struct psp_mutex *mutex)
+         |     ^~~~~~~~~~~~~~
+   drivers/crypto/ccp/hygon/psp-dev.c:188:6: warning: no previous prototype for 'vpsp_set_default_vid_permission' [-Wmissing-prototypes]
+     188 | void vpsp_set_default_vid_permission(uint32_t is_allow)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/crypto/ccp/hygon/psp-dev.c:493:5: warning: no previous prototype for '__vpsp_do_cmd_locked' [-Wmissing-prototypes]
+     493 | int __vpsp_do_cmd_locked(uint32_t vid, int cmd, void *data, int *psp_ret)
+         |     ^~~~~~~~~~~~~~~~~~~~
+--
+>> drivers/crypto/ccp/hygon/psp-dev.c:183: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * When 'allow_default_vid' is set to 1,
+   drivers/crypto/ccp/hygon/psp-dev.c:200: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * When the virtual machine executes the 'tkm' command,
+   drivers/crypto/ccp/hygon/psp-dev.c:225: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Upon qemu startup, this section checks whether
+   drivers/crypto/ccp/hygon/psp-dev.c:253: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Upon the virtual machine is shut down,
+--
+>> drivers/crypto/ccp/hygon/csv-dev.c:821: warning: Function parameter or member 'api_major' not described in 'user_data_status'
+   drivers/crypto/ccp/hygon/csv-dev.c:821: warning: Function parameter or member 'api_minor' not described in 'user_data_status'
+   drivers/crypto/ccp/hygon/csv-dev.c:821: warning: Function parameter or member 'reserved1' not described in 'user_data_status'
 
 
-vim +/range +423 mm/hmm.c
+vim +/atomic64_exchange +53 drivers/crypto/ccp/hygon/psp-dev.c
 
-53f5c3f489ecddc Jérôme Glisse   2018-04-10  369  
-10b9feee2d0dc81 Francois Dugast 2025-09-08  370  #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
-10b9feee2d0dc81 Francois Dugast 2025-09-08  371  static int hmm_vma_handle_absent_pmd(struct mm_walk *walk, unsigned long start,
-10b9feee2d0dc81 Francois Dugast 2025-09-08  372  				     unsigned long end, unsigned long *hmm_pfns,
-10b9feee2d0dc81 Francois Dugast 2025-09-08  373  				     pmd_t pmd)
-10b9feee2d0dc81 Francois Dugast 2025-09-08  374  {
-10b9feee2d0dc81 Francois Dugast 2025-09-08  375  	struct hmm_vma_walk *hmm_vma_walk = walk->private;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  376  	struct hmm_range *range = hmm_vma_walk->range;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  377  	unsigned long npages = (end - start) >> PAGE_SHIFT;
-0ac881efe164685 Lorenzo Stoakes 2025-11-10  378  	const softleaf_t entry = softleaf_from_pmd(pmd);
-10b9feee2d0dc81 Francois Dugast 2025-09-08  379  	unsigned long addr = start;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  380  	unsigned int required_fault;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  381  
-0ac881efe164685 Lorenzo Stoakes 2025-11-10  382  	if (softleaf_is_device_private(entry) &&
-0ac881efe164685 Lorenzo Stoakes 2025-11-10  383  	    softleaf_to_folio(entry)->pgmap->owner ==
-10b9feee2d0dc81 Francois Dugast 2025-09-08  384  	    range->dev_private_owner) {
-10b9feee2d0dc81 Francois Dugast 2025-09-08  385  		unsigned long cpu_flags = HMM_PFN_VALID |
-10b9feee2d0dc81 Francois Dugast 2025-09-08  386  			hmm_pfn_flags_order(PMD_SHIFT - PAGE_SHIFT);
-0ac881efe164685 Lorenzo Stoakes 2025-11-10  387  		unsigned long pfn = softleaf_to_pfn(entry);
-10b9feee2d0dc81 Francois Dugast 2025-09-08  388  		unsigned long i;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  389  
-0ac881efe164685 Lorenzo Stoakes 2025-11-10  390  		if (softleaf_is_device_private_write(entry))
-10b9feee2d0dc81 Francois Dugast 2025-09-08  391  			cpu_flags |= HMM_PFN_WRITE;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  392  
-10b9feee2d0dc81 Francois Dugast 2025-09-08  393  		/*
-10b9feee2d0dc81 Francois Dugast 2025-09-08  394  		 * Fully populate the PFN list though subsequent PFNs could be
-10b9feee2d0dc81 Francois Dugast 2025-09-08  395  		 * inferred, because drivers which are not yet aware of large
-10b9feee2d0dc81 Francois Dugast 2025-09-08  396  		 * folios probably do not support sparsely populated PFN lists.
-10b9feee2d0dc81 Francois Dugast 2025-09-08  397  		 */
-10b9feee2d0dc81 Francois Dugast 2025-09-08  398  		for (i = 0; addr < end; addr += PAGE_SIZE, i++, pfn++) {
-10b9feee2d0dc81 Francois Dugast 2025-09-08  399  			hmm_pfns[i] &= HMM_PFN_INOUT_FLAGS;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  400  			hmm_pfns[i] |= pfn | cpu_flags;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  401  		}
-10b9feee2d0dc81 Francois Dugast 2025-09-08  402  
-10b9feee2d0dc81 Francois Dugast 2025-09-08  403  		return 0;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  404  	}
-10b9feee2d0dc81 Francois Dugast 2025-09-08  405  
-10b9feee2d0dc81 Francois Dugast 2025-09-08  406  	required_fault = hmm_range_need_fault(hmm_vma_walk, hmm_pfns,
-10b9feee2d0dc81 Francois Dugast 2025-09-08  407  					      npages, 0);
-10b9feee2d0dc81 Francois Dugast 2025-09-08  408  	if (required_fault) {
-0ac881efe164685 Lorenzo Stoakes 2025-11-10  409  		if (softleaf_is_device_private(entry))
-10b9feee2d0dc81 Francois Dugast 2025-09-08  410  			return hmm_vma_fault(addr, end, required_fault, walk);
-10b9feee2d0dc81 Francois Dugast 2025-09-08  411  		else
-10b9feee2d0dc81 Francois Dugast 2025-09-08  412  			return -EFAULT;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  413  	}
-10b9feee2d0dc81 Francois Dugast 2025-09-08  414  
-70d15e6adfafc3e Mika Penttilä   2026-01-14  415  	return hmm_pfns_fill(start, end, hmm_vma_walk, HMM_PFN_ERROR);
-10b9feee2d0dc81 Francois Dugast 2025-09-08  416  }
-10b9feee2d0dc81 Francois Dugast 2025-09-08  417  #else
-10b9feee2d0dc81 Francois Dugast 2025-09-08  418  static int hmm_vma_handle_absent_pmd(struct mm_walk *walk, unsigned long start,
-10b9feee2d0dc81 Francois Dugast 2025-09-08  419  				     unsigned long end, unsigned long *hmm_pfns,
-10b9feee2d0dc81 Francois Dugast 2025-09-08  420  				     pmd_t pmd)
-10b9feee2d0dc81 Francois Dugast 2025-09-08  421  {
-10b9feee2d0dc81 Francois Dugast 2025-09-08  422  	struct hmm_vma_walk *hmm_vma_walk = walk->private;
-10b9feee2d0dc81 Francois Dugast 2025-09-08 @423  	struct hmm_range *range = hmm_vma_walk->range;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  424  	unsigned long npages = (end - start) >> PAGE_SHIFT;
-10b9feee2d0dc81 Francois Dugast 2025-09-08  425  
-10b9feee2d0dc81 Francois Dugast 2025-09-08  426  	if (hmm_range_need_fault(hmm_vma_walk, hmm_pfns, npages, 0))
-10b9feee2d0dc81 Francois Dugast 2025-09-08  427  		return -EFAULT;
-70d15e6adfafc3e Mika Penttilä   2026-01-14  428  	return hmm_pfns_fill(start, end, hmm_vma_walk, HMM_PFN_ERROR);
-10b9feee2d0dc81 Francois Dugast 2025-09-08  429  }
-10b9feee2d0dc81 Francois Dugast 2025-09-08  430  #endif  /* CONFIG_ARCH_ENABLE_THP_MIGRATION */
-10b9feee2d0dc81 Francois Dugast 2025-09-08  431  
+    52	
+  > 53	uint64_t atomic64_exchange(uint64_t *dst, uint64_t val)
+    54	{
+    55		return xchg(dst, val);
+    56	}
+    57	
+    58	int psp_mutex_init(struct psp_mutex *mutex)
+    59	{
+    60		if (!mutex)
+    61			return -1;
+    62		mutex->locked = 0;
+    63		return 0;
+    64	}
+    65	
+    66	int psp_mutex_trylock(struct psp_mutex *mutex)
+    67	{
+    68		if (atomic64_exchange(&mutex->locked, 1))
+    69			return 0;
+    70		else
+    71			return 1;
+    72	}
+    73	
+    74	int psp_mutex_lock_timeout(struct psp_mutex *mutex, uint64_t ms)
+    75	{
+    76		int ret = 0;
+    77		unsigned long je;
+    78	
+    79		je = jiffies + msecs_to_jiffies(ms);
+    80		do {
+    81			if (psp_mutex_trylock(mutex)) {
+    82				ret = 1;
+    83				break;
+    84			}
+    85		} while ((ms == 0) || time_before(jiffies, je));
+    86	
+    87		return ret;
+    88	}
+    89	
+    90	int psp_mutex_unlock(struct psp_mutex *mutex)
+    91	{
+    92		if (!mutex)
+    93			return -1;
+    94	
+    95		atomic64_exchange(&mutex->locked, 0);
+    96		return 0;
+    97	}
+    98	
+    99	static int mmap_psp(struct file *filp, struct vm_area_struct *vma)
+   100	{
+   101		unsigned long page;
+   102	
+   103		page = virt_to_phys((void *)psp_misc->data_pg_aligned) >> PAGE_SHIFT;
+   104	
+   105		if (remap_pfn_range(vma, vma->vm_start, page, (vma->vm_end - vma->vm_start),
+   106					vma->vm_page_prot)) {
+   107			printk(KERN_INFO "remap failed...");
+   108			return -1;
+   109		}
+   110		vm_flags_mod(vma, VM_DONTDUMP | VM_DONTEXPAND, 0);
+   111		printk(KERN_INFO "remap_pfn_rang page:[%lu] ok.\n", page);
+   112		return 0;
+   113	}
+   114	
+   115	static ssize_t read_psp(struct file *file, char __user *buf, size_t count, loff_t *ppos)
+   116	{
+   117		ssize_t remaining;
+   118	
+   119		if ((*ppos + count) > PAGE_SIZE) {
+   120			printk(KERN_INFO "%s: invalid address range, pos %llx, count %lx\n",
+   121				__func__, *ppos, count);
+   122			return -EFAULT;
+   123		}
+   124	
+   125		remaining = copy_to_user(buf, (char *)psp_misc->data_pg_aligned + *ppos, count);
+   126		if (remaining)
+   127			return -EFAULT;
+   128	
+   129		*ppos += count;
+   130	
+   131		return count;
+   132	}
+   133	
+   134	static ssize_t write_psp(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
+   135	{
+   136		ssize_t remaining, written;
+   137	
+   138		if ((*ppos + count) > PAGE_SIZE) {
+   139			printk(KERN_INFO "%s: invalid address range, pos %llx, count %lx\n",
+   140				__func__, *ppos, count);
+   141			return -EFAULT;
+   142		}
+   143	
+   144		remaining = copy_from_user((char *)psp_misc->data_pg_aligned + *ppos, buf, count);
+   145		written = count - remaining;
+   146		if (!written)
+   147			return -EFAULT;
+   148	
+   149		*ppos += written;
+   150	
+   151		return written;
+   152	}
+   153	
+   154	DEFINE_RWLOCK(vpsp_rwlock);
+   155	
+   156	/* VPSP_VID_MAX_ENTRIES determines the maximum number of vms that can set vid.
+   157	 * but, the performance of finding vid is determined by g_vpsp_vid_num,
+   158	 * so VPSP_VID_MAX_ENTRIES can be set larger.
+   159	 */
+   160	#define VPSP_VID_MAX_ENTRIES    2048
+   161	#define VPSP_VID_NUM_MAX        64
+   162	
+   163	struct vpsp_vid_entry {
+   164		uint32_t vid;
+   165		pid_t pid;
+   166	};
+   167	static struct vpsp_vid_entry g_vpsp_vid_array[VPSP_VID_MAX_ENTRIES];
+   168	static uint32_t g_vpsp_vid_num;
+   169	static int compare_vid_entries(const void *a, const void *b)
+   170	{
+   171		return ((struct vpsp_vid_entry *)a)->pid - ((struct vpsp_vid_entry *)b)->pid;
+   172	}
+   173	static void swap_vid_entries(void *a, void *b, int size)
+   174	{
+   175		struct vpsp_vid_entry entry;
+   176	
+   177		memcpy(&entry, a, size);
+   178		memcpy(a, b, size);
+   179		memcpy(b, &entry, size);
+   180	}
+   181	
+   182	/**
+ > 183	 * When 'allow_default_vid' is set to 1,
+   184	 * QEMU is allowed to use 'vid 0' by default
+   185	 * in the absence of a valid 'vid' setting.
+   186	 */
+   187	uint32_t allow_default_vid = 1;
+   188	void vpsp_set_default_vid_permission(uint32_t is_allow)
+   189	{
+   190		allow_default_vid = is_allow;
+   191	}
+   192	
 
 -- 
 0-DAY CI Kernel Test Service
