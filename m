@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C77346A05
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 05:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6295C355036
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 05:12:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768366947; cv=none; b=QwoJkxv/+yzG5gueMLPls1wkxvYM/DDaf5Qt+VYZZGR0FXEoJ1VgdV+tcZHg54fs11431Wkg0fwO2pUeGaljrNCdHw4ZhKmVAfTT+q8DGcqEDwedOZ63uQIHIlbBQd4K1RrHT+GYiUAuL3DRP6vbBdrpeqOjOoewe63ctZ3snaI=
+	t=1768367559; cv=none; b=Q4URgv+h33NdYpBAOOm0dZ3sEYddlE/HFcGpKYgyyH+moz3CA2bFlt/Pn1gd4h0tj5CkAk4gLl5881pm/CYRc8jfJjyVH7D9NBmeWTSZlKFYc5tcAP4VpJW8heT9IAq/nVW/PTNFmlyeVItOmxv7lXjley+t+6hOR5vDehDH9yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768366947; c=relaxed/simple;
-	bh=13un0cqQfCV9qxXodgnzx79IyoEFSqdg0jZPIF0T75c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mTkvhnQKwAKYYFiOeOhDH/RYo0i+QahCGO6JmxoyiEtP/if0pX2Jti1H4PMjTMb0NJ2jWM9MvGd94gbCCR7gbJScFdw9Zfhxmh0rhwpv7xSsWAQ3bbutOMQUn5Jqf1liwFKJ8IsWjao6fNJLzh651bMISL2XfoBQR2xwBU6gDpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S1c1uzmx; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1768367559; c=relaxed/simple;
+	bh=+z1XBVh7Rhj+FEfFWjsNHcfPpFN9+tKMSGSjDu1+QFQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kVCsuiQw+D5Td9Kpip4O8NssiOcVulk752dpEVnGp4fvwXrpOA1we2U5+vXYR+qC3UMXUIEF+fZxWaE9w0lFMCenPnhiqwKLinEbUaAvDW2EyMlijZRq4Sog4RXvbnclJfFdwfuuo+6P29RN+MtgEzKUZlCTX9p2GVTFkM5hacM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayM12b/y; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S1c1uzmx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayM12b/y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768366938; x=1799902938;
+  t=1768367539; x=1799903539;
   h=date:from:to:cc:subject:message-id;
-  bh=13un0cqQfCV9qxXodgnzx79IyoEFSqdg0jZPIF0T75c=;
-  b=S1c1uzmx1PAAohlR8vokcZfb3khEnOaICCVxMXU9nQ18wBOykrl1wmdY
-   gdAY0hf0BCMMFbVfSGtnPWKUt549X3fmuL2ZAAiYZ1UHZ0TlU6GjQ8JsY
-   c1QC8UKwJzje10WkDLYlmxA6sFlRM9cAivuT+K+kHk3sPNYt7KkO2J8Xy
-   wQ8Xce5pihSE1Nigv019GrCIYI1v7SVBcboVBYY1wub+VeqeJuzX0XIvt
-   0UlQoyCnNyzJXGu4IHfb/fi/PuD4iEUwwvFaB5fyGANLtD68U4JQEHWTw
-   M60i0ewADH4bF9FFkJ7tQGz6RooLpHSAXnS1BKtqrIulWE84KLIrbzMkM
-   A==;
-X-CSE-ConnectionGUID: CWE0YAAfSfSWCk2bLnhY5Q==
-X-CSE-MsgGUID: oyavLjs4SzaiajNoscBfPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="80771778"
+  bh=+z1XBVh7Rhj+FEfFWjsNHcfPpFN9+tKMSGSjDu1+QFQ=;
+  b=ayM12b/yCXNZY9qT1LC1jutD6xEcJYTGXvfwoHIRHJVMeeZn45l9my+0
+   dCHSzlW8+E+iM9/RKOnDiYbAfncIPrmZ7gnHICcDYREHw/vASfywmvQea
+   3PN5lwA9xiRMrBgcBbY28fGiOP13oUZAv4UO+5gKSRDZj0QnqayEcBwui
+   Vag2hgMuK1fMHompBHM51wmPwBsKG8G9HB1AXLIXagsQi1TwLFkizgnxJ
+   CO2tz6l5E/yDXjqNQvXoeGft3OHcDO78Inxv25uZPKWqMx6xHgANP6W08
+   BE4mdj1+xzBYN0U3iLGmCu9YLedCPk8PqommR11mlBvPbwmAsI1lGrD2m
+   w==;
+X-CSE-ConnectionGUID: ED+Y/TlBRMyGziARRTuLmw==
+X-CSE-MsgGUID: 59ZrpxkiR8Gw2v5HKRJpig==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="95135826"
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="80771778"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 21:02:12 -0800
-X-CSE-ConnectionGUID: lZIGwCnERS+FXfgNQHjcJw==
-X-CSE-MsgGUID: ZYBEzt5PROuAy84M+QnQkw==
+   d="scan'208";a="95135826"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 21:12:13 -0800
+X-CSE-ConnectionGUID: wT23PmR7RB2pSlK2Gz365g==
+X-CSE-MsgGUID: 2ImgMDxVRmWI8Mya65q2lA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="208735328"
+   d="scan'208";a="204473350"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 13 Jan 2026 21:02:11 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 13 Jan 2026 21:12:12 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vft1E-00000000FoY-20wd;
-	Wed, 14 Jan 2026 05:02:08 +0000
-Date: Wed, 14 Jan 2026 13:01:20 +0800
+	id 1vftAv-00000000Fpc-2C2W;
+	Wed, 14 Jan 2026 05:12:09 +0000
+Date: Wed, 14 Jan 2026 13:11:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android17-6.18 3/3] error[E0425]: cannot
- find value `compat_ptr_ioctl` in crate `bindings`
-Message-ID: <202601141222.ediygIJb-lkp@intel.com>
+Subject: [anolis-intel-cloud:intel-6.6-PMT-enhancement-ANBZ27534
+ 23/23] drivers/crypto/ccp/hygon/ccp-dev-v5.c:206: warning: This comment
+ starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202601141321.cqoAJ6By-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,26 +61,41 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android17-6.18
-head:   32d3f32fbc53db0e7d79a02923d9e2c455dbfb8d
-commit: c7f0753ca253525d4ce8e6db45c43a021dd33985 [3/3] UPSTREAM: rust_binder: use compat_ptr_ioctl
-config: arm64-randconfig-001-20260114 (https://download.01.org/0day-ci/archive/20260114/202601141222.ediygIJb-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141222.ediygIJb-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-PMT-enhancement-ANBZ27534
+head:   5be39e8fdc241e57f9813026ad199ad5add77ce7
+commit: 11db1bdfd3aea61865e147841c9bfd95966c7e93 [23/23] anolis:ccp: ccp-crypto support sm2 on Hygon generation 4th CPU
+config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20260114/202601141321.cqoAJ6By-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141321.cqoAJ6By-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601141222.ediygIJb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601141321.cqoAJ6By-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0425]: cannot find value `compat_ptr_ioctl` in crate `bindings`
-   --> drivers/android/binder/rust_binder_main.rs:317:38
-   |
-   317 |         compat_ioctl: Some(bindings::compat_ptr_ioctl),
-   |                                      ^^^^^^^^^^^^^^^^ not found in `bindings`
+>> drivers/crypto/ccp/hygon/ccp-dev-v5.c:206: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Hygon CCP from 4th generation support both sm2 & ecc,
+
+
+vim +206 drivers/crypto/ccp/hygon/ccp-dev-v5.c
+
+   204	
+   205	/**
+ > 206	 * Hygon CCP from 4th generation support both sm2 & ecc,
+   207	 * but its input content is different from previous version.
+   208	 * the previous requries only one src buffer which include
+   209	 * hash + key. Now, hash and key should passed separately. To
+   210	 * compatible with previous driver, we parse hash and key
+   211	 * from src buffer which same as previous input
+   212	 */
+   213	#define SM2_ECC_OPERAND_LEN				32
+   214	#define SM2_ECC_KG_SRC_SIZE				32
+   215	#define SM2_ECC_LP_SRC_SIZE				32
+   216	#define SM2_ECC_SIGN_SRC_SIZE			64
+   217	#define SM2_ECC_VERIFY_SRC_SIZE			96
+   218	
 
 -- 
 0-DAY CI Kernel Test Service
