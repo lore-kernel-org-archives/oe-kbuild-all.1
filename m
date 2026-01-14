@@ -1,188 +1,269 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2809378D79
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 07:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C032F342C8E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 07:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768374827; cv=none; b=igsWzrupo5kGOdwPla/k0N65qXBF+IFbPeOmIcyo0XxkGUKzCbAUe9jLPybL6ZHnMR+zrCYjvepyyKnQz1dYvAyXbvOC46eBA4uluZSKYE7p7VOQ2RJbwEJFL6lAMmb7/CfMa9ahKXtTKn4FlUrXjVH6ilVy0MReZxPJuclLEw4=
+	t=1768376194; cv=none; b=LmbyPoXEDia/m7VD0isE6wCG6VO7tPlbrktofCJB+Pma403Sg8ObmTiFoYA3uIbwaoYlijPoK3COUTVgW/gqtvM9W7L+l34xJ36zSG9drrBP36LLOwPUVloI1QbqoJXnEdwQyq5bPrt4j63SD28beri6bY6hiCGVVE9t0P8nrbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768374827; c=relaxed/simple;
-	bh=hS8Nd12LdPbWmKjkDXTkYHNjZEeKyXjt1SlFCHAXxAM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fih2mCNc0bXG+NJqTl+zWJ272WwUptI40+sKiyRz3iBpcMG7e34uDfJfsFRo0FSSlEQOB2HHPEYCmgHcfzUokuS6+L67NogcDFaGlWBAPLrvMYJZB1s00BcDowNQVUnQNflMEYMMECAM6IbmYW2byq9wkeOcHWE7URP/hzKgoHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TGu5Y0mK; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1768376194; c=relaxed/simple;
+	bh=zpHYukj9ipiCTolCPzVGKNpR60Dbz0khnXqmU2g5Fdg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QZkLSxAgCHYyEVcg05VAPYJeYf7y3Z20Gz+s9CbwJ5mbK3W51plQmZcpJl6b4aibBAGjMwoP8Xj2jkYTtJDTd8FNFrG5yljFp9yTGR4RCoaXTQry7GKcf0wbfx2L7soH96EljhsybnfjZVRV6LUQkTGwZZvc8adt/tmnaIyIYN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KjD+e1e2; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TGu5Y0mK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KjD+e1e2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768374813; x=1799910813;
-  h=date:from:to:cc:subject:message-id;
-  bh=hS8Nd12LdPbWmKjkDXTkYHNjZEeKyXjt1SlFCHAXxAM=;
-  b=TGu5Y0mKNTLMybaM8uRCs73ypJrnitIchPxKdHUQksdlB141r+2hDm1N
-   fYVvcYjw4vPJ3BP3ETRrGxK7g98gbgKli64qKKa9C8X0WU7Sj3dhs6IDv
-   +OXjOvR8YbU1mJkd4wIbACMd747bhrB5CaX5N04Qk/sj0jI2LvzcIxqa3
-   YiIxKK+lr257v80eo0FpQNDKG+r7boIwygGU9sMvD0JoQfgaqeAj6ZVLe
-   2iOjpcbtX38e3b36YAlyAhVc7mFYQzdLZC/9KzTiouNODJTq/OSVPg63K
-   12GoBP7b04ZWrNtMKnAdTBjpEgcftDdMYrJIvppILrRn3CUKJDhIG/JcU
-   A==;
-X-CSE-ConnectionGUID: z1yBU0zjQcWr2t4uKSM/dg==
-X-CSE-MsgGUID: +mj2o8FpQ5aLkXZaIPw1qw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69403877"
+  t=1768376189; x=1799912189;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zpHYukj9ipiCTolCPzVGKNpR60Dbz0khnXqmU2g5Fdg=;
+  b=KjD+e1e2qmMceM/wiA0mRN0HoBTO9K/rMXeIEnONBXLYRX/Py5ckiNsQ
+   SxcaZiSOIewg5r7IhVyz4KHDWlxqBXbdrMQ+4/eauW+vHXLQoh+E/C8Vv
+   Ll161O4vw7Jz0XXTON2vk2fbtzkEmExy7Ar09Fkvw1nO/JpbNmEf3OAmv
+   LUhYMnOmJVt7vd5TR8cahDMbpwh+2+ZyaEhp28Gkm/Ip19/45VszUezWV
+   M3da3UNhNHyzQeO0HlAM2pI/8HMNL5L9CgXF9/9eNhSlCoKnQJMc1xVBB
+   h9lmfCMQnPrBHQeUfCLYX1UotZ1OOeKN77somD/hpNpy2x//Fgby7iiLY
+   g==;
+X-CSE-ConnectionGUID: xoMujw1uT0GJblIijnRV6w==
+X-CSE-MsgGUID: 4IU4OhdGQQqWp1COYNkqyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69727490"
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69403877"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 23:13:22 -0800
-X-CSE-ConnectionGUID: gPFjhuMXSmyh7OM3Q4LhGg==
-X-CSE-MsgGUID: l2pY3wTIT4qfh93MEdk1zA==
+   d="scan'208";a="69727490"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 23:36:23 -0800
+X-CSE-ConnectionGUID: 5RJF+h97QGSp6VpiHWYFCw==
+X-CSE-MsgGUID: ZDGyrzeTROCzkBeETNC6kg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="235851872"
+   d="scan'208";a="208761724"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Jan 2026 23:13:20 -0800
+  by orviesa003.jf.intel.com with ESMTP; 13 Jan 2026 23:36:23 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfv4A-00000000Fye-08cb;
-	Wed, 14 Jan 2026 07:13:18 +0000
-Date: Wed, 14 Jan 2026 15:13:03 +0800
+	id 1vfvQS-00000000G0S-1v1W;
+	Wed, 14 Jan 2026 07:36:20 +0000
+Date: Wed, 14 Jan 2026 15:35:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ian Rogers <irogers@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
-Subject: [tip:timers/vdso 12/14] net/rds/ib_cm.c:96:35: sparse:
- sparse: incorrect type in argument 1 (different modifiers)
-Message-ID: <202601141546.GCQHsj5y-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Allen Pais <allen.lkml@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 1/1] dmaengine: introduce dmaengine_bh_wq and bh
+ helpers
+Message-ID: <202601141510.JE2HHJ51-lkp@intel.com>
+References: <20260108080332.2341725-2-allen.lkml@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108080332.2341725-2-allen.lkml@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
-head:   576d8a7a985dde4f51a4561dddc0d8734494d3de
-commit: e04a494143bab7ea804fe1ebe286701ee8288e4a [12/14] vdso: Switch get/put_unaligned() from packed struct to memcpy()
-config: x86_64-randconfig-122-20260114 (https://download.01.org/0day-ci/archive/20260114/202601141546.GCQHsj5y-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141546.GCQHsj5y-lkp@intel.com/reproduce)
+Hi Allen,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on shawnguo/for-next sunxi/sunxi/for-next soc/for-next linus/master v6.19-rc5 next-20260114]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Allen-Pais/dmaengine-introduce-dmaengine_bh_wq-and-bh-helpers/20260108-164201
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20260108080332.2341725-2-allen.lkml%40gmail.com
+patch subject: [RFC PATCH 1/1] dmaengine: introduce dmaengine_bh_wq and bh helpers
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260114/202601141510.JE2HHJ51-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141510.JE2HHJ51-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601141546.GCQHsj5y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601141510.JE2HHJ51-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/rds/ib_cm.c:96:35: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   net/rds/ib_cm.c:96:35: sparse:     expected void *
-   net/rds/ib_cm.c:96:35: sparse:     got restricted __be64 const *
-   net/rds/ib_cm.c:103:27: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   net/rds/ib_cm.c:103:27: sparse:     expected void *
-   net/rds/ib_cm.c:103:27: sparse:     got restricted __be64 const *
+All warnings (new ones prefixed by >>):
 
-vim +96 net/rds/ib_cm.c
+   drivers/dma/mediatek/mtk-hsdma.c:644:8: error: unknown type name 'irqreturn_t'
+     644 | static irqreturn_t mtk_hsdma_irq(int irq, void *devid)
+         |        ^~~~~~~~~~~
+   drivers/dma/mediatek/mtk-hsdma.c: In function 'mtk_hsdma_irq':
+   drivers/dma/mediatek/mtk-hsdma.c:656:16: error: 'IRQ_HANDLED' undeclared (first use in this function)
+     656 |         return IRQ_HANDLED;
+         |                ^~~~~~~~~~~
+   drivers/dma/mediatek/mtk-hsdma.c:656:16: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/dma/mediatek/mtk-hsdma.c: In function 'mtk_hsdma_probe':
+   drivers/dma/mediatek/mtk-hsdma.c:988:15: error: implicit declaration of function 'devm_request_irq'; did you mean 'devm_request_region'? [-Wimplicit-function-declaration]
+     988 |         err = devm_request_irq(&pdev->dev, hsdma->irq,
+         |               ^~~~~~~~~~~~~~~~
+         |               devm_request_region
+   drivers/dma/mediatek/mtk-hsdma.c: In function 'mtk_hsdma_remove':
+   drivers/dma/mediatek/mtk-hsdma.c:1030:9: error: implicit declaration of function 'synchronize_irq'; did you mean 'synchronize_srcu'? [-Wimplicit-function-declaration]
+    1030 |         synchronize_irq(hsdma->irq);
+         |         ^~~~~~~~~~~~~~~
+         |         synchronize_srcu
+   drivers/dma/mediatek/mtk-hsdma.c: In function 'mtk_hsdma_irq':
+>> drivers/dma/mediatek/mtk-hsdma.c:657:1: warning: control reaches end of non-void function [-Wreturn-type]
+     657 | }
+         | ^
+--
+   In file included from drivers/dma/sf-pdma/sf-pdma.c:26:
+   drivers/dma/sf-pdma/sf-pdma.h:102:41: error: field 'done_tasklet' has incomplete type
+     102 |         struct tasklet_struct           done_tasklet;
+         |                                         ^~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.h:103:41: error: field 'err_tasklet' has incomplete type
+     103 |         struct tasklet_struct           err_tasklet;
+         |                                         ^~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c: In function 'sf_pdma_donebh_tasklet':
+   drivers/dma/sf-pdma/sf-pdma.c:300:37: error: implicit declaration of function 'from_tasklet' [-Wimplicit-function-declaration]
+     300 |         struct sf_pdma_chan *chan = from_tasklet(chan, t, done_tasklet);
+         |                                     ^~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c:300:59: error: 'done_tasklet' undeclared (first use in this function)
+     300 |         struct sf_pdma_chan *chan = from_tasklet(chan, t, done_tasklet);
+         |                                                           ^~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c:300:59: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/dma/sf-pdma/sf-pdma.c: In function 'sf_pdma_errbh_tasklet':
+   drivers/dma/sf-pdma/sf-pdma.c:324:59: error: 'err_tasklet' undeclared (first use in this function)
+     324 |         struct sf_pdma_chan *chan = from_tasklet(chan, t, err_tasklet);
+         |                                                           ^~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c: At top level:
+   drivers/dma/sf-pdma/sf-pdma.c:344:8: error: unknown type name 'irqreturn_t'
+     344 | static irqreturn_t sf_pdma_done_isr(int irq, void *dev_id)
+         |        ^~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c: In function 'sf_pdma_done_isr':
+   drivers/dma/sf-pdma/sf-pdma.c:355:17: error: implicit declaration of function 'tasklet_hi_schedule' [-Wimplicit-function-declaration]
+     355 |                 tasklet_hi_schedule(&chan->done_tasklet);
+         |                 ^~~~~~~~~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c:369:16: error: 'IRQ_HANDLED' undeclared (first use in this function)
+     369 |         return IRQ_HANDLED;
+         |                ^~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c: At top level:
+   drivers/dma/sf-pdma/sf-pdma.c:372:8: error: unknown type name 'irqreturn_t'
+     372 | static irqreturn_t sf_pdma_err_isr(int irq, void *dev_id)
+         |        ^~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c: In function 'sf_pdma_err_isr':
+   drivers/dma/sf-pdma/sf-pdma.c:381:9: error: implicit declaration of function 'tasklet_schedule' [-Wimplicit-function-declaration]
+     381 |         tasklet_schedule(&chan->err_tasklet);
+         |         ^~~~~~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c:383:16: error: 'IRQ_HANDLED' undeclared (first use in this function)
+     383 |         return IRQ_HANDLED;
+         |                ^~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c: In function 'sf_pdma_irq_init':
+   drivers/dma/sf-pdma/sf-pdma.c:413:21: error: implicit declaration of function 'devm_request_irq'; did you mean 'devm_request_region'? [-Wimplicit-function-declaration]
+     413 |                 r = devm_request_irq(&pdev->dev, irq, sf_pdma_done_isr, 0,
+         |                     ^~~~~~~~~~~~~~~~
+         |                     devm_request_region
+   drivers/dma/sf-pdma/sf-pdma.c: In function 'sf_pdma_setup_chans':
+   drivers/dma/sf-pdma/sf-pdma.c:491:17: error: implicit declaration of function 'tasklet_setup'; did you mean 'timer_setup'? [-Wimplicit-function-declaration]
+     491 |                 tasklet_setup(&chan->done_tasklet, sf_pdma_donebh_tasklet);
+         |                 ^~~~~~~~~~~~~
+         |                 timer_setup
+   drivers/dma/sf-pdma/sf-pdma.c: In function 'sf_pdma_remove':
+   drivers/dma/sf-pdma/sf-pdma.c:603:17: error: implicit declaration of function 'devm_free_irq'; did you mean 'devm_free_pages'? [-Wimplicit-function-declaration]
+     603 |                 devm_free_irq(&pdev->dev, ch->txirq, ch);
+         |                 ^~~~~~~~~~~~~
+         |                 devm_free_pages
+   drivers/dma/sf-pdma/sf-pdma.c:606:17: error: implicit declaration of function 'tasklet_kill' [-Wimplicit-function-declaration]
+     606 |                 tasklet_kill(&ch->vchan.task);
+         |                 ^~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c:606:40: error: 'struct virt_dma_chan' has no member named 'task'
+     606 |                 tasklet_kill(&ch->vchan.task);
+         |                                        ^
+   drivers/dma/sf-pdma/sf-pdma.c: In function 'sf_pdma_err_isr':
+>> drivers/dma/sf-pdma/sf-pdma.c:384:1: warning: control reaches end of non-void function [-Wreturn-type]
+     384 | }
+         | ^
+   drivers/dma/sf-pdma/sf-pdma.c: In function 'sf_pdma_done_isr':
+   drivers/dma/sf-pdma/sf-pdma.c:370:1: warning: control reaches end of non-void function [-Wreturn-type]
+     370 | }
+         | ^
+--
+   drivers/dma/stm32/stm32-dma.c:760:8: error: unknown type name 'irqreturn_t'
+     760 | static irqreturn_t stm32_dma_chan_irq(int irq, void *devid)
+         |        ^~~~~~~~~~~
+   drivers/dma/stm32/stm32-dma.c: In function 'stm32_dma_chan_irq':
+   drivers/dma/stm32/stm32-dma.c:813:16: error: 'IRQ_HANDLED' undeclared (first use in this function)
+     813 |         return IRQ_HANDLED;
+         |                ^~~~~~~~~~~
+   drivers/dma/stm32/stm32-dma.c:813:16: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/dma/stm32/stm32-dma.c: In function 'stm32_dma_probe':
+   drivers/dma/stm32/stm32-dma.c:1669:23: error: implicit declaration of function 'devm_request_irq'; did you mean 'devm_request_region'? [-Wimplicit-function-declaration]
+    1669 |                 ret = devm_request_irq(&pdev->dev, chan->irq,
+         |                       ^~~~~~~~~~~~~~~~
+         |                       devm_request_region
+   drivers/dma/stm32/stm32-dma.c: In function 'stm32_dma_chan_irq':
+>> drivers/dma/stm32/stm32-dma.c:814:1: warning: control reaches end of non-void function [-Wreturn-type]
+     814 | }
+         | ^
+--
+   drivers/dma/stm32/stm32-mdma.c:1399:8: error: unknown type name 'irqreturn_t'
+    1399 | static irqreturn_t stm32_mdma_irq_handler(int irq, void *devid)
+         |        ^~~~~~~~~~~
+   drivers/dma/stm32/stm32-mdma.c: In function 'stm32_mdma_irq_handler':
+   drivers/dma/stm32/stm32-mdma.c:1409:24: error: 'IRQ_NONE' undeclared (first use in this function)
+    1409 |                 return IRQ_NONE;
+         |                        ^~~~~~~~
+   drivers/dma/stm32/stm32-mdma.c:1409:24: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/dma/stm32/stm32-mdma.c:1478:16: error: 'IRQ_HANDLED' undeclared (first use in this function)
+    1478 |         return IRQ_HANDLED;
+         |                ^~~~~~~~~~~
+   drivers/dma/stm32/stm32-mdma.c: In function 'stm32_mdma_probe':
+   drivers/dma/stm32/stm32-mdma.c:1714:15: error: implicit declaration of function 'devm_request_irq'; did you mean 'devm_request_region'? [-Wimplicit-function-declaration]
+    1714 |         ret = devm_request_irq(&pdev->dev, dmadev->irq, stm32_mdma_irq_handler,
+         |               ^~~~~~~~~~~~~~~~
+         |               devm_request_region
+   drivers/dma/stm32/stm32-mdma.c: In function 'stm32_mdma_irq_handler':
+>> drivers/dma/stm32/stm32-mdma.c:1479:1: warning: control reaches end of non-void function [-Wreturn-type]
+    1479 | }
+         | ^
+--
+   drivers/dma/stm32/stm32-dma3.c:1012:8: error: unknown type name 'irqreturn_t'
+    1012 | static irqreturn_t stm32_dma3_chan_irq(int irq, void *devid)
+         |        ^~~~~~~~~~~
+   drivers/dma/stm32/stm32-dma3.c: In function 'stm32_dma3_chan_irq':
+   drivers/dma/stm32/stm32-dma3.c:1023:24: error: 'IRQ_NONE' undeclared (first use in this function)
+    1023 |                 return IRQ_NONE;
+         |                        ^~~~~~~~
+   drivers/dma/stm32/stm32-dma3.c:1023:24: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/dma/stm32/stm32-dma3.c:1069:16: error: 'IRQ_HANDLED' undeclared (first use in this function)
+    1069 |         return IRQ_HANDLED;
+         |                ^~~~~~~~~~~
+   drivers/dma/stm32/stm32-dma3.c: In function 'stm32_dma3_probe':
+   drivers/dma/stm32/stm32-dma3.c:1894:23: error: implicit declaration of function 'devm_request_irq'; did you mean 'devm_request_region'? [-Wimplicit-function-declaration]
+    1894 |                 ret = devm_request_irq(&pdev->dev, chan->irq, stm32_dma3_chan_irq, 0,
+         |                       ^~~~~~~~~~~~~~~~
+         |                       devm_request_region
+   drivers/dma/stm32/stm32-dma3.c: In function 'stm32_dma3_chan_irq':
+>> drivers/dma/stm32/stm32-dma3.c:1070:1: warning: control reaches end of non-void function [-Wreturn-type]
+    1070 | }
+         | ^
 
-ec16227e14141e4 Andy Grover                  2009-02-24   69  
-ec16227e14141e4 Andy Grover                  2009-02-24   70  /*
-ec16227e14141e4 Andy Grover                  2009-02-24   71   * Connection established.
-ec16227e14141e4 Andy Grover                  2009-02-24   72   * We get here for both outgoing and incoming connection.
-ec16227e14141e4 Andy Grover                  2009-02-24   73   */
-ec16227e14141e4 Andy Grover                  2009-02-24   74  void rds_ib_cm_connect_complete(struct rds_connection *conn, struct rdma_cm_event *event)
-ec16227e14141e4 Andy Grover                  2009-02-24   75  {
-ec16227e14141e4 Andy Grover                  2009-02-24   76  	struct rds_ib_connection *ic = conn->c_transport_data;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   77  	const union rds_ib_conn_priv *dp = NULL;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   78  	__be64 ack_seq = 0;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   79  	__be32 credit = 0;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   80  	u8 major = 0;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   81  	u8 minor = 0;
-ec16227e14141e4 Andy Grover                  2009-02-24   82  	int err;
-ec16227e14141e4 Andy Grover                  2009-02-24   83  
-ec16227e14141e4 Andy Grover                  2009-02-24   84  	dp = event->param.conn.private_data;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   85  	if (conn->c_isv6) {
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   86  		if (event->param.conn.private_data_len >=
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   87  		    sizeof(struct rds6_ib_connect_private)) {
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   88  			major = dp->ricp_v6.dp_protocol_major;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   89  			minor = dp->ricp_v6.dp_protocol_minor;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   90  			credit = dp->ricp_v6.dp_credit;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   91  			/* dp structure start is not guaranteed to be 8 bytes
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   92  			 * aligned.  Since dp_ack_seq is 64-bit extended load
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   93  			 * operations can be used so go through get_unaligned
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   94  			 * to avoid unaligned errors.
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   95  			 */
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  @96  			ack_seq = get_unaligned(&dp->ricp_v6.dp_ack_seq);
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   97  		}
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   98  	} else if (event->param.conn.private_data_len >=
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   99  		   sizeof(struct rds_ib_connect_private)) {
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  100  		major = dp->ricp_v4.dp_protocol_major;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  101  		minor = dp->ricp_v4.dp_protocol_minor;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  102  		credit = dp->ricp_v4.dp_credit;
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  103  		ack_seq = get_unaligned(&dp->ricp_v4.dp_ack_seq);
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  104  	}
-ec16227e14141e4 Andy Grover                  2009-02-24  105  
-02a6a2592e41d27 Andy Grover                  2009-07-17  106  	/* make sure it isn't empty data */
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  107  	if (major) {
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  108  		rds_ib_set_protocol(conn, RDS_PROTOCOL(major, minor));
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  109  		rds_ib_set_flow_control(conn, be32_to_cpu(credit));
-02a6a2592e41d27 Andy Grover                  2009-07-17  110  	}
-ec16227e14141e4 Andy Grover                  2009-02-24  111  
-cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  112  	if (conn->c_version < RDS_PROTOCOL_VERSION) {
-cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  113  		if (conn->c_version != RDS_PROTOCOL_COMPAT_VERSION) {
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  114  			pr_notice("RDS/IB: Connection <%pI6c,%pI6c> version %u.%u no longer supported\n",
-ff3f19a2f608ee4 Santosh Shilimkar            2016-03-14  115  				  &conn->c_laddr, &conn->c_faddr,
-f147dd9ecabf23f Andy Grover                  2010-01-13  116  				  RDS_PROTOCOL_MAJOR(conn->c_version),
-f147dd9ecabf23f Andy Grover                  2010-01-13  117  				  RDS_PROTOCOL_MINOR(conn->c_version));
-f147dd9ecabf23f Andy Grover                  2010-01-13  118  			rds_conn_destroy(conn);
-f147dd9ecabf23f Andy Grover                  2010-01-13  119  			return;
-cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  120  		}
-cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  121  	}
-cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  122  
-fd261ce6a30e01a Santosh Shilimkar            2018-10-13  123  	pr_notice("RDS/IB: %s conn connected <%pI6c,%pI6c,%d> version %u.%u%s\n",
-581d53c91cbf7b3 Santosh Shilimkar            2016-07-09  124  		  ic->i_active_side ? "Active" : "Passive",
-fd261ce6a30e01a Santosh Shilimkar            2018-10-13  125  		  &conn->c_laddr, &conn->c_faddr, conn->c_tos,
-ec16227e14141e4 Andy Grover                  2009-02-24  126  		  RDS_PROTOCOL_MAJOR(conn->c_version),
-ec16227e14141e4 Andy Grover                  2009-02-24  127  		  RDS_PROTOCOL_MINOR(conn->c_version),
-ec16227e14141e4 Andy Grover                  2009-02-24  128  		  ic->i_flowctl ? ", flow control" : "");
-ec16227e14141e4 Andy Grover                  2009-02-24  129  
-e0e6d062822529d Zhu Yanjun                   2019-08-23  130  	/* receive sl from the peer */
-e0e6d062822529d Zhu Yanjun                   2019-08-23  131  	ic->i_sl = ic->i_cm_id->route.path_rec->sl;
-e0e6d062822529d Zhu Yanjun                   2019-08-23  132  
-cf657269d311d57 Santosh Shilimkar            2016-09-29  133  	atomic_set(&ic->i_cq_quiesce, 0);
-cf657269d311d57 Santosh Shilimkar            2016-09-29  134  
-581d53c91cbf7b3 Santosh Shilimkar            2016-07-09  135  	/* Init rings and fill recv. this needs to wait until protocol
-581d53c91cbf7b3 Santosh Shilimkar            2016-07-09  136  	 * negotiation is complete, since ring layout is different
-581d53c91cbf7b3 Santosh Shilimkar            2016-07-09  137  	 * from 3.1 to 4.1.
-e11d912a7dd4dfe Andy Grover                  2009-07-17  138  	 */
-e11d912a7dd4dfe Andy Grover                  2009-07-17  139  	rds_ib_send_init_ring(ic);
-e11d912a7dd4dfe Andy Grover                  2009-07-17  140  	rds_ib_recv_init_ring(ic);
-e11d912a7dd4dfe Andy Grover                  2009-07-17  141  	/* Post receive buffers - as a side effect, this will update
-e11d912a7dd4dfe Andy Grover                  2009-07-17  142  	 * the posted credit count. */
-73ce4317bf98328 santosh.shilimkar@oracle.com 2015-08-22  143  	rds_ib_recv_refill(conn, 1, GFP_KERNEL);
-e11d912a7dd4dfe Andy Grover                  2009-07-17  144  
-3e0249f9c05cb77 Zach Brown                   2010-05-18  145  	/* update ib_device with this local ipaddr */
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  146  	err = rds_ib_update_ipaddr(ic->rds_ibdev, &conn->c_laddr);
-ec16227e14141e4 Andy Grover                  2009-02-24  147  	if (err)
-3e0249f9c05cb77 Zach Brown                   2010-05-18  148  		printk(KERN_ERR "rds_ib_update_ipaddr failed (%d)\n",
-3e0249f9c05cb77 Zach Brown                   2010-05-18  149  			err);
-ec16227e14141e4 Andy Grover                  2009-02-24  150  
-ec16227e14141e4 Andy Grover                  2009-02-24  151  	/* If the peer gave us the last packet it saw, process this as if
-ec16227e14141e4 Andy Grover                  2009-02-24  152  	 * we had received a regular ACK. */
-c0adf54a10903b5 shamir rabinovitch           2015-04-30  153  	if (dp) {
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  154  		if (ack_seq)
-eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  155  			rds_send_drop_acked(conn, be64_to_cpu(ack_seq),
-c0adf54a10903b5 shamir rabinovitch           2015-04-30  156  					    NULL);
-c0adf54a10903b5 shamir rabinovitch           2015-04-30  157  	}
-ec16227e14141e4 Andy Grover                  2009-02-24  158  
-cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  159  	conn->c_proposed_version = conn->c_version;
-ec16227e14141e4 Andy Grover                  2009-02-24  160  	rds_connect_complete(conn);
-ec16227e14141e4 Andy Grover                  2009-02-24  161  }
-ec16227e14141e4 Andy Grover                  2009-02-24  162  
 
-:::::: The code at line 96 was first introduced by commit
-:::::: eee2fa6ab3225192d6d894c54a6fb02ac9efdff6 rds: Changing IP address internal representation to struct in6_addr
+vim +657 drivers/dma/mediatek/mtk-hsdma.c
 
-:::::: TO: Ka-Cheong Poon <ka-cheong.poon@oracle.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+548c4597e984b7 Sean Wang 2018-03-15  643  
+548c4597e984b7 Sean Wang 2018-03-15  644  static irqreturn_t mtk_hsdma_irq(int irq, void *devid)
+548c4597e984b7 Sean Wang 2018-03-15  645  {
+548c4597e984b7 Sean Wang 2018-03-15  646  	struct mtk_hsdma_device *hsdma = devid;
+548c4597e984b7 Sean Wang 2018-03-15  647  
+548c4597e984b7 Sean Wang 2018-03-15  648  	/*
+548c4597e984b7 Sean Wang 2018-03-15  649  	 * Disable interrupt until all completed PDs are cleaned up in
+548c4597e984b7 Sean Wang 2018-03-15  650  	 * mtk_hsdma_free_rooms call.
+548c4597e984b7 Sean Wang 2018-03-15  651  	 */
+548c4597e984b7 Sean Wang 2018-03-15  652  	mtk_dma_clr(hsdma, MTK_HSDMA_INT_ENABLE, MTK_HSDMA_INT_RXDONE);
+548c4597e984b7 Sean Wang 2018-03-15  653  
+548c4597e984b7 Sean Wang 2018-03-15  654  	mtk_hsdma_free_rooms_in_ring(hsdma);
+548c4597e984b7 Sean Wang 2018-03-15  655  
+548c4597e984b7 Sean Wang 2018-03-15  656  	return IRQ_HANDLED;
+548c4597e984b7 Sean Wang 2018-03-15 @657  }
+548c4597e984b7 Sean Wang 2018-03-15  658  
 
 -- 
 0-DAY CI Kernel Test Service
