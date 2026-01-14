@@ -1,76 +1,103 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3222DE6F9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 15:02:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B46C39E6F5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 15:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768402932; cv=none; b=ZuAdQhI2iZ7ayGoG4kRf/2HJ40hf2i/csmJohT9S487KxlZWbzl/xebf+zfSX3aZZPkBhYDrkdBjo0wFBFlua3gGv3lcu8FB+jdGYBp97AJhbLf/Vm8at9hSqqEYLJfXDT0COGH2M0i7Fk0KO8ooJ5C56MgDirhEp05OhuNRNYg=
+	t=1768405202; cv=none; b=NuhEGM+FVQ+rMZk4DYnMQXMDBgWgRMcmrEpJK94205j6RjNxuHKacVjJDFT7cFNfdB8e5rsRIlCM2WgfJDSAQfN6eGUWPAiwIF2oYjuX3JhvveIIGAavl91ToE+qpC6dYF8S1JlpK1QVw1D0WbDlBD37ZggjmfFSfxnpzsZT+eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768402932; c=relaxed/simple;
-	bh=V4eeaEsurJitifohBqMuGeeBX+oz/GS571dPgXI/nZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O6XWXIahhlRwJNcrQ62JsQyfCny73WnI0cOplSVIsMmjzagRDa3CSM7OjR/PLnhu+qmXUk8BKvn4+mkUQ3bCOSKX3xWThgM5JAaRJVHRijNPy5jqFl7KZQfC0pGpJl1KD/ZG5Pb9k4uT1OfHGozmW3s6g+BfGH/rJVcE0v6Pseo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ukCtw33U; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1768405202; c=relaxed/simple;
+	bh=ro7Gf8Uy8xWahNd6aBNtueKx/mLKlwHb0JAG/shUQqs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pTsDEgmtgp7EJSy4wDPDU8HlLwu1v3GsO7zyxMEhcmZZoCPXZC4yK+ORrukvFX5CYpdRppKVQGXWjochxI7AIQ/ykSuk7ilZT7oavqf1+o0xW+xRCWsaEPgJe2iDHFPeXB4tSDofMD0iY0xCTxR6w/cVtHwO/+cBI7MPMahznWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gV5KmvKy; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ukCtw33U"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 87DD74E420D7;
-	Wed, 14 Jan 2026 15:02:09 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 5D5106074A;
-	Wed, 14 Jan 2026 15:02:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5CB6610B68265;
-	Wed, 14 Jan 2026 16:02:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1768402928; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=53MKDbM/lHZYRLYvti2TS9tQU5PkFFr5A5TelP/W6vo=;
-	b=ukCtw33Ul5eqOcgcZFnYy+JZ2VO0R6wSsPoBld6e+Q4n/5nhjGNn0XIpdIrzSvK7IMBVRq
-	ZtjHLKvOsILoJSlcvLe9q9ShyzznSaglwvBVGV+CB3xmWPZ9pijwbg13+vwAInzKqBEjnz
-	IWTofhftjzGa1m93RQcT8xEFvZP56/zb+dV/tNBw7XIf+2E31+ZvGLaQ+Ut0fzLloMDdx/
-	TLJreFcsBzEb9Es2kf0McO13znOJfrh1GKm0O5gcjTsQnnf0ME5W86phWgdypK7t7c2Laf
-	nkU5N09pdvTs0eS249b+fTTJ65zCYSDmbNw4FyJHkINGavGWxgGPsn3ZG4xiIA==
-Date: Wed, 14 Jan 2026 16:02:06 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: jonathan.cameron@huawei.com, Frank Li <Frank.Li@nxp.com>
-Cc: andriy.shevchenko@intel.com, carlos.song@nxp.com,
-	fluturel.adrian@gmail.com, linux-i3c@lists.infradead.org,
-	linux-iio@vger.kernel.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/1] i3c: Add stub functions when I3C support is disabled
-Message-ID: <176840281753.1259180.16475027635174872850.b4-ty@bootlin.com>
-References: <20251230145718.4088694-1-Frank.Li@nxp.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gV5KmvKy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768405199; x=1799941199;
+  h=date:from:to:cc:subject:message-id;
+  bh=ro7Gf8Uy8xWahNd6aBNtueKx/mLKlwHb0JAG/shUQqs=;
+  b=gV5KmvKyFB7CmYERQDx2X7obHv+++mlDvXTt2LizdtH3injDq5hMktp/
+   goTMnnS6734jYHbzaoxGXKCGfHysjTf0tu2ILCCwa6Miu460gks2VxIaD
+   qqSLTm2JU9YeIuFxQJWNkQ5RSRE8nISkdGatS6M1s8uQDBrqkpZBCiE2w
+   gLf3ea9yA+r4+LdliRjuNwr+wM4GkV++4CShZ6zngFxKjEijHY+V0UGoI
+   TXXKVIlODdg5tasE5ynUhpT1YP2P4yO9iyGLO3wEKbnDE5ETalPaAqddl
+   EIPDM4fnR50JElQxpX2J+CFgkMgRGALIWAqqZNYueUdSa9+0XAhTAh/sl
+   A==;
+X-CSE-ConnectionGUID: z2+dCIMeQoyonTLgGeHjzw==
+X-CSE-MsgGUID: mu34R/QbSF6t/3ZCUkqgVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69791867"
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="69791867"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 07:39:58 -0800
+X-CSE-ConnectionGUID: z9097xUpRAWGW1+MEDLHsA==
+X-CSE-MsgGUID: bO5hgjPNTlGXjFeCj/mqwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="235965173"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 14 Jan 2026 07:39:56 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vg2yP-00000000GZ0-3AfY;
+	Wed, 14 Jan 2026 15:39:53 +0000
+Date: Wed, 14 Jan 2026 23:39:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marco Crivellari <marco.crivellari@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "Maciej W. Rozycki" <macro@orcam.me.uk>
+Subject: <instantiation>:7:11: error: expected an immediate
+Message-ID: <202601142341.nJRCghXO-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251230145718.4088694-1-Frank.Li@nxp.com>
-X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, 30 Dec 2025 09:57:18 -0500, Frank Li wrote:
-> When I3C is disabled, unused functions are removed by the linker because
-> the driver relies on regmap and no I3C devices are registered, so normal
-> I3C paths are never called.
-> 
-> However, some drivers may still call low-level I3C transfer helpers.
-> Provide stub implementations to avoid adding conditional ifdefs everywhere.
-> 
-> [...]
+Hi Marco,
 
-Applied, thanks!
+FYI, the error/warning still remains.
 
-[1/1] i3c: Add stub functions when I3C support is disabled
-      https://git.kernel.org/i3c/c/8564f88df202
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c537e12daeecaecdcd322c56a5f70659d2de7bde
+commit: 56651128e2fbad80f632f388d6bf1f39c928267a MIPS: Fix idle VS timer enqueue
+date:   9 months ago
+config: mips-randconfig-r064-20260114 (https://download.01.org/0day-ci/archive/20260114/202601142341.nJRCghXO-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601142341.nJRCghXO-lkp@intel.com/reproduce)
 
-Best regards,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601142341.nJRCghXO-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> <instantiation>:7:11: error: expected an immediate
+    ori $26, r4k_wait_idle_size - 2
+             ^
+   <instantiation>:10:13: error: expected an immediate
+    addiu $26, r4k_wait_exit - r4k_wait_insn + 2
+               ^
+   <instantiation>:10:29: error: expected an immediate
+    addiu $26, r4k_wait_exit - r4k_wait_insn + 2
+                               ^
+>> <instantiation>:7:11: error: expected an immediate
+    ori $26, r4k_wait_idle_size - 2
+             ^
+   <instantiation>:10:13: error: expected an immediate
+    addiu $26, r4k_wait_exit - r4k_wait_insn + 2
+               ^
+   <instantiation>:10:29: error: expected an immediate
+    addiu $26, r4k_wait_exit - r4k_wait_insn + 2
+                               ^
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
