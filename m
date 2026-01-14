@@ -1,188 +1,295 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA10C3A35DB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 16:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8B63A0E9F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 16:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768408626; cv=none; b=nD+dxzOdEq/1szOtA/umzYtu5xrwjuSLxV9eIC6qpGJ3Bo4TJQwfL6xlz1RQ0+n5eweRj9mY+w38JOyMK7mZYzH++wGrnQ627UIG/i1wesqAv54xEOv14PbUjkHNT3l66pMe4EeEenY/vBjHz8e8BpvvYUauXtIn0pIvtt9Uoxo=
+	t=1768408627; cv=none; b=bXur48JfHQJU7Zn5cA3/UdPnV+8//OZo2MIp5PhCqCejk42/vOAKxlp2QbWJEEDR4adBD9Iwz81ZvzC+iM/zn1HTRwRTFliJMGAXajMZIYfXiAseY+2rUYkyNfJ8b+H1fqnUk+pJpngmyFwhbsBXf9A0yX4PIWX9jTf8bSJ3wH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768408626; c=relaxed/simple;
-	bh=VozwBgAsLEFj9TwnlG3jUEMhdzSLF89kpxIkOFAocRY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=IQemfw3oecjNqPXpeOMjuzoGvjkRZee3FsUDY3gcincq7i9aXVYhZ8YazFyYijarjC8HUs8nRHs+X91UbPK9MzWnfJOlsyGLpg3JKAfOh/dgKi2R9jojjNsz4rEvy8gKC5UF4N5wcJrNk+BatReyZbmaAWTeHGlpfPS1BfgAwcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PfCxWEok; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1768408627; c=relaxed/simple;
+	bh=E8RIcN9R+L5K9uirA6NlzA+r2qmPrPFCBl8xyWyV8yY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qo9mwxh3FZ0z2HiFJ/LBJFUUeiG6c8YviyQO8trtzurdEgiIBQZ1LkKbCfTdSI4GriMrvRfskpkYlx6dHapOr2hRWaIcpvdi6yyI0y/tY8zjZAolmvJY36BMKLQTZbGVsfu9zzS/HJiFNw5Y0Byuu5kKTjHBG++z1C4AOS1t7yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VObgL1A3; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PfCxWEok"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VObgL1A3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768408624; x=1799944624;
-  h=date:from:to:cc:subject:message-id;
-  bh=VozwBgAsLEFj9TwnlG3jUEMhdzSLF89kpxIkOFAocRY=;
-  b=PfCxWEokhhOLfj7OkJdTyncUluZsdXTtNVd+Sau8HUXvTg1qCdI00o8t
-   S1kGaI4y3AtQon6IUyA9qfupEJ828NS0i/AQTS2JHUIp4OC/gCYWnXafW
-   ZryEaBGE7p+2YyIBfo+xIx7PaqI9gvBkdXRA2vNEsaD7+peCVWMkpEKUL
-   ObcimIz6dkfKJ1vbJ1A8nGj7QNjFCTcJo5LQ6F1Y2xW8yccPxPEIFHndv
-   9Ze/WLTeGNPCHdSXKaeqOqt9gTN3+ixSSwxyHzLP0qByhGcAv25TtKIJj
-   UCFcnoDWVEwZBR3Y/dX7LIH1QB47DU8CPuqt4rqOuGT/s88D9N4E3vr05
-   w==;
-X-CSE-ConnectionGUID: RQ6/5ealSpCXEP2nxvkv/g==
-X-CSE-MsgGUID: U4zgn4f8SYylEQrZrSlx0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="80823557"
+  t=1768408626; x=1799944626;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E8RIcN9R+L5K9uirA6NlzA+r2qmPrPFCBl8xyWyV8yY=;
+  b=VObgL1A3/mVnxixgO00z27BGHpqPL7vekDprwQnsi880TFys4XgM7sWP
+   eAQSiCLLeWCmaIa3OfOFEMN+tJcLYCwbg9ffcaBcXJOE99lw4LV7RkiZQ
+   6kx4wEWu6VPAJHiqZ/dq9eJ9jAVKpVa3XRVcz5GFWnGwGw1aZAaQ/1LrD
+   EImkU+5ImnXaeTSrYAhRD+DsPQK78hby7g2XAci0oevr2H9IXrM0GfoRW
+   9SHrzjDS0hjgD8hYqAFnyjIRfPJxOhgv3Uh1fErzFLqJiS/nncD8v/mV5
+   +806/ZRXcB4XPVFLFRJ1EEC2ADUJQuwFdEAKmKfsIe4bvw1H9wR/ICf19
+   Q==;
+X-CSE-ConnectionGUID: 6xcJWX7jRaCGID+Qo/C4Ww==
+X-CSE-MsgGUID: D7bf01S/SW6m564oPaJ65A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="92381915"
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="80823557"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 08:37:03 -0800
-X-CSE-ConnectionGUID: Q5dV4C5IQsW4o/HivSnPCA==
-X-CSE-MsgGUID: A27lVJIZQOKJ3hbG0HXcRg==
+   d="scan'208";a="92381915"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 08:37:05 -0800
+X-CSE-ConnectionGUID: CKbvLsaSQMiv2EPNqWL0Xw==
+X-CSE-MsgGUID: mBjtWAiQTpqONdYkXrUgVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="204774151"
+   d="scan'208";a="209193588"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Jan 2026 08:37:00 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 14 Jan 2026 08:37:00 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vg3re-00000000Gek-1gyd;
+	id 1vg3re-00000000Gei-1aER;
 	Wed, 14 Jan 2026 16:36:58 +0000
-Date: Thu, 15 Jan 2026 00:36:01 +0800
+Date: Thu, 15 Jan 2026 00:36:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ian Rogers <irogers@google.com>
+To: Konrad Dybcio <konradybcio@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Sean Paul <sean@poorly.run>,
+	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
-Subject: [tip:timers/vdso 12/14] net/rds/ib_cm.c:96:35: sparse:
- sparse: incorrect type in argument 1 (different modifiers)
-Message-ID: <202601150001.sKSN644a-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	linux-arm-msm@vger.kernel.org, linux-hardening@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: Re: [PATCH v3 1/3] soc: qcom: smem: Expose DDR data from SMEM
+Message-ID: <202601150105.Pod3agMP-lkp@intel.com>
+References: <20260108-topic-smem_dramc-v3-1-6b64df58a017@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108-topic-smem_dramc-v3-1-6b64df58a017@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
-head:   759a1f97373f25770cf438d9fb5f2bddf4d77a54
-commit: e04a494143bab7ea804fe1ebe286701ee8288e4a [12/14] vdso: Switch get/put_unaligned() from packed struct to memcpy()
-config: x86_64-randconfig-122-20260114 (https://download.01.org/0day-ci/archive/20260115/202601150001.sKSN644a-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150001.sKSN644a-lkp@intel.com/reproduce)
+Hi Konrad,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on fc4e91c639c0af93d63c3d5bc0ee45515dd7504a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/soc-qcom-smem-Expose-DDR-data-from-SMEM/20260108-222445
+base:   fc4e91c639c0af93d63c3d5bc0ee45515dd7504a
+patch link:    https://lore.kernel.org/r/20260108-topic-smem_dramc-v3-1-6b64df58a017%40oss.qualcomm.com
+patch subject: [PATCH v3 1/3] soc: qcom: smem: Expose DDR data from SMEM
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260115/202601150105.Pod3agMP-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150105.Pod3agMP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601150001.sKSN644a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150105.Pod3agMP-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/rds/ib_cm.c:96:35: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   net/rds/ib_cm.c:96:35: sparse:     expected void *
-   net/rds/ib_cm.c:96:35: sparse:     got restricted __be64 const *
-   net/rds/ib_cm.c:103:27: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   net/rds/ib_cm.c:103:27: sparse:     expected void *
-   net/rds/ib_cm.c:103:27: sparse:     got restricted __be64 const *
+All warnings (new ones prefixed by >>):
 
-vim +96 net/rds/ib_cm.c
+   In function 'smem_dram_parse_v3_data',
+       inlined from 'smem_dram_parse' at drivers/soc/qcom/smem_dramc.c:380:3:
+>> drivers/soc/qcom/smem_dramc.c:216:31: warning: iteration 13 invokes undefined behavior [-Waggressive-loop-optimizations]
+     216 |                 if (freq_entry->freq_khz && freq_entry->enabled)
+         |                     ~~~~~~~~~~^~~~~~~~~~
+   drivers/soc/qcom/smem_dramc.c:213:27: note: within this loop
+     213 |         for (int i = 0; i < num_freq_entries; i++) {
+         |                         ~~^~~~~~~~~~~~~~~~~~
+--
+>> Warning: drivers/soc/qcom/smem.c:293 struct member 'debugfs_dir' not described in 'qcom_smem'
+>> Warning: drivers/soc/qcom/smem.c:293 struct member 'debugfs_dir' not described in 'qcom_smem'
 
-ec16227e14141e Andy Grover                  2009-02-24   69  
-ec16227e14141e Andy Grover                  2009-02-24   70  /*
-ec16227e14141e Andy Grover                  2009-02-24   71   * Connection established.
-ec16227e14141e Andy Grover                  2009-02-24   72   * We get here for both outgoing and incoming connection.
-ec16227e14141e Andy Grover                  2009-02-24   73   */
-ec16227e14141e Andy Grover                  2009-02-24   74  void rds_ib_cm_connect_complete(struct rds_connection *conn, struct rdma_cm_event *event)
-ec16227e14141e Andy Grover                  2009-02-24   75  {
-ec16227e14141e Andy Grover                  2009-02-24   76  	struct rds_ib_connection *ic = conn->c_transport_data;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   77  	const union rds_ib_conn_priv *dp = NULL;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   78  	__be64 ack_seq = 0;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   79  	__be32 credit = 0;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   80  	u8 major = 0;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   81  	u8 minor = 0;
-ec16227e14141e Andy Grover                  2009-02-24   82  	int err;
-ec16227e14141e Andy Grover                  2009-02-24   83  
-ec16227e14141e Andy Grover                  2009-02-24   84  	dp = event->param.conn.private_data;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   85  	if (conn->c_isv6) {
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   86  		if (event->param.conn.private_data_len >=
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   87  		    sizeof(struct rds6_ib_connect_private)) {
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   88  			major = dp->ricp_v6.dp_protocol_major;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   89  			minor = dp->ricp_v6.dp_protocol_minor;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   90  			credit = dp->ricp_v6.dp_credit;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   91  			/* dp structure start is not guaranteed to be 8 bytes
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   92  			 * aligned.  Since dp_ack_seq is 64-bit extended load
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   93  			 * operations can be used so go through get_unaligned
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   94  			 * to avoid unaligned errors.
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   95  			 */
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  @96  			ack_seq = get_unaligned(&dp->ricp_v6.dp_ack_seq);
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   97  		}
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   98  	} else if (event->param.conn.private_data_len >=
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23   99  		   sizeof(struct rds_ib_connect_private)) {
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  100  		major = dp->ricp_v4.dp_protocol_major;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  101  		minor = dp->ricp_v4.dp_protocol_minor;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  102  		credit = dp->ricp_v4.dp_credit;
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  103  		ack_seq = get_unaligned(&dp->ricp_v4.dp_ack_seq);
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  104  	}
-ec16227e14141e Andy Grover                  2009-02-24  105  
-02a6a2592e41d2 Andy Grover                  2009-07-17  106  	/* make sure it isn't empty data */
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  107  	if (major) {
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  108  		rds_ib_set_protocol(conn, RDS_PROTOCOL(major, minor));
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  109  		rds_ib_set_flow_control(conn, be32_to_cpu(credit));
-02a6a2592e41d2 Andy Grover                  2009-07-17  110  	}
-ec16227e14141e Andy Grover                  2009-02-24  111  
-cdc306a5c9cd36 Santosh Shilimkar            2018-10-13  112  	if (conn->c_version < RDS_PROTOCOL_VERSION) {
-cdc306a5c9cd36 Santosh Shilimkar            2018-10-13  113  		if (conn->c_version != RDS_PROTOCOL_COMPAT_VERSION) {
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  114  			pr_notice("RDS/IB: Connection <%pI6c,%pI6c> version %u.%u no longer supported\n",
-ff3f19a2f608ee Santosh Shilimkar            2016-03-14  115  				  &conn->c_laddr, &conn->c_faddr,
-f147dd9ecabf23 Andy Grover                  2010-01-13  116  				  RDS_PROTOCOL_MAJOR(conn->c_version),
-f147dd9ecabf23 Andy Grover                  2010-01-13  117  				  RDS_PROTOCOL_MINOR(conn->c_version));
-f147dd9ecabf23 Andy Grover                  2010-01-13  118  			rds_conn_destroy(conn);
-f147dd9ecabf23 Andy Grover                  2010-01-13  119  			return;
-cdc306a5c9cd36 Santosh Shilimkar            2018-10-13  120  		}
-cdc306a5c9cd36 Santosh Shilimkar            2018-10-13  121  	}
-cdc306a5c9cd36 Santosh Shilimkar            2018-10-13  122  
-fd261ce6a30e01 Santosh Shilimkar            2018-10-13  123  	pr_notice("RDS/IB: %s conn connected <%pI6c,%pI6c,%d> version %u.%u%s\n",
-581d53c91cbf7b Santosh Shilimkar            2016-07-09  124  		  ic->i_active_side ? "Active" : "Passive",
-fd261ce6a30e01 Santosh Shilimkar            2018-10-13  125  		  &conn->c_laddr, &conn->c_faddr, conn->c_tos,
-ec16227e14141e Andy Grover                  2009-02-24  126  		  RDS_PROTOCOL_MAJOR(conn->c_version),
-ec16227e14141e Andy Grover                  2009-02-24  127  		  RDS_PROTOCOL_MINOR(conn->c_version),
-ec16227e14141e Andy Grover                  2009-02-24  128  		  ic->i_flowctl ? ", flow control" : "");
-ec16227e14141e Andy Grover                  2009-02-24  129  
-e0e6d062822529 Zhu Yanjun                   2019-08-23  130  	/* receive sl from the peer */
-e0e6d062822529 Zhu Yanjun                   2019-08-23  131  	ic->i_sl = ic->i_cm_id->route.path_rec->sl;
-e0e6d062822529 Zhu Yanjun                   2019-08-23  132  
-cf657269d311d5 Santosh Shilimkar            2016-09-29  133  	atomic_set(&ic->i_cq_quiesce, 0);
-cf657269d311d5 Santosh Shilimkar            2016-09-29  134  
-581d53c91cbf7b Santosh Shilimkar            2016-07-09  135  	/* Init rings and fill recv. this needs to wait until protocol
-581d53c91cbf7b Santosh Shilimkar            2016-07-09  136  	 * negotiation is complete, since ring layout is different
-581d53c91cbf7b Santosh Shilimkar            2016-07-09  137  	 * from 3.1 to 4.1.
-e11d912a7dd4df Andy Grover                  2009-07-17  138  	 */
-e11d912a7dd4df Andy Grover                  2009-07-17  139  	rds_ib_send_init_ring(ic);
-e11d912a7dd4df Andy Grover                  2009-07-17  140  	rds_ib_recv_init_ring(ic);
-e11d912a7dd4df Andy Grover                  2009-07-17  141  	/* Post receive buffers - as a side effect, this will update
-e11d912a7dd4df Andy Grover                  2009-07-17  142  	 * the posted credit count. */
-73ce4317bf9832 santosh.shilimkar@oracle.com 2015-08-22  143  	rds_ib_recv_refill(conn, 1, GFP_KERNEL);
-e11d912a7dd4df Andy Grover                  2009-07-17  144  
-3e0249f9c05cb7 Zach Brown                   2010-05-18  145  	/* update ib_device with this local ipaddr */
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  146  	err = rds_ib_update_ipaddr(ic->rds_ibdev, &conn->c_laddr);
-ec16227e14141e Andy Grover                  2009-02-24  147  	if (err)
-3e0249f9c05cb7 Zach Brown                   2010-05-18  148  		printk(KERN_ERR "rds_ib_update_ipaddr failed (%d)\n",
-3e0249f9c05cb7 Zach Brown                   2010-05-18  149  			err);
-ec16227e14141e Andy Grover                  2009-02-24  150  
-ec16227e14141e Andy Grover                  2009-02-24  151  	/* If the peer gave us the last packet it saw, process this as if
-ec16227e14141e Andy Grover                  2009-02-24  152  	 * we had received a regular ACK. */
-c0adf54a10903b shamir rabinovitch           2015-04-30  153  	if (dp) {
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  154  		if (ack_seq)
-eee2fa6ab32251 Ka-Cheong Poon               2018-07-23  155  			rds_send_drop_acked(conn, be64_to_cpu(ack_seq),
-c0adf54a10903b shamir rabinovitch           2015-04-30  156  					    NULL);
-c0adf54a10903b shamir rabinovitch           2015-04-30  157  	}
-ec16227e14141e Andy Grover                  2009-02-24  158  
-cdc306a5c9cd36 Santosh Shilimkar            2018-10-13  159  	conn->c_proposed_version = conn->c_version;
-ec16227e14141e Andy Grover                  2009-02-24  160  	rds_connect_complete(conn);
-ec16227e14141e Andy Grover                  2009-02-24  161  }
-ec16227e14141e Andy Grover                  2009-02-24  162  
 
-:::::: The code at line 96 was first introduced by commit
-:::::: eee2fa6ab3225192d6d894c54a6fb02ac9efdff6 rds: Changing IP address internal representation to struct in6_addr
+vim +216 drivers/soc/qcom/smem_dramc.c
 
-:::::: TO: Ka-Cheong Poon <ka-cheong.poon@oracle.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   203	
+   204	static void smem_dram_parse_v3_data(struct smem_dram *dram, void *data, bool additional_freq_entry)
+   205	{
+   206		/* This may be 13 or 14 */
+   207		int num_freq_entries = MAX_DDR_FREQ_NUM_V3;
+   208		struct ddr_details_v3 *details = data;
+   209	
+   210		if (additional_freq_entry)
+   211			num_freq_entries++;
+   212	
+   213		for (int i = 0; i < num_freq_entries; i++) {
+   214			struct ddr_freq_table *freq_entry = &details->ddr_freq_tbl.ddr_freq[i];
+   215	
+ > 216			if (freq_entry->freq_khz && freq_entry->enabled)
+   217				dram->frequencies[dram->num_frequencies++] = 1000 * freq_entry->freq_khz;
+   218		}
+   219	}
+   220	
+   221	static void smem_dram_parse_v4_data(struct smem_dram *dram, void *data)
+   222	{
+   223		struct ddr_details_v4 *details = data;
+   224	
+   225		/* Rank 0 channel 0 entry holds the correct value */
+   226		dram->hbb = details->highest_bank_addr_bit[0][0];
+   227	
+   228		for (int i = 0; i < MAX_DDR_FREQ_NUM_V3; i++) {
+   229			struct ddr_freq_table *freq_entry = &details->ddr_freq_tbl.ddr_freq[i];
+   230	
+   231			if (freq_entry->freq_khz && freq_entry->enabled)
+   232				dram->frequencies[dram->num_frequencies++] = 1000 * freq_entry->freq_khz;
+   233		}
+   234	}
+   235	
+   236	static void smem_dram_parse_v5_data(struct smem_dram *dram, void *data)
+   237	{
+   238		struct ddr_details_v5 *details = data;
+   239		struct ddr_regions_v5 *region = &details->ddr_regions;
+   240	
+   241		dram->hbb = region[0].highest_bank_addr_bit;
+   242	
+   243		for (int i = 0; i < MAX_DDR_FREQ_NUM_V5; i++) {
+   244			struct ddr_freq_table *freq_entry = &details->ddr_freq_tbl.ddr_freq[i];
+   245	
+   246			if (freq_entry->freq_khz && freq_entry->enabled)
+   247				dram->frequencies[dram->num_frequencies++] = 1000 * freq_entry->freq_khz;
+   248		}
+   249	}
+   250	
+   251	static void smem_dram_parse_v7_data(struct smem_dram *dram, void *data)
+   252	{
+   253		struct ddr_details_v7 *details = data;
+   254		struct ddr_regions_v5 *region = &details->ddr_regions;
+   255	
+   256		dram->hbb = region[0].highest_bank_addr_bit;
+   257	
+   258		for (int i = 0; i < MAX_DDR_FREQ_NUM_V5; i++) {
+   259			struct ddr_freq_table *freq_entry = &details->ddr_freq_tbl.ddr_freq[i];
+   260	
+   261			if (freq_entry->freq_khz && freq_entry->enabled)
+   262				dram->frequencies[dram->num_frequencies++] = 1000 * freq_entry->freq_khz;
+   263		}
+   264	}
+   265	
+   266	/* The structure contains no version field, so we have to perform some guesswork.. */
+   267	static int smem_dram_infer_struct_version(size_t size)
+   268	{
+   269		/* Some early versions provided less bytes of less useful data */
+   270		if (size < sizeof(struct ddr_details_v3))
+   271			return -EINVAL;
+   272	
+   273		if (size == sizeof(struct ddr_details_v3))
+   274			return INFO_V3;
+   275	
+   276		if (size == sizeof(struct ddr_details_v3)
+   277			 + sizeof(struct ddr_freq_table))
+   278			return INFO_V3_WITH_14_FREQS;
+   279	
+   280		if (size == sizeof(struct ddr_details_v4))
+   281			return INFO_V4;
+   282	
+   283		if (size == sizeof(struct ddr_details_v5)
+   284			 + 4 * sizeof(struct ddr_region_v5))
+   285			return INFO_V5;
+   286	
+   287		if (size == sizeof(struct ddr_details_v5)
+   288			 + 4 * sizeof(struct ddr_region_v5)
+   289			 + sizeof(struct ddr_xbl2quantum_smem_data)
+   290			 + sizeof(struct shub_freq_plan_entry))
+   291			return INFO_V5;
+   292	
+   293		if (size == sizeof(struct ddr_details_v5)
+   294			 + 6 * sizeof(struct ddr_region_v5))
+   295			return INFO_V5_WITH_6_REGIONS;
+   296	
+   297		if (size == sizeof(struct ddr_details_v5)
+   298			 + 6 * sizeof(struct ddr_region_v5)
+   299			 + sizeof(struct ddr_xbl2quantum_smem_data)
+   300			 + sizeof(struct shub_freq_plan_entry))
+   301			return INFO_V5_WITH_6_REGIONS;
+   302	
+   303		if (size == sizeof(struct ddr_details_v5)
+   304			 + 6 * sizeof(struct ddr_region_v5)
+   305			 + sizeof(struct ddr_misc_info_v6)
+   306			 + sizeof(struct shub_freq_plan_entry))
+   307			return INFO_V6;
+   308	
+   309		if (size == sizeof(struct ddr_details_v7)
+   310			 + 4 * sizeof(struct ddr_region_v5)
+   311			 + sizeof(struct ddr_misc_info_v6)
+   312			 + sizeof(struct shub_freq_plan_entry))
+   313			return INFO_V7;
+   314	
+   315		if (size == sizeof(struct ddr_details_v7)
+   316			 + 6 * sizeof(struct ddr_region_v5)
+   317			 + sizeof(struct ddr_misc_info_v6)
+   318			 + sizeof(struct shub_freq_plan_entry))
+   319			return INFO_V7_WITH_6_REGIONS;
+   320	
+   321		return INFO_UNKNOWN;
+   322	}
+   323	
+   324	static int smem_dram_frequencies_show(struct seq_file *s, void *unused)
+   325	{
+   326		struct smem_dram *dram = s->private;
+   327	
+   328		for (int i = 0; i < dram->num_frequencies; i++)
+   329			seq_printf(s, "%lu\n", dram->frequencies[i]);
+   330	
+   331		return 0;
+   332	}
+   333	DEFINE_SHOW_ATTRIBUTE(smem_dram_frequencies);
+   334	
+   335	static int smem_hbb_show(struct seq_file *s, void *unused)
+   336	{
+   337		struct smem_dram *dram = s->private;
+   338	
+   339		if (!dram->hbb)
+   340			return -EINVAL;
+   341	
+   342		seq_printf(s, "%d\n", dram->hbb);
+   343	
+   344		return 0;
+   345	}
+   346	DEFINE_SHOW_ATTRIBUTE(smem_hbb);
+   347	
+   348	struct dentry *smem_dram_parse(struct device *dev)
+   349	{
+   350		struct dentry *debugfs_dir;
+   351		enum ddr_info_version ver;
+   352		struct smem_dram *dram;
+   353		size_t actual_size;
+   354		void *data = NULL;
+   355	
+   356		/* No need to check qcom_smem_is_available(), this func is called by the SMEM driver */
+   357		data = qcom_smem_get(QCOM_SMEM_HOST_ANY, SMEM_DDR_INFO_ID, &actual_size);
+   358		if (IS_ERR_OR_NULL(data))
+   359			return ERR_PTR(-ENODATA);
+   360	
+   361		ver = smem_dram_infer_struct_version(actual_size);
+   362		if (ver < 0) {
+   363			/* Some SoCs don't provide data that's useful for us */
+   364			return ERR_PTR(-ENODATA);
+   365		} else if (ver == INFO_UNKNOWN) {
+   366			/* In other cases, we may not have added support for a newer struct revision */
+   367			pr_err("Found an unknown type of DRAM info struct (size = %zu)\n", actual_size);
+   368			return ERR_PTR(-EINVAL);
+   369		}
+   370	
+   371		dram = devm_kzalloc(dev, sizeof(*dram), GFP_KERNEL);
+   372		if (!dram)
+   373			return ERR_PTR(-ENOMEM);
+   374	
+   375		switch (ver) {
+   376		case INFO_V3:
+   377			smem_dram_parse_v3_data(dram, data, false);
+   378			break;
+   379		case INFO_V3_WITH_14_FREQS:
+ > 380			smem_dram_parse_v3_data(dram, data, true);
 
 -- 
 0-DAY CI Kernel Test Service
