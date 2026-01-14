@@ -1,200 +1,188 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D373835581D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 07:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2809378D79
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 07:13:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768374812; cv=none; b=ggta/6zZ8J4lPxyy6c+QfVAKiK7IN0XY3iboZZGgFgOwsVa4umQ8KYWH3vH5oBlGZw3M7vP62k0gSpMGpQCwzIXiWNje2YpJ6QQkfONg6Utyj3OSzM0G/UTX3pwQ932ocYvJJXzzxIuoVSeW/rfyrWOzpUClYNCuiUj6FKdi04g=
+	t=1768374827; cv=none; b=igsWzrupo5kGOdwPla/k0N65qXBF+IFbPeOmIcyo0XxkGUKzCbAUe9jLPybL6ZHnMR+zrCYjvepyyKnQz1dYvAyXbvOC46eBA4uluZSKYE7p7VOQ2RJbwEJFL6lAMmb7/CfMa9ahKXtTKn4FlUrXjVH6ilVy0MReZxPJuclLEw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768374812; c=relaxed/simple;
-	bh=B1i3RGrMn24RmFoQ6OZ5PlSAfVLwdXHdm5Wr+tCH83k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E2dLvwz8ybmovntJBDJCn06YJ3NhJ0rXCSUiWL6Bx+icFKnrWOOFY2m1iF4rlyYCZKjhzmHRlvbwiOJJQCdV38k0Mp/7Liw0U2fC+ZrAlHDdCpXmTDudJbDMaCHScnNT3ypHtHDepi+jbfUq+h7hvtAhTxBCe2aVr0umszRYxhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PDKSroOn; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1768374827; c=relaxed/simple;
+	bh=hS8Nd12LdPbWmKjkDXTkYHNjZEeKyXjt1SlFCHAXxAM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=fih2mCNc0bXG+NJqTl+zWJ272WwUptI40+sKiyRz3iBpcMG7e34uDfJfsFRo0FSSlEQOB2HHPEYCmgHcfzUokuS6+L67NogcDFaGlWBAPLrvMYJZB1s00BcDowNQVUnQNflMEYMMECAM6IbmYW2byq9wkeOcHWE7URP/hzKgoHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TGu5Y0mK; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PDKSroOn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TGu5Y0mK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768374806; x=1799910806;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B1i3RGrMn24RmFoQ6OZ5PlSAfVLwdXHdm5Wr+tCH83k=;
-  b=PDKSroOnHRXPFHaxoS4oEUcTajviezoI7tT2CmQiuKEqRjqpATFA3N2L
-   BmE9S+eD/j8r57+kuOVKoC7tq2vixhAYyd2vQwKhwC7Y/p8ZeQRwR3RPf
-   MsOFmgUC3BrcMyGkM3uqRGdqNKQYe4SVzDStvS4s80nKzr9dIJxG1uOO5
-   p8RaJ4GdQslVCosBhOL+Y96pGY6nerdphTd5Zbzv2JzcWlDTXWLQe3li4
-   9r2+U9qUd16KcI1hJkC482DtLFAcv/49vWCDo/xwwOTYzUtULy9VLqP1T
-   pDNAh31Tp95BtBJGB6ovVkRJc2irdE4yRsnH7FMa5IA6+CkXiC4S1rhRp
-   w==;
-X-CSE-ConnectionGUID: +9gY6pb7SpKBGAWSfGmTwg==
-X-CSE-MsgGUID: dUifv3keQYG9QAIFdIhgUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69577186"
+  t=1768374813; x=1799910813;
+  h=date:from:to:cc:subject:message-id;
+  bh=hS8Nd12LdPbWmKjkDXTkYHNjZEeKyXjt1SlFCHAXxAM=;
+  b=TGu5Y0mKNTLMybaM8uRCs73ypJrnitIchPxKdHUQksdlB141r+2hDm1N
+   fYVvcYjw4vPJ3BP3ETRrGxK7g98gbgKli64qKKa9C8X0WU7Sj3dhs6IDv
+   +OXjOvR8YbU1mJkd4wIbACMd747bhrB5CaX5N04Qk/sj0jI2LvzcIxqa3
+   YiIxKK+lr257v80eo0FpQNDKG+r7boIwygGU9sMvD0JoQfgaqeAj6ZVLe
+   2iOjpcbtX38e3b36YAlyAhVc7mFYQzdLZC/9KzTiouNODJTq/OSVPg63K
+   12GoBP7b04ZWrNtMKnAdTBjpEgcftDdMYrJIvppILrRn3CUKJDhIG/JcU
+   A==;
+X-CSE-ConnectionGUID: z1yBU0zjQcWr2t4uKSM/dg==
+X-CSE-MsgGUID: +mj2o8FpQ5aLkXZaIPw1qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69403877"
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69577186"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 23:13:22 -0800
-X-CSE-ConnectionGUID: rdcFbvxzTmKOdXk1PYbxcw==
-X-CSE-MsgGUID: LFZsELyYRUSJLhQCO+80AA==
+   d="scan'208";a="69403877"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 23:13:22 -0800
+X-CSE-ConnectionGUID: gPFjhuMXSmyh7OM3Q4LhGg==
+X-CSE-MsgGUID: l2pY3wTIT4qfh93MEdk1zA==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="235851872"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 13 Jan 2026 23:13:20 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 13 Jan 2026 23:13:20 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfv49-00000000Fya-46Ny;
-	Wed, 14 Jan 2026 07:13:17 +0000
-Date: Wed, 14 Jan 2026 15:13:02 +0800
+	id 1vfv4A-00000000Fye-08cb;
+	Wed, 14 Jan 2026 07:13:18 +0000
+Date: Wed, 14 Jan 2026 15:13:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	phasta@mailbox.org, tursulin@ursulin.net, matthew.brost@intel.com,
-	sumit.semwal@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 05/10] dma-buf: inline spinlock for fence protection v4
-Message-ID: <202601141412.WQDwevjM-lkp@intel.com>
-References: <20260113152125.47380-6-christian.koenig@amd.com>
+To: Ian Rogers <irogers@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
+Subject: [tip:timers/vdso 12/14] net/rds/ib_cm.c:96:35: sparse:
+ sparse: incorrect type in argument 1 (different modifiers)
+Message-ID: <202601141546.GCQHsj5y-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113152125.47380-6-christian.koenig@amd.com>
 
-Hi Christian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm-xe/drm-xe-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-tip/drm-tip next-20260114]
-[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/dma-buf-add-dma_fence_is_initialized-function/20260114-001656
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260113152125.47380-6-christian.koenig%40amd.com
-patch subject: [PATCH 05/10] dma-buf: inline spinlock for fence protection v4
-config: x86_64-buildonly-randconfig-004-20260114 (https://download.01.org/0day-ci/archive/20260114/202601141412.WQDwevjM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141412.WQDwevjM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
+head:   576d8a7a985dde4f51a4561dddc0d8734494d3de
+commit: e04a494143bab7ea804fe1ebe286701ee8288e4a [12/14] vdso: Switch get/put_unaligned() from packed struct to memcpy()
+config: x86_64-randconfig-122-20260114 (https://download.01.org/0day-ci/archive/20260114/202601141546.GCQHsj5y-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141546.GCQHsj5y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601141412.WQDwevjM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601141546.GCQHsj5y-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/rds/ib_cm.c:96:35: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
+   net/rds/ib_cm.c:96:35: sparse:     expected void *
+   net/rds/ib_cm.c:96:35: sparse:     got restricted __be64 const *
+   net/rds/ib_cm.c:103:27: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
+   net/rds/ib_cm.c:103:27: sparse:     expected void *
+   net/rds/ib_cm.c:103:27: sparse:     got restricted __be64 const *
 
-   In file included from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/segment.h:6,
-                    from arch/x86/include/asm/ptrace.h:5,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from include/linux/sched.h:13,
-                    from include/linux/kthread.h:6,
-                    from drivers/gpu/drm/i915/gt/intel_breadcrumbs.c:6:
-   drivers/gpu/drm/i915/gt/intel_breadcrumbs.c: In function '__dma_fence_signal__notify':
->> drivers/gpu/drm/i915/gt/intel_breadcrumbs.c:151:34: error: 'struct dma_fence' has no member named 'lock'
-     151 |         lockdep_assert_held(fence->lock);
-         |                                  ^~
-   include/asm-generic/bug.h:205:32: note: in definition of macro 'WARN_ON'
-     205 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/lockdep.h:285:9: note: in expansion of macro 'lockdep_assert'
-     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-         |         ^~~~~~~~~~~~~~
-   include/linux/lockdep.h:285:24: note: in expansion of macro 'lockdep_is_held'
-     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-         |                        ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/gt/intel_breadcrumbs.c:151:9: note: in expansion of macro 'lockdep_assert_held'
-     151 |         lockdep_assert_held(fence->lock);
-         |         ^~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/debugobjects.h:6,
-                    from drivers/gpu/drm/i915/i915_active.c:7:
-   drivers/gpu/drm/i915/i915_active.c: In function '__i915_active_fence_set':
->> drivers/gpu/drm/i915/i915_active.c:1048:32: error: 'struct dma_fence' has no member named 'lock'
-    1048 |         spin_lock_irqsave(fence->lock, flags);
-         |                                ^~
-   include/linux/spinlock.h:244:48: note: in definition of macro 'raw_spin_lock_irqsave'
-     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
-         |                                                ^~~~
-   drivers/gpu/drm/i915/i915_active.c:1048:9: note: in expansion of macro 'spin_lock_irqsave'
-    1048 |         spin_lock_irqsave(fence->lock, flags);
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_active.c:1050:38: error: 'struct dma_fence' has no member named 'lock'
-    1050 |                 spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
-         |                                      ^~
-   include/linux/spinlock.h:221:31: note: in definition of macro 'raw_spin_lock_nested'
-     221 |         _raw_spin_lock_nested(lock, subclass)
-         |                               ^~~~
-   drivers/gpu/drm/i915/i915_active.c:1050:17: note: in expansion of macro 'spin_lock_nested'
-    1050 |                 spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_active.c:1064:41: error: 'struct dma_fence' has no member named 'lock'
-    1064 |                         spin_unlock(prev->lock);
-         |                                         ^~
-   drivers/gpu/drm/i915/i915_active.c:1067:45: error: 'struct dma_fence' has no member named 'lock'
-    1067 |                 spin_unlock_irqrestore(fence->lock, flags);
-         |                                             ^~
-   drivers/gpu/drm/i915/i915_active.c:1072:40: error: 'struct dma_fence' has no member named 'lock'
-    1072 |                 spin_lock_irqsave(fence->lock, flags);
-         |                                        ^~
-   include/linux/spinlock.h:244:48: note: in definition of macro 'raw_spin_lock_irqsave'
-     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
-         |                                                ^~~~
-   drivers/gpu/drm/i915/i915_active.c:1072:17: note: in expansion of macro 'spin_lock_irqsave'
-    1072 |                 spin_lock_irqsave(fence->lock, flags);
-         |                 ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_active.c:1074:46: error: 'struct dma_fence' has no member named 'lock'
-    1074 |                         spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
-         |                                              ^~
-   include/linux/spinlock.h:221:31: note: in definition of macro 'raw_spin_lock_nested'
-     221 |         _raw_spin_lock_nested(lock, subclass)
-         |                               ^~~~
-   drivers/gpu/drm/i915/i915_active.c:1074:25: note: in expansion of macro 'spin_lock_nested'
-    1074 |                         spin_lock_nested(prev->lock, SINGLE_DEPTH_NESTING);
-         |                         ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_active.c:1091:33: error: 'struct dma_fence' has no member named 'lock'
-    1091 |                 spin_unlock(prev->lock); /* serialise with prev->cb_list */
-         |                                 ^~
-   drivers/gpu/drm/i915/i915_active.c:1094:37: error: 'struct dma_fence' has no member named 'lock'
-    1094 |         spin_unlock_irqrestore(fence->lock, flags);
-         |                                     ^~
-   In file included from drivers/gpu/drm/i915/i915_active.c:1174:
-   drivers/gpu/drm/i915/selftests/i915_active.c: In function 'active_flush':
->> drivers/gpu/drm/i915/selftests/i915_active.c:326:28: error: 'struct dma_fence' has no member named 'lock'
-     326 |         spin_lock_irq(fence->lock);
-         |                            ^~
-   drivers/gpu/drm/i915/selftests/i915_active.c:328:30: error: 'struct dma_fence' has no member named 'lock'
-     328 |         spin_unlock_irq(fence->lock); /* serialise with fence->cb_list */
-         |                              ^~
+vim +96 net/rds/ib_cm.c
 
+ec16227e14141e4 Andy Grover                  2009-02-24   69  
+ec16227e14141e4 Andy Grover                  2009-02-24   70  /*
+ec16227e14141e4 Andy Grover                  2009-02-24   71   * Connection established.
+ec16227e14141e4 Andy Grover                  2009-02-24   72   * We get here for both outgoing and incoming connection.
+ec16227e14141e4 Andy Grover                  2009-02-24   73   */
+ec16227e14141e4 Andy Grover                  2009-02-24   74  void rds_ib_cm_connect_complete(struct rds_connection *conn, struct rdma_cm_event *event)
+ec16227e14141e4 Andy Grover                  2009-02-24   75  {
+ec16227e14141e4 Andy Grover                  2009-02-24   76  	struct rds_ib_connection *ic = conn->c_transport_data;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   77  	const union rds_ib_conn_priv *dp = NULL;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   78  	__be64 ack_seq = 0;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   79  	__be32 credit = 0;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   80  	u8 major = 0;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   81  	u8 minor = 0;
+ec16227e14141e4 Andy Grover                  2009-02-24   82  	int err;
+ec16227e14141e4 Andy Grover                  2009-02-24   83  
+ec16227e14141e4 Andy Grover                  2009-02-24   84  	dp = event->param.conn.private_data;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   85  	if (conn->c_isv6) {
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   86  		if (event->param.conn.private_data_len >=
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   87  		    sizeof(struct rds6_ib_connect_private)) {
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   88  			major = dp->ricp_v6.dp_protocol_major;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   89  			minor = dp->ricp_v6.dp_protocol_minor;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   90  			credit = dp->ricp_v6.dp_credit;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   91  			/* dp structure start is not guaranteed to be 8 bytes
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   92  			 * aligned.  Since dp_ack_seq is 64-bit extended load
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   93  			 * operations can be used so go through get_unaligned
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   94  			 * to avoid unaligned errors.
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   95  			 */
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  @96  			ack_seq = get_unaligned(&dp->ricp_v6.dp_ack_seq);
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   97  		}
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   98  	} else if (event->param.conn.private_data_len >=
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23   99  		   sizeof(struct rds_ib_connect_private)) {
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  100  		major = dp->ricp_v4.dp_protocol_major;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  101  		minor = dp->ricp_v4.dp_protocol_minor;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  102  		credit = dp->ricp_v4.dp_credit;
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  103  		ack_seq = get_unaligned(&dp->ricp_v4.dp_ack_seq);
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  104  	}
+ec16227e14141e4 Andy Grover                  2009-02-24  105  
+02a6a2592e41d27 Andy Grover                  2009-07-17  106  	/* make sure it isn't empty data */
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  107  	if (major) {
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  108  		rds_ib_set_protocol(conn, RDS_PROTOCOL(major, minor));
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  109  		rds_ib_set_flow_control(conn, be32_to_cpu(credit));
+02a6a2592e41d27 Andy Grover                  2009-07-17  110  	}
+ec16227e14141e4 Andy Grover                  2009-02-24  111  
+cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  112  	if (conn->c_version < RDS_PROTOCOL_VERSION) {
+cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  113  		if (conn->c_version != RDS_PROTOCOL_COMPAT_VERSION) {
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  114  			pr_notice("RDS/IB: Connection <%pI6c,%pI6c> version %u.%u no longer supported\n",
+ff3f19a2f608ee4 Santosh Shilimkar            2016-03-14  115  				  &conn->c_laddr, &conn->c_faddr,
+f147dd9ecabf23f Andy Grover                  2010-01-13  116  				  RDS_PROTOCOL_MAJOR(conn->c_version),
+f147dd9ecabf23f Andy Grover                  2010-01-13  117  				  RDS_PROTOCOL_MINOR(conn->c_version));
+f147dd9ecabf23f Andy Grover                  2010-01-13  118  			rds_conn_destroy(conn);
+f147dd9ecabf23f Andy Grover                  2010-01-13  119  			return;
+cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  120  		}
+cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  121  	}
+cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  122  
+fd261ce6a30e01a Santosh Shilimkar            2018-10-13  123  	pr_notice("RDS/IB: %s conn connected <%pI6c,%pI6c,%d> version %u.%u%s\n",
+581d53c91cbf7b3 Santosh Shilimkar            2016-07-09  124  		  ic->i_active_side ? "Active" : "Passive",
+fd261ce6a30e01a Santosh Shilimkar            2018-10-13  125  		  &conn->c_laddr, &conn->c_faddr, conn->c_tos,
+ec16227e14141e4 Andy Grover                  2009-02-24  126  		  RDS_PROTOCOL_MAJOR(conn->c_version),
+ec16227e14141e4 Andy Grover                  2009-02-24  127  		  RDS_PROTOCOL_MINOR(conn->c_version),
+ec16227e14141e4 Andy Grover                  2009-02-24  128  		  ic->i_flowctl ? ", flow control" : "");
+ec16227e14141e4 Andy Grover                  2009-02-24  129  
+e0e6d062822529d Zhu Yanjun                   2019-08-23  130  	/* receive sl from the peer */
+e0e6d062822529d Zhu Yanjun                   2019-08-23  131  	ic->i_sl = ic->i_cm_id->route.path_rec->sl;
+e0e6d062822529d Zhu Yanjun                   2019-08-23  132  
+cf657269d311d57 Santosh Shilimkar            2016-09-29  133  	atomic_set(&ic->i_cq_quiesce, 0);
+cf657269d311d57 Santosh Shilimkar            2016-09-29  134  
+581d53c91cbf7b3 Santosh Shilimkar            2016-07-09  135  	/* Init rings and fill recv. this needs to wait until protocol
+581d53c91cbf7b3 Santosh Shilimkar            2016-07-09  136  	 * negotiation is complete, since ring layout is different
+581d53c91cbf7b3 Santosh Shilimkar            2016-07-09  137  	 * from 3.1 to 4.1.
+e11d912a7dd4dfe Andy Grover                  2009-07-17  138  	 */
+e11d912a7dd4dfe Andy Grover                  2009-07-17  139  	rds_ib_send_init_ring(ic);
+e11d912a7dd4dfe Andy Grover                  2009-07-17  140  	rds_ib_recv_init_ring(ic);
+e11d912a7dd4dfe Andy Grover                  2009-07-17  141  	/* Post receive buffers - as a side effect, this will update
+e11d912a7dd4dfe Andy Grover                  2009-07-17  142  	 * the posted credit count. */
+73ce4317bf98328 santosh.shilimkar@oracle.com 2015-08-22  143  	rds_ib_recv_refill(conn, 1, GFP_KERNEL);
+e11d912a7dd4dfe Andy Grover                  2009-07-17  144  
+3e0249f9c05cb77 Zach Brown                   2010-05-18  145  	/* update ib_device with this local ipaddr */
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  146  	err = rds_ib_update_ipaddr(ic->rds_ibdev, &conn->c_laddr);
+ec16227e14141e4 Andy Grover                  2009-02-24  147  	if (err)
+3e0249f9c05cb77 Zach Brown                   2010-05-18  148  		printk(KERN_ERR "rds_ib_update_ipaddr failed (%d)\n",
+3e0249f9c05cb77 Zach Brown                   2010-05-18  149  			err);
+ec16227e14141e4 Andy Grover                  2009-02-24  150  
+ec16227e14141e4 Andy Grover                  2009-02-24  151  	/* If the peer gave us the last packet it saw, process this as if
+ec16227e14141e4 Andy Grover                  2009-02-24  152  	 * we had received a regular ACK. */
+c0adf54a10903b5 shamir rabinovitch           2015-04-30  153  	if (dp) {
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  154  		if (ack_seq)
+eee2fa6ab322519 Ka-Cheong Poon               2018-07-23  155  			rds_send_drop_acked(conn, be64_to_cpu(ack_seq),
+c0adf54a10903b5 shamir rabinovitch           2015-04-30  156  					    NULL);
+c0adf54a10903b5 shamir rabinovitch           2015-04-30  157  	}
+ec16227e14141e4 Andy Grover                  2009-02-24  158  
+cdc306a5c9cd360 Santosh Shilimkar            2018-10-13  159  	conn->c_proposed_version = conn->c_version;
+ec16227e14141e4 Andy Grover                  2009-02-24  160  	rds_connect_complete(conn);
+ec16227e14141e4 Andy Grover                  2009-02-24  161  }
+ec16227e14141e4 Andy Grover                  2009-02-24  162  
 
-vim +151 drivers/gpu/drm/i915/gt/intel_breadcrumbs.c
+:::::: The code at line 96 was first introduced by commit
+:::::: eee2fa6ab3225192d6d894c54a6fb02ac9efdff6 rds: Changing IP address internal representation to struct in6_addr
 
-0152b3b3f49b36 Chris Wilson 2019-05-08  144  
-0152b3b3f49b36 Chris Wilson 2019-05-08  145  static void
-f2cb60e9a3881e Chris Wilson 2019-08-17  146  __dma_fence_signal__notify(struct dma_fence *fence,
-f2cb60e9a3881e Chris Wilson 2019-08-17  147  			   const struct list_head *list)
-0152b3b3f49b36 Chris Wilson 2019-05-08  148  {
-0152b3b3f49b36 Chris Wilson 2019-05-08  149  	struct dma_fence_cb *cur, *tmp;
-0152b3b3f49b36 Chris Wilson 2019-05-08  150  
-0152b3b3f49b36 Chris Wilson 2019-05-08 @151  	lockdep_assert_held(fence->lock);
-0152b3b3f49b36 Chris Wilson 2019-05-08  152  
-f2cb60e9a3881e Chris Wilson 2019-08-17  153  	list_for_each_entry_safe(cur, tmp, list, node) {
-0152b3b3f49b36 Chris Wilson 2019-05-08  154  		INIT_LIST_HEAD(&cur->node);
-0152b3b3f49b36 Chris Wilson 2019-05-08  155  		cur->func(fence, cur);
-0152b3b3f49b36 Chris Wilson 2019-05-08  156  	}
-0152b3b3f49b36 Chris Wilson 2019-05-08  157  }
-0152b3b3f49b36 Chris Wilson 2019-05-08  158  
+:::::: TO: Ka-Cheong Poon <ka-cheong.poon@oracle.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
