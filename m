@@ -1,140 +1,110 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F61333452
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 21:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768424625; cv=pass; b=gl1G6KEu+1yQJOgsMSJsvKoqFcIcxEKadaNv7oXwJofBs/gaLZYWzC6C1lEDEHMVHLE9Pxmbl3xOtc2hqFAjlIR83+VPq+QFC5PqxV3i3qa5Kmcc7ffyxNxUeB3x2rtwpjLTHjNUN+dyLXlsXFfHX6fqv/wKMuEcw6COLZLJpWY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768424625; c=relaxed/simple;
-	bh=ndC0+/JX/OiGc3NDLI2yrdmwkdGGYTeYOBpoo/XHPnE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r0zZJE1Z1BBENTbcEpNot+KgBU1hiIZBaey+dyVA5eUd+YHfcv67RXeA5TN80W22UcDJ0wZvYF852T3wv90pgjMXgJfDNiCJflIKUWDzqIaRAZqrtMSzAwuonIK6JoB3A5wmhiCj/RAnFLk1Dd24HQaBgfOwjjpkLROO2ARfa2s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vTSvRcSK; arc=pass smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A5B3559DF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 21:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768424843; cv=none; b=ZTjQPNduIVdjXOyC+0fDx5wPexKQS/2aQD9ZcBvpfyDkauyWoaCXPOiSIbu3tSjleCjrKGDPAs4wKKPB38YwLzWxZlJwSyegJNCI/6fFN+Fu68oK5QQOfWXLmdrvR71Z+450OSAvA/Q/O3bQNUuZiUkSFOwwGWwjY49SMyPJmnI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768424843; c=relaxed/simple;
+	bh=HE4xyt1c0mYXhTs0vvG/Axm/CYGnNwBWPlYlRHgkecQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jQ9ilKNsUjjSrvUIWYI5+iAUNzMShYLnBvMTu1S3Ibbp9JEehD0cdYl59iUQBEFDY4cCT9Un45M9F+i+o+mgYRp9io0pomPunDegtTF1aDaWw2UKEl1IYeiWc+7jWySupYPaQyoFSmpcWlp3xTIJSLvAZ10oSLG/610Ru3TozV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2UinP2B; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vTSvRcSK"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2a1462573caso19245ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 13:03:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768424624; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cpYLl2W8uuc3jLno2RL1Ul6kMU9rycxXLTdZzB6jUhQeAaLKcBUXI9ImAG7wgwIUA/
-         Blc0I0nY/fMeqdXuYYEy75xGcPk2wne2AzSel/NYe44dieBLiAFvi5iYxpLXiAGEKz0q
-         HbSMPt3wYD1EykS47BNIs59aHkhD+2O/9jKddTNgYbWBPopjWB62hZRV20niHrhVF6e6
-         aJOT9AfFQmzCo7yul/cUDozt/GP23h9kRpnlgk17SOceS5McnAl5QHbZcbkW5yPX4kX8
-         yzJTw53eCc6QVws3l1mc2K3B2eAzWF2tSivwoz2F4I/7djiRCY3nO5hLancBPUu4yocX
-         Vx2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KbEyZTrRa8TBPd4MQ+uc/qSTq1cGH2SUBGOyI5239lg=;
-        fh=GtovSs/230KLK+zT5udX4Sm6blPgltq+4gpkd8VG09Y=;
-        b=jLh1Xkgrj3crylRc9t8PG768rWW5xnb3ZcydqbDlWoAtoMZ2KM9V2FWV10mRv6dNbK
-         nIkRScXf0msERDyypfkDCC3J1Xp2lw2psoEDmUFHDruiOjf7+3cguhjbWmowb4ZbUsyn
-         Rh5BG4tvzNMZ3wOIHhM/7S4n8QRtMpzS1TkjcOhkaOj7f9kfVhxfefGvTTN74qgpT4Qq
-         Ci6QJHihMW+tiCvqX+OieR/cy5OfWtYq+Ys8RkWzUCxPThjO+97MP413G3WR6fz/laLC
-         RQDlDSwmkm3rlCvlhrvIgJ2bJ/QZPKhLu2JBAmSEeWWgPpAF6NFDWsifGZWaUaNER1mv
-         OsNw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768424624; x=1769029424; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KbEyZTrRa8TBPd4MQ+uc/qSTq1cGH2SUBGOyI5239lg=;
-        b=vTSvRcSKdpzmsZdHXisvptAI1/7i0EVvKQs6gxTFkMz9q2Gr0XMZM9fGNJyaZpLAUj
-         g1WKWddrEY0RiwIfH8p26bbEURVYJ7S14XUZ2txuGJxdzzqVXIsloZ3VjCr9OMSBpcke
-         pXZs1suvcQimZd1xXoOCUO7TlXJxQKO5+0svznIGNaOpSpXT5hnBr9pXmNJm06XEiS0H
-         Lv2YlLerR4COlHc5BInVvRDotKDsXXqMAmZDxXH1KsBbp8hlnUeVpiMVx/Jwvo9FlXQe
-         Uy2a2L/gQzQjthXuPGzgu/lkJOKB1f3Gs8HGzj1d8J8TaLpXN8kkbJDqHqlSyfqVwnL9
-         Smpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768424624; x=1769029424;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KbEyZTrRa8TBPd4MQ+uc/qSTq1cGH2SUBGOyI5239lg=;
-        b=IJBnhXxwHCpNJtrDo0eY2Z6sL3cZXM7oMmn0qAjoVi8LmD4g/H5H/D2dPaEoEO3Ye6
-         J+MQw63y44eReBT83H6oC0fxNRXrKxeJUMSrgXeHo9NmOeU1VRxztP0J0H8SN/y8/DT1
-         Upiw7NqEip1/28m312EmdjbF1BaBykMK6Xz8dEqLxOBHftPN1BZD/vH7GMJRYlPdn946
-         3IWPjeZ3xLddX/8/xQwUWYqJc+F7mA3wpGXEBSJq07qA4Q9Xh9+RWuY7dbkvNU86U6LR
-         PztEfcoGo3BM1hvVS2YCDWXU6ZmLVou9KZIfFsLIkWeRCufGlfjI+B21xX6EvWEV9vJZ
-         Lf5g==
-X-Forwarded-Encrypted: i=1; AJvYcCWXrWJpUxeXwuG5Fa4TKhpbIKwcTmDZtgDg8MrPhXEU5MV9NqlVemY69WkurtileWmteIN+3iQUVoJEYu9F@lists.linux.dev
-X-Gm-Message-State: AOJu0YzAOzbUZ7C36cnRYXOjk3M3Hpg65q4z7gn3m0vj89/3C6EXIycr
-	lUIa88F8W/jwnRWb1a5fBFUAujgZRmjoHr2N9AupcdfW0EFXMNm/Oarx39d5iu+qXyMmm7tXyJB
-	YLzPjLvLL+3+sqbr02F6tA13RCcAZcQ/Pq04WKa/Z
-X-Gm-Gg: AY/fxX6I4qc1Jd11GuYqJx1TEGMHR1ue/EwhYNoe4cWEhkUpTKfdbGFHQ9bmhpubD/6
-	UgjQ5xZF/y9OyUB7WShzTAG/NktJHvIH0DJt9phzTGEhMFZLaa/1hMteKUadWixgmRcTkzhhGCG
-	SpWM9dITQVxO/2g/yFsTZq+d8q3JwMVxIT9J8Z6P8hRtWd3ROunN3+8YkPr1FzvnXRKRIsmziWg
-	c5uSUIvF4Nd0rZ1QHxTOYWlAWoT20b4orfVzP1TKtU2qHHDSLX4ZkitbxMYWNgLl8nY6W+l9t6a
-	8iFcXVNmgxubQI7ONTDxQs9MwQ==
-X-Received: by 2002:a17:903:189:b0:2a1:3cdc:771f with SMTP id
- d9443c01a7336-2a702059d15mr757135ad.20.1768424622972; Wed, 14 Jan 2026
- 13:03:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2UinP2B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768424842; x=1799960842;
+  h=date:from:to:cc:subject:message-id;
+  bh=HE4xyt1c0mYXhTs0vvG/Axm/CYGnNwBWPlYlRHgkecQ=;
+  b=A2UinP2BZvp5RbYKu4Y7A9DA+YrKUYWxeBYHuyGsh2nSbX8xfRrORqlg
+   M9jQvdspHo4OqyV0t/bfFvjpI3hXz3bbIA3LBGIbabU5ThZpJCfVcBZ/K
+   MMgkfzTkguRAjwahOZZ6eu5c8oV96U/F29mXwTviw5r1YE3cnzD6L/+Nn
+   PebHEcddMJ52eQLpk8+68dyaNx+/MKzpexTaXJ8pNOg8SQlMuvl6gAQuY
+   gNa/mPcf2nYMxQq4fcEVYoFIn7p0wenTJNn/uJ+YiDocMyY/HUrzB9ZZF
+   YAi4QULjKFNvuoGWQ6N3e4svAOk309F2mtkqL0LTuNSs02Pi1N2yWYr7k
+   A==;
+X-CSE-ConnectionGUID: H+lqWODkT+ejpuES89la0w==
+X-CSE-MsgGUID: vpfa+A/wSgacMxr87Y3+OQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69817448"
+X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
+   d="scan'208";a="69817448"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 13:07:21 -0800
+X-CSE-ConnectionGUID: 5MHMyElvSBOULb/aPDWejw==
+X-CSE-MsgGUID: gG38NNCnSgObIG5svKAIMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
+   d="scan'208";a="205200068"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 14 Jan 2026 13:07:20 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vg85F-00000000H0q-3ViK;
+	Wed, 14 Jan 2026 21:07:17 +0000
+Date: Thu, 15 Jan 2026 05:06:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Anup Patel <anup.patel@oss.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [avpatel:riscv_kvm_nested_v1 13/29]
+ arch/riscv/kvm/vcpu_config.c:79:17: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202601150422.RuNOOsnm-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <202601150001.sKSN644a-lkp@intel.com> <CAP-5=fUyAtf9PQqYvagByK+-=-mN-T1zuLmxuvsPFVVHT3qLXA@mail.gmail.com>
- <874ioohsft.ffs@tglx>
-In-Reply-To: <874ioohsft.ffs@tglx>
-From: Ian Rogers <irogers@google.com>
-Date: Wed, 14 Jan 2026 13:03:31 -0800
-X-Gm-Features: AZwV_Qhmr1qCnhdTeekhlaC_9ikTRc9ZURsqqjFnHlynKzpMsUCnVwnzE96TMKo
-Message-ID: <CAP-5=fVGnY37bCOUHx_tCgQ=K55CcSOzs98Hg2Mh7KF4Mbya+g@mail.gmail.com>
-Subject: Re: [tip:timers/vdso 12/14] net/rds/ib_cm.c:96:35: sparse: sparse:
- incorrect type in argument 1 (different modifiers)
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 14, 2026 at 12:04=E2=80=AFPM Thomas Gleixner <tglx@kernel.org> =
-wrote:
->
-> On Wed, Jan 14 2026 at 09:51, Ian Rogers wrote:
-> > On Wed, Jan 14, 2026 at 8:37=E2=80=AFAM kernel test robot <lkp@intel.co=
-m> wrote:
-> > I think there are 2 options:
-> > 1) ignore the new sparse warning as tech debt for later clean up,
-> > 2) modify the cast to be "const void*" instead of "void *" and play
-> > more wac-a-mole.
->
-> Option #3:
->
-> You might have tried the 'const void*' cast and figured out that sparse
-> is still unhappy. I actually did, but I didn't try to figure out why as
-> that's really not my duty.
->
-> > My preference would be 1 as I have a suspicion I played 2 and thought
-> > the non-const cast was best (hence it being in the patch) given other
-> > issues.
->
-> Preferences based on suspicions are not really usefull. Please go and
-> figure out what's going on and either fix it in the kernel code or tell
-> the sparse folks what they are missing.
->
-> Leaving it unresolved and handwaved away is not an option.
+tree:   https://github.com/avpatel/linux.git riscv_kvm_nested_v1
+head:   d4b2d5a14e336a12a75d613fa8c743557c44795b
+commit: 63b7d1bb3a2d7e639c32b5182b03b7870e6f1cc2 [13/29] RISC-V: KVM: Factor-out VCPU config into separate sources
+config: riscv-randconfig-r121-20260114 (https://download.01.org/0day-ci/archive/20260115/202601150422.RuNOOsnm-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150422.RuNOOsnm-lkp@intel.com/reproduce)
 
-I'd like to call this option, play a bunch of wac-a-mole but then
-still don't really progress. I had tried out I believe all the options
-6 months ago where the builds were clean. There's always 1 more tool
-that's going to raise its head and complain about types, my motivation
-remains clang and gcc for user space copies of this code so we don't
-need to propagate -fno-strict-aliasing into places like perf. Tbh, I'm
-not going to be able to look at this for a while so I'd suggest just
-dropping the patches.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150422.RuNOOsnm-lkp@intel.com/
 
-Thanks,
-Ian
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> arch/riscv/kvm/vcpu_config.c:79:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:79:17: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:79:17: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_config.c:80:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:80:17: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:80:17: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_config.c:81:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:81:17: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:81:17: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_config.c:83:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:83:25: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:83:25: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_config.c:85:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:85:25: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:85:25: sparse:     got restricted __le64 [usertype]
+   arch/riscv/kvm/vcpu_config.c:87:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_config.c:87:33: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_config.c:87:33: sparse:     got restricted __le64 [usertype]
 
-> Thanks,
->
->         tglx
+vim +79 arch/riscv/kvm/vcpu_config.c
+
+    71	
+    72	void kvm_riscv_vcpu_config_load(struct kvm_vcpu *vcpu)
+    73	{
+    74		struct kvm_vcpu_config *cfg = &vcpu->arch.cfg;
+    75		void *nsh;
+    76	
+    77		if (kvm_riscv_nacl_sync_csr_available()) {
+    78			nsh = nacl_shmem();
+  > 79			nacl_csr_write(nsh, CSR_HEDELEG, cfg->hedeleg);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
