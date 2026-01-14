@@ -1,62 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F4738E5C1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 23:38:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCA82BE037
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 23:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768433926; cv=none; b=Hdy6ZZXFCczHe+/sGRFGP+FUSTegM+yf4VK37RsDCH+yn8F3OWdwOKY938EMIzUu6LzxTTNnzM9R0qpGqFORteoUJoanT4GGhuZuZF35g3kFSaSf2hQNsp19pGA0lkxA/Mr08VRCenTYiKD+snOLaDyl1cVaW0kaZlCQdwB3IA0=
+	t=1768434517; cv=none; b=YwNEbIdhRAyMNTMDXaX2+IRsdhbjCiVfZcUgGC0mJqVA8bTxWd4CyOxYHyCLpqCbKchgTLKq+tM2FgUGV12Zaj/qhLkNQwquCZk3TLaS6zMbRGeLAavZ0fQEq/iTfpaTKC1Rc8+GXrFdhhZVqS6i/4E5kgbRdOI/IQtHzi5ILQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768433926; c=relaxed/simple;
-	bh=u0ggc6HpVniJWvMa3hoyVMdQ7otmCYiUkNcnnUNjD4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=lWnJTOAAbr99Q4fvq9lnOpamHJZlgy9Ls7XAnmwqPIVE54B0IkhV0yLe7TMMYXMfZZOXDIuxi2WikToB9iVt+aktUCKcNujZbd4YWxmsUQ72iLwOruV7l831Hjwk85vBJZiyWQf9Uo9eIgeNHye+9zTqK8JZ7GA2C8O8B1Nufy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XnANhpH/; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1768434517; c=relaxed/simple;
+	bh=fpZXJ3A96OROTDJRswE/08njjePXZh4rpSkE8q4iKxk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZUO8FoxuoCU9bPQT8KHrUFwzvjotJtQ2nhr1J9vPO0WlZwKLm1NLO3DK5tI5qo3eXwAkF84seZcr0ZR3JmwT8ST0DcowGm/RAWSMeiYxBgRe1tT9WzNevuGoFQj7vm7P18yWIbfIUj0W1OhBcBi5pdakNMc34n5sOuMBKz4k2gE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Stb8ea/b; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XnANhpH/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Stb8ea/b"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768433920; x=1799969920;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u0ggc6HpVniJWvMa3hoyVMdQ7otmCYiUkNcnnUNjD4Q=;
-  b=XnANhpH/XhdUe09wXxe763WfwT2q9dozF0Vfo7WCfaGhpIsS65Cso4ue
-   wUdeKWI/y5JNvXM6kg7R5mk5uPZA/24RrRKgFKQgJvHHkb8Be8nuUgBzv
-   fJllUmHfiGUU4nJw4dxlavBd921y6iEmqYOuuJv34uzG0hh+T3zvdAvKf
-   xx0ZAWniSXo7aGsXobcJsco2s33GEhVoD0Le4GkABJ0qVujkLpzFKhe4l
-   x040dAUj0Bm9Fhvnr45FpE0/xmAlCpxOsoWRAYxD1AxuTl1eA9hYmIce/
-   owwr1DFhHc+1hgR/5B3IoIQ0M4lf8cZUyWMWy+2/2+BYndAgLSHLkizx/
-   Q==;
-X-CSE-ConnectionGUID: obbfU8eHSxWtoK4KyqSdhQ==
-X-CSE-MsgGUID: IgregJJ0TACZkREJH1ZGYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69827231"
+  t=1768434516; x=1799970516;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fpZXJ3A96OROTDJRswE/08njjePXZh4rpSkE8q4iKxk=;
+  b=Stb8ea/bUfF3T3/0f+fTHUnqGM+yDZxX+d1QbqKiaDQh+hXCOg3qbLum
+   Fhdetuk2hu9/6UEIJboBimT+xFrpyinPuEwEFmv/bxvrbQx9SSIY7yZBm
+   eIaD8RJtiPxWUa4YNb3UqH7FtdE7rMOurkfRdJb8BWcbNG8SJJlfDT458
+   8LCXNkYeKvKRK9tUYMZY5+A4kBdwBaAoe/cXRv/aclZMa41miwUhkjQ3B
+   HaEjOXf8vBtMNmlsIRtyMG1hPb9zvZd5SsaThDTgJMsQOH7IYDkUa3sYU
+   GiwRDr/ufUsBiJB14W/Ug1faUN4JmtAeAELZAqdYpcUUap4ES5KEopzco
+   A==;
+X-CSE-ConnectionGUID: mNtLFMJNTHmbRlgeIFSJ6A==
+X-CSE-MsgGUID: UNnWVqH2Qc6aPw9XiBQLaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69718408"
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="69827231"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 15:38:35 -0800
-X-CSE-ConnectionGUID: dca36A3BRXOhNp1Clj7iNA==
-X-CSE-MsgGUID: pNKP+L72RZejs9ctcdOIiA==
+   d="scan'208";a="69718408"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 15:48:36 -0800
+X-CSE-ConnectionGUID: UdvjGCikQzS8ThzmgRTS7g==
+X-CSE-MsgGUID: /9XX4dGIS8mnyB/rVlwF4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="209863486"
+   d="scan'208";a="205226157"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 14 Jan 2026 15:38:31 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 14 Jan 2026 15:48:32 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgARZ-00000000HCa-0hGP;
-	Wed, 14 Jan 2026 23:38:29 +0000
-Date: Thu, 15 Jan 2026 07:37:58 +0800
+	id 1vgAbF-00000000HDY-4A5R;
+	Wed, 14 Jan 2026 23:48:29 +0000
+Date: Thu, 15 Jan 2026 07:48:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alistair Popple <apopple@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- =?utf-8?Q?"Bj=C3=B6rn?= =?utf-8?Q?_T=C3=B6pel"?= <bjorn@rivosinc.com>,
- Jason Gunthorpe <jgg@nvidia.com>
-Subject: fs/dax.c:728:39: sparse: sparse: incorrect type in argument
- 1 (different base types)
-Message-ID: <202601150722.hIi3GSF6-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Aman Kumar Pandey <aman.kumarpandey@nxp.com>,
+	linux-kernel@vger.kernel.org, linux-i3c@lists.infradead.org,
+	alexandre.belloni@bootlin.com, krzk+dt@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org, broonie@kernel.org,
+	lee@kernel.org, Frank.Li@nxp.com, lgirdwood@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
+	priyanka.jain@nxp.com, shashank.rebbapragada@nxp.com,
+	Aman Kumar Pandey <aman.kumarpandey@nxp.com>
+Subject: Re: [PATCH v4 5/5] i3c: hub: p3h2x4x: Add support for NXP P3H2x4x
+ I3C hub functionality
+Message-ID: <202601150750.NiEqaaGg-lkp@intel.com>
+References: <20260113114529.1692213-5-aman.kumarpandey@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,275 +68,55 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113114529.1692213-5-aman.kumarpandey@nxp.com>
 
-Hi Alistair,
+Hi Aman,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   944aacb68baf7624ab8d277d0ebf07f025ca137c
-commit: d438d273417055241ebaaf1ba3be23459fc27cba mm: remove devmap related functions and page table bits
-date:   6 months ago
-config: s390-randconfig-r123-20260115 (https://download.01.org/0day-ci/archive/20260115/202601150722.hIi3GSF6-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150722.hIi3GSF6-lkp@intel.com/reproduce)
+[auto build test ERROR on i3c/i3c/next]
+[also build test ERROR on lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes broonie-regulator/for-next linus/master v6.19-rc5 next-20260114]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aman-Kumar-Pandey/dt-bindings-i3c-Add-NXP-P3H2x4x-i3c-hub-support/20260113-195318
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git i3c/next
+patch link:    https://lore.kernel.org/r/20260113114529.1692213-5-aman.kumarpandey%40nxp.com
+patch subject: [PATCH v4 5/5] i3c: hub: p3h2x4x: Add support for NXP P3H2x4x I3C hub functionality
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260115/202601150750.NiEqaaGg-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150750.NiEqaaGg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601150722.hIi3GSF6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150750.NiEqaaGg-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/dax.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/fs_dax.h):
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:105:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:105:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:105:1: sparse:     got restricted vm_fault_t
->> fs/dax.c:728:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
-   fs/dax.c:728:39: sparse:     expected unsigned long v
-   fs/dax.c:728:39: sparse:     got restricted vm_fault_t
-   fs/dax.c:730:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
-   fs/dax.c:730:39: sparse:     expected unsigned long v
-   fs/dax.c:730:39: sparse:     got restricted vm_fault_t
-   fs/dax.c:734:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
-   fs/dax.c:734:31: sparse:     expected unsigned long v
-   fs/dax.c:734:31: sparse:     got restricted vm_fault_t
-   fs/dax.c:1370:41: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
-   fs/dax.c:1370:41: sparse:     expected int result
-   fs/dax.c:1370:41: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
->> fs/dax.c:1878:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
-   fs/dax.c:1878:21: sparse:     expected int ret
-   fs/dax.c:1878:21: sparse:     got restricted vm_fault_t
-   fs/dax.c:1881:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
-   fs/dax.c:1881:21: sparse:     expected int ret
-   fs/dax.c:1881:21: sparse:     got restricted vm_fault_t
->> fs/dax.c:1884:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted vm_fault_t @@     got int ret @@
-   fs/dax.c:1884:16: sparse:     expected restricted vm_fault_t
-   fs/dax.c:1884:16: sparse:     got int ret
->> fs/dax.c:1902:46: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [usertype] ret @@
-   fs/dax.c:1902:46: sparse:     expected int result
-   fs/dax.c:1902:46: sparse:     got restricted vm_fault_t [usertype] ret
->> fs/dax.c:1918:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [assigned] [usertype] ret @@     got unsigned long @@
-   fs/dax.c:1918:21: sparse:     expected restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:1918:21: sparse:     got unsigned long
-   fs/dax.c:1961:51: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
-   fs/dax.c:1961:51: sparse:     expected int result
-   fs/dax.c:1961:51: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:2041:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [assigned] [usertype] ret @@     got unsigned long @@
-   fs/dax.c:2041:21: sparse:     expected restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:2041:21: sparse:     got unsigned long
-   fs/dax.c:2076:62: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
-   fs/dax.c:2076:62: sparse:     expected int result
-   fs/dax.c:2076:62: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:2138:55: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t @@
-   fs/dax.c:2138:55: sparse:     expected int result
-   fs/dax.c:2138:55: sparse:     got restricted vm_fault_t
-   fs/dax.c:2156:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
-   fs/dax.c:2156:58: sparse:     expected int result
-   fs/dax.c:2156:58: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:279:13: sparse: sparse: context imbalance in 'wait_entry_unlocked' - unexpected unlock
-   fs/dax.c:509:49: sparse: sparse: context imbalance in 'dax_lock_folio' - different lock contexts for basic block
-   fs/dax.c:576:17: sparse: sparse: context imbalance in 'dax_lock_mapping_entry' - different lock contexts for basic block
-   fs/dax.c:1142:9: sparse: sparse: context imbalance in 'dax_writeback_one' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +728 fs/dax.c
+   In file included from drivers/i3c/hub/p3h2840_i3c_hub_common.c:12:
+   drivers/i3c/hub/p3h2840_i3c_hub_common.c: In function 'p3h2x4x_configure_pullup':
+>> drivers/i3c/hub/p3h2840_i3c_hub.h:64:17: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      64 |                 FIELD_PREP(P3H2x4x_TP0145_PULLUP_CONF_MASK, x)
+         |                 ^~~~~~~~~~
+   drivers/i3c/hub/p3h2840_i3c_hub_common.c:51:18: note: in expansion of macro 'P3H2x4x_TP0145_PULLUP_CONF'
+      51 |         pullup = P3H2x4x_TP0145_PULLUP_CONF(p3h2x4x_pullup_dt_to_reg
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2f437effc689ef Shiyang Ruan            2022-06-03  621  
-ac401cc782429c Jan Kara                2016-05-12  622  /*
-a77d19f46a37c0 Matthew Wilcox          2018-03-27  623   * Find page cache entry at given index. If it is a DAX entry, return it
-a77d19f46a37c0 Matthew Wilcox          2018-03-27  624   * with the entry locked. If the page cache doesn't contain an entry at
-a77d19f46a37c0 Matthew Wilcox          2018-03-27  625   * that index, add a locked empty entry.
-ac401cc782429c Jan Kara                2016-05-12  626   *
-3159f943aafdba Matthew Wilcox          2017-11-03  627   * When requesting an entry with size DAX_PMD, grab_mapping_entry() will
-b15cd800682fca Matthew Wilcox          2018-03-29  628   * either return that locked entry or will return VM_FAULT_FALLBACK.
-b15cd800682fca Matthew Wilcox          2018-03-29  629   * This will happen if there are any PTE entries within the PMD range
-b15cd800682fca Matthew Wilcox          2018-03-29  630   * that we are requesting.
-642261ac995e01 Ross Zwisler            2016-11-08  631   *
-b15cd800682fca Matthew Wilcox          2018-03-29  632   * We always favor PTE entries over PMD entries. There isn't a flow where we
-b15cd800682fca Matthew Wilcox          2018-03-29  633   * evict PTE entries in order to 'upgrade' them to a PMD entry.  A PMD
-b15cd800682fca Matthew Wilcox          2018-03-29  634   * insertion will fail if it finds any PTE entries already in the tree, and a
-b15cd800682fca Matthew Wilcox          2018-03-29  635   * PTE insertion will cause an existing PMD entry to be unmapped and
-b15cd800682fca Matthew Wilcox          2018-03-29  636   * downgraded to PTE entries.  This happens for both PMD zero pages as
-b15cd800682fca Matthew Wilcox          2018-03-29  637   * well as PMD empty entries.
-642261ac995e01 Ross Zwisler            2016-11-08  638   *
-b15cd800682fca Matthew Wilcox          2018-03-29  639   * The exception to this downgrade path is for PMD entries that have
-b15cd800682fca Matthew Wilcox          2018-03-29  640   * real storage backing them.  We will leave these real PMD entries in
-b15cd800682fca Matthew Wilcox          2018-03-29  641   * the tree, and PTE writes will simply dirty the entire PMD entry.
-642261ac995e01 Ross Zwisler            2016-11-08  642   *
-ac401cc782429c Jan Kara                2016-05-12  643   * Note: Unlike filemap_fault() we don't honor FAULT_FLAG_RETRY flags. For
-ac401cc782429c Jan Kara                2016-05-12  644   * persistent memory the benefit is doubtful. We can add that later if we can
-ac401cc782429c Jan Kara                2016-05-12  645   * show it helps.
-b15cd800682fca Matthew Wilcox          2018-03-29  646   *
-b15cd800682fca Matthew Wilcox          2018-03-29  647   * On error, this function does not return an ERR_PTR.  Instead it returns
-b15cd800682fca Matthew Wilcox          2018-03-29  648   * a VM_FAULT code, encoded as an xarray internal entry.  The ERR_PTR values
-b15cd800682fca Matthew Wilcox          2018-03-29  649   * overlap with xarray value entries.
-ac401cc782429c Jan Kara                2016-05-12  650   */
-b15cd800682fca Matthew Wilcox          2018-03-29  651  static void *grab_mapping_entry(struct xa_state *xas,
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  652) 		struct address_space *mapping, unsigned int order)
-ac401cc782429c Jan Kara                2016-05-12  653  {
-b15cd800682fca Matthew Wilcox          2018-03-29  654  	unsigned long index = xas->xa_index;
-1a14e3779dd58c Jan Kara                2021-06-28  655  	bool pmd_downgrade;	/* splitting PMD entry into PTE entries? */
-b15cd800682fca Matthew Wilcox          2018-03-29  656  	void *entry;
-ac401cc782429c Jan Kara                2016-05-12  657  
-b15cd800682fca Matthew Wilcox          2018-03-29  658  retry:
-1a14e3779dd58c Jan Kara                2021-06-28  659  	pmd_downgrade = false;
-b15cd800682fca Matthew Wilcox          2018-03-29  660  	xas_lock_irq(xas);
-6be3e21d25ca2d Alistair Popple         2025-02-28  661  	entry = get_next_unlocked_entry(xas, order);
-642261ac995e01 Ross Zwisler            2016-11-08  662  
-b15cd800682fca Matthew Wilcox          2018-03-29  663  	if (entry) {
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  664) 		if (dax_is_conflict(entry))
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  665) 			goto fallback;
-0e40de0338d005 Matthew Wilcox          2018-11-16  666  		if (!xa_is_value(entry)) {
-49688e654e48ae Hao Li                  2020-07-29  667  			xas_set_err(xas, -EIO);
-91d25ba8a6b0d8 Ross Zwisler            2017-09-06  668  			goto out_unlock;
-91d25ba8a6b0d8 Ross Zwisler            2017-09-06  669  		}
-91d25ba8a6b0d8 Ross Zwisler            2017-09-06  670  
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  671) 		if (order == 0) {
-91d25ba8a6b0d8 Ross Zwisler            2017-09-06  672  			if (dax_is_pmd_entry(entry) &&
-642261ac995e01 Ross Zwisler            2016-11-08  673  			    (dax_is_zero_entry(entry) ||
-642261ac995e01 Ross Zwisler            2016-11-08  674  			     dax_is_empty_entry(entry))) {
-642261ac995e01 Ross Zwisler            2016-11-08  675  				pmd_downgrade = true;
-642261ac995e01 Ross Zwisler            2016-11-08  676  			}
-642261ac995e01 Ross Zwisler            2016-11-08  677  		}
-642261ac995e01 Ross Zwisler            2016-11-08  678  	}
-642261ac995e01 Ross Zwisler            2016-11-08  679  
-642261ac995e01 Ross Zwisler            2016-11-08  680  	if (pmd_downgrade) {
-642261ac995e01 Ross Zwisler            2016-11-08  681  		/*
-642261ac995e01 Ross Zwisler            2016-11-08  682  		 * Make sure 'entry' remains valid while we drop
-b93b016313b3ba Matthew Wilcox          2018-04-10  683  		 * the i_pages lock.
-642261ac995e01 Ross Zwisler            2016-11-08  684  		 */
-b15cd800682fca Matthew Wilcox          2018-03-29  685  		dax_lock_entry(xas, entry);
-642261ac995e01 Ross Zwisler            2016-11-08  686  
-642261ac995e01 Ross Zwisler            2016-11-08  687  		/*
-642261ac995e01 Ross Zwisler            2016-11-08  688  		 * Besides huge zero pages the only other thing that gets
-642261ac995e01 Ross Zwisler            2016-11-08  689  		 * downgraded are empty entries which don't need to be
-642261ac995e01 Ross Zwisler            2016-11-08  690  		 * unmapped.
-642261ac995e01 Ross Zwisler            2016-11-08  691  		 */
-b15cd800682fca Matthew Wilcox          2018-03-29  692  		if (dax_is_zero_entry(entry)) {
-b15cd800682fca Matthew Wilcox          2018-03-29  693  			xas_unlock_irq(xas);
-b15cd800682fca Matthew Wilcox          2018-03-29  694  			unmap_mapping_pages(mapping,
-b15cd800682fca Matthew Wilcox          2018-03-29  695  					xas->xa_index & ~PG_PMD_COLOUR,
-977fbdcd5986c9 Matthew Wilcox          2018-01-31  696  					PG_PMD_NR, false);
-b15cd800682fca Matthew Wilcox          2018-03-29  697  			xas_reset(xas);
-b15cd800682fca Matthew Wilcox          2018-03-29  698  			xas_lock_irq(xas);
-e11f8b7b6c4ea1 Ross Zwisler            2017-04-07  699  		}
-e11f8b7b6c4ea1 Ross Zwisler            2017-04-07  700  
-d2c997c0f14535 Dan Williams            2017-12-22  701  		dax_disassociate_entry(entry, mapping, false);
-b15cd800682fca Matthew Wilcox          2018-03-29  702  		xas_store(xas, NULL);	/* undo the PMD join */
-698ab77aebffe0 Vivek Goyal             2021-04-28  703  		dax_wake_entry(xas, entry, WAKE_ALL);
-7f0e07fb028951 Matthew Wilcox (Oracle  2021-05-04  704) 		mapping->nrpages -= PG_PMD_NR;
-b15cd800682fca Matthew Wilcox          2018-03-29  705  		entry = NULL;
-b15cd800682fca Matthew Wilcox          2018-03-29  706  		xas_set(xas, index);
-642261ac995e01 Ross Zwisler            2016-11-08  707  	}
-642261ac995e01 Ross Zwisler            2016-11-08  708  
-b15cd800682fca Matthew Wilcox          2018-03-29  709  	if (entry) {
-b15cd800682fca Matthew Wilcox          2018-03-29  710  		dax_lock_entry(xas, entry);
-b15cd800682fca Matthew Wilcox          2018-03-29  711  	} else {
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  712) 		unsigned long flags = DAX_EMPTY;
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  713) 
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  714) 		if (order > 0)
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  715) 			flags |= DAX_PMD;
-23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  716) 		entry = dax_make_entry(pfn_to_pfn_t(0), flags);
-b15cd800682fca Matthew Wilcox          2018-03-29  717  		dax_lock_entry(xas, entry);
-b15cd800682fca Matthew Wilcox          2018-03-29  718  		if (xas_error(xas))
-b15cd800682fca Matthew Wilcox          2018-03-29  719  			goto out_unlock;
-7f0e07fb028951 Matthew Wilcox (Oracle  2021-05-04  720) 		mapping->nrpages += 1UL << order;
-ac401cc782429c Jan Kara                2016-05-12  721  	}
-b15cd800682fca Matthew Wilcox          2018-03-29  722  
-642261ac995e01 Ross Zwisler            2016-11-08  723  out_unlock:
-b15cd800682fca Matthew Wilcox          2018-03-29  724  	xas_unlock_irq(xas);
-b15cd800682fca Matthew Wilcox          2018-03-29  725  	if (xas_nomem(xas, mapping_gfp_mask(mapping) & ~__GFP_HIGHMEM))
-b15cd800682fca Matthew Wilcox          2018-03-29  726  		goto retry;
-b15cd800682fca Matthew Wilcox          2018-03-29  727  	if (xas->xa_node == XA_ERROR(-ENOMEM))
-b15cd800682fca Matthew Wilcox          2018-03-29 @728  		return xa_mk_internal(VM_FAULT_OOM);
-b15cd800682fca Matthew Wilcox          2018-03-29  729  	if (xas_error(xas))
-b15cd800682fca Matthew Wilcox          2018-03-29 @730  		return xa_mk_internal(VM_FAULT_SIGBUS);
-e3ad61c64abcee Ross Zwisler            2016-11-08  731  	return entry;
-b15cd800682fca Matthew Wilcox          2018-03-29  732  fallback:
-b15cd800682fca Matthew Wilcox          2018-03-29  733  	xas_unlock_irq(xas);
-b15cd800682fca Matthew Wilcox          2018-03-29  734  	return xa_mk_internal(VM_FAULT_FALLBACK);
-ac401cc782429c Jan Kara                2016-05-12  735  }
-ac401cc782429c Jan Kara                2016-05-12  736  
 
-:::::: The code at line 728 was first introduced by commit
-:::::: b15cd800682fcaf27048b05e42f5c208e4c756c0 dax: Convert page fault handlers to XArray
+vim +/FIELD_PREP +64 drivers/i3c/hub/p3h2840_i3c_hub.h
 
-:::::: TO: Matthew Wilcox <willy@infradead.org>
-:::::: CC: Matthew Wilcox <willy@infradead.org>
+    61	
+    62	#define P3H2x4x_TP0145_PULLUP_CONF_MASK				GENMASK(7, 6)
+    63	#define P3H2x4x_TP0145_PULLUP_CONF(x)	\
+  > 64			FIELD_PREP(P3H2x4x_TP0145_PULLUP_CONF_MASK, x)
+    65	#define P3H2x4x_TP2367_PULLUP_CONF_MASK				GENMASK(5, 4)
+    66	#define P3H2x4x_TP2367_PULLUP_CONF(x)	\
+    67			FIELD_PREP(P3H2x4x_TP2367_PULLUP_CONF_MASK, x)
+    68	#define P3H2x4x_PULLUP_CONF_MASK					GENMASK(7, 4)
+    69	
 
 -- 
 0-DAY CI Kernel Test Service
