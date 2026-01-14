@@ -1,133 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD55336EC0;
-	Wed, 14 Jan 2026 04:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38CD2F49F4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 04:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768365383; cv=none; b=C6Y8LchXplaJojCDqeTDvGPBCHvPB1jpLV81fZK7BUzzyTwuWu6gN4QuapT/R3AcRfQvOOzIpur36VenKHeZYOiKm/ZigmHizyRzKwyA4QzBuZIOjvHtXJid9ka6ykAhIcclkihf9mfzbjI+5Q4iwUwVo3ez4qzGd/eqqdW/eH4=
+	t=1768366628; cv=none; b=cpOJdHnHJPrDhOOhoSF6hbJaEYR0PMaWftr503QWmJYHtePChLylufLKkpZAKeAgEbARJDXtzJz3YVPRSyuvR8/5Hm/k6AwuI6yLadtSy1BR+XEAG3O1n88ppCOGyOi9iNdp/iH7S413ZtwsBOgdP/G4SV7KwpcVL4g7zuSojfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768365383; c=relaxed/simple;
-	bh=zF3EdgRjHVtpVqrIul/E0YAUCIe5vpaFfMrnuSUsHG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lu2Roo/5Q5if78GktwtpO2nmRD8Qk3sopKhaDckxgG7LroyGYXzlOnM8YPpKbKk32rEWIZUBtGtAfHYEo1exeeQBDzNDp5ZPcfFRhW6gpsBbyzuh2C7yB64Zf095HKpxTbxI8CIDLzLpJJpm+MHanD6xioWTuuyDXHUNsr/iRJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAZop9K/; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1768366628; c=relaxed/simple;
+	bh=NxV4YvR0wqiySb+TpWOwUwUsEodIOIGQUSmbdLFbYII=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sDL0oOCS8VsxGj3AvuQ/EshXG7RSPjX4LI40hModWvyf6NrKePIOTP2GNZNUJkCE9w7ZM6xWN1sNXlfJat1BtuHqMFY2jcE5a+nur4SBE7/+f3/KnTB2IGnzib3cPTeZnYSpJup+06AUzZ0E8XkdlGZUiccy1ElczaOhNB1Wb54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SqV6KULE; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAZop9K/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SqV6KULE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768365374; x=1799901374;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zF3EdgRjHVtpVqrIul/E0YAUCIe5vpaFfMrnuSUsHG8=;
-  b=LAZop9K/bjwiuJ5ceLtioTXiWTg8d1IAGnZXjhwiKdovjJ6+6l3hN4VB
-   Q8DeOLPeRI/r0epdnX2/SSPNMgjSKQ9KeUVnHMr3t7fF3zIAGdNavt2kA
-   Tng0C+Ee8tilAf/R+BxDMfQeSeLbCAfXWw2DpzB/ezJFt/J2W+gzcG8rt
-   14ogRFKPz16I2LQpnLpHvEdnRbVSMtL+tk7ORRSZ8goPPbLTlwOJWHGay
-   IKmYauEjYrJ+NFo9XtLA38+z01LDgYTWcSnjr5qhn5ByXtr8Yl6COYQ/j
-   VGsrZ1kBvSLy7CDVBH5SREhyd2naE6deRPv0BVqZqSJ/5vEDddeawanRl
-   g==;
-X-CSE-ConnectionGUID: 4gzIpBNGT0+aY/hcfWd2GQ==
-X-CSE-MsgGUID: ZqQ+BxurS1mmSRzM+NZqVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="81109400"
+  t=1768366620; x=1799902620;
+  h=date:from:to:cc:subject:message-id;
+  bh=NxV4YvR0wqiySb+TpWOwUwUsEodIOIGQUSmbdLFbYII=;
+  b=SqV6KULElcQIRRFE096wIyX+9gdlvz6yAimACRyQpo1VNHrzPCOICjaX
+   jcSCLKKpVpH4ICi3SI99B7Ugso9TbETHVML4CbACbG++BoMi3RJCjhI0O
+   Tb9Ed7K8+KwDNFD6gbIdAo5tc+7tsw3x5hZW/KIXI1JuxDJDyL2ict1vn
+   vLqH8xIiIeWY4vQ+sS0hl6HdRpJKzK+2SW9l9+6ngmnv98jV7dZnWQoH6
+   fk6+CPrhdfKOJj5qw8PhFIav47h9yMIcbwDOhhJcAox/a10bBwtrIihry
+   PL3eRwkIFX0YJIwwPZVyi8txWXjmv3wSrK0FU0MxChfcRcf4cseVDATCt
+   w==;
+X-CSE-ConnectionGUID: Fh4i1OBmSPuG0P2/VxKnhw==
+X-CSE-MsgGUID: wU/gbdPAS1K35LmL81ss9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69745436"
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="81109400"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 20:36:10 -0800
-X-CSE-ConnectionGUID: kpDpgYPeTviJ1BMBk2zXqQ==
-X-CSE-MsgGUID: ZSAkH35xStqMDr2agUFWLA==
+   d="scan'208";a="69745436"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 20:56:55 -0800
+X-CSE-ConnectionGUID: Pa9uXFi5TMCCD6kCl4FXJg==
+X-CSE-MsgGUID: jTJYYtb6RDqKu+S8PUYTDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="209032540"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 13 Jan 2026 20:36:09 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="235825898"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 13 Jan 2026 20:56:53 -0800
+Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfsc2-00000000Fmm-1Y7w;
-	Wed, 14 Jan 2026 04:36:06 +0000
-Date: Wed, 14 Jan 2026 12:35:39 +0800
+	id 1vfsw7-000000001JF-004K;
+	Wed, 14 Jan 2026 04:56:51 +0000
+Date: Wed, 14 Jan 2026 05:56:16 +0100
 From: kernel test robot <lkp@intel.com>
-To: Imran Khan <imran.f.khan@oracle.com>, tglx@linutronix.de
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] genirq/cpuhotplug: notify about irq affinity change
- for offlined cpus.
-Message-ID: <202601141105.x7z7rWPk-lkp@intel.com>
-References: <20260113143727.1041265-1-imran.f.khan@oracle.com>
+To: Kevin Tung <kevin.tung.openbmc@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andrew Jeffery <andrew@codeconstruct.com.au>
+Subject: arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb:
+ timer (arm,armv7-timer): 'clocks' does not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202601140526.Yeb5jMhB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113143727.1041265-1-imran.f.khan@oracle.com>
 
-Hi Imran,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on f8f9c1f4d0c7a64600e2ca312dec824a0bc2f1da]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Imran-Khan/genirq-cpuhotplug-notify-about-irq-affinity-change-for-offlined-cpus/20260113-223900
-base:   f8f9c1f4d0c7a64600e2ca312dec824a0bc2f1da
-patch link:    https://lore.kernel.org/r/20260113143727.1041265-1-imran.f.khan%40oracle.com
-patch subject: [PATCH v3] genirq/cpuhotplug: notify about irq affinity change for offlined cpus.
-config: arm-randconfig-002-20260114 (https://download.01.org/0day-ci/archive/20260114/202601141105.x7z7rWPk-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141105.x7z7rWPk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b71e635feefc852405b14620a7fc58c4c80c0f73
+commit: a5c59a29239c35c28c6dd9f712b5ac4bc01b1bc5 ARM: dts: aspeed: yosemite5: Add Meta Yosemite5 BMC
+date:   3 months ago
+config: arm-randconfig-2052-20260111 (https://download.01.org/0day-ci/archive/20260114/202601140526.Yeb5jMhB-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140526.Yeb5jMhB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601141105.x7z7rWPk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601140526.Yeb5jMhB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   kernel/irq/manage.c:149:6: error: redefinition of 'schedule_affinity_notify_work'
-     149 | void schedule_affinity_notify_work(struct irq_desc *desc)
-         |      ^
-   include/linux/interrupt.h:449:20: note: previous definition is here
-     449 | static inline void schedule_affinity_notify_work(struct irq_desc *desc) { }
-         |                    ^
->> kernel/irq/manage.c:151:18: error: no member named 'affinity_notify' in 'struct irq_desc'
-     151 |         kref_get(&desc->affinity_notify->kref);
-         |                   ~~~~  ^
-   kernel/irq/manage.c:152:28: error: no member named 'affinity_notify' in 'struct irq_desc'
-     152 |         if (!schedule_work(&desc->affinity_notify->work))
-         |                             ~~~~  ^
-   kernel/irq/manage.c:154:19: error: no member named 'affinity_notify' in 'struct irq_desc'
-     154 |                 kref_put(&desc->affinity_notify->kref,
-         |                           ~~~~  ^
-   kernel/irq/manage.c:155:11: error: no member named 'affinity_notify' in 'struct irq_desc'
-     155 |                          desc->affinity_notify->release);
-         |                          ~~~~  ^
-   5 errors generated.
-
-
-vim +151 kernel/irq/manage.c
-
-   141	
-   142	/**
-   143	 * schedule_affinity_notify_work - Schedule work to notify
-   144	 * about irq affinity change.
-   145	 * @desc:  irq descriptor whose affinity changed
-   146	 *
-   147	 * Caller needs to hold desc->lock
-   148	 */
-   149	void schedule_affinity_notify_work(struct irq_desc *desc)
-   150	{
- > 151		kref_get(&desc->affinity_notify->kref);
-   152		if (!schedule_work(&desc->affinity_notify->work))
-   153			/* Work was already scheduled, drop our extra ref */
-   154			kref_put(&desc->affinity_notify->kref,
-   155				 desc->affinity_notify->release);
-   156	}
-   157	EXPORT_SYMBOL_GPL(schedule_affinity_notify_work);
-   158	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: timer (arm,armv7-timer): 'clocks' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/timer/arm,arch_timer.yaml
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: sdram@1e6e0000 (aspeed,ast2600-sdram-edac): compatible: ['aspeed,ast2600-sdram-edac', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/edac/aspeed,ast2400-sdram-edac.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: bus@1e600000 (aspeed,ast2600-ahbc): compatible: ['aspeed,ast2600-ahbc', 'syscon'] is too long
+   	from schema $id: http://devicetree.org/schemas/bus/aspeed,ast2600-ahbc.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: syscon@1e6e2000 (aspeed,ast2600-scu): 'smp-memram@180' does not match any of the regexes: '^interrupt-controller@[0-9a-f]+$', '^p2a-control@[0-9a-f]+$', '^pinctrl(@[0-9a-f]+)?$', '^pinctrl-[0-9]+$', '^silicon-id@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/aspeed,ast2x00-scu.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: /ahb/apb/syscon@1e6e2000/smp-memram@180: failed to match any schema with compatible: ['aspeed,ast2600-smpmem']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: adc@1e6e9000 (aspeed,ast2600-adc0): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: adc@1e6e9100 (aspeed,ast2600-adc1): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/iio/adc/aspeed,ast2600-adc.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: crypto@1e6fa000 (aspeed,ast2600-acry): 'aspeed,ahbc' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/crypto/aspeed,ast2600-acry.yaml
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: /ahb/apb/lpc@1e789000/lhc@a0: failed to match any schema with compatible: ['aspeed,ast2600-lhc']
+   arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: /ahb/apb/lpc@1e789000/ibt@140: failed to match any schema with compatible: ['aspeed,ast2600-ibt-bmc']
+>> arch/arm/boot/dts/aspeed/aspeed-bmc-facebook-yosemite5.dtb: /ahb/apb/dma-controller@1e79e000: failed to match any schema with compatible: ['aspeed,ast2600-udma']
 
 -- 
 0-DAY CI Kernel Test Service
