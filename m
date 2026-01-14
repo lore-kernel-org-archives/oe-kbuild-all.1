@@ -1,241 +1,166 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961FD17BA2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 01:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768354111; cv=fail; b=NfzfT8X7a+oCz7dc7nuhBRm3O64y1C4zm75BVvVGLAj4Td+YcgFY0NOt8riht2TNOnVb8sgqe7ia+naYGLhGqI56GnRIzNe+kDGiYpzxobXApgCF1m1A48MVHSYO7LUab9vulq/x059P7sj6R5pVTtdpvdRd44kCSYHB+C+goFM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768354111; c=relaxed/simple;
-	bh=MAZDjJGpOCDdgiyJ0RHniTnk7c9FbYIZ8/VjQLA9iQU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=OMU4+VENYJwUaaahpRJAZdOP91ALgGzyQYz/5aWIy3JNrmIO28xf/d15BmPih+hPJH9qwVjTuajAxTqDsmjznlFlMHLkoAYOixhyUAePq6jj7oarGp17HxbHYpmrWW+dNMHTmXG+hVorlqfnLOKCVeRAQGFG7D3NhZLxdd5yBus=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Xbdo4bPl; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=lQ6nf5re; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4B12E22BE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 01:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768354923; cv=none; b=pKvG5u/7fwn1Mz6pXOst41bd/SruM8FtUNsSYCSa8OE4rvQ87nMGfPtmr8UIMVAU8aNP/TFdlkK3+LnYhv4dm/HNzaDpqCcX7h8QtNSA0Ke09qHZfVLzHgtdQtmwp/txCTFO6UK3+OLkGi0z4F4GWteXLzvWH20N/AFlQ0V5FlI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768354923; c=relaxed/simple;
+	bh=6FgRd6Mi8eGJ8kfc1wbiWaMYoHvR+wOlKz4A/w2vHcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tBX/7uVFVE10jePmmT9ZHn/08J9YrdqsM1sGcyB2wmza9QzOm+avWwfsYq5Fa7YiBPo6NN02gcW8nImMpO1DnsTCNhe2WMD0xPf7vPFBeODby3bu1qcj1J8yJ5q3rjym4VBNGZAZ5T/swGR9XS4O0TncPRJJKGGHo8rrwt4y6oU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X/5HaFVq; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Xbdo4bPl";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="lQ6nf5re"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60DG2C9K3330362;
-	Wed, 14 Jan 2026 01:28:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=9SQJkzbNUI3PotvJXe
-	hDSOOZKDdEzHLNTs14hWmUydg=; b=Xbdo4bPlmyDmy/nCaDqyrs6KIrAWfw3OnO
-	pHzWjKbrSDSDxAFL6/HNN9SWvPFT81iDbGuNbCKFJwgSXxm6bwX0s0GvExDi9Xnz
-	g6DT66+EmD+rJe8Ag9qMU8oG9UCZIbk5CzGWBUmSUcuKsLK9MQn5pFvFnNUIVsPc
-	0qeKcbIrDTm0ZLhpsFpk6e1gLggOmR0I78jwBrrKc69YmJuHgT8bxrVQu3RIBMRG
-	AabcufVtOn4L0IB0gHlhSOXSoJRdUpKpC4/0KxHFNcPb4bT9HirhKdSylMhNFjz+
-	f729erqauvd530aYUDBJ7TaRtJvU2KR2LzLI/hkDEMzef/bCcrKQ==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkrp8mjhw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Jan 2026 01:28:22 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60E0om6E004549;
-	Wed, 14 Jan 2026 01:28:22 GMT
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012006.outbound.protection.outlook.com [52.101.48.6])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd79efgg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Jan 2026 01:28:22 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tTB9OiDVeaNQHyiQdaFrDqSJkSqsSWA81bsWNS6Xn6IPCA+7CsV4MmJRU/AAd/CLhRmyB5tlKqIP/9Qzp7sGcC+2CCa1lUvdJ0um4mE8F0xtx900eYBHzHnkCLOMWp5iTaZT7lsmBVATIvvbMUTsUo6iATSPmdzpTJta5Cksq3smMowV6BnZbxrXgd7cevl/Blc4Ww+xdPe+0mzphZI/xL2nb56SOuXUdD467JPRs/dtgv2v0ES8NP7c84lYmWDBZoXfLggqBufbKdUZqfrVhw6Qre0QZDa7fBcVKo0qVO/GDuNwheBBOp2sJAGG/OiwxvAPz/Bc3n2ftUftaxMB/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9SQJkzbNUI3PotvJXehDSOOZKDdEzHLNTs14hWmUydg=;
- b=sSIR/d/FNJwG1X0lW34fqtJpzp+m59dwe95BItwI55bGyNXcPx9i/Ity81wAzvhf/isZB+zLurD4UY0s+ao1ukjOhVMwRIq0wB69DdDv7Fv8S9UrU/2ZlP1V2xzgAJVMezQq9A7f8Rkst38y1uJ6o20nw4i7ZMpKFmP2ShAKIR4FsQJUjFF3q2S8jcmtj7L/AVB5H0SAs2Gvn0Ai0evWTCmUU3BAIatluSbor5lotOTYwKIHz38i20e1kVDadWGYeA4BQ9MlpSH4Icnysk/KkTSDfmaP0uFfJLAtusu2BmLwUiZdle8wZAmE4ElVboS2G7sCFUT+nGAgaUe4LrsHSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9SQJkzbNUI3PotvJXehDSOOZKDdEzHLNTs14hWmUydg=;
- b=lQ6nf5re/EEdwrOZA50SPcaRIDTfPcF+lCGXuiFrUUns4PQl1bMy34yVrVt4Iqk9WvBIbZFVoSaNjS0zDXeGdQ0JMwEVhBsRKhDV5VMipmw5tdo8Ev9Qs3KGqa/CuHERgthIGggWjtgv0jJtjva7qzTPwI6spt1j7f7oscgq6D4=
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
- by IA3PR10MB8251.namprd10.prod.outlook.com (2603:10b6:208:570::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Wed, 14 Jan
- 2026 01:28:18 +0000
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9499.005; Wed, 14 Jan 2026
- 01:28:18 +0000
-Date: Wed, 14 Jan 2026 10:28:13 +0900
-From: Harry Yoo <harry.yoo@oracle.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-        Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [vbabka-slab:slab/for-7.0/obj_metadata 9/10] Warning:
- mm/slub.c:7013 function parameter 'objp' not described in 'ksize'
-Message-ID: <aWbxLWF0R5rIvRb5@hyeyoo>
-References: <202601140605.GNpnpgLF-lkp@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202601140605.GNpnpgLF-lkp@intel.com>
-X-ClientProxiedBy: SL2P216CA0210.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:19::14) To CH3PR10MB7329.namprd10.prod.outlook.com
- (2603:10b6:610:12c::16)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X/5HaFVq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768354922; x=1799890922;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6FgRd6Mi8eGJ8kfc1wbiWaMYoHvR+wOlKz4A/w2vHcg=;
+  b=X/5HaFVqpD6rasMU4gfx2rKkVen+Mbfz1D9s+cYJiMmKjvKYv+6tQUlM
+   5eV2FHmXCWHOePvlFQwMWrlw2OcocS1J42dDUA/VoCvBHNJ2mBti8xfMD
+   js2jASljovd/VzmV29SIIxvUU/mfEYPUODaOIdBWfjPc2+VkDAAg6t9oY
+   xwIMqRhA4nt6kQV0Xd2LRxPjq14Gv2IvRGdnvU1TKxsuxXTanGkE0cEl0
+   eE1z1dLw92uRKinNlKmeSCVCKbzC6vm/zSJrPVUnxF86PrLI4yS8ZjoP8
+   HExbEfaWhsLMFNX1IpZLnR0Y86wlZcy1yY0K3UA4hpRj+r+rbEU1X8z1m
+   w==;
+X-CSE-ConnectionGUID: 8LjK+651QjibqeSVkG0yjA==
+X-CSE-MsgGUID: 1uJ2zcBUTr+hGQxCMw0zAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="73507282"
+X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
+   d="scan'208";a="73507282"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 17:42:01 -0800
+X-CSE-ConnectionGUID: lYeEE0+oTqmL6iMjEk7NTw==
+X-CSE-MsgGUID: FE5FQ7jcS6WUhE22eomYEA==
+X-ExtLoop1: 1
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 13 Jan 2026 17:41:59 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vfptV-00000000Fd6-1zwx;
+	Wed, 14 Jan 2026 01:41:57 +0000
+Date: Wed, 14 Jan 2026 09:41:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Imran Khan <imran.f.khan@oracle.com>, tglx@linutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] genirq/cpuhotplug: notify about irq affinity change
+ for offlined cpus.
+Message-ID: <202601140909.LBJvN7Nb-lkp@intel.com>
+References: <20260113143727.1041265-1-imran.f.khan@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|IA3PR10MB8251:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d50b3c3-bc84-4d62-00e1-08de530c3266
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?7sW8J3Q7p80tjnHvg8beLZ8CdHXlYyKuTSz11hMEhFd3Es3O4rkT8WZ72Oy+?=
- =?us-ascii?Q?ddstMtO8iUTcLx9PAZ32P1Qvsf6Yz9BG74bE8xNMYughpxCZHls2n6YovvCH?=
- =?us-ascii?Q?NSOS3c3EZZiIM93VTbS+YFLZjuqbmRaVartEMUy2/u9TyawLkzJ9fCbEMqTc?=
- =?us-ascii?Q?M5FDC/hnD4f0Q6zQDo8mxQALMZwT7TPI2oOpk6yYWnVxiv0EuSzavVRbibm9?=
- =?us-ascii?Q?Xo/CEslvtTaYJpiSOWIo8mbQ1L4ZiovauGXDKBSeIcDhHkKro4RKf5KmYue2?=
- =?us-ascii?Q?TQEr0FU8FN+MCZUGdrqwM10yP8vgq7KNAOrH/mLjlo9YonPztGx/g15c4R57?=
- =?us-ascii?Q?a5pGpD3irZLVmACiRgcFWl763a3zGgvik0XomUSF7Tm869H1KW2/JrMScPI+?=
- =?us-ascii?Q?PGoHPRKewULNhsbaJP3H5Yj/IWtBWfwPU5BRJJAo8kx0S62bBXqPNtjVO1KX?=
- =?us-ascii?Q?6I8WI/xDR7ziLgVJHk3g4riMOTgpsDOTcDDf5RtGdoydiNTErRPZ8o8b8BTj?=
- =?us-ascii?Q?BtHXmEzE23jkft59C80asTNb4vKogg0Spl0QdpEDrA7Ddm21t/Q6CnE5K+JM?=
- =?us-ascii?Q?oBAp7KT0OqlB+n9sFdwC2Hhv/yJO/skZDODSEwUoRSiUZvJZOco3wJVNjAMj?=
- =?us-ascii?Q?t9ocI+aGaW2by8S0oy9xGIodjVuFrpfqzAo5H4IKJ+CKpL2YrW0MwEci3uBT?=
- =?us-ascii?Q?4v3PkmNCL2QHy+v2RcGAYshWrcfQ9muFqlN2pKuYmZDJNYNZSQP9mWgeZ9kn?=
- =?us-ascii?Q?pH/64WecRTLD4yBOsaFCDestrkxPxEaNzMMD0yJk2wEcerdWH7PKOvlp6rzj?=
- =?us-ascii?Q?Vt9oDRYXUCxLRqsmXCLsjQD7NZcgkza0Ef4j+qDrZepBtJk1+9vjUTeFo+m4?=
- =?us-ascii?Q?ACOtMlCMTXmdufKLNBkwjQ7qrbXEoOnBCo1IBn9hY5N3jfPaeaFLYgZaYHWi?=
- =?us-ascii?Q?J8Jc9WTgpEjv2LYKfwCUXPzBHG1uMnRbYRXsXYPfYzK8+o6MHzkniLLfHelp?=
- =?us-ascii?Q?/eIdZeecpCusPHftwjhlxWMevYMjzfKXk3bVMzTASp9hejz3+xV/Euyy6VBA?=
- =?us-ascii?Q?mLeWr3OFC8U55uBRUDopi8BoaJydB/mzYP+nc8q46H0ITNkagM1gWj42NW4v?=
- =?us-ascii?Q?dXSV0s9BGn4ew+mI86Qk1WQemPWs3wTsIE6VNzZMNcr/b5vZaH4QHR8UPj3T?=
- =?us-ascii?Q?h37EkdWcIawbSS8IADqM6hZmXBYubkB6k60Xz1ZU8B+deYpEYFzq/Rn0HmiG?=
- =?us-ascii?Q?lhCmj0F/9OS77P3kyeW8RVVohnTg40cJ93BSxHIhvXGKz6FGctDN0yu6O4ej?=
- =?us-ascii?Q?6vx1noA6wbEoqg9ySC6iAKlYiNKzk9w/4tlm00gzRGSMyha1X/Xja9yUzSLK?=
- =?us-ascii?Q?k1Maqc1+opbD8dTH8iFX4ChsWsFDhDDpw7nKzbfr46zYyVhjnzst9L/p/Pv5?=
- =?us-ascii?Q?ydIPaij0TQKgyRzljTMPgL3RUoSzh63w1UhRx2wPVHeZ22e+u6FxVQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?C+QvFprY+h7DdHpY05k4h3kjo2BhRaZz9aCwHqmeZSpd+Vg48j+Dn+QFQqy2?=
- =?us-ascii?Q?G/UH0XN2Tp3aQRFXxGoKC7kmBHKsyZrvGa1vhJ3U3UtpKcf5m3GL6MSnls2I?=
- =?us-ascii?Q?BTIch4Sa1y424ihYsYYVKZby688ybRkULtPNB+PKoTz5UIgq4uJI1lzGXKLW?=
- =?us-ascii?Q?9Tk2fjbPrN+OXRgHyl7YujpZMhOgZBRJOKo/wK6UfINf7/Y6SB/a1wCBGeDd?=
- =?us-ascii?Q?cgHlPkEQ5fImWG46BYGJBvYL7mBK1tUAVr4LHopb/ooD7JGb7KYcwFQzzHI9?=
- =?us-ascii?Q?1ZbjnG0pTjXPLOdzQTm/aBiyt6JYUTk3CNelrCRCmlym0sl6bYxRGALAsZO0?=
- =?us-ascii?Q?JQAZ6+pGh7uMWeQw3RtzVE2j72s/+jGfMs7pLS8ovDIm29qFZap7QgxQcSDF?=
- =?us-ascii?Q?2q5uSC4u+KQBAkhq4twZdOAxvKUfWGFlI0rBNUQ0DFK25v7hSz44j0My1h1K?=
- =?us-ascii?Q?0YnRHDVfFSzfCWlqoUN3Y3lhPSwxh+mUd+JqkZ8aZ4vkQsGMlXAsnXxcQcjR?=
- =?us-ascii?Q?l/u20vL33VH6vz/c5ia98BooluO/F3U6Mg3PYeZ4HgizfrO3uyDqLfr/PI3o?=
- =?us-ascii?Q?rLSYSZUchrZjk39od2Ks10sJN2O1BAD+aax+7iO6QMbmVkPHJqAxKkVf1Qwq?=
- =?us-ascii?Q?24LO+FqgKl4ZnMhHHSzDBXBML7X7cZG/EGDcE0otfkw4HC1ibqOwh3yKi9UE?=
- =?us-ascii?Q?J1AZ0G1taxmf/Ki6F9lg2a4eNBxnr5Mretj51BcYNZPnXcY2TlRmgNTRpTw5?=
- =?us-ascii?Q?G6ZRh7Tq+eMIWX1Bf5xJ7bzU5+hLw4dZ94I1CJIEc0agN/GK7iHfbZAEqXYJ?=
- =?us-ascii?Q?tN/YoeMXLlty64THsyI5/lvMaaKomQOOtZ/Xu0qDM4Wvdmyrxa3FFenASi3d?=
- =?us-ascii?Q?AVyUAqoS7yWDOcYfNGOUPqiYmO9WBuzELNH/V4ejkcIgGSQ5F6evkwvRdsLJ?=
- =?us-ascii?Q?2j8UvtLgXMilqFKDk1ZI4aFwgvPc8nS9SGScUMaM+SHPUud4liwTGv1cLPEf?=
- =?us-ascii?Q?M6Hj9WFAZRIIYkvV/YgsvRZX73durmh8wLW+sAkb5mZvxbgei4y6Gd0n+m7W?=
- =?us-ascii?Q?6Dt87lrrmTsh14W4YGyThHsIl2o7X4/OlxEA7eCpJHp3kiPZjj96v0G2qJEj?=
- =?us-ascii?Q?Fy7ak0/Y2/jAUGAjufU/909DERjkjO7veLyXyCTYC3fFoBYjWSAbZKtcf/d6?=
- =?us-ascii?Q?AYNWqj1kGkhEKvlVCpDJwjU20ZJqVIWVWvdaq0s/+WXLXs/91qMyn3j/NGMU?=
- =?us-ascii?Q?euz0WdQHKUirz62XuI2pgRRZIIc+Dhk3HHzLSAKF6rAqA0W3vulwD6qQ5zGN?=
- =?us-ascii?Q?4AVEkMpu8pPiy2sNTgAqR7eZo4MAomyYh3MwXKrXDsr4ORmOKqBA4JKl5cLI?=
- =?us-ascii?Q?q29bYzUO7+HhDX1yGlgeNYJaxMn9PnVCS0v8RGqy1biM5lMMsPB6xZeR0o7G?=
- =?us-ascii?Q?qQrQKHHS6WRgGPeQiVR0Z2Mk+bbrLjRDjuYvZ+KZEUzte3WsnCv9vViqA0eT?=
- =?us-ascii?Q?XcR/a/GZ0VufHZoJKikzdXuM2XAURHZsNN+Tsxivfqq3DzzpXpapoQPoGTqN?=
- =?us-ascii?Q?CpqVTx7y8O4/GI19NtDTdgn4v57oiBHaJeL6LFibhERYE26L5E9tK1RX+WZn?=
- =?us-ascii?Q?xhgCKZM29Q2XAKuPSYozKNTQ2Zll6FiRNTW9fcp7hSvyKK8hcu/ug1ldY7yo?=
- =?us-ascii?Q?6u7Tt0Gw5UBzwbkRGldaiVgnMy2fIzzTflWyBrxH6SvCMzl8Qxtm1ptFJ0gx?=
- =?us-ascii?Q?1EinYfAm8w=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	MTDpvIMC+RvQEBLVPATgmRxN2kWJfW3tUhL4JE/XOC8w81Pptw9M5vCcAOU9112GWtySgTpYq4KS39mvP9mNsr/SR201FwbNPsrgD7F6Z/RO2VkrVIzVckKpqXFDDamIwUj392A9AzMfoQYcW7V9/hs4G+kmnmy3TPojQB44arI/Z3QCaoKHab9vYKR7jYS7mqgwDGmVJwcl2NVUoTxWGgv1XLy9rb0EoFj9hDFtfcg7anX7VNGKh6NWbglQOpdNoxMJuYZQUyCW+R70qCTtjp2ka+/F1qPtprWX6z+Ut6VH5wbr3oqxbmOiRo570dbEQ+vhkGtHArhtjmSDTVgBYr1rr/Le5bqCq/5D6pitIITrpcjlfHn1g0Uk8IgsDzepk3TZBjTFdkT5hbddDFAH5tkaHPOzgAHBQ/kow4wlp0rO0M2bFoeQWl4LrzGF0cW+jYNvvYUXPhf47EUkii2ZVktdEO6tZsKbJ6q4qmHgtW5JRjVhPlh+vdBKbFHemkVpZ8SOmOOZ/8evS8L229UAvO0CJqBzHDrvHp8P82xBE61aVcpJLdmQ1W86iSDmX1yV0lex9bO27stDg8xM0y1+Ri5d74nG6ZAbla2dKynNHmc=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d50b3c3-bc84-4d62-00e1-08de530c3266
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2026 01:28:18.6328
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iZ1Tmi6n1Hdyx2vH+aKboJqisHTQpwZakcijrxT9LtF0HeIlmJVcnyYbvXdfwNYCDn/X/l51BDIdveIs9lEQdw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8251
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-13_04,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 phishscore=0
- mlxlogscore=999 adultscore=0 suspectscore=0 spamscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
- definitions=main-2601140008
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDAwNyBTYWx0ZWRfX/nk37Oc/2sTs
- jARRYMg6rWREcxrBIh+M051uomevq/xZ7Bu6sZibPjhCP2fV9Q9GBsDqjLGWwAbb1BSTJ7/QNAO
- JOSjNcQxNd50hGwc3hmBbf9tjb2S02JQrvpvNRWelLBjY3hfX/2VN54JjWaNuADObLP+O7uls8u
- J84YcG2DRc2LQ4G7Itou2rim9kfTJwO4kAhO3xP4DzST0MyVME+RmJJWa0gP6ULOaayp4tils3F
- 9bJ5yg5CHe4iMI/deFzmC1eYmJmYE4pgQYYk3QJT8e/WLt7qKFXcRauvD92JOk4o2I9COlSNNZ5
- u1dFzhyKQW+n6nl8U56wtTqlbdDoMEY61tx/kMerBGFNqULo/ZTPxolyI1SEJnU7dCx1ktRMITc
- nBvaOyF4YPm/FC51+xCiA4E0DCFP1Qo7wnHUZkoJ10MGPzoXQ98lw60YpRtyGRGlNJnAkzMF4dI
- bghBJ0kJrLY6Yxlt4TQ==
-X-Authority-Analysis: v=2.4 cv=YcGwJgRf c=1 sm=1 tr=0 ts=6966f137 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=DIzP5EfeZF5ZH_g1OKgA:9
- a=CjuIK1q_8ugA:10 a=mmqRlSCDY2ywfjPLJ4af:22
-X-Proofpoint-GUID: LT6ROdx93Dhci4b7rdo6kSgS3PBt8unw
-X-Proofpoint-ORIG-GUID: LT6ROdx93Dhci4b7rdo6kSgS3PBt8unw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113143727.1041265-1-imran.f.khan@oracle.com>
 
-On Wed, Jan 14, 2026 at 07:00:18AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git
-> head:   a4e5702b7bb846cf50d2917cadf2289c25720812
-> commit: 1e8eb4117f27366855b192104098330a2f290f26 [9/10] mm/slab: move [__]ksize and slab_ksize() to mm/slub.c
-> config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260114/202601140605.GNpnpgLF-lkp@intel.com/config
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140605.GNpnpgLF-lkp@intel.com/reproduce
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601140605.GNpnpgLF-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> Warning: mm/slub.c:7013 function parameter 'objp' not described in 'ksize'
-> >> Warning: mm/slub.c:7013 function parameter 'objp' not described in 'ksize'
+Hi Imran,
 
-We moved the comment from __ksize() to ksize(),
-but didn't rename @object to @objp.
+kernel test robot noticed the following build errors:
 
-Could you please fix it locally, Vlastimil?
+[auto build test ERROR on f8f9c1f4d0c7a64600e2ca312dec824a0bc2f1da]
 
-diff --git a/mm/slub.c b/mm/slub.c
-index d3aa805f3e05..373ee58b8b9e 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -7070,7 +7070,7 @@ static size_t __ksize(const void *object)
+url:    https://github.com/intel-lab-lkp/linux/commits/Imran-Khan/genirq-cpuhotplug-notify-about-irq-affinity-change-for-offlined-cpus/20260113-223900
+base:   f8f9c1f4d0c7a64600e2ca312dec824a0bc2f1da
+patch link:    https://lore.kernel.org/r/20260113143727.1041265-1-imran.f.khan%40oracle.com
+patch subject: [PATCH v3] genirq/cpuhotplug: notify about irq affinity change for offlined cpus.
+config: x86_64-buildonly-randconfig-002-20260114 (https://download.01.org/0day-ci/archive/20260114/202601140909.LBJvN7Nb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140909.LBJvN7Nb-lkp@intel.com/reproduce)
 
- /**
-  * ksize -- Report full size of underlying allocation
-- * @object: pointer to the object
-+ * @objp: pointer to the object
-  *
-  * This should only be used internally to query the true size of allocations.
-  * It is not meant to be a way to discover the usable size of an allocation
-@@ -7078,7 +7078,7 @@ static size_t __ksize(const void *object)
-  * the originally requested allocation size may trigger KASAN, UBSAN_BOUNDS,
-  * and/or FORTIFY_SOURCE.
-  *
-- * Return: size of the actual memory used by @object in bytes
-+ * Return: size of the actual memory used by @objp in bytes
-  */
- size_t ksize(const void *objp)
- {
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601140909.LBJvN7Nb-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/irq/manage.c:149:6: error: redefinition of 'schedule_affinity_notify_work'
+     149 | void schedule_affinity_notify_work(struct irq_desc *desc)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/irq/manage.c:15:
+   include/linux/interrupt.h:449:20: note: previous definition of 'schedule_affinity_notify_work' with type 'void(struct irq_desc *)'
+     449 | static inline void schedule_affinity_notify_work(struct irq_desc *desc) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/manage.c: In function 'schedule_affinity_notify_work':
+>> kernel/irq/manage.c:151:23: error: 'struct irq_desc' has no member named 'affinity_notify'
+     151 |         kref_get(&desc->affinity_notify->kref);
+         |                       ^~
+   In file included from include/linux/export.h:5,
+                    from include/linux/linkage.h:7,
+                    from arch/x86/include/asm/cache.h:5,
+                    from include/vdso/cache.h:5,
+                    from include/linux/cache.h:6,
+                    from include/linux/irq.h:13,
+                    from kernel/irq/manage.c:11:
+   kernel/irq/manage.c:152:33: error: 'struct irq_desc' has no member named 'affinity_notify'
+     152 |         if (!schedule_work(&desc->affinity_notify->work))
+         |                                 ^~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   kernel/irq/manage.c:152:9: note: in expansion of macro 'if'
+     152 |         if (!schedule_work(&desc->affinity_notify->work))
+         |         ^~
+   kernel/irq/manage.c:152:33: error: 'struct irq_desc' has no member named 'affinity_notify'
+     152 |         if (!schedule_work(&desc->affinity_notify->work))
+         |                                 ^~
+   include/linux/compiler.h:57:61: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+   kernel/irq/manage.c:152:9: note: in expansion of macro 'if'
+     152 |         if (!schedule_work(&desc->affinity_notify->work))
+         |         ^~
+   kernel/irq/manage.c:152:33: error: 'struct irq_desc' has no member named 'affinity_notify'
+     152 |         if (!schedule_work(&desc->affinity_notify->work))
+         |                                 ^~
+   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~
+   kernel/irq/manage.c:152:9: note: in expansion of macro 'if'
+     152 |         if (!schedule_work(&desc->affinity_notify->work))
+         |         ^~
+   kernel/irq/manage.c:154:31: error: 'struct irq_desc' has no member named 'affinity_notify'
+     154 |                 kref_put(&desc->affinity_notify->kref,
+         |                               ^~
+   kernel/irq/manage.c:155:30: error: 'struct irq_desc' has no member named 'affinity_notify'
+     155 |                          desc->affinity_notify->release);
+         |                              ^~
+
+
+vim +/schedule_affinity_notify_work +149 kernel/irq/manage.c
+
+   141	
+   142	/**
+   143	 * schedule_affinity_notify_work - Schedule work to notify
+   144	 * about irq affinity change.
+   145	 * @desc:  irq descriptor whose affinity changed
+   146	 *
+   147	 * Caller needs to hold desc->lock
+   148	 */
+ > 149	void schedule_affinity_notify_work(struct irq_desc *desc)
+   150	{
+ > 151		kref_get(&desc->affinity_notify->kref);
+   152		if (!schedule_work(&desc->affinity_notify->work))
+   153			/* Work was already scheduled, drop our extra ref */
+   154			kref_put(&desc->affinity_notify->kref,
+   155				 desc->affinity_notify->release);
+   156	}
+   157	EXPORT_SYMBOL_GPL(schedule_affinity_notify_work);
+   158	
 
 -- 
-Cheers,
-Harry / Hyeonggon
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
