@@ -1,101 +1,82 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6295C355036
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 05:12:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F6B34D938
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 05:12:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768367559; cv=none; b=Q4URgv+h33NdYpBAOOm0dZ3sEYddlE/HFcGpKYgyyH+moz3CA2bFlt/Pn1gd4h0tj5CkAk4gLl5881pm/CYRc8jfJjyVH7D9NBmeWTSZlKFYc5tcAP4VpJW8heT9IAq/nVW/PTNFmlyeVItOmxv7lXjley+t+6hOR5vDehDH9yo=
+	t=1768367566; cv=none; b=PdaFNhe3453v+vw+cKqH1MyISrkkw0plZVNyrPTpkxcovTXmxrMD2VhllUrOXcsN5M77jyYR8SS09fX+Mbq813qG/+O4ZKe80nMWbL+XHbbbTyXlGKcKigoiKHYRcd5F1Umo9g3uL6Lk3XICPcCrGwzJLLxWGVwunQ0GWe3W/fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768367559; c=relaxed/simple;
-	bh=+z1XBVh7Rhj+FEfFWjsNHcfPpFN9+tKMSGSjDu1+QFQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kVCsuiQw+D5Td9Kpip4O8NssiOcVulk752dpEVnGp4fvwXrpOA1we2U5+vXYR+qC3UMXUIEF+fZxWaE9w0lFMCenPnhiqwKLinEbUaAvDW2EyMlijZRq4Sog4RXvbnclJfFdwfuuo+6P29RN+MtgEzKUZlCTX9p2GVTFkM5hacM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayM12b/y; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1768367566; c=relaxed/simple;
+	bh=+8OMcOtz7r+VlhAsFSS1iy8UUhj7MMwZITqhrj8ou+0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=jptLy+xHg8NjPTRnmWcplep7qLJZfvbCPNYXlURmW2dkU/fqxmQb7CC3m0B3Elfsek6JmDZgN/6RvqIWW7o2FXo5wsBX++4/VCIAWTIGD0CoS123vEXm1WhoXqVBt89VLya10zlTWxluPxx/pzhGps+l2Rvdma08FEz57YEzwP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LtPam34/; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayM12b/y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LtPam34/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768367539; x=1799903539;
-  h=date:from:to:cc:subject:message-id;
-  bh=+z1XBVh7Rhj+FEfFWjsNHcfPpFN9+tKMSGSjDu1+QFQ=;
-  b=ayM12b/yCXNZY9qT1LC1jutD6xEcJYTGXvfwoHIRHJVMeeZn45l9my+0
-   dCHSzlW8+E+iM9/RKOnDiYbAfncIPrmZ7gnHICcDYREHw/vASfywmvQea
-   3PN5lwA9xiRMrBgcBbY28fGiOP13oUZAv4UO+5gKSRDZj0QnqayEcBwui
-   Vag2hgMuK1fMHompBHM51wmPwBsKG8G9HB1AXLIXagsQi1TwLFkizgnxJ
-   CO2tz6l5E/yDXjqNQvXoeGft3OHcDO78Inxv25uZPKWqMx6xHgANP6W08
-   BE4mdj1+xzBYN0U3iLGmCu9YLedCPk8PqommR11mlBvPbwmAsI1lGrD2m
-   w==;
-X-CSE-ConnectionGUID: ED+Y/TlBRMyGziARRTuLmw==
-X-CSE-MsgGUID: 59ZrpxkiR8Gw2v5HKRJpig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="95135826"
+  t=1768367561; x=1799903561;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+8OMcOtz7r+VlhAsFSS1iy8UUhj7MMwZITqhrj8ou+0=;
+  b=LtPam34/orP2wT8qoaImUOdRtwtvk5FnLocn2IsuMnmvpYUoSc2+aiUq
+   qSOQmVSXHiGxApcZpHUdqLe1EsI6a1H2kBJ8S2YTuAJnvE4FXDD/gQAkH
+   tmnAk+5G1DElPYBywdo84qUn/wM71U4WgeZmMDQB0olUMUAGezZeGjCz4
+   sWRikJ/WRSVO0uZjcNKxcCliGVPg76826m/Psuw4RegKH+LT9okYaYINR
+   SsSKZcOnRSEchvuCTbIlZbCq1gJg/m6PWnRA1jcfyFEztUWpIPGCEXKQC
+   45WeUWDCAGtcMsO74liIwfUZp7D/HHPAk6JpHkLn2GedIvCwVEJpwyHJQ
+   Q==;
+X-CSE-ConnectionGUID: Ina6e+UMQ129FCRehNnjNQ==
+X-CSE-MsgGUID: f9xPiesHTOiWBxokvARuOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="95135831"
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="95135826"
+   d="scan'208";a="95135831"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 21:12:13 -0800
-X-CSE-ConnectionGUID: wT23PmR7RB2pSlK2Gz365g==
-X-CSE-MsgGUID: 2ImgMDxVRmWI8Mya65q2lA==
+X-CSE-ConnectionGUID: NY7OW3W1T2uFy6IrP8kc7g==
+X-CSE-MsgGUID: 2F1PAeHtStKBE7QOV7/aUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="204473350"
+   d="scan'208";a="204473354"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 13 Jan 2026 21:12:12 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vftAv-00000000Fpc-2C2W;
+	id 1vftAv-00000000Fpe-2IpJ;
 	Wed, 14 Jan 2026 05:12:09 +0000
-Date: Wed, 14 Jan 2026 13:11:54 +0800
+Date: Wed, 14 Jan 2026 13:11:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-PMT-enhancement-ANBZ27534
- 23/23] drivers/crypto/ccp/hygon/ccp-dev-v5.c:206: warning: This comment
- starts with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202601141321.cqoAJ6By-lkp@intel.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, David Gow <davidgow@google.com>
+Subject: [thomas-weissschuh:b4/kunit-kselftests 15/17] clang: error:
+ linker command failed with exit code 1 (use -v to see invocation)
+Message-ID: <202601141306.SYBY7kt9-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-PMT-enhancement-ANBZ27534
-head:   5be39e8fdc241e57f9813026ad199ad5add77ce7
-commit: 11db1bdfd3aea61865e147841c9bfd95966c7e93 [23/23] anolis:ccp: ccp-crypto support sm2 on Hygon generation 4th CPU
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20260114/202601141321.cqoAJ6By-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141321.cqoAJ6By-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kunit-kselftests
+head:   25364dcd1bffe2d55437fee06c422d3eea69815f
+commit: bf8d33b19bdc03f09480070f329c2642b4fad3a7 [15/17] kunit: uapi: Add example for UAPI tests
+config: sparc64-randconfig-r121-20260114 (https://download.01.org/0day-ci/archive/20260114/202601141306.SYBY7kt9-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141306.SYBY7kt9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601141321.cqoAJ6By-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601141306.SYBY7kt9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/crypto/ccp/hygon/ccp-dev-v5.c:206: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Hygon CCP from 4th generation support both sm2 & ecc,
-
-
-vim +206 drivers/crypto/ccp/hygon/ccp-dev-v5.c
-
-   204	
-   205	/**
- > 206	 * Hygon CCP from 4th generation support both sm2 & ecc,
-   207	 * but its input content is different from previous version.
-   208	 * the previous requries only one src buffer which include
-   209	 * hash + key. Now, hash and key should passed separately. To
-   210	 * compatible with previous driver, we parse hash and key
-   211	 * from src buffer which same as previous input
-   212	 */
-   213	#define SM2_ECC_OPERAND_LEN				32
-   214	#define SM2_ECC_KG_SRC_SIZE				32
-   215	#define SM2_ECC_LP_SRC_SIZE				32
-   216	#define SM2_ECC_SIGN_SRC_SIZE			64
-   217	#define SM2_ECC_VERIFY_SRC_SIZE			96
-   218	
+   ld.lld: error: /tmp/kunit-example-uapi-238408.o:(function _start: .text+0xf8): unknown relocation (8) against symbol _start_c
+>> clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 -- 
 0-DAY CI Kernel Test Service
