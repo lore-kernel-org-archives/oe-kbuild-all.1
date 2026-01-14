@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28CF37A4BC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 07:36:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C5B37E2F0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 08:28:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768376203; cv=none; b=DFCRdRy2a5p2p2ux+sERbKxUevQ+lqD6rSpVL1Vxx/jCNzPR4yocp/MI3/3Vixzrc/wA2iryKM6SG82BPUUj4Cep6dFcBW6ElLrzjBQBT7QLelhNKdcXileeUk1xX61dUhxeJXsUHvAV+zoPM0NyIYod5bfz5r2lxcKH31hMcDw=
+	t=1768379311; cv=none; b=S2VTwe2PFHet3okLk4nf9QsQ94dErFbvHOTHc4ucbbWluWqyTfDa18fpyvANx6VImtt1uvukZddRlyZZW/ADPoLClyl1s+bn1xSc9/6aSeKScinn2Piw/cHnGJVvNom0jERoRu1oGxYBt4Kk7e/SFH0DMWfb93MELYX5eoo4rgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768376203; c=relaxed/simple;
-	bh=+Q/U2lj1GVhemCsmxbfbviVZmBO8wJr8vVWeLfcLj2o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=K7BRlvvRG/YDO8VRWotlxOkw2jPWO7eQJDQrCp8TTFvlkitrW8oy9zfUEBFj/JBjqfW1Ti0pRERQdM/mqdFjQUp8q/fmMG5+fg7t2WVTRsaaRaf0xpgMehAwMmznbQ2ZHdE/c9TSJPR25ok01AHATq/SQM2RVvdWo70fmM9vHBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A8XWXyQj; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1768379311; c=relaxed/simple;
+	bh=SeZwR5kuyj59Ap0O4i/EnkCYryjJwtjpNA/hDypS5qI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QIXErETgJ0NTTnAcMervEql5bRsrJewcMYmd9MgszQCY0W3Bqp/XcOcBze6CSJq8fWeXhyMaQe5XaJXcXzV1LoojYLO3dVEbeXqlWNOCEQnuk+mANLRmNAy2x0JCski1taO6SIlT189YvUJj9K1Lc/3m5jnCeqnGlcaWfpMqGCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ugcdzdkh; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A8XWXyQj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ugcdzdkh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768376197; x=1799912197;
+  t=1768379307; x=1799915307;
   h=date:from:to:cc:subject:message-id;
-  bh=+Q/U2lj1GVhemCsmxbfbviVZmBO8wJr8vVWeLfcLj2o=;
-  b=A8XWXyQjlRjciLzWrMopCk3XxvrlDOSQ2lwsHS+z5cNks2mFbrPufpe8
-   yB4J4Uh7Au26DKkX+Ko/upw1cKzS/9WnwJEdideMeN7CDgnz0iAlXA+8f
-   JWz3idowNcG5OWjsfAzESQQySaVNEEN0W6OazVQLiTmh6pjAdLL1L1HVA
-   FUZAET15F6dniXYoP+UuRLotEudNeKaivHZNBkUUgvAc09wrqt6JTYbpM
-   MN1Ll0DKNIZNLR2uB+Hv5KQmDxUKnjxlQHZJF48qEiZ5V6l9CSFMPNUhC
-   L3/hnutmLDxVOqu7A/n4bixHMoU3cWwiBPtgRYSjAL+mIoHgrJCVqQUWq
+  bh=SeZwR5kuyj59Ap0O4i/EnkCYryjJwtjpNA/hDypS5qI=;
+  b=UgcdzdkhqdxSQzLieQyQGHoYVehKVDbMNzLk0RJ+h/ZtMgVknNQhML5p
+   XaBcRTqzvCv39AmvXPo/ig4puivgWGpJG3oi5yYxNORljnwL24oYe9LT9
+   uJHPguZhhjqhfUVDMtD1TDV9Ecf9cq4KvTaMQkoLaH8y0LPIRYGGuKUX/
+   kXfIdCFSmDgJtCJnn6Gqrg9ey9OhFLgKVnHmWKITK9KggIichlHRRjG/2
+   jHPijMgLyHiq2XtPIpWnN3wW3pvXBcUs4d2hC9XATgGyAwHeDkHbwIHNz
+   +NHdH+nzTRt30P/LZy9CYfLKTGp/LyLFq45vjKm4Sn1ZmRCmxWizkGTGB
    w==;
-X-CSE-ConnectionGUID: QFQOMYM3RVysugAoI4aAyw==
-X-CSE-MsgGUID: 2MHi3zvoRcCJbNOIRbzlnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69727492"
+X-CSE-ConnectionGUID: y/sH6XmDRiqCL1HpN1dcbw==
+X-CSE-MsgGUID: cv9OKg5MREmPqgjcvrkjlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69731178"
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69727492"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 23:36:24 -0800
-X-CSE-ConnectionGUID: 6bUAktpVS/25I5OC9l+jpg==
-X-CSE-MsgGUID: SPmCu+thRIWjliYCkqF4OA==
+   d="scan'208";a="69731178"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 00:28:26 -0800
+X-CSE-ConnectionGUID: ELedFjl/TAuciCyCKJwKHA==
+X-CSE-MsgGUID: ts7viitmRHWHz+1fZWPi6A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="208761737"
+   d="scan'208";a="205173787"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 13 Jan 2026 23:36:23 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 14 Jan 2026 00:28:25 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vfvQS-00000000G0U-22l8;
-	Wed, 14 Jan 2026 07:36:20 +0000
-Date: Wed, 14 Jan 2026 15:35:48 +0800
+	id 1vfwEp-00000000G4K-3dJR;
+	Wed, 14 Jan 2026 08:28:23 +0000
+Date: Wed, 14 Jan 2026 16:28:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-PMT-enhancement-ANBZ27534
- 23/23] drivers/crypto/ccp/hygon/hct.c:1333:15: warning: no previous prototype
- for 'hct_pin_memory'
-Message-ID: <202601141526.PHtZqm28-lkp@intel.com>
+Subject: [android-common:android14-5.15 1/1]
+ kernel/rcu/update.c:52:1: error: use of undeclared identifier
+ '__tracepoint_rcu_stall_warning'
+Message-ID: <202601141646.CKvhJpOV-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,77 +60,115 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Yabin,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-PMT-enhancement-ANBZ27534
-head:   5be39e8fdc241e57f9813026ad199ad5add77ce7
-commit: 43213bf1d133202454c0175eb17f6635626045dc [23/23] anolis: Add mediated ccp driver support for hygon crypto technology.
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20260114/202601141526.PHtZqm28-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141526.PHtZqm28-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   4da37933f87e227169be0a2d94ae3501e6f5e85a
+commit: d35bd9468fc35137ce63aff26dcb4bb3856d1657 [1/1] ANDROID: rcu: allow hooks into rcu stall warning
+config: x86_64-randconfig-161-20260113 (https://download.01.org/0day-ci/archive/20260114/202601141646.CKvhJpOV-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141646.CKvhJpOV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601141526.PHtZqm28-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601141646.CKvhJpOV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/crypto/ccp/hygon/hct.c:1333:15: warning: no previous prototype for 'hct_pin_memory' [-Wmissing-prototypes]
-    1333 | struct page **hct_pin_memory(struct hct_private *private, unsigned long uaddr,
-         |               ^~~~~~~~~~~~~~
---
-   drivers/crypto/ccp/hygon/hct.c:39: warning: Function parameter or member 'fmt' not described in 'pr_fmt'
->> drivers/crypto/ccp/hygon/hct.c:39: warning: expecting prototype for VERSION_STRING modification instructions(). Prototype was for pr_fmt() instead
+>> kernel/rcu/update.c:52:1: error: use of undeclared identifier '__tracepoint_rcu_stall_warning'
+      52 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:328:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     328 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   <scratch space>:7:1: note: expanded from here
+       7 | __tracepoint_rcu_stall_warning
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/rcu/update.c:52:1: error: use of undeclared identifier '__traceiter_rcu_stall_warning'; did you mean '__tracepoint_rcu_stall_warning'?
+      52 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:329:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     329 |         EXPORT_SYMBOL_GPL(__traceiter_##name);                          \
+         |                           ^~~~~~~~~~~~~~~~~~
+   <scratch space>:22:1: note: expanded from here
+      22 | __traceiter_rcu_stall_warning
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/update.c:52:1: note: '__tracepoint_rcu_stall_warning' declared here
+   include/linux/tracepoint.h:328:20: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     328 |         EXPORT_SYMBOL_GPL(__tracepoint_##name);                         \
+         |                           ^
+   <scratch space>:7:1: note: expanded from here
+       7 | __tracepoint_rcu_stall_warning
+         | ^
+>> kernel/rcu/update.c:52:1: error: use of undeclared identifier '__SCK__tp_func_rcu_stall_warning'
+      52 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:330:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     330 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:207:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     207 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:60:22: note: expanded from macro '__PASTE'
+      60 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~~~~~~
+   include/linux/compiler_types.h:59:23: note: expanded from macro '___PASTE'
+      59 | #define ___PASTE(a,b) a##b
+         |                       ^~~~
+   <scratch space>:38:1: note: expanded from here
+      38 | __SCK__tp_func_rcu_stall_warning
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/rcu/update.c:52:1: error: use of undeclared identifier '__SCT__tp_func_rcu_stall_warning'; did you mean '__SCK__tp_func_rcu_stall_warning'?
+      52 | EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tracepoint.h:330:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     330 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call.h:208:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     208 |         EXPORT_SYMBOL_GPL(STATIC_CALL_TRAMP(name))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/static_call_types.h:18:34: note: expanded from macro 'STATIC_CALL_TRAMP'
+      18 | #define STATIC_CALL_TRAMP(name)         __PASTE(STATIC_CALL_TRAMP_PREFIX, name)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:60:22: note: expanded from macro '__PASTE'
+      60 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~~~~~~
+   include/linux/compiler_types.h:59:23: note: expanded from macro '___PASTE'
+      59 | #define ___PASTE(a,b) a##b
+         |                       ^~~~
+   <scratch space>:53:1: note: expanded from here
+      53 | __SCT__tp_func_rcu_stall_warning
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/update.c:52:1: note: '__SCK__tp_func_rcu_stall_warning' declared here
+   include/linux/tracepoint.h:330:2: note: expanded from macro 'EXPORT_TRACEPOINT_SYMBOL_GPL'
+     330 |         EXPORT_STATIC_CALL_GPL(tp_func_##name)
+         |         ^
+   include/linux/static_call.h:207:20: note: expanded from macro 'EXPORT_STATIC_CALL_GPL'
+     207 |         EXPORT_SYMBOL_GPL(STATIC_CALL_KEY(name));                       \
+         |                           ^
+   include/linux/static_call_types.h:12:32: note: expanded from macro 'STATIC_CALL_KEY'
+      12 | #define STATIC_CALL_KEY(name)           __PASTE(STATIC_CALL_KEY_PREFIX, name)
+         |                                         ^
+   include/linux/compiler_types.h:60:22: note: expanded from macro '__PASTE'
+      60 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^
+   include/linux/compiler_types.h:59:23: note: expanded from macro '___PASTE'
+      59 | #define ___PASTE(a,b) a##b
+         |                       ^
+   <scratch space>:38:1: note: expanded from here
+      38 | __SCK__tp_func_rcu_stall_warning
+         | ^
+   4 errors generated.
 
 
-vim +/hct_pin_memory +1333 drivers/crypto/ccp/hygon/hct.c
+vim +/__tracepoint_rcu_stall_warning +52 kernel/rcu/update.c
 
-  1332	
-> 1333	struct page **hct_pin_memory(struct hct_private *private, unsigned long uaddr,
-  1334				unsigned long ulen, unsigned long *n)
-  1335	{
-  1336		unsigned long npages, size;
-  1337		int npinned;
-  1338		struct page **pages;
-  1339		unsigned long first, last;
-  1340	
-  1341		if (ulen == 0 || uaddr + ulen < uaddr)
-  1342			return NULL;
-  1343	
-  1344		first = (uaddr & PAGE_MASK) >> PAGE_SHIFT;
-  1345		last = ((uaddr + ulen - 1) & PAGE_MASK) >> PAGE_SHIFT;
-  1346		npages = (last - first + 1);
-  1347	
-  1348		if (WARN_ON_ONCE(npages > INT_MAX))
-  1349			return NULL;
-  1350	
-  1351		size = npages * sizeof(struct page *);
-  1352		if (size > PAGE_SIZE)
-  1353			pages = vmalloc(size);
-  1354		else
-  1355			pages = kmalloc(size, GFP_KERNEL);
-  1356	
-  1357		if (!pages)
-  1358			return NULL;
-  1359	
-  1360		/* Pin the user virtual address. */
-  1361		npinned = pin_user_pages_fast(uaddr, npages, FOLL_WRITE, pages);
-  1362		if (npinned != npages)
-  1363			goto err;
-  1364	
-  1365		*n = npages;
-  1366		return pages;
-  1367	
-  1368	err:
-  1369		if (npinned > 0)
-  1370			unpin_user_pages(pages, npinned);
-  1371		kvfree(pages);
-  1372		return NULL;
-  1373	}
-  1374	
+    51	
+  > 52	EXPORT_TRACEPOINT_SYMBOL_GPL(rcu_stall_warning);
+    53	
 
 -- 
 0-DAY CI Kernel Test Service
