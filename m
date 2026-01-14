@@ -1,179 +1,273 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219E83B8BAB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 22:13:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA473B52E3;
+	Wed, 14 Jan 2026 22:13:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768428824; cv=none; b=KjcOwlORJ7qlbWaribOp5dyvo2wQpzkPuJOx543LGK1FhQWq2prWeCQbDDXC80LgwEnfpIGHQD3+yfI/r7wyCg/xTG/sVLUtWDgLoMbB8g7OXFovLGUAnKjFh7jxCwnBuqvoPr0NOWsjWR2R8iZ1CrPcmYk23f1FRChevDD2SXg=
+	t=1768428851; cv=none; b=Ufc338qncKAdgQFUFVxQm+TDRBNn4N29ccOXT1vpZ0IgB7+Ok2J2pU00QomlG4Uictb2XzCitD7EREdbE+ue8pPm6Z2x8MYiaa4/+Z+X+v6GNcE9+R4GOcyp+Jc1273Wvqt7cChNheZ/Q5AFXxowQKItbcGqLhpJMLFZq/ylp2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768428824; c=relaxed/simple;
-	bh=MKvS2MNV/DZUfOVetImsqMHicLZ+/RyxSn8P7S9SUDw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=M+yee7lVtkFps1YgH3D/eBkhF8xVJdXcgZwAptT9OVNwA43i5hgc8uJIdYdCGa5Vu0Ks2J5EA/aCpwBBpHJ9xLMCFFr+0jWv0G6SaNdth5/mSBEdkIVI29hALABv7B0JQjrkoNSRmKS8wDaoOkJJNDe96nCQNCjvAbK2x0G72Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IQUrWmok; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1768428851; c=relaxed/simple;
+	bh=mNmuOjx6q/Cryn9pY8n4bZQdzwXbQVjuQJum73s9y/k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Crcq1LCoFrDBiBGP0kzRGnG1ivNZpstbdHjw0qS5EYg63xhq/aizTyul/HEHi7Hpu94j4vLy5sOd0ysORsdEkUMt4pOAGNqAoGhP9KP5jz1SaHL3UXjklsdvYbkeob1RAQ1LwIurqXk9tze/pOvUGgFhW2UNGcUIBdMq+dG0cJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SOA8ewX9; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IQUrWmok"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SOA8ewX9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768428813; x=1799964813;
-  h=date:from:to:cc:subject:message-id;
-  bh=MKvS2MNV/DZUfOVetImsqMHicLZ+/RyxSn8P7S9SUDw=;
-  b=IQUrWmokUMfk1UycVHrKZKsy+0eGrFI8PVP+nLzhDvFWL2o80s1Pu7q7
-   6QSZAZRbob3MdiX+mdeMY2DOiaSyInm3/MbqjU98nWVKJgHk3mQwRK2zl
-   bnchvS1uBdjYYH/ywvMEVTk03m3utrjWt8SeagLulviXOGuoN6uqCSgKl
-   xD6KzKtAr2u/KReBHdSpnk7A0ZJZhuOk9Gy2uw8cI26iKnEyURxkl3+Tm
-   gw1akPrZe/p2O6TGJnAWUsQtekL4L0IPc2P0lKzW/wOVaJnq5ICY8iOV9
-   X1+xW4k+kLgSrlvlEU9ZHkO6pCrvK7SQHSAuCATQq2gXZusoIJz9iJc/L
+  t=1768428828; x=1799964828;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mNmuOjx6q/Cryn9pY8n4bZQdzwXbQVjuQJum73s9y/k=;
+  b=SOA8ewX9WVNvBlV985OpL/suxe8aEoeU29f9TC/QGd5+ccaoEEIXGEmH
+   vjIO0r0/CVJRpS5vQKvHKlmN50SuHAPqjWA3Wv31mYYgPMTPYb3B+SAd8
+   YlifaxqoVUoa/zBU0h8i+ic+YLzxWg8mwHLL228EqTZegnR+gRAaLs4NQ
+   +1uTWOlinSivjLvUUwRxFC1SjZXzKkVbk+xQEY6c4gemstnWrts5UfgLU
+   vwgY2sEka8YrpoTY+kxguUh5sD00ilaAyRihTm9/7O/XT2pDmB/ABTKr1
+   ON/r/qPbE8XQ9X6phHbnnfEw4A6uuPG5WVmso5CRZP7GfYASiEn0A3xlx
    Q==;
-X-CSE-ConnectionGUID: Yqrb+GYpRyiV7qFBhUBDvA==
-X-CSE-MsgGUID: D8OZjYNyRHe1M4GYlksnSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="95216279"
+X-CSE-ConnectionGUID: ZA5mkTK/QXGm0OJVw6GWVg==
+X-CSE-MsgGUID: oGRfbXlaSeG/83iQgPDzUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="95216281"
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="95216279"
+   d="scan'208";a="95216281"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 14:13:27 -0800
-X-CSE-ConnectionGUID: HyxzYmYASmaLxtInrthlwA==
-X-CSE-MsgGUID: 4plUZWe/QrSNtf6XJbFbZA==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 14:13:29 -0800
+X-CSE-ConnectionGUID: /mS1GwKTTjqS9jX2YLBFzQ==
+X-CSE-MsgGUID: nuwN31E+RX67z5jUmg/pAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="236042832"
+   d="scan'208";a="236042826"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 14 Jan 2026 14:13:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vg97D-00000000H7G-2Ftn;
+	id 1vg97D-00000000H7E-29VX;
 	Wed, 14 Jan 2026 22:13:23 +0000
-Date: Thu, 15 Jan 2026 06:12:29 +0800
+Date: Thu, 15 Jan 2026 06:12:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-PMT-enhancement-ANBZ27534
- 23/23] drivers/crypto/ccp/hygon/vpsp.c:294: warning: Cannot understand  *
- @brief Directly convert the gpa address into hpa and forward it to PSP,
-Message-ID: <202601150655.LdB8a6hA-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Thomas Zimmermann <tzimmermann@suse.de>, tzungbi@kernel.org,
+	briannorris@chromium.org, jwerner@chromium.org, javierm@redhat.com,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	airlied@gmail.com, simona@ffwll.ch
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	chrome-platform@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 8/8] drm/sysfb: corebootdrm: Add DRM driver for coreboot
+ framebuffers
+Message-ID: <202601150622.i0pTAj9w-lkp@intel.com>
+References: <20260108145058.56943-9-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260108145058.56943-9-tzimmermann@suse.de>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-PMT-enhancement-ANBZ27534
-head:   5be39e8fdc241e57f9813026ad199ad5add77ce7
-commit: 28b4e19791583d1b93313942b031326239349d45 [23/23] anolis: crypto: ccp: support TKM run on CSV
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20260115/202601150655.LdB8a6hA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150655.LdB8a6hA-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on chrome-platform/for-next]
+[also build test ERROR on drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master chrome-platform/for-firmware-next v6.19-rc5 next-20260114]
+[cannot apply to drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/firmware-google-Do-sysfb-test-before-creating-coreboot-framebuffer/20260108-225542
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+patch link:    https://lore.kernel.org/r/20260108145058.56943-9-tzimmermann%40suse.de
+patch subject: [PATCH 8/8] drm/sysfb: corebootdrm: Add DRM driver for coreboot framebuffers
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260115/202601150622.i0pTAj9w-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150622.i0pTAj9w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601150655.LdB8a6hA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150622.i0pTAj9w-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/crypto/ccp/hygon/vpsp.c:91: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Copy the guest data to the host kernel buffer
->> drivers/crypto/ccp/hygon/vpsp.c:294: warning: Cannot understand  * @brief Directly convert the gpa address into hpa and forward it to PSP,
-    on line 294 - I thought it was a doc line
->> drivers/crypto/ccp/hygon/vpsp.c:381: warning: Cannot understand  * @brief copy data in gpa to host memory and send it to psp for processing.
-    on line 381 - I thought it was a doc line
+>> drivers/gpu/drm/sysfb/corebootdrm.c:225:8: error: call to undeclared function 'devm_aperture_acquire_for_coreboot_device'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     225 |         ret = devm_aperture_acquire_for_coreboot_device(cbdev, fb_pgbase, fb_pgsize);
+         |               ^
+   drivers/gpu/drm/sysfb/corebootdrm.c:225:8: note: did you mean 'devm_aperture_acquire_for_platform_device'?
+   include/linux/aperture.h:19:5: note: 'devm_aperture_acquire_for_platform_device' declared here
+      19 | int devm_aperture_acquire_for_platform_device(struct platform_device *pdev,
+         |     ^
+   1 error generated.
 
 
-vim +294 drivers/crypto/ccp/hygon/vpsp.c
+vim +/devm_aperture_acquire_for_coreboot_device +225 drivers/gpu/drm/sysfb/corebootdrm.c
 
-   292	
-   293	/**
- > 294	 * @brief Directly convert the gpa address into hpa and forward it to PSP,
-   295	 *	  It is another form of kvm_pv_psp_copy_op, mainly used for csv VMs.
-   296	 *
-   297	 * @param vpsp points to kvm related data
-   298	 * @param cmd psp cmd id, bit 31 indicates queue priority
-   299	 * @param data_gpa guest physical address of input data
-   300	 * @param psp_ret indicates Asynchronous context information
-   301	 *
-   302	 * Since the csv guest memory cannot be read or written directly,
-   303	 * the shared asynchronous context information is shared through psp_ret and return value.
-   304	 */
-   305	int kvm_pv_psp_forward_op(struct kvm_vpsp *vpsp, uint32_t cmd,
-   306				gpa_t data_gpa, uint32_t psp_ret)
-   307	{
-   308		int ret;
-   309		uint64_t data_hpa;
-   310		uint32_t index = 0, vid = 0;
-   311		struct vpsp_ret psp_async = {0};
-   312		struct vpsp_context *vpsp_ctx = NULL;
-   313		struct vpsp_cmd *vcmd = (struct vpsp_cmd *)&cmd;
-   314		uint8_t prio = CSV_COMMAND_PRIORITY_LOW;
-   315	
-   316		vpsp_get_context(&vpsp_ctx, vpsp->kvm->userspace_pid);
-   317	
-   318		ret = check_cmd_forward_op_permission(vpsp, vpsp_ctx, data_gpa, cmd);
-   319		if (unlikely(ret)) {
-   320			pr_err("directly operation not allowed\n");
-   321			goto end;
-   322		}
-   323	
-   324		ret = vpsp_try_bind_vtkm(vpsp, vpsp_ctx, cmd, (uint32_t *)&psp_async);
-   325		if (unlikely(ret || *(uint32_t *)&psp_async)) {
-   326			pr_err("try to bind vtkm failed (ret %x, psp_async %x)\n",
-   327				ret, *(uint32_t *)&psp_async);
-   328			goto end;
-   329		}
-   330	
-   331		if (vpsp_ctx)
-   332			vid = vpsp_ctx->vid;
-   333	
-   334		*((uint32_t *)&psp_async) = psp_ret;
-   335		data_hpa = PUT_PSP_VID(gpa_to_hpa(vpsp, data_gpa), vid);
-   336	
-   337		switch (psp_async.status) {
-   338		case VPSP_INIT:
-   339			/* try to send command to the device for execution*/
-   340			ret = vpsp_try_do_cmd(cmd, data_hpa, &psp_async);
-   341			if (unlikely(ret)) {
-   342				pr_err("[%s]: vpsp_do_cmd failed\n", __func__);
-   343				goto end;
-   344			}
-   345			break;
-   346	
-   347		case VPSP_RUNNING:
-   348			prio = vcmd->is_high_rb ? CSV_COMMAND_PRIORITY_HIGH :
-   349				CSV_COMMAND_PRIORITY_LOW;
-   350			index = psp_async.index;
-   351			/* try to get the execution result from ringbuffer*/
-   352			ret = vpsp_try_get_result(prio, index, data_hpa, &psp_async);
-   353			if (unlikely(ret)) {
-   354				pr_err("[%s]: vpsp_try_get_result failed\n", __func__);
-   355				goto end;
-   356			}
-   357			break;
-   358	
-   359		default:
-   360			pr_err("[%s]: invalid command status\n", __func__);
-   361			break;
-   362		}
-   363	
-   364	end:
-   365		/**
-   366		 * In order to indicate both system errors and PSP errors,
-   367		 * the psp_async.pret field needs to be reused.
-   368		 */
-   369		psp_async.format = VPSP_RET_PSP_FORMAT;
-   370		if (ret) {
-   371			psp_async.format = VPSP_RET_SYS_FORMAT;
-   372			if (ret > 0)
-   373				ret = -ret;
-   374			psp_async.pret = (uint16_t)ret;
-   375		}
-   376		return *((int *)&psp_async);
-   377	}
-   378	EXPORT_SYMBOL_GPL(kvm_pv_psp_forward_op);
-   379	
-   380	/**
- > 381	 * @brief copy data in gpa to host memory and send it to psp for processing.
+   162	
+   163	/*
+   164	 * Init / Cleanup
+   165	 */
+   166	
+   167	static int corebootdrm_device_init(struct corebootdrm_device *cdev, struct coreboot_device *cbdev)
+   168	{
+   169		const struct lb_framebuffer *fb = &cbdev->framebuffer;
+   170		struct drm_sysfb_device *sysfb = &cdev->sysfb;
+   171		struct drm_device *dev = &sysfb->dev;
+   172		const struct drm_format_info *format;
+   173		int width, height, pitch;
+   174		u64 address;
+   175		int width_mm = 0, height_mm = 0;
+   176		resource_size_t fb_size, fb_base, fb_pgbase, fb_pgsize;
+   177		struct resource *res, *mem = NULL;
+   178		void __iomem *screen_base;
+   179		struct drm_plane *primary_plane;
+   180		struct drm_crtc *crtc;
+   181		struct drm_encoder *encoder;
+   182		struct drm_connector *connector;
+   183		unsigned long max_width, max_height;
+   184		size_t nformats;
+   185		int ret;
+   186	
+   187		/*
+   188		 * Hardware settings
+   189		 */
+   190	
+   191		format = corebootdrm_get_format_fb(dev, fb);
+   192		if (!format)
+   193			return -EINVAL;
+   194		width = corebootdrm_get_width_fb(dev, fb);
+   195		if (width < 0)
+   196			return width;
+   197		height = corebootdrm_get_height_fb(dev, fb);
+   198		if (height < 0)
+   199			return height;
+   200		pitch = corebootdrm_get_pitch_fb(dev, format, width, fb);
+   201		if (pitch < 0)
+   202			return pitch;
+   203		address = corebootdrm_get_address_fb(dev, height, pitch, fb);
+   204		if (!address)
+   205			return -EINVAL;
+   206	
+   207		sysfb->fb_mode = drm_sysfb_mode(width, height, width_mm, height_mm);
+   208		sysfb->fb_format = format;
+   209		sysfb->fb_pitch = pitch;
+   210	
+   211		drm_dbg(dev, "display mode={" DRM_MODE_FMT "}\n", DRM_MODE_ARG(&sysfb->fb_mode));
+   212		drm_dbg(dev, "framebuffer format=%p4cc, size=%dx%d, pitch=%d byte\n",
+   213			&format->format, width, height, pitch);
+   214	
+   215		/*
+   216		 * Memory management
+   217		 */
+   218	
+   219		fb_base = address;
+   220		fb_size = pitch * height;
+   221	
+   222		fb_pgbase = round_down(fb_base, PAGE_SIZE);
+   223		fb_pgsize = fb_base - fb_pgbase + round_up(fb_size, PAGE_SIZE);
+   224	
+ > 225		ret = devm_aperture_acquire_for_coreboot_device(cbdev, fb_pgbase, fb_pgsize);
+   226		if (ret) {
+   227			drm_err(dev, "could not acquire memory range %pr: %d\n", res, ret);
+   228			return ret;
+   229		}
+   230	
+   231		drm_dbg(dev, "using I/O memory framebuffer at %pr\n", res);
+   232	
+   233		mem = devm_request_mem_region(&cbdev->dev, fb_pgbase, fb_pgsize, dev_name(&cbdev->dev));
+   234		if (!mem) {
+   235			/*
+   236			 * We cannot make this fatal. Sometimes this comes from magic
+   237			 * spaces our resource handlers simply don't know about. Use
+   238			 * the I/O-memory resource as-is and try to map that instead.
+   239			 */
+   240			drm_warn(dev, "could not acquire memory region %pr\n", res);
+   241			mem = res;
+   242		}
+   243	
+   244		screen_base = devm_ioremap_wc(&cbdev->dev, fb_pgbase, fb_pgsize);
+   245		if (!screen_base)
+   246			return -ENOMEM;
+   247	
+   248		iosys_map_set_vaddr_iomem(&sysfb->fb_addr, screen_base);
+   249	
+   250		/*
+   251		 * Modesetting
+   252		 */
+   253	
+   254		ret = drmm_mode_config_init(dev);
+   255		if (ret)
+   256			return ret;
+   257	
+   258		max_width = max_t(unsigned long, width, DRM_SHADOW_PLANE_MAX_WIDTH);
+   259		max_height = max_t(unsigned long, height, DRM_SHADOW_PLANE_MAX_HEIGHT);
+   260	
+   261		dev->mode_config.min_width = width;
+   262		dev->mode_config.max_width = max_width;
+   263		dev->mode_config.min_height = height;
+   264		dev->mode_config.max_height = max_height;
+   265		dev->mode_config.preferred_depth = format->depth;
+   266		dev->mode_config.funcs = &corebootdrm_mode_config_funcs;
+   267	
+   268		/* Primary plane */
+   269	
+   270		nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
+   271						       cdev->formats, ARRAY_SIZE(cdev->formats));
+   272	
+   273		primary_plane = &cdev->primary_plane;
+   274		ret = drm_universal_plane_init(dev, primary_plane, 0, &corebootdrm_primary_plane_funcs,
+   275					       cdev->formats, nformats,
+   276					       corebootdrm_primary_plane_format_modifiers,
+   277					       DRM_PLANE_TYPE_PRIMARY, NULL);
+   278		if (ret)
+   279			return ret;
+   280		drm_plane_helper_add(primary_plane, &corebootdrm_primary_plane_helper_funcs);
+   281		drm_plane_enable_fb_damage_clips(primary_plane);
+   282	
+   283		/* CRTC */
+   284	
+   285		crtc = &cdev->crtc;
+   286		ret = drm_crtc_init_with_planes(dev, crtc, primary_plane, NULL,
+   287						&corebootdrm_crtc_funcs, NULL);
+   288		if (ret)
+   289			return ret;
+   290		drm_crtc_helper_add(crtc, &corebootdrm_crtc_helper_funcs);
+   291	
+   292		/* Encoder */
+   293	
+   294		encoder = &cdev->encoder;
+   295		ret = drm_encoder_init(dev, encoder, &corebootdrm_encoder_funcs,
+   296				       DRM_MODE_ENCODER_NONE, NULL);
+   297		if (ret)
+   298			return ret;
+   299		encoder->possible_crtcs = drm_crtc_mask(crtc);
+   300	
+   301		/* Connector */
+   302	
+   303		connector = &cdev->connector;
+   304		ret = drm_connector_init(dev, connector, &corebootdrm_connector_funcs,
+   305					 DRM_MODE_CONNECTOR_Unknown);
+   306		if (ret)
+   307			return ret;
+   308		drm_connector_helper_add(connector, &corebootdrm_connector_helper_funcs);
+   309		drm_connector_set_panel_orientation_with_quirk(connector,
+   310							       DRM_MODE_PANEL_ORIENTATION_UNKNOWN,
+   311							       width, height);
+   312	
+   313		ret = drm_connector_attach_encoder(connector, encoder);
+   314		if (ret)
+   315			return ret;
+   316	
+   317		drm_mode_config_reset(dev);
+   318	
+   319		return 0;
+   320	}
+   321	
 
 -- 
 0-DAY CI Kernel Test Service
