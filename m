@@ -1,109 +1,135 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783FE37F8D5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 16:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5933A4AB8;
+	Wed, 14 Jan 2026 16:59:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768409948; cv=none; b=pdz+XilKqTZzfZW2gYwG4i0kd7Kc6Fj4TCeVlegbi/DgVnDM1EwYi8uQB4TVabqH136rKPR3sGzy08X/7sPMlv8HlXtfXQhn9iSLl7EBkbxp8+jUQyuft4wu3ipqSF1X2L8nX2yznUdorQeccaqOs4bBEM8mgCOsfoCJ/TpekxU=
+	t=1768409950; cv=none; b=stoS7FT3Hj0l91WJqKBdB1PEQMMRTMbTnOqbfQBrxcOrwWrjucnhNXt1E5OSGeE+WN/CxgtcB/a+hMLAI8cSypFKsPVW5QgQn2HlLMlMnFPXShbvjh6wEKNWatXji0Ul19dKGgm5Ngvyoncjq65nkLUn5aJhPbioXb7YrczyKTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768409948; c=relaxed/simple;
-	bh=acRrVwqsE9WCLmNKsk6KerC3WymRJzSnpPGaKO69GJE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HtmobhcTVT3N54fCSmdfcdBBAY7iWB5iFchNwG/NTrMkV0SeGOzOLDTnvZ59roXwWD2mPGQq1Wp/XMEDqDAft6A7or/aYnEIj594Vesmcjg2mIUr9VFAJ62ZA32R/VYu8zZNqhUjeFOeMt1Ux5RliQ1fsVt3u1EA5TiCVLWTa60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mUMQPWP0; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1768409950; c=relaxed/simple;
+	bh=l/D1TjygnWEWBcgI5iokuhGrTQs0+FYsNCYqU6v2yGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Blhm0bWrTm6auVJdhRYON9Z7eGmlVpSTTUsB74BBMfxSv7p8xC5dEukTkOnsDkhEtPqk/3aLWeDaqkb4ZYWx/i6TT7Ox2uo8ewMC7EmJ0ZBJlPeMZNZdB8z5YCqNAAuy0A75bgx8qmF0ItMHiALGNVeOmX5dQLEoMUuqjOpl60c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZbBGt9Cb; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mUMQPWP0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZbBGt9Cb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768409948; x=1799945948;
-  h=date:from:to:cc:subject:message-id;
-  bh=acRrVwqsE9WCLmNKsk6KerC3WymRJzSnpPGaKO69GJE=;
-  b=mUMQPWP0EN765dCWJlsbnCJ6Iy82BrtAbF6UjhPiCI0dZj3q+HClvZ+H
-   CjtU7EU9Q28GQtEAllAq0leQqMc1Nu7+5T7fjvBvzOC10k6Aqrz096NWo
-   WobbXEzqLka8lWicajzwQnQTx5XuNDNynjXOL9hrer6pdaEZcy2QO89rZ
-   xaTCz8KE4PeADR66FyISdIlgNxIpY39A2AAOwwoNQ5I/6z0IUsVGxkQ/5
-   uC9qJ2OAKCysE8DwCIJytMjaR0esCg4UTnCPHGfVdirCAivsWteU7wJBY
-   c0jaJRcB8+rAIB8osGtEyyFeR/V7Wb/OyNe2huFZAJTEuC9DwEtjDTB16
-   w==;
-X-CSE-ConnectionGUID: SZYdtzuDTqykb/YuVoIDzw==
-X-CSE-MsgGUID: eZ68nj/LTRKX/On4+4lECQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69622263"
+  t=1768409949; x=1799945949;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l/D1TjygnWEWBcgI5iokuhGrTQs0+FYsNCYqU6v2yGc=;
+  b=ZbBGt9CbNMgP9yNDtSWXw+nv8GOmxdcUslJ8QF3q44IlQ2D5l6oAsNx4
+   +/ZRdiQ/ZhXf63Q1g2+c04H7h7IFGQoEIZYmyNg6GJFLFsmbPvvAW9wig
+   Y/0x2gjupjPiMjZUfM3kOfubwptHDI96VXN8n3kojNwYjetbGLqL05H3x
+   SeA1hdymslONbNRsXbHIJ3eqMosAbTi6BCitaoOK4Ssqz+y3YJNbA8/bC
+   6pZdw1UZcVgCM82CKmEN1tvh9ktTqV578+lv5hON6ii1KOBunn6k3RgHU
+   Eb8ICXtezlgPondxyUEmrr06F0wbU69iW/1wU1rhYGbGIcv7/IP/6xUO8
+   Q==;
+X-CSE-ConnectionGUID: WI3wL4+tQCmSD0cnviYimA==
+X-CSE-MsgGUID: uy6ziSWyQKq0atmf/yx4aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69622272"
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69622263"
+   d="scan'208";a="69622272"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 08:59:05 -0800
-X-CSE-ConnectionGUID: EoZM5cdtS4G4wsB0lj0NAg==
-X-CSE-MsgGUID: zprJqgfqTxWEtZQxJYZ5kw==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 08:59:08 -0800
+X-CSE-ConnectionGUID: hiJq6ta9SsmrXZbr06YeDA==
+X-CSE-MsgGUID: lpm2i9eFSwqISEJpuvKHDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="204757284"
+   d="scan'208";a="204757271"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 14 Jan 2026 08:59:03 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vg4Cy-00000000GhW-3qTJ;
+	id 1vg4Cy-00000000GhU-3jLB;
 	Wed, 14 Jan 2026 16:59:00 +0000
-Date: Thu, 15 Jan 2026 00:58:50 +0800
+Date: Thu, 15 Jan 2026 00:58:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/2]
- drivers/video/fbdev/hyperv_fb.c:1109:28: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202601150020.WKLVytsu-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Aman Kumar Pandey <aman.kumarpandey@nxp.com>,
+	linux-kernel@vger.kernel.org, linux-i3c@lists.infradead.org,
+	alexandre.belloni@bootlin.com, krzk+dt@kernel.org, robh@kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org, broonie@kernel.org,
+	lee@kernel.org, Frank.Li@nxp.com, lgirdwood@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	vikash.bansal@nxp.com, priyanka.jain@nxp.com,
+	shashank.rebbapragada@nxp.com,
+	Aman Kumar Pandey <aman.kumarpandey@nxp.com>
+Subject: Re: [PATCH v4 5/5] i3c: hub: p3h2x4x: Add support for NXP P3H2x4x
+ I3C hub functionality
+Message-ID: <202601150056.yaKfBjXc-lkp@intel.com>
+References: <20260113114529.1692213-5-aman.kumarpandey@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113114529.1692213-5-aman.kumarpandey@nxp.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   32c7c0a13e486b127821c1d74f7dbd3ff78ce493
-commit: c198157ae1585495908a23e7adf578c571e78323 [2/2] fbdev: hyperv_fb: iounmap() the correct memory when removing a device
-config: x86_64-randconfig-r131-20260114 (https://download.01.org/0day-ci/archive/20260115/202601150020.WKLVytsu-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150020.WKLVytsu-lkp@intel.com/reproduce)
+Hi Aman,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on i3c/i3c/next]
+[also build test ERROR on lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes broonie-regulator/for-next linus/master v6.19-rc5 next-20260114]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Aman-Kumar-Pandey/dt-bindings-i3c-Add-NXP-P3H2x4x-i3c-hub-support/20260113-195318
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux.git i3c/next
+patch link:    https://lore.kernel.org/r/20260113114529.1692213-5-aman.kumarpandey%40nxp.com
+patch subject: [PATCH v4 5/5] i3c: hub: p3h2x4x: Add support for NXP P3H2x4x I3C hub functionality
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260115/202601150056.yaKfBjXc-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150056.yaKfBjXc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601150020.WKLVytsu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150056.yaKfBjXc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/video/fbdev/hyperv_fb.c:1026:43: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got unsigned char *mmio_vp @@
-   drivers/video/fbdev/hyperv_fb.c:1026:43: sparse:     expected char [noderef] __iomem *screen_base
-   drivers/video/fbdev/hyperv_fb.c:1026:43: sparse:     got unsigned char *mmio_vp
-   drivers/video/fbdev/hyperv_fb.c:1069:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/video/fbdev/hyperv_fb.c:1073:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got unsigned char *dio_vp @@
-   drivers/video/fbdev/hyperv_fb.c:1073:27: sparse:     expected char [noderef] __iomem *screen_base
-   drivers/video/fbdev/hyperv_fb.c:1073:27: sparse:     got unsigned char *dio_vp
->> drivers/video/fbdev/hyperv_fb.c:1109:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned char *mmio_vp @@
-   drivers/video/fbdev/hyperv_fb.c:1109:28: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/video/fbdev/hyperv_fb.c:1109:28: sparse:     got unsigned char *mmio_vp
+All errors (new ones prefixed by >>):
 
-vim +1109 drivers/video/fbdev/hyperv_fb.c
+>> drivers/i3c/hub/p3h2840_i3c_hub_common.c:51:11: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      51 |         pullup = P3H2x4x_TP0145_PULLUP_CONF(p3h2x4x_pullup_dt_to_reg
+         |                  ^
+   drivers/i3c/hub/p3h2840_i3c_hub.h:64:3: note: expanded from macro 'P3H2x4x_TP0145_PULLUP_CONF'
+      64 |                 FIELD_PREP(P3H2x4x_TP0145_PULLUP_CONF_MASK, x)
+         |                 ^
+   drivers/i3c/hub/p3h2840_i3c_hub_common.c:80:16: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      80 |         io_strength = P3H2x4x_CP0_IO_STRENGTH(p3h2x4x_io_strength_dt_to_reg
+         |                       ^
+   drivers/i3c/hub/p3h2840_i3c_hub.h:51:3: note: expanded from macro 'P3H2x4x_CP0_IO_STRENGTH'
+      51 |                 FIELD_PREP(P3H2x4x_CP0_IO_STRENGTH_MASK, x)
+         |                 ^
+   2 errors generated.
 
-  1101	
-  1102	/* Release the framebuffer */
-  1103	static void hvfb_putmem(struct hv_device *hdev, struct fb_info *info)
-  1104	{
-  1105		struct hvfb_par *par = info->par;
-  1106	
-  1107		if (par->need_docopy) {
-  1108			vfree(par->dio_vp);
-> 1109			iounmap(par->mmio_vp);
-  1110			vmbus_free_mmio(par->mem->start, screen_fb_size);
-  1111		} else {
-  1112			hvfb_release_phymem(hdev, info->fix.smem_start,
-  1113					    screen_fb_size);
-  1114		}
-  1115	
-  1116		par->mem = NULL;
-  1117	}
-  1118	
+
+vim +/FIELD_PREP +51 drivers/i3c/hub/p3h2840_i3c_hub_common.c
+
+    45	
+    46	static int p3h2x4x_configure_pullup(struct device *dev)
+    47	{
+    48		struct p3h2x4x_i3c_hub_dev *p3h2x4x_i3c_hub = dev_get_drvdata(dev);
+    49		u8 pullup;
+    50	
+  > 51		pullup = P3H2x4x_TP0145_PULLUP_CONF(p3h2x4x_pullup_dt_to_reg
+    52							(p3h2x4x_i3c_hub->hub_config.tp0145_pullup));
+    53	
+    54		pullup |= P3H2x4x_TP2367_PULLUP_CONF(p3h2x4x_pullup_dt_to_reg
+    55							(p3h2x4x_i3c_hub->hub_config.tp2367_pullup));
+    56	
+    57		return regmap_update_bits(p3h2x4x_i3c_hub->regmap, P3H2x4x_LDO_AND_PULLUP_CONF,
+    58								  P3H2x4x_PULLUP_CONF_MASK, pullup);
+    59	}
+    60	
 
 -- 
 0-DAY CI Kernel Test Service
