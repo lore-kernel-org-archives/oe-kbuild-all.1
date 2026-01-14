@@ -1,113 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4313136C0A1;
-	Wed, 14 Jan 2026 06:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95A0F36921F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 06:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768371521; cv=none; b=SIbEX7sUm1Sn+ocVjow8ckX9MxB3bcn8aSmspm8X3vqKhdRnyLztqefi3eJgArnqCkR0e4ZSaWEMRBgEdNldyWt54CDfPr8Mb1B1+tQ5TzLW7jPct3YjGGdGzReyPTrL4zvjIBrTwk6yzFz0+6W1yoaI+NUjgtO5RQ5OlBtBlok=
+	t=1768371561; cv=none; b=RUJIto22otTivEIg8J4/EnOrphH6hPhgXU5YqP5LxXcMlfHJj1Apoji7W7kta+8pbCb480a8hUcGpJAyI8/35yyjnGnMS+VeHGkbCE3a+AXMIEYNE2MObpIuBQBTXCwnOMSwlD5wrtvHlZju9KLaKufK0ybikQeDTNjntKRt8vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768371521; c=relaxed/simple;
-	bh=nxSzcvzzHWdNAdgrMcbrS7ggZ6h97hhB6Q4JayxrBCU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ekjetZI+SZcSwhhGbkezrQ++2gMG7I86q55naN/Tj46vI/yt+VNh/X+ylZBcICiL/AWZpmFXOfdtKys6K+icoRGeywa98OxQHbLBsTL+4AHOKDBhClTMSiKiZ9rcKkssjdtzXqp4kYgKtirbt4VOFdzO7T/AR8B5vxQO5D8Qncc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bDn2zxZw; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bDn2zxZw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768371506; x=1799907506;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nxSzcvzzHWdNAdgrMcbrS7ggZ6h97hhB6Q4JayxrBCU=;
-  b=bDn2zxZwmrzPIz2KcDJcAczs5tNooIOGS1pdYGpFx2IVOwRnHEJCqyHy
-   P1aKDqdwuAIz8QMYYeH+TfCJOmsmVPd0o2anRTwsEzfMVT80RY2oJQLiZ
-   5CtwazugQqtAPQrloU0cR4XE4JGs1AqdW0/PftYHRs2uWrhjPXwR47lxp
-   sC4xYSNddLhPpDeIU2hrtHATdAvdreuqmwjEWaJOBsSl67yuInvOqz10R
-   OeQx/7Uvr0poL7v+zoDGs0Du+zNCT2zF4g2UjvMkBM7JUqiOuYyGfYQbV
-   3XNYKI5I8smN7HpLzQ7Nc3DK6sZvlCfPsd1dnIaoaj0w5OyL5oRnBzoUA
-   g==;
-X-CSE-ConnectionGUID: smf5gld6QseHSlOuvV7FMw==
-X-CSE-MsgGUID: LxMTLRVBRW2FDhk4gHv4Fg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69717667"
-X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69717667"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 22:18:20 -0800
-X-CSE-ConnectionGUID: o25ooGa8RS+SpnjyHfhupg==
-X-CSE-MsgGUID: vvV9pNS8S/ylru/27TlyKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="204224659"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 13 Jan 2026 22:18:16 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfuCs-00000000Fum-0xFe;
-	Wed, 14 Jan 2026 06:18:14 +0000
-Date: Wed, 14 Jan 2026 14:17:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yu-Chun Lin <eleanor.lin@realtek.com>, mturquette@baylibre.com,
-	sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, p.zabel@pengutronix.de, cylee12@realtek.com,
-	jyanchou@realtek.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, james.tai@realtek.com,
-	cy.huang@realtek.com, stanley_chang@realtek.com,
-	eleanor.lin@realtek.com
-Subject: Re: [PATCH v2 5/9] clk: realtek: Add support for gate clock
-Message-ID: <202601141328.Q3kIKTpo-lkp@intel.com>
-References: <20260113112333.821-6-eleanor.lin@realtek.com>
+	s=arc-20240116; t=1768371561; c=relaxed/simple;
+	bh=GiT36aDrXhRnQSF0R052K+a8lgv9jLl4XPf3kpNrUh4=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=CyLoQJ61CeLbBe0DX5w1T7gmtxF0JukotFe9eMHcip4QADrkG++wVzoh7L2modnU/kisZKrsHQhm/28AXksggcFj9oagApXG0rsDrkQG8IZ9z9seuMNhnBqsgSuMsf18sWbtTGtybTR64hTLxhjzesRlXFESzFWL9niU90V1iYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id 3824192009D; Wed, 14 Jan 2026 07:19:02 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id 361CE92009C;
+	Wed, 14 Jan 2026 06:19:02 +0000 (GMT)
+Date: Wed, 14 Jan 2026 06:19:02 +0000 (GMT)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: David Laight <david.laight.linux@gmail.com>
+cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+    Linux Memory Management List <linux-mm@kvack.org>, 
+    Nicolas Pitre <npitre@baylibre.com>, linux-mips@vger.kernel.org, 
+    Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: Re: mips64-linux-ld: div64.c:undefined reference to `__multi3'
+In-Reply-To: <20260113200455.3dffe121@pumpkin>
+Message-ID: <alpine.DEB.2.21.2601140453090.6421@angie.orcam.me.uk>
+References: <202601140146.hMLODc6v-lkp@intel.com> <20260113200455.3dffe121@pumpkin>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113112333.821-6-eleanor.lin@realtek.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Yu-Chun,
+On Tue, 13 Jan 2026, David Laight wrote:
 
-kernel test robot noticed the following build errors:
+> > All errors (new ones prefixed by >>):
+> > 
+> >    mips64-linux-ld: lib/math/div64.o: in function `mul_u64_add_u64_div_u64':
+> >    div64.c:(.text+0x84): undefined reference to `__multi3'
+> > >> mips64-linux-ld: div64.c:(.text+0x11c): undefined reference to `__multi3'  
+> > 
+> 
+> This looks like a bug in the mips 'port'.
+> arch/mips/lib/multi3.c has the comment:
+> 
+> /*
+>  * GCC 7 & older can suboptimally generate __multi3 calls for mips64r6, so for
+>  * that specific case only we implement that intrinsic here.
+>  *
+>  * See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=82981
+>  */
+> #if defined(CONFIG_64BIT) && defined(CONFIG_CPU_MIPSR6) && (__GNUC__ < 8)
+> 
+> So this code is excluded for gcc 8.5 but the compiler is generating the call.
+> 
+> Looking at the git log for that file there is a comment that includes:
+> 	"we wouldn't expect any calls to __multi3 to be generated from
+> 	 kernel code".
+> Not true....
+> Not sure why the link didn't fail before though, something subtle must
+> have changed.
+> 
+> I think the fix is just to remove the gcc version check.
 
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on linus/master v6.19-rc5 next-20260113]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+ Or rather fix the version check.  The GCC fix went in with GCC 10:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Chun-Lin/dt-bindings-clock-Add-Realtek-RTD1625-Clock-Reset-Controller/20260113-192709
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20260113112333.821-6-eleanor.lin%40realtek.com
-patch subject: [PATCH v2 5/9] clk: realtek: Add support for gate clock
-config: arm64-randconfig-002-20260114 (https://download.01.org/0day-ci/archive/20260114/202601141328.Q3kIKTpo-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141328.Q3kIKTpo-lkp@intel.com/reproduce)
+$ git log -1 --pretty=oneline 48b2123f6336
+48b2123f6336ba6c06846d7c8b60bd14eaeae7ec re PR target/82981 (unnecessary __multi3 call for mips64r6 linux kernel)
+$ git show 48b2123f6336:gcc/BASE-VER
+10.0.0
+$ 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601141328.Q3kIKTpo-lkp@intel.com/
+I don't know why the PR got it all wrong; I've fixed it now.
 
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: duplicate symbol: clk_regmap_gate_ops
-   >>> defined at clk-regmap.c
-   >>>            drivers/clk/meson/clk-regmap.o:(clk_regmap_gate_ops) in archive vmlinux.a
-   >>> defined at clk-regmap-gate.c
-   >>>            drivers/clk/realtek/clk-regmap-gate.o:(.rodata+0x0) in archive vmlinux.a
---
->> ld.lld: error: duplicate symbol: clk_regmap_gate_ro_ops
-   >>> defined at clk-regmap.c
-   >>>            drivers/clk/meson/clk-regmap.o:(clk_regmap_gate_ro_ops) in archive vmlinux.a
-   >>> defined at clk-regmap-gate.c
-   >>>            drivers/clk/realtek/clk-regmap-gate.o:(.rodata+0xc8) in archive vmlinux.a
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  Maciej
