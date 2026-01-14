@@ -1,130 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4927637F737;
-	Wed, 14 Jan 2026 08:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A377537FF64
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 08:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768380633; cv=none; b=bvHd+W11FMuC8HcG7SqOMN0A/Sxpx0zyAuIEaW9Ps6nJO3wTK+7YjvKEFUkEWwvt0fmaLYqHGBwGvQaPRcejFB1oLnZzwsfcLTppAH6jear+yxUYcDZ2IIORnhnMpEf+JTK1eg5MP563XadZH0vuP9CeZcqdpbN8Kjgs/Xgti/g=
+	t=1768380706; cv=none; b=mq7fDJ+0szoVj0PcnqrJzQh0H0ajjDW8/ArAOUEldchFW9VXawD6rjTAewtEoEAPWbJKvg+rLUDvJuPWmN4RSirEuUFO0IX/CsSgSnlzlKsGH2HNXR4/7Kr4cw4l4KNvqEySyaJBVI9zrznhsotY8k0zZLYxI7657cciw5jSCns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768380633; c=relaxed/simple;
-	bh=9WrC7PoW1tnMSWaGp+a6OzL1P5H5ocgF70PzqOotMyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ywtp+IhFZqkXaNgNGzlGqXwmQmztFIQoLvf7e3/Sr4lHwtE9VqAtTvSRuSZyjpiSBxn5uFSYWfpE2b7iJESM1vjYISYM5sBAFQkqpi3Pa8zXmVs2WXhLaMOC02vQADKGW6eRpvDpn+L18D97UkuoVfntpVhRflBnlMFZ1dWjCwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TpmtMO+q; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768380706; c=relaxed/simple;
+	bh=MiqYC275tot1mJjDwI+973ULDxCYSEGTOa4QrdA/6PE=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=UNRB0fTfLaPx95bGYfTv8uHkt6NIXfgqxn83BWyzGUDOGE7O4PpT8Q6yQw1Ola3jimSasJk6rkI9SIz3u3y7DnNGhi8TPWqMTVzwJhtEdMXp8EHIUOkPelMZx7ZdE7qtpqlPtLYVTwIxBV5uLUm3z6fjapPQw/dyx1bDlZUpV+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMd6V+mR; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TpmtMO+q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMd6V+mR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768380630; x=1799916630;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9WrC7PoW1tnMSWaGp+a6OzL1P5H5ocgF70PzqOotMyc=;
-  b=TpmtMO+qG5wVCVhdUL98HY+a+e8ntoif8/oWzDV/uSdsjZe0sOvE/PKT
-   PMvFTHtyeqHEt1Rx34l8b02rD6Gj0vUArVSXp1DWKIqiHZzhP3RWtLr1V
-   EegI4yQS/9oXMvl8vCknFg18ZY3lw7awqExCytiLgfy5Ng9KT71JV+SU7
-   vkX1lLpfzsL838FYFmaLNJp6yi8to4Kvv4TNlBc45jBbethmFk2D0Pe8K
-   Y4An/HyRltVTQeyRztmFstWfQD7JjvDMfKyAh2SGBZiciDDVuJ8H/0IpR
-   q/h2Jrqx6HyjGYhdaULWSS/tNGjn7IELHVOu+ZIgTr+EgtQE9QDu8ezle
+  t=1768380703; x=1799916703;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=MiqYC275tot1mJjDwI+973ULDxCYSEGTOa4QrdA/6PE=;
+  b=UMd6V+mRVwSBkJ9SJtMOl2h6kH+IQjzoC4fiveYyTFSVtWACG4n7PplN
+   rGlspW7cP9kavPMamOvM4cZCfHzcB9mcQiZjmKZ2Il9ltntIVKIzRSuUd
+   e5ggckSk/fn2B6CsVjN35H+FmN/rKZDoc0pvGoqXJwmCsNk8d7baxYrCd
+   QoiUM91ozeqpkvj+JX7IW1YRGY1RGxDuDwMl2sArVJ/OyJlkMlXDKD5tZ
+   Wnryivl5PGku2YoeF5kvEXlx7PzShIInnriL0rsWwY4KWsKmqiBQWoPv6
+   1g96COnPgWnTKZDn9iTSzT9YVwHiN23gBBV2C6EDMIG2ROn+NRyCspnEf
    Q==;
-X-CSE-ConnectionGUID: KSQRpBqPSke/XVGLYQmrRg==
-X-CSE-MsgGUID: UVEW1CMfQ4uf1GB+gU4xuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="69583990"
+X-CSE-ConnectionGUID: bMQKbzJoTBCnA9BUCEB59Q==
+X-CSE-MsgGUID: aq2Wey53T9OaY/dXubFLSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="95150932"
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69583990"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 00:50:28 -0800
-X-CSE-ConnectionGUID: 51X8b6BBSdGy+ZLZ30sGMQ==
-X-CSE-MsgGUID: 377IeQY0TY2w52nrrvyDBw==
+   d="scan'208";a="95150932"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 00:51:41 -0800
+X-CSE-ConnectionGUID: KVGGSkB3T/miD90YUnm7ug==
+X-CSE-MsgGUID: fAOryuHjQP6n1QXzQlFpTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="204514346"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Jan 2026 00:50:27 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfwa8-00000000G6C-3x4A;
-	Wed, 14 Jan 2026 08:50:24 +0000
-Date: Wed, 14 Jan 2026 16:49:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Allen Pais <allen.lkml@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/1] dmaengine: introduce dmaengine_bh_wq and bh
- helpers
-Message-ID: <202601141622.CAk5SXFi-lkp@intel.com>
-References: <20260108080332.2341725-2-allen.lkml@gmail.com>
+   d="scan'208";a="209466097"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.107])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 00:51:37 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 14 Jan 2026 10:51:34 +0200 (EET)
+To: kernel test robot <lkp@intel.com>
+cc: Rong Zhang <i@rong.moe>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    "Derek J. Clark" <derekjohn.clark@gmail.com>, Armin Wolf <W_Armin@gmx.de>, 
+    Hans de Goede <hansg@kernel.org>, oe-kbuild-all@lists.linux.dev, 
+    Guenter Roeck <linux@roeck-us.net>, platform-driver-x86@vger.kernel.org, 
+    LKML <linux-kernel@vger.kernel.org>, linux-hwmon@vger.kernel.org
+Subject: Re: [PATCH v8 3/7] platform/x86: lenovo-wmi-{capdata,other}: Support
+ multiple Capability Data
+In-Reply-To: <202601140833.WJ1oZKuV-lkp@intel.com>
+Message-ID: <55186ed3-bf74-6c34-1350-51046306083a@linux.intel.com>
+References: <20260113172817.393856-4-i@rong.moe> <202601140833.WJ1oZKuV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260108080332.2341725-2-allen.lkml@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Allen,
+On Wed, 14 Jan 2026, kernel test robot wrote:
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+> Hi Rong,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on b71e635feefc852405b14620a7fc58c4c80c0f73]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Rong-Zhang/platform-x86-lenovo-wmi-helpers-Convert-returned-buffer-into-u32/20260114-013537
+> base:   b71e635feefc852405b14620a7fc58c4c80c0f73
+> patch link:    https://lore.kernel.org/r/20260113172817.393856-4-i%40rong.moe
+> patch subject: [PATCH v8 3/7] platform/x86: lenovo-wmi-{capdata,other}: Support multiple Capability Data
+> config: x86_64-buildonly-randconfig-002-20260114 (https://download.01.org/0day-ci/archive/20260114/202601140833.WJ1oZKuV-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140833.WJ1oZKuV-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601140833.WJ1oZKuV-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> Warning: drivers/platform/x86/lenovo/wmi-capdata.c:168 function parameter '_cdxx' not described in 'DEF_LWMI_CDXX_GET_DATA'
+> >> Warning: drivers/platform/x86/lenovo/wmi-capdata.c:168 function parameter '_cd_type' not described in 'DEF_LWMI_CDXX_GET_DATA'
+> >> Warning: drivers/platform/x86/lenovo/wmi-capdata.c:168 function parameter '_output_t' not described in 'DEF_LWMI_CDXX_GET_DATA'
+> >> Warning: drivers/platform/x86/lenovo/wmi-capdata.c:168 expecting prototype for _get_data(). Prototype was for DEF_LWMI_CDXX_GET_DATA() instead
 
-[auto build test ERROR on vkoul-dmaengine/next]
-[also build test ERROR on shawnguo/for-next sunxi/sunxi/for-next soc/for-next linus/master v6.19-rc5 next-20260114]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Allen-Pais/dmaengine-introduce-dmaengine_bh_wq-and-bh-helpers/20260108-164201
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20260108080332.2341725-2-allen.lkml%40gmail.com
-patch subject: [RFC PATCH 1/1] dmaengine: introduce dmaengine_bh_wq and bh helpers
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260114/202601141622.CAk5SXFi-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601141622.CAk5SXFi-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601141622.CAk5SXFi-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/dma/hsu/hsu.c:22:
-   In file included from include/linux/dmaengine.h:12:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/dma/hsu/hsu.c:503:29: error: no member named 'task' in 'struct virt_dma_chan'
-     503 |                 tasklet_kill(&hsuc->vchan.task);
-         |                               ~~~~~~~~~~~ ^
-   1 warning and 1 error generated.
-
-
-vim +503 drivers/dma/hsu/hsu.c
-
-2b49e0c56741fc Andy Shevchenko 2015-02-23  492  
-2b49e0c56741fc Andy Shevchenko 2015-02-23  493  int hsu_dma_remove(struct hsu_dma_chip *chip)
-2b49e0c56741fc Andy Shevchenko 2015-02-23  494  {
-2b49e0c56741fc Andy Shevchenko 2015-02-23  495  	struct hsu_dma *hsu = chip->hsu;
-2b49e0c56741fc Andy Shevchenko 2015-02-23  496  	unsigned short i;
-2b49e0c56741fc Andy Shevchenko 2015-02-23  497  
-2b49e0c56741fc Andy Shevchenko 2015-02-23  498  	dma_async_device_unregister(&hsu->dma);
-2b49e0c56741fc Andy Shevchenko 2015-02-23  499  
-4c97ad993d7639 Heikki Krogerus 2015-10-13  500  	for (i = 0; i < hsu->nr_channels; i++) {
-2b49e0c56741fc Andy Shevchenko 2015-02-23  501  		struct hsu_dma_chan *hsuc = &hsu->chan[i];
-2b49e0c56741fc Andy Shevchenko 2015-02-23  502  
-2b49e0c56741fc Andy Shevchenko 2015-02-23 @503  		tasklet_kill(&hsuc->vchan.task);
-2b49e0c56741fc Andy Shevchenko 2015-02-23  504  	}
-2b49e0c56741fc Andy Shevchenko 2015-02-23  505  
-2b49e0c56741fc Andy Shevchenko 2015-02-23  506  	return 0;
-2b49e0c56741fc Andy Shevchenko 2015-02-23  507  }
-2b49e0c56741fc Andy Shevchenko 2015-02-23  508  EXPORT_SYMBOL_GPL(hsu_dma_remove);
-2b49e0c56741fc Andy Shevchenko 2015-02-23  509  
+These are quite annoying. Could you make it non-kerneldoc by removing the 
+second * from /**, so it won't trigger these warnings?
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ i.
+
