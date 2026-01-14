@@ -1,182 +1,176 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8947C314B73;
-	Wed, 14 Jan 2026 19:40:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654D033769C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 19:40:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768419623; cv=none; b=AmT467YfWL5SSsykTfrkV2GBtyC5ya+GODE+bWWe5lAyqEl1D/vmXELmbd+1th6MrlrL1eUeNYRW5PzIOTAMN6Hk9adbA3DlI5DvfHaNPtGTUFDXvFpEO+4m1L8mHiWe6xMRlc79mbiDRbpCSaBtIxyXsu3z+PynssJfzvKRGTw=
+	t=1768419625; cv=none; b=A8RQOHPnNXqNqcd9s8eZUWnrJ91meDgpO5YR7NbI5L9iWtwZlVdZk32HM3pMXHQFjPEJXhH3HzrD5NkSUAwxIe5jE7mgXdSrLVxpOokxKGzMBZ8t5twA7FZLp7N7GRnZPz1+EH4fwdAQPA2Sc8eLGmCF5RhHlKaBUU0aMeCKII0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768419623; c=relaxed/simple;
-	bh=UQoSRSUJq1fJdRS4oTVdfqsPc/Q3oltC4Vc6RTrMgtk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=St7vFwU2p57ZFrsJrb7oMwOBXtbwwa6Rpx3WgOJLI15Tah7OOG8VpZJcxh09vSvkMExozKyInQUaheDz5OXZBRizZTCbOvJODXJGfjHzAfADF+xfpCphaagJIz7Nf0tzGSBfb5NZMjdszRZHPZaOcnIVDOo8BZApJQDQzWOAbcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TRXEF3GG; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1768419625; c=relaxed/simple;
+	bh=yxJ1yuBoC2AtK5ufCDSR1KJOWKcLvyq8eTR2PZlXqSc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CEtksYGKSd7bjark4mzHRvQqD5/l3TxVGXvHRJJzLNbD0TH2f+JQrkUO2dzVBMJ1T/7OWKThye8JnB0ML58zi41pFDfBifvV7puaPcbWE/CGhNk1D0qq5xBE0qBJ9JcC7lUvyl6soPyeZkQzrLOyVL0t1/Xoi6pVmvqEI0tbJO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IvJG1G9z; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TRXEF3GG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvJG1G9z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768419621; x=1799955621;
-  h=date:from:to:cc:subject:message-id;
-  bh=UQoSRSUJq1fJdRS4oTVdfqsPc/Q3oltC4Vc6RTrMgtk=;
-  b=TRXEF3GGE+oso/Ppj5cUMnSO0mc0FQ5vcHYMUM9Ja4BXh5ttrGcXNgf3
-   NdN+6VAkMY/gQTCIk36fuMwosef+C8Wy6bVqMhuuBRRx5pHAc95hTIAjF
-   yBEqRVophgjjJVmR2WkRwg23xJoAJ2sJCjgmfVTioDZDMCiZBasuykKHE
-   Io3ZGdxgkcYRFyiGxe3/WjNEmCxPtZ+UN61Zq9PjS/3ZIfHnniYSSN0JD
-   YiswfnYrwnPUs5cv+D1vfl0A0cy1f/+vnzvzL5/HNZvbgwb46PvdlU+VQ
-   yAVUVofFjm3B200RlSwfiyD64gSA2kpYeop9cgfPpkfBqF/nxsxiOqVuo
+  t=1768419624; x=1799955624;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yxJ1yuBoC2AtK5ufCDSR1KJOWKcLvyq8eTR2PZlXqSc=;
+  b=IvJG1G9z41abyosq1lhoXFUzm5XLUxLdPoo0TB11u6Jf9XTyOthR7Xo1
+   y0Kii1NiVa7VpDGY1n8+sBvPwvc8TJz1hijJYDHnpCvf/6jGAGYu9tvAr
+   GEQLUq3p3WeH6x06xQeEui/EkARfGk9cmilE2NU2tkUs8YJarJYtN9zPu
+   Lj+fAfheGj/tHzF6cW9kx/wfPn2ODpzzM00zxEe+Hp94ugvbYcEN6hGLz
+   jYQkcTlYis7rwb5BtquIvPt3szMnxqNy8GG17QCOV1KW2h8aNJOrKNvt2
+   s0MjPE1VEmQG9G7U5rOHywC1BEp1zQtSKYNjRAtKvYe64B6lQ+BIDOZ9r
    g==;
-X-CSE-ConnectionGUID: EK8+DMepS96S/6mq4iquMQ==
-X-CSE-MsgGUID: 5m5yFcj9SwWRLxnqToTWeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69812141"
+X-CSE-ConnectionGUID: 6V0OjQIJRM2r6EPy6JkU4A==
+X-CSE-MsgGUID: oSeRqs0rQbaKlsknELQKZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69812171"
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="69812141"
+   d="scan'208";a="69812171"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 11:40:20 -0800
-X-CSE-ConnectionGUID: XtuY3qDQRLqVn9Js/QufBw==
-X-CSE-MsgGUID: Dxsv3r6uS4qDbiHs2XEYBg==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 11:40:24 -0800
+X-CSE-ConnectionGUID: 0gNFD7mhTwmJDzX5k4RTRg==
+X-CSE-MsgGUID: ep3If0rfTJGULNiOAdv5xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="204550715"
+   d="scan'208";a="204550709"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 14 Jan 2026 11:40:17 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vg6j0-00000000GvS-28nN;
+	id 1vg6j0-00000000GvQ-23re;
 	Wed, 14 Jan 2026 19:40:14 +0000
-Date: Thu, 15 Jan 2026 03:39:52 +0800
+Date: Thu, 15 Jan 2026 03:39:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chengchang Tang <tangchengchang@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Doug Ledford <dledford@redhat.com>,
- Jason Gunthorpe <jgg+lists@ziepe.ca>, linux-rdma@vger.kernel.org,
- Leon Romanovsky <leon@kernel.org>,
- Junxian Huang <huangjunxian6@hisilicon.com>
-Subject: [rdma:wip/leon-for-next 30/32]
- drivers/infiniband/hw/hns/hns_roce_hw_v2.c:964:6: warning: no previous
- prototype for function 'hns_roce_v2_drain_rq'
-Message-ID: <202601150334.jRDP5xSy-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: adubey@linux.ibm.com, bpf@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hbathini@linux.ibm.com,
+	sachinpb@linux.ibm.com, venkat88@linux.ibm.com, andrii@kernel.org,
+	eddyz87@gmail.com, mykolal@fb.com, ast@kernel.org,
+	daniel@iogearbox.net, martin.lau@linux.dev, song@kernel.org,
+	yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org, christophe.leroy@csgroup.eu, naveen@kernel.org,
+	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+	memxor@gmail.com, iii@linux.ibm.com, shuah@kernel.org,
+	Abhishek Dubey <adubey@linux.ibm.com>
+Subject: Re: [PATCH v2 3/6] powerpc64/bpf: Tailcall handling with trampolines
+Message-ID: <202601150350.ZftaCBVV-lkp@intel.com>
+References: <20260114114450.30405-4-adubey@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260114114450.30405-4-adubey@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git wip/leon-for-next
-head:   c6b61cad07189d4556a968a305056263b73025f4
-commit: cfa74ad31baad3027410b6e75c8e47092aef8d97 [30/32] RDMA/hns: Support drain SQ and RQ
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260115/202601150334.jRDP5xSy-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150334.jRDP5xSy-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes linus/master v6.19-rc5 next-20260114]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/adubey-linux-ibm-com/powerpc64-bpf-Move-tail_call_cnt-to-bottom-of-stack-frame/20260114-195044
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20260114114450.30405-4-adubey%40linux.ibm.com
+patch subject: [PATCH v2 3/6] powerpc64/bpf: Tailcall handling with trampolines
+config: powerpc-randconfig-002-20260114 (https://download.01.org/0day-ci/archive/20260115/202601150350.ZftaCBVV-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150350.ZftaCBVV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601150334.jRDP5xSy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150350.ZftaCBVV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:964:6: warning: no previous prototype for function 'hns_roce_v2_drain_rq' [-Wmissing-prototypes]
-   void hns_roce_v2_drain_rq(struct ib_qp *ibqp)
-        ^
-   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:964:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void hns_roce_v2_drain_rq(struct ib_qp *ibqp)
-   ^
-   static 
->> drivers/infiniband/hw/hns/hns_roce_hw_v2.c:1001:6: warning: no previous prototype for function 'hns_roce_v2_drain_sq' [-Wmissing-prototypes]
-   void hns_roce_v2_drain_sq(struct ib_qp *ibqp)
-        ^
-   drivers/infiniband/hw/hns/hns_roce_hw_v2.c:1001:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void hns_roce_v2_drain_sq(struct ib_qp *ibqp)
-   ^
-   static 
-   2 warnings generated.
+   arch/powerpc/net/bpf_jit_comp.c: In function 'bpf_trampoline_setup_tail_call_info':
+>> arch/powerpc/net/bpf_jit_comp.c:644:43: error: 'BPF_PPC_TAILCALL' undeclared (first use in this function); did you mean 'BPF_TAIL_CALL'?
+     644 |                 int tailcallinfo_offset = BPF_PPC_TAILCALL;
+         |                                           ^~~~~~~~~~~~~~~~
+         |                                           BPF_TAIL_CALL
+   arch/powerpc/net/bpf_jit_comp.c:644:43: note: each undeclared identifier is reported only once for each function it appears in
+   arch/powerpc/net/bpf_jit_comp.c: In function '__arch_prepare_bpf_trampoline':
+   arch/powerpc/net/bpf_jit_comp.c:850:41: error: 'BPF_PPC_TAILCALL' undeclared (first use in this function); did you mean 'BPF_TAIL_CALL'?
+     850 |                 bpf_frame_size += SZL + BPF_PPC_TAILCALL;
+         |                                         ^~~~~~~~~~~~~~~~
+         |                                         BPF_TAIL_CALL
 
 
-vim +/hns_roce_v2_drain_rq +964 drivers/infiniband/hw/hns/hns_roce_hw_v2.c
+vim +644 arch/powerpc/net/bpf_jit_comp.c
 
-   963	
- > 964	void hns_roce_v2_drain_rq(struct ib_qp *ibqp)
-   965	{
-   966		struct hns_roce_dev *hr_dev = to_hr_dev(ibqp->device);
-   967		struct ib_qp_attr attr = { .qp_state = IB_QPS_ERR };
-   968		struct hns_roce_qp *hr_qp = to_hr_qp(ibqp);
-   969		struct hns_roce_drain_cqe rdrain = {};
-   970		const struct ib_recv_wr *bad_rwr;
-   971		struct ib_cq *cq = ibqp->recv_cq;
-   972		struct ib_recv_wr rwr = {};
-   973		int ret;
-   974	
-   975		ret = ib_modify_qp(ibqp, &attr, IB_QP_STATE);
-   976		if (ret && hr_dev->state < HNS_ROCE_DEVICE_STATE_RST_DOWN) {
-   977			ibdev_err_ratelimited(&hr_dev->ib_dev,
-   978					      "failed to modify qp during drain rq, ret = %d.\n",
-   979					      ret);
-   980			return;
-   981		}
-   982	
-   983		rwr.wr_cqe = &rdrain.cqe;
-   984		rdrain.cqe.done = hns_roce_drain_qp_done;
-   985		init_completion(&rdrain.done);
-   986	
-   987		if (hr_dev->state >= HNS_ROCE_DEVICE_STATE_RST_DOWN)
-   988			ret = hns_roce_push_drain_wr(&hr_qp->rq, cq, rwr.wr_id);
-   989		else
-   990			ret = hns_roce_v2_post_recv(ibqp, &rwr, &bad_rwr);
-   991		if (ret) {
-   992			ibdev_err_ratelimited(&hr_dev->ib_dev,
-   993					      "failed to post recv for drain rq, ret = %d.\n",
-   994					      ret);
-   995			return;
-   996		}
-   997	
-   998		handle_drain_completion(cq, &rdrain, hr_dev);
-   999	}
-  1000	
-> 1001	void hns_roce_v2_drain_sq(struct ib_qp *ibqp)
-  1002	{
-  1003		struct hns_roce_dev *hr_dev = to_hr_dev(ibqp->device);
-  1004		struct ib_qp_attr attr = { .qp_state = IB_QPS_ERR };
-  1005		struct hns_roce_qp *hr_qp = to_hr_qp(ibqp);
-  1006		struct hns_roce_drain_cqe sdrain = {};
-  1007		const struct ib_send_wr *bad_swr;
-  1008		struct ib_cq *cq = ibqp->send_cq;
-  1009		struct ib_rdma_wr swr = {
-  1010			.wr = {
-  1011				.next = NULL,
-  1012				{ .wr_cqe	= &sdrain.cqe, },
-  1013				.opcode	= IB_WR_RDMA_WRITE,
-  1014			},
-  1015		};
-  1016		int ret;
-  1017	
-  1018		ret = ib_modify_qp(ibqp, &attr, IB_QP_STATE);
-  1019		if (ret && hr_dev->state < HNS_ROCE_DEVICE_STATE_RST_DOWN) {
-  1020			ibdev_err_ratelimited(&hr_dev->ib_dev,
-  1021					      "failed to modify qp during drain sq, ret = %d.\n",
-  1022					      ret);
-  1023			return;
-  1024		}
-  1025	
-  1026		sdrain.cqe.done = hns_roce_drain_qp_done;
-  1027		init_completion(&sdrain.done);
-  1028	
-  1029		if (hr_dev->state >= HNS_ROCE_DEVICE_STATE_RST_DOWN)
-  1030			ret = hns_roce_push_drain_wr(&hr_qp->sq, cq, swr.wr.wr_id);
-  1031		else
-  1032			ret = hns_roce_v2_post_send(ibqp, &swr.wr, &bad_swr);
-  1033		if (ret) {
-  1034			ibdev_err_ratelimited(&hr_dev->ib_dev,
-  1035					      "failed to post send for drain sq, ret = %d.\n",
-  1036					      ret);
-  1037			return;
-  1038		}
-  1039	
-  1040		handle_drain_completion(cq, &sdrain, hr_dev);
-  1041	}
-  1042	
+   625	
+   626	/*
+   627	 * Refer the label 'Generated stack layout' in this file for actual stack
+   628	 * layout during trampoline invocation.
+   629	 *
+   630	 * Refer __arch_prepare_bpf_trampoline() for stack component details.
+   631	 *
+   632	 * The tailcall count/reference is present in caller's stack frame. Its required
+   633	 * to copy the content of tail_call_info before calling the actual function
+   634	 * to which the trampoline is attached.
+   635	 *
+   636	 */
+   637	
+   638	static void bpf_trampoline_setup_tail_call_info(u32 *image, struct codegen_context *ctx,
+   639						       int func_frame_offset,
+   640						       int bpf_dummy_frame_size, int r4_off)
+   641	{
+   642		if (IS_ENABLED(CONFIG_PPC64)) {
+   643			/* See bpf_jit_stack_tailcallinfo_offset() */
+ > 644			int tailcallinfo_offset = BPF_PPC_TAILCALL;
+   645			/*
+   646			 * func_frame_offset =                                   ...(1)
+   647			 *     bpf_dummy_frame_size + trampoline_frame_size
+   648			 */
+   649			EMIT(PPC_RAW_LD(_R4, _R1, func_frame_offset));
+   650			EMIT(PPC_RAW_LD(_R3, _R4, -tailcallinfo_offset));
+   651	
+   652			/*
+   653			 * Setting the tail_call_info in trampoline's frame
+   654			 * depending on if previous frame had value or reference.
+   655			 */
+   656			EMIT(PPC_RAW_CMPLWI(_R3, MAX_TAIL_CALL_CNT));
+   657			PPC_COND_BRANCH(COND_GT, CTX_NIA(ctx) + 8);
+   658			EMIT(PPC_RAW_ADDI(_R3, _R4, bpf_jit_stack_tailcallinfo_offset(ctx)));
+   659			/*
+   660			 * From ...(1) above:
+   661			 * trampoline_frame_bottom =                            ...(2)
+   662			 *     func_frame_offset - bpf_dummy_frame_size
+   663			 *
+   664			 * Using ...(2) derived above:
+   665			 *  trampoline_tail_call_info_offset =                  ...(3)
+   666			 *      trampoline_frame_bottom - tailcallinfo_offset
+   667			 *
+   668			 * From ...(3):
+   669			 * Use trampoline_tail_call_info_offset to write reference of main's
+   670			 * tail_call_info in trampoline frame.
+   671			 */
+   672			EMIT(PPC_RAW_STL(_R3, _R1, (func_frame_offset - bpf_dummy_frame_size)
+   673						- tailcallinfo_offset));
+   674	
+   675		} else {
+   676			/* See bpf_jit_stack_offsetof() and BPF_PPC_TC */
+   677			EMIT(PPC_RAW_LL(_R4, _R1, r4_off));
+   678		}
+   679	}
+   680	
 
 -- 
 0-DAY CI Kernel Test Service
