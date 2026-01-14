@@ -1,111 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D2939E6FD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 15:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2AEC2D47F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 15:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768405204; cv=none; b=Xp+gqzaDEB2J4CE4aIUsa+7ocVdMors9V8jymex1WdU/dBiiQczELrYxQ59NGtet/uJHjfLZ+OkcTTSCZ3wQnPbc61e8p/drPVyGha5KJQzOPZyOCKRt8Cvb62hTxtxyIrzrwcb6YdbzVczpYh+S8ShMzE9pSYUVTv8BcsfHFgA=
+	t=1768405814; cv=none; b=Hhu75Nr0YZ+xvFUbCkIDiZrQqPScbK0UDkYPL96Lvaiw4Gyu7iqWYWUGjcCL5WRTtLWwjuuLjr62MTnVDrzqPe9ZbbCy1CQWaNozWBzBXDuelFeIaCrHTDqBocHjn6gNLFGh+L9z5j7w49hQ5hh0g4G6TFBTBe1sfOIg4Cg7FEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768405204; c=relaxed/simple;
-	bh=YtJUauv1Cw27xxlVauAE+YEqBi1wz01WVrhktnBdEBE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=auAoMT3/9gJ457P69Bu0I/wWRm/QMijJOZx8FmWRwu3eiw32jPUBo+3K3pDm2sFrpne+Cb1JwNdKTIUn+xWVzGsd3xEsDTnSELdvGOUQ6CdJykfES2lVqLDhBT4AV0lGFZtLHhrLcLUy0Z5ImAv7ma6QNYf51Rt8smY/D+k4H0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BArBFetF; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BArBFetF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768405201; x=1799941201;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YtJUauv1Cw27xxlVauAE+YEqBi1wz01WVrhktnBdEBE=;
-  b=BArBFetFyIgWqAStQbnNaoIC1DYZRyFZu31L9fcDWRVRKJJrEhbvUxzY
-   XmM90usQLGHpDNS/D4/YXRw6taOJdSgbt9hqXUI6l/xekQBI3BqEALbaY
-   S3qj2cET3cYjRKITqyYxlENfhnOEAxZAtdLN4JwJfRxwKZqQJUFP7m82c
-   NCfD29QVgu5nHq+JGOrtMsnejSmn/nzg3RbFILUDue95myKVjfCa7v47x
-   2TSj6NeakiIenpT76CBZ+Ex72Np8HM4SyxlQXBCKcI07U4ZzYlYC/O3EK
-   hZGGm8U65B/sJOQbFEAqB7J/heTe40j4ajElIjFVsye/hPLkDeW4PmQPx
-   Q==;
-X-CSE-ConnectionGUID: FrJxzLdDTe+lYAEVpkRgUA==
-X-CSE-MsgGUID: JdtqTs21RZGHxQmLsyjbbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69791869"
-X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69791869"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 07:39:59 -0800
-X-CSE-ConnectionGUID: VSPdVfSCRamKaF3FSy+c/A==
-X-CSE-MsgGUID: FUF3sQHyTnCm/05iHIZarA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="235965159"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Jan 2026 07:39:56 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vg2yP-00000000GYy-34PK;
-	Wed, 14 Jan 2026 15:39:53 +0000
-Date: Wed, 14 Jan 2026 23:39:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hariprasad Kelam <hkelam@marvell.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org, davem@davemloft.net,
-	sgoutham@marvell.com, gakula@marvell.com, jerinj@marvell.com,
-	lcherian@marvell.com, sbhatta@marvell.com, hkelam@marvell.com,
-	naveenm@marvell.com, edumazet@google.com, pabeni@redhat.com,
-	andrew+netdev@lunn.ch, bbhushan2@marvell.com
-Subject: Re: [net-next 2/2] Octeontx2-pf: Add support for DMAC_FILTER trap
-Message-ID: <202601142356.TWrRByBh-lkp@intel.com>
-References: <20260114065743.2162706-3-hkelam@marvell.com>
+	s=arc-20240116; t=1768405814; c=relaxed/simple;
+	bh=b98o8QvyMyqsI+6z/xVkO7RazIkosqV7Vue/bqsARyk=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=Rzd6dXNdJfSfP6/Ut+EbrNm4cutSRM81hYBw1/GQFnTPzp/4uj8xaUX61aEqrOF/B7wGhT+5sg0UWrhBLtMwg8dPgSvgMszE/pVsiQBnJ74ku+GYO67KESJwNaeZ9S7ws1qsJqAxCL096ZXgTeaiDK4x2yIrkuQN89xkVjg9e4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id 0168592009C; Wed, 14 Jan 2026 16:50:09 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id EE58392009B;
+	Wed, 14 Jan 2026 15:50:09 +0000 (GMT)
+Date: Wed, 14 Jan 2026 15:50:09 +0000 (GMT)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: David Laight <david.laight.linux@gmail.com>
+cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+    Linux Memory Management List <linux-mm@kvack.org>, 
+    Nicolas Pitre <npitre@baylibre.com>, linux-mips@vger.kernel.org, 
+    Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: Re: mips64-linux-ld: div64.c:undefined reference to `__multi3'
+In-Reply-To: <20260114103103.216aa122@pumpkin>
+Message-ID: <alpine.DEB.2.21.2601141530510.6421@angie.orcam.me.uk>
+References: <202601140146.hMLODc6v-lkp@intel.com> <20260113200455.3dffe121@pumpkin> <alpine.DEB.2.21.2601140453090.6421@angie.orcam.me.uk> <20260114103103.216aa122@pumpkin>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260114065743.2162706-3-hkelam@marvell.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Hariprasad,
+On Wed, 14 Jan 2026, David Laight wrote:
 
-kernel test robot noticed the following build warnings:
+> > > Looking at the git log for that file there is a comment that includes:
+> > > 	"we wouldn't expect any calls to __multi3 to be generated from
+> > > 	 kernel code".
+> > > Not true....
+> > > Not sure why the link didn't fail before though, something subtle must
+> > > have changed.
+> > > 
+> > > I think the fix is just to remove the gcc version check.  
+> > 
+> >  Or rather fix the version check.  The GCC fix went in with GCC 10:
+> 
+> Does that mean the GCC 10 generates the multiply instructions and never calls
+> __multi3?
+> (Rather than just not using __multi3() for that specific example.)
 
-[auto build test WARNING on net-next/main]
+ Of course it still does call `__multi3' for 128x128bit multiplication.  
+It doesn't for widening 64x64bit one though, which was a missed case for 
+MIPS64r6 only, having been supported by GCC ever since MIPS III ISA.  I 
+think we do want to fail link in the 128x128bit case.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hariprasad-Kelam/octeontx2-af-Mailbox-handlers-to-fetch-DMAC-filter-drop-counter/20260114-150046
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260114065743.2162706-3-hkelam%40marvell.com
-patch subject: [net-next 2/2] Octeontx2-pf: Add support for DMAC_FILTER trap
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260114/202601142356.TWrRByBh-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601142356.TWrRByBh-lkp@intel.com/reproduce)
+> In this case gcc knows the high bits are all zero - so just needs the two
+> instructions to generate the high and low parts.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601142356.TWrRByBh-lkp@intel.com/
+ Distinct RTL insns are produced, so all the usual RTL optimisations 
+apply (in addition to any tree optimisations already made):
 
-All warnings (new ones prefixed by >>):
+mul_u64_u64_add_u64:
+	.frame	$sp,0,$31		# vars= 0, regs= 0/0, args= 0, gp= 0
+	.mask	0x00000000,0
+	.fmask	0x00000000,0
+	.set	noreorder
+	.set	nomacro
+	dmul	$2,$5,$6	 # 9	[c=20 l=4]  muldi3_mul3_nohilo
+	dmuhu	$5,$5,$6	 # 10	[c=44 l=4]  umuldi3_highpart_r6
+	daddu	$7,$2,$7	 # 14	[c=4 l=4]  *adddi3/1
+	sltu	$2,$7,$2	 # 16	[c=4 l=4]  *sltu_didi
+	sd	$7,0($4)	 # 21	[c=4 l=4]  *movdi_64bit/4
+	jr	$31	 # 44	[c=0 l=4]  *simple_return
+	daddu	$2,$2,$5	 # 29	[c=4 l=4]  *adddi3/1
 
-   In file included from drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h:31,
-                    from drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:22:
->> drivers/net/ethernet/marvell/octeontx2/nic/otx2_devlink.h:30:40: warning: 'otx2_trap_groups_arr' defined but not used [-Wunused-const-variable=]
-      30 | static const struct devlink_trap_group otx2_trap_groups_arr[] = {
-         |                                        ^~~~~~~~~~~~~~~~~~~~
+(hmm, I wonder why the cost for the high-part RTX is over twice that for 
+the low-part one; this seems outright wrong, also taking the possibility 
+of fusing into account).
 
-
-vim +/otx2_trap_groups_arr +30 drivers/net/ethernet/marvell/octeontx2/nic/otx2_devlink.h
-
-    29	
-  > 30	static const struct devlink_trap_group otx2_trap_groups_arr[] = {
-    31		/* No policer is associated with following groups (policerid == 0)*/
-    32		DEVLINK_TRAP_GROUP_GENERIC(L2_DROPS, 0),
-    33	};
-    34	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  Maciej
