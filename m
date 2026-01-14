@@ -1,260 +1,241 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC98C1A9F96
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 00:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768351745; cv=none; b=gWm5VsDBxMQ2mEFLkQew4NNMGE+vKxAGqKCrl3tLzjR7ouuEjz5PntDP+hxNczTAvqUXTG4H5jQil+SLjatupoWKkmGwBKNcxcYFt4VrcY117bT2YhGN50nBsID6tOzCyYtJGXeBoUfeAm1ZFZx5OFpCnrnwG0Rz+oc1MRyJQtI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768351745; c=relaxed/simple;
-	bh=ViXufsRZqxQh85LrDvRUXF2zt+YlRQ5QfjlXKSKwZ5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X05dPI4jugNs1LMPoCBhXX18JbLJv0YhXw5x7V+2FyZ3w2evWTcwVpRhJOCexRmSGN44naqfD5IDnJI5+hqpB+p+jGs731ui65Qoa63EpGeIpyXnU3GdxAxMoWLhck0lQMryGiUO7Vor8N4laINvt05DzJBFgoFl4HfGK+EhFBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RkIyRCOb; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961FD17BA2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jan 2026 01:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768354111; cv=fail; b=NfzfT8X7a+oCz7dc7nuhBRm3O64y1C4zm75BVvVGLAj4Td+YcgFY0NOt8riht2TNOnVb8sgqe7ia+naYGLhGqI56GnRIzNe+kDGiYpzxobXApgCF1m1A48MVHSYO7LUab9vulq/x059P7sj6R5pVTtdpvdRd44kCSYHB+C+goFM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768354111; c=relaxed/simple;
+	bh=MAZDjJGpOCDdgiyJ0RHniTnk7c9FbYIZ8/VjQLA9iQU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=OMU4+VENYJwUaaahpRJAZdOP91ALgGzyQYz/5aWIy3JNrmIO28xf/d15BmPih+hPJH9qwVjTuajAxTqDsmjznlFlMHLkoAYOixhyUAePq6jj7oarGp17HxbHYpmrWW+dNMHTmXG+hVorlqfnLOKCVeRAQGFG7D3NhZLxdd5yBus=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Xbdo4bPl; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=lQ6nf5re; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RkIyRCOb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768351742; x=1799887742;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ViXufsRZqxQh85LrDvRUXF2zt+YlRQ5QfjlXKSKwZ5g=;
-  b=RkIyRCObhwoMl+gnI3HtZm/38gsQxW2tLpfbi+jUc8rFEYjFIxAbhXpx
-   Km4TscmczPEXGwGy2VkiOSMEy4IeXcqNaLsJ9c7ZFbY1cBCS0bfGJ04fb
-   y5e8dXoFJmbQ3KgRbvyuxe1N8nkXVqj78DfG12NJX/diWi2jhEuNZZh9T
-   lcwSKWjm0Vt5iXo60Sn0q2XSXZ8n8aFpTWWAT63bKFYMFJBPH+kMTozXb
-   OjyfzYzkFjMhxMVg+3lXFI+pzZG66xV6nzn8gy0ZGLdFMxZVOIQ2ijEf9
-   p5/ZwrW/OLV8B0PKge+gttFfyZp7DhQK1CKwIgFejXf6owbTDQCRL4FKG
-   Q==;
-X-CSE-ConnectionGUID: 7oRf+WylSg+ioEwFZIK7EA==
-X-CSE-MsgGUID: nnKVXlCOQr2SZbzr8Awb/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11670"; a="68654903"
-X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="68654903"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2026 16:49:02 -0800
-X-CSE-ConnectionGUID: CCE04uXlSSKLqEhO+iecfw==
-X-CSE-MsgGUID: pDtjo18ASByQN62QNbfSCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,224,1763452800"; 
-   d="scan'208";a="209583527"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Jan 2026 16:48:57 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vfp4A-00000000FZQ-1RER;
-	Wed, 14 Jan 2026 00:48:54 +0000
-Date: Wed, 14 Jan 2026 08:48:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yazhou Tang <tangyazhou@zju.edu.cn>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
-	john.fastabend@gmail.com, andrii@kernel.org, martin.lau@linux.dev,
-	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org, tangyazhou518@outlook.com,
-	shenghaoyuan0928@163.com, ziye@zju.edu.cn,
-	syzbot@syzkaller.appspotmail.com
-Subject: Re: [PATCH bpf-next v3 1/2] bpf: Add range tracking for BPF_DIV and
- BPF_MOD
-Message-ID: <202601140812.rsul8sPI-lkp@intel.com>
-References: <20260113103552.3435695-2-tangyazhou@zju.edu.cn>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Xbdo4bPl";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="lQ6nf5re"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60DG2C9K3330362;
+	Wed, 14 Jan 2026 01:28:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=9SQJkzbNUI3PotvJXe
+	hDSOOZKDdEzHLNTs14hWmUydg=; b=Xbdo4bPlmyDmy/nCaDqyrs6KIrAWfw3OnO
+	pHzWjKbrSDSDxAFL6/HNN9SWvPFT81iDbGuNbCKFJwgSXxm6bwX0s0GvExDi9Xnz
+	g6DT66+EmD+rJe8Ag9qMU8oG9UCZIbk5CzGWBUmSUcuKsLK9MQn5pFvFnNUIVsPc
+	0qeKcbIrDTm0ZLhpsFpk6e1gLggOmR0I78jwBrrKc69YmJuHgT8bxrVQu3RIBMRG
+	AabcufVtOn4L0IB0gHlhSOXSoJRdUpKpC4/0KxHFNcPb4bT9HirhKdSylMhNFjz+
+	f729erqauvd530aYUDBJ7TaRtJvU2KR2LzLI/hkDEMzef/bCcrKQ==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkrp8mjhw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Jan 2026 01:28:22 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60E0om6E004549;
+	Wed, 14 Jan 2026 01:28:22 GMT
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012006.outbound.protection.outlook.com [52.101.48.6])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd79efgg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Jan 2026 01:28:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tTB9OiDVeaNQHyiQdaFrDqSJkSqsSWA81bsWNS6Xn6IPCA+7CsV4MmJRU/AAd/CLhRmyB5tlKqIP/9Qzp7sGcC+2CCa1lUvdJ0um4mE8F0xtx900eYBHzHnkCLOMWp5iTaZT7lsmBVATIvvbMUTsUo6iATSPmdzpTJta5Cksq3smMowV6BnZbxrXgd7cevl/Blc4Ww+xdPe+0mzphZI/xL2nb56SOuXUdD467JPRs/dtgv2v0ES8NP7c84lYmWDBZoXfLggqBufbKdUZqfrVhw6Qre0QZDa7fBcVKo0qVO/GDuNwheBBOp2sJAGG/OiwxvAPz/Bc3n2ftUftaxMB/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9SQJkzbNUI3PotvJXehDSOOZKDdEzHLNTs14hWmUydg=;
+ b=sSIR/d/FNJwG1X0lW34fqtJpzp+m59dwe95BItwI55bGyNXcPx9i/Ity81wAzvhf/isZB+zLurD4UY0s+ao1ukjOhVMwRIq0wB69DdDv7Fv8S9UrU/2ZlP1V2xzgAJVMezQq9A7f8Rkst38y1uJ6o20nw4i7ZMpKFmP2ShAKIR4FsQJUjFF3q2S8jcmtj7L/AVB5H0SAs2Gvn0Ai0evWTCmUU3BAIatluSbor5lotOTYwKIHz38i20e1kVDadWGYeA4BQ9MlpSH4Icnysk/KkTSDfmaP0uFfJLAtusu2BmLwUiZdle8wZAmE4ElVboS2G7sCFUT+nGAgaUe4LrsHSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9SQJkzbNUI3PotvJXehDSOOZKDdEzHLNTs14hWmUydg=;
+ b=lQ6nf5re/EEdwrOZA50SPcaRIDTfPcF+lCGXuiFrUUns4PQl1bMy34yVrVt4Iqk9WvBIbZFVoSaNjS0zDXeGdQ0JMwEVhBsRKhDV5VMipmw5tdo8Ev9Qs3KGqa/CuHERgthIGggWjtgv0jJtjva7qzTPwI6spt1j7f7oscgq6D4=
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
+ by IA3PR10MB8251.namprd10.prod.outlook.com (2603:10b6:208:570::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Wed, 14 Jan
+ 2026 01:28:18 +0000
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9499.005; Wed, 14 Jan 2026
+ 01:28:18 +0000
+Date: Wed, 14 Jan 2026 10:28:13 +0900
+From: Harry Yoo <harry.yoo@oracle.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+        Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [vbabka-slab:slab/for-7.0/obj_metadata 9/10] Warning:
+ mm/slub.c:7013 function parameter 'objp' not described in 'ksize'
+Message-ID: <aWbxLWF0R5rIvRb5@hyeyoo>
+References: <202601140605.GNpnpgLF-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202601140605.GNpnpgLF-lkp@intel.com>
+X-ClientProxiedBy: SL2P216CA0210.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:19::14) To CH3PR10MB7329.namprd10.prod.outlook.com
+ (2603:10b6:610:12c::16)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113103552.3435695-2-tangyazhou@zju.edu.cn>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|IA3PR10MB8251:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2d50b3c3-bc84-4d62-00e1-08de530c3266
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?7sW8J3Q7p80tjnHvg8beLZ8CdHXlYyKuTSz11hMEhFd3Es3O4rkT8WZ72Oy+?=
+ =?us-ascii?Q?ddstMtO8iUTcLx9PAZ32P1Qvsf6Yz9BG74bE8xNMYughpxCZHls2n6YovvCH?=
+ =?us-ascii?Q?NSOS3c3EZZiIM93VTbS+YFLZjuqbmRaVartEMUy2/u9TyawLkzJ9fCbEMqTc?=
+ =?us-ascii?Q?M5FDC/hnD4f0Q6zQDo8mxQALMZwT7TPI2oOpk6yYWnVxiv0EuSzavVRbibm9?=
+ =?us-ascii?Q?Xo/CEslvtTaYJpiSOWIo8mbQ1L4ZiovauGXDKBSeIcDhHkKro4RKf5KmYue2?=
+ =?us-ascii?Q?TQEr0FU8FN+MCZUGdrqwM10yP8vgq7KNAOrH/mLjlo9YonPztGx/g15c4R57?=
+ =?us-ascii?Q?a5pGpD3irZLVmACiRgcFWl763a3zGgvik0XomUSF7Tm869H1KW2/JrMScPI+?=
+ =?us-ascii?Q?PGoHPRKewULNhsbaJP3H5Yj/IWtBWfwPU5BRJJAo8kx0S62bBXqPNtjVO1KX?=
+ =?us-ascii?Q?6I8WI/xDR7ziLgVJHk3g4riMOTgpsDOTcDDf5RtGdoydiNTErRPZ8o8b8BTj?=
+ =?us-ascii?Q?BtHXmEzE23jkft59C80asTNb4vKogg0Spl0QdpEDrA7Ddm21t/Q6CnE5K+JM?=
+ =?us-ascii?Q?oBAp7KT0OqlB+n9sFdwC2Hhv/yJO/skZDODSEwUoRSiUZvJZOco3wJVNjAMj?=
+ =?us-ascii?Q?t9ocI+aGaW2by8S0oy9xGIodjVuFrpfqzAo5H4IKJ+CKpL2YrW0MwEci3uBT?=
+ =?us-ascii?Q?4v3PkmNCL2QHy+v2RcGAYshWrcfQ9muFqlN2pKuYmZDJNYNZSQP9mWgeZ9kn?=
+ =?us-ascii?Q?pH/64WecRTLD4yBOsaFCDestrkxPxEaNzMMD0yJk2wEcerdWH7PKOvlp6rzj?=
+ =?us-ascii?Q?Vt9oDRYXUCxLRqsmXCLsjQD7NZcgkza0Ef4j+qDrZepBtJk1+9vjUTeFo+m4?=
+ =?us-ascii?Q?ACOtMlCMTXmdufKLNBkwjQ7qrbXEoOnBCo1IBn9hY5N3jfPaeaFLYgZaYHWi?=
+ =?us-ascii?Q?J8Jc9WTgpEjv2LYKfwCUXPzBHG1uMnRbYRXsXYPfYzK8+o6MHzkniLLfHelp?=
+ =?us-ascii?Q?/eIdZeecpCusPHftwjhlxWMevYMjzfKXk3bVMzTASp9hejz3+xV/Euyy6VBA?=
+ =?us-ascii?Q?mLeWr3OFC8U55uBRUDopi8BoaJydB/mzYP+nc8q46H0ITNkagM1gWj42NW4v?=
+ =?us-ascii?Q?dXSV0s9BGn4ew+mI86Qk1WQemPWs3wTsIE6VNzZMNcr/b5vZaH4QHR8UPj3T?=
+ =?us-ascii?Q?h37EkdWcIawbSS8IADqM6hZmXBYubkB6k60Xz1ZU8B+deYpEYFzq/Rn0HmiG?=
+ =?us-ascii?Q?lhCmj0F/9OS77P3kyeW8RVVohnTg40cJ93BSxHIhvXGKz6FGctDN0yu6O4ej?=
+ =?us-ascii?Q?6vx1noA6wbEoqg9ySC6iAKlYiNKzk9w/4tlm00gzRGSMyha1X/Xja9yUzSLK?=
+ =?us-ascii?Q?k1Maqc1+opbD8dTH8iFX4ChsWsFDhDDpw7nKzbfr46zYyVhjnzst9L/p/Pv5?=
+ =?us-ascii?Q?ydIPaij0TQKgyRzljTMPgL3RUoSzh63w1UhRx2wPVHeZ22e+u6FxVQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?C+QvFprY+h7DdHpY05k4h3kjo2BhRaZz9aCwHqmeZSpd+Vg48j+Dn+QFQqy2?=
+ =?us-ascii?Q?G/UH0XN2Tp3aQRFXxGoKC7kmBHKsyZrvGa1vhJ3U3UtpKcf5m3GL6MSnls2I?=
+ =?us-ascii?Q?BTIch4Sa1y424ihYsYYVKZby688ybRkULtPNB+PKoTz5UIgq4uJI1lzGXKLW?=
+ =?us-ascii?Q?9Tk2fjbPrN+OXRgHyl7YujpZMhOgZBRJOKo/wK6UfINf7/Y6SB/a1wCBGeDd?=
+ =?us-ascii?Q?cgHlPkEQ5fImWG46BYGJBvYL7mBK1tUAVr4LHopb/ooD7JGb7KYcwFQzzHI9?=
+ =?us-ascii?Q?1ZbjnG0pTjXPLOdzQTm/aBiyt6JYUTk3CNelrCRCmlym0sl6bYxRGALAsZO0?=
+ =?us-ascii?Q?JQAZ6+pGh7uMWeQw3RtzVE2j72s/+jGfMs7pLS8ovDIm29qFZap7QgxQcSDF?=
+ =?us-ascii?Q?2q5uSC4u+KQBAkhq4twZdOAxvKUfWGFlI0rBNUQ0DFK25v7hSz44j0My1h1K?=
+ =?us-ascii?Q?0YnRHDVfFSzfCWlqoUN3Y3lhPSwxh+mUd+JqkZ8aZ4vkQsGMlXAsnXxcQcjR?=
+ =?us-ascii?Q?l/u20vL33VH6vz/c5ia98BooluO/F3U6Mg3PYeZ4HgizfrO3uyDqLfr/PI3o?=
+ =?us-ascii?Q?rLSYSZUchrZjk39od2Ks10sJN2O1BAD+aax+7iO6QMbmVkPHJqAxKkVf1Qwq?=
+ =?us-ascii?Q?24LO+FqgKl4ZnMhHHSzDBXBML7X7cZG/EGDcE0otfkw4HC1ibqOwh3yKi9UE?=
+ =?us-ascii?Q?J1AZ0G1taxmf/Ki6F9lg2a4eNBxnr5Mretj51BcYNZPnXcY2TlRmgNTRpTw5?=
+ =?us-ascii?Q?G6ZRh7Tq+eMIWX1Bf5xJ7bzU5+hLw4dZ94I1CJIEc0agN/GK7iHfbZAEqXYJ?=
+ =?us-ascii?Q?tN/YoeMXLlty64THsyI5/lvMaaKomQOOtZ/Xu0qDM4Wvdmyrxa3FFenASi3d?=
+ =?us-ascii?Q?AVyUAqoS7yWDOcYfNGOUPqiYmO9WBuzELNH/V4ejkcIgGSQ5F6evkwvRdsLJ?=
+ =?us-ascii?Q?2j8UvtLgXMilqFKDk1ZI4aFwgvPc8nS9SGScUMaM+SHPUud4liwTGv1cLPEf?=
+ =?us-ascii?Q?M6Hj9WFAZRIIYkvV/YgsvRZX73durmh8wLW+sAkb5mZvxbgei4y6Gd0n+m7W?=
+ =?us-ascii?Q?6Dt87lrrmTsh14W4YGyThHsIl2o7X4/OlxEA7eCpJHp3kiPZjj96v0G2qJEj?=
+ =?us-ascii?Q?Fy7ak0/Y2/jAUGAjufU/909DERjkjO7veLyXyCTYC3fFoBYjWSAbZKtcf/d6?=
+ =?us-ascii?Q?AYNWqj1kGkhEKvlVCpDJwjU20ZJqVIWVWvdaq0s/+WXLXs/91qMyn3j/NGMU?=
+ =?us-ascii?Q?euz0WdQHKUirz62XuI2pgRRZIIc+Dhk3HHzLSAKF6rAqA0W3vulwD6qQ5zGN?=
+ =?us-ascii?Q?4AVEkMpu8pPiy2sNTgAqR7eZo4MAomyYh3MwXKrXDsr4ORmOKqBA4JKl5cLI?=
+ =?us-ascii?Q?q29bYzUO7+HhDX1yGlgeNYJaxMn9PnVCS0v8RGqy1biM5lMMsPB6xZeR0o7G?=
+ =?us-ascii?Q?qQrQKHHS6WRgGPeQiVR0Z2Mk+bbrLjRDjuYvZ+KZEUzte3WsnCv9vViqA0eT?=
+ =?us-ascii?Q?XcR/a/GZ0VufHZoJKikzdXuM2XAURHZsNN+Tsxivfqq3DzzpXpapoQPoGTqN?=
+ =?us-ascii?Q?CpqVTx7y8O4/GI19NtDTdgn4v57oiBHaJeL6LFibhERYE26L5E9tK1RX+WZn?=
+ =?us-ascii?Q?xhgCKZM29Q2XAKuPSYozKNTQ2Zll6FiRNTW9fcp7hSvyKK8hcu/ug1ldY7yo?=
+ =?us-ascii?Q?6u7Tt0Gw5UBzwbkRGldaiVgnMy2fIzzTflWyBrxH6SvCMzl8Qxtm1ptFJ0gx?=
+ =?us-ascii?Q?1EinYfAm8w=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	MTDpvIMC+RvQEBLVPATgmRxN2kWJfW3tUhL4JE/XOC8w81Pptw9M5vCcAOU9112GWtySgTpYq4KS39mvP9mNsr/SR201FwbNPsrgD7F6Z/RO2VkrVIzVckKpqXFDDamIwUj392A9AzMfoQYcW7V9/hs4G+kmnmy3TPojQB44arI/Z3QCaoKHab9vYKR7jYS7mqgwDGmVJwcl2NVUoTxWGgv1XLy9rb0EoFj9hDFtfcg7anX7VNGKh6NWbglQOpdNoxMJuYZQUyCW+R70qCTtjp2ka+/F1qPtprWX6z+Ut6VH5wbr3oqxbmOiRo570dbEQ+vhkGtHArhtjmSDTVgBYr1rr/Le5bqCq/5D6pitIITrpcjlfHn1g0Uk8IgsDzepk3TZBjTFdkT5hbddDFAH5tkaHPOzgAHBQ/kow4wlp0rO0M2bFoeQWl4LrzGF0cW+jYNvvYUXPhf47EUkii2ZVktdEO6tZsKbJ6q4qmHgtW5JRjVhPlh+vdBKbFHemkVpZ8SOmOOZ/8evS8L229UAvO0CJqBzHDrvHp8P82xBE61aVcpJLdmQ1W86iSDmX1yV0lex9bO27stDg8xM0y1+Ri5d74nG6ZAbla2dKynNHmc=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d50b3c3-bc84-4d62-00e1-08de530c3266
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2026 01:28:18.6328
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iZ1Tmi6n1Hdyx2vH+aKboJqisHTQpwZakcijrxT9LtF0HeIlmJVcnyYbvXdfwNYCDn/X/l51BDIdveIs9lEQdw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8251
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-13_04,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 phishscore=0
+ mlxlogscore=999 adultscore=0 suspectscore=0 spamscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
+ definitions=main-2601140008
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDAwNyBTYWx0ZWRfX/nk37Oc/2sTs
+ jARRYMg6rWREcxrBIh+M051uomevq/xZ7Bu6sZibPjhCP2fV9Q9GBsDqjLGWwAbb1BSTJ7/QNAO
+ JOSjNcQxNd50hGwc3hmBbf9tjb2S02JQrvpvNRWelLBjY3hfX/2VN54JjWaNuADObLP+O7uls8u
+ J84YcG2DRc2LQ4G7Itou2rim9kfTJwO4kAhO3xP4DzST0MyVME+RmJJWa0gP6ULOaayp4tils3F
+ 9bJ5yg5CHe4iMI/deFzmC1eYmJmYE4pgQYYk3QJT8e/WLt7qKFXcRauvD92JOk4o2I9COlSNNZ5
+ u1dFzhyKQW+n6nl8U56wtTqlbdDoMEY61tx/kMerBGFNqULo/ZTPxolyI1SEJnU7dCx1ktRMITc
+ nBvaOyF4YPm/FC51+xCiA4E0DCFP1Qo7wnHUZkoJ10MGPzoXQ98lw60YpRtyGRGlNJnAkzMF4dI
+ bghBJ0kJrLY6Yxlt4TQ==
+X-Authority-Analysis: v=2.4 cv=YcGwJgRf c=1 sm=1 tr=0 ts=6966f137 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=DIzP5EfeZF5ZH_g1OKgA:9
+ a=CjuIK1q_8ugA:10 a=mmqRlSCDY2ywfjPLJ4af:22
+X-Proofpoint-GUID: LT6ROdx93Dhci4b7rdo6kSgS3PBt8unw
+X-Proofpoint-ORIG-GUID: LT6ROdx93Dhci4b7rdo6kSgS3PBt8unw
 
-Hi Yazhou,
+On Wed, Jan 14, 2026 at 07:00:18AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git
+> head:   a4e5702b7bb846cf50d2917cadf2289c25720812
+> commit: 1e8eb4117f27366855b192104098330a2f290f26 [9/10] mm/slab: move [__]ksize and slab_ksize() to mm/slub.c
+> config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260114/202601140605.GNpnpgLF-lkp@intel.com/config
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140605.GNpnpgLF-lkp@intel.com/reproduce
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601140605.GNpnpgLF-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> Warning: mm/slub.c:7013 function parameter 'objp' not described in 'ksize'
+> >> Warning: mm/slub.c:7013 function parameter 'objp' not described in 'ksize'
 
-kernel test robot noticed the following build errors:
+We moved the comment from __ksize() to ksize(),
+but didn't rename @object to @objp.
 
-[auto build test ERROR on bpf-next/master]
+Could you please fix it locally, Vlastimil?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yazhou-Tang/bpf-Add-range-tracking-for-BPF_DIV-and-BPF_MOD/20260113-184035
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260113103552.3435695-2-tangyazhou%40zju.edu.cn
-patch subject: [PATCH bpf-next v3 1/2] bpf: Add range tracking for BPF_DIV and BPF_MOD
-config: riscv-randconfig-002-20260114 (https://download.01.org/0day-ci/archive/20260114/202601140812.rsul8sPI-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260114/202601140812.rsul8sPI-lkp@intel.com/reproduce)
+diff --git a/mm/slub.c b/mm/slub.c
+index d3aa805f3e05..373ee58b8b9e 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -7070,7 +7070,7 @@ static size_t __ksize(const void *object)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601140812.rsul8sPI-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   kernel/bpf/verifier.c: In function 'adjust_scalar_min_max_vals':
->> kernel/bpf/verifier.c:15865:3: error: a label can only be part of a statement and a declaration is not a statement
-   15865 |   bool changed = true;
-         |   ^~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_DEV
-   Depends on [n]: NETDEVICES [=n] && CAN [=y]
-   Selected by [y]:
-   - CAN [=y] && NET [=y]
-
-
-vim +15865 kernel/bpf/verifier.c
-
- 15781	
- 15782	/* WARNING: This function does calculations on 64-bit values, but the actual
- 15783	 * execution may occur on 32-bit values. Therefore, things like bitshifts
- 15784	 * need extra checks in the 32-bit case.
- 15785	 */
- 15786	static int adjust_scalar_min_max_vals(struct bpf_verifier_env *env,
- 15787					      struct bpf_insn *insn,
- 15788					      struct bpf_reg_state *dst_reg,
- 15789					      struct bpf_reg_state src_reg)
- 15790	{
- 15791		u8 opcode = BPF_OP(insn->code);
- 15792		s16 off = insn->off;
- 15793		bool alu32 = (BPF_CLASS(insn->code) != BPF_ALU64);
- 15794		int ret;
- 15795	
- 15796		if (!is_safe_to_compute_dst_reg_range(insn, &src_reg)) {
- 15797			__mark_reg_unknown(env, dst_reg);
- 15798			return 0;
- 15799		}
- 15800	
- 15801		if (sanitize_needed(opcode)) {
- 15802			ret = sanitize_val_alu(env, insn);
- 15803			if (ret < 0)
- 15804				return sanitize_err(env, insn, ret, NULL, NULL);
- 15805		}
- 15806	
- 15807		/* Calculate sign/unsigned bounds and tnum for alu32 and alu64 bit ops.
- 15808		 * There are two classes of instructions: The first class we track both
- 15809		 * alu32 and alu64 sign/unsigned bounds independently this provides the
- 15810		 * greatest amount of precision when alu operations are mixed with jmp32
- 15811		 * operations. These operations are BPF_ADD, BPF_SUB, BPF_MUL, BPF_ADD,
- 15812		 * and BPF_OR. This is possible because these ops have fairly easy to
- 15813		 * understand and calculate behavior in both 32-bit and 64-bit alu ops.
- 15814		 * See alu32 verifier tests for examples. The second class of
- 15815		 * operations, BPF_LSH, BPF_RSH, and BPF_ARSH, however are not so easy
- 15816		 * with regards to tracking sign/unsigned bounds because the bits may
- 15817		 * cross subreg boundaries in the alu64 case. When this happens we mark
- 15818		 * the reg unbounded in the subreg bound space and use the resulting
- 15819		 * tnum to calculate an approximation of the sign/unsigned bounds.
- 15820		 */
- 15821		switch (opcode) {
- 15822		case BPF_ADD:
- 15823			scalar32_min_max_add(dst_reg, &src_reg);
- 15824			scalar_min_max_add(dst_reg, &src_reg);
- 15825			dst_reg->var_off = tnum_add(dst_reg->var_off, src_reg.var_off);
- 15826			break;
- 15827		case BPF_SUB:
- 15828			scalar32_min_max_sub(dst_reg, &src_reg);
- 15829			scalar_min_max_sub(dst_reg, &src_reg);
- 15830			dst_reg->var_off = tnum_sub(dst_reg->var_off, src_reg.var_off);
- 15831			break;
- 15832		case BPF_NEG:
- 15833			env->fake_reg[0] = *dst_reg;
- 15834			__mark_reg_known(dst_reg, 0);
- 15835			scalar32_min_max_sub(dst_reg, &env->fake_reg[0]);
- 15836			scalar_min_max_sub(dst_reg, &env->fake_reg[0]);
- 15837			dst_reg->var_off = tnum_neg(env->fake_reg[0].var_off);
- 15838			break;
- 15839		case BPF_MUL:
- 15840			dst_reg->var_off = tnum_mul(dst_reg->var_off, src_reg.var_off);
- 15841			scalar32_min_max_mul(dst_reg, &src_reg);
- 15842			scalar_min_max_mul(dst_reg, &src_reg);
- 15843			break;
- 15844		case BPF_DIV:
- 15845			if (alu32) {
- 15846				if (off == 1)
- 15847					scalar32_min_max_sdiv(dst_reg, &src_reg);
- 15848				else
- 15849					scalar32_min_max_udiv(dst_reg, &src_reg);
- 15850				__mark_reg64_unbounded(dst_reg);
- 15851			} else {
- 15852				if (off == 1)
- 15853					scalar_min_max_sdiv(dst_reg, &src_reg);
- 15854				else
- 15855					scalar_min_max_udiv(dst_reg, &src_reg);
- 15856				__mark_reg32_unbounded(dst_reg);
- 15857			}
- 15858			/* Since we don't have precise tnum analysis for division yet,
- 15859			 * we must reset var_off to unknown to avoid inconsistency.
- 15860			 * Subsequent reg_bounds_sync() will rebuild it from scalar bounds.
- 15861			 */
- 15862			dst_reg->var_off = tnum_unknown;
- 15863			break;
- 15864		case BPF_MOD:
- 15865			bool changed = true;
- 15866			if (alu32)
- 15867				changed = (off == 1) ? scalar32_min_max_smod(dst_reg, &src_reg)
- 15868							: scalar32_min_max_umod(dst_reg, &src_reg);
- 15869			else
- 15870				changed = (off == 1) ? scalar_min_max_smod(dst_reg, &src_reg)
- 15871							: scalar_min_max_umod(dst_reg, &src_reg);
- 15872			/* Similar to BPF_DIV, we need to reset var_off and 32/64 range
- 15873			 * to unknown (unbounded). But if the result is equal to dividend
- 15874			 * (due to special cases in BPF_MOD analysis), we can also keep
- 15875			 * them unchanged.
- 15876			 */
- 15877			if (changed) {
- 15878				if (alu32)
- 15879					__mark_reg64_unbounded(dst_reg);
- 15880				else
- 15881					__mark_reg32_unbounded(dst_reg);
- 15882				dst_reg->var_off = tnum_unknown;
- 15883			}
- 15884			break;
- 15885		case BPF_AND:
- 15886			dst_reg->var_off = tnum_and(dst_reg->var_off, src_reg.var_off);
- 15887			scalar32_min_max_and(dst_reg, &src_reg);
- 15888			scalar_min_max_and(dst_reg, &src_reg);
- 15889			break;
- 15890		case BPF_OR:
- 15891			dst_reg->var_off = tnum_or(dst_reg->var_off, src_reg.var_off);
- 15892			scalar32_min_max_or(dst_reg, &src_reg);
- 15893			scalar_min_max_or(dst_reg, &src_reg);
- 15894			break;
- 15895		case BPF_XOR:
- 15896			dst_reg->var_off = tnum_xor(dst_reg->var_off, src_reg.var_off);
- 15897			scalar32_min_max_xor(dst_reg, &src_reg);
- 15898			scalar_min_max_xor(dst_reg, &src_reg);
- 15899			break;
- 15900		case BPF_LSH:
- 15901			if (alu32)
- 15902				scalar32_min_max_lsh(dst_reg, &src_reg);
- 15903			else
- 15904				scalar_min_max_lsh(dst_reg, &src_reg);
- 15905			break;
- 15906		case BPF_RSH:
- 15907			if (alu32)
- 15908				scalar32_min_max_rsh(dst_reg, &src_reg);
- 15909			else
- 15910				scalar_min_max_rsh(dst_reg, &src_reg);
- 15911			break;
- 15912		case BPF_ARSH:
- 15913			if (alu32)
- 15914				scalar32_min_max_arsh(dst_reg, &src_reg);
- 15915			else
- 15916				scalar_min_max_arsh(dst_reg, &src_reg);
- 15917			break;
- 15918		default:
- 15919			break;
- 15920		}
- 15921	
- 15922		/* ALU32 ops are zero extended into 64bit register */
- 15923		if (alu32)
- 15924			zext_32_to_64(dst_reg);
- 15925		reg_bounds_sync(dst_reg);
- 15926		return 0;
- 15927	}
- 15928	
+ /**
+  * ksize -- Report full size of underlying allocation
+- * @object: pointer to the object
++ * @objp: pointer to the object
+  *
+  * This should only be used internally to query the true size of allocations.
+  * It is not meant to be a way to discover the usable size of an allocation
+@@ -7078,7 +7078,7 @@ static size_t __ksize(const void *object)
+  * the originally requested allocation size may trigger KASAN, UBSAN_BOUNDS,
+  * and/or FORTIFY_SOURCE.
+  *
+- * Return: size of the actual memory used by @object in bytes
++ * Return: size of the actual memory used by @objp in bytes
+  */
+ size_t ksize(const void *objp)
+ {
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Harry / Hyeonggon
