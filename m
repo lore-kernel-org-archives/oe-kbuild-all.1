@@ -1,66 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649DA350A05
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 15:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51A12701BB;
+	Thu, 15 Jan 2026 16:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768492158; cv=none; b=RguPz/fm8m5W3L4youXJXwqWTkUnw2x9Fl115abd3sT8aJWS2TpeVz0g9EcotHOfjUX+gCUG0EfkIk+89YE/MsBjBawzIJk4D3Po3A/5YSVibC2lt2f04DmL12IYVD9WYOj+N2z8YIpsFP1lPQXfibFxMxLZQXI8xsVDGt69OKo=
+	t=1768493480; cv=none; b=AS+N7F6PWy6EX7MKWGCMPZfTVHfIqdH45TD0uNHWu5uaF4OPuiQjYBUBlXIPcQthqWkuShDKqgKFwHZJK9NyhQb6IJ1FpUu+KezfOEx9/hNuCupFuLkuQ1xjhYUGrivDnpILjLtqrI+WdiVBQuVrjI4lGa6BBzEnUUzJ2Cfnb5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768492158; c=relaxed/simple;
-	bh=c6otoexpBFc0bdrxPkcgwQlewejnD1J1LdNjPxMDb2U=;
+	s=arc-20240116; t=1768493480; c=relaxed/simple;
+	bh=gFIoEC1f1qlzIUpk/6FrkLxr7vkPH7lbau/8uT3TPbk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QLM3J30iM6RidvXh6tE797958guo5B/qbeqRAGr8tZ/a2AAXmtW3k7Q9TvxHXiC4cYVRNyu9ndll7PeQoql0bRVV7WgS3qTqNiYLDz0jwtLnUtW8dABd/YhDr9HL10236oXemP9hg1Kcr9cH+WDfgU1rjqvEdr5QaYoxcaSzNh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mt20a8ba; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=mZsV9j2H1k1hJypPqXJMrIy/eInuhWNS5jNQ94jmfXoxeCzcZ3B0d9iIXMWG2f1kyS5HrRZPlwirDIOTW/JbZDYLfn4WRGOQ6XF8SFNcjQfQaCSubsTmOAOfVM8YO0te64jVOp/6cGIG3DS9vSxWKz1yvnkT+IaPDlFAXibxmGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHb5fqTH; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mt20a8ba"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHb5fqTH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768492156; x=1800028156;
+  t=1768493479; x=1800029479;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=c6otoexpBFc0bdrxPkcgwQlewejnD1J1LdNjPxMDb2U=;
-  b=mt20a8baNtBzxLccpowomsfkZKkkaN6ld3N8JvCsh7znEZLKPXfwhqw1
-   JxLGb2qtdBrb5W/qVIGP2Vj+454EPg6Mocy5iE3jhW/l0g+nDWMwhYUoV
-   4k/RMrTEPTSuSO8/nPtmvsjBXAprqU5lpSq+vAFp+dhpdfS9QOOdghZL0
-   xadkDMgvEPvjMoWJlCsb+f1xNs2PMtYAq0xPrFB54oTOZkux9BdcEP0qB
-   gGTgmKJCQs/LgRL2dwgeyQlxyR6JG9uoiq7/thXQBAwYt3Qqt6Wo8P1P5
-   PqVIvwA4CQXOWjhP5uHd6VDUTAM2uBkGJ+TGSRlccq1m5Oxca7IhZaHYP
+  bh=gFIoEC1f1qlzIUpk/6FrkLxr7vkPH7lbau/8uT3TPbk=;
+  b=nHb5fqTHh6JL/ZYed6nZR6QQsdekrk8T40lmZgrgAquJRx56luF4UQAc
+   MdKNp9AbOB1ZPRtaP7p5K37Hc7gvxy5fXSgQQ+Rih3VrqcbbsvwgzTsU+
+   GS6IfdFpevEBhzFiM5xtvG+oPTUnETqoW/1hc0nk4+XaPpeICyfu3V3lz
+   wnmlkeggoP/x/0+P2UeKwcmblesuDmnOHyNbdFIXOnvjmFdDVTTckWYl5
+   0OIRS+5bupyuPGdwJ6C9PTVBgiktKWJNYTGkjLp9Ms4MIzgLLQLu0GBvs
+   RLBkhSAjJk07ZhkZU6dwRM6l31i892F07K1KEbe72gXnZRb4JHMm1667u
    A==;
-X-CSE-ConnectionGUID: FhYmZ9JgQ1qjLJfSiNq41Q==
-X-CSE-MsgGUID: 5YvPVWQvTS6X88glr8LgUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80912494"
+X-CSE-ConnectionGUID: HFXUPd62R1aDXrkeOuUHvA==
+X-CSE-MsgGUID: cZQaTV4RTjSkcCJoN6cPyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69701552"
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="80912494"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 07:49:15 -0800
-X-CSE-ConnectionGUID: VHu8/1ikSNKM5qY1JBuPHg==
-X-CSE-MsgGUID: GaUmVaxQRdK7Zxb+Lk8gpg==
+   d="scan'208";a="69701552"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 08:11:19 -0800
+X-CSE-ConnectionGUID: T0RnRcTxRsGGrhE5Yp0D6g==
+X-CSE-MsgGUID: 0Lh0zAVbQ2yEnGpU34emxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="204190513"
+   d="scan'208";a="205020917"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 Jan 2026 07:49:12 -0800
+  by orviesa007.jf.intel.com with ESMTP; 15 Jan 2026 08:11:14 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgPav-00000000I9Y-2rox;
-	Thu, 15 Jan 2026 15:49:09 +0000
-Date: Thu, 15 Jan 2026 23:48:54 +0800
+	id 1vgPwF-00000000IBQ-0m18;
+	Thu, 15 Jan 2026 16:11:11 +0000
+Date: Fri, 16 Jan 2026 00:10:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-Subject: Re: [PATCH v8 3/3] media: qcom: camss: tpg: Add TPG support for
- multiple targets
-Message-ID: <202601152315.fC7ckH9z-lkp@intel.com>
-References: <20260113-camss_tpg-v8-3-fa2cb186a018@oss.qualcomm.com>
+To: Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
+	x86@kernel.org, virtualization@lists.linux.dev, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Juergen Gross <jgross@suse.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v3 1/5] x86/paravirt: Replace io_delay() hook with a bool
+Message-ID: <202601152321.kJ6D4yKM-lkp@intel.com>
+References: <20260115084849.31502-2-jgross@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,74 +74,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260113-camss_tpg-v8-3-fa2cb186a018@oss.qualcomm.com>
+In-Reply-To: <20260115084849.31502-2-jgross@suse.com>
 
-Hi Wenmeng,
+Hi Juergen,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on f417b7ffcbef7d76b0d8860518f50dae0e7e5eda]
+[auto build test ERROR on tip/master]
+[also build test ERROR on next-20260115]
+[cannot apply to kvm/queue kvm/next tip/x86/core kvm/linux-next tip/auto-latest linus/master v6.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wenmeng-Liu/media-qcom-camss-Add-common-TPG-support/20260113-171032
-base:   f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
-patch link:    https://lore.kernel.org/r/20260113-camss_tpg-v8-3-fa2cb186a018%40oss.qualcomm.com
-patch subject: [PATCH v8 3/3] media: qcom: camss: tpg: Add TPG support for multiple targets
-config: parisc-randconfig-002-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152315.fC7ckH9z-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152315.fC7ckH9z-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Juergen-Gross/x86-paravirt-Replace-io_delay-hook-with-a-bool/20260115-165320
+base:   tip/master
+patch link:    https://lore.kernel.org/r/20260115084849.31502-2-jgross%40suse.com
+patch subject: [PATCH v3 1/5] x86/paravirt: Replace io_delay() hook with a bool
+config: x86_64-randconfig-006-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152321.kJ6D4yKM-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152321.kJ6D4yKM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601152315.fC7ckH9z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601152321.kJ6D4yKM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/platform/qcom/camss/camss-csid-680.c: In function '__csid_configure_rx':
->> drivers/media/platform/qcom/camss/camss-csid-680.c:202:32: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     202 |                         val |= FIELD_PREP(CSI2_RX_CFG0_TPG_NUM_SEL, phy->csiphy_id + 1);
-         |                                ^~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/media/platform/qcom/camss/camss-csid-gen3.c: In function '__csid_configure_rx':
->> drivers/media/platform/qcom/camss/camss-csid-gen3.c:126:32: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     126 |                         val |= FIELD_PREP(CSI2_RX_CFG0_TPG_NUM_SEL, phy->csiphy_id + 1);
-         |                                ^~~~~~~~~~
+   arch/x86/kernel/tboot.c: In function 'tboot_shutdown':
+>> arch/x86/kernel/tboot.c:255:17: error: implicit declaration of function 'halt' [-Werror=implicit-function-declaration]
+     255 |                 halt();
+         |                 ^~~~
    cc1: some warnings being treated as errors
 
 
-vim +/FIELD_PREP +202 drivers/media/platform/qcom/camss/camss-csid-680.c
+vim +/halt +255 arch/x86/kernel/tboot.c
 
-   185	
-   186	static void __csid_configure_rx(struct csid_device *csid,
-   187					struct csid_phy_config *phy, int vc)
-   188	{
-   189		u32 val;
-   190		struct camss *camss;
-   191		struct tpg_device *tpg;
-   192	
-   193		camss = csid->camss;
-   194		val = (phy->lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
-   195		val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
-   196		val |= (phy->csiphy_id + CSI2_RX_CFG0_PHY_SEL_BASE_IDX) << CSI2_RX_CFG0_PHY_NUM_SEL;
-   197	
-   198		if (camss->tpg) {
-   199			tpg = &camss->tpg[phy->csiphy_id];
-   200	
-   201			if (csid->tpg_linked && tpg->testgen.mode > 0) {
- > 202				val |= FIELD_PREP(CSI2_RX_CFG0_TPG_NUM_SEL, phy->csiphy_id + 1);
-   203				val |= CSI2_RX_CFG0_TPG_NUM_EN;
-   204			}
-   205		}
-   206	
-   207		writel(val, csid->base + CSID_CSI2_RX_CFG0);
-   208	
-   209		val = CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
-   210		if (vc > 3)
-   211			val |= CSI2_RX_CFG1_VC_MODE;
-   212		writel(val, csid->base + CSID_CSI2_RX_CFG1);
-   213	}
-   214	
+58c41d28259c24 H. Peter Anvin 2009-08-14  225  
+3162534069597e Joseph Cihula  2009-06-30  226  void tboot_shutdown(u32 shutdown_type)
+3162534069597e Joseph Cihula  2009-06-30  227  {
+3162534069597e Joseph Cihula  2009-06-30  228  	void (*shutdown)(void);
+3162534069597e Joseph Cihula  2009-06-30  229  
+3162534069597e Joseph Cihula  2009-06-30  230  	if (!tboot_enabled())
+3162534069597e Joseph Cihula  2009-06-30  231  		return;
+3162534069597e Joseph Cihula  2009-06-30  232  
+11520e5e7c1855 Linus Torvalds 2012-12-15  233  	/*
+11520e5e7c1855 Linus Torvalds 2012-12-15  234  	 * if we're being called before the 1:1 mapping is set up then just
+11520e5e7c1855 Linus Torvalds 2012-12-15  235  	 * return and let the normal shutdown happen; this should only be
+11520e5e7c1855 Linus Torvalds 2012-12-15  236  	 * due to very early panic()
+11520e5e7c1855 Linus Torvalds 2012-12-15  237  	 */
+11520e5e7c1855 Linus Torvalds 2012-12-15  238  	if (!tboot_pg_dir)
+11520e5e7c1855 Linus Torvalds 2012-12-15  239  		return;
+11520e5e7c1855 Linus Torvalds 2012-12-15  240  
+3162534069597e Joseph Cihula  2009-06-30  241  	/* if this is S3 then set regions to MAC */
+3162534069597e Joseph Cihula  2009-06-30  242  	if (shutdown_type == TB_SHUTDOWN_S3)
+58c41d28259c24 H. Peter Anvin 2009-08-14  243  		if (tboot_setup_sleep())
+58c41d28259c24 H. Peter Anvin 2009-08-14  244  			return;
+3162534069597e Joseph Cihula  2009-06-30  245  
+3162534069597e Joseph Cihula  2009-06-30  246  	tboot->shutdown_type = shutdown_type;
+3162534069597e Joseph Cihula  2009-06-30  247  
+3162534069597e Joseph Cihula  2009-06-30  248  	switch_to_tboot_pt();
+3162534069597e Joseph Cihula  2009-06-30  249  
+3162534069597e Joseph Cihula  2009-06-30  250  	shutdown = (void(*)(void))(unsigned long)tboot->shutdown_entry;
+3162534069597e Joseph Cihula  2009-06-30  251  	shutdown();
+3162534069597e Joseph Cihula  2009-06-30  252  
+3162534069597e Joseph Cihula  2009-06-30  253  	/* should not reach here */
+3162534069597e Joseph Cihula  2009-06-30  254  	while (1)
+3162534069597e Joseph Cihula  2009-06-30 @255  		halt();
+3162534069597e Joseph Cihula  2009-06-30  256  }
+3162534069597e Joseph Cihula  2009-06-30  257  
 
 -- 
 0-DAY CI Kernel Test Service
