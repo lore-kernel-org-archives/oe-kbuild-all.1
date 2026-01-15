@@ -1,95 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F5626F291
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 22:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A6550094C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 22:47:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768516462; cv=none; b=r9MsKFDyl0kH/rMJmijusUluiwaQbWgnhgLy+3tZrK68FcgrAEjrosrGuWV6lpT08c6FuN71qca8SiYg98hbYp2eLJqjvcQNtlpSU2DAyxnkZdKf6/DecLz9QkSqk1ZGWVueuYnWZnIyHLShFVaMJv5OI5czckzrewPTz4X3Gp4=
+	t=1768517242; cv=none; b=eDhOBZ+WOtWoFqPHaISyxHTeH246H4SjhzgiFbIGZGjZth2dSyQaziL46CHhcZQFIeMmPl0ja8z9LSvFEu+7yS+q8lqyUNFZEsASPmwTsM3tdzybk8LVrUFEJVCKlVBCI9iRFFO0BDUvoPC9CKAp8KQOM2MQPXVH8TRr1CvOZTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768516462; c=relaxed/simple;
-	bh=8rIAi0qVFNt5HatuhYy2AnMaCTtbuE65YVCGAJ12iFI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cNGpCj+HHgGELn2h0Vv5VdkYEUI3QyTExVhGUiiXD6uwhtjCz/fesDS96PapC6NNwUuNEcPx3ge4yhTTnjDmUUvAzsVVGihzOGkH2xnvrjkK+ph0mbZ3U4DrtTbXV/SstibbtWXyQQx6mjkJgmu6RWWFv7Pf7Ohq4pvs7MGR2WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S4RH+3wS; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768517242; c=relaxed/simple;
+	bh=NyuUVj5QrIjopuwqQPjikd5PjXu4iYddZhGtjoXfZwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Idl4JxQv03qbQRMy3e/deEas6cQYWaWigHzSmpylJz78+zL0w4QvgXbRQ60j8jm0xsbM6dxWv1yZ9LU6pqhrnYwfxjmhmzrMBh6OD0htlHnvIZp/KdTCedGPNJU2ttsek+MD/vN+bk/oabaMljnd1Fg3ZUpo5eYIGOJpPPiqsxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y4wNpOb4; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S4RH+3wS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y4wNpOb4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768516461; x=1800052461;
-  h=date:from:to:cc:subject:message-id;
-  bh=8rIAi0qVFNt5HatuhYy2AnMaCTtbuE65YVCGAJ12iFI=;
-  b=S4RH+3wSHGaHRne0z3VwIHfKQCGe3d7PRy97IO9ksZJa3FUVtIzWwIyu
-   cLzD3E/dcWM19brzlhNc8SQ0z9GxXka3Iup9ou5JCp0VaWoswrKfPDi8b
-   sbivt6CbkewJawpA9WqGonQ3rJfJyOX7WqrsRsAYpIah2mqngx1PtOqc1
-   FpvdYj3hT3/GUotCsksqZ3TQadNxX+PZhueCQFD6Kj+fNUcCuLq8APv05
-   hwQqUR9scwC4MivzyT1JerLQACnYzvWbqH768YtuoNJume71FHEQY3/WA
-   Ly0k6pP6QIBUpVO/Ig5MR6G2bJ1aWKbQtPUjTHi0SNGJ3+EbtYFa6GXMn
-   w==;
-X-CSE-ConnectionGUID: OCtknuioSiG+UaRSl41emA==
-X-CSE-MsgGUID: Csth39dmTW2HLO/pjD2X7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69812753"
+  t=1768517241; x=1800053241;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NyuUVj5QrIjopuwqQPjikd5PjXu4iYddZhGtjoXfZwA=;
+  b=Y4wNpOb4H7Kj7FkmaE+V2SppXom/4oIfl1BYPkJMvK+pxe/ZokccRS/Z
+   mIvMHY+6dY7y/g/O69QpA0z8DeVHtYSn/a/3xjmtD5D/IeflhVclXVrag
+   TnnDjaANhnn2JkrWvf3bzYfdHWrX+zuUOcqUuE/i42xD5D/gCX8THvhuK
+   mhSqJ7BgMEv4a5ii+74s9Ay9fijla4/w5eiKY+Kamx1eyGJifWiEDxG4b
+   X1RPtMJjd63VCpxH/4thvEU4U9yPUvwQKuQ905yjB1NjYDs7Om3xDZuH5
+   9Sx9AO+CESbM2d5iWYFJIsqXSLYjdjX6VznXqUSt38EokWuuIZPz1N3nc
+   g==;
+X-CSE-ConnectionGUID: 1Gj24EFoRtujwU1iX26rbw==
+X-CSE-MsgGUID: x8ZkqAP3RcOgjwEhY7p9/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="73678739"
 X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="69812753"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 14:34:20 -0800
-X-CSE-ConnectionGUID: kbQK/XmPQ7WcT55O9bCFQw==
-X-CSE-MsgGUID: Lf/kyTPzQxCayXqlJQ49Lg==
+   d="scan'208";a="73678739"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 14:47:20 -0800
+X-CSE-ConnectionGUID: gbMbEkvzRaqXXJLIvsq/Og==
+X-CSE-MsgGUID: iGVcOU/jRMOhHYlbatZgug==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="209560238"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 15 Jan 2026 14:34:18 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 15 Jan 2026 14:47:19 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgVuy-00000000K4S-2DKd;
-	Thu, 15 Jan 2026 22:34:16 +0000
-Date: Fri, 16 Jan 2026 06:34:05 +0800
+	id 1vgW7Y-00000000K4i-3OxB;
+	Thu, 15 Jan 2026 22:47:16 +0000
+Date: Fri, 16 Jan 2026 06:46:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Masney <bmasney@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [masneyb:b4/mips-pic32-header-move 17/17]
- drivers/clk/microchip/clk-core.c:13:10: fatal error: asm/traps.h: No such
- file or directory
-Message-ID: <202601160637.is1An2Aw-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH] posix_acl: make posix_acl_to_xattr() alloc the buffer
+Message-ID: <202601160622.QW5z6XIJ-lkp@intel.com>
+References: <20260115122341.556026-1-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115122341.556026-1-mszeredi@redhat.com>
 
-tree:   https://github.com/masneyb/linux b4/mips-pic32-header-move
-head:   0ffbdd0bc2954abd9c91cddb0b0d5030e87f68d5
-commit: 0ffbdd0bc2954abd9c91cddb0b0d5030e87f68d5 [17/17] clk: microchip: core: allow driver to be compiled with COMPILE_TEST
-config: arc-randconfig-001-20260116 (https://download.01.org/0day-ci/archive/20260116/202601160637.is1An2Aw-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160637.is1An2Aw-lkp@intel.com/reproduce)
+Hi Miklos,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on kdave/for-next ceph-client/testing mszeredi-fuse/for-next gfs2/for-next linus/master v6.19-rc5 next-20260115]
+[cannot apply to ceph-client/for-linus kleikamp-shaggy/jfs-next ericvh-v9fs/for-next hubcap/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Miklos-Szeredi/posix_acl-make-posix_acl_to_xattr-alloc-the-buffer/20260115-202602
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20260115122341.556026-1-mszeredi%40redhat.com
+patch subject: [PATCH] posix_acl: make posix_acl_to_xattr() alloc the buffer
+config: arm-randconfig-r131-20260116 (https://download.01.org/0day-ci/archive/20260116/202601160622.QW5z6XIJ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160622.QW5z6XIJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601160637.is1An2Aw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601160622.QW5z6XIJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/gfs2/acl.c:87:22: sparse: sparse: Using plain integer as NULL pointer
 
->> drivers/clk/microchip/clk-core.c:13:10: fatal error: asm/traps.h: No such file or directory
-      13 | #include <asm/traps.h>
-         |          ^~~~~~~~~~~~~
-   compilation terminated.
+vim +87 fs/gfs2/acl.c
 
-
-vim +13 drivers/clk/microchip/clk-core.c
-
-ce6e11884659988 Purna Chandra Mandal 2016-05-13 @13  #include <asm/traps.h>
-ce6e11884659988 Purna Chandra Mandal 2016-05-13  14  
-
-:::::: The code at line 13 was first introduced by commit
-:::::: ce6e1188465998820e7182455261b1f5d508ca17 CLK: microchip: Add Microchip PIC32 clock driver.
-
-:::::: TO: Purna Chandra Mandal <purna.mandal@microchip.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+    82	
+    83	int __gfs2_set_acl(struct inode *inode, struct posix_acl *acl, int type)
+    84	{
+    85		int error;
+    86		size_t len = 0;
+  > 87		char *data = 0;
+    88		const char *name = gfs2_acl_name(type);
+    89	
+    90		if (acl) {
+    91			data = posix_acl_to_xattr(&init_user_ns, acl, &len, GFP_NOFS);
+    92			if (data == NULL)
+    93				return -ENOMEM;
+    94		}
+    95	
+    96		error = __gfs2_xattr_set(inode, name, data, len, 0, GFS2_EATYPE_SYS);
+    97		if (error)
+    98			goto out;
+    99		set_cached_acl(inode, type, acl);
+   100	out:
+   101		kfree(data);
+   102		return error;
+   103	}
+   104	
 
 -- 
 0-DAY CI Kernel Test Service
