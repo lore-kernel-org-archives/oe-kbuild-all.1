@@ -1,101 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B421C3AA1B3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 15:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649DA350A05
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 15:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768489706; cv=none; b=sBPin1iMcbayorJn/L0Gc4+EixrIzp1UyspaD0vWhfGrXDDC7KOImRWxhpKWq4R6qllO8XtePn88LSUNTV30eRVKQwG3VCLRT53k8TvbfGlORnRbFdzTVjQTLZuF7JmDmADruod3HqB+muFxMYlVEsDrzK4octeu9S4Z4SwPwuM=
+	t=1768492158; cv=none; b=RguPz/fm8m5W3L4youXJXwqWTkUnw2x9Fl115abd3sT8aJWS2TpeVz0g9EcotHOfjUX+gCUG0EfkIk+89YE/MsBjBawzIJk4D3Po3A/5YSVibC2lt2f04DmL12IYVD9WYOj+N2z8YIpsFP1lPQXfibFxMxLZQXI8xsVDGt69OKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768489706; c=relaxed/simple;
-	bh=R5Jhn8JTbwLFlieibOQgjir54DfHkIlyE1bWTi8QyPo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=lwPpxbnkdSITU+kmtO4K+iyRW1rbGZbz4a9uIFpxPiKWY0+8h2mKWCcRjxSBAZ07iguCKpeU5iN8fkri0s8nglwQ1rjNPgBEDzfiAukhp3wYu8Zpdk91ph3GDFkkj3/HiOh4cq3cSz0cDIzTSFZnwix1JXr1/DiiwWGSeEhuVHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JiLohBfK; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1768492158; c=relaxed/simple;
+	bh=c6otoexpBFc0bdrxPkcgwQlewejnD1J1LdNjPxMDb2U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QLM3J30iM6RidvXh6tE797958guo5B/qbeqRAGr8tZ/a2AAXmtW3k7Q9TvxHXiC4cYVRNyu9ndll7PeQoql0bRVV7WgS3qTqNiYLDz0jwtLnUtW8dABd/YhDr9HL10236oXemP9hg1Kcr9cH+WDfgU1rjqvEdr5QaYoxcaSzNh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mt20a8ba; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JiLohBfK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mt20a8ba"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768489697; x=1800025697;
-  h=date:from:to:cc:subject:message-id;
-  bh=R5Jhn8JTbwLFlieibOQgjir54DfHkIlyE1bWTi8QyPo=;
-  b=JiLohBfK1S9VaPhd1PDkxSFLUUfbVmOYsSkYcpqIae1LoHSmSsAGljPY
-   bzLv+AOMTX2aXAswG45V32oC3v3AQLhGcR1DoAo35iybFcJY7C0H1b+BT
-   8xBqvP7HbomQ20GO9mOgMteqHQ1B9IdflyAppPHnwEFanViaPwFFiC9UT
-   UkOxUili9LuRbQdme8afg/3jq+jiAb4blN5cjPCtfiZSssLks+KjoOJlk
-   ya984GO5vfib/tgdgVMSL3KyQ43Jez64N7viozK1cIIB7+25QXamn19uU
-   3rp6mSwp10upSr1vgzj7jOLBqFxYYPk3rPrBwO3c/yWm9KVeaUr7qf530
-   w==;
-X-CSE-ConnectionGUID: o2MUJNN5Ta+Vyrz3YCDeHA==
-X-CSE-MsgGUID: J0JPqSDfQKeSZk4SIurxgw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="95275140"
+  t=1768492156; x=1800028156;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c6otoexpBFc0bdrxPkcgwQlewejnD1J1LdNjPxMDb2U=;
+  b=mt20a8baNtBzxLccpowomsfkZKkkaN6ld3N8JvCsh7znEZLKPXfwhqw1
+   JxLGb2qtdBrb5W/qVIGP2Vj+454EPg6Mocy5iE3jhW/l0g+nDWMwhYUoV
+   4k/RMrTEPTSuSO8/nPtmvsjBXAprqU5lpSq+vAFp+dhpdfS9QOOdghZL0
+   xadkDMgvEPvjMoWJlCsb+f1xNs2PMtYAq0xPrFB54oTOZkux9BdcEP0qB
+   gGTgmKJCQs/LgRL2dwgeyQlxyR6JG9uoiq7/thXQBAwYt3Qqt6Wo8P1P5
+   PqVIvwA4CQXOWjhP5uHd6VDUTAM2uBkGJ+TGSRlccq1m5Oxca7IhZaHYP
+   A==;
+X-CSE-ConnectionGUID: FhYmZ9JgQ1qjLJfSiNq41Q==
+X-CSE-MsgGUID: 5YvPVWQvTS6X88glr8LgUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80912494"
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="95275140"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 07:08:12 -0800
-X-CSE-ConnectionGUID: zwglCMcGTeKwqMD4mCsdQQ==
-X-CSE-MsgGUID: 2iHPafT4SvKMEr1M+C5xYA==
+   d="scan'208";a="80912494"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 07:49:15 -0800
+X-CSE-ConnectionGUID: VHu8/1ikSNKM5qY1JBuPHg==
+X-CSE-MsgGUID: GaUmVaxQRdK7Zxb+Lk8gpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="209833346"
+   d="scan'208";a="204190513"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Jan 2026 07:08:10 -0800
+  by orviesa010.jf.intel.com with ESMTP; 15 Jan 2026 07:49:12 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgOxE-00000000I6y-0Sl7;
-	Thu, 15 Jan 2026 15:08:08 +0000
-Date: Thu, 15 Jan 2026 23:07:48 +0800
+	id 1vgPav-00000000I9Y-2rox;
+	Thu, 15 Jan 2026 15:49:09 +0000
+Date: Thu, 15 Jan 2026 23:48:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg-xen 2/17]
- include/linux/dma-buf.h:706:52: warning: omitting the parameter name in a
- function definition is a C23 extension
-Message-ID: <202601152337.KBfCEzmN-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>,
+	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+Subject: Re: [PATCH v8 3/3] media: qcom: camss: tpg: Add TPG support for
+ multiple targets
+Message-ID: <202601152315.fC7ckH9z-lkp@intel.com>
+References: <20260113-camss_tpg-v8-3-fa2cb186a018@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113-camss_tpg-v8-3-fa2cb186a018@oss.qualcomm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-xen
-head:   2978a84b82627a16bee8e2cd5718a51de47e7d5e
-commit: 085cecef6ce6cb8d0cbc931f9425224def2164ec [2/17] dma-buf: add no-op stubs when CONFIG_DMA_SHARED_BUFFER is disabled
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20260115/202601152337.KBfCEzmN-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152337.KBfCEzmN-lkp@intel.com/reproduce)
+Hi Wenmeng,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on f417b7ffcbef7d76b0d8860518f50dae0e7e5eda]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wenmeng-Liu/media-qcom-camss-Add-common-TPG-support/20260113-171032
+base:   f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
+patch link:    https://lore.kernel.org/r/20260113-camss_tpg-v8-3-fa2cb186a018%40oss.qualcomm.com
+patch subject: [PATCH v8 3/3] media: qcom: camss: tpg: Add TPG support for multiple targets
+config: parisc-randconfig-002-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152315.fC7ckH9z-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152315.fC7ckH9z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601152337.KBfCEzmN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601152315.fC7ckH9z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from io_uring/io_uring.c:101:
-   In file included from io_uring/zcrx.h:6:
->> include/linux/dma-buf.h:706:52: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
-     706 |                                struct vm_area_struct *vma, unsigned long)
-         |                                                                         ^
-   1 warning generated.
+   drivers/media/platform/qcom/camss/camss-csid-680.c: In function '__csid_configure_rx':
+>> drivers/media/platform/qcom/camss/camss-csid-680.c:202:32: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     202 |                         val |= FIELD_PREP(CSI2_RX_CFG0_TPG_NUM_SEL, phy->csiphy_id + 1);
+         |                                ^~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/media/platform/qcom/camss/camss-csid-gen3.c: In function '__csid_configure_rx':
+>> drivers/media/platform/qcom/camss/camss-csid-gen3.c:126:32: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     126 |                         val |= FIELD_PREP(CSI2_RX_CFG0_TPG_NUM_SEL, phy->csiphy_id + 1);
+         |                                ^~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +706 include/linux/dma-buf.h
+vim +/FIELD_PREP +202 drivers/media/platform/qcom/camss/camss-csid-680.c
 
-   699	
-   700	static inline void
-   701	dma_buf_unmap_attachment_unlocked(struct dma_buf_attachment *attach,
-   702					  struct sg_table *sg_table,
-   703					  enum dma_data_direction direction) { }
-   704	
-   705	static inline int dma_buf_mmap(struct dma_buf *dmabuf,
- > 706				       struct vm_area_struct *vma, unsigned long)
-   707	{
-   708		return -EOPNOTSUPP;
-   709	}
-   710	
+   185	
+   186	static void __csid_configure_rx(struct csid_device *csid,
+   187					struct csid_phy_config *phy, int vc)
+   188	{
+   189		u32 val;
+   190		struct camss *camss;
+   191		struct tpg_device *tpg;
+   192	
+   193		camss = csid->camss;
+   194		val = (phy->lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
+   195		val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
+   196		val |= (phy->csiphy_id + CSI2_RX_CFG0_PHY_SEL_BASE_IDX) << CSI2_RX_CFG0_PHY_NUM_SEL;
+   197	
+   198		if (camss->tpg) {
+   199			tpg = &camss->tpg[phy->csiphy_id];
+   200	
+   201			if (csid->tpg_linked && tpg->testgen.mode > 0) {
+ > 202				val |= FIELD_PREP(CSI2_RX_CFG0_TPG_NUM_SEL, phy->csiphy_id + 1);
+   203				val |= CSI2_RX_CFG0_TPG_NUM_EN;
+   204			}
+   205		}
+   206	
+   207		writel(val, csid->base + CSID_CSI2_RX_CFG0);
+   208	
+   209		val = CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
+   210		if (vc > 3)
+   211			val |= CSI2_RX_CFG1_VC_MODE;
+   212		writel(val, csid->base + CSID_CSI2_RX_CFG1);
+   213	}
+   214	
 
 -- 
 0-DAY CI Kernel Test Service
