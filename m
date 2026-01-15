@@ -1,149 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51A12701BB;
-	Thu, 15 Jan 2026 16:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0233B8D61
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 16:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768493480; cv=none; b=AS+N7F6PWy6EX7MKWGCMPZfTVHfIqdH45TD0uNHWu5uaF4OPuiQjYBUBlXIPcQthqWkuShDKqgKFwHZJK9NyhQb6IJ1FpUu+KezfOEx9/hNuCupFuLkuQ1xjhYUGrivDnpILjLtqrI+WdiVBQuVrjI4lGa6BBzEnUUzJ2Cfnb5c=
+	t=1768494142; cv=none; b=Z7r36pKNAxDaGAp51GpWykG1CDNYiEQuLVT2Mp4dP9p65nfYFu6hgB/tN0lkIL5db+DXaYIWhb1M64ekzOiLQxBSybA8hxMBrnhOnPwXuFIY/gk4dzIdQY0F5f7OD5qDxPpkqrugKs4BrnIEbLETsRI2b1gVojUsQb+OvCtFlIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768493480; c=relaxed/simple;
-	bh=gFIoEC1f1qlzIUpk/6FrkLxr7vkPH7lbau/8uT3TPbk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mZsV9j2H1k1hJypPqXJMrIy/eInuhWNS5jNQ94jmfXoxeCzcZ3B0d9iIXMWG2f1kyS5HrRZPlwirDIOTW/JbZDYLfn4WRGOQ6XF8SFNcjQfQaCSubsTmOAOfVM8YO0te64jVOp/6cGIG3DS9vSxWKz1yvnkT+IaPDlFAXibxmGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHb5fqTH; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1768494142; c=relaxed/simple;
+	bh=AZ9ALpoxRMsqB1wk058MFJec7ZDc9Obthxm2I1Sb9Gk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WkZi85KotpUPEqJp0vcxWmtdUu/YaOpBl5jfQLyLrNoKxjBYWa+C/D0ORnFNNFl5aJkSnhUpesaydk9aoKi4njVhplRtNyDuMUL08d87WekOaah6BNLJaA47sqQ40YZ2KBfOkf3SYW8I3l9RErtfG5fYHbt4m/VRXhnnRJp0bko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zbx4Tnc3; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHb5fqTH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zbx4Tnc3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768493479; x=1800029479;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gFIoEC1f1qlzIUpk/6FrkLxr7vkPH7lbau/8uT3TPbk=;
-  b=nHb5fqTHh6JL/ZYed6nZR6QQsdekrk8T40lmZgrgAquJRx56luF4UQAc
-   MdKNp9AbOB1ZPRtaP7p5K37Hc7gvxy5fXSgQQ+Rih3VrqcbbsvwgzTsU+
-   GS6IfdFpevEBhzFiM5xtvG+oPTUnETqoW/1hc0nk4+XaPpeICyfu3V3lz
-   wnmlkeggoP/x/0+P2UeKwcmblesuDmnOHyNbdFIXOnvjmFdDVTTckWYl5
-   0OIRS+5bupyuPGdwJ6C9PTVBgiktKWJNYTGkjLp9Ms4MIzgLLQLu0GBvs
-   RLBkhSAjJk07ZhkZU6dwRM6l31i892F07K1KEbe72gXnZRb4JHMm1667u
-   A==;
-X-CSE-ConnectionGUID: HFXUPd62R1aDXrkeOuUHvA==
-X-CSE-MsgGUID: cZQaTV4RTjSkcCJoN6cPyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69701552"
+  t=1768494139; x=1800030139;
+  h=date:from:to:cc:subject:message-id;
+  bh=AZ9ALpoxRMsqB1wk058MFJec7ZDc9Obthxm2I1Sb9Gk=;
+  b=Zbx4Tnc3jjtPh6+b6bVGYjPMhbqc0KgxVmxAYX3JyDoi6h6eHf3o2O1P
+   pR4BS3wL3u6cYwgkXO7mnbJ2D3pw022SXTfSV11Fqn4Z6VnK9+SdZ1p7F
+   yCjZRQsEO2CL2wjndvFKb5gEsBZ0NC3yiOobmm0dkKJ8vByo4DlLwTO39
+   aj7qeGLrN6nC8slZmMTNrVFaqXsTo2V7YLO/Rr5j2Ltb+YFQTC+za/kr8
+   bVgI3rHGmPFTmf7NMqb9W+reX6wY1SqVbz66ynAWZRcCFFKcfwFs7Wuob
+   T0n1veXYMCe/bSTqL9DINWMPbz7hvvlp32MbI2xDg0pUCTgOvQdN1gbWY
+   Q==;
+X-CSE-ConnectionGUID: 106lUsqzSRmaUKseMGidFw==
+X-CSE-MsgGUID: 41YXNLVmQU6nmdkGRhvALw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69969507"
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="69701552"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 08:11:19 -0800
-X-CSE-ConnectionGUID: T0RnRcTxRsGGrhE5Yp0D6g==
-X-CSE-MsgGUID: 0Lh0zAVbQ2yEnGpU34emxg==
+   d="scan'208";a="69969507"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 08:22:17 -0800
+X-CSE-ConnectionGUID: E2IIir0fQEucgdtppwWAGQ==
+X-CSE-MsgGUID: kc7q+djxTG2uYOlDYtLOQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="205020917"
+   d="scan'208";a="209852798"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 15 Jan 2026 08:11:14 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 15 Jan 2026 08:22:15 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgPwF-00000000IBQ-0m18;
-	Thu, 15 Jan 2026 16:11:11 +0000
-Date: Fri, 16 Jan 2026 00:10:12 +0800
+	id 1vgQ6v-00000000ICw-1xDi;
+	Thu, 15 Jan 2026 16:22:13 +0000
+Date: Fri, 16 Jan 2026 00:21:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
-	x86@kernel.org, virtualization@lists.linux.dev, kvm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Juergen Gross <jgross@suse.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v3 1/5] x86/paravirt: Replace io_delay() hook with a bool
-Message-ID: <202601152321.kJ6D4yKM-lkp@intel.com>
-References: <20260115084849.31502-2-jgross@suse.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:bpfoom.3.9 8/16] mm/bpf_oom.c:51:58: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202601160003.NdBB6pVR-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115084849.31502-2-jgross@suse.com>
 
-Hi Juergen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/master]
-[also build test ERROR on next-20260115]
-[cannot apply to kvm/queue kvm/next tip/x86/core kvm/linux-next tip/auto-latest linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Juergen-Gross/x86-paravirt-Replace-io_delay-hook-with-a-bool/20260115-165320
-base:   tip/master
-patch link:    https://lore.kernel.org/r/20260115084849.31502-2-jgross%40suse.com
-patch subject: [PATCH v3 1/5] x86/paravirt: Replace io_delay() hook with a bool
-config: x86_64-randconfig-006-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152321.kJ6D4yKM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152321.kJ6D4yKM-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git bpfoom.3.9
+head:   9d2b723568aae6a6f7e41fc66f65f8b009690b6e
+commit: 36dfd96fa3fbd7d4057fe22dfa657b62a9b6865b [8/16] mm: introduce BPF OOM struct ops
+config: s390-randconfig-r133-20260115 (https://download.01.org/0day-ci/archive/20260116/202601160003.NdBB6pVR-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160003.NdBB6pVR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601152321.kJ6D4yKM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601160003.NdBB6pVR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/bpf_oom.c:51:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct bpf_map *map @@     got struct bpf_map [noderef] __rcu *map @@
+   mm/bpf_oom.c:51:58: sparse:     expected struct bpf_map *map
+   mm/bpf_oom.c:51:58: sparse:     got struct bpf_map [noderef] __rcu *map
+>> mm/bpf_oom.c:125:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/bpf_oom.c:125:9: sparse:    struct bpf_struct_ops_link [noderef] __rcu *
+   mm/bpf_oom.c:125:9: sparse:    struct bpf_struct_ops_link *
 
-   arch/x86/kernel/tboot.c: In function 'tboot_shutdown':
->> arch/x86/kernel/tboot.c:255:17: error: implicit declaration of function 'halt' [-Werror=implicit-function-declaration]
-     255 |                 halt();
-         |                 ^~~~
-   cc1: some warnings being treated as errors
+vim +51 mm/bpf_oom.c
 
-
-vim +/halt +255 arch/x86/kernel/tboot.c
-
-58c41d28259c24 H. Peter Anvin 2009-08-14  225  
-3162534069597e Joseph Cihula  2009-06-30  226  void tboot_shutdown(u32 shutdown_type)
-3162534069597e Joseph Cihula  2009-06-30  227  {
-3162534069597e Joseph Cihula  2009-06-30  228  	void (*shutdown)(void);
-3162534069597e Joseph Cihula  2009-06-30  229  
-3162534069597e Joseph Cihula  2009-06-30  230  	if (!tboot_enabled())
-3162534069597e Joseph Cihula  2009-06-30  231  		return;
-3162534069597e Joseph Cihula  2009-06-30  232  
-11520e5e7c1855 Linus Torvalds 2012-12-15  233  	/*
-11520e5e7c1855 Linus Torvalds 2012-12-15  234  	 * if we're being called before the 1:1 mapping is set up then just
-11520e5e7c1855 Linus Torvalds 2012-12-15  235  	 * return and let the normal shutdown happen; this should only be
-11520e5e7c1855 Linus Torvalds 2012-12-15  236  	 * due to very early panic()
-11520e5e7c1855 Linus Torvalds 2012-12-15  237  	 */
-11520e5e7c1855 Linus Torvalds 2012-12-15  238  	if (!tboot_pg_dir)
-11520e5e7c1855 Linus Torvalds 2012-12-15  239  		return;
-11520e5e7c1855 Linus Torvalds 2012-12-15  240  
-3162534069597e Joseph Cihula  2009-06-30  241  	/* if this is S3 then set regions to MAC */
-3162534069597e Joseph Cihula  2009-06-30  242  	if (shutdown_type == TB_SHUTDOWN_S3)
-58c41d28259c24 H. Peter Anvin 2009-08-14  243  		if (tboot_setup_sleep())
-58c41d28259c24 H. Peter Anvin 2009-08-14  244  			return;
-3162534069597e Joseph Cihula  2009-06-30  245  
-3162534069597e Joseph Cihula  2009-06-30  246  	tboot->shutdown_type = shutdown_type;
-3162534069597e Joseph Cihula  2009-06-30  247  
-3162534069597e Joseph Cihula  2009-06-30  248  	switch_to_tboot_pt();
-3162534069597e Joseph Cihula  2009-06-30  249  
-3162534069597e Joseph Cihula  2009-06-30  250  	shutdown = (void(*)(void))(unsigned long)tboot->shutdown_entry;
-3162534069597e Joseph Cihula  2009-06-30  251  	shutdown();
-3162534069597e Joseph Cihula  2009-06-30  252  
-3162534069597e Joseph Cihula  2009-06-30  253  	/* should not reach here */
-3162534069597e Joseph Cihula  2009-06-30  254  	while (1)
-3162534069597e Joseph Cihula  2009-06-30 @255  		halt();
-3162534069597e Joseph Cihula  2009-06-30  256  }
-3162534069597e Joseph Cihula  2009-06-30  257  
+    28	
+    29	bool bpf_handle_oom(struct oom_control *oc)
+    30	{
+    31		struct bpf_struct_ops_link *st_link;
+    32		struct bpf_oom_ops *bpf_oom_ops;
+    33		struct mem_cgroup *memcg;
+    34		int ret = 0;
+    35	
+    36		/*
+    37		 * System-wide OOMs are handled by the struct ops attached
+    38		 * to the root memory cgroup
+    39		 */
+    40		memcg = oc->memcg ? oc->memcg : root_mem_cgroup;
+    41	
+    42		rcu_read_lock_trace();
+    43	
+    44		/* Find the nearest bpf_oom_ops traversing the cgroup tree upwards */
+    45		for (; memcg; memcg = parent_mem_cgroup(memcg)) {
+    46			st_link = rcu_dereference_check(memcg->css.cgroup->bpf.bpf_oom_link,
+    47							rcu_read_lock_trace_held());
+    48			if (!st_link)
+    49				continue;
+    50	
+  > 51			bpf_oom_ops = bpf_struct_ops_data(st_link->map);
+    52			/* Call BPF OOM handler */
+    53			ret = bpf_ops_handle_oom(bpf_oom_ops, st_link, oc);
+    54	
+    55			if (ret && oc->bpf_memory_freed)
+    56				break;
+    57			ret = 0;
+    58		}
+    59	
+    60		rcu_read_unlock_trace();
+    61	
+    62		return ret && oc->bpf_memory_freed;
+    63	}
+    64	
+    65	static int __handle_out_of_memory(struct oom_control *oc,
+    66					  struct bpf_struct_ops_link *st_link)
+    67	{
+    68		return 0;
+    69	}
+    70	
+    71	static struct bpf_oom_ops __bpf_oom_ops = {
+    72		.handle_out_of_memory = __handle_out_of_memory,
+    73	};
+    74	
+    75	static const struct bpf_func_proto *
+    76	bpf_oom_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
+    77	{
+    78		return tracing_prog_func_proto(func_id, prog);
+    79	}
+    80	
+    81	static bool bpf_oom_ops_is_valid_access(int off, int size,
+    82						enum bpf_access_type type,
+    83						const struct bpf_prog *prog,
+    84						struct bpf_insn_access_aux *info)
+    85	{
+    86		return bpf_tracing_btf_ctx_access(off, size, type, prog, info);
+    87	}
+    88	
+    89	static const struct bpf_verifier_ops bpf_oom_verifier_ops = {
+    90		.get_func_proto = bpf_oom_func_proto,
+    91		.is_valid_access = bpf_oom_ops_is_valid_access,
+    92	};
+    93	
+    94	static int bpf_oom_ops_reg(void *kdata, struct bpf_link *link)
+    95	{
+    96		struct bpf_struct_ops_link *st_link = (struct bpf_struct_ops_link *)link;
+    97		struct cgroup *cgrp;
+    98	
+    99		/* The link is not yet fully initialized, but cgroup should be set */
+   100		if (!link)
+   101			return -EOPNOTSUPP;
+   102	
+   103		cgrp = st_link->cgroup;
+   104		if (!cgrp)
+   105			return -EINVAL;
+   106	
+   107		if (cmpxchg(&cgrp->bpf.bpf_oom_link, NULL, st_link))
+   108			return -EEXIST;
+   109	
+   110		return 0;
+   111	}
+   112	
+   113	static void bpf_oom_ops_unreg(void *kdata, struct bpf_link *link)
+   114	{
+   115		struct bpf_struct_ops_link *st_link = (struct bpf_struct_ops_link *)link;
+   116		struct cgroup *cgrp;
+   117	
+   118		if (!link)
+   119			return;
+   120	
+   121		cgrp = st_link->cgroup;
+   122		if (!cgrp)
+   123			return;
+   124	
+ > 125		WARN_ON(cmpxchg(&cgrp->bpf.bpf_oom_link, st_link, NULL) != st_link);
+   126	}
+   127	
 
 -- 
 0-DAY CI Kernel Test Service
