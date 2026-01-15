@@ -1,171 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D840D30E0F0;
-	Thu, 15 Jan 2026 14:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34223345745
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 14:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768488255; cv=none; b=ctl7blD6lbGZXJzBEvkafi9nqc0EvOFCf1L6e/eDBdKJwBtBU1J+frGc8fvWVLvCmJA6eS1RR4gbR4FTz7uqd4W9br0ZpEiEHSH30dNiBOA8gScEFHCSjfjhNr+JPHR3Mzf9foAiSD/8EAokfl6xPOz7eoB48OIq8Rf7Oc5jk5g=
+	t=1768488315; cv=none; b=QBycwyPOMSwHCcnE/36C9qh4tWk6AfUnO19GucPms6TDVb0x/fO8891U9oqQfBD1/W3Vn2KhsS+jpXk63awFLECBL3Y7LHLQB/L8rBbkCji0BWCpCiSae7UycA3AZA4r8ZDsLe3Wq2B7Q6dhkAlE6jgdaF+VP+yjqrNKi+rzN80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768488255; c=relaxed/simple;
-	bh=W8bSj3Tt1fNR22DvPlznzXtp4tTD+xt+MEIzrxtDuUM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ScVIgnP3Sf/FilPytnj4njP730RsjHkIRB83X60cC8OaIppELjWONbOCk7x9BuC+3jg5nNUlkgMJw2NlIGxnLpozxHIbOLRpvjmVy3G315jxBtzLIz02BWIQkqgfy6Nv9RcoXDISORwauvxKNLrG3T+IUQNDRms5VRp4eCjreCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVc6phDq; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768488315; c=relaxed/simple;
+	bh=B2iBTAqd+92QUVdKHEudgLsM4Ixdh1i8Ne91BRZmkWc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=uheZq7BZBeWjx+jOan3ImJNTwGWK5uMS2yQFSdFMn1l4s6RVz7cKDNMjyRAb6LIqV0lcefHfJsnISzqdRwNL/laznpB/oTMbqu2ormgDdIJgWy8hGFQB49ZzMHFz6t7kiR2di3ModRr1PrT1pnlDFE5g5rG54Y5DGxvVWMu/k3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AeeQDkjH; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVc6phDq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AeeQDkjH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768488253; x=1800024253;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=W8bSj3Tt1fNR22DvPlznzXtp4tTD+xt+MEIzrxtDuUM=;
-  b=LVc6phDq+9bkHTitzDivV2ntcFF+o2uJ1eu6r1PqQe1W/rsLN57MND3/
-   b1ljTjiNWToP+JI+vF8d9ox2axkDDx2lxNgcd567XAKpiKux8ObygoxAg
-   Sp9OHubqtYW46DwSiWarGPpnTZHyilol9iprPY30kZZ/yi4gjuq90Gqbu
-   dcHrMJJ5GzcpteTNIlgDFB1OGRAM4/4qqqwuSPaGUKHMuE5DkTiOHB35I
-   QpdtYrhZhA238GpqmzVnmWty2ClxaCmLiGHNokS5F5mGiyTtLqJ27FZxl
-   GMrBMkHHA/Cbs8h94YQtMn+AyEMHdycReuh+h6H37S6ok76Sfek3Wbtz5
-   Q==;
-X-CSE-ConnectionGUID: 1Dgy+FLPSNS9NDhMeIOfPg==
-X-CSE-MsgGUID: kUSpkn55ReOOmGDUMLGC6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69773524"
+  t=1768488313; x=1800024313;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B2iBTAqd+92QUVdKHEudgLsM4Ixdh1i8Ne91BRZmkWc=;
+  b=AeeQDkjHQG70i6BocW35beyqQh2K4tHeO4O7vf9rd+iCRsrnqPaQ1UdO
+   tQ4n8wfIE8KVTbis5bw79qUbZqoidJ6qUYBZKOqcQT3R4Lm3TvP/3E0vG
+   LnNfAEaEiF51oqmvFtvIrsflnAsZ4KibDXV7zoelwnWsBnVbUn9xI76b9
+   1j3zYf0oSxhSIqoSt7cMsfGYrGxY10yUEtsHI8ugouaDw3BDMmwZhf9U1
+   k0sGltloZaRLQfIk67ER058obdhDSB17taxDzpUC5pr8gmWX7F9E8w0oo
+   UQrBflPx0/IS1QKXrgzGsCeSe5T9QgDuPXARgQwGAyKU2gYWhCZfvr6YT
+   g==;
+X-CSE-ConnectionGUID: 9brwgT33QYCXcx3ME9kj0A==
+X-CSE-MsgGUID: z2KUJR3NRpWEHsGbWVQVGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69692640"
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="69773524"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 06:44:13 -0800
-X-CSE-ConnectionGUID: 1CV0d29lS5m316xjAn+w0w==
-X-CSE-MsgGUID: 5+bzz2H0T3OvpIwVh4UbOQ==
+   d="scan'208";a="69692640"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 06:45:11 -0800
+X-CSE-ConnectionGUID: qYuCflEbShOL2btXXrSAJg==
+X-CSE-MsgGUID: txZz/H7lSFSDv1N246P90A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="236223880"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 15 Jan 2026 06:44:09 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 15 Jan 2026 06:45:09 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgOZy-00000000I54-3wGb;
-	Thu, 15 Jan 2026 14:44:06 +0000
-Date: Thu, 15 Jan 2026 22:43:59 +0800
+	id 1vgOaw-00000000I5E-4AC1;
+	Thu, 15 Jan 2026 14:45:06 +0000
+Date: Thu, 15 Jan 2026 22:44:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
-	x86@kernel.org, virtualization@lists.linux.dev, kvm@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Juergen Gross <jgross@suse.com>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Ajay Kaher <ajay.kaher@broadcom.com>,
-	Alexey Makhalov <alexey.makhalov@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH v3 1/5] x86/paravirt: Replace io_delay() hook with a bool
-Message-ID: <202601152203.plJOoOEF-lkp@intel.com>
-References: <20260115084849.31502-2-jgross@suse.com>
+To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
+Subject: [linux-next:master 3548/6771]
+ ./usr/include/linux/vbox_vmmdev_types.h:254:6: error: field u within 'struct
+ vmmdev_hgcm_function_parameter64::(anonymous union)::(unnamed at
+ ./usr/include/linux/vbox_vmmdev_types.h:249:3)' is less aligned than 'union
+ (unnamed union at ./usr/include/linux...
+Message-ID: <202601152258.8RPQcl59-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260115084849.31502-2-jgross@suse.com>
+Content-Type: text/plain; charset=us-ascii
 
-Hi Juergen,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/master]
-[also build test ERROR on next-20260115]
-[cannot apply to kvm/queue kvm/next tip/x86/core kvm/linux-next tip/auto-latest linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Juergen-Gross/x86-paravirt-Replace-io_delay-hook-with-a-bool/20260115-165320
-base:   tip/master
-patch link:    https://lore.kernel.org/r/20260115084849.31502-2-jgross%40suse.com
-patch subject: [PATCH v3 1/5] x86/paravirt: Replace io_delay() hook with a bool
-config: i386-randconfig-011-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152203.plJOoOEF-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152203.plJOoOEF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9b7977f9e39b7768c70c2aa497f04e7569fd3e00
+commit: e3970d77ec504e54c3f91a48b2125775c16ba4c0 [3548/6771] kbuild: uapi: drop dependency on CC_CAN_LINK
+config: arm-randconfig-r064-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152258.8RPQcl59-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152258.8RPQcl59-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601152203.plJOoOEF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601152258.8RPQcl59-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/cpufreq/longhaul.c:145:2: error: call to undeclared function 'arch_safe_halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     145 |         safe_halt();
-         |         ^
-   include/linux/irqflags.h:231:3: note: expanded from macro 'safe_halt'
-     231 |                 raw_safe_halt();                \
-         |                 ^
-   include/linux/irqflags.h:192:27: note: expanded from macro 'raw_safe_halt'
-     192 | #define raw_safe_halt()                 arch_safe_halt()
-         |                                         ^
->> drivers/cpufreq/longhaul.c:150:2: error: call to undeclared function 'halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     150 |         halt();
-         |         ^
-   drivers/cpufreq/longhaul.c:179:2: error: call to undeclared function 'arch_safe_halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     179 |         safe_halt();
-         |         ^
-   include/linux/irqflags.h:231:3: note: expanded from macro 'safe_halt'
-     231 |                 raw_safe_halt();                \
-         |                 ^
-   include/linux/irqflags.h:192:27: note: expanded from macro 'raw_safe_halt'
-     192 | #define raw_safe_halt()                 arch_safe_halt()
-         |                                         ^
-   drivers/cpufreq/longhaul.c:187:4: error: call to undeclared function 'halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     187 |                         halt();
-         |                         ^
-   drivers/cpufreq/longhaul.c:205:3: error: call to undeclared function 'halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     205 |                 halt();
-         |                 ^
-   drivers/cpufreq/longhaul.c:224:4: error: call to undeclared function 'halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     224 |                         halt();
-         |                         ^
-   drivers/cpufreq/longhaul.c:165:6: warning: variable 't' set but not used [-Wunused-but-set-variable]
-     165 |         u32 t;
-         |             ^
-   1 warning and 6 errors generated.
-
-
-vim +/arch_safe_halt +145 drivers/cpufreq/longhaul.c
-
-^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longhaul.c Linus Torvalds 2005-04-16  134  
-ac617bd0f7b959 arch/x86/kernel/cpu/cpufreq/longhaul.c  Dave Jones     2009-01-17  135  static void do_longhaul1(unsigned int mults_index)
-^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longhaul.c Linus Torvalds 2005-04-16  136  {
-dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  137  	union msr_bcr2 bcr2;
-^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longhaul.c Linus Torvalds 2005-04-16  138  
-c435e608cf59ff drivers/cpufreq/longhaul.c              Ingo Molnar    2025-04-09  139  	rdmsrq(MSR_VIA_BCR2, bcr2.val);
-dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  140  	/* Enable software clock multiplier */
-dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  141  	bcr2.bits.ESOFTBF = 1;
-ac617bd0f7b959 arch/x86/kernel/cpu/cpufreq/longhaul.c  Dave Jones     2009-01-17  142  	bcr2.bits.CLOCKMUL = mults_index & 0xff;
-dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  143  
-dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  144  	/* Sync to timer tick */
-dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03 @145  	safe_halt();
-dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  146  	/* Change frequency on next halt or sleep */
-78255eb2397332 drivers/cpufreq/longhaul.c              Ingo Molnar    2025-04-09  147  	wrmsrq(MSR_VIA_BCR2, bcr2.val);
-179da8e6e8903a arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-08-08  148  	/* Invoke transition */
-179da8e6e8903a arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-08-08  149  	ACPI_FLUSH_CPU_CACHE();
-179da8e6e8903a arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-08-08 @150  	halt();
-dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  151  
-dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  152  	/* Disable software clock multiplier */
-dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  153  	local_irq_disable();
-c435e608cf59ff drivers/cpufreq/longhaul.c              Ingo Molnar    2025-04-09  154  	rdmsrq(MSR_VIA_BCR2, bcr2.val);
-dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  155  	bcr2.bits.ESOFTBF = 0;
-78255eb2397332 drivers/cpufreq/longhaul.c              Ingo Molnar    2025-04-09  156  	wrmsrq(MSR_VIA_BCR2, bcr2.val);
-^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longhaul.c Linus Torvalds 2005-04-16  157  }
-^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longhaul.c Linus Torvalds 2005-04-16  158  
+   In file included from <built-in>:1:
+   ./usr/include/linux/vbox_vmmdev_types.h:239:4: error: field u within 'struct vmmdev_hgcm_function_parameter32' is less aligned than 'union (unnamed union at ./usr/include/linux/vbox_vmmdev_types.h:223:2)' and is usually due to 'struct vmmdev_hgcm_function_parameter32' being packed, which can lead to unaligned accesses [-Werror,-Wunaligned-access]
+     239 |         } u;
+         |           ^
+>> ./usr/include/linux/vbox_vmmdev_types.h:254:6: error: field u within 'struct vmmdev_hgcm_function_parameter64::(anonymous union)::(unnamed at ./usr/include/linux/vbox_vmmdev_types.h:249:3)' is less aligned than 'union (unnamed union at ./usr/include/linux/vbox_vmmdev_types.h:251:4)' and is usually due to 'struct vmmdev_hgcm_function_parameter64::(anonymous union)::(unnamed at ./usr/include/linux/vbox_vmmdev_types.h:249:3)' being packed, which can lead to unaligned accesses [-Werror,-Wunaligned-access]
+     254 |                         } u;
+         |                           ^
+   2 errors generated.
+--
+   In file included from <built-in>:1:
+   In file included from ./usr/include/linux/vboxguest.h:14:
+   usr/include/linux/vbox_vmmdev_types.h:239:4: error: field u within 'struct vmmdev_hgcm_function_parameter32' is less aligned than 'union (unnamed union at usr/include/linux/vbox_vmmdev_types.h:223:2)' and is usually due to 'struct vmmdev_hgcm_function_parameter32' being packed, which can lead to unaligned accesses [-Werror,-Wunaligned-access]
+     239 |         } u;
+         |           ^
+>> usr/include/linux/vbox_vmmdev_types.h:254:6: error: field u within 'struct vmmdev_hgcm_function_parameter64::(anonymous union)::(unnamed at usr/include/linux/vbox_vmmdev_types.h:249:3)' is less aligned than 'union (unnamed union at usr/include/linux/vbox_vmmdev_types.h:251:4)' and is usually due to 'struct vmmdev_hgcm_function_parameter64::(anonymous union)::(unnamed at usr/include/linux/vbox_vmmdev_types.h:249:3)' being packed, which can lead to unaligned accesses [-Werror,-Wunaligned-access]
+     254 |                         } u;
+         |                           ^
+   2 errors generated.
 
 -- 
 0-DAY CI Kernel Test Service
