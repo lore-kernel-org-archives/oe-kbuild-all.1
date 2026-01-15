@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4534226ED25
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 05:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C6D2D7DEC
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 06:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768454809; cv=none; b=q+thD+2WasUA/Fjp7pFm/lyp3qrmwJakhveP+BsHQmv4Dhl4MxmhKLt3XzZ3Q4Im9UhpbLMAsqfiXNrI/kFhRR7YrHXV3Llc+SXmItREVa5nkjjCUeIlS0gC1cQM2xFwhXcSwP8WCvOpWwQX+ZuqTqN3+Xrac8q27OvkeBzt9ho=
+	t=1768457334; cv=none; b=NpoN193cLIFAuwOdWHlSQHd1NAuqzcWQkyV8qVUp8TkpSmGaVz5UsGQdRHWyzrTTupx0EaoI7KadYFG+iBM5A4WzBjjR40m2jjhpAbpAV1SVPvs+Q1duxQYejtRg0/DRXz0DjRBya/KtfTT69Ru28H5s7eDWV9symNaIoqq0DDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768454809; c=relaxed/simple;
-	bh=olJLEnEfsUnFET9fba2PgMlsCvqOrE/eSoTMAHO3yqg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WV9WaSfSUo398ZJlDs+EeBR5Ltpiz0o0X7/Ja2IJN0IFQUGG9Z9EzhDbMecCGHV1QskNDCyZZM2LjVN/0F4ucm+dh7XBSvuGqhexbiI5qw/zSIq4v3z3SxyzMK69twMxoDOQK8Yvwl+BV2nxLXoBbLlPSHGu3EnhWemZ2ouvnxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d2rBslLn; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1768457334; c=relaxed/simple;
+	bh=JjLISrkVF/R/X7bpAUQ6OqYBgkEKbBJbNAjBhTY+3dA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sLMgrnPqAx8ismLbDPyTps1ANR/nmicXR3Z6+cmf4+bL0npUD9+7xytBhWn7QdsXOwP0Z8BbALcEz+8Nez5sGPHNQZt4iruFXBGeHmBQ4qFp47NC1Hj1sH0OYnH2tAF4+HvJ3bbDsAmSw3WcLWD6fl2JLBzR2rJeta1zZ6KQsf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dY29ZHvr; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d2rBslLn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dY29ZHvr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768454808; x=1799990808;
+  t=1768457331; x=1799993331;
   h=date:from:to:cc:subject:message-id;
-  bh=olJLEnEfsUnFET9fba2PgMlsCvqOrE/eSoTMAHO3yqg=;
-  b=d2rBslLn0Yt0OyLjRv0HMAqJQHX58BXPDWyG78dpJn19UKiUbabILTjJ
-   sdyaEaFJ9CDxpJk2exjMEgQLv3RxEWGw0Z50lrfMO6wTBSOBDmi7qYFGw
-   JqlBZwjYBGAzR0idMxMbS1hL5DS9ewzqHP1fz1BpbH7weBXkL2nCzcBQm
-   spEt1l6nJ9KX9mGnRESDT4WL0M+VJWPLQV5Hg/LpL6nGLc4mHd+WMrRfh
-   vUbrLnTeRRZN2IMzAkzftLK+jNQA6mT7umj8/W89tgrmN6DU2gCtzsyhK
-   mvZxYtCQx/bjn+88aUqvxD571UJBqg9Lb2cynuCFTUWCKgNW9VJQqTHtC
+  bh=JjLISrkVF/R/X7bpAUQ6OqYBgkEKbBJbNAjBhTY+3dA=;
+  b=dY29ZHvr/zkKcdifA6aKp9h3+np1fGjbFA2B9vTHGEV/eQg0qHjFpPm6
+   sr/YBSv8CK1sOeiwpfIlywk3e1kVuOi13c23BobQiUJKhQ9TufaHSzdwX
+   au3+UthJylLfiQXl/rU0fUpOUQ/IepmxvR5O5tsI67qVkcwCpHc64yWk3
+   5yMXUoXrtLGLATGGb8aJw75llcblH3rW67SUw+GOBvnW1YJ7EgH5NGP0A
+   S8ak/goXuEKnTy75zF8S0pEtBokVkryViCRIvG/KlRgI6vxM0UXjMiQoh
+   IqzwSBUkRma/Ow2dhRyQVZo81dRYsEhOEGakxYDvMAnwM5/GvX+OgLJr2
    Q==;
-X-CSE-ConnectionGUID: NKf4uhtlRKqPwFmA191E4A==
-X-CSE-MsgGUID: 9D+t9b5TTLKmupT7AJDXtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="73610985"
+X-CSE-ConnectionGUID: drk0phScTz6Cdq/0JOTX4g==
+X-CSE-MsgGUID: G4cmvhcZQZ2LRB+DYLELRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="80872270"
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="73610985"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 21:26:48 -0800
-X-CSE-ConnectionGUID: u319IdTQTHS6WlQBEsscxQ==
-X-CSE-MsgGUID: OKHrHNY5Rk2hhKpTQ3j8mw==
+   d="scan'208";a="80872270"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 22:08:50 -0800
+X-CSE-ConnectionGUID: E/Bv+hWIT6udFSOOJDEIxA==
+X-CSE-MsgGUID: aq+xKaBjQyejD8hgoavf2w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="204489865"
+   d="scan'208";a="204012042"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 14 Jan 2026 21:26:46 -0800
+  by orviesa006.jf.intel.com with ESMTP; 14 Jan 2026 22:08:49 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgFsa-00000000HaK-1xE4;
-	Thu, 15 Jan 2026 05:26:44 +0000
-Date: Thu, 15 Jan 2026 13:25:58 +0800
+	id 1vgGXG-00000000Hdi-2oSu;
+	Thu, 15 Jan 2026 06:08:46 +0000
+Date: Thu, 15 Jan 2026 14:08:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 0/2]
- drivers/pci/endpoint/functions/pci-epf-vntb.c:560:66: sparse: sparse:
- incorrect type in argument 3 (different address spaces)
-Message-ID: <202601151341.Sy3LaiXR-lkp@intel.com>
+Subject: [android-common:android16-6.12 0/2]
+ arch/arm64/kvm/hyp/nvhe/hyp-main.c:1570:31: error: invalid use of void
+ expression
+Message-ID: <202601151444.13JtoE6n-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,104 +60,85 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   f1af71170bbd2a241e39473036d3c14bc7c27d21
-commit: d2016efbc42a642ea512d5496eb2672a79a12bf3 [0/2] PCI: endpoint: pci-epf-vntb: Fix the incorrect usage of __iomem attribute
-config: i386-randconfig-062-20260115 (https://download.01.org/0day-ci/archive/20260115/202601151341.Sy3LaiXR-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151341.Sy3LaiXR-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   5150a2974c100f8aa5cbfa9a09d804ee4369f61e
+commit: 416566c3ecff27c1aafb0af725d906b9b28b2736 [0/2] ANDROID: KVM: arm64: Return an error from __pkvm_teardown_tracing
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260115/202601151444.13JtoE6n-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151444.13JtoE6n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601151341.Sy3LaiXR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601151444.13JtoE6n-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:548:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *epf_db @@     got void *[assigned] mw_addr @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:548:21: sparse:     expected void [noderef] __iomem *epf_db
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:548:21: sparse:     got void *[assigned] mw_addr
->> drivers/pci/endpoint/functions/pci-epf-vntb.c:560:66: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void [noderef] __iomem *virt_addr @@     got void *[assigned] mw_addr @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:560:66: sparse:     expected void [noderef] __iomem *virt_addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:560:66: sparse:     got void *[assigned] mw_addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *epf_db @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse:     expected void *addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse:     got void [noderef] __iomem *epf_db
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:600:45: sparse: sparse: Using plain integer as NULL pointer
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:985:16: sparse: sparse: symbol 'vpci_ops' was not declared. Should it be static?
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1091:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1091:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1091:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1102:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1102:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1102:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1113:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1113:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1113:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1125:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1125:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1125:33: sparse:     got struct epf_ntb_ctrl *reg
+All errors (new ones prefixed by >>):
 
-vim +560 drivers/pci/endpoint/functions/pci-epf-vntb.c
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:77:6: warning: no previous prototype for '__pkvm_unmask_serror' [-Wmissing-prototypes]
+      77 | void __pkvm_unmask_serror(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:43: warning: initialized field overwritten [-Woverride-init]
+     463 |         [ESR_ELx_EC_WFx]                = handle_pvm_entry_wfx,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:463:43: note: (near initialization for 'entry_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:464:43: warning: initialized field overwritten [-Woverride-init]
+     464 |         [ESR_ELx_EC_HVC64]              = handle_pvm_entry_hvc64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:464:43: note: (near initialization for 'entry_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:465:43: warning: initialized field overwritten [-Woverride-init]
+     465 |         [ESR_ELx_EC_SYS64]              = handle_pvm_entry_sys64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:465:43: note: (near initialization for 'entry_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:466:43: warning: initialized field overwritten [-Woverride-init]
+     466 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_entry_iabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:466:43: note: (near initialization for 'entry_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:467:43: warning: initialized field overwritten [-Woverride-init]
+     467 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_entry_dabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:467:43: note: (near initialization for 'entry_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:472:43: warning: initialized field overwritten [-Woverride-init]
+     472 |         [ESR_ELx_EC_WFx]                = handle_pvm_exit_wfx,
+         |                                           ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:472:43: note: (near initialization for 'exit_hyp_pvm_handlers[1]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:43: warning: initialized field overwritten [-Woverride-init]
+     473 |         [ESR_ELx_EC_HVC64]              = handle_pvm_exit_hvc64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:473:43: note: (near initialization for 'exit_hyp_pvm_handlers[22]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:474:43: warning: initialized field overwritten [-Woverride-init]
+     474 |         [ESR_ELx_EC_SYS64]              = handle_pvm_exit_sys64,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:474:43: note: (near initialization for 'exit_hyp_pvm_handlers[24]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:475:43: warning: initialized field overwritten [-Woverride-init]
+     475 |         [ESR_ELx_EC_IABT_LOW]           = handle_pvm_exit_iabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:475:43: note: (near initialization for 'exit_hyp_pvm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:43: warning: initialized field overwritten [-Woverride-init]
+     476 |         [ESR_ELx_EC_DABT_LOW]           = handle_pvm_exit_dabt,
+         |                                           ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:476:43: note: (near initialization for 'exit_hyp_pvm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:485:43: warning: initialized field overwritten [-Woverride-init]
+     485 |         [ESR_ELx_EC_IABT_LOW]           = handle_vm_exit_abt,
+         |                                           ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:485:43: note: (near initialization for 'exit_hyp_vm_handlers[32]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:486:43: warning: initialized field overwritten [-Woverride-init]
+     486 |         [ESR_ELx_EC_DABT_LOW]           = handle_vm_exit_abt,
+         |                                           ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c:486:43: note: (near initialization for 'exit_hyp_vm_handlers[36]')
+   arch/arm64/kvm/hyp/nvhe/hyp-main.c: In function 'handle___pkvm_teardown_tracing':
+>> arch/arm64/kvm/hyp/nvhe/hyp-main.c:1570:31: error: invalid use of void expression
+    1570 |         cpu_reg(host_ctxt, 1) = __pkvm_teardown_tracing();
+         |                               ^
 
-e2b6ef72b7aea9 Frank Li              2022-02-22  511  
-e2b6ef72b7aea9 Frank Li              2022-02-22  512  /**
-e2b6ef72b7aea9 Frank Li              2022-02-22  513   * epf_ntb_db_bar_init() - Configure Doorbell window BARs
-e2b6ef72b7aea9 Frank Li              2022-02-22  514   * @ntb: NTB device that facilitates communication between HOST and vHOST
-e2b6ef72b7aea9 Frank Li              2022-02-22  515   */
-e2b6ef72b7aea9 Frank Li              2022-02-22  516  static int epf_ntb_db_bar_init(struct epf_ntb *ntb)
-e2b6ef72b7aea9 Frank Li              2022-02-22  517  {
-e2b6ef72b7aea9 Frank Li              2022-02-22  518  	const struct pci_epc_features *epc_features;
-e2b6ef72b7aea9 Frank Li              2022-02-22  519  	u32 align;
-e2b6ef72b7aea9 Frank Li              2022-02-22  520  	struct device *dev = &ntb->epf->dev;
-e2b6ef72b7aea9 Frank Li              2022-02-22  521  	int ret;
-e2b6ef72b7aea9 Frank Li              2022-02-22  522  	struct pci_epf_bar *epf_bar;
-d2016efbc42a64 Manivannan Sadhasivam 2025-07-09  523  	void *mw_addr;
-e2b6ef72b7aea9 Frank Li              2022-02-22  524  	enum pci_barno barno;
-e2b6ef72b7aea9 Frank Li              2022-02-22  525  	size_t size = 4 * ntb->db_count;
-e2b6ef72b7aea9 Frank Li              2022-02-22  526  
-e2b6ef72b7aea9 Frank Li              2022-02-22  527  	epc_features = pci_epc_get_features(ntb->epf->epc,
-e2b6ef72b7aea9 Frank Li              2022-02-22  528  					    ntb->epf->func_no,
-e2b6ef72b7aea9 Frank Li              2022-02-22  529  					    ntb->epf->vfunc_no);
-e2b6ef72b7aea9 Frank Li              2022-02-22  530  	align = epc_features->align;
-e2b6ef72b7aea9 Frank Li              2022-02-22  531  
-e2b6ef72b7aea9 Frank Li              2022-02-22  532  	if (size < 128)
-e2b6ef72b7aea9 Frank Li              2022-02-22  533  		size = 128;
-e2b6ef72b7aea9 Frank Li              2022-02-22  534  
-e2b6ef72b7aea9 Frank Li              2022-02-22  535  	if (align)
-e2b6ef72b7aea9 Frank Li              2022-02-22  536  		size = ALIGN(size, align);
-e2b6ef72b7aea9 Frank Li              2022-02-22  537  	else
-e2b6ef72b7aea9 Frank Li              2022-02-22  538  		size = roundup_pow_of_two(size);
-e2b6ef72b7aea9 Frank Li              2022-02-22  539  
-e2b6ef72b7aea9 Frank Li              2022-02-22  540  	barno = ntb->epf_ntb_bar[BAR_DB];
-e2b6ef72b7aea9 Frank Li              2022-02-22  541  
-e2b6ef72b7aea9 Frank Li              2022-02-22  542  	mw_addr = pci_epf_alloc_space(ntb->epf, size, barno, align, 0);
-e2b6ef72b7aea9 Frank Li              2022-02-22  543  	if (!mw_addr) {
-e2b6ef72b7aea9 Frank Li              2022-02-22  544  		dev_err(dev, "Failed to allocate OB address\n");
-e2b6ef72b7aea9 Frank Li              2022-02-22  545  		return -ENOMEM;
-e2b6ef72b7aea9 Frank Li              2022-02-22  546  	}
-e2b6ef72b7aea9 Frank Li              2022-02-22  547  
-e2b6ef72b7aea9 Frank Li              2022-02-22  548  	ntb->epf_db = mw_addr;
-e2b6ef72b7aea9 Frank Li              2022-02-22  549  
-e2b6ef72b7aea9 Frank Li              2022-02-22  550  	epf_bar = &ntb->epf->bar[barno];
-e2b6ef72b7aea9 Frank Li              2022-02-22  551  
-e2b6ef72b7aea9 Frank Li              2022-02-22  552  	ret = pci_epc_set_bar(ntb->epf->epc, ntb->epf->func_no, ntb->epf->vfunc_no, epf_bar);
-e2b6ef72b7aea9 Frank Li              2022-02-22  553  	if (ret) {
-e2b6ef72b7aea9 Frank Li              2022-02-22  554  		dev_err(dev, "Doorbell BAR set failed\n");
-e2b6ef72b7aea9 Frank Li              2022-02-22  555  			goto err_alloc_peer_mem;
-e2b6ef72b7aea9 Frank Li              2022-02-22  556  	}
-e2b6ef72b7aea9 Frank Li              2022-02-22  557  	return ret;
-e2b6ef72b7aea9 Frank Li              2022-02-22  558  
-e2b6ef72b7aea9 Frank Li              2022-02-22  559  err_alloc_peer_mem:
-e2b6ef72b7aea9 Frank Li              2022-02-22 @560  	pci_epc_mem_free_addr(ntb->epf->epc, epf_bar->phys_addr, mw_addr, epf_bar->size);
-e2b6ef72b7aea9 Frank Li              2022-02-22  561  	return -1;
-e2b6ef72b7aea9 Frank Li              2022-02-22  562  }
-e2b6ef72b7aea9 Frank Li              2022-02-22  563  
 
-:::::: The code at line 560 was first introduced by commit
-:::::: e2b6ef72b7aea9d7d480d2df499bcd1c93247abb PCI: endpoint: Support NTB transfer between RC and EP
+vim +1570 arch/arm64/kvm/hyp/nvhe/hyp-main.c
 
-:::::: TO: Frank Li <Frank.Li@nxp.com>
-:::::: CC: Sasha Levin <sashal@kernel.org>
+  1567	
+  1568	static void handle___pkvm_teardown_tracing(struct kvm_cpu_context *host_ctxt)
+  1569	{
+> 1570		cpu_reg(host_ctxt, 1) = __pkvm_teardown_tracing();
+  1571	}
+  1572	
 
 -- 
 0-DAY CI Kernel Test Service
