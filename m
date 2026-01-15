@@ -1,66 +1,80 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6560EEA8;
-	Thu, 15 Jan 2026 21:31:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70E731A7E4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 21:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768512664; cv=none; b=Qz/MApQu/Hn8cvvcSoiCwz/B7AgbQNVcsCOgVNDWHx/KJJ03PDGKRiZ08m8A8T3ch6b/mgonTi2Cxz+dGb+Rj559yES4UGUxlneqDKMDyLM0EEIAVFbinY7Z3BxJmNq2WFq4s2qa6QOoHUKg8T7Ua9CHkqramrQorcdl8mwWpVo=
+	t=1768514300; cv=none; b=rHtrvVIUUyP574EFVs9BtyfTJ/tEs4juKYRR4brzOn63TJZ5rXo0NAzCFsWQnBA4buo7ozfUPYvV9xwxlHCymykk1yyTbeV7KxVE9KXVqK/MTY3acRHAnUcsyJpg5GCnZi2oHAiBs9hlsAcEWQXpsNa+anGm8dofORVzF9crAjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768512664; c=relaxed/simple;
-	bh=wWdi1yjzITr/KyeB35zzyJq2Nt+yrxqjCmmCrZIelKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YVL2/kQ1kdNvQ4tcVuD4a24Ezik24jF0gleoE6A4Tb8X/7Ga30Dz6SyzevSq399dDet+2LQO7Ci9RPImfE68hUwel6XF/dAQolyUSncpQRIIpiUjNrSZzqoGdt5QM08JvezuxaQAMSHArMP3GFdEDZ6wa4xQf2T0J7zqhEijDcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qyfZJm61; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1768514300; c=relaxed/simple;
+	bh=N0iJqCRrZNA2XmdnpiQTX7EWBjuye1aik9LrWP2l7EA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pTxVh16pVaIojNEUINFTGP+vrtAa4FaewLCGnTwToZu3KG/d1Gz/wvmkthrJHJ5xFBDAW7p4laYMD9yKg9TnAo1KEZVqhdF7HFwGwpO+xM8TCabQXTcLAAWwrSkGt41wMHj1isxHfivZHhdbVoMv8/M+UQbO0p1vGSwUxSAKZYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzCO5SP/; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qyfZJm61"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=wWdi1yjzITr/KyeB35zzyJq2Nt+yrxqjCmmCrZIelKo=; b=qyfZJm61wo8lm4z3OuFfosea4Z
-	O8Vw0fb3KCo9odHXhgCzNJJ5IzPmSeMh5gMmn4O7GvqpRg/l/AAkmEFr3osM0YPolUPPXVsGHX6TI
-	k8jkIKHkaDR/Uss+Ut17oy13kUxM+QeVHqUD2UTZTp6uTPEtGV7NGIYWvKeAnGC4QziZ67w9/DXy1
-	+GEmenKQyE5861w3fMtt+x8U5FG2SlD2u+0aiKwaOIAzMx3bIW+u/OcutwZKqE/vxDVXAf0Nlap9F
-	kj0yR5itWZuljtjotAFOPOjcVFejiaQGQNe9kThT81aD1MxEyX8RF9/s37VKod8lNV8WX9xCcSmWT
-	msWsuwHA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgUvf-00000007fnq-0N3a;
-	Thu, 15 Jan 2026 21:30:55 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 9B05F3003C4; Thu, 15 Jan 2026 22:30:54 +0100 (CET)
-Date: Thu, 15 Jan 2026 22:30:54 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Thomas Gleixner <tglx@kernel.org>, kernel test robot <lkp@intel.com>,
-	Ian Rogers <irogers@google.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org, sparse@chrisli.org,
-	linux-sparse@vger.kernel.org, Marco Elver <elver@google.com>
-Subject: Re: [tip:timers/vdso 12/14] net/rds/ib_cm.c:96:35: sparse: sparse:
- incorrect type in argument 1 (different modifiers)
-Message-ID: <20260115213054.GF831050@noisy.programming.kicks-ass.net>
-References: <202601150001.sKSN644a-lkp@intel.com>
- <87v7h23cb0.ffs@tglx>
- <20260115211120.GD831050@noisy.programming.kicks-ass.net>
- <CAHk-=wg9pxiKm3kcZ0XQrFvz6fFek_A1WGqRh9yeghx3pE2d3w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzCO5SP/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768514299; x=1800050299;
+  h=date:from:to:cc:subject:message-id;
+  bh=N0iJqCRrZNA2XmdnpiQTX7EWBjuye1aik9LrWP2l7EA=;
+  b=gzCO5SP//hIKWll114qQ31mRezZEmpW1iTaVeRP2PbYtbaOochwbmkUP
+   +elnL7TypGt0YBgqaEww1Xe+uQCk1cax6ifcVHMJ+zC1NteiTSrCRgYgG
+   GxKnTdl2vkfcLpw/tNfVCLrmsWGfwX5NwFEKSqL8j0Y55mHRf37R3RaQa
+   7L7zem8yvyougJ0Ub7uYnZLybCV6a+ktNp6PbOBQ8qLuYL0mZuKxoKCCg
+   fVaPZAEadti//mdf+0SHbXMRBdyYdS0ehVR8uUyrAdfxYoUSlYZ+prASG
+   1I7RefSSTSxS0W4Hfn8LPk2FzRKR1iMX2sWSMTG/Z5lux2doSLOcxFln7
+   w==;
+X-CSE-ConnectionGUID: 3uiy2RIESfyhOANaN7avOg==
+X-CSE-MsgGUID: PpV8QUBvTx2DuWQP8IdFgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69735547"
+X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
+   d="scan'208";a="69735547"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 13:58:18 -0800
+X-CSE-ConnectionGUID: P/wy52hRRE+inTI3X2y68A==
+X-CSE-MsgGUID: RtdzPXLsSKOVcIN52GIZjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
+   d="scan'208";a="209930202"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 15 Jan 2026 13:58:17 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vgVM7-00000000K2O-0Vbg;
+	Thu, 15 Jan 2026 21:58:15 +0000
+Date: Fri, 16 Jan 2026 05:57:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:simplify-kallsyms-v2 1/1] Unsupported relocation type:
+ unknown type rel type name (248)
+Message-ID: <202601160541.s9UkIfFQ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wg9pxiKm3kcZ0XQrFvz6fFek_A1WGqRh9yeghx3pE2d3w@mail.gmail.com>
 
-On Thu, Jan 15, 2026 at 01:19:14PM -0800, Linus Torvalds wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git simplify-kallsyms-v2
+head:   dc85254e22c3ca4db6f29584d365376dbb72b944
+commit: dc85254e22c3ca4db6f29584d365376dbb72b944 [1/1] kallsyms: Get rid of kallsyms relative base
+config: mips-randconfig-r062-20260116 (https://download.01.org/0day-ci/archive/20260116/202601160541.s9UkIfFQ-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160541.s9UkIfFQ-lkp@intel.com/reproduce)
 
-> Eventually we can just force that everywhere, but as Al pointed out in
-> another thread, we're not quite there yet (ie we'd need clang-19.0.1
-> and gcc-8.4 to be able to just switch entirely over to
-> __typeof_unqual__).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601160541.s9UkIfFQ-lkp@intel.com/
 
-GCC-14 :-/ The GCC-8.4 one was the function return value trick.
+All errors (new ones prefixed by >>):
+
+>> Unsupported relocation type: unknown type rel type name (248)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
