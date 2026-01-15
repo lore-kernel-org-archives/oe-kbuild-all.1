@@ -1,114 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2876329A2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 02:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF31253B73
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 02:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768443523; cv=none; b=OntYxd+BWF9/cIzBfY+IvjtV+2mRMzcQwnXPPZomCOdy52Cuew4uyR0CvaHDhjJlcPlO8jCaJFhsxaLJPSfnQc7Seerc74ipya6sYoTT1SIcldtXfn5GVASur/2MGW1ypR5/qv6qBXXQLM9J6wugypCX57iHbFZXH8wQbltuHgw=
+	t=1768445105; cv=none; b=DMTxLVATEOlWZwxzbVZ2/W/CCAoE9AyU00jnp+zaqLUXEbEEEP+opfyL/JWfrzZt+RppQEhAm5gT5hl8VABeWPqp2i/YoJF/2Q4pQC/JSHaB04JLka9Cvl0LOUMc80HsI2EIQmUqAfbgceAJjoUPU+DhqQRy0oR7+YyxNjUjoKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768443523; c=relaxed/simple;
-	bh=N4FGjZiRvBbaBx7dKMd0QZODbBZbbzF4GlzjGoHMeI0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=vBeM+1jitO0XP2g5TyxqKp+c7qVFF3gFSZov70/oyQpshtBq2mAYjiLSUGlSA4EbXueenJsQDPj1IzVo5v25Z3TVXiDvbTrssukR6OMFOAWZPbMTCC/IMxvBimoPAxKTMQzPw4wSZjP03aeJpynsC56FD4MyxOwatEevRQYqNvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgtaorTx; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768445105; c=relaxed/simple;
+	bh=EbKfkObvFITDuJqXS218LcpddCLrRivjyoZZtU8h7wI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=njYbKb7x5yvxSmV7XcyaAN7stfi7XORfRZRPsNB6W8Keb3/dJ6dQj54GvDH8gUGcZgXgBtzKGsKc16sZGB31qTEgz2/IZat0okvmMoM84QeItZgdofi0JybOgsRsCzls8/zlW4J5pwbj2hgMGHqW9Fj3mDK8W549XrhVzWBrjv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=TFYyYYtB; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgtaorTx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768443521; x=1799979521;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N4FGjZiRvBbaBx7dKMd0QZODbBZbbzF4GlzjGoHMeI0=;
-  b=jgtaorTxAbMSUwLIbBDRJp1NKtrHTbjyzpy6SkoH+yLyqFIIiaMTZGCn
-   PTesmVwCy52VtyfrpzDroG73iixeMEWUVe9TrVzwB/HIc5tsFYbR2ftVz
-   ifUFW+INBeH0RjjsApBeMBt8EhAwgdQXvgRAzBRGhNUpkaHzye1Vrbkwz
-   ov6adVCT6bvmXCw66WFIleaSnTuI0FmHMdV4p45fGcg5qAAtZIvsYGTdy
-   Zfmy1FANZPePswBHswUrnN6xnRL2L5mKnVGSNpGe7LfiPheiyLy4bQzit
-   znmGa37bwuNkseDqfB+PW2wh/aHHnlKydcGZPnvvUEFrVFXJ6iF4wkQpw
-   w==;
-X-CSE-ConnectionGUID: i7Q2/27mSAWqP0+HEFHS0A==
-X-CSE-MsgGUID: ghn4h8H6S6KQWgrDQGjXWQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="73383465"
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="73383465"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 18:18:40 -0800
-X-CSE-ConnectionGUID: ymIifez0TbmnEB0zth44Rw==
-X-CSE-MsgGUID: SP0jDg+lQTSrfm9KgLuO7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="204456137"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 14 Jan 2026 18:18:38 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vgCwW-00000000HOu-2xfD;
-	Thu, 15 Jan 2026 02:18:36 +0000
-Date: Thu, 15 Jan 2026 10:18:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Thomas =?utf-8?Q?Wei=C3=9Fschuh"?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/vdso-compat-checkflags 5/5]
- include/uapi/asm-generic/bitsperlong.h:35:2: error: #error Inconsistent word
- size. Check uapi/asm/bitsperlong.h
-Message-ID: <202601151014.yFAZnnqB-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="TFYyYYtB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=vA
+	4sG2LcbrHKYOPfRfHsAEkNum7WWXZhFvlb2/tyyv4=; b=TFYyYYtBiwIdA4AhIj
+	OI27ipBY6bTZD7fnjgVPi2lLbHb5s5LAbNlh1yZ8qn0eM/7IndXz+ZTHkYpdx9SO
+	LAvSyAD/Bo6RoWlqNsgVC+BkvqA7VJkqqhjbFtcG0XGQgz/HGxoTq4aaRyEiQmac
+	/XClkkUEObqhczSmcbuRDDb2k=
+Received: from X13.domain.sensetime.com (unknown [])
+	by gzsmtp4 (Coremail) with SMTP id PygvCgBHirCJVGhp+fTaLA--.16632S2;
+	Thu, 15 Jan 2026 10:44:28 +0800 (CST)
+From: junan <junan76@163.com>
+To: catalin.marinas@arm.com,
+	will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	junan76@163.com,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v2] arm64: kconfig: Make STRICT_KERNEL_RWX visable.
+Date: Thu, 15 Jan 2026 10:34:18 +0800
+Message-ID: <20260115023456.621586-2-junan76@163.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PygvCgBHirCJVGhp+fTaLA--.16632S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7KrW8uFW3JF17JF18Zr4UXFb_yoW8CrW7pw
+	n3uwnrJFW7Grn3JaykK3y3uF45Zan5Jay3WFW5C34jyrnrA34DuF9YvwnIvFWDX34Uu3yf
+	ua4Sv3W2qw18XwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRVyxZUUUUU=
+X-CM-SenderInfo: pmxqt0ixw6il2tof0z/xtbC1A2sXmloVI0FzgAA34
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-compat-checkflags
-head:   1e275830cc9112314c2b4297c5dd824860f68525
-commit: 1e275830cc9112314c2b4297c5dd824860f68525 [5/5] asm-generic/bitsperlong.h: Add sanity checks for __BITS_PER_LONG
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20260115/202601151014.yFAZnnqB-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151014.yFAZnnqB-lkp@intel.com/reproduce)
+Make "STRICT_KERNEL_RWX" visable to menuconfig on arm64 platform.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601151014.yFAZnnqB-lkp@intel.com/
+Breakpoints can not be set when using kgdb/kdb if "STRICT_KERNEL_RWX"
+equals to "y", but it has a default value "y" and is not visable in
+menuconfig on arm64.
 
-All errors (new ones prefixed by >>):
+Link to kgdb/kdb doc: https://docs.kernel.org/process/debugging/kgdb.html
 
-   In file included from include/asm-generic/bitsperlong.h:5,
-                    from arch/s390/include/uapi/asm/bitsperlong.h:7,
-                    from include/uapi/asm-generic/int-ll64.h:12,
-                    from include/asm-generic/int-ll64.h:11,
-                    from arch/s390/include/uapi/asm/types.h:11,
-                    from arch/s390/include/asm/types.h:6,
-                    from arch/s390/include/asm/page.h:12,
-                    from arch/s390/kernel/vdso/vdso.lds.S:8:
->> include/uapi/asm-generic/bitsperlong.h:35:2: error: #error Inconsistent word size. Check uapi/asm/bitsperlong.h
-      35 | #error Inconsistent word size. Check uapi/asm/bitsperlong.h
-         |  ^~~~~
-   make[3]: *** [scripts/Makefile.build:443: arch/s390/kernel/vdso/vdso.lds] Error 1
-   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
-   make[2]: *** [arch/s390/Makefile:155: vdso_prepare] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+Changes in v2:
+	- Fix link error of "rodata_enabled" when allnoconfig is set
+	- link to v1: https://lore.kernel.org/linux-arm-kernel/20260114013859.498148-2-junan76@163.com/
 
+Signed-off-by: junan <junan76@163.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202601141630.sCPCgSYw-lkp@intel.com/
+---
+ arch/arm64/Kconfig  | 2 ++
+ arch/arm64/mm/mmu.c | 4 ++++
+ 2 files changed, 6 insertions(+)
 
-vim +35 include/uapi/asm-generic/bitsperlong.h
-
-    30	
-    31	/* Consistency checks */
-    32	#ifdef __KERNEL__
-    33	#if defined(__CHAR_BIT__) && defined(__SIZEOF_LONG__)
-    34	#if __BITS_PER_LONG != (__CHAR_BIT__ * __SIZEOF_LONG__)
-  > 35	#error Inconsistent word size. Check uapi/asm/bitsperlong.h
-    36	#endif
-    37	#endif
-    38	
-
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 93173f0a09c7..cc3aaffa1e12 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -52,6 +52,8 @@ config ARM64
+ 	select ARCH_STACKWALK
+ 	select ARCH_HAS_STRICT_KERNEL_RWX
+ 	select ARCH_HAS_STRICT_MODULE_RWX
++	select ARCH_OPTIONAL_KERNEL_RWX		if ARCH_HAS_STRICT_KERNEL_RWX
++	select ARCH_OPTIONAL_KERNEL_RWX_DEFAULT
+ 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
+ 	select ARCH_HAS_SYNC_DMA_FOR_CPU
+ 	select ARCH_HAS_SYSCALL_WRAPPER
+diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+index 8e1d80a7033e..4770204d9e22 100644
+--- a/arch/arm64/mm/mmu.c
++++ b/arch/arm64/mm/mmu.c
+@@ -1314,7 +1314,11 @@ void __init kpti_install_ng_mappings(void)
+ 
+ static pgprot_t __init kernel_exec_prot(void)
+ {
++#if defined(CONFIG_STRICT_KERNEL_RWX) || defined(CONFIG_STRICT_MODULE_RWX)
+ 	return rodata_enabled ? PAGE_KERNEL_ROX : PAGE_KERNEL_EXEC;
++#else
++	return PAGE_KERNEL_EXEC;
++#endif
+ }
+ 
+ static int __init map_entry_trampoline(void)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
