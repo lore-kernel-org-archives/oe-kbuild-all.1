@@ -1,190 +1,253 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F2E30BB82
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 22:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26EC84039
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 22:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768515023; cv=none; b=T78yRvTYo+EVcFc4KIPkVFMUydZk+TzD7cKcOWNaki/KhxIAapVBGeT1abtsIO7D+aaAlkWf4jLVJBy7JysT03yU8PKoq6TrVgHLNyTr63kkl15q6UjiqaPJzj7LdoLYMX5IwOeysV8x4C/vCT9doGgCwr9hwF8zojB0YfUI/6E=
+	t=1768515742; cv=none; b=BjXFMqvSXz98MN2GdN+yhYAu1PKOaWMCtWv2a4X86lIAmyHslvjKsoZsbcGlq4qdH156Ka6Vg+O2cuoz1KoQA+4HCUOeL/hwj4rH+S2vZvnDJIv9rKvY5yES2WV2DTmkapzOpvjhNLRUsvnWqkOvKe0xODcKIBERnihdd4yzXnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768515023; c=relaxed/simple;
-	bh=67QSstfnhCc49jDqGuJFBbqmSxSl1QWikTWS958nOcM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d6pNRSUL7UajW856plcaKSHepzdIoEbboW18eLkkCU/kScdqay8Z0Y9Cy155eiNU5woTUq3fiVolzP/ednLEQpWnIL7ukexoAlMNcdjEznQlFZIpMNB20j4k0PwYVjthaGl4tI/QwCTGfSpzlUWDDPooheAPTHZpQOwHCpFsZlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bzwkmG/N; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1768515742; c=relaxed/simple;
+	bh=qcFLX8X/qNnW1hp9gz9BtO2UHS3kSK5Q2dlyvop2W8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FLChArNsMsVZx5PnjfXlhNylhLeUR4+MKUYdzYED9uSECFgeuO5EamFZqYzdzQ5+Nfn6VA+/D3hVO5jnXiUqvhUPgPYVo/F4ZpUE34h9eGqBdaypnvt0ub8IoX1iM+UCHGampblfNDROWoQ3zspgFD913zBkD//kRL7QmG63tRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d53B4YdV; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bzwkmG/N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d53B4YdV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768515022; x=1800051022;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=67QSstfnhCc49jDqGuJFBbqmSxSl1QWikTWS958nOcM=;
-  b=bzwkmG/NueXU5dAl2/JDAxe/O8R/yeN+vYd8Trd2t4a7kkWKxUIfHu3L
-   rMtwq6atp5aa76Sy8J6Jp09m0613TvCNo/1nWb/B85CF+JEGoMiRJCMCz
-   ZRl99O2V3dUNbwiN1THISnMlpxaXHmNxTwX62lr3/2oJTW4Zrr/ZPajwx
-   KBdd5gpTw3x3xycC2uWURTHsiGjekHyU7W2CGf0nWB2D/WzCvGVtuA8kb
-   VSM5ZPIG77khQoIuJFJmr0pHjVoIUN3ZgM6kl+xCef32swF0pvMFJgFFh
-   nKwf3y1HlmGUlFcBXjAk8J+24IzwtrsqT391jAdA0iOcTtVjjEP1k48bH
+  t=1768515740; x=1800051740;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qcFLX8X/qNnW1hp9gz9BtO2UHS3kSK5Q2dlyvop2W8E=;
+  b=d53B4YdVXLW+iMdFPTDu/LkyrQcvmItYRkHqQK8ynzPHJBTMIFQinmGj
+   V8CVvL/YXaGLpevBjK7COquM9FjiOo6squk9o2nZjuOZzRTwNVkhpFC2J
+   Gml6a76GX5Y8CbaFy9EjVVYlMz4Oik5YYgJO3/gIw5CkBcm3E5wOgzHs+
+   BuePBy7ptUo37HG8f+V9zGr5iLXSToVcPChXRq6IC57fcriqLq1Flh0he
+   8zlICNBF4PX6QOzZaDdTL9f5PcTjVE1jMCZV4pUhXyWTdG/U5ILVSIkaU
+   SPOwtWQJgt8QfD/s+4jivNtonxrAlkLOPOR+XJ/a/9bJwrCsKxzufV3kQ
    A==;
-X-CSE-ConnectionGUID: yBhEkGlDRO2DYw2CJ04+bg==
-X-CSE-MsgGUID: KzHgFUOURpKWlD2RA7GAtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69881356"
+X-CSE-ConnectionGUID: AzjMiSu7SxCuFpJA+Zt95g==
+X-CSE-MsgGUID: VJ9ynVaWQ1SstgJR/kYkkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="81279990"
 X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="69881356"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 14:10:21 -0800
-X-CSE-ConnectionGUID: lssAxa64RxqD9duhy8zITg==
-X-CSE-MsgGUID: gPr46FfxQxim1ER887pVAQ==
+   d="scan'208";a="81279990"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 14:22:20 -0800
+X-CSE-ConnectionGUID: 64OU2Ph9RY2L5Gdyw/ljpQ==
+X-CSE-MsgGUID: 3DxfcPJ0Rw2/0jzbXc08Jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="209933526"
+   d="scan'208";a="210103339"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Jan 2026 14:10:18 -0800
+  by orviesa005.jf.intel.com with ESMTP; 15 Jan 2026 14:22:18 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgVXk-00000000K3U-07Xr;
-	Thu, 15 Jan 2026 22:10:16 +0000
-Date: Fri, 16 Jan 2026 06:09:35 +0800
+	id 1vgVjM-00000000K3u-0zSA;
+	Thu, 15 Jan 2026 22:22:16 +0000
+Date: Fri, 16 Jan 2026 06:22:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luigi Rizzo <lrizzo@google.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Marc Zyngier <maz@kernel.org>, Luigi Rizzo <rizzo.unipi@gmail.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Willem de Bruijn <willemb@google.com>
-Subject: Re: [PATCH v4 3/3] genirq: Adaptive Global Software Interrupt
- Moderation (GSIM).
-Message-ID: <202601160504.h8ijlURr-lkp@intel.com>
-References: <20260115155942.482137-4-lrizzo@google.com>
+To: Ido Schimmel <idosch@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
+Subject: [jpirko-mlxsw:combined_queue 19/19]
+ drivers/net/usb/hso.c:1477:13: sparse: sparse: cast to restricted __le16
+Message-ID: <202601160614.sn50AX9z-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115155942.482137-4-lrizzo@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Luigi,
+tree:   https://github.com/jpirko/linux_mlxsw combined_queue
+head:   e5a4b798e710861426579bea24f769032504de8b
+commit: e5a4b798e710861426579bea24f769032504de8b [19/19] TMP: Revert "modul=
+e: Add compile-time check for embedded NUL characters"
+config: nios2-randconfig-r132-20260116 (https://download.01.org/0day-ci/arc=
+hive/20260116/202601160614.sn50AX9z-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20260116/202601160614.sn50AX9z-lkp@intel.com/reproduce)
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.19-rc5]
-[cannot apply to tip/irq/core next-20260115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luigi-Rizzo/genirq-Add-flags-for-software-interrupt-moderation/20260116-000808
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260115155942.482137-4-lrizzo%40google.com
-patch subject: [PATCH v4 3/3] genirq: Adaptive Global Software Interrupt Moderation (GSIM).
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260116/202601160504.h8ijlURr-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160504.h8ijlURr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601160504.h8ijlURr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601160614.sn50AX9z-lkp@i=
+ntel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/usb/hso.c:1477:13: sparse: sparse: cast to restricted __le16
+   drivers/net/usb/hso.c:1478:13: sparse: sparse: cast to restricted __le16
+   drivers/net/usb/hso.c:1479:13: sparse: sparse: cast to restricted __le16
+   drivers/net/usb/hso.c:1487:37: sparse: sparse: cast to restricted __le16
+   drivers/net/usb/hso.c:1631:37: sparse: sparse: cast to restricted __le16
+   drivers/net/usb/hso.c: note: in included file (through include/uapi/linu=
+x/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.=
+h, ...):
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many argum=
+ents for function __builtin_custom_ini
 
-   kernel/irq/irq_moderation.c:409: warning: ignoring '#pragma clang diagnostic' [-Wunknown-pragmas]
-     409 | #pragma clang diagnostic error "-Wformat"
-   kernel/irq/irq_moderation.c: In function 'rd_stats':
->> kernel/irq/irq_moderation.c:432:54: warning: integer overflow in expression of type 'long int' results in '1410065408' [-Woverflow]
-     432 |                 recent = (now - epoch_start_ns) < 10 * NSEC_PER_SEC;
-         |                                                      ^
+vim +1477 drivers/net/usb/hso.c
 
+542f5482361491 Denis Joseph Barrow       2009-01-02  1439 =20
+542f5482361491 Denis Joseph Barrow       2009-01-02  1440  static void tioc=
+mget_intr_callback(struct urb *urb)
+542f5482361491 Denis Joseph Barrow       2009-01-02  1441  {
+542f5482361491 Denis Joseph Barrow       2009-01-02  1442  	struct hso_seri=
+al *serial =3D urb->context;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1443  	struct hso_tioc=
+mget *tiocmget;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1444  	int status =3D =
+urb->status;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1445  	u16 UART_state_=
+bitmap, prev_UART_state_bitmap;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1446  	struct uart_ico=
+unt *icount;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1447  	struct hso_seri=
+al_state_notification *serial_state_notification;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1448  	struct usb_devi=
+ce *usb;
+64bea46e3ff287 Aleksander Morgado        2015-02-17  1449  	struct usb_inte=
+rface *interface;
+e5e97ee956d8c5 Dan Williams              2014-01-06  1450  	int if_num;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1451 =20
+542f5482361491 Denis Joseph Barrow       2009-01-02  1452  	/* Sanity check=
+s */
+542f5482361491 Denis Joseph Barrow       2009-01-02  1453  	if (!serial)
+542f5482361491 Denis Joseph Barrow       2009-01-02  1454  		return;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1455  	if (status) {
+68a351c501ad22 Jan Dumon                 2010-01-05  1456  		handle_usb_err=
+or(status, __func__, serial->parent);
+542f5482361491 Denis Joseph Barrow       2009-01-02  1457  		return;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1458  	}
+e5e97ee956d8c5 Dan Williams              2014-01-06  1459 =20
+e5e97ee956d8c5 Dan Williams              2014-01-06  1460  	/* tiocmget is =
+only supported on HSO_PORT_MODEM */
+542f5482361491 Denis Joseph Barrow       2009-01-02  1461  	tiocmget =3D se=
+rial->tiocmget;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1462  	if (!tiocmget)
+542f5482361491 Denis Joseph Barrow       2009-01-02  1463  		return;
+e5e97ee956d8c5 Dan Williams              2014-01-06  1464  	BUG_ON((serial-=
+>parent->port_spec & HSO_PORT_MASK) !=3D HSO_PORT_MODEM);
+e5e97ee956d8c5 Dan Williams              2014-01-06  1465 =20
+542f5482361491 Denis Joseph Barrow       2009-01-02  1466  	usb =3D serial-=
+>parent->usb;
+64bea46e3ff287 Aleksander Morgado        2015-02-17  1467  	interface =3D s=
+erial->parent->interface;
+64bea46e3ff287 Aleksander Morgado        2015-02-17  1468 =20
+64bea46e3ff287 Aleksander Morgado        2015-02-17  1469  	if_num =3D inte=
+rface->cur_altsetting->desc.bInterfaceNumber;
+e5e97ee956d8c5 Dan Williams              2014-01-06  1470 =20
+e5e97ee956d8c5 Dan Williams              2014-01-06  1471  	/* wIndex shoul=
+d be the USB interface number of the port to which the
+e5e97ee956d8c5 Dan Williams              2014-01-06  1472  	 * notification=
+ applies, which should always be the Modem port.
+e5e97ee956d8c5 Dan Williams              2014-01-06  1473  	 */
+af0de1303c4e8f Oliver Neukum             2019-10-17  1474  	serial_state_no=
+tification =3D tiocmget->serial_state_notification;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1475  	if (serial_stat=
+e_notification->bmRequestType !=3D BM_REQUEST_TYPE ||
+542f5482361491 Denis Joseph Barrow       2009-01-02  1476  	    serial_stat=
+e_notification->bNotification !=3D B_NOTIFICATION ||
+542f5482361491 Denis Joseph Barrow       2009-01-02 @1477  	    le16_to_cpu=
+(serial_state_notification->wValue) !=3D W_VALUE ||
+e5e97ee956d8c5 Dan Williams              2014-01-06  1478  	    le16_to_cpu=
+(serial_state_notification->wIndex) !=3D if_num ||
+542f5482361491 Denis Joseph Barrow       2009-01-02  1479  	    le16_to_cpu=
+(serial_state_notification->wLength) !=3D W_LENGTH) {
+542f5482361491 Denis Joseph Barrow       2009-01-02  1480  		dev_warn(&usb-=
+>dev,
+542f5482361491 Denis Joseph Barrow       2009-01-02  1481  			 "hso receive=
+d invalid serial state notification\n");
+542f5482361491 Denis Joseph Barrow       2009-01-02  1482  		DUMP(serial_st=
+ate_notification,
+9ce673d5e91996 Antti Kaijanm=C3=A4ki          2009-11-23  1483  		     size=
+of(struct hso_serial_state_notification));
+542f5482361491 Denis Joseph Barrow       2009-01-02  1484  	} else {
+12c4de4bcc23ec Sebastian Andrzej Siewior 2018-06-20  1485  		unsigned long =
+flags;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1486 =20
+542f5482361491 Denis Joseph Barrow       2009-01-02  1487  		UART_state_bit=
+map =3D le16_to_cpu(serial_state_notification->
+542f5482361491 Denis Joseph Barrow       2009-01-02  1488  						UART_state=
+_bitmap);
+542f5482361491 Denis Joseph Barrow       2009-01-02  1489  		prev_UART_stat=
+e_bitmap =3D tiocmget->prev_UART_state_bitmap;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1490  		icount =3D &ti=
+ocmget->icount;
+12c4de4bcc23ec Sebastian Andrzej Siewior 2018-06-20  1491  		spin_lock_irqs=
+ave(&serial->serial_lock, flags);
+542f5482361491 Denis Joseph Barrow       2009-01-02  1492  		if ((UART_stat=
+e_bitmap & B_OVERRUN) !=3D
+542f5482361491 Denis Joseph Barrow       2009-01-02  1493  		   (prev_UART_=
+state_bitmap & B_OVERRUN))
+542f5482361491 Denis Joseph Barrow       2009-01-02  1494  			icount->parit=
+y++;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1495  		if ((UART_stat=
+e_bitmap & B_PARITY) !=3D
+542f5482361491 Denis Joseph Barrow       2009-01-02  1496  		   (prev_UART_=
+state_bitmap & B_PARITY))
+542f5482361491 Denis Joseph Barrow       2009-01-02  1497  			icount->parit=
+y++;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1498  		if ((UART_stat=
+e_bitmap & B_FRAMING) !=3D
+542f5482361491 Denis Joseph Barrow       2009-01-02  1499  		   (prev_UART_=
+state_bitmap & B_FRAMING))
+542f5482361491 Denis Joseph Barrow       2009-01-02  1500  			icount->frame=
+++;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1501  		if ((UART_stat=
+e_bitmap & B_RING_SIGNAL) &&
+542f5482361491 Denis Joseph Barrow       2009-01-02  1502  		   !(prev_UART=
+_state_bitmap & B_RING_SIGNAL))
+542f5482361491 Denis Joseph Barrow       2009-01-02  1503  			icount->rng++;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1504  		if ((UART_stat=
+e_bitmap & B_BREAK) !=3D
+542f5482361491 Denis Joseph Barrow       2009-01-02  1505  		   (prev_UART_=
+state_bitmap & B_BREAK))
+542f5482361491 Denis Joseph Barrow       2009-01-02  1506  			icount->brk++;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1507  		if ((UART_stat=
+e_bitmap & B_TX_CARRIER) !=3D
+542f5482361491 Denis Joseph Barrow       2009-01-02  1508  		   (prev_UART_=
+state_bitmap & B_TX_CARRIER))
+542f5482361491 Denis Joseph Barrow       2009-01-02  1509  			icount->dsr++;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1510  		if ((UART_stat=
+e_bitmap & B_RX_CARRIER) !=3D
+542f5482361491 Denis Joseph Barrow       2009-01-02  1511  		   (prev_UART_=
+state_bitmap & B_RX_CARRIER))
+542f5482361491 Denis Joseph Barrow       2009-01-02  1512  			icount->dcd++;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1513  		tiocmget->prev=
+_UART_state_bitmap =3D UART_state_bitmap;
+12c4de4bcc23ec Sebastian Andrzej Siewior 2018-06-20  1514  		spin_unlock_ir=
+qrestore(&serial->serial_lock, flags);
+542f5482361491 Denis Joseph Barrow       2009-01-02  1515  		tiocmget->intr=
+_completed =3D 1;
+542f5482361491 Denis Joseph Barrow       2009-01-02  1516  		wake_up_interr=
+uptible(&tiocmget->waitq);
+542f5482361491 Denis Joseph Barrow       2009-01-02  1517  	}
+542f5482361491 Denis Joseph Barrow       2009-01-02  1518  	memset(serial_s=
+tate_notification, 0,
+542f5482361491 Denis Joseph Barrow       2009-01-02  1519  	       sizeof(s=
+truct hso_serial_state_notification));
+542f5482361491 Denis Joseph Barrow       2009-01-02  1520  	tiocmget_submit=
+_urb(serial,
+542f5482361491 Denis Joseph Barrow       2009-01-02  1521  			    tiocmget,
+542f5482361491 Denis Joseph Barrow       2009-01-02  1522  			    serial->p=
+arent->usb);
+542f5482361491 Denis Joseph Barrow       2009-01-02  1523  }
+542f5482361491 Denis Joseph Barrow       2009-01-02  1524 =20
 
-vim +432 kernel/irq/irq_moderation.c
+:::::: The code at line 1477 was first introduced by commit
+:::::: 542f54823614915780c3459b0e6062f06c0c0f99 tty: Modem functions for th=
+e HSO driver
 
-   410	
-   411	/* Print statistics */
-   412	static void rd_stats(struct seq_file *p)
-   413	{
-   414		ulong global_intr_rate = 0, global_irq_high = 0;
-   415		ulong local_irq_high = 0, hardirq_high = 0;
-   416		uint delay_us = irq_mod_info.delay_us;
-   417		u64 now = ktime_get_ns();
-   418		int cpu, active_cpus = 0;
-   419	
-   420		seq_printf(p, HEAD_FMT,
-   421			   "# CPU", "irq/s", "loc_irq/s", "cpus", "delay_ns",
-   422			   "irq_hi", "loc_irq_hi", "hardirq_hi", "timer_set",
-   423			   "enqueue", "stray_irq");
-   424	
-   425		for_each_possible_cpu(cpu) {
-   426			struct irq_mod_state cur, *m = per_cpu_ptr(&irq_mod_state, cpu);
-   427			u64 epoch_start_ns;
-   428			bool recent;
-   429	
-   430			/* Accumulate and print only recent samples */
-   431			epoch_start_ns = atomic64_read(&m->epoch_start_ns);
- > 432			recent = (now - epoch_start_ns) < 10 * NSEC_PER_SEC;
-   433	
-   434			/* Copy statistics, will only use some 32bit values, races ok. */
-   435			data_race(cur = *per_cpu_ptr(&irq_mod_state, cpu));
-   436			if (recent) {
-   437				active_cpus++;
-   438				global_intr_rate += cur.global_intr_rate;
-   439			}
-   440	
-   441			global_irq_high += cur.global_irq_high;
-   442			local_irq_high += cur.local_irq_high;
-   443			hardirq_high += cur.hardirq_high;
-   444	
-   445			seq_printf(p, BODY_FMT,
-   446				   cpu,
-   447				   recent * cur.global_intr_rate,
-   448				   recent * cur.local_intr_rate,
-   449				   recent * (cur.scaled_cpu_count + 128) / 256,
-   450				   recent * cur.mod_ns,
-   451				   cur.global_irq_high,
-   452				   cur.local_irq_high,
-   453				   cur.hardirq_high,
-   454				   cur.timer_set,
-   455				   cur.enqueue,
-   456				   cur.stray_irq);
-   457		}
-   458	
-   459		seq_printf(p, "\n"
-   460			   "enabled              %s\n"
-   461			   "delay_us             %u\n"
-   462			   "target_intr_rate     %u\n"
-   463			   "hardirq_percent      %u\n"
-   464			   "update_ms            %u\n"
-   465			   "scale_cpus           %u\n",
-   466			   str_yes_no(delay_us > 0),
-   467			   delay_us,
-   468			   irq_mod_info.target_intr_rate, irq_mod_info.hardirq_percent,
-   469			   irq_mod_info.update_ms, irq_mod_info.scale_cpus);
-   470	
-   471		seq_printf(p,
-   472			   "intr_rate            %lu\n"
-   473			   "irq_high             %lu\n"
-   474			   "my_irq_high          %lu\n"
-   475			   "hardirq_percent_high %lu\n"
-   476			   "total_interrupts     %u\n"
-   477			   "total_cpus           %u\n",
-   478			   active_cpus ? global_intr_rate / active_cpus : 0,
-   479			   global_irq_high, local_irq_high, hardirq_high,
-   480			   READ_ONCE(*((u32 *)&irq_mod_info.total_intrs)),
-   481			   READ_ONCE(*((u32 *)&irq_mod_info.total_cpus)));
-   482	}
-   483	
+:::::: TO: Denis Joseph Barrow <D.Barow@option.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
