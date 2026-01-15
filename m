@@ -1,120 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A6550094C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 22:47:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D06299AAB;
+	Thu, 15 Jan 2026 23:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768517242; cv=none; b=eDhOBZ+WOtWoFqPHaISyxHTeH246H4SjhzgiFbIGZGjZth2dSyQaziL46CHhcZQFIeMmPl0ja8z9LSvFEu+7yS+q8lqyUNFZEsASPmwTsM3tdzybk8LVrUFEJVCKlVBCI9iRFFO0BDUvoPC9CKAp8KQOM2MQPXVH8TRr1CvOZTQ=
+	t=1768518084; cv=none; b=DUrSl/vphuLYoRNu3XzwrsTntC+NJEsXuCQ6E3CifwT+PMf/STgUjTa7K+PSCLRrj9D7w+cDaHCk/ZnFL6LSsVi+O4Nt7ZjbrOMZOoGk0Pdm9xLpCjNuEqNGGz1jiw6m2VfR3FQ7REc0sXJ3i9jDaghBs9W8LWh/5ctCM6oEl24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768517242; c=relaxed/simple;
-	bh=NyuUVj5QrIjopuwqQPjikd5PjXu4iYddZhGtjoXfZwA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Idl4JxQv03qbQRMy3e/deEas6cQYWaWigHzSmpylJz78+zL0w4QvgXbRQ60j8jm0xsbM6dxWv1yZ9LU6pqhrnYwfxjmhmzrMBh6OD0htlHnvIZp/KdTCedGPNJU2ttsek+MD/vN+bk/oabaMljnd1Fg3ZUpo5eYIGOJpPPiqsxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y4wNpOb4; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768518084; c=relaxed/simple;
+	bh=2Y4aFG4LAGkCN7lGD12I3005Rj2YsjfuDSzZWGB2q1E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cyouHEIrca6+5ugVQ+FM/aGTLrE5tdH3/VbiE4l0bc8bt3D5FNTHh0CKdyb4oh5sFMzXhrniOjdAhP58KIQlwsq+0oGeERFDzzGxoaDL07MEiSQWMKtVHlec5XneN/k3Qpe8SHj42HgpM0LfeWVjSJxpxyzPncD+8phQrVuaKwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qnNE2bH6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y4wNpOb4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768517241; x=1800053241;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NyuUVj5QrIjopuwqQPjikd5PjXu4iYddZhGtjoXfZwA=;
-  b=Y4wNpOb4H7Kj7FkmaE+V2SppXom/4oIfl1BYPkJMvK+pxe/ZokccRS/Z
-   mIvMHY+6dY7y/g/O69QpA0z8DeVHtYSn/a/3xjmtD5D/IeflhVclXVrag
-   TnnDjaANhnn2JkrWvf3bzYfdHWrX+zuUOcqUuE/i42xD5D/gCX8THvhuK
-   mhSqJ7BgMEv4a5ii+74s9Ay9fijla4/w5eiKY+Kamx1eyGJifWiEDxG4b
-   X1RPtMJjd63VCpxH/4thvEU4U9yPUvwQKuQ905yjB1NjYDs7Om3xDZuH5
-   9Sx9AO+CESbM2d5iWYFJIsqXSLYjdjX6VznXqUSt38EokWuuIZPz1N3nc
-   g==;
-X-CSE-ConnectionGUID: 1Gj24EFoRtujwU1iX26rbw==
-X-CSE-MsgGUID: x8ZkqAP3RcOgjwEhY7p9/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="73678739"
-X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="73678739"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 14:47:20 -0800
-X-CSE-ConnectionGUID: gbMbEkvzRaqXXJLIvsq/Og==
-X-CSE-MsgGUID: iGVcOU/jRMOhHYlbatZgug==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Jan 2026 14:47:19 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vgW7Y-00000000K4i-3OxB;
-	Thu, 15 Jan 2026 22:47:16 +0000
-Date: Fri, 16 Jan 2026 06:46:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Miklos Szeredi <mszeredi@redhat.com>, linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH] posix_acl: make posix_acl_to_xattr() alloc the buffer
-Message-ID: <202601160622.QW5z6XIJ-lkp@intel.com>
-References: <20260115122341.556026-1-mszeredi@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qnNE2bH6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A782C116D0;
+	Thu, 15 Jan 2026 23:01:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768518083;
+	bh=2Y4aFG4LAGkCN7lGD12I3005Rj2YsjfuDSzZWGB2q1E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=qnNE2bH6fC9WSUZlfNEotz/D6aKTt85lQZtlhiM9dOqfwxDBpZRgc+0MUdCKW9oFi
+	 cgZAL4ZdXPUeD1d6vMjmz9U69jCMtDZa5gYWlEY8wlNdYkTYnj7oi4jqR99oYi4e5W
+	 oVqfaogzh7nLVGPr0CZ1H7OCFhzPYCpPZksSr8juE6Fig5lcU3Dc8d469OTPPF9AaC
+	 Vn96TjlGppkD9A1qecxx6ersBDrdsFnLlGHe+E73xh2pq+iAPY+yQfyVB/RF0UvV/j
+	 o/r0yuXENhS4lQYnxEkPWV97SLRt5oi062MAz+W8wVOtaGsPsIyqB9iSHaouKiigHM
+	 fvTOucKMhaFog==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: kernel test robot <lkp@intel.com>, Ian Rogers <irogers@google.com>,
+ oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ x86@kernel.org, sparse@chrisli.org, linux-sparse@vger.kernel.org, Marco
+ Elver <elver@google.com>
+Subject: Re: [tip:timers/vdso 12/14] net/rds/ib_cm.c:96:35: sparse: sparse:
+ incorrect type in argument 1 (different modifiers)
+In-Reply-To: <20260115211120.GD831050@noisy.programming.kicks-ass.net>
+References: <202601150001.sKSN644a-lkp@intel.com> <87v7h23cb0.ffs@tglx>
+ <20260115211120.GD831050@noisy.programming.kicks-ass.net>
+Date: Fri, 16 Jan 2026 00:01:19 +0100
+Message-ID: <87ms2e32gw.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115122341.556026-1-mszeredi@redhat.com>
+Content-Type: text/plain
 
-Hi Miklos,
+On Thu, Jan 15 2026 at 22:11, Peter Zijlstra wrote:
 
-kernel test robot noticed the following build warnings:
+> On Thu, Jan 15, 2026 at 08:28:51PM +0100, Thomas Gleixner wrote:
+>> On Thu, Jan 15 2026 at 00:36, kernel test robot wrote:
+>> 
+>> Cc+ sparse folks.
+>> 
+>> > sparse warnings: (new ones prefixed by >>)
+>> >>> net/rds/ib_cm.c:96:35: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
+>> >    net/rds/ib_cm.c:96:35: sparse:     expected void *
+>> >    net/rds/ib_cm.c:96:35: sparse:     got restricted __be64 const *
+>> >    net/rds/ib_cm.c:103:27: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
+>> >    net/rds/ib_cm.c:103:27: sparse:     expected void *
+>> >    net/rds/ib_cm.c:103:27: sparse:     got restricted __be64 const *
+>> 
+>> After staring a while at it, it turns out that get_unaligned_t(), which
+>> uses __unqual_scalar_typeof() to get an unqualified type makes sparse
+>> unhappy when the data type is __be64 (or any other __beNN variant).
+>> 
+>> __beNN is annotated with __attribute__((bitwise)) when sparse is invoked
+>> (#ifdef CHECKER). That allows sparse to detect incompatible math
+>> operations with __beNN variables.
+>> 
+>
+> Per:
+>
+>   https://git.kernel.org/pub/scm/devel/sparse/sparse-dev.git/commit/?id=dc9efe442b8949234a6599fdc94dc7221dd040e1
+>
+> it seems Sparse now knows about __typeof_unqual__; and it looks like the
+> implementation does what you want here (although I've not tested it).
+>
+> Something like so perhaps, which then mandates the very latest Sparse.
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on kdave/for-next ceph-client/testing mszeredi-fuse/for-next gfs2/for-next linus/master v6.19-rc5 next-20260115]
-[cannot apply to ceph-client/for-linus kleikamp-shaggy/jfs-next ericvh-v9fs/for-next hubcap/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I tried that before and sparse is still upset:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Miklos-Szeredi/posix_acl-make-posix_acl_to_xattr-alloc-the-buffer/20260115-202602
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20260115122341.556026-1-mszeredi%40redhat.com
-patch subject: [PATCH] posix_acl: make posix_acl_to_xattr() alloc the buffer
-config: arm-randconfig-r131-20260116 (https://download.01.org/0day-ci/archive/20260116/202601160622.QW5z6XIJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160622.QW5z6XIJ-lkp@intel.com/reproduce)
+  net/rds/ib_cm.c:96:35: warning: incorrect type in argument 1 (different modifiers)
+  net/rds/ib_cm.c:96:35:    expected void *
+  net/rds/ib_cm.c:96:35:    got restricted __be64 const *
+  net/rds/ib_cm.c:103:27: warning: incorrect type in argument 1 (different modifiers)
+  net/rds/ib_cm.c:103:27:    expected void *
+  net/rds/ib_cm.c:103:27:    got restricted __be64 const *
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601160622.QW5z6XIJ-lkp@intel.com/
+This time I looked deeper and it seems that USE_TYPEOF_UNQUAL is not
+set.
 
-sparse warnings: (new ones prefixed by >>)
->> fs/gfs2/acl.c:87:22: sparse: sparse: Using plain integer as NULL pointer
+If I force it to be set and use a proper compiler and top of tree
+sparse, everything seems to be happy.
 
-vim +87 fs/gfs2/acl.c
+Figuring that out is something for tomorrow...
 
-    82	
-    83	int __gfs2_set_acl(struct inode *inode, struct posix_acl *acl, int type)
-    84	{
-    85		int error;
-    86		size_t len = 0;
-  > 87		char *data = 0;
-    88		const char *name = gfs2_acl_name(type);
-    89	
-    90		if (acl) {
-    91			data = posix_acl_to_xattr(&init_user_ns, acl, &len, GFP_NOFS);
-    92			if (data == NULL)
-    93				return -ENOMEM;
-    94		}
-    95	
-    96		error = __gfs2_xattr_set(inode, name, data, len, 0, GFS2_EATYPE_SYS);
-    97		if (error)
-    98			goto out;
-    99		set_cached_acl(inode, type, acl);
-   100	out:
-   101		kfree(data);
-   102		return error;
-   103	}
-   104	
+Thanks,
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+        tglx
+
