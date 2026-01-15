@@ -1,134 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE8532ABC3;
-	Thu, 15 Jan 2026 10:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FE536A02C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 10:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768472643; cv=none; b=bVfgnmjc+oxtEsV31yTC8pnwZ5umE/VZPam3Ja/ylpOqiW2h2s+BcWh/cFThLihvipo23iufOgNqPP1/j/0XbYdvFlzyVHXa29jbT+tiiUkBPnmVyh4xGhmSIfdzmHCXGNBA27hJwzQ94IQUJpT4BfoUYBUSDZHuRI3I9QRAJcQ=
+	t=1768473300; cv=none; b=nd4lzq4xXcmMyh51Krjn9Zyk9bIvWsoC1MetSFAcsrzqKuvcEQPqp/APoiInWI8GUiLczCSDgDhTkbRgu2stm/adXAw9gJvtw59SzO8GK0Bi/qwstmGquzWj0XZoIAHi8zgX4DhLlTfYyjtNttO8rBg3ulitJV91G91vk7ro94g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768472643; c=relaxed/simple;
-	bh=p9miV0nNryyvHyd1FyrzdZUkZX6TLv1ioe/BqF8c1NU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Eo9EG5ybPD0yza/v0XSfzzLVGluuSNpFl5GehRtYWt9kd9RWG3qQkj8ac4mrv8Y0bGZddhz/7QA4LVg+F2aUG4Hn4TqKYCJpVF/e0rKvTpTa0O8DpM6MMm5aFOJZ+CTG/yIjjZq4pxEwzNAkH378QMnxlecqsAq2a/A6yKFLHPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QxTvwyWI; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1768473300; c=relaxed/simple;
+	bh=mkt76RUvRJEn5btJnxhDFAOMDeRpdSrsk51rNuvwzO4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=sU3dxkUhl+viFfeW3DxPJ+tyYbW6bzXCX9+j64Bq62Lwt5LhN8Oz4PNrVLFHt4rwcuqN0Vt9OYdCNLZQeNO+pBxX2exe3aucHnU3Au7Z1LnxSvaDwNuyJnL+86ddQ+fLkPWLPbyGOjoIVUm7tS4RLw/lbnO6PdonRU+rAIw9XtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LTtaE41Y; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QxTvwyWI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LTtaE41Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768472642; x=1800008642;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p9miV0nNryyvHyd1FyrzdZUkZX6TLv1ioe/BqF8c1NU=;
-  b=QxTvwyWI0es+D38Gqca9gYHDkYDMU8JZYY8kTL/xv5Wd9n1DMAYO7uqn
-   K2kDcf+0dxwY4JjWoZST21V2LtxpAvX4xx9ELcaVAAU+AFlMjnaJgFsvT
-   DQ3lEWBEwH1S13u0b/+54FdKWGACy08t1LMB0sCXk6o//cPj5uVOF7AaT
-   hWH/4ZbhxtPPt2jYLJFx3CSOjvAT7nqwqy+A6X4GjU6FOAIgVjSdxYcZd
-   vHLRAo/X6rT7nQYzZ5Ezxvj8ZYu7ria4e7gymPViNBsQeuEwg4JnP807+
-   iq6ppyxa6t0wWjMBHSvn+PGFhHtu+7lrGGk+dKABQccdBaHR4DmF3izWm
+  t=1768473300; x=1800009300;
+  h=date:from:to:cc:subject:message-id;
+  bh=mkt76RUvRJEn5btJnxhDFAOMDeRpdSrsk51rNuvwzO4=;
+  b=LTtaE41YZSSx0+O3vyJ3fOlZKC3sG6TyNb+Gd20CNqvSeodUeWJlJmct
+   VhReH195wACDHFXc7ubYef40HFq7Szh1KI75FiSZwqWt9bwP2wrLPiP9I
+   fgoPsjOCDKAaiBY08X7RVaYeh3g2BiJcs47v0/CTiZakYTRCfAFlGYA4z
+   qmbmFv00ZmC2qQrKeO2V3dGm/uuP5mkLezoL4AGVfTRgB9cKI4c7ojPO6
+   PF9eISGZrk3BrhX3+dkezP2jbvXgZhiKrWco08gbu6Losq5sQzaNTXmXM
+   CGmZt5qjdBM6NZF4f+2P0QQ7i43EnNP4XxE6LrNQJD6PvlklNoQ73OciH
    g==;
-X-CSE-ConnectionGUID: KAKAmoMZTXSgk7GytxJs5A==
-X-CSE-MsgGUID: 3o9DnV8MSEuEdYXzRJTyeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="68787895"
+X-CSE-ConnectionGUID: 8QPjX5liR0y4zS8OW4fJKg==
+X-CSE-MsgGUID: xczBJTgVTbq827aZLpT1Jg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69692927"
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="68787895"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 02:24:02 -0800
-X-CSE-ConnectionGUID: 1DP/q8OUSOaiDbgrzWpjsw==
-X-CSE-MsgGUID: +4l+nVOsSCmGCnreoNkZIQ==
+   d="scan'208";a="69692927"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 02:34:59 -0800
+X-CSE-ConnectionGUID: mYDQ04KeSbu2xqQI6dooew==
+X-CSE-MsgGUID: NXdtDPYjT4eGIeNRbbUTDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="209393799"
+   d="scan'208";a="205334880"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 15 Jan 2026 02:23:58 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 15 Jan 2026 02:34:58 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgKWB-00000000HqG-0nOs;
-	Thu, 15 Jan 2026 10:23:55 +0000
-Date: Thu, 15 Jan 2026 18:23:48 +0800
+	id 1vgKgp-00000000Hqi-2Yxn;
+	Thu, 15 Jan 2026 10:34:55 +0000
+Date: Thu, 15 Jan 2026 18:34:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, Vinod Koul <vkoul@kernel.org>
-Subject: Re: [PATCH net-next 03/14] phy: qcom-sgmii-eth: add .set_mode() and
- .validate() methods
-Message-ID: <202601151700.IjgxseKd-lkp@intel.com>
-References: <E1vg4vs-00000003SFt-1Fje@rmk-PC.armlinux.org.uk>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe:io_uring-bpf-restrictions 16/16]
+ register.c:(.text+0x980): relocation truncated to fit: R_NIOS2_CALL26 against
+ `io_register_bpf_filter'
+Message-ID: <202601151824.92HyDTlw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1vg4vs-00000003SFt-1Fje@rmk-PC.armlinux.org.uk>
 
-Hi Russell,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King-Oracle/net-stmmac-qcom-ethqos-remove-mac_base/20260115-054728
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/E1vg4vs-00000003SFt-1Fje%40rmk-PC.armlinux.org.uk
-patch subject: [PATCH net-next 03/14] phy: qcom-sgmii-eth: add .set_mode() and .validate() methods
-config: powerpc-randconfig-002-20260115 (https://download.01.org/0day-ci/archive/20260115/202601151700.IjgxseKd-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151700.IjgxseKd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git io_uring-bpf-restrictions
+head:   29ac83fe2b009e9bc007cc44ea21832a904be4fe
+commit: 29ac83fe2b009e9bc007cc44ea21832a904be4fe [16/16] io_uring: allow registration of per-task restrictions
+config: nios2-allnoconfig (https://download.01.org/0day-ci/archive/20260115/202601151824.92HyDTlw-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151824.92HyDTlw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601151700.IjgxseKd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601151824.92HyDTlw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/phy/qualcomm/phy-qcom-sgmii-eth.c:294:17: error: use of undeclared identifier 'PHY_INTERFACE_MODE_SGMII'
-     294 |         if (submode == PHY_INTERFACE_MODE_SGMII ||
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/phy/qualcomm/phy-qcom-sgmii-eth.c:295:17: error: use of undeclared identifier 'PHY_INTERFACE_MODE_1000BASEX'
-     295 |             submode == PHY_INTERFACE_MODE_1000BASEX)
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/phy/qualcomm/phy-qcom-sgmii-eth.c:298:17: error: use of undeclared identifier 'PHY_INTERFACE_MODE_2500BASEX'
-     298 |         if (submode == PHY_INTERFACE_MODE_2500BASEX)
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 errors generated.
-
-
-vim +/PHY_INTERFACE_MODE_SGMII +294 drivers/phy/qualcomm/phy-qcom-sgmii-eth.c
-
-   288	
-   289	static int qcom_dwmac_sgmii_phy_speed(enum phy_mode mode, int submode)
-   290	{
-   291		if (mode != PHY_MODE_ETHERNET)
-   292			return -EINVAL;
-   293	
- > 294		if (submode == PHY_INTERFACE_MODE_SGMII ||
- > 295		    submode == PHY_INTERFACE_MODE_1000BASEX)
-   296			return SPEED_1000;
-   297	
- > 298		if (submode == PHY_INTERFACE_MODE_2500BASEX)
-   299			return SPEED_2500;
-   300	
-   301		return -EINVAL;
-   302	}
-   303	
+   nios2-linux-ld: io_uring/io_uring.o: in function `io_init_req':
+   io_uring.c:(.text+0x7d8): undefined reference to `__io_uring_run_bpf_filters'
+   io_uring.c:(.text+0x7d8): relocation truncated to fit: R_NIOS2_CALL26 against `__io_uring_run_bpf_filters'
+   nios2-linux-ld: io_uring/register.o: in function `io_free_restrictions':
+   register.c:(.text+0x14): undefined reference to `io_uring_put_bpf_filters'
+   register.c:(.text+0x14): relocation truncated to fit: R_NIOS2_CALL26 against `io_uring_put_bpf_filters'
+   nios2-linux-ld: io_uring/register.o: in function `io_uring_register_blind':
+   register.c:(.text+0x980): undefined reference to `io_register_bpf_filter'
+>> register.c:(.text+0x980): relocation truncated to fit: R_NIOS2_CALL26 against `io_register_bpf_filter'
 
 -- 
 0-DAY CI Kernel Test Service
