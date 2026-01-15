@@ -1,49 +1,69 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD21532573C;
-	Thu, 15 Jan 2026 21:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7886232825F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 21:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768511497; cv=none; b=QA7OC+FbPPkD91fUi9Yel+RzLHN2AsZDSFH+hKY4nqD0GvrRsxB/uKYcyNF2qrkUq2ZfV4hbcMo4T4ecDwGeZVe3z9goOHt/4SFQE4ZMOUYBDSP/0fVlGNGrqMsUhLrjp3joGDDWvjC3uhBoua0BiAoGpAXcvjqecWxyPCxmTpI=
+	t=1768511721; cv=none; b=GNPs8NSKYvba4UvjagcLqpzbFxELHy/Dhm22CMk6z3aX2EgHQ59Q1BIeclAMnzkZ48eJvLMZwCQkvkdIbS3mp3tkPXv11ZhYTRjBS++8RjYPUeA4VqrnsVEmji+sBMfX5JWjkK1mSOw6ImBa8AEH7VvC0o3Zr56dB1MGIbNXYMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768511497; c=relaxed/simple;
-	bh=WR9unCzc0TB01qcd9ZOTxjfmUxp33j4cJgHXk+CTsHU=;
+	s=arc-20240116; t=1768511721; c=relaxed/simple;
+	bh=1A+T4CJFZG1miay751yy1KYlyXw8N+muZBboZSWUttM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KAn1TSUDE2F/KRfu/VzvaXdtIguwzK1UbvfINkNaWieRaykrDrPV2bgdKQfroVtELjA9DHHit1Moi04A1mwycTao8nUYAzJkM2rwkI4QuQmpwe7g16nWjo2NE/+ys8IvZZw0zTeK4neAz4yS6PC+JLWXSHeIkIEw/pSxgrG9Seg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Sf8vz5gs; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=O98aYB9Ro/L8HzOYXCptbKlvTT7Zojp7bRKDArRewFj/Waxj5roT2t8ySzXq0MMeJXKMccbb1zBtnnEToWDrymbQJvaGaStaHj5KdPJZLsUQO1WZTn6DQh4DncVUwJXHVRIvYRXza2e+XPyXTor6Gf8dVdLmWAUw0lNyql+HWFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c3fypLHz; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Sf8vz5gs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=kayCw8jfD5k3qb9Lh5Ilv68xIPi5jIFXkpxrm1bVPS8=; b=Sf8vz5gsO9Fb2TquzK6r7orykR
-	PBDsHWbDgnKEV8GXuRMBh2nDvKmE+Si4sLLVXUqvlWU78s1ijC/pTuJKyTHnaQpsKw4EmD9hD7bsi
-	IkYy7ItuLtEJ+/sCYUOXZmC4eDSuYjYSq2/GxT8kGNvyI3o/SOh8xrdbvxiKTw9XGkxJPog+iqwlY
-	25CMRq4k/Mhv2W/SST1so+r3YpGZcnTN8TGKNSzPRZgIYd5WDHY/Pg0vXhJ0KIShKWmMZQ5OqHQY+
-	tEGHvcP//xD80SFmaN9UB7CbDt3LoPA7pYCygkgr2d8jikvuCDBrtc1L5oZBZ62FWBfh0zWBPgncc
-	H+eZL34A==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vgUcj-00000007eNU-1pyJ;
-	Thu, 15 Jan 2026 21:11:28 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 21CB23003C4; Thu, 15 Jan 2026 22:11:20 +0100 (CET)
-Date: Thu, 15 Jan 2026 22:11:20 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Ian Rogers <irogers@google.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, sparse@chrisli.org, linux-sparse@vger.kernel.org,
-	Marco Elver <elver@google.com>
-Subject: Re: [tip:timers/vdso 12/14] net/rds/ib_cm.c:96:35: sparse: sparse:
- incorrect type in argument 1 (different modifiers)
-Message-ID: <20260115211120.GD831050@noisy.programming.kicks-ass.net>
-References: <202601150001.sKSN644a-lkp@intel.com>
- <87v7h23cb0.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c3fypLHz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768511720; x=1800047720;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1A+T4CJFZG1miay751yy1KYlyXw8N+muZBboZSWUttM=;
+  b=c3fypLHzPXJXF2CNz0Gg+g8MqwwYO+cuMbhpdcR5RxTP3HSgA5pMlxWP
+   gF2mH8rOMKPr8SpeTkccMdKeBhhfisDJPn0BUj2FrOcZcJSPSCAh5u8Dt
+   BdzF0TpdbrYuQIyP6dykRytjKu+lJ6n63xp+cwKZHk2Yvdns8aHjL2EAJ
+   4byOwlxCbyglBBwQsxWad8noxRbAjBeHzUjVK/pPmJhUNHWaBEvxsdCJJ
+   /P5ft7dkcDWLNBAaS3ZKjtJFcGtbbB9IGHF6DG+cv8YCi7yCU5+JF+4/Y
+   DFYMIdL2XneyFuEt/37S/FdfPOoWYI7mjR5kkixN6jHgEsk8chcMOTdGn
+   g==;
+X-CSE-ConnectionGUID: dIK2BN7DSDqTSE/JDG/1hw==
+X-CSE-MsgGUID: XwZr6/Z+SuWZZA3I0VHfcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80472111"
+X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
+   d="scan'208";a="80472111"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 13:15:19 -0800
+X-CSE-ConnectionGUID: eTlg1CJMQsGmMNMsaXqNIA==
+X-CSE-MsgGUID: UV4mjTkQR7uGcxNnXPA2WQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
+   d="scan'208";a="205543257"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 15 Jan 2026 13:15:15 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vgUgT-00000000K08-1fPo;
+	Thu, 15 Jan 2026 21:15:13 +0000
+Date: Fri, 16 Jan 2026 05:14:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luigi Rizzo <lrizzo@google.com>, Thomas Gleixner <tglx@linutronix.de>,
+	Marc Zyngier <maz@kernel.org>, Luigi Rizzo <rizzo.unipi@gmail.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Jacob Pan <jacob.jun.pan@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Willem de Bruijn <willemb@google.com>
+Subject: Re: [PATCH v4 3/3] genirq: Adaptive Global Software Interrupt
+ Moderation (GSIM).
+Message-ID: <202601160433.z2rdE9lE-lkp@intel.com>
+References: <20260115155942.482137-4-lrizzo@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,76 +72,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87v7h23cb0.ffs@tglx>
+In-Reply-To: <20260115155942.482137-4-lrizzo@google.com>
 
-On Thu, Jan 15, 2026 at 08:28:51PM +0100, Thomas Gleixner wrote:
-> On Thu, Jan 15 2026 at 00:36, kernel test robot wrote:
-> 
-> Cc+ sparse folks.
-> 
-> > sparse warnings: (new ones prefixed by >>)
-> >>> net/rds/ib_cm.c:96:35: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-> >    net/rds/ib_cm.c:96:35: sparse:     expected void *
-> >    net/rds/ib_cm.c:96:35: sparse:     got restricted __be64 const *
-> >    net/rds/ib_cm.c:103:27: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-> >    net/rds/ib_cm.c:103:27: sparse:     expected void *
-> >    net/rds/ib_cm.c:103:27: sparse:     got restricted __be64 const *
-> 
-> After staring a while at it, it turns out that get_unaligned_t(), which
-> uses __unqual_scalar_typeof() to get an unqualified type makes sparse
-> unhappy when the data type is __be64 (or any other __beNN variant).
-> 
-> __beNN is annotated with __attribute__((bitwise)) when sparse is invoked
-> (#ifdef CHECKER). That allows sparse to detect incompatible math
-> operations with __beNN variables.
-> 
+Hi Luigi,
 
-Per:
+kernel test robot noticed the following build warnings:
 
-  https://git.kernel.org/pub/scm/devel/sparse/sparse-dev.git/commit/?id=dc9efe442b8949234a6599fdc94dc7221dd040e1
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.19-rc5]
+[cannot apply to tip/irq/core next-20260115]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-it seems Sparse now knows about __typeof_unqual__; and it looks like the
-implementation does what you want here (although I've not tested it).
+url:    https://github.com/intel-lab-lkp/linux/commits/Luigi-Rizzo/genirq-Add-flags-for-software-interrupt-moderation/20260116-000808
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260115155942.482137-4-lrizzo%40google.com
+patch subject: [PATCH v4 3/3] genirq: Adaptive Global Software Interrupt Moderation (GSIM).
+config: mips-randconfig-r051-20260116 (https://download.01.org/0day-ci/archive/20260116/202601160433.z2rdE9lE-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160433.z2rdE9lE-lkp@intel.com/reproduce)
 
-Something like so perhaps, which then mandates the very latest Sparse.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601160433.z2rdE9lE-lkp@intel.com/
 
----
-diff --git a/include/linux/compiler.h b/include/linux/compiler.h
-index 04487c9bd751..7e0583ceb49f 100644
---- a/include/linux/compiler.h
-+++ b/include/linux/compiler.h
-@@ -232,11 +232,8 @@ void ftrace_likely_update(struct ftrace_likely_data *f, int val,
- 
- /*
-  * Use __typeof_unqual__() when available.
-- *
-- * XXX: Remove test for __CHECKER__ once
-- * sparse learns about __typeof_unqual__().
-  */
--#if CC_HAS_TYPEOF_UNQUAL && !defined(__CHECKER__)
-+#if CC_HAS_TYPEOF_UNQUAL || defined(__CHECKER__)
- # define USE_TYPEOF_UNQUAL 1
- #endif
- 
-diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-index d3318a3c2577..a37d832d99a8 100644
---- a/include/linux/compiler_types.h
-+++ b/include/linux/compiler_types.h
-@@ -569,6 +569,7 @@ struct ftrace_likely_data {
-  * __unqual_scalar_typeof(x) - Declare an unqualified scalar type, leaving
-  *			       non-scalar types unchanged.
-  */
-+#ifndef USE_TYPEOF_UNQUAL
- /*
-  * Prefer C11 _Generic for better compile-times and simpler code. Note: 'char'
-  * is not type-compatible with 'signed char', and we define a separate case.
-@@ -586,6 +587,9 @@ struct ftrace_likely_data {
- 			 __scalar_type_to_expr_cases(long),		\
- 			 __scalar_type_to_expr_cases(long long),	\
- 			 default: (x)))
-+#else
-+#define __unqual_scalar_typeof(x) __typeof_unqual__(x)
-+#endif
- 
- /* Is this type a native word size -- useful for atomic operations */
- #define __native_word(t) \
+All warnings (new ones prefixed by >>):
+
+>> kernel/irq/irq_moderation.c:432:40: warning: overflow in expression; result is 1'410'065'408 with type 'long' [-Winteger-overflow]
+     432 |                 recent = (now - epoch_start_ns) < 10 * NSEC_PER_SEC;
+         |                                                   ~~~^~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +432 kernel/irq/irq_moderation.c
+
+   410	
+   411	/* Print statistics */
+   412	static void rd_stats(struct seq_file *p)
+   413	{
+   414		ulong global_intr_rate = 0, global_irq_high = 0;
+   415		ulong local_irq_high = 0, hardirq_high = 0;
+   416		uint delay_us = irq_mod_info.delay_us;
+   417		u64 now = ktime_get_ns();
+   418		int cpu, active_cpus = 0;
+   419	
+   420		seq_printf(p, HEAD_FMT,
+   421			   "# CPU", "irq/s", "loc_irq/s", "cpus", "delay_ns",
+   422			   "irq_hi", "loc_irq_hi", "hardirq_hi", "timer_set",
+   423			   "enqueue", "stray_irq");
+   424	
+   425		for_each_possible_cpu(cpu) {
+   426			struct irq_mod_state cur, *m = per_cpu_ptr(&irq_mod_state, cpu);
+   427			u64 epoch_start_ns;
+   428			bool recent;
+   429	
+   430			/* Accumulate and print only recent samples */
+   431			epoch_start_ns = atomic64_read(&m->epoch_start_ns);
+ > 432			recent = (now - epoch_start_ns) < 10 * NSEC_PER_SEC;
+   433	
+   434			/* Copy statistics, will only use some 32bit values, races ok. */
+   435			data_race(cur = *per_cpu_ptr(&irq_mod_state, cpu));
+   436			if (recent) {
+   437				active_cpus++;
+   438				global_intr_rate += cur.global_intr_rate;
+   439			}
+   440	
+   441			global_irq_high += cur.global_irq_high;
+   442			local_irq_high += cur.local_irq_high;
+   443			hardirq_high += cur.hardirq_high;
+   444	
+   445			seq_printf(p, BODY_FMT,
+   446				   cpu,
+   447				   recent * cur.global_intr_rate,
+   448				   recent * cur.local_intr_rate,
+   449				   recent * (cur.scaled_cpu_count + 128) / 256,
+   450				   recent * cur.mod_ns,
+   451				   cur.global_irq_high,
+   452				   cur.local_irq_high,
+   453				   cur.hardirq_high,
+   454				   cur.timer_set,
+   455				   cur.enqueue,
+   456				   cur.stray_irq);
+   457		}
+   458	
+   459		seq_printf(p, "\n"
+   460			   "enabled              %s\n"
+   461			   "delay_us             %u\n"
+   462			   "target_intr_rate     %u\n"
+   463			   "hardirq_percent      %u\n"
+   464			   "update_ms            %u\n"
+   465			   "scale_cpus           %u\n",
+   466			   str_yes_no(delay_us > 0),
+   467			   delay_us,
+   468			   irq_mod_info.target_intr_rate, irq_mod_info.hardirq_percent,
+   469			   irq_mod_info.update_ms, irq_mod_info.scale_cpus);
+   470	
+   471		seq_printf(p,
+   472			   "intr_rate            %lu\n"
+   473			   "irq_high             %lu\n"
+   474			   "my_irq_high          %lu\n"
+   475			   "hardirq_percent_high %lu\n"
+   476			   "total_interrupts     %u\n"
+   477			   "total_cpus           %u\n",
+   478			   active_cpus ? global_intr_rate / active_cpus : 0,
+   479			   global_irq_high, local_irq_high, hardirq_high,
+   480			   READ_ONCE(*((u32 *)&irq_mod_info.total_intrs)),
+   481			   READ_ONCE(*((u32 *)&irq_mod_info.total_cpus)));
+   482	}
+   483	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
