@@ -1,111 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2487F378D80
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 13:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7441938A715;
+	Thu, 15 Jan 2026 13:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768483690; cv=none; b=bIsTe+9qF6YaH4ZfQBKP0DxmLFbuXjZmgrNwkb7ZkyAo22xEjGwWcks3Z2ICmHSnl1N8YG/mGe3bmxHT5C3W/LI416VwSxEPFFkCvbJJbbIFZbB70lzJCeF+zQmaqpRBkvHxg5uBLGzBlL1bTTkgVwoPSFxiBBpFGleoPuWAY6Y=
+	t=1768485012; cv=none; b=cVM3zdoc1KScSPVMs6EXH0ZnOcSr78eV3h6Nfcceya0IYNdduPkhglx4AJgN5qegFZYX3jop1R0lXcFC6LMBPNsjmYuZD6KCufrlYjzu1B7PLjN7UzY0JYDrs9wbsD4hfLvjK44ZS/BOTQgrK7svZ6n8SqV9WLD9+2Nim7iTTMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768483690; c=relaxed/simple;
-	bh=A4nOlaWdKouI3tyaJTPELa+WT9XIutfpXFUpjnMkVrk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=q1GMy7q6XOCI/4FRFv1lExhfkfwXRGYOI6GPcnp+qRbHHARMpp1gVVm/TQBnDMEhasEhekCFb1X3I+lu9Q7AOfVGyK74M4i/Osc1UultBvTsyFujqg+K84pTUx7wc7SuRne1J8FdgjsNBwGmtaxAC0qRU3+qk5+J9wFVEDkSl0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oFBo+u61; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1768485012; c=relaxed/simple;
+	bh=9BuasZ0t33a7AsjKXVovC2XLmPpO90VhX+AWfX4/5cY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lpN1QhIp4PAu9ZsNdkM27z9hf4jFkOD8FoOCkP36RHLiIcWj2D0rZSZkn0BqcgREHdcgWyyVuNgYhDbDiW9R3tc3Qjez99/RP73E8kh6KW5uxRy7Ij3pdKwauPXuzwDf4e7pA32F5lA9WTD0K/y0WxbGK214cgojSGkSvrM2CIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fScTsD0z; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oFBo+u61"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fScTsD0z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768483689; x=1800019689;
-  h=date:from:to:cc:subject:message-id;
-  bh=A4nOlaWdKouI3tyaJTPELa+WT9XIutfpXFUpjnMkVrk=;
-  b=oFBo+u61xE529qzFBh0E8p19daQ5a8U/Qhl1B+Ex++HWo5/spq3aRboi
-   EDdwMczhvnihyAG5Mj0XlW/M3ZaVcz7zL1a6V3LzIFop5RVlvdG/yoH0v
-   h+SxsUtl7lHJRCXdrE3/tCKOpA3hGBVmGKQ1t/3yhdzCfDoU4y0YBoQ4j
-   r1LiFOTIuTspfnBFawR/9NbtokYiWTPen23pgGQ/uRKXwKSjCqB0jZq8P
-   jsnnUl8hBulIwlNAHcRTvTmMBvXSS+2qeaOi/Nazn2YqZgJOO/jKc6TTN
-   N7qPwds3OrkzO0b2NlcorgwByehFZliDGirvcYGPe/S22B/YajUe/89+s
-   g==;
-X-CSE-ConnectionGUID: wqyxOAdVROWTHxsbruObdA==
-X-CSE-MsgGUID: fVH7s7c/TOObPuByuTAmWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69704699"
+  t=1768485011; x=1800021011;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9BuasZ0t33a7AsjKXVovC2XLmPpO90VhX+AWfX4/5cY=;
+  b=fScTsD0zvJleJjihxGPHylvh8WVboaYf4StEhkgPl7ErOZmx2f6adFQk
+   oI7IS+w095dA4Ez2w1FE+F8TfDAqgjzfB2len/cPAraPQBSV0jOVWO1fU
+   SEzfrme6ZGvbzW4SY3HvlGhJbm/thkDNUViyjzBWCyF/TYKJx/ylRHfWf
+   xXlflRh7iSYxBgB6hRtFyJxC4pyCzLpJ3K3AqxyPSsKUQ1j2ertnDPs/w
+   xyG71EE6xq/DG0rJtgNGVE20QFrD/LUfP9uHj/ZFY5O3M3LsJvFxJRhCf
+   LAH4QZ8ymSSYuqZxvXs/Tr1VPO7o8xIXKcGZoU5BM8VrulcmiQxhKgVN7
+   Q==;
+X-CSE-ConnectionGUID: cideZ5yEQTq6AH1RRP0pKw==
+X-CSE-MsgGUID: AAtyCqV1Ss+L2JDyVH4cSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="73641272"
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="69704699"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 05:28:07 -0800
-X-CSE-ConnectionGUID: nMewqBtQQ2mowds3GpqdDA==
-X-CSE-MsgGUID: wRxbjHDZSP2EVvippJSzxA==
+   d="scan'208";a="73641272"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 05:50:11 -0800
+X-CSE-ConnectionGUID: AZ9/3ya5TCiOyR984WpPMA==
+X-CSE-MsgGUID: AGN9oiwIQOiOpBYwKn7DfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="209467817"
+   d="scan'208";a="204838423"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Jan 2026 05:28:05 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 15 Jan 2026 05:50:06 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgNON-00000000I0a-11gA;
-	Thu, 15 Jan 2026 13:28:03 +0000
-Date: Thu, 15 Jan 2026 21:27:20 +0800
+	id 1vgNjg-00000000I1s-0ySb;
+	Thu, 15 Jan 2026 13:50:04 +0000
+Date: Thu, 15 Jan 2026 21:49:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-lts 1/1]
- drivers/tty/tty_port.c:420: warning: Function parameter or struct member
- 'async' not described in '__tty_port_tty_hangup'
-Message-ID: <202601152117.hNT0RwRh-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: John Madieu <john.madieu.xa@bp.renesas.com>,
+	claudiu.beznea.uj@bp.renesas.com, lpieralisi@kernel.org,
+	kwilczynski@kernel.org, mani@kernel.org, geert+renesas@glider.be,
+	krzk+dt@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, robh@kernel.org,
+	bhelgaas@google.com, conor+dt@kernel.org, magnus.damm@gmail.com,
+	biju.das.jz@bp.renesas.com, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org, john.madieu@gmail.com,
+	John Madieu <john.madieu.xa@bp.renesas.com>
+Subject: Re: [PATCH 10/16] PCI: rzg3s-host: Explicitly set class code for
+ RZ/G3E compatibility
+Message-ID: <202601152104.pV9uMS76-lkp@intel.com>
+References: <20260114153337.46765-11-john.madieu.xa@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260114153337.46765-11-john.madieu.xa@bp.renesas.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
-head:   d8df691c15ecca8cee9b28ff82915c7034e90794
-commit: 2299e3ba1247c9e61d432355f98cd6f9872e67da [1/1] tty: introduce and use tty_port_tty_vhangup() helper
-config: arm-randconfig-004-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152117.hNT0RwRh-lkp@intel.com/config)
+Hi John,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20260114]
+[cannot apply to pci/next pci/for-linus geert-renesas-devel/next geert-renesas-drivers/renesas-clk linus/master v6.19-rc5 v6.19-rc4 v6.19-rc3 v6.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Madieu/PCI-rzg3s-host-Fix-reset-handling-in-probe-error-path/20260114-234634
+base:   next-20260114
+patch link:    https://lore.kernel.org/r/20260114153337.46765-11-john.madieu.xa%40bp.renesas.com
+patch subject: [PATCH 10/16] PCI: rzg3s-host: Explicitly set class code for RZ/G3E compatibility
+config: powerpc64-randconfig-002-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152104.pV9uMS76-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152117.hNT0RwRh-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152104.pV9uMS76-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601152117.hNT0RwRh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601152104.pV9uMS76-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/tty/tty_port.c:420: warning: Function parameter or struct member 'async' not described in '__tty_port_tty_hangup'
->> drivers/tty/tty_port.c:420: warning: expecting prototype for tty_port_tty_hangup(). Prototype was for __tty_port_tty_hangup() instead
+>> drivers/pci/controller/pcie-rzg3s-host.c:1090:11: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((mask), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (mask)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+    1090 |                                FIELD_PREP(mask, PCI_CLASS_BRIDGE_PCI_NORMAL));
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:137:3: note: expanded from macro 'FIELD_PREP'
+     137 |                 __BF_FIELD_CHECK_REG(_mask, 0ULL, "FIELD_PREP: ");      \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:79:50: note: expanded from macro '__BF_FIELD_CHECK_REG'
+      79 |         BUILD_BUG_ON_MSG(__bf_cast_unsigned(mask, mask) >               \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+      80 |                          __bf_cast_unsigned(reg, ~0ull),                \
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      81 |                          pfx "type of reg too small for mask")
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+   include/linux/compiler_types.h:667:22: note: expanded from macro 'compiletime_assert'
+     667 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:655:23: note: expanded from macro '_compiletime_assert'
+     655 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:647:9: note: expanded from macro '__compiletime_assert'
+     647 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   1 warning generated.
 
 
-vim +420 drivers/tty/tty_port.c
+vim +1090 drivers/pci/controller/pcie-rzg3s-host.c
 
-3e61696bdc2103 drivers/char/tty_port.c Alan Cox          2009-01-02  413  
-aa27a094e2c2e0 drivers/tty/tty_port.c  Jiri Slaby        2013-03-07  414  /**
-aa27a094e2c2e0 drivers/tty/tty_port.c  Jiri Slaby        2013-03-07  415   * tty_port_tty_hangup - helper to hang up a tty
-aa27a094e2c2e0 drivers/tty/tty_port.c  Jiri Slaby        2013-03-07  416   * @port: tty port
-cb6f6f9877928f drivers/tty/tty_port.c  Jiri Slaby        2021-11-26  417   * @check_clocal: hang only ttys with %CLOCAL unset?
-aa27a094e2c2e0 drivers/tty/tty_port.c  Jiri Slaby        2013-03-07  418   */
-2299e3ba1247c9 drivers/tty/tty_port.c  Jiri Slaby (SUSE  2025-12-30  419) void __tty_port_tty_hangup(struct tty_port *port, bool check_clocal, bool async)
-aa27a094e2c2e0 drivers/tty/tty_port.c  Jiri Slaby        2013-03-07 @420  {
-aa27a094e2c2e0 drivers/tty/tty_port.c  Jiri Slaby        2013-03-07  421  	struct tty_struct *tty = tty_port_tty_get(port);
-aa27a094e2c2e0 drivers/tty/tty_port.c  Jiri Slaby        2013-03-07  422  
-2299e3ba1247c9 drivers/tty/tty_port.c  Jiri Slaby (SUSE  2025-12-30  423) 	if (tty && (!check_clocal || !C_CLOCAL(tty))) {
-2299e3ba1247c9 drivers/tty/tty_port.c  Jiri Slaby (SUSE  2025-12-30  424) 		if (async)
-aa27a094e2c2e0 drivers/tty/tty_port.c  Jiri Slaby        2013-03-07  425  			tty_hangup(tty);
-2299e3ba1247c9 drivers/tty/tty_port.c  Jiri Slaby (SUSE  2025-12-30  426) 		else
-2299e3ba1247c9 drivers/tty/tty_port.c  Jiri Slaby (SUSE  2025-12-30  427) 			tty_vhangup(tty);
-2299e3ba1247c9 drivers/tty/tty_port.c  Jiri Slaby (SUSE  2025-12-30  428) 	}
-aa27a094e2c2e0 drivers/tty/tty_port.c  Jiri Slaby        2013-03-07  429  	tty_kref_put(tty);
-aa27a094e2c2e0 drivers/tty/tty_port.c  Jiri Slaby        2013-03-07  430  }
-2299e3ba1247c9 drivers/tty/tty_port.c  Jiri Slaby (SUSE  2025-12-30  431) EXPORT_SYMBOL_GPL(__tty_port_tty_hangup);
-aa27a094e2c2e0 drivers/tty/tty_port.c  Jiri Slaby        2013-03-07  432  
-
-:::::: The code at line 420 was first introduced by commit
-:::::: aa27a094e2c2e0cc59914e56113b860f524f4479 TTY: add tty_port_tty_hangup helper
-
-:::::: TO: Jiri Slaby <jslaby@suse.cz>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+  1057	
+  1058	static int rzg3s_pcie_config_init(struct rzg3s_pcie_host *host)
+  1059	{
+  1060		struct pci_host_bridge *bridge = pci_host_bridge_from_priv(host);
+  1061		u32 mask = GENMASK(31, 8);
+  1062		struct resource_entry *ft;
+  1063		struct resource *bus;
+  1064		u8 subordinate_bus;
+  1065		u8 secondary_bus;
+  1066		u8 primary_bus;
+  1067	
+  1068		ft = resource_list_first_type(&bridge->windows, IORESOURCE_BUS);
+  1069		if (!ft)
+  1070			return -ENODEV;
+  1071	
+  1072		bus = ft->res;
+  1073		primary_bus = bus->start;
+  1074		secondary_bus = bus->start + 1;
+  1075		subordinate_bus = bus->end;
+  1076	
+  1077		/* Enable access control to the CFGU */
+  1078		writel_relaxed(RZG3S_PCI_PERM_CFG_HWINIT_EN,
+  1079			       host->axi + RZG3S_PCI_PERM);
+  1080	
+  1081		/* HW manual recommends to write 0xffffffff on initialization */
+  1082		writel_relaxed(0xffffffff, host->pcie + RZG3S_PCI_CFG_BARMSK00L);
+  1083		writel_relaxed(0xffffffff, host->pcie + RZG3S_PCI_CFG_BARMSK00U);
+  1084	
+  1085		/*
+  1086		 * Explicitly program class code. RZ/G3E requires this configuration.
+  1087		 * Harmless for RZ/G3S where this matches the hardware default.
+  1088		 */
+  1089		rzg3s_pcie_update_bits(host->pcie, PCI_CLASS_REVISION, mask,
+> 1090				       FIELD_PREP(mask, PCI_CLASS_BRIDGE_PCI_NORMAL));
+  1091	
+  1092		/* Disable access control to the CFGU */
+  1093		writel_relaxed(0, host->axi + RZG3S_PCI_PERM);
+  1094	
+  1095		/* Update bus info */
+  1096		writeb_relaxed(primary_bus, host->pcie + PCI_PRIMARY_BUS);
+  1097		writeb_relaxed(secondary_bus, host->pcie + PCI_SECONDARY_BUS);
+  1098		writeb_relaxed(subordinate_bus, host->pcie + PCI_SUBORDINATE_BUS);
+  1099	
+  1100		return 0;
+  1101	}
+  1102	
 
 -- 
 0-DAY CI Kernel Test Service
