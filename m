@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D5334676D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 09:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526531391
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 09:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768468020; cv=none; b=B3nZQB5IZ3nZRkSygt9a5E7L2gNLhWdACnxk1PZhrOOPxrZTQa36zxMlljhLqrpUJZVogy0UVF6E1QuYjL+YVRO7/AyUjvfxrjPoLxFC4zGoBJh3+5AvP0HoV4oiZOlZGbPzbB1LnIq/pzBHfpDs7ODleNwxnZvEREmmtWmQaFs=
+	t=1768468679; cv=none; b=NaxD4f2amioCy6w6e/0SJuyo2FGOdoBo6yene76hsKOsT2jixS5jIofUIivOKIpvsmPtN/PRHig2E6Af38d+VALF+MMy+2b7nsc8xM6v/Zanm57uW1QacYvOKJ9RurIhP2j77cU+ncATx5pDRwLzB4kouHX89a7CxQojybcFd/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768468020; c=relaxed/simple;
-	bh=3aX+sjyUD3Gah2BLJZPA206bg4FrMDJPWgfbMWkKyz8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=C9fiZ9Fhn1TWSqF/M/0UaQPS8DC8Y/VHyqvHAlDHLI+02Lv0BxvgIQDkLjaBm8864UhgZ+M9ThG3jmPxngXCHmd8PVf61f5qTgzHQERdwf/virz5QAhp+Z9FLFTyYU3BHDe+X+1K4bloG4mti4BHT6QSsF96BTTQG2DEq3H21t4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NH+qv/+d; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1768468679; c=relaxed/simple;
+	bh=2OsHYa+pmnKcYMw0RYRSbMd6ZKzqLkV9R8b9T3bnfXM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=b8qgc8v/XWA8i0Sw97JCenTvheCHEAUyZvQx9KMNmr3D2tmA4GGm+mnwvX8D8B3zUjfWinxq77x/4OgQAq/vU/SiIPHoH60nX4M5VoCTZeUeNfc5jnqgm4yRBg9P6iErrFtjo646uCVe/JGPQvXTMhnRrJdaWt1ULE0bWtqcMfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D3+NI4Gj; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NH+qv/+d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D3+NI4Gj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768468018; x=1800004018;
+  t=1768468677; x=1800004677;
   h=date:from:to:cc:subject:message-id;
-  bh=3aX+sjyUD3Gah2BLJZPA206bg4FrMDJPWgfbMWkKyz8=;
-  b=NH+qv/+do8BSjB/z6kg0TqF173/+vD/VPgqx12XofpoqeRpwo3d6SgFm
-   e3evtjiGKNlDNJfvUC9Uk2gA7nRwRd3wiI89Pd4x8vm5PyKe8UQjFl9li
-   iB/FuV8ZROPJKpc+wIcLOnBNK5dXyyNeZkmu30aHC13wKbDB0WLQ4PwlG
-   FILbDwkYskXkdZ4RTAeQx0NCRc2cGvDVmLFwafvWhqvftA/R1DBgDIUHW
-   r4SGA9MKBnW7y131wgsBX2p1bevUn+/dZzIYGAdAPyWpEGJ/PIZwFbsSB
-   s5Jrliq+de7eASIXJdASeS4othe9m4131t6LWrri0Y6Q8PTrXt480uimZ
-   w==;
-X-CSE-ConnectionGUID: RGaOeazvQca5ysOOlkGyqg==
-X-CSE-MsgGUID: BvLxqqOpSaK8B3mu7+AlEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="73613099"
+  bh=2OsHYa+pmnKcYMw0RYRSbMd6ZKzqLkV9R8b9T3bnfXM=;
+  b=D3+NI4GjoKrC89Im+fc0rMz9MtqnnZmdoH7cWbA9g+mRbk2SnpHpwWWF
+   x9eHwT861N3YLEDwVjj21GBYs4YdDwyKaxJ2UU1MkFuRecLb0wyeyZ859
+   5cvV281xlQu4s6p4UJ5dqRBm6t3lDB7hhNMGNxpOvMwfWe9T4Mu4d0x15
+   fo3TXu+UouXsQjn/VlRqgXRYJ4ONFgdgCFYLzbJ0kMCL/iPFKEMFopGJS
+   jRTCS/c02/B4znsFRUeCGlxP25t+0f7nvPNDquu6MZ9WKIjvVixSEYwK6
+   co/JVLBkrbve0dAbONEvega9aIguyrXfJKoPLtdhzd5LAfqmmiv6Fu5aj
+   g==;
+X-CSE-ConnectionGUID: 80wA++UCSui6VBsriEMPow==
+X-CSE-MsgGUID: ow2SNXraTg+IUtt9fzTJkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69829595"
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="73613099"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 01:06:56 -0800
-X-CSE-ConnectionGUID: GFy+iWpxQ/mvxSspDe+r+Q==
-X-CSE-MsgGUID: OrnW6NkoRL6blPw3/wGylA==
+   d="scan'208";a="69829595"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 01:17:57 -0800
+X-CSE-ConnectionGUID: MyVakSkDS32zouHkYWibuA==
+X-CSE-MsgGUID: 4enIZDjYSC2VF8CHXE5LNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="205189433"
+   d="scan'208";a="242457604"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Jan 2026 01:06:54 -0800
+  by orviesa001.jf.intel.com with ESMTP; 15 Jan 2026 01:17:56 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgJJc-00000000HmL-3KsG;
-	Thu, 15 Jan 2026 09:06:52 +0000
-Date: Thu, 15 Jan 2026 17:06:42 +0800
+	id 1vgJUH-00000000Hn6-0z3U;
+	Thu, 15 Jan 2026 09:17:53 +0000
+Date: Thu, 15 Jan 2026 17:17:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 6683/6771] Warning:
- drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:415 expecting prototype for
- smu_msg_proto_v1_send_msg(). Prototype was for smu_msg_v1_send_msg() instead
-Message-ID: <202601151728.S6JnRtXc-lkp@intel.com>
+Subject: [axboe:io_uring-bpf-restrictions 15/16] csky-linux-ld:
+ io_uring.c:undefined reference to `__io_uring_run_bpf_filters'
+Message-ID: <202601151751.WyW3MjO0-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,23 +59,26 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9b7977f9e39b7768c70c2aa497f04e7569fd3e00
-commit: bc58a21c9515b018e93e48c4ef0cc8fd6366a849 [6683/6771] Merge branch 'drm-next' of https://gitlab.freedesktop.org/agd5f/linux.git
-config: x86_64-buildonly-randconfig-002-20260115 (https://download.01.org/0day-ci/archive/20260115/202601151728.S6JnRtXc-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151728.S6JnRtXc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git io_uring-bpf-restrictions
+head:   29ac83fe2b009e9bc007cc44ea21832a904be4fe
+commit: 575dae8c0edf27527c2e86d4fce468106bf2c3f9 [15/16] io_uring: add support for BPF filtering for opcode restrictions
+config: csky-allnoconfig (https://download.01.org/0day-ci/archive/20260115/202601151751.WyW3MjO0-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151751.WyW3MjO0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601151728.S6JnRtXc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601151751.WyW3MjO0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu_cmn.c:415 expecting prototype for smu_msg_proto_v1_send_msg(). Prototype was for smu_msg_v1_send_msg() instead
---
->> Warning: drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:1924 expecting prototype for amdgpu_ttm_mmio_remap_bo_init(). Prototype was for amdgpu_ttm_alloc_mmio_remap_bo() instead
+   csky-linux-ld: io_uring/io_uring.o: in function `io_init_req':
+   io_uring.c:(.text+0x46a): undefined reference to `__io_uring_run_bpf_filters'
+>> csky-linux-ld: io_uring.c:(.text+0x5a0): undefined reference to `__io_uring_run_bpf_filters'
+   csky-linux-ld: io_uring/register.o: in function `io_free_restrictions':
+   register.c:(.text+0x8): undefined reference to `io_uring_put_bpf_filters'
+>> csky-linux-ld: register.c:(.text+0x18): undefined reference to `io_uring_put_bpf_filters'
 
 -- 
 0-DAY CI Kernel Test Service
