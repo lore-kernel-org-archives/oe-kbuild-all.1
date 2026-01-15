@@ -1,85 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE17A3A1A55;
-	Thu, 15 Jan 2026 14:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6362E3A0E84
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 14:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768485670; cv=none; b=VQI8s2x0Ew/ci6TNBSk/1/45oM6fD5czEWtwTVg91BEmm7s1Ngr/r7USNT79lOBrl3lh9HOZGRflHumpDa8z4aM2MQRDabj8bfCF4GOu9bjRQVFJfoWDs/ubzCTrvxfWXzvNgsxDVRw8pKJPOHczlKAqfZ63wTshYhjrN7h99as=
+	t=1768485671; cv=none; b=kFA5eWPy0vSCC7F42Anbywh3r5EZuTK4nIINPCjSEIpj2fam3xU254zX+XyuBj81JRYWz2vQwekT2NsoSNFFEt2nIIQQJdqBSeMrp8rD/sdpoFo3YPmwhF5nwGPoHzGixXZ9OUs3oQHlGzkftzXmtq8RjdBPSJn4os1hIGkTGLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768485670; c=relaxed/simple;
-	bh=hJJl95SYFUc6OLzc6JIHj9meMnBXpzNd1RauUuIsKsU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=OSNjhwSwkobS+VfguOROJGwW2H7dCcU+vDMXskDV5uKxv/OLa/epN9LX7+aCl2BqGJEwAUvxN07x9eAHcP6HRAvUTHHN7XXq4yyIN4BdM1rUC5XpIjysNPm9cqHEvj9L1PaPuBlzug+qeyJctY6CtHjzpWCoFrDTq9BuipLZ3Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hXd5+0Jj; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1768485671; c=relaxed/simple;
+	bh=NY56gSrCfddQq8TILMmRYuu0qRjwWj2aOtJfEsVoGDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cz6Mzi3aMEhHcvY4oGDVz0Gqau0CVQKM0qUSD/qnMKpbFB8569eJlk7LZG9py7UGYpV17wN+rY+3fV7DQ3mJEZUV9zCrkIXzFqynfkD6OiNmlFR9u6OJz31OLE8fSPoSVLGhkU+pQK078QuA8yaWNMQbe8E0nZt5dC8jhk51iBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JcBx675g; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hXd5+0Jj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JcBx675g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1768485669; x=1800021669;
-  h=date:from:to:cc:subject:message-id;
-  bh=hJJl95SYFUc6OLzc6JIHj9meMnBXpzNd1RauUuIsKsU=;
-  b=hXd5+0JjrF3Cj4QHVCl7ii0r4T5SuIa9YnKAQgEw9d5OXn2c0yeIDwh3
-   S+gjgSchKqU/MgO8Xu+slvcEMONUA9/jLx5vJjjwbNC9Zw4EKViXceM02
-   58zIIDw73r2xjDzU9UsoZ7qj/o9R20v9jV6kwNwI+LA7mZsh80PSBDca0
-   /sDRcQ4WSwEdgG1ZEMVYitD5VMqhJTqHRwQx75P4oYLc3hLhFxDW4ql2I
-   0hnK7KSMZ5ADUzMzfLbeqA2HT4Qo7/SjoZE2z8xqcnPM0hB3TuSe2ko8l
-   OYUSI6bYAH6kVXdl/mDQSyjUkQVL0NkR+ACNiQ9kLZAmxiKGqDzDFyjOE
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NY56gSrCfddQq8TILMmRYuu0qRjwWj2aOtJfEsVoGDA=;
+  b=JcBx675gmpVlLDG6G0k4RHcmlJD1Q+aTVMN/7m6cKm47jgC3KiTl3tt2
+   MG7JbiGlcLOhdHFjPpQcr9McONdseDsYtRIrZJtd2ICyELSECLULLqcw/
+   NlEobpoJZZJanFaBIhy4THg0ye2rE5Hr/G0FMlASIZ/5OKfQ5kgtVkDt/
+   C6a2ZAW2YSR8P9sqA+f2VqvPjqfGVrbgDo7aAi+0uhOlvYeULSUAOOa+K
+   eEK14VgGL1NT09U0TXqB72L9pFKsbFKF+3ExawKHvqF7Xr/bHQiPOZKw7
+   Y9aBmlpUjZq7npXEU1/a4OgyfkijjBDAU6sj7TOVub8uwLdoUkethgjTt
    g==;
-X-CSE-ConnectionGUID: AEunZ+QxTJK5tKBvd7J95w==
-X-CSE-MsgGUID: GwExZU6vQWSDxMGTTITqzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69689033"
+X-CSE-ConnectionGUID: hWhwHyyxRAe1tu26TubhBw==
+X-CSE-MsgGUID: eob9peFcQgGpUNIWydsARg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="72375523"
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="69689033"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 06:01:09 -0800
-X-CSE-ConnectionGUID: tohnMBLWRKuhSfIYh3rqAw==
-X-CSE-MsgGUID: vy1FSQzrSMC46Tg2IaS1Bg==
+   d="scan'208";a="72375523"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 06:01:09 -0800
+X-CSE-ConnectionGUID: fTBPd5/jQGimTqOsUba12A==
+X-CSE-MsgGUID: pibZMDtIS+uNB34QaOfB7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="209471366"
+   d="scan'208";a="205452425"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Jan 2026 06:01:07 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 15 Jan 2026 06:01:06 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgNuK-00000000I2E-2MNA;
+	id 1vgNuK-00000000I2C-2GRX;
 	Thu, 15 Jan 2026 14:01:04 +0000
-Date: Thu, 15 Jan 2026 22:00:50 +0800
+Date: Thu, 15 Jan 2026 22:00:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Prathamesh Shete <pshete@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Jon Hunter <jonathanh@nvidia.com>,
- Petlozu Pravareshwar <petlozup@nvidia.com>
-Subject: [jonhunter:tegra/next-fixes 4/6] Warning:
- drivers/soc/tegra/pmc.c:477 struct member 'pending_wake_status' not described
- in 'tegra_pmc'
-Message-ID: <202601152118.iUDaBhog-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Ciju Rajan K <crajank@nvidia.com>, hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, tglx@linutronix.de
+Cc: oe-kbuild-all@lists.linux.dev, christophe.jaillet@wanadoo.fr,
+	andriy.shevchenko@linux.intel.com, vadimp@nvidia.com,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Ciju Rajan K <crajank@nvidia.com>
+Subject: Re: [PATCH platform-next v4 1/2] kernel/irq: Add generic interrupt
+ storm detection mechanism
+Message-ID: <202601152136.LGHBo3k1-lkp@intel.com>
+References: <20260115074909.245852-2-crajank@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115074909.245852-2-crajank@nvidia.com>
 
-tree:   https://github.com/jonhunter/linux tegra/next-fixes
-head:   8db7df69105098e025ef2c558d2a3e23bc788a9b
-commit: 8c40b13eff0e1a7d46a38648951ff0b9581c0628 [4/6] soc/tegra: pmc: Fix unsafe generic_handle_irq() call
-config: arm-randconfig-002-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152118.iUDaBhog-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152118.iUDaBhog-lkp@intel.com/reproduce)
+Hi Ciju,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.19-rc5]
+[cannot apply to tip/irq/core next-20260115]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ciju-Rajan-K/kernel-irq-Add-generic-interrupt-storm-detection-mechanism/20260115-155438
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260115074909.245852-2-crajank%40nvidia.com
+patch subject: [PATCH platform-next v4 1/2] kernel/irq: Add generic interrupt storm detection mechanism
+config: arc-allnoconfig (https://download.01.org/0day-ci/archive/20260115/202601152136.LGHBo3k1-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152136.LGHBo3k1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601152118.iUDaBhog-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601152136.LGHBo3k1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/soc/tegra/pmc.c:477 struct member 'pending_wake_status' not described in 'tegra_pmc'
->> Warning: drivers/soc/tegra/pmc.c:477 struct member 'pending_wake_irq_work' not described in 'tegra_pmc'
->> Warning: drivers/soc/tegra/pmc.c:477 struct member 'pending_wake_status' not described in 'tegra_pmc'
->> Warning: drivers/soc/tegra/pmc.c:477 struct member 'pending_wake_irq_work' not described in 'tegra_pmc'
+>> kernel/irq/spurious.c:41:6: warning: no previous prototype for 'irq_register_storm_detection' [-Wmissing-prototypes]
+      41 | bool irq_register_storm_detection(unsigned int irq, unsigned int max_freq,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/irq/spurious.c:79:6: warning: no previous prototype for 'irq_unregister_storm_detection' [-Wmissing-prototypes]
+      79 | void irq_unregister_storm_detection(unsigned int irq)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/irq_register_storm_detection +41 kernel/irq/spurious.c
+
+    30	
+    31	
+    32	/**
+    33	 * irq_register_storm_detection - register interrupt storm detection for an IRQ
+    34	 * @irq: interrupt number
+    35	 * @max_freq: maximum allowed frequency (interrupts per second)
+    36	 * @cb: callback function to invoke when storm is detected
+    37	 * @dev_id: device identifier passed to callback
+    38	 *
+    39	 * Returns: true on success, false on failure
+    40	 */
+  > 41	bool irq_register_storm_detection(unsigned int irq, unsigned int max_freq,
+    42					  irq_storm_cb_t cb, void *dev_id)
+    43	{
+    44		struct irq_storm *storm;
+    45		bool ret = false;
+    46	
+    47		if (max_freq < IRQ_STORM_MIN_FREQ_HZ || !cb)
+    48			return false;
+    49	
+    50		storm = kzalloc(sizeof(*storm), GFP_KERNEL);
+    51		if (!storm)
+    52			return false;
+    53	
+    54		/* Adjust to count per 10ms */
+    55		storm->max_cnt = max_freq / (IRQ_STORM_MAX_FREQ_SCALE);
+    56		storm->cb = cb;
+    57		storm->dev_id = dev_id;
+    58	
+    59		scoped_irqdesc_get_and_buslock(irq, IRQ_GET_DESC_CHECK_GLOBAL) {
+    60			if (scoped_irqdesc->action && !scoped_irqdesc->irq_storm) {
+    61				storm->last_cnt = scoped_irqdesc->tot_count;
+    62				storm->next_period = jiffies + msecs_to_jiffies(IRQ_STORM_PERIOD_WINDOW_MS);
+    63				scoped_irqdesc->irq_storm = storm;
+    64				ret = true;
+    65			}
+    66		}
+    67	
+    68		if (!ret)
+    69			kfree(storm);
+    70	
+    71		return ret;
+    72	}
+    73	EXPORT_SYMBOL_GPL(irq_register_storm_detection);
+    74	
+    75	/**
+    76	 * irq_unregister_storm_detection - unregister interrupt storm detection
+    77	 * @irq: interrupt number
+    78	 */
+  > 79	void irq_unregister_storm_detection(unsigned int irq)
+    80	{
+    81		scoped_irqdesc_get_and_buslock(irq, IRQ_GET_DESC_CHECK_GLOBAL) {
+    82			if (scoped_irqdesc->irq_storm) {
+    83				kfree(scoped_irqdesc->irq_storm);
+    84				scoped_irqdesc->irq_storm = NULL;
+    85			}
+    86		}
+    87	}
+    88	EXPORT_SYMBOL_GPL(irq_unregister_storm_detection);
+    89	
 
 -- 
 0-DAY CI Kernel Test Service
