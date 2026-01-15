@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70E731A7E4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 21:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48491322A15
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 21:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768514300; cv=none; b=rHtrvVIUUyP574EFVs9BtyfTJ/tEs4juKYRR4brzOn63TJZ5rXo0NAzCFsWQnBA4buo7ozfUPYvV9xwxlHCymykk1yyTbeV7KxVE9KXVqK/MTY3acRHAnUcsyJpg5GCnZi2oHAiBs9hlsAcEWQXpsNa+anGm8dofORVzF9crAjg=
+	t=1768514300; cv=none; b=dOLvjDtqiu3cetP7jDQFG92zguggCBys0pFEJeXsL7BZzF1NzsJA5VLiUvTL/Cy17H32+oHzavD2/JuLAMMJEZTFZ53TSx100h2syn3IjKa3U1wkk/870mjdVq8XChB7YU9aSZNogWvmJFLgfZlSrT8n+n+RYqU8wapLG2oOKZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768514300; c=relaxed/simple;
-	bh=N0iJqCRrZNA2XmdnpiQTX7EWBjuye1aik9LrWP2l7EA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pTxVh16pVaIojNEUINFTGP+vrtAa4FaewLCGnTwToZu3KG/d1Gz/wvmkthrJHJ5xFBDAW7p4laYMD9yKg9TnAo1KEZVqhdF7HFwGwpO+xM8TCabQXTcLAAWwrSkGt41wMHj1isxHfivZHhdbVoMv8/M+UQbO0p1vGSwUxSAKZYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzCO5SP/; arc=none smtp.client-ip=192.198.163.17
+	bh=UNfBEZhGmeYN2ehWepReSBq/wyx6G8AN0XOs9saQ3mQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AIjIs8wbdGwiclCmAGKRceK5IF46syhbnkDIEh+tigvYwl60cqBVje6aji+ksL9TBhgoMnUZcmIC6Nw0+HPf0aXAsLqJx2AHnVyebprCRUQyR1/wOOZTIu7KSvLfpiXbeTrWEgz0wdlAbo31d+Soax/p8z+7qVSCuHPPqymPp9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VSG9eFuu; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzCO5SP/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VSG9eFuu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1768514299; x=1800050299;
   h=date:from:to:cc:subject:message-id;
-  bh=N0iJqCRrZNA2XmdnpiQTX7EWBjuye1aik9LrWP2l7EA=;
-  b=gzCO5SP//hIKWll114qQ31mRezZEmpW1iTaVeRP2PbYtbaOochwbmkUP
-   +elnL7TypGt0YBgqaEww1Xe+uQCk1cax6ifcVHMJ+zC1NteiTSrCRgYgG
-   GxKnTdl2vkfcLpw/tNfVCLrmsWGfwX5NwFEKSqL8j0Y55mHRf37R3RaQa
-   7L7zem8yvyougJ0Ub7uYnZLybCV6a+ktNp6PbOBQ8qLuYL0mZuKxoKCCg
-   fVaPZAEadti//mdf+0SHbXMRBdyYdS0ehVR8uUyrAdfxYoUSlYZ+prASG
-   1I7RefSSTSxS0W4Hfn8LPk2FzRKR1iMX2sWSMTG/Z5lux2doSLOcxFln7
-   w==;
-X-CSE-ConnectionGUID: 3uiy2RIESfyhOANaN7avOg==
-X-CSE-MsgGUID: PpV8QUBvTx2DuWQP8IdFgg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69735547"
+  bh=UNfBEZhGmeYN2ehWepReSBq/wyx6G8AN0XOs9saQ3mQ=;
+  b=VSG9eFuudv/WhkGTGIVUuA8ySpaaHVovQSFc0X4KsbZknL/QPglZpKNK
+   hTcH9xM1pexXe/6/+YrKeqbItAyBPckBTo4+rAUmiw6dQ1QTvMOlt7I0p
+   DmyRtW7wYVp0YyqNOplQsR6NpN8fZoiLnGxDP/K34aA+uogLmL2X5ARb9
+   QEIjx8Rsxg2QfYZHEtr68RkVQ/+soB4q/DbT0mTCzfkIT8P8yHDjZP4TY
+   lVO160sELYRt/fSbZrwHDsoEYRBiKazV9IL3tL9+yPYk6ii/Oqth2h72g
+   dE2n83KsIvpqN2t4Ow+rlHBu3+LOg9GU4hP7SvRCeccr7PRSEq3ybnTHG
+   Q==;
+X-CSE-ConnectionGUID: MKR+1zV0SiuOXriZd5ID/Q==
+X-CSE-MsgGUID: nASsIgJIQaq3WNGJb8s6EQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69810686"
 X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="69735547"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 13:58:18 -0800
-X-CSE-ConnectionGUID: P/wy52hRRE+inTI3X2y68A==
-X-CSE-MsgGUID: RtdzPXLsSKOVcIN52GIZjw==
+   d="scan'208";a="69810686"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 13:58:19 -0800
+X-CSE-ConnectionGUID: ZQrWrdMtS8+k8ERvg519AA==
+X-CSE-MsgGUID: tHgRcpwuQPSztok7ER5ngg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="209930202"
+   d="scan'208";a="209205556"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 15 Jan 2026 13:58:17 -0800
+  by orviesa003.jf.intel.com with ESMTP; 15 Jan 2026 13:58:17 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgVM7-00000000K2O-0Vbg;
+	id 1vgVM7-00000000K2W-0qeT;
 	Thu, 15 Jan 2026 21:58:15 +0000
-Date: Fri, 16 Jan 2026 05:57:26 +0800
+Date: Fri, 16 Jan 2026 05:57:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
+To: Brian Masney <bmasney@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:simplify-kallsyms-v2 1/1] Unsupported relocation type:
- unknown type rel type name (248)
-Message-ID: <202601160541.s9UkIfFQ-lkp@intel.com>
+Subject: [masneyb:b4/mips-pic32-header-move 17/17]
+ drivers/clk/microchip/clk-core.c:13:10: fatal error: 'asm/traps.h' file not
+ found
+Message-ID: <202601160551.O8M5ia1E-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,21 +60,37 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git simplify-kallsyms-v2
-head:   dc85254e22c3ca4db6f29584d365376dbb72b944
-commit: dc85254e22c3ca4db6f29584d365376dbb72b944 [1/1] kallsyms: Get rid of kallsyms relative base
-config: mips-randconfig-r062-20260116 (https://download.01.org/0day-ci/archive/20260116/202601160541.s9UkIfFQ-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160541.s9UkIfFQ-lkp@intel.com/reproduce)
+tree:   https://github.com/masneyb/linux b4/mips-pic32-header-move
+head:   0ffbdd0bc2954abd9c91cddb0b0d5030e87f68d5
+commit: 0ffbdd0bc2954abd9c91cddb0b0d5030e87f68d5 [17/17] clk: microchip: core: allow driver to be compiled with COMPILE_TEST
+config: powerpc64-randconfig-r073-20260116 (https://download.01.org/0day-ci/archive/20260116/202601160551.O8M5ia1E-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160551.O8M5ia1E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601160541.s9UkIfFQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601160551.O8M5ia1E-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> Unsupported relocation type: unknown type rel type name (248)
+>> drivers/clk/microchip/clk-core.c:13:10: fatal error: 'asm/traps.h' file not found
+      13 | #include <asm/traps.h>
+         |          ^~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +13 drivers/clk/microchip/clk-core.c
+
+ce6e11884659988 Purna Chandra Mandal 2016-05-13 @13  #include <asm/traps.h>
+ce6e11884659988 Purna Chandra Mandal 2016-05-13  14  
+
+:::::: The code at line 13 was first introduced by commit
+:::::: ce6e1188465998820e7182455261b1f5d508ca17 CLK: microchip: Add Microchip PIC32 clock driver.
+
+:::::: TO: Purna Chandra Mandal <purna.mandal@microchip.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 -- 
 0-DAY CI Kernel Test Service
