@@ -1,131 +1,173 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C143C289E06
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 23:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EF4289E06;
+	Thu, 15 Jan 2026 23:19:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768519165; cv=none; b=Eux/FyEGxh+TufKSUpvcmTJRSiB4KbwgWeN2dpRcE29I3oXxvINmw85rpv3WoRA3wSGWbYlnVZP7uBJC4Yhd53HbMQVXf23Qmv0u9dmsaa3E1rxz4Lg+Vx42F0kf954ZyZT0Gv1M5beQGaQhgQ59Ch1ecaa0gXWnsrkSwTzf41g=
+	t=1768519168; cv=none; b=DyVXswTgz0az3JVMNzJk2eTtkILh9437Zkf9uawNV51Eu4Qv5vHaRwpVxzSdnrZNfvpWkovd7mxLUQKnHdmydQ9A85EhXjLMbNeulvMDyDRNKlvsjw+BDmSh/NpT86OD7B3tf45aUqMNgSLglhtRG5dfANUHktDPC3M6deqazLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768519165; c=relaxed/simple;
-	bh=PgjNnsQYyElgGDyLRwQL3U1Osm7PoVZaZIHa4gMCiYE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nmGqTzJAdUWqhUvRqefud2kaf+et9nB223JmvTXvxPury54MKHpmbc12fL+tGeGsVaxyR+CMWkc9SwhjiLRXCrXK78RmUFawlqXm3SF7xEGNjofeqRqja1m/JytIZQmWQuTWL9ZHOACR7Ts1qRLXKEsatLithpBW4QqUTrDHrUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MRRy8Bh2; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1768519168; c=relaxed/simple;
+	bh=kwGRF5mURihJe/iQlmz7bEwEkA+zgkfqc7bU0SHLJZc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ToWq8Afg5gBeFlID/UHsFMr2GQAiLPUfamNarOk0WBZOvg8ZWNW0wo2bvSbSWV4dZy3kbBlh1A9kuNdOrrzg5E/zbwTjkyISeaheTC+yhJL8+d/0HHwkKe9Q6LcP73SG+zuO0rTlZoU8lIj456wZMl4O8YQ01bESbMzJh3XjsRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ys1zqpzl; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MRRy8Bh2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ys1zqpzl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768519164; x=1800055164;
-  h=date:from:to:cc:subject:message-id;
-  bh=PgjNnsQYyElgGDyLRwQL3U1Osm7PoVZaZIHa4gMCiYE=;
-  b=MRRy8Bh2QgrQnHAm+wIVSLa7Mvr/bAeUT35Lsvkj8TF53d6BQhKabjqQ
-   8QtXMhb41YuJqOp32Tq49xqD9GK6NOrAvREAi2BDqYHXHqrlgqhoMAfQJ
-   xNvB10en9sAg5tG1nJCcrcBANkdJ7y1haDg97EpafDTbeIR/EO+SlOLgp
-   rZKM+a7i9AskJns0VHWvfbcRggR42lMfJe6oirQRxr2OOwn9yQ11D7XAM
-   S4EK30d4qrui3EeXL45Y0aB0g/S+zLqXNGCj+m7n3HT+Yd587Uw4BLuzX
-   86i8VsTeTv6rEQE4znyX18kHfWhXrx1grbf3HijKhZlo+FnsYBBDocxwa
+  t=1768519166; x=1800055166;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kwGRF5mURihJe/iQlmz7bEwEkA+zgkfqc7bU0SHLJZc=;
+  b=Ys1zqpzldmic0T97luv/oZV2BZmvBuMNJokT+NJZE0sGrVkgYla+CoWK
+   0m9pUja5/k3U7fMvszundbcKmx3j9blorwydzRbJrxUbWgEUwOZbpRTfS
+   VnwYcU/FBkkvnn8tiqsDHLhdWaqn8se0P3ObA4ec4xjulfrJBRZk+G0/z
+   YBp3tOxFJ0+FISUdtyN2stbEWHEgJYBJA1UUK0qJ/bvrt8cpgIOz1uDmu
+   ptJ+FQinssHXpVQC46CyBJLBO4KfLqWe1pjzNuWWxkYO+GtXBd4C79cHO
+   iD/XewEFkgOacOsZUkrJJigzc4ejVAipqTdiaPynIyHi/weypVDJHLKSM
    Q==;
-X-CSE-ConnectionGUID: uP3en8gETnC+ddDbdQn8mw==
-X-CSE-MsgGUID: Lm9uqJMdRF+ALgk5+D2OAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80947672"
+X-CSE-ConnectionGUID: FFaabLnsT6SzEjFa9UISlw==
+X-CSE-MsgGUID: xChIGwTkRXqGOPesK9um3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="81283369"
 X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="80947672"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 15:19:23 -0800
-X-CSE-ConnectionGUID: KyT7bkqXTzy7dr9TzHv+dw==
-X-CSE-MsgGUID: 8x5lz4fzQLGxo58szt6nPA==
+   d="scan'208";a="81283369"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 15:19:25 -0800
+X-CSE-ConnectionGUID: I06q/XGzSDitkMj/Do7Ecg==
+X-CSE-MsgGUID: EAbpvl4JTUi151xMldnkpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="210114791"
+   d="scan'208";a="205496892"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 Jan 2026 15:19:21 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 15 Jan 2026 15:19:21 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgWcZ-00000000K6O-0s3z;
+	id 1vgWcZ-00000000K6K-0h7Y;
 	Thu, 15 Jan 2026 23:19:19 +0000
-Date: Fri, 16 Jan 2026 07:18:31 +0800
+Date: Fri, 16 Jan 2026 07:18:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Masney <bmasney@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [masneyb:b4/mips-pic32-header-move 17/17]
- drivers/clk/microchip/clk-core.c:350:2-8: WARNING: do_div() does a 64-by-32
- division, please consider using div64_ul instead.
-Message-ID: <202601160758.bpkN4546-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Bastien Curutchet (Schneider Electric)" <bastien.curutchet@bootlin.com>,
+	Woojung Huh <woojung.huh@microchip.com>,
+	UNGLinuxDriver@microchip.com, Andrew Lunn <andrew@lunn.ch>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Simon Horman <horms@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Pascal Eberhard <pascal.eberhard@se.com>,
+	=?iso-8859-1?Q?Miqu=E8l?= Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-kernel@vger.kernel.org,
+	"Bastien Curutchet (Schneider Electric)" <bastien.curutchet@bootlin.com>
+Subject: Re: [PATCH net-next 4/8] net: dsa: microchip: Add support for
+ KSZ8463's PTP interrupts
+Message-ID: <202601160729.AzeG6b64-lkp@intel.com>
+References: <20260115-ksz8463-ptp-v1-4-bcfe2830cf50@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115-ksz8463-ptp-v1-4-bcfe2830cf50@bootlin.com>
 
-tree:   https://github.com/masneyb/linux b4/mips-pic32-header-move
-head:   0ffbdd0bc2954abd9c91cddb0b0d5030e87f68d5
-commit: 0ffbdd0bc2954abd9c91cddb0b0d5030e87f68d5 [17/17] clk: microchip: core: allow driver to be compiled with COMPILE_TEST
-config: sparc-randconfig-r051-20260116 (https://download.01.org/0day-ci/archive/20260116/202601160758.bpkN4546-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.3.0
+Hi Bastien,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 3adff276e751051e77be4df8d29eab1cf0856fbf]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Curutchet-Schneider-Electric/net-dsa-microchip-Add-support-for-KSZ8463-global-irq/20260116-000545
+base:   3adff276e751051e77be4df8d29eab1cf0856fbf
+patch link:    https://lore.kernel.org/r/20260115-ksz8463-ptp-v1-4-bcfe2830cf50%40bootlin.com
+patch subject: [PATCH net-next 4/8] net: dsa: microchip: Add support for KSZ8463's PTP interrupts
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20260116/202601160729.AzeG6b64-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160729.AzeG6b64-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601160758.bpkN4546-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601160729.AzeG6b64-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/clk/microchip/clk-core.c:350:2-8: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
---
->> drivers/clk/microchip/clk-core.c:916:36-37: determine_rate: first occurrence line 919, second occurrence line 923
+All warnings (new ones prefixed by >>):
 
-vim +350 drivers/clk/microchip/clk-core.c
+>> drivers/net/dsa/microchip/ksz_ptp.c:1187:40: warning: variable 'p' is uninitialized when used here [-Wuninitialized]
+    1187 |         ptpirq->reg_mask = ops->get_port_addr(p, KSZ8463_PTP_TS_IER);
+         |                                               ^
+   drivers/net/dsa/microchip/ksz_ptp.c:1175:7: note: initialize the variable 'p' to silence this warning
+    1175 |         int p;
+         |              ^
+         |               = 0
+   1 warning generated.
 
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  322  
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  323  static void roclk_calc_div_trim(unsigned long rate,
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  324  				unsigned long parent_rate,
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  325  				u32 *rodiv_p, u32 *rotrim_p)
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  326  {
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  327  	u32 div, rotrim, rodiv;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  328  	u64 frac;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  329  
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  330  	/* Find integer approximation of floating-point arithmetic.
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  331  	 *      fout = fin / [2 * {rodiv + (rotrim / 512)}] ... (1)
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  332  	 * i.e. fout = fin / 2 * DIV
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  333  	 *      whereas DIV = rodiv + (rotrim / 512)
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  334  	 *
-264200cc3a87d5 Bjorn Helgaas        2025-07-23  335  	 * Since kernel does not perform floating-point arithmetic so
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  336  	 * (rotrim/512) will be zero. And DIV & rodiv will result same.
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  337  	 *
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  338  	 * ie. fout = (fin * 256) / [(512 * rodiv) + rotrim]  ... from (1)
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  339  	 * ie. rotrim = ((fin * 256) / fout) - (512 * DIV)
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  340  	 */
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  341  	if (parent_rate <= rate) {
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  342  		div = 0;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  343  		frac = 0;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  344  		rodiv = 0;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  345  		rotrim = 0;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  346  	} else {
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  347  		div = parent_rate / (rate << 1);
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  348  		frac = parent_rate;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  349  		frac <<= 8;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13 @350  		do_div(frac, rate);
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  351  		frac -= (u64)(div << 9);
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  352  
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  353  		rodiv = (div > REFO_DIV_MASK) ? REFO_DIV_MASK : div;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  354  		rotrim = (frac >= REFO_TRIM_MAX) ? REFO_TRIM_MAX : frac;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  355  	}
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  356  
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  357  	if (rodiv_p)
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  358  		*rodiv_p = rodiv;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  359  
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  360  	if (rotrim_p)
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  361  		*rotrim_p = rotrim;
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  362  }
-ce6e1188465998 Purna Chandra Mandal 2016-05-13  363  
 
-:::::: The code at line 350 was first introduced by commit
-:::::: ce6e1188465998820e7182455261b1f5d508ca17 CLK: microchip: Add Microchip PIC32 clock driver.
+vim +/p +1187 drivers/net/dsa/microchip/ksz_ptp.c
 
-:::::: TO: Purna Chandra Mandal <purna.mandal@microchip.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+  1167	
+  1168	int ksz8463_ptp_irq_setup(struct dsa_switch *ds)
+  1169	{
+  1170		struct ksz_device *dev = ds->priv;
+  1171		const struct ksz_dev_ops *ops = dev->dev_ops;
+  1172		struct ksz_port *port1, *port2;
+  1173		struct ksz_irq *ptpirq;
+  1174		int ret;
+  1175		int p;
+  1176	
+  1177		port1 = &dev->ports[0];
+  1178		port2 = &dev->ports[1];
+  1179		ptpirq = &port1->ptpirq;
+  1180	
+  1181		ptpirq->irq_num = irq_find_mapping(dev->girq.domain, KSZ8463_SRC_PTP_INT);
+  1182		if (!ptpirq->irq_num)
+  1183			return -EINVAL;
+  1184	
+  1185		ptpirq->dev = dev;
+  1186		ptpirq->nirqs = 4;
+> 1187		ptpirq->reg_mask = ops->get_port_addr(p, KSZ8463_PTP_TS_IER);
+  1188		ptpirq->reg_status = ops->get_port_addr(p, KSZ8463_PTP_TS_ISR);
+  1189		ptpirq->irq0_offset = KSZ8463_PTP_INT_START;
+  1190		snprintf(ptpirq->name, sizeof(ptpirq->name), "ptp-irq-%d", p);
+  1191	
+  1192		ptpirq->domain = irq_domain_create_linear(dev_fwnode(dev->dev), ptpirq->nirqs,
+  1193							  &ksz_ptp_irq_domain_ops, ptpirq);
+  1194		if (!ptpirq->domain)
+  1195			return -ENOMEM;
+  1196	
+  1197		ret = request_threaded_irq(ptpirq->irq_num, NULL, ksz_ptp_irq_thread_fn,
+  1198					   IRQF_ONESHOT, ptpirq->name, ptpirq);
+  1199		if (ret)
+  1200			goto release_domain;
+  1201	
+  1202		ret = ksz8463_ptp_port_irq_setup(ptpirq, port1,
+  1203						 KSZ8463_PTP_PORT1_INT_START - KSZ8463_PTP_INT_START);
+  1204		if (ret)
+  1205			goto release_irq;
+  1206	
+  1207		ret = ksz8463_ptp_port_irq_setup(ptpirq, port2,
+  1208						 KSZ8463_PTP_PORT2_INT_START - KSZ8463_PTP_INT_START);
+  1209		if (ret)
+  1210			goto free_port1;
+  1211	
+  1212		return 0;
+  1213	
+  1214	free_port1:
+  1215		ksz8463_ptp_port_irq_teardown(port1);
+  1216	release_irq:
+  1217		free_irq(ptpirq->irq_num, ptpirq);
+  1218	release_domain:
+  1219		irq_domain_remove(ptpirq->domain);
+  1220	
+  1221		return ret;
+  1222	}
+  1223	
 
 -- 
 0-DAY CI Kernel Test Service
