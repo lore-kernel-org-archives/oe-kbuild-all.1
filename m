@@ -1,170 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B731718DF9D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 01:46:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FA71D130E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 01:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768441601; cv=none; b=XhdoZajNyobofYgbbwfY0gIdSzuHq/kRwO+3+yUWFqJUfKdehabEglkPg2N5Y6cfKqq8gU2UTvaM6J5LAC9uCd6SrGmsSE8bUB9NzH8MV/UEeos2qq59ouyC2Y0uD6S4W3FGs5yzRD6GsrG1L7TSteVjKo/m6T2cGLwbZ2eXdaE=
+	t=1768442202; cv=none; b=aMKtI98gXZdps1OMrtkm+diUFxbEp0EoCoUuAgfZvd+WXro38hPS8bVI64Ybna71JGj9O0AcjMaXZ82FtSrXd3MwaVDUbfcReJP6mIADyeBeNGzc703jQr7IGrWaCji+Qdk7vCqMsg+56pkPOwYOVYaALNRwoFiceVrf5/oW/ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768441601; c=relaxed/simple;
-	bh=4I+74DleXBV9Oduis6R/cDkM+cK8FdhRRHYKdpnpmIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=nSc0EEP2qxdq5tLWgjbMVM2VRWD379hhG9xI4bxCDn+fucs7dkHfDw6QG2dOsiNMzZ+yOq6P1OPRVj4KvycCpAi2LlvB2lLgenQNASBG+JtqExGA3rwAom2+OH2dipDcAqIM1fuFLiobEdbgS9CP5CuUank1pvC1cO9Xx82yQ3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DVHS78cD; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1768442202; c=relaxed/simple;
+	bh=TSkCElA9SkfMvuiB1Iz+6bSpNGoNovY9DN6PqyIzgI8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=qywik0GWZUk/7C0sjxlCmT8GqjUH8MCmcl8XlYi+P3iXaPdMSh9pYZ+G9I6F6rX3/Z/jxYx4xgNAqjhqNEhEDissyNRxu1WyA4wEIuM25FhGEboW+ikHufbKi31YlTvOSRdUs18ONnvA5Sa2I4zSwDn3f7YkNZav4e/Vy3NIxM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TQjXAOaX; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DVHS78cD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TQjXAOaX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768441599; x=1799977599;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4I+74DleXBV9Oduis6R/cDkM+cK8FdhRRHYKdpnpmIg=;
-  b=DVHS78cD4/Cx5Hf0UGsET09ZZ6pXMFPyM5nc1EPZluS7lnPR2qJDEdjk
-   K8F5z0DaGP/RqVbhXc5XZhAkBJ/8JjgXMe3Y/N13O4mzzF+k8xOFCo9QY
-   /C1hi5e9M8B8ZXC0MgbZDiGqIN7+5s+vsedjP/TcQP8Yr5ZuVy1lvRn2+
-   iDd6e+SrINn4gyld58bNc4P2JcWRwmPW6Lz25tIiD+DxuB5Z465CJdxBT
-   8Inl1f2fzPMbV1kKH31AyGM/lBOo29NJbuXr1Hv19Nz9QwUs8hBaD0jK2
-   EBBmhTAIsE60GPkV3FqAtfHjbfPfOybt5Y+erg4HKGEK8NVOwQma2Qt4S
-   w==;
-X-CSE-ConnectionGUID: TytbEybMTxqoDz0TykI0kA==
-X-CSE-MsgGUID: YSpzdYHRRAmYw2QyiMv1yQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="92421755"
+  t=1768442200; x=1799978200;
+  h=date:from:to:cc:subject:message-id;
+  bh=TSkCElA9SkfMvuiB1Iz+6bSpNGoNovY9DN6PqyIzgI8=;
+  b=TQjXAOaXYW9S4/ocli1Kqhj7GBv9UgEVXoOodsqqgJ1Xy9d+4JzuwtOU
+   saRnVN/w+2jsKlhgzWXmSvQNPGRVSsWgEj4VpBwk8OnjRaNVUW/f2RL5Q
+   TTtVU644+LVF6pCxjpHYVo3gLH1gDfxuEX4uL6FAQcohr6FIgSLUwDiKG
+   0SOPqaFbbPz2gfk0lpTMOGxC8ZZTNc0aXtlFJjLeKMoQhx0slZkh16wVi
+   mcr0iJ4X84r0K9+OhZ7oRg2kMTuLbgZQcFHc+bYfrQn+E93YpJaP91VGt
+   sRSj1ElzO3HcciE4ZyHEf3ulD+QkC88iKYwaef4b5Xk1Ecft/dR17PSpz
+   Q==;
+X-CSE-ConnectionGUID: VN8XyZ98RkSu0/zluRn9CQ==
+X-CSE-MsgGUID: xIDbd/GlR56KxEsgao247w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69800952"
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="92421755"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 17:46:39 -0800
-X-CSE-ConnectionGUID: KyzJyaP9Sx6LiUyiMJLFTw==
-X-CSE-MsgGUID: gr09AGQJRDW7gDvnCrxlgw==
+   d="scan'208";a="69800952"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 17:56:39 -0800
+X-CSE-ConnectionGUID: HIRt6KxXRDK6uID30okOug==
+X-CSE-MsgGUID: H6T47i+VSg60749FetNW/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="209336959"
+   d="scan'208";a="205250419"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 14 Jan 2026 17:46:38 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 14 Jan 2026 17:56:37 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgCRX-00000000HME-1far;
-	Thu, 15 Jan 2026 01:46:35 +0000
-Date: Thu, 15 Jan 2026 09:45:35 +0800
+	id 1vgCbD-00000000HMm-2usk;
+	Thu, 15 Jan 2026 01:56:35 +0000
+Date: Thu, 15 Jan 2026 09:56:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: Anup Patel <anup.patel@oss.qualcomm.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-PMT-enhancement-ANBZ27534
- 23/23] drivers/infiniband/hw/erdma/compat/sw_recv.c:179:13: warning: variable
- 'index' set but not used
-Message-ID: <202601150912.UJ5A1BXI-lkp@intel.com>
+Subject: [avpatel:riscv_kvm_nested_v1 21/29]
+ arch/riscv/kvm/vcpu_nested_insn.c:29:20: sparse: sparse: cast to restricted
+ __le64
+Message-ID: <202601150959.trPWK9L1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-Hi =E7=BA=A2=E6=B5=B7,
+tree:   https://github.com/avpatel/linux.git riscv_kvm_nested_v1
+head:   d4b2d5a14e336a12a75d613fa8c743557c44795b
+commit: d311c14f9846d8cac2af2e5865e6d059dac43a51 [21/29] RISC-V: KVM: Trap-n-emulate SRET for Guest HS-mode
+config: riscv-randconfig-r121-20260114 (https://download.01.org/0day-ci/archive/20260115/202601150959.trPWK9L1-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150959.trPWK9L1-lkp@intel.com/reproduce)
 
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-PMT-enhan=
-cement-ANBZ27534
-head:   5be39e8fdc241e57f9813026ad199ad5add77ce7
-commit: 0d8609d9a6aaf8a7453a39d152afdacef8201ef1 [23/23] anolis: RDMA/erdma=
-: Update erdma driver
-config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-c=
-i/archive/20260115/202601150912.UJ5A1BXI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260115/202601150912.UJ5A1BXI-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601150912.UJ5A1BXI-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150959.trPWK9L1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> arch/riscv/kvm/vcpu_nested_insn.c:29:20: sparse: sparse: cast to restricted __le64
+   arch/riscv/kvm/vcpu_nested_insn.c:36:21: sparse: sparse: cast to restricted __le64
+>> arch/riscv/kvm/vcpu_nested_insn.c:42:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __le64 [usertype] @@
+   arch/riscv/kvm/vcpu_nested_insn.c:42:9: sparse:     expected unsigned long
+   arch/riscv/kvm/vcpu_nested_insn.c:42:9: sparse:     got restricted __le64 [usertype]
 
-   drivers/infiniband/hw/erdma/compat/sw_recv.c: In function 'hdr_check':
->> drivers/infiniband/hw/erdma/compat/sw_recv.c:179:13: warning: variable '=
-index' set but not used [-Wunused-but-set-variable]
-     179 |         int index;
-         |             ^~~~~
+vim +29 arch/riscv/kvm/vcpu_nested_insn.c
 
+     9	
+    10	int kvm_riscv_vcpu_nested_insn_sret(struct kvm_vcpu *vcpu, struct kvm_run *run, ulong insn)
+    11	{
+    12		unsigned long vsstatus, next_sepc, next_spp;
+    13		bool next_virt;
+    14	
+    15		/*
+    16		 * Trap from virtual-VS/VU modes should be forwarded to
+    17		 * virtual-HS mode as a virtual instruction trap.
+    18		 */
+    19		if (kvm_riscv_vcpu_nested_virt(vcpu))
+    20			return KVM_INSN_VIRTUAL_TRAP;
+    21	
+    22		/*
+    23		 * Trap from virtual-U mode should be forwarded to
+    24		 * virtual-HS mode as illegal instruction trap.
+    25		 */
+    26		if (!(vcpu->arch.guest_context.hstatus & HSTATUS_SPVP))
+    27			return KVM_INSN_ILLEGAL_TRAP;
+    28	
+  > 29		vsstatus = ncsr_read(CSR_VSSTATUS);
+    30	
+    31		/*
+    32		 * Find next nested virtualization mode, next privilege mode,
+    33		 * and next sepc
+    34		 */
+    35		next_virt = (vcpu->arch.nested.csr.hstatus & HSTATUS_SPV) ? true : false;
+    36		next_sepc = ncsr_read(CSR_VSEPC);
+    37		next_spp = vsstatus & SR_SPP;
+    38	
+    39		/* Update Guest sstatus.sie */
+    40		vsstatus &= ~SR_SIE;
+    41		vsstatus |= (vsstatus & SR_SPIE) ? SR_SIE : 0;
+  > 42		ncsr_write(CSR_VSSTATUS, vsstatus);
 
-vim +/index +179 drivers/infiniband/hw/erdma/compat/sw_recv.c
-
-   171=09
-   172	static int hdr_check(struct sw_pkt_info *pkt)
-   173	{
-   174		struct sw_dev *sw =3D pkt->sw;
-   175		struct sw_port *port =3D &sw->port;
-   176		struct erdma_qp *master_qp;
-   177		struct sw_qp *qp =3D NULL;
-   178		u32 qpn =3D bth_qpn(pkt);
- > 179		int index;
-   180		int err;
-   181=09
-   182		if (unlikely(bth_tver(pkt) !=3D BTH_TVER)) {
-   183			pr_warn_ratelimited("bad tver\n");
-   184			goto err1;
-   185		}
-   186=09
-   187		if (unlikely(qpn =3D=3D 0)) {
-   188			pr_warn_once("QP 0 not supported");
-   189			goto err1;
-   190		}
-   191=09
-   192		if (qpn !=3D IB_MULTICAST_QPN) {
-   193			index =3D (qpn =3D=3D 1) ? port->qp_gsi_index : qpn;
-   194=09
-   195			master_qp =3D find_qp_by_qpn(sw->master, qpn);/* gsi qpn pr_info -=
-----*/
-   196			if (unlikely(!master_qp || master_qp->attrs.flags & ERDMA_QP_IN_DE=
-STROY)) {
-   197				pr_warn_ratelimited("no qp matches qpn 0x%x\n", qpn);
-   198				goto err1;
-   199			}
-   200=09
-   201			//qp =3D sw_pool_get_index(&sw->qp_pool, index);
-   202			qp =3D master_qp->sw_qp;
-   203			if (unlikely(!qp)) {
-   204				pr_warn_ratelimited("no qp matches qpn 0x%x\n", qpn);
-   205				goto err1;
-   206			}
-   207			sw_add_ref(qp);
-   208=09
-   209			err =3D check_type_state(sw, pkt, qp);
-   210			if (unlikely(err))
-   211				goto err2;
-   212=09
-   213			err =3D check_addr(sw, pkt, qp);
-   214			if (unlikely(err))
-   215				goto err2;
-   216=09
-   217			err =3D check_keys(sw, pkt, qpn, qp);
-   218			if (unlikely(err))
-   219				goto err2;
-   220		} else {
-   221			if (unlikely((pkt->mask & SW_GRH_MASK) =3D=3D 0)) {
-   222				pr_warn_ratelimited("no grh for mcast qpn\n");
-   223				goto err1;
-   224			}
-   225		}
-   226=09
-   227		pkt->qp =3D qp;
-   228		return 0;
-   229=09
-   230	err2:
-   231		sw_drop_ref(qp);
-   232	err1:
-   233		return -EINVAL;
-   234	}
-   235=09
-
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
