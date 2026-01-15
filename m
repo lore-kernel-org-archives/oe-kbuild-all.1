@@ -1,138 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8D623ABBF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 04:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1228B2BE621
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 05:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768452232; cv=none; b=DvHCoQCyALAcrpXikl7EGoLV11nvNscnD3py0/n4Gr/pwbz4GlEvxJ3wuIAfB7ncOeSo5fK0DayViRKYdQ+VKeDQNuHBlqZHtJRj9u3WtyIMb9HAxPkBvBJsjGWyFEjBkTnTTf0hfcED20TFuC/h3Zwa5sTeo7aHGvMQ741wbkw=
+	t=1768454149; cv=none; b=uTmlILFCN68jzU5peYWzYpselrtmYXZHYDKSnVQldvCFea+LdNdmTni6hxh4mHfmivfOoP7deTDv5GgxFxX1nLE307BhQSi6ADpk0hP5mj8aU3toT2QBmQGOKsf9HqytK64Gq5hlJC8BQoNPkYEe4IXKjg9l87PuNI+yKIwAV0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768452232; c=relaxed/simple;
-	bh=PU18uA2LJk51uw3aVkod2MrmRi0NGqJm2Zlpr+b2mgI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IRwcjEZXRaAtL/LY6FGwVK/ggwVaGqHbJFUKhqIPNUd8zmied178UmPf4JgoSLJuxhtcIrViT+Uhr+vB+D6CQcMH1OM1P06VAjWDrzlPBfeQw+zZByNe9zQlr+kFjFn2TJsbY8O9yusLbxuUL6dmLU30B2cPbAjEz1UTCEIZRkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mmta06fk; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1768454149; c=relaxed/simple;
+	bh=vHJ1dv5WAtIGV0+AyYeoWG2NYgEuwSGoC9/YLGBuYkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=h4Refik1b5yGn4dfsEiPBg52+k/YPGDXmjwCubFoQ1oMBsHCCxBoevmdsTTvfpQoKDGgk+2sh/dp1/Rb4H5xAfN9+MlhiB6T5RaqO2uTK2CRy4yIln9embtXLLolEB8CaryJy0Yt+/YeokXUksS2sRX15fQRnLwePlQGG9xjnmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VNQJWtpT; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mmta06fk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VNQJWtpT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768452230; x=1799988230;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PU18uA2LJk51uw3aVkod2MrmRi0NGqJm2Zlpr+b2mgI=;
-  b=Mmta06fk5N5JnR0s25UxnzGsyXb8yheJ01Rkf8JINm3HRHKDVRE7WfUA
-   zEGyHsR4FgU6RkxkrOBVzxP/eMXYZB5Y08hxrZA2CBqyz1GnKOtNCXSTE
-   apSQOnuq3qoioBy+oQUZYdTME4ddOEjcdwVifCgbpwSYVa4UUx+D4rQOg
-   TSSelCq+xyalpUBLXQc/qAGb+CJRMQOE6XBl902yxLPO8C4buGwIx1Ae4
-   nbMp0bbLtwuelDlunPxDGk4GNeglWdWANLOmYVeyYNGKacPE1aJ/jQ1Qt
-   B3kUZyuAUQNlEZz3tAv8F8EGQ131if+GiNH0V5B179tMH8OmILsEuy0DV
+  t=1768454148; x=1799990148;
+  h=date:from:to:cc:subject:message-id;
+  bh=vHJ1dv5WAtIGV0+AyYeoWG2NYgEuwSGoC9/YLGBuYkQ=;
+  b=VNQJWtpTN9bxskxdPetrDVD2ux6R8RxsxfAKP53FrYsV5HH+v0dqv8XF
+   2A30hHEcSEgQ6KWSvk04BXD4zGvR1LI2v4Jxqt4r7NZDDYEG0avtpE5bk
+   UEMq/h7QCKbTAwuK4VEV7HAcjzd/+7MMwF2jU/cea3LuBW3z/n2h4mniR
+   wNjUkCXGyWWQSH0hGXhAeTJOeAEV71QyMCNgDBc62mjfLqLLMSZOTM7S+
+   IE20sxufxgJlPPjvP7JNwALV8+uinVf8YrtxG91Z2zK9OYO8IcYEPCvmV
+   unUz8eOXTn9O2K8PLjNxhBom5yan5NPV1Rzsd7o/5Hz8AzEPlz9qcUBeR
    A==;
-X-CSE-ConnectionGUID: Su9sToIeRCOZ6nfBAfYo3w==
-X-CSE-MsgGUID: V1pkMEthQFufgiqHlw6O2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="68767462"
+X-CSE-ConnectionGUID: FkqTpKtfSrWyHoeOW8qovg==
+X-CSE-MsgGUID: oEDOwsUISduv+1g7QfnIrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="81124392"
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="68767462"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 20:43:49 -0800
-X-CSE-ConnectionGUID: IesX45u0Sw2DyWyX5uh/Ig==
-X-CSE-MsgGUID: UZf1tsOzQpeOZpqjANL9XQ==
+   d="scan'208";a="81124392"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 21:15:47 -0800
+X-CSE-ConnectionGUID: AVeGK823Qk2l5ZmUwwvPCA==
+X-CSE-MsgGUID: vdq4IuT+RqWqocc8IZTyiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,226,1763452800"; 
-   d="scan'208";a="209720405"
+   d="scan'208";a="205277846"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Jan 2026 20:43:46 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 14 Jan 2026 21:15:46 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgFCx-00000000HYC-18v4;
-	Thu, 15 Jan 2026 04:43:43 +0000
-Date: Thu, 15 Jan 2026 12:43:11 +0800
+	id 1vgFhw-00000000HZs-0gHz;
+	Thu, 15 Jan 2026 05:15:44 +0000
+Date: Thu, 15 Jan 2026 13:15:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>,
-	John Madieu <john.madieu.xa@bp.renesas.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Subject: Re: [PATCH v4 5/5] thermal: renesas: rzg3e: add support for RZ/T2H
- and RZ/N2H
-Message-ID: <202601151246.oPHRcNB4-lkp@intel.com>
-References: <20260108165324.11376-6-cosmin-gabriel.tanislav.xa@renesas.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe:io_uring-bpf-restrictions 14/15]
+ io_uring/bpf_filter.c:84:3: error: implicit declaration of function
+ 'io_socket_bpf_populate'; did you mean 'vmemmap_populate'?
+Message-ID: <202601151348.XwxgNChZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260108165324.11376-6-cosmin-gabriel.tanislav.xa@renesas.com>
 
-Hi Cosmin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on linus/master v6.19-rc5 next-20260114]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cosmin-Tanislav/thermal-renesas-rzg3e-make-min-and-max-temperature-per-chip/20260109-015424
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20260108165324.11376-6-cosmin-gabriel.tanislav.xa%40renesas.com
-patch subject: [PATCH v4 5/5] thermal: renesas: rzg3e: add support for RZ/T2H and RZ/N2H
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260115/202601151246.oPHRcNB4-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151246.oPHRcNB4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git io_uring-bpf-restrictions
+head:   fa70f6f40710a9cdb29e47989eb0dff2f9c950f6
+commit: 11d1f358bfae44ea49a9c7781e19d9d91eb8551d [14/15] io_uring: add support for BPF filtering for opcode restrictions
+config: xtensa-randconfig-001-20260115 (https://download.01.org/0day-ci/archive/20260115/202601151348.XwxgNChZ-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151348.XwxgNChZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601151246.oPHRcNB4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601151348.XwxgNChZ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/thermal/renesas/rzg3e_thermal.c: In function 'rzg3e_thermal_get_smc_trim':
->> drivers/thermal/renesas/rzg3e_thermal.c:371:30: error: storage size of 'local_res' isn't known
-     371 |         struct arm_smccc_res local_res;
-         |                              ^~~~~~~~~
->> drivers/thermal/renesas/rzg3e_thermal.c:373:9: error: implicit declaration of function 'arm_smccc_smc' [-Wimplicit-function-declaration]
-     373 |         arm_smccc_smc(RZ_SIP_SVC_GET_SYSTSU, OTP_TSU_REG_ADR_TEMPLO,
-         |         ^~~~~~~~~~~~~
->> drivers/thermal/renesas/rzg3e_thermal.c:371:30: warning: unused variable 'local_res' [-Wunused-variable]
-     371 |         struct arm_smccc_res local_res;
-         |                              ^~~~~~~~~
+   io_uring/bpf_filter.c: In function 'io_uring_populate_bpf_ctx':
+>> io_uring/bpf_filter.c:84:3: error: implicit declaration of function 'io_socket_bpf_populate'; did you mean 'vmemmap_populate'? [-Werror=implicit-function-declaration]
+      io_socket_bpf_populate(bctx, req);
+      ^~~~~~~~~~~~~~~~~~~~~~
+      vmemmap_populate
+   cc1: some warnings being treated as errors
 
 
-vim +371 drivers/thermal/renesas/rzg3e_thermal.c
+vim +84 io_uring/bpf_filter.c
 
-   368	
-   369	static int rzg3e_thermal_get_smc_trim(struct rzg3e_thermal_priv *priv)
-   370	{
- > 371		struct arm_smccc_res local_res;
-   372	
- > 373		arm_smccc_smc(RZ_SIP_SVC_GET_SYSTSU, OTP_TSU_REG_ADR_TEMPLO,
-   374			      0, 0, 0, 0, 0, 0, &local_res);
-   375		priv->trmval0 = local_res.a0 & TSU_CODE_MAX;
-   376	
-   377		arm_smccc_smc(RZ_SIP_SVC_GET_SYSTSU, OTP_TSU_REG_ADR_TEMPHI,
-   378			      0, 0, 0, 0, 0, 0, &local_res);
-   379		priv->trmval1 = local_res.a0 & TSU_CODE_MAX;
-   380	
-   381		return 0;
-   382	}
-   383	
+    72	
+    73	/* Populate BPF context from SQE */
+    74	static void io_uring_populate_bpf_ctx(struct io_uring_bpf_ctx *bctx,
+    75					      struct io_kiocb *req)
+    76	{
+    77		memset(bctx, 0, sizeof(*bctx));
+    78		bctx->opcode = req->opcode;
+    79		bctx->sqe_flags = req->flags & SQE_VALID_FLAGS;
+    80		bctx->user_data = req->cqe.user_data;
+    81	
+    82		switch (req->opcode) {
+    83		case IORING_OP_SOCKET:
+  > 84			io_socket_bpf_populate(bctx, req);
+    85			break;
+    86		}
+    87	}
+    88	
 
 -- 
 0-DAY CI Kernel Test Service
