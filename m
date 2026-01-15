@@ -1,253 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26EC84039
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 22:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6E8303A0A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 22:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768515742; cv=none; b=BjXFMqvSXz98MN2GdN+yhYAu1PKOaWMCtWv2a4X86lIAmyHslvjKsoZsbcGlq4qdH156Ka6Vg+O2cuoz1KoQA+4HCUOeL/hwj4rH+S2vZvnDJIv9rKvY5yES2WV2DTmkapzOpvjhNLRUsvnWqkOvKe0xODcKIBERnihdd4yzXnc=
+	t=1768515743; cv=none; b=ETbPssKOmOmZf4qP35kRx+vKASDewZjt3MP6kh46SUmivGuecVvdvGrcbHbiC+Out0BN6kB9ngrYu94xxOavDjFICFlJhR4ZEHmdt0zyS/NBxnRcYdfVMyEPZNggLcKjpHMaz0TmEsKR8EI75LbOBy14Ynm7yYnwFvh2ykAe7v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768515742; c=relaxed/simple;
-	bh=qcFLX8X/qNnW1hp9gz9BtO2UHS3kSK5Q2dlyvop2W8E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=FLChArNsMsVZx5PnjfXlhNylhLeUR4+MKUYdzYED9uSECFgeuO5EamFZqYzdzQ5+Nfn6VA+/D3hVO5jnXiUqvhUPgPYVo/F4ZpUE34h9eGqBdaypnvt0ub8IoX1iM+UCHGampblfNDROWoQ3zspgFD913zBkD//kRL7QmG63tRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d53B4YdV; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1768515743; c=relaxed/simple;
+	bh=GlSRthmmIe146YTP1TyKrEKATP5VoHXNP14ZSFLxRDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gm4BzU+WD+YjX8LcnMUBK7dHOLbcmrxDNTsXm2Zqe5x+As5Be3UZHG2HtmVzYE75GwkfqojIh+9w73wKcnSQHhFpVkSFGkPjJWVVoHspFw4cMh9ZCDyfYPSGRsL3gYD13QGpQSVVsU4VDjbCEATXMo3pv4MbEsK9poCebSzIGkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fx2Vcy0T; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d53B4YdV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fx2Vcy0T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768515740; x=1800051740;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=qcFLX8X/qNnW1hp9gz9BtO2UHS3kSK5Q2dlyvop2W8E=;
-  b=d53B4YdVXLW+iMdFPTDu/LkyrQcvmItYRkHqQK8ynzPHJBTMIFQinmGj
-   V8CVvL/YXaGLpevBjK7COquM9FjiOo6squk9o2nZjuOZzRTwNVkhpFC2J
-   Gml6a76GX5Y8CbaFy9EjVVYlMz4Oik5YYgJO3/gIw5CkBcm3E5wOgzHs+
-   BuePBy7ptUo37HG8f+V9zGr5iLXSToVcPChXRq6IC57fcriqLq1Flh0he
-   8zlICNBF4PX6QOzZaDdTL9f5PcTjVE1jMCZV4pUhXyWTdG/U5ILVSIkaU
-   SPOwtWQJgt8QfD/s+4jivNtonxrAlkLOPOR+XJ/a/9bJwrCsKxzufV3kQ
-   A==;
-X-CSE-ConnectionGUID: AzjMiSu7SxCuFpJA+Zt95g==
-X-CSE-MsgGUID: VJ9ynVaWQ1SstgJR/kYkkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="81279990"
+  t=1768515742; x=1800051742;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GlSRthmmIe146YTP1TyKrEKATP5VoHXNP14ZSFLxRDI=;
+  b=fx2Vcy0TIZBDzJY6xVgWEGSI59MmI5w1b3ANookFtLMVHJ1XTgWVaCpf
+   D/9SEJBS4r97dPwLlWHs7Nt5pyFFpdcy3Prs8Mrk7I8eZXNbDjn29h3b4
+   nILDnN3KiQJVmXJyB8/OfwK/+rmyrehcabaQ4jxczHoVFuFChpCQckrr7
+   Z0Ych4yiSJPxyT7jTiyHcqRtl+k2TXi26Hy7y7aaZxaGOrz6umXlqQGXu
+   ZRHrKDM19QMvzgCAb9s4CvjANuyzGk/SczSpJ1uxDIi73tyZ1tAKiDkjL
+   mxJvDm+4o+xXVXbkEpbW/d2Wl1O73wqXhn5BuuVd3qhnHP7q+0ydXfd0R
+   Q==;
+X-CSE-ConnectionGUID: RxiUDOutRz2wH5Ce4cMqWA==
+X-CSE-MsgGUID: a/sPmd/oSVSAbFE2n03JUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="73683711"
 X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="81279990"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 14:22:20 -0800
-X-CSE-ConnectionGUID: 64OU2Ph9RY2L5Gdyw/ljpQ==
-X-CSE-MsgGUID: 3DxfcPJ0Rw2/0jzbXc08Jw==
+   d="scan'208";a="73683711"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 14:22:21 -0800
+X-CSE-ConnectionGUID: JKJfZTyAT8SvyZZ64I1AXg==
+X-CSE-MsgGUID: S39XQe80ROehLb43Zu6oZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="210103339"
+   d="scan'208";a="228127414"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 15 Jan 2026 14:22:18 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 15 Jan 2026 14:22:18 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgVjM-00000000K3u-0zSA;
+	id 1vgVjM-00000000K3s-0tal;
 	Thu, 15 Jan 2026 22:22:16 +0000
-Date: Fri, 16 Jan 2026 06:22:06 +0800
+Date: Fri, 16 Jan 2026 06:22:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ido Schimmel <idosch@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Petr Machata <petrm@nvidia.com>
-Subject: [jpirko-mlxsw:combined_queue 19/19]
- drivers/net/usb/hso.c:1477:13: sparse: sparse: cast to restricted __le16
-Message-ID: <202601160614.sn50AX9z-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tzu-Hao Wei <twei@axiado.com>, SriNavmani A <srinavmani@axiado.com>,
+	Prasad Bolisetty <pbolisetty@axiado.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, openbmc@lists.ozlabs.org,
+	Tzu-Hao Wei <twei@axiado.com>
+Subject: Re: [PATCH 2/4] phy: axiado: add Axiado eMMC PHY driver
+Message-ID: <202601160610.y8FbB5x1-lkp@intel.com>
+References: <20260109-axiado-ax3000-add-emmc-phy-driver-support-v1-2-dd43459dbfea@axiado.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260109-axiado-ax3000-add-emmc-phy-driver-support-v1-2-dd43459dbfea@axiado.com>
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   e5a4b798e710861426579bea24f769032504de8b
-commit: e5a4b798e710861426579bea24f769032504de8b [19/19] TMP: Revert "modul=
-e: Add compile-time check for embedded NUL characters"
-config: nios2-randconfig-r132-20260116 (https://download.01.org/0day-ci/arc=
-hive/20260116/202601160614.sn50AX9z-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
-/20260116/202601160614.sn50AX9z-lkp@intel.com/reproduce)
+Hi Tzu-Hao,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tzu-Hao-Wei/dt-bindings-phy-axiado-ax3000-emmc-phy-add-Axiado-eMMC-PHY/20260109-174938
+base:   f0b9d8eb98dfee8d00419aa07543bdc2c1a44fb1
+patch link:    https://lore.kernel.org/r/20260109-axiado-ax3000-add-emmc-phy-driver-support-v1-2-dd43459dbfea%40axiado.com
+patch subject: [PATCH 2/4] phy: axiado: add Axiado eMMC PHY driver
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260116/202601160610.y8FbB5x1-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160610.y8FbB5x1-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601160614.sn50AX9z-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601160610.y8FbB5x1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/usb/hso.c:1477:13: sparse: sparse: cast to restricted __le16
-   drivers/net/usb/hso.c:1478:13: sparse: sparse: cast to restricted __le16
-   drivers/net/usb/hso.c:1479:13: sparse: sparse: cast to restricted __le16
-   drivers/net/usb/hso.c:1487:37: sparse: sparse: cast to restricted __le16
-   drivers/net/usb/hso.c:1631:37: sparse: sparse: cast to restricted __le16
-   drivers/net/usb/hso.c: note: in included file (through include/uapi/linu=
-x/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.=
-h, ...):
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many argum=
-ents for function __builtin_custom_ini
+All errors (new ones prefixed by >>):
 
-vim +1477 drivers/net/usb/hso.c
+   In file included from include/linux/swab.h:5,
+                    from include/uapi/linux/byteorder/big_endian.h:14,
+                    from include/linux/byteorder/big_endian.h:5,
+                    from arch/m68k/include/uapi/asm/byteorder.h:5,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/m68k/include/asm/bitops.h:569,
+                    from include/linux/bitops.h:67,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from arch/m68k/include/asm/processor.h:11,
+                    from include/linux/sched.h:13,
+                    from include/linux/delay.h:13,
+                    from drivers/phy/axiado/phy-axiado-emmc.c:11:
+   drivers/phy/axiado/phy-axiado-emmc.c: In function 'axiado_emmc_phy_power_on':
+>> drivers/phy/axiado/phy-axiado-emmc.c:69:34: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      69 | #define OTAP_SEL(x)             (FIELD_PREP(OTAP_SEL_MASK, x) | OTAPDLY_EN)
+         |                                  ^~~~~~~~~~
+   include/uapi/linux/swab.h:118:38: note: in definition of macro '__swab32'
+     118 |         (__u32)(__builtin_constant_p(x) ?       \
+         |                                      ^
+   include/linux/byteorder/generic.h:88:21: note: in expansion of macro '__cpu_to_le32'
+      88 | #define cpu_to_le32 __cpu_to_le32
+         |                     ^~~~~~~~~~~~~
+   arch/m68k/include/asm/io_mm.h:373:26: note: in expansion of macro 'out_le32'
+     373 | #define writel(val,addr) out_le32((addr),(val))
+         |                          ^~~~~~~~
+   drivers/phy/axiado/phy-axiado-emmc.c:147:9: note: in expansion of macro 'writel'
+     147 |         writel(val | OTAP_SEL(OTAP_DLY), ax_phy->reg_base + PHY_CTRL_2);
+         |         ^~~~~~
+   drivers/phy/axiado/phy-axiado-emmc.c:147:22: note: in expansion of macro 'OTAP_SEL'
+     147 |         writel(val | OTAP_SEL(OTAP_DLY), ax_phy->reg_base + PHY_CTRL_2);
+         |                      ^~~~~~~~
 
-542f5482361491 Denis Joseph Barrow       2009-01-02  1439 =20
-542f5482361491 Denis Joseph Barrow       2009-01-02  1440  static void tioc=
-mget_intr_callback(struct urb *urb)
-542f5482361491 Denis Joseph Barrow       2009-01-02  1441  {
-542f5482361491 Denis Joseph Barrow       2009-01-02  1442  	struct hso_seri=
-al *serial =3D urb->context;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1443  	struct hso_tioc=
-mget *tiocmget;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1444  	int status =3D =
-urb->status;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1445  	u16 UART_state_=
-bitmap, prev_UART_state_bitmap;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1446  	struct uart_ico=
-unt *icount;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1447  	struct hso_seri=
-al_state_notification *serial_state_notification;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1448  	struct usb_devi=
-ce *usb;
-64bea46e3ff287 Aleksander Morgado        2015-02-17  1449  	struct usb_inte=
-rface *interface;
-e5e97ee956d8c5 Dan Williams              2014-01-06  1450  	int if_num;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1451 =20
-542f5482361491 Denis Joseph Barrow       2009-01-02  1452  	/* Sanity check=
-s */
-542f5482361491 Denis Joseph Barrow       2009-01-02  1453  	if (!serial)
-542f5482361491 Denis Joseph Barrow       2009-01-02  1454  		return;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1455  	if (status) {
-68a351c501ad22 Jan Dumon                 2010-01-05  1456  		handle_usb_err=
-or(status, __func__, serial->parent);
-542f5482361491 Denis Joseph Barrow       2009-01-02  1457  		return;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1458  	}
-e5e97ee956d8c5 Dan Williams              2014-01-06  1459 =20
-e5e97ee956d8c5 Dan Williams              2014-01-06  1460  	/* tiocmget is =
-only supported on HSO_PORT_MODEM */
-542f5482361491 Denis Joseph Barrow       2009-01-02  1461  	tiocmget =3D se=
-rial->tiocmget;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1462  	if (!tiocmget)
-542f5482361491 Denis Joseph Barrow       2009-01-02  1463  		return;
-e5e97ee956d8c5 Dan Williams              2014-01-06  1464  	BUG_ON((serial-=
->parent->port_spec & HSO_PORT_MASK) !=3D HSO_PORT_MODEM);
-e5e97ee956d8c5 Dan Williams              2014-01-06  1465 =20
-542f5482361491 Denis Joseph Barrow       2009-01-02  1466  	usb =3D serial-=
->parent->usb;
-64bea46e3ff287 Aleksander Morgado        2015-02-17  1467  	interface =3D s=
-erial->parent->interface;
-64bea46e3ff287 Aleksander Morgado        2015-02-17  1468 =20
-64bea46e3ff287 Aleksander Morgado        2015-02-17  1469  	if_num =3D inte=
-rface->cur_altsetting->desc.bInterfaceNumber;
-e5e97ee956d8c5 Dan Williams              2014-01-06  1470 =20
-e5e97ee956d8c5 Dan Williams              2014-01-06  1471  	/* wIndex shoul=
-d be the USB interface number of the port to which the
-e5e97ee956d8c5 Dan Williams              2014-01-06  1472  	 * notification=
- applies, which should always be the Modem port.
-e5e97ee956d8c5 Dan Williams              2014-01-06  1473  	 */
-af0de1303c4e8f Oliver Neukum             2019-10-17  1474  	serial_state_no=
-tification =3D tiocmget->serial_state_notification;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1475  	if (serial_stat=
-e_notification->bmRequestType !=3D BM_REQUEST_TYPE ||
-542f5482361491 Denis Joseph Barrow       2009-01-02  1476  	    serial_stat=
-e_notification->bNotification !=3D B_NOTIFICATION ||
-542f5482361491 Denis Joseph Barrow       2009-01-02 @1477  	    le16_to_cpu=
-(serial_state_notification->wValue) !=3D W_VALUE ||
-e5e97ee956d8c5 Dan Williams              2014-01-06  1478  	    le16_to_cpu=
-(serial_state_notification->wIndex) !=3D if_num ||
-542f5482361491 Denis Joseph Barrow       2009-01-02  1479  	    le16_to_cpu=
-(serial_state_notification->wLength) !=3D W_LENGTH) {
-542f5482361491 Denis Joseph Barrow       2009-01-02  1480  		dev_warn(&usb-=
->dev,
-542f5482361491 Denis Joseph Barrow       2009-01-02  1481  			 "hso receive=
-d invalid serial state notification\n");
-542f5482361491 Denis Joseph Barrow       2009-01-02  1482  		DUMP(serial_st=
-ate_notification,
-9ce673d5e91996 Antti Kaijanm=C3=A4ki          2009-11-23  1483  		     size=
-of(struct hso_serial_state_notification));
-542f5482361491 Denis Joseph Barrow       2009-01-02  1484  	} else {
-12c4de4bcc23ec Sebastian Andrzej Siewior 2018-06-20  1485  		unsigned long =
-flags;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1486 =20
-542f5482361491 Denis Joseph Barrow       2009-01-02  1487  		UART_state_bit=
-map =3D le16_to_cpu(serial_state_notification->
-542f5482361491 Denis Joseph Barrow       2009-01-02  1488  						UART_state=
-_bitmap);
-542f5482361491 Denis Joseph Barrow       2009-01-02  1489  		prev_UART_stat=
-e_bitmap =3D tiocmget->prev_UART_state_bitmap;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1490  		icount =3D &ti=
-ocmget->icount;
-12c4de4bcc23ec Sebastian Andrzej Siewior 2018-06-20  1491  		spin_lock_irqs=
-ave(&serial->serial_lock, flags);
-542f5482361491 Denis Joseph Barrow       2009-01-02  1492  		if ((UART_stat=
-e_bitmap & B_OVERRUN) !=3D
-542f5482361491 Denis Joseph Barrow       2009-01-02  1493  		   (prev_UART_=
-state_bitmap & B_OVERRUN))
-542f5482361491 Denis Joseph Barrow       2009-01-02  1494  			icount->parit=
-y++;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1495  		if ((UART_stat=
-e_bitmap & B_PARITY) !=3D
-542f5482361491 Denis Joseph Barrow       2009-01-02  1496  		   (prev_UART_=
-state_bitmap & B_PARITY))
-542f5482361491 Denis Joseph Barrow       2009-01-02  1497  			icount->parit=
-y++;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1498  		if ((UART_stat=
-e_bitmap & B_FRAMING) !=3D
-542f5482361491 Denis Joseph Barrow       2009-01-02  1499  		   (prev_UART_=
-state_bitmap & B_FRAMING))
-542f5482361491 Denis Joseph Barrow       2009-01-02  1500  			icount->frame=
-++;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1501  		if ((UART_stat=
-e_bitmap & B_RING_SIGNAL) &&
-542f5482361491 Denis Joseph Barrow       2009-01-02  1502  		   !(prev_UART=
-_state_bitmap & B_RING_SIGNAL))
-542f5482361491 Denis Joseph Barrow       2009-01-02  1503  			icount->rng++;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1504  		if ((UART_stat=
-e_bitmap & B_BREAK) !=3D
-542f5482361491 Denis Joseph Barrow       2009-01-02  1505  		   (prev_UART_=
-state_bitmap & B_BREAK))
-542f5482361491 Denis Joseph Barrow       2009-01-02  1506  			icount->brk++;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1507  		if ((UART_stat=
-e_bitmap & B_TX_CARRIER) !=3D
-542f5482361491 Denis Joseph Barrow       2009-01-02  1508  		   (prev_UART_=
-state_bitmap & B_TX_CARRIER))
-542f5482361491 Denis Joseph Barrow       2009-01-02  1509  			icount->dsr++;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1510  		if ((UART_stat=
-e_bitmap & B_RX_CARRIER) !=3D
-542f5482361491 Denis Joseph Barrow       2009-01-02  1511  		   (prev_UART_=
-state_bitmap & B_RX_CARRIER))
-542f5482361491 Denis Joseph Barrow       2009-01-02  1512  			icount->dcd++;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1513  		tiocmget->prev=
-_UART_state_bitmap =3D UART_state_bitmap;
-12c4de4bcc23ec Sebastian Andrzej Siewior 2018-06-20  1514  		spin_unlock_ir=
-qrestore(&serial->serial_lock, flags);
-542f5482361491 Denis Joseph Barrow       2009-01-02  1515  		tiocmget->intr=
-_completed =3D 1;
-542f5482361491 Denis Joseph Barrow       2009-01-02  1516  		wake_up_interr=
-uptible(&tiocmget->waitq);
-542f5482361491 Denis Joseph Barrow       2009-01-02  1517  	}
-542f5482361491 Denis Joseph Barrow       2009-01-02  1518  	memset(serial_s=
-tate_notification, 0,
-542f5482361491 Denis Joseph Barrow       2009-01-02  1519  	       sizeof(s=
-truct hso_serial_state_notification));
-542f5482361491 Denis Joseph Barrow       2009-01-02  1520  	tiocmget_submit=
-_urb(serial,
-542f5482361491 Denis Joseph Barrow       2009-01-02  1521  			    tiocmget,
-542f5482361491 Denis Joseph Barrow       2009-01-02  1522  			    serial->p=
-arent->usb);
-542f5482361491 Denis Joseph Barrow       2009-01-02  1523  }
-542f5482361491 Denis Joseph Barrow       2009-01-02  1524 =20
 
-:::::: The code at line 1477 was first introduced by commit
-:::::: 542f54823614915780c3459b0e6062f06c0c0f99 tty: Modem functions for th=
-e HSO driver
+vim +/FIELD_PREP +69 drivers/phy/axiado/phy-axiado-emmc.c
 
-:::::: TO: Denis Joseph Barrow <D.Barow@option.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+  > 11	#include <linux/delay.h>
+    12	#include <linux/io.h>
+    13	#include <linux/iopoll.h>
+    14	#include <linux/module.h>
+    15	#include <linux/of.h>
+    16	#include <linux/phy/phy.h>
+    17	#include <linux/platform_device.h>
+    18	
+    19	/* Arasan eMMC 5.1 - PHY configuration registers */
+    20	#define CAP_REG_IN_S1_LSB		0x00
+    21	#define CAP_REG_IN_S1_MSB		0x04
+    22	#define PHY_CTRL_1			0x38
+    23	#define PHY_CTRL_2			0x3C
+    24	#define PHY_CTRL_3			0x40
+    25	#define STATUS				0x50
+    26	
+    27	#define DLL_ENBL	BIT(26)
+    28	#define RTRIM_EN	BIT(21)
+    29	#define PDB_ENBL	BIT(23)
+    30	#define RETB_ENBL	BIT(1)
+    31	
+    32	#define REN_STRB	BIT(27)
+    33	#define REN_CMD		BIT(12)
+    34	#define REN_DAT0	BIT(13)
+    35	#define REN_DAT1	BIT(14)
+    36	#define REN_DAT2	BIT(15)
+    37	#define REN_DAT3	BIT(16)
+    38	#define REN_DAT4	BIT(17)
+    39	#define REN_DAT5	BIT(18)
+    40	#define REN_DAT6	BIT(19)
+    41	#define REN_DAT7	BIT(20)
+    42	#define REN_CMD_EN	(REN_CMD | REN_DAT0 | REN_DAT1 | REN_DAT2 | \
+    43			REN_DAT3 | REN_DAT4 | REN_DAT5 | REN_DAT6 | REN_DAT7)
+    44	
+    45	/* Pull-UP Enable on CMD Line */
+    46	#define PU_CMD		BIT(3)
+    47	#define PU_DAT0		BIT(4)
+    48	#define PU_DAT1		BIT(5)
+    49	#define PU_DAT2		BIT(6)
+    50	#define PU_DAT3		BIT(7)
+    51	#define PU_DAT4		BIT(8)
+    52	#define PU_DAT5		BIT(9)
+    53	#define PU_DAT6		BIT(10)
+    54	#define PU_DAT7		BIT(11)
+    55	#define PU_CMD_EN (PU_CMD | PU_DAT0 | PU_DAT1 | PU_DAT2 | PU_DAT3 | \
+    56			PU_DAT4 | PU_DAT5 | PU_DAT6 | PU_DAT7)
+    57	
+    58	/* Selection value for the optimum delay from 1-32 output tap lines */
+    59	#define OTAP_DLY	0x02
+    60	/* DLL charge pump current trim default [1000] */
+    61	#define DLL_TRM_ICP	0x08
+    62	/* Select the frequency range of DLL Operation */
+    63	#define FRQ_SEL	0x01
+    64	
+    65	#define OTAP_SEL_MASK		GENMASK(10, 7)
+    66	#define DLL_TRM_MASK		GENMASK(25, 22)
+    67	#define DLL_FRQSEL_MASK		GENMASK(27, 25)
+    68	
+  > 69	#define OTAP_SEL(x)		(FIELD_PREP(OTAP_SEL_MASK, x) | OTAPDLY_EN)
+    70	#define DLL_TRM(x)		(FIELD_PREP(DLL_TRM_MASK, x) | DLL_ENBL)
+    71	#define DLL_FRQSEL(x)	FIELD_PREP(DLL_FRQSEL_MASK, x)
+    72	
 
---=20
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
