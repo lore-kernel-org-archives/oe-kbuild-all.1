@@ -1,205 +1,171 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEDA2F3608
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 14:44:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D840D30E0F0;
+	Thu, 15 Jan 2026 14:44:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768488254; cv=none; b=bH6Zw44i/re1Z+wNTgRe61auRCOJwgYZoZvbGJI7hy1kiSnrSo1KsiI0LIJapCUb2fUogrHdfhtOc0isWFRkgMIxBEq/r1cGNNUU4GfT+rOYxhdc6tSoQ0IuBi7KQZQ0Y1eN8hfciqSFHvY6/7Ya44M6k4aJUJCp2EMgSFwDBoA=
+	t=1768488255; cv=none; b=ctl7blD6lbGZXJzBEvkafi9nqc0EvOFCf1L6e/eDBdKJwBtBU1J+frGc8fvWVLvCmJA6eS1RR4gbR4FTz7uqd4W9br0ZpEiEHSH30dNiBOA8gScEFHCSjfjhNr+JPHR3Mzf9foAiSD/8EAokfl6xPOz7eoB48OIq8Rf7Oc5jk5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768488254; c=relaxed/simple;
-	bh=cnmCubehlvyC8o15FUNL16XAx9HVbe2gusWXY29bZIA=;
+	s=arc-20240116; t=1768488255; c=relaxed/simple;
+	bh=W8bSj3Tt1fNR22DvPlznzXtp4tTD+xt+MEIzrxtDuUM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=knWM3KPkRpelbvaJudVGsHH9w+kFvgUZ1NZRr8JEDysqUKguxntn3MragV6wIJK145BBmTUSgfe4PRFga7Z/5Cz08cqWVPKEn1pixSrxGDjFE0tUszzuuhjwB2L9hayfYt4nJyoCxuCKAb4qkwaOzYdnvokGPQY/I1eKPwYd6b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ig1KAZ4d; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=ScVIgnP3Sf/FilPytnj4njP730RsjHkIRB83X60cC8OaIppELjWONbOCk7x9BuC+3jg5nNUlkgMJw2NlIGxnLpozxHIbOLRpvjmVy3G315jxBtzLIz02BWIQkqgfy6Nv9RcoXDISORwauvxKNLrG3T+IUQNDRms5VRp4eCjreCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LVc6phDq; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ig1KAZ4d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LVc6phDq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768488252; x=1800024252;
+  t=1768488253; x=1800024253;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cnmCubehlvyC8o15FUNL16XAx9HVbe2gusWXY29bZIA=;
-  b=ig1KAZ4dIP4kHDxtFD4zJcQwhK/O/DHzEQVyzyrbk9dWw8EBJfn4uwc0
-   i3oH+C47YK1svFlJVSsq/Ki9f3Ns99MsHvi2Rvl85DFSyw5nR1Cw0xwgu
-   8g2mw6ERKgxs8JtpwdOpDkn/2g88fTG0jfyxy5BR8bAUSd0/Hxs1L/A78
-   B2z1EwNI7Ph34P8Ae9P07dqhCX3W+frBjyuTqqc0kypKZIIuIA53d5+EA
-   7cJAaFTtZWKlyaT7j+OTvf4u294ncKskFFZGNePemb6bQEvGR+xawQWuT
-   MYSQV3Gtib/wZPPFUEAkIk9s3CFXXDugpVtyW0vxA6s9rVV/0Vb5CllF5
-   w==;
-X-CSE-ConnectionGUID: j+4xD8rFQB+obqYOyZZaig==
-X-CSE-MsgGUID: 4jfX1fhpTuyNZeI58X5GcQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69773519"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=W8bSj3Tt1fNR22DvPlznzXtp4tTD+xt+MEIzrxtDuUM=;
+  b=LVc6phDq+9bkHTitzDivV2ntcFF+o2uJ1eu6r1PqQe1W/rsLN57MND3/
+   b1ljTjiNWToP+JI+vF8d9ox2axkDDx2lxNgcd567XAKpiKux8ObygoxAg
+   Sp9OHubqtYW46DwSiWarGPpnTZHyilol9iprPY30kZZ/yi4gjuq90Gqbu
+   dcHrMJJ5GzcpteTNIlgDFB1OGRAM4/4qqqwuSPaGUKHMuE5DkTiOHB35I
+   QpdtYrhZhA238GpqmzVnmWty2ClxaCmLiGHNokS5F5mGiyTtLqJ27FZxl
+   GMrBMkHHA/Cbs8h94YQtMn+AyEMHdycReuh+h6H37S6ok76Sfek3Wbtz5
+   Q==;
+X-CSE-ConnectionGUID: 1Dgy+FLPSNS9NDhMeIOfPg==
+X-CSE-MsgGUID: kUSpkn55ReOOmGDUMLGC6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69773524"
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="69773519"
+   d="scan'208";a="69773524"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 06:44:11 -0800
-X-CSE-ConnectionGUID: ptGMrca2T3uI59h2ED4JbA==
-X-CSE-MsgGUID: DcnJb+L7T1eB+JHLrtkw9g==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 06:44:13 -0800
+X-CSE-ConnectionGUID: 1CV0d29lS5m316xjAn+w0w==
+X-CSE-MsgGUID: 5+bzz2H0T3OvpIwVh4UbOQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="236223879"
+   d="scan'208";a="236223880"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 15 Jan 2026 06:44:09 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgOZy-00000000I52-3pSA;
+	id 1vgOZy-00000000I54-3wGb;
 	Thu, 15 Jan 2026 14:44:06 +0000
-Date: Thu, 15 Jan 2026 22:43:58 +0800
+Date: Thu, 15 Jan 2026 22:43:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ciju Rajan K <crajank@nvidia.com>, hdegoede@redhat.com,
-	ilpo.jarvinen@linux.intel.com, tglx@linutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, christophe.jaillet@wanadoo.fr,
-	andriy.shevchenko@linux.intel.com, vadimp@nvidia.com,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Ciju Rajan K <crajank@nvidia.com>
-Subject: Re: [PATCH platform-next v4 2/2] platform/mellanox: mlxreg-hotplug:
- Enabling interrupt storm detection
-Message-ID: <202601152235.2MC3FUQp-lkp@intel.com>
-References: <20260115074909.245852-3-crajank@nvidia.com>
+To: Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
+	x86@kernel.org, virtualization@lists.linux.dev, kvm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Juergen Gross <jgross@suse.com>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ajay Kaher <ajay.kaher@broadcom.com>,
+	Alexey Makhalov <alexey.makhalov@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v3 1/5] x86/paravirt: Replace io_delay() hook with a bool
+Message-ID: <202601152203.plJOoOEF-lkp@intel.com>
+References: <20260115084849.31502-2-jgross@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260115074909.245852-3-crajank@nvidia.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260115084849.31502-2-jgross@suse.com>
 
-Hi Ciju,
+Hi Juergen,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.19-rc5]
-[cannot apply to tip/irq/core next-20260115]
+[auto build test ERROR on tip/master]
+[also build test ERROR on next-20260115]
+[cannot apply to kvm/queue kvm/next tip/x86/core kvm/linux-next tip/auto-latest linus/master v6.19-rc5]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ciju-Rajan-K/kernel-irq-Add-generic-interrupt-storm-detection-mechanism/20260115-155438
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20260115074909.245852-3-crajank%40nvidia.com
-patch subject: [PATCH platform-next v4 2/2] platform/mellanox: mlxreg-hotplug: Enabling interrupt storm detection
-config: x86_64-randconfig-161-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152235.2MC3FUQp-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Juergen-Gross/x86-paravirt-Replace-io_delay-hook-with-a-bool/20260115-165320
+base:   tip/master
+patch link:    https://lore.kernel.org/r/20260115084849.31502-2-jgross%40suse.com
+patch subject: [PATCH v3 1/5] x86/paravirt: Replace io_delay() hook with a bool
+config: i386-randconfig-011-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152203.plJOoOEF-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-smatch version: v0.5.0-8985-g2614ff1a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152235.2MC3FUQp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152203.plJOoOEF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601152235.2MC3FUQp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601152203.plJOoOEF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/platform/mellanox/mlxreg-hotplug.c:830:7: error: call to undeclared function 'irq_register_storm_detection'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     830 |         if (!irq_register_storm_detection(priv->irq, MLXREG_HOTPLUG_INTR_FREQ_HZ,
-         |              ^
->> drivers/platform/mellanox/mlxreg-hotplug.c:847:2: error: call to undeclared function 'irq_unregister_storm_detection'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     847 |         irq_unregister_storm_detection(priv->irq);
+>> drivers/cpufreq/longhaul.c:145:2: error: call to undeclared function 'arch_safe_halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     145 |         safe_halt();
          |         ^
-   2 errors generated.
+   include/linux/irqflags.h:231:3: note: expanded from macro 'safe_halt'
+     231 |                 raw_safe_halt();                \
+         |                 ^
+   include/linux/irqflags.h:192:27: note: expanded from macro 'raw_safe_halt'
+     192 | #define raw_safe_halt()                 arch_safe_halt()
+         |                                         ^
+>> drivers/cpufreq/longhaul.c:150:2: error: call to undeclared function 'halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     150 |         halt();
+         |         ^
+   drivers/cpufreq/longhaul.c:179:2: error: call to undeclared function 'arch_safe_halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     179 |         safe_halt();
+         |         ^
+   include/linux/irqflags.h:231:3: note: expanded from macro 'safe_halt'
+     231 |                 raw_safe_halt();                \
+         |                 ^
+   include/linux/irqflags.h:192:27: note: expanded from macro 'raw_safe_halt'
+     192 | #define raw_safe_halt()                 arch_safe_halt()
+         |                                         ^
+   drivers/cpufreq/longhaul.c:187:4: error: call to undeclared function 'halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     187 |                         halt();
+         |                         ^
+   drivers/cpufreq/longhaul.c:205:3: error: call to undeclared function 'halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     205 |                 halt();
+         |                 ^
+   drivers/cpufreq/longhaul.c:224:4: error: call to undeclared function 'halt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     224 |                         halt();
+         |                         ^
+   drivers/cpufreq/longhaul.c:165:6: warning: variable 't' set but not used [-Wunused-but-set-variable]
+     165 |         u32 t;
+         |             ^
+   1 warning and 6 errors generated.
 
 
-vim +/irq_register_storm_detection +830 drivers/platform/mellanox/mlxreg-hotplug.c
+vim +/arch_safe_halt +145 drivers/cpufreq/longhaul.c
 
-   762	
-   763	static int mlxreg_hotplug_probe(struct platform_device *pdev)
-   764	{
-   765		struct mlxreg_core_hotplug_platform_data *pdata;
-   766		struct mlxreg_hotplug_priv_data *priv;
-   767		struct i2c_adapter *deferred_adap;
-   768		int err;
-   769	
-   770		pdata = dev_get_platdata(&pdev->dev);
-   771		if (!pdata) {
-   772			dev_err(&pdev->dev, "Failed to get platform data.\n");
-   773			return -EINVAL;
-   774		}
-   775	
-   776		/* Defer probing if the necessary adapter is not configured yet. */
-   777		deferred_adap = i2c_get_adapter(pdata->deferred_nr);
-   778		if (!deferred_adap)
-   779			return -EPROBE_DEFER;
-   780		i2c_put_adapter(deferred_adap);
-   781	
-   782		priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-   783		if (!priv)
-   784			return -ENOMEM;
-   785	
-   786		if (pdata->irq) {
-   787			priv->irq = pdata->irq;
-   788		} else {
-   789			priv->irq = platform_get_irq(pdev, 0);
-   790			if (priv->irq < 0)
-   791				return priv->irq;
-   792		}
-   793	
-   794		priv->regmap = pdata->regmap;
-   795		priv->dev = pdev->dev.parent;
-   796		priv->pdev = pdev;
-   797	
-   798		err = devm_request_irq(&pdev->dev, priv->irq,
-   799				       mlxreg_hotplug_irq_handler, IRQF_TRIGGER_FALLING
-   800				       | IRQF_SHARED, "mlxreg-hotplug", priv);
-   801		if (err) {
-   802			dev_err(&pdev->dev, "Failed to request irq: %d\n", err);
-   803			return err;
-   804		}
-   805	
-   806		disable_irq(priv->irq);
-   807		spin_lock_init(&priv->lock);
-   808		INIT_DELAYED_WORK(&priv->dwork_irq, mlxreg_hotplug_work_handler);
-   809		dev_set_drvdata(&pdev->dev, priv);
-   810	
-   811		err = mlxreg_hotplug_attr_init(priv);
-   812		if (err) {
-   813			dev_err(&pdev->dev, "Failed to allocate attributes: %d\n",
-   814				err);
-   815			return err;
-   816		}
-   817	
-   818		priv->hwmon = devm_hwmon_device_register_with_groups(&pdev->dev,
-   819						"mlxreg_hotplug", priv, priv->groups);
-   820		if (IS_ERR(priv->hwmon)) {
-   821			dev_err(&pdev->dev, "Failed to register hwmon device %ld\n",
-   822				PTR_ERR(priv->hwmon));
-   823			return PTR_ERR(priv->hwmon);
-   824		}
-   825	
-   826		/* Perform initial interrupts setup. */
-   827		mlxreg_hotplug_set_irq(priv);
-   828	
-   829		/* Register with generic interrupt storm detection */
- > 830		if (!irq_register_storm_detection(priv->irq, MLXREG_HOTPLUG_INTR_FREQ_HZ,
-   831						  mlxreg_hotplug_storm_handler, priv)) {
-   832			dev_warn(&pdev->dev, "Failed to register generic interrupt storm detection\n");
-   833		} else {
-   834			dev_info(&pdev->dev, "Registered generic storm detection for IRQ %d\n", priv->irq);
-   835		}
-   836	
-   837		priv->after_probe = true;
-   838	
-   839		return 0;
-   840	}
-   841	
-   842	static void mlxreg_hotplug_remove(struct platform_device *pdev)
-   843	{
-   844		struct mlxreg_hotplug_priv_data *priv = dev_get_drvdata(&pdev->dev);
-   845	
-   846		/* Unregister generic interrupt storm detection */
- > 847		irq_unregister_storm_detection(priv->irq);
-   848	
-   849		/* Clean interrupts setup. */
-   850		mlxreg_hotplug_unset_irq(priv);
-   851		devm_free_irq(&pdev->dev, priv->irq, priv);
-   852	}
-   853	
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longhaul.c Linus Torvalds 2005-04-16  134  
+ac617bd0f7b959 arch/x86/kernel/cpu/cpufreq/longhaul.c  Dave Jones     2009-01-17  135  static void do_longhaul1(unsigned int mults_index)
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longhaul.c Linus Torvalds 2005-04-16  136  {
+dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  137  	union msr_bcr2 bcr2;
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longhaul.c Linus Torvalds 2005-04-16  138  
+c435e608cf59ff drivers/cpufreq/longhaul.c              Ingo Molnar    2025-04-09  139  	rdmsrq(MSR_VIA_BCR2, bcr2.val);
+dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  140  	/* Enable software clock multiplier */
+dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  141  	bcr2.bits.ESOFTBF = 1;
+ac617bd0f7b959 arch/x86/kernel/cpu/cpufreq/longhaul.c  Dave Jones     2009-01-17  142  	bcr2.bits.CLOCKMUL = mults_index & 0xff;
+dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  143  
+dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  144  	/* Sync to timer tick */
+dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03 @145  	safe_halt();
+dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  146  	/* Change frequency on next halt or sleep */
+78255eb2397332 drivers/cpufreq/longhaul.c              Ingo Molnar    2025-04-09  147  	wrmsrq(MSR_VIA_BCR2, bcr2.val);
+179da8e6e8903a arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-08-08  148  	/* Invoke transition */
+179da8e6e8903a arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-08-08  149  	ACPI_FLUSH_CPU_CACHE();
+179da8e6e8903a arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-08-08 @150  	halt();
+dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  151  
+dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  152  	/* Disable software clock multiplier */
+dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  153  	local_irq_disable();
+c435e608cf59ff drivers/cpufreq/longhaul.c              Ingo Molnar    2025-04-09  154  	rdmsrq(MSR_VIA_BCR2, bcr2.val);
+dadb49d8746bc4 arch/i386/kernel/cpu/cpufreq/longhaul.c Rafa³ Bilski   2006-07-03  155  	bcr2.bits.ESOFTBF = 0;
+78255eb2397332 drivers/cpufreq/longhaul.c              Ingo Molnar    2025-04-09  156  	wrmsrq(MSR_VIA_BCR2, bcr2.val);
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longhaul.c Linus Torvalds 2005-04-16  157  }
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longhaul.c Linus Torvalds 2005-04-16  158  
 
 -- 
 0-DAY CI Kernel Test Service
