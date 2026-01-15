@@ -1,208 +1,232 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63AE31ED60;
-	Thu, 15 Jan 2026 19:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41702E0925
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 19:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768506376; cv=none; b=lfAT6wFRDFTyNpJPpyWuYVQvI0Do8Z/Q1wROcADBoL0/RYwQlfDp4mQkdVN4ZhP2ZVjrsaQaxyEvgkiR6jWHyhD1Yah5pb5+PjldajA9sYPFrozq3k9SmKuZ0D3KiMJlj1l9gsMpTdRq/KgZJUbcosLhpScVKirkblWLuW1UoRc=
+	t=1768507107; cv=none; b=JSNzeLccY2olizzG1XyNrjqwj0RHDVkwWcqnMxevzbGrk6SOFEZ9WOqt46RaOcuFRP0UWZAomjseFyS4FUiikIglL3sd8sf/MW/b3VM0H+IlehC5phCoxvUP4eXUN8S+SeVF6Nd2pD92esYw8Mbr7JKluhdjcketVpvD49jRdmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768506376; c=relaxed/simple;
-	bh=yY5jVs5Iyr6QcT0oMRKQdxyVWj3aAXdV6QZbIUqVrN8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R+wuwIpBS6axNyPBcToH8Aj0DRWmzk6+FWaaK1dzo8UkGufClZKQS5WrltuHNfDxXm++E0l5uP+YRI9fHK1dgLl55VcTJdzsryAqD1v0CxtWmqEuPoZ9kiPDaypzMgBgEdmX0dqWyvsd9nlDSQkiLUh8eSugYjwudjg2FoWPcQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cHqWGKz+; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1768507107; c=relaxed/simple;
+	bh=ofas9oNHTgd81iXawRN0ZiSf2p/lUoY5pXEENXmeb8M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=R4Hm/lHlttz5FRf2zIRsKpULECmfNKi1I6bOuIYgrmaYN9FZpHk00ETTrfO4ogdfxo6nAOUHTGTya3OS29Ba4DokbSDXTTkCPe3Nk0OsYl+UlvVEMA7PrhnWNG75hg6aHVAqxhP88GdTRrrlL98XvweW+7sC1pRjIdjJ8PsB+3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WVSun/mg; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cHqWGKz+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WVSun/mg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768506374; x=1800042374;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yY5jVs5Iyr6QcT0oMRKQdxyVWj3aAXdV6QZbIUqVrN8=;
-  b=cHqWGKz+4cb+6cYPMFw8DW2pXI0KH+yauncPDhCJJJHmdGsWGaWoJmHF
-   NkIEHvukUN0dXFisoFbM//DklT1fIQvwbbGQidPlThaIGAbTXn8w+0DF4
-   q4jbAdt8Pqe67rqznq0GKlO/4+ie+gArZN7kSkT8VPZ183XLIxkpnsdCh
-   EZymXDPWPSHZdVCTwPRUDP68irjJsJUk73UwOgpZMuakvmwilcil0wM5u
-   e1dXRYO0k6mowpXss9uQUI4TRjQoklIt1ElHQJW2bXOsx/acNdW6trcV6
-   cM4BxJUKKc2zBHxazxNprPz+nEXq1FXdPnVmSwNQslx9oCwOHyZMCccHE
-   Q==;
-X-CSE-ConnectionGUID: x6ss/HsERVybSZCKSg2R/A==
-X-CSE-MsgGUID: GBlRfrcZR/6Qs6v1HFLwSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80539918"
+  t=1768507106; x=1800043106;
+  h=date:from:to:cc:subject:message-id;
+  bh=ofas9oNHTgd81iXawRN0ZiSf2p/lUoY5pXEENXmeb8M=;
+  b=WVSun/mgmhUuE7XeGv09hzEnPrcRrgKARQjTgtU3+8ztxa3G3J5LQPG5
+   5/qqA2HItdh4kqCVStEybmb8CoQHj6AZF+hOd6Lc3pLQAOTVZgUktOkxS
+   vUFCyGXyvdVg/sOTTPZbImQwP2euowXN4tZzizJPW4fOprmH3XeF5UdOf
+   0v7yeig60PUwgVtJFuzmQertqu/6FM3bXNz6Ll6tBuBpM5kuZiVnN80hw
+   jyqEnhlbuOGb6F8xIwWp5/yKMSD8wyHyYeMEMyYgjE5rktSI05ai1PMeo
+   /d69M+EegTc5Yly4d6qIYqYWuttJqSaDnURA+hC+wTRTfh2TpX9iCYu/v
+   g==;
+X-CSE-ConnectionGUID: r+V8tNvHQH6XVPCfOGHK+Q==
+X-CSE-MsgGUID: yB744r+rRliFjHv1HPf/bA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="87399315"
 X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="80539918"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 11:46:13 -0800
-X-CSE-ConnectionGUID: Yq/rEuGqSR2Aqfz0bKJfqQ==
-X-CSE-MsgGUID: F+ilt//VQnGK/aR84+3rpw==
+   d="scan'208";a="87399315"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 11:58:15 -0800
+X-CSE-ConnectionGUID: WCLMgzBrSuuFcKTfBmtADA==
+X-CSE-MsgGUID: iRRBYy+dQGiWnEKAr/WIGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,229,1763452800"; 
-   d="scan'208";a="205454283"
+   d="scan'208";a="242588208"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 15 Jan 2026 11:46:12 -0800
+  by orviesa001.jf.intel.com with ESMTP; 15 Jan 2026 11:58:13 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgTIH-00000000Jvs-3qdM;
-	Thu, 15 Jan 2026 19:46:09 +0000
-Date: Fri, 16 Jan 2026 03:45:48 +0800
+	id 1vgTTu-00000000JwP-22a3;
+	Thu, 15 Jan 2026 19:58:10 +0000
+Date: Fri, 16 Jan 2026 03:57:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH bpf-next 1/3] sched: add helpers for numa balancing
-Message-ID: <202601160334.Vyku6d9c-lkp@intel.com>
-References: <20260113121238.11300-2-laoar.shao@gmail.com>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lpieralisi:b4/gicv5-host-acpi 5/7]
+ drivers/irqchip/irq-gic-v5.c:1183:20: error: invalid use of undefined type
+ 'struct acpi_madt_gicv5_irs'
+Message-ID: <202601160313.GpEn4OLj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113121238.11300-2-laoar.shao@gmail.com>
 
-Hi Yafang,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/sched-add-helpers-for-numa-balancing/20260113-201425
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20260113121238.11300-2-laoar.shao%40gmail.com
-patch subject: [RFC PATCH bpf-next 1/3] sched: add helpers for numa balancing
-config: hexagon-randconfig-002-20260116 (https://download.01.org/0day-ci/archive/20260116/202601160334.Vyku6d9c-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160334.Vyku6d9c-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git b4/gicv5-host-acpi
+head:   8b07899770499d7cb5236cda6c96c702d2ad3d92
+commit: c15ba343a84abda6d35dff54678fb7a375882351 [5/7] irqchip/gic-v5: Add ACPI IRS probing
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260116/202601160313.GpEn4OLj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160313.GpEn4OLj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601160334.Vyku6d9c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601160313.GpEn4OLj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/migrate.c:806:6: error: call to undeclared function 'task_numab_mode_tiering'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     806 |         if (task_numab_mode_tiering()) {
-         |             ^
-   1 error generated.
+   drivers/irqchip/irq-gic-v5.c: In function 'acpi_validate_gic_table':
+>> drivers/irqchip/irq-gic-v5.c:1183:20: error: invalid use of undefined type 'struct acpi_madt_gicv5_irs'
+    1183 |         return (irs->version == ape->driver_data);
+         |                    ^~
+   drivers/irqchip/irq-gic-v5.c: In function 'gic_acpi_init':
+   drivers/irqchip/irq-gic-v5.c:1201:57: error: invalid use of undefined type 'struct acpi_madt_gicv5_irs'
+    1201 |         gsi_domain_handle = irq_domain_alloc_fwnode(&irs->config_base_address);
+         |                                                         ^~
+   In file included from include/linux/irqchip.h:14,
+                    from drivers/irqchip/irq-gic-v5.c:14:
+   drivers/irqchip/irq-gic-v5.c: At top level:
+>> drivers/irqchip/irq-gic-v5.c:1223:30: error: 'ACPI_MADT_TYPE_GICV5_IRS' undeclared here (not in a function); did you mean 'ACPI_MADT_TYPE_IMSIC'?
+    1223 | IRQCHIP_ACPI_DECLARE(gic_v5, ACPI_MADT_TYPE_GICV5_IRS,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/acpi.h:1407:33: note: in definition of macro 'ACPI_DECLARE_SUBTABLE_PROBE_ENTRY'
+    1407 |                         .type = subtable,                               \
+         |                                 ^~~~~~~~
+   drivers/irqchip/irq-gic-v5.c:1223:1: note: in expansion of macro 'IRQCHIP_ACPI_DECLARE'
+    1223 | IRQCHIP_ACPI_DECLARE(gic_v5, ACPI_MADT_TYPE_GICV5_IRS,
+         | ^~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-gic-v5.c:1224:47: error: 'ACPI_MADT_GIC_VERSION_V5' undeclared here (not in a function); did you mean 'ACPI_MADT_GIC_VERSION_V4'?
+    1224 |                      acpi_validate_gic_table, ACPI_MADT_GIC_VERSION_V5,
+         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/acpi.h:1410:40: note: in definition of macro 'ACPI_DECLARE_SUBTABLE_PROBE_ENTRY'
+    1410 |                         .driver_data = data,                            \
+         |                                        ^~~~
+   drivers/irqchip/irq-gic-v5.c:1223:1: note: in expansion of macro 'IRQCHIP_ACPI_DECLARE'
+    1223 | IRQCHIP_ACPI_DECLARE(gic_v5, ACPI_MADT_TYPE_GICV5_IRS,
+         | ^~~~~~~~~~~~~~~~~~~~
 --
->> mm/vmscan.c:4847:9: error: call to undeclared function 'task_numab_mode_tiering'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4847 |         mark = task_numab_mode_tiering() ? WMARK_PROMO : WMARK_HIGH;
-         |                ^
-   mm/vmscan.c:6776:7: error: call to undeclared function 'task_numab_mode_tiering'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    6776 |                 if (task_numab_mode_tiering())
-         |                     ^
-   2 errors generated.
+   drivers/irqchip/irq-gic-v5-irs.c: In function 'gic_acpi_parse_iaffid':
+>> drivers/irqchip/irq-gic-v5-irs.c:854:17: error: 'struct acpi_madt_generic_interrupt' has no member named 'irs_id'
+     854 |         if (gicc->irs_id != current_irsid)
+         |                 ^~
+>> drivers/irqchip/irq-gic-v5-irs.c:859:17: error: 'struct acpi_madt_generic_interrupt' has no member named 'iaffid'
+     859 |         if (gicc->iaffid & ~GENMASK(current_iaffid_bits - 1, 0)) {
+         |                 ^~
+   In file included from include/asm-generic/bug.h:31,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from arch/arm64/include/asm/preempt.h:5,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:14,
+                    from drivers/irqchip/irq-gic-v5-irs.c:8:
+   drivers/irqchip/irq-gic-v5-irs.c:860:82: error: 'struct acpi_madt_generic_interrupt' has no member named 'iaffid'
+     860 |                 pr_warn("CPU %d iaffid 0x%x exceeds IRS iaffid bits\n", cpu, gicc->iaffid);
+         |                                                                                  ^~
+   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:565:9: note: in expansion of macro 'printk'
+     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/irqchip/irq-gic-v5-irs.c:860:17: note: in expansion of macro 'pr_warn'
+     860 |                 pr_warn("CPU %d iaffid 0x%x exceeds IRS iaffid bits\n", cpu, gicc->iaffid);
+         |                 ^~~~~~~
+   drivers/irqchip/irq-gic-v5-irs.c:865:47: error: 'struct acpi_madt_generic_interrupt' has no member named 'iaffid'
+     865 |         per_cpu(cpu_iaffid, cpu).iaffid = gicc->iaffid;
+         |                                               ^~
+   drivers/irqchip/irq-gic-v5-irs.c: In function 'gic_acpi_parse_madt_irs':
+>> drivers/irqchip/irq-gic-v5-irs.c:918:35: error: invalid use of undefined type 'struct acpi_madt_gicv5_irs'
+     918 |         r = gic_request_region(irs->config_base_address, ACPI_GICV5_IRS_MEM_SIZE, "GICv5 IRS");
+         |                                   ^~
+   drivers/irqchip/irq-gic-v5-irs.c:924:31: error: invalid use of undefined type 'struct acpi_madt_gicv5_irs'
+     924 |         irs_base = ioremap(irs->config_base_address, ACPI_GICV5_IRS_MEM_SIZE);
+         |                               ^~
+   drivers/irqchip/irq-gic-v5-irs.c:931:53: error: invalid use of undefined type 'struct acpi_madt_gicv5_irs'
+     931 |         gicv5_irs_init_bases(irs_data, irs_base, irs->flags & ACPI_MADT_IRS_NON_COHERENT);
+         |                                                     ^~
+>> drivers/irqchip/irq-gic-v5-irs.c:931:63: error: 'ACPI_MADT_IRS_NON_COHERENT' undeclared (first use in this function); did you mean 'ACPI_MADT_ITS_NON_COHERENT'?
+     931 |         gicv5_irs_init_bases(irs_data, irs_base, irs->flags & ACPI_MADT_IRS_NON_COHERENT);
+         |                                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                               ACPI_MADT_ITS_NON_COHERENT
+   drivers/irqchip/irq-gic-v5-irs.c:931:63: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/irqchip/irq-gic-v5-irs.c:933:41: error: invalid use of undefined type 'struct acpi_madt_gicv5_irs'
+     933 |         gicv5_irs_acpi_init_affinity(irs->irs_id, irs_data);
+         |                                         ^~
+   drivers/irqchip/irq-gic-v5-irs.c:940:76: error: invalid use of undefined type 'struct acpi_madt_gicv5_irs'
+     940 |                 pr_info("%s @%llx detected SPI range [%u-%u]\n", "IRS", irs->config_base_address,
+         |                                                                            ^~
+   include/linux/printk.h:484:33: note: in definition of macro 'printk_index_wrap'
+     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:585:9: note: in expansion of macro 'printk'
+     585 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/irqchip/irq-gic-v5-irs.c:940:17: note: in expansion of macro 'pr_info'
+     940 |                 pr_info("%s @%llx detected SPI range [%u-%u]\n", "IRS", irs->config_base_address,
+         |                 ^~~~~~~
+   drivers/irqchip/irq-gic-v5-irs.c: In function 'gicv5_irs_acpi_probe':
+>> drivers/irqchip/irq-gic-v5-irs.c:959:31: error: 'ACPI_MADT_TYPE_GICV5_IRS' undeclared (first use in this function); did you mean 'ACPI_MADT_TYPE_IMSIC'?
+     959 |         acpi_table_parse_madt(ACPI_MADT_TYPE_GICV5_IRS, gic_acpi_parse_madt_irs, 0);
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                               ACPI_MADT_TYPE_IMSIC
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for CAN_DEV
-   Depends on [n]: NETDEVICES [=n] && CAN [=m]
-   Selected by [m]:
-   - CAN [=m] && NET [=y]
 
+vim +1183 drivers/irqchip/irq-gic-v5.c
 
-vim +/task_numab_mode_tiering +806 mm/migrate.c
-
-   756	
-   757	/*
-   758	 * Copy the flags and some other ancillary information
-   759	 */
-   760	void folio_migrate_flags(struct folio *newfolio, struct folio *folio)
-   761	{
-   762		int cpupid;
-   763	
-   764		if (folio_test_referenced(folio))
-   765			folio_set_referenced(newfolio);
-   766		if (folio_test_uptodate(folio))
-   767			folio_mark_uptodate(newfolio);
-   768		if (folio_test_clear_active(folio)) {
-   769			VM_BUG_ON_FOLIO(folio_test_unevictable(folio), folio);
-   770			folio_set_active(newfolio);
-   771		} else if (folio_test_clear_unevictable(folio))
-   772			folio_set_unevictable(newfolio);
-   773		if (folio_test_workingset(folio))
-   774			folio_set_workingset(newfolio);
-   775		if (folio_test_checked(folio))
-   776			folio_set_checked(newfolio);
-   777		/*
-   778		 * PG_anon_exclusive (-> PG_mappedtodisk) is always migrated via
-   779		 * migration entries. We can still have PG_anon_exclusive set on an
-   780		 * effectively unmapped and unreferenced first sub-pages of an
-   781		 * anonymous THP: we can simply copy it here via PG_mappedtodisk.
-   782		 */
-   783		if (folio_test_mappedtodisk(folio))
-   784			folio_set_mappedtodisk(newfolio);
-   785	
-   786		/* Move dirty on pages not done by folio_migrate_mapping() */
-   787		if (folio_test_dirty(folio))
-   788			folio_set_dirty(newfolio);
-   789	
-   790		if (folio_test_young(folio))
-   791			folio_set_young(newfolio);
-   792		if (folio_test_idle(folio))
-   793			folio_set_idle(newfolio);
-   794	
-   795		folio_migrate_refs(newfolio, folio);
-   796		/*
-   797		 * Copy NUMA information to the new page, to prevent over-eager
-   798		 * future migrations of this same page.
-   799		 */
-   800		cpupid = folio_xchg_last_cpupid(folio, -1);
-   801		/*
-   802		 * For memory tiering mode, when migrate between slow and fast
-   803		 * memory node, reset cpupid, because that is used to record
-   804		 * page access time in slow memory node.
-   805		 */
- > 806		if (task_numab_mode_tiering()) {
-   807			bool f_toptier = node_is_toptier(folio_nid(folio));
-   808			bool t_toptier = node_is_toptier(folio_nid(newfolio));
-   809	
-   810			if (f_toptier != t_toptier)
-   811				cpupid = -1;
-   812		}
-   813		folio_xchg_last_cpupid(newfolio, cpupid);
-   814	
-   815		folio_migrate_ksm(newfolio, folio);
-   816		/*
-   817		 * Please do not reorder this without considering how mm/ksm.c's
-   818		 * ksm_get_folio() depends upon ksm_migrate_page() and the
-   819		 * swapcache flag.
-   820		 */
-   821		if (folio_test_swapcache(folio))
-   822			folio_clear_swapcache(folio);
-   823		folio_clear_private(folio);
-   824	
-   825		/* page->private contains hugetlb specific flags */
-   826		if (!folio_test_hugetlb(folio))
-   827			folio->private = NULL;
-   828	
-   829		/*
-   830		 * If any waiters have accumulated on the new page then
-   831		 * wake them up.
-   832		 */
-   833		if (folio_test_writeback(newfolio))
-   834			folio_end_writeback(newfolio);
-   835	
-   836		/*
-   837		 * PG_readahead shares the same bit with PG_reclaim.  The above
-   838		 * end_page_writeback() may clear PG_readahead mistakenly, so set the
-   839		 * bit after that.
-   840		 */
-   841		if (folio_test_readahead(folio))
-   842			folio_set_readahead(newfolio);
-   843	
-   844		folio_copy_owner(newfolio, folio);
-   845		pgalloc_tag_swap(newfolio, folio);
-   846	
-   847		mem_cgroup_migrate(folio, newfolio);
-   848	}
-   849	EXPORT_SYMBOL(folio_migrate_flags);
-   850	
+  1176	
+  1177	#ifdef CONFIG_ACPI
+  1178	static bool __init acpi_validate_gic_table(struct acpi_subtable_header *header,
+  1179						   struct acpi_probe_entry *ape)
+  1180	{
+  1181		struct acpi_madt_gicv5_irs *irs = (struct acpi_madt_gicv5_irs *)header;
+  1182	
+> 1183		return (irs->version == ape->driver_data);
+  1184	}
+  1185	
+  1186	static struct fwnode_handle *gsi_domain_handle;
+  1187	
+  1188	static struct fwnode_handle *gic_v5_get_gsi_domain_id(u32 gsi)
+  1189	{
+  1190		return gsi_domain_handle;
+  1191	}
+  1192	
+  1193	static int __init gic_acpi_init(union acpi_subtable_headers *header, const unsigned long end)
+  1194	{
+  1195		struct acpi_madt_gicv5_irs *irs = (struct acpi_madt_gicv5_irs *)header;
+  1196		int ret;
+  1197	
+  1198		if (gsi_domain_handle)
+  1199			return 0;
+  1200	
+  1201		gsi_domain_handle = irq_domain_alloc_fwnode(&irs->config_base_address);
+  1202		if (!gsi_domain_handle)
+  1203			return -ENOMEM;
+  1204	
+  1205		ret = gicv5_irs_acpi_probe();
+  1206		if (ret)
+  1207			goto out_fwnode;
+  1208	
+  1209		ret = gicv5_init_common(gsi_domain_handle);
+  1210		if (ret)
+  1211			goto out_irs;
+  1212	
+  1213		acpi_set_irq_model(ACPI_IRQ_MODEL_GIC_V5, gic_v5_get_gsi_domain_id);
+  1214	
+  1215		return 0;
+  1216	
+  1217	out_irs:
+  1218		gicv5_irs_remove();
+  1219	out_fwnode:
+  1220		irq_domain_free_fwnode(gsi_domain_handle);
+  1221		return ret;
+  1222	}
+> 1223	IRQCHIP_ACPI_DECLARE(gic_v5, ACPI_MADT_TYPE_GICV5_IRS,
+> 1224			     acpi_validate_gic_table, ACPI_MADT_GIC_VERSION_V5,
 
 -- 
 0-DAY CI Kernel Test Service
