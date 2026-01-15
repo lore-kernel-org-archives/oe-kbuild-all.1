@@ -1,60 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A341C20F067
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jan 2026 10:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24D23644D7;
+	Thu, 15 Jan 2026 10:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768473962; cv=none; b=VAAMIivlL752QxpX7zQQ/wxScE0wEFGj2MU42TFa71oYRqGb7WZ4gL47C11bWT19Y0730FqAtDjyNOn/8ktqhJYwmm/8q1ShDC0+CQcQXS+7NtlIJEWev7yEsPB050kLFhmGKWCh/K08yaugMQ7pPH4sbYbO4PMxO4W3nYPoMWY=
+	t=1768473963; cv=none; b=K5E3ROTQcvQlL30jQwOJruF2VRvag+hnLUpjvDvzkXyB8mv++HO55JyA34/s89cvtfRa20ubAeO2H72bnz5kQXBuZpgzfiLNml4BDkhf1I3lFWhJ0cWVFCQJBMmsubjBpro1/hMD45AdLb1jvPqfA7n/VmbSWwqG6n0ZNrAt6uM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768473962; c=relaxed/simple;
-	bh=Rs7tiW+Ht2ryd6v+R/DQDncmn/wx1Hi/VAfI0ZLey4s=;
+	s=arc-20240116; t=1768473963; c=relaxed/simple;
+	bh=AYhbb/ilK8QiUl3qPi2RlveC6/IIr877+41kLSNmhVc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGME/f/8X8fKUi4LwUm15y4tBop6Yd5mxCJ+4i8JqHXJdD1fdKhm23QwrAnuGuOWnhkmCvqYDAFtM+Xhpl6NgU3YPIQyE9jhTTNxsM08apIiN68HXbiPjVcDIL/3LCA4h8AdNTW4UUKX/JklgM5yifKblIg2TQZ5JHZUQYigps0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H0boFaMR; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=nh/smABtNKOEIoZrDqsv4IX5mVQbgmGU/+3fWW+Gz8D4LAPOxQGOwFdda4EqJCCiFjQ42UU9GKiTi/D+MOIz6x4b/xoyhym75hzLixnUaJ+5X9aP27zZ7sWtKt197IKtFR9jukmWAxRkY7fuqHjMrACnyMlVyY148nAJwrGow5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HuVr/n/y; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H0boFaMR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HuVr/n/y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768473960; x=1800009960;
+  t=1768473962; x=1800009962;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Rs7tiW+Ht2ryd6v+R/DQDncmn/wx1Hi/VAfI0ZLey4s=;
-  b=H0boFaMRIW7U2TNAfH+b/mUPq5pljPvVxDbp24d/3IfWlcJVWX+8Z9MK
-   6QnGBvNl2vzVqQ+j8xQzCJN/hKTaYEHxZJu3JXuZ6ZiV2P8mYFo1ky7dZ
-   bfwWXqHrrrFyXFgYni1QyuCwPaVJ8pQy4//ARScu+S7TJilQZMC8zZYmx
-   T2j0mWbGgNePG1PuXEPIijKXgFE4JqUrR4y61pH2QDEzy+7JWeY3hp8ru
-   qqiVykgWjtQV6G6vCECl1lCcQ03nVFkx7+Y0qvarElVkM4cnjI2Tk7NvZ
-   yBY6Vhmv8WR+/pTVroOSJ1felMk0WeLJS39jie7nF2Yj60zwyYF1TJQFS
-   Q==;
-X-CSE-ConnectionGUID: d0Zo3toPSzeafj/sCwDUrA==
-X-CSE-MsgGUID: JJzy4TWvSoavKjm0jb0RJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="68984515"
+  bh=AYhbb/ilK8QiUl3qPi2RlveC6/IIr877+41kLSNmhVc=;
+  b=HuVr/n/yKo7aLF6F15RiZbzIq3lpfOFZwjZTseKlaJ6pLm8TuIzTwtMk
+   dG+xUiLMuC4rcFCizt+eTwUJUQzoGh0CSLwKTDQxlUspIadqdNu4tMcQK
+   QLbgbWlHP6dqtd2A1syW0pmAV3Kz8Jl+MNEYh8WFtrhCcHTOJZCZBmJi4
+   R66F1GsSfeR2mi4vx6Alef9Ir38dybNHonURg1hVbfZN3HMwfpyKAtO3x
+   S/3+BVFaIGBK313IwyvrY8vavNQYH404mBgPZyydP4VKwOKBXUYD07AC8
+   wqAYrmgEPhyODeUW4qTFDu+rw83Ln7sMR7NBVXQxvZY78DWNqcY/1fYQl
+   A==;
+X-CSE-ConnectionGUID: 5iWMl5gaRSuzuxOoF1hj5g==
+X-CSE-MsgGUID: haarbmcnRCeYcg2nKlC4uQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="80499591"
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="68984515"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 02:46:00 -0800
-X-CSE-ConnectionGUID: ifMPV6q3SUK2W6UQPKzAXg==
-X-CSE-MsgGUID: MBjcHsW1R0yAYMgvJaI45w==
+   d="scan'208";a="80499591"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 02:46:01 -0800
+X-CSE-ConnectionGUID: cA0Rcv7TT72BfFOxDGNZAQ==
+X-CSE-MsgGUID: Z/vQEeZqQIa3gYUaCCFDmQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,228,1763452800"; 
-   d="scan'208";a="235634835"
+   d="scan'208";a="204956903"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 15 Jan 2026 02:45:58 -0800
+  by orviesa007.jf.intel.com with ESMTP; 15 Jan 2026 02:45:58 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgKrU-00000000HrK-0KLU;
+	id 1vgKrU-00000000HrI-0DgH;
 	Thu, 15 Jan 2026 10:45:56 +0000
-Date: Thu, 15 Jan 2026 18:45:07 +0800
+Date: Thu, 15 Jan 2026 18:45:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@meta.com>, linux-pci@vger.kernel.org,
-	bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] pci: make reset_subordinate hotplug safe
-Message-ID: <202601151808.EGC5maN5-lkp@intel.com>
-References: <20260114185821.704089-1-kbusch@meta.com>
+To: Frank Li <Frank.Li@nxp.com>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Vinod Koul <vkoul@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH 01/13] dmaengine: of_dma: Add
+ devm_of_dma_controller_register()
+Message-ID: <202601151857.D1ikP7GO-lkp@intel.com>
+References: <20260114-mxsdma-module-v1-1-9b2a9eaa4226@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,67 +71,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260114185821.704089-1-kbusch@meta.com>
+In-Reply-To: <20260114-mxsdma-module-v1-1-9b2a9eaa4226@nxp.com>
 
-Hi Keith,
+Hi Frank,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.19-rc5 next-20260115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 8f0b4cce4481fb22653697cced8d0d04027cb1e8]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/pci-make-reset_subordinate-hotplug-safe/20260115-030004
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20260114185821.704089-1-kbusch%40meta.com
-patch subject: [PATCH] pci: make reset_subordinate hotplug safe
-config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260115/202601151808.EGC5maN5-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151808.EGC5maN5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dmaengine-of_dma-Add-devm_of_dma_controller_register/20260115-063955
+base:   8f0b4cce4481fb22653697cced8d0d04027cb1e8
+patch link:    https://lore.kernel.org/r/20260114-mxsdma-module-v1-1-9b2a9eaa4226%40nxp.com
+patch subject: [PATCH 01/13] dmaengine: of_dma: Add devm_of_dma_controller_register()
+config: x86_64-randconfig-161-20260115 (https://download.01.org/0day-ci/archive/20260115/202601151857.D1ikP7GO-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601151857.D1ikP7GO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601151808.EGC5maN5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601151857.D1ikP7GO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pci/pci.c:5585:5: warning: no previous prototype for '__pci_reset_bus' [-Wmissing-prototypes]
-    5585 | int __pci_reset_bus(struct pci_bus *bus)
-         |     ^~~~~~~~~~~~~~~
+   In file included from drivers/dma/dmaengine.c:54:
+>> include/linux/of_dma.h:88:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      87 | static inline
+         | ~~~~~~~~~~~~~
+         | int
+      88 | devm_of_dma_controller_register(struct device *dev, struct device_node *np,
+         | ^
+   1 error generated.
 
 
-vim +/__pci_reset_bus +5585 drivers/pci/pci.c
+vim +/int +88 include/linux/of_dma.h
 
-9a3d2b9beefd5b0 Alex Williamson 2013-08-14  5578  
-090a3c5322e900f Alex Williamson 2013-08-08  5579  /**
-c6a44ba950d147e Sinan Kaya      2018-07-19  5580   * __pci_reset_bus - Try to reset a PCI bus
-090a3c5322e900f Alex Williamson 2013-08-08  5581   * @bus: top level PCI bus to reset
-090a3c5322e900f Alex Williamson 2013-08-08  5582   *
-61cf16d8bd38c3d Alex Williamson 2013-12-16  5583   * Same as above except return -EAGAIN if the bus cannot be locked
-090a3c5322e900f Alex Williamson 2013-08-08  5584   */
-2fa046449a82a7d Keith Busch     2024-10-25 @5585  int __pci_reset_bus(struct pci_bus *bus)
-090a3c5322e900f Alex Williamson 2013-08-08  5586  {
-090a3c5322e900f Alex Williamson 2013-08-08  5587  	int rc;
-090a3c5322e900f Alex Williamson 2013-08-08  5588  
-9bdc81ce440ec6e Amey Narkhede   2021-08-17  5589  	rc = pci_bus_reset(bus, PCI_RESET_PROBE);
-090a3c5322e900f Alex Williamson 2013-08-08  5590  	if (rc)
-090a3c5322e900f Alex Williamson 2013-08-08  5591  		return rc;
-090a3c5322e900f Alex Williamson 2013-08-08  5592  
-61cf16d8bd38c3d Alex Williamson 2013-12-16  5593  	if (pci_bus_trylock(bus)) {
-ddefc033eecf23f Alex Williamson 2019-02-18  5594  		pci_bus_save_and_disable_locked(bus);
-61cf16d8bd38c3d Alex Williamson 2013-12-16  5595  		might_sleep();
-381634cad15b711 Sinan Kaya      2018-07-19  5596  		rc = pci_bridge_secondary_bus_reset(bus->self);
-ddefc033eecf23f Alex Williamson 2019-02-18  5597  		pci_bus_restore_locked(bus);
-61cf16d8bd38c3d Alex Williamson 2013-12-16  5598  		pci_bus_unlock(bus);
-61cf16d8bd38c3d Alex Williamson 2013-12-16  5599  	} else
-61cf16d8bd38c3d Alex Williamson 2013-12-16  5600  		rc = -EAGAIN;
-090a3c5322e900f Alex Williamson 2013-08-08  5601  
-090a3c5322e900f Alex Williamson 2013-08-08  5602  	return rc;
-090a3c5322e900f Alex Williamson 2013-08-08  5603  }
-8dd7f8036c12329 Sheng Yang      2008-10-21  5604  
+    86	
+    87	static inline
+  > 88	devm_of_dma_controller_register(struct device *dev, struct device_node *np,
+    89					struct dma_chan *(*of_dma_xlate)
+    90					(struct of_phandle_args *, struct of_dma *),
+    91					void *data)
+    92	{
+    93		return -ENODEV;
+    94	}
+    95	
 
 -- 
 0-DAY CI Kernel Test Service
