@@ -1,196 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75932264CA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 04:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569C3308F28
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 04:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768537960; cv=none; b=C+SzUuOnesmU25VtEbpD4bqjbusNa8mHha6yjNuVf63xDqsp4MdkPlvPCPldpWD4+Gqh/C6DavBA7NCPNqPor/uFU9iO5ho1YAovkrlsYRhw6JL0YpdNcDB8Cdv9cBjf1BFvaReh2sXZBgB0aiziJNk2W7nmNQzPXsYAPFH5o/4=
+	t=1768537961; cv=none; b=cvFO2lZ3Qp07tsfvDZvr0sxOS/5pQvM0Aw3zt9EYAPvtFlNxcSKe9nn+v5ymlSjwBbLXxD65Pmjzf56lmAE6I/Rz9iJGab5hqZ2zPBEvGeK1xqCQm2EQqG7FRkH3b1xVpdNrGGQOCkYx/nM5rZuCSAKzd5mx90Lgb+Xo4WFobxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768537960; c=relaxed/simple;
-	bh=Tte1YIRTgKmpuiaC9E532qoSGT6x5v3vQec6dtSMw+U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Irhm2RnuT6uq6Xb4vDZ2fvCcO4cr2BQ6EyfaM38vJii99wO61MQB7N4+ugSRGjT663q/P+pu7nYRXf9acd6EzBNiStv8ZjnyWujTF+Qph4Z1N5L8QPRtBAUxnJR7Pkd8xW/WEzjXnXtP2xgt4v8WCow0yHitDgaCPv7zwetJgVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9srch06; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1768537961; c=relaxed/simple;
+	bh=HYJeI/KE4cb37CNedopnLR7mxbK43Vfo+OtGvtj3+4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ffK1RBEiFMpVFG+kA7ltjtXut9E5BC13qkU6erdynnXgHd1sxo0S8c0/Xy20+6izs58fNoxO9HYGQB0uKdP4gnkdXu7xfNiW+8A2AUtDEJGvFafErzblLHoEN3swh2BavOT3ooykXjDiQpR8sfxaetj8xYDenkAImhFQwPVuEjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jikYR22v; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9srch06"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jikYR22v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768537959; x=1800073959;
-  h=date:from:to:cc:subject:message-id;
-  bh=Tte1YIRTgKmpuiaC9E532qoSGT6x5v3vQec6dtSMw+U=;
-  b=K9srch06SDZFDGli+MYXKda0GimWEn1AVzaKPzdMAVeORC334QpFvH++
-   fbc0EEWsdyXNrQYOfxhp1zaZ83sIm1n/T14KlmMXxrCSPPut/u7ATIaqc
-   tYW0WREy7beUygHWr23S59l8CPDoaEesg80qlG311/Ju7wg/DHFtax7fq
-   dAUFpd+L3dokGvEP3XEIVHu7TVGKIv7Z+iLraGqNZ6rLrnEKUiD9pY2IL
-   AucKil9Lm4Hbr2Gnn7iaP14E37KVjukX/kDEqNwc24yt/2gbIuvMyrxcu
-   aYGj9fcCjfMhTUGXajCHD+Gmsu2Mefcy2gQdYXJHvAhiiGU7lB3M8ry3H
-   A==;
-X-CSE-ConnectionGUID: btVFSr/9QNydlOtGKHK2Qg==
-X-CSE-MsgGUID: PQrudPcQR9CXPz54lb5DsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="92519921"
+  t=1768537960; x=1800073960;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HYJeI/KE4cb37CNedopnLR7mxbK43Vfo+OtGvtj3+4c=;
+  b=jikYR22vkPWbjcYLBg37huaPKHrIeJgYcvPnTgcZzx6Ywb+HWsYrEveb
+   PZZAJz0jWKlupn5BD67vSbyz/4jWbOMAEg5ntv+eITa5LvySPtN1ZUQsx
+   bDViEHt1ipDBqYU8eqNyTkf+U0cVjtspplz6gjMI2m2m/iVZoTabdZmdI
+   RDx+fmk9bp0PbcizSpnYzNOUqP2rqT3QvvqvI0WD/VezXOepxRkA2MVrL
+   WWCYcAI859L+XW51pOo5KYwnBWbZ8BZlGqIdxCga4NyeLg2tgETSs4FP3
+   bttm+ROj1mjQqXGlXPp7SP3G4nP5X0VZuhu0ZOG2pGByXHWf/TLt49ZbL
+   Q==;
+X-CSE-ConnectionGUID: dYWqRRAvQNm8Osv7E1+diA==
+X-CSE-MsgGUID: JG6O8f3fRpOczN20b9JZqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="57406644"
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="92519921"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 20:32:39 -0800
-X-CSE-ConnectionGUID: uN5gdqi3QUu1LXSDB+VqGA==
-X-CSE-MsgGUID: ei5ov/61RvypbffiOR/Ekw==
+   d="scan'208";a="57406644"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 20:32:39 -0800
+X-CSE-ConnectionGUID: 8n6O9xDFQGSRte+jIzmVuQ==
+X-CSE-MsgGUID: cTq3sywKS7Gpq6EmBlmhoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="235833907"
+   d="scan'208";a="228179458"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 15 Jan 2026 20:32:38 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 15 Jan 2026 20:32:36 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgbVi-00000000KNG-2vAy;
+	id 1vgbVi-00000000KNE-2pKY;
 	Fri, 16 Jan 2026 04:32:34 +0000
-Date: Fri, 16 Jan 2026 12:31:38 +0800
+Date: Fri, 16 Jan 2026 12:31:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Pieralisi <lpieralisi@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lpieralisi:b4/gicv5-host-acpi 7/7]
- drivers/acpi/arm64/iort.c:268:27: error: 'ACPI_IORT_NODE_IWB' undeclared; did
- you mean 'ACPI_IORT_NODE_RMR'?
-Message-ID: <202601161221.M9P0ZuGL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Mayank Mahajan <mayankmahajan.x@nxp.com>, linux@roeck-us.net,
+	corbet@lwn.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, priyanka.jain@nxp.com,
+	vikash.bansal@nxp.com, Mayank Mahajan <mayankmahajan.x@nxp.com>
+Subject: Re: [PATCH v3 2/3] hwmon: (tmp108) Add support for P3T1035 and
+ P3T2030
+Message-ID: <202601161234.jWOgBbs8-lkp@intel.com>
+References: <20260115111418.1851-2-mayankmahajan.x@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115111418.1851-2-mayankmahajan.x@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git b4/gicv5-host-acpi
-head:   8b07899770499d7cb5236cda6c96c702d2ad3d92
-commit: 8b07899770499d7cb5236cda6c96c702d2ad3d92 [7/7] irqchip/gic-v5: Add ACPI IWB probing
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260116/202601161221.M9P0ZuGL-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161221.M9P0ZuGL-lkp@intel.com/reproduce)
+Hi Mayank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mayank-Mahajan/hwmon-tmp108-Add-support-for-P3T1035-and-P3T2030/20260115-191549
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20260115111418.1851-2-mayankmahajan.x%40nxp.com
+patch subject: [PATCH v3 2/3] hwmon: (tmp108) Add support for P3T1035 and P3T2030
+config: xtensa-randconfig-r122-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161234.jWOgBbs8-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161234.jWOgBbs8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601161221.M9P0ZuGL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601161234.jWOgBbs8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/hwmon/tmp108.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/log2.h, ...):
+   arch/xtensa/include/asm/processor.h:105:2: sparse: sparse: Unsupported xtensa ABI
+   arch/xtensa/include/asm/processor.h:135:2: sparse: sparse: Unsupported Xtensa ABI
+>> drivers/hwmon/tmp108.c:455:17: sparse: sparse: macro "memcpy" passed 6 arguments, but takes just 3
+   drivers/hwmon/tmp108.c:458:17: sparse: sparse: macro "memcpy" passed 6 arguments, but takes just 3
+   drivers/hwmon/tmp108.c:618:1: sparse: sparse: bad integer constant expression
+   drivers/hwmon/tmp108.c:618:1: sparse: sparse: static assertion failed: "MODULE_INFO(author, ...) contains embedded NUL byte"
+   drivers/hwmon/tmp108.c:619:1: sparse: sparse: bad integer constant expression
+   drivers/hwmon/tmp108.c:619:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
+   drivers/hwmon/tmp108.c:620:1: sparse: sparse: bad integer constant expression
+   drivers/hwmon/tmp108.c:620:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
 
-   drivers/acpi/arm64/iort.c: In function 'iort_match_node_callback':
->> drivers/acpi/arm64/iort.c:268:27: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
-     268 |             node->type == ACPI_IORT_NODE_IWB) {
-         |                           ^~~~~~~~~~~~~~~~~~
-         |                           ACPI_IORT_NODE_RMR
-   drivers/acpi/arm64/iort.c:268:27: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/acpi/arm64/iort.c:305:42: error: invalid use of undefined type 'struct acpi_iort_iwb'
-     305 |                         device_name = iwb->device_name;
-         |                                          ^~
-   drivers/acpi/arm64/iort.c: In function 'iort_match_iwb_callback':
-   drivers/acpi/arm64/iort.c:333:27: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
-     333 |         if (node->type != ACPI_IORT_NODE_IWB)
-         |                           ^~~~~~~~~~~~~~~~~~
-         |                           ACPI_IORT_NODE_RMR
-   drivers/acpi/arm64/iort.c:337:16: error: invalid use of undefined type 'struct acpi_iort_iwb'
-     337 |         if (iwb->iwb_index != *id)
-         |                ^~
-   drivers/acpi/arm64/iort.c: In function 'iort_id_map':
-   drivers/acpi/arm64/iort.c:349:29: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
-     349 |                     type == ACPI_IORT_NODE_IWB             ||
-         |                             ^~~~~~~~~~~~~~~~~~
-         |                             ACPI_IORT_NODE_RMR
-   drivers/acpi/arm64/iort.c: In function 'iort_node_get_id':
-   drivers/acpi/arm64/iort.c:419:35: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
-     419 |                     node->type == ACPI_IORT_NODE_IWB ||
-         |                                   ^~~~~~~~~~~~~~~~~~
-         |                                   ACPI_IORT_NODE_RMR
-   drivers/acpi/arm64/iort.c: In function 'iort_find_dev_node':
-   drivers/acpi/arm64/iort.c:597:39: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
-     597 |                 return iort_scan_node(ACPI_IORT_NODE_IWB,
-         |                                       ^~~~~~~~~~~~~~~~~~
-         |                                       ACPI_IORT_NODE_RMR
-   drivers/acpi/arm64/iort.c: In function 'iort_iwb_handle':
-   drivers/acpi/arm64/iort.c:802:31: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
-     802 |         node = iort_scan_node(ACPI_IORT_NODE_IWB, iort_match_iwb_callback, &iwb_id);
-         |                               ^~~~~~~~~~~~~~~~~~
-         |                               ACPI_IORT_NODE_RMR
-   drivers/acpi/arm64/iort.c:807:43: error: invalid use of undefined type 'struct acpi_iort_iwb'
-     807 |         status = acpi_get_handle(NULL, iwb->device_name, &handle);
-         |                                           ^~
-   drivers/acpi/arm64/iort.c: In function 'iort_get_platform_device_domain':
-   drivers/acpi/arm64/iort.c:883:39: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
-     883 |                 node = iort_scan_node(ACPI_IORT_NODE_IWB,
-         |                                       ^~~~~~~~~~~~~~~~~~
-         |                                       ACPI_IORT_NODE_RMR
+vim +/memcpy +455 drivers/hwmon/tmp108.c
 
-
-vim +268 drivers/acpi/arm64/iort.c
-
-   260	
-   261	static acpi_status iort_match_node_callback(struct acpi_iort_node *node,
-   262						    void *context)
-   263	{
-   264		struct device *dev = context;
-   265		acpi_status status = AE_NOT_FOUND;
-   266	
-   267		if (node->type == ACPI_IORT_NODE_NAMED_COMPONENT ||
- > 268		    node->type == ACPI_IORT_NODE_IWB) {
-   269			struct acpi_buffer buf = { ACPI_ALLOCATE_BUFFER, NULL };
-   270			struct acpi_iort_named_component *ncomp;
-   271			struct acpi_iort_iwb *iwb;
-   272			struct device *cdev = dev;
-   273			struct acpi_device *adev;
-   274			const char *device_name;
-   275	
-   276			/*
-   277			 * Walk the device tree to find a device with an
-   278			 * ACPI companion; there is no point in scanning
-   279			 * IORT for a device matching a named component or IWB if
-   280			 * the device does not have an ACPI companion to
-   281			 * start with.
-   282			 */
-   283			do {
-   284				adev = ACPI_COMPANION(cdev);
-   285				if (adev)
-   286					break;
-   287	
-   288				cdev = cdev->parent;
-   289			} while (cdev);
-   290	
-   291			if (!adev)
-   292				goto out;
-   293	
-   294			status = acpi_get_name(adev->handle, ACPI_FULL_PATHNAME, &buf);
-   295			if (ACPI_FAILURE(status)) {
-   296				dev_warn(cdev, "Can't get device full path name\n");
-   297				goto out;
-   298			}
-   299	
-   300			if (node->type == ACPI_IORT_NODE_NAMED_COMPONENT) {
-   301				ncomp = (struct acpi_iort_named_component *)node->node_data;
-   302				device_name = ncomp->device_name;
-   303			} else {
-   304				iwb = (struct acpi_iort_iwb *)node->node_data;
- > 305				device_name = iwb->device_name;
-   306			}
-   307			status = !strcmp(device_name, buf.pointer) ?  AE_OK : AE_NOT_FOUND;
-   308			acpi_os_free(buf.pointer);
-   309		} else if (node->type == ACPI_IORT_NODE_PCI_ROOT_COMPLEX) {
-   310			struct acpi_iort_root_complex *pci_rc;
-   311			struct pci_bus *bus;
-   312	
-   313			bus = to_pci_bus(dev);
-   314			pci_rc = (struct acpi_iort_root_complex *)node->node_data;
-   315	
-   316			/*
-   317			 * It is assumed that PCI segment numbers maps one-to-one
-   318			 * with root complexes. Each segment number can represent only
-   319			 * one root complex.
-   320			 */
-   321			status = pci_rc->pci_segment_number == pci_domain_nr(bus) ?
-   322								AE_OK : AE_NOT_FOUND;
-   323		}
-   324	out:
-   325		return status;
-   326	}
-   327	
+   433	
+   434	static int tmp108_common_probe(struct device *dev, struct regmap *regmap, char *name,
+   435				       enum tmp108_hw_id hw_id)
+   436	{
+   437		struct device *hwmon_dev;
+   438		struct tmp108 *tmp108;
+   439		u32 config;
+   440		int err;
+   441	
+   442		err = devm_regulator_get_enable(dev, "vcc");
+   443		if (err)
+   444			return dev_err_probe(dev, err, "Failed to enable regulator\n");
+   445	
+   446		tmp108 = devm_kzalloc(dev, sizeof(*tmp108), GFP_KERNEL);
+   447		if (!tmp108)
+   448			return -ENOMEM;
+   449	
+   450		dev_set_drvdata(dev, tmp108);
+   451		tmp108->regmap = regmap;
+   452		tmp108->hw_id = hw_id;
+   453		tmp108->config_reg_16bits = (hw_id == P3T1035_ID) ? false : true;
+   454		if (hw_id == P3T1035_ID)
+ > 455			memcpy(tmp108->sample_times, (unsigned int[]){ 125, 250, 1000, 4000 },
+   456			       sizeof(tmp108->sample_times));
+   457		else
+   458			memcpy(tmp108->sample_times, (unsigned int[]){ 63, 250, 1000, 4000 },
+   459			       sizeof(tmp108->sample_times));
+   460	
+   461		err = regmap_read(tmp108->regmap, TMP108_REG_CONF, &config);
+   462		if (err < 0) {
+   463			dev_err(dev, "error reading config register: %d", err);
+   464			return err;
+   465		}
+   466		tmp108->orig_config = config;
+   467	
+   468		/* Only continuous mode is supported. */
+   469		config &= ~TMP108_CONF_MODE_MASK;
+   470		config |= TMP108_MODE_CONTINUOUS;
+   471		/* Only comparator mode is supported. */
+   472		config &= ~TMP108_CONF_TM;
+   473	
+   474		err = regmap_write(tmp108->regmap, TMP108_REG_CONF, config);
+   475		if (err < 0) {
+   476			dev_err(dev, "error writing config register: %d", err);
+   477			return err;
+   478		}
+   479	
+   480		tmp108->ready_time = jiffies;
+   481		if ((tmp108->orig_config & TMP108_CONF_MODE_MASK) ==
+   482		    TMP108_MODE_SHUTDOWN)
+   483			tmp108->ready_time +=
+   484				msecs_to_jiffies(TMP108_CONVERSION_TIME_MS);
+   485	
+   486		err = devm_add_action_or_reset(dev, tmp108_restore_config, tmp108);
+   487		if (err) {
+   488			dev_err(dev, "add action or reset failed: %d", err);
+   489			return err;
+   490		}
+   491	
+   492		hwmon_dev = devm_hwmon_device_register_with_info(dev, name,
+   493								 tmp108,
+   494								 &tmp108_chip_info,
+   495								 NULL);
+   496		return PTR_ERR_OR_ZERO(hwmon_dev);
+   497	}
+   498	
 
 -- 
 0-DAY CI Kernel Test Service
