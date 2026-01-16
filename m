@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99AAF3101B8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 22:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8339311C07;
+	Fri, 16 Jan 2026 22:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768602268; cv=none; b=EBhvH027pfNOLUgnrjaNzIuD/Lm+haxWc+98s+BnIPOFEBUBQJnYIA1p/HHO45W99hPsDUJy59vUChvd8PP9qz+oewSwvMnmWIhMo51ftEEXMOqmU8hwanGBzzxu52kNPk+1FXpSI2BK4d6BSVIfG4J6n6EkxrxUYaRHvk0fgkk=
+	t=1768602927; cv=none; b=Nswodad6f3NyeR18H0TpnwO0dNrP0z+BK7Nc7ju9QncL8epHn0hfldk8jdHIfGoUmHVanMnEXUrP9oy3vjBakxpUmFUZ249E+5tgWfGvKdFC0wrG+Bd2Yr1U1zrRkfNJZs9HGmyOOUA7YdEwkH/wGWYf8VLhQzBT02NreaCg/VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768602268; c=relaxed/simple;
-	bh=706mAGUHSd5RxOBfuyLZitKSpKzoLxbMrnUxNJRcXvA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Rtfb+OHNIbsue7fJZkNgH57xbkhryFpwFPAXL9uVTwuvxiK/47fAZk3A4dwQVuNLijylHCeHLk9Nmu62uE1RpUb2flIp2h4RTosVIDYSQIMBNdvBRiEvh34GHgL1/7MxInzrp5udTmizFw+5M08VeZO5JPHheT2IZyL8Xn9eI0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MpoXQwvA; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1768602927; c=relaxed/simple;
+	bh=t+TfOvLaP0sZosWUu8D5eH4N8s6/Tcdc3O8Dsj5Gih4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=GzxlwW6tJmfmHewYiX9zZMHhLchxXTG5zlnmmcDjvHTWIVYZjDyQX1PxCRKx8K7gHk45cJD6Ek4Eh2HasTBEE5pftoPeFbCGqWbSJuF2Vx/HHqhECmgU9tGHpznZxCnyV9JfzEwxyZNYA0IVcTdfRfbvdPCh8tCLEgYg5yxZM84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jaSa8ciH; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MpoXQwvA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jaSa8ciH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768602266; x=1800138266;
+  t=1768602926; x=1800138926;
   h=date:from:to:cc:subject:message-id;
-  bh=706mAGUHSd5RxOBfuyLZitKSpKzoLxbMrnUxNJRcXvA=;
-  b=MpoXQwvAXmhK3DjQOqdbn2kO6g0ehAgrp8Aa3Y/qfc5bbXlAMNPXDU5l
-   L3gr92uoe04vONLHthfUDr7zdB1lFWkbgHv6kqTp3ZJZWV+U3yQSKhBmf
-   2PBN6L8vj4L3H4Z9+EwqYa7hvHsH4iBJpIrK8oOrUQTsA5I7TytqVav4h
-   f4nUVvNdy3EL1gDJhcMqMUL7NoykWn6DGc5Q3h+4eAK9fslbFOrSc/2oV
-   lzDpw+ly7nHn4eBP3OQ4fIeaMZrlKpoCkyMgxGJwi7b7mFw53hSiB14qp
-   5p3kEqVeppVcysmhOPFE/DdqXd6WU187PRzFCqoMFZg/FityXtJfxU/at
-   Q==;
-X-CSE-ConnectionGUID: pTKKQKB6SM+7PiCa7NOGUg==
-X-CSE-MsgGUID: 3plijeXDTHikYNp5xUaXZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="87495092"
+  bh=t+TfOvLaP0sZosWUu8D5eH4N8s6/Tcdc3O8Dsj5Gih4=;
+  b=jaSa8ciH52W2A2z5Bs5/QSj3zVdvqDpTLPUXfwxKztE7ut+Rxxh8WsKP
+   KX5yZALe8S8buiavNitf6P2STeBHZZdcYnRsHxhZaCl09zsmagGHfCSR6
+   /2XPHkuXPjqQiNzIh6bhhD+R3uGsm6Tc+R5edIv+ltahRwrDYevTWhqrZ
+   0Lo7TGfxoHhKO8QAjjAGon5yE3x1Py7dGLtDcdNEf9BODVloxf/9Sf5zp
+   HQhwVQrI8As0WWrg606lIXXFk3aSW09cPPqc0AdNNeb8RRLrEB8/QskvJ
+   FDY2G42BvrtkkqiTsOlkNYLxKd5YmwYJTn5Dy2ze8RI80EPPDyotBHCEq
+   g==;
+X-CSE-ConnectionGUID: /oIzLUURSialMHvusy04fQ==
+X-CSE-MsgGUID: zPAwGHrfRiWengBf6Qia8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69971939"
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="87495092"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 14:24:26 -0800
-X-CSE-ConnectionGUID: OHgzq6RxSi6pqJfuOr2AGQ==
-X-CSE-MsgGUID: F+JnkjRUSnCCKTVj0ND8zQ==
+   d="scan'208";a="69971939"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 14:35:25 -0800
+X-CSE-ConnectionGUID: ufFekzMqS/iP6sDvjPTWIQ==
+X-CSE-MsgGUID: m3Egce2LQHGzzuCoIdeBTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="204583217"
+   d="scan'208";a="205777156"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Jan 2026 14:24:24 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 16 Jan 2026 14:35:23 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgsEv-00000000LJI-2VvK;
-	Fri, 16 Jan 2026 22:24:21 +0000
-Date: Sat, 17 Jan 2026 06:24:13 +0800
+	id 1vgsPZ-00000000LJU-3Iox;
+	Fri, 16 Jan 2026 22:35:21 +0000
+Date: Sat, 17 Jan 2026 06:34:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-desktop 1/1]
- drivers/platform/x86/p2sb.c:89:14: warning: assignment to 'struct pci_dev *'
- from 'int' makes pointer from integer without a cast
-Message-ID: <202601170614.cVTWvkqH-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 167/214]
+ fs/bcachefs/data/reconcile.c:1888:25: warning: stack frame size (1040)
+ exceeds limit (1024) in 'do_reconcile_phys_thread'
+Message-ID: <202601170657.uiPMHmY7-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,148 +60,83 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
-head:   4c0f893f0f427f91ae490c421696a148200f410b
-commit: ddaaf24f47eb2f4ca3f4a431b9482baad3bbfef9 [1/1] ANDROID: GKI: x86: Enable P2SB device as x86 hidden
-config: i386-buildonly-randconfig-003-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170614.cVTWvkqH-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170614.cVTWvkqH-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   321d6b2ede8c135ad00646b40ada16f17ab3eb1b
+commit: 7533247ef4e07f309908aa5c50053cfc1b700d33 [167/214] fixup! bcachefs: Multithreaded processing of reconcile_phys
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260117/202601170657.uiPMHmY7-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170657.uiPMHmY7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601170614.cVTWvkqH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601170657.uiPMHmY7-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/platform/x86/p2sb.c: In function 'p2sb_scan_and_cache_devfn':
-   drivers/platform/x86/p2sb.c:89:16: error: implicit declaration of function 'pci_scan_single_device'; did you mean 'pci_disable_device'? [-Werror=implicit-function-declaration]
-      89 |         pdev = pci_scan_single_device(bus, devfn);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-         |                pci_disable_device
->> drivers/platform/x86/p2sb.c:89:14: warning: assignment to 'struct pci_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      89 |         pdev = pci_scan_single_device(bus, devfn);
-         |              ^
-   drivers/platform/x86/p2sb.c:96:9: error: implicit declaration of function 'pci_stop_and_remove_bus_device' [-Werror=implicit-function-declaration]
-      96 |         pci_stop_and_remove_bus_device(pdev);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/p2sb.c: In function 'p2sb_scan_and_cache':
-   drivers/platform/x86/p2sb.c:105:9: error: implicit declaration of function 'pci_bus_write_config_dword'; did you mean 'pci_write_config_dword'? [-Werror=implicit-function-declaration]
-     105 |         pci_bus_write_config_dword(bus, devfn, P2SBC, 0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         pci_write_config_dword
-   drivers/platform/x86/p2sb.c: In function 'p2sb_get_bus':
-   drivers/platform/x86/p2sb.c:131:20: error: implicit declaration of function 'pci_find_bus'; did you mean 'pci_find_next_bus'? [-Werror=implicit-function-declaration]
-     131 |         p2sb_bus = pci_find_bus(0, 0);
-         |                    ^~~~~~~~~~~~
-         |                    pci_find_next_bus
->> drivers/platform/x86/p2sb.c:131:18: warning: assignment to 'struct pci_bus *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     131 |         p2sb_bus = pci_find_bus(0, 0);
-         |                  ^
-   drivers/platform/x86/p2sb.c: In function 'p2sb_cache_resources':
-   drivers/platform/x86/p2sb.c:154:9: error: implicit declaration of function 'pci_bus_read_config_word'; did you mean 'pci_read_config_word'? [-Werror=implicit-function-declaration]
-     154 |         pci_bus_read_config_word(bus, devfn_p2sb, PCI_CLASS_DEVICE, &class);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         pci_read_config_word
-   drivers/platform/x86/p2sb.c:162:9: error: implicit declaration of function 'pci_lock_rescan_remove' [-Werror=implicit-function-declaration]
-     162 |         pci_lock_rescan_remove();
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/p2sb.c:164:9: error: implicit declaration of function 'pci_bus_read_config_dword'; did you mean 'pci_read_config_dword'? [-Werror=implicit-function-declaration]
-     164 |         pci_bus_read_config_dword(bus, devfn_p2sb, P2SBC, &value);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         pci_read_config_dword
-   drivers/platform/x86/p2sb.c:174:9: error: implicit declaration of function 'pci_unlock_rescan_remove' [-Werror=implicit-function-declaration]
-     174 |         pci_unlock_rescan_remove();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for INTEL_SCU
-   Depends on [n]: X86_PLATFORM_DEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for P2SB
-   Depends on [n]: PCI [=n] && X86 [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
-   WARNING: unmet direct dependencies detected for DRM_PRIVACY_SCREEN
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y] && X86 [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=y] && WIRELESS [=y] && PROC_FS [=n] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+>> fs/bcachefs/data/reconcile.c:1888:25: warning: stack frame size (1040) exceeds limit (1024) in 'do_reconcile_phys_thread' [-Wframe-larger-than]
+    1888 | static CLOSURE_CALLBACK(do_reconcile_phys_thread)
+         |                         ^
+   1 warning generated.
 
 
-vim +89 drivers/platform/x86/p2sb.c
+vim +/do_reconcile_phys_thread +1888 fs/bcachefs/data/reconcile.c
 
-9745fb07474f450 drivers/platform/x86/intel/p2sb.c Jonathan Yong        2022-06-06   83  
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08   84  static void p2sb_scan_and_cache_devfn(struct pci_bus *bus, unsigned int devfn)
-9745fb07474f450 drivers/platform/x86/intel/p2sb.c Jonathan Yong        2022-06-06   85  {
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08   86  	struct p2sb_res_cache *cache = &p2sb_resources[PCI_FUNC(devfn)];
-9745fb07474f450 drivers/platform/x86/intel/p2sb.c Jonathan Yong        2022-06-06   87  	struct pci_dev *pdev;
-9745fb07474f450 drivers/platform/x86/intel/p2sb.c Jonathan Yong        2022-06-06   88  
-9745fb07474f450 drivers/platform/x86/intel/p2sb.c Jonathan Yong        2022-06-06  @89  	pdev = pci_scan_single_device(bus, devfn);
-9745fb07474f450 drivers/platform/x86/intel/p2sb.c Jonathan Yong        2022-06-06   90  	if (!pdev)
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08   91  		return;
-9745fb07474f450 drivers/platform/x86/intel/p2sb.c Jonathan Yong        2022-06-06   92  
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08   93  	p2sb_read_bar0(pdev, &cache->res);
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08   94  	cache->bus_dev_id = bus->dev.id;
-9745fb07474f450 drivers/platform/x86/intel/p2sb.c Jonathan Yong        2022-06-06   95  
-9745fb07474f450 drivers/platform/x86/intel/p2sb.c Jonathan Yong        2022-06-06   96  	pci_stop_and_remove_bus_device(pdev);
-9745fb07474f450 drivers/platform/x86/intel/p2sb.c Jonathan Yong        2022-06-06   97  }
-9745fb07474f450 drivers/platform/x86/intel/p2sb.c Jonathan Yong        2022-06-06   98  
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08   99  static int p2sb_scan_and_cache(struct pci_bus *bus, unsigned int devfn)
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  100  {
-0286070c74ee483 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-11-28  101  	/*
-0286070c74ee483 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-11-28  102  	 * The BIOS prevents the P2SB device from being enumerated by the PCI
-0286070c74ee483 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-11-28  103  	 * subsystem, so we need to unhide and hide it back to lookup the BAR.
-0286070c74ee483 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-11-28  104  	 */
-0286070c74ee483 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-11-28  105  	pci_bus_write_config_dword(bus, devfn, P2SBC, 0);
-0286070c74ee483 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-11-28  106  
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  107  	/* Scan the P2SB device and cache its BAR0 */
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  108  	p2sb_scan_and_cache_devfn(bus, devfn);
-aec7d25b497ce4a drivers/platform/x86/p2sb.c       Hans de Goede        2024-03-04  109  
-aec7d25b497ce4a drivers/platform/x86/p2sb.c       Hans de Goede        2024-03-04  110  	/* On Goldmont p2sb_bar() also gets called for the SPI controller */
-aec7d25b497ce4a drivers/platform/x86/p2sb.c       Hans de Goede        2024-03-04  111  	if (devfn == P2SB_DEVFN_GOLDMONT)
-aec7d25b497ce4a drivers/platform/x86/p2sb.c       Hans de Goede        2024-03-04  112  		p2sb_scan_and_cache_devfn(bus, SPI_DEVFN_GOLDMONT);
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  113  
-0286070c74ee483 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-11-28  114  	pci_bus_write_config_dword(bus, devfn, P2SBC, P2SBC_HIDE);
-0286070c74ee483 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-11-28  115  
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  116  	if (!p2sb_valid_resource(&p2sb_resources[PCI_FUNC(devfn)].res))
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  117  		return -ENOENT;
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  118  
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  119  	return 0;
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  120  }
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  121  
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  122  static struct pci_bus *p2sb_get_bus(struct pci_bus *bus)
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  123  {
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  124  	static struct pci_bus *p2sb_bus;
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  125  
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  126  	bus = bus ?: p2sb_bus;
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  127  	if (bus)
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  128  		return bus;
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  129  
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  130  	/* Assume P2SB is on the bus 0 in domain 0 */
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08 @131  	p2sb_bus = pci_find_bus(0, 0);
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  132  	return p2sb_bus;
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  133  }
-5913320eb0b3ec8 drivers/platform/x86/p2sb.c       Shin'ichiro Kawasaki 2024-01-08  134  
+6efb894685bad7 Kent Overstreet 2026-01-06  1887  
+6efb894685bad7 Kent Overstreet 2026-01-06 @1888  static CLOSURE_CALLBACK(do_reconcile_phys_thread)
+6efb894685bad7 Kent Overstreet 2026-01-06  1889  {
+6efb894685bad7 Kent Overstreet 2026-01-06  1890  	closure_type(thr, reconcile_phys_thr, cl);
+6efb894685bad7 Kent Overstreet 2026-01-06  1891  	struct bch_fs *c = thr->c;
+6efb894685bad7 Kent Overstreet 2026-01-06  1892  
+6efb894685bad7 Kent Overstreet 2026-01-06  1893  	struct moving_context ctxt __cleanup(bch2_moving_ctxt_exit);
+6efb894685bad7 Kent Overstreet 2026-01-06  1894  	bch2_moving_ctxt_init(&ctxt, c, NULL, &thr->stats,
+6efb894685bad7 Kent Overstreet 2026-01-06  1895  			      writepoint_ptr(&c->allocator.reconcile_write_point),
+6efb894685bad7 Kent Overstreet 2026-01-06  1896  			      true);
+6efb894685bad7 Kent Overstreet 2026-01-06  1897  
+6efb894685bad7 Kent Overstreet 2026-01-06  1898  	struct btree_trans *trans = ctxt.trans;
+6efb894685bad7 Kent Overstreet 2026-01-06  1899  
+6efb894685bad7 Kent Overstreet 2026-01-06  1900  	CLASS(darray_reconcile_work, work)();
+6efb894685bad7 Kent Overstreet 2026-01-06  1901  	darray_make_room(&work, REBALANCE_WORK_BUF_NR);
+6efb894685bad7 Kent Overstreet 2026-01-06  1902  	if (!work.size) {
+6efb894685bad7 Kent Overstreet 2026-01-06  1903  		bch_err(c, "%s: unable to allocate memory", __func__);
+7533247ef4e07f Kent Overstreet 2026-01-08  1904  		closure_return(cl);
+7533247ef4e07f Kent Overstreet 2026-01-08  1905  		return;
+6efb894685bad7 Kent Overstreet 2026-01-06  1906  	}
+6efb894685bad7 Kent Overstreet 2026-01-06  1907  
+6efb894685bad7 Kent Overstreet 2026-01-06  1908  	CLASS(per_snapshot_io_opts, snapshot_io_opts)(c);
+6efb894685bad7 Kent Overstreet 2026-01-06  1909  
+6efb894685bad7 Kent Overstreet 2026-01-06  1910  	struct wb_maybe_flush last_flushed __cleanup(wb_maybe_flush_exit);
+6efb894685bad7 Kent Overstreet 2026-01-06  1911  	wb_maybe_flush_init(&last_flushed);
+6efb894685bad7 Kent Overstreet 2026-01-06  1912  
+6efb894685bad7 Kent Overstreet 2026-01-06  1913  	struct bbpos work_pos = BBPOS(thr->btree, POS(thr->dev, 0));
+6efb894685bad7 Kent Overstreet 2026-01-06  1914  
+6efb894685bad7 Kent Overstreet 2026-01-06  1915  	while (!bch2_move_ratelimit(&ctxt)) {
+6efb894685bad7 Kent Overstreet 2026-01-06  1916  		if (!bch2_reconcile_enabled(c))
+6efb894685bad7 Kent Overstreet 2026-01-06  1917  			break;
+6efb894685bad7 Kent Overstreet 2026-01-06  1918  
+6efb894685bad7 Kent Overstreet 2026-01-06  1919  		bch2_trans_begin(trans);
+6efb894685bad7 Kent Overstreet 2026-01-06  1920  
+6efb894685bad7 Kent Overstreet 2026-01-06  1921  		struct bkey_s_c k = next_reconcile_entry(trans, &work, thr->btree, &work_pos.pos);
+6efb894685bad7 Kent Overstreet 2026-01-06  1922  		if (bkey_err(k) ||
+6efb894685bad7 Kent Overstreet 2026-01-06  1923  		    !k.k ||
+6efb894685bad7 Kent Overstreet 2026-01-06  1924  		    k.k->p.inode != thr->dev)
+6efb894685bad7 Kent Overstreet 2026-01-06  1925  			break;
+6efb894685bad7 Kent Overstreet 2026-01-06  1926  
+6efb894685bad7 Kent Overstreet 2026-01-06  1927  		int ret = lockrestart_do(trans,
+6efb894685bad7 Kent Overstreet 2026-01-06  1928  			do_reconcile_extent_phys(&ctxt, &snapshot_io_opts, work_pos, &last_flushed));
+6efb894685bad7 Kent Overstreet 2026-01-06  1929  		if (ret)
+6efb894685bad7 Kent Overstreet 2026-01-06  1930  			break;
+6efb894685bad7 Kent Overstreet 2026-01-06  1931  	}
+7533247ef4e07f Kent Overstreet 2026-01-08  1932  
+6efb894685bad7 Kent Overstreet 2026-01-06  1933  	closure_return(cl);
+6efb894685bad7 Kent Overstreet 2026-01-06  1934  }
+6efb894685bad7 Kent Overstreet 2026-01-06  1935  
 
-:::::: The code at line 89 was first introduced by commit
-:::::: 9745fb07474f4501eff62130a78a42a8b8c18b05 platform/x86/intel: Add Primary to Sideband (P2SB) bridge support
+:::::: The code at line 1888 was first introduced by commit
+:::::: 6efb894685bad7b9d57fc51a8bfef4707572382f bcachefs: Multithreaded processing of reconcile_phys
 
-:::::: TO: Jonathan Yong <jonathan.yong@intel.com>
-:::::: CC: Lee Jones <lee@kernel.org>
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
