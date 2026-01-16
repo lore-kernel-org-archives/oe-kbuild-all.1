@@ -1,76 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB0E2D5950
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 08:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DB12FFFA6;
+	Fri, 16 Jan 2026 08:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768551595; cv=none; b=TmHOtnHlbOTQIJAFpj34DXU2rXtZHrfGFo6o74OiCqGu4bQ3R+IGABl2gbovhSu5EkMmswpVk/JfvJS+DSR+HZQbPY9KB15R9i05+aDfEcioUC+91xBVPc8TEYbqVM63ZZ0uJVuDHJ/V8on1c2aqUSO0XIzk58posfAmZpQCUDM=
+	t=1768551596; cv=none; b=W3m/Sa9JOK0ljb3OCxVOqA9u+uljkgc3jFE2AfPR2TxuBL/wSrnRGHP0bErOH9Vfm2OerhjZ5ugedXU+gpVOpQA5epe8TrlFTG/OrJQd6ae06NJjaclUmxzKdfcx3LtOunkrYRfKpK8ymdTkEOcMYSw2MbN4iWuSSumvB+kVHho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768551595; c=relaxed/simple;
-	bh=CgknGuh2zD1AtzufF5p3XF3o0fsNUQ8YV94B8JUrEL0=;
+	s=arc-20240116; t=1768551596; c=relaxed/simple;
+	bh=FIqaEFJuQgc+rWWsTpzH/blOyNA+3RSdsMtLGqNPISw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GqWHqJ2els8mwFPMqKRnPWe3oXNvbzFh1jynaj+J+Xq0WcpK7kBDLbSHAPeewPuFdcnCM7lLczxrjq9A2KySsFepdWPLCHK2Bm/F0RMtQyRCKBEsMKNNMY5ONSZDbYhbH7ftH3rK1BzTyqa+mTgklKR2KqK2LgIVG4o36ARd9Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BRfVYLCB; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=I8KhS9uIRtN4jhVMkoWWZDEYMWDoKEZKVWJBqSrEEIUGoMqwQNdhdJJH6742xcG3TYG3Eod4Z9FjDIqGh4KfmRIivNnIa4gG0BswQQrjhNv9uRthzMwTP+nZnhLzt9Xg70KJoWvuThfNyERn2baukqRbBKpUmC23rN+YwPIRabg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yavdjouh; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BRfVYLCB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yavdjouh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1768551592; x=1800087592;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=CgknGuh2zD1AtzufF5p3XF3o0fsNUQ8YV94B8JUrEL0=;
-  b=BRfVYLCBfb3eExYnwDOjddhKRprC0oFfDHmF6qNcWUhiQDhQEn0zKMh7
-   Nev0Hw4A+PW01DE4CnTrWFmItPsfmzVObXMG7w8+wGjXbRxpQQCzQ9W+e
-   WVYiDQMGa7vHAOzGwA1iM54wiif7m74C6KLsoA6sN2Rs8rdD75ot8CFpa
-   TB+gWAo7GW5ji0fzs+5CBdw7cbqq1yBafLS8JVFyeTckM2kReXYgGv3Wa
-   9KUxG/SPsQMo9IPs5z0s8dhu4PjgujYpYf3GTwuKLdIqmb/+cX6N2z20E
-   eEMi0b4zX7TIYUX23JjxJCJH2YMusDo/cR/cSFbU6pldsotMBw8ReIji4
+  bh=FIqaEFJuQgc+rWWsTpzH/blOyNA+3RSdsMtLGqNPISw=;
+  b=YavdjouhxJ9I+kGzc/rwUS4ZD3fl/zBh6xHXlIOVHNfDdwSiKOhPc3Sz
+   xYCymailbNgI6MzY+XvTDka3SbvjdyPDRyLRoUv7AsqhCXNwDlb2Tb9Pz
+   YcjFeI8zbg0Ry0Nhm7n2kKb3MAuS6CQaRu7P1LX5iaBwYWgbnvW/Q3lVF
+   qMtjJjKfhE3b39KAy/DnCVw9azyz5H2Sumr1l+eiSMgMJHvlOk5ksHxPX
+   XYodfxzjrHqcs5G5GFJD82xzAbtRN7Jj7WXwh8P91b11biZypFUimZKvz
+   ukSQEa6ooWxJL3KuFMhjXaZvp1J38plDHEbps7Y/i6qwTtNr89Wo8xDBk
    Q==;
-X-CSE-ConnectionGUID: 5ntf0RJoQFySFqClCdFYTw==
-X-CSE-MsgGUID: DAP1JvQfRZKo66ubRHhK/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69778480"
+X-CSE-ConnectionGUID: bixLW7c1Rx2Ds85bQrD8GQ==
+X-CSE-MsgGUID: lu18FV0eSc6yfaVel1I2kg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="95344068"
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="69778480"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 00:19:51 -0800
-X-CSE-ConnectionGUID: Z954urQ6QauRKbvbaOBlbA==
-X-CSE-MsgGUID: tSXl33nARHCHQQK6lsdP9g==
+   d="scan'208";a="95344068"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 00:19:50 -0800
+X-CSE-ConnectionGUID: vgfZb7cHQv6tYL9XRpKkVA==
+X-CSE-MsgGUID: NbC/FfxPQcWNkIR8eFa4oQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="210049819"
+   d="scan'208";a="209327047"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Jan 2026 00:19:47 -0800
+  by orviesa003.jf.intel.com with ESMTP; 16 Jan 2026 00:19:47 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgf3Y-00000000KZS-1MhZ;
+	id 1vgf3Y-00000000KZQ-1EoK;
 	Fri, 16 Jan 2026 08:19:44 +0000
-Date: Fri, 16 Jan 2026 16:19:19 +0800
+Date: Fri, 16 Jan 2026 16:19:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boris Brezillon <bbrezillon@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	=?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Akash Goel <akash.goel@arm.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
-	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Chris Diamand <chris.diamand@arm.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Alice Ryhl <aliceryhl@google.com>, kernel@collabora.com
-Subject: Re: [PATCH v1 6/9] drm/panthor: Lazily allocate pages on mmap()
-Message-ID: <202601161646.7Uuv5fVY-lkp@intel.com>
-References: <20260109130801.1239558-7-boris.brezillon@collabora.com>
+To: Jianpeng Chang <jianpeng.chang.cn@windriver.com>, horia.geanta@nxp.com,
+	pankaj.gupta@nxp.com, gaurav.jain@nxp.com,
+	herbert@gondor.apana.org.au, davem@davemloft.net, leitao@debian.org,
+	kuba@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jianpeng Chang <jianpeng.chang.cn@windriver.com>
+Subject: Re: [PATCH] crypto: caam: fix netdev memory leak in dpaa2_caam_probe
+Message-ID: <202601161604.ynMta3vK-lkp@intel.com>
+References: <20260116014455.2575351-1-jianpeng.chang.cn@windriver.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,47 +67,181 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260109130801.1239558-7-boris.brezillon@collabora.com>
+In-Reply-To: <20260116014455.2575351-1-jianpeng.chang.cn@windriver.com>
 
-Hi Boris,
+Hi Jianpeng,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[cannot apply to linus/master v6.19-rc5 next-20260115]
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on herbert-crypto-2.6/master linus/master v6.19-rc5 next-20260115]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Brezillon/drm-gem-Consider-GEM-object-reclaimable-if-shrinking-fails/20260109-211034
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260109130801.1239558-7-boris.brezillon%40collabora.com
-patch subject: [PATCH v1 6/9] drm/panthor: Lazily allocate pages on mmap()
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260116/202601161646.7Uuv5fVY-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161646.7Uuv5fVY-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jianpeng-Chang/crypto-caam-fix-netdev-memory-leak-in-dpaa2_caam_probe/20260116-094800
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20260116014455.2575351-1-jianpeng.chang.cn%40windriver.com
+patch subject: [PATCH] crypto: caam: fix netdev memory leak in dpaa2_caam_probe
+config: x86_64-buildonly-randconfig-004-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161604.ynMta3vK-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161604.ynMta3vK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601161646.7Uuv5fVY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601161604.ynMta3vK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/panthor/panthor_gem.c: In function 'insert_page':
->> drivers/gpu/drm/panthor/panthor_gem.c:625:20: warning: unused variable 'ret' [-Wunused-variable]
-     625 |         vm_fault_t ret;
-         |                    ^~~
+>> drivers/crypto/caam/caamalg_qi2.c:5132:19: error: array type 'cpumask_var_t' (aka 'struct cpumask[1]') is not assignable
+    5132 |         priv->clean_mask = clean_mask;
+         |         ~~~~~~~~~~~~~~~~ ^
+   1 error generated.
 
 
-vim +/ret +625 drivers/gpu/drm/panthor/panthor_gem.c
+vim +5132 drivers/crypto/caam/caamalg_qi2.c
 
-   621	
-   622	static vm_fault_t insert_page(struct vm_fault *vmf, struct page *page)
-   623	{
-   624		struct vm_area_struct *vma = vmf->vma;
- > 625		vm_fault_t ret;
-   626	
+  5007	
+  5008	static int __cold dpaa2_dpseci_setup(struct fsl_mc_device *ls_dev)
+  5009	{
+  5010		struct device *dev = &ls_dev->dev;
+  5011		struct dpaa2_caam_priv *priv;
+  5012		struct dpaa2_caam_priv_per_cpu *ppriv;
+  5013		cpumask_var_t clean_mask;
+  5014		int err, cpu;
+  5015		u8 i;
+  5016	
+  5017		err = -ENOMEM;
+  5018		if (!zalloc_cpumask_var(&clean_mask, GFP_KERNEL))
+  5019			goto err_cpumask;
+  5020	
+  5021		priv = dev_get_drvdata(dev);
+  5022	
+  5023		priv->dev = dev;
+  5024		priv->dpsec_id = ls_dev->obj_desc.id;
+  5025	
+  5026		/* Get a handle for the DPSECI this interface is associate with */
+  5027		err = dpseci_open(priv->mc_io, 0, priv->dpsec_id, &ls_dev->mc_handle);
+  5028		if (err) {
+  5029			dev_err(dev, "dpseci_open() failed: %d\n", err);
+  5030			goto err_open;
+  5031		}
+  5032	
+  5033		err = dpseci_get_api_version(priv->mc_io, 0, &priv->major_ver,
+  5034					     &priv->minor_ver);
+  5035		if (err) {
+  5036			dev_err(dev, "dpseci_get_api_version() failed\n");
+  5037			goto err_get_vers;
+  5038		}
+  5039	
+  5040		dev_info(dev, "dpseci v%d.%d\n", priv->major_ver, priv->minor_ver);
+  5041	
+  5042		if (DPSECI_VER(priv->major_ver, priv->minor_ver) > DPSECI_VER(5, 3)) {
+  5043			err = dpseci_reset(priv->mc_io, 0, ls_dev->mc_handle);
+  5044			if (err) {
+  5045				dev_err(dev, "dpseci_reset() failed\n");
+  5046				goto err_get_vers;
+  5047			}
+  5048		}
+  5049	
+  5050		err = dpseci_get_attributes(priv->mc_io, 0, ls_dev->mc_handle,
+  5051					    &priv->dpseci_attr);
+  5052		if (err) {
+  5053			dev_err(dev, "dpseci_get_attributes() failed\n");
+  5054			goto err_get_vers;
+  5055		}
+  5056	
+  5057		err = dpseci_get_sec_attr(priv->mc_io, 0, ls_dev->mc_handle,
+  5058					  &priv->sec_attr);
+  5059		if (err) {
+  5060			dev_err(dev, "dpseci_get_sec_attr() failed\n");
+  5061			goto err_get_vers;
+  5062		}
+  5063	
+  5064		err = dpaa2_dpseci_congestion_setup(priv, ls_dev->mc_handle);
+  5065		if (err) {
+  5066			dev_err(dev, "setup_congestion() failed\n");
+  5067			goto err_get_vers;
+  5068		}
+  5069	
+  5070		priv->num_pairs = min(priv->dpseci_attr.num_rx_queues,
+  5071				      priv->dpseci_attr.num_tx_queues);
+  5072		if (priv->num_pairs > num_online_cpus()) {
+  5073			dev_warn(dev, "%d queues won't be used\n",
+  5074				 priv->num_pairs - num_online_cpus());
+  5075			priv->num_pairs = num_online_cpus();
+  5076		}
+  5077	
+  5078		for (i = 0; i < priv->dpseci_attr.num_rx_queues; i++) {
+  5079			err = dpseci_get_rx_queue(priv->mc_io, 0, ls_dev->mc_handle, i,
+  5080						  &priv->rx_queue_attr[i]);
+  5081			if (err) {
+  5082				dev_err(dev, "dpseci_get_rx_queue() failed\n");
+  5083				goto err_get_rx_queue;
+  5084			}
+  5085		}
+  5086	
+  5087		for (i = 0; i < priv->dpseci_attr.num_tx_queues; i++) {
+  5088			err = dpseci_get_tx_queue(priv->mc_io, 0, ls_dev->mc_handle, i,
+  5089						  &priv->tx_queue_attr[i]);
+  5090			if (err) {
+  5091				dev_err(dev, "dpseci_get_tx_queue() failed\n");
+  5092				goto err_get_rx_queue;
+  5093			}
+  5094		}
+  5095	
+  5096		i = 0;
+  5097		for_each_online_cpu(cpu) {
+  5098			u8 j;
+  5099	
+  5100			j = i % priv->num_pairs;
+  5101	
+  5102			ppriv = per_cpu_ptr(priv->ppriv, cpu);
+  5103			ppriv->req_fqid = priv->tx_queue_attr[j].fqid;
+  5104	
+  5105			/*
+  5106			 * Allow all cores to enqueue, while only some of them
+  5107			 * will take part in dequeuing.
+  5108			 */
+  5109			if (++i > priv->num_pairs)
+  5110				continue;
+  5111	
+  5112			ppriv->rsp_fqid = priv->rx_queue_attr[j].fqid;
+  5113			ppriv->prio = j;
+  5114	
+  5115			dev_dbg(dev, "pair %d: rx queue %d, tx queue %d\n", j,
+  5116				priv->rx_queue_attr[j].fqid,
+  5117				priv->tx_queue_attr[j].fqid);
+  5118	
+  5119			ppriv->net_dev = alloc_netdev_dummy(0);
+  5120			if (!ppriv->net_dev) {
+  5121				err = -ENOMEM;
+  5122				goto err_alloc_netdev;
+  5123			}
+  5124			cpumask_set_cpu(cpu, clean_mask);
+  5125			ppriv->net_dev->dev = *dev;
+  5126	
+  5127			netif_napi_add_tx_weight(ppriv->net_dev, &ppriv->napi,
+  5128						 dpaa2_dpseci_poll,
+  5129						 DPAA2_CAAM_NAPI_WEIGHT);
+  5130		}
+  5131	
+> 5132		priv->clean_mask = clean_mask;
+  5133		return 0;
+  5134	
+  5135	err_alloc_netdev:
+  5136		free_dpaa2_pcpu_netdev(priv, clean_mask);
+  5137	err_get_rx_queue:
+  5138		dpaa2_dpseci_congestion_free(priv);
+  5139	err_get_vers:
+  5140		dpseci_close(priv->mc_io, 0, ls_dev->mc_handle);
+  5141	err_open:
+  5142		free_cpumask_var(clean_mask);
+  5143	err_cpumask:
+  5144		return err;
+  5145	}
+  5146	
 
 -- 
 0-DAY CI Kernel Test Service
