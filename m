@@ -1,67 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687B17260D;
-	Fri, 16 Jan 2026 22:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB47283FEA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 22:59:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768603655; cv=none; b=YWx5tuwJ/yBJ4OIWRLYkSjL6qjUv2JFyRDE36DNGTqenfz+WJxBHyGckdcHmMuEZo5LfrCS7+DAEmafm4ljM06hKYQw18BmwnMnAaGxW9CJIWEkoDudWzrszdo6SXDTspGZSPXVR1QKOowXaF1n/jGrnE9lk3qFau6xk319PJ6o=
+	t=1768604369; cv=none; b=mL9/8oRv5SFcF7zvGO/qak5tkzbW7uEKZKr7GSpfRBTsyhHdZB8khKCjGbT9nkTQ+yLJAho73k0U4hZHe25F+VVT7U2oboJrDqP98kdVwFU8+nGeQEhpqMTFR4Zwr2+RUKE+wszcsOFKYon7MTQRIR+vLP/htM/rYXJLsFm9v20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768603655; c=relaxed/simple;
-	bh=ft7oBiD8rhWcMGq/GD4pRfUpcGvOzQ2H/GYUPzcJ0Og=;
+	s=arc-20240116; t=1768604369; c=relaxed/simple;
+	bh=Qqp+IYbfM+Dtp6kbbFZiO1GXeE5SUcIlw7bci7bAn3Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TTa7gH/Hllws7F1APoBEeZfkRv923/69uFRB0MC6cQiyTvNCNzqSEPBuikckPQ0gq6VmM4JUT4t7wCuiLVM3C5DFQTpW+v3bfBC2oueqOoIZkobnXct9XDNxAjZSSTPhmDRRdOgDqRbTaZx3i47XqzoAosaQvU1Dj6I52HnSXXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z27LjIhX; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=i6NM8p156Qz/t9UUzWQfUabqsbPyVq2gxcroGktsDMRiE+IUuYEEaFEMr9RQXdnaDpzPWOEvMNfcgodCGDTsdwxfjgwYC5RXqx32SlcWAR3w44Z4h2XjktKddJOLYMZFv1tGn3n3vzrYY2gONfncxoC+59ceyTYmq7LNTnPGVK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nRI541Q/; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z27LjIhX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nRI541Q/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768603653; x=1800139653;
+  t=1768604367; x=1800140367;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ft7oBiD8rhWcMGq/GD4pRfUpcGvOzQ2H/GYUPzcJ0Og=;
-  b=Z27LjIhX+o7fq1PevKhj6/TlSIXoUKzqKKZYNfO2so++hmrWVsGdCZYC
-   qhE8tjOsVYG3xjyCNRcr/prDwsq0Xxe7juFpOBfMiB3QfU037zHrCpfhb
-   mIXI9ae/Wz0Pu03rbcwF0vyBsV9Qy75C4TLf+8B/4fBzXZpO/qRSuNHw1
-   92VfkBKyXmtFQ6/vLTWmix/JIJRTBIxouD6+ywfHFDwItz8hxtNqIXOe0
-   cq5Gqv7qapaqp1h0EhRPvPaXF4V3BZiS2nBFgkEsjCe+kvYUxV0CM9hmI
-   w9ZEb5Sin7rV6pMdUNDMtN1eqMhLB9yHp6GvH63xkuBco1SWF/0fR9bOY
-   Q==;
-X-CSE-ConnectionGUID: Lvzr5zzYT3qFj6wTCrP/Qg==
-X-CSE-MsgGUID: vFxClFulQ42UXSGjJNPInw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="87496871"
+  bh=Qqp+IYbfM+Dtp6kbbFZiO1GXeE5SUcIlw7bci7bAn3Q=;
+  b=nRI541Q/GRsmvLZutp2qgH9Eynl/Gl7zNBGj9qHtMknS4Webh9p5/dBz
+   0jal3ZmcwiOtHSxlMBPBz7e7eC3wESbxB+bt8YkZBdJ9onpw26plpboZF
+   GZ+KYtHMuXuGnzcjHIcZ7xj1I+YxoaCrQMkTcSUD2fKLzKkyac0Ivmj7P
+   WzTaV2Xv+XGWtUYTia9Zs87Uwy07dXc/clTuVpWgv4l4chW57C154YT2G
+   Wg9frZLtFGHeFdfLhtlQwwSE2iueGjwLoJrFzZl8/qBcEUvy7v/aBIONd
+   Vu06IvoS5EzvOc0PrmTIZ66kPcJBiX9vVPHKFVqIsIa8mcq1eDng1bp+i
+   A==;
+X-CSE-ConnectionGUID: eDziEQ8YTHCHznBpk19k6Q==
+X-CSE-MsgGUID: rgsNtivSQWm5a/eKOtYe5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="80561548"
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="87496871"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 14:47:28 -0800
-X-CSE-ConnectionGUID: hB8/qJmrS4etYteS2y1Iww==
-X-CSE-MsgGUID: io6o7vAtSK+BQBlZ4hT9/g==
+   d="scan'208";a="80561548"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 14:59:27 -0800
+X-CSE-ConnectionGUID: TCx3gd62RYaY4LbefaPv2A==
+X-CSE-MsgGUID: QMegt+ZVTx663sK5AgfsSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="236625710"
+   d="scan'208";a="205157453"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Jan 2026 14:47:24 -0800
+  by orviesa009.jf.intel.com with ESMTP; 16 Jan 2026 14:59:25 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgsbB-00000000LJc-3rVs;
-	Fri, 16 Jan 2026 22:47:21 +0000
-Date: Sat, 17 Jan 2026 06:47:12 +0800
+	id 1vgsmo-00000000LK8-2Vkt;
+	Fri, 16 Jan 2026 22:59:22 +0000
+Date: Sat, 17 Jan 2026 06:59:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Coddington <bcodding@hammerspace.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Rick Macklem <rick.macklem@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v1 4/4] NFSD: Sign filehandles
-Message-ID: <202601170612.qqi8Q8Xx-lkp@intel.com>
-References: <9c9cd6131574a45f2603c9248ba205a79b00fea3.1768573690.git.bcodding@hammerspace.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com
+Subject: Re: [PATCH 2/2] drm/{i915,xe}/dsb: move DSB buffer to parent
+ interface
+Message-ID: <202601170636.oVty7fBv-lkp@intel.com>
+References: <523081095c7da23ce03835687fe6c5cb4ed3c77f.1768575249.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,83 +64,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9c9cd6131574a45f2603c9248ba205a79b00fea3.1768573690.git.bcodding@hammerspace.com>
+In-Reply-To: <523081095c7da23ce03835687fe6c5cb4ed3c77f.1768575249.git.jani.nikula@intel.com>
 
-Hi Benjamin,
+Hi Jani,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bfd453acb5637b5df881cef4b21803344aa9e7ac]
+[auto build test ERROR on drm-i915/for-linux-next]
+[also build test ERROR on drm-tip/drm-tip next-20260116]
+[cannot apply to drm-i915/for-linux-next-fixes drm-xe/drm-xe-next linus/master v6.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Coddington/nfsd-Convert-export-flags-to-use-BIT-macro/20260116-223927
-base:   bfd453acb5637b5df881cef4b21803344aa9e7ac
-patch link:    https://lore.kernel.org/r/9c9cd6131574a45f2603c9248ba205a79b00fea3.1768573690.git.bcodding%40hammerspace.com
-patch subject: [PATCH v1 4/4] NFSD: Sign filehandles
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260117/202601170612.qqi8Q8Xx-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170612.qqi8Q8Xx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-dsb-move-i915-specific-DSB-buffer-implementation-to-i915/20260116-225559
+base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
+patch link:    https://lore.kernel.org/r/523081095c7da23ce03835687fe6c5cb4ed3c77f.1768575249.git.jani.nikula%40intel.com
+patch subject: [PATCH 2/2] drm/{i915,xe}/dsb: move DSB buffer to parent interface
+config: i386-randconfig-015-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170636.oVty7fBv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170636.oVty7fBv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601170612.qqi8Q8Xx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601170636.oVty7fBv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> fs/nfsd/nfsfh.c:162:30: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-     161 |                 pr_warn("NFSD: unable to sign filehandles, fh_size %lu would be greater"
-         |                                                                    ~~~
-         |                                                                    %u
-     162 |                         " than fh_maxsize %d.\n", fh->fh_size + sizeof(hash), fhp->fh_maxsize);
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:565:37: note: expanded from macro 'pr_warn'
-     565 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |                                    ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:512:60: note: expanded from macro 'printk'
-     512 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:484:19: note: expanded from macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   1 warning generated.
+   drivers/gpu/drm/i915/display/intel_dsb.c: In function 'dsb_buffer_memset':
+>> drivers/gpu/drm/i915/display/intel_dsb.c:107:66: error: macro "memset" passed 4 arguments, but takes just 3
+     107 |         display->parent->dsb->memset(dsb->dsb_buf, idx, val, size);
+         |                                                                  ^
+   In file included from include/linux/string.h:386,
+                    from arch/x86/include/asm/page_32.h:18,
+                    from arch/x86/include/asm/page.h:14,
+                    from arch/x86/include/asm/processor.h:20,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/jiffies.h:10,
+                    from include/linux/ktime.h:25,
+                    from include/linux/iopoll.h:11,
+                    from drivers/gpu/drm/i915/display/intel_dsb.c:7:
+   include/linux/fortify-string.h:512: note: macro "memset" defined here
+     512 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+         | 
+>> drivers/gpu/drm/i915/display/intel_dsb.c:107:29: warning: statement with no effect [-Wunused-value]
+     107 |         display->parent->dsb->memset(dsb->dsb_buf, idx, val, size);
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~
 
 
-vim +162 fs/nfsd/nfsfh.c
+vim +/memset +107 drivers/gpu/drm/i915/display/intel_dsb.c
 
-   140	
-   141	/*
-   142	 * Intended to be called when encoding, appends an 8-byte MAC
-   143	 * to the filehandle hashed from the server's fh_key:
-   144	 */
-   145	int fh_append_mac(struct svc_fh *fhp, struct net *net)
-   146	{
-   147		struct nfsd_net *nn = net_generic(net, nfsd_net_id);
-   148		struct knfsd_fh *fh = &fhp->fh_handle;
-   149		siphash_key_t *fh_key = nn->fh_key;
-   150		u64 hash;
-   151	
-   152		if (!(fhp->fh_export->ex_flags & NFSEXP_SIGN_FH))
-   153			return 0;
-   154	
-   155		if (!fh_key) {
-   156			pr_warn("NFSD: unable to sign filehandles, fh_key not set.\n");
-   157			return -EINVAL;
-   158		}
-   159	
-   160		if (fh->fh_size + sizeof(hash) > fhp->fh_maxsize) {
-   161			pr_warn("NFSD: unable to sign filehandles, fh_size %lu would be greater"
- > 162				" than fh_maxsize %d.\n", fh->fh_size + sizeof(hash), fhp->fh_maxsize);
-   163			return -EINVAL;
-   164		}
-   165	
-   166		fh->fh_auth_type = FH_AT_MAC;
-   167		hash = siphash(&fh->fh_raw, fh->fh_size, fh_key);
-   168		memcpy(&fh->fh_raw[fh->fh_size], &hash, sizeof(hash));
-   169		fh->fh_size += sizeof(hash);
-   170	
-   171		return 0;
-   172	}
-   173	
+   102	
+   103	static void dsb_buffer_memset(struct intel_dsb *dsb, u32 idx, u32 val, size_t size)
+   104	{
+   105		struct intel_display *display = to_intel_display(dsb->crtc);
+   106	
+ > 107		display->parent->dsb->memset(dsb->dsb_buf, idx, val, size);
+   108	}
+   109	
 
 -- 
 0-DAY CI Kernel Test Service
