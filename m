@@ -1,210 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com [209.85.221.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1475A315D46
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 09:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751D131A800
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 09:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768554232; cv=none; b=XBTQrI9gyRug2VQCI0quIiignmJ2ZxEfmCTRO4iBxKYYbe4kHPbFG/A3dIlEcBlHazbTtvkWpI83so3qkJGydl+MSEKV4rTHeV37l0WopZl7iSsD6n1QJzePWZzGREHzSHIQxLz5NNQj65eoJmdGQe9eNER+08LC754tli8gUmg=
+	t=1768554742; cv=none; b=H6Lqas5Ra4E5bwC3WA46VKENUDuo6nyQwMBI2hsc/9GtYwDvC/6yHyouI3qeKECoTwuARIjNOiZNWRV8e07kT8KfTKjan66vilVPYDzvKM5hqJzSmCaVTjlib+G6gX8UUDhrO9b0PuD5v9q/0ErEkY3I1IHglr2rS7uNsSJQiE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768554232; c=relaxed/simple;
-	bh=v2pM9JRFiF7GYKHg9Ab75VKM/hpXrUXHZ11z19D8aPg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nTew/7mgilxC315lhXH1JV/FM5QvHvSbvmSq4TDJpZ0SQA/T/OmkEebzrwnDF0RddybH1dw+BN5tGvU8sujLS1Mq++t0FfTXLZgtcfWD5DYym3/+oPFbOzZndfObnmgaXyzDfQDKVTBABEPIXwElP0WYznaHkd9+jCz0UXg4nf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XDXVEuVA; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDXVEuVA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768554231; x=1800090231;
-  h=date:from:to:cc:subject:message-id;
-  bh=v2pM9JRFiF7GYKHg9Ab75VKM/hpXrUXHZ11z19D8aPg=;
-  b=XDXVEuVAPCXni7OAlqBJrzoCs22mJatZLNf719zlTUOuyL4fi653PGf9
-   f5m/9rsghy1rwwmknqBindTtbl0Bv1vlDZL77Tv0IG3DgFUv5wLF4+hvB
-   RngHIMOYhfpxnCy287/mbBPfhK6EeJCvfvd4b7ydHRn36WeszUM5Rw+iT
-   PsQheb/8Xv6hsQ89PSGr2UtClHrkZANgBoe28Qvmcu7gCSOwr+vEEb7cP
-   b51W/YY2rcP4qY76f31a30oR/xdZ4E0OFCw8QeMXMmJCM/mtfwEVjGxlT
-   y2U+EBmhltrvmtzvlakGCUk4TRFCpOY5VptykBijjU0hIiGP12GkJCGIn
-   w==;
-X-CSE-ConnectionGUID: Z5tHUjPKS0inDdYPwlBE3A==
-X-CSE-MsgGUID: mm8z+9l1Tkib0qZjAwyxpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="73721210"
-X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="73721210"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 01:03:50 -0800
-X-CSE-ConnectionGUID: DsPFdf8ySp6zOOznxTMEHA==
-X-CSE-MsgGUID: TUET9BONTa2a+hoMnxqrfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="236451634"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Jan 2026 01:03:49 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vgfkA-00000000Kcv-3MMP;
-	Fri, 16 Jan 2026 09:03:46 +0000
-Date: Fri, 16 Jan 2026 17:03:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: elver@google.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [melver:ctx-analysis/dev 37/37]
- include/linux/local_lock_internal.h:84:36: warning: cast to generic address
- space pointer from disjoint '__seg_gs' address space pointer
-Message-ID: <202601161645.rEIxqjhD-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1768554742; c=relaxed/simple;
+	bh=uVOVIUqiZuoTk+0maIOAiHxCplZx7jUlt7+31JiN0uk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e2/af5IKA3Dtum7+VcnF0Ef8HMzTBTWwD1iEE0dB1bW9BTfIFbQEudn11dIJ6FA95NvLKXa+vSyL890zni0RESyQ2O2dmVJauj608MNZEi5J5QbiTenh+dAs+82KbIi76mYxMdSMDGxjBQGxpafyk8hrcBpRjI96Cv70VttI6ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f195.google.com with SMTP id 71dfb90a1353d-56373f07265so1410637e0c.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 01:12:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768554737; x=1769159537;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/2UZe5YgfXhcRIgTVpIXZmgIkVRExJjOG0e61TJdE4U=;
+        b=rLFZcfLG1O5YrGdaqwG5zzvmMEsXqdEtMP15v6cFWa9DLcxIR+qeC7Bg+bg4t4NI38
+         qkIEoK6bE6BkEIwvOXZARkURb7k6robUW4zjC1cBQGZVgMyGOpYCAQp6o2ycqnFXM+uQ
+         zZKkRGhXLpGT9MErD76tCnRX6zRWucgvZEE8CL1a9eA/9JX35s8HqP5nPaBH5PkVe8YF
+         XXXHdb8hMDVjBOYEwP4I+aRDlT2Ke2Qb43TPSJOsOXCz7O99OwA0CrsoAiRNGSMfbETw
+         A0GvZfCaGwb5wzhkcrlFrq4crcEfq2HLcsAr0dvUKXCsmIefAWqQxuudYlgTGdE8JOML
+         XC5w==
+X-Forwarded-Encrypted: i=1; AJvYcCU9wnKlEVRMggi+eNPIKAjCm/78iN7bdBFyFZiXmRyGTlRR9kr1EbSFFxAkJB6eIaycuVfr4JHJ5yqbv87P@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0dktGMGDJVmLdhInlZeDdn9JG/WszdnAfzBiqhi14Nvbfvavs
+	mkD48usVIpTcN0el/Tt6wBw9Ktu9ejZz4zqekzT+lOR7qhCASv8mLIoB1Y/XE48dCG4=
+X-Gm-Gg: AY/fxX4ivEXKCITjvznsnY0HTQUsN8IP891/cppmOX95jtlK4lOmgCDnIExvLETebm9
+	+8aCdtEbPydlIhkga/GACTuguX9I/z7L51DAdZ19ZExcdQ4FXeiWCcZQA7wWnb7dgCqrkzq2UFx
+	CuNocRHdEKfSIOvAZh8JPeq5qXq7nJHzWPhNhU6xW074h8glbk8pXlCHbb8KpHxYNe4itCFp08w
+	aC9VFimOiuPBKqlgDqQBpDn+DmAHJ3g5+edhnBxSpD+yPQBm9QyhKC0y/C63UWmY8Lfe58FGNJf
+	iIyEQp53zXkYUbP+beWREYHFwOfojCWdGJ8rGTrcfh8LUPesF4ZW0tnzbVpXYt3pNlBnOxpC9Ml
+	y3dBt7oZf5wpVNPFIoztxaokjAy4kRm9XmOfZQaJJ1LXfImxjkUMQwBlAZQAegU5OmzfnZ3OOhw
+	L/n0kUHfjgfAJVQT12oC4wZma/tDzydbz+AO+v1aNR/VsFc5x/
+X-Received: by 2002:a05:6122:1d8a:b0:563:72d8:ea1 with SMTP id 71dfb90a1353d-563b5cc631amr1019673e0c.19.1768554737447;
+        Fri, 16 Jan 2026 01:12:17 -0800 (PST)
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563b6eae96asm552745e0c.0.2026.01.16.01.12.16
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Jan 2026 01:12:16 -0800 (PST)
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-5ecb1d9ac1dso1259804137.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 01:12:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVo0e8fuQcHahTh+a34A+PuQQbcJPrVX0COxuYFN8kr8O4AUsmV8/MBx86B3fJS9pn2vBxkb/bpvbsesA7y@lists.linux.dev
+X-Received: by 2002:a05:6102:5129:b0:5ee:d0ff:7254 with SMTP id
+ ada2fe7eead31-5f1a55702dfmr888364137.34.1768554736636; Fri, 16 Jan 2026
+ 01:12:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <202601161408.8oFa2eE5-lkp@intel.com>
+In-Reply-To: <202601161408.8oFa2eE5-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 16 Jan 2026 10:12:05 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUv0J_XGOzpirOtqPTVNTJBFWJnYPeoycNPKDPJB_mMbg@mail.gmail.com>
+X-Gm-Features: AZwV_Qi75Ru-kG2msi4BX1GsJrsqa-bjWJ2OW9Z6QSQk0M6iAIM2cFl68rwdKz0
+Message-ID: <CAMuHMdUv0J_XGOzpirOtqPTVNTJBFWJnYPeoycNPKDPJB_mMbg@mail.gmail.com>
+Subject: Re: [geert-renesas-drivers:renesas-clk-for-v6.20 21/21]
+ rzg2l-cpg.c:undefined reference to `__udivdi3'
+To: kernel test robot <lkp@intel.com>
+Cc: Chris Brandt <chris.brandt@renesas.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
-head:   3a6d19e51fad5bde689a9dc06c7fceb435d1b015
-commit: 3a6d19e51fad5bde689a9dc06c7fceb435d1b015 [37/37] WIP: scoped init guards
-config: x86_64-buildonly-randconfig-001-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161645.rEIxqjhD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161645.rEIxqjhD-lkp@intel.com/reproduce)
+On Fri, 16 Jan 2026 at 07:29, kernel test robot <lkp@intel.com> wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.20
+> head:   5ef5f78c6635da0be514ea60c3c1cddd61dbf8dc
+> commit: 5ef5f78c6635da0be514ea60c3c1cddd61dbf8dc [21/21] clk: renesas: rzg2l: Remove DSI clock rate restrictions
+> config: xtensa-randconfig-002-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161408.8oFa2eE5-lkp@intel.com/config)
+> compiler: xtensa-linux-gcc (GCC) 15.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161408.8oFa2eE5-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601161408.8oFa2eE5-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    xtensa-linux-ld: drivers/clk/renesas/rzg2l-cpg.o: in function `rzg2l_mod_clock_enable':
+> >> rzg2l-cpg.c:(.text+0x19cc): undefined reference to `__udivdi3'
+>    xtensa-linux-ld: drivers/clk/renesas/rzg2l-cpg.o: in function `rzg2l_cpg_get_foutpostdiv_rate':
+>    rzg2l-cpg.c:(.text+0x1c1d): undefined reference to `__udivdi3'
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601161645.rEIxqjhD-lkp@intel.com/
+Thank you, I'll squash in a fix.
 
-All warnings (new ones prefixed by >>):
+Gr{oetje,eeting}s,
 
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from include/linux/crypto.h:15,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   include/linux/local_lock.h: In function 'class_local_lock_init_constructor':
->> include/linux/local_lock_internal.h:84:36: warning: cast to generic address space pointer from disjoint '__seg_gs' address space pointer
-      84 |         debug_check_no_locks_freed((void *)lock, sizeof(*lock));\
-         |                                    ^
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:107:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:11:41: note: in expansion of macro '__local_lock_init'
-      11 | #define local_lock_init(lock)           __local_lock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:107:61: note: in expansion of macro 'local_lock_init'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         |                                                             ^~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:85:31: error: passing argument 1 of 'lockdep_init_map_type' from pointer to non-enclosed address space
-      85 |         lockdep_init_map_type(&(lock)->dep_map, #lock, &__key,  \
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:107:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:11:41: note: in expansion of macro '__local_lock_init'
-      11 | #define local_lock_init(lock)           __local_lock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:107:61: note: in expansion of macro 'local_lock_init'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         |                                                             ^~~~~~~~~~~~~~~
-   In file included from include/linux/spinlock.h:63:
-   include/linux/lockdep.h:128:55: note: expected 'struct lockdep_map *' but argument is of type '__seg_gs struct lockdep_map *'
-     128 | extern void lockdep_init_map_type(struct lockdep_map *lock, const char *name,
-         |                                   ~~~~~~~~~~~~~~~~~~~~^~~~
-   include/linux/local_lock.h:107:79: error: passing argument 1 of 'local_lock_debug_init' from pointer to non-enclosed address space
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         |                                                                             ~~^~~~~~
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:107:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:11:41: note: in expansion of macro '__local_lock_init'
-      11 | #define local_lock_init(lock)           __local_lock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:107:61: note: in expansion of macro 'local_lock_init'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         |                                                             ^~~~~~~~~~~~~~~
-   In file included from include/linux/local_lock.h:5,
-                    from include/linux/mmzone.h:24,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/crypto.h:18:
-   include/linux/local_lock_internal.h:64:56: note: expected 'local_lock_t *' {aka 'struct local_lock *'} but argument is of type '__seg_gs local_lock_t *' {aka '__seg_gs struct local_lock *'}
-      64 | static inline void local_lock_debug_init(local_lock_t *l)
-         |                                          ~~~~~~~~~~~~~~^
-   include/linux/local_lock.h: In function 'class_local_trylock_init_constructor':
-   include/linux/local_lock_internal.h:93:27: warning: cast to generic address space pointer from disjoint '__seg_gs' address space pointer
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |                           ^
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:120:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:93:9: note: in expansion of macro '__local_lock_init'
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:59:41: note: in expansion of macro '__local_trylock_init'
-      59 | #define local_trylock_init(lock)        __local_trylock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:120:67: note: in expansion of macro 'local_trylock_init'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         |                                                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:93:27: warning: cast to generic address space pointer from disjoint '__seg_gs' address space pointer
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |                           ^
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:120:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:93:9: note: in expansion of macro '__local_lock_init'
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:59:41: note: in expansion of macro '__local_trylock_init'
-      59 | #define local_trylock_init(lock)        __local_trylock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:120:67: note: in expansion of macro 'local_trylock_init'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         |                                                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:93:27: warning: cast to generic address space pointer from disjoint '__seg_gs' address space pointer
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |                           ^
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:120:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-
-
-vim +/__seg_gs +84 include/linux/local_lock_internal.h
-
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  79  
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  80  #define __local_lock_init(lock)					\
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  81  do {								\
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  82  	static struct lock_class_key __key;			\
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  83  								\
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15 @84  	debug_check_no_locks_freed((void *)lock, sizeof(*lock));\
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  85  	lockdep_init_map_type(&(lock)->dep_map, #lock, &__key,  \
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  86  			      0, LD_WAIT_CONFIG, LD_WAIT_INV,	\
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  87  			      LD_LOCK_PERCPU);			\
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  88  	local_lock_debug_init(lock);				\
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  89  } while (0)
-d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  90  
-
-:::::: The code at line 84 was first introduced by commit
-:::::: d8bbd97ad0b99a9394f2cd8410b884c48e218cf0 locking/local_lock: Add missing owner initialization
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+                        Geert
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
