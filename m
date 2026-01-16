@@ -1,161 +1,340 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E9927816C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 07:45:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C752FF17D;
+	Fri, 16 Jan 2026 08:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768549552; cv=none; b=JNSkbsUbhzEw8YJ1UfsynCTUudls5w+FBc7EnWyHYuJulCoCt1J2gh18f+I+fLVIpy0s3nwhxVHByPHnqVlzhayyyfWvGCwQxevdFvcV7BbCOwi4qGfWVGZFzGzeBzGPeFHTCDprRoZJWQRGc0CqQVfAxBPstPFJcmm+yKsk3Uk=
+	t=1768551422; cv=none; b=MWeWUDW60FppmGAV2ZoaneR60BN4IyM6FuIUpBmYgPDgSqX0YboEA8oEHbFhstWqJ+wOUu0wssbH1SF5ooNnwaYp2XGl8tgFbK6lpzAJVCCvpHL6C3Qoz6KX3zt71L8GviC7UOTKCa4baCAnkdGdRpzzc4avIawHjjsQ0bDuudQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768549552; c=relaxed/simple;
-	bh=G0V6S9md6+nld2O30zY+hMSqsUc4Po2MsCahVSA79HY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UE0il0MClzOjqjQ9tVJK5oglAq8CJeDNOvMs/AUUMKROj+TyvhrSYslVqOaThlZ6gFP4JeF16q1zoWZr4PGRNQkUVfvl2WxWn7QDyyiut9r7QnKebHxCLz4fnrUnAukHB3jGni+WwY3Lwk2H+R+ZEMYhLOsVB/z4AcxX4ViQjHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D3TduJMa; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768551422; c=relaxed/simple;
+	bh=cU+XMlUEGqGsZ/KBXWrhb6wtu9+6X3kjZ0yKE1IdGs4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=unDFuXNUsvMA7dcofxJImcocPu4bWscqMosSVQyLwr/pUxTSHsdIZz8enmw5g3gi3dUn3lxjtyhuXg7uN7iqCgVnK2epkW51s1evh/wwqXTpyCsVkw+sUfkQz3a2YRyoG7CPXK6o9L0/kVi8Mf/gnDM9cuzxwEprLTCGSn4Eh4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=odNwwNec; arc=none smtp.client-ip=95.215.58.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D3TduJMa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768549550; x=1800085550;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G0V6S9md6+nld2O30zY+hMSqsUc4Po2MsCahVSA79HY=;
-  b=D3TduJMapoUDyG7uF3dwd4DfXb4VBPGEmokPEmUSFCCXcQxeHC8NrMrc
-   57pr5QdsxZCG1VJapDBDj1HUiPmxbUf3tjIjxmcMWVvFEyqKDE5li/PX1
-   Yi6+fkSeTYW1HziDDxGS+5hokWm4qYhti3xqbFFHfJnie0mbZqiJloTOy
-   VCfe5v4mQ8SOvR1846Hunm5AqyweX4z0SvOL6849AENqZtucXV67PgmHX
-   iOyfLGjEwY52HmiPP5wuijkyQYlvJkPBfcp+mHxu+KkxydREMEG/fww89
-   heE5EzSw3gq9GeLthJENHAqYTNvIsCu56BTObtdMV27i4PuMqynMC7Tjs
-   Q==;
-X-CSE-ConnectionGUID: aSCLPe+qS7uz6sJhjAN3ew==
-X-CSE-MsgGUID: qH2GT4eoTTeEyHjsPo4t9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69065594"
-X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="69065594"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 23:45:50 -0800
-X-CSE-ConnectionGUID: ONnquVpZT+qEY5I8SvDUjg==
-X-CSE-MsgGUID: tDcssknwRjy3qULDu7oUIQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="242723017"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 15 Jan 2026 23:45:46 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vgeWd-00000000KXw-0hBC;
-	Fri, 16 Jan 2026 07:45:43 +0000
-Date: Fri, 16 Jan 2026 15:45:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	maple-tree@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Suren Baghdasaryan <surenb@google.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Sidhartha Kumar <sidhartha.kumar@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Alice Ryhl <aliceryhl@google.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Kujau <lists@nerdbynature.de>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>
-Subject: Re: [PATCH 10/28] maple_tree: Introduce maple_copy node and use it
- in mas_spanning_rebalance()
-Message-ID: <202601161501.NZ3GNDCG-lkp@intel.com>
-References: <20260115193647.1695937-11-Liam.Howlett@oracle.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="odNwwNec"
+Message-ID: <a8128951-326d-454e-84e2-8b7cdf797b8d@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768551417;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=va5y78fPbO6HA34/xMGaqzzkSeRtvgy8KJanB9u0Cr8=;
+	b=odNwwNecNIf0Ft8H8tjIBF938/D2/r2/n6GtfKcOSW4+WwsQZn1t+Agy/ZITt4P3nVd4H7
+	SnnWYN9h+XNT93n0GeZQdJIvyonnr0oztauH2EIQsifEJptIoUWv95hdTYFRmZxVwQU/2G
+	TPirkCrNacTJ1ucYyDzCeKRtOGBJhC4=
+Date: Fri, 16 Jan 2026 16:16:31 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115193647.1695937-11-Liam.Howlett@oracle.com>
+Subject: Re: [PATCH v3 24/30] mm: memcontrol: prepare for reparenting LRU
+ pages for lruvec lock
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+References: <0252f9acc29d4b1e9b8252dc003aff065c8ac1f6.1768389889.git.zhengqi.arch@bytedance.com>
+ <202601152057.xgusZpKm-lkp@intel.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Qi Zheng <qi.zheng@linux.dev>
+In-Reply-To: <202601152057.xgusZpKm-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Liam,
+Hi,
 
-kernel test robot noticed the following build warnings:
+The compilation problem I see in the report occurs under the following
+configuration:
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on next-20260115]
-[cannot apply to akpm-mm/mm-nonmm-unstable soc/for-next linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+1. enable CONFIG_WARN_CONTEXT_ANALYSIS_ALL
+2. make CC=clang bzImage
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Liam-R-Howlett/maple_tree-Move-mas_spanning_rebalance-loop-to-function/20260116-034135
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260115193647.1695937-11-Liam.Howlett%40oracle.com
-patch subject: [PATCH 10/28] maple_tree: Introduce maple_copy node and use it in mas_spanning_rebalance()
-config: x86_64-randconfig-121-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161501.NZ3GNDCG-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161501.NZ3GNDCG-lkp@intel.com/reproduce)
+Could you please test whether the following fixes can resolve the
+compilation issue?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601161501.NZ3GNDCG-lkp@intel.com/
+Thanks!
 
-sparse warnings: (new ones prefixed by >>)
->> lib/maple_tree.c:2621:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got void *content @@
-   lib/maple_tree.c:2621:29: sparse:     expected void [noderef] __rcu *
-   lib/maple_tree.c:2621:29: sparse:     got void *content
->> lib/maple_tree.c:2624:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got void *entry @@
-   lib/maple_tree.c:2624:23: sparse:     expected void [noderef] __rcu *
-   lib/maple_tree.c:2624:23: sparse:     got void *entry
-   lib/maple_tree.c:2680:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu **b_slots @@     got void [noderef] __rcu * @@
-   lib/maple_tree.c:2680:17: sparse:     expected void [noderef] __rcu **b_slots
-   lib/maple_tree.c:2680:17: sparse:     got void [noderef] __rcu *
-   lib/maple_tree.c:6412:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got struct maple_node * @@
-   lib/maple_tree.c:6412:30: sparse:     expected void [noderef] __rcu *
-   lib/maple_tree.c:6412:30: sparse:     got struct maple_node *
-   lib/maple_tree.c:6412:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got struct maple_node * @@
-   lib/maple_tree.c:6412:30: sparse:     expected void [noderef] __rcu *
-   lib/maple_tree.c:6412:30: sparse:     got struct maple_node *
+```
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index e0b84b109b7ac..f28c5ef9bf604 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -742,15 +742,9 @@ struct mem_cgroup *get_mem_cgroup_from_current(void);
+  struct mem_cgroup *get_mem_cgroup_from_folio(struct folio *folio);
 
-vim +2621 lib/maple_tree.c
+  struct lruvec *folio_lruvec_lock(struct folio *folio);
+-       __acquires(&lruvec->lru_lock)
+-       __acquires(rcu)
+  struct lruvec *folio_lruvec_lock_irq(struct folio *folio);
+-       __acquires(&lruvec->lru_lock)
+-       __acquires(rcu)
+  struct lruvec *folio_lruvec_lock_irqsave(struct folio *folio,
+                                                 unsigned long *flags);
+-       __acquires(&lruvec->lru_lock)
+-       __acquires(rcu)
 
-  2603	
-  2604	/*
-  2605	 * cp_leaf_init() - Initialize a maple_copy node for the leaf level of a
-  2606	 * spanning store
-  2607	 * @cp: The maple copy node
-  2608	 * @mas: The maple state
-  2609	 * @l_wr_mas: The left write state of the spanning store
-  2610	 * @r_wr_mas: The right write state of the spanning store
-  2611	 */
-  2612	static inline void cp_leaf_init(struct maple_copy *cp,
-  2613			struct ma_state *mas, struct ma_wr_state *l_wr_mas,
-  2614			struct ma_wr_state *r_wr_mas)
-  2615	{
-  2616		unsigned char end = 0;
-  2617	
-  2618		/* Create entries to insert including split entries to left and right */
-  2619		if (l_wr_mas->r_min < mas->index) {
-  2620			end++;
-> 2621			cp->slot[0] = l_wr_mas->content;
-  2622			cp->pivot[0] = mas->index - 1;
-  2623		}
-> 2624		cp->slot[end] = l_wr_mas->entry;
-  2625		cp->pivot[end] = mas->last;
-  2626	
-  2627		if (r_wr_mas->end_piv > mas->last) {
-  2628			end++;
-  2629			cp->slot[end] = r_wr_mas->slots[r_wr_mas->offset_end];
-  2630			cp->pivot[end] = r_wr_mas->end_piv;
-  2631		}
-  2632	
-  2633		cp->min = l_wr_mas->r_min;
-  2634		cp->max = cp->pivot[end];
-  2635		cp->end = end;
-  2636	}
-  2637	
+  static inline
+  struct mem_cgroup *mem_cgroup_from_css(struct cgroup_subsys_state *css){
+@@ -1477,38 +1471,10 @@ static inline struct lruvec 
+*parent_lruvec(struct lruvec *lruvec)
+         return mem_cgroup_lruvec(memcg, lruvec_pgdat(lruvec));
+  }
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-static inline void lruvec_lock_irq(struct lruvec *lruvec)
+-       __acquires(&lruvec->lru_lock)
+-       __acquires(rcu)
+-{
+-       rcu_read_lock();
+-       spin_lock_irq(&lruvec->lru_lock);
+-}
+-
+-static inline void lruvec_unlock(struct lruvec *lruvec)
+-       __releases(&lruvec->lru_lock)
+-       __releases(rcu)
+-{
+-       spin_unlock(&lruvec->lru_lock);
+-       rcu_read_unlock();
+-}
+-
+-static inline void lruvec_unlock_irq(struct lruvec *lruvec)
+-       __releases(&lruvec->lru_lock)
+-       __releases(rcu)
+-{
+-       spin_unlock_irq(&lruvec->lru_lock);
+-       rcu_read_unlock();
+-}
+-
+-static inline void lruvec_unlock_irqrestore(struct lruvec *lruvec,
+-               unsigned long flags)
+-       __releases(&lruvec->lru_lock)
+-       __releases(rcu)
+-{
+-       spin_unlock_irqrestore(&lruvec->lru_lock, flags);
+-       rcu_read_unlock();
+-}
++void lruvec_lock_irq(struct lruvec *lruvec);
++void lruvec_unlock(struct lruvec *lruvec);
++void lruvec_unlock_irq(struct lruvec *lruvec);
++void lruvec_unlock_irqrestore(struct lruvec *lruvec, unsigned long flags);
+
+  /* Test requires a stable folio->memcg binding, see folio_memcg() */
+  static inline bool folio_matches_lruvec(struct folio *folio,
+diff --git a/include/linux/swap.h b/include/linux/swap.h
+index 4449d1f371a56..77a6a9fa11981 100644
+--- a/include/linux/swap.h
++++ b/include/linux/swap.h
+@@ -328,9 +328,7 @@ extern unsigned long totalreserve_pages;
+
+  /* linux/mm/swap.c */
+  void lru_note_cost_unlock_irq(struct lruvec *lruvec, bool file,
+-               unsigned int nr_io, unsigned int nr_rotated)
+-               __releases(lruvec->lru_lock);
+-               __releases(rcu)
++               unsigned int nr_io, unsigned int nr_rotated);
+  void lru_note_cost_refault(struct folio *);
+  void folio_add_lru(struct folio *);
+  void folio_add_lru_vma(struct folio *, struct vm_area_struct *);
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index c303c483f55a4..8907c9ea33bbc 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -1313,6 +1313,39 @@ void mem_cgroup_scan_tasks(struct mem_cgroup *memcg,
+         }
+  }
+
++void lruvec_lock_irq(struct lruvec *lruvec)
++       __acquires(&lruvec->lru_lock)
++       __acquires(rcu)
++{
++       rcu_read_lock();
++       spin_lock_irq(&lruvec->lru_lock);
++}
++
++void lruvec_unlock(struct lruvec *lruvec)
++       __releases(&lruvec->lru_lock)
++       __releases(rcu)
++{
++       spin_unlock(&lruvec->lru_lock);
++       rcu_read_unlock();
++}
++
++void lruvec_unlock_irq(struct lruvec *lruvec)
++       __releases(&lruvec->lru_lock)
++       __releases(rcu)
++{
++       spin_unlock_irq(&lruvec->lru_lock);
++       rcu_read_unlock();
++}
++
++void lruvec_unlock_irqrestore(struct lruvec *lruvec,
++               unsigned long flags)
++       __releases(&lruvec->lru_lock)
++       __releases(rcu)
++{
++       spin_unlock_irqrestore(&lruvec->lru_lock, flags);
++       rcu_read_unlock();
++}
++
+  /**
+   * folio_lruvec_lock - Lock the lruvec for a folio.
+   * @folio: Pointer to the folio.
+
+```
+
+On 1/15/26 8:34 PM, kernel test robot wrote:
+> Hi Qi,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on next-20260114]
+> [cannot apply to akpm-mm/mm-everything brauner-vfs/vfs.all trace/for-next linus/master dennis-percpu/for-next v6.19-rc5 v6.19-rc4 v6.19-rc3 v6.19-rc5]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/mm-memcontrol-remove-dead-code-of-checking-parent-memory-cgroup/20260114-193921
+> base:   next-20260114
+> patch link:    https://lore.kernel.org/r/0252f9acc29d4b1e9b8252dc003aff065c8ac1f6.1768389889.git.zhengqi.arch%40bytedance.com
+> patch subject: [PATCH v3 24/30] mm: memcontrol: prepare for reparenting LRU pages for lruvec lock
+> config: powerpc64-randconfig-002-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152057.xgusZpKm-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601152057.xgusZpKm-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202601152057.xgusZpKm-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>     In file included from crypto/ahash.c:26:
+>     In file included from include/net/netlink.h:6:
+>     In file included from include/linux/netlink.h:9:
+>     In file included from include/net/scm.h:9:
+>     In file included from include/linux/security.h:35:
+>     In file included from include/linux/bpf.h:32:
+>>> include/linux/memcontrol.h:772:14: error: use of undeclared identifier 'lruvec'
+>       772 |         __acquires(&lruvec->lru_lock)
+>           |                     ^~~~~~
+>     include/linux/memcontrol.h:773:13: error: use of undeclared identifier 'rcu'
+>       773 |         __acquires(rcu)
+>           |                    ^~~
+>     include/linux/memcontrol.h:775:14: error: use of undeclared identifier 'lruvec'
+>       775 |         __acquires(&lruvec->lru_lock)
+>           |                     ^~~~~~
+>     include/linux/memcontrol.h:776:13: error: use of undeclared identifier 'rcu'
+>       776 |         __acquires(rcu)
+>           |                    ^~~
+>     include/linux/memcontrol.h:779:14: error: use of undeclared identifier 'lruvec'
+>       779 |         __acquires(&lruvec->lru_lock)
+>           |                     ^~~~~~
+>     include/linux/memcontrol.h:780:13: error: use of undeclared identifier 'rcu'
+>       780 |         __acquires(rcu)
+>           |                    ^~~
+>     include/linux/memcontrol.h:1507:13: error: use of undeclared identifier 'rcu'
+>      1507 |         __acquires(rcu)
+>           |                    ^~~
+>     include/linux/memcontrol.h:1515:13: error: use of undeclared identifier 'rcu'
+>      1515 |         __releases(rcu)
+>           |                    ^~~
+>     include/linux/memcontrol.h:1523:13: error: use of undeclared identifier 'rcu'
+>      1523 |         __releases(rcu)
+>           |                    ^~~
+>     include/linux/memcontrol.h:1532:13: error: use of undeclared identifier 'rcu'
+>      1532 |         __releases(rcu)
+>           |                    ^~~
+>     In file included from crypto/ahash.c:26:
+>     In file included from include/net/netlink.h:6:
+>     In file included from include/linux/netlink.h:9:
+>     In file included from include/net/scm.h:13:
+>     In file included from include/net/compat.h:8:
+>     include/linux/compat.h:454:22: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+>       454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+>           |                             ^        ~
+>     arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+>        18 |         unsigned long sig[_NSIG_WORDS];
+>           |         ^
+>     In file included from crypto/ahash.c:26:
+>     In file included from include/net/netlink.h:6:
+>     In file included from include/linux/netlink.h:9:
+>     In file included from include/net/scm.h:13:
+>     In file included from include/net/compat.h:8:
+>     include/linux/compat.h:454:10: warning: array index 7 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+>       454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+>           |                 ^     ~
+>     include/linux/compat.h:130:2: note: array 'sig' declared here
+>       130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+>           |         ^
+>     include/linux/compat.h:454:42: warning: array index 6 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+>       454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+>           |                                                 ^     ~
+>     include/linux/compat.h:130:2: note: array 'sig' declared here
+>       130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+>           |         ^
+>     include/linux/compat.h:454:53: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+>       454 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+>           |                                                            ^        ~
+>     arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+>        18 |         unsigned long sig[_NSIG_WORDS];
+>           |         ^
+>     In file included from crypto/ahash.c:26:
+>     In file included from include/net/netlink.h:6:
+>     In file included from include/linux/netlink.h:9:
+>     In file included from include/net/scm.h:13:
+>     In file included from include/net/compat.h:8:
+>     include/linux/compat.h:456:22: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+>       456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+>           |                             ^        ~
+>     arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+>        18 |         unsigned long sig[_NSIG_WORDS];
+>           |         ^
+>     In file included from crypto/ahash.c:26:
+>     In file included from include/net/netlink.h:6:
+>     In file included from include/linux/netlink.h:9:
+>     In file included from include/net/scm.h:13:
+>     In file included from include/net/compat.h:8:
+>     include/linux/compat.h:456:10: warning: array index 5 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+>       456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+>           |                 ^     ~
+>     include/linux/compat.h:130:2: note: array 'sig' declared here
+>       130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+>           |         ^
+>     include/linux/compat.h:456:42: warning: array index 4 is past the end of the array (that has type 'compat_sigset_word[2]' (aka 'unsigned int[2]')) [-Warray-bounds]
+>       456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+>           |                                                 ^     ~
+>     include/linux/compat.h:130:2: note: array 'sig' declared here
+>       130 |         compat_sigset_word      sig[_COMPAT_NSIG_WORDS];
+>           |         ^
+>     include/linux/compat.h:456:53: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+>       456 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+>           |                                                            ^        ~
+>     arch/powerpc/include/uapi/asm/signal.h:18:2: note: array 'sig' declared here
+>        18 |         unsigned long sig[_NSIG_WORDS];
+>           |         ^
+>     In file included from crypto/ahash.c:26:
+>     In file included from include/net/netlink.h:6:
+>     In file included from include/linux/netlink.h:9:
+> 
+> 
+> vim +/lruvec +772 include/linux/memcontrol.h
+> 
+>     770	
+>     771	struct lruvec *folio_lruvec_lock(struct folio *folio);
+>   > 772		__acquires(&lruvec->lru_lock)
+>     773		__acquires(rcu)
+>     774	struct lruvec *folio_lruvec_lock_irq(struct folio *folio);
+>     775		__acquires(&lruvec->lru_lock)
+>     776		__acquires(rcu)
+>     777	struct lruvec *folio_lruvec_lock_irqsave(struct folio *folio,
+>     778							unsigned long *flags);
+>     779		__acquires(&lruvec->lru_lock)
+>     780		__acquires(rcu)
+>     781	
+> 
+
