@@ -1,63 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20154286409
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 21:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E28C2DAFBA;
+	Fri, 16 Jan 2026 21:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768599445; cv=none; b=JKgnbySMLL0ziUwFUuuzOEGi5hv36DT4nlOaqhG7YUp5lu97Dg3r0YJvOJGc1fzN0Tn5hOzFzdsRuBr9qPn60AiSfwHqR3zYWhU1m67qLR2KBPcXWIGYxltPpO8Wm0Lo4Bo4I+hV6HSCY3Va3nBU333rUPR1FoT5m3nkrSc5/FE=
+	t=1768599447; cv=none; b=oSP/+Gcbt5Zhe2sA2Z2vmMxPs/n55KRrsoJOZz9bghDoQzcY0dXKmjU61EiJU1mxr3DoH3iSuNpr0kxwjgO5iZQCF3dF/JZmYrL39iubICGXgESo3ShmSxRIjuPyTVBj6dm+B821aQR5ePoHHGyrCees/lH97/gUC43gbUg8nk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768599445; c=relaxed/simple;
-	bh=y2Km9ikx0bGX69q42CxA6vSKHrKUAglF8jf9UWTjIC8=;
+	s=arc-20240116; t=1768599447; c=relaxed/simple;
+	bh=cXaYCWY+NFHrw2co2+VwRx7+jg87vo2na/i0pxgM5eM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EvU0ACSQNueKRrZ6apl6ylLjb4t2dNujxtuJ15TIjUw0TwHcZqtfOEPupb5kp4kZqYyNW/75ggZZMmHsqBjuBtban3vCmkt/6CihpwNoO9sEgjkhfJer7tE9H2q9lCMNp2fEkQA87fLq9XSYJPbS9fOy0PL2XvYNQ05QDlzXYWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ixeOV/cA; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=OxEj9jVzWfc8F8dNE5yKtg54rNXmy+EpaNkPT2yX9Xrs1y+HoejdmlHL0eVoBEF8LJXaqOvDb1i0US7aaE1+qqvXvEqqQWpv3fgpiNZqyARXe1s1cC0SniHhTPuZXbGOSD17A9r4llUU3meNb8babqvKOgyyWnU01wstmCyol7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OZGXnxqb; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ixeOV/cA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OZGXnxqb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768599444; x=1800135444;
+  t=1768599445; x=1800135445;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=y2Km9ikx0bGX69q42CxA6vSKHrKUAglF8jf9UWTjIC8=;
-  b=ixeOV/cAxlyKLHMFCyzLYYCYP5YBeNUEH4HehRNUO3ovnnyVoqny8XbI
-   Mb5QMy+pkg+EfWQegAo6/lIng84TTZZlTp3QkY5GzhZgvd69HMK+mNR2c
-   KtL7H1BzWTL5Ph6mEPTO5CfEa2yOpqQUMze7UoVzc+boOMiJ7i1SqGG7A
-   5Ng55oqjjiqv1QJw3tscap1m0l5Z2D5diKu1o9ctoOpH9ix16eeVRulJ3
-   //XI02lfHqGtnUEoG+rVQrcnhkMcy4Wag+fVHgN7oXj0L8Ly9OV/Tl5kR
-   HyzXkLUnGCvb6hXG0nMLK205UMtqPXx/5qlK/s/F0iA9sWZYd6UKC5UXm
-   g==;
-X-CSE-ConnectionGUID: gfbMIP4aTvqcIp82ekKLdg==
-X-CSE-MsgGUID: DLm6Xh/5RBGbElEDX1qTyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69967760"
+  bh=cXaYCWY+NFHrw2co2+VwRx7+jg87vo2na/i0pxgM5eM=;
+  b=OZGXnxqbpzbBfy1H77TF0ubmBqdJ2XJWpkfXz67ShC3Kz0yVK+BfnrCF
+   9rUyLponO/MsS6xkFHUUknVuQuj5wkacmoamXF8im5S56vaA64S7fdLlW
+   8h+hTvWxKuuSKAapzsbF5Ke2Jbs0AOXODvNu2VxxBloDljU9WjFe8Mq2c
+   1Beye2ehku94ibcyw58Hno3chc240/km4+l7rSKxY5H27FlNPRNnvfPyh
+   XvVrdbgEE6cSyx5coxxuLJOtE2nkDiRxMbcC5QOj25aMFDlYXzKty0Y47
+   6gQQ3D2SfFrdv3DRhd645AnxzF37VPo9zyCe+iGWk3NmxlVsh+fDSjK9Z
+   w==;
+X-CSE-ConnectionGUID: enYIUpMNQYOo+0fS0XNo4w==
+X-CSE-MsgGUID: JrwNlEMARQy/lu0HzCe5Iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="92583832"
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="69967760"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 13:37:23 -0800
-X-CSE-ConnectionGUID: uA+1L0aXQgq4HXw30AIFig==
-X-CSE-MsgGUID: ui5XdWVRSQOst+iwvjOO7Q==
+   d="scan'208";a="92583832"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 13:37:25 -0800
+X-CSE-ConnectionGUID: GpUlGRTFQl2vYTqKJRteGw==
+X-CSE-MsgGUID: zFZj+0JbSQ27MRLUM31HiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="204573067"
+   d="scan'208";a="205401656"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Jan 2026 13:37:21 -0800
+  by orviesa008.jf.intel.com with ESMTP; 16 Jan 2026 13:37:21 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgrVO-00000000LGS-2xqD;
+	id 1vgrVO-00000000LGU-33wE;
 	Fri, 16 Jan 2026 21:37:18 +0000
-Date: Sat, 17 Jan 2026 05:37:10 +0800
+Date: Sat, 17 Jan 2026 05:37:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Henrique Carvalho <henrique.carvalho@suse.com>, sfrench@samba.org
-Cc: oe-kbuild-all@lists.linux.dev, pc@manguebit.org,
-	ronniesahlberg@gmail.com, sprasad@microsoft.com, tom@talpey.com,
-	bharathsm@microsoft.com, ematsumiya@suse.de,
-	linux-cifs@vger.kernel.org
-Subject: Re: [PATCH] smb: client: introduce multichannel async work during
- mount
-Message-ID: <202601170529.AH74foBz-lkp@intel.com>
-References: <20260116153548.223614-1-henrique.carvalho@suse.com>
+To: Benjamin Coddington <bcodding@hammerspace.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Rick Macklem <rick.macklem@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-crypto@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] nfsd: Add a key for signing filehandles
+Message-ID: <202601170520.GITVT8Iy-lkp@intel.com>
+References: <c49d28aade36c044f0533d03b564ff65e00d9e05.1768573690.git.bcodding@hammerspace.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,76 +70,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260116153548.223614-1-henrique.carvalho@suse.com>
+In-Reply-To: <c49d28aade36c044f0533d03b564ff65e00d9e05.1768573690.git.bcodding@hammerspace.com>
 
-Hi Henrique,
+Hi Benjamin,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on cifs/for-next]
-[also build test WARNING on linus/master v6.19-rc5 next-20260116]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bfd453acb5637b5df881cef4b21803344aa9e7ac]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Henrique-Carvalho/smb-client-introduce-multichannel-async-work-during-mount/20260116-234138
-base:   git://git.samba.org/sfrench/cifs-2.6.git for-next
-patch link:    https://lore.kernel.org/r/20260116153548.223614-1-henrique.carvalho%40suse.com
-patch subject: [PATCH] smb: client: introduce multichannel async work during mount
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260117/202601170529.AH74foBz-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170529.AH74foBz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Coddington/nfsd-Convert-export-flags-to-use-BIT-macro/20260116-223927
+base:   bfd453acb5637b5df881cef4b21803344aa9e7ac
+patch link:    https://lore.kernel.org/r/c49d28aade36c044f0533d03b564ff65e00d9e05.1768573690.git.bcodding%40hammerspace.com
+patch subject: [PATCH v1 2/4] nfsd: Add a key for signing filehandles
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260117/202601170520.GITVT8Iy-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170520.GITVT8Iy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601170529.AH74foBz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601170520.GITVT8Iy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/smb/client/connect.c:3907:1: warning: 'mchan_mount_alloc' defined but not used [-Wunused-function]
-    3907 | mchan_mount_alloc(struct smb3_fs_context *ctx)
-         | ^~~~~~~~~~~~~~~~~
+>> fs/nfsd/nfsctl.c:2282:50: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+    2282 |         trace_nfsd_ctl_fh_key_set((const char *)fh_key, ret);
+         |                                                         ^~~
+   fs/nfsd/nfsctl.c:2260:9: note: initialize the variable 'ret' to silence this warning
+    2260 |         int ret;
+         |                ^
+         |                 = 0
+   1 warning generated.
 
 
-vim +/mchan_mount_alloc +3907 fs/smb/client/connect.c
+vim +/ret +2282 fs/nfsd/nfsctl.c
 
-  3905	
-  3906	static struct mchan_mount *
-> 3907	mchan_mount_alloc(struct smb3_fs_context *ctx)
-  3908	{
-  3909		int rc;
-  3910		struct TCP_Server_Info *server;
-  3911		struct mchan_mount *mchan_mount;
-  3912	
-  3913		mchan_mount = kzalloc(sizeof(*mchan_mount), GFP_KERNEL);
-  3914		if (!mchan_mount)
-  3915			return ERR_PTR(-ENOMEM);
-  3916	
-  3917		INIT_WORK(&mchan_mount->work, mchan_mount_work_fn);
-  3918		kref_init(&mchan_mount->refcount);
-  3919	
-  3920		server = cifs_get_tcp_session(ctx, NULL);
-  3921		if (IS_ERR(server)) {
-  3922			rc = PTR_ERR(server);
-  3923			goto error;
-  3924		}
-  3925	
-  3926		mchan_mount->ses = cifs_get_smb_ses(server, ctx);
-  3927		if (IS_ERR(mchan_mount->ses)) {
-  3928			cifs_put_tcp_session(server, false);
-  3929			rc = PTR_ERR(mchan_mount->ses);
-  3930			goto error;
-  3931		}
-  3932	
-  3933		return mchan_mount;
-  3934	
-  3935	error:
-  3936		kfree(mchan_mount);
-  3937	
-  3938		return ERR_PTR(rc);
-  3939	}
-  3940	
+  2254	
+  2255	int nfsd_nl_fh_key_set_doit(struct sk_buff *skb, struct genl_info *info)
+  2256	{
+  2257		siphash_key_t *fh_key;
+  2258		struct nfsd_net *nn;
+  2259		int fh_key_len;
+  2260		int ret;
+  2261	
+  2262		if (GENL_REQ_ATTR_CHECK(info, NFSD_A_SERVER_FH_KEY))
+  2263			return -EINVAL;
+  2264	
+  2265		fh_key_len = nla_len(info->attrs[NFSD_A_SERVER_FH_KEY]);
+  2266		if (fh_key_len != sizeof(siphash_key_t))
+  2267			return -EINVAL;
+  2268	
+  2269		/* Is the key already set? */
+  2270		nn = net_generic(genl_info_net(info), nfsd_net_id);
+  2271		if (nn->fh_key)
+  2272			return -EEXIST;
+  2273	
+  2274		fh_key = kmalloc(sizeof(siphash_key_t), GFP_KERNEL);
+  2275		if (!fh_key)
+  2276			return -ENOMEM;
+  2277	
+  2278		memcpy(fh_key, nla_data(info->attrs[NFSD_A_SERVER_FH_KEY]), sizeof(siphash_key_t));
+  2279		nn = net_generic(genl_info_net(info), nfsd_net_id);
+  2280		nn->fh_key = fh_key;
+  2281	
+> 2282		trace_nfsd_ctl_fh_key_set((const char *)fh_key, ret);
+  2283		return ret;
+  2284	}
+  2285	
 
 -- 
 0-DAY CI Kernel Test Service
