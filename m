@@ -1,99 +1,95 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D6878F26
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 14:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49143002DC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 14:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768572245; cv=none; b=sj2Z8hgJtoTL/Erfme24rkULyy5kmyJB7MBV/NGAV4wO7BRQxECyh72xr655+JFo82voxAKu3ks63CMB9Qall4TiPrHm50PU6h/6VAau9eoXLAHhTb8jX2PUPAngiW29a1BYsU3zxc8y4pymNgv4zR0nv2ei3os3XL5VPsC2QRE=
+	t=1768573640; cv=none; b=s1/WkWbEnXUEq4Zc6ESY89J+f2hPHzVvtZFAFFZeDcAYngtTTtfqnD9vDUd9ILfxilpgxZ+ToAd2mFjFJ6Kxwc4EtjejbjdAfvzTrfShsfbLXq6YmF8rwLUCaJfwE3kPl6vvjVmGyKXVknPohw/ZqukmVz6xbxNDAvfYDNOyRP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768572245; c=relaxed/simple;
-	bh=Kbhyq+SBAS20jDfUYkCsufjC2PTkpWj3iHsn46XYUBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uAAkfQ2sAipII25Tr1/X7+fcXYuTZEf7IR8u1QDgECEbT1IxB89y+j8n+GXoHXhigv6SOAcFLNNesyUdZV1kydFUmQD1EC3JLNL6mVc9jb+cXxcvQjHmCELmAqOGIc40331/d3L817Q6F8cxfSGgGVqlMx4tsAroPE1YN/eeFjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MD34V6Es; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1768573640; c=relaxed/simple;
+	bh=Mr9BfPMXlT0bThSl1d6AlRASLG1IXBPu8SRRfpYM6jA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UXisveP2kLhz9Eco98npeHT4EeZArE4OPSc53KG94pSYxtoL3v5278ALmSQ6yHZkCxHc62MKLy1MVMYfr6HN5ybZ+ku7nisKTsh9gsMemaZEnX8izFRTy9vvjz/h3XGnpXtpmdgvyaAA9ghsYP3agZ5I7p31/RSvGV6CACLMMps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kZhVCxbo; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MD34V6Es"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kZhVCxbo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768572244; x=1800108244;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Kbhyq+SBAS20jDfUYkCsufjC2PTkpWj3iHsn46XYUBQ=;
-  b=MD34V6EsSmiUvzHNj1oX7vrOT1BBCJ/YpIfAp8ZNa6fb43j2mamJWrP/
-   4pdC/LmwQuPHruWT3+yG2Xx0vv1sRRi8Dy1v6nZFPhwoOQUuIRc07pUJ6
-   6go+x1mUighkZU36G0deZ2yO/IAb57wLI88EpHf1nyk1SglXmpDxWHnC/
-   4N9abOB9S45MCEcH5mXuthbiY4ir0+5egx0fjH3tQNd7N/UGGO0qnQ0EC
-   4px7le2HFfD2c08vh7ntjjNBdo1SIUixLJu2+G0t+UlS4eSfWVzPiCKWT
-   i2he7tSSTJRf3qub40Rkn/zzGkMqgQRn1ZYmL6Od7RqNSuB8kQ32/q7gB
-   g==;
-X-CSE-ConnectionGUID: xJhbs0WKQfWfLMnAnyOfew==
-X-CSE-MsgGUID: QYYRUZv5QjqD3wN46q6kyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="95362876"
+  t=1768573638; x=1800109638;
+  h=date:from:to:cc:subject:message-id;
+  bh=Mr9BfPMXlT0bThSl1d6AlRASLG1IXBPu8SRRfpYM6jA=;
+  b=kZhVCxbowo6a2K1jW7gg2vFc9ez9tZ3830nvrwNy8PjMqoM/ka62dZ/d
+   tpsDgKeR6sgXRtu0JBkBFCSkoE/g5HOyjfez6Ifto1kWnzz3Jz0TiEzs3
+   0rgSvbS9sLjx99+VqczOry8hUv+/7ldsUhDSJp2n+VJPweEHDCCjqSie0
+   KK7x2ZgJog8sfbH/QbqH0geZkg+hvMYkYYPUnVxAs0sX8zNQmCs4gY9L4
+   fXcdz/JMtVt2etKFdeyDsQFO733wjee48RDw7QQuMdR4Zzo8f3ZnR8ktq
+   jEDFO/dWwXdPUlQoTPlcwW9/Z+1TFuntbrqCOr4N3jn0G1nT6vkPkNN1W
+   A==;
+X-CSE-ConnectionGUID: OBRqmNoxSHOHLVOFwkaVDg==
+X-CSE-MsgGUID: Rx7r+kvsS4isbKxAoYgFzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69089754"
 X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="95362876"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 06:04:04 -0800
-X-CSE-ConnectionGUID: eh1KU9icSp6d5wMXcSvD+g==
-X-CSE-MsgGUID: Fb2CGsrGRAW+ZwwaMjJqIw==
+   d="scan'208";a="69089754"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 06:27:17 -0800
+X-CSE-ConnectionGUID: DL8hY/wgR1q1u5GXNaqzKA==
+X-CSE-MsgGUID: n+DKTn7eRVeW07AMqpmQfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="210111413"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Jan 2026 06:04:01 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="228267948"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 16 Jan 2026 06:27:15 -0800
+Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgkQh-00000000KuW-2xDy;
-	Fri, 16 Jan 2026 14:03:59 +0000
-Date: Fri, 16 Jan 2026 22:03:32 +0800
+	id 1vgknB-000000001pV-3S9W;
+	Fri, 16 Jan 2026 14:27:13 +0000
+Date: Fri, 16 Jan 2026 15:26:32 +0100
 From: kernel test robot <lkp@intel.com>
-To: sunpeng.li@amd.com, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Harry.Wentland@amd.com, simona@ffwll.ch,
-	airlied@gmail.com, jani.nikula@linux.intel.com,
-	ville.syrjala@linux.intel.com, Leo Li <sunpeng.li@amd.com>
-Subject: Re: [PATCH v3 1/2] drm: Introduce drm_crtc_vblank_prepare()
-Message-ID: <202601162107.idPiWG44-lkp@intel.com>
-References: <20260109192027.116325-1-sunpeng.li@amd.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 6255/6849]
+ arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: /soc/syscon@10006000: failed to
+ match any schema with compatible: ['mediatek,mt6795-scpsys', 'syscon',
+ 'simple-mfd']
+Message-ID: <202601161502.E6kxSygd-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260109192027.116325-1-sunpeng.li@amd.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-tip/drm-tip]
-[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/sunpeng-li-amd-com/drm-amd-display-Implement-prepare_vblank_enable-callback/20260110-032355
-base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
-patch link:    https://lore.kernel.org/r/20260109192027.116325-1-sunpeng.li%40amd.com
-patch subject: [PATCH v3 1/2] drm: Introduce drm_crtc_vblank_prepare()
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260116/202601162107.idPiWG44-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601162107.idPiWG44-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9b7977f9e39b7768c70c2aa497f04e7569fd3e00
+commit: aec5445dd7c8c6c84d46f2dbf07967ac54393595 [6255/6849] arm64: dts: mediatek: mt6795: Fix issues in SCPSYS node
+config: arm64-randconfig-2055-20260115 (https://download.01.org/0day-ci/archive/20260116/202601161502.E6kxSygd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+dtschema version: 2025.12
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161502.E6kxSygd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601162107.idPiWG44-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601161502.E6kxSygd-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "drm_crtc_vblank_prepare" [drivers/gpu/drm/drm_kms_helper.ko] undefined!
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt6795-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt6795-evb.dtb: syscon@14000000 (mediatek,mt6795-mmsys): 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml
+--
+>> arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: /soc/syscon@10006000: failed to match any schema with compatible: ['mediatek,mt6795-scpsys', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pmic (mediatek,mt6331): 'mt6332-led' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: pmic (mediatek,mt6331): regulators:compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt6331-regulator'] is too short
+   	'mediatek,mt6331-regulator' is not one of ['mediatek,mt6323-regulator', 'mediatek,mt6328-regulator', 'mediatek,mt6358-regulator', 'mediatek,mt6359-regulator', 'mediatek,mt6397-regulator']
+   	'mediatek,mt6331-regulator' is not one of ['mediatek,mt6366-regulator']
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: regulators (mediatek,mt6331-regulator): 'ldo-vio28' does not match any of the regexes: '^buck-v(core2|io18|dvfs11|dvfs12|dvfs13|dvfs14)$', '^ldo-(avdd32aud|vauxa32)$', '^ldo-v(dig18|emc33|ibr|mc|mch|mipi|rtc|sim1|sim2|sram|usb10)$', '^ldo-vcam(a|af|d|io)$', '^ldo-vgp[1234]$', '^ldo-vtcxo[12]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6331-regulator.yaml
+   arch/arm64/boot/dts/mediatek/mt6795-sony-xperia-m5.dtb: syscon@14000000 (mediatek,mt6795-mmsys): 'assigned-clock-rates', 'assigned-clocks' do not match any of the regexes: '^pinctrl-[0-9]+$'
 
 -- 
 0-DAY CI Kernel Test Service
