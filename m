@@ -1,109 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAC9246788;
-	Fri, 16 Jan 2026 19:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FC536BCC6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 19:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768591040; cv=none; b=uxkA2otXdcJWKiwoworAXZjL466qwH7tHlKL7AwxiD2hooWBUP++FdeAITW5hF5rYZ3SkABE/F8BE5MgSftmBGq4ftcMbEdV5r7BNymcFAUG5n9aTGHUStc8uZZfHKaPPW+EDEX47CsSv9zROGuwyECYssKHRMX5zCLTXJxysUc=
+	t=1768591759; cv=none; b=Ovwrzb0Ic2UilTuNtFEO4t+2N4jh5cRQnKCd5Phvg8OSOqaK4nmFII2KdLWTCSJ5AFGFpmAkewrTM7jp+uD1UGTgVmPqLtbQbpPCo7NOxosH8k3hnInMDi/NEzX/Jtd7n12sg/vOSUf/ZBFaElEq+4ulY3JBvVLI+PNSiUP5Dhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768591040; c=relaxed/simple;
-	bh=unmhFEcUNpcA9RPPlVGiYlTXSMuWjqIErJfaF9ddSxU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ID2t7G2RUa2CLDNju5+8otmCNm5Kj+gd+MHveKkEvjbCy9M8s78yzckbhdg8GvW9LXW/8dKBUvbg2tvo4+vPrnDmSGJkJGhaqFJzG7BqYhb/Fl+5vxqHg/wm7PY4keBFk1Udg+WFMKNuvHAedb13YP/Ze6z081ZtsgDHy60jXCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VGLMbwoy; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1768591759; c=relaxed/simple;
+	bh=CRYhrh7TkmdLA/azwJ1OE/b49TeVZKlSj3m9m+4BkYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iJJGGM70M1BRymXsytk87eUimMuDeI7ZYbZ+LnrslnfqrTBob7E9IgeOAF+OM2ytAGop76QqMpBDneU4JK1IKvpxhVN0XbQr//Jud7cSLJ6Xh/BsYUN7pIxwcDt0PCgGZwG/1lklQd5ZTcXW2InlLhnxRvIIias7B9g2e5T/cjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yxj5dfDy; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VGLMbwoy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yxj5dfDy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768591039; x=1800127039;
-  h=date:from:to:cc:subject:message-id;
-  bh=unmhFEcUNpcA9RPPlVGiYlTXSMuWjqIErJfaF9ddSxU=;
-  b=VGLMbwoyA3EQwR3l6Vl/WiS1LuGewTtHUJJ/eJl/Xo/7cOWtoHw4zPh1
-   HHLx6H58kFwrKhNQ6O3oLsuj+TtoJRqe1ywGNsRT5TOBorYOT2ETeUJqr
-   W01fObkUkHXlhhqxZQ874wqrNFHvvSiuQAU4P/D1QvoDTMRog7rmwRjCQ
-   WauXOE4hO29bTwr7JEHbtBBXHNiNjGSiSfvkabDIIVvJIah8FpOxe+cr2
-   t+bOVpCnGyfKOalt7ekB3Tn2ksgI1NzQ2zwdAPo5bb9POG1L9m6FYdwyM
-   9CwkXPE7O27rZzDTzP/OI0FYzxkkwape4OxDTyzak1cLEDX413t/dPveq
+  t=1768591758; x=1800127758;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CRYhrh7TkmdLA/azwJ1OE/b49TeVZKlSj3m9m+4BkYI=;
+  b=Yxj5dfDy32cJKz5QNPD21TugvtD7EyDHqLXSK+IelRelzYjWs/kefNhB
+   qtem0fOmF9pzG06G0+VDP/82eDMSCGJ4H5HeO9pl/uP/PyoSL3RuYbMhG
+   Zhr0EHUAsPFqn4MyrUIWFlsxEu83N5xzRWVEt0o7uEoOsOjFmuYlsLwvj
+   OgDwcTwb5jn4ZPKp3BV2JskoEfGHMPDRtZJbICoqswhzeGfLkSBqDIt4p
+   MJrtGqpxnXuHiIU3Cm8kctSRwipN7MWWUXh0zoYRk770agjL14Ep89Jy/
+   am+vRVv5Ry7MUYGN0sEhPnVcfkzAEFs3r0x2/YeZjxTfrCOtQe366JR2c
    Q==;
-X-CSE-ConnectionGUID: sdq2y1XtRnS+bi7wZYOlXQ==
-X-CSE-MsgGUID: AlXAvQa3TGiNSo9J03upGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="57465295"
+X-CSE-ConnectionGUID: D5HBGPkYTD2OmUqVxsPi1w==
+X-CSE-MsgGUID: 8sVU229aS8ulmqGf8hndJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69961303"
 X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="57465295"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 11:17:19 -0800
-X-CSE-ConnectionGUID: +ES7B3y5TzyCFsJEKsfG4Q==
-X-CSE-MsgGUID: wMoxixBIT7OtptUbEKWzgg==
+   d="scan'208";a="69961303"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 11:29:17 -0800
+X-CSE-ConnectionGUID: /ob7D2+zTS+WAL/LPtkSUw==
+X-CSE-MsgGUID: O+zFpQrLRo+CR5JAL4/SkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="242863220"
+   d="scan'208";a="205348973"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 Jan 2026 11:17:16 -0800
+  by orviesa007.jf.intel.com with ESMTP; 16 Jan 2026 11:29:17 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgpJp-00000000LA4-2cvd;
-	Fri, 16 Jan 2026 19:17:13 +0000
-Date: Sat, 17 Jan 2026 03:17:09 +0800
+	id 1vgpVR-00000000LAS-3db4;
+	Fri, 16 Jan 2026 19:29:13 +0000
+Date: Sat, 17 Jan 2026 03:29:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Naman Jain <namjain@linux.microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
- Roman Kisel <romank@linux.microsoft.com>,
- Saurabh Sengar <ssengar@linux.microsoft.com>,
- Michael Kelley <mhklinux@outlook.com>
-Subject: drivers/hv/mshv_vtl_main.c:1002:14: warning: cast from 'void
- (*)(const u8 *)' (aka 'void (*)(const unsigned char *)') to 'smp_call_func_t'
- (aka 'void (*)(void *)') converts to incompatible function type
-Message-ID: <202601170352.qbh3EKH5-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Bastien Nocera <hadess@hadess.net>, linux-bluetooth@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/3] Bluetooth: btmtksdio: Simplify dev_pm_ops usage
+Message-ID: <202601170415.QZeIgHEM-lkp@intel.com>
+References: <20260116125803.598552-2-hadess@hadess.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116125803.598552-2-hadess@hadess.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   983d014aafb14ee5e4915465bf8948e8f3a723b5
-commit: 7bfe3b8ea6e30437e01fcb8e4f56ef6e4d986d0f Drivers: hv: Introduce mshv_vtl driver
-date:   6 weeks ago
-config: x86_64-buildonly-randconfig-001-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170352.qbh3EKH5-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170352.qbh3EKH5-lkp@intel.com/reproduce)
+Hi Bastien,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bluetooth/master]
+[also build test WARNING on linus/master v6.19-rc5]
+[cannot apply to bluetooth-next/master next-20260116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/Bluetooth-btmtksdio-Simplify-dev_pm_ops-usage/20260116-210400
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20260116125803.598552-2-hadess%40hadess.net
+patch subject: [PATCH 1/3] Bluetooth: btmtksdio: Simplify dev_pm_ops usage
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260117/202601170415.QZeIgHEM-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170415.QZeIgHEM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601170352.qbh3EKH5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601170415.QZeIgHEM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/hv/mshv_vtl_main.c:1002:14: warning: cast from 'void (*)(const u8 *)' (aka 'void (*)(const unsigned char *)') to 'smp_call_func_t' (aka 'void (*)(void *)') converts to incompatible function type [-Wcast-function-type-strict]
-    1002 |         on_each_cpu((smp_call_func_t)mshv_vtl_synic_mask_vmbus_sint, &mask.mask, 1);
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> drivers/bluetooth/btmtksdio.c:1534:12: warning: 'btmtksdio_system_resume' defined but not used [-Wunused-function]
+    1534 | static int btmtksdio_system_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bluetooth/btmtksdio.c:1497:12: warning: 'btmtksdio_system_suspend' defined but not used [-Wunused-function]
+    1497 | static int btmtksdio_system_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1002 drivers/hv/mshv_vtl_main.c
+vim +/btmtksdio_system_resume +1534 drivers/bluetooth/btmtksdio.c
 
-   993	
-   994	static int mshv_vtl_sint_ioctl_pause_msg_stream(struct mshv_sint_mask __user *arg)
-   995	{
-   996		static DEFINE_MUTEX(vtl2_vmbus_sint_mask_mutex);
-   997		struct mshv_sint_mask mask;
-   998	
-   999		if (copy_from_user(&mask, arg, sizeof(mask)))
-  1000			return -EFAULT;
-  1001		guard(mutex)(&vtl2_vmbus_sint_mask_mutex);
-> 1002		on_each_cpu((smp_call_func_t)mshv_vtl_synic_mask_vmbus_sint, &mask.mask, 1);
-  1003		WRITE_ONCE(vtl_synic_mask_vmbus_sint_masked, mask.mask != 0);
-  1004		if (mask.mask)
-  1005			wake_up_interruptible_poll(&fd_wait_queue, EPOLLIN);
-  1006	
-  1007		return 0;
-  1008	}
-  1009	
+7f3c563c575e73 Sean Wang       2019-04-18  1496  
+4ed924fc122f75 Zhengping Jiang 2023-10-13 @1497  static int btmtksdio_system_suspend(struct device *dev)
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1498  {
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1499  	struct sdio_func *func = dev_to_sdio_func(dev);
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1500  	struct btmtksdio_dev *bdev;
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1501  
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1502  	bdev = sdio_get_drvdata(func);
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1503  	if (!bdev)
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1504  		return 0;
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1505  
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1506  	if (!test_bit(BTMTKSDIO_FUNC_ENABLED, &bdev->tx_state))
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1507  		return 0;
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1508  
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1509  	set_bit(BTMTKSDIO_BT_WAKE_ENABLED, &bdev->tx_state);
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1510  
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1511  	return btmtksdio_runtime_suspend(dev);
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1512  }
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1513  
+7f3c563c575e73 Sean Wang       2019-04-18  1514  static int btmtksdio_runtime_resume(struct device *dev)
+7f3c563c575e73 Sean Wang       2019-04-18  1515  {
+7f3c563c575e73 Sean Wang       2019-04-18  1516  	struct sdio_func *func = dev_to_sdio_func(dev);
+7f3c563c575e73 Sean Wang       2019-04-18  1517  	struct btmtksdio_dev *bdev;
+7f3c563c575e73 Sean Wang       2019-04-18  1518  	int err;
+7f3c563c575e73 Sean Wang       2019-04-18  1519  
+7f3c563c575e73 Sean Wang       2019-04-18  1520  	bdev = sdio_get_drvdata(func);
+7f3c563c575e73 Sean Wang       2019-04-18  1521  	if (!bdev)
+7f3c563c575e73 Sean Wang       2019-04-18  1522  		return 0;
+7f3c563c575e73 Sean Wang       2019-04-18  1523  
+4b4b2228f521c3 Sean Wang       2021-12-02  1524  	if (!test_bit(BTMTKSDIO_FUNC_ENABLED, &bdev->tx_state))
+4b4b2228f521c3 Sean Wang       2021-12-02  1525  		return 0;
+4b4b2228f521c3 Sean Wang       2021-12-02  1526  
+c7e301d7c85544 Mark Chen       2022-01-12  1527  	err = btmtksdio_drv_pmctrl(bdev);
+7f3c563c575e73 Sean Wang       2019-04-18  1528  
+095519de2debef Sean Wang       2022-01-12  1529  	bt_dev_dbg(bdev->hdev, "status (%d) get ownership from device", err);
+7f3c563c575e73 Sean Wang       2019-04-18  1530  
+7f3c563c575e73 Sean Wang       2019-04-18  1531  	return err;
+7f3c563c575e73 Sean Wang       2019-04-18  1532  }
+7f3c563c575e73 Sean Wang       2019-04-18  1533  
+4ed924fc122f75 Zhengping Jiang 2023-10-13 @1534  static int btmtksdio_system_resume(struct device *dev)
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1535  {
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1536  	return btmtksdio_runtime_resume(dev);
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1537  }
+4ed924fc122f75 Zhengping Jiang 2023-10-13  1538  
 
 -- 
 0-DAY CI Kernel Test Service
