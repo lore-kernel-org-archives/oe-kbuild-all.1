@@ -1,288 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230973939BE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 16:27:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FBB1E7C34;
+	Fri, 16 Jan 2026 16:27:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768580822; cv=none; b=K9IWfamy/nrOC4xUrDrDGYMk5cFdBWIWK9WUK7XHTlvY2GBUFZIlaaaAKOrNQ2LncuDCBOZqXi2AQ9pGdjH7VZWlaf0Avmvv1mAHQHoi5gKMadikJ0sZ1ZuMhOdYtn53xTnp3RdDbn58mI3JXQ/xj8DzYYhKEwvteVn4NliRPeI=
+	t=1768580835; cv=none; b=SQUfgCLXida/Rwcfg2sx3dqr5ZXbdpL6mQVCEuq3G/as0fWy+b2LCRm1VoFvcMSG9PP/KINoRjeWfICzcYXvj8MrEQIpqteNy/UVanAWoDWqcw1HORdtUsAu4cPUrWzA9QTsUWwUndjSBurfzef5+8nv6e0RP2yZ87YZmDcWPIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768580822; c=relaxed/simple;
-	bh=dvHRITCmaTRkAZdnwAC+ehjOVNx5+MmdzwXHudNXKi0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cB11wgcOtm7MLsrZMksJpfTmsk0livuCWjeRWXTQFi/ZvGtWhJnJczRVDFE/HMcg8uEVwZzb7fcSjGhwd9lJqOEkyK9bEdVYXIfC6anRZwupTX5Ton3vdMh6hEo86SGbiUuLKXCspLJT1wUeVhqMmBN/dEgSmWcCpMVIg43+yQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h684v8T7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768580835; c=relaxed/simple;
+	bh=3KTJe3jbXHBaAmS9g+Po8i7QjAbcgTnJ1GzsaORRklY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=F/QKwGmh2WQJhhzxy3rsmu+HHDDD2Sr46RLuQ/xKWs6OiwFX3CvlbUGOQ9DgdKwHVzXZTO0agC/aG+UJR8HcInovwjR6Y8sI/MuLqyRRP6lrxG2K6brKGfwMv1bAgYtt+LbJ2+JuERi3vpEtNYlTwijJOIQQWtveM8msmgu125s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n8wj8Myd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h684v8T7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA5BAC19425
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 16:27:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n8wj8Myd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84F70C116C6;
+	Fri, 16 Jan 2026 16:27:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768580821;
-	bh=dvHRITCmaTRkAZdnwAC+ehjOVNx5+MmdzwXHudNXKi0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=h684v8T7Jjyte1SzoTWfhWzxCzaTd/mW2S2o9mqwLdzAWFvtwDNqXOG3uD/RBrLDw
-	 C2sogNB98jraP5997mXBcjYAe+yBkM2SDTJr4+XPEaPLJ2JVteiiUOp15Wl6k9+N4C
-	 CAfoWXE2+51Zuj4DzTITNNDdOI1t8O696aObFpcwi9KtLNWjpBOsqiddTrX8ooYQfh
-	 BcgESqqD8b9YitHyO/AMuBseIelbd0mblPwo1hfHBDUhTJVRfaRLX3P7xXUvA0xfwU
-	 OJgefKU4oVbmdfXKe4Br5KnHYjKu1YvhIVailatXJYE1kD8F7NF3e/dGJIGLEVW8jK
-	 c9NQOjii6exPg==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-382fe06aa94so18232221fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 08:27:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWvNJkQUIJ2GzsKkYipjmDaTxgbSh3ahX3+ZIRi8WuQ4vs3yKq3203LkVPZXN4o3p+FBO9xnmQeiuJoaHjZ@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywq0PctgaqoofVbckyriOzrFPc3IjdXhUYU/a0R/CUm/7zdkWB0
-	csS6KfjjAf78ozE14MCT887lVGIZlhKHiJGv8NesqLrpcUKXGppxLtGRAfWPdGgtQDu6awPCWi5
-	cDdNSDOt9OD+JEzuXYSXBVCeYVTZFZ2k=
-X-Received: by 2002:a05:651c:19a3:b0:383:1454:926b with SMTP id
- 38308e7fff4ca-383866cfb44mr9806811fa.10.1768580820282; Fri, 16 Jan 2026
- 08:27:00 -0800 (PST)
+	s=k20201202; t=1768580834;
+	bh=3KTJe3jbXHBaAmS9g+Po8i7QjAbcgTnJ1GzsaORRklY=;
+	h=From:Date:Subject:To:Cc:From;
+	b=n8wj8MydAhQ1P4c7ZTS6T1XxVV9kW/EoMXHK5vSjg8PTo+KufdIVF15aSf42nXWA4
+	 e7xj+IpkvMvS1OpzkdAA1wbSVGFpDrjSMgJa1Mwspp0f0T3djYvg24mEFtXWzpqQCn
+	 fg+Wex6WU1cZW6cYevH0uv0JyV4dyGTfaotGurRHGN/MhLNcphl6gECEhweaf+By9H
+	 tuxTqA8EDrC+91oLy1bpcsYz/Y2ULBOTXVkj+0x+w6X/QH1Qm0W+EasGNTWcH2MnXR
+	 9ACov/lhcYRbWaSc3lwct63D9WmRsx8ai+vUrF1qFgwchja4BB8eTM7hoIuN15j1GP
+	 a+kT1yG1l+YpA==
+From: Tamir Duberstein <tamird@kernel.org>
+Date: Fri, 16 Jan 2026 11:27:03 -0500
+Subject: [PATCH v2] printf: convert test_hashed into macro
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJ-ks9nCsWij6FxF8T51CNsHn4Wg0wNd5mXQyJqc6Y6XJXnLDw@mail.gmail.com>
- <aTSHb6rHLQqopTNU@smile.fi.intel.com> <CAJ-ks9nYVuB6bn=xodzy5rWYtrwOgjev_53xRrzvMGdk55Y0Vw@mail.gmail.com>
- <aTSj8uKD6G0cLq2T@smile.fi.intel.com> <CAJ-ks9mrqxGLhjbFQyWaRqxUFu4+JaUbLn4E=TCfW1eqmDrQPw@mail.gmail.com>
- <aTbTDSIHPdW8kUbR@smile.fi.intel.com> <aTbbRhNkwCjaryFo@pathway>
- <CAJ-ks9nwDCxrqyUx8vnEjy2s4c4uBPZsQFuOsbyXxzO7k1JeFg@mail.gmail.com>
- <aUEwre1bkwrj-i4i@pathway.suse.cz> <CAJ-ks9nxvdWRp_Am0b6SoxXnrqDmm5kA=4ypXVZofLaLvqkjxg@mail.gmail.com>
- <aWoFjigXmIfo5vBJ@pathway.suse.cz>
-In-Reply-To: <aWoFjigXmIfo5vBJ@pathway.suse.cz>
-From: Tamir Duberstein <tamird@kernel.org>
-Date: Fri, 16 Jan 2026 11:26:22 -0500
-X-Gmail-Original-Message-ID: <CAJ-ks9ntXroeNjUft9DNbhtU3NMnDxX-UDoV+O6818c0o1+ujw@mail.gmail.com>
-X-Gm-Features: AZwV_Qj3imW36tyHNUUF-r2sHO4Of83QxdgrT_0regrYcDSRWL00nicUKQ-d-as
-Message-ID: <CAJ-ks9ntXroeNjUft9DNbhtU3NMnDxX-UDoV+O6818c0o1+ujw@mail.gmail.com>
-Subject: Re: [PATCH] printf: add __printf attribute
-To: Petr Mladek <pmladek@suse.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260116-printf-kunit-printf-attr-v2-1-3dd7fefc3207@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQ6CMBREr0L+2pq2BgRX3sOwgNLCV2lJWxoN6
+ d1tMe7NrF4yM28DJy1KB5diAysDOjQ6AT8UIKZOj5LgkBg45SXjtCKLRe0Veawa/Q867y1hzal
+ qlCjPvaKQ5ouVCl/79a39slv7uxQ+/+XGhM4b+97dgeXeH5rASEpV85rWfckGeh3nDp9HYWZoY
+ 4wfU5jMndIAAAA=
+X-Change-ID: 20251206-printf-kunit-printf-attr-19369fc57bf0
+To: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Nathan Chancellor <nathan@kernel.org>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org, 
+ oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev, 
+ kernel test robot <lkp@intel.com>, Tamir Duberstein <tamird@kernel.org>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openssh-sha256; t=1768580833; l=2018;
+ i=tamird@kernel.org; h=from:subject:message-id;
+ bh=3KTJe3jbXHBaAmS9g+Po8i7QjAbcgTnJ1GzsaORRklY=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
+ MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QO2334r4j/NtvWq6LPvTMOk/FvFaCb/fC+Y7p+pNx/4eYml+dmXVZIlr72sT60CJhpxqrgfftE2
+ PCV9otCZzcQk=
+X-Developer-Key: i=tamird@kernel.org; a=openssh;
+ fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 
-On Fri, Jan 16, 2026 at 4:32=E2=80=AFAM Petr Mladek <pmladek@suse.com> wrot=
-e:
->
-> On Thu 2026-01-15 09:53:37, Tamir Duberstein wrote:
-> > On Tue, Dec 16, 2025 at 5:13=E2=80=AFAM Petr Mladek <pmladek@suse.com> =
-wrote:
-> > >
-> > > On Mon 2025-12-08 16:07:28, Tamir Duberstein wrote:
-> > > > On Mon, Dec 8, 2025 at 9:06=E2=80=AFAM Petr Mladek <pmladek@suse.co=
-m> wrote:
-> > > > >
-> > > > > On Mon 2025-12-08 15:30:53, Andy Shevchenko wrote:
-> > > > > > On Sun, Dec 07, 2025 at 08:32:53PM -0500, Tamir Duberstein wrot=
-e:
-> > > > > > > On Sat, Dec 6, 2025 at 4:45=E2=80=AFPM Andy Shevchenko
-> > > > > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > > > > On Sat, Dec 06, 2025 at 02:57:48PM -0500, Tamir Duberstein =
-wrote:
-> > > > > > > > > On Sat, Dec 6, 2025 at 2:43=E2=80=AFPM Andy Shevchenko
-> > > > > > > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > > > > > > On Sat, Dec 06, 2025 at 12:52:53PM -0500, Tamir Duberst=
-ein wrote:
-> > > > > > > > > > > On Sat, Dec 6, 2025 at 12:49=E2=80=AFPM Andy Shevchen=
-ko
-> > > > > > > > > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > > > > > > > > On Sat, Dec 06, 2025 at 12:13:34PM -0500, Tamir Dub=
-erstein wrote:
-> > > > > > > > > > > > > On Sat, Dec 6, 2025 at 11:11=E2=80=AFAM Andy Shev=
-chenko
-> > > > > > > > > > > > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > > > > > > > > > > > On Sat, Dec 06, 2025 at 08:19:09AM -0500, Tamir=
- Duberstein wrote:
-> > > > > >
-> > > > > > ...
-> > > > > >
-> > > > > > > > > > > > > > > -static void
-> > > > > > > > > > > > > > > +static void __printf(2, 3)
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > 3?!
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > I think it should be (2, 0). Yes, the both user=
-s call it with "%p..." in format
-> > > > > > > > > > > > > > string, but the second parameter tells compiler=
- to check the variadic
-> > > > > > > > > > > > > > arguments, which are absent here. Changing 'con=
-st void *p' to '...' will align
-> > > > > > > > > > > > > > it with the given __printf() attribute, but I d=
-on't know if this what we want.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > The second parameter is the first-to-check, it is=
- not specific to
-> > > > > > > > > > > > > variadic arguments. Using 0 means that no argumen=
-ts are checkable, so
-> > > > > > > > > > > > > the compiler only validates the format string its=
-elf and won=E2=80=99t
-> > > > > > > > > > > > > diagnose mismatches with `p`. This works whether =
-or not we later
-> > > > > > > > > > > > > change `const void *p` to `...`.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Yes, but this is fragile. As I explained it works o=
-nly because we supply
-> > > > > > > > > > > > the format string stuck to "%p", anything else will=
- require reconsidering
-> > > > > > > > > > > > the function prototypes. So, strictly speaking this=
- should be (2, 0) if
-> > > > > > > > > > > > we leave const void *p as is.
-> > > > > > > > > > > >
-> > > > > > > > > > > I believe this is not correct. As I said, 0 means "do=
- not check
-> > > > > > > > > > > arguments" so only the format string will be checked.=
- See the existing
-> > > > > > > > > > > uses of this annotation in this file:
-> > > > > > > > > > >
-> > > > > > > > > > > static void __printf(7, 0)
-> > > > > > > > > > > do_test(struct kunit *kunittest, const char *file, co=
-nst int line, int
-> > > > > > > > > > > bufsize, const char *expect,
-> > > > > > > > > > > int elen, const char *fmt, va_list ap)
-> > > > > > > > > > >
-> > > > > > > > > > > and
-> > > > > > > > > > >
-> > > > > > > > > > > static void __printf(6, 7)
-> > > > > > > > > > > __test(struct kunit *kunittest, const char *file, con=
-st int line,
-> > > > > > > > > > > const char *expect, int elen,
-> > > > > > > > > > > const char *fmt, ...)
-> > > > > > > >
-> > > > > > > Since it doesn't make much sense to make this function variad=
-ic, I
-> > > > > > > think the best we can do is a macro wrapper that combines thi=
-s
-> > > > > > > function with `no_printk`. Something like
-> > > > > > >
-> > > > > > > #define test_hashed(kunittest, fmt, p) \
-> > > > > > > do { \
-> > > > > > > if (0) \
-> > > > > > > no_printk(fmt, p); \
-> > > > > > > __test_hashed(kunittest, fmt, p);\
-> > > > > > > } while (0)
-> > > > > >
-> > > > >
-> > > > > IMHO, this is is not worth it. test_hashed(kunittest, fmt, p) cal=
-ls
-> > > > > test(buf, fmt, p). It goes down to __test() which does the format
-> > > > > check:
-> > > > >
-> > > > > static void __printf(6, 7)
-> > > > > __test(struct kunit *kunittest, const char *file, const int line,=
- const char *expect, int elen,
-> > > > >         const char *fmt, ...)
-> > > > >
-> > > > >
-> > > > > > > That would give us better diagnostics, but is more complex (a=
-nd more
-> > > > > > > lines of code than just repeating this function's body twice,=
- which
-> > > > > > > would also give good diagnostics). I think the best thing to =
-do is just
-> > > > > > > to ignore the report that prompted me to look into this. Plea=
-se let me
-> > > > > > > know if you disagree.
-> > > > > >
-> > > > > > I think we may not ignore the report as it breaks builds in som=
-e cases.
-> > > > > > As I said
-> > > > > >
-> > > > > > - __printf(2, 0) for now
-> > > > > >
-> > > > > > - and perhaps a comment on top to explain the clang approach th=
-at may cope
-> > > > > > with fixed-argument functions for -Wformat (you can even put a =
-link to that
-> > > > > > LLVM discussion about the feature).
-> > > > >
-> > > > > I personally prefer this way. We just need to calm down the warni=
-ng.
-> > > > > The proper check is done by the nested test()...
-> > > >
-> > > > The nested `__test()` call cannot do the proper check because it ca=
-nnot
-> > > > see the format string. Right?
-> > >
-> > > IMHO, it does see the format string. It is defined the following way:
-> > >
-> > > static void __printf(6, 7)
-> > > __test(struct kunit *kunittest, const char *file, const int line, con=
-st char *expect, int elen,
-> > >         const char *fmt, ...)
-> > >
-> > > #define test(expect, fmt, ...)                                  \
-> > >         __test(kunittest, __FILE__, __LINE__, expect, strlen(expect),=
- fmt, ##__VA_ARGS__)
-> > >
-> > > static void
-> > > test_hashed(struct kunit *kunittest, const char *fmt, const void *p)
-> > > {
-> > >         char buf[PLAIN_BUF_SIZE];
-> > >
-> > >         plain_hash_to_buffer(kunittest, p, buf, PLAIN_BUF_SIZE);
-> > >
-> > >         test(buf, fmt, p);
-> > > }
-> > >
-> > >
-> > > Now, let's get for example:
-> > >
-> > >         test_hashed(kunittest, "%p", PTR_INVALID);
-> > >
-> > > it calls:
-> > >
-> > >         test(buf, "%p", PTR_INVALID);
-> > >
-> > > which is exapnded to:
-> > >
-> > >         __test(kunittest, file, line, buf, strlen(buf), "%p", PTR_INV=
-ALID)
-> > >
-> > > so, it gets the same printf arguments as the original test_hashed,
-> > > namely:
-> > >
-> > >         %p, PTR_INVALID
-> > >
-> > > Or do I miss anything, please?
-> >
-> > the problem is that test_hashed is a function, not a macro, so it is
-> > not correct to say that
-> >
-> > test_hashed(kunittest, "%p", PTR_INVALID)
-> >
-> > is expanded to
-> >
-> > __test(kunittest, file, line, buf, strlen(buf), "%p", PTR_INVALID)
-> >
-> > thus the compiler cannot perform any meaningful checking of the
-> > test_hashed call.
-> >
-> > We could make test_hashed a macro, though.
->
-> I am sorry but I still think that it is not worth it.
-> The proposed changes add more complexity or weird stuff for a little gain=
-.
->
-> > > You might argue that it works by chance and that it might change in t=
-he
-> > > future. But I have hard times to imagine it. test_hashed() is just
-> > > a wrapper around "test()". The only purpose is to fill "buf" with
-> > > the expected outcome.
-> > >
-> > > If any refactoring is needed in the future. The __printf() macros
-> > > would need some refactoring as well.
->
-> IMHO, the above is still valid.
+This allows the compiler to check the arguments against the __printf
+attribute on __test. This produces better diagnostics when incorrect
+inputs are passed.
 
-I don't follow this reasoning. Having said that, you're the ultimate
-decider on whether this is worth addressing.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202512061600.89CKQ3ag-lkp@intel.com/
+Signed-off-by: Tamir Duberstein <tamird@kernel.org>
+---
+Changes in v2:
+- Convert test_hashed to macro rather than try to annotate it in a way
+  that is compatible with both clang and gcc.
+- Link to v1: https://patch.msgid.link/20251206-printf-kunit-printf-attr-v1-1-1682808b51d0@gmail.com
+---
+ lib/tests/printf_kunit.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-I will send v2 with the macro solution so we have it on the list, you
-can then decide whether to take it.
+diff --git a/lib/tests/printf_kunit.c b/lib/tests/printf_kunit.c
+index 7617e5b8b02c..1d96cea8af65 100644
+--- a/lib/tests/printf_kunit.c
++++ b/lib/tests/printf_kunit.c
+@@ -266,15 +266,17 @@ hash_pointer(struct kunit *kunittest)
+ 	KUNIT_EXPECT_MEMNEQ(kunittest, buf, PTR_STR, PTR_WIDTH);
+ }
+ 
+-static void
+-test_hashed(struct kunit *kunittest, const char *fmt, const void *p)
+-{
+-	char buf[PLAIN_BUF_SIZE];
+-
+-	plain_hash_to_buffer(kunittest, p, buf, PLAIN_BUF_SIZE);
+-
+-	test(buf, fmt, p);
+-}
++/*
++ * This is a macro so that the compiler can compare its arguments to the
++ * __printf attribute on __test. This cannot be a function with a __printf
++ * attribute because GCC requires __printf functions to be variadic.
++ */
++#define test_hashed(kunittest, fmt, p)                                   \
++	do {                                                             \
++		char buf[PLAIN_BUF_SIZE];                                \
++		plain_hash_to_buffer(kunittest, p, buf, PLAIN_BUF_SIZE); \
++		test(buf, fmt, p);                                       \
++	} while (0)
+ 
+ /*
+  * NULL pointers aren't hashed.
 
-The next version will come from my @kernel.org address.
+---
+base-commit: 983d014aafb14ee5e4915465bf8948e8f3a723b5
+change-id: 20251206-printf-kunit-printf-attr-19369fc57bf0
 
-Cheers.
-Tamir
+Best regards,
+--  
+Tamir Duberstein <tamird@kernel.org>
+
