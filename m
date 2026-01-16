@@ -1,243 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C100314A74
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 07:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E9927816C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 07:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768548230; cv=none; b=RaEMPk/dxzBXLFdxxW7w2ASAPL9PVhgFEdl72sTSYEwCaiKxfyWPt6WQm1RJapy8FU5l9KZNxyZ610WNOYdQbX1h+CtrqfBR/+9z7C1gIE51tnhho1x/M8/ICzvW/+h+7Hw7KrJM8Xmksdt+wNptVdH6O3g9T5UfwE4P8jzduLQ=
+	t=1768549552; cv=none; b=JNSkbsUbhzEw8YJ1UfsynCTUudls5w+FBc7EnWyHYuJulCoCt1J2gh18f+I+fLVIpy0s3nwhxVHByPHnqVlzhayyyfWvGCwQxevdFvcV7BbCOwi4qGfWVGZFzGzeBzGPeFHTCDprRoZJWQRGc0CqQVfAxBPstPFJcmm+yKsk3Uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768548230; c=relaxed/simple;
-	bh=kyOaoj/r45XCLIxgzppyN2vI5Rzs+3CXJy7FaNa39us=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FgFIzfuoZqzGX7AKYtJREwzVQ84VxzULKJ/og8NHUfJMszODCO10Zj3HEJv/OK6px9ZigWVGMaeYypHacwiLHeULhMXF/M2h8GEVeVPo5PHEqCOlEp7F3sdFb1mlKGwh+oBKdr0FV290c937dTHLNOikuQD3pxqThDSPL7DcLwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FGSgzMWI; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1768549552; c=relaxed/simple;
+	bh=G0V6S9md6+nld2O30zY+hMSqsUc4Po2MsCahVSA79HY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UE0il0MClzOjqjQ9tVJK5oglAq8CJeDNOvMs/AUUMKROj+TyvhrSYslVqOaThlZ6gFP4JeF16q1zoWZr4PGRNQkUVfvl2WxWn7QDyyiut9r7QnKebHxCLz4fnrUnAukHB3jGni+WwY3Lwk2H+R+ZEMYhLOsVB/z4AcxX4ViQjHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D3TduJMa; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FGSgzMWI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D3TduJMa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768548227; x=1800084227;
-  h=date:from:to:cc:subject:message-id;
-  bh=kyOaoj/r45XCLIxgzppyN2vI5Rzs+3CXJy7FaNa39us=;
-  b=FGSgzMWIyuIRc3zc5Z/7frqHVzaPGOVPYqPnaxvBeaIM+b+mFeQK40qH
-   R5Env61bI0t0Mtnt1qB++JcwaYvwED/mk+o4aDK24OPshevzbDrQcLc0d
-   TZeaONnoKHPEVkKq5RT98nJk0fdgH9aFKykjHcBs/k8OJZrJzgUFt4M/I
-   mbSeSxTUU7Otn0wqmc7xCad5VKFqr2q1KNFn5LD28/rRKe8PNLxE72T8p
-   QENq1aihFSwDmsmtVoGzL7yGRN2lv+awEDyjcj6xfFDW2w3uf2RTENSM5
-   i8TiBKxyse9Fkh5UIXCdiDhbfWZg+pw6JgDCsCmgTd/x6aRipkqOuJPT4
+  t=1768549550; x=1800085550;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G0V6S9md6+nld2O30zY+hMSqsUc4Po2MsCahVSA79HY=;
+  b=D3TduJMapoUDyG7uF3dwd4DfXb4VBPGEmokPEmUSFCCXcQxeHC8NrMrc
+   57pr5QdsxZCG1VJapDBDj1HUiPmxbUf3tjIjxmcMWVvFEyqKDE5li/PX1
+   Yi6+fkSeTYW1HziDDxGS+5hokWm4qYhti3xqbFFHfJnie0mbZqiJloTOy
+   VCfe5v4mQ8SOvR1846Hunm5AqyweX4z0SvOL6849AENqZtucXV67PgmHX
+   iOyfLGjEwY52HmiPP5wuijkyQYlvJkPBfcp+mHxu+KkxydREMEG/fww89
+   heE5EzSw3gq9GeLthJENHAqYTNvIsCu56BTObtdMV27i4PuMqynMC7Tjs
    Q==;
-X-CSE-ConnectionGUID: IFXkErJ3TBW89lbCx1KgEQ==
-X-CSE-MsgGUID: GualOXYtRzGYG6ayAAfGlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="80976228"
+X-CSE-ConnectionGUID: aSCLPe+qS7uz6sJhjAN3ew==
+X-CSE-MsgGUID: qH2GT4eoTTeEyHjsPo4t9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69065594"
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="80976228"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 23:23:46 -0800
-X-CSE-ConnectionGUID: p8EcN9Z4TWuYmcn6ACYrsA==
-X-CSE-MsgGUID: fmHfRR7kRuGQ81JCM0k2xw==
+   d="scan'208";a="69065594"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 23:45:50 -0800
+X-CSE-ConnectionGUID: ONnquVpZT+qEY5I8SvDUjg==
+X-CSE-MsgGUID: tDcssknwRjy3qULDu7oUIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="205226994"
+   d="scan'208";a="242723017"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Jan 2026 23:23:45 -0800
+  by orviesa001.jf.intel.com with ESMTP; 15 Jan 2026 23:45:46 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgeBK-00000000KWj-1KwH;
-	Fri, 16 Jan 2026 07:23:42 +0000
-Date: Fri, 16 Jan 2026 15:23:01 +0800
+	id 1vgeWd-00000000KXw-0hBC;
+	Fri, 16 Jan 2026 07:45:43 +0000
+Date: Fri, 16 Jan 2026 15:45:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: elver@google.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [melver:ctx-analysis/dev 37/37]
- include/linux/local_lock_internal.h:85:31: error: passing argument 1 of
- 'lockdep_init_map_type' from pointer to non-enclosed address space
-Message-ID: <202601161609.xFihxEzQ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	maple-tree@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Suren Baghdasaryan <surenb@google.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Sidhartha Kumar <sidhartha.kumar@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Alice Ryhl <aliceryhl@google.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Kujau <lists@nerdbynature.de>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>
+Subject: Re: [PATCH 10/28] maple_tree: Introduce maple_copy node and use it
+ in mas_spanning_rebalance()
+Message-ID: <202601161501.NZ3GNDCG-lkp@intel.com>
+References: <20260115193647.1695937-11-Liam.Howlett@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260115193647.1695937-11-Liam.Howlett@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
-head:   3a6d19e51fad5bde689a9dc06c7fceb435d1b015
-commit: 3a6d19e51fad5bde689a9dc06c7fceb435d1b015 [37/37] WIP: scoped init guards
-config: i386-randconfig-001-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161609.xFihxEzQ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161609.xFihxEzQ-lkp@intel.com/reproduce)
+Hi Liam,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20260115]
+[cannot apply to akpm-mm/mm-nonmm-unstable soc/for-next linus/master v6.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Liam-R-Howlett/maple_tree-Move-mas_spanning_rebalance-loop-to-function/20260116-034135
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260115193647.1695937-11-Liam.Howlett%40oracle.com
+patch subject: [PATCH 10/28] maple_tree: Introduce maple_copy node and use it in mas_spanning_rebalance()
+config: x86_64-randconfig-121-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161501.NZ3GNDCG-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161501.NZ3GNDCG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601161609.xFihxEzQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601161501.NZ3GNDCG-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/maple_tree.c:2621:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got void *content @@
+   lib/maple_tree.c:2621:29: sparse:     expected void [noderef] __rcu *
+   lib/maple_tree.c:2621:29: sparse:     got void *content
+>> lib/maple_tree.c:2624:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got void *entry @@
+   lib/maple_tree.c:2624:23: sparse:     expected void [noderef] __rcu *
+   lib/maple_tree.c:2624:23: sparse:     got void *entry
+   lib/maple_tree.c:2680:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu **b_slots @@     got void [noderef] __rcu * @@
+   lib/maple_tree.c:2680:17: sparse:     expected void [noderef] __rcu **b_slots
+   lib/maple_tree.c:2680:17: sparse:     got void [noderef] __rcu *
+   lib/maple_tree.c:6412:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got struct maple_node * @@
+   lib/maple_tree.c:6412:30: sparse:     expected void [noderef] __rcu *
+   lib/maple_tree.c:6412:30: sparse:     got struct maple_node *
+   lib/maple_tree.c:6412:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got struct maple_node * @@
+   lib/maple_tree.c:6412:30: sparse:     expected void [noderef] __rcu *
+   lib/maple_tree.c:6412:30: sparse:     got struct maple_node *
 
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/swait.h:7,
-                    from include/linux/completion.h:12,
-                    from include/linux/crypto.h:15,
-                    from arch/x86/kernel/asm-offsets.c:9:
-   include/linux/local_lock.h: In function 'class_local_lock_init_constructor':
->> include/linux/local_lock_internal.h:84:36: warning: cast to generic address space pointer from disjoint '__seg_fs' address space pointer
-      84 |         debug_check_no_locks_freed((void *)lock, sizeof(*lock));\
-         |                                    ^
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:107:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:11:41: note: in expansion of macro '__local_lock_init'
-      11 | #define local_lock_init(lock)           __local_lock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:107:61: note: in expansion of macro 'local_lock_init'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         |                                                             ^~~~~~~~~~~~~~~
->> include/linux/local_lock_internal.h:85:31: error: passing argument 1 of 'lockdep_init_map_type' from pointer to non-enclosed address space
-      85 |         lockdep_init_map_type(&(lock)->dep_map, #lock, &__key,  \
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:107:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:11:41: note: in expansion of macro '__local_lock_init'
-      11 | #define local_lock_init(lock)           __local_lock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:107:61: note: in expansion of macro 'local_lock_init'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         |                                                             ^~~~~~~~~~~~~~~
-   In file included from include/linux/spinlock.h:63:
-   include/linux/lockdep.h:128:55: note: expected 'struct lockdep_map *' but argument is of type '__seg_fs struct lockdep_map *'
-     128 | extern void lockdep_init_map_type(struct lockdep_map *lock, const char *name,
-         |                                   ~~~~~~~~~~~~~~~~~~~~^~~~
->> include/linux/local_lock.h:107:79: error: passing argument 1 of 'local_lock_debug_init' from pointer to non-enclosed address space
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         |                                                                             ~~^~~~~~
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:107:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:11:41: note: in expansion of macro '__local_lock_init'
-      11 | #define local_lock_init(lock)           __local_lock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:107:61: note: in expansion of macro 'local_lock_init'
-     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
-         |                                                             ^~~~~~~~~~~~~~~
-   In file included from include/linux/local_lock.h:5,
-                    from include/linux/mmzone.h:24,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/crypto.h:18:
-   include/linux/local_lock_internal.h:64:56: note: expected 'local_lock_t *' {aka 'struct local_lock *'} but argument is of type '__seg_fs local_lock_t *' {aka '__seg_fs struct local_lock *'}
-      64 | static inline void local_lock_debug_init(local_lock_t *l)
-         |                                          ~~~~~~~~~~~~~~^
-   include/linux/local_lock.h: In function 'class_local_trylock_init_constructor':
-   include/linux/local_lock_internal.h:93:27: warning: cast to generic address space pointer from disjoint '__seg_fs' address space pointer
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |                           ^
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:120:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:93:9: note: in expansion of macro '__local_lock_init'
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:59:41: note: in expansion of macro '__local_trylock_init'
-      59 | #define local_trylock_init(lock)        __local_trylock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:120:67: note: in expansion of macro 'local_trylock_init'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         |                                                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:93:27: warning: cast to generic address space pointer from disjoint '__seg_fs' address space pointer
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |                           ^
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:120:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:93:9: note: in expansion of macro '__local_lock_init'
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:59:41: note: in expansion of macro '__local_trylock_init'
-      59 | #define local_trylock_init(lock)        __local_trylock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:120:67: note: in expansion of macro 'local_trylock_init'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         |                                                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:93:27: warning: cast to generic address space pointer from disjoint '__seg_fs' address space pointer
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |                           ^
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:120:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:93:9: note: in expansion of macro '__local_lock_init'
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:59:41: note: in expansion of macro '__local_trylock_init'
-      59 | #define local_trylock_init(lock)        __local_trylock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:120:67: note: in expansion of macro 'local_trylock_init'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         |                                                                   ^~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:93:27: warning: cast to generic address space pointer from disjoint '__seg_fs' address space pointer
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |                           ^
-   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
-     501 |         _lock;                                                          \
-         |         ^~~~~
-   include/linux/local_lock.h:120:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         | ^~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock_internal.h:93:9: note: in expansion of macro '__local_lock_init'
-      93 |         __local_lock_init((local_lock_t *)lock);                \
-         |         ^~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:59:41: note: in expansion of macro '__local_trylock_init'
-      59 | #define local_trylock_init(lock)        __local_trylock_init(lock)
-         |                                         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/local_lock.h:120:67: note: in expansion of macro 'local_trylock_init'
-     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
-         |                                                                   ^~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:182: arch/x86/kernel/asm-offsets.s] Error 1 shuffle=1428429750
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1315: prepare0] Error 2 shuffle=1428429750
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1428429750
+vim +2621 lib/maple_tree.c
 
-
-vim +/lockdep_init_map_type +85 include/linux/local_lock_internal.h
-
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  79  
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  80  #define __local_lock_init(lock)					\
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  81  do {								\
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  82  	static struct lock_class_key __key;			\
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  83  								\
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15 @84  	debug_check_no_locks_freed((void *)lock, sizeof(*lock));\
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15 @85  	lockdep_init_map_type(&(lock)->dep_map, #lock, &__key,  \
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  86  			      0, LD_WAIT_CONFIG, LD_WAIT_INV,	\
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  87  			      LD_LOCK_PERCPU);			\
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  88  	local_lock_debug_init(lock);				\
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  89  } while (0)
-d8bbd97ad0b99a Thomas Gleixner 2021-08-15  90  
-
-:::::: The code at line 85 was first introduced by commit
-:::::: d8bbd97ad0b99a9394f2cd8410b884c48e218cf0 locking/local_lock: Add missing owner initialization
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+  2603	
+  2604	/*
+  2605	 * cp_leaf_init() - Initialize a maple_copy node for the leaf level of a
+  2606	 * spanning store
+  2607	 * @cp: The maple copy node
+  2608	 * @mas: The maple state
+  2609	 * @l_wr_mas: The left write state of the spanning store
+  2610	 * @r_wr_mas: The right write state of the spanning store
+  2611	 */
+  2612	static inline void cp_leaf_init(struct maple_copy *cp,
+  2613			struct ma_state *mas, struct ma_wr_state *l_wr_mas,
+  2614			struct ma_wr_state *r_wr_mas)
+  2615	{
+  2616		unsigned char end = 0;
+  2617	
+  2618		/* Create entries to insert including split entries to left and right */
+  2619		if (l_wr_mas->r_min < mas->index) {
+  2620			end++;
+> 2621			cp->slot[0] = l_wr_mas->content;
+  2622			cp->pivot[0] = mas->index - 1;
+  2623		}
+> 2624		cp->slot[end] = l_wr_mas->entry;
+  2625		cp->pivot[end] = mas->last;
+  2626	
+  2627		if (r_wr_mas->end_piv > mas->last) {
+  2628			end++;
+  2629			cp->slot[end] = r_wr_mas->slots[r_wr_mas->offset_end];
+  2630			cp->pivot[end] = r_wr_mas->end_piv;
+  2631		}
+  2632	
+  2633		cp->min = l_wr_mas->r_min;
+  2634		cp->max = cp->pivot[end];
+  2635		cp->end = end;
+  2636	}
+  2637	
 
 -- 
 0-DAY CI Kernel Test Service
