@@ -1,80 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24FB22EA743
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 23:15:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B90235063
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 23:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768605302; cv=none; b=RFoqK/I7+0DyafyZ/coLhycB1z6/LJ4M3LVNfdyIJy7hbVM/pMgF1WED8PbjCl8B2bwKrIjhrct6aVNYMnBoyK89PO3SpSS0PpOqSb3QeQG/Tf0VAo98jrIM3BEgHWZs4VrjXyUbhxkTEg023PnyXzo9J8LvhEVhRzfZM+BJlgc=
+	t=1768606410; cv=none; b=EAYveqsH00mgrGrCT/7PD9Gzq6v3A8ny8+cOCR3f5bn94pd2TrSke74v7oPUDQ9iBKM9x5kUZfzddTg/cLDGbL360JBKuaPXkyZuzPqRKTC803cw7HnrlNMxDNEpu7GEIYU/eQu8gyi52CdvTgdJT0gcQLgW+cw+78jftwGWCmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768605302; c=relaxed/simple;
-	bh=+0CNKwKHffjPLmqUX+TzPn4+iKRnH11I0K5ejqSDu5k=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=TB7B7F4jDrrpnzcyNY3M1QxaSsxutE8HQXam3S4atw03b4H/3MbTi+wCzOsIrRylrY2EjUVxRIKHe0AHpEVhBC+uGYBAp3wjS+RtdNQrhtNLPtQ+JOmviLvz8fAWdQcGcMm4UAPsJtY6EyiJeDOHlZqMxUBCROPd/3jxH6yubHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=TfRQjOtL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768606410; c=relaxed/simple;
+	bh=JqOHEWPxcdtjhpaGlho5PNp5U3w7MEYADCZR33XHBuk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZCEqnz/dKn+C324CYZ4GYT/e6ZhliaO8UbGEQTVx1o8+aVV3uTA5KHrvfughMM7YO92QtVaR6EdaKjaFf+SdrEkcsRmaMZMyaO2mQN5JuNSIiLaefCM3idzRU3VDXJpkznvwFRNiIs5o8PRBsMdJS421awZo1RwBFpsnNVCN/vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D46LdFtG; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="TfRQjOtL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61204C116C6;
-	Fri, 16 Jan 2026 23:15:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1768605301;
-	bh=+0CNKwKHffjPLmqUX+TzPn4+iKRnH11I0K5ejqSDu5k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TfRQjOtL4rSSQvu8aV2jJSu5THwCjnEUAVm0VwaK2ToWV+ONPhsz14b5ZHcvvuKIf
-	 XDKokYSXlVCIMuQt1oc8/m8PXJrrogzxEnV5XFViBVnDndqeWjnsMch8/xUD6uvP8V
-	 7iUPcTO2ajsfjvPOoYXrLOBdUozU9/mbKQdyE3bs=
-Date: Fri, 16 Jan 2026 15:15:00 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Byungchul Park <byungchul@sk.com>, oe-kbuild-all@lists.linux.dev, David
- Hildenbrand <david@kernel.org>, Linux Memory Management List
- <linux-mm@kvack.org>, Pavel Begunkov <asml.silence@gmail.com>,
- =?ISO-8859-1?Q?"Toke_H=F8iland-J=F8rgensen"?= <toke@redhat.com>
-Subject: Re: [akpm-mm:mm-unstable /301] net/core/page_pool.c:713:71: sparse:
- sparse: incorrect type in argument 1 (different base types)
-Message-Id: <20260116151500.b56d0cc2525072123ad2d86d@linux-foundation.org>
-In-Reply-To: <202601161606.8RuyUh2k-lkp@intel.com>
-References: <202601161606.8RuyUh2k-lkp@intel.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D46LdFtG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768606408; x=1800142408;
+  h=date:from:to:cc:subject:message-id;
+  bh=JqOHEWPxcdtjhpaGlho5PNp5U3w7MEYADCZR33XHBuk=;
+  b=D46LdFtGLwXTu2A5yC9NTr4eIlQ4LkX6CkIgfHIqes1LXF+NVdKCAuBx
+   d0KNZMSyj8LYhEhfhiuJu8IrsIHwEP0nxkvcxHmskC7N/r5Z3wNZYnJmQ
+   Ip0syWJxpl/X2ryush+RHAM4Vw0S5ZNU9T+ElR7CGoJ4rUFyn8Uli3089
+   jVh12p8uiYIK7ZxO0vhblG0j+k9oPOVvGe1akZhKpaEwYxvewCW+jyzSW
+   xhamq2L4qLDJdEBcAjWEtFL4NPTVd136wULbrUanwHrjDNCSN7YRFf3De
+   EMQRyn2bWfUvZiIhrO8jMjYOmVvoeSaE8JYjjDlcRBBrqUd8D3AJ7xDnE
+   A==;
+X-CSE-ConnectionGUID: sfWsp+RoRqmt4iS/MEHZjw==
+X-CSE-MsgGUID: FrnPFfJMQuidti2W5ALDEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="80645282"
+X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
+   d="scan'208";a="80645282"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 15:33:27 -0800
+X-CSE-ConnectionGUID: 4bnKQBHXTmOgVu6MvZ15Kw==
+X-CSE-MsgGUID: 3vjAStjoRWeP3aIajQQ5oQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
+   d="scan'208";a="210229770"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 16 Jan 2026 15:33:26 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vgtJj-00000000LM4-3zcZ;
+	Fri, 16 Jan 2026 23:33:23 +0000
+Date: Sat, 17 Jan 2026 07:33:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eric Sandeen <sandeen@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Christian Brauner <brauner@kernel.org>
+Subject: drivers/base/devtmpfs.c:88:30: sparse: sparse: symbol
+ 'devtmpfs_context_ops' was not declared. Should it be static?
+Message-ID: <202601170715.97Vdjz1i-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Fri, 16 Jan 2026 16:41:32 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b62ce2547fe8a8ba15857bb974bcad250c5420d6
+commit: cb0e0a8bf4e1e1c8cd6d11ccaa355a23e1853566 devtmpfs: replace ->mount with ->get_tree in public instance
+date:   12 months ago
+config: x86_64-randconfig-121-20260116 (https://download.01.org/0day-ci/archive/20260117/202601170715.97Vdjz1i-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170715.97Vdjz1i-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> head:   fe2c34b6ea5a0e1175c30d59bc1c28caafb02c62
-> commit: 7699fe82442a62ea29a3745b29dbb8ef8c42d8db [/301] mm: introduce a new page type for page pool in page type
-> config: x86_64-randconfig-122-20260115 (https://download.01.org/0day-ci/archive/20260116/202601161606.8RuyUh2k-lkp@intel.com/config)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161606.8RuyUh2k-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601161606.8RuyUh2k-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> net/core/page_pool.c:713:71: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted netmem_ref [usertype] netmem @@     got unsigned long @@
->    net/core/page_pool.c:713:71: sparse:     expected restricted netmem_ref [usertype] netmem
->    net/core/page_pool.c:713:71: sparse:     got unsigned long
->    net/core/page_pool.c:734:73: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted netmem_ref [usertype] netmem @@     got unsigned long @@
->    net/core/page_pool.c:734:73: sparse:     expected restricted netmem_ref [usertype] netmem
->    net/core/page_pool.c:734:73: sparse:     got unsigned long
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601170715.97Vdjz1i-lkp@intel.com/
 
-Oh, OK.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/base/devtmpfs.c:88:30: sparse: sparse: symbol 'devtmpfs_context_ops' was not declared. Should it be static?
 
-Byungchul, please remind me why I'm carrying a page-pool patch?  I
-applied it because email headers and because Suggested-by:David, but
-these things are usually carried in the networking tree.  
+vim +/devtmpfs_context_ops +88 drivers/base/devtmpfs.c
 
-And I never applied [patch 2/2]
-(https://lkml.kernel.org/r/20251215071001.78263-3-byungchul@sk.com)
-because "kernel test robot" reported a build error.
+    86	
+    87	/* Ops are filled in during init depending on underlying shmem or ramfs type */
+  > 88	struct fs_context_operations devtmpfs_context_ops = {};
+    89	
 
-In fact, I'll drop the patch - please let's have a redo.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
