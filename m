@@ -1,107 +1,232 @@
-Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com [209.85.221.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751D131A800
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 09:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE57F26B2DA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 09:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768554742; cv=none; b=H6Lqas5Ra4E5bwC3WA46VKENUDuo6nyQwMBI2hsc/9GtYwDvC/6yHyouI3qeKECoTwuARIjNOiZNWRV8e07kT8KfTKjan66vilVPYDzvKM5hqJzSmCaVTjlib+G6gX8UUDhrO9b0PuD5v9q/0ErEkY3I1IHglr2rS7uNsSJQiE4=
+	t=1768554897; cv=none; b=pxCLNt6Radh9AwbM0CFYTZVy5jpI9wNDyJV43Wp1AduOo1RJZx7awBxr/ip4apYRtfj9rtuaV17xgfBSCUFpSVlxl424kzpGgl1J1LjJ0jCFbWrq2aJTP91F/a79gKBrhhYb7N+xIiWquaOih4kRboPR4BbUMLy5ogpB4xov1zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768554742; c=relaxed/simple;
-	bh=uVOVIUqiZuoTk+0maIOAiHxCplZx7jUlt7+31JiN0uk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e2/af5IKA3Dtum7+VcnF0Ef8HMzTBTWwD1iEE0dB1bW9BTfIFbQEudn11dIJ6FA95NvLKXa+vSyL890zni0RESyQ2O2dmVJauj608MNZEi5J5QbiTenh+dAs+82KbIi76mYxMdSMDGxjBQGxpafyk8hrcBpRjI96Cv70VttI6ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f195.google.com with SMTP id 71dfb90a1353d-56373f07265so1410637e0c.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 01:12:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768554737; x=1769159537;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/2UZe5YgfXhcRIgTVpIXZmgIkVRExJjOG0e61TJdE4U=;
-        b=rLFZcfLG1O5YrGdaqwG5zzvmMEsXqdEtMP15v6cFWa9DLcxIR+qeC7Bg+bg4t4NI38
-         qkIEoK6bE6BkEIwvOXZARkURb7k6robUW4zjC1cBQGZVgMyGOpYCAQp6o2ycqnFXM+uQ
-         zZKkRGhXLpGT9MErD76tCnRX6zRWucgvZEE8CL1a9eA/9JX35s8HqP5nPaBH5PkVe8YF
-         XXXHdb8hMDVjBOYEwP4I+aRDlT2Ke2Qb43TPSJOsOXCz7O99OwA0CrsoAiRNGSMfbETw
-         A0GvZfCaGwb5wzhkcrlFrq4crcEfq2HLcsAr0dvUKXCsmIefAWqQxuudYlgTGdE8JOML
-         XC5w==
-X-Forwarded-Encrypted: i=1; AJvYcCU9wnKlEVRMggi+eNPIKAjCm/78iN7bdBFyFZiXmRyGTlRR9kr1EbSFFxAkJB6eIaycuVfr4JHJ5yqbv87P@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0dktGMGDJVmLdhInlZeDdn9JG/WszdnAfzBiqhi14Nvbfvavs
-	mkD48usVIpTcN0el/Tt6wBw9Ktu9ejZz4zqekzT+lOR7qhCASv8mLIoB1Y/XE48dCG4=
-X-Gm-Gg: AY/fxX4ivEXKCITjvznsnY0HTQUsN8IP891/cppmOX95jtlK4lOmgCDnIExvLETebm9
-	+8aCdtEbPydlIhkga/GACTuguX9I/z7L51DAdZ19ZExcdQ4FXeiWCcZQA7wWnb7dgCqrkzq2UFx
-	CuNocRHdEKfSIOvAZh8JPeq5qXq7nJHzWPhNhU6xW074h8glbk8pXlCHbb8KpHxYNe4itCFp08w
-	aC9VFimOiuPBKqlgDqQBpDn+DmAHJ3g5+edhnBxSpD+yPQBm9QyhKC0y/C63UWmY8Lfe58FGNJf
-	iIyEQp53zXkYUbP+beWREYHFwOfojCWdGJ8rGTrcfh8LUPesF4ZW0tnzbVpXYt3pNlBnOxpC9Ml
-	y3dBt7oZf5wpVNPFIoztxaokjAy4kRm9XmOfZQaJJ1LXfImxjkUMQwBlAZQAegU5OmzfnZ3OOhw
-	L/n0kUHfjgfAJVQT12oC4wZma/tDzydbz+AO+v1aNR/VsFc5x/
-X-Received: by 2002:a05:6122:1d8a:b0:563:72d8:ea1 with SMTP id 71dfb90a1353d-563b5cc631amr1019673e0c.19.1768554737447;
-        Fri, 16 Jan 2026 01:12:17 -0800 (PST)
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-563b6eae96asm552745e0c.0.2026.01.16.01.12.16
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Jan 2026 01:12:16 -0800 (PST)
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-5ecb1d9ac1dso1259804137.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 01:12:16 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVo0e8fuQcHahTh+a34A+PuQQbcJPrVX0COxuYFN8kr8O4AUsmV8/MBx86B3fJS9pn2vBxkb/bpvbsesA7y@lists.linux.dev
-X-Received: by 2002:a05:6102:5129:b0:5ee:d0ff:7254 with SMTP id
- ada2fe7eead31-5f1a55702dfmr888364137.34.1768554736636; Fri, 16 Jan 2026
- 01:12:16 -0800 (PST)
+	s=arc-20240116; t=1768554897; c=relaxed/simple;
+	bh=gYV2E/9ZnZZCj9S7osAxN0UySYTQsaJkLN68aCKzq4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lY89AeHLYf1NjzzwlVqrbX0QnWdeKksBVayd08xCyLzU8bsrH2xyWrePq6FvREPd9VFa8pad4eft2+BGhsETgn+ZDLKDXLehxX/Pow5ACClmApr2L3WwmkSPlsTOrffg9A4nWXGm80fu+if7mmR+OQUMb/YhilZjon8DA8IYTeA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jloXDRQd; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jloXDRQd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768554895; x=1800090895;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gYV2E/9ZnZZCj9S7osAxN0UySYTQsaJkLN68aCKzq4c=;
+  b=jloXDRQdBWji/IY9ADkEHRTNlnmolNExNh7t6eAlkyaDnlceIaar0pOA
+   r6uwENL4ANQKazmtk1rycutJua4pl5BoAmIiPxeyAIk2lO0PzTEcsqYrA
+   j7MHPb2e1FmZLXQNCb/IBvfJrp0TOqCL89fTv6VCGz7QUpWYyFJ2MxQPU
+   qUDZSIGQKWiz/Hy7Ex9D4w0w0+uOrLbW9oMF9WuYqCQvDLR/8k9xuV1KX
+   8K1y5iM1eP27exmjC41WtMsGGPJa/EhvzvAQlrahCiYuCQoJJ3PauRL2k
+   mBrXqgO9TupmHlew+xyyn3rO877xTurGa4mIXKAuk0OxAlxo/7F5McT2r
+   Q==;
+X-CSE-ConnectionGUID: iNq9abPFQJCPKSRKw6F0ng==
+X-CSE-MsgGUID: G/gGhifYTQ+HmkNlaZOw7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="73498039"
+X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
+   d="scan'208";a="73498039"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 01:14:51 -0800
+X-CSE-ConnectionGUID: ldqjb39gTZmRNkNNEoDY3Q==
+X-CSE-MsgGUID: 6fcqqb21RXG7MsJhw/tspw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
+   d="scan'208";a="204991903"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 16 Jan 2026 01:14:50 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vgfup-00000000Kds-15Bi;
+	Fri, 16 Jan 2026 09:14:47 +0000
+Date: Fri, 16 Jan 2026 17:14:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Brian Masney <bmasney@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 13/13] clk: microchip: core: allow driver to be compiled
+ with COMPILE_TEST
+Message-ID: <202601161611.2PFhRacc-lkp@intel.com>
+References: <20260109-mips-pic32-header-move-v1-13-99859c55783d@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202601161408.8oFa2eE5-lkp@intel.com>
-In-Reply-To: <202601161408.8oFa2eE5-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 16 Jan 2026 10:12:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUv0J_XGOzpirOtqPTVNTJBFWJnYPeoycNPKDPJB_mMbg@mail.gmail.com>
-X-Gm-Features: AZwV_Qi75Ru-kG2msi4BX1GsJrsqa-bjWJ2OW9Z6QSQk0M6iAIM2cFl68rwdKz0
-Message-ID: <CAMuHMdUv0J_XGOzpirOtqPTVNTJBFWJnYPeoycNPKDPJB_mMbg@mail.gmail.com>
-Subject: Re: [geert-renesas-drivers:renesas-clk-for-v6.20 21/21]
- rzg2l-cpg.c:undefined reference to `__udivdi3'
-To: kernel test robot <lkp@intel.com>
-Cc: Chris Brandt <chris.brandt@renesas.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Hugo Villeneuve <hvilleneuve@dimonoff.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260109-mips-pic32-header-move-v1-13-99859c55783d@redhat.com>
 
-On Fri, 16 Jan 2026 at 07:29, kernel test robot <lkp@intel.com> wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.20
-> head:   5ef5f78c6635da0be514ea60c3c1cddd61dbf8dc
-> commit: 5ef5f78c6635da0be514ea60c3c1cddd61dbf8dc [21/21] clk: renesas: rzg2l: Remove DSI clock rate restrictions
-> config: xtensa-randconfig-002-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161408.8oFa2eE5-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161408.8oFa2eE5-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601161408.8oFa2eE5-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    xtensa-linux-ld: drivers/clk/renesas/rzg2l-cpg.o: in function `rzg2l_mod_clock_enable':
-> >> rzg2l-cpg.c:(.text+0x19cc): undefined reference to `__udivdi3'
->    xtensa-linux-ld: drivers/clk/renesas/rzg2l-cpg.o: in function `rzg2l_cpg_get_foutpostdiv_rate':
->    rzg2l-cpg.c:(.text+0x1c1d): undefined reference to `__udivdi3'
+Hi Brian,
 
-Thank you, I'll squash in a fix.
+kernel test robot noticed the following build warnings:
 
-Gr{oetje,eeting}s,
+[auto build test WARNING on f417b7ffcbef7d76b0d8860518f50dae0e7e5eda]
 
-                        Geert
+url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Masney/MIPS-copy-pic32-h-header-file-from-asm-mach-pic32-to-include-platform-data/20260110-005057
+base:   f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
+patch link:    https://lore.kernel.org/r/20260109-mips-pic32-header-move-v1-13-99859c55783d%40redhat.com
+patch subject: [PATCH 13/13] clk: microchip: core: allow driver to be compiled with COMPILE_TEST
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20260116/202601161611.2PFhRacc-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161611.2PFhRacc-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601161611.2PFhRacc-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   include/linux/compiler_types.h:667:9: note: in expansion of macro '_compiletime_assert'
+     667 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/entry-common.h:139:30: note: in expansion of macro 'READ_ONCE'
+     139 |         unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
+         |                              ^~~~~~~~~
+   include/linux/entry-common.h:139:61: error: 'struct thread_info' has no member named 'syscall_work'
+     139 |         unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
+         |                                                             ^~
+   include/linux/compiler_types.h:647:23: note: in definition of macro '__compiletime_assert'
+     647 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:667:9: note: in expansion of macro '_compiletime_assert'
+     667 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/entry-common.h:139:30: note: in expansion of macro 'READ_ONCE'
+     139 |         unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
+         |                              ^~~~~~~~~
+   include/linux/entry-common.h:139:61: error: 'struct thread_info' has no member named 'syscall_work'
+     139 |         unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
+         |                                                             ^~
+   include/linux/compiler_types.h:598:27: note: in definition of macro '__unqual_scalar_typeof'
+     598 |                 _Generic((x),                                           \
+         |                           ^
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   include/linux/entry-common.h:139:30: note: in expansion of macro 'READ_ONCE'
+     139 |         unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
+         |                              ^~~~~~~~~
+   include/linux/entry-common.h:139:61: error: 'struct thread_info' has no member named 'syscall_work'
+     139 |         unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
+         |                                                             ^~
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   include/linux/entry-common.h:139:30: note: in expansion of macro 'READ_ONCE'
+     139 |         unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
+         |                              ^~~~~~~~~
+   include/linux/entry-common.h:41:34: error: 'SYSCALL_WORK_SYSCALL_TRACEPOINT' undeclared (first use in this function)
+      41 | #define SYSCALL_WORK_EXIT       (SYSCALL_WORK_SYSCALL_TRACEPOINT |      \
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/entry-common.h:156:29: note: in expansion of macro 'SYSCALL_WORK_EXIT'
+     156 |         if (unlikely(work & SYSCALL_WORK_EXIT))
+         |                             ^~~~~~~~~~~~~~~~~
+   include/linux/entry-common.h:42:34: error: 'SYSCALL_WORK_SYSCALL_TRACE' undeclared (first use in this function)
+      42 |                                  SYSCALL_WORK_SYSCALL_TRACE |           \
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/entry-common.h:156:29: note: in expansion of macro 'SYSCALL_WORK_EXIT'
+     156 |         if (unlikely(work & SYSCALL_WORK_EXIT))
+         |                             ^~~~~~~~~~~~~~~~~
+   include/linux/entry-common.h:43:34: error: 'SYSCALL_WORK_SYSCALL_AUDIT' undeclared (first use in this function)
+      43 |                                  SYSCALL_WORK_SYSCALL_AUDIT |           \
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/entry-common.h:156:29: note: in expansion of macro 'SYSCALL_WORK_EXIT'
+     156 |         if (unlikely(work & SYSCALL_WORK_EXIT))
+         |                             ^~~~~~~~~~~~~~~~~
+   include/linux/entry-common.h:44:34: error: 'SYSCALL_WORK_SYSCALL_USER_DISPATCH' undeclared (first use in this function)
+      44 |                                  SYSCALL_WORK_SYSCALL_USER_DISPATCH |   \
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/entry-common.h:156:29: note: in expansion of macro 'SYSCALL_WORK_EXIT'
+     156 |         if (unlikely(work & SYSCALL_WORK_EXIT))
+         |                             ^~~~~~~~~~~~~~~~~
+   include/linux/entry-common.h:45:34: error: 'SYSCALL_WORK_SYSCALL_EXIT_TRAP' undeclared (first use in this function)
+      45 |                                  SYSCALL_WORK_SYSCALL_EXIT_TRAP |       \
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/entry-common.h:156:29: note: in expansion of macro 'SYSCALL_WORK_EXIT'
+     156 |         if (unlikely(work & SYSCALL_WORK_EXIT))
+         |                             ^~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/traps.h: At top level:
+>> arch/x86/include/asm/traps.h:38:26: warning: 'struct math_emu_info' declared inside parameter list will not be visible outside of this definition or declaration
+      38 | void math_emulate(struct math_emu_info *);
+         |                          ^~~~~~~~~~~~~
+>> arch/x86/include/asm/traps.h:45:46: warning: 'struct stack_info' declared inside parameter list will not be visible outside of this definition or declaration
+      45 |                                       struct stack_info *info);
+         |                                              ^~~~~~~~~~
+   arch/x86/include/asm/traps.h: In function 'cond_local_irq_enable':
+   arch/x86/include/asm/traps.h:50:17: error: 'struct pt_regs' has no member named 'flags'
+      50 |         if (regs->flags & X86_EFLAGS_IF)
+         |                 ^~
+   arch/x86/include/asm/traps.h:50:27: error: 'X86_EFLAGS_IF' undeclared (first use in this function)
+      50 |         if (regs->flags & X86_EFLAGS_IF)
+         |                           ^~~~~~~~~~~~~
+   arch/x86/include/asm/traps.h: In function 'cond_local_irq_disable':
+   arch/x86/include/asm/traps.h:56:17: error: 'struct pt_regs' has no member named 'flags'
+      56 |         if (regs->flags & X86_EFLAGS_IF)
+         |                 ^~
+   arch/x86/include/asm/traps.h:56:27: error: 'X86_EFLAGS_IF' undeclared (first use in this function)
+      56 |         if (regs->flags & X86_EFLAGS_IF)
+         |                           ^~~~~~~~~~~~~
+   drivers/clk/microchip/clk-core.c: At top level:
+   drivers/clk/microchip/clk-core.c:923:27: warning: initialized field overwritten [-Woverride-init]
+     923 |         .determine_rate = __clk_mux_determine_rate,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/microchip/clk-core.c:923:27: note: (near initialization for 'pic32_sclk_ops.determine_rate')
+
+
+vim +38 arch/x86/include/asm/traps.h
+
+da654b74bda14c include/asm-x86/traps.h      Srinivasa Ds    2008-09-23  37  
+d315760ffa261c arch/x86/include/asm/traps.h Tejun Heo       2009-02-09 @38  void math_emulate(struct math_emu_info *);
+6ac8d51f01d345 include/asm-x86/traps.h      Jaswinder Singh 2008-07-15  39  
+300638101329e8 arch/x86/include/asm/traps.h Tony Luck       2020-10-06  40  bool fault_in_kernel_space(unsigned long address);
+300638101329e8 arch/x86/include/asm/traps.h Tony Luck       2020-10-06  41  
+6271cfdfc0e473 arch/x86/include/asm/traps.h Andy Lutomirski 2016-08-30  42  #ifdef CONFIG_VMAP_STACK
+44b979fa302cab arch/x86/include/asm/traps.h Peter Zijlstra  2021-09-15  43  void __noreturn handle_stack_overflow(struct pt_regs *regs,
+44b979fa302cab arch/x86/include/asm/traps.h Peter Zijlstra  2021-09-15  44  				      unsigned long fault_address,
+44b979fa302cab arch/x86/include/asm/traps.h Peter Zijlstra  2021-09-15 @45  				      struct stack_info *info);
+6271cfdfc0e473 arch/x86/include/asm/traps.h Andy Lutomirski 2016-08-30  46  #endif
+6271cfdfc0e473 arch/x86/include/asm/traps.h Andy Lutomirski 2016-08-30  47  
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
