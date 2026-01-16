@@ -1,287 +1,138 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804B9369207
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 20:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768594821; cv=fail; b=PrKrZb0cosc3M00jI/LRNNfUE8hujUiXemmbqZx77UiyxVyCchtAYFsiIjM+U63ogoG1A+dgCXPWbhvFdybN+X/tquAfrYoRcG1IDmNzUGz1fzWkja1YBOUgirY7/iync/KZvve08WSiXbZgd31xZJ2t9MZzJCltIectNbrN2Bo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768594821; c=relaxed/simple;
-	bh=6KtqzxjgjZoFOL1hFqAW+5716Yo5vFjh2g4hJ+gh5LU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=N7WKUGIunm0sM1W443SZ1h0nY40wCUKoeqVXVPCRLOrM6enbrXg1Q5hACgWkEPL6kfrT++rDcfHeEMm4gquIhzx7STeuw0+LLsSjS5HHOyOT8BxSVNyvnEmL+YOn6LAao6jKhHyBYBoWtPgFreScNAcW6uODDjrW8bWE8T/QqNQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=gFhyXovl; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=f8/0FGT1; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62212EFD8C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 20:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768596263; cv=none; b=uDTVmujP/9B9lCUT+Z1n705f4rqmVuA0BvbTb5w+vXwMX4en4nRqsb8VB1CMOPLCjjLxEZmQIsmSVEKQeDyjD7psGKl4BB9xOGMl0OE1q53jCLHwBe3AAVfhnaHYUAKFSE0Kxq9Qw3/49dqMJEqELGSylpvJky5whJpa/JniEwU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768596263; c=relaxed/simple;
+	bh=VNjD83rpX3i5R31wY6YbXFakISTlJ1B51WM3ZskNCF8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=AdaV10/6kvLqjT5tF0jq9u2b/K1Bs9lsSTdoQOUu1upsNalLxZ8znYaSgn6zeDvyqhkBPaC8petyKE/QBOP3vg7jnOy8Vqbq0skL7nr14R0F6N8WUtqNKoMw+Uk0AH1Ol20W0idMcnkjTItMDIqVOPJ5GXpIV80XhytK0XoE154=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mNTYUdT6; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="gFhyXovl";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="f8/0FGT1"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60GEOwjg1431572;
-	Fri, 16 Jan 2026 20:19:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=hEOML9PqSty+DxFBrG
-	fhVqHCg8L4owqil+rokfEF3+I=; b=gFhyXovlkv7nbj1HEatq6oU9mCDev5t0bw
-	hooxHXK6fcM0qgyWsEaHWziAjH1ZJ6IQenxZorMueoMD805SWS80ArkPJ/zzKUjA
-	59M0AzmCUmnYS2nmSyFeZg9YaTLx1Wup54EFq1nSMUeE8qOkNG4SBF8JB4lRy3D6
-	yTbY4WGhzeAUVH4n4LEX8WLgx09mmRVodvZYXxAncnEgNRKvo9StMOfS5gajK0PN
-	VGpYmQZ9y+YkDqaYV1xolnN0KdJitRLEBMSX3a25fCaYkub/jRZkNptE5OyItHUy
-	ZTdIkkT0Cmf1rzCUCUK/XFq+XwnYiE8i3ocFRnqrk1qFBDN9AzkA==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkre42nqs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 16 Jan 2026 20:19:54 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60GIFP5R035219;
-	Fri, 16 Jan 2026 20:19:53 GMT
-Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012066.outbound.protection.outlook.com [40.107.200.66])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7h4ehk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 16 Jan 2026 20:19:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kXwIVtbcOezj51WItqZPFZEpG5s59Fls4iyCpTBI9eBJgI+0jhZparu+QnQtAZkQ1Okcay3tnXYFhVYjntKdGajZSryEujLU7QeBzJAZ2Nr5gv7nPb4F6zMcPeDr/m6AL78jhxJmQ+qQN8K9TdRy4jgwwtzGaGSNk0yaxI8jMMEvsDZ4AE2e1jbD2FDpPi7gkvKwXm9km+WlMyWVcC7FMH/F3nSDJFmYCyHO9o/0mat9RWLrvlYS3cRT8tHYtb50sYcTOBOF9ZtevkNg3ByoOeyaLpGluP0nVD3fSQUOc3CJzrrWIvRbdDgYhSjv+7pm56xCY/exj/w8bfVC0IhRGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hEOML9PqSty+DxFBrGfhVqHCg8L4owqil+rokfEF3+I=;
- b=peqJubkKYMO5cshpTFOFesBRcUsnmyA0gvybFOyITimYNjwD/8WZeet1ZpcHi9DlE0N9bssNnsyemOzhl6Z+F6Hsi7N8/XzoLMCizdakPgUQrvy8zP7cHbTgnLsflU+zEgFWaUD1by7WmxKNROKziZ1qeSw2q1r4xYrZYVIOW86/IRaz0OasYXrHh6dkFwULqVeVtoBuMOYs6PqNZonl37A7P0tmFUOyDDCRFSiYV4F+OvS06GC4bELTO/iIdPy2T4/fgMis73rNIn4Kb5Via7VT3WW3IR59S5Xt6sYaKpVn0gHqTualKtI3ejVGokZarJdegs/eekNAgnLUOGlq4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hEOML9PqSty+DxFBrGfhVqHCg8L4owqil+rokfEF3+I=;
- b=f8/0FGT1xQZdUEuBn7fYomazJD56CWOwit7sUxYfE645l+ScbGuFmXD+U/9jY0mjiG2ArFYNkop7gukeUB6SwlnBZAsDA0GKIYp7idrn2PEgJ/woY7dQwh1fuiywxxFPnKcoDX60x5zrHJYtaUD4qCiIh1JMT2lEFl+JoMHk5gk=
-Received: from PH0PR10MB5777.namprd10.prod.outlook.com (2603:10b6:510:128::16)
- by DS0PR10MB6269.namprd10.prod.outlook.com (2603:10b6:8:d3::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Fri, 16 Jan
- 2026 20:19:46 +0000
-Received: from PH0PR10MB5777.namprd10.prod.outlook.com
- ([fe80::4b84:e58d:c708:c8ce]) by PH0PR10MB5777.namprd10.prod.outlook.com
- ([fe80::4b84:e58d:c708:c8ce%4]) with mapi id 15.20.9520.003; Fri, 16 Jan 2026
- 20:19:46 +0000
-Date: Fri, 16 Jan 2026 15:19:30 -0500
-From: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        maple-tree@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Suren Baghdasaryan <surenb@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Sidhartha Kumar <sidhartha.kumar@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Alice Ryhl <aliceryhl@google.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>, Christian Kujau <lists@nerdbynature.de>
-Subject: Re: [PATCH 16/28] maple_tree: Start using maple copy node for
- destination
-Message-ID: <xeipv5m2xxjfyhoqifdigymobmo5lnh6kqqloowbg4oiejqyp4@ns5iehb3kzof>
-Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	kernel test robot <lkp@intel.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	oe-kbuild-all@lists.linux.dev, Linux Memory Management List <linux-mm@kvack.org>, 
-	maple-tree@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Suren Baghdasaryan <surenb@google.com>, Matthew Wilcox <willy@infradead.org>, 
-	Sidhartha Kumar <sidhartha.kumar@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Alice Ryhl <aliceryhl@google.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Christian Kujau <lists@nerdbynature.de>
-References: <20260115193647.1695937-17-Liam.Howlett@oracle.com>
- <202601161750.eDtUQiJr-lkp@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202601161750.eDtUQiJr-lkp@intel.com>
-User-Agent: NeoMutt/20250905
-X-ClientProxiedBy: YT4PR01CA0457.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:d6::27) To PH0PR10MB5777.namprd10.prod.outlook.com
- (2603:10b6:510:128::16)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mNTYUdT6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768596261; x=1800132261;
+  h=date:from:to:cc:subject:message-id;
+  bh=VNjD83rpX3i5R31wY6YbXFakISTlJ1B51WM3ZskNCF8=;
+  b=mNTYUdT6Vyp48IrQMWPLNGxpMavARBwhHBw03Tn5jcsJCSTgcCF75KN6
+   37JAEGEwFcrF47+OnJsOMnUCUSjCgoWAbMGanBJIXZvAwSOUmhvlKv6SC
+   tfBKFMjlpaXg7rCtE7Ms+pLDmM605YbD7XiHz3Tqy+I+5bipR2nUSR666
+   IKmVMFE4gTPWdlRPtJtC/Cs1zp3C0bcLlU0Ak+1DiOtKg3e20gYFrP1Mr
+   ufWRFD7SLwNEE2L8hpAGrrsfy+VhM6m/VAjAPp30F9uEKcP2FfOVIGvVj
+   c3PPWW/RjAJfn2my9q9/VkWIEZh0yjZamhQJJZt+XJXumv23PizDFg+v4
+   w==;
+X-CSE-ConnectionGUID: j6X0Xbg2QhqQbAsgTb0lIA==
+X-CSE-MsgGUID: 9q6NOLh8SNKMJKPhGq5Wiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69966237"
+X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
+   d="scan'208";a="69966237"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 12:44:21 -0800
+X-CSE-ConnectionGUID: OSNx1dUTS9SGq6iAcN82bg==
+X-CSE-MsgGUID: SxvN7hD1RYGCspTmmPR32A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
+   d="scan'208";a="205129276"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 16 Jan 2026 12:44:20 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vgqg5-00000000LEa-0KlG;
+	Fri, 16 Jan 2026 20:44:17 +0000
+Date: Sat, 17 Jan 2026 04:43:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chao Yu <chao@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chao:bugfix/common 6/6]
+ include/trace/events/f2fs.h:2598:19: warning: format '%lld' expects argument
+ of type 'long long int', but argument 6 has type 'long unsigned int'
+Message-ID: <202601170457.MinsdW9c-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB5777:EE_|DS0PR10MB6269:EE_
-X-MS-Office365-Filtering-Correlation-Id: 14c91f92-962d-468a-98e6-08de553c97ab
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?6nXO1RSBLGc2IrUWRFx7rcvd6Hyig5ABY7F4ndfu1hm07znThNt8dCLRwn8r?=
- =?us-ascii?Q?nhY4oJaGo0kn/JMtIhy2XdiufzofVLdmL+kvytnQtkKs3kNhwtrn0lYnV/qJ?=
- =?us-ascii?Q?2U7n/MdBaAgMoxd96lSZJKiI3bkViD496i9Ek6Gcr7jycajlxtTMGs3H9iLj?=
- =?us-ascii?Q?tI+i2TLHzBWv6rh6TzGz3lmnx5csJ7Yz45KfjnGxI0sYHX1ejk/X5QMGPi4w?=
- =?us-ascii?Q?q0guPMeDSbqvzmmpu3tBYigUWFJKTxuBS76vD0pF4SB0I6Aci/NL1rz9i/FW?=
- =?us-ascii?Q?ht2FQm4ui/POY3c9PoLyeG/6LxrOzYsV70LqxY7zkT1Z/p5FAMvZUHH+LpXe?=
- =?us-ascii?Q?fmAgg15I18oQkzNpdEYcnclDRnrXYRyxC4sI1/9YyEApoy6WgJEAM3lYwt4O?=
- =?us-ascii?Q?JPF/d8X4hyiq+aDqNLRJai9nIIsVnynmnOMNkvaNpBTP4CIPOojFkNaibxxy?=
- =?us-ascii?Q?HY7q7Utjzc4XZF8sgRbRGPmBcSeXqX6EmUx5+rZtG2PoZ6/WUk4KhvTsuLVg?=
- =?us-ascii?Q?FV5KrAa+TBHfO8HhVzMh0MaUeC5fJylbTEX5aXKWCuluqoQJTg2gGikOrmhN?=
- =?us-ascii?Q?HrI9NSesrcF+aM7nW25EHnvj8SYFQ2olOxQzK+TKLWKXHid8LQERQyyb6aq1?=
- =?us-ascii?Q?hATb7EjIwfDaqBShOkybD/hmVVbx/v34B/naXqlrAhAA8jmRnk8G4E3RHqaH?=
- =?us-ascii?Q?48/chbdUW7jJgRXr4Do9qm+6Qxi2P2Bm/3+QCGQuEeHAjUavj1iVxKiCnD5B?=
- =?us-ascii?Q?WanIDwUjRz3BqipFmAAlVhpTX6IL2IiIuwJwfNiMpOMJ6yQGBzW8CUZecPAd?=
- =?us-ascii?Q?YMXeIbQSpeL5GLo6DHkMLW9O2s0aVoLonBOsc8vdHasFtgL0vzy3yOaSMyIE?=
- =?us-ascii?Q?3oeeZdgnhHBgeJpQIMKOc+07lEk7mBwHvfXf+5D3FWVJ8pOkhQlawJuX5FCC?=
- =?us-ascii?Q?87bCU+kZOTDQzgklP4MQjCn7YEmZlaE2vHqYPtJ17kaACYCpbyu+JzatQpap?=
- =?us-ascii?Q?SiPHOX7RZvOblTz+ziGpRTD+qR5+6dON79v1qIrKVRrCCOwiKf1kWmm5vZH1?=
- =?us-ascii?Q?C1C+xAMK6ZRpqPOvCkI+Q8PMbLVdX2RHJTn29qEWeKOB3W9TC5Dc9R07Dx2K?=
- =?us-ascii?Q?/BY48ZoXDQHmC0+NjOSGk/wJWTwnTIeTYZzFJ7yGxfjh+Zx8VkyZT/a+EFXh?=
- =?us-ascii?Q?FATWi29d5oBRS2tzFaoI/ZuKp7frgf2nR7341h8NLtR039yh2zLjuS3YRGDp?=
- =?us-ascii?Q?L+Y0IVSXJDo+CNP45hTdbO886WoEHEvtix0bSju64V4n1ELNpT9JLgLjcMRY?=
- =?us-ascii?Q?o/4DLjh9VzU8bzWrkJHjbssIwOYaWPoAJnuN4IXiMxm+jEuPe4PyVNeJK3JC?=
- =?us-ascii?Q?SbzNgyXvBmfD6LNx8Fl5fTd7bZOLcxPPDH16xDPssY5w0JVwj0qmY6aM+6vz?=
- =?us-ascii?Q?eC/A68wwRazQhzUe4GEsjP8TCjl38cMH1w0zcG8q6nwdvspSJl8Awhxjsn/x?=
- =?us-ascii?Q?ZrRS2bj0Y3AYpY5hyh9w1yeML5gRICJVWGKFCe75e8g/Y+yeYBiiG0+bIvr4?=
- =?us-ascii?Q?rAvcP85OntOpzgAIaTZ0gSfDueN+0uje/7rlx0Rd?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5777.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9VkbvIsaUWwTqK9HvT4E7Qw7jcs0DGW/5wFHRlWKStxfnDSPc4onEovQsqmy?=
- =?us-ascii?Q?NxlfQ8nPxhXaLdEizQ2O3Ymu/x4lCnbSlNrzeKO81hHfKtomxiDhGJZSMls+?=
- =?us-ascii?Q?5E51zzXvTB64oDbqdeknvS8hKFvBz/3FwRSB2pDWxvTalPYuweTrlzdTJa4M?=
- =?us-ascii?Q?vHvr6Yf85R++U7NpHD57H/zf/fVm7Kgex75H84y41RemCVmIWQDT0JaPqs2o?=
- =?us-ascii?Q?wsUqzacvuSMIhZ3agH6W4U6DZXBwly7NWz1/95MhPUiBRbVgTg9Le/o8nMDq?=
- =?us-ascii?Q?ZyrUU+801s0fGKb7/G+UUGPk/B2SjGM2HSSzWAmmgOz51bX/jSolOhNHSvYr?=
- =?us-ascii?Q?Wz70q1xugytu7S/hAAKParaxoaH5YMzcTZGiJKu6yTZxQPgRIt9AKu7ubI5V?=
- =?us-ascii?Q?O8aCmvbIL2jEZ4oBZH1N9iYUnSCytyRGFLtP0hOQLQ2UmwwZzjAdf8ihy76D?=
- =?us-ascii?Q?Jmi/I2Jl9cbpIz+JqpTcO66LenorerRkHWPL9km9hOJC1lEV37iHhNQVBzpS?=
- =?us-ascii?Q?GtlCdtpC7VqY2BxyG7OldO8r8zWdFIrz7SrgsILRHB2F/E13GLugbbEyRzGs?=
- =?us-ascii?Q?7RKQ9iTUF1oMMwGkXLxTkLZPt1m5nGIwa7VLJlvmauWWQzXPE1+/YOnV/2lF?=
- =?us-ascii?Q?WkOZdxBvpIdexs5J989/QQPKNWzWrCDJnDW3vPHrrAUXZh/qvljkuLNuXsWc?=
- =?us-ascii?Q?dvlr2mpP42v7zIiCEau7way09EVZOulDsVk69kx3IsVn4fQcWJEwHv6EbsuG?=
- =?us-ascii?Q?O3z2M/F28uqnZ9cBPGcuCYODu2vopGeEyFSzgCnkjRmhwT+hanzSV+wueyDq?=
- =?us-ascii?Q?45MHlXz+pnhVOEziRneG+jsOhJOektWIpRhXcAzjfyH17FHokpW57g9rrrH9?=
- =?us-ascii?Q?BA1qyQwZloeu4fVCztoFsWoPJfZQVB+G07jWoWbBgV/peRiwq6qPx13ZRDEx?=
- =?us-ascii?Q?9cjSfoq0t68BSJbf9IDQlxWvzfH51TrI1i4nw6HX1sYRASw6H9ZrsAZDKV1F?=
- =?us-ascii?Q?UjxGfJXiNYfqsNbrCsqR1uJpopxyNGcgox8pmFeXc5Sh2/CM9IPFVljMZYXK?=
- =?us-ascii?Q?zFIWudB/kxB982l7Er5XrJtHIjEhECKPKdxdI3qOUmRA7oc25WkOe0Abdry9?=
- =?us-ascii?Q?j5gJYS3ksy6i6jb/HYQDDLV9q/vGnU2Jak4R7EPFCPXJHYSzJm8AT9RvQSRH?=
- =?us-ascii?Q?zlV9U8kiNuRqB6GIDa1TxOPBFXABFqzx4BQ799IPP494dzNRettmC3e7EgFl?=
- =?us-ascii?Q?XezgwcwXiKvUDw07N7wj4UunTkX42AATxxKLsG8l/G2Yz8a3CH0cl1rfjzur?=
- =?us-ascii?Q?YLf08k5INA1pYl5u8IY2E++QIpWKnimq+WFUm8mgEoxMchzME6byYI8A0z03?=
- =?us-ascii?Q?7JgseNontlBv3l7FZqGLOrLWsERPRwSiQVYmsBlBY5QHG8BRIvbEn0iJUvZo?=
- =?us-ascii?Q?glAC9cS4Gx2GoipOWknVzthXSp2kd4QsRLiYPrhGdOrBIP5igbvdqJzDz6pI?=
- =?us-ascii?Q?3k8Dl+gLgkf8TvEHY1SmoBa21Zs6xi6U/5RV6ThPzMIeJImKM6FLgIZOLlbl?=
- =?us-ascii?Q?I+ZEluxwMLdREm3HJFbaL1U/jtWDY5xiFvyHocUFwhuxW4yaMMo1uk1R4ZsU?=
- =?us-ascii?Q?qi6bb6NEOza1MSEfPT4Liwma5Gnt5feD89GpuSMS5tNQ1ZjmT21K4RW2dEM9?=
- =?us-ascii?Q?lY3MwVB5Aj53O8FEZxQ4Xq3UXyt2KnCp6bhBWbJytMDtI2DD55170xE456J1?=
- =?us-ascii?Q?ZCfWFuxtgA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	dvgmMTgPMNwq86FYP6zIuW0++TS2Ht1Zc2RtrpB1MRhXo0bSz0ZFWuvV/G4f31A43g6HS+9+btAgLxuQ+QkYJeCFpnCtXM9jpwZiXQ2zAJ9FA22ZXl8/+SuNHDwNmaBELA5IDfQpRs91H/La3cyZchc0G+qiD3Q6LrahdqwkkM5WnLMkjfcDR/EFoyd0hasynFn9qGgn2ob8gI7T/8C7vX5/gugGv4rhoW1QcnhFsVzoM9B3f81sAsNsxe6mchJ/9MLJKeh/10/V+Ya6nJPzAC0cnksQ+OJK9frKHb/Qc98ThSNKtLPuBVg8prXKbk07wKEh2+T3L+inVNl38jdqysVNkk1VBiDg5QMp/3a0SOSlACGOLYQ2sA9wyJtNeeNiW6WdTdiFfiCuP7Lamuqx836VE/uJTnxCsb+XGZSssTMluG3v104eqjNWvSg0Qv/VBQvKNqvBC/mDBpeclf7LCyAk9/vfv7Ok4AfiqnO1HDomuBMpjSnRXGq+tN+PK9WMIa9NWIYIvtkE6QcRXd4INBWRvQsw5jLuSa1h+yooNkhefduwsOKfJYLnDNAaZNJnBZq4srFWOUIegj01GFaoQNYDyLp5EdqLl3utqW2b5lo=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14c91f92-962d-468a-98e6-08de553c97ab
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5777.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 20:19:46.5731
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lWbWf6YWGfrseHYITEDuqP+ztSbi/Ll1oPlUj6PGc0qvcf8qZ7ndDa7NccRGgG0lY2DMsrrzZcewOA5GISaG7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR10MB6269
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-16_07,2026-01-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 bulkscore=0
- suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
- definitions=main-2601160152
-X-Proofpoint-ORIG-GUID: R6IlZ1j7YZpFhWiYQy_zZ3cR40D6MRwS
-X-Authority-Analysis: v=2.4 cv=YKOSCBGx c=1 sm=1 tr=0 ts=696a9d6a b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=anyJmfQTAAAA:8 a=NEAV23lmAAAA:8 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8
- a=i3X5FwGiAAAA:8 a=QyXUC8HyAAAA:8 a=170n1hLx1v98HaIW2eoA:9 a=CjuIK1q_8ugA:10
- a=mmqRlSCDY2ywfjPLJ4af:22 cc=ntf awl=host:13654
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDE1MSBTYWx0ZWRfX2whF1X+lqLwv
- AUFzjrnZcGxqeLo5AiU0oPtD3l1H45asyZRvOfnKWPEw54swjhWyyBs/oHyV1ZiOOYulcCAXskp
- ZQtENi8prbzxuF0YzYiCNP1FjlLowg/ubpNRz1qGrYh9GV7Q92ej4EKsspm4dz6PzQ2U2TGpcVM
- 8+dnnOyPKty8wvQy2dTvRc22Y/k3Dizl03FSyISCiqa0bE5itp6YcixEDJUqDpDDJSrjG5v2guK
- BSDtqFvFPxhp8GJaFIzc/S7zn4cNCJBghIH9sfkIRtMfAbg6ipeoJbqLizav7b+1OD6IqDXoSOT
- St0aT+Yexoo4qVcrPr7OlnPzOHLfrI5zwsDfr7BjmKn4ALL4OLT8pgxDEc2jGk2aJP3cJjOQthg
- 8IaR4fSZycENvHUIelT3ZqjOzQk4xRrseNw/UKLXgOsUnlmOLKdeqEm7HITRsxLyf4H8DGCaVu4
- nk3vymypbO/T0HPnL56Rb12kz+m8EPSwdUu25x6A=
-X-Proofpoint-GUID: R6IlZ1j7YZpFhWiYQy_zZ3cR40D6MRwS
 
-* kernel test robot <lkp@intel.com> [260116 04:37]:
-> Hi Liam,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on akpm-mm/mm-everything]
-> [also build test WARNING on next-20260115]
-> [cannot apply to akpm-mm/mm-nonmm-unstable soc/for-next linus/master v6.19-rc5]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Liam-R-Howlett/maple_tree-Move-mas_spanning_rebalance-loop-to-function/20260116-034135
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20260115193647.1695937-17-Liam.Howlett%40oracle.com
-> patch subject: [PATCH 16/28] maple_tree: Start using maple copy node for destination
-> config: x86_64-randconfig-121-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161750.eDtUQiJr-lkp@intel.com/config)
-> compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161750.eDtUQiJr-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601161750.eDtUQiJr-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> lib/maple_tree.c:3355:37: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got struct maple_enode * @@
->    lib/maple_tree.c:3355:37: sparse:     expected void [noderef] __rcu *
->    lib/maple_tree.c:3355:37: sparse:     got struct maple_enode *
-> >> lib/maple_tree.c:3358:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct maple_enode const *entry @@     got void [noderef] __rcu * @@
->    lib/maple_tree.c:3358:17: sparse:     expected struct maple_enode const *entry
->    lib/maple_tree.c:3358:17: sparse:     got void [noderef] __rcu *
-> >> lib/maple_tree.c:3397:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct maple_enode *node @@     got void [noderef] __rcu * @@
->    lib/maple_tree.c:3397:19: sparse:     expected struct maple_enode *node
->    lib/maple_tree.c:3397:19: sparse:     got void [noderef] __rcu *
->    lib/maple_tree.c:3139:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got struct maple_enode * @@
->    lib/maple_tree.c:3139:29: sparse:     expected void [noderef] __rcu *
->    lib/maple_tree.c:3139:29: sparse:     got struct maple_enode *
-> >> lib/maple_tree.c:2558:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct maple_enode *enode @@     got void [noderef] __rcu * @@
->    lib/maple_tree.c:2558:52: sparse:     expected struct maple_enode *enode
->    lib/maple_tree.c:2558:52: sparse:     got void [noderef] __rcu *
->    lib/maple_tree.c:2803:29: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got void *content @@
->    lib/maple_tree.c:2803:29: sparse:     expected void [noderef] __rcu *
->    lib/maple_tree.c:2803:29: sparse:     got void *content
->    lib/maple_tree.c:2806:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got void *entry @@
->    lib/maple_tree.c:2806:23: sparse:     expected void [noderef] __rcu *
->    lib/maple_tree.c:2806:23: sparse:     got void *entry
-> >> lib/maple_tree.c:2558:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct maple_enode *enode @@     got void [noderef] __rcu * @@
->    lib/maple_tree.c:2558:52: sparse:     expected struct maple_enode *enode
->    lib/maple_tree.c:2558:52: sparse:     got void [noderef] __rcu *
->    lib/maple_tree.c:6899:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got struct maple_node * @@
->    lib/maple_tree.c:6899:30: sparse:     expected void [noderef] __rcu *
->    lib/maple_tree.c:6899:30: sparse:     got struct maple_node *
->    lib/maple_tree.c:6899:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __rcu * @@     got struct maple_node * @@
->    lib/maple_tree.c:6899:30: sparse:     expected void [noderef] __rcu *
->    lib/maple_tree.c:6899:30: sparse:     got struct maple_node *
-> 
-...
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
+head:   79db93f970fef44c4e01ed7a3d247ed65375a3ab
+commit: 79db93f970fef44c4e01ed7a3d247ed65375a3ab [6/6] f2fs: trace_f2fs_map_lock()
+config: i386-randconfig-012-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170457.MinsdW9c-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170457.MinsdW9c-lkp@intel.com/reproduce)
 
-Andrew,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601170457.MinsdW9c-lkp@intel.com/
 
-Fixing these in patch 16 means that future patches will need fixing.
+All warnings (new ones prefixed by >>):
 
-I can either send you patches to fix up this and subsequent patches.  It
-might be better for me to respin the series?
+   In file included from include/trace/define_trace.h:132,
+                    from include/trace/events/f2fs.h:2608,
+                    from fs/f2fs/super.c:41:
+   include/trace/events/f2fs.h: In function 'trace_raw_output_f2fs_map_lock':
+>> include/trace/events/f2fs.h:2598:19: warning: format '%lld' expects argument of type 'long long int', but argument 6 has type 'long unsigned int' [-Wformat=]
+    2598 |         TP_printk("dev = (%d,%d), ino = %lu, index = %lld, flag = %d, %s",
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:219:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     219 |         trace_event_printf(iter, print);                                \
+         |                                  ^~~~~
+   include/trace/trace_events.h:45:30: note: in expansion of macro 'PARAMS'
+      45 |                              PARAMS(print));                   \
+         |                              ^~~~~~
+   include/trace/events/f2fs.h:2576:1: note: in expansion of macro 'TRACE_EVENT'
+    2576 | TRACE_EVENT(f2fs_map_lock,
+         | ^~~~~~~~~~~
+   include/trace/events/f2fs.h:2598:9: note: in expansion of macro 'TP_printk'
+    2598 |         TP_printk("dev = (%d,%d), ino = %lu, index = %lld, flag = %d, %s",
+         |         ^~~~~~~~~
+   In file included from include/trace/trace_events.h:256:
+   include/trace/events/f2fs.h:2598:57: note: format string is defined here
+    2598 |         TP_printk("dev = (%d,%d), ino = %lu, index = %lld, flag = %d, %s",
+         |                                                      ~~~^
+         |                                                         |
+         |                                                         long long int
+         |                                                      %ld
 
-Let me know what you think I should do here.
 
-I'll also include a final patch to correct any other sparse warnings.
+vim +2598 include/trace/events/f2fs.h
 
-Thanks,
-Liam
+  2577	
+  2578		TP_PROTO(struct inode *inode, pgoff_t index, int flag, char *string),
+  2579	
+  2580		TP_ARGS(inode, index, flag, string),
+  2581	
+  2582		TP_STRUCT__entry(
+  2583			__field(dev_t, dev)
+  2584			__field(ino_t, ino)
+  2585			__field(pgoff_t, index)
+  2586			__field(int, flag)
+  2587			__field(char *, string)
+  2588		),
+  2589	
+  2590		TP_fast_assign(
+  2591			__entry->dev		= inode->i_sb->s_dev;
+  2592			__entry->ino		= inode->i_ino;
+  2593			__entry->index		= index;
+  2594			__entry->flag		= flag;
+  2595			__entry->string		= string;
+  2596		),
+  2597	
+> 2598		TP_printk("dev = (%d,%d), ino = %lu, index = %lld, flag = %d, %s",
+  2599			show_dev_ino(__entry),
+  2600			__entry->index,
+  2601			__entry->flag,
+  2602			__entry->string)
+  2603	);
+  2604	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
