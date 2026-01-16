@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7E0265623;
-	Fri, 16 Jan 2026 13:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDE3145348
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 13:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768569667; cv=none; b=eFb38a4EMDNHnP4QsosOmudo7uiCt60KT96GIkyd/MaM4dQ9bJxqWat+g03qQ4jsTaQxki9457AoO5Jsx0sP/gvz0NogPtSELY7tyVVOOaMrB67xhMOls3GpqNzHc54wC73gy92yaTQMLEocNypmruwmQFAlhZ6ky+tNcZ/wcbA=
+	t=1768571590; cv=none; b=E5LlC0PTwdVxRMA+U6EJvJZB0m5G4ou+oTC5oJtvt6aMSCUiS3vyQfM8wdyjkOSpfCgylkefqYS6wT2hykb7E9Pa3Lha1YgA5zA4J6GcYKUrCLDiLRwdLqA9IJ7DQcYkVkKwM12BafQuxXBaZN0yjr/w6q4NwISNrA4bdxZejAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768569667; c=relaxed/simple;
-	bh=i32t1y7XODJy/klylqSnaSxh4yladx7T3RFtlv8mVfY=;
+	s=arc-20240116; t=1768571590; c=relaxed/simple;
+	bh=DT/E4BgkqYQY28FJUE+qldgJ4WbSC4j4l/OQFFrGl4o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ld6jUgVrZdGq6XKYUtZyCdTFLiA20EtJ59aCHB2YIY1AyCce06KEfK0OnQdH6EJWXygJ0i+bqOyaCQ6I67KjpmijRXpt3UvxJ3C40jggF9xpABPg3WUjsJ8D9pgNdARUnioKBcQOS3bFFnbTJJhx+PEvOtE+MTeufdBbt1ePEWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjdJ09lb; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xai2R/NE+ywhlimxyTxt6Hems9nOGkceCPvvzpNTc2QfoAuZ6ONavCZ5JcxdqkHMog38fRGNQInHtxxgwT8l3iPNSa9bT7T9Jfk/W9hNhTx38bMWA2hE4Bx4UTNcHL+g0bf2ZxYxxyQ0ap2QxXUIqKy7fm9Jx94oGNI5mxkXH5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JraaNnca; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjdJ09lb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JraaNnca"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768569664; x=1800105664;
+  t=1768571589; x=1800107589;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=i32t1y7XODJy/klylqSnaSxh4yladx7T3RFtlv8mVfY=;
-  b=LjdJ09lbr8LoLomhTlzXBxc9GuLbi633ftSIn4/zJHcMnoZfykKzDt2D
-   dN2oaWPHv1a7rhlMt46XsmuBi/dg2RXbkg3yOZ4a/09cXDccGAprJMFAG
-   GZqd2+arRHzx1dDknHU9MiZatFIDu8KDCM0QFgf5/beOcJXE1+sJ5/D5c
-   o/Z053GZH7IFgq88I6wNQxDl9DdxIHBrcBF04YK4+HPiBePejsKyGKFfj
-   b1b8YXGC4YJR6ju+xFhb5BsTcDg9btOtZ8qknsItOtwBYVM438osMdA0v
-   2vmTVoBA3Ix3c9oq+vktbq5QmRMZdCinwPlXV8lU6xJPnna/HlWfigjY7
-   Q==;
-X-CSE-ConnectionGUID: sQu5ArILTFCrhGAK3f9zxQ==
-X-CSE-MsgGUID: ueqbsVYXRyabObW7uBktEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="73735954"
+  bh=DT/E4BgkqYQY28FJUE+qldgJ4WbSC4j4l/OQFFrGl4o=;
+  b=JraaNncalAmbF4+rBmkXcmvU6TUvvnrY4jAfXUcUff5PCqjhyIJTBQ2m
+   tLkCAfeblinDjWoyfOQz8Kx6tCnufF0loEB9/EFjjz0WYzOqpVkx+PTYJ
+   13jegGlpO08dkBn+VuVqAKc10GvmJmaT3zfCCWW24OhUIlkM+iBJqp3bA
+   9P6j3RqHJ64jemmGTNVBKjQK9HWvOzZHl9XWsCNrz6eJYaHHnZC/Eb4Ft
+   5fokDqvJRfAccRuby0WhOzk8Mg0SAtC7jzjFhfmHh3sv1GbNREwtyYp1g
+   iy20lEQJwnxwwd5tbteiCF522rzpduVU3nElsPk9egx6NKH64FgRXVWWM
+   g==;
+X-CSE-ConnectionGUID: bGqp50z/Tr656tIfNVXS4A==
+X-CSE-MsgGUID: qNQlFdqtRHimm6bXClNuMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69780857"
 X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="73735954"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 05:21:00 -0800
-X-CSE-ConnectionGUID: z20xf1QURzeARJmUSF2riA==
-X-CSE-MsgGUID: I8LJAjIITWuAZrKb+MhEbQ==
+   d="scan'208";a="69780857"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 05:53:05 -0800
+X-CSE-ConnectionGUID: 0vHhAGUDQYS0P5v64xPltA==
+X-CSE-MsgGUID: ZigddSHuT9inTQ1M30X5ag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="236502851"
+   d="scan'208";a="205527646"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Jan 2026 05:20:59 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 16 Jan 2026 05:53:01 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgjl3-00000000KrM-1PJj;
-	Fri, 16 Jan 2026 13:20:57 +0000
-Date: Fri, 16 Jan 2026 21:20:36 +0800
+	id 1vgkG3-00000000Kts-0g2Q;
+	Fri, 16 Jan 2026 13:52:59 +0000
+Date: Fri, 16 Jan 2026 21:52:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Masney <bmasney@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 13/13] clk: microchip: core: allow driver to be compiled
- with COMPILE_TEST
-Message-ID: <202601162110.K1eWGORM-lkp@intel.com>
-References: <20260109-mips-pic32-header-move-v1-13-99859c55783d@redhat.com>
+To: sunpeng.li@amd.com, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Harry.Wentland@amd.com, simona@ffwll.ch,
+	airlied@gmail.com, jani.nikula@linux.intel.com,
+	ville.syrjala@linux.intel.com, Leo Li <sunpeng.li@amd.com>
+Subject: Re: [PATCH v3 2/2] drm/amd/display: Implement prepare_vblank_enable
+ callback
+Message-ID: <202601162111.x5OKj7WN-lkp@intel.com>
+References: <20260109192027.116325-2-sunpeng.li@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,164 +66,187 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260109-mips-pic32-header-move-v1-13-99859c55783d@redhat.com>
+In-Reply-To: <20260109192027.116325-2-sunpeng.li@amd.com>
 
-Hi Brian,
+Hi,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on f417b7ffcbef7d76b0d8860518f50dae0e7e5eda]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-tip/drm-tip next-20260115]
+[cannot apply to drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Masney/MIPS-copy-pic32-h-header-file-from-asm-mach-pic32-to-include-platform-data/20260110-005057
-base:   f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
-patch link:    https://lore.kernel.org/r/20260109-mips-pic32-header-move-v1-13-99859c55783d%40redhat.com
-patch subject: [PATCH 13/13] clk: microchip: core: allow driver to be compiled with COMPILE_TEST
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260116/202601162110.K1eWGORM-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601162110.K1eWGORM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/sunpeng-li-amd-com/drm-amd-display-Implement-prepare_vblank_enable-callback/20260110-032355
+base:   https://gitlab.freedesktop.org/drm/misc/kernel.git drm-misc-next
+patch link:    https://lore.kernel.org/r/20260109192027.116325-2-sunpeng.li%40amd.com
+patch subject: [PATCH v3 2/2] drm/amd/display: Implement prepare_vblank_enable callback
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260116/202601162111.x5OKj7WN-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601162111.x5OKj7WN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601162110.K1eWGORM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601162111.x5OKj7WN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/clk/microchip/clk-core.c:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
-   In file included from drivers/clk/microchip/clk-core.c:13:
-   In file included from arch/x86/include/asm/traps.h:8:
->> arch/x86/include/asm/debugreg.h:180:20: error: no member named 'x86' in 'struct cpuinfo_um'
-     180 |         if (boot_cpu_data.x86 < 6)
-         |             ~~~~~~~~~~~~~ ^
-   arch/x86/include/asm/debugreg.h:191:20: error: no member named 'x86' in 'struct cpuinfo_um'
-     191 |         if (boot_cpu_data.x86 < 6)
-         |             ~~~~~~~~~~~~~ ^
-   In file included from drivers/clk/microchip/clk-core.c:13:
-   In file included from arch/x86/include/asm/traps.h:9:
-   In file included from arch/x86/include/asm/idtentry.h:11:
-   In file included from include/linux/entry-common.h:5:
-   In file included from include/linux/irq-entry-common.h:13:
-   In file included from arch/x86/include/asm/entry-common.h:8:
-   arch/x86/include/asm/nospec-branch.h:598:24: error: use of undeclared identifier '__KERNEL_DS'
-     598 |         static const u16 ds = __KERNEL_DS;
-         |                               ^
-   In file included from drivers/clk/microchip/clk-core.c:13:
-   In file included from arch/x86/include/asm/traps.h:9:
-   In file included from arch/x86/include/asm/idtentry.h:11:
-   In file included from include/linux/entry-common.h:5:
-   In file included from include/linux/irq-entry-common.h:13:
-   In file included from arch/x86/include/asm/entry-common.h:9:
->> arch/x86/include/asm/io_bitmap.h:13:23: error: use of undeclared identifier 'IO_BITMAP_LONGS'
-      13 |         unsigned long   bitmap[IO_BITMAP_LONGS];
-         |                                ^
-   In file included from drivers/clk/microchip/clk-core.c:13:
-   In file included from arch/x86/include/asm/traps.h:9:
-   In file included from arch/x86/include/asm/idtentry.h:11:
-   In file included from include/linux/entry-common.h:5:
-   In file included from include/linux/irq-entry-common.h:13:
->> arch/x86/include/asm/entry-common.h:22:25: error: call to undeclared function 'native_save_fl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      22 |                 unsigned long flags = native_save_fl();
-         |                                       ^
->> arch/x86/include/asm/entry-common.h:23:24: error: use of undeclared identifier 'X86_EFLAGS_DF'
-      23 |                 unsigned long mask = X86_EFLAGS_DF | X86_EFLAGS_NT;
-         |                                      ^
->> arch/x86/include/asm/entry-common.h:23:40: error: use of undeclared identifier 'X86_EFLAGS_NT'
-      23 |                 unsigned long mask = X86_EFLAGS_DF | X86_EFLAGS_NT;
-         |                                                      ^
->> arch/x86/include/asm/entry-common.h:28:7: error: call to undeclared function 'DISABLED_MASK_BIT_SET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      28 |                 if (cpu_feature_enabled(X86_FEATURE_SMAP) ||
-         |                     ^
-   arch/um/include/asm/cpufeature.h:52:32: note: expanded from macro 'cpu_feature_enabled'
-      52 |         (__builtin_constant_p(bit) && DISABLED_MASK_BIT_SET(bit) ? 0 : static_cpu_has(bit))
-         |                                       ^
-   In file included from drivers/clk/microchip/clk-core.c:13:
-   In file included from arch/x86/include/asm/traps.h:9:
-   In file included from arch/x86/include/asm/idtentry.h:11:
-   In file included from include/linux/entry-common.h:5:
-   In file included from include/linux/irq-entry-common.h:13:
->> arch/x86/include/asm/entry-common.h:30:12: error: use of undeclared identifier 'X86_EFLAGS_AC'
-      30 |                         mask |= X86_EFLAGS_AC;
-         |                                 ^
->> arch/x86/include/asm/entry-common.h:42:17: error: call to undeclared function 'on_thread_stack'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      42 |                 WARN_ON_ONCE(!on_thread_stack());
-         |                               ^
->> arch/x86/include/asm/entry-common.h:50:16: error: use of undeclared identifier '_TIF_USER_RETURN_NOTIFY'
-      50 |         if (ti_work & _TIF_USER_RETURN_NOTIFY)
-         |                       ^
->> arch/x86/include/asm/entry-common.h:53:25: error: use of undeclared identifier '_TIF_IO_BITMAP'
-      53 |         if (unlikely(ti_work & _TIF_IO_BITMAP))
-         |                                ^
->> arch/x86/include/asm/entry-common.h:56:25: error: use of undeclared identifier '_TIF_NEED_FPU_LOAD'
-      56 |         if (unlikely(ti_work & _TIF_NEED_FPU_LOAD))
-         |                                ^
->> arch/x86/include/asm/entry-common.h:57:3: error: call to undeclared function 'switch_fpu_return'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      57 |                 switch_fpu_return();
-         |                 ^
->> arch/x86/include/asm/entry-common.h:63:2: error: call to undeclared function 'fpregs_assert_state_consistent'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      63 |         fpregs_assert_state_consistent();
-         |         ^
-   arch/x86/include/asm/entry-common.h:98:6: error: call to undeclared function 'DISABLED_MASK_BIT_SET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      98 |         if (cpu_feature_enabled(X86_FEATURE_IBPB_EXIT_TO_USER) &&
-         |             ^
-   arch/um/include/asm/cpufeature.h:52:32: note: expanded from macro 'cpu_feature_enabled'
-      52 |         (__builtin_constant_p(bit) && DISABLED_MASK_BIT_SET(bit) ? 0 : static_cpu_has(bit))
-         |                                       ^
-   In file included from drivers/clk/microchip/clk-core.c:13:
-   In file included from arch/x86/include/asm/traps.h:9:
-   In file included from arch/x86/include/asm/idtentry.h:11:
-   In file included from include/linux/entry-common.h:5:
-   In file included from include/linux/irq-entry-common.h:13:
->> arch/x86/include/asm/entry-common.h:108:2: error: call to undeclared function 'amd_clear_divider'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     108 |         amd_clear_divider();
-         |         ^
-   In file included from drivers/clk/microchip/clk-core.c:13:
-   In file included from arch/x86/include/asm/traps.h:9:
-   In file included from arch/x86/include/asm/idtentry.h:11:
-   In file included from include/linux/entry-common.h:5:
->> include/linux/irq-entry-common.h:225:25: error: use of undeclared identifier '_TIF_UPROBE'
-     225 |         if (unlikely(ti_work & EXIT_TO_USER_MODE_WORK))
-         |                                ^
-   include/linux/irq-entry-common.h:31:42: note: expanded from macro 'EXIT_TO_USER_MODE_WORK'
-      31 |         (_TIF_SIGPENDING | _TIF_NOTIFY_RESUME | _TIF_UPROBE |           \
-         |                                                 ^
-   In file included from drivers/clk/microchip/clk-core.c:13:
-   In file included from arch/x86/include/asm/traps.h:9:
-   In file included from arch/x86/include/asm/idtentry.h:11:
->> include/linux/entry-common.h:48:6: error: conflicting types for 'syscall_trace_enter'
-      48 | long syscall_trace_enter(struct pt_regs *regs, long syscall, unsigned long work);
-         |      ^
-   arch/um/include/asm/ptrace-generic.h:44:12: note: previous declaration is here
-      44 | extern int syscall_trace_enter(struct pt_regs *regs);
-         |            ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   1 warning and 20 errors generated.
+   In file included from include/linux/preempt.h:11,
+                    from include/linux/spinlock.h:56,
+                    from include/drm/drm_crtc.h:28,
+                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:27:
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c: In function 'amdgpu_dm_crtc_set_crc_source':
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:659:38: error: 'dm' undeclared (first use in this function); did you mean 'dc'?
+     659 |                 scoped_guard(mutex, &dm->dc_lock) {
+         |                                      ^~
+   include/linux/cleanup.h:433:34: note: in definition of macro '__scoped_guard'
+     433 |         for (CLASS(_name, scope)(args);                                 \
+         |                                  ^~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:659:17: note: in expansion of macro 'scoped_guard'
+     659 |                 scoped_guard(mutex, &dm->dc_lock) {
+         |                 ^~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:659:38: note: each undeclared identifier is reported only once for each function it appears in
+     659 |                 scoped_guard(mutex, &dm->dc_lock) {
+         |                                      ^~
+   include/linux/cleanup.h:433:34: note: in definition of macro '__scoped_guard'
+     433 |         for (CLASS(_name, scope)(args);                                 \
+         |                                  ^~~~
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c:659:17: note: in expansion of macro 'scoped_guard'
+     659 |                 scoped_guard(mutex, &dm->dc_lock) {
+         |                 ^~~~~~~~~~~~
 
 
-vim +180 arch/x86/include/asm/debugreg.h
+vim +659 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_crc.c
 
-42181186ad4db9 Steven Rostedt  2011-12-16  174  
-154fcf3a788868 Thomas Gleixner 2024-03-04  175  static inline unsigned long get_debugctlmsr(void)
-154fcf3a788868 Thomas Gleixner 2024-03-04  176  {
-154fcf3a788868 Thomas Gleixner 2024-03-04  177  	unsigned long debugctlmsr = 0;
-154fcf3a788868 Thomas Gleixner 2024-03-04  178  
-154fcf3a788868 Thomas Gleixner 2024-03-04  179  #ifndef CONFIG_X86_DEBUGCTLMSR
-154fcf3a788868 Thomas Gleixner 2024-03-04 @180  	if (boot_cpu_data.x86 < 6)
-154fcf3a788868 Thomas Gleixner 2024-03-04  181  		return 0;
-154fcf3a788868 Thomas Gleixner 2024-03-04  182  #endif
-c435e608cf59ff Ingo Molnar     2025-04-09  183  	rdmsrq(MSR_IA32_DEBUGCTLMSR, debugctlmsr);
-154fcf3a788868 Thomas Gleixner 2024-03-04  184  
-154fcf3a788868 Thomas Gleixner 2024-03-04  185  	return debugctlmsr;
-154fcf3a788868 Thomas Gleixner 2024-03-04  186  }
-154fcf3a788868 Thomas Gleixner 2024-03-04  187  
+   542	
+   543	int amdgpu_dm_crtc_set_crc_source(struct drm_crtc *crtc, const char *src_name)
+   544	{
+   545		enum amdgpu_dm_pipe_crc_source source = dm_parse_crc_source(src_name);
+   546		enum amdgpu_dm_pipe_crc_source cur_crc_src;
+   547		struct drm_crtc_commit *commit;
+   548		struct dm_crtc_state *crtc_state;
+   549		struct drm_device *drm_dev = crtc->dev;
+   550	#if defined(CONFIG_DRM_AMD_SECURE_DISPLAY)
+   551		struct amdgpu_device *adev = drm_to_adev(drm_dev);
+   552		struct amdgpu_display_manager *dm = &adev->dm;
+   553	#endif
+   554		struct amdgpu_crtc *acrtc = to_amdgpu_crtc(crtc);
+   555		struct drm_dp_aux *aux = NULL;
+   556		bool enable = false;
+   557		bool enabled = false;
+   558		int ret = 0;
+   559	
+   560		if (source < 0) {
+   561			DRM_DEBUG_DRIVER("Unknown CRC source %s for CRTC%d\n",
+   562					 src_name, crtc->index);
+   563			return -EINVAL;
+   564		}
+   565	
+   566		ret = drm_modeset_lock(&crtc->mutex, NULL);
+   567		if (ret)
+   568			return ret;
+   569	
+   570		spin_lock(&crtc->commit_lock);
+   571		commit = list_first_entry_or_null(&crtc->commit_list,
+   572						  struct drm_crtc_commit, commit_entry);
+   573		if (commit)
+   574			drm_crtc_commit_get(commit);
+   575		spin_unlock(&crtc->commit_lock);
+   576	
+   577		if (commit) {
+   578			/*
+   579			 * Need to wait for all outstanding programming to complete
+   580			 * in commit tail since it can modify CRC related fields and
+   581			 * hardware state. Since we're holding the CRTC lock we're
+   582			 * guaranteed that no other commit work can be queued off
+   583			 * before we modify the state below.
+   584			 */
+   585			ret = wait_for_completion_interruptible_timeout(
+   586				&commit->hw_done, 10 * HZ);
+   587			if (ret)
+   588				goto cleanup;
+   589		}
+   590	
+   591		enable = amdgpu_dm_is_valid_crc_source(source);
+   592		crtc_state = to_dm_crtc_state(crtc->state);
+   593		spin_lock_irq(&drm_dev->event_lock);
+   594		cur_crc_src = acrtc->dm_irq_params.crc_src;
+   595		spin_unlock_irq(&drm_dev->event_lock);
+   596	
+   597		/*
+   598		 * USER REQ SRC | CURRENT SRC | BEHAVIOR
+   599		 * -----------------------------
+   600		 * None         | None        | Do nothing
+   601		 * None         | CRTC        | Disable CRTC CRC, set default to dither
+   602		 * None         | DPRX        | Disable DPRX CRC, need 'aux', set default to dither
+   603		 * None         | CRTC DITHER | Disable CRTC CRC
+   604		 * None         | DPRX DITHER | Disable DPRX CRC, need 'aux'
+   605		 * CRTC         | XXXX        | Enable CRTC CRC, no dither
+   606		 * DPRX         | XXXX        | Enable DPRX CRC, need 'aux', no dither
+   607		 * CRTC DITHER  | XXXX        | Enable CRTC CRC, set dither
+   608		 * DPRX DITHER  | XXXX        | Enable DPRX CRC, need 'aux', set dither
+   609		 */
+   610		if (dm_is_crc_source_dprx(source) ||
+   611		    (source == AMDGPU_DM_PIPE_CRC_SOURCE_NONE &&
+   612		     dm_is_crc_source_dprx(cur_crc_src))) {
+   613			struct amdgpu_dm_connector *aconn = NULL;
+   614			struct drm_connector *connector;
+   615			struct drm_connector_list_iter conn_iter;
+   616	
+   617			drm_connector_list_iter_begin(crtc->dev, &conn_iter);
+   618			drm_for_each_connector_iter(connector, &conn_iter) {
+   619				if (!connector->state || connector->state->crtc != crtc)
+   620					continue;
+   621	
+   622				if (connector->connector_type == DRM_MODE_CONNECTOR_WRITEBACK)
+   623					continue;
+   624	
+   625				aconn = to_amdgpu_dm_connector(connector);
+   626				break;
+   627			}
+   628			drm_connector_list_iter_end(&conn_iter);
+   629	
+   630			if (!aconn) {
+   631				DRM_DEBUG_DRIVER("No amd connector matching CRTC-%d\n", crtc->index);
+   632				ret = -EINVAL;
+   633				goto cleanup;
+   634			}
+   635	
+   636			aux = (aconn->mst_output_port) ? &aconn->mst_output_port->aux : &aconn->dm_dp_aux.aux;
+   637	
+   638			if (!aux) {
+   639				DRM_DEBUG_DRIVER("No dp aux for amd connector\n");
+   640				ret = -EINVAL;
+   641				goto cleanup;
+   642			}
+   643	
+   644			if ((aconn->base.connector_type != DRM_MODE_CONNECTOR_DisplayPort) &&
+   645					(aconn->base.connector_type != DRM_MODE_CONNECTOR_eDP)) {
+   646				DRM_DEBUG_DRIVER("No DP connector available for CRC source\n");
+   647				ret = -EINVAL;
+   648				goto cleanup;
+   649			}
+   650	
+   651		}
+   652	
+   653		/*
+   654		 * Reading the CRC requires the vblank interrupt handler to be
+   655		 * enabled. Keep a reference until CRC capture stops.
+   656		 */
+   657		enabled = amdgpu_dm_is_valid_crc_source(cur_crc_src);
+   658		if (!enabled && enable) {
+ > 659			scoped_guard(mutex, &dm->dc_lock) {
+   660				dc_exit_ips_for_hw_access(dm->dc);
+   661				ret = drm_crtc_vblank_get(crtc);
+   662			}
+   663	
+   664			if (ret)
+   665				goto cleanup;
+   666		}
+   667	
 
 -- 
 0-DAY CI Kernel Test Service
