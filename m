@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C1E1D95A3;
-	Fri, 16 Jan 2026 12:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7E0265623;
+	Fri, 16 Jan 2026 13:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768566550; cv=none; b=jx/LU4Wn7cpZK2fIqEJcaF+YcAKvRknSFttYveOywTdf5gZSMHFJ/Q6A4nBeY5QW0Dnskr1SFn2DRMT3u8/ThDR61/VyGbGwhFWv4aIVYJryujUTjx1K4mq84MtHob9xnZiArJaXOmrvobJuSV+hh4Fvhuk7qDMwwx4TV+xdRe8=
+	t=1768569667; cv=none; b=eFb38a4EMDNHnP4QsosOmudo7uiCt60KT96GIkyd/MaM4dQ9bJxqWat+g03qQ4jsTaQxki9457AoO5Jsx0sP/gvz0NogPtSELY7tyVVOOaMrB67xhMOls3GpqNzHc54wC73gy92yaTQMLEocNypmruwmQFAlhZ6ky+tNcZ/wcbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768566550; c=relaxed/simple;
-	bh=xi6zM5CVklLfECdqHMYOBwNT/HjrbAQtzgaoZogHnGk=;
+	s=arc-20240116; t=1768569667; c=relaxed/simple;
+	bh=i32t1y7XODJy/klylqSnaSxh4yladx7T3RFtlv8mVfY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AbwpwxcaK8Ti6qammFdYw1vQZ7rQR9Gp+WfTgS2bbNX2JlDyRNWWtE+n3R4tqZmmguYf+s8XYeTi3yiTja8hqpJYUJY8mjSVOcTYxcZeLbQUaF+JimQwWG3PrH3ievKnHuqbNMXN0HSUyCqRozBlI7ZTpaNOYpaVbIDmPoC/COs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZsRsJEf/; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=ld6jUgVrZdGq6XKYUtZyCdTFLiA20EtJ59aCHB2YIY1AyCce06KEfK0OnQdH6EJWXygJ0i+bqOyaCQ6I67KjpmijRXpt3UvxJ3C40jggF9xpABPg3WUjsJ8D9pgNdARUnioKBcQOS3bFFnbTJJhx+PEvOtE+MTeufdBbt1ePEWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjdJ09lb; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZsRsJEf/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjdJ09lb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768566545; x=1800102545;
+  t=1768569664; x=1800105664;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xi6zM5CVklLfECdqHMYOBwNT/HjrbAQtzgaoZogHnGk=;
-  b=ZsRsJEf/vK1anXUXmW7JYtGZI282edn0MHA6+wReWxYztmKTHpMC5ssy
-   tAHadgkXSvFTXQZBnpI08iAUsaCxSRSLRcoUP2f64bYleEpVExjBPAUpr
-   Y/HUImRlOzUfUTZFMhBM5aAh2Wu2b+bh3DKmouWkoFNnXe1IhDF+bRND5
-   C3VN8/ZS06CCSDGzCNr1NaY5hFWQB+0KNB5ycJosHRESJ5kxhw7etBt8M
-   NB3MORhHypmQRX9aeCRlTG5DFSZP91k90JVu1R2PegFsC+txzQDkXh3P/
-   k8PdBPu+2Va0N+OQSsXFUhfQoXOgjgkbL0c/IcSpLhLAgqosPDPQ8JcIm
+  bh=i32t1y7XODJy/klylqSnaSxh4yladx7T3RFtlv8mVfY=;
+  b=LjdJ09lbr8LoLomhTlzXBxc9GuLbi633ftSIn4/zJHcMnoZfykKzDt2D
+   dN2oaWPHv1a7rhlMt46XsmuBi/dg2RXbkg3yOZ4a/09cXDccGAprJMFAG
+   GZqd2+arRHzx1dDknHU9MiZatFIDu8KDCM0QFgf5/beOcJXE1+sJ5/D5c
+   o/Z053GZH7IFgq88I6wNQxDl9DdxIHBrcBF04YK4+HPiBePejsKyGKFfj
+   b1b8YXGC4YJR6ju+xFhb5BsTcDg9btOtZ8qknsItOtwBYVM438osMdA0v
+   2vmTVoBA3Ix3c9oq+vktbq5QmRMZdCinwPlXV8lU6xJPnna/HlWfigjY7
    Q==;
-X-CSE-ConnectionGUID: WwaABQHGQMe/1tuYyI4kdQ==
-X-CSE-MsgGUID: L3026f0MT2udJkrPqJYWVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="68889866"
+X-CSE-ConnectionGUID: sQu5ArILTFCrhGAK3f9zxQ==
+X-CSE-MsgGUID: ueqbsVYXRyabObW7uBktEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="73735954"
 X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="68889866"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 04:29:04 -0800
-X-CSE-ConnectionGUID: cciyI+moRiCnC1gkccgIFw==
-X-CSE-MsgGUID: M4jROaV+Qo67aryhk+swUA==
+   d="scan'208";a="73735954"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 05:21:00 -0800
+X-CSE-ConnectionGUID: z20xf1QURzeARJmUSF2riA==
+X-CSE-MsgGUID: I8LJAjIITWuAZrKb+MhEbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,231,1763452800"; 
-   d="scan'208";a="204384752"
+   d="scan'208";a="236502851"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 16 Jan 2026 04:28:59 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 16 Jan 2026 05:20:59 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgiwi-00000000KpE-0KSC;
-	Fri, 16 Jan 2026 12:28:56 +0000
-Date: Fri, 16 Jan 2026 20:28:23 +0800
+	id 1vgjl3-00000000KrM-1PJj;
+	Fri, 16 Jan 2026 13:20:57 +0000
+Date: Fri, 16 Jan 2026 21:20:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wei Fang <wei.fang@nxp.com>, shenwei.wang@nxp.com,
-	xiaoning.wang@nxp.com, frank.li@nxp.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, ast@kernel.org, daniel@iogearbox.net,
-	hawk@kernel.org, john.fastabend@gmail.com, sdf@fomichev.me
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, bpf@vger.kernel.org
-Subject: Re: [PATCH v2 net-next 14/14] net: fec: add AF_XDP zero-copy support
-Message-ID: <202601162115.ATDIXPBp-lkp@intel.com>
-References: <20260116074027.1603841-15-wei.fang@nxp.com>
+To: Brian Masney <bmasney@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 13/13] clk: microchip: core: allow driver to be compiled
+ with COMPILE_TEST
+Message-ID: <202601162110.K1eWGORM-lkp@intel.com>
+References: <20260109-mips-pic32-header-move-v1-13-99859c55783d@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,129 +63,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260116074027.1603841-15-wei.fang@nxp.com>
+In-Reply-To: <20260109-mips-pic32-header-move-v1-13-99859c55783d@redhat.com>
 
-Hi Wei,
+Hi Brian,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on f417b7ffcbef7d76b0d8860518f50dae0e7e5eda]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Fang/net-fec-add-fec_txq_trigger_xmit-helper/20260116-154834
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20260116074027.1603841-15-wei.fang%40nxp.com
-patch subject: [PATCH v2 net-next 14/14] net: fec: add AF_XDP zero-copy support
-config: arm-imx_v4_v5_defconfig (https://download.01.org/0day-ci/archive/20260116/202601162115.ATDIXPBp-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601162115.ATDIXPBp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Masney/MIPS-copy-pic32-h-header-file-from-asm-mach-pic32-to-include-platform-data/20260110-005057
+base:   f417b7ffcbef7d76b0d8860518f50dae0e7e5eda
+patch link:    https://lore.kernel.org/r/20260109-mips-pic32-header-move-v1-13-99859c55783d%40redhat.com
+patch subject: [PATCH 13/13] clk: microchip: core: allow driver to be compiled with COMPILE_TEST
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260116/202601162110.K1eWGORM-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601162110.K1eWGORM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601162115.ATDIXPBp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601162110.K1eWGORM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/freescale/fec_main.c:1040:4: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-    1040 |                         default:
-         |                         ^
-   drivers/net/ethernet/freescale/fec_main.c:1040:4: note: insert 'break;' to avoid fall-through
-    1040 |                         default:
-         |                         ^
-         |                         break; 
-   1 warning generated.
+   In file included from drivers/clk/microchip/clk-core.c:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+   In file included from drivers/clk/microchip/clk-core.c:13:
+   In file included from arch/x86/include/asm/traps.h:8:
+>> arch/x86/include/asm/debugreg.h:180:20: error: no member named 'x86' in 'struct cpuinfo_um'
+     180 |         if (boot_cpu_data.x86 < 6)
+         |             ~~~~~~~~~~~~~ ^
+   arch/x86/include/asm/debugreg.h:191:20: error: no member named 'x86' in 'struct cpuinfo_um'
+     191 |         if (boot_cpu_data.x86 < 6)
+         |             ~~~~~~~~~~~~~ ^
+   In file included from drivers/clk/microchip/clk-core.c:13:
+   In file included from arch/x86/include/asm/traps.h:9:
+   In file included from arch/x86/include/asm/idtentry.h:11:
+   In file included from include/linux/entry-common.h:5:
+   In file included from include/linux/irq-entry-common.h:13:
+   In file included from arch/x86/include/asm/entry-common.h:8:
+   arch/x86/include/asm/nospec-branch.h:598:24: error: use of undeclared identifier '__KERNEL_DS'
+     598 |         static const u16 ds = __KERNEL_DS;
+         |                               ^
+   In file included from drivers/clk/microchip/clk-core.c:13:
+   In file included from arch/x86/include/asm/traps.h:9:
+   In file included from arch/x86/include/asm/idtentry.h:11:
+   In file included from include/linux/entry-common.h:5:
+   In file included from include/linux/irq-entry-common.h:13:
+   In file included from arch/x86/include/asm/entry-common.h:9:
+>> arch/x86/include/asm/io_bitmap.h:13:23: error: use of undeclared identifier 'IO_BITMAP_LONGS'
+      13 |         unsigned long   bitmap[IO_BITMAP_LONGS];
+         |                                ^
+   In file included from drivers/clk/microchip/clk-core.c:13:
+   In file included from arch/x86/include/asm/traps.h:9:
+   In file included from arch/x86/include/asm/idtentry.h:11:
+   In file included from include/linux/entry-common.h:5:
+   In file included from include/linux/irq-entry-common.h:13:
+>> arch/x86/include/asm/entry-common.h:22:25: error: call to undeclared function 'native_save_fl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      22 |                 unsigned long flags = native_save_fl();
+         |                                       ^
+>> arch/x86/include/asm/entry-common.h:23:24: error: use of undeclared identifier 'X86_EFLAGS_DF'
+      23 |                 unsigned long mask = X86_EFLAGS_DF | X86_EFLAGS_NT;
+         |                                      ^
+>> arch/x86/include/asm/entry-common.h:23:40: error: use of undeclared identifier 'X86_EFLAGS_NT'
+      23 |                 unsigned long mask = X86_EFLAGS_DF | X86_EFLAGS_NT;
+         |                                                      ^
+>> arch/x86/include/asm/entry-common.h:28:7: error: call to undeclared function 'DISABLED_MASK_BIT_SET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      28 |                 if (cpu_feature_enabled(X86_FEATURE_SMAP) ||
+         |                     ^
+   arch/um/include/asm/cpufeature.h:52:32: note: expanded from macro 'cpu_feature_enabled'
+      52 |         (__builtin_constant_p(bit) && DISABLED_MASK_BIT_SET(bit) ? 0 : static_cpu_has(bit))
+         |                                       ^
+   In file included from drivers/clk/microchip/clk-core.c:13:
+   In file included from arch/x86/include/asm/traps.h:9:
+   In file included from arch/x86/include/asm/idtentry.h:11:
+   In file included from include/linux/entry-common.h:5:
+   In file included from include/linux/irq-entry-common.h:13:
+>> arch/x86/include/asm/entry-common.h:30:12: error: use of undeclared identifier 'X86_EFLAGS_AC'
+      30 |                         mask |= X86_EFLAGS_AC;
+         |                                 ^
+>> arch/x86/include/asm/entry-common.h:42:17: error: call to undeclared function 'on_thread_stack'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      42 |                 WARN_ON_ONCE(!on_thread_stack());
+         |                               ^
+>> arch/x86/include/asm/entry-common.h:50:16: error: use of undeclared identifier '_TIF_USER_RETURN_NOTIFY'
+      50 |         if (ti_work & _TIF_USER_RETURN_NOTIFY)
+         |                       ^
+>> arch/x86/include/asm/entry-common.h:53:25: error: use of undeclared identifier '_TIF_IO_BITMAP'
+      53 |         if (unlikely(ti_work & _TIF_IO_BITMAP))
+         |                                ^
+>> arch/x86/include/asm/entry-common.h:56:25: error: use of undeclared identifier '_TIF_NEED_FPU_LOAD'
+      56 |         if (unlikely(ti_work & _TIF_NEED_FPU_LOAD))
+         |                                ^
+>> arch/x86/include/asm/entry-common.h:57:3: error: call to undeclared function 'switch_fpu_return'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      57 |                 switch_fpu_return();
+         |                 ^
+>> arch/x86/include/asm/entry-common.h:63:2: error: call to undeclared function 'fpregs_assert_state_consistent'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      63 |         fpregs_assert_state_consistent();
+         |         ^
+   arch/x86/include/asm/entry-common.h:98:6: error: call to undeclared function 'DISABLED_MASK_BIT_SET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      98 |         if (cpu_feature_enabled(X86_FEATURE_IBPB_EXIT_TO_USER) &&
+         |             ^
+   arch/um/include/asm/cpufeature.h:52:32: note: expanded from macro 'cpu_feature_enabled'
+      52 |         (__builtin_constant_p(bit) && DISABLED_MASK_BIT_SET(bit) ? 0 : static_cpu_has(bit))
+         |                                       ^
+   In file included from drivers/clk/microchip/clk-core.c:13:
+   In file included from arch/x86/include/asm/traps.h:9:
+   In file included from arch/x86/include/asm/idtentry.h:11:
+   In file included from include/linux/entry-common.h:5:
+   In file included from include/linux/irq-entry-common.h:13:
+>> arch/x86/include/asm/entry-common.h:108:2: error: call to undeclared function 'amd_clear_divider'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     108 |         amd_clear_divider();
+         |         ^
+   In file included from drivers/clk/microchip/clk-core.c:13:
+   In file included from arch/x86/include/asm/traps.h:9:
+   In file included from arch/x86/include/asm/idtentry.h:11:
+   In file included from include/linux/entry-common.h:5:
+>> include/linux/irq-entry-common.h:225:25: error: use of undeclared identifier '_TIF_UPROBE'
+     225 |         if (unlikely(ti_work & EXIT_TO_USER_MODE_WORK))
+         |                                ^
+   include/linux/irq-entry-common.h:31:42: note: expanded from macro 'EXIT_TO_USER_MODE_WORK'
+      31 |         (_TIF_SIGPENDING | _TIF_NOTIFY_RESUME | _TIF_UPROBE |           \
+         |                                                 ^
+   In file included from drivers/clk/microchip/clk-core.c:13:
+   In file included from arch/x86/include/asm/traps.h:9:
+   In file included from arch/x86/include/asm/idtentry.h:11:
+>> include/linux/entry-common.h:48:6: error: conflicting types for 'syscall_trace_enter'
+      48 | long syscall_trace_enter(struct pt_regs *regs, long syscall, unsigned long work);
+         |      ^
+   arch/um/include/asm/ptrace-generic.h:44:12: note: previous declaration is here
+      44 | extern int syscall_trace_enter(struct pt_regs *regs);
+         |            ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   1 warning and 20 errors generated.
 
 
-vim +1040 drivers/net/ethernet/freescale/fec_main.c
+vim +180 arch/x86/include/asm/debugreg.h
 
-61a4427b955f79d drivers/net/ethernet/freescale/fec_main.c Nimrod Andy    2014-06-12   970  
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   971  /* Init RX & TX buffer descriptors
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   972   */
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   973  static void fec_enet_bd_init(struct net_device *dev)
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   974  {
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   975  	struct fec_enet_private *fep = netdev_priv(dev);
-4d494cdc92b3b9a drivers/net/ethernet/freescale/fec_main.c Fugang Duan    2014-09-13   976  	struct fec_enet_priv_tx_q *txq;
-4d494cdc92b3b9a drivers/net/ethernet/freescale/fec_main.c Fugang Duan    2014-09-13   977  	struct fec_enet_priv_rx_q *rxq;
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   978  	struct bufdesc *bdp;
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   979  	unsigned int i;
-59d0f746564495c drivers/net/ethernet/freescale/fec_main.c Frank Li       2014-09-13   980  	unsigned int q;
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   981  
-59d0f746564495c drivers/net/ethernet/freescale/fec_main.c Frank Li       2014-09-13   982  	for (q = 0; q < fep->num_rx_queues; q++) {
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   983  		/* Initialize the receive buffer descriptors. */
-59d0f746564495c drivers/net/ethernet/freescale/fec_main.c Frank Li       2014-09-13   984  		rxq = fep->rx_queue[q];
-7355f2760620b38 drivers/net/ethernet/freescale/fec_main.c Troy Kisky     2016-02-05   985  		bdp = rxq->bd.base;
-4d494cdc92b3b9a drivers/net/ethernet/freescale/fec_main.c Fugang Duan    2014-09-13   986  
-7355f2760620b38 drivers/net/ethernet/freescale/fec_main.c Troy Kisky     2016-02-05   987  		for (i = 0; i < rxq->bd.ring_size; i++) {
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   988  
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   989  			/* Initialize the BD for every fragment in the page. */
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   990  			if (bdp->cbd_bufaddr)
-5cfa30397bc3677 drivers/net/ethernet/freescale/fec_main.c Johannes Berg  2016-01-24   991  				bdp->cbd_sc = cpu_to_fec16(BD_ENET_RX_EMPTY);
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   992  			else
-5cfa30397bc3677 drivers/net/ethernet/freescale/fec_main.c Johannes Berg  2016-01-24   993  				bdp->cbd_sc = cpu_to_fec16(0);
-7355f2760620b38 drivers/net/ethernet/freescale/fec_main.c Troy Kisky     2016-02-05   994  			bdp = fec_enet_get_nextdesc(bdp, &rxq->bd);
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   995  		}
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   996  
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26   997  		/* Set the last buffer to wrap */
-7355f2760620b38 drivers/net/ethernet/freescale/fec_main.c Troy Kisky     2016-02-05   998  		bdp = fec_enet_get_prevdesc(bdp, &rxq->bd);
-bd31490718b47d9 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2025-11-19   999  		bdp->cbd_sc |= cpu_to_fec16(BD_ENET_RX_WRAP);
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26  1000  
-7355f2760620b38 drivers/net/ethernet/freescale/fec_main.c Troy Kisky     2016-02-05  1001  		rxq->bd.cur = rxq->bd.base;
-59d0f746564495c drivers/net/ethernet/freescale/fec_main.c Frank Li       2014-09-13  1002  	}
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26  1003  
-59d0f746564495c drivers/net/ethernet/freescale/fec_main.c Frank Li       2014-09-13  1004  	for (q = 0; q < fep->num_tx_queues; q++) {
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26  1005  		/* ...and the same for transmit */
-59d0f746564495c drivers/net/ethernet/freescale/fec_main.c Frank Li       2014-09-13  1006  		txq = fep->tx_queue[q];
-7355f2760620b38 drivers/net/ethernet/freescale/fec_main.c Troy Kisky     2016-02-05  1007  		bdp = txq->bd.base;
-7355f2760620b38 drivers/net/ethernet/freescale/fec_main.c Troy Kisky     2016-02-05  1008  		txq->bd.cur = bdp;
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26  1009  
-7355f2760620b38 drivers/net/ethernet/freescale/fec_main.c Troy Kisky     2016-02-05  1010  		for (i = 0; i < txq->bd.ring_size; i++) {
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1011  			struct page *page;
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1012  
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26  1013  			/* Initialize the BD for every fragment in the page. */
-5cfa30397bc3677 drivers/net/ethernet/freescale/fec_main.c Johannes Berg  2016-01-24  1014  			bdp->cbd_sc = cpu_to_fec16(0);
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1015  
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1016  			switch (txq->tx_buf[i].type) {
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1017  			case FEC_TXBUF_T_SKB:
-178e5f57a8d8f8f drivers/net/ethernet/freescale/fec_main.c Fugang Duan    2017-12-22  1018  				if (bdp->cbd_bufaddr &&
-178e5f57a8d8f8f drivers/net/ethernet/freescale/fec_main.c Fugang Duan    2017-12-22  1019  				    !IS_TSO_HEADER(txq, fec32_to_cpu(bdp->cbd_bufaddr)))
-178e5f57a8d8f8f drivers/net/ethernet/freescale/fec_main.c Fugang Duan    2017-12-22  1020  					dma_unmap_single(&fep->pdev->dev,
-178e5f57a8d8f8f drivers/net/ethernet/freescale/fec_main.c Fugang Duan    2017-12-22  1021  							 fec32_to_cpu(bdp->cbd_bufaddr),
-178e5f57a8d8f8f drivers/net/ethernet/freescale/fec_main.c Fugang Duan    2017-12-22  1022  							 fec16_to_cpu(bdp->cbd_datlen),
-178e5f57a8d8f8f drivers/net/ethernet/freescale/fec_main.c Fugang Duan    2017-12-22  1023  							 DMA_TO_DEVICE);
-af6f4791380c320 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2023-08-15  1024  				dev_kfree_skb_any(txq->tx_buf[i].buf_p);
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1025  				break;
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1026  			case FEC_TXBUF_T_XDP_NDO:
-20f797399035a80 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2023-07-06  1027  				dma_unmap_single(&fep->pdev->dev,
-20f797399035a80 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2023-07-06  1028  						 fec32_to_cpu(bdp->cbd_bufaddr),
-20f797399035a80 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2023-07-06  1029  						 fec16_to_cpu(bdp->cbd_datlen),
-20f797399035a80 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2023-07-06  1030  						 DMA_TO_DEVICE);
-af6f4791380c320 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2023-08-15  1031  				xdp_return_frame(txq->tx_buf[i].buf_p);
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1032  				break;
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1033  			case FEC_TXBUF_T_XDP_TX:
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1034  				page = txq->tx_buf[i].buf_p;
-65589e860a80369 drivers/net/ethernet/freescale/fec_main.c Byungchul Park 2025-07-21  1035  				page_pool_put_page(pp_page_to_nmdesc(page)->pp,
-f1d89a02b16bcdc drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1036  						   page, 0, false);
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1037  				break;
-f9806afd55c4ab1 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1038  			case FEC_TXBUF_T_XSK_TX:
-f9806afd55c4ab1 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1039  				xsk_buff_free(txq->tx_buf[i].buf_p);
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16 @1040  			default:
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1041  				break;
-81725cc0fbfea44 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2026-01-16  1042  			};
-20f797399035a80 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2023-07-06  1043  
-af6f4791380c320 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2023-08-15  1044  			txq->tx_buf[i].buf_p = NULL;
-20f797399035a80 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2023-07-06  1045  			/* restore default tx buffer type: FEC_TXBUF_T_SKB */
-20f797399035a80 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2023-07-06  1046  			txq->tx_buf[i].type = FEC_TXBUF_T_SKB;
-5cfa30397bc3677 drivers/net/ethernet/freescale/fec_main.c Johannes Berg  2016-01-24  1047  			bdp->cbd_bufaddr = cpu_to_fec32(0);
-7355f2760620b38 drivers/net/ethernet/freescale/fec_main.c Troy Kisky     2016-02-05  1048  			bdp = fec_enet_get_nextdesc(bdp, &txq->bd);
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26  1049  		}
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26  1050  
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26  1051  		/* Set the last buffer to wrap */
-7355f2760620b38 drivers/net/ethernet/freescale/fec_main.c Troy Kisky     2016-02-05  1052  		bdp = fec_enet_get_prevdesc(bdp, &txq->bd);
-bd31490718b47d9 drivers/net/ethernet/freescale/fec_main.c Wei Fang       2025-11-19  1053  		bdp->cbd_sc |= cpu_to_fec16(BD_ENET_TX_WRAP);
-4d494cdc92b3b9a drivers/net/ethernet/freescale/fec_main.c Fugang Duan    2014-09-13  1054  		txq->dirty_tx = bdp;
-14109a59caf93e6 drivers/net/ethernet/freescale/fec.c      Frank Li       2013-03-26  1055  	}
-59d0f746564495c drivers/net/ethernet/freescale/fec_main.c Frank Li       2014-09-13  1056  }
-59d0f746564495c drivers/net/ethernet/freescale/fec_main.c Frank Li       2014-09-13  1057  
+42181186ad4db9 Steven Rostedt  2011-12-16  174  
+154fcf3a788868 Thomas Gleixner 2024-03-04  175  static inline unsigned long get_debugctlmsr(void)
+154fcf3a788868 Thomas Gleixner 2024-03-04  176  {
+154fcf3a788868 Thomas Gleixner 2024-03-04  177  	unsigned long debugctlmsr = 0;
+154fcf3a788868 Thomas Gleixner 2024-03-04  178  
+154fcf3a788868 Thomas Gleixner 2024-03-04  179  #ifndef CONFIG_X86_DEBUGCTLMSR
+154fcf3a788868 Thomas Gleixner 2024-03-04 @180  	if (boot_cpu_data.x86 < 6)
+154fcf3a788868 Thomas Gleixner 2024-03-04  181  		return 0;
+154fcf3a788868 Thomas Gleixner 2024-03-04  182  #endif
+c435e608cf59ff Ingo Molnar     2025-04-09  183  	rdmsrq(MSR_IA32_DEBUGCTLMSR, debugctlmsr);
+154fcf3a788868 Thomas Gleixner 2024-03-04  184  
+154fcf3a788868 Thomas Gleixner 2024-03-04  185  	return debugctlmsr;
+154fcf3a788868 Thomas Gleixner 2024-03-04  186  }
+154fcf3a788868 Thomas Gleixner 2024-03-04  187  
 
 -- 
 0-DAY CI Kernel Test Service
