@@ -1,126 +1,196 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B3830C368
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 04:21:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75932264CA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 04:32:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768537299; cv=none; b=HTJJnVMcI6X8KGv1towtBIl7qo59Pg8dwhoI6pcV87xk/+PGYDej27N84+aEtY9iHRWkJbe8mLNf0ik8Mj77l/MVpz/wTPa+Jex55v3jZX8KT8zqIjtZ3g8FcYy0zcrZQt6ay/4JxXXvKoVLtLQS5xQGuo1ml/+ViMH3oj1B+wg=
+	t=1768537960; cv=none; b=C+SzUuOnesmU25VtEbpD4bqjbusNa8mHha6yjNuVf63xDqsp4MdkPlvPCPldpWD4+Gqh/C6DavBA7NCPNqPor/uFU9iO5ho1YAovkrlsYRhw6JL0YpdNcDB8Cdv9cBjf1BFvaReh2sXZBgB0aiziJNk2W7nmNQzPXsYAPFH5o/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768537299; c=relaxed/simple;
-	bh=MYIFnB6pBidwLGKs83IbzIBRahmHLs0/1tG2mEJCb1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EkWhq7Iog9UlMkl/FR5JlAXgRB1Il3d92zORS3d+WpPLXktvP+7Jjs3YPpvkEGxQTCPSkMD959XCXYv6OZE8qOLE0xA0msZQQ0zO6GqWUgHDodnVmmK6hujqNHQM92j+N/7mo2i/Zxol7PrLM60jKzK/utwUUGQ6oynzB3aFv7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JSbQkRsQ; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1768537960; c=relaxed/simple;
+	bh=Tte1YIRTgKmpuiaC9E532qoSGT6x5v3vQec6dtSMw+U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Irhm2RnuT6uq6Xb4vDZ2fvCcO4cr2BQ6EyfaM38vJii99wO61MQB7N4+ugSRGjT663q/P+pu7nYRXf9acd6EzBNiStv8ZjnyWujTF+Qph4Z1N5L8QPRtBAUxnJR7Pkd8xW/WEzjXnXtP2xgt4v8WCow0yHitDgaCPv7zwetJgVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9srch06; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JSbQkRsQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9srch06"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768537298; x=1800073298;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MYIFnB6pBidwLGKs83IbzIBRahmHLs0/1tG2mEJCb1o=;
-  b=JSbQkRsQLqtOiy1h3wk/ye+KIgJqUcyecjdbQdAIpkECmFd/9tv3RmiH
-   eT2BwzMmUn4yqMS1lSYEWOuStcWmvo7z3DR8uTMcGMjg83uDerbVsN221
-   luJCCAGImmeGK2cWKQSGRugVOjst/KX+nJykmG0VtzTukpgz1nbIx4zU4
-   0ZXZkFAZVYV8oVLo/O3kndwAD5Q0SSAVuoVCuVraLMDmY72EDW7EwXPBF
-   Dj1yOv/BPAIfxPwxlNBt6kkkbYe/HHRtFg9KiKNXBAuaw3UzXn/LJ/OJX
-   bbwvhFyF1WoxEq7+Yoj92rvONVcLOyZk5MK1pMGgbH2B22aHJ/fUYMIFO
+  t=1768537959; x=1800073959;
+  h=date:from:to:cc:subject:message-id;
+  bh=Tte1YIRTgKmpuiaC9E532qoSGT6x5v3vQec6dtSMw+U=;
+  b=K9srch06SDZFDGli+MYXKda0GimWEn1AVzaKPzdMAVeORC334QpFvH++
+   fbc0EEWsdyXNrQYOfxhp1zaZ83sIm1n/T14KlmMXxrCSPPut/u7ATIaqc
+   tYW0WREy7beUygHWr23S59l8CPDoaEesg80qlG311/Ju7wg/DHFtax7fq
+   dAUFpd+L3dokGvEP3XEIVHu7TVGKIv7Z+iLraGqNZ6rLrnEKUiD9pY2IL
+   AucKil9Lm4Hbr2Gnn7iaP14E37KVjukX/kDEqNwc24yt/2gbIuvMyrxcu
+   aYGj9fcCjfMhTUGXajCHD+Gmsu2Mefcy2gQdYXJHvAhiiGU7lB3M8ry3H
    A==;
-X-CSE-ConnectionGUID: xnp6COOwTOqMi4CYupkP0Q==
-X-CSE-MsgGUID: mBDzsDmGQ2qtbQMblC+oDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="92519366"
+X-CSE-ConnectionGUID: btVFSr/9QNydlOtGKHK2Qg==
+X-CSE-MsgGUID: PQrudPcQR9CXPz54lb5DsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="92519921"
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="92519366"
+   d="scan'208";a="92519921"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 20:21:38 -0800
-X-CSE-ConnectionGUID: JlzT4hTRRbqywUfqBXiu/g==
-X-CSE-MsgGUID: /SIGt+1ETfehcwdkm6P8ew==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 20:32:39 -0800
+X-CSE-ConnectionGUID: uN5gdqi3QUu1LXSDB+VqGA==
+X-CSE-MsgGUID: ei5ov/61RvypbffiOR/Ekw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="235831972"
+   d="scan'208";a="235833907"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 15 Jan 2026 20:21:37 -0800
+  by orviesa002.jf.intel.com with ESMTP; 15 Jan 2026 20:32:38 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgbL4-00000000KMe-1Emt;
-	Fri, 16 Jan 2026 04:21:34 +0000
-Date: Fri, 16 Jan 2026 12:21:07 +0800
+	id 1vgbVi-00000000KNG-2vAy;
+	Fri, 16 Jan 2026 04:32:34 +0000
+Date: Fri, 16 Jan 2026 12:31:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pablo Neira Ayuso <pablo@netfilter.org>,
-	netfilter-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, fw@strlen.de
-Subject: Re: [PATCH nf-next,v1 2/3] netfilter: nft_set_rbtree: translate
- rbtree to array for binary search
-Message-ID: <202601161133.QwCjx0vn-lkp@intel.com>
-References: <20260115124322.90712-3-pablo@netfilter.org>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lpieralisi:b4/gicv5-host-acpi 7/7]
+ drivers/acpi/arm64/iort.c:268:27: error: 'ACPI_IORT_NODE_IWB' undeclared; did
+ you mean 'ACPI_IORT_NODE_RMR'?
+Message-ID: <202601161221.M9P0ZuGL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260115124322.90712-3-pablo@netfilter.org>
 
-Hi Pablo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on netfilter-nf/main]
-[also build test WARNING on linus/master v6.19-rc5 next-20260115]
-[cannot apply to nf-next/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pablo-Neira-Ayuso/netfilter-nf_tables-add-abort_skip_removal-flag-for-set-types/20260115-204555
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20260115124322.90712-3-pablo%40netfilter.org
-patch subject: [PATCH nf-next,v1 2/3] netfilter: nft_set_rbtree: translate rbtree to array for binary search
-config: sh-randconfig-r121-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161133.QwCjx0vn-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161133.QwCjx0vn-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git b4/gicv5-host-acpi
+head:   8b07899770499d7cb5236cda6c96c702d2ad3d92
+commit: 8b07899770499d7cb5236cda6c96c702d2ad3d92 [7/7] irqchip/gic-v5: Add ACPI IWB probing
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260116/202601161221.M9P0ZuGL-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161221.M9P0ZuGL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601161133.QwCjx0vn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601161221.M9P0ZuGL-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/netfilter/nft_set_rbtree.c:823:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct nft_array *array @@     got struct nft_array [noderef] __rcu *array @@
-   net/netfilter/nft_set_rbtree.c:823:38: sparse:     expected struct nft_array *array
-   net/netfilter/nft_set_rbtree.c:823:38: sparse:     got struct nft_array [noderef] __rcu *array
-   net/netfilter/nft_set_rbtree.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rbtree.h:102:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rbtree.h:102:9: sparse:    struct rb_node [noderef] __rcu *
-   include/linux/rbtree.h:102:9: sparse:    struct rb_node *
+All errors (new ones prefixed by >>):
 
-vim +823 net/netfilter/nft_set_rbtree.c
+   drivers/acpi/arm64/iort.c: In function 'iort_match_node_callback':
+>> drivers/acpi/arm64/iort.c:268:27: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
+     268 |             node->type == ACPI_IORT_NODE_IWB) {
+         |                           ^~~~~~~~~~~~~~~~~~
+         |                           ACPI_IORT_NODE_RMR
+   drivers/acpi/arm64/iort.c:268:27: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/acpi/arm64/iort.c:305:42: error: invalid use of undefined type 'struct acpi_iort_iwb'
+     305 |                         device_name = iwb->device_name;
+         |                                          ^~
+   drivers/acpi/arm64/iort.c: In function 'iort_match_iwb_callback':
+   drivers/acpi/arm64/iort.c:333:27: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
+     333 |         if (node->type != ACPI_IORT_NODE_IWB)
+         |                           ^~~~~~~~~~~~~~~~~~
+         |                           ACPI_IORT_NODE_RMR
+   drivers/acpi/arm64/iort.c:337:16: error: invalid use of undefined type 'struct acpi_iort_iwb'
+     337 |         if (iwb->iwb_index != *id)
+         |                ^~
+   drivers/acpi/arm64/iort.c: In function 'iort_id_map':
+   drivers/acpi/arm64/iort.c:349:29: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
+     349 |                     type == ACPI_IORT_NODE_IWB             ||
+         |                             ^~~~~~~~~~~~~~~~~~
+         |                             ACPI_IORT_NODE_RMR
+   drivers/acpi/arm64/iort.c: In function 'iort_node_get_id':
+   drivers/acpi/arm64/iort.c:419:35: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
+     419 |                     node->type == ACPI_IORT_NODE_IWB ||
+         |                                   ^~~~~~~~~~~~~~~~~~
+         |                                   ACPI_IORT_NODE_RMR
+   drivers/acpi/arm64/iort.c: In function 'iort_find_dev_node':
+   drivers/acpi/arm64/iort.c:597:39: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
+     597 |                 return iort_scan_node(ACPI_IORT_NODE_IWB,
+         |                                       ^~~~~~~~~~~~~~~~~~
+         |                                       ACPI_IORT_NODE_RMR
+   drivers/acpi/arm64/iort.c: In function 'iort_iwb_handle':
+   drivers/acpi/arm64/iort.c:802:31: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
+     802 |         node = iort_scan_node(ACPI_IORT_NODE_IWB, iort_match_iwb_callback, &iwb_id);
+         |                               ^~~~~~~~~~~~~~~~~~
+         |                               ACPI_IORT_NODE_RMR
+   drivers/acpi/arm64/iort.c:807:43: error: invalid use of undefined type 'struct acpi_iort_iwb'
+     807 |         status = acpi_get_handle(NULL, iwb->device_name, &handle);
+         |                                           ^~
+   drivers/acpi/arm64/iort.c: In function 'iort_get_platform_device_domain':
+   drivers/acpi/arm64/iort.c:883:39: error: 'ACPI_IORT_NODE_IWB' undeclared (first use in this function); did you mean 'ACPI_IORT_NODE_RMR'?
+     883 |                 node = iort_scan_node(ACPI_IORT_NODE_IWB,
+         |                                       ^~~~~~~~~~~~~~~~~~
+         |                                       ACPI_IORT_NODE_RMR
 
-   808	
-   809	static void nft_rbtree_destroy(const struct nft_ctx *ctx,
-   810				       const struct nft_set *set)
-   811	{
-   812		struct nft_rbtree *priv = nft_set_priv(set);
-   813		struct nft_rbtree_elem *rbe;
-   814		struct rb_node *node;
-   815	
-   816		while ((node = priv->root.rb_node) != NULL) {
-   817			rb_erase(node, &priv->root);
-   818			rbe = rb_entry(node, struct nft_rbtree_elem, node);
-   819			nf_tables_set_elem_destroy(ctx, set, &rbe->priv);
-   820		}
-   821	
-   822		if (priv->array)
- > 823			__nft_array_free(priv->array);
-   824		if (priv->array_next)
-   825			__nft_array_free(priv->array_next);
-   826	}
-   827	
+
+vim +268 drivers/acpi/arm64/iort.c
+
+   260	
+   261	static acpi_status iort_match_node_callback(struct acpi_iort_node *node,
+   262						    void *context)
+   263	{
+   264		struct device *dev = context;
+   265		acpi_status status = AE_NOT_FOUND;
+   266	
+   267		if (node->type == ACPI_IORT_NODE_NAMED_COMPONENT ||
+ > 268		    node->type == ACPI_IORT_NODE_IWB) {
+   269			struct acpi_buffer buf = { ACPI_ALLOCATE_BUFFER, NULL };
+   270			struct acpi_iort_named_component *ncomp;
+   271			struct acpi_iort_iwb *iwb;
+   272			struct device *cdev = dev;
+   273			struct acpi_device *adev;
+   274			const char *device_name;
+   275	
+   276			/*
+   277			 * Walk the device tree to find a device with an
+   278			 * ACPI companion; there is no point in scanning
+   279			 * IORT for a device matching a named component or IWB if
+   280			 * the device does not have an ACPI companion to
+   281			 * start with.
+   282			 */
+   283			do {
+   284				adev = ACPI_COMPANION(cdev);
+   285				if (adev)
+   286					break;
+   287	
+   288				cdev = cdev->parent;
+   289			} while (cdev);
+   290	
+   291			if (!adev)
+   292				goto out;
+   293	
+   294			status = acpi_get_name(adev->handle, ACPI_FULL_PATHNAME, &buf);
+   295			if (ACPI_FAILURE(status)) {
+   296				dev_warn(cdev, "Can't get device full path name\n");
+   297				goto out;
+   298			}
+   299	
+   300			if (node->type == ACPI_IORT_NODE_NAMED_COMPONENT) {
+   301				ncomp = (struct acpi_iort_named_component *)node->node_data;
+   302				device_name = ncomp->device_name;
+   303			} else {
+   304				iwb = (struct acpi_iort_iwb *)node->node_data;
+ > 305				device_name = iwb->device_name;
+   306			}
+   307			status = !strcmp(device_name, buf.pointer) ?  AE_OK : AE_NOT_FOUND;
+   308			acpi_os_free(buf.pointer);
+   309		} else if (node->type == ACPI_IORT_NODE_PCI_ROOT_COMPLEX) {
+   310			struct acpi_iort_root_complex *pci_rc;
+   311			struct pci_bus *bus;
+   312	
+   313			bus = to_pci_bus(dev);
+   314			pci_rc = (struct acpi_iort_root_complex *)node->node_data;
+   315	
+   316			/*
+   317			 * It is assumed that PCI segment numbers maps one-to-one
+   318			 * with root complexes. Each segment number can represent only
+   319			 * one root complex.
+   320			 */
+   321			status = pci_rc->pci_segment_number == pci_domain_nr(bus) ?
+   322								AE_OK : AE_NOT_FOUND;
+   323		}
+   324	out:
+   325		return status;
+   326	}
+   327	
 
 -- 
 0-DAY CI Kernel Test Service
