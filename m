@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E7A30DEC6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 08:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1475A315D46
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 09:03:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768553574; cv=none; b=jfvnWesG4eXKdHt2pxiM3YBmkkHGDaHjnfacvNpXetjchjsryYP9VoIv2xC3UjWIiBN3vzNz5Erz8UBKJ/i7iAmBrWYd90oYsdZbEYkbvWmfVE+EeApDioBDOIM77VBT2cysbANL72jUn7Zm8euuRg/ON43uLoipVu5Di0TwZi4=
+	t=1768554232; cv=none; b=XBTQrI9gyRug2VQCI0quIiignmJ2ZxEfmCTRO4iBxKYYbe4kHPbFG/A3dIlEcBlHazbTtvkWpI83so3qkJGydl+MSEKV4rTHeV37l0WopZl7iSsD6n1QJzePWZzGREHzSHIQxLz5NNQj65eoJmdGQe9eNER+08LC754tli8gUmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768553574; c=relaxed/simple;
-	bh=0BP49QP3wyEuVPVKXGIfTjAqQF0O3GDs7q1+BKdVoLM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qirsxQfczSlhStt/E41yomZlk9ysioQf0Ql5qqfJ1P46hlVIEeyzv7T4vIDxtEf7QLetCtnDFGFVLDWRXujyeGhB99vkbMc5DNKM0WV2WJ1+7MWAadwgLVj+d2e793mYNaLsHSgha6ASglcHIss8sqO4mEhcIW7yUICx8UkOdZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=faDINM4n; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1768554232; c=relaxed/simple;
+	bh=v2pM9JRFiF7GYKHg9Ab75VKM/hpXrUXHZ11z19D8aPg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=nTew/7mgilxC315lhXH1JV/FM5QvHvSbvmSq4TDJpZ0SQA/T/OmkEebzrwnDF0RddybH1dw+BN5tGvU8sujLS1Mq++t0FfTXLZgtcfWD5DYym3/+oPFbOzZndfObnmgaXyzDfQDKVTBABEPIXwElP0WYznaHkd9+jCz0UXg4nf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XDXVEuVA; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="faDINM4n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDXVEuVA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768553572; x=1800089572;
+  t=1768554231; x=1800090231;
   h=date:from:to:cc:subject:message-id;
-  bh=0BP49QP3wyEuVPVKXGIfTjAqQF0O3GDs7q1+BKdVoLM=;
-  b=faDINM4ngPgGarQXgNLRvxn+pp69InGASY0yPCgwOJOUMORp4jUpuUaX
-   nxAUtPDxISXxBEERN3DxtNWUCTg8rvkF5K6B3BPIPmI0b/xnYJ7JdT36n
-   3xikRJTamfkkylcyZay81yswsR+4Eh1J52By5ZpuHBsXho3wf3Zzy6p9f
-   s8IZn12yoBt4bc8V6DGiBBgKlZ0gTtmCnndEQ8+9agjuFr3tVgZa9O67W
-   HTye0a+wC/B5jKCj/qZPghphKN0qugtpZ5EzLrg93o7SMEzxcuBCuJ2wA
-   Ueg7ni0VrjXrsMekniPKSovtJT4IYPOMMzGxeVu+QGYqm6DTjnbHSyTBC
+  bh=v2pM9JRFiF7GYKHg9Ab75VKM/hpXrUXHZ11z19D8aPg=;
+  b=XDXVEuVAPCXni7OAlqBJrzoCs22mJatZLNf719zlTUOuyL4fi653PGf9
+   f5m/9rsghy1rwwmknqBindTtbl0Bv1vlDZL77Tv0IG3DgFUv5wLF4+hvB
+   RngHIMOYhfpxnCy287/mbBPfhK6EeJCvfvd4b7ydHRn36WeszUM5Rw+iT
+   PsQheb/8Xv6hsQ89PSGr2UtClHrkZANgBoe28Qvmcu7gCSOwr+vEEb7cP
+   b51W/YY2rcP4qY76f31a30oR/xdZ4E0OFCw8QeMXMmJCM/mtfwEVjGxlT
+   y2U+EBmhltrvmtzvlakGCUk4TRFCpOY5VptykBijjU0hIiGP12GkJCGIn
    w==;
-X-CSE-ConnectionGUID: bJvZJSr8TumabkDSqiItqA==
-X-CSE-MsgGUID: vRyHpjsOQ6Kq/lf5IqAx/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="73720423"
+X-CSE-ConnectionGUID: Z5tHUjPKS0inDdYPwlBE3A==
+X-CSE-MsgGUID: mm8z+9l1Tkib0qZjAwyxpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="73721210"
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="73720423"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 00:52:51 -0800
-X-CSE-ConnectionGUID: tc10wsDuQhO2Ss1wTX/2vA==
-X-CSE-MsgGUID: t0Q9jgqnRBuweHC1ivefOg==
+   d="scan'208";a="73721210"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 01:03:50 -0800
+X-CSE-ConnectionGUID: DsPFdf8ySp6zOOznxTMEHA==
+X-CSE-MsgGUID: TUET9BONTa2a+hoMnxqrfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="205242291"
+   d="scan'208";a="236451634"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 Jan 2026 00:52:48 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 16 Jan 2026 01:03:49 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgfZV-00000000Kbo-489T;
-	Fri, 16 Jan 2026 08:52:45 +0000
-Date: Fri, 16 Jan 2026 16:52:28 +0800
+	id 1vgfkA-00000000Kcv-3MMP;
+	Fri, 16 Jan 2026 09:03:46 +0000
+Date: Fri, 16 Jan 2026 17:03:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samson Tam <Samson.Tam@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Alex Deucher <alexander.deucher@amd.com>,
- George Zhang <george.zhang@amd.com>, Alex Hung <alex.hung@amd.com>
-Subject: 
- drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1677:52-53:
- WARNING: Use ARRAY_SIZE
-Message-ID: <202601161613.UlXCQ0hC-lkp@intel.com>
+To: elver@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [melver:ctx-analysis/dev 37/37]
+ include/linux/local_lock_internal.h:84:36: warning: cast to generic address
+ space pointer from disjoint '__seg_gs' address space pointer
+Message-ID: <202601161645.rEIxqjhD-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,209 +60,150 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-Hi Samson,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   983d014aafb14ee5e4915465bf8948e8f3a723b5
-commit: 5c06c1df3582102e837dc7d6e8a462323277e57b drm/amd/display: Move SPL to a new path
-date:   11 months ago
-config: x86_64-randconfig-101-20260112 (https://download.01.org/0day-ci/archive/20260116/202601161613.UlXCQ0hC-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
+head:   3a6d19e51fad5bde689a9dc06c7fceb435d1b015
+commit: 3a6d19e51fad5bde689a9dc06c7fceb435d1b015 [37/37] WIP: scoped init guards
+config: x86_64-buildonly-randconfig-001-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161645.rEIxqjhD-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161645.rEIxqjhD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601161613.UlXCQ0hC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601161645.rEIxqjhD-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1677:52-53: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1649:60-61: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1691:53-54: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1719:54-55: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1705:53-54: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1663:53-54: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1630:50-51: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1635:50-51: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1611:50-51: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1616:50-51: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1561:57-58: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1592:53-54: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1597:53-54: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1573:53-54: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1578:53-54: WARNING: Use ARRAY_SIZE
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c:1552:57-58: WARNING: Use ARRAY_SIZE
---
->> drivers/gpu/drm/amd/display/dc/sspl/dc_spl.c:57:15-16: WARNING opportunity for max()
-   drivers/gpu/drm/amd/display/dc/sspl/dc_spl.c:59:15-16: WARNING opportunity for max()
+All warnings (new ones prefixed by >>):
 
-vim +1677 drivers/gpu/drm/amd/display/dc/sspl/dc_spl_scl_easf_filters.c
+   In file included from include/linux/preempt.h:11,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from arch/x86/kernel/asm-offsets.c:9:
+   include/linux/local_lock.h: In function 'class_local_lock_init_constructor':
+>> include/linux/local_lock_internal.h:84:36: warning: cast to generic address space pointer from disjoint '__seg_gs' address space pointer
+      84 |         debug_check_no_locks_freed((void *)lock, sizeof(*lock));\
+         |                                    ^
+   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
+     501 |         _lock;                                                          \
+         |         ^~~~~
+   include/linux/local_lock.h:107:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
+     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
+         | ^~~~~~~~~~~~~~~~~~~
+   include/linux/local_lock.h:11:41: note: in expansion of macro '__local_lock_init'
+      11 | #define local_lock_init(lock)           __local_lock_init(lock)
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/local_lock.h:107:61: note: in expansion of macro 'local_lock_init'
+     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
+         |                                                             ^~~~~~~~~~~~~~~
+   include/linux/local_lock_internal.h:85:31: error: passing argument 1 of 'lockdep_init_map_type' from pointer to non-enclosed address space
+      85 |         lockdep_init_map_type(&(lock)->dep_map, #lock, &__key,  \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
+     501 |         _lock;                                                          \
+         |         ^~~~~
+   include/linux/local_lock.h:107:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
+     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
+         | ^~~~~~~~~~~~~~~~~~~
+   include/linux/local_lock.h:11:41: note: in expansion of macro '__local_lock_init'
+      11 | #define local_lock_init(lock)           __local_lock_init(lock)
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/local_lock.h:107:61: note: in expansion of macro 'local_lock_init'
+     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
+         |                                                             ^~~~~~~~~~~~~~~
+   In file included from include/linux/spinlock.h:63:
+   include/linux/lockdep.h:128:55: note: expected 'struct lockdep_map *' but argument is of type '__seg_gs struct lockdep_map *'
+     128 | extern void lockdep_init_map_type(struct lockdep_map *lock, const char *name,
+         |                                   ~~~~~~~~~~~~~~~~~~~~^~~~
+   include/linux/local_lock.h:107:79: error: passing argument 1 of 'local_lock_debug_init' from pointer to non-enclosed address space
+     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
+         |                                                                             ~~^~~~~~
+   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
+     501 |         _lock;                                                          \
+         |         ^~~~~
+   include/linux/local_lock.h:107:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
+     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
+         | ^~~~~~~~~~~~~~~~~~~
+   include/linux/local_lock.h:11:41: note: in expansion of macro '__local_lock_init'
+      11 | #define local_lock_init(lock)           __local_lock_init(lock)
+         |                                         ^~~~~~~~~~~~~~~~~
+   include/linux/local_lock.h:107:61: note: in expansion of macro 'local_lock_init'
+     107 | DEFINE_LOCK_GUARD_1(local_lock_init, local_lock_t __percpu, local_lock_init(_T->lock), /* */)
+         |                                                             ^~~~~~~~~~~~~~~
+   In file included from include/linux/local_lock.h:5,
+                    from include/linux/mmzone.h:24,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/crypto.h:18:
+   include/linux/local_lock_internal.h:64:56: note: expected 'local_lock_t *' {aka 'struct local_lock *'} but argument is of type '__seg_gs local_lock_t *' {aka '__seg_gs struct local_lock *'}
+      64 | static inline void local_lock_debug_init(local_lock_t *l)
+         |                                          ~~~~~~~~~~~~~~^
+   include/linux/local_lock.h: In function 'class_local_trylock_init_constructor':
+   include/linux/local_lock_internal.h:93:27: warning: cast to generic address space pointer from disjoint '__seg_gs' address space pointer
+      93 |         __local_lock_init((local_lock_t *)lock);                \
+         |                           ^
+   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
+     501 |         _lock;                                                          \
+         |         ^~~~~
+   include/linux/local_lock.h:120:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
+     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
+         | ^~~~~~~~~~~~~~~~~~~
+   include/linux/local_lock_internal.h:93:9: note: in expansion of macro '__local_lock_init'
+      93 |         __local_lock_init((local_lock_t *)lock);                \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/local_lock.h:59:41: note: in expansion of macro '__local_trylock_init'
+      59 | #define local_trylock_init(lock)        __local_trylock_init(lock)
+         |                                         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/local_lock.h:120:67: note: in expansion of macro 'local_trylock_init'
+     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
+         |                                                                   ^~~~~~~~~~~~~~~~~~
+   include/linux/local_lock_internal.h:93:27: warning: cast to generic address space pointer from disjoint '__seg_gs' address space pointer
+      93 |         __local_lock_init((local_lock_t *)lock);                \
+         |                           ^
+   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
+     501 |         _lock;                                                          \
+         |         ^~~~~
+   include/linux/local_lock.h:120:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
+     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
+         | ^~~~~~~~~~~~~~~~~~~
+   include/linux/local_lock_internal.h:93:9: note: in expansion of macro '__local_lock_init'
+      93 |         __local_lock_init((local_lock_t *)lock);                \
+         |         ^~~~~~~~~~~~~~~~~
+   include/linux/local_lock.h:59:41: note: in expansion of macro '__local_trylock_init'
+      59 | #define local_trylock_init(lock)        __local_trylock_init(lock)
+         |                                         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/local_lock.h:120:67: note: in expansion of macro 'local_trylock_init'
+     120 | DEFINE_LOCK_GUARD_1(local_trylock_init, local_trylock_t __percpu, local_trylock_init(_T->lock), /* */)
+         |                                                                   ^~~~~~~~~~~~~~~~~~
+   include/linux/local_lock_internal.h:93:27: warning: cast to generic address space pointer from disjoint '__seg_gs' address space pointer
+      93 |         __local_lock_init((local_lock_t *)lock);                \
+         |                           ^
+   include/linux/cleanup.h:501:9: note: in definition of macro '__DEFINE_LOCK_GUARD_1'
+     501 |         _lock;                                                          \
+         |         ^~~~~
+   include/linux/local_lock.h:120:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_1'
 
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1520  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1521  static uint32_t spl_easf_get_scale_ratio_to_reg_value(struct spl_fixed31_32 ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1522  	struct scale_ratio_to_reg_value_lookup *lookup_table_base_ptr,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1523  	unsigned int num_entries)
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1524  {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1525  	unsigned int count = 0;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1526  	uint32_t value = 0;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1527  	struct scale_ratio_to_reg_value_lookup *lookup_table_index_ptr;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1528  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1529  	lookup_table_index_ptr = (lookup_table_base_ptr + num_entries - 1);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1530  	value = lookup_table_index_ptr->reg_value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1531  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1532  	while (count < num_entries) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1533  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1534  		lookup_table_index_ptr = (lookup_table_base_ptr + count);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1535  		if (lookup_table_index_ptr->numer < 0)
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1536  			break;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1537  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1538  		if (ratio.value < spl_fixpt_from_fraction(
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1539  			lookup_table_index_ptr->numer,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1540  			lookup_table_index_ptr->denom).value) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1541  			value = lookup_table_index_ptr->reg_value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1542  			break;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1543  		}
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1544  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1545  		count++;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1546  	}
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1547  	return value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1548  }
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1549  uint32_t spl_get_v_bf3_mode(struct spl_fixed31_32 ratio)
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1550  {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1551  	uint32_t value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1552  	unsigned int num_entries = sizeof(easf_v_bf3_mode_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1553  		sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1554  	value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1555  		easf_v_bf3_mode_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1556  	return value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1557  }
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1558  uint32_t spl_get_h_bf3_mode(struct spl_fixed31_32 ratio)
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1559  {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1560  	uint32_t value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1561  	unsigned int num_entries = sizeof(easf_h_bf3_mode_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1562  		sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1563  	value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1564  		easf_h_bf3_mode_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1565  	return value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1566  }
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1567  uint32_t spl_get_reducer_gain6(int taps, struct spl_fixed31_32 ratio)
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1568  {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1569  	uint32_t value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1570  	unsigned int num_entries;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1571  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1572  	if (taps == 4) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1573  		num_entries = sizeof(easf_reducer_gain6_4tap_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1574  			sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1575  		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1576  			easf_reducer_gain6_4tap_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1577  	} else if (taps == 6) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1578  		num_entries = sizeof(easf_reducer_gain6_6tap_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1579  			sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1580  		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1581  			easf_reducer_gain6_6tap_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1582  	} else
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1583  		value = 0;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1584  	return value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1585  }
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1586  uint32_t spl_get_reducer_gain4(int taps, struct spl_fixed31_32 ratio)
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1587  {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1588  	uint32_t value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1589  	unsigned int num_entries;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1590  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1591  	if (taps == 4) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1592  		num_entries = sizeof(easf_reducer_gain4_4tap_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1593  			sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1594  		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1595  			easf_reducer_gain4_4tap_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1596  	} else if (taps == 6) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1597  		num_entries = sizeof(easf_reducer_gain4_6tap_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1598  			sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1599  		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1600  			easf_reducer_gain4_6tap_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1601  	} else
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1602  		value = 0;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1603  	return value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1604  }
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1605  uint32_t spl_get_gainRing6(int taps, struct spl_fixed31_32 ratio)
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1606  {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1607  	uint32_t value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1608  	unsigned int num_entries;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1609  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1610  	if (taps == 4) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1611  		num_entries = sizeof(easf_gain_ring6_4tap_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1612  			sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1613  		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1614  			easf_gain_ring6_4tap_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1615  	} else if (taps == 6) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1616  		num_entries = sizeof(easf_gain_ring6_6tap_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1617  			sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1618  		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1619  			easf_gain_ring6_6tap_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1620  	} else
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1621  		value = 0;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1622  	return value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1623  }
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1624  uint32_t spl_get_gainRing4(int taps, struct spl_fixed31_32 ratio)
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1625  {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1626  	uint32_t value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1627  	unsigned int num_entries;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1628  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1629  	if (taps == 4) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1630  		num_entries = sizeof(easf_gain_ring4_4tap_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1631  			sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1632  		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1633  			easf_gain_ring4_4tap_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1634  	} else if (taps == 6) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1635  		num_entries = sizeof(easf_gain_ring4_6tap_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1636  			sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1637  		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1638  			easf_gain_ring4_6tap_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1639  	} else
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1640  		value = 0;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1641  	return value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1642  }
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1643  uint32_t spl_get_3tap_dntilt_uptilt_offset(int taps, struct spl_fixed31_32 ratio)
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1644  {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1645  	uint32_t value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1646  	unsigned int num_entries;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1647  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1648  	if (taps == 3) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1649  		num_entries = sizeof(easf_3tap_dntilt_uptilt_offset_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1650  			sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1651  		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1652  			easf_3tap_dntilt_uptilt_offset_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1653  	} else
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1654  		value = 0;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1655  	return value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1656  }
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1657  uint32_t spl_get_3tap_uptilt_maxval(int taps, struct spl_fixed31_32 ratio)
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1658  {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1659  	uint32_t value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1660  	unsigned int num_entries;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1661  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1662  	if (taps == 3) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1663  		num_entries = sizeof(easf_3tap_uptilt_maxval_lookup) /
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1664  			sizeof(struct scale_ratio_to_reg_value_lookup);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1665  		value = spl_easf_get_scale_ratio_to_reg_value(ratio,
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1666  			easf_3tap_uptilt_maxval_lookup, num_entries);
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1667  	} else
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1668  		value = 0;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1669  	return value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1670  }
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1671  uint32_t spl_get_3tap_dntilt_slope(int taps, struct spl_fixed31_32 ratio)
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1672  {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1673  	uint32_t value;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1674  	unsigned int num_entries;
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1675  
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16  1676  	if (taps == 3) {
-6efc0ab3b05de0 drivers/gpu/drm/amd/display/dc/spl/dc_spl_scl_easf_filters.c Samson Tam 2024-08-16 @1677  		num_entries = sizeof(easf_3tap_dntilt_slope_lookup) /
 
-:::::: The code at line 1677 was first introduced by commit
-:::::: 6efc0ab3b05de0d7bab8ec0597214e4788251071 drm/amd/display: add back quality EASF and ISHARP and dc dependency changes
+vim +/__seg_gs +84 include/linux/local_lock_internal.h
 
-:::::: TO: Samson Tam <Samson.Tam@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  79  
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  80  #define __local_lock_init(lock)					\
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  81  do {								\
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  82  	static struct lock_class_key __key;			\
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  83  								\
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15 @84  	debug_check_no_locks_freed((void *)lock, sizeof(*lock));\
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  85  	lockdep_init_map_type(&(lock)->dep_map, #lock, &__key,  \
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  86  			      0, LD_WAIT_CONFIG, LD_WAIT_INV,	\
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  87  			      LD_LOCK_PERCPU);			\
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  88  	local_lock_debug_init(lock);				\
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  89  } while (0)
+d8bbd97ad0b99a9 Thomas Gleixner 2021-08-15  90  
+
+:::::: The code at line 84 was first introduced by commit
+:::::: d8bbd97ad0b99a9394f2cd8410b884c48e218cf0 locking/local_lock: Add missing owner initialization
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
