@@ -1,349 +1,331 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F965313529
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 03:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED701EA65
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jan 2026 04:20:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768535980; cv=none; b=dyCe2z8V0dmaCR3EvHZ2DH8zZPld7PtJ6akiEny3x0U9hISWCzIANs3jMKaIB6Y8Vmu+A80dMVtTqZbBndsBF7gP2o4VPJWQ7cW0Nj27ltRjAP7JKtBfXgO4BpHvmACrZv28TRNOJNXyf7BKRvwsVkzxvXw4t4HJMhlvbR1piH0=
+	t=1768537215; cv=none; b=CgdM1zHjxtCtnsA1/g+zHn3lo0kWMB9HmMH8L3G+s1Y+8CBOrFk6p6wMLQxEL+EmKQtMAaVTB4QelTAR6zlxsFcu9wlIx7fkkcwuxPlUvVC+SjCc1IB2qqvKkR7lzmG6lnOaLQoFwg59QfzdFxBLlyE/05vyGrF/D+XrpIdlCKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768535980; c=relaxed/simple;
-	bh=CmGnH7AqqI0yoJCUsFq4Tmdh1ZlRFTL2l6zzaWwnmZk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OaPERadVcy+DOjt6PVa/5Yj6S2g0GzKDrvzjsUXoZJhl7/OvHlQbOdbJ2Z52YVJsOKdlkTMOUiuBLscoYweIKgmVdDNjsImuuqOpxc5jrqC4NGF8KWgnaFNh7MRYGZg82aGvtGemeS/U/h4+zZodCHzHhPlmmQLoqE1C8VNB+i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=moVrqKOX; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1768537215; c=relaxed/simple;
+	bh=dwQA0Tr3QY81WQdUXs3ZR7PiGPLBAvm/8Sm8T3GCtDo=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BLC3bsOXgp/J8/5CkaUur3aMfoJJ+TWR4ZftNJQROJFN7fFe7wSH6Voy7GGoi0mEoLc/a6XxFaWNTYxq3epBpXGaD7poDYAc1Q9DRY29AJDpout6tLst6k1wnE2znoJ43kA5eV5LXeMxw6emOettRK9ghNeUgjGsPnVvikG1ZPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SjfymtHu; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="moVrqKOX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjfymtHu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768535979; x=1800071979;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CmGnH7AqqI0yoJCUsFq4Tmdh1ZlRFTL2l6zzaWwnmZk=;
-  b=moVrqKOXalxNfTcIE7B/EwHlZlUGZhnsoKQTqgC9vmy40T8bDjUtqvJx
-   AOy6zEaE6j+jZbimPZZdT9xQ9MU1DG/g+xlCnGcCwdvC3HmjR6wcrbp9W
-   0Qdi6iF4vfROg7bEpNd42l0eoALa9jOgHHbY4i2YPyg61J8BYQZql95CR
-   LQwQwH1GlVOY8ka6nMqZublRUENCKk/LK70LMB0xxCzgeD7YFILrlJfeM
-   Byd1JLys9Pnz4jG5vDOuvQHezyqg02prJ5wfvYUhbWUxjuJdwLNj7dhMN
-   Xy9XXdzIuralhUhvUy5ORG1c+xQPK19k/0OnUm6ZhjLwlF4+/LTlbRM3H
-   Q==;
-X-CSE-ConnectionGUID: 52pIupFgRA+G2aNA2O8k2g==
-X-CSE-MsgGUID: ZpLr/oCHQWyANkUxhHETOA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="87428010"
+  t=1768537214; x=1800073214;
+  h=date:from:to:cc:subject:message-id;
+  bh=dwQA0Tr3QY81WQdUXs3ZR7PiGPLBAvm/8Sm8T3GCtDo=;
+  b=SjfymtHun1DWDWgeeQs03Stf5tVlrwvribsV/HxW3NW9ol4k7EFwh/hi
+   uolB91yCYHUzZpwq/pDQY4eiEcZn84avfVhqXOEMCUvxKDx+FwJsUi4pu
+   FxRjizNTshRnymPh46JSgWRSH3RHoLi+889RXiSHyPCy/U8HdSLW1Ll46
+   46FcCzM4hjrCLNuMXF0JVjIGr9LQjYnJRbUXLmRZ14sv7FSJ58L8IOrTX
+   s36/Ul7dSMOhx05RgPc+LWqZa0bj0M8mY0tmf6bHjXb4dCizh3YlQJ5WZ
+   uaB+D+fi8lEGa2rXVEt6ZbGeoEHqJIHo4XcumIHISLBaeLQqdaC7ANIHg
+   A==;
+X-CSE-ConnectionGUID: eLYLfzlEQFuxIF5aJBI+Vg==
+X-CSE-MsgGUID: ahpVDl2FScaR5PElmz7YnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11672"; a="69055480"
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="87428010"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 19:59:39 -0800
-X-CSE-ConnectionGUID: bw4zyM8gTpesuT+M4QFy1Q==
-X-CSE-MsgGUID: KVT9E3iySwWcgq+yCDtZ3Q==
+   d="scan'208";a="69055480"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jan 2026 20:20:13 -0800
+X-CSE-ConnectionGUID: 30GFWGbhTp+MOzhskbz5rw==
+X-CSE-MsgGUID: fGmiG0OzRP2XYv5US0BMVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,230,1763452800"; 
-   d="scan'208";a="228174765"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Jan 2026 19:59:36 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+   d="scan'208";a="204930647"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
+  by orviesa009.jf.intel.com with ESMTP; 15 Jan 2026 20:20:11 -0800
+Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgazl-00000000KLq-3MS5;
-	Fri, 16 Jan 2026 03:59:33 +0000
-Date: Fri, 16 Jan 2026 11:59:30 +0800
+	id 1vgbJg-000000001hN-1p4R;
+	Fri, 16 Jan 2026 04:20:08 +0000
+Date: Fri, 16 Jan 2026 05:19:08 +0100
 From: kernel test robot <lkp@intel.com>
-To: Devendra K Verma <devendra.verma@amd.com>, bhelgaas@google.com,
-	mani@kernel.org, vkoul@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dmaengine@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	michal.simek@amd.com, Devendra.Verma@amd.com
-Subject: Re: [PATCH v8 2/2] dmaengine: dw-edma: Add non-LL mode
-Message-ID: <202601161151.MTsHwjVO-lkp@intel.com>
-References: <20260109120354.306048-3-devendra.verma@amd.com>
+To: elver@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [melver:ctx-analysis/dev 37/37]
+ include/linux/spinlock.h:582:56: error: too many arguments provided to
+ function-like macro invocation
+Message-ID: <202601160538.hcZN4ljj-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260109120354.306048-3-devendra.verma@amd.com>
 
-Hi Devendra,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v6.19-rc4]
-[also build test ERROR on linus/master next-20260115]
-[cannot apply to vkoul-dmaengine/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Devendra-K-Verma/dmaengine-dw-edma-Add-AMD-MDB-Endpoint-Support/20260109-200654
-base:   v6.19-rc4
-patch link:    https://lore.kernel.org/r/20260109120354.306048-3-devendra.verma%40amd.com
-patch subject: [PATCH v8 2/2] dmaengine: dw-edma: Add non-LL mode
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260116/202601161151.MTsHwjVO-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601161151.MTsHwjVO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ctx-analysis/dev
+head:   3a6d19e51fad5bde689a9dc06c7fceb435d1b015
+commit: 3a6d19e51fad5bde689a9dc06c7fceb435d1b015 [37/37] WIP: scoped init guards
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260116/202601160538.hcZN4ljj-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160538.hcZN4ljj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601161151.MTsHwjVO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601160538.hcZN4ljj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/dma/dw-edma/dw-edma-pcie.c: In function 'dw_edma_pcie_probe':
->> drivers/dma/dw-edma/dw-edma-pcie.c:348:51: error: 'DW_PCIE_AMD_MDB_INVALID_ADDR' undeclared (first use in this function); did you mean 'DW_PCIE_XILINX_MDB_INVALID_ADDR'?
-     348 |                 if (vsec_data->devmem_phys_off == DW_PCIE_AMD_MDB_INVALID_ADDR)
-         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                   DW_PCIE_XILINX_MDB_INVALID_ADDR
-   drivers/dma/dw-edma/dw-edma-pcie.c:348:51: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/dma/dw-edma/dw-edma-pcie.c:358:56: error: 'DW_PCIE_XILINX_LL_OFF_GAP' undeclared (first use in this function); did you mean 'DW_PCIE_XILINX_MDB_LL_OFF_GAP'?
-     358 |                                                        DW_PCIE_XILINX_LL_OFF_GAP,
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                        DW_PCIE_XILINX_MDB_LL_OFF_GAP
->> drivers/dma/dw-edma/dw-edma-pcie.c:359:56: error: 'DW_PCIE_XILINX_LL_SIZE' undeclared (first use in this function); did you mean 'DW_PCIE_XILINX_MDB_LL_SIZE'?
-     359 |                                                        DW_PCIE_XILINX_LL_SIZE,
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                                                        DW_PCIE_XILINX_MDB_LL_SIZE
->> drivers/dma/dw-edma/dw-edma-pcie.c:360:56: error: 'DW_PCIE_XILINX_DT_OFF_GAP' undeclared (first use in this function); did you mean 'DW_PCIE_XILINX_MDB_DT_OFF_GAP'?
-     360 |                                                        DW_PCIE_XILINX_DT_OFF_GAP,
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                                        DW_PCIE_XILINX_MDB_DT_OFF_GAP
->> drivers/dma/dw-edma/dw-edma-pcie.c:361:56: error: 'DW_PCIE_XILINX_DT_SIZE' undeclared (first use in this function); did you mean 'DW_PCIE_XILINX_MDB_DT_SIZE'?
-     361 |                                                        DW_PCIE_XILINX_DT_SIZE);
-         |                                                        ^~~~~~~~~~~~~~~~~~~~~~
-         |                                                        DW_PCIE_XILINX_MDB_DT_SIZE
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+>> include/linux/spinlock.h:582:56: error: too many arguments provided to function-like macro invocation
+     582 | DEFINE_LOCK_GUARD_1(raw_spinlock_init, raw_spinlock_t, raw_spin_lock_init(_T->lock), /* */)
+         |                                                        ^
+   include/linux/spinlock.h:113:17: note: expanded from macro 'raw_spin_lock_init'
+     113 |         do { *(lock) = __RAW_SPIN_LOCK_UNLOCKED(lock); } while (0)
+         |                        ^
+   include/linux/spinlock_types_raw.h:70:19: note: expanded from macro '__RAW_SPIN_LOCK_UNLOCKED'
+      70 |         (raw_spinlock_t) __RAW_SPIN_LOCK_INITIALIZER(lockname)
+         |                          ^
+   include/linux/spinlock_types_raw.h:67:34: note: expanded from macro '__RAW_SPIN_LOCK_INITIALIZER'
+      67 |         RAW_SPIN_DEP_MAP_INIT(lockname) }
+         |                                         ^
+   include/linux/cleanup.h:496:9: note: macro '__DEFINE_LOCK_GUARD_1' defined here
+     496 | #define __DEFINE_LOCK_GUARD_1(_name, _type, _lock)                      \
+         |         ^
+   include/linux/spinlock.h:582:1: note: parentheses are required around macro argument containing braced initializer list
+     582 | DEFINE_LOCK_GUARD_1(raw_spinlock_init, raw_spinlock_t, raw_spin_lock_init(_T->lock), /* */)
+         | ^
+         |                                                        (
+   include/linux/cleanup.h:558:60: note: expanded from macro 'DEFINE_LOCK_GUARD_1'
+     558 | __DEFINE_UNLOCK_GUARD(_name, _type, _unlock, __VA_ARGS__)               \
+         |                                                                         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+>> include/linux/spinlock.h:582:56: error: expected expression
+     582 | DEFINE_LOCK_GUARD_1(raw_spinlock_init, raw_spinlock_t, raw_spin_lock_init(_T->lock), /* */)
+         |                                                        ^
+   include/linux/spinlock.h:113:2: note: expanded from macro 'raw_spin_lock_init'
+     113 |         do { *(lock) = __RAW_SPIN_LOCK_UNLOCKED(lock); } while (0)
+         |         ^
+   include/linux/spinlock.h:630:48: error: too many arguments provided to function-like macro invocation
+     630 | DEFINE_LOCK_GUARD_1(spinlock_init, spinlock_t, spin_lock_init(_T->lock), /* */)
+         |                                                ^
+   include/linux/spinlock.h:333:13: note: expanded from macro 'spin_lock_init'
+     333 |         *(_lock) = __SPIN_LOCK_UNLOCKED(_lock); \
+         |                    ^
+   include/linux/spinlock_types.h:42:15: note: expanded from macro '__SPIN_LOCK_UNLOCKED'
+      42 |         (spinlock_t) __SPIN_LOCK_INITIALIZER(lockname)
+         |                      ^
+   include/linux/spinlock_types.h:39:15: note: expanded from macro '__SPIN_LOCK_INITIALIZER'
+      39 |         { { .rlock = ___SPIN_LOCK_INITIALIZER(lockname) } }
+         |                      ^
+   include/linux/spinlock_types.h:36:30: note: expanded from macro '___SPIN_LOCK_INITIALIZER'
+      36 |         SPIN_DEP_MAP_INIT(lockname) }
+         |                                     ^
+   include/linux/cleanup.h:496:9: note: macro '__DEFINE_LOCK_GUARD_1' defined here
+     496 | #define __DEFINE_LOCK_GUARD_1(_name, _type, _lock)                      \
+         |         ^
+   include/linux/spinlock.h:630:1: note: parentheses are required around macro argument containing braced initializer list
+     630 | DEFINE_LOCK_GUARD_1(spinlock_init, spinlock_t, spin_lock_init(_T->lock), /* */)
+         | ^
+         |                                                (
+   include/linux/cleanup.h:558:60: note: expanded from macro 'DEFINE_LOCK_GUARD_1'
+     558 | __DEFINE_UNLOCK_GUARD(_name, _type, _unlock, __VA_ARGS__)               \
+         |                                                                         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+   include/linux/spinlock.h:630:48: error: expected expression
+     630 | DEFINE_LOCK_GUARD_1(spinlock_init, spinlock_t, spin_lock_init(_T->lock), /* */)
+         |                                                ^
+   include/linux/spinlock.h:330:34: note: expanded from macro 'spin_lock_init'
+     330 | # define spin_lock_init(_lock)                  \
+         |                                                 ^
+   include/linux/spinlock.h:672:44: error: too many arguments provided to function-like macro invocation
+     672 | DEFINE_LOCK_GUARD_1(rwlock_init, rwlock_t, rwlock_init(_T->lock), /* */)
+         |                                            ^
+   include/linux/rwlock.h:28:17: note: expanded from macro 'rwlock_init'
+      28 |         do { *(lock) = __RW_LOCK_UNLOCKED(lock); } while (0)
+         |                        ^
+   include/linux/rwlock_types.h:48:27: note: expanded from macro '__RW_LOCK_UNLOCKED'
+      48 |         (rwlock_t)      {       .raw_lock = __ARCH_RW_LOCK_UNLOCKED,    \
+         |                                             ^
+   include/asm-generic/qrwlock_types.h:30:28: note: expanded from macro '__ARCH_RW_LOCK_UNLOCKED'
+      30 |         { .cnts = ATOMIC_INIT(0), },            \
+         |                                   ^
+   include/linux/cleanup.h:496:9: note: macro '__DEFINE_LOCK_GUARD_1' defined here
+     496 | #define __DEFINE_LOCK_GUARD_1(_name, _type, _lock)                      \
+         |         ^
+   include/linux/spinlock.h:672:1: note: parentheses are required around macro argument containing braced initializer list
+     672 | DEFINE_LOCK_GUARD_1(rwlock_init, rwlock_t, rwlock_init(_T->lock), /* */)
+         | ^
+         |                                            (
+   include/linux/cleanup.h:558:60: note: expanded from macro 'DEFINE_LOCK_GUARD_1'
+     558 | __DEFINE_UNLOCK_GUARD(_name, _type, _unlock, __VA_ARGS__)               \
+         |                                                                         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:15:
+   In file included from include/linux/completion.h:12:
+   In file included from include/linux/swait.h:7:
+   include/linux/spinlock.h:672:44: error: expected expression
+     672 | DEFINE_LOCK_GUARD_1(rwlock_init, rwlock_t, rwlock_init(_T->lock), /* */)
+         |                                            ^
+   include/linux/rwlock.h:28:2: note: expanded from macro 'rwlock_init'
+      28 |         do { *(lock) = __RW_LOCK_UNLOCKED(lock); } while (0)
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:17:
+>> include/linux/seqlock.h:1362:46: error: too many arguments provided to function-like macro invocation
+    1362 | DEFINE_LOCK_GUARD_1(seqlock_init, seqlock_t, seqlock_init(_T->lock), /* */)
+         |                                              ^
+   include/linux/seqlock.h:818:3: note: expanded from macro 'seqlock_init'
+     818 |                 spin_lock_init(&(sl)->lock);                            \
+         |                 ^
+   include/linux/spinlock.h:333:13: note: expanded from macro 'spin_lock_init'
+     333 |         *(_lock) = __SPIN_LOCK_UNLOCKED(_lock); \
+         |                    ^
+   include/linux/spinlock_types.h:42:15: note: expanded from macro '__SPIN_LOCK_UNLOCKED'
+      42 |         (spinlock_t) __SPIN_LOCK_INITIALIZER(lockname)
+         |                      ^
+   include/linux/spinlock_types.h:39:15: note: expanded from macro '__SPIN_LOCK_INITIALIZER'
+      39 |         { { .rlock = ___SPIN_LOCK_INITIALIZER(lockname) } }
+         |                      ^
+   include/linux/spinlock_types.h:36:30: note: expanded from macro '___SPIN_LOCK_INITIALIZER'
+      36 |         SPIN_DEP_MAP_INIT(lockname) }
+         |                                     ^
+   include/linux/cleanup.h:496:9: note: macro '__DEFINE_LOCK_GUARD_1' defined here
+     496 | #define __DEFINE_LOCK_GUARD_1(_name, _type, _lock)                      \
+         |         ^
+   include/linux/seqlock.h:1362:1: note: parentheses are required around macro argument containing braced initializer list
+    1362 | DEFINE_LOCK_GUARD_1(seqlock_init, seqlock_t, seqlock_init(_T->lock), /* */)
+         | ^
+         |                                              (
+   include/linux/cleanup.h:558:60: note: expanded from macro 'DEFINE_LOCK_GUARD_1'
+     558 | __DEFINE_UNLOCK_GUARD(_name, _type, _unlock, __VA_ARGS__)               \
+         |                                                                         ^
+   In file included from arch/x86/kernel/asm-offsets.c:9:
+   In file included from include/linux/crypto.h:18:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:17:
+>> include/linux/seqlock.h:1362:46: error: expected expression
+    1362 | DEFINE_LOCK_GUARD_1(seqlock_init, seqlock_t, seqlock_init(_T->lock), /* */)
+         |                                              ^
+   include/linux/seqlock.h:817:2: note: expanded from macro 'seqlock_init'
+     817 |         do {                                                            \
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:17:
+   In file included from include/linux/fs.h:5:
+   In file included from include/linux/fs/super.h:5:
+   In file included from include/linux/fs/super_types.h:13:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
 
 
-vim +348 drivers/dma/dw-edma/dw-edma-pcie.c
+vim +582 include/linux/spinlock.h
 
-   309	
-   310	static int dw_edma_pcie_probe(struct pci_dev *pdev,
-   311				      const struct pci_device_id *pid)
-   312	{
-   313		struct dw_edma_pcie_data *pdata = (void *)pid->driver_data;
-   314		struct dw_edma_pcie_data *vsec_data __free(kfree) = NULL;
-   315		struct device *dev = &pdev->dev;
-   316		struct dw_edma_chip *chip;
-   317		int err, nr_irqs;
-   318		int i, mask;
-   319		bool non_ll = false;
-   320	
-   321		vsec_data = kmalloc(sizeof(*vsec_data), GFP_KERNEL);
-   322		if (!vsec_data)
-   323			return -ENOMEM;
-   324	
-   325		/* Enable PCI device */
-   326		err = pcim_enable_device(pdev);
-   327		if (err) {
-   328			pci_err(pdev, "enabling device failed\n");
-   329			return err;
-   330		}
-   331	
-   332		memcpy(vsec_data, pdata, sizeof(struct dw_edma_pcie_data));
-   333	
-   334		/*
-   335		 * Tries to find if exists a PCIe Vendor-Specific Extended Capability
-   336		 * for the DMA, if one exists, then reconfigures it.
-   337		 */
-   338		dw_edma_pcie_get_synopsys_dma_data(pdev, vsec_data);
-   339		dw_edma_pcie_get_xilinx_dma_data(pdev, vsec_data);
-   340	
-   341		if (pdev->vendor == PCI_VENDOR_ID_XILINX) {
-   342			/*
-   343			 * There is no valid address found for the LL memory
-   344			 * space on the device side. In the absence of LL base
-   345			 * address use the non-LL mode or simple mode supported by
-   346			 * the HDMA IP.
-   347			 */
- > 348			if (vsec_data->devmem_phys_off == DW_PCIE_AMD_MDB_INVALID_ADDR)
-   349				non_ll = true;
-   350	
-   351			/*
-   352			 * Configure the channel LL and data blocks if number of
-   353			 * channels enabled in VSEC capability are more than the
-   354			 * channels configured in xilinx_mdb_data.
-   355			 */
-   356			if (!non_ll)
-   357				dw_edma_set_chan_region_offset(vsec_data, BAR_2, 0,
- > 358							       DW_PCIE_XILINX_LL_OFF_GAP,
- > 359							       DW_PCIE_XILINX_LL_SIZE,
- > 360							       DW_PCIE_XILINX_DT_OFF_GAP,
- > 361							       DW_PCIE_XILINX_DT_SIZE);
-   362		}
-   363	
-   364		/* Mapping PCI BAR regions */
-   365		mask = BIT(vsec_data->rg.bar);
-   366		for (i = 0; i < vsec_data->wr_ch_cnt; i++) {
-   367			mask |= BIT(vsec_data->ll_wr[i].bar);
-   368			mask |= BIT(vsec_data->dt_wr[i].bar);
-   369		}
-   370		for (i = 0; i < vsec_data->rd_ch_cnt; i++) {
-   371			mask |= BIT(vsec_data->ll_rd[i].bar);
-   372			mask |= BIT(vsec_data->dt_rd[i].bar);
-   373		}
-   374		err = pcim_iomap_regions(pdev, mask, pci_name(pdev));
-   375		if (err) {
-   376			pci_err(pdev, "eDMA BAR I/O remapping failed\n");
-   377			return err;
-   378		}
-   379	
-   380		pci_set_master(pdev);
-   381	
-   382		/* DMA configuration */
-   383		err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-   384		if (err) {
-   385			pci_err(pdev, "DMA mask 64 set failed\n");
-   386			return err;
-   387		}
-   388	
-   389		/* Data structure allocation */
-   390		chip = devm_kzalloc(dev, sizeof(*chip), GFP_KERNEL);
-   391		if (!chip)
-   392			return -ENOMEM;
-   393	
-   394		/* IRQs allocation */
-   395		nr_irqs = pci_alloc_irq_vectors(pdev, 1, vsec_data->irqs,
-   396						PCI_IRQ_MSI | PCI_IRQ_MSIX);
-   397		if (nr_irqs < 1) {
-   398			pci_err(pdev, "fail to alloc IRQ vector (number of IRQs=%u)\n",
-   399				nr_irqs);
-   400			return -EPERM;
-   401		}
-   402	
-   403		/* Data structure initialization */
-   404		chip->dev = dev;
-   405	
-   406		chip->mf = vsec_data->mf;
-   407		chip->nr_irqs = nr_irqs;
-   408		chip->ops = &dw_edma_pcie_plat_ops;
-   409		chip->non_ll = non_ll;
-   410	
-   411		chip->ll_wr_cnt = vsec_data->wr_ch_cnt;
-   412		chip->ll_rd_cnt = vsec_data->rd_ch_cnt;
-   413	
-   414		chip->reg_base = pcim_iomap_table(pdev)[vsec_data->rg.bar];
-   415		if (!chip->reg_base)
-   416			return -ENOMEM;
-   417	
-   418		for (i = 0; i < chip->ll_wr_cnt && !non_ll; i++) {
-   419			struct dw_edma_region *ll_region = &chip->ll_region_wr[i];
-   420			struct dw_edma_region *dt_region = &chip->dt_region_wr[i];
-   421			struct dw_edma_block *ll_block = &vsec_data->ll_wr[i];
-   422			struct dw_edma_block *dt_block = &vsec_data->dt_wr[i];
-   423	
-   424			ll_region->vaddr.io = pcim_iomap_table(pdev)[ll_block->bar];
-   425			if (!ll_region->vaddr.io)
-   426				return -ENOMEM;
-   427	
-   428			ll_region->vaddr.io += ll_block->off;
-   429			ll_region->paddr = dw_edma_get_phys_addr(pdev, vsec_data,
-   430								 ll_block->bar);
-   431			ll_region->paddr += ll_block->off;
-   432			ll_region->sz = ll_block->sz;
-   433	
-   434			dt_region->vaddr.io = pcim_iomap_table(pdev)[dt_block->bar];
-   435			if (!dt_region->vaddr.io)
-   436				return -ENOMEM;
-   437	
-   438			dt_region->vaddr.io += dt_block->off;
-   439			dt_region->paddr = dw_edma_get_phys_addr(pdev, vsec_data,
-   440								 dt_block->bar);
-   441			dt_region->paddr += dt_block->off;
-   442			dt_region->sz = dt_block->sz;
-   443		}
-   444	
-   445		for (i = 0; i < chip->ll_rd_cnt && !non_ll; i++) {
-   446			struct dw_edma_region *ll_region = &chip->ll_region_rd[i];
-   447			struct dw_edma_region *dt_region = &chip->dt_region_rd[i];
-   448			struct dw_edma_block *ll_block = &vsec_data->ll_rd[i];
-   449			struct dw_edma_block *dt_block = &vsec_data->dt_rd[i];
-   450	
-   451			ll_region->vaddr.io = pcim_iomap_table(pdev)[ll_block->bar];
-   452			if (!ll_region->vaddr.io)
-   453				return -ENOMEM;
-   454	
-   455			ll_region->vaddr.io += ll_block->off;
-   456			ll_region->paddr = dw_edma_get_phys_addr(pdev, vsec_data,
-   457								 ll_block->bar);
-   458			ll_region->paddr += ll_block->off;
-   459			ll_region->sz = ll_block->sz;
-   460	
-   461			dt_region->vaddr.io = pcim_iomap_table(pdev)[dt_block->bar];
-   462			if (!dt_region->vaddr.io)
-   463				return -ENOMEM;
-   464	
-   465			dt_region->vaddr.io += dt_block->off;
-   466			dt_region->paddr = dw_edma_get_phys_addr(pdev, vsec_data,
-   467								 dt_block->bar);
-   468			dt_region->paddr += dt_block->off;
-   469			dt_region->sz = dt_block->sz;
-   470		}
-   471	
-   472		/* Debug info */
-   473		if (chip->mf == EDMA_MF_EDMA_LEGACY)
-   474			pci_dbg(pdev, "Version:\teDMA Port Logic (0x%x)\n", chip->mf);
-   475		else if (chip->mf == EDMA_MF_EDMA_UNROLL)
-   476			pci_dbg(pdev, "Version:\teDMA Unroll (0x%x)\n", chip->mf);
-   477		else if (chip->mf == EDMA_MF_HDMA_COMPAT)
-   478			pci_dbg(pdev, "Version:\tHDMA Compatible (0x%x)\n", chip->mf);
-   479		else if (chip->mf == EDMA_MF_HDMA_NATIVE)
-   480			pci_dbg(pdev, "Version:\tHDMA Native (0x%x)\n", chip->mf);
-   481		else
-   482			pci_dbg(pdev, "Version:\tUnknown (0x%x)\n", chip->mf);
-   483	
-   484		pci_dbg(pdev, "Registers:\tBAR=%u, off=0x%.8lx, sz=0x%zx bytes, addr(v=%p)\n",
-   485			vsec_data->rg.bar, vsec_data->rg.off, vsec_data->rg.sz,
-   486			chip->reg_base);
-   487	
-   488	
-   489		for (i = 0; i < chip->ll_wr_cnt; i++) {
-   490			pci_dbg(pdev, "L. List:\tWRITE CH%.2u, BAR=%u, off=0x%.8lx, sz=0x%zx bytes, addr(v=%p, p=%pa)\n",
-   491				i, vsec_data->ll_wr[i].bar,
-   492				vsec_data->ll_wr[i].off, chip->ll_region_wr[i].sz,
-   493				chip->ll_region_wr[i].vaddr.io, &chip->ll_region_wr[i].paddr);
-   494	
-   495			pci_dbg(pdev, "Data:\tWRITE CH%.2u, BAR=%u, off=0x%.8lx, sz=0x%zx bytes, addr(v=%p, p=%pa)\n",
-   496				i, vsec_data->dt_wr[i].bar,
-   497				vsec_data->dt_wr[i].off, chip->dt_region_wr[i].sz,
-   498				chip->dt_region_wr[i].vaddr.io, &chip->dt_region_wr[i].paddr);
-   499		}
-   500	
-   501		for (i = 0; i < chip->ll_rd_cnt; i++) {
-   502			pci_dbg(pdev, "L. List:\tREAD CH%.2u, BAR=%u, off=0x%.8lx, sz=0x%zx bytes, addr(v=%p, p=%pa)\n",
-   503				i, vsec_data->ll_rd[i].bar,
-   504				vsec_data->ll_rd[i].off, chip->ll_region_rd[i].sz,
-   505				chip->ll_region_rd[i].vaddr.io, &chip->ll_region_rd[i].paddr);
-   506	
-   507			pci_dbg(pdev, "Data:\tREAD CH%.2u, BAR=%u, off=0x%.8lx, sz=0x%zx bytes, addr(v=%p, p=%pa)\n",
-   508				i, vsec_data->dt_rd[i].bar,
-   509				vsec_data->dt_rd[i].off, chip->dt_region_rd[i].sz,
-   510				chip->dt_region_rd[i].vaddr.io, &chip->dt_region_rd[i].paddr);
-   511		}
-   512	
-   513		pci_dbg(pdev, "Nr. IRQs:\t%u\n", chip->nr_irqs);
-   514	
-   515		/* Validating if PCI interrupts were enabled */
-   516		if (!pci_dev_msi_enabled(pdev)) {
-   517			pci_err(pdev, "enable interrupt failed\n");
-   518			return -EPERM;
-   519		}
-   520	
-   521		/* Starting eDMA driver */
-   522		err = dw_edma_probe(chip);
-   523		if (err) {
-   524			pci_err(pdev, "eDMA probe failed\n");
-   525			return err;
-   526		}
-   527	
-   528		/* Saving data structure reference */
-   529		pci_set_drvdata(pdev, chip);
-   530	
-   531		return 0;
-   532	}
-   533	
+   581	
+ > 582	DEFINE_LOCK_GUARD_1(raw_spinlock_init, raw_spinlock_t, raw_spin_lock_init(_T->lock), /* */)
+   583	DECLARE_LOCK_GUARD_1_ATTRS(raw_spinlock_init, __acquires(_T), __releases(*(raw_spinlock_t **)_T))
+   584	#define class_raw_spinlock_init_constructor(_T) WITH_LOCK_GUARD_1_ATTRS(raw_spinlock_init, _T)
+   585	
 
 -- 
 0-DAY CI Kernel Test Service
