@@ -1,131 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C273B27A103
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 03:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA0C1850A4;
+	Sat, 17 Jan 2026 03:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768620023; cv=none; b=cqgmfkGENtuCcZkvBmARQPrCA4JZydZJpFExjrXy7x4mSzSd8msHRkPs9uVy1KdkitQgEj+uuvXEJwy+fF7/uqlklyHYH+SUs+vNjuDsn448wqkzjVJHir3Mp0mz/DYg2FJM0O5c6ZBoTOZe5uvZwcQOVPCSyeMHU59IAPADeEk=
+	t=1768620352; cv=none; b=iDF6kG0/YcAeg2yAoni3l0fJJOfAIek7wQdgr3LqaZeQl5me+LgfVZQ3S6+zY+cKcJffAL6ULw0IQv5tEH4Xjlsb4hyGwCvz+BBjDp30oWLov7ryq0xHc1zeQVaC6Qj1d0OAxeniCfh9FCMR6bE/Zh0eRwdWp/M2xoc7BpfYETU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768620023; c=relaxed/simple;
-	bh=58kT5Fm/oVZN2Xh23N+cDSQOGX4V3xwOYZhSgP+foHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jOZ8YHKtk3vi9Ie8WuiOTYDTLaURepghW8SNc7hiL+zKYgyV5EZZk6LqsRUAi18buTo1+lTFXiPihiZqnd0EwnC1TRKj3Lwv5ld1sDqLkGR3V8Ala5x191MwmwO8amgPnZjbpimNkrGk4CmJXvcl47gWxpLXxrKDJ9xUFMOyrWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M6pVsIcw; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768620352; c=relaxed/simple;
+	bh=7ae7fLInRW3PF4gX/7PThpzQFGun1slC2hqvJiPHk78=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=D+lIepHEmL+D/Vs5AOlHsNOwxho9H1p4jufmGC8p+qw1mzYNgzJxKjkH0gJKHrVXzXS3sx1sPPxNmPGLJbf4eDN9bK2VZFQ6DhoRAFLR/Q7DnJzsZYaa4Dbsc03UjpAq/08ufMNM4hrsQSYiQGJU1PkSek/SSKiwaqlZQLoIkjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=SlqLB0L7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M6pVsIcw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768620022; x=1800156022;
-  h=date:from:to:cc:subject:message-id;
-  bh=58kT5Fm/oVZN2Xh23N+cDSQOGX4V3xwOYZhSgP+foHQ=;
-  b=M6pVsIcwtwFFC3jqcaW/4C5xxOZhNsPXDog2rjM0ML7Wliw0A/N8/4nS
-   Vbrn8T8JoVgW8YPCduWbR6Zvmp62nKP9Djuh5JmRDV7S3LWeNYGmryXAE
-   17Ao0/B1G7R8Sm2NCyNqdWlvbbom76q43KNIkGW0z39hbfWBh6cRJRfgj
-   dS/ttJZS/uggVIhXWyIL2nnr2Z1iMnI8I9kxNvy7eU2UTJsH7JLb27Pm8
-   jFkfM8MceQC3OCmUTlbcpeVuJOnWnoC9Zwi3qAF1+rHz80ehl/WEBqpai
-   HFkA9ZV14Kyo/tzfiPjTOa0bwPcmouVkNT3ASlWeORDMZbCuegkht5SIM
-   A==;
-X-CSE-ConnectionGUID: OkG0ANxwQKmjFOniz471Qg==
-X-CSE-MsgGUID: K4ps73o8Sge6WW23cQbvYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="73786695"
-X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="73786695"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 19:20:21 -0800
-X-CSE-ConnectionGUID: QWyO1cWHT3+Zpj4nlyrL9w==
-X-CSE-MsgGUID: lv13xsVaS+SPa41iKk/HqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="242949293"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
-  by orviesa001.jf.intel.com with ESMTP; 16 Jan 2026 19:20:20 -0800
-Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vgwrJ-000000001tt-00J0;
-	Sat, 17 Jan 2026 03:20:17 +0000
-Date: Sat, 17 Jan 2026 04:20:09 +0100
-From: kernel test robot <lkp@intel.com>
-To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [linux-next:master 4338/6849]
- arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dtb: can@12440000
- (renesas,r9a09g057-canfd): compatible: 'oneOf' conditional failed, one must
- be fixed:
-Message-ID: <202601170438.elrdkPBZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="SlqLB0L7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CE28C4CEF7;
+	Sat, 17 Jan 2026 03:25:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1768620351;
+	bh=7ae7fLInRW3PF4gX/7PThpzQFGun1slC2hqvJiPHk78=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=SlqLB0L7dHRDimWhtUJAop2oLyN4oW1rAONvME0yhAz2TSP0cGxNJS9EiTDGwtIXh
+	 VPbQNu7PygIY8+ALLOUnMo6fmJqqzEu84wcX7rsyv0jBfud8u2FC6Y6jjMsgkT/3Me
+	 64pidhpf6L5odTdpFA3eU4UzpPFh6c7wJ3rqG5fs=
+Date: Fri, 16 Jan 2026 19:25:50 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, kernel test robot <lkp@intel.com>,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>, linux-kernel@vger.kernel.org, Suren Baghdasaryan
+ <surenb@google.com>, Pedro Falcato <pfalcato@suse.de>, David Hildenbrand
+ <david@redhat.com>, Vlastimil Babka <vbabka@suse.cz>, Michal Hocko
+ <mhocko@suse.com>, Jann Horn <jannh@google.com>, shikemeng@huaweicloud.com,
+ kasong@tencent.com, nphamcs@gmail.com, bhe@redhat.com, baohua@kernel.org,
+ chrisl@kernel.org, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2 08/10] mm/vma: Use unmap_desc in exit_mmap() and
+ vms_clear_ptes()
+Message-Id: <20260116192550.b4c4f18eed80b11ce39a1351@linux-foundation.org>
+In-Reply-To: <20260117010707.202128-1-sj@kernel.org>
+References: <vcxnsoihqohhmgurdkbx2hvybuhaql7yruv45k63jwevlpkdod@4eugq6xubcug>
+	<20260117010707.202128-1-sj@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
-commit: 688fded2fc74b0539cd848b775418200c52a1fc2 [4338/6849] arm64: dts: renesas: r9a09g057: Add CANFD node
-config: arm64-randconfig-2055-20260115 (https://download.01.org/0day-ci/archive/20260117/202601170438.elrdkPBZ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-dtschema version: 2025.12
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170438.elrdkPBZ-lkp@intel.com/reproduce)
+On Fri, 16 Jan 2026 17:07:06 -0800 SeongJae Park <sj@kernel.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601170438.elrdkPBZ-lkp@intel.com/
+> > > Suspect you need to add:
+> > > 
+> > > #include <linux/pgtable.h>
+> > > 
+> > > to mm/vma_internal.h.
+> > > 
+> > > Some arches don't define it and that header has:
+> > > 
+> > > #ifndef USER_PGTABLES_CEILING
+> > > #define USER_PGTABLES_CEILING	0UL
+> > > #endif
+> > > 
+> > > ...
+> > > 
+> > > #ifndef FIRST_USER_ADDRESS
+> > > #define FIRST_USER_ADDRESS	0UL
+> > > #endif
+> 
+> But the macro definitions are enclosed by '#ifdef CONFIG_MMU'.  I have
+> !CONFIG_MMU build test, which shows similar errors, even after Lorenzo's
+> suggestion is applied.  Should we move the definitions out of the '#ifdef
+> CONFIG_MMU', or implement another unmap_all_init() for !CONFIG_MMU case?
+> 
+> I confirmed a simple version of the first option (moving definitions out of
+> CONFIG_MMU, in addition to including pgtable.h) like below works at least for
+> my !CONFIG_MMU test.
+> 
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/renesas/r9a09g057.dtsi:1744.10-1754.6: Warning (graph_child_address): /soc/display@16460000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dtb: can@12440000 (renesas,r9a09g057-canfd): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g057-canfd', 'renesas,r9a09g047-canfd'] is too long
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r8a774a1-canfd', 'renesas,r8a774b1-canfd', 'renesas,r8a774c0-canfd', 'renesas,r8a774e1-canfd', 'renesas,r8a7795-canfd', 'renesas,r8a7796-canfd', 'renesas,r8a77961-canfd', 'renesas,r8a77965-canfd', 'renesas,r8a77970-canfd', 'renesas,r8a77980-canfd', 'renesas,r8a77990-canfd', 'renesas,r8a77995-canfd']
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r8a779a0-canfd', 'renesas,r8a779g0-canfd', 'renesas,r8a779h0-canfd']
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r9a07g043-canfd', 'renesas,r9a07g044-canfd', 'renesas,r9a07g054-canfd']
-   	'renesas,r9a09g047-canfd' was expected
-   	'renesas,rcar-gen3-canfd' was expected
-   	'renesas,rcar-gen4-canfd' was expected
-   	'renesas,rzg2l-canfd' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/renesas,rcar-canfd.yaml
-   arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk.dtb: usb-phy@15870000 (renesas,r9a09g057-usb3-phy): compatible:0: 'renesas,r9a09g047-usb3-phy' was expected
---
-   arch/arm64/boot/dts/renesas/r9a09g057.dtsi:1744.10-1754.6: Warning (graph_child_address): /soc/display@16460000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->> arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dtb: can@12440000 (renesas,r9a09g057-canfd): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g057-canfd', 'renesas,r9a09g047-canfd'] is too long
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r8a774a1-canfd', 'renesas,r8a774b1-canfd', 'renesas,r8a774c0-canfd', 'renesas,r8a774e1-canfd', 'renesas,r8a7795-canfd', 'renesas,r8a7796-canfd', 'renesas,r8a77961-canfd', 'renesas,r8a77965-canfd', 'renesas,r8a77970-canfd', 'renesas,r8a77980-canfd', 'renesas,r8a77990-canfd', 'renesas,r8a77995-canfd']
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r8a779a0-canfd', 'renesas,r8a779g0-canfd', 'renesas,r8a779h0-canfd']
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r9a07g043-canfd', 'renesas,r9a07g044-canfd', 'renesas,r9a07g054-canfd']
-   	'renesas,r9a09g047-canfd' was expected
-   	'renesas,rcar-gen3-canfd' was expected
-   	'renesas,rcar-gen4-canfd' was expected
-   	'renesas,rzg2l-canfd' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/renesas,rcar-canfd.yaml
-   arch/arm64/boot/dts/renesas/r9a09g057h48-kakip.dtb: usb-phy@15870000 (renesas,r9a09g057-usb3-phy): compatible:0: 'renesas,r9a09g047-usb3-phy' was expected
---
->> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-emmc.dtb: can@12440000 (renesas,r9a09g057-canfd): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g057-canfd', 'renesas,r9a09g047-canfd'] is too long
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r8a774a1-canfd', 'renesas,r8a774b1-canfd', 'renesas,r8a774c0-canfd', 'renesas,r8a774e1-canfd', 'renesas,r8a7795-canfd', 'renesas,r8a7796-canfd', 'renesas,r8a77961-canfd', 'renesas,r8a77965-canfd', 'renesas,r8a77970-canfd', 'renesas,r8a77980-canfd', 'renesas,r8a77990-canfd', 'renesas,r8a77995-canfd']
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r8a779a0-canfd', 'renesas,r8a779g0-canfd', 'renesas,r8a779h0-canfd']
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r9a07g043-canfd', 'renesas,r9a07g044-canfd', 'renesas,r9a07g054-canfd']
-   	'renesas,r9a09g047-canfd' was expected
-   	'renesas,rcar-gen3-canfd' was expected
-   	'renesas,rcar-gen4-canfd' was expected
-   	'renesas,rzg2l-canfd' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/renesas,rcar-canfd.yaml
-   arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-emmc.dtb: usb-phy@15870000 (renesas,r9a09g057-usb3-phy): compatible:0: 'renesas,r9a09g047-usb3-phy' was expected
---
->> arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-sd.dtb: can@12440000 (renesas,r9a09g057-canfd): compatible: 'oneOf' conditional failed, one must be fixed:
-   	['renesas,r9a09g057-canfd', 'renesas,r9a09g047-canfd'] is too long
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r8a774a1-canfd', 'renesas,r8a774b1-canfd', 'renesas,r8a774c0-canfd', 'renesas,r8a774e1-canfd', 'renesas,r8a7795-canfd', 'renesas,r8a7796-canfd', 'renesas,r8a77961-canfd', 'renesas,r8a77965-canfd', 'renesas,r8a77970-canfd', 'renesas,r8a77980-canfd', 'renesas,r8a77990-canfd', 'renesas,r8a77995-canfd']
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r8a779a0-canfd', 'renesas,r8a779g0-canfd', 'renesas,r8a779h0-canfd']
-   	'renesas,r9a09g057-canfd' is not one of ['renesas,r9a07g043-canfd', 'renesas,r9a07g044-canfd', 'renesas,r9a07g054-canfd']
-   	'renesas,r9a09g047-canfd' was expected
-   	'renesas,rcar-gen3-canfd' was expected
-   	'renesas,rcar-gen4-canfd' was expected
-   	'renesas,rzg2l-canfd' was expected
-   	from schema $id: http://devicetree.org/schemas/net/can/renesas,rcar-canfd.yaml
-   arch/arm64/boot/dts/renesas/r9a09g057h44-rzv2h-evk-cn15-sd.dtb: usb-phy@15870000 (renesas,r9a09g057-usb3-phy): compatible:0: 'renesas,r9a09g047-usb3-phy' was expected
+Worked for me, thanks.  I also unbreaks arm allnoconfig.  I usually run
+that but I must have missed this time.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I understand that v3 is in the works.  Meanwhile I'll include your patch to
+make mm-new a happier place.
+
