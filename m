@@ -1,132 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F306A30E827
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 11:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02A52D7DCF;
+	Sat, 17 Jan 2026 11:16:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768647957; cv=none; b=tbAZ3csAhXr+3akhRq3DL/ocktpXC+cxgTiyqZFhxz+ELYPZ4GE//PFL8SFmq1tlhIgVZH5ij1tBncSQnvaKNvzH/e9QGbnYtNMTig2JZMlSsnc5UzE/6iG5EeOJLCPCRXUbQr2nOyNS/kTTWVPiMGqnqc4qL4qd1fhEkfC4i2E=
+	t=1768648619; cv=none; b=LHegjInMQwRUwrF4fAmWqqHws+69LnehnG44uwpAo+eJU4fuxSlnEzL+mcWO+bBkuWlNG6ftItxwtuE69kHo6Y1jIW1hvIXxh65RMh0aOXya6XjyruZJzFPddysUqIuKvC70HZNcEGB1fiKYIYmRp5PbAnFyE6gOrSz64YI0+IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768647957; c=relaxed/simple;
-	bh=0RU8JI2xkxWBQGAF9o6p0/P+z2YnKPFAXi4l2SobrBc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=dAYhHyQ1KNWAsopVcIhKnY1G/O2H4Nk2150ZjjY9TmLDb049teyVSGEEHiVmC8udSBTt7mH+ObJptuU5wDnW8psx7WxbdNjEThFQVbwbF9kLlRoP99RqJHFV3nOUkS7HWUTe8NGj2KloqMHPzySOdMEmRzo5iLZhfFJ6vMSlLZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ibkVhUfz; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1768648619; c=relaxed/simple;
+	bh=vG3VbTxQ0ezcKDCJQGrIOXOv+kGGPwQY7ihkAARSdBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oLR3ntOwjkmKNKSO9m2wBLcCf0NffC+4m9bg43djHmc16sncEMshp8FYSW1Ra3LaXhIS/mcSRYAeukabWvzKbs0w0bJUYMEqkcIwPj4DSEIjmfk2Lwqy+7QsgFBDB6Y++fZcCm/TsGdhn9v19i3UjAp+t+2F7GYWIG350GD3CX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MIWV31P1; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ibkVhUfz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MIWV31P1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768647956; x=1800183956;
-  h=date:from:to:cc:subject:message-id;
-  bh=0RU8JI2xkxWBQGAF9o6p0/P+z2YnKPFAXi4l2SobrBc=;
-  b=ibkVhUfz/uCL4JoI1cuK8lsrjzG/LU2pqo2KPV+o2Bmh2GqSDoC3b1zn
-   BZLWE8RP7IvdI+bSG4TILuc2A2IbF9dX5Hcvti6yoAGR9kbrMkMWnMfD1
-   SEtl1GNSsYcUDg7XRp6lnQAgBViBbAJ3mfJbnZ11yTDYcfRVeGsxl0BAM
-   j1VdwYHMxONv4U0pZ/nLCDA/UL6vUESpB2cittmyZXkQ8W7Tbn8Dk2L4n
-   00kT5S/uiV4HJuHURCw2q/8GFT68H8IhMwc0tMSN9v0b6DIps/Ae/Cpkt
-   G5xx6NuyyW7jsh68hiYicFJ/z1OQc32tQkwz0uK2pOV/riullbuOUY2qA
+  t=1768648618; x=1800184618;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vG3VbTxQ0ezcKDCJQGrIOXOv+kGGPwQY7ihkAARSdBk=;
+  b=MIWV31P1HXNKlIK7soOHXiMd7l4oUho4CJdmyhHR/nu38bOFd3opFGvF
+   /LC8Up/bdTT5J/OmOjEI9XLyNYZiROw6n48miWNpxRA/p1K7l+NXYsFeF
+   MTnvEsl8+7bkwu7inMOHlHxh8fqSZ9oyBFi6HfVwcWDRouCAGOcDN6bx1
+   nexWbk/4CNtSSxm+2Rqc9xaF3hG0fisxNTUGJiAVaOcDQ/TGPUdhlAV9y
+   hyhTPqM5p4CONowKHLf8XZ7Zi638cF4eTH5X1XRWd2ud5kOMFMM6jDkkL
+   n87e76lA74JylGFq2k6BJGMMyjxAe/Y5CqxUWLt6kDovbLgMFFEE9+zdV
    g==;
-X-CSE-ConnectionGUID: TPTT0yaKQF22ERe79+hQDw==
-X-CSE-MsgGUID: 1ytJ2bsgSjWwgBkRwpkgng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69839389"
+X-CSE-ConnectionGUID: ZhOpgvzSRJ6rZ17JP5eSLQ==
+X-CSE-MsgGUID: //e7/qnvQL6l4AeN4tzIag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="73574105"
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="69839389"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 03:05:55 -0800
-X-CSE-ConnectionGUID: oOpk9DOvRpG1um7j3LQhFw==
-X-CSE-MsgGUID: EPUmSuI1QvWJhkohRWMIzw==
+   d="scan'208";a="73574105"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 03:16:57 -0800
+X-CSE-ConnectionGUID: 8I64+JI3TPGuBWDcQKRiyQ==
+X-CSE-MsgGUID: 4aTy5/cXTzmvMWyl8MNMCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="205485082"
+   d="scan'208";a="205066079"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 17 Jan 2026 03:05:53 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 17 Jan 2026 03:16:53 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vh47q-00000000Lmn-0euV;
-	Sat, 17 Jan 2026 11:05:50 +0000
-Date: Sat, 17 Jan 2026 19:05:18 +0800
+	id 1vh4IU-00000000LnQ-34V8;
+	Sat, 17 Jan 2026 11:16:50 +0000
+Date: Sat, 17 Jan 2026 19:15:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>
-Subject: [linux-next:master 5475/6849] mm/slub.c:2072:50: error:
- incompatible type for argument 1 of 'is_codetag_empty'
-Message-ID: <202601171858.JxGte9qW-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Daniel Golle <daniel@makrotopia.org>, Hauke Mehrtens <hauke@hauke-m.de>,
+	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Russell King <linux@armlinux.org.uk>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Chen Minqiang <ptpt52@gmail.com>,
+	Xinfa Deng <xinfa.deng@gl-inet.com>
+Subject: Re: [PATCH net-next v4 3/6] net: dsa: lantiq: allow arbitrary MII
+ registers
+Message-ID: <202601171803.vxrrhXdF-lkp@intel.com>
+References: <d5cbb8c5917197d44b62d39c9799212d1b3fe390.1768612113.git.daniel@makrotopia.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d5cbb8c5917197d44b62d39c9799212d1b3fe390.1768612113.git.daniel@makrotopia.org>
 
-Hi Harry,
+Hi Daniel,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
-commit: 7466382b7211d95b390b284d3e6d43f97e02b6d2 [5475/6849] mm/slab: abstract slabobj_ext access via new slab_obj_ext() helper
-config: m68k-randconfig-r052-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171858.JxGte9qW-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171858.JxGte9qW-lkp@intel.com/reproduce)
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Golle/dt-bindings-net-dsa-lantiq-gswip-use-correct-node-name/20260117-092406
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/d5cbb8c5917197d44b62d39c9799212d1b3fe390.1768612113.git.daniel%40makrotopia.org
+patch subject: [PATCH net-next v4 3/6] net: dsa: lantiq: allow arbitrary MII registers
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260117/202601171803.vxrrhXdF-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171803.vxrrhXdF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601171858.JxGte9qW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601171803.vxrrhXdF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:5,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/slub.c:13:
-   mm/slub.c: In function 'mark_objexts_empty':
->> mm/slub.c:2072:50: error: incompatible type for argument 1 of 'is_codetag_empty'
-    2072 |                 if (unlikely(is_codetag_empty(ext->ref)))
-         |                                               ~~~^~~~~
-         |                                                  |
-         |                                                  union codetag_ref
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from include/linux/workqueue.h:9,
-                    from include/linux/mm_types.h:19,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7:
-   include/linux/alloc_tag.h:52:56: note: expected 'union codetag_ref *' but argument is of type 'union codetag_ref'
-      52 | static inline bool is_codetag_empty(union codetag_ref *ref)
-         |                                     ~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/net/dsa/lantiq/mxl-gsw1xx.c:708:28: error: array designator index (7) exceeds array bounds (7)
+     708 |                 [GSW1XX_MII_PORT + 1 ... GSWIP_MAX_PORTS] = -1,
+         |                                          ^~~~~~~~~~~~~~~
+   drivers/net/dsa/lantiq/lantiq_gswip.h:246:26: note: expanded from macro 'GSWIP_MAX_PORTS'
+     246 | #define GSWIP_MAX_PORTS         7
+         |                                 ^
+   drivers/net/dsa/lantiq/mxl-gsw1xx.c:713:28: error: array designator index (7) exceeds array bounds (7)
+     713 |                 [GSW1XX_MII_PORT + 1 ... GSWIP_MAX_PORTS] = -1,
+         |                                          ^~~~~~~~~~~~~~~
+   drivers/net/dsa/lantiq/lantiq_gswip.h:246:26: note: expanded from macro 'GSWIP_MAX_PORTS'
+     246 | #define GSWIP_MAX_PORTS         7
+         |                                 ^
+   drivers/net/dsa/lantiq/mxl-gsw1xx.c:749:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     749 |                 [GSW1XX_MII_PORT] = GSWIP_MII_CFGp(0),
+         |                                     ^~~~~~~~~~~~~~~~~
+   drivers/net/dsa/lantiq/lantiq_gswip.h:60:28: note: expanded from macro 'GSWIP_MII_CFGp'
+      60 | #define GSWIP_MII_CFGp(p)               (0x2 * (p))
+         |                                         ^~~~~~~~~~~
+   drivers/net/dsa/lantiq/mxl-gsw1xx.c:748:33: note: previous initialization is here
+     748 |                 [0 ... GSWIP_MAX_PORTS - 1] = -1,
+         |                                               ^~
+   drivers/net/dsa/lantiq/mxl-gsw1xx.c:750:51: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     750 |                 [GSW1XX_MII_PORT + 1 ... GSWIP_MAX_PORTS - 1] = -1,
+         |                                                                 ^~
+   drivers/net/dsa/lantiq/mxl-gsw1xx.c:748:33: note: previous initialization is here
+     748 |                 [0 ... GSWIP_MAX_PORTS - 1] = -1,
+         |                                               ^~
+   drivers/net/dsa/lantiq/mxl-gsw1xx.c:754:23: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     754 |                 [GSW1XX_MII_PORT] = GSWIP_MII_PCDU0,
+         |                                     ^~~~~~~~~~~~~~~
+   drivers/net/dsa/lantiq/lantiq_gswip.h:80:27: note: expanded from macro 'GSWIP_MII_PCDU0'
+      80 | #define GSWIP_MII_PCDU0                 0x01
+         |                                         ^~~~
+   drivers/net/dsa/lantiq/mxl-gsw1xx.c:753:33: note: previous initialization is here
+     753 |                 [0 ... GSWIP_MAX_PORTS - 1] = -1,
+         |                                               ^~
+   drivers/net/dsa/lantiq/mxl-gsw1xx.c:755:51: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     755 |                 [GSW1XX_MII_PORT + 1 ... GSWIP_MAX_PORTS - 1] = -1,
+         |                                                                 ^~
+   drivers/net/dsa/lantiq/mxl-gsw1xx.c:753:33: note: previous initialization is here
+     753 |                 [0 ... GSWIP_MAX_PORTS - 1] = -1,
+         |                                               ^~
+   4 warnings and 2 errors generated.
 
 
-vim +/is_codetag_empty +2072 mm/slub.c
+vim +708 drivers/net/dsa/lantiq/mxl-gsw1xx.c
 
-  2058	
-  2059	static inline void mark_objexts_empty(struct slabobj_ext *obj_exts)
-  2060	{
-  2061		unsigned long slab_exts;
-  2062		struct slab *obj_exts_slab;
-  2063	
-  2064		obj_exts_slab = virt_to_slab(obj_exts);
-  2065		slab_exts = slab_obj_exts(obj_exts_slab);
-  2066		if (slab_exts) {
-  2067			unsigned int offs = obj_to_index(obj_exts_slab->slab_cache,
-  2068							 obj_exts_slab, obj_exts);
-  2069			struct slabobj_ext *ext = slab_obj_ext(obj_exts_slab,
-  2070							       slab_exts, offs);
-  2071	
-> 2072			if (unlikely(is_codetag_empty(ext->ref)))
-  2073				return;
-  2074	
-  2075			/* codetag should be NULL here */
-  2076			WARN_ON(ext->ref.ct);
-  2077			set_codetag_empty(&ext->ref);
-  2078		}
-  2079	}
-  2080	
+   701	
+   702	static const struct gswip_hw_info gsw12x_data = {
+   703		.max_ports		= GSW1XX_PORTS,
+   704		.allowed_cpu_ports	= BIT(GSW1XX_MII_PORT) | BIT(GSW1XX_SGMII_PORT),
+   705		.mii_cfg = {
+   706			[0 ... GSW1XX_MII_PORT - 1] = -1,
+   707			[GSW1XX_MII_PORT] = GSWIP_MII_CFGp(0),
+ > 708			[GSW1XX_MII_PORT + 1 ... GSWIP_MAX_PORTS] = -1,
+   709		},
+   710		.mii_pcdu = {
+   711			[0 ... GSW1XX_MII_PORT - 1] = -1,
+   712			[GSW1XX_MII_PORT] = GSWIP_MII_PCDU0,
+   713			[GSW1XX_MII_PORT + 1 ... GSWIP_MAX_PORTS] = -1,
+   714		},
+   715		.mac_select_pcs		= gsw1xx_phylink_mac_select_pcs,
+   716		.phylink_get_caps	= &gsw1xx_phylink_get_caps,
+   717		.supports_2500m		= true,
+   718		.pce_microcode		= &gsw1xx_pce_microcode,
+   719		.pce_microcode_size	= ARRAY_SIZE(gsw1xx_pce_microcode),
+   720		.tag_protocol		= DSA_TAG_PROTO_MXL_GSW1XX,
+   721	};
+   722	
 
 -- 
 0-DAY CI Kernel Test Service
