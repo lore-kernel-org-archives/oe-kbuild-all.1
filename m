@@ -1,107 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E64A278753
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 20:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B841A238C1B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 22:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768681704; cv=none; b=QVWJTk4nPd6tTKS8Ks5j5Eb1MvbIWPC3MsaDemsjuCwkPESBnGi+IRoiihuuDIY1RznwLE32usNDATJzjQuDJ80Xv5FIP3btlsTbLwDXiDmOMWk4Mba+bzyCx/ZqX1KerMqmMg2gnNy4rPCqJxejZ5oPkFJE0EeKDdOstuEZdEg=
+	t=1768688605; cv=none; b=gJAFruAxfEcYF7JklYwGb8qexhib9ghhS7IZMiEL90Jn0COezHA6m9ET+HQBDrSaR4XaMcvxDT84eq0c6IPxPp8tZHay35f30IW5bWI6tw6f8X8cLleVXKj7DHUgZSj0i9WByJ/lEdYNpwiN/RuPus4pbPI0mSulfPeufBmSE1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768681704; c=relaxed/simple;
-	bh=uYCTFcKcWCYxNjVzOuzLVBRKXbVczjlOCPm0q/0V5K0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ouVti5icmlPEQId5gkbzsI2ExLZLd1v2svWg9tZmHubsTL24h61vLeD3x/Z/x+ByqkwINFOhOwbho1fngxD6aCYzronMe6BvOltOuaWcsNdth184Ki+c8H2fmFsJwkU5gxYGLRYFeyamDgPk+bpPpnRsSDHhDX+6OYSkPftUN08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GAE1OPSz; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1768688605; c=relaxed/simple;
+	bh=fK4i7jLO9Y32rRo3N1HN3W1McBT6cU9ZggUsl2auxc0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XIURCAcj8Bi28Fq4byh8QaydEb8wFnsEdXm1lxUcCVP9KorTU75/yf9uyN4tc1NKZT+cy33BfwyoTrMyCkgJ+xhnXFITFb6nMyVgoPTZdYqrHmQz2PiKsiHmoAiB2PjDfHVl3k+PS7RX1UPHx3ZGR/sirFkPrMNCORda+TgWKEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDHovuZ7; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GAE1OPSz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDHovuZ7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768681701; x=1800217701;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uYCTFcKcWCYxNjVzOuzLVBRKXbVczjlOCPm0q/0V5K0=;
-  b=GAE1OPSzrG68UhbObtqjBotz0nusBPraAxQnMsrnn7a9NpEHZkXChf+o
-   DS/A+kCDiFHgtmMOPM+f6fYvYbO7IGum6139Pa+vvGbQxhBQa3oZbpdw/
-   q7MOepvTrxGmJdjeNXFBBeFA30ccral1g5kn0zc+5WFPI+Rd1usJ/12n3
-   YC8HPgCeeyx1S8rlA0VbyIjoqIK4iHFPXDafVxv1YbZEMpy/+Ru0qHGi8
-   wz1Ek8davPB2G2+3q2Tt+rXGhkNl7I6KoxVsq41EreT26LGNQKI/H4iuS
-   M6gPmV1uo8YLbkVJPgeMDJ6FsskSuEBDjjIz+TftvP331p2QvdLIghgPC
-   Q==;
-X-CSE-ConnectionGUID: vd1f/BDkRKKEFDIs/h+vGA==
-X-CSE-MsgGUID: uxy35xkHQeKltm9/e0vOXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="69870070"
-X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="69870070"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 12:28:21 -0800
-X-CSE-ConnectionGUID: fAbcORYZRp2CY7Smwz4aIQ==
-X-CSE-MsgGUID: vyYOqqd+RESlpo5PAmgW3w==
+  t=1768688603; x=1800224603;
+  h=date:from:to:cc:subject:message-id;
+  bh=fK4i7jLO9Y32rRo3N1HN3W1McBT6cU9ZggUsl2auxc0=;
+  b=MDHovuZ7cZRD3WYIbRH2lsP1Fxbr1DfnFP2gkm/Wgdnlrit77WUuJv74
+   4kHoZYCrM2yL/0pFixYNA3m4QJLlS2LxyxsdpWxz79JQbnKb2J9zEXZIX
+   Ha9SU0CTyUPSO+VGb+HUUdaG727p04aQENS7AdLha4OiQRwTW2E4YkHt1
+   sXqiGClG8RoYyxYgdNLEt0JrjZEOF641AhjkFZCy2tKZGyg+S6xBTNRPW
+   F7502LoncdDisMU3eHLNv1mAfKNq4ARipijcQugXIr8c6bGOY+vbqJK98
+   HisVgty8emTNFOpU80VJ+BYV+OyNFzK7vKuOAZojas+Y5sKMRrrbaPI5R
+   A==;
+X-CSE-ConnectionGUID: c0xsaTyKSMGpVDnA/mrF0Q==
+X-CSE-MsgGUID: wuT/H1ANRcyBKaYoCPEinQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="68969632"
+X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
+   d="scan'208";a="68969632"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 14:23:22 -0800
+X-CSE-ConnectionGUID: 4pWvSPrxRhikc4dRcYJAPw==
+X-CSE-MsgGUID: knJGADr4SyuXuQQjQsNI/w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="205128770"
+X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
+   d="scan'208";a="228492955"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Jan 2026 12:28:16 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 17 Jan 2026 14:23:21 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhCu6-00000000MCO-13L3;
-	Sat, 17 Jan 2026 20:28:14 +0000
-Date: Sun, 18 Jan 2026 04:27:23 +0800
+	id 1vhEhS-00000000MIC-1nHp;
+	Sat, 17 Jan 2026 22:23:18 +0000
+Date: Sun, 18 Jan 2026 06:22:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Luca Weiss <luca.weiss@fairphone.com>,
-	Petr Hodina <phodina@protonmail.com>,
-	Casey Connolly <casey.connolly@linaro.org>,
-	"Dr. Git" <drgitx@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Joel Selvaraj <foss@joelselvaraj.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
-Subject: Re: [PATCH v3 8/8] media: qcom: camss: Account for C-PHY when
- calculating link frequency
-Message-ID: <202601180402.n3SE2vPM-lkp@intel.com>
-References: <20260117-qcom-cphy-v3-8-8ce76a06f7db@ixit.cz>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:fsverity-cleanups 2/5] ERROR: modpost:
+ "fsverity_lookup_info" [fs/ext4/ext4.ko] undefined!
+Message-ID: <202601180638.7M4d1Vhw-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260117-qcom-cphy-v3-8-8ce76a06f7db@ixit.cz>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Heidelberg-via-B4-Relay/media-qcom-camss-csiphy-Introduce-PHY-configuration/20260117-234024
-base:   46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
-patch link:    https://lore.kernel.org/r/20260117-qcom-cphy-v3-8-8ce76a06f7db%40ixit.cz
-patch subject: [PATCH v3 8/8] media: qcom: camss: Account for C-PHY when calculating link frequency
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260118/202601180402.n3SE2vPM-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601180402.n3SE2vPM-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git fsverity-cleanups
+head:   4fc6474efca67b36e67c3b1cfad4b7b85dec83e8
+commit: 6c09b70b12dd46653f2bd37664ffcf2961cd4120 [2/5] fsverity: use a hashtable to find the fsverity_info
+config: x86_64-buildonly-randconfig-006-20260117 (https://download.01.org/0day-ci/archive/20260118/202601180638.7M4d1Vhw-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601180638.7M4d1Vhw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601180402.n3SE2vPM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601180638.7M4d1Vhw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> Warning: drivers/media/platform/qcom/camss/camss.c:4296 function parameter 'cphy' not described in 'camss_get_link_freq'
->> Warning: drivers/media/platform/qcom/camss/camss.c:4296 function parameter 'cphy' not described in 'camss_get_link_freq'
+>> ERROR: modpost: "fsverity_lookup_info" [fs/ext4/ext4.ko] undefined!
+>> ERROR: modpost: "fsverity_lookup_info" [fs/btrfs/btrfs.ko] undefined!
+>> ERROR: modpost: "fsverity_lookup_info" [fs/f2fs/f2fs.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
