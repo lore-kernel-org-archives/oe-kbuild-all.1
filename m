@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C6432C94A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 09:23:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E09C123BD1F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 09:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768641835; cv=none; b=rIYPijzViNiwlf+UZ0ROg/ibB4bQ+qH9Ijw6sLw9ot83y+U+hG+hyXQPHK8rRAoBStCIcSCPwxcSmeSeE7beuxmYarIUQDbVMfX5ZTRo0PPGpgs3Vf6FZ1CQXCf0vJ1c7gKXKjA2qFN4CQfFylnQP16ExHeQ/49/Qk2qE6HdKKs=
+	t=1768642552; cv=none; b=s6LNE/iq7A0EkJaXsMciKMNLQjEXCMGKmVf0BM5lHSGJ980B7lehXLspaLmtXSHED4oMiEjAlI953wKfY8nEJ4fowi2H7meh41t4hjivIjXWqjtAQnHl6uEXKHQZIzeJCsSqLJQzPbb7HL2z6G7zrdQd5VYiWm8PrGZy0uVKWNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768641835; c=relaxed/simple;
-	bh=Z/wfjETrVkibZMD5nlaQr6vrM7NHMirbYrBlCkad2I0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JxzxkbeCnNAzFEkpN6ACQgJHT2H0YDawAlUgvgktPTSVVjVOuAgkiKUtQzPu0UfxAvCN4NOAKxA14qI/c+QCec+POGSTx73QRk3s+k0viarSAfhL7e0YzcUCbpTWiATpfezB5AmIvkSctqkEXqmNrQrZycnXceqc1KomtxzZhdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cRPiDIk3; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1768642552; c=relaxed/simple;
+	bh=nFanfIxAgFDwubI9CGybqlXOuykr6IwilV1/tsplGms=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=XjLvk64UhPfbJgRAMQ4QCt1RpIqkhRfmtI+gDFBtijR6cgh5px6Z9/OMB3lo2mWqA4JLYrHzYXyvck9kcOSESk83DnetpAEdr/d7em1zDtjdwvpuJIeGok4SGmKSGbvLQL9pxdZtRCSkEmtmlc/Sg0FQG+n/Nf3YO29Ie+NrLjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MB1As0m/; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cRPiDIk3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MB1As0m/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768641834; x=1800177834;
+  t=1768642551; x=1800178551;
   h=date:from:to:cc:subject:message-id;
-  bh=Z/wfjETrVkibZMD5nlaQr6vrM7NHMirbYrBlCkad2I0=;
-  b=cRPiDIk3hDo46eFqLG7xixLX/0uLqvycfjf1B9IC/QhH4JwH+u5E8YyJ
-   oEFha2mRrCoghSaEvIeex1S1aigASk9sANypqoLXkex0Aekxf8we8YxEe
-   XciTKzWuACpCankOUIffSZzzTaoZqbnffGrJyAiw6LAZYBX/QHNzUN4z9
-   knGCViCNeIqnk08M10YJcfgkRbnhffx9KpVjmIAbGilPYzHqqSjYRPNHt
-   JnjkruKUNE0fAScbEuqOPNq7IfGbYjaYCF9eAYkBr+3l2KiySvSL3EQc3
-   o8X/w77HkM/tpJLVdnAdkaATeNG/qwEPPB6IytUlnt6q5eGaTDRNPWefw
-   Q==;
-X-CSE-ConnectionGUID: 8YSEtDenRAi1EGSnsNt4cw==
-X-CSE-MsgGUID: GKn73cc5R++JFFgOWFACVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="68951446"
+  bh=nFanfIxAgFDwubI9CGybqlXOuykr6IwilV1/tsplGms=;
+  b=MB1As0m/l+UzrH0aGuPdrkmRuQSyM8oe0e2jlLzhOvdo3XwW5j/YVvIA
+   ixyycDfHx1ELTkEDgcH+Enf0je/6QS7Q1HB1zPBtNm/N7Yz78odl4v8Ka
+   stJ4ZRsK5Ry7SwzU+JI8BRC0qJifXVpSQnkM4wo2lPxQNSXi2w3FHn7me
+   cbzUEJFE7qr7LsgRxSMOHMu0lIYqbJjk3x6vm0yZ6OImUp4SipkqwBP6c
+   TP6Bzxrcr3D8oRqWdBt7KpTjCPiktsYivFHb1aWktpYbsb2skweCSfnNK
+   qG4ZxarQCm4tn1bcxf+N45mOyvCKcPjWh2CCclPDwCdovp1/3C7vAcHTl
+   A==;
+X-CSE-ConnectionGUID: 8/K4TDvKS3+7moyAq3vJLw==
+X-CSE-MsgGUID: 9e+/MarwTPinIitpiX6rMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69992011"
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="68951446"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 01:23:50 -0800
-X-CSE-ConnectionGUID: M44sO2J3TsKE97xTUf2nMg==
-X-CSE-MsgGUID: AXReYXZRTPO2GwCnkgRjYg==
+   d="scan'208";a="69992011"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 01:35:50 -0800
+X-CSE-ConnectionGUID: 7cGqBHjrSXqSrJRNNtm1kw==
+X-CSE-MsgGUID: fe8jHwwERFmkT5mnDhTPhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="236716304"
+   d="scan'208";a="204598813"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Jan 2026 01:23:48 -0800
+  by orviesa006.jf.intel.com with ESMTP; 17 Jan 2026 01:35:49 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vh2X4-00000000Li6-04B3;
-	Sat, 17 Jan 2026 09:23:46 +0000
-Date: Sat, 17 Jan 2026 17:23:44 +0800
+	id 1vh2ig-00000000Lim-3ENr;
+	Sat, 17 Jan 2026 09:35:46 +0000
+Date: Sat, 17 Jan 2026 17:35:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Harmstone <mark@harmstone.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>,
- Boris Burkov <boris@bur.io>
-Subject: [btrfs:pr/1157 64/80] fs/btrfs/sysfs.c:84:34: warning:
- 'btrfs_attr_features_remap_tree' defined but not used
-Message-ID: <202601171733.AhYx9UGH-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android17-6.18 0/1]
+ drivers/android/binder.c:7389:9: error: implicit declaration of function
+ 'unload_binderfs'; did you mean 'init_binderfs'?
+Message-ID: <202601171759.FcK68HhB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,67 +60,39 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/btrfs/linux.git pr/1157
-head:   92a19b3e78cc245671e8937ffd5530cb4bb9bcc4
-commit: d93a5b066ca46e8523a884494d41ac64498bcd85 [64/80] btrfs: add definitions and constants for remap-tree
-config: i386-randconfig-141-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171733.AhYx9UGH-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android17-6.18
+head:   ba857eb99ec955367580dc1c301b326e13ef6524
+commit: 42393aa5693a216b395461b4edcf1ba46526b64e [0/1] ANDROID: binder: support loading both drivers at the same time
+config: x86_64-randconfig-015-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171759.FcK68HhB-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8985-g2614ff1a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171733.AhYx9UGH-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171759.FcK68HhB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601171733.AhYx9UGH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601171759.FcK68HhB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/btrfs/sysfs.c:84:34: warning: 'btrfs_attr_features_remap_tree' defined but not used [-Wunused-variable]
-      84 | static struct btrfs_feature_attr btrfs_attr_features_##_name = {             \
-         |                                  ^~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/sysfs.c:99:9: note: in expansion of macro 'BTRFS_FEAT_ATTR'
-      99 |         BTRFS_FEAT_ATTR(name, FEAT_INCOMPAT, BTRFS_FEATURE_INCOMPAT, feature)
+   drivers/android/binder.c: In function 'binder_unload_builtin':
+>> drivers/android/binder.c:7389:9: error: implicit declaration of function 'unload_binderfs'; did you mean 'init_binderfs'? [-Wimplicit-function-declaration]
+    7389 |         unload_binderfs();
          |         ^~~~~~~~~~~~~~~
-   fs/btrfs/sysfs.c:294:1: note: in expansion of macro 'BTRFS_FEAT_ATTR_INCOMPAT'
-     294 | BTRFS_FEAT_ATTR_INCOMPAT(remap_tree, REMAP_TREE);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         init_binderfs
 
 
-vim +/btrfs_attr_features_remap_tree +84 fs/btrfs/sysfs.c
+vim +7389 drivers/android/binder.c
 
-9188db611dbb6b David Sterba  2019-08-02  67  
-22c55e3bbb20c6 Stefan Roesch 2022-02-08  68  #define BTRFS_ATTR_W(_prefix, _name, _store)			        \
-22c55e3bbb20c6 Stefan Roesch 2022-02-08  69  	static struct kobj_attribute btrfs_attr_##_prefix##_##_name =	\
-22c55e3bbb20c6 Stefan Roesch 2022-02-08  70  			__INIT_KOBJ_ATTR(_name, 0200, NULL, _store)
-22c55e3bbb20c6 Stefan Roesch 2022-02-08  71  
-9188db611dbb6b David Sterba  2019-08-02  72  #define BTRFS_ATTR_RW(_prefix, _name, _show, _store)			\
-9188db611dbb6b David Sterba  2019-08-02  73  	static struct kobj_attribute btrfs_attr_##_prefix##_##_name =	\
-9188db611dbb6b David Sterba  2019-08-02  74  			__INIT_KOBJ_ATTR(_name, 0644, _show, _store)
-9188db611dbb6b David Sterba  2019-08-02  75  
-9188db611dbb6b David Sterba  2019-08-02  76  #define BTRFS_ATTR(_prefix, _name, _show)				\
-9188db611dbb6b David Sterba  2019-08-02  77  	static struct kobj_attribute btrfs_attr_##_prefix##_##_name =	\
-9188db611dbb6b David Sterba  2019-08-02  78  			__INIT_KOBJ_ATTR(_name, 0444, _show, NULL)
-9188db611dbb6b David Sterba  2019-08-02  79  
-9188db611dbb6b David Sterba  2019-08-02  80  #define BTRFS_ATTR_PTR(_prefix, _name)					\
-9188db611dbb6b David Sterba  2019-08-02  81  	(&btrfs_attr_##_prefix##_##_name.attr)
-9188db611dbb6b David Sterba  2019-08-02  82  
-9188db611dbb6b David Sterba  2019-08-02  83  #define BTRFS_FEAT_ATTR(_name, _feature_set, _feature_prefix, _feature_bit)  \
-9188db611dbb6b David Sterba  2019-08-02 @84  static struct btrfs_feature_attr btrfs_attr_features_##_name = {	     \
-9188db611dbb6b David Sterba  2019-08-02  85  	.kobj_attr = __INIT_KOBJ_ATTR(_name, S_IRUGO,			     \
-9188db611dbb6b David Sterba  2019-08-02  86  				      btrfs_feature_attr_show,		     \
-9188db611dbb6b David Sterba  2019-08-02  87  				      btrfs_feature_attr_store),	     \
-9188db611dbb6b David Sterba  2019-08-02  88  	.feature_set	= _feature_set,					     \
-9188db611dbb6b David Sterba  2019-08-02  89  	.feature_bit	= _feature_prefix ##_## _feature_bit,		     \
-9188db611dbb6b David Sterba  2019-08-02  90  }
-9188db611dbb6b David Sterba  2019-08-02  91  #define BTRFS_FEAT_ATTR_PTR(_name)					     \
-9188db611dbb6b David Sterba  2019-08-02  92  	(&btrfs_attr_features_##_name.kobj_attr.attr)
-9188db611dbb6b David Sterba  2019-08-02  93  
-
-:::::: The code at line 84 was first introduced by commit
-:::::: 9188db611dbb6b3f68c9108265d2abd1cb5a3b44 btrfs: sysfs: move helper macros to sysfs.c
-
-:::::: TO: David Sterba <dsterba@suse.com>
-:::::: CC: David Sterba <dsterba@suse.com>
+  7385	
+  7386	void binder_unload_builtin(void)
+  7387	{
+  7388		genl_unregister_family(&binder_nl_family);
+> 7389		unload_binderfs();
+  7390		debugfs_remove_recursive(binder_debugfs_dir_entry_root);
+  7391		binder_alloc_shrinker_exit();
+  7392		binder_remove_trace_events(THIS_MODULE);
+  7393	}
+  7394	
 
 -- 
 0-DAY CI Kernel Test Service
