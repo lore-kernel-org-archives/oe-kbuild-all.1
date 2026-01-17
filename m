@@ -1,86 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6975329C70
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 06:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7C132D0C9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 06:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768629804; cv=none; b=Br7n7VeIxIYmuIqeWWHKF2dwu4Y45eXgRl5/lMw+U5ijHdAnyfBvFNUhesOHLsF1ZIdfR6gAkHhdu/O1hpuRsaCbU9bs3fxhyFvAXEKilyfsmI8C8O2cz7zzc2EjjzpL/xXZobTl0QG7C+3+3f6eF/i2A/WMbi4P/LJH0A4uHsk=
+	t=1768630968; cv=none; b=BzXwUGrNJO/bLaA7SPHFKBsJQeuXji+anSTO4BpOA2Z3QHD3C9U+8m/3h7foZxdTHvGpQJhayPNE9uD52LJtvyUklscROMi06D5+V/9mnD/bpPwf4Mrz6OCNGX3FYPMQhAjObDVgMA1S5oA4wTwa55EY2FlGbhsybCjzUwynawU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768629804; c=relaxed/simple;
-	bh=TrmqV14ASTJdt+FxJnSBgrKZUfAFznjaco40qMOrmtk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cfA2uWixVTTsl3QsImkotdg89GTc9FOzNjUwQlXO+x7WqCnUq4D/GL+SYf7cCwTJTdS5lSMdcZH6Xp7SdRJNlxiTtebAhvhE9VNMPAbei2HNlX11kxUTOlj0e86qH7VXCuMoT2wc3vk2/IF36rS4kECG327gkREfjS99tOqY6as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KK9t1qhd; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1768630968; c=relaxed/simple;
+	bh=/FquNOusjZSaYbIZE0kdN18qpsdzltFYXA3evu19SSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nRqWCS9VhfOfY2eRT1hb11BGd8Y6THraViFyoRwdabU1z93vMlOI7LfJirkXItHnQLLk5hDk+si6nrywMaE88T4YuhaXBVq6tzkMSoTPnsOAZtkpaJZWxeRAQgB9w+yg91g25GnTEkR4SkKnqqQjMN5G35rDKrqWqevk70rLpnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=alhoTPcB; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KK9t1qhd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="alhoTPcB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768629803; x=1800165803;
-  h=date:from:to:cc:subject:message-id;
-  bh=TrmqV14ASTJdt+FxJnSBgrKZUfAFznjaco40qMOrmtk=;
-  b=KK9t1qhdnP9qmTfYWnRTMiSEtPpZ4zRAd1n+XPakzNDnKf8KV/d0WzKG
-   x2lf+c59mnwAPzqdSE7QHsHZJGi5O7hxnbUCnFJCcm382hERrlkmAAQnh
-   FQOnpee31UNCvRaIfsHEnx3LVpGPLCmTkhNNC7QI9SBazFnZbP14MOG6Q
-   e4j00C6yTjYH/+4mCxUx4PIi4wPD4jwMkxkspTR7KjlOtK02+MM3DCErk
-   Dw2emFDQw5fCT36vMmJQK9UCBv+X8LFEUXDsjN5UFkfue0MdqeMZS6CHs
-   3gawbhWbbj7njxrIpAN86gYYYgMi0ij5OOWEfuB3X9ylCm/jNadjRDPzt
-   A==;
-X-CSE-ConnectionGUID: UYf4l3C+QhqScMgUTrujtg==
-X-CSE-MsgGUID: beHO2JV2QI+QrBDbwv61Ng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="57489758"
+  t=1768630967; x=1800166967;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/FquNOusjZSaYbIZE0kdN18qpsdzltFYXA3evu19SSo=;
+  b=alhoTPcB8UEwMa6odoor/GahgFIqryWENZNidREummlWpuhEmeEK2aJY
+   kah1X70iGo/HcZst1loWLMdgy5cCS4b3iUygYOPqLIpJFZxnqJU08dqcO
+   6O4ghFVOTYmc3OdnjIObLVgkWnpl83GiNg2irCQn0Lb2XFlfKEXbFq+6d
+   vxWirgNsydRQD5qvNLwYPM8ho0OrRlMs38Hk6lWi/xxS2wjLcfrnBiSHE
+   +cHFYJruokNFL8uRMIZqJ4jpO78AFr3wCJjimaHs+OQnKHZ4mdUbV8sum
+   cwaDQV44vhbG7oPRFDCPgxFdHvxWGQH3heCFHXzPDNnkTA70YIk5FZGmn
+   g==;
+X-CSE-ConnectionGUID: 1nJLzREiTmKj8awCnFnBSw==
+X-CSE-MsgGUID: 2e5Eg5lnT5mu1mZp3xNymg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69987903"
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="57489758"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 22:03:22 -0800
-X-CSE-ConnectionGUID: WExpMurlSiKa+znyeauOZw==
-X-CSE-MsgGUID: 5Sg3+5MYTaiJcsTNMsRbNg==
+   d="scan'208";a="69987903"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 22:22:44 -0800
+X-CSE-ConnectionGUID: IyrdKoFtSIyDNgKcW6DHRA==
+X-CSE-MsgGUID: /VkcHJltTaeqY+luj4ow6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="210430917"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8581b2e2a62c) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 16 Jan 2026 22:03:21 -0800
-Received: from kbuild by 8581b2e2a62c with local (Exim 4.98.2)
+   d="scan'208";a="205319083"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 16 Jan 2026 22:22:42 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgzP4-000000001vx-1qa7;
-	Sat, 17 Jan 2026 06:03:18 +0000
-Date: Sat, 17 Jan 2026 07:02:29 +0100
+	id 1vgzho-00000000LcK-09Ex;
+	Sat, 17 Jan 2026 06:22:40 +0000
+Date: Sat, 17 Jan 2026 14:21:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jfern:nova/mm 7/30] warning: unresolved link to `CListIter`
-Message-ID: <202601170700.i21LELuM-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Tim Bird <tim.bird@sony.com>, jason.wessel@windriver.com,
+	danielt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-spdx@vger.kernel.org,
+	kgdb-bugreport@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+	Tim Bird <tim.bird@sony.com>
+Subject: Re: [PATCH] kernel: debug: Add SPDX license ids to kdb files
+Message-ID: <202601171457.nc8dNrA8-lkp@intel.com>
+References: <20260117003621.669382-1-tim.bird@sony.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260117003621.669382-1-tim.bird@sony.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/mm
-head:   a056e0068d12763c5e899bb676bf64e3f59e2aff
-commit: 9bc52b8bfe01af7348c041e5c368cead1e7d7c51 [7/30] rust: gpu: Add GPU buddy allocator bindings
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20260117/202601170700.i21LELuM-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170700.i21LELuM-lkp@intel.com/reproduce)
+Hi Tim,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.19-rc5]
+[also build test WARNING on linus/master next-20260116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tim-Bird/kernel-debug-Add-SPDX-license-ids-to-kdb-files/20260117-083842
+base:   v6.19-rc5
+patch link:    https://lore.kernel.org/r/20260117003621.669382-1-tim.bird%40sony.com
+patch subject: [PATCH] kernel: debug: Add SPDX license ids to kdb files
+config: microblaze-defconfig (https://download.01.org/0day-ci/archive/20260117/202601171457.nc8dNrA8-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171457.nc8dNrA8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601170700.i21LELuM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601171457.nc8dNrA8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> warning: unresolved link to `CListIter`
-   --> rust/kernel/gpu/buddy.rs:474:26
-   |
-   474 | /// as references from [`CListIter`] during iteration over [`AllocatedBlocks`].
-   |                          ^^^^^^^^^ no item named `CListIter` in scope
-   |
-   = help: to escape `[` and `]` characters, add '' before them like `[` or `]`
-   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
+   In file included from kernel/debug/kdb/kdb_private.h:17,
+                    from kernel/debug/kdb/kdb_io.c:23:
+>> kernel/debug/kdb/../debug_core.h:2:1: warning: '/*' within comment [-Wcomment]
+       2 | /*
+
+
+vim +2 kernel/debug/kdb/../debug_core.h
+
+53197fc4954924 Jason Wessel 2010-04-02 @2  /*
+53197fc4954924 Jason Wessel 2010-04-02  3   * Created by: Jason Wessel <jason.wessel@windriver.com>
+53197fc4954924 Jason Wessel 2010-04-02  4   *
+53197fc4954924 Jason Wessel 2010-04-02  5   * Copyright (c) 2009 Wind River Systems, Inc.  All Rights Reserved.
+53197fc4954924 Jason Wessel 2010-04-02  6   */
+53197fc4954924 Jason Wessel 2010-04-02  7  
 
 -- 
 0-DAY CI Kernel Test Service
