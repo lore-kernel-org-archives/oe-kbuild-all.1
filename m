@@ -1,121 +1,222 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486D813D891;
-	Fri, 16 Jan 2026 23:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C37833993;
+	Sat, 17 Jan 2026 01:07:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768607131; cv=none; b=nFISclcQ4AqGdYXsbfoChrZyOyTF7wSrNAGP+4MrhlIC4a6Dnz/n1R0d7hbmXdu0Ts7175hh98/Q6KNDYxQqpTX17/m0OtyA6oFgkQFhreYSakNg2ydo7VXTjeYUJn0wCDorG7dfXBSRYBF8c1oIOke82KZTmcoZ7/yCumcMffE=
+	t=1768612032; cv=none; b=kc/Cu9UcBtquP4HPF1Mds5lbfpOU4IhRPVOXMKs9WSFhwN4AZcMzLmgMzBTp1hOGxcAr7TNz+5jGwpCKI0UqmCMIvsKz/os1EZ28i+D0aATCppBAPymp/AXftw8VcKvBc1f2TMJPv3SxZ1RvzqFUVUi52VHOxGvMmX3q0EZubQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768607131; c=relaxed/simple;
-	bh=fqiB7HS69jQKKBCbobePPS232WicGP3QukquVXWYYGY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=In+6n+JZamka2Jca/BfGmQ37vKrNAY86JOagcznVwSQoY0tmvKRuCvdhFo2iGP1ERy34hzcfUCWaMncN6xU1N1P1ar8ga8aZ44l+QNZTSJGvVp5A6oyKmt+S1VcAa8HfJ9b8QovWWV1JkJ6NY8zLOLL9kQ06oA157JPnUkuMydk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fzfEC/G5; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768612032; c=relaxed/simple;
+	bh=Yb4v3IajHaFF5TUgV9j7J4S6o9nlOQUjjSjdutEwvZg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EWeyU735qbCrHW1O6Eov9GnTzss5djBVXy6ecoTNhNVXjsVTyb5EY7jUdllXijMn4lrSwL0XkKsuvAQrlBjPEaXTFU6VkwobnmnvRHMw8dnlpnBRpEznHmkHzqL9B9ac1S8VVG2VxgNX/eQJ9lwDEGQm3MTRib5NpsAKuEsbG0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sXJ14kh+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fzfEC/G5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768607129; x=1800143129;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fqiB7HS69jQKKBCbobePPS232WicGP3QukquVXWYYGY=;
-  b=fzfEC/G5Jhd30LunEXyPDKa0uKMtyQUAW6indSeQq+DT4ON8+rB8xjqG
-   CDW6RhmhjsY92XXhHFWj3e3QJ/jT0wLboTCNX+H/5AgqSEE0zkP3PFsSk
-   U98q6M859FkKLsTXfZ7i7uIk916zsXxUoxHi6zF5egsMJgTx81Syp0SwJ
-   V5XgQuEClGXDHz3sOsCnkY5oODIlUexKZ34MsWs+lf99q3cPMPL5G7fr8
-   b6dsUCHK7FUUbSIcEGtv97fmYd6hTEeOa9Sqe+e/ud5ByJcYqI4N3oBsq
-   QRL2GToT6SJuSZAxnVEUeVrX6ypCPtc/YeNSXqV8KDXcEvgWzkrGdL2Ne
-   Q==;
-X-CSE-ConnectionGUID: nUFWYmTMQYWiNrX/ChAAXA==
-X-CSE-MsgGUID: CXwAIG5rQo+zxAleHWW6Nw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="80563684"
-X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="80563684"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 15:45:28 -0800
-X-CSE-ConnectionGUID: kJKKiMwXQHyJKNMeN9HyBQ==
-X-CSE-MsgGUID: PFyO0FQUQO+EJ28PwovR4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="209500904"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 16 Jan 2026 15:45:26 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vgtVM-00000000LMS-1CRb;
-	Fri, 16 Jan 2026 23:45:24 +0000
-Date: Sat, 17 Jan 2026 07:45:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	jani.nikula@intel.com
-Subject: Re: [PATCH 2/2] drm/{i915,xe}/dsb: move DSB buffer to parent
- interface
-Message-ID: <202601170744.TtAKDBe8-lkp@intel.com>
-References: <523081095c7da23ce03835687fe6c5cb4ed3c77f.1768575249.git.jani.nikula@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sXJ14kh+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80632C116C6;
+	Sat, 17 Jan 2026 01:07:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768612031;
+	bh=Yb4v3IajHaFF5TUgV9j7J4S6o9nlOQUjjSjdutEwvZg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=sXJ14kh+megJR7ZOJymB4hVjgWQBTshQgWAykPvbODTIMgJBlTSk/DaQoHenmk21y
+	 21PeMOXoVGnOPPx4zOtNaGYWrt1L6gGQqBA3oxqRPlxnL++iZ6oC9Anz/sIElqByzm
+	 yuEpQXXvsdb+p3y/4auAV++rBvZgKfaPome271UnCHY6jxXZmpwdmDRh52xpP0Yj88
+	 a7jbSPDLSyD0Vr375udWQlgyjbCK11jkGP6DlFvzo6sYAwDLAW+czzdqCGkKpm34Ij
+	 G8Rbg4FKg54onWj2NLup2HUjqV2q91UBle7ge9YfaohoZBQ1SQvPVu5brs/HXa78fO
+	 HpZUnfUJmCCtw==
+From: SeongJae Park <sj@kernel.org>
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	kernel test robot <lkp@intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel@vger.kernel.org,
+	Suren Baghdasaryan <surenb@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	David Hildenbrand <david@redhat.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Michal Hocko <mhocko@suse.com>,
+	Jann Horn <jannh@google.com>,
+	shikemeng@huaweicloud.com,
+	kasong@tencent.com,
+	nphamcs@gmail.com,
+	bhe@redhat.com,
+	baohua@kernel.org,
+	chrisl@kernel.org,
+	Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v2 08/10] mm/vma: Use unmap_desc in exit_mmap() and vms_clear_ptes()
+Date: Fri, 16 Jan 2026 17:07:06 -0800
+Message-ID: <20260117010707.202128-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <vcxnsoihqohhmgurdkbx2hvybuhaql7yruv45k63jwevlpkdod@4eugq6xubcug>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <523081095c7da23ce03835687fe6c5cb4ed3c77f.1768575249.git.jani.nikula@intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Jani,
+On Fri, 16 Jan 2026 11:15:43 -0500 "Liam R. Howlett" <Liam.Howlett@oracle.com> wrote:
 
-kernel test robot noticed the following build errors:
+> * Lorenzo Stoakes <lorenzo.stoakes@oracle.com> [260116 03:27]:
+> > On Fri, Jan 16, 2026 at 10:04:27AM +0800, kernel test robot wrote:
+> > > Hi Liam,
+> > >
+> > > kernel test robot noticed the following build errors:
+> > >
+> > > [auto build test ERROR on akpm-mm/mm-everything]
+> > > [also build test ERROR on linus/master v6.19-rc5 next-20260115]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > >
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Liam-R-Howlett/mm-mmap-Move-exit_mmap-trace-point/20260116-023126
+> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> > > patch link:    https://lore.kernel.org/r/20260115182720.1691130-9-Liam.Howlett%40oracle.com
+> > > patch subject: [PATCH v2 08/10] mm/vma: Use unmap_desc in exit_mmap() and vms_clear_ptes()
+> > > config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20260116/202601160925.VR8a2hUw-lkp@intel.com/config)
+> > > compiler: m68k-linux-gcc (GCC) 15.2.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160925.VR8a2hUw-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202601160925.VR8a2hUw-lkp@intel.com/
+> > >
+> > > All errors (new ones prefixed by >>):
+> > >
+> > >    In file included from mm/internal.h:23,
+> > >                     from mm/filemap.c:54:
+> > >    mm/vma.h: In function 'unmap_all_init':
+> > > >> mm/vma.h:175:27: error: 'FIRST_USER_ADDRESS' undeclared (first use in this function)
+> > >      175 |         unmap->pg_start = FIRST_USER_ADDRESS;
+> > >          |                           ^~~~~~~~~~~~~~~~~~
+> > >    mm/vma.h:175:27: note: each undeclared identifier is reported only once for each function it appears in
+> > > >> mm/vma.h:176:25: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
+> > >      176 |         unmap->pg_end = USER_PGTABLES_CEILING;
+> > >          |                         ^~~~~~~~~~~~~~~~~~~~~
+> > >
+> > 
+> > Suspect you need to add:
+> > 
+> > #include <linux/pgtable.h>
+> > 
+> > to mm/vma_internal.h.
+> > 
+> > Some arches don't define it and that header has:
+> > 
+> > #ifndef USER_PGTABLES_CEILING
+> > #define USER_PGTABLES_CEILING	0UL
+> > #endif
+> > 
+> > ...
+> > 
+> > #ifndef FIRST_USER_ADDRESS
+> > #define FIRST_USER_ADDRESS	0UL
+> > #endif
 
-[auto build test ERROR on drm-i915/for-linux-next]
-[also build test ERROR on drm-tip/drm-tip next-20260116]
-[cannot apply to drm-i915/for-linux-next-fixes drm-xe/drm-xe-next linus/master v6.19-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+But the macro definitions are enclosed by '#ifdef CONFIG_MMU'.  I have
+!CONFIG_MMU build test, which shows similar errors, even after Lorenzo's
+suggestion is applied.  Should we move the definitions out of the '#ifdef
+CONFIG_MMU', or implement another unmap_all_init() for !CONFIG_MMU case?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-dsb-move-i915-specific-DSB-buffer-implementation-to-i915/20260116-225559
-base:   https://gitlab.freedesktop.org/drm/i915/kernel.git for-linux-next
-patch link:    https://lore.kernel.org/r/523081095c7da23ce03835687fe6c5cb4ed3c77f.1768575249.git.jani.nikula%40intel.com
-patch subject: [PATCH 2/2] drm/{i915,xe}/dsb: move DSB buffer to parent interface
-config: loongarch-randconfig-001-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170744.TtAKDBe8-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170744.TtAKDBe8-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601170744.TtAKDBe8-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/display/intel_dsb.c:107:55: error: too many arguments provided to function-like macro invocation
-     107 |         display->parent->dsb->memset(dsb->dsb_buf, idx, val, size);
-         |                                                              ^
-   include/linux/fortify-string.h:512:9: note: macro 'memset' defined here
-     512 | #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-         |         ^
->> drivers/gpu/drm/i915/display/intel_dsb.c:107:24: warning: expression result unused [-Wunused-value]
-     107 |         display->parent->dsb->memset(dsb->dsb_buf, idx, val, size);
-         |         ~~~~~~~~~~~~~~~~~~~~  ^~~~~~
-   1 warning and 1 error generated.
+I confirmed a simple version of the first option (moving definitions out of
+CONFIG_MMU, in addition to including pgtable.h) like below works at least for
+my !CONFIG_MMU test.
 
 
-vim +107 drivers/gpu/drm/i915/display/intel_dsb.c
+Thanks,
+SJ
 
-   102	
-   103	static void dsb_buffer_memset(struct intel_dsb *dsb, u32 idx, u32 val, size_t size)
-   104	{
-   105		struct intel_display *display = to_intel_display(dsb->crtc);
-   106	
- > 107		display->parent->dsb->memset(dsb->dsb_buf, idx, val, size);
-   108	}
-   109	
+[...]
+=== >8 ===
+From d5b441af2f31164a46240ce4179db8e0d2fff372 Mon Sep 17 00:00:00 2001
+From: SeongJae Park <sj@kernel.org>
+Date: Fri, 16 Jan 2026 17:01:27 -0800
+Subject: [PATCH] mm/vma: temporal build fix
 
+Link: https://lkml.kernel.org/r/20260115182720.1691130-9-Liam.Howlett@oracle.com
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ include/linux/pgtable.h | 38 +++++++++++++++++++-------------------
+ mm/vma_internal.h       |  1 +
+ 2 files changed, 20 insertions(+), 19 deletions(-)
+
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index ce2dbebade4c..4f063438a4fc 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -22,25 +22,6 @@
+ #error CONFIG_PGTABLE_LEVELS is not consistent with __PAGETABLE_{P4D,PUD,PMD}_FOLDED
+ #endif
+ 
+-/*
+- * On almost all architectures and configurations, 0 can be used as the
+- * upper ceiling to free_pgtables(): on many architectures it has the same
+- * effect as using TASK_SIZE.  However, there is one configuration which
+- * must impose a more careful limit, to avoid freeing kernel pgtables.
+- */
+-#ifndef USER_PGTABLES_CEILING
+-#define USER_PGTABLES_CEILING	0UL
+-#endif
+-
+-/*
+- * This defines the first usable user address. Platforms
+- * can override its value with custom FIRST_USER_ADDRESS
+- * defined in their respective <asm/pgtable.h>.
+- */
+-#ifndef FIRST_USER_ADDRESS
+-#define FIRST_USER_ADDRESS	0UL
+-#endif
+-
+ /*
+  * This defines the generic helper for accessing PMD page
+  * table page. Although platforms can still override this
+@@ -1660,6 +1641,25 @@ void arch_sync_kernel_mappings(unsigned long start, unsigned long end);
+ 
+ #endif /* CONFIG_MMU */
+ 
++/*
++ * On almost all architectures and configurations, 0 can be used as the
++ * upper ceiling to free_pgtables(): on many architectures it has the same
++ * effect as using TASK_SIZE.  However, there is one configuration which
++ * must impose a more careful limit, to avoid freeing kernel pgtables.
++ */
++#ifndef USER_PGTABLES_CEILING
++#define USER_PGTABLES_CEILING	0UL
++#endif
++
++/*
++ * This defines the first usable user address. Platforms
++ * can override its value with custom FIRST_USER_ADDRESS
++ * defined in their respective <asm/pgtable.h>.
++ */
++#ifndef FIRST_USER_ADDRESS
++#define FIRST_USER_ADDRESS	0UL
++#endif
++
+ /*
+  * No-op macros that just return the current protection value. Defined here
+  * because these macros can be used even if CONFIG_MMU is not defined.
+diff --git a/mm/vma_internal.h b/mm/vma_internal.h
+index 2f05735ff190..2da6d224c1a8 100644
+--- a/mm/vma_internal.h
++++ b/mm/vma_internal.h
+@@ -46,6 +46,7 @@
+ #include <linux/swap.h>
+ #include <linux/uprobes.h>
+ #include <linux/userfaultfd_k.h>
++#include <linux/pgtable.h>
+ 
+ #include <asm/current.h>
+ #include <asm/tlb.h>
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.47.3
+
+
