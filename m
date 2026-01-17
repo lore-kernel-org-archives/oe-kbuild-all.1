@@ -1,222 +1,232 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C37833993;
-	Sat, 17 Jan 2026 01:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728AB2AE77
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 01:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768612032; cv=none; b=kc/Cu9UcBtquP4HPF1Mds5lbfpOU4IhRPVOXMKs9WSFhwN4AZcMzLmgMzBTp1hOGxcAr7TNz+5jGwpCKI0UqmCMIvsKz/os1EZ28i+D0aATCppBAPymp/AXftw8VcKvBc1f2TMJPv3SxZ1RvzqFUVUi52VHOxGvMmX3q0EZubQs=
+	t=1768612114; cv=none; b=TqViM/iWj5uVcia0WaY+aBusKTr/qTz4ZBHhJSTRxDnuv8fu9ystoCPmnPEC1Br0dsNTbx+Man6BeFmoPHEXyQ+Fb/9u8ifsr6mIw3qqsCofFLj9m0fAF0NflyuXzYT0mGitWAfSrIlFEKM+v5n28+H5TrtjAN+qlZp7FMVidiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768612032; c=relaxed/simple;
-	bh=Yb4v3IajHaFF5TUgV9j7J4S6o9nlOQUjjSjdutEwvZg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EWeyU735qbCrHW1O6Eov9GnTzss5djBVXy6ecoTNhNVXjsVTyb5EY7jUdllXijMn4lrSwL0XkKsuvAQrlBjPEaXTFU6VkwobnmnvRHMw8dnlpnBRpEznHmkHzqL9B9ac1S8VVG2VxgNX/eQJ9lwDEGQm3MTRib5NpsAKuEsbG0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sXJ14kh+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768612114; c=relaxed/simple;
+	bh=xS8Vmuoyn0BEzxS4CrkGyeon95d5dRG6hQ1F43B3+Y0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=rDzcwY3IaJdMb6EckRvkqz7POkpYGLn/98vkXsmOTx+Savaf8ZG8k1kM1jX6N0m58Bqcx17P9MChyKmN52E45LwkKJCankHMA8etaQK4H+0KUYKHmxY0LCspY6DTHWXNxQxqVHaEzBb0yjllh/XEHraek5xZeLMnSSG81tV2nrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OQUN/6SW; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sXJ14kh+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80632C116C6;
-	Sat, 17 Jan 2026 01:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768612031;
-	bh=Yb4v3IajHaFF5TUgV9j7J4S6o9nlOQUjjSjdutEwvZg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sXJ14kh+megJR7ZOJymB4hVjgWQBTshQgWAykPvbODTIMgJBlTSk/DaQoHenmk21y
-	 21PeMOXoVGnOPPx4zOtNaGYWrt1L6gGQqBA3oxqRPlxnL++iZ6oC9Anz/sIElqByzm
-	 yuEpQXXvsdb+p3y/4auAV++rBvZgKfaPome271UnCHY6jxXZmpwdmDRh52xpP0Yj88
-	 a7jbSPDLSyD0Vr375udWQlgyjbCK11jkGP6DlFvzo6sYAwDLAW+czzdqCGkKpm34Ij
-	 G8Rbg4FKg54onWj2NLup2HUjqV2q91UBle7ge9YfaohoZBQ1SQvPVu5brs/HXa78fO
-	 HpZUnfUJmCCtw==
-From: SeongJae Park <sj@kernel.org>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	kernel test robot <lkp@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org,
-	Suren Baghdasaryan <surenb@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	David Hildenbrand <david@redhat.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Michal Hocko <mhocko@suse.com>,
-	Jann Horn <jannh@google.com>,
-	shikemeng@huaweicloud.com,
-	kasong@tencent.com,
-	nphamcs@gmail.com,
-	bhe@redhat.com,
-	baohua@kernel.org,
-	chrisl@kernel.org,
-	Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH v2 08/10] mm/vma: Use unmap_desc in exit_mmap() and vms_clear_ptes()
-Date: Fri, 16 Jan 2026 17:07:06 -0800
-Message-ID: <20260117010707.202128-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <vcxnsoihqohhmgurdkbx2hvybuhaql7yruv45k63jwevlpkdod@4eugq6xubcug>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OQUN/6SW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768612113; x=1800148113;
+  h=date:from:to:cc:subject:message-id;
+  bh=xS8Vmuoyn0BEzxS4CrkGyeon95d5dRG6hQ1F43B3+Y0=;
+  b=OQUN/6SWLMjXeDy7DyLGpBCqVGmZgUD922fym7D9NB3ZCOdXNl7RhHzG
+   AB9mDvp/JL0B4WTBktdTc4GSXq5bmip+ayI0W88KoUVEgxdVbwY7QE1BF
+   dOYtpVnQH5+lX3076icC4+n8VERlIp05F+LRlreSIOQ5vBZHt+oWrXpoc
+   uR2pgd5N0kmuqPzo6oLj1LGFCTAmlviHRy0j7nq8KtGINajfskePgtWR9
+   TJPG1B5sy/bFgptDYxT9l7NgQwBOuEnPwCuDJVmdnmMYsOq4Z2XuBwzli
+   HGXDzWpjPES+Qr4vKWB4yQWO4bQVKq9DY7VI2f4aBhPhvucJu+zv1OvVm
+   w==;
+X-CSE-ConnectionGUID: hSnCc6oGRXGZkMRa0gWVog==
+X-CSE-MsgGUID: kRf65RtNT+uiam3tyqSJSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69830112"
+X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
+   d="scan'208";a="69830112"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 17:08:32 -0800
+X-CSE-ConnectionGUID: MTfsNFVnQdqTqieK9X3MDQ==
+X-CSE-MsgGUID: /zrcKNGmReG/pOetuuB89w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
+   d="scan'208";a="236065611"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 16 Jan 2026 17:08:30 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vgunk-00000000LPE-0dCg;
+	Sat, 17 Jan 2026 01:08:28 +0000
+Date: Sat, 17 Jan 2026 09:07:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 1/1]
+ drivers/usb/typec/mode_selection.c:38: warning: Excess struct member 'enter'
+ description in 'mode_state'
+Message-ID: <202601170929.rSJwnrf4-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Fri, 16 Jan 2026 11:15:43 -0500 "Liam R. Howlett" <Liam.Howlett@oracle.com> wrote:
+Hi Andrei,
 
-> * Lorenzo Stoakes <lorenzo.stoakes@oracle.com> [260116 03:27]:
-> > On Fri, Jan 16, 2026 at 10:04:27AM +0800, kernel test robot wrote:
-> > > Hi Liam,
-> > >
-> > > kernel test robot noticed the following build errors:
-> > >
-> > > [auto build test ERROR on akpm-mm/mm-everything]
-> > > [also build test ERROR on linus/master v6.19-rc5 next-20260115]
-> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > > And when submitting patch, we suggest to use '--base' as documented in
-> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > >
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Liam-R-Howlett/mm-mmap-Move-exit_mmap-trace-point/20260116-023126
-> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> > > patch link:    https://lore.kernel.org/r/20260115182720.1691130-9-Liam.Howlett%40oracle.com
-> > > patch subject: [PATCH v2 08/10] mm/vma: Use unmap_desc in exit_mmap() and vms_clear_ptes()
-> > > config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20260116/202601160925.VR8a2hUw-lkp@intel.com/config)
-> > > compiler: m68k-linux-gcc (GCC) 15.2.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260116/202601160925.VR8a2hUw-lkp@intel.com/reproduce)
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202601160925.VR8a2hUw-lkp@intel.com/
-> > >
-> > > All errors (new ones prefixed by >>):
-> > >
-> > >    In file included from mm/internal.h:23,
-> > >                     from mm/filemap.c:54:
-> > >    mm/vma.h: In function 'unmap_all_init':
-> > > >> mm/vma.h:175:27: error: 'FIRST_USER_ADDRESS' undeclared (first use in this function)
-> > >      175 |         unmap->pg_start = FIRST_USER_ADDRESS;
-> > >          |                           ^~~~~~~~~~~~~~~~~~
-> > >    mm/vma.h:175:27: note: each undeclared identifier is reported only once for each function it appears in
-> > > >> mm/vma.h:176:25: error: 'USER_PGTABLES_CEILING' undeclared (first use in this function)
-> > >      176 |         unmap->pg_end = USER_PGTABLES_CEILING;
-> > >          |                         ^~~~~~~~~~~~~~~~~~~~~
-> > >
-> > 
-> > Suspect you need to add:
-> > 
-> > #include <linux/pgtable.h>
-> > 
-> > to mm/vma_internal.h.
-> > 
-> > Some arches don't define it and that header has:
-> > 
-> > #ifndef USER_PGTABLES_CEILING
-> > #define USER_PGTABLES_CEILING	0UL
-> > #endif
-> > 
-> > ...
-> > 
-> > #ifndef FIRST_USER_ADDRESS
-> > #define FIRST_USER_ADDRESS	0UL
-> > #endif
+FYI, the error/warning still remains.
 
-But the macro definitions are enclosed by '#ifdef CONFIG_MMU'.  I have
-!CONFIG_MMU build test, which shows similar errors, even after Lorenzo's
-suggestion is applied.  Should we move the definitions out of the '#ifdef
-CONFIG_MMU', or implement another unmap_all_init() for !CONFIG_MMU case?
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   84595e7cd483e40c6b65961e7ffdc2b89af11413
+commit: f49f8d90b43e2a0aa7a011c88529f38c409fbf0b [1/1] ANDROID: usb: typec: Implement mode selection
+config: x86_64-randconfig-161-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170929.rSJwnrf4-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170929.rSJwnrf4-lkp@intel.com/reproduce)
 
-I confirmed a simple version of the first option (moving definitions out of
-CONFIG_MMU, in addition to including pgtable.h) like below works at least for
-my !CONFIG_MMU test.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601170929.rSJwnrf4-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/usb/typec/mode_selection.c:38: warning: Excess struct member 'enter' description in 'mode_state'
+>> drivers/usb/typec/mode_selection.c:143: warning: Function parameter or struct member 'error' not described in 'mode_selection_next'
+>> drivers/usb/typec/mode_selection.c:285: warning: Function parameter or struct member 'delay' not described in 'typec_mode_selection_start'
+>> drivers/usb/typec/mode_selection.c:285: warning: Function parameter or struct member 'timeout' not described in 'typec_mode_selection_start'
 
 
-Thanks,
-SJ
+vim +38 drivers/usb/typec/mode_selection.c
 
-[...]
-=== >8 ===
-From d5b441af2f31164a46240ce4179db8e0d2fff372 Mon Sep 17 00:00:00 2001
-From: SeongJae Park <sj@kernel.org>
-Date: Fri, 16 Jan 2026 17:01:27 -0800
-Subject: [PATCH] mm/vma: temporal build fix
+    23	
+    24	/**
+    25	 * struct mode_state - State tracking for a specific Type-C mode
+    26	 * @altmode:
+    27	 * @priority: The mode priority. Lower values indicate a more preferred mode
+    28	 * @enter: Flag indicating if the driver is currently attempting to enter or
+    29	 * exit the mode
+    30	 * @state: The current mode selection state
+    31	 * @list: List head to link this mode state into a prioritized list
+    32	 */
+    33	struct mode_state {
+    34		struct typec_altmode *altmode;
+    35		u8 priority;
+    36		enum ms_state state;
+    37		struct list_head list;
+  > 38	};
+    39	
+    40	struct altmode_selection {
+    41		struct list_head mode_list;
+    42		struct mutex mode_list_lock;
+    43		struct delayed_work mode_selection_work;
+    44		struct typec_partner *partner;
+    45	
+    46		unsigned int timeout;
+    47		unsigned int delay;
+    48	};
+    49	
+    50	static int increment_duplicated_priority(struct device *dev, void *data)
+    51	{
+    52		if (is_typec_altmode(dev)) {
+    53			struct typec_altmode **alt_target = (struct typec_altmode **)data;
+    54			struct typec_altmode *alt = to_typec_altmode(dev);
+    55	
+    56			if (alt != *alt_target && alt->priority == (*alt_target)->priority) {
+    57				alt->priority++;
+    58				*alt_target = alt;
+    59				return 1;
+    60			}
+    61		}
+    62		return 0;
+    63	}
+    64	
+    65	static int find_duplicated_priority(struct device *dev, void *data)
+    66	{
+    67		if (is_typec_altmode(dev)) {
+    68			struct typec_altmode **alt_target = (struct typec_altmode **)data;
+    69			struct typec_altmode *alt = to_typec_altmode(dev);
+    70	
+    71			if (alt != *alt_target && alt->priority == (*alt_target)->priority)
+    72				return 1;
+    73		}
+    74		return 0;
+    75	}
+    76	
+    77	int typec_mode_set_priority(struct typec_altmode *alt, const u8 priority)
+    78	{
+    79		struct typec_port *port = to_typec_port(alt->dev.parent);
+    80		const u8 old_priority = alt->priority;
+    81		int res = 1;
+    82	
+    83		alt->priority = priority;
+    84		while (res) {
+    85			res = device_for_each_child(&port->dev, &alt, find_duplicated_priority);
+    86			if (res) {
+    87				alt->priority++;
+    88				if (alt->priority == 0) {
+    89					alt->priority = old_priority;
+    90					return -EOVERFLOW;
+    91				}
+    92			}
+    93		}
+    94	
+    95		res = 1;
+    96		alt->priority = priority;
+    97		while (res)
+    98			res = device_for_each_child(&port->dev, &alt,
+    99					increment_duplicated_priority);
+   100	
+   101		return 0;
+   102	}
+   103	
+   104	static void mode_list_clean(struct altmode_selection *sel)
+   105	{
+   106		struct mode_state *ms, *tmp;
+   107	
+   108		list_for_each_entry_safe(ms, tmp, &sel->mode_list, list) {
+   109			list_del(&ms->list);
+   110			kfree(ms);
+   111		}
+   112	}
+   113	
+   114	/**
+   115	 * mode_selection_next() - Process mode selection results and schedule next
+   116	 * action
+   117	 * @sel: pointer to the altmode_selection structure
+   118	 * @ms: pointer to active mode_state object that is on top in
+   119	 * mode_list.
+   120	 *
+   121	 * The mutex protecting mode_list must be held by the caller when invoking this
+   122	 * function.
+   123	 *
+   124	 * This function evaluates the outcome of the previous mode entry or exit
+   125	 * attempt. Based on this result, it determines the next mode to process and
+   126	 * schedules `mode_selection_work_fn()` if further actions are required.
+   127	 *
+   128	 * If the previous mode entry was successful, the mode selection sequence is
+   129	 * considered complete.
+   130	 *
+   131	 * If the previous mode entry failed, this function schedules
+   132	 * `mode_selection_work_fn()` to attempt exiting the mode that was partially
+   133	 * activated but not fully entered.
+   134	 *
+   135	 * If the previous operation was an exit (after a failed entry attempt),
+   136	 * the internal list of candidate modes is advanced to determine the next mode
+   137	 * to enter.
+   138	 */
+   139	static void mode_selection_next(struct altmode_selection *sel,
+   140		struct mode_state *ms, const int error)
+   141	
+   142		__must_hold(&sel->mode_list_lock)
+ > 143	{
+   144		if (ms->state == MS_STATE_FAILED) {
+   145			list_del(&ms->list);
+   146			kfree(ms);
+   147		} else if (error) {
+   148			ms->state = MS_STATE_FAILED;
+   149			dev_dbg(&sel->partner->dev, "%s: entry error %pe\n",
+   150					ms->altmode->desc, ERR_PTR(error));
+   151		} else {
+   152			dev_dbg(&sel->partner->dev, "%s altmode is active\n", ms->altmode->desc);
+   153			mode_list_clean(sel);
+   154		}
+   155	
+   156		if (!list_empty(&sel->mode_list))
+   157			schedule_delayed_work(&sel->mode_selection_work,
+   158				msecs_to_jiffies(sel->delay));
+   159	}
+   160	
 
-Link: https://lkml.kernel.org/r/20260115182720.1691130-9-Liam.Howlett@oracle.com
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- include/linux/pgtable.h | 38 +++++++++++++++++++-------------------
- mm/vma_internal.h       |  1 +
- 2 files changed, 20 insertions(+), 19 deletions(-)
-
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index ce2dbebade4c..4f063438a4fc 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -22,25 +22,6 @@
- #error CONFIG_PGTABLE_LEVELS is not consistent with __PAGETABLE_{P4D,PUD,PMD}_FOLDED
- #endif
- 
--/*
-- * On almost all architectures and configurations, 0 can be used as the
-- * upper ceiling to free_pgtables(): on many architectures it has the same
-- * effect as using TASK_SIZE.  However, there is one configuration which
-- * must impose a more careful limit, to avoid freeing kernel pgtables.
-- */
--#ifndef USER_PGTABLES_CEILING
--#define USER_PGTABLES_CEILING	0UL
--#endif
--
--/*
-- * This defines the first usable user address. Platforms
-- * can override its value with custom FIRST_USER_ADDRESS
-- * defined in their respective <asm/pgtable.h>.
-- */
--#ifndef FIRST_USER_ADDRESS
--#define FIRST_USER_ADDRESS	0UL
--#endif
--
- /*
-  * This defines the generic helper for accessing PMD page
-  * table page. Although platforms can still override this
-@@ -1660,6 +1641,25 @@ void arch_sync_kernel_mappings(unsigned long start, unsigned long end);
- 
- #endif /* CONFIG_MMU */
- 
-+/*
-+ * On almost all architectures and configurations, 0 can be used as the
-+ * upper ceiling to free_pgtables(): on many architectures it has the same
-+ * effect as using TASK_SIZE.  However, there is one configuration which
-+ * must impose a more careful limit, to avoid freeing kernel pgtables.
-+ */
-+#ifndef USER_PGTABLES_CEILING
-+#define USER_PGTABLES_CEILING	0UL
-+#endif
-+
-+/*
-+ * This defines the first usable user address. Platforms
-+ * can override its value with custom FIRST_USER_ADDRESS
-+ * defined in their respective <asm/pgtable.h>.
-+ */
-+#ifndef FIRST_USER_ADDRESS
-+#define FIRST_USER_ADDRESS	0UL
-+#endif
-+
- /*
-  * No-op macros that just return the current protection value. Defined here
-  * because these macros can be used even if CONFIG_MMU is not defined.
-diff --git a/mm/vma_internal.h b/mm/vma_internal.h
-index 2f05735ff190..2da6d224c1a8 100644
---- a/mm/vma_internal.h
-+++ b/mm/vma_internal.h
-@@ -46,6 +46,7 @@
- #include <linux/swap.h>
- #include <linux/uprobes.h>
- #include <linux/userfaultfd_k.h>
-+#include <linux/pgtable.h>
- 
- #include <asm/current.h>
- #include <asm/tlb.h>
 -- 
-2.47.3
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
