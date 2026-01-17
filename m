@@ -1,111 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C022F12BA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 06:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBA227587D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 06:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768632288; cv=none; b=IDAnjdG8gRyvKeTjpJQ5eUoEMZ59XCRGzddTVOGEfnJpw2K7zbp3ZCRnLEWTr9+Zy9Uq0OMLa8whgn8FYMsdHpa700j5YytTJCdIh+uWO6M3t4S2in2SMG58YlY66L3l+VGDRDMHNk0NWyF4WfHxAqe7VkUxYt5XuvmP3w9IXg0=
+	t=1768633007; cv=none; b=fWbuUnK46kTULBGPxE1HAmmIU2se8HGpiZH/JU3SLTjquyivSGqG89Uqwj1obGrlY7dZ3Ddlzcaps8Z01QmpJBznkVYlrfSHTTQX4tvBnPraYznQautcncLny+aEhCbVCpCgh5kT0g2xjxSBqAxMfBoOAXhiNpVQDvN0zEBIFYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768632288; c=relaxed/simple;
-	bh=h5zEsATfnYScF22N+HZNR9SRqd2Wz8gbmo392H7S5jo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sew7B3liQIhaQSWpfydiXGQ9ye93wUC/LVZA0N97T8UBV00PN8E2+QXF9DJ8msxGfD2i0zRUyHU6J4OLbMroJ1KfUVzJR+BymLwQ/LUjN2pscCA0y74Bxi/vm2WSnFraH0EA2zFxBsP4bp5snReQuWsF0Gq/Y3KwbXd5d6I4aj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AT3oNL3U; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1768633007; c=relaxed/simple;
+	bh=Ye+pnq4jzg1roC1idjaq9CJ0VxXmD/xW3vzs/yPKhkM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=FlfYFn0AJJW4Zz6sUHYsGCoM5Yx8y5f0BlLygSsZaK5VoGFpPRMIybVHlwRH2ERyvNHYL15m/fvGhbtRsHYyfe5QE+Z1iobe1kIdYk8JjYIAmaTFrCTAFGRLgFZoJ8/6ykcJASFQ07bqWMTYP9MvePTBFV0YT4IEm5CmQt5shv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X0BdkQWf; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AT3oNL3U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X0BdkQWf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768632286; x=1800168286;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h5zEsATfnYScF22N+HZNR9SRqd2Wz8gbmo392H7S5jo=;
-  b=AT3oNL3USDUQnDzOZG0e1Wcrpf8Pw7h8hqn6Pd0P424aq9BqEKWL20C8
-   niCb3DbmI+LpsPUR5GWa9ANbXHL9lvFZ0EWH3Ag9j17whUsne8GK6q9VN
-   +udhcDCvpwNmBk4bSUo71Ghjq5PDd/6EoBL8aCtdeJzO75IFSkVEdOC4n
-   Dx1s38PSj0+aRcDDATfslNpzeQnuFe6s9kMp5e23/KxM5tfG7dj7Rbzu1
-   23r/0URmhTw4Bkuz0xU2ReQEXhm2bl7g7UZPTLynzneLJaTBDy+0x8RaV
-   3GauCzXyqEYdCyO+VI/2DzlgYrs6A9Af9y88bohy0o6PZSLFXw/CDBrQB
+  t=1768633005; x=1800169005;
+  h=date:from:to:cc:subject:message-id;
+  bh=Ye+pnq4jzg1roC1idjaq9CJ0VxXmD/xW3vzs/yPKhkM=;
+  b=X0BdkQWfe4NmWMloall6/W6/midA9l/B8l5IbGsDchi8SiX+MpZRfXel
+   8O7e46ugw0c6v6H1jBjHpwYwRHz6BxiNHv3c/AROgZLYR7lkopu6qkddY
+   v4Im1HuWMuCkwUAuBunlRuscjoPmer2pjqPEye+wsk/tmlWhit1md5Kt3
+   hvjXWYfjZn8ISoWL7GVDKv4XAPQ+nH0YujWGonPbCpaGI2N7rXyJFICLQ
+   /PgpO6ZVS7iucpJJiRnzZEw5qYfrrP1OoMVZd+mVQAEhcoNO6KQs7iUdj
+   W3oVEP5PA4NSvrH7wSJRsFuiGx2y/lFoRWuuDihASTj3GIap8JsW5aLSF
    w==;
-X-CSE-ConnectionGUID: hB9om+gOTyy+lbRwF2izfA==
-X-CSE-MsgGUID: x2WfwQSBQOeEuce0kqq3sQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="81308788"
+X-CSE-ConnectionGUID: QSyPtnamQvCW1YtosMVXpQ==
+X-CSE-MsgGUID: Y2i2i3nDQIawnXoI88RW7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="73792294"
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="81308788"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 22:44:45 -0800
-X-CSE-ConnectionGUID: RrOnrlNdRzmGR0eHn+2eEw==
-X-CSE-MsgGUID: dflrg5N6Tae84BQKUAXiWg==
+   d="scan'208";a="73792294"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 22:56:44 -0800
+X-CSE-ConnectionGUID: GPzdokJmQNKpvV8thrm9zw==
+X-CSE-MsgGUID: B8POrNIbSUaLJZpsV7qiDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="210436377"
+   d="scan'208";a="205453874"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 16 Jan 2026 22:44:43 -0800
+  by orviesa007.jf.intel.com with ESMTP; 16 Jan 2026 22:56:43 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vh036-00000000Ld6-2c23;
-	Sat, 17 Jan 2026 06:44:40 +0000
-Date: Sat, 17 Jan 2026 14:44:25 +0800
+	id 1vh0Ej-00000000Ldk-0SXL;
+	Sat, 17 Jan 2026 06:56:41 +0000
+Date: Sat, 17 Jan 2026 14:56:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tim Bird <tim.bird@sony.com>, jason.wessel@windriver.com,
-	danielt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-spdx@vger.kernel.org,
-	kgdb-bugreport@lists.sourceforge.net, linux-kernel@vger.kernel.org,
-	Tim Bird <tim.bird@sony.com>
-Subject: Re: [PATCH] kernel: debug: Add SPDX license ids to kdb files
-Message-ID: <202601171534.EStWXGGO-lkp@intel.com>
-References: <20260117003621.669382-1-tim.bird@sony.com>
+To: Frederic Weisbecker <frederic@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frederic-dynticks:timers/core 4/15]
+ arch/powerpc/kernel/time.c:393:32: error: 'now' undeclared; did you mean
+ 'nop'?
+Message-ID: <202601171416.WGi9FyQB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260117003621.669382-1-tim.bird@sony.com>
 
-Hi Tim,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.19-rc5]
-[also build test WARNING on linus/master next-20260116]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tim-Bird/kernel-debug-Add-SPDX-license-ids-to-kdb-files/20260117-083842
-base:   v6.19-rc5
-patch link:    https://lore.kernel.org/r/20260117003621.669382-1-tim.bird%40sony.com
-patch subject: [PATCH] kernel: debug: Add SPDX license ids to kdb files
-config: sparc-randconfig-002-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171534.EStWXGGO-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171534.EStWXGGO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frederic/linux-dynticks.git timers/core
+head:   6a3d814ef2f6142714bef862be36def5ca4c9d96
+commit: 2c587a3927ae42e3fc1e023f3c3e17fb5e82e562 [4/15] powerpc/time: Prepare to stop elapsing in dynticks-idle
+config: powerpc64-randconfig-r063-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171416.WGi9FyQB-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171416.WGi9FyQB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601171534.EStWXGGO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601171416.WGi9FyQB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/debug/gdbstub.c:38:
->> kernel/debug/debug_core.h:2:1: warning: "/*" within comment [-Wcomment]
-    /*
-     
+   arch/powerpc/kernel/time.c: In function 'vtime_reset':
+>> arch/powerpc/kernel/time.c:393:32: error: 'now' undeclared (first use in this function); did you mean 'nop'?
+     acct->startspurr = read_spurr(now);
+                                   ^~~
+                                   nop
+   arch/powerpc/kernel/time.c:393:32: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +2 kernel/debug/debug_core.h
+vim +393 arch/powerpc/kernel/time.c
 
-53197fc4954924 Jason Wessel 2010-04-02 @2  /*
-53197fc4954924 Jason Wessel 2010-04-02  3   * Created by: Jason Wessel <jason.wessel@windriver.com>
-53197fc4954924 Jason Wessel 2010-04-02  4   *
-53197fc4954924 Jason Wessel 2010-04-02  5   * Copyright (c) 2009 Wind River Systems, Inc.  All Rights Reserved.
-53197fc4954924 Jason Wessel 2010-04-02  6   */
-53197fc4954924 Jason Wessel 2010-04-02  7  
+   379	
+   380	#ifdef CONFIG_NO_HZ_COMMON
+   381	/**
+   382	 * vtime_reset - Fast forward vtime entry clocks
+   383	 *
+   384	 * Called from dynticks idle IRQ entry to fast-forward the clocks to current time
+   385	 * so that the IRQ time is still accounted by vtime while nohz cputime is paused.
+   386	 */
+   387	void vtime_reset(void)
+   388	{
+   389		struct cpu_accounting_data *acct = get_accounting(current);
+   390	
+   391		acct->starttime = mftb();
+   392	#ifdef CONFIG_ARCH_HAS_SCALED_CPUTIME
+ > 393		acct->startspurr = read_spurr(now);
+   394	#endif
+   395	}
+   396	
 
 -- 
 0-DAY CI Kernel Test Service
