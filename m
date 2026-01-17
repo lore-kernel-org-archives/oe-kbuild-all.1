@@ -1,144 +1,198 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F6529ACFD;
-	Sat, 17 Jan 2026 18:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C48B253B42
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 18:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768672815; cv=none; b=OHIlSy3f2/pS/qXlusRQRWkU7ws3QLBPKTH7Kv6EyajhplgiWcjqSGQK6VCu5/l8ylcRU+IEZ/zm4qpRQAJd90SSB2P8DxD/JlthPZeo6RmuoYley5a2K0Wi5+h5/6dWilp2Og9v5OLh9UYtsWCUIgh8726LqfZpNjR1+YAZ1mA=
+	t=1768672817; cv=none; b=KHOrv+iyVbiR6i27EiSnXu+QMqJkuXNIb4cNfMrCa5935Vvgv3ziEjakc+zSsbrndEvu89543WJxyMqKueLsv/Ge6vk9d5iFJ7O3gDvmZ5PZagtwrEhQsF3MXsiAcVS3IEOg9iGqzzSeMARrgpv7ewTH7tIwHLtqcY7v+Wjjd+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768672815; c=relaxed/simple;
-	bh=GyMRxZECu/bjMjx4yL12v1hHoRKNIjEUn7lW/uYfH54=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JyunaGWDk0BKXxkAjt6eUkFc2Bn9MEIsvPFP2HbswVnnWCd83SKPxv0LRzEoke+c3MdTLGzT8f3rCQtT+CwHh8jtHlmoK3WeRAzaBVgyg8SfUJt1f3ry2iepTi/BryGA16A62mFY2GJNm8Z5vwNkiKoFzuQTqrxMayolUCecpD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eA6h7Ol+; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1768672817; c=relaxed/simple;
+	bh=8DVsPitu1vqZzZSudf3Y0VSNwi0U3VGjOZeP2CzewJo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B8M3I3ZjYSODNUtgVvOhGzDV70ZjnjQNpbMZjqEIwlO0Z2HyzLCVT/iq5mqdRb0QHD26zmIloj8zRK8vdq0NMRvhafRAtNrqx18yubb8z2f89V6KMn6qkGzX4cLXKaCC3jREPgxCOBUcmcozBYPL46trXtHbWocEuMbdpL0sEqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GqlaHcs9; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eA6h7Ol+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GqlaHcs9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768672814; x=1800208814;
-  h=date:from:to:cc:subject:message-id;
-  bh=GyMRxZECu/bjMjx4yL12v1hHoRKNIjEUn7lW/uYfH54=;
-  b=eA6h7Ol+PPKBCsGar5w8pv+sc28H67lF0PsJGiom/XGm0vQ2OW5yRJ8K
-   cy6FopbdiVduwGqu8KEGmjjkr+gwJYq3x5aBM0jqDJZX9iu809s/5xYlu
-   pGWfCCyBzPahOZZ8jmSdA7ME0T7Hl6AZK+kgL1B1weECfVQmnuUs5W9gD
-   OWSALTQXLaoPcFXFJKNfQxwIghN64xNSamut8TRysYEmhgtV9SJRWIYcb
-   2tidZ2K8LxPfvhE6PRqmJRV3+qeVe6quBtDG3jAoJyEatKBbO8fftaeZh
-   Sq4p/pW3osDX3wHSHoNcMEMj1FrtlzCedC1cV2ZWiA8voSUhZQ0gFN5aT
+  t=1768672817; x=1800208817;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8DVsPitu1vqZzZSudf3Y0VSNwi0U3VGjOZeP2CzewJo=;
+  b=GqlaHcs9VxY7Lgs0FGrOpZaqmLHECuj9bAtllawLpw2jw8aczMDKpeH3
+   adsnlvgQ6gxerykvL6gO7ZQQbZ4+J4BcEuoKgeKDlDTWDHOfvcA5RpcCh
+   U/4WIWKk2fKl4irSM9I46F2fUAqd1jnhTXaMWNeoiWqZdLvF/IT/aDqQB
+   TcTHZfQsR9SLLMok3OS/Gg2nkfJu4QTZJyqD+9aGeJVLHKQy8BKSIdaf/
+   sw1DdhPKXh/LoZXoVddG9HNWdxqrqVfpCi7MKWZpt9uv725eaXSF1Smz4
+   2r56fBHQCdzyypOjkc5qnfUOnUCfCms1lu9iXP7bQYupBL0srNupBOMA+
    Q==;
-X-CSE-ConnectionGUID: k2QMmK2CTfisDYZ+esxsww==
-X-CSE-MsgGUID: AOYVhX2CRq6qj/ICtHqM+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="81067180"
+X-CSE-ConnectionGUID: ULNp3sTnTyuyErtVr0qmnw==
+X-CSE-MsgGUID: ViYKFRtyQOul7XfijpXeaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="81067189"
 X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="81067180"
+   d="scan'208";a="81067189"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 10:00:13 -0800
-X-CSE-ConnectionGUID: 6OTmIVZJTZO4XlfygZ4r2g==
-X-CSE-MsgGUID: 9ygI66k6QCeoNd9bnLqCBg==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 10:00:16 -0800
+X-CSE-ConnectionGUID: xpfjltURS++a5M8ekhCSlw==
+X-CSE-MsgGUID: sJOtdKwkR3iXoL10wHA8nQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="205538181"
+   d="scan'208";a="205538171"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 17 Jan 2026 10:00:11 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhAam-00000000M6w-3MXR;
+	id 1vhAam-00000000M6u-3EhE;
 	Sat, 17 Jan 2026 18:00:08 +0000
-Date: Sun, 18 Jan 2026 02:00:01 +0800
+Date: Sun, 18 Jan 2026 01:59:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 216/216]
- fs/bcachefs/data/ec/create.c:802:2: warning: label followed by a declaration
- is a C23 extension
-Message-ID: <202601180127.pXbEx3hC-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Yazhou Tang <tangyazhou@zju.edu.cn>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, ast@kernel.org, daniel@iogearbox.net,
+	john.fastabend@gmail.com, andrii@kernel.org, martin.lau@linux.dev,
+	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org, tangyazhou518@outlook.com,
+	shenghaoyuan0928@163.com, ziye@zju.edu.cn,
+	syzbot@syzkaller.appspotmail.com
+Subject: Re: [PATCH bpf-next v4 1/2] bpf: Add range tracking for BPF_DIV and
+ BPF_MOD
+Message-ID: <202601180148.c0CJQxhM-lkp@intel.com>
+References: <20260116103246.2477635-2-tangyazhou@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116103246.2477635-2-tangyazhou@zju.edu.cn>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   bde39b90107558a6e5c84934716bf171ced1cef5
-commit: bde39b90107558a6e5c84934716bf171ced1cef5 [216/216] bcachefs: Split up data/ec.c
-config: i386-buildonly-randconfig-004-20260117 (https://download.01.org/0day-ci/archive/20260118/202601180127.pXbEx3hC-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601180127.pXbEx3hC-lkp@intel.com/reproduce)
+Hi Yazhou,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yazhou-Tang/bpf-Add-range-tracking-for-BPF_DIV-and-BPF_MOD/20260116-183743
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20260116103246.2477635-2-tangyazhou%40zju.edu.cn
+patch subject: [PATCH bpf-next v4 1/2] bpf: Add range tracking for BPF_DIV and BPF_MOD
+config: microblaze-randconfig-r112-20260117 (https://download.01.org/0day-ci/archive/20260118/202601180148.c0CJQxhM-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601180148.c0CJQxhM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601180127.pXbEx3hC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601180148.c0CJQxhM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/bcachefs/data/ec/create.c:802:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     802 |         unsigned long rw_devs_change_count = READ_ONCE(c->allocator.rw_devs_change_count);
-         |         ^
-   1 warning generated.
+   microblaze-linux-ld: kernel/bpf/verifier.o: in function `scalar_min_max_udiv':
+>> kernel/bpf/verifier.c:15128: undefined reference to `__udivdi3'
+>> microblaze-linux-ld: kernel/bpf/verifier.c:15129: undefined reference to `__udivdi3'
+   microblaze-linux-ld: kernel/bpf/verifier.o: in function `scalar_min_max_sdiv':
+>> kernel/bpf/verifier.c:15199: undefined reference to `__divdi3'
+>> microblaze-linux-ld: kernel/bpf/verifier.c:15200: undefined reference to `__divdi3'
 
 
-vim +802 fs/bcachefs/data/ec/create.c
+vim +15128 kernel/bpf/verifier.c
 
-   760	
-   761	static struct ec_stripe_head *
-   762	__bch2_ec_stripe_head_get(struct btree_trans *trans,
-   763				  unsigned disk_label,
-   764				  unsigned algo,
-   765				  unsigned redundancy,
-   766				  enum bch_watermark watermark)
-   767	{
-   768		struct bch_fs *c = trans->c;
-   769		struct ec_stripe_head *h;
-   770	
-   771		if (!redundancy)
-   772			return NULL;
-   773	
-   774		int ret = bch2_trans_mutex_lock(trans, &c->ec.stripe_head_lock);
-   775		if (ret)
-   776			return ERR_PTR(ret);
-   777	
-   778		if (test_bit(BCH_FS_going_ro, &c->flags)) {
-   779			h = ERR_PTR(bch_err_throw(c, erofs_no_writes));
-   780			goto err;
-   781		}
-   782	
-   783		list_for_each_entry(h, &c->ec.stripe_head_list, list)
-   784			if (h->disk_label	== disk_label &&
-   785			    h->algo		== algo &&
-   786			    h->redundancy	== redundancy &&
-   787			    h->watermark	== watermark) {
-   788				ret = bch2_trans_mutex_lock(trans, &h->lock);
-   789				if (ret) {
-   790					h = ERR_PTR(ret);
-   791					goto err;
-   792				}
-   793				goto found;
-   794			}
-   795	
-   796		h = ec_new_stripe_head_alloc(c, disk_label, algo, redundancy, watermark);
-   797		if (!h) {
-   798			h = ERR_PTR(bch_err_throw(c, ENOMEM_stripe_head_alloc));
-   799			goto err;
-   800		}
-   801	found:
- > 802		unsigned long rw_devs_change_count = READ_ONCE(c->allocator.rw_devs_change_count);
-   803		if (h->rw_devs_change_count != rw_devs_change_count) {
-   804			ec_stripe_head_devs_update(c, h);
-   805			h->rw_devs_change_count = rw_devs_change_count;
-   806		}
-   807	
-   808		if (h->insufficient_devs) {
-   809			mutex_unlock(&h->lock);
-   810			h = NULL;
-   811		}
-   812	err:
-   813		mutex_unlock(&c->ec.stripe_head_lock);
-   814		return h;
-   815	}
-   816	
+ 15120	
+ 15121	static void scalar_min_max_udiv(struct bpf_reg_state *dst_reg,
+ 15122					struct bpf_reg_state *src_reg)
+ 15123	{
+ 15124		u64 *dst_umin = &dst_reg->umin_value;
+ 15125		u64 *dst_umax = &dst_reg->umax_value;
+ 15126		u64 src_val = src_reg->umin_value; /* non-zero, const divisor */
+ 15127	
+ 15128		*dst_umin = *dst_umin / src_val;
+ 15129		*dst_umax = *dst_umax / src_val;
+ 15130	
+ 15131		/* Reset other ranges/tnum to unbounded/unknown. */
+ 15132		dst_reg->smin_value = S64_MIN;
+ 15133		dst_reg->smax_value = S64_MAX;
+ 15134		__reset_reg32_and_tnum(dst_reg);
+ 15135	}
+ 15136	
+ 15137	static void scalar32_min_max_sdiv(struct bpf_reg_state *dst_reg,
+ 15138					  struct bpf_reg_state *src_reg)
+ 15139	{
+ 15140		s32 *dst_smin = &dst_reg->s32_min_value;
+ 15141		s32 *dst_smax = &dst_reg->s32_max_value;
+ 15142		s32 src_val = src_reg->s32_min_value; /* non-zero, const divisor */
+ 15143		s32 res1, res2;
+ 15144	
+ 15145		/* BPF div specification: S32_MIN / -1 = S32_MIN */
+ 15146		if (*dst_smin == S32_MIN && src_val == -1) {
+ 15147			/*
+ 15148			 * If the dividend range contains more than just S32_MIN,
+ 15149			 * we cannot precisely track the result, so it becomes unbounded.
+ 15150			 * e.g., [S32_MIN, S32_MIN+10]/(-1),
+ 15151			 *     = {S32_MIN} U [-(S32_MIN+10), -(S32_MIN+1)]
+ 15152			 *     = {S32_MIN} U [S32_MAX-9, S32_MAX] = [S32_MIN, S32_MAX]
+ 15153			 * Otherwise (if dividend is exactly S32_MIN), result remains S32_MIN.
+ 15154			 */
+ 15155			if (*dst_smax != S32_MIN) {
+ 15156				*dst_smin = S32_MIN;
+ 15157				*dst_smax = S32_MAX;
+ 15158			}
+ 15159			goto reset;
+ 15160		}
+ 15161	
+ 15162		res1 = *dst_smin / src_val;
+ 15163		res2 = *dst_smax / src_val;
+ 15164		*dst_smin = min(res1, res2);
+ 15165		*dst_smax = max(res1, res2);
+ 15166	
+ 15167	reset:
+ 15168		/* Reset other ranges/tnum to unbounded/unknown. */
+ 15169		dst_reg->u32_min_value = 0;
+ 15170		dst_reg->u32_max_value = U32_MAX;
+ 15171		__reset_reg64_and_tnum(dst_reg);
+ 15172	}
+ 15173	
+ 15174	static void scalar_min_max_sdiv(struct bpf_reg_state *dst_reg,
+ 15175					struct bpf_reg_state *src_reg)
+ 15176	{
+ 15177		s64 *dst_smin = &dst_reg->smin_value;
+ 15178		s64 *dst_smax = &dst_reg->smax_value;
+ 15179		s64 src_val = src_reg->smin_value; /* non-zero, const divisor */
+ 15180		s64 res1, res2;
+ 15181	
+ 15182		/* BPF div specification: S64_MIN / -1 = S64_MIN */
+ 15183		if (*dst_smin == S64_MIN && src_val == -1) {
+ 15184			/*
+ 15185			 * If the dividend range contains more than just S64_MIN,
+ 15186			 * we cannot precisely track the result, so it becomes unbounded.
+ 15187			 * e.g., [S64_MIN, S64_MIN+10]/(-1),
+ 15188			 *     = {S64_MIN} U [-(S64_MIN+10), -(S64_MIN+1)]
+ 15189			 *     = {S64_MIN} U [S64_MAX-9, S64_MAX] = [S64_MIN, S64_MAX]
+ 15190			 * Otherwise (if dividend is exactly S64_MIN), result remains S64_MIN.
+ 15191			 */
+ 15192			if (*dst_smax != S64_MIN) {
+ 15193				*dst_smin = S64_MIN;
+ 15194				*dst_smax = S64_MAX;
+ 15195			}
+ 15196			goto reset;
+ 15197		}
+ 15198	
+ 15199		res1 = *dst_smin / src_val;
+ 15200		res2 = *dst_smax / src_val;
+ 15201		*dst_smin = min(res1, res2);
+ 15202		*dst_smax = max(res1, res2);
+ 15203	
+ 15204	reset:
+ 15205		/* Reset other ranges/tnum to unbounded/unknown. */
+ 15206		dst_reg->umin_value = 0;
+ 15207		dst_reg->umax_value = U64_MAX;
+ 15208		__reset_reg32_and_tnum(dst_reg);
+ 15209	}
+ 15210	
 
 -- 
 0-DAY CI Kernel Test Service
