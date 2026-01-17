@@ -1,165 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1ADF1C4A20;
-	Sat, 17 Jan 2026 04:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4718F288B8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 04:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768622623; cv=none; b=MrI4WHhNqfswHuTI6LX83Gzu1stpSl4IgvllA8dDQTy+8Z7fnJF+XMOqSResgp0JETQFrs+5HjpTAGQbluLRvPpXTbLtOTfsN5t53hmM14nZSQZpDgAKl8l6iaq7j6jgmky4WbEV2ssAtEidamyUA1Jc/ILam7xVNBD7RPZ4Zeo=
+	t=1768625144; cv=none; b=BpCrhzkWBHZwlBkPysAEHfUSEVjpUoHtvgViBiBHIn0JXe7h1sPTK/VPE2WpS7hDF6StYQd+pAR6IH6iHPtMpX3sc118TnKblxHhp1PysREgzdkFHGJZdT5Ej4azkL6ADVDyPV2Ay1v9SLGOP6jBJxskHOfXnRjVf0p/RXiecqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768622623; c=relaxed/simple;
-	bh=o2qctAVvXh/9Vl33kymJtTohqLUBkoH6VdAaDc8/AdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GDA5DOSfi448cLPzvwXWS6HYTKV+ghEVGqpcqTWkKRahAshEbQLZRnzqMMJY4Ebkgpw0yba2tDjp/GJzkIWfidbe4kZZIeWnlX33bIkliy1yOQo4cNWm+gnxglvhXrBZaj1jo//FU67ypPdXqJxZ/01o94oZd4V/xj7qkOVpBH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yb2Dwb5y; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1768625144; c=relaxed/simple;
+	bh=wX7VA5hURFpAHYQ7bjvVc8KFxkLKW8zaAbDOIUFTylQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QR9LO50KGMM7d1d0D0sJYnJxivbaJaqsGP2JHV8K9R4BEKaRDLWquAotf71rS3Eq6ylUFzHeoL2syP6vFV9jDqa1cJJP3SOAUtc9YR/oqaiWE0EkkXZNFZnY5krqpDEYQgpAf+mDchQCFzcdg6XywHT8vKO1/mlxB05YTAtSKOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQleyua8; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yb2Dwb5y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQleyua8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768622622; x=1800158622;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o2qctAVvXh/9Vl33kymJtTohqLUBkoH6VdAaDc8/AdA=;
-  b=Yb2Dwb5y9uFJ2X4nptUifah/BITlebaimKy1oFXSIW3Y0nwbeXQ61Br0
-   RLRIGo61JJ2tDVY0+Q1ZUZ3RlLeyvfjPPe2sUamL8B8rM20wmDbCYIEo6
-   9m3rL6OUwziJiUSRecqSgQOuIQPFiOUsUm0p1l+7T1slqV+MdkYKPSdYD
-   rnniJbq3Un/F4F1VPaZpRAm9EVBVuCuNxc197TnzTVgfCixQNZOu5noEX
-   wZptlZ10GXvJGhCJApJmEKmB0fUmm0lDR9QFfHdpDhdLpbL697QtrMxS1
-   wg4fd+fhuviRqvhJxdmNEmXIjPd2mgtjH2vtf+kruehl6wqJONQ9LrOcU
+  t=1768625142; x=1800161142;
+  h=date:from:to:cc:subject:message-id;
+  bh=wX7VA5hURFpAHYQ7bjvVc8KFxkLKW8zaAbDOIUFTylQ=;
+  b=YQleyua8x7sT8L8G2sRkvOcdVHGFFAcAFqtBUgLfw1UsNL0cTuQSS8Ou
+   aeElfem9YnVxgfuM11IVlwpboS/Zx0l8d48cGDpdcn9CFZiXcvpgpj8sB
+   ST3Wo2WMCb3WcXsPllhuwlVunPmHaISfuJ5aU6r+r6ZLvWOwxjdXwJsUu
+   dZ8AaNXrnvao/sQqz2KVR6Q87hRLR83OixRR6Nk3F31GZcBdLLBS5wlQN
+   v4Hlb2yUktak6/rojWtlKRKBqU+2oFtG9E+/Ivdthhj77vZnbXg/m3oFU
+   7M50I1ADmO5THRvYjWNd2xfgrj3Bv9LSr63at7uGeqnl2qg8cu3dY9GZ2
    w==;
-X-CSE-ConnectionGUID: CVtf8jchQrKYE9ANVOiD1g==
-X-CSE-MsgGUID: S8vCqft1Q86Vr+Uhs/BBIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69982898"
+X-CSE-ConnectionGUID: qQy8dZEDSpy8qSoiBL72zQ==
+X-CSE-MsgGUID: 8FR323OjTQ6qTviWKbseBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="73788899"
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="69982898"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 20:03:42 -0800
-X-CSE-ConnectionGUID: 9hAiUDdSQTCIHoPINYO2VQ==
-X-CSE-MsgGUID: L+lRrGODRlqIEz0VgGdvnw==
+   d="scan'208";a="73788899"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 20:45:41 -0800
+X-CSE-ConnectionGUID: NVwWGEaqR7KH8/2QU17STQ==
+X-CSE-MsgGUID: nutFxk9mStyPXR6DUM+cfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="228393086"
+   d="scan'208";a="204562858"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Jan 2026 20:03:39 -0800
+  by orviesa006.jf.intel.com with ESMTP; 16 Jan 2026 20:45:40 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgxXE-00000000LY8-1qLn;
-	Sat, 17 Jan 2026 04:03:36 +0000
-Date: Sat, 17 Jan 2026 12:03:14 +0800
+	id 1vgyBt-00000000LZ6-12Zo;
+	Sat, 17 Jan 2026 04:45:37 +0000
+Date: Sat, 17 Jan 2026 12:45:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
-	NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jeff Layton <jlayton@kernel.org>
-Subject: Re: [PATCH] nfsd: fix NULL pointer dereference in check_export()
-Message-ID: <202601171105.1nmOHcdX-lkp@intel.com>
-References: <20260116-nfsd-fixes-v1-1-019689b72747@kernel.org>
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [kas:compound_head 2/15]
+ include/asm-generic/memory_model.h:18:34: error: 'mem_map' undeclared; did
+ you mean 'memcmp'?
+Message-ID: <202601171242.5uijKr0u-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260116-nfsd-fixes-v1-1-019689b72747@kernel.org>
 
-Hi Jeff,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 983d014aafb14ee5e4915465bf8948e8f3a723b5]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/nfsd-fix-NULL-pointer-dereference-in-check_export/20260117-022519
-base:   983d014aafb14ee5e4915465bf8948e8f3a723b5
-patch link:    https://lore.kernel.org/r/20260116-nfsd-fixes-v1-1-019689b72747%40kernel.org
-patch subject: [PATCH] nfsd: fix NULL pointer dereference in check_export()
-config: arm64-randconfig-002-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171105.1nmOHcdX-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171105.1nmOHcdX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git compound_head
+head:   b85ab3c6f9b0b85159a92143639da1947695d8da
+commit: 44d8c0bdca357faa441b6a75b316a399a31b2bd1 [2/15] mm: Move MAX_FOLIO_ORDER definition to mmzone.h
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20260117/202601171242.5uijKr0u-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171242.5uijKr0u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601171105.1nmOHcdX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601171242.5uijKr0u-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/nfsd/export.c:408:28: error: initializing 'struct export_operations *' with an expression of type 'const struct export_operations *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     408 |         struct export_operations *export_op = inode->i_sb->s_export_op;
-         |                                   ^           ~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   In file included from arch/riscv/include/asm/page.h:211,
+                    from arch/riscv/include/asm/thread_info.h:11,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from arch/riscv/kernel/asm-offsets.c:9:
+   arch/riscv/include/asm/pgtable-64.h: In function 'pud_page':
+>> include/asm-generic/memory_model.h:18:34: error: 'mem_map' undeclared (first use in this function); did you mean 'memcmp'?
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                  ^~~~~~~
+   include/asm-generic/memory_model.h:74:21: note: in expansion of macro '__pfn_to_page'
+      74 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/riscv/include/asm/pgtable-64.h:230:16: note: in expansion of macro 'pfn_to_page'
+     230 |         return pfn_to_page(__page_val_to_pfn(pud_val(pud)));
+         |                ^~~~~~~~~~~
+   include/asm-generic/memory_model.h:18:34: note: each undeclared identifier is reported only once for each function it appears in
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                  ^~~~~~~
+   include/asm-generic/memory_model.h:74:21: note: in expansion of macro '__pfn_to_page'
+      74 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/riscv/include/asm/pgtable-64.h:230:16: note: in expansion of macro 'pfn_to_page'
+     230 |         return pfn_to_page(__page_val_to_pfn(pud_val(pud)));
+         |                ^~~~~~~~~~~
+   arch/riscv/include/asm/pgtable-64.h: In function 'p4d_page':
+>> include/asm-generic/memory_model.h:18:34: error: 'mem_map' undeclared (first use in this function); did you mean 'memcmp'?
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                  ^~~~~~~
+   include/asm-generic/memory_model.h:74:21: note: in expansion of macro '__pfn_to_page'
+      74 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/riscv/include/asm/pgtable-64.h:335:16: note: in expansion of macro 'pfn_to_page'
+     335 |         return pfn_to_page(__page_val_to_pfn(p4d_val(p4d)));
+         |                ^~~~~~~~~~~
+   arch/riscv/include/asm/pgtable-64.h: In function 'pgd_page':
+>> include/asm-generic/memory_model.h:18:34: error: 'mem_map' undeclared (first use in this function); did you mean 'memcmp'?
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                  ^~~~~~~
+   include/asm-generic/memory_model.h:74:21: note: in expansion of macro '__pfn_to_page'
+      74 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/riscv/include/asm/pgtable-64.h:392:16: note: in expansion of macro 'pfn_to_page'
+     392 |         return pfn_to_page(__page_val_to_pfn(pgd_val(pgd)));
+         |                ^~~~~~~~~~~
+   arch/riscv/include/asm/pgtable.h: In function 'pmd_page':
+>> include/asm-generic/memory_model.h:18:34: error: 'mem_map' undeclared (first use in this function); did you mean 'memcmp'?
+      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
+         |                                  ^~~~~~~
+   include/asm-generic/memory_model.h:74:21: note: in expansion of macro '__pfn_to_page'
+      74 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/riscv/include/asm/pgtable.h:274:16: note: in expansion of macro 'pfn_to_page'
+     274 |         return pfn_to_page(__page_val_to_pfn(pmd_val(pmd)));
+         |                ^~~~~~~~~~~
+   make[3]: *** [scripts/Makefile.build:182: arch/riscv/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1280: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +408 fs/nfsd/export.c
+vim +18 include/asm-generic/memory_model.h
 
-   404	
-   405	static int check_export(const struct path *path, int *flags, unsigned char *uuid)
-   406	{
-   407		struct inode *inode = d_inode(path->dentry);
- > 408		struct export_operations *export_op = inode->i_sb->s_export_op;
-   409	
-   410		/*
-   411		 * We currently export only dirs, regular files, and (for v4
-   412		 * pseudoroot) symlinks.
-   413		 */
-   414		if (!S_ISDIR(inode->i_mode) &&
-   415		    !S_ISLNK(inode->i_mode) &&
-   416		    !S_ISREG(inode->i_mode))
-   417			return -ENOTDIR;
-   418	
-   419		/*
-   420		 * Mountd should never pass down a writeable V4ROOT export, but,
-   421		 * just to make sure:
-   422		 */
-   423		if (*flags & NFSEXP_V4ROOT)
-   424			*flags |= NFSEXP_READONLY;
-   425	
-   426		/* There are four requirements on a filesystem to be exportable:
-   427		 * 1: It must define sb->s_export_op
-   428		 * 2: We must be able to identify the filesystem from a number.
-   429		 *       either a device number (so FS_REQUIRES_DEV needed)
-   430		 *       or an FSID number (so NFSEXP_FSID or ->uuid is needed).
-   431		 * 3: We must be able to find an inode from a filehandle.
-   432		 *       This means that s_export_op must be set.
-   433		 * 4: We must not currently be on an idmapped mount.
-   434		 */
-   435		if (!export_op) {
-   436			dprintk("%s: fs doesn't define export_operations!\n", __func__);
-   437			return -EINVAL;
-   438		}
-   439	
-   440		if (!(inode->i_sb->s_type->fs_flags & FS_REQUIRES_DEV) &&
-   441		    !(*flags & NFSEXP_FSID) &&
-   442		    uuid == NULL) {
-   443			dprintk("exp_export: export of non-dev fs without fsid\n");
-   444			return -EINVAL;
-   445		}
-   446	
-   447		if (!exportfs_can_decode_fh(export_op)) {
-   448			dprintk("exp_export: export of invalid fs type.\n");
-   449			return -EINVAL;
-   450		}
-   451	
-   452		if (is_idmapped_mnt(path->mnt)) {
-   453			dprintk("exp_export: export of idmapped mounts not yet supported.\n");
-   454			return -EINVAL;
-   455		}
-   456	
-   457		if (export_op->flags & EXPORT_OP_NOSUBTREECHK &&
-   458		    !(*flags & NFSEXP_NOSUBTREECHECK)) {
-   459			dprintk("%s: %s does not support subtree checking!\n",
-   460				__func__, inode->i_sb->s_type->name);
-   461			return -EINVAL;
-   462		}
-   463		return 0;
-   464	}
-   465	
+a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  17  
+67de648211fa04 Andy Whitcroft    2006-06-23 @18  #define __pfn_to_page(pfn)	(mem_map + ((pfn) - ARCH_PFN_OFFSET))
+67de648211fa04 Andy Whitcroft    2006-06-23  19  #define __page_to_pfn(page)	((unsigned long)((page) - mem_map) + \
+a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  20  				 ARCH_PFN_OFFSET)
+a117e66ed45ac0 KAMEZAWA Hiroyuki 2006-03-27  21  
+
+:::::: The code at line 18 was first introduced by commit
+:::::: 67de648211fa041fe08a0c25241a4980bbb90698 [PATCH] squash duplicate page_to_pfn and pfn_to_page
+
+:::::: TO: Andy Whitcroft <apw@shadowen.org>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
