@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A1C313298
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 10:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8ADC302767
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 11:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768647237; cv=none; b=rbo+wuwUcuLvMEsqfGlNqxMfd6WwmZAeBJcSJIgoWstmkMs5qp9IkQnheIpGwutcSw0cOFxTam3gOdHrTtuy2Jt3hvlOt22lEQqit7j2TRLTT8Mkg6XzCZiPx8J1WlW4ieRwjFQoWEd4qLsTI2O/eQiUilrTjpzln2cv+wPImME=
+	t=1768647955; cv=none; b=Mq9k2vjJNIZWSNgl0MfRleAYNxcQqOvmOFCI92vS16pygrgHBUYEWkeuyBQ+YlrqvIBop+giaDorh+yVulV/YspcfDw2KFVwKot7oA83VXU0P7CnnPgWdf2tdulZ4MRLQK1cjPton0IWolCiWI657ogZGJOQ5RqGeI44TWhtzkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768647237; c=relaxed/simple;
-	bh=Gi4wK4KBTPlUjwia0r7fVMhCCyvJAC3wR6BpAbeWt3s=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=nKl1hgd3FlX+DwaWflwjgrbNu15KAF8M1Cf0xhXNvA+Uqd4b6tXZTaFeGxBt2zm1sNTsznuX1rwASsCbd0Eese/qEdLJTdTZzbGytz5v84aFHiB6vGexTqfjSYCStLsPIT05xMMjxZ0wzV31c073LqfFnRdmgyCo1he5e2MIF+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LqlbN1ki; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1768647955; c=relaxed/simple;
+	bh=8UmAZCcv4j+2QSna87Az08H5zCEs3xpyCd38eHAODAI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=r0il0jh4ooVm2zDgeEiktbQ15QytOjKgiIdN9y83J6YyxZPeU3/BOHcrWLUOYjike6TbgbgvEH/EHsk/aVmuuCP6VyWXvfzOLdkQwtUd07sUHeEbazg+I+5y1ekS6S2MLvm16DzFKgNFTcIFpa2aiOcE7+EuY52xAs18rpYF53g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8vaRbOl; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LqlbN1ki"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8vaRbOl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768647236; x=1800183236;
+  t=1768647954; x=1800183954;
   h=date:from:to:cc:subject:message-id;
-  bh=Gi4wK4KBTPlUjwia0r7fVMhCCyvJAC3wR6BpAbeWt3s=;
-  b=LqlbN1ki2EYw3sjz+CRsAg3yc+N4lMlXFXp5Fn8mLC+XVVPrz0M4z23x
-   IOn4r0mr46iPcjHdQFSeFmycy7Blh6Kvy0qA33c8GNU5uIbWK6MMCdWgJ
-   vZ/TzI6zklQuegsa4+Z9kDoIqqlA2ctTyIJ7lrJkvDRVEjcGxX1V8gHrr
-   dpr/10zHRxBvcymWAnmjLKhQ5lPlX8C9XfNkPsuYuO0lJCNwWclkGNrq+
-   Fw+2PeZ+eFhusVumQ2bNh3zCTUtal5dRy0OIAnMsX0GZAkxRHMvEM8wM2
-   LvhVhNst9uoPUcfTOuTZ1BQ+M04fxF2RmOm3lpE7MzW6TVaLRGVmUzP1n
+  bh=8UmAZCcv4j+2QSna87Az08H5zCEs3xpyCd38eHAODAI=;
+  b=O8vaRbOlfjtb6IjJBGdwa1LgQdeiyRDzVr5o35G296Il3CkJsxA72oY0
+   Kkb+w+N/FkSkYupVyvt0r1qp6Y7Cv5ZuUjrkqAbbSwuuiNb13PQsq1ABI
+   Yml7NmsbvSx/HniXlB388L6DGi8H+4JSjprBuIQEJ0rRvQRI3DZ9Kocw5
+   MYzeoCmT+jR5P0V4gC6q1Ecz5/3YbL7vbtg3EYs2/jf/sQ3/B6a6EEamJ
+   JHkgwsE59SPp9tuqSwiwvOu/d8loYwSq66S2Q/eckJ1BJLRTyP+AQKZaM
+   UoSmMO4ApoBpKeGfL72T/gPIhaX1larmnZiHwFUiPriGVV/QOF3j0rbbN
    g==;
-X-CSE-ConnectionGUID: M/BmdNC4Q6G4VM63EdolAg==
-X-CSE-MsgGUID: onfwsAPKQjK+A/dFzORolw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="92609452"
+X-CSE-ConnectionGUID: CINMjdBiQQ2fcaA4g8tzIQ==
+X-CSE-MsgGUID: PgIRvtfNRG2BckhQD+LmTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69839386"
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="92609452"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 02:53:53 -0800
-X-CSE-ConnectionGUID: tGSENBbbRCuRzhGibpVG0g==
-X-CSE-MsgGUID: 3IVuIhNqTB6cRyAtBK5vtA==
+   d="scan'208";a="69839386"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 03:05:54 -0800
+X-CSE-ConnectionGUID: ZCDxF1PPRTStBO/stz5iCQ==
+X-CSE-MsgGUID: 11a00haFQciqS/X1A9Bgsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="205353039"
+   d="scan'208";a="205485080"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Jan 2026 02:53:52 -0800
+  by orviesa007.jf.intel.com with ESMTP; 17 Jan 2026 03:05:52 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vh3wD-00000000LmC-2yD4;
-	Sat, 17 Jan 2026 10:53:49 +0000
-Date: Sat, 17 Jan 2026 18:53:26 +0800
+	id 1vh47q-00000000Lmk-0XMD;
+	Sat, 17 Jan 2026 11:05:50 +0000
+Date: Sat, 17 Jan 2026 19:05:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Chiu <andybnac@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Paul Walmsley <pjw@kernel.org>
-Subject: arch/riscv/kernel/signal.c:148:22: sparse: sparse: symbol
- 'arch_ext_list' was not declared. Should it be static?
-Message-ID: <202601171848.ydLTJYrz-lkp@intel.com>
+To: Harry Yoo <harry.yoo@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>
+Subject: [linux-next:master 5475/6849] mm/slub.c:2072:33: error:
+ passing 'union codetag_ref' to parameter of incompatible type 'union
+ codetag_ref *'; take the address with &
+Message-ID: <202601171911.3rDveHbm-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,195 +60,62 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d3eeb99bbc99cc5eb94a4a75ed4415a0272254ef
-commit: 818d78ba1b3f88d2bfee249f25020211488a26c3 riscv: signal: abstract header saving for setup_sigcontext
-date:   4 weeks ago
-config: riscv-randconfig-r121-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171848.ydLTJYrz-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171848.ydLTJYrz-lkp@intel.com/reproduce)
+Hi Harry,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
+commit: 7466382b7211d95b390b284d3e6d43f97e02b6d2 [5475/6849] mm/slab: abstract slabobj_ext access via new slab_obj_ext() helper
+config: mips-randconfig-r062-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171911.3rDveHbm-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171911.3rDveHbm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601171848.ydLTJYrz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601171911.3rDveHbm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zacas_zabha'
->> arch/riscv/kernel/signal.c:148:22: sparse: sparse: symbol 'arch_ext_list' was not declared. Should it be static?
->> arch/riscv/kernel/signal.c:155:14: sparse: sparse: symbol 'nr_arch_exts' was not declared. Should it be static?
->> arch/riscv/kernel/signal.c:300:39: sparse: sparse: cast removes address space '__user' of expression
->> arch/riscv/kernel/signal.c:300:36: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct __riscv_ctx_hdr [noderef] __user *sc_ext_ptr @@     got void * @@
-   arch/riscv/kernel/signal.c:300:36: sparse:     expected struct __riscv_ctx_hdr [noderef] __user *sc_ext_ptr
-   arch/riscv/kernel/signal.c:300:36: sparse:     got void *
+All errors (new ones prefixed by >>):
 
-vim +/arch_ext_list +148 arch/riscv/kernel/signal.c
+>> mm/slub.c:2072:33: error: passing 'union codetag_ref' to parameter of incompatible type 'union codetag_ref *'; take the address with &
+    2072 |                 if (unlikely(is_codetag_empty(ext->ref)))
+         |                                               ^~~~~~~~
+         |                                               &
+   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/alloc_tag.h:52:56: note: passing argument to parameter 'ref' here
+      52 | static inline bool is_codetag_empty(union codetag_ref *ref)
+         |                                                        ^
+   1 error generated.
 
-   147	
- > 148	struct arch_ext_priv arch_ext_list[] = {
-   149		{
-   150			.magic = RISCV_V_MAGIC,
-   151			.save = &save_v_state,
-   152		},
-   153	};
-   154	
- > 155	const size_t nr_arch_exts = ARRAY_SIZE(arch_ext_list);
-   156	
-   157	static long restore_sigcontext(struct pt_regs *regs,
-   158		struct sigcontext __user *sc)
-   159	{
-   160		void __user *sc_ext_ptr = &sc->sc_extdesc.hdr;
-   161		__u32 rsvd;
-   162		long err;
-   163		/* sc_regs is structured the same as the start of pt_regs */
-   164		err = __copy_from_user(regs, &sc->sc_regs, sizeof(sc->sc_regs));
-   165		if (unlikely(err))
-   166			return err;
-   167	
-   168		/* Restore the floating-point state. */
-   169		if (has_fpu()) {
-   170			err = restore_fp_state(regs, &sc->sc_fpregs);
-   171			if (unlikely(err))
-   172				return err;
-   173		}
-   174	
-   175		/* Check the reserved word before extensions parsing */
-   176		err = __get_user(rsvd, &sc->sc_extdesc.reserved);
-   177		if (unlikely(err))
-   178			return err;
-   179		if (unlikely(rsvd))
-   180			return -EINVAL;
-   181	
-   182		while (!err) {
-   183			__u32 magic, size;
-   184			struct __riscv_ctx_hdr __user *head = sc_ext_ptr;
-   185	
-   186			err |= __get_user(magic, &head->magic);
-   187			err |= __get_user(size, &head->size);
-   188			if (unlikely(err))
-   189				return err;
-   190	
-   191			sc_ext_ptr += sizeof(*head);
-   192			switch (magic) {
-   193			case END_MAGIC:
-   194				if (size != END_HDR_SIZE)
-   195					return -EINVAL;
-   196	
-   197				return 0;
-   198			case RISCV_V_MAGIC:
-   199				if (!(has_vector() || has_xtheadvector()) || !riscv_v_vstate_query(regs) ||
-   200				    size != riscv_v_sc_size)
-   201					return -EINVAL;
-   202	
-   203				err = __restore_v_state(regs, sc_ext_ptr);
-   204				break;
-   205			default:
-   206				return -EINVAL;
-   207			}
-   208			sc_ext_ptr = (void __user *)head + size;
-   209		}
-   210		return err;
-   211	}
-   212	
-   213	static size_t get_rt_frame_size(bool cal_all)
-   214	{
-   215		struct rt_sigframe __user *frame;
-   216		size_t frame_size;
-   217		size_t total_context_size = 0;
-   218	
-   219		frame_size = sizeof(*frame);
-   220	
-   221		if (has_vector() || has_xtheadvector()) {
-   222			if (cal_all || riscv_v_vstate_query(task_pt_regs(current)))
-   223				total_context_size += riscv_v_sc_size;
-   224		}
-   225	
-   226		frame_size += total_context_size;
-   227	
-   228		frame_size = round_up(frame_size, 16);
-   229		return frame_size;
-   230	}
-   231	
-   232	SYSCALL_DEFINE0(rt_sigreturn)
-   233	{
-   234		struct pt_regs *regs = current_pt_regs();
-   235		struct rt_sigframe __user *frame;
-   236		struct task_struct *task;
-   237		sigset_t set;
-   238		size_t frame_size = get_rt_frame_size(false);
-   239	
-   240		/* Always make any pending restarted system calls return -EINTR */
-   241		current->restart_block.fn = do_no_restart_syscall;
-   242	
-   243		frame = (struct rt_sigframe __user *)regs->sp;
-   244	
-   245		if (!access_ok(frame, frame_size))
-   246			goto badframe;
-   247	
-   248		if (__copy_from_user(&set, &frame->uc.uc_sigmask, sizeof(set)))
-   249			goto badframe;
-   250	
-   251		set_current_blocked(&set);
-   252	
-   253		if (restore_sigcontext(regs, &frame->uc.uc_mcontext))
-   254			goto badframe;
-   255	
-   256		if (restore_altstack(&frame->uc.uc_stack))
-   257			goto badframe;
-   258	
-   259		regs->cause = -1UL;
-   260	
-   261		return regs->a0;
-   262	
-   263	badframe:
-   264		task = current;
-   265		if (show_unhandled_signals) {
-   266			pr_info_ratelimited(
-   267				"%s[%d]: bad frame in %s: frame=%p pc=%p sp=%p\n",
-   268				task->comm, task_pid_nr(task), __func__,
-   269				frame, (void *)regs->epc, (void *)regs->sp);
-   270		}
-   271		force_sig(SIGSEGV);
-   272		return 0;
-   273	}
-   274	
-   275	static long setup_sigcontext(struct rt_sigframe __user *frame,
-   276		struct pt_regs *regs)
-   277	{
-   278		struct sigcontext __user *sc = &frame->uc.uc_mcontext;
-   279		struct __riscv_ctx_hdr __user *sc_ext_ptr = &sc->sc_extdesc.hdr;
-   280		struct arch_ext_priv *arch_ext;
-   281		long err, i, ext_size;
-   282	
-   283		/* sc_regs is structured the same as the start of pt_regs */
-   284		err = __copy_to_user(&sc->sc_regs, regs, sizeof(sc->sc_regs));
-   285		/* Save the floating-point state. */
-   286		if (has_fpu())
-   287			err |= save_fp_state(regs, &sc->sc_fpregs);
-   288		/* Save the vector state. */
-   289		for (i = 0; i < nr_arch_exts; i++) {
-   290			arch_ext = &arch_ext_list[i];
-   291			if (!arch_ext->save)
-   292				continue;
-   293	
-   294			ext_size = arch_ext->save(regs, sc_ext_ptr + 1);
-   295			if (ext_size <= 0) {
-   296				err |= ext_size;
-   297			} else {
-   298				err |= __put_user(arch_ext->magic, &sc_ext_ptr->magic);
-   299				err |= __put_user(ext_size, &sc_ext_ptr->size);
- > 300				sc_ext_ptr = (void *)sc_ext_ptr + ext_size;
-   301			}
-   302		}
-   303		/* Write zero to fp-reserved space and check it on restore_sigcontext */
-   304		err |= __put_user(0, &sc->sc_extdesc.reserved);
-   305		/* And put END __riscv_ctx_hdr at the end. */
-   306		err |= __put_user(END_MAGIC, &sc_ext_ptr->magic);
-   307		err |= __put_user(END_HDR_SIZE, &sc_ext_ptr->size);
-   308	
-   309		return err;
-   310	}
-   311	
+
+vim +2072 mm/slub.c
+
+  2058	
+  2059	static inline void mark_objexts_empty(struct slabobj_ext *obj_exts)
+  2060	{
+  2061		unsigned long slab_exts;
+  2062		struct slab *obj_exts_slab;
+  2063	
+  2064		obj_exts_slab = virt_to_slab(obj_exts);
+  2065		slab_exts = slab_obj_exts(obj_exts_slab);
+  2066		if (slab_exts) {
+  2067			unsigned int offs = obj_to_index(obj_exts_slab->slab_cache,
+  2068							 obj_exts_slab, obj_exts);
+  2069			struct slabobj_ext *ext = slab_obj_ext(obj_exts_slab,
+  2070							       slab_exts, offs);
+  2071	
+> 2072			if (unlikely(is_codetag_empty(ext->ref)))
+  2073				return;
+  2074	
+  2075			/* codetag should be NULL here */
+  2076			WARN_ON(ext->ref.ct);
+  2077			set_codetag_empty(&ext->ref);
+  2078		}
+  2079	}
+  2080	
 
 -- 
 0-DAY CI Kernel Test Service
