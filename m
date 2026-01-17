@@ -1,180 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A5828030E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 03:53:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1ADF1C4A20;
+	Sat, 17 Jan 2026 04:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768622021; cv=none; b=aES6ctxeMLr7l+Im+0DC1dCtNk1Hb5TcXw68cKn5MU/JK6RX6AjgsUj+ug92I6qDRy2fS5JjO2v1VkzwPaC6GzTtPSEeif4CGMlHjtADR/LUouJ09zHL4yls8gyPlHubzpx9RligWoX1ikg60yFpPiYujGn1+OnVO+ktaiJVBNU=
+	t=1768622623; cv=none; b=MrI4WHhNqfswHuTI6LX83Gzu1stpSl4IgvllA8dDQTy+8Z7fnJF+XMOqSResgp0JETQFrs+5HjpTAGQbluLRvPpXTbLtOTfsN5t53hmM14nZSQZpDgAKl8l6iaq7j6jgmky4WbEV2ssAtEidamyUA1Jc/ILam7xVNBD7RPZ4Zeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768622021; c=relaxed/simple;
-	bh=e1nEx4Rcrp3Oq9wmasXUcN+6DwOyTVhys77ynr+k1cc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=euT5QWgc6qSWDbPLl//dM7GCPa8O67tT38TiPTLb+vkySvZSL8+HIEfO3RHwsZgdGlUZkQcsdNZn82ALMKFLdH3JFNKcsbORkwC5a8yPkBvhpsg69tgb52wtdR8z/Artz/02ICQw5CsiUYyWm1Zjdfw9LMgdOqHmA/H9YMg3ENI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WLK0a89n; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768622623; c=relaxed/simple;
+	bh=o2qctAVvXh/9Vl33kymJtTohqLUBkoH6VdAaDc8/AdA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GDA5DOSfi448cLPzvwXWS6HYTKV+ghEVGqpcqTWkKRahAshEbQLZRnzqMMJY4Ebkgpw0yba2tDjp/GJzkIWfidbe4kZZIeWnlX33bIkliy1yOQo4cNWm+gnxglvhXrBZaj1jo//FU67ypPdXqJxZ/01o94oZd4V/xj7qkOVpBH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yb2Dwb5y; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WLK0a89n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yb2Dwb5y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768622020; x=1800158020;
-  h=date:from:to:cc:subject:message-id;
-  bh=e1nEx4Rcrp3Oq9wmasXUcN+6DwOyTVhys77ynr+k1cc=;
-  b=WLK0a89n8ZGDKhdT/HfkWL+goovAvUfbrQUP9tovcMR+fH6g5u2OowZ7
-   WF/TI3w14s1rKasbIP2iOBcQ/XKmCYHwY2/5Nkc247F/DGURYNg2VTvPU
-   4MIQjO+3lzA/ojAMT3fcAgvQEtT78vrwfuLMLdrAdF63arrWFwmhdh/Gq
-   DV7MZZ1dN5FIuKUGZTgnrzUyLtUuQwsH5pJ6wsYJ2jRIZLnYKHfhEq0tM
-   Sd9vS5C5R/0dGEUAYAnZdrTX67tyyky2kfUACAnEyjgYyXTRSVAbjB2NH
-   Myil1ynSZ9L3mdFJLnLDPqBBDmEi0xe7Dy/OT13c6K/XcVmG3jmaJNG10
+  t=1768622622; x=1800158622;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o2qctAVvXh/9Vl33kymJtTohqLUBkoH6VdAaDc8/AdA=;
+  b=Yb2Dwb5y9uFJ2X4nptUifah/BITlebaimKy1oFXSIW3Y0nwbeXQ61Br0
+   RLRIGo61JJ2tDVY0+Q1ZUZ3RlLeyvfjPPe2sUamL8B8rM20wmDbCYIEo6
+   9m3rL6OUwziJiUSRecqSgQOuIQPFiOUsUm0p1l+7T1slqV+MdkYKPSdYD
+   rnniJbq3Un/F4F1VPaZpRAm9EVBVuCuNxc197TnzTVgfCixQNZOu5noEX
+   wZptlZ10GXvJGhCJApJmEKmB0fUmm0lDR9QFfHdpDhdLpbL697QtrMxS1
+   wg4fd+fhuviRqvhJxdmNEmXIjPd2mgtjH2vtf+kruehl6wqJONQ9LrOcU
    w==;
-X-CSE-ConnectionGUID: p9IWhZsLTDKGwvBeCO9kyQ==
-X-CSE-MsgGUID: YMvnZ9F4RpaPrqyZiv2a+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69909972"
+X-CSE-ConnectionGUID: CVtf8jchQrKYE9ANVOiD1g==
+X-CSE-MsgGUID: S8vCqft1Q86Vr+Uhs/BBIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69982898"
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="69909972"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 19:53:39 -0800
-X-CSE-ConnectionGUID: ED9P1puRSve9QkR0CZ7eXg==
-X-CSE-MsgGUID: 1JEbU4aWQeW2r8BBXRSzLA==
+   d="scan'208";a="69982898"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 20:03:42 -0800
+X-CSE-ConnectionGUID: 9hAiUDdSQTCIHoPINYO2VQ==
+X-CSE-MsgGUID: L+lRrGODRlqIEz0VgGdvnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="210268007"
+   d="scan'208";a="228393086"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Jan 2026 19:53:38 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 16 Jan 2026 20:03:39 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgxNX-00000000LXU-3iJP;
-	Sat, 17 Jan 2026 03:53:35 +0000
-Date: Sat, 17 Jan 2026 11:52:49 +0800
+	id 1vgxXE-00000000LY8-1qLn;
+	Sat, 17 Jan 2026 04:03:36 +0000
+Date: Sat, 17 Jan 2026 12:03:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2025-10 3/3]
- drivers/base/regmap/regmap-kunit.c:1202:24: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202601171103.GfdWDHle-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jeff Layton <jlayton@kernel.org>
+Subject: Re: [PATCH] nfsd: fix NULL pointer dereference in check_export()
+Message-ID: <202601171105.1nmOHcdX-lkp@intel.com>
+References: <20260116-nfsd-fixes-v1-1-019689b72747@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116-nfsd-fixes-v1-1-019689b72747@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-10
-head:   c6d074967b3ae008b1e66dece6c8af7eadb66edc
-commit: d1b6521cecba29bc013162ea7b6f46bab8080656 [3/3] regmap: kunit: Ensure that changed bytes are actually different
-config: x86_64-randconfig-121-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171103.GfdWDHle-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171103.GfdWDHle-lkp@intel.com/reproduce)
+Hi Jeff,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 983d014aafb14ee5e4915465bf8948e8f3a723b5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/nfsd-fix-NULL-pointer-dereference-in-check_export/20260117-022519
+base:   983d014aafb14ee5e4915465bf8948e8f3a723b5
+patch link:    https://lore.kernel.org/r/20260116-nfsd-fixes-v1-1-019689b72747%40kernel.org
+patch subject: [PATCH] nfsd: fix NULL pointer dereference in check_export()
+config: arm64-randconfig-002-20260117 (https://download.01.org/0day-ci/archive/20260117/202601171105.1nmOHcdX-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171105.1nmOHcdX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601171103.GfdWDHle-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601171105.1nmOHcdX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/base/regmap/regmap-kunit.c:977:43: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:980:43: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1057:25: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1057:25: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1059:25: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1059:25: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1126:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1126:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1129:33: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1129:33: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1181:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1181:33: sparse: sparse: cast to restricted __be16
-   drivers/base/regmap/regmap-kunit.c:1184:33: sparse: sparse: cast to restricted __le16
-   drivers/base/regmap/regmap-kunit.c:1184:33: sparse: sparse: cast to restricted __le16
->> drivers/base/regmap/regmap-kunit.c:1202:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __be16 [usertype] @@
-   drivers/base/regmap/regmap-kunit.c:1202:24: sparse:     expected unsigned short
-   drivers/base/regmap/regmap-kunit.c:1202:24: sparse:     got restricted __be16 [usertype]
-   drivers/base/regmap/regmap-kunit.c:1204:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short @@     got restricted __le16 [usertype] @@
-   drivers/base/regmap/regmap-kunit.c:1204:24: sparse:     expected unsigned short
-   drivers/base/regmap/regmap-kunit.c:1204:24: sparse:     got restricted __le16 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +1202 drivers/base/regmap/regmap-kunit.c
+>> fs/nfsd/export.c:408:28: error: initializing 'struct export_operations *' with an expression of type 'const struct export_operations *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     408 |         struct export_operations *export_op = inode->i_sb->s_export_op;
+         |                                   ^           ~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
-  1144	
-  1145	static void raw_sync(struct kunit *test)
-  1146	{
-  1147		struct raw_test_types *t = (struct raw_test_types *)test->param_value;
-  1148		struct regmap *map;
-  1149		struct regmap_config config;
-  1150		struct regmap_ram_data *data;
-  1151		u16 val[3];
-  1152		u16 *hw_buf;
-  1153		unsigned int rval;
-  1154		int i;
-  1155	
-  1156		config = raw_regmap_config;
-  1157	
-  1158		map = gen_raw_regmap(&config, t, &data);
-  1159		KUNIT_ASSERT_FALSE(test, IS_ERR(map));
-  1160		if (IS_ERR(map))
-  1161			return;
-  1162	
-  1163		hw_buf = (u16 *)data->vals;
-  1164	
-  1165		get_changed_bytes(&hw_buf[2], &val[0], sizeof(val));
-  1166	
-  1167		/* Do a regular write and a raw write in cache only mode */
-  1168		regcache_cache_only(map, true);
-  1169		KUNIT_EXPECT_EQ(test, 0, regmap_raw_write(map, 2, val,
-  1170							  sizeof(u16) * 2));
-  1171		KUNIT_EXPECT_EQ(test, 0, regmap_write(map, 4, val[2]));
-  1172	
-  1173		/* We should read back the new values, and defaults for the rest */
-  1174		for (i = 0; i < config.max_register + 1; i++) {
-  1175			KUNIT_EXPECT_EQ(test, 0, regmap_read(map, i, &rval));
-  1176	
-  1177			switch (i) {
-  1178			case 2:
-  1179			case 3:
-  1180				if (config.val_format_endian == REGMAP_ENDIAN_BIG) {
-  1181					KUNIT_EXPECT_EQ(test, rval,
-  1182							be16_to_cpu(val[i - 2]));
-  1183				} else {
-  1184					KUNIT_EXPECT_EQ(test, rval,
-  1185							le16_to_cpu(val[i - 2]));
-  1186				}
-  1187				break;
-  1188			case 4:
-  1189				KUNIT_EXPECT_EQ(test, rval, val[i - 2]);
-  1190				break;
-  1191			default:
-  1192				KUNIT_EXPECT_EQ(test, config.reg_defaults[i].def, rval);
-  1193				break;
-  1194			}
-  1195		}
-  1196	
-  1197		/*
-  1198		 * The value written via _write() was translated by the core,
-  1199		 * translate the original copy for comparison purposes.
-  1200		 */
-  1201		if (config.val_format_endian == REGMAP_ENDIAN_BIG)
-> 1202			val[2] = cpu_to_be16(val[2]);
-  1203		else
-  1204			val[2] = cpu_to_le16(val[2]);
-  1205		
-  1206		/* The values should not appear in the "hardware" */
-  1207		KUNIT_EXPECT_MEMNEQ(test, &hw_buf[2], &val[0], sizeof(val));
-  1208	
-  1209		for (i = 0; i < config.max_register + 1; i++)
-  1210			data->written[i] = false;
-  1211	
-  1212		/* Do the sync */
-  1213		regcache_cache_only(map, false);
-  1214		regcache_mark_dirty(map);
-  1215		KUNIT_EXPECT_EQ(test, 0, regcache_sync(map));
-  1216	
-  1217		/* The values should now appear in the "hardware" */
-  1218		KUNIT_EXPECT_MEMEQ(test, &hw_buf[2], &val[0], sizeof(val));
-  1219	
-  1220		regmap_exit(map);
-  1221	}
-  1222	
+
+vim +408 fs/nfsd/export.c
+
+   404	
+   405	static int check_export(const struct path *path, int *flags, unsigned char *uuid)
+   406	{
+   407		struct inode *inode = d_inode(path->dentry);
+ > 408		struct export_operations *export_op = inode->i_sb->s_export_op;
+   409	
+   410		/*
+   411		 * We currently export only dirs, regular files, and (for v4
+   412		 * pseudoroot) symlinks.
+   413		 */
+   414		if (!S_ISDIR(inode->i_mode) &&
+   415		    !S_ISLNK(inode->i_mode) &&
+   416		    !S_ISREG(inode->i_mode))
+   417			return -ENOTDIR;
+   418	
+   419		/*
+   420		 * Mountd should never pass down a writeable V4ROOT export, but,
+   421		 * just to make sure:
+   422		 */
+   423		if (*flags & NFSEXP_V4ROOT)
+   424			*flags |= NFSEXP_READONLY;
+   425	
+   426		/* There are four requirements on a filesystem to be exportable:
+   427		 * 1: It must define sb->s_export_op
+   428		 * 2: We must be able to identify the filesystem from a number.
+   429		 *       either a device number (so FS_REQUIRES_DEV needed)
+   430		 *       or an FSID number (so NFSEXP_FSID or ->uuid is needed).
+   431		 * 3: We must be able to find an inode from a filehandle.
+   432		 *       This means that s_export_op must be set.
+   433		 * 4: We must not currently be on an idmapped mount.
+   434		 */
+   435		if (!export_op) {
+   436			dprintk("%s: fs doesn't define export_operations!\n", __func__);
+   437			return -EINVAL;
+   438		}
+   439	
+   440		if (!(inode->i_sb->s_type->fs_flags & FS_REQUIRES_DEV) &&
+   441		    !(*flags & NFSEXP_FSID) &&
+   442		    uuid == NULL) {
+   443			dprintk("exp_export: export of non-dev fs without fsid\n");
+   444			return -EINVAL;
+   445		}
+   446	
+   447		if (!exportfs_can_decode_fh(export_op)) {
+   448			dprintk("exp_export: export of invalid fs type.\n");
+   449			return -EINVAL;
+   450		}
+   451	
+   452		if (is_idmapped_mnt(path->mnt)) {
+   453			dprintk("exp_export: export of idmapped mounts not yet supported.\n");
+   454			return -EINVAL;
+   455		}
+   456	
+   457		if (export_op->flags & EXPORT_OP_NOSUBTREECHK &&
+   458		    !(*flags & NFSEXP_NOSUBTREECHECK)) {
+   459			dprintk("%s: %s does not support subtree checking!\n",
+   460				__func__, inode->i_sb->s_type->name);
+   461			return -EINVAL;
+   462		}
+   463		return 0;
+   464	}
+   465	
 
 -- 
 0-DAY CI Kernel Test Service
