@@ -1,58 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF34E32695E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 04:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92FE730C378;
+	Sat, 17 Jan 2026 05:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768625863; cv=none; b=iy7ZAoz7XwaBqvrrYhClJI3vT2fRqWrPD/8rpnfRxfuGJBgOuBacIX7IVMuD6FfHTLvTUXJebB+IvqDevEZbml6vRJvYxXoFbKZv3zTqNxyiQHv3Y6izIAZ/CAk8WKFBScMxJMck/RC0ibUN9PKIkU0hYaKKBWo2UiVmcAXR+HE=
+	t=1768626524; cv=none; b=PWGsyv9nuJ+VbdjBkDMehQBkIVlBUKqsKRTBQsUt/GUhWwVvowS8iNW7Rkf+VVQ0jpMCnFD5p/5L7q3UhBKoZJZ0ql/CnOp+SOkquW99BlTcDIpMAIuWe6VygG5Kew5CScO4Ds24OoCLnkdQn/CXqkw83LnSvX2nB6/UJcAgkaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768625863; c=relaxed/simple;
-	bh=F2AB+++Ez3GfaWLJ7mVidWOnHJMR8zxbBKFVnb606M4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=l4InQFMFAzHpzh8WoAK2laYPiIdH491aiqJK5i5oOtOz7t+/gvKp2DFvS0jLoZnFENJkNzw1fe6VuzwyWzc2GhNwfyuddDFS1/nnToVe9j8lFBCiS1osqf/oxneMigfGWWPrkVImmMnCyJG3EAbhbBFpqrkgYRvk6UCDYkxFLdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnoKe+UL; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1768626524; c=relaxed/simple;
+	bh=6M0rTQg+J28b574wweKDC19aUm2m2dG1zZ4ygZ7ONKM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cEOgx5f+XfJIkr3Eaee/5aa9JM6iKzdvKltflE83TzIHFde0hQaW6rdy6DaGewyx9/x4R2k3FhIkzQKm6PkfTVJFN/hH4CPEulSizqEaWuy3d5X+hbTq/Whrb/kfFiMTLtxOqpKhDyJlNShRmjBDUN3Yr4j4S6/ESNLmtB/aDiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G7iWw+eU; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnoKe+UL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G7iWw+eU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768625863; x=1800161863;
+  t=1768626523; x=1800162523;
   h=date:from:to:cc:subject:message-id;
-  bh=F2AB+++Ez3GfaWLJ7mVidWOnHJMR8zxbBKFVnb606M4=;
-  b=dnoKe+UL38y5DBOHwdpljuFR4pfQBNlnr9VBDKhoUwqY4Ne1r46nytQx
-   czGvKV9aStSuzAwNNpzjSOpoDV3ZkF6NspfN7sbeNylex2s/cMfQOxz9D
-   9QbpEKlngQhDUGDpNYErE7XR50Yv5wMnpM6ZZMlKWZ7J6bItXAS9Wztlc
-   GzoAZwG+/2VW23c27HODZHY+lC0MmwdqYXC+6yqzIKHspyp3aNW9X9ZKl
-   SVM9H1tDef1Y76w2e2i0eHdJm7HdQ+tQwuNV6mBvzbB2YSORhc+3IRN+G
-   1+8HRHWa2LBF6SuuUQqoCQBPjZLh39+BTZbw9C5ymxJ/at6J5iFmALqeI
-   w==;
-X-CSE-ConnectionGUID: P7CVplcURxanuqyvHDGEgA==
-X-CSE-MsgGUID: F46g1dgNTluTugDqSMpJOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="73565842"
+  bh=6M0rTQg+J28b574wweKDC19aUm2m2dG1zZ4ygZ7ONKM=;
+  b=G7iWw+eU9RxVqODKsPGINSDOGlff2B7v9uN87uImRA8AP6iDLugfukhK
+   1awuEMTxZYevyE1gE4uXHz58Ny4WaXKFAaFPC/VSDIgvfknNSPUhjxyZG
+   0WECuhWg813rFU0nUiC0so0zO+BGFikd+/4mZCDWvHfk2Z/MF8EA0Fnch
+   4ANnsOx8FOk2EPngsaoYpJMYFf9uzCWyxUkT8+xXIEVBbZWh0/t1h+eMJ
+   FKWApLEl6MD6RU0ksFPFfPvkTVM6Krwu1g3r4nqUGfqY1ntHJA+Op8Z3W
+   r5zybMT6z0kUpP8Th9K81gNJTjOdv719synhQfGzT2HAy+1/JkwUFwj1K
+   g==;
+X-CSE-ConnectionGUID: HBy+KeqUQjyvt5N6RdhqZQ==
+X-CSE-MsgGUID: VjK7aV9RSXCajDSEO3jhsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="68946161"
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="73565842"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 20:57:43 -0800
-X-CSE-ConnectionGUID: 1vLZb6GvRBO0nffd6pU1JQ==
-X-CSE-MsgGUID: 5wK66ENJSFOYt35xF6EJhw==
+   d="scan'208";a="68946161"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 21:08:42 -0800
+X-CSE-ConnectionGUID: 3R+HxOvUTcCxOWG1iw4/7g==
+X-CSE-MsgGUID: WHoJQj9ARsGjORNazman5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
-   d="scan'208";a="205021342"
+   d="scan'208";a="205825122"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Jan 2026 20:57:40 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 16 Jan 2026 21:08:40 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgyNV-00000000LZg-3N9l;
-	Sat, 17 Jan 2026 04:57:37 +0000
-Date: Sat, 17 Jan 2026 12:57:20 +0800
+	id 1vgyYA-00000000LaK-1POq;
+	Sat, 17 Jan 2026 05:08:38 +0000
+Date: Sat, 17 Jan 2026 13:07:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kiryl Shutsemau <kas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [kas:compound_head 2/15] include/linux/sched/mm.h:316:20:
- warning: conflicting types for 'might_alloc'; have 'void(gfp_t)' {aka
- 'void(unsigned int)'}
-Message-ID: <202601171217.SY9PW6eY-lkp@intel.com>
+ error: static declaration of 'might_alloc' follows non-static declaration
+Message-ID: <202601171340.k5KLMGYs-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -63,114 +62,191 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git compound_head
 head:   b85ab3c6f9b0b85159a92143639da1947695d8da
 commit: 44d8c0bdca357faa441b6a75b316a399a31b2bd1 [2/15] mm: Move MAX_FOLIO_ORDER definition to mmzone.h
-config: sparc-allnoconfig (https://download.01.org/0day-ci/archive/20260117/202601171217.SY9PW6eY-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171217.SY9PW6eY-lkp@intel.com/reproduce)
+config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20260117/202601171340.k5KLMGYs-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171340.k5KLMGYs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601171217.SY9PW6eY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601171340.k5KLMGYs-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/radix-tree.h:21,
-                    from include/linux/idr.h:15,
-                    from include/linux/kernfs.h:12,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/of.h:18,
-                    from arch/sparc/include/asm/openprom.h:15,
-                    from arch/sparc/include/asm/oplib_32.h:12,
-                    from arch/sparc/include/asm/oplib.h:7,
-                    from arch/sparc/include/asm/pgtable_32.h:32,
-                    from arch/sparc/include/asm/pgtable.h:7,
-                    from include/linux/pgtable.h:6,
-                    from include/linux/mmzone.h:24,
-                    from include/linux/gfp.h:7,
-                    from include/linux/sched/mm.h:9,
-                    from kernel/sched/sched.h:14,
-                    from kernel/sched/rq-offsets.c:5:
-   include/linux/xarray.h: In function 'xa_store_bh':
->> include/linux/xarray.h:594:9: error: implicit declaration of function 'might_alloc'; did you mean 'might_lock'? [-Wimplicit-function-declaration]
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:14:
+   In file included from include/linux/sched/mm.h:9:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:24:
+   In file included from include/linux/pgtable.h:6:
+   In file included from arch/s390/include/asm/pgtable.h:19:
+   In file included from include/linux/radix-tree.h:21:
+>> include/linux/xarray.h:594:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      594 |         might_alloc(gfp);
-         |         ^~~~~~~~~~~
-         |         might_lock
-   In file included from arch/sparc/include/asm/page_32.h:133,
-                    from arch/sparc/include/asm/page.h:8,
-                    from arch/sparc/include/asm/string_32.h:13,
-                    from arch/sparc/include/asm/string.h:7,
-                    from include/linux/string.h:65,
-                    from include/linux/bitmap.h:13,
-                    from include/linux/cpumask.h:12,
-                    from arch/sparc/include/asm/smp_32.h:15,
-                    from arch/sparc/include/asm/smp.h:7,
-                    from arch/sparc/include/asm/switch_to_32.h:5,
-                    from arch/sparc/include/asm/switch_to.h:7,
-                    from arch/sparc/include/asm/ptrace.h:120,
-                    from arch/sparc/include/asm/thread_info_32.h:19,
-                    from arch/sparc/include/asm/thread_info.h:7,
-                    from include/linux/thread_info.h:60,
-                    from arch/sparc/include/asm/current.h:15,
-                    from include/linux/sched.h:12,
-                    from include/linux/sched/affinity.h:1,
-                    from kernel/sched/sched.h:8:
-   arch/sparc/include/asm/pgtable_32.h: In function 'pmd_page':
-   include/asm-generic/memory_model.h:18:34: error: 'mem_map' undeclared (first use in this function); did you mean 'memcmp'?
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                  ^~~~~~~
-   include/asm-generic/memory_model.h:74:21: note: in expansion of macro '__pfn_to_page'
-      74 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   arch/sparc/include/asm/pgtable_32.h:118:16: note: in expansion of macro 'pfn_to_page'
-     118 |         return pfn_to_page(pmd_pfn(pmd));
-         |                ^~~~~~~~~~~
-   include/asm-generic/memory_model.h:18:34: note: each undeclared identifier is reported only once for each function it appears in
-      18 | #define __pfn_to_page(pfn)      (mem_map + ((pfn) - ARCH_PFN_OFFSET))
-         |                                  ^~~~~~~
-   include/asm-generic/memory_model.h:74:21: note: in expansion of macro '__pfn_to_page'
-      74 | #define pfn_to_page __pfn_to_page
-         |                     ^~~~~~~~~~~~~
-   arch/sparc/include/asm/pgtable_32.h:118:16: note: in expansion of macro 'pfn_to_page'
-     118 |         return pfn_to_page(pmd_pfn(pmd));
-         |                ^~~~~~~~~~~
-   include/linux/sched/mm.h: At top level:
->> include/linux/sched/mm.h:316:20: warning: conflicting types for 'might_alloc'; have 'void(gfp_t)' {aka 'void(unsigned int)'}
+         |         ^
+   include/linux/xarray.h:621:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     621 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:697:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     697 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:725:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     725 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:753:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     753 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:783:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     783 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:813:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     813 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:843:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     843 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:876:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     876 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:909:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     909 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:942:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     942 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:981:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     981 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:1020:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1020 |         might_alloc(gfp);
+         |         ^
+   include/linux/xarray.h:1059:2: error: call to undeclared function 'might_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1059 |         might_alloc(gfp);
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:14:
+>> include/linux/sched/mm.h:316:20: error: static declaration of 'might_alloc' follows non-static declaration
      316 | static inline void might_alloc(gfp_t gfp_mask)
-         |                    ^~~~~~~~~~~
-   include/linux/sched/mm.h:316:20: error: static declaration of 'might_alloc' follows non-static declaration
-   include/linux/xarray.h:594:9: note: previous implicit declaration of 'might_alloc' with type 'void(gfp_t)' {aka 'void(unsigned int)'}
+         |                    ^
+   include/linux/xarray.h:594:2: note: previous implicit declaration is here
      594 |         might_alloc(gfp);
-         |         ^~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1280: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:16:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:16:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:16:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      99 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:16:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     101 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:16:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:16:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:16:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:16:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:16:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:116:5: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     116 |                         (set1->sig[1] == set2->sig[1]) &&
+         |                          ^         ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:16:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:116:21: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     116 |                         (set1->sig[1] == set2->sig[1]) &&
+         |                                          ^         ~
+   arch/s390/include/asm/signal.h:22:9: note: array 'sig' declared here
+      22 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/sched/rq-offsets.c:5:
+   In file included from kernel/sched/sched.h:16:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:119:11: warning: array index 1 is past the end of the array (that has type 'const unsigned long[1]') [-Warray-bounds]
+     119 |                 return  (set1->sig[1] == set2->sig[1]) &&
 
 
-vim +316 include/linux/sched/mm.h
+vim +/might_alloc +316 include/linux/sched/mm.h
 
-4034247a0d6ab28 NeilBrown     2022-01-14  307  
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  308  /**
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  309   * might_alloc - Mark possible allocation sites
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  310   * @gfp_mask: gfp_t flags that would be used to allocate
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  311   *
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  312   * Similar to might_sleep() and other annotations, this can be used in functions
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  313   * that might allocate, but often don't. Compiles to nothing without
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  314   * CONFIG_LOCKDEP. Includes a conditional might_sleep() if @gfp allows blocking.
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  315   */
-95d6c701f4ca7c4 Simona Vetter 2020-12-14 @316  static inline void might_alloc(gfp_t gfp_mask)
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  317  {
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  318  	fs_reclaim_acquire(gfp_mask);
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  319  	fs_reclaim_release(gfp_mask);
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  320  
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  321  	might_sleep_if(gfpflags_allow_blocking(gfp_mask));
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  322  }
-95d6c701f4ca7c4 Simona Vetter 2020-12-14  323  
+4034247a0d6ab2 NeilBrown     2022-01-14  307  
+95d6c701f4ca7c Simona Vetter 2020-12-14  308  /**
+95d6c701f4ca7c Simona Vetter 2020-12-14  309   * might_alloc - Mark possible allocation sites
+95d6c701f4ca7c Simona Vetter 2020-12-14  310   * @gfp_mask: gfp_t flags that would be used to allocate
+95d6c701f4ca7c Simona Vetter 2020-12-14  311   *
+95d6c701f4ca7c Simona Vetter 2020-12-14  312   * Similar to might_sleep() and other annotations, this can be used in functions
+95d6c701f4ca7c Simona Vetter 2020-12-14  313   * that might allocate, but often don't. Compiles to nothing without
+95d6c701f4ca7c Simona Vetter 2020-12-14  314   * CONFIG_LOCKDEP. Includes a conditional might_sleep() if @gfp allows blocking.
+95d6c701f4ca7c Simona Vetter 2020-12-14  315   */
+95d6c701f4ca7c Simona Vetter 2020-12-14 @316  static inline void might_alloc(gfp_t gfp_mask)
+95d6c701f4ca7c Simona Vetter 2020-12-14  317  {
+95d6c701f4ca7c Simona Vetter 2020-12-14  318  	fs_reclaim_acquire(gfp_mask);
+95d6c701f4ca7c Simona Vetter 2020-12-14  319  	fs_reclaim_release(gfp_mask);
+95d6c701f4ca7c Simona Vetter 2020-12-14  320  
+95d6c701f4ca7c Simona Vetter 2020-12-14  321  	might_sleep_if(gfpflags_allow_blocking(gfp_mask));
+95d6c701f4ca7c Simona Vetter 2020-12-14  322  }
+95d6c701f4ca7c Simona Vetter 2020-12-14  323  
 
 :::::: The code at line 316 was first introduced by commit
 :::::: 95d6c701f4ca7c44dc148d664f604541266a2333 mm: extract might_alloc() debug check
