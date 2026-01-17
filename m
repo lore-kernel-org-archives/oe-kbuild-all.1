@@ -1,67 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA792DA75B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 02:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439BD2475CF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 02:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768616198; cv=none; b=Q/lfKjpNMYBP/ljQIRZCXAaCg+hnR8r6VdhcKkQpth8oSvPDRO1jSWK7aUM9xbnOi2VvG9Y2tQUxAeAMk6P/Vy5fQw0YH/CFJPX7zStRNXzUIH8IHapR/qoyCFxrHXIT+2WNmDeu/10fj/pG5NyNOaUb9zmUa9pbE4ev0bbmVC4=
+	t=1768616941; cv=none; b=baFbfddQ2q3w0SSFOgjV1tqEYJe5iAuObwfidmrSIkY4+cgA6fM+M4ns83eFRGxB0nC+B0V52C1Lfm0Rt6RFRMS8NBJ5oOnSuxWeNGrjsgYxbOuRs+swdqkYB4zI3lGlHiuDMrE08SbuL6zz34J7xqcKjida445IU5e7wgV7Ro4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768616198; c=relaxed/simple;
-	bh=+rrsvyBHN92mGZ0eJHrXFLbcu2n7Bqkz2nl6s25l2fM=;
+	s=arc-20240116; t=1768616941; c=relaxed/simple;
+	bh=Jo/25SQgzAOvgChPeJam2KMsMYB5plK9YXynfv3qmZc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jHWhPz8jX0G4wTR0XJFlYHnEmzKnCU78CYzIbR7l+QBxOQDSvcabUEfxEjw66LqvpLptAqXcFkgTl9Et1Oodn0yi9xhYeFmLP797vzUuPx6TcVpy6CKxeYy04CzqTGcLiLlwSgNlpZ2+WKOLc6zCU1jo2v6j/EblE3uma5G02dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hf0Ucq6o; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=GPdIQFnmRL3dhD86sTZC6hbQbIbUbgLUaH4WS3XFCBBg3fWqsC6NCNloVn8PgSyWfVBFObgJYPnuk70vpJh7jWDD8ZZGPmky6cgrYh/88ktf+36P5TZVszVvNeaThgJgUp0LEHo8ZZ/Om4myK5GUssKpS0rOKJVuG2wSNLrTgX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2yjPw9M; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hf0Ucq6o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2yjPw9M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768616196; x=1800152196;
+  t=1768616940; x=1800152940;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+rrsvyBHN92mGZ0eJHrXFLbcu2n7Bqkz2nl6s25l2fM=;
-  b=hf0Ucq6odAdOQ+qHCqpbyO5m6fSrwaxVWvWsqT/5TXAXrIkuJR4MZCGb
-   NtMGeOtpWwJhAyaNhjwEn9rlzfKmywS5tufLL4n6g0QCib6gx4N8wJ0oD
-   2f31ADpjqZw2oH/tYHozeD3ONdGgS+i+uMb2d/7+IPA1XFqfVq6dh9MT6
-   PXmB9z/t+hsCDEYpNrxFL64583WicU491/PmiaEmliEF1NY7g1gB7Q8E0
-   iKWsMw9v9p0CzMSI0Jcaj9vKuOSU6VLcCN5aPtmZHByIQnUhFB3+bILU+
-   TywbYM4sTGUikoqjFqdCTH4N63Ijh72xcozLSs4C44pKznoM4FkXzw2f7
-   g==;
-X-CSE-ConnectionGUID: F0JGy8VOScKTm9XHOXcVIw==
-X-CSE-MsgGUID: W+LSUo8fQ2SaesI5PrumwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="69980071"
-X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="69980071"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 18:16:35 -0800
-X-CSE-ConnectionGUID: J7Bp/+H9QSO0WOmfqju5IA==
-X-CSE-MsgGUID: eLPsMo5PT9q1ccxPKGnROQ==
+  bh=Jo/25SQgzAOvgChPeJam2KMsMYB5plK9YXynfv3qmZc=;
+  b=R2yjPw9MZOtvFAz9FWgK9zXpsm0ktq8tOFQARzBYPwhLe+H6gTFvYAGJ
+   LrCTPdynERh+gbdiVLT1UsfaseV8f7EGs6v443h06iQcKJXmioj2Zkd4l
+   JboaWuSZleNF+8xhg00GiE63TZuuQyT0eLjT9Y19pwCtLIh0g1IEzt3jW
+   /afV0w4tPnNIUWu+el5VhZ1dQ3/SnyV7Xb1tu7okWoC3wZ9lo3uA7DQNv
+   3HkgecaTX9Gihmu8FA3kXcvuJtwIU648Snqj0vBsnrAb3Ni1g8j2HufKv
+   BrxwzHWT4UxSbtq2tG8AYXFrH/3yr8nHweKMocqxBwM1SJtKoyfkWW0Z7
+   Q==;
+X-CSE-ConnectionGUID: oLKs3XlWR/OGds0YesVhzA==
+X-CSE-MsgGUID: GNYsyw0LQhO3mWkxhbK3Pg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11673"; a="81376175"
+X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
+   d="scan'208";a="81376175"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jan 2026 18:28:57 -0800
+X-CSE-ConnectionGUID: aF33mX85SVadnHfNWLC48A==
+X-CSE-MsgGUID: mTJOT2ocTB+KYWcp+FgpYg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,232,1763452800"; 
-   d="scan'208";a="210257584"
+X-IronPort-AV: E=Sophos;i="6.21,233,1763452800"; 
+   d="scan'208";a="242943173"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Jan 2026 18:16:33 -0800
+  by orviesa001.jf.intel.com with ESMTP; 16 Jan 2026 18:28:35 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vgvrb-00000000LSs-1X95;
-	Sat, 17 Jan 2026 02:16:31 +0000
-Date: Sat, 17 Jan 2026 10:16:02 +0800
+	id 1vgw3D-00000000LTY-3xQV;
+	Sat, 17 Jan 2026 02:28:31 +0000
+Date: Sat, 17 Jan 2026 10:27:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	Bart Van Assche <bvanassche@acm.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Peter Wang <peter.wang@mediatek.com>,
-	Avri Altman <avri.altman@sandisk.com>,
-	Bean Huo <beanhuo@micron.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	"Bao D. Nguyen" <quic_nguyenb@quicinc.com>
-Subject: Re: [PATCH 5/7] ufs: core: Remove unused code and data structures
-Message-ID: <202601170952.UMdlSqAD-lkp@intel.com>
-References: <20260116182628.3255116-6-bvanassche@acm.org>
+To: Jeff Layton <jlayton@kernel.org>, Chuck Lever <chuck.lever@oracle.com>,
+	NeilBrown <neil@brown.name>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
+Subject: Re: [PATCH] nfsd: fix NULL pointer dereference in check_export()
+Message-ID: <202601171021.4DQZyXiU-lkp@intel.com>
+References: <20260116-nfsd-fixes-v1-1-019689b72747@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,101 +66,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260116182628.3255116-6-bvanassche@acm.org>
+In-Reply-To: <20260116-nfsd-fixes-v1-1-019689b72747@kernel.org>
 
-Hi Bart,
+Hi Jeff,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on jejb-scsi/for-next]
-[also build test WARNING on mkp-scsi/for-next linus/master v6.19-rc5 next-20260116]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 983d014aafb14ee5e4915465bf8948e8f3a723b5]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bart-Van-Assche/ufs-core-Change-the-type-of-an-ufshcd_clkgate_delay_set-argument/20260117-022907
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20260116182628.3255116-6-bvanassche%40acm.org
-patch subject: [PATCH 5/7] ufs: core: Remove unused code and data structures
-config: i386-randconfig-141-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170952.UMdlSqAD-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-smatch version: v0.5.0-8985-g2614ff1a
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601170952.UMdlSqAD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-Layton/nfsd-fix-NULL-pointer-dereference-in-check_export/20260117-022519
+base:   983d014aafb14ee5e4915465bf8948e8f3a723b5
+patch link:    https://lore.kernel.org/r/20260116-nfsd-fixes-v1-1-019689b72747%40kernel.org
+patch subject: [PATCH] nfsd: fix NULL pointer dereference in check_export()
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20260117/202601171021.4DQZyXiU-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601171021.4DQZyXiU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601170952.UMdlSqAD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601171021.4DQZyXiU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/ufs/core/ufshcd.c: In function 'ufshcd_setup_clocks':
->> drivers/ufs/core/ufshcd.c:9304:14: warning: variable 'clk_state_changed' set but not used [-Wunused-but-set-variable]
-    9304 |         bool clk_state_changed = false;
-         |              ^~~~~~~~~~~~~~~~~
+   fs/nfsd/export.c: In function 'check_export':
+>> fs/nfsd/export.c:408:47: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     408 |         struct export_operations *export_op = inode->i_sb->s_export_op;
+         |                                               ^~~~~
 
 
-vim +/clk_state_changed +9304 drivers/ufs/core/ufshcd.c
+vim +/const +408 fs/nfsd/export.c
 
-6a771a656041f4 drivers/scsi/ufs/ufshcd.c Raviv Shvili       2014-09-25  9298  
-81309c247a4dcd drivers/scsi/ufs/ufshcd.c Can Guo            2020-11-25  9299  static int ufshcd_setup_clocks(struct ufs_hba *hba, bool on)
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9300  {
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9301  	int ret = 0;
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9302  	struct ufs_clk_info *clki;
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9303  	struct list_head *head = &hba->clk_list_head;
-911a0771b6fa7b drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2016-12-22 @9304  	bool clk_state_changed = false;
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9305  
-566ec9ad315b46 drivers/scsi/ufs/ufshcd.c Szymon Mielczarek  2017-06-05  9306  	if (list_empty(head))
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9307  		goto out;
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9308  
-1e879e8fa9f62e drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2016-10-06  9309  	ret = ufshcd_vops_setup_clocks(hba, on, PRE_CHANGE);
-1e879e8fa9f62e drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2016-10-06  9310  	if (ret)
-1e879e8fa9f62e drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2016-10-06  9311  		return ret;
-1e879e8fa9f62e drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2016-10-06  9312  
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9313  	list_for_each_entry(clki, head, list) {
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9314  		if (!IS_ERR_OR_NULL(clki->clk)) {
-81309c247a4dcd drivers/scsi/ufs/ufshcd.c Can Guo            2020-11-25  9315  			/*
-81309c247a4dcd drivers/scsi/ufs/ufshcd.c Can Guo            2020-11-25  9316  			 * Don't disable clocks which are needed
-81309c247a4dcd drivers/scsi/ufs/ufshcd.c Can Guo            2020-11-25  9317  			 * to keep the link active.
-81309c247a4dcd drivers/scsi/ufs/ufshcd.c Can Guo            2020-11-25  9318  			 */
-81309c247a4dcd drivers/scsi/ufs/ufshcd.c Can Guo            2020-11-25  9319  			if (ufshcd_is_link_active(hba) &&
-81309c247a4dcd drivers/scsi/ufs/ufshcd.c Can Guo            2020-11-25  9320  			    clki->keep_link_active)
-57d104c153d3d6 drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2014-09-25  9321  				continue;
-57d104c153d3d6 drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2014-09-25  9322  
-911a0771b6fa7b drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2016-12-22  9323  			clk_state_changed = on ^ clki->enabled;
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9324  			if (on && !clki->enabled) {
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9325  				ret = clk_prepare_enable(clki->clk);
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9326  				if (ret) {
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9327  					dev_err(hba->dev, "%s: %s prepare enable failed, %d\n",
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9328  						__func__, clki->name, ret);
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9329  					goto out;
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9330  				}
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9331  			} else if (!on && clki->enabled) {
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9332  				clk_disable_unprepare(clki->clk);
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9333  			}
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9334  			clki->enabled = on;
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9335  			dev_dbg(hba->dev, "%s: clk: %s %sabled\n", __func__,
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9336  					clki->name, on ? "en" : "dis");
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9337  		}
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9338  	}
-1ab27c9cf8b63d drivers/scsi/ufs/ufshcd.c Sahitya Tummala    2014-09-25  9339  
-1e879e8fa9f62e drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2016-10-06  9340  	ret = ufshcd_vops_setup_clocks(hba, on, POST_CHANGE);
-1e879e8fa9f62e drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2016-10-06  9341  	if (ret)
-1e879e8fa9f62e drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2016-10-06  9342  		return ret;
-1e879e8fa9f62e drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2016-10-06  9343  
-2777e73fc154e2 drivers/ufs/core/ufshcd.c Maramaina Naresh   2023-12-19  9344  	if (!ufshcd_is_clkscaling_supported(hba))
-2777e73fc154e2 drivers/ufs/core/ufshcd.c Maramaina Naresh   2023-12-19  9345  		ufshcd_pm_qos_update(hba, on);
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9346  out:
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9347  	if (ret) {
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9348  		list_for_each_entry(clki, head, list) {
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9349  			if (!IS_ERR_OR_NULL(clki->clk) && clki->enabled)
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9350  				clk_disable_unprepare(clki->clk);
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9351  		}
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9352  	}
-7ff5ab47363334 drivers/scsi/ufs/ufshcd.c Subhash Jadavani   2016-12-22  9353  
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9354  	return ret;
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9355  }
-c6e79dacd86fd7 drivers/scsi/ufs/ufshcd.c Sujit Reddy Thumma 2014-09-25  9356  
+   404	
+   405	static int check_export(const struct path *path, int *flags, unsigned char *uuid)
+   406	{
+   407		struct inode *inode = d_inode(path->dentry);
+ > 408		struct export_operations *export_op = inode->i_sb->s_export_op;
+   409	
+   410		/*
+   411		 * We currently export only dirs, regular files, and (for v4
+   412		 * pseudoroot) symlinks.
+   413		 */
+   414		if (!S_ISDIR(inode->i_mode) &&
+   415		    !S_ISLNK(inode->i_mode) &&
+   416		    !S_ISREG(inode->i_mode))
+   417			return -ENOTDIR;
+   418	
+   419		/*
+   420		 * Mountd should never pass down a writeable V4ROOT export, but,
+   421		 * just to make sure:
+   422		 */
+   423		if (*flags & NFSEXP_V4ROOT)
+   424			*flags |= NFSEXP_READONLY;
+   425	
+   426		/* There are four requirements on a filesystem to be exportable:
+   427		 * 1: It must define sb->s_export_op
+   428		 * 2: We must be able to identify the filesystem from a number.
+   429		 *       either a device number (so FS_REQUIRES_DEV needed)
+   430		 *       or an FSID number (so NFSEXP_FSID or ->uuid is needed).
+   431		 * 3: We must be able to find an inode from a filehandle.
+   432		 *       This means that s_export_op must be set.
+   433		 * 4: We must not currently be on an idmapped mount.
+   434		 */
+   435		if (!export_op) {
+   436			dprintk("%s: fs doesn't define export_operations!\n", __func__);
+   437			return -EINVAL;
+   438		}
+   439	
+   440		if (!(inode->i_sb->s_type->fs_flags & FS_REQUIRES_DEV) &&
+   441		    !(*flags & NFSEXP_FSID) &&
+   442		    uuid == NULL) {
+   443			dprintk("exp_export: export of non-dev fs without fsid\n");
+   444			return -EINVAL;
+   445		}
+   446	
+   447		if (!exportfs_can_decode_fh(export_op)) {
+   448			dprintk("exp_export: export of invalid fs type.\n");
+   449			return -EINVAL;
+   450		}
+   451	
+   452		if (is_idmapped_mnt(path->mnt)) {
+   453			dprintk("exp_export: export of idmapped mounts not yet supported.\n");
+   454			return -EINVAL;
+   455		}
+   456	
+   457		if (export_op->flags & EXPORT_OP_NOSUBTREECHK &&
+   458		    !(*flags & NFSEXP_NOSUBTREECHECK)) {
+   459			dprintk("%s: %s does not support subtree checking!\n",
+   460				__func__, inode->i_sb->s_type->name);
+   461			return -EINVAL;
+   462		}
+   463		return 0;
+   464	}
+   465	
 
 -- 
 0-DAY CI Kernel Test Service
