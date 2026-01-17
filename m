@@ -1,126 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341992836F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 13:24:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096F720C477
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 13:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768656243; cv=none; b=dk1/J5aqMi1mzHTK6jrkV5hlFjo84P1bJW917uV+YbziT1NoWxmIzKxN/PNYowbJAMzSVLLVt0ioGhl7+nZSocdU47ttw7DALS3zhTAG0AR0xVnqs2hwHEZk5GB4K8JYSbYLjTDFnxf9c+qcWducRZXSOiLKjZ98sVfBzvgc4+E=
+	t=1768656905; cv=none; b=OcAWrbhu0aigtcoAqz8J66q6WUUvT9oyOyCVUIRxLuJYcVlrWwpo7xb3pAdLXOHotfK2MbZYHiMuRKVq7vaLFo/DvRXXA79P+xtrGv1AU/mh/jCNSB/D7quqxAGZij4WD4rk9Kxyp3aPD4vc5MInUJMQ9d88BnFyVtnol/qdB/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768656243; c=relaxed/simple;
-	bh=uERr11ru3AVa1xk6czUSnv2F5xYuPNTaYWUG5CXatPw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=qeZhqDBWpUYZTpm4db/fWT6cxbNoBUb4pn9j5+jaFsODFTE2gUZPsoM2tWkTwOkXFYgJ3AqXnIAUSihj7fsPMei7Slu2niywK7nKhqoEO2aehV+QUxkwpxwEf4yhwBBVMFrSz4keanRJHBeNL1I7oUnpUFrN1S1VkLj91qPmKdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E2DKTXY9; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1768656905; c=relaxed/simple;
+	bh=YJLn4OUeFverMjOgEXLG89mwU6rhIp33L4m9Ox1ziD4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BKYhNPNVmEhs4fMfKYLtLwghvaniL4r8lANehn15SPEz0V1VMhUvJ45d2Wz5MZ0rmITiYk5x76I4uO01pjrRcQ1d8/PHsuSdNUwCDipw1vzrISbY0LkSZFUcJnucIs/o2Rv6P/+Ad2Y5Ku+vdRa1Yknd/jgrUuEWvUMmuK5rfJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iKaE3aiE; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E2DKTXY9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iKaE3aiE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768656240; x=1800192240;
-  h=date:from:to:cc:subject:message-id;
-  bh=uERr11ru3AVa1xk6czUSnv2F5xYuPNTaYWUG5CXatPw=;
-  b=E2DKTXY9FVFTtiIIsF/YyXFpnY0JojHGCRpfMYWqTusYRotYpsX6N5J+
-   g6Ma31Ff0BlijyD10CscAJRvgdZEshsh+D7Y2cXJ86ZfgSep+v/MZjLX4
-   TjDSZevCT0CFKD35Pi4qFKHn0S4nvJdo4Y4jvwSCQcGhjr8sXMc2clhcp
-   XpVvTdDVzidB5sD3p3KKm+zp+uenxz9FBssKWg4Ets7Ur9oriSwBY7yX0
-   ASOnyyt+tXmh3kmG/BMwrf1ym4ZwTk+XCLs24wxaZd/H6xoWrhsK+5LD5
-   Z8aDREp1jOEKkCp1zwxbbovM7HZAkPCkdD50lfCuuTXy+w/ajDi5cH2ql
+  t=1768656903; x=1800192903;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YJLn4OUeFverMjOgEXLG89mwU6rhIp33L4m9Ox1ziD4=;
+  b=iKaE3aiEf3OtNA/f+sh9Rdn0UUXKHXMPakkq18wB166TnKkrffoHfr44
+   fYNxVB/ica/6KDIy3RO0WGoE6H05L7kQ0fYYrizRan4D9c9GNri20w2pX
+   IJqVmPp/hkSw0R9yO0NzR+S8Fm2iTAvyNVF9XYW1acNLpMs82A4Ds8Yff
+   BznCZPx1KgZrw/ijoqD8auo+m8RZn4ox42jeCV3Xx3rxwqTID/XSFAvAb
+   Vb4o3OvTDq5ZzJFZaWJqS1UsoUYQsrM9fSZ3pCk/3esXRfbOj9YZOo/gk
+   8A2y3hFDjpjHFZ5JxBVM1FAcxgHkkQwWwsFXtvhZGB79yCOHwioj2CYqz
    Q==;
-X-CSE-ConnectionGUID: fi/b1Pz8RPGTeGh9m1BW3Q==
-X-CSE-MsgGUID: mDNoh+wTSX+dXXL5aIw+Kg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="87361445"
+X-CSE-ConnectionGUID: IQ5cB7ZfRKGZoNOpiI205w==
+X-CSE-MsgGUID: Ax+nuEOiQEGA1Xbatu64VA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="95418860"
 X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="87361445"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 05:23:59 -0800
-X-CSE-ConnectionGUID: 99uaTHBASQ6Ip4b8s4nwnA==
-X-CSE-MsgGUID: jqnaAtwvSWu+r8zWaTD3EQ==
+   d="scan'208";a="95418860"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 05:35:01 -0800
+X-CSE-ConnectionGUID: J7dGuL60SLy+9iiPMR2yrQ==
+X-CSE-MsgGUID: 2xZOaTjMQ7mwC9YiqGksGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,234,1763452800"; 
-   d="scan'208";a="204623799"
+   d="scan'208";a="210482909"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 Jan 2026 05:23:58 -0800
+  by orviesa005.jf.intel.com with ESMTP; 17 Jan 2026 05:34:59 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vh6HT-00000000LsK-2NKP;
-	Sat, 17 Jan 2026 13:23:55 +0000
-Date: Sat, 17 Jan 2026 21:23:02 +0800
+	id 1vh6S7-00000000Lse-3guE;
+	Sat, 17 Jan 2026 13:34:55 +0000
+Date: Sat, 17 Jan 2026 21:34:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>
-Subject: [linux-next:master 5478/6849] mm/slub.c:2340:16: error: use
- of undeclared identifier 'MEMCG_DATA_OBJEXTS'
-Message-ID: <202601172108.4M7RmCaj-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Piotr Kwapulinski <piotr.kwapulinski@intel.com>,
+	intel-wired-lan@lists.osuosl.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	dan.carpenter@linaro.org, horms@kernel.org,
+	Piotr Kwapulinski <piotr.kwapulinski@intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Subject: Re: [PATCH iwl-next 1/2] ixgbe: e610: add missing endianness
+ conversion
+Message-ID: <202601172130.UkaUgjIE-lkp@intel.com>
+References: <20260116122353.78235-1-piotr.kwapulinski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116122353.78235-1-piotr.kwapulinski@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
-commit: aeb88c8de3688638632d5867c352676d334e6531 [5478/6849] mm/slab: save memory by allocating slabobj_ext array from leftover
-config: mips-randconfig-r062-20260117 (https://download.01.org/0day-ci/archive/20260117/202601172108.4M7RmCaj-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601172108.4M7RmCaj-lkp@intel.com/reproduce)
+Hi Piotr,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tnguy-next-queue/dev-queue]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Piotr-Kwapulinski/ixgbe-e610-add-missing-endianness-conversion/20260116-200705
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20260116122353.78235-1-piotr.kwapulinski%40intel.com
+patch subject: [PATCH iwl-next 1/2] ixgbe: e610: add missing endianness conversion
+config: x86_64-randconfig-r111-20260117 (https://download.01.org/0day-ci/archive/20260117/202601172130.UkaUgjIE-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601172130.UkaUgjIE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601172108.4M7RmCaj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601172130.UkaUgjIE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:116:17: sparse: sparse: cast to restricted __le32
+>> drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:149:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:149:37: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:149:37: sparse:     got restricted __le32 [usertype]
+   drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:157:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:157:37: sparse:     expected unsigned int [usertype]
+   drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c:157:37: sparse:     got restricted __le32 [usertype]
 
-   mm/slub.c:2154:33: error: passing 'union codetag_ref' to parameter of incompatible type 'union codetag_ref *'; take the address with &
-    2154 |                 if (unlikely(is_codetag_empty(ext->ref))) {
-         |                                               ^~~~~~~~
-         |                                               &
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/alloc_tag.h:52:56: note: passing argument to parameter 'ref' here
-      52 | static inline bool is_codetag_empty(union codetag_ref *ref)
-         |                                                        ^
->> mm/slub.c:2340:16: error: use of undeclared identifier 'MEMCG_DATA_OBJEXTS'
-    2340 |                         obj_exts |= MEMCG_DATA_OBJEXTS;
-         |                                     ^
-   2 errors generated.
+vim +116 drivers/net/ethernet/intel/ixgbe/ixgbe_e610.c
 
-
-vim +/MEMCG_DATA_OBJEXTS +2340 mm/slub.c
-
-  2316	
-  2317	/*
-  2318	 * Try to allocate slabobj_ext array from unused space.
-  2319	 * This function must be called on a freshly allocated slab to prevent
-  2320	 * concurrency problems.
-  2321	 */
-  2322	static void alloc_slab_obj_exts_early(struct kmem_cache *s, struct slab *slab)
-  2323	{
-  2324		void *addr;
-  2325		unsigned long obj_exts;
-  2326	
-  2327		if (!need_slab_obj_exts(s))
-  2328			return;
-  2329	
-  2330		if (obj_exts_fit_within_slab_leftover(s, slab)) {
-  2331			addr = slab_address(slab) + obj_exts_offset_in_slab(s, slab);
-  2332			addr = kasan_reset_tag(addr);
-  2333			obj_exts = (unsigned long)addr;
-  2334	
-  2335			get_slab_obj_exts(obj_exts);
-  2336			memset(addr, 0, obj_exts_size_in_slab(slab));
-  2337			put_slab_obj_exts(obj_exts);
-  2338	
-  2339			if (IS_ENABLED(CONFIG_MEMCG))
-> 2340				obj_exts |= MEMCG_DATA_OBJEXTS;
-  2341			slab->obj_exts = obj_exts;
-  2342			slab_set_stride(slab, sizeof(struct slabobj_ext));
-  2343		}
-  2344	}
-  2345	
+    35	
+    36	/**
+    37	 * ixgbe_aci_send_cmd_execute - execute sending FW Admin Command to FW Admin
+    38	 * Command Interface
+    39	 * @hw: pointer to the HW struct
+    40	 * @desc: descriptor describing the command
+    41	 * @buf: buffer to use for indirect commands (NULL for direct commands)
+    42	 * @buf_size: size of buffer for indirect commands (0 for direct commands)
+    43	 *
+    44	 * Admin Command is sent using CSR by setting descriptor and buffer in specific
+    45	 * registers.
+    46	 *
+    47	 * Return: the exit code of the operation.
+    48	 * * - 0 - success.
+    49	 * * - -EIO - CSR mechanism is not enabled.
+    50	 * * - -EBUSY - CSR mechanism is busy.
+    51	 * * - -EINVAL - buf_size is too big or
+    52	 * invalid argument buf or buf_size.
+    53	 * * - -ETIME - Admin Command X command timeout.
+    54	 * * - -EIO - Admin Command X invalid state of HICR register or
+    55	 * Admin Command failed because of bad opcode was returned or
+    56	 * Admin Command failed with error Y.
+    57	 */
+    58	static int ixgbe_aci_send_cmd_execute(struct ixgbe_hw *hw,
+    59					      struct libie_aq_desc *desc,
+    60					      void *buf, u16 buf_size)
+    61	{
+    62		u16 opcode, buf_tail_size = buf_size % 4;
+    63		u32 *raw_desc = (u32 *)desc;
+    64		u32 hicr, i, buf_tail = 0;
+    65		bool valid_buf = false;
+    66	
+    67		hw->aci.last_status = LIBIE_AQ_RC_OK;
+    68	
+    69		/* It's necessary to check if mechanism is enabled */
+    70		hicr = IXGBE_READ_REG(hw, IXGBE_PF_HICR);
+    71	
+    72		if (!(hicr & IXGBE_PF_HICR_EN))
+    73			return -EIO;
+    74	
+    75		if (hicr & IXGBE_PF_HICR_C) {
+    76			hw->aci.last_status = LIBIE_AQ_RC_EBUSY;
+    77			return -EBUSY;
+    78		}
+    79	
+    80		opcode = le16_to_cpu(desc->opcode);
+    81	
+    82		if (buf_size > IXGBE_ACI_MAX_BUFFER_SIZE)
+    83			return -EINVAL;
+    84	
+    85		if (buf)
+    86			desc->flags |= cpu_to_le16(LIBIE_AQ_FLAG_BUF);
+    87	
+    88		if (desc->flags & cpu_to_le16(LIBIE_AQ_FLAG_BUF)) {
+    89			if ((buf && !buf_size) ||
+    90			    (!buf && buf_size))
+    91				return -EINVAL;
+    92			if (buf && buf_size)
+    93				valid_buf = true;
+    94		}
+    95	
+    96		if (valid_buf) {
+    97			if (buf_tail_size)
+    98				memcpy(&buf_tail, buf + buf_size - buf_tail_size,
+    99				       buf_tail_size);
+   100	
+   101			if (((buf_size + 3) & ~0x3) > LIBIE_AQ_LG_BUF)
+   102				desc->flags |= cpu_to_le16(LIBIE_AQ_FLAG_LB);
+   103	
+   104			desc->datalen = cpu_to_le16(buf_size);
+   105	
+   106			if (desc->flags & cpu_to_le16(LIBIE_AQ_FLAG_RD)) {
+   107				for (i = 0; i < buf_size / 4; i++)
+   108					IXGBE_WRITE_REG(hw, IXGBE_PF_HIBA(i), ((u32 *)buf)[i]);
+   109				if (buf_tail_size)
+   110					IXGBE_WRITE_REG(hw, IXGBE_PF_HIBA(i), buf_tail);
+   111			}
+   112		}
+   113	
+   114		/* Descriptor is written to specific registers */
+   115		for (i = 0; i < IXGBE_ACI_DESC_SIZE_IN_DWORDS; i++)
+ > 116			IXGBE_WRITE_REG(hw, IXGBE_PF_HIDA(i),
+   117					le32_to_cpu(raw_desc[i]));
+   118	
+   119		/* SW has to set PF_HICR.C bit and clear PF_HICR.SV and
+   120		 * PF_HICR_EV
+   121		 */
+   122		hicr = (IXGBE_READ_REG(hw, IXGBE_PF_HICR) | IXGBE_PF_HICR_C) &
+   123		       ~(IXGBE_PF_HICR_SV | IXGBE_PF_HICR_EV);
+   124		IXGBE_WRITE_REG(hw, IXGBE_PF_HICR, hicr);
+   125	
+   126	#define MAX_SLEEP_RESP_US 1000
+   127	#define MAX_TMOUT_RESP_SYNC_US 100000000
+   128	
+   129		/* Wait for sync Admin Command response */
+   130		read_poll_timeout(IXGBE_READ_REG, hicr,
+   131				  (hicr & IXGBE_PF_HICR_SV) ||
+   132				  !(hicr & IXGBE_PF_HICR_C),
+   133				  MAX_SLEEP_RESP_US, MAX_TMOUT_RESP_SYNC_US, true, hw,
+   134				  IXGBE_PF_HICR);
+   135	
+   136	#define MAX_TMOUT_RESP_ASYNC_US 150000000
+   137	
+   138		/* Wait for async Admin Command response */
+   139		read_poll_timeout(IXGBE_READ_REG, hicr,
+   140				  (hicr & IXGBE_PF_HICR_EV) ||
+   141				  !(hicr & IXGBE_PF_HICR_C),
+   142				  MAX_SLEEP_RESP_US, MAX_TMOUT_RESP_ASYNC_US, true, hw,
+   143				  IXGBE_PF_HICR);
+   144	
+   145		/* Read sync Admin Command response */
+   146		if ((hicr & IXGBE_PF_HICR_SV)) {
+   147			for (i = 0; i < IXGBE_ACI_DESC_SIZE_IN_DWORDS; i++) {
+   148				raw_desc[i] = IXGBE_READ_REG(hw, IXGBE_PF_HIDA(i));
+ > 149				raw_desc[i] = cpu_to_le32(raw_desc[i]);
+   150			}
+   151		}
+   152	
+   153		/* Read async Admin Command response */
+   154		if ((hicr & IXGBE_PF_HICR_EV) && !(hicr & IXGBE_PF_HICR_C)) {
+   155			for (i = 0; i < IXGBE_ACI_DESC_SIZE_IN_DWORDS; i++) {
+   156				raw_desc[i] = IXGBE_READ_REG(hw, IXGBE_PF_HIDA_2(i));
+   157				raw_desc[i] = cpu_to_le32(raw_desc[i]);
+   158			}
+   159		}
+   160	
+   161		/* Handle timeout and invalid state of HICR register */
+   162		if (hicr & IXGBE_PF_HICR_C)
+   163			return -ETIME;
+   164	
+   165		if (!(hicr & IXGBE_PF_HICR_SV) && !(hicr & IXGBE_PF_HICR_EV))
+   166			return -EIO;
+   167	
+   168		/* For every command other than 0x0014 treat opcode mismatch
+   169		 * as an error. Response to 0x0014 command read from HIDA_2
+   170		 * is a descriptor of an event which is expected to contain
+   171		 * different opcode than the command.
+   172		 */
+   173		if (desc->opcode != cpu_to_le16(opcode) &&
+   174		    opcode != ixgbe_aci_opc_get_fw_event)
+   175			return -EIO;
+   176	
+   177		if (desc->retval) {
+   178			hw->aci.last_status = (enum libie_aq_err)
+   179				le16_to_cpu(desc->retval);
+   180			return -EIO;
+   181		}
+   182	
+   183		/* Write a response values to a buf */
+   184		if (valid_buf) {
+   185			for (i = 0; i < buf_size / 4; i++)
+   186				((u32 *)buf)[i] = IXGBE_READ_REG(hw, IXGBE_PF_HIBA(i));
+   187			if (buf_tail_size) {
+   188				buf_tail = IXGBE_READ_REG(hw, IXGBE_PF_HIBA(i));
+   189				memcpy(buf + buf_size - buf_tail_size, &buf_tail,
+   190				       buf_tail_size);
+   191			}
+   192		}
+   193	
+   194		return 0;
+   195	}
+   196	
 
 -- 
 0-DAY CI Kernel Test Service
