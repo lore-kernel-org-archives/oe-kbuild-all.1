@@ -1,80 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748FD2EDD40
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 17:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D41DA242D79
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 18:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768757472; cv=none; b=RB+WGNyIsgRthOXfZt/x43zxEuA9jBdZj2kYEvyPLQ8KSihbL4oz4zdiBXnRqO2MxMlshcILlwGUuVtrcSe30p1bvCRSNwto7O4pYLeFrjotfuvEt3CE2G18dGIqdb81xvK9Kn/ASJdkST3VURxBswbucpp8ULyZis+aAMCnqvo=
+	t=1768761430; cv=none; b=mO2EEL5NZNsm8ssLLfG/C4+OoFwhDrRKAZvKVkmfVNnej+5QZOU702oMWMVcsknYlYmUOGPrdpxLQns1F+aSYy99rQQJA8Q7OBmxxc7PpCzj/r+B3m8i7LHaFcLh1Vwr7UcKVkhu6fqa9I8J6SnNEwgZ/f9y8wgUDQz7g3uNLok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768757472; c=relaxed/simple;
-	bh=qpHP2r/UkqvOOGaSJfa0j2ENPrp6BCaNMaAKckrdrsc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TMTegPTvKCaKzu6XkNmB6rNeoAuFQAiMz6vLQMzqyxNjvGgUIY8+1KAflKgNUvIMgbg/o6zAmS06Ss9UcbMDYew9GSh1SENiLym8xxUziw2GP1qFUpcPf0fqcDY4+3RPe4b1fhQichdKpBLQAogOvR+ZUvMJjxC+4C8L0LI0J9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j/uNfhlC; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1768761430; c=relaxed/simple;
+	bh=8O/5joRe3cFbEUfBDmw9o/JAu/DiyxFA8DnJE5KGfag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YFEhBFcudTnoSxEYkOYkiE6YuvoDiI5WnjhVMajTuWHCwkV2FI1R0SmO7Y3AnGx88zJUaUwZUKCSht3fl6GR908dbaAjgQIqnyuSKg9ecvYGClMUvVtUYDCtynBfhGvdoSMlKstI0daLT7s1YIyTkhQSsuy8andJpvOkkHYpxJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nINGoDhx; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j/uNfhlC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nINGoDhx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768757467; x=1800293467;
-  h=date:from:to:cc:subject:message-id;
-  bh=qpHP2r/UkqvOOGaSJfa0j2ENPrp6BCaNMaAKckrdrsc=;
-  b=j/uNfhlCPCdjrpLds6+caajBpcDvuq+fosuQtUu9t3gjkzffWWVU+4A8
-   AGOk/BWaX1mnDDYsHrkWW1bpS6u9pKUzp7PPJvGZW7dM4oc0CYh4l0N2b
-   2WnnP/lqPtsZClPuQwyX19WwurKv4B8RS1OKVZECBG9pvWLuCAfNiSPwy
-   CuAWK0OLvvDtNQzfrjr0ldvXAZRym+dC+GxmSv6NWNuC+psF9LjjJxB6B
-   ATVYVPox8+dNXDRLTJ43NTQJhZoSM4O/6naYW1R19tLQg9zcE5YlJQ7fV
-   NuMN3FO1AC7YYHHla9JcSQAnXVTPrkZdm3wgpuwfPj0etYGBsujqBWfAM
-   g==;
-X-CSE-ConnectionGUID: 4PwE31oPTlaYTLaNFa6Jiw==
-X-CSE-MsgGUID: VVEEQ5n9SFCfhzUyzDHDvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="69886384"
+  t=1768761428; x=1800297428;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8O/5joRe3cFbEUfBDmw9o/JAu/DiyxFA8DnJE5KGfag=;
+  b=nINGoDhx0n5E4XQQSKMLK3nOvqsDvkBD2OYb4RfJLUH7xW31vr7EtH/b
+   Yrue+THY3/ou2j0zyyuGvXKRWqKmVq5oweOrvEQ5Fw1qXj2Fc31eSmnYY
+   oGoS7+JWBZz0LxrUlThxHry9hJ63qwV+TvsUS+kGhniNE2uwx4flwc1PX
+   y1BA6JSAWW2OMkCKzzMwiPeVRpGIHZU4Pb98Mt0YOSM7VB63wmk/JUeP/
+   4rmvxoLdYJGs0MXHh4jCQz9i/lpmZWDrDKLTUkBJ5SDcLBSrvNJlEy+/L
+   VxvyFb7MZnKtqpoAnB+21PEGQjc1UbveLszMLRHqNtiXcXXxCNK8U0yCF
+   Q==;
+X-CSE-ConnectionGUID: KDk2YMkFT72c91BhtONeAQ==
+X-CSE-MsgGUID: QA9A+91DSi+fKNTxaHO+1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="73835479"
 X-IronPort-AV: E=Sophos;i="6.21,236,1763452800"; 
-   d="scan'208";a="69886384"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 09:31:04 -0800
-X-CSE-ConnectionGUID: nRiL+uoVSTSvZVh3rz0xWQ==
-X-CSE-MsgGUID: SQlwqQKeQT6G9kOgklugjw==
+   d="scan'208";a="73835479"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 10:37:08 -0800
+X-CSE-ConnectionGUID: hm2VYymoQTiQVnvTIOnENw==
+X-CSE-MsgGUID: Z31XybFiRhilpkSXiTJoTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,236,1763452800"; 
-   d="scan'208";a="204824595"
+   d="scan'208";a="210543106"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 18 Jan 2026 09:31:02 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 18 Jan 2026 10:37:05 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhWc8-00000000N7o-2B3t;
-	Sun, 18 Jan 2026 17:31:00 +0000
-Date: Mon, 19 Jan 2026 01:30:57 +0800
+	id 1vhXe2-00000000N9g-2MNB;
+	Sun, 18 Jan 2026 18:37:02 +0000
+Date: Mon, 19 Jan 2026 02:36:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe:io_uring-bpf-both-restrictions 14/19] ld:
- kernel/bpf/syscall.o:undefined reference to `io_uring_filter_prog_ops'
-Message-ID: <202601190135.yN7DQnIK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Eric Dumazet <edumazet@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>, netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <eric.dumazet@gmail.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Nicolas Pitre <npitre@baylibre.com>
+Subject: Re: [PATCH] compiler_types: Introduce inline_for_performance
+Message-ID: <202601190247.dDAvbbMH-lkp@intel.com>
+References: <20260118152448.2560414-1-edumazet@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260118152448.2560414-1-edumazet@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git io_uring-bpf-both-restrictions
-head:   101d5f0794ddfbee7649bbfa145854ecfa7d1994
-commit: 09ab6f4eda4c6ac7cb99b8c1f61a062186002733 [14/19] io_uring: add support for BPF filtering for opcode restrictions
-config: i386-buildonly-randconfig-001-20260118 (https://download.01.org/0day-ci/archive/20260119/202601190135.yN7DQnIK-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601190135.yN7DQnIK-lkp@intel.com/reproduce)
+Hi Eric,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on e84d960149e71e8d5e4db69775ce31305898ed0c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/compiler_types-Introduce-inline_for_performance/20260118-232653
+base:   e84d960149e71e8d5e4db69775ce31305898ed0c
+patch link:    https://lore.kernel.org/r/20260118152448.2560414-1-edumazet%40google.com
+patch subject: [PATCH] compiler_types: Introduce inline_for_performance
+config: m68k-amcore_defconfig (https://download.01.org/0day-ci/archive/20260119/202601190247.dDAvbbMH-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601190247.dDAvbbMH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601190135.yN7DQnIK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601190247.dDAvbbMH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld: kernel/bpf/syscall.o:(.rodata+0x964): undefined reference to `io_uring_filter_prog_ops'
->> ld: kernel/bpf/verifier.o:(.rodata+0xb04): undefined reference to `io_uring_filter_verifier_ops'
+   In file included from arch/m68k/include/asm/div64.h:6,
+                    from include/linux/math.h:6,
+                    from include/linux/kernel.h:27,
+                    from arch/m68k/coldfire/cache.c:12:
+>> include/asm-generic/div64.h:138:10: warning: '__arch_xprod_64' defined but not used [-Wunused-function]
+     138 | uint64_t __arch_xprod_64(const uint64_t m, uint64_t n, bool bias)
+         |          ^~~~~~~~~~~~~~~
+
+
+vim +/__arch_xprod_64 +138 include/asm-generic/div64.h
+
+461a5e51060c93 Nicolas Pitre 2015-10-30  125  
+f682b27c57aec2 Nicolas Pitre 2015-10-30  126  #ifndef __arch_xprod_64
+f682b27c57aec2 Nicolas Pitre 2015-10-30  127  /*
+f682b27c57aec2 Nicolas Pitre 2015-10-30  128   * Default C implementation for __arch_xprod_64()
+f682b27c57aec2 Nicolas Pitre 2015-10-30  129   *
+f682b27c57aec2 Nicolas Pitre 2015-10-30  130   * Prototype: uint64_t __arch_xprod_64(const uint64_t m, uint64_t n, bool bias)
+f682b27c57aec2 Nicolas Pitre 2015-10-30  131   * Semantic:  retval = ((bias ? m : 0) + m * n) >> 64
+f682b27c57aec2 Nicolas Pitre 2015-10-30  132   *
+f682b27c57aec2 Nicolas Pitre 2015-10-30  133   * The product is a 128-bit value, scaled down to 64 bits.
+00a31dd3acea0f Nicolas Pitre 2024-10-03  134   * Hoping for compile-time optimization of  conditional code.
+f682b27c57aec2 Nicolas Pitre 2015-10-30  135   * Architectures may provide their own optimized assembly implementation.
+f682b27c57aec2 Nicolas Pitre 2015-10-30  136   */
+5f712d70e20a46 Eric Dumazet  2026-01-18  137  static inline_for_performance
+d533cb2d2af400 Nicolas Pitre 2024-10-03 @138  uint64_t __arch_xprod_64(const uint64_t m, uint64_t n, bool bias)
+f682b27c57aec2 Nicolas Pitre 2015-10-30  139  {
+f682b27c57aec2 Nicolas Pitre 2015-10-30  140  	uint32_t m_lo = m;
+f682b27c57aec2 Nicolas Pitre 2015-10-30  141  	uint32_t m_hi = m >> 32;
+f682b27c57aec2 Nicolas Pitre 2015-10-30  142  	uint32_t n_lo = n;
+f682b27c57aec2 Nicolas Pitre 2015-10-30  143  	uint32_t n_hi = n >> 32;
+00a31dd3acea0f Nicolas Pitre 2024-10-03  144  	uint64_t x, y;
+f682b27c57aec2 Nicolas Pitre 2015-10-30  145  
+00a31dd3acea0f Nicolas Pitre 2024-10-03  146  	/* Determine if overflow handling can be dispensed with. */
+00a31dd3acea0f Nicolas Pitre 2024-10-03  147  	bool no_ovf = __builtin_constant_p(m) &&
+00a31dd3acea0f Nicolas Pitre 2024-10-03  148  		      ((m >> 32) + (m & 0xffffffff) < 0x100000000);
+f682b27c57aec2 Nicolas Pitre 2015-10-30  149  
+00a31dd3acea0f Nicolas Pitre 2024-10-03  150  	if (no_ovf) {
+00a31dd3acea0f Nicolas Pitre 2024-10-03  151  		x = (uint64_t)m_lo * n_lo + (bias ? m : 0);
+00a31dd3acea0f Nicolas Pitre 2024-10-03  152  		x >>= 32;
+00a31dd3acea0f Nicolas Pitre 2024-10-03  153  		x += (uint64_t)m_lo * n_hi;
+00a31dd3acea0f Nicolas Pitre 2024-10-03  154  		x += (uint64_t)m_hi * n_lo;
+00a31dd3acea0f Nicolas Pitre 2024-10-03  155  		x >>= 32;
+00a31dd3acea0f Nicolas Pitre 2024-10-03  156  		x += (uint64_t)m_hi * n_hi;
+f682b27c57aec2 Nicolas Pitre 2015-10-30  157  	} else {
+00a31dd3acea0f Nicolas Pitre 2024-10-03  158  		x = (uint64_t)m_lo * n_lo + (bias ? m_lo : 0);
+00a31dd3acea0f Nicolas Pitre 2024-10-03  159  		y = (uint64_t)m_lo * n_hi + (uint32_t)(x >> 32) + (bias ? m_hi : 0);
+00a31dd3acea0f Nicolas Pitre 2024-10-03  160  		x = (uint64_t)m_hi * n_hi + (uint32_t)(y >> 32);
+00a31dd3acea0f Nicolas Pitre 2024-10-03  161  		y = (uint64_t)m_hi * n_lo + (uint32_t)y;
+00a31dd3acea0f Nicolas Pitre 2024-10-03  162  		x += (uint32_t)(y >> 32);
+f682b27c57aec2 Nicolas Pitre 2015-10-30  163  	}
+f682b27c57aec2 Nicolas Pitre 2015-10-30  164  
+00a31dd3acea0f Nicolas Pitre 2024-10-03  165  	return x;
+f682b27c57aec2 Nicolas Pitre 2015-10-30  166  }
+f682b27c57aec2 Nicolas Pitre 2015-10-30  167  #endif
+f682b27c57aec2 Nicolas Pitre 2015-10-30  168  
 
 -- 
 0-DAY CI Kernel Test Service
