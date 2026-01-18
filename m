@@ -1,66 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF3B1F8BD6;
-	Sun, 18 Jan 2026 21:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F2F50094C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 21:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768770328; cv=none; b=UXUWDvaRNVDdTrZwX/AWZUysk9AwzyuSrJTAnFmA8H1yK0uKJYwZgmQ55tE6EN89d6oxPBUW9p1ZFNV1twnekT3lH491s8q+O444bsdVW2sqOLL5b0+Wm3Eyh4wCHJoCv4sUtm9OGDp5JhnEnRGouDnjU9I9PRofwzov7cGpXd4=
+	t=1768770328; cv=none; b=H+VfwpRqnd6EmVVFgd+5iZ6lR0cxzFTQeih1+2nVEmHvPpiNIZ33KZkY9Kkq1JS9MS/ArsoRznQCxhv4EoFg/nIBNYWilX+xImwCqUmXy8pUM1ZQuZiW3VJNV/hmuFleirlLM57UU9BZQdHdyjALYgFxIHDfGvbifufncB6gR/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768770328; c=relaxed/simple;
-	bh=GM3uKCMiilBcgyBVXN4FIzqknsc8oriYI5QHYaoewVg=;
+	bh=OE1AoHB1Y79/Fx3YUFsM512vLtvo5xjas7jk/6O9aqg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RB6fU7UuUJ4oS6wfPDwePB0fP6j/sjaMtKvvjJ7pdhG/mSVIi301oSsrENPThqcfdPiM7LJ9nbYfwjSZok8iSjVUUZ3K7tYV4tNmYjMEY/Su6OB5t5uLpiIlv0UWsaoqxTQnK9HJw44noftmle/PBmWmNQzrCZt4bEvpA+Ranxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hY0aIa+E; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=ISDXiiq7Nbd4mJVQB0B/k831VsOlKUw0irJ8p3EQiOb6G4hbY0Zvm2BFRrJ22OPjmdqhct/cffJ/3M/5g4k4A4hTh9X/gZ2Lx851K46rW9dW/v+Gry9XOO4+7KPHg9ccnNvufZ+pqP4S//ok8Or4RjcP3qM0CqyFyD908yD4S6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J/D3C/eI; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hY0aIa+E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J/D3C/eI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768770326; x=1800306326;
+  t=1768770325; x=1800306325;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GM3uKCMiilBcgyBVXN4FIzqknsc8oriYI5QHYaoewVg=;
-  b=hY0aIa+EM70DTOH7myfQG6zMtDknZ6QQGrLVIbSMwzjSbh7Li7Nm9ZgM
-   /WGbIappRfaOryLqvTo8YJCIu/LcpzXxioZDvLyjS5ticpt5rluTlGXm6
-   jqrrxfm/zdkB3wNG/QAGE3PwLoc43dJ9EyyX+c/95IbDYlmQ2Zi5jr5zW
-   tr8fo0egL9btAA58OFmgFJ0itoRe/vHh2iyTJtFyryEdBKU208oua2ykP
-   jExnp3eOWq+GImucTpzqPmkuvGqk0Mwy3cN3YptTI6wNzN73bp/70RTeo
-   q365SSB8wNazkmm80QAzvzmdWzHNZnT0XofonBQJRwKFdM6Ahq92XkRiu
-   w==;
-X-CSE-ConnectionGUID: zMoU35zcTtO4n2jpa32JFg==
-X-CSE-MsgGUID: AbNWNk9JTvWMHOpRSoDjhg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="69892319"
+  bh=OE1AoHB1Y79/Fx3YUFsM512vLtvo5xjas7jk/6O9aqg=;
+  b=J/D3C/eIIUoU7YmB+saWgGw2v1JZM0W1X9ig+aUDgdCPRS4Eeme4fFX7
+   5/iQfDC+a6r24uWMKKzOFMYWkB47HNiX/VtC3u4SnqcWkgDHvFVY24Nuo
+   1dNz/e0M4jsBKyf9UIqCW5tI9wsqATSj7ij7w4VENV9ISjdGZ2efvtDPC
+   PAfB4uH3RYQe75yR2LmIOVwH4W3tWnHOhXvwjZzERF3ykK7o9MR5VpwDZ
+   NSExGCECwnZPaTBbOaocH/pxeLGKKLoZdPR22RXiLZhbgsH3NVjeAAokz
+   tHb2qrA9YQrfe4VioBfYVwdBW5lJ9XMmDcGyrAD0ueDqSHPrz8qIKC08c
+   A==;
+X-CSE-ConnectionGUID: eI+8krf2SOunSMLkPmvFjQ==
+X-CSE-MsgGUID: LqxN44Z6Sd6WWmJnRM7WkA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="73620387"
 X-IronPort-AV: E=Sophos;i="6.21,236,1763452800"; 
-   d="scan'208";a="69892319"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 13:05:26 -0800
-X-CSE-ConnectionGUID: oYYZtdB8TAScbc8sN6SrZw==
-X-CSE-MsgGUID: WYIuxMH6Tr+DshwILx+2Ew==
+   d="scan'208";a="73620387"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 13:05:24 -0800
+X-CSE-ConnectionGUID: ma6M8gC5TueFYLQs1mg2Rw==
+X-CSE-MsgGUID: 2d+5Z5+6QeuDEfRp4e4DxQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,236,1763452800"; 
-   d="scan'208";a="206131331"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 18 Jan 2026 13:05:21 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 18 Jan 2026 13:05:22 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhZxX-00000000NDs-3azH;
+	id 1vhZxX-00000000NDp-3IGw;
 	Sun, 18 Jan 2026 21:05:19 +0000
-Date: Mon, 19 Jan 2026 05:04:26 +0800
+Date: Mon, 19 Jan 2026 05:04:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vijayanand Jitta <vijayanand.jitta@oss.qualcomm.com>,
-	robin.murphy@arm.com, will@kernel.org, joro@8bytes.org,
-	robh@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
-	konrad.dybcio@oss.qualcomm.com, bjorn.andersson@oss.qualcomm.com,
-	bod@kernel.org, conor+dt@kernel.org, krzk+dt@kernel.org,
-	prakash.gupta@oss.qualcomm.com, vikash.garodia@oss.qualcomm.com
-Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	vijayanand.jitta@oss.qualcomm.com
-Subject: Re: [PATCH v5 3/3] of: Respect #{iommu,msi}-cells in maps
-Message-ID: <202601190432.C5Aya7rJ-lkp@intel.com>
-References: <20260118181125.1436036-4-vijayanand.jitta@oss.qualcomm.com>
+To: Eric Dumazet <edumazet@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>, netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <eric.dumazet@gmail.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Nicolas Pitre <npitre@baylibre.com>
+Subject: Re: [PATCH] compiler_types: Introduce inline_for_performance
+Message-ID: <202601190420.RlBoZSGm-lkp@intel.com>
+References: <20260118152448.2560414-1-edumazet@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,62 +67,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260118181125.1436036-4-vijayanand.jitta@oss.qualcomm.com>
+In-Reply-To: <20260118152448.2560414-1-edumazet@google.com>
 
-Hi Vijayanand,
+Hi Eric,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on pci/next pci/for-linus xen-tip/linux-next linus/master v6.19-rc5 next-20260116]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on e84d960149e71e8d5e4db69775ce31305898ed0c]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vijayanand-Jitta/of-Add-convenience-wrappers-for-of_map_id/20260119-021706
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20260118181125.1436036-4-vijayanand.jitta%40oss.qualcomm.com
-patch subject: [PATCH v5 3/3] of: Respect #{iommu,msi}-cells in maps
-config: i386-allnoconfig (https://download.01.org/0day-ci/archive/20260119/202601190432.C5Aya7rJ-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601190432.C5Aya7rJ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/compiler_types-Introduce-inline_for_performance/20260118-232653
+base:   e84d960149e71e8d5e4db69775ce31305898ed0c
+patch link:    https://lore.kernel.org/r/20260118152448.2560414-1-edumazet%40google.com
+patch subject: [PATCH] compiler_types: Introduce inline_for_performance
+config: arm-randconfig-004-20260119 (https://download.01.org/0day-ci/archive/20260119/202601190420.RlBoZSGm-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601190420.RlBoZSGm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601190432.C5Aya7rJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601190420.RlBoZSGm-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/cpufreq.h:17,
-                    from kernel/sched/sched.h:31,
-                    from kernel/sched/rq-offsets.c:5:
->> include/linux/of.h:937:1: error: expected identifier or '(' before '{' token
-     937 | {
-         | ^
->> include/linux/of.h:934:19: warning: 'of_map_id' used but never defined
-     934 | static inline int of_map_id(const struct device_node *np, u32 id, const char *map_name,
-         |                   ^~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1314: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from include/linux/math.h:6,
+                    from include/linux/kernel.h:27,
+                    from include/linux/random.h:7,
+                    from include/linux/nodemask.h:94,
+                    from include/linux/numa.h:6,
+                    from include/linux/cpumask.h:15,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from lib/dec_and_lock.c:3:
+>> arch/arm/include/asm/div64.h:56:10: warning: '__arch_xprod_64' defined but not used [-Wunused-function]
+      56 | uint64_t __arch_xprod_64(uint64_t m, uint64_t n, bool bias)
+         |          ^~~~~~~~~~~~~~~
 
 
-vim +937 include/linux/of.h
+vim +/__arch_xprod_64 +56 arch/arm/include/asm/div64.h
 
-0384e8c6c6fa49 Pantelis Antoniou 2015-01-21  933  
-eb8f695e71ec36 Robin Murphy      2026-01-18 @934  static inline int of_map_id(const struct device_node *np, u32 id, const char *map_name,
-eb8f695e71ec36 Robin Murphy      2026-01-18  935  			    const char *cells_name, const char *map_mask_name,
-eb8f695e71ec36 Robin Murphy      2026-01-18  936  			    struct of_map_id_arg *arg);
-2a6db719c92dbf Nipun Gupta       2018-09-10 @937  {
-2a6db719c92dbf Nipun Gupta       2018-09-10  938  	return -EINVAL;
-2a6db719c92dbf Nipun Gupta       2018-09-10  939  }
-2a6db719c92dbf Nipun Gupta       2018-09-10  940  
+fa4adc614922c2 include/asm-arm/div64.h      Nicolas Pitre 2006-12-06   54  
+5f712d70e20a46 arch/arm/include/asm/div64.h Eric Dumazet  2026-01-18   55  static inline_for_performance
+d533cb2d2af400 arch/arm/include/asm/div64.h Nicolas Pitre 2024-10-03  @56  uint64_t __arch_xprod_64(uint64_t m, uint64_t n, bool bias)
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   57  {
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   58  	unsigned long long res;
+73e592f3bc2cdc arch/arm/include/asm/div64.h Nicolas Pitre 2016-01-27   59  	register unsigned int tmp asm("ip") = 0;
+06508533d51a1d arch/arm/include/asm/div64.h Nicolas Pitre 2024-10-03   60  	bool no_ovf = __builtin_constant_p(m) &&
+06508533d51a1d arch/arm/include/asm/div64.h Nicolas Pitre 2024-10-03   61  		      ((m >> 32) + (m & 0xffffffff) < 0x100000000);
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   62  
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   63  	if (!bias) {
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   64  		asm (	"umull	%Q0, %R0, %Q1, %Q2\n\t"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   65  			"mov	%Q0, #0"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   66  			: "=&r" (res)
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   67  			: "r" (m), "r" (n)
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   68  			: "cc");
+06508533d51a1d arch/arm/include/asm/div64.h Nicolas Pitre 2024-10-03   69  	} else if (no_ovf) {
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   70  		res = m;
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   71  		asm (	"umlal	%Q0, %R0, %Q1, %Q2\n\t"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   72  			"mov	%Q0, #0"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   73  			: "+&r" (res)
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   74  			: "r" (m), "r" (n)
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   75  			: "cc");
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   76  	} else {
+73e592f3bc2cdc arch/arm/include/asm/div64.h Nicolas Pitre 2016-01-27   77  		asm (	"umull	%Q0, %R0, %Q2, %Q3\n\t"
+73e592f3bc2cdc arch/arm/include/asm/div64.h Nicolas Pitre 2016-01-27   78  			"cmn	%Q0, %Q2\n\t"
+73e592f3bc2cdc arch/arm/include/asm/div64.h Nicolas Pitre 2016-01-27   79  			"adcs	%R0, %R0, %R2\n\t"
+73e592f3bc2cdc arch/arm/include/asm/div64.h Nicolas Pitre 2016-01-27   80  			"adc	%Q0, %1, #0"
+73e592f3bc2cdc arch/arm/include/asm/div64.h Nicolas Pitre 2016-01-27   81  			: "=&r" (res), "+&r" (tmp)
+73e592f3bc2cdc arch/arm/include/asm/div64.h Nicolas Pitre 2016-01-27   82  			: "r" (m), "r" (n)
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   83  			: "cc");
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   84  	}
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   85  
+06508533d51a1d arch/arm/include/asm/div64.h Nicolas Pitre 2024-10-03   86  	if (no_ovf) {
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   87  		asm (	"umlal	%R0, %Q0, %R1, %Q2\n\t"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   88  			"umlal	%R0, %Q0, %Q1, %R2\n\t"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   89  			"mov	%R0, #0\n\t"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   90  			"umlal	%Q0, %R0, %R1, %R2"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   91  			: "+&r" (res)
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   92  			: "r" (m), "r" (n)
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   93  			: "cc");
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   94  	} else {
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   95  		asm (	"umlal	%R0, %Q0, %R2, %Q3\n\t"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   96  			"umlal	%R0, %1, %Q2, %R3\n\t"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   97  			"mov	%R0, #0\n\t"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   98  			"adds	%Q0, %1, %Q0\n\t"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02   99  			"adc	%R0, %R0, #0\n\t"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02  100  			"umlal	%Q0, %R0, %R2, %R3"
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02  101  			: "+&r" (res), "+&r" (tmp)
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02  102  			: "r" (m), "r" (n)
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02  103  			: "cc");
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02  104  	}
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02  105  
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02  106  	return res;
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02  107  }
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02  108  #define __arch_xprod_64 __arch_xprod_64
+040b323b5012b5 arch/arm/include/asm/div64.h Nicolas Pitre 2015-11-02  109  
 
 -- 
 0-DAY CI Kernel Test Service
