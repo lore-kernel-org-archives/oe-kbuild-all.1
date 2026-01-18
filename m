@@ -1,74 +1,69 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85092DCF45
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 12:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F3527FD75
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 12:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768737900; cv=none; b=VftWRYeACrr+tufyXK3hlqDpO1ZnZh9vXThh7NrXdSFdcksMGcRdvqNrbtDd+081e+CTYe3sTvmdFA3f4MNPO7KPE4dIU1Odo3eElkvsQG1/gwXqf/IIBGSWzBEBthWVeXjH5M0iM970FNJuVNSDtFllslKtjuBYByg4kPJzdks=
+	t=1768738296; cv=none; b=f8OUGruV0q5QndCx5uVlMk3FqdcgJgNa9AA+G0ESoC4yWi6ekQQS+8XVUfPq4wnM9Jqj9CQGYhcjtsVAPMFGl8RP+G1ko3VznlCCm13jgdsENt44IUuff35jcCa1LXI8elqc5ZccIomxkmI57J9jgQC27kXmDD5OMnkvhZboR30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768737900; c=relaxed/simple;
-	bh=OMefo3WIdZBDpIOc8YWjpNiPYo2DW6Bya0njsixD8WE=;
+	s=arc-20240116; t=1768738296; c=relaxed/simple;
+	bh=pw8i2oTn0dUE0Vlg6iyxzQcb+00hCjeXpu2plciF3Xw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NiF8ZSRBTSRQp/yZUJHLhK1R3/c5pA+UTSzVK4iQVVL6bUtbqqbsQjNJPMZN8rXjTZySbetOtLNbVB87vRvSMsI4KoJ5ZDfOpk5mnFdiLgBkKy1CqmWyE5zBz2HiaxphdySNShuHVJC7DJBo4vaNDpoPTX3Ox8qqQCdpJDENx/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Yrt/grxm; arc=none smtp.client-ip=209.85.128.52
+	 Content-Disposition; b=Gxoop9xPcCQHi99ynVOGa5DwlRoK47qiCOMSBF0cy7hY9fdqb47FaEqkbhu4Mjb/IBNSeR95JpruQaa0JQPGR4Ai7Zj7TWXau+G99AHADxlQQ4r/CotRFJRoNMKX9TjIZN5uzU2h8FU52GmovxrPNQxW8lf02eSZx+QsG4jH2Sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XHWlVYkY; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yrt/grxm"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47ff94b46afso22116265e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 04:04:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XHWlVYkY"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47d63594f7eso22993155e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 04:11:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768737897; x=1769342697; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1768738293; x=1769343093; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=oF5W5aUZl0P1F8rfmU73l0YSa0P2lxA+7bTTG4Xe1sw=;
-        b=Yrt/grxm/6EndsK25fmAQg+Yb3jPKBbwvXi2mhnLnnc84Rt+cgft7SHft9PJDO7n9e
-         NVtBYmUAk/186QiCSmHCPHraHKd84pT0kNTNxEu2x8vzSTaDXftEB/Nw3n7hY64yemBg
-         8fViqWkti3Jvkvn/430/S3nUoegwO/cPizNw+HhHrRYNrEiDjN8mCf7De42+htu/hYWs
-         IX6LEJLv8u5yqq2KT82qcHgPGUrQwGkxMeeETMiCs6SCSRqjj8LnqwqwOMTf+r/tDeWl
-         j3mwBQ76aQ7UdvPD7T1rViChKihQCnOCPYnZv9eqiI5APmERuVsOdUXqTcLnQdMwKmoV
-         ow6A==
+        bh=1BHQWu3bSMVGOSEGZ95xq8reqfqW8av90mqzN0pUGIc=;
+        b=XHWlVYkYSjdtT9HZ1y7LrFAspYKf7k7ZNv2EmDvjdXTln+Eoq2tkn47yi9neTwTZlN
+         Yh1zzA54AXeVsHkvmI+Dl/e+/2OgHFW9682pphYy5oxNyIeCmBb66syNxKgh6rxVrfa5
+         GvT7or1BKn/ejy+RzNRGeNk/vxbBdV5tOe62smUygd4xrRctA+tmk68bOsmBxsypefhS
+         sce0DfaYYJGyubEUKNDSgtcJ57th+m4TbCl1OBgUzlU3YQV7KvmvWMKVFHqWXa7h+hEp
+         MjdCFIy8AF7qvYCajOcz2IUkaUidFi4lc2OZ9jOtxOfpZjDnf5P9kgx5XYu2GYlKjiu5
+         VGSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768737897; x=1769342697;
+        d=1e100.net; s=20230601; t=1768738293; x=1769343093;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oF5W5aUZl0P1F8rfmU73l0YSa0P2lxA+7bTTG4Xe1sw=;
-        b=IqJZvM+kAh9GiK/ZloG+H05mn5Chm3s0DM77T7/foBP/3ktltsxY+6CI5xf72RLIg2
-         DRkTxtQfrUGvItrmgjw7sD32RaHfsixPz8izSNgA9tsR3SDY1jaMn7IxrD8kom4X2EJd
-         PtSvTG55oS+SmTOL3UjPnc7uAXTZtn7+tS3z3B5Wi2Q3flSSpBDkZzhWd0BUqTryKDr7
-         VbXXKNiQrr4npYANxZpausoeO2oGME6LQqW9JO/bkxmEJIVnUg1RH6OEPMjtp932SJmz
-         gcaGygoimYW9J6SwQqZCJN3I/2LPxv1hsgxdP1hLeA+892lGNjD9XPm0zPwpcy9zX+FP
-         FmtA==
-X-Forwarded-Encrypted: i=1; AJvYcCVPSTgh8NQgwVlsaWl43FwWtHH+1AWab8lEWyo/TU3rLRnNrGPQoDVZEJT2jj0Jc1S/WXpuFKOPH6WNOdT4@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVlTMBKwQVQGkeb0T6M+g7fznPGVhFXnsB6c8wMxkqa20eX2AT
-	mRDtG8dM3vIlEYTGkPO2ucC2cBf9h+IvS6s3R+iIgOr4CPgprjTjy047HfCXNrr3C3k=
-X-Gm-Gg: AY/fxX7w/sChWqYBUKuSOX7+kq7yE4UVrxSiABzkjlYwRA9tpdLLOcmJX8MiTFGGc7S
-	yiSr+F0nuWAG9N71xppz+vv0YOmRXuJC3prsENv3G4W/3874WU6wuUV8xDI6P2Ew/3MS0/8hskl
-	WOcIxKDkSxD4sW6mMTEYSEwc6E7tBqu2jsOYl2/MelgT/U9QrjPBE5CxrIqnvkdsd8DAAbuPbTH
-	WqLyKtyg3CnbKqmqZIYknIiznY02SgcBTr0Ychg59argtAHq2Bw1qv8L+EfaS5etsHazz0JOgJd
-	9dMEYrw0YAifgtStQpCvskHJZJKL0h5wOKxC3UZMiMF6Zq7+mCWqYpw2dVP57OeMg2DULJpmTGM
-	PSJoaqmXWBvfV8OiqmOVnZ+FcCmrliNNYSOUO3i//jFHTIXEMwQWvx1aqSxOmSNmNHqmGqrhOHL
-	jF7Pbl9ePW2AfL2e7k
-X-Received: by 2002:a05:600c:8184:b0:475:d9de:952e with SMTP id 5b1f17b1804b1-4801e530d08mr96596425e9.1.1768737897204;
-        Sun, 18 Jan 2026 04:04:57 -0800 (PST)
+        bh=1BHQWu3bSMVGOSEGZ95xq8reqfqW8av90mqzN0pUGIc=;
+        b=ZmPzVuYy0QVmPtcWdCaVPEeEMSBwGx2CQwwooL5XgpKzqazX59X4hW5zfSoFa+tQqM
+         tCP4uMxI4R3vyr4jE1BrugMVh4xL/iOl3k0K96VPll+g2SOZQ9fdyN/VOKhxue6EgRVG
+         nW0XARnn2TosPAbsyZCvI8KFJ9poDIFFz01dm2K4DULVuwStHRo6r5SYF7a1okQaGerJ
+         glXMzP+6bedyCqcMol2FWCBDlxGYJBKC7BcEhRbAkQ6xi/nMTikNoADSmHlCzfWazgOu
+         M5bUFtjB0FaIZBaMqueqTPGPncxmJchMZN+JBP3yxxtUYuUEq2+dDpCag2MTyIexuKIx
+         6p+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXem9isw6G1kcp2Unx0DmX+u7QtT6LV5vvEsW+qsJXuEOwBSlIrx6A5WxrO2EZCLN0GeHQnfZKPK45FFYOP@lists.linux.dev
+X-Gm-Message-State: AOJu0YwtX73HXzST6rwF4WUy4mwNlJZUDHh5Xwar1VfBvRX/faFtDl22
+	rRBgDMZgrlbj6DHPqoIE+PT/6oijN3uX+T5mnmVqeZq94JhPVeqFYh9Azrtsee8NHLc=
+X-Gm-Gg: AY/fxX5tQMq3zGZDZGv2M6PsJdDVceCeMnGhDAMLDjAFx7/U1PV02uJF0AZ0qsnkMp7
+	JFWgaygHIBLx3Mxx0ZSU2/LDlqf8jzKngRzplYRtJ5rHSrrxFExsSqKWOL6YaHb6nS3e5BGlZdD
+	inIJppMKV9GB84OrH3Gwx+PnQaEAVioQDplvoVH50G8QFh457b9i651MopQJeTyyAdmvWgBLkGl
+	srIqeFKrUkwnBoign5sCbOWHBm07uyyhaCvAUhEs0quSysBc4DdYQB7O21XCfsF2bHou/e91nzO
+	DXG4+yYV3h++DOmpduLZDOaBkON2J9/1rwilj5s4HYUzSyeyncYjciMzRK8nQZ18nTQ9S3OlKTt
+	Ck8ZeCdiREkw1VLRC+YsOa8nUxMoFK99UFBt54dDYJVprjLKcYtZENJrN/4Vrql8lmAtkij4lk/
+	sm2i6E8+UOegH8NwRk
+X-Received: by 2002:a05:600c:1d15:b0:47d:403c:e5a0 with SMTP id 5b1f17b1804b1-4801e30b9b3mr99848655e9.12.1768738292639;
+        Sun, 18 Jan 2026 04:11:32 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f428acae8sm194366875e9.4.2026.01.18.04.04.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b267661sm196690915e9.13.2026.01.18.04.11.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 04:04:56 -0800 (PST)
-Date: Sun, 18 Jan 2026 15:04:53 +0300
+        Sun, 18 Jan 2026 04:11:32 -0800 (PST)
+Date: Sun, 18 Jan 2026 15:11:29 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Alistair Popple <apopple@nvidia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-	Jason Gunthorpe <jgg@nvidia.com>
-Subject: lib/test_hmm.c:932 dmirror_migrate_to_system() error: uninitialized
- symbol 'ret'.
-Message-ID: <202601152125.McLpiKxS-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Conor Dooley <conor+lkp@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [conor:pinctrl 7/14] drivers/pinctrl/pinconf-generic.c:268
+ parse_dt_cfg() error: uninitialized symbol 'val'.
+Message-ID: <202601161219.t7K6GhHj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,10 +73,10 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   944aacb68baf7624ab8d277d0ebf07f025ca137c
-commit: d438d273417055241ebaaf1ba3be23459fc27cba mm: remove devmap related functions and page table bits
-config: s390-randconfig-r071-20260115 (https://download.01.org/0day-ci/archive/20260115/202601152125.McLpiKxS-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git pinctrl
+head:   8a26d7f359a1052acb67617f632364d0527d9498
+commit: cda61ccb5e996faddddd3668b288b5ae30814e02 [7/14] pinctrl: pinconf-generic: perform basic checks on pincfg properties
+config: arm64-randconfig-r071-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161219.t7K6GhHj-lkp@intel.com/config)
 compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
 smatch version: v0.5.0-8985-g2614ff1a
 
@@ -89,75 +84,100 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601152125.McLpiKxS-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601161219.t7K6GhHj-lkp@intel.com/
 
 smatch warnings:
-lib/test_hmm.c:932 dmirror_migrate_to_system() error: uninitialized symbol 'ret'.
+drivers/pinctrl/pinconf-generic.c:268 parse_dt_cfg() error: uninitialized symbol 'val'.
 
-vim +/ret +932 lib/test_hmm.c
+vim +/val +268 drivers/pinctrl/pinconf-generic.c
 
-4c2e0f764eb4444 Alex Sierra     2022-07-15  875  static int dmirror_migrate_to_system(struct dmirror *dmirror,
-4c2e0f764eb4444 Alex Sierra     2022-07-15  876  				     struct hmm_dmirror_cmd *cmd)
-4c2e0f764eb4444 Alex Sierra     2022-07-15  877  {
-4c2e0f764eb4444 Alex Sierra     2022-07-15  878  	unsigned long start, end, addr;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  879  	unsigned long size = cmd->npages << PAGE_SHIFT;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  880  	struct mm_struct *mm = dmirror->notifier.mm;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  881  	struct vm_area_struct *vma;
-6046a3bed1c2b02 Arnd Bergmann   2025-06-10  882  	unsigned long src_pfns[32] = { 0 };
-6046a3bed1c2b02 Arnd Bergmann   2025-06-10  883  	unsigned long dst_pfns[32] = { 0 };
-16ce101db85db69 Alistair Popple 2022-09-28  884  	struct migrate_vma args = { 0 };
-4c2e0f764eb4444 Alex Sierra     2022-07-15  885  	unsigned long next;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  886  	int ret;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  887  
-4c2e0f764eb4444 Alex Sierra     2022-07-15  888  	start = cmd->addr;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  889  	end = start + size;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  890  	if (end < start)
+90a18c512884ad Antonio Borneo  2025-10-23  220  static int parse_dt_cfg(struct device_node *np,
+f684e4ac9f4bae Linus Walleij   2015-01-12  221  			const struct pinconf_generic_params *params,
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  222  			unsigned int count, unsigned long *cfg,
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  223  			unsigned int *ncfg)
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  224  {
+cda61ccb5e996f Conor Dooley    2025-11-28  225  	unsigned long *properties;
+cda61ccb5e996f Conor Dooley    2025-11-28  226  	int i, test;
+cda61ccb5e996f Conor Dooley    2025-11-28  227  
+cda61ccb5e996f Conor Dooley    2025-11-28  228  	properties = bitmap_zalloc(count, GFP_KERNEL);
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  229  
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  230  	for (i = 0; i < count; i++) {
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  231  		u32 val;
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  232  		int ret;
+f684e4ac9f4bae Linus Walleij   2015-01-12  233  		const struct pinconf_generic_params *par = &params[i];
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  234  
+90a18c512884ad Antonio Borneo  2025-10-23  235  		if (par->values && par->num_values) {
+90a18c512884ad Antonio Borneo  2025-10-23  236  			ret = fwnode_property_match_property_string(of_fwnode_handle(np),
+90a18c512884ad Antonio Borneo  2025-10-23  237  								    par->property,
+90a18c512884ad Antonio Borneo  2025-10-23  238  								    par->values, par->num_values);
+90a18c512884ad Antonio Borneo  2025-10-23  239  			if (ret == -ENOENT)
+90a18c512884ad Antonio Borneo  2025-10-23  240  				return ret;
+90a18c512884ad Antonio Borneo  2025-10-23  241  			if (ret >= 0) {
+90a18c512884ad Antonio Borneo  2025-10-23  242  				val = ret;
+90a18c512884ad Antonio Borneo  2025-10-23  243  				ret = 0;
+90a18c512884ad Antonio Borneo  2025-10-23  244  			}
+90a18c512884ad Antonio Borneo  2025-10-23  245  		} else {
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  246  			ret = of_property_read_u32(np, par->property, &val);
+90a18c512884ad Antonio Borneo  2025-10-23  247  		}
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  248  
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  249  		/* property not found */
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  250  		if (ret == -EINVAL)
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  251  			continue;
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  252  
+cda61ccb5e996f Conor Dooley    2025-11-28  253  		/* if param is greater than count, these are custom properties */
+cda61ccb5e996f Conor Dooley    2025-11-28  254  		if (par->param <= count) {
+cda61ccb5e996f Conor Dooley    2025-11-28  255  			ret = test_and_set_bit(par->param, properties);
 
-If end == start then ret is uninitialized.
+This ret = should be after this:
 
-4c2e0f764eb4444 Alex Sierra     2022-07-15  891  		return -EINVAL;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  892  
-4c2e0f764eb4444 Alex Sierra     2022-07-15  893  	/* Since the mm is for the mirrored process, get a reference first. */
-4c2e0f764eb4444 Alex Sierra     2022-07-15  894  	if (!mmget_not_zero(mm))
-4c2e0f764eb4444 Alex Sierra     2022-07-15  895  		return -EINVAL;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  896  
-4c2e0f764eb4444 Alex Sierra     2022-07-15  897  	cmd->cpages = 0;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  898  	mmap_read_lock(mm);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  899  	for (addr = start; addr < end; addr = next) {
-4c2e0f764eb4444 Alex Sierra     2022-07-15  900  		vma = vma_lookup(mm, addr);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  901  		if (!vma || !(vma->vm_flags & VM_READ)) {
-4c2e0f764eb4444 Alex Sierra     2022-07-15  902  			ret = -EINVAL;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  903  			goto out;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  904  		}
-4c2e0f764eb4444 Alex Sierra     2022-07-15  905  		next = min(end, addr + (ARRAY_SIZE(src_pfns) << PAGE_SHIFT));
-4c2e0f764eb4444 Alex Sierra     2022-07-15  906  		if (next > vma->vm_end)
-4c2e0f764eb4444 Alex Sierra     2022-07-15  907  			next = vma->vm_end;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  908  
-4c2e0f764eb4444 Alex Sierra     2022-07-15  909  		args.vma = vma;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  910  		args.src = src_pfns;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  911  		args.dst = dst_pfns;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  912  		args.start = addr;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  913  		args.end = next;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  914  		args.pgmap_owner = dmirror->mdevice;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  915  		args.flags = dmirror_select_device(dmirror);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  916  
-4c2e0f764eb4444 Alex Sierra     2022-07-15  917  		ret = migrate_vma_setup(&args);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  918  		if (ret)
-4c2e0f764eb4444 Alex Sierra     2022-07-15  919  			goto out;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  920  
-4c2e0f764eb4444 Alex Sierra     2022-07-15  921  		pr_debug("Migrating from device mem to sys mem\n");
-4c2e0f764eb4444 Alex Sierra     2022-07-15  922  		dmirror_devmem_fault_alloc_and_copy(&args, dmirror);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  923  
-4c2e0f764eb4444 Alex Sierra     2022-07-15  924  		migrate_vma_pages(&args);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  925  		cmd->cpages += dmirror_successful_migrated_pages(&args);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  926  		migrate_vma_finalize(&args);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  927  	}
-4c2e0f764eb4444 Alex Sierra     2022-07-15  928  out:
-4c2e0f764eb4444 Alex Sierra     2022-07-15  929  	mmap_read_unlock(mm);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  930  	mmput(mm);
-4c2e0f764eb4444 Alex Sierra     2022-07-15  931  
-4c2e0f764eb4444 Alex Sierra     2022-07-15 @932  	return ret;
-4c2e0f764eb4444 Alex Sierra     2022-07-15  933  }
+cda61ccb5e996f Conor Dooley    2025-11-28  256  			if (ret) {
+cda61ccb5e996f Conor Dooley    2025-11-28  257  				pr_err("%s: conflicting setting detected for %s\n",
+cda61ccb5e996f Conor Dooley    2025-11-28  258  				       np->name, par->property);
+cda61ccb5e996f Conor Dooley    2025-11-28  259  				bitmap_free(properties);
+cda61ccb5e996f Conor Dooley    2025-11-28  260  				return -EINVAL;
+cda61ccb5e996f Conor Dooley    2025-11-28  261  			}
+cda61ccb5e996f Conor Dooley    2025-11-28  262  		}
+cda61ccb5e996f Conor Dooley    2025-11-28  263  
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  264  		/* use default value, when no value is specified */
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  265  		if (ret)
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  266  			val = par->default_value;
+
+Use default value for "val"
+
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  267  
+dd4d01f7bad886 Soren Brinkmann 2015-01-09 @268  		pr_debug("found %s with value %u\n", par->property, val);
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  269  		cfg[*ncfg] = pinconf_to_config_packed(par->param, val);
+
+otherwise val could be uninitialized here.
+
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  270  		(*ncfg)++;
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  271  	}
+90a18c512884ad Antonio Borneo  2025-10-23  272  
+cda61ccb5e996f Conor Dooley    2025-11-28  273  	if (test_bit(PIN_CONFIG_DRIVE_STRENGTH, properties) &&
+cda61ccb5e996f Conor Dooley    2025-11-28  274  			test_bit(PIN_CONFIG_DRIVE_STRENGTH_UA, properties))
+cda61ccb5e996f Conor Dooley    2025-11-28  275  		pr_err("%s: cannot have multiple drive strength properties\n",
+cda61ccb5e996f Conor Dooley    2025-11-28  276  		       np->name);
+cda61ccb5e996f Conor Dooley    2025-11-28  277  
+cda61ccb5e996f Conor Dooley    2025-11-28  278  	test = test_bit(PIN_CONFIG_BIAS_BUS_HOLD, properties) +
+cda61ccb5e996f Conor Dooley    2025-11-28  279  		test_bit(PIN_CONFIG_BIAS_DISABLE, properties) +
+cda61ccb5e996f Conor Dooley    2025-11-28  280  		test_bit(PIN_CONFIG_BIAS_HIGH_IMPEDANCE, properties) +
+cda61ccb5e996f Conor Dooley    2025-11-28  281  		test_bit(PIN_CONFIG_BIAS_PULL_UP, properties) +
+cda61ccb5e996f Conor Dooley    2025-11-28  282  		test_bit(PIN_CONFIG_BIAS_PULL_PIN_DEFAULT, properties) +
+cda61ccb5e996f Conor Dooley    2025-11-28  283  		test_bit(PIN_CONFIG_BIAS_PULL_DOWN, properties);
+cda61ccb5e996f Conor Dooley    2025-11-28  284  	if (test > 1)
+cda61ccb5e996f Conor Dooley    2025-11-28  285  		pr_err("%s: cannot have multiple bias configurations\n",
+cda61ccb5e996f Conor Dooley    2025-11-28  286  		       np->name);
+cda61ccb5e996f Conor Dooley    2025-11-28  287  
+cda61ccb5e996f Conor Dooley    2025-11-28  288  	test = test_bit(PIN_CONFIG_DRIVE_OPEN_DRAIN, properties) +
+cda61ccb5e996f Conor Dooley    2025-11-28  289  		test_bit(PIN_CONFIG_DRIVE_OPEN_SOURCE, properties) +
+cda61ccb5e996f Conor Dooley    2025-11-28  290  		test_bit(PIN_CONFIG_DRIVE_PUSH_PULL, properties);
+cda61ccb5e996f Conor Dooley    2025-11-28  291  	if (test > 1)
+cda61ccb5e996f Conor Dooley    2025-11-28  292  		pr_err("%s: cannot have multiple drive configurations\n",
+cda61ccb5e996f Conor Dooley    2025-11-28  293  		       np->name);
+cda61ccb5e996f Conor Dooley    2025-11-28  294  
+cda61ccb5e996f Conor Dooley    2025-11-28  295  	bitmap_free(properties);
+90a18c512884ad Antonio Borneo  2025-10-23  296  	return 0;
+dd4d01f7bad886 Soren Brinkmann 2015-01-09  297  }
 
 -- 
 0-DAY CI Kernel Test Service
