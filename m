@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608F0238166
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 06:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0126724A05D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 07:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768719553; cv=none; b=kdx9oXvHZ/bh5CtZbjnJ7yZWWYr6OTwTIxb74FDnmVJutXMZQsEP9YjN75f6u6PNljEysQlxI1EIvr7Xr9sVvCiadqkScluPe8CwgVYfpozeM15vLmUsCy1JYtBLbzCShmnyscAaLeWrdk8Nwsg8Pp1wzcSr8VhEEzLjOtaizKo=
+	t=1768721475; cv=none; b=ERO6HCIf1p+ZnMk5WdK2Z0IvVWBU9ndKedqeuEmicCS6Q6xUW8W7/bJ3hwHkwgDFs7MahY1BOPFado98TLkwPuEPNkYpRq/8i9IximOjNDawfaZzNvIprBVU7OyUvm7/gLey4n++1Csmo2dAdxVOjugHBQG5RzeODEeDDlLTVbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768719553; c=relaxed/simple;
-	bh=j9ydfxk5Q5Hvvi3Ft1YuonsAl5GtVTv7hqyHBcI+sg4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iDlbyKC73/TAfvzKb13uUIgB6JycCj+T4z+ACM7DKWWJawlJG8vYnZM03A6T0y0IKzhjorXR1K9C6uPhmUdUD47SwSbL2AUms9ZJNLX13bLjkVwbSYNa3mtNhNuhfg4bHC2tspIxGysQhwZ1iWJtquY4PIUXekmsguNZheyRf4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dGJfvgFr; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1768721475; c=relaxed/simple;
+	bh=7aQAb4FWGTLFO/7XEu+hANEflydVmotam1eW8ggo8Y0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KXKxw60Ocm+Rm/0/BCAcHxfCbFRnCwMUk3cucsPBjZhgYG7LlVi/PGdIzhawWgZyx1QeR3/eY4QqS7oKkKD7EsAm5QuhmrD3MBDABb4Erp1m8SnAd6xmJD7gxwml8EUXdoCq8MvF7//BHP23V9Sxe2m5EfCxUPy1dAxc26IDx9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gpi8Uyu8; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGJfvgFr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gpi8Uyu8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768719552; x=1800255552;
+  t=1768721474; x=1800257474;
   h=date:from:to:cc:subject:message-id;
-  bh=j9ydfxk5Q5Hvvi3Ft1YuonsAl5GtVTv7hqyHBcI+sg4=;
-  b=dGJfvgFrqHTLSCPsRRQhHbcH7Yg0p/k9sq3JqvZ3CrGQW4Uaw06G/3cK
-   kcbF+OoSk21AMCp1CXlr1MGdMpNOrfU2T+5u84+lthxzkNMFotmHd4pFZ
-   LzXOGdVFeH88vXOBap5n/W1uFdOwf9Cg6WnUZRl08DNYZBtxu7XCFBr+G
-   YRjZqewsC0ypZ7Ng3z2IS4cKSZcZBGGG3hFlnhsEiPrfAnKH3wbu/fYa9
-   yQG7/3bHzdoXctvoVepzL4mLFL/Vd39p7LjwYIkfg1hYO/gry/9TarK/i
-   GpK81WO5Hr3FlI5znssz6CW4BO+ybawotL61GV7il6K6kgWVFedu0AvaD
-   g==;
-X-CSE-ConnectionGUID: B+kpNCtKRaSsnUau+LK8NQ==
-X-CSE-MsgGUID: 9DyVsavHRM6ZcqEgQji9Jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="73822641"
+  bh=7aQAb4FWGTLFO/7XEu+hANEflydVmotam1eW8ggo8Y0=;
+  b=gpi8Uyu8Lo6HmfG/9pXXz+SYMEB+9tsZmsrcG+0lMjVN56h71vNGMXJV
+   yYadakAYw8CyiobyD3pJ3bUYbxN88nwqbp0uxfn4SjhHKacCsdF5j7GJR
+   uEFIJJTkVdkfEiIXmyczOG2hTV6y/qqOcZtMJR9YJdZRjOJgeIbYG0NiK
+   En6skpxV3XSVuvjthU/apjvTjfWtiygiqEoOh3b45B9jLWV+hmR23mQNi
+   Lg3h553gzaxwBLzhDKhXFpKPIUU5tAOZy0FZw2HMaYL/GIbFS6dF+Wc2W
+   PmYYgx+uXNMwnVokX5qGNCf+z6vkzw6G9axxIkkCvDxYWlqxd7QCdHMWW
+   A==;
+X-CSE-ConnectionGUID: NSM3Vqp7RuCxJdRHLtcFaQ==
+X-CSE-MsgGUID: JVckvRNMSe2irxldjZKBng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="80269256"
 X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
-   d="scan'208";a="73822641"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 22:59:10 -0800
-X-CSE-ConnectionGUID: XwmEYfCpQfeA/Dybu7wCyw==
-X-CSE-MsgGUID: gdn0Bsx4Tcaj2JMJ/LcvJA==
+   d="scan'208";a="80269256"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 23:31:12 -0800
+X-CSE-ConnectionGUID: XQDBGYATSPmMutjg1PVu+w==
+X-CSE-MsgGUID: y/9ejnH7RRaUEgiCqvoh2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
-   d="scan'208";a="205865697"
+   d="scan'208";a="210073651"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 17 Jan 2026 22:59:09 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 17 Jan 2026 23:31:10 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhMkc-00000000MkS-3DS0;
-	Sun, 18 Jan 2026 06:59:06 +0000
-Date: Sun, 18 Jan 2026 14:58:55 +0800
+	id 1vhNFb-00000000Mli-3UpG;
+	Sun, 18 Jan 2026 07:31:07 +0000
+Date: Sun, 18 Jan 2026 15:31:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe:io_uring-cbpf-restrictions 13/18]
- bpf_filter.c:undefined reference to `bpf_prog_destroy'
-Message-ID: <202601181424.Y741EYBi-lkp@intel.com>
+To: Drew Fustini <fustini@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Adrien Ricciardi <aricciardi@baylibre.com>
+Subject: [fustini:b4/ssqosid-cbqri 17/20]
+ include/linux/riscv_qos.h:10:10: fatal error: asm/qos.h: No such file or
+ directory
+Message-ID: <202601181527.mCItVrtA-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,25 +61,39 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux.git io_uring-cbpf-restrictions
-head:   0f8a03cfaae90d44799d4cd29cc308ffdd81d93e
-commit: 5592bb2b6fab7adb19ebedac49d65820d92c8b04 [13/18] io_uring: add support for BPF filtering for opcode restrictions
-config: x86_64-buildonly-randconfig-001-20260118 (https://download.01.org/0day-ci/archive/20260118/202601181424.Y741EYBi-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/fustini/linux.git b4/ssqosid-cbqri
+head:   b34c2f7cb87d02f5b712e9e35ac9b66d21ce07e9
+commit: 06bff4d3050a3b1c23ebe8412e5f9730deddf83d [17/20] [NFU] resctrl: riscv: build CBQRI drivers
+config: x86_64-randconfig-161-20260118 (https://download.01.org/0day-ci/archive/20260118/202601181527.mCItVrtA-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601181424.Y741EYBi-lkp@intel.com/reproduce)
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601181527.mCItVrtA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601181424.Y741EYBi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601181527.mCItVrtA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `io_free_bpf_filters':
->> bpf_filter.c:(.text+0x52235c): undefined reference to `bpf_prog_destroy'
-   ld: vmlinux.o: in function `io_register_bpf_filter':
->> (.text+0x522891): undefined reference to `bpf_prog_create_from_user'
->> ld: (.text+0x5229e9): undefined reference to `bpf_prog_destroy'
+   In file included from drivers/resctrl/riscv/cbqri_cache.c:6:
+>> include/linux/riscv_qos.h:10:10: fatal error: asm/qos.h: No such file or directory
+      10 | #include <asm/qos.h>
+         |          ^~~~~~~~~~~
+   compilation terminated.
+
+
+vim +10 include/linux/riscv_qos.h
+
+279a516c8a1314 Drew Fustini 2023-04-19   9  
+279a516c8a1314 Drew Fustini 2023-04-19 @10  #include <asm/qos.h>
+279a516c8a1314 Drew Fustini 2023-04-19  11  
+
+:::::: The code at line 10 was first introduced by commit
+:::::: 279a516c8a131464cc73327ecfb2c6a62ad33622 RISC-V: QoS: define properties of CBQRI controllers
+
+:::::: TO: Drew Fustini <fustini@kernel.org>
+:::::: CC: Drew Fustini <fustini@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
