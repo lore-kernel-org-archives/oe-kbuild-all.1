@@ -1,235 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581991EB9E1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 09:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1443881732;
+	Sun, 18 Jan 2026 10:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768727838; cv=none; b=GlXpa5l0OkQiPH2gOp52Ynl6TmNJqpJ3aSeC6ZS8RGsib+dHm+w9WmF/6JG0n1QVcnKKkkc3I8gmWd4cziwEoXCcdL5oUdOq/YO89eKjCABrA7Ft/jUlKU0vSKZEBTOeXZxH/FdFbA79VWUotTOoU/hEW6ATbPq2KmRamuHkSvo=
+	t=1768732241; cv=none; b=kv0fRodFmmGod/PkBV7aT48v5yyeKEugp5Gm+u2wgByXQjQxF3vr5bZQo2SEC61rtT+nB0ks1/IZ+48SEjjKM1z3v82sIQdGxSo2Ra6XKxgHz331y5mOji7YUmSjiikavX2N7FlCHCqkjHLK6XDxAf5XP6XmZ4HDblWsyHL1gsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768727838; c=relaxed/simple;
-	bh=N3zLJQgcb+IW2s1KfW7ax+XvshRfgaGhSlHku6pSOvA=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ieozPYxOWPov804VzMOFW898EfsfLcbB6Qy9g45NGkn8DaVTrM+PRgVUGPyBbb0Vau92wL186OuPFhALyuOWwn/C4UBBfXm9opBngZZOIAjbQN6NEABUuQe/nE277PFuVZz2NLR293JpAQsxj7+qjnaGqBG2ekc/hF7iZSRfC48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bzkb27eS; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1768732241; c=relaxed/simple;
+	bh=lE0Idn8pkia/IapT6Q2BfKM2ThtZ58Etwt09O7KpUGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e1brDNDh5R6olSzhc3hpIgjlkUn7XYvwvceoghJnNwQQKp89rGBPC/JkAASZMtQbG3gnl8uLMIM9bftRnlN9ZXh04YyD4WF98xtLW3+FQ+9AtDYZ6cw8Yta9vccXq3Og9r1MTbQs3O3Q9AuLDjqBZitDUiW6qGzhOQrz0S5Bn7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cYScTlqC; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bzkb27eS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cYScTlqC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768727837; x=1800263837;
-  h=date:from:to:cc:subject:message-id;
-  bh=N3zLJQgcb+IW2s1KfW7ax+XvshRfgaGhSlHku6pSOvA=;
-  b=Bzkb27eSLTPBOd2QW9aTm2z720atTDci/k9RQVOWmHR5lfsTy9tthHu8
-   Hpbtv6W5r+Qv582pfJq7WrCxZJEWOEiryjagdpvGh/Ka0hSUu+nGkPpb/
-   pFWZtbd2Je2giH3ocsD6QshEXrKVKkYxfKpb4yYI3F8KsbfDRitBm66va
-   CqXhhvmWLfJNafNqXvNsjuRSnDLvfpHZeMQXzrOnvD1pKW6PWf5UqvXP6
-   viGV/GzzT2tMrAXaRUHrjtei0cAi1Y2MhiXm4oZBePEZlgSJc9XA3rM/T
-   BJBh03zmpKqfrh0QNP16teZOM0xrsBkc3UzUtmDpAbZ4+MsatNydFMvYS
-   w==;
-X-CSE-ConnectionGUID: 07Fv87umTb68x1KTJon6ww==
-X-CSE-MsgGUID: L8u6K2z0QNGuEB+zTo2BYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="92641999"
+  t=1768732239; x=1800268239;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lE0Idn8pkia/IapT6Q2BfKM2ThtZ58Etwt09O7KpUGQ=;
+  b=cYScTlqCccN2f3vEh7LnZK0SN5lqqdpS2OMnH+irNNnATbvLcCfiebU+
+   +3JWckx38Yxr2oRGD7+0wHRkYqa5MQVrPyqQgQtZqWLqIKtmdvsgP+XVW
+   dxm+OmYIgQ8ZnlRkf0cDVc3UGK42bZN2Ir/dBba3xfY0WKCvCAr6DPj8A
+   +sHmmcBdLDNdIrllEwtx4JmTkhbDGVP7auNewYgaxiktUXFu6A49O0Dx5
+   NK3Of5EVIVTAdrjSPEcKHRtmkLNWVjW8Q5QsoJ8on4HnmDc+3b7J+RuEV
+   D6jXnFrQPmCFPBtHHZ0BScV6QHrrBeu3fieETFbzuvEPPr9S0K16P2vdK
+   g==;
+X-CSE-ConnectionGUID: QpGszFiYQjWs5O1jl+8cXw==
+X-CSE-MsgGUID: wJPN/hLmSoaORlgBYddUog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="73604345"
 X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
-   d="scan'208";a="92641999"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 01:17:16 -0800
-X-CSE-ConnectionGUID: srR2DDXxTzadfswRIrB8lg==
-X-CSE-MsgGUID: /PE78duQSu6/xjXTriY0YQ==
+   d="scan'208";a="73604345"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 02:30:38 -0800
+X-CSE-ConnectionGUID: BalDwksESQiH5w6LbxBSSg==
+X-CSE-MsgGUID: njV5JZY2SqK9zLzqw9duhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
-   d="scan'208";a="209751831"
+   d="scan'208";a="205412261"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 18 Jan 2026 01:17:14 -0800
+  by orviesa009.jf.intel.com with ESMTP; 18 Jan 2026 02:30:34 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhOuF-00000000MqC-27Cy;
-	Sun, 18 Jan 2026 09:17:11 +0000
-Date: Sun, 18 Jan 2026 17:16:38 +0800
+	id 1vhQ3D-00000000Msq-0IKI;
+	Sun, 18 Jan 2026 10:30:31 +0000
+Date: Sun, 18 Jan 2026 18:29:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
-Subject: [tip:timers/vdso 16/16] include/linux/sched/mm.h:496:23:
- sparse: sparse: cast removes address space '__percpu' of expression
-Message-ID: <202601181733.YZOf9XU3-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "Anton D. Stavinskii" <stavinsky@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Inochi Amaoto <inochiama@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, sophgo@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	"Anton D. Stavinskii" <stavinsky@gmail.com>
+Subject: Re: [PATCH v2 2/7] ASoC: sophgo: add CV1800B I2S/TDM controller
+ driver
+Message-ID: <202601181833.qtNEcTd8-lkp@intel.com>
+References: <20260118-cv1800b-i2s-driver-v2-2-d10055f68368@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260118-cv1800b-i2s-driver-v2-2-d10055f68368@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
-head:   adc00a0daf1bb08915bceee9ae73cca682e7d5bb
-commit: adc00a0daf1bb08915bceee9ae73cca682e7d5bb [16/16] compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()
-config: i386-randconfig-063-20260118 (https://download.01.org/0day-ci/archive/20260118/202601181733.YZOf9XU3-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601181733.YZOf9XU3-lkp@intel.com/reproduce)
+Hi Anton,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 7a52965b6976c936f413eebeee3f78c6faf09012]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anton-D-Stavinskii/dt-bindings-sound-sophgo-add-CV1800B-I2S-TDM-controller-binding/20260118-042514
+base:   7a52965b6976c936f413eebeee3f78c6faf09012
+patch link:    https://lore.kernel.org/r/20260118-cv1800b-i2s-driver-v2-2-d10055f68368%40gmail.com
+patch subject: [PATCH v2 2/7] ASoC: sophgo: add CV1800B I2S/TDM controller driver
+config: csky-allmodconfig (https://download.01.org/0day-ci/archive/20260118/202601181833.qtNEcTd8-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601181833.qtNEcTd8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601181733.YZOf9XU3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601181833.qtNEcTd8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/filemap.c: note: in included file (through arch/x86/include/asm/processor.h, arch/x86/include/asm/timex.h, include/linux/timex.h, ...):
-   arch/x86/include/asm/current.h:23:24: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/filemap.c: note: in included file (through include/linux/xarray.h, include/linux/list_lru.h, include/linux/fs/super_types.h, ...):
->> include/linux/sched/mm.h:496:23: sparse: sparse: cast removes address space '__percpu' of expression
->> include/linux/sched/mm.h:496:23: sparse: sparse: cast removes address space '__percpu' of expression
->> include/linux/sched/mm.h:496:23: sparse: sparse: cast removes address space '__percpu' of expression
-   include/linux/sched/mm.h:497:17: sparse: sparse: cast removes address space '__percpu' of expression
-   include/linux/sched/mm.h:497:17: sparse: sparse: cast removes address space '__percpu' of expression
-   include/linux/sched/mm.h:497:17: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/filemap.c: note: in included file (through include/linux/preempt.h, include/linux/alloc_tag.h, include/linux/percpu.h, ...):
-   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/filemap.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:897:25: sparse: sparse: context imbalance in 'filemap_fault_recheck_pte_none' - unexpected unlock
-   include/linux/rcupdate.h:895:9: sparse: sparse: context imbalance in 'filemap_map_pages' - different lock contexts for basic block
---
-   mm/memcontrol-v1.c:438:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol-v1.c:438:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol-v1.c:438:21: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol-v1.c:440:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol-v1.c:440:21: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol-v1.c:440:21: sparse:    struct mem_cgroup_threshold_ary *
->> mm/memcontrol-v1.c:532:15: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol-v1.c:532:15: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol-v1.c:532:15: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:533:16: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:533:16: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:533:16: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:546:17: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:546:17: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:546:17: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:643:9: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:643:9: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:643:9: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:643:9: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:643:9: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:643:9: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c:802:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol-v1.c:802:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol-v1.c:802:9: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol-v1.c:896:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   mm/memcontrol-v1.c:896:9: sparse:    struct mem_cgroup_threshold_ary [noderef] __rcu *
-   mm/memcontrol-v1.c:896:9: sparse:    struct mem_cgroup_threshold_ary *
-   mm/memcontrol-v1.c: note: in included file (through include/linux/preempt.h, include/linux/sched.h, include/linux/cgroup.h, ...):
-   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol-v1.c: note: in included file (through include/linux/sched.h, include/linux/cgroup.h, include/linux/memcontrol.h):
-   arch/x86/include/asm/current.h:23:24: sparse: sparse: cast removes address space '__percpu' of expression
---
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
->> mm/memcontrol.c:592:33: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol.c:892:24: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol.c:892:24: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol.c:892:24: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol.c: note: in included file (through include/linux/preempt.h, include/linux/alloc_tag.h, include/linux/percpu.h, ...):
-   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol.c: note: in included file (through include/linux/sched.h, include/linux/percpu.h, include/linux/radix-tree.h, ...):
-   arch/x86/include/asm/current.h:23:24: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol.c: note: in included file:
-   include/linux/memcontrol.h:730:9: sparse: sparse: context imbalance in 'folio_lruvec_lock' - wrong count at exit
-   include/linux/memcontrol.h:730:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irq' - wrong count at exit
-   include/linux/memcontrol.h:730:9: sparse: sparse: context imbalance in 'folio_lruvec_lock_irqsave' - wrong count at exit
-   mm/memcontrol.c:2722:17: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol.c:2722:17: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol.c:2722:17: sparse: sparse: cast removes address space '__percpu' of expression
-   mm/memcontrol.c: note: in included file (through include/linux/xarray.h, include/linux/radix-tree.h, include/linux/idr.h, ...):
->> include/linux/sched/mm.h:496:23: sparse: sparse: cast removes address space '__percpu' of expression
->> include/linux/sched/mm.h:496:23: sparse: sparse: cast removes address space '__percpu' of expression
->> include/linux/sched/mm.h:496:23: sparse: sparse: cast removes address space '__percpu' of expression
-   include/linux/sched/mm.h:497:17: sparse: sparse: cast removes address space '__percpu' of expression
-   include/linux/sched/mm.h:497:17: sparse: sparse: cast removes address space '__percpu' of expression
-   include/linux/sched/mm.h:497:17: sparse: sparse: cast removes address space '__percpu' of expression
---
-   fs/notify/inotify/inotify_fsnotify.c: note: in included file (through include/linux/xarray.h, include/linux/list_lru.h, include/linux/fs/super_types.h, ...):
->> include/linux/sched/mm.h:496:23: sparse: sparse: cast removes address space '__percpu' of expression
->> include/linux/sched/mm.h:496:23: sparse: sparse: cast removes address space '__percpu' of expression
->> include/linux/sched/mm.h:496:23: sparse: sparse: cast removes address space '__percpu' of expression
-   include/linux/sched/mm.h:497:17: sparse: sparse: cast removes address space '__percpu' of expression
-   include/linux/sched/mm.h:497:17: sparse: sparse: cast removes address space '__percpu' of expression
-   include/linux/sched/mm.h:497:17: sparse: sparse: cast removes address space '__percpu' of expression
-   fs/notify/inotify/inotify_fsnotify.c: note: in included file (through include/linux/preempt.h, include/linux/sched.h, include/linux/rcupdate.h, ...):
-   arch/x86/include/asm/preempt.h:27:16: sparse: sparse: cast removes address space '__percpu' of expression
-   fs/notify/inotify/inotify_fsnotify.c: note: in included file (through include/linux/sched.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
-   arch/x86/include/asm/current.h:23:24: sparse: sparse: cast removes address space '__percpu' of expression
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/__percpu +496 include/linux/sched/mm.h
-
-d7fefcc8de9147 Aneesh Kumar K.V 2019-03-05  472  
-d46eb14b735b11 Shakeel Butt     2018-08-17  473  #ifdef CONFIG_MEMCG
-37d5985c003daa Roman Gushchin   2020-10-17  474  DECLARE_PER_CPU(struct mem_cgroup *, int_active_memcg);
-d46eb14b735b11 Shakeel Butt     2018-08-17  475  /**
-b87d8cefe43c7f Roman Gushchin   2020-10-17  476   * set_active_memcg - Starts the remote memcg charging scope.
-d46eb14b735b11 Shakeel Butt     2018-08-17  477   * @memcg: memcg to charge.
-d46eb14b735b11 Shakeel Butt     2018-08-17  478   *
-d46eb14b735b11 Shakeel Butt     2018-08-17  479   * This function marks the beginning of the remote memcg charging scope. All the
-d46eb14b735b11 Shakeel Butt     2018-08-17  480   * __GFP_ACCOUNT allocations till the end of the scope will be charged to the
-d46eb14b735b11 Shakeel Butt     2018-08-17  481   * given memcg.
-d46eb14b735b11 Shakeel Butt     2018-08-17  482   *
-e86828e5446d95 Roman Gushchin   2023-10-19  483   * Please, make sure that caller has a reference to the passed memcg structure,
-e86828e5446d95 Roman Gushchin   2023-10-19  484   * so its lifetime is guaranteed to exceed the scope between two
-e86828e5446d95 Roman Gushchin   2023-10-19  485   * set_active_memcg() calls.
-e86828e5446d95 Roman Gushchin   2023-10-19  486   *
-b87d8cefe43c7f Roman Gushchin   2020-10-17  487   * NOTE: This function can nest. Users must save the return value and
-b87d8cefe43c7f Roman Gushchin   2020-10-17  488   * reset the previous value after their own charging scope is over.
-d46eb14b735b11 Shakeel Butt     2018-08-17  489   */
-b87d8cefe43c7f Roman Gushchin   2020-10-17  490  static inline struct mem_cgroup *
-b87d8cefe43c7f Roman Gushchin   2020-10-17  491  set_active_memcg(struct mem_cgroup *memcg)
-d46eb14b735b11 Shakeel Butt     2018-08-17  492  {
-37d5985c003daa Roman Gushchin   2020-10-17  493  	struct mem_cgroup *old;
-37d5985c003daa Roman Gushchin   2020-10-17  494  
-55a68c82395185 Vasily Averin    2021-09-02  495  	if (!in_task()) {
-37d5985c003daa Roman Gushchin   2020-10-17 @496  		old = this_cpu_read(int_active_memcg);
-37d5985c003daa Roman Gushchin   2020-10-17  497  		this_cpu_write(int_active_memcg, memcg);
-37d5985c003daa Roman Gushchin   2020-10-17  498  	} else {
-37d5985c003daa Roman Gushchin   2020-10-17  499  		old = current->active_memcg;
-d46eb14b735b11 Shakeel Butt     2018-08-17  500  		current->active_memcg = memcg;
-37d5985c003daa Roman Gushchin   2020-10-17  501  	}
-37d5985c003daa Roman Gushchin   2020-10-17  502  
-b87d8cefe43c7f Roman Gushchin   2020-10-17  503  	return old;
-d46eb14b735b11 Shakeel Butt     2018-08-17  504  }
-d46eb14b735b11 Shakeel Butt     2018-08-17  505  #else
-b87d8cefe43c7f Roman Gushchin   2020-10-17  506  static inline struct mem_cgroup *
-b87d8cefe43c7f Roman Gushchin   2020-10-17  507  set_active_memcg(struct mem_cgroup *memcg)
-d46eb14b735b11 Shakeel Butt     2018-08-17  508  {
-b87d8cefe43c7f Roman Gushchin   2020-10-17  509  	return NULL;
-d46eb14b735b11 Shakeel Butt     2018-08-17  510  }
-d46eb14b735b11 Shakeel Butt     2018-08-17  511  #endif
-d46eb14b735b11 Shakeel Butt     2018-08-17  512  
-
-:::::: The code at line 496 was first introduced by commit
-:::::: 37d5985c003daab138a72dd4af9853b396d91c26 mm: kmem: prepare remote memcg charging infra for interrupt contexts
-
-:::::: TO: Roman Gushchin <guro@fb.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+>> ERROR: modpost: "__umoddi3" [sound/soc/sophgo/cv1800b-tdm.ko] undefined!
+ERROR: modpost: "__udivdi3" [sound/soc/sophgo/cv1800b-tdm.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
