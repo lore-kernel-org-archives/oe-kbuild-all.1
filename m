@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B4F30BB91
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 22:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990BC274FD0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 22:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768774229; cv=none; b=M73JPWA/eZROVfF6MHdh0tSLfgs15K2PTzx1cNSdbljsVC4SrAkSbUTfvXukAt+R+iu9IT9m1VadlIjQHOyhJBLV3pys3oU3ZBdqEMyC9705pn2Y3TpURRTDrdWZPvPbyiluyUjXOAk8lmsDtsZzFLtDFc7diln+G5Cyc1wKSvg=
+	t=1768774889; cv=none; b=tRLihAnKHd0e+ooDxwR8NgtPfMCvXNccfiEAm1vh/mp2Iw2vRHEZM9wxmZk4AjsxzWcofuQNT2Wtp6d2fVOv/4rk6NhtJS6LLiM2tawGmoZQnF+A7ARqoiRFGCeI2YwG+6r/kNyjbIhYtBlyBscFDTSVud4leSCyG1hHEEzJCRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768774229; c=relaxed/simple;
-	bh=X4a3Irmj+vX1hCyAXSnVDpj/jz8naUG5TnZN3hNxXTk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=NIjau1vF/PIfON8rxBYHAxLGpLkDBUvMBUrMgmnfhB9U06QnqCe0trJ5FOT9wmG2IBtdKpR77FlTVOoX1r2VOYDxl+yLmvJ26A439ZqNJh9XvzLt1z2iYj+EJfBvFq8rtAjsvS8CpKAW1lN24f3KYKcjAdRSfiEKoYa3M06w32k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ntRH91mc; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1768774889; c=relaxed/simple;
+	bh=c3KVBF5fAOSrc8G5PoJDwwVzDd/lziQ7KC8jSvYnyRM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ibx5jr5L+KB5qwyNnMUZRNDnO/VYrBKpxEXs/jYsb/VYFdPjMN5rXnoO/mWUeoMFQ8urT/Rm9CslyG3MdmE0ct0gWjFSeITveg3U9v84fOrgBY/jsEmeam/5X0EZUUri1Te9mREyqh80r6HIhCCNkdwfDAWOAl1SN/jLebqubtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxoPkFiF; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ntRH91mc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxoPkFiF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768774226; x=1800310226;
+  t=1768774887; x=1800310887;
   h=date:from:to:cc:subject:message-id;
-  bh=X4a3Irmj+vX1hCyAXSnVDpj/jz8naUG5TnZN3hNxXTk=;
-  b=ntRH91mcP5bgUXzbFutKXXDVo3DKUNRVl8Z/epp4H3ZMZH5OAGafM5v8
-   4MmxCOmHNFfB+XDnZIDaiOyIxhz0nCnTrFJz1kxDufB3RTxPCBiEq1qKe
-   +z9ZaCXMmjCkYWeNdwhPozw6+7QVAQhMAj+DhzybN12N0vFVN/H+lC9AT
-   hv68OJFBrXcexbS2xO31CJVHCY0QsALIgsFEmkLlORxo/JT1DEHz0rDu3
-   w+tbExQLqoG3TBcWmPTxQH7Uvois314eKHHssDDxMU3vdWZqoEleq90DC
-   mKPpxR+9SBFgi3araTBGPVS3ZDGZQgOPZoSe/2nDOCv/Sm2Z9dx3/z4Ve
-   g==;
-X-CSE-ConnectionGUID: Fqvc+GHWSnqhmbgcHDAN1A==
-X-CSE-MsgGUID: xy049WDkTVulmVpHk3C5Nw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="69904175"
+  bh=c3KVBF5fAOSrc8G5PoJDwwVzDd/lziQ7KC8jSvYnyRM=;
+  b=cxoPkFiFHalFuh52Kg+MJ75oF8sDCFFOOifQpjnWd+qIaCZGxSCPahbc
+   kv13bcycUP3s5Lg05TV8Qhu9CiJJ9U0LLDOnPcWWups+sgu8AAU1kOuS8
+   JYvPyqu2wn0ZtATdAZq/VOUzrCyjPTLNOqbVeRctb9TAx5VrsP2ZEMYrx
+   +i6zuY7y3OqVYPbt9KHcrRa6O+dbq61au9iyUkuXerKuz85nLSLojxVGY
+   iHZbRW1acIJCmNJthHq9awrfMLZ4CQxPBZOpYo0UXouKiBDtwSwa3vQyU
+   jFHPn+USQw5T6jOnWUEY3EzZRmuACYnwjMi8J1MCMrvti9Dg4p6mdF42g
+   w==;
+X-CSE-ConnectionGUID: 5xqG1nvVR+Ov/W4VcxjUaA==
+X-CSE-MsgGUID: qstjbmu6QMunXXS/No7mFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="70043221"
 X-IronPort-AV: E=Sophos;i="6.21,236,1763452800"; 
-   d="scan'208";a="69904175"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 14:10:25 -0800
-X-CSE-ConnectionGUID: JtwhbvIEQ9qZI5MivBRe5w==
-X-CSE-MsgGUID: qZhVGQm/RRSvQEeCvTNTHg==
+   d="scan'208";a="70043221"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 14:21:26 -0800
+X-CSE-ConnectionGUID: RPUZYVBoSBy6rAFqF/R39Q==
+X-CSE-MsgGUID: fJ2p77VfRnaIrTU2sVnnLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,236,1763452800"; 
-   d="scan'208";a="210568373"
+   d="scan'208";a="210209708"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 18 Jan 2026 14:10:24 -0800
+  by orviesa004.jf.intel.com with ESMTP; 18 Jan 2026 14:21:26 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhayU-00000000NFz-270E;
-	Sun, 18 Jan 2026 22:10:22 +0000
-Date: Mon, 19 Jan 2026 06:09:58 +0800
+	id 1vhb98-00000000NGL-3D1U;
+	Sun, 18 Jan 2026 22:21:22 +0000
+Date: Mon, 19 Jan 2026 06:20:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ojaswin Mujoo <ojaswin@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
- "Theodore Ts'o" <tytso@mit.edu>, Jan Kara <jack@suse.cz>
-Subject: [tytso-ext4:dev 25/37] fs/ext4/extents-test.c:299:19:
- warning: format '%ld' expects argument of type 'long int', but argument 4 has
- type 'int'
-Message-ID: <202601190600.xYVh1uKf-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 216/221]
+ fs/bcachefs/data/ec/init.c:240:5-8: Unneeded variable: "ret". Return "0" on
+ line 268
+Message-ID: <202601190604.NAfVhUHM-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,90 +60,63 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-head:   11f1ff3cc21a8e9ca9f509a664de5975469ec561
-commit: 16bbdb54f49e58d51dbf2217bab9ed424172ea9a [25/37] ext4: kunit tests for extent splitting and conversion
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20260119/202601190600.xYVh1uKf-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601190600.xYVh1uKf-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   f2527e9c99550c4ae64b6dd01fc9d390c1995587
+commit: bde39b90107558a6e5c84934716bf171ced1cef5 [216/221] bcachefs: Split up data/ec.c
+config: riscv-randconfig-r052-20260119 (https://download.01.org/0day-ci/archive/20260119/202601190604.NAfVhUHM-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601190600.xYVh1uKf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601190604.NAfVhUHM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/data/ec/init.c:240:5-8: Unneeded variable: "ret". Return "0" on line 268
 
-   In file included from include/asm-generic/bug.h:31,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/random.h:6,
-                    from include/linux/nodemask.h:94,
-                    from include/linux/list_lru.h:12,
-                    from include/linux/fs/super_types.h:7,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from fs/ext4/extents.c:20:
-   fs/ext4/extents-test.c: In function 'check_buffer':
-   include/linux/kern_levels.h:5:25: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:484:25: note: in definition of macro 'printk_index_wrap'
-     484 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/kunit/test.h:661:17: note: in expansion of macro 'printk'
-     661 |                 printk(lvl fmt, ##__VA_ARGS__);                         \
-         |                 ^~~~~~
-   fs/ext4/extents-test.c:298:9: note: in expansion of macro 'kunit_log'
-     298 |         kunit_log(KERN_ALERT, kunit_get_current_test(),
-         |         ^~~~~~~~~
-   include/linux/kern_levels.h:9:25: note: in expansion of macro 'KERN_SOH'
-       9 | #define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
-         |                         ^~~~~~~~
-   fs/ext4/extents-test.c:298:19: note: in expansion of macro 'KERN_ALERT'
-     298 |         kunit_log(KERN_ALERT, kunit_get_current_test(),
-         |                   ^~~~~~~~~~
-   In file included from include/kunit/static_stub.h:18,
-                    from fs/ext4/extents.c:35:
->> fs/ext4/extents-test.c:299:19: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'int' [-Wformat=]
-     299 |                   "# %s: wrong char found at offset %ld (expected:%d got:%d)", __func__,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     300 |                   ((char *)ret - buf), c, *((char *)ret));
-         |                   ~~~~~~~~~~~~~~~~~~~
-         |                                |
-         |                                int
-   include/kunit/test.h:662:57: note: in definition of macro 'kunit_log'
-     662 |                 kunit_log_append((test_or_suite)->log,  fmt,            \
-         |                                                         ^~~
-   In file included from fs/ext4/extents.c:6200:
-   fs/ext4/extents-test.c:299:55: note: format string is defined here
-     299 |                   "# %s: wrong char found at offset %ld (expected:%d got:%d)", __func__,
-         |                                                     ~~^
-         |                                                       |
-         |                                                       long int
-         |                                                     %d
+vim +240 fs/bcachefs/data/ec/init.c
 
-
-vim +299 fs/ext4/extents-test.c
-
-   286	
-   287	/*
-   288	 * Return 1 if all bytes in the buf equal to c, else return the offset of first mismatch
-   289	 */
-   290	static int check_buffer(char *buf, int c, int size)
-   291	{
-   292		void *ret = NULL;
-   293	
-   294		ret = memchr_inv(buf, c, size);
-   295		if (ret  == NULL)
-   296			return 0;
-   297	
-   298		kunit_log(KERN_ALERT, kunit_get_current_test(),
- > 299			  "# %s: wrong char found at offset %ld (expected:%d got:%d)", __func__,
-   300			  ((char *)ret - buf), c, *((char *)ret));
-   301		return 1;
-   302	}
-   303	
+   230	
+   231	static int check_stripe_refs_one(struct btree_trans *trans,
+   232					 struct bkey_s_c k,
+   233					 struct wb_maybe_flush *last_flushed)
+   234	{
+   235		if (k.k->type != KEY_TYPE_stripe)
+   236			return 0;
+   237	
+   238		struct bch_fs *c = trans->c;
+   239		const struct bch_stripe *s = bkey_s_c_to_stripe(k).v;
+ > 240		int ret = 0;
+   241	
+   242		u64 lru_idx = stripe_lru_pos(s);
+   243		if (lru_idx)
+   244			try(bch2_lru_check_set(trans, BCH_LRU_STRIPE_FRAGMENTATION,
+   245					       k.k->p.offset, lru_idx, k, last_flushed));
+   246	
+   247		for (unsigned i = 0; i < s->nr_blocks; i++) {
+   248			const struct bch_extent_ptr *ptr = s->ptrs + i;
+   249			CLASS(bch2_dev_tryget_noerror, ca)(c, ptr->dev);
+   250			if (!ca)
+   251				continue;
+   252	
+   253			struct bpos bucket = PTR_BUCKET_POS(ca, ptr);
+   254	
+   255			CLASS(btree_iter, iter)(trans, BTREE_ID_bucket_to_stripe,
+   256						POS(bucket_to_u64(bucket), k.k->p.offset), 0);
+   257			struct bkey_s_c ref = bkey_try(bch2_btree_iter_peek_slot(&iter));
+   258	
+   259			CLASS(printbuf, buf)();
+   260	
+   261			if (fsck_err_on(ref.k->type != KEY_TYPE_set,
+   262					trans, stripe_to_missing_bucket_ref,
+   263					"stripe block %u missing bucket ref\n%s",
+   264					i, (bch2_bkey_val_to_text(&buf, c, k), buf.buf)))
+   265				try(bucket_stripe_ref_mod(trans, bucket, k.k->p.offset, true));
+   266		}
+   267	fsck_err:
+ > 268		return ret;
+   269	}
+   270	
 
 -- 
 0-DAY CI Kernel Test Service
