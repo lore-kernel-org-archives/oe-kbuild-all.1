@@ -1,83 +1,85 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B236C8F0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 12:13:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792A62C86D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 12:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768738410; cv=none; b=rKVgNXYub1Sld59oHdQr2s2JAfLq6A+JKcFNn5J3EUXXgWcIjMnZyuwzxnb1RPneihL2kpO+AoSOeLrvMATnNSbx330VJK4JGOkJySXb6Qhe7zDfDy+mEROgMY7p3JllpuID+5bVjDFiACMjJ5YJyMa1k24XMNNTf2t24h/eocE=
+	t=1768738785; cv=none; b=a1NMnDdhkxn2CZv7yidFF+vc8kJXhTkuSXggolHmID7+BVAXXiFj5O8aETQU6dq2HAF8xDmRoph98nnO6VEBy4eSOvqSm5HddKTjKUNp7PqB/JNI5wFtjoK+9ZvVd257a3+HUdwauJdvfwmxtV8p3CU03w0zUKrswFfEpI7Zh4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768738410; c=relaxed/simple;
-	bh=81inlu39WRiqkFmD/RzaUNgmYqe9T+DCK1sptuiH/0I=;
+	s=arc-20240116; t=1768738785; c=relaxed/simple;
+	bh=yKm86xc59L8rWXSGE7GuuKfrBrGlY5HVhIRTxxd/NSQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IsfGyfDJAW3ti9K8YI7TUG2Y9F/lLHD4ejGNJ72nx4U635UJusSdcX7svq5e64AdRQdfiWiY3LFnEC9QQdM0LKvhXjTTz/A7nquIUmLChnDn1MNH0nFKWbrL4zfF4BoKYd+hwj5zgW7t/VcN9k84NGz/D84ZxGCeDYXT9Kygcgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=t/6uCiyJ; arc=none smtp.client-ip=209.85.128.48
+	 Content-Disposition; b=A4Q/MTXCPoJ+PcEPSeLNe9aKMobdkT7mCq1Po9+RhBIODmKYaqH0mbycFF+4z/n6e7ThTwQxTkok+2rl3FLe9QRdqmWEUa3QtLcuNSKWDSGjLq2XuY/oVlOQBsMz07qsN+KyXKFUcTIWWO/Hszxq2+TymhhzgocV8YWcLkI7/GI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wye8Iosa; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t/6uCiyJ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47ee3da7447so20712965e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 04:13:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wye8Iosa"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43277900fb4so2009187f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 04:19:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768738407; x=1769343207; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6FBFi9bObcM6IuIKAwe383oQSfYg+3/6KJuY+702zMY=;
-        b=t/6uCiyJqUhH6X9tovPWAdFhyFIkdFyDKza0kIkPM264H4TZ0nul+81+a5tGJ5hoHz
-         amTBSAjhoSzAkSx24iQqIN8EJ3TE/94wZXw8fl5FOh240fUidZqLeb6KmeES33OfQUxL
-         RwXnHF1qTsbTXm+k2Jpd4UpEkfRZdbYhigxptk2VrMAvCL53hYDBeRha7qk6GXsZ7wz0
-         PO0YBtbbyqIVV1kbdVgau+DousUEXnFpLh/m1b2dSlPr6m70cOKjDFyHkQjz9CKRQFkH
-         VCZwI6gRsiwR03UYHkmDeNu/+PpUTmGEJIQggkLpURnzxPYPnsG2MyHM1rP/EHLEkP8V
-         eGvg==
+        d=linaro.org; s=google; t=1768738782; x=1769343582; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lkoju9Swt6eeI9dWtzme/fPtYzDmyPT2GeuFpxC4il4=;
+        b=wye8Iosa15n6pon/kYz66vKNWI0rEU7EsdwYG+a4zLiSGZleLkyjemRgUMW75uYwZd
+         5K28UzF0/AU0DcXOhboBLdH1msczfMqtHi+MhRaQmwJ3sTR9KK9NcjxaZ/gBS4O1S/FT
+         4PqQkOnbhWQ5KTJsdvFlYSdBiypE860io5vXYMI7yNpl4JJqrCEX2auqyCr73h7H+r/O
+         m7r4I+lqg+EA+0FuT1kRtOMc4Z6vAYMCehXGoHHmqnrkwWPwAfJ8eV7l49WeCv6Xv3/j
+         0j8KdtEKbS0DWwdEl+JZfCI0sHSbta7DhtGV0fU0I/PRVgNvUaLQpgpk5xW06Wb86JGv
+         EhOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768738407; x=1769343207;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6FBFi9bObcM6IuIKAwe383oQSfYg+3/6KJuY+702zMY=;
-        b=r66d55b1UZW7MLPJyVoyJWoH4N+KrnlMBW79fDV0GCVXgwyW7dfXHq1IzqQMRblelx
-         QVpKsQTcqiLsLA00/QZ8vmCm04kiuag+d1Fm1LBK6KztM2zU021KXXc3fqwLoE/V4PiP
-         D1P6h7qc3Ajsu+HlwdPENotfNl0G4jucc8BtyNBenHl5QnRa9GzGaTeuyzrBO5QnERzZ
-         DB14hAwRuqv2OTFIrzEpgTNHQVwx69v1s8BgYT830mm9yb2KuSjXySxEot4YqlXVvPtJ
-         cXrVeM/EoIjVdpXjvPydG0guMaNiSyxpXKFN0og2QiSvajnjFJdEEAv+X4XLa6FOxtMt
-         Ixxg==
-X-Forwarded-Encrypted: i=1; AJvYcCXczLXWDXpqt0tqH2u2dxcBisKLIQjjqEjnLNNyzZw5QHxU+YMsTijFzLp0B4KKJ5HS24CcK4ptSPwnT+zk@lists.linux.dev
-X-Gm-Message-State: AOJu0YwrvaKe7e6kL5LLfA7YGzg8FWyJqIaZ2vcUCK1fiDepsbQgike8
-	P++0sjobdplLYsbe77s0x61t/Qc152w6Zg7GIij2lyap+7fOZjN87UGmoh2AjN1ahYg=
-X-Gm-Gg: AY/fxX7Ifi7TUThBDr1HHKjhCX/xk6NDxRNNofo3AKVoWikbwKzWEMBZ/Z80zrD6upr
-	9ABrcxK0gcaBU/YxBF28IuZJxtxgm0nBCxmMuxrgSU+IZkozihJcDw0sypt5sS6B2wkWcigXpQt
-	jOcEqDml27cWliLusAupCdYse8yf5cXOF4X0qWv/JGFyAKUWxlTVCPb0J5H7AlVvX2NgRlKCzau
-	iXSQrlkjjqCn7r9FE6/hXLoIIOLGaM4EEd6v4rQolbV1ZEQS9oZ3gFrtmZlOTVdt5zWWbphYGi2
-	9XtQTpHoy+xwVSmwQKDYHLA/6jdLo1h3SprtOnu2JX8h0p+4mDBSkQpdLnaKV/yGk2anKIN1Cwc
-	oloEyd5/OYhMi/e1hu4x8kpWtmirpdEmpQtUJNetHjdu69Zu+HHLYTx3jldb1T3qwXilFBbUovb
-	aj5QVrsCc/RZiezFTHBzJdtJbIzQE=
-X-Received: by 2002:a05:600c:6994:b0:47d:3690:7490 with SMTP id 5b1f17b1804b1-4801e2fd5c9mr86813935e9.9.1768738406800;
-        Sun, 18 Jan 2026 04:13:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1768738782; x=1769343582;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lkoju9Swt6eeI9dWtzme/fPtYzDmyPT2GeuFpxC4il4=;
+        b=orS8Q0NkYw6KVARIIwH1zAllPmJAZh9ukJHt6edD2+gO7Ut02H/AQ3tPD27JcuK5uc
+         cLGb0xHKiyDLMMe/DiPkXdbkqAIy2as6Afj2GpuI5dYhtzSYR/w/ORqe+76eHwGciGX1
+         Ydeh3QqdlZLp6yush4gSH4aHH7aHm4sGFickRAis2oJCVHe992uKbTrwrBCNhew30D8j
+         EaRWUd9AJqh4KyhIy6+fnPQZmQlYk5bDjtGtRV7MovA+vBzqWBMZBCF4WelGznbI7De6
+         d1yuU/TK/iJEP84cyNxDmhD2s3P/pQ3MozC8kZamoK8V1GxMR19gtK0Yc0U8L/CPDfin
+         DwEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUB19eDqC1zqoYzTGPaGpC3SZHAae4fypnmaj6kLxa3Rf8AElFprM6TYO3xubk2hGLFeL1TC//eYrkjzKG0@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx7ZVFhlXLv1vxIEoccKol+GP0Vu1zbFzEnziGnOPTov1qV6EgL
+	WY2axjkpC9GXQI2Be9IXBBYLrBcMPHw8EJ+c1GD92dlJaPnWiT+f1fgMC7PKx5Ea72E=
+X-Gm-Gg: AY/fxX7/i46FBHwtiRKF6ANIud0hu/MKF/yUOAMbtWDbQVdflf/bJG7foYLfBXVhmWa
+	S1Qd0+SixQn0CxM/1p6MRNPvuzArOi8Ke3ppTcANFdCrhuUwQGMJ1lDRAg7thXx740K9mZWeMvp
+	SNXx2UXFaWHFvrcc/7V1jzs7H6LtU/DWYTMzIiWSNtz4erxyouOQM/vGGhe8AuT1ik/k7sF/9HW
+	/FtRnXe4tCwUNZhQ62rl/+xR1hn13Wppu7Ze+OFJw/L9wf4FzFID9oStKzgCYPYPxrLcoIVTzOq
+	4jNjDJzACN55Q4DlqpSyP5eMt6088QzANUc29hQ+SUaxTPtqpytCzwao9XUcMc6/Di8vQ57LxZK
+	0cEewKRgg2oVKumyhQcwabFCU643RNG96foBiVzTz1lYoVOjZeXqx3qtF5bifOOEJbHLZawBoo0
+	Vb/Ioz5F3+Z/il2IiG
+X-Received: by 2002:a05:6000:2c01:b0:432:86de:f396 with SMTP id ffacd0b85a97d-435695780admr9574503f8f.26.1768738781758;
+        Sun, 18 Jan 2026 04:19:41 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47f4b26764fsm194796255e9.12.2026.01.18.04.13.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569926648sm17199398f8f.10.2026.01.18.04.19.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 04:13:26 -0800 (PST)
-Date: Sun, 18 Jan 2026 15:13:23 +0300
+        Sun, 18 Jan 2026 04:19:41 -0800 (PST)
+Date: Sun, 18 Jan 2026 15:19:38 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 4/4] kernel/workqueue.c:2644
- process_one_work() warn: variable dereferenced before check 'worker->task'
- (see line 2567)
-Message-ID: <202601161425.T56neBEJ-lkp@intel.com>
+Subject: [android-common:android15-6.6 4/4]
+ drivers/gpu/drm/ttm/ttm_resource.c:440 ttm_resource_manager_evict_all()
+ error: uninitialized symbol 'ret'.
+Message-ID: <202601162042.mrCEt4Ms-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 tree:   https://android.googlesource.com/kernel/common android15-6.6
 head:   a58a97026588e9128868c7778ca1ffacbb53c931
-commit: 6dc676743a7a8d292b2cc39016ba8f92d4c0ef49 [4/4] workqueue: Update lock debugging code
-config: i386-randconfig-141-20260116 (https://download.01.org/0day-ci/archive/20260116/202601161425.T56neBEJ-lkp@intel.com/config)
+commit: 3c9ca275100e4fae48ab5206021b3ec82cf37b04 [4/4] drm/ttm: Should to return the evict error
+config: i386-randconfig-141-20260116 (https://download.01.org/0day-ci/archive/20260116/202601162042.mrCEt4Ms-lkp@intel.com/config)
 compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
 smatch version: v0.5.0-8985-g2614ff1a
 
@@ -85,169 +87,65 @@ If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601161425.T56neBEJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202601162042.mrCEt4Ms-lkp@intel.com/
 
 smatch warnings:
-kernel/workqueue.c:2644 process_one_work() warn: variable dereferenced before check 'worker->task' (see line 2567)
+drivers/gpu/drm/ttm/ttm_resource.c:440 ttm_resource_manager_evict_all() error: uninitialized symbol 'ret'.
 
-vim +2644 kernel/workqueue.c
+vim +/ret +440 drivers/gpu/drm/ttm/ttm_resource.c
 
-c34056a3fdde77 Tejun Heo                 2010-06-29  2537  static void process_one_work(struct worker *worker, struct work_struct *work)
-d565ed63093003 Tejun Heo                 2013-01-24  2538  __releases(&pool->lock)
-d565ed63093003 Tejun Heo                 2013-01-24  2539  __acquires(&pool->lock)
-^1da177e4c3f41 Linus Torvalds            2005-04-16  2540  {
-112202d9098aae Tejun Heo                 2013-02-13  2541  	struct pool_workqueue *pwq = get_work_pwq(work);
-bd7bdd43dcb81b Tejun Heo                 2012-07-12  2542  	struct worker_pool *pool = worker->pool;
-c4560c2c88a4c8 Lai Jiangshan             2021-08-17  2543  	unsigned long work_data;
-6dc676743a7a8d Tejun Heo                 2024-02-04  2544  	int lockdep_start_depth, rcu_start_depth;
-4e6045f134784f Johannes Berg             2007-10-18  2545  #ifdef CONFIG_LOCKDEP
-4e6045f134784f Johannes Berg             2007-10-18  2546  	/*
-a62428c0ae54a3 Tejun Heo                 2010-06-29  2547  	 * It is permissible to free the struct work_struct from
-a62428c0ae54a3 Tejun Heo                 2010-06-29  2548  	 * inside the function that is called from it, this we need to
-a62428c0ae54a3 Tejun Heo                 2010-06-29  2549  	 * take into account for lockdep too.  To avoid bogus "held
-a62428c0ae54a3 Tejun Heo                 2010-06-29  2550  	 * lock freed" warnings as well as problems when looking into
-a62428c0ae54a3 Tejun Heo                 2010-06-29  2551  	 * work->lockdep_map, make a copy and use that here.
-4e6045f134784f Johannes Berg             2007-10-18  2552  	 */
-4d82a1debbffec Peter Zijlstra            2012-05-15  2553  	struct lockdep_map lockdep_map;
-4d82a1debbffec Peter Zijlstra            2012-05-15  2554  
-4d82a1debbffec Peter Zijlstra            2012-05-15  2555  	lockdep_copy_map(&lockdep_map, &work->lockdep_map);
-4e6045f134784f Johannes Berg             2007-10-18  2556  #endif
-807407c0a29b1e Lai Jiangshan             2014-06-03  2557  	/* ensure we're on the correct CPU */
-85327af61d4cb1 Lai Jiangshan             2014-06-03  2558  	WARN_ON_ONCE(!(pool->flags & POOL_DISASSOCIATED) &&
-ec22ca5eab0bd2 Tejun Heo                 2013-01-24  2559  		     raw_smp_processor_id() != pool->cpu);
-25511a47765788 Tejun Heo                 2012-07-17  2560  
-8930caba3dbdd8 Tejun Heo                 2012-08-03  2561  	/* claim and dequeue */
-dc186ad741c12a Thomas Gleixner           2009-11-16  2562  	debug_work_deactivate(work);
-c9e7cf273fa187 Tejun Heo                 2013-01-24  2563  	hash_add(pool->busy_hash, &worker->hentry, (unsigned long)work);
-c34056a3fdde77 Tejun Heo                 2010-06-29  2564  	worker->current_work = work;
-a2c1c57be8d9fd Tejun Heo                 2012-12-18  2565  	worker->current_func = work->func;
-112202d9098aae Tejun Heo                 2013-02-13  2566  	worker->current_pwq = pwq;
-616db8779b1e3f Tejun Heo                 2023-05-17 @2567  	worker->current_at = worker->task->se.sum_exec_runtime;
-                                                                                     ^^^^^^^^^^^^
-Dereferenced.
+8af8a109b34fa88 Christian König 2020-10-01  411  int ttm_resource_manager_evict_all(struct ttm_device *bdev,
+b2458726b38cb69 Christian König 2020-08-03  412  				   struct ttm_resource_manager *man)
+b2458726b38cb69 Christian König 2020-08-03  413  {
+b2458726b38cb69 Christian König 2020-08-03  414  	struct ttm_operation_ctx ctx = {
+b2458726b38cb69 Christian König 2020-08-03  415  		.interruptible = false,
+b2458726b38cb69 Christian König 2020-08-03  416  		.no_wait_gpu = false,
+c44dfe4de053914 Christian König 2020-11-02  417  		.force_alloc = true
+b2458726b38cb69 Christian König 2020-08-03  418  	};
+b2458726b38cb69 Christian König 2020-08-03  419  	struct dma_fence *fence;
+b2458726b38cb69 Christian König 2020-08-03  420  	int ret;
+b2458726b38cb69 Christian König 2020-08-03  421  	unsigned i;
+b2458726b38cb69 Christian König 2020-08-03  422  
+b2458726b38cb69 Christian König 2020-08-03  423  	/*
+b2458726b38cb69 Christian König 2020-08-03  424  	 * Can't use standard list traversal since we're unlocking.
+b2458726b38cb69 Christian König 2020-08-03  425  	 */
+b2458726b38cb69 Christian König 2020-08-03  426  
+a1f091f8ef2b680 Christian König 2020-10-06  427  	spin_lock(&bdev->lru_lock);
+b2458726b38cb69 Christian König 2020-08-03  428  	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i) {
+b2458726b38cb69 Christian König 2020-08-03  429  		while (!list_empty(&man->lru[i])) {
 
-c4560c2c88a4c8 Lai Jiangshan             2021-08-17  2568  	work_data = *work_data_bits(work);
-d812796eb39064 Lai Jiangshan             2021-08-17  2569  	worker->current_color = get_work_color(work_data);
-7a22ad757ec751 Tejun Heo                 2010-06-29  2570  
-8bf895931ee3b6 Tejun Heo                 2018-05-18  2571  	/*
-8bf895931ee3b6 Tejun Heo                 2018-05-18  2572  	 * Record wq name for cmdline and debug reporting, may get
-8bf895931ee3b6 Tejun Heo                 2018-05-18  2573  	 * overridden through set_worker_desc().
-8bf895931ee3b6 Tejun Heo                 2018-05-18  2574  	 */
-8bf895931ee3b6 Tejun Heo                 2018-05-18  2575  	strscpy(worker->desc, pwq->wq->name, WORKER_DESC_LEN);
-8bf895931ee3b6 Tejun Heo                 2018-05-18  2576  
-a62428c0ae54a3 Tejun Heo                 2010-06-29  2577  	list_del_init(&work->entry);
-a62428c0ae54a3 Tejun Heo                 2010-06-29  2578  
-fb0e7beb5c1b6f Tejun Heo                 2010-06-29  2579  	/*
-228f1d0018ba6b Lai Jiangshan             2014-07-22  2580  	 * CPU intensive works don't participate in concurrency management.
-228f1d0018ba6b Lai Jiangshan             2014-07-22  2581  	 * They're the scheduler's responsibility.  This takes @worker out
-228f1d0018ba6b Lai Jiangshan             2014-07-22  2582  	 * of concurrency management and the next code block will chain
-228f1d0018ba6b Lai Jiangshan             2014-07-22  2583  	 * execution of the pending work items.
-fb0e7beb5c1b6f Tejun Heo                 2010-06-29  2584  	 */
-616db8779b1e3f Tejun Heo                 2023-05-17  2585  	if (unlikely(pwq->wq->flags & WQ_CPU_INTENSIVE))
-228f1d0018ba6b Lai Jiangshan             2014-07-22  2586  		worker_set_flags(worker, WORKER_CPU_INTENSIVE);
-fb0e7beb5c1b6f Tejun Heo                 2010-06-29  2587  
-974271c485a4d8 Tejun Heo                 2012-07-12  2588  	/*
-0219a3528d7214 Tejun Heo                 2023-08-07  2589  	 * Kick @pool if necessary. It's always noop for per-cpu worker pools
-0219a3528d7214 Tejun Heo                 2023-08-07  2590  	 * since nr_running would always be >= 1 at this point. This is used to
-0219a3528d7214 Tejun Heo                 2023-08-07  2591  	 * chain execution of the pending work items for WORKER_NOT_RUNNING
-0219a3528d7214 Tejun Heo                 2023-08-07  2592  	 * workers such as the UNBOUND and CPU_INTENSIVE ones.
-974271c485a4d8 Tejun Heo                 2012-07-12  2593  	 */
-0219a3528d7214 Tejun Heo                 2023-08-07  2594  	kick_pool(pool);
-974271c485a4d8 Tejun Heo                 2012-07-12  2595  
-8930caba3dbdd8 Tejun Heo                 2012-08-03  2596  	/*
-7c3eed5cd60d0f Tejun Heo                 2013-01-24  2597  	 * Record the last pool and clear PENDING which should be the last
-d565ed63093003 Tejun Heo                 2013-01-24  2598  	 * update to @work.  Also, do this inside @pool->lock so that
-23657bb192f14b Tejun Heo                 2012-08-13  2599  	 * PENDING and queued state changes happen together while IRQ is
-23657bb192f14b Tejun Heo                 2012-08-13  2600  	 * disabled.
-8930caba3dbdd8 Tejun Heo                 2012-08-03  2601  	 */
-7c3eed5cd60d0f Tejun Heo                 2013-01-24  2602  	set_work_pool_and_clear_pending(work, pool->id);
-^1da177e4c3f41 Linus Torvalds            2005-04-16  2603  
-fe48ba7daefe75 Mirsad Goran Todorovac    2023-08-26  2604  	pwq->stats[PWQ_STAT_STARTED]++;
-a9b8a985294deb Sebastian Andrzej Siewior 2020-05-27  2605  	raw_spin_unlock_irq(&pool->lock);
-^1da177e4c3f41 Linus Torvalds            2005-04-16  2606  
-6dc676743a7a8d Tejun Heo                 2024-02-04  2607  	rcu_start_depth = rcu_preempt_depth();
-6dc676743a7a8d Tejun Heo                 2024-02-04  2608  	lockdep_start_depth = lockdep_depth(current);
-a1d14934ea4b9d Peter Zijlstra            2017-08-23  2609  	lock_map_acquire(&pwq->wq->lockdep_map);
-3295f0ef9ff048 Ingo Molnar               2008-08-11  2610  	lock_map_acquire(&lockdep_map);
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2611  	/*
-f52be5708076b7 Peter Zijlstra            2017-08-29  2612  	 * Strictly speaking we should mark the invariant state without holding
-f52be5708076b7 Peter Zijlstra            2017-08-29  2613  	 * any locks, that is, before these two lock_map_acquire()'s.
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2614  	 *
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2615  	 * However, that would result in:
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2616  	 *
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2617  	 *   A(W1)
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2618  	 *   WFC(C)
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2619  	 *		A(W1)
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2620  	 *		C(C)
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2621  	 *
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2622  	 * Which would create W1->C->W1 dependencies, even though there is no
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2623  	 * actual deadlock possible. There are two solutions, using a
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2624  	 * read-recursive acquire on the work(queue) 'locks', but this will then
-f52be5708076b7 Peter Zijlstra            2017-08-29  2625  	 * hit the lockdep limitation on recursive locks, or simply discard
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2626  	 * these locks.
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2627  	 *
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2628  	 * AFAICT there is no possible deadlock scenario between the
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2629  	 * flush_work() and complete() primitives (except for single-threaded
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2630  	 * workqueues), so hiding them isn't a problem.
-e6f3faa734a00c Peter Zijlstra            2017-08-23  2631  	 */
-f52be5708076b7 Peter Zijlstra            2017-08-29  2632  	lockdep_invariant_state(true);
-e36c886a0f9d62 Arjan van de Ven          2010-08-21  2633  	trace_workqueue_execute_start(work);
-a2c1c57be8d9fd Tejun Heo                 2012-12-18  2634  	worker->current_func(work);
-e36c886a0f9d62 Arjan van de Ven          2010-08-21  2635  	/*
-e36c886a0f9d62 Arjan van de Ven          2010-08-21  2636  	 * While we must be careful to not use "work" after this, the trace
-e36c886a0f9d62 Arjan van de Ven          2010-08-21  2637  	 * point will only record its address.
-e36c886a0f9d62 Arjan van de Ven          2010-08-21  2638  	 */
-1c5da0ec7f20df Daniel Jordan             2020-01-13  2639  	trace_workqueue_execute_end(work, worker->current_func);
-725e8ec59c56c6 Tejun Heo                 2023-05-17  2640  	pwq->stats[PWQ_STAT_COMPLETED]++;
-3295f0ef9ff048 Ingo Molnar               2008-08-11  2641  	lock_map_release(&lockdep_map);
-112202d9098aae Tejun Heo                 2013-02-13  2642  	lock_map_release(&pwq->wq->lockdep_map);
-^1da177e4c3f41 Linus Torvalds            2005-04-16  2643  
-6dc676743a7a8d Tejun Heo                 2024-02-04 @2644  	if (unlikely((worker->task && in_atomic()) ||
-                                                                              ^^^^^^^^^^^^
-Checked too late.
+Can the list be empty at the start?
 
-6dc676743a7a8d Tejun Heo                 2024-02-04  2645  		     lockdep_depth(current) != lockdep_start_depth ||
-6dc676743a7a8d Tejun Heo                 2024-02-04  2646  		     rcu_preempt_depth() != rcu_start_depth)) {
-6dc676743a7a8d Tejun Heo                 2024-02-04  2647  		pr_err("BUG: workqueue leaked atomic, lock or RCU: %s[%d]\n"
-6dc676743a7a8d Tejun Heo                 2024-02-04  2648  		       "     preempt=0x%08x lock=%d->%d RCU=%d->%d workfn=%ps\n",
-6dc676743a7a8d Tejun Heo                 2024-02-04  2649  		       current->comm, task_pid_nr(current), preempt_count(),
-6dc676743a7a8d Tejun Heo                 2024-02-04  2650  		       lockdep_start_depth, lockdep_depth(current),
-6dc676743a7a8d Tejun Heo                 2024-02-04  2651  		       rcu_start_depth, rcu_preempt_depth(),
-6dc676743a7a8d Tejun Heo                 2024-02-04  2652  		       worker->current_func);
-d5abe669172f20 Peter Zijlstra            2006-12-06  2653  		debug_show_held_locks(current);
-d5abe669172f20 Peter Zijlstra            2006-12-06  2654  		dump_stack();
-d5abe669172f20 Peter Zijlstra            2006-12-06  2655  	}
-d5abe669172f20 Peter Zijlstra            2006-12-06  2656  
-b22ce2785d9742 Tejun Heo                 2013-08-28  2657  	/*
-025f50f3866486 Sebastian Andrzej Siewior 2019-10-15  2658  	 * The following prevents a kworker from hogging CPU on !PREEMPTION
-b22ce2785d9742 Tejun Heo                 2013-08-28  2659  	 * kernels, where a requeueing work item waiting for something to
-b22ce2785d9742 Tejun Heo                 2013-08-28  2660  	 * happen could deadlock with stop_machine as such work item could
-b22ce2785d9742 Tejun Heo                 2013-08-28  2661  	 * indefinitely requeue itself while all other CPUs are trapped in
-789cbbeca4eb71 Joe Lawrence              2014-10-05  2662  	 * stop_machine. At the same time, report a quiescent RCU state so
-789cbbeca4eb71 Joe Lawrence              2014-10-05  2663  	 * the same condition doesn't freeze RCU.
-b22ce2785d9742 Tejun Heo                 2013-08-28  2664  	 */
-a7e6425ea58169 Paul E. McKenney          2017-10-24  2665  	cond_resched();
-b22ce2785d9742 Tejun Heo                 2013-08-28  2666  
-a9b8a985294deb Sebastian Andrzej Siewior 2020-05-27  2667  	raw_spin_lock_irq(&pool->lock);
-a62428c0ae54a3 Tejun Heo                 2010-06-29  2668  
-616db8779b1e3f Tejun Heo                 2023-05-17  2669  	/*
-616db8779b1e3f Tejun Heo                 2023-05-17  2670  	 * In addition to %WQ_CPU_INTENSIVE, @worker may also have been marked
-616db8779b1e3f Tejun Heo                 2023-05-17  2671  	 * CPU intensive by wq_worker_tick() if @work hogged CPU longer than
-616db8779b1e3f Tejun Heo                 2023-05-17  2672  	 * wq_cpu_intensive_thresh_us. Clear it.
-616db8779b1e3f Tejun Heo                 2023-05-17  2673  	 */
-fb0e7beb5c1b6f Tejun Heo                 2010-06-29  2674  	worker_clr_flags(worker, WORKER_CPU_INTENSIVE);
-fb0e7beb5c1b6f Tejun Heo                 2010-06-29  2675  
-1b69ac6b40ebd8 Johannes Weiner           2019-02-01  2676  	/* tag the worker for identification in schedule() */
-1b69ac6b40ebd8 Johannes Weiner           2019-02-01  2677  	worker->last_func = worker->current_func;
-1b69ac6b40ebd8 Johannes Weiner           2019-02-01  2678  
-a62428c0ae54a3 Tejun Heo                 2010-06-29  2679  	/* we're done with it, release */
-42f8570f437b65 Sasha Levin               2012-12-17  2680  	hash_del(&worker->hentry);
-c34056a3fdde77 Tejun Heo                 2010-06-29  2681  	worker->current_work = NULL;
-a2c1c57be8d9fd Tejun Heo                 2012-12-18  2682  	worker->current_func = NULL;
-112202d9098aae Tejun Heo                 2013-02-13  2683  	worker->current_pwq = NULL;
-d812796eb39064 Lai Jiangshan             2021-08-17  2684  	worker->current_color = INT_MAX;
-c4560c2c88a4c8 Lai Jiangshan             2021-08-17  2685  	pwq_dec_nr_in_flight(pwq, work_data);
-^1da177e4c3f41 Linus Torvalds            2005-04-16  2686  }
+a1f091f8ef2b680 Christian König 2020-10-06  430  			spin_unlock(&bdev->lru_lock);
+b2458726b38cb69 Christian König 2020-08-03  431  			ret = ttm_mem_evict_first(bdev, man, NULL, &ctx,
+b2458726b38cb69 Christian König 2020-08-03  432  						  NULL);
+b2458726b38cb69 Christian König 2020-08-03  433  			if (ret)
+b2458726b38cb69 Christian König 2020-08-03  434  				return ret;
+a1f091f8ef2b680 Christian König 2020-10-06  435  			spin_lock(&bdev->lru_lock);
+b2458726b38cb69 Christian König 2020-08-03  436  		}
+b2458726b38cb69 Christian König 2020-08-03  437  	}
+a1f091f8ef2b680 Christian König 2020-10-06  438  	spin_unlock(&bdev->lru_lock);
+b2458726b38cb69 Christian König 2020-08-03  439  
+3c9ca275100e4fa Emily Deng      2025-06-03 @440  	if (ret && ret != -ENOENT)
+
+
+This check makes no sense.  ret is either zero or uninitialized.
+
+3c9ca275100e4fa Emily Deng      2025-06-03  441  		return ret;
+3c9ca275100e4fa Emily Deng      2025-06-03  442  
+b2458726b38cb69 Christian König 2020-08-03  443  	spin_lock(&man->move_lock);
+b2458726b38cb69 Christian König 2020-08-03  444  	fence = dma_fence_get(man->move);
+b2458726b38cb69 Christian König 2020-08-03  445  	spin_unlock(&man->move_lock);
+b2458726b38cb69 Christian König 2020-08-03  446  
+b2458726b38cb69 Christian König 2020-08-03  447  	if (fence) {
+b2458726b38cb69 Christian König 2020-08-03  448  		ret = dma_fence_wait(fence, false);
+b2458726b38cb69 Christian König 2020-08-03  449  		dma_fence_put(fence);
+b2458726b38cb69 Christian König 2020-08-03  450  		if (ret)
+b2458726b38cb69 Christian König 2020-08-03  451  			return ret;
+b2458726b38cb69 Christian König 2020-08-03  452  	}
+b2458726b38cb69 Christian König 2020-08-03  453  
+b2458726b38cb69 Christian König 2020-08-03  454  	return 0;
+b2458726b38cb69 Christian König 2020-08-03  455  }
 
 -- 
 0-DAY CI Kernel Test Service
