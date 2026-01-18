@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B841A238C1B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jan 2026 22:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4838F49
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 00:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768688605; cv=none; b=gJAFruAxfEcYF7JklYwGb8qexhib9ghhS7IZMiEL90Jn0COezHA6m9ET+HQBDrSaR4XaMcvxDT84eq0c6IPxPp8tZHay35f30IW5bWI6tw6f8X8cLleVXKj7DHUgZSj0i9WByJ/lEdYNpwiN/RuPus4pbPI0mSulfPeufBmSE1c=
+	t=1768694793; cv=none; b=UnUoi4WRczLicUW1yNyrjTp3weyxjmQez8rYbM+vwQP+c42jbyi/Z9nbGDiNdV+tMliEh4AISzcxBMx/g7aWtvtTIScQ7byKvYSQr8hl7lj2D+X9kvHhtQSS2wLMNvzPgpiYfyMTCbg+645zJ1IF+3CLX4DwsoIqRkat3wEn+5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768688605; c=relaxed/simple;
-	bh=fK4i7jLO9Y32rRo3N1HN3W1McBT6cU9ZggUsl2auxc0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XIURCAcj8Bi28Fq4byh8QaydEb8wFnsEdXm1lxUcCVP9KorTU75/yf9uyN4tc1NKZT+cy33BfwyoTrMyCkgJ+xhnXFITFb6nMyVgoPTZdYqrHmQz2PiKsiHmoAiB2PjDfHVl3k+PS7RX1UPHx3ZGR/sirFkPrMNCORda+TgWKEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDHovuZ7; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1768694793; c=relaxed/simple;
+	bh=ckJ6V+DvZNm6vZEDZ+8c9I2Jkufz2va0dtQnJly4hBM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=VYOiqyugvrMQwMv3EHb4/mDk1LlhC8OCxpHdyPmyxyHvneJNBcT+FXmfkBtkuBrryrZvlYVKnh1Ldhi7g0/AllhV7xb7itY3/SDN+8pqnXGtaqLBPhSKx5ICvYYcYchXh3Vjm+K9WAFue6niwUt30NJWaS1fv7sO7SkhwsNl3zM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gd7RcYk+; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDHovuZ7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gd7RcYk+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768688603; x=1800224603;
+  t=1768694791; x=1800230791;
   h=date:from:to:cc:subject:message-id;
-  bh=fK4i7jLO9Y32rRo3N1HN3W1McBT6cU9ZggUsl2auxc0=;
-  b=MDHovuZ7cZRD3WYIbRH2lsP1Fxbr1DfnFP2gkm/Wgdnlrit77WUuJv74
-   4kHoZYCrM2yL/0pFixYNA3m4QJLlS2LxyxsdpWxz79JQbnKb2J9zEXZIX
-   Ha9SU0CTyUPSO+VGb+HUUdaG727p04aQENS7AdLha4OiQRwTW2E4YkHt1
-   sXqiGClG8RoYyxYgdNLEt0JrjZEOF641AhjkFZCy2tKZGyg+S6xBTNRPW
-   F7502LoncdDisMU3eHLNv1mAfKNq4ARipijcQugXIr8c6bGOY+vbqJK98
-   HisVgty8emTNFOpU80VJ+BYV+OyNFzK7vKuOAZojas+Y5sKMRrrbaPI5R
+  bh=ckJ6V+DvZNm6vZEDZ+8c9I2Jkufz2va0dtQnJly4hBM=;
+  b=Gd7RcYk+5NrGCUWJOiXLo13m/6se0/f7EykaQK9XUC022GuBGhvmeJg0
+   S7YLZBX89bxGKlsRy0OVwR0MyMNYzCaVGkaP84BRVvdKFPFEcj0ujPJGl
+   i4sjC5R4wn5L2OZJsUef6cm8mzxy/3C/tBduvyrxuygwCJAGOZT5vsy0U
+   3HgIU5gwG/x7p4ipdSDjLmpr94QO493ecRtfeBg8YPnf9ipEh9ltAVs53
+   8CgNO1IoM0054ZvKvEIipuDiU8yhYNzgTlmcM5Wq1EmuQXGCnN4vo0OGq
+   ldRYo5UiOsX0qH4HDCrPNiuXGnQG4pOIWrYH3BxZFcIJvVNGawXw92B38
    A==;
-X-CSE-ConnectionGUID: c0xsaTyKSMGpVDnA/mrF0Q==
-X-CSE-MsgGUID: wuT/H1ANRcyBKaYoCPEinQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="68969632"
+X-CSE-ConnectionGUID: EZW3gyUXQzS0DEvf0MHIsQ==
+X-CSE-MsgGUID: mKwgTFncRO2bvwQO1F4+yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11674"; a="72548947"
 X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
-   d="scan'208";a="68969632"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 14:23:22 -0800
-X-CSE-ConnectionGUID: 4pWvSPrxRhikc4dRcYJAPw==
-X-CSE-MsgGUID: knJGADr4SyuXuQQjQsNI/w==
+   d="scan'208";a="72548947"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jan 2026 16:06:30 -0800
+X-CSE-ConnectionGUID: 4PmjxhgVQl6GhqSbJ+Kpcg==
+X-CSE-MsgGUID: mrjMYliqSlejmNm3wKdJVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,235,1763452800"; 
-   d="scan'208";a="228492955"
+   d="scan'208";a="209677719"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Jan 2026 14:23:21 -0800
+  by orviesa003.jf.intel.com with ESMTP; 17 Jan 2026 16:06:28 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhEhS-00000000MIC-1nHp;
-	Sat, 17 Jan 2026 22:23:18 +0000
-Date: Sun, 18 Jan 2026 06:22:50 +0800
+	id 1vhGJF-00000000MQ5-1ACX;
+	Sun, 18 Jan 2026 00:06:25 +0000
+Date: Sun, 18 Jan 2026 08:05:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:fsverity-cleanups 2/5] ERROR: modpost:
- "fsverity_lookup_info" [fs/ext4/ext4.ko] undefined!
-Message-ID: <202601180638.7M4d1Vhw-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ x86@kernel.org, Thomas Gleixner <tglx@kernel.org>
+Subject: [tip:timers/vdso 16/16]
+ include/linux/compiler_types.h:568:5: warning: 'CC_HAS_TYPEOF_UNQUAL' is not
+ defined, evaluates to '0'
+Message-ID: <202601180747.rlQMyHZI-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,23 +61,38 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   git://git.infradead.org/users/hch/misc.git fsverity-cleanups
-head:   4fc6474efca67b36e67c3b1cfad4b7b85dec83e8
-commit: 6c09b70b12dd46653f2bd37664ffcf2961cd4120 [2/5] fsverity: use a hashtable to find the fsverity_info
-config: x86_64-buildonly-randconfig-006-20260117 (https://download.01.org/0day-ci/archive/20260118/202601180638.7M4d1Vhw-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601180638.7M4d1Vhw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
+head:   adc00a0daf1bb08915bceee9ae73cca682e7d5bb
+commit: adc00a0daf1bb08915bceee9ae73cca682e7d5bb [16/16] compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()
+config: alpha-allnoconfig (https://download.01.org/0day-ci/archive/20260118/202601180747.rlQMyHZI-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260118/202601180747.rlQMyHZI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601180638.7M4d1Vhw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601180747.rlQMyHZI-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "fsverity_lookup_info" [fs/ext4/ext4.ko] undefined!
->> ERROR: modpost: "fsverity_lookup_info" [fs/btrfs/btrfs.ko] undefined!
->> ERROR: modpost: "fsverity_lookup_info" [fs/f2fs/f2fs.ko] undefined!
+   In file included from include/linux/compiler.h:5,
+                    from include/linux/export.h:5,
+                    from arch/alpha/lib/divide.S:49:
+>> include/linux/compiler_types.h:568:5: warning: 'CC_HAS_TYPEOF_UNQUAL' is not defined, evaluates to '0' [-Wundef]
+     568 | #if CC_HAS_TYPEOF_UNQUAL || defined(__CHECKER__)
+         |     ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +568 include/linux/compiler_types.h
+
+   564	
+   565	/*
+   566	 * Use __typeof_unqual__() when available.
+   567	 */
+ > 568	#if CC_HAS_TYPEOF_UNQUAL || defined(__CHECKER__)
+   569	# define USE_TYPEOF_UNQUAL 1
+   570	#endif
+   571	
 
 -- 
 0-DAY CI Kernel Test Service
