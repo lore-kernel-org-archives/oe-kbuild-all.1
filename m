@@ -1,139 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD8A2F744A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 21:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632432F9D98;
+	Mon, 19 Jan 2026 21:36:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768856660; cv=none; b=adj8QrhZkXjvb57KyLpKQ/pz9cO+iHMYtUaDr9AeopTm/gm1raJUIAQvbZ6jf0mAtp183ER3OEJEqo8smeQqjhmNXmKNGK78SMyWneTZBLMMOFOGLa2yG+HQVFvDMV3KSVgABnvlIymm3nulTk6WzT//npX4BKEESDybBdwOyto=
+	t=1768858583; cv=none; b=kpNZhs7NRBOopsaKn92+a7P8k70OHmQS/kPzzz3Iq0y3z7c9WcsDavj3djcLAUYulAf4amBUujQAYckABbaglGIDyReMt1sgZuTUre2e0B+fbzTnMgKDG3JP1F85OQEBlPOVnDz0PLXeJowbsb/yNTEUJNUeBBkUi/g1qR6jXOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768856660; c=relaxed/simple;
-	bh=UulDW052lQyilBwQ5P6nFGWOvvK+Bt+cIULtReblVGE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Iq+4W8LNpWboVrUTrQmchhXDBAkNQxXXm1tOWAtJo6Liph6Ytj7FL/uxhoGpICUMM1FCdlX+ZI49I7JdXMQ4EVZzUTtgkR8Ldn2WszaZicee82U9HdoTe0aKZ061QdKNtkvpQmdHLEf7x+lbfuMkGjwGWW97EXcUMNWY6fSGLds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=loRdUV5n; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1768858583; c=relaxed/simple;
+	bh=S69053zsak1P+OIMtzj+DlKHfixButumiqXBgHvfCPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VgZWDpj+K/UYiXby+3fJitKDcKF6Opxqh3m/NGqcL+8w6fMVTKKoaRan91iWBVS3OVQkRoPYQ/UW9paPPaSG5g8QPIyd7t2eGrwV4JYnRd8qY2PZFiVXAI1m474bPWJcQzfKATs15pilg8pZsmFyuTjUkrZLRRADxXyEW6ttyp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oux4s4eI; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="loRdUV5n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oux4s4eI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768856658; x=1800392658;
-  h=date:from:to:cc:subject:message-id;
-  bh=UulDW052lQyilBwQ5P6nFGWOvvK+Bt+cIULtReblVGE=;
-  b=loRdUV5nHDEDT2dr/JM4J63f77AGpMM7lgdyprr9eAsOEguzqxObvYCZ
-   ofBR363QGKpggoTvrtZgiWIjQdGYWOf+WBW7QkShM2rFBTHGFILAMjDHw
-   tRHNjsdYnU4fUN0IaJv1lbfdO5TG/dEfWC8DGYFstnkS7tBulapn4CTea
-   qQwWZzLrqgVRZTkCnVqmb2sAZrNcw+GRT1cisjI/5i04yOoP2/xRYSVYd
-   roPRcVFbbXvTpj6HGNWl/i2ZCdvqm7EnX3vIrFeAlAF0o42+kcRlkmZ2T
-   bN0OLOvbXjbctWP+th4CbX9r7IPsI2Ryz6URZfuzoYXsqQXMSivaqKpdo
-   A==;
-X-CSE-ConnectionGUID: m3tWVVq0QuSnqbuGE9Fzuw==
-X-CSE-MsgGUID: kqJTAkqmR/aCqmYgEIMr2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="73931116"
+  t=1768858582; x=1800394582;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=S69053zsak1P+OIMtzj+DlKHfixButumiqXBgHvfCPc=;
+  b=Oux4s4eI6qZNscBEoPTVQh03CLhRHVFsuALosQNPV2l0u5Tpzxwo3AEE
+   w0PN/SzTWRymjfIcn0ttQQx1y3oZEupsu7kMYMJ3pgH/eZlrfEM/mb/Xz
+   YZ3dLfKl8yvi7vtv4q3NcEjpND/b2J/8hXbefjmaQhXyEVQ6HKyKHNar4
+   S4fbGNqX/fAvRDbc3y+ku1ajt21LB27Zvacu1lRrd2SUa31d5ifXnRrL+
+   NTvk1xvf22w8zEpow9/N36rbfC/gL0cFJxKNIVXuxKVSUxFJH2nLQPreY
+   a7D3W6SvFNeF3MOjs9jSb6opk4U/mneb5Ysa75lv2OjbYaY/DQGWMimJX
+   w==;
+X-CSE-ConnectionGUID: jMklXvi+Rqydp7MEUQnAsQ==
+X-CSE-MsgGUID: CDsAptEJRiK2O5xZ0gfWwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="73925431"
 X-IronPort-AV: E=Sophos;i="6.21,239,1763452800"; 
-   d="scan'208";a="73931116"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 13:04:17 -0800
-X-CSE-ConnectionGUID: afitcn7QRUmkADB3QbklFA==
-X-CSE-MsgGUID: EeSuZ3jrRDG/9qE7pWSJ5g==
+   d="scan'208";a="73925431"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 13:36:21 -0800
+X-CSE-ConnectionGUID: VUY++yKKRLK+o5q5BOsoQQ==
+X-CSE-MsgGUID: TN9LgT8zTzewUbXVCru1mg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,239,1763452800"; 
-   d="scan'208";a="210437749"
+   d="scan'208";a="228885257"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Jan 2026 13:04:16 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 19 Jan 2026 13:36:17 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhwQ1-00000000OJ5-45tS;
-	Mon, 19 Jan 2026 21:04:13 +0000
-Date: Tue, 20 Jan 2026 05:04:03 +0800
+	id 1vhwv1-00000000OK5-04mS;
+	Mon, 19 Jan 2026 21:36:15 +0000
+Date: Tue, 20 Jan 2026 05:35:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Stephen Boyd <swboyd@chromium.org>
-Subject: drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse: sparse:
- incompatible types in comparison expression (different address spaces):
-Message-ID: <202601200453.yKeQMaqi-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Salman Nabi <salman.nabi@arm.com>, vvidwans@nvidia.com,
+	andre.przywara@arm.com, sudeep.holla@arm.com, mark.rutland@arm.com,
+	lpieralisi@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, ardb@kernel.org,
+	chao.gao@intel.com, linux-arm-kernel@lists.infradead.org,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	sdonthineni@nvidia.com, vsethi@nvidia.com, vwadekar@nvidia.com
+Subject: Re: [PATCH 1/1] firmware: smccc: add support for Live Firmware
+ Activation (LFA)
+Message-ID: <202601200543.EKFOBfnW-lkp@intel.com>
+References: <20260119122729.287522-2-salman.nabi@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260119122729.287522-2-salman.nabi@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-commit: 603fc0fc30bf69e78a7a5febdb1431bd49d87f22 drm/msm/dp: drop the msm_dp_catalog module
-date:   7 months ago
-config: powerpc-randconfig-r131-20260118 (https://download.01.org/0day-ci/archive/20260120/202601200453.yKeQMaqi-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200453.yKeQMaqi-lkp@intel.com/reproduce)
+Hi Salman,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on soc/for-next]
+[also build test ERROR on linus/master v6.19-rc6 next-20260116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Salman-Nabi/firmware-smccc-add-support-for-Live-Firmware-Activation-LFA/20260119-203221
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20260119122729.287522-2-salman.nabi%40arm.com
+patch subject: [PATCH 1/1] firmware: smccc: add support for Live Firmware Activation (LFA)
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20260120/202601200543.EKFOBfnW-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200543.EKFOBfnW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601200453.yKeQMaqi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601200543.EKFOBfnW-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse:    void [noderef] __iomem *
-   drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse:    void *
+All errors (new ones prefixed by >>):
 
-vim +1313 drivers/gpu/drm/msm/dp/dp_display.c
+>> drivers/firmware/smccc/lfa_fw.c:179:28: error: variable has incomplete type 'struct arm_smccc_1_2_regs'
+     179 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                                   ^
+   drivers/firmware/smccc/lfa_fw.c:179:9: note: forward declaration of 'struct arm_smccc_1_2_regs'
+     179 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                ^
+>> drivers/firmware/smccc/lfa_fw.c:184:2: error: call to undeclared function 'arm_smccc_1_2_invoke'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     184 |         arm_smccc_1_2_invoke(&reg, &reg);
+         |         ^
+   drivers/firmware/smccc/lfa_fw.c:194:28: error: variable has incomplete type 'struct arm_smccc_1_2_regs'
+     194 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                                   ^
+   drivers/firmware/smccc/lfa_fw.c:194:9: note: forward declaration of 'struct arm_smccc_1_2_regs'
+     194 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                ^
+   drivers/firmware/smccc/lfa_fw.c:198:2: error: call to undeclared function 'arm_smccc_1_2_invoke'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     198 |         arm_smccc_1_2_invoke(&reg, &reg);
+         |         ^
+   drivers/firmware/smccc/lfa_fw.c:220:28: error: variable has incomplete type 'struct arm_smccc_1_2_regs'
+     220 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                                   ^
+   drivers/firmware/smccc/lfa_fw.c:220:9: note: forward declaration of 'struct arm_smccc_1_2_regs'
+     220 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                ^
+   drivers/firmware/smccc/lfa_fw.c:234:3: error: call to undeclared function 'arm_smccc_1_2_invoke'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     234 |                 arm_smccc_1_2_invoke(&reg, &reg);
+         |                 ^
+   drivers/firmware/smccc/lfa_fw.c:290:28: error: variable has incomplete type 'struct arm_smccc_1_2_regs'
+     290 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                                   ^
+   drivers/firmware/smccc/lfa_fw.c:290:9: note: forward declaration of 'struct arm_smccc_1_2_regs'
+     290 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                ^
+   drivers/firmware/smccc/lfa_fw.c:318:3: error: call to undeclared function 'arm_smccc_1_2_invoke'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     318 |                 arm_smccc_1_2_invoke(&reg, &reg);
+         |                 ^
+   drivers/firmware/smccc/lfa_fw.c:360:28: error: variable has incomplete type 'struct arm_smccc_1_2_regs'
+     360 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                                   ^
+   drivers/firmware/smccc/lfa_fw.c:360:9: note: forward declaration of 'struct arm_smccc_1_2_regs'
+     360 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                ^
+   drivers/firmware/smccc/lfa_fw.c:368:2: error: call to undeclared function 'arm_smccc_1_2_invoke'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     368 |         arm_smccc_1_2_invoke(&reg, &reg);
+         |         ^
+   drivers/firmware/smccc/lfa_fw.c:434:28: error: variable has incomplete type 'struct arm_smccc_1_2_regs'
+     434 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                                   ^
+   drivers/firmware/smccc/lfa_fw.c:434:9: note: forward declaration of 'struct arm_smccc_1_2_regs'
+     434 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                ^
+   drivers/firmware/smccc/lfa_fw.c:443:2: error: call to undeclared function 'arm_smccc_1_2_invoke'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     443 |         arm_smccc_1_2_invoke(&reg, &reg);
+         |         ^
+   drivers/firmware/smccc/lfa_fw.c:586:28: error: variable has incomplete type 'struct arm_smccc_1_2_regs'
+     586 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                                   ^
+   drivers/firmware/smccc/lfa_fw.c:586:9: note: forward declaration of 'struct arm_smccc_1_2_regs'
+     586 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                ^
+   drivers/firmware/smccc/lfa_fw.c:600:3: error: call to undeclared function 'arm_smccc_1_2_invoke'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     600 |                 arm_smccc_1_2_invoke(&reg, &reg);
+         |                 ^
+   drivers/firmware/smccc/lfa_fw.c:619:28: error: variable has incomplete type 'struct arm_smccc_1_2_regs'
+     619 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                                   ^
+   drivers/firmware/smccc/lfa_fw.c:619:9: note: forward declaration of 'struct arm_smccc_1_2_regs'
+     619 |         struct arm_smccc_1_2_regs reg = { 0 };
+         |                ^
+   drivers/firmware/smccc/lfa_fw.c:623:2: error: call to undeclared function 'arm_smccc_1_2_invoke'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     623 |         arm_smccc_1_2_invoke(&reg, &reg);
+         |         ^
+   16 errors generated.
 
-  1302	
-  1303	static int msm_dp_display_get_io(struct msm_dp_display_private *display)
-  1304	{
-  1305		struct platform_device *pdev = display->msm_dp_display.pdev;
-  1306	
-  1307		display->ahb_base = msm_dp_ioremap(pdev, 0, &display->ahb_len);
-  1308		if (IS_ERR(display->ahb_base))
-  1309			return PTR_ERR(display->ahb_base);
-  1310	
-  1311		display->aux_base = msm_dp_ioremap(pdev, 1, &display->aux_len);
-  1312		if (IS_ERR(display->aux_base)) {
-> 1313			if (display->aux_base != ERR_PTR(-EINVAL)) {
-  1314				DRM_ERROR("unable to remap aux region: %pe\n", display->aux_base);
-  1315				return PTR_ERR(display->aux_base);
-  1316			}
-  1317	
-  1318			/*
-  1319			 * The initial binding had a single reg, but in order to
-  1320			 * support variation in the sub-region sizes this was split.
-  1321			 * msm_dp_ioremap() will fail with -EINVAL here if only a single
-  1322			 * reg is specified, so fill in the sub-region offsets and
-  1323			 * lengths based on this single region.
-  1324			 */
-  1325			if (display->ahb_len < DP_DEFAULT_P0_OFFSET + DP_DEFAULT_P0_SIZE) {
-  1326				DRM_ERROR("legacy memory region not large enough\n");
-  1327				return -EINVAL;
-  1328			}
-  1329	
-  1330			display->ahb_len = DP_DEFAULT_AHB_SIZE;
-  1331			display->aux_base = display->ahb_base + DP_DEFAULT_AUX_OFFSET;
-  1332			display->aux_len = DP_DEFAULT_AUX_SIZE;
-  1333			display->link_base = display->ahb_base + DP_DEFAULT_LINK_OFFSET;
-  1334			display->link_len = DP_DEFAULT_LINK_SIZE;
-  1335			display->p0_base = display->ahb_base + DP_DEFAULT_P0_OFFSET;
-  1336			display->p0_len = DP_DEFAULT_P0_SIZE;
-  1337	
-  1338			return 0;
-  1339		}
-  1340	
-  1341		display->link_base = msm_dp_ioremap(pdev, 2, &display->link_len);
-  1342		if (IS_ERR(display->link_base)) {
-  1343			DRM_ERROR("unable to remap link region: %pe\n", display->link_base);
-  1344			return PTR_ERR(display->link_base);
-  1345		}
-  1346	
-  1347		display->p0_base = msm_dp_ioremap(pdev, 3, &display->p0_len);
-  1348		if (IS_ERR(display->p0_base)) {
-  1349			DRM_ERROR("unable to remap p0 region: %pe\n", display->p0_base);
-  1350			return PTR_ERR(display->p0_base);
-  1351		}
-  1352	
-  1353		return 0;
-  1354	}
-  1355	
+
+vim +179 drivers/firmware/smccc/lfa_fw.c
+
+   176	
+   177	static unsigned long get_nr_lfa_components(void)
+   178	{
+ > 179		struct arm_smccc_1_2_regs reg = { 0 };
+   180	
+   181		reg.a0 = LFA_1_0_FN_GET_INFO;
+   182		reg.a1 = 0; /* lfa_info_selector = 0 */
+   183	
+ > 184		arm_smccc_1_2_invoke(&reg, &reg);
+   185		if (reg.a0 != LFA_SUCCESS)
+   186			return reg.a0;
+   187	
+   188		return reg.a1;
+   189	}
+   190	
 
 -- 
 0-DAY CI Kernel Test Service
