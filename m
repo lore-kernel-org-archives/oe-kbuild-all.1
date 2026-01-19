@@ -1,102 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A982ECE91;
-	Mon, 19 Jan 2026 20:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5849A248867
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 20:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768854741; cv=none; b=S0VlVJ+OTQYaiLszxvKXHbqi1AthaqJy2qmOpS+0g84BQWkfsX5N5dIk3px6Kd7KE1rHwuFUUQPVsLnsPqt68+Qq+HzxqZ1ClWUF3QtqW6gV9E4NkDn+uilTlV4+KXa+iv8Bt+aLCZ26B18NNYlCvZCXlmqDC1abDRItgJE2zEQ=
+	t=1768855940; cv=none; b=mfF2GfcmcdlWUeD2M6bAGqq9WuR52h2dj58gkqsAs1R5ZB3SaoMGdPm8loY78/EchPCUU1Fzc/pNGw08mjbJlcT2RC8RLvlCKY8PnH9XeRdT2Xs3bUZmWWZ3EaJBfaW3Jjz8hGY0lNXHflpBdKURQ7I6kVp+IfXlGvtuXd6QQWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768854741; c=relaxed/simple;
-	bh=0kSyxZkV6VvJmJlenpWogDJfu5GTq7YVZxtQIvgk4YQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oARnU5wtgkToYssjLRQcTl1uy7FKABTnSd2oNO0UZiA4/NISYnPxr+Miu8Ld9IYBlWQQe58okNZuEJD5wIGYB1H+tT8J2ZxaUQYnegBEi6T9fi2O/gggjiqYEjuS6d1AcmSSfptV8RwYNtYz1eW+s4N0HmW752aAeENCBjVgTlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lu5RpLO/; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1768855940; c=relaxed/simple;
+	bh=nDwWiSNQwCPRJTDrkbPucGnALAKjK3AX8ZOj3KNUCf0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=WGDgcuZRiOai1wODkOQB/iFpViEV5RBW5oY9/OYrlb3YUu+W+NZLa4eidA5UpYxKrN2JqvXFald1U1h6dvjb3xPQJU5GOdURKnGcctongV+O+a27kwWvsKvf6CWyTaVDQ6JXy4lkUaupMrJ40Wau3iC/JoY/HQy4+y+zneq7kAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QlL3yKOm; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lu5RpLO/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QlL3yKOm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768854740; x=1800390740;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0kSyxZkV6VvJmJlenpWogDJfu5GTq7YVZxtQIvgk4YQ=;
-  b=Lu5RpLO/i9N0VQNkuANg4p0OU6zm/+tQEuKSbJw9fpK/NRZ6l8v6gt+b
-   M9qzmhoanEuR+HZ+UBZNWdVuXz3ZmQqtqQ8bf5iVM8gRXiWRU+KUBzIyl
-   KhyMsJe2REQsN36L9M5yEZCaeKeujFVUbvFo5A48ga/NCn3jJ0CAhYP6j
-   KOETDvxil7rTSTWwKehwHbR2t6QaK52qJ8Vz9Iser9Ml5MSp9ir7VlYCh
-   11Y0fIvSBMCAg5I+/iTPp8Vf5yOnsh0Hlz84ydQjWxWyjErUv4PvqH9k2
-   weu5XUkL4O26sORu446YPUHkgbNCHjjNpi+m64E2JRkPEZjhG7YOzxFpX
+  t=1768855938; x=1800391938;
+  h=date:from:to:cc:subject:message-id;
+  bh=nDwWiSNQwCPRJTDrkbPucGnALAKjK3AX8ZOj3KNUCf0=;
+  b=QlL3yKOmFYYHT70zu296xujH1liiLRPmfxMUXkN2fS0D95bpvMDgWXY4
+   fQZTPGX9ZeTAhkIcaOFFxbIN7dD3HKRhCwUlfTKvzZdvcHMbGL1S1r1rq
+   OqKLXA5HhUvksHva9FMGE+l5xWOx3+i2hkry/U9ik+q96A1ljIeZZ9oqs
+   MbBR+3oHnwe5yYPup4dVCc/2DlZk4ouQmKuxFPcI00XLnjajknIKmHVMy
+   sqgYEExdnq1q2G+IBmZIRtJC38rqO4TL42syU7zE3NH/91TYFDbZfswnp
+   Kw2pbKCun0P86CNox/e3+xujpJvv9S4zBGpKCRD/r0bniobQOqnwFv5qj
    w==;
-X-CSE-ConnectionGUID: uRnvV/l+R5edb3m93LmHYA==
-X-CSE-MsgGUID: Uc9VVIHqQHywoMZNj5pNHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="95539199"
+X-CSE-ConnectionGUID: f72wjSudSAayPWwVRjhwHg==
+X-CSE-MsgGUID: e+ybNbwiTq6l1uOYjj/x7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70040725"
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="95539199"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 12:32:18 -0800
-X-CSE-ConnectionGUID: svZBSJU6RoOD5C+BtsURAg==
-X-CSE-MsgGUID: K8kb2n/uQyWqWjoRgkzGvg==
+   d="scan'208";a="70040725"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 12:52:18 -0800
+X-CSE-ConnectionGUID: DzGi0jVLQYew0kRR2F8++g==
+X-CSE-MsgGUID: RlJT+kTHSvunK3PyY6sJQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="228877536"
+   d="scan'208";a="210081050"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Jan 2026 12:32:15 -0800
+  by orviesa003.jf.intel.com with ESMTP; 19 Jan 2026 12:52:16 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhvv3-00000000OHf-07LS;
-	Mon, 19 Jan 2026 20:32:13 +0000
-Date: Tue, 20 Jan 2026 04:31:26 +0800
+	id 1vhwEP-00000000OIj-2yAa;
+	Mon, 19 Jan 2026 20:52:13 +0000
+Date: Tue, 20 Jan 2026 04:51:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: mpenttil@redhat.com, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
-	David Hildenbrand <david@redhat.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Balbir Singh <balbirs@nvidia.com>, Zi Yan <ziy@nvidia.com>,
-	Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH v2 1/3] mm: unified hmm fault and migrate device pagewalk
- paths
-Message-ID: <202601200418.y3IajnfX-lkp@intel.com>
-References: <20260119112502.645059-2-mpenttil@redhat.com>
+To: Greg Ungerer <gerg@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+ uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:dt 7/14] arch/m68k/coldfire/intc.c:173:34:
+ error: 'MCFINT_VECBASE' undeclared
+Message-ID: <202601200416.fpIqDLOZ-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260119112502.645059-2-mpenttil@redhat.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mpenttil-redhat-com/mm-unified-hmm-fault-and-migrate-device-pagewalk-paths/20260119-193100
-base:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-patch link:    https://lore.kernel.org/r/20260119112502.645059-2-mpenttil%40redhat.com
-patch subject: [PATCH v2 1/3] mm: unified hmm fault and migrate device pagewalk paths
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260120/202601200418.y3IajnfX-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200418.y3IajnfX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git dt
+head:   c125a4847c40ed3b54deb8116f78193aa9fd29da
+commit: bf56caa3d5a11034c40c55074a863e3f341b73ea [7/14] m68k: coldfire: support devicetree binding for intc controller
+config: m68k-amcore_defconfig (https://download.01.org/0day-ci/archive/20260120/202601200416.fpIqDLOZ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200416.fpIqDLOZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601200418.y3IajnfX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601200416.fpIqDLOZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: hmm_range_fault
-   >>> referenced by migrate_device.c:774 (mm/migrate_device.c:774)
-   >>>               vmlinux.o:(migrate_vma_setup)
+   arch/m68k/coldfire/intc.c: In function 'intc_of_init':
+>> arch/m68k/coldfire/intc.c:173:34: error: 'MCFINT_VECBASE' undeclared (first use in this function)
+     173 |         const unsigned int num = MCFINT_VECBASE + 64;
+         |                                  ^~~~~~~~~~~~~~
+   arch/m68k/coldfire/intc.c:173:34: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/MCFINT_VECBASE +173 arch/m68k/coldfire/intc.c
+
+   169	
+   170	static int __init intc_of_init(struct device_node *np,
+   171				       struct device_node *parent)
+   172	{
+ > 173		const unsigned int num = MCFINT_VECBASE + 64;
+   174		struct irq_domain *domain;
+   175		int irq;
+   176	
+   177		domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
+   178	
+   179		for (irq = MCFINT_VECBASE; irq < num; irq++)
+   180			irq_create_mapping(domain, irq);
+   181	
+   182		return 0;
+   183	}
+   184	
 
 -- 
 0-DAY CI Kernel Test Service
