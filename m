@@ -1,65 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924BB33CE8C;
-	Mon, 19 Jan 2026 08:24:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F09F33CEA2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 08:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768811063; cv=none; b=i29l9uxg7Vx39M/C/ys1t2X8tK1rKryGJWiiE3Vy4pkKmRZcNg7IoXwYyVzn4FGuvTXGOlr9hh05Icj6hstzbjswily2yfzWaipBsLhv/yv9AWzK8QCstX20w2qHeOuwugoqrr/dXGuRujMAz/PT+5p3lmNwxSNPWB8nwiKAH8c=
+	t=1768811064; cv=none; b=r1JtcH+twPSjQV43XMYS3wOARPE6nCHeLoV7AmdfZQZmsQ45iMZYFld8QLZ2HIrUVeF8KjVdBTvr0fgGt4jeLsUwhsjXEzM5y9PNgaJ20eFE/6kXI4ElkburcbFttzQrUCAcSH0djhwKZYSbXTRpWoJoEJPn/sXXNTVz7wp0ZrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768811063; c=relaxed/simple;
-	bh=ek0shKrzSAAunEX/d72L5w4AAFj3fcjzuZlmAQPI6LE=;
+	s=arc-20240116; t=1768811064; c=relaxed/simple;
+	bh=FdJqB24QzJiFq06iM4nVmUAnIN7Ftjoc9PN19SL7PVA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bam0F2e/2HyOOQqnUbCwdE6ZxIgvOMr1XL4snioG2EFyqTsDQT4rc37QstYEgZKVD0z6/s3c/FxxfGGV1MwnNXOAPYBZrdx9cOT5E3R+5TAzgUrHEPammjnEa1TdN9rwDA6TOME3+azP9qMVfsPusO2PL+hcc8d975IuHg20pjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GPL1yxZU; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=fqrROcIRANaPXfaqzLLKh4DdOLdLVsLuLGO+6gyhRzAQfqRFVlodIMYn/fil6vU25zG+yMx7yeqAsum1TkjpSvROFVvJmfmyaaM07NG5OLf+tXgBrlxuK+nlKKMkFbBXCd66x/jOR0ZHsoR9mb1M1s5paEFkToI7kOT28AxoTnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OEz1UfHR; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GPL1yxZU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OEz1UfHR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1768811062; x=1800347062;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ek0shKrzSAAunEX/d72L5w4AAFj3fcjzuZlmAQPI6LE=;
-  b=GPL1yxZUZoGw4p3/H+jGc+IAWRK5ZGitf3zUy0V50srJjWHP0L77LjPw
-   vDGQu09ykqNf1/jhCfADRw8uZ3z83bPCvFPGiZnwclqj56fghwoV3sar3
-   AempY1GoghHihey/o1lMhk/TOZ010SaqYj+DA+HEXrSLb7w3MXuG/oLjy
-   KsjvmgmVTN41KvQjJGao1G4Rf/F1YRXXJBqkfTJAh8aHmm1opiFYIubYZ
-   AdL5XDsW5x9MUtxZvydLMbwCY4XmQkEAksde6KLHlQpuQiXMbReU2jE+5
-   8o+q5Fr6VNc1fdSwtmhnWwOFupgK3m8ylOu6tjDMMwlvWQNeXFbAXssnu
-   g==;
-X-CSE-ConnectionGUID: 7ukIiiPyTjSVEZw1D+GNOw==
-X-CSE-MsgGUID: oj+Q91+zQ3yQ9TtrPkPKZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="69217469"
+  bh=FdJqB24QzJiFq06iM4nVmUAnIN7Ftjoc9PN19SL7PVA=;
+  b=OEz1UfHRlQhZBHN1zOBYxx2cPgujVAeCyT5lx5Cg5jJKOJJAL0pw4baY
+   vVJaRPDtXyXGN47OT412jt8mRSsAsTg9yy2lL4FVV+2HEBlfj/++MHtsy
+   R4kZWrihxvf+FWZxRHhW+ePxOt2wyFIi6YC1nZ0KASL9CL832soyZt0bQ
+   H1FCQwzb+4IAmMsZv1Zcoo0qPdeoeXgRzG1T7jOGFC11jcMghM9dTnXM0
+   1RAt74v+boCXVN4bSX3GeMQsfxWKCVlbq0Yfd1TgVNt/wMOlTQxRT16Pr
+   HqYOK71vWWqZmbZWb9xFdNhASNBzDW2j8/j8e0oLNffdj0SBumFN0yvRj
+   w==;
+X-CSE-ConnectionGUID: 8T737QYFRBCpPOP+aL4aYg==
+X-CSE-MsgGUID: o6KJ4fy3R2aNk/LL3PXvEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="81130925"
 X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
-   d="scan'208";a="69217469"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 00:24:21 -0800
-X-CSE-ConnectionGUID: ULlrqDt7QIeAzYWUmmSDwQ==
-X-CSE-MsgGUID: TprYcUiKTw+mcgwBRIQ85A==
+   d="scan'208";a="81130925"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 00:24:22 -0800
+X-CSE-ConnectionGUID: ahAP74soS2WwLGqHg1c9RQ==
+X-CSE-MsgGUID: sA33wVKrTFSXxkR+xu0xiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
-   d="scan'208";a="228742758"
+   d="scan'208";a="205601779"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 19 Jan 2026 00:24:18 -0800
+  by orviesa009.jf.intel.com with ESMTP; 19 Jan 2026 00:24:19 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhkYa-00000000Nax-00rz;
-	Mon, 19 Jan 2026 08:24:16 +0000
-Date: Mon, 19 Jan 2026 16:23:33 +0800
+	id 1vhkYZ-00000000Nav-453O;
+	Mon, 19 Jan 2026 08:24:15 +0000
+Date: Mon, 19 Jan 2026 16:23:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 2/2] Move kernel-doc to tools/docs
-Message-ID: <202601191546.Bvd74asP-lkp@intel.com>
-References: <20260114164146.532916-3-corbet@lwn.net>
+To: Tomasz =?utf-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
+	alexander.deucher@amd.com, harry.wentland@amd.com,
+	sunpeng.li@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+	simona@ffwll.ch, siqueira@igalia.com,
+	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, tomasz.pakula.oficjalny@gmail.com,
+	bernhard.berger@gmail.com
+Subject: Re: [PATCH 02/17] drm/amd/display: Refactor
+ amdgpu_dm_update_freesync_caps()
+Message-ID: <202601191507.cZ9ZcocL-lkp@intel.com>
+References: <20260119011146.62302-3-tomasz.pakula.oficjalny@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,50 +70,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260114164146.532916-3-corbet@lwn.net>
+In-Reply-To: <20260119011146.62302-3-tomasz.pakula.oficjalny@gmail.com>
 
-Hi Jonathan,
+Hi Tomasz,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on lwn/docs-next]
-[also build test ERROR on drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc6 next-20260116]
+[auto build test WARNING on next-20260116]
+[also build test WARNING on linus/master v6.19-rc6]
+[cannot apply to drm-misc/drm-misc-next v6.19-rc5 v6.19-rc4 v6.19-rc3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Corbet/docs-kdoc-remove-support-for-an-external-kernel-doc-from-sphinx/20260115-004646
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20260114164146.532916-3-corbet%40lwn.net
-patch subject: [PATCH 2/2] Move kernel-doc to tools/docs
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260119/202601191546.Bvd74asP-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601191546.Bvd74asP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomasz-Paku-a/drm-amd-display-Return-if-DisplayID-not-found-in-parse_amd_vsdb/20260119-091453
+base:   next-20260116
+patch link:    https://lore.kernel.org/r/20260119011146.62302-3-tomasz.pakula.oficjalny%40gmail.com
+patch subject: [PATCH 02/17] drm/amd/display: Refactor amdgpu_dm_update_freesync_caps()
+config: i386-buildonly-randconfig-001-20260119 (https://download.01.org/0day-ci/archive/20260119/202601191507.cZ9ZcocL-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601191507.cZ9ZcocL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601191546.Bvd74asP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601191507.cZ9ZcocL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   Traceback (most recent call last):
-     File "tools/docs/kernel-doc", line 339, in <module>
-       main()
-       ~~~~^^
-     File "tools/docs/kernel-doc", line 295, in main
-       from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
-       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->> ModuleNotFoundError: No module named 'kdoc'
-   make[3]: *** [scripts/Makefile.build:287: scripts/mod/empty.o] Error 1
-   make[3]: *** Deleting file 'scripts/mod/empty.o'
-   make[3]: Target 'scripts/mod/' not remade because of errors.
-   make[2]: *** [Makefile:1313: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:13200 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Returns true if (max_vfreq - min_vfreq) > 10
+   Warning: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:13217 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Returns true if connector is capable of freesync
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for NET_SELFTESTS
+   Depends on [n]: NET [=y] && PHYLIB [=y] && INET [=n]
+   Selected by [m]:
+   - AMD_XGBE [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_AMD [=y] && (OF_ADDRESS [=y] || ACPI [=y] || PCI [=y]) && HAS_IOMEM [=y] && (X86 [=y] || ARM64 || COMPILE_TEST [=y]) && PTP_1588_CLOCK_OPTIONAL [=m]
 
 -- 
 0-DAY CI Kernel Test Service
