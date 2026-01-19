@@ -1,153 +1,129 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E212727E0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 06:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81166242D9D;
+	Mon, 19 Jan 2026 06:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768804753; cv=none; b=oWBaFAcR3m92t8DKmZgWL2XHlkbPGUo62E8uXX0q/PDc1bXt8FwLzDyvcZ/5X2Tou6VUqDNEqnsWisfpuBm1wGDgTrZ5dgTuHMc5hZsD4ZeGJSywTMz3rzhtJ/ZvGiDKjKB87+J3Oo8wh2fMYzibh0bWUOSnwequOts0POhhStk=
+	t=1768804754; cv=none; b=Yte60rTT1Mx5TFv7FxgKLaponbAY/TkJ+mwcV5QnMVLTDfGiE3HWAMizKrmi0SKqwC9QobXjz1jjAN3ggp+lcdD9TPd/4kZFDgwKtyRQI9MYSduXgFmKZyyCIfyr0VT1o5ImFKkTWSmLvzBC4A9ZLhpHctBt3TQXb+4o0owaF1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768804753; c=relaxed/simple;
-	bh=CMzqvC4vFjv53KzEn6Dr+7lxzGvaqSADz8/9RDdZ8R4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=MPkpcswh7rJYJR8xiyG6zzj1Ni+kdGOqFe4J9TaLkvq3E3WyYNP8P+j60fHh10S9t8BDa9gB/4IiJ4muPfsXzSKNCMfDEbIvb+RR7eEqrhJZQkwCtSIKASqCseAjCRCS/Dk4EQ0u30uMn+uNbX4m3GSXEJ9lXTCmvdGAP6vBOEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wHP455hM; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1768804754; c=relaxed/simple;
+	bh=IgQG4JO5+xJM4DwRXkVjippDTRc20JSs8PVcf6pgJoo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QKjtxqN6J6n9ldwULspFUfd891WoF3aZFvgJkDb88ZJbPmIdEymW2jq89+06GNtEnU52hPlvY6XT+i9BPZ1R29fPNJxLmL6jw/ofBnQ6Qgp+HUNq5sr7bEeNaUwyqUf74LM8jvfT2PSe2V3Maj/y/ZMolVaJy9gdrwA+VBAKsI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KTGuJnt2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wHP455hM"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-47ee4338e01so15626785e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 22:39:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768804748; x=1769409548; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rGAwzvV5LHsn7JHpK3LYmhe0GdKjE3ya26PmaPpWPzo=;
-        b=wHP455hM5CwlKFUA5d7PLXrAWarWwbWn+gozZ1jfu2CQq5m/9/d+OJfr6R4/buGl+c
-         fANI1HcY0vMvXhGd7rg5FbnydaSxWlSOsdoOBssAOEjpn1D6G3HoLPrBMi/7/Pw7CH49
-         bXFK8esgI1yyrIi6YqXQSKVd3RbpfpBLXqxwgSyqQy6GyV12QIIos8yO7GwRGRDWoalW
-         5GQys2YPop2rNOQPx55Ai2G1S9PSukm1nB/BVHtcw3NXvxlxwi6+UotnuRfYXSIH/zoP
-         yiuNfr2ZDd3dDjAzQnNgaw0Ts8JSAiylo/dw07Hq5Eaqe4XLu4jExf7fPLSt0NY/WaFs
-         An1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768804748; x=1769409548;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rGAwzvV5LHsn7JHpK3LYmhe0GdKjE3ya26PmaPpWPzo=;
-        b=ihLmFuF6TGvu6dh0p3GvIn3vTVGaVdeC3KCRwubCojaCKDraLuOvthzS+UXbdMLDUI
-         DLEVlsKpwHHPf8OkeeL+MdcwlTtR9an/KOLemzauFhUnQcx+Q6TLAS+yvJYtU3GWmgCD
-         qlwlsw6rkqv/LMLPwOkR8n/kmVI1prfn/gi31Ywpfbdqv++jl7ddNOSi15Tsj0ji64kz
-         3z9k6KEfCK3uhnqqTRNj/i+fIpIrra5pHgMa6QFdJOgn7JFwU3jyroE/ITPFXabQ4lE5
-         keQejbpHTt1Ovcl61J+NM0oklOzierQnipbD9YcuQ8ahjaHdLVi2ST8/UM+Ysa63811S
-         C3LQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXqCM5dQp8oHWSNZKcjbHEudYPLRtGZ3kElalXCiykGCev4mPnbWoXbNbEqYfw5QgtCnO/zhVAs34ziti4z@lists.linux.dev
-X-Gm-Message-State: AOJu0YwejAxrMFinq0dyabLZorvVRc3uIqVcetD4KXxbUJUAnOcPIvwZ
-	r4U18NayfZUk17G0L/HXZsaVQEVRppkIMoMqIajhJsaBAm8IJrt2zv3G8+pKmGTCb2E=
-X-Gm-Gg: AY/fxX7xlGKRcV8JmapwsChOibf4Omzi/dN37GPEGxLuzjkBXe4qUrCvQiAEQNruDHt
-	aI7N3PI1IRa+4fMzla5OyDKUDmVRpIj8EmncqijJpBW0yt0hNlU/vmF9a/IaOOqtMGPBXPRfUYx
-	cdsMOM09TSHSDavsASo3FqJneYkrXy6MUJkAyLUkr2XMB2Xd9cFnWYotjwZCo+aHUTQRa3FB5bY
-	56+zv+F5QfEhPOx+dYNisC/T80BJxYEIktQPH1Rbrtv1FlauH9nLsyyPdxWg38cr4ch5SoKzhJK
-	nzREcEAogITTfmbltbd9wsTkNQT/NugmTzhBOapLCcJDYrxlNYV1z++10VtTy5fUsOlbtiqK1dm
-	KK4j3bDZuw3gMa1xIPqzVnq2nqtWVcSiOFRfCkoAHr7+eOVBJKLd9aOvjlUqsaBW+aIr+1KVEcS
-	KqBhdu3fDsOz8Qtzk6
-X-Received: by 2002:a05:600c:8710:b0:47e:e807:a05a with SMTP id 5b1f17b1804b1-4801eb17b45mr93501175e9.33.1768804748329;
-        Sun, 18 Jan 2026 22:39:08 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43569922032sm21909378f8f.8.2026.01.18.22.39.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jan 2026 22:39:07 -0800 (PST)
-Date: Mon, 19 Jan 2026 09:39:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Cristian Marussi <cristian.marussi@arm.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 12/17] firmware: arm_scmi: Add Telemetry components
- view
-Message-ID: <202601170503.pgixUrV3-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KTGuJnt2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4E3EC116C6;
+	Mon, 19 Jan 2026 06:39:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1768804754;
+	bh=IgQG4JO5+xJM4DwRXkVjippDTRc20JSs8PVcf6pgJoo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KTGuJnt2WYf+n6ioXznpDtogqFQZE0kPaA4zfhaM57pIOa+abEmmjjKeNYOn8b+Np
+	 GIfP4CTuqDo94pjNCz/eaH1LvhSbMudVfjnRFshZ2FYAJmnNlMk4gGo+D6Z/bfaGLo
+	 BkY3acKLpVt48PhYwQ2UipLRatSGHX2JUabIJXsg=
+Date: Mon, 19 Jan 2026 07:39:10 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: yaxing guo <guoyaxing@bosc.ac.cn>
+Cc: dan.carpenter@linaro.org, oe-kbuild@lists.linux.dev, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4] uio: Add SVA support for PCI devices via
+ uio_pci_generic_sva.c
+Message-ID: <2026011942-print-impending-ab86@gregkh>
+References: <20251223045409.15700-1-guoyaxing@bosc.ac.cn>
+ <2026011643-coastline-playtime-0ac5@gregkh>
+ <2026011603-dorsal-unblessed-cdb2@gregkh>
+ <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260114114638.2290765-13-cristian.marussi@arm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
 
-Hi Cristian,
+On Mon, Jan 19, 2026 at 02:16:21PM +0800, yaxing guo wrote:
+> 
+> 
+> 在 2026/1/16 23:16, Greg KH 写道:
+> > On Fri, Jan 16, 2026 at 04:15:17PM +0100, Greg KH wrote:
+> > > On Tue, Dec 23, 2025 at 12:54:09PM +0800, Yaxing Guo wrote:
+> > > > This patch introduces a new UIO driver, uio_pci_generic_sva, which
+> > > > extends the functionality of uio_pci_generic by adding support for
+> > > > Shared Virtual Addressing (SVA) when IOMMU is enabled in the system.
+> > > > 
+> > > > The key enhancement allows PCI devices to directly use user-space virtual
+> > > > addresses for DMA operations, eliminating the need for bounce buffers or
+> > > > explicit IOVA mapping. This is achieved by leveraging the kernel's IOMMU-SVA
+> > > > subsystem, including process address space attachment, page fault handling,
+> > > > and shared context management between CPU and device.
+> > > > 
+> > > > With this driver, userspace applications can perform zero-copy DMA using
+> > > > native pointers:
+> > > > 
+> > > >     void *addr = malloc(N);
+> > > >     set_dma_addr((uint64_t)addr);  // Passing user VA directly
+> > > >     start_dma();
+> > > > 
+> > > > The device can now access 'addr' through the IOMMU's PASID-based translation,
+> > > > provided that the underlying IOMMU hardware (e.g., Intel VT-d 3.1+, AMD-Vi,
+> > > > ARM SMMU, RISCV IOMMU) and platform support SVA.
+> > > > 
+> > > > Dependencies:
+> > > > - CONFIG_IOMMU_SVA must be enabled.
+> > > > - The platform must support PRI (Page Request Interface) and PASID.
+> > > > - Device drivers/userspace must handle page faults if demand-paging is used.
+> > > > 
+> > > > The implementation reuses core logic from uio_pci_generic.c while adding
+> > > > PASID setting, and integration with the IOMMU SVA APIs.
+> > > > 
+> > > > Also, add a read-only sysfs attribute 'pasid' to expose the Process Address
+> > > > Space ID assigned by IOMMU driver when binding an SVA-enabled device.
+> > > > For details, refer to the ABI documentation for uio_pci_sva driver sysfs attribute
+> > > > (Documentation/ABI/testing/sysfs-driver-uio_pci_sva-pasid).
+> > > > 
+> > > > Signed-off-by: Yaxing Guo <guoyaxing@bosc.ac.cn>
+> > > > ---
+> > > > Changes in v4:
+> > > >   -- Fix the errors about 'udev' could be null and double free that
+> > > >      reported by: kernel test robot <lkp@intel.com> and Dan Carpenter <dan.carpenter@linaro.org>
+> > > >      error report: https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/
+> > > 
+> > > Where is the changes from previous versions?
+> > > 
+> > > > +++ b/Documentation/ABI/testing/sysfs-driver-uio_pci_sva-pasid
+> > > > @@ -0,0 +1,29 @@
+> > > > +What:		/sys/bus/pci/drivers/uio_pci_sva/<pci_dev>/pasid
+> > > > +Date:		September 2025
+> > > 
+> > > It's not September anymore :)
+> > > 
+> > > > +module_pci_driver(uio_pci_generic_sva_driver);
+> > > > +MODULE_VERSION("0.0.01");
+> > > 
+> > > No need for a module version.
+> > > 
+> > > Ah, these are all just minor things, let me go queue this up now, can
+> > > you send a follow-on patch to make these 2 changes?
+> > 
+> > Wait, I already took this a while ago, why was this resent?
+> > 
+> After the v3 patch submission, I received error reports from Dan Carpenter
+> dan.carpenter@linaro.org and the kernel test robot lkp@intel.com (see:
+> https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/).
+> In response, I’ve submitted a new version (v4) of the same patch, which
+> primarily addresses the issues highlighted in that report (as described in
+> the "changes in v4" section of the cover letter).
+> If there’s anything improper in this process—such as resubmitting instead of
+> replying with fixes or other procedural concerns—please let me know, and
+> I’ll be happy to correct it accordingly.
 
-kernel test robot noticed the following build warnings:
+Yes, please submit fixes for your original commit that was accepted.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+thanks,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Define-a-common-SCMI_MAX_PROTOCOLS-value/20260114-195913
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20260114114638.2290765-13-cristian.marussi%40arm.com
-patch subject: [PATCH v2 12/17] firmware: arm_scmi: Add Telemetry components view
-config: sparc-randconfig-r073-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170503.pgixUrV3-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 13.4.0
-smatch version: v0.5.0-8985-g2614ff1a
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202601170503.pgixUrV3-lkp@intel.com/
-
-smatch warnings:
-drivers/firmware/arm_scmi/scmi_system_telemetry.c:2238 scmi_telemetry_de_subdir_symlink() error: uninitialized symbol 'ret'.
-
-vim +/ret +2238 drivers/firmware/arm_scmi/scmi_system_telemetry.c
-
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2196  static int scmi_telemetry_de_subdir_symlink(struct super_block *sb,
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2197  					    struct scmi_tlm_setup *tsp,
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2198  					    const struct scmi_telemetry_de *de,
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2199  					    struct dentry *parent)
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2200  {
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2201  	struct dentry *dentry;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2202  	struct inode *inode;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2203  	int ret;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2204  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2205  	if (IS_ERR(parent))
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2206  		return 0;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2207  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2208  	char *name __free(kfree) = kasprintf(GFP_KERNEL, "0x%08X", de->info->id);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2209  	if (!name)
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2210  		return -ENOMEM;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2211  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2212  	char *link __free(kfree) =
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2213  		kasprintf(GFP_KERNEL, "../../../../../des/0x%08X", de->info->id);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2214  	if (!link)
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2215  		return -ENOMEM;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2216  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2217  	dentry = simple_start_creating(parent, name);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2218  	if (IS_ERR(dentry))
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2219  		return PTR_ERR(dentry);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2220  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2221  	inode = stlmfs_get_inode(sb);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2222  	if (unlikely(!inode)) {
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2223  		dev_err(tsp->dev,
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2224  			"out of free dentries, cannot create '%s'", name);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2225  		return stlmfs_failed_creating(dentry);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2226  	}
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2227  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2228  	inode->i_mode = S_IFLNK | 0777;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2229  	inode->i_op = &simple_symlink_inode_operations;
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2230  	inode_init_owner(&nop_mnt_idmap, inode, NULL, inode->i_mode);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2231  	inode->i_link = no_free_ptr(link);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2232  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2233  	//d_add(dentry, inode);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2234  	d_make_persistent(dentry, inode);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2235  
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2236  	simple_done_creating(dentry);
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2237  
-289dce6d3bc91dc Cristian Marussi 2026-01-14 @2238  	return ret;
-
-s/ret/0/;
-
-289dce6d3bc91dc Cristian Marussi 2026-01-14  2239  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+greg k-h
