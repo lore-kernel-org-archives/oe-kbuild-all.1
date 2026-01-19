@@ -1,208 +1,152 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29F6D394496;
-	Mon, 19 Jan 2026 16:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0A328E579
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 16:51:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768840896; cv=none; b=iNNruLv+VukSqxRi48L2I5Iuut2TO6Fp140iz3G7XBda7xhlSwiTXx2oTmgycZkwgRaStkItMp5DHJu1Pb+TRIn8rJ7K0ZBkcwXTUuYsS40209fbZIOyxuiQJNjAaWfetsKWJbRMfkdgJjWLWXAcl8RkMB2P64iCk4YEH14DNSc=
+	t=1768841464; cv=none; b=de9/BbclbYLep5+B4hp+tBkxT+GxOtLyIIUtiW47KKCdBYFQckQlIOBe2aYP4nkVdSqaOTFHb3YfETrcsCZfVvxtTPGT4fU7Qjzvl9QD/cuc7gUND6HGnF5TrUYnFYVk7VFJOb5A2efN2e2DgbCHWuGj4uLcGnxEKKko6GNNhhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768840896; c=relaxed/simple;
-	bh=U9Zf5iRxcWlEhJNllVETedoflM2+yscJ7heSjFo20pg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y8vp+ziqBF7tNEOczlmNMdaKFbnK583zlYNrWK9YzlYhSV7Ln/9luwkgzTLIjBPk40DCsCuvyWsnSG2E5MeNJQz+7lHFWY+cs7d8vuAvpX+iUjrWY174SXZkHEvqwSkYydtuOgiHctNCoy/WzW2UoHLz9by3MBUBOxdQarRRGSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09C97497;
-	Mon, 19 Jan 2026 08:41:26 -0800 (PST)
-Received: from [10.57.8.47] (unknown [10.57.8.47])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 65C323F632;
-	Mon, 19 Jan 2026 08:41:29 -0800 (PST)
-Message-ID: <7cb5b5a7-90aa-4b78-aff3-f88073e72b60@arm.com>
-Date: Mon, 19 Jan 2026 16:41:27 +0000
+	s=arc-20240116; t=1768841464; c=relaxed/simple;
+	bh=nX07GncPo0u5I2+4OSUddBAUDPLKEf2x3P2JgzvbumU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hwyLwSSlBqqZqLXiDgNWwQZwic0CYvxjg+vNcqL94PhiOUP+ldQEiOlF7qHkjvhjC+7zb3rn2e/0AmZZeV8Ci6ECCuZkt4y7T7eX++rJhm6WGkIt1c2QPSFUvJ0VkGcjVwY2aE7x5c0cQNLS68wm1xu5z5dI0kRBjFB+Kh4aiEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GDDyOhho; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GDDyOhho"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768841462; x=1800377462;
+  h=date:from:to:cc:subject:message-id;
+  bh=nX07GncPo0u5I2+4OSUddBAUDPLKEf2x3P2JgzvbumU=;
+  b=GDDyOhhojtEZYxSZdgRwTVFdiJgKhb7CbxEoWhVqnpetFmSZEqOp4NYx
+   iK9at9r7nRFrkEs0pGo22jbFsi9NS1B03N5Usr9VjmNV5E/Ea+CUc6ZAC
+   dubTqBo8EoDK+Xojb9slGNZPpW1qWHsVDk4Q0GxeOZ00uOCyYC2BTiwAz
+   s8+7ksMYxgVbBvQtNTb+LsiEoSzopzcn8/janr37ka8EUdi8KPMlEwMzT
+   /oSIZBL1PD/kIcRb1Uszb3TWbt1+6PVPvCFQ80Hp9HRfIp2DjVEocyrhz
+   XexwdaQtAQtGguooLrMXL56uIestHJ+doVVZJ4MaPlkgVdAdv1yFzRIL2
+   Q==;
+X-CSE-ConnectionGUID: 6g3k7zjWRZyc5QY6FvAHGw==
+X-CSE-MsgGUID: RdsezJIqQc6bTklyV+pLtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="57609702"
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
+   d="scan'208";a="57609702"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 08:51:00 -0800
+X-CSE-ConnectionGUID: Lceet55YR8mAJjkvz5uCvA==
+X-CSE-MsgGUID: VbmjVPTxTfuj4bA/yeS70Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
+   d="scan'208";a="236584882"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 19 Jan 2026 08:50:58 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vhsSt-00000000O4f-2HG6;
+	Mon, 19 Jan 2026 16:50:55 +0000
+Date: Tue, 20 Jan 2026 00:50:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 95/113]
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1026:17: error: implicit
+ declaration of function 'close_streaming_firmware'; did you mean
+ 'ipu6_isys_close_streaming_firmware'?
+Message-ID: <202601200058.QeQb8IRb-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] firmware: smccc: add support for Live Firmware
- Activation (LFA)
-To: kernel test robot <lkp@intel.com>, Salman Nabi <salman.nabi@arm.com>,
- vvidwans@nvidia.com, sudeep.holla@arm.com, mark.rutland@arm.com,
- lpieralisi@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ardb@kernel.org, chao.gao@intel.com,
- linux-arm-kernel@lists.infradead.org, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, sdonthineni@nvidia.com, vsethi@nvidia.com,
- vwadekar@nvidia.com
-References: <20260119122729.287522-2-salman.nabi@arm.com>
- <202601200007.GVZIjoCx-lkp@intel.com>
-Content-Language: en-US
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <202601200007.GVZIjoCx-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi,
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   55ba38aaeb6e07cbbbe550578fa4737b05de1d00
+commit: 2085a6131710b0e5e886b3d14118d986c34b2087 [95/113] media: ipu6: Move streaming control to CSI-2 receiver driver
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260120/202601200058.QeQb8IRb-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200058.QeQb8IRb-lkp@intel.com/reproduce)
 
-On 19/01/2026 16:29, kernel test robot wrote:
-> Hi Salman,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on soc/for-next]
-> [also build test WARNING on linus/master v6.19-rc6 next-20260116]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Salman-Nabi/firmware-smccc-add-support-for-Live-Firmware-Activation-LFA/20260119-203221
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-> patch link:    https://lore.kernel.org/r/20260119122729.287522-2-salman.nabi%40arm.com
-> patch subject: [PATCH 1/1] firmware: smccc: add support for Live Firmware Activation (LFA)
-> config: arm-sp7021_defconfig (https://download.01.org/0day-ci/archive/20260120/202601200007.GVZIjoCx-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200007.GVZIjoCx-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601200007.GVZIjoCx-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->     drivers/firmware/smccc/lfa_fw.c: In function 'get_nr_lfa_components':
->     drivers/firmware/smccc/lfa_fw.c:179:16: error: variable 'reg' has initializer but incomplete type
->       179 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                ^~~~~~~~~~~~~~~~~~
->>> drivers/firmware/smccc/lfa_fw.c:179:43: warning: excess elements in struct initializer
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601200058.QeQb8IRb-lkp@intel.com/
 
-Ah, yes, arm_smccc_1_2_regs is only defined for arm64. We rely on v1.2, 
-and the LFA spec actually means that this means AArch64 only right at 
-the beginning (chapter 2).
-So we need an additional dependency on ARM64 in the Kconfig entry.
+All errors (new ones prefixed by >>):
 
-Cheers,
-Andre
+   drivers/media/pci/intel/ipu6/ipu6-isys-video.c: In function 'ipu6_isys_video_set_streaming':
+>> drivers/media/pci/intel/ipu6/ipu6-isys-video.c:1026:17: error: implicit declaration of function 'close_streaming_firmware'; did you mean 'ipu6_isys_close_streaming_firmware'? [-Wimplicit-function-declaration]
+    1026 |                 close_streaming_firmware(av);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                 ipu6_isys_close_streaming_firmware
 
 
+vim +1026 drivers/media/pci/intel/ipu6/ipu6-isys-video.c
 
->       179 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                           ^
->     drivers/firmware/smccc/lfa_fw.c:179:43: note: (near initialization for 'reg')
->     drivers/firmware/smccc/lfa_fw.c:179:35: error: storage size of 'reg' isn't known
->       179 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                   ^~~
->     drivers/firmware/smccc/lfa_fw.c:184:9: error: implicit declaration of function 'arm_smccc_1_2_invoke'; did you mean 'arm_smccc_1_1_invoke'? [-Wimplicit-function-declaration]
->       184 |         arm_smccc_1_2_invoke(&reg, &reg);
->           |         ^~~~~~~~~~~~~~~~~~~~
->           |         arm_smccc_1_1_invoke
->>> drivers/firmware/smccc/lfa_fw.c:179:35: warning: unused variable 'reg' [-Wunused-variable]
->       179 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                   ^~~
->     drivers/firmware/smccc/lfa_fw.c: In function 'lfa_cancel':
->     drivers/firmware/smccc/lfa_fw.c:194:16: error: variable 'reg' has initializer but incomplete type
->       194 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                ^~~~~~~~~~~~~~~~~~
->     drivers/firmware/smccc/lfa_fw.c:194:43: warning: excess elements in struct initializer
->       194 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                           ^
->     drivers/firmware/smccc/lfa_fw.c:194:43: note: (near initialization for 'reg')
->     drivers/firmware/smccc/lfa_fw.c:194:35: error: storage size of 'reg' isn't known
->       194 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                   ^~~
->     drivers/firmware/smccc/lfa_fw.c:194:35: warning: unused variable 'reg' [-Wunused-variable]
->     drivers/firmware/smccc/lfa_fw.c: In function 'call_lfa_activate':
->     drivers/firmware/smccc/lfa_fw.c:220:16: error: variable 'reg' has initializer but incomplete type
->       220 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                ^~~~~~~~~~~~~~~~~~
->     drivers/firmware/smccc/lfa_fw.c:220:43: warning: excess elements in struct initializer
->       220 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                           ^
->     drivers/firmware/smccc/lfa_fw.c:220:43: note: (near initialization for 'reg')
->     drivers/firmware/smccc/lfa_fw.c:220:35: error: storage size of 'reg' isn't known
->       220 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                   ^~~
->     drivers/firmware/smccc/lfa_fw.c:220:35: warning: unused variable 'reg' [-Wunused-variable]
->     drivers/firmware/smccc/lfa_fw.c: In function 'prime_fw_image':
->     drivers/firmware/smccc/lfa_fw.c:290:16: error: variable 'reg' has initializer but incomplete type
->       290 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                ^~~~~~~~~~~~~~~~~~
->     drivers/firmware/smccc/lfa_fw.c:290:43: warning: excess elements in struct initializer
->       290 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                           ^
->     drivers/firmware/smccc/lfa_fw.c:290:43: note: (near initialization for 'reg')
->     drivers/firmware/smccc/lfa_fw.c:290:35: error: storage size of 'reg' isn't known
->       290 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                   ^~~
->     drivers/firmware/smccc/lfa_fw.c:290:35: warning: unused variable 'reg' [-Wunused-variable]
->     drivers/firmware/smccc/lfa_fw.c: In function 'activation_pending_show':
->     drivers/firmware/smccc/lfa_fw.c:360:16: error: variable 'reg' has initializer but incomplete type
->       360 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                ^~~~~~~~~~~~~~~~~~
->     drivers/firmware/smccc/lfa_fw.c:360:43: warning: excess elements in struct initializer
->       360 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                           ^
->     drivers/firmware/smccc/lfa_fw.c:360:43: note: (near initialization for 'reg')
->     drivers/firmware/smccc/lfa_fw.c:360:35: error: storage size of 'reg' isn't known
->       360 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                   ^~~
->     drivers/firmware/smccc/lfa_fw.c:360:35: warning: unused variable 'reg' [-Wunused-variable]
->     drivers/firmware/smccc/lfa_fw.c: In function 'pending_version_show':
->     drivers/firmware/smccc/lfa_fw.c:434:16: error: variable 'reg' has initializer but incomplete type
->       434 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                ^~~~~~~~~~~~~~~~~~
->     drivers/firmware/smccc/lfa_fw.c:434:43: warning: excess elements in struct initializer
->       434 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                           ^
->     drivers/firmware/smccc/lfa_fw.c:434:43: note: (near initialization for 'reg')
->     drivers/firmware/smccc/lfa_fw.c:434:35: error: storage size of 'reg' isn't known
->       434 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                   ^~~
->     drivers/firmware/smccc/lfa_fw.c:434:35: warning: unused variable 'reg' [-Wunused-variable]
->     drivers/firmware/smccc/lfa_fw.c: In function 'update_fw_images_tree':
->     drivers/firmware/smccc/lfa_fw.c:586:16: error: variable 'reg' has initializer but incomplete type
->       586 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                ^~~~~~~~~~~~~~~~~~
->     drivers/firmware/smccc/lfa_fw.c:586:43: warning: excess elements in struct initializer
->       586 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                           ^
->     drivers/firmware/smccc/lfa_fw.c:586:43: note: (near initialization for 'reg')
->     drivers/firmware/smccc/lfa_fw.c:586:35: error: storage size of 'reg' isn't known
->       586 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                   ^~~
->     drivers/firmware/smccc/lfa_fw.c:586:35: warning: unused variable 'reg' [-Wunused-variable]
->     drivers/firmware/smccc/lfa_fw.c: In function 'lfa_init':
->     drivers/firmware/smccc/lfa_fw.c:619:16: error: variable 'reg' has initializer but incomplete type
->       619 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                ^~~~~~~~~~~~~~~~~~
->     drivers/firmware/smccc/lfa_fw.c:619:43: warning: excess elements in struct initializer
->       619 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                           ^
->     drivers/firmware/smccc/lfa_fw.c:619:43: note: (near initialization for 'reg')
->     drivers/firmware/smccc/lfa_fw.c:619:35: error: storage size of 'reg' isn't known
->       619 |         struct arm_smccc_1_2_regs reg = { 0 };
->           |                                   ^~~
->     drivers/firmware/smccc/lfa_fw.c:619:35: warning: unused variable 'reg' [-Wunused-variable]
-> 
-> 
-> vim +179 drivers/firmware/smccc/lfa_fw.c
-> 
->     176	
->     177	static unsigned long get_nr_lfa_components(void)
->     178	{
->   > 179		struct arm_smccc_1_2_regs reg = { 0 };
->     180	
->     181		reg.a0 = LFA_1_0_FN_GET_INFO;
->     182		reg.a1 = 0; /* lfa_info_selector = 0 */
->     183	
->     184		arm_smccc_1_2_invoke(&reg, &reg);
->     185		if (reg.a0 != LFA_SUCCESS)
->     186			return reg.a0;
->     187	
->     188		return reg.a1;
->     189	}
->     190	
-> 
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   986  
+2085a6131710b0 Sakari Ailus 2025-11-10   987  int ipu6_isys_video_set_streaming(struct ipu6_isys_video *av, int state)
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   988  {
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   989  	struct v4l2_subdev_krouting *routing;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   990  	struct ipu6_isys_stream *stream = av->stream;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   991  	struct v4l2_subdev_state *subdev_state;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   992  	struct device *dev = &av->isys->adev->auxdev.dev;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   993  	struct v4l2_subdev *sd;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   994  	struct media_pad *r_pad;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   995  	u32 sink_pad, sink_stream;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   996  	u64 r_stream;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   997  	u64 stream_mask = 0;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   998  	int ret = 0;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31   999  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1000  	dev_dbg(dev, "set stream: %d\n", state);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1001  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1002  	sd = &stream->asd->sd;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1003  	r_pad = media_pad_remote_pad_first(&av->pad);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1004  	r_stream = ipu6_isys_get_src_stream_by_src_pad(sd, r_pad->index);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1005  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1006  	subdev_state = v4l2_subdev_lock_and_get_active_state(sd);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1007  	routing = &subdev_state->routing;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1008  	ret = v4l2_subdev_routing_find_opposite_end(routing, r_pad->index,
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1009  						    r_stream, &sink_pad,
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1010  						    &sink_stream);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1011  	v4l2_subdev_unlock_state(subdev_state);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1012  	if (ret)
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1013  		return ret;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1014  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1015  	stream_mask = get_stream_mask_by_pipeline(av);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1016  	if (!state) {
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1017  		/* stop sub-device which connects with video */
+3a5c59ad926b89 Sakari Ailus 2024-05-30  1018  		dev_dbg(dev, "stream off entity %s pad:%d mask:0x%llx\n",
+3a5c59ad926b89 Sakari Ailus 2024-05-30  1019  			sd->name, r_pad->index, stream_mask);
+3a5c59ad926b89 Sakari Ailus 2024-05-30  1020  		ret = v4l2_subdev_disable_streams(sd, r_pad->index,
+3a5c59ad926b89 Sakari Ailus 2024-05-30  1021  						  stream_mask);
+2b08b7007e55bd Sakari Ailus 2026-01-07  1022  		if (ret)
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1023  			dev_err(dev, "stream off %s failed with %d\n", sd->name,
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1024  				ret);
+2b08b7007e55bd Sakari Ailus 2026-01-07  1025  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31 @1026  		close_streaming_firmware(av);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1027  	} else {
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1028  		/* start sub-device which connects with video */
+3a5c59ad926b89 Sakari Ailus 2024-05-30  1029  		dev_dbg(dev, "stream on %s pad %d mask 0x%llx\n", sd->name,
+3a5c59ad926b89 Sakari Ailus 2024-05-30  1030  			r_pad->index, stream_mask);
+3a5c59ad926b89 Sakari Ailus 2024-05-30  1031  		ret = v4l2_subdev_enable_streams(sd, r_pad->index, stream_mask);
+2085a6131710b0 Sakari Ailus 2025-11-10  1032  		if (ret)
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1033  			dev_err(dev, "stream on %s failed with %d\n", sd->name,
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1034  				ret);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1035  	}
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1036  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1037  	av->streaming = state;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1038  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1039  	return ret;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1040  }
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  1041  
 
+:::::: The code at line 1026 was first introduced by commit
+:::::: 3c1dfb5a69cf836f513a2a49113ee946a4b9d95d media: intel/ipu6: input system video nodes and buffer queues
+
+:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
+:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
