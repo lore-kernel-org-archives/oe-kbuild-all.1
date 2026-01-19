@@ -1,254 +1,268 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339C833C1BD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 09:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28CC354AF3;
+	Mon, 19 Jan 2026 09:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768813851; cv=none; b=szDBGqWM4CuxwxeLvoFvthUjAz/7of58grntFkrjVqX5enVSChI7/R/nit3ReBf8D9rpniGu+UIIwayCV9Pvi30EBU+p2aJB7V8zBAZhfPAsf6BCTsxW1hj2/TTcc22rvZiPB5WTrXoNg3gcqXO0sBoeu7dr9W6AD6QZYDi6syo=
+	t=1768814247; cv=none; b=W1506WkSIdzW6f7NZIaEb1oTU6pcgwvc+UxbvrIv5XPaoKRxMsiU5lf7HUB2t0KrJpc0s0fCXrDD6/J3WeB8G9h5kxkEr3/q1bP3dVeLI+/Wfm4I+vHslTuFca1JCxRzYbbvel8w7nBoBo8POEKuuCG0a7i7iI0KeW9poSzzODs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768813851; c=relaxed/simple;
-	bh=4LBQMfpQBQl/f59kRuOYqzc+Wu3G0rk1c+yPqAzJbnE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kzEL95HbuSDzMqXNDh1SacGzFlFnwUCD1BYOnftHUjmiRu/5atl+UOoKTachooITK4Wh5WJx2/SLVhUlx/5fH7ovAw1Zx1P1jQv0qtu057QP6X0jwjvH63byclm3LwHizW3qpMO/j4chWfekQJ5OIJZ+Bfh6avrZOYZOonYcUwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net; spf=pass smtp.mailfrom=hadess.net; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hadess.net
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E5E7F1F47A;
-	Mon, 19 Jan 2026 09:10:41 +0000 (UTC)
-Message-ID: <7a5b73b4c56d0bfb8742045a3f530cd3d2d25b53.camel@hadess.net>
-Subject: Re: [PATCH 2/3] Bluetooth: btnxpuart: Remove unneeded CONFIG_PM
- ifdef
-From: Bastien Nocera <hadess@hadess.net>
-To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>, kernel test robot
-	 <lkp@intel.com>, "linux-bluetooth@vger.kernel.org"
-	 <linux-bluetooth@vger.kernel.org>
-Cc: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Date: Mon, 19 Jan 2026 10:10:41 +0100
-In-Reply-To: <AS4PR04MB969210BA5934C14282B8F104E788A@AS4PR04MB9692.eurprd04.prod.outlook.com>
-References: <20260116125803.598552-3-hadess@hadess.net>
-	 <202601170322.MZrwlt6M-lkp@intel.com>
-	 <AS4PR04MB969210BA5934C14282B8F104E788A@AS4PR04MB9692.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	s=arc-20240116; t=1768814247; c=relaxed/simple;
+	bh=AU9JVoNnfRKsIj4AsW7oSKQlXRJhBnRLc/ccZNkzymE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dgi/k5DhwsQ5uX0t3i2Mg3VnMTCChQRXrqguHULb4/slCxcEvXAQFt4XBgUuwWL72RYonjM8B32hfsCAf2RLLN/pM13pZTU0289RwrirHmG/tOTKeCxztLw6tMDJSKLOvMSak4l1he+47ATwstfP6EBGK4ncCAvUmRbnRaIwzfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EEfDHTEP; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EEfDHTEP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768814246; x=1800350246;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AU9JVoNnfRKsIj4AsW7oSKQlXRJhBnRLc/ccZNkzymE=;
+  b=EEfDHTEP0TBAoqVN8iJns0mfs6X5p6rZE3ORmJxrRwCdIOoWem2EaAwr
+   mWtO5yO6jyd3hFsVsjO26Pdf+SYUuAOruFXI7GnOlLZpkrY56cQvBRdWC
+   1fynYbd3EMj+EP60ubApFMhnCuhVycox2ok8MLNrv78q7oIbMn5fPKqyk
+   1eaH74yyMsqssmhekA+tXTCKVMIXtW5Cn6AVaZv+5T2h/aWeU2azH0tna
+   Bay+wmyJva+uSaGxhzH75WeUoBb7aesj92MNKdpK5C2s3QoW4UONnmxtW
+   jaPGxI8biXRQUrPd5wu5cI8/itSFuIHqFmElkX2wQv87wNTHHJKsMnacD
+   Q==;
+X-CSE-ConnectionGUID: aYouTIrRSD2rthjf/2/1jQ==
+X-CSE-MsgGUID: Vn9NRsH9RE2lp8Ipv0+8lg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="73881376"
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
+   d="scan'208";a="73881376"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 01:17:25 -0800
+X-CSE-ConnectionGUID: hDP+P3CzSqW+srxROFK3Pg==
+X-CSE-MsgGUID: sXSNzcZUQDmRSiM+EyGXIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
+   d="scan'208";a="206249073"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 19 Jan 2026 01:17:20 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vhlNu-00000000Ndd-1Vmo;
+	Mon, 19 Jan 2026 09:17:18 +0000
+Date: Mon, 19 Jan 2026 17:16:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zhiguo Zhou <zhiguo.zhou@intel.com>, linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	willy@infradead.org, akpm@linux-foundation.org, david@kernel.org,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@suse.cz,
+	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+	muchun.song@linux.dev, osalvador@suse.de,
+	linux-kernel@vger.kernel.org, tianyou.li@intel.com,
+	tim.c.chen@linux.intel.com, gang.deng@intel.com,
+	Zhiguo Zhou <zhiguo.zhou@intel.com>
+Subject: Re: [PATCH 1/2] mm/filemap: refactor __filemap_add_folio to separate
+ critical section
+Message-ID: <202601191620.O1a0T02o-lkp@intel.com>
+References: <20260119065027.918085-2-zhiguo.zhou@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-GND-Sasl: hadess@hadess.net
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddufeejudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkuffhvfevffgjfhgtgfgfggesthhqredttderjeenucfhrhhomhepuegrshhtihgvnhcupfhotggvrhgruceohhgruggvshhssehhrgguvghsshdrnhgvtheqnecuggftrfgrthhtvghrnhepieekjeffheefveelvdffudekudeikeffveduudetgeffgfekueeffeetueduveejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithdqshgtmhdrtghomhdpghhithhhuhgsrdgtohhmpdhlohhrvgdrkhgvpddvheegtdhhrgguvghsshdrnhgvthdptddurdhorhhgnecukfhppedvrgdtudemvgefgeemvggtjeefmegtfhdvtdemsggrgeefmegrieejieemtgdvugefmeejrgehfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgefgeemvggtjeefmegtfhdvtdemsggrgeefmegrieejieemtgdvugefmeejrgehfedphhgvlhhopeglkffrvheimedvrgdtudemvgefgeemvggtjeefmegtfhdvtdemsggrgeefmegrieejieemtgdvugefmeejrgehfegnpdhmrghilhhfrhhomhephhgruggvshhssehhrgguvghsshdrnhgvthdpqhhiugepgfehgfejhfduhfegjeetpdhmohguv
- gepshhmthhpohhuthdpnhgspghrtghpthhtohepgedprhgtphhtthhopehnvggvrhgrjhdrshgrnhhjrgihkhgrlhgvsehngihprdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqdgslhhuvghtohhothhhsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260119065027.918085-2-zhiguo.zhou@intel.com>
 
-On Mon, 2026-01-19 at 07:53 +0000, Neeraj Sanjay Kale wrote:
-> Hi Bastien,
->=20
-> Thank you for your patch.
->=20
-> Just an FYI, the " #ifdef CONFIG_PM_SLEEP" was added on purpose to
-> resolve such build warning reported by kernel test bot:
-> https://lore.kernel.org/all/20240710123426.935122-1-neeraj.sanjaykale@nxp=
-.com/
+Hi Zhiguo,
 
-I didn't see those warnings locally. They should be fixed by using
-__maybe_unused instead otherwise the "it extends the code coverage"
-justification wouldn't really apply anymore.
+kernel test robot noticed the following build errors:
 
-Cheers
+[auto build test ERROR on akpm-mm/mm-everything]
 
->=20
-> Thanks,
-> Neeraj
->=20
-> > Hi Bastien,
-> >=20
-> > kernel test robot noticed the following build warnings:
-> >=20
-> > [auto build test WARNING on bluetooth/master] [also build test
-> > WARNING on
-> > linus/master v6.19-rc5] [cannot apply to bluetooth-next/master
-> > next-
-> > 20260116] [If your patch is applied to the wrong git tree, kindly
-> > drop us a
-> > note.
-> > And when submitting patch, we suggest to use '--base' as documented
-> > in
-> > https://git-/
-> > scm.com%2Fdocs%2Fgit-format-
-> > patch%23_base_tree_information&data=3D05%7C02%7Cneeraj.sanjaykale%40n
-> > xp.com%7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92
-> > cd99c5c301635%7C0%7C0%7C639041898935601715%7CUnknown%7CTWFp
-> > bGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4z
-> > MiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DW4jhk2S
-> > VUr77jirvKdK%2FrKuKAVyXSbY9iO2pQ1%2BL7Fs%3D&reserved=3D0]
-> >=20
-> > url:
-> > https://github/.
-> > com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FBastien-Nocera%2FBluetooth-
-> > btmtksdio-Simplify-dev_pm_ops-usage%2F20260116-
-> > 210400&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f3219146a754
-> > 0774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0
-> > %7C639041898935632879%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcG
-> > kiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUI
-> > j
-> > oyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Dl2nEr61x%2F00NrtEqmvX2qhJ%2F0d
-> > %2Fc6T%2BI6e5YRiz1TAM%3D&reserved=3D0
-> > base:
-> > https://git.kern/
-> > el.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fbluetooth%2Fbluetooth.g
-> > i
-> > t&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f3219146a7540774e
-> > da08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C63
-> > 9041898935651605%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRy
-> > dWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%
-> > 3
-> > D%3D%7C0%7C%7C%7C&sdata=3D%2BKZxHj6EXqJXKC8%2FsiYrPOJczts%2BMEX
-> > ycXixKcxUcf8%3D&reserved=3D0 master
-> > patch link:
-> > https://lore.ke/
-> > rnel.org%2Fr%2F20260116125803.598552-3-
-> > hadess%2540hadess.net&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%
-> > 7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c3
-> > 01635%7C0%7C0%7C639041898935668808%7CUnknown%7CTWFpbGZsb3d8
-> > eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIj
-> > oiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Da3gomBec5GENv5B
-> > RsBv%2Butzd11I3QunXE2yAaDg5f4Q%3D&reserved=3D0
-> > patch subject: [PATCH 2/3] Bluetooth: btnxpuart: Remove unneeded
-> > CONFIG_PM ifdef
-> > config: x86_64-randconfig-002-20260116
-> > (https://downl/
-> > oad.01.org%2F0day-ci%2Farchive%2F20260117%2F202601170322.MZrwlt6M-
-> > lkp%40intel.com%2Fconfig&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com
-> > %7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c
-> > 301635%7C0%7C0%7C639041898935685518%7CUnknown%7CTWFpbGZsb3d
-> > 8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOI
-> > joiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DhR230cwqc4FucDn
-> > 9TPmv79VLdAd8kHHwc2Q8SdPtHtk%3D&reserved=3D0)
-> > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0 reproduce (this is a W=3D1
-> > build):
-> > (https://downl/
-> > oad.01.org%2F0day-ci%2Farchive%2F20260117%2F202601170322.MZrwlt6M-
-> > lkp%40intel.com%2Freproduce&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.
-> > com%7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd9
-> > 9c5c301635%7C0%7C0%7C639041898935702245%7CUnknown%7CTWFpbGZ
-> > sb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIs
-> > IkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DdsZA9O8KQy
-> > QZJK2Fn%2FYtexA8zdrw%2FCcpwnEb7AwhiqU%3D&reserved=3D0)
-> >=20
-> > If you fix the issue in a separate patch/commit (i.e. not just a
-> > new version of
-> > the same patch/commit), kindly add following tags
-> > > Reported-by: kernel test robot <lkp@intel.com>
-> > > Closes:
-> > > https://lore/
-> > > .kernel.org%2Foe-kbuild-all%2F202601170322.MZrwlt6M-
-> > lkp%40intel.com%2F
-> > >=20
-> > &data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f3219146a7540774e
-> > da08de
-> > >=20
-> > 5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C63904189
-> > 89357202
-> > >=20
-> > 33%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjA
-> > uMDAwMCI
-> > >=20
-> > sIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sd
-> > ata=3D2
-> > > s046Nm4SrgCfY%2BqPyoYr8tf5xqoBw%2BqDiJ0YQ%2BiAt8%3D&reserved=3D0
-> >=20
-> > All warnings (new ones prefixed by >>):
-> >=20
-> > > > drivers/bluetooth/btnxpuart.c:1964:12: warning:
-> > > > 'nxp_serdev_resume'
-> > > > defined but not used [-Wunused-function]
-> > =C2=A0=C2=A0=C2=A0 1964 | static int nxp_serdev_resume(struct device *d=
-ev)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~~~
-> > > > drivers/bluetooth/btnxpuart.c:1950:12: warning:
-> > > > 'nxp_serdev_suspend'
-> > > > defined but not used [-Wunused-function]
-> > =C2=A0=C2=A0=C2=A0 1950 | static int nxp_serdev_suspend(struct device *=
-dev)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~~~~~~~~~~~~~~~
-> >=20
-> >=20
-> > vim +/nxp_serdev_resume +1964 drivers/bluetooth/btnxpuart.c
-> >=20
-> > 689ca16e5232784 Neeraj Sanjay Kale 2023-03-16=C2=A0 1949
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05 @1950=C2=A0 static int
-> > nxp_serdev_suspend(struct device *dev)
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1951=C2=A0 {
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1952=C2=A0=C2=A0=C2=
-=A0=C2=A0 struct
-> > btnxpuart_dev *nxpdev =3D dev_get_drvdata(dev);
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1953=C2=A0=C2=A0=C2=
-=A0=C2=A0 struct
-> > ps_data
-> > *psdata =3D &nxpdev->psdata;
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1954
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1955=C2=A0=C2=A0=C2=
-=A0=C2=A0
-> > ps_control(psdata-
-> > > hdev, PS_STATE_SLEEP);
-> > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14=C2=A0 1956
-> > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14=C2=A0 1957=C2=A0=C2=A0=C2=
-=A0=C2=A0 if (psdata-
-> > > wakeup_source) {
-> > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14=C2=A0 1958
-> > enable_irq_wake(psdata->irq_handler);
-> > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14=C2=A0 1959
-> > enable_irq(psdata->irq_handler);
-> > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14=C2=A0 1960=C2=A0=C2=A0=C2=
-=A0=C2=A0 }
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1961=C2=A0=C2=A0=C2=
-=A0=C2=A0 return 0;
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1962=C2=A0 }
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1963
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05 @1964=C2=A0 static int
-> > nxp_serdev_resume(struct device *dev)
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1965=C2=A0 {
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1966=C2=A0=C2=A0=C2=
-=A0=C2=A0 struct
-> > btnxpuart_dev *nxpdev =3D dev_get_drvdata(dev);
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1967=C2=A0=C2=A0=C2=
-=A0=C2=A0 struct
-> > ps_data
-> > *psdata =3D &nxpdev->psdata;
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1968
-> > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14=C2=A0 1969=C2=A0=C2=A0=C2=
-=A0=C2=A0 if (psdata-
-> > > wakeup_source) {
-> > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14=C2=A0 1970
-> > disable_irq(psdata->irq_handler);
-> > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14=C2=A0 1971
-> > disable_irq_wake(psdata->irq_handler);
-> > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14=C2=A0 1972=C2=A0=C2=A0=C2=
-=A0=C2=A0 }
-> > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14=C2=A0 1973
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1974=C2=A0=C2=A0=C2=
-=A0=C2=A0
-> > ps_control(psdata-
-> > > hdev, PS_STATE_AWAKE);
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1975=C2=A0=C2=A0=C2=
-=A0=C2=A0 return 0;
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1976=C2=A0 }
-> > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05=C2=A0 1977
-> >=20
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github/.
-> > com%2Fintel%2Flkp-
-> > tests%2Fwiki&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f321914
-> > 6a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0
-> > %7C0%7C639041898935740752%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0e
-> > U1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCI
-> > sIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DIqE%2B%2BS2ZXcZb5PFvsvemp
-> > dQffNOiktBLNpxdDx5JJJg%3D&reserved=3D0
->=20
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhiguo-Zhou/mm-filemap-refactor-__filemap_add_folio-to-separate-critical-section/20260119-143737
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260119065027.918085-2-zhiguo.zhou%40intel.com
+patch subject: [PATCH 1/2] mm/filemap: refactor __filemap_add_folio to separate critical section
+config: s390-randconfig-002-20260119 (https://download.01.org/0day-ci/archive/20260119/202601191620.O1a0T02o-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601191620.O1a0T02o-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601191620.O1a0T02o-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> mm/filemap.c:861:2: error: member reference type 'spinlock_t' (aka 'struct spinlock') is not a pointer; did you mean to use '.'?
+     861 |         lockdep_assert_held(xas->xa->xa_lock);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:285:17: note: expanded from macro 'lockdep_assert_held'
+     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:252:52: note: expanded from macro 'lockdep_is_held'
+     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
+         |                                                             ^
+   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
+     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
+         |              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON'
+     110 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+>> mm/filemap.c:861:2: error: cannot take the address of an rvalue of type 'struct lockdep_map'
+     861 |         lockdep_assert_held(xas->xa->xa_lock);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:285:17: note: expanded from macro 'lockdep_assert_held'
+     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:252:45: note: expanded from macro 'lockdep_is_held'
+     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
+         |                                                      ^
+   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
+     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
+         |              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON'
+     110 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   mm/filemap.c:941:3: error: member reference type 'spinlock_t' (aka 'struct spinlock') is not a pointer; did you mean to use '.'?
+     941 |                 lockdep_assert_held(xas->xa->xa_lock);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:285:17: note: expanded from macro 'lockdep_assert_held'
+     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:252:52: note: expanded from macro 'lockdep_is_held'
+     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
+         |                                                             ^
+   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
+     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
+         |              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON'
+     110 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   mm/filemap.c:941:3: error: cannot take the address of an rvalue of type 'struct lockdep_map'
+     941 |                 lockdep_assert_held(xas->xa->xa_lock);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:285:17: note: expanded from macro 'lockdep_assert_held'
+     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
+         |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:252:45: note: expanded from macro 'lockdep_is_held'
+     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
+         |                                                      ^
+   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
+     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
+         |              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON'
+     110 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   mm/filemap.c:944:3: error: member reference type 'spinlock_t' (aka 'struct spinlock') is not a pointer; did you mean to use '.'?
+     944 |                 lockdep_assert_not_held(xas->xa->xa_lock);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:288:17: note: expanded from macro 'lockdep_assert_not_held'
+     288 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_HELD)
+         |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:252:52: note: expanded from macro 'lockdep_is_held'
+     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
+         |                                                             ^
+   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
+     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
+         |              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON'
+     110 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   mm/filemap.c:944:3: error: cannot take the address of an rvalue of type 'struct lockdep_map'
+     944 |                 lockdep_assert_not_held(xas->xa->xa_lock);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:288:17: note: expanded from macro 'lockdep_assert_not_held'
+     288 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_HELD)
+         |         ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:252:45: note: expanded from macro 'lockdep_is_held'
+     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
+         |                                                      ^
+   include/linux/lockdep.h:279:32: note: expanded from macro 'lockdep_assert'
+     279 |         do { WARN_ON(debug_locks && !(cond)); } while (0)
+         |              ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON'
+     110 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   6 errors generated.
+
+
+vim +861 mm/filemap.c
+
+   847	
+   848	/*
+   849	 * The critical section for storing a folio in an XArray.
+   850	 * Context: Expects xas->xa->xa_lock to be held.
+   851	 */
+   852	static void __filemap_add_folio_xa_locked(struct xa_state *xas,
+   853			struct address_space *mapping, struct folio *folio, void **shadowp)
+   854	{
+   855		bool huge;
+   856		long nr;
+   857		unsigned int forder = folio_order(folio);
+   858		int order = -1;
+   859		void *entry, *old = NULL;
+   860	
+ > 861		lockdep_assert_held(xas->xa->xa_lock);
+   862	
+   863		huge = folio_test_hugetlb(folio);
+   864		nr = folio_nr_pages(folio);
+   865	
+   866		xas_for_each_conflict(xas, entry) {
+   867			old = entry;
+   868			if (!xa_is_value(entry)) {
+   869				xas_set_err(xas, -EEXIST);
+   870				return;
+   871			}
+   872			/*
+   873			 * If a larger entry exists,
+   874			 * it will be the first and only entry iterated.
+   875			 */
+   876			if (order == -1)
+   877				order = xas_get_order(xas);
+   878		}
+   879	
+   880		if (old) {
+   881			if (order > 0 && order > forder) {
+   882				unsigned int split_order = max(forder,
+   883						xas_try_split_min_order(order));
+   884	
+   885				/* How to handle large swap entries? */
+   886				BUG_ON(shmem_mapping(mapping));
+   887	
+   888				while (order > forder) {
+   889					xas_set_order(xas, xas->xa_index, split_order);
+   890					xas_try_split(xas, old, order);
+   891					if (xas_error(xas))
+   892						return;
+   893					order = split_order;
+   894					split_order =
+   895						max(xas_try_split_min_order(
+   896							    split_order),
+   897						    forder);
+   898				}
+   899				xas_reset(xas);
+   900			}
+   901			if (shadowp)
+   902				*shadowp = old;
+   903		}
+   904	
+   905		xas_store(xas, folio);
+   906		if (xas_error(xas))
+   907			return;
+   908	
+   909		mapping->nrpages += nr;
+   910	
+   911		/* hugetlb pages do not participate in page cache accounting */
+   912		if (!huge) {
+   913			lruvec_stat_mod_folio(folio, NR_FILE_PAGES, nr);
+   914			if (folio_test_pmd_mappable(folio))
+   915				lruvec_stat_mod_folio(folio,
+   916						NR_FILE_THPS, nr);
+   917		}
+   918	}
+   919	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
