@@ -1,56 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9992029D280
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 18:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448402DB7BB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 18:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768846807; cv=none; b=WS/dfwnOrwDejn3fam6i6Db4tDOZHtnAK4VF2HdHzaVaCCOmprZ3r3QAoLxQ8/Iw2OLm5JXZZ3MllRubBj0E3wkniyws+fdcVReAU0NYYYq2+28P2i9sITAb+63f1LJxmU/89/+ED9Wj4tlAfyF1EbjGSS1fPtuu9sBOHBCmBxY=
+	t=1768846807; cv=none; b=d578a4CfYtIoebVgMEIuYG3M4eJgHVnXT2zrEZnl9uqrAYSZRS2hG6setp8gZm4woMwyD97k7zAWlJdb6G/qu1JskwPw1fKhxSfLJZOsHFkMMT4ay/KFTZXlUSnkzo+4Wl9FxWiI4jMy8nup0igLcVDCSrQMo07hi6+6Gy9gUWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768846807; c=relaxed/simple;
-	bh=VoPGZhIcDNo42zyUzIZdOkCqNhEbphWRPS0xEK7HmlQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Z7nTmKpGGVzKihTOaMe+fu6NIothIV/yM2oL5BLMb4MfxjcUmyO5GZwuF2WZ3TnQnFSuPA0TfnZZtJv3LjyY6SHAd8dJsxvS1hONSOomZvjngZZwCAluvOTVriUROm8KF/0+tDcmoc8DVaRX1C7Pra3KIZ55o1eTW0JcCzLxyS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nUOu9D61; arc=none smtp.client-ip=198.175.65.21
+	bh=f0Bv21GoDNQMJh1E9g58LQswyGkeNuIdY7OhasHcSfA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=j9dzJzHoHdfdXoQDC6KKrKAPNS8Lf2z1oPo2zFFRAB6XUl9ILhufW404WE6diYYiOB9YdfCMOF40FUd6XonD/i0svOPI89g0tZdebs74TMouoklI5ID9AjSF+3zN7i9tS07fgzMMLCT5cAdJ8EhHUVyO2Q6lypkjM6McK0hgJ0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TsNe6YVG; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nUOu9D61"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TsNe6YVG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768846805; x=1800382805;
+  t=1768846806; x=1800382806;
   h=date:from:to:cc:subject:message-id;
-  bh=VoPGZhIcDNo42zyUzIZdOkCqNhEbphWRPS0xEK7HmlQ=;
-  b=nUOu9D61Me7dOtp/cmS6f8AtmWKwFQ5IEbqrzyYi7UxhHzGyaXYxZbig
-   b4b0Xw8z4BT7sGj8WRs/s70l5F0jQ7tS2IHdW4PXLu5H/XwIix/G4usPT
-   BxWThFQgw6V5yiyspsyhFYKgkoaSldXmIem8WPpRjAfkv85hiGH3JG5Le
-   1u12effgL9sYlse/6mJWg7+cXaiu47m0RL6tom3KbQZ3YZJXLYjQ3Ol1e
-   WX2Chm4h91fivnoFm3kHewzNm7JbwET7obEyEwy5QdaBIfGTYqdPO4p+H
-   oS5HQSByxUmOzPorGu7TBMDb1oUICTSDRqAuzc285JRiLOYzUwTjPltTQ
-   A==;
-X-CSE-ConnectionGUID: jygDHgetRj6efkp1pZLODw==
-X-CSE-MsgGUID: V6lDibPCRlmTK1M29/XR8w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="69970112"
+  bh=f0Bv21GoDNQMJh1E9g58LQswyGkeNuIdY7OhasHcSfA=;
+  b=TsNe6YVG3W5alAzcTBqKRQKpRZaSLu4zH1rJ0BC/lATR/Juqp3Zi3fJT
+   4wn3gHxd3hDj006G+TuKU1FzjEOO8ZgQdRyJzNWGIzPkUVgTAAK6aDmBW
+   FF7BqR98CvBcBLTWp1CXfjbov6+Knh/m/d3Wmw9inhuv7L9dOo+S14yce
+   TOACpwbhz88U11tKU7mv+Lk3q6oKpFaMrBuMzI/blzww7siBBj2PM8Pnn
+   s2Eq5EUGBWb1Xxw6ZAEbygBgx8Nsdi5lkucFsf1O4KzVmuicFSkkU0TbY
+   Gzq2INRKAMck9Y/LfdCHCwriLbW3GklzI188h5/QZwJTErsQYHMYqwHii
+   g==;
+X-CSE-ConnectionGUID: Bt+G2hkoQcSy8GiT8ULp2w==
+X-CSE-MsgGUID: 5Ot86x7qQYmSrjIhRRALcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="57618324"
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="69970112"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 10:20:04 -0800
-X-CSE-ConnectionGUID: ep9V6GQ0SmKi793Ef7nOhw==
-X-CSE-MsgGUID: 03ghUIEHQC2Yw2O0EX2LJA==
+   d="scan'208";a="57618324"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 10:20:05 -0800
+X-CSE-ConnectionGUID: wTX/MtV9SVmZXfSwxXlczQ==
+X-CSE-MsgGUID: S0WRVqeqTN+nXduNXhESaw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
+   d="scan'208";a="205076200"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Jan 2026 10:20:04 -0800
+  by orviesa006.jf.intel.com with ESMTP; 19 Jan 2026 10:20:04 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhtr7-00000000O9x-0OaW;
+	id 1vhtr7-00000000OA1-1Mp8;
 	Mon, 19 Jan 2026 18:20:01 +0000
-Date: Tue, 20 Jan 2026 02:19:56 +0800
+Date: Tue, 20 Jan 2026 02:19:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
+To: Ulf Hansson <ulf.hansson@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:master 223/223]
- fs/bcachefs/data/reconcile/check.c:445:1: warning: the frame size of 1044
- bytes is larger than 1024 bytes
-Message-ID: <202601200242.ybQLA69c-lkp@intel.com>
+Subject: [ulfh-pm:debug_pm 24/27]
+ drivers/pmdomain/pm_domain_test.c:152:35: error: 'pm_domain_cpu_gov'
+ undeclared
+Message-ID: <202601200232.0YTYbppa-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -58,67 +60,98 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://github.com/koverstreet/bcachefs master
-head:   1c240e59948ecca320c96b94db4ffae87581d477
-commit: 1c240e59948ecca320c96b94db4ffae87581d477 [223/223] bcachefs: Break up reconcile.c
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260120/202601200242.ybQLA69c-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200242.ybQLA69c-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git debug_pm
+head:   9906dfc4ce39030a1b96f46d4158406e5ba21b16
+commit: f51046345a48ae9d1e9e06ca89d92c842bdf90e2 [24/27] pmdomain: Add driver for simple PM domain providers with perf support
+config: arm-randconfig-004-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200232.0YTYbppa-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200232.0YTYbppa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601200242.ybQLA69c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601200232.0YTYbppa-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/bcachefs/data/reconcile/check.c: In function 'bch2_check_reconcile_work':
->> fs/bcachefs/data/reconcile/check.c:445:1: warning: the frame size of 1044 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     445 | }
-         | ^
+   drivers/pmdomain/pm_domain_test.c: In function 'pd_init':
+>> drivers/pmdomain/pm_domain_test.c:152:35: error: 'pm_domain_cpu_gov' undeclared (first use in this function)
+     152 |                         pd_gov = &pm_domain_cpu_gov;
+         |                                   ^~~~~~~~~~~~~~~~~
+   drivers/pmdomain/pm_domain_test.c:152:35: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +445 fs/bcachefs/data/reconcile/check.c
+vim +/pm_domain_cpu_gov +152 drivers/pmdomain/pm_domain_test.c
 
-   407	
-   408	int bch2_check_reconcile_work(struct bch_fs *c)
-   409	{
-   410		CLASS(btree_trans, trans)(c);
-   411		CLASS(btree_iter_uninit, extent_iter)(trans);
-   412		CLASS(btree_iter, rb_w)(trans, BTREE_ID_reconcile_work, POS_MIN,
-   413					BTREE_ITER_prefetch|BTREE_ITER_all_snapshots);
-   414		CLASS(btree_iter, rb_h)(trans, BTREE_ID_reconcile_hipri, POS_MIN,
-   415					BTREE_ITER_prefetch|BTREE_ITER_all_snapshots);
-   416		CLASS(btree_iter, rb_p)(trans, BTREE_ID_reconcile_pending, POS_MIN,
-   417					BTREE_ITER_prefetch|BTREE_ITER_all_snapshots);
-   418	
-   419		CLASS(per_snapshot_io_opts, snapshot_io_opts)(c);
-   420	
-   421		struct wb_maybe_flush last_flushed __cleanup(wb_maybe_flush_exit);
-   422		wb_maybe_flush_init(&last_flushed);
-   423	
-   424		struct progress_indicator progress;
-   425		bch2_progress_init(&progress, __func__, c,
-   426				   BIT_ULL(BTREE_ID_extents)|
-   427				   BIT_ULL(BTREE_ID_reflink),
-   428				   0);
-   429	
-   430		static const enum btree_id data_btrees[] = {
-   431			BTREE_ID_stripes,
-   432			BTREE_ID_reflink,
-   433			BTREE_ID_extents,
-   434		};
-   435		for (unsigned i = 0; i < ARRAY_SIZE(data_btrees); i++)
-   436			try(check_reconcile_work_data_btree(trans, data_btrees[i],
-   437							    &rb_w, &rb_h, &rb_p,
-   438							    &snapshot_io_opts, &progress, &last_flushed));
-   439	
-   440		try(check_reconcile_work_phys(trans));
-   441		try(check_reconcile_work_btrees(trans));
-   442		try(check_reconcile_btree_bps(trans));
-   443	
-   444		return 0;
- > 445	}
+   124	
+   125	static int pd_init(struct device *dev, struct device_node *np)
+   126	{
+   127		struct generic_pm_domain *pd;
+   128		struct dev_power_governor *pd_gov = NULL;
+   129		struct genpd_power_state *states = NULL;
+   130		int state_count = 0, ret;
+   131		bool boot_on, cpu_pd;
+   132	
+   133		pd = devm_kzalloc(dev, sizeof(*pd), GFP_KERNEL);
+   134		if (!pd)
+   135			return -ENOMEM;
+   136	
+   137		/* DT property for CPU PM domain. */
+   138		cpu_pd = of_property_present(np, "cpu_pm_domain");
+   139		if (cpu_pd)
+   140			pd->flags |= GENPD_FLAG_IRQ_SAFE | GENPD_FLAG_CPU_DOMAIN;
+   141	
+   142		ret = of_genpd_parse_idle_states(np, &states, &state_count);
+   143		if (ret)
+   144			dev_err(dev, "%s failed parsing idle states err=%d\n",
+   145				__func__, ret);
+   146		if (states) {
+   147			pd->free_states = pd_free_states;
+   148			pd->states = states;
+   149			pd->state_count = state_count;
+   150	
+   151			if (cpu_pd)
+ > 152				pd_gov = &pm_domain_cpu_gov;
+   153			else
+   154				pd_gov = &simple_qos_governor;
+   155		}
+   156	
+   157		pd->name = devm_kasprintf(dev, GFP_KERNEL, "%pOF", np);
+   158		pd->name = kbasename(pd->name);
+   159		pd->power_off = pd_power_off;
+   160		pd->power_on = pd_power_on;
+   161	
+   162		if (strcmp(dev_name(dev), "domain_perf") == 0) {
+   163			dev_info(dev, "set perf-cb for %s\n", pd->name);
+   164			pd->set_performance_state = pd_set_performance_state;
+   165		}
+   166	
+   167		if (strcmp(dev_name(dev), "domain_perf_single") == 0) {
+   168			dev_info(dev, "set perf-cb for %s\n", pd->name);
+   169			pd->set_performance_state = pd_set_performance_state;
+   170		}
+   171	
+   172		if (strcmp(dev_name(dev), "domain_irq_safe") == 0) {
+   173			dev_info(dev, "Set GENPD_FLAG_IRQ_SAFE for %s\n", pd->name);
+   174			pd->flags |= GENPD_FLAG_IRQ_SAFE;
+   175		}
+   176	
+   177		/* DT property to see if boot-on|off. */
+   178		boot_on = of_property_present(np, "boot-on");
+   179	
+   180		ret = pm_genpd_init(pd, pd_gov, !boot_on);
+   181		if (ret) {
+   182			kfree(pd->states);
+   183			return ret;
+   184		}
+   185	
+   186		ret = of_genpd_add_provider_simple(np, pd);
+   187		if (ret)
+   188			pm_genpd_remove(pd);
+   189	
+   190		return ret;
+   191	}
+   192	
 
 -- 
 0-DAY CI Kernel Test Service
