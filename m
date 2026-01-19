@@ -1,66 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D162ECE91
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 20:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A982ECE91;
+	Mon, 19 Jan 2026 20:32:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768854739; cv=none; b=WUYaVGUOZjGmsGUTaI5GzkosHgZN50N8Gi+jyjtytr8Sp7dI6gf9/bzm1mLVanr+OtYLHngwA1W8I79JmmBEvNP+ii2t/JZP2AK+YD+yNXXL99iexZzEd2n+E/viGSP4m3/MPZfsve/QSxx6ULmG3bczyLRGZZHzUZlzfVG0RAg=
+	t=1768854741; cv=none; b=S0VlVJ+OTQYaiLszxvKXHbqi1AthaqJy2qmOpS+0g84BQWkfsX5N5dIk3px6Kd7KE1rHwuFUUQPVsLnsPqt68+Qq+HzxqZ1ClWUF3QtqW6gV9E4NkDn+uilTlV4+KXa+iv8Bt+aLCZ26B18NNYlCvZCXlmqDC1abDRItgJE2zEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768854739; c=relaxed/simple;
-	bh=9G3X5L4dQDNcCE4GzJviRia/VpS773SPyclyUMXM4MM=;
+	s=arc-20240116; t=1768854741; c=relaxed/simple;
+	bh=0kSyxZkV6VvJmJlenpWogDJfu5GTq7YVZxtQIvgk4YQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t64Kl9aZ8F+n8MIt9yhIgXmexcWcdI9FQxICZy6vg5uJYhBAIHT5Jl4XFWLO99p3vX9DVYgX0bI9IiYb4ovtKSLo6TE3IsdaII+ooNPuNPDAX6EaSK/CuUXkazoHAKcy0eUkd978okK9LwLKsdBIvHAyOrXrsfSMx/Sa6VaIYOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=InLN80mr; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=oARnU5wtgkToYssjLRQcTl1uy7FKABTnSd2oNO0UZiA4/NISYnPxr+Miu8Ld9IYBlWQQe58okNZuEJD5wIGYB1H+tT8J2ZxaUQYnegBEi6T9fi2O/gggjiqYEjuS6d1AcmSSfptV8RwYNtYz1eW+s4N0HmW752aAeENCBjVgTlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lu5RpLO/; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="InLN80mr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lu5RpLO/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768854739; x=1800390739;
+  t=1768854740; x=1800390740;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9G3X5L4dQDNcCE4GzJviRia/VpS773SPyclyUMXM4MM=;
-  b=InLN80mrzAlb+64u9m2tIgEQoTx6cwzB7f5EhcQRVHTediOazDpOsG7E
-   AZ+0ou41wKlw5K5uqqLL916wtbMPEiGyYTzKfC8bYFzdLgTkQOnHHWWFN
-   oDSyL6dseVYvjeghc0+O6ZltjIeWjSJfsV4DeZ/AS5MA23G6DIM3n7BYh
-   wa/gO2eF4vWkabauIkCV54gHEVQkh2D2p9s23fM5TTO9x1y+bD5QlkfB0
-   rqcCKdfTw0YCi1isgGqwujHolkVwQ2gIzNzXkQInd11h+EdJvpI1vwDu9
-   m4wK6tPoaR4wf7AKujbEElDvnfDfz9tN4K9QRNM1rhbM0OMREsX9c28LU
-   A==;
-X-CSE-ConnectionGUID: fFQjCexcSBeBZEtkPEBZ/A==
-X-CSE-MsgGUID: dpWLCm82QtelGl/o5YiEsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70039950"
+  bh=0kSyxZkV6VvJmJlenpWogDJfu5GTq7YVZxtQIvgk4YQ=;
+  b=Lu5RpLO/i9N0VQNkuANg4p0OU6zm/+tQEuKSbJw9fpK/NRZ6l8v6gt+b
+   M9qzmhoanEuR+HZ+UBZNWdVuXz3ZmQqtqQ8bf5iVM8gRXiWRU+KUBzIyl
+   KhyMsJe2REQsN36L9M5yEZCaeKeujFVUbvFo5A48ga/NCn3jJ0CAhYP6j
+   KOETDvxil7rTSTWwKehwHbR2t6QaK52qJ8Vz9Iser9Ml5MSp9ir7VlYCh
+   11Y0fIvSBMCAg5I+/iTPp8Vf5yOnsh0Hlz84ydQjWxWyjErUv4PvqH9k2
+   weu5XUkL4O26sORu446YPUHkgbNCHjjNpi+m64E2JRkPEZjhG7YOzxFpX
+   w==;
+X-CSE-ConnectionGUID: uRnvV/l+R5edb3m93LmHYA==
+X-CSE-MsgGUID: Uc9VVIHqQHywoMZNj5pNHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="95539199"
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="70039950"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 12:32:18 -0800
-X-CSE-ConnectionGUID: vu3zgAhNRXO37stiCH/kcw==
-X-CSE-MsgGUID: TpkMSGVFQ7qPH8nEsk/OpA==
+   d="scan'208";a="95539199"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 12:32:18 -0800
+X-CSE-ConnectionGUID: svZBSJU6RoOD5C+BtsURAg==
+X-CSE-MsgGUID: K8kb2n/uQyWqWjoRgkzGvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="237215450"
+   d="scan'208";a="228877536"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Jan 2026 12:32:15 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 19 Jan 2026 12:32:15 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhvv3-00000000OHd-00ic;
+	id 1vhvv3-00000000OHf-07LS;
 	Mon, 19 Jan 2026 20:32:13 +0000
-Date: Tue, 20 Jan 2026 04:31:28 +0800
+Date: Tue, 20 Jan 2026 04:31:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Holger Dengler <dengler@linux.ibm.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	David Laight <david.laight.linux@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>,
-	"Jason A . Donenfeld" <Jason@zx2c4.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Harald Freudenberger <freude@linux.ibm.com>,
-	Holger Dengler <dengler@linux.ibm.com>,
-	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v2 1/1] lib/crypto: tests: Add KUnit tests for AES
-Message-ID: <202601200403.mo4FMAVa-lkp@intel.com>
-References: <20260119121210.2662-2-dengler@linux.ibm.com>
+To: mpenttil@redhat.com, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
+	David Hildenbrand <david@redhat.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Balbir Singh <balbirs@nvidia.com>, Zi Yan <ziy@nvidia.com>,
+	Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH v2 1/3] mm: unified hmm fault and migrate device pagewalk
+ paths
+Message-ID: <202601200418.y3IajnfX-lkp@intel.com>
+References: <20260119112502.645059-2-mpenttil@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,64 +71,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260119121210.2662-2-dengler@linux.ibm.com>
+In-Reply-To: <20260119112502.645059-2-mpenttil@redhat.com>
 
-Hi Holger,
+Hi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 47753e09a15d9fd7cdf114550510f4f2af9333ec]
+[auto build test ERROR on 24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Holger-Dengler/lib-crypto-tests-Add-KUnit-tests-for-AES/20260119-201615
-base:   47753e09a15d9fd7cdf114550510f4f2af9333ec
-patch link:    https://lore.kernel.org/r/20260119121210.2662-2-dengler%40linux.ibm.com
-patch subject: [PATCH v2 1/1] lib/crypto: tests: Add KUnit tests for AES
-config: xtensa-randconfig-r133-20260120 (https://download.01.org/0day-ci/archive/20260120/202601200403.mo4FMAVa-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200403.mo4FMAVa-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/mpenttil-redhat-com/mm-unified-hmm-fault-and-migrate-device-pagewalk-paths/20260119-193100
+base:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+patch link:    https://lore.kernel.org/r/20260119112502.645059-2-mpenttil%40redhat.com
+patch subject: [PATCH v2 1/3] mm: unified hmm fault and migrate device pagewalk paths
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260120/202601200418.y3IajnfX-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200418.y3IajnfX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601200403.mo4FMAVa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601200418.y3IajnfX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   lib/crypto/tests/aes_kunit.c: note: in included file (through arch/xtensa/include/asm/atomic.h, include/linux/atomic.h, include/linux/jump_label.h, ...):
-   arch/xtensa/include/asm/processor.h:105:2: sparse: sparse: Unsupported xtensa ABI
-   arch/xtensa/include/asm/processor.h:135:2: sparse: sparse: Unsupported Xtensa ABI
-   lib/crypto/tests/aes_kunit.c:149:1: sparse: sparse: bad integer constant expression
-   lib/crypto/tests/aes_kunit.c:149:1: sparse: sparse: static assertion failed: "MODULE_INFO(description, ...) contains embedded NUL byte"
-   lib/crypto/tests/aes_kunit.c:150:1: sparse: sparse: bad integer constant expression
-   lib/crypto/tests/aes_kunit.c:150:1: sparse: sparse: static assertion failed: "MODULE_INFO(file, ...) contains embedded NUL byte"
-   lib/crypto/tests/aes_kunit.c:150:1: sparse: sparse: bad integer constant expression
-   lib/crypto/tests/aes_kunit.c:150:1: sparse: sparse: static assertion failed: "MODULE_INFO(license, ...) contains embedded NUL byte"
->> lib/crypto/tests/aes_kunit.c:35:26: sparse: sparse: incompatible types in conditional expression (incompatible argument 1 (different base types)):
-   lib/crypto/tests/aes_kunit.c:35:26: sparse:    void ( * )( ... )
-   lib/crypto/tests/aes_kunit.c:35:26: sparse:    void ( * )( ... )
->> lib/crypto/tests/aes_kunit.c:35:26: sparse: sparse: incompatible types in conditional expression (incompatible argument 1 (different base types)):
-   lib/crypto/tests/aes_kunit.c:35:26: sparse:    void ( * )( ... )
-   lib/crypto/tests/aes_kunit.c:35:26: sparse:    void ( * )( ... )
+All errors (new ones prefixed by >>):
 
-vim +35 lib/crypto/tests/aes_kunit.c
-
-    28	
-    29	static __always_inline u64 time_aes_op(bool encrypt, struct aes_key *aes_key,
-    30					       u8 *out, const u8 *in)
-    31	{
-    32		void (*aes_op)(const struct aes_key *key, u8 *out, const u8 *in);
-    33		u64 t;
-    34	
-  > 35		aes_op = encrypt ? &aes_encrypt : &aes_decrypt;
-    36	
-    37		preempt_disable();
-    38		t = ktime_get_ns();
-    39		aes_op(aes_key, out, in);
-    40		t = ktime_get_ns() - t;
-    41		preempt_enable();
-    42	
-    43		return t;
-    44	}
-    45	
+>> ld.lld: error: undefined symbol: hmm_range_fault
+   >>> referenced by migrate_device.c:774 (mm/migrate_device.c:774)
+   >>>               vmlinux.o:(migrate_vma_setup)
 
 -- 
 0-DAY CI Kernel Test Service
