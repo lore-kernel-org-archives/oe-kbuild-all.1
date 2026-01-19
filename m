@@ -1,129 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81166242D9D;
-	Mon, 19 Jan 2026 06:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779E6271450
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 06:39:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768804754; cv=none; b=Yte60rTT1Mx5TFv7FxgKLaponbAY/TkJ+mwcV5QnMVLTDfGiE3HWAMizKrmi0SKqwC9QobXjz1jjAN3ggp+lcdD9TPd/4kZFDgwKtyRQI9MYSduXgFmKZyyCIfyr0VT1o5ImFKkTWSmLvzBC4A9ZLhpHctBt3TQXb+4o0owaF1w=
+	t=1768804801; cv=none; b=dk0YYt3IXgHi72/j/Hk26Rm9OHG/9FhoMfHsHcj/bP62KL6Vze1tZYTJmbxFIoct5/2ALYWA/0P/D2anDSka3c1/zq/ZvGyYV4EPYVC4QE26Ykx7kV6Phu13YwfTKA9IGs0dhCdfvwq6NVHneb6jvtquxeqQXAdqAuRmDrzDZV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768804754; c=relaxed/simple;
-	bh=IgQG4JO5+xJM4DwRXkVjippDTRc20JSs8PVcf6pgJoo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QKjtxqN6J6n9ldwULspFUfd891WoF3aZFvgJkDb88ZJbPmIdEymW2jq89+06GNtEnU52hPlvY6XT+i9BPZ1R29fPNJxLmL6jw/ofBnQ6Qgp+HUNq5sr7bEeNaUwyqUf74LM8jvfT2PSe2V3Maj/y/ZMolVaJy9gdrwA+VBAKsI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KTGuJnt2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768804801; c=relaxed/simple;
+	bh=YE5jezai2biwr3Gnu5tpda+uRI0xIpqVr5jQ76BFhaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=GAD7iwJuaMVRWtO2CYaRsqjhgnzLv/Wtp3bWKwIuWhhcCKXwYoyWrTT3KGSVBXjieQVN8FViNE0vjcFuWkIDKJrJ0Q+AuZhokFSgVdf7Ykk4kmJ4KbfG85qPsq05zyxm21BYL2k4Hfk4zaoXLu+N+n682JkMLi3syxUbuxVnvsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B0yvjbZN; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KTGuJnt2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4E3EC116C6;
-	Mon, 19 Jan 2026 06:39:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1768804754;
-	bh=IgQG4JO5+xJM4DwRXkVjippDTRc20JSs8PVcf6pgJoo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KTGuJnt2WYf+n6ioXznpDtogqFQZE0kPaA4zfhaM57pIOa+abEmmjjKeNYOn8b+Np
-	 GIfP4CTuqDo94pjNCz/eaH1LvhSbMudVfjnRFshZ2FYAJmnNlMk4gGo+D6Z/bfaGLo
-	 BkY3acKLpVt48PhYwQ2UipLRatSGHX2JUabIJXsg=
-Date: Mon, 19 Jan 2026 07:39:10 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: yaxing guo <guoyaxing@bosc.ac.cn>
-Cc: dan.carpenter@linaro.org, oe-kbuild@lists.linux.dev, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4] uio: Add SVA support for PCI devices via
- uio_pci_generic_sva.c
-Message-ID: <2026011942-print-impending-ab86@gregkh>
-References: <20251223045409.15700-1-guoyaxing@bosc.ac.cn>
- <2026011643-coastline-playtime-0ac5@gregkh>
- <2026011603-dorsal-unblessed-cdb2@gregkh>
- <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B0yvjbZN"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47ee2715254so17463655e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 22:39:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768804798; x=1769409598; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dhpuhf8aqRruGu7L/fSfGH0BgTbK0i1Gv5JjSOJHbPQ=;
+        b=B0yvjbZNRbrEsjtxkJ6eKib1MdfyNMvYzh9GfoskWvgb2wd9F9EeSKsuP0XwJ9u+2S
+         Gapr9RT3dV495Ilcg9ltZ2BuEt/HZAGszWX2ye3edIMzhp6/as2lUyPcDph+YJYJxZ4E
+         pJ/f6rtURrpbQw5LmpyIrsDEZyrw56s5ZITzZ/0nlzUksdCymvRNMJjw5tnjYlPtZ6dm
+         wV3HKJY2WTkdTCnfJxjaiEeFhNSC4KdhQBSkDyqz3u8l1LK00GCeVxNl+WqSALjcLvSE
+         piH/44H8N4W6Be1B6SAKg8sAG3BUtbnDqkwl7I2JgmON5f2Z4AsdUOMJQ/4tcfkperXb
+         yaGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768804798; x=1769409598;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dhpuhf8aqRruGu7L/fSfGH0BgTbK0i1Gv5JjSOJHbPQ=;
+        b=X6T7aJH8ZTSQbUOdF8Pzph6kNRQjNtXrWYjHYHE/ZMEsBP/Fk+FW8X+6bDcAmNthJt
+         ZYjbRP+xtkYMVri/fL17qLL0lXCTQrhsAKMTKN/RG7LmotJMopSguTTOV7fZKK1Ww37W
+         kV3QtC4DBaqi7qsJB8AZyLl848bSSsJ0AITTJZjR2flDX30Vwj7kgfHlZtTj4ce9y11t
+         1Lez72olj3v2pyeKDSpzS89abpqeQiR+9wD4p9AYaeUU1AN6q9Qb1cvMntNZZyfIhCvk
+         puPp/HwiveNTO5aX9LlmX8cY5+XQKExdTIon1l7vVcjG+ID0G78Nzrn0CvEG09WGHIT3
+         BEtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWatB3ht/VFXXmMTVKRzbFoP63OvNWp3mRfBefrG6gIcbbDtMleqk3eDHN1To0QamrLM1/NkJZnKpXUSKMk@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw16ccrgjarNno5pV8XmM9HyBl6ZmKyPrhrDTWKie9BOZnRE+/f
+	3I/dS9DxyGdpsUNMHuHHwlqCsUo7bUuw+r4ZuUBPhoottn8lK2NPjJPowHMg2Ke84Ec=
+X-Gm-Gg: AY/fxX7pU6bSfJZMqfJypos0YvCjSefU01X6hP7POiYrNLvpvOFaftW8GVee0IPVh+z
+	BLXDmrcGJnVtClme9YazRlDaMM/d/OqOeShJDQ4NCYNpB6e1UqYn/Jt9wOsOJP52I+Soec5YoEG
+	8K6SJj2Q4YEZZuEtTdOsut6nRQhly78LgOw/tx7h2vKbL320waVy6G1Fv1tVHwbY+nZMRGvUXJ0
+	EQBSMQSkvIbINcomnh/kuOTGcILmFK6Bq6i5zxe3A6GaovCmORWexGwPHwzoluEaNQ+u9q3v/3P
+	FUnopVZKccPVGKjynCrU3oGRcqO1sXvCiBr0IorQCK5p2BO+MOTFHw0VBrRkcrSH3w9U/Kc+9F2
+	WCKAwPX1O4ynXJadzZ8Ww5ETHTVk86Kj02Bl7/LAvJu4dISy17NpNlpEtmrc0MUr3aD5cx1TVUC
+	9I8lyFSWoABJL6nDnI
+X-Received: by 2002:a05:600c:4f8f:b0:477:aed0:f40a with SMTP id 5b1f17b1804b1-4801e33c2a5mr130322625e9.19.1768804797300;
+        Sun, 18 Jan 2026 22:39:57 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801fe3ae95sm77473395e9.4.2026.01.18.22.39.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Jan 2026 22:39:56 -0800 (PST)
+Date: Mon, 19 Jan 2026 09:39:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, fdmanana@kernel.org,
+	linux-btrfs@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] btrfs: use the btrfs_block_group_end() helper everywhere
+Message-ID: <202601170636.WsePMV5H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
+In-Reply-To: <f7afa4b2c9350b08695cc34cd917dea3bf766bce.1768559305.git.fdmanana@suse.com>
 
-On Mon, Jan 19, 2026 at 02:16:21PM +0800, yaxing guo wrote:
-> 
-> 
-> 在 2026/1/16 23:16, Greg KH 写道:
-> > On Fri, Jan 16, 2026 at 04:15:17PM +0100, Greg KH wrote:
-> > > On Tue, Dec 23, 2025 at 12:54:09PM +0800, Yaxing Guo wrote:
-> > > > This patch introduces a new UIO driver, uio_pci_generic_sva, which
-> > > > extends the functionality of uio_pci_generic by adding support for
-> > > > Shared Virtual Addressing (SVA) when IOMMU is enabled in the system.
-> > > > 
-> > > > The key enhancement allows PCI devices to directly use user-space virtual
-> > > > addresses for DMA operations, eliminating the need for bounce buffers or
-> > > > explicit IOVA mapping. This is achieved by leveraging the kernel's IOMMU-SVA
-> > > > subsystem, including process address space attachment, page fault handling,
-> > > > and shared context management between CPU and device.
-> > > > 
-> > > > With this driver, userspace applications can perform zero-copy DMA using
-> > > > native pointers:
-> > > > 
-> > > >     void *addr = malloc(N);
-> > > >     set_dma_addr((uint64_t)addr);  // Passing user VA directly
-> > > >     start_dma();
-> > > > 
-> > > > The device can now access 'addr' through the IOMMU's PASID-based translation,
-> > > > provided that the underlying IOMMU hardware (e.g., Intel VT-d 3.1+, AMD-Vi,
-> > > > ARM SMMU, RISCV IOMMU) and platform support SVA.
-> > > > 
-> > > > Dependencies:
-> > > > - CONFIG_IOMMU_SVA must be enabled.
-> > > > - The platform must support PRI (Page Request Interface) and PASID.
-> > > > - Device drivers/userspace must handle page faults if demand-paging is used.
-> > > > 
-> > > > The implementation reuses core logic from uio_pci_generic.c while adding
-> > > > PASID setting, and integration with the IOMMU SVA APIs.
-> > > > 
-> > > > Also, add a read-only sysfs attribute 'pasid' to expose the Process Address
-> > > > Space ID assigned by IOMMU driver when binding an SVA-enabled device.
-> > > > For details, refer to the ABI documentation for uio_pci_sva driver sysfs attribute
-> > > > (Documentation/ABI/testing/sysfs-driver-uio_pci_sva-pasid).
-> > > > 
-> > > > Signed-off-by: Yaxing Guo <guoyaxing@bosc.ac.cn>
-> > > > ---
-> > > > Changes in v4:
-> > > >   -- Fix the errors about 'udev' could be null and double free that
-> > > >      reported by: kernel test robot <lkp@intel.com> and Dan Carpenter <dan.carpenter@linaro.org>
-> > > >      error report: https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/
-> > > 
-> > > Where is the changes from previous versions?
-> > > 
-> > > > +++ b/Documentation/ABI/testing/sysfs-driver-uio_pci_sva-pasid
-> > > > @@ -0,0 +1,29 @@
-> > > > +What:		/sys/bus/pci/drivers/uio_pci_sva/<pci_dev>/pasid
-> > > > +Date:		September 2025
-> > > 
-> > > It's not September anymore :)
-> > > 
-> > > > +module_pci_driver(uio_pci_generic_sva_driver);
-> > > > +MODULE_VERSION("0.0.01");
-> > > 
-> > > No need for a module version.
-> > > 
-> > > Ah, these are all just minor things, let me go queue this up now, can
-> > > you send a follow-on patch to make these 2 changes?
-> > 
-> > Wait, I already took this a while ago, why was this resent?
-> > 
-> After the v3 patch submission, I received error reports from Dan Carpenter
-> dan.carpenter@linaro.org and the kernel test robot lkp@intel.com (see:
-> https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/).
-> In response, I’ve submitted a new version (v4) of the same patch, which
-> primarily addresses the issues highlighted in that report (as described in
-> the "changes in v4" section of the cover letter).
-> If there’s anything improper in this process—such as resubmitting instead of
-> replying with fixes or other procedural concerns—please let me know, and
-> I’ll be happy to correct it accordingly.
+Hi,
 
-Yes, please submit fixes for your original commit that was accepted.
+kernel test robot noticed the following build warnings:
 
-thanks,
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-greg k-h
+url:    https://github.com/intel-lab-lkp/linux/commits/fdmanana-kernel-org/btrfs-use-the-btrfs_block_group_end-helper-everywhere/20260116-183655
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/f7afa4b2c9350b08695cc34cd917dea3bf766bce.1768559305.git.fdmanana%40suse.com
+patch subject: [PATCH] btrfs: use the btrfs_block_group_end() helper everywhere
+config: alpha-randconfig-r072-20260117 (https://download.01.org/0day-ci/archive/20260117/202601170636.WsePMV5H-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 10.5.0
+smatch version: v0.5.0-8985-g2614ff1a
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202601170636.WsePMV5H-lkp@intel.com/
+
+New smatch warnings:
+fs/btrfs/free-space-cache.c:1207 write_pinned_extent_entries() warn: variable dereferenced before check 'block_group' (see line 1203)
+
+vim +/block_group +1207 fs/btrfs/free-space-cache.c
+
+6701bdb39ceb48 David Sterba    2019-03-20  1196  static noinline_for_stack int write_pinned_extent_entries(
+6b45f64172e130 Nikolay Borisov 2020-01-20  1197  			    struct btrfs_trans_handle *trans,
+32da5386d9a4fd David Sterba    2019-10-29  1198  			    struct btrfs_block_group *block_group,
+4c6d1d85ad89fd Chris Mason     2015-04-06  1199  			    struct btrfs_io_ctl *io_ctl,
+d4452bc526c431 Chris Mason     2014-05-19  1200  			    int *entries)
+d4452bc526c431 Chris Mason     2014-05-19  1201  {
+d4452bc526c431 Chris Mason     2014-05-19  1202  	u64 start, extent_start, extent_end, len;
+7fc5a6968403c7 Filipe Manana   2026-01-16 @1203  	const u64 block_group_end = btrfs_block_group_end(block_group);
+                                                                                                          ^^^^^^^^^^^^
+Dereferenced.
+
+d4452bc526c431 Chris Mason     2014-05-19  1204  	struct extent_io_tree *unpin = NULL;
+d4452bc526c431 Chris Mason     2014-05-19  1205  	int ret;
+43be21462d8c26 Josef Bacik     2011-04-01  1206  
+5349d6c3ffead2 Miao Xie        2014-06-19 @1207  	if (!block_group)
+                                                             ^^^^^^^^^^^
+Too late.
+
+5349d6c3ffead2 Miao Xie        2014-06-19  1208  		return 0;
+5349d6c3ffead2 Miao Xie        2014-06-19  1209  
+43be21462d8c26 Josef Bacik     2011-04-01  1210  	/*
+43be21462d8c26 Josef Bacik     2011-04-01  1211  	 * We want to add any pinned extents to our free space cache
+43be21462d8c26 Josef Bacik     2011-04-01  1212  	 * so we don't leak the space
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
