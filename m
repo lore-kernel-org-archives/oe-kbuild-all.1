@@ -1,126 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5658150096E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 23:23:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9413A500972
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 23:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768865007; cv=none; b=k6NCB2MeGkuwYV3k4+RmmWuEEep9mFyYF676CB1zc4X5g9IwjLQJizRE6XKyF3z4rNyv19jHIQ97bbtdular/pe4Jh3QyLLJ9JEzknFes+u641sDvGApzlQt0/7vm/7cxh/bggqEjSsNXDz1+yCa/4OPKdtyivzZ/hJ94vb4k9I=
+	t=1768865666; cv=none; b=BBNK6uTSh7mrXYA86LJqSJK1ohUdCRvCztV9OOMYHMe3x3itartSdVBR/kZY844rCdP6rTHoh6BZwnZ5U8CVKKgi6hgaDhpvXFV9oRrW7WOdm/3jWRMMeCl6kV0vpTeygTf7H6DU65A9r7xy5TKjy+/jAFU6cqI8BjruLJdXqj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768865007; c=relaxed/simple;
-	bh=jS+5x95Zj+uR/6s0jmPRnBQHZ723dxDqrKssoei5Yb8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=fYP/Hzrqcc7pHv39HyGPawJT30/765PmYPXvbrstAFg0nI1PO194Q+CA1dWARmxn5ne7QIm6jlGkPhdFL7ZlmaXM0NtlOAzyv3vYeQeJPcztf+3tkHgMqxayX4XXz9DrrB0LtabE1Nm4rwq1+IH/Y9UgkMSNaQTTo3CdT72VE20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hRlH1eBD; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1768865666; c=relaxed/simple;
+	bh=PN+d2n8Hbf6EMPcmnTPN9LJBa8b2ldnAH+G415IPCFM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E074XRnv3d0C++dYq3OyjIQcQL3sWr+ZlpvJDH1v+39MMzdCK012Kl2m04YpTyX64TtG2hIBciJdJ+gnzTX9X86wMUZFv8SGrlF5cnz1ga0rNEo1vOw0boJBNib1hm0JklRnwy4tS/eyiY6BWd9QPwyE7vnvkBQJXHg0FkMevYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F7CyYXt6; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hRlH1eBD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F7CyYXt6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768865005; x=1800401005;
-  h=date:from:to:cc:subject:message-id;
-  bh=jS+5x95Zj+uR/6s0jmPRnBQHZ723dxDqrKssoei5Yb8=;
-  b=hRlH1eBD/mobUOO9Lqe62FJ5pDrang0qLuPYAeFromNEm4EyH/cPR9Z1
-   QLmHeGpmcfZAxb0EquHJdjgH2czuXf2aoMJX0A4ITogJ9JEyk846tneb/
-   75nHcnuE2z4R7gDC3DJ03tFNoSlTU59BxIfbzC/FCmMZOQ7l0gXCe24W1
-   e+CrX38KBwRvTTKeLZxBJ7dhTHgIk4ySrD1d56rg97TAJhqgYWRaBoRAF
-   tzeJzpDS7kBjzTlR4UEWEf3YSt9tvnLRkDEn/wivANU4KOmMo0KtHW0fv
-   TeOiw6+z7syC6McbH7Qtgx1Ov6T8HPsWhSRQUOsTpjwV2crOoP6ADNKYO
-   A==;
-X-CSE-ConnectionGUID: j73hE+XbQh6w45GmNLmBVA==
-X-CSE-MsgGUID: gVB3LWAxTHKX1+4/ybJ2ng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="73700123"
+  t=1768865664; x=1800401664;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PN+d2n8Hbf6EMPcmnTPN9LJBa8b2ldnAH+G415IPCFM=;
+  b=F7CyYXt6LPU899FZQMC4Mggw1aSbiUI3UBe/8sr6iDSmCm+2u7wKZgBw
+   pL8wsL4g9Bd48fBJyju34K+juMvidxEdIco6EVNNNIEVueH4/eQZ16ZZ6
+   9d/c9VNNHFPAw4doJDOSnYakTmMfIukOgSFVy6Tu3v93Jjn5CYMSFJ/0u
+   ZUXM9poWFJoQquEaa7nu80Aq91wC+5gggRPAoKBKfaWaJZ+PlgsGEuZJj
+   fJ46M7mteCSimlJJDS5CN0WOrD6z4YS5pgot10Vuse7q2Dh2prW6yocMJ
+   xJ4ngkiiHCYozmjLYxf1UEc2DpLNUFlzEnLcljcmCpKj7Vv6b/LdKzkJO
+   Q==;
+X-CSE-ConnectionGUID: PvHlf1+vTeyA+ZwNRCyGDQ==
+X-CSE-MsgGUID: cAiQOCnfTJmaEdIC+/AguQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="81445687"
 X-IronPort-AV: E=Sophos;i="6.21,239,1763452800"; 
-   d="scan'208";a="73700123"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 15:23:25 -0800
-X-CSE-ConnectionGUID: WtzjLgrORsevdExRr8fMUw==
-X-CSE-MsgGUID: RG/CFTksQVWZsOqRnBgTzg==
+   d="scan'208";a="81445687"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 15:34:23 -0800
+X-CSE-ConnectionGUID: 0nwSvOOOScae2PBZ4/FCZw==
+X-CSE-MsgGUID: GJwt9McJR7eciqJA4rq51Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,239,1763452800"; 
-   d="scan'208";a="205214716"
+   d="scan'208";a="205596419"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 19 Jan 2026 15:23:23 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 19 Jan 2026 15:34:23 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhyae-00000000OO5-2uNZ;
-	Mon, 19 Jan 2026 23:23:20 +0000
-Date: Tue, 20 Jan 2026 07:23:14 +0800
+	id 1vhylI-00000000OOD-3Tl8;
+	Mon, 19 Jan 2026 23:34:20 +0000
+Date: Tue, 20 Jan 2026 07:33:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
+To: Dave Hansen <dave.hansen@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bcachefs:bcachefs-testing 223/229]
- fs/bcachefs/data/reconcile/work.c:594:1: warning: the frame size of 1288
- bytes is larger than 1280 bytes
-Message-ID: <202601200716.8a4PY8lU-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+Subject: Re: [PATCH 2/6] x86/cpu: Add missing #include
+Message-ID: <202601200720.f3Wg8ffm-lkp@intel.com>
+References: <20260119195051.4235E147@davehans-spike.ostc.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260119195051.4235E147@davehans-spike.ostc.intel.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   ff80babc046bd0df84ae9fff59be4433a23d954b
-commit: de374d7b7296203619ba70f976867051cebaf41b [223/229] bcachefs: Break up reconcile.c
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20260120/202601200716.8a4PY8lU-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200716.8a4PY8lU-lkp@intel.com/reproduce)
+Hi Dave,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/x86/core]
+[also build test ERROR on linus/master v6.19-rc6 next-20260116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Hansen/x86-cpu-Break-Vendor-Family-Model-macros-into-separate-header/20260120-035537
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20260119195051.4235E147%40davehans-spike.ostc.intel.com
+patch subject: [PATCH 2/6] x86/cpu: Add missing #include
+config: parisc-randconfig-001-20260120 (https://download.01.org/0day-ci/archive/20260120/202601200720.f3Wg8ffm-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200720.f3Wg8ffm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601200716.8a4PY8lU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601200720.f3Wg8ffm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/bcachefs/data/reconcile/work.c: In function 'do_reconcile_extent_phys':
->> fs/bcachefs/data/reconcile/work.c:594:1: warning: the frame size of 1288 bytes is larger than 1280 bytes [-Wframe-larger-than=]
-     594 | }
-         | ^
+   In file included from include/linux/peci-cpu.h:33,
+                    from drivers/peci/device.c:6:
+>> include/linux/../../arch/x86/include/asm/intel-family.h:5:10: fatal error: asm/vfm.h: No such file or directory
+    #include <asm/vfm.h>
+             ^~~~~~~~~~~
+   compilation terminated.
 
 
-vim +594 fs/bcachefs/data/reconcile/work.c
+vim +5 include/linux/../../arch/x86/include/asm/intel-family.h
 
-   557	
-   558	static int do_reconcile_extent_phys(struct moving_context *ctxt,
-   559					    struct per_snapshot_io_opts *snapshot_io_opts,
-   560					    struct bbpos work,
-   561					    struct wb_maybe_flush *last_flushed)
-   562	{
-   563		struct btree_trans *trans = ctxt->trans;
-   564		struct bch_fs *c = trans->c;
-   565	
-   566		CLASS(btree_iter, bp_iter)(trans, BTREE_ID_backpointers, work.pos, 0);
-   567		struct bkey_s_c bp_k = bkey_try(bch2_btree_iter_peek_slot(&bp_iter));
-   568		if (!bp_k.k || bp_k.k->type != KEY_TYPE_backpointer) /* write buffer race */
-   569			return 0;
-   570	
-   571		CLASS(btree_iter_uninit, iter)(trans);
-   572		struct bkey_s_c_backpointer bp = bkey_s_c_to_backpointer(bp_k);
-   573		struct bkey_s_c k = bkey_try(bch2_backpointer_get_key(trans, bp, &iter, 0, last_flushed));
-   574		if (!k.k)
-   575			return 0;
-   576	
-   577		struct bch_inode_opts opts;
-   578		struct data_update_opts data_opts = {
-   579			.read_dev	= work.pos.inode,
-   580			.read_flags	= BCH_READ_soft_require_read_device,
-   581		};
-   582		try(__do_reconcile_extent(ctxt, snapshot_io_opts, &opts, &data_opts, work, &iter, bp.v->level, k));
-   583	
-   584		event_add_trace(c, reconcile_phys, k.k->size, buf, ({
-   585			prt_newline(&buf);
-   586			bch2_bkey_val_to_text(&buf, c, bp_k);
-   587			prt_newline(&buf);
-   588			bch2_bkey_val_to_text(&buf, c, k);
-   589			prt_newline(&buf);
-   590			bch2_data_update_opts_to_text(&buf, c, &opts, &data_opts);
-   591		}));
-   592	
-   593		return 0;
- > 594	}
-   595	
+     4	
+   > 5	#include <asm/vfm.h>
+     6	
 
 -- 
 0-DAY CI Kernel Test Service
