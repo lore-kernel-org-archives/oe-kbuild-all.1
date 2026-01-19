@@ -1,172 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from out198-25.us.a.mail.aliyun.com (out198-25.us.a.mail.aliyun.com [47.90.198.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5315733B6E7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 08:34:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F022533F37E;
+	Mon, 19 Jan 2026 08:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768811666; cv=none; b=nGuQydjVusKEZlkZkUB6seepL3G7AVCpYHs/TB92oszUPH4s4B51N5eFcOeh9kZ9dpXaKd7iBmkOIfyOSxht2F1ADfNtPD6FfaS9OvBofwxBy3g2F/D/VAPVlAF4yfLabGjBaLzR0BlHZaidJ19s3HKH38mrsKQFjAF+quZJvIc=
+	t=1768811905; cv=none; b=sBkuKRsGY2DfZTWBFZPgkbGrdQuy7BaDkYKkKb5Aa95UrmPOtQHYj6PLqoM8nDMpmnUiqzf8Y8SUEfMM7oebaG+wpHQI8PD+lvLToye3R0h7lJKDaKqUVHgYvXZ8Qm8Bf2SSszAcbShRJ/6Q3zrioAj4VbOpvcXtooP0TQ4UuE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768811666; c=relaxed/simple;
-	bh=1iX0MIpEFQnW8doHsm/UYrnHu9wSPq01dIkazAmz0n4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IpMU8f11roWRCveoXBAG2CTf62+FZ8jZU6oDj81nkJdt/pdtCekyQlNwbogGGJUvBDrj0oQ1m2qj0dmnLoFrs98TFyHo9p45Ze8FPDCa7pddDa0ud8TEDJ32hv67o23ne1rIOf6M9B/FQyW5+SscsGMmjDTKwCnsv52v+qFT2nQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i97U+/kU; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i97U+/kU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768811664; x=1800347664;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1iX0MIpEFQnW8doHsm/UYrnHu9wSPq01dIkazAmz0n4=;
-  b=i97U+/kU6j7J368Jmhwnd3pGh3CycTuqsn2KePd74ayFCw7u1frEkqZG
-   I3WnMGGZ5R6jSEOH52woVCkBFrXhSlcZ21rISMlRgrx4O5LJbQXEFgozC
-   pFiLbq79SYoN5jUlno+I1ZpUyQno9nP1IJ1kMwVoYIg4UUgCKVPrO/wV9
-   Upa/r8Ww3vPijDC9DkLfgnR4LbPM7WKgimOGfawxMgSlPX9ir7atyFrLm
-   bxXXgSplu+SnQlaw/qnv8sjXBGRk7n3l4X/gu8tu4BXGrSqX8LWsQxnWf
-   IG+fFATaPBn04oNvEoP3InrMzIy7+0WD8eyumdE/FOF9qGtVGapCIGvCq
-   g==;
-X-CSE-ConnectionGUID: IWLRWZrjQ0uzbhhUHNjc7g==
-X-CSE-MsgGUID: 8ZccWPX3TX248Z2lW3a1WA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="69929920"
-X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
-   d="scan'208";a="69929920"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 00:34:23 -0800
-X-CSE-ConnectionGUID: jasbcX8aT52Rzex+I+0oIg==
-X-CSE-MsgGUID: X3yUOlNfSG+8qKEaHou0EA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
-   d="scan'208";a="210665756"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Jan 2026 00:34:19 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vhkiG-00000000NbZ-2plC;
-	Mon, 19 Jan 2026 08:34:16 +0000
-Date: Mon, 19 Jan 2026 16:34:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Zhiguo Zhou <zhiguo.zhou@intel.com>, linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, willy@infradead.org,
-	akpm@linux-foundation.org, david@kernel.org,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@suse.cz,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
-	muchun.song@linux.dev, osalvador@suse.de,
-	linux-kernel@vger.kernel.org, tianyou.li@intel.com,
-	tim.c.chen@linux.intel.com, gang.deng@intel.com,
-	Zhiguo Zhou <zhiguo.zhou@intel.com>
-Subject: Re: [PATCH 1/2] mm/filemap: refactor __filemap_add_folio to separate
- critical section
-Message-ID: <202601191644.IqmJBjDM-lkp@intel.com>
-References: <20260119065027.918085-2-zhiguo.zhou@intel.com>
+	s=arc-20240116; t=1768811905; c=relaxed/simple;
+	bh=dqOb3KSis4pJyMXenpRR8LQonoOtkTxc6dp3suiPhmg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s6sRopiWo7saNMxLZ8H6GHc9dPGwL5+t3e/C5nrWCMvTJldo9b1ctK6AqcckkIRU1EX7Diw5Ok1N3nUoPBRf3vn6qAdspDqAA6Sh+/4popWIt+xFQjctQZvgI70mAD6kytI9rWpkbjBH7fNWA8gbyHPFbYrXvDbhl2F2oMeh8D8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bosc.ac.cn; spf=pass smtp.mailfrom=bosc.ac.cn; arc=none smtp.client-ip=47.90.198.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bosc.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bosc.ac.cn
+Received: from 172.38.31.119(mailfrom:guoyaxing@bosc.ac.cn fp:SMTPD_---.gA69hzT_1768811881 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Mon, 19 Jan 2026 16:38:02 +0800
+Message-ID: <7f8ddc11-0de7-401e-9a05-4d05579f8787@bosc.ac.cn>
+Date: Mon, 19 Jan 2026 16:38:01 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260119065027.918085-2-zhiguo.zhou@intel.com>
-
-Hi Zhiguo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhiguo-Zhou/mm-filemap-refactor-__filemap_add_folio-to-separate-critical-section/20260119-143737
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260119065027.918085-2-zhiguo.zhou%40intel.com
-patch subject: [PATCH 1/2] mm/filemap: refactor __filemap_add_folio to separate critical section
-config: i386-randconfig-002-20260119 (https://download.01.org/0day-ci/archive/20260119/202601191644.IqmJBjDM-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601191644.IqmJBjDM-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601191644.IqmJBjDM-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/include/asm/bug.h:193,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/asm-generic/bitops/generic-non-atomic.h:7,
-                    from include/linux/bitops.h:28,
-                    from include/linux/log2.h:12,
-                    from arch/x86/include/asm/div64.h:8,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/fs_dirent.h:5,
-                    from include/linux/fs/super_types.h:5,
-                    from include/linux/fs/super.h:5,
-                    from include/linux/fs.h:5,
-                    from include/linux/dax.h:5,
-                    from mm/filemap.c:15:
-   mm/filemap.c: In function '__filemap_add_folio_xa_locked':
->> include/linux/lockdep.h:252:61: error: invalid type argument of '->' (have 'spinlock_t' {aka 'struct spinlock'})
-     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
-         |                                                             ^~
-   include/asm-generic/bug.h:110:32: note: in definition of macro 'WARN_ON'
-     110 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/lockdep.h:285:9: note: in expansion of macro 'lockdep_assert'
-     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-         |         ^~~~~~~~~~~~~~
-   include/linux/lockdep.h:285:24: note: in expansion of macro 'lockdep_is_held'
-     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-         |                        ^~~~~~~~~~~~~~~
-   mm/filemap.c:861:9: note: in expansion of macro 'lockdep_assert_held'
-     861 |         lockdep_assert_held(xas->xa->xa_lock);
-         |         ^~~~~~~~~~~~~~~~~~~
-   mm/filemap.c: In function '__filemap_add_folio':
->> include/linux/lockdep.h:252:61: error: invalid type argument of '->' (have 'spinlock_t' {aka 'struct spinlock'})
-     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
-         |                                                             ^~
-   include/asm-generic/bug.h:110:32: note: in definition of macro 'WARN_ON'
-     110 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/lockdep.h:285:9: note: in expansion of macro 'lockdep_assert'
-     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-         |         ^~~~~~~~~~~~~~
-   include/linux/lockdep.h:285:24: note: in expansion of macro 'lockdep_is_held'
-     285 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_NOT_HELD)
-         |                        ^~~~~~~~~~~~~~~
-   mm/filemap.c:941:17: note: in expansion of macro 'lockdep_assert_held'
-     941 |                 lockdep_assert_held(xas->xa->xa_lock);
-         |                 ^~~~~~~~~~~~~~~~~~~
->> include/linux/lockdep.h:252:61: error: invalid type argument of '->' (have 'spinlock_t' {aka 'struct spinlock'})
-     252 | #define lockdep_is_held(lock)           lock_is_held(&(lock)->dep_map)
-         |                                                             ^~
-   include/asm-generic/bug.h:110:32: note: in definition of macro 'WARN_ON'
-     110 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/lockdep.h:288:9: note: in expansion of macro 'lockdep_assert'
-     288 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_HELD)
-         |         ^~~~~~~~~~~~~~
-   include/linux/lockdep.h:288:24: note: in expansion of macro 'lockdep_is_held'
-     288 |         lockdep_assert(lockdep_is_held(l) != LOCK_STATE_HELD)
-         |                        ^~~~~~~~~~~~~~~
-   mm/filemap.c:944:17: note: in expansion of macro 'lockdep_assert_not_held'
-     944 |                 lockdep_assert_not_held(xas->xa->xa_lock);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] uio: Add SVA support for PCI devices via
+ uio_pci_generic_sva.c
+To: Haiyue Wang <haiyuewa@163.com>, Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Greg KH <gregkh@linuxfoundation.org>, oe-kbuild@lists.linux.dev,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <20251223045409.15700-1-guoyaxing@bosc.ac.cn>
+ <2026011643-coastline-playtime-0ac5@gregkh>
+ <2026011603-dorsal-unblessed-cdb2@gregkh>
+ <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
+ <aW3Znz51bTVj3oxJ@stanley.mountain>
+ <7b7b6ae1-be56-45a0-b43c-8a66f054584d@bosc.ac.cn>
+ <b0a45763-1cd2-4638-80a9-bd88fee9d729@163.com>
+From: yaxing guo <guoyaxing@bosc.ac.cn>
+In-Reply-To: <b0a45763-1cd2-4638-80a9-bd88fee9d729@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-vim +252 include/linux/lockdep.h
 
-f607c668577481 Peter Zijlstra 2009-07-20  251  
-f8319483f57f1c Peter Zijlstra 2016-11-30 @252  #define lockdep_is_held(lock)		lock_is_held(&(lock)->dep_map)
-f8319483f57f1c Peter Zijlstra 2016-11-30  253  #define lockdep_is_held_type(lock, r)	lock_is_held_type(&(lock)->dep_map, (r))
-f607c668577481 Peter Zijlstra 2009-07-20  254  
+在 2026/1/19 16:23, Haiyue Wang 写道:
+> 
+> 
+> On 1/19/2026 4:00 PM, yaxing guo wrote:
+>>
+>>
+>> 在 2026/1/19 15:13, Dan Carpenter 写道:
+>>> On Mon, Jan 19, 2026 at 02:16:21PM +0800, yaxing guo wrote:
+>>>>
+>>>>
+>>>> 在 2026/1/16 23:16, Greg KH 写道:
+>>>>>
+>>>>> Wait, I already took this a while ago, why was this resent?
+>>>>>
+>>>> After the v3 patch submission, I received error reports from Dan 
+>>>> Carpenter
+>>>> dan.carpenter@linaro.org and the kernel test robot lkp@intel.com (see:
+>>>> https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/).
+>>>> In response, I’ve submitted a new version (v4) of the same patch, which
+>>>> primarily addresses the issues highlighted in that report (as 
+>>>> described in
+>>>> the "changes in v4" section of the cover letter).
+>>>> If there’s anything improper in this process—such as resubmitting 
+>>>> instead of
+>>>> replying with fixes or other procedural concerns—please let me know, 
+>>>> and
+>>>> I’ll be happy to correct it accordingly.
+>>>
+>>> Since it's already merged then you will need to send the fixes as a 
+>>> separate
+>>> patch based on Greg's latest devel tree.  Send two patches, one that 
+>>> fixes
+>>> that && vs || bugs and one that fixes the devm_ double free.  Add 
+>>> Reported-by
+>>> tags and the Fixes tags.
+>>>
+>>> regards,
+>>> dan carpenter
+>>
+>> Hi Dan,
+>> I noticed that on January 10, 2026, Haiyue submitted a fix for the 
+>> issue that && vs || bugs:
+>>   https://lore.kernel.org/all/20260109175448.34309-1-haiyuewa@163.com/
+>> Please go ahead and use his patch, and then I will fixed the devm_ 
+>> double free.
+>>
+>> Hi Haiyue,
+>> I actually fixed this same issue in v4 of my patch series (dated 
+>> December 23, 2025)(https://lore.kernel.org/all/ 
+>> aW3Znz51bTVj3oxJ@stanley.mountain/), which addressed the bug reported by 
+> 
+> I just checked the linux-next, found no fix about '&&', without 
+> searching deeply. :)
+Yes, what I meant is that I was about to submit a separate patch to fix 
+the && vs || bug, but I happened to notice your commit from January 
+10th. Therefore, I decided not to send a duplicate patch and will defer 
+to yours instead.
+However, would it be possible to add the following Reported-by tags to 
+your patch?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Reported-by: kernel test robot <lkp@intel.com>
+
+> 
+>> Dan Carpenter(dan.carpenter@linaro.org) and the kernel test robot 
+>> (lkp@intel.com). However, since the original series had already been 
+>> merged by then, a separate fix is needed.
+>> I saw your patch—thanks for picking this up! Could you please add the 
+>> following Reported-by tags to your commit?
+> 
+> I saw the patch was merged: https://git.kernel.org/pub/scm/linux/kernel/ 
+> git/gregkh/char-misc.git/commit/?h=char-misc- 
+> linus&id=054e1c0e6114aaf08672c5ad25d796362bc7e76b
+> 
+>>
+>> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> Reported-by: kernel test robot <lkp@intel.com>
+
