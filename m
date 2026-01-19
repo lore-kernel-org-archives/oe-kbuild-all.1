@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9DA311979
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 17:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B9E28151C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 17:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768844767; cv=none; b=qvGAdvbM04Bm87nPxPRY6nKKvZa1MjFPNOK6hfuvR+o6PQUIFW7FIjhzyAXwB01lDyXNR8PXwTx97y7TZdTPQv/8c+6Z5eEefTavbTOaYaKtTvWzKppE/cRM2+hW1A1+WSsb4mN0imasJr+CBhXS1ClbrveoHXln6IdKv75J/C8=
+	t=1768845425; cv=none; b=WHVuJ0Xv9URKvhQEXm/f+gqXqbOitOex0X0GwE53QiKaemI2dFfYi9Rm8ON7WZKhwUfqANH5BwMHvSth2+AdGA0SbdDLr7QKUqxEDcOpupSAPXufDGU3EWcfwfKNBXupEi/BbBsUO2YVP3dSd9HDe+bUjE5zIheYAMKfgvvJXKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768844767; c=relaxed/simple;
-	bh=9sDmkmjeomltyc1bDC+6FXN0P9iRUp3uBxe+sJcQuAU=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=mQiRgfL+g1j/bE+DatY9U9x8tNJfcveNtz+TXyH70dYzbFS52QP4tp4yvtjxiyLn4ClODaw/hC2O7HAYLib/BkgdOMiiyxuuLOhCp28OFxFFz+RaHSkzzlrVxVN98s5LqWf1xvqES7RJQgbtx79HHajEcgcpwSSX2S3kpVYJbpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XGTasr58; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1768845425; c=relaxed/simple;
+	bh=hCrqs1pY3U0IdYsTdm5o1T4YdrGbfH56/1QPzUqgwk8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YCG2mjGv8Pp2YAOhiNPYuD04B1cSugjz+tAt5RdB0siuqusZtrPRfL+ZFOvNSpGf1vbEpvusjAWOn640S7cxQOS/TtGTpzp4AMfLPLRIGow2LjSzQ5QmnY8mjSkf8Uo/2VmEQ0MktIsEgC0iajzAYBiisMvmXHMU5BvniwYLX5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jR1iFfT8; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XGTasr58"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jR1iFfT8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768844765; x=1800380765;
+  t=1768845424; x=1800381424;
   h=date:from:to:cc:subject:message-id;
-  bh=9sDmkmjeomltyc1bDC+6FXN0P9iRUp3uBxe+sJcQuAU=;
-  b=XGTasr58+Iqf8ySQ3HKbpjHGC1dBgs9p5cAXwEx3zMYpMXCQgzZqZvMv
-   Tx1farWhGkLef9xe7J7eVa5lhGMGoKB4h3dTJSU3t84dOfFrzSuIgeT+9
-   vnzkAkDTfw5DMJ97iavBv47ptFIZ5iqAnXW9xvhYYkduBWTA28ZWm8uIO
-   +vRG1YIv5+n6ut5MA9S15I+pnVcRZT9KUrbU7aB5pSjDV5Em5dv4bccT1
-   xpHc5NH4uUa/0c2FoPsPE5oc+O5aNGX1cWZSrIRqOBxNSEDblsgGviGHT
-   6jezpHA/eU0FPYgwi3Hacng7ksIt5wsQzuyaLp0CQpDrM7cz/CK+ZZ6mj
+  bh=hCrqs1pY3U0IdYsTdm5o1T4YdrGbfH56/1QPzUqgwk8=;
+  b=jR1iFfT8DuddTxjcG56O9OkKUEAiohckRlxFQKBSeXn4ScOngpqRFrez
+   GQfnvRv1gYnanOPkujQQ0mI5G07oSvPDP2lDvEt1ZZnpFy7W0/d6gSuiL
+   Mxm5cZQ9vB7qPfqr1ys5dXMw7L74PiNIrnOggv0o5kimzEznBGzYl5gNX
+   3tbB+4WKCTapQLaHyUQueLCv1kwWahNORMZ1+QWErZ63jeGeHkvMl6goo
+   wL+lm1qlraZFP6sThKx85Sk64qRDZXQyVGVujZvVoIf3grUrOwLp2Z6Ue
+   oHx1o+v/kp1RN3B9VjAJxw2FmCT0yBqvx6k5bR4hBjSA9mHxNWrCMUqDI
    g==;
-X-CSE-ConnectionGUID: jUesMdYPSEeLw58wYKVSyw==
-X-CSE-MsgGUID: b9AO6bHZSRCWVcx+8WeXGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="72646434"
+X-CSE-ConnectionGUID: gB4Ox5VcTLONfeMIecPEoA==
+X-CSE-MsgGUID: f2zgMQryTvCYPh9uI4MlUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="69962234"
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="72646434"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 09:46:04 -0800
-X-CSE-ConnectionGUID: rIJ8KIUNQgim5TzyCAVdJg==
-X-CSE-MsgGUID: q/nkjw0ZT1WcKjDYwFzb7w==
+   d="scan'208";a="69962234"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 09:57:03 -0800
+X-CSE-ConnectionGUID: VujGPM7YTiK72ijdtQ537g==
+X-CSE-MsgGUID: nFuRYAlZRSmZhA/KPlwyeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="210051845"
+   d="scan'208";a="237188575"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 19 Jan 2026 09:46:02 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 19 Jan 2026 09:57:02 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhtKB-00000000O85-2HiX;
-	Mon, 19 Jan 2026 17:45:59 +0000
-Date: Tue, 20 Jan 2026 01:45:34 +0800
+	id 1vhtUq-00000000O8d-00Fz;
+	Mon, 19 Jan 2026 17:57:00 +0000
+Date: Tue, 20 Jan 2026 01:56:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, CK Hu <ck.hu@mediatek.com>,
- "Louis-Alexis Eyraud" <louisalexis.eyraud@collabora.com>
-Subject: drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:749:2-3: Unneeded
- semicolon
-Message-ID: <202601200114.YImDis3Z-lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 109/113]
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:541:14: warning: variable
+ 'first' set but not used
+Message-ID: <202601200156.XCbBK9ms-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -61,97 +60,102 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-commit: 8d0f798862731c62b09e7138a9032964d70566c2 drm/mediatek: Introduce HDMI/DDC v2 for MT8195/MT8188
-date:   9 weeks ago
-config: arm64-randconfig-r052-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200114.YImDis3Z-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   55ba38aaeb6e07cbbbe550578fa4737b05de1d00
+commit: 45316ce8af169db8834efe3f2bd997e28772c2df [109/113] media: ipu6: Bridge the gap between streams in V4L2 and IPU6 firmware
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260120/202601200156.XCbBK9ms-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200156.XCbBK9ms-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601200114.YImDis3Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601200156.XCbBK9ms-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:749:2-3: Unneeded semicolon
-   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:1160:2-3: Unneeded semicolon
-   drivers/gpu/drm/mediatek/mtk_hdmi_v2.c:1188:2-3: Unneeded semicolon
+All warnings (new ones prefixed by >>):
 
-vim +749 drivers/gpu/drm/mediatek/mtk_hdmi_v2.c
+   drivers/media/pci/intel/ipu6/ipu6-isys-queue.c: In function 'start_streaming':
+>> drivers/media/pci/intel/ipu6/ipu6-isys-queue.c:541:14: warning: variable 'first' set but not used [-Wunused-but-set-variable]
+     541 |         bool first;
+         |              ^~~~~
 
-   680	
-   681	static void mtk_hdmi_v2_change_video_resolution(struct mtk_hdmi *hdmi,
-   682							struct drm_connector_state *conn_state)
-   683	{
-   684		mtk_hdmi_v2_hw_reset(hdmi);
-   685		mtk_hdmi_v2_set_sw_hpd(hdmi, true);
-   686		udelay(2);
-   687	
-   688		regmap_write(hdmi->regs, HDCP_TOP_CTRL, 0);
-   689	
-   690		/*
-   691		 * Enable HDCP reauthentication interrupt: the HW uses this internally
-   692		 * for the HPD state machine even if HDCP encryption is not enabled.
-   693		 */
-   694		regmap_set_bits(hdmi->regs, TOP_INT_ENABLE00, HDCP2X_RX_REAUTH_REQ_DDCM_INT);
-   695	
-   696		/* Enable hotplug and pord interrupts */
-   697		mtk_hdmi_v2_enable_hpd_pord_irq(hdmi, true);
-   698	
-   699		/* Force enabling HDCP HPD */
-   700		regmap_set_bits(hdmi->regs, HDCP2X_CTRL_0, HDCP2X_HPD_OVR);
-   701		regmap_set_bits(hdmi->regs, HDCP2X_CTRL_0, HDCP2X_HPD_SW);
-   702	
-   703		/* Set 8 bits per pixel */
-   704		regmap_update_bits(hdmi->regs, TOP_CFG00, TMDS_PACK_MODE,
-   705				   FIELD_PREP(TMDS_PACK_MODE, TMDS_PACK_MODE_8BPP));
-   706		/* Disable generating deepcolor packets */
-   707		regmap_clear_bits(hdmi->regs, TOP_CFG00, DEEPCOLOR_PKT_EN);
-   708		/* Disable adding deepcolor information to the general packet */
-   709		regmap_clear_bits(hdmi->regs, TOP_MISC_CTLR, DEEP_COLOR_ADD);
-   710	
-   711		if (hdmi->curr_conn->display_info.is_hdmi)
-   712			regmap_set_bits(hdmi->regs, TOP_CFG00, HDMI_MODE_HDMI);
-   713		else
-   714			regmap_clear_bits(hdmi->regs, TOP_CFG00, HDMI_MODE_HDMI);
-   715	
-   716		udelay(5);
-   717		mtk_hdmi_v2_hw_vid_mute(hdmi, true);
-   718		mtk_hdmi_v2_hw_aud_mute(hdmi, true);
-   719		mtk_hdmi_v2_hw_gcp_avmute(hdmi, false);
-   720	
-   721		regmap_update_bits(hdmi->regs, TOP_CFG01,
-   722				   NULL_PKT_VSYNC_HIGH_EN | NULL_PKT_EN, NULL_PKT_VSYNC_HIGH_EN);
-   723		usleep_range(100, 150);
-   724	
-   725		/* Enable scrambling if tmds clock is 340MHz or more */
-   726		mtk_hdmi_v2_enable_scrambling(hdmi, hdmi->mode.clock >= 340 * KILO);
-   727	
-   728		switch (conn_state->hdmi.output_format) {
-   729		default:
-   730		case HDMI_COLORSPACE_RGB:
-   731		case HDMI_COLORSPACE_YUV444:
-   732			/* Disable YUV420 downsampling for RGB and YUV444 */
-   733			mtk_hdmi_yuv420_downsampling(hdmi, false);
-   734			break;
-   735		case HDMI_COLORSPACE_YUV422:
-   736			/*
-   737			 * YUV420 downsampling is special and needs a bit of setup
-   738			 * so we disable everything there before doing anything else.
-   739			 *
-   740			 * YUV422 downsampling instead just needs one bit to be set.
-   741			 */
-   742			mtk_hdmi_yuv420_downsampling(hdmi, false);
-   743			regmap_set_bits(hdmi->regs, VID_DOWNSAMPLE_CONFIG,
-   744					C444_C422_CONFIG_ENABLE);
-   745			break;
-   746		case HDMI_COLORSPACE_YUV420:
-   747			mtk_hdmi_yuv420_downsampling(hdmi, true);
-   748			break;
- > 749		};
-   750	}
-   751	
+
+vim +/first +541 drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  532  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  533  static int start_streaming(struct vb2_queue *q, unsigned int count)
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  534  {
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  535  	struct ipu6_isys_queue *aq = vb2_queue_to_isys_queue(q);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  536  	struct ipu6_isys_video *av = ipu6_isys_queue_to_video(aq);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  537  	struct device *dev = &av->isys->adev->auxdev.dev;
+d3bd039cd2a009 Bingbu Cao   2024-01-31  538  	const struct ipu6_isys_pixelformat *pfmt =
+d3bd039cd2a009 Bingbu Cao   2024-01-31  539  		ipu6_isys_get_isys_format(ipu6_isys_get_format(av), 0);
+e660207a1d080c Sakari Ailus 2025-11-07  540  	struct media_pad *source_pad, *remote_pad;
+7ff82d1f5490c1 Sakari Ailus 2025-12-11 @541  	bool first;
+7ff82d1f5490c1 Sakari Ailus 2025-12-11  542  	int ret;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  543  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  544  	dev_dbg(dev, "stream: %s: width %u, height %u, css pixelformat %u\n",
+d3bd039cd2a009 Bingbu Cao   2024-01-31  545  		av->vdev.name, ipu6_isys_get_frame_width(av),
+d3bd039cd2a009 Bingbu Cao   2024-01-31  546  		ipu6_isys_get_frame_height(av), pfmt->css_pixelformat);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  547  
+e660207a1d080c Sakari Ailus 2025-11-07  548  	remote_pad = media_pad_remote_pad_unique(&av->pad);
+e660207a1d080c Sakari Ailus 2025-11-07  549  	if (IS_ERR(remote_pad)) {
+e660207a1d080c Sakari Ailus 2025-11-07  550  		dev_dbg(dev, "failed to get remote pad\n");
+e660207a1d080c Sakari Ailus 2025-11-07  551  		ret = PTR_ERR(remote_pad);
+e660207a1d080c Sakari Ailus 2025-11-07  552  		goto out_return_buffers;
+e660207a1d080c Sakari Ailus 2025-11-07  553  	}
+e660207a1d080c Sakari Ailus 2025-11-07  554  
+e660207a1d080c Sakari Ailus 2025-11-07  555  	source_pad = media_pad_remote_pad_unique(&remote_pad->entity->pads[0]);
+e660207a1d080c Sakari Ailus 2025-11-07  556  	if (IS_ERR(source_pad)) {
+e660207a1d080c Sakari Ailus 2025-11-07  557  		dev_dbg(dev, "No external source entity\n");
+e660207a1d080c Sakari Ailus 2025-11-07  558  		ret = PTR_ERR(source_pad);
+e660207a1d080c Sakari Ailus 2025-11-07  559  		goto out_return_buffers;
+e660207a1d080c Sakari Ailus 2025-11-07  560  	}
+e660207a1d080c Sakari Ailus 2025-11-07  561  
+45316ce8af169d Sakari Ailus 2025-12-01  562  	bool has_pipeline = (bool)video_device_pipeline(&av->vdev);
+45316ce8af169d Sakari Ailus 2025-12-01  563  
+45316ce8af169d Sakari Ailus 2025-12-01  564  	ret = video_device_pipeline_alloc_start(&av->vdev);
+45316ce8af169d Sakari Ailus 2025-12-01  565  	if (ret < 0)
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  566  		goto out_return_buffers;
+45316ce8af169d Sakari Ailus 2025-12-01  567  
+45316ce8af169d Sakari Ailus 2025-12-01  568  	first = !has_pipeline;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  569  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  570  	ret = ipu6_isys_link_fmt_validate(aq);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  571  	if (ret) {
+4ff61c4ce93677 Sakari Ailus 2024-05-02  572  		dev_dbg(dev,
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  573  			"%s: link format validation failed (%d)\n",
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  574  			av->vdev.name, ret);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  575  		goto out_pipeline_stop;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  576  	}
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  577  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  578  	ret = ipu6_isys_fw_open(av->isys);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  579  	if (ret)
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  580  		goto out_pipeline_stop;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  581  
+2085a6131710b0 Sakari Ailus 2025-11-10  582  	ret = ipu6_isys_stream_start(av);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  583  	if (ret)
+45316ce8af169d Sakari Ailus 2025-12-01  584  		goto out_fw_close;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  585  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  586  	return 0;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  587  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  588  out_fw_close:
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  589  	ipu6_isys_fw_close(av->isys);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  590  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  591  out_pipeline_stop:
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  592  	ipu6_isys_stream_cleanup(av);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  593  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  594  out_return_buffers:
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  595  	return_buffers(aq, VB2_BUF_STATE_QUEUED);
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  596  
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  597  	return ret;
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  598  }
+3c1dfb5a69cf83 Bingbu Cao   2024-01-31  599  
+
+:::::: The code at line 541 was first introduced by commit
+:::::: 7ff82d1f5490c155b938c69a670296b08334bd49 media: ipu6: Remove nr_queues and nr_streaming fields in ipu6_isys_stream
+
+:::::: TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
