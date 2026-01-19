@@ -1,168 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC3B27FD48
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 05:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07E5330646
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 05:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768800376; cv=none; b=OjImDMFP7NWAd5m6NEOmcmtcwB1KB6oZbZjpkC9k6yBzWSzyRpT/smBc3WEP8dlLQeCoi6yikqhBpx0qNAQbrd/ZqtMf9nf8Hq0VkOCbVYsn/xh3VhsaRGRAxYDwWj4xMVsFyIDrZZQ7kMmE/1C750xdX7nL2DlMQT8FnrieeOo=
+	t=1768800453; cv=none; b=U6wq8bYRspdk5OFNmkoAKA4VNRdfYLGYlWcG/aNE7pRxw3U1pMAjj/VAguraZSuxwGCkz1L2YdiWitqKEV+Kg8JBQJOb4OBBKE3Y/3eV+hNsbKMZsG3ubquqKZHBO45mQaDlbpsPOdgJPT4E2wr7fiwumk6N2KQn56kSDNMj+ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768800376; c=relaxed/simple;
-	bh=HuPQR37E/7Rsv13jP5BvUsF7bJF5koDQdnLY9wz95P8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=glZXyPZYzFnNRS+m8Ce9x26h3EC3DkH68WzHUm+6rKArC5HlYnN3GCARaEHpeHhJNaj+WXw08SL08VF4ANNhFfXeb3LyL3S6ipB1dae2elreX9Z6FcngCtYmmEmZ2ZhynQaDfOb3+qU7yzn42UDCadEZlkjR07+ib1VqNMvuGK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xt/gHpMf; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768800453; c=relaxed/simple;
+	bh=GQyIKVnUIV+o89ZaVPW/6Orx8v9FcnDa0Oajgp1SONE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=dVTdU6BslB6zltQ0c7qID2U/h+c40MYuBD6snXrhUx7Ax85vNYuXk05zSdhs2ein3K5noBLXxMpRFOh6mc/xPD9A0CQ/DCPO4udCqYOeBu3GL4Dh84epxUxfSmtXCMQKBhW64lv5vbJUUGgTAMPlPH9RPgMWkzczbBQB59JRE7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m5mkQX7f; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xt/gHpMf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768800374; x=1800336374;
-  h=date:from:to:cc:subject:message-id;
-  bh=HuPQR37E/7Rsv13jP5BvUsF7bJF5koDQdnLY9wz95P8=;
-  b=Xt/gHpMfcU0wFo7Iap4t1+ziUbdlPioTGTMzqq/pchke4nxi8vOZqYmW
-   ebsJMmXEg+kyynVk/AD3h05ilmjemNP7yCNFCI7doBKl9mb+XFLPE4WRH
-   TC1Bx3unuKdTBj/enFvTH/ozrRAtWKsr8lIIYXP7ZOI88UezfxAxdKC2T
-   P31bmaPLiPfqncY4PGP+9PVe1IKdE0oENzD/Nh6MyFAA0IpEstkMxDqt5
-   QFoJlbHmSe2Rlap7nS3os7wc10d3X4UEdSvVWagb4Et1WZnaV7K15qQya
-   3A/hcdboMv0bV01ZCqfgdbX1scn0DjmJALdI86SaQKa7j0nPSHJdw/xWj
-   A==;
-X-CSE-ConnectionGUID: wUOcUtTTQL6YYM3NfHDv4Q==
-X-CSE-MsgGUID: JLVDEOg0RCCCGfJ/2XD4dA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="70058266"
-X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
-   d="scan'208";a="70058266"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 21:26:11 -0800
-X-CSE-ConnectionGUID: Do0peaOeRpCMeJac/59BnQ==
-X-CSE-MsgGUID: 04l2qzQXTVKwyN165aMsaA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
-   d="scan'208";a="210258434"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 18 Jan 2026 21:26:10 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vhhmB-00000000NTx-3IE1;
-	Mon, 19 Jan 2026 05:26:07 +0000
-Date: Mon, 19 Jan 2026 13:25:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: [linux-next:master 1581/6849]
- drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse: sparse: incompatible
- types for operation (==):
-Message-ID: <202601191306.Pa4IS8Aq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m5mkQX7f"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-47d63594f7eso25791165e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jan 2026 21:27:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768800449; x=1769405249; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KcHNJUeHYBB6SOgT0QQnF8ZJgMw39mShpamAL4iiy6o=;
+        b=m5mkQX7fNkb4g1mLqn8qcH4P18IDLgVmZ9pCQXuu1u2NUkCG/tOLtKZNxo7uhcoEzy
+         0nf1u7ZEujz8v7l1JPESxpRyCWWR5eV1cY1FWBG9yHjV6xcmU5TpOc0Xeqv7hAsov+pU
+         kYFZKqNDD2U24u57W8gqDBItOYyG4jXE1pcbCg5dz0kPZuleIlzrguHgHvjxkK3GMydu
+         YO62ZZR4ZTBZqKrnPCfikkTAbNNbOVdHzxs1X6nWkjER4eM2s+NmVtpBg5quOklwRvNl
+         Kcaotsmi5jqWsUFjQdLgfynq6o/BM5eJDSp2YuG3AkxgTVkrNT9gICF74iNul6QycBYq
+         OC/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768800449; x=1769405249;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KcHNJUeHYBB6SOgT0QQnF8ZJgMw39mShpamAL4iiy6o=;
+        b=RBHjPzHNJXusp9ze9jGYnWqeX3wtJXMkr5vJEtSxTqNzMQtV6e8iFbUfvWLkzeRn/M
+         +dyPAurcvP7r9JRCNZvkGyfaCnym0rudG2FFQqoetLW8XZtfykGpPDiukq0+ROkwdy9V
+         FR0ZtjJAV2MDTOtIqfQA/F2TVeGkdv/YVm3md3ebRpX8jQyb2H8gsK//hlr2I2ZPN2qR
+         LYvhDyOh6ytcA8npPduXMbPY5LU8HdHLG/SA8j4nUDOvkKc/WtXLUXY9FpfG7S6xrHM3
+         mPrKtZO5fnOvw7xNynkvyRrEI5oa0n1EpNdJtkURT06XpwG7Bon37O7FFtaqSD8zouPb
+         7FqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWXsNFvusHSIFIxiMwdYUI9aUI4WUg8/L/A/KPm8DUTxTiGRygdXQYkx5j7AmVjwL4PUinT3a7Y8CNV79Z+@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjJMW/tfJHQkTUo7qdab1tclsj/VZfhJXjNKz9xA1NjYpjPaiO
+	mL3rY4jwFLsL51CRFqzFxNahFkESnMZELECCh8lAi5RbG9rVBM+pCK1/W4ByLoS0VZI=
+X-Gm-Gg: AY/fxX4+WfSCzqPqC2fRA1UEzl12Nv3L9zAOZYSAR9GvgPnMUIeN5fhTLrYEr5o8Iug
+	aRSkXHRC69MyaN4ZgDxaMJQ5wCpo3kjxClxjBAkk85Ca/tkc1Ybm5r3nqBqxZqNEmbj5GJnGov7
+	9fSiBisO8IEIrjgbIoLBBjeljDu4X0yuTIOf2aL2zkVqaC+4ieNIb5aY6HosNmFtGLeFf0x4DPo
+	H9uLFwMWgG8XveJNpDcshOW8fG+CJeWR5WWD9QEXhwGyDNmdLO+3Qq7uPQjglhBJqAuB56EjsJC
+	1knwh6MO933bF/y6FCCxEsQ1EOMWDAwDSENuo0a/84gxyYDMGJgT7K2ctcRsEMzIWGjEg1pkCup
+	JfxQx4mQEMSiiweFhRDvrU65k8cQ6l3AUpN5dTItkLxQMLwqlo02zz7chAmxI0X9JlHLkYBISau
+	8v9R7xVr+/s1xGQFTF
+X-Received: by 2002:a05:600c:4f8a:b0:477:7b16:5f88 with SMTP id 5b1f17b1804b1-4801e2f90camr128220315e9.6.1768800449052;
+        Sun, 18 Jan 2026 21:27:29 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435699980e5sm20818492f8f.41.2026.01.18.21.27.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Jan 2026 21:27:28 -0800 (PST)
+Date: Mon, 19 Jan 2026 08:27:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Antony Antony <antony.antony@secunet.com>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>, netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Chiachang Wang <chiachangwang@google.com>,
+	Yan Yan <evitayan@google.com>, devel@linux-ipsec.org,
+	Simon Horman <horms@kernel.org>, Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>, linux-kernel@vger.kernel.org,
+	selinux@vger.kernel.org
+Subject: Re: [PATCH ipsec-next v2 4/4] xfrm: add XFRM_MSG_MIGRATE_STATE for
+ single SA migration
+Message-ID: <202601190605.ZVkgcUYl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <951cb30ac3866c6075bc7359d0997dbffc3ce6da.1768679141.git.antony.antony@secunet.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
-commit: ce5971773651ad5c7e26aea29d72ea8887428774 [1581/6849] drm/xe: Introduce IF_ARGS macro utility
-config: i386-randconfig-063-20260119 (https://download.01.org/0day-ci/archive/20260119/202601191306.Pa4IS8Aq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601191306.Pa4IS8Aq-lkp@intel.com/reproduce)
+Hi Antony,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Antony-Antony/xfrm-remove-redundant-assignments/20260118-041031
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/klassert/ipsec-next.git master
+patch link:    https://lore.kernel.org/r/951cb30ac3866c6075bc7359d0997dbffc3ce6da.1768679141.git.antony.antony%40secunet.com
+patch subject: [PATCH ipsec-next v2 4/4] xfrm: add XFRM_MSG_MIGRATE_STATE for single SA migration
+config: hexagon-randconfig-r072-20260118 (https://download.01.org/0day-ci/archive/20260119/202601190605.ZVkgcUYl-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+smatch version: v0.5.0-8985-g2614ff1a
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601191306.Pa4IS8Aq-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202601190605.ZVkgcUYl-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/xe/tests/xe_args_test.c:89:9: sparse: sparse: Expected ) after typeof
-   drivers/gpu/drm/xe/tests/xe_args_test.c:89:9: sparse: sparse: got Q
-   drivers/gpu/drm/xe/tests/xe_args_test.c:90:9: sparse: sparse: Expected ) after typeof
-   drivers/gpu/drm/xe/tests/xe_args_test.c:90:9: sparse: sparse: got Q
-   drivers/gpu/drm/xe/tests/xe_args_test.c:225:9: sparse: sparse: Expected ) in expression
-   drivers/gpu/drm/xe/tests/xe_args_test.c:225:9: sparse: sparse: got false
-   drivers/gpu/drm/xe/tests/xe_args_test.c:226:9: sparse: sparse: Expected ) in expression
-   drivers/gpu/drm/xe/tests/xe_args_test.c:226:9: sparse: sparse: got false
-   drivers/gpu/drm/xe/tests/xe_args_test.c:228:9: sparse: sparse: Expected ) in expression
-   drivers/gpu/drm/xe/tests/xe_args_test.c:228:9: sparse: sparse: got no_args
-   drivers/gpu/drm/xe/tests/xe_args_test.c:229:9: sparse: sparse: Expected ) in expression
-   drivers/gpu/drm/xe/tests/xe_args_test.c:229:9: sparse: sparse: got no_args
-   drivers/gpu/drm/xe/tests/xe_args_test.c:89:9: sparse: sparse: undefined identifier '__left'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:89:9: sparse: sparse: undefined identifier '__left'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:90:9: sparse: sparse: undefined identifier '__left'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:90:9: sparse: sparse: undefined identifier '__left'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:225:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:226:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:228:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:229:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse: sparse: undefined identifier '__VA_OPT__'
->> drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse: sparse: incompatible types for operation (==):
-   drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse:    bad type const __left
-   drivers/gpu/drm/xe/tests/xe_args_test.c:234:9: sparse:    int const __right
-   drivers/gpu/drm/xe/tests/xe_args_test.c:235:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:235:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:235:9: sparse: sparse: incompatible types for operation (==):
-   drivers/gpu/drm/xe/tests/xe_args_test.c:235:9: sparse:    bad type const __left
-   drivers/gpu/drm/xe/tests/xe_args_test.c:235:9: sparse:    int const __right
-   drivers/gpu/drm/xe/tests/xe_args_test.c:236:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:236:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:236:9: sparse: sparse: incompatible types for operation (==):
-   drivers/gpu/drm/xe/tests/xe_args_test.c:236:9: sparse:    bad type const __left
-   drivers/gpu/drm/xe/tests/xe_args_test.c:236:9: sparse:    int const __right
-   drivers/gpu/drm/xe/tests/xe_args_test.c:237:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:237:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:237:9: sparse: sparse: incompatible types for operation (==):
-   drivers/gpu/drm/xe/tests/xe_args_test.c:237:9: sparse:    bad type const __left
-   drivers/gpu/drm/xe/tests/xe_args_test.c:237:9: sparse:    int const __right
-   drivers/gpu/drm/xe/tests/xe_args_test.c:239:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:239:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:239:9: sparse: sparse: incompatible types for operation (==):
-   drivers/gpu/drm/xe/tests/xe_args_test.c:239:9: sparse:    bad type const __left
-   drivers/gpu/drm/xe/tests/xe_args_test.c:239:9: sparse:    int const __right
-   drivers/gpu/drm/xe/tests/xe_args_test.c:242:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:242:9: sparse: sparse: undefined identifier '__VA_OPT__'
-   drivers/gpu/drm/xe/tests/xe_args_test.c:242:9: sparse: sparse: incompatible types for operation (==):
-   drivers/gpu/drm/xe/tests/xe_args_test.c:242:9: sparse:    bad type const __left
-   drivers/gpu/drm/xe/tests/xe_args_test.c:242:9: sparse:    int const __right
+New smatch warnings:
+net/xfrm/xfrm_user.c:3299 xfrm_do_migrate_state() warn: missing error code? 'err'
 
-vim +234 drivers/gpu/drm/xe/tests/xe_args_test.c
+Old smatch warnings:
+net/xfrm/xfrm_user.c:1024 xfrm_add_sa() warn: missing error code? 'err'
+net/xfrm/xfrm_user.c:2248 xfrm_add_policy() warn: missing error code? 'err'
+net/xfrm/xfrm_user.c:3018 xfrm_add_acquire() warn: missing error code 'err'
 
-   218	
-   219	static void if_args_test(struct kunit *test)
-   220	{
-   221		bool with_args = true;
-   222		bool no_args = false;
-   223		enum { X = 100 };
-   224	
-   225		KUNIT_EXPECT_TRUE(test, IF_ARGS(true, false, FOO_ARGS));
-   226		KUNIT_EXPECT_FALSE(test, IF_ARGS(true, false, NO_ARGS));
-   227	
-   228		KUNIT_EXPECT_TRUE(test, CONCATENATE(IF_ARGS(with, no, FOO_ARGS), _args));
-   229		KUNIT_EXPECT_FALSE(test, CONCATENATE(IF_ARGS(with, no, NO_ARGS), _args));
-   230	
-   231		KUNIT_EXPECT_STREQ(test, __stringify(IF_ARGS(yes, no, FOO_ARGS)), "yes");
-   232		KUNIT_EXPECT_STREQ(test, __stringify(IF_ARGS(yes, no, NO_ARGS)), "no");
-   233	
- > 234		KUNIT_EXPECT_EQ(test, IF_ARGS(CALL_ARGS(COUNT_ARGS, FOO_ARGS), -1, FOO_ARGS), 4);
-   235		KUNIT_EXPECT_EQ(test, IF_ARGS(CALL_ARGS(COUNT_ARGS, FOO_ARGS), -1, NO_ARGS), -1);
-   236		KUNIT_EXPECT_EQ(test, IF_ARGS(CALL_ARGS(COUNT_ARGS, NO_ARGS), -1, FOO_ARGS), 0);
-   237		KUNIT_EXPECT_EQ(test, IF_ARGS(CALL_ARGS(COUNT_ARGS, NO_ARGS), -1, NO_ARGS), -1);
-   238	
-   239		KUNIT_EXPECT_EQ(test,
-   240				CALL_ARGS(FIRST_ARG,
-   241					  CALL_ARGS(CONCATENATE, IF_ARGS(FOO, MAX, FOO_ARGS), _ARGS)), X);
-   242		KUNIT_EXPECT_EQ(test,
-   243				CALL_ARGS(FIRST_ARG,
-   244					  CALL_ARGS(CONCATENATE, IF_ARGS(FOO, MAX, NO_ARGS), _ARGS)), -1);
-   245		KUNIT_EXPECT_EQ(test,
-   246				CALL_ARGS(COUNT_ARGS,
-   247					  CALL_ARGS(CONCATENATE, IF_ARGS(FOO, MAX, FOO_ARGS), _ARGS)), 4);
-   248		KUNIT_EXPECT_EQ(test,
-   249				CALL_ARGS(COUNT_ARGS,
-   250					  CALL_ARGS(CONCATENATE, IF_ARGS(FOO, MAX, NO_ARGS), _ARGS)), 12);
-   251	}
-   252	
+vim +/err +3299 net/xfrm/xfrm_user.c
+
+d3019c1db87425 Antony Antony 2026-01-17  3240  static int xfrm_do_migrate_state(struct sk_buff *skb, struct nlmsghdr *nlh,
+d3019c1db87425 Antony Antony 2026-01-17  3241  				 struct nlattr **attrs, struct netlink_ext_ack *extack)
+d3019c1db87425 Antony Antony 2026-01-17  3242  {
+d3019c1db87425 Antony Antony 2026-01-17  3243  	int err = -ESRCH;
+d3019c1db87425 Antony Antony 2026-01-17  3244  	struct xfrm_state *x;
+d3019c1db87425 Antony Antony 2026-01-17  3245  	struct net *net = sock_net(skb->sk);
+d3019c1db87425 Antony Antony 2026-01-17  3246  	struct xfrm_encap_tmpl *encap = NULL;
+d3019c1db87425 Antony Antony 2026-01-17  3247  	struct xfrm_user_offload *xuo = NULL;
+d3019c1db87425 Antony Antony 2026-01-17  3248  	struct xfrm_migrate m = { .old_saddr.a4 = 0,};
+d3019c1db87425 Antony Antony 2026-01-17  3249  	struct xfrm_user_migrate_state *um = nlmsg_data(nlh);
+d3019c1db87425 Antony Antony 2026-01-17  3250  
+d3019c1db87425 Antony Antony 2026-01-17  3251  	if (!um->id.spi) {
+d3019c1db87425 Antony Antony 2026-01-17  3252  		NL_SET_ERR_MSG(extack, "Invalid SPI 0x0");
+d3019c1db87425 Antony Antony 2026-01-17  3253  		return -EINVAL;
+d3019c1db87425 Antony Antony 2026-01-17  3254  	}
+d3019c1db87425 Antony Antony 2026-01-17  3255  
+d3019c1db87425 Antony Antony 2026-01-17  3256  	err = copy_from_user_migrate_state(&m, um);
+d3019c1db87425 Antony Antony 2026-01-17  3257  	if (err)
+d3019c1db87425 Antony Antony 2026-01-17  3258  		return err;
+d3019c1db87425 Antony Antony 2026-01-17  3259  
+d3019c1db87425 Antony Antony 2026-01-17  3260  	x = xfrm_user_state_lookup(net, &um->id, attrs, &err);
+d3019c1db87425 Antony Antony 2026-01-17  3261  
+d3019c1db87425 Antony Antony 2026-01-17  3262  	if (x) {
+d3019c1db87425 Antony Antony 2026-01-17  3263  		struct xfrm_state *xc;
+d3019c1db87425 Antony Antony 2026-01-17  3264  
+d3019c1db87425 Antony Antony 2026-01-17  3265  		if (!x->dir) {
+d3019c1db87425 Antony Antony 2026-01-17  3266  			NL_SET_ERR_MSG(extack, "State direction is invalid");
+d3019c1db87425 Antony Antony 2026-01-17  3267  			err = -EINVAL;
+d3019c1db87425 Antony Antony 2026-01-17  3268  			goto error;
+d3019c1db87425 Antony Antony 2026-01-17  3269  		}
+d3019c1db87425 Antony Antony 2026-01-17  3270  
+d3019c1db87425 Antony Antony 2026-01-17  3271  		if (attrs[XFRMA_ENCAP]) {
+d3019c1db87425 Antony Antony 2026-01-17  3272  			encap = kmemdup(nla_data(attrs[XFRMA_ENCAP]),
+d3019c1db87425 Antony Antony 2026-01-17  3273  					sizeof(*encap), GFP_KERNEL);
+d3019c1db87425 Antony Antony 2026-01-17  3274  			if (!encap) {
+d3019c1db87425 Antony Antony 2026-01-17  3275  				err = -ENOMEM;
+d3019c1db87425 Antony Antony 2026-01-17  3276  				goto error;
+d3019c1db87425 Antony Antony 2026-01-17  3277  			}
+d3019c1db87425 Antony Antony 2026-01-17  3278  		}
+d3019c1db87425 Antony Antony 2026-01-17  3279  		if (attrs[XFRMA_OFFLOAD_DEV]) {
+d3019c1db87425 Antony Antony 2026-01-17  3280  			xuo = kmemdup(nla_data(attrs[XFRMA_OFFLOAD_DEV]),
+d3019c1db87425 Antony Antony 2026-01-17  3281  				      sizeof(*xuo), GFP_KERNEL);
+d3019c1db87425 Antony Antony 2026-01-17  3282  			if (!xuo) {
+d3019c1db87425 Antony Antony 2026-01-17  3283  				err = -ENOMEM;
+d3019c1db87425 Antony Antony 2026-01-17  3284  				goto error;
+d3019c1db87425 Antony Antony 2026-01-17  3285  			}
+d3019c1db87425 Antony Antony 2026-01-17  3286  		}
+d3019c1db87425 Antony Antony 2026-01-17  3287  		xc = xfrm_state_migrate(x, &m, encap, net, xuo, extack);
+d3019c1db87425 Antony Antony 2026-01-17  3288  		if (xc) {
+d3019c1db87425 Antony Antony 2026-01-17  3289  			xfrm_state_delete(x);
+d3019c1db87425 Antony Antony 2026-01-17  3290  			xfrm_send_migrate_state(um, encap, xuo);
+d3019c1db87425 Antony Antony 2026-01-17  3291  			err = 0;
+d3019c1db87425 Antony Antony 2026-01-17  3292  		} else {
+d3019c1db87425 Antony Antony 2026-01-17  3293  			if (extack && !extack->_msg)
+d3019c1db87425 Antony Antony 2026-01-17  3294  				NL_SET_ERR_MSG(extack, "State migration clone failed");
+d3019c1db87425 Antony Antony 2026-01-17  3295  			err = -EINVAL;
+d3019c1db87425 Antony Antony 2026-01-17  3296  		}
+d3019c1db87425 Antony Antony 2026-01-17  3297  	} else {
+d3019c1db87425 Antony Antony 2026-01-17  3298  		NL_SET_ERR_MSG(extack, "Can not find state");
+d3019c1db87425 Antony Antony 2026-01-17 @3299  		return err;
+
+s/err/-ESRCH/.  err is zero/success here.
+
+d3019c1db87425 Antony Antony 2026-01-17  3300  	}
+d3019c1db87425 Antony Antony 2026-01-17  3301  error:
+d3019c1db87425 Antony Antony 2026-01-17  3302  	xfrm_state_put(x);
+d3019c1db87425 Antony Antony 2026-01-17  3303  	kfree(encap);
+d3019c1db87425 Antony Antony 2026-01-17  3304  	kfree(xuo);
+d3019c1db87425 Antony Antony 2026-01-17  3305  	return err;
+d3019c1db87425 Antony Antony 2026-01-17  3306  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
