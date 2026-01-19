@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331EC265CA8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043422798F8
 	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 20:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768854019; cv=none; b=s2vsxTOvoHtfApq5hHf9TNEAWGDRFrc3i1WSQP0O7oW+TK78JbzmLOBYExnLkEe9AkACVlsjpQDNcniJYhM7dTq/SPBnhsujYkE9lf2ELw0ln8Xf3OJ1HwAjoIAKzjIUV0WgeB1laY87z+M+yPE0F3i79vALE+cSnJCns9LdMCE=
+	t=1768854020; cv=none; b=MoibplVg78X71UH6/k2m9NHFskuwxyrb5IhxpSbUzB7EPDFNtYZX2kX9sRHsBljTfka3l1yWJEiFY2dGh4vwgRmWBvHg7V7H3HJgrO+n89YrvdtaANk1N6L7zYEIhWuGbyk55cF5gbV7gvNq39sTYuK7Li+VnCSo2VPlkJe9/fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768854019; c=relaxed/simple;
-	bh=1vQg/T5ZuzuhxcFSSx1m4hlg1qsZLbyt3u418N/l8YE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ha+v112LnebRLC3AdLljL7lhhYsxaESscvQlNBFqILArWh+G/LuFDMV19UA6VXWb8+fN4ENfY4YXxbVZy9/Os0aCBLf/rtwS+8UhzqTORI0Ktz7XpjB3wTBtbIPDcZ44DGVY7fmjHMeXBFFCVQwkfNniNt69Wh4k4K5SS0wXzmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=maTSCRPA; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1768854020; c=relaxed/simple;
+	bh=j8cozi7ugu3FxknRc+aY/Xu7ojwNsZdQHo/JOClE5JE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZfOywC4SzDHh4DN+T+kVeaIPsRFGfTEa/yDkA3kkeSTMzPE31TzYPte5WKmstIXhDqFttArjVaOJVTCxFvO3KuMuI5WTdeMzKqkqgDnxFu72R80rBNSmksyC66qsIlnyXMp9Pv46jZ7KYYTecXmMovPsiihiA3+heQgRt9jXYeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RM43+hsq; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="maTSCRPA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RM43+hsq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1768854017; x=1800390017;
   h=date:from:to:cc:subject:message-id;
-  bh=1vQg/T5ZuzuhxcFSSx1m4hlg1qsZLbyt3u418N/l8YE=;
-  b=maTSCRPAgBBlo4JkeEP07D/ig/hQMo8m2UwR1TfYOCXJbBaN7kCG6bvi
-   cvnEGLXs3yqgDybIaUGSbK1HCjAJmcgNhtab2jYb12uG1159q+692SvND
-   Gwihs5Xk26l3VQyCyBNsQCGagmn86v1fIi1IJd9zy78o4D2AxHZa92nNq
-   x/6HxT/Q7wUCTP4nu6ZilOIznxKNpNSH8kRuigJxF5x0wjM4q/ztnM0xZ
-   HcmsR6pcNwi7UUmEsyLupiIAHEd3PnFKcCSpC923B8FM/QIUFGV0a+bm0
-   gkeW0JL0xOTZf4IBsRNs98ez+ZTkac7+l8iz/FAtft2lYVY/ahivsl4Qn
+  bh=j8cozi7ugu3FxknRc+aY/Xu7ojwNsZdQHo/JOClE5JE=;
+  b=RM43+hsqK2p22aHFaK2TKhrfOnp5ceyDNF8wvqhZljMB+bLN9eyah2r9
+   ognoRBIOwYxHD/raQryCqxywq/WiOEB9wUhPbvybA5pnrKdlyCxcb4Ubx
+   W3wAkbM2apfDROAaNL6KX48aQ8QWPbmzQFlvNwZilUn3mMJpHyA9r+L29
+   H5hianaWNCuB8tabtKAtSEYEwpnBpyzro0wEHnZ2yi4Mz3p1/iVhnZMTE
+   YwZTh+d+9VIdpt/ZbhbwfKbVgJW04RogjKsRZhpC8ba3PjQimnWiejeyr
+   uQYTLX4SKtrrWFwWllcatG36GsvpI6XeNlenZndSvdQ0XvofMbGynqhL5
    g==;
-X-CSE-ConnectionGUID: CVSmQxRhTAeykHVcsRl0IQ==
-X-CSE-MsgGUID: 1nuLeNYdSsKUB3B+io/8dA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="73694255"
+X-CSE-ConnectionGUID: hiD5KaZeTx6izF02S8B2oQ==
+X-CSE-MsgGUID: 8neqjjezT/y0lZp030E5tg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="81175995"
 X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="73694255"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 12:20:17 -0800
-X-CSE-ConnectionGUID: 3GfOwatjSPiOYcDIiG1Lcw==
-X-CSE-MsgGUID: oeuaV/PBSHmpRqw+Ia9ZSA==
+   d="scan'208";a="81175995"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 12:20:16 -0800
+X-CSE-ConnectionGUID: sEOz18xMTdaBYvPydV08lw==
+X-CSE-MsgGUID: hFX/yKe7TmWG5WNML9H67A==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
+   d="scan'208";a="243533049"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 19 Jan 2026 12:20:15 -0800
+  by orviesa001.jf.intel.com with ESMTP; 19 Jan 2026 12:20:15 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhvjQ-00000000OH1-2aWp;
+	id 1vhvjQ-00000000OGz-2RXe;
 	Mon, 19 Jan 2026 20:20:12 +0000
-Date: Tue, 20 Jan 2026 04:19:30 +0800
+Date: Tue, 20 Jan 2026 04:19:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [drm-tip:drm-tip 1415/1442]
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:2744:49: warning: passing
- argument 6 of 'drm_property_replace_blob_from_id' makes integer from pointer
- without a cast
-Message-ID: <202601200452.irMHod6V-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-lts 4/4]
+ include/trace/stages/init.h:2:23: warning:
+ 'str__health_report__trace_system_name' defined but not used
+Message-ID: <202601200404.2jqArc0L-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,168 +60,238 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://gitlab.freedesktop.org/drm/tip.git drm-tip
-head:   1629d3f34f235cd5e43cfd0386a152d65584ccd4
-commit: 7436a87db99d57196c49d10de35f41531993d5f1 [1415/1442] drm/tests: hdmi: check the infoframes behaviour
-config: x86_64-randconfig-005-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200452.irMHod6V-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.4.0-5) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200452.irMHod6V-lkp@intel.com/reproduce)
+Hi liujinbao1,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   65cd89fe2da9d39f423ef4942ad903637f2b1c63
+commit: 8c8d462c9dd5dcf1c7303392179b99fa638316d0 [4/4] ANDROID: GKI: add vendor_hook android_vh_health_report
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20260120/202601200404.2jqArc0L-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200404.2jqArc0L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601200452.irMHod6V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601200404.2jqArc0L-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c: In function 'drm_test_check_reject_hdr_infoframe_bpc_10':
->> drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:2744:49: warning: passing argument 6 of 'drm_property_replace_blob_from_id' makes integer from pointer without a cast [-Wint-conversion]
-    2744 |                                                 &replaced);
-         |                                                 ^~~~~~~~~
-         |                                                 |
-         |                                                 bool * {aka _Bool *}
-   In file included from include/drm/drm_connector.h:33,
-                    from include/drm/drm_modes.h:33,
-                    from include/drm/drm_crtc.h:32,
-                    from include/drm/drm_atomic.h:31,
-                    from drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:7:
-   include/drm/drm_property.h:287:47: note: expected 'ssize_t' {aka 'long int'} but argument is of type 'bool *' {aka '_Bool *'}
-     287 |                                       ssize_t max_size,
-         |                                       ~~~~~~~~^~~~~~~~
-   drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c:2740:15: error: too few arguments to function 'drm_property_replace_blob_from_id'
-    2740 |         ret = drm_property_replace_blob_from_id(drm,
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_property.h:282:5: note: declared here
-     282 | int drm_property_replace_blob_from_id(struct drm_device *dev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/gic.h:20,
+                    from drivers/android/vendor_hooks.c:41:
+   include/trace/stages/init.h:2:23: warning: 'str__gic__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/syscall_check.h:36,
+                    from drivers/android/vendor_hooks.c:40:
+   include/trace/stages/init.h:2:23: warning: 'str__syscall_check__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/selinux.h:20,
+                    from drivers/android/vendor_hooks.c:39:
+   include/trace/stages/init.h:2:23: warning: 'str__selinux__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/creds.h:33,
+                    from drivers/android/vendor_hooks.c:38:
+   include/trace/stages/init.h:2:23: warning: 'str__creds__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/avc.h:32,
+                    from drivers/android/vendor_hooks.c:37:
+   include/trace/stages/init.h:2:23: warning: 'str__avc__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/health_report.h:20,
+                    from drivers/android/vendor_hooks.c:36:
+>> include/trace/stages/init.h:2:23: warning: 'str__health_report__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/vmscan.h:116,
+                    from drivers/android/vendor_hooks.c:35:
+   include/trace/stages/init.h:2:23: warning: 'str__vmscan__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/cpuidle_psci.h:24,
+                    from drivers/android/vendor_hooks.c:34:
+   include/trace/stages/init.h:2:23: warning: 'str__cpuidle_psci__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/pm_domain.h:20,
+                    from drivers/android/vendor_hooks.c:33:
+   include/trace/stages/init.h:2:23: warning: 'str__pm_domain__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/net.h:139,
+                    from drivers/android/vendor_hooks.c:32:
+   include/trace/stages/init.h:2:23: warning: 'str__net__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
+       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+       8 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      11 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/trace_events.h:27,
+                    from include/trace/define_trace.h:109,
+                    from include/trace/hooks/fs.h:75,
+                    from drivers/android/vendor_hooks.c:31:
+   include/trace/stages/init.h:2:23: warning: 'str__fs__trace_system_name' defined but not used [-Wunused-const-variable=]
+       2 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
+       3 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
 
 
-vim +/drm_property_replace_blob_from_id +2744 drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
+vim +/str__health_report__trace_system_name +2 include/trace/stages/init.h
 
-  2658	
-  2659	/*
-  2660	 * Test that the rejection of HDR InfoFrame results in the failure of
-  2661	 * drm_atomic_helper_connector_hdmi_update_infoframes() in the high bpc is
-  2662	 * supported.
-  2663	 */
-  2664	static void drm_test_check_reject_hdr_infoframe_bpc_10(struct kunit *test)
-  2665	{
-  2666		struct drm_atomic_helper_connector_hdmi_priv *priv;
-  2667		struct drm_modeset_acquire_ctx ctx;
-  2668		struct drm_atomic_state *state;
-  2669		struct drm_connector_state *new_conn_state;
-  2670		struct drm_crtc_state *crtc_state;
-  2671		struct drm_display_mode *preferred;
-  2672		struct drm_connector *conn;
-  2673		struct drm_device *drm;
-  2674		struct drm_crtc *crtc;
-  2675		int old_hdmi_update_failures;
-  2676		struct hdr_output_metadata hdr_data;
-  2677		struct drm_property_blob *hdr_blob;
-  2678		bool replaced;
-  2679		int ret;
-  2680	
-  2681		priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
-  2682					BIT(HDMI_COLORSPACE_RGB),
-  2683					10,
-  2684					&reject_hdr_infoframe_hdmi_funcs,
-  2685					test_edid_hdmi_1080p_rgb_max_200mhz_hdr);
-  2686		KUNIT_ASSERT_NOT_NULL(test, priv);
-  2687	
-  2688		drm = &priv->drm;
-  2689		crtc = priv->crtc;
-  2690		conn = &priv->connector;
-  2691	
-  2692		preferred = find_preferred_mode(conn);
-  2693		KUNIT_ASSERT_NOT_NULL(test, preferred);
-  2694	
-  2695		drm_modeset_acquire_init(&ctx, 0);
-  2696	
-  2697	retry_conn_enable:
-  2698		ret = drm_kunit_helper_enable_crtc_connector(test, drm,
-  2699							     crtc, conn,
-  2700							     preferred,
-  2701							     &ctx);
-  2702		if (ret == -EDEADLK) {
-  2703			ret = drm_modeset_backoff(&ctx);
-  2704			if (!ret)
-  2705				goto retry_conn_enable;
-  2706		}
-  2707		KUNIT_ASSERT_EQ(test, ret, 0);
-  2708	
-  2709		drm_encoder_helper_add(&priv->encoder, &test_encoder_helper_funcs);
-  2710	
-  2711		state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-  2712		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-  2713	
-  2714	retry_conn_state:
-  2715		new_conn_state = drm_atomic_get_connector_state(state, conn);
-  2716		if (PTR_ERR(new_conn_state) == -EDEADLK) {
-  2717			drm_atomic_state_clear(state);
-  2718			ret = drm_modeset_backoff(&ctx);
-  2719			if (!ret)
-  2720				goto retry_conn_state;
-  2721		}
-  2722		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, new_conn_state);
-  2723	
-  2724		crtc_state = drm_atomic_get_crtc_state(state, crtc);
-  2725		if (PTR_ERR(crtc_state) == -EDEADLK) {
-  2726			drm_atomic_state_clear(state);
-  2727			ret = drm_modeset_backoff(&ctx);
-  2728			if (!ret)
-  2729				goto retry_conn_state;
-  2730		}
-  2731		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
-  2732	
-  2733		hdr_data.metadata_type = HDMI_STATIC_METADATA_TYPE1;
-  2734		hdr_data.hdmi_metadata_type1.eotf = HDMI_EOTF_TRADITIONAL_GAMMA_SDR;
-  2735		hdr_data.hdmi_metadata_type1.metadata_type = HDMI_STATIC_METADATA_TYPE1;
-  2736	
-  2737		hdr_blob = drm_property_create_blob(drm, sizeof(hdr_data), &hdr_data);
-  2738		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, hdr_blob);
-  2739	
-  2740		ret = drm_property_replace_blob_from_id(drm,
-  2741							&new_conn_state->hdr_output_metadata,
-  2742							hdr_blob->base.id,
-  2743							sizeof(struct hdr_output_metadata), -1,
-> 2744							&replaced);
-  2745		KUNIT_ASSERT_EQ(test, ret, 0);
-  2746		KUNIT_ASSERT_EQ(test, replaced, true);
-  2747	
-  2748		crtc_state->mode_changed = true;
-  2749	
-  2750		old_hdmi_update_failures = priv->hdmi_update_failures;
-  2751	
-  2752		ret = drm_atomic_check_only(state);
-  2753		if (ret == -EDEADLK) {
-  2754			drm_atomic_state_clear(state);
-  2755			ret = drm_modeset_backoff(&ctx);
-  2756			if (!ret)
-  2757				goto retry_conn_state;
-  2758		}
-  2759		KUNIT_ASSERT_EQ(test, ret, 0);
-  2760	
-  2761		ret = drm_atomic_commit(state);
-  2762		if (ret == -EDEADLK) {
-  2763			drm_atomic_state_clear(state);
-  2764			ret = drm_modeset_backoff(&ctx);
-  2765			if (!ret)
-  2766				goto retry_conn_state;
-  2767		}
-  2768		KUNIT_ASSERT_EQ(test, ret, 0);
-  2769	
-  2770		KUNIT_EXPECT_LE(test, old_hdmi_update_failures, priv->hdmi_update_failures);
-  2771	
-  2772		new_conn_state = conn->state;
-  2773		KUNIT_ASSERT_NOT_NULL(test, new_conn_state);
-  2774	
-  2775		KUNIT_ASSERT_EQ(test, new_conn_state->hdmi.output_bpc, 10);
-  2776		KUNIT_ASSERT_EQ(test, new_conn_state->hdmi.infoframes.hdr_drm.set, true);
-  2777	
-  2778		drm_modeset_drop_locks(&ctx);
-  2779		drm_modeset_acquire_fini(&ctx);
-  2780	}
-  2781	
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
+af6b9668e85ffd1 Steven Rostedt (Google  2022-03-03  4) 
+
+:::::: The code at line 2 was first introduced by commit
+:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
