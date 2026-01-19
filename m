@@ -1,125 +1,118 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDA733B97B;
-	Mon, 19 Jan 2026 08:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924BB33CE8C;
+	Mon, 19 Jan 2026 08:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768811044; cv=none; b=RNea0VV0vyCTGaVzGHU4r2lVrm3c1NTxYpTLLa/M9aSsmCSZS9zkiqPH4Wbe7mISNTcLWZJilA6/Q1Uz/GNVoWDXMifIyn78/Cln3lu55KxSWR8ApqCXgk7bf/t7VUaxAZ9xuw36z5bJGyXqeDesmH/Xy8oT1WxzHQWvbJCewM4=
+	t=1768811063; cv=none; b=i29l9uxg7Vx39M/C/ys1t2X8tK1rKryGJWiiE3Vy4pkKmRZcNg7IoXwYyVzn4FGuvTXGOlr9hh05Icj6hstzbjswily2yfzWaipBsLhv/yv9AWzK8QCstX20w2qHeOuwugoqrr/dXGuRujMAz/PT+5p3lmNwxSNPWB8nwiKAH8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768811044; c=relaxed/simple;
-	bh=G4RkW8VPFO4YOGtujK5WsNN8Ar87RFvNaMll8hCE5eU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HOhX5M2BZ+XkFhBa874EvgTKjMxHAS1MHOHKPPLusuE1LjVrb+pGw+Gc6QNL52dZOIJNXhaI6YEFCPLUyyLay3Xu/1k6Tjb8i+qKFUzTdK7HgX6WgFG7vAI0RwD69V5k9stnI9/jAGvBSGGXxdrh6qwLcBYtZL+JIKbq2wTceH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=aUsdjeRA; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1768811063; c=relaxed/simple;
+	bh=ek0shKrzSAAunEX/d72L5w4AAFj3fcjzuZlmAQPI6LE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bam0F2e/2HyOOQqnUbCwdE6ZxIgvOMr1XL4snioG2EFyqTsDQT4rc37QstYEgZKVD0z6/s3c/FxxfGGV1MwnNXOAPYBZrdx9cOT5E3R+5TAzgUrHEPammjnEa1TdN9rwDA6TOME3+azP9qMVfsPusO2PL+hcc8d975IuHg20pjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GPL1yxZU; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="aUsdjeRA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=7YWDOJBJo5UByqMrCVv0GkCQjXl1IxxS5eKLxUXhKhQ=;
-	b=aUsdjeRAmUek/JXzoclMYRA0BBcupPNFd+nhda45uViTH6sh0lIQkhKAPkhxxP
-	vFlhL1C6FThnQMsE2T5vOmdYCepr4iqNcTg+42iYJX++dmN4jG3Ia3yvSQ747OYq
-	YOmttIdjIK3q6XO896nI0hMN9hxuTk9AIDvCOPSTtWzoI=
-Received: from [192.168.11.52] (unknown [])
-	by gzsmtp3 (Coremail) with SMTP id PigvCgCHXOf96W1pfyoGMA--.36S2;
-	Mon, 19 Jan 2026 16:23:28 +0800 (CST)
-Message-ID: <b0a45763-1cd2-4638-80a9-bd88fee9d729@163.com>
-Date: Mon, 19 Jan 2026 16:23:25 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GPL1yxZU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768811062; x=1800347062;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ek0shKrzSAAunEX/d72L5w4AAFj3fcjzuZlmAQPI6LE=;
+  b=GPL1yxZUZoGw4p3/H+jGc+IAWRK5ZGitf3zUy0V50srJjWHP0L77LjPw
+   vDGQu09ykqNf1/jhCfADRw8uZ3z83bPCvFPGiZnwclqj56fghwoV3sar3
+   AempY1GoghHihey/o1lMhk/TOZ010SaqYj+DA+HEXrSLb7w3MXuG/oLjy
+   KsjvmgmVTN41KvQjJGao1G4Rf/F1YRXXJBqkfTJAh8aHmm1opiFYIubYZ
+   AdL5XDsW5x9MUtxZvydLMbwCY4XmQkEAksde6KLHlQpuQiXMbReU2jE+5
+   8o+q5Fr6VNc1fdSwtmhnWwOFupgK3m8ylOu6tjDMMwlvWQNeXFbAXssnu
+   g==;
+X-CSE-ConnectionGUID: 7ukIiiPyTjSVEZw1D+GNOw==
+X-CSE-MsgGUID: oj+Q91+zQ3yQ9TtrPkPKZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="69217469"
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
+   d="scan'208";a="69217469"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 00:24:21 -0800
+X-CSE-ConnectionGUID: ULlrqDt7QIeAzYWUmmSDwQ==
+X-CSE-MsgGUID: TprYcUiKTw+mcgwBRIQ85A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
+   d="scan'208";a="228742758"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 19 Jan 2026 00:24:18 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vhkYa-00000000Nax-00rz;
+	Mon, 19 Jan 2026 08:24:16 +0000
+Date: Mon, 19 Jan 2026 16:23:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 2/2] Move kernel-doc to tools/docs
+Message-ID: <202601191546.Bvd74asP-lkp@intel.com>
+References: <20260114164146.532916-3-corbet@lwn.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] uio: Add SVA support for PCI devices via
- uio_pci_generic_sva.c
-To: yaxing guo <guoyaxing@bosc.ac.cn>,
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>, oe-kbuild@lists.linux.dev,
- lkp@intel.com, oe-kbuild-all@lists.linux.dev
-References: <20251223045409.15700-1-guoyaxing@bosc.ac.cn>
- <2026011643-coastline-playtime-0ac5@gregkh>
- <2026011603-dorsal-unblessed-cdb2@gregkh>
- <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
- <aW3Znz51bTVj3oxJ@stanley.mountain>
- <7b7b6ae1-be56-45a0-b43c-8a66f054584d@bosc.ac.cn>
-Content-Language: en-US
-From: Haiyue Wang <haiyuewa@163.com>
-In-Reply-To: <7b7b6ae1-be56-45a0-b43c-8a66f054584d@bosc.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PigvCgCHXOf96W1pfyoGMA--.36S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7urW8XrWftw4kCF4xAF43Jrb_yoW8Kw4fpa
-	98WFs8GryDKr1xt39Fkr40vFWUt395Jw1UWFn5Wr1fArs09r12vFZa9rWjgFyqgw4Fk3y7
-	tr4a9as0y34qyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRCksgUUUUU=
-X-CM-SenderInfo: 5kdl53xhzdqiywtou0bp/xtbC8AFw22lt6gE8-AAA31
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260114164146.532916-3-corbet@lwn.net>
 
+Hi Jonathan,
 
+kernel test robot noticed the following build errors:
 
-On 1/19/2026 4:00 PM, yaxing guo wrote:
-> 
-> 
-> 在 2026/1/19 15:13, Dan Carpenter 写道:
->> On Mon, Jan 19, 2026 at 02:16:21PM +0800, yaxing guo wrote:
->>>
->>>
->>> 在 2026/1/16 23:16, Greg KH 写道:
->>>>
->>>> Wait, I already took this a while ago, why was this resent?
->>>>
->>> After the v3 patch submission, I received error reports from Dan 
->>> Carpenter
->>> dan.carpenter@linaro.org and the kernel test robot lkp@intel.com (see:
->>> https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/).
->>> In response, I’ve submitted a new version (v4) of the same patch, which
->>> primarily addresses the issues highlighted in that report (as 
->>> described in
->>> the "changes in v4" section of the cover letter).
->>> If there’s anything improper in this process—such as resubmitting 
->>> instead of
->>> replying with fixes or other procedural concerns—please let me know, and
->>> I’ll be happy to correct it accordingly.
->>
->> Since it's already merged then you will need to send the fixes as a 
->> separate
->> patch based on Greg's latest devel tree.  Send two patches, one that 
->> fixes
->> that && vs || bugs and one that fixes the devm_ double free.  Add 
->> Reported-by
->> tags and the Fixes tags.
->>
->> regards,
->> dan carpenter
-> 
-> Hi Dan,
-> I noticed that on January 10, 2026, Haiyue submitted a fix for the issue 
-> that && vs || bugs:
->   https://lore.kernel.org/all/20260109175448.34309-1-haiyuewa@163.com/
-> Please go ahead and use his patch, and then I will fixed the devm_ 
-> double free.
-> 
-> Hi Haiyue,
-> I actually fixed this same issue in v4 of my patch series (dated 
-> December 23, 2025)(https://lore.kernel.org/all/ 
-> aW3Znz51bTVj3oxJ@stanley.mountain/), which addressed the bug reported by 
+[auto build test ERROR on lwn/docs-next]
+[also build test ERROR on drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.19-rc6 next-20260116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I just checked the linux-next, found no fix about '&&', without 
-searching deeply. :)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Corbet/docs-kdoc-remove-support-for-an-external-kernel-doc-from-sphinx/20260115-004646
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20260114164146.532916-3-corbet%40lwn.net
+patch subject: [PATCH 2/2] Move kernel-doc to tools/docs
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260119/202601191546.Bvd74asP-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601191546.Bvd74asP-lkp@intel.com/reproduce)
 
-> Dan Carpenter(dan.carpenter@linaro.org) and the kernel test robot 
-> (lkp@intel.com). However, since the original series had already been 
-> merged by then, a separate fix is needed.
-> I saw your patch—thanks for picking this up! Could you please add the 
-> following Reported-by tags to your commit?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601191546.Bvd74asP-lkp@intel.com/
 
-I saw the patch was merged: 
-https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git/commit/?h=char-misc-linus&id=054e1c0e6114aaf08672c5ad25d796362bc7e76b
+All errors (new ones prefixed by >>):
 
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Reported-by: kernel test robot <lkp@intel.com>
+   Traceback (most recent call last):
+     File "tools/docs/kernel-doc", line 339, in <module>
+       main()
+       ~~~~^^
+     File "tools/docs/kernel-doc", line 295, in main
+       from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>> ModuleNotFoundError: No module named 'kdoc'
+   make[3]: *** [scripts/Makefile.build:287: scripts/mod/empty.o] Error 1
+   make[3]: *** Deleting file 'scripts/mod/empty.o'
+   make[3]: Target 'scripts/mod/' not remade because of errors.
+   make[2]: *** [Makefile:1313: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
