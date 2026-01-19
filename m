@@ -1,324 +1,284 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013004.outbound.protection.outlook.com [52.101.83.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3382DA768
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 07:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.4
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768809244; cv=fail; b=VtnSqNXUqnATx1OX0b5uUQWJ0XcBN6LX9BbGDTrz0xNXiymOo2KEmam4ndo4b7BNf8lW59tkj/AfWJynnKWnA8mozgi8lvcV25c5HiuSh7Ihzax5CE3hVt77dO06IioiJC1DT0R2djGc4JkYKa3poX544oH/aB1F0EikMJFV/sU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768809244; c=relaxed/simple;
-	bh=XypggTM/nm8B57ChNwCG5JDEEYtyfRizO97vnh8TrUc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Ddxvl0lfPfboOfvArWch3cnA4SJYWdzpXsNRucR+phxyeIxKg+T4QQC3YXrwyXVzXDjAUv2fwY8KC0gaeFC/dVq/yv28Ky0aSzPk6k8B5QEwLSlZ7eBhHCBZx8RDTDD+yn8o7XRkrzltpGGvDKzmps3lKjUg2Eohhca5e2djsG4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=mtw95eNt; arc=fail smtp.client-ip=52.101.83.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7052F1E376C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 07:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768809529; cv=none; b=pQ7xFcPnG4BCPVULcqiamS19iwdC1UeI/WZVtqGQzO4p2RN/ah9ospFzc3tcbl+3oBieOxMU79dFAt7OPGiaKQI6sPeCIyq9JhQTDfu4lZ2dGnH4gTJzQNP3cG0Y1cZb69cUonpHf8qRiPhw7smdxGUOudAHpuzctBdF2zt0hAw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768809529; c=relaxed/simple;
+	bh=cE6uor6V224HNqy9HKfNDm3EQVoF+57j5YGcxGtYSTA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D1p890eeDzWjmHwtNMTp5P1SVtKPxfRwA8nl1BHfiiWZqNXsUkSO6yNebTW2Xc61NOdhBR6Lf5A56AqLO9TNYu602mk5scGPxFsib+AMDEM+G9yLzrDqcVkukR/sI7lCa1EZ92Dzpk+CDlTopMud7LjglgVgq+VMNGEuGrIcPeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hTjeQwbV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=O1lASry1; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hTjeQwbV; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=O1lASry1; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="mtw95eNt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xy3g1IxKPv0zIGO2hgQeouIDE7pQ9rfZKBviyr3tqm14wMCQAGxJK9lC75SPV4y5IJEcW/nLS4NrBoB/iz5ClUKaNfcIUhx6iLW3FWg8eJtxJ+j0l4lDAVxOcBZrB8xwRZI+7yrbcJsgcDiiQGYTdg9QQ/fkSmltdJWXZ9s1SFMWDco8D6v+WI56/DGSXzYVjemAvLv0guswo05IiJIq4wvpfWNKKzYlfi4GM13fiMWndMBvyfuYVsqYGD6UThIF9a+pxYnIdGPwJ3w6pA2Q6yoPagFPQiSMWANUw+ql/F69g9Dh0vcbz1ZO8yZ8S5ftCzKTjh4JZ+FyhGoAzWksDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YiBjdBAGM+nMQkKL/i9RiOdSMufRBt2TZP68Pzh2s0U=;
- b=dmo1lMHhh4XXfT6qzEvxMEs8LI2zYwIkag8LwD+gNzIlkjuwu+dPs/WENlJ3xg+6dfSGj6TswpMfkdreQUf7EQt3fRALwy7n4YMQcn4/l5RVfTXtbWA+UQtkwlyjcWdecrOm8MxyqTdxp3gex5XA/EgwdCwmaRQ+N+cxQo4wmUP//uVFBumgFGFP21zjZwnYIzbwsbticuLyYxAjg2rIMWY1EDvIyxAKEAL5kG6TXFjBHCDNfGDbOQNNGBonFIXSdG+H2jrILzrZm7XuqG9TPJAWjcgb5hPykWPp2ykM3Lm20zg0/sAzKaAzXIEjHWl/N6lKOBWpBO9zHJrJWeguqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YiBjdBAGM+nMQkKL/i9RiOdSMufRBt2TZP68Pzh2s0U=;
- b=mtw95eNtLHy73phuuEMmPiDOc7RHKeYRIR/Sl8BQN+VR8iXotPfHSJ2v0BCjNjH78zbUnRwiLT746D/Zn5rtWvAH8G63tlgdcSv9uyNk9jfLUw6zjw0ErCOLygrskiTy/rcn3wtpAE1jlCByWCGDJNfpt1fH/ufaNOhg5ZZn/8m1mhrL2V2McaK5Me8kutQcbfsvHev9a+eXG07s+XKzr3EXIciPLwl2ei3gi9+IwUgSbbiqh1mpEEOnkf9suT04vb5Q8Q0D4FvUS1bcKgOTmivXaTAvgxNLAMkHuCpk5xK69wR3x4zPZvovUlPU+RF+z2aWz9eRBcOMiOU67ueO/Q==
-Received: from AS4PR04MB9692.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::20)
- by VI0PR04MB11868.eurprd04.prod.outlook.com (2603:10a6:800:31e::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Mon, 19 Jan
- 2026 07:53:57 +0000
-Received: from AS4PR04MB9692.eurprd04.prod.outlook.com
- ([fe80::a2bf:4199:6415:f299]) by AS4PR04MB9692.eurprd04.prod.outlook.com
- ([fe80::a2bf:4199:6415:f299%4]) with mapi id 15.20.9520.011; Mon, 19 Jan 2026
- 07:53:57 +0000
-From: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>
-To: kernel test robot <lkp@intel.com>, Bastien Nocera <hadess@hadess.net>,
-	"linux-bluetooth@vger.kernel.org" <linux-bluetooth@vger.kernel.org>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH 2/3] Bluetooth: btnxpuart: Remove unneeded CONFIG_PM ifdef
-Thread-Topic: [PATCH 2/3] Bluetooth: btnxpuart: Remove unneeded CONFIG_PM
- ifdef
-Thread-Index: AQHciRjDB3SqPWyvTkCoLUgr7e/qOQ==
-Date: Mon, 19 Jan 2026 07:53:57 +0000
-Message-ID:
- <AS4PR04MB969210BA5934C14282B8F104E788A@AS4PR04MB9692.eurprd04.prod.outlook.com>
-References: <20260116125803.598552-3-hadess@hadess.net>
- <202601170322.MZrwlt6M-lkp@intel.com>
-In-Reply-To: <202601170322.MZrwlt6M-lkp@intel.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS4PR04MB9692:EE_|VI0PR04MB11868:EE_
-x-ms-office365-filtering-correlation-id: 3fb7b131-b619-4730-8e26-08de572fe66e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|19092799006|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?BrM4PiYWF/DhnDjToqmye3Ya7XKZX7ffTI8x1L+hwAJ6Vw4d4XPdxQGQs2TR?=
- =?us-ascii?Q?aZDFA6f7bfmb/yHy+4Im4CFghbhp1DqQ8Wtt1poZounwcaMchdRwhbixO53M?=
- =?us-ascii?Q?nNphEP7LlONVCKQGlVDLkYu5kzwS4XSszLe7Co9mQEIEZjGVjkyj64PW6GHF?=
- =?us-ascii?Q?WdalGVUJ3NCww0A0a4YbxzmU09J6hh6TguFPy9hiFzV7E6rSfbYxjMKnea9/?=
- =?us-ascii?Q?uod/2/bBqzKWSTpVr9K6GO50qlGMWVW6mGSKE6KAaElftQruUPG7ulw7OU46?=
- =?us-ascii?Q?K1sX4cHvoHJXsgTCFWxEGzYTnzCZ0jWcTiH7V1/pHUllPz11Yv8lhcTBEA5h?=
- =?us-ascii?Q?ctIq2C+RZ1jE4G9ZYGamZVu6vcXiGN15WJMqXI39GAMbPIl467Tv5w6bqlx0?=
- =?us-ascii?Q?8P81UzWwpljBH7g0qM1QzU075dJ4EX0Fr/x/jOBiWfjrWXuv/AZhxJrn/XbT?=
- =?us-ascii?Q?gUf63D5JOICMi+KnvtlTRyhjaNeiE0MGKmf0DogrGjpdgImsx6mIryr2e+fI?=
- =?us-ascii?Q?UcLDkIgwoJ/sv+OXUErVE5tkTAHWABWR9RaP95NIT4NmzBUYpLjmubWjcI+f?=
- =?us-ascii?Q?Yyfge3FrMlIjEWIJypm2WdHradGWnKXNbIqNWQ7sGRyphCOxU9yOPqKRIECp?=
- =?us-ascii?Q?os4W5qZ2ld+48A0gtd0Q8O6nDGDLYQ+Rv3Mo6+bOtkazZKmIcp2Rl8j8o/0S?=
- =?us-ascii?Q?V+naBtZgzVQrfdggKqbZZ0AB32hFnZ8ldu2JTp76kOyJvPkmnQ4EH97ykdBK?=
- =?us-ascii?Q?+IXO9LPclmjTKGrzk0pb9VdyL6EcEepGlGUcKswBs6+NlwkJsneO/O8H/T5m?=
- =?us-ascii?Q?ikettizrWokVDlhJh569Yjy7dRie/ohKhjheNIFIwwe/p4Y0u0CXr5nXU3S5?=
- =?us-ascii?Q?Ry+cGDMzL+5++121OjL5xLPz1TrfveQG5TCQL5cTv6sFhE+fuDyx5aoujj7d?=
- =?us-ascii?Q?7UceUYYflD4vlfkYAN6vXfGiQKPni3qrtLYeL3I2J40Na3m8mCEgv1ZKx3ih?=
- =?us-ascii?Q?soL1EtbjHqi4veIgHfVsVI5B4XUhRE9DHx0uXpr4/xKVEoFzJQTxYCtDGJEj?=
- =?us-ascii?Q?j2F09iPfdbFwN0AXTU67VCyme8gGeWy67rnlumKIYccMRPsn1KT5af7SMw4E?=
- =?us-ascii?Q?NZ1/uiV8S7QfyL3WucEyL/voTpKQkEvrCB4W5GTtP6cFQLoIixA/8lLoLC5E?=
- =?us-ascii?Q?bpCkHYaPBfO9KoNKkveafNBjDT28emlF47lDtuZ80M8OBIdDVT2gKKdXgakp?=
- =?us-ascii?Q?N4y5WQDt9VAvNAB1cPi4UaZen9EiKvjceZFEDF5r5PeXoopiltlk2bAxWQNf?=
- =?us-ascii?Q?Pzw0AFGKb+GkqVz8ABQwz1HZzRNdqKYlxZmHPZ7A+/txCAwzYbbel2s7lGP0?=
- =?us-ascii?Q?xB5/fHUwAMwmXyN7Ggv2MPMQzxDWJntOg/AYGTGc7cEF21tjbmlx7m6NnqIa?=
- =?us-ascii?Q?OyNE2/ehe15eF6KmucGUZHLVzl0Kp3lWoS/Nb4XBLcXM8b0iQdnHoZw8b0cP?=
- =?us-ascii?Q?BrR38hJJVA78/aB3U15qGZn20dbDrtEoGhj40L6ScRkIWPCVhygYGv/FMmkF?=
- =?us-ascii?Q?SG4vMEt0I65qasaVSew=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9692.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(19092799006)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?bHWTvJPBFJvRlorvQCV3lPtb1DMtPViYJO1YzOqo03S/bYixDnGBbXAMcBlE?=
- =?us-ascii?Q?Nng6WwgxDPAUrqRGOu5LvHnss3KK5LrAS7TvuUcZGP57eLsVFh90n4xXPLxY?=
- =?us-ascii?Q?vbWH1DFqnMyEydeS5YBaEp4xRylqaixKHKV8tCy9ptE0zWp0dEqwyMlAWXSd?=
- =?us-ascii?Q?UOTZW6CmN9wbQgugqj3O2HC0lAbfq7h/W6I3wsoWvTVIZwZyDSRIopavkvyK?=
- =?us-ascii?Q?sKbo5PTSmjNlNLvsSCTOSm2Om8bfvGNC4WNUlA7vJAe7voClpxdO3Fe9TQ6N?=
- =?us-ascii?Q?rBwhEE/weygQWY1czvvWIgZyNxgMsRZg+smhRUuhK/yrZOP5IGFbitDI3LUZ?=
- =?us-ascii?Q?466yCB2Nzt1LDJ1w4Hs+M4vGFUNoaX9V9TxjFkHpi4MAwgQCNk7qh3axYoFc?=
- =?us-ascii?Q?VFtE8lAuWgkaX+yBqHanpIz0xykoLJkSV+GXxbGCO9UTIZpjRvaJM2/vF7y1?=
- =?us-ascii?Q?4a2lhv3v7/rWQyQrL9BpuEdaGmej8quTF7FZumR4RY3MRkgF1BR/CVswKX5V?=
- =?us-ascii?Q?1Asm6X58Ra4QiO2jzRX/4tdFfxBPKe9p1GL1bDhpylPf5SzRGVWWW2SjEqBo?=
- =?us-ascii?Q?fsGuAmegxywRrZaF7VwaCLFx3z2TQjMSabsy3ACQF79LSxbIBrL2th3cOPJA?=
- =?us-ascii?Q?ESO1XGgqenMsSsIDIrvntNVMID7jooRqzT0a0ZlWl3Nzx1D69gYFg7BVP1ax?=
- =?us-ascii?Q?NIiR90MtuLrJxprYfiWgVNQU1VqSudt6AireP9xumRahxVw58SMt0txgCfiD?=
- =?us-ascii?Q?OOdduRtspoL1EUQ38eFyuo4RRuqhNZQUdmKBnKonzNW7DoGKtrUK0EiHAJ4g?=
- =?us-ascii?Q?YHE4qkp8W2lmT/rIyGABFqTU23RBCbKEJai7Lp/pBRhbztBD5SRn0j7fb851?=
- =?us-ascii?Q?kBwWAZgPjxNQbb/vta59jMIRW60sJO/8niiCfnZSMAnAglfnp9FfVuHxgPSp?=
- =?us-ascii?Q?7j3okGAo+bGn6zWb6+BEfFXu4BKYpAgX43AAEkxqHXOGhlo6ChFLLpmtuW0+?=
- =?us-ascii?Q?s5xLV/uOI0aurKCJBNv0OGvtuhKK+upcmThmGJ38C8UTdU/KShfVloW1g3VZ?=
- =?us-ascii?Q?DF4uP0jXaD7I3cOxJNqpAcUDtbyAvymnSA5abyxh7+FAx9QfIzo0LlLMFxFV?=
- =?us-ascii?Q?k/DuwfwKb01HHs+WkrBmqAWxM+yxU5WST9SLuaIq0PXaa3tlXdwsRIVfn5my?=
- =?us-ascii?Q?HlSqU47Vlv9636thuoilDyoCQAtcEITObBzwE0IVFqCJ5JUo/z1BtJXUjoW8?=
- =?us-ascii?Q?i6atcKWkG+JdVmlJBm9ru5a82wTl81l7YARbEd6wwNEB+us7g+UwGdnaoSBl?=
- =?us-ascii?Q?5mcbzaCrwML9Ul2gF/RkShDQdlfCqdvUhS1KfOuhE9A/O4yQwuDngXI63v0B?=
- =?us-ascii?Q?Wbyc3bviGlTC4slXi3NW42I0A0r7p0zQVP0a41KEI/9HYepJhLAqvJBlJHRI?=
- =?us-ascii?Q?DckWC/eIHyGQ6y79hK0ahBRP2DBnu9llvBXwDUhgMNYgaJsA7L/3ztrFfS54?=
- =?us-ascii?Q?2zNcQCa6+Gz92FkEboCrT3h+ehfKqqHg5rhM2vMKtpg53bgWPCxle0qZ3a+Z?=
- =?us-ascii?Q?SvzuJyEjij1z8wvh88tTDXVmanIn4jpbXNpvtdDB7r2aurJ3120qQRSWiZCN?=
- =?us-ascii?Q?FMWkd8HJ4lH8hu/m4S6FkFL+oNrqjMvw5yIGr1DdQQRk8nNjaXvV4hObsqi/?=
- =?us-ascii?Q?rRUQMw/GwBBvcy8nfhakDpw1EPIR/A77t8IJemcn8X7/ta7GNbxvMiWN99Ja?=
- =?us-ascii?Q?sDt0QtYv4Q=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hTjeQwbV";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="O1lASry1";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hTjeQwbV";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="O1lASry1"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A08E8336A6;
+	Mon, 19 Jan 2026 07:58:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768809525; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=UWAeQdFM5O5XpnGyuEM2lgvoZM7EruZDUjlPqgsaQB4=;
+	b=hTjeQwbVDSnxIc8bjN2OB+9YmPSdAKVcuq/w3tage9Llv9oeIyShsq28/rmVg4QQEn7Pbj
+	ds+YRF9LiBrJrQbUYWl6Twoj4ybJLDmEr+5vtVD/ctoOgXsqgmrOiJy7nS5mdZ4KKg5Lac
+	9qTXTRWNZuw1RX/yj+wI1rCTAAP18d0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768809525;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=UWAeQdFM5O5XpnGyuEM2lgvoZM7EruZDUjlPqgsaQB4=;
+	b=O1lASry1rqNcc6N8aXrzs4jxkfBS18GsU7awevZKQF3QYCletWSeFoosl4lbEaDCpM/ne6
+	g6Uc25bx+Jq2jTDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768809525; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=UWAeQdFM5O5XpnGyuEM2lgvoZM7EruZDUjlPqgsaQB4=;
+	b=hTjeQwbVDSnxIc8bjN2OB+9YmPSdAKVcuq/w3tage9Llv9oeIyShsq28/rmVg4QQEn7Pbj
+	ds+YRF9LiBrJrQbUYWl6Twoj4ybJLDmEr+5vtVD/ctoOgXsqgmrOiJy7nS5mdZ4KKg5Lac
+	9qTXTRWNZuw1RX/yj+wI1rCTAAP18d0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768809525;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=UWAeQdFM5O5XpnGyuEM2lgvoZM7EruZDUjlPqgsaQB4=;
+	b=O1lASry1rqNcc6N8aXrzs4jxkfBS18GsU7awevZKQF3QYCletWSeFoosl4lbEaDCpM/ne6
+	g6Uc25bx+Jq2jTDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 965F03EA63;
+	Mon, 19 Jan 2026 07:58:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mZQPIzXkbWlVeAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 19 Jan 2026 07:58:45 +0000
+Message-ID: <78b4fe04-770f-4f14-b741-04fd4a026ace@suse.cz>
+Date: Mon, 19 Jan 2026 08:58:45 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9692.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3fb7b131-b619-4730-8e26-08de572fe66e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2026 07:53:57.4100
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GbzcMPbaajTULNMuVPEJbbmJN/9rNF0KFv8zemiPGNFRH/OFMbTDUFncNs/JPWrNxnJ6ra/c2AEeeaNFaLofvg+fjQGHt3pNCEQoVN7eHHI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11868
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 5478/6849] mm/slub.c:2340:16: error: use of
+ undeclared identifier 'MEMCG_DATA_OBJEXTS'
+Content-Language: en-US
+To: Harry Yoo <harry.yoo@oracle.com>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+References: <202601172108.4M7RmCaj-lkp@intel.com> <aW2KpbqlxEbWhCey@hyeyoo>
+ <aW2gCj7pDfRKvmZI@hyeyoo>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <aW2gCj7pDfRKvmZI@hyeyoo>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,01.org:url,intel.com:email,suse.cz:mid]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-Hi Bastien,
+On 1/19/26 04:07, Harry Yoo wrote:
+> On Mon, Jan 19, 2026 at 10:36:37AM +0900, Harry Yoo wrote:
+>> On Sat, Jan 17, 2026 at 09:23:02PM +0800, kernel test robot wrote:
+>> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+>> > head:   46fe65a2c28ecf5df1a7475aba1f08ccf4c0ac1b
+>> > commit: aeb88c8de3688638632d5867c352676d334e6531 [5478/6849] mm/slab: save memory by allocating slabobj_ext array from leftover
+>> > config: mips-randconfig-r062-20260117 (https://download.01.org/0day-ci/archive/20260117/202601172108.4M7RmCaj-lkp@intel.com/config
+>> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project
+>> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260117/202601172108.4M7RmCaj-lkp@intel.com/reproduce
+>> > 
+>> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> > the same patch/commit), kindly add following tags
+>> > | Reported-by: kernel test robot <lkp@intel.com>
+>> > | Closes: https://lore.kernel.org/oe-kbuild-all/202601172108.4M7RmCaj-lkp@intel.com/
+>> > 
+>> > All errors (new ones prefixed by >>):
+>> > 
+>> >    mm/slub.c:2154:33: error: passing 'union codetag_ref' to parameter of incompatible type 'union codetag_ref *'; take the address with &
+>> >     2154 |                 if (unlikely(is_codetag_empty(ext->ref))) {
+>> >          |                                               ^~~~~~~~
+>> >          |                                               &
+>> 
+>> Oh, what a silly mistake. This should definitely be &ext->ref.
+>> How it didn't break my build with CONFIG_MEM_ALLOC_PROFILING=y?
 
-Thank you for your patch.
+Probably lack of CONFIG_MEM_ALLOC_PROFILING_DEBUG which guards the function
+that does the is_codetag_empty() call above?
 
-Just an FYI, the " #ifdef CONFIG_PM_SLEEP" was added on purpose to resolve =
-such build warning reported by kernel test bot:
-https://lore.kernel.org/all/20240710123426.935122-1-neeraj.sanjaykale@nxp.c=
-om/
+>> >    include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
+>> >       77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+>> >          |                                             ^
+>> >    include/linux/alloc_tag.h:52:56: note: passing argument to parameter 'ref' here
+>> >       52 | static inline bool is_codetag_empty(union codetag_ref *ref)
+>> >          |                                                        ^
+>> > >> mm/slub.c:2340:16: error: use of undeclared identifier 'MEMCG_DATA_OBJEXTS'
+>> >     2340 |                         obj_exts |= MEMCG_DATA_OBJEXTS;
+>> >          |                                     ^
+>> >    2 errors generated.
+>> > 
+>> > 
+>> > vim +/MEMCG_DATA_OBJEXTS +2340 mm/slub.c
+>> > 
+>> >   2316	
+>> >   2317	/*
+>> >   2318	 * Try to allocate slabobj_ext array from unused space.
+>> >   2319	 * This function must be called on a freshly allocated slab to prevent
+>> >   2320	 * concurrency problems.
+>> >   2321	 */
+>> >   2322	static void alloc_slab_obj_exts_early(struct kmem_cache *s, struct slab *slab)
+>> >   2323	{
+>> >   2324		void *addr;
+>> >   2325		unsigned long obj_exts;
+>> >   2326	
+>> >   2327		if (!need_slab_obj_exts(s))
+>> >   2328			return;
+>> >   2329	
+>> >   2330		if (obj_exts_fit_within_slab_leftover(s, slab)) {
+>> >   2331			addr = slab_address(slab) + obj_exts_offset_in_slab(s, slab);
+>> >   2332			addr = kasan_reset_tag(addr);
+>> >   2333			obj_exts = (unsigned long)addr;
+>> >   2334	
+>> >   2335			get_slab_obj_exts(obj_exts);
+>> >   2336			memset(addr, 0, obj_exts_size_in_slab(slab));
+>> >   2337			put_slab_obj_exts(obj_exts);
+>> >   2338	
+>> >   2339			if (IS_ENABLED(CONFIG_MEMCG))
+>> > > 2340				obj_exts |= MEMCG_DATA_OBJEXTS;
+>> 
+>> The config does not enable CONFIG_MEMCG.
+>> 
+>> Hmm, this is strange. It works when I change it to #ifdef CONFIG_MEMCG,
+>> but doesn't work with IS_ENABLED().
+> 
+> It appears to generate code that uses MEMCG_DATA_OBJEXTS and throws a
+> compile error before dead code elimination removes it. (Interestingly my
+> compiler didn't produce error, but MIPS Clang does...)
 
-Thanks,
-Neeraj
+Hm that's weird, both recent gcc and clang here (x86_64) error. I've never
+seen dead code elimination to work at this level and would be surprised if
+it did (maybe it even can't). Did you really have disabled CONFIG_MEMCG
+properly (and not also disabled the whole objexts) when checking this?
 
-> Hi Bastien,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on bluetooth/master] [also build test WARNING on
-> linus/master v6.19-rc5] [cannot apply to bluetooth-next/master next-
-> 20260116] [If your patch is applied to the wrong git tree, kindly drop us=
- a
-> note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-/
-> scm.com%2Fdocs%2Fgit-format-
-> patch%23_base_tree_information&data=3D05%7C02%7Cneeraj.sanjaykale%40n
-> xp.com%7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92
-> cd99c5c301635%7C0%7C0%7C639041898935601715%7CUnknown%7CTWFp
-> bGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4z
-> MiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DW4jhk2S
-> VUr77jirvKdK%2FrKuKAVyXSbY9iO2pQ1%2BL7Fs%3D&reserved=3D0]
->
-> url:
-> https://github/.
-> com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FBastien-Nocera%2FBluetooth-
-> btmtksdio-Simplify-dev_pm_ops-usage%2F20260116-
-> 210400&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f3219146a754
-> 0774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0
-> %7C639041898935632879%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcG
-> kiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIj
-> oyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Dl2nEr61x%2F00NrtEqmvX2qhJ%2F0d
-> %2Fc6T%2BI6e5YRiz1TAM%3D&reserved=3D0
-> base:
-> https://git.kern/
-> el.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fbluetooth%2Fbluetooth.gi
-> t&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f3219146a7540774e
-> da08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C63
-> 9041898935651605%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRy
-> dWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3
-> D%3D%7C0%7C%7C%7C&sdata=3D%2BKZxHj6EXqJXKC8%2FsiYrPOJczts%2BMEX
-> ycXixKcxUcf8%3D&reserved=3D0 master
-> patch link:
-> https://lore.ke/
-> rnel.org%2Fr%2F20260116125803.598552-3-
-> hadess%2540hadess.net&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%
-> 7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c3
-> 01635%7C0%7C0%7C639041898935668808%7CUnknown%7CTWFpbGZsb3d8
-> eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIj
-> oiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Da3gomBec5GENv5B
-> RsBv%2Butzd11I3QunXE2yAaDg5f4Q%3D&reserved=3D0
-> patch subject: [PATCH 2/3] Bluetooth: btnxpuart: Remove unneeded
-> CONFIG_PM ifdef
-> config: x86_64-randconfig-002-20260116
-> (https://downl/
-> oad.01.org%2F0day-ci%2Farchive%2F20260117%2F202601170322.MZrwlt6M-
-> lkp%40intel.com%2Fconfig&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com
-> %7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c
-> 301635%7C0%7C0%7C639041898935685518%7CUnknown%7CTWFpbGZsb3d
-> 8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOI
-> joiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DhR230cwqc4FucDn
-> 9TPmv79VLdAd8kHHwc2Q8SdPtHtk%3D&reserved=3D0)
-> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0 reproduce (this is a W=3D1 bui=
-ld):
-> (https://downl/
-> oad.01.org%2F0day-ci%2Farchive%2F20260117%2F202601170322.MZrwlt6M-
-> lkp%40intel.com%2Freproduce&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.
-> com%7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd9
-> 9c5c301635%7C0%7C0%7C639041898935702245%7CUnknown%7CTWFpbGZ
-> sb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIs
-> IkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DdsZA9O8KQy
-> QZJK2Fn%2FYtexA8zdrw%2FCcpwnEb7AwhiqU%3D&reserved=3D0)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
-> | https://lore/
-> | .kernel.org%2Foe-kbuild-all%2F202601170322.MZrwlt6M-
-> lkp%40intel.com%2F
-> |
-> &data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f3219146a7540774e
-> da08de
-> |
-> 5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C63904189
-> 89357202
-> |
-> 33%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjA
-> uMDAwMCI
-> |
-> sIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sd
-> ata=3D2
-> | s046Nm4SrgCfY%2BqPyoYr8tf5xqoBw%2BqDiJ0YQ%2BiAt8%3D&reserved=3D0
->
-> All warnings (new ones prefixed by >>):
->
-> >> drivers/bluetooth/btnxpuart.c:1964:12: warning: 'nxp_serdev_resume'
-> >> defined but not used [-Wunused-function]
->     1964 | static int nxp_serdev_resume(struct device *dev)
->          |            ^~~~~~~~~~~~~~~~~
-> >> drivers/bluetooth/btnxpuart.c:1950:12: warning: 'nxp_serdev_suspend'
-> >> defined but not used [-Wunused-function]
->     1950 | static int nxp_serdev_suspend(struct device *dev)
->          |            ^~~~~~~~~~~~~~~~~~
->
->
-> vim +/nxp_serdev_resume +1964 drivers/bluetooth/btnxpuart.c
->
-> 689ca16e5232784 Neeraj Sanjay Kale 2023-03-16  1949
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05 @1950  static int
-> nxp_serdev_suspend(struct device *dev)
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1951  {
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1952     struct
-> btnxpuart_dev *nxpdev =3D dev_get_drvdata(dev);
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1953     struct ps_data
-> *psdata =3D &nxpdev->psdata;
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1954
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1955     ps_control(psdata=
--
-> >hdev, PS_STATE_SLEEP);
-> c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1956
-> c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1957     if (psdata-
-> >wakeup_source) {
-> c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1958
-> enable_irq_wake(psdata->irq_handler);
-> c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1959
-> enable_irq(psdata->irq_handler);
-> c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1960     }
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1961     return 0;
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1962  }
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1963
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05 @1964  static int
-> nxp_serdev_resume(struct device *dev)
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1965  {
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1966     struct
-> btnxpuart_dev *nxpdev =3D dev_get_drvdata(dev);
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1967     struct ps_data
-> *psdata =3D &nxpdev->psdata;
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1968
-> c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1969     if (psdata-
-> >wakeup_source) {
-> c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1970
-> disable_irq(psdata->irq_handler);
-> c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1971
-> disable_irq_wake(psdata->irq_handler);
-> c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1972     }
-> c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1973
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1974     ps_control(psdata=
--
-> >hdev, PS_STATE_AWAKE);
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1975     return 0;
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1976  }
-> 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1977
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github/.
-> com%2Fintel%2Flkp-
-> tests%2Fwiki&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f321914
-> 6a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0
-> %7C0%7C639041898935740752%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0e
-> U1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCI
-> sIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DIqE%2B%2BS2ZXcZb5PFvsvemp
-> dQffNOiktBLNpxdDx5JJJg%3D&reserved=3D0
+> Anyway, this should fix the issue (confirmed that the compilation errors
+> are resolved with MIPS Clang, and locallty tested on my machine):
+
+I've amended the individual commits, slab/for-next should be ok now.
+Thanks.
+
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 373ee58b8b9e..1d87134cef90 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -2200,7 +2200,7 @@ static inline void mark_objexts_empty(struct slabobj_ext *obj_exts)
+>  		struct slabobj_ext *ext = slab_obj_ext(obj_exts_slab,
+>  						       slab_exts, offs);
+> 
+> -		if (unlikely(is_codetag_empty(ext->ref))) {
+> +		if (unlikely(is_codetag_empty(&ext->ref))) {
+>  			put_slab_obj_exts(slab_exts);
+>  			return;
+>  		}
+> @@ -2385,8 +2385,9 @@ static void alloc_slab_obj_exts_early(struct kmem_cache *s, struct slab *slab)
+>  		memset(addr, 0, obj_exts_size_in_slab(slab));
+>  		put_slab_obj_exts(obj_exts);
+> 
+> -		if (IS_ENABLED(CONFIG_MEMCG))
+> -			obj_exts |= MEMCG_DATA_OBJEXTS;
+> +#ifdef CONFIG_MEMCG
+> +		obj_exts |= MEMCG_DATA_OBJEXTS;
+> +#endif
+>  		slab->obj_exts = obj_exts;
+>  		slab_set_stride(slab, sizeof(struct slabobj_ext));
+>  	} else if (s->flags & SLAB_OBJ_EXT_IN_OBJ) {
+> @@ -2402,8 +2403,9 @@ static void alloc_slab_obj_exts_early(struct kmem_cache *s, struct slab *slab)
+>  			       sizeof(struct slabobj_ext));
+>  		put_slab_obj_exts(obj_exts);
+> 
+> -		if (IS_ENABLED(CONFIG_MEMCG))
+> -			obj_exts |= MEMCG_DATA_OBJEXTS;
+> +#ifdef CONFIG_MEMCG
+> +		obj_exts |= MEMCG_DATA_OBJEXTS;
+> +#endif
+>  		slab->obj_exts = obj_exts;
+>  		slab_set_stride(slab, s->size);
+>  	}
+> 
 
