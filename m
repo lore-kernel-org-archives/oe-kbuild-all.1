@@ -1,163 +1,193 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729221C3BFC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 08:58:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A781C352C57
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 09:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768813109; cv=none; b=rI+QXMDH3iCLpZ0rFPDOjDbBdxgLk40tYL4UdhDNVxyxHIBvt7D1xm738817WrUanZWulBcQx4Ri4GtRLVR51jjZ7qis6KYgu+6+Va8f5V+77rdfb82Fak6itefTA7nPDHdz733WzWEf3rIRPL9bwUwxPyaZZz7wTMIwoxHWdUQ=
+	t=1768813590; cv=none; b=HSsE7jJm5cca47CccBskmVk6ViAP6SnitlDmeBVrfjUydn4ebETOxgBBqNsN+6zRzeYRYUfz2HleMQptqg4r38NF6+EYBnFf2mwROrvqvpAWaqoijTmeE5clN8zD0SKjsqUahax4f6KEo+sn6Mge9yU6vLScxLfB6yrHVEn3uKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768813109; c=relaxed/simple;
-	bh=91rl6SRhYeXFCa53+VjFITo4//ysTLcIm0OJp+TUDKg=;
+	s=arc-20240116; t=1768813590; c=relaxed/simple;
+	bh=ZNyPe/ryLA7w5APbE/3RPh/xhpJgGNVGdIHZlFS67Q0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OK3HI1/r8ls/ACBt9AtcVRkt5jc69EXvlmUyJmuFg38GYljVvmTWiRZCXdHQDbMf0PNdRN5ekgiiTO43jSuJlMs4wAYLDg0r/EloewSZLXQoDBiATuDSbA5ErSi68yWI2cspgXCanizJzNA7vlbZjc+xFUHGWEPml0NJ/HFbRPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cWfvjFMd; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=UAj0xQe5HOrIVao0EbaxhxveN6jux8wj8rTQNYcDkGtwCwrKpnokDtyhdQGZKOOUG8Z7uQWZaledGK9VQDEWUab3UIPIbl7vzaFa0pssdbKB/SukfXPI85ozfkmc2efcllX7mn0SNCSyo5IgsE57O2MGYUBp6KWD2jJn9dxfjDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a11ioWA+; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cWfvjFMd"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-47ee807a4c5so29303395e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 00:58:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768813106; x=1769417906; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=CFaMhEUUfmvBXCwj1KwYn/jVYVnwewK7bqIr5uEKUWE=;
-        b=cWfvjFMdGGbPhDeliKTbXBH7aV84aBeMEZ6Ef8aAt9tX0ez8gzW93thOmLJcynH+wB
-         rBNM3QYqFYKPu2ogyTFHesXyubpo4dQ+w/5tqDgzGED8MOckmlV4I2+rMuryeD6uDAO1
-         ENySW02HQlAitMuNO98hx6wzNuvbtyG/ctzksW/nuTrPj3ZscAc6+GM9SrGbUebMYSsl
-         cejtbTgvKjKxjia04cfisjcmq2dht3e5hyzBqliinjaFs7Z57mvOc9oIO3DE6E01rRL3
-         h9L3dXT5vT7kQy95IlWzh6vi8mOvlnXj1nBhI+nmvVB8/7IoEzgXL/epGjyZZxwaPS/3
-         VhRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768813106; x=1769417906;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CFaMhEUUfmvBXCwj1KwYn/jVYVnwewK7bqIr5uEKUWE=;
-        b=Hvbgz9fpNB1ZFSgwYpz9Ug8C4KHwdANhE8y+9QlhR/Jxu26GzNhLeh8/BmQEKfIpoX
-         5MGeSmKB3PNw4BUTtrxoKpQDJB96Rl9QwcpIJfUb4uVGboEFghcx1g7g/K2ZwzYrl7k3
-         ZyB78O5CU+JRE8wjHAsBwDNeOz0ed0CqD51dqmS4n9AiEEmJKaiqIFcAkf59py+ZXloT
-         YmkiQ3nLuht2oPJdyPfXp7pXg8Qr1AoxpphsbpKrPIvMoCUybGElFp6XNxZBz7Y3g9dg
-         DSTMAEFyX3t/7VLE4aC9ESnOZB0vJc/buO20K3qjbTwRI9a56sf5eSYz0Jh6FXIG5YDX
-         INlg==
-X-Forwarded-Encrypted: i=1; AJvYcCVmxQ1y9OUBiE9KiGOjAym7kbkaqvfFYQMfQYVKC7KN71uRvAdE7mqPdI+jB4tJqghlBnGR4NOmQe0SLLuk@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVBMgHMYrKnLJKCOpNZnNAkD3OdVHeN9MImReZTAblLgzHLSc2
-	5ihvBN7TyQOlhC0zluwiJvtL0i2H92PqTJDcREeb1vH886XY7VhyKvSdCLD/Z1n3838=
-X-Gm-Gg: AY/fxX5WzrwqDd8hfn+jr1MtSOp/7cm9wIlgBLajlSO0PhpKkqOnY6cqSvrP0Yi7r0l
-	FNs4BV4o+qHiwcboGtvQiSxTMpLgxQy2u6+LtrgaICGLHMjkQsNW6V09dReVwJGEwk0B7won11z
-	erFUCXYRVmJGB/lB9M9GDiLf1xFlJbM6hLV/8z96p4gzCx4BDoFOULmTFwsjllkbK1E+a6shDmC
-	Ut4DJgan2EyUuceuoo4Ks6Lb7IMpu5CjmFK1lM/a4Uc8/7n44TEq4I7D1RgJXIB/g/c4v8SSERt
-	z6eck4/8sC0BzE1Qbbm+snhcbMtntcxnTZsCR4PMjK85Ufj+jlOMIkgaVIwhdRaPV9D9BokL29M
-	siP7MM6FOrxCqICK54xmoKPZWHEBh++TNJO/Qs+/bU+N/FeABpqUgZlQBbaD9JiCpbt0unBC1Ct
-	M/GwCbIdnKCJY4GTJM
-X-Received: by 2002:a05:600c:6206:b0:47a:9560:5944 with SMTP id 5b1f17b1804b1-4801eb14c40mr124909725e9.34.1768813105634;
-        Mon, 19 Jan 2026 00:58:25 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4801e9ac373sm81081375e9.1.2026.01.19.00.58.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jan 2026 00:58:25 -0800 (PST)
-Date: Mon, 19 Jan 2026 11:58:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: yaxing guo <guoyaxing@bosc.ac.cn>
-Cc: Haiyue Wang <haiyuewa@163.com>, Greg KH <gregkh@linuxfoundation.org>,
-	oe-kbuild@lists.linux.dev, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4] uio: Add SVA support for PCI devices via
- uio_pci_generic_sva.c
-Message-ID: <aW3yLhHwoRrBiQmw@stanley.mountain>
-References: <20251223045409.15700-1-guoyaxing@bosc.ac.cn>
- <2026011643-coastline-playtime-0ac5@gregkh>
- <2026011603-dorsal-unblessed-cdb2@gregkh>
- <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
- <aW3Znz51bTVj3oxJ@stanley.mountain>
- <7b7b6ae1-be56-45a0-b43c-8a66f054584d@bosc.ac.cn>
- <b0a45763-1cd2-4638-80a9-bd88fee9d729@163.com>
- <7f8ddc11-0de7-401e-9a05-4d05579f8787@bosc.ac.cn>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a11ioWA+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768813586; x=1800349586;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZNyPe/ryLA7w5APbE/3RPh/xhpJgGNVGdIHZlFS67Q0=;
+  b=a11ioWA++nQYgkNteowwYbDG3IDRfS3m161ZR7wlWdPccY77WWoy387c
+   aayqIQJ4WhQ5lT0KcGsgu9T1Jdz7Ey6+2EcBKIp+cragSusUhbuQeDEUq
+   UNq9PkFRiwdB7nxlQsjY9fXSElyd6nwcf1SPNuSxVeUM3jsTDPilTJse9
+   f+c5c5q/vJrjIjVdZ4hFwdzXdupN89tCQ1fXQCuDde/AOStIYlPxEi6uy
+   BflGxy8s9UDl4nDU2dQ7RqtR4UhYRvQE0Cq+UOgCADeg/7OnWQ+HSDwZ2
+   7GjDd1oJwIzubvZrbPKRHqcj6AblsLzPEcLU7vg8nbLZwcy9CLjb9dZd/
+   Q==;
+X-CSE-ConnectionGUID: OFj7WwDtSY2NHKxrML8yqw==
+X-CSE-MsgGUID: 3QQlfiulRbqLpVZSYSGHGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="80742955"
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
+   d="scan'208";a="80742955"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 01:06:25 -0800
+X-CSE-ConnectionGUID: 7VCcJ9XIQWOsyQxFkaW/BA==
+X-CSE-MsgGUID: 1zmXuXqjTq+f+OjTTRJsQA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
+   d="scan'208";a="205075349"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 19 Jan 2026 01:06:20 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vhlDG-00000000NdB-0DEq;
+	Mon, 19 Jan 2026 09:06:18 +0000
+Date: Mon, 19 Jan 2026 17:06:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Riana Tauro <riana.tauro@intel.com>, intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, aravind.iddamsetty@linux.intel.com,
+	anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
+	joonas.lahtinen@linux.intel.com, simona.vetter@ffwll.ch,
+	airlied@gmail.com, pratik.bari@intel.com,
+	joshua.santosh.ranjan@intel.com, ashwin.kumar.kulkarni@intel.com,
+	shubham.kumar@intel.com, ravi.kishore.koppuravuri@intel.com,
+	raag.jadav@intel.com, Riana Tauro <riana.tauro@intel.com>,
+	Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Subject: Re: [PATCH v4 3/4] drm/xe/xe_hw_error: Add support for GT hardware
+ errors
+Message-ID: <202601191630.EAGtgUQy-lkp@intel.com>
+References: <20260119040023.2821518-9-riana.tauro@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7f8ddc11-0de7-401e-9a05-4d05579f8787@bosc.ac.cn>
+In-Reply-To: <20260119040023.2821518-9-riana.tauro@intel.com>
 
-On Mon, Jan 19, 2026 at 04:38:01PM +0800, yaxing guo wrote:
-> 
-> 
-> 在 2026/1/19 16:23, Haiyue Wang 写道:
-> > 
-> > 
-> > On 1/19/2026 4:00 PM, yaxing guo wrote:
-> > > 
-> > > 
-> > > 在 2026/1/19 15:13, Dan Carpenter 写道:
-> > > > On Mon, Jan 19, 2026 at 02:16:21PM +0800, yaxing guo wrote:
-> > > > > 
-> > > > > 
-> > > > > 在 2026/1/16 23:16, Greg KH 写道:
-> > > > > > 
-> > > > > > Wait, I already took this a while ago, why was this resent?
-> > > > > > 
-> > > > > After the v3 patch submission, I received error reports from
-> > > > > Dan Carpenter
-> > > > > dan.carpenter@linaro.org and the kernel test robot lkp@intel.com (see:
-> > > > > https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/).
-> > > > > In response, I’ve submitted a new version (v4) of the same patch, which
-> > > > > primarily addresses the issues highlighted in that report
-> > > > > (as described in
-> > > > > the "changes in v4" section of the cover letter).
-> > > > > If there’s anything improper in this process—such as
-> > > > > resubmitting instead of
-> > > > > replying with fixes or other procedural concerns—please let
-> > > > > me know, and
-> > > > > I’ll be happy to correct it accordingly.
-> > > > 
-> > > > Since it's already merged then you will need to send the fixes
-> > > > as a separate
-> > > > patch based on Greg's latest devel tree.  Send two patches, one
-> > > > that fixes
-> > > > that && vs || bugs and one that fixes the devm_ double free. 
-> > > > Add Reported-by
-> > > > tags and the Fixes tags.
-> > > > 
-> > > > regards,
-> > > > dan carpenter
-> > > 
-> > > Hi Dan,
-> > > I noticed that on January 10, 2026, Haiyue submitted a fix for the
-> > > issue that && vs || bugs:
-> > >   https://lore.kernel.org/all/20260109175448.34309-1-haiyuewa@163.com/
-> > > Please go ahead and use his patch, and then I will fixed the devm_
-> > > double free.
-> > > 
-> > > Hi Haiyue,
-> > > I actually fixed this same issue in v4 of my patch series (dated
-> > > December 23, 2025)(https://lore.kernel.org/all/
-> > > aW3Znz51bTVj3oxJ@stanley.mountain/), which addressed the bug
-> > > reported by
-> > 
-> > I just checked the linux-next, found no fix about '&&', without
-> > searching deeply. :)
-> Yes, what I meant is that I was about to submit a separate patch to fix the
-> && vs || bug, but I happened to notice your commit from January 10th.
-> Therefore, I decided not to send a duplicate patch and will defer to yours
-> instead.
-> However, would it be possible to add the following Reported-by tags to your
-> patch?
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
+Hi Riana,
 
-Once it's merged then it's too late to add tags.  Presumably Haiyue Wang
-found the bug a different way without seeing the report.  It's not a big
-deal.
+kernel test robot noticed the following build errors:
 
-regards,
-dan carpenter
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on drm/drm-next next-20260116]
+[cannot apply to drm-misc/drm-misc-next linus/master v6.19-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Riana-Tauro/drm-ras-Introduce-the-DRM-RAS-infrastructure-over-generic-netlink/20260119-113326
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20260119040023.2821518-9-riana.tauro%40intel.com
+patch subject: [PATCH v4 3/4] drm/xe/xe_hw_error: Add support for GT hardware errors
+config: alpha-randconfig-r072-20260119 (https://download.01.org/0day-ci/archive/20260119/202601191630.EAGtgUQy-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+smatch version: v0.5.0-8985-g2614ff1a
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601191630.EAGtgUQy-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601191630.EAGtgUQy-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/xe/xe_hw_error.c: In function 'gt_hw_error_handler':
+>> drivers/gpu/drm/xe/xe_hw_error.c:168:4: error: a label can only be part of a statement and a declaration is not a statement
+       u32 errbit;
+       ^~~
+
+
+vim +168 drivers/gpu/drm/xe/xe_hw_error.c
+
+   134	
+   135	static void gt_hw_error_handler(struct xe_tile *tile, const enum hardware_error hw_err,
+   136					u32 error_id)
+   137	{
+   138		const enum drm_xe_ras_error_severity severity = hw_err_to_severity(hw_err);
+   139		struct xe_device *xe = tile_to_xe(tile);
+   140		struct xe_drm_ras *ras = &xe->ras;
+   141		struct xe_drm_ras_counter *info = ras->info[severity];
+   142		struct xe_mmio *mmio = &tile->mmio;
+   143		unsigned long err_stat = 0;
+   144		int i, len;
+   145	
+   146		if (xe->info.platform != XE_PVC)
+   147			return;
+   148	
+   149		if (hw_err == HARDWARE_ERROR_NONFATAL) {
+   150			atomic64_inc(&info[error_id].counter);
+   151			log_hw_error(tile, info[error_id].name, severity);
+   152			return;
+   153		}
+   154	
+   155		len = (hw_err == HARDWARE_ERROR_CORRECTABLE) ? ERR_STAT_GT_COR_VECTOR_LEN
+   156							     : ERR_STAT_GT_VECTOR_MAX;
+   157	
+   158		for (i = 0; i < len; i++) {
+   159			u32 vector, val;
+   160	
+   161			vector = xe_mmio_read32(mmio, ERR_STAT_GT_VECTOR_REG(hw_err, i));
+   162			if (!vector)
+   163				continue;
+   164	
+   165			switch (i) {
+   166			case ERR_STAT_GT_VECTOR0:
+   167			case ERR_STAT_GT_VECTOR1:
+ > 168				u32 errbit;
+   169	
+   170				val = hweight32(vector);
+   171				atomic64_add(val, &info[error_id].counter);
+   172				log_gt_err(tile, "Subslice", i, vector, severity);
+   173	
+   174				/* Read Error Status Register once */
+   175				if (err_stat)
+   176					break;
+   177	
+   178				err_stat = xe_mmio_read32(mmio, ERR_STAT_GT_REG(hw_err));
+   179				for_each_set_bit(errbit, &err_stat, GT_HW_ERROR_MAX_ERR_BITS) {
+   180					if (hw_err == HARDWARE_ERROR_CORRECTABLE &&
+   181					    (BIT(errbit) & PVC_COR_ERR_MASK))
+   182						atomic64_inc(&info[error_id].counter);
+   183					if (hw_err == HARDWARE_ERROR_FATAL &&
+   184					    (BIT(errbit) & PVC_FAT_ERR_MASK))
+   185						atomic64_inc(&info[error_id].counter);
+   186				}
+   187				if (err_stat)
+   188					xe_mmio_write32(mmio, ERR_STAT_GT_REG(hw_err), err_stat);
+   189				break;
+   190			case ERR_STAT_GT_VECTOR2:
+   191			case ERR_STAT_GT_VECTOR3:
+   192				val = hweight32(vector);
+   193				atomic64_add(val, &info[error_id].counter);
+   194				log_gt_err(tile, "L3 BANK", i, vector, severity);
+   195				break;
+   196			case ERR_STAT_GT_VECTOR6:
+   197				val = hweight32(vector);
+   198				atomic64_add(val, &info[error_id].counter);
+   199				log_gt_err(tile, "TLB", i, vector, severity);
+   200				break;
+   201			case ERR_STAT_GT_VECTOR7:
+   202				val = hweight32(vector);
+   203				atomic64_add(val, &info[error_id].counter);
+   204				break;
+   205			default:
+   206				log_gt_err(tile, "Undefined", i, vector, severity);
+   207			}
+   208	
+   209			xe_mmio_write32(mmio, ERR_STAT_GT_VECTOR_REG(hw_err, i), vector);
+   210		}
+   211	}
+   212	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
