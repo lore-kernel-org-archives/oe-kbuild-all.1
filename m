@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5849A248867
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 20:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD8A2F744A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 21:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768855940; cv=none; b=mfF2GfcmcdlWUeD2M6bAGqq9WuR52h2dj58gkqsAs1R5ZB3SaoMGdPm8loY78/EchPCUU1Fzc/pNGw08mjbJlcT2RC8RLvlCKY8PnH9XeRdT2Xs3bUZmWWZ3EaJBfaW3Jjz8hGY0lNXHflpBdKURQ7I6kVp+IfXlGvtuXd6QQWM=
+	t=1768856660; cv=none; b=adj8QrhZkXjvb57KyLpKQ/pz9cO+iHMYtUaDr9AeopTm/gm1raJUIAQvbZ6jf0mAtp183ER3OEJEqo8smeQqjhmNXmKNGK78SMyWneTZBLMMOFOGLa2yG+HQVFvDMV3KSVgABnvlIymm3nulTk6WzT//npX4BKEESDybBdwOyto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768855940; c=relaxed/simple;
-	bh=nDwWiSNQwCPRJTDrkbPucGnALAKjK3AX8ZOj3KNUCf0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=WGDgcuZRiOai1wODkOQB/iFpViEV5RBW5oY9/OYrlb3YUu+W+NZLa4eidA5UpYxKrN2JqvXFald1U1h6dvjb3xPQJU5GOdURKnGcctongV+O+a27kwWvsKvf6CWyTaVDQ6JXy4lkUaupMrJ40Wau3iC/JoY/HQy4+y+zneq7kAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QlL3yKOm; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768856660; c=relaxed/simple;
+	bh=UulDW052lQyilBwQ5P6nFGWOvvK+Bt+cIULtReblVGE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Iq+4W8LNpWboVrUTrQmchhXDBAkNQxXXm1tOWAtJo6Liph6Ytj7FL/uxhoGpICUMM1FCdlX+ZI49I7JdXMQ4EVZzUTtgkR8Ldn2WszaZicee82U9HdoTe0aKZ061QdKNtkvpQmdHLEf7x+lbfuMkGjwGWW97EXcUMNWY6fSGLds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=loRdUV5n; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QlL3yKOm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="loRdUV5n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768855938; x=1800391938;
+  t=1768856658; x=1800392658;
   h=date:from:to:cc:subject:message-id;
-  bh=nDwWiSNQwCPRJTDrkbPucGnALAKjK3AX8ZOj3KNUCf0=;
-  b=QlL3yKOmFYYHT70zu296xujH1liiLRPmfxMUXkN2fS0D95bpvMDgWXY4
-   fQZTPGX9ZeTAhkIcaOFFxbIN7dD3HKRhCwUlfTKvzZdvcHMbGL1S1r1rq
-   OqKLXA5HhUvksHva9FMGE+l5xWOx3+i2hkry/U9ik+q96A1ljIeZZ9oqs
-   MbBR+3oHnwe5yYPup4dVCc/2DlZk4ouQmKuxFPcI00XLnjajknIKmHVMy
-   sqgYEExdnq1q2G+IBmZIRtJC38rqO4TL42syU7zE3NH/91TYFDbZfswnp
-   Kw2pbKCun0P86CNox/e3+xujpJvv9S4zBGpKCRD/r0bniobQOqnwFv5qj
-   w==;
-X-CSE-ConnectionGUID: f72wjSudSAayPWwVRjhwHg==
-X-CSE-MsgGUID: e+ybNbwiTq6l1uOYjj/x7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70040725"
-X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="70040725"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 12:52:18 -0800
-X-CSE-ConnectionGUID: DzGi0jVLQYew0kRR2F8++g==
-X-CSE-MsgGUID: RlJT+kTHSvunK3PyY6sJQA==
+  bh=UulDW052lQyilBwQ5P6nFGWOvvK+Bt+cIULtReblVGE=;
+  b=loRdUV5nHDEDT2dr/JM4J63f77AGpMM7lgdyprr9eAsOEguzqxObvYCZ
+   ofBR363QGKpggoTvrtZgiWIjQdGYWOf+WBW7QkShM2rFBTHGFILAMjDHw
+   tRHNjsdYnU4fUN0IaJv1lbfdO5TG/dEfWC8DGYFstnkS7tBulapn4CTea
+   qQwWZzLrqgVRZTkCnVqmb2sAZrNcw+GRT1cisjI/5i04yOoP2/xRYSVYd
+   roPRcVFbbXvTpj6HGNWl/i2ZCdvqm7EnX3vIrFeAlAF0o42+kcRlkmZ2T
+   bN0OLOvbXjbctWP+th4CbX9r7IPsI2Ryz6URZfuzoYXsqQXMSivaqKpdo
+   A==;
+X-CSE-ConnectionGUID: m3tWVVq0QuSnqbuGE9Fzuw==
+X-CSE-MsgGUID: kqJTAkqmR/aCqmYgEIMr2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="73931116"
+X-IronPort-AV: E=Sophos;i="6.21,239,1763452800"; 
+   d="scan'208";a="73931116"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2026 13:04:17 -0800
+X-CSE-ConnectionGUID: afitcn7QRUmkADB3QbklFA==
+X-CSE-MsgGUID: EeSuZ3jrRDG/9qE7pWSJ5g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,238,1763452800"; 
-   d="scan'208";a="210081050"
+X-IronPort-AV: E=Sophos;i="6.21,239,1763452800"; 
+   d="scan'208";a="210437749"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 19 Jan 2026 12:52:16 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 19 Jan 2026 13:04:16 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1vhwEP-00000000OIj-2yAa;
-	Mon, 19 Jan 2026 20:52:13 +0000
-Date: Tue, 20 Jan 2026 04:51:59 +0800
+	id 1vhwQ1-00000000OJ5-45tS;
+	Mon, 19 Jan 2026 21:04:13 +0000
+Date: Tue, 20 Jan 2026 05:04:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:dt 7/14] arch/m68k/coldfire/intc.c:173:34:
- error: 'MCFINT_VECBASE' undeclared
-Message-ID: <202601200416.fpIqDLOZ-lkp@intel.com>
+To: Dmitry Baryshkov <lumag@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Stephen Boyd <swboyd@chromium.org>
+Subject: drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse: sparse:
+ incompatible types in comparison expression (different address spaces):
+Message-ID: <202601200453.yKeQMaqi-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,45 +60,80 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git dt
-head:   c125a4847c40ed3b54deb8116f78193aa9fd29da
-commit: bf56caa3d5a11034c40c55074a863e3f341b73ea [7/14] m68k: coldfire: support devicetree binding for intc controller
-config: m68k-amcore_defconfig (https://download.01.org/0day-ci/archive/20260120/202601200416.fpIqDLOZ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200416.fpIqDLOZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
+commit: 603fc0fc30bf69e78a7a5febdb1431bd49d87f22 drm/msm/dp: drop the msm_dp_catalog module
+date:   7 months ago
+config: powerpc-randconfig-r131-20260118 (https://download.01.org/0day-ci/archive/20260120/202601200453.yKeQMaqi-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601200453.yKeQMaqi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601200416.fpIqDLOZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601200453.yKeQMaqi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse:    void [noderef] __iomem *
+   drivers/gpu/drm/msm/dp/dp_display.c:1313:39: sparse:    void *
 
-   arch/m68k/coldfire/intc.c: In function 'intc_of_init':
->> arch/m68k/coldfire/intc.c:173:34: error: 'MCFINT_VECBASE' undeclared (first use in this function)
-     173 |         const unsigned int num = MCFINT_VECBASE + 64;
-         |                                  ^~~~~~~~~~~~~~
-   arch/m68k/coldfire/intc.c:173:34: note: each undeclared identifier is reported only once for each function it appears in
+vim +1313 drivers/gpu/drm/msm/dp/dp_display.c
 
-
-vim +/MCFINT_VECBASE +173 arch/m68k/coldfire/intc.c
-
-   169	
-   170	static int __init intc_of_init(struct device_node *np,
-   171				       struct device_node *parent)
-   172	{
- > 173		const unsigned int num = MCFINT_VECBASE + 64;
-   174		struct irq_domain *domain;
-   175		int irq;
-   176	
-   177		domain = irq_domain_add_linear(np, num, &intc_irqdomain_ops, NULL);
-   178	
-   179		for (irq = MCFINT_VECBASE; irq < num; irq++)
-   180			irq_create_mapping(domain, irq);
-   181	
-   182		return 0;
-   183	}
-   184	
+  1302	
+  1303	static int msm_dp_display_get_io(struct msm_dp_display_private *display)
+  1304	{
+  1305		struct platform_device *pdev = display->msm_dp_display.pdev;
+  1306	
+  1307		display->ahb_base = msm_dp_ioremap(pdev, 0, &display->ahb_len);
+  1308		if (IS_ERR(display->ahb_base))
+  1309			return PTR_ERR(display->ahb_base);
+  1310	
+  1311		display->aux_base = msm_dp_ioremap(pdev, 1, &display->aux_len);
+  1312		if (IS_ERR(display->aux_base)) {
+> 1313			if (display->aux_base != ERR_PTR(-EINVAL)) {
+  1314				DRM_ERROR("unable to remap aux region: %pe\n", display->aux_base);
+  1315				return PTR_ERR(display->aux_base);
+  1316			}
+  1317	
+  1318			/*
+  1319			 * The initial binding had a single reg, but in order to
+  1320			 * support variation in the sub-region sizes this was split.
+  1321			 * msm_dp_ioremap() will fail with -EINVAL here if only a single
+  1322			 * reg is specified, so fill in the sub-region offsets and
+  1323			 * lengths based on this single region.
+  1324			 */
+  1325			if (display->ahb_len < DP_DEFAULT_P0_OFFSET + DP_DEFAULT_P0_SIZE) {
+  1326				DRM_ERROR("legacy memory region not large enough\n");
+  1327				return -EINVAL;
+  1328			}
+  1329	
+  1330			display->ahb_len = DP_DEFAULT_AHB_SIZE;
+  1331			display->aux_base = display->ahb_base + DP_DEFAULT_AUX_OFFSET;
+  1332			display->aux_len = DP_DEFAULT_AUX_SIZE;
+  1333			display->link_base = display->ahb_base + DP_DEFAULT_LINK_OFFSET;
+  1334			display->link_len = DP_DEFAULT_LINK_SIZE;
+  1335			display->p0_base = display->ahb_base + DP_DEFAULT_P0_OFFSET;
+  1336			display->p0_len = DP_DEFAULT_P0_SIZE;
+  1337	
+  1338			return 0;
+  1339		}
+  1340	
+  1341		display->link_base = msm_dp_ioremap(pdev, 2, &display->link_len);
+  1342		if (IS_ERR(display->link_base)) {
+  1343			DRM_ERROR("unable to remap link region: %pe\n", display->link_base);
+  1344			return PTR_ERR(display->link_base);
+  1345		}
+  1346	
+  1347		display->p0_base = msm_dp_ioremap(pdev, 3, &display->p0_len);
+  1348		if (IS_ERR(display->p0_base)) {
+  1349			DRM_ERROR("unable to remap p0 region: %pe\n", display->p0_base);
+  1350			return PTR_ERR(display->p0_base);
+  1351		}
+  1352	
+  1353		return 0;
+  1354	}
+  1355	
 
 -- 
 0-DAY CI Kernel Test Service
