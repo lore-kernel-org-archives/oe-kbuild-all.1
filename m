@@ -1,121 +1,103 @@
-Received: from out28-97.mail.aliyun.com (out28-97.mail.aliyun.com [115.124.28.97])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11755381AF;
-	Mon, 19 Jan 2026 06:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD3B26B2AD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 06:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768803397; cv=none; b=l/AzRM7qELLb6Ozf1Oa8EvJZ2XblGywgWgpLuL0p/D9HgeXJNzfhi//L9jJYVV6zdyxtMY9tsLzWzshQDZnYnLGE89ml/CzUpPUlXCWRKrEkyGbEn03gkM9tMviutbs3FIw+pMI/9gD5ChvZ0rx63r4xkPkIntoyscFswOj/Gbo=
+	t=1768803436; cv=none; b=ic3Uhb7B3Kqt3sUSvgS4Gg4RhvplSAYlrhggFU0e1cv8/h+YctfmqbA1tBxDxH4tOzPsMjUXUB6UMdEvF+XXB2LXEsrGh+gZI3kaub1Y8pcOsRnnpFyX0v2DMzPFFHaIASSUtt2X+Vxa39oOuS5fdYCxKwCuPxjj6C9SAVVMkdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768803397; c=relaxed/simple;
-	bh=fUuddy/eqLnLSjrqaMq1bsbg8liqO0R3T9K+Nc0lYuM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uLejCWPLiQrPqOHGi7CPQ3iHZLhZK1GhnYt25MKfyiziGvNpqSj4PvBkuwU66vrAiBxvk+hqxCv3ztwjpb5ytR8Qu0nvASjrNJvYZAIj73px2QVwGJvseZ1fmzb/xBaWZK8jbfDOzlKqzbYDERRt3GTKCPVHV9seJAnSoJh35eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bosc.ac.cn; spf=pass smtp.mailfrom=bosc.ac.cn; arc=none smtp.client-ip=115.124.28.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bosc.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bosc.ac.cn
-Received: from 172.38.31.119(mailfrom:guoyaxing@bosc.ac.cn fp:SMTPD_---.gA-B0Ov_1768803381 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Mon, 19 Jan 2026 14:16:22 +0800
-Message-ID: <5483bb2f-04a7-468c-923f-0a62b94fc0e6@bosc.ac.cn>
-Date: Mon, 19 Jan 2026 14:16:21 +0800
+	s=arc-20240116; t=1768803436; c=relaxed/simple;
+	bh=MK21glFSa+UNzejeUd6BWztrCIDBq+hA2WNOlj+sP2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nMVwBC62VKB6fYPLayfHDkoYj4hTWZ1OeNa4oLMdNqDkbnur8eyh6HdIMOeCdXaNfn51zCL3EsntreZpnWPcbnoBwW7A+NxAAbIOFL0JMB8CiYBpV7IZ4ptM1gacTp6i0NcfYTDv6it3uGFq9mUFIF2xDsVncrpsEhCklPTJviw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8jrtZ3x; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8jrtZ3x"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768803434; x=1800339434;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MK21glFSa+UNzejeUd6BWztrCIDBq+hA2WNOlj+sP2c=;
+  b=m8jrtZ3xx1tuKTK0Kf0yfYQ4cBQlJmVwW7/wwiN5ljGZRHhnKpzta++8
+   OSTM9y7Xr0o8MkTSP2Qzvj36sd4TuNeOFgECmxyvlwSoCzKBRbBvNR6WO
+   CDBH3AP/u7PQ60UyPugcibs3A7sug8MCQA9MlfaE5SBEPWjvukZVROBD6
+   IEpQJADr6NNaNNTX9szZKx9MUK18t9I0O4ZUxismFbG0jqNmaQ0PDL6LS
+   q+pRCeuSIl9AKlR5OZ2fWOW2x7L/C0Z3ZbjbN9szGkAxDy0kFBvazKZGX
+   KLGU9XnoQSGBJbTvC+bRtRJQ7a9YIT6sczQlEL6fElzmCxNkf+rbSChL0
+   Q==;
+X-CSE-ConnectionGUID: xpkC0Cj1RNiZNeI6gmjwGg==
+X-CSE-MsgGUID: FTNillmPS9W9pTCEyR/Grg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11675"; a="81453541"
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
+   d="scan'208";a="81453541"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2026 22:17:13 -0800
+X-CSE-ConnectionGUID: EP6+fAvPRAqyuvU121GFQA==
+X-CSE-MsgGUID: zX9U1Vu2TNeSPJtsWfRrtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,237,1763452800"; 
+   d="scan'208";a="204932056"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 18 Jan 2026 22:17:12 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vhiZZ-00000000NVZ-0QoU;
+	Mon, 19 Jan 2026 06:17:09 +0000
+Date: Mon, 19 Jan 2026 14:17:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v1 8/9] iio: dummy: iio_simple_dummy: Update to event
+ unit expanded interface
+Message-ID: <202601191309.wgkdHbDj-lkp@intel.com>
+References: <40da257176192dce3b271c45b6ce7dcaa15b06af.1768759292.git.marcelo.schmitt1@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] uio: Add SVA support for PCI devices via
- uio_pci_generic_sva.c
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: dan.carpenter@linaro.org, oe-kbuild@lists.linux.dev, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev
-References: <20251223045409.15700-1-guoyaxing@bosc.ac.cn>
- <2026011643-coastline-playtime-0ac5@gregkh>
- <2026011603-dorsal-unblessed-cdb2@gregkh>
-From: yaxing guo <guoyaxing@bosc.ac.cn>
-In-Reply-To: <2026011603-dorsal-unblessed-cdb2@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <40da257176192dce3b271c45b6ce7dcaa15b06af.1768759292.git.marcelo.schmitt1@gmail.com>
 
+Hi Marcelo,
 
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-在 2026/1/16 23:16, Greg KH 写道:
-> On Fri, Jan 16, 2026 at 04:15:17PM +0100, Greg KH wrote:
->> On Tue, Dec 23, 2025 at 12:54:09PM +0800, Yaxing Guo wrote:
->>> This patch introduces a new UIO driver, uio_pci_generic_sva, which
->>> extends the functionality of uio_pci_generic by adding support for
->>> Shared Virtual Addressing (SVA) when IOMMU is enabled in the system.
->>>
->>> The key enhancement allows PCI devices to directly use user-space virtual
->>> addresses for DMA operations, eliminating the need for bounce buffers or
->>> explicit IOVA mapping. This is achieved by leveraging the kernel's IOMMU-SVA
->>> subsystem, including process address space attachment, page fault handling,
->>> and shared context management between CPU and device.
->>>
->>> With this driver, userspace applications can perform zero-copy DMA using
->>> native pointers:
->>>
->>>     void *addr = malloc(N);
->>>     set_dma_addr((uint64_t)addr);  // Passing user VA directly
->>>     start_dma();
->>>
->>> The device can now access 'addr' through the IOMMU's PASID-based translation,
->>> provided that the underlying IOMMU hardware (e.g., Intel VT-d 3.1+, AMD-Vi,
->>> ARM SMMU, RISCV IOMMU) and platform support SVA.
->>>
->>> Dependencies:
->>> - CONFIG_IOMMU_SVA must be enabled.
->>> - The platform must support PRI (Page Request Interface) and PASID.
->>> - Device drivers/userspace must handle page faults if demand-paging is used.
->>>
->>> The implementation reuses core logic from uio_pci_generic.c while adding
->>> PASID setting, and integration with the IOMMU SVA APIs.
->>>
->>> Also, add a read-only sysfs attribute 'pasid' to expose the Process Address
->>> Space ID assigned by IOMMU driver when binding an SVA-enabled device.
->>> For details, refer to the ABI documentation for uio_pci_sva driver sysfs attribute
->>> (Documentation/ABI/testing/sysfs-driver-uio_pci_sva-pasid).
->>>
->>> Signed-off-by: Yaxing Guo <guoyaxing@bosc.ac.cn>
->>> ---
->>> Changes in v4:
->>>   -- Fix the errors about 'udev' could be null and double free that
->>>      reported by: kernel test robot <lkp@intel.com> and Dan Carpenter <dan.carpenter@linaro.org>
->>>      error report: https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/
->>
->> Where is the changes from previous versions?
->>
->>> +++ b/Documentation/ABI/testing/sysfs-driver-uio_pci_sva-pasid
->>> @@ -0,0 +1,29 @@
->>> +What:		/sys/bus/pci/drivers/uio_pci_sva/<pci_dev>/pasid
->>> +Date:		September 2025
->>
->> It's not September anymore :)
->>
->>> +module_pci_driver(uio_pci_generic_sva_driver);
->>> +MODULE_VERSION("0.0.01");
->>
->> No need for a module version.
->>
->> Ah, these are all just minor things, let me go queue this up now, can
->> you send a follow-on patch to make these 2 changes?
-> 
-> Wait, I already took this a while ago, why was this resent?
-> 
-After the v3 patch submission, I received error reports from Dan 
-Carpenter dan.carpenter@linaro.org and the kernel test robot 
-lkp@intel.com (see: 
-https://lore.kernel.org/r/202511280815.WV9iCJZb-lkp@intel.com/).
-In response, I’ve submitted a new version (v4) of the same patch, which 
-primarily addresses the issues highlighted in that report (as described 
-in the "changes in v4" section of the cover letter).
-If there’s anything improper in this process—such as resubmitting 
-instead of replying with fixes or other procedural concerns—please let 
-me know, and I’ll be happy to correct it accordingly.
-Thank you for your guidance!
-> confused,
-> 
-> greg k-h
+[auto build test WARNING on c30e80d68a7afb334fde7147ee0106f25dd58d3a]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/iio-ABI-Drop-unused-in_energy_input/20260119-022321
+base:   c30e80d68a7afb334fde7147ee0106f25dd58d3a
+patch link:    https://lore.kernel.org/r/40da257176192dce3b271c45b6ce7dcaa15b06af.1768759292.git.marcelo.schmitt1%40gmail.com
+patch subject: [RFC PATCH v1 8/9] iio: dummy: iio_simple_dummy: Update to event unit expanded interface
+config: s390-randconfig-001-20260119 (https://download.01.org/0day-ci/archive/20260119/202601191309.wgkdHbDj-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260119/202601191309.wgkdHbDj-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601191309.wgkdHbDj-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/iio/dummy/iio_simple_dummy_events.c:124 function parameter 'unit' not described in 'iio_simple_dummy_read_event_value'
+>> Warning: drivers/iio/dummy/iio_simple_dummy_events.c:149 function parameter 'unit' not described in 'iio_simple_dummy_write_event_value'
+>> Warning: drivers/iio/dummy/iio_simple_dummy_events.c:124 function parameter 'unit' not described in 'iio_simple_dummy_read_event_value'
+>> Warning: drivers/iio/dummy/iio_simple_dummy_events.c:149 function parameter 'unit' not described in 'iio_simple_dummy_write_event_value'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for REGMAP_I3C
+   Depends on [n]: I3C [=n]
+   Selected by [y]:
+   - MMC5633 [=y] && IIO [=y] && (I2C [=y] || I3C [=n])
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
