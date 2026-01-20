@@ -1,240 +1,213 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1D03AA1A9;
-	Tue, 20 Jan 2026 20:36:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D16738BDA9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 20:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768941418; cv=none; b=nsCuJSYzb2KuG5rgb/FjvCk1VgPm0b/EPjrCcgVJjqA840KSoRqH80wf12jwzQv1eJOGwRb2MfMEBKdoeLi43wFJUy0/raMFrn2V5RuOvXnH9gF+7ZS2XVNSgxoZp7i03mGoN6NHzxHeF35IFiv222BRgDDKPcD5K/zgq0vXamk=
+	t=1768942798; cv=none; b=p+jjy0mlP+t48gGO766p7zkRcNX7aEALG3xJeKcT+vUCxhkokeo12hQDcTdQ3n1c+I7JynuPKJsnPoGhuoIr8hVY9/OIBBrxU5n0w8zMAEeUSBIA425PLjtwWV9s8Ih33xDAiIWRL5o7NOX4IvG1v/dbaIkQIWxY96JSGKG4Pzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768941418; c=relaxed/simple;
-	bh=EXTBXIRIC6sg9KddItGI515kgWbLiLzTEjP/PHBAUks=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kflIn6EQNTRaROXce9oeBVdT0JdgK3MBTD8gBKqIPjU7HE9OYnZCHU7te51+jLDADkmG1gjwxKG7zeh+4pke+tvVydwQPO58w3/Pag/Tn/JaPJXXwIHMSFAoOyRByx4Zumi5SUASMM2HSCDvSCAGY+5xl80zpH+IxMN2JOvTa6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=azHCZRWM; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1768942798; c=relaxed/simple;
+	bh=jNCyAX6cfBXVdeTHVx19aKTD0xqKyCL8Y0erw3bjd+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k0rnOh+BDtTKO5abwNeQUn7OiywO/hpU38Y0Qzr1QgVv8yunCWHAn/944nF8TjO/DsGwhIHT5aeLKOJ27qj7BPrF4AU4RTIRviaLSi8J1dkH0B0ye4MVVGYQyJCaHzatjo3RRqTVpoe8KTfrjBHfislh3nnEqc1XlVhUNGN1vCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U05xofnf; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="azHCZRWM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U05xofnf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768941414; x=1800477414;
-  h=date:from:to:cc:subject:message-id;
-  bh=EXTBXIRIC6sg9KddItGI515kgWbLiLzTEjP/PHBAUks=;
-  b=azHCZRWMuHW5iqEvPmDdZ2609HAsmfHbtBmZOh/pV0/BlqJPyJHf0Vvp
-   YN1/KWyvP1pRmlVXWVN3usIQRiu1Q+Rr1cc0iAPS0mDfpQ2wv8/W0hNsl
-   M8pilhyGuoVgzs+ppnE2+sQENvIyvFEOnyzKXsUwYaSS632tHj3I64udm
-   juUDvoHEwdx9sxWbE0xemDsRx/fjo6qTR22dsL51Ju0Wv427lvoqUTO0y
-   AUwnMVXglWNj5BU4VR8YPn9uO+wTaNc4tR6u6YTAB56JqQphdr+bA8Oy5
-   gb9ogLcuaObyoB7Y53f+hGrwHezb4qV5T5f5wIBu/1Je28kpd+Iw7/I7t
-   w==;
-X-CSE-ConnectionGUID: yc0G0Ys0SWykTdREGC/RqA==
-X-CSE-MsgGUID: hFVgs6m5TCqMZNM/iEMqkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="70328338"
+  t=1768942796; x=1800478796;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jNCyAX6cfBXVdeTHVx19aKTD0xqKyCL8Y0erw3bjd+Q=;
+  b=U05xofnfz4DNWd6qV12cF41BLwGsc4t/dnzpvJ+b4e6VQtD2nIHXKRcp
+   pg5hu8VXwkXj7dTmvyqzGRHKV02UmVQrusrl7pS8vmFnAnDg9sgZ7SyxB
+   gZQ6vET+EZ9hIZ27Og53+26i4eJOrrhV2SmVjoPVo6hzAftqKLOq3nl+n
+   fpy+ZIEnEk787j9S17P0KDor5d4POtwq/bZJQ72gE4GUXlfhNwuSSKQYo
+   S0eZLysd9oDsJI5fzqurw+hK/aCnZEpNm48A0XNNvMt2svyv9jnis2eO6
+   DU5+sP9yBcJcRqX//NWG32W0vIomgHWyPIcKWta5ks1SNCPaQfIqri5/v
+   A==;
+X-CSE-ConnectionGUID: ffcCZYEXSI6HvResxYRoEA==
+X-CSE-MsgGUID: A1X48u+bTNqRyqpqBWVmKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="70068866"
 X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
-   d="scan'208";a="70328338"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 12:36:53 -0800
-X-CSE-ConnectionGUID: z5HT/AKdS5+9D/f6KFiZ0Q==
-X-CSE-MsgGUID: xa6ZhmudThWZT6MAUVHt+w==
+   d="scan'208";a="70068866"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 12:59:56 -0800
+X-CSE-ConnectionGUID: pM5A9BmlTVidxfP4vilX1Q==
+X-CSE-MsgGUID: 9P3HCU9NRKOfxZgpMA9SbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
-   d="scan'208";a="205359378"
+   d="scan'208";a="206277061"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 20 Jan 2026 12:36:51 -0800
+  by orviesa008.jf.intel.com with ESMTP; 20 Jan 2026 12:59:54 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1viIT2-00000000PVF-0uvy;
-	Tue, 20 Jan 2026 20:36:48 +0000
-Date: Wed, 21 Jan 2026 04:36:39 +0800
+	id 1viIpK-00000000PWT-2u3F;
+	Tue, 20 Jan 2026 20:59:50 +0000
+Date: Wed, 21 Jan 2026 04:59:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 111/113]
- drivers/media/pci/intel/ipu6/ipu6-isys.c:1181:3: error: cannot jump from this
- goto statement to its label
-Message-ID: <202601210431.Je4aJ8yP-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/2] drm/xe: Select CONFIG_DEVICE_PRIVATE when
+ DRM_XE_GPUSVM is selected
+Message-ID: <202601210419.6HhGDdqP-lkp@intel.com>
+References: <20260120143459.9485-3-thomas.hellstrom@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260120143459.9485-3-thomas.hellstrom@linux.intel.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   55ba38aaeb6e07cbbbe550578fa4737b05de1d00
-commit: afa135d9336f38ce80db9a03551b15b9522c3f06 [111/113] media: ipu6: Serialise access to stream pointers by isys stream_lock
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260121/202601210431.Je4aJ8yP-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210431.Je4aJ8yP-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on drm/drm-next drm-i915/for-linux-next drm-tip/drm-tip next-20260120]
+[cannot apply to drm-misc/drm-misc-next daeinki-drm-exynos/exynos-drm-next drm-i915/for-linux-next-fixes linus/master v6.19-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-drm-xe-Fix-xe-userptr-in-the-absence-of-CONFIG_DEVICE_PRIVATE/20260120-223858
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20260120143459.9485-3-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH v2 2/2] drm/xe: Select CONFIG_DEVICE_PRIVATE when DRM_XE_GPUSVM is selected
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260121/202601210419.6HhGDdqP-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210419.6HhGDdqP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601210431.Je4aJ8yP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601210419.6HhGDdqP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/pci/intel/ipu6/ipu6-isys.c:1181:3: error: cannot jump from this goto statement to its label
-    1181 |                 goto leave;
-         |                 ^
-   drivers/media/pci/intel/ipu6/ipu6-isys.c:1184:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1184 |         guard(spinlock_irqsave)(&isys->streams_lock);
-         |         ^
-   include/linux/cleanup.h:414:15: note: expanded from macro 'guard'
-     414 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:168:2: note: expanded from macro '__UNIQUE_ID'
-     168 |         __PASTE(__UNIQUE_ID_,                                   \
-         |         ^
-   include/linux/compiler_types.h:16:23: note: expanded from macro '__PASTE'
-      16 | #define __PASTE(a, b) ___PASTE(a, b)
-         |                       ^
-   include/linux/compiler_types.h:15:24: note: expanded from macro '___PASTE'
-      15 | #define ___PASTE(a, b) a##b
-         |                        ^
-   <scratch space>:96:1: note: expanded from here
-      96 | __UNIQUE_ID_guard_1414
-         | ^
-   1 error generated.
+   mm/memremap.c: In function 'memremap_compat_align':
+   mm/memremap.c:36:16: error: 'SUBSECTION_SIZE' undeclared (first use in this function); did you mean 'SECTOR_SIZE'?
+      36 |         return SUBSECTION_SIZE;
+         |                ^~~~~~~~~~~~~~~
+         |                SECTOR_SIZE
+   mm/memremap.c:36:16: note: each undeclared identifier is reported only once for each function it appears in
+   mm/memremap.c: In function 'pageunmap_range':
+   mm/memremap.c:96:9: error: implicit declaration of function 'remove_pfn_range_from_zone'; did you mean 'remap_pfn_range_complete'? [-Wimplicit-function-declaration]
+      96 |         remove_pfn_range_from_zone(page_zone(first_page), PHYS_PFN(range->start),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         remap_pfn_range_complete
+   mm/memremap.c:99:17: error: implicit declaration of function '__remove_pages'; did you mean 'move_pages'? [-Wimplicit-function-declaration]
+      99 |                 __remove_pages(PHYS_PFN(range->start),
+         |                 ^~~~~~~~~~~~~~
+         |                 move_pages
+   mm/memremap.c:102:17: error: implicit declaration of function 'arch_remove_memory'; did you mean 'remove_memory'? [-Wimplicit-function-declaration]
+     102 |                 arch_remove_memory(range->start, range_len(range),
+         |                 ^~~~~~~~~~~~~~~~~~
+         |                 remove_memory
+   mm/memremap.c: At top level:
+   mm/memremap.c:144:60: warning: 'struct mhp_params' declared inside parameter list will not be visible outside of this definition or declaration
+     144 | static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
+         |                                                            ^~~~~~~~~~
+   mm/memremap.c: In function 'pagemap_range':
+   mm/memremap.c:189:37: error: invalid use of undefined type 'struct mhp_params'
+     189 |                              &params->pgprot);
+         |                                     ^~
+   mm/memremap.c:193:14: error: implicit declaration of function 'mhp_range_allowed' [-Wimplicit-function-declaration]
+     193 |         if (!mhp_range_allowed(range->start, range_len(range), !is_private)) {
+         |              ^~~~~~~~~~~~~~~~~
+   mm/memremap.c:212:25: error: implicit declaration of function 'add_pages'; did you mean 'dir_pages'? [-Wimplicit-function-declaration]
+     212 |                 error = add_pages(nid, PHYS_PFN(range->start),
+         |                         ^~~~~~~~~
+         |                         dir_pages
+   mm/memremap.c:221:25: error: implicit declaration of function 'arch_add_memory' [-Wimplicit-function-declaration]
+     221 |                 error = arch_add_memory(nid, range->start, range_len(range),
+         |                         ^~~~~~~~~~~~~~~
+   mm/memremap.c:229:17: error: implicit declaration of function 'move_pfn_range_to_zone' [-Wimplicit-function-declaration]
+     229 |                 move_pfn_range_to_zone(zone, PHYS_PFN(range->start),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+   mm/memremap.c:230:67: error: invalid use of undefined type 'struct mhp_params'
+     230 |                                 PHYS_PFN(range_len(range)), params->altmap,
+         |                                                                   ^~
+   mm/memremap.c: In function 'memremap_pages':
+   mm/memremap.c:268:16: error: variable 'params' has initializer but incomplete type
+     268 |         struct mhp_params params = {
+         |                ^~~~~~~~~~
+   mm/memremap.c:269:18: error: 'struct mhp_params' has no member named 'altmap'
+     269 |                 .altmap = pgmap_altmap(pgmap),
+         |                  ^~~~~~
+   mm/memremap.c:269:27: warning: excess elements in struct initializer
+     269 |                 .altmap = pgmap_altmap(pgmap),
+         |                           ^~~~~~~~~~~~
+   mm/memremap.c:269:27: note: (near initialization for 'params')
+   mm/memremap.c:270:18: error: 'struct mhp_params' has no member named 'pgmap'
+     270 |                 .pgmap = pgmap,
+         |                  ^~~~~
+   mm/memremap.c:270:26: warning: excess elements in struct initializer
+     270 |                 .pgmap = pgmap,
+         |                          ^~~~~
+   mm/memremap.c:270:26: note: (near initialization for 'params')
+   mm/memremap.c:271:18: error: 'struct mhp_params' has no member named 'pgprot'
+     271 |                 .pgprot = PAGE_KERNEL,
+         |                  ^~~~~~
+   In file included from include/linux/shm.h:6,
+                    from include/linux/sched.h:23,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from mm/memremap.c:3:
+>> arch/mips/include/asm/page.h:137:25: warning: excess elements in struct initializer
+     137 | #define __pgprot(x)     ((pgprot_t) { (x) } )
+         |                         ^
+   arch/mips/include/asm/pgtable.h:30:25: note: in expansion of macro '__pgprot'
+      30 | #define PAGE_KERNEL     __pgprot(_PAGE_PRESENT | __READABLE | __WRITEABLE | \
+         |                         ^~~~~~~~
+   mm/memremap.c:271:27: note: in expansion of macro 'PAGE_KERNEL'
+     271 |                 .pgprot = PAGE_KERNEL,
+         |                           ^~~~~~~~~~~
+   arch/mips/include/asm/page.h:137:25: note: (near initialization for 'params')
+     137 | #define __pgprot(x)     ((pgprot_t) { (x) } )
+         |                         ^
+   arch/mips/include/asm/pgtable.h:30:25: note: in expansion of macro '__pgprot'
+      30 | #define PAGE_KERNEL     __pgprot(_PAGE_PRESENT | __READABLE | __WRITEABLE | \
+         |                         ^~~~~~~~
+   mm/memremap.c:271:27: note: in expansion of macro 'PAGE_KERNEL'
+     271 |                 .pgprot = PAGE_KERNEL,
+         |                           ^~~~~~~~~~~
+   mm/memremap.c:268:27: error: storage size of 'params' isn't known
+     268 |         struct mhp_params params = {
+         |                           ^~~~~~
+   mm/memremap.c:268:27: warning: unused variable 'params' [-Wunused-variable]
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ZONE_DEVICE
+   Depends on [n]: MEMORY_HOTPLUG [=n] && MEMORY_HOTREMOVE [=n] && SPARSEMEM_VMEMMAP [=n]
+   Selected by [y]:
+   - DRM_XE_GPUSVM [=y] && HAS_IOMEM [=y] && DRM [=y] && DRM_XE [=y] && !UML
 
 
-vim +1181 drivers/media/pci/intel/ipu6/ipu6-isys.c
+vim +137 arch/mips/include/asm/page.h
 
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1143  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1144  static int isys_isr_one(struct ipu6_bus_device *adev)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1145  {
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1146  	struct ipu6_isys *isys = ipu6_bus_get_drvdata(adev);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1147  	struct ipu6_fw_isys_resp_info_abi *resp;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1148  	struct ipu6_isys_stream *stream;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1149  	struct ipu6_isys_csi2 *csi2 = NULL;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1150  	u32 index;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1151  	u64 ts;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1152  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1153  	if (!isys->fwcom)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1154  		return 1;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1155  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1156  	resp = ipu6_fw_isys_get_resp(isys->fwcom, IPU6_BASE_MSG_RECV_QUEUES);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1157  	if (!resp)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1158  		return 1;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1159  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1160  	ts = (u64)resp->timestamp[1] << 32 | resp->timestamp[0];
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1161  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1162  	index = resp_type_to_index(resp->type);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1163  	dev_dbg(&adev->auxdev.dev,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1164  		"FW resp %02d %s, stream %u, ts 0x%16.16llx, pin %d\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1165  		resp->type, fw_msg[index].msg, resp->stream_handle,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1166  		fw_msg[index].valid_ts ? ts : 0, resp->pin_id);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1167  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1168  	if (resp->error_info.error == IPU6_FW_ISYS_ERROR_STREAM_IN_SUSPENSION)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1169  		/* Suspension is kind of special case: not enough buffers */
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1170  		dev_dbg(&adev->auxdev.dev,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1171  			"FW error resp SUSPENSION, details %d\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1172  			resp->error_info.error_details);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1173  	else if (resp->error_info.error)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1174  		dev_dbg(&adev->auxdev.dev,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1175  			"FW error resp error %d, details %d\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1176  			resp->error_info.error, resp->error_info.error_details);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1177  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1178  	if (resp->stream_handle >= IPU6_ISYS_MAX_STREAMS) {
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1179  		dev_err(&adev->auxdev.dev, "bad stream handle %u\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1180  			resp->stream_handle);
-f50c4ca0a82003b Bingbu Cao        2024-01-31 @1181  		goto leave;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1182  	}
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1183  
-afa135d9336f38c Sakari Ailus      2025-12-18  1184  	guard(spinlock_irqsave)(&isys->streams_lock);
-afa135d9336f38c Sakari Ailus      2025-12-18  1185  
-45316ce8af169db Sakari Ailus      2025-12-01  1186  	stream = resp->stream_handle < IPU6_ISYS_MAX_STREAMS ?
-45316ce8af169db Sakari Ailus      2025-12-01  1187  		isys->streams_by_handle[resp->stream_handle] : NULL;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1188  	if (!stream) {
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1189  		dev_err(&adev->auxdev.dev, "stream of stream_handle %u is unused\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1190  			resp->stream_handle);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1191  		goto leave;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1192  	}
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1193  	stream->error = resp->error_info.error;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1194  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1195  	csi2 = ipu6_isys_subdev_to_csi2(stream->asd);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1196  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1197  	switch (resp->type) {
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1198  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_OPEN_DONE:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1199  		complete(&stream->stream_open_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1200  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1201  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_CLOSE_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1202  		complete(&stream->stream_close_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1203  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1204  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_START_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1205  		complete(&stream->stream_start_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1206  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1207  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_START_AND_CAPTURE_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1208  		complete(&stream->stream_start_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1209  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1210  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_STOP_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1211  		complete(&stream->stream_stop_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1212  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1213  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_FLUSH_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1214  		complete(&stream->stream_stop_completion);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1215  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1216  	case IPU6_FW_ISYS_RESP_TYPE_PIN_DATA_READY:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1217  		/*
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1218  		 * firmware only release the capture msg until software
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1219  		 * get pin_data_ready event
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1220  		 */
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1221  		ipu6_put_fw_msg_buf(ipu6_bus_get_drvdata(adev), resp->buf_id);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1222  		if (resp->pin_id < IPU6_ISYS_OUTPUT_PINS &&
-c139c1ac06bea6e Stanislaw Gruszka 2025-05-02  1223  		    stream->output_pins_queue[resp->pin_id])
-c139c1ac06bea6e Stanislaw Gruszka 2025-05-02  1224  			ipu6_isys_queue_buf_ready(stream, resp);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1225  		else
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1226  			dev_warn(&adev->auxdev.dev,
-c139c1ac06bea6e Stanislaw Gruszka 2025-05-02  1227  				 "%d:No queue for pin id %d\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1228  				 resp->stream_handle, resp->pin_id);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1229  		if (csi2)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1230  			ipu6_isys_csi2_error(csi2);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1231  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1232  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1233  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_CAPTURE_ACK:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1234  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1235  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_START_AND_CAPTURE_DONE:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1236  	case IPU6_FW_ISYS_RESP_TYPE_STREAM_CAPTURE_DONE:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1237  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1238  	case IPU6_FW_ISYS_RESP_TYPE_FRAME_SOF:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1239  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1240  		ipu6_isys_csi2_sof_event_by_stream(stream);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1241  		stream->seq[stream->seq_index].sequence =
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1242  			atomic_read(&stream->sequence) - 1;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1243  		stream->seq[stream->seq_index].timestamp = ts;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1244  		dev_dbg(&adev->auxdev.dev,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1245  			"sof: handle %d: (index %u), timestamp 0x%16.16llx\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1246  			resp->stream_handle,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1247  			stream->seq[stream->seq_index].sequence, ts);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1248  		stream->seq_index = (stream->seq_index + 1)
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1249  			% IPU6_ISYS_MAX_PARALLEL_SOF;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1250  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1251  	case IPU6_FW_ISYS_RESP_TYPE_FRAME_EOF:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1252  		ipu6_isys_csi2_eof_event_by_stream(stream);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1253  		dev_dbg(&adev->auxdev.dev,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1254  			"eof: handle %d: (index %u), timestamp 0x%16.16llx\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1255  			resp->stream_handle,
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1256  			stream->seq[stream->seq_index].sequence, ts);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1257  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1258  	case IPU6_FW_ISYS_RESP_TYPE_STATS_DATA_READY:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1259  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1260  	default:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1261  		dev_err(&adev->auxdev.dev, "%d:unknown response type %u\n",
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1262  			resp->stream_handle, resp->type);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1263  		break;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1264  	}
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1265  
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1266  leave:
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1267  	ipu6_fw_isys_put_resp(isys->fwcom, IPU6_BASE_MSG_RECV_QUEUES);
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1268  	return 0;
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1269  }
-f50c4ca0a82003b Bingbu Cao        2024-01-31  1270  
-
-:::::: The code at line 1181 was first introduced by commit
-:::::: f50c4ca0a82003b8a542c3332fd292cf1bc355a2 media: intel/ipu6: add the main input system driver
-
-:::::: TO: Bingbu Cao <bingbu.cao@intel.com>
-:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+c6e8b587718c486 include/asm-mips/page.h      Ralf Baechle   2005-02-10  131  
+c6e8b587718c486 include/asm-mips/page.h      Ralf Baechle   2005-02-10  132  /*
+c6e8b587718c486 include/asm-mips/page.h      Ralf Baechle   2005-02-10  133   * Manipulate page protection bits
+c6e8b587718c486 include/asm-mips/page.h      Ralf Baechle   2005-02-10  134   */
+c6e8b587718c486 include/asm-mips/page.h      Ralf Baechle   2005-02-10  135  typedef struct { unsigned long pgprot; } pgprot_t;
+c6e8b587718c486 include/asm-mips/page.h      Ralf Baechle   2005-02-10  136  #define pgprot_val(x)	((x).pgprot)
+^1da177e4c3f415 include/asm-mips/page.h      Linus Torvalds 2005-04-16 @137  #define __pgprot(x)	((pgprot_t) { (x) } )
+b3a428b4b18d495 arch/mips/include/asm/page.h Hassan Naveed  2018-10-29  138  #define pte_pgprot(x)	__pgprot(pte_val(x) & ~_PFN_MASK)
+^1da177e4c3f415 include/asm-mips/page.h      Linus Torvalds 2005-04-16  139  
 
 -- 
 0-DAY CI Kernel Test Service
