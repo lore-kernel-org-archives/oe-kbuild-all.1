@@ -1,361 +1,196 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2315144CAF6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 18:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768932351; cv=pass; b=QmtD4eU/W3K3dy+qHp98ZdczM0unjgF+Goe35RvCpAX3E/RaOoOcgz7UhhqP5tktnS16atjZUhIY9mpjFkLpmJVOBJXv2LieME5Y79VU5PnvdTWaI17wciVp3nq8t3ONRD3fkpKoYGBMxlhk7slOHVLXLCz/PSBunjxuU4GMaYo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768932351; c=relaxed/simple;
-	bh=Hvg8v2/E1mMoTGJSz2G5Kc+jGgeTMBGf9F/Gss6DWgE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SELTA4GjIhhBclQK9N+ISOGPxRbJl85dOxcZHHNJqIe/hchrQZrtD/t3fTC3+BAjE6UwY78Rk4DiZqgYjMboTiNZvo7YfNZI+jMWyZLC2Mm2udXooFIrPb/5n/yZvCnWhnotJH9Gnxx6PvLFj5+Syfte1ZQvqUTbNcmukkOzAGw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LuEwFldd; arc=pass smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB8E40B6E4;
+	Tue, 20 Jan 2026 19:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768936132; cv=none; b=YWcYGxMD5PwzKZRkcZ67FpcoLm05w9ePEn2LmM3R/9tbTl5/qD3xR8E/OZyiFgXPLdn6e1D6sX1SZeDbV67DI51aVeuxmtHbbU9aKKHiHRwUmfqN4tHQKrUamt6IwmXo244w70OkuoGBB6hNbCmp6L14zv5zFlD4yPCUYbpbP9A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768936132; c=relaxed/simple;
+	bh=suq092sxUq1UZDCmvSjB4EIKq0NWnio2m/MOEmqo3HM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gs2Yy7owjnspUZTGLQjrKLCUFB7s5+Qy+yu5Rx7mGoTdefcVVCDXgCC6Xwc8zjjYzrrr331m9pBI1ANrALAcSnw6CUK9fIIQW0YqFbzNdGps6TSmTh4nzgLZqw1ix+uYpW+urP9EUtKD0Gxq9jCeR2sf++DngID2am2Ab6iX4h4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PYDqAKB1; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LuEwFldd"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-7927541abfaso54154907b3.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 10:05:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768932348; cv=none;
-        d=google.com; s=arc-20240605;
-        b=B0WNxFpSiSZV08nJPnCnHuTef/uxnL7vyEy4RIuGaWrvOU+MBLR218IWFtJRJdBkGa
-         XBhrxsj+AD4Q1fKXbx3YjaYQLJxYmyDv7q/5TbXmRorNnSOpZRJXUiw22x+xOzmxlEbz
-         wfpqIe074wggPEWWCjSuY3T0zpuVuNDA5C7r4ii6A/XIkWus+MOQZL6Wyo4QS9ZnJ/YR
-         LEKwTXei3qEaq4xjLoLn446x8i5nlk/8VNXU3g4tB0Z5w4sr7UlpMt0cDEy2MLAYetxo
-         LfS7lxhOou65b0TMeJGbSseuPrtbOl06IabhB3gCnJEsskuqm9kv5cr/rV+7XHO1jIsZ
-         n5Ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=CjJDNN7W0lvRxWEjNm2RRgk+05KYOO4beij0BZs+558=;
-        fh=HM8eul6+RZy91vIs5yPsEb9b4jb2iGfAxPeOBGIotdI=;
-        b=JLZSSC1+2m+iazyEYvUThk6nSKq8XLlBI2CtQwTCjJlwVzkI8yDUqqnp1+Kg8imJGq
-         ZeRVzvNiBblxgUM4biWphcEW2Tt5Eqiu2tx9ktbUynPdqunKAX7rod2Ueg3ny+2a00TD
-         pDX7QGxdyOVs+GbZA5nzCQ0qbUPmFo6gvKZ7kpcVXTU74LU0yLJ+uPLSe+TTv6kacdll
-         L1uCDcorH/IXm259P+QNWaRFk3TKaYz8hhbrXW5VFF4Vyb9HywJi7KpCrEl3oGkp6d8T
-         K3bQVImsrYbWK5LahMHDnMT/CrRM4Jr1q+9fQTZrRIn/S8rVNaoK6mZm0s4bCTZ3T74W
-         ouzA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768932348; x=1769537148; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CjJDNN7W0lvRxWEjNm2RRgk+05KYOO4beij0BZs+558=;
-        b=LuEwFldde8r6HJgbVJBhTFkrPSLBOyfzGKOJrlWqnSN4xFylUf0F2svjT02Ok8JFKv
-         BgPRfzaenW4tyxYFkmFOduBz1o8bYh0dDXsOdFGgTwFuCqD5ns23GWljddumYFUt2Vqd
-         YEfGYXl/lJ4C+s5+fUHToeV6RuSvuanW0Z3UebtL4vspvStOp6zAcSKzoHart+rM7F7z
-         oMY0qg/D1MUgfMKC2BXAZirgVkMmrW6Uueoh7dcM+rPi8kfe83MkthyjrHagnf5F3ZE5
-         //WEDLJVd8Kk2Doyob9U6A54y4LOZ2uG5+mC0Ik3vrMfjJozzJbII9A3Hj5vVgLcy5BD
-         dbuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768932348; x=1769537148;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CjJDNN7W0lvRxWEjNm2RRgk+05KYOO4beij0BZs+558=;
-        b=mIn5VYGYxwvXCvejpLmAr48U0orDAmDZfKUdZAgdAyJUOLB8WswB0Z+qHWphU44a4g
-         N5KqOBob6VoLLQl8TbYm47pBMspyx8ECjplyu3GpBauTLE5tIuqRG1OPC1p2W2OZEVme
-         9/iAQ6ayVfYSH94IOLIkE9FyWta8UB7YoGtyQnzcXImP28qDUP/1SUlSe/+ZpBJMQEMb
-         yjsfDICc6DKlUIaCkvoyE+onZ+d6v3Vx9drB3q7eD8W68nA5t2ZrWUHJugEO1kc+IuqK
-         yPPYBAIJRp0jaalt8qWISbuuNxWpPCfkPj02IsXaOJjJ8w5C3poGSMXtCthQSWVNKsi1
-         RRzw==
-X-Forwarded-Encrypted: i=1; AJvYcCX1kalufPjc1fXN9O4xXXrz1ijB9ZuX/zOIrb1vqHWwT5DD/Hz4u1ztekY7YmNfEUuhgr0kQnY62mnReAKg@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywo9dms+Jfq09pDVZ0TtrX9Te22SWdqPytozvQPM7tQYfyMBAH9
-	ckEus8dUomwYy5Kg9CcumJKAli9DvQamW5qkOv5j5zhh28OqVLMsRNeA1LWUGWXMRMcGX3b4gTt
-	llnthS0k8RVeDE6C9Z+9NsbPhZVqtKPA=
-X-Gm-Gg: AZuq6aK8Xgb4hEr5E1pHyr6FMss8axSEEYBUuDIa2EAg4l8X9QeA1OPFURhNTZJVgYW
-	DRC2E1/xT3ufS+wT0cB+k/vD4xmHw8ZZ/uJzk3ZfW5+8cHkhfPMt8suAXvNarhvkkmkMOHy7cCb
-	lDMd8FyXwZPKSNDv8ovwQlLH97jPhS2fdc8ZTJKvbnhXe1wG5Mp+abM4hcDhskOUJyYn2S7eVR2
-	sGKri2n5JVeYcVp+5wjan2K9sBgpEAI6Z0HNVFPGi7hb7QcaqKZaiaDWk1pdt+3AlgwqDhWNzML
-	cohWV0+huAit4MYbsu0qX/GeuWukQZ/vK1mpYiEzm2jK73t87pK26MnBnQ==
-X-Received: by 2002:a05:690c:690e:b0:788:1eae:3d7f with SMTP id
- 00721157ae682-7940a4b0168mr21195427b3.70.1768932347519; Tue, 20 Jan 2026
- 10:05:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PYDqAKB1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768936131; x=1800472131;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=suq092sxUq1UZDCmvSjB4EIKq0NWnio2m/MOEmqo3HM=;
+  b=PYDqAKB18VxL8n+qx/lznWGeA8rSNU0rjH+7CB1gUMbmhg4WcFbNEbW7
+   diOCe1eTeZylh10obxDXFM480lxmERdUbhAZYBkgkYhgjIXKluT/B/Xtd
+   KBD1cF0xmsz0oPoVsenzElzpbZZDy6mu6wq9a4rjCtADKcBf6sMOArBKO
+   +35dCNC6nPMO6gYgAMOIPHAqNqz7hIlMjED7sR2UEsr5OPxWp9pvRa6aI
+   0VabahKIwfVuCVS+qL+86fxiRM7oNCrDBa5OjWv2GYi8GZhU4aAfieGTb
+   DLlT+PPbh18rFy/YRMbdy3JYIKyzU5H6rLlybtvRzXOvUCh/NcwkTQWEd
+   w==;
+X-CSE-ConnectionGUID: igVuXgNqQ2ShwMEYUDOgyg==
+X-CSE-MsgGUID: RIxQttgCTfCuMJULXE6Buw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="57716903"
+X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
+   d="scan'208";a="57716903"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 11:08:49 -0800
+X-CSE-ConnectionGUID: S/qzfxi6Tjynf60TUbjybw==
+X-CSE-MsgGUID: oFTL2pAKTTqSKELIV4YUSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
+   d="scan'208";a="206450650"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 20 Jan 2026 11:08:43 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1viH5k-00000000POH-2pR0;
+	Tue, 20 Jan 2026 19:08:40 +0000
+Date: Wed, 21 Jan 2026 03:08:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mukesh R <mrathor@linux.microsoft.com>, linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kys@microsoft.com,
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+	longli@microsoft.com, catalin.marinas@arm.com, will@kernel.org,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, joro@8bytes.org,
+	lpieralisi@kernel.org, kwilczynski@kernel.org, mani@kernel.org,
+	robh@kernel.org, bhelgaas@google.com, arnd@arndb.de,
+	nunodasneves@linux.microsoft.com, mhklinux@outlook.com,
+	romank@linux.microsoft.com
+Subject: Re: [PATCH v0 01/15] iommu/hyperv: rename hyperv-iommu.c to
+ hyperv-irq.c
+Message-ID: <202601210208.mg3YUkif-lkp@intel.com>
+References: <20260120064230.3602565-2-mrathor@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260116125803.598552-3-hadess@hadess.net> <202601170322.MZrwlt6M-lkp@intel.com>
- <AS4PR04MB969210BA5934C14282B8F104E788A@AS4PR04MB9692.eurprd04.prod.outlook.com>
- <7a5b73b4c56d0bfb8742045a3f530cd3d2d25b53.camel@hadess.net>
- <CABBYNZL6hAxsnBt=HStvhnZmoTfagzGuJ0sGeqiqhXdpm0DZOA@mail.gmail.com> <c4be5c93c1d83ab8fa3ff0dafe8efc3a827e0ebb.camel@hadess.net>
-In-Reply-To: <c4be5c93c1d83ab8fa3ff0dafe8efc3a827e0ebb.camel@hadess.net>
-From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Date: Tue, 20 Jan 2026 13:05:36 -0500
-X-Gm-Features: AZwV_QhlnKzyBTpqoj3KYBD52IUAcCLoNV_sBNFFbzsGygYhPJ3O-BfCOSR1J_4
-Message-ID: <CABBYNZKP3ahsqi1XVPmD24RWkXnBbOAZ9NJpo3yg-6xBY22N4A@mail.gmail.com>
-Subject: Re: [PATCH 2/3] Bluetooth: btnxpuart: Remove unneeded CONFIG_PM ifdef
-To: Bastien Nocera <hadess@hadess.net>
-Cc: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>, kernel test robot <lkp@intel.com>, 
-	"linux-bluetooth@vger.kernel.org" <linux-bluetooth@vger.kernel.org>, 
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260120064230.3602565-2-mrathor@linux.microsoft.com>
 
-Hi Bastien,
+Hi Mukesh,
 
-On Tue, Jan 20, 2026 at 12:17=E2=80=AFPM Bastien Nocera <hadess@hadess.net>=
- wrote:
->
-> On Tue, 2026-01-20 at 11:42 -0500, Luiz Augusto von Dentz wrote:
-> > Hi Bastien,
-> >
-> > On Mon, Jan 19, 2026 at 4:13=E2=80=AFAM Bastien Nocera <hadess@hadess.n=
-et>
-> > wrote:
-> > >
-> > > On Mon, 2026-01-19 at 07:53 +0000, Neeraj Sanjay Kale wrote:
-> > > > Hi Bastien,
-> > > >
-> > > > Thank you for your patch.
-> > > >
-> > > > Just an FYI, the " #ifdef CONFIG_PM_SLEEP" was added on purpose
-> > > > to
-> > > > resolve such build warning reported by kernel test bot:
-> > > > https://lore.kernel.org/all/20240710123426.935122-1-neeraj.sanjayka=
-le@nxp.com/
-> > >
-> > > I didn't see those warnings locally. They should be fixed by using
-> > > __maybe_unused instead otherwise the "it extends the code coverage"
-> > > justification wouldn't really apply anymore.
-> >
-> > Yes, I think we should mark the functions that are conditional with
-> > __maybe_unused, actually this might be the case with
-> > btusb_resume/btusb_suspend as well, right?
->
-> I believe that's what I've done that in v3. Let me know if there are
-> any problems with that version still.
+kernel test robot noticed the following build errors:
 
-You mean https://patchwork.kernel.org/project/bluetooth/list/?series=3D1044=
-140?
-That doesn't contain any changes to btusb though, anyway I can fixup
-the existing change just in case.
+[auto build test ERROR on tip/x86/core]
+[also build test ERROR on pci/next pci/for-linus arm64/for-next/core clk/clk-next soc/for-next linus/master arnd-asm-generic/master v6.19-rc6 next-20260119]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
-> Cheers
->
-> >
-> > >
-> > > Cheers
-> > >
-> > > >
-> > > > Thanks,
-> > > > Neeraj
-> > > >
-> > > > > Hi Bastien,
-> > > > >
-> > > > > kernel test robot noticed the following build warnings:
-> > > > >
-> > > > > [auto build test WARNING on bluetooth/master] [also build test
-> > > > > WARNING on
-> > > > > linus/master v6.19-rc5] [cannot apply to bluetooth-next/master
-> > > > > next-
-> > > > > 20260116] [If your patch is applied to the wrong git tree,
-> > > > > kindly
-> > > > > drop us a
-> > > > > note.
-> > > > > And when submitting patch, we suggest to use '--base' as
-> > > > > documented
-> > > > > in
-> > > > > https://git-/
-> > > > > scm.com%2Fdocs%2Fgit-format-
-> > > > > patch%23_base_tree_information&data=3D05%7C02%7Cneeraj.sanjaykale
-> > > > > %40n
-> > > > > xp.com%7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92
-> > > > > cd99c5c301635%7C0%7C0%7C639041898935601715%7CUnknown%7CTWFp
-> > > > > bGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4
-> > > > > z
-> > > > > MiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DW4jhk2S
-> > > > > VUr77jirvKdK%2FrKuKAVyXSbY9iO2pQ1%2BL7Fs%3D&reserved=3D0]
-> > > > >
-> > > > > url:
-> > > > > https://github/.
-> > > > > com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FBastien-
-> > > > > Nocera%2FBluetooth-
-> > > > > btmtksdio-Simplify-dev_pm_ops-usage%2F20260116-
-> > > > > 210400&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f3219146a7
-> > > > > 54
-> > > > > 0774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0
-> > > > > %7C639041898935632879%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcG
-> > > > > kiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsI
-> > > > > ldUI
-> > > > > j
-> > > > > oyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Dl2nEr61x%2F00NrtEqmvX2qhJ%2F0d
-> > > > > %2Fc6T%2BI6e5YRiz1TAM%3D&reserved=3D0
-> > > > > base:
-> > > > > https://git.kern/
-> > > > > el.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fbluetooth%2Fbluetoo
-> > > > > th.g
-> > > > > i
-> > > > > t&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f3219146a754077
-> > > > > 4e
-> > > > > da08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C63
-> > > > > 9041898935651605%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRy
-> > > > > dWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjo
-> > > > > yfQ%
-> > > > > 3
-> > > > > D%3D%7C0%7C%7C%7C&sdata=3D%2BKZxHj6EXqJXKC8%2FsiYrPOJczts%2BMEX
-> > > > > ycXixKcxUcf8%3D&reserved=3D0 master
-> > > > > patch link:
-> > > > > https://lore.ke/
-> > > > > rnel.org%2Fr%2F20260116125803.598552-3-
-> > > > > hadess%2540hadess.net&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.co
-> > > > > m%
-> > > > > 7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c
-> > > > > 3
-> > > > > 01635%7C0%7C0%7C639041898935668808%7CUnknown%7CTWFpbGZsb3d8
-> > > > > eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkF
-> > > > > OIj
-> > > > > oiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3Da3gomBec5GENv5B
-> > > > > RsBv%2Butzd11I3QunXE2yAaDg5f4Q%3D&reserved=3D0
-> > > > > patch subject: [PATCH 2/3] Bluetooth: btnxpuart: Remove
-> > > > > unneeded
-> > > > > CONFIG_PM ifdef
-> > > > > config: x86_64-randconfig-002-20260116
-> > > > > (https://downl/
-> > > > > oad.01.org%2F0day-
-> > > > > ci%2Farchive%2F20260117%2F202601170322.MZrwlt6M-
-> > > > > lkp%40intel.com%2Fconfig&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp
-> > > > > .com
-> > > > > %7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5
-> > > > > c
-> > > > > 301635%7C0%7C0%7C639041898935685518%7CUnknown%7CTWFpbGZsb3d
-> > > > > 8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIk
-> > > > > FOI
-> > > > > joiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DhR230cwqc4FucDn
-> > > > > 9TPmv79VLdAd8kHHwc2Q8SdPtHtk%3D&reserved=3D0)
-> > > > > compiler: gcc-14 (Debian 14.2.0-19) 14.2.0 reproduce (this is a
-> > > > > W=3D1
-> > > > > build):
-> > > > > (https://downl/
-> > > > > oad.01.org%2F0day-
-> > > > > ci%2Farchive%2F20260117%2F202601170322.MZrwlt6M-
-> > > > > lkp%40intel.com%2Freproduce&data=3D05%7C02%7Cneeraj.sanjaykale%40
-> > > > > nxp.
-> > > > > com%7C6f3219146a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd9
-> > > > > 9c5c301635%7C0%7C0%7C639041898935702245%7CUnknown%7CTWFpbGZ
-> > > > > sb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMi
-> > > > > Is
-> > > > > IkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DdsZA9O8KQy
-> > > > > QZJK2Fn%2FYtexA8zdrw%2FCcpwnEb7AwhiqU%3D&reserved=3D0)
-> > > > >
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just
-> > > > > a
-> > > > > new version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > > > Closes:
-> > > > > > https://lore/
-> > > > > > .kernel.org%2Foe-kbuild-all%2F202601170322.MZrwlt6M-
-> > > > > lkp%40intel.com%2F
-> > > > > >
-> > > > > &data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f3219146a7540774
-> > > > > e
-> > > > > da08de
-> > > > > >
-> > > > > 5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C63904189
-> > > > > 89357202
-> > > > > >
-> > > > > 33%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjA
-> > > > > uMDAwMCI
-> > > > > >
-> > > > > sIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&
-> > > > > sd
-> > > > > ata=3D2
-> > > > > > s046Nm4SrgCfY%2BqPyoYr8tf5xqoBw%2BqDiJ0YQ%2BiAt8%3D&reserved=3D
-> > > > > > 0
-> > > > >
-> > > > > All warnings (new ones prefixed by >>):
-> > > > >
-> > > > > > > drivers/bluetooth/btnxpuart.c:1964:12: warning:
-> > > > > > > 'nxp_serdev_resume'
-> > > > > > > defined but not used [-Wunused-function]
-> > > > >     1964 | static int nxp_serdev_resume(struct device *dev)
-> > > > >          |            ^~~~~~~~~~~~~~~~~
-> > > > > > > drivers/bluetooth/btnxpuart.c:1950:12: warning:
-> > > > > > > 'nxp_serdev_suspend'
-> > > > > > > defined but not used [-Wunused-function]
-> > > > >     1950 | static int nxp_serdev_suspend(struct device *dev)
-> > > > >          |            ^~~~~~~~~~~~~~~~~~
-> > > > >
-> > > > >
-> > > > > vim +/nxp_serdev_resume +1964 drivers/bluetooth/btnxpuart.c
-> > > > >
-> > > > > 689ca16e5232784 Neeraj Sanjay Kale 2023-03-16  1949
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05 @1950  static int
-> > > > > nxp_serdev_suspend(struct device *dev)
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1951  {
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1952     struct
-> > > > > btnxpuart_dev *nxpdev =3D dev_get_drvdata(dev);
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1953     struct
-> > > > > ps_data
-> > > > > *psdata =3D &nxpdev->psdata;
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1954
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1955
-> > > > > ps_control(psdata-
-> > > > > > hdev, PS_STATE_SLEEP);
-> > > > > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1956
-> > > > > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1957     if
-> > > > > (psdata-
-> > > > > > wakeup_source) {
-> > > > > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1958
-> > > > > enable_irq_wake(psdata->irq_handler);
-> > > > > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1959
-> > > > > enable_irq(psdata->irq_handler);
-> > > > > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1960     }
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1961     return
-> > > > > 0;
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1962  }
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1963
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05 @1964  static int
-> > > > > nxp_serdev_resume(struct device *dev)
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1965  {
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1966     struct
-> > > > > btnxpuart_dev *nxpdev =3D dev_get_drvdata(dev);
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1967     struct
-> > > > > ps_data
-> > > > > *psdata =3D &nxpdev->psdata;
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1968
-> > > > > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1969     if
-> > > > > (psdata-
-> > > > > > wakeup_source) {
-> > > > > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1970
-> > > > > disable_irq(psdata->irq_handler);
-> > > > > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1971
-> > > > > disable_irq_wake(psdata->irq_handler);
-> > > > > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1972     }
-> > > > > c50b56664e48b66 Neeraj Sanjay Kale 2025-04-14  1973
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1974
-> > > > > ps_control(psdata-
-> > > > > > hdev, PS_STATE_AWAKE);
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1975     return
-> > > > > 0;
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1976  }
-> > > > > 658c56d5b3b3a41 Neeraj Sanjay Kale 2024-07-05  1977
-> > > > >
-> > > > > --
-> > > > > 0-DAY CI Kernel Test Service
-> > > > > https://github/.
-> > > > > com%2Fintel%2Flkp-
-> > > > > tests%2Fwiki&data=3D05%7C02%7Cneeraj.sanjaykale%40nxp.com%7C6f321
-> > > > > 914
-> > > > > 6a7540774eda08de5538a471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0
-> > > > > %7C0%7C639041898935740752%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0e
-> > > > > U1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFp
-> > > > > bCI
-> > > > > sIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DIqE%2B%2BS2ZXcZb5PFvsvemp
-> > > > > dQffNOiktBLNpxdDx5JJJg%3D&reserved=3D0
-> > > >
-> > >
-> >
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-R/iommu-hyperv-rename-hyperv-iommu-c-to-hyperv-irq-c/20260120-145832
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20260120064230.3602565-2-mrathor%40linux.microsoft.com
+patch subject: [PATCH v0 01/15] iommu/hyperv: rename hyperv-iommu.c to hyperv-irq.c
+config: i386-randconfig-001-20260120 (https://download.01.org/0day-ci/archive/20260121/202601210208.mg3YUkif-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210208.mg3YUkif-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601210208.mg3YUkif-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/acpi/pci_root.c:20:
+>> include/linux/dmar.h:269:17: error: unknown type name '__u128'; did you mean '__u32'?
+     269 |                 __u128 irte;
+         |                 ^~~~~~
+         |                 __u32
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for IRQ_REMAP
+   Depends on [n]: IOMMU_SUPPORT [=y] && X86_64 [=n] && X86_IO_APIC [=y] && PCI_MSI [=n] && ACPI [=y]
+   Selected by [y]:
+   - HYPERV_IOMMU [=y] && IOMMU_SUPPORT [=y] && HYPERV [=y] && X86 [=y]
 
 
+vim +269 include/linux/dmar.h
 
---=20
-Luiz Augusto von Dentz
+2ae21010694e56 Suresh Siddha   2008-07-10  200  
+2ae21010694e56 Suresh Siddha   2008-07-10  201  struct irte {
+b1fe7f2cda2a00 Peter Zijlstra  2023-05-31  202  	union {
+b1fe7f2cda2a00 Peter Zijlstra  2023-05-31  203  		struct {
+2ae21010694e56 Suresh Siddha   2008-07-10  204  			union {
+3bf17472226b00 Thomas Gleixner 2015-06-09  205  				/* Shared between remapped and posted mode*/
+2ae21010694e56 Suresh Siddha   2008-07-10  206  				struct {
+3bf17472226b00 Thomas Gleixner 2015-06-09  207  					__u64	present		: 1,  /*  0      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  208  						fpd		: 1,  /*  1      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  209  						__res0		: 6,  /*  2 -  6 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  210  						avail		: 4,  /*  8 - 11 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  211  						__res1		: 3,  /* 12 - 14 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  212  						pst		: 1,  /* 15      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  213  						vector		: 8,  /* 16 - 23 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  214  						__res2		: 40; /* 24 - 63 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  215  				};
+3bf17472226b00 Thomas Gleixner 2015-06-09  216  
+3bf17472226b00 Thomas Gleixner 2015-06-09  217  				/* Remapped mode */
+3bf17472226b00 Thomas Gleixner 2015-06-09  218  				struct {
+3bf17472226b00 Thomas Gleixner 2015-06-09  219  					__u64	r_present	: 1,  /*  0      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  220  						r_fpd		: 1,  /*  1      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  221  						dst_mode	: 1,  /*  2      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  222  						redir_hint	: 1,  /*  3      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  223  						trigger_mode	: 1,  /*  4      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  224  						dlvry_mode	: 3,  /*  5 -  7 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  225  						r_avail		: 4,  /*  8 - 11 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  226  						r_res0		: 4,  /* 12 - 15 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  227  						r_vector	: 8,  /* 16 - 23 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  228  						r_res1		: 8,  /* 24 - 31 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  229  						dest_id		: 32; /* 32 - 63 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  230  				};
+3bf17472226b00 Thomas Gleixner 2015-06-09  231  
+3bf17472226b00 Thomas Gleixner 2015-06-09  232  				/* Posted mode */
+3bf17472226b00 Thomas Gleixner 2015-06-09  233  				struct {
+3bf17472226b00 Thomas Gleixner 2015-06-09  234  					__u64	p_present	: 1,  /*  0      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  235  						p_fpd		: 1,  /*  1      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  236  						p_res0		: 6,  /*  2 -  7 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  237  						p_avail		: 4,  /*  8 - 11 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  238  						p_res1		: 2,  /* 12 - 13 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  239  						p_urgent	: 1,  /* 14      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  240  						p_pst		: 1,  /* 15      */
+3bf17472226b00 Thomas Gleixner 2015-06-09  241  						p_vector	: 8,  /* 16 - 23 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  242  						p_res2		: 14, /* 24 - 37 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  243  						pda_l		: 26; /* 38 - 63 */
+2ae21010694e56 Suresh Siddha   2008-07-10  244  				};
+2ae21010694e56 Suresh Siddha   2008-07-10  245  				__u64 low;
+2ae21010694e56 Suresh Siddha   2008-07-10  246  			};
+2ae21010694e56 Suresh Siddha   2008-07-10  247  
+2ae21010694e56 Suresh Siddha   2008-07-10  248  			union {
+3bf17472226b00 Thomas Gleixner 2015-06-09  249  				/* Shared between remapped and posted mode*/
+2ae21010694e56 Suresh Siddha   2008-07-10  250  				struct {
+3bf17472226b00 Thomas Gleixner 2015-06-09  251  					__u64	sid		: 16,  /* 64 - 79  */
+3bf17472226b00 Thomas Gleixner 2015-06-09  252  						sq		: 2,   /* 80 - 81  */
+3bf17472226b00 Thomas Gleixner 2015-06-09  253  						svt		: 2,   /* 82 - 83  */
+3bf17472226b00 Thomas Gleixner 2015-06-09  254  						__res3		: 44;  /* 84 - 127 */
+3bf17472226b00 Thomas Gleixner 2015-06-09  255  				};
+3bf17472226b00 Thomas Gleixner 2015-06-09  256  
+3bf17472226b00 Thomas Gleixner 2015-06-09  257  				/* Posted mode*/
+3bf17472226b00 Thomas Gleixner 2015-06-09  258  				struct {
+3bf17472226b00 Thomas Gleixner 2015-06-09  259  					__u64	p_sid		: 16,  /* 64 - 79  */
+3bf17472226b00 Thomas Gleixner 2015-06-09  260  						p_sq		: 2,   /* 80 - 81  */
+3bf17472226b00 Thomas Gleixner 2015-06-09  261  						p_svt		: 2,   /* 82 - 83  */
+3bf17472226b00 Thomas Gleixner 2015-06-09  262  						p_res3		: 12,  /* 84 - 95  */
+3bf17472226b00 Thomas Gleixner 2015-06-09  263  						pda_h		: 32;  /* 96 - 127 */
+2ae21010694e56 Suresh Siddha   2008-07-10  264  				};
+2ae21010694e56 Suresh Siddha   2008-07-10  265  				__u64 high;
+2ae21010694e56 Suresh Siddha   2008-07-10  266  			};
+2ae21010694e56 Suresh Siddha   2008-07-10  267  		};
+b1fe7f2cda2a00 Peter Zijlstra  2023-05-31  268  #ifdef CONFIG_IRQ_REMAP
+b1fe7f2cda2a00 Peter Zijlstra  2023-05-31 @269  		__u128 irte;
+b1fe7f2cda2a00 Peter Zijlstra  2023-05-31  270  #endif
+b1fe7f2cda2a00 Peter Zijlstra  2023-05-31  271  	};
+b1fe7f2cda2a00 Peter Zijlstra  2023-05-31  272  };
+423f085952fd72 Thomas Gleixner 2010-10-10  273  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
