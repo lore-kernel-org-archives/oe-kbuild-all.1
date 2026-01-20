@@ -1,135 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA74F38A720
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 06:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81424378D6A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 06:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768891483; cv=none; b=s5xUVEV9eAI+rN7xDzSYDvDEH3RdyK2N+S+XeZWQWetp3wCwkj+lgdMYvc7Wy9jnl0zQ30ffuIlJh7uo3Q3mk7BMr+BxRL78p2KySx4yyS/DzxN0tT69O/pRJU3eL5E5m607z+6pLl9kb0tfT0eR7TE8mqbbx1I85vfN1fSjxCU=
+	t=1768891582; cv=none; b=Q+zOO8F+taJNzvvPn47RE3r+iRZ6BG4twhWriDt5tYoQNFzAuB8tcYWE7/qW5AWU45Tx+sC2uiBTY9QVDrZRBw9OrwCp6PhCwX8Vae9CJy5aFdby46OV/vmMM4rJviOaCTpdsZciOWZmhXEH83ht2WV6YJiu1spCqiJ6e03vTZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768891483; c=relaxed/simple;
-	bh=fVZodrtrlB4eQWOfQQDpyqC4aE5YuNhMLG4v6dA486c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jHrGdA/BO0KfDS+XGr8g9VNZI/ZWQ7GcqjBoXqXjBB38lg8WSguki72PYD55bo3Vqx2YOJ+Ah7Kpn72ME6ZhVbIOoHk5lPn7yD3TQS9i7ySgtdv9xQ9oDnNURKZb9Ze5sOu3Rk0ycAuaET1fNQrZ0gYvbbiMPl5/br/yZUMIYVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MZrlEhoh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768891582; c=relaxed/simple;
+	bh=zQTauf9+FCZgvacWS319fh01AB/IlHI0j/OyC2KznK4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=P1WlXJiPffAnalmQUseOgfyQPC9SYmrX7WxJTbw8vzddZpeEh+oMhuFsT89M/jLFaKs+hTrLFgcl4TM3hmKMSUWuI8NyDwySdoXOGT1zvOVAPF4ZbnGkO3DO0nAfQAFY+edSr97aDlXrTSMgjBFh+xSRE5JwMF8/A9Ngwg4Y1gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hP1Ce809; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MZrlEhoh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA230C19425;
-	Tue, 20 Jan 2026 06:44:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768891481;
-	bh=fVZodrtrlB4eQWOfQQDpyqC4aE5YuNhMLG4v6dA486c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MZrlEhohCL9rwVNrkEbEnAMLK4YjTjhZCaWebD3/VYEiAD3GBN+4ahxvemx5oAMJq
-	 Ke7Qpx+VhrnwjzSXzNhthxzW6DfIZo5hPk1NtLBqc+WMQCW4g/bcDL2zefvpRtwqJf
-	 TR9VQtaagkwHm+D7qhTEzDApB/i+ceen3GSiWw5s4iLHrbtxKgXh4XRpSSbkKK0KFr
-	 iSJJuuHZjY75pVGREsqiX2NjBxOuVPOTm9MuZHkAmLVNokM5ScpupSLMLLuG43jTCp
-	 qBRuRL7PvknMNc7755FIiuXMKgLk9Ih6lQtovnTMGnKsJQycdfPIkmgYjXgf8THEk4
-	 hYasGi/d1yWug==
-Message-ID: <ec5971d7-faaa-4716-a697-1c7c90d624d7@kernel.org>
-Date: Tue, 20 Jan 2026 07:44:37 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hP1Ce809"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42fb2314eb0so4062918f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jan 2026 22:46:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768891573; x=1769496373; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=klhXajdbwAk0QXfRXQmCUKn2nPx5fUGc/8woaWQokME=;
+        b=hP1Ce809wJ7EEMz7aOjKE4PfFG2hKks7NE0Rl+n4N/R4tHn6+3JbmozInZJ9/f+rn4
+         pILDmF9lqkPYaFjTE88l4lmLW5KR88wgABUaoipCeoi7uO5KqAgYzzKT2NAZmcXp4Ykp
+         pC86oyA7c4+QvGTYoWpmIEfUsbpRhXJ4tuhpprH35r2c5O2ypnzZqgKocelg3ySBa7En
+         1GMsLBU/rsqzkqHbZpMhpF0uLznOl4xFpPqiiAmhLpTloG4gkvgZ8uNIf9pnD8yvhL3Z
+         mIqp79ZLtZT9oS2SwEQDZDpcy1tKn02enXOeZNQoANnw7CXrP6yC+BwPu6VuJ3HGqhy6
+         9yqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768891573; x=1769496373;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=klhXajdbwAk0QXfRXQmCUKn2nPx5fUGc/8woaWQokME=;
+        b=ru8mwBYkZ+4PJjpwRGSaSZfXFSCl4iCTpZYTZ2hMJelojVoaKzTlP20dQ/4YGq7FPT
+         iX7LY+JOYZUAkgV9KnnoS7/3zlP1/CAVbMQwu3MPdGeCat83fgZz5HMLUZAiVYfqVerg
+         ABFgBZFyRjDExYlLqfXUHyh1A81oXcPk/pSaJm8OwdjOfpdHc96ZiO8oDRVv9YaJBkDq
+         KF4vJ7G7RMjVOpnzzGKwL10vqLPfDkHqgaXw5bposVRqNha52bTN93uG8CqrnONQ5AWx
+         cc1QsGrgeI/8UvXuHMp8WWF04l8enl39q5dHnFskftUJIyUL8vDauXGZ4e6FsrFh5m5z
+         BMGw==
+X-Forwarded-Encrypted: i=1; AJvYcCVUHvwyGSd3fhy12c1boNYoTCGg6suXvnWT6m0PKk6sw86Fi9aYQ5YSKa/h4taLUcthGQmd1rxRMt9R9Ztl@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx5e9AhUDjQjs/wEVpgfqTV+dXDMPh3wgUjU11yhaHCdha9uK2H
+	9POT4Fx0sT8F+Zs5Vj4GBYPy5WYug6s8yS2xmNdlpD6ZvGyjqD9Zd+VQG324ftS/hSU=
+X-Gm-Gg: AZuq6aIsKUtqosMiPP68Jud8Nz4igSs1KCjlELttRMFlbVTSHWD7Wg2TSVHNbGI3tzR
+	cUXOPKZ3cdw0NGMmDWd1CsM9kxJYWGNX3oems/zRhKe9aiCMu334isqrOqiC7PJeA81H0/29+ZZ
+	axJfbrIpXh27WRxithE2bS+2X4vRdTD/xZT7FC8I/bxA1NaxSXikq0I8WSBHyZZBJDaItKtdAYS
+	8LCLexi4RG1D7XEnDI1yW+wXmwnIn2q4Fz975aic84jvz0PvzThdvgLr38DfzBY2cMntbxRq1uG
+	DWxhrQsPdP5jh8N0sZ0/QTjh+TO/FviqqPVIqVCAkm/WaOR2l4mBEN4TiqpKiij6mufLMsAp3HU
+	nuUEYhy6VkbrCMwqyUPHnTyfo0KkOUPNTueAHiQ3bqjqnCmXCdhrgGXZJV8qe4tjaOWk1Rfcdiv
+	+xdlgoYxll8hOXfHZO
+X-Received: by 2002:a05:6000:2c03:b0:431:3a5:d9c1 with SMTP id ffacd0b85a97d-4358ff5692cmr894098f8f.30.1768891572616;
+        Mon, 19 Jan 2026 22:46:12 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4356999810bsm27653160f8f.40.2026.01.19.22.46.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jan 2026 22:46:12 -0800 (PST)
+Date: Tue, 20 Jan 2026 09:46:09 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Francesco Lavra <flavra@baylibre.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 3/3] iio: imu: st_lsm6dsx: add support for rotation
+ sensor
+Message-ID: <202601200451.4BeA8JAe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [akpm-mm:mm-unstable 319/345] mm/balloon.c:19:33: warning:
- 'balloon_page_device' defined but not used
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-References: <202601201338.4muFmFHV-lkp@intel.com>
-From: "David Hildenbrand (Red Hat)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
-In-Reply-To: <202601201338.4muFmFHV-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260119100449.1559624-4-flavra@baylibre.com>
 
-On 1/20/26 06:31, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> head:   bd361423f30912263920dd83326dcf142c16ce31
-> commit: f100e6eee69ff5746c327bc88a7fa6f43dbdf92c [319/345] mm: rename balloon_compaction.(c|h) to balloon.(c|h)
-> config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20260120/202601201338.4muFmFHV-lkp@intel.com/config)
-> compiler: sh4-linux-gcc (GCC) 15.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601201338.4muFmFHV-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202601201338.4muFmFHV-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> mm/balloon.c:19:33: warning: 'balloon_page_device' defined but not used [-Wunused-function]
->        19 | static struct balloon_dev_info *balloon_page_device(struct page *page)
->           |                                 ^~~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +/balloon_page_device +19 mm/balloon.c
-> 
-> 50fe4326e833f0 mm/balloon_compaction.c David Hildenbrand (Red Hat  2026-01-20  18)
-> ecc7c3359cb476 mm/balloon_compaction.c David Hildenbrand (Red Hat  2026-01-20 @19) static struct balloon_dev_info *balloon_page_device(struct page *page)
-> ecc7c3359cb476 mm/balloon_compaction.c David Hildenbrand (Red Hat  2026-01-20  20) {
-> ecc7c3359cb476 mm/balloon_compaction.c David Hildenbrand (Red Hat  2026-01-20  21) 	return (struct balloon_dev_info *)page_private(page);
-> ecc7c3359cb476 mm/balloon_compaction.c David Hildenbrand (Red Hat  2026-01-20  22) }
-> ecc7c3359cb476 mm/balloon_compaction.c David Hildenbrand (Red Hat  2026-01-20  23)
-> 
-> :::::: The code at line 19 was first introduced by commit
-> :::::: ecc7c3359cb47658444833b09785c2ceb8459a78 mm/balloon_compaction: move internal helpers to balloon_compaction.c
-> 
-> :::::: TO: David Hildenbrand (Red Hat) <david@kernel.org>
-> :::::: CC: Andrew Morton <akpm@linux-foundation.org>
-> 
+Hi Francesco,
 
-https://lkml.kernel.org/r/27f0adf1-54c1-4d99-8b7f-fd45574e7f41@kernel.org
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Francesco-Lavra/iio-imu-st_lsm6dsx-set-FIFO-ODR-for-accelerometer-and-gyroscope-only/20260119-181615
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20260119100449.1559624-4-flavra%40baylibre.com
+patch subject: [PATCH v3 3/3] iio: imu: st_lsm6dsx: add support for rotation sensor
+config: sparc-randconfig-r071-20260119 (https://download.01.org/0day-ci/archive/20260120/202601200451.4BeA8JAe-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.2.0
+smatch version: v0.5.0-8985-g2614ff1a
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202601200451.4BeA8JAe-lkp@intel.com/
+
+smatch warnings:
+drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_fusion.c:90 st_lsm6dsx_sf_set_odr() error: uninitialized symbol 'odr_val'.
+
+vim +/odr_val +90 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_fusion.c
+
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   70  int st_lsm6dsx_sf_set_odr(struct st_lsm6dsx_sensor *sensor, bool enable)
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   71  {
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   72  	struct st_lsm6dsx_hw *hw = sensor->hw;
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   73  	const struct st_lsm6dsx_sf_settings *settings;
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   74  	u8 data;
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   75  	int err;
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   76  
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   77  	guard(mutex)(&hw->page_lock);
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   78  
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   79  	err = st_lsm6dsx_sf_set_page(hw, true);
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   80  	if (err < 0)
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   81  		return err;
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   82  
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   83  	settings = &hw->settings->sf_settings;
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   84  	if (enable) {
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   85  		u8 odr_val;
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   86  		const struct st_lsm6dsx_reg *reg = &settings->odr_table.reg;
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   87  
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   88  		st_lsm6dsx_sf_get_odr_val(settings, sensor->hwfifo_odr_mHz,
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   89  					  &odr_val);
+
+No error checking on st_lsm6dsx_sf_get_odr_val().  Probably this is
+deliberate?
+
+aa03865dcb5ed7 Francesco Lavra 2026-01-19  @90  		data = ST_LSM6DSX_SHIFT_VAL(odr_val, reg->mask);
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   91  		err = regmap_update_bits(hw->regmap, reg->addr, reg->mask,
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   92  					 data);
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   93  		if (err < 0)
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   94  			goto out;
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   95  	}
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   96  
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   97  	err = regmap_assign_bits(hw->regmap, settings->fifo_enable.addr,
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   98  				 settings->fifo_enable.mask, enable);
+aa03865dcb5ed7 Francesco Lavra 2026-01-19   99  	if (err < 0)
+aa03865dcb5ed7 Francesco Lavra 2026-01-19  100  		goto out;
+aa03865dcb5ed7 Francesco Lavra 2026-01-19  101  
+aa03865dcb5ed7 Francesco Lavra 2026-01-19  102  	return st_lsm6dsx_sf_set_page(hw, false);
+aa03865dcb5ed7 Francesco Lavra 2026-01-19  103  
+aa03865dcb5ed7 Francesco Lavra 2026-01-19  104  out:
+aa03865dcb5ed7 Francesco Lavra 2026-01-19  105  	st_lsm6dsx_sf_set_page(hw, false);
+aa03865dcb5ed7 Francesco Lavra 2026-01-19  106  
+aa03865dcb5ed7 Francesco Lavra 2026-01-19  107  	return err;
+aa03865dcb5ed7 Francesco Lavra 2026-01-19  108  }
 
 -- 
-Cheers
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-David
