@@ -1,186 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B14364EAC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 21:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002E529E0E8;
+	Tue, 20 Jan 2026 22:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768945981; cv=none; b=cDiGaJZdpWhAQCPTMzwMSAC+v/KUe4lNmGFVL7NUHSpw2e5oiOPLw9m3ouAvwGoJgffgXENmZUx407vz4sEM2krQPyXj2HntKwojviE0L2UlKWLfkWhKUqh8gieKQFSO11FI2GxNNGNzo/AuZHqibw85nOsmhXgLjr4bOGDdJAE=
+	t=1768946642; cv=none; b=GUqk1kegllXvCrG96AKBaNjNbCVECYv2YWbkfBvibCmM3QYWhFqe78xdrSkTxys9VMYlCTuI63Yr2asPnyAd2BceatBDIHrELPLIB4F4SfSB4TIX0Qcg+WJ9ljkcjQFG93ZhbOj+lo7D2bVwAKvj1aU0/S7xyDT2zoXm1x8PafQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768945981; c=relaxed/simple;
-	bh=Pt+HgTKC+21o0rPJF4ZTZAJS7QI4K8MS19fJZw7Jkn4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=DcNMNlzrslPkjtYwiAUfeRIG4/GT9jMaf80J769CqbTgRnZ5XMINbJjsyBjG0iKS9yZs4xFQH1ecrGn29ZIhgBZTLjFrKm5mu1KLZiNeUuuAZY1IRAtYnscuuCeqpPss4LAWbqZ1tkfH4HqoyyS+x9XgUS+jsOvK0Q+fEaaDqVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mSzuQYby; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1768946642; c=relaxed/simple;
+	bh=zip5ATIXcGnPOSFQUuvHx03GlQS1rEwh0UF9MXE7tg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fz2AdASP5U2E8dgw9EpMoHjUUw3qDEGPn0Tm0SqbxovaOHNzrzG2X1FM+ZgY8qTSailUc3EpITEOLVODXs9j1rCEbhDnFuylQl7EI2KINCBY9bIs+rSuUPcDwOuVUWdzE9MbjGmUe8fIguitrtrQIITTbAvhZIp9b/EckrfPHEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R3choPYM; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mSzuQYby"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3choPYM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768945978; x=1800481978;
-  h=date:from:to:cc:subject:message-id;
-  bh=Pt+HgTKC+21o0rPJF4ZTZAJS7QI4K8MS19fJZw7Jkn4=;
-  b=mSzuQYbyNFjks8l2wn2NgWXlayRECPQ8aCIkyJR7msefVpWpBcLNpp1r
-   I7zUEMa2apeiNcNQdRVIAxWdi//20gOZf/4pWrYvspEwTGr7xAQi/tGcV
-   +fsWfwXwsp7ZxWlhOvYNCqzCRlnNE9wkVe8yxLNEHDSGDde58bd2zb/wh
-   IsPwwyUiVGcVZKpjEhKpGFQJqGMBw+sOtW8mNMWbccFjgF7fTOnSshlAD
-   59K+kmcBqLFVWpmHexHpb4BPZzj2PUsSekvKmaOa+ESSO8PReig0POtyu
-   b+5/1GLUKnfaHzr+oIm740HKDaMdkv60ihCWKa2Wi7tihqbJeOuufisqi
+  t=1768946640; x=1800482640;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zip5ATIXcGnPOSFQUuvHx03GlQS1rEwh0UF9MXE7tg8=;
+  b=R3choPYMFvufTPjLENfg7rXxkK9O0whQ2InxO2WVB/h78f5Bh8v39nVg
+   mKZD+Bq8vZXrOsZ0ZCBj6fst/jIdJFaErj561ZdjCgDbZS49BA/QmSMpK
+   FExw1qTZ8H8XT+BJuOcbv2g+FZdz5kvlm2YlQFDFsBv1ttqj9A4YEoBwW
+   akl3wgbMfUgwO+FYAP2THtAu2CicltUnqBdCYm2M20vTJX2b6PttAz3D0
+   RjFuOCcbIPnYjZjr+Ohj4iSUFYfP386RO5ypzP+7D2Sl2IdmyggyXje1z
+   t+wVI2ylw2SS3Gk97ZdgNBe8RuMRKsdsSeXqljsaoTlOZxoW8Llg5Bb7I
    Q==;
-X-CSE-ConnectionGUID: VjSTdPMQRK+TqJZE3S4Aiw==
-X-CSE-MsgGUID: tOEGcqmpRqq5atV9WpBgXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="92834696"
+X-CSE-ConnectionGUID: i+7MvID0Q0yzMT/aXpdtcg==
+X-CSE-MsgGUID: yHzyl8rkQV276TSaQgmX2w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11677"; a="80473249"
 X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
-   d="scan'208";a="92834696"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 13:52:58 -0800
-X-CSE-ConnectionGUID: /0Cgr3fUSQWQTyDRmsi+Pg==
-X-CSE-MsgGUID: nzyhzsLgTYKlhWKV7e8bsA==
+   d="scan'208";a="80473249"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 14:03:59 -0800
+X-CSE-ConnectionGUID: 73eAFPAGT/WDIQ971AOI4w==
+X-CSE-MsgGUID: usykPe85S06Yq/5VD5O3Og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,241,1763452800"; 
-   d="scan'208";a="229201054"
+   d="scan'208";a="205879081"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 20 Jan 2026 13:52:56 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 20 Jan 2026 14:03:57 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1viJef-00000000PbF-3x6U;
-	Tue, 20 Jan 2026 21:52:53 +0000
-Date: Wed, 21 Jan 2026 05:52:45 +0800
+	id 1viJpK-00000000Pbh-1pJw;
+	Tue, 20 Jan 2026 22:03:54 +0000
+Date: Wed, 21 Jan 2026 06:03:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Walmsley <pjw@kernel.org>
-Subject: [linux-next:master 6722/8302]
- arch/riscv/include/asm/uaccess.h:115:15: warning: cast to pointer from
- integer of different size
-Message-ID: <202601210526.OT45dlOZ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: Felix Gu <gu_0233@qq.com>, Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Felix Gu <gu_0233@qq.com>
+Subject: Re: [PATCH] firmware: arm_scpi: Fix device_node reference leak in
+ scpi_probe()
+Message-ID: <202601210508.3BaBN2n8-lkp@intel.com>
+References: <tencent_845B889AF1A932F1347EE0C09F350E491009@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_845B889AF1A932F1347EE0C09F350E491009@qq.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   053966c344dbd346e71305f530e91ea77916189f
-commit: bdce162f2e57a969803e5e9375999a3e0546905f [6722/8302] riscv: Use 64-bit variable for output in __get_user_asm
-config: riscv-randconfig-r064-20260121 (https://download.01.org/0day-ci/archive/20260121/202601210526.OT45dlOZ-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210526.OT45dlOZ-lkp@intel.com/reproduce)
+Hi Felix,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on d08c85ac8894995d4b0d8fb48d2f6a3e53cd79ab]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Felix-Gu/firmware-arm_scpi-Fix-device_node-reference-leak-in-scpi_probe/20260120-203159
+base:   d08c85ac8894995d4b0d8fb48d2f6a3e53cd79ab
+patch link:    https://lore.kernel.org/r/tencent_845B889AF1A932F1347EE0C09F350E491009%40qq.com
+patch subject: [PATCH] firmware: arm_scpi: Fix device_node reference leak in scpi_probe()
+config: arm-randconfig-001-20260121 (https://download.01.org/0day-ci/archive/20260121/202601210508.3BaBN2n8-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260121/202601210508.3BaBN2n8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601210526.OT45dlOZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601210508.3BaBN2n8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/uaccess.h:13,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/mm.h:36,
-                    from include/linux/migrate.h:5,
-                    from mm/migrate.c:16:
-   mm/migrate.c: In function 'do_pages_move':
->> arch/riscv/include/asm/uaccess.h:115:15: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     115 |         (x) = (__typeof__(x))__tmp;                             \
-         |               ^
-   arch/riscv/include/asm/uaccess.h:198:17: note: in expansion of macro '__get_user_asm'
-     198 |                 __get_user_asm("lb", (x), __gu_ptr, label);     \
-         |                 ^~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:218:9: note: in expansion of macro '__get_user_nocheck'
-     218 |         __get_user_nocheck(x, ptr, __gu_failed);                        \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:255:9: note: in expansion of macro '__get_user_error'
-     255 |         __get_user_error(__gu_val, __gu_ptr, __gu_err);         \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:285:17: note: in expansion of macro '__get_user'
-     285 |                 __get_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   mm/migrate.c:2358:29: note: in expansion of macro 'get_user'
-    2358 |                         if (get_user(p, pages + i))
-         |                             ^~~~~~~~
->> arch/riscv/include/asm/uaccess.h:115:15: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     115 |         (x) = (__typeof__(x))__tmp;                             \
-         |               ^
-   arch/riscv/include/asm/uaccess.h:201:17: note: in expansion of macro '__get_user_asm'
-     201 |                 __get_user_asm("lh", (x), __gu_ptr, label);     \
-         |                 ^~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:218:9: note: in expansion of macro '__get_user_nocheck'
-     218 |         __get_user_nocheck(x, ptr, __gu_failed);                        \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:255:9: note: in expansion of macro '__get_user_error'
-     255 |         __get_user_error(__gu_val, __gu_ptr, __gu_err);         \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:285:17: note: in expansion of macro '__get_user'
-     285 |                 __get_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   mm/migrate.c:2358:29: note: in expansion of macro 'get_user'
-    2358 |                         if (get_user(p, pages + i))
-         |                             ^~~~~~~~
->> arch/riscv/include/asm/uaccess.h:115:15: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-     115 |         (x) = (__typeof__(x))__tmp;                             \
-         |               ^
-   arch/riscv/include/asm/uaccess.h:204:17: note: in expansion of macro '__get_user_asm'
-     204 |                 __get_user_asm("lw", (x), __gu_ptr, label);     \
-         |                 ^~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:218:9: note: in expansion of macro '__get_user_nocheck'
-     218 |         __get_user_nocheck(x, ptr, __gu_failed);                        \
-         |         ^~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:255:9: note: in expansion of macro '__get_user_error'
-     255 |         __get_user_error(__gu_val, __gu_ptr, __gu_err);         \
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/uaccess.h:285:17: note: in expansion of macro '__get_user'
-     285 |                 __get_user((x), __p) :                          \
-         |                 ^~~~~~~~~~
-   mm/migrate.c:2358:29: note: in expansion of macro 'get_user'
-    2358 |                         if (get_user(p, pages + i))
-         |                             ^~~~~~~~
+>> drivers/firmware/arm_scpi.c:21:10: fatal error: 'linux/clean.h' file not found
+      21 | #include <linux/clean.h>
+         |          ^~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +115 arch/riscv/include/asm/uaccess.h
+vim +21 drivers/firmware/arm_scpi.c
 
-    92	
-    93	/*
-    94	 * The "__xxx" versions of the user access functions do not verify the address
-    95	 * space - it must have been done previously with a separate "access_ok()"
-    96	 * call.
-    97	 */
-    98	
-    99	#ifdef CONFIG_CC_HAS_ASM_GOTO_OUTPUT
-   100	/*
-   101	 * Use a temporary variable for the output of the asm goto to avoid a
-   102	 * triggering an LLVM assertion due to sign extending the output when
-   103	 * it is used in later function calls:
-   104	 * https://github.com/llvm/llvm-project/issues/143795
-   105	 */
-   106	#define __get_user_asm(insn, x, ptr, label)			\
-   107	do {								\
-   108		u64 __tmp;						\
-   109		asm_goto_output(					\
-   110			"1:\n"						\
-   111			"	" insn " %0, %1\n"			\
-   112			_ASM_EXTABLE_UACCESS_ERR(1b, %l2, %0)		\
-   113			: "=&r" (__tmp)					\
-   114			: "m" (*(ptr)) : : label);			\
- > 115		(x) = (__typeof__(x))__tmp;				\
-   116	} while (0)
-   117	#else /* !CONFIG_CC_HAS_ASM_GOTO_OUTPUT */
-   118	#define __get_user_asm(insn, x, ptr, label)			\
-   119	do {								\
-   120		long __gua_err = 0;					\
-   121		__asm__ __volatile__ (					\
-   122			"1:\n"						\
-   123			"	" insn " %1, %2\n"			\
-   124			"2:\n"						\
-   125			_ASM_EXTABLE_UACCESS_ERR_ZERO(1b, 2b, %0, %1)	\
-   126			: "+r" (__gua_err), "=&r" (x)			\
-   127			: "m" (*(ptr)));				\
-   128		if (__gua_err)						\
-   129			goto label;					\
-   130	} while (0)
-   131	#endif /* CONFIG_CC_HAS_ASM_GOTO_OUTPUT */
-   132	
+    18	
+    19	#include <linux/bitmap.h>
+    20	#include <linux/bitfield.h>
+  > 21	#include <linux/clean.h>
+    22	#include <linux/device.h>
+    23	#include <linux/err.h>
+    24	#include <linux/export.h>
+    25	#include <linux/io.h>
+    26	#include <linux/kernel.h>
+    27	#include <linux/list.h>
+    28	#include <linux/mailbox_client.h>
+    29	#include <linux/module.h>
+    30	#include <linux/of.h>
+    31	#include <linux/of_address.h>
+    32	#include <linux/of_platform.h>
+    33	#include <linux/platform_device.h>
+    34	#include <linux/printk.h>
+    35	#include <linux/property.h>
+    36	#include <linux/pm_opp.h>
+    37	#include <linux/scpi_protocol.h>
+    38	#include <linux/slab.h>
+    39	#include <linux/sort.h>
+    40	#include <linux/spinlock.h>
+    41	
 
 -- 
 0-DAY CI Kernel Test Service
