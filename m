@@ -1,60 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D7A4266B8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 13:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D5243636D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 13:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768916894; cv=none; b=ZZLE/h+NWHaGpv0DbXz6umgSx+RNQJS6xGyBqIKtXLuiOMqFEZGNxRjUOX7wYAiZs3sT7Mg5UsTNlin63np88NTwdsRkipTVNKXqnFhxvlMPVdFc09L41NJEriN/ognq/MW4Q1FSqd9Z8Caurj/IETh/Yy3wz8eVam+Mpqz0EQA=
+	t=1768916895; cv=none; b=fj4tB4dr6MRYszuVxuocFc0k++mhsJ021+mFtMe+otdUPhgtdBfr7nf8jdYNq4C8Oonzm5tE+SiDr2JJ5d1X/QbysBiAvmdd1XF4ncUYKjTElHMmZmNCUUiRh5WRlm5kRLwID2STSztjcsZgb697iCvd9bJfIgMhY6Xs4dSyNHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768916894; c=relaxed/simple;
-	bh=o4A7F7tA+UREQOAPNPgi+92cCGSqQ+0L5qprLBOpJRU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=B+a6TJoKYdIU48pOQjVSdxSP5LV0EVUNBqEgurfd+BsbXyoeaFs5jJ/G7jcQ0nRsM7kjlCHv4/X346ZB2IAgzmLoemblgGIzSKoKCLV/RZARY2YW+cQcb5/kLIYnmzLEHEWppFjSdbEtXuYqT4caQHDgLMWboHYKiX2L6SAGgeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZwOz0xZ5; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1768916895; c=relaxed/simple;
+	bh=YJLCw9NFvzqk8UYMJcfoYlh3p1NrSLQp5jpZzHmPjbE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G0TCgXY7zjvmEtSFNB/tvtvIboaoJTVgloUpaR0T99D3btta0yXf5iW/op11RKqgtcLzLrO0COXXXxDL58hvYXtJkjq55tFZvG1q0t4jmj+XrVwNHr+6UqATKhH4sjxbLcU/j605HaphnhLEokzIc5kSBP4aFVxFjNCItXvYWHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YrI1J+Zw; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZwOz0xZ5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YrI1J+Zw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768916893; x=1800452893;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o4A7F7tA+UREQOAPNPgi+92cCGSqQ+0L5qprLBOpJRU=;
-  b=ZwOz0xZ5XO70qZ3MFsFVfckj2CcAYZa3ptJw9deLm4UYPbMz8ziEXmma
-   DjRcQeFsEIEuvYJ08kMeLZocg5cvVOEohHvj+e5tbvOAgHlVBESYpdm1O
-   fzDhOneIO0GPj2q6kr0kpAGvRoRiC3sehaaFAgEvrBYLIAn7gma0vEbVP
-   Q0zpdL8pgmukhNvrOYHAS5bbhdgK+VdTIpH9igfPr2Wuh3EzV0xU1l8kT
-   EUmdZPnZSenxAL9wFCsacqKym4BlkNi4Ywjy5C3acLa7trFO+n3WUAPQW
-   JzRget1ECsIt106pkoFVRucwX2jCdz0MXI44lI9j9rsxKIslfbSoI+371
-   A==;
-X-CSE-ConnectionGUID: oBAlW6nATpOmvwi4PaGljQ==
-X-CSE-MsgGUID: d6nb+n9vS56Jvxx4oTyftg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70096172"
+  t=1768916894; x=1800452894;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YJLCw9NFvzqk8UYMJcfoYlh3p1NrSLQp5jpZzHmPjbE=;
+  b=YrI1J+ZwxCvFb7K0PbqOVXBwzJWiOy1uS9iEMfrbeN079qX6QtVEM/c7
+   +Vw/rzEKk7Z067w7aHELc4KYnNmVXjBkMdzq2ObpBwjqM3HC178QIelTj
+   DzFHWCvkADp80GIYA1h5yPOu2eZ4yDA89YMMsu9y/Xq350tuxTxZIDHsv
+   7Ac3IOqSZTDVfQncrn3CKyXr6JgxtzPudSMjbSTVNTn3CRGW3Wab4mYvX
+   RGhwR46pMerD2B4hztiiZuVTZtcD9x1oZA7KO0uhWtoxurmokZAOWJRe+
+   /I206Q9MGUNU9oigm1tZsR0QMf1CH4/K3lnv9ilal0IN5cip4nhvdz8MB
+   Q==;
+X-CSE-ConnectionGUID: lndgeQXBRBqoNVgPc9R2/A==
+X-CSE-MsgGUID: 3P+EDMlKSuCfSEvPpdeWlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="70096177"
 X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="70096172"
+   d="scan'208";a="70096177"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 05:48:12 -0800
-X-CSE-ConnectionGUID: or034q3ITI6k5+loNMXITA==
-X-CSE-MsgGUID: rabcPR1jQ+CKCGiA446TwQ==
+X-CSE-ConnectionGUID: yZsuA2QBQQiQGkb46Mm13w==
+X-CSE-MsgGUID: WH0Ve7VUTpGastydKBN/PA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="211131186"
+   d="scan'208";a="211131179"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 20 Jan 2026 05:48:11 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1viC5Y-00000000P2l-0v6O;
+	id 1viC5Y-00000000P2h-0NWF;
 	Tue, 20 Jan 2026 13:48:08 +0000
-Date: Tue, 20 Jan 2026 21:47:48 +0800
+Date: Tue, 20 Jan 2026 21:47:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Deucher <alexander.deucher@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Christian =?utf-8?Q?K=C3=B6nig"?= <christian.koenig@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13:
- sparse: sparse: incompatible types in comparison expression (different
- address spaces):
-Message-ID: <202601202148.ZjO032pH-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+To: "luo.liu" <luo.liu.linux@163.com>, sakari.ailus@linux.intel.com,
+	mchehab@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, luo.liu.linux@163.com
+Subject: Re: [PATCH] v4l2-async: add debugfs under CONFIG_DEBUG_FS
+Message-ID: <202601202104.uDfihrMe-lkp@intel.com>
+References: <20260120065710.1120819-1-luo.liu.linux@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +63,62 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260120065710.1120819-1-luo.liu.linux@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   24d479d26b25bce5faea3ddd9fa8f3a6c3129ea7
-commit: 276e8beb2a0c390fdac8f11bb58d9fdf95a6d538 drm/amdgpu/userq: add force completion helpers
-date:   5 months ago
-config: sh-randconfig-r133-20260120 (https://download.01.org/0day-ci/archive/20260120/202601202148.ZjO032pH-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601202148.ZjO032pH-lkp@intel.com/reproduce)
+Hi luo.liu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on d08c85ac8894995d4b0d8fb48d2f6a3e53cd79ab]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/luo-liu/v4l2-async-add-debugfs-under-CONFIG_DEBUG_FS/20260120-150913
+base:   d08c85ac8894995d4b0d8fb48d2f6a3e53cd79ab
+patch link:    https://lore.kernel.org/r/20260120065710.1120819-1-luo.liu.linux%40163.com
+patch subject: [PATCH] v4l2-async: add debugfs under CONFIG_DEBUG_FS
+config: powerpc-randconfig-002-20260120 (https://download.01.org/0day-ci/archive/20260120/202601202104.uDfihrMe-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601202104.uDfihrMe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601202148.ZjO032pH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601202104.uDfihrMe-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c: note: in included file (through drivers/gpu/drm/amd/amdgpu/amdgpu_virt.h, drivers/gpu/drm/amd/amdgpu/amdgpu.h):
-   drivers/gpu/drm/amd/amdgpu/amdgv_sriovmsg.h:434:49: sparse: sparse: static assertion failed: "amd_sriov_msg_vf2pf_info must be 1 KB"
->> drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13: sparse:    struct dma_fence [noderef] __rcu *
-   drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c:429:13: sparse:    struct dma_fence *
+All warnings (new ones prefixed by >>):
 
-vim +429 drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
+   In file included from include/linux/debugfs.h:16,
+                    from drivers/media/v4l2-core/v4l2-async.c:8:
+>> drivers/media/v4l2-core/v4l2-async.c:967:23: warning: 'pending_subdevs_fops' defined but not used [-Wunused-const-variable=]
+     967 | DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
+         |                       ^~~~~~~~~~~~~~~
+   include/linux/seq_file.h:213:37: note: in definition of macro 'DEFINE_SHOW_ATTRIBUTE'
+     213 | static const struct file_operations __name ## _fops = {   \
+         |                                     ^~~~~~
 
-   418	
-   419	static void
-   420	amdgpu_userq_fence_driver_set_error(struct amdgpu_userq_fence *fence,
-   421					    int error)
-   422	{
-   423		struct amdgpu_userq_fence_driver *fence_drv = fence->fence_drv;
-   424		unsigned long flags;
-   425		struct dma_fence *f;
-   426	
-   427		spin_lock_irqsave(&fence_drv->fence_list_lock, flags);
-   428	
- > 429		f = rcu_dereference_protected(&fence->base,
-   430					      lockdep_is_held(&fence_drv->fence_list_lock));
-   431		if (f && !dma_fence_is_signaled_locked(f))
-   432			dma_fence_set_error(f, error);
-   433		spin_unlock_irqrestore(&fence_drv->fence_list_lock, flags);
-   434	}
-   435	
+
+vim +/pending_subdevs_fops +967 drivers/media/v4l2-core/v4l2-async.c
+
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  949  
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  950  static int pending_subdevs_show(struct seq_file *s, void *data)
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  951  {
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  952  	struct v4l2_async_notifier *notif;
+adb2dcd5f2d49d3 Sakari Ailus    2023-02-16  953  	struct v4l2_async_connection *asc;
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  954  
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  955  	mutex_lock(&list_lock);
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  956  
+b6d42c35c03dc1a Sakari Ailus    2023-02-22  957  	list_for_each_entry(notif, &notifier_list, notifier_entry) {
+3c8c153914812a9 Sakari Ailus    2021-03-05  958  		seq_printf(s, "%s:\n", v4l2_async_nf_name(notif));
+9bf19fbf0c8bc43 Sakari Ailus    2023-04-18  959  		list_for_each_entry(asc, &notif->waiting_list, asc_entry)
+adb2dcd5f2d49d3 Sakari Ailus    2023-02-16  960  			print_waiting_match(s, &asc->match);
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  961  	}
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  962  
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  963  	mutex_unlock(&list_lock);
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  964  
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  965  	return 0;
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  966  }
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08 @967  DEFINE_SHOW_ATTRIBUTE(pending_subdevs);
+517fd2b6a058bc4 Ezequiel Garcia 2021-01-08  968  
 
 -- 
 0-DAY CI Kernel Test Service
