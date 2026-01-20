@@ -1,201 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B587427A13;
-	Tue, 20 Jan 2026 13:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83E743C048
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jan 2026 13:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768915635; cv=none; b=HPQdikkPyda0/4i4M8OB6yGFwYYdSlzEpCYJILywblGoVNazFkrnZdh86GWNL8mN5JQEOyzpux+OEIV9pzqyNIlXICYca/fQgtsWhBJ2LurYGgUik9HZQ27Hl76hmz1gEMbIa9SH2dcRAmahnT7DWNyTjdTr+QE0jBHkzCdk6w8=
+	t=1768916292; cv=none; b=GeKdVRh/zlIgRQ+2KCbW/41y+ihrKNyekhp2g1/5TO8QBmTTyPcxqeTceMcHyq5d+wYKQu9suISw/f/gHO1ldLI4lRlWFze8E5bxJuC/Lu9OX5hRD2mriJLeljk9Qc7C6qbrSP126fTyfH3eIUWQ6Kau4uxMCSCeAyj/rKEB8ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768915635; c=relaxed/simple;
-	bh=zliMfnqN7+4qWXkakteLMnL1rqDZXpRuUMDYk9dV31A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o6XzmbP6Rw6BTWvquPnAIVNZNFcKj5NsclD4CFbakdTKVoqYMY8nJ/MvvPgO/9QKxW64ffNJ8kWV9sLh8vOt1E8qLdaiUiczLqUArdLuUmfE8oPbVpMCqd3m1alpOe8Ajfh+Tx4I7v87HQIuzxO7Vzn1ka9AZFaYVrLvezOY6UA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RFZYvcnc; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1768916292; c=relaxed/simple;
+	bh=CciXpCrvwRixS1KVp5uYF39gNf/Yfy9/7+eUp+7djaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=RLpu/uttmsDBOH8FGlSCQshNh/DKI2uy1PrgHum53tRQARb20Eee8+Lx+c4QakAuYgr4+RyLdKvvoDWNv3n5OxOKKyJjzr4tsIIt0a0WxksuLKN2zTaCES2Zv+sMebnKjfKY0R8LDoBi3lAkx9gBoMJZbWRbQBKPly0Ct3ncFAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGhhI/CU; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RFZYvcnc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGhhI/CU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768915632; x=1800451632;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zliMfnqN7+4qWXkakteLMnL1rqDZXpRuUMDYk9dV31A=;
-  b=RFZYvcncd4tQ24uOoRFKKMoEZgTn7Z1L8DFAypWkOadhEgAU4BZMeO4R
-   mcdYIaHMwqBsF4n7eW48IAYULs2/5zvqPlOjmq4Lx2VdRV/YWWaCj+RVE
-   EIJtW048BB/g28S1ZkaLVptDzKZIYiq52oA+RXa/0nJnBAnblACurqJwU
-   zi9Ro4mfYs9jlCvO8dj7Y9U4aq5vqowMIR2mEXenYHuqGbMCm9MOl4ixr
-   5sZk2B0klI5Q60igLEHMRkfjthEUgTfzmUK7rMst/i9kj8FDu2EdUBilg
-   zsT4U7ScCN3fTRQ20WnAodZX1TaXSKBeW5MtUqSLf3EfRCLvLdO57aK0G
-   g==;
-X-CSE-ConnectionGUID: XdamqUNJQEGzG197hwrl0g==
-X-CSE-MsgGUID: rNqBwjcGTsCrMeFFsO147w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="81232154"
+  t=1768916291; x=1800452291;
+  h=date:from:to:cc:subject:message-id;
+  bh=CciXpCrvwRixS1KVp5uYF39gNf/Yfy9/7+eUp+7djaQ=;
+  b=UGhhI/CUS0oTr5akWgNkGFl82v5wL5Ke1W1J4rrBxs1MwvhnSHzeoxdb
+   zAeEurvGAK2YRpNjsRIFY42x5kLES13cLF5HgQWve0wblA0xkD7dkk1Ie
+   TFEJ5J/QvIDRCAcaLwLZwineNwdAqSLSJO/Oiv+ZnQvXxBPjb9ulQAtN0
+   Q06YJrBtILxu1a8xkbxST+iHhp3h7HTxdPkZL0srQSPEhFzTk4a1shAeQ
+   2JhDSztvm9HZbQFWspdZkirRyJMF+qFipGUoG6YCf32aEV/ZLGNdFBPAZ
+   c/ijVjuQzPPhr9Si6H1s1NEaaEMs1aC9f4WUjiJwz6KQ8KYIKl7seTPVg
+   w==;
+X-CSE-ConnectionGUID: vh3L0J4fRUySWU6afmVWow==
+X-CSE-MsgGUID: KGnQfd62StWoDSuUgVoE4g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="72709629"
 X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="81232154"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 05:27:12 -0800
-X-CSE-ConnectionGUID: qs6DvTcrSlGaTFKGlwR8NQ==
-X-CSE-MsgGUID: dy0vDc1tSN2LQyhVI9nNbg==
+   d="scan'208";a="72709629"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 05:38:10 -0800
+X-CSE-ConnectionGUID: iw6e0QeLTeqY3BHqkgJ3tQ==
+X-CSE-MsgGUID: UdQHu0t8SfCNLhQShMJaog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
-   d="scan'208";a="205362466"
+   d="scan'208";a="206030052"
 Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 20 Jan 2026 05:27:09 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 20 Jan 2026 05:38:08 -0800
 Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1viBlB-00000000P1B-45b7;
-	Tue, 20 Jan 2026 13:27:05 +0000
-Date: Tue, 20 Jan 2026 21:26:40 +0800
+	id 1viBvq-00000000P1v-2yE0;
+	Tue, 20 Jan 2026 13:38:06 +0000
+Date: Tue, 20 Jan 2026 21:37:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zac <zac@zacbowling.com>, sean.wang@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	deren.wu@mediatek.com, kvalo@kernel.org,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-wireless@vger.kernel.org, lorenzo@kernel.org, nbd@nbd.name,
-	ryder.lee@mediatek.com, sean.wang@mediatek.com,
-	stable@vger.kernel.org, linux@frame.work, zbowling@gmail.com,
-	Zac Bowling <zac@zacbowling.com>
-Subject: Re: [PATCH 11/11] wifi: mt76: mt7925: fix ROC deadlocks and race
- conditions
-Message-ID: <202601202144.ee4DM9Pz-lkp@intel.com>
-References: <20260120062854.126501-12-zac@zacbowling.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 1093/7987] lib/xarray.c:2473:25: sparse:
+ sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202601202102.uotE2V9e-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260120062854.126501-12-zac@zacbowling.com>
 
-Hi Zac,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.19-rc6 next-20260119]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zac/wifi-mt76-fix-list-corruption-in-mt76_wcid_cleanup/20260120-143842
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20260120062854.126501-12-zac%40zacbowling.com
-patch subject: [PATCH 11/11] wifi: mt76: mt7925: fix ROC deadlocks and race conditions
-config: i386-randconfig-015-20260120 (https://download.01.org/0day-ci/archive/20260120/202601202144.ee4DM9Pz-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601202144.ee4DM9Pz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d08c85ac8894995d4b0d8fb48d2f6a3e53cd79ab
+commit: 863810caeb3cf04ee479f3944a678574001af7a9 [1093/7987] XArray: Add CONFIG_DEBUG_XARRAY
+config: loongarch-randconfig-r122-20260120 (https://download.01.org/0day-ci/archive/20260120/202601202102.uotE2V9e-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260120/202601202102.uotE2V9e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601202144.ee4DM9Pz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601202102.uotE2V9e-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   lib/xarray.c:2453:58: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *entry @@     got void [noderef] __rcu * @@
+   lib/xarray.c:2453:58: sparse:     expected void const *entry
+   lib/xarray.c:2453:58: sparse:     got void [noderef] __rcu *
+>> lib/xarray.c:2473:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *entry @@     got void [noderef] __rcu *const xa_head @@
+   lib/xarray.c:2473:25: sparse:     expected void *entry
+   lib/xarray.c:2473:25: sparse:     got void [noderef] __rcu *const xa_head
 
->> drivers/net/wireless/mediatek/mt76/mt7925/main.c:611:5: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-     610 |                                 "mt7925: ROC throttled, %lu ms remaining\n",
-         |                                                         ~~~
-         |                                                         %u
-     611 |                                 jiffies_to_msecs(throttle));
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                      ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:285:19: note: expanded from macro 'dynamic_dev_dbg'
-     285 |                            dev, fmt, ##__VA_ARGS__)
-         |                                 ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7925/main.c:662:5: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-     661 |                                 "mt7925: MLO ROC throttled, %lu ms remaining\n",
-         |                                                             ~~~
-         |                                                             %u
-     662 |                                 jiffies_to_msecs(throttle));
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                      ~~~     ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:285:19: note: expanded from macro 'dynamic_dev_dbg'
-     285 |                            dev, fmt, ##__VA_ARGS__)
-         |                                 ~~~    ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:261:59: note: expanded from macro '_dynamic_func_call'
-     261 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |                                                                  ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:259:65: note: expanded from macro '_dynamic_func_call_cls'
-     259 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |                                                                        ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:231:15: note: expanded from macro '__dynamic_func_call_cls'
-     231 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   2 warnings generated.
+vim +2473 lib/xarray.c
 
+ad3d6c7263e368a Matthew Wilcox 2017-11-07  2470  
+ad3d6c7263e368a Matthew Wilcox 2017-11-07  2471  void xa_dump(const struct xarray *xa)
+ad3d6c7263e368a Matthew Wilcox 2017-11-07  2472  {
+ad3d6c7263e368a Matthew Wilcox 2017-11-07 @2473  	void *entry = xa->xa_head;
 
-vim +611 drivers/net/wireless/mediatek/mt76/mt7925/main.c
+:::::: The code at line 2473 was first introduced by commit
+:::::: ad3d6c7263e368abdc151e1cc13dc78aa39cc7a7 xarray: Add XArray load operation
 
-   592	
-   593	static int mt7925_set_roc(struct mt792x_phy *phy,
-   594				  struct mt792x_bss_conf *mconf,
-   595				  struct ieee80211_channel *chan,
-   596				  int duration,
-   597				  enum mt7925_roc_req type)
-   598	{
-   599		unsigned long throttle;
-   600		int err;
-   601	
-   602		/* Check rate limiting - if in backoff period, wait or return busy */
-   603		throttle = mt7925_roc_throttle_check(phy);
-   604		if (throttle) {
-   605			/* For short backoffs, wait; for longer ones, return busy */
-   606			if (throttle < msecs_to_jiffies(200)) {
-   607				msleep(jiffies_to_msecs(throttle));
-   608			} else {
-   609				dev_dbg(phy->dev->mt76.dev,
-   610					"mt7925: ROC throttled, %lu ms remaining\n",
- > 611					jiffies_to_msecs(throttle));
-   612				return -EBUSY;
-   613			}
-   614		}
-   615	
-   616		/* Clear stale abort flag from previous ROC */
-   617		clear_bit(MT76_STATE_ROC_ABORT, &phy->mt76->state);
-   618	
-   619		if (test_and_set_bit(MT76_STATE_ROC, &phy->mt76->state))
-   620			return -EBUSY;
-   621	
-   622		phy->roc_grant = false;
-   623	
-   624		err = mt7925_mcu_set_roc(phy, mconf, chan, duration, type,
-   625					 ++phy->roc_token_id);
-   626		if (err < 0) {
-   627			clear_bit(MT76_STATE_ROC, &phy->mt76->state);
-   628			goto out;
-   629		}
-   630	
-   631		if (!wait_event_timeout(phy->roc_wait, phy->roc_grant, 4 * HZ)) {
-   632			mt7925_mcu_abort_roc(phy, mconf, phy->roc_token_id);
-   633			clear_bit(MT76_STATE_ROC, &phy->mt76->state);
-   634			mt7925_roc_record_timeout(phy);
-   635			err = -ETIMEDOUT;
-   636		} else {
-   637			/* Successful ROC - reset timeout tracking */
-   638			mt7925_roc_clear_timeout(phy);
-   639		}
-   640	
-   641	out:
-   642		return err;
-   643	}
-   644	
+:::::: TO: Matthew Wilcox <willy@infradead.org>
+:::::: CC: Matthew Wilcox <willy@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
